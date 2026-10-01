@@ -24,4 +24,8 @@ void ViewMove::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool ViewMove::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai

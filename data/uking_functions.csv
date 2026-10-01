@@ -36375,7 +36375,7 @@ Address,Quality,Size,Name
 0x00000071005e5020,U,000580,uking::ai::ViewMove::m37
 0x00000071005e5264,O,000288,_ZNK5uking2ai8ViewMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071005e5384,O,000092,_ZNK5uking2ai8ViewMove18getRuntimeTypeInfoEv
-0x00000071005e53e0,U,000052,_ZNK5uking2ai8ViewMove8isFailedEv
+0x00000071005e53e0,O,000052,_ZNK5uking2ai8ViewMove8isFailedEv
 0x00000071005e5414,U,000136,_ZNK5uking2ai8ViewMove10isFinishedEv
 0x00000071005e549c,U,000008,uking::ai::ViewMove::m34
 0x00000071005e54a4,O,000060,_ZN5uking2ai8ViewWaitC1ERKN4ksys3act2ai10ActionBase7InitArgE
