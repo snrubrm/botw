@@ -17886,7 +17886,7 @@ Address,Quality,Size,Name
 0x0000007100296884,W,000084,_ZN5uking6action5Throw5calc_Ev
 0x00000071002968d8,O,000004,_ZN5uking6action5Throw6leave_Ev
 0x00000071002968dc,W,000044,_ZN5uking6action5Throw11loadParams_Ev
-0x0000007100296908,U,000028,uking::action::Throw::m32
+0x0000007100296908,O,000028,_ZN5uking6action5Throw3m32Ev
 0x0000007100296924,O,000132,_ZNK5uking6action5Throw27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002969a8,O,000092,_ZNK5uking6action5Throw18getRuntimeTypeInfoEv
 0x0000007100296a04,O,000020,_ZN5uking6action5ThrowD1Ev

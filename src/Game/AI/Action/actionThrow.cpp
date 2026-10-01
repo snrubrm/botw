@@ -26,4 +26,8 @@ void Throw::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+void Throw::m32() {
+    playAS("Throw", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
