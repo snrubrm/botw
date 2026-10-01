@@ -32,4 +32,13 @@ void WizzrobeCombat::loadParams_() {
     getAITreeVariable(&mIsWizzrobeInBattleAreaFlag_a, "IsWizzrobeInBattleAreaFlag");
 }
 
+bool WizzrobeCombat::isChangeable() const {
+    if (ksys::act::ai::Ai::isChangeable())
+        return true;
+    auto* child = getCurrentChild();
+    if (child->isFinished())
+        return true;
+    return child->isFailed();
+}
+
 }  // namespace uking::ai

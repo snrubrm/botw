@@ -28,4 +28,9 @@ bool ViewMove::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
 
+bool ViewMove::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() ||
+           (isCurrentChild("移動") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

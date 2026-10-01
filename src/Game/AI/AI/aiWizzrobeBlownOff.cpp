@@ -23,4 +23,24 @@ void WizzrobeBlownOff::loadParams_() {
     getStaticParam(&mIsForceGetUp_s, "IsForceGetUp");
 }
 
+bool WizzrobeBlownOff::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+    if (isCurrentChild("起き上がり") || isCurrentChild("チャンスタイム")) {
+        if (getCurrentChild()->isFinished())
+            return true;
+    }
+    return false;
+}
+
+bool WizzrobeBlownOff::isFailed() const {
+    if (ksys::act::ai::Ai::isFailed())
+        return true;
+    if (isCurrentChild("起き上がり") || isCurrentChild("チャンスタイム")) {
+        if (getCurrentChild()->isFailed())
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai

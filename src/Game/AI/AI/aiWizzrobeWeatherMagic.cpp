@@ -25,4 +25,9 @@ void WizzrobeWeatherMagic::loadParams_() {
     getAITreeVariable(&mWizzrobeMagicWeatherUnit_a, "WizzrobeMagicWeatherUnit");
 }
 
+bool WizzrobeWeatherMagic::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() ||
+           (isCurrentChild("発動") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

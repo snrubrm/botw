@@ -32,4 +32,10 @@ void WizzrobeCombatMove::loadParams_() {
     getAITreeVariable(&mIsWizzrobeInBattleAreaFlag_a, "IsWizzrobeInBattleAreaFlag");
 }
 
+bool WizzrobeCombatMove::isFinished() const {
+    if (isCurrentChild("現れる") && getCurrentChild()->isFinished())
+        return true;
+    return ksys::act::ai::Ai::isFinished();
+}
+
 }  // namespace uking::ai

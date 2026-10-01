@@ -33,4 +33,10 @@ void SiteBossLswordAttackRoot::loadParams_() {
     getDynamicParam(&mIsCancelAttack_d, "IsCancelAttack");
 }
 
+bool SiteBossLswordAttackRoot::isChangeable() const {
+    if (isCurrentChild("待機") || isCurrentChild("攻撃前待機"))
+        return true;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 }  // namespace uking::ai

@@ -10,6 +10,8 @@ public:
     explicit ViewMove(const InitArg& arg);
     ~ViewMove() override;
 
+    bool isFinished() const override;
+
     bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;

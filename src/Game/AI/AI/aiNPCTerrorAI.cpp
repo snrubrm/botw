@@ -26,4 +26,9 @@ void NPCTerrorAI::loadParams_() {
     getDynamicParam(&mTerrorEmitter_d, "TerrorEmitter");
 }
 
+bool NPCTerrorAI::isChangeable() const {
+    return (isCurrentChild("逃走") || isCurrentChild("全力逃走")) &&
+           getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

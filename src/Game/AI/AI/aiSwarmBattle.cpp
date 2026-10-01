@@ -24,4 +24,9 @@ void SwarmBattle::loadParams_() {
     getStaticParam(&mAttackIntervalIntensity_s, "AttackIntervalIntensity");
 }
 
+bool SwarmBattle::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() ||
+           (isCurrentChild("戦闘準備") && getCurrentChild()->isFailed());
+}
+
 }  // namespace uking::ai

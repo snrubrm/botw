@@ -24,4 +24,8 @@ void StalGiantSleepNormal::loadParams_() {
     getStaticParam(&mIsWaitAfterAwaken_s, "IsWaitAfterAwaken");
 }
 
+bool StalGiantSleepNormal::isChangeable() const {
+    return isCurrentChild("待機");
+}
+
 }  // namespace uking::ai
