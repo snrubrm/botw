@@ -15,6 +15,10 @@ void EnemyNoticeFearfulLastAttacker::enter_(ksys::act::ai::InlineParamPack* para
     EnemyNoticeTerror::enter_(params);
 }
 
+void EnemyNoticeFearfulLastAttacker::calc_() {
+    EnemyNoticeTerror::calc_();
+}
+
 void EnemyNoticeFearfulLastAttacker::leave_() {
     EnemyNoticeTerror::leave_();
 }
