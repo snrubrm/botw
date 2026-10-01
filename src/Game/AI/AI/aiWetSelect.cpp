@@ -14,6 +14,8 @@ void WetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void WetSelect::calc_() {}
+
 void WetSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
