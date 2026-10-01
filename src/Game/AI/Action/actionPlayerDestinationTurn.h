@@ -24,6 +24,7 @@ protected:
     float* mDestPosY_d{};
     // dynamic_param at offset 0x30
     float* mDestPosZ_d{};
+    int _38 = 0;
 };
 
 }  // namespace uking::action
