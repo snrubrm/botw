@@ -14,4 +14,8 @@ void PlayerDeadWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDeadWait::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
