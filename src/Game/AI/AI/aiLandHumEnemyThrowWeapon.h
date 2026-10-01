@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,8 @@ protected:
     const int* mWaitTimeMax_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _58{0, 0};
+    bool _64{};
 };
 
 }  // namespace uking::ai
