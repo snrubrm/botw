@@ -18,7 +18,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34(ksys::act::Actor* actor);
+
+    bool sub_71003C3198();
+
 protected:
+    // static_param at offset 0x38 ("PartsKey0".."PartsKey4")
+    sead::SafeString mPartsKey_s[5];
 };
 
 }  // namespace uking::ai

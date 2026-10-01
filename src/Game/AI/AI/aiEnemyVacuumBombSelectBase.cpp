@@ -11,7 +11,10 @@ bool EnemyVacuumBombSelectBase::init_(sead::Heap* heap) {
 }
 
 void EnemyVacuumBombSelectBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71003C3198())
+        changeChild("所持", params);
+    else
+        changeChild("非所持", params);
 }
 
 bool EnemyVacuumBombSelectBase::isFailed() const {
@@ -26,6 +29,10 @@ void EnemyVacuumBombSelectBase::calc_() {}
 
 void EnemyVacuumBombSelectBase::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+bool EnemyVacuumBombSelectBase::m34(ksys::act::Actor* actor) {
+    return false;
 }
 
 void EnemyVacuumBombSelectBase::loadParams_() {

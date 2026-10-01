@@ -11,6 +11,8 @@ public:
     explicit EnemyVacuumBombSelect(const InitArg& arg);
     ~EnemyVacuumBombSelect() override;
 
+    bool m34(ksys::act::Actor* actor) override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
