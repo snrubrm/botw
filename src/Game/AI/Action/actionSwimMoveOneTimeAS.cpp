@@ -27,6 +27,8 @@ void SwimMoveOneTimeAS::loadParams_() {
 
 void SwimMoveOneTimeAS::calc_() {
     SwimMoveBase::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
