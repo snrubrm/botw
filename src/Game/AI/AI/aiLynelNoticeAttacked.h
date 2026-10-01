@@ -10,6 +10,7 @@ class LynelNoticeAttacked : public ksys::act::ai::Ai {
 public:
     explicit LynelNoticeAttacked(const InitArg& arg);
     ~LynelNoticeAttacked() override;
+    void calc_() override;
     bool isFinished() const override;
     bool isFailed() const override;
 

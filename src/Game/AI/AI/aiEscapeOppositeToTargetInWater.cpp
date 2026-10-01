@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEscapeOppositeToTargetInWater.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,12 @@ bool EscapeOppositeToTargetInWater::init_(sead::Heap* heap) {
 }
 
 void EscapeOppositeToTargetInWater::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _6c = mActor->getMtx().getTranslation();
+    m34();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_60, "TargetPos", -1);
+    pack.addVec3(*mTargetPos_d, "MoveAwayFromPos", -1);
+    changeChild("移動", &pack);
 }
 
 void EscapeOppositeToTargetInWater::leave_() {

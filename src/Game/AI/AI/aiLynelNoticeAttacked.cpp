@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelNoticeAttacked.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -32,6 +33,21 @@ void LynelNoticeAttacked::loadParams_() {
     getStaticParam(&mForceReturnDistFromHomePos_s, "ForceReturnDistFromHomePos");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getAITreeVariable(&mLynelNoticeAttackRepeatNum_a, "LynelNoticeAttackRepeatNum");
+}
+
+void LynelNoticeAttacked::calc_() {
+    if (_6c.value <= sead::Mathf::epsilon()) {
+        *mLynelNoticeAttackRepeatNum_a = 0;
+        _6c = ksys::Timer(1.0f, 1.0f, 0.0f);
+    } else {
+        _6c.update();
+    }
+
+    if (*mLynelNoticeAttackRepeatNum_a >= 1) {
+        const sead::Vector3f diff = mActor->getMtx().getTranslation() - _60;
+        if (diff.x * diff.x + diff.z * diff.z > 16.0f)
+            *mLynelNoticeAttackRepeatNum_a = 0;
+    }
 }
 
 }  // namespace uking::ai

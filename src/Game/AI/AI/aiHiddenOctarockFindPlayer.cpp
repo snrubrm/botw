@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHiddenOctarockFindPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void HiddenOctarockFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HiddenOctarockFindPlayer::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->m93(0, 0.0f);
 }
 
 void HiddenOctarockFindPlayer::loadParams_() {
