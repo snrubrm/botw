@@ -14,6 +14,10 @@ void BeeSwarmRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SwarmRoot::enter_(params);
 }
 
+void BeeSwarmRoot::calc_() {
+    SwarmRoot::calc_();
+}
+
 void BeeSwarmRoot::leave_() {
     SwarmRoot::leave_();
 }
