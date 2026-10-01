@@ -14,6 +14,14 @@ void AddDemoCall::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AddDemoCall::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool AddDemoCall::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void AddDemoCall::leave_() {
     ksys::act::ai::Ai::leave_();
 }
