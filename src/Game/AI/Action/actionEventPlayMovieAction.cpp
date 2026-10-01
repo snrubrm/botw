@@ -23,7 +23,10 @@ void EventPlayMovieAction::loadParams_() {
 }
 
 void EventPlayMovieAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!isFinished() && !isFailed()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action
