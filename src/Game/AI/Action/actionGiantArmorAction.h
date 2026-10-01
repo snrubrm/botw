@@ -27,6 +27,9 @@ protected:
     sead::SafeString mLoopAS_s{};
     // static_param at offset 0x58
     sead::SafeString mEndAS_s{};
+    u32 _68 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(GiantArmorAction, 0x70);
 
 }  // namespace uking::action
