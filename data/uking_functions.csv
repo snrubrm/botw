@@ -27951,7 +27951,7 @@ Address,Quality,Size,Name
 0x0000007100454c00,U,000156,_ZN5uking2ai14KeeseSwarmRoam5calc_Ev
 0x0000007100454c9c,U,000732,
 0x0000007100454f78,O,000004,_ZN5uking2ai14KeeseSwarmRoam6leave_Ev
-0x0000007100454f7c,W,000112,_ZN5uking2ai14KeeseSwarmRoam11loadParams_Ev
+0x0000007100454f7c,O,000112,_ZN5uking2ai14KeeseSwarmRoam11loadParams_Ev
 0x0000007100454fec,O,000028,_ZN5uking2ai14KeeseSwarmRoam3m34EPN4sead7Vector3IfEE
 0x0000007100455008,U,000076,uking::ai::KeeseSwarmRoam::m38
 0x0000007100455054,U,000328,
@@ -36936,7 +36936,7 @@ Address,Quality,Size,Name
 0x00000071005f9ad0,W,000136,_ZN5uking2ai18WizzrobeCircleMove6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071005f9b58,U,000224,_ZN5uking2ai18WizzrobeCircleMove5calc_Ev
 0x00000071005f9c38,O,000004,_ZN5uking2ai18WizzrobeCircleMove6leave_Ev
-0x00000071005f9c3c,W,000164,_ZN5uking2ai18WizzrobeCircleMove11loadParams_Ev
+0x00000071005f9c3c,O,000164,_ZN5uking2ai18WizzrobeCircleMove11loadParams_Ev
 0x00000071005f9ce0,U,000328,uking::ai::WizzrobeCircleMove::m35
 0x00000071005f9e28,U,000236,uking::ai::WizzrobeCircleMove::m36
 0x00000071005f9f14,U,000056,uking::ai::WizzrobeCircleMove::m37
