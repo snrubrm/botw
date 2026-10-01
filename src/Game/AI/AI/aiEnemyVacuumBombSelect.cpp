@@ -14,6 +14,10 @@ void EnemyVacuumBombSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyVacuumBombSelectBase::enter_(params);
 }
 
+void EnemyVacuumBombSelect::calc_() {
+    EnemyVacuumBombSelectBase::calc_();
+}
+
 void EnemyVacuumBombSelect::leave_() {
     EnemyVacuumBombSelectBase::leave_();
 }
