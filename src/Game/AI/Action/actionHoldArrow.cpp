@@ -21,4 +21,8 @@ void HoldArrow::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+bool HoldArrow::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
