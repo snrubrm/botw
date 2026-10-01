@@ -23,7 +23,7 @@ bool LynelTackleMove::isChangeable() const {
 }
 
 void LynelTackleMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_710049BEC4();
 }
 
 void LynelTackleMove::loadParams_() {
