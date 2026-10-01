@@ -14,6 +14,10 @@ void BeamosCarried::enter_(ksys::act::ai::InlineParamPack* params) {
     AddCarried::enter_(params);
 }
 
+void BeamosCarried::calc_() {
+    AddCarried::calc_();
+}
+
 void BeamosCarried::leave_() {
     AddCarried::leave_();
 }
