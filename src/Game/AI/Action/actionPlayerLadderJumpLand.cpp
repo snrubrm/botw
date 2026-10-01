@@ -20,4 +20,8 @@ void PlayerLadderJumpLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLadderJumpLand::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
