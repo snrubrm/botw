@@ -24,4 +24,8 @@ void PlayerWaterFall::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWaterFall::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
