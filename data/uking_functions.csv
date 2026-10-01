@@ -74619,9 +74619,9 @@ Address,Quality,Size,Name
 0x0000007100d5ce20,U,000120,Placement18a::createInstance
 0x0000007100d5ce98,U,000080,
 0x0000007100d5cee8,U,000324,
-0x0000007100d5d02c,U,000136,
-0x0000007100d5d0b4,U,000144,
-0x0000007100d5d144,U,000128,ActorSystem::createInstance
+0x0000007100d5d02c,O,000136,_ZN4ksys3act11ActorSystem18SingletonDisposer_D1Ev
+0x0000007100d5d0b4,O,000144,_ZN4ksys3act11ActorSystem18SingletonDisposer_D0Ev
+0x0000007100d5d144,O,000128,_ZN4ksys3act11ActorSystem14createInstanceEPN4sead4HeapE
 0x0000007100d5d1c4,U,000592,ActorSystem::ctor
 0x0000007100d5d414,O,000040,_ZN4ksys3act11ActorSystem29callAutoPlacementMgrPreCalcFnEPv
 0x0000007100d5d43c,O,000020,_ZN4ksys12DebugMessageD2Ev
