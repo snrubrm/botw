@@ -26421,7 +26421,7 @@ Address,Quality,Size,Name
 0x000000710040ce14,O,000004,_ZN5uking2ai14AssassinNormal5init_EPN4sead4HeapE
 0x000000710040ce18,W,000064,_ZN5uking2ai14AssassinNormal6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710040ce58,U,000032,
-0x000000710040ce78,U,000004,_ZN5uking2ai14AssassinNormal5calc_Ev
+0x000000710040ce78,O,000004,_ZN5uking2ai14AssassinNormal5calc_Ev
 0x000000710040ce7c,O,000004,_ZN5uking2ai14AssassinNormal6leave_Ev
 0x000000710040ce80,O,000004,_ZN5uking2ai14AssassinNormal11loadParams_Ev
 0x000000710040ce84,U,000260,uking::ai::AssassinNormal::m59
