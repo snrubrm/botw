@@ -32,6 +32,10 @@ Unk_71025ae640* DynamicActor::getAtk() {
     return _850;
 }
 
+Unk_71006e45c4* DynamicActor::m128() {
+    return _a50;
+}
+
 Unk_71025b08f8* DynamicActor::m126() {
     return _858;
 }

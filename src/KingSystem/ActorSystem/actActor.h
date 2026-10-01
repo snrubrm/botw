@@ -79,6 +79,7 @@ class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
 class ActorChemicals;
+class Unk_71006e45c4;
 class Unk_71025ae640;
 class Unk_71025b08f8;
 class ActorCreator;
@@ -343,7 +344,7 @@ public:
     virtual Unk_71025ae640* getAtk();
     virtual Unk_71025b08f8* m126();
     virtual uking::dmg::DamageManagerBase* getDamageMgr();
-    virtual void m128();
+    virtual Unk_71006e45c4* m128();
     virtual void m129();
     virtual uking::act::HorseRideInfo* getPlayerRideInfo();
     virtual uking::act::Rideable* getHorseOptionsMaybe();

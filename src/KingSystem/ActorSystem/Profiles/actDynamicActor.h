@@ -7,6 +7,7 @@
 
 namespace ksys::act {
 
+class Unk_71006e45c4;
 class Unk_7102459df8;
 
 // TODO: incomplete. Factory size 0xb90 (DynamicActor::construct); the vtable has 163 slots.
@@ -44,7 +45,7 @@ public:
     Unk_71025ae640* getAtk() override;
     Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
-    void m128() override;
+    Unk_71006e45c4* m128() override;
     Unk_71025ae620* getDropData() override;
     void m135() override;
 
@@ -83,7 +84,9 @@ protected:
     /* 0x9e0 */ BaseProcLink _9e0;
     /* 0x9f0 */ sead::CriticalSection _9f0;
     /* 0xa30 */ f32 _a30 = -1.0;
-    /* 0xa38 */ u8 _a38[0xa60 - 0xa38];
+    /* 0xa38 */ u8 _a38[0xa50 - 0xa38];
+    /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
+    /* 0xa58 */ void* _a58 = nullptr;
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
     /* 0xa68 */ u8 _a68[0xa80 - 0xa68];
     /* 0xa80 */ BaseProcLink _a80;
