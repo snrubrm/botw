@@ -20,6 +20,7 @@ protected:
 
     // static_param at offset 0x20
     const int* mWaitFrame_s{};
+    float _28 = 0.0f;
 };
 
 }  // namespace uking::action
