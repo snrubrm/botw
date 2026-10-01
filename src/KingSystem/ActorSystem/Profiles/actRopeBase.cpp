@@ -24,6 +24,13 @@ bool RopeBase::shouldUnload() {
     return shouldUnloadBecauseOfDistance();
 }
 
+void RopeBase::updatePositionMaybe() {
+    if (auto* body = _860.front()) {
+        mMtx = body->getTransform();
+        nullsub_4648();
+    }
+}
+
 int RopeBase::getExtraHeapSize() {
     map::SRT srt{sead::Vector3f::ones, sead::Vector3f::zero, sead::Vector3f::zero};
     mMapObjIter.getSRT(&srt);

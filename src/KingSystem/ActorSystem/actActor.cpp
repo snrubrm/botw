@@ -2,6 +2,8 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -195,6 +197,31 @@ bool Actor::shouldClearStateFlag4000_() {
 
 void Actor::preDelete1_() {}
 
+bool Actor::startPreparingForPreDelete_() {
+    unlinkPlacementObj();
+    return true;
+}
+
+void Actor::afterUpdateState_() {
+    BaseProc::afterUpdateState_();
+    mActorFlags2Prev = mActorFlags2;
+}
+
+void Actor::setFlag0x40() {
+    if (isInit())
+        mActorFlags.setBit(ActorFlag::_6);
+}
+
+s32 Actor::getMaxHp_() {
+    const auto* gparamlist = mActorParam->getRes().mGParamList;
+    if (!gparamlist)
+        return 1;
+    const auto* general = gparamlist->getGeneral();
+    if (!general)
+        return 1;
+    return general->mLife.ref();
+}
+
 void Actor::m32() {
     m31();
 }
@@ -227,9 +254,15 @@ bool Actor::m55() {
     return false;
 }
 
+bool Actor::m56(sead::Vector3f* pos) {
+    return x_18(pos);
+}
+
 bool Actor::m57() {
     return mActorFlags2.isOn(ActorFlag2::_40);
 }
+
+void Actor::nullsub_4648() {}
 
 void Actor::onPreFadeOutDelete() {}
 

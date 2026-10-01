@@ -109,6 +109,7 @@ public:
     };
 
     enum class ActorFlag {
+        _6 = 0x6,
         _18 = 0x18,
         _25 = 0x25,
         _29 = 0x29,
@@ -149,6 +150,8 @@ protected:
     void onDeleteRequested_(DeleteReason reason) override;
     bool shouldClearStateFlag4000_() override;
     void preDelete1_() override;
+    bool startPreparingForPreDelete_() override;
+    void afterUpdateState_() override;
 
 public:
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
@@ -226,7 +229,7 @@ public:
     virtual bool m53();
     virtual void killWithDropsAndEffects();
     virtual bool m55();
-    virtual void m56();
+    virtual bool m56(sead::Vector3f* pos);
     virtual bool m57();
     virtual void onPreFadeOutDelete();
     virtual void onFadeOutSleep();
@@ -369,6 +372,10 @@ public:
     bool checkForbidAttentionSignal() const;
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
 
+    void nullsub_4648();
+    void unlinkPlacementObj();
+    void setFlag0x40();
+    s32 getMaxHp_();
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
     // 0x00000071011cf108

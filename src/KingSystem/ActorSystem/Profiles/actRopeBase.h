@@ -19,6 +19,7 @@ public:
 
     void m43(bool on) override;
     bool shouldUnload() override;
+    void updatePositionMaybe() override;
     int getExtraHeapSize() override;
 
     // FIXME: figure out return types, parameters and names
