@@ -26,4 +26,8 @@ void Die::calc_() {
     BlownOff::calc_();
 }
 
+bool Die::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
