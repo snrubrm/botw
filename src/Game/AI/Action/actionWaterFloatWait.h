@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionWaterFloatImmobile.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -29,6 +30,9 @@ protected:
     const bool* mIsEndWhenASFinished_s{};
     // static_param at offset 0x90
     sead::SafeString mASName_s{};
+    ksys::Timer _a0;
 };
+
+KSYS_CHECK_SIZE_NX150(WaterFloatWait, 0xb0);
 
 }  // namespace uking::action
