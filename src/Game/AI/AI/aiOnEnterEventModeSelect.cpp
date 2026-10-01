@@ -14,6 +14,8 @@ void OnEnterEventModeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void OnEnterEventModeSelect::calc_() {}
+
 void OnEnterEventModeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
