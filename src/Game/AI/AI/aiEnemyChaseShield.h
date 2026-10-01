@@ -22,6 +22,7 @@ protected:
     const float* mTurnAng_s{};
     // static_param at offset 0x50
     const float* mShieldReachDist_s{};
+    void* _58{};
 };
 
 }  // namespace uking::ai
