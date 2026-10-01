@@ -27,4 +27,8 @@ void ForkDynASPlay::calc_() {
     ForkASPlayBase::calc_();
 }
 
+const char* ForkDynASPlay::m32() {
+    return mDynASKey_d.cstr();
+}
+
 }  // namespace uking::action

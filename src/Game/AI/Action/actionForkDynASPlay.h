@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    const char* m32() override;
 
     // dynamic_param at offset 0x50
     sead::SafeString mDynASKey_d{};
