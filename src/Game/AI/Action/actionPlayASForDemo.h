@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -36,6 +37,15 @@ protected:
     bool* mIsIgnoreSame_d{};
     // dynamic_param at offset 0x58
     sead::SafeString mASName_d{};
+    ksys::act::CCAccessor mCCAccessor;
+    bool _70 = false;
+    bool _71 = false;
+    // not touched by the ctor/enter_/calc_/leave_
+    u8 _72[0xa4 - 0x72];
+    u32 _a4 = 0;
+    bool _a8 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(PlayASForDemo, 0xb0);
 
 }  // namespace uking::action
