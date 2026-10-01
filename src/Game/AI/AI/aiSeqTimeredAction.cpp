@@ -11,7 +11,20 @@ bool SeqTimeredAction::init_(sead::Heap* heap) {
 }
 
 void SeqTimeredAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("行動", params);
+    _40 = 0;
+}
+
+void SeqTimeredAction::calc_() {
+    ksys::Timer::update(&_40, 1.0f);
+    auto* child = getCurrentChild();
+    if (child->isFinished()) {
+        setFinished();
+    } else if (child->isFailed()) {
+        setFailed();
+    } else if (child->isChangeable() && *mActionTime_s >= 1 && int(_40) > *mActionTime_s) {
+        setFinished();
+    }
 }
 
 void SeqTimeredAction::leave_() {
