@@ -18,6 +18,7 @@ public:
 protected:
     // map_unit_param at offset 0xc8
     const bool* mIsFixedPlace_m{};
+    bool _d0 = false;
 };
 
 }  // namespace uking::ai

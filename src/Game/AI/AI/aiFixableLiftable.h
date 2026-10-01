@@ -10,6 +10,8 @@ class FixableLiftable : public SimpleLiftable {
 public:
     explicit FixableLiftable(const InitArg& arg);
     ~FixableLiftable() override;
+    void m34() override;
+    virtual void m38();
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -21,6 +23,7 @@ protected:
     const float* mCancelFixedScale_s{};
     // map_unit_param at offset 0xd0
     const bool* mIsFixedPlace_m{};
+    f32 _d8 = 1.0f;
 };
 
 }  // namespace uking::ai

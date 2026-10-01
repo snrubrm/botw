@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFixableLiftable.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,22 @@ void FixableLiftable::leave_() {
 void FixableLiftable::loadParams_() {
     getStaticParam(&mCancelFixedScale_s, "CancelFixedScale");
     getMapUnitParam(&mIsFixedPlace_m, "IsFixedPlace");
+}
+
+void FixableLiftable::m34() {
+    SimpleLiftable::m34();
+    auto* actor = mActor;
+    if (actor->getMapObject() != nullptr) {
+        if (auto* body = actor->getMainBody()) {
+            if (*mIsFixedPlace_m)
+                body->changeMotionType(ksys::phys::MotionType::Fixed);
+        }
+    }
+    m38();
+}
+
+void FixableLiftable::m38() {
+    _d8 = mActor->getScale().x;
 }
 
 }  // namespace uking::ai
