@@ -20,6 +20,9 @@ protected:
     const int* mCtrlDgnRemainsElectricBodyPart_m{};
     // map_unit_param at offset 0x40
     const float* mInitDgnRotRad_m{};
+    f32 _48{};
+    int _4c{};
+    int _50 = -1;
 };
 
 }  // namespace uking::ai

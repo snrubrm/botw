@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTag4ElecApp.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,21 @@ bool DungeonRotateTag4ElecApp::init_(sead::Heap* heap) {
 }
 
 void DungeonRotateTag4ElecApp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50 = 0;
+    _48 = 0.0f;
+    _4c = 0;
+    switch (*mCtrlDgnRemainsElectricBodyPart_m) {
+    case 0:
+        ksys::gdt::setBoolByKey(true, "RemainsElectric_Drum1Rotate0");
+        break;
+    case 1:
+        ksys::gdt::setBoolByKey(true, "RemainsElectric_Drum2Rotate0");
+        break;
+    case 2:
+        ksys::gdt::setBoolByKey(true, "RemainsElectric_Drum3Rotate0");
+        break;
+    }
+    changeChild("待機");
 }
 
 void DungeonRotateTag4ElecApp::leave_() {
