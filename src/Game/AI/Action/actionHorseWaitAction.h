@@ -30,6 +30,11 @@ protected:
     const bool* mIsCourbetteEnabled_s{};
     // static_param at offset 0x48
     const bool* mIsLight_s{};
+    f32 _50 = 0;
+    u32 _54 = 0;
+    bool _58 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(HorseWaitAction, 0x60);
 
 }  // namespace uking::action
