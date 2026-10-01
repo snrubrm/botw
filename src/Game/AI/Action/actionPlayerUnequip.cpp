@@ -22,4 +22,8 @@ void PlayerUnequip::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerUnequip::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
