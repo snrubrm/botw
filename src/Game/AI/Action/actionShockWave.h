@@ -28,6 +28,8 @@ protected:
     const float* mScaleTime_m{};
     // map_unit_param at offset 0x40
     const bool* mIsReuseActor_m{};
+    float _48 = 0.0f;
+    float _4c = 1.0f;
 };
 
 }  // namespace uking::action
