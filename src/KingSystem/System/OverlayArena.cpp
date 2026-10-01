@@ -3,6 +3,8 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resUnit.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/ProductReporter.h"
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys {
@@ -121,6 +123,23 @@ bool OverlayArena::checkIsOom() const {
     }
 
     return false;
+}
+
+void OverlayArena::setBloodyMoonReasonForOom_() const {
+    if (!PlayReportMgr::instance() || !PlayReportMgr::instance()->getReporter())
+        return;
+
+    PanicReason reason;
+    if (mHeap->getName() == "ForResourceS")
+        reason = PanicReason::ResourceSHeapFull;
+    else if (mHeap->getName() == "ForResourceL")
+        reason = PanicReason::ResourceLHeapFull;
+    else if (mHeap->getName() == "Audio")
+        reason = PanicReason::AudioHeapFull;
+    else
+        return;
+
+    PlayReportMgr::instance()->getReporter()->addPanicReason(reason);
 }
 
 // FIXME: figure out what sead function this is
