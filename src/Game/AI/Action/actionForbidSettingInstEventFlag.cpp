@@ -11,6 +11,10 @@ bool ForbidSettingInstEventFlag::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool ForbidSettingInstEventFlag::oneShot_() {
+    return true;
+}
+
 void ForbidSettingInstEventFlag::loadParams_() {}
 
 }  // namespace uking::action
