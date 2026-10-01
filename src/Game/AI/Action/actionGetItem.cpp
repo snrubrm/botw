@@ -19,7 +19,7 @@ void GetItem::leave_() {
 void GetItem::loadParams_() {}
 
 void GetItem::calc_() {
-    ksys::act::ai::Action::calc_();
+    m32();
 }
 
 }  // namespace uking::action
