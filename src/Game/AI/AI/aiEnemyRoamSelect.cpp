@@ -27,7 +27,7 @@ bool EnemyRoamSelect::isChangeable() const {
 }
 
 void EnemyRoamSelect::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _78 = false;
 }
 
 void EnemyRoamSelect::loadParams_() {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,11 @@ protected:
     const float* mNotReturnDist_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mCentralPos_d{};
+    ksys::act::BaseProcLink _50;
+    ksys::act::BaseProcLink _60;
+    u32 _70 = 0;
+    s32 _74 = -1;
+    bool _78 = false;
 };
 
 }  // namespace uking::ai
