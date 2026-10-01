@@ -21,6 +21,7 @@ protected:
 
     // static_param at offset 0x28
     const int* mAtkAttrType_s{};
+    int _30 = 0;
 };
 
 }  // namespace uking::action
