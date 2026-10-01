@@ -169,6 +169,7 @@ public:
     void setDeleteDistance(f32 distance) { mDeleteDistanceSq = sead::Mathf::square(distance); }
 
     phys::CharacterController* getCharacterController();
+    phys::InstanceSet* getPhysics() const { return mPhysics; }
 
     void getHomeMtx(sead::Matrix34f* mtx) const;
     void getHomePos(sead::Vector3f* pos) const;

@@ -98,6 +98,7 @@ target_sources(uking PRIVATE
     actBaseProcMap.h
     actBaseProcMgr.cpp
     actBaseProcMgr.h
+    actCCAccessor.cpp
     actCCAccessor.h
     actClusteredRenderer.cpp
     actClusteredRenderer.h
