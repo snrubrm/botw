@@ -6,6 +6,10 @@ EventPrizeSuccess::EventPrizeSuccess(const InitArg& arg) : ksys::act::ai::Action
 
 EventPrizeSuccess::~EventPrizeSuccess() = default;
 
+bool EventPrizeSuccess::oneShot_() {
+    return true;
+}
+
 void EventPrizeSuccess::loadParams_() {
     getDynamicParam(&mPrizeNumber_d, "PrizeNumber");
 }
