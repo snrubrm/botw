@@ -7,7 +7,7 @@ IbutsuWaterFallRoot::IbutsuWaterFallRoot(const InitArg& arg) : ksys::act::ai::Ai
 IbutsuWaterFallRoot::~IbutsuWaterFallRoot() = default;
 
 bool IbutsuWaterFallRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    return sub_7100445394(heap);
 }
 
 void IbutsuWaterFallRoot::enter_(ksys::act::ai::InlineParamPack* params) {

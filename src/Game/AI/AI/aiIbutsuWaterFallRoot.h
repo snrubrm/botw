@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_7100445394(sead::Heap* heap);
+
 protected:
 };
 
