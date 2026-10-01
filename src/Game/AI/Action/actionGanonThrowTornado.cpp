@@ -32,4 +32,8 @@ void GanonThrowTornado::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GanonThrowTornado::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
