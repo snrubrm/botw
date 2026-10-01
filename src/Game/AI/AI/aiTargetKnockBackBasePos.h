@@ -20,6 +20,7 @@ public:
     void m35(sead::Vector3f* pos) override;
 
 protected:
+    sead::Vector3f _40;
 };
 
 }  // namespace uking::ai
