@@ -32,4 +32,8 @@ void PlayerCutNormal::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutNormal::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
