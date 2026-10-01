@@ -98,6 +98,7 @@ public:
     float getBloodMoonTimer() const { return mBloodMoonTimer; }
     int getNumberOfDays() const { return mNumberOfDays; }
     BloodMoonForceMode getBloodMoonForceMode() const { return mBloodMoonForceMode; }
+    void setBloodMoonForceMode(BloodMoonForceMode mode) { mBloodMoonForceMode = mode; }
     bool isPlayedDemo103Or997() const { return mPlayedDemo103Or997; }
     bool isFindDungeonActivated() const { return mFindDungeonActivated; }
     bool wasBloodyDayAndDayPassed() const { return mWasBloodyDayAndDayPassed; }
