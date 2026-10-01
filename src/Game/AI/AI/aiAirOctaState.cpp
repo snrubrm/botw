@@ -15,6 +15,7 @@ void AirOctaState::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AirOctaState::leave_() {
+    sub_71002FDF9C();
     EnemyRoot::leave_();
 }
 

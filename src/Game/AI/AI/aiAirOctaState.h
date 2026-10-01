@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71002FDF9C();
+
 protected:
     // static_param at offset 0x1d8
     const float* mRopeGravityFactor_s{};
