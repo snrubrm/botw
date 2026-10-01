@@ -16,4 +16,8 @@ void PlayerLargeDamageUp::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLargeDamageUp::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
