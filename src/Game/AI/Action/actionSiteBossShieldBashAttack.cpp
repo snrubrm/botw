@@ -31,4 +31,6 @@ void SiteBossShieldBashAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void SiteBossShieldBashAttack::m32() {}
+
 }  // namespace uking::action
