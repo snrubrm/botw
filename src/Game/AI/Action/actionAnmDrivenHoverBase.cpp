@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnmDrivenHoverBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +12,21 @@ bool AnmDrivenHoverBase::init_(sead::Heap* heap) {
 }
 
 void AnmDrivenHoverBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+
+    if (mActor->getASList()) {
+        if (auto* cc = mActor->getCharacterController()) {
+            mCCAccessor.changeMotionType(cc, ksys::act::MotionType::Hover);
+            return;
+        }
+    }
+    setFailed();
 }
 
 void AnmDrivenHoverBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    mCCAccessor.resetMotionType(mActor->getCharacterController());
 }
 
 void AnmDrivenHoverBase::loadParams_() {

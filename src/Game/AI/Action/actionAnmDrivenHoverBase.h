@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -26,6 +27,9 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x40
     float* mBaseHeight_d{};
+    ksys::act::CCAccessor mCCAccessor;
 };
+
+KSYS_CHECK_SIZE_NX150(AnmDrivenHoverBase, 0x50);
 
 }  // namespace uking::action
