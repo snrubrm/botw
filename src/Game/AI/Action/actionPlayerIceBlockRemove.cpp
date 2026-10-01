@@ -10,9 +10,7 @@ void PlayerIceBlockRemove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerIceBlockRemove::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerIceBlockRemove::leave_() {}
 
 void PlayerIceBlockRemove::calc_() {
     PlayerAction::calc_();
