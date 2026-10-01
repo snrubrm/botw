@@ -20474,7 +20474,7 @@ Address,Quality,Size,Name
 0x00000071003035c4,U,000080,uking::ai::AnimalBattleAggressive::m40
 0x0000007100303614,O,000008,_ZNK5uking2ai22AnimalBattleAggressive27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710030361c,O,000092,_ZNK5uking2ai22AnimalBattleAggressive18getRuntimeTypeInfoEv
-0x0000007100303678,U,000036,_ZNK5uking2ai11EnemyBattle12isChangeableEv
+0x0000007100303678,O,000036,_ZNK5uking2ai11EnemyBattle12isChangeableEv
 0x000000710030369c,U,000008,uking::ai::EnemyBattle::m41
 0x00000071003036a4,U,000036,uking::ai::EnemyBattle::m42
 0x00000071003036c8,U,000004,uking::ai::EnemyBattle::m43

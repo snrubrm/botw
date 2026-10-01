@@ -8,6 +8,10 @@ void EnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
