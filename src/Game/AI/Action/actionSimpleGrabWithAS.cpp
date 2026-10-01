@@ -11,4 +11,8 @@ void SimpleGrabWithAS::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+void SimpleGrabWithAS::m32() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
