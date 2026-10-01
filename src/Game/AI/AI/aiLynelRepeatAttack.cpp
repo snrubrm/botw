@@ -14,6 +14,14 @@ void LynelRepeatAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LynelRepeatAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool LynelRepeatAttack::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void LynelRepeatAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }
