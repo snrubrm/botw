@@ -14,4 +14,8 @@ void PlayerShock::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerShock::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
