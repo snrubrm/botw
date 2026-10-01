@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710035ED38();
+
 protected:
     // static_param at offset 0x38
     const bool* mStateRot_s{};
