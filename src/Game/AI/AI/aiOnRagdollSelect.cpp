@@ -14,6 +14,8 @@ void OnRagdollSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void OnRagdollSelect::calc_() {}
+
 void OnRagdollSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
