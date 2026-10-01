@@ -39,7 +39,7 @@ public:
     s32* getLife() override;
     void m100() override;
     int getExtraHeapSize() override;
-    ActorAtk* getAtk() override;
+    Unk_71025ae640* getAtk() override;
     void m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     void m128() override;

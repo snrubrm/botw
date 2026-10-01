@@ -396,7 +396,7 @@ bool Actor::m123() {
 
 void Actor::onPlacementObjReset() {}
 
-ActorAtk* Actor::getAtk() {
+Unk_71025ae640* Actor::getAtk() {
     return nullptr;
 }
 

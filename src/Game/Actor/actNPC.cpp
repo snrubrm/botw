@@ -29,4 +29,8 @@ HorseRideInfo* NPC::getPlayerRideInfo() {
     return &_f28;
 }
 
+ksys::act::Unk_71025ae640* NPC::getAtk() {
+    return &_c78;
+}
+
 }  // namespace uking::act

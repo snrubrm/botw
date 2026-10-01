@@ -79,6 +79,7 @@ class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
 class ActorChemicals;
+class Unk_71025ae640;
 class ActorCreator;
 class ActorParam;
 class ActorWeapons;
@@ -337,7 +338,7 @@ public:
     virtual void m122();
     virtual bool m123();
     virtual void onPlacementObjReset();
-    virtual ActorAtk* getAtk();
+    virtual Unk_71025ae640* getAtk();
     virtual void m126();
     virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual void m128();
