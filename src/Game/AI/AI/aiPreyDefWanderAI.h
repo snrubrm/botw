@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -25,6 +26,7 @@ protected:
     float* mFramesStuckOnTerrain_a{};
     // aitree_variable at offset 0x98
     bool* mIsStuckOnTerrain_a{};
+    int _a0 = 0;
 };
 
 }  // namespace uking::ai

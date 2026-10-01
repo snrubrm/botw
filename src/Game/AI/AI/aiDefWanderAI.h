@@ -15,6 +15,7 @@ public:
     bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
@@ -31,6 +32,7 @@ protected:
     sead::Vector3f _60;
     ksys::Timer _6c;
     int _78{};
+    int _78 = 0;
 };
 
 }  // namespace uking::ai
