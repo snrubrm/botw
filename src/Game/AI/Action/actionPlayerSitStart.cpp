@@ -16,4 +16,8 @@ void PlayerSitStart::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSitStart::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
