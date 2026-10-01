@@ -35,4 +35,8 @@ void ForkFourFootActorLustGrass::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool ForkFourFootActorLustGrass::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
