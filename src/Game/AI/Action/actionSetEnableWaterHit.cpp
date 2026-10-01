@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetEnableWaterHit.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ bool SetEnableWaterHit::init_(sead::Heap* heap) {
 }
 
 void SetEnableWaterHit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody())
+        body->enableWaterCollision(*mWaterHit_s);
 }
 
 void SetEnableWaterHit::leave_() {
