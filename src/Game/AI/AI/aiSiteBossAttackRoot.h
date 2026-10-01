@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -18,6 +20,11 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mEquipWeapon_s{};
+    ksys::act::BaseProcHandle _40;
+    ksys::act::BaseProcHandle _50;
+    ksys::act::BaseProcLink _60;
+    ksys::act::BaseProcLink _70;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossAttackRoot, 0x80);
 
 }  // namespace uking::ai

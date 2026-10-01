@@ -4,6 +4,7 @@ namespace uking::ai {
 
 SiteBossAttackRoot::SiteBossAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+// NON_MATCHING: scheduling of the vtable store / member address registers
 SiteBossAttackRoot::~SiteBossAttackRoot() = default;
 
 bool SiteBossAttackRoot::init_(sead::Heap* heap) {
