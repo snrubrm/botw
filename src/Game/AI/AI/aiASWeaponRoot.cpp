@@ -14,6 +14,11 @@ void ASWeaponRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     WeaponRootAI::enter_(params);
 }
 
+void ASWeaponRoot::calc_() {
+    WeaponRootAI::calc_();
+    sub_7100323494();
+}
+
 void ASWeaponRoot::leave_() {
     WeaponRootAI::leave_();
 }
