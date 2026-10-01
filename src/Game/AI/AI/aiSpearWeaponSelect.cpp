@@ -14,6 +14,8 @@ void SpearWeaponSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void SpearWeaponSelect::calc_() {}
+
 void SpearWeaponSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
