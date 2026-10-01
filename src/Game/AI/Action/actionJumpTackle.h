@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual void m33();
+    virtual int m34();
 
     // static_param at offset 0x20
     const float* mMaxSpeed_s{};
