@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkOnResetBasicSignalOff.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,9 @@ bool ForkOnResetBasicSignalOff::init_(sead::Heap* heap) {
 }
 
 void ForkOnResetBasicSignalOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (isRootAiParamINot5())
+        mActor->emitBasicSigOff();
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkOnResetBasicSignalOff::leave_() {
