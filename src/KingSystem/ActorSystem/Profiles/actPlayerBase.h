@@ -122,7 +122,7 @@ public:
     /* 263 */ void getAttachedTargetActor2() override;
     /* 264 */ void getAttachedTargetActor() override;
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
-    /* 266 */ virtual void m266();
+    /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
     /* 267 */ virtual void m267();
     /* 268 */ virtual bool m268() { return false; }
     /* 269 */ virtual bool m269() { return false; }
@@ -163,7 +163,10 @@ public:
     /* 304 */ virtual bool m304() { return false; }
     /* 305 */ virtual f32 m305() { return 0.0f; }
     /* 306 */ bool m306() override { return false; }
-    /* 307 */ void m307() override;
+    /* 307 */ void m307() override {
+        const auto lock = sead::makeScopedLock(_c58);
+        _c98.set(0x40);
+    }
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}
@@ -266,7 +269,10 @@ protected:
     /* 0x12c8 */ u8 _12c8[0x1358 - 0x12c8];
     /* 0x1358 */ sead::CriticalSection _1358;
     /* 0x1398 */ bool _1398;
-    /* 0x1399 */ u8 _1399[0x1530 - 0x1399];
+    /* 0x1399 */ u8 _1399[0x1478 - 0x1399];
+    /* 0x1478 */ sead::CriticalSection _1478;
+    /* 0x14b8 */ bool _14b8;
+    /* 0x14b9 */ u8 _14b9[0x1530 - 0x14b9];
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ BaseProcLink _1570;
     /* 0x1580 */ u8 _1580[0x1654 - 0x1580];

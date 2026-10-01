@@ -12,6 +12,18 @@ namespace ksys::act {
 // NON_MATCHING: most member types are still unknown (placeholders)
 PlayerBase::~PlayerBase() = default;
 
+// NON_MATCHING: the original tail-calls CriticalSection::unlock (the locked part was probably an inlined helper)
+void PlayerBase::m266(const sead::SafeString& slot, int frames) {
+    switchEquipment(slot, frames);
+    const auto lock = sead::makeScopedLock(_c58);
+    _c98.set(0x20);
+}
+
+void PlayerBase::m308() {
+    const auto lock = sead::makeScopedLock(_1478);
+    _14b8 = true;
+}
+
 void PlayerBase::setExtraLife(s32 extra_life, f32 x) {
     const auto lock = sead::makeScopedLock(_1140);
     _1198 = extra_life;
