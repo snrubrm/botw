@@ -29,4 +29,8 @@ void KokkoMoveWithJump::calc_() {
     KokkoMove::calc_();
 }
 
+bool KokkoMoveWithJump::m32() {
+    return *mIsJump_d;
+}
+
 }  // namespace uking::action

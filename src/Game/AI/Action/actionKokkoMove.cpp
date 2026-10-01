@@ -35,4 +35,8 @@ void KokkoMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool KokkoMove::m32() {
+    return false;
+}
+
 }  // namespace uking::action

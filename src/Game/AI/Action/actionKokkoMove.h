@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual bool m32();
 
     // static_param at offset 0x20
     const float* mSpeed_s{};
