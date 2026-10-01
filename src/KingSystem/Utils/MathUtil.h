@@ -65,4 +65,7 @@ inline sead::Vector3f getCol(const sead::Matrix34f& mtx, int col) {
 // 0x71011ef010: rotates `vec` around the Y axis by `angle` (radians).
 void sub_71011EF010(sead::Vector3f* vec, float angle);
 
+// 0x71011ef0cc: wraps `angle` (radians) into [-pi, pi].
+float sub_71011EF0CC(float angle);
+
 }  // namespace ksys::util
