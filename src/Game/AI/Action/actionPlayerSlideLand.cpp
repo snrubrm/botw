@@ -16,4 +16,8 @@ void PlayerSlideLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSlideLand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
