@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossBeamExplode.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,12 @@ void PriestBossBeamExplode::loadParams_() {
     getStaticParam(&mMaxDistance_s, "MaxDistance");
     getStaticParam(&mMaxDistanceChangeableBorder_s, "MaxDistanceChangeableBorder");
     getStaticParam(&mMaxDistanceChangeableRevise_s, "MaxDistanceChangeableRevise");
+}
+
+bool PriestBossBeamExplode::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x8000039 && isCurrentChild("着弾前"))
+        m34();
+    return true;
 }
 
 }  // namespace uking::ai
