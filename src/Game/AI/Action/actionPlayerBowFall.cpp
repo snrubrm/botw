@@ -18,4 +18,8 @@ void PlayerBowFall::calc_() {
     PlayerFall::calc_();
 }
 
+bool PlayerBowFall::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
