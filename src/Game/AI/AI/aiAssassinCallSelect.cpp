@@ -14,6 +14,10 @@ void AssassinCallSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyCalledAppear::enter_(params);
 }
 
+void AssassinCallSelect::calc_() {
+    EnemyCalledAppear::calc_();
+}
+
 void AssassinCallSelect::leave_() {
     EnemyCalledAppear::leave_();
 }
