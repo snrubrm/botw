@@ -14,6 +14,10 @@ void ForestGiantReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
 }
 
+void ForestGiantReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+}
+
 void ForestGiantReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
