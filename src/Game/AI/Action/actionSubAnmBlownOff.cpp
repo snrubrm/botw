@@ -12,6 +12,7 @@ bool SubAnmBlownOff::init_(sead::Heap* heap) {
 
 void SubAnmBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     AnmBlownOff::enter_(params);
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void SubAnmBlownOff::leave_() {
