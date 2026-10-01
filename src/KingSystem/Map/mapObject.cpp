@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -443,6 +444,19 @@ bool Object::checkCreateOrDeleteLinkObjRevival() const {
     if (mLinkData != nullptr)
         return mLinkData->checkCreateOrDeleteLinkObjRevival();
     return false;
+}
+
+bool Object::shouldSkipSpawn_(bool x) const {
+    if (checkRevivalFlag(ActorData::Flag::RevivalEnable))
+        return true;
+
+    if ((!x || getActorData().mFlags.isOnBit(ActorData::Flag::NoCreateForStackLink)) &&
+        mFlags0.isOn(Flag0::_40000000)) {
+        return true;
+    }
+
+    return act::shouldSkipSpawnFairy(this) || act::shouldSkipSpawnGodForestActor(this) ||
+           act::shouldSkipSpawnWhenRaining(this);
 }
 
 bool Object::shouldSkipSpawn() const {

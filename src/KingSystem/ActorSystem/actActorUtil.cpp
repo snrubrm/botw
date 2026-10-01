@@ -116,7 +116,7 @@ bool hasOneTagAtLeast(const ActorConstDataAccess& accessor, const sead::SafeStri
 }
 
 // NON_MATCHING: this version doesn't have unnecessary register moves.
-bool shouldSkipSpawnWhenRaining(map::Object* obj) {
+bool shouldSkipSpawnWhenRaining(const map::Object* obj) {
     if (obj->getFlags().isOff(map::Object::Flag::CreateNotRain))
         return false;
 
@@ -127,7 +127,7 @@ bool shouldSkipSpawnWhenRaining(map::Object* obj) {
     return !world::Manager::instance()->isRaining(pos);
 }
 
-bool shouldSkipSpawnIfGodForestOff(map::Object* obj) {
+bool shouldSkipSpawnIfGodForestOff(const map::Object* obj) {
     bool value = false;
     if (obj->getFlags().isOff(map::Object::Flag::UnderGodForestOff))
         return false;
@@ -136,7 +136,7 @@ bool shouldSkipSpawnIfGodForestOff(map::Object* obj) {
     return value != 0;
 }
 
-bool shouldSkipSpawnGodForestActor(map::Object* obj) {
+bool shouldSkipSpawnGodForestActor(const map::Object* obj) {
     bool value = false;
     if (obj->getFlags().isOn(map::Object::Flag::UnderGodForest) &&
         gdt::Manager::instance()->getBool(sAnimalMasterAppearanceHandle, &value, true) && !value) {
@@ -150,7 +150,7 @@ static bool isFairyCountCheckEnabled() {
     return gdt::Manager::instance()->getBool(sFairyCountCheckHandle, &value, true) && value;
 }
 
-bool shouldSkipSpawnFairy(map::Object* obj) {
+bool shouldSkipSpawnFairy(const map::Object* obj) {
     const map::ActorData& actor_data = obj->getActorData();
     if (!actor_data.mFlags.isOnBit(map::ActorData::Flag::Fairy))
         return false;
