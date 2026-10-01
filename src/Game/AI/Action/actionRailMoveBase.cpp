@@ -30,4 +30,6 @@ void RailMoveBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void RailMoveBase::m32() {}
+
 }  // namespace uking::action
