@@ -176,6 +176,7 @@ public:
     phys::InstanceSet* getPhysics() const { return mPhysics; }
 
     void getHomeMtx(sead::Matrix34f* mtx) const;
+    bool shouldUnloadBecauseOfDistance();
     void getHomePos(sead::Vector3f* pos) const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
