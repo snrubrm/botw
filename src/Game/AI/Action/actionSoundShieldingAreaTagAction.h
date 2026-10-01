@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
 
     // map_unit_param at offset 0x38
     const float* mMerginDistance_m{};
