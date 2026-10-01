@@ -10,6 +10,10 @@ void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool BokoblinArrowBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void BokoblinArrowBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
