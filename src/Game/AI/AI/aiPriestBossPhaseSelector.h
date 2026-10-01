@@ -19,6 +19,10 @@ public:
 protected:
     // static_param at offset 0x40
     const bool* mIsSelectOnlyOnce_s{};
+    int _48 = 4;
+    int _4c = 4;
+    bool _50 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossPhaseSelector, 0x58);
 
 }  // namespace uking::ai
