@@ -4,7 +4,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling of the embedded listener (type store order)
 MasterSwordBase100EnemyRoot::MasterSwordBase100EnemyRoot(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 

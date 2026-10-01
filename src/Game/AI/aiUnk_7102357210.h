@@ -33,11 +33,21 @@ public:
 // vtable 0x7102450648
 class Unk_7102450648 : public Unk_7102357210 {
 public:
-    explicit Unk_7102450648(u32 type) { _34 = type; }
+    explicit Unk_7102450648(u32 type) {
+        _34 = type;
+        _38 = false;
+    }
     bool m2(const ksys::Message& message) override;
     void m3() override { _38 = false; }
 
     bool sub_710070A674(const ksys::Message& message);
 
-    bool _38 = false;
+    bool _38;
+};
+
+// vtable 0x7102450828
+class Unk_7102450828 : public Unk_7102450648 {
+public:
+    explicit Unk_7102450828(u32 type) : Unk_7102450648(type) {}
+    bool m2(const ksys::Message& message) override;
 };
