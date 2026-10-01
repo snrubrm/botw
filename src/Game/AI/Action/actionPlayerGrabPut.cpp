@@ -20,4 +20,8 @@ void PlayerGrabPut::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabPut::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
