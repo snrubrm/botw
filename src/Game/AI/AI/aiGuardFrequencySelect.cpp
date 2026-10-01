@@ -7,7 +7,10 @@ GuardFrequencySelect::GuardFrequencySelect(const InitArg& arg) : ksys::act::ai::
 GuardFrequencySelect::~GuardFrequencySelect() = default;
 
 void GuardFrequencySelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_710040CA40())
+        changeChild("ガード", params);
+    else
+        changeChild("通常", params);
 }
 
 void GuardFrequencySelect::calc_() {

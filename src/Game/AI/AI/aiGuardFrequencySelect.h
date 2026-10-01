@@ -14,6 +14,8 @@ public:
     void calc_() override;
     void loadParams_() override;
 
+    bool sub_710040CA40();
+
 protected:
 };
 
