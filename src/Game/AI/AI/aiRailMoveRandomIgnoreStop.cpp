@@ -14,6 +14,10 @@ void RailMoveRandomIgnoreStop::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMoveWithClose::enter_(params);
 }
 
+void RailMoveRandomIgnoreStop::calc_() {
+    RailMoveWithClose::calc_();
+}
+
 void RailMoveRandomIgnoreStop::leave_() {
     RailMoveWithClose::leave_();
 }
