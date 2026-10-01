@@ -4,6 +4,16 @@
 
 namespace ksys::act {
 
+bool WeaponBase::areExtraActorsReady() const {
+    if (m159().isEmpty() && m160().isEmpty())
+        return true;
+
+    if (mExtraActorHandle.isAllocatedOrFailed() && !mExtraActorHandle.isProcReady())
+        return mExtraActorHandle.hasProcCreationFailed();
+
+    return true;
+}
+
 void WeaponBase::requestCreateWeaponActor(const char* actor, const sead::Matrix34f& matrix,
                                           f32 scale, sead::Heap* heap,
                                           ksys::act::BaseProcHandle* handle, s32 life,
