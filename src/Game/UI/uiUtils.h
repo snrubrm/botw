@@ -45,6 +45,8 @@ void setShowFlyDistance(const sead::SafeString& distance);
 void setShowGolfCount(const sead::SafeString& counter_name);
 void setShowRaceResult(s32 result_type);
 
+void minigameScreenMove();
+
 int countCookResultsCheck(const sead::SafeString& name, s32 effect_type);
 int countCookResultsAllOk(const sead::SafeString& name);
 int getItemValue(const sead::SafeString& name);

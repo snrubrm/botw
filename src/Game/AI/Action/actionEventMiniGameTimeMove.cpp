@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventMiniGameTimeMove.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool EventMiniGameTimeMove::init_(sead::Heap* heap) {
 }
 
 void EventMiniGameTimeMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::minigameScreenMove();
+    setFinished();
 }
 
 void EventMiniGameTimeMove::leave_() {
@@ -21,7 +23,7 @@ void EventMiniGameTimeMove::leave_() {
 void EventMiniGameTimeMove::loadParams_() {}
 
 void EventMiniGameTimeMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    setFinished();
 }
 
 }  // namespace uking::action
