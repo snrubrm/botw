@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWindCutter.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -36,6 +37,21 @@ void WindCutter::calc_() {
 
 int WindCutter::m35() {
     return 1;
+}
+
+f32 WindCutter::m34() {
+    return ChemicalAttack::m34() * sead::Mathi::max(*mAttackLevel_m, 0) * *mLevelRangeMult_s;
+}
+
+int WindCutter::m36() {
+    int result = ChemicalAttack::m36();
+    if (*mAttackAttrEventKill_a)
+        result |= 0x40000000;
+    return result;
+}
+
+int WindCutter::m37() {
+    return *mAttackPower_m * sead::Mathi::max(*mAttackLevel_m, 0) * *mLevelAtkMult_s;
 }
 
 }  // namespace uking::action

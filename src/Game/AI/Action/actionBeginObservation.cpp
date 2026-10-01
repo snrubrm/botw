@@ -11,7 +11,8 @@ bool BeginObservation::init_(sead::Heap* heap) {
 }
 
 void BeginObservation::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mEventFlowName_m.isEmpty() || mEventFlowEntryName_m.isEmpty())
+        setFailed();
 }
 
 void BeginObservation::leave_() {

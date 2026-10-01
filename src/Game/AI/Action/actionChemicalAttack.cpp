@@ -48,4 +48,21 @@ int ChemicalAttack::m38() {
     return *mAttackPowerForPlayer_m;
 }
 
+int ChemicalAttack::m36() {
+    switch (*mAttackIntensity_s) {
+    case 1:
+        return 1;
+    case 2:
+        return 2;
+    case 3:
+        return 4;
+    default:
+        return 0;
+    }
+}
+
+int ChemicalAttack::m39() {
+    return -1;
+}
+
 }  // namespace uking::action

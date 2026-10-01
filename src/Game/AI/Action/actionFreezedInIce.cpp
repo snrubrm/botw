@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFreezedInIce.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -19,7 +20,8 @@ void FreezedInIce::leave_() {
 void FreezedInIce::loadParams_() {}
 
 void FreezedInIce::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!mActor->checkFreezeSignal())
+        setFinished();
 }
 
 }  // namespace uking::action

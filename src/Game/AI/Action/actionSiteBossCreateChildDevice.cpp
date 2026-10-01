@@ -30,4 +30,8 @@ void SiteBossCreateChildDevice::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int SiteBossCreateChildDevice::m32() {
+    return (*mIsCreateA_d ? 1 : 0) | (*mIsCreateB_d ? 2 : 0) | (*mIsCreateC_d ? 4 : 0) | (*mIsCreateD_d ? 8 : 0);
+}
+
 }  // namespace uking::action

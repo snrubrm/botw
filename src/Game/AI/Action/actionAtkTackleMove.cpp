@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAtkTackleMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,9 +13,14 @@ bool AtkTackleMove::init_(sead::Heap* heap) {
 
 void AtkTackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     TackleMove::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    setDamageCallbackTiming(mActor, 4, &_98);
+    m36();
 }
 
 void AtkTackleMove::leave_() {
+    m37();
+    sub_71005DA114(mActor, &_98);
     TackleMove::leave_();
 }
 

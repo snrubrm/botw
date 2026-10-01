@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAreaRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,6 +24,11 @@ void AreaRoot::loadParams_() {
 
 void AreaRoot::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void AreaRoot::m9() {
+    if (mActor)
+        mActor->setFlag(ksys::act::Actor::ActorFlag::_1c, *mForceCalcInEvent_m);
 }
 
 }  // namespace uking::action

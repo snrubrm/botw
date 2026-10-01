@@ -12,6 +12,8 @@ bool HorseRideAttack::init_(sead::Heap* heap) {
 
 void HorseRideAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRideLookWait::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    _70 = false;
 }
 
 void HorseRideAttack::leave_() {

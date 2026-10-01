@@ -28,4 +28,15 @@ void ChemicalAttackBall::calc_() {
     ChemicalAttack::calc_();
 }
 
+int ChemicalAttackBall::m35() {
+    switch (*mAttackType_s) {
+    case 0:
+        return 0x800;
+    case 1:
+        return 0x2000;
+    default:
+        return 0x800;
+    }
+}
+
 }  // namespace uking::action

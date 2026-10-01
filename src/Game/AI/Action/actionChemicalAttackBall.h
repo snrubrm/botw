@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    int m35() override;
 
     // static_param at offset 0x80
     const bool* mIsUseMyRange_s{};

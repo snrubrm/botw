@@ -112,6 +112,8 @@ public:
     enum class ActorFlag {
         _6 = 0x6,
         _18 = 0x18,
+        _1c = 0x1c,
+        _20 = 0x20,
         _25 = 0x25,
         _29 = 0x29,
         _2b = 0x2b,

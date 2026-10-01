@@ -8,6 +8,7 @@ GuardianMiniWait::~GuardianMiniWait() = default;
 
 void GuardianMiniWait::enter_(ksys::act::ai::InlineParamPack* params) {
     Wait::enter_(params);
+    m32();
 }
 
 void GuardianMiniWait::loadParams_() {

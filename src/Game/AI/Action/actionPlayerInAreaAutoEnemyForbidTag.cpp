@@ -8,7 +8,10 @@ PlayerInAreaAutoEnemyForbidTag::PlayerInAreaAutoEnemyForbidTag(const InitArg& ar
 PlayerInAreaAutoEnemyForbidTag::~PlayerInAreaAutoEnemyForbidTag() = default;
 
 bool PlayerInAreaAutoEnemyForbidTag::init_(sead::Heap* heap) {
-    return ForbidTag::init_(heap);
+    if (!ForbidTag::init_(heap))
+        return false;
+    _58 = false;
+    return true;
 }
 
 void PlayerInAreaAutoEnemyForbidTag::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -17,6 +20,7 @@ void PlayerInAreaAutoEnemyForbidTag::enter_(ksys::act::ai::InlineParamPack* para
 
 void PlayerInAreaAutoEnemyForbidTag::leave_() {
     ForbidTag::leave_();
+    m33();
 }
 
 void PlayerInAreaAutoEnemyForbidTag::loadParams_() {

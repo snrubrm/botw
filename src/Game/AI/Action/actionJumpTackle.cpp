@@ -16,7 +16,8 @@ void JumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void JumpTackle::leave_() {
-    ksys::act::ai::Action::leave_();
+    m33();
+    sub_71005DA114(mActor, &_50);
 }
 
 void JumpTackle::loadParams_() {

@@ -11,7 +11,8 @@ bool MoveToTargetBase::init_(sead::Heap* heap) {
 }
 
 void MoveToTargetBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30.set(*mDynStartPos_d);
+    mFlags.set(Flag::Changeable);
 }
 
 void MoveToTargetBase::leave_() {

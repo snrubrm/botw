@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    int m35() override;
 
     // static_param at offset 0xc0
     const int* mMinDamage_s{};

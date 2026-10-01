@@ -16,4 +16,9 @@ void DemoForceSetPlayerSavePosAngle::loadParams_() {
     getDynamicParam(&mAnchorName_d, "AnchorName");
 }
 
+bool DemoForceSetPlayerSavePosAngle::oneShot_() {
+    m32();
+    return true;
+}
+
 }  // namespace uking::action

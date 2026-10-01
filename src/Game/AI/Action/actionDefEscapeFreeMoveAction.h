@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -45,7 +46,7 @@ protected:
     int _a8 = 0;
     int _ac = 0;
     int _b0 = 0;
-    int _b4 = 0;
+    ksys::act::MotionType _b4{};
 };
 
 }  // namespace uking::action

@@ -8,6 +8,7 @@ Eat::~Eat() = default;
 
 void Eat::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    m32();
 }
 
 void Eat::leave_() {

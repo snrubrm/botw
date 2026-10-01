@@ -12,6 +12,7 @@ bool StopJump::init_(sead::Heap* heap) {
 
 void StopJump::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    _58 = 0;
 }
 
 void StopJump::leave_() {

@@ -11,7 +11,9 @@ bool ForkASTrgEmitShockWave::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgEmitShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _90 = false;
+    _a8.reset(0.0f);
 }
 
 void ForkASTrgEmitShockWave::leave_() {

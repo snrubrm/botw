@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::phys {
+class StaticCompoundRigidBodyGroup;
+}
+
 namespace uking::action {
 
 class DungeonMove : public ksys::act::ai::Action {
@@ -15,6 +19,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m9() override;
 
 protected:
     void calc_() override;
@@ -37,8 +42,8 @@ protected:
     sead::Vector3f _64 = sead::Vector3f::zero;
     f32 _70 = 0;
     f32 _74 = 0;
-    u32 _78 = 0;
-    void* _80 = nullptr;
+    int _78 = 0;
+    ksys::phys::StaticCompoundRigidBodyGroup* _80 = nullptr;
     s32 _88 = -1;
     bool _8c = false;
     void* _90 = nullptr;

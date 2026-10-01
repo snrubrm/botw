@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionForkNoWeaponAttackBase.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <prim/seadStringBuilder.h>
 
 namespace uking::action {
@@ -42,6 +46,17 @@ void ForkNoWeaponAttackBase::calc_() {
 
 int ForkNoWeaponAttackBase::m35() {
     return 1;
+}
+
+// NON_MATCHING: the original selects the parameter value address (+0x70/+0x90) instead of folding +0x18 into the load
+int ForkNoWeaponAttackBase::m32() {
+    if (!*mIsImpulseLarge_s)
+        return mActor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref();
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mImpulseLarge.ref();
+}
+
+int ForkNoWeaponAttackBase::m34() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref();
 }
 
 }  // namespace uking::action

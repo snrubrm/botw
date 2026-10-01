@@ -10,6 +10,7 @@ bool Grab::init_(sead::Heap* heap) {
 
 void Grab::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    m32();
 }
 
 void Grab::leave_() {

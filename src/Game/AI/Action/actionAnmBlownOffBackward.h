@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionAnmBlownOff.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+
+    sead::Matrix33f _a4;
 };
+
+KSYS_CHECK_SIZE_NX150(AnmBlownOffBackward, 0xc8);
 
 }  // namespace uking::action

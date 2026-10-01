@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionExplodeReserved.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -12,6 +14,14 @@ bool ExplodeReserved::init_(sead::Heap* heap) {
 
 void ExplodeReserved::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASPlay::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+        body->setGravityFactor(0.0f);
+        body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+    }
+    mActor->setFlag(ksys::act::Actor::ActorFlag::_20, true);
 }
 
 void ExplodeReserved::leave_() {

@@ -28,4 +28,10 @@ void ForkNoWeaponAttackAllTimeMinSet::calc_() {
     ForkNoWeaponAttackAllTime::calc_();
 }
 
+int ForkNoWeaponAttackAllTimeMinSet::m35() {
+    if (*mMinDamage_s > 0)
+        return *mMinDamage_s;
+    return m33();
+}
+
 }  // namespace uking::action

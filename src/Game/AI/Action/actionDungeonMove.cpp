@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDungeonMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -30,6 +31,12 @@ void DungeonMove::loadParams_() {
 
 void DungeonMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void DungeonMove::m9() {
+    _80 = mActor->getFieldBodyGroup();
+    _74 = *mMoveSpeed_m;
+    _78 = *mInitDgnPriority_m;
 }
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDefEscapeFreeMoveAction.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void DefEscapeFreeMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DefEscapeFreeMoveAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(_b4);
 }
 
 void DefEscapeFreeMoveAction::loadParams_() {
