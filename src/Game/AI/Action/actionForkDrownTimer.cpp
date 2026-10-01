@@ -11,7 +11,7 @@ bool ForkDrownTimer::init_(sead::Heap* heap) {
 }
 
 void ForkDrownTimer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkDrownTimer::leave_() {
