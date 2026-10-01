@@ -12,6 +12,11 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 
+    virtual void m34();
+    virtual void m35();
+    virtual bool m36();
+    virtual void m37() {}
+
 protected:
 };
 

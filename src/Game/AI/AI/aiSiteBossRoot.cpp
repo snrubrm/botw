@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -34,6 +35,10 @@ void SiteBossRoot::loadParams_() {
     getStaticParam(&mAtDownEntryName_s, "AtDownEntryName");
     getStaticParam(&mIsPlayed_DemoFlagName_s, "IsPlayed_DemoFlagName");
     getMapUnitParam(&mUniqueNameMessageLabel_m, "UniqueNameMessageLabel");
+}
+
+bool SiteBossRoot::handleMessage_(const ksys::Message& message) {
+    return message.getType().value == 0x3000007;
 }
 
 }  // namespace uking::ai

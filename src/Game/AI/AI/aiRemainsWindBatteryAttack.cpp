@@ -13,6 +13,7 @@ bool RemainsWindBatteryAttack::init_(sead::Heap* heap) {
 
 void RemainsWindBatteryAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianBeamAttackBase::enter_(params);
+    changeChild("待機");
 }
 
 void RemainsWindBatteryAttack::leave_() {
