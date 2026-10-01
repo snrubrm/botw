@@ -12,6 +12,10 @@ public:
     ~CameraLockOnBase() override;
 
 protected:
+    virtual bool m42();
+    virtual void m43();
+    virtual float m44();
+    virtual float m45();
 };
 
 }  // namespace uking::action
