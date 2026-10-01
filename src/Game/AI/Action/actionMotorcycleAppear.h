@@ -24,6 +24,7 @@ protected:
     const float* mModelWarpEffectFrames_s{};
     // static_param at offset 0x30
     const float* mEndFrames_s{};
+    float _38 = 0.0f;
 };
 
 }  // namespace uking::action
