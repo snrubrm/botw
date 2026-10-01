@@ -14,4 +14,8 @@ void PlayerSelfCamera::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSelfCamera::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
