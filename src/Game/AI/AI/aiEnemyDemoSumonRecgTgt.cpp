@@ -14,6 +14,10 @@ void EnemyDemoSumonRecgTgt::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRecognizeTargetBase::enter_(params);
 }
 
+void EnemyDemoSumonRecgTgt::calc_() {
+    EnemyRecognizeTargetBase::calc_();
+}
+
 void EnemyDemoSumonRecgTgt::leave_() {
     EnemyRecognizeTargetBase::leave_();
 }
