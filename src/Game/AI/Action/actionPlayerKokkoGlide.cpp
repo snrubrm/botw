@@ -22,4 +22,8 @@ void PlayerKokkoGlide::calc_() {
     PlayerGlide::calc_();
 }
 
+bool PlayerKokkoGlide::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
