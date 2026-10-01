@@ -20,4 +20,8 @@ void UnarmedAttack::calc_() {
     ActionEx::calc_();
 }
 
+bool UnarmedAttack::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
