@@ -8,8 +8,6 @@ void GetWeaponEquip::enter_(ksys::act::ai::InlineParamPack* params) {
     GetItem::enter_(params);
 }
 
-void GetWeaponEquip::calc_() {
-    GetItem::calc_();
-}
+void GetWeaponEquip::calc_() {}
 
 }  // namespace uking::action
