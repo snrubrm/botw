@@ -6,12 +6,20 @@ AddViewTargetPosBase::AddViewTargetPosBase(const InitArg& arg) : ksys::act::ai::
 
 AddViewTargetPosBase::~AddViewTargetPosBase() = default;
 
+bool AddViewTargetPosBase::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool AddViewTargetPosBase::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool AddViewTargetPosBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
 void AddViewTargetPosBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("行動", params);
 }
 
 void AddViewTargetPosBase::leave_() {
