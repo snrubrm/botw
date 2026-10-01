@@ -1,5 +1,10 @@
 #include "KingSystem/ActorSystem/actActorCaptureMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
@@ -61,6 +66,26 @@ void ActorCaptureMgr::loadCaptureParam() {
     mRes.mCameraInfoObj.copy(param->mCameraInfoObj);
     mRes.mActorInfoObj.copy(param->mActorInfoObj);
     mRes.mLightInfoObj.copy(param->mLightInfoObj);
+}
+
+const char* ActorCaptureMgr::getCapturedActorName() const {
+    Actor* actor = nullptr;
+    const char* name = mActor->getName().getStringTop();
+    if (InfoData::instance()->hasTag(name, tags::Mannequin) &&
+        BaseProcMgr::instance()) {
+        BaseProcMgr::ProcFilters filters;
+        filters.set(BaseProcMgr::ProcFilter::Initializing);
+        filters.set(BaseProcMgr::ProcFilter::SkipAccessCheck);
+        actor = sead::DynamicCast<Actor>(BaseProcMgr::instance()->getProc(mStr, filters));
+    }
+
+    if (!actor)
+        actor = mActor;
+
+    const auto* param = actor->getParam();
+    if (!param || !param->getRes().mActorLink)
+        return nullptr;
+    return param->getRes().mActorLink->getUsers().getActorCapture();
 }
 
 }  // namespace ksys::act
