@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71024519a8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,12 +15,18 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+    bool isChangeable() const override;
 
 protected:
     // static_param at offset 0x38
     const int* mGuardEndTime_s{};
     // static_param at offset 0x40
     const int* mNoticeTerrorLevel_s{};
+    Unk_71024519a8 _48;
+    float _70 = 0;
+    int _74 = 0;
+    int _78 = 0;
 };
 
 }  // namespace uking::ai
