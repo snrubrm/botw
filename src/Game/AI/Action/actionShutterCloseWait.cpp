@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionShutterCloseWait.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,7 +27,11 @@ void ShutterCloseWait::loadParams_() {
 }
 
 void ShutterCloseWait::calc_() {
-    ActionEx::calc_();
+    if (auto* body = mActor->getMainBody()) {
+        sead::Matrix34f mtx;
+        mActor->getHomeMtx(&mtx);
+        body->changePositionAndRotation(mtx);
+    }
 }
 
 }  // namespace uking::action
