@@ -15,6 +15,10 @@ void LastBossShootGaleArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) 
     LastBossShootNormalArrowRoot::enter_(params);
 }
 
+void LastBossShootGaleArrowRoot::calc_() {
+    LastBossShootNormalArrowRoot::calc_();
+}
+
 void LastBossShootGaleArrowRoot::leave_() {
     LastBossShootNormalArrowRoot::leave_();
 }
