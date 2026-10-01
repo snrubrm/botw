@@ -8,6 +8,10 @@ void MoriblinSpearNearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool MoriblinSpearNearBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void MoriblinSpearNearBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
