@@ -12,6 +12,7 @@ public:
     ~NavMeshGuardRun() override;
 
 protected:
+    void m34() override;
 };
 
 }  // namespace uking::action
