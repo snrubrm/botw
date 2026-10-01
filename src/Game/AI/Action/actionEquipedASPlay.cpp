@@ -27,4 +27,8 @@ void EquipedASPlay::calc_() {
     EquipedAction::calc_();
 }
 
+void EquipedASPlay::m32() {
+    playAS(mAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
