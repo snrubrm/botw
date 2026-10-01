@@ -15,6 +15,10 @@ void DungeonRotateTag4WindApp::enter_(ksys::act::ai::InlineParamPack* params) {
     WholeDungeonRotateTag::enter_(params);
 }
 
+void DungeonRotateTag4WindApp::calc_() {
+    WholeDungeonRotateTag::calc_();
+}
+
 void DungeonRotateTag4WindApp::leave_() {
     WholeDungeonRotateTag::leave_();
 }
