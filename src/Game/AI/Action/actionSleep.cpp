@@ -26,4 +26,8 @@ void Sleep::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+void Sleep::m32() {
+    playAS("Sleep", true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
