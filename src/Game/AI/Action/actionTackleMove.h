@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
@@ -34,8 +35,7 @@ protected:
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
     ksys::Timer _58{};
-    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
-    u8 _64[0x88 - 0x64];
+    sead::Matrix33f _64;
 };
 
 KSYS_CHECK_SIZE_NX150(TackleMove, 0x88);

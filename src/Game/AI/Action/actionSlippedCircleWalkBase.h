@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,8 +31,7 @@ protected:
     int* mRotDir_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
-    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
-    u8 _50[0x74 - 0x50];
+    sead::Matrix33f _50;
     s32 _74 = 0;
     f32 _78 = 0;
 };

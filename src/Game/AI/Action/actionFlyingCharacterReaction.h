@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
@@ -29,8 +30,7 @@ protected:
     const bool* mIsControlRotation_s{};
     // static_param at offset 0x38
     const bool* mIsSetBackLastState_s{};
-    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
-    u8 _40[0x64 - 0x40];
+    sead::Matrix33f _40;
     bool _64 = false;
     ksys::act::CCAccessor mCCAccessor;
 };

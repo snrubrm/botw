@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 #include "KingSystem/System/VFRValue.h"
@@ -46,8 +47,7 @@ protected:
     // static_param at offset 0x78
     const bool* mIsUpFollow_s{};
     ksys::VFRValue _80;
-    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
-    u8 _8c[0xb0 - 0x8c];
+    sead::Matrix33f _8c;
     sead::Vector3f _b0;
 };
 

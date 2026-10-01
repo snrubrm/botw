@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
@@ -31,8 +32,7 @@ protected:
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _48;
-    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
-    u8 _54[0x78 - 0x54];
+    sead::Matrix33f _54;
     f32 _78 = 0;
     s8 _7c = 0;
 };

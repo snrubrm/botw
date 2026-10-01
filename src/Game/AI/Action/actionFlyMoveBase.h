@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/System/VFRValue.h"
@@ -39,8 +40,7 @@ protected:
     ksys::VFRValue _60;
     sead::Vector3f _6c{0, 0, 0};
     sead::Vector3f _78{0, 0, 0};
-    // unknown object (0x24 bytes, no ctor; method 0x710073fa90)
-    u8 _84[0xa8 - 0x84];
+    sead::Matrix33f _84;
     ksys::VFRValue _a8;
     ksys::act::CCAccessor mCCAccessor;
 };

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionWaterFloatBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
@@ -37,8 +38,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _98;
     ksys::Timer _a4;
-    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
-    u8 _b0[0xd4 - 0xb0];
+    sead::Matrix33f _b0;
     sead::Vector3f _d4;
     f32 _e0 = 0;
 };

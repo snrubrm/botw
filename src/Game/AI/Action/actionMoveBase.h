@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
@@ -52,8 +53,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     f32 _98 = 0;
     ksys::Timer _9c{0, 0, 1.0f};
-    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
-    u8 _a8[0xcc - 0xa8];
+    sead::Matrix33f _a8;
     sead::Vector3f _cc;
     f32 _d8 = 0;
 };

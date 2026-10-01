@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionWaterFloatBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
@@ -26,8 +27,7 @@ protected:
     const float* mRotSpeed_s{};
     // static_param at offset 0x70
     const float* mRotRatio_s{};
-    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
-    u8 _78[0x9c - 0x78];
+    sead::Matrix33f _78;
     ksys::VFRValue _9c;
 };
 

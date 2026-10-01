@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -50,7 +51,7 @@ protected:
     ksys::act::BaseProcLink* mIgniteActor_d{};
     // dynamic_param at offset 0xa8
     ksys::act::BaseProcHandle** mArrowHandle_d{};
-    u8 _b0[0xd4 - 0xb0];
+    sead::Matrix33f _b0;
     int _d4 = 0;
     int _d8 = 0;
     int _dc = 0;
