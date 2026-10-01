@@ -24,6 +24,7 @@ protected:
     const float* mRemoveDistance_s{};
     // static_param at offset 0x30
     const float* mRemoveDistanceOffset_s{};
+    bool _38 = false;
 };
 
 }  // namespace uking::action
