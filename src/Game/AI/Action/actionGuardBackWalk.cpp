@@ -10,6 +10,7 @@ bool GuardBackWalk::init_(sead::Heap* heap) {
 
 void GuardBackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);
+    playAS("GuardBackWalk", false, 0, 0, -1.0f);
 }
 
 void GuardBackWalk::leave_() {
