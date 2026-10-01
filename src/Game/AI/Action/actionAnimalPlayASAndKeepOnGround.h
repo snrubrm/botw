@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionPlayASForAnimalUnit.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -25,6 +26,7 @@ protected:
     const bool* mIsUseDownImpulse_s{};
     // aitree_variable at offset 0x70
     bool* mIsChangeableStateFreeFall_a{};
+    ksys::Timer _78;
 };
 
 }  // namespace uking::action

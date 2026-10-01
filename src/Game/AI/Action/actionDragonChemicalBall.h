@@ -30,6 +30,8 @@ protected:
     const float* mHomingDistance_s{};
     // static_param at offset 0x48
     const float* mHomingTime_s{};
+    f32 _50 = 0;
+    f32 _54 = 0;
 };
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -23,6 +24,8 @@ protected:
     const float* mMinFramesPlayWaitAS_s{};
     // dynamic_param at offset 0x28
     ksys::act::BaseProcLink* mTargetActor_d{};
+    sead::BitFlag8 _30;
+    ksys::Timer _34{0, 0};
 };
 
 }  // namespace uking::action

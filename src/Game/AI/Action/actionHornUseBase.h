@@ -24,6 +24,8 @@ protected:
     const int* mWeaponIdx_s{};
     // static_param at offset 0x68
     const int* mSignalOnTime_s{};
+    f32 _70 = 0;
+    bool _74 = false;
 };
 
 }  // namespace uking::action

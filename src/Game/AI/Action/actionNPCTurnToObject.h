@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -23,6 +24,11 @@ protected:
     float* mTurnDirection_d{};
     // dynamic_param at offset 0x30
     sead::SafeString mActorName_d{};
+    int _40 = 0;
+    sead::Vector3f _44;
+    ksys::act::BaseProcLink _50;
+    bool _60 = false;
+    bool _61 = false;
 };
 
 }  // namespace uking::action

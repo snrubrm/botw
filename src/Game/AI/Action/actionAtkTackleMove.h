@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "Game/AI/Action/actionTackleMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -24,6 +25,7 @@ protected:
 
     // static_param at offset 0x88
     sead::SafeString mAtkSensorName_s{};
+    Unk_7102451ba0 _98;
 };
 
 }  // namespace uking::action

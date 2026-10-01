@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -46,6 +47,8 @@ protected:
     sead::SafeString mAtkSensorName_s{};
     // map_unit_param at offset 0x90
     const int* mAttackPower_m{};
+    ksys::Timer _98;
+    bool _a4 = false;
 };
 
 }  // namespace uking::action

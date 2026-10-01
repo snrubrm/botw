@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,8 @@ protected:
     const float* mInitSpeed_s{};
     // static_param at offset 0x28
     const float* mEndTime_s{};
+    bool _30 = false;
+    ksys::Timer _34;
 };
 
 }  // namespace uking::action

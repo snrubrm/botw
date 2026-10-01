@@ -26,6 +26,8 @@ protected:
     const bool* mIsBreakable_m{};
     // map_unit_param at offset 0x38
     const bool* mEnableToEmitSpEffect_m{};
+    sead::Vector3f _40 = sead::Vector3f::zero;
+    bool _4c = false;
 };
 
 }  // namespace uking::action

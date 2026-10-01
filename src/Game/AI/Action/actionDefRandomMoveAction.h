@@ -33,6 +33,12 @@ protected:
     const bool* mIsUseBasepos_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mBasePos_d{};
+    sead::Vector3f _78 = sead::Vector3f::zero;
+    f32 _84 = 0;
+    f32 _88 = 0;
+    sead::Vector3f _8c = sead::Vector3f::zero;
+    sead::Vector3f _98 = sead::Vector3f::zero;
+    sead::Vector3f _a4 = sead::Vector3f::zero;
 };
 
 }  // namespace uking::action

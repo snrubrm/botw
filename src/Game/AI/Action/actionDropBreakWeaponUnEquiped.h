@@ -22,6 +22,8 @@ protected:
     const int* mBoundNum_s{};
     // static_param at offset 0x28
     const int* mKillTimer_s{};
+    f32 _30 = 0;
+    int _34 = 0;
 };
 
 }  // namespace uking::action

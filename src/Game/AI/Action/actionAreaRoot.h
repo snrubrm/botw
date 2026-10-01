@@ -32,6 +32,11 @@ protected:
     sead::SafeString mWarpDestMapName_m{};
     // map_unit_param at offset 0x70
     sead::SafeString mWarpDestPosName_m{};
+    sead::Vector3f _80 = sead::Vector3f::zero;
+    sead::Vector3f _8c = sead::Vector3f::zero;
+    f32 _98 = 0;
+    u8 _9c = 1;
+    sead::BitFlag8 _9d;
 };
 
 }  // namespace uking::action
