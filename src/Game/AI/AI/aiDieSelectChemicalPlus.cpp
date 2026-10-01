@@ -14,6 +14,10 @@ void DieSelectChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
     DieSelect::enter_(params);
 }
 
+void DieSelectChemicalPlus::calc_() {
+    DieSelect::calc_();
+}
+
 void DieSelectChemicalPlus::leave_() {
     DieSelect::leave_();
 }
