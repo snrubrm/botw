@@ -14,6 +14,18 @@ void NushiEscapeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void NushiEscapeSelector::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
+}
+
 void NushiEscapeSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }
