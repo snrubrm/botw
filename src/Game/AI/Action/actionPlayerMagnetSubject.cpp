@@ -20,4 +20,8 @@ void PlayerMagnetSubject::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerMagnetSubject::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
