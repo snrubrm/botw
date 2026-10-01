@@ -12,6 +12,7 @@ bool FreeMoveRandom::init_(sead::Heap* heap) {
 
 void FreeMoveRandom::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMove::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void FreeMoveRandom::leave_() {
