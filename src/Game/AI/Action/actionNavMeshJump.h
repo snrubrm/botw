@@ -11,6 +11,9 @@ public:
     explicit NavMeshJump(const InitArg& arg);
 
 protected:
+    void m32() override;
+    void m33() override;
+    void m34() override;
 };
 
 }  // namespace uking::action
