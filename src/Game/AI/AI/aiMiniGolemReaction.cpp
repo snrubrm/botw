@@ -14,6 +14,10 @@ void MiniGolemReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
 }
 
+void MiniGolemReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+}
+
 void MiniGolemReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
