@@ -20,4 +20,12 @@ void StalPartCatch::leave_() {
 
 void StalPartCatch::loadParams_() {}
 
+bool StalPartCatch::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool StalPartCatch::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
