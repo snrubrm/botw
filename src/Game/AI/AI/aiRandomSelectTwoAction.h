@@ -13,6 +13,8 @@ public:
 
     void loadParams_() override;
 
+    int m34() override;
+
 protected:
     // static_param at offset 0x50
     const int* mTransitionRateToA_s{};

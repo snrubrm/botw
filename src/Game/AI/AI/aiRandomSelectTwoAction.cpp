@@ -11,4 +11,8 @@ void RandomSelectTwoAction::loadParams_() {
     getStaticParam(&mTransitionRateToA_s, "TransitionRateToA");
 }
 
+int RandomSelectTwoAction::m34() {
+    return *mTransitionRateToA_s;
+}
+
 }  // namespace uking::ai
