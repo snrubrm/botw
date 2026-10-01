@@ -16,7 +16,7 @@ public:
         if (mDamageManager)
             mDamageManager->removeDamageCallback(this);
     }
-    virtual void call(u32* a1, s32* a2, u32* a3, u32* a4, u32* a5, u64 a6) = 0;
+    virtual void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) = 0;
 
     DamageCallback* mPrev{};
     DamageCallback* mNext{};

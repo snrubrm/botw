@@ -8,7 +8,7 @@ namespace uking::ai {
 // vtable 0x71023fa168
 class Unk_71023fa168 : public dmg::DamageCallback {
 public:
-    void call(u32* a1, s32* a2, u32* a3, u32* a4, u32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 };
 
 class HangedLamp : public ksys::act::ai::Ai {
