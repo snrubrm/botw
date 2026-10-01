@@ -24,4 +24,8 @@ void PlayerLaunch::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLaunch::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
