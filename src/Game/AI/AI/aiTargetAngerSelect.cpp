@@ -20,4 +20,16 @@ void TargetAngerSelect::leave_() {
 
 void TargetAngerSelect::loadParams_() {}
 
+bool TargetAngerSelect::isFailed() const {
+    if (isCurrentChild("怒り移行"))
+        return false;
+    return getCurrentChild()->isFailed();
+}
+
+bool TargetAngerSelect::isFinished() const {
+    if (isCurrentChild("怒り移行"))
+        return false;
+    return getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

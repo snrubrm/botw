@@ -20,4 +20,13 @@ void SunazarashiTowing::leave_() {
 
 void SunazarashiTowing::loadParams_() {}
 
+bool SunazarashiTowing::isChangeable() const {
+    if (isCurrentChild("牽引開始") || isCurrentChild("プレイヤーを牽引"))
+        return false;
+    auto* child = getCurrentChild();
+    if (isCurrentChild("牽引終了"))
+        return child->isFinished();
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 }  // namespace uking::ai
