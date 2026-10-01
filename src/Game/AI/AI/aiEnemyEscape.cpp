@@ -10,6 +10,10 @@ void EnemyEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyEscape::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyEscape::loadParams_() {}
 
 }  // namespace uking::ai

@@ -9,6 +9,7 @@ class EnemyEscape : public ksys::act::ai::Ai {
 public:
     explicit EnemyEscape(const InitArg& arg);
     ~EnemyEscape() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
