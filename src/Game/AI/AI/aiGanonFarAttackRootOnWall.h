@@ -22,6 +22,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mViewPos_d{};
+    int _50{};
+    int _54{};
 };
 
 }  // namespace uking::ai
