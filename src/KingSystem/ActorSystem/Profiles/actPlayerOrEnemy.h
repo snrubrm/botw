@@ -51,7 +51,7 @@ public:
     void m160() override;
 
     // FIXME: figure out return types, parameters and names
-    virtual void m163();
+    virtual bool m163(int idx);
     virtual void m164();
     virtual void m165();
     virtual bool isGuard();
@@ -61,7 +61,7 @@ public:
     virtual void m170();
     virtual void m171();
     virtual void m172();
-    virtual void m173();
+    virtual bool m173();
     virtual bool weaponDroppedByEnemy() { return true; }
     virtual void getEquippedItem();
     virtual void m176();

@@ -7,10 +7,12 @@
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
+class Unk_7100d860d8;
 }  // namespace ksys::act
 
 namespace uking::act {
 class Unk_71002dccbc;
+class Weapon;
 struct Unk_71002eda38;
 struct Unk_71002edaec;
 }  // namespace uking::act
@@ -55,10 +57,14 @@ void sub_71005D9974(ksys::act::Actor* actor, u32 mask, bool set);
 void sub_71005D7014(ksys::act::Actor* actor);
 /// Enemy::_d70 or NPC::_e90 (nullptr otherwise).
 uking::act::Unk_71002dccbc* sub_71005D9D68(ksys::act::Actor* actor);
+/// Same as sub_71005D9D68 (a separate function that tail-calls it).
+uking::act::Unk_71002dccbc* sub_71005D9E64(ksys::act::Actor* actor);
 bool sub_71005DAFB0(ksys::act::Actor* actor);
 
 // --- uking::act::NPC fields ---
 
+/// NPCBase::_840 (nullptr if not an NPCBase).
+void* sub_71005D77C8(ksys::act::Actor* actor);
 /// Sets or clears bit 7 of NPC::_fe8.
 void sub_71005D7518(ksys::act::Actor* actor, bool set);
 /// Bit 7 of NPC::_fe8 (false if not an NPC).
@@ -80,6 +86,22 @@ void sub_71005D80FC(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos,
                     const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link);
 void sub_71005D8210(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos, int a3, f32 a4,
                     const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link);
+
+/// Number of weapon slots of the actor (ActorWeapons::mWeapons), 0 if it has none.
+s32 sub_71005D7854(ksys::act::Actor* actor);
+/// PlayerOrEnemy::m163(idx) (false if not a PlayerOrEnemy).
+bool sub_71005D8324(ksys::act::Actor* actor, int idx);
+/// PlayerOrEnemy::m173() (false if not a PlayerOrEnemy).
+bool sub_71005D9E68(ksys::act::Actor* actor);
+
+/// The actor in weapon slot `idx` if it is a uking::act::Weapon (nullptr otherwise).
+uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx);
+/// Whether the weapon equipped in slot `idx` is a uking::act::Weapon with _d54 == 1 or 2.
+bool sub_71005D8514(ksys::act::Actor* actor, int idx);
+/// Whether none of the actor's weapon slots holds a uking::act::Weapon (false if it has no weapons).
+bool sub_71005D8B60(ksys::act::Actor* actor);
+/// Whether slot `idx` has an equipped weapon and ActorWeapons::mWeapons[idx]._10 is not set.
+bool sub_71005DB904(ksys::act::Actor* actor, int idx);
 
 // ActorWeapons::mWeapons[idx]._10
 
@@ -128,3 +150,5 @@ f32 sub_71005DB4FC(ksys::act::Actor* actor);
 void sub_71005DB51C(ksys::act::Actor* actor, f32 a2, bool a3);
 void sub_71005DB558(ksys::act::Actor* actor, f32 a2, bool a3);
 void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos);
+/// &BoneControl::_0->_10, or nullptr.
+ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor);

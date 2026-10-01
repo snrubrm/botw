@@ -2,6 +2,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -551,4 +552,86 @@ void sub_71005D8210(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos,
     if (link)
         arg._20 = *link;
     sub_71005D787C(actor, idx, arg);
+}
+
+s32 sub_71005D7854(ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return 0;
+    return weapons->mWeapons.size();
+}
+
+bool sub_71005D8324(ksys::act::Actor* actor, int idx) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return false;
+    return static_cast<ksys::act::PlayerOrEnemy*>(actor)->m163(idx);
+}
+
+uking::act::Unk_71002dccbc* sub_71005D9E64(ksys::act::Actor* actor) {
+    return sub_71005D9D68(actor);
+}
+
+bool sub_71005D9E68(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return false;
+    return static_cast<ksys::act::PlayerOrEnemy*>(actor)->m173();
+}
+
+ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return nullptr;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return nullptr;
+    return &unk->_10;
+}
+
+void* sub_71005D77C8(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<uking::act::NPCBase>(actor))
+        return nullptr;
+    return static_cast<uking::act::NPCBase*>(actor)->_840;
+}
+
+uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return nullptr;
+    auto* proc = weapons->mWeapons[idx].link.getProc(nullptr, nullptr);
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(proc);
+    return sead::DynamicCast<uking::act::Weapon>(weapon);
+}
+
+// NON_MATCHING: when there are no weapons, ours returns the null pointer register as false; the
+// original branches to a separate `return false` block
+bool sub_71005D8514(ksys::act::Actor* actor, int idx) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->_d54 == 1 || weapon->_d54 == 2;
+}
+
+bool sub_71005D8B60(ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return false;
+    for (int i = 0; i < weapons->mWeapons.size(); ++i) {
+        auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(
+            weapons->mWeapons(i).link.getProc(nullptr, nullptr));
+        if (sead::IsDerivedFrom<uking::act::Weapon>(weapon))
+            return false;
+    }
+    return true;
+}
+
+bool sub_71005DB904(ksys::act::Actor* actor, int idx) {
+    auto* weapons = actor->getWeapons();
+    if (idx < 0 || !weapons)
+        return false;
+    if (!weapons->getEquippedWeapon(idx))
+        return false;
+    return !weapons->mWeapons[idx]._10;
 }

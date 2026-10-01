@@ -196,6 +196,8 @@ public:
     /* 0xbe0 */ sead::CriticalSection _be0;
     /* 0xc20 */ Unk_71002edaec _c20;
     /* 0xc4c */ bool _c4c = false;
+    /* 0xc50 */ u8 _c50[0xd54 - 0xc50];  // TODO
+    /* 0xd54 */ s32 _d54 = 0;
 };
 
 }  // namespace uking::act
