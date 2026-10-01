@@ -11,6 +11,10 @@ void LandHumEnemyFindBaitWeapon::enter_(ksys::act::ai::InlineParamPack* params) 
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LandHumEnemyFindBaitWeapon::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void LandHumEnemyFindBaitWeapon::leave_() {
     ksys::act::ai::Ai::leave_();
 }
