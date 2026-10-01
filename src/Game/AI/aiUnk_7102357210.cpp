@@ -641,3 +641,302 @@ bool Unk_71024509d8::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
+
+// ---- Listeners embedded in AI classes (functions in their owners' TUs in the original) ----
+
+bool Unk_71023e7c38::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800009c)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e7c38_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e7c68::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800009d)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e7c68_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e7c98::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800009e)
+        return false;
+
+    auto* payload = static_cast<Unk_7102379988_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e7cc8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a1)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e78b0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e7cf8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a2)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e7cf8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e8ff8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000b3)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e8ff8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e9028::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000bf)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e9028_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_71023e7d28::~Unk_71023e7d28() = default;
+
+bool Unk_71023e7d28::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000c0)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e7d28_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0 = payload->_0;
+        _34._4 = payload->_4;
+        _34._8 = payload->_8;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102358dc0::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800006e)
+        return false;
+
+    auto* payload = static_cast<Unk_7102358dc0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_710235cec8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000041)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e7bc0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023799b0::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a3)
+        return false;
+
+    auto* payload = static_cast<Unk_71023799b0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102379b00::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800009f)
+        return false;
+
+    auto* payload = static_cast<Unk_7102379b00_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102379b30::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a0)
+        return false;
+
+    auto* payload = static_cast<Unk_7102379b30_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023d4c08::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000ab)
+        return false;
+
+    auto* payload = static_cast<Unk_71023d4bb0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102404060::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000018)
+        return false;
+
+    auto* payload = static_cast<Unk_7102404060_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_710240dd68::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000042)
+        return false;
+
+    auto* payload = static_cast<Unk_710240dd68_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102424730::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000b8)
+        return false;
+
+    auto* payload = static_cast<Unk_71023c5480_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_710244e760::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000cc)
+        return false;
+
+    auto* payload = static_cast<Unk_710244e760_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_71024056a8::~Unk_71024056a8() = default;
+
+bool Unk_71024056a8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000ac)
+        return false;
+
+    auto* payload = static_cast<Unk_71024056a8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0 = payload->_0;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_710244e7f0::~Unk_710244e7f0() = default;
+
+bool Unk_710244e7f0::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000cf)
+        return false;
+
+    auto* payload = static_cast<Unk_710244e7f0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0 = payload->_0;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}

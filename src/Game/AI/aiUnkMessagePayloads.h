@@ -259,3 +259,227 @@ struct Unk_7102450be8_Payload {
     u32 _4c;
     sead::JobQueueLock mLock;
 };
+
+// Message 0x800009c (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e7c38_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800009d (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e7c68_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800009e (sender Unk_7102379988)
+struct Unk_7102379988_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a1 (sender Unk_71023e78b0)
+struct Unk_71023e78b0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a2 (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e7cf8_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000b3 (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e8ff8_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000bf (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e9028_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000c0 (sender unknown; placeholder name = listener vtable)
+struct Unk_71023e7d28_Payload {
+    u32 _0;
+    u32 _4;
+    u32 _8;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800006e (sender unknown; placeholder name = listener vtable)
+struct Unk_7102358dc0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000041 (sender Unk_71023e7bc0)
+struct Unk_71023e7bc0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a3 (sender unknown; placeholder name = listener vtable)
+struct Unk_71023799b0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800009f (sender unknown; placeholder name = listener vtable)
+struct Unk_7102379b00_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a0 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102379b30_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000ab (sender Unk_71023d4bb0)
+struct Unk_71023d4bb0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000018 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102404060_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000042 (sender unknown; placeholder name = listener vtable)
+struct Unk_710240dd68_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000b8 (sender Unk_71023c5480)
+struct Unk_71023c5480_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000cc (sender unknown; placeholder name = listener vtable)
+struct Unk_710244e760_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000ac (sender unknown; placeholder name = listener vtable)
+struct Unk_71024056a8_Payload {
+    u32 _0;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000cf (sender unknown; placeholder name = listener vtable)
+struct Unk_710244e7f0_Payload {
+    bool _0;
+    sead::JobQueueLock mLock;
+};
