@@ -14,6 +14,10 @@ void SimpleEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
 }
 
+void SimpleEnemyNormal::calc_() {
+    EnemyNormal::calc_();
+}
+
 void SimpleEnemyNormal::leave_() {
     EnemyNormal::leave_();
 }
