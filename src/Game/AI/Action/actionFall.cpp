@@ -23,4 +23,8 @@ void Fall::calc_() {
     ActionEx::calc_();
 }
 
+bool Fall::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
