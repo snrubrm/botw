@@ -3,6 +3,11 @@
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
 
+namespace ksys::util {
+class Task;
+class TaskThread;
+}  // namespace ksys::util
+
 namespace ksys::res {
 
 class ArchiveWork;
@@ -26,7 +31,11 @@ private:
     // TODO
     sead::BitFlag8 mFlags;
     sead::BitFlag8 mFlags2;
-    u8 _a[0x768 - 0xa];
+    u8 _a[0x30 - 0xa];
+    util::Task* _30;
+    u8 _38[0x50 - 0x38];
+    util::TaskThread* _50;
+    u8 _58[0x768 - 0x58];
     ArchiveWork* mArchiveWork;
 };
 

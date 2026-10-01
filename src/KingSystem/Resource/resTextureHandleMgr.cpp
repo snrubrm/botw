@@ -1,7 +1,21 @@
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/Resource/resSystem.h"
+#include "KingSystem/Utils/Thread/Task.h"
 
 namespace ksys::res {
+
+void TextureHandleMgr::calc() {
+    if (!_30->canSubmitRequest())
+        return;
+
+    util::TaskRequest req;
+    req.mHasHandle = false;
+    req.mSynchronous = false;
+    req.mLaneId = 8;
+    req.mThread = _50;
+    req.mName = "TextureHandleMgr::calc";
+    _30->submitRequest(req);
+}
 
 void TextureHandleMgr::preCalc() {}
 
