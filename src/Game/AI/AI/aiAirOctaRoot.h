@@ -20,6 +20,7 @@ public:
 protected:
     // aitree_variable at offset 0x38
     void* mAirOctaDataMgr_a{};
+    void* _40{};
 };
 
 }  // namespace uking::ai

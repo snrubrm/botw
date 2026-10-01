@@ -32,6 +32,7 @@ protected:
     const bool* mCheckColConInfo_s{};
     // static_param at offset 0x70
     sead::SafeString mExpandActorName_s{};
+    void* _80{};
 };
 
 }  // namespace uking::ai

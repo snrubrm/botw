@@ -2,9 +2,7 @@
 
 namespace uking::ai {
 
-CameraAI::CameraAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
-
-CameraAI::~CameraAI() = default;
+CameraAI::CameraAI(const InitArg& arg) : ksys::act::ai::Ai(arg), Unk_7102459708(this) {}
 
 bool CameraAI::init_(sead::Heap* heap) {
     mFlags.set(Flag::Changeable);

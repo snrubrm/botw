@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,8 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x10];
+    sead::Vector3f _38{0, 0, 0};
     // map_unit_param at offset 0x48
     const bool* mLaunchEventByOnSignal_m{};
     // map_unit_param at offset 0x50
@@ -28,6 +28,7 @@ protected:
     sead::SafeString mEventFlowName_m{};
     // map_unit_param at offset 0x70
     sead::SafeString mEventFlowEntryName_m{};
+    bool _80 = false;
 };
 
 }  // namespace uking::ai

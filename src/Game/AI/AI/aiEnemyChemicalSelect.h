@@ -23,6 +23,7 @@ protected:
     const bool* mIsCheckActive_s{};
     // static_param at offset 0x40
     sead::SafeString mChmObjName_s{};
+    void* _50{};
 };
 
 }  // namespace uking::ai

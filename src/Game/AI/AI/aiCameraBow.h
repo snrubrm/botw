@@ -9,6 +9,7 @@ class CameraBow : public CameraAI {
     SEAD_RTTI_OVERRIDE(CameraBow, CameraAI)
 public:
     explicit CameraBow(const InitArg& arg);
+    bool m34(sead::Heap* heap) override;
 
 protected:
 };

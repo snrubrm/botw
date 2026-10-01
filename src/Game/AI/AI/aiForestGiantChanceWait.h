@@ -25,6 +25,8 @@ protected:
     const float* mTurnStartAngle_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    f32 _58{};
+    bool _5c{};
 };
 
 }  // namespace uking::ai

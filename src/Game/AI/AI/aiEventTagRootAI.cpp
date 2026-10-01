@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the stores to _38 are scheduled after the other members
 EventTagRootAI::EventTagRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EventTagRootAI::~EventTagRootAI() = default;
