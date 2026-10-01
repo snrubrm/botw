@@ -14,6 +14,10 @@ void TiredDistSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetHomeRangeSelect::enter_(params);
 }
 
+void TiredDistSelect::calc_() {
+    TargetHomeRangeSelect::calc_();
+}
+
 void TiredDistSelect::leave_() {
     TargetHomeRangeSelect::leave_();
 }
