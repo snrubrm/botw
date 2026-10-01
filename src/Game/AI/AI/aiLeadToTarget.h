@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -32,6 +33,14 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     ksys::act::BaseProcLink* mLeaderActor_d{};
+    void* _78{};
+    f32 _80 = -1.0f;
+    f32 _84 = -1.0f;
+    f32 _88 = -1.0f;
+    f32 _8c = -1.0f;
+    f32 _90 = -1.0f;
+    bool _94 = false;
 };
+KSYS_CHECK_SIZE_NX150(LeadToTarget, 0x98);
 
 }  // namespace uking::ai

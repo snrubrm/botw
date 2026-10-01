@@ -12,6 +12,7 @@ bool WolfLinkLeadToTarget::init_(sead::Heap* heap) {
 
 void WolfLinkLeadToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     LeadToTarget::enter_(params);
+    _a0 = false;
 }
 
 void WolfLinkLeadToTarget::leave_() {
