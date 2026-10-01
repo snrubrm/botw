@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionNPCWait.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,6 +20,7 @@ public:
 protected:
     void calc_() override;
 
+    ksys::Timer _40;
     // static_param at offset 0x50
     const int* mWaitFrame_s{};
 };

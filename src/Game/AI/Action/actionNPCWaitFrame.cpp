@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCWaitFrame.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool NPCWaitFrame::init_(sead::Heap* heap) {
 
 void NPCWaitFrame::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCWait::enter_(params);
+    const f32 frames = *mWaitFrame_s;
+    _40 = ksys::Timer(frames, frames);
 }
 
 void NPCWaitFrame::leave_() {
@@ -25,6 +28,11 @@ void NPCWaitFrame::loadParams_() {
 
 void NPCWaitFrame::calc_() {
     NPCWait::calc_();
+    if (_40.value <= sead::Mathf::epsilon()) {
+        setFinished();
+        return;
+    }
+    _40.update();
 }
 
 }  // namespace uking::action
