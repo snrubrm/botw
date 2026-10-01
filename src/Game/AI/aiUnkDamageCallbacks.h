@@ -107,3 +107,11 @@ public:
 
     s32 _24 = 0;
 };
+
+// vtable 0x71024500d8 (ChuchuRoot). Its functions live in another translation unit (0x71006f6284..),
+// so `call` is only declared here.
+class Unk_71024500d8 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_71024500d8, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};

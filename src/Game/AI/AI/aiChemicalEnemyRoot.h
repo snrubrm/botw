@@ -21,6 +21,8 @@ protected:
     const bool* mIsElectricWater_s{};
     // static_param at offset 0x1e8
     sead::SafeString mColorASName_s{};
+    bool _1f8 = false;
+    bool _1f9 = false;
 };
 
 }  // namespace uking::ai

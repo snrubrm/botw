@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m34() override;
+
+    void sub_710034E090();
 
 protected:
     // static_param at offset 0x1d8
@@ -29,6 +33,9 @@ protected:
     sead::SafeString mSubAS_s{};
     // static_param at offset 0x208
     sead::SafeString mChemicalFieldKey_s{};
+    bool* _218{};
+    Unk_71024500d8 _220;
+    bool _248 = false;
 };
 
 }  // namespace uking::ai
