@@ -9,6 +9,7 @@ BattleCloseExplosivesGuardRun::~BattleCloseExplosivesGuardRun() = default;
 
 void BattleCloseExplosivesGuardRun::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseExplosivesAvoidRun::enter_(params);
+    playAS("GuardRun", true, 0, 0, -1.0f);
 }
 
 }  // namespace uking::action
