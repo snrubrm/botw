@@ -12,7 +12,7 @@ bool ShiekSensorPlusDownloadDemo::init_(sead::Heap* heap) {
 }
 
 void ShiekSensorPlusDownloadDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = 0;
 }
 
 void ShiekSensorPlusDownloadDemo::leave_() {

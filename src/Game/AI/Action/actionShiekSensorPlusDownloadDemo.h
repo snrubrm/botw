@@ -20,6 +20,7 @@ protected:
 
     // dynamic_param at offset 0x20
     bool* mIsPlayerClose_d{};
+    int _28 = 0;
 };
 
 }  // namespace uking::action
