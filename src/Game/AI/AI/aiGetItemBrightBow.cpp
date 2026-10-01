@@ -14,6 +14,10 @@ void GetItemBrightBow::enter_(ksys::act::ai::InlineParamPack* params) {
     GetItemNormal::enter_(params);
 }
 
+void GetItemBrightBow::calc_() {
+    GetItemNormal::calc_();
+}
+
 void GetItemBrightBow::leave_() {
     GetItemNormal::leave_();
 }
