@@ -27,6 +27,16 @@ bool RootAi::loadAITreeParams(const AIDef& def, sead::Heap* heap) {
     return mAiTreeParams.load(*mActor, def, heap, AIDefInstParamKind::AITree);
 }
 
+void RootAi::setBehavior(Behavior* behavior) {
+    behavior->sub_7100D24A10(
+        &mBehaviorsByStopAndCalcTiming[behavior->isNoStop()][behavior->getCalcTiming()], &_138);
+}
+
+void RootAi::resetBehavior(Behavior* behavior) {
+    behavior->sub_7100D24AC0(
+        &mBehaviorsByStopAndCalcTiming[behavior->isNoStop()][behavior->getCalcTiming()], &_138);
+}
+
 bool RootAi::isActorDeletedOrDeleting() const {
     return mActor->isDeletedOrDeleting();
 }

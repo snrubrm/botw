@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/behaviorDummyBehavior.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
@@ -9,6 +10,129 @@ namespace ksys::act::ai {
 
 Behavior::Behavior(const InitArg& arg)
     : mActor(arg.actor), mDefIdx(static_cast<u16>(arg.def_idx)) {}
+
+inline res::AIProgram* Behavior::getAIProg() const {
+    return mActor->getParam()->getRes().mAIProgram;
+}
+
+inline auto& Behavior::getDef() const {
+    return getAIProg()->getBehaviors()[s16(mDefIdx)];
+}
+
+// NON_MATCHING: the first early return materialises `false` before the branch (block layout)
+bool Behavior::init(sead::Heap* heap) {
+    AIDefSet set;
+    set.dynamic_params.num_params = 0;
+    set.ai_tree_params.num_params = 0;
+    AIClassDef::instance()->getDef(getDef().mClassName, &set, AIDefType::Behavior);
+
+    if (!mActor->getRootAi()->loadMapUnitParams(set.map_unit_params, heap))
+        return false;
+
+    if (!mActor->getRootAi()->loadAITreeParams(set.ai_tree_params, heap))
+        return false;
+
+    m10();
+    return m6(heap);
+}
+
+inline void Behavior::updateState(Behavior** pending_list) {
+    switch (_13) {
+    case 0:
+        if (!_20) {
+            _20 = *pending_list;
+            *pending_list = this;
+        }
+        [[fallthrough]];
+    case 3:
+        _13 = _12 != 0 ? 1 : 2;
+        break;
+    case 1:
+        if (_12 == 0)
+            _13 = 3;
+        break;
+    case 2:
+        if (_12 != 0)
+            _13 = 3;
+        break;
+    default:
+        _13 = 3;
+        break;
+    }
+}
+
+// NON_MATCHING: the original shares one block for states 0 and 3 and re-tests the state there
+bool Behavior::sub_7100D24A10(Behavior** list, Behavior** pending_list) {
+    if (_12 != 0) {
+        ++_12;
+        return false;
+    }
+
+    _18 = *list;
+    *list = this;
+    ++_12;
+    updateState(pending_list);
+    return true;
+}
+
+// NON_MATCHING: same state switch difference as sub_7100D24A10
+bool Behavior::sub_7100D24AC0(Behavior** list, Behavior** pending_list) {
+    if (_12 != 0) {
+        --_12;
+        if (_12 != 0)
+            return false;
+    }
+
+    if (*list == this) {
+        *list = _18;
+    } else {
+        for (auto* it = *list; it; it = it->_18) {
+            if (it->_18 == this) {
+                it->_18 = _18;
+                break;
+            }
+        }
+    }
+    _18 = nullptr;
+    updateState(pending_list);
+    return true;
+}
+
+Behavior* Behavior::sub_7100D24B94() {
+    if (_13 == 2) {
+        m9();
+        _13 = 0;
+    }
+    return _20;
+}
+
+Behavior* Behavior::sub_7100D24BD4() {
+    if (_13 == 1)
+        m8();
+    _13 = 0;
+    return _20;
+}
+
+void Behavior::x() {
+    if (_13 == 0 || _13 == 3)
+        m11();
+}
+
+s32 Behavior::getCalcTiming() const {
+    return s16(getDef().mCalcTiming);
+}
+
+bool Behavior::isNoStop() const {
+    return getDef().mNoStop != 0;
+}
+
+bool Behavior::getStaticParam(sead::SafeString* value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
+
+bool Behavior::getStaticParam(const s32** value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
 
 Behaviors::Behaviors() = default;
 

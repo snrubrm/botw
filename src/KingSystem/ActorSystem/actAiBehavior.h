@@ -10,6 +10,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::res {
+class AIProgram;
+}
+
 namespace ksys::act::ai {
 
 class Behavior {
@@ -28,9 +32,25 @@ public:
 
     bool init(sead::Heap* heap);
 
+    // 0x0000007100d24a10
+    bool sub_7100D24A10(Behavior** list, Behavior** pending_list);
+    // 0x0000007100d24ac0
+    bool sub_7100D24AC0(Behavior** list, Behavior** pending_list);
+    // 0x0000007100d24b94
+    Behavior* sub_7100D24B94();
+    // 0x0000007100d24bd4
+    Behavior* sub_7100D24BD4();
+    void x();
+
+    s32 getCalcTiming() const;
+    bool isNoStop() const;
+
+    bool getStaticParam(sead::SafeString* value, const sead::SafeString& key) const;
+    bool getStaticParam(const s32** value, const sead::SafeString& key) const;
+
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
-    virtual bool m6() { return true; }
+    virtual bool m6(sead::Heap* heap) { return true; }
     virtual void m7() {}
     virtual void m8() {}
     virtual void m9() {}
@@ -40,12 +60,16 @@ public:
     virtual void onPreDelete() {}
 
 protected:
+    res::AIProgram* getAIProg() const;
+    auto& getDef() const;
+    void updateState(Behavior** pending_list);
+
     Actor* mActor{};
     u16 mDefIdx{};
     u8 _12{};
     u8 _13{};
-    void* _18{};
-    void* _20{};
+    Behavior* _18{};
+    Behavior* _20{};
 };
 KSYS_CHECK_SIZE_NX150(Behavior, 0x28);
 

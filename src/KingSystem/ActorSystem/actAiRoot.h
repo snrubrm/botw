@@ -92,7 +92,7 @@ private:
     Behaviors mBehaviors;
     Queries mQueries;
     sead::SafeArray<Behavior*, 3> mBehaviorsByStopAndCalcTiming[2]{};
-    void* _138{};
+    Behavior* _138{};
     SomeStruct* _140{};
     u32 mI{};
     u16 mAt{};
