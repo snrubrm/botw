@@ -23,6 +23,7 @@ protected:
     sead::SafeString mASName_s{};
     // static_param at offset 0x60
     sead::SafeString mAtRigidBodyName_s{};
+    bool _70 = false;
 };
 
 }  // namespace uking::action
