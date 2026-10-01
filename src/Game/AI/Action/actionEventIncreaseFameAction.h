@@ -12,6 +12,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override;
+
     // dynamic_param at offset 0x20
     int* mValue_d{};
 };
