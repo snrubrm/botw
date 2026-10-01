@@ -28,6 +28,15 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x48
     bool* mIsPartsWarpEffectSync_d{};
+    float _50 = 0.0f;
+    int _54 = 0;
+    int _58 = 0;
+    float _5c = 0.0f;
+    int _60 = 0;
+    int _64 = 0;
+    float _68 = 30.0f;
+    u16 _6c = 0;
+    bool _6e = false;
 };
 
 }  // namespace uking::action
