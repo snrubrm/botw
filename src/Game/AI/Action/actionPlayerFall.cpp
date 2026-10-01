@@ -22,4 +22,8 @@ void PlayerFall::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerFall::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
