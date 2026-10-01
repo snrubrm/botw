@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-DummyDropTable::DummyDropTable(const InitArg& arg) : DummyAction(arg) {}
+DummyDropTable::DummyDropTable(const InitArg& arg) : ksys::act::ai::DummyAction(arg) {}
 
 DummyDropTable::~DummyDropTable() = default;
 
@@ -11,20 +11,20 @@ bool DummyDropTable::init_(sead::Heap* heap) {
 }
 
 void DummyDropTable::enter_(ksys::act::ai::InlineParamPack* params) {
-    DummyAction::enter_(params);
+    ksys::act::ai::DummyAction::enter_(params);
 }
 
 void DummyDropTable::leave_() {
-    DummyAction::leave_();
+    ksys::act::ai::DummyAction::leave_();
 }
 
 void DummyDropTable::loadParams_() {
-    DummyAction::loadParams_();
+    ksys::act::ai::DummyAction::loadParams_();
     getMapUnitParam(&mDropTable_m, "DropTable");
 }
 
 void DummyDropTable::calc_() {
-    DummyAction::calc_();
+    ksys::act::ai::DummyAction::calc_();
 }
 
 }  // namespace uking::action

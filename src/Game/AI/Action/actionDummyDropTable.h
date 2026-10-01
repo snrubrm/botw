@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Game/AI/Action/actionDummyAction.h"
+#include "KingSystem/ActorSystem/actionDummyAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class DummyDropTable : public DummyAction {
-    SEAD_RTTI_OVERRIDE(DummyDropTable, DummyAction)
+class DummyDropTable : public ksys::act::ai::DummyAction {
+    SEAD_RTTI_OVERRIDE(DummyDropTable, ksys::act::ai::DummyAction)
 public:
     explicit DummyDropTable(const InitArg& arg);
     ~DummyDropTable() override;
