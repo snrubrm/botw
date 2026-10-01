@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100340570();
+
 protected:
     // static_param at offset 0x110
     const int* mEnlargeTime_s{};

@@ -16,6 +16,7 @@ void BreathEnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void BreathEnemyRangeKeepMove::leave_() {
     EnemyRangeKeepMove::leave_();
+    sub_7100340570();
 }
 
 void BreathEnemyRangeKeepMove::loadParams_() {
