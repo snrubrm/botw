@@ -14,6 +14,10 @@ void LastBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LastBossRoot::hasPreDeleteCb() {
+    return true;
+}
+
 void LastBossRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
