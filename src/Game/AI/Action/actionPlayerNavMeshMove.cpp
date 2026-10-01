@@ -8,9 +8,7 @@ void PlayerNavMeshMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGuidedMove::enter_(params);
 }
 
-void PlayerNavMeshMove::leave_() {
-    PlayerGuidedMove::leave_();
-}
+void PlayerNavMeshMove::leave_() {}
 
 void PlayerNavMeshMove::loadParams_() {
     PlayerGuidedMove::loadParams_();
