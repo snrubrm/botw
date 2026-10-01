@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaitBase.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -6,8 +8,12 @@ WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 WaitBase::~WaitBase() = default;
 
+// NON_MATCHING: load scheduling around the GlobalRandom instance load
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    const f32 time = *mTime_s + s32(sead::GlobalRandom::instance()->getU32(*mTimeRand_s));
+    mTimer = ksys::Timer(time, time);
+    mFlags.set(Flag::Changeable);
 }
 
 void WaitBase::loadParams_() {
@@ -18,6 +24,13 @@ void WaitBase::loadParams_() {
 
 void WaitBase::calc_() {
     ActionWithPosAngReduce::calc_();
+    if (*mTime_s < 1)
+        return;
+    if (mTimer.value <= sead::Mathf::epsilon()) {
+        setFinished();
+        return;
+    }
+    mTimer.update();
 }
 
 }  // namespace uking::action
