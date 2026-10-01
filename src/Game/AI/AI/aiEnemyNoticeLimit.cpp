@@ -12,6 +12,14 @@ void EnemyNoticeLimit::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyNoticeLimit::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyNoticeLimit::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void EnemyNoticeLimit::leave_() {
     ksys::act::ai::Ai::leave_();
 }
