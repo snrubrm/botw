@@ -24,4 +24,10 @@ void WarpPlayerBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void WarpPlayerBase::m32() {}
+
+bool WarpPlayerBase::m33() {
+    return false;
+}
+
 }  // namespace uking::action

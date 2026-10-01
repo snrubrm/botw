@@ -28,4 +28,8 @@ void WarpPlayer::calc_() {
     WarpPlayerBase::calc_();
 }
 
+bool WarpPlayer::m33() {
+    return true;
+}
+
 }  // namespace uking::action

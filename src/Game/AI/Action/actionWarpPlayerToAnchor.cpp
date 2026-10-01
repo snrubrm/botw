@@ -28,4 +28,8 @@ void WarpPlayerToAnchor::calc_() {
     WarpPlayerBase::calc_();
 }
 
+bool WarpPlayerToAnchor::m33() {
+    return true;
+}
+
 }  // namespace uking::action
