@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTurnAndLookAtToObjectNow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void TurnAndLookAtToObjectNow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TurnAndLookAtToObjectNow::leave_() {
-    LookAtObject::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void TurnAndLookAtToObjectNow::loadParams_() {
