@@ -15,6 +15,16 @@ void CliffDistanceSelectThreeAction::enter_(ksys::act::ai::InlineParamPack* para
     ksys::act::ai::Ai::enter_(params);
 }
 
+void CliffDistanceSelectThreeAction::calc_() {}
+
+bool CliffDistanceSelectThreeAction::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool CliffDistanceSelectThreeAction::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void CliffDistanceSelectThreeAction::leave_() {
     ksys::act::ai::Ai::leave_();
 }
