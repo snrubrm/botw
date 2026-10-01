@@ -14,4 +14,8 @@ void PlayerSwitchHang::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwitchHang::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
