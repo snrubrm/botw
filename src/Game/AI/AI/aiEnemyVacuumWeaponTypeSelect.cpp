@@ -15,6 +15,8 @@ void EnemyVacuumWeaponTypeSelect::enter_(ksys::act::ai::InlineParamPack* params)
     ksys::act::ai::Ai::enter_(params);
 }
 
+void EnemyVacuumWeaponTypeSelect::calc_() {}
+
 void EnemyVacuumWeaponTypeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
