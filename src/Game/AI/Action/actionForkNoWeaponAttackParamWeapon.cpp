@@ -12,7 +12,7 @@ bool ForkNoWeaponAttackParamWeapon::init_(sead::Heap* heap) {
 }
 
 void ForkNoWeaponAttackParamWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkNoWeaponAttackParamWeapon::leave_() {
