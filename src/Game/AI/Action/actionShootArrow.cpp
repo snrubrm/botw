@@ -16,4 +16,8 @@ void ShootArrow::calc_() {
     ActionEx::calc_();
 }
 
+bool ShootArrow::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
