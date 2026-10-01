@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -29,6 +30,13 @@ protected:
     int* mRotDir_d{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _48;
+    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
+    u8 _54[0x78 - 0x54];
+    f32 _78 = 0;
+    s8 _7c = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(TargetCircle, 0x80);
 
 }  // namespace uking::action
