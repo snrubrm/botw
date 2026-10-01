@@ -32,6 +32,11 @@ protected:
     const float* mUDLimit_s{};
     // static_param at offset 0x50
     sead::SafeString mIronBallPartsName_s{};
+    int _60 = 0;
+    void* _68{};
+    int _70 = 0;
+    void* _78{};
+    int _80 = 0;
 };
 
 }  // namespace uking::action
