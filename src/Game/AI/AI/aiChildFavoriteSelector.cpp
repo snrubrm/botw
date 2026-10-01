@@ -14,6 +14,10 @@ void ChildFavoriteSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ChildFavoriteSelectorBase::enter_(params);
 }
 
+void ChildFavoriteSelector::calc_() {
+    ChildFavoriteSelectorBase::calc_();
+}
+
 void ChildFavoriteSelector::leave_() {
     ChildFavoriteSelectorBase::leave_();
 }
