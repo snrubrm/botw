@@ -19,4 +19,8 @@ void PlayerSwimWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimWait::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
