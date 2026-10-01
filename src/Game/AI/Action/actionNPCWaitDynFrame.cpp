@@ -12,6 +12,12 @@ bool NPCWaitDynFrame::init_(sead::Heap* heap) {
 
 void NPCWaitDynFrame::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCWaitFrame::enter_(params);
+    const f32 frames = *mDynWaitFrame_d;
+    _40 = ksys::Timer(frames, frames);
+}
+
+const sead::SafeString& NPCWaitDynFrame::m32() {
+    return mDynASName_d;
 }
 
 void NPCWaitDynFrame::leave_() {
