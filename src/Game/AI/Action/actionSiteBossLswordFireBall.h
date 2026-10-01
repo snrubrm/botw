@@ -30,6 +30,10 @@ protected:
     sead::SafeString mWaitASName_s{};
     // dynamic_param at offset 0x50
     sead::SafeString mPartsName_d{};
+    bool _60 = false;
+    int _64 = 0;
+    int _68 = 0;
+    int _6c = 0;
 };
 
 }  // namespace uking::action
