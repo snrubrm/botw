@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPrevSomeASSelect.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,8 +13,17 @@ bool PrevSomeASSelect::init_(sead::Heap* heap) {
 }
 
 void PrevSomeASSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const auto& name = mActor->getASList()->x_1(*mTargetBone_s, *mSeqBank_s);
+    for (int i = 0; i < 6; ++i) {
+        if (mASName_s[i] == name) {
+            changeChild("該当", params);
+            return;
+        }
+    }
+    changeChild("非該当", params);
 }
+
+void PrevSomeASSelect::calc_() {}
 
 void PrevSomeASSelect::leave_() {
     ksys::act::ai::Ai::leave_();
