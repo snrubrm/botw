@@ -8,7 +8,7 @@ GuardianMiniBeamAttackMove::GuardianMiniBeamAttackMove(const InitArg& arg)
 GuardianMiniBeamAttackMove::~GuardianMiniBeamAttackMove() = default;
 
 void GuardianMiniBeamAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100418468();
 }
 
 bool GuardianMiniBeamAttackMove::isChangeable() const {
