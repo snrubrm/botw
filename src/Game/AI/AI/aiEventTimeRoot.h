@@ -21,6 +21,7 @@ protected:
     const int* mTimeLimit_s{};
     // static_param at offset 0x40
     const bool* mIsCountDown_s{};
+    int _48{};
 };
 
 }  // namespace uking::ai
