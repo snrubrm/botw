@@ -8,9 +8,7 @@ void PlayerGuardSlip::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerGuardSlip::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerGuardSlip::leave_() {}
 
 void PlayerGuardSlip::loadParams_() {
     getStaticParam(&mBaseInitSpeedNSword_s, "BaseInitSpeedNSword");
