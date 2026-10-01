@@ -14,6 +14,14 @@ void GearRangeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GearRangeSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool GearRangeSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
 void GearRangeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }

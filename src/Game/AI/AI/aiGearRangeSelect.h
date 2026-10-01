@@ -9,6 +9,8 @@ class GearRangeSelect : public ksys::act::ai::Ai {
 public:
     explicit GearRangeSelect(const InitArg& arg);
     ~GearRangeSelect() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
