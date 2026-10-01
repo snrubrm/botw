@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGetItemNormal.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,9 @@ bool GetItemNormal::init_(sead::Heap* heap) {
 }
 
 void GetItemNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::enableAttClient(mActor, "NoticeDo");
+    changeChild("待機");
+    _38 = true;
 }
 
 void GetItemNormal::leave_() {

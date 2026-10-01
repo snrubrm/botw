@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGetItemBrightBow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,12 @@ void GetItemBrightBow::leave_() {
 void GetItemBrightBow::loadParams_() {
     GetItemNormal::loadParams_();
     getStaticParam(&mGetRadius_s, "GetRadius");
+}
+
+bool GetItemBrightBow::m34() {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    return (pos - getPlayerPosition()).squaredLength() < sead::Mathf::square(*mGetRadius_s);
 }
 
 }  // namespace uking::ai

@@ -15,7 +15,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+    virtual bool m35() { return false; }
+
 protected:
+    bool _38 = true;
 };
 
 }  // namespace uking::ai

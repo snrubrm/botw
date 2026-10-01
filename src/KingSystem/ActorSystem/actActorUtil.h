@@ -134,6 +134,10 @@ bool isHorseProfile(Actor* actor);
 bool isHorseProfile(BaseProcLink* link);
 
 bool isAttClientEnabled(Actor* actor, const sead::SafeString& client);
+bool enableAttClient(Actor* actor, const sead::SafeString& client);
+bool disableAttClient(Actor* actor, const sead::SafeString& client);
+void enableAllAttClients(Actor* actor);
+void disableAllAttClients(Actor* actor);
 bool isGrabAttClientEnabled(void* x, BaseProcLink* link);
 
 bool isStalfosParts(BaseProcLink* link);

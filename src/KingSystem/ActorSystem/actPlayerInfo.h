@@ -119,3 +119,6 @@ private:
 KSYS_CHECK_SIZE_NX150(PlayerInfo, 0x3B0);
 
 }  // namespace ksys::act
+
+// 0x710072b82c (CSV name; namespace unknown)
+const sead::Vector3f& getPlayerPosition();
