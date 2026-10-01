@@ -10,6 +10,8 @@ void BowArrowShoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void BowArrowShoot::calc_() {
     BindAction::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
