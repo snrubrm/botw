@@ -31,4 +31,8 @@ void LinearFlyAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int LinearFlyAttackBase::m32() {
+    return 8192;
+}
+
 }  // namespace uking::action
