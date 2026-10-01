@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSeqFirstPointTwo.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,31 @@ bool SeqFirstPointTwo::init_(sead::Heap* heap) {
 }
 
 void SeqFirstPointTwo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_48, "TargetPos", -1);
+    changeChild("先行動", &pack);
+}
+
+void SeqFirstPointTwo::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (child->isFailed() && *mIsFinishedByFailAction_s) {
+        setFailed();
+        return;
+    }
+
+    if (isCurrentChild("先行動")) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_48, "TargetPos", -1);
+        changeChild("後行動", &pack);
+    } else if (child->isFinished()) {
+        setFinished();
+    } else {
+        setFailed();
+    }
 }
 
 void SeqFirstPointTwo::leave_() {
