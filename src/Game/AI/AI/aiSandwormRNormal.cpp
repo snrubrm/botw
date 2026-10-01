@@ -14,6 +14,10 @@ void SandwormRNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     SandwormNormal::enter_(params);
 }
 
+void SandwormRNormal::calc_() {
+    SandwormNormal::calc_();
+}
+
 void SandwormRNormal::leave_() {
     SandwormNormal::leave_();
 }
