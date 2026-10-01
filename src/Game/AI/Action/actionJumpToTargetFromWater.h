@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
+    void m33() override;
+    void m34() override;
 
     // static_param at offset 0xa0
     const float* mFloatCycleTime_s{};

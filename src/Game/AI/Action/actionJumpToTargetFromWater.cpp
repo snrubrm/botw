@@ -32,4 +32,16 @@ void JumpToTargetFromWater::calc_() {
     JumpTo::calc_();
 }
 
+void JumpToTargetFromWater::m32() {
+    playAS(mPreJumpAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void JumpToTargetFromWater::m33() {
+    playAS(mJumpAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void JumpToTargetFromWater::m34() {
+    playAS(mLandAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
