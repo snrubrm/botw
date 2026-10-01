@@ -14,9 +14,7 @@ void LookAtObjectBase::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void LookAtObjectBase::leave_() {
-    PlayerAction::leave_();
-}
+void LookAtObjectBase::leave_() {}
 
 void LookAtObjectBase::loadParams_() {
     getDynamicParam(&mObjectId_d, "ObjectId");
@@ -29,8 +27,6 @@ void LookAtObjectBase::loadParams_() {
     getDynamicParam(&mTurnPosition_d, "TurnPosition");
 }
 
-void LookAtObjectBase::calc_() {
-    PlayerAction::calc_();
-}
+void LookAtObjectBase::calc_() {}
 
 }  // namespace uking::action

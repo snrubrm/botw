@@ -18136,8 +18136,8 @@ Address,Quality,Size,Name
 0x000000710029e854,O,000052,_ZN5uking6action16LookAtObjectBaseD0Ev
 0x000000710029e888,O,000008,_ZN5uking6action16LookAtObjectBase5init_EPN4sead4HeapE
 0x000000710029e890,O,000004,_ZN5uking6action16LookAtObjectBase6enter_EPN4ksys3act2ai15InlineParamPackE
-0x000000710029e894,W,000004,_ZN5uking6action16LookAtObjectBase5calc_Ev
-0x000000710029e898,W,000004,_ZN5uking6action16LookAtObjectBase6leave_Ev
+0x000000710029e894,O,000004,_ZN5uking6action16LookAtObjectBase5calc_Ev
+0x000000710029e898,O,000004,_ZN5uking6action16LookAtObjectBase6leave_Ev
 0x000000710029e89c,U,000124,uking::action::LookAtObjectBase::m33
 0x000000710029e918,U,001060,uking::action::LookAtObjectBase::m34
 0x000000710029ed3c,U,000200,uking::action::LookAtObjectBase::m35
