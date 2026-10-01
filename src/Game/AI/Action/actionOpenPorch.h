@@ -20,6 +20,7 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mRockCategory_d{};
+    u16 _28 = 0;
 };
 
 }  // namespace uking::action
