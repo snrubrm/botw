@@ -22,6 +22,7 @@ protected:
     const int* mAttackIntensity_s{};
     // static_param at offset 0x28
     const bool* mIsAttackOnce_s{};
+    bool _30 = false;
 };
 
 }  // namespace uking::action
