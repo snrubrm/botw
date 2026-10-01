@@ -12,6 +12,9 @@ bool LookAtTarget::init_(sead::Heap* heap) {
 
 void LookAtTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
+    if (!mASKeyName_s.isEmpty())
+        playAS(mASKeyName_s.cstr(), true, 0, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void LookAtTarget::leave_() {
