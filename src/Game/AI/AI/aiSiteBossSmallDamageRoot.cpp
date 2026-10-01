@@ -14,6 +14,14 @@ void SiteBossSmallDamageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void SiteBossSmallDamageRoot::calc_() {}
+
+bool SiteBossSmallDamageRoot::isFinished() const {
+    if (getCurrentChild() && getCurrentChild()->isFinished())
+        return true;
+    return mFlags.isOn(Flag::Finished);
+}
+
 void SiteBossSmallDamageRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
