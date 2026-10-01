@@ -19,7 +19,7 @@ bool DrawnWeaponSelector::init_(sead::Heap* heap) {
 }
 
 void DrawnWeaponSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100373988(params);
 }
 
 void DrawnWeaponSelector::leave_() {
