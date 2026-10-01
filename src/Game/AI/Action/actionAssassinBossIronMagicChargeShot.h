@@ -26,6 +26,11 @@ protected:
     const float* mLevel2AttackLifeRatio_s{};
     // static_param at offset 0x38
     sead::SafeString mIronBallPartsName_s{};
+    int _48 = 0;
+    void* _50{};
+    int _58 = 0;
+    void* _60{};
+    int _68 = 0;
 };
 
 }  // namespace uking::action
