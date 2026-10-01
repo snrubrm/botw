@@ -18,4 +18,8 @@ void PlayerLadderUpStart::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLadderUpStart::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
