@@ -15,6 +15,10 @@ void PriestBossActorGiantFouthRoot::enter_(ksys::act::ai::InlineParamPack* param
     PriestBossActorGiantRoot::enter_(params);
 }
 
+void PriestBossActorGiantFouthRoot::calc_() {
+    PriestBossActorGiantRoot::calc_();
+}
+
 void PriestBossActorGiantFouthRoot::leave_() {
     PriestBossActorGiantRoot::leave_();
 }
