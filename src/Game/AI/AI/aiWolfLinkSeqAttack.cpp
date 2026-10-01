@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkSeqAttack.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,8 @@ WolfLinkSeqAttack::WolfLinkSeqAttack(const InitArg& arg) : ksys::act::ai::Ai(arg
 WolfLinkSeqAttack::~WolfLinkSeqAttack() = default;
 
 bool WolfLinkSeqAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _60 = sead::DynamicCast<act::WolfLink>(mActor);
+    return _60 != nullptr;
 }
 
 void WolfLinkSeqAttack::enter_(ksys::act::ai::InlineParamPack* params) {

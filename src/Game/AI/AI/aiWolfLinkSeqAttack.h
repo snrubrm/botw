@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkSeqAttack : public ksys::act::ai::Ai {
@@ -26,6 +30,10 @@ protected:
     const bool* mPlayOnMissAI_s{};
     // static_param at offset 0x58
     const bool* mChargeChainAttackOnHit_s{};
+    act::WolfLink* _60{};
+    bool _68 = false;
+    bool _69 = false;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkSeqAttack, 0x70);
 
 }  // namespace uking::ai
