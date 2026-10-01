@@ -16,4 +16,8 @@ void PlayerStainCarryWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerStainCarryWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
