@@ -19,4 +19,8 @@ void PlayerWallJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWallJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
