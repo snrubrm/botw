@@ -14,6 +14,14 @@ void DgnObj_DLC_SliderBlock::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool DgnObj_DLC_SliderBlock::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
+bool DgnObj_DLC_SliderBlock::updateForPreDelete() {
+    return true;
+}
+
 void DgnObj_DLC_SliderBlock::leave_() {
     ksys::act::ai::Ai::leave_();
 }

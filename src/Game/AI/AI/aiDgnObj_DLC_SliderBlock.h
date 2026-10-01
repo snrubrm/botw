@@ -10,6 +10,10 @@ public:
     explicit DgnObj_DLC_SliderBlock(const InitArg& arg);
     ~DgnObj_DLC_SliderBlock() override;
 
+    bool updateForPreDelete() override;
+
+    bool hasUpdateForPreDeleteCb() override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
