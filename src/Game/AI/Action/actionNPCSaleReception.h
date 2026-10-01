@@ -19,6 +19,8 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::SafeString mTableName_d{};
+    bool _30 = false;
+    int _34 = 0;
 };
 
 }  // namespace uking::action
