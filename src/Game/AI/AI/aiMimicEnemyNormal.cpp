@@ -10,6 +10,10 @@ void MimicEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
 }
 
+bool MimicEnemyNormal::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void MimicEnemyNormal::leave_() {
     EnemyNormal::leave_();
 }
