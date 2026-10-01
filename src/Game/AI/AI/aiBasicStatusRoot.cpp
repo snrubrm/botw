@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBasicStatusRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -9,7 +11,25 @@ bool BasicStatusRoot::init_(sead::Heap* heap) {
 }
 
 void BasicStatusRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->checkFreezeSignal())
+        changeChild("凍結");
+    else if (mActor->getRootAi()->getI() == 3)
+        changeChild("持ち運びボックス内");
+    else
+        changeChild("通常");
+}
+
+void BasicStatusRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (mActor->checkFreezeSignal()) {
+        if (!isCurrentChild("凍結"))
+            changeChild("凍結");
+    } else if (isCurrentChild("持ち運びボックス内")) {
+        if (child->isFinished() || child->isFailed())
+            changeChild("通常");
+    } else if (!isCurrentChild("通常")) {
+        changeChild("通常");
+    }
 }
 
 void BasicStatusRoot::leave_() {
