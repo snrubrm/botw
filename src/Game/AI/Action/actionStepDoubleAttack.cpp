@@ -33,4 +33,8 @@ bool StepDoubleAttack::isChangeable() const {
     return false;
 }
 
+int StepDoubleAttack::m32() {
+    return 1;
+}
+
 }  // namespace uking::action
