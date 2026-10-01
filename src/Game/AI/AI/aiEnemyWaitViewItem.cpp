@@ -6,6 +6,18 @@ EnemyWaitViewItem::EnemyWaitViewItem(const InitArg& arg) : ksys::act::ai::Ai(arg
 
 EnemyWaitViewItem::~EnemyWaitViewItem() = default;
 
+bool EnemyWaitViewItem::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyWaitViewItem::isFinished() const {
+    return ksys::act::ai::Ai::isFinished();
+}
+
+bool EnemyWaitViewItem::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 bool EnemyWaitViewItem::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
