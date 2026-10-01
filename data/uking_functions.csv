@@ -80861,7 +80861,7 @@ Address,Quality,Size,Name
 0x0000007100ee3cfc,U,000020,_ZN4ksys3act19enableAllAttClientsEPNS0_5ActorE
 0x0000007100ee3d10,U,000020,_ZN4ksys3act20disableAllAttClientsEPNS0_5ActorE
 0x0000007100ee3d24,U,000120,act::attentionStuff
-0x0000007100ee3d9c,U,000120,act::attentionStuff_0
+0x0000007100ee3d9c,U,000120,_ZN4ksys3act16attentionStuff_0EPNS0_5ActorE
 0x0000007100ee3e14,U,000024,act::getAttClientByName
 0x0000007100ee3e2c,U,000024,
 0x0000007100ee3e44,U,000196,Actor::x_6
