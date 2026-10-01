@@ -12,6 +12,9 @@ public:
     ~CameraEventAnimBase() override;
 
 protected:
+    virtual void m47();
+    virtual void m48();
+    virtual float m49();
 };
 
 }  // namespace uking::action
