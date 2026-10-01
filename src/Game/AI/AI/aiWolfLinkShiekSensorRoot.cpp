@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkShiekSensorRoot.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,8 @@ bool WolfLinkShiekSensorRoot::init_(sead::Heap* heap) {
 }
 
 void WolfLinkShiekSensorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ui::showRuntimeTip(14);
+    changeChild("誘導", params);
 }
 
 void WolfLinkShiekSensorRoot::leave_() {
@@ -19,7 +21,8 @@ void WolfLinkShiekSensorRoot::leave_() {
 }
 
 void WolfLinkShiekSensorRoot::loadParams_() {
-    getStaticParam(&mDistanceUntilUpdateTarget_s, "DistanceUntilUpdateTarget");
+    if (getStaticParam(&mDistanceUntilUpdateTarget_s, "DistanceUntilUpdateTarget"))
+        _48 = *mDistanceUntilUpdateTarget_s * *mDistanceUntilUpdateTarget_s;
     getDynamicParam(&mUpdateTarget_d, "UpdateTarget");
 }
 

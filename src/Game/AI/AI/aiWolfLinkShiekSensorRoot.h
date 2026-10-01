@@ -20,6 +20,8 @@ protected:
     const float* mDistanceUntilUpdateTarget_s{};
     // dynamic_param at offset 0x40
     bool* mUpdateTarget_d{};
+    f32 _48 = -1.0f;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkShiekSensorRoot, 0x50);
 
 }  // namespace uking::ai

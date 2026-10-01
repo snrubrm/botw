@@ -44,6 +44,7 @@ void setShowCheckPoint(s32 icon_type, const sead::SafeString& counter_name);
 void setShowFlyDistance(const sead::SafeString& distance);
 void setShowGolfCount(const sead::SafeString& counter_name);
 void setShowRaceResult(s32 result_type);
+void showRuntimeTip(s32 type);
 
 void minigameScreenMove();
 
