@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAddLinearImpulse.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,11 @@ bool ForkAddLinearImpulse::init_(sead::Heap* heap) {
 }
 
 void ForkAddLinearImpulse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        sead::Vector3f impulse = *mDirection_s * *mPower_s;
+        body->applyLinearImpulse(impulse);
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAddLinearImpulse::leave_() {
