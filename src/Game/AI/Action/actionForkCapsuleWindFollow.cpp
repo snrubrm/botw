@@ -29,4 +29,8 @@ void ForkCapsuleWindFollow::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool ForkCapsuleWindFollow::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
