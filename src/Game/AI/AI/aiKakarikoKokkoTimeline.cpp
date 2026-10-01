@@ -14,6 +14,11 @@ void KakarikoKokkoTimeline::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalTimelineAI::enter_(params);
 }
 
+void KakarikoKokkoTimeline::calc_() {
+    sub_7100450D14();
+    AnimalTimelineAI::calc_();
+}
+
 void KakarikoKokkoTimeline::leave_() {
     AnimalTimelineAI::leave_();
 }
