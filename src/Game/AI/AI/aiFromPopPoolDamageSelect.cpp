@@ -6,6 +6,14 @@ FromPopPoolDamageSelect::FromPopPoolDamageSelect(const InitArg& arg) : ksys::act
 
 FromPopPoolDamageSelect::~FromPopPoolDamageSelect() = default;
 
+bool FromPopPoolDamageSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool FromPopPoolDamageSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool FromPopPoolDamageSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
@@ -13,6 +21,8 @@ bool FromPopPoolDamageSelect::init_(sead::Heap* heap) {
 void FromPopPoolDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
+
+void FromPopPoolDamageSelect::calc_() {}
 
 void FromPopPoolDamageSelect::leave_() {
     ksys::act::ai::Ai::leave_();
