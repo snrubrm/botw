@@ -14,6 +14,12 @@ void DeadlyBlowWeaponRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     WeaponRootAI::enter_(params);
 }
 
+void DeadlyBlowWeaponRoot::calc_() {
+    WeaponRootAI::calc_();
+    sub_710035C57C();
+    sub_710035CE18();
+}
+
 void DeadlyBlowWeaponRoot::leave_() {
     WeaponRootAI::leave_();
 }
