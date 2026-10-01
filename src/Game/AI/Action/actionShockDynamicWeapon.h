@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33() override;
 
     // dynamic_param at offset 0x78
     ksys::act::BaseProcLink* mDropWeapon_d{};

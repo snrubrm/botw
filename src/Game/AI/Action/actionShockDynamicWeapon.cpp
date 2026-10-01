@@ -24,4 +24,6 @@ void ShockDynamicWeapon::calc_() {
     Shock::calc_();
 }
 
+void ShockDynamicWeapon::m33() {}
+
 }  // namespace uking::action
