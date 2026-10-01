@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
@@ -35,6 +36,23 @@ public:
     void sub_7100F62CA8(bool clear);
 
     void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
+
+    // Unnamed accessors/setters (placeholder names; signatures from their bodies and callers)
+    void sub_7100F5E7F0(float value);
+    void sub_7100F5EDBC(const sead::Vector3f& value);
+    void sub_7100F5EDD8(float value);
+    void sub_7100F5EDE0(float value);
+    void sub_7100F5EDE8(const sead::Vector3f& value);
+    void sub_7100F5EEB8(float value);
+    float sub_7100F5EF00() const;
+    void sub_7100F5EF08(bool on);
+    bool sub_7100F5F234(sead::Vector3f* out) const;
+    void sub_7100F5F598(sead::Vector3f* velocity) const;
+    void sub_7100F5F6E0(sead::Vector3f* position) const;
+    void sub_7100F5F6FC(const sead::Vector3f& velocity);
+    void sub_7100F5FB24(const sead::Vector3f& angular_velocity);
+    RigidBody* sub_7100F61A34() const;
+    void sub_7100F62B70(float value);
 
     RigidBody* mRigidBody;
     u8 _10[0x118 - 0x10];
