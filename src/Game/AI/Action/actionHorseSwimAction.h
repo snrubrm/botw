@@ -31,6 +31,9 @@ protected:
     const float* mResolvePenetrationRadiusScale_s{};
     // static_param at offset 0x48
     const float* mResolvePenetrationSearchRadius_s{};
+    int _50 = 0;
+    void* _58{};
+    bool _60 = false;
 };
 
 }  // namespace uking::action
