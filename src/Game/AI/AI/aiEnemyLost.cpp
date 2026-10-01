@@ -14,6 +14,18 @@ void EnemyLost::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyLost::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyLost::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
+bool EnemyLost::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyLost::leave_() {
     ksys::act::ai::Ai::leave_();
 }
