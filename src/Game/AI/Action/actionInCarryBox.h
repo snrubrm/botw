@@ -21,6 +21,7 @@ protected:
 
     // aitree_variable at offset 0x20
     bool* mIsInitFromCarryBox_a{};
+    void* _28{};
 };
 
 }  // namespace uking::action
