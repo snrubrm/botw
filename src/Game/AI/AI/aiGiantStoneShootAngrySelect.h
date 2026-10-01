@@ -25,6 +25,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcHandle** mIgniteHandle_d{};
+    bool _50{};
 };
 
 }  // namespace uking::ai
