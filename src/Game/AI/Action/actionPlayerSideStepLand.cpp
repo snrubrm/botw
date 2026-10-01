@@ -16,4 +16,8 @@ void PlayerSideStepLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSideStepLand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
