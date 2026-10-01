@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkHopInAir.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -12,6 +14,10 @@ bool ForkHopInAir::init_(sead::Heap* heap) {
 
 void ForkHopInAir::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    if (auto* cc = mActor->getCharacterController()) {
+        cc->sub_7100F5EF08(true);
+        cc->sub_7100F62B70(*mHopHeight_s);
+    }
 }
 
 void ForkHopInAir::leave_() {
