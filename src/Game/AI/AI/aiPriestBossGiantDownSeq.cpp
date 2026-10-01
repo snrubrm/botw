@@ -29,4 +29,19 @@ void PriestBossGiantDownSeq::loadParams_() {
     getAITreeVariable(&mDestinationPos_a, "DestinationPos");
 }
 
+
+
+bool PriestBossGiantDownSeq::handleMessage_(const ksys::Message& message) {
+    if (!_b0._30 && _b0.m2(message))
+        return true;
+    return false;
+}
+
+bool PriestBossGiantDownSeq::handleAck_(const ksys::MessageAck& ack) {
+    if (!_80.sub_710070E070(ack))
+        return false;
+    _105 = true;
+    return true;
+}
+
 }  // namespace uking::ai

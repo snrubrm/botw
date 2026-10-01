@@ -499,7 +499,7 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
     return true;
 }
 
-// NON_MATCHING: the original copies the vector as x then w (a 12-byte memcpy)
+// NON_MATCHING: the original copies _0.._8 as one 12-byte block (ldr x + ldr w)
 bool Unk_71024509a8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000d7)
         return false;
@@ -507,7 +507,9 @@ bool Unk_71024509a8::m2(const ksys::Message& message) {
     auto* payload = static_cast<Unk_71023dbd40_Payload*>(message.getUserData());
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
-        _34._0.set(payload->_0);
+        _34._0 = payload->_0;
+        _34._4 = payload->_4;
+        _34._8 = payload->_8;
         _34._c = payload->_c;
     }
     _30 = true;

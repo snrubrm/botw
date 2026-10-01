@@ -113,3 +113,12 @@ public:
 
     Unk_71023b1608_Payload _18;
 };
+
+// vtable 0x71023dbd40 (PriestBossGiantDownSeq); message 0x80000d7
+class Unk_71023dbd40 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023dbd40_Payload _18;
+};
