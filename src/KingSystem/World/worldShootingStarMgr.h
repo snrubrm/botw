@@ -16,7 +16,7 @@ public:
 
     void init_(sead::Heap* heap) override;
     void calc_() override;
-    virtual void reset();
+    virtual void spawnStar();
 
     static void setScheduled(bool enable);
     void initSchedule();
@@ -25,7 +25,6 @@ public:
     bool tryGetStarPosition(sead::Vector3f* out) const;
     static void setStarPosition(f32 x, f32 y, f32 z);
     static void spawnShootingStar();
-    void spawnStar();
 
     static bool checkCamera();
     bool isStarPositionValid();

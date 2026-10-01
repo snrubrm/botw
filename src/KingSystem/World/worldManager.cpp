@@ -654,7 +654,7 @@ void Manager::onStageInit(StageType stage_type, bool is_demo, bool is_main_field
     getTempMgr()->reset();
     getWeatherMgr()->reset();
     getEnvMgr()->reset();
-    getShootingStarMgr()->reset();
+    getShootingStarMgr()->spawnStar();
     getDofMgr()->reset();
 
     _7ac = 0;
