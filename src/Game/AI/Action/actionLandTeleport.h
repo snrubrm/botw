@@ -2,6 +2,8 @@
 
 #include "Game/AI/Action/actionTeleportBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
+#include <limits>
 
 namespace uking::action {
 
@@ -29,6 +31,12 @@ protected:
     const float* mSearchClosestPointRadius_s{};
     // static_param at offset 0x90
     const bool* mIsNormalizeAxisY_s{};
+    sead::Vector3f _98 = sead::Vector3f::zero;
+    sead::Vector3f _a4 = sead::Vector3f::zero;
+    sead::Vector3f _b0{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                      std::numeric_limits<f32>::quiet_NaN()};
 };
+
+KSYS_CHECK_SIZE_NX150(LandTeleport, 0xc0);
 
 }  // namespace uking::action
