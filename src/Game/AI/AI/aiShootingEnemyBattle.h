@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -25,6 +26,9 @@ protected:
     const float* mOutScrnAtkOffset_s{};
     // static_param at offset 0xa8
     const float* mOutScrnAtkOffsetY_s{};
+    int _b0{};
+    bool _b4{};
+    sead::Vector3f _b8;
 };
 
 }  // namespace uking::ai

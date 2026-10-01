@@ -12,6 +12,8 @@ bool ShootingEnemyBattle::init_(sead::Heap* heap) {
 
 void ShootingEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
+    _b4 = false;
+    _b0 = 0;
 }
 
 void ShootingEnemyBattle::leave_() {
