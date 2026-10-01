@@ -22,6 +22,12 @@ protected:
     const float* mWarpWaitTime_s{};
     // static_param at offset 0x28
     const bool* mIsUseYAxisSignal_s{};
+    void* _30{};
+    int _38 = 0;
+    u8 _3c[0x40 - 0x3c];
+    int _40 = 0;
+    int _44 = 0;
+    int _48 = 0;
 };
 
 }  // namespace uking::action
