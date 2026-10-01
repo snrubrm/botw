@@ -14,12 +14,20 @@ void FlyingEnemyBackKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingEnemyKeepMove::enter_(params);
 }
 
+void FlyingEnemyBackKeepMove::calc_() {
+    FlyingEnemyKeepMove::calc_();
+}
+
 void FlyingEnemyBackKeepMove::leave_() {
     FlyingEnemyKeepMove::leave_();
 }
 
 void FlyingEnemyBackKeepMove::loadParams_() {
     FlyingEnemyKeepMove::loadParams_();
+}
+
+void FlyingEnemyBackKeepMove::m34(sead::Vector3f* out) {
+    *out = -sead::Vector3f::ez;
 }
 
 }  // namespace uking::ai
