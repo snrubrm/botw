@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventWaitFrameAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool EventWaitFrameAction::init_(sead::Heap* heap) {
 }
 
 void EventWaitFrameAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = *mFrame_d;
 }
 
 void EventWaitFrameAction::leave_() {
@@ -23,7 +24,13 @@ void EventWaitFrameAction::loadParams_() {
 }
 
 void EventWaitFrameAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    ksys::Timer::update(&_28, -1.0f);
+    if (_28 <= 0.0f) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action
