@@ -14,6 +14,10 @@ void EquipHaveSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EquipHaveSelector::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EquipHaveSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }
