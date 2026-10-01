@@ -14,6 +14,13 @@ void NewMannequinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void NewMannequinRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return;
+    child->isChangeable();
+}
+
 void NewMannequinRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
