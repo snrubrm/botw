@@ -14,14 +14,10 @@ void PlayerEquipHaveMasterSword::enter_(ksys::act::ai::InlineParamPack* params) 
     PlayerAction::enter_(params);
 }
 
-void PlayerEquipHaveMasterSword::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerEquipHaveMasterSword::leave_() {}
 
 void PlayerEquipHaveMasterSword::loadParams_() {}
 
-void PlayerEquipHaveMasterSword::calc_() {
-    PlayerAction::calc_();
-}
+void PlayerEquipHaveMasterSword::calc_() {}
 
 }  // namespace uking::action
