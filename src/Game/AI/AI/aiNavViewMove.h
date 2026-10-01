@@ -10,6 +10,9 @@ public:
     explicit NavViewMove(const InitArg& arg);
     ~NavViewMove() override;
 
+    bool isFinished() const override { return getCurrentChild()->isFinished(); }
+    bool isFailed() const override { return getCurrentChild()->isFailed(); }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
