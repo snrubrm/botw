@@ -15,6 +15,10 @@ void PriestBossShadowCloneEnemyRoot::enter_(ksys::act::ai::InlineParamPack* para
     PriestBossActorEnemyRoot::enter_(params);
 }
 
+void PriestBossShadowCloneEnemyRoot::calc_() {
+    PriestBossActorEnemyRoot::calc_();
+}
+
 void PriestBossShadowCloneEnemyRoot::leave_() {
     PriestBossActorEnemyRoot::leave_();
 }
