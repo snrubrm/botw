@@ -12,4 +12,8 @@ bool SmallDamage::isFinished() const {
     return isFinishedAS(0, 0);
 }
 
+void SmallDamage::m38() {
+    playAS("SmallDamage", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

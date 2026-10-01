@@ -13,6 +13,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
+    virtual void m38();
+
     bool isFinished() const override;
 };
 
