@@ -42,7 +42,7 @@ public:
     /* 22 */ virtual bool m202() = 0;
     /* 23 */ virtual bool m199() = 0;
     /* 24 */ virtual bool m184() = 0;
-    /* 25 */ virtual void m179() = 0;
+    /* 25 */ virtual bool m179() = 0;
     /* 26 */ virtual bool m188() = 0;
     /* 27 */ virtual bool m194() = 0;
     /* 28 */ virtual bool m196() = 0;

@@ -1,13 +1,18 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::act {
 
-class ActorConstDataAccess;
+namespace acc {
+class PlayerBase;
+}
 
 // TODO: incomplete. The vtable has 360 slots (177-359 are new); PlayerLink is at 0xc38.
 // Size 0x17f0 (Player's first member).
@@ -23,13 +28,14 @@ public:
 
     // FIXME: name for x
     void setExtraLife(s32 extra_life, f32 x);
+    void addExtraStamina(f32 x, f32 y);
 
     bool m140() override { return _cf0.isOnBit(25) || m180(); }
 
     // FIXME: figure out return types, parameters and names
     /* 177 */ bool isRidingHorse() override;
     /* 178 */ bool m178() override { return _c40.isOnBit(1); }
-    /* 179 */ void m179() override;
+    /* 179 */ bool m179() override;
     /* 180 */ virtual bool m180() { return false; }
     /* 181 */ virtual bool m181() { return false; }
     /* 182 */ virtual bool m182() { return false; }
@@ -94,18 +100,18 @@ public:
     /* 241 */ virtual bool m241() { return true; }
     /* 242 */ virtual bool m242() { return false; }
     /* 243 */ virtual bool m243() { return false; }
-    /* 244 */ virtual const sead::Vector3f& m244() { return sead::Vector3f::zero; }
-    /* 245 */ virtual const sead::Vector3f& m245() { return sead::Vector3f::zero; }
-    /* 246 */ virtual const sead::Vector3f& getPosCopyMagnesis() { return sead::Vector3f::zero; }
-    /* 247 */ virtual const sead::Vector3f& m247() { return sead::Vector3f::zero; }
+    /* 244 */ virtual const sead::Vector3f* m244() { return &sead::Vector3f::zero; }
+    /* 245 */ virtual const sead::Vector3f* m245() { return &sead::Vector3f::zero; }
+    /* 246 */ virtual const sead::Vector3f* getPosCopyMagnesis() { return &sead::Vector3f::zero; }
+    /* 247 */ virtual const sead::Vector3f* m247() { return &sead::Vector3f::zero; }
     /* 248 */ virtual f32 m248() { return 0.0f; }
     /* 249 */ virtual bool m249() { return false; }
-    /* 250 */ virtual const sead::Vector3f& m250() { return sead::Vector3f::zero; }
-    /* 251 */ virtual const sead::Vector3f& m251() { return sead::Vector3f::zero; }
-    /* 252 */ virtual const sead::Vector3f& m252() { return sead::Vector3f::zero; }
-    /* 253 */ virtual const sead::Vector3f& m253() { return sead::Vector3f::zero; }
+    /* 250 */ virtual const sead::Vector3f* m250() { return &sead::Vector3f::zero; }
+    /* 251 */ virtual const sead::Vector3f* m251() { return &sead::Vector3f::zero; }
+    /* 252 */ virtual const sead::Vector3f* m252() { return &sead::Vector3f::zero; }
+    /* 253 */ virtual const sead::Vector3f* m253() { return &sead::Vector3f::zero; }
     /* 254 */ virtual bool m254() { return false; }
-    /* 255 */ virtual const sead::Vector3f& m255() { return sead::Vector3f::zero; }
+    /* 255 */ virtual const sead::Vector3f* m255() { return &sead::Vector3f::zero; }
     /* 256 */ virtual bool m256() { return false; }
     /* 257 */ virtual bool m257() { return false; }
     /* 258 */ virtual void m258();
@@ -115,7 +121,7 @@ public:
     /* 262 */ bool isGroundForEvent() override;
     /* 263 */ void getAttachedTargetActor2() override;
     /* 264 */ void getAttachedTargetActor() override;
-    /* 265 */ virtual const sead::Vector3f& m265() { return sead::Vector3f::zero; }
+    /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266();
     /* 267 */ virtual void m267();
     /* 268 */ virtual bool m268() { return false; }
@@ -148,7 +154,7 @@ public:
     /* 295 */ virtual bool m295() { return false; }
     /* 296 */ virtual bool m296() { return false; }
     /* 297 */ virtual s32 m297() { return 0; }
-    /* 298 */ virtual bool m298() { return false; }
+    /* 298 */ virtual bool m298(int) { return false; }
     /* 299 */ bool m299() override { return _c44.isOnBit(2); }
     /* 300 */ virtual f32 m300() { return 1.0f; }
     /* 301 */ virtual f32 m301() { return 1.0f; }
@@ -212,24 +218,204 @@ public:
     /* 359 */ virtual bool m359() { return false; }
 
 protected:
+    friend class acc::PlayerBase;
+
     /* 0xc40 */ sead::BitFlag32 _c40;
     /* 0xc44 */ sead::BitFlag32 _c44;
     /* 0xc48 */ sead::BitFlag32 _c48;
     /* 0xc4c */ sead::BitFlag32 _c4c;
     /* 0xc50 */ sead::BitFlag64 _c50;
-    /* 0xc58 */ u8 _c58[0xcec - 0xc58];
+    /* 0xc58 */ sead::CriticalSection _c58;
+    /* 0xc98 */ sead::BitFlag32 _c98;
+    /* 0xca0 */ sead::CriticalSection _ca0;
+    /* 0xce0 */ sead::BitFlag32 _ce0;
+    /* 0xce4 */ u8 _ce4[0xcec - 0xce4];
     /* 0xcec */ sead::BitFlag32 _cec;
     /* 0xcf0 */ sead::BitFlag32 _cf0;
     /* 0xcf4 */ sead::BitFlag32 _cf4;
     /* 0xcf8 */ sead::BitFlag32 _cf8;
-    /* 0xcfc */ u8 _cfc[0xd24 - 0xcfc];
+    /* 0xcfc */ sead::BitFlag32 _cfc;
+    /* 0xd00 */ u8 _d00[0xd11 - 0xd00];
+    /* 0xd11 */ u8 _d11;
+    /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
+    /* 0xd18 */ s32 _d18;
+    /* 0xd1c */ u8 _d1c[0xd24 - 0xd1c];
     /* 0xd24 */ s32 _d24;
-    /* 0xd28 */ u8 _d28[0xe58 - 0xd28];
+    /* 0xd28 */ u8 _d28[0xda0 - 0xd28];
+    /* 0xda0 */ sead::FixedSafeString<64> _da0;
+    /* 0xdf8 */ sead::FixedSafeString<64> _df8;
+    /* 0xe50 */ u8 _e50[0xe54 - 0xe50];
+    /* 0xe54 */ f32 _e54;
     /* 0xe58 */ f32 _e58;
-    /* 0xe5c */ u8 _e5c[0x1654 - 0xe5c];
+    /* 0xe5c */ u8 _e5c[0xe88 - 0xe5c];
+    /* 0xe88 */ BaseProcLink _e88;
+    /* 0xe98 */ BaseProcLink _e98;
+    /* 0xea8 */ BaseProcLink _ea8;
+    /* 0xeb8 */ u8 _eb8[0x1140 - 0xeb8];
+    /* 0x1140 */ sead::CriticalSection _1140;
+    /* 0x1180 */ u8 _1180[0x1198 - 0x1180];
+    /* 0x1198 */ s32 _1198;
+    /* 0x119c */ f32 _119c;
+    /* 0x11a0 */ f32 _11a0;
+    /* 0x11a4 */ f32 _11a4;
+    /* 0x11a8 */ u8 _11a8[0x1238 - 0x11a8];
+    /* 0x1238 */ sead::CriticalSection _1238;
+    /* 0x1278 */ bool _1278;
+    /* 0x1280 */ BaseProcLink _1280;
+    /* 0x1290 */ sead::FixedSafeString<32> _1290;
+    /* 0x12c8 */ u8 _12c8[0x1358 - 0x12c8];
+    /* 0x1358 */ sead::CriticalSection _1358;
+    /* 0x1398 */ bool _1398;
+    /* 0x1399 */ u8 _1399[0x1530 - 0x1399];
+    /* 0x1530 */ sead::CriticalSection _1530;
+    /* 0x1570 */ BaseProcLink _1570;
+    /* 0x1580 */ u8 _1580[0x1654 - 0x1580];
     /* 0x1654 */ f32 _1654;
-    /* 0x1658 */ u8 _1658[0x17f0 - 0x1658];
+    /* 0x1658 */ sead::CriticalSection _1658;
+    /* 0x1698 */ bool _1698;
+    /* 0x169c */ sead::Vector3f _169c;
+    /* 0x16a8 */ f32 _16a8;
+    /* 0x16ac */ u8 _16ac[0x1700 - 0x16ac];
+    /* 0x1700 */ sead::CriticalSection _1700;
+    /* 0x1740 */ sead::Matrix34f _1740;
+    /* 0x1770 */ u8 _1770[0x17a0 - 0x1770];
+    /* 0x17a0 */ sead::Vector3f _17a0;
+    /* 0x17ac */ u8 _17ac[0x17f0 - 0x17ac];
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
+
+namespace acc {
+
+// Read/write access to a PlayerBase through an ActorConstDataAccess (CSV: act::acc::PlayerBase).
+// TODO: incomplete
+class PlayerBase : public ActorConstDataAccess {
+public:
+    bool getPlayerFromPlayerInfo();
+
+    void x_0(BaseProc* proc) const;
+    void x_1(bool a, const sead::SafeString& name, BaseProc* proc) const;
+    void setExtraEnergy(f32 energy) const;
+    void setExtraLife(f32 life) const;
+    void setMtx(const sead::Matrix34f& mtx) const;
+    bool x_2() const;
+    bool getLastDamageAttacker(sead::BufferedSafeString* name) const;
+    bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;
+    bool isRidingThisSandSeal(BaseProc* proc) const;
+    bool getSandSealActor(ActorConstDataAccess* accessor) const;
+    bool reserveParashawlStart() const;
+    const sead::Vector3f& getPosCopyMagnesis() const;
+    const sead::Vector3f& getPosCopyMagnesis2() const;
+    void getMaskType(sead::BufferedSafeString* out) const;
+    void getArmorSeriesType(sead::BufferedSafeString* out) const;
+    void getEnemyTeam(sead::BufferedSafeString* out) const;
+    bool ArmorSeriesTypeStuff() const;
+    bool isEquipedDyedArmor() const;
+    bool getArmorDyeStuff() const;
+    bool m280() const;
+    bool x_14() const;
+    bool m328() const;
+    bool x_15() const;
+    bool x_16() const;
+    bool x_17() const;
+    bool x_18() const;
+    bool x_19() const;
+    bool isClimbingStep() const;
+    bool m212() const;
+    bool m190() const;
+    bool x_20() const;
+    bool x_22() const;
+    f32 getStopTimerReloadTime() const;
+    f32 getStopTimerBlowAngle() const;
+    f32 getStopTimerBlowSpeedLimit() const;
+    s32 getStopTimerImpulseMaxCountSmallSword() const;
+    s32 getStopTimerImpulseMaxCountLargeSword() const;
+    s32 getStopTimerImpulseMaxCountSpear() const;
+    f32 m232() const;
+    bool setPlayerStateToUnequipAndWait() const;
+    bool isNoStandSquat() const;
+    bool forbidComebackMaybe() const;
+    bool x_24() const;
+    bool isBgCrossFoot() const;
+    bool isBgCrossSlideFoot() const;
+    bool isGroundForEvent() const;
+    bool isHitRoof() const;
+    bool isShieldRideOnGround() const;
+    bool isNoShieldDamageFloor() const;
+    bool isOnRaft() const;
+    bool isOnIceMakerBlock() const;
+    BaseProcLink& getSpAttackTarget() const;
+    const sead::Vector3f& getLookAtPosForCamera() const;
+    bool isSlowStartInterval() const;
+    bool x_25() const;
+    bool x_26() const;
+    bool x_27() const;
+    bool x_28() const;
+    f32 m301() const;
+    bool m179() const;
+    bool m180() const;
+    bool m181() const;
+    bool x_29() const;
+    bool m182_213() const;
+    bool m194() const;
+    s32 m322() const;
+    s32 m321() const;
+    f32 getHitSlowRate() const;
+    bool x_30() const;
+    bool x_31() const;
+    bool x_32() const;
+    bool x_6() const;
+    bool isRidingSandSeal() const;
+    bool x_8() const;
+    s32 x_9() const;
+    bool x_10() const;
+    f32 m248() const;
+    bool m200() const;
+    bool m226() const;
+    bool x_11() const;
+    bool x_12() const;
+    bool x_13() const;
+    bool m205() const;
+    bool isRisingInAirMaybe() const;
+    bool m186() const;
+    bool groundedCheckStuff() const;
+    bool m188() const;
+    bool x_33() const;
+    bool m199() const;
+    bool x_34() const;
+    bool m178() const;
+    bool x_35() const;
+    bool m191() const;
+    bool x_36() const;
+    bool x_37() const;
+    bool m204() const;
+    bool m193() const;
+    bool x_7() const;
+    bool m224() const;
+    bool x_38() const;
+    bool m302() const;
+    bool x_39() const;
+    bool x_40() const;
+    s32 m297() const;
+    bool m298_271() const;
+    bool x_41() const;
+    bool m304() const;
+    f32 m305() const;
+    bool checkActionX() const;
+    bool m185() const;
+    bool checkActionX_0() const;
+    bool checkActionX_1() const;
+    bool x_42() const;
+    bool m187() const;
+    bool isRidingHorse() const;
+    Actor* x_43() const;
+    f32 m231() const;
+    f32 x_44() const;
+
+protected:
+    act::PlayerBase* getPlayerBase() const;
+};
+KSYS_CHECK_SIZE_NX150(PlayerBase, 0x18);
+
+}  // namespace acc
 
 }  // namespace ksys::act
