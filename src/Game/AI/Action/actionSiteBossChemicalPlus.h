@@ -27,6 +27,7 @@ protected:
     sead::SafeString mChemicalLoopASName_s{};
     // static_param at offset 0x50
     sead::SafeString mChmicalPlusASName_s{};
+    bool _60 = false;
 };
 
 }  // namespace uking::action
