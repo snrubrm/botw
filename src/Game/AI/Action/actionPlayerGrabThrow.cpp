@@ -24,4 +24,8 @@ void PlayerGrabThrow::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabThrow::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
