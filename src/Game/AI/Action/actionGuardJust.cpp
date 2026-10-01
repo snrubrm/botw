@@ -12,6 +12,7 @@ bool GuardJust::init_(sead::Heap* heap) {
 
 void GuardJust::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
+    playAS("GuardJust", false, 0, 0, -1.0f);
 }
 
 void GuardJust::leave_() {
