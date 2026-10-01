@@ -7,7 +7,7 @@ ThrownSpear::ThrownSpear(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 ThrownSpear::~ThrownSpear() = default;
 
 void ThrownSpear::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ThrownSpear::leave_() {
