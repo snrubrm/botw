@@ -14,6 +14,10 @@ void DemoRailMoveRemains::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMoveRemains::enter_(params);
 }
 
+void DemoRailMoveRemains::calc_() {
+    RailMoveRemains::calc_();
+}
+
 void DemoRailMoveRemains::leave_() {
     RailMoveRemains::leave_();
 }
