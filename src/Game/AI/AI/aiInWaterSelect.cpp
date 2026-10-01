@@ -19,7 +19,7 @@ bool InWaterSelect::init_(sead::Heap* heap) {
 }
 
 void InWaterSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710044DC94(params);
 }
 
 void InWaterSelect::leave_() {

@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710044DC94(ksys::act::ai::InlineParamPack* params);
+
 protected:
     // static_param at offset 0x38
     const float* mInWaterDepth_s{};
