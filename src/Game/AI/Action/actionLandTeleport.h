@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m40();
+    virtual int m41();
 
     // static_param at offset 0x78
     const float* mDistXZ_s{};

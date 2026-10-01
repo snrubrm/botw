@@ -12320,8 +12320,8 @@ Address,Quality,Size,Name
 0x00000071001cdd68,U,000512,uking::action::LandTeleport::m36
 0x00000071001cdf68,U,000064,
 0x00000071001cdfa8,U,000008,uking::action::LandTeleport::m33
-0x00000071001cdfb0,U,000180,uking::action::LandTeleport::m40
-0x00000071001ce064,U,000092,uking::action::LandTeleport::m41
+0x00000071001cdfb0,U,000180,_ZN5uking6action12LandTeleport3m40Ev
+0x00000071001ce064,U,000092,_ZN5uking6action12LandTeleport3m41Ev
 0x00000071001ce0c0,U,000272,uking::action::LandTeleport::m37
 0x00000071001ce1d0,U,000220,uking::action::LandTeleport::m39
 0x00000071001ce2ac,O,000008,_ZNK5uking6action12LandTeleport27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -13266,8 +13266,8 @@ Address,Quality,Size,Name
 0x00000071001f2180,O,000004,_ZN5uking6action19NearHomePosTeleport5calc_Ev
 0x00000071001f2184,O,000004,_ZN5uking6action19NearHomePosTeleport6leave_Ev
 0x00000071001f2188,O,000004,_ZN5uking6action19NearHomePosTeleport11loadParams_Ev
-0x00000071001f218c,U,000300,uking::action::NearHomePosTeleport::m40
-0x00000071001f22b8,U,000048,uking::action::NearHomePosTeleport::m41
+0x00000071001f218c,U,000300,_ZN5uking6action19NearHomePosTeleport3m40Ev
+0x00000071001f22b8,U,000048,_ZN5uking6action19NearHomePosTeleport3m41Ev
 0x00000071001f22e8,O,000132,_ZNK5uking6action19NearHomePosTeleport27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001f236c,O,000092,_ZNK5uking6action19NearHomePosTeleport18getRuntimeTypeInfoEv
 0x00000071001f23c8,U,000064,AI_ActionNeckSpin::ctor
