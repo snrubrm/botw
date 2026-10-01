@@ -14,6 +14,18 @@ void DistanceLostCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool DistanceLostCheck::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool DistanceLostCheck::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool DistanceLostCheck::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void DistanceLostCheck::leave_() {
     ksys::act::ai::Ai::leave_();
 }
