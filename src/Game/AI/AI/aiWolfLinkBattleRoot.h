@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkBattleRoot : public ksys::act::ai::Ai {
@@ -24,6 +28,12 @@ protected:
     const bool* mUseChainAttack_s{};
     // dynamic_param at offset 0x50
     float* mKeepTargetRange_d{};
+    f32 _58 = -1.0f;
+    f32 _5c = 0.0f;
+    act::WolfLink* _60{};
+    bool _68 = false;
+    bool _69 = false;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkBattleRoot, 0x70);
 
 }  // namespace uking::ai

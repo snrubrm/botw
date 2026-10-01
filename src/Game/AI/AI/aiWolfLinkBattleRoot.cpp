@@ -19,7 +19,8 @@ void WolfLinkBattleRoot::leave_() {
 }
 
 void WolfLinkBattleRoot::loadParams_() {
-    getStaticParam(&mAttackIntiationRange_s, "AttackIntiationRange");
+    if (getStaticParam(&mAttackIntiationRange_s, "AttackIntiationRange"))
+        _58 = *mAttackIntiationRange_s * *mAttackIntiationRange_s;
     getStaticParam(&mChanceToBarkOnAttackFail_s, "ChanceToBarkOnAttackFail");
     getStaticParam(&mUseChainAttack_s, "UseChainAttack");
     getDynamicParam(&mKeepTargetRange_d, "KeepTargetRange");
