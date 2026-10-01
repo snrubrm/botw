@@ -14,6 +14,14 @@ void IsPlacementAreaEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool IsPlacementAreaEnemy::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool IsPlacementAreaEnemy::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void IsPlacementAreaEnemy::leave_() {
     ksys::act::ai::Ai::leave_();
 }
