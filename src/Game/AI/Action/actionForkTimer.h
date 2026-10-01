@@ -14,6 +14,8 @@ public:
     void loadParams_() override;
 
 protected:
+    int m32() override;
+
     // static_param at offset 0x38
     const int* mWaitFrame_s{};
     // static_param at offset 0x40
