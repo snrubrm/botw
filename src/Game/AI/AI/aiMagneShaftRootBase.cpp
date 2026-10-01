@@ -14,6 +14,10 @@ void MagneShaftRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
     MagneStickRoot::enter_(params);
 }
 
+void MagneShaftRootBase::calc_() {
+    MagneStickRoot::calc_();
+}
+
 void MagneShaftRootBase::leave_() {
     MagneStickRoot::leave_();
 }

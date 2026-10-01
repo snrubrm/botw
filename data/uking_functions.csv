@@ -29278,7 +29278,7 @@ Address,Quality,Size,Name
 0x000000710049f1f0,O,000036,_ZN5uking2ai18MagneShaftRootBaseD0Ev
 0x000000710049f214,O,000004,_ZN5uking2ai18MagneShaftRootBase5init_EPN4sead4HeapE
 0x000000710049f218,O,000004,_ZN5uking2ai18MagneShaftRootBase6enter_EPN4ksys3act2ai15InlineParamPackE
-0x000000710049f21c,U,000004,_ZN5uking2ai18MagneShaftRootBase5calc_Ev
+0x000000710049f21c,O,000004,_ZN5uking2ai18MagneShaftRootBase5calc_Ev
 0x000000710049f220,O,000004,_ZN5uking2ai18MagneShaftRootBase6leave_Ev
 0x000000710049f224,U,000300,uking::ai::MagneShaftRootBase::m41
 0x000000710049f350,U,000012,uking::ai::MagneShaftRootBase::m42
