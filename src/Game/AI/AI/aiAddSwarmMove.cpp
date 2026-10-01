@@ -14,6 +14,10 @@ void AddSwarmMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AddSwarmMove::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void AddSwarmMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }

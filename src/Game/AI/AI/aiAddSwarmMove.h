@@ -9,6 +9,7 @@ class AddSwarmMove : public ksys::act::ai::Ai {
 public:
     explicit AddSwarmMove(const InitArg& arg);
     ~AddSwarmMove() override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
