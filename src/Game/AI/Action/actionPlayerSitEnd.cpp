@@ -16,4 +16,8 @@ void PlayerSitEnd::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSitEnd::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
