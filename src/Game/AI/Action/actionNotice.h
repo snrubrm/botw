@@ -11,6 +11,7 @@ public:
     explicit Notice(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    bool isChangeable() const override;
 
 protected:
 };

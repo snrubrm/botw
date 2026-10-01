@@ -9,4 +9,8 @@ void Notice::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("Notice", false, 0, 0, -1.0f);
 }
 
+bool Notice::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
