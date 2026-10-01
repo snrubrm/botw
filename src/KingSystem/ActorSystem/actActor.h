@@ -155,6 +155,20 @@ protected:
     bool startPreparingForPreDelete_() override;
     void onEnterDelete_() override;
     void afterUpdateState_() override;
+    // BaseProc virtuals that the original Actor vtable also overrides (CSV Actor::finalizeInit,
+    // onEnterCalc, preSleep, preWakeUp, onEnterSleep, preDelete3, isSpecialJobType, canWakeUp,
+    // shouldSkipJobPush_, prePushJob1, prePushJob2)
+    void finalizeInit_(InitContext* context) override;
+    void onEnterCalc_() override;
+    void onSleepRequested_(SleepWakeReason reason) override;
+    void onWakeUpRequested_(SleepWakeReason reason) override;
+    void onEnterSleep_() override;
+    void preDelete3_(const PreDeleteArg& arg) override;
+    IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
+    bool canWakeUp_() override;
+    bool shouldSkipJobPush_(JobType type) override;
+    void onJobPush1_(JobType type) override;
+    void onJobPush2_(JobType type) override;
 
 public:
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)

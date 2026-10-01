@@ -31,6 +31,8 @@ public:
     void setExtraLife(s32 extra_life, f32 x);
     void addExtraStamina(f32 x, f32 y);
 
+    // FIXME: takes a phys::RigidBody* (calls RigidBody::getPosition on it), like Actor::m92
+    void m92() override;
     bool m140() override { return _cf0.isOnBit(25) || m180(); }
 
     // FIXME: figure out return types, parameters and names

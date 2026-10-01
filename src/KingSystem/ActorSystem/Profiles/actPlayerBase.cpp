@@ -19,6 +19,8 @@ void PlayerBase::m266(const sead::SafeString& slot, int frames) {
     _c98.set(0x20);
 }
 
+void PlayerBase::getActorDirect() {}
+
 void PlayerBase::m308() {
     const auto lock = sead::makeScopedLock(_1478);
     _14b8 = true;

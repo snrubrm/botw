@@ -256,6 +256,8 @@ bool Actor::m39() {
     return false;
 }
 
+void Actor::m34() {}
+
 void Actor::m42() {}
 
 void Actor::m43(bool on) {}
@@ -288,6 +290,8 @@ void Actor::onFadeOutSleep() {}
 
 void Actor::m60() {}
 
+void Actor::m61() {}
+
 bool Actor::shouldUnload() {
     return shouldUnloadBecauseOfDistance();
 }
@@ -295,6 +299,8 @@ bool Actor::shouldUnload() {
 void Actor::m63() {}
 
 void Actor::initMaybe() {}
+
+void Actor::updateLodStuff() {}
 
 void Actor::m66() {}
 
@@ -309,6 +315,10 @@ void Actor::m72() {}
 void Actor::m73() {}
 
 void Actor::afterModelMatrixUpdate() {}
+
+void Actor::m76() {}
+
+void Actor::m77() {}
 
 void Actor::m79() {}
 
@@ -343,6 +353,12 @@ int Actor::getExtraHeapSize() {
 }
 
 void Actor::m103() {}
+
+void Actor::m114() {}
+
+void Actor::m117() {}
+
+void Actor::m147() {}
 
 bool Actor::m106() {
     return true;
