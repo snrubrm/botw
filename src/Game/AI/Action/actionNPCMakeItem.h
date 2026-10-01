@@ -22,6 +22,7 @@ protected:
     int* mShopType_d{};
     // dynamic_param at offset 0x28
     bool* mIncludePorch_d{};
+    u16 _30 = 0;
 };
 
 }  // namespace uking::action
