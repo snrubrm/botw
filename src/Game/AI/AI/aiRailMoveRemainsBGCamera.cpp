@@ -14,6 +14,10 @@ void RailMoveRemainsBGCamera::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMoveRemains::enter_(params);
 }
 
+void RailMoveRemainsBGCamera::calc_() {
+    RailMoveRemains::calc_();
+}
+
 void RailMoveRemainsBGCamera::leave_() {
     RailMoveRemains::leave_();
 }
