@@ -14,4 +14,8 @@ void PlayerGrabWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
