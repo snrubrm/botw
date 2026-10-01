@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDragonItemInCarryBox.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +27,14 @@ void DragonItemInCarryBox::loadParams_() {
 
 void DragonItemInCarryBox::calc_() {
     InCarryBox::calc_();
+    mActor->get689() = true;
+}
+
+bool DragonItemInCarryBox::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value != 0x3000009)
+        return false;
+    *mIsInsideObserverArea_a = true;
+    return true;
 }
 
 }  // namespace uking::action
