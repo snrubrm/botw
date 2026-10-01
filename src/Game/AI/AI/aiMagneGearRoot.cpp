@@ -11,7 +11,8 @@ bool MagneGearRoot::init_(sead::Heap* heap) {
 }
 
 void MagneGearRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = 0;
+    changeChild("通常");
 }
 
 void MagneGearRoot::leave_() {
