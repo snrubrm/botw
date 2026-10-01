@@ -12,6 +12,11 @@ bool GuardianBattleBeamAttack::init_(sead::Heap* heap) {
 
 void GuardianBattleBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    setFailed();
+}
+
+void GuardianBattleBeamAttack::calc_() {
+    GuardianAI::calc_();
 }
 
 void GuardianBattleBeamAttack::leave_() {
