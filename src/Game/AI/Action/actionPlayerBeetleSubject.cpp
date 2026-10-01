@@ -20,4 +20,8 @@ void PlayerBeetleSubject::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerBeetleSubject::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
