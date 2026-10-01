@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFollowDungeonRotate.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool FollowDungeonRotate::init_(sead::Heap* heap) {
 }
 
 void FollowDungeonRotate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        if (*mIsSetNoHit_s)
+            body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+    }
+    if (*mIsChangeableOnEnter_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void FollowDungeonRotate::leave_() {
@@ -24,7 +32,7 @@ void FollowDungeonRotate::loadParams_() {
 }
 
 void FollowDungeonRotate::calc_() {
-    ksys::act::ai::Action::calc_();
+    m32();
 }
 
 }  // namespace uking::action
