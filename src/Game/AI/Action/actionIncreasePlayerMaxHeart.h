@@ -22,6 +22,7 @@ protected:
     int* mValue_d{};
     // dynamic_param at offset 0x28
     bool* mIsMoveCenter_d{};
+    int _30 = 0;
 };
 
 }  // namespace uking::action
