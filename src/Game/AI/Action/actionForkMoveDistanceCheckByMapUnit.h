@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    float m32() override;
 
     // map_unit_param at offset 0x48
     const float* mRange_m{};

@@ -28,4 +28,8 @@ void ForkMoveDistanceCheckByMapUnit::calc_() {
     ForkMoveDistanceCheckByDistance::calc_();
 }
 
+float ForkMoveDistanceCheckByMapUnit::m32() {
+    return *mRange_m;
+}
+
 }  // namespace uking::action
