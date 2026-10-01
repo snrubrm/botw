@@ -11,7 +11,17 @@ bool TornadoRoot::init_(sead::Heap* heap) {
 }
 
 void TornadoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("移動");
+    sub_71005CAE90();
+}
+
+void TornadoRoot::calc_() {
+    if (!isCurrentChild("移動"))
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        changeChild("削除");
 }
 
 void TornadoRoot::leave_() {
