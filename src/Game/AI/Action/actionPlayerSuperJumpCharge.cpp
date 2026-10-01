@@ -20,4 +20,8 @@ void PlayerSuperJumpCharge::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSuperJumpCharge::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
