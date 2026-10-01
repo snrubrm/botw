@@ -10,6 +10,7 @@ public:
     explicit SeqTwoAction(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:

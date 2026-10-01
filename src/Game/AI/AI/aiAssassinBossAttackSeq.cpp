@@ -14,6 +14,10 @@ void AssassinBossAttackSeq::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
 }
 
+void AssassinBossAttackSeq::calc_() {
+    SeqTwoAction::calc_();
+}
+
 void AssassinBossAttackSeq::leave_() {
     SeqTwoAction::leave_();
 }
