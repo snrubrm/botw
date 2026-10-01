@@ -28,4 +28,8 @@ void OnetimeHoverASPlay::calc_() {
     HoverBase::calc_();
 }
 
+bool OnetimeHoverASPlay::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
