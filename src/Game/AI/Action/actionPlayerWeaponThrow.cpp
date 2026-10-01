@@ -22,4 +22,8 @@ void PlayerWeaponThrow::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWeaponThrow::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
