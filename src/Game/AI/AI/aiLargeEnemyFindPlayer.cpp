@@ -14,6 +14,10 @@ void LargeEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseFindPlayer::enter_(params);
 }
 
+void LargeEnemyFindPlayer::calc_() {
+    EnemyBaseFindPlayer::calc_();
+}
+
 void LargeEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
 }
