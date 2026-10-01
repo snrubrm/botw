@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPreyDropItemRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
 
@@ -7,14 +9,28 @@ PreyDropItemRoot::PreyDropItemRoot(const InitArg& arg) : PreyRoot(arg) {}
 PreyDropItemRoot::~PreyDropItemRoot() = default;
 
 bool PreyDropItemRoot::init_(sead::Heap* heap) {
-    return PreyRoot::init_(heap);
+    if (!PreyRoot::init_(heap))
+        return false;
+    _22c = true;
+    return true;
 }
 
+// NON_MATCHING: scheduling (the target stores _230 after loading the interval)
 void PreyDropItemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PreyRoot::enter_(params);
+    if (_22c)
+        sub_71004FAE28();
+    _230 = 0;
+    const f32 interval = *mForceDeleteInterval_s;
+    if (interval < 0.0f)
+        _220 = ksys::Timer(1.0f, 1.0f, 0.0f);
+    else
+        _220 = ksys::Timer(interval, interval);
 }
 
 void PreyDropItemRoot::leave_() {
+    if (auto* object = mActor->getMapObject())
+        object->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalEnable, true);
     PreyRoot::leave_();
 }
 

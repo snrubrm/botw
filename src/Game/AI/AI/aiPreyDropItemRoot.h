@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiPreyRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71004FAE28();
+
 protected:
     // static_param at offset 0x208
     const int* mMaxDropCount_s{};
@@ -23,6 +26,10 @@ protected:
     const float* mForceDeleteInterval_s{};
     // static_param at offset 0x218
     const sead::Vector3f* mInitialVelocity_s{};
+    ksys::Timer _220;
+    bool _22c = false;
+    s32 _230 = 0;
 };
+KSYS_CHECK_SIZE_NX150(PreyDropItemRoot, 0x238);
 
 }  // namespace uking::ai
