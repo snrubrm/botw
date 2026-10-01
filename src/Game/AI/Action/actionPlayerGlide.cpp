@@ -31,4 +31,8 @@ void PlayerGlide::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGlide::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
