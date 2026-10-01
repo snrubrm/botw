@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTrolleyGrabbedByMagnet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,11 +13,14 @@ bool TrolleyGrabbedByMagnet::init_(sead::Heap* heap) {
 }
 
 void TrolleyGrabbedByMagnet::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* body = mActor->getMainBody())
+        body->setFrictionScale(0.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void TrolleyGrabbedByMagnet::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->setFrictionScale(1.0f);
 }
 
 void TrolleyGrabbedByMagnet::loadParams_() {

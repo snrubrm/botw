@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiOctarockOptionRoot.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,8 @@ void OctarockOptionRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OctarockOptionRoot::leave_() {
-    SimpleLiftable::leave_();
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBAD74();
 }
 
 void OctarockOptionRoot::loadParams_() {
