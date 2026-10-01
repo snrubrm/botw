@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSpotBgmTrigger.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,14 @@ bool SpotBgmTrigger::init_(sead::Heap* heap) {
 }
 
 void SpotBgmTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack child_params;
+    child_params.addInt(0, "SoundDelay", -1);
+    child_params.addString(mSound_m, "Sound", -1);
+    child_params.addString("SpotBgm", "SLinkInst", -1);
+    changeChild("再生", &child_params);
 }
+
+void SpotBgmTrigger::calc_() {}
 
 void SpotBgmTrigger::leave_() {
     ksys::act::ai::Ai::leave_();
