@@ -25,4 +25,12 @@ bool PlayerDestinationTurnRefActor::isChangeable() const {
     return false;
 }
 
+bool PlayerDestinationTurnRefActor::m34() {
+    return true;
+}
+
+bool PlayerDestinationTurnRefActor::m35() {
+    return true;
+}
+
 }  // namespace uking::action
