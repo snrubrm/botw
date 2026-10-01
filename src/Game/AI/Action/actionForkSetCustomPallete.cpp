@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkSetCustomPallete.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -23,7 +25,11 @@ void ForkSetCustomPallete::loadParams_() {
 }
 
 void ForkSetCustomPallete::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* wm = ksys::world::Manager::instance();
+    if (!wm)
+        return;
+    if (auto* env_mgr = wm->getEnvMgr())
+        env_mgr->setPaletteSet(*mPalleteType_s);
 }
 
 }  // namespace uking::action
