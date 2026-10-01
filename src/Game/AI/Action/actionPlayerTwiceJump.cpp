@@ -19,4 +19,8 @@ void PlayerTwiceJump::calc_() {
     PlayerFall::calc_();
 }
 
+bool PlayerTwiceJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
