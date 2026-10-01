@@ -14,4 +14,8 @@ void PlayerGrabStand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabStand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
