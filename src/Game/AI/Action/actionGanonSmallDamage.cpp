@@ -26,6 +26,8 @@ void GanonSmallDamage::loadParams_() {
 
 void GanonSmallDamage::calc_() {
     SmallDamageBase::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool GanonSmallDamage::isFinished() const {
