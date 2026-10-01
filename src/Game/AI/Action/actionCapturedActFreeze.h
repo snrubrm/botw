@@ -23,6 +23,9 @@ protected:
     const float* mPauseDelayFrames_s{};
     // static_param at offset 0x80
     sead::SafeString mASKeyName_s{};
+    f32 _90 = 0;
+    f32 _94 = 0;
+    f32 _98 = 0;
 };
 
 }  // namespace uking::action
