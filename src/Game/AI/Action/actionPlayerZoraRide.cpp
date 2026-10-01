@@ -25,4 +25,8 @@ void PlayerZoraRide::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerZoraRide::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
