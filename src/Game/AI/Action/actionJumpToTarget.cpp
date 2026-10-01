@@ -29,4 +29,28 @@ void JumpToTarget::calc_() {
     JumpTo::calc_();
 }
 
+void JumpToTarget::m32() {
+    playAS(mPreJumpAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void JumpToTarget::m33() {
+    playAS(mJumpAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void JumpToTarget::m34() {
+    playAS(mLandAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+bool JumpToTarget::m35() {
+    return !mPreJumpAS_s.isEmpty();
+}
+
+bool JumpToTarget::m36() {
+    return !mJumpAS_s.isEmpty();
+}
+
+bool JumpToTarget::m37() {
+    return !mLandAS_s.isEmpty();
+}
+
 }  // namespace uking::action
