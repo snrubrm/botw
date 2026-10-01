@@ -23,6 +23,8 @@ void DieAnm::loadParams_() {
 
 void DieAnm::calc_() {
     ActionWithPosAngReduce::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
