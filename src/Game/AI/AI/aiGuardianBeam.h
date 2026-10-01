@@ -18,6 +18,8 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mMaxDistance_s{};
+    void* _40{};
+    void* _48{};
 };
 
 }  // namespace uking::ai
