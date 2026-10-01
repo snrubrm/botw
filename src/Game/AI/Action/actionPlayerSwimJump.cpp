@@ -8,9 +8,7 @@ void PlayerSwimJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSwimJump::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSwimJump::leave_() {}
 
 void PlayerSwimJump::loadParams_() {
     getStaticParam(&mJumpHeight_s, "JumpHeight");
