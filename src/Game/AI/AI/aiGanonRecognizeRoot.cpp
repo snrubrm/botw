@@ -11,7 +11,16 @@ bool GanonRecognizeRoot::init_(sead::Heap* heap) {
 }
 
 void GanonRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("後半");
+}
+
+void GanonRecognizeRoot::calc_() {
+    if (!isCurrentChild("前半"))
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        changeChild("後半");
 }
 
 void GanonRecognizeRoot::leave_() {
