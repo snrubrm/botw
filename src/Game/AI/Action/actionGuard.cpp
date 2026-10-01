@@ -17,4 +17,8 @@ void Guard::calc_() {
     TakeHitImpactForce::calc_();
 }
 
+bool Guard::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
