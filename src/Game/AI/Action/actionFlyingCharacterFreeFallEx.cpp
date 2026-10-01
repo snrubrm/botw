@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFlyingCharacterFreeFallEx.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -13,10 +15,16 @@ bool FlyingCharacterFreeFallEx::init_(sead::Heap* heap) {
 
 void FlyingCharacterFreeFallEx::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingCharacterFreeFall::enter_(params);
+    if (auto* cc = mActor->getCharacterController()) {
+        _78 = cc->get110();
+        cc->sub_7100F5EEB8(*mGravityScaleRate_s);
+    }
 }
 
 void FlyingCharacterFreeFallEx::leave_() {
     FlyingCharacterFreeFall::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5EEB8(_78);
 }
 
 void FlyingCharacterFreeFallEx::loadParams_() {

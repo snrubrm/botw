@@ -21,6 +21,9 @@ protected:
 
     // static_param at offset 0x70
     const float* mGravityScaleRate_s{};
+    f32 _78 = 1.0f;
 };
+
+KSYS_CHECK_SIZE_NX150(FlyingCharacterFreeFallEx, 0x80);
 
 }  // namespace uking::action
