@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDragonRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -48,6 +50,14 @@ void DragonRoot::loadParams_() {
     getStaticParam(&mDefaultMaterialAnmName_s, "DefaultMaterialAnmName");
     getStaticParam(&mHornAnmName_s, "HornAnmName");
     getAITreeVariable(&mCreateRailName_a, "CreateRailName");
+}
+
+bool DragonRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x3000010) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

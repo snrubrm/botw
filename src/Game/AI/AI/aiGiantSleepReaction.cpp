@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGiantSleepReaction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -20,5 +22,13 @@ void GiantSleepReaction::leave_() {
 }
 
 void GiantSleepReaction::loadParams_() {}
+
+bool GiantSleepReaction::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x3000015)
+        _38 = false;
+    else if (message.getType().value == 0x3000016)
+        _38 = true;
+    return false;
+}
 
 }  // namespace uking::ai

@@ -10,6 +10,7 @@ class DragonRoot : public DragonRootBase {
 public:
     explicit DragonRoot(const InitArg& arg);
     ~DragonRoot() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
