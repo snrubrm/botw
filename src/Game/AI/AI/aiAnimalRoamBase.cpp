@@ -14,6 +14,8 @@ void AnimalRoamBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void AnimalRoamBase::calc_() {}
+
 void AnimalRoamBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
