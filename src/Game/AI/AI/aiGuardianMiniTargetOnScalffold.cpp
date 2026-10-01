@@ -8,7 +8,7 @@ GuardianMiniTargetOnScalffold::GuardianMiniTargetOnScalffold(const InitArg& arg)
 GuardianMiniTargetOnScalffold::~GuardianMiniTargetOnScalffold() = default;
 
 void GuardianMiniTargetOnScalffold::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710042902C(true);
 }
 
 void GuardianMiniTargetOnScalffold::leave_() {
