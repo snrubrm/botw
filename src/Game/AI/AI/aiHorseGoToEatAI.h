@@ -9,6 +9,7 @@ class HorseGoToEatAI : public ksys::act::ai::Ai {
 public:
     explicit HorseGoToEatAI(const InitArg& arg);
     ~HorseGoToEatAI() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
