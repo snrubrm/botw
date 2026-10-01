@@ -12,6 +12,9 @@ bool AnmKnockBackShock::init_(sead::Heap* heap) {
 
 void AnmKnockBackShock::enter_(ksys::act::ai::InlineParamPack* params) {
     KnockBackShock::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void AnmKnockBackShock::leave_() {
