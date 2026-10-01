@@ -23,4 +23,9 @@ void KeeseSwarmRoam::loadParams_() {
     getDynamicParam(&mCentralPos_d, "CentralPos");
 }
 
+void KeeseSwarmRoam::m34(sead::Vector3f* out) {
+    if (out)
+        out->set(*mCentralPos_d);
+}
+
 }  // namespace uking::ai

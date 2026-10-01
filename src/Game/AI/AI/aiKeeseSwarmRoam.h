@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m34(sead::Vector3f* out) override;
 
 protected:
     // dynamic_param at offset 0x60

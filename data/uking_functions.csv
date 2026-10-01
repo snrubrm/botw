@@ -27952,7 +27952,7 @@ Address,Quality,Size,Name
 0x0000007100454c9c,U,000732,
 0x0000007100454f78,O,000004,_ZN5uking2ai14KeeseSwarmRoam6leave_Ev
 0x0000007100454f7c,W,000112,_ZN5uking2ai14KeeseSwarmRoam11loadParams_Ev
-0x0000007100454fec,U,000028,uking::ai::KeeseSwarmRoam::m34
+0x0000007100454fec,O,000028,_ZN5uking2ai14KeeseSwarmRoam3m34EPN4sead7Vector3IfEE
 0x0000007100455008,U,000076,uking::ai::KeeseSwarmRoam::m38
 0x0000007100455054,U,000328,
 0x000000710045519c,O,000008,_ZNK5uking2ai14KeeseSwarmRoam27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
