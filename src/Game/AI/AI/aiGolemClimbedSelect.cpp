@@ -11,7 +11,24 @@ bool GolemClimbedSelect::init_(sead::Heap* heap) {
 }
 
 void GolemClimbedSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mGolemClimbedTime_a > *mClimbTime_s)
+        changeChild("対象よじ登り中", params);
+    else
+        changeChild("対象通常", params);
+}
+
+void GolemClimbedSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !child->isChangeable())
+        return;
+
+    if (isCurrentChild("対象通常")) {
+        if (*mGolemClimbedTime_a > *mClimbTime_s)
+            changeChild("対象よじ登り中");
+    } else if (isCurrentChild("対象よじ登り中")) {
+        if (*mGolemClimbedTime_a <= 0.0f)
+            changeChild("対象通常");
+    }
 }
 
 bool GolemClimbedSelect::isFailed() const {
