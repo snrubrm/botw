@@ -22,4 +22,8 @@ void PlayerParashawlGlide::calc_() {
     PlayerGlide::calc_();
 }
 
+bool PlayerParashawlGlide::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
