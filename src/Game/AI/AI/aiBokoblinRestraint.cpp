@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: store scheduling (the BaseProcHandle ctor argument setup)
 BokoblinRestraint::BokoblinRestraint(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 BokoblinRestraint::~BokoblinRestraint() = default;

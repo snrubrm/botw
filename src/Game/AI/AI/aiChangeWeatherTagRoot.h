@@ -39,6 +39,7 @@ protected:
     const bool* mBluffThunderOff_m{};
     // map_unit_param at offset 0x90
     const bool* mFogMinusCorrection_m{};
+    bool _98{};
 };
 
 }  // namespace uking::ai

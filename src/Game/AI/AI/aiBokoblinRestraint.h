@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,9 @@ protected:
     const int* mLostTimer_s{};
     // static_param at offset 0x60
     const float* mLostRange_s{};
+    ksys::act::BaseProcHandle _68;
+    ksys::Timer _78{0, 0};
+    bool _84 = true;
 };
 
 }  // namespace uking::ai

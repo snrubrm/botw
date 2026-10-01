@@ -42,6 +42,7 @@ protected:
     float* mTargetRadMax_a{};
     // aitree_variable at offset 0x98
     float* mTargetRadMin_a{};
+    int _a0{};
 };
 
 }  // namespace uking::ai
