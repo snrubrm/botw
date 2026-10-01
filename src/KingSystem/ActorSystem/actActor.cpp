@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -61,6 +63,26 @@ map::ObjectLink* Actor::findPlacementLinkWithType(map::MapLinkDefType type) cons
     if (mMapObject && mMapObject->getLinkData())
         return mMapObject->getLinkData()->mLinksToSelf.findLinkWithType(type);
     return nullptr;
+}
+
+void Actor::emitSignal(map::MapLinkDefType type, bool on) {
+    const auto thread = sead::ThreadMgr::instance()->getCurrentThread();
+    thread->getPriority();
+
+    if (mSignals.isOnBit(int(type)) == on)
+        return;
+    mSignals.changeBit(int(type), on);
+
+    if (!mMapObject || !mMapObject->getLinkData())
+        return;
+
+    for (auto& link : mMapObject->getLinkData()->mLinksOther.links) {
+        if (link.type != type)
+            continue;
+        ActorConstDataAccess accessor;
+        link.getObjectProcWithAccessor(accessor);
+        accessor.triggerLink();
+    }
 }
 
 bool Actor::checkLinkSignal(map::MapLinkDefType type) const {

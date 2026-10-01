@@ -93,6 +93,7 @@ public:
     s32 getAttackPower() const;
 
     bool checkLinkTagActivated(bool a, bool b);
+    void triggerLink();
     map::ObjectLinkData* getMapObjectLinkData() const;
     map::Object* getMapObject() const;
 
