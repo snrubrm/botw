@@ -38,6 +38,12 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    float _78 = 0.0f;
+    float _7c = 0.0f;
+    int _80 = 0;
+    float _84 = 0.0f;
+    void* _88{};
+    bool _90 = false;
 };
 
 }  // namespace uking::action
