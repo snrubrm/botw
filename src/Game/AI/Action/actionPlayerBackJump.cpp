@@ -26,4 +26,8 @@ void PlayerBackJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerBackJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
