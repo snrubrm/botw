@@ -16,4 +16,14 @@ void HorseWanderAI::leave_() {
 
 void HorseWanderAI::loadParams_() {}
 
+void HorseWanderAI::calc_() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    if (child->isFinished())
+        setFinished();
+    else if (child->isFailed())
+        setFailed();
+}
+
 }  // namespace uking::ai

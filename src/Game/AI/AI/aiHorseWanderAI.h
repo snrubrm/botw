@@ -9,6 +9,7 @@ class HorseWanderAI : public ksys::act::ai::Ai {
 public:
     explicit HorseWanderAI(const InitArg& arg);
     ~HorseWanderAI() override;
+    void calc_() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

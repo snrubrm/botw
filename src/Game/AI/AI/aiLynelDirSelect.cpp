@@ -35,4 +35,8 @@ void LynelDirSelect::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+void LynelDirSelect::calc_() {
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
 }  // namespace uking::ai

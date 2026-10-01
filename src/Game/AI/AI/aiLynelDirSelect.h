@@ -9,6 +9,7 @@ class LynelDirSelect : public ksys::act::ai::Ai {
 public:
     explicit LynelDirSelect(const InitArg& arg);
     ~LynelDirSelect() override;
+    void calc_() override;
     bool isFinished() const override;
     bool isFailed() const override;
 

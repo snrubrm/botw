@@ -9,6 +9,7 @@ class HorseNatureSelectAI : public ksys::act::ai::Ai {
 public:
     explicit HorseNatureSelectAI(const InitArg& arg);
     ~HorseNatureSelectAI() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 

@@ -9,6 +9,7 @@ class EternalPlayerTarget : public ksys::act::ai::Ai {
 public:
     explicit EternalPlayerTarget(const InitArg& arg);
     ~EternalPlayerTarget() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
     bool isChangeable() const override;

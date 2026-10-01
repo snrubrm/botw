@@ -32,4 +32,9 @@ void EternalPlayerTarget::leave_() {
 
 void EternalPlayerTarget::loadParams_() {}
 
+void EternalPlayerTarget::calc_() {
+    if (getCurrentChild()->isChangeable())
+        sub_71003C9AAC(false);
+}
+
 }  // namespace uking::ai

@@ -34,4 +34,14 @@ bool HorseNatureSelectAI::isFailed() const {
     return child && child->isFailed();
 }
 
+void HorseNatureSelectAI::calc_() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    if (child->isFinished())
+        setFinished();
+    else if (child->isFailed())
+        setFailed();
+}
+
 }  // namespace uking::ai
