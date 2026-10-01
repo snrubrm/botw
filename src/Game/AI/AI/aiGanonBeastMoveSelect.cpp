@@ -14,6 +14,18 @@ void GanonBeastMoveSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GanonBeastMoveSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!isCurrentChild("移動") || *mIsMoveFinishEnd_s)
+            setFinished();
+        else
+            changeChild("待機");
+    } else {
+        child->isChangeable();
+    }
+}
+
 void GanonBeastMoveSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
