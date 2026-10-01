@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_7102357d20.h"
+#include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
@@ -61,4 +62,34 @@ bool Unk_7102357d20::sub_710070E070(const ksys::MessageAck& ack) {
         return false;
     _14 = ack.isDestinationValid() && ack.isSuccess();
     return true;
+}
+
+// ---- Senders with JobQueueLock-guarded payloads ----
+
+Unk_710237ecc0::Unk_710237ecc0(ksys::act::Actor* actor) : Unk_7102357d20(actor, 0x800001e) {}
+
+Unk_710237ecc0_Payload::Unk_710237ecc0_Payload() = default;
+
+void Unk_710237ecc0_Payload::sub_710070E194(ksys::act::BaseProcLink* out) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    *out = mLink;
+}
+
+void Unk_710237ecc0_Payload::sub_710070E1F8(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    mLink.acquire(proc, false);
+}
+
+Unk_71023b1608::Unk_71023b1608(ksys::act::Actor* actor) : Unk_7102357d20(actor, 0x800001b) {}
+
+Unk_71023b1608_Payload::Unk_71023b1608_Payload() = default;
+
+void Unk_71023b1608_Payload::sub_710070E374(ksys::act::BaseProcLink* out) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    *out = mLink;
+}
+
+void Unk_71023b1608_Payload::sub_710070E3D8(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    mLink.acquire(proc, false);
 }

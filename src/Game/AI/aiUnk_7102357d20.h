@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "Game/AI/aiUnkMessagePayloads.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -83,4 +84,33 @@ class Unk_7102418f20 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
+};
+
+// ---- Senders with JobQueueLock-guarded payloads (see aiUnkMessagePayloads.h) ----
+
+// vtable 0x710237ecc0 (EventSendCatchWeaponMsgToPlayer, LumberjackTree); message 0x800001e
+class Unk_710237ecc0 : public Unk_7102357d20 {
+public:
+    explicit Unk_710237ecc0(ksys::act::Actor* actor);
+    void* m2() override { return &_18; }
+
+    Unk_710237ecc0_Payload _18;
+};
+
+// vtable 0x71023f83e8; message 0x8000021
+class Unk_71023f83e8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023f83e8_Payload _18;
+};
+
+// vtable 0x71023b1608 (PullOut); message 0x800001b
+class Unk_71023b1608 : public Unk_7102357d20 {
+public:
+    explicit Unk_71023b1608(ksys::act::Actor* actor);
+    void* m2() override { return &_18; }
+
+    Unk_71023b1608_Payload _18;
 };

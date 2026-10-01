@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
   aiUnk_71005D6D10.h
   aiUnk_710071edf8.cpp
   aiUnk_710071edf8.h
+  aiUnk_7102357210.cpp
   aiUnk_7102357210.h
   aiUnk_7102357d20.cpp
   aiUnk_7102357d20.h
@@ -21,6 +22,7 @@ target_sources(uking PRIVATE
   aiUnk_7102450828.cpp
   aiUnkDamageCallbacks.cpp
   aiUnkDamageCallbacks.h
+  aiUnkMessagePayloads.h
   aiUnk_7102450af8.cpp
   aiUnk_7102450bb8.cpp
 )

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include "Game/AI/aiUnkMessagePayloads.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -121,18 +122,15 @@ public:
     ksys::act::BaseProcLink _38;
 };
 
-// vtable 0x7102450528 (m2 handles message type 0x6080000; embedded in uking::act::Enemy at 0xcf0)
+// vtable 0x7102450528 (m2 handles message type 0x8000006 (payload Unk_710235abc8_Payload); embedded
+// in uking::act::Enemy at 0xcf0)
 class Unk_7102450528 : public Unk_7102357210 {
 public:
+    ~Unk_7102450528() override;
     bool m2(const ksys::Message& message) override;
     void m3() override;
 
-    ksys::act::BaseProcLink _38;
-    ksys::act::BaseProcLink _48;
-    s32 _58 = 0x7fffffff;
-    u32 _5c = 0;
-    sead::Vector3f _60 = sead::Vector3f::zero;
-    bool _6c = false;
+    Unk_710235abc8_Payload::Data _38;
 };
 
 // vtable 0x7102450bb8 (WolfLinkNormalRoot; m2 handles message type 0x80000a8 with a u32 payload)
@@ -142,4 +140,63 @@ public:
     bool m2(const ksys::Message& message) override;
 
     u32 _34;
+};
+
+// ---- Listeners copying JobQueueLock-guarded payloads (see aiUnkMessagePayloads.h); functions in
+// aiUnk_7102357210.cpp ----
+
+// vtable 0x7102450498 (message 0x8000021)
+class Unk_7102450498 : public Unk_7102357210 {
+public:
+    ~Unk_7102450498() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override;
+
+    Unk_71023f83e8_Payload _34;
+};
+
+// vtable 0x71024505b8 (message 0x800001e)
+class Unk_71024505b8 : public Unk_7102357210 {
+public:
+    Unk_71024505b8();
+    ~Unk_71024505b8() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_710237ecc0_Payload _38;
+};
+
+// vtable 0x7102450a08 (LumberjackTree; message 0x800001b)
+class Unk_7102450a08 : public Unk_7102357210 {
+public:
+    Unk_7102450a08();
+    ~Unk_7102450a08() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_71023b1608_Payload _38;
+};
+
+// vtable 0x71024504c8 (message 0x8000010)
+class Unk_71024504c8 : public Unk_7102357210 {
+public:
+    ~Unk_71024504c8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38[2];
+    u32 _58;
+    u32 _5c;
+    sead::Vector3f _60;
+    u32 _6c;
+};
+
+// vtable 0x71024504f8 (message 0x80000a4)
+class Unk_71024504f8 : public Unk_7102357210 {
+public:
+    ~Unk_71024504f8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+    sead::Vector3f _48;
+    sead::Vector3f _54;
 };
