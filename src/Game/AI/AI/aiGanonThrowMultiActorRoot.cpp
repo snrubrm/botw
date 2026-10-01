@@ -14,6 +14,10 @@ void GanonThrowMultiActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     GanonThrowActorRoot::enter_(params);
 }
 
+void GanonThrowMultiActorRoot::calc_() {
+    GanonThrowActorRoot::calc_();
+}
+
 void GanonThrowMultiActorRoot::leave_() {
     GanonThrowActorRoot::leave_();
 }
