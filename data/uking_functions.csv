@@ -80950,7 +80950,7 @@ Address,Quality,Size,Name
 0x0000007100ee9b68,U,000080,
 0x0000007100ee9bb8,U,000136,
 0x0000007100ee9c40,U,000080,
-0x0000007100ee9c90,U,000088,_ZN4ksys5world10WeatherMgr14isExposureZeroEv
+0x0000007100ee9c90,O,000088,_ZN4ksys5world10WeatherMgr14isExposureZeroEv
 0x0000007100ee9ce8,U,000120,
 0x0000007100ee9d60,O,000144,_ZN4ksys3map13printDebugMsgEPNS0_6ObjectERKN4sead14SafeStringBaseIcEEPKc
 0x0000007100ee9df0,O,000144,_ZN4ksys3map13printDebugMsgEPNS_3act5ActorERKN4sead14SafeStringBaseIcEEPKc
@@ -89995,12 +89995,12 @@ Address,Quality,Size,Name
 0x00000071010eab84,U,000460,wm::WeatherMgr::x_0
 0x00000071010ead50,U,001712,wm::WeatherMgr::calc_x
 0x00000071010eb400,U,000040,wm::WeatherMgr::x_6
-0x00000071010eb428,U,000004,_ZN4ksys5world10WeatherMgr8onUnloadEv
+0x00000071010eb428,O,000004,_ZN4ksys5world10WeatherMgr8onUnloadEv
 0x00000071010eb42c,U,000004,wm::WeatherMgr::m5_null
 0x00000071010eb430,U,000140,wm::isGetPlayerStole2
 0x00000071010eb4bc,U,000300,wm::WeatherMgr::calcNewWeathers
 0x00000071010eb5e8,U,000592,climateStuff
-0x00000071010eb838,U,000680,_ZN4ksys5world10WeatherMgr23rerollClimateWindPowersEv
+0x00000071010eb838,O,000680,_ZN4ksys5world10WeatherMgr23rerollClimateWindPowersEv
 0x00000071010ebae0,U,000280,wm::WeatherMgr::getTime
 0x00000071010ebbf8,U,000008,wm::WeatherMgr::x_8
 0x00000071010ebc00,U,003152,wm::WeatherMgr::calc

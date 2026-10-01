@@ -1,9 +1,34 @@
 #include "KingSystem/World/worldWeatherMgr.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
+
+void WeatherMgr::onUnload() {}
+
+void WeatherMgr::rerollClimateWindPowers() {
+    auto* wm = Manager::instance();
+
+    f32 power = sead::GlobalRandom::instance()->getF32Range(0.2f, 1.0f);
+    if (!wm->getTimeMgr()->isFindDungeonActivated())
+        power = sead::GlobalRandom::instance()->getF32Range(0.2f, 0.6666f);
+
+    for (int i = 0; i < int(NumClimates); ++i)
+        wm->mWorldInfo.mClimates[i].WindPowerMultiplier = power;
+}
+
+bool WeatherMgr::isExposureZero() {
+    if (!Manager::instance())
+        return false;
+
+    auto* env_mgr = Manager::instance()->getEnvMgr();
+    if (!env_mgr)
+        return false;
+
+    return env_mgr->getExposure() == 0.0f;
+}
 
 WeatherType WeatherMgr::rollNewWeather(Climate climate) {
     auto* wm = Manager::instance();

@@ -208,6 +208,7 @@ public:
     void allowPaletteOverride();
 
     float getWarpMistIntensity() const { return mWarpMistIntensity; }
+    float getExposure() const { return mExposure; }
 
 protected:
     void init_(sead::Heap* heap) override;

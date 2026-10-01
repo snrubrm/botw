@@ -216,6 +216,8 @@ public:
     WeatherType someWeatherStuff_0(Climate climate);
 
 private:
+    friend class WeatherMgr;
+
     enum class WorldInfoLoadStatus : u8 {
         NotLoaded,
         Loaded,
