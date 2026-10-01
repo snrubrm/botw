@@ -76022,7 +76022,7 @@ Address,Quality,Size,Name
 0x0000007100db1184,U,000080,
 0x0000007100db11d4,U,000260,EventMgr::getStarterActor
 0x0000007100db12d8,U,000140,EventMgr::getBaseProcLinkForActorOrActiveLink
-0x0000007100db1364,U,000024,_ZNK4ksys3evt7Manager14hasActiveEventEv
+0x0000007100db1364,O,000024,_ZNK4ksys3evt7Manager14hasActiveEventEv
 0x0000007100db137c,U,000076,EventMgr::__auto8
 0x0000007100db13c8,U,001492,EventMgr::actorDebugStuff
 0x0000007100db199c,U,000036,EventMgr::incrementAliveEventFlowCount

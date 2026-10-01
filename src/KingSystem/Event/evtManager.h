@@ -30,6 +30,8 @@ public:
 private:
     u8 pad_20[0x1d178 - 0x20];
     sead::Heap* mEventHeap;
+    u8 pad_1d188[0x1d2b8 - 0x1d188];
+    void* _1d2b8;
 };
 
 }  // namespace ksys::evt
