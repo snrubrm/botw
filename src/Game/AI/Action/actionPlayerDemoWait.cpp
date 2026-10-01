@@ -8,9 +8,7 @@ void PlayerDemoWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerDemoWait::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDemoWait::leave_() {}
 
 void PlayerDemoWait::calc_() {
     PlayerAction::calc_();
