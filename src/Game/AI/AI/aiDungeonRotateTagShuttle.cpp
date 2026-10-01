@@ -11,7 +11,13 @@ bool DungeonRotateTagShuttle::init_(sead::Heap* heap) {
 }
 
 void DungeonRotateTagShuttle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const f32 rad = *mInitDgnRotRad_m;
+    if (rad <= 0.0f) {
+        changeChild("時計回り回転後待機");
+    } else if (rad > 0.0f) {
+        changeChild("反時計回り回転後待機");
+    }
+    _40 = false;
 }
 
 void DungeonRotateTagShuttle::leave_() {
