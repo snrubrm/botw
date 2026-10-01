@@ -8,9 +8,7 @@ void PlayerDeadWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerDeadWait::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDeadWait::leave_() {}
 
 void PlayerDeadWait::calc_() {
     PlayerAction::calc_();
