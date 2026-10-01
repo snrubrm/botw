@@ -29,4 +29,8 @@ void PlayerCutFall::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutFall::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
