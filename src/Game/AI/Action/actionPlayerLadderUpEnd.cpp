@@ -14,4 +14,8 @@ void PlayerLadderUpEnd::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLadderUpEnd::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
