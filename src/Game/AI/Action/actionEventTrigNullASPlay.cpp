@@ -10,6 +10,11 @@ bool EventTrigNullASPlay::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool EventTrigNullASPlay::oneShot_() {
+    playAS(mASName_d.cstr(), *mIsIgnoreSame_d, *mASSlot_d, *mSequenceBank_d, -1.0);
+    return true;
+}
+
 void EventTrigNullASPlay::loadParams_() {
     getDynamicParam(&mASSlot_d, "ASSlot");
     getDynamicParam(&mSequenceBank_d, "SequenceBank");
