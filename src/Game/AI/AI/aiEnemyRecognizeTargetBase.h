@@ -9,6 +9,7 @@ class EnemyRecognizeTargetBase : public ksys::act::ai::Ai {
 public:
     explicit EnemyRecognizeTargetBase(const InitArg& arg);
     ~EnemyRecognizeTargetBase() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
