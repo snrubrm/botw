@@ -26,4 +26,8 @@ void PlayerPullSword::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerPullSword::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
