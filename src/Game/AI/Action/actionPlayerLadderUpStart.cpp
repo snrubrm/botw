@@ -8,9 +8,7 @@ void PlayerLadderUpStart::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLadderUpStart::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLadderUpStart::leave_() {}
 
 void PlayerLadderUpStart::loadParams_() {
     getStaticParam(&mJumpHeight_s, "JumpHeight");
