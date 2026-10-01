@@ -12,6 +12,7 @@ bool AssassinBossEscapeFromTarget::init_(sead::Heap* heap) {
 }
 
 void AssassinBossEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_7100315244();
     SimpleEscapeFromTarget::enter_(params);
 }
 
