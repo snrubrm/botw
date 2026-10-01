@@ -11,11 +11,23 @@ bool WeakStateSelecter::init_(sead::Heap* heap) {
 }
 
 void WeakStateSelecter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsWeakPointAppearMode_a)
+        changeChild("弱点モード", params);
+    else
+        changeChild("通常モード", params);
 }
 
-void WeakStateSelecter::leave_() {
-    ksys::act::ai::Ai::leave_();
+void WeakStateSelecter::calc_() {
+    if (!*mIsAlwaysUpdate_s)
+        return;
+
+    if (*mIsWeakPointAppearMode_a) {
+        if (!isCurrentChild("弱点モード"))
+            changeChild("弱点モード");
+    } else {
+        if (!isCurrentChild("通常モード"))
+            changeChild("通常モード");
+    }
 }
 
 void WeakStateSelecter::loadParams_() {
