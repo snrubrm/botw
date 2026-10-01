@@ -9,6 +9,7 @@ class WeaponEquipedAI : public ksys::act::ai::Ai {
 public:
     explicit WeaponEquipedAI(const InitArg& arg);
     ~WeaponEquipedAI() override;
+    bool isChangeable() const override { return true; }
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

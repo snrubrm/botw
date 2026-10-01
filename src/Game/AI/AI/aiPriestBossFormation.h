@@ -9,6 +9,7 @@ class PriestBossFormation : public ksys::act::ai::Ai {
 public:
     explicit PriestBossFormation(const InitArg& arg);
     ~PriestBossFormation() override;
+    bool isChangeable() const override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

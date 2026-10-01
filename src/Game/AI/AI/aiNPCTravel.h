@@ -10,6 +10,7 @@ class NPCTravel : public NPCTravelBase {
 public:
     explicit NPCTravel(const InitArg& arg);
     ~NPCTravel() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

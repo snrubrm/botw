@@ -9,6 +9,7 @@ class SiteBossLswordFireBallRoot : public ksys::act::ai::Ai {
 public:
     explicit SiteBossLswordFireBallRoot(const InitArg& arg);
     ~SiteBossLswordFireBallRoot() override;
+    bool isChangeable() const override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

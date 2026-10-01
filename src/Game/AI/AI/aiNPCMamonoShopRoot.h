@@ -10,6 +10,7 @@ class NPCMamonoShopRoot : public NPCRoot {
 public:
     explicit NPCMamonoShopRoot(const InitArg& arg);
     ~NPCMamonoShopRoot() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

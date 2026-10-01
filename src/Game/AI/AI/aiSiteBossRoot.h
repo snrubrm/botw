@@ -9,6 +9,7 @@ class SiteBossRoot : public ksys::act::ai::Ai {
 public:
     explicit SiteBossRoot(const InitArg& arg);
     ~SiteBossRoot() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

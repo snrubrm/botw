@@ -10,6 +10,7 @@ class NPCClerkRoot : public NPCRoot {
 public:
     explicit NPCClerkRoot(const InitArg& arg);
     ~NPCClerkRoot() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

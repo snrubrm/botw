@@ -9,6 +9,7 @@ class StoneStickRoot : public ksys::act::ai::Ai {
 public:
     explicit StoneStickRoot(const InitArg& arg);
     ~StoneStickRoot() override;
+    bool hasUpdateForPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -9,6 +9,7 @@ class WizzrobeCombatMove : public ksys::act::ai::Ai {
 public:
     explicit WizzrobeCombatMove(const InitArg& arg);
     ~WizzrobeCombatMove() override;
+    bool isChangeable() const override { return false; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

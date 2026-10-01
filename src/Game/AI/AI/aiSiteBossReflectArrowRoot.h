@@ -10,6 +10,7 @@ class SiteBossReflectArrowRoot : public SiteBossShootNormalArrowRoot {
 public:
     explicit SiteBossReflectArrowRoot(const InitArg& arg);
     ~SiteBossReflectArrowRoot() override;
+    bool isChangeable() const override { return false; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -9,6 +9,7 @@ class NPCRoot : public ksys::act::ai::Ai {
 public:
     explicit NPCRoot(const InitArg& arg);
     ~NPCRoot() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

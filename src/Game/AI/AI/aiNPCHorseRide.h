@@ -10,6 +10,7 @@ class NPCHorseRide : public NonPlayerHorseRide {
 public:
     explicit NPCHorseRide(const InitArg& arg);
     ~NPCHorseRide() override;
+    bool hasPreDeleteCb() override { return true; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
