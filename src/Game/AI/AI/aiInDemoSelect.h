@@ -26,6 +26,10 @@ protected:
     sead::SafeString mDemoFile_s{};
     // static_param at offset 0x60
     sead::SafeString mDemoEntryPoint_s{};
+    f32 _70{};
+    int _74{};
+    int _78{};
+    bool _7c{};
 };
 
 }  // namespace uking::ai

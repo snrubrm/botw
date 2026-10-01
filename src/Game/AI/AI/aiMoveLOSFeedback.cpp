@@ -7,7 +7,8 @@ MoveLOSFeedback::MoveLOSFeedback(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 MoveLOSFeedback::~MoveLOSFeedback() = default;
 
 bool MoveLOSFeedback::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _50 = ksys::Timer(0, 0);
+    return true;
 }
 
 void MoveLOSFeedback::enter_(ksys::act::ai::InlineParamPack* params) {

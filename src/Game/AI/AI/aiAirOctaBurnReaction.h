@@ -26,6 +26,10 @@ protected:
     const float* mChangeRandTime_s{};
     // aitree_variable at offset 0x58
     void* mAirOctaDataMgr_a{};
+    f32 _60{};
+    f32 _64{};
+    f32 _68{};
+    f32 _6c{};
 };
 
 }  // namespace uking::ai

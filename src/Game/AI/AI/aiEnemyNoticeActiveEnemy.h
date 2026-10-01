@@ -14,12 +14,17 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71003A4B3C();
 
 protected:
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x40
     ksys::act::BaseProcLink* mTargetActor_d{};
+    f32 _48{};
+    int _4c{};
+    int _50{};
+    int _54{};
 };
 
 }  // namespace uking::ai
