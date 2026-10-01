@@ -20,6 +20,8 @@ public:
 protected:
     // map_unit_param at offset 0x238
     sead::SafeString mMamonoShopPlacement_m{};
+    bool _248 = false;
 };
+KSYS_CHECK_SIZE_NX150(NPCMamonoShopRoot, 0x250);
 
 }  // namespace uking::ai

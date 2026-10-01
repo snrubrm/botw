@@ -19,6 +19,10 @@ public:
 protected:
     // map_unit_param at offset 0x238
     const bool* mIsOnHelmet_m{};
+    // Array of 3 bone handles allocated in init_ (BoneHandle class not decompiled yet).
+    void* _240 = nullptr;
+    bool _248 = false;
 };
+KSYS_CHECK_SIZE_NX150(NPCGerudoQueenRoot, 0x250);
 
 }  // namespace uking::ai
