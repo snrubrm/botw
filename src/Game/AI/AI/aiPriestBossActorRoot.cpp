@@ -14,12 +14,20 @@ void PriestBossActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
 }
 
+void PriestBossActorRoot::calc_() {
+    PriestBossMode::calc_();
+}
+
 void PriestBossActorRoot::leave_() {
     PriestBossMode::leave_();
 }
 
 void PriestBossActorRoot::loadParams_() {
     PriestBossMode::loadParams_();
+}
+
+bool PriestBossActorRoot::handleMessage_(const ksys::Message& message) {
+    return false;
 }
 
 }  // namespace uking::ai
