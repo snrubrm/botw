@@ -23,4 +23,8 @@ void HoldArrowWalk::calc_() {
     MoveBase::calc_();
 }
 
+f32 HoldArrowWalk::m34() {
+    return 0.5f;
+}
+
 }  // namespace uking::action

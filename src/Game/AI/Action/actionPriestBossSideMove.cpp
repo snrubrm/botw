@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossSideMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -27,6 +28,16 @@ void PriestBossSideMove::loadParams_() {
 
 void PriestBossSideMove::calc_() {
     MoveBase::calc_();
+}
+
+void PriestBossSideMove::m32(sead::Vector3f* dir) {
+    if (!dir)
+        return;
+    mActor->getMtx().getBase(*dir, 0);
+    dir->y = 0;
+    dir->normalize();
+    if (_100 == 0)
+        dir->negate();
 }
 
 }  // namespace uking::action

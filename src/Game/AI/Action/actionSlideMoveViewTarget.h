@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m35(ksys::phys::CharacterController* controller, const sead::Vector3f& dir) override;
+    void m32(sead::Vector3f* dir) override;
 
     // static_param at offset 0xe0
     sead::SafeString mASName_s{};

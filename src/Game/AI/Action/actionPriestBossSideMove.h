@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(sead::Vector3f* dir) override;
 
     // static_param at offset 0xe0
     const int* mRotDir_s{};
@@ -25,6 +26,7 @@ protected:
     const bool* mIsIgnoreSame_s{};
     // static_param at offset 0xf0
     sead::SafeString mASName_s{};
+    int _100 = 1;
 };
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSlideMoveViewTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,11 @@ void SlideMoveViewTarget::loadParams_() {
 
 void SlideMoveViewTarget::calc_() {
     MoveBase::calc_();
+}
+
+void SlideMoveViewTarget::m32(sead::Vector3f* dir) {
+    dir->setSub(*mTargetPos_d, mActor->getMtx().getTranslation());
+    dir->normalize();
 }
 
 }  // namespace uking::action

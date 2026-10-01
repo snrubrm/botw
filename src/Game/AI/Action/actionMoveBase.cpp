@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionMoveBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -34,6 +35,21 @@ void MoveBase::loadParams_() {
 
 void MoveBase::calc_() {
     ActionEx::calc_();
+}
+
+void MoveBase::m33() {
+    setFinished();
+}
+
+f32 MoveBase::m34() {
+    return 2.0f;
+}
+
+void MoveBase::m32(sead::Vector3f* dir) {
+    mActor->getMtx().getBase(*dir, 2);
+    dir->normalize();
+    dir->y = 0;
+    dir->normalize();
 }
 
 }  // namespace uking::action

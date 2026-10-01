@@ -6,6 +6,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class MoveBase : public ActionEx {
@@ -20,6 +24,10 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* dir);
+    virtual void m33();
+    virtual f32 m34();
+    virtual void m35(ksys::phys::CharacterController* controller, const sead::Vector3f& dir);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};

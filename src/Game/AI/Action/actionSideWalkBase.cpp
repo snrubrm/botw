@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSideWalkBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,15 @@ void SideWalkBase::loadParams_() {
 
 void SideWalkBase::calc_() {
     MoveBase::calc_();
+}
+
+void SideWalkBase::m32(sead::Vector3f* dir) {
+    if (!dir)
+        return;
+    mActor->getMtx().getBase(*dir, 0);
+    dir->normalize();
+    if (!*mLeftMove_s)
+        dir->negate();
 }
 
 }  // namespace uking::action

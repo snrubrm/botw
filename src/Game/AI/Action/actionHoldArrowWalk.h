@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    f32 m34() override;
 
     // static_param at offset 0xe0
     const int* mHoldWeaponIdx_s{};
