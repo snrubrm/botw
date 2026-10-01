@@ -15,6 +15,16 @@ void LastAttackerSpecialActionSelect::enter_(ksys::act::ai::InlineParamPack* par
     ksys::act::ai::Ai::enter_(params);
 }
 
+void LastAttackerSpecialActionSelect::calc_() {}
+
+bool LastAttackerSpecialActionSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool LastAttackerSpecialActionSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void LastAttackerSpecialActionSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }

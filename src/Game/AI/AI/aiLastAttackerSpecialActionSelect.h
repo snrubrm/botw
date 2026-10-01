@@ -9,9 +9,12 @@ class LastAttackerSpecialActionSelect : public ksys::act::ai::Ai {
 public:
     explicit LastAttackerSpecialActionSelect(const InitArg& arg);
     ~LastAttackerSpecialActionSelect() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
