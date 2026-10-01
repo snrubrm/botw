@@ -10,6 +10,8 @@ public:
     explicit SwimEnemyRoam(const InitArg& arg);
     ~SwimEnemyRoam() override;
 
+    bool isChangeable() const override { return getCurrentChild()->isChangeable(); }
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
