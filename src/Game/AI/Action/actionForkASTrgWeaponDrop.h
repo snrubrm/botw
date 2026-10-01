@@ -20,6 +20,10 @@ protected:
 
     // static_param at offset 0x40
     const bool* mIsKeepRemind_s{};
+    void* _28{};
+    void* _30{};
+    void* _38{};
+    void* _40{};
 };
 
 }  // namespace uking::action
