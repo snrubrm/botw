@@ -20,6 +20,7 @@ protected:
     const float* mAtHitImpulseRate_s{};
     // map_unit_param at offset 0x40
     const int* mInitMotionStatus_m{};
+    bool _48{};
 };
 
 }  // namespace uking::ai
