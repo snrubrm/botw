@@ -361,6 +361,13 @@ void ActorConstDataAccess::setThisActorAsChild(BaseProc* parent, bool delete_chi
     parent->setConnectedCalcChild(actor, delete_child_on_delete);
 }
 
+bool ActorConstDataAccess::isAttClientEnabled(const sead::SafeString& client) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return act::isAttClientEnabled(actor, client);
+}
+
 bool ActorConstDataAccess::isFlyingBalloon() const {
     auto* actor = getActor();
     if (!actor)
