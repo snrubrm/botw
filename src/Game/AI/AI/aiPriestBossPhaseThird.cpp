@@ -14,6 +14,10 @@ void PriestBossPhaseThird::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
 }
 
+void PriestBossPhaseThird::calc_() {
+    PriestBossPhase::calc_();
+}
+
 void PriestBossPhaseThird::leave_() {
     PriestBossPhase::leave_();
 }
