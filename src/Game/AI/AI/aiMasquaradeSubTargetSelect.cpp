@@ -14,6 +14,16 @@ void MasquaradeSubTargetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void MasquaradeSubTargetSelect::calc_() {}
+
+bool MasquaradeSubTargetSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool MasquaradeSubTargetSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void MasquaradeSubTargetSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
