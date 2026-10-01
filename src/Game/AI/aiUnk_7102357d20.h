@@ -77,3 +77,10 @@ public:
     ksys::act::BaseProcLink _20;
     u32 _30 = 0;
 };
+
+// vtable 0x7102418f20 (RemainsFireBattleMove)
+class Unk_7102418f20 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
