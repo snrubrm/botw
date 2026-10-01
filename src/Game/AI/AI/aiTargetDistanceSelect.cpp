@@ -25,4 +25,12 @@ void TargetDistanceSelect::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool TargetDistanceSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool TargetDistanceSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
