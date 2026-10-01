@@ -44,4 +44,8 @@ void MotorcycleRiddenByPlayer::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool MotorcycleRiddenByPlayer::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
