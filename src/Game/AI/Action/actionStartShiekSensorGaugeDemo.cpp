@@ -12,7 +12,7 @@ bool StartShiekSensorGaugeDemo::init_(sead::Heap* heap) {
 }
 
 void StartShiekSensorGaugeDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = 0;
 }
 
 void StartShiekSensorGaugeDemo::leave_() {

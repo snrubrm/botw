@@ -20,6 +20,7 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mReactionNum_d{};
+    int _28 = 0;
 };
 
 }  // namespace uking::action
