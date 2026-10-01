@@ -12,7 +12,7 @@ bool ForkStalEnemyForceDamage::init_(sead::Heap* heap) {
 }
 
 void ForkStalEnemyForceDamage::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkStalEnemyForceDamage::leave_() {
