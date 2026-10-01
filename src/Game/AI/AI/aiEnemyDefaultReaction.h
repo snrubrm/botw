@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::dmg {
+class DamageManagerBase;
+}
+
 namespace uking::ai {
 
 class EnemyDefaultReaction : public ksys::act::ai::Ai {
@@ -15,6 +19,20 @@ public:
     void loadParams_() override;
 
     bool isChangeable() const override;
+
+    virtual bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type);
+    virtual void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+                     ksys::act::ai::InlineParamPack* params);
+    virtual bool m36() { return false; }
+    virtual bool m37();
+    virtual bool m38(dmg::DamageManagerBase* damage_mgr);
+    virtual void m39(ksys::act::ai::InlineParamPack* params);
+    virtual void m40(ksys::act::ai::InlineParamPack* params);
+    virtual void m41(ksys::act::ai::InlineParamPack* params);
+    virtual void m42(ksys::act::ai::InlineParamPack* params);
+    virtual void m43(ksys::act::ai::InlineParamPack* params);
+    virtual void m44();
+    virtual bool m45();
 
 protected:
     // static_param at offset 0x38

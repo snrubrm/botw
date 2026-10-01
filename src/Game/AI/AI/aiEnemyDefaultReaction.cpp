@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,32 @@ void EnemyDefaultReaction::loadParams_() {
 
 bool EnemyDefaultReaction::isChangeable() const {
     return getCurrentChild()->isChangeable();
+}
+
+bool EnemyDefaultReaction::m37() {
+    return isCurrentChild("死亡");
+}
+
+bool EnemyDefaultReaction::m38(dmg::DamageManagerBase* damage_mgr) {
+    return damage_mgr->getField50() == 1;
+}
+
+void EnemyDefaultReaction::m39(ksys::act::ai::InlineParamPack* params) {
+    changeChild("突風", params);
+}
+
+void EnemyDefaultReaction::m41(ksys::act::ai::InlineParamPack* params) {
+    changeChild("崩れ落ち", params);
+}
+
+void EnemyDefaultReaction::m43(ksys::act::ai::InlineParamPack* params) {
+    changeChild("大落下", params);
+}
+
+void EnemyDefaultReaction::m44() {
+    _60 = true;
+    _61 = false;
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
 }  // namespace uking::ai
