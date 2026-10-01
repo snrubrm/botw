@@ -9,7 +9,9 @@ bool DungeonMoveTag::init_(sead::Heap* heap) {
 }
 
 void DungeonMoveTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = *mInitDgnMoveDis_m > 0.0f;
+    changeChild("待機");
+    _49 = false;
 }
 
 void DungeonMoveTag::leave_() {
