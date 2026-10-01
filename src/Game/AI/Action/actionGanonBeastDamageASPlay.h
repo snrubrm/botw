@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    const char* m32() override;
 
     // static_param at offset 0x50
     const bool* mIsStateChange_s{};
