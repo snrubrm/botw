@@ -15,6 +15,10 @@ void EscapeFromTargetFrontRandomDir::enter_(ksys::act::ai::InlineParamPack* para
     EscapeFromTargetFront::enter_(params);
 }
 
+void EscapeFromTargetFrontRandomDir::calc_() {
+    EscapeFromTargetFront::calc_();
+}
+
 void EscapeFromTargetFrontRandomDir::leave_() {
     EscapeFromTargetFront::leave_();
 }
