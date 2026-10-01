@@ -12,7 +12,7 @@ bool ForkNeckOnlyRotateDynPosBasic::init_(sead::Heap* heap) {
 }
 
 void ForkNeckOnlyRotateDynPosBasic::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkNeckOnlyRotateDynPosBasic::leave_() {
