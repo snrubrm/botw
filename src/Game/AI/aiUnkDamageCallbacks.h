@@ -32,6 +32,18 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 };
 
+// vtable 0x71024519a8 (functions at 0x71007484c8..0x7100748768; `call` reads its last argument as a
+// pointer to an object of an unknown RTTI class, so it is not defined yet). Embedded in GuardNearTarget,
+// InvincibleHiddenOctarock, StoneOctarockWait and the SetAllNoDamageDCCallback behavior.
+class Unk_71024519a8 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_71024519a8, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    bool _24 = true;
+    bool _25 = true;
+};
+
 // vtable 0x71024519e0
 class Unk_71024519e0 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024519e0, uking::dmg::DamageCallback)
