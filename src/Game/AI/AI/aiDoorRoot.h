@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,6 +16,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // static_param at offset 0x38
@@ -34,6 +37,8 @@ protected:
     bool* mIsOpenDoor_a{};
     // aitree_variable at offset 0xa0
     bool* mIsOpenToInside_a{};
+    Unk_7102450828 _a8{0x1800005};
+    ksys::Timer _e8;
 };
 
 }  // namespace uking::ai

@@ -7,7 +7,9 @@ DoorRoot::DoorRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 DoorRoot::~DoorRoot() = default;
 
 bool DoorRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    *mIsOpenDoor_a = false;
+    *mIsOpenToInside_a = false;
+    return true;
 }
 
 void DoorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -28,6 +30,14 @@ void DoorRoot::loadParams_() {
     getMapUnitParam(&mNpcCanOpenFlag_m, "NpcCanOpenFlag");
     getAITreeVariable(&mIsOpenDoor_a, "IsOpenDoor");
     getAITreeVariable(&mIsOpenToInside_a, "IsOpenToInside");
+}
+
+bool DoorRoot::handleMessage_(const ksys::Message& message) {
+    if (_a8._30)
+        return false;
+    if (isCurrentChild("Wait") && !*mIsOpenDoor_a)
+        return _a8.m2(message);
+    return false;
 }
 
 }  // namespace uking::ai
