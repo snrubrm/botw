@@ -12,8 +12,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34(ksys::act::ai::InlineParamPack* params);
+    virtual void m35();
+    virtual const sead::Vector3f& m36() = 0;
 
 protected:
     // static_param at offset 0x38
