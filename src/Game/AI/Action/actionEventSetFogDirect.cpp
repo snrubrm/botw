@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventSetFogDirect.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -27,8 +29,13 @@ void EventSetFogDirect::loadParams_() {
     getDynamicParam(&mFarUse_d, "FarUse");
 }
 
+// NON_MATCHING: load scheduling of the six param pointers
 void EventSetFogDirect::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFailed())
+        return;
+    ksys::world::Manager::instance()->getEnvMgr()->setFogDirect(
+        *mNearUse_d, *mInstantSW_d, *mFarUse_d, *mFogRatio_d, *mNear_d, *mFar_d);
+    setFinished();
 }
 
 }  // namespace uking::action
