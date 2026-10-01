@@ -64,6 +64,7 @@ public:
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};
     /* 0xc30 */ f32 _c30 = 100.0;
+    /* 0xc34 */ u32 _c34;  // not initialised by the ctor; Enemy members start at 0xc38
 };
 KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0xc38);
 

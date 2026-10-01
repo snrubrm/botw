@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
   actDragon.cpp
   actDragon.h
+  actEnemy.cpp
+  actEnemy.h
   actPlayerCreateMgr.cpp
   actPlayerCreateMgr.h
   actPlayerCreateTrace.cpp

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -118,4 +119,16 @@ public:
     void m3() override {}
 
     ksys::act::BaseProcLink _38;
+// vtable 0x7102450528 (m2 handles message type 0x6080000; embedded in uking::act::Enemy at 0xcf0)
+class Unk_7102450528 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+    void m3() override;
+
+    ksys::act::BaseProcLink _38;
+    ksys::act::BaseProcLink _48;
+    s32 _58 = 0x7fffffff;
+    u32 _5c = 0;
+    sead::Vector3f _60 = sead::Vector3f::zero;
+    bool _6c = false;
 };

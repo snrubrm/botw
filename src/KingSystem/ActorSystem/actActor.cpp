@@ -328,8 +328,8 @@ s32* Actor::getLife() {
 
 void Actor::m93(int a1, float a2) {}
 
-bool Actor::m94() {
-    return false;
+s32 Actor::m94() {
+    return 0;
 }
 
 ActorWeapons* Actor::getWeapons() {

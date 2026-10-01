@@ -271,7 +271,7 @@ public:
     virtual void m91();
     virtual void m92();
     virtual void m93(int a1, float a2);
-    virtual bool m94();
+    virtual s32 m94();
     virtual void m95();
     virtual void m96();
     virtual Chemical* getChemicalStuff();
