@@ -1,5 +1,7 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,6 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
+    bool _38 = false;
+    xlink2::HandleELink _40;
+    xlink2::HandleSLink _50;
 };
+KSYS_CHECK_SIZE_NX150(KorokStartStandRoot, 0x60);
 
 }  // namespace uking::ai

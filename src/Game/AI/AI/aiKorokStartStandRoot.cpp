@@ -11,7 +11,7 @@ bool KorokStartStandRoot::init_(sead::Heap* heap) {
 }
 
 void KorokStartStandRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
 }
 
 void KorokStartStandRoot::leave_() {
