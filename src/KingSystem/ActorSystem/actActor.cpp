@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {
@@ -44,6 +46,34 @@ void Actor::setFlag(Actor::ActorFlag flag) {
 void Actor::setFlag(Actor::ActorFlag flag, bool on) {
     mActorFlags.changeBit(flag, on);
 }
+
+bool Actor::checkSignal(map::MapLinkDefType type) const {
+    if (mMapObject && mMapObject->getLinkData())
+        return mMapObject->getLinkData()->mLinksToSelf.checkLink(type, false);
+    return false;
+}
+
+map::ObjectLink* Actor::findPlacementLinkWithType(map::MapLinkDefType type) const {
+    if (mMapObject && mMapObject->getLinkData())
+        return mMapObject->getLinkData()->mLinksToSelf.findLinkWithType(type);
+    return nullptr;
+}
+
+bool Actor::checkLinkSignal(map::MapLinkDefType type) const {
+    if (mMapObject && mMapObject->getLinkData())
+        return mMapObject->getLinkData()->mLinksOther.checkLink(type, true);
+    return false;
+}
+
+bool Actor::hasForbidAttentionLink() const {
+    if (!findPlacementLinkWithType(map::MapLinkDefType::ForbidAttention))
+        return false;
+    if (!mUniqueName)
+        return false;
+    return mUniqueName->change_attention_type.isEmpty();
+}
+
+void Actor::nullsub_4649() {}
 
 const sead::SafeString& Actor::getProfile() const {
     return mActorParam->getProfile();

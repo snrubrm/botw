@@ -12,6 +12,7 @@
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -612,6 +613,117 @@ bool getRandomAreaItem(sead::SafeString* item, const eco::AreaItemType& type,
 
 bool isInSatoriMountainArea(const sead::Vector3f& pos) {
     return eco::Ecosystem::instance()->getFieldMapArea(pos.x, pos.z) == 64;
+}
+
+void Actor::emitBasicSigOn() {
+    emitSignal(map::MapLinkDefType::BasicSig, true);
+    emitSignal(map::MapLinkDefType::BasicSigOnOnly, true);
+}
+
+void Actor::emitBasicSigOff() {
+    emitSignal(map::MapLinkDefType::BasicSig, false);
+}
+
+bool Actor::checkBasicSig() const {
+    return checkSignal(map::MapLinkDefType::BasicSig);
+}
+
+bool Actor::checkLinkBasicSig() const {
+    return checkLinkSignal(map::MapLinkDefType::BasicSig);
+}
+
+bool Actor::hasPlacementLinkForBasicSig() const {
+    return findPlacementLinkWithType(map::MapLinkDefType::BasicSig) != nullptr;
+}
+
+bool Actor::checkRemainsSignal() const {
+    return checkSignal(map::MapLinkDefType::Remains);
+}
+
+bool Actor::hasPlacementLinkWithTypeRemains() const {
+    return findPlacementLinkWithType(map::MapLinkDefType::Remains) != nullptr;
+}
+
+bool Actor::checkAxisXSignal() const {
+    return checkSignal(map::MapLinkDefType::AxisX);
+}
+
+void Actor::emitSignalAxisY_1() {
+    emitSignal(map::MapLinkDefType::AxisY, true);
+}
+
+void Actor::emitSignalAxisY_0() {
+    emitSignal(map::MapLinkDefType::AxisY, false);
+}
+
+bool Actor::checkAxisYSignal() const {
+    return checkSignal(map::MapLinkDefType::AxisY);
+}
+
+bool Actor::hasPlacementLinkWithTypeAxisY() const {
+    return findPlacementLinkWithType(map::MapLinkDefType::AxisY) != nullptr;
+}
+
+bool Actor::checkAxisZSignal() const {
+    return checkSignal(map::MapLinkDefType::AxisZ);
+}
+
+bool Actor::checkNAxisXSignal() const {
+    return checkSignal(map::MapLinkDefType::NAxisX);
+}
+
+void Actor::emitSignalNAxisY_1() {
+    emitSignal(map::MapLinkDefType::NAxisY, true);
+}
+
+void Actor::emitSignalNAxisY_0() {
+    emitSignal(map::MapLinkDefType::NAxisY, false);
+}
+
+bool Actor::checkNAxisYSignal() const {
+    return checkSignal(map::MapLinkDefType::NAxisY);
+}
+
+bool Actor::hasPlacementLinkWithType5AxisY() const {
+    return findPlacementLinkWithType(map::MapLinkDefType::NAxisY) != nullptr;
+}
+
+bool Actor::checkNAxisZSignal() const {
+    return checkSignal(map::MapLinkDefType::NAxisZ);
+}
+
+void Actor::emitGimmickSuccessSignal_1() {
+    emitSignal(map::MapLinkDefType::GimmickSuccess, true);
+}
+
+void Actor::emitGimmickSuccessSignal_0() {
+    emitSignal(map::MapLinkDefType::GimmickSuccess, false);
+}
+
+bool Actor::checkGimmickSuccessSignal() const {
+    return checkSignal(map::MapLinkDefType::GimmickSuccess);
+}
+
+bool Actor::checkLinkGimmickSuccessSignal() const {
+    return checkLinkSignal(map::MapLinkDefType::GimmickSuccess);
+}
+
+bool Actor::checkVelocityControlSignal() const {
+    return checkSignal(map::MapLinkDefType::VelocityControl);
+}
+
+bool Actor::checkFreezeSignal() const {
+    return checkSignal(map::MapLinkDefType::Freeze);
+}
+
+bool Actor::hasPlacementLinkWithTypeFreeze() const {
+    return findPlacementLinkWithType(map::MapLinkDefType::Freeze) != nullptr;
+}
+
+bool Actor::checkForbidAttentionSignal() const {
+    if (!hasForbidAttentionLink())
+        return false;
+    return checkSignal(map::MapLinkDefType::ForbidAttention);
 }
 
 }  // namespace ksys::act

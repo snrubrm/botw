@@ -34,7 +34,9 @@ class ASList;
 }  // namespace as
 
 namespace map {
+enum class MapLinkDefType;
 class Object;
+struct ObjectLink;
 }  // namespace map
 
 namespace mii {
@@ -304,6 +306,42 @@ public:
     bool hasPlacementLinkForBasicSig() const;
 
     void getHomePos(sead::Vector3f* pos) const;
+
+    // 0x00000071011da6c0
+    void emitSignal(map::MapLinkDefType type, bool on);
+    // 0x00000071011cdcac
+    bool checkSignal(map::MapLinkDefType type) const;
+    // 0x00000071011da678
+    bool checkLinkSignal(map::MapLinkDefType type) const;
+    // 0x00000071011d1808
+    map::ObjectLink* findPlacementLinkWithType(map::MapLinkDefType type) const;
+    // 0x00000071011da7a0
+    bool hasForbidAttentionLink() const;
+
+    bool checkLinkBasicSig() const;
+    bool hasPlacementLinkForBasicSig() const;
+    bool checkRemainsSignal() const;
+    bool hasPlacementLinkWithTypeRemains() const;
+    bool checkAxisXSignal() const;
+    void emitSignalAxisY_1();
+    void emitSignalAxisY_0();
+    bool checkAxisYSignal() const;
+    bool hasPlacementLinkWithTypeAxisY() const;
+    bool checkAxisZSignal() const;
+    bool checkNAxisXSignal() const;
+    void emitSignalNAxisY_1();
+    void emitSignalNAxisY_0();
+    bool checkNAxisYSignal() const;
+    bool hasPlacementLinkWithType5AxisY() const;
+    bool checkNAxisZSignal() const;
+    void emitGimmickSuccessSignal_1();
+    void emitGimmickSuccessSignal_0();
+    bool checkGimmickSuccessSignal() const;
+    bool checkLinkGimmickSuccessSignal() const;
+    bool checkVelocityControlSignal() const;
+    bool checkFreezeSignal() const;
+    bool hasPlacementLinkWithTypeFreeze() const;
+    bool checkForbidAttentionSignal() const;
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
