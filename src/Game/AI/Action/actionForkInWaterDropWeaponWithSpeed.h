@@ -23,6 +23,7 @@ protected:
     const float* mInWaterDepth_s{};
     // static_param at offset 0x50
     const float* mOutWaterDepth_s{};
+    bool _58 = false;
 };
 
 }  // namespace uking::action
