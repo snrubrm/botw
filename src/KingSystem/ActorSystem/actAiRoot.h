@@ -22,7 +22,11 @@ enum class RootAiFlag {
 };
 
 // TODO: rename
-enum class RootAiFlag2 {};
+enum class RootAiFlag2 {
+    _0 = 0,
+    _1 = 1,
+    _4 = 4,
+};
 
 class RootAi : public Ai, public IRootAi {
     SEAD_RTTI_OVERRIDE(RootAi, Ai)

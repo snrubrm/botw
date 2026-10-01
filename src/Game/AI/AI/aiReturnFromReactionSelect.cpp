@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReturnFromReactionSelect.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,25 @@ bool ReturnFromReactionSelect::init_(sead::Heap* heap) {
 }
 
 void ReturnFromReactionSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsEnableRetFromDamage_s && testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0))
+        changeChild("ダメージ復帰", params);
+    else if (*mIsEnableRetFromGuard_s && testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1))
+        changeChild("ガード復帰", params);
+    else if (*mIsEnableRetFromRebound_s && testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4))
+        changeChild("弾かれ復帰", params);
+    else
+        changeChild("通常", params);
+}
+
+void ReturnFromReactionSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        child->isChangeable();
+        return;
+    }
+
+    if (*mIsChangeToNormalByFinish_s && !isCurrentChild("通常"))
+        changeChild("通常");
 }
 
 void ReturnFromReactionSelect::leave_() {
@@ -23,6 +42,16 @@ void ReturnFromReactionSelect::loadParams_() {
     getStaticParam(&mIsEnableRetFromDamage_s, "IsEnableRetFromDamage");
     getStaticParam(&mIsEnableRetFromGuard_s, "IsEnableRetFromGuard");
     getStaticParam(&mIsEnableRetFromRebound_s, "IsEnableRetFromRebound");
+}
+
+bool ReturnFromReactionSelect::isFinished() const {
+    if (!*mIsChangeToNormalByFinish_s)
+        return getCurrentChild()->isFinished();
+    return isCurrentChild("通常") && getCurrentChild()->isFinished();
+}
+
+bool ReturnFromReactionSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
 
 }  // namespace uking::ai
