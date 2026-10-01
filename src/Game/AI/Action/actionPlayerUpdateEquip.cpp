@@ -20,4 +20,8 @@ void PlayerUpdateEquip::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerUpdateEquip::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
