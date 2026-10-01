@@ -10,6 +10,7 @@ bool BattleCloseGuardWalk::init_(sead::Heap* heap) {
 
 void BattleCloseGuardWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseMoveAction::enter_(params);
+    playAS("GuardWalk", true, 0, 0, -1.0f);
 }
 
 void BattleCloseGuardWalk::leave_() {
