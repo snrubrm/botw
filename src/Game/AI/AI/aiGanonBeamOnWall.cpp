@@ -12,6 +12,11 @@ bool GanonBeamOnWall::init_(sead::Heap* heap) {
 
 void GanonBeamOnWall::enter_(ksys::act::ai::InlineParamPack* params) {
     LastBossShootNormalArrowRoot::enter_(params);
+    mFlags.set(Flag::Changeable);
+}
+
+void GanonBeamOnWall::calc_() {
+    LastBossShootNormalArrowRoot::calc_();
 }
 
 void GanonBeamOnWall::leave_() {
