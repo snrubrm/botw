@@ -11,6 +11,7 @@ public:
     ~NPCSellApp() override;
 
 protected:
+    bool oneShot_() override;
 };
 
 }  // namespace uking::action
