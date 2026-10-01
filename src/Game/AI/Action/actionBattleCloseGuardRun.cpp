@@ -8,6 +8,7 @@ BattleCloseGuardRun::~BattleCloseGuardRun() = default;
 
 void BattleCloseGuardRun::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseMoveAction::enter_(params);
+    playAS("GuardRun", true, 0, 0, -1.0f);
 }
 
 }  // namespace uking::action
