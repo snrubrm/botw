@@ -92991,7 +92991,7 @@ Address,Quality,Size,Name
 0x00000071011eb474,U,000044,PlacementMgr::getDeleteDistance
 0x00000071011eb4a0,U,000040,PlacementMgr::getLoadDistancePlus10
 0x00000071011eb4c8,U,000020,PlacementMgr::getDispDistanceComplex
-0x00000071011eb4dc,U,000012,_ZN4ksys3map12PlacementMgr6auto17EPNS0_6ObjectE
+0x00000071011eb4dc,O,000012,_ZN4ksys3map12PlacementMgr6auto17EPNS0_6ObjectE
 0x00000071011eb4e8,U,000080,PlacementMgr::updateTimeDivisionFlags
 0x00000071011eb538,U,000164,
 0x00000071011eb5dc,U,002508,_ZN4ksys3map23makeProjectMapMuuntPathERKN4sead14SafeStringBaseIcEEPNS0_6ObjectE
