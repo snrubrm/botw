@@ -14,6 +14,13 @@ void HorseDamageTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void HorseDamageTypeSelect::calc_() {
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
+}
+
 void HorseDamageTypeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
