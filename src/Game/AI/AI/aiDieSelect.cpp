@@ -14,6 +14,10 @@ void DieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool DieSelect::isChangeable() const {
+    return false;
+}
+
 void DieSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
