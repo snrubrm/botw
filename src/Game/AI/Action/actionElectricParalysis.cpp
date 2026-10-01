@@ -10,6 +10,8 @@ bool ElectricParalysis::init_(sead::Heap* heap) {
 
 void ElectricParalysis::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void ElectricParalysis::leave_() {
