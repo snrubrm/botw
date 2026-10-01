@@ -25,6 +25,11 @@ protected:
     const int* mSmallDamageCancelTimes_s{};
     // static_param at offset 0x50
     const bool* mInComboSmallDamageNoCancel_s{};
+    int _58{};
+    int _5c{};
+    bool _60{};
+    bool _61{};
+    bool _62 = true;
 };
 
 }  // namespace uking::ai
