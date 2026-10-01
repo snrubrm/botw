@@ -16,6 +16,7 @@ void PriestBossActorGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PriestBossActorGiantRoot::leave_() {
     PriestBossActorRoot::leave_();
+    *mIsActive_a = false;
 }
 
 void PriestBossActorGiantRoot::loadParams_() {

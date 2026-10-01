@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWillBallOperated.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void WillBallOperated::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WillBallOperated::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
 void WillBallOperated::loadParams_() {

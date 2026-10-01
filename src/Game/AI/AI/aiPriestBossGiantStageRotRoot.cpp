@@ -17,6 +17,7 @@ void PriestBossGiantStageRotRoot::enter_(ksys::act::ai::InlineParamPack* params)
 
 void PriestBossGiantStageRotRoot::leave_() {
     PriestBossMode::leave_();
+    *mIsActive_a = false;
 }
 
 void PriestBossGiantStageRotRoot::loadParams_() {
