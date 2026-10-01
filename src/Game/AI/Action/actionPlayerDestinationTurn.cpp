@@ -8,9 +8,7 @@ void PlayerDestinationTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerDestinationTurn::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDestinationTurn::leave_() {}
 
 void PlayerDestinationTurn::loadParams_() {
     getDynamicParam(&mDestPosX_d, "DestPosX");
