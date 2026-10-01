@@ -11,7 +11,8 @@ bool ConditionMoveActionSelect::init_(sead::Heap* heap) {
 }
 
 void ConditionMoveActionSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58 = false;
+    changeChild("条件成功", params);
 }
 
 void ConditionMoveActionSelect::leave_() {
