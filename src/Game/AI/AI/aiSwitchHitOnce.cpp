@@ -12,6 +12,11 @@ void SwitchHitOnce::enter_(ksys::act::ai::InlineParamPack* params) {
     SwitchHit::enter_(params);
 }
 
+void SwitchHitOnce::calc_() {
+    if (!isCurrentChild("オン待機"))
+        SwitchHit::calc_();
+}
+
 void SwitchHitOnce::leave_() {
     SwitchHit::leave_();
 }
