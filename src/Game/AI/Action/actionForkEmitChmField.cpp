@@ -12,6 +12,8 @@ bool ForkEmitChmField::init_(sead::Heap* heap) {
 
 void ForkEmitChmField::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkEmitExpandField::enter_(params);
+    _98 = false;
+    _9c = ksys::Timer(0, 0);
 }
 
 void ForkEmitChmField::leave_() {

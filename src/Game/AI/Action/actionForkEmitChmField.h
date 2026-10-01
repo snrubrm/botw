@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionForkEmitExpandField.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -22,6 +23,10 @@ protected:
 
     // static_param at offset 0x90
     const int* mEmitIntervalTime_s{};
+    bool _98 = false;
+    ksys::Timer _9c;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkEmitChmField, 0xa8);
 
 }  // namespace uking::action
