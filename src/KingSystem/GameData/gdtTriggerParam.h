@@ -457,6 +457,8 @@ public:
     void copyChangedFlags(TriggerParam& other, bool set_all_flags, bool record_copies,
                           bool ignore_temp_flags);
 
+    s32 getNumBoolFlagsPerCategory0(s32 idx) const { return mNumBoolFlagsPerCategory0[idx]; }
+
 private:
     friend class Manager;
 
