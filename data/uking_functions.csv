@@ -13774,7 +13774,7 @@ Address,Quality,Size,Name
 0x0000007100201974,U,000172,
 0x0000007100201a20,W,000184,_ZN5uking6action14NpcSwimNavMove6leave_Ev
 0x0000007100201ad8,W,000508,_ZN5uking6action14NpcSwimNavMove11loadParams_Ev
-0x0000007100201cd4,U,000136,uking::action::NpcSwimNavMove::m34
+0x0000007100201cd4,U,000136,_ZN5uking6action14NpcSwimNavMove3m34Ev
 0x0000007100201d5c,U,000096,uking::action::NpcSwimNavMove::m32
 0x0000007100201dbc,O,000008,_ZNK5uking6action14NpcSwimNavMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100201dc4,O,000092,_ZNK5uking6action14NpcSwimNavMove18getRuntimeTypeInfoEv
