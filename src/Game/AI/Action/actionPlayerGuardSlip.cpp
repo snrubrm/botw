@@ -33,4 +33,8 @@ void PlayerGuardSlip::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGuardSlip::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
