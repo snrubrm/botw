@@ -14,6 +14,10 @@ void LandHumEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
 }
 
+void LandHumEnemyNormal::calc_() {
+    EnemyNormal::calc_();
+}
+
 void LandHumEnemyNormal::leave_() {
     EnemyNormal::leave_();
 }
