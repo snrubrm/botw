@@ -16,4 +16,8 @@ void PlayerCutHorseJumpLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutHorseJumpLand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
