@@ -14,6 +14,14 @@ void LynelDirSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LynelDirSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool LynelDirSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void LynelDirSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
