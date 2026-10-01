@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDgnObj_DLC_CWRotDirSwitchOff.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool DgnObj_DLC_CWRotDirSwitchOff::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CWRotDirSwitchOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mActor)
+        mActor->emitBasicSigOff();
 }
 
 void DgnObj_DLC_CWRotDirSwitchOff::leave_() {
