@@ -13,10 +13,17 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
+    void m35() override;
+
 protected:
+    int _a4 = 0;
+    bool _a8 = false;
 };
+KSYS_CHECK_SIZE_NX150(WaterSurface4RemainsLava, 0xb0);
 
 }  // namespace uking::ai
