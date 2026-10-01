@@ -20,4 +20,8 @@ void ReloadArrow::calc_() {
     ActionEx::calc_();
 }
 
+bool ReloadArrow::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
