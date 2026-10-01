@@ -14,6 +14,10 @@ void EnemyChemTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyChemTargetActionBase::enter_(params);
 }
 
+void EnemyChemTargetAction::calc_() {
+    EnemyChemTargetActionBase::calc_();
+}
+
 void EnemyChemTargetAction::leave_() {
     EnemyChemTargetActionBase::leave_();
 }
