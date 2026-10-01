@@ -36,6 +36,9 @@ protected:
     sead::SafeString mFlyDisappearASName_s{};
     // map_unit_param at offset 0x90
     sead::SafeString mPlacementType_m{};
+    u16 _a0 = 257;
+    bool _a2 = false;
+    u8 _a3[0xb0 - 0xa3];
 };
 
 }  // namespace uking::action
