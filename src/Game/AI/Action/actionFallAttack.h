@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,6 +31,8 @@ protected:
     sead::SafeString mASName_s{};
     // static_param at offset 0x48
     sead::SafeString mAtkBodyName_s{};
+    f32 _58 = -29.4f;
+    Unk_7102451ba0 _60;
 };
 
 }  // namespace uking::action

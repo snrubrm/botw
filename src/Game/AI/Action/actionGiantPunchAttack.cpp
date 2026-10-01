@@ -12,6 +12,7 @@ bool GiantPunchAttack::init_(sead::Heap* heap) {
 
 void GiantPunchAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     PunchAttack::enter_(params);
+    _e0 = false;
 }
 
 void GiantPunchAttack::leave_() {
@@ -25,6 +26,7 @@ void GiantPunchAttack::loadParams_() {
 
 void GiantPunchAttack::calc_() {
     PunchAttack::calc_();
+    m32();
 }
 
 }  // namespace uking::action

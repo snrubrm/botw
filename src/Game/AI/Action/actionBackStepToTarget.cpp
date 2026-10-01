@@ -32,4 +32,8 @@ bool BackStepToTarget::isChangeable() const {
     return false;
 }
 
+f32 BackStepToTarget::m42() {
+    return *mJumpHeight_s;
+}
+
 }  // namespace uking::action

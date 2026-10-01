@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionBackStepBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,7 +22,12 @@ protected:
     void m35() override;
     void m36() override;
     void m37() override;
+    void m40() override;
 
+    ksys::VFRValue _c8{0.0f};
+    Unk_7102451ba0 _d8;
+    sead::Vector3f _100 = {0, 0, 0};
+    u32 _10c = 0;
     // static_param at offset 0x110
     const int* mWeaponIdx_s{};
     // static_param at offset 0x118
@@ -32,6 +38,7 @@ protected:
     const float* mJustAvoidBackDist_s{};
     // static_param at offset 0x130
     const float* mJustAvoidAngle_s{};
+    int _138 = -1;
 };
 
 }  // namespace uking::action

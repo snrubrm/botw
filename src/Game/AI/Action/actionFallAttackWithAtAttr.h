@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    int m32() override;
+    int m33() override;
 
     // static_param at offset 0x88
     const int* mAtAttr_s{};

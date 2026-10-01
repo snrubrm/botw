@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +28,8 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
+    Unk_7102451ba0 _48;
+    sead::Matrix33f _70;
 };
 
 }  // namespace uking::action

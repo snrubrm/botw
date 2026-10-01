@@ -15,7 +15,7 @@ void PreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005DA114(mActor, &_48);
 }
 
 void PreAttack::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPunchAttack.h"
+#include <prim/seadStringBuilder.h>
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool PunchAttack::init_(sead::Heap* heap) {
 
 void PunchAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    setDamageCallbackTiming(mActor, 4, &_a8);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void PunchAttack::leave_() {
@@ -28,9 +31,11 @@ void PunchAttack::loadParams_() {
     getStaticParam(&mIsHeavy_s, "IsHeavy");
     getStaticParam(&mIsHammer_s, "IsHammer");
     getStaticParam(&mASName_s, "ASName");
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
+    sead::FixedStringBuilder<64> name;
+    for (int i = 0; i < 3; ++i) {
+        name.format("AtkBodyName%d", i + 1);
+        getStaticParam(&mAtkBodyName_s[i], name.cstr());
+    }
 }
 
 void PunchAttack::calc_() {

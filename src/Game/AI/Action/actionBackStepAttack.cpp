@@ -8,6 +8,8 @@ BackStepAttack::~BackStepAttack() = default;
 
 void BackStepAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     BackStepBase::enter_(params);
+    _138 = -1;
+    setDamageCallbackTiming(mActor, 4, &_d8);
 }
 
 void BackStepAttack::leave_() {

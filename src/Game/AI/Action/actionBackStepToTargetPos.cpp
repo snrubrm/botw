@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBackStepToTargetPos.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +12,7 @@ bool BackStepToTargetPos::init_(sead::Heap* heap) {
 }
 
 void BackStepToTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
+    mActor->getMtx().getTranslation(_108);
     BackStepToTarget::enter_(params);
 }
 
@@ -45,6 +47,18 @@ void BackStepToTargetPos::m36() {
 
 void BackStepToTargetPos::m37() {
     playAS(mEndAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
+// NON_MATCHING: the original keeps a branch on the height comparison (we get fcsel)
+f32 BackStepToTargetPos::m42() {
+    if (*mIsJumpHeightFromHigherPos_s) {
+        const f32 y = mTargetPos_d->y;
+        const f32 height = *mJumpHeight_s;
+        if (_108.y >= y)
+            return height;
+        return y + height - _108.y;
+    }
+    return *mJumpHeight_s;
 }
 
 }  // namespace uking::action

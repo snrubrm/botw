@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -33,6 +35,12 @@ protected:
     const bool* mIsFinishedAtPreLandFrame_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    Unk_7102451ba0 _50;
+    ksys::VFRValue _78;
+    // unknown (not accessed by JumpTackle or its subclasses)
+    u8 _84[0x90 - 0x84];
+    bool _90 = false;
+    bool _91 = false;
 };
 
 }  // namespace uking::action

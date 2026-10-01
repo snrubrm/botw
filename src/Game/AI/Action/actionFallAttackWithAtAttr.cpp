@@ -28,4 +28,12 @@ void FallAttackWithAtAttr::calc_() {
     FallAttack::calc_();
 }
 
+int FallAttackWithAtAttr::m32() {
+    return *mAtAttr_s;
+}
+
+int FallAttackWithAtAttr::m33() {
+    return *mAtAttrNoWeapon_s;
+}
+
 }  // namespace uking::action

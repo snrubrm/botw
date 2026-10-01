@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m41(f32* a, sead::Vector3f* b) override;
 
     // static_param at offset 0xc0
     const float* mJumpDist_s{};

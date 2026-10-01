@@ -18,10 +18,13 @@ public:
 
 protected:
     void calc_() override;
+    void m33(sead::Vector3f* dir, const sead::Vector3f& up) override;
     void m34() override;
     void m35() override;
     void m36() override;
     void m37() override;
+    void m41(f32* a, sead::Vector3f* b) override;
+    f32 m42() override;
 
     // static_param at offset 0xc0
     const bool* mIsJumpHeightFromHigherPos_s{};
@@ -33,6 +36,7 @@ protected:
     sead::SafeString mPreLandAS_s{};
     // static_param at offset 0xf8
     sead::SafeString mEndAS_s{};
+    sead::Vector3f _108 = {0, 0, 0};
 };
 
 }  // namespace uking::action

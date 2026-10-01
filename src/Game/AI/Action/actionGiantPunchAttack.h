@@ -22,6 +22,7 @@ protected:
 
     // static_param at offset 0xd0
     sead::SafeString mCoBodyName_s{};
+    bool _e0 = false;
 };
 
 }  // namespace uking::action
