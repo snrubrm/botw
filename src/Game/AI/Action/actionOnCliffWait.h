@@ -24,6 +24,7 @@ protected:
     const float* mAngReduceRatio_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
+    int _40 = 0;
 };
 
 }  // namespace uking::action
