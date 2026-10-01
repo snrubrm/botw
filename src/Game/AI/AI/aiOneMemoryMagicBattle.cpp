@@ -14,6 +14,11 @@ void OneMemoryMagicBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     OneMemoryMagicBattleBase::enter_(params);
 }
 
+void OneMemoryMagicBattle::calc_() {
+    OneMemoryMagicBattleBase::calc_();
+    getCurrentChild()->isChangeable();
+}
+
 void OneMemoryMagicBattle::leave_() {
     OneMemoryMagicBattleBase::leave_();
 }
