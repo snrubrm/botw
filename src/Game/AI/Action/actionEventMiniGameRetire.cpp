@@ -10,6 +10,10 @@ bool EventMiniGameRetire::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool EventMiniGameRetire::oneShot_() {
+    return false;
+}
+
 void EventMiniGameRetire::loadParams_() {
     getDynamicParam(&mTextType_d, "TextType");
 }
