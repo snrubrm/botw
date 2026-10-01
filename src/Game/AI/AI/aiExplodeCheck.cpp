@@ -14,6 +14,14 @@ void ExplodeCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool ExplodeCheck::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool ExplodeCheck::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void ExplodeCheck::leave_() {
     ksys::act::ai::Ai::leave_();
 }
