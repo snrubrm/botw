@@ -9,6 +9,7 @@ class EnemyEscapeMove : public ksys::act::ai::Ai {
 public:
     explicit EnemyEscapeMove(const InitArg& arg);
     ~EnemyEscapeMove() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -14,6 +14,10 @@ void EnemyEscapeMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyEscapeMove::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyEscapeMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
