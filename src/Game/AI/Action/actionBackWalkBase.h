@@ -2,6 +2,8 @@
 
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -37,6 +39,13 @@ protected:
     const bool* mIsCliffCheck_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _68;
+    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
+    u8 _74[0x98 - 0x74];
+    ksys::Timer _98{0, 0};
+    ksys::Timer _a4{0, 0};
 };
+
+KSYS_CHECK_SIZE_NX150(BackWalkBase, 0xb0);
 
 }  // namespace uking::action

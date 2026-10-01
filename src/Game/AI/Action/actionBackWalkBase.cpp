@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: regalloc (keeps &_68 in x20 across the memset)
 BackWalkBase::BackWalkBase(const InitArg& arg) : ActionEx(arg) {}
 
 BackWalkBase::~BackWalkBase() = default;
