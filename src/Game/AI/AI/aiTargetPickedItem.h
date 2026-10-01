@@ -13,8 +13,11 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool isChangeable() const override;
+    void m38() override;
 
 protected:
     // dynamic_param at offset 0xe8
