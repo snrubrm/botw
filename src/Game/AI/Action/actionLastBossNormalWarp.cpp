@@ -43,4 +43,12 @@ void LastBossNormalWarp::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool LastBossNormalWarp::m32() {
+    return *mIsWarpAtGround_s;
+}
+
+float LastBossNormalWarp::m33() {
+    return *mOffsetY_s;
+}
+
 }  // namespace uking::action
