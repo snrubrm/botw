@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
 
     // static_param at offset 0xd0
     sead::SafeString mCoBodyName_s{};
