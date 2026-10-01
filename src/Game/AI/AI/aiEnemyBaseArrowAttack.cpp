@@ -8,6 +8,10 @@ void EnemyBaseArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyBaseArrowAttack::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyBaseArrowAttack::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mIntervalIntensity_s, "IntervalIntensity");

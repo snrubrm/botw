@@ -9,6 +9,8 @@ class EnemyBaseArrowAttack : public ksys::act::ai::Ai {
 public:
     explicit EnemyBaseArrowAttack(const InitArg& arg);
 
+    bool isChangeable() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     void loadParams_() override;
