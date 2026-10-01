@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSetTargetPosForAngryKokko.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,26 @@ bool SetTargetPosForAngryKokko::init_(sead::Heap* heap) {
 }
 
 void SetTargetPosForAngryKokko::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _7c = 0;
+    sead::Vector3f pos;
+    if (!sub_7100568490(&pos))
+        mActor->getMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack child_params;
+    child_params.addVec3(pos, "TargetPos", -1);
+    changeChild("子アクション", &child_params);
+}
+
+void SetTargetPosForAngryKokko::calc_() {
+    _70.update();
+    if (*mUpdateTargetInterval_s < 0)
+        return;
+
+    if (_70.value <= sead::Mathf::epsilon()) {
+        sead::Vector3f pos;
+        if (sub_7100568490(&pos))
+            getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    }
 }
 
 void SetTargetPosForAngryKokko::leave_() {
