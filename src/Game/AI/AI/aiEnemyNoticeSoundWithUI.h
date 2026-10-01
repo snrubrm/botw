@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyNoticeSound.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -19,6 +20,7 @@ public:
 protected:
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTargetActor_d{};
+    ksys::act::BaseProcLink _50;
 };
 
 }  // namespace uking::ai

@@ -13,6 +13,8 @@ bool EnemyNoticeSoundSensitive::init_(sead::Heap* heap) {
 
 void EnemyNoticeSoundSensitive::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNoticeSoundWithUI::enter_(params);
+    _64 = 5;
+    _68 = 7;
 }
 
 void EnemyNoticeSoundSensitive::leave_() {
