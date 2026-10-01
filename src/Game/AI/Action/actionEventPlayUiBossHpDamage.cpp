@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventPlayUiBossHpDamage.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,14 @@ bool EventPlayUiBossHpDamage::init_(sead::Heap* heap) {
 }
 
 void EventPlayUiBossHpDamage::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    float num_cleared = ksys::gdt::getFlag_Clear_RemainsWind() ? 1.0f : 0.0f;
+    if (ksys::gdt::getFlag_Clear_RemainsWater())
+        num_cleared += 1.0f;
+    if (ksys::gdt::getFlag_Clear_RemainsFire())
+        num_cleared += 1.0f;
+    if (ksys::gdt::getFlag_Clear_RemainsElectric())
+        num_cleared += 1.0f;
+    ksys::gdt::setFlag_DispBossGaugeRate_Demo(1.0f - num_cleared * 0.125f);
 }
 
 void EventPlayUiBossHpDamage::leave_() {
@@ -23,7 +31,7 @@ void EventPlayUiBossHpDamage::loadParams_() {
 }
 
 void EventPlayUiBossHpDamage::calc_() {
-    ksys::act::ai::Action::calc_();
+    setFinished();
 }
 
 }  // namespace uking::action
