@@ -9,6 +9,8 @@ class GroundAngleSelect : public ksys::act::ai::Ai {
 public:
     explicit GroundAngleSelect(const InitArg& arg);
     ~GroundAngleSelect() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
