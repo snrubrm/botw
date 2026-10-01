@@ -13,6 +13,7 @@ bool ForkNoWeaponAttackBase::init_(sead::Heap* heap) {
 
 void ForkNoWeaponAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkAttackWithWeaponOrWithout::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkNoWeaponAttackBase::leave_() {
