@@ -24,4 +24,8 @@ void PlayerCutAfterJust::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutAfterJust::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
