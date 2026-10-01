@@ -15,6 +15,10 @@ void DynTgBreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params
     BreathAttackEnemyBattle::enter_(params);
 }
 
+void DynTgBreathAttackEnemyBattle::calc_() {
+    BreathAttackEnemyBattle::calc_();
+}
+
 void DynTgBreathAttackEnemyBattle::leave_() {
     BreathAttackEnemyBattle::leave_();
 }
