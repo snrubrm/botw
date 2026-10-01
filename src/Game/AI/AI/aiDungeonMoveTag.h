@@ -19,6 +19,7 @@ protected:
     const float* mInitDgnMoveDis_m{};
     // map_unit_param at offset 0x40
     const float* mMoveDis_m{};
+    u16 _48{};
 };
 
 }  // namespace uking::ai
