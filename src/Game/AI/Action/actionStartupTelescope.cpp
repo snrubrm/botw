@@ -17,7 +17,8 @@ void StartupTelescope::enter_(ksys::act::ai::InlineParamPack* params) {
 void StartupTelescope::loadParams_() {}
 
 void StartupTelescope::calc_() {
-    ksys::act::ai::Action::calc_();
+    setFinished();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
