@@ -27,4 +27,12 @@ void ChuchuDissappearEscape::calc_() {
     ChuchuDissappearEscapeBase::calc_();
 }
 
+bool ChuchuDissappearEscape::isFailed() const {
+    return false;
+}
+
+bool ChuchuDissappearEscape::isFinished() const {
+    return false;
+}
+
 }  // namespace uking::action
