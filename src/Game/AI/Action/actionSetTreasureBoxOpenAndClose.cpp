@@ -13,23 +13,19 @@ bool SetTreasureBoxOpenAndClose::init_(sead::Heap* heap) {
 }
 
 void SetTreasureBoxOpenAndClose::enter_(ksys::act::ai::InlineParamPack* params) {
-    const s32 set_open = *mIsSetOpen_d;
-    const bool is_open = *mIsOpenTreasureBox_a;
-    if (set_open != 0) {
-        if (is_open) {
+    if (*mIsSetOpen_d != 0) {
+        if (*mIsOpenTreasureBox_a) {
             mActor->emitBasicSigOff();
             *mIsOpenTreasureBox_a = false;
             playAS("Close", true, 0, 0, -1.0f);
         } else {
             setFinished();
         }
+    } else if (!*mIsOpenTreasureBox_a) {
+        *mIsOpenTreasureBox_a = true;
+        playAS("Open", true, 0, 0, -1.0f);
     } else {
-        if (!is_open) {
-            *mIsOpenTreasureBox_a = true;
-            playAS("Open", true, 0, 0, -1.0f);
-        } else {
-            setFinished();
-        }
+        setFinished();
     }
     mFlags.set(Flag::Changeable);
 }
