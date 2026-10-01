@@ -12,7 +12,7 @@ bool ForkFixedAngleVacuumShootTarget::init_(sead::Heap* heap) {
 }
 
 void ForkFixedAngleVacuumShootTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkFixedAngleVacuumShootTarget::leave_() {
