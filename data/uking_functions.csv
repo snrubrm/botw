@@ -77863,7 +77863,7 @@ Address,Quality,Size,Name
 0x0000007100e232b4,W,000104,_ZN5uking6action26AreaOutRecreateActorActionD0Ev
 0x0000007100e2331c,U,000104,
 0x0000007100e23384,W,000144,_ZN5uking6action26AreaOutRecreateActorAction5init_EPN4sead4HeapE
-0x0000007100e23414,U,000008,uking::action::AreaOutRecreateActorAction::m32
+0x0000007100e23414,U,000008,_ZN5uking6action26AreaOutRecreateActorAction3m32Ev
 0x0000007100e2341c,U,000008,
 0x0000007100e23424,U,000196,uking::action::AreaOutRecreateActorAction::m33
 0x0000007100e234e8,U,000196,
