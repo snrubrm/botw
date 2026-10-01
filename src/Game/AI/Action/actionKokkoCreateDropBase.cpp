@@ -24,4 +24,8 @@ void KokkoCreateDropBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool KokkoCreateDropBase::m32() {
+    return true;
+}
+
 }  // namespace uking::action
