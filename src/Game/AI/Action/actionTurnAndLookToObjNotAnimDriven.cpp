@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTurnAndLookToObjNotAnimDriven.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,6 +19,8 @@ void TurnAndLookToObjNotAnimDriven::enter_(ksys::act::ai::InlineParamPack* param
 
 void TurnAndLookToObjNotAnimDriven::leave_() {
     LookAtObjectBase::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void TurnAndLookToObjNotAnimDriven::loadParams_() {
