@@ -20,4 +20,8 @@ void PlayerHellNoFade::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHellNoFade::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
