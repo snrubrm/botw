@@ -11,7 +11,7 @@ void GuardianMiniOnNoNavMesh::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMiniOnNoNavMesh::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _40.reset();
 }
 
 void GuardianMiniOnNoNavMesh::loadParams_() {

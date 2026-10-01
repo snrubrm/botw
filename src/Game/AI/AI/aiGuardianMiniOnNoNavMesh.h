@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -17,6 +19,10 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mChangeToIceTimer_s{};
+    ksys::act::BaseProcLink _40;
+    ksys::Timer _50{0, 0};
+    bool _5c{};
+    bool _5d{};
 };
 
 }  // namespace uking::ai
