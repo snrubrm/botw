@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,11 @@ void EnemyDefaultReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyDefaultReaction::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_62)
+        ksys::act::enableAttClient(mActor, "Grab");
+    _58 = -1;
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
 void EnemyDefaultReaction::loadParams_() {

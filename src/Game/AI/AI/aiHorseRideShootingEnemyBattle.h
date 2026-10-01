@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiShootingEnemyBattle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -25,9 +26,7 @@ protected:
     const int* mSlowTime_s{};
     // static_param at offset 0xe0
     const int* mSlowTimeRand_s{};
-    f32 _e8{};
-    f32 _ec{};
-    int _f0{};
+    ksys::Timer _e8;
     int _f4{};
     int _f8{};
     int _fc{};
