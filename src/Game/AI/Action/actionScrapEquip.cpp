@@ -12,6 +12,7 @@ bool ScrapEquip::init_(sead::Heap* heap) {
 
 void ScrapEquip::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    playAS("Scrap", false, 0, 0, -1.0f);
 }
 
 void ScrapEquip::leave_() {
