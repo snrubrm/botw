@@ -25,7 +25,8 @@ void SiteBossSwordAfterImageAction::loadParams_() {
 }
 
 void SiteBossSwordAfterImageAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
