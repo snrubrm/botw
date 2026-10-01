@@ -12,6 +12,10 @@ void PlayerCutJump::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PlayerCutJump::calc_() {
+    handlePendingChildChange();
+}
+
 void PlayerCutJump::loadParams_() {}
 
 }  // namespace uking::ai
