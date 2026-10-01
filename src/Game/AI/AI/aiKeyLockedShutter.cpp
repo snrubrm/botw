@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKeyLockedShutter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -10,7 +11,13 @@ KeyLockedShutter::KeyLockedShutter(const InitArg& arg) : ksys::act::ai::Ai(arg) 
 KeyLockedShutter::~KeyLockedShutter() = default;
 
 void KeyLockedShutter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (actor->checkLinkBasicSig() || actor->isWaitRevivalForUsed())
+        changeChild("プリオープン");
+    else
+        changeChild("クローズ待機");
+    _38.x();
+    ksys::act::disableAttClient(actor, "Open");
 }
 
 // NON_MATCHING: regalloc (address of _38 kept in x20 in the original)

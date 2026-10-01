@@ -18,6 +18,10 @@ public:
 
     virtual void m34();
     virtual void m35(ksys::act::ai::InlineParamPack* params);
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
+    void calc_() override;
 
 protected:
     // static_param at offset 0x38

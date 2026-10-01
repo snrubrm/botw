@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossDemoWarpMove.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -19,5 +20,26 @@ void LastBossDemoWarpMove::leave_() {
 }
 
 void LastBossDemoWarpMove::loadParams_() {}
+
+void LastBossDemoWarpMove::calc_() {
+    auto* child = getCurrentChild();
+    if (!child || (!child->isFinished() && !child->isFailed()))
+        return;
+
+    if (isCurrentChild("ワープ消失"))
+        m35();
+    else if (isCurrentChild("ワープ移動"))
+        setFinished();
+}
+
+void LastBossDemoWarpMove::m34() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(true, "IsPartsWarpEffectSync", -1);
+    changeChild("ワープ消失", &pack);
+}
+
+void LastBossDemoWarpMove::m35() {
+    changeChild("ワープ移動");
+}
 
 }  // namespace uking::ai

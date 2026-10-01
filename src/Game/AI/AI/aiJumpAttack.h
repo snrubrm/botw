@@ -8,6 +8,7 @@ class JumpAttack : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(JumpAttack, ksys::act::ai::Ai)
 public:
     explicit JumpAttack(const InitArg& arg);
+    void calc_() override;
     bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
