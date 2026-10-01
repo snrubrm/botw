@@ -12,7 +12,7 @@ bool SimpleOpenMessageDialogAction::init_(sead::Heap* heap) {
 }
 
 void SimpleOpenMessageDialogAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = false;
 }
 
 void SimpleOpenMessageDialogAction::leave_() {
