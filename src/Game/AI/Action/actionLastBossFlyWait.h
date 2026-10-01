@@ -39,6 +39,15 @@ protected:
     sead::SafeString mWaitAS_s{};
     // dynamic_param at offset 0x70
     bool* mIsResetEndTime_d{};
+    float _78 = 0.0f;
+    int _7c = 0;
+    int _80 = 0;
+    float _84 = 0.0f;
+    float _88 = 0.0f;
+    int _8c = 0;
+    float _90 = 0.0f;
+    float _94 = 0.0f;
+    int _98 = 0;
 };
 
 }  // namespace uking::action
