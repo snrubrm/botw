@@ -305,6 +305,7 @@ public:
     virtual void m146();
     virtual void m147();
 
+    sead::Atomic<bool>& get68c() { return _68c; }
     sead::Atomic<bool>& get68f() { return _68f; }
     float get6f0() const { return _6f0; }
 

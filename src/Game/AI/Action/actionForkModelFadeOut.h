@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool handleMessage_(const ksys::Message& message) override;
+
     void calc_() override;
 };
 

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkModelFadeOut.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +14,7 @@ bool ForkModelFadeOut::init_(sead::Heap* heap) {
 
 void ForkModelFadeOut::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    mActor->get68c() = true;
 }
 
 void ForkModelFadeOut::leave_() {
@@ -20,6 +23,13 @@ void ForkModelFadeOut::leave_() {
 
 void ForkModelFadeOut::loadParams_() {
     Fork::loadParams_();
+}
+
+bool ForkModelFadeOut::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value != 0x3000010)
+        return false;
+    setEndState();
+    return true;
 }
 
 void ForkModelFadeOut::calc_() {
