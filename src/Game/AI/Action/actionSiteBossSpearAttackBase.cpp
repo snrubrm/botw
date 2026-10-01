@@ -44,4 +44,8 @@ void SiteBossSpearAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossSpearAttackBase::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
