@@ -20,4 +20,8 @@ void PlayerGuardJust::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGuardJust::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
