@@ -14,6 +14,10 @@ void Arrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool Arrow::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void Arrow::leave_() {
     ksys::act::ai::Ai::leave_();
 }
