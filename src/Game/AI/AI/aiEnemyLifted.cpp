@@ -18,6 +18,16 @@ void EnemyLifted::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+void EnemyLifted::m34() {}
+
 void EnemyLifted::loadParams_() {}
+
+bool EnemyLifted::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+    if (isCurrentChild("着地"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
 
 }  // namespace uking::ai

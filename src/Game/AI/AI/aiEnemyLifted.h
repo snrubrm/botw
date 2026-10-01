@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,8 +16,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
+
+    virtual void m34();
 
 protected:
+    sead::Vector3f _38{0, 0, 0};
+    Unk_7102451bd8 _48;
 };
 
 }  // namespace uking::ai
