@@ -14,6 +14,10 @@ void MiniGolemSleep::enter_(ksys::act::ai::InlineParamPack* params) {
     SpecialEnemySleep::enter_(params);
 }
 
+void MiniGolemSleep::calc_() {
+    SpecialEnemySleep::calc_();
+}
+
 void MiniGolemSleep::leave_() {
     SpecialEnemySleep::leave_();
 }
