@@ -11,7 +11,11 @@ bool TreasureBoxOpenWait::init_(sead::Heap* heap) {
 }
 
 void TreasureBoxOpenWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!*mIsOpenTreasureBox_a && !mASName_PreOpen_s.isEmpty())
+        playAS(mASName_PreOpen_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+    else
+        playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void TreasureBoxOpenWait::leave_() {
