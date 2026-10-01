@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <codec/seadHashCRC32.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -12,6 +13,24 @@ Action::Action(const InitArg& arg) : ActionBase(arg) {}
 
 void Action::calc() {
     calc_();
+}
+
+void ActionBase::playAS(const char* name, bool repeat, u32 slot, u32 seq_bank, f32 t) {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+
+    if (repeat && as_list->x_1(slot, seq_bank) == name)
+        return;
+
+    as_list->startAnimationMaybe(t, -1.0f, name, slot, seq_bank, true);
+}
+
+bool ActionBase::isFinishedAS(u32 slot, u32 seq_bank) {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return true;
+    return as_list->x_4(slot, seq_bank);
 }
 
 Actions::Actions() = default;
