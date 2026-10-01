@@ -26,6 +26,7 @@ protected:
     bool* mIsPowerUp_d{};
     // dynamic_param at offset 0x38
     bool* mIsPlayerClose_d{};
+    bool _40 = false;
 };
 
 }  // namespace uking::action
