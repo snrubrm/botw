@@ -28,4 +28,8 @@ void PlayerShieldRideMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerShieldRideMove::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
