@@ -11,7 +11,7 @@ bool SandwormNavSearchWait::init_(sead::Heap* heap) {
 }
 
 void SandwormNavSearchWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("見まわす");
 }
 
 void SandwormNavSearchWait::leave_() {
