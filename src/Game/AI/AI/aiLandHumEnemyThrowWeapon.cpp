@@ -10,6 +10,10 @@ void LandHumEnemyThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LandHumEnemyThrowWeapon::isChangeable() const {
+    return false;
+}
+
 void LandHumEnemyThrowWeapon::leave_() {
     ksys::act::ai::Ai::leave_();
 }
