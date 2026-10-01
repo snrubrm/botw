@@ -14,6 +14,10 @@ void ReflectableIgnitedThrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ReflectableThrown::enter_(params);
 }
 
+void ReflectableIgnitedThrown::calc_() {
+    ReflectableThrown::calc_();
+}
+
 void ReflectableIgnitedThrown::leave_() {
     ReflectableThrown::leave_();
 }
