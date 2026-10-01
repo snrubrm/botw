@@ -11,7 +11,7 @@ bool LastBossJustGuard::init_(sead::Heap* heap) {
 }
 
 void LastBossJustGuard::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS("GuardJust", false, 0, 0, -1.0f);
 }
 
 void LastBossJustGuard::leave_() {
