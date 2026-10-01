@@ -6,6 +6,7 @@ BowArrowReload::BowArrowReload(const InitArg& arg) : BindAction(arg) {}
 
 void BowArrowReload::enter_(ksys::act::ai::InlineParamPack* params) {
     BindAction::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void BowArrowReload::calc_() {
