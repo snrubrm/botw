@@ -2050,7 +2050,7 @@ Address,Quality,Size,Name
 0x0000007100066ea4,U,000008,uking::action::PriestBossClonesSpawnForDemo::m32
 0x0000007100066eac,U,000028,uking::action::PriestBossClonesSpawnForDemo::m33
 0x0000007100066ec8,U,000140,
-0x0000007100066f54,U,000116,AI_Action_PriestBossMove::ctor
+0x0000007100066f54,O,000116,_ZN5uking6action14PriestBossMoveC1ERKN4ksys3act2ai10ActionBase7InitArgE
 0x0000007100066fc8,O,000020,_ZN5uking6action14PriestBossMoveD1Ev
 0x0000007100066fdc,O,000052,_ZN5uking6action14PriestBossMoveD0Ev
 0x0000007100067010,O,000668,_ZN5uking6action14PriestBossMove11loadParams_Ev
@@ -42359,7 +42359,7 @@ Address,Quality,Size,Name
 0x00000071006a9104,U,000056,AI_F_Action_NPCEscape
 0x00000071006a913c,U,000056,AI_F_Action_DieAnmKnockBack
 0x00000071006a9174,U,000056,AI_F_Action_AnmTimingBackWalk
-0x00000071006a91ac,U,000056,AI_F_Action_PriestBossMove
+0x00000071006a91ac,O,000056,_ZN4ksys3act2ai13ActionFactory4makeIN5uking6action14PriestBossMoveEEEPNS1_6ActionERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006a91e4,U,000056,AI_F_Action_AirOctaFloat
 0x00000071006a921c,U,000056,AI_F_Action_AnmDirectionMove
 0x00000071006a9254,U,000056,AI_F_Action_GanonThrowTornado
