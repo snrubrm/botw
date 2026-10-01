@@ -119,6 +119,8 @@ public:
     void m3() override {}
 
     ksys::act::BaseProcLink _38;
+};
+
 // vtable 0x7102450528 (m2 handles message type 0x6080000; embedded in uking::act::Enemy at 0xcf0)
 class Unk_7102450528 : public Unk_7102357210 {
 public:
