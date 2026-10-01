@@ -18,6 +18,12 @@ void GolemSleepNormal::leave_() {
     SpecialEnemySleep::leave_();
 }
 
+bool GolemSleepNormal::handleAck_(const ksys::MessageAck& ack) {
+    if (_a8.sub_710070E070(ack))
+        return true;
+    return _90.sub_710070E070(ack);
+}
+
 void GolemSleepNormal::loadParams_() {
     SpecialEnemySleep::loadParams_();
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
