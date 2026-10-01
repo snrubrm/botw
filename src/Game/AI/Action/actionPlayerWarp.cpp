@@ -14,4 +14,8 @@ void PlayerWarp::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWarp::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
