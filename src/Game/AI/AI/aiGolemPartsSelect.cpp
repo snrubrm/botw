@@ -14,6 +14,14 @@ void GolemPartsSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GolemPartsSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool GolemPartsSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void GolemPartsSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
