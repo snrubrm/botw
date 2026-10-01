@@ -14,6 +14,8 @@ void NpcDemoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void NpcDemoRoot::calc_() {}
+
 void NpcDemoRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
