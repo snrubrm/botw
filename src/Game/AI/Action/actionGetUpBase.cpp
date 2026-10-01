@@ -32,4 +32,8 @@ bool GetUpBase::isChangeable() const {
     return false;
 }
 
+bool GetUpBase::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
