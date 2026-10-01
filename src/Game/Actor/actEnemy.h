@@ -34,6 +34,11 @@ class Unk_7100013308 {
 public:
     explicit Unk_7100013308(ksys::act::Actor* actor);
 
+    // Sets the target link, matrix (or the target actor's matrix) and position (or the target
+    // actor's position) and sets _7c to 2.
+    void sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,
+                        const sead::Vector3f* pos);
+
     /* 0x000 */ ksys::act::Actor* mActor;
     /* 0x008 */ ksys::act::BaseProcLink _8;
     /* 0x018 */ sead::Vector3f _18;
@@ -210,7 +215,7 @@ public:
     virtual void m179();
     virtual void m180() {}
 
-protected:
+    // Fields are accessed directly by the AI helper functions (aiUnk_71005D6D10.cpp) and AI classes.
     /* 0xc38 */ u32 _c38 = 0;
     /* 0xc40 */ void* _c40 = nullptr;
     /* 0xc48 */ Unk_7100013308 _c48{this};
