@@ -11,7 +11,7 @@ bool WaitPartsSleep::init_(sead::Heap* heap) {
 }
 
 void WaitPartsSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("行動", params);
 }
 
 void WaitPartsSleep::leave_() {
