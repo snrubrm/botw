@@ -1,5 +1,7 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 namespace ksys::res {
 
 class ArchiveWork;
@@ -14,6 +16,11 @@ public:
 
     ArchiveWork* getArchiveWork() const;
     void clearAllCache();
+
+private:
+    // TODO
+    u8 _8[0x768 - 0x8];
+    ArchiveWork* mArchiveWork;
 };
 
 }  // namespace ksys::res

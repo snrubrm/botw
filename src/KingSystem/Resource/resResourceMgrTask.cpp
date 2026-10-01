@@ -11,6 +11,7 @@
 #include "KingSystem/Resource/resMemoryTask.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
+#include "KingSystem/Resource/resArchiveWork.h"
 #include "KingSystem/Resource/resTextureHandleMgr.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Utils/SafeDelete.h"
@@ -138,6 +139,10 @@ void ResourceMgrTask::clearAllCaches(OverlayArena* arena) {
     util::TaskMgrRequest task_mgr_request;
     task_mgr_request.request = &req;
     mResourceMemoryTaskMgr->submitRequest(task_mgr_request);
+}
+
+OverlayArena* ResourceMgrTask::getTexHandleMgrArena() const {
+    return mTexHandleMgr->getArchiveWork()->getArena();
 }
 
 bool ResourceMgrTask::isDefragDone() const {

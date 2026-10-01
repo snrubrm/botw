@@ -85270,7 +85270,7 @@ Address,Quality,Size,Name
 0x0000007100fe5334,U,000136,
 0x0000007100fe53bc,U,000092,
 0x0000007100fe5418,U,000164,TextureHandleMgr::calc
-0x0000007100fe54bc,U,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
+0x0000007100fe54bc,O,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
 0x0000007100fe54c0,U,000536,TextureHandleMgr::d
 0x0000007100fe56d8,U,000124,TextureHandleMgr::isTooSlow
 0x0000007100fe5754,U,000232,TextureHandleMgr::x
@@ -85285,7 +85285,7 @@ Address,Quality,Size,Name
 0x0000007100fe60b0,U,000044,
 0x0000007100fe60dc,U,000068,
 0x0000007100fe6120,U,000012,
-0x0000007100fe612c,U,000008,_ZNK4ksys3res16TextureHandleMgr14getArchiveWorkEv
+0x0000007100fe612c,O,000008,_ZNK4ksys3res16TextureHandleMgr14getArchiveWorkEv
 0x0000007100fe6134,U,000736,TextureHandleMgr::x_0
 0x0000007100fe6414,U,000036,TextureHandleMgr::__auto0
 0x0000007100fe6438,U,000204,
@@ -93741,7 +93741,7 @@ Address,Quality,Size,Name
 0x00000071012070ec,O,000036,_ZN4ksys3res15ResourceMgrTask11requestCalcEv
 0x0000007101207110,O,000020,_ZN4ksys3res15ResourceMgrTask11waitForCalcEv
 0x0000007101207124,O,000288,_ZN4ksys3res15ResourceMgrTask14clearAllCachesEPNS_12OverlayArenaE
-0x0000007101207244,U,000032,_ZNK4ksys3res15ResourceMgrTask20getTexHandleMgrArenaEv
+0x0000007101207244,O,000032,_ZNK4ksys3res15ResourceMgrTask20getTexHandleMgrArenaEv
 0x0000007101207264,O,000024,_ZN4ksys3res18ControlTaskRequestD2Ev
 0x000000710120727c,U,000800,res::ResourceMgrTask::defragAllMemoryMgr
 0x000000710120759c,O,000020,_ZNK4ksys3res15ResourceMgrTask12isDefragDoneEv
