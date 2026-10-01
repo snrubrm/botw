@@ -8,7 +8,7 @@ ForkAttackWithWeaponOrWithout::ForkAttackWithWeaponOrWithout(const InitArg& arg)
 ForkAttackWithWeaponOrWithout::~ForkAttackWithWeaponOrWithout() = default;
 
 void ForkAttackWithWeaponOrWithout::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAttackWithWeaponOrWithout::loadParams_() {
