@@ -23,4 +23,12 @@ void PlayerDestinationTurnStarter::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDestinationTurnStarter::m34() {
+    return true;
+}
+
+bool PlayerDestinationTurnStarter::m35() {
+    return true;
+}
+
 }  // namespace uking::action
