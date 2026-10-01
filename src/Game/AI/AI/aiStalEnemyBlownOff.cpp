@@ -14,6 +14,25 @@ void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void StalEnemyBlownOff::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
+}
+
+bool StalEnemyBlownOff::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool StalEnemyBlownOff::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void StalEnemyBlownOff::leave_() {
     ksys::act::ai::Ai::leave_();
 }
