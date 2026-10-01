@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiChangeWeatherTagRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -9,7 +11,12 @@ bool ChangeWeatherTagRoot::init_(sead::Heap* heap) {
 }
 
 void ChangeWeatherTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(*mTemperatureDay_m, "AddTemperatureDay", -1);
+    pack.addFloat(*mTemperatureNight_m, "AddTemperatureNight", -1);
+    _98 = false;
+    changeChild("通知", &pack);
+    mActor->m107();
 }
 
 void ChangeWeatherTagRoot::leave_() {

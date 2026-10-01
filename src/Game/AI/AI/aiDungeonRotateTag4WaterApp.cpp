@@ -7,7 +7,10 @@ DungeonRotateTag4WaterApp::DungeonRotateTag4WaterApp(const InitArg& arg) : ksys:
 DungeonRotateTag4WaterApp::~DungeonRotateTag4WaterApp() = default;
 
 bool DungeonRotateTag4WaterApp::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    *mTargetRad_a = 0.0f;
+    *mTargetRadMax_a = 0.0f;
+    *mTargetRadMin_a = 0.0f;
+    return true;
 }
 
 void DungeonRotateTag4WaterApp::enter_(ksys::act::ai::InlineParamPack* params) {

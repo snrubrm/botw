@@ -24,4 +24,11 @@ void BokoblinRestraint::loadParams_() {
     getStaticParam(&mLostRange_s, "LostRange");
 }
 
+bool BokoblinRestraint::isChangeable() const {
+    if (getCurrentChild()->isChangeable())
+        return true;
+    auto* child = getCurrentChild();
+    return child->isFinished() || child->isFailed();
+}
+
 }  // namespace uking::ai
