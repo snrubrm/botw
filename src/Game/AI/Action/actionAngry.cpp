@@ -9,6 +9,7 @@ bool Angry::init_(sead::Heap* heap) {
 }
 
 void Angry::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS("Angry", false, 0, 0, -1.0f);
     ActionWithAS::enter_(params);
 }
 
