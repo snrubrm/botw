@@ -20,6 +20,7 @@ protected:
     float* mPower_d{};
     // dynamic2_param at offset 0x38
     bool* mSideways_d{};
+    bool _40 = true;
 };
 
 }  // namespace uking::action
