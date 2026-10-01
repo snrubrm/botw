@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetGravityFactor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,9 @@ bool SetGravityFactor::init_(sead::Heap* heap) {
 }
 
 void SetGravityFactor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(*mValue_s);
+    mFlags.set(Flag::Changeable);
 }
 
 void SetGravityFactor::leave_() {
