@@ -23,4 +23,8 @@ void TargetPosDirLRSelect::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool TargetPosDirLRSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai
