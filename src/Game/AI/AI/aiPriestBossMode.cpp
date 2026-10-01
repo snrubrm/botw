@@ -14,6 +14,8 @@ void PriestBossMode::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestBossMode::calc_() {}
+
 void PriestBossMode::leave_() {
     ksys::act::ai::Ai::leave_();
 }
