@@ -12,7 +12,7 @@ bool DgnObj_DLC_CogWheel_ASPlay::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CogWheel_ASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = true;
 }
 
 void DgnObj_DLC_CogWheel_ASPlay::leave_() {
