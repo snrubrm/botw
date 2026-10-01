@@ -22,6 +22,8 @@ protected:
     const bool* mIsOnAttention_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
+    int _38 = -1;
+    u16 _3c = 0;
 };
 
 }  // namespace uking::action
