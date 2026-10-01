@@ -18,6 +18,7 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mConfuseTime_s{};
+    f32 _40{};
 };
 
 }  // namespace uking::ai
