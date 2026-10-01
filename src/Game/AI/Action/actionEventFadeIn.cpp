@@ -14,9 +14,7 @@ void EventFadeIn::enter_(ksys::act::ai::InlineParamPack* params) {
     EventFade::enter_(params);
 }
 
-void EventFadeIn::leave_() {
-    EventFade::leave_();
-}
+void EventFadeIn::leave_() {}
 
 void EventFadeIn::loadParams_() {
     EventFade::loadParams_();
