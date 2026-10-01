@@ -134,3 +134,10 @@ public:
     sead::Vector3f _60 = sead::Vector3f::zero;
     bool _6c = false;
 };
+
+// vtable 0x7102450bb8 (WolfLinkNormalRoot; m2 handles message type 0x80000a8 with a u32 payload)
+class Unk_7102450bb8 : public Unk_7102357210 {
+public:
+    Unk_7102450bb8() { _34 = 0; }
+    bool m2(const ksys::Message& message) override;
+};

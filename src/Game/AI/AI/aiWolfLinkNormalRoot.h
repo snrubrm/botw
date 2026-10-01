@@ -1,8 +1,35 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::act {
+class Awareness;
+}
+
+namespace ksys::res {
+class GParamListObjectWolfLink;
+}
+
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
+
+// vtable 0x7102432a80 (functions in this TU): accepts message type 0.
+class Unk_7102432a80 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
 
 class WolfLinkNormalRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkNormalRoot, ksys::act::ai::Ai)
@@ -30,6 +57,27 @@ protected:
     const float* mUtilityWantsToHunt_s{};
     // static_param at offset 0x68
     const float* mWarpToPlayerDistance_s{};
+    act::WolfLink* _70{};
+    const ksys::res::GParamListObjectWolfLink* _78{};
+    ksys::act::Awareness* _80{};
+    Unk_7102450648 _88{0x1800025};
+    Unk_7102450648 _c8{0x1800024};
+    Unk_7102450bb8 _108;
+    Unk_7102432a80 _140;
+    sead::Vector3f _178 = {0, 0, 0};
+    sead::Vector3f _184 = {0, 0, 0};
+    f32 _190 = 0;
+    f32 _194 = 0;
+    f32 _198 = 0;
+    sead::Vector3f _19c = {0, 0, 0};
+    s32 _1a8 = 0;
+    s32 _1ac = 4;
+    u32 _1b0 = 0;
+    u32 _1b4 = 0;
+    u16 _1b8 = 0;
+    sead::Vector3f _1bc = {0, 0, 0};
+    f32 _1c8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkNormalRoot, 0x1d0);
 
 }  // namespace uking::ai
