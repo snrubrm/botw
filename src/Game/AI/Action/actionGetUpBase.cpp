@@ -28,4 +28,8 @@ void GetUpBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GetUpBase::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
