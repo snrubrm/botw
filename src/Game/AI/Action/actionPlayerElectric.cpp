@@ -21,4 +21,8 @@ void PlayerElectric::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerElectric::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
