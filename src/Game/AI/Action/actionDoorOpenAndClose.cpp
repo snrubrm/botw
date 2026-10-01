@@ -12,6 +12,7 @@ bool DoorOpenAndClose::init_(sead::Heap* heap) {
 
 void DoorOpenAndClose::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    playAS(mDynASKey_d.cstr(), false, 0, 0, -1.0f);
 }
 
 void DoorOpenAndClose::leave_() {
