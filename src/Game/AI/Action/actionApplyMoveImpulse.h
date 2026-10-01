@@ -22,6 +22,7 @@ protected:
     const float* mFellImpRate_s{};
     // static_param at offset 0x28
     const float* mFellRotRate_s{};
+    u16 _30 = 0;
 };
 
 }  // namespace uking::action
