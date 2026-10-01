@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkGravityScaleChange.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,11 +14,21 @@ bool ForkGravityScaleChange::init_(sead::Heap* heap) {
 }
 
 void ForkGravityScaleChange::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* cc = mActor->getCharacterController()) {
+        _28 = cc->get110();
+        cc->sub_7100F5EEB8(*mScale_s);
+    } else if (auto* body = mActor->getMainBody()) {
+        _28 = body->getGravityFactor();
+        body->setGravityFactor(*mScale_s);
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkGravityScaleChange::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5EEB8(_28);
+    else if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(_28);
 }
 
 void ForkGravityScaleChange::loadParams_() {
