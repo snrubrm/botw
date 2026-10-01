@@ -12,6 +12,7 @@ bool SiteBossBowHoldTurn::init_(sead::Heap* heap) {
 
 void SiteBossBowHoldTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void SiteBossBowHoldTurn::leave_() {
