@@ -12,7 +12,7 @@ bool InsectEscape::init_(sead::Heap* heap) {
 }
 
 void InsectEscape::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100449E98();
 }
 
 // NON_MATCHING: the original keeps the "out of water" bool materialized (cset/cbnz)

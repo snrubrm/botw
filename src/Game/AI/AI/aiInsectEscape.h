@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100449E98();
+
 protected:
     // static_param at offset 0x38
     const float* mRunAwayDistanceMax_s{};
