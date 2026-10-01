@@ -9,7 +9,7 @@ bool EnemyLiftShootItem::init_(sead::Heap* heap) {
 }
 
 void EnemyLiftShootItem::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710039760C();
 }
 
 void EnemyLiftShootItem::leave_() {

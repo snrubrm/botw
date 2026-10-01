@@ -14,6 +14,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710039760C();
+
 protected:
     // static_param at offset 0x38
     const float* mShootAngle_s{};
