@@ -7,7 +7,10 @@ CliffCheckSelect::CliffCheckSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) 
 CliffCheckSelect::~CliffCheckSelect() = default;
 
 void CliffCheckSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_710035116C())
+        changeChild("崖である", params);
+    else
+        changeChild("崖でない", params);
 }
 
 bool CliffCheckSelect::isFailed() const {

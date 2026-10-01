@@ -17,6 +17,8 @@ public:
     void calc_() override;
     void loadParams_() override;
 
+    bool sub_710035116C();
+
 protected:
     // static_param at offset 0x38
     const float* mCheckDist_s{};
