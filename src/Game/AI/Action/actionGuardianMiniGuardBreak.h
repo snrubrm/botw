@@ -14,6 +14,10 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32() override;
+    int m33() override;
+    void m34() override;
+
     // static_param at offset 0x60
     const int* mASSlot_s{};
     // static_param at offset 0x68

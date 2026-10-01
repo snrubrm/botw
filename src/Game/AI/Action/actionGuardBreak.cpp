@@ -31,4 +31,14 @@ void GuardBreak::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void GuardBreak::m32() {
+    playAS("GuardBreak", false, 0, 0, -1.0f);
+}
+
+int GuardBreak::m33() {
+    return *mDropIdx_s;
+}
+
+void GuardBreak::m34() {}
+
 }  // namespace uking::action

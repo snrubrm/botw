@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual const char* m32();
+    virtual void m33(const sead::SafeString& name);
 
     // dynamic_param at offset 0x20
     int* mCloseDialogOption_d{};

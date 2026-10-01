@@ -32,4 +32,20 @@ void OctarockBalloonBase::calc_() {
     BalloonBase::calc_();
 }
 
+f32 OctarockBalloonBase::m34(f32 current, f32 target, f32 step) {
+    if (current < target) {
+        const f32 value = current + step * 0.2f;
+        if (value >= target || value < current)
+            return target;
+        return value;
+    }
+    if (current > target) {
+        const f32 value = current + step * -0.1f;
+        if (value <= target || value > current)
+            return target;
+        return value;
+    }
+    return current;
+}
+
 }  // namespace uking::action

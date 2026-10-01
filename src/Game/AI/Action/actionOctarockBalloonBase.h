@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    float m33() override;
+    f32 m34(f32 current, f32 target, f32 step) override;
 
     // static_param at offset 0xf0
     const float* mConnectReleaseTimer_s{};

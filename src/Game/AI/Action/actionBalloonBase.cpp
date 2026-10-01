@@ -39,4 +39,8 @@ void BalloonBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+f32 BalloonBase::m34(f32 current, f32 target, f32 step) {
+    return target;
+}
+
 }  // namespace uking::action

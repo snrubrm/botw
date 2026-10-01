@@ -28,4 +28,8 @@ void OpenMessageDialogWithSkelAnm::calc_() {
     OpenMessageDialogBase::calc_();
 }
 
+const char* OpenMessageDialogWithSkelAnm::m32() {
+    return mAnimName_d.cstr();
+}
+
 }  // namespace uking::action

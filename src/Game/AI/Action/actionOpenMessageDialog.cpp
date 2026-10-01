@@ -27,4 +27,8 @@ void OpenMessageDialog::calc_() {
     OpenMessageDialogBase::calc_();
 }
 
+const char* OpenMessageDialog::m32() {
+    return mASName_d.cstr();
+}
+
 }  // namespace uking::action

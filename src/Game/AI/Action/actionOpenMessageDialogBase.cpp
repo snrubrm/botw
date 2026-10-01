@@ -32,4 +32,10 @@ void OpenMessageDialogBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+const char* OpenMessageDialogBase::m32() {
+    return nullptr;
+}
+
+void OpenMessageDialogBase::m33(const sead::SafeString& name) {}
+
 }  // namespace uking::action

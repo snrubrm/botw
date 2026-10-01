@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual int m33();
+    virtual void m34();
 
     // static_param at offset 0x20
     const int* mKnockBackTime_s{};

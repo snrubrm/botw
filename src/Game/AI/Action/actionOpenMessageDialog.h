@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    const char* m32() override;
+    void m33(const sead::SafeString& name) override;
 
     // dynamic_param at offset 0x78
     sead::SafeString mASName_d{};
