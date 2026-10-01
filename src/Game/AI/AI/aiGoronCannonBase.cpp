@@ -15,7 +15,7 @@ void GoronCannonBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GoronCannonBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _b8.deleteProc();
 }
 
 void GoronCannonBase::loadParams_() {

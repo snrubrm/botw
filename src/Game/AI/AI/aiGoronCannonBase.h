@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::ai {
 
@@ -42,6 +43,7 @@ protected:
     const float* mSpeed_m{};
     // map_unit_param at offset 0xa8
     sead::SafeString mActorName_m{};
+    ksys::act::BaseProcHandle _b8;
 };
 
 }  // namespace uking::ai
