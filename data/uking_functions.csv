@@ -9784,7 +9784,7 @@ Address,Quality,Size,Name
 0x000000710016e288,U,000856,uking::action::FreeMoveToTargetInWataer::m32
 0x000000710016e5e0,U,000576,uking::action::FreeMoveToTargetInWataer::m33
 0x000000710016e820,U,000080,uking::action::FreeMoveToTargetInWataer::m34
-0x000000710016e870,U,000032,uking::action::FreeMoveToTargetInWataer::m38
+0x000000710016e870,U,000032,_ZN5uking6action24FreeMoveToTargetInWataer3m38Ev
 0x000000710016e890,O,000132,_ZNK5uking6action24FreeMoveToTargetInWataer27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710016e914,O,000092,_ZNK5uking6action24FreeMoveToTargetInWataer18getRuntimeTypeInfoEv
 0x000000710016e970,U,000064,AI_Action_FreeMoveToTargetWithBank::ctor

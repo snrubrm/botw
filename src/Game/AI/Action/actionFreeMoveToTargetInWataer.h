@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m38();
 
     // static_param at offset 0xd8
     const float* mAllowMoveWaterDepth_s{};
