@@ -8,9 +8,7 @@ void PlayerHorseGetOffInDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerHorseGetOffInDemo::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerHorseGetOffInDemo::leave_() {}
 
 void PlayerHorseGetOffInDemo::calc_() {
     PlayerAction::calc_();
