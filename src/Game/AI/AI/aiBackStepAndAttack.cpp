@@ -14,6 +14,10 @@ void BackStepAndAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool BackStepAndAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 void BackStepAndAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }
