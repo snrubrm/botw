@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitForKeyInput.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,28 @@ bool WaitForKeyInput::init_(sead::Heap* heap) {
 }
 
 void WaitForKeyInput::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    switch (*mValidInput_d) {
+    case 0:
+        _28 = 0x623b;
+        _2c = 0;
+        break;
+    case 1:
+        _28 = 0;
+        _2c = 1;
+        break;
+    case 2:
+        _28 = 1;
+        _2c = 0;
+        break;
+    case 3:
+        _28 = 1;
+        _2c = 1;
+        break;
+    default:
+        _28 = 0xfffffff;
+        _2c = 0;
+        break;
+    }
 }
 
 void WaitForKeyInput::leave_() {
