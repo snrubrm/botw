@@ -24,6 +24,8 @@ protected:
     const float* mHiddenFrames_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
+    int _40 = 0;
+    bool _44 = true;
 };
 
 }  // namespace uking::action
