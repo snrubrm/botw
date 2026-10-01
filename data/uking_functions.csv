@@ -10744,7 +10744,7 @@ Address,Quality,Size,Name
 0x0000007100190184,U,000308,
 0x00000071001902b8,W,000236,_ZN5uking6action10GrabAttack6leave_Ev
 0x00000071001903a4,O,000108,_ZN5uking6action10GrabAttack11loadParams_Ev
-0x0000007100190410,U,000064,uking::action::GrabAttack::m32
+0x0000007100190410,O,000064,_ZN5uking6action10GrabAttack3m32Ev
 0x0000007100190450,U,000244,uking::action::GrabAttack::m33
 0x0000007100190544,U,000008,uking::action::GrabAttack::m34
 0x000000710019054c,O,000216,_ZNK5uking6action10GrabAttack27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
