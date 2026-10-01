@@ -14,6 +14,10 @@ void GuardianCloseBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
 }
 
+bool GuardianCloseBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void GuardianCloseBattle::leave_() {
     GuardianAI::leave_();
 }
