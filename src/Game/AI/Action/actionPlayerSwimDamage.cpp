@@ -14,4 +14,8 @@ void PlayerSwimDamage::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimDamage::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
