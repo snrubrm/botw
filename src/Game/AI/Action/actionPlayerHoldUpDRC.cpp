@@ -21,4 +21,8 @@ void PlayerHoldUpDRC::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHoldUpDRC::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
