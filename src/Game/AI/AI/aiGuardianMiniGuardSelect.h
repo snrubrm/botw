@@ -10,7 +10,12 @@ public:
     explicit GuardianMiniGuardSelect(const InitArg& arg);
     ~GuardianMiniGuardSelect() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+    bool isChangeable() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 

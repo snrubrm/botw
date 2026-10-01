@@ -6,8 +6,27 @@ GuardianMiniGuardSelect::GuardianMiniGuardSelect(const InitArg& arg) : ksys::act
 
 GuardianMiniGuardSelect::~GuardianMiniGuardSelect() = default;
 
+bool GuardianMiniGuardSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool GuardianMiniGuardSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool GuardianMiniGuardSelect::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void GuardianMiniGuardSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void GuardianMiniGuardSelect::calc_() {
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
 }
 
 void GuardianMiniGuardSelect::leave_() {
