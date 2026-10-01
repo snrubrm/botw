@@ -10,6 +10,7 @@ bool TargetCircleGuardWalk::init_(sead::Heap* heap) {
 
 void TargetCircleGuardWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetCircle::enter_(params);
+    playAS("GuardSideWalk", false, 0, 0, -1.0f);
 }
 
 void TargetCircleGuardWalk::leave_() {
