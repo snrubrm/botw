@@ -10,6 +10,7 @@ public:
     explicit EnemyBattle(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 

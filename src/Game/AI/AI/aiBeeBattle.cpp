@@ -14,6 +14,10 @@ void BeeBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
+void BeeBattle::calc_() {
+    EnemyBattle::calc_();
+}
+
 void BeeBattle::leave_() {
     EnemyBattle::leave_();
 }
