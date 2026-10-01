@@ -24,4 +24,12 @@ void BasicSignalEnemy::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void BasicSignalEnemy::m32() {}
+
+void BasicSignalEnemy::m33() {}
+
+void BasicSignalEnemy::m34() {}
+
+void BasicSignalEnemy::m35() {}
+
 }  // namespace uking::action
