@@ -20,4 +20,8 @@ void PlayerHorseGetOff::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHorseGetOff::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
