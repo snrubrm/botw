@@ -7,7 +7,10 @@ LizalfosBreathAttack::LizalfosBreathAttack(const InitArg& arg) : ksys::act::ai::
 LizalfosBreathAttack::~LizalfosBreathAttack() = default;
 
 void LizalfosBreathAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50 = 0;
+    _54 = 0;
+    _58 = 1.0f;
+    changeChild("ブレス攻撃");
 }
 
 void LizalfosBreathAttack::leave_() {
