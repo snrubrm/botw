@@ -12,6 +12,7 @@ bool GoronHeroDescendentJump::init_(sead::Heap* heap) {
 
 void GoronHeroDescendentJump::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveToTargetCurveBase::enter_(params);
+    playAS("Act_Ball_Jump", false, 0, 0, -1.0f);
 }
 
 void GoronHeroDescendentJump::leave_() {
