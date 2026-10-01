@@ -11,7 +11,10 @@ bool GanonBeastMoveSelect::init_(sead::Heap* heap) {
 }
 
 void GanonBeastMoveSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71003E51DC())
+        changeChild("移動");
+    else
+        changeChild("待機");
 }
 
 void GanonBeastMoveSelect::calc_() {
