@@ -34,6 +34,9 @@ protected:
     const bool* mUseKnockbackDir_s{};
     // static_param at offset 0x58
     sead::SafeString mAS_s{};
+    bool _68 = true;
 };
+
+KSYS_CHECK_SIZE_NX150(SwimEnemyAnmBackBlownOffBase, 0x70);
 
 }  // namespace uking::action
