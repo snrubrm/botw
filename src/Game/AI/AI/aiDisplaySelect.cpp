@@ -6,6 +6,14 @@ DisplaySelect::DisplaySelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 DisplaySelect::~DisplaySelect() = default;
 
+bool DisplaySelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool DisplaySelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool DisplaySelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
