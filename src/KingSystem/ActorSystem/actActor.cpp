@@ -197,9 +197,11 @@ bool Actor::shouldClearStateFlag4000_() {
 
 void Actor::preDelete1_() {}
 
-bool Actor::startPreparingForPreDelete_() {
+// In the original vtable this function is in the prepareForPreDelete_ slot (7); the startPreparingForPreDelete_
+// slot (8) holds a different (bool) function (0x71011c828c).
+Actor::PreDeletePrepareResult Actor::prepareForPreDelete_() {
     unlinkPlacementObj();
-    return true;
+    return PreDeletePrepareResult::Done;
 }
 
 void Actor::afterUpdateState_() {

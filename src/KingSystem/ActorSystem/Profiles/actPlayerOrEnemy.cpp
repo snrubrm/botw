@@ -9,6 +9,10 @@ PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
 
 PlayerOrEnemy::~PlayerOrEnemy() = default;
 
+bool PlayerOrEnemy::startPreparingForPreDelete_() {
+    return DynamicActor::startPreparingForPreDelete_();
+}
+
 void PlayerOrEnemy::sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg) {
     auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
     if (weapon)

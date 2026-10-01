@@ -151,6 +151,7 @@ protected:
     void onDeleteRequested_(DeleteReason reason) override;
     bool shouldClearStateFlag4000_() override;
     void preDelete1_() override;
+    PreDeletePrepareResult prepareForPreDelete_() override;
     bool startPreparingForPreDelete_() override;
     void onEnterDelete_() override;
     void afterUpdateState_() override;
@@ -282,8 +283,10 @@ public:
     virtual void m101();
     virtual int getExtraHeapSize();
     virtual void m103();
-    int handleMessage(const Message& message) override;
+    // Order matters: these overrides of MessageReceiverEx virtuals get primary vtable slots 104 (handleAck)
+    // and 105 (handleMessage) in the original.
     void handleAck(const MessageAck& ack) override;
+    int handleMessage(const Message& message) override;
     virtual bool m106();
     virtual void m107();
     virtual void m108();

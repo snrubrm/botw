@@ -15,7 +15,7 @@ public:
     ~DynamicActor() override;
 
 protected:
-    PreDeletePrepareResult prepareForPreDelete_() override;
+    bool startPreparingForPreDelete_() override;
     void onDeleteRequested_(DeleteReason reason) override;
     void onSleepRequested_(SleepWakeReason reason) override;
     void onEnterDelete_() override;

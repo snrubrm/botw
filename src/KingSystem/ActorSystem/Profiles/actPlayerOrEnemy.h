@@ -20,7 +20,7 @@ public:
 
 protected:
     InitResult init_() override;
-    PreDeletePrepareResult prepareForPreDelete_() override;
+    bool startPreparingForPreDelete_() override;
     void onDeleteRequested_(DeleteReason reason) override;
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void preDelete2_(const PreDeleteArg& arg) override;

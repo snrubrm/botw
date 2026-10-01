@@ -15,7 +15,7 @@ public:
 
 protected:
     InitResult init_() override;
-    PreDeletePrepareResult prepareForPreDelete_() override;
+    bool startPreparingForPreDelete_() override;
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onPreDeleteStart_(PrepareArg& arg) override { Enemy::onPreDeleteStart_(arg); }
     void preDelete2_(const PreDeleteArg& arg) override;
