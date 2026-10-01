@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBasicSignalEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool BasicSignalEnemy::init_(sead::Heap* heap) {
 }
 
 void BasicSignalEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = mActor->checkBasicSig();
 }
 
 void BasicSignalEnemy::leave_() {
@@ -21,7 +22,19 @@ void BasicSignalEnemy::leave_() {
 void BasicSignalEnemy::loadParams_() {}
 
 void BasicSignalEnemy::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->checkBasicSig()) {
+        if (!_1c) {
+            m32();
+            _1c = true;
+        }
+        m34();
+    } else {
+        if (_1c) {
+            m33();
+            _1c = false;
+        }
+        m35();
+    }
 }
 
 void BasicSignalEnemy::m32() {}

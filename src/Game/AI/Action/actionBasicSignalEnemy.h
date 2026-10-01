@@ -21,6 +21,8 @@ protected:
     virtual void m33();
     virtual void m34();
     virtual void m35();
+
+    bool _1c;
 };
 
 }  // namespace uking::action
