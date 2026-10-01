@@ -7,7 +7,8 @@ MetalObjectBuried::MetalObjectBuried(const InitArg& arg) : ksys::act::ai::Ai(arg
 MetalObjectBuried::~MetalObjectBuried() = default;
 
 bool MetalObjectBuried::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _72 = false;
+    return true;
 }
 
 void MetalObjectBuried::enter_(ksys::act::ai::InlineParamPack* params) {

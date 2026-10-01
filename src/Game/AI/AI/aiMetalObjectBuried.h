@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -30,6 +31,12 @@ protected:
     const bool* mIsInGround_m{};
     // map_unit_param at offset 0x68
     const bool* mEnableRevival_m{};
+    bool _70{};
+    bool _71{};
+    bool _72{};
+    f32 _74{};
+    sead::Vector3f _78{0, 0, 0};
+    sead::Vector3f _84{0, 0, 0};
 };
 
 }  // namespace uking::ai
