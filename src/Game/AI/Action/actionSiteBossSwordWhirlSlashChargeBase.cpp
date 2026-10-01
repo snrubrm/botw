@@ -29,4 +29,6 @@ void SiteBossSwordWhirlSlashChargeBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void SiteBossSwordWhirlSlashChargeBase::m32() {}
+
 }  // namespace uking::action
