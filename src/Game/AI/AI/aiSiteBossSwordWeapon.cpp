@@ -14,6 +14,10 @@ void SiteBossSwordWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     ChemicalWeaponRoot::enter_(params);
 }
 
+void SiteBossSwordWeapon::calc_() {
+    ChemicalWeaponRoot::calc_();
+}
+
 void SiteBossSwordWeapon::leave_() {
     ChemicalWeaponRoot::leave_();
 }
