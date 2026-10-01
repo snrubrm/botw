@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -21,6 +22,7 @@ protected:
     const int* mArmorDyeColor_m{};
     // map_unit_param at offset 0x40
     const int* mShopSellType_m{};
+    Unk_71023e0020 _48{0x1800029};
 };
 
 }  // namespace uking::ai

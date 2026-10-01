@@ -5,6 +5,10 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 // Unnamed message listener classes embedded in many AI classes. Placeholder names are the vtable
 // addresses (Unk_<vtable>); slot functions are named by slot index (mN) and unnamed non-virtual
 // functions by address (sub_<addr>).
@@ -41,6 +45,7 @@ public:
     void m3() override { _38 = false; }
 
     bool sub_710070A674(const ksys::Message& message);
+    void sub_710070AE18(ksys::act::Actor* actor);
 
     bool _38;
 };

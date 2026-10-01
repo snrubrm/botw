@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNewMannequinRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,19 @@ bool NewMannequinRoot::init_(sead::Heap* heap) {
 }
 
 void NewMannequinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    _48.sub_710070AE18(actor);
+    if (actor->isWaitRevivalForUsed()) {
+        ksys::act::disableAllAttClients(mActor);
+        _48.x();
+        changeChild("装備なし");
+    } else {
+        auto* mannequin = mActor;
+        mannequin->emitBasicSigOff();
+        ksys::act::enableAllAttClients(mannequin);
+        _48.x();
+        changeChild("装備あり");
+    }
 }
 
 void NewMannequinRoot::calc_() {
