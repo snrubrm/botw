@@ -12,6 +12,7 @@ bool GiantBattleCloseMove::init_(sead::Heap* heap) {
 
 void GiantBattleCloseMove::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantBattleCloseAction::enter_(params);
+    playAS("Run", true, 0, 0, -1.0f);
 }
 
 void GiantBattleCloseMove::leave_() {
