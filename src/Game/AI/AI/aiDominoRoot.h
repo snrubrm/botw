@@ -32,6 +32,9 @@ protected:
     const bool* mIsBreakable_m{};
     // map_unit_param at offset 0x70
     const bool* mEnableToEmitSpEffect_m{};
+    f32 _78{};
+    int _7c{};
+    bool _80{};
 };
 
 }  // namespace uking::ai

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -30,6 +31,8 @@ protected:
     const float* mShieldReachDist_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    ksys::act::BaseProcLink _70;
+    bool _80 = true;
 };
 
 }  // namespace uking::ai

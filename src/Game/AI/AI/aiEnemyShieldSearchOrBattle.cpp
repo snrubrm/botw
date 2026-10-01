@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: store scheduling (the BaseProcLink ctor argument setup)
 EnemyShieldSearchOrBattle::EnemyShieldSearchOrBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemyShieldSearchOrBattle::~EnemyShieldSearchOrBattle() = default;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -29,6 +30,8 @@ protected:
     const float* mCheckAngle_s{};
     // static_param at offset 0x68
     const bool* mIsResetInterval_s{};
+    ksys::Timer _70{0, 0};
+    ksys::Timer _7c{0, 0};
 };
 
 }  // namespace uking::ai
