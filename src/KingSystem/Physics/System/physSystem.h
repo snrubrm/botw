@@ -30,6 +30,7 @@ class RigidBodyRequestMgr;
 class StaticCompoundMgr;
 class SystemData;
 class SystemGroupHandler;
+class World;
 
 enum class IsIndoorStage {
     No,
@@ -139,7 +140,8 @@ public:
     sead::Heap* getPhysicsTempHeap(LowPriority low_priority) const;
 
 private:
-    u8 _28[0x60 - 0x28];
+    sead::PtrArray<World> mWorlds;
+    u8 _38[0x60 - 0x38];
     bool mPaused;
     bool _61;
     bool _62;

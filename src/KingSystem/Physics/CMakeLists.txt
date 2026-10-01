@@ -183,6 +183,8 @@ target_sources(uking PRIVATE
     System/physSystem.h
     System/physSystemData.cpp
     System/physSystemData.h
+    System/physWorld.cpp
+    System/physWorld.h
     System/physUserTag.cpp
     System/physUserTag.h
 
