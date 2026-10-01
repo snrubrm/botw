@@ -30,4 +30,8 @@ void PlayerCutTurn::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutTurn::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
