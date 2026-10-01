@@ -15504,7 +15504,7 @@ Address,Quality,Size,Name
 0x000000710024244c,U,000008,_ZN5uking6action18SandwormTackleMove10handleAck_ERKN4ksys10MessageAckE
 0x0000007100242454,O,000132,_ZNK5uking6action18SandwormTackleMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002424d8,O,000092,_ZNK5uking6action18SandwormTackleMove18getRuntimeTypeInfoEv
-0x0000007100242534,U,000008,_ZNK5uking6action18SandwormTackleMove8isFailedEv
+0x0000007100242534,O,000008,_ZNK5uking6action18SandwormTackleMove8isFailedEv
 0x000000710024253c,U,000004,uking::action::TackleMove::m33
 0x0000007100242540,U,000020,uking::action::SandwormTackleMove::m34
 0x0000007100242554,U,000012,uking::action::SandwormTackleMove::m35

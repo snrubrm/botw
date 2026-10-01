@@ -31,4 +31,8 @@ void SandwormTackleMove::calc_() {
     AtkTackleMove::calc_();
 }
 
+bool SandwormTackleMove::isFailed() const {
+    return false;
+}
+
 }  // namespace uking::action
