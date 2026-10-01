@@ -11,7 +11,7 @@ bool SleepBedRoot::init_(sead::Heap* heap) {
 }
 
 void SleepBedRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("Wait");
 }
 
 void SleepBedRoot::leave_() {
