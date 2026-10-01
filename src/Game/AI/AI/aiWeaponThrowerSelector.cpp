@@ -14,6 +14,8 @@ void WeaponThrowerSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void WeaponThrowerSelector::calc_() {}
+
 void WeaponThrowerSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }
