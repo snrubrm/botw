@@ -23,7 +23,8 @@ void EventDisableContactIdle::loadParams_() {
 }
 
 void EventDisableContactIdle::calc_() {
-    ksys::act::ai::Action::calc_();
+    mFlags.set(Flag::Changeable);
+    setFinished();
 }
 
 }  // namespace uking::action
