@@ -11,7 +11,10 @@ bool SeqPredictOctarockAttack::init_(sead::Heap* heap) {
 }
 
 void SeqPredictOctarockAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _4c = *mTargetPos_d;
+    _58 = *mTargetVel_d;
+    _48 = true;
+    sub_7100564154();
 }
 
 void SeqPredictOctarockAttack::leave_() {
