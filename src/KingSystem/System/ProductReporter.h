@@ -53,10 +53,12 @@ public:
 
     void init(sead::Heap* heap);
     void initGameDataIterators();
+    void onGdtReinit(gdt::Manager::ReinitEvent*) { initGameDataIterators(); }
     void terminate();
 
     static bool getSomeBool();
     bool isEnabled() const;
+    void setEnabled(bool enabled) { mEnabled = enabled; }
 
     sead::BitFlag32 getPanicReasons() const { return mPanicReasons; }
     void addPanicReason(PanicReason reason) { mPanicReasons.setBit(int(reason)); }
@@ -94,9 +96,9 @@ public:
         }
 
     private:
-        void* mBuffer;
-        u64 mBufferCapacity;
-        u32 mBufferLength;
+        void* mBuffer = nullptr;
+        u64 mBufferCapacity = 0;
+        u32 mBufferLength = 0;
     };
 
     sead::Heap* getHeap() const { return mHeap; }
@@ -117,18 +119,19 @@ private:
     Container mContainer3;
     Container mContainer4;
 
-    f32 mNinetyTickTimer;
-    f32 mIncrementWorkTimesTimer;
-    f32 mCameraIdleTimer;
+    f32 mNinetyTickTimer = 0;
+    f32 mIncrementWorkTimesTimer = 0;
+    f32 mCameraIdleTimer = 0;
 
-    sead::Vector3f mPos;
+    sead::Vector3f mPos = sead::Vector3f::zero;
     sead::Heap* mHeap;
-    bool mIsInitalized;
-    bool mEnabled;
-    u32 mCtrlMode;  // TODO: very likely an enum member
-    PlayerTrackReporter* mPlayerTrackReporter;
-    gdt::FlagHandle mGameDataHandles[PlayReportKey::size()];
-    gdt::Manager::ReinitSignal::Slot mSlot;
+    bool mIsInitalized = false;
+    bool mEnabled = false;
+    u32 mCtrlMode = 0;  // TODO: very likely an enum member
+    PlayerTrackReporter* mPlayerTrackReporter = nullptr;
+    gdt::FlagHandle mGameDataHandles[PlayReportKey::size()]{};
+    gdt::Manager::ReinitSignal::Slot mSlot{this, &ProductReporter::onGdtReinit};
+
 };
 
 }  // namespace ksys

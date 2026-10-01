@@ -84901,7 +84901,7 @@ Address,Quality,Size,Name
 0x0000007100fd1670,O,000164,_ZN4ksys10PlayReport4initEiPN4sead4HeapE
 0x0000007100fd1714,O,000084,_ZN4ksys10PlayReportD1Ev
 0x0000007100fd1768,U,000032,
-0x0000007100fd1788,U,000012,_ZN4ksys15ProductReporter11getSomeBoolEv
+0x0000007100fd1788,m,000012,_ZN4ksys15ProductReporter11getSomeBoolEv
 0x0000007100fd1794,O,000008,_ZNK4ksys15ProductReporter9isEnabledEv
 0x0000007100fd179c,O,000116,_ZNK4ksys15ProductReporter11getPlayTimeEv
 0x0000007100fd1810,O,000116,_ZNK4ksys15ProductReporter14getAllPlayTimeEv
@@ -84939,7 +84939,7 @@ Address,Quality,Size,Name
 0x0000007100fd381c,O,000156,_ZN4ksys13PlayReportMgr14createInstanceEPN4sead4HeapE
 0x0000007100fd38b8,O,000040,_ZN4ksys13PlayReportMgrD1Ev
 0x0000007100fd38e0,O,000068,_ZN4ksys13PlayReportMgrD0Ev
-0x0000007100fd3924,U,000264,PlayReportMgr::init
+0x0000007100fd3924,O,000264,_ZN4ksys13PlayReportMgr4initEPN4sead4HeapE
 0x0000007100fd3a2c,O,000024,_ZN4ksys13PlayReportMgr4calcEv
 0x0000007100fd3a44,O,000008,_ZNK4ksys13PlayReportMgr5auto0Ev
 0x0000007100fd3a4c,U,000004,nullsub_6149
@@ -84949,7 +84949,7 @@ Address,Quality,Size,Name
 0x0000007100fd3a70,O,000028,_ZN4ksys13PlayReportMgr24setPlayerTrackReporter28Ev
 0x0000007100fd3a8c,O,000028,_ZN4ksys13PlayReportMgr24setPlayerTrackReporter29Ev
 0x0000007100fd3aa8,O,000028,_ZN4ksys13PlayReportMgr24setPlayerTrackReporter30Ev
-0x0000007100fd3ac4,U,000004,ProductReporter::jInitGameDataIterators
+0x0000007100fd3ac4,O,000004,_ZN4ksys15ProductReporter11onGdtReinitEPNS_3gdt7Manager11ReinitEventE
 0x0000007100fd3ac8,O,000124,_ZN4ksys15ProductReporterD1Ev
 0x0000007100fd3b44,O,000132,_ZN4ksys15ProductReporterD0Ev
 0x0000007100fd3bc8,U,000048,

@@ -17,6 +17,8 @@ namespace ksys {
 
 static WorkTimes sWorkTimes;
 
+bool ProductReporter::sSomeBool = true;
+
 auto& getWorkTimes() {
     return sWorkTimes;
 };
@@ -65,6 +67,12 @@ void ProductReporter::initGameDataIterators() {
     for (int i = 0; i < PlayReportKey::size(); i++) {
         mGameDataHandles[i] = gdt::Manager::instance()->getS32Handle(PlayReportKey::text(i));
     }
+}
+
+// NON_MATCHING: the original reads sSomeBool directly (adrp+ldrb) instead of through the GOT,
+// yet the value is never written in this binary. A file-static is constant-folded instead.
+bool ProductReporter::getSomeBool() {
+    return sSomeBool;
 }
 
 bool ProductReporter::isEnabled() const {

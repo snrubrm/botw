@@ -13,6 +13,14 @@ PlayReportMgr::~PlayReportMgr() {
         delete mReporter;
 }
 
+void PlayReportMgr::init(sead::Heap* heap) {
+    auto* reporter = new (heap) ProductReporter;
+    reporter->init(heap);
+    mReporter = reporter;
+    if (mReporter)
+        mReporter->setEnabled(true);
+}
+
 void PlayReportMgr::calc() {
     if (!_30 && mReporter)
         mReporter->updateTimers();
