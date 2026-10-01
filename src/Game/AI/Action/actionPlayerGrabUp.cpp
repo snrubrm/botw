@@ -16,4 +16,8 @@ void PlayerGrabUp::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabUp::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
