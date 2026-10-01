@@ -20,4 +20,8 @@ void PlayerGuidedMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGuidedMove::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
