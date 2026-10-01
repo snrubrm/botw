@@ -15,7 +15,7 @@ bool BowShoot::isChangeable() const {
 }
 
 void BowShoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_710033BB98();
 }
 
 }  // namespace uking::ai
