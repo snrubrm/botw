@@ -10,6 +10,10 @@ void MimicEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseFindPlayer::enter_(params);
 }
 
+bool MimicEnemyFindPlayer::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void MimicEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
 }
