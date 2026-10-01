@@ -11,7 +11,7 @@ bool ForkEmitExpandField::init_(sead::Heap* heap) {
 }
 
 void ForkEmitExpandField::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkEmitExpandField::leave_() {
