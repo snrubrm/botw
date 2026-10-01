@@ -93,3 +93,9 @@ void Unk_71023b1608_Payload::sub_710070E3D8(ksys::act::BaseProc* proc) {
     sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
     mLink.acquire(proc, false);
 }
+
+void Unk_71024509d8_Payload::sub_710070E270(Unk_71024509d8_Payload* out) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+    out->_4 = _4;
+    out->_8 = _8;
+}

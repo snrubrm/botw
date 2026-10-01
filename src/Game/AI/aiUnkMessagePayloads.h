@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
 #include <prim/seadScopedLock.h>
@@ -141,5 +142,120 @@ struct Unk_71023b1860_Payload {
     u32 _0;
     ksys::act::BaseProcLink mLink;
     bool _18;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a5 (sender Unk_7102379de0)
+struct Unk_7102379de0_Payload {
+    ksys::act::BaseProcLink mLink;
+    u32 _10;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000047 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450738_Payload {
+    u32 _0;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000017 (sender Unk_71023eaec8)
+struct Unk_71023eaec8_Payload {
+    ksys::act::BaseProcLink _0;
+    ksys::act::BaseProcLink _10;
+    sead::Matrix34f _20;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000d8 (sender Unk_7102411f48)
+struct Unk_7102411f48_Payload {
+    bool _0;
+    u32 _4;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000d4 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450978_Payload {
+    u32 _0;
+    ksys::act::BaseProcLink _8;
+    ksys::act::BaseProcLink _18;
+    u32 _28;
+    u32 _2c;
+    u32 _30;
+    sead::JobQueueLock mLock;
+    u32 _38;
+};
+
+// Message 0x80000d7 (sender Unk_71023dbd40)
+struct Unk_71023dbd40_Payload {
+    sead::Vector3f _0;
+    bool _c;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800005d (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450a38_Payload {
+    sead::Matrix34f _0;
+    u32 _30;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000029 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450a98_Payload {
+    ksys::act::BaseProcLink _0;
+    ksys::act::BaseProcLink _10;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x800001f (sender Unk_7102396ae0)
+struct Unk_7102396ae0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000de (sender unknown; placeholder name = listener vtable). The sender keeps it at +0x18
+// (sender method 0x710070E2BC, not decompiled).
+struct Unk_71024509d8_Payload {
+    void sub_710070E270(Unk_71024509d8_Payload* out);
+
+    sead::JobQueueLock mLock;
+    u32 _4;
+    u32 _8;
+};
+
+// Message 0x8000040 (sender Unk_710235aba0)
+struct Unk_710235aba0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000a9 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450a68_Payload {
+    ksys::act::BaseProcLink _0;
+    sead::Vector3f _10;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000037 (sender unknown; placeholder name = listener vtable)
+struct Unk_7102450be8_Payload {
+    ksys::act::BaseProcLink _0;
+    ksys::act::BaseProcLink _10;
+    sead::Vector3f _20;
+    sead::Vector3f _2c;
+    sead::Vector3f _38;
+    u32 _44;
+    u32 _48;
+    u32 _4c;
     sead::JobQueueLock mLock;
 };

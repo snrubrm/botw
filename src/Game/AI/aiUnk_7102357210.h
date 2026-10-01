@@ -327,3 +327,134 @@ public:
 
     Unk_71023b1860_Payload _38;
 };
+
+// vtable 0x7102450678 (message 0x8000044; the user data is a BaseProcLink)
+class Unk_7102450678 : public Unk_7102357210 {
+public:
+    ~Unk_7102450678() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+// vtable 0x7102450708 (message 0x80000a5)
+class Unk_7102450708 : public Unk_7102357210 {
+public:
+    ~Unk_7102450708() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_7102379de0_Payload _38;
+};
+
+// vtable 0x7102450738 (message 0x8000047)
+class Unk_7102450738 : public Unk_7102357210 {
+public:
+    ~Unk_7102450738() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override;
+
+    Unk_7102450738_Payload _34;
+};
+
+// vtable 0x71024507f8 (message 0x8000017)
+class Unk_71024507f8 : public Unk_7102357210 {
+public:
+    ~Unk_71024507f8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_71023eaec8_Payload _38;
+};
+
+// vtable 0x7102450858 (message 0x80000d8)
+class Unk_7102450858 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+
+    Unk_7102411f48_Payload _34;
+};
+
+// vtable 0x7102450978 (message 0x80000d4)
+class Unk_7102450978 : public Unk_7102357210 {
+public:
+    ~Unk_7102450978() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_7102450978_Payload _38;
+};
+
+// vtable 0x71024509a8 (message 0x80000d7)
+class Unk_71024509a8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+
+    Unk_71023dbd40_Payload _34;
+};
+
+// vtable 0x7102450a38 (message 0x800005d)
+class Unk_7102450a38 : public Unk_7102357210 {
+public:
+    ~Unk_7102450a38() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_7102450a38_Payload _34;
+};
+
+// vtable 0x7102450a98 (message 0x8000029)
+class Unk_7102450a98 : public Unk_7102357210 {
+public:
+    ~Unk_7102450a98() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_7102450a98_Payload _38;
+};
+
+// vtable 0x7102450b88 (message 0x800001f)
+class Unk_7102450b88 : public Unk_7102357210 {
+public:
+    ~Unk_7102450b88() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+};
+
+// vtable 0x7102450a68 (message 0x80000a9)
+class Unk_7102450a68 : public Unk_7102357210 {
+public:
+    ~Unk_7102450a68() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_7102450a68_Payload _38;
+};
+
+// vtable 0x7102450be8 (message 0x8000037)
+class Unk_7102450be8 : public Unk_7102357210 {
+public:
+    ~Unk_7102450be8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    Unk_7102450be8_Payload _38;
+};
+
+// vtable 0x7102450ac8 (message 0x8000040)
+class Unk_7102450ac8 : public Unk_7102357210 {
+public:
+    ~Unk_7102450ac8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+};
+
+// vtable 0x71024509d8 (message 0x80000de)
+class Unk_71024509d8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+
+    Unk_71024509d8_Payload _34;
+};

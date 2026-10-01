@@ -396,3 +396,288 @@ bool Unk_7102450948::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
+
+Unk_7102450678::~Unk_7102450678() = default;
+
+bool Unk_7102450678::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000044)
+        return false;
+
+    auto* link = static_cast<ksys::act::BaseProcLink*>(message.getUserData());
+    if (!link)
+        return false;
+
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link->getProc(nullptr, nullptr));
+    _8.acquire(actor, false);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450708::~Unk_7102450708() = default;
+
+// NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
+bool Unk_7102450708::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a5)
+        return false;
+
+    auto* payload = static_cast<Unk_7102379de0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38.mLink = payload->mLink;
+        _38._10 = payload->_10;
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->mLink.getProc(nullptr, nullptr));
+    _8.acquire(actor, false);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450738::~Unk_7102450738() = default;
+
+bool Unk_7102450738::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000047)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450738_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0 = payload->_0;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+void Unk_7102450738::m3() {
+    sead::ScopedLock<sead::JobQueueLock> lock(&_34.mLock);
+    _34._0 = 0;
+}
+
+Unk_71024507f8::~Unk_71024507f8() = default;
+
+// NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
+// BaseProcLink::operator= first (see lane2 log, borderline)
+bool Unk_71024507f8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000017)
+        return false;
+
+    auto* payload = static_cast<Unk_71023eaec8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38._0 = payload->_0;
+        _38._10 = payload->_10;
+        _38._20 = payload->_20;
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->_0.getProc(nullptr, nullptr));
+    _8.acquire(actor, false);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_7102450858::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000d8)
+        return false;
+
+    auto* payload = static_cast<Unk_7102411f48_Payload*>(message.getUserData());
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0 = payload->_0;
+        _34._4 = payload->_4;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450978::~Unk_7102450978() = default;
+
+// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
+// (lane2 log: overloaded operator= evaluation order)
+bool Unk_7102450978::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000d4)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450978_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38._0 = payload->_0;
+        _38._8 = payload->_8;
+        _38._18 = payload->_18;
+        _38._28 = payload->_28;
+        _38._2c = payload->_2c;
+        _38._30 = payload->_30;
+        _38._38 = payload->_38;
+    }
+    _8 = payload->_8;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+// NON_MATCHING: the original copies the vector as x then w (a 12-byte memcpy)
+bool Unk_71024509a8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000d7)
+        return false;
+
+    auto* payload = static_cast<Unk_71023dbd40_Payload*>(message.getUserData());
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._0.set(payload->_0);
+        _34._c = payload->_c;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450a38::~Unk_7102450a38() = default;
+
+bool Unk_7102450a38::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800005d)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450a38_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _34._30 = payload->_30;
+        _34._0 = payload->_0;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450a98::~Unk_7102450a98() = default;
+
+// NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
+// BaseProcLink::operator= first (see lane2 log, borderline)
+bool Unk_7102450a98::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000029)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450a98_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38._0 = payload->_0;
+        _38._10 = payload->_10;
+    }
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450b88::~Unk_7102450b88() = default;
+
+bool Unk_7102450b88::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800001f)
+        return false;
+
+    auto* payload = static_cast<Unk_7102396ae0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450a68::~Unk_7102450a68() = default;
+
+// NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
+bool Unk_7102450a68::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000a9)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450a68_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38._0 = payload->_0;
+        _38._10 = payload->_10;
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->_0.getProc(nullptr, nullptr));
+    _8.acquire(actor, false);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450be8::~Unk_7102450be8() = default;
+
+// NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
+// BaseProcLink::operator= first (see lane2 log, borderline)
+bool Unk_7102450be8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000037)
+        return false;
+
+    auto* payload = static_cast<Unk_7102450be8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
+        _38._0 = payload->_0;
+        _38._10 = payload->_10;
+        _38._20 = payload->_20;
+        _38._44 = payload->_44;
+        _38._48 = payload->_48;
+        _38._2c = payload->_2c;
+        _38._38 = payload->_38;
+        _38._4c = payload->_4c;
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->_0.getProc(nullptr, nullptr));
+    _8.acquire(actor, false);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+Unk_7102450ac8::~Unk_7102450ac8() = default;
+
+bool Unk_7102450ac8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x8000040)
+        return false;
+
+    auto* payload = static_cast<Unk_710235aba0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71024509d8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000de)
+        return false;
+
+    static_cast<Unk_71024509d8_Payload*>(message.getUserData())->sub_710070E270(&_34);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
