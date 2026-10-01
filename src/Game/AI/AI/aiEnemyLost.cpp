@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyLost.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ bool EnemyLost::init_(sead::Heap* heap) {
 }
 
 void EnemyLost::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    m34();
 }
 
 bool EnemyLost::isFailed() const {

@@ -11,7 +11,18 @@ bool SandwormLost::init_(sead::Heap* heap) {
 }
 
 void SandwormLost::enter_(ksys::act::ai::InlineParamPack* params) {
+    _68 = false;
     EnemyLost::enter_(params);
+}
+
+void SandwormLost::calc_() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("潜る")) {
+        if (child->isFinished() || child->isFailed())
+            m34();
+    } else {
+        EnemyLost::calc_();
+    }
 }
 
 void SandwormLost::leave_() {

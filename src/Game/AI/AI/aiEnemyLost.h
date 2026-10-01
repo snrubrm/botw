@@ -15,8 +15,11 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34();
 
 protected:
     // static_param at offset 0x38
@@ -27,6 +30,8 @@ protected:
     const float* mForceReturnNoCameraRad_s{};
     // static_param at offset 0x50
     const bool* mSealForceReturn_s{};
+    f32 _58 = 0.0f;
 };
+KSYS_CHECK_SIZE_NX150(EnemyLost, 0x60);
 
 }  // namespace uking::ai
