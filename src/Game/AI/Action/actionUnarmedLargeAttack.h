@@ -12,6 +12,7 @@ public:
     ~UnarmedLargeAttack() override;
 
 protected:
+    int m32() override;
 };
 
 }  // namespace uking::action
