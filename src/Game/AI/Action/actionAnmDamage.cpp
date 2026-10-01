@@ -12,6 +12,7 @@ bool AnmDamage::init_(sead::Heap* heap) {
 
 void AnmDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     SmallDamageBase::enter_(params);
+    playAS(mAS_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void AnmDamage::leave_() {
