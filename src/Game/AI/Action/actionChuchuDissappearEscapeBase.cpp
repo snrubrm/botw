@@ -12,6 +12,7 @@ bool ChuchuDissappearEscapeBase::init_(sead::Heap* heap) {
 
 void ChuchuDissappearEscapeBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    playAS("Disappear", false, 0, 0, -1.0f);
 }
 
 void ChuchuDissappearEscapeBase::leave_() {
