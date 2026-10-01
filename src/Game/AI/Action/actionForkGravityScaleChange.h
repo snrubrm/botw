@@ -20,6 +20,7 @@ protected:
 
     // static_param at offset 0x20
     const float* mScale_s{};
+    float _28 = 1.0f;
 };
 
 }  // namespace uking::action
