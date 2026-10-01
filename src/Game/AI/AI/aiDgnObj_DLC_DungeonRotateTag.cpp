@@ -12,7 +12,7 @@ bool DgnObj_DLC_DungeonRotateTag::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_DungeonRotateTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("待機");
 }
 
 void DgnObj_DLC_DungeonRotateTag::leave_() {
