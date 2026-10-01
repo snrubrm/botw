@@ -11,7 +11,7 @@ bool ExceededImpulseCheck::init_(sead::Heap* heap) {
 }
 
 void ExceededImpulseCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("オフ");
 }
 
 void ExceededImpulseCheck::leave_() {
