@@ -10,8 +10,16 @@ public:
     explicit TargetActorGrabAdapter(const InitArg& arg);
     ~TargetActorGrabAdapter() override;
 
+    bool isFailed() const override {
+        return mFlags.isOn(Flag::Failed) || getCurrentChild()->isFailed();
+    }
+    bool isFinished() const override {
+        return mFlags.isOn(Flag::Finished) || getCurrentChild()->isFinished();
+    }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
