@@ -26,6 +26,7 @@ protected:
     int* mmeshReso_d{};
     // dynamic_param at offset 0x38
     sead::Vector3f* mpos_d{};
+    int _40 = 0;
 };
 
 }  // namespace uking::action
