@@ -11,7 +11,7 @@ bool ForkOnLeaveChildDelete::init_(sead::Heap* heap) {
 }
 
 void ForkOnLeaveChildDelete::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkOnLeaveChildDelete::leave_() {
