@@ -40,4 +40,8 @@ void SiteBossSwordAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossSwordAttackBase::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
