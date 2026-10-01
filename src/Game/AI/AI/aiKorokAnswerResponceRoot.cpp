@@ -11,7 +11,8 @@ bool KorokAnswerResponceRoot::init_(sead::Heap* heap) {
 }
 
 void KorokAnswerResponceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _78 = false;
+    _79 = false;
 }
 
 void KorokAnswerResponceRoot::leave_() {
