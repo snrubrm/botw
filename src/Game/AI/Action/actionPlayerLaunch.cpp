@@ -8,9 +8,7 @@ void PlayerLaunch::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLaunch::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLaunch::leave_() {}
 
 void PlayerLaunch::loadParams_() {
     getStaticParam(&mInitSpeed_s, "InitSpeed");
