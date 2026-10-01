@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossIAIAttack.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,13 @@ void PriestBossIAIAttack::leave_() {
 
 void PriestBossIAIAttack::loadParams_() {
     IAIAttack::loadParams_();
+}
+
+void PriestBossIAIAttack::m34(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    params.addVec3(pos, "MoveTargetPos", -1);
+    changeChild("駆け寄り", &params);
 }
 
 }  // namespace uking::ai
