@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMessageReceiveCheckBasic.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,21 @@ bool MessageReceiveCheckBasic::init_(sead::Heap* heap) {
 }
 
 void MessageReceiveCheckBasic::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m36();
+    changeChild("オフ");
+    mFlags.set(Flag::Changeable);
+}
+
+void MessageReceiveCheckBasic::calc_() {
+    if (isCurrentChild("オフ")) {
+        if (m34()) {
+            m36();
+            changeChild("オン");
+        }
+    } else if (isCurrentChild("オン") && m35()) {
+        m36();
+        changeChild("オフ");
+    }
 }
 
 void MessageReceiveCheckBasic::leave_() {
@@ -19,5 +34,26 @@ void MessageReceiveCheckBasic::leave_() {
 }
 
 void MessageReceiveCheckBasic::loadParams_() {}
+
+bool MessageReceiveCheckBasic::m34() {
+    return _38;
+}
+
+bool MessageReceiveCheckBasic::m35() {
+    auto* child = getCurrentChild();
+    return child->isFinished() || child->isFailed();
+}
+
+void MessageReceiveCheckBasic::m36() {
+    _38 = false;
+}
+
+bool MessageReceiveCheckBasic::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x8000004) {
+        _38 = true;
+        return true;
+    }
+    return false;
+}
 
 }  // namespace uking::ai
