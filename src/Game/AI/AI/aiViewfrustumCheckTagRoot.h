@@ -20,6 +20,7 @@ protected:
     const float* mAllwaysOnDisFromPlayer_m{};
     // map_unit_param at offset 0x40
     const float* mAllwaysOnCamDir_m{};
+    bool _48 = true;
 };
 
 }  // namespace uking::ai
