@@ -10,6 +10,14 @@ void HeightSelectTwoAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool HeightSelectTwoAction::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool HeightSelectTwoAction::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void HeightSelectTwoAction::leave_() {
     ksys::act::ai::Ai::leave_();
 }
