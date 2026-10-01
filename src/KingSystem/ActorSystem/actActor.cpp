@@ -416,7 +416,7 @@ uking::act::Unk_7100e8b2b8* Actor::getMotorcyclePriorityStuffMaybe() {
     return nullptr;
 }
 
-DropData* Actor::getDropData() {
+Unk_71025ae620* Actor::getDropData() {
     return nullptr;
 }
 

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
@@ -30,7 +31,7 @@ Unk_71025ae640* DynamicActor::getAtk() {
     return _850;
 }
 
-DropData* DynamicActor::getDropData() {
+Unk_71025ae620* DynamicActor::getDropData() {
     return _a60;
 }
 

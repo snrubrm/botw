@@ -89,6 +89,7 @@ class BaseProcLink;
 class BoneControl;
 class Chemical;
 class DropData;
+class Unk_71025ae620;
 class ImpulseBaseProcLink;
 class ModelBindInfo;
 class Schedule;
@@ -347,7 +348,7 @@ public:
     virtual uking::act::Rideable* getHorseOptionsMaybe();
     virtual uking::act::RideableBase* m132();
     virtual uking::act::Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe();
-    virtual DropData* getDropData();
+    virtual Unk_71025ae620* getDropData();
     virtual void m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();

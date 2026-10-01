@@ -43,7 +43,7 @@ public:
     void m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     void m128() override;
-    DropData* getDropData() override;
+    Unk_71025ae620* getDropData() override;
     void m135() override;
 
     // FIXME: figure out return types, parameters and names
