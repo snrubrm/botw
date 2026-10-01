@@ -22,6 +22,7 @@ protected:
     sead::SafeString mMstxt_d{};
     // dynamic_param at offset 0x30
     sead::SafeString mLabel_d{};
+    bool _40 = false;
 };
 
 }  // namespace uking::action
