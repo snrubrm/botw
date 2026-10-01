@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -30,6 +31,16 @@ protected:
     sead::SafeString mEffectName_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _58{0, 0};
+    // passed by address to helper functions (struct of the following fields?)
+    u32 _64 = 1;
+    u32 _68 = 0;
+    bool _6c = false;
+    bool _6d = true;
+    bool _6e = true;
+    u32 _70 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(TeleportBase, 0x78);
 
 }  // namespace uking::action
