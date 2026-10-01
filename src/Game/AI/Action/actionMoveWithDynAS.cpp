@@ -12,6 +12,8 @@ bool MoveWithDynAS::init_(sead::Heap* heap) {
 
 void MoveWithDynAS::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveBase::enter_(params);
+    if (!mASName_d.isEmpty())
+        playAS(mASName_d.cstr(), true, 0, 0, -1.0f);
 }
 
 void MoveWithDynAS::leave_() {
