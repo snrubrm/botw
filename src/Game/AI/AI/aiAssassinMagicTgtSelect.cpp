@@ -14,6 +14,10 @@ void AssassinMagicTgtSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetInAreaSelect::enter_(params);
 }
 
+void AssassinMagicTgtSelect::calc_() {
+    TargetInAreaSelect::calc_();
+}
+
 void AssassinMagicTgtSelect::leave_() {
     TargetInAreaSelect::leave_();
 }
