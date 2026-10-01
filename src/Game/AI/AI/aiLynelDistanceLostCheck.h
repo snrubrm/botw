@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool m34() override;
 
 protected:
     // aitree_variable at offset 0x68

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTagShuttle.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,45 @@ void DungeonRotateTagShuttle::leave_() {
 
 void DungeonRotateTagShuttle::loadParams_() {
     getMapUnitParam(&mInitDgnRotRad_m, "InitDgnRotRad");
+}
+
+void DungeonRotateTagShuttle::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    const bool on = actor->checkBasicSig() || _40;
+
+    if (*mInitDgnRotRad_m <= 0.0f) {
+        if (on) {
+            if (isCurrentChild("時計回り回転後待機")) {
+                changeChild("反時計回り回転");
+                return;
+            }
+        } else {
+            if (isCurrentChild("反時計回り回転後待機")) {
+                changeChild("時計回り回転");
+                return;
+            }
+        }
+    } else {
+        if (on) {
+            if (isCurrentChild("反時計回り回転後待機")) {
+                changeChild("時計回り回転");
+                return;
+            }
+        } else {
+            if (isCurrentChild("時計回り回転後待機")) {
+                changeChild("反時計回り回転");
+                return;
+            }
+        }
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("反時計回り回転"))
+            changeChild("反時計回り回転後待機");
+        else if (isCurrentChild("時計回り回転"))
+            changeChild("時計回り回転後待機");
+    }
 }
 
 }  // namespace uking::ai

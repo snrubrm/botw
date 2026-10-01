@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDungeonMoveTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,52 @@ void DungeonMoveTag::leave_() {
 void DungeonMoveTag::loadParams_() {
     getMapUnitParam(&mInitDgnMoveDis_m, "InitDgnMoveDis");
     getMapUnitParam(&mMoveDis_m, "MoveDis");
+}
+
+// NON_MATCHING: the original has a default case with target = -0.0f (unknown source form)
+void DungeonMoveTag::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("移動")) {
+            switch (_48) {
+            case 2:
+                _48 = 1;
+                break;
+            case 3:
+                _48 = 0;
+                break;
+            }
+            changeChild("待機");
+        }
+        return;
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    if (_49 == actor->checkBasicSig())
+        return;
+    _49 = actor->checkBasicSig();
+
+    const f32 init_dis = *mInitDgnMoveDis_m;
+    f32 target;
+    switch (_48) {
+    case 0:
+    case 3:
+        _48 = 2;
+        target = *mMoveDis_m;
+        break;
+    case 1:
+    case 2:
+        target = 0.0f;
+        _48 = 3;
+        break;
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(target - init_dis, "DynMoveDis", -1);
+    changeChild("移動", &pack);
 }
 
 }  // namespace uking::ai

@@ -42,4 +42,21 @@ void ChildHaveSelect::loadParams_() {
     getStaticParam(&mIsCheckEveryFrame_s, "IsCheckEveryFrame");
 }
 
+void ChildHaveSelect::calc_() {
+    if (!*mIsCheckEveryFrame_s)
+        return;
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed() && !child->isChangeable())
+        return;
+
+    if (mActor->getConnectedCalcChild()) {
+        if (isCurrentChild("非子所持"))
+            changeChild("子所持");
+    } else {
+        if (isCurrentChild("子所持"))
+            changeChild("非子所持");
+    }
+}
+
 }  // namespace uking::ai

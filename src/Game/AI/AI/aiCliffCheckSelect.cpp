@@ -31,4 +31,27 @@ void CliffCheckSelect::loadParams_() {
     getStaticParam(&mIsSelectFirstTime_s, "IsSelectFirstTime");
 }
 
+// NON_MATCHING: the original materialises the finished-or-failed result as a bool before re-fetching the child
+void CliffCheckSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+        return;
+    }
+
+    if (!getCurrentChild()->isChangeable() || *mIsSelectFirstTime_s)
+        return;
+
+    if (isCurrentChild("崖である")) {
+        if (!sub_710035116C())
+            changeChild("崖でない");
+    } else if (isCurrentChild("崖でない")) {
+        if (sub_710035116C())
+            changeChild("崖である");
+    }
+}
+
 }  // namespace uking::ai

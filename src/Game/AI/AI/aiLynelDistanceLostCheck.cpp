@@ -27,4 +27,8 @@ void LynelDistanceLostCheck::loadParams_() {
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
 }
 
+bool LynelDistanceLostCheck::m34() {
+    return DistanceLostCheck::m34() && !(*mLynelAIFlags_a & 0x10);
+}
+
 }  // namespace uking::ai

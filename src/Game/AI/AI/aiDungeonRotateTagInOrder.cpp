@@ -25,4 +25,22 @@ void DungeonRotateTagInOrder::loadParams_() {
     getStaticParam(&mRotateTurnOn_s, "RotateTurnOn");
 }
 
+void DungeonRotateTagInOrder::calc_() {
+    auto* actor = mActor;
+    bool skip = true;
+    if (_38 != actor->checkBasicSig()) {
+        _38 = actor->checkBasicSig();
+        skip = *mRotateTurnOn_s && !actor->checkBasicSig();
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転"))
+            changeChild("待機");
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("待機") && !skip)
+            changeChild("回転");
+    }
+}
+
 }  // namespace uking::ai

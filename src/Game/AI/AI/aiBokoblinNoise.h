@@ -8,6 +8,8 @@ class BokoblinNoise : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinNoise, ksys::act::ai::Ai)
 public:
     explicit BokoblinNoise(const InitArg& arg);
+    void calc_() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

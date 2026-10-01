@@ -18,6 +18,10 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    // NON_MATCHING: inlines sub_7100362928 (regalloc)
+    virtual bool m34() { return sub_7100362928(); }
+
+    bool sub_7100362928();
 
 protected:
     // static_param at offset 0x38

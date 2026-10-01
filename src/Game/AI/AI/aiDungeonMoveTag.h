@@ -8,6 +8,7 @@ class DungeonMoveTag : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DungeonMoveTag, ksys::act::ai::Ai)
 public:
     explicit DungeonMoveTag(const InitArg& arg);
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -19,7 +20,7 @@ protected:
     const float* mInitDgnMoveDis_m{};
     // map_unit_param at offset 0x40
     const float* mMoveDis_m{};
-    bool _48{};
+    s8 _48{};
     bool _49{};
 };
 

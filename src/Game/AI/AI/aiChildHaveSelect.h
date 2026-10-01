@@ -9,6 +9,7 @@ class ChildHaveSelect : public ksys::act::ai::Ai {
 public:
     explicit ChildHaveSelect(const InitArg& arg);
     ~ChildHaveSelect() override;
+    void calc_() override;
 
     bool isFinished() const override;
     bool isFailed() const override;

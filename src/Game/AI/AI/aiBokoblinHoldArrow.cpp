@@ -1,11 +1,15 @@
 #include "Game/AI/AI/aiBokoblinHoldArrow.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
 BokoblinHoldArrow::BokoblinHoldArrow(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void BokoblinHoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sead::Vector3f pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("溜め", &pack);
 }
 
 bool BokoblinHoldArrow::isChangeable() const {

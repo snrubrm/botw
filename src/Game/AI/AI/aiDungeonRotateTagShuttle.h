@@ -9,6 +9,7 @@ class DungeonRotateTagShuttle : public ksys::act::ai::Ai {
 public:
     explicit DungeonRotateTagShuttle(const InitArg& arg);
     ~DungeonRotateTagShuttle() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

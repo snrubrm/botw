@@ -9,6 +9,7 @@ class BocoblinBackStepAttack : public ksys::act::ai::Ai {
 public:
     explicit BocoblinBackStepAttack(const InitArg& arg);
     ~BocoblinBackStepAttack() override;
+    void calc_() override;
     bool isFinished() const override;
     bool isChangeable() const override;
 
