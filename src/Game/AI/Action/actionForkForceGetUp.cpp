@@ -26,4 +26,8 @@ void ForkForceGetUp::calc_() {
     ForkAlwaysForceGetUp::calc_();
 }
 
+bool ForkForceGetUp::isFinished() const {
+    return _80;
+}
+
 }  // namespace uking::action

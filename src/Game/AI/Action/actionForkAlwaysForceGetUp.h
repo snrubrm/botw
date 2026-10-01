@@ -28,6 +28,9 @@ protected:
     const float* mRotSpdMax_s{};
     // static_param at offset 0x40
     const bool* mIsUseCRBOffsetUnit_s{};
+    u8 _48[0x78 - 0x48];
+    void* _78{};
+    bool _80{};
 };
 
 }  // namespace uking::action
