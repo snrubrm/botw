@@ -23,7 +23,7 @@ bool EternalPlayerTarget::init_(sead::Heap* heap) {
 }
 
 void EternalPlayerTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71003C9AAC(true);
 }
 
 void EternalPlayerTarget::leave_() {

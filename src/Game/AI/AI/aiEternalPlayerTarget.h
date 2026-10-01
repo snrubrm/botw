@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003C9AAC(bool);
+
 protected:
 };
 
