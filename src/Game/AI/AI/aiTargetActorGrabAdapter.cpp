@@ -33,4 +33,12 @@ void TargetActorGrabAdapter::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+bool TargetActorGrabAdapter::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool TargetActorGrabAdapter::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

@@ -16,6 +16,8 @@ public:
     bool isFinished() const override {
         return mFlags.isOn(Flag::Finished) || getCurrentChild()->isFinished();
     }
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
