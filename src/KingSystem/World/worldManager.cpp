@@ -116,6 +116,10 @@ Climate Manager::getClimate(const sead::Vector3f& pos) const {
     return {};
 }
 
+WeatherType Manager::sub_71010F337C(const sead::Vector3f& pos) {
+    return someWeatherStuff_0(getClimate(pos));
+}
+
 Climate Manager::getCurrentClimate() const {
     return mCurrentClimate;
 }

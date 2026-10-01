@@ -1,10 +1,30 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include <time/seadTickTime.h>
 
 namespace ksys::res {
 
-class CompactionMgr;
+// TODO: move to its own file once the remaining functions are decompiled
+class CompactionMgr {
+public:
+    struct InitArg {};
+
+    struct CalcArg {
+        bool pause_compaction;
+    };
+
+    CompactionMgr();
+    virtual ~CompactionMgr();
+
+    bool init(const InitArg& arg);
+    void stopCompactionIfTooLong(const CalcArg& arg);
+
+private:
+    sead::TickTime _8;
+    sead::TickTime _10;
+    bool _18 = false;
+};
 
 // Also known as game::ResourceSystem (?)
 class GameResourceSystem {
