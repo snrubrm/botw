@@ -27,4 +27,8 @@ void AnimalEatAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int AnimalEatAction::m32() {
+    return 1;
+}
+
 }  // namespace uking::action
