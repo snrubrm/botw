@@ -14,6 +14,10 @@ void LynelFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseFindPlayer::enter_(params);
 }
 
+void LynelFindPlayer::calc_() {
+    EnemyBaseFindPlayer::calc_();
+}
+
 void LynelFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
 }
