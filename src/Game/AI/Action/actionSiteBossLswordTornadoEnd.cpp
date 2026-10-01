@@ -25,7 +25,8 @@ void SiteBossLswordTornadoEnd::loadParams_() {
 }
 
 void SiteBossLswordTornadoEnd::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
