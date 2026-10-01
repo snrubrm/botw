@@ -21,4 +21,8 @@ void PlayerLandDamage::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLandDamage::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
