@@ -11,6 +11,7 @@ public:
     explicit CameraEventIdling(const InitArg& arg);
 
 protected:
+    void m43() override;
 };
 
 }  // namespace uking::action
