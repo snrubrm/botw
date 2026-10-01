@@ -5,6 +5,10 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/System/Timer.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::ai {
 
 class NPCTravelerRoot : public NPCRoot {
@@ -23,7 +27,7 @@ protected:
     // static_param at offset 0x238
     const bool* mIsRiderChangableAction_s{};
     bool _240 = false;
-    void* _248 = nullptr;
+    act::NPC* _248 = nullptr;
     sead::CriticalSection _250;
     ksys::act::BaseProcLink _290;
     f32 _2a0 = 0.0f;
