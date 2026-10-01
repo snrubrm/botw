@@ -18,6 +18,14 @@ bool PlayerInfo::init() {
     return true;
 }
 
+void PlayerInfo::setAndAcquirePlayer(PlayerBase* player) {
+    if (mPlayerActor)
+        return;
+    mPlayerActor = player;
+    ksys::setPlayerLink(player);
+    mPlayerLink.acquire(player, false);
+}
+
 void PlayerInfo::resetPlayer(PlayerBase* player) {
     if (mPlayerActor == player) {
         mPlayerActor = nullptr;
@@ -47,6 +55,13 @@ PlayerBase* PlayerInfo::getPlayer_() const {
     }
     BaseProcMgr::instance()->isAccessingProcSafe(mPlayerActor, nullptr);
     return mPlayerActor;
+}
+
+Actor* PlayerInfo::getRiddenHorse() const {
+    auto* player = getPlayer();
+    if (!player || !player->isRidingHorse())
+        return nullptr;
+    return sead::DynamicCast<Actor>(mHorseLink.getProc(nullptr, nullptr));
 }
 
 s32 PlayerInfo::getMaxLifeFromPlayerActor() const {
@@ -81,6 +96,23 @@ s32 PlayerInfo::getLifeFromPlayerActor() const {
     return life ? *life : 1;
 }
 
+void PlayerInfo::updateCurrentHartFlagFromPlayerActor() {
+    s32 life = getLifeFromPlayerActor();
+    if (life > getMaxLifeFromPlayerActor()) {
+        life = getMaxLifeFromPlayerActor();
+        setLifeForPlayerActor(life);
+    }
+    gdt::setFlag_CurrentHart(life);
+}
+
+void PlayerInfo::saveLifeInfoForSwordPull() {
+    if (!mPlayerActor)
+        return;
+    auto* life = mPlayerActor->getLife();
+    mLifeBeforeSwordPull = life ? static_cast<f32>(*life) : 1.0f;
+    mExtraLifeBeforeSwordPull = mPlayerActor->m321();
+}
+
 void PlayerInfo::recoverLife() {
     setLifeForPlayerActor(getMaxLifeFromPlayerActor());
 }
@@ -111,6 +143,14 @@ void PlayerInfo::updateStaminaMaxFromGameData() {
     mStaminaMax = gdt::getFlag_StaminaMax();
 }
 
+void PlayerInfo::recoverCondition() {
+    auto* player = mPlayerActor;
+    if (player) {
+        const auto lock = sead::makeScopedLock(player->_c58);
+        player->_c98.set(0x100);
+    }
+}
+
 PlayerBase* PlayerInfo::getPlayerUnchecked() {
     return mPlayerActor;
 }
@@ -129,6 +169,12 @@ sead::Vector3f& PlayerInfo::getPlayerPosForPostCalc() {
     acquireActor(&mPlayerLink, &accessor);
     accessor.debugLog(0, "getPlayerPosForPostCalc");
     return mPlayerPosForPostCalc;
+}
+
+const sead::Vector3f& PlayerInfo::getPlayerM265() const {
+    if (mPlayerActor)
+        return *mPlayerActor->m265();
+    return sead::Vector3f::zero;
 }
 
 }  // namespace ksys::act

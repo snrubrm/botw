@@ -63,8 +63,8 @@ public:
     sead::Vector3f& getPlayerPos();
     sead::Vector3f& getPlayerPosForPostCalc();
 
-    // TODO: name and PlayerBase vtable
-    sead::Vector3f& getPlayerM265();
+    // TODO: name
+    const sead::Vector3f& getPlayerM265() const;
 
 private:
     // These are probably debug stuff that were removed

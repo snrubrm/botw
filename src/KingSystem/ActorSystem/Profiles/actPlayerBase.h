@@ -13,6 +13,7 @@ namespace ksys::act {
 namespace acc {
 class PlayerBase;
 }
+class PlayerInfo;
 
 // TODO: incomplete. The vtable has 360 slots (177-359 are new); PlayerLink is at 0xc38.
 // Size 0x17f0 (Player's first member).
@@ -222,6 +223,7 @@ public:
 
 protected:
     friend class acc::PlayerBase;
+    friend class PlayerInfo;
 
     /* 0xc40 */ sead::BitFlag32 _c40;
     /* 0xc44 */ sead::BitFlag32 _c44;
