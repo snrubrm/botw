@@ -14,6 +14,10 @@ void AlertCreationNestOnTree::enter_(ksys::act::ai::InlineParamPack* params) {
     CreationNestOnTree::enter_(params);
 }
 
+void AlertCreationNestOnTree::calc_() {
+    CreationNestOnTree::calc_();
+}
+
 void AlertCreationNestOnTree::leave_() {
     CreationNestOnTree::leave_();
 }
