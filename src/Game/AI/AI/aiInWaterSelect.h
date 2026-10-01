@@ -9,6 +9,8 @@ class InWaterSelect : public ksys::act::ai::Ai {
 public:
     explicit InWaterSelect(const InitArg& arg);
     ~InWaterSelect() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -6,6 +6,14 @@ InWaterSelect::InWaterSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 InWaterSelect::~InWaterSelect() = default;
 
+bool InWaterSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool InWaterSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool InWaterSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
