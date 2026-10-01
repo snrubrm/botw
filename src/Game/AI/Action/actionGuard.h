@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionTakeHitImpactForce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -20,6 +21,9 @@ protected:
 
     // static_param at offset 0x90
     const float* mRotSubsAngRate_s{};
+    sead::Vector3f _98;
 };
+
+KSYS_CHECK_SIZE_NX150(Guard, 0xa8);
 
 }  // namespace uking::action
