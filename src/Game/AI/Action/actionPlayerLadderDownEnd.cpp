@@ -16,4 +16,8 @@ void PlayerLadderDownEnd::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLadderDownEnd::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
