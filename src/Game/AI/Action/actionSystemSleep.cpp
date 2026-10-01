@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemSleep.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool SystemSleep::init_(sead::Heap* heap) {
 }
 
 void SystemSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
 void SystemSleep::leave_() {
