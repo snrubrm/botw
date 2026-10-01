@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace ksys::act {
 
@@ -7,6 +8,18 @@ PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
 }
 
 PlayerOrEnemy::~PlayerOrEnemy() = default;
+
+void PlayerOrEnemy::sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg) {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+    if (weapon)
+        weapon->sub_71002EDA38(arg);
+}
+
+void PlayerOrEnemy::sub_7100007D58(int idx, const uking::act::Unk_71002edaec& arg) {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+    if (weapon)
+        weapon->sub_71002EDAEC(arg);
+}
 
 }  // namespace ksys::act
 

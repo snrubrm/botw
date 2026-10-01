@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -469,6 +470,28 @@ bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorCon
             return pickRandomModifier(ranges);
     }
     return false;
+}
+
+// NON_MATCHING: the two address computations for the BaseProcLink assignment are swapped
+void Weapon::sub_71002EDA38(const Unk_71002eda38& arg) {
+    auto lock = sead::makeScopedLock(_ab8);
+    _af8._0 = arg._0;
+    _af8._4 = arg._4;
+    _af8._30 = arg._30;
+    _af8._34 = arg._34;
+    _af8._38 = arg._38;
+    _af8._8 = arg._8;
+    _af8._14 = arg._14;
+    _af8._20 = arg._20;
+    _af8._3c = arg._3c;
+    _af8._40 = arg._40;
+    _b40 = true;
+}
+
+void Weapon::sub_71002EDAEC(const Unk_71002edaec& arg) {
+    auto lock = sead::makeScopedLock(_be0);
+    _c20 = arg;
+    _c4c = true;
 }
 
 }  // namespace uking::act

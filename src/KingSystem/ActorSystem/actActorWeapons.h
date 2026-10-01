@@ -30,8 +30,7 @@ public:
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
 
-private:
-    friend class acc::PlayerOrEnemy;
+    // Accessed directly by AI helper functions (0x71005db5c0 - 0x71005db7e4)
 
     struct Unk1 {
         BaseProcLink link;

@@ -2,8 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
+#include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
 class ActorConstDataAccess;
@@ -139,9 +142,60 @@ struct WeaponModifierRanges {
     bool isTierYellow = false;
 };
 
-// TODO: Weapon class
+// Request passed to Weapon::sub_71002EDA38 (stored at Weapon+0xaf8 under the lock at 0xab8; the
+// flag at 0xb40 marks it as pending). Built by AI helpers (0x71005d80fc: type 6, 0x71005d8210:
+// type 7) and passed down via PlayerOrEnemy / NPC (0x71005d787c). Placeholder name and fields.
+struct Unk_71002eda38 {
+    /* 0x00 */ s32 _0 = -1;
+    /* 0x04 */ s32 _4 = 0;
+    /* 0x08 */ sead::Vector3f _8 = {0, 0, 0};
+    /* 0x14 */ sead::Vector3f _14 = {0, 0, 0};
+    /* 0x20 */ ksys::act::BaseProcLink _20;
+    /* 0x30 */ f32 _30 = 1.0;
+    /* 0x34 */ f32 _34 = 1.0;
+    /* 0x38 */ s32 _38 = -1;
+    /* 0x3c */ bool _3c = false;
+    /* 0x40 */ u64 _40 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71002eda38, 0x48);
+
+// Request passed to Weapon::sub_71002EDAEC (stored at Weapon+0xc20 under the lock at 0xbe0; flag at
+// 0xc4c). Passed down via PlayerOrEnemy / NPC (0x71005d79ac). Placeholder name and fields.
+struct Unk_71002edaec {
+    /* 0x00 */ s32 _0 = -1;
+    /* 0x04 */ s32 _4 = 0;
+    /* 0x08 */ f32 _8 = 1.0;
+    /* 0x0c */ f32 _c = 1.0;
+    /* 0x10 */ s32 _10 = -1;
+    /* 0x14 */ bool _14 = false;
+    /* 0x18 */ s32 _18 = 1;
+    /* 0x1c */ s32 _1c = 1;
+    /* 0x20 */ s32 _20 = 0;
+    /* 0x24 */ s32 _24 = 1;
+    /* 0x28 */ bool _28 = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71002edaec, 0x2c);
+
+// TODO: Weapon class (factory 0x71002df038: new(0x1038); ctor 0x71002e04ac). Only the start of
+// the layout is declared.
 class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
+public:
+    void sub_71002EDA38(const Unk_71002eda38& arg);
+    void sub_71002EDAEC(const Unk_71002edaec& arg);
+
+    /* 0xab8 */ sead::CriticalSection _ab8;
+    /* 0xaf8 */ Unk_71002eda38 _af8;
+    /* 0xb40 */ bool _b40 = false;
+    /* 0xb48 */ sead::CriticalSection _b48;
+    /* 0xb88 */ s32 _b88 = -1;
+    /* 0xb8c */ bool _b8c = false;
+    /* 0xb90 */ sead::CriticalSection _b90;
+    /* 0xbd0 */ u64 _bd0 = 0;
+    /* 0xbd8 */ bool _bd8 = false;
+    /* 0xbe0 */ sead::CriticalSection _be0;
+    /* 0xc20 */ Unk_71002edaec _c20;
+    /* 0xc4c */ bool _c4c = false;
 };
 
 }  // namespace uking::act

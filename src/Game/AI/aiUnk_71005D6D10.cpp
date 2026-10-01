@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actNPC.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -10,6 +11,7 @@
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
 using uking::act::Enemy;
+using uking::act::NPC;
 
 void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1) {
     if (actor->isDeletedOrDeleting())
@@ -22,7 +24,7 @@ void sub_71005D7014(ksys::act::Actor* actor) {
         return;
     auto* enemy = static_cast<Enemy*>(actor);
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&enemy->_d70._98, &accessor);
+    ksys::act::acquireActor(&enemy->_e08, &accessor);
     accessor.x_0(actor);
 }
 
@@ -430,4 +432,123 @@ void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos) {
     if (!unk)
         return;
     unk->_10._74 = pos;
+}
+
+void sub_71005D7518(ksys::act::Actor* actor, bool set) {
+    if (sead::IsDerivedFrom<NPC>(actor)) {
+        auto& flags = static_cast<NPC*>(actor)->_fe8;
+        if (!set)
+            flags &= ~0x80;
+        else
+            flags |= 0x80;
+    }
+}
+
+bool sub_71005D75B4(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<NPC>(actor))
+        return false;
+    auto* npc = static_cast<NPC*>(actor);
+    return npc->_fe8 >> 7 & 1;
+}
+
+void sub_71005D7644(ksys::act::Actor* actor, bool set) {
+    if (sead::IsDerivedFrom<NPC>(actor)) {
+        auto& flags = static_cast<NPC*>(actor)->_fe8;
+        if (!set)
+            flags &= ~0x400;
+        else
+            flags |= 0x400;
+    }
+}
+
+void sub_71005D76E0(ksys::act::Actor* actor, bool set) {
+    if (sead::IsDerivedFrom<NPC>(actor)) {
+        auto& flags = static_cast<NPC*>(actor)->_fe8;
+        if (!set)
+            flags &= ~0x2000;
+        else
+            flags |= 0x2000;
+    }
+}
+
+uking::act::Unk_71002dccbc* sub_71005D9D68(ksys::act::Actor* actor) {
+    if (sead::IsDerivedFrom<Enemy>(actor))
+        return &static_cast<Enemy*>(actor)->_d70;
+    return sead::IsDerivedFrom<NPC>(actor) ? &static_cast<NPC*>(actor)->_e90 : nullptr;
+}
+
+void sub_71005DB5C0(ksys::act::Actor* actor, int idx) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor) && !sead::IsDerivedFrom<NPC>(actor))
+        return;
+    actor->getWeapons()->mWeapons[idx]._10 = false;
+}
+
+void sub_71005DB6D0(ksys::act::Actor* actor, int idx) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor) && !sead::IsDerivedFrom<NPC>(actor))
+        return;
+    actor->getWeapons()->mWeapons[idx]._10 = true;
+}
+
+bool sub_71005DB7E4(ksys::act::Actor* actor, int idx) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor) && !sead::IsDerivedFrom<NPC>(actor))
+        return false;
+    return actor->getWeapons()->mWeapons[idx]._10;
+}
+
+void sub_71005D787C(ksys::act::Actor* actor, int idx, const uking::act::Unk_71002eda38& arg) {
+    if (idx < 0)
+        return;
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor)) {
+        static_cast<ksys::act::PlayerOrEnemy*>(actor)->sub_7100007CA8(idx, arg);
+        return;
+    }
+    if (sead::IsDerivedFrom<NPC>(actor))
+        static_cast<NPC*>(actor)->sub_71000225B0(idx, arg);
+}
+
+void sub_71005D79AC(ksys::act::Actor* actor, int idx, const uking::act::Unk_71002edaec& arg) {
+    if (idx < 0)
+        return;
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor)) {
+        static_cast<ksys::act::PlayerOrEnemy*>(actor)->sub_7100007D58(idx, arg);
+        return;
+    }
+    if (sead::IsDerivedFrom<NPC>(actor))
+        static_cast<NPC*>(actor)->sub_7100022660(idx, arg);
+}
+
+void sub_71005D80FC(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos, int a3, f32 a4,
+                    const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link) {
+    uking::act::Unk_71002eda38 arg;
+    arg._0 = 6;
+    arg._4 = a3;
+    arg._30 = a4;
+    arg._14 = pos;
+    if (pos2) {
+        arg._8 = *pos2;
+        arg._3c = true;
+    } else {
+        arg._3c = false;
+    }
+    if (link)
+        arg._20 = *link;
+    sub_71005D787C(actor, idx, arg);
+}
+
+void sub_71005D8210(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos, int a3, f32 a4,
+                    const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link) {
+    uking::act::Unk_71002eda38 arg;
+    arg._0 = 7;
+    arg._4 = a3;
+    arg._30 = a4;
+    arg._14 = pos;
+    if (pos2) {
+        arg._8 = *pos2;
+        arg._3c = true;
+    } else {
+        arg._3c = false;
+    }
+    if (link)
+        arg._20 = *link;
+    sub_71005D787C(actor, idx, arg);
 }

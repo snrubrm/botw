@@ -11,7 +11,9 @@ class BaseProcLink;
 
 namespace uking::act {
 class Unk_71002dccbc;
-}
+struct Unk_71002eda38;
+struct Unk_71002edaec;
+}  // namespace uking::act
 
 // Free helper functions of an unnamed AI utility translation unit (0x71005d6d10 - 0x71005e2f3c,
 // linked between aiUrbosasFuryDamageSelector and aiVacuumedBombDamageSelect). Most of them take an
@@ -54,6 +56,36 @@ void sub_71005D7014(ksys::act::Actor* actor);
 /// Enemy::_d70 or NPC::_e90 (nullptr otherwise).
 uking::act::Unk_71002dccbc* sub_71005D9D68(ksys::act::Actor* actor);
 bool sub_71005DAFB0(ksys::act::Actor* actor);
+
+// --- uking::act::NPC fields ---
+
+/// Sets or clears bit 7 of NPC::_fe8.
+void sub_71005D7518(ksys::act::Actor* actor, bool set);
+/// Bit 7 of NPC::_fe8 (false if not an NPC).
+bool sub_71005D75B4(ksys::act::Actor* actor);
+/// Sets or clears bit 10 of NPC::_fe8.
+void sub_71005D7644(ksys::act::Actor* actor, bool set);
+/// Sets or clears bit 13 of NPC::_fe8.
+void sub_71005D76E0(ksys::act::Actor* actor, bool set);
+
+// --- PlayerOrEnemy / NPC weapons ---
+
+/// Passes `arg` to the weapon equipped in slot `idx` (PlayerOrEnemy::sub_7100007CA8 or
+/// NPC::sub_71000225B0). Does nothing if idx < 0.
+void sub_71005D787C(ksys::act::Actor* actor, int idx, const uking::act::Unk_71002eda38& arg);
+/// Same for Unk_71002edaec (PlayerOrEnemy::sub_7100007D58 or NPC::sub_7100022660).
+void sub_71005D79AC(ksys::act::Actor* actor, int idx, const uking::act::Unk_71002edaec& arg);
+/// Builds an Unk_71002eda38 request of type 6 / 7 and passes it to sub_71005D787C.
+void sub_71005D80FC(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos, int a3, f32 a4,
+                    const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link);
+void sub_71005D8210(ksys::act::Actor* actor, int idx, const sead::Vector3f& pos, int a3, f32 a4,
+                    const sead::Vector3f* pos2, const ksys::act::BaseProcLink* link);
+
+// ActorWeapons::mWeapons[idx]._10
+
+void sub_71005DB5C0(ksys::act::Actor* actor, int idx);
+void sub_71005DB6D0(ksys::act::Actor* actor, int idx);
+bool sub_71005DB7E4(ksys::act::Actor* actor, int idx);
 
 // --- misc ---
 

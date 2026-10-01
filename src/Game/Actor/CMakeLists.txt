@@ -3,12 +3,18 @@ target_sources(uking PRIVATE
   actDragon.h
   actEnemy.cpp
   actEnemy.h
+  actNPC.cpp
+  actNPC.h
+  actNPCBase.cpp
+  actNPCBase.h
   actPlayerCreateMgr.cpp
   actPlayerCreateMgr.h
   actPlayerCreateTrace.cpp
   actPlayerCreateTrace.h
   actPlayerCreateUtils.cpp
   actPlayerCreateUtils.h
+  actUnk_71002dccbc.h
+  actUnk_7100d3cd74.h
   actWeapon.cpp
   actWeapon.h
   actWolfLink.cpp

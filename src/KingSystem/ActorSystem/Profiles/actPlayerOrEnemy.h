@@ -4,6 +4,11 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+namespace uking::act {
+struct Unk_71002eda38;
+struct Unk_71002edaec;
+}  // namespace uking::act
+
 namespace ksys::act {
 
 // TODO: incomplete. The vtable has 177 slots.
@@ -60,6 +65,11 @@ public:
     virtual bool weaponDroppedByEnemy() { return true; }
     virtual void getEquippedItem();
     virtual void m176();
+
+    // Forward a request to the equipped weapon in slot `idx` if it is a uking::act::Weapon
+    // (Weapon::sub_71002EDA38 / sub_71002EDAEC). Placeholder names.
+    void sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg);
+    void sub_7100007D58(int idx, const uking::act::Unk_71002edaec& arg);
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};

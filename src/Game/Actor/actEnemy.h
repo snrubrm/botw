@@ -9,6 +9,8 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/actUnk_71002dccbc.h"
+#include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -56,45 +58,6 @@ public:
     /* 0x120 */ u8 _120;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100013308, 0x128);
-
-// Sub-object of Enemy (at 0xd70) and of NPC (at 0xe90). Placeholder name after its method
-// 0x71002dccbc (bool (u16 mask): no linked actor in calc state has a matching flag).
-class Unk_71002dccbc {
-public:
-    struct Entry {
-        ksys::act::BaseProcLink link;
-        u16 flags = 0;
-        u8 _12 = 0;
-    };
-
-    // Methods (other TU, 0x71002dc32c-0x71002dcedc); placeholder names, the flags are matched
-    // against Entry::flags.
-    void sub_71002DC32C();
-    bool sub_71002DC3A8(ksys::act::BaseProc* proc, u16 flags);
-    bool sub_71002DC628(const ksys::act::BaseProcLink& link, u16 flags);
-    bool sub_71002DC8A0(const ksys::act::BaseProcLink& link, u16 flags);
-    bool sub_71002DC9E8(const ksys::act::BaseProcLink& link, u16 flags, bool a3);
-    void sub_71002DCBDC(u16 flags);
-    bool sub_71002DCCBC(u16 flags);
-    ksys::act::BaseProcLink* sub_71002DCEDC(u16 flags, f32* a2);
-
-    /* 0x00 */ ksys::act::Actor* mActor;
-    /* 0x08 */ sead::SafeArray<Entry, 6> mEntries;
-    /* 0x98 */ ksys::act::BaseProcLink _98;
-};
-KSYS_CHECK_SIZE_NX150(Unk_71002dccbc, 0xa8);
-
-// Placeholder name (ctor 0x7100d3cd74, dtor 0x7100d3cd84). A list of heap-allocated nodes that each
-// hold a BaseProcLink at +0x20; embedded in Enemy at 0x1128 (Enemy::m101 returns it).
-class Unk_7100d3cd74 {
-public:
-    explicit Unk_7100d3cd74(ksys::act::Actor* actor);
-    ~Unk_7100d3cd74();
-
-    /* 0x00 */ u8 _0[0x18];  // list head (prev, next) + count
-    /* 0x18 */ ksys::act::Actor* mActor;
-};
-KSYS_CHECK_SIZE_NX150(Unk_7100d3cd74, 0x20);
 
 // Placeholder name = vtable (2 slots: empty D1, D0). Embedded in Enemy at 0x1148.
 class Unk_7102357908 {
@@ -231,6 +194,7 @@ public:
     /* 0xc38 */ sead::Buffer<ksys::act::BaseProcLink> _c38;  // indexed by weapon slot (m177)
     /* 0xc48 */ Unk_7100013308 _c48{this};
     /* 0xd70 */ Unk_71002dccbc _d70{this};
+    /* 0xe08 */ ksys::act::BaseProcLink _e08;
     /* 0xe18 */ sead::Matrix34f _e18 = sead::Matrix34f::ident;
     /* 0xe48 */ sead::Vector3f _e48 = sead::Vector3f::zero;
     /* 0xe54 */ sead::Vector3f _e54 = sead::Vector3f::zero;
