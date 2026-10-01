@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    void m32(f32 a, f32 b) override;
+    f32 m33() override;
+    f32 _a8 = 0;
 };
 
 }  // namespace uking::action

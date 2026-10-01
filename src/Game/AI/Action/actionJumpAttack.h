@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(f32 a, f32 b);
+    virtual f32 m33();
 
     // static_param at offset 0x20
     const float* mMaxSpeed_s{};
@@ -34,6 +38,11 @@ protected:
     const float* mJustAvoidAngle_s{};
     // static_param at offset 0x58
     const bool* mIsForceGuardBreak_s{};
+    Unk_7102451ba0 _60;
+    ksys::VFRValue _88;
+    f32 _94 = 0;
+    sead::Vector3f _98 = sead::Vector3f::zero;
+    bool _a4 = false;
 };
 
 }  // namespace uking::action

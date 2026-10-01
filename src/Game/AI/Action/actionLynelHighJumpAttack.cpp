@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLynelHighJumpAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void LynelHighJumpAttack::loadParams_() {
 
 void LynelHighJumpAttack::calc_() {
     JumpAttack::calc_();
+}
+
+f32 LynelHighJumpAttack::m33() {
+    return mActor->getVelocity().y < -0.1f ? 0.99f : 1.0f;
 }
 
 }  // namespace uking::action

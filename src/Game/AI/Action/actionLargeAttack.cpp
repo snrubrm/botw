@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 LargeAttack::LargeAttack(const InitArg& arg) : ActionEx(arg) {}
 
 LargeAttack::~LargeAttack() = default;

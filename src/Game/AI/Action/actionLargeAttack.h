@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -33,6 +36,10 @@ protected:
     const float* mJustAvoidBackDist_s{};
     // static_param at offset 0x50
     const float* mJustAvoidAngle_s{};
+    Unk_7102451ba0 _58;
+    ksys::VFRValue _80;
+    sead::Matrix33f _8c;
+    int _b0 = 2;
 };
 
 }  // namespace uking::action
