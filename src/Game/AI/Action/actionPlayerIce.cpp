@@ -26,4 +26,8 @@ void PlayerIce::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerIce::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
