@@ -13,6 +13,8 @@ public:
 
     void loadParams_() override;
 
+    void m34() override;
+
 protected:
     // static_param at offset 0x58
     const float* mNearDist_s{};

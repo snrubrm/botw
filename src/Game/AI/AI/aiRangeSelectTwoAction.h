@@ -13,11 +13,15 @@ public:
 
     void loadParams_() override;
 
+    void m34() override;
+    virtual bool m36();
+
 protected:
     // static_param at offset 0x58
     const float* mFarDist_s{};
     // static_param at offset 0x60
     const float* mBaseDist_s{};
+    void* _68{};
 };
 
 }  // namespace uking::ai
