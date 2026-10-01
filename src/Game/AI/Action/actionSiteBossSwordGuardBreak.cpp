@@ -26,4 +26,8 @@ void SiteBossSwordGuardBreak::calc_() {
     OnetimeStopASPlay::calc_();
 }
 
+bool SiteBossSwordGuardBreak::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
