@@ -28,6 +28,8 @@ protected:
     const sead::Vector3f* mColor_s{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
+    float _48 = 0.0f;
+    float _4c = 0.0f;
 };
 
 }  // namespace uking::action
