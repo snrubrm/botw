@@ -26,6 +26,7 @@ protected:
     int* mPassTime_d{};
     // dynamic_param at offset 0x38
     bool* mActReset_d{};
+    bool _40 = false;
 };
 
 }  // namespace uking::action
