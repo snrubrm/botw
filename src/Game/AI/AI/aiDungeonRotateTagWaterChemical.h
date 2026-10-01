@@ -24,6 +24,8 @@ protected:
     const float* mRotRadAccel_s{};
     // static_param at offset 0x50
     const float* mReverseDotTh_s{};
+    u8 _58 = 255;
+    f32 _5c{};
 };
 
 }  // namespace uking::ai
