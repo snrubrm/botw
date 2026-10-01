@@ -14,6 +14,14 @@ void EnemyTimelineAI::enter_(ksys::act::ai::InlineParamPack* params) {
     TimelineAI::enter_(params);
 }
 
+bool EnemyTimelineAI::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool EnemyTimelineAI::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void EnemyTimelineAI::leave_() {
     TimelineAI::leave_();
 }
