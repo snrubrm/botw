@@ -14,6 +14,10 @@ void SandwormReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
 }
 
+void SandwormReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+}
+
 void SandwormReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
