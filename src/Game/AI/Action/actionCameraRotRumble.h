@@ -18,6 +18,7 @@ protected:
     int* mCount_d{};
     // dynamic2_param at offset 0x30
     float* mPower_d{};
+    bool _38 = true;
 };
 
 }  // namespace uking::action
