@@ -12,6 +12,7 @@ public:
     ~CameraEventMultiTalk() override;
 
 protected:
+    void m45() override;
 };
 
 }  // namespace uking::action

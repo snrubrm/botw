@@ -11,6 +11,11 @@ public:
     explicit CameraEvent(const InitArg& arg);
 
 protected:
+    virtual bool m42();
+    virtual void m43();
+    virtual void m44();
+    virtual void m45();
+    virtual void m46();
 };
 
 }  // namespace uking::action
