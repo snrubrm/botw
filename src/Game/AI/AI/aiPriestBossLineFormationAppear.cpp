@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossLineFormationAppear.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -15,8 +17,22 @@ void PriestBossLineFormationAppear::enter_(ksys::act::ai::InlineParamPack* param
     SeqTwoAction::enter_(params);
 }
 
+void PriestBossLineFormationAppear::calc_() {
+    SeqTwoAction::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    if (isCurrentChild("先行動"))
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+    else
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityGround);
+}
+
 void PriestBossLineFormationAppear::leave_() {
-    SeqTwoAction::leave_();
+    auto* controller = mActor->getCharacterController();
+    if (controller)
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityGround);
 }
 
 void PriestBossLineFormationAppear::loadParams_() {
