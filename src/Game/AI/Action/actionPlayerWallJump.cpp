@@ -8,9 +8,7 @@ void PlayerWallJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerWallJump::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerWallJump::leave_() {}
 
 void PlayerWallJump::loadParams_() {
     getStaticParam(&mJumpHeight_s, "JumpHeight");
