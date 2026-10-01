@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual sead::Vector3f* m32();
+    virtual bool m33(float x);
+    virtual bool m34(const sead::Vector3f& pos, float x);
 
     // static_param at offset 0x20
     const int* mMinUseGear_s{};

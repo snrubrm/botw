@@ -34,4 +34,12 @@ void AnimalMoveBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+sead::Vector3f* AnimalMoveBase::m32() {
+    return mTargetPos_d;
+}
+
+bool AnimalMoveBase::m33(float x) {
+    return false;
+}
+
 }  // namespace uking::action
