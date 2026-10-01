@@ -30,6 +30,7 @@ protected:
     float* mDynStopTime_d{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mDynStopPos_d{};
+    float _58 = 0.0f;
 };
 
 }  // namespace uking::action
