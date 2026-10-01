@@ -13,6 +13,8 @@ bool OneTimeWaterFloatStopASPlay::init_(sead::Heap* heap) {
 
 void OneTimeWaterFloatStopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatImmobile::enter_(params);
+    playAS(mASName_s.cstr(), *mIgnoreSameAS_s, 0, 0, -1.0f);
+    mFlags.reset(Flag::Changeable);
 }
 
 void OneTimeWaterFloatStopASPlay::leave_() {
