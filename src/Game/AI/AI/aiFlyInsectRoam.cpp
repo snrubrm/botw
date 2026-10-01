@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyInsectRoam.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -7,7 +8,8 @@ FlyInsectRoam::FlyInsectRoam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 FlyInsectRoam::~FlyInsectRoam() = default;
 
 bool FlyInsectRoam::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _9c = *mTerritoryRadius_s + *mTerritoryRadiusRand_s * sead::GlobalRandom::instance()->getF32();
+    return true;
 }
 
 void FlyInsectRoam::enter_(ksys::act::ai::InlineParamPack* params) {
