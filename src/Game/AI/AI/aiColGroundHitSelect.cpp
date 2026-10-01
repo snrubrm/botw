@@ -6,6 +6,14 @@ ColGroundHitSelect::ColGroundHitSelect(const InitArg& arg) : ksys::act::ai::Ai(a
 
 ColGroundHitSelect::~ColGroundHitSelect() = default;
 
+bool ColGroundHitSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool ColGroundHitSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 bool ColGroundHitSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
