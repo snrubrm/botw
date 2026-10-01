@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionRideHorseForEventAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -11,7 +14,8 @@ bool RideHorseForEventAction::init_(sead::Heap* heap) {
 }
 
 void RideHorseForEventAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5F458(ksys::act::MotionType::Hover);
 }
 
 void RideHorseForEventAction::leave_() {
