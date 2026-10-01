@@ -29,4 +29,6 @@ void EnemyFortressChatTalk::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void EnemyFortressChatTalk::m32() {}
+
 }  // namespace uking::action
