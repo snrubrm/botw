@@ -139,6 +139,8 @@ bool disableAttClient(Actor* actor, const sead::SafeString& client);
 void enableAllAttClients(Actor* actor);
 void disableAllAttClients(Actor* actor);
 bool isGrabAttClientEnabled(void* x, BaseProcLink* link);
+// 0x7100ee3d9c (informal CSV name)
+bool attentionStuff_0(Actor* actor);
 
 bool isStalfosParts(BaseProcLink* link);
 
