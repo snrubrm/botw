@@ -163,6 +163,8 @@ const sead::SafeString& getDefaultDropActor();
 
 void getRevivalGridPosition(const sead::Vector3f& pos, int* col1, int* row1, int* col2, int* row2);
 
+bool itemIsForSale(Actor* actor);
+
 bool getSameGroupActorName(sead::SafeString* name, BaseProcLink* link);
 bool getSameGroupActorName(sead::SafeString* name, Actor* actor);
 bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& default_value,

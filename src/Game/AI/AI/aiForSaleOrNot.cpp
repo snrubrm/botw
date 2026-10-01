@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForSaleOrNot.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,13 @@ bool ForSaleOrNot::init_(sead::Heap* heap) {
 }
 
 void ForSaleOrNot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (ksys::act::itemIsForSale(mActor))
+        changeChild("オン");
+    else
+        changeChild("オフ");
 }
+
+void ForSaleOrNot::calc_() {}
 
 void ForSaleOrNot::leave_() {
     ksys::act::ai::Ai::leave_();
