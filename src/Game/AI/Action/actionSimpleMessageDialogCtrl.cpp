@@ -11,7 +11,7 @@ bool SimpleMessageDialogCtrl::init_(sead::Heap* heap) {
 }
 
 void SimpleMessageDialogCtrl::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void SimpleMessageDialogCtrl::leave_() {
