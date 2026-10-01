@@ -22,4 +22,8 @@ void GanonBeastWait::loadParams_() {
     getAITreeVariable(&mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
 }
 
+bool GanonBeastWait::m34() {
+    return *mIsWeakPointAppearMode_a;
+}
+
 }  // namespace uking::ai
