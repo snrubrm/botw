@@ -12,6 +12,8 @@ void SunAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void SunAI::calc_() {}
+
 void SunAI::leave_() {
     ksys::act::ai::Ai::leave_();
 }
