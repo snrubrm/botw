@@ -17,6 +17,14 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual int m33();
+    virtual float m34();
+    virtual int m35();
+    virtual int m36();
+    virtual int m37();
+    virtual int m38();
+    virtual int m39();
 
     // static_param at offset 0x20
     const int* mAttackIntensity_s{};

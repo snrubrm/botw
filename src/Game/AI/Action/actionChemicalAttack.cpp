@@ -32,4 +32,20 @@ void ChemicalAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+float ChemicalAttack::m34() {
+    return *mRange_m;
+}
+
+int ChemicalAttack::m35() {
+    return 8192;
+}
+
+int ChemicalAttack::m37() {
+    return *mAttackPower_m;
+}
+
+int ChemicalAttack::m38() {
+    return *mAttackPowerForPlayer_m;
+}
+
 }  // namespace uking::action

@@ -33,4 +33,8 @@ void LyzalfosFlame::calc_() {
     ChemicalAttackBall::calc_();
 }
 
+int LyzalfosFlame::m33() {
+    return 0;
+}
+
 }  // namespace uking::action

@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    int m33() override;
 
     // static_param at offset 0x90
     const int* mLengthFrame_s{};

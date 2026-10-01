@@ -34,4 +34,8 @@ void WindCutter::calc_() {
     ChemicalAttack::calc_();
 }
 
+int WindCutter::m35() {
+    return 1;
+}
+
 }  // namespace uking::action

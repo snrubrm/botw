@@ -27,4 +27,6 @@ void ChemicalPhysBall::calc_() {
     ChemicalAttackBall::calc_();
 }
 
+void ChemicalPhysBall::m32() {}
+
 }  // namespace uking::action
