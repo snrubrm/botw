@@ -12,4 +12,10 @@ void GuardWithAS::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+void GuardWithAS::m38() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (*mASSlot_s != 0)
+        playAS(mASName_s.cstr(), false, *mASSlot_s, 0, -1.0f);
+}
+
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBeamMove.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +9,14 @@ BeamMove::BeamMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 BeamMove::~BeamMove() = default;
 
 bool BeamMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _50 = mActor->getMainBody();
+    _58 = mActor->findPhysicsBodyByName("Atk", "AtkBody");
+    _60 = mActor->findPhysicsBodyByName("Atk", "AtkExplode");
+    if (!_50 || !_58)
+        return false;
+    _50->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+    _50->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    return true;
 }
 
 void BeamMove::enter_(ksys::act::ai::InlineParamPack* params) {

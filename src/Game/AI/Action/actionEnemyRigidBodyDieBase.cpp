@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionEnemyRigidBodyDieBase.h"
+#include "math/seadBoundBox.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,7 +26,11 @@ void EnemyRigidBodyDieBase::loadParams_() {
 }
 
 void EnemyRigidBodyDieBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* body = mActor->getMainBody()) {
+        sead::BoundBox3f aabb;
+        body->getAabbInWorld(&aabb);
+        *mForceSetDropPos_a = aabb.getCenter();
+    }
 }
 
 }  // namespace uking::action

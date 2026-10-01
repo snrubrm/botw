@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWillBallAvoidCenterDist.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -26,8 +27,14 @@ void WillBallAvoidCenterDist::loadParams_() {
     getDynamicParam(&mCenterPos_d, "CenterPos");
 }
 
+// NON_MATCHING: the original loads the actor position before mCenterPos_d (scheduling)
 void WillBallAvoidCenterDist::calc_() {
     WillBallAction::calc_();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f diff = *mCenterPos_d - pos;
+    diff.y = 0.0f;
+    if (diff.length() > *mMaxDist_s)
+        setFailed();
 }
 
 }  // namespace uking::action

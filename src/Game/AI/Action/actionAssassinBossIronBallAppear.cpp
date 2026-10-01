@@ -12,7 +12,9 @@ bool AssassinBossIronBallAppear::init_(sead::Heap* heap) {
 }
 
 void AssassinBossIronBallAppear::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _70.fill(false);
+    _80 = 0;
+    mFlags.set(Flag::Changeable);
 }
 
 void AssassinBossIronBallAppear::leave_() {

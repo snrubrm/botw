@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,8 +27,7 @@ protected:
     sead::SafeString mIronBallPartsName_s{};
     int _40 = 0;
     void* _48{};
-    int _50 = 0;
-    void* _58{};
+    sead::Buffer<bool> _50;
     int _60 = 0;
 };
 

@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class BeamMove : public ksys::act::ai::Action {
@@ -29,9 +33,9 @@ protected:
     bool* mIsReflectThrownBullet_a{};
     sead::Vector3f _40 = sead::Vector3f::ez;
     f32 _4c = 0;
-    void* _50 = nullptr;
-    void* _58 = nullptr;
-    void* _60 = nullptr;
+    ksys::phys::RigidBody* _50 = nullptr;
+    ksys::phys::RigidBody* _58 = nullptr;
+    ksys::phys::RigidBody* _60 = nullptr;
     u8 _68 = 0;
     u8 _69 = 0;
     bool _6a = false;

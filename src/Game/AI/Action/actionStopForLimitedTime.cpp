@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionStopForLimitedTime.h"
+#include "math/seadMathCalcCommon.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +14,11 @@ bool StopForLimitedTime::init_(sead::Heap* heap) {
 }
 
 void StopForLimitedTime::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _58 = 0.0f;
+    if (auto* body = mActor->getMainBody())
+        body->changePositionAndRotation(mActor->getMtx(), sead::Mathf::epsilon());
+    if (!mASKeyName_s.isEmpty())
+        playAS(mASKeyName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void StopForLimitedTime::leave_() {
@@ -29,6 +36,16 @@ void StopForLimitedTime::loadParams_() {
 
 void StopForLimitedTime::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool StopForLimitedTime::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!ksys::act::ai::Action::reenter_(other, true))
+        return false;
+    auto* action = sead::DynamicCast<StopForLimitedTime>(other);
+    if (!action)
+        return false;
+    _58 = action->_58;
+    return true;
 }
 
 }  // namespace uking::action

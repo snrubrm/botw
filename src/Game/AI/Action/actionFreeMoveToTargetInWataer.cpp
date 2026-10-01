@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFreeMoveToTargetInWataer.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -13,6 +15,16 @@ bool FreeMoveToTargetInWataer::init_(sead::Heap* heap) {
 
 void FreeMoveToTargetInWataer::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMoveToTarget::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (*mForceUseFrontDir_s) {
+        const sead::Vector3f front = mActor->getMtx().getBase(2);
+        controller->sub_7100F5EDBC(front);
+    }
+    mActor->getMtx().getBase(_f8, 2);
 }
 
 void FreeMoveToTargetInWataer::leave_() {

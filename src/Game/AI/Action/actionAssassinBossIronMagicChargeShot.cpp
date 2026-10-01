@@ -12,7 +12,9 @@ bool AssassinBossIronMagicChargeShot::init_(sead::Heap* heap) {
 }
 
 void AssassinBossIronMagicChargeShot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _58.fill(false);
+    _68 = 0;
 }
 
 void AssassinBossIronMagicChargeShot::leave_() {
