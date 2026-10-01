@@ -8,6 +8,9 @@ class AddPlayerLargeAttackJustGuard : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(AddPlayerLargeAttackJustGuard, ksys::act::ai::Ai)
 public:
     explicit AddPlayerLargeAttackJustGuard(const InitArg& arg);
+    bool isFailed() const override;
+    bool isFinished() const override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
