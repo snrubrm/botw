@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSelfXRotSelector.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,15 @@ bool SelfXRotSelector::init_(sead::Heap* heap) {
 }
 
 void SelfXRotSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const f32 angle = sead::Mathf::abs(
+        sead::Mathf::asin(sead::Mathf::clamp(mActor->getMtx()(1, 2), -1.0f, 1.0f)));
+    if (angle >= *mAngle_s)
+        changeChild("以上", params);
+    else
+        changeChild("未満", params);
 }
+
+void SelfXRotSelector::calc_() {}
 
 void SelfXRotSelector::leave_() {
     ksys::act::ai::Ai::leave_();
