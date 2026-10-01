@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBowChildDeviceAppear.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,12 @@ bool BowChildDeviceAppear::init_(sead::Heap* heap) {
 }
 
 void BowChildDeviceAppear::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30 = false;
+    playAS("InitClose", true, 0, 0, -1.0f);
+    if (auto* body = mActor->getMainBody())
+        body->setContactNone();
+    if (auto* body = mActor->getTgtBody())
+        body->setContactNone();
 }
 
 void BowChildDeviceAppear::leave_() {

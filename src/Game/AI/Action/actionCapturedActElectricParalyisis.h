@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionElectricParalysis.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -21,9 +22,7 @@ protected:
 
     // static_param at offset 0x40
     const float* mPauseDelayFrames_s{};
-    float _48 = 0.0f;
-    float _4c = 0.0f;
-    int _50 = 0;
+    ksys::Timer _48;
 };
 
 }  // namespace uking::action

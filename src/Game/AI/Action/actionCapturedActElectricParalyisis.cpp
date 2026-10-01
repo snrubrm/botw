@@ -13,6 +13,10 @@ bool CapturedActElectricParalyisis::init_(sead::Heap* heap) {
 
 void CapturedActElectricParalyisis::enter_(ksys::act::ai::InlineParamPack* params) {
     ElectricParalysis::enter_(params);
+    if (*mPauseDelayFrames_s < 0.0f)
+        _48.reset(1.0f, 0.0f);
+    else
+        _48.reset(*mPauseDelayFrames_s);
 }
 
 void CapturedActElectricParalyisis::leave_() {

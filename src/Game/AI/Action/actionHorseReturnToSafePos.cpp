@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseReturnToSafePos.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -26,6 +27,13 @@ void HorseReturnToSafePos::loadParams_() {
 
 void HorseReturnToSafePos::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool HorseReturnToSafePos::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value != 0x3000010)
+        return false;
+    _40 = 0;
+    return true;
 }
 
 }  // namespace uking::action

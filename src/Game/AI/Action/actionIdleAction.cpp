@@ -23,7 +23,10 @@ void IdleAction::loadParams_() {
 }
 
 void IdleAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    setFinished();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action

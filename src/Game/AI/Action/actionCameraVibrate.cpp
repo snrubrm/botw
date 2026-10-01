@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCameraVibrate.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -32,5 +33,11 @@ void CameraVibrate::calc_() {
 }
 
 void CameraVibrate::m32() {}
+
+bool CameraVibrate::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x2000001)
+        _64 = *static_cast<const int*>(message.getUserData());
+    return true;
+}
 
 }  // namespace uking::action

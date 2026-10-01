@@ -13,6 +13,8 @@ bool DungeonRotateAccel::init_(sead::Heap* heap) {
 
 void DungeonRotateAccel::enter_(ksys::act::ai::InlineParamPack* params) {
     DungeonRotateBase::enter_(params);
+    m34(*mDynAngAccel_d);
+    mFlags.set(Flag::Changeable);
 }
 
 void DungeonRotateAccel::leave_() {

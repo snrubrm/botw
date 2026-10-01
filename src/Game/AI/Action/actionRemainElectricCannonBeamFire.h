@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class RemainElectricCannonBeamFire : public ksys::act::ai::Action {
@@ -29,7 +33,7 @@ protected:
     // dynamic_param at offset 0x40
     sead::Vector3f* mSafePos_d{};
     float _48 = 0.0f;
-    void* _50{};
+    ksys::phys::RigidBody* _50{};
     int _58 = 0;
 };
 

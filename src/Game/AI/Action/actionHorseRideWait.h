@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionHorseRide.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -23,9 +24,7 @@ protected:
     const int* mTime_s{};
     // static_param at offset 0x38
     const int* mTimeRand_s{};
-    float _40 = 0.0f;
-    float _44 = 0.0f;
-    int _48 = 0;
+    ksys::Timer _40;
 };
 
 }  // namespace uking::action

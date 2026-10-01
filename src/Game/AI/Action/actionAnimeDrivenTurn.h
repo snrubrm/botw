@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -37,9 +38,7 @@ protected:
     sead::SafeString mTargetBone_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
-    float _78 = 0.0f;
-    float _7c = 0.0f;
-    float _80 = -1.0f;
+    ksys::Timer _78{0, 0};
     bool _84 = false;
 };
 

@@ -51,6 +51,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0xb0
     ksys::act::BaseProcHandle** mIgniteBaseProcHandle_d{};
+    sead::Vector3f _b8;
 };
+
+KSYS_CHECK_SIZE_NX150(SiteBossThrowParts, 0xc8);
 
 }  // namespace uking::action

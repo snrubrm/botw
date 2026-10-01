@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseRideWait.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -26,6 +27,12 @@ void HorseRideWait::loadParams_() {
 
 void HorseRideWait::calc_() {
     HorseRide::calc_();
+    if (*mTime_s < 1)
+        return;
+    if (_40.value <= sead::Mathf::epsilon())
+        setFinished();
+    else
+        _40.update();
 }
 
 }  // namespace uking::action

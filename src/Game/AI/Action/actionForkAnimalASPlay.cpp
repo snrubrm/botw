@@ -30,4 +30,10 @@ void ForkAnimalASPlay::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void ForkAnimalASPlay::m32() {
+    _50.update();
+    if (_50.hasEnded(0.0f))
+        mFlags.set(Flag::Changeable);
+}
+
 }  // namespace uking::action

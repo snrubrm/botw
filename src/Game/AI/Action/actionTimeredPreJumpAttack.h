@@ -23,7 +23,7 @@ protected:
     const int* mTime_s{};
     // static_param at offset 0xa0
     const int* mTimeRand_s{};
-    int _a8 = 0;
+    f32 _a8 = 0;
 };
 
 }  // namespace uking::action

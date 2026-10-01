@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetRequestAttention.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -10,8 +11,20 @@ bool SetRequestAttention::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original loads mActor before the two bool params (scheduling)
 void SetRequestAttention::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsOn_s) {
+        if (*mIsAll_s)
+            ksys::act::enableAllAttClients(mActor);
+        else
+            ksys::act::enableAttClient(mActor, mAttName_s);
+    } else {
+        if (*mIsAll_s)
+            ksys::act::disableAllAttClients(mActor);
+        else
+            ksys::act::disableAttClient(mActor, mAttName_s);
+    }
+    setFinished();
 }
 
 void SetRequestAttention::leave_() {

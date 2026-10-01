@@ -28,4 +28,8 @@ void NavMeshSlippedWalk::calc_() {
     NavMeshAction::calc_();
 }
 
+void NavMeshSlippedWalk::m34() {
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

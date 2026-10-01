@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLastBossThunderSign.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -23,7 +24,9 @@ void LastBossThunderSign::loadParams_() {
 }
 
 void LastBossThunderSign::calc_() {
-    ksys::act::ai::Action::calc_();
+    _28.update();
+    if (_28.value <= sead::Mathf::epsilon())
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -27,4 +27,10 @@ void SiteBossDie::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossDie::isFinished() const {
+    if (isFinishedAS(0, 0))
+        return true;
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action

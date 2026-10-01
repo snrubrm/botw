@@ -16,7 +16,9 @@ void FlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FlyMoveBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    mCCAccessor.resetRigidBodyMotion(actor);
+    mCCAccessor.resetMotionType(mCCAccessor.sub_710072ACF8(actor));
 }
 
 void FlyMoveBase::loadParams_() {

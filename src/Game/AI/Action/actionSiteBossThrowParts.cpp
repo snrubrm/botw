@@ -11,7 +11,8 @@ bool SiteBossThrowParts::init_(sead::Heap* heap) {
 }
 
 void SiteBossThrowParts::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _b8 = *mTargetPos_d;
 }
 
 void SiteBossThrowParts::leave_() {

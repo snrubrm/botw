@@ -34,4 +34,10 @@ void AnimeDrivenTurn::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void AnimeDrivenTurn::m32() {
+    _78.update();
+    if (_78.hasEnded(0.0f))
+        mFlags.set(Flag::Changeable);
+}
+
 }  // namespace uking::action

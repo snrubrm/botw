@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossBowMoveForArrowRain.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +18,10 @@ void SiteBossBowMoveForArrowRain::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void SiteBossBowMoveForArrowRain::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void SiteBossBowMoveForArrowRain::loadParams_() {

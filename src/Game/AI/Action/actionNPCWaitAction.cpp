@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNPCWaitAction.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -18,7 +20,10 @@ void NPCWaitAction::loadParams_() {
 }
 
 void NPCWaitAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    else
+        setFailed();
 }
 
 }  // namespace uking::action

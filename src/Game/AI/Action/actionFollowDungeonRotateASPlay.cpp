@@ -32,6 +32,8 @@ void FollowDungeonRotateASPlay::loadParams_() {
 
 void FollowDungeonRotateASPlay::calc_() {
     FollowDungeonRotate::calc_();
+    if (*mIsSuccessEndOnASFinish_s && isFinishedAS(*mTargetIdx_s, *mSeqBankIdx_s))
+        setFinished();
 }
 
 }  // namespace uking::action

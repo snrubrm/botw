@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonThrowTornado.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -11,7 +12,9 @@ bool GanonThrowTornado::init_(sead::Heap* heap) {
 }
 
 void GanonThrowTornado::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _68 = 0;
+    sub_710073FA90(&_6c, mActor);
 }
 
 void GanonThrowTornado::leave_() {

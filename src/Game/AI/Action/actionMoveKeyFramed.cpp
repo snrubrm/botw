@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMoveKeyFramed.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool MoveKeyFramed::init_(sead::Heap* heap) {
 }
 
 void MoveKeyFramed::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        if (body->getMotionType() != ksys::phys::MotionType::Keyframed)
+            body->changeMotionType(ksys::phys::MotionType::Keyframed);
+    } else {
+        setFailed();
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void MoveKeyFramed::leave_() {

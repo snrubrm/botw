@@ -19,6 +19,8 @@ void BackWalkWithAS::loadParams_() {
 
 void BackWalkWithAS::calc_() {
     BackWalkEx::calc_();
+    if (isFinishedAS(0, 0) && !mASName_s.isEmpty())
+        setFinished();
 }
 
 }  // namespace uking::action

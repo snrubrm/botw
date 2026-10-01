@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLargeAttack.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -8,7 +9,10 @@ LargeAttack::LargeAttack(const InitArg& arg) : ActionEx(arg) {}
 LargeAttack::~LargeAttack() = default;
 
 void LargeAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    sub_710073FA90(&_8c, mActor);
+    _b0 = 0;
+    playAS("LargeAttack", false, 0, 0, -1.0f);
+    setDamageCallbackTiming(mActor, 4, &_58);
 }
 
 void LargeAttack::leave_() {

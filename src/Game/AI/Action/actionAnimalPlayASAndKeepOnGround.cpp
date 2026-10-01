@@ -12,7 +12,9 @@ bool AnimalPlayASAndKeepOnGround::init_(sead::Heap* heap) {
 }
 
 void AnimalPlayASAndKeepOnGround::enter_(ksys::act::ai::InlineParamPack* params) {
+    *mIsChangeableStateFreeFall_a = false;
     PlayASForAnimalUnit::enter_(params);
+    _78.reset(15.0f);
 }
 
 void AnimalPlayASAndKeepOnGround::leave_() {

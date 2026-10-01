@@ -40,4 +40,10 @@ void GanonWeaponNearAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GanonWeaponNearAttack::isFinished() const {
+    if (isFinishedAS(0, 0))
+        return true;
+    return ksys::act::ai::Action::isFinished();
+}
+
 }  // namespace uking::action

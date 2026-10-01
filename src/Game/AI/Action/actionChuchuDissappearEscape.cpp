@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChuchuDissappearEscape.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,8 @@ void ChuchuDissappearEscape::loadParams_() {
 
 void ChuchuDissappearEscape::calc_() {
     ChuchuDissappearEscapeBase::calc_();
+    if (isFinishedAS(0, 0))
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 bool ChuchuDissappearEscape::isFailed() const {

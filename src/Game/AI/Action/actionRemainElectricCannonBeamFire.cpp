@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainElectricCannonBeamFire.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -16,7 +17,8 @@ void RemainElectricCannonBeamFire::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void RemainElectricCannonBeamFire::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_50 && _50->isAddedToWorld())
+        _50->removeFromWorld();
 }
 
 void RemainElectricCannonBeamFire::loadParams_() {

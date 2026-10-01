@@ -31,7 +31,9 @@ void RemainsWaterBulletAction::loadParams_() {
 }
 
 void RemainsWaterBulletAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    m32();
+    m33();
+    m34();
 }
 
 }  // namespace uking::action
