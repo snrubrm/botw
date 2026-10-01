@@ -81,11 +81,12 @@ bool WeatherMgr::x_8() const {
     return _390;
 }
 
+// NON_MATCHING: the original reads TempMgr::_60 unconditionally and ORs the two comparisons
+// (matches if _60 is read into a local before the ||; see lane4 log, Borderline)
 bool WeatherMgr::x_7() {
     auto* wm = Manager::instance();
     const f32 temp = wm->getTempMgr()->calcTemperature();
-    const f32 temp2 = wm->getTempMgr()->_60;
-    return temp <= -2.0f || temp2 <= -2.0f;
+    return temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f;
 }
 
 void WeatherMgr::setWeatherEffect(int effect) {

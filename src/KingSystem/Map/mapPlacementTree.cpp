@@ -19,27 +19,28 @@ void PlacementTree::resetPlacementObjPtrs() {
     mFreeList.setWork(mFreeList.work(), 0x10, _30);
 }
 
+// NON_MATCHING: the original loads pos.z and the level's z origin up front (s1/s2 swapped otherwise;
+// see lane4 log, Borderline)
+// NON_MATCHING: the original loads pos.z, the z origin and the cell size up front (see lane4 log,
+// Borderline)
 u32 PlacementTree::x_1(const sead::Vector3f& pos, int level) const {
     const auto& obj = mBuffer[level];
-    const f32 z = pos.z;
-    const f32 size = obj._14;
-    const f32 min_z = obj._10;
 
     int x = 0;
     if (obj._4 != 0) {
-        const int i = (pos.x - obj._c) / size;
+        const int i = (pos.x - obj._c) / obj._14;
         if (i >= 0)
             x = i > int(obj._4 - 1) ? int(obj._4 - 1) : i;
     }
 
-    int iz = 0;
+    int z = 0;
     if (obj._8 != 0) {
-        const int i = (z - min_z) / size;
+        const int i = (pos.z - obj._10) / obj._14;
         if (i >= 0)
-            iz = i > int(obj._8 - 1) ? int(obj._8 - 1) : i;
+            z = i > int(obj._8 - 1) ? int(obj._8 - 1) : i;
     }
 
-    return obj._0 + x + iz * obj._4;
+    return obj._0 + x + z * obj._4;
 }
 
 int PlacementTree::sub_71011ED960(f32 distance) const {

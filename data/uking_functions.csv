@@ -90004,7 +90004,7 @@ Address,Quality,Size,Name
 0x00000071010ebae0,U,000280,wm::WeatherMgr::getTime
 0x00000071010ebbf8,O,000008,_ZNK4ksys5world10WeatherMgr3x_8Ev
 0x00000071010ebc00,U,003152,wm::WeatherMgr::calc
-0x00000071010ec850,O,000104,_ZN4ksys5world10WeatherMgr3x_7Ev
+0x00000071010ec850,m,000104,_ZN4ksys5world10WeatherMgr3x_7Ev
 0x00000071010ec8b8,O,000116,_ZN4ksys5world10WeatherMgr16setWeatherEffectEi
 0x00000071010ec92c,U,002768,wm::WeatherMgr::calc_x_0
 0x00000071010ed3fc,O,000004,_ZN4ksys5world10WeatherMgr10calcType2_Ev
@@ -93025,7 +93025,7 @@ Address,Quality,Size,Name
 0x00000071011ed428,O,000084,_ZN4ksys3map13PlacementTreeD1Ev
 0x00000071011ed47c,U,000940,PlacementTree::x
 0x00000071011ed828,O,000160,_ZN4ksys3map13PlacementTree21resetPlacementObjPtrsEv
-0x00000071011ed8c8,O,000152,_ZNK4ksys3map13PlacementTree3x_1ERKN4sead7Vector3IfEEi
+0x00000071011ed8c8,m,000152,_ZNK4ksys3map13PlacementTree3x_1ERKN4sead7Vector3IfEEi
 0x00000071011ed960,O,000140,_ZNK4ksys3map13PlacementTree14sub_71011ED960Ef
 0x00000071011ed9ec,U,000396,PlacementTree::calledForPlaceActor1
 0x00000071011edb78,U,000448,PlacementTree::checkSpawnStuff_x
