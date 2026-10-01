@@ -224,7 +224,9 @@ public:
     void setCompactionStopped(bool stopped);
     bool isCompactionStopped() const;
     void x(bool b);
+    void x_0();
     void x_1(bool b);
+    void auto12();
     void repairAllHandlesForSync();
     bool x_2();
 

@@ -26,6 +26,8 @@ public:
     void sub_7100FE60B0(bool on);
     void sub_7100FE60DC(bool on);
     bool sub_7100FE6120() const;
+    void sub_7100FE5190();
+    void sub_7100FE5334();
 
 private:
     // TODO

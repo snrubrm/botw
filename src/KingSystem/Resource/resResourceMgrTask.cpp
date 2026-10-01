@@ -818,6 +818,24 @@ void ResourceMgrTask::x(bool b) {
         mTexHandleMgr->sub_7100FE60B0(b);
 }
 
+void ResourceMgrTask::x_0() {
+    mTexHandleMgr->sub_7100FE5190();
+    mCounter.reset();
+
+    if (mCompactedHeapMip0) {
+        mCompactedHeapMain->setBuffer(nullptr, 0);
+        mCompactedHeapMip0->setBuffer(nullptr, 0);
+        mCompactedHeapMip0->destroy();
+        mCompactedHeapMip0 = nullptr;
+        util::safeDeleteArray(mCompactedHeapMip0Buffer);
+        util::safeDeleteArray(mCompactedHeapMainBuffer2);
+    }
+}
+
+void ResourceMgrTask::auto12() {
+    mTexHandleMgr->sub_7100FE5334();
+}
+
 void ResourceMgrTask::x_1(bool b) {
     if (mTexHandleMgr)
         mTexHandleMgr->sub_7100FE60DC(b);

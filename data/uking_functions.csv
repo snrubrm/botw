@@ -85265,9 +85265,9 @@ Address,Quality,Size,Name
 0x0000007100fe4b6c,U,000168,TextureHandleMgr::invoked9
 0x0000007100fe4c14,U,000224,
 0x0000007100fe4cf4,U,001180,TextureHandleMgr::xx
-0x0000007100fe5190,U,000164,
+0x0000007100fe5190,U,000164,_ZN4ksys3res16TextureHandleMgr14sub_7100FE5190Ev
 0x0000007100fe5234,U,000256,TextureHandleMgr::x_2
-0x0000007100fe5334,U,000136,
+0x0000007100fe5334,U,000136,_ZN4ksys3res16TextureHandleMgr14sub_7100FE5334Ev
 0x0000007100fe53bc,U,000092,
 0x0000007100fe5418,O,000164,_ZN4ksys3res16TextureHandleMgr4calcEv
 0x0000007100fe54bc,O,000004,_ZN4ksys3res16TextureHandleMgr7preCalcEv
@@ -93729,10 +93729,10 @@ Address,Quality,Size,Name
 0x00000071012067e0,U,000260,res::ResourceMgrTask::calculateOverlayArenaHeapSizeStuff
 0x00000071012068e4,U,000352,res::compactionThreadFunc
 0x0000007101206a44,U,000072,res::ResourceMgrTask::m
-0x0000007101206a8c,U,000188,res::ResourceMgrTask::x_0
+0x0000007101206a8c,O,000188,_ZN4ksys3res15ResourceMgrTask3x_0Ev
 0x0000007101206b48,U,000460,res::ResourceMgrTask::jamThreadMessageQueuesAndWait2
 0x0000007101206d14,O,000064,_ZN4ksys3res15ResourceMgrTask29jamThreadMessageQueuesAndWaitEv
-0x0000007101206d54,U,000016,res::ResourceMgrTask::__auto12
+0x0000007101206d54,O,000016,_ZN4ksys3res15ResourceMgrTask6auto12Ev
 0x0000007101206d64,U,000016,
 0x0000007101206d74,O,000288,_ZN4ksys3res15ResourceMgrTask11clearUnits_Ev
 0x0000007101206e94,O,000196,_ZN4ksys3res15ResourceMgrTask11systemCalc_Ev
