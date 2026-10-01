@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    u8 _50[0x54 - 0x50];
+    int _54 = 0;
 };
 
 }  // namespace uking::action
