@@ -268,6 +268,54 @@ void ResourceMgrTask::deregisterUnit(ResourceUnit* unit) {
     }
 }
 
+void ResourceMgrTask::requestUnload(Handle* handle) {
+    auto* unit = handle->getUnit();
+    if (!unit)
+        return;
+
+    unit->detachFromHandle_(handle);
+
+    ControlTaskRequest req;
+    req.mLaneId = u8(LaneId::_3);
+    req.mHasHandle = false;
+    req.mSynchronous = false;
+    req.mThread = mResourceControlThread;
+    req.mDelegate = &mUnitUnloadForSyncFn.fn;
+    req.mUserData = unit;
+    req.mPostRunCallback = &mUnitUnloadForSyncFn.cb;
+    req.mName = "Unload";
+
+    util::TaskMgrRequest task_mgr_request;
+    task_mgr_request.request = &req;
+    mResourceControlTaskMgr->submitRequest(task_mgr_request);
+}
+
+void ResourceMgrTask::requestUnloadForSync(Handle* handle) {
+    auto* unit = handle->getUnit();
+    if (!unit)
+        return;
+
+    if (mFlags.isOff(Flag::_4)) {
+        sead::FormatFixedSafeString<256> message("↓↓↓\nファイル名 : %s\n↑↑↑", unit->getPath().cstr());
+    }
+
+    unit->detachFromHandle_(handle);
+
+    ControlTaskRequest req;
+    req.mLaneId = u8(LaneId::_3);
+    req.mHasHandle = true;
+    req.mSynchronous = true;
+    req.mThread = mResourceControlThread;
+    req.mDelegate = &mUnitUnloadForSyncFn.fn;
+    req.mUserData = unit;
+    req.mPostRunCallback = &mUnitUnloadForSyncFn.cb;
+    req.mName = "Unload(ForSync)";
+
+    util::TaskMgrRequest task_mgr_request;
+    task_mgr_request.request = &req;
+    mResourceControlTaskMgr->submitRequest(task_mgr_request);
+}
+
 void ResourceMgrTask::requestClearCache(ResourceUnit** p_unit, util::Task* task) {
     if (!p_unit || !*p_unit || !(*p_unit)->isStatusFlag8000Set()) {
         stubbedLogFunction();
