@@ -16,7 +16,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
+    bool m36() override;
+    void m40(ksys::act::ai::InlineParamPack* params) override;
+
 protected:
+    bool _63{};
 };
 
 }  // namespace uking::ai
