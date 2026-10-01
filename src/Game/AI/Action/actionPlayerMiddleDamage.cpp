@@ -8,9 +8,7 @@ void PlayerMiddleDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerMiddleDamage::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerMiddleDamage::leave_() {}
 
 void PlayerMiddleDamage::loadParams_() {
     getStaticParam(&mBaseInitSpeedNSword_s, "BaseInitSpeedNSword");
