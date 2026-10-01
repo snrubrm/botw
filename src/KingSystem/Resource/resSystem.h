@@ -38,4 +38,9 @@ void stubbedBool(bool);
 
 void setResourceMgrPack(Handle* pack);
 
+bool isCompactionStopped();
+void callResourceMgrTaskMethodOO();
+void setCompactionStopped(bool stopped);
+void texHandleMgrSetSomeFlags(bool b);
+
 }  // namespace ksys::res

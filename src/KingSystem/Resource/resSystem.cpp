@@ -4,6 +4,23 @@
 
 namespace ksys::res {
 
+bool isCompactionStopped() {
+    auto* task = ResourceMgrTask::instance();
+    return task->isCompactionStopped() || task->_9c0d3c != 0 || task->_9c0d40 != 0;
+}
+
+void callResourceMgrTaskMethodOO() {
+    ResourceMgrTask::instance()->updateCompaction();
+}
+
+void setCompactionStopped(bool stopped) {
+    ResourceMgrTask::instance()->setCompactionStopped(stopped);
+}
+
+void texHandleMgrSetSomeFlags(bool b) {
+    ResourceMgrTask::instance()->x_1(b);
+}
+
 bool stubbedLogFunction() {
     return true;
 }

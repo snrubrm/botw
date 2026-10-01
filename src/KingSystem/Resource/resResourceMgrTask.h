@@ -295,6 +295,8 @@ private:
         ClearAllCachesRequested = 1,
     };
 
+    friend bool isCompactionStopped();
+
     explicit ResourceMgrTask(const sead::TaskConstructArg& arg);
     ~ResourceMgrTask();
 
