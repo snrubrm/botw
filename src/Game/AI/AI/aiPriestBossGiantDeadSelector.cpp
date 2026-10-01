@@ -15,6 +15,12 @@ void PriestBossGiantDeadSelector::enter_(ksys::act::ai::InlineParamPack* params)
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestBossGiantDeadSelector::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        setFinished();
+}
+
 void PriestBossGiantDeadSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }
