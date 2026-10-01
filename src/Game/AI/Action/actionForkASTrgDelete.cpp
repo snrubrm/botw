@@ -24,4 +24,6 @@ void ForkASTrgDelete::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void ForkASTrgDelete::m32() {}
+
 }  // namespace uking::action
