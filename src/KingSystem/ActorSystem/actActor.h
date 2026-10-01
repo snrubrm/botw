@@ -303,7 +303,6 @@ public:
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
-    bool hasPlacementLinkForBasicSig() const;
 
     void getHomePos(sead::Vector3f* pos) const;
 
