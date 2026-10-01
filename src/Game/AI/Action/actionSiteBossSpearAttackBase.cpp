@@ -52,4 +52,8 @@ int SiteBossSpearAttackBase::m34() {
     return *mAtMinDamage_s;
 }
 
+int SiteBossSpearAttackBase::m32() {
+    return 322;
+}
+
 }  // namespace uking::action
