@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiRepeatByLargeDamage.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,19 @@ bool RepeatByLargeDamage::init_(sead::Heap* heap) {
 }
 
 void RepeatByLargeDamage::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = true;
+    changeChild("吹っ飛び", params);
+}
+
+void RepeatByLargeDamage::calc_() {
+    if (_38) {
+        _38 = false;
+        return;
+    }
+
+    auto* dmg_mgr = mActor->getDamageMgr();
+    if (dmg_mgr && dmg_mgr->getField54() >= 16)
+        changeChild("吹っ飛び");
 }
 
 void RepeatByLargeDamage::leave_() {
