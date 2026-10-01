@@ -15,6 +15,10 @@ void AppearFromTargetFrontGround::enter_(ksys::act::ai::InlineParamPack* params)
     AppearNearTarget::enter_(params);
 }
 
+void AppearFromTargetFrontGround::calc_() {
+    AppearNearTarget::calc_();
+}
+
 void AppearFromTargetFrontGround::leave_() {
     AppearNearTarget::leave_();
 }
