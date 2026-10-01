@@ -14,6 +14,10 @@ void KeeseSwarmNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
 }
 
+void KeeseSwarmNormal::calc_() {
+    EnemyNormal::calc_();
+}
+
 void KeeseSwarmNormal::leave_() {
     EnemyNormal::leave_();
 }
