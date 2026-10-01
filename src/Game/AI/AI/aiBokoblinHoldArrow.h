@@ -9,6 +9,8 @@ class BokoblinHoldArrow : public ksys::act::ai::Ai {
 public:
     explicit BokoblinHoldArrow(const InitArg& arg);
 
+    bool isChangeable() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
