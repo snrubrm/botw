@@ -8,9 +8,7 @@ void PlayerSuperBlow::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSuperBlow::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSuperBlow::leave_() {}
 
 void PlayerSuperBlow::loadParams_() {
     getStaticParam(&mInitSpeed_s, "InitSpeed");
