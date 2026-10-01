@@ -16838,7 +16838,7 @@ Address,Quality,Size,Name
 0x000000710026f368,U,000344,
 0x000000710026f4c0,W,000036,_ZN5uking6action19SlideMoveViewTarget5calc_Ev
 0x000000710026f4e4,O,000004,_ZN5uking6action19SlideMoveViewTarget6leave_Ev
-0x000000710026f4e8,W,000084,_ZN5uking6action19SlideMoveViewTarget11loadParams_Ev
+0x000000710026f4e8,O,000084,_ZN5uking6action19SlideMoveViewTarget11loadParams_Ev
 0x000000710026f53c,U,000168,uking::action::SlideMoveViewTarget::m32
 0x000000710026f5e4,U,000212,uking::action::SlideMoveViewTarget::m35
 0x000000710026f6b8,O,000132,_ZNK5uking6action19SlideMoveViewTarget27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
