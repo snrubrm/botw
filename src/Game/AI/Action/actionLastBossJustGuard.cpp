@@ -24,4 +24,8 @@ void LastBossJustGuard::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool LastBossJustGuard::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
