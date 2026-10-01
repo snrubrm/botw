@@ -1,7 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
-#include <math/seadVectorFwd.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actAiParam.h"
@@ -123,6 +123,33 @@ public:
     virtual void postLeave() {}
 
     virtual ActionBase* getChild(s32 idx) const { return nullptr; }
+
+    template <typename T>
+    bool setDynamicParamImpl(const T& value, const sead::SafeString& key,
+                             bool (ParamPack::*setter)(const T& value, const sead::SafeString& key)
+                                 const) {
+        bool ret = false;
+        auto* action = this;
+        while (action && action->mFlags.isOff(Flag::_80)) {
+            ret |= (action->mParams.*setter)(value, key);
+            if (action->mFlags.isOff(Flag::DynamicParamChild))
+                return ret;
+            action = action->getCurrentChild();
+            if (!action)
+                return ret;
+        }
+
+        for (s32 i = 0, n = action->getNumChildren(); i < n; ++i) {
+            auto* child = action->getChild(i);
+            ret |= child->setDynamicParamImpl<T>(value, key, setter);
+        }
+        return ret;
+    }
+
+    bool setDynamicParam(const sead::Vector3f& value, const sead::SafeString& key) {
+        return setDynamicParamImpl(value, key,
+                                   &ParamPack::setPtrGeneric<sead::Vector3f, AIDefParamType::Vec3>);
+    }
 
 protected:
     enum class Flag : u8 {

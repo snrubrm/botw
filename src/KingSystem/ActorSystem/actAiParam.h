@@ -112,6 +112,11 @@ public:
         return ptr != nullptr;
     }
 
+    template <typename T, AIDefParamType Type>
+    bool setPtrGeneric(const T& value, const sead::SafeString& key) const {
+        return setAITreeVariable(key, Type, value);
+    }
+
     bool getString(sead::SafeString* value, const sead::SafeString& key) const;
     bool setString(const sead::SafeString& value, const sead::SafeString& key) const;
 

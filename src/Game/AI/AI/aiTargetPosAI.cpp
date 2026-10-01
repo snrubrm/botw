@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTargetPosAI.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,20 @@ bool TargetPosAI::init_(sead::Heap* heap) {
 }
 
 void TargetPosAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    m35(&pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("行動", &pack);
+}
+
+void TargetPosAI::calc_() {
+    if (*mOnEnterOnly_s)
+        return;
+
+    sead::Vector3f pos;
+    m35(&pos);
+    getCurrentChild()->setDynamicParam(pos, "TargetPos");
 }
 
 void TargetPosAI::leave_() {
