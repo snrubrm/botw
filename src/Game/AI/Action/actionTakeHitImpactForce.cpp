@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: regalloc (keeps &_68 in x20 across the memset)
 TakeHitImpactForce::TakeHitImpactForce(const InitArg& arg) : ActionEx(arg) {}
 
 TakeHitImpactForce::~TakeHitImpactForce() = default;

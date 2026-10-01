@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -36,6 +37,10 @@ protected:
     const float* mHitImpactForceSpearS_s{};
     // static_param at offset 0x60
     const float* mHitImpactForceSpearL_s{};
+    ksys::VFRVec3f _68;
+    f32 _8c = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(TakeHitImpactForce, 0x90);
 
 }  // namespace uking::action
