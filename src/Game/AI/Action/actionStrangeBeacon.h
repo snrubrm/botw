@@ -24,6 +24,10 @@ protected:
     sead::SafeString mCalcStartFlag_s{};
     // static_param at offset 0x40
     sead::SafeString mKeyName_s{};
+    void* _50{};
+    int _58 = 0;
+    void* _60{};
+    int _68 = 0;
 };
 
 }  // namespace uking::action
