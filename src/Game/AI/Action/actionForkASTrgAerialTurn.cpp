@@ -11,7 +11,7 @@ bool ForkASTrgAerialTurn::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgAerialTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkASTrgAerialTurn::leave_() {
