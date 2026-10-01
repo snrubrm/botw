@@ -11,7 +11,8 @@ bool AttackHitCheck::init_(sead::Heap* heap) {
 }
 
 void AttackHitCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("オフ");
+    mFlags.set(Flag::Changeable);
 }
 
 void AttackHitCheck::leave_() {
