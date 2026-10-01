@@ -6,6 +6,8 @@ StopASPlay::StopASPlay(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), *mIsIgnoreSame_s, 0, 0, -1.0f);
 }
 
 void StopASPlay::leave_() {}
