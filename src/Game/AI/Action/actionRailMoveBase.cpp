@@ -12,6 +12,8 @@ bool RailMoveBase::init_(sead::Heap* heap) {
 
 void RailMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    if (!mASName_d.isEmpty())
+        playAS(mASName_d.cstr(), *mIsIgnoreSame_d, *mASSlot_d, *mSequenceBank_d, -1.0f);
 }
 
 void RailMoveBase::leave_() {
