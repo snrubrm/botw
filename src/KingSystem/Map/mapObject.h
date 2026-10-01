@@ -182,6 +182,8 @@ public:
     // TODO:
     void initRevivalGameDataFlagAndMiscFlags(ActorData* data, bool zero);
     f32 getLoadDistance(bool get_diameter) const;
+    // 0x0000007100d4c3dc
+    f32 getDispDistanceComplex() const;
     Object* findSrcLODLinkObject() const;
 
     const auto& getFlags0() const { return mFlags0; }

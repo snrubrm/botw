@@ -47,6 +47,10 @@ public:
 
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
 
+    PlacementMap* getMap(int idx);
+    // 0x0000007100d47270
+    bool isHkscResStatus3(const sead::Vector3f& pos, bool x);
+
 private:
     friend class res::CompactionMgr;
 

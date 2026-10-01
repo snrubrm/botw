@@ -55,6 +55,16 @@ public:
     void auto5();
     void auto16();
     bool someFlagCheck() const;
+    bool isStaticCompoundReady(const sead::Vector3f& pos, bool x);
+    void disableObjStaticCompound(Object* obj);
+    void stubbed();
+    void insertTraverseResultPreActor(act::Actor* actor);
+    void setFlag8Enabled(bool enabled);
+    const char* getEntryUnitConfigName(const Object* obj) const;
+    f32 getDeleteDistance(const Object* obj) const;
+    f32 getLoadDistancePlus10(const Object* obj) const;
+    f32 getDispDistanceComplex(const Object* obj) const;
+    bool objStuff(const Object* obj) const;
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
     // 0x00000071011eb4dc
@@ -74,6 +84,7 @@ public:
 
     enum class MgrStaticFlags {
         debug = 0x1,
+        _8 = 0x8,
         DemoMode = 0x4,
         GrudgeMerge = 0x20,
     };
@@ -108,6 +119,7 @@ public:
 
     s32 mMassMemoryUsage;
     s32 mClusteredMemoryUsage;
+    u16 _1e4;
     void* mDebugHeap;
     PlacementActors* mPlacementActors;
 
@@ -118,7 +130,8 @@ public:
     u8 TEMP2[0x1c];
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
-    u8 TEMP2_[0x44];
+    sead::Vector3f _234;
+    u8 TEMP2_[0x38];
 
     u32 _278;
     sead::Vector3f _27c;

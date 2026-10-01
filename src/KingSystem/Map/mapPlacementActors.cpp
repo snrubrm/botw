@@ -3,6 +3,14 @@
 
 namespace ksys::map {
 
+bool PlacementActors::sub_7100D524B4() const {
+    for (int i = 0; i < mActorData.size(); ++i) {
+        if (mActorData[i]._b == 1)
+            return true;
+    }
+    return false;
+}
+
 Object* PlacementActors::getObj(int group_idx, int object_idx) {
     return &mObjs->mGroups[group_idx].objects[object_idx];
 }

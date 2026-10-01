@@ -100,7 +100,10 @@ public:
 
     sead::TypedLongBitFlag<64, Flag, sead::Atomic<u32>> mFlags;
     sead::TypedBitFlag<ActorFlag8, u8> mActorFlags8;
-    u8 TEMP[0x13F];
+    u8 _9;
+    u8 _a;
+    u8 _b;
+    u8 TEMP[0x13C];
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);

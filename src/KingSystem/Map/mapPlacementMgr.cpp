@@ -135,4 +135,56 @@ bool PlacementMgr::auto17(Object* obj) {
     return obj->getFlags0().isOn(Object::Flag0::_1000);
 }
 
+// NON_MATCHING: the original merges the two early returns into `(msg != 0) | (pa != nullptr)`
+bool PlacementMgr::auto1() {
+    if (mFlags.isOn(MgrFlag::_20))
+        return true;
+    return mRequestedMsg != 0 || (mPlacementActors && mPlacementActors->sub_7100D524B4());
+}
+
+bool PlacementMgr::isStaticCompoundReady(const sead::Vector3f& pos, bool x) {
+    _234 = pos;
+    return mPlacementMapMgr->isHkscResStatus3(pos, x);
+}
+
+void PlacementMgr::disableObjStaticCompound(Object* obj) {
+    if (!obj->getFlags0().isOn(Object::Flag0::StaticCompoundInstanceEnabled))
+        return;
+    if (auto* map = mPlacementMapMgr->getMap(obj->getIdx()))
+        map->setStaticCompoundInstanceEnabled(obj, false);
+}
+
+void PlacementMgr::stubbed() {}
+
+void PlacementMgr::insertTraverseResultPreActor(act::Actor* actor) {
+    mTraverseResults[0].pre_actors.pushBack(actor);
+    mTraverseResults[1].pre_actors.pushBack(actor);
+}
+
+void PlacementMgr::setFlag8Enabled(bool enabled) {
+    sFlags.change(MgrStaticFlags::_8, enabled);
+}
+
+const char* PlacementMgr::getEntryUnitConfigName(const Object* obj) const {
+    return obj->getUnitConfigNameFromByaml();
+}
+
+f32 PlacementMgr::getDeleteDistance(const Object* obj) const {
+    return obj->getDispDistance(true, false) + 10.0f;
+}
+
+f32 PlacementMgr::getLoadDistancePlus10(const Object* obj) const {
+    return obj->getLoadDistance(true) + 10.0f;
+}
+
+f32 PlacementMgr::getDispDistanceComplex(const Object* obj) const {
+    if (!obj)
+        return 30.0f;
+    return obj->getDispDistanceComplex();
+}
+
+bool PlacementMgr::objStuff(const Object* obj) const {
+    return obj->getId() != _1e4;
+}
+
 }  // namespace ksys::map

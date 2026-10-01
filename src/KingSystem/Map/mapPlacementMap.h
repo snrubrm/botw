@@ -69,6 +69,8 @@ public:
     ~PlacementMap();
 
 private:
+    friend class PlacementMgr;
+
     bool loadStaticMap_(bool load);
     void doLoadStaticMap_(bool load);
 
