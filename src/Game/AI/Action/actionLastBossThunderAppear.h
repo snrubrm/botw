@@ -28,6 +28,9 @@ protected:
     const int* mAttackPower_m{};
     // map_unit_param at offset 0x40
     const int* mAttackPowerForPlayer_m{};
+    float _48 = 0.0f;
+    int _4c = 0;
+    int _50 = 0;
 };
 
 }  // namespace uking::action
