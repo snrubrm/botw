@@ -1,6 +1,10 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include <prim/seadDelegate.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -17,7 +21,18 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // Bound to the delegate _218.
+    void sub_71004D8C5C();
+
 protected:
+    struct Unk1 {
+        bool _0 = false;
+        ksys::act::BaseProcLink _8;
+        void* _18 = nullptr;
+        u32 _20 = 0;
+        sead::FixedSafeString<32> _28;
+    };
+
     // static_param at offset 0x38
     const int* mReleaseInterest2Time_s{};
     // static_param at offset 0x40
@@ -26,6 +41,28 @@ protected:
     sead::SafeString mStaggerUpperASName_s{};
     // static_param at offset 0x58
     sead::SafeString mStaggerUpperRunASName_s{};
+    void* _68 = nullptr;
+    ksys::act::BaseProcLink _70;
+    ksys::act::BaseProcLink _80;
+    Unk1 _90[3];
+    ksys::act::BaseProcLink _1b0;
+    sead::Vector3f _1c0 = {0, 0, 0};
+    f32 _1cc = 0;
+    f32 _1d0 = 0;
+    f32 _1d4 = 0;
+    sead::Vector3f _1d8 = {-1, -1, -1};
+    sead::Vector3f _1e4 = sead::Vector3f::zero;
+    sead::Vector3f _1f0;
+    u32 _1fc = 0;
+    bool _200 = false;
+    bool _201 = false;
+    bool _202 = false;
+    bool _203 = false;
+    bool _204 = true;
+    sead::Vector3f _208;
+    u32 _214 = 0;
+    sead::Delegate<NPCRoot> _218{this, &NPCRoot::sub_71004D8C5C};
 };
+KSYS_CHECK_SIZE_NX150(NPCRoot, 0x238);
 
 }  // namespace uking::ai
