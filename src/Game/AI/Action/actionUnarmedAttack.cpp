@@ -24,4 +24,8 @@ bool UnarmedAttack::isChangeable() const {
     return false;
 }
 
+int UnarmedAttack::m32() {
+    return 16384;
+}
+
 }  // namespace uking::action

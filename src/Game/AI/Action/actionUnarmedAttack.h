@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m32();
+    virtual float m33();
+    virtual void m34();
 };
 
 }  // namespace uking::action
