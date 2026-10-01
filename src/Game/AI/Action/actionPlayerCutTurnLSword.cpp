@@ -33,4 +33,8 @@ void PlayerCutTurnLSword::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutTurnLSword::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
