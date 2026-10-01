@@ -17,6 +17,8 @@ public:
 
     bool sub_7100445394(sead::Heap* heap);
 
+    void sub_7100445AA0();
+
 protected:
 };
 

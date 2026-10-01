@@ -15,7 +15,7 @@ void IbutsuWaterFallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void IbutsuWaterFallRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100445AA0();
 }
 
 void IbutsuWaterFallRoot::loadParams_() {}
