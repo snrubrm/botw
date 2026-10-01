@@ -21,4 +21,8 @@ void PlayerDestinationTurnRefActor::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDestinationTurnRefActor::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
