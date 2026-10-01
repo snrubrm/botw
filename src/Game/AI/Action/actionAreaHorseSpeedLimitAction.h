@@ -14,6 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
 
 protected:
+    virtual int m32();
 };
 
 }  // namespace uking::action
