@@ -16,4 +16,8 @@ void PlayerHangWallCatch::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHangWallCatch::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
