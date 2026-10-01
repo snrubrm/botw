@@ -7,6 +7,18 @@ GuardianMiniBattleStateSelect::GuardianMiniBattleStateSelect(const InitArg& arg)
 
 GuardianMiniBattleStateSelect::~GuardianMiniBattleStateSelect() = default;
 
+bool GuardianMiniBattleStateSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool GuardianMiniBattleStateSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool GuardianMiniBattleStateSelect::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void GuardianMiniBattleStateSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
