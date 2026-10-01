@@ -115,6 +115,7 @@ public:
         _2b = 0x2b,
         _2e = 0x2e,
         _39 = 0x39,
+        _3a = 0x3a,
     };
 
     enum class ActorFlag2 : u32 {
