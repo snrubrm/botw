@@ -21,4 +21,8 @@ void PlayerWakeBoardReady::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWakeBoardReady::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
