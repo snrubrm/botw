@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOff.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,29 @@ bool Off::init_(sead::Heap* heap) {
 }
 
 void Off::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    auto* actor = mActor;
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+
+    switch (*mLinkTagType_s) {
+    case 0:
+        actor->emitBasicSigOff();
+        break;
+    case 1:
+        actor->emitSignalAxisY_0();
+        break;
+    case 2:
+        actor->emitSignalNAxisY_0();
+        break;
+    case 3:
+        actor->emitSignalAxisY_0();
+        actor->emitSignalNAxisY_0();
+        break;
+    }
+
+    if (*mOffWaitRevival_s)
+        actor->setRevivalFlagForUsed(false);
+    mFlags.set(Flag::Changeable);
 }
 
 void Off::leave_() {
