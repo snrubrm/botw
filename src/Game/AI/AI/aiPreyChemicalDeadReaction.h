@@ -10,6 +10,10 @@ public:
     explicit PreyChemicalDeadReaction(const InitArg& arg);
     ~PreyChemicalDeadReaction() override;
 
+    bool isFailed() const override { return getCurrentChild()->isFailed(); }
+    bool isFinished() const override { return getCurrentChild()->isFinished(); }
+    bool isChangeable() const override { return getCurrentChild()->isChangeable(); }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
