@@ -25,6 +25,13 @@ protected:
     const int* mSlowTime_s{};
     // static_param at offset 0xe0
     const int* mSlowTimeRand_s{};
+    f32 _e8{};
+    f32 _ec{};
+    int _f0{};
+    int _f4{};
+    int _f8{};
+    int _fc{};
+    int _100{};
 };
 
 }  // namespace uking::ai
