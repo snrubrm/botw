@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCTravelBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,11 +12,18 @@ bool NPCTravelBase::init_(sead::Heap* heap) {
 }
 
 void NPCTravelBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68 = ksys::Timer(16, 16);
+}
+
+void NPCTravelBase::calc_() {
+    if (_68.value <= sead::Mathf::epsilon())
+        return;
+    _68.update();
 }
 
 void NPCTravelBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_68.value <= sead::Mathf::epsilon())
+        mActor->setFlag(ksys::act::Actor::ActorFlag::_34, false);
 }
 
 void NPCTravelBase::loadParams_() {}
