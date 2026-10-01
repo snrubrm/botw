@@ -15,7 +15,7 @@ void EquipStand::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EquipStand::leave_() {
-    ksys::act::ai::Ai::leave_();
+    *static_cast<void**>(mEquipDisplayChild_a) = nullptr;
 }
 
 void EquipStand::loadParams_() {
