@@ -9,6 +9,8 @@ class LynelTackleMove : public ksys::act::ai::Ai {
 public:
     explicit LynelTackleMove(const InitArg& arg);
     ~LynelTackleMove() override;
+    bool isChangeable() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

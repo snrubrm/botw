@@ -14,6 +14,14 @@ void LynelTackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LynelTackleMove::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool LynelTackleMove::isChangeable() const {
+    return false;
+}
+
 void LynelTackleMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
