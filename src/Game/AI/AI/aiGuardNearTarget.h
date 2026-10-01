@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71024519a8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -13,10 +14,21 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool isChangeable() const override;
+
+    virtual bool m34(float distance);
+    virtual bool m35() { return false; }
+    virtual bool m36(float distance);
+    virtual void m37(bool enable);
+    virtual bool m38() { return false; }
 
 protected:
+    float sub_710044C9E8() const;
+    void sub_710044CA3C();
+
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
     // static_param at offset 0x40
@@ -27,6 +39,7 @@ protected:
     const float* mGuardEndDist_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    Unk_71024519a8 _60;
 };
 
 }  // namespace uking::ai
