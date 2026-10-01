@@ -14,6 +14,10 @@ void SiteBossGaleArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     WithoutWeaponArrow::enter_(params);
 }
 
+void SiteBossGaleArrowRoot::calc_() {
+    WithoutWeaponArrow::calc_();
+}
+
 void SiteBossGaleArrowRoot::leave_() {
     WithoutWeaponArrow::leave_();
 }
