@@ -11,6 +11,10 @@ public:
     explicit CameraEvent(const InitArg& arg);
 
 protected:
+
+
+
+
     virtual bool m42();
     virtual void m43();
     virtual void m44();
