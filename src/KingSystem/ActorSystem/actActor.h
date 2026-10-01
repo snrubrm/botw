@@ -330,6 +330,7 @@ public:
     void fadeOutSleep(SleepWakeReason reason);
     void emitDeadUpLifeZeroAndSetRevival();
     void setRevivalFlagForUsed(bool value);
+    bool isWaitRevivalForUsed() const;
 
     void emitBasicSigOn();
     void emitBasicSigOff();

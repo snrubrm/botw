@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsLithograph.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,36 @@ bool RemainsLithograph::init_(sead::Heap* heap) {
 }
 
 void RemainsLithograph::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (actor->isWaitRevivalForUsed())
+        changeChild("動作完了");
+    else if (!actor->hasPlacementLinkForBasicSig() || actor->checkBasicSig())
+        changeChild("オン待機");
+    else
+        changeChild("オフ待機");
+}
+
+// NON_MATCHING: the original keeps the SafeString vtable pointer (+0x10) in a register across the first two isCurrentChild calls
+void RemainsLithograph::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (child->isChangeable() || child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("オフ待機") && actor->checkBasicSig()) {
+            changeChild("オン");
+            return;
+        }
+        if (isCurrentChild("オン待機") && actor->hasPlacementLinkForBasicSig() &&
+            !actor->checkBasicSig()) {
+            changeChild("オフ");
+            return;
+        }
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("オン"))
+            changeChild("オン待機");
+        else if (isCurrentChild("オフ"))
+            changeChild("オフ待機");
+    }
 }
 
 void RemainsLithograph::leave_() {
