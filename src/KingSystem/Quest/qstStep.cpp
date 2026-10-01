@@ -23,6 +23,12 @@ bool Step::sub_7100FDB89C(act::Actor* actor) const {
     return false;
 }
 
+bool Step::sub_7100FDB794(act::Actor* actor) const {
+    if (indicator_info)
+        return indicator_info->sub_7100FD4FC4(actor);
+    return false;
+}
+
 bool Step::sub_7100FDB538(act::Actor* actor, const sead::SafeString& name) const {
     if (actor == nullptr)
         return false;

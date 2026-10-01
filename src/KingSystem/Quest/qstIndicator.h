@@ -32,7 +32,7 @@ struct Indicator {
     void finalize();
 
     void acquireActors();
-    void sub_7100FD4FC4();
+    bool sub_7100FD4FC4(act::Actor* actor);
     const IndicatorActor* sub_7100FD54E4(int idx) const;
     const IndicatorActor* sub_7100FD5518(int idx) const;
 
