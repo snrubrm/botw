@@ -31,4 +31,8 @@ void PlayerCutHorseJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutHorseJump::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
