@@ -12,10 +12,22 @@ bool AssassinMiddleMagicAfter::init_(sead::Heap* heap) {
 }
 
 void AssassinMiddleMagicAfter::enter_(ksys::act::ai::InlineParamPack* params) {
-    AssassinMagicTgtSelect::enter_(params);
+    if (*mIsInterseptAttack_a)
+        changeChild("一度やられた");
+    else
+        AssassinMagicTgtSelect::enter_(params);
+    _48 = false;
+}
+
+void AssassinMiddleMagicAfter::calc_() {
+    AssassinMagicTgtSelect::calc_();
+    if (isFinished() || isFailed())
+        _48 = true;
 }
 
 void AssassinMiddleMagicAfter::leave_() {
+    if (!_48)
+        *mIsInterseptAttack_a = true;
     AssassinMagicTgtSelect::leave_();
 }
 
