@@ -21,6 +21,8 @@ protected:
     const int* mElectricTime_s{};
     // static_param at offset 0x40
     const float* mElectricDamageScale_s{};
+    bool _48 = false;
+    f32 _4c = 0.0f;
 };
 
 }  // namespace uking::ai
