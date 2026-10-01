@@ -9,7 +9,8 @@ bool NullASPlay::init_(sead::Heap* heap) {
 }
 
 void NullASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void NullASPlay::leave_() {
@@ -24,7 +25,8 @@ void NullASPlay::loadParams_() {
 }
 
 void NullASPlay::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedAS(*mTargetIdx_s, *mSeqBankIdx_s))
+        setFinished();
 }
 
 }  // namespace uking::action
