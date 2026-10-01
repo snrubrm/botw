@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -25,6 +26,9 @@ public:
     virtual void m3();
 
     WeaponBase* getEquippedWeapon(int idx) const;
+    void resetBaseProcLinkForActor(BaseProc* proc);
+    void sleep(BaseProc::SleepWakeReason reason);
+    void wakeUp(BaseProc::SleepWakeReason reason);
 
 private:
     friend class acc::PlayerOrEnemy;
