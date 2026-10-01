@@ -15,6 +15,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
 
     // dynamic_param at offset 0x20
     sead::SafeString mNodeName_d{};

@@ -22,4 +22,6 @@ void EquipedAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void EquipedAction::m32() {}
+
 }  // namespace uking::action

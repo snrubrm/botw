@@ -77510,7 +77510,7 @@ Address,Quality,Size,Name
 0x0000007100e141f0,U,000388,
 0x0000007100e14374,W,000012,_ZN5uking6action13EquipedAction6leave_Ev
 0x0000007100e14380,O,000220,_ZN5uking6action13EquipedAction11loadParams_Ev
-0x0000007100e1445c,U,000004,uking::action::EquipedAction::m32
+0x0000007100e1445c,O,000004,_ZN5uking6action13EquipedAction3m32Ev
 0x0000007100e14460,U,000156,uking::action::EquipedAction::m33
 0x0000007100e144fc,U,000264,
 0x0000007100e14604,U,000144,
