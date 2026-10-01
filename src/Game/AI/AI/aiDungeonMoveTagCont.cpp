@@ -11,7 +11,9 @@ bool DungeonMoveTagCont::init_(sead::Heap* heap) {
 }
 
 void DungeonMoveTagCont::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50 = false;
+    changeChild("待機");
+    _51 = false;
 }
 
 void DungeonMoveTagCont::leave_() {

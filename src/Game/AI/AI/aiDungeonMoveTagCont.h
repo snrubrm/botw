@@ -22,7 +22,8 @@ protected:
     const float* mReturnDisFromCurrentPos_m{};
     // map_unit_param at offset 0x48
     const float* mReturnSpeedFromCurrentPos_m{};
-    u16 _50{};
+    bool _50{};
+    bool _51{};
 };
 
 }  // namespace uking::ai
