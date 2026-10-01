@@ -20809,7 +20809,7 @@ Address,Quality,Size,Name
 0x00000071003132d8,W,000084,_ZN5uking2ai18AssassinBattleMove11loadParams_Ev
 0x000000710031332c,O,000008,_ZNK5uking2ai18AssassinBattleMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100313334,O,000092,_ZNK5uking2ai18AssassinBattleMove18getRuntimeTypeInfoEv
-0x0000007100313390,U,000036,_ZNK5uking2ai18EnemyRangeKeepMove12isChangeableEv
+0x0000007100313390,O,000036,_ZNK5uking2ai18EnemyRangeKeepMove12isChangeableEv
 0x00000071003133b4,U,000012,uking::ai::EnemyRangeKeepMove::m35
 0x00000071003133c0,U,000004,uking::ai::EnemyRangeKeepMove::m36
 0x00000071003133c4,U,000004,uking::ai::EnemyRangeKeepMove::m37

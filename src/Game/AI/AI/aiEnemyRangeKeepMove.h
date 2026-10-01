@@ -9,6 +9,7 @@ class EnemyRangeKeepMove : public ksys::act::ai::Ai {
 public:
     explicit EnemyRangeKeepMove(const InitArg& arg);
     ~EnemyRangeKeepMove() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
