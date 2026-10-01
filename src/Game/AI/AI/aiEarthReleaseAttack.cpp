@@ -15,7 +15,7 @@ void EarthReleaseAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EarthReleaseAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _80.deleteProc();
 }
 
 void EarthReleaseAttack::loadParams_() {

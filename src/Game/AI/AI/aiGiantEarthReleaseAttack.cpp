@@ -11,11 +11,14 @@ bool GiantEarthReleaseAttack::init_(sead::Heap* heap) {
 }
 
 void GiantEarthReleaseAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    EarthReleaseAttack::enter_(params);
+    *mIsArrivedAtDestination_a = false;
+    *mKeepDistFromGround_a = *mStartHeight_s;
+    changeChild("準備");
 }
 
 void GiantEarthReleaseAttack::leave_() {
     EarthReleaseAttack::leave_();
+    *mKeepDistFromGround_a = -1.0f;
 }
 
 void GiantEarthReleaseAttack::loadParams_() {
