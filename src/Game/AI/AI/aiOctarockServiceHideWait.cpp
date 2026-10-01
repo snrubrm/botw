@@ -27,4 +27,8 @@ void OctarockServiceHideWait::loadParams_() {
     getStaticParam(&mNoticeWorryRange_s, "NoticeWorryRange");
 }
 
+bool OctarockServiceHideWait::isChangeable() const {
+    return isCurrentChild("待機") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

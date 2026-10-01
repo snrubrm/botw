@@ -10,6 +10,8 @@ public:
     explicit ReferenceNPCViewWithDynAS(const InitArg& arg);
     ~ReferenceNPCViewWithDynAS() override;
 
+    bool isFinished() const override;
+
     bool isFailed() const override { return getCurrentChild()->isFailed(); }
 
     bool init_(sead::Heap* heap) override;

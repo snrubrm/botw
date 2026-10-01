@@ -22,4 +22,8 @@ void PlayerLadder::loadParams_() {
     getStaticParam(&mLadderToClimbTime_s, "LadderToClimbTime");
 }
 
+bool PlayerLadder::isChangeable() const {
+    return isCurrentChild("登り終わり") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

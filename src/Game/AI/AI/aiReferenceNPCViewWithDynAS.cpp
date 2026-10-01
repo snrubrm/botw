@@ -25,4 +25,8 @@ void ReferenceNPCViewWithDynAS::loadParams_() {
     getDynamicParam(&mDynASKey_d, "DynASKey");
 }
 
+bool ReferenceNPCViewWithDynAS::isFinished() const {
+    return isCurrentChild("待機") && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

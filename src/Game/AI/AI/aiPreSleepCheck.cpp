@@ -23,4 +23,12 @@ void PreSleepCheck::loadParams_() {
     getStaticParam(&mCheckRadius_s, "CheckRadius");
 }
 
+bool PreSleepCheck::isFailed() const {
+    return isCurrentChild("睡眠") && getCurrentChild()->isFailed();
+}
+
+bool PreSleepCheck::isFinished() const {
+    return isCurrentChild("睡眠") && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

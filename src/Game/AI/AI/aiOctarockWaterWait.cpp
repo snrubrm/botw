@@ -28,4 +28,8 @@ void OctarockWaterWait::loadParams_() {
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
+bool OctarockWaterWait::isChangeable() const {
+    return isCurrentChild("待機") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai
