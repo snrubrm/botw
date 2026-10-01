@@ -15,6 +15,10 @@ void AppearNearTargetOutOfScrnGnd::enter_(ksys::act::ai::InlineParamPack* params
     AppearNearTarget::enter_(params);
 }
 
+void AppearNearTargetOutOfScrnGnd::calc_() {
+    AppearNearTarget::calc_();
+}
+
 void AppearNearTargetOutOfScrnGnd::leave_() {
     AppearNearTarget::leave_();
 }
