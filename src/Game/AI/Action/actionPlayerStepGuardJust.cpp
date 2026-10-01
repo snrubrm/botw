@@ -18,4 +18,8 @@ void PlayerStepGuardJust::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerStepGuardJust::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
