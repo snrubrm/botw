@@ -12,6 +12,11 @@ bool NPCHeartsRoot::init_(sead::Heap* heap) {
 
 void NPCHeartsRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
+    changeAS("Npc_Rito_Hearts_BandVisibilityOff", true, 3, 0);
+}
+
+void NPCHeartsRoot::calc_() {
+    NPCRoot::calc_();
 }
 
 void NPCHeartsRoot::leave_() {
