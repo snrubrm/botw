@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual float m32();
+    virtual void m33();
 
     // static_param at offset 0x48
     const float* mSpinSpeed_s{};

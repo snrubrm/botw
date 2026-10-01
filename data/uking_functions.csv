@@ -4131,7 +4131,7 @@ Address,Quality,Size,Name
 0x00000071000c22d0,O,000092,_ZNK5uking6action12NeckSpinBeam18getRuntimeTypeInfoEv
 0x00000071000c232c,W,000068,_ZN5uking6action12NeckSpinBeamD1Ev
 0x00000071000c2370,W,000076,_ZN5uking6action12NeckSpinBeamD0Ev
-0x00000071000c23bc,U,000008,uking::action::NeckSpin::m32
+0x00000071000c23bc,U,000008,_ZN5uking6action8NeckSpin3m32Ev
 0x00000071000c23c4,U,000008,uking::action::NeckSpinBeam::m34
 0x00000071000c23cc,U,000008,uking::action::NeckSpinBeam::m35
 0x00000071000c23d4,U,000008,uking::action::NeckSpinBeam::m36
@@ -10998,7 +10998,7 @@ Address,Quality,Size,Name
 0x0000007100198130,W,000136,_ZN5uking6action24GuardianMiniNeckSpinBeam11loadParams_Ev
 0x00000071001981b8,U,000100,uking::action::GuardianMiniNeckSpinBeam::m34
 0x000000710019821c,U,000100,uking::action::GuardianMiniNeckSpinBeam::m35
-0x0000007100198280,U,000048,uking::action::GuardianMiniNeckSpinBeam::m33
+0x0000007100198280,U,000048,_ZN5uking6action24GuardianMiniNeckSpinBeam3m33Ev
 0x00000071001982b0,O,000008,_ZNK5uking6action24GuardianMiniNeckSpinBeam27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001982b8,O,000092,_ZNK5uking6action24GuardianMiniNeckSpinBeam18getRuntimeTypeInfoEv
 0x0000007100198314,U,000012,uking::action::GuardianMiniNeckSpinBeam::m36
@@ -13276,7 +13276,7 @@ Address,Quality,Size,Name
 0x00000071001f2484,W,000056,_ZN5uking6action8NeckSpin5calc_Ev
 0x00000071001f24bc,W,000040,_ZN5uking6action8NeckSpin6leave_Ev
 0x00000071001f24e4,O,000108,_ZN5uking6action8NeckSpin11loadParams_Ev
-0x00000071001f2550,U,000072,uking::action::NeckSpin::m33
+0x00000071001f2550,U,000072,_ZN5uking6action8NeckSpin3m33Ev
 0x00000071001f2598,O,000216,_ZNK5uking6action8NeckSpin27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001f2670,O,000092,_ZNK5uking6action8NeckSpin18getRuntimeTypeInfoEv
 0x00000071001f26cc,O,000020,_ZN5uking6action8NeckSpinD1Ev
@@ -18005,7 +18005,7 @@ Address,Quality,Size,Name
 0x000000710029a190,W,000136,_ZN5uking6action15TimeredNeckSpin11loadParams_Ev
 0x000000710029a218,O,000300,_ZNK5uking6action15TimeredNeckSpin27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710029a344,O,000092,_ZNK5uking6action15TimeredNeckSpin18getRuntimeTypeInfoEv
-0x000000710029a3a0,U,000008,uking::action::TimeredNeckSpin::m32
+0x000000710029a3a0,U,000008,_ZN5uking6action15TimeredNeckSpin3m32Ev
 0x000000710029a3a8,U,000056,AI_Action_TimeredPreJumpAttack::ctor
 0x000000710029a3e0,O,000004,_ZN5uking6action20TimeredPreJumpAttack5init_EPN4sead4HeapE
 0x000000710029a3e4,W,000104,_ZN5uking6action20TimeredPreJumpAttack6enter_EPN4ksys3act2ai15InlineParamPackE
