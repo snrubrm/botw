@@ -25,4 +25,8 @@ void PlayerMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerMove::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
