@@ -6,6 +6,7 @@ BattleCloseMove::BattleCloseMove(const InitArg& arg) : BattleCloseMoveAction(arg
 
 void BattleCloseMove::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseMoveAction::enter_(params);
+    playAS("Run", true, 0, 0, -1.0f);
 }
 
 }  // namespace uking::action
