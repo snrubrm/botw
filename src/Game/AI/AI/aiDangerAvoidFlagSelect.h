@@ -9,6 +9,7 @@ class DangerAvoidFlagSelect : public ksys::act::ai::Ai {
 public:
     explicit DangerAvoidFlagSelect(const InitArg& arg);
     ~DangerAvoidFlagSelect() override;
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
