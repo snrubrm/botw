@@ -14,6 +14,10 @@ void OnCliffViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);
 }
 
+void OnCliffViewWait::calc_() {
+    ViewWait::calc_();
+}
+
 void OnCliffViewWait::leave_() {
     ViewWait::leave_();
 }
