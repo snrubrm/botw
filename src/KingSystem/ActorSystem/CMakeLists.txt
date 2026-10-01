@@ -20,6 +20,8 @@ target_sources(uking PRIVATE
 
     Profiles/actDynamicActor.cpp
     Profiles/actDynamicActor.h
+    Profiles/actPlayer.cpp
+    Profiles/actPlayer.h
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h

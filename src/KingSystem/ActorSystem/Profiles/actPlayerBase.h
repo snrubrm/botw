@@ -252,7 +252,8 @@ protected:
     /* 0xe50 */ u8 _e50[0xe54 - 0xe50];
     /* 0xe54 */ f32 _e54;
     /* 0xe58 */ f32 _e58;
-    /* 0xe5c */ u8 _e5c[0xe88 - 0xe5c];
+    /* 0xe5c */ s32 _e5c;
+    /* 0xe60 */ u8 _e60[0xe88 - 0xe60];
     /* 0xe88 */ BaseProcLink _e88;
     /* 0xe98 */ BaseProcLink _e98;
     /* 0xea8 */ BaseProcLink _ea8;
