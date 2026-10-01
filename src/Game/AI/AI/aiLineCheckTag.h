@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RayCastForRequest;
+}
+
 namespace uking::ai {
 
 class LineCheckTag : public ksys::act::ai::Ai {
@@ -15,9 +19,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100483350();
+
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x8];
+    ksys::phys::RayCastForRequest* _38{};
     // map_unit_param at offset 0x40
     const int* mLineCheckType_m{};
     // map_unit_param at offset 0x48
