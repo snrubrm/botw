@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 
 using uking::act::Enemy;
 
@@ -154,4 +155,253 @@ bool sub_71005DAFB0(ksys::act::Actor* actor) {
     if (!damage_mgr)
         return false;
     return damage_mgr->getField54() > 0;
+}
+
+// NON_MATCHING: the original loads _d4 before the _8c store (scheduling)
+void sub_71005D73F8(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c |= 0x10;
+    unk->_10._d4 |= 2;
+    unk->_10._d4 &= ~0xc0;
+    unk->_10._8 = pos;
+}
+
+// NON_MATCHING: the original loads _d4 before the _8c store (scheduling)
+void sub_71005D7444(ksys::act::Actor* actor, const sead::Vector3f& pos, bool a3, bool a4) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c |= 0x10;
+    unk->_10._d4 |= 2;
+    if (a3)
+        unk->_10._d4 &= ~0x80;
+    else
+        unk->_10._d4 |= 0x80;
+    if (a4) {
+        unk->_10._d4 &= ~0x40;
+    } else {
+        unk->_10._d4 &= ~0xc00;
+        unk->_10._d4 |= 0x40;
+    }
+    unk->_10._8 = pos;
+}
+
+void sub_71005D74B8(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c &= ~0x10;
+    unk->_10._d4 &= ~0xc0;
+}
+
+void sub_71005D74E8(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c &= ~0x10;
+    unk->_10._d4 &= ~0xc0;
+}
+
+void sub_71005DB068(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->sub_7100D8571C(pos);
+    unk->sub_7100D85750();
+}
+
+void sub_71005DB0A8(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c |= 0x20;
+    unk->_10._d4 |= 2;
+    unk->_10._8 = pos;
+}
+
+void sub_71005DB110(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    sead::Vector3f target = pos;
+    sub_71005DB198(&target, actor);
+    sub_71005DB0A8(actor, target);
+}
+
+void sub_71005DB198(sead::Vector3f* pos, ksys::act::Actor* actor) {
+    sead::Vector3f offset;
+    ksys::act::sub_7100D83014(&offset, actor->getBoneControl());
+    pos->y += offset.y;
+}
+
+void sub_71005DB1D8(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    sead::Vector3f offset;
+    sead::Vector3f target = pos;
+    ksys::act::sub_7100D83014(&offset, bone_control);
+    target.y += offset.y;
+    unk->sub_7100D8571C(target);
+    unk->sub_7100D85750();
+}
+
+void sub_71005DB248(ksys::act::Actor* actor) {
+    const auto& pos = sub_71005D9330(actor);
+    const auto& pos2 = sub_71005D960C(actor);
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    sead::Vector3f offset;
+    sead::Vector3f target = pos;
+    ksys::act::sub_7100D83014(&offset, bone_control);
+    target.y += offset.y;
+    unk->sub_7100D8571C(target);
+    unk->sub_7100D85750();
+    unk->_e8._8 = pos2;
+}
+
+void sub_71005DB3B8(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._8c &= ~0x20;
+    unk->_10._d4 &= ~0xc02;
+}
+
+void sub_71005DB3EC(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->sub_7100D85774();
+}
+
+void sub_71005DB404(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->sub_7100D8571C(pos);
+}
+
+void sub_71005DB41C(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->sub_7100D85794();
+}
+
+void sub_71005DB434(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->sub_7100D857B0();
+}
+
+void sub_71005DB44C(ksys::act::Actor* actor, f32 a2, f32 a3) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10.sub_7100D89348(a2, a3);
+    unk->_10._d4 |= 2;
+}
+
+void sub_71005DB498(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._d4 &= ~0x3000;
+}
+
+f32 sub_71005DB4DC(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return 0.0f;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return 0.0f;
+    return unk->_10.sub_7100D8A6DC();
+}
+
+f32 sub_71005DB4FC(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return 0.0f;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return 0.0f;
+    return unk->_10.sub_7100D8A76C();
+}
+
+void sub_71005DB51C(ksys::act::Actor* actor, f32 a2, bool a3) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10.sub_7100D8A830(a2, a3);
+}
+
+void sub_71005DB558(ksys::act::Actor* actor, f32 a2, bool a3) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10.sub_7100D8A904(a2, a3);
+}
+
+void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10._74 = pos;
 }

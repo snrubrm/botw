@@ -167,6 +167,7 @@ public:
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     as::ASList* getASList() const { return mASList; }
+    BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
