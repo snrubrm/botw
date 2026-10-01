@@ -13,6 +13,7 @@ bool ForkInWaterDropWeaponWithSpeed::init_(sead::Heap* heap) {
 
 void ForkInWaterDropWeaponWithSpeed::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkDropWeapon::enter_(params);
+    _58 = false;
 }
 
 void ForkInWaterDropWeaponWithSpeed::leave_() {
