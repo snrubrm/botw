@@ -15,6 +15,10 @@ void DgnObj_DLC_CogWheel_Physics_Ctr::enter_(ksys::act::ai::InlineParamPack* par
     ksys::act::ai::Ai::enter_(params);
 }
 
+void DgnObj_DLC_CogWheel_Physics_Ctr::calc_() {
+    sub_710035ED38();
+}
+
 void DgnObj_DLC_CogWheel_Physics_Ctr::leave_() {
     ksys::act::ai::Ai::leave_();
 }
