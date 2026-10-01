@@ -10,6 +10,7 @@ bool LiftWalk::init_(sead::Heap* heap) {
 
 void LiftWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveBase::enter_(params);
+    playAS("LiftWalk", false, 0, 0, -1.0f);
 }
 
 void LiftWalk::leave_() {
