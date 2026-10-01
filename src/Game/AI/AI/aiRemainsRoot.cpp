@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiRemainsRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,16 @@ void RemainsRoot::leave_() {
 void RemainsRoot::loadParams_() {
     getStaticParam(&mRemainsTypeID_s, "RemainsTypeID");
     getStaticParam(&mIsAllowRotAxisX_s, "IsAllowRotAxisX");
+}
+
+void RemainsRoot::m35(bool x) {
+    m36();
+}
+
+void RemainsRoot::m36() {
+    if (auto* body = mActor->getMainBody())
+        body->setContactNone();
+    changeChild("通常行動");
 }
 
 }  // namespace uking::ai

@@ -32633,7 +32633,7 @@ Address,Quality,Size,Name
 0x00000071005448c0,U,000472,_ZN5uking2ai15RemainsFireRoot25handlePendingChildChange_Ev
 0x0000007100544a98,U,000200,_ZN5uking2ai15RemainsFireRoot5calc_Ev
 0x0000007100544b60,O,000004,_ZN5uking2ai15RemainsFireRoot6leave_Ev
-0x0000007100544b64,W,000084,_ZN5uking2ai15RemainsFireRoot11loadParams_Ev
+0x0000007100544b64,O,000084,_ZN5uking2ai15RemainsFireRoot11loadParams_Ev
 0x0000007100544bb8,U,000004,uking::ai::RemainsFireRoot::m34
 0x0000007100544bbc,U,000760,uking::ai::RemainsFireRoot::m35
 0x0000007100544eb4,U,000152,uking::ai::RemainsFireRoot::m36
@@ -32650,7 +32650,7 @@ Address,Quality,Size,Name
 0x0000007100545374,O,000004,_ZN5uking2ai17RemainsLithograph11loadParams_Ev
 0x0000007100545378,O,000288,_ZNK5uking2ai17RemainsLithograph27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100545498,O,000092,_ZNK5uking2ai17RemainsLithograph18getRuntimeTypeInfoEv
-0x00000071005454f4,M,000056,_ZN5uking2ai11RemainsRootC2ERKN4ksys3act2ai10ActionBase7InitArgE
+0x00000071005454f4,O,000056,_ZN5uking2ai11RemainsRootC2ERKN4ksys3act2ai10ActionBase7InitArgE
 0x000000710054552c,O,000004,_ZN5uking2ai11RemainsRootD1Ev
 0x0000007100545530,O,000036,_ZN5uking2ai11RemainsRootD0Ev
 0x0000007100545554,O,000008,_ZN5uking2ai11RemainsRoot5init_EPN4sead4HeapE
@@ -32660,8 +32660,8 @@ Address,Quality,Size,Name
 0x0000007100545798,O,000004,_ZN5uking2ai11RemainsRoot6leave_Ev
 0x000000710054579c,O,000100,_ZN5uking2ai11RemainsRoot11loadParams_Ev
 0x0000007100545800,U,000092,uking::ai::RemainsRoot::m34
-0x000000710054585c,U,000012,uking::ai::RemainsRoot::m35
-0x0000007100545868,U,000060,uking::ai::RemainsRoot::m36
+0x000000710054585c,O,000012,_ZN5uking2ai11RemainsRoot3m35Eb
+0x0000007100545868,O,000060,_ZN5uking2ai11RemainsRoot3m36Ev
 0x00000071005458a4,O,000288,_ZNK5uking2ai11RemainsRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071005459c4,O,000092,_ZNK5uking2ai11RemainsRoot18getRuntimeTypeInfoEv
 0x0000007100545a20,U,000104,AI_AI_RemainsWaterBattleRoot::ctor
@@ -32740,7 +32740,7 @@ Address,Quality,Size,Name
 0x000000710054b970,O,000004,_ZN5uking2ai16RemainsWaterRoot6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710054b974,U,000048,_ZN5uking2ai16RemainsWaterRoot5calc_Ev
 0x000000710054b9a4,W,000060,_ZN5uking2ai16RemainsWaterRoot6leave_Ev
-0x000000710054b9e0,W,000084,_ZN5uking2ai16RemainsWaterRoot11loadParams_Ev
+0x000000710054b9e0,O,000084,_ZN5uking2ai16RemainsWaterRoot11loadParams_Ev
 0x000000710054ba34,U,000148,uking::ai::RemainsWaterRoot::m35
 0x000000710054bac8,U,000652,
 0x000000710054bd54,U,000240,
