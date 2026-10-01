@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+
+    sead::Vector3f _78 = sead::Vector3f::zero;
 };
+
+KSYS_CHECK_SIZE_NX150(DgnObjDLCSpurGearB01, 0x88);
 
 }  // namespace uking::action
