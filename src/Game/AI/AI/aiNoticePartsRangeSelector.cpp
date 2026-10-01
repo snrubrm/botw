@@ -14,6 +14,10 @@ void NoticePartsRangeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     RangeSelect::enter_(params);
 }
 
+void NoticePartsRangeSelector::calc_() {
+    RangeSelect::calc_();
+}
+
 void NoticePartsRangeSelector::leave_() {
     RangeSelect::leave_();
 }
