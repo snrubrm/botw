@@ -17,6 +17,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34() { changeChild("起き上がる"); }
+    virtual void m35();
+    virtual bool m36() { return false; }
+    // Returns an awareness-related object (type unknown); x receives an index.
+    virtual void* m37(int* x);
+    virtual void m38(int x, void* obj) {}
+    virtual bool m39(sead::Vector3f* pos) { return false; }
+
 protected:
     // static_param at offset 0x38
     const float* mAwakeDelayTime_s{};
