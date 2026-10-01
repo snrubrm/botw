@@ -11,7 +11,7 @@ bool ForkSetJustAvoid::init_(sead::Heap* heap) {
 }
 
 void ForkSetJustAvoid::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkSetJustAvoid::leave_() {
