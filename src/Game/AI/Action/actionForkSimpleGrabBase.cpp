@@ -27,4 +27,8 @@ void ForkSimpleGrabBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int ForkSimpleGrabBase::m32() {
+    return 0;
+}
+
 }  // namespace uking::action
