@@ -43,4 +43,8 @@ void AnimalFollowBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+float AnimalFollowBase::m32() {
+    return 0.0f;
+}
+
 }  // namespace uking::action
