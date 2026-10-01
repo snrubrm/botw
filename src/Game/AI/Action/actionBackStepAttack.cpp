@@ -27,4 +27,20 @@ void BackStepAttack::calc_() {
     BackStepBase::calc_();
 }
 
+void BackStepAttack::m34() {
+    playAS("BackStepStart", false, 0, 0, -1.0f);
+}
+
+void BackStepAttack::m35() {
+    playAS("BackStep", false, 0, 0, -1.0f);
+}
+
+void BackStepAttack::m36() {
+    playAS("BackStepPreLand", false, 0, 0, -1.0f);
+}
+
+void BackStepAttack::m37() {
+    playAS("AttackStep", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

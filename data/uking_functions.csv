@@ -3704,10 +3704,10 @@ Address,Quality,Size,Name
 0x00000071000b3420,W,000116,_ZN5uking6action14BackStepAttack6leave_Ev
 0x00000071000b3494,W,000408,_ZN5uking6action14BackStepAttack5calc_Ev
 0x00000071000b362c,U,000296,
-0x00000071000b3754,U,000028,uking::action::BackStepAttack::m34
-0x00000071000b3770,U,000028,uking::action::BackStepAttack::m35
-0x00000071000b378c,U,000028,uking::action::BackStepAttack::m36
-0x00000071000b37a8,U,000028,uking::action::BackStepAttack::m37
+0x00000071000b3754,O,000028,_ZN5uking6action14BackStepAttack3m34Ev
+0x00000071000b3770,O,000028,_ZN5uking6action14BackStepAttack3m35Ev
+0x00000071000b378c,O,000028,_ZN5uking6action14BackStepAttack3m36Ev
+0x00000071000b37a8,O,000028,_ZN5uking6action14BackStepAttack3m37Ev
 0x00000071000b37c4,U,000056,uking::action::BackStepAttack::m40
 0x00000071000b37fc,O,000216,_ZNK5uking6action14BackStepAttack27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000b38d4,O,000092,_ZNK5uking6action14BackStepAttack18getRuntimeTypeInfoEv
