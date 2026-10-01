@@ -24,4 +24,8 @@ void NavMeshBattleWalk::calc_() {
     NavMeshAction::calc_();
 }
 
+void NavMeshBattleWalk::m34() {
+    playAS("BattleWalk", true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
