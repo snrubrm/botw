@@ -14,6 +14,16 @@ void EscapeOrWaitSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void EscapeOrWaitSelect::calc_() {}
+
+bool EscapeOrWaitSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool EscapeOrWaitSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void EscapeOrWaitSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
