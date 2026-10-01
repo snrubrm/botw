@@ -8,4 +8,8 @@ void SmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     SmallDamageBase::enter_(params);
 }
 
+bool SmallDamage::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
