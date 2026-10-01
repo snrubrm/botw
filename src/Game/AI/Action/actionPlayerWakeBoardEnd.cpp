@@ -8,9 +8,7 @@ void PlayerWakeBoardEnd::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerWakeBoardEnd::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerWakeBoardEnd::leave_() {}
 
 void PlayerWakeBoardEnd::loadParams_() {}
 
