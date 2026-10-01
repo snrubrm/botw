@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,6 +21,8 @@ protected:
     const bool* mIsStopWithoutReductionY_m{};
     // map_unit_param at offset 0x40
     sead::SafeString mSound_m{};
+    bool _50 = false;
 };
+KSYS_CHECK_SIZE_NX150(SignaledSpotBgmTrigger, 0x58);
 
 }  // namespace uking::ai
