@@ -11,6 +11,10 @@ void FlyingEnemyDiagonallyKeepMove::enter_(ksys::act::ai::InlineParamPack* param
     FlyingEnemySideKeepMove::enter_(params);
 }
 
+void FlyingEnemyDiagonallyKeepMove::calc_() {
+    FlyingEnemySideKeepMove::calc_();
+}
+
 void FlyingEnemyDiagonallyKeepMove::leave_() {
     FlyingEnemySideKeepMove::leave_();
 }
