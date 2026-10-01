@@ -27,6 +27,7 @@ protected:
     const float* mJustAvoidBackDist_s{};
     // static_param at offset 0x68
     const float* mJustAvoidAngle_s{};
+    bool _70 = false;
 };
 
 }  // namespace uking::action
