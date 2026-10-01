@@ -10,6 +10,8 @@ public:
     explicit SiteBossSwordSeqThreeAI(const InitArg& arg);
     ~SiteBossSwordSeqThreeAI() override;
 
+    bool isChangeable() const override { return true; }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
@@ -30,6 +32,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mOldTargetPos_d{};
+    int _70 = 0;
 };
 
 }  // namespace uking::ai

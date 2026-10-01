@@ -41,4 +41,8 @@ bool TargetInFanAreaSelect::isFinished() const {
     return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
 }
 
+bool TargetInFanAreaSelect::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable() || getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

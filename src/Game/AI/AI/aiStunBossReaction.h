@@ -13,6 +13,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool isChangeable() const override { return false; }
     void loadParams_() override;
 
 protected:

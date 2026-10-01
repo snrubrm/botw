@@ -15,7 +15,7 @@ void SiteBossSwordSeqThreeAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordSeqThreeAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    ++_70;
 }
 
 void SiteBossSwordSeqThreeAI::loadParams_() {
