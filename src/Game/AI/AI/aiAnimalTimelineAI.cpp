@@ -14,6 +14,10 @@ void AnimalTimelineAI::enter_(ksys::act::ai::InlineParamPack* params) {
     TimelineAI::enter_(params);
 }
 
+void AnimalTimelineAI::calc_() {
+    TimelineAI::calc_();
+}
+
 void AnimalTimelineAI::leave_() {
     TimelineAI::leave_();
 }
