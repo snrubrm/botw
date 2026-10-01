@@ -5,6 +5,7 @@ namespace uking::action {
 OnetimeStopASPlay::OnetimeStopASPlay(const InitArg& arg) : ActionWithAS(arg) {}
 
 void OnetimeStopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS(mASName_s.cstr(), *mIsIgnoreSame_s, 0, 0, -1.0);
     ActionWithAS::enter_(params);
 }
 
