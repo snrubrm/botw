@@ -29,4 +29,8 @@ void MoveByAnimeDriven::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+const char* MoveByAnimeDriven::m32() {
+    return mASKeyName_s.cstr();
+}
+
 }  // namespace uking::action

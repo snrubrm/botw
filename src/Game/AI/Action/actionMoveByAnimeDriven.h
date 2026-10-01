@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual const char* m32();
 
     // static_param at offset 0x20
     const bool* mIsChangeable_s{};
@@ -26,6 +27,9 @@ protected:
     sead::SafeString mASKeyName_s{};
     // static_param at offset 0x40
     sead::SafeString mTargetBoneName_s{};
+    bool _50 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(MoveByAnimeDriven, 0x58);
 
 }  // namespace uking::action
