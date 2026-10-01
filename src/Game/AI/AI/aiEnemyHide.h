@@ -9,6 +9,7 @@ class EnemyHide : public ksys::act::ai::Ai {
 public:
     explicit EnemyHide(const InitArg& arg);
     ~EnemyHide() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
