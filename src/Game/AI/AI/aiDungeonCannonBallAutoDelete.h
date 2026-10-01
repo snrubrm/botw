@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,6 +22,7 @@ protected:
     const int* mTriggerVelocityKeepTime_s{};
     // static_param at offset 0x40
     const float* mTriggerVelocity_s{};
+    ksys::Timer _48;
 };
 
 }  // namespace uking::ai

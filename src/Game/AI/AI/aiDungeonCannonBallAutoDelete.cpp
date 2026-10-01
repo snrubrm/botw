@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDungeonCannonBallAutoDelete.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,20 @@ bool DungeonCannonBallAutoDelete::init_(sead::Heap* heap) {
 }
 
 void DungeonCannonBallAutoDelete::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = ksys::Timer(*mTriggerVelocityKeepTime_s, *mTriggerVelocityKeepTime_s);
+    changeChild("通常");
+}
+
+// NON_MATCHING: load scheduling of the velocity components (matches if the velocity is copied to a local first)
+void DungeonCannonBallAutoDelete::calc_() {
+    if (!isCurrentChild("通常"))
+        return;
+
+    if (mActor->getVelocity().length() >= *mTriggerVelocity_s)
+        _48.update();
+
+    if (_48.value <= sead::Mathf::epsilon())
+        changeChild("消滅");
 }
 
 void DungeonCannonBallAutoDelete::leave_() {
