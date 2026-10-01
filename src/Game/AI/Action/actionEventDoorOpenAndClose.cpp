@@ -7,11 +7,17 @@ EventDoorOpenAndClose::EventDoorOpenAndClose(const InitArg& arg) : DoorOpenAndCl
 EventDoorOpenAndClose::~EventDoorOpenAndClose() = default;
 
 bool EventDoorOpenAndClose::init_(sead::Heap* heap) {
-    return DoorOpenAndClose::init_(heap);
+    if (!DoorOpenAndClose::init_(heap))
+        return false;
+    *mIsOpenDoor_a = false;
+    *mIsOpenToInside_a = false;
+    return true;
 }
 
 void EventDoorOpenAndClose::enter_(ksys::act::ai::InlineParamPack* params) {
     DoorOpenAndClose::enter_(params);
+    *mIsOpenDoor_a = *mDynIsOpen_d;
+    *mIsOpenToInside_a = *mDynIsOpenToInside_d;
 }
 
 void EventDoorOpenAndClose::leave_() {
