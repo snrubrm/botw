@@ -209,3 +209,25 @@ public:
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
 };
+
+// vtable 0x7102372510 (EnemyRecognizeTargetBase and ~20 others): sends a BaseProcLink (lock-guarded).
+// Its functions are in another translation unit (0x71000e33f0..).
+class Unk_7102372510 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};
+
+// vtable 0x71023d31f8 (AddBasicLinkOn, AddDemoCall, EnemyDemoSumonRecgTgt): sends a BaseProcLink
+// (lock-guarded). Functions in the AddBasicLinkOn TU.
+class Unk_71023d31f8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};

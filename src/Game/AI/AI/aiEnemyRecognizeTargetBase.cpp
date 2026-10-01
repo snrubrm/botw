@@ -32,4 +32,12 @@ void EnemyRecognizeTargetBase::loadParams_() {
     getStaticParam(&mNoCryDist_s, "NoCryDist");
 }
 
+bool EnemyRecognizeTargetBase::m34() {
+    return false;
+}
+
+bool EnemyRecognizeTargetBase::m35() {
+    return true;
+}
+
 }  // namespace uking::ai

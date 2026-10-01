@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -9,6 +12,8 @@ class EnemyRecognizeTargetBase : public ksys::act::ai::Ai {
 public:
     explicit EnemyRecognizeTargetBase(const InitArg& arg);
     ~EnemyRecognizeTargetBase() override;
+    virtual bool m34();
+    virtual bool m35();
     bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
@@ -32,6 +37,17 @@ protected:
     const float* mSpreadDist_s{};
     // static_param at offset 0x68
     const float* mNoCryDist_s{};
+    void* _70{};
+    void* _78{};
+    ksys::act::BaseProcLink _80;
+    Unk_7102372510 _90{mActor, 0x8000008};
+    Unk_7102450a98 _c0;
+    u32 _118 = 0;
+    u32 _11c;
+    s32 _120 = 0;
+    bool _124 = false;
+    bool _125 = false;
 };
+KSYS_CHECK_SIZE_NX150(EnemyRecognizeTargetBase, 0x128);
 
 }  // namespace uking::ai

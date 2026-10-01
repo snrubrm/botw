@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -26,6 +27,8 @@ protected:
     sead::SafeString mEntryPoint_s{};
     // static_param at offset 0x58
     sead::SafeString mDemoName_s{};
+    Unk_71023d31f8 _68{mActor, 0x8000044};
+    bool _98 = false;
 };
 
 }  // namespace uking::ai

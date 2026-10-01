@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyDemoSumonRecgTgt.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,14 @@ void EnemyDemoSumonRecgTgt::loadParams_() {
     getStaticParam(&mIsBroadCastOnlyOne_s, "IsBroadCastOnlyOne");
     getStaticParam(&mDemoName_s, "DemoName");
     getStaticParam(&mEntryPoint_s, "EntryPoint");
+}
+
+bool EnemyDemoSumonRecgTgt::m34() {
+    if (!*mOnlyOne_s)
+        return true;
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        return !enemy->_e84.isOnBit(9);
+    return false;
 }
 
 }  // namespace uking::ai

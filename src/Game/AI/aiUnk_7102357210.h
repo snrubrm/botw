@@ -105,6 +105,17 @@ public:
     void m3() override {}
 };
 
+// vtable 0x7102450a98 (EnemyRecognizeTargetBase; m2 handles message type 0x8000029 and copies two
+// links from a lock-guarded user data struct)
+class Unk_7102450a98 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+    ksys::act::BaseProcLink _48;
+};
+
 // vtable 0x7102450af8 (ReflectableThrown)
 class Unk_7102450af8 : public Unk_7102357210 {
 public:

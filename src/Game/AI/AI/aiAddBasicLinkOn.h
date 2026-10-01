@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -23,6 +24,7 @@ protected:
     const bool* mOnlyOne_s{};
     // static_param at offset 0x40
     const bool* mIsBroadCastOnlyOne_s{};
+    Unk_71023d31f8 _48{mActor, 0x8000044};
 };
 
 }  // namespace uking::ai
