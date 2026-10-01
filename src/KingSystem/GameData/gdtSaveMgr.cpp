@@ -24,6 +24,44 @@ bool SaveMgr::auto0() {
     return true;
 }
 
+bool SaveMgr::auto6(s32 idx) {
+    if (_38 != 0)
+        return false;
+
+    _38 = 2;
+    if (idx < 0 || idx >= _e00->_20->_4)
+        idx = 0;
+    _148 = idx;
+
+    if (!gdt::Manager::instance())
+        return false;
+
+    _30->sendMessage(2, sead::MessageQueue::BlockType::NonBlocking);
+    return true;
+}
+
+bool SaveMgr::x_0(s32 idx) {
+    _f8 = false;
+    if (!auto6(idx)) {
+        _f8 = true;
+        return false;
+    }
+    return true;
+}
+
+void SaveMgr::auto4() {
+    std::memset(_e08, 0, _e10);
+    _e14 = 0;
+    _e18 = 0;
+    _103c = -1;
+    _11c8.clear();
+    _e40 = 0;
+    _e44 = 0;
+    _e48 = 0;
+    _3c = 0;
+    _f98 = gdt::Manager::instance()->mFlagBuffer;
+}
+
 void SaveMgr::auto5() {
     const u32 count = _e00->_28;
     if (_e40 != count) {

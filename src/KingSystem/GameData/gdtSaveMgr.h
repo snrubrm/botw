@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadObjArray.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
@@ -9,6 +10,10 @@
 namespace sead {
 class DelegateThread;
 }  // namespace sead
+
+namespace ksys::gdt {
+class TriggerParam;
+}  // namespace ksys::gdt
 
 namespace ksys {
 
@@ -47,32 +52,56 @@ public:
     bool enableGdtMgrChangeOnlyMode(s32 x);
     void auto5();
     bool x_6(u32 idx);
+    bool auto6(s32 idx);
+    bool x_0(s32 idx);
+    void auto4();
 
 private:
+    struct Unk2 {
+        u32 _0;
+        s32 _4;
+    };
+
+    struct Unk3 {
+        u8 _0[1];
+    };
+
     struct Unk {
-        u8 _0[0x28];
+        u8 _0[0x20];
+        Unk2* _20;
         u32 _28;
     };
 
     u8 _28[0x30 - 0x28];
     sead::DelegateThread* _30;
     u32 _38;
-    u8 _3c[0x140 - 0x3c];
+    u32 _3c;
+    u8 _40[0xf8 - 0x40];
+    bool _f8;
+    u8 _f9[0x140 - 0xf9];
     u16 _140;
     u8 _142[0x148 - 0x142];
     s32 _148;
     u8 _14c[0x80];
     u8 _1cc[0xe00 - 0x1cc];
     Unk* _e00;
-    u8 _e08[0xe10 - 0xe08];
+    u8* _e08;
     u32 _e10;
     u32 _e14;
-    u8 _e18[0xe40 - 0xe18];
+    u32 _e18;
+    u8 _e1c[0xe40 - 0xe1c];
     u32 _e40;
     u32 _e44;
-    u8 _e48[0xf80 - 0xe48];
+    u32 _e48;
+    u8 _e4c[0xf80 - 0xe4c];
     void* _f80;
-    u8 _f88[0x1de8 - 0xf88];
+    u8 _f88[0xf98 - 0xf88];
+    gdt::TriggerParam* _f98;
+    u8 _fa0[0x103c - 0xfa0];
+    s32 _103c;
+    u8 _1040[0x11c8 - 0x1040];
+    sead::ObjArray<Unk3> _11c8;
+    u8 _11e8[0x1de8 - 0x11e8];
 };
 KSYS_CHECK_SIZE_NX150(SaveMgr, 0x1de8);
 
