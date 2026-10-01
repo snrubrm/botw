@@ -11,6 +11,7 @@ public:
     explicit NavMeshRun(const InitArg& arg);
 
 protected:
+    void m34() override;
 };
 
 }  // namespace uking::action
