@@ -12,6 +12,7 @@ bool SlippedWalk::init_(sead::Heap* heap) {
 
 void SlippedWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     SlippedWalkBase::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void SlippedWalk::leave_() {
