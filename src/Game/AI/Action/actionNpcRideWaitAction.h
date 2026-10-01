@@ -21,6 +21,7 @@ protected:
 
     // dynamic_param at offset 0x38
     float* mGearSpeed_d{};
+    float _40 = 0.0f;
 };
 
 }  // namespace uking::action
