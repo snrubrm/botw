@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -29,6 +30,9 @@ protected:
     const bool* mIsIgnoreSameAS_s{};
     // static_param at offset 0x40
     sead::SafeString mASKeyName_s{};
+    ksys::Timer _50;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkAnimalASPlay, 0x60);
 
 }  // namespace uking::action
