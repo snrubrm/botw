@@ -11,7 +11,7 @@ bool BowlPin::init_(sead::Heap* heap) {
 }
 
 void BowlPin::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("オフ");
 }
 
 void BowlPin::leave_() {
