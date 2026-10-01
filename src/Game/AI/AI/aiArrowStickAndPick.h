@@ -22,7 +22,8 @@ protected:
     // dynamic_param at offset 0xf8
     ksys::act::BaseProcLink* mStickActor_d{};
     // dynamic_param at offset 0x100
-    sead::SafeString* mStickBodyName_d{};
+    sead::SafeString mStickBodyName_d{};
+    bool _110 = false;
 };
 
 }  // namespace uking::ai
