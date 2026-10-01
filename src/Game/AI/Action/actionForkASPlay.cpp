@@ -11,4 +11,8 @@ void ForkASPlay::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+const char* ForkASPlay::m32() {
+    return mASName_s.cstr();
+}
+
 }  // namespace uking::action
