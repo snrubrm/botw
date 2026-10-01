@@ -21,6 +21,8 @@ protected:
     const int* mMoveTime_s{};
     // static_param at offset 0x40
     const float* mMoveRadius_s{};
+    f32 _48{};
+    f32 _4c{};
 };
 
 }  // namespace uking::ai
