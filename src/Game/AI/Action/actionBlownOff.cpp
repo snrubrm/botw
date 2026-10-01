@@ -29,4 +29,8 @@ void BlownOff::calc_() {
     Ragdoll::calc_();
 }
 
+bool BlownOff::isChangeable() const {
+    return _ec == 1;
+}
+
 }  // namespace uking::action
