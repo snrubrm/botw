@@ -13,11 +13,11 @@ public:
     Awareness() : ParamIO("awareness", 0) {}
     ~Awareness() override = default;
 
-    bool needsParse() const override { return true; }
     bool ParamIO_m0(char* data) override { return true; }
 
 private:
     void doCreate_(u8*, u32, sead::Heap*) override {}
+    bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
     agl::utl::ParameterObj mBasisObj;

@@ -14,7 +14,6 @@ public:
     LifeCondition() : ParamIO("lifecondition", 0) {}
     ~LifeCondition() override = default;
 
-    bool needsParse() const override { return true; }
     bool ParamIO_m0(char* data) override { return true; }
 
 private:
@@ -23,6 +22,7 @@ private:
                     sead::Buffer<agl::utl::Parameter<sead::SafeString>>* buffer,
                     const sead::SafeString& key, const sead::SafeString& desc, sead::Heap* heap);
 
+    bool needsParse() const override { return true; }
     bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
     agl::utl::ParameterObj mInvalidWeathersObj;

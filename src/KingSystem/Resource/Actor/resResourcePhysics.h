@@ -14,8 +14,8 @@ public:
     phys::ParamSet& getParamSet() { return mParamSet; }
 
     void doCreate_(u8* buffer, u32 buffer_size, sead::Heap* heap) override;
-    bool parse_(u8* data, size_t size, sead::Heap* heap) override;
     bool needsParse() const override { return true; }
+    bool parse_(u8* data, size_t size, sead::Heap* heap) override;
 
 private:
     phys::ParamSet mParamSet;
