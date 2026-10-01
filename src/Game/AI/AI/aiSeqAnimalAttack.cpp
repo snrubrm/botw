@@ -23,4 +23,8 @@ void SeqAnimalAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool SeqAnimalAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai
