@@ -11,6 +11,7 @@ public:
     explicit CliffCheckTargetDirSelect(const InitArg& arg);
     ~CliffCheckTargetDirSelect() override;
 
+    void calc_() override;
     void loadParams_() override;
 
 protected:
