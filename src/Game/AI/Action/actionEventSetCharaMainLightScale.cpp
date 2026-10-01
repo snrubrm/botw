@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventSetCharaMainLightScale.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -26,7 +28,14 @@ void EventSetCharaMainLightScale::loadParams_() {
 }
 
 void EventSetCharaMainLightScale::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* wm = ksys::world::Manager::instance()) {
+        sead::Color4f color{*mRscale_d, *mGscale_d, *mBscale_d, 1.0f};
+        wm->getEnvMgr()->setCharMainLightScale(color);
+        setFinished();
+        return;
+    }
+    setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
