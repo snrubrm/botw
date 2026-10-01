@@ -12,7 +12,7 @@ bool ForkOnLeaveGolemChemReset::init_(sead::Heap* heap) {
 }
 
 void ForkOnLeaveGolemChemReset::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkOnLeaveGolemChemReset::leave_() {
