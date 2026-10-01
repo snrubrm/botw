@@ -23,6 +23,10 @@ void ForkWaitCloseGanonShoutMsgClose::loadParams_() {
     getAITreeVariable(&mInBeastGanonVoiceSequence_a, "InBeastGanonVoiceSequence");
 }
 
+bool ForkWaitCloseGanonShoutMsgClose::isChangeable() const {
+    return !*mInBeastGanonVoiceSequence_a;
+}
+
 void ForkWaitCloseGanonShoutMsgClose::calc_() {
     ksys::act::ai::Action::calc_();
 }
