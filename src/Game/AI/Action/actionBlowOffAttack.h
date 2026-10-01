@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    u32 m35() override;
 };
 
 }  // namespace uking::action

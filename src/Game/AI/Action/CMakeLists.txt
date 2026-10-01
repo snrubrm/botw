@@ -3683,6 +3683,12 @@ target_sources(uking PRIVATE
   actionUnarmedAttack.h
   actionUnarmedLargeAttack.cpp
   actionUnarmedLargeAttack.h
+  actionUnk_71025afc58.cpp
+  actionUnk_71025afc58.h
+  actionUnk_71023c8418.cpp
+  actionUnk_71023c8418.h
+  actionUnk_71023c8378.cpp
+  actionUnk_71023c8378.h
   actionUpdateDataByGetDemoAction.cpp
   actionUpdateDataByGetDemoAction.h
   actionUseNavMeshConnectAction.cpp

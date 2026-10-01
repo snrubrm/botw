@@ -4,14 +4,20 @@ namespace uking::action {
 
 Attack::Attack(const InitArg& arg) : AttackBase(arg) {}
 
-Attack::~Attack() = default;
-
 void Attack::enter_(ksys::act::ai::InlineParamPack* params) {
     AttackBase::enter_(params);
+    m33();
+    if (auto* helper = m32())
+        helper->_58 = m35();
+    mFlags.reset(Flag::Changeable);
 }
 
 void Attack::leave_() {
     AttackBase::leave_();
+}
+
+u32 Attack::m35() {
+    return 1;
 }
 
 void Attack::loadParams_() {
@@ -21,6 +27,8 @@ void Attack::loadParams_() {
 
 void Attack::calc_() {
     AttackBase::calc_();
+    if (m34())
+        setFinished();
 }
 
 void Attack::m33() {

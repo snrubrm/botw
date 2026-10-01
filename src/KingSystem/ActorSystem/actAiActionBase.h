@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/Utils/Types.h"
 
+class Unk_71025afc58;
+
 namespace ksys {
 struct AIDefSet;
 class Message;
@@ -51,6 +53,9 @@ sead::FixedSafeString<32>* getDefaultString32();
 /// Base class for actions and AIs, which can be seen as looping actions.
 class ActionBase {
     SEAD_RTTI_BASE(ActionBase)
+    // Helper objects owned by actions forward their param lookups to the owner.
+    friend class ::Unk_71025afc58;
+
 public:
     struct InitArg {
         Actor* actor;

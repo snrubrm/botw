@@ -18,6 +18,10 @@ void BlowOffAttack::leave_() {
     Attack::leave_();
 }
 
+u32 BlowOffAttack::m35() {
+    return 4;
+}
+
 void BlowOffAttack::loadParams_() {
     Attack::loadParams_();
 }

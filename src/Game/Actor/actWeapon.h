@@ -146,6 +146,9 @@ struct WeaponModifierRanges {
 // flag at 0xb40 marks it as pending). Built by AI helpers (0x71005d80fc: type 6, 0x71005d8210:
 // type 7) and passed down via PlayerOrEnemy / NPC (0x71005d787c). Placeholder name and fields.
 struct Unk_71002eda38 {
+    Unk_71002eda38() = default;
+    explicit Unk_71002eda38(s32 type) { _0 = type; }
+
     /* 0x00 */ s32 _0 = -1;
     /* 0x04 */ s32 _4 = 0;
     /* 0x08 */ sead::Vector3f _8 = {0, 0, 0};
@@ -162,6 +165,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71002eda38, 0x48);
 // Request passed to Weapon::sub_71002EDAEC (stored at Weapon+0xc20 under the lock at 0xbe0; flag at
 // 0xc4c). Passed down via PlayerOrEnemy / NPC (0x71005d79ac). Placeholder name and fields.
 struct Unk_71002edaec {
+    Unk_71002edaec() = default;
+    explicit Unk_71002edaec(s32 type) { _0 = type; }
+
     /* 0x00 */ s32 _0 = -1;
     /* 0x04 */ s32 _4 = 0;
     /* 0x08 */ f32 _8 = 1.0;

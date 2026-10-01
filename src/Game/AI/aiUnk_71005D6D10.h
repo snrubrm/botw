@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 
 namespace ksys::act {
@@ -230,3 +231,19 @@ bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString& name, int s
 void sub_71005E2C58(ksys::act::Actor* actor);
 /// Normalised horizontal direction perpendicular to `dir` (ey x dir with y = 0).
 void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const sead::Vector3f& dir);
+// --- attack helpers (used by the attack actions' calc_ and the Unk_71025afc58 family) ---
+// Placeholder signatures from register use; the int arguments are forwarded to ASList (x / x_7).
+
+/// Just-avoid setup: a3 is an angle (ignored if <= epsilon), a1/a2 distances, a4 is passed to
+/// ASList::x.
+void sub_71005DAB2C(ksys::act::Actor* actor, f32 a1, f32 a2, f32 a3, int a4);
+bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
+bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
+/// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
+/// `flags` may be null; flags is copied to Unk_71002edaec::_14.
+void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, f32 a6, f32 a7);
+void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
+void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
