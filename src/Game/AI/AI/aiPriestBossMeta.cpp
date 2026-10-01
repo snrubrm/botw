@@ -14,6 +14,8 @@ void PriestBossMeta::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestBossMeta::calc_() {}
+
 void PriestBossMeta::leave_() {
     ksys::act::ai::Ai::leave_();
 }
