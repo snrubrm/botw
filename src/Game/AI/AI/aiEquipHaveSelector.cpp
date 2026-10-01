@@ -11,7 +11,37 @@ bool EquipHaveSelector::init_(sead::Heap* heap) {
 }
 
 void EquipHaveSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (m34())
+        changeChild("非所持", params);
+    else
+        changeChild("所持", params);
+}
+
+void EquipHaveSelector::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (m34()) {
+            if (!isCurrentChild("非所持")) {
+                changeChild("非所持");
+                return;
+            }
+        } else if (!isCurrentChild("所持")) {
+            changeChild("所持");
+            return;
+        }
+
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isChangeable()) {
+        if (m34()) {
+            if (!isCurrentChild("非所持"))
+                changeChild("非所持");
+        } else if (!isCurrentChild("所持")) {
+            changeChild("所持");
+        }
+    }
 }
 
 bool EquipHaveSelector::isChangeable() const {

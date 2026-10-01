@@ -15,10 +15,14 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    virtual bool m34();
 
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
+    void* _40{};
 };
 
 }  // namespace uking::ai

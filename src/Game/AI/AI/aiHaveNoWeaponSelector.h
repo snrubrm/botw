@@ -11,6 +11,8 @@ public:
     explicit HaveNoWeaponSelector(const InitArg& arg);
     ~HaveNoWeaponSelector() override;
 
+    bool m34() override;
+
 protected:
 };
 
