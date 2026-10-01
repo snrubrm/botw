@@ -14,4 +14,8 @@ void PlayerSwimLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimLand::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
