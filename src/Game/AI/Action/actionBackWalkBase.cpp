@@ -30,4 +30,8 @@ void BackWalkBase::calc_() {
     ActionEx::calc_();
 }
 
+bool BackWalkBase::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
