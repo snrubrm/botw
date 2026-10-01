@@ -14,6 +14,10 @@ void AnimalRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AnimalRangeKeepMove::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 void AnimalRangeKeepMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
