@@ -14,6 +14,10 @@ void KeeseDieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     DieSelectChemShockPlus::enter_(params);
 }
 
+void KeeseDieSelect::calc_() {
+    DieSelectChemShockPlus::calc_();
+}
+
 void KeeseDieSelect::leave_() {
     DieSelectChemShockPlus::leave_();
 }
