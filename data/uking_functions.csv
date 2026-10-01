@@ -3332,7 +3332,7 @@ Address,Quality,Size,Name
 0x00000071000a21e8,U,000296,
 0x00000071000a2310,O,000008,_ZNK5uking6action16ArrowShootHoming27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000a2318,O,000092,_ZNK5uking6action16ArrowShootHoming18getRuntimeTypeInfoEv
-0x00000071000a2374,U,000008,uking::action::ArrowShootMove::m32
+0x00000071000a2374,O,000008,_ZN5uking6action14ArrowShootMove3m32Ev
 0x00000071000a237c,U,000008,uking::action::ArrowShootMove::m35
 0x00000071000a2384,U,000004,uking::action::ArrowShootMove::m36
 0x00000071000a2388,U,000008,uking::action::ArrowShootMove::m41
@@ -3348,7 +3348,7 @@ Address,Quality,Size,Name
 0x00000071000a32a0,W,000124,_ZN5uking6action14ArrowShootMove6leave_Ev
 0x00000071000a331c,U,000228,
 0x00000071000a3400,U,000284,
-0x00000071000a351c,U,000384,uking::action::ArrowShootMove::m33
+0x00000071000a351c,U,000384,_ZN5uking6action14ArrowShootMove3m33Ev
 0x00000071000a369c,U,000380,
 0x00000071000a3818,U,000376,uking::action::ArrowShootMove::m37
 0x00000071000a3990,U,000892,uking::action::ArrowShootMove::m38
@@ -3375,7 +3375,7 @@ Address,Quality,Size,Name
 0x00000071000a5c38,U,000176,uking::action::ArrowShootMoveForLargeObject::m36
 0x00000071000a5ce8,O,000008,_ZNK5uking6action28ArrowShootMoveForLargeObject27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000a5cf0,O,000092,_ZNK5uking6action28ArrowShootMoveForLargeObject18getRuntimeTypeInfoEv
-0x00000071000a5d4c,U,000020,uking::action::ArrowShootMoveForLargeObject::m32
+0x00000071000a5d4c,U,000020,_ZN5uking6action28ArrowShootMoveForLargeObject3m32Ev
 0x00000071000a5d60,U,000012,uking::action::ArrowShootMoveForLargeObject::m41
 0x00000071000a5d6c,O,000372,_ZN5uking6action28ArrowShootMoveForLargeObject33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000a5ee0,U,000052,AI_Action_ArrowShootMoveWithStickOffset::ctor
@@ -3390,7 +3390,7 @@ Address,Quality,Size,Name
 0x00000071000a6070,U,000008,uking::action::ArrowShootMoveWithStickOffset::m36
 0x00000071000a6078,O,000008,_ZNK5uking6action29ArrowShootMoveWithStickOffset27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000a6080,O,000092,_ZNK5uking6action29ArrowShootMoveWithStickOffset18getRuntimeTypeInfoEv
-0x00000071000a60dc,U,000012,uking::action::ArrowShootMoveWithStickOffset::m32
+0x00000071000a60dc,U,000012,_ZN5uking6action29ArrowShootMoveWithStickOffset3m32Ev
 0x00000071000a60e8,U,000008,uking::action::ArrowShootMoveWithStickOffset::m41
 0x00000071000a60f0,O,000372,_ZN5uking6action29ArrowShootMoveWithStickOffset33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000a6264,U,000092,AI_Action_ArrowSkyShootMove::ctor
@@ -3400,7 +3400,7 @@ Address,Quality,Size,Name
 0x00000071000a632c,O,000004,_ZN5uking6action17ArrowSkyShootMove5calc_Ev
 0x00000071000a6330,W,000020,_ZN5uking6action17ArrowSkyShootMove6leave_Ev
 0x00000071000a6344,W,000228,_ZN5uking6action17ArrowSkyShootMove11loadParams_Ev
-0x00000071000a6428,U,000992,uking::action::ArrowSkyShootMove::m33
+0x00000071000a6428,U,000992,_ZN5uking6action17ArrowSkyShootMove3m33Ev
 0x00000071000a6808,U,000196,
 0x00000071000a68cc,U,000148,uking::action::ArrowSkyShootMove::m40
 0x00000071000a6960,U,000024,uking::action::ArrowSkyShootMove::m34

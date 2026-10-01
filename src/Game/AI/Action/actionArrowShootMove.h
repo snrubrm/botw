@@ -16,6 +16,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual float m32();
+    virtual void m33();
 
     // dynamic_param at offset 0x20
     bool* mIsShootByPlayer_d{};

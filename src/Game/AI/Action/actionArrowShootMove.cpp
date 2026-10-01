@@ -37,4 +37,8 @@ void ArrowShootMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+float ArrowShootMove::m32() {
+    return 0.5f;
+}
+
 }  // namespace uking::action
