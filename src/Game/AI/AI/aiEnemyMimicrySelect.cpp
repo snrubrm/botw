@@ -11,7 +11,11 @@ bool EnemyMimicrySelect::init_(sead::Heap* heap) {
 }
 
 void EnemyMimicrySelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50 = 0xff;
+    if (*mIsMimicry_m)
+        sub_71003988E0(params);
+    else
+        sub_7100398A34(params);
 }
 
 bool EnemyMimicrySelect::isChangeable() const {

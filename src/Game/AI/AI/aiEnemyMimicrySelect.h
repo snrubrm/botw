@@ -16,6 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003988E0(ksys::act::ai::InlineParamPack* params);
+
+    void sub_7100398A34(ksys::act::ai::InlineParamPack* params);
+
 protected:
     // map_unit_param at offset 0x38
     const bool* mIsMimicry_m{};
@@ -23,6 +27,7 @@ protected:
     int* mMimicryMaterial_a{};
     // aitree_variable at offset 0x48
     bool* mIsStartResetMimicry_a{};
+    u8 _50 = 0xff;
 };
 
 }  // namespace uking::ai
