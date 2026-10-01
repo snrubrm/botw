@@ -1,7 +1,9 @@
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include <KingSystem/Resource/resResourceMgrTask.h>
 #include <heap/seadExpHeap.h>
+#include <heap/seadFrameHeap.h>
 #include <heap/seadHeap.h>
+#include <resource/seadParallelSZSDecompressor.h>
 #include <thread/seadThreadUtil.h>
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Sound/sndResource.h"
@@ -126,7 +128,8 @@ bool OverlayArenaSystem::init(const InitArg& arg, sead::Heap* heap) {
     return true;
 }
 
-void OverlayArenaSystem::getSzsDecompressor(sead::SZSDecompressor** decompressor) const {
+void OverlayArenaSystem::getSzsDecompressor(
+    sead::ParallelSZSDecompressor** decompressor) const {
     if (decompressor)
         *decompressor = mSzsDecompressor;
 }
@@ -169,6 +172,33 @@ void OverlayArenaSystem::createHeaps() {
     createPlacementTreeHeap();
 
     res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::createSzsDecompressor() {
+    res::stubbedLogFunction();
+
+    if (mSzsHeap)
+        return;
+
+    if (!mFixedHeap)
+        return;
+
+    mSzsHeap = sead::FrameHeap::tryCreate(0, "SZS", mFixedHeap, sizeof(void*),
+                                          sead::Heap::cHeapDirection_Forward, false);
+    if (!mSzsHeap)
+        return;
+
+    auto* work_buffer = static_cast<u8*>(mSzsHeap->tryAlloc(0x200000, 0x20));
+    if (!work_buffer)
+        return;
+
+    mSzsHeap->adjust();
+
+    mSzsDecompressor = new (mSzsDecompressorInstHeap, std::nothrow) sead::ParallelSZSDecompressor(
+        0x80000, sead::ThreadUtil::ConvertPrioritySeadToPlatform(19), mSzsDecompressorInstHeap,
+        work_buffer, sead::CoreIdMask(sead::CoreId::cSub2));
+    if (mSzsDecompressor)
+        res::stubbedLogFunction();
 }
 
 void OverlayArenaSystem::createTexArcWorkHeap() {

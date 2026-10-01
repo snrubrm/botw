@@ -29,6 +29,7 @@
 namespace sead {
 class Heap;
 class Resource;
+class ParallelSZSDecompressor;
 class SZSDecompressor;
 }  // namespace sead
 
@@ -214,7 +215,7 @@ public:
     void pauseThreads();
     void resumeThreads();
 
-    sead::SZSDecompressor* getSzsDecompressor();
+    sead::ParallelSZSDecompressor* getSzsDecompressor();
     void unlockSzsDecompressorCS();
     bool getUncompressedSize(u32* size, const sead::SafeString& path,
                              sead::FileDevice* device) const;

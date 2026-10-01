@@ -607,9 +607,9 @@ void ResourceMgrTask::resumeThreads() {
     mMovableMemoryThread->resume();
 }
 
-sead::SZSDecompressor* ResourceMgrTask::getSzsDecompressor() {
+sead::ParallelSZSDecompressor* ResourceMgrTask::getSzsDecompressor() {
     mSzsDecompressorCS.lock();
-    sead::SZSDecompressor* ptr = nullptr;
+    sead::ParallelSZSDecompressor* ptr = nullptr;
     OverlayArenaSystem::instance()->getSzsDecompressor(&ptr);
     return ptr;
 }

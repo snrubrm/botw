@@ -12,7 +12,7 @@
 
 namespace sead {
 class Heap;
-class SZSDecompressor;
+class ParallelSZSDecompressor;
 }  // namespace sead
 
 namespace ksys {
@@ -39,7 +39,7 @@ public:
 
     bool init(const InitArg& arg, sead::Heap* heap);
 
-    void getSzsDecompressor(sead::SZSDecompressor** decompressor) const;
+    void getSzsDecompressor(sead::ParallelSZSDecompressor** decompressor) const;
     OverlayArena* getArena() const;
     OverlayArena* getTeraSzsWorkArena() const;
     OverlayArena* getAudioArena() const;
@@ -88,7 +88,7 @@ private:
     sead::Heap* mTeraWorkHeap = nullptr;
     sead::Heap* mSzsDecompressorInstHeap = nullptr;
     sead::Heap* mSzsHeap = nullptr;
-    sead::SZSDecompressor* mSzsDecompressor = nullptr;
+    sead::ParallelSZSDecompressor* mSzsDecompressor = nullptr;
     sead::Heap* mTexArcWorkHeap = nullptr;
     OverlayArena* mArena = nullptr;
     OverlayArena* mTeraSzsWorkArena = nullptr;
