@@ -11,7 +11,7 @@ bool EndChangeableASPlay::init_(sead::Heap* heap) {
 }
 
 void EndChangeableASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
 }
 
 void EndChangeableASPlay::leave_() {
