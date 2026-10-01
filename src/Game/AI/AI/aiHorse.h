@@ -14,6 +14,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100435420();
+
 protected:
     // static_param at offset 0x38
     const float* mDistanceFall_s{};

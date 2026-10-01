@@ -11,7 +11,7 @@ void Horse::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Horse::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100435420();
 }
 
 void Horse::loadParams_() {
