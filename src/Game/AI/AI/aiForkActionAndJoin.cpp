@@ -11,7 +11,8 @@ bool ForkActionAndJoin::init_(sead::Heap* heap) {
 }
 
 void ForkActionAndJoin::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = 0;
+    changeChild("行動", params);
 }
 
 void ForkActionAndJoin::leave_() {
