@@ -12,6 +12,7 @@ bool SeqAtHitAction::init_(sead::Heap* heap) {
 
 void SeqAtHitAction::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
+    _50 = false;
 }
 
 void SeqAtHitAction::leave_() {
@@ -20,6 +21,10 @@ void SeqAtHitAction::leave_() {
 
 void SeqAtHitAction::loadParams_() {
     SeqTwoAction::loadParams_();
+}
+
+bool SeqAtHitAction::m35() const {
+    return _50 && getCurrentChild()->isChangeable();
 }
 
 }  // namespace uking::ai
