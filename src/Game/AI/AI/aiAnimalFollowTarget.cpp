@@ -14,6 +14,10 @@ void AnimalFollowTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseFollow::enter_(params);
 }
 
+void AnimalFollowTarget::calc_() {
+    HorseFollow::calc_();
+}
+
 void AnimalFollowTarget::leave_() {
     HorseFollow::leave_();
 }
