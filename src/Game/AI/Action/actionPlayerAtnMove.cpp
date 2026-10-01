@@ -18,4 +18,8 @@ void PlayerAtnMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerAtnMove::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
