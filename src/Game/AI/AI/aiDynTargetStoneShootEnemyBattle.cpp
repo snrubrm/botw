@@ -15,6 +15,10 @@ void DynTargetStoneShootEnemyBattle::enter_(ksys::act::ai::InlineParamPack* para
     StoneShootEnemyBattle::enter_(params);
 }
 
+void DynTargetStoneShootEnemyBattle::calc_() {
+    StoneShootEnemyBattle::calc_();
+}
+
 void DynTargetStoneShootEnemyBattle::leave_() {
     StoneShootEnemyBattle::leave_();
 }
