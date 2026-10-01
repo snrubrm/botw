@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100317AB8();
+
 protected:
     // static_param at offset 0x110
     const float* mNoMoveAnchorDist_s{};

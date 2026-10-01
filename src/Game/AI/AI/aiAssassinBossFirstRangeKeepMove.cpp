@@ -8,7 +8,10 @@ AssassinBossFirstRangeKeepMove::AssassinBossFirstRangeKeepMove(const InitArg& ar
 AssassinBossFirstRangeKeepMove::~AssassinBossFirstRangeKeepMove() = default;
 
 bool AssassinBossFirstRangeKeepMove::init_(sead::Heap* heap) {
-    return EnemyRangeKeepMove::init_(heap);
+    if (!EnemyRangeKeepMove::init_(heap))
+        return false;
+    sub_7100317AB8();
+    return true;
 }
 
 void AssassinBossFirstRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
