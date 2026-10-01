@@ -14,6 +14,10 @@ void GolemRWeakPointRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     GolemWeakPointRoot::enter_(params);
 }
 
+void GolemRWeakPointRoot::calc_() {
+    GolemWeakPointRoot::calc_();
+}
+
 void GolemRWeakPointRoot::leave_() {
     GolemWeakPointRoot::leave_();
 }
