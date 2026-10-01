@@ -10,6 +10,7 @@ bool LinearFlyAttack::init_(sead::Heap* heap) {
 
 void LinearFlyAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     LinearFlyAttackBase::enter_(params);
+    playAS("Attack", true, 0, 0, -1.0f);
 }
 
 void LinearFlyAttack::leave_() {
