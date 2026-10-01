@@ -25,6 +25,7 @@ protected:
     const int* mHipDropRateFar_s{};
     // static_param at offset 0x48
     const float* mFarDist_s{};
+    int _50{};
 };
 
 }  // namespace uking::ai
