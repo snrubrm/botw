@@ -30,4 +30,6 @@ void ForkGanonBeastWeakPoint::calc_() {
     Fork::calc_();
 }
 
+void ForkGanonBeastWeakPoint::m32() {}
+
 }  // namespace uking::action
