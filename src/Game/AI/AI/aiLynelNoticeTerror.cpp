@@ -14,6 +14,10 @@ void LynelNoticeTerror::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNoticeTerror::enter_(params);
 }
 
+void LynelNoticeTerror::calc_() {
+    EnemyNoticeTerror::calc_();
+}
+
 void LynelNoticeTerror::leave_() {
     EnemyNoticeTerror::leave_();
 }
