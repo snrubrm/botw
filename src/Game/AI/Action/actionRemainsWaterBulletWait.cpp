@@ -13,6 +13,7 @@ bool RemainsWaterBulletWait::init_(sead::Heap* heap) {
 
 void RemainsWaterBulletWait::enter_(ksys::act::ai::InlineParamPack* params) {
     RemainsWaterBulletAction::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void RemainsWaterBulletWait::leave_() {
