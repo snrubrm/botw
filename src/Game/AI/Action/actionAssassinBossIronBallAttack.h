@@ -24,6 +24,11 @@ protected:
     const int* mAttackType_s{};
     // static_param at offset 0x30
     sead::SafeString mIronBallPartsName_s{};
+    int _40 = 0;
+    void* _48{};
+    int _50 = 0;
+    void* _58{};
+    int _60 = 0;
 };
 
 }  // namespace uking::action
