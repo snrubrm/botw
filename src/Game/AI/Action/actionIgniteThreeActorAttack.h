@@ -34,6 +34,7 @@ protected:
     const sead::Vector3f* mIgniteRotate_s{};
     // static_param at offset 0x88
     const sead::Vector3f* mIgniteRotSpeed_s{};
+    bool _90 = false;
 };
 
 }  // namespace uking::action
