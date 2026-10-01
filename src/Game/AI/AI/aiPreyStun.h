@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,12 +13,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     // static_param at offset 0x38
     const int* mStunTime_s{};
+    ksys::Timer _40;
 };
+KSYS_CHECK_SIZE_NX150(PreyStun, 0x50);
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPreyStun.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -12,6 +13,21 @@ bool PreyStun::init_(sead::Heap* heap) {
 
 void PreyStun::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void PreyStun::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+        return;
+    }
+
+    if (!isCurrentChild("気絶中") || _40.value <= sead::Mathf::epsilon())
+        return;
+
+    _40.update();
+    if (_40.value <= sead::Mathf::epsilon())
+        changeChild("復帰");
 }
 
 void PreyStun::leave_() {
