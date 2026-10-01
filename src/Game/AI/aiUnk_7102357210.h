@@ -93,3 +93,10 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };
+
+// vtable 0x710241d7c8 (SeqNextMessage; m2 is defined in aiSeqNextMessage.cpp)
+class Unk_710241d7c8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
