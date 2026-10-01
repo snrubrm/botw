@@ -12,6 +12,7 @@ public:
     ~ChemicalWeaponRoot() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
 
 protected:
 };
