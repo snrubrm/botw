@@ -1661,6 +1661,52 @@ bool RigidBody::hasConstraintWithUserData() {
     return false;
 }
 
+bool RigidBody::x_103(int a) {
+    auto lock = makeScopedLock(AlsoLockWorld::Yes);
+    return x_104(this, 0, a);
+}
+
+bool RigidBody::x_104(RigidBody* other_body, int a, int b) {
+    if (a == b)
+        return false;
+
+    auto lock = makeScopedLock(AlsoLockWorld::No);
+
+    for (int i = 0, n = getHkBody()->getNumConstraints(); i < n; ++i) {
+        auto* constraint = getHkBody()->getConstraint(i);
+        if (constraint->getData()->getType() == hkpConstraintData::CONSTRAINT_TYPE_CONTACT ||
+            constraint->m_userData == 0) {
+            continue;
+        }
+
+        auto* entity_a = constraint->getEntityA();
+        auto* entity_b = constraint->getEntityB();
+        if (!entity_a || !entity_b)
+            return true;
+
+        auto* body_a = getRigidBody(*entity_a);
+        auto* body_b = getRigidBody(*entity_b);
+        if (!body_a || !body_b)
+            return true;
+
+        if (body_a != this && body_a != other_body) {
+            if (body_a->getMotionType() != MotionType::Dynamic)
+                return true;
+            if (body_a->x_104(other_body, a + 1, b))
+                return true;
+        }
+
+        if (body_b != this && body_b != other_body) {
+            if (body_b->getMotionType() != MotionType::Dynamic)
+                return true;
+            if (body_b->x_104(other_body, a + 1, b))
+                return true;
+        }
+    }
+
+    return false;
+}
+
 void RigidBody::setEntityMotionFlag40(bool set) {
     if (!isEntity() || isCharacterControllerType())
         return;
@@ -1791,6 +1837,35 @@ void RigidBody::getAabbInWorld(sead::BoundBox3f* aabb) const {
     convertHkAabb(hk_aabb, aabb);
 }
 
+bool RigidBody::x_114(bool unk) {
+    auto lock = makeScopedLock();
+
+    if (!(mHkBody->m_responseModifierFlags & hkpResponseModifier::Flags::MASS_SCALING))
+        return false;
+
+    if (unk != isEntityMotionFlag80On()) {
+        System::instance()->setEntityContactListenerField90(unk);
+        if (isEntity() && mMotionAccessor) {
+            getEntityMotionAccessor()->changeFlag(RigidBodyMotionEntity::Flag::_80, unk);
+            if (unk) {
+                getEntityMotionAccessor()->getContactFlags().set(
+                    RigidBodyMotionEntity::ContactFlag::_1);
+                getEntityMotionAccessor()->getContactFlags().set(
+                    RigidBodyMotionEntity::ContactFlag::_4);
+            } else {
+                getEntityMotionAccessor()->getContactFlags().reset(
+                    RigidBodyMotionEntity::ContactFlag::_1);
+                getEntityMotionAccessor()->getContactFlags().reset(
+                    RigidBodyMotionEntity::ContactFlag::_4);
+            }
+            getEntityMotionAccessor()->getContactFlags().reset(
+                RigidBodyMotionEntity::ContactFlag::_2);
+        }
+    }
+
+    return true;
+}
+
 void RigidBody::lock() {
     mCS.lock();
 }
@@ -1813,6 +1888,14 @@ void RigidBody::unlock(AlsoLockWorld also_unlock_world) {
 
 hkpMotion* RigidBody::getMotion() const {
     return getHkBody()->getMotion();
+}
+
+void RigidBody::x_123(bool unk) {
+    if (unk) {
+        mContactCallback = &System::instance()->getRigidBodyRequestMgr()->_250;
+    } else if (mContactCallback == &System::instance()->getRigidBodyRequestMgr()->_250) {
+        mContactCallback = nullptr;
+    }
 }
 
 void RigidBody::setEntityMotionFlag1(bool set) {

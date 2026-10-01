@@ -9,6 +9,7 @@
 #include <prim/seadDelegate.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Physics/RigidBody/physRigidBodyContactEvent.h"
 #include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Container/LockFreeQueue.h"
@@ -66,6 +67,8 @@ public:
     bool deregisterMotionAccessor(MotionAccessor* accessor);
 
 private:
+    friend class RigidBody;
+
     struct Unk1;
     struct Unk3;
 
@@ -105,7 +108,7 @@ private:
 
     // FIXME: rename, implement
     bool someFunction2(const LayerContactPointInfo::ContactEvent& event);
-    static void someFunction(void* arg);
+    static bool someFunction(const RigidBodyContactEvent& event);
 
     void processImpulseEntries();
     void processOobRigidBodyEntries(ContactLayerType layer_type);
@@ -142,7 +145,7 @@ private:
     u32 mWaterHotSubmatIdx{};
     u32 mWaterPoisonSubmatIdx{};
     PointCallback mCallback{this};
-    sead::Delegate1Func<void*> _250{&RigidBodyRequestMgr::someFunction};
+    sead::Delegate1RFunc<const RigidBodyContactEvent&, bool> _250{&RigidBodyRequestMgr::someFunction};
 };
 KSYS_CHECK_SIZE_NX150(RigidBodyRequestMgr, 0x260);
 
