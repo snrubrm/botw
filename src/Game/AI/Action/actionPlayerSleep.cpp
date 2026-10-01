@@ -14,4 +14,8 @@ void PlayerSleep::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSleep::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
