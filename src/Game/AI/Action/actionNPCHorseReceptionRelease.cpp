@@ -8,7 +8,7 @@ NPCHorseReceptionRelease::NPCHorseReceptionRelease(const InitArg& arg)
 NPCHorseReceptionRelease::~NPCHorseReceptionRelease() = default;
 
 void NPCHorseReceptionRelease::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void NPCHorseReceptionRelease::calc_() {
