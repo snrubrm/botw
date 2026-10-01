@@ -8,9 +8,7 @@ void PlayerGuidedMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerGuidedMove::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerGuidedMove::leave_() {}
 
 void PlayerGuidedMove::loadParams_() {
     getStaticParam(&mDecSpdDist_s, "DecSpdDist");
