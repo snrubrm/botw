@@ -8,6 +8,7 @@ class DeadOrOtherState : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(DeadOrOtherState, ksys::act::ai::Ai)
 public:
     explicit DeadOrOtherState(const InitArg& arg);
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDieSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -23,5 +24,14 @@ void DieSelect::leave_() {
 }
 
 void DieSelect::loadParams_() {}
+
+void DieSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        m35();
+        callDeleteAndCreateDropAndEmit(mActor, 0);
+        setFinished();
+    }
+}
 
 }  // namespace uking::ai

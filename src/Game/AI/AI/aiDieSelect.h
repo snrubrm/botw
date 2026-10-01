@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     virtual void m34(s32 a2, s32 a3, bool a4, bool a5);
+    virtual void m35() {}
 
 protected:
 };

@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -22,6 +24,11 @@ protected:
     const float* mSearchDist_s{};
     // static_param at offset 0x48
     const float* mNoSearchDist_s{};
+    ksys::act::BaseProcLink _50;
+    bool _60 = false;
+    bool _61 = false;
+    Unk_71023ec318 _68{mActor, 0x300000c};
+    Unk_71023ec340 _80{mActor, 0x300000d};
 };
 
 }  // namespace uking::ai

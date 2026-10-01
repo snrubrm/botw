@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossDemoWarpRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,7 +14,8 @@ bool LastBossDemoWarpRoot::init_(sead::Heap* heap) {
 }
 
 void LastBossDemoWarpRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+    sub_71005DB3EC(mActor);
 }
 
 void LastBossDemoWarpRoot::leave_() {

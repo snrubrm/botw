@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNoticeSound.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
@@ -52,7 +53,7 @@ void EnemyNoticeSound::calc_() {
 }
 
 void EnemyNoticeSound::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyNoticeSound::m34() {
@@ -63,6 +64,15 @@ void EnemyNoticeSound::m34() {
 
 void EnemyNoticeSound::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void EnemyNoticeSound::m35() {
+    if (isCurrentChild("気づき")) {
+        const sead::Vector3f pos = *mTargetPos_d;
+        sub_71005DB1D8(mActor, pos);
+    } else {
+        sub_71005DB3EC(mActor);
+    }
 }
 
 }  // namespace uking::ai

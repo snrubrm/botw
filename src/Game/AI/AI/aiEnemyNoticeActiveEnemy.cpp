@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNoticeActiveEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
@@ -19,7 +20,7 @@ void EnemyNoticeActiveEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyNoticeActiveEnemy::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyNoticeActiveEnemy::loadParams_() {

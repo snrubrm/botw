@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDoubtItemSubTargetSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actUnk_71002dccbc.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,11 @@ bool DoubtItemSubTargetSelect::init_(sead::Heap* heap) {
 }
 
 void DoubtItemSubTargetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* unk = sub_71005D9D68(mActor);
+    if (unk == nullptr || unk->sub_71002DCCBC(0x80))
+        changeChild("なかった", params);
+    else
+        changeChild("あった", params);
 }
 
 void DoubtItemSubTargetSelect::calc_() {}

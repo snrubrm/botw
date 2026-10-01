@@ -19,7 +19,7 @@ public:
     void loadParams_() override;
 
     virtual void m34(ksys::act::ai::InlineParamPack* params);
-    virtual ksys::act::BaseProcLink* m35();
+    virtual ksys::act::BaseProcLink& m35();
     virtual void m36(sead::Vector3f* pos);
     virtual void m37();
     virtual void m38();

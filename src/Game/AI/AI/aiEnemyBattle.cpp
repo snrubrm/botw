@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -41,7 +42,7 @@ void EnemyBattle::loadParams_() {
 
 void EnemyBattle::m36(sead::Vector3f* pos) {
     ksys::act::ActorConstDataAccess acc;
-    ksys::act::acquireActor(m35(), &acc);
+    ksys::act::acquireActor(&m35(), &acc);
     acc.getActorMtx().getTranslation(*pos);
 }
 
@@ -60,6 +61,13 @@ void EnemyBattle::m38() {
     pack.addVec3(pos, "TargetPos", -1);
     m43(&pack);
     changeChild("戦闘攻撃", &pack);
+}
+
+ksys::act::BaseProcLink& EnemyBattle::m35() {
+    auto* link = sub_71005D9050(mActor);
+    if (link != nullptr)
+        return *link;
+    return ksys::act::getDummyBaseProcLink();
 }
 
 }  // namespace uking::ai

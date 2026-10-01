@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyTreeWeaponSearchOrBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -16,7 +17,9 @@ void EnemyTreeWeaponSearchOrBattle::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void EnemyTreeWeaponSearchOrBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_50.hasProc())
+        _80.sub_710070DCC0(&_50, true);
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyTreeWeaponSearchOrBattle::loadParams_() {

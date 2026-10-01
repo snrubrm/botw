@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttackMove.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -16,7 +19,8 @@ bool GuardianMiniBeamAttackMove::isChangeable() const {
 }
 
 void GuardianMiniBeamAttackMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _88.deleteProc();
+    sub_71005DB498(mActor);
 }
 
 void GuardianMiniBeamAttackMove::loadParams_() {
@@ -26,6 +30,39 @@ void GuardianMiniBeamAttackMove::loadParams_() {
     getStaticParam(&mBaseNode_s, "BaseNode");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getStaticParam(&mTargetDistOffset_s, "TargetDistOffset");
+}
+
+void GuardianMiniBeamAttackMove::sub_7100418468() {
+    _70 = ksys::Timer(*mMoveTime_s, *mMoveTime_s);
+    _7c = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
+    sub_7100418D7C();
+    _98 = sub_71005DB4DC(mActor);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
+}
+
+void GuardianMiniBeamAttackMove::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+        return;
+    }
+
+    _70.update();
+    if (_70.value <= sead::Mathf::epsilon()) {
+        sub_7100418694();
+        setFinished();
+        return;
+    }
+
+    if (sub_710041889C())
+        sub_710041896C();
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    sub_7100418694();
 }
 
 }  // namespace uking::ai

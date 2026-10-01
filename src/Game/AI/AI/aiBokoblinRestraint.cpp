@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBokoblinRestraint.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,9 @@ void BokoblinRestraint::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BokoblinRestraint::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _68.deleteProc();
+    mActor->resetConnectedCalcChild(false);
+    sub_71005DB3EC(mActor);
 }
 
 void BokoblinRestraint::loadParams_() {

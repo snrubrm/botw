@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -11,6 +12,7 @@ void GuardianMiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMiniBeamAttack::leave_() {
+    sub_71005DB498(mActor);
     MiniBeamAttack::leave_();
 }
 

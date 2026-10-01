@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMimicEnemyFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,7 @@ bool MimicEnemyFindPlayer::isChangeable() const {
 
 void MimicEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void MimicEnemyFindPlayer::loadParams_() {

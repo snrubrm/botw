@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNotice.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,7 @@ void EnemyNotice::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyNotice::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyNotice::loadParams_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyFindShootable.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -13,7 +15,9 @@ void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyFindShootable::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (mActor->getConnectedCalcChild())
+        mActor->resetConnectedCalcChild(false);
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyFindShootable::loadParams_() {

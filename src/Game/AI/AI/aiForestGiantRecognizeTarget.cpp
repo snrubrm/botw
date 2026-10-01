@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForestGiantRecognizeTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -16,7 +17,7 @@ void ForestGiantRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) 
 }
 
 void ForestGiantRecognizeTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void ForestGiantRecognizeTarget::loadParams_() {}

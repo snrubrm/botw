@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossDemoWarpMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -12,7 +13,8 @@ bool LastBossDemoWarpMove::init_(sead::Heap* heap) {
 }
 
 void LastBossDemoWarpMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+    sub_71005DB3EC(mActor);
 }
 
 void LastBossDemoWarpMove::leave_() {

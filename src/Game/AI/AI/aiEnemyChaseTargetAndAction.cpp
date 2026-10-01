@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyChaseTargetAndAction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,7 @@ bool EnemyChaseTargetAndAction::isChangeable() const {
 
 void EnemyChaseTargetAndAction::leave_() {
     UnarmedEnemySearch::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyChaseTargetAndAction::loadParams_() {

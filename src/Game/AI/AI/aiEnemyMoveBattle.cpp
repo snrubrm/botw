@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyMoveBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,7 @@ bool EnemyMoveBattle::isChangeable() const {
 
 void EnemyMoveBattle::leave_() {
     EnemyBattle::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void EnemyMoveBattle::loadParams_() {

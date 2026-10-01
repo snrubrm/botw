@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonBeastWait.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void GanonBeastWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonBeastWait::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB594(mActor, sead::Vector3f(0, 0, 35));
 }
 
 void GanonBeastWait::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonStateChangeRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void GanonStateChangeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonStateChangeRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB434(mActor);
 }
 
 void GanonStateChangeRoot::loadParams_() {
