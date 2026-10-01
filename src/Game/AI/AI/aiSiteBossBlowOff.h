@@ -12,12 +12,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     // dynamic_param at offset 0x38
     bool* mIsPlayDamageAnm_d{};
+    void* _40{};
+    u32 _48 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossBlowOff, 0x50);
 
 }  // namespace uking::ai
