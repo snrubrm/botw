@@ -10,6 +10,10 @@ void EnemyEscapeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyEscapeRoot::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyEscapeRoot::loadParams_() {}
 
 }  // namespace uking::ai
