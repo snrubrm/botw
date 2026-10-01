@@ -16,7 +16,6 @@ public:
 
 protected:
     void calc_() override;
-    u8 _60[0x90 - 0x60];
     void* _90{};
 };
 
