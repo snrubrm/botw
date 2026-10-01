@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventSetFocusDist.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -23,7 +24,15 @@ void EventSetFocusDist::loadParams_() {
 }
 
 void EventSetFocusDist::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFailed())
+        return;
+    if (auto* wm = ksys::world::Manager::instance()) {
+        wm->setFocusDist(*mFocusDist_d);
+        setFinished();
+        return;
+    }
+    setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
