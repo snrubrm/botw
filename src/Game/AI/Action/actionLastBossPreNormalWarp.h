@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual void m33();
 
     // static_param at offset 0x20
     const float* mPreWarpWaitTime_s{};
