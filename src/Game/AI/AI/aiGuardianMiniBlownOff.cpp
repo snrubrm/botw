@@ -14,6 +14,8 @@ void GuardianMiniBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GuardianMiniBlownOff::calc_() {}
+
 void GuardianMiniBlownOff::leave_() {
     ksys::act::ai::Ai::leave_();
 }
