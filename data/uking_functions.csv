@@ -12316,7 +12316,7 @@ Address,Quality,Size,Name
 0x00000071001cdb4c,W,000368,_ZN5uking6action12LandTeleport6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071001cdcbc,O,000004,_ZN5uking6action12LandTeleport5calc_Ev
 0x00000071001cdcc0,O,000004,_ZN5uking6action12LandTeleport6leave_Ev
-0x00000071001cdcc4,W,000164,_ZN5uking6action12LandTeleport11loadParams_Ev
+0x00000071001cdcc4,O,000164,_ZN5uking6action12LandTeleport11loadParams_Ev
 0x00000071001cdd68,U,000512,uking::action::LandTeleport::m36
 0x00000071001cdf68,U,000064,
 0x00000071001cdfa8,U,000008,uking::action::LandTeleport::m33
