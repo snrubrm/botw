@@ -17,6 +17,13 @@ public:
     virtual bool m2(const ksys::Message& message) = 0;
     virtual void m3() {}
 
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x() {
+        _30 = false;
+        _8.reset();
+        m3();
+    }
+
     ksys::act::BaseProcLink _8;
     ksys::MesTransceiverId _18;
     bool _30 = false;
