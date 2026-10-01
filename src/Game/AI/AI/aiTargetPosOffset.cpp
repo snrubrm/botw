@@ -34,7 +34,7 @@ void TargetPosOffset::loadParams_() {
     getStaticParam(&mIsRandSide_s, "IsRandSide");
 }
 
-// NON_MATCHING: regalloc (my_pos.x/z registers swapped, commuted fmul/fadd operands)
+// NON_MATCHING: two commuted fmul/fadd operands near the end (regalloc)
 void TargetPosOffset::m35(sead::Vector3f* pos) {
     sead::Vector3f diff;
     m36(&diff);
@@ -54,12 +54,9 @@ void TargetPosOffset::m35(sead::Vector3f* pos) {
         }
     }
 
-    f32 offset = sead::Mathf::max(*mMinDist_s, dist + *mOffset_s);
-    offset *= *mDir_s;
-    dir *= offset;
-    pos->x = my_pos.x + dir.x + side.x;
-    pos->y = my_pos.y + diff.y + side.y;
-    pos->z = my_pos.z + dir.z + side.z;
+    dir *= sead::Mathf::max(*mMinDist_s, dist + *mOffset_s) * *mDir_s;
+    dir.y = diff.y;
+    pos->setAdd(my_pos + dir, side);
 }
 
 }  // namespace uking::ai
