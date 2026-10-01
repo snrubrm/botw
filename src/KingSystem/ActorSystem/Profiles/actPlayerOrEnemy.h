@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::act {
 
@@ -64,5 +65,22 @@ protected:
     /* 0xc30 */ f32 _c30 = 100.0;
 };
 KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0xc38);
+
+namespace acc {
+
+// Access to a PlayerOrEnemy through an ActorConstDataAccess (CSV: act::acc::PlayerOrEnemy).
+// TODO: incomplete
+class PlayerOrEnemy : public ActorConstDataAccess {
+public:
+    f32 getGuardableAngle() const;
+    bool isGuard() const;
+    bool isGuardJust() const;
+
+protected:
+    act::PlayerOrEnemy* getPlayerOrEnemy() const;
+};
+KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0x18);
+
+}  // namespace acc
 
 }  // namespace ksys::act

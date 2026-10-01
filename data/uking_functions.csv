@@ -363,10 +363,10 @@ Address,Quality,Size,Name
 0x0000007100008f80,U,000160,PlayerOrEnemy::m155
 0x0000007100009020,U,000180,PlayerOrEnemy::m147
 0x00000071000090d4,U,000092,PlayerOrEnemy::m81
-0x0000007100009130,U,000240,act::acc::Actor::isPlayerOrEnemy
-0x0000007100009220,U,000264,act::acc::PlayerOrEnemy::getGuardableAngle
-0x0000007100009328,U,000316,act::acc::PlayerOrEnemy::isGuard
-0x0000007100009464,U,000316,act::acc::PlayerOrEnemy::isGuardJust
+0x0000007100009130,O,000240,_ZNK4ksys3act20ActorConstDataAccess15isPlayerOrEnemyEv
+0x0000007100009220,O,000264,_ZNK4ksys3act3acc13PlayerOrEnemy17getGuardableAngleEv
+0x0000007100009328,O,000316,_ZNK4ksys3act3acc13PlayerOrEnemy7isGuardEv
+0x0000007100009464,O,000316,_ZNK4ksys3act3acc13PlayerOrEnemy11isGuardJustEv
 0x00000071000095a0,U,000444,act::acc::PlayerOrEnemy::getMirrorLevel
 0x000000710000975c,U,000260,
 0x0000007100009860,U,000260,

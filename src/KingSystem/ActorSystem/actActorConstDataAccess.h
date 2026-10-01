@@ -116,6 +116,9 @@ public:
 
     bool isAttClientEnabled(const sead::SafeString& client) const;
 
+    // 0x0000007100009130 (defined in actPlayerOrEnemy.cpp)
+    bool isPlayerOrEnemy() const;
+
     bool isFlyingBalloon() const;
     u32 getBalloonHungActorBaseProcID() const;
 
