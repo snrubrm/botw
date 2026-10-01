@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
@@ -104,22 +105,51 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
 
+// TODO: incomplete
+class PlacementObjs {
+public:
+    struct Group {
+        sead::Buffer<Object> objects;
+        s32 num_objs;
+        PlacementMap* map;
+    };
+    KSYS_CHECK_SIZE_NX150(Group, 0x20);
+
+    // 0x0000007101256eac
+    int allocGroupForDynamicMap(PlacementMap* pmap);
+    // 0x0000007101256ee8
+    void resetGroup(int group_idx);
+
+    void* _0;
+    sead::SafeArray<Group, 10> mGroups;
+};
+
 class PlacementActors {
 public:
     u32 getNumStaticObjs() const;
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
-    Object* resetGroup(int group_idx);
+    void resetGroup(int group_idx);
     int getNumObjs(int group_idx) const;
     Object* getObj(int group_idx, int object_idx);
     Object* getStaticObj_0(int object_idx);
+    // 0x0000007100d581b4
+    Object* getStaticObj(int object_idx);
+    // 0x0000007100d58230
+    Object* getStaticObj_1(int object_idx);
+    // 0x0000007100d581f0
+    PlacementMap* getMapNextGroup(int group_idx) const;
+    // 0x0000007100d58218
+    void setNumInUseForStaticGroup(int num);
     u32 allocGroupForDynamicMap(PlacementMap* pmap);
 
     u8 _0[0x28 - 0x0];
     sead::ReadWriteLock mLock;
     PlacementAreaMgr* mStruct1;
-    u8 _e8[0x538 - 0xe8];
+    u8 _e8[0xf0 - 0xe8];
+    PlacementObjs* mObjs;
+    u8 _f8[0x538 - 0xf8];
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];
     u32 mActorDataMapSize;
