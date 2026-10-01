@@ -10,9 +10,7 @@ void PlayerHoldUpDRC::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerHoldUpDRC::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerHoldUpDRC::leave_() {}
 
 void PlayerHoldUpDRC::loadParams_() {
     getDynamicParam(&mIsContinued_d, "IsContinued");
