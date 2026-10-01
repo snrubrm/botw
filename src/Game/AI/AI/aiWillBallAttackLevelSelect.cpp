@@ -11,8 +11,13 @@ bool WillBallAttackLevelSelect::init_(sead::Heap* heap) {
 }
 
 void WillBallAttackLevelSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mLevel_d >= 1)
+        changeChild("レベル２");
+    else
+        changeChild("レベル１");
 }
+
+void WillBallAttackLevelSelect::calc_() {}
 
 void WillBallAttackLevelSelect::leave_() {
     ksys::act::ai::Ai::leave_();
