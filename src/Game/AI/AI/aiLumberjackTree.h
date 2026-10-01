@@ -10,6 +10,8 @@ public:
     explicit LumberjackTree(const InitArg& arg);
     ~LumberjackTree() override;
 
+    bool hasPreDeleteCb() override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
