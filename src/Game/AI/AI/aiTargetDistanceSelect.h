@@ -15,10 +15,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual float m34();
+
 protected:
+    void sub_71005BE078();
+    void sub_71005BE164();
+
     // static_param at offset 0x38
     const float* mBoundaryDistance_s{};
     // static_param at offset 0x40

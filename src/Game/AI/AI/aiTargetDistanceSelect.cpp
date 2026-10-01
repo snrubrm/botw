@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTargetDistanceSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,53 @@ bool TargetDistanceSelect::init_(sead::Heap* heap) {
 }
 
 void TargetDistanceSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (m34() <= *mBoundaryDistance_s * *mBoundaryDistance_s)
+        sub_71005BE078();
+    else
+        sub_71005BE164();
+}
+
+void TargetDistanceSelect::sub_71005BE078() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    params.addVec3(*mTargetPos_d, "MoveAwayFromPos", -1);
+    changeChild("内側", &params);
+}
+
+void TargetDistanceSelect::sub_71005BE164() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    params.addVec3(*mTargetPos_d, "MoveAwayFromPos", -1);
+    changeChild("外側", &params);
+}
+
+// NON_MATCHING: the original hoists the child vtable load into the isFinished/isFailed branches
+void TargetDistanceSelect::calc_() {
+    float distance = *mBoundaryDistance_s;
+    if (isCurrentChild("内側"))
+        distance += *mOverlapDistance_s;
+    else if (isCurrentChild("外側"))
+        distance -= *mOverlapDistance_s;
+
+    const float distance_sq = m34();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isChangeable()) {
+        if (distance_sq <= distance * distance) {
+            if (!isCurrentChild("内側"))
+                sub_71005BE078();
+        } else {
+            if (!isCurrentChild("外側"))
+                sub_71005BE164();
+        }
+    }
+
+    if (*mIsUpdateTarget_s)
+        child->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void TargetDistanceSelect::leave_() {
@@ -31,6 +79,10 @@ bool TargetDistanceSelect::isFailed() const {
 
 bool TargetDistanceSelect::isFinished() const {
     return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
+float TargetDistanceSelect::m34() {
+    return (mActor->getMtx().getTranslation() - *mTargetPos_d).squaredLength();
 }
 
 }  // namespace uking::ai
