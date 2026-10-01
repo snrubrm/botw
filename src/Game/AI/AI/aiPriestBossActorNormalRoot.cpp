@@ -8,7 +8,10 @@ PriestBossActorNormalRoot::PriestBossActorNormalRoot(const InitArg& arg)
 PriestBossActorNormalRoot::~PriestBossActorNormalRoot() = default;
 
 bool PriestBossActorNormalRoot::init_(sead::Heap* heap) {
-    return PriestBossActorRoot::init_(heap);
+    if (!PriestBossActorRoot::init_(heap))
+        return false;
+    _80.makeAllZero();
+    return true;
 }
 
 void PriestBossActorNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -66,3 +66,14 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
 };
+
+// vtable 0x7102411950 (PriestBossActorNormalRoot)
+class Unk_7102411950 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    u32 _18 = 0;
+    ksys::act::BaseProcLink _20;
+    u32 _30 = 0;
+};
