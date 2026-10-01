@@ -20,4 +20,12 @@ void TargetStateSelect::leave_() {
 
 void TargetStateSelect::loadParams_() {}
 
+bool TargetStateSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool TargetStateSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
