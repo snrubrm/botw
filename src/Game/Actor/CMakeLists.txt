@@ -20,6 +20,7 @@ target_sources(uking PRIVATE
   actRideableBase.cpp
   actUnk_71002dccbc.h
   actUnk_71023cee88.cpp
+  actUnk_7100d3cd74.cpp
   actUnk_7100d3cd74.h
   actUnk_7100e8b2b8.cpp
   actWeapon.cpp
