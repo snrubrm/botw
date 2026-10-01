@@ -151,6 +151,10 @@ public:
                                    &ParamPack::setPtrGeneric<sead::Vector3f, AIDefParamType::Vec3>);
     }
 
+    bool setDynamicParam(bool value, const sead::SafeString& key) {
+        return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<bool, AIDefParamType::Bool>);
+    }
+
 protected:
     enum class Flag : u8 {
         Finished = 1,
