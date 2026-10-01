@@ -6,8 +6,23 @@ AroundEnemyCheckSelect::AroundEnemyCheckSelect(const InitArg& arg) : ksys::act::
 
 AroundEnemyCheckSelect::~AroundEnemyCheckSelect() = default;
 
+bool AroundEnemyCheckSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool AroundEnemyCheckSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void AroundEnemyCheckSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void AroundEnemyCheckSelect::calc_() {
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
 }
 
 void AroundEnemyCheckSelect::leave_() {
