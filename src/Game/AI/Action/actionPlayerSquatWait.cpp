@@ -21,4 +21,8 @@ void PlayerSquatWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSquatWait::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
