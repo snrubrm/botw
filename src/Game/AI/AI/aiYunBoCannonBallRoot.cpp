@@ -14,6 +14,10 @@ void YunBoCannonBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     CannonBallRoot::enter_(params);
 }
 
+void YunBoCannonBallRoot::calc_() {
+    CannonBallRoot::calc_();
+}
+
 void YunBoCannonBallRoot::leave_() {
     CannonBallRoot::leave_();
 }
