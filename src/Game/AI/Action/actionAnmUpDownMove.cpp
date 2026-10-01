@@ -29,4 +29,8 @@ void AnmUpDownMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool AnmUpDownMove::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
