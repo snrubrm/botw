@@ -19,6 +19,7 @@ protected:
 
     // static_param at offset 0x30
     const float* mNoChangeTime_s{};
+    float _38 = 0.0f;
 };
 
 }  // namespace uking::action
