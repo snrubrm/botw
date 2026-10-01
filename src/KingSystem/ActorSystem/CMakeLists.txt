@@ -22,6 +22,7 @@ target_sources(uking PRIVATE
     Profiles/actDynamicActor.h
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
+    Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp
     Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
