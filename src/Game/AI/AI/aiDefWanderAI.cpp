@@ -10,6 +10,10 @@ void DefWanderAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool DefWanderAI::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void DefWanderAI::loadParams_() {
     getStaticParam(&mFinishChangeCount_s, "FinishChangeCount");
     getStaticParam(&mChangeWaitRate_s, "ChangeWaitRate");
