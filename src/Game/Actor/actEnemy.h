@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
@@ -65,6 +66,17 @@ public:
         u16 flags = 0;
         u8 _12 = 0;
     };
+
+    // Methods (other TU, 0x71002dc32c-0x71002dcedc); placeholder names, the flags are matched
+    // against Entry::flags.
+    void sub_71002DC32C();
+    bool sub_71002DC3A8(ksys::act::BaseProc* proc, u16 flags);
+    bool sub_71002DC628(const ksys::act::BaseProcLink& link, u16 flags);
+    bool sub_71002DC8A0(const ksys::act::BaseProcLink& link, u16 flags);
+    bool sub_71002DC9E8(const ksys::act::BaseProcLink& link, u16 flags, bool a3);
+    void sub_71002DCBDC(u16 flags);
+    bool sub_71002DCCBC(u16 flags);
+    ksys::act::BaseProcLink* sub_71002DCEDC(u16 flags, f32* a2);
 
     /* 0x00 */ ksys::act::Actor* mActor;
     /* 0x08 */ sead::SafeArray<Entry, 6> mEntries;
@@ -216,8 +228,7 @@ public:
     virtual void m180() {}
 
     // Fields are accessed directly by the AI helper functions (aiUnk_71005D6D10.cpp) and AI classes.
-    /* 0xc38 */ u32 _c38 = 0;
-    /* 0xc40 */ void* _c40 = nullptr;
+    /* 0xc38 */ sead::Buffer<ksys::act::BaseProcLink> _c38;  // indexed by weapon slot (m177)
     /* 0xc48 */ Unk_7100013308 _c48{this};
     /* 0xd70 */ Unk_71002dccbc _d70{this};
     /* 0xe18 */ sead::Matrix34f _e18 = sead::Matrix34f::ident;
