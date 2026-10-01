@@ -48,6 +48,12 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x98
     sead::Vector3f* mTargetPos_d{};
+    bool _a0 = false;
+    bool _a1 = false;
+    bool _a2 = false;
+    bool _a3 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(GanonWeaponNearAttack, 0xa8);
 
 }  // namespace uking::action
