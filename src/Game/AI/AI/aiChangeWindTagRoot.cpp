@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiChangeWindTagRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,17 @@ bool ChangeWindTagRoot::init_(sead::Heap* heap) {
 }
 
 void ChangeWindTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->m107();
+}
+
+// NON_MATCHING: instruction order (original loads the params before the world::Manager instance)
+void ChangeWindTagRoot::calc_() {
+    if (mActor->checkBasicSig()) {
+        mActor->m107();
+        ksys::world::Manager::instance()->changeWind(*mDirection_m, true, *mWindSpeed_m);
+    } else {
+        ksys::world::Manager::instance()->resetManualWind();
+    }
 }
 
 void ChangeWindTagRoot::leave_() {
