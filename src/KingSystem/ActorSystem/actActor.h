@@ -177,6 +177,7 @@ public:
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
     const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
+    ActorMessageTransceiver& getMessageTransceiver() { return mMsgTransceiver; }
     void sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
                      bool ack);
 
