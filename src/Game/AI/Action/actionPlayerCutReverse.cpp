@@ -14,4 +14,8 @@ void PlayerCutReverse::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutReverse::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
