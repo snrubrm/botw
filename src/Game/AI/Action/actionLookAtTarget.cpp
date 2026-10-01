@@ -27,4 +27,8 @@ void LookAtTarget::calc_() {
     TurnBase::calc_();
 }
 
+bool LookAtTarget::isFinished() const {
+    return false;
+}
+
 }  // namespace uking::action
