@@ -22,6 +22,8 @@ protected:
     const int* mValidInput_s{};
     // dynamic_param at offset 0x28
     int* mFrame_d{};
+    float _30 = 0.0f;
+    int _34 = 0;
 };
 
 }  // namespace uking::action
