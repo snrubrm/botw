@@ -20,4 +20,8 @@ void PlayerSwimDash::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimDash::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
