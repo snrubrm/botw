@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace ksys::act {
@@ -30,7 +31,7 @@ public:
     void m73() override;
     void m76() override;
     void m81() override;
-    void getWeapons() override;
+    ActorWeapons* getWeapons() override { return &mWeapons; }
     void m116() override;
     void m117() override;
     void m147() override;
@@ -61,7 +62,7 @@ public:
     virtual void m176();
 
 protected:
-    /* 0xb90 */ u8 _b90[0xc30 - 0xb90];  // TODO: ActorWeapons (CSV name; ctor 0x7100efbb70 takes this)
+    /* 0xb90 */ ActorWeapons mWeapons{this};
     /* 0xc30 */ f32 _c30 = 100.0;
 };
 KSYS_CHECK_SIZE_NX150(PlayerOrEnemy, 0xc38);
@@ -73,6 +74,7 @@ namespace acc {
 class PlayerOrEnemy : public ActorConstDataAccess {
 public:
     f32 getGuardableAngle() const;
+    bool getWeapon(ActorConstDataAccess* accessor, int idx) const;
     bool isGuard() const;
     bool isGuardJust() const;
 

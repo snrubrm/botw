@@ -332,6 +332,10 @@ bool Actor::m94() {
     return false;
 }
 
+ActorWeapons* Actor::getWeapons() {
+    return nullptr;
+}
+
 int Actor::getExtraHeapSize() {
     return 0;
 }

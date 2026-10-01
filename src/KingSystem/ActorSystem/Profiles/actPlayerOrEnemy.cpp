@@ -2,7 +2,10 @@
 
 namespace ksys::act {
 
-// NON_MATCHING: ActorWeapons member at 0xb90 is still a placeholder
+PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
+    _1c0 = 2;
+}
+
 PlayerOrEnemy::~PlayerOrEnemy() = default;
 
 }  // namespace ksys::act
@@ -47,6 +50,17 @@ bool PlayerOrEnemy::isGuardJust() const {
         return false;
     debugLog(0, "isGuardJust");
     return poe->isGuardJust();
+}
+
+bool PlayerOrEnemy::getWeapon(ActorConstDataAccess* accessor, int idx) const {
+    auto* poe = getPlayerOrEnemy();
+    if (!poe)
+        return false;
+    auto& link = poe->getWeapons()->mWeapons[idx].link;
+    if (!link.hasProc())
+        return false;
+    act::acquireActor(&link, accessor);
+    return true;
 }
 
 }  // namespace acc

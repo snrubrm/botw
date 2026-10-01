@@ -70,6 +70,7 @@ class LifeRecoverInfo;
 class Actor;
 class ActorCreator;
 class ActorParam;
+class ActorWeapons;
 class Attention;
 class Awareness;
 class BaseProcLink;
@@ -273,7 +274,7 @@ public:
     virtual void m95();
     virtual void m96();
     virtual Chemical* getChemicalStuff();
-    virtual void getWeapons();
+    virtual ActorWeapons* getWeapons();
     virtual void getArmors();
     virtual void m100();
     virtual void m101();

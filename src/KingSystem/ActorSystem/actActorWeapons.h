@@ -1,0 +1,43 @@
+#pragma once
+
+#include <container/seadSafeArray.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+
+namespace ksys::act {
+
+class Actor;
+class WeaponBase;
+
+namespace acc {
+class PlayerOrEnemy;
+}
+
+// TODO: incomplete. Embedded in PlayerOrEnemy (at 0xb90) and NPC; CSV name ActorWeapons.
+class ActorWeapons {
+public:
+    explicit ActorWeapons(Actor* actor);
+    ~ActorWeapons();
+
+    // FIXME: figure out return types, parameters and names
+    virtual void m0();
+    virtual void equipWeapon();
+    virtual void m2();
+    virtual void m3();
+
+    WeaponBase* getEquippedWeapon(int idx) const;
+
+private:
+    friend class acc::PlayerOrEnemy;
+
+    struct Unk1 {
+        BaseProcLink link;
+        bool _10 = false;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk1, 0x18);
+
+    sead::SafeArray<Unk1, 6> mWeapons;
+    Actor* mActor;
+};
+KSYS_CHECK_SIZE_NX150(ActorWeapons, 0xa0);
+
+}  // namespace ksys::act
