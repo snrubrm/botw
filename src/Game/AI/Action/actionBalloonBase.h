@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m32();
+    virtual float m33();
 
     // FIXME: remove this
     u8 pad_0x20[0x10];
