@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOnCliffWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -11,11 +13,17 @@ bool OnCliffWait::init_(sead::Heap* heap) {
 }
 
 void OnCliffWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (auto* cc = mActor->getCharacterController()) {
+        _40 = cc->sub_7100F5F0E4();
+        cc->sub_7100F5F458(ksys::act::MotionType::Hover);
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void OnCliffWait::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5F458(_40);
 }
 
 void OnCliffWait::loadParams_() {
