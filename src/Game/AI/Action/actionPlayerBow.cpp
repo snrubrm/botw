@@ -14,4 +14,8 @@ void PlayerBow::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerBow::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
