@@ -14,6 +14,10 @@ void StoneOctarockBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ShootingEnemyBattle::enter_(params);
 }
 
+void StoneOctarockBattle::calc_() {
+    ShootingEnemyBattle::calc_();
+}
+
 void StoneOctarockBattle::leave_() {
     ShootingEnemyBattle::leave_();
 }
