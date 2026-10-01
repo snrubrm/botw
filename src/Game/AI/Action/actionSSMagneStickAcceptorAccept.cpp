@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSSMagneStickAcceptorAccept.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool SSMagneStickAcceptorAccept::init_(sead::Heap* heap) {
 }
 
 void SSMagneStickAcceptorAccept::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mActor)
+        mActor->emitBasicSigOn();
 }
 
 void SSMagneStickAcceptorAccept::leave_() {
