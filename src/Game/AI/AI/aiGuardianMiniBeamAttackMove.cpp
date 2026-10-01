@@ -11,6 +11,10 @@ void GuardianMiniBeamAttackMove::enter_(ksys::act::ai::InlineParamPack* params) 
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GuardianMiniBeamAttackMove::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void GuardianMiniBeamAttackMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
