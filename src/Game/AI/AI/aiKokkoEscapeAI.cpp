@@ -14,6 +14,10 @@ void KokkoEscapeAI::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalEscapeAI::enter_(params);
 }
 
+void KokkoEscapeAI::calc_() {
+    AnimalEscapeAI::calc_();
+}
+
 void KokkoEscapeAI::leave_() {
     AnimalEscapeAI::leave_();
 }
