@@ -8,6 +8,8 @@ BackWalkWithAS::~BackWalkWithAS() = default;
 
 void BackWalkWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void BackWalkWithAS::loadParams_() {
