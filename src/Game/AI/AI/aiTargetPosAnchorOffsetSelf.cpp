@@ -14,6 +14,10 @@ void TargetPosAnchorOffsetSelf::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetPosAI::enter_(params);
 }
 
+void TargetPosAnchorOffsetSelf::calc_() {
+    TargetPosAI::calc_();
+}
+
 void TargetPosAnchorOffsetSelf::leave_() {
     TargetPosAI::leave_();
 }
