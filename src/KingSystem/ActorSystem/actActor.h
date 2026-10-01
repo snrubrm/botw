@@ -363,6 +363,7 @@ public:
 
 protected:
     friend class ActorCreator;
+    friend class ActorSystem;
 
     struct Unk1 {
         Actor* actor;
