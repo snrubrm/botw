@@ -8,9 +8,7 @@ void PlayerSwimLand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSwimLand::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSwimLand::leave_() {}
 
 void PlayerSwimLand::calc_() {
     PlayerAction::calc_();
