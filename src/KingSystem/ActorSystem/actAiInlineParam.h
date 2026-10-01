@@ -59,7 +59,9 @@ struct InlineParamPack {
         return -1;
     }
 
-    void addString(const char* value, const sead::SafeString& key, s32 idx);
+    void addString(const char* value, const sead::SafeString& key, s32 idx) {
+        addPointer(const_cast<char*>(value), key, AIDefParamType::String, idx);
+    }
     void addString(const sead::SafeString& value, const sead::SafeString& key, s32 idx) {
         addString(value.cstr(), key, idx);
     }

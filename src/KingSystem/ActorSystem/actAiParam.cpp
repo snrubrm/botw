@@ -162,13 +162,6 @@ void ParamPack::copy(InlineParamPack* dest, bool x) const {
     }
 }
 
-void InlineParamPack::addString(const char* value, const sead::SafeString& key, s32 idx) {
-    auto& param = getParam(idx);
-    param.key = key.cstr();
-    param.cstr = value;
-    param.type = AIDefParamType::String;
-}
-
 void InlineParamPack::addInt(s32 value, const sead::SafeString& key, s32 idx) {
     auto& param = getParam(idx);
     param.key = key.cstr();
