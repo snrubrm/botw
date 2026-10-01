@@ -23,4 +23,8 @@ void Eat::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+void Eat::m32() {
+    playAS("Eat", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
