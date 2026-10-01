@@ -12,6 +12,8 @@ bool SwimMove::init_(sead::Heap* heap) {
 
 void SwimMove::enter_(ksys::act::ai::InlineParamPack* params) {
     SwimMoveBase::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void SwimMove::leave_() {
