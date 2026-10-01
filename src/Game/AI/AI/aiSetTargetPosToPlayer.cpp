@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSetTargetPosToPlayer.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,26 @@ bool SetTargetPosToPlayer::init_(sead::Heap* heap) {
 }
 
 void SetTargetPosToPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _74 = 0;
+    sead::Vector3f pos;
+    if (!sub_71005694B4(&pos))
+        mActor->getMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack child_params;
+    child_params.addVec3(pos, "TargetPos", -1);
+    changeChild("子アクション", &child_params);
+}
+
+void SetTargetPosToPlayer::calc_() {
+    _68.update();
+    if (*mUpdateTargetInterval_s < 0)
+        return;
+
+    if (_68.value <= sead::Mathf::epsilon()) {
+        sead::Vector3f pos;
+        if (sub_71005694B4(&pos))
+            getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    }
 }
 
 void SetTargetPosToPlayer::leave_() {
