@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -34,6 +35,11 @@ protected:
     const bool* mIsChangeable_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _60;
+    // unknown object (0x24 bytes; methods 0x7100741034 / 0x7100741038 take it and the actor)
+    u8 _6c[0x90 - 0x6c];
 };
+
+KSYS_CHECK_SIZE_NX150(TurnBase, 0x90);
 
 }  // namespace uking::action
