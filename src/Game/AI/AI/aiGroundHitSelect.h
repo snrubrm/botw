@@ -20,6 +20,7 @@ protected:
     const bool* mIsActionEndEnd_s{};
     // static_param at offset 0x40
     const bool* mIsEnterCheck_s{};
+    bool _48{};
 };
 
 }  // namespace uking::ai
