@@ -15,6 +15,9 @@ public:
     void loadParams_() override;
 
 protected:
+    virtual void m32();
+    virtual void m33();
+
     // map_unit_param at offset 0x38
     const int* mCount_m{};
     // map_unit_param at offset 0x40

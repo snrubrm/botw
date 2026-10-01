@@ -3193,7 +3193,7 @@ Address,Quality,Size,Name
 0x000000710009e20c,U,000064,
 0x000000710009e24c,U,000096,_ZN5uking6action26AreaActorObserveByActorTag2m9Ev
 0x000000710009e2ac,W,000116,_ZN5uking6action26AreaActorObserveByActorTag5init_EPN4sead4HeapE
-0x000000710009e320,U,000064,uking::action::AreaActorObserveByActorTag::m32
+0x000000710009e320,U,000064,_ZN5uking6action26AreaActorObserveByActorTag3m32Ev
 0x000000710009e360,U,000016,uking::action::AreaActorObserveByActorTag::m37
 0x000000710009e370,O,000132,_ZNK5uking6action26AreaActorObserveByActorTag27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710009e3f4,O,000092,_ZNK5uking6action26AreaActorObserveByActorTag18getRuntimeTypeInfoEv
@@ -3213,7 +3213,7 @@ Address,Quality,Size,Name
 0x000000710009e7c8,U,000008,
 0x000000710009e7d0,U,000120,
 0x000000710009e848,U,000092,
-0x000000710009e8a4,U,000064,uking::action::AreaActorObserveByGroup::m32
+0x000000710009e8a4,U,000064,_ZN5uking6action23AreaActorObserveByGroup3m32Ev
 0x000000710009e8e4,U,000068,uking::action::AreaActorObserveByGroup::m37
 0x000000710009e928,U,000196,uking::action::AreaActorObserveByGroup::m38
 0x000000710009e9ec,U,000200,
@@ -77836,7 +77836,7 @@ Address,Quality,Size,Name
 0x0000007100e226c8,W,000060,_ZN5uking6action22AreaObserveActorActionD0Ev
 0x0000007100e22704,U,000064,
 0x0000007100e22744,U,000032,_ZN5uking6action22AreaObserveActorAction2m9Ev
-0x0000007100e22764,U,000220,uking::action::AreaObserveActorAction::m32
+0x0000007100e22764,U,000220,_ZN5uking6action22AreaObserveActorAction3m32Ev
 0x0000007100e22840,U,000520,uking::action::AreaObserveActorAction::m37
 0x0000007100e22a48,O,000132,_ZNK5uking6action22AreaObserveActorAction27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100e22acc,O,000092,_ZNK5uking6action22AreaObserveActorAction18getRuntimeTypeInfoEv
@@ -77847,7 +77847,7 @@ Address,Quality,Size,Name
 0x0000007100e22c9c,U,000104,
 0x0000007100e22d04,W,000324,_ZN5uking6action16AreaActorObserve5init_EPN4sead4HeapE
 0x0000007100e22e48,W,000144,_ZN5uking6action16AreaActorObserve11loadParams_Ev
-0x0000007100e22ed8,U,000008,uking::action::AreaActorObserve::m33
+0x0000007100e22ed8,U,000008,_ZN5uking6action16AreaActorObserve3m33Ev
 0x0000007100e22ee0,U,000008,
 0x0000007100e22ee8,U,000196,uking::action::AreaActorObserve::m34
 0x0000007100e22fac,U,000196,
@@ -77855,7 +77855,7 @@ Address,Quality,Size,Name
 0x0000007100e23134,U,000008,
 0x0000007100e2313c,O,000008,_ZNK5uking6action16AreaActorObserve27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100e23144,O,000092,_ZNK5uking6action16AreaActorObserve18getRuntimeTypeInfoEv
-0x0000007100e231a0,U,000004,uking::action::AreaActorObserve::m32
+0x0000007100e231a0,O,000004,_ZN5uking6action16AreaActorObserve3m32Ev
 0x0000007100e231a4,U,000008,uking::action::AreaActorObserve::m37
 0x0000007100e231ac,U,000072,AI_Action_AreaOutRecreateActorAction::ctor
 0x0000007100e231f4,W,000096,_ZN5uking6action26AreaOutRecreateActorActionD1Ev

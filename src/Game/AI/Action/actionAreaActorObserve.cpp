@@ -16,4 +16,6 @@ void AreaActorObserve::loadParams_() {
     getMapUnitParam(&mDefaultBasicSignal_m, "DefaultBasicSignal");
 }
 
+void AreaActorObserve::m32() {}
+
 }  // namespace uking::action
