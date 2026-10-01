@@ -24,4 +24,8 @@ void CreateActor::loadParams_() {
     getStaticParam(&mActorName_s, "ActorName");
 }
 
+const sead::SafeString& CreateActor::m34() {
+    return mActorName_s;
+}
+
 }  // namespace uking::ai

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::ai {
 
@@ -12,8 +13,11 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual const sead::SafeString& m34();
 
 protected:
     // static_param at offset 0x38
@@ -22,6 +26,7 @@ protected:
     const float* mScale_s{};
     // static_param at offset 0x48
     sead::SafeString mActorName_s{};
+    ksys::act::BaseProcHandle _58;
 };
 
 }  // namespace uking::ai
