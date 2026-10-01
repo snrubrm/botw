@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkOnLeaveChildDelete.h"
+#include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void ForkOnLeaveChildDelete::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkOnLeaveChildDelete::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (child)
+        child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    mActor->resetConnectedCalcChild(*mForceDelete_s);
 }
 
 void ForkOnLeaveChildDelete::loadParams_() {
