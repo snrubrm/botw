@@ -12,6 +12,7 @@ public:
     ~ForkASTrgDeleteChild() override;
 
 protected:
+    void m32() override;
 };
 
 }  // namespace uking::action
