@@ -309,6 +309,8 @@ public:
 
     bool becomePreActor(DeleteType type, DeleteReason reason);
     void fadeOutSleep(SleepWakeReason reason);
+    void emitDeadUpLifeZeroAndSetRevival();
+    void setRevivalFlagForUsed(bool value);
 
     void emitBasicSigOn();
     void emitBasicSigOff();
