@@ -16,4 +16,8 @@ void PlayerIceGrabReady::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerIceGrabReady::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
