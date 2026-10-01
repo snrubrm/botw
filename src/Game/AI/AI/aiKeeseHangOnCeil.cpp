@@ -14,6 +14,10 @@ void KeeseHangOnCeil::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool KeeseHangOnCeil::isChangeable() const {
+    return false;
+}
+
 void KeeseHangOnCeil::leave_() {
     ksys::act::ai::Ai::leave_();
 }
