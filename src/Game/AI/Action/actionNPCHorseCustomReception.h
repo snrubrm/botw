@@ -19,6 +19,8 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mCustomItemType_d{};
+    bool _28 = false;
+    int _2c = 0;
 };
 
 }  // namespace uking::action
