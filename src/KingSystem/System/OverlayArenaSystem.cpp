@@ -5,6 +5,7 @@
 #include <heap/seadHeap.h>
 #include <resource/seadParallelSZSDecompressor.h>
 #include <thread/seadThreadUtil.h>
+#include <time/seadTickTime.h>
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Sound/sndResource.h"
 #include "KingSystem/System/OverlayArena.h"
@@ -132,6 +133,24 @@ void OverlayArenaSystem::getSzsDecompressor(
     sead::ParallelSZSDecompressor** decompressor) const {
     if (decompressor)
         *decompressor = mSzsDecompressor;
+}
+
+bool OverlayArenaSystem::delegatedFunction() {
+    res::stubbedLogFunction();
+    if (mSystemPauseMgr) {
+        res::stubbedLogFunction();
+        mSystemPauseMgr->m6();
+        res::stubbedLogFunction();
+    }
+    res::stubbedLogFunction();
+    mS1.m6();
+    res::stubbedLogFunction();
+    res::stubbedLogFunction();
+    return true;
+}
+
+bool OverlayArenaSystem::auto2() const {
+    return !mS2.x_a();
 }
 
 OverlayArena* OverlayArenaSystem::getArena() const {
@@ -352,6 +371,89 @@ void OverlayArenaSystem::createMovieHeap() {
     mMovieHeap = sead::ExpHeap::tryCreate(
         0x8c00000, "MovieHeap", res::ResourceMgrTask::instance()->getTexHandleMgrArena()->mHeap,
         sizeof(void*), sead::Heap::cHeapDirection_Forward, false);
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_5() {
+    res::stubbedLogFunction();
+    if (mPlacementTreeHeap) {
+        mPlacementTreeHeap->destroy();
+        mPlacementTreeHeap = nullptr;
+    }
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_6() {
+    if (!mJpegHeap)
+        return;
+
+    res::stubbedLogFunction();
+    mJpegHeap->destroy();
+    mJpegHeap = nullptr;
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_3() {
+    if (!mSzsHeap)
+        return;
+
+    res::stubbedLogFunction();
+    if (mSzsDecompressorInstHeap && mSzsDecompressor) {
+        sead::ScopedCurrentHeapSetter setter(mSzsDecompressorInstHeap);
+        delete mSzsDecompressor;
+        mSzsDecompressor = nullptr;
+    }
+    mSzsHeap->destroy();
+    mSzsHeap = nullptr;
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_2() {
+    if (!mTexArcWorkHeap)
+        return;
+
+    res::stubbedLogFunction();
+    mTexArcWorkHeap->destroy();
+    mTexArcWorkHeap = nullptr;
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_0() {
+    if (!mArena)
+        return;
+
+    sead::TickTime start;
+    res::stubbedLogFunction();
+    mArena->clearUnits();
+    static_cast<void>(mArena->hasNoUnits());
+    delete mArena;
+    mArena = nullptr;
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x_1() {
+    if (!mTeraSzsWorkArena)
+        return;
+
+    sead::TickTime start;
+    res::stubbedLogFunction();
+    mTeraSzsWorkArena->clearUnits();
+    static_cast<void>(mTeraSzsWorkArena->hasNoUnits());
+    delete mTeraSzsWorkArena;
+    mTeraSzsWorkArena = nullptr;
+    res::stubbedLogFunction();
+}
+
+void OverlayArenaSystem::x() {
+    if (!mAudioArena)
+        return;
+
+    sead::TickTime start;
+    res::stubbedLogFunction();
+    mAudioArena->clearUnits();
+    static_cast<void>(mAudioArena->hasNoUnits());
+    delete mAudioArena;
+    mAudioArena = nullptr;
     res::stubbedLogFunction();
 }
 

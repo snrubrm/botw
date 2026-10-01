@@ -77,6 +77,15 @@ private:
     void createPlacementTreeHeap();
 
     bool delegatedFunction();
+    bool auto2() const;
+
+    void x_5();
+    void x_6();
+    void x_3();
+    void x_2();
+    void x_0();
+    void x_1();
+    void x();
 
     sead::TypedBitFlag<Flag, u8> mFlags;
     u32 _2c = 0;

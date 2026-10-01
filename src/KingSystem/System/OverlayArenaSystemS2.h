@@ -20,6 +20,7 @@ public:
     OverlayArenaSystemS2();
 
     void init(const InitArg& arg);
+    bool x_a() const;
 
 private:
     u32 _0 = 0;
