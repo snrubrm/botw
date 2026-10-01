@@ -14,6 +14,12 @@ void DragonElecRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     DragonRoot::enter_(params);
 }
 
+void DragonElecRoot::calc_() {
+    DragonRoot::calc_();
+    if (isCurrentChild("停止"))
+        changeChild("帰還");
+}
+
 void DragonElecRoot::leave_() {
     DragonRoot::leave_();
 }
