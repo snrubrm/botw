@@ -16,4 +16,8 @@ void PlayerGuardBreak::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGuardBreak::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
