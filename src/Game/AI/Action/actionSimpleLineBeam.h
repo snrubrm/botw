@@ -26,6 +26,8 @@ protected:
     const bool* mIsGuardPierces_s{};
     // static_param at offset 0x38
     const bool* mIsSetAtIgnoreObstacle_s{};
+    void* _40{};
+    int _48 = 0;
 };
 
 }  // namespace uking::action
