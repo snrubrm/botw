@@ -14,4 +14,8 @@ void PlayerDoorPushOpen::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDoorPushOpen::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
