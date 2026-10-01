@@ -14,6 +14,14 @@ void EnemyTargetGearSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyTargetGearSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyTargetGearSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void EnemyTargetGearSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
