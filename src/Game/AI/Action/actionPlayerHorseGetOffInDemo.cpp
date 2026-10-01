@@ -14,4 +14,8 @@ void PlayerHorseGetOffInDemo::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHorseGetOffInDemo::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
