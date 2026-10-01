@@ -21,4 +21,8 @@ void NPCAttentionAI::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+void NPCAttentionAI::m34() {
+    changeChild("注目");
+}
+
 }  // namespace uking::ai
