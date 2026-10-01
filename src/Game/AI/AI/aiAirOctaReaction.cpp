@@ -14,6 +14,10 @@ void AirOctaReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
 }
 
+void AirOctaReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+}
+
 void AirOctaReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
