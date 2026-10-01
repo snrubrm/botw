@@ -14,4 +14,8 @@ void PlayerControl::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerControl::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
