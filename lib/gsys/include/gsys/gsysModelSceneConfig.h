@@ -97,6 +97,7 @@ public:
     };
 
     ModelSceneConfig();
+    ~ModelSceneConfig() override = default;
 
     int getStaticDepthShadowDepthFormat() const;
     int getStaticDepthShadowDepthShadowMapFormat() const;
