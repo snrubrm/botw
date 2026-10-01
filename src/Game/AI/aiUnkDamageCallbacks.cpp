@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 void Unk_71024518c8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a4 == 3) {
@@ -32,6 +33,22 @@ void Unk_7102451970::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 void Unk_71024519e0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a5 != -1)
         *a5 = 1;
+}
+
+void Unk_7102451a18::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    const s32 type = *a5;
+    if (type == -1)
+        return;
+
+    if (mActor) {
+        const s32 damage = *a1;
+        const s32* life_ptr = mActor->getLife();
+        const s32 life = life_ptr ? *life_ptr : 1;
+        if (type < 28 && life > damage)
+            *a5 = 1;
+    } else if (type < 28) {
+        *a5 = 1;
+    }
 }
 
 void Unk_7102451a88::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {

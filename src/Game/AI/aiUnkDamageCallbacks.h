@@ -39,6 +39,17 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 };
 
+// vtable 0x7102451a18
+class Unk_7102451a18 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451a18, uking::dmg::DamageCallback)
+public:
+    explicit Unk_7102451a18(ksys::act::Actor* actor) : mActor(actor) {}
+
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    ksys::act::Actor* mActor;
+};
+
 // vtable 0x7102451a88
 class Unk_7102451a88 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451a88, uking::dmg::DamageCallback)
