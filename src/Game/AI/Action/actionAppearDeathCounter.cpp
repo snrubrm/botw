@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAppearDeathCounter.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ bool AppearDeathCounter::init_(sead::Heap* heap) {
 }
 
 void AppearDeathCounter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (ksys::evt::Manager::instance())
+        setFinished();
+    else
+        setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 void AppearDeathCounter::leave_() {
@@ -21,7 +26,8 @@ void AppearDeathCounter::leave_() {
 void AppearDeathCounter::loadParams_() {}
 
 void AppearDeathCounter::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
 }
 
 }  // namespace uking::action
