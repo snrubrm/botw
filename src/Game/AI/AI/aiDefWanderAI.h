@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -10,6 +12,7 @@ public:
     explicit DefWanderAI(const InitArg& arg);
     ~DefWanderAI() override;
     bool isChangeable() const override;
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
@@ -25,6 +28,9 @@ protected:
     const float* mMinWaitTime_s{};
     // static_param at offset 0x58
     const bool* mCheckWaitIsChangable_s{};
+    sead::Vector3f _60;
+    ksys::Timer _6c;
+    int _78{};
 };
 
 }  // namespace uking::ai
