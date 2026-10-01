@@ -35,4 +35,8 @@ void LastBossFlyWait::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool LastBossFlyWait::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
