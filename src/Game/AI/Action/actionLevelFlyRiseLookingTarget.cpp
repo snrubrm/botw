@@ -26,4 +26,12 @@ void LevelFlyRiseLookingTarget::calc_() {
     LevelFlyLook::calc_();
 }
 
+float LevelFlyRiseLookingTarget::m32() {
+    return _90 + *mHeight_s;
+}
+
+bool LevelFlyRiseLookingTarget::m33(float x) {
+    return m32() - x <= 0.0f;
+}
+
 }  // namespace uking::action
