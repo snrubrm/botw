@@ -11,9 +11,7 @@ void PlayerDestinationTurnRefActor::enter_(ksys::act::ai::InlineParamPack* param
     PlayerAction::enter_(params);
 }
 
-void PlayerDestinationTurnRefActor::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDestinationTurnRefActor::leave_() {}
 
 void PlayerDestinationTurnRefActor::loadParams_() {
     getDynamicParam(&mUniqName_d, "UniqName");
