@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -30,6 +31,10 @@ protected:
     const bool* mIsUpdateRotSpd_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _50 = sead::Vector3f::zero;
+    u32 _5c = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkASTrgAerialTurn, 0x60);
 
 }  // namespace uking::action
