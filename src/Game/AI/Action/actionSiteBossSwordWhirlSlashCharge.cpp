@@ -27,4 +27,6 @@ void SiteBossSwordWhirlSlashCharge::calc_() {
     SiteBossSwordWhirlSlashChargeBase::calc_();
 }
 
+void SiteBossSwordWhirlSlashCharge::m32() {}
+
 }  // namespace uking::action
