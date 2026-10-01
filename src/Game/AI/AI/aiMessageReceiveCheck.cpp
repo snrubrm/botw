@@ -14,6 +14,10 @@ void MessageReceiveCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     MessageReceiveCheckBasic::enter_(params);
 }
 
+void MessageReceiveCheck::calc_() {
+    MessageReceiveCheckBasic::calc_();
+}
+
 void MessageReceiveCheck::leave_() {
     MessageReceiveCheckBasic::leave_();
 }

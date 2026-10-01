@@ -29409,7 +29409,7 @@ Address,Quality,Size,Name
 0x00000071004a479c,W,000132,_ZN5uking2ai19MessageReceiveCheckD0Ev
 0x00000071004a4820,O,000004,_ZN5uking2ai19MessageReceiveCheck5init_EPN4sead4HeapE
 0x00000071004a4824,W,000164,_ZN5uking2ai19MessageReceiveCheck6enter_EPN4ksys3act2ai15InlineParamPackE
-0x00000071004a48c8,U,000004,_ZN5uking2ai19MessageReceiveCheck5calc_Ev
+0x00000071004a48c8,O,000004,_ZN5uking2ai19MessageReceiveCheck5calc_Ev
 0x00000071004a48cc,O,000004,_ZN5uking2ai19MessageReceiveCheck6leave_Ev
 0x00000071004a48d0,U,000056,uking::ai::MessageReceiveCheck::m34
 0x00000071004a4908,U,000060,uking::ai::MessageReceiveCheck::m36
