@@ -183,4 +183,159 @@ phys::CharacterController* Actor::getCharacterController() {
     return mPhysics->getCharacterController();
 }
 
+void Actor::destruct_(int should_destruct) {
+    BaseProc::destruct_(should_destruct);
+}
+
+void Actor::onDeleteRequested_(DeleteReason reason) {}
+
+bool Actor::shouldClearStateFlag4000_() {
+    return true;
+}
+
+void Actor::preDelete1_() {}
+
+void Actor::m32() {
+    m31();
+}
+
+bool Actor::m33() {
+    return false;
+}
+
+f32 Actor::getGuardableAngle() {
+    return 0.0f;
+}
+
+bool Actor::m39() {
+    return false;
+}
+
+void Actor::m42() {}
+
+bool Actor::m47() {
+    return false;
+}
+
+bool Actor::m53() {
+    return false;
+}
+
+bool Actor::m55() {
+    return false;
+}
+
+bool Actor::m57() {
+    return mActorFlags2.isOn(ActorFlag2::_40);
+}
+
+void Actor::onPreFadeOutDelete() {}
+
+void Actor::onFadeOutSleep() {}
+
+void Actor::m60() {}
+
+bool Actor::shouldUnload() {
+    return shouldUnloadBecauseOfDistance();
+}
+
+void Actor::m63() {}
+
+void Actor::initMaybe() {}
+
+void Actor::m66() {}
+
+void Actor::calcMaybe() {}
+
+void Actor::m70() {}
+
+void Actor::updatePositionMaybe() {}
+
+void Actor::m72() {}
+
+void Actor::m73() {}
+
+void Actor::afterModelMatrixUpdate() {}
+
+void Actor::m79() {}
+
+bool Actor::m80() {
+    return false;
+}
+
+int Actor::getCalcTiming() {
+    return 0;
+}
+
+bool Actor::m83() {
+    return true;
+}
+
+s32* Actor::getLife() {
+    return nullptr;
+}
+
+bool Actor::m94() {
+    return false;
+}
+
+int Actor::getExtraHeapSize() {
+    return 0;
+}
+
+void Actor::m103() {}
+
+bool Actor::m106() {
+    return true;
+}
+
+int Actor::m109() {
+    return 8;
+}
+
+void Actor::m115() {}
+
+void Actor::m116() {}
+
+bool Actor::m123() {
+    return true;
+}
+
+void Actor::onPlacementObjReset() {}
+
+uking::dmg::DamageManagerBase* Actor::getDamageMgr() {
+    return nullptr;
+}
+
+LifeRecoverInfo* Actor::getLifeRecoverInfo() {
+    return nullptr;
+}
+
+bool Actor::m137() {
+    return false;
+}
+
+bool Actor::m138() {
+    return false;
+}
+
+bool Actor::m140() {
+    return false;
+}
+
+bool Actor::m142() {
+    return false;
+}
+
+void Actor::m144() {
+    _7d8 = false;
+    mActorEditorNode.disconnect();
+}
+
+void Actor::m145() {}
+
+bool Actor::m146() {
+    return false;
+}
+
 }  // namespace ksys::act

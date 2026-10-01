@@ -123,6 +123,7 @@ public:
     enum class ActorFlag2 : u32 {
         _1 = 0x1,
         InstEvent = 0x8,
+        _40 = 0x40,
         _20 = 0x20,
         NoDistanceCheck = 0x80,
         _1000000 = 0x1000000,
@@ -143,6 +144,13 @@ public:
     explicit Actor(const CreateArg& arg);
     ~Actor() override;
 
+protected:
+    void destruct_(int should_destruct) override;
+    void onDeleteRequested_(DeleteReason reason) override;
+    bool shouldClearStateFlag4000_() override;
+    void preDelete1_() override;
+
+public:
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
 public:
@@ -195,13 +203,13 @@ public:
     virtual s32 getMaxLife();
     virtual void m31();
     virtual void m32();
-    virtual void m33();
+    virtual bool m33();
     virtual void m34();
     virtual void m35();
     virtual void m36();
-    virtual void getGuardableAngle();
+    virtual f32 getGuardableAngle();
     virtual void m38();
-    virtual void m39();
+    virtual bool m39();
     virtual void m40();
     virtual void m41();
     virtual void m42();
@@ -209,17 +217,17 @@ public:
     virtual void m44();
     virtual void m45();
     virtual void m46();
-    virtual void m47();
+    virtual bool m47();
     virtual void m48();
     virtual void m49();
     virtual void m50();
     virtual void m51();
     virtual void m52();
-    virtual void m53();
+    virtual bool m53();
     virtual void killWithDropsAndEffects();
-    virtual void m55();
+    virtual bool m55();
     virtual void m56();
-    virtual void m57();
+    virtual bool m57();
     virtual void onPreFadeOutDelete();
     virtual void onFadeOutSleep();
     virtual void m60();
@@ -245,7 +253,7 @@ public:
     virtual bool m80();
     virtual void m81();
     virtual int getCalcTiming();
-    virtual void m83();
+    virtual bool m83();
     virtual void updateMtxFromPhysics();
     virtual void setMtx();
     virtual void m86();
@@ -256,7 +264,7 @@ public:
     virtual void m91();
     virtual void m92();
     virtual void m93(int a1, float a2);
-    virtual void m94();
+    virtual bool m94();
     virtual void m95();
     virtual void m96();
     virtual Chemical* getChemicalStuff();
@@ -268,10 +276,10 @@ public:
     virtual void m103();
     int handleMessage(const Message& message) override;
     void handleAck(const MessageAck& ack) override;
-    virtual void m106();
+    virtual bool m106();
     virtual void m107();
     virtual void m108();
-    virtual void m109();
+    virtual int m109();
     virtual void m110();
     virtual void m111();
     virtual void m112();
@@ -285,7 +293,7 @@ public:
     virtual void m120();
     virtual void m121();
     virtual void m122();
-    virtual void m123();
+    virtual bool m123();
     virtual void onPlacementObjReset();
     virtual void getAtk();
     virtual void m126();
@@ -299,16 +307,16 @@ public:
     virtual void getDropData();
     virtual void m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
-    virtual void m137();
-    virtual void m138();
+    virtual bool m137();
+    virtual bool m138();
     virtual void m139();
-    virtual void m140();
+    virtual bool m140();
     virtual void m141();
-    virtual void m142();
+    virtual bool m142();
     virtual void m143();
     virtual void m144();
     virtual void m145();
-    virtual void m146();
+    virtual bool m146();
     virtual void m147();
 
     sead::Atomic<bool>& get68c() { return _68c; }
