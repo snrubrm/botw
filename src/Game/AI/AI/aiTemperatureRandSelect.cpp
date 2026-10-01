@@ -14,6 +14,8 @@ void TemperatureRandSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void TemperatureRandSelect::calc_() {}
+
 void TemperatureRandSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
