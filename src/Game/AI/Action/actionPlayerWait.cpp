@@ -16,4 +16,8 @@ void PlayerWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWait::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
