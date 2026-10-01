@@ -12,6 +12,7 @@ bool FlyMove::init_(sead::Heap* heap) {
 
 void FlyMove::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyMoveBase::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void FlyMove::leave_() {
