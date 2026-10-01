@@ -10,6 +10,9 @@ public:
     explicit PrevASOR2SelectTwo(const InitArg& arg);
     ~PrevASOR2SelectTwo() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

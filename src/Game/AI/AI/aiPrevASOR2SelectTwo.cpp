@@ -23,4 +23,12 @@ void PrevASOR2SelectTwo::loadParams_() {
     getStaticParam(&mAS2_s, "AS2");
 }
 
+bool PrevASOR2SelectTwo::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool PrevASOR2SelectTwo::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
