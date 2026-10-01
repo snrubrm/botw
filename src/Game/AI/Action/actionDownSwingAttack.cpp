@@ -20,4 +20,8 @@ void DownSwingAttack::calc_() {
     ActionEx::calc_();
 }
 
+bool DownSwingAttack::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
