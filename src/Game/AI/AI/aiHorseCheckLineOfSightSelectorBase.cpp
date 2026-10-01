@@ -15,6 +15,13 @@ void HorseCheckLineOfSightSelectorBase::enter_(ksys::act::ai::InlineParamPack* p
     ksys::act::ai::Ai::enter_(params);
 }
 
+void HorseCheckLineOfSightSelectorBase::calc_() {
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
+}
+
 void HorseCheckLineOfSightSelectorBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
