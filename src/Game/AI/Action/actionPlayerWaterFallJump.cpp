@@ -23,4 +23,8 @@ void PlayerWaterFallJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWaterFallJump::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
