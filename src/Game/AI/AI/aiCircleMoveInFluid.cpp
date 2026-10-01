@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCircleMoveInFluid.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -33,6 +34,19 @@ void CircleMoveInFluid::loadParams_() {
     getStaticParam(&mRandChangeInterval_s, "RandChangeInterval");
     getStaticParam(&mReverseMoveRate_s, "ReverseMoveRate");
     getStaticParam(&mIsSetSystemDeleteDistance_s, "IsSetSystemDeleteDistance");
+}
+
+void CircleMoveInFluid::m34() {
+    mActor->getMtx().getTranslation(_a8);
+}
+
+void CircleMoveInFluid::m35(f32 a2, f32 a3, f32 a4) {
+    _b4 = a2 * a4;
+    _b8 = a3 * a4;
+}
+
+void CircleMoveInFluid::m36(sead::Vector3f* out) {
+    out->set(_a8);
 }
 
 }  // namespace uking::ai

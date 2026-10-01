@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,8 +14,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34();
+    virtual void m35(f32 a2, f32 a3, f32 a4);
+    virtual void m36(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38
@@ -44,6 +51,15 @@ protected:
     const float* mReverseMoveRate_s{};
     // static_param at offset 0xa0
     const bool* mIsSetSystemDeleteDistance_s{};
+    sead::Vector3f _a8;
+    f32 _b4{};
+    f32 _b8{};
+    f32 _bc{};
+    f32 _c0{};
+    f32 _c4{};
+    f32 _c8{};
+    bool _cc{};
+    ksys::Timer _d0;
 };
 
 }  // namespace uking::ai

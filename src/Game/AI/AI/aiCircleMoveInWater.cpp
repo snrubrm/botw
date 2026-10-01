@@ -24,4 +24,10 @@ void CircleMoveInWater::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+void CircleMoveInWater::m34() {}
+
+void CircleMoveInWater::m36(sead::Vector3f* out) {
+    out->set(*mTargetPos_d);
+}
+
 }  // namespace uking::ai
