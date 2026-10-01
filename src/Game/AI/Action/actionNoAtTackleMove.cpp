@@ -12,6 +12,8 @@ bool NoAtTackleMove::init_(sead::Heap* heap) {
 
 void NoAtTackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     TackleMove::enter_(params);
+    playAS(mAS_s.cstr(), true, 0, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void NoAtTackleMove::leave_() {
