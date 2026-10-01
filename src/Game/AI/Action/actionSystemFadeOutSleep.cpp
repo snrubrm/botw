@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemFadeOutSleep.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool SystemFadeOutSleep::init_(sead::Heap* heap) {
 }
 
 void SystemFadeOutSleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->fadeOutSleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
 void SystemFadeOutSleep::leave_() {

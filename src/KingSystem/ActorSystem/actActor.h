@@ -307,6 +307,9 @@ public:
     sead::Atomic<bool>& get68f() { return _68f; }
     float get6f0() const { return _6f0; }
 
+    bool becomePreActor(DeleteType type, DeleteReason reason);
+    void fadeOutSleep(SleepWakeReason reason);
+
     void emitBasicSigOn();
     void emitBasicSigOff();
     bool checkBasicSig() const;
