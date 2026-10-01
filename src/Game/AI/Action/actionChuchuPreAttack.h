@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "Game/AI/Action/actionChuchuPreAttackBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
 
     // static_param at offset 0xc0
     const int* mSubASSlot_s{};
@@ -43,6 +45,8 @@ protected:
     sead::SafeString mLeaveSubAS_s{};
     // static_param at offset 0x130
     sead::SafeString mDamageSubAS_s{};
+    Unk_7102451ba0 _140;
+    bool _168 = false;
 };
 
 }  // namespace uking::action

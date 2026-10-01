@@ -44,4 +44,10 @@ bool JumpTo::m37() {
     return true;
 }
 
+void JumpTo::m43() {}
+
+const sead::Vector3f& JumpTo::m44() {
+    return sead::Vector3f::zero;
+}
+
 }  // namespace uking::action

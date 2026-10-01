@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "Game/AI/Action/actionJumpToTarget.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -17,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    const sead::Vector3f& m44() override;
 
     // static_param at offset 0xd0
     const int* mWeaponIdx_s{};
@@ -32,6 +34,8 @@ protected:
     const float* mPosOffsetDist_s{};
     // static_param at offset 0x100
     const bool* mIsCheckNoChangeAS_s{};
+    Unk_7102451ba0 _108;
+    sead::Vector3f _130 = {0, 0, 0};
 };
 
 }  // namespace uking::action

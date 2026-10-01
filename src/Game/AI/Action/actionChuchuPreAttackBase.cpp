@@ -33,4 +33,6 @@ void ChuchuPreAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void ChuchuPreAttackBase::m32() {}
+
 }  // namespace uking::action

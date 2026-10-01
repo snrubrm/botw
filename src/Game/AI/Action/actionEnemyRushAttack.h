@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -33,6 +35,13 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    Unk_7102451ba0 _78;
+    sead::Vector3f _a0 = sead::Vector3f::zero;
+    sead::Vector3f _ac = sead::Vector3f::zero;
+    sead::Vector3f _b8;
+    bool _c4 = true;
+    f32 _c8 = 0;
+    ksys::Timer _cc;
 };
 
 }  // namespace uking::action

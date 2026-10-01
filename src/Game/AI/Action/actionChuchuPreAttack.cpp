@@ -12,9 +12,16 @@ bool ChuchuPreAttack::init_(sead::Heap* heap) {
 
 void ChuchuPreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ChuchuPreAttackBase::enter_(params);
+    _168 = false;
+    setDamageCallbackTiming(mActor, 4, &_140);
+    if (!mSubAS_s.isEmpty())
+        playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void ChuchuPreAttack::leave_() {
+    sub_71005DA114(mActor, &_140);
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), true, 0, *mSubASSlot_s, -1.0f);
     ChuchuPreAttackBase::leave_();
 }
 

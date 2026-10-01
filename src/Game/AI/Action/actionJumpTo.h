@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
+#include <math/seadMatrix.h>
 
 namespace uking::action {
 
@@ -24,6 +25,13 @@ protected:
     virtual bool m35();
     virtual bool m36();
     virtual bool m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual const sead::Vector3f& m44();
 
     // static_param at offset 0x20
     const float* mMaxSpeed_s{};
@@ -40,7 +48,7 @@ protected:
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _58{0.0f};
-    u8 _64[0x88 - 0x64];
+    sead::Matrix33f _64;
     sead::Vector3f _88{0.0f, 0.0f, 0.0f};
     float _94 = 0.0f;
     int _98 = -1;
