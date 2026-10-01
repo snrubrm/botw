@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "Game/AI/AI/aiTimeredViewWait.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -25,6 +26,8 @@ protected:
     const float* mBowRange_s{};
     // static_param at offset 0x90
     sead::SafeString mBoneName_s{};
+    gsys::BoneAccessKeyEx _a0;
 };
+KSYS_CHECK_SIZE_NX150(ViewWaitEndWhenAimed, 0xd8);
 
 }  // namespace uking::ai

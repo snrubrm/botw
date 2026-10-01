@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiViewWaitEndWhenAimed.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,14 @@ ViewWaitEndWhenAimed::ViewWaitEndWhenAimed(const InitArg& arg) : TimeredViewWait
 ViewWaitEndWhenAimed::~ViewWaitEndWhenAimed() = default;
 
 bool ViewWaitEndWhenAimed::init_(sead::Heap* heap) {
-    return TimeredViewWait::init_(heap);
+    if (!TimeredViewWait::init_(heap))
+        return false;
+
+    if (!mBoneName_s.isEmpty() && mActor->getModel())
+        _a0.search(mActor->getModel(), mBoneName_s);
+    else
+        _a0.getKey().reset();
+    return true;
 }
 
 void ViewWaitEndWhenAimed::enter_(ksys::act::ai::InlineParamPack* params) {
