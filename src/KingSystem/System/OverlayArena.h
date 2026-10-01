@@ -50,6 +50,7 @@ public:
     bool isFlag1Set() const;
     bool hasNoUnits() const;
     s32 getNumUnits() const;
+    s32 clearCaches(s32 num, bool b);
 
     void destroy();
 

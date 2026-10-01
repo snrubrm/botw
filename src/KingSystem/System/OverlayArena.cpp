@@ -1,5 +1,6 @@
 #include "KingSystem/System/OverlayArena.h"
 #include <heap/seadExpHeap.h>
+#include "KingSystem/Resource/resCacheCriticalSection.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resSystem.h"
 #include "KingSystem/Resource/resUnit.h"
@@ -90,6 +91,48 @@ bool OverlayArena::isFlag1Set() const {
 
 bool OverlayArena::hasNoUnits() const {
     return mUnits.isEmpty();
+}
+
+// NON_MATCHING: same logic; the loop is unswitched/laid out differently
+s32 OverlayArena::clearCaches(s32 num, bool b) {
+    auto lock = sead::makeScopedLock(mCS);
+    s32 count = 0;
+    if (num == 0)
+        return 0;
+
+    if (num < 0) {
+        res::lockCacheCriticalSection();
+        for (auto& unit : mUnits2.robustRange()) {
+            if (unit.isStatusFlag8000Set())
+                unit.removeFromCache();
+            else
+                mUnits2.erase(&unit);
+        }
+        res::unlockCacheCriticalSection();
+    }
+
+    while (count < num || num < 0) {
+        res::ResourceUnit* unit = mUnits2.popFront();
+        if (!unit)
+            break;
+
+        if (num >= 0) {
+            res::lockCacheCriticalSection();
+            if (!unit->isStatusFlag8000Set()) {
+                res::unlockCacheCriticalSection();
+                continue;
+            }
+            unit->removeFromCache();
+            res::unlockCacheCriticalSection();
+        }
+
+        res::ResourceMgrTask::instance()->deregisterUnit(unit);
+        _b0 = nullptr;
+        res::ResourceMgrTask::instance()->requestClearCacheForSync(&unit, true, b);
+        ++count;
+    }
+
+    return count;
 }
 
 s32 OverlayArena::getNumUnits() const {
