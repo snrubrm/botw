@@ -12,6 +12,8 @@ bool AssassinBattleRange::init_(sead::Heap* heap) {
 
 void AssassinBattleRange::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
+    _b8 = *mScapeGoatCheckInterval_s;
+    _bc = *mServiceCheckInterval_s;
 }
 
 void AssassinBattleRange::leave_() {
