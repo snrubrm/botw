@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual void m33(ksys::act::Actor* actor, float x);
+    virtual void m34();
 
     // static_param at offset 0x20
     const float* mAngSpd_s{};
