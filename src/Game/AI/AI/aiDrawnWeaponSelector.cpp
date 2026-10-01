@@ -6,6 +6,14 @@ DrawnWeaponSelector::DrawnWeaponSelector(const InitArg& arg) : ksys::act::ai::Ai
 
 DrawnWeaponSelector::~DrawnWeaponSelector() = default;
 
+bool DrawnWeaponSelector::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool DrawnWeaponSelector::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 bool DrawnWeaponSelector::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
