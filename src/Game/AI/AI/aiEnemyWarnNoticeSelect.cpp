@@ -14,6 +14,18 @@ void EnemyWarnNoticeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyWarnNoticeSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyWarnNoticeSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
+bool EnemyWarnNoticeSelect::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyWarnNoticeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
