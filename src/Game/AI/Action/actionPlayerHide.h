@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override;
+
     // static_param at offset 0x20
     const bool* mHidden_s{};
 };
