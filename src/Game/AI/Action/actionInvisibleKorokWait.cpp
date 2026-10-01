@@ -11,7 +11,7 @@ bool InvisibleKorokWait::init_(sead::Heap* heap) {
 }
 
 void InvisibleKorokWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30 = 0.0f;
 }
 
 void InvisibleKorokWait::leave_() {
