@@ -14,6 +14,10 @@ void SwarmRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
 }
 
+void SwarmRoot::calc_() {
+    EnemyRoot::calc_();
+}
+
 void SwarmRoot::leave_() {
     EnemyRoot::leave_();
 }
