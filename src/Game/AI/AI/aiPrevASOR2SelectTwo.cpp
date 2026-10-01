@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPrevASOR2SelectTwo.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,8 +13,16 @@ bool PrevASOR2SelectTwo::init_(sead::Heap* heap) {
 }
 
 void PrevASOR2SelectTwo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* as_list = mActor->getASList();
+    if ((!mAS1_s.isEmpty() && as_list->x_1(0, 0) == mAS1_s) ||
+        (!mAS2_s.isEmpty() && as_list->x_1(0, 0) == mAS2_s)) {
+        changeChild("該当", params);
+    } else {
+        changeChild("非該当", params);
+    }
 }
+
+void PrevASOR2SelectTwo::calc_() {}
 
 void PrevASOR2SelectTwo::leave_() {
     ksys::act::ai::Ai::leave_();
