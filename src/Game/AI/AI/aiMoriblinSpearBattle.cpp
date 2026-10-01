@@ -10,6 +10,10 @@ void MoriblinSpearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool MoriblinSpearBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void MoriblinSpearBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
