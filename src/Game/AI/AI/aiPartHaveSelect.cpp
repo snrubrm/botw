@@ -11,7 +11,15 @@ bool PartHaveSelect::init_(sead::Heap* heap) {
 }
 
 void PartHaveSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71004F4758(params);
+}
+
+void PartHaveSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed() && child->isChangeable() &&
+        *mIsCheckEveryFrame_s) {
+        sub_71004F4758(nullptr);
+    }
 }
 
 void PartHaveSelect::leave_() {
