@@ -10,6 +10,10 @@ void GuardianMiniViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);
 }
 
+void GuardianMiniViewWait::calc_() {
+    ViewWait::calc_();
+}
+
 void GuardianMiniViewWait::leave_() {
     ViewWait::leave_();
 }
