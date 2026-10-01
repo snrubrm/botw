@@ -17,9 +17,21 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
+    bool m36() override;
+    bool m37() override;
+    bool m38() override;
+    void m40() override;
+    void m41() override;
+    void m42() override;
+    void m43() override;
+
 protected:
     // static_param at offset 0x38
     const float* mWaitTime_s{};
+    f32 _40{};
+    bool _44{};
+    bool _45{};
 };
 
 }  // namespace uking::ai
