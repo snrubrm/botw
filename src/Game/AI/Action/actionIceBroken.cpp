@@ -21,7 +21,7 @@ void IceBroken::leave_() {
 void IceBroken::loadParams_() {}
 
 void IceBroken::calc_() {
-    ksys::act::ai::Action::calc_();
+    setFinished();
 }
 
 }  // namespace uking::action
