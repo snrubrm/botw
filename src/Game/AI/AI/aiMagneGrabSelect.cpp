@@ -6,6 +6,14 @@ MagneGrabSelect::MagneGrabSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 MagneGrabSelect::~MagneGrabSelect() = default;
 
+bool MagneGrabSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool MagneGrabSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool MagneGrabSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
