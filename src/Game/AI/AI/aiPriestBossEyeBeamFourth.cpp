@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossEyeBeamFourth.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,12 @@ bool PriestBossEyeBeamFourth::init_(sead::Heap* heap) {
 
 void PriestBossEyeBeamFourth::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossEyeBeam::enter_(params);
+    _120 = false;
+    _121 = false;
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void PriestBossEyeBeamFourth::leave_() {

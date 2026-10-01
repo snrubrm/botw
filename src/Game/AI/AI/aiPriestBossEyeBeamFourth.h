@@ -43,6 +43,9 @@ protected:
     sead::Vector3f* mFacePos_a{};
     // aitree_variable at offset 0x118
     void* mPriestBossMetaAIUnit_a{};
+    bool _120 = false;
+    bool _121 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossEyeBeamFourth, 0x128);
 
 }  // namespace uking::ai

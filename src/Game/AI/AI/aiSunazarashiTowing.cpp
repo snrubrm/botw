@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSunazarashiTowing.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool SunazarashiTowing::init_(sead::Heap* heap) {
 }
 
 void SunazarashiTowing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EDE0(0.0f);
+        controller->sub_7100F5EDD8(1.0f);
+    }
+    changeChild("牽引開始");
 }
 
 void SunazarashiTowing::leave_() {

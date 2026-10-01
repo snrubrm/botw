@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossEyeBeamStandAim.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,10 @@ bool PriestBossEyeBeamStandAim::init_(sead::Heap* heap) {
 }
 
 void PriestBossEyeBeamStandAim::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void PriestBossEyeBeamStandAim::leave_() {

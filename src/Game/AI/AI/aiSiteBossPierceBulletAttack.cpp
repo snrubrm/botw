@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossPierceBulletAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,12 @@ void SiteBossPierceBulletAttack::enter_(ksys::act::ai::InlineParamPack* params) 
 
 void SiteBossPierceBulletAttack::leave_() {
     SiteBossShootNormalArrowRoot::leave_();
+}
+
+void SiteBossPierceBulletAttack::calc_() {
+    SiteBossShootNormalArrowRoot::calc_();
+    if (isCurrentChild("弾発射"))
+        sub_71005D74E8(mActor);
 }
 
 }  // namespace uking::ai
