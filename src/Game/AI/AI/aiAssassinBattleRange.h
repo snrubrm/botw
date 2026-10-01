@@ -27,6 +27,9 @@ protected:
     const float* mScapeGoatPer_s{};
     // static_param at offset 0xb0
     const float* mServiceDist_s{};
+    f32 _b8{};
+    f32 _bc{};
+    bool _c0{};
 };
 
 }  // namespace uking::ai
