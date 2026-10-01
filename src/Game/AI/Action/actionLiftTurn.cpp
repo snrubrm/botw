@@ -10,6 +10,7 @@ bool LiftTurn::init_(sead::Heap* heap) {
 
 void LiftTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
+    playAS("LiftTurn", false, 0, 0, -1.0f);
 }
 
 void LiftTurn::leave_() {
