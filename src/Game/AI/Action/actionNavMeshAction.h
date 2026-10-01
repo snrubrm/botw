@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -37,6 +38,15 @@ protected:
     const bool* mIsCheckCliff_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _60{0.0f};
+    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
+    u8 _6c[0x90 - 0x6c];
+    void* _90 = nullptr;
+    f32 _98 = -1.0f;
+    u32 _9c = 0;
+    u32 _a0 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(NavMeshAction, 0xa8);
 
 }  // namespace uking::action
