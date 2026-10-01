@@ -22,6 +22,10 @@ protected:
     sead::SafeString mTransformKey_s{};
     // static_param at offset 0x30
     sead::SafeString mTrueFormKey_s{};
+    void* _40{};
+    int _48 = 0;
+    void* _50{};
+    int _58 = 0;
 };
 
 }  // namespace uking::action
