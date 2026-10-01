@@ -22,4 +22,8 @@ void PlayerClimbRest::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerClimbRest::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
