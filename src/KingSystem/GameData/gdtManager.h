@@ -22,6 +22,10 @@ class Framework;
 class MethodTreeMgr;
 }  // namespace sead
 
+namespace ksys {
+class SaveMgr;
+}  // namespace ksys
+
 namespace ksys::map {
 class MubinIter;
 }
@@ -520,6 +524,8 @@ public:
     }
 
 private:
+    friend class ksys::SaveMgr;
+
     enum class BitFlag {
         _1 = 0x1,
         _2 = 0x2,

@@ -6,6 +6,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class DelegateThread;
+}  // namespace sead
+
 namespace ksys {
 
 // FIXME
@@ -40,6 +44,9 @@ public:
     void auto3();
     bool someCheck() const;
     bool auto0();
+    bool enableGdtMgrChangeOnlyMode(s32 x);
+    void auto5();
+    bool x_6(u32 idx);
 
 private:
     struct Unk {
@@ -47,17 +54,23 @@ private:
         u32 _28;
     };
 
-    u8 _28[0x38 - 0x28];
+    u8 _28[0x30 - 0x28];
+    sead::DelegateThread* _30;
     u32 _38;
     u8 _3c[0x140 - 0x3c];
     u16 _140;
-    u8 _142[0xe00 - 0x142];
+    u8 _142[0x148 - 0x142];
+    s32 _148;
+    u8 _14c[0x80];
+    u8 _1cc[0xe00 - 0x1cc];
     Unk* _e00;
     u8 _e08[0xe10 - 0xe08];
     u32 _e10;
-    u8 _e14[0xe40 - 0xe14];
+    u32 _e14;
+    u8 _e18[0xe40 - 0xe18];
     u32 _e40;
-    u8 _e44[0xf80 - 0xe44];
+    u32 _e44;
+    u8 _e48[0xf80 - 0xe48];
     void* _f80;
     u8 _f88[0x1de8 - 0xf88];
 };
