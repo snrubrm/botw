@@ -10,6 +10,10 @@ void MoriblinUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool MoriblinUnarmedBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void MoriblinUnarmedBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
