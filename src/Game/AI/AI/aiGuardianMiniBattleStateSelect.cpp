@@ -20,7 +20,7 @@ bool GuardianMiniBattleStateSelect::isChangeable() const {
 }
 
 void GuardianMiniBattleStateSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100416744(params, true);
 }
 
 void GuardianMiniBattleStateSelect::leave_() {
