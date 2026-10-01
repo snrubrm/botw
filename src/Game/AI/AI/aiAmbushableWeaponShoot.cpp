@@ -22,4 +22,12 @@ void AmbushableWeaponShoot::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool AmbushableWeaponShoot::isFinished() const {
+    return getCurrentChild()->isFinished() || ActionBase::isFinished();
+}
+
+bool AmbushableWeaponShoot::isFailed() const {
+    return getCurrentChild()->isFailed() || ActionBase::isFailed();
+}
+
 }  // namespace uking::ai

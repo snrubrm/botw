@@ -33,4 +33,18 @@ void HorseCheckLineOfSightSelectorBase::loadParams_() {
     getStaticParam(&mRadiusScale_s, "RadiusScale");
 }
 
+bool HorseCheckLineOfSightSelectorBase::isFinished() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFinished())
+        return true;
+    return child && child->isFinished();
+}
+
+bool HorseCheckLineOfSightSelectorBase::isFailed() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFailed())
+        return true;
+    return child && child->isFailed();
+}
+
 }  // namespace uking::ai

@@ -9,6 +9,8 @@ class HorseCheckLineOfSightSelectorBase : public ksys::act::ai::Ai {
 public:
     explicit HorseCheckLineOfSightSelectorBase(const InitArg& arg);
     ~HorseCheckLineOfSightSelectorBase() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -20,4 +20,18 @@ void HorseNatureSelectAI::leave_() {
 
 void HorseNatureSelectAI::loadParams_() {}
 
+bool HorseNatureSelectAI::isFinished() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFinished())
+        return true;
+    return child && child->isFinished();
+}
+
+bool HorseNatureSelectAI::isFailed() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFailed())
+        return true;
+    return child && child->isFailed();
+}
+
 }  // namespace uking::ai

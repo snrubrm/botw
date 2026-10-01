@@ -27,4 +27,18 @@ void HorseDamageTypeSelect::leave_() {
 
 void HorseDamageTypeSelect::loadParams_() {}
 
+bool HorseDamageTypeSelect::isFinished() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFinished())
+        return true;
+    return child && child->isFinished();
+}
+
+bool HorseDamageTypeSelect::isFailed() const {
+    auto* child = getCurrentChild();
+    if (ActionBase::isFailed())
+        return true;
+    return child && child->isFailed();
+}
+
 }  // namespace uking::ai
