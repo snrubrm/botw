@@ -10,13 +10,21 @@ public:
     explicit ReflectableThrown(const InitArg& arg);
     ~ReflectableThrown() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual float m35();
+
 protected:
+    bool sub_710053DA04(int* out) const;
+
     // static_param at offset 0x38
     const bool* mIsReflectByGuard_s{};
     // static_param at offset 0x40

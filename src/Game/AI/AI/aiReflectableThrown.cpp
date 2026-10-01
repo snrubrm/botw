@@ -25,4 +25,16 @@ void ReflectableThrown::loadParams_() {
     getStaticParam(&mRefSpeedRatioByJustGuard_s, "RefSpeedRatioByJustGuard");
 }
 
+bool ReflectableThrown::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool ReflectableThrown::isFinished() const {
+    return getCurrentChild()->isFinished() && !sub_710053DA04(nullptr);
+}
+
+void ReflectableThrown::m34() {
+    changeChild("投擲");
+}
+
 }  // namespace uking::ai
