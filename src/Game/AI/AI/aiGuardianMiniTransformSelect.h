@@ -9,6 +9,9 @@ class GuardianMiniTransformSelect : public ksys::act::ai::Ai {
 public:
     explicit GuardianMiniTransformSelect(const InitArg& arg);
     ~GuardianMiniTransformSelect() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
