@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -34,6 +36,15 @@ protected:
     const float* mVerticalFinLength_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _60;
+    sead::Vector3f _6c{};
+    sead::Vector3f _78{};
+    // unknown object (0x24 bytes, no ctor; method 0x710073fa90)
+    u8 _84[0xa8 - 0x84];
+    ksys::VFRValue _a8;
+    ksys::act::CCAccessor mCCAccessor;
 };
+
+KSYS_CHECK_SIZE_NX150(FlyMoveBase, 0xc0);
 
 }  // namespace uking::action
