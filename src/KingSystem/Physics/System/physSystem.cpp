@@ -1,7 +1,9 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include <heap/seadHeap.h>
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/Cloth/physClothResource.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollControllerKeyList.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollResource.h"
 #include "KingSystem/Physics/RigidBody/TeraMesh/physTeraMeshRigidBodyResource.h"
@@ -131,6 +133,23 @@ void System::setEntityContactListenerField91(bool value) {
 
 bool System::getEntityContactListenerField91() const {
     return mContactListeners(int(ContactLayerType::Entity))->_91;
+}
+
+void System::removeRigidBodyFromContactSystem(RigidBody* body) {
+    const auto layer_type = getContactLayerType(body->getContactLayer());
+    if (mPaused)
+        mContactMgr->removeContactPointsWithBody(body);
+    mContactListeners[int(layer_type)]->unregisterCollisionWithBody(body);
+    mContactMgr->removeCollisionEntriesWithBody(body);
+    mContactMgr->removeImpulseEntriesWithBody(body);
+}
+
+bool System::isActorSystemIdle() const {
+    const bool busy = _62 || _61;
+    if (!act::BaseProcMgr::instance())
+        return true;
+    return busy |
+           (act::BaseProcMgr::instance()->getStatus() != act::BaseProcMgr::Status::ProcessingActorJobs);
 }
 
 void System::registerContactPointInfo(ContactPointInfo* info) const {

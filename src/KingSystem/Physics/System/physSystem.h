@@ -141,7 +141,9 @@ public:
 private:
     u8 _28[0x60 - 0x28];
     bool mPaused;
-    u8 _61[0x64 - 0x61];
+    bool _61;
+    bool _62;
+    u8 _63;
     float _64 = 1.0 / 30.0;
     float _68 = 1.0 / 30.0;
     float _6c = 1.0;

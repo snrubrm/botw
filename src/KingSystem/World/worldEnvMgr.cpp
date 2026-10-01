@@ -33,6 +33,15 @@ EnvMgr::EnvMgr() {
 
 EnvMgr::EnvPaletteStatic::EnvPaletteStatic() = default;
 
+void EnvMgr::resetForStageUnload() {
+    mForcedBloodMoonRequested = false;
+    mDeactivateForcedBloodMoon = false;
+    mForcedBloodMoonReady = false;
+    mBloodMoonProhibited = false;
+    mForcedBloodMoonStatus = 0;
+    mForcedBloodMoonTimer = 0;
+}
+
 void EnvMgr::initEnvAttribute(int idx) {
     auto& attr = mEnvAttributes[idx];
 
