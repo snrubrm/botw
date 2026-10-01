@@ -11,6 +11,7 @@ public:
     explicit StepDoubleLargeAttack(const InitArg& arg);
 
 protected:
+    int m32() override;
 };
 
 }  // namespace uking::action
