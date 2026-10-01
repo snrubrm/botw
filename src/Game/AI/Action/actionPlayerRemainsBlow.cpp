@@ -19,4 +19,8 @@ void PlayerRemainsBlow::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerRemainsBlow::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
