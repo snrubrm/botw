@@ -19,6 +19,7 @@ protected:
 
     // static_param at offset 0x20
     const float* mRagdollChangeTime_s{};
+    bool _28 = true;
 };
 
 }  // namespace uking::action
