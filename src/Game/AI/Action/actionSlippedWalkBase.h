@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -38,6 +39,12 @@ protected:
     const bool* mFollowGround_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _70{0, 0, 0};
+    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
+    u8 _7c[0xa0 - 0x7c];
+    f32 _a0 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(SlippedWalkBase, 0xa8);
 
 }  // namespace uking::action
