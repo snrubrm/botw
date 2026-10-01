@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
 
     // static_param at offset 0x48
     sead::SafeString mTargetActorName_s{};
