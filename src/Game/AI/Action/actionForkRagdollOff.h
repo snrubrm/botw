@@ -22,6 +22,7 @@ protected:
     const int* mOffTiming_s{};
     // aitree_variable at offset 0x28
     void* mCRBOffsetUnit_a{};
+    void* _30{};
 };
 
 }  // namespace uking::action
