@@ -16,4 +16,8 @@ void PlayerSubjectWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSubjectWait::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
