@@ -8,9 +8,7 @@ void PlayerDoorPushOpen::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerDoorPushOpen::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDoorPushOpen::leave_() {}
 
 void PlayerDoorPushOpen::calc_() {
     PlayerAction::calc_();
