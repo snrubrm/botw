@@ -24,4 +24,8 @@ void PlayerTurnInner::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerTurnInner::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
