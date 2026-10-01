@@ -12,6 +12,8 @@ bool TimeredASPlay::init_(sead::Heap* heap) {
 
 void TimeredASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     WaitBase::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void TimeredASPlay::leave_() {
