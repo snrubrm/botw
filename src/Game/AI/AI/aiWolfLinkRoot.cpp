@@ -20,4 +20,8 @@ void WolfLinkRoot::leave_() {
 
 void WolfLinkRoot::loadParams_() {}
 
+bool WolfLinkRoot::handleMessage_(const ksys::Message& message) {
+    return false;
+}
+
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkFollowPlayerRoot.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,15 @@ WolfLinkFollowPlayerRoot::WolfLinkFollowPlayerRoot(const InitArg& arg) : HorseFo
 WolfLinkFollowPlayerRoot::~WolfLinkFollowPlayerRoot() = default;
 
 bool WolfLinkFollowPlayerRoot::init_(sead::Heap* heap) {
-    return HorseFollow::init_(heap);
+    if (!HorseFollow::init_(heap))
+        return false;
+
+    _100 = sead::DynamicCast<act::WolfLink>(mActor);
+    if (!_100)
+        return false;
+
+    _144.makeIdentity();
+    return true;
 }
 
 void WolfLinkFollowPlayerRoot::enter_(ksys::act::ai::InlineParamPack* params) {

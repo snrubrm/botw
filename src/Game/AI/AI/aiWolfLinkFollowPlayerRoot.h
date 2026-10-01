@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkFollowPlayerRoot : public HorseFollow {
@@ -28,7 +32,7 @@ protected:
     const float* mAnteriorDistanceRun_s{};
     // static_param at offset 0xf8
     const float* mAnteriorDistanceSprint_s{};
-    void* _100{};
+    act::WolfLink* _100{};
     void* _108{};
     void* _110{};
     u32 _118 = 0;
