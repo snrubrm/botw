@@ -20,4 +20,8 @@ void PlayerDestinationTurn::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDestinationTurn::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
