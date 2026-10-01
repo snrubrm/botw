@@ -14,6 +14,10 @@ void CastleLynelBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     LynelBattle::enter_(params);
 }
 
+void CastleLynelBattle::calc_() {
+    LynelBattle::calc_();
+}
+
 void CastleLynelBattle::leave_() {
     LynelBattle::leave_();
 }
