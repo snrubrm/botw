@@ -31,4 +31,8 @@ void PriestBossClonesSpawnForDemo::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int PriestBossClonesSpawnForDemo::m32() {
+    return 1;
+}
+
 }  // namespace uking::action

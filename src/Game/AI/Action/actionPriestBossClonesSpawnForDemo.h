@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m32();
 
     // dynamic_param at offset 0x20
     int* mDurationFrame_d{};
