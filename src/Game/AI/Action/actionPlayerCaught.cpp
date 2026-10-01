@@ -18,4 +18,8 @@ void PlayerCaught::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCaught::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
