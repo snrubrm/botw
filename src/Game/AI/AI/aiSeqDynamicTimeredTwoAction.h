@@ -13,6 +13,10 @@ public:
 
     void loadParams_() override;
 
+    int m34() override { return *mDynFirstActionTime_d; }
+    int m35() override { return *mDynSecondActionTime_d; }
+    int m36() override { return *mDynAllActionTime_d; }
+
 protected:
     // dynamic_param at offset 0x70
     int* mDynFirstActionTime_d{};
