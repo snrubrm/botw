@@ -14,6 +14,14 @@ void ArrowDelete::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void ArrowDelete::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        changeChild("消滅");
+    else
+        child->isChangeable();
+}
+
 void ArrowDelete::leave_() {
     ksys::act::ai::Ai::leave_();
 }
