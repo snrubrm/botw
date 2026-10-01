@@ -14,6 +14,10 @@ void TargetPartsPos::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetPosAI::enter_(params);
 }
 
+void TargetPartsPos::calc_() {
+    TargetPosAI::calc_();
+}
+
 void TargetPartsPos::leave_() {
     TargetPosAI::leave_();
 }
