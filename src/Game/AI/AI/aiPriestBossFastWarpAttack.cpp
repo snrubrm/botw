@@ -15,6 +15,10 @@ void PriestBossFastWarpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossSwordApproachRoot::enter_(params);
 }
 
+void PriestBossFastWarpAttack::calc_() {
+    SiteBossSwordApproachRoot::calc_();
+}
+
 void PriestBossFastWarpAttack::leave_() {
     SiteBossSwordApproachRoot::leave_();
 }
