@@ -16,4 +16,8 @@ void PlayerTreeClimb::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerTreeClimb::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
