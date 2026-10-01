@@ -31,6 +31,10 @@ public:
     void x_9(act::Actor* actor);
     void x_10(const sead::SafeString& s);
     const char* x_11();
+    // 0x0000007100fda5b8
+    void formatQLNameKey(sead::BufferedSafeString* out) const;
+    // 0x0000007100fda678
+    bool sub_7100FDA678(sead::BufferedSafeString* out) const;
 
     u32 _8 = 0;
     u32 _c = 0;

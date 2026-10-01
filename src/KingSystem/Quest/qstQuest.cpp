@@ -114,4 +114,20 @@ const char* Quest::x_11() {
     return mSteps[_140 + 1]->name;
 }
 
+void Quest::formatQLNameKey(sead::BufferedSafeString* out) const {
+    out->format("QL_%s_Name", mName.cstr());
+}
+
+bool Quest::sub_7100FDA678(sead::BufferedSafeString* out) const {
+    const s32 idx = _140 > 0 ? _140 - 1 : -1;
+    if (idx < 0 || sead::SafeString(mSteps(idx)->message_name).isEmpty())
+        return false;
+
+    if (idx == 0)
+        out->format("QL_%s_Desc", mName.cstr());
+    else
+        out->format("QL_%s_%s", mName.cstr(), mSteps(idx)->message_name);
+    return true;
+}
+
 }  // namespace ksys::qst
