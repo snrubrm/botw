@@ -8,9 +8,7 @@ void PlayerSelfCamera::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSelfCamera::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSelfCamera::leave_() {}
 
 void PlayerSelfCamera::calc_() {
     PlayerAction::calc_();
