@@ -89902,7 +89902,7 @@ Address,Quality,Size,Name
 0x00000071010e2b44,U,002708,wm::CloudPr::calcEntryJob_x
 0x00000071010e35d8,U,000496,
 0x00000071010e37c8,U,000048,wm::CloudMgr::x
-0x00000071010e37f8,U,000116,_ZN4ksys5world6SkyMgr12onTimeUpdateEv
+0x00000071010e37f8,O,000116,_ZN4ksys5world6SkyMgr12onTimeUpdateEv
 0x00000071010e386c,U,000652,wm::CloudPr::calcEntryJob_x_0
 0x00000071010e3af8,U,003752,wm::CloudPr::calcEntryJob_x_1
 0x00000071010e49a0,U,000840,wm::CloudPr::calcEntryJob_x_2

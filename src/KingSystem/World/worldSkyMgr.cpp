@@ -2,6 +2,8 @@
 #include <cmath>
 #include <math/seadMathNumbers.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldTimeMgr.h"
 
 namespace ksys::world {
 
@@ -394,5 +396,12 @@ SkyMgr::SkyMgr() {
 SkyMgr::~SkyMgr() = default;
 
 void SkyMgr::init_(sead::Heap* heap) {}
+
+void SkyMgr::onTimeUpdate() {
+    const f32 time = Manager::instance()->getTimeMgr()->getTimeForSkyEnv();
+    _3f30 = 0;
+    _3f34 = 0;
+    _3fac = !(time >= 45.0f && time <= 330.0f);
+}
 
 }  // namespace ksys::world
