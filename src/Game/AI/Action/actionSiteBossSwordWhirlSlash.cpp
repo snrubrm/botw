@@ -27,4 +27,8 @@ void SiteBossSwordWhirlSlash::calc_() {
     SiteBossSwordAttackBase::calc_();
 }
 
+int SiteBossSwordWhirlSlash::m33() {
+    return 2;
+}
+
 }  // namespace uking::action
