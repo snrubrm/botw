@@ -15,6 +15,10 @@ void MagneGrabbedPartsRangeSelector::enter_(ksys::act::ai::InlineParamPack* para
     RangeSelect::enter_(params);
 }
 
+void MagneGrabbedPartsRangeSelector::calc_() {
+    RangeSelect::calc_();
+}
+
 void MagneGrabbedPartsRangeSelector::leave_() {
     RangeSelect::leave_();
 }
