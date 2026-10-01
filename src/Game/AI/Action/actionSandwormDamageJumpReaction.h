@@ -34,6 +34,7 @@ protected:
     const bool* mWaitSandOffset_s{};
     // static_param at offset 0x58
     sead::SafeString mASName_s{};
+    bool _68 = true;
 };
 
 }  // namespace uking::action
