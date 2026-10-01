@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNPCTurnAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ void NPCTurnAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTurnAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void NPCTurnAction::loadParams_() {
