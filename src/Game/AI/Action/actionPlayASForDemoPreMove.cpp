@@ -22,8 +22,6 @@ void PlayASForDemoPreMove::loadParams_() {
     PlayASForDemo::loadParams_();
 }
 
-void PlayASForDemoPreMove::calc_() {
-    PlayASForDemo::calc_();
-}
+void PlayASForDemoPreMove::calc_() {}
 
 }  // namespace uking::action
