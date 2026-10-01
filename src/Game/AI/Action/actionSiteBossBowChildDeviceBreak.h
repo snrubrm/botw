@@ -22,6 +22,9 @@ protected:
     const float* mReactionTime_s{};
     // static_param at offset 0x28
     const bool* mIsDelete_s{};
+    float _30 = 0.0f;
+    int _34 = 0;
+    int _38 = 0;
 };
 
 }  // namespace uking::action
