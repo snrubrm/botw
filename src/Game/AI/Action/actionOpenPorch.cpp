@@ -11,7 +11,8 @@ bool OpenPorch::init_(sead::Heap* heap) {
 }
 
 void OpenPorch::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = false;
+    _29 = false;
 }
 
 void OpenPorch::leave_() {
