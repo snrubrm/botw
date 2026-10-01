@@ -31,4 +31,6 @@ void CameraVibrate::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void CameraVibrate::m32() {}
+
 }  // namespace uking::action
