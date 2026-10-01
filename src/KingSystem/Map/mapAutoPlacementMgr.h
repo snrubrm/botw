@@ -35,7 +35,11 @@ public:
     bool auto11(const sead::Vector3f& pos);
 
     sead::DelegateR<AutoPlacementMgr, bool> mDelegate;
+    // TODO
+    u8 _48[0x171e48 - 0x48];
+    s32 _171e48;
+    u8 _171e4c[0x189e38 - 0x171e4c];
 };
-// KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
+KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
 
 }  // namespace ksys::map
