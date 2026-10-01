@@ -14,6 +14,10 @@ void HorseLoopTargetAndWaitAI::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseLoopTarget::enter_(params);
 }
 
+bool HorseLoopTargetAndWaitAI::handleMessage_(const ksys::Message& message) {
+    return false;
+}
+
 void HorseLoopTargetAndWaitAI::leave_() {
     HorseLoopTarget::leave_();
 }
