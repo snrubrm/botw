@@ -10,9 +10,7 @@ void PlayerRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGuidedMove::enter_(params);
 }
 
-void PlayerRailMove::leave_() {
-    PlayerGuidedMove::leave_();
-}
+void PlayerRailMove::leave_() {}
 
 void PlayerRailMove::loadParams_() {
     PlayerGuidedMove::loadParams_();
