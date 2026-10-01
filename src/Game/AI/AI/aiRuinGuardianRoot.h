@@ -20,6 +20,8 @@ protected:
     const int* mSweepFrame_s{};
     // static_param at offset 0x40
     const float* mDropThreshold_s{};
+    s8 _48 = 0;
 };
+KSYS_CHECK_SIZE_NX150(RuinGuardianRoot, 0x50);
 
 }  // namespace uking::ai

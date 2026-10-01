@@ -11,7 +11,7 @@ bool RuinGuardianRoot::init_(sead::Heap* heap) {
 }
 
 void RuinGuardianRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = 0;
 }
 
 void RuinGuardianRoot::leave_() {
