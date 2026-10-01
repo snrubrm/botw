@@ -14,6 +14,8 @@ void ForkBeastGanonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkAI::enter_(params);
 }
 
+void ForkBeastGanonRoot::calc_() {}
+
 void ForkBeastGanonRoot::leave_() {
     ForkAI::leave_();
 }
