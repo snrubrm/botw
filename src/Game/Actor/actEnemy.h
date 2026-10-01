@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
@@ -82,36 +83,76 @@ KSYS_CHECK_SIZE_NX150(Unk_7102357908, 0x60);
 class Unk_7102357a08 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override;
+    void m3() override {}
 };
 
 class Unk_7102357a38 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    u32 _34;
     f32 _38 = 0;
+};
+
+// Payload of the message handled by Unk_71023579d8 (sender unknown; placeholder name = listener vtable).
+struct Unk_71023579d8_Payload {
+    bool _0;
+    sead::JobQueueLock mLock;
 };
 
 class Unk_71023579d8 : public Unk_7102357210 {
 public:
+    ~Unk_71023579d8() override;
     bool m2(const ksys::Message& message) override;
-    u32 _38 = 0;
+    void m3() override {}
+
+    Unk_71023579d8_Payload _34;
+};
+
+// Payload of the message handled by Unk_71023579a8 (sender unknown; placeholder name = listener vtable).
+struct Unk_71023579a8_Payload {
+    bool _0;
+    sead::JobQueueLock mLock;
 };
 
 class Unk_71023579a8 : public Unk_7102357210 {
 public:
+    ~Unk_71023579a8() override;
     bool m2(const ksys::Message& message) override;
-    u32 _38 = 0;
+    void m3() override {}
+
+    Unk_71023579a8_Payload _34;
+};
+
+// Payload of the message handled by Unk_7102357978 (sender unknown; placeholder name = listener vtable).
+struct Unk_7102357978_Payload {
+    bool _0;
+    sead::JobQueueLock mLock;
 };
 
 class Unk_7102357978 : public Unk_7102357210 {
 public:
+    ~Unk_7102357978() override;
     bool m2(const ksys::Message& message) override;
-    u32 _38 = 0;
+    void m3() override {}
+
+    Unk_7102357978_Payload _34;
+};
+
+// Payload of the message handled by Unk_7102357948 (sender unknown; placeholder name = listener vtable).
+struct Unk_7102357948_Payload {
+    bool _0;
+    sead::JobQueueLock mLock;
 };
 
 class Unk_7102357948 : public Unk_7102357210 {
 public:
+    ~Unk_7102357948() override;
     bool m2(const ksys::Message& message) override;
-    u32 _38 = 0;
+    void m3() override {}
+
+    Unk_7102357948_Payload _34;
 };
 
 // Name from the CSV (Enemy::*); vtable 0x7102357300 (181 slots), RTTI 0x71025ae7d0.

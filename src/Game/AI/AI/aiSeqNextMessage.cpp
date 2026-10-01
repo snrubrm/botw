@@ -50,7 +50,6 @@ bool SeqNextMessage::m35() const {
     return getCurrentChild()->isChangeable() && _90 < 0.0f;
 }
 
-// NON_MATCHING: regalloc (the original keeps &_58 in x20 for the inlined x())
 bool SeqNextMessage::handleMessage_(const ksys::Message& message) {
     if (_58.m2(message)) {
         if (isCurrentChild("先行動"))

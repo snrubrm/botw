@@ -32,7 +32,6 @@ public:
     ksys::act::BaseProcLink _8;
     ksys::MesTransceiverId _18;
     bool _30 = false;
-    u32 _34;
 };
 
 // vtable 0x7102450648
@@ -48,6 +47,7 @@ public:
     bool sub_710070A674(const ksys::Message& message);
     void sub_710070AE18(ksys::act::Actor* actor);
 
+    u32 _34;
     bool _38;
 };
 
@@ -140,4 +140,6 @@ class Unk_7102450bb8 : public Unk_7102357210 {
 public:
     Unk_7102450bb8() { _34 = 0; }
     bool m2(const ksys::Message& message) override;
+
+    u32 _34;
 };
