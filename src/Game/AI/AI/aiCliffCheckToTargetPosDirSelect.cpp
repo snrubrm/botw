@@ -15,6 +15,10 @@ void CliffCheckToTargetPosDirSelect::enter_(ksys::act::ai::InlineParamPack* para
     CliffCheckSelect::enter_(params);
 }
 
+void CliffCheckToTargetPosDirSelect::calc_() {
+    CliffCheckSelect::calc_();
+}
+
 void CliffCheckToTargetPosDirSelect::leave_() {
     CliffCheckSelect::leave_();
 }
