@@ -12,7 +12,7 @@ bool ForkBattleNodeForAttackGround::init_(sead::Heap* heap) {
 }
 
 void ForkBattleNodeForAttackGround::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkBattleNodeForAttackGround::leave_() {
