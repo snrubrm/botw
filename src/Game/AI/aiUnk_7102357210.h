@@ -57,3 +57,17 @@ class Unk_71023fa018 : public Unk_7102450648 {
 public:
     explicit Unk_71023fa018(u32 type) : Unk_7102450648(type) {}
 };
+
+// vtable 0x71023e0020 (CommonPickedItem)
+class Unk_71023e0020 : public Unk_7102450648 {
+public:
+    explicit Unk_71023e0020(u32 type) : Unk_7102450648(type) {}
+    void m3() override {
+        _38 = false;
+        _39 = false;
+        _3a = false;
+    }
+
+    bool _39 = false;
+    bool _3a = false;
+};

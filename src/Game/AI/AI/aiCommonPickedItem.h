@@ -1,5 +1,8 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,6 +17,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34();
+    virtual void m35();
+    virtual const sead::SafeString& m36() { return mGetAttKeyName_s; }
+    virtual void m37();
+    virtual void m38();
 
 protected:
     // static_param at offset 0x38
@@ -30,6 +39,10 @@ protected:
     sead::SafeString mDropActor_m{};
     // aitree_variable at offset 0x80
     int* mGetNumLeft_a{};
+    Unk_71023e0020 _88{0x1800029};
+    int _c8{};
+    sead::Buffer<sead::FixedSafeString<64>> _d0;
+    int _e0{};
 };
 
 }  // namespace uking::ai
