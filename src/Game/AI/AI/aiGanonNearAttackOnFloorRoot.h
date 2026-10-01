@@ -27,6 +27,7 @@ protected:
     bool* mIsPrevBeam_d{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    int _58{};
 };
 
 }  // namespace uking::ai
