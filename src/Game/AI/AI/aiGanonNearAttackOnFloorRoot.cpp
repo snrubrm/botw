@@ -26,7 +26,9 @@ bool GanonNearAttackOnFloorRoot::init_(sead::Heap* heap) {
 }
 
 void GanonNearAttackOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsPrevBeam_d)
+        _58 = 4;
+    sub_71003EC980();
 }
 
 void GanonNearAttackOnFloorRoot::leave_() {

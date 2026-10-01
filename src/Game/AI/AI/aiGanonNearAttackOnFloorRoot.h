@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003EC980();
+
 protected:
     // static_param at offset 0x38
     const float* mNearDist_s{};
