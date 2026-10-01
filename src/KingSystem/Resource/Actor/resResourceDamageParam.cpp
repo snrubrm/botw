@@ -213,7 +213,7 @@ bool DamageParam::parse_(u8* data, size_t, sead::Heap* heap) {
     mHeavySnowColdTime.init(-1, "HeavySnowColdTime", "大雪時凍るまでの時間(-1で凍らない)", "",
                             &mParametersObj);
 
-    mKeyString.init(sead::SafeString(""), "key", "", &mDamageTypeObj);
+    mKeyString.init(sead::SafeString(""), "Key", "", &mDamageTypeObj);
 
     mParamList.addObj(&mDamageRateObj, "DamageRate");
     mParamList.addObj(&mReactionTableObj, "ReactionTable");

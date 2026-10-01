@@ -246,7 +246,7 @@ void reportGetItem(const sead::Vector3f& pos, const sead::SafeString& item_name)
 
     ksys::ProductReporter::getSomeBool();
 
-    report.add("name"_str, name);
+    report.add("Name"_str, name);
 
     int position = convertPositionToInt({int(pos.x), int(pos.y)});
 

@@ -61,7 +61,7 @@ float InfoData::getReactionSettingLandVolume(const al::ByamlIter& iter) const {
 
 float InfoData::getReactionSettingLandVelocityRatio(const al::ByamlIter& iter) const {
     float value = 1.0;
-    iter.tryGetFloatByKey(&value, "ReactionSettingLandVelocityRadio");
+    iter.tryGetFloatByKey(&value, "ReactionSettingLandVelocityRatio");
     return value;
 }
 

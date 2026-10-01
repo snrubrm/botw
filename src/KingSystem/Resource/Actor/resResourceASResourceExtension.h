@@ -104,8 +104,8 @@ private:
     agl::utl::Parameter<float> mLoopStopCountRandom;
     agl::utl::Parameter<bool> mReversePlay;
     agl::utl::Parameter<bool> mUseGlobalFrame;
-    agl::utl::Parameter<int> mConnect;
     agl::utl::Parameter<int> mFootType;
+    agl::utl::Parameter<int> mConnect;
     agl::utl::Parameter<int> mAnmLoop;
 };
 

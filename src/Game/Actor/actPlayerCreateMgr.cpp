@@ -240,9 +240,9 @@ void CreatePlayerEquipActorMgr::requestCreateArmor(const sead::SafeString& name,
 
     sead::SafeString profile = profile_raw;
     auto slot = CreateEquipmentSlot::ArmorHead;
-    if (profile == "Armor_Upper") {
+    if (profile == "ArmorUpper") {
         slot = CreateEquipmentSlot::ArmorUpper;
-    } else if (profile == "Armor_Lower") {
+    } else if (profile == "ArmorLower") {
         slot = CreateEquipmentSlot::ArmorLower;
     }
 

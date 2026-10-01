@@ -73,7 +73,7 @@ void SphereShape::setMaterialMask(const MaterialMask& mask) {
 }
 
 float SphereShape::getVolume() const {
-    return 4 / 3 * sead::Mathf::pi() * mRadius * mRadius * mRadius;
+    return 4.0f / 3.0f * sead::Mathf::pi() * mRadius * mRadius * mRadius;
 }
 
 hkpShape* SphereShape::getHavokShape() {

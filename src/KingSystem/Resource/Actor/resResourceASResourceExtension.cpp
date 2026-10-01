@@ -16,8 +16,8 @@ bool ASFrameCtrlParser::parse(const ASParamParser::ParseArgs& args) {
                               "Min=0.f,Max=10.f", &mObj);
     mReversePlay.init(false, "ReversePlay", "逆再生", "", &mObj);
     mUseGlobalFrame.init(false, "UseGlobalFrame", "グローバルフレーム使う", "", &mObj);
-    mFootType.init(0, "FootType", "足解決", "", &mObj);
     mConnect.init(false, "Connect", "接続", "", &mObj);
+    mFootType.init(0, "FootType", "足解決", "", &mObj);
     mAnmLoop.init(0, "AnmLoop", "ループ設定", "", &mObj);
 
     mList.addObj(&mObj, "FrameCtrl0");

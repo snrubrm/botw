@@ -7,7 +7,7 @@ namespace gsys {
 ParticleConfig::ParticleConfig()
     : IParameterIO("ptclconf", 0),
       mGpuParticleHeapSize(0x100000, "gpu_particle_heap_size", "GpuParticleHeapSize", &mData2),
-      mEffectModelHeapSize(0x20000, "EffectModelHeapSize", "effect_model_heap_size", &mData2),
+      mEffectModelHeapSize(0x20000, "effect_model_heap_size", "EffectModelHeapSize", &mData2),
       mPtclEmitCallbackHeapSize(0x10000, "ptcl_emit_callback_heap_size", "PtclEmitCallbackHeapSize",
                                 &mData2),
       mEnableParticleLinearDepth(true, "enable_particle_lineardepth", "EnableParticleLinearDepth",

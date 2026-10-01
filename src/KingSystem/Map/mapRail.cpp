@@ -219,7 +219,7 @@ bool Rail::parse(MubinIter* iter) {
     success &= iter->tryGetParamStringByKey(&mUniqueName, "UniqueName");
 
     bool closed = false;
-    if (!iter->tryGetParamBoolByKey(&closed, "Closed")) {
+    if (!iter->tryGetParamBoolByKey(&closed, "IsClosed")) {
         success = false;
     } else if (closed) {
         mFlags.set(Flag::Closed);

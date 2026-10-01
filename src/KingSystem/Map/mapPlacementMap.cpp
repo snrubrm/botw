@@ -283,7 +283,7 @@ bool PlacementMap::loadStaticCompound(int hksc_idx, bool auto_gen_mu, bool req_a
                     hksc_idx);
     } else {
         if (mMgr->isShrineOrDivineBeast()) {
-            path.format("Physics/StaticCompound/%d.hksc", mFolderAndFile.cstr());
+            path.format("Physics/StaticCompound/%s.hksc", mFolderAndFile.cstr());
         } else {
             path.format("Physics/StaticCompound/%s-%d.hksc", mFolderAndFile.cstr(), hksc_idx);
         }
