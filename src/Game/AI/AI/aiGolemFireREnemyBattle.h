@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiEnemyBattle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -19,6 +20,7 @@ public:
 protected:
     // static_param at offset 0x90
     const float* mPlayerRecoverFromFallFrames_s{};
+    ksys::Timer _98{0, 0};
 };
 
 }  // namespace uking::ai
