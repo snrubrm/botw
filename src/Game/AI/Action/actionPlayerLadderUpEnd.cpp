@@ -8,9 +8,7 @@ void PlayerLadderUpEnd::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLadderUpEnd::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLadderUpEnd::leave_() {}
 
 void PlayerLadderUpEnd::calc_() {
     PlayerAction::calc_();
