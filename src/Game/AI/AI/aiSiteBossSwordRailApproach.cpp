@@ -15,6 +15,10 @@ void SiteBossSwordRailApproach::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossSwordApproachRoot::enter_(params);
 }
 
+void SiteBossSwordRailApproach::calc_() {
+    SiteBossSwordApproachRoot::calc_();
+}
+
 void SiteBossSwordRailApproach::leave_() {
     SiteBossSwordApproachRoot::leave_();
 }
