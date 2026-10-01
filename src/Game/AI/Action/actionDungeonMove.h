@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -32,6 +33,17 @@ protected:
     const float* mCameraPower_m{};
     // map_unit_param at offset 0x50
     const float* mCameraRange_m{};
+    sead::Vector3f _58 = sead::Vector3f::zero;
+    sead::Vector3f _64 = sead::Vector3f::zero;
+    f32 _70 = 0;
+    f32 _74 = 0;
+    u32 _78 = 0;
+    void* _80 = nullptr;
+    s32 _88 = -1;
+    bool _8c = false;
+    void* _90 = nullptr;
 };
+
+KSYS_CHECK_SIZE_NX150(DungeonMove, 0x98);
 
 }  // namespace uking::action
