@@ -22,6 +22,10 @@ protected:
     const int* mCount_m{};
     // aitree_variable at offset 0x28
     void* mSiteBossSwordAfterImageUnit_a{};
+    void* _30{};
+    int _38 = 0;
+    void* _40{};
+    int _48 = 0;
 };
 
 }  // namespace uking::action
