@@ -20,4 +20,8 @@ void PlayerCutDash::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutDash::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
