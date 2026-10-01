@@ -15,6 +15,10 @@ void MagneSliderBlockRootThunder::enter_(ksys::act::ai::InlineParamPack* params)
     MagneShaftRootBase::enter_(params);
 }
 
+void MagneSliderBlockRootThunder::calc_() {
+    MagneShaftRootBase::calc_();
+}
+
 void MagneSliderBlockRootThunder::leave_() {
     MagneShaftRootBase::leave_();
 }
