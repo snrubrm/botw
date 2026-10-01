@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiEnemyBattle.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,7 @@ protected:
     const int* mPursuingAttackIntervalRand_s{};
     // static_param at offset 0xa0
     const float* mPursuingAttackStartAng_s{};
+    ksys::Timer _a8{0, 0};
 };
 
 }  // namespace uking::ai
