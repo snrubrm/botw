@@ -11,7 +11,10 @@ public:
     explicit TargetAttackAttitudeTgtSelect(const InitArg& arg);
     ~TargetAttackAttitudeTgtSelect() override;
 
+    void calc_() override;
     void loadParams_() override;
+    void m34(ksys::act::ai::InlineParamPack* params) override;
+    void m35(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
     // dynamic_param at offset 0x48
