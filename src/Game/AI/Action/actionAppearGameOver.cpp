@@ -11,7 +11,8 @@ bool AppearGameOver::init_(sead::Heap* heap) {
 }
 
 void AppearGameOver::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = *mDelay_d;
+    _2c = false;
 }
 
 void AppearGameOver::leave_() {
