@@ -38,6 +38,9 @@ public:
     void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
 
     // set by sub_7100F5EEB8
+    const sead::Vector3f& get64() const { return _64; }
+    const sead::Vector3f& get70() const { return _70; }
+    const sead::Vector3f& get7c() const { return _7c; }
     f32 get110() const { return _110; }
 
     // Unnamed accessors/setters (placeholder names; signatures from their bodies and callers)
@@ -58,7 +61,11 @@ public:
     void sub_7100F62B70(float value);
 
     RigidBody* mRigidBody;
-    u8 _10[0x110 - 0x10];
+    u8 _10[0x64 - 0x10];
+    sead::Vector3f _64;
+    sead::Vector3f _70;
+    sead::Vector3f _7c;
+    u8 _88[0x110 - 0x88];
     f32 _110;
     u8 _114[0x118 - 0x114];
     sead::BitFlag32 mFlags;

@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    bool m32(ksys::phys::CharacterController* controller) override;
+    void m33(ksys::phys::CharacterController* controller) override;
+    bool m34() override;
 
     // static_param at offset 0xa8
     const float* mRandVertical_s{};
@@ -35,6 +38,14 @@ protected:
     const float* mHeightMin_s{};
     // static_param at offset 0xe0
     const float* mMoveAreaRadius_s{};
+    sead::Vector3f _e8;
+    sead::Vector3f _f4;
+    f32 _100 = 0;
+    f32 _104 = 0;
+    f32 _108 = 0;
+    f32 _10c = 0;
+    u32 _110 = 0;
+    u32 _114 = 0;
 };
 
 }  // namespace uking::action

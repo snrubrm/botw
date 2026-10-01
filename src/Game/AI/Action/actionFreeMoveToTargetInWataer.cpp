@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFreeMoveToTargetInWataer.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -28,6 +29,15 @@ void FreeMoveToTargetInWataer::loadParams_() {
 
 void FreeMoveToTargetInWataer::calc_() {
     FreeMoveToTarget::calc_();
+}
+
+bool FreeMoveToTargetInWataer::m34() {
+    const sead::Vector3f diff = _cc - mActor->getMtx().getTranslation();
+    return diff.squaredLength() < *mFinishRadius_s * *mFinishRadius_s;
+}
+
+void FreeMoveToTargetInWataer::m38() {
+    _cc = *mTargetPos_d;
 }
 
 }  // namespace uking::action

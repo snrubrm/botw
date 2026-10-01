@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionFreeMoveToTarget.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,11 +19,14 @@ public:
 
 protected:
     void calc_() override;
+    void m33(ksys::phys::CharacterController* controller) override;
 
     // static_param at offset 0xd0
     const float* mBankAngleMax_s{};
     // static_param at offset 0xd8
     const float* mLimitMoveAngle4Bank_s{};
+    ksys::VFRValue _e0;
+    f32 _ec = 0;
 };
 
 }  // namespace uking::action

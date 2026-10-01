@@ -12,6 +12,9 @@ bool FreeMoveToTargetWithBank::init_(sead::Heap* heap) {
 
 void FreeMoveToTargetWithBank::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMoveToTarget::enter_(params);
+    _e0.value = 0;
+    _e0.prev_value = 0;
+    _ec = 0;
 }
 
 void FreeMoveToTargetWithBank::leave_() {

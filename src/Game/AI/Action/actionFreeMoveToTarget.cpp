@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFreeMoveToTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool FreeMoveToTarget::init_(sead::Heap* heap) {
 
 void FreeMoveToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMove::enter_(params);
+    const f32 interval = *mTargetUpdateInterval_s + 0.5f;
+    _c0 = ksys::Timer(interval, interval);
 }
 
 void FreeMoveToTarget::leave_() {
@@ -26,7 +29,19 @@ void FreeMoveToTarget::loadParams_() {
 }
 
 void FreeMoveToTarget::calc_() {
+    _c0.update();
+    if (_c0.hasEnded(0.0f)) {
+        if (auto* controller = mActor->getCharacterController())
+            m32(controller);
+        const f32 interval = *mTargetUpdateInterval_s + 0.5f;
+        _c0 = ksys::Timer(interval, interval);
+    }
     FreeMove::calc_();
+}
+
+bool FreeMoveToTarget::m34() {
+    const sead::Vector3f diff = mActor->getMtx().getTranslation() - *mTargetPos_d;
+    return diff.squaredLength() <= *mFinishRadius_s * *mFinishRadius_s;
 }
 
 }  // namespace uking::action

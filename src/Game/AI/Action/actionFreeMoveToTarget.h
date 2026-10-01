@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionFreeMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m32(ksys::phys::CharacterController* controller) override;
+    bool m34() override;
 
     // static_param at offset 0xa8
     const int* mTargetUpdateInterval_s{};
@@ -25,6 +28,7 @@ protected:
     const float* mFinishRadius_s{};
     // dynamic_param at offset 0xb8
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _c0;
 };
 
 }  // namespace uking::action

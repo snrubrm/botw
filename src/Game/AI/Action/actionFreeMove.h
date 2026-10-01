@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -14,12 +16,27 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isChangeable() const override;
 
 protected:
     void calc_() override;
+    virtual bool m32(ksys::phys::CharacterController* controller);
+    virtual void m33(ksys::phys::CharacterController* controller);
+    virtual bool m34();
+    virtual bool m35();
+    virtual f32 m36();
+    virtual void m37(f32 speed, ksys::phys::CharacterController* controller);
 
-    // FIXME: remove this
-    u8 pad_0x20[0x40];
+    sead::Vector3f _1c;
+    sead::Vector3f _28;
+    ksys::VFRValue _34;
+    int _40 = 0;
+    u32 _44 = 0;
+    u32 _48 = 0;
+    u32 _4c = 0;
+    u32 _50 = 0;
+    u32 _54 = 0;
+    u32 _58 = 0;
     // static_param at offset 0x60
     const float* mSpeed_s{};
     // static_param at offset 0x68
@@ -34,6 +51,7 @@ protected:
     const bool* mAllowPitchRotation_s{};
     // static_param at offset 0x90
     sead::SafeString mASKeyName_s{};
+    ksys::act::MotionType _a0{};
 };
 
 }  // namespace uking::action
