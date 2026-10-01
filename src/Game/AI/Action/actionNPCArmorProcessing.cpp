@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCArmorProcessing.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool NPCArmorProcessing::init_(sead::Heap* heap) {
 }
 
 void NPCArmorProcessing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _29 = false;
+    ksys::gdt::setFlag_Shop_IsDecide(false);
 }
 
 void NPCArmorProcessing::leave_() {
