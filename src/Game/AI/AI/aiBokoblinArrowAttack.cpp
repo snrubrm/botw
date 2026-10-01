@@ -8,6 +8,14 @@ void BokoblinArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool BokoblinArrowAttack::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
+bool BokoblinArrowAttack::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void BokoblinArrowAttack::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mBackWalkStartDist_s, "BackWalkStartDist");
