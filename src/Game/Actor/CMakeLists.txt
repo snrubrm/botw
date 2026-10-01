@@ -11,4 +11,6 @@ target_sources(uking PRIVATE
   actPlayerCreateUtils.h
   actWeapon.cpp
   actWeapon.h
+  actWolfLink.cpp
+  actWolfLink.h
 )
