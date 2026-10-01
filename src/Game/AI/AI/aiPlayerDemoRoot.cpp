@@ -14,6 +14,8 @@ void PlayerDemoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PlayerDemoRoot::calc_() {}
+
 void PlayerDemoRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
