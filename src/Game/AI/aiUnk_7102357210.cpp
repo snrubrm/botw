@@ -940,3 +940,17 @@ bool Unk_710244e7f0::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
+
+bool Unk_71023da100::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x5800000)
+        return false;
+
+    auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}

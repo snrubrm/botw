@@ -483,3 +483,15 @@ struct Unk_710244e7f0_Payload {
     bool _0;
     sead::JobQueueLock mLock;
 };
+
+// Message 0x5800000 (sender Unk_71024512c0)
+struct Unk_71024512c0_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
