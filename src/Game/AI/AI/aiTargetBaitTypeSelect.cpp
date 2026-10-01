@@ -7,7 +7,17 @@ TargetBaitTypeSelect::TargetBaitTypeSelect(const InitArg& arg) : ksys::act::ai::
 TargetBaitTypeSelect::~TargetBaitTypeSelect() = default;
 
 void TargetBaitTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005BC0B4(params);
+}
+
+void TargetBaitTypeSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 void TargetBaitTypeSelect::loadParams_() {
