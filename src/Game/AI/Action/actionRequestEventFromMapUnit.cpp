@@ -12,6 +12,8 @@ bool RequestEventFromMapUnit::init_(sead::Heap* heap) {
 
 void RequestEventFromMapUnit::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    if (!mASKey_s.isEmpty())
+        playAS(mASKey_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void RequestEventFromMapUnit::leave_() {
