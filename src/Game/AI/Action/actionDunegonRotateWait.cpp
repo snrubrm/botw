@@ -12,6 +12,7 @@ bool DunegonRotateWait::init_(sead::Heap* heap) {
 
 void DunegonRotateWait::enter_(ksys::act::ai::InlineParamPack* params) {
     DungeonRotateBase::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void DunegonRotateWait::leave_() {
