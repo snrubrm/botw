@@ -8,6 +8,7 @@ IgniteThreeActorAttack::~IgniteThreeActorAttack() = default;
 
 void IgniteThreeActorAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
+    _90 = 0;
 }
 
 void IgniteThreeActorAttack::leave_() {
