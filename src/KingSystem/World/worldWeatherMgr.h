@@ -28,6 +28,7 @@ public:
     void loadInfo();
     WeatherType rollNewWeather(Climate climate);
     bool x_0();
+    WeatherType getWeather() const;
 
     u8 _20[0x24 - 0x20];
     float _24;

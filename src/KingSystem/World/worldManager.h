@@ -212,10 +212,13 @@ public:
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 
     WeatherType sub_71010F337C(const sead::Vector3f& pos);
+    bool auto7() const;
+    void allowPaletteOverride();
     // 0x00000071010f2f3c
     WeatherType someWeatherStuff_0(Climate climate);
 
 private:
+    friend class TempMgr;
     friend class WeatherMgr;
 
     enum class WorldInfoLoadStatus : u8 {

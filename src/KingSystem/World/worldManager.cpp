@@ -895,4 +895,12 @@ void Manager::setIgnitedLevel(int level, float radius, sead::Vector3f center) {
     }
 }
 
+bool Manager::auto7() const {
+    return mTempDirectTimer != 0 || mTempDirectDayTimer != 0 || mTempDirectNightTimer != 0;
+}
+
+void Manager::allowPaletteOverride() {
+    getEnvMgr()->allowPaletteOverride();
+}
+
 }  // namespace ksys::world

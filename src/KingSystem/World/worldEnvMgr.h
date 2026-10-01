@@ -216,6 +216,7 @@ protected:
 
 private:
     friend class Manager;
+    friend class TempMgr;
 
     static constexpr int NumEnvPalettes = 207;
     static constexpr int NumCdanAddFog = 4;
