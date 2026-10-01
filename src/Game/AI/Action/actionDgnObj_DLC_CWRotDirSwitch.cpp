@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDgnObj_DLC_CWRotDirSwitch.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool DgnObj_DLC_CWRotDirSwitch::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CWRotDirSwitch::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mActor)
+        mActor->emitBasicSigOn();
 }
 
 void DgnObj_DLC_CWRotDirSwitch::leave_() {
