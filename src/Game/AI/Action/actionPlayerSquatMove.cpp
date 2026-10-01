@@ -16,4 +16,8 @@ void PlayerSquatMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSquatMove::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
