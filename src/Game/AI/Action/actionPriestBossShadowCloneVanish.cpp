@@ -13,6 +13,9 @@ bool PriestBossShadowCloneVanish::init_(sead::Heap* heap) {
 
 void PriestBossShadowCloneVanish::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossWarpOrVanish::enter_(params);
+    const f32 delay = *mDelayFrames_s;
+    _30.value = delay;
+    _30.previous_value = delay;
 }
 
 void PriestBossShadowCloneVanish::leave_() {
