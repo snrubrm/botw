@@ -32,4 +32,12 @@ void LevelFlyLook::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+float LevelFlyLook::m32() {
+    return _90 + *mHeight_s;
+}
+
+bool LevelFlyLook::m33(float x) {
+    return false;
+}
+
 }  // namespace uking::action
