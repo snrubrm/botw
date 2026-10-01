@@ -14,9 +14,7 @@ void PlayerPickUp::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerPickUp::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerPickUp::leave_() {}
 
 void PlayerPickUp::calc_() {
     PlayerAction::calc_();
