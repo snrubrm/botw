@@ -2,6 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include "Game/AI/aiUnkMessagePayloads.h"
+#include <math/seadMatrix.h>
+#include <mc/seadJobQueue.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -181,4 +183,29 @@ class Unk_710239c040 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
+};
+
+// vtable 0x71023eaec8 (EnemyRoot)
+class Unk_71023eaec8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return _18; }
+
+    ksys::act::BaseProcLink _18[2];
+    sead::Matrix34f _38 = sead::Matrix34f::ident;
+    u32 _68 = 0;
+};
+
+// vtable 0x71023eaef0 (EnemyRoot): the payload link is set to the owner actor on construction.
+class Unk_71023eaef0 : public Unk_7102357d20 {
+public:
+    Unk_71023eaef0(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        _28.lock();
+        _18.acquire(actor, false);
+        _28.unlock();
+    }
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
 };

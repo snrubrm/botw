@@ -61,6 +61,7 @@ void sub_71005D9974(ksys::act::Actor* actor, u32 mask, bool set);
 // --- other uking::act::Enemy fields ---
 
 void sub_71005D7014(ksys::act::Actor* actor);
+void sub_71005D6E28(ksys::act::Actor* actor);
 /// Enemy::_d70 or NPC::_e90 (nullptr otherwise).
 uking::act::Unk_71002dccbc* sub_71005D9D68(ksys::act::Actor* actor);
 /// Same as sub_71005D9D68 (a separate function that tail-calls it).

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGolemNormal.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,8 @@ void GolemNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GolemNormal::leave_() {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        enemy->_e90 = 4;
     EnemyNormal::leave_();
 }
 

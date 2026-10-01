@@ -1,6 +1,20 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+// Unnamed 12-byte object embedded in EnemyRoot (ctor 0x7100700834, dtor 0x7100700840; both in another
+// translation unit). Placeholder name is the ctor address.
+class Unk_7100700834 {
+public:
+    Unk_7100700834();
+    ~Unk_7100700834();
+
+    u32 _0;
+    u32 _4;
+    bool _8;
+};
 
 namespace uking::ai {
 
@@ -17,9 +31,25 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    virtual void m34();
+    virtual void m35();
+    virtual bool m36() { return isCurrentChild("リアクション"); }
+    virtual void m37();
+    virtual void m38() {
+        if (isCurrentChild("水中"))
+            *mIsTrgChangeUnderWaterState_a = true;
+        changeChild("通常");
+    }
+    virtual void m39();
+    virtual void m40();
+    virtual bool m41() { return isCurrentChild("水中"); }
+    virtual void m42();
+    virtual void m43();
+    virtual bool m44() { return !isCurrentChild("所持") && !m36(); }
+
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x8];
+    // Heap-allocated 0x18-byte object (actor, InWaterDepth param, ...) created in init_; type unknown.
+    void* _38{};
     // static_param at offset 0x40
     const float* mInWaterDepth_s{};
     // static_param at offset 0x48
@@ -50,6 +80,12 @@ protected:
     int* mForceSealSilentKillCount_a{};
     // aitree_variable at offset 0xe0
     bool* mIsTrgChangeUnderWaterState_a{};
+    Unk_71024507c8 _e8{0x1800004};
+    Unk_71023eaec8 _128{mActor, 0x8000017};
+    Unk_71023eaef0 _198{mActor, 0x80000b3};
+    bool _1c8 = false;
+    Unk_7100700834 _1cc;
 };
+KSYS_CHECK_SIZE_NX150(EnemyRoot, 0x1d8);
 
 }  // namespace uking::ai
