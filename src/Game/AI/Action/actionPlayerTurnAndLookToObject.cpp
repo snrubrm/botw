@@ -29,4 +29,8 @@ void PlayerTurnAndLookToObject::calc_() {
     PlayerLookAtObject::calc_();
 }
 
+bool PlayerTurnAndLookToObject::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
