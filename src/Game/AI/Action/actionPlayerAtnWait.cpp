@@ -20,4 +20,8 @@ void PlayerAtnWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerAtnWait::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
