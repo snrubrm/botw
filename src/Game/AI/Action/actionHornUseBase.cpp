@@ -28,4 +28,8 @@ void HornUseBase::calc_() {
     TimeredASPlay::calc_();
 }
 
+bool HornUseBase::hasPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
