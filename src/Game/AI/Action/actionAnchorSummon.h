@@ -27,6 +27,11 @@ protected:
     sead::SafeString mSummonActorEquip1_d{};
     // dynamic_param at offset 0x60
     sead::SafeString mSummonActorEquip2_d{};
+    int _70 = 0;
+    void* _78{};
+    int _80 = 0;
+    void* _88{};
+    bool _90 = false;
 };
 
 }  // namespace uking::action
