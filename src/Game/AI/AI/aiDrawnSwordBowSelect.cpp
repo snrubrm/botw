@@ -23,4 +23,12 @@ void DrawnSwordBowSelect::loadParams_() {
     getStaticParam(&mBowWeaponIdx_s, "BowWeaponIdx");
 }
 
+bool DrawnSwordBowSelect::isFinished() const {
+    return mFlags.isOn(Flag::Finished) || (getCurrentChild()->isFinished() && !sub_7100373648());
+}
+
+bool DrawnSwordBowSelect::isFailed() const {
+    return mFlags.isOn(Flag::Failed) || (getCurrentChild()->isFailed() && !sub_7100373648());
+}
+
 }  // namespace uking::ai
