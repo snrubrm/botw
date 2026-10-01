@@ -12,6 +12,7 @@ bool GiantEnemyWalk::init_(sead::Heap* heap) {
 
 void GiantEnemyWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantEnemyWalkWithVibration::enter_(params);
+    playAS("Walk", true, 0, 0, -1.0f);
 }
 
 void GiantEnemyWalk::leave_() {
