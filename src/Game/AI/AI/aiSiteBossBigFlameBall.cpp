@@ -14,6 +14,10 @@ void SiteBossBigFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossFlameBall::enter_(params);
 }
 
+void SiteBossBigFlameBall::calc_() {
+    SiteBossFlameBall::calc_();
+}
+
 void SiteBossBigFlameBall::leave_() {
     SiteBossFlameBall::leave_();
 }
