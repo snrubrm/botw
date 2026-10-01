@@ -28158,7 +28158,7 @@ Address,Quality,Size,Name
 0x000000710045f398,U,000556,
 0x000000710045f5c4,W,000260,_ZN5uking2ai20LandHumEnemyFindBait6leave_Ev
 0x000000710045f6c8,W,000256,_ZN5uking2ai20LandHumEnemyFindBait11loadParams_Ev
-0x000000710045f7c8,U,000036,_ZNK5uking2ai20LandHumEnemyFindBait12isChangeableEv
+0x000000710045f7c8,O,000036,_ZNK5uking2ai20LandHumEnemyFindBait12isChangeableEv
 0x000000710045f7ec,U,000584,uking::ai::LandHumEnemyFindBait::m37
 0x000000710045fa34,U,000476,uking::ai::LandHumEnemyFindBait::m38
 0x000000710045fc10,U,000252,

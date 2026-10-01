@@ -10,6 +10,10 @@ void LandHumEnemyFindBait::enter_(ksys::act::ai::InlineParamPack* params) {
     UnarmedEnemySearch::enter_(params);
 }
 
+bool LandHumEnemyFindBait::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void LandHumEnemyFindBait::leave_() {
     UnarmedEnemySearch::leave_();
 }

@@ -10,6 +10,7 @@ class LandHumEnemyFindBait : public UnarmedEnemySearch {
 public:
     explicit LandHumEnemyFindBait(const InitArg& arg);
     ~LandHumEnemyFindBait() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
