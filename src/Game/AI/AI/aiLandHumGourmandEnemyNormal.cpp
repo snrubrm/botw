@@ -15,6 +15,10 @@ void LandHumGourmandEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) 
     LandHumEnemyNormal::enter_(params);
 }
 
+void LandHumGourmandEnemyNormal::calc_() {
+    LandHumEnemyNormal::calc_();
+}
+
 void LandHumGourmandEnemyNormal::leave_() {
     LandHumEnemyNormal::leave_();
 }
