@@ -15,6 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003E8884();
+
+    void sub_71003E9150();
+
 protected:
     // static_param at offset 0x38
     const int* mPillarMax_s{};

@@ -11,11 +11,12 @@ bool GanonFarAttackRootOnWall::init_(sead::Heap* heap) {
 }
 
 void GanonFarAttackRootOnWall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50 = 0;
+    sub_71003E8884();
 }
 
 void GanonFarAttackRootOnWall::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71003E9150();
 }
 
 void GanonFarAttackRootOnWall::loadParams_() {
