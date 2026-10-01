@@ -14,6 +14,10 @@ void StalEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
 }
 
+void StalEnemyReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+}
+
 void StalEnemyReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
