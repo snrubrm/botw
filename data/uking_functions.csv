@@ -28015,7 +28015,7 @@ Address,Quality,Size,Name
 0x0000007100456de4,U,000264,
 0x0000007100456eec,U,000164,
 0x0000007100456f90,W,000044,_ZN5uking2ai9KokkoRoot6leave_Ev
-0x0000007100456fbc,W,000108,_ZN5uking2ai9KokkoRoot11loadParams_Ev
+0x0000007100456fbc,O,000108,_ZN5uking2ai9KokkoRoot11loadParams_Ev
 0x0000007100457028,U,000084,uking::ai::KokkoRoot::m40
 0x000000710045707c,U,000084,uking::ai::KokkoRoot::m41
 0x00000071004570d0,U,000308,uking::ai::KokkoRoot::m43
@@ -30972,7 +30972,7 @@ Address,Quality,Size,Name
 0x00000071004fae28,U,000236,preyDropItemRootStuff
 0x00000071004faf14,U,000152,_ZN5uking2ai16PreyDropItemRoot5calc_Ev
 0x00000071004fafac,W,000056,_ZN5uking2ai16PreyDropItemRoot6leave_Ev
-0x00000071004fafe4,W,000136,_ZN5uking2ai16PreyDropItemRoot11loadParams_Ev
+0x00000071004fafe4,O,000136,_ZN5uking2ai16PreyDropItemRoot11loadParams_Ev
 0x00000071004fb06c,U,000084,uking::ai::PreyDropItemRoot::m41
 0x00000071004fb0c0,U,000136,uking::ai::PreyDropItemRoot::m45
 0x00000071004fb148,O,000008,_ZNK5uking2ai16PreyDropItemRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -31067,10 +31067,10 @@ Address,Quality,Size,Name
 0x00000071005027cc,U,000984,uking::ai::PreyReaction::m35
 0x0000007100502ba4,O,000288,_ZNK5uking2ai12PreyReaction27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100502cc4,O,000092,_ZNK5uking2ai12PreyReaction18getRuntimeTypeInfoEv
-0x0000007100502d20,M,000304,_ZN5uking2ai8PreyRootC2ERKN4ksys3act2ai10ActionBase7InitArgE
-0x0000007100502e50,W,000220,_ZN5uking2ai8PreyRootD1Ev
-0x0000007100502f2c,W,000228,_ZN5uking2ai8PreyRootD0Ev
-0x0000007100503010,W,000156,_ZN5uking2ai8PreyRoot5init_EPN4sead4HeapE
+0x0000007100502d20,O,000304,_ZN5uking2ai8PreyRootC2ERKN4ksys3act2ai10ActionBase7InitArgE
+0x0000007100502e50,O,000220,_ZN5uking2ai8PreyRootD1Ev
+0x0000007100502f2c,O,000228,_ZN5uking2ai8PreyRootD0Ev
+0x0000007100503010,O,000156,_ZN5uking2ai8PreyRoot5init_EPN4sead4HeapE
 0x00000071005030ac,W,001028,_ZN5uking2ai8PreyRoot6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071005034b0,U,000248,_ZN5uking2ai8PreyRoot5calc_Ev
 0x00000071005035a8,U,000700,
@@ -31078,11 +31078,11 @@ Address,Quality,Size,Name
 0x0000007100503a78,U,000536,
 0x0000007100503c90,W,000104,_ZN5uking2ai8PreyRoot6leave_Ev
 0x0000007100503cf8,O,000380,_ZN5uking2ai8PreyRoot11loadParams_Ev
-0x0000007100503e74,U,000052,uking::ai::PreyRoot::m34
-0x0000007100503ea8,U,000108,uking::ai::PreyRoot::m35
-0x0000007100503f14,U,000148,uking::ai::PreyRoot::m36
-0x0000007100503fa8,U,000104,uking::ai::PreyRoot::m37
-0x0000007100504010,U,000096,uking::ai::PreyRoot::m38
+0x0000007100503e74,O,000052,_ZN5uking2ai8PreyRoot3m34Ev
+0x0000007100503ea8,O,000108,_ZN5uking2ai8PreyRoot3m35Ev
+0x0000007100503f14,U,000148,_ZN5uking2ai8PreyRoot3m36Ev
+0x0000007100503fa8,m,000104,_ZN5uking2ai8PreyRoot3m37Ev
+0x0000007100504010,O,000096,_ZN5uking2ai8PreyRoot3m38Ev
 0x0000007100504070,U,000124,
 0x00000071005040ec,U,000308,uking::ai::PreyRoot::m39
 0x0000007100504220,U,000204,uking::ai::PreyRoot::m40
@@ -34828,7 +34828,7 @@ Address,Quality,Size,Name
 0x00000071005aef5c,W,000220,_ZN5uking2ai15SunazarashiRoot6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071005af038,U,001020,_ZN5uking2ai15SunazarashiRoot5calc_Ev
 0x00000071005af434,O,000004,_ZN5uking2ai15SunazarashiRoot6leave_Ev
-0x00000071005af438,W,000220,_ZN5uking2ai15SunazarashiRoot11loadParams_Ev
+0x00000071005af438,O,000220,_ZN5uking2ai15SunazarashiRoot11loadParams_Ev
 0x00000071005af514,U,000360,uking::ai::SunazarashiRoot::m39
 0x00000071005af67c,U,000136,_ZN5uking2ai15SunazarashiRoot14handleMessage_ERKN4ksys7MessageE
 0x00000071005af704,U,000536,uking::ai::SunazarashiRoot::m41
@@ -44180,7 +44180,7 @@ Address,Quality,Size,Name
 0x00000071006c1f34,U,000056,AI_F_AI_GuardianMini2ndBattle
 0x00000071006c1f6c,U,000056,AI_F_AI_DynTgBreathAttackEnemyBattle
 0x00000071006c1fa4,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai15MimicFlagSelectEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
-0x00000071006c1fdc,U,000056,AI_F_AI_PreyRoot
+0x00000071006c1fdc,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai8PreyRootEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c2014,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai19WolfLinkChainAttackEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c204c,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai21TargetNPCTypeSelectorEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c2084,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai25EnemyShieldSearchOrBattleEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
@@ -44259,7 +44259,7 @@ Address,Quality,Size,Name
 0x00000071006c307c,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai13StalPartCatchEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c30b4,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai12TargetRepeatEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c30ec,U,000056,AI_F_AI_PriestBossActorGiantRoot
-0x00000071006c3124,U,000056,AI_F_AI_DuckRoot
+0x00000071006c3124,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai8DuckRootEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c315c,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai23GiantEarthReleaseAttackEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c3194,O,000056,_ZN4ksys3act2ai9AiFactory4makeIN5uking2ai10HangedLampEEEPNS1_2AiERKNS1_10ActionBase7InitArgEPN4sead4HeapE
 0x00000071006c31cc,U,000056,AI_F_AI_WeaponRootAI
@@ -46542,7 +46542,7 @@ Address,Quality,Size,Name
 0x000000710071eba4,U,000520,
 0x000000710071edac,U,000036,
 0x000000710071edd0,U,000040,
-0x000000710071edf8,U,000036,
+0x000000710071edf8,O,000036,_ZN14Unk_710071edf8C1EPN4ksys3act5ActorE
 0x000000710071ee1c,U,000028,
 0x000000710071ee38,U,000608,
 0x000000710071f098,U,000148,ObjBoardWoodTriangleUserTag::ctor

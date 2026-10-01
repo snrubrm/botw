@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPreyRoot.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +9,8 @@ PreyRoot::PreyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 PreyRoot::~PreyRoot() = default;
 
 bool PreyRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _188 = sead::DynamicCast<act::Enemy>(mActor);
+    return _188 != nullptr;
 }
 
 void PreyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -31,6 +34,32 @@ void PreyRoot::loadParams_() {
     getAITreeVariable(&mIsStuckOnTerrain_a, "IsStuckOnTerrain");
     getAITreeVariable(&mIsChangeableStateFreeFall_a, "IsChangeableStateFreeFall");
     getAITreeVariable(&mIsUseTerritory_a, "IsUseTerritory");
+}
+
+bool PreyRoot::m34() {
+    if (!mActor->get68f().load())
+        return false;
+    const f32 y = mActor->getMtx().m[1][3];
+    return mActor->get6f0() - y > *mInWaterDepth_s;
+}
+
+bool PreyRoot::m35() {
+    return m34() && !isCurrentChild("水中行動");
+}
+
+// NON_MATCHING: the target returns _205 without normalising it (no cmp/cset)
+bool PreyRoot::m37() {
+    if (*mIsChangeableStateFreeFall_a && !isCurrentChild("落下"))
+        return _205;
+    return false;
+}
+
+bool PreyRoot::m38() {
+    if (isCurrentChild("落下")) {
+        if (!_205)
+            return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
