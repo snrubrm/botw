@@ -9,7 +9,6 @@ class GiantOneHandActionWithLegTurn : public GiantAttackWithAS {
     SEAD_RTTI_OVERRIDE(GiantOneHandActionWithLegTurn, GiantAttackWithAS)
 public:
     explicit GiantOneHandActionWithLegTurn(const InitArg& arg);
-    ~GiantOneHandActionWithLegTurn() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

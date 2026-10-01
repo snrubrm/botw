@@ -8,7 +8,6 @@ class NPCWaitAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCWaitAction, ksys::act::ai::Action)
 public:
     explicit NPCWaitAction(const InitArg& arg);
-    ~NPCWaitAction() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

@@ -4,8 +4,6 @@ namespace uking::action {
 
 OpenMessageDialogBase::OpenMessageDialogBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-OpenMessageDialogBase::~OpenMessageDialogBase() = default;
-
 bool OpenMessageDialogBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

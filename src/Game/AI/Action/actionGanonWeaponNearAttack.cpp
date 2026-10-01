@@ -4,8 +4,6 @@ namespace uking::action {
 
 GanonWeaponNearAttack::GanonWeaponNearAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-GanonWeaponNearAttack::~GanonWeaponNearAttack() = default;
-
 bool GanonWeaponNearAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -8,7 +8,6 @@ class NPCLerpAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCLerpAction, ksys::act::ai::Action)
 public:
     explicit NPCLerpAction(const InitArg& arg);
-    ~NPCLerpAction() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

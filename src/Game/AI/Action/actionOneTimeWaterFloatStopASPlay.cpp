@@ -5,8 +5,6 @@ namespace uking::action {
 OneTimeWaterFloatStopASPlay::OneTimeWaterFloatStopASPlay(const InitArg& arg)
     : WaterFloatImmobile(arg) {}
 
-OneTimeWaterFloatStopASPlay::~OneTimeWaterFloatStopASPlay() = default;
-
 bool OneTimeWaterFloatStopASPlay::init_(sead::Heap* heap) {
     return WaterFloatImmobile::init_(heap);
 }

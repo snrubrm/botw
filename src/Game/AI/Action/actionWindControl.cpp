@@ -4,8 +4,6 @@ namespace uking::action {
 
 WindControl::WindControl(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-WindControl::~WindControl() = default;
-
 bool WindControl::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

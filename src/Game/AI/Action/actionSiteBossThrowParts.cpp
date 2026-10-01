@@ -4,8 +4,6 @@ namespace uking::action {
 
 SiteBossThrowParts::SiteBossThrowParts(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SiteBossThrowParts::~SiteBossThrowParts() = default;
-
 bool SiteBossThrowParts::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

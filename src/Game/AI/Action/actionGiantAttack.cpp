@@ -4,8 +4,6 @@ namespace uking::action {
 
 GiantAttack::GiantAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-GiantAttack::~GiantAttack() = default;
-
 bool GiantAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

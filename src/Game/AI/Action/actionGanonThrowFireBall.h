@@ -8,7 +8,6 @@ class GanonThrowFireBall : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GanonThrowFireBall, ksys::act::ai::Action)
 public:
     explicit GanonThrowFireBall(const InitArg& arg);
-    ~GanonThrowFireBall() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

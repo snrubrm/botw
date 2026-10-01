@@ -4,8 +4,6 @@ namespace uking::action {
 
 NPCLerpAction::NPCLerpAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-NPCLerpAction::~NPCLerpAction() = default;
-
 void NPCLerpAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

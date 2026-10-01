@@ -4,8 +4,6 @@ namespace uking::action {
 
 NullASPlay::NullASPlay(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-NullASPlay::~NullASPlay() = default;
-
 bool NullASPlay::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

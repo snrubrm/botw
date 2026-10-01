@@ -4,8 +4,6 @@ namespace uking::action {
 
 OnetimeStopASPlay::OnetimeStopASPlay(const InitArg& arg) : ActionWithAS(arg) {}
 
-OnetimeStopASPlay::~OnetimeStopASPlay() = default;
-
 void OnetimeStopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
 }

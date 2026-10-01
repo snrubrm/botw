@@ -4,8 +4,6 @@ namespace uking::action {
 
 EquipedAction::EquipedAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-EquipedAction::~EquipedAction() = default;
-
 void EquipedAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

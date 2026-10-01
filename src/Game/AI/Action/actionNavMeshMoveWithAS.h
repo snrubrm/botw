@@ -9,7 +9,6 @@ class NavMeshMoveWithAS : public NavMeshAction {
     SEAD_RTTI_OVERRIDE(NavMeshMoveWithAS, NavMeshAction)
 public:
     explicit NavMeshMoveWithAS(const InitArg& arg);
-    ~NavMeshMoveWithAS() override;
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;

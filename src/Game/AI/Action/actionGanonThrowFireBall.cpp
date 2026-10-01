@@ -4,8 +4,6 @@ namespace uking::action {
 
 GanonThrowFireBall::GanonThrowFireBall(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-GanonThrowFireBall::~GanonThrowFireBall() = default;
-
 bool GanonThrowFireBall::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

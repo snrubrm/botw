@@ -4,8 +4,6 @@ namespace uking::action {
 
 Thrown::Thrown(const InitArg& arg) : ActionEx(arg) {}
 
-Thrown::~Thrown() = default;
-
 void Thrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

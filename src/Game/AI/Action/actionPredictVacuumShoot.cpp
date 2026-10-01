@@ -4,8 +4,6 @@ namespace uking::action {
 
 PredictVacuumShoot::PredictVacuumShoot(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-PredictVacuumShoot::~PredictVacuumShoot() = default;
-
 bool PredictVacuumShoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

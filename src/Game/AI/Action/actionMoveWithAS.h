@@ -9,7 +9,6 @@ class MoveWithAS : public MoveBase {
     SEAD_RTTI_OVERRIDE(MoveWithAS, MoveBase)
 public:
     explicit MoveWithAS(const InitArg& arg);
-    ~MoveWithAS() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

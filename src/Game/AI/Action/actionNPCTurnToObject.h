@@ -8,7 +8,6 @@ class NPCTurnToObject : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(NPCTurnToObject, ksys::act::ai::Action)
 public:
     explicit NPCTurnToObject(const InitArg& arg);
-    ~NPCTurnToObject() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

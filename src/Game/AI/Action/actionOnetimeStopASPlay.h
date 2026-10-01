@@ -9,7 +9,6 @@ class OnetimeStopASPlay : public ActionWithAS {
     SEAD_RTTI_OVERRIDE(OnetimeStopASPlay, ActionWithAS)
 public:
     explicit OnetimeStopASPlay(const InitArg& arg);
-    ~OnetimeStopASPlay() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

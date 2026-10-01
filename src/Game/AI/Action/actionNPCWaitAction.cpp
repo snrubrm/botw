@@ -4,8 +4,6 @@ namespace uking::action {
 
 NPCWaitAction::NPCWaitAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-NPCWaitAction::~NPCWaitAction() = default;
-
 void NPCWaitAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

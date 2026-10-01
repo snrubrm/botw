@@ -9,7 +9,6 @@ class NPCTargetMove : public RandomMoveAction {
     SEAD_RTTI_OVERRIDE(NPCTargetMove, RandomMoveAction)
 public:
     explicit NPCTargetMove(const InitArg& arg);
-    ~NPCTargetMove() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

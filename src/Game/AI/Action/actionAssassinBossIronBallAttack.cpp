@@ -5,8 +5,6 @@ namespace uking::action {
 AssassinBossIronBallAttack::AssassinBossIronBallAttack(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-AssassinBossIronBallAttack::~AssassinBossIronBallAttack() = default;
-
 bool AssassinBossIronBallAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

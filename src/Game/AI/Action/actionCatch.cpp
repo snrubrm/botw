@@ -4,8 +4,6 @@ namespace uking::action {
 
 Catch::Catch(const InitArg& arg) : ActionEx(arg) {}
 
-Catch::~Catch() = default;
-
 void Catch::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

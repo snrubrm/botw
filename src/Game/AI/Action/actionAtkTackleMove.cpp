@@ -4,8 +4,6 @@ namespace uking::action {
 
 AtkTackleMove::AtkTackleMove(const InitArg& arg) : TackleMove(arg) {}
 
-AtkTackleMove::~AtkTackleMove() = default;
-
 bool AtkTackleMove::init_(sead::Heap* heap) {
     return TackleMove::init_(heap);
 }

@@ -4,8 +4,6 @@ namespace uking::action {
 
 StopASPlay::StopASPlay(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-StopASPlay::~StopASPlay() = default;
-
 void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }

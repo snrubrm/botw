@@ -9,7 +9,6 @@ class DieAnm : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(DieAnm, ActionWithPosAngReduce)
 public:
     explicit DieAnm(const InitArg& arg);
-    ~DieAnm() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

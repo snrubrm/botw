@@ -9,7 +9,6 @@ class Thrown : public ActionEx {
     SEAD_RTTI_OVERRIDE(Thrown, ActionEx)
 public:
     explicit Thrown(const InitArg& arg);
-    ~Thrown() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

@@ -4,8 +4,6 @@ namespace uking::action {
 
 AnmBlownOff::AnmBlownOff(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-AnmBlownOff::~AnmBlownOff() = default;
-
 bool AnmBlownOff::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -4,8 +4,6 @@ namespace uking::action {
 
 DieAnm::DieAnm(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-DieAnm::~DieAnm() = default;
-
 bool DieAnm::init_(sead::Heap* heap) {
     return ActionWithPosAngReduce::init_(heap);
 }

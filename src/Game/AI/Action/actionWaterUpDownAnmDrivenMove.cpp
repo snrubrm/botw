@@ -5,8 +5,6 @@ namespace uking::action {
 WaterUpDownAnmDrivenMove::WaterUpDownAnmDrivenMove(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-WaterUpDownAnmDrivenMove::~WaterUpDownAnmDrivenMove() = default;
-
 bool WaterUpDownAnmDrivenMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

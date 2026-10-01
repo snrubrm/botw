@@ -8,7 +8,6 @@ class LastBossFlyWait : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossFlyWait, ksys::act::ai::Action)
 public:
     explicit LastBossFlyWait(const InitArg& arg);
-    ~LastBossFlyWait() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

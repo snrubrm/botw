@@ -8,7 +8,6 @@ class GuardianAimBeam : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardianAimBeam, ksys::act::ai::Action)
 public:
     explicit GuardianAimBeam(const InitArg& arg);
-    ~GuardianAimBeam() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

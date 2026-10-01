@@ -8,7 +8,6 @@ class EquipedAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(EquipedAction, ksys::act::ai::Action)
 public:
     explicit EquipedAction(const InitArg& arg);
-    ~EquipedAction() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

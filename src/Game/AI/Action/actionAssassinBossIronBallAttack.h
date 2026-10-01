@@ -8,7 +8,6 @@ class AssassinBossIronBallAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AssassinBossIronBallAttack, ksys::act::ai::Action)
 public:
     explicit AssassinBossIronBallAttack(const InitArg& arg);
-    ~AssassinBossIronBallAttack() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

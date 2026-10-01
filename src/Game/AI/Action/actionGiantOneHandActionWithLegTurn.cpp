@@ -5,8 +5,6 @@ namespace uking::action {
 GiantOneHandActionWithLegTurn::GiantOneHandActionWithLegTurn(const InitArg& arg)
     : GiantAttackWithAS(arg) {}
 
-GiantOneHandActionWithLegTurn::~GiantOneHandActionWithLegTurn() = default;
-
 bool GiantOneHandActionWithLegTurn::init_(sead::Heap* heap) {
     return GiantAttackWithAS::init_(heap);
 }

@@ -9,7 +9,6 @@ class OctarockBalloonBase : public BalloonBase {
     SEAD_RTTI_OVERRIDE(OctarockBalloonBase, BalloonBase)
 public:
     explicit OctarockBalloonBase(const InitArg& arg);
-    ~OctarockBalloonBase() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

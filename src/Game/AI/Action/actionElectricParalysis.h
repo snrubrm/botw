@@ -9,7 +9,6 @@ class ElectricParalysis : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(ElectricParalysis, ActionWithPosAngReduce)
 public:
     explicit ElectricParalysis(const InitArg& arg);
-    ~ElectricParalysis() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -4,8 +4,6 @@ namespace uking::action {
 
 NPCTurnToObject::NPCTurnToObject(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-NPCTurnToObject::~NPCTurnToObject() = default;
-
 void NPCTurnToObject::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

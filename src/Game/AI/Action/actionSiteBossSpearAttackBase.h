@@ -8,7 +8,6 @@ class SiteBossSpearAttackBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SiteBossSpearAttackBase, ksys::act::ai::Action)
 public:
     explicit SiteBossSpearAttackBase(const InitArg& arg);
-    ~SiteBossSpearAttackBase() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

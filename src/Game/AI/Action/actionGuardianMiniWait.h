@@ -9,7 +9,6 @@ class GuardianMiniWait : public Wait {
     SEAD_RTTI_OVERRIDE(GuardianMiniWait, Wait)
 public:
     explicit GuardianMiniWait(const InitArg& arg);
-    ~GuardianMiniWait() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;

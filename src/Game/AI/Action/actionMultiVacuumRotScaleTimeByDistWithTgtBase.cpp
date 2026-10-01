@@ -6,8 +6,6 @@ MultiVacuumRotScaleTimeByDistWithTgtBase::MultiVacuumRotScaleTimeByDistWithTgtBa
     const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-MultiVacuumRotScaleTimeByDistWithTgtBase::~MultiVacuumRotScaleTimeByDistWithTgtBase() = default;
-
 bool MultiVacuumRotScaleTimeByDistWithTgtBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

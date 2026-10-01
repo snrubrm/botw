@@ -4,8 +4,6 @@ namespace uking::action {
 
 MoveWithAS::MoveWithAS(const InitArg& arg) : MoveBase(arg) {}
 
-MoveWithAS::~MoveWithAS() = default;
-
 bool MoveWithAS::init_(sead::Heap* heap) {
     return MoveBase::init_(heap);
 }

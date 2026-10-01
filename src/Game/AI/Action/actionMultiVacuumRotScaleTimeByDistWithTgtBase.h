@@ -8,7 +8,6 @@ class MultiVacuumRotScaleTimeByDistWithTgtBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(MultiVacuumRotScaleTimeByDistWithTgtBase, ksys::act::ai::Action)
 public:
     explicit MultiVacuumRotScaleTimeByDistWithTgtBase(const InitArg& arg);
-    ~MultiVacuumRotScaleTimeByDistWithTgtBase() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

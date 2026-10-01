@@ -4,8 +4,6 @@ namespace uking::action {
 
 AnmKnockBackShock::AnmKnockBackShock(const InitArg& arg) : KnockBackShock(arg) {}
 
-AnmKnockBackShock::~AnmKnockBackShock() = default;
-
 bool AnmKnockBackShock::init_(sead::Heap* heap) {
     return KnockBackShock::init_(heap);
 }

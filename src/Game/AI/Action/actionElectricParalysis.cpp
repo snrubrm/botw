@@ -4,8 +4,6 @@ namespace uking::action {
 
 ElectricParalysis::ElectricParalysis(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-ElectricParalysis::~ElectricParalysis() = default;
-
 bool ElectricParalysis::init_(sead::Heap* heap) {
     return ActionWithPosAngReduce::init_(heap);
 }
