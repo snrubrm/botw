@@ -7,7 +7,10 @@ GuardianMiniFinalBattle::GuardianMiniFinalBattle(const InitArg& arg) : EnemyBatt
 GuardianMiniFinalBattle::~GuardianMiniFinalBattle() = default;
 
 void GuardianMiniFinalBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBattle::enter_(params);
+    if (*mIsPreAttackMove_s)
+        sub_710041B2E8();
+    else
+        sub_710041B3D4();
 }
 
 bool GuardianMiniFinalBattle::isChangeable() const {

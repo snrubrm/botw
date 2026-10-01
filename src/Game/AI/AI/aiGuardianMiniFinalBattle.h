@@ -16,6 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710041B2E8();
+
+    void sub_710041B3D4();
+
 protected:
     // static_param at offset 0x90
     const int* mASSlotRight_s{};
