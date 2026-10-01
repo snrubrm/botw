@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRestreintTired.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,11 +12,32 @@ bool RestreintTired::init_(sead::Heap* heap) {
 }
 
 void RestreintTired::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    *mIsTryingReturnRestreint_a = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mCentralPos_d, "TargetPos", -1);
+    changeChild("帰還", &pack);
+}
+
+void RestreintTired::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("帰還")) {
+            *mIsTryingReturnRestreint_a = true;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("注意", &pack);
+        } else {
+            setFailed();
+        }
+        return;
+    }
+
+    if (isCurrentChild("注意"))
+        child->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void RestreintTired::leave_() {
-    ksys::act::ai::Ai::leave_();
+    *mIsTryingReturnRestreint_a = false;
 }
 
 void RestreintTired::loadParams_() {
