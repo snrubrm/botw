@@ -33,4 +33,6 @@ void AssassinBossIronBallAppear::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void AssassinBossIronBallAppear::m32() {}
+
 }  // namespace uking::action
