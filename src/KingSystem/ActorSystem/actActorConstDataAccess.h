@@ -105,6 +105,11 @@ public:
     bool isPlayerTheConnectedParent() const;
 
     const sead::Vector3f& getPreviousPos() const;
+    const sead::Vector3f& getPreviousPos2() const;
+    const sead::Vector3f& getVelocity() const;
+    const sead::Vector3f& getAngVelocity() const;
+    void getHomeMtx(sead::Matrix34f* mtx) const;
+    bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
 
     void setThisActorAsParent(BaseProc* child, bool delete_parent_on_delete);
     void setThisActorAsChild(BaseProc* parent, bool delete_child_on_delete);

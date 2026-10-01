@@ -73341,7 +73341,7 @@ Address,Quality,Size,Name
 0x0000007100d0fa38,O,000140,_ZNK4ksys3act20ActorConstDataAccess12getMapObjectEv
 0x0000007100d0fac4,O,000180,_ZNK4ksys3act20ActorConstDataAccess12getEnemyRankEv
 0x0000007100d0fb78,O,000256,_ZNK4ksys3act20ActorConstDataAccess21getSameGroupActorNameEPN4sead14SafeStringBaseIcEE
-0x0000007100d0fc78,U,000220,act::acc::Actor::getAabb
+0x0000007100d0fc78,O,000220,_ZNK4ksys3act20ActorConstDataAccess7getAabbEPN4sead7Vector3IfEES5_
 0x0000007100d0fd54,U,000164,act::acc::Actor::getAabb_0
 0x0000007100d0fdf8,U,000180,
 0x0000007100d0feac,U,000156,
@@ -73352,13 +73352,13 @@ Address,Quality,Size,Name
 0x0000007100d10230,O,000368,_ZNK4ksys3act20ActorConstDataAccess26isPlayerTheConnectedParentEv
 0x0000007100d103a0,U,000168,act::acc::Actor::x
 0x0000007100d10448,U,000168,
-0x0000007100d104f0,U,000184,act::acc::Actor::getHomeMtx
+0x0000007100d104f0,O,000184,_ZNK4ksys3act20ActorConstDataAccess10getHomeMtxEPN4sead8Matrix34IfEE
 0x0000007100d105a8,U,000188,act::acc::Actor::getHomePos
 0x0000007100d10664,U,000156,act::acc::Actor::getFieldBodyGroup
 0x0000007100d10700,O,000156,_ZN4ksys3act24ActorLinkConstDataAccess11getActorMtxEv
 0x0000007100d1079c,O,000004,_ZNK4ksys3act20ActorConstDataAccess8debugLogEiRKN4sead14SafeStringBaseIcEE
-0x0000007100d107a0,U,000148,ActorAccessor::getPosition2
-0x0000007100d10834,U,000156,act::acc::getPreviousPos2
+0x0000007100d107a0,O,000148,_ZNK4ksys3act20ActorConstDataAccess14getPreviousPosEv
+0x0000007100d10834,m,000156,_ZNK4ksys3act20ActorConstDataAccess15getPreviousPos2Ev
 0x0000007100d108d0,U,000156,act::acc::getField440_Vec3
 0x0000007100d1096c,U,000156,act::acc::getField484_Vec3
 0x0000007100d10a08,U,000148,act::acc::getField488
@@ -73366,8 +73366,8 @@ Address,Quality,Size,Name
 0x0000007100d10b38,U,000156,act::acc::getField458_Vec3
 0x0000007100d10bd4,U,000196,act::acc::getField464_Vec3
 0x0000007100d10c98,U,000156,act::acc::getField470_Vec3
-0x0000007100d10d34,U,000156,act::acc::getVelocity
-0x0000007100d10dd0,U,000156,
+0x0000007100d10d34,m,000156,_ZNK4ksys3act20ActorConstDataAccess11getVelocityEv
+0x0000007100d10dd0,m,000156,_ZNK4ksys3act20ActorConstDataAccess14getAngVelocityEv
 0x0000007100d10e6c,U,000160,
 0x0000007100d10f0c,U,000172,
 0x0000007100d10fb8,U,000144,
@@ -92693,7 +92693,7 @@ Address,Quality,Size,Name
 0x00000071011d66d0,U,000260,Actor::m68
 0x00000071011d67d4,U,000576,
 0x00000071011d6a14,U,000248,Actor::setMtxAndScale
-0x00000071011d6b0c,U,000128,Actor::getHomeMtx
+0x00000071011d6b0c,O,000128,_ZNK4ksys3act5Actor10getHomeMtxEPN4sead8Matrix34IfEE
 0x00000071011d6b8c,O,000136,_ZNK4ksys3act5Actor10getHomePosEPN4sead7Vector3IfEE
 0x00000071011d6c14,U,000016,Actor::actorPhysicsSetFlag2
 0x00000071011d6c24,U,000044,_ZN4ksys3act5Actor9onAiEnterEPKcS3_
@@ -92762,7 +92762,7 @@ Address,Quality,Size,Name
 0x00000071011da834,U,000016,
 0x00000071011da844,U,000036,Actor::boneHandleStuff
 0x00000071011da868,U,000016,
-0x00000071011da878,U,000008,Actor::getPreviousPos
+0x00000071011da878,O,000008,_ZNK4ksys3act5Actor14getPreviousPosEv
 0x00000071011da880,U,000336,Actor::setMtx
 0x00000071011da9d0,U,000040,Actor::m86
 0x00000071011da9f8,U,000456,

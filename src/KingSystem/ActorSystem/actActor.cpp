@@ -153,6 +153,15 @@ bool Actor::x_18(sead::Vector3f* out) const {
     return true;
 }
 
+void Actor::getHomeMtx(sead::Matrix34f* mtx) const {
+    if (mFieldBodyGroup) {
+        *mtx = phys::System::instance()->getStaticCompoundMgr()->getTransformedMatrix(
+            mFieldBodyGroup, mHomeMtx);
+    } else {
+        *mtx = mHomeMtx;
+    }
+}
+
 void Actor::getHomePos(sead::Vector3f* pos) const {
     if (mFieldBodyGroup) {
         sead::Vector3f home_pos;
@@ -162,6 +171,10 @@ void Actor::getHomePos(sead::Vector3f* pos) const {
     } else {
         mHomeMtx.getTranslation(*pos);
     }
+}
+
+const sead::Vector3f& Actor::getPreviousPos() const {
+    return mPreviousPos;
 }
 
 phys::CharacterController* Actor::getCharacterController() {

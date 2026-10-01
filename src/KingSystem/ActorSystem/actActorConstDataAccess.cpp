@@ -424,4 +424,56 @@ bool acquireActor(BaseProcLink* link, ActorConstDataAccess* accessor) {
     });
 }
 
+bool ActorConstDataAccess::getAabb(sead::Vector3f* min, sead::Vector3f* max) const {
+    auto* actor = getActor();
+    if (!actor || !actor->mModel)
+        return false;
+
+    if (min)
+        *min = actor->mAabb.getMin();
+    if (max)
+        *max = actor->mAabb.getMax();
+    return true;
+}
+
+void ActorConstDataAccess::getHomeMtx(sead::Matrix34f* mtx) const {
+    auto* actor = getActor();
+    if (!actor) {
+        mtx->makeIdentity();
+        return;
+    }
+    actor->getHomeMtx(mtx);
+}
+
+const sead::Vector3f& ActorConstDataAccess::getPreviousPos() const {
+    auto* actor = getActor();
+    if (!actor)
+        return sead::Vector3f::zero;
+    return actor->getPreviousPos();
+}
+
+// NON_MATCHING: the original selects between the two addresses (csel) instead of branching
+const sead::Vector3f& ActorConstDataAccess::getPreviousPos2() const {
+    auto* actor = getActor();
+    if (!actor)
+        return sead::Vector3f::zero;
+    return actor->mPreviousPos2;
+}
+
+// NON_MATCHING: the original selects between the two addresses (csel) instead of branching
+const sead::Vector3f& ActorConstDataAccess::getVelocity() const {
+    auto* actor = getActor();
+    if (!actor)
+        return sead::Vector3f::zero;
+    return actor->getVelocity();
+}
+
+// NON_MATCHING: the original selects between the two addresses (csel) instead of branching
+const sead::Vector3f& ActorConstDataAccess::getAngVelocity() const {
+    auto* actor = getActor();
+    if (!actor)
+        return sead::Vector3f::zero;
+    return actor->getAngVelocity();
+}
+
 }  // namespace ksys::act
