@@ -5740,7 +5740,7 @@ Address,Quality,Size,Name
 0x00000071000fae38,W,000108,_ZN5uking6action20DungeonRotate2Target6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071000faea4,W,000480,_ZN5uking6action20DungeonRotate2Target5calc_Ev
 0x00000071000fb084,O,000004,_ZN5uking6action20DungeonRotate2Target6leave_Ev
-0x00000071000fb088,U,000008,uking::action::DungeonRotate2Target::m33
+0x00000071000fb088,U,000008,_ZN5uking6action20DungeonRotate2Target3m33Ev
 0x00000071000fb090,U,000460,uking::action::DungeonRotate2Target::m35
 0x00000071000fb25c,W,000304,_ZN5uking6action20DungeonRotate2Target11loadParams_Ev
 0x00000071000fb38c,O,000008,_ZNK5uking6action20DungeonRotate2Target27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -5753,8 +5753,8 @@ Address,Quality,Size,Name
 0x00000071000fb5c8,W,000068,_ZN5uking6action18DungeonRotateAccel6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071000fb60c,W,000328,_ZN5uking6action18DungeonRotateAccel5calc_Ev
 0x00000071000fb754,O,000004,_ZN5uking6action18DungeonRotateAccel6leave_Ev
-0x00000071000fb758,U,000052,uking::action::DungeonRotateAccel::m32
-0x00000071000fb78c,U,000016,uking::action::DungeonRotateAccel::m33
+0x00000071000fb758,U,000052,_ZN5uking6action18DungeonRotateAccel3m32Ev
+0x00000071000fb78c,U,000016,_ZN5uking6action18DungeonRotateAccel3m33Ev
 0x00000071000fb79c,W,000200,_ZN5uking6action18DungeonRotateAccel11loadParams_Ev
 0x00000071000fb864,O,000008,_ZNK5uking6action18DungeonRotateAccel27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000fb86c,O,000092,_ZNK5uking6action18DungeonRotateAccel18getRuntimeTypeInfoEv
@@ -5778,8 +5778,8 @@ Address,Quality,Size,Name
 0x00000071000fc4ec,U,000252,
 0x00000071000fc5e8,W,000964,_ZN5uking6action17DungeonRotateBase5calc_Ev
 0x00000071000fc9ac,W,000400,_ZN5uking6action17DungeonRotateBase6leave_Ev
-0x00000071000fcb3c,U,000028,uking::action::DungeonRotateBase::m32
-0x00000071000fcb58,U,000068,uking::action::DungeonRotateBase::m33
+0x00000071000fcb3c,U,000028,_ZN5uking6action17DungeonRotateBase3m32Ev
+0x00000071000fcb58,U,000068,_ZN5uking6action17DungeonRotateBase3m33Ev
 0x00000071000fcb9c,U,000020,uking::action::DungeonRotateBase::m34
 0x00000071000fcbb0,U,000244,uking::action::DungeonRotateBase::m35
 0x00000071000fcca4,U,000656,
