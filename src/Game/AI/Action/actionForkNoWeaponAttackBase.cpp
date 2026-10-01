@@ -36,4 +36,8 @@ void ForkNoWeaponAttackBase::calc_() {
     ForkAttackWithWeaponOrWithout::calc_();
 }
 
+int ForkNoWeaponAttackBase::m35() {
+    return 1;
+}
+
 }  // namespace uking::action
