@@ -10,6 +10,8 @@ public:
     explicit SwarmRangeKeepCircleMove(const InitArg& arg);
     ~SwarmRangeKeepCircleMove() override;
 
+    bool isFinished() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

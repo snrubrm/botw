@@ -25,4 +25,8 @@ void SwarmRangeKeepCircleMove::loadParams_() {
     getStaticParam(&mUpdateCircleMoveDistance_s, "UpdateCircleMoveDistance");
 }
 
+bool SwarmRangeKeepCircleMove::isFinished() const {
+    return ksys::act::ai::Ai::isFinished();
+}
+
 }  // namespace uking::ai

@@ -28,4 +28,8 @@ bool TargetStateSelect::isFinished() const {
     return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
 }
 
+bool TargetStateSelect::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable() || getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

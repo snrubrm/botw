@@ -26,4 +26,16 @@ void SiteBossSpearThrow::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool SiteBossSpearThrow::isFailed() const {
+    if (getCurrentChild())
+        return getCurrentChild()->isFailed();
+    return false;
+}
+
+bool SiteBossSpearThrow::isFinished() const {
+    if (getCurrentChild())
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

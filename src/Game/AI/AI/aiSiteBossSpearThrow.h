@@ -9,6 +9,9 @@ class SiteBossSpearThrow : public ksys::act::ai::Ai {
 public:
     explicit SiteBossSpearThrow(const InitArg& arg);
     ~SiteBossSpearThrow() override;
+
+    bool isFailed() const override;
+    bool isFinished() const override;
     bool isChangeable() const override { return true; }
 
     bool init_(sead::Heap* heap) override;

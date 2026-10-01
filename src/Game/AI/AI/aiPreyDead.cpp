@@ -23,4 +23,8 @@ void PreyDead::loadParams_() {
     getStaticParam(&mIsEmitForceEscapeSignal_s, "IsEmitForceEscapeSignal");
 }
 
+bool PreyDead::isChangeable() const {
+    return isCurrentChild("停止");
+}
+
 }  // namespace uking::ai

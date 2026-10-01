@@ -20,4 +20,11 @@ void PreyReaction::leave_() {
 
 void PreyReaction::loadParams_() {}
 
+bool PreyReaction::isFinished() const {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+    return true;
+}
+
 }  // namespace uking::ai

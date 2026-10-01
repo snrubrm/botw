@@ -10,6 +10,8 @@ public:
     explicit TargetStateSelect(const InitArg& arg);
     ~TargetStateSelect() override;
 
+    bool isChangeable() const override;
+
     bool isFailed() const override;
     bool isFinished() const override;
 

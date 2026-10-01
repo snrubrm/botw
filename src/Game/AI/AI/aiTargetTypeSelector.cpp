@@ -22,4 +22,22 @@ void TargetTypeSelector::loadParams_() {
     getAITreeVariable(&mIsTrgTargetChangeToPlayer_a, "IsTrgTargetChangeToPlayer");
 }
 
+bool TargetTypeSelector::isFailed() const {
+    if (getCurrentChild())
+        return getCurrentChild()->isFailed();
+    return true;
+}
+
+bool TargetTypeSelector::isFinished() const {
+    if (getCurrentChild())
+        return getCurrentChild()->isFinished();
+    return true;
+}
+
+bool TargetTypeSelector::isChangeable() const {
+    if (getCurrentChild())
+        return getCurrentChild()->isChangeable();
+    return true;
+}
+
 }  // namespace uking::ai
