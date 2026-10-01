@@ -33,4 +33,8 @@ void Carried::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool Carried::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
