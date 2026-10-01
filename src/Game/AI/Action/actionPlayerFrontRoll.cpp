@@ -21,4 +21,8 @@ void PlayerFrontRoll::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerFrontRoll::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
