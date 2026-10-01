@@ -14,6 +14,14 @@ void GolemClimbedSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GolemClimbedSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool GolemClimbedSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void GolemClimbedSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }

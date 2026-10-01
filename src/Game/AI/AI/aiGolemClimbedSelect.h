@@ -9,6 +9,8 @@ class GolemClimbedSelect : public ksys::act::ai::Ai {
 public:
     explicit GolemClimbedSelect(const InitArg& arg);
     ~GolemClimbedSelect() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
