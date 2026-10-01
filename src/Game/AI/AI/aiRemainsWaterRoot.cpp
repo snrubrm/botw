@@ -14,6 +14,11 @@ void RemainsWaterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     RemainsRoot::enter_(params);
 }
 
+void RemainsWaterRoot::calc_() {
+    RemainsRoot::calc_();
+    m35(false);
+}
+
 void RemainsWaterRoot::leave_() {
     RemainsRoot::leave_();
 }
@@ -21,6 +26,17 @@ void RemainsWaterRoot::leave_() {
 void RemainsWaterRoot::loadParams_() {
     RemainsRoot::loadParams_();
     getAITreeVariable(&mRemainsWaterBattleInfo_a, "RemainsWaterBattleInfo");
+}
+
+void RemainsWaterRoot::m35(bool x) {
+    if (x) {
+        sub_710054BAC8(true);
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child && (child->isFinished() || child->isFailed() || child->isChangeable()))
+        sub_710054BAC8(false);
 }
 
 }  // namespace uking::ai

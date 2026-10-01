@@ -13,10 +13,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    void m35(bool x) override;
+
 protected:
+    void sub_710054BAC8(bool x);
+
     // aitree_variable at offset 0x50
     void* mRemainsWaterBattleInfo_a{};
 };
