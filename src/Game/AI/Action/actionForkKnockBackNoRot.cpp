@@ -12,6 +12,7 @@ bool ForkKnockBackNoRot::init_(sead::Heap* heap) {
 
 void ForkKnockBackNoRot::enter_(ksys::act::ai::InlineParamPack* params) {
     SmallDamageBase::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkKnockBackNoRot::leave_() {
