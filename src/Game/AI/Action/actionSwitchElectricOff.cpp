@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwitchElectricOff.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -9,7 +10,11 @@ bool SwitchElectricOff::init_(sead::Heap* heap) {
 }
 
 void SwitchElectricOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->emitBasicSigOff();
+    mFlags.set(Flag::Changeable);
+    playAS("Off", true, 0, 0, -1.0f);
+    if (*mUseSklAnm_s)
+        playAS("Charge", true, 1, 0, -1.0f);
 }
 
 void SwitchElectricOff::leave_() {

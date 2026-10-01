@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwitchElectricOn.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -9,7 +10,10 @@ bool SwitchElectricOn::init_(sead::Heap* heap) {
 }
 
 void SwitchElectricOn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->emitBasicSigOn();
+    playAS("On", true, 0, 0, -1.0f);
+    if (*mUseSklAnm_s)
+        playAS("Charge", true, 1, 0, -1.0f);
 }
 
 void SwitchElectricOn::leave_() {

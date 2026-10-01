@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLastBossFlyWait.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void LastBossFlyWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossFlyWait::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void LastBossFlyWait::loadParams_() {

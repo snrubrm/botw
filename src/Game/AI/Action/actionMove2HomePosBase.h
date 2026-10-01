@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class Move2HomePosBase : public ksys::act::ai::Action {
@@ -18,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual ksys::phys::RigidBody* m32();
 
     // static_param at offset 0x20
     const bool* mIsReturn_s{};

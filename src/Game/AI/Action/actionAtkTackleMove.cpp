@@ -31,6 +31,8 @@ void AtkTackleMove::loadParams_() {
 
 void AtkTackleMove::calc_() {
     TackleMove::calc_();
+    if (!isFinished() && !isFailed() && m38())
+        setFinished();
 }
 
 }  // namespace uking::action

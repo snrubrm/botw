@@ -16,7 +16,8 @@ void SubAnmSmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SubAnmSmallDamage::leave_() {
-    SmallDamage::leave_();
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void SubAnmSmallDamage::loadParams_() {

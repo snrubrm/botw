@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetInstantTemperture.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool SetInstantTemperture::init_(sead::Heap* heap) {
 }
 
 void SetInstantTemperture::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::world::Manager::instance()->getTempMgr()->setInstantTemperature();
+    setFinished();
 }
 
 void SetInstantTemperture::leave_() {

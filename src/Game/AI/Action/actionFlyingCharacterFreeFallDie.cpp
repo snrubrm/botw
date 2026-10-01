@@ -31,4 +31,9 @@ void FlyingCharacterFreeFallDie::calc_() {
     FlyingCharacterReaction::calc_();
 }
 
+void FlyingCharacterFreeFallDie::m32() {
+    if (!mFallAS_s.isEmpty())
+        playAS(mFallAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

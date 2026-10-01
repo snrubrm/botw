@@ -42,4 +42,9 @@ void FlyingCharacterDamageBase::calc_() {
     FlyingCharacterReaction::calc_();
 }
 
+void FlyingCharacterDamageBase::m33() {
+    if (!mFallAS_s.isEmpty())
+        playAS(mFallAS_s.cstr(), *mIsIgnoreSameAS4Fall_s, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

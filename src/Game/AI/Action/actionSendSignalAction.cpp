@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSendSignalAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,15 @@ bool SendSignalAction::init_(sead::Heap* heap) {
 }
 
 void SendSignalAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mSignalType_d != 0) {
+        setFailed();
+    } else if (mActor->checkLinkBasicSig() == *mValue_d) {
+        setFinished();
+    } else {
+        _30.reset(300.0f);
+        return;
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void SendSignalAction::leave_() {

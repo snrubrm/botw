@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDropBreakWeaponUnEquiped.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +14,10 @@ bool DropBreakWeaponUnEquiped::init_(sead::Heap* heap) {
 }
 
 void DropBreakWeaponUnEquiped::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody())
+        body->setLinearVelocity(body->getLinearVelocity() * -0.5f);
+    _30 = *mKillTimer_s;
+    _34 = *mBoundNum_s;
 }
 
 void DropBreakWeaponUnEquiped::leave_() {

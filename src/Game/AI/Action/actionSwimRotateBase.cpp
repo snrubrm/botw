@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSwimRotateBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -12,6 +14,11 @@ bool SwimRotateBase::init_(sead::Heap* heap) {
 
 void SwimRotateBase::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatBase::enter_(params);
+    const f32 speed = mActor->getAngVelocity().length();
+    _9c.value = speed;
+    _9c.prev_value = speed;
+    sub_710073FA90(&_78, mActor);
+    mFlags.set(Flag::Changeable);
 }
 
 void SwimRotateBase::leave_() {

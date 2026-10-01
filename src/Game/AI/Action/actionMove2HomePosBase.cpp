@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMove2HomePosBase.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void Move2HomePosBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Move2HomePosBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = m32()) {
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+    }
 }
 
 void Move2HomePosBase::loadParams_() {
@@ -26,6 +31,10 @@ void Move2HomePosBase::loadParams_() {
 
 void Move2HomePosBase::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+ksys::phys::RigidBody* Move2HomePosBase::m32() {
+    return mActor->getMainBody();
 }
 
 }  // namespace uking::action

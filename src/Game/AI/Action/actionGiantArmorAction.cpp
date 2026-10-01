@@ -12,6 +12,11 @@ bool GiantArmorAction::init_(sead::Heap* heap) {
 
 void GiantArmorAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    _68 = 0;
+    if (mStartAS_s.isEmpty())
+        playAS(mLoopAS_s.cstr(), false, 0, 0, -1.0f);
+    else
+        playAS(mStartAS_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void GiantArmorAction::leave_() {

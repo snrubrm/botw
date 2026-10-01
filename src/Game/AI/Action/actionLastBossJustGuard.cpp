@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLastBossJustGuard.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,7 +27,12 @@ void LastBossJustGuard::leave_() {
 void LastBossJustGuard::loadParams_() {}
 
 void LastBossJustGuard::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool LastBossJustGuard::isChangeable() const {

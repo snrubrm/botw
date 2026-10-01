@@ -16,6 +16,8 @@ void SubAnmBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SubAnmBlownOff::leave_() {
+    if (!mLeaveSubAS_s.isEmpty())
+        playAS(mLeaveSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
     AnmBlownOff::leave_();
 }
 

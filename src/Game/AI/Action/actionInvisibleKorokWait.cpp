@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionInvisibleKorokWait.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,7 +26,14 @@ void InvisibleKorokWait::loadParams_() {
 }
 
 void InvisibleKorokWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    if (_30 >= *mDynStopTime_d) {
+        mFlags.set(Flag::Changeable);
+        setFinished();
+    } else {
+        _30 += 1.0f;
+    }
 }
 
 }  // namespace uking::action

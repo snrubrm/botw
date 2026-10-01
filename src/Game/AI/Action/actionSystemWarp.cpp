@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSystemWarp.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,12 @@ bool SystemWarp::init_(sead::Heap* heap) {
 }
 
 void SystemWarp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sead::Matrix34f mtx;
+    mActor->getHomeMtx(&mtx);
+    mtx.setTranslation(*mTargetPos_d);
+    if (auto* physics = mActor->getPhysics())
+        physics->setMtxAndScale(mtx, false, false, mActor->getScale().x);
+    setFinished();
 }
 
 void SystemWarp::leave_() {

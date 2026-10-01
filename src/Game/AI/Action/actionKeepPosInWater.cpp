@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionKeepPosInWater.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +14,13 @@ bool KeepPosInWater::init_(sead::Heap* heap) {
 
 void KeepPosInWater::enter_(ksys::act::ai::InlineParamPack* params) {
     WaitBase::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    controller->sub_7100F5E7F0(0.0f);
+    playAS(mASKeyName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void KeepPosInWater::leave_() {

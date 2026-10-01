@@ -16,4 +16,9 @@ void NavMeshMoveWithAS::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+void NavMeshMoveWithAS::m34() {
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), *mIsIgnoreSameAS_s, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
