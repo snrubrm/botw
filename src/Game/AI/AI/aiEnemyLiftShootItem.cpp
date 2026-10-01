@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyLiftShootItem.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -13,7 +14,8 @@ void EnemyLiftShootItem::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyLiftShootItem::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (mActor->getConnectedCalcChild())
+        mActor->resetConnectedCalcChild(false);
 }
 
 void EnemyLiftShootItem::loadParams_() {

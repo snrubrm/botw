@@ -15,7 +15,8 @@ void CreateActor::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CreateActor::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_58.isAllocatedOrFailed())
+        _58.deleteProc();
 }
 
 void CreateActor::loadParams_() {

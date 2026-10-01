@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRodeo.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void LynelRodeo::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LynelRodeo::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
+    *mLynelRodeoAttackHitNum_a = 0;
 }
 
 void LynelRodeo::loadParams_() {

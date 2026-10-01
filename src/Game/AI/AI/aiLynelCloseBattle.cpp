@@ -12,6 +12,7 @@ bool LynelCloseBattle::init_(sead::Heap* heap) {
 
 void LynelCloseBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
+    *mLynelAIFlags_a |= 0x800;
 }
 
 void LynelCloseBattle::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyTimelineAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,9 @@ bool EnemyTimelineAI::init_(sead::Heap* heap) {
 
 void EnemyTimelineAI::enter_(ksys::act::ai::InlineParamPack* params) {
     TimelineAI::enter_(params);
+    auto* actor = mActor;
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
 bool EnemyTimelineAI::isFailed() const {

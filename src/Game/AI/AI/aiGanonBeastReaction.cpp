@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonBeastReaction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void GanonBeastReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonBeastReaction::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
 void GanonBeastReaction::loadParams_() {
