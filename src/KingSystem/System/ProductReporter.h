@@ -4,6 +4,7 @@
 #include <prim/seadEnum.h>
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/System/PlayerTrackReporter.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace sead {
@@ -20,20 +21,6 @@ struct WorkTimes {
     util::InitConstants _0;
     u32 rom;
     u32 scene;
-};
-
-// TODO
-class PlayerTrackReporter {
-public:
-    PlayerTrackReporter();
-    void init(sead::Heap* heap);
-    void setPosTrackEnd();
-
-    u8 _0[40];
-    bool _28;
-    bool _29;
-    bool _30;
-    u8 _3a[5];
 };
 
 enum class PanicReason {

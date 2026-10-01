@@ -40,6 +40,8 @@ target_sources(uking PRIVATE
     OverlayArenaSystemS2.h
     Patrol.cpp
     Patrol.h
+    PlayerTrackReporter.cpp
+    PlayerTrackReporter.h
     PlayReportMgr.cpp
     PlayReportMgr.h
     ProductReporter.cpp
