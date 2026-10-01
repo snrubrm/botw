@@ -33,4 +33,8 @@ void LynelRepeatAttack::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
 }
 
+bool LynelRepeatAttack::isChangeable() const {
+    return isCurrentChild("ラスト") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

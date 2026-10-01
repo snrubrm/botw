@@ -30,4 +30,8 @@ void HiddenOctarockNormal::loadParams_() {
     getMapUnitParam(&mIsNearCreate_m, "IsNearCreate");
 }
 
+bool HiddenOctarockNormal::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("攻撃反応");
+}
+
 }  // namespace uking::ai

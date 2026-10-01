@@ -10,6 +10,7 @@ class HiddenOctarockNormal : public EnemyNormal {
 public:
     explicit HiddenOctarockNormal(const InitArg& arg);
     ~HiddenOctarockNormal() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -21,4 +21,10 @@ void CloseSmallAttackBase::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool CloseSmallAttackBase::isChangeable() const {
+    if (isFinished())
+        return true;
+    return isFailed();
+}
+
 }  // namespace uking::ai

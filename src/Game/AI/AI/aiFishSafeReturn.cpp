@@ -27,4 +27,8 @@ void FishSafeReturn::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool FishSafeReturn::isChangeable() const {
+    return isCurrentChild("移動") || isCurrentChild("逃走");
+}
+
 }  // namespace uking::ai

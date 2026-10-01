@@ -23,4 +23,11 @@ void LastBossShieldBash::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool LastBossShieldBash::isChangeable() const {
+    auto* child = getCurrentChild();
+    if (!child)
+        return false;
+    return child->isChangeable();
+}
+
 }  // namespace uking::ai

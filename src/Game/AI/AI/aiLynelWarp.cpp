@@ -20,4 +20,8 @@ void LynelWarp::leave_() {
 
 void LynelWarp::loadParams_() {}
 
+bool LynelWarp::isChangeable() const {
+    return isCurrentChild("出現") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

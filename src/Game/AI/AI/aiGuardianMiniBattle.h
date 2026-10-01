@@ -10,6 +10,7 @@ class GuardianMiniBattle : public EnemyBattle {
 public:
     explicit GuardianMiniBattle(const InitArg& arg);
     ~GuardianMiniBattle() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

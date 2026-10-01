@@ -26,4 +26,8 @@ void GuardNearTarget::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool GuardNearTarget::isChangeable() const {
+    return getCurrentChild()->isChangeable() && isCurrentChild("通常");
+}
+
 }  // namespace uking::ai

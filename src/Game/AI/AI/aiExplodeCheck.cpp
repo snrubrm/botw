@@ -28,4 +28,8 @@ void ExplodeCheck::leave_() {
 
 void ExplodeCheck::loadParams_() {}
 
+bool ExplodeCheck::isChangeable() const {
+    return isCurrentChild("通常") && getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

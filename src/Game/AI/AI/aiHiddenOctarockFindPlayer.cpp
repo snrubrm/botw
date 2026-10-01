@@ -27,4 +27,8 @@ void HiddenOctarockFindPlayer::loadParams_() {
     getStaticParam(&mNoticeDelayTime_s, "NoticeDelayTime");
 }
 
+bool HiddenOctarockFindPlayer::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("近づき");
+}
+
 }  // namespace uking::ai

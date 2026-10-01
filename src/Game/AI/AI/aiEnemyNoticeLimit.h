@@ -8,6 +8,7 @@ class EnemyNoticeLimit : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNoticeLimit, ksys::act::ai::Ai)
 public:
     explicit EnemyNoticeLimit(const InitArg& arg);
+    bool isChangeable() const override;
 
     bool isFinished() const override;
 

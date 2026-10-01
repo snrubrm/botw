@@ -28,4 +28,10 @@ void EnemyNoticeLimit::loadParams_() {
     getStaticParam(&mOverNum_s, "OverNum");
 }
 
+bool EnemyNoticeLimit::isChangeable() const {
+    if (ksys::act::ai::Ai::isChangeable())
+        return true;
+    return getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

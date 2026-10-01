@@ -40,4 +40,8 @@ void GuardianMiniBattle::loadParams_() {
     getAITreeVariable(&mDamagedCount_a, "DamagedCount");
 }
 
+bool GuardianMiniBattle::isChangeable() const {
+    return isCurrentChild("戦闘準備") || isCurrentChild("旋回移動");
+}
+
 }  // namespace uking::ai

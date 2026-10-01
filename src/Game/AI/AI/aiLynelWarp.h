@@ -9,6 +9,7 @@ class LynelWarp : public ksys::act::ai::Ai {
 public:
     explicit LynelWarp(const InitArg& arg);
     ~LynelWarp() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -25,4 +25,13 @@ void ForestGiantChanceWait::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool ForestGiantChanceWait::isChangeable() const {
+    if (ksys::act::ai::Ai::isChangeable())
+        return true;
+    auto* child = getCurrentChild();
+    if (child->isFinished())
+        return true;
+    return child->isFailed();
+}
+
 }  // namespace uking::ai
