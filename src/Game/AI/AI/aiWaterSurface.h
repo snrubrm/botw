@@ -13,16 +13,27 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35();
+
 protected:
+    bool sub_71005EC4BC();
+    bool sub_71005EC520();
+    bool sub_71005EC6B0();
+    void sub_71005EC820();
+
     // static_param at offset 0x78
     const int* mLinkTagType_s{};
     // map_unit_param at offset 0x80
     const float* mRiseLength_m{};
     // map_unit_param at offset 0x88
     const float* mRiseSpeed_m{};
+    void* _90{};
+    sead::Vector3f _98;
 };
 
 }  // namespace uking::ai
