@@ -29,4 +29,8 @@ void FlyingCharacterReaction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void FlyingCharacterReaction::m32() {}
+
+void FlyingCharacterReaction::m33() {}
+
 }  // namespace uking::action
