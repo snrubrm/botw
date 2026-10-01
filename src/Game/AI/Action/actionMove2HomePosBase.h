@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ protected:
     float* mDynMoveDis_d{};
     // dynamic_param at offset 0x30
     float* mDynMoveSpeed_d{};
+    sead::Vector3f _38 = sead::Vector3f::zero;
+    sead::Vector3f _44 = sead::Vector3f::zero;
 };
+
+KSYS_CHECK_SIZE_NX150(Move2HomePosBase, 0x50);
 
 }  // namespace uking::action
