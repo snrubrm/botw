@@ -18,4 +18,8 @@ void PlayerEventStartWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerEventStartWait::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
