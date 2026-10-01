@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void* _e0{};
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkGoToTarget, 0xe8);
 
 }  // namespace uking::ai

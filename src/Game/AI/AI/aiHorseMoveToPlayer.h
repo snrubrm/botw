@@ -21,6 +21,8 @@ protected:
     const float* mDistanceSuccessEndIfInterrupted_s{};
     // static_param at offset 0xe8
     const float* mDistanceResetGearInput_s{};
+    bool _f0 = false;
 };
+KSYS_CHECK_SIZE_NX150(HorseMoveToPlayer, 0xf8);
 
 }  // namespace uking::ai

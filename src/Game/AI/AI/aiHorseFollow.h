@@ -53,6 +53,14 @@ protected:
     float* mDistanceKept_d{};
     // dynamic_param at offset 0xc0
     ksys::act::BaseProcLink* mTargetActor_d{};
+    f32 _c8 = 0;
+    f32 _cc = 0;
+    f32 _d0 = 0;
+    int _d4 = -1;
+    u8 _d8 = 0xff;
+    s8 _d9 = -1;
+    bool _da = false;
 };
+KSYS_CHECK_SIZE_NX150(HorseFollow, 0xe0);
 
 }  // namespace uking::ai
