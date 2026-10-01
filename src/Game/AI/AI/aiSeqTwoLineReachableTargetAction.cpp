@@ -15,6 +15,10 @@ void SeqTwoLineReachableTargetAction::enter_(ksys::act::ai::InlineParamPack* par
     SeqTwoLineReachableTargetActionBase::enter_(params);
 }
 
+void SeqTwoLineReachableTargetAction::calc_() {
+    SeqTwoLineReachableTargetActionBase::calc_();
+}
+
 void SeqTwoLineReachableTargetAction::leave_() {
     SeqTwoLineReachableTargetActionBase::leave_();
 }
