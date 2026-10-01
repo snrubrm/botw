@@ -20,4 +20,8 @@ void PlayerSwimJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
