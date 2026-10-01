@@ -14,6 +14,10 @@ void EnemyBattleWithAreaCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
+void EnemyBattleWithAreaCheck::calc_() {
+    EnemyBattle::calc_();
+}
+
 void EnemyBattleWithAreaCheck::leave_() {
     EnemyBattle::leave_();
 }
