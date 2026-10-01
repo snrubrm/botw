@@ -20,4 +20,8 @@ void PlayerDead::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDead::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
