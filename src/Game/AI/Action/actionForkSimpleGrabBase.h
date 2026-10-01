@@ -23,6 +23,9 @@ protected:
     const int* mGrabIdx_s{};
     // static_param at offset 0x28
     const bool* mIsNoGrabSuccess_s{};
+    bool _30 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkSimpleGrabBase, 0x38);
 
 }  // namespace uking::action
