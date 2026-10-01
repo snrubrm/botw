@@ -26,6 +26,7 @@ protected:
     const float* mShockWaveRadius_s{};
     // static_param at offset 0x40
     const float* mUnderRayLength_s{};
+    bool _48 = false;
 };
 
 }  // namespace uking::action
