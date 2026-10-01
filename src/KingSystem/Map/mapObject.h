@@ -170,6 +170,10 @@ public:
     void incrementLinkNum();
     void decrementLinkNum();
     bool checkCreateOrDeleteLinkObjRevival() const;
+    // 0x0000007100d398e8
+    bool checkRevivalMaybe(bool x) const;
+    // 0x0000007100d4e81c
+    void x(ObjectLinkArray* links);
 
     bool shouldSkipSpawn() const;
     bool shouldSkipSpawn_(bool x) const;

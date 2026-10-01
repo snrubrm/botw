@@ -138,6 +138,125 @@ bool ObjectLink::getObjectProcWithAccessor(act::ActorLinkConstDataAccess& access
 
 ObjectLinkData::ObjectLinkData() = default;
 
+void ObjectLinkData::release(Object* obj, bool a1) {
+    if (a1) {
+        for (const auto& link : mLinksToSelf.links) {
+            Object* other = link.other_obj;
+            if (!other || !other->getLinkData())
+                continue;
+
+            ObjectLinkArray* array;
+            switch (link.type) {
+            case MapLinkDefType::FixedCs:
+            case MapLinkDefType::HingeCs:
+            case MapLinkDefType::LimitHingeCs:
+            case MapLinkDefType::SliderCs:
+            case MapLinkDefType::PulleyCs:
+            case MapLinkDefType::BAndSCs:
+            case MapLinkDefType::BAndSLimitAngYCs:
+            case MapLinkDefType::CogWheelCs:
+            case MapLinkDefType::RackAndPinionCs:
+                array = &other->getLinkData()->mLinksCs;
+                break;
+            default:
+                array = &other->getLinkData()->mLinksOther;
+                break;
+            }
+
+            for (auto& other_link : array->links) {
+                if (other_link.other_obj == obj && other_link.type == link.type) {
+                    other_link.other_obj = nullptr;
+                    other_link.type = MapLinkDefType::Invalid;
+                    other_link.iter = MubinIter();
+                    break;
+                }
+            }
+        }
+    }
+
+    obj->x(&mLinksOther);
+    obj->x(&mLinksCs);
+
+    if (mGenGroup) {
+        mGenGroup->sub_7100D50778(obj);
+        mGenGroup = nullptr;
+    }
+
+    deleteArrays();
+    delete this;
+}
+
+void Object::x(ObjectLinkArray* links) {
+    for (const auto& link : links->links) {
+        if (link.type >= MapLinkDefType::Reference)
+            continue;
+
+        Object* other = link.other_obj;
+        if (!other)
+            continue;
+
+        ObjectLinkData* data = other->mLinkData;
+        if (!data)
+            continue;
+
+        if (data->mCreateLinksSrcObj == this)
+            data->mCreateLinksSrcObj = nullptr;
+        if (data->mDeleteLinksSrcObj == this)
+            data->mDeleteLinksSrcObj = nullptr;
+
+        for (auto& other_link : data->mLinksToSelf.links) {
+            if (other_link.other_obj == this && other_link.type == link.type) {
+                other_link.other_obj = nullptr;
+                other_link.type = MapLinkDefType::Invalid;
+                other_link.iter = MubinIter();
+                other->decrementLinkNum();
+                break;
+            }
+        }
+    }
+}
+
+bool ObjectLinkData::sub_7100D4EC40(Object* src, ObjectLink* link, Object* dest) {
+    const auto type = link->type;
+    for (auto& entry : mLinksToSelf.links) {
+        if (entry.other_obj == src && entry.type == type)
+            return true;
+
+        if (!entry.other_obj) {
+            entry.other_obj = src;
+            entry.type = type;
+            entry.iter = link->iter;
+
+            switch (type) {
+            case MapLinkDefType::BasicSig:
+            case MapLinkDefType::BasicSigOnOnly: {
+                bool value = false;
+                if (link->iter.tryGetParamBoolByKey(&value, "NoAutoDemoMember"))
+                    mNoAutoDemoMember = value;
+                break;
+            }
+            case MapLinkDefType::Create:
+            case MapLinkDefType::MtxCopyCreate:
+                if (src->getFlags().isOn(Object::Flag::IsLinkTag)) {
+                    bool value = false;
+                    if (link->iter.tryGetParamBoolByKey(&value, "AppearFade"))
+                        mAppearFade = value;
+                    mCreateLinksSrcObj = src;
+                }
+                break;
+            case MapLinkDefType::Delete:
+                if (src->getFlags().isOn(Object::Flag::IsLinkTag))
+                    mDeleteLinksSrcObj = src;
+                break;
+            default:
+                break;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void ObjectLinkData::deleteArrays() {
     if (mRails) {
         delete[] mRails;
@@ -178,6 +297,23 @@ ObjectLink* ObjectLinkData::findLinkWithType_0(MapLinkDefType t) {
     default:
         return mLinksOther.findLinkWithType(t);
     }
+}
+
+bool ObjectLinkData::checkCreateLinkObjRevival() const {
+    if (mCreateLinksSrcObj)
+        return !mCreateLinksSrcObj->checkRevivalMaybe(false);
+    return false;
+}
+
+bool ObjectLinkData::checkDeleteLinkObjRevival() const {
+    if (mDeleteLinksSrcObj)
+        return mDeleteLinksSrcObj->checkRevivalMaybe(true);
+    return false;
+}
+
+void ObjectLinkData::sub_7100D4FB78(Object* obj) {
+    if (mGenGroup)
+        mGenGroup->sub_7100D5119C(obj);
 }
 
 void ObjectLinkData::setGenGroup(GenGroup* group) {
