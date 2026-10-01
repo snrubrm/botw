@@ -14,6 +14,10 @@ void ForestGiantBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
+void ForestGiantBattle::calc_() {
+    EnemyBattle::calc_();
+}
+
 void ForestGiantBattle::leave_() {
     EnemyBattle::leave_();
 }
