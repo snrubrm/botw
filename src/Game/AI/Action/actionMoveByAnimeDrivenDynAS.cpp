@@ -27,4 +27,8 @@ void MoveByAnimeDrivenDynAS::calc_() {
     MoveByAnimeDriven::calc_();
 }
 
+const char* MoveByAnimeDrivenDynAS::m32() {
+    return mDynASKeyName_d.cstr();
+}
+
 }  // namespace uking::action
