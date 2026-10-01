@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossAvoid.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void SiteBossAvoid::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossAvoid::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5F6FC(sead::Vector3f::zero);
 }
 
 void SiteBossAvoid::loadParams_() {
