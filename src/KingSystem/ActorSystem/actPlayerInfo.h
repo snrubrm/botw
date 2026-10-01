@@ -23,6 +23,7 @@ class PlayerInfo : public PlayerInfoBase {
 
 public:
     BaseProcLink& getPlayerLink() { return mPlayerLink; }
+    BaseProcLink& getHorseLink() { return mHorseLink; }
     bool init();
     void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
     void resetPlayer(PlayerBase* player);
