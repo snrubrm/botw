@@ -15,6 +15,10 @@ void DgnObj_DLC_CW_WithEntityBody00::enter_(ksys::act::ai::InlineParamPack* para
     DgnObj_DLC_CogWheel2::enter_(params);
 }
 
+void DgnObj_DLC_CW_WithEntityBody00::calc_() {
+    DgnObj_DLC_CogWheel2::calc_();
+}
+
 void DgnObj_DLC_CW_WithEntityBody00::leave_() {
     DgnObj_DLC_CogWheel2::leave_();
 }
