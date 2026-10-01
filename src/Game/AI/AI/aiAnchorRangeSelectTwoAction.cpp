@@ -15,6 +15,10 @@ void AnchorRangeSelectTwoAction::enter_(ksys::act::ai::InlineParamPack* params) 
     RangeSelectTwoAction::enter_(params);
 }
 
+void AnchorRangeSelectTwoAction::calc_() {
+    RangeSelectAction::calc_();
+}
+
 void AnchorRangeSelectTwoAction::leave_() {
     RangeSelectTwoAction::leave_();
 }
