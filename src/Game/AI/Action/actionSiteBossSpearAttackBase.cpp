@@ -48,4 +48,8 @@ bool SiteBossSpearAttackBase::isFinished() const {
     return isFinishedAS(0, 0);
 }
 
+int SiteBossSpearAttackBase::m34() {
+    return *mAtMinDamage_s;
+}
+
 }  // namespace uking::action
