@@ -11,8 +11,10 @@ bool MergedDungeonPartsRoot::init_(sead::Heap* heap) {
 }
 
 void MergedDungeonPartsRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("通常");
 }
+
+void MergedDungeonPartsRoot::calc_() {}
 
 void MergedDungeonPartsRoot::leave_() {
     ksys::act::ai::Ai::leave_();
