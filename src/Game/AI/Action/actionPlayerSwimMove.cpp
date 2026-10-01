@@ -8,9 +8,7 @@ void PlayerSwimMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSwimMove::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSwimMove::leave_() {}
 
 void PlayerSwimMove::loadParams_() {
     getStaticParam(&mMaxSpeedF_s, "MaxSpeedF");
