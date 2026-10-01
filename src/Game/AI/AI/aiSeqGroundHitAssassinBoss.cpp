@@ -12,6 +12,14 @@ bool SeqGroundHitAssassinBoss::init_(sead::Heap* heap) {
 
 void SeqGroundHitAssassinBoss::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqGroundHit::enter_(params);
+    _50 = 0;
+}
+
+void SeqGroundHitAssassinBoss::calc_() {
+    if (_50 >= 3)
+        SeqGroundHit::calc_();
+    else
+        ++_50;
 }
 
 void SeqGroundHitAssassinBoss::leave_() {
