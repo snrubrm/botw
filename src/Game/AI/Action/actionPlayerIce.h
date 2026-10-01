@@ -32,6 +32,7 @@ protected:
     const float* mJumpSpeedFBlowOff_s{};
     // static_param at offset 0x50
     const float* mJumpHeightBlowOff_s{};
+    float _58 = -1.0f;
 };
 
 }  // namespace uking::action
