@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -30,6 +31,9 @@ protected:
     const float* mLostRange_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    float _60 = 0;
+    int _64 = 0;
+    int _68 = 0;
 };
 
 }  // namespace uking::ai
