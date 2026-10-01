@@ -8,9 +8,7 @@ void PlayerLadderToClimb::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLadderToClimb::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLadderToClimb::leave_() {}
 
 void PlayerLadderToClimb::calc_() {
     PlayerAction::calc_();
