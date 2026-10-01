@@ -24,4 +24,8 @@ void NavMeshLiftWalk::calc_() {
     NavMeshAction::calc_();
 }
 
+void NavMeshLiftWalk::m34() {
+    playAS("LiftWalk", true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
