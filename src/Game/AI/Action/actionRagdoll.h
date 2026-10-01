@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -53,8 +54,21 @@ protected:
     const sead::Vector3f* mDownBackCtrlOffset_s{};
     // static_param at offset 0xb8
     const sead::Vector3f* mDownFrontCtrlOffset_s{};
+    sead::Vector3f _c0{0, 0, 0};
+    sead::Vector3f _cc{0, 0, 0};
+    sead::Vector3f _d8{0, 0, 0};
+    u32 _e4 = 0;
+    u32 _e8 = 0;
+    s32 _ec = -1;
+    f32 _f0 = 0;
+    f32 _f4 = 1.0f;
+    void* _f8 = nullptr;
+    ksys::act::CCAccessor mCCAccessor;
+    void* _108 = nullptr;
     // aitree_variable at offset 0x110
     void* mCRBOffsetUnit_a{};
 };
+
+KSYS_CHECK_SIZE_NX150(Ragdoll, 0x118);
 
 }  // namespace uking::action

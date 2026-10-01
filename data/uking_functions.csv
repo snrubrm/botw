@@ -14805,7 +14805,7 @@ Address,Quality,Size,Name
 0x0000007100225e60,W,000108,_ZN5uking6action13RagdollFreeze11loadParams_Ev
 0x0000007100225ecc,O,000216,_ZNK5uking6action13RagdollFreeze27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100225fa4,O,000092,_ZNK5uking6action13RagdollFreeze18getRuntimeTypeInfoEv
-0x0000007100226000,M,000144,_ZN5uking6action7RagdollC2ERKN4ksys3act2ai10ActionBase7InitArgE
+0x0000007100226000,O,000144,_ZN5uking6action7RagdollC2ERKN4ksys3act2ai10ActionBase7InitArgE
 0x0000007100226090,W,000392,_ZN5uking6action7RagdollD1Ev
 0x0000007100226218,W,000036,_ZN5uking6action7RagdollD0Ev
 0x000000710022623c,W,000256,_ZN5uking6action7Ragdoll5init_EPN4sead4HeapE
@@ -14815,7 +14815,7 @@ Address,Quality,Size,Name
 0x0000007100226a30,U,000212,
 0x0000007100226b04,U,000340,
 0x0000007100226c58,W,000356,_ZN5uking6action7Ragdoll6leave_Ev
-0x0000007100226dbc,W,000548,_ZN5uking6action7Ragdoll11loadParams_Ev
+0x0000007100226dbc,O,000548,_ZN5uking6action7Ragdoll11loadParams_Ev
 0x0000007100226fe0,U,000340,uking::action::Ragdoll::m38
 0x0000007100227134,U,000080,
 0x0000007100227184,U,000176,
