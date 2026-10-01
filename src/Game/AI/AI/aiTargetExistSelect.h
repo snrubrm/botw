@@ -10,8 +10,14 @@ public:
     explicit TargetExistSelect(const InitArg& arg);
     ~TargetExistSelect() override;
 
+    bool isChangeable() const override { return getCurrentChild()->isChangeable(); }
+
+    bool isFailed() const override { return getCurrentChild()->isFailed(); }
+    bool isFinished() const override { return getCurrentChild()->isFinished(); }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
