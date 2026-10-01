@@ -38,6 +38,9 @@ protected:
     const float* mOffsetRangeMaxOutOfScreen_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    bool _70 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkASTrgShootArrow, 0x78);
 
 }  // namespace uking::action
