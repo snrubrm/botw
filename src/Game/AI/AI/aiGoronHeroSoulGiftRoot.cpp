@@ -11,6 +11,7 @@ bool GoronHeroSoulGiftRoot::init_(sead::Heap* heap) {
 }
 
 void GoronHeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _8c.reset(0, 1.0f / 3.0f);
     HeroSoulGiftRoot::enter_(params);
 }
 

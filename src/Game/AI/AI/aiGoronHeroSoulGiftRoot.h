@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiHeroSoulGiftRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::Timer _8c;
 };
 
 }  // namespace uking::ai
