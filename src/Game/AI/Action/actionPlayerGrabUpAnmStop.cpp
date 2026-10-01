@@ -8,9 +8,7 @@ void PlayerGrabUpAnmStop::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerGrabUpAnmStop::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerGrabUpAnmStop::leave_() {}
 
 void PlayerGrabUpAnmStop::calc_() {
     PlayerAction::calc_();
