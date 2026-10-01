@@ -12,6 +12,7 @@ bool ForkFreeMoving::init_(sead::Heap* heap) {
 
 void ForkFreeMoving::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMovingAction::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkFreeMoving::leave_() {
