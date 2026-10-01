@@ -20,4 +20,8 @@ void Tumble::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool Tumble::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
