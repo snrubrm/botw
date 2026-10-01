@@ -12,6 +12,8 @@ bool SideWalk::init_(sead::Heap* heap) {
 
 void SideWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     SideWalkBase::enter_(params);
+    if (!mASKeyName_s.isEmpty())
+        playAS(mASKeyName_s.cstr(), *mIsIgnoreSameAS_s, 0, 0, -1.0f);
 }
 
 void SideWalk::leave_() {
