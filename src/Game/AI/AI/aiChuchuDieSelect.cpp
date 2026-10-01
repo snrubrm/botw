@@ -14,6 +14,10 @@ void ChuchuDieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     DieSelectChemicalPlus::enter_(params);
 }
 
+void ChuchuDieSelect::calc_() {
+    DieSelectChemicalPlus::calc_();
+}
+
 void ChuchuDieSelect::leave_() {
     DieSelectChemicalPlus::leave_();
 }
