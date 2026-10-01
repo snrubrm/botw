@@ -22,4 +22,9 @@ void SandwormBlownOff::loadParams_() {
     getStaticParam(&mBlownOffTimer_s, "BlownOffTimer");
 }
 
+bool SandwormBlownOff::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() ||
+           (isCurrentChild("後攻撃") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

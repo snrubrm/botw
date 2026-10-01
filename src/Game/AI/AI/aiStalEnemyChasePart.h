@@ -10,6 +10,8 @@ public:
     explicit StalEnemyChasePart(const InitArg& arg);
     ~StalEnemyChasePart() override;
 
+    bool isChangeable() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

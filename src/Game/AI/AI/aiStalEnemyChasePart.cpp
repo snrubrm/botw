@@ -24,4 +24,10 @@ void StalEnemyChasePart::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool StalEnemyChasePart::isChangeable() const {
+    if (isCurrentChild("通常パーツ待機"))
+        return true;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 }  // namespace uking::ai

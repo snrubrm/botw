@@ -27,4 +27,8 @@ void NPCAvoid::loadParams_() {
     getDynamicParam(&mTerrorEmitter_d, "TerrorEmitter");
 }
 
+bool NPCAvoid::isChangeable() const {
+    return isCurrentChild("アラート") || isCurrentChild("脅威解除");
+}
+
 }  // namespace uking::ai

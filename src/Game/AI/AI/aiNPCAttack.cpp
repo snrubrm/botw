@@ -32,4 +32,8 @@ void NPCAttack::loadParams_() {
     getDynamicParam(&mEnemyLink_d, "EnemyLink");
 }
 
+bool NPCAttack::isChangeable() const {
+    return !isCurrentChild("攻撃") && !isCurrentChild("勝利");
+}
+
 }  // namespace uking::ai

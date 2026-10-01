@@ -26,4 +26,18 @@ void WeatherReactionCheck::loadParams_() {
     getStaticParam(&mIsForceChangeable_s, "IsForceChangeable");
 }
 
+bool WeatherReactionCheck::isFailed() const {
+    return getCurrentChild()->isFailed() && (!*mIsReturnNormal_s || isCurrentChild("通常"));
+}
+
+bool WeatherReactionCheck::isFinished() const {
+    return getCurrentChild()->isFinished() && (!*mIsReturnNormal_s || isCurrentChild("通常"));
+}
+
+bool WeatherReactionCheck::isChangeable() const {
+    if (*mIsForceChangeable_s)
+        return true;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 }  // namespace uking::ai

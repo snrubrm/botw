@@ -42,4 +42,12 @@ void SiteBossSwordAttackRoot::loadParams_() {
     getDynamicParam(&mIsCancelAttack_d, "IsCancelAttack");
 }
 
+bool SiteBossSwordAttackRoot::isChangeable() const {
+    if (isCurrentChild("待機"))
+        return true;
+    if (getCurrentChild()->isChangeable())
+        return true;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 }  // namespace uking::ai

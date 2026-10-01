@@ -10,6 +10,8 @@ public:
     explicit SiteBossSwordAttackRoot(const InitArg& arg);
     ~SiteBossSwordAttackRoot() override;
 
+    bool isChangeable() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
