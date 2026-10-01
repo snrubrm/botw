@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSeqPursuit.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -12,6 +13,8 @@ bool SeqPursuit::init_(sead::Heap* heap) {
 
 void SeqPursuit::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
+    _78 = false;
+    _79 = sead::GlobalRandom::instance()->getS32Range(0, 100) < *mPursuitPer_s;
 }
 
 void SeqPursuit::leave_() {
@@ -25,6 +28,11 @@ void SeqPursuit::loadParams_() {
     getStaticParam(&mPursuitDist_s, "PursuitDist");
     getStaticParam(&mIsEndPursuit_s, "IsEndPursuit");
     getStaticParam(&mIsGuardNoPursuit_s, "IsGuardNoPursuit");
+}
+
+bool SeqPursuit::m34() const {
+    auto* child = getCurrentChild();
+    return (child->isFinished() || child->isFailed()) && isCurrentChild("先行動");
 }
 
 }  // namespace uking::ai

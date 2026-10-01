@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34() const override;
+
 protected:
     // static_param at offset 0x50
     const int* mPursuitPer_s{};
@@ -27,6 +29,9 @@ protected:
     const bool* mIsEndPursuit_s{};
     // static_param at offset 0x70
     const bool* mIsGuardNoPursuit_s{};
+    bool _78 = false;
+    bool _79 = false;
 };
+KSYS_CHECK_SIZE_NX150(SeqPursuit, 0x80);
 
 }  // namespace uking::ai
