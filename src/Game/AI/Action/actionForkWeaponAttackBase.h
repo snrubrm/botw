@@ -25,6 +25,9 @@ protected:
     const int* mTargetBone_s{};
     // static_param at offset 0x60
     const bool* mIsNoRod_s{};
+    bool _68 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkWeaponAttackBase, 0x70);
 
 }  // namespace uking::action
