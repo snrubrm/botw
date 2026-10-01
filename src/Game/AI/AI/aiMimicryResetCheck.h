@@ -10,6 +10,9 @@ public:
     explicit MimicryResetCheck(const InitArg& arg);
     ~MimicryResetCheck() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
@@ -21,6 +24,7 @@ protected:
     int* mMimicryMaterial_a{};
     // aitree_variable at offset 0x48
     bool* mIsStartResetMimicry_a{};
+    f32 _50 = 1.0f;
 };
 
 }  // namespace uking::ai
