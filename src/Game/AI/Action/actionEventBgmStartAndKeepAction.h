@@ -20,6 +20,7 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::SafeString mBgmName_d{};
+    bool _30 = false;
 };
 
 }  // namespace uking::action
