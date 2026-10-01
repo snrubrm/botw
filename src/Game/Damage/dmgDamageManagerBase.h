@@ -57,7 +57,7 @@ public:
     virtual s32 getMinDmg() { return mMinDmg; }
     virtual s32 getField50() { return mField_50; }
     virtual s32 getField54() { return mField_54; }
-    virtual bool checkDamageFlags() { return false; }
+    virtual bool checkDamageFlags(s32 bit) { return false; }
     virtual s32 getFlags2() { return mFlags2; }
     virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
     virtual void removeDamageCallback(DamageCallback* callback);
