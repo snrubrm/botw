@@ -10,6 +10,8 @@ class EnemyRestraintCheckBattle : public ksys::act::ai::Ai {
 public:
     explicit EnemyRestraintCheckBattle(const InitArg& arg);
     ~EnemyRestraintCheckBattle() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

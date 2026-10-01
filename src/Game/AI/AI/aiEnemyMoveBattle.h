@@ -11,6 +11,7 @@ class EnemyMoveBattle : public EnemyBattle {
 public:
     explicit EnemyMoveBattle(const InitArg& arg);
     ~EnemyMoveBattle() override;
+    bool isFinished() const override;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

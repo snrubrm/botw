@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDominoRoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,15 @@ bool DominoRoot::init_(sead::Heap* heap) {
 }
 
 void DominoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        sead::BoundBox3f box;
+        body->getAabbInLocal(&box);
+        _78 = box.getHalfSizeY() * 2;
+        body->setFrictionScale(*mFriction_s);
+    }
+    _78 *= *mCheckHeightRate_s;
+    _80 = false;
+    changeChild("待機");
 }
 
 void DominoRoot::leave_() {

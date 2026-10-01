@@ -8,6 +8,7 @@ EnemyMoveBattle::~EnemyMoveBattle() = default;
 
 void EnemyMoveBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
+    m37();
 }
 
 bool EnemyMoveBattle::isChangeable() const {
@@ -23,6 +24,10 @@ void EnemyMoveBattle::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getStaticParam(&mLimitMoveTime_s, "LimitMoveTime");
     getStaticParam(&mMoveDist_s, "MoveDist");
+}
+
+bool EnemyMoveBattle::isFinished() const {
+    return ActionBase::isFinished() || (getCurrentChild()->isFinished() && isCurrentChild("戦闘攻撃"));
 }
 
 }  // namespace uking::ai

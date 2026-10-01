@@ -24,4 +24,12 @@ void EnemyRestraintCheckBattle::loadParams_() {
     getStaticParam(&mIsResetInterval_s, "IsResetInterval");
 }
 
+bool EnemyRestraintCheckBattle::isFinished() const {
+    return ActionBase::isFinished() || (isCurrentChild("戦闘") && getCurrentChild()->isFinished());
+}
+
+bool EnemyRestraintCheckBattle::isFailed() const {
+    return ActionBase::isFailed() || (isCurrentChild("戦闘") && getCurrentChild()->isFailed());
+}
+
 }  // namespace uking::ai
