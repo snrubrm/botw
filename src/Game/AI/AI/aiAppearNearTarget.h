@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,6 +19,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(sead::Vector3f* out);
+    virtual void m35(sead::Vector3f* out);
+    virtual bool m36(const sead::Vector3f& pos);
+    virtual void m37(const sead::Vector3f& pos);
+    virtual void m38(sead::Vector3f* out, const sead::Vector3f& pos);
+
 protected:
     // static_param at offset 0x38
     const float* mDist_s{};
@@ -26,6 +34,12 @@ protected:
     const int* mNearCreateAppearID_m{};
     // aitree_variable at offset 0x50
     bool* mIsStopFallCheck_a{};
+    int _58{};
+    Unk_7102451c10 _60;
+    f32 _88{};
+    bool _8c{};
+    bool _8d{};
+    bool _8e{};
 };
 
 }  // namespace uking::ai

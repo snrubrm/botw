@@ -18,6 +18,10 @@ bool AppearNearTarget::isChangeable() const {
     return false;
 }
 
+bool AppearNearTarget::m36(const sead::Vector3f& pos) {
+    return true;
+}
+
 void AppearNearTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }
