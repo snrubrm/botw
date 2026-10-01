@@ -29,6 +29,8 @@ void OneTimeWaterFloatStopASPlay::loadParams_() {
 
 void OneTimeWaterFloatStopASPlay::calc_() {
     WaterFloatImmobile::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
