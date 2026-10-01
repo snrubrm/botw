@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGyroActivateTerminal.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,12 @@ bool GyroActivateTerminal::init_(sead::Heap* heap) {
 }
 
 void GyroActivateTerminal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    _38.x();
+    ksys::act::enableAttClient(actor, "BootPStop");
+    _78 = false;
+    changeChild("待機");
+    _78 = false;
 }
 
 void GyroActivateTerminal::leave_() {
@@ -19,5 +25,11 @@ void GyroActivateTerminal::leave_() {
 }
 
 void GyroActivateTerminal::loadParams_() {}
+
+bool GyroActivateTerminal::handleMessage_(const ksys::Message& message) {
+    if (isCurrentChild("待機") && _38.m2(message))
+        return true;
+    return false;
+}
 
 }  // namespace uking::ai

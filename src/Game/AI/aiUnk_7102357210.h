@@ -51,3 +51,9 @@ public:
     explicit Unk_7102450828(u32 type) : Unk_7102450648(type) {}
     bool m2(const ksys::Message& message) override;
 };
+
+// vtable 0x71023fa018 (GyroActivateTerminal)
+class Unk_71023fa018 : public Unk_7102450648 {
+public:
+    explicit Unk_71023fa018(u32 type) : Unk_7102450648(type) {}
+};
