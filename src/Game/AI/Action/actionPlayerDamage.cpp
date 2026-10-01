@@ -35,4 +35,8 @@ void PlayerDamage::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDamage::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
