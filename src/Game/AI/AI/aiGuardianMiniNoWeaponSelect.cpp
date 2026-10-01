@@ -11,6 +11,18 @@ void GuardianMiniNoWeaponSelect::enter_(ksys::act::ai::InlineParamPack* params) 
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GuardianMiniNoWeaponSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool GuardianMiniNoWeaponSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool GuardianMiniNoWeaponSelect::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void GuardianMiniNoWeaponSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
