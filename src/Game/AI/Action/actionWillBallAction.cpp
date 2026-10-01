@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: regalloc (keeps &_7c in x20 across the memset)
 WillBallAction::WillBallAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 WillBallAction::~WillBallAction() = default;

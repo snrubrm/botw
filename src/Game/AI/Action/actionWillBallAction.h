@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -38,6 +40,14 @@ protected:
     const bool* mIsGround_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _70;
+    ksys::VFRValue _7c;
+    f32 _88 = 1.0f;
+    f32 _8c = 0;
+    bool _90 = true;
+    bool _91 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(WillBallAction, 0x98);
 
 }  // namespace uking::action
