@@ -26,6 +26,12 @@ protected:
     bool* mIsCreateC_d{};
     // dynamic_param at offset 0x38
     bool* mIsCreateD_d{};
+    u16 _40 = 0;
+    bool _42 = false;
+    int _44 = 0;
+    float _48 = 0.0f;
+    int _4c = 0;
+    int _50 = 0;
 };
 
 }  // namespace uking::action
