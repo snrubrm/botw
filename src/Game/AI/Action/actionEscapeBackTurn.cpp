@@ -20,4 +20,8 @@ void EscapeBackTurn::calc_() {
     ActionEx::calc_();
 }
 
+bool EscapeBackTurn::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
