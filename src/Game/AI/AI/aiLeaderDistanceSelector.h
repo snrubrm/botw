@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710047F77C();
+
 protected:
     // static_param at offset 0x38
     const float* mBoundaryDistance_s{};

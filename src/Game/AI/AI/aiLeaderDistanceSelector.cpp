@@ -11,7 +11,7 @@ bool LeaderDistanceSelector::init_(sead::Heap* heap) {
 }
 
 void LeaderDistanceSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710047F77C();
 }
 
 void LeaderDistanceSelector::leave_() {
