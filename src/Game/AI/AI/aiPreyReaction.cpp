@@ -11,7 +11,8 @@ bool PreyReaction::init_(sead::Heap* heap) {
 }
 
 void PreyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+    _38 = true;
 }
 
 void PreyReaction::leave_() {

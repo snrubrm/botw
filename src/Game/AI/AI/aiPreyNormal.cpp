@@ -8,7 +8,8 @@ PreyNormal::PreyNormal(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 PreyNormal::~PreyNormal() = default;
 
 bool PreyNormal::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    m9();
+    return true;
 }
 
 void PreyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
