@@ -20,4 +20,8 @@ void PlayerStepAttack::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerStepAttack::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
