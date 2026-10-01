@@ -8,6 +8,11 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking::act {
+class Rideable;
+class Unk_7100e8b2b8;
+}  // namespace uking::act
+
 namespace ksys::map {
 class Object;
 class ObjectLinkData;
@@ -108,6 +113,8 @@ public:
     const sead::Vector3f& getPreviousPos2() const;
     // CSV name; returns Actor::_454
     const sead::Vector3f& getField44C_Vec3() const;
+    uking::act::Rideable* getHorseOptions() const;
+    uking::act::Unk_7100e8b2b8* getHorseRideStuff() const;
     const sead::Vector3f& getVelocity() const;
     const sead::Vector3f& getAngVelocity() const;
     void getHomeMtx(sead::Matrix34f* mtx) const;

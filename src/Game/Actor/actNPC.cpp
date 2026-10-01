@@ -25,4 +25,8 @@ Unk_7100d3cd74* NPC::m101() {
     return &_fa8;
 }
 
+HorseRideInfo* NPC::getPlayerRideInfo() {
+    return &_f28;
+}
+
 }  // namespace uking::act

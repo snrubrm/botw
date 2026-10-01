@@ -3,6 +3,8 @@ target_sources(uking PRIVATE
   actDragon.h
   actEnemy.cpp
   actEnemy.h
+  actHorseRideInfo.cpp
+  actHorseRideInfo.h
   actNPC.cpp
   actNPC.h
   actNPCBase.cpp
@@ -17,6 +19,7 @@ target_sources(uking PRIVATE
   actRideable.h
   actRideableBase.cpp
   actUnk_71002dccbc.h
+  actUnk_71023cee88.cpp
   actUnk_7100d3cd74.h
   actUnk_7100e8b2b8.cpp
   actWeapon.cpp

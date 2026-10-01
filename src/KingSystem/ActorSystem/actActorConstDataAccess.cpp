@@ -460,6 +460,22 @@ const sead::Vector3f& ActorConstDataAccess::getPreviousPos2() const {
     return actor->mPreviousPos2;
 }
 
+// NON_MATCHING: the original does not tail-call the virtual function
+uking::act::Rideable* ActorConstDataAccess::getHorseOptions() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    return actor->getHorseOptionsMaybe();
+}
+
+// NON_MATCHING: the original does not tail-call the virtual function
+uking::act::Unk_7100e8b2b8* ActorConstDataAccess::getHorseRideStuff() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    return actor->getMotorcyclePriorityStuffMaybe();
+}
+
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching
 const sead::Vector3f& ActorConstDataAccess::getField44C_Vec3() const {
     auto* actor = getActor();

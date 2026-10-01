@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPCBase.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
@@ -80,9 +81,7 @@ public:
     /* 0x0e88 */ u32 _e88 = 0;
     /* 0x0e8c */ u16 _e8c = 0;
     /* 0x0e90 */ Unk_71002dccbc _e90{this};
-    // object with vtable 0x71023cee88 (CSV methods Player::RideInfo::*); getPlayerRideInfo
-    /* 0x0f28 */ u8 _f28[0xf60 - 0xf28];
-    /* 0x0f60 */ ksys::act::BaseProcLink _f60;
+    /* 0x0f28 */ Unk_71023cee88 _f28{this};  // getPlayerRideInfo
     /* 0x0f70 */ ksys::act::BaseProcLink _f70;
     /* 0x0f80 */ void* _f80 = nullptr;
     /* 0x0f88 */ u8 _f88[0xfa8 - 0xf88];  // object with vtable 0x7102358858
