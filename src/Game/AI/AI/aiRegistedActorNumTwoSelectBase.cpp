@@ -15,12 +15,24 @@ void RegistedActorNumTwoSelectBase::enter_(ksys::act::ai::InlineParamPack* param
     ksys::act::ai::Ai::enter_(params);
 }
 
+void RegistedActorNumTwoSelectBase::calc_() {}
+
+void RegistedActorNumTwoSelectBase::m34(int num, ksys::act::ai::InlineParamPack* params) {}
+
 void RegistedActorNumTwoSelectBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
 void RegistedActorNumTwoSelectBase::loadParams_() {
     getAITreeVariable(&mRegistedActorUnit_a, "RegistedActorUnit");
+}
+
+bool RegistedActorNumTwoSelectBase::isFailed() const {
+    return getCurrentChild()->isFailed() || mFlags.isOn(Flag::Failed);
+}
+
+bool RegistedActorNumTwoSelectBase::isFinished() const {
+    return getCurrentChild()->isFinished() || mFlags.isOn(Flag::Finished);
 }
 
 }  // namespace uking::ai
