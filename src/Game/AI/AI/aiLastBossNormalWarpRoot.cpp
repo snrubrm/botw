@@ -14,6 +14,10 @@ void LastBossNormalWarpRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LastBossNormalWarpRoot::isChangeable() const {
+    return false;
+}
+
 void LastBossNormalWarpRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }

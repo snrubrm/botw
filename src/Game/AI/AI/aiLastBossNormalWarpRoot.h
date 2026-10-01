@@ -9,6 +9,7 @@ class LastBossNormalWarpRoot : public ksys::act::ai::Ai {
 public:
     explicit LastBossNormalWarpRoot(const InitArg& arg);
     ~LastBossNormalWarpRoot() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
