@@ -14,6 +14,14 @@ void StalPartsHasSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool StalPartsHasSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool StalPartsHasSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void StalPartsHasSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
