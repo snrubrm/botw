@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m34();
+    virtual void m35();
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
