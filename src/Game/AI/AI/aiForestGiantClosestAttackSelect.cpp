@@ -15,6 +15,16 @@ void ForestGiantClosestAttackSelect::enter_(ksys::act::ai::InlineParamPack* para
     ksys::act::ai::Ai::enter_(params);
 }
 
+void ForestGiantClosestAttackSelect::calc_() {}
+
+bool ForestGiantClosestAttackSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool ForestGiantClosestAttackSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void ForestGiantClosestAttackSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
