@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSwitchTimeLag.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,33 @@ bool SwitchTimeLag::init_(sead::Heap* heap) {
 }
 
 void SwitchTimeLag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _40 = 0.0f;
+}
+
+// NON_MATCHING: *mWaitTime_m is loaded before the VFR delta (original: after; see SwitchRightAndWrong::calc_)
+void SwitchTimeLag::calc_() {
+    auto* actor = mActor;
+    if (!actor->checkBasicSig()) {
+        _40 = 0.0f;
+        if (!isCurrentChild("オフ")) {
+            _40 = 0.0f;
+            changeChild("オフ");
+        }
+        return;
+    }
+
+    bool done;
+    if (sead::Mathf::chase(&_40, *mWaitTime_m, ksys::VFR::instance()->getDeltaFrame())) {
+        done = true;
+    } else {
+        actor->m107();
+        done = false;
+    }
+
+    if (!isCurrentChild("オン") && done) {
+        _40 = 0.0f;
+        changeChild("オン");
+    }
 }
 
 void SwitchTimeLag::leave_() {
