@@ -32,4 +32,8 @@ void GanonThrowFireBall::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GanonThrowFireBall::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
