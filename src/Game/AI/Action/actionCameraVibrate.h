@@ -30,6 +30,9 @@ protected:
     const float* mCameraPower_m{};
     // map_unit_param at offset 0x58
     const float* mCameraRange_m{};
+    bool _60 = false;
+    int _64 = -1;
+    void* _68{};
 };
 
 }  // namespace uking::action
