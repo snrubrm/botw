@@ -26,7 +26,7 @@ void ActionBase::playAS(const char* name, bool repeat, u32 slot, u32 seq_bank, f
     as_list->startAnimationMaybe(t, -1.0f, name, slot, seq_bank, true);
 }
 
-bool ActionBase::isFinishedAS(u32 slot, u32 seq_bank) {
+bool ActionBase::isFinishedAS(u32 slot, u32 seq_bank) const {
     auto* as_list = mActor->getASList();
     if (!as_list)
         return true;
