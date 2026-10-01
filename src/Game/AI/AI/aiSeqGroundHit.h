@@ -10,6 +10,9 @@ public:
     explicit SeqGroundHit(const InitArg& arg);
     ~SeqGroundHit() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
@@ -17,6 +20,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_7100562078();
+
     // static_param at offset 0x38
     const int* mCheckType_s{};
     // static_param at offset 0x40

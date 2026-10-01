@@ -11,7 +11,29 @@ bool SeqGroundHit::init_(sead::Heap* heap) {
 }
 
 void SeqGroundHit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("空中", params);
+}
+
+void SeqGroundHit::calc_() {
+    if (!isCurrentChild("空中"))
+        return;
+
+    auto* child = getCurrentChild();
+    if (*mIsCheckChangeable_s && !child->isChangeable())
+        return;
+
+    if (sub_7100562078() || child->isFinished() || child->isFailed())
+        changeChild("地上");
+}
+
+bool SeqGroundHit::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() ||
+           (getCurrentChild()->isFailed() && (isCurrentChild("地上") || *mIsNoHitEnd_s));
+}
+
+bool SeqGroundHit::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() ||
+           (getCurrentChild()->isFinished() && (isCurrentChild("地上") || *mIsNoHitEnd_s));
 }
 
 void SeqGroundHit::leave_() {
