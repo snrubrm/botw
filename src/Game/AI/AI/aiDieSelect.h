@@ -12,8 +12,10 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    virtual void m34(s32 a2, s32 a3, bool a4, bool a5);
 
 protected:
 };
