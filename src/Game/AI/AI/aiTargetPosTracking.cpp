@@ -24,4 +24,8 @@ void TargetPosTracking::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool TargetPosTracking::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai

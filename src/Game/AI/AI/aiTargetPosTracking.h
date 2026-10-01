@@ -10,6 +10,9 @@ public:
     explicit TargetPosTracking(const InitArg& arg);
     ~TargetPosTracking() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override { return getCurrentChild()->isFinished(); }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
