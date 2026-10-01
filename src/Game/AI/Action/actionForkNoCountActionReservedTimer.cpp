@@ -25,6 +25,8 @@ void ForkNoCountActionReservedTimer::loadParams_() {
 }
 
 void ForkNoCountActionReservedTimer::calc_() {
+    if (*mIsNextActionReserved_a)
+        return;
     ForkTimer::calc_();
 }
 
