@@ -14,6 +14,10 @@ void LynelLineMoveAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LynelLineMoveAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 void LynelLineMoveAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }
