@@ -8,9 +8,7 @@ void PlayerStepGuardJust::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerStepGuardJust::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerStepGuardJust::leave_() {}
 
 void PlayerStepGuardJust::loadParams_() {
     getStaticParam(&mJumpHeight_s, "JumpHeight");
