@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m40();
 
     // dynamic_param at offset 0xc8
     bool* mIsConfront_d{};
