@@ -167,6 +167,9 @@ public:
 
     phys::CharacterController* getCharacterController();
 
+    void getHomeMtx(sead::Matrix34f* mtx) const;
+    void getHomePos(sead::Vector3f* pos) const;
+
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;
     void setFlag(ActorFlag flag);
