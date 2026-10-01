@@ -26,4 +26,12 @@ void RangeObstacleCheck::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool RangeObstacleCheck::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool RangeObstacleCheck::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
