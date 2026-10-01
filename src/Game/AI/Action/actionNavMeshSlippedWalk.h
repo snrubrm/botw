@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m34() override;
 
     // static_param at offset 0xa8
     const float* mAccRatio_s{};

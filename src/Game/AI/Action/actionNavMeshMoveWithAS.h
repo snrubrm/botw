@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void m34() override;
+
     // static_param at offset 0xa8
     const bool* mIsIgnoreSameAS_s{};
     // static_param at offset 0xb0
