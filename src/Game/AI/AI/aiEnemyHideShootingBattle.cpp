@@ -10,6 +10,14 @@ void EnemyHideShootingBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyHideShootingBattle::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyHideShootingBattle::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyHideShootingBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
