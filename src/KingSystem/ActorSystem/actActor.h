@@ -151,6 +151,7 @@ protected:
     bool shouldClearStateFlag4000_() override;
     void preDelete1_() override;
     bool startPreparingForPreDelete_() override;
+    void onEnterDelete_() override;
     void afterUpdateState_() override;
 
 public:

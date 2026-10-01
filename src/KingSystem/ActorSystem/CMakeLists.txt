@@ -18,8 +18,12 @@ target_sources(uking PRIVATE
     LOD/actLodState.cpp
     LOD/actLodState.h
 
+    Profiles/actDynamicActor.cpp
+    Profiles/actDynamicActor.h
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
+    Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
     Profiles/actWeaponBase.cpp

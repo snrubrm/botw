@@ -1,0 +1,28 @@
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+
+namespace ksys::act {
+
+// NON_MATCHING: most member types are still unknown (placeholders)
+DynamicActor::~DynamicActor() = default;
+
+void DynamicActor::onPreDeleteStart_(PrepareArg&) {}
+
+int DynamicActor::getExtraHeapSize() {
+    return hasTag(this, tags::TreasureBox) ? 0xa90 : 0;
+}
+
+void DynamicActor::onEnterDelete_() {
+    Actor::onEnterDelete_();
+}
+
+s32* DynamicActor::getLife() {
+    return &mLife;
+}
+
+uking::dmg::DamageManagerBase* DynamicActor::getDamageMgr() {
+    return mDamageMgr;
+}
+
+}  // namespace ksys::act
