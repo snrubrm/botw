@@ -29262,7 +29262,7 @@ Address,Quality,Size,Name
 0x000000710049eb0c,W,000072,_ZN5uking2ai14MagneShaftRootD0Ev
 0x000000710049eb54,W,000232,_ZN5uking2ai14MagneShaftRoot5init_EPN4sead4HeapE
 0x000000710049ec3c,W,000236,_ZN5uking2ai14MagneShaftRoot6enter_EPN4ksys3act2ai15InlineParamPackE
-0x000000710049ed28,U,000004,_ZN5uking2ai14MagneShaftRoot5calc_Ev
+0x000000710049ed28,O,000004,_ZN5uking2ai14MagneShaftRoot5calc_Ev
 0x000000710049ed2c,W,000096,_ZN5uking2ai14MagneShaftRoot6leave_Ev
 0x000000710049ed8c,U,000032,uking::ai::MagneShaftRoot::m52
 0x000000710049edac,U,000080,uking::ai::MagneShaftRoot::m50
