@@ -9,6 +9,7 @@ class EnemyBaseArrowAttack : public ksys::act::ai::Ai {
 public:
     explicit EnemyBaseArrowAttack(const InitArg& arg);
 
+    bool isFinished() const override;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -16,6 +17,10 @@ public:
     void loadParams_() override;
 
     void sub_710037E11C();
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
 
 protected:
     // static_param at offset 0x38
