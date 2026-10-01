@@ -14,6 +14,10 @@ void ViewWaitRiskAvoid::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);
 }
 
+void ViewWaitRiskAvoid::calc_() {
+    ViewWait::calc_();
+}
+
 void ViewWaitRiskAvoid::leave_() {
     ViewWait::leave_();
 }
