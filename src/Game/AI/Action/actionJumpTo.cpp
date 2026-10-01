@@ -32,4 +32,16 @@ void JumpTo::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool JumpTo::m35() {
+    return true;
+}
+
+bool JumpTo::m36() {
+    return true;
+}
+
+bool JumpTo::m37() {
+    return true;
+}
+
 }  // namespace uking::action

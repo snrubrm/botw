@@ -12079,7 +12079,7 @@ Address,Quality,Size,Name
 0x00000071001c68c8,O,000008,_ZNK5uking6action12JumpToTarget27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001c68d0,O,000092,_ZNK5uking6action12JumpToTarget18getRuntimeTypeInfoEv
 0x00000071001c692c,U,000012,uking::action::JumpTo::m44
-0x00000071001c6938,M,000092,_ZN5uking6action6JumpToC1ERKN4ksys3act2ai10ActionBase7InitArgE
+0x00000071001c6938,M,000092,_ZN5uking6action6JumpToC2ERKN4ksys3act2ai10ActionBase7InitArgE
 0x00000071001c6994,O,000020,_ZN5uking6action6JumpToD1Ev
 0x00000071001c69a8,O,000052,_ZN5uking6action6JumpToD0Ev
 0x00000071001c69dc,O,000008,_ZN5uking6action6JumpTo5init_EPN4sead4HeapE
@@ -12096,9 +12096,9 @@ Address,Quality,Size,Name
 0x00000071001c73e0,U,000328,uking::action::JumpTo::m42
 0x00000071001c7528,O,000288,_ZNK5uking6action6JumpTo27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001c7648,O,000092,_ZNK5uking6action6JumpTo18getRuntimeTypeInfoEv
-0x00000071001c76a4,U,000008,uking::action::JumpTo::m35
-0x00000071001c76ac,U,000008,uking::action::JumpTo::m36
-0x00000071001c76b4,U,000008,uking::action::JumpTo::m37
+0x00000071001c76a4,O,000008,_ZN5uking6action6JumpTo3m35Ev
+0x00000071001c76ac,O,000008,_ZN5uking6action6JumpTo3m36Ev
+0x00000071001c76b4,O,000008,_ZN5uking6action6JumpTo3m37Ev
 0x00000071001c76bc,U,000092,AI_Action_JumpToTargetFromWater::ctor
 0x00000071001c7718,W,000052,_ZN5uking6action21JumpToTargetFromWaterD1Ev
 0x00000071001c774c,W,000060,_ZN5uking6action21JumpToTargetFromWaterD0Ev
