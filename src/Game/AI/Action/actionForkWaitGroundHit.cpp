@@ -11,7 +11,8 @@ bool ForkWaitGroundHit::init_(sead::Heap* heap) {
 }
 
 void ForkWaitGroundHit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void ForkWaitGroundHit::leave_() {
