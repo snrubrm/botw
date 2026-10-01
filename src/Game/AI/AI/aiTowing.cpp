@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTowing.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,13 @@ void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Towing::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    controller->sub_7100F5FB24(sead::Vector3f::zero);
+    controller->sub_7100F5E7F0(0.0f);
+    controller->sub_7100F5F458(ksys::act::MotionType(1));
+    controller->sub_7100F5EEB8(1.0f);
 }
 
 void Towing::loadParams_() {

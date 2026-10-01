@@ -10,6 +10,7 @@ public:
     explicit SwarmRangeKeepCircleMove(const InitArg& arg);
     ~SwarmRangeKeepCircleMove() override;
 
+    bool isFailed() const override;
     bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;

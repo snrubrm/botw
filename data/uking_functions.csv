@@ -31007,7 +31007,7 @@ Address,Quality,Size,Name
 0x00000071004feac8,U,000328,
 0x00000071004fec10,U,000360,
 0x00000071004fed78,U,000484,
-0x00000071004fef5c,W,000008,_ZN5uking2ai10PreyNormal6leave_Ev
+0x00000071004fef5c,O,000008,_ZN5uking2ai10PreyNormal6leave_Ev
 0x00000071004fef64,O,000164,_ZNK5uking2ai10PreyNormal12isChangeableEv
 0x00000071004ff008,O,000576,_ZN5uking2ai10PreyNormal11loadParams_Ev
 0x00000071004ff248,U,000192,_ZN5uking2ai10PreyNormal2m9Ev
@@ -34891,7 +34891,7 @@ Address,Quality,Size,Name
 0x00000071005b253c,O,000004,_ZN5uking2ai24SwarmRangeKeepCircleMove6leave_Ev
 0x00000071005b2540,O,000156,_ZN5uking2ai24SwarmRangeKeepCircleMove11loadParams_Ev
 0x00000071005b25dc,O,000012,_ZNK5uking2ai24SwarmRangeKeepCircleMove10isFinishedEv
-0x00000071005b25e8,U,000152,_ZNK5uking2ai24SwarmRangeKeepCircleMove8isFailedEv
+0x00000071005b25e8,O,000152,_ZNK5uking2ai24SwarmRangeKeepCircleMove8isFailedEv
 0x00000071005b2680,O,000288,_ZNK5uking2ai24SwarmRangeKeepCircleMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071005b27a0,O,000092,_ZNK5uking2ai24SwarmRangeKeepCircleMove18getRuntimeTypeInfoEv
 0x00000071005b27fc,U,000052,AI_AI_SwarmReaction::ctor
@@ -35884,7 +35884,7 @@ Address,Quality,Size,Name
 0x00000071005cc2dc,U,000168,uking::ai::Towing::m37
 0x00000071005cc384,U,000136,
 0x00000071005cc40c,U,000012,
-0x00000071005cc418,W,000100,_ZN5uking2ai6Towing6leave_Ev
+0x00000071005cc418,O,000100,_ZN5uking2ai6Towing6leave_Ev
 0x00000071005cc47c,O,000324,_ZN5uking2ai6Towing11loadParams_Ev
 0x00000071005cc5c0,U,001464,
 0x00000071005ccb78,O,000288,_ZNK5uking2ai6Towing27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE

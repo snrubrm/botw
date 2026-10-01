@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPreyNormal.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void PreyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreyNormal::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void PreyNormal::loadParams_() {
