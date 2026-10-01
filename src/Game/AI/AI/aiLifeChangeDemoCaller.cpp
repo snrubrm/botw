@@ -14,6 +14,18 @@ void LifeChangeDemoCaller::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LifeChangeDemoCaller::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool LifeChangeDemoCaller::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool LifeChangeDemoCaller::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void LifeChangeDemoCaller::leave_() {
     ksys::act::ai::Ai::leave_();
 }
