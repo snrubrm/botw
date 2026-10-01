@@ -10,6 +10,10 @@ void EnemyRandomRepeatSideStep::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyRandomRepeatSideStep::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyRandomRepeatSideStep::loadParams_() {
     getStaticParam(&mMinRepeatNum_s, "MinRepeatNum");
     getStaticParam(&mMaxRepeatNum_s, "MaxRepeatNum");

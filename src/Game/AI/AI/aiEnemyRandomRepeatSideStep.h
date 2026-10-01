@@ -9,6 +9,7 @@ class EnemyRandomRepeatSideStep : public ksys::act::ai::Ai {
 public:
     explicit EnemyRandomRepeatSideStep(const InitArg& arg);
     ~EnemyRandomRepeatSideStep() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
