@@ -20,4 +20,8 @@ void PlayerStopInAir::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerStopInAir::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
