@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkWarp.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,8 @@ WolfLinkWarp::WolfLinkWarp(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 WolfLinkWarp::~WolfLinkWarp() = default;
 
 bool WolfLinkWarp::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _a8 = sead::DynamicCast<act::WolfLink>(mActor);
+    return _a8 != nullptr;
 }
 
 void WolfLinkWarp::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,6 +1,17 @@
 #pragma once
 
+#include <limits>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace ksys::phys {
+class RayCastForRequest;
+}
+
+namespace uking::act {
+class WolfLink;
+}
 
 namespace uking::ai {
 
@@ -34,6 +45,16 @@ protected:
     const float* mAreaThreshold_s{};
     // dynamic_param at offset 0x78
     int* mWarpType_d{};
+    sead::Vector3f _80{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                       std::numeric_limits<f32>::quiet_NaN()};
+    ksys::Timer _8c;
+    ksys::Timer _98;
+    act::WolfLink* _a8{};
+    ksys::phys::RayCastForRequest* _b0{};
+    // Navigation query handle (HavokAI::destroyQuery in leave_ / the destructor).
+    void* _b8{};
+    sead::BitFlag16 _c0;
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkWarp, 0xc8);
 
 }  // namespace uking::ai
