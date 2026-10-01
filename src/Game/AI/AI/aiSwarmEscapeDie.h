@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -24,6 +27,9 @@ protected:
     const float* mRiseDist_s{};
     // static_param at offset 0x50
     const float* mEndDist_s{};
+    ksys::Timer _58;
+    sead::Vector3f _64;
 };
+KSYS_CHECK_SIZE_NX150(SwarmEscapeDie, 0x70);
 
 }  // namespace uking::ai
