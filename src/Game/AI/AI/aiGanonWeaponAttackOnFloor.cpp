@@ -11,7 +11,7 @@ bool GanonWeaponAttackOnFloor::init_(sead::Heap* heap) {
 }
 
 void GanonWeaponAttackOnFloor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71003F1E0C();
 }
 
 void GanonWeaponAttackOnFloor::leave_() {
