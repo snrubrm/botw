@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiEarthReleaseAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
 
 namespace uking::ai {
 
@@ -76,6 +78,13 @@ void EarthReleaseAttack::loadParams_() {
     getStaticParam(&mUseAfterAction_s, "UseAfterAction");
     getStaticParam(&mEarthReleaseActorName_s, "EarthReleaseActorName");
     getStaticParam(&mEarthReleasePartsName_s, "EarthReleasePartsName");
+}
+
+void EarthReleaseAttack::sub_710037BDF0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_80, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("先行動", &pack);
 }
 
 }  // namespace uking::ai

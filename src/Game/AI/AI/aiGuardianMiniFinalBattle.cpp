@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniFinalBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -18,6 +21,8 @@ bool GuardianMiniFinalBattle::isChangeable() const {
 }
 
 void GuardianMiniFinalBattle::leave_() {
+    sub_71005DA114(mActor, &_e0);
+    sub_71005DA114(mActor, &_110);
     EnemyBattle::leave_();
 }
 
@@ -32,4 +37,37 @@ void GuardianMiniFinalBattle::loadParams_() {
     getAITreeVariable(&mGuardianMiniChanceTimeState_a, "GuardianMiniChanceTimeState");
 }
 
+void GuardianMiniFinalBattle::sub_710041B2E8() {
+    mActor->getHomePos(&_c8);
+    _c8.y = mActor->getMtx().m[1][3];
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘予兆移動", &pack);
+}
+
 }  // namespace uking::ai
+
+void Unk_71023f86d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 == -1)
+        return;
+
+    if (mOwner == nullptr)
+        *a5 = 2;
+    else if (mOwner->isCurrentChild("戦闘予兆点滅") || mOwner->isCurrentChild("戦闘攻撃"))
+        *a5 = 1;
+    else
+        *a5 = 2;
+}
+
+void Unk_71023f8710::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a4 < 9 || *a4 > 11)
+        return;
+
+    *a2 = 0;
+    if (mOwner == nullptr)
+        *a5 = 2;
+    else if (mOwner->isCurrentChild("戦闘予兆点滅") || mOwner->isCurrentChild("戦闘攻撃"))
+        *a5 = 1;
+    else
+        *a5 = 2;
+}

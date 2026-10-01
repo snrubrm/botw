@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,10 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual int m34();
+
+    void sub_71003C8338(sead::Vector3f* front);
 
 protected:
     // static_param at offset 0x38

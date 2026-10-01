@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyNoticeActiveEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,13 @@ void EnemyNoticeActiveEnemy::leave_() {
 void EnemyNoticeActiveEnemy::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void EnemyNoticeActiveEnemy::sub_71003A4B3C() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    changeChild("気づき", &pack);
 }
 
 }  // namespace uking::ai

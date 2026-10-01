@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    int m34() override;
+
 protected:
     // static_param at offset 0x60
     const int* mInverseDirRatio_s{};

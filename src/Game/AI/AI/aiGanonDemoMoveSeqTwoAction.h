@@ -9,6 +9,7 @@ class GanonDemoMoveSeqTwoAction : public ksys::act::ai::Ai {
 public:
     explicit GanonDemoMoveSeqTwoAction(const InitArg& arg);
     ~GanonDemoMoveSeqTwoAction() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

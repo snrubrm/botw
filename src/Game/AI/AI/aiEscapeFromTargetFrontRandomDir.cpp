@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEscapeFromTargetFrontRandomDir.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -26,6 +27,13 @@ void EscapeFromTargetFrontRandomDir::leave_() {
 void EscapeFromTargetFrontRandomDir::loadParams_() {
     EscapeFromTargetFront::loadParams_();
     getStaticParam(&mInverseDirRatio_s, "InverseDirRatio");
+}
+
+int EscapeFromTargetFrontRandomDir::m34() {
+    const int dir = EscapeFromTargetFront::m34();
+    if (sead::GlobalRandom::instance()->getS32Range(0, 100) < *mInverseDirRatio_s)
+        return -dir;
+    return dir;
 }
 
 }  // namespace uking::ai

@@ -8,6 +8,7 @@ class EnemyNotice : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNotice, ksys::act::ai::Ai)
 public:
     explicit EnemyNotice(const InitArg& arg);
+    void calc_() override;
     bool isFinished() const override;
     bool isFailed() const override;
 
