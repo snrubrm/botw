@@ -14,6 +14,10 @@ void AnimalEscapeAfterDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalEscapeAI::enter_(params);
 }
 
+void AnimalEscapeAfterDamage::calc_() {
+    AnimalEscapeAI::calc_();
+}
+
 void AnimalEscapeAfterDamage::leave_() {
     AnimalEscapeAI::leave_();
 }
