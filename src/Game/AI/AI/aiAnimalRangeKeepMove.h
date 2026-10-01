@@ -32,6 +32,10 @@ protected:
     const float* mLeaveEndDist_s{};
     // static_param at offset 0x68
     const float* mBattleEndDist_s{};
+    f32 _70{};
+    int _74{};
+    int _78{};
+    sead::Vector3f _7c;
 };
 
 }  // namespace uking::ai

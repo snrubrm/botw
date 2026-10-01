@@ -42,6 +42,12 @@ protected:
     const float* mAttackTargetSpeed_s{};
     // static_param at offset 0x98
     const float* mReChaseDist_s{};
+    f32 _a0{};
+    int _a4{};
+    int _a8{};
+    f32 _ac{};
+    int _b0{};
+    int _b4{};
 };
 
 }  // namespace uking::ai

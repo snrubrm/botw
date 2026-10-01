@@ -34,6 +34,9 @@ protected:
     const float* mReachableRadius_s{};
     // static_param at offset 0x78
     const bool* mIsSuccessByLineReachable_s{};
+    int _80{};
+    int _84{};
+    sead::Vector3f _88{0, 0, 0};
 };
 
 }  // namespace uking::ai
