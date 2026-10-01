@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m33();
 
     // static_param at offset 0x90
     const int* mEmitIntervalTime_s{};
