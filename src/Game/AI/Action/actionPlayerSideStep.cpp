@@ -28,4 +28,8 @@ void PlayerSideStep::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSideStep::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
