@@ -13,6 +13,7 @@ bool HorseRideOneTimeViewASPlay::init_(sead::Heap* heap) {
 
 void HorseRideOneTimeViewASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRideViewWait::enter_(params);
+    mFlags.reset(Flag::Changeable);
 }
 
 void HorseRideOneTimeViewASPlay::leave_() {
