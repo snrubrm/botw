@@ -14,4 +14,8 @@ void PlayerDisplayWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDisplayWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
