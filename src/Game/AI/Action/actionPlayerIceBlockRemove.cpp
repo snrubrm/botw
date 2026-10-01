@@ -16,4 +16,8 @@ void PlayerIceBlockRemove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerIceBlockRemove::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
