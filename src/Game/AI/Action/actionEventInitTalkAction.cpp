@@ -9,7 +9,7 @@ bool EventInitTalkAction::init_(sead::Heap* heap) {
 }
 
 void EventInitTalkAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    setFinished();
 }
 
 void EventInitTalkAction::leave_() {
