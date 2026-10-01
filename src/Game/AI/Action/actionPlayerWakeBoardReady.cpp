@@ -10,9 +10,7 @@ void PlayerWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerWakeBoardReady::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerWakeBoardReady::leave_() {}
 
 void PlayerWakeBoardReady::loadParams_() {
     getDynamicParam(&mCreateSelf_d, "CreateSelf");
