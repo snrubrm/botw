@@ -34,6 +34,10 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x58
     void* mRefPosVibrateChecker_a{};
+    bool _60 = true;
+    u8 _61[0x68 - 0x61];
+    int _68 = 0;
+    int _6c = 0;
 };
 
 }  // namespace uking::action
