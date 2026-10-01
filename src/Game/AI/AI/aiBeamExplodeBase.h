@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class BeamExplodeBase : public ksys::act::ai::Ai {
@@ -22,6 +26,8 @@ protected:
     const float* mMaxDistance_s{};
     // static_param at offset 0x40
     const bool* mIsDelete_s{};
+    ksys::phys::RigidBody* _48{};
+    ksys::phys::RigidBody* _50{};
 };
 
 }  // namespace uking::ai

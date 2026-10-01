@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBeamExplodeBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,9 @@ BeamExplodeBase::BeamExplodeBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 BeamExplodeBase::~BeamExplodeBase() = default;
 
 bool BeamExplodeBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _48 = mActor->getMainBody();
+    _50 = mActor->findPhysicsBodyByName("Atk", "AtkBody");
+    return true;
 }
 
 void BeamExplodeBase::enter_(ksys::act::ai::InlineParamPack* params) {

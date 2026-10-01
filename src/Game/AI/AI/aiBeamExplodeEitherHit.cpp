@@ -12,6 +12,11 @@ bool BeamExplodeEitherHit::init_(sead::Heap* heap) {
 
 void BeamExplodeEitherHit::enter_(ksys::act::ai::InlineParamPack* params) {
     BeamExplode::enter_(params);
+    *mIsReflectThrownBullet_a = false;
+}
+
+void BeamExplodeEitherHit::calc_() {
+    BeamExplode::calc_();
 }
 
 void BeamExplodeEitherHit::leave_() {
