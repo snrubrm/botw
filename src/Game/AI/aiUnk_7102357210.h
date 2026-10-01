@@ -87,5 +87,9 @@ public:
         _18 = message.getSource();
         return true;
     }
+// vtable 0x7102450af8 (ReflectableThrown)
+class Unk_7102450af8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
     void m3() override {}
 };

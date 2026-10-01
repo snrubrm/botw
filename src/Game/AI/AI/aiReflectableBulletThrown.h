@@ -16,6 +16,8 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m34() override;
+    float m35() override;
 
 protected:
     // dynamic_param at offset 0xa8

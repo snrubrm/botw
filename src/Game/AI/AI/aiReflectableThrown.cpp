@@ -14,6 +14,15 @@ void ReflectableThrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void ReflectableThrown::calc_() {
+    getCurrentChild();
+    int type = -1;
+    if (sub_710053DA04(&type)) {
+        _70.x();
+        sub_710053DBA0(type);
+    }
+}
+
 void ReflectableThrown::leave_() {
     ksys::act::ai::Ai::leave_();
 }

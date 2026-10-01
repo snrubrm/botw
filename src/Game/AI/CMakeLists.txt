@@ -16,4 +16,5 @@ target_sources(uking PRIVATE
   aiUnk_7102450828.cpp
   aiUnkDamageCallbacks.cpp
   aiUnkDamageCallbacks.h
+  aiUnk_7102450af8.cpp
 )
