@@ -11,6 +11,7 @@ bool SnowOctarockBattle::init_(sead::Heap* heap) {
 }
 
 void SnowOctarockBattle::enter_(ksys::act::ai::InlineParamPack* params) {
+    _b0 = 0;
     EnemyBattle::enter_(params);
 }
 

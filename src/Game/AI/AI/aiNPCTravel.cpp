@@ -14,9 +14,7 @@ void NPCTravel::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCTravelBase::enter_(params);
 }
 
-void NPCTravel::leave_() {
-    NPCTravelBase::leave_();
-}
+void NPCTravel::leave_() {}
 
 void NPCTravel::loadParams_() {
     NPCTravelBase::loadParams_();

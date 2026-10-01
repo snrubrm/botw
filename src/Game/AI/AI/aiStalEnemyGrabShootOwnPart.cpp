@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalEnemyGrabShootOwnPart.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void StalEnemyGrabShootOwnPart::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StalEnemyGrabShootOwnPart::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->resetConnectedCalcChild(false);
 }
 
 void StalEnemyGrabShootOwnPart::loadParams_() {

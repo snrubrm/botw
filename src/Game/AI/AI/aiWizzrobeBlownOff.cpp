@@ -11,7 +11,9 @@ bool WizzrobeBlownOff::init_(sead::Heap* heap) {
 }
 
 void WizzrobeBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = false;
+    _49 = false;
+    changeChild("ふっとび", params);
 }
 
 void WizzrobeBlownOff::leave_() {

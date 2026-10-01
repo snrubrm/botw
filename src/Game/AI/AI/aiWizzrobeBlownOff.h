@@ -23,6 +23,8 @@ protected:
     const float* mDrownDepth_s{};
     // static_param at offset 0x40
     const bool* mIsForceGetUp_s{};
+    bool _48 = false;
+    bool _49 = false;
 };
 
 }  // namespace uking::ai

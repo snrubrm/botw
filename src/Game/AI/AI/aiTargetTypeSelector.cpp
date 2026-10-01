@@ -15,7 +15,7 @@ void TargetTypeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TargetTypeSelector::leave_() {
-    ksys::act::ai::Ai::leave_();
+    *mIsTrgTargetChangeToPlayer_a = false;
 }
 
 void TargetTypeSelector::loadParams_() {

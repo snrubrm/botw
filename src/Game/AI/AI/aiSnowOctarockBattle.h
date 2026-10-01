@@ -21,6 +21,7 @@ protected:
     sead::SafeString mVacuumPartsKey_s{};
     // static_param at offset 0xa0
     sead::SafeString mShootActorKey_s{};
+    int _b0 = 0;
 };
 
 }  // namespace uking::ai
