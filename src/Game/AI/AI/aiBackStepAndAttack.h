@@ -31,6 +31,8 @@ protected:
     const float* mNoBackStepRange_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    int _70{};
+    int _74{};
 };
 
 }  // namespace uking::ai
