@@ -14,7 +14,20 @@ void SwarmStopTimerEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     SwarmEscapeDie::enter_(params);
 }
 
+void SwarmStopTimerEscape::calc_() {
+    SwarmEscapeDie::calc_();
+    if (!_80.isAllocatedOrFailed())
+        return;
+
+    if (_80.isProcReady())
+        sub_71005B31CC();
+    else if (_80.hasProcCreationFailed())
+        _80.deleteProcIfFailed();
+}
+
 void SwarmStopTimerEscape::leave_() {
+    if (_80.isAllocatedOrFailed())
+        _80.deleteProc();
     SwarmEscapeDie::leave_();
 }
 
