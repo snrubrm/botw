@@ -32,6 +32,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x60
     ksys::act::BaseProcLink* mTargetActor_d{};
+    int _68 = 0;
+    u8 _6c[0x90 - 0x6c];
 };
 
 }  // namespace uking::action
