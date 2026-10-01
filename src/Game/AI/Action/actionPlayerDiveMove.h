@@ -24,6 +24,7 @@ protected:
     const float* mFinishDist_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mTargetPos_d{};
+    int _38 = 0;
 };
 
 }  // namespace uking::action
