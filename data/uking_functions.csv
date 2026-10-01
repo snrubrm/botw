@@ -25994,7 +25994,7 @@ Address,Quality,Size,Name
 0x00000071003f9c1c,W,000216,_ZN5uking2ai16GiantSleepNormal6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071003f9cf4,U,000944,_ZN5uking2ai16GiantSleepNormal5calc_Ev
 0x00000071003fa0a4,W,000452,_ZN5uking2ai16GiantSleepNormal6leave_Ev
-0x00000071003fa268,W,000108,_ZN5uking2ai16GiantSleepNormal11loadParams_Ev
+0x00000071003fa268,O,000108,_ZN5uking2ai16GiantSleepNormal11loadParams_Ev
 0x00000071003fa2d4,U,000064,uking::ai::GiantSleepNormal::m34
 0x00000071003fa314,U,000224,uking::ai::GiantSleepNormal::m35
 0x00000071003fa3f4,U,000036,uking::ai::GiantSleepNormal::m38
@@ -26243,7 +26243,7 @@ Address,Quality,Size,Name
 0x0000007100402fe8,W,000520,_ZN5uking2ai16GolemSleepNormal6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071004031f0,U,000200,_ZN5uking2ai16GolemSleepNormal5calc_Ev
 0x00000071004032b8,W,000400,_ZN5uking2ai16GolemSleepNormal6leave_Ev
-0x0000007100403448,W,000084,_ZN5uking2ai16GolemSleepNormal11loadParams_Ev
+0x0000007100403448,O,000084,_ZN5uking2ai16GolemSleepNormal11loadParams_Ev
 0x000000710040349c,U,000068,_ZN5uking2ai16GolemSleepNormal10handleAck_ERKN4ksys10MessageAckE
 0x00000071004034e0,U,000168,uking::ai::GolemSleepNormal::m34
 0x0000007100403588,O,000008,_ZNK5uking2ai16GolemSleepNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -29586,7 +29586,7 @@ Address,Quality,Size,Name
 0x00000071004a994c,W,000344,_ZN5uking2ai14MiniGolemSleep6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071004a9aa4,O,000004,_ZN5uking2ai14MiniGolemSleep5calc_Ev
 0x00000071004a9aa8,W,000380,_ZN5uking2ai14MiniGolemSleep6leave_Ev
-0x00000071004a9c24,W,000084,_ZN5uking2ai14MiniGolemSleep11loadParams_Ev
+0x00000071004a9c24,O,000084,_ZN5uking2ai14MiniGolemSleep11loadParams_Ev
 0x00000071004a9c78,U,000008,_ZN5uking2ai14MiniGolemSleep14handleMessage_ERKN4ksys7MessageE
 0x00000071004a9c80,O,000008,_ZNK5uking2ai14MiniGolemSleep27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071004a9c88,O,000092,_ZNK5uking2ai14MiniGolemSleep18getRuntimeTypeInfoEv
@@ -34335,7 +34335,7 @@ Address,Quality,Size,Name
 0x000000710059a7dc,O,000092,_ZNK5uking2ai12SleepBedRoot18getRuntimeTypeInfoEv
 0x000000710059a838,U,000068,
 0x000000710059a87c,U,000068,evt::BaseProcLinkForEvent::dtorDelete
-0x000000710059a8c0,U,000072,AI_AIEnemySleepNormal::ctor
+0x000000710059a8c0,O,000072,_ZN5uking2ai17SpecialEnemySleepC2ERKN4ksys3act2ai10ActionBase7InitArgE
 0x000000710059a908,O,000004,_ZN5uking2ai17SpecialEnemySleepD1Ev
 0x000000710059a90c,O,000036,_ZN5uking2ai17SpecialEnemySleepD0Ev
 0x000000710059a930,O,000008,_ZN5uking2ai17SpecialEnemySleep5init_EPN4sead4HeapE
@@ -34503,7 +34503,7 @@ Address,Quality,Size,Name
 0x00000071005a2bd8,W,000184,_ZN5uking2ai14StalEnemySleep6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071005a2c90,U,000220,_ZN5uking2ai14StalEnemySleep5calc_Ev
 0x00000071005a2d6c,W,000036,_ZN5uking2ai14StalEnemySleep6leave_Ev
-0x00000071005a2d90,W,000108,_ZN5uking2ai14StalEnemySleep11loadParams_Ev
+0x00000071005a2d90,O,000108,_ZN5uking2ai14StalEnemySleep11loadParams_Ev
 0x00000071005a2dfc,U,000024,uking::ai::StalEnemySleep::m38
 0x00000071005a2e14,U,000036,uking::ai::StalEnemySleep::m39
 0x00000071005a2e38,U,000056,uking::ai::StalEnemySleep::m36

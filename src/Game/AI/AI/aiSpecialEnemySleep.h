@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,10 @@ protected:
     const bool* mIsAwakenByHearing_s{};
     // static_param at offset 0x48
     const bool* mIsWaitAfterAwaken_s{};
+    bool _50{};
+    bool _51{};
+    bool _52{};
+    ksys::Timer _54;
 };
 
 }  // namespace uking::ai
