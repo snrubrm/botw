@@ -355,7 +355,6 @@ public:
     bool checkFreezeSignal() const;
     bool hasPlacementLinkWithTypeFreeze() const;
     bool checkForbidAttentionSignal() const;
-    void getHomePos(sead::Vector3f* pos) const;
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
