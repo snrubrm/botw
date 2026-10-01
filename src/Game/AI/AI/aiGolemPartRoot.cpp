@@ -14,6 +14,10 @@ void GolemPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ReuseBulletPartsRoot::enter_(params);
 }
 
+void GolemPartRoot::calc_() {
+    ReuseBulletPartsRoot::calc_();
+}
+
 void GolemPartRoot::leave_() {
     ReuseBulletPartsRoot::leave_();
 }
