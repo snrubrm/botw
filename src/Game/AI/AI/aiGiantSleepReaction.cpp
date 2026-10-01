@@ -11,7 +11,8 @@ bool GiantSleepReaction::init_(sead::Heap* heap) {
 }
 
 void GiantSleepReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
+    changeChild("睡眠");
 }
 
 void GiantSleepReaction::leave_() {
