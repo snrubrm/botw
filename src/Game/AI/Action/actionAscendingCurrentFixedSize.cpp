@@ -12,6 +12,7 @@ bool AscendingCurrentFixedSize::init_(sead::Heap* heap) {
 
 void AscendingCurrentFixedSize::enter_(ksys::act::ai::InlineParamPack* params) {
     AscendingCurrent::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void AscendingCurrentFixedSize::leave_() {
