@@ -21,4 +21,8 @@ void PlayerSuperJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSuperJump::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
