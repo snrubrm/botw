@@ -9,6 +9,9 @@ class CliffCheckSelect : public ksys::act::ai::Ai {
 public:
     explicit CliffCheckSelect(const InitArg& arg);
     ~CliffCheckSelect() override;
+    bool isChangeable() const override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
