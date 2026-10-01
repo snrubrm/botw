@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSitEnd.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -9,7 +11,8 @@ void PlayerSitEnd::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSitEnd::leave_() {
-    PlayerAction::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5EEB8(1.0f);
 }
 
 void PlayerSitEnd::calc_() {
