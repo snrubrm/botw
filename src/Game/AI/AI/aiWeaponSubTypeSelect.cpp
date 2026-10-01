@@ -10,6 +10,13 @@ void WeaponSubTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void WeaponSubTypeSelect::calc_() {
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else if (getCurrentChild()->isFailed())
+        setFailed();
+}
+
 void WeaponSubTypeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
