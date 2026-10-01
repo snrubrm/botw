@@ -43,7 +43,7 @@ class PlacementMapMgr {
 
 public:
     PlacementMapMgr() = default;
-    ~PlacementMapMgr() = default;
+    ~PlacementMapMgr();
 
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
 

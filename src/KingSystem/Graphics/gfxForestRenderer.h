@@ -1,12 +1,13 @@
 #pragma once
 
+#include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 
 namespace ksys::gfx {
 
 // TODO: incomplete
-class ForestRenderer {
+class ForestRenderer : public sead::hostio::Node {
 public:
     virtual ~ForestRenderer();
 

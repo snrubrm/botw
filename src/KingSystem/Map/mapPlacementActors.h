@@ -126,6 +126,8 @@ public:
 
 class PlacementActors {
 public:
+    virtual ~PlacementActors();
+
     u32 getNumStaticObjs() const;
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
@@ -144,7 +146,7 @@ public:
     void setNumInUseForStaticGroup(int num);
     u32 allocGroupForDynamicMap(PlacementMap* pmap);
 
-    u8 _0[0x28 - 0x0];
+    u8 _8[0x28 - 0x8];
     sead::ReadWriteLock mLock;
     PlacementAreaMgr* mStruct1;
     u8 _e8[0xf0 - 0xe8];
