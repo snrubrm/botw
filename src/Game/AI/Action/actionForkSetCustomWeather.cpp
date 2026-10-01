@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkSetCustomWeather.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -23,7 +24,8 @@ void ForkSetCustomWeather::loadParams_() {
 }
 
 void ForkSetCustomWeather::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* wm = ksys::world::Manager::instance())
+        wm->setWeatherType(*mWeatherType_s, true, true, false);
 }
 
 }  // namespace uking::action
