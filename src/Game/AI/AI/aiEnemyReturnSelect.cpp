@@ -14,6 +14,16 @@ void EnemyReturnSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void EnemyReturnSelect::calc_() {}
+
+bool EnemyReturnSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool EnemyReturnSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void EnemyReturnSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
