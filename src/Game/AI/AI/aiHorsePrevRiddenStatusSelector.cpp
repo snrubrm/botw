@@ -12,7 +12,7 @@ bool HorsePrevRiddenStatusSelector::init_(sead::Heap* heap) {
 }
 
 void HorsePrevRiddenStatusSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710043C1D4(params);
 }
 
 void HorsePrevRiddenStatusSelector::leave_() {
