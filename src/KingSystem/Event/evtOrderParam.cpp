@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::evt {
@@ -102,7 +103,7 @@ bool OrderParam::doAssign(const OrderParam& other) {
             auto* other_ptr = other_entry->data;
             auto* other_name = other_entry->name;
             ksys::act::BaseProcLink* link_ptr;
-            ksys::act::BaseProc* actor_ptr;
+            ksys::act::Actor* actor_ptr;
             if (other_ptr && other_name) {
                 switch (other_entry->type) {
                 case OrderParamType::Int:
@@ -124,7 +125,7 @@ bool OrderParam::doAssign(const OrderParam& other) {
                 case OrderParamType::Actor:
                     link_ptr = static_cast<ksys::act::BaseProcLink*>(other_ptr);
                     actor_ptr =
-                        sead::DynamicCast<ksys::act::BaseProc>(link_ptr->getProc(nullptr, nullptr));
+                        sead::DynamicCast<ksys::act::Actor>(link_ptr->getProc(nullptr, nullptr));
                     if (!addParamActor(actor_ptr, *other_name))
                         return false;
                     break;

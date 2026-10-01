@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadTypedBitFlag.h>
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 
 namespace ksys::act {
 class ActorConstDataAccess;
@@ -139,5 +140,8 @@ struct WeaponModifierRanges {
 };
 
 // TODO: Weapon class
+class Weapon : public ksys::act::WeaponBase {
+    SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
+};
 
 }  // namespace uking::act

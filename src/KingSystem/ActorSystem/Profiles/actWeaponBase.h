@@ -21,6 +21,7 @@ eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
 
 // TODO
 class WeaponBase : public Actor {
+    SEAD_RTTI_OVERRIDE(WeaponBase, Actor)
 public:
     bool areExtraActorsReady() const;
 
