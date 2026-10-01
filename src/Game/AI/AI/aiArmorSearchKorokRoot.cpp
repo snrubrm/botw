@@ -11,7 +11,11 @@ bool ArmorSearchKorokRoot::init_(sead::Heap* heap) {
 }
 
 void ArmorSearchKorokRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = false;
+    _49 = false;
+    _4c = 0.0f;
+    _50 = sead::Vector3f::zero;
+    changeChild("未発見");
 }
 
 void ArmorSearchKorokRoot::leave_() {

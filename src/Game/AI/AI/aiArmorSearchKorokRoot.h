@@ -20,6 +20,10 @@ protected:
     const float* mSearchKorokDis_s{};
     // static_param at offset 0x40
     const float* mSearchRefreshFrame_s{};
+    bool _48{};
+    bool _49{};
+    f32 _4c{};
+    sead::Vector3f _50 = sead::Vector3f::zero;
 };
 
 }  // namespace uking::ai
