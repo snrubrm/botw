@@ -28,4 +28,8 @@ void BackStepToTarget::calc_() {
     ActionEx::calc_();
 }
 
+bool BackStepToTarget::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
