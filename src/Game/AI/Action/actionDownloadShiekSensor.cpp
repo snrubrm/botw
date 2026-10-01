@@ -11,7 +11,7 @@ bool DownloadShiekSensor::init_(sead::Heap* heap) {
 }
 
 void DownloadShiekSensor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = 0;
 }
 
 void DownloadShiekSensor::leave_() {
