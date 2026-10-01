@@ -36,6 +36,7 @@ protected:
     const int* mAttackDirType_m{};
     // aitree_variable at offset 0xb8
     bool* mAttackAttrEventKill_a{};
+    bool _c0 = false;
 };
 
 }  // namespace uking::action

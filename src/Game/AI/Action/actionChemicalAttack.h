@@ -40,6 +40,10 @@ protected:
     const float* mRange_m{};
     // map_unit_param at offset 0x50
     sead::SafeString mRigidBodyName_m{};
+    sead::Vector3f _60;
+    sead::Vector3f _6c;
+    f32 _78 = 0;
+    f32 _7c = 1.0f;
 };
 
 }  // namespace uking::action

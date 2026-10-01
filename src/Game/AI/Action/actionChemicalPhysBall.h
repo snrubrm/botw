@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionChemicalAttackBall.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -22,6 +23,10 @@ protected:
 
     // static_param at offset 0x90
     const int* mDeleteTime_s{};
+    sead::Vector3f _98 = sead::Vector3f::zero;
+    f32 _a4 = 0;
+    ksys::Timer _a8{0, 0};
+    bool _b4 = false;
 };
 
 }  // namespace uking::action

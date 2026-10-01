@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -32,6 +33,14 @@ protected:
     bool* mIsWaitAS_d{};
     // dynamic_param at offset 0x50
     sead::SafeString mMessageId_d{};
+    f32 _60 = 0;
+    ksys::act::CCAccessor _64;
+    int _6c = 0;
+    bool _70 = false;
+    bool _71 = false;
+    bool _72 = false;
+    bool _73 = false;
+    bool _74 = false;
 };
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/AI/Action/actionBalloonBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -25,6 +26,8 @@ protected:
     sead::SafeString mRopeActorName_s{};
     // map_unit_param at offset 0x108
     const sead::Vector3f* mRopeHungActOffset_m{};
+    void* _110{};
+    ksys::act::BaseProcLink _118;
 };
 
 }  // namespace uking::action
