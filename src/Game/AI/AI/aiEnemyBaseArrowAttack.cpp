@@ -5,7 +5,7 @@ namespace uking::ai {
 EnemyBaseArrowAttack::EnemyBaseArrowAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void EnemyBaseArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710037E11C();
 }
 
 bool EnemyBaseArrowAttack::isChangeable() const {
