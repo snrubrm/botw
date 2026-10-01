@@ -119,6 +119,8 @@ public:
         InstEvent = 0x8,
         _20 = 0x20,
         NoDistanceCheck = 0x80,
+        _1000000 = 0x1000000,
+        _2000000 = 0x2000000,
         Alive = 0x4000000,
     };
 
