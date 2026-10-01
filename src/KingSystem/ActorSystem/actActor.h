@@ -307,6 +307,9 @@ public:
 
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
+    // 0x00000071011cf108
+    bool x_18(sead::Vector3f* out) const;
+
     sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
     const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }
 

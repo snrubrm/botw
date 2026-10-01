@@ -73,7 +73,8 @@ public:
     bool isForceEdit() const;
     const sead::Buffer<Client>& getClients() const { return mClients; }
 
-    // TODO: one more function
+    // 0x000000710109308c
+    void x(sead::Vector3f* out, act::Actor* actor, const gsys::BoneAccessKey* key) const;
 
     void addClient_(s32 index, AttClient* client) { mClients[index].client = client; }
 

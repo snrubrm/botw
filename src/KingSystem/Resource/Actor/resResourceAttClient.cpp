@@ -1,5 +1,6 @@
 #include "resResourceAttClient.h"
 #include <container/seadSafeArray.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "resResourceAttCheck.h"
 
 namespace ksys::res {
@@ -49,6 +50,19 @@ bool AttClientList::m7_() {
     for (auto& client : mClients)
         client.client = nullptr;
     return true;
+}
+
+void AttClientList::x(sead::Vector3f* out, act::Actor* actor,
+                      const gsys::BoneAccessKey* key) const {
+    if (isForceEdit()) {
+        sead::Matrix34f mtx;
+        mAttPos.edit(&mtx, actor, key);
+        mtx.getTranslation(*out);
+        return;
+    }
+
+    if (!actor->x_18(out))
+        actor->getMtx().getTranslation(*out);
 }
 
 bool AttClientList::isForceEdit() const {
