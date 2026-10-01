@@ -20,6 +20,7 @@ protected:
 
     // static_param at offset 0x20
     sead::SafeString mTargetBone_s{};
+    bool _30 = false;
 };
 
 }  // namespace uking::action
