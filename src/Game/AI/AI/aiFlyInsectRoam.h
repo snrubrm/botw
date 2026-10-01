@@ -38,6 +38,9 @@ protected:
     const bool* mIsEnableOnLand_s{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _90{0, 0, 0};
+    f32 _9c{};
+    bool _a0{};
 };
 
 }  // namespace uking::ai

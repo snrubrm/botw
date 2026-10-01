@@ -49,6 +49,9 @@ protected:
     sead::SafeString mBreathPartsKey2_s{};
     // aitree_variable at offset 0xd0
     int* mLynelAIFlags_a{};
+    int _d8{};
+    int _dc{};
+    void* _e0{};
 };
 
 }  // namespace uking::ai
