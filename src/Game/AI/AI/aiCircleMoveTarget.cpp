@@ -14,6 +14,10 @@ void CircleMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     CircleMove::enter_(params);
 }
 
+void CircleMoveTarget::calc_() {
+    CircleMove::calc_();
+}
+
 void CircleMoveTarget::leave_() {
     CircleMove::leave_();
 }
@@ -21,6 +25,11 @@ void CircleMoveTarget::leave_() {
 void CircleMoveTarget::loadParams_() {
     CircleMove::loadParams_();
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void CircleMoveTarget::m34(sead::Vector3f* out) {
+    if (out)
+        out->set(*mTargetPos_d);
 }
 
 }  // namespace uking::ai
