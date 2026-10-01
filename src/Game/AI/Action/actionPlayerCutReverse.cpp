@@ -8,9 +8,7 @@ void PlayerCutReverse::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerCutReverse::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerCutReverse::leave_() {}
 
 void PlayerCutReverse::calc_() {
     PlayerAction::calc_();
