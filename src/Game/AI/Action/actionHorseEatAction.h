@@ -32,6 +32,11 @@ protected:
     const float* mDelayFrames_s{};
     // dynamic_param at offset 0x50
     ksys::act::BaseProcLink* mTargetActor_d{};
+    bool _58 = false;
+    f32 _5c = 0;
+    sead::SafeString _60;
 };
+
+KSYS_CHECK_SIZE_NX150(HorseEatAction, 0x70);
 
 }  // namespace uking::action
