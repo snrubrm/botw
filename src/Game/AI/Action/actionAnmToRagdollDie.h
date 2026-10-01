@@ -26,6 +26,10 @@ protected:
     sead::SafeString mPosBaseRagdollRbName_s{};
     // static_param at offset 0x48
     sead::SafeString mRagdollControllerName_s{};
+    float _58 = 0.0f;
+    float _5c = 1.0f;
+    float _60 = 0.0f;
+    u16 _64 = 256;
 };
 
 }  // namespace uking::action
