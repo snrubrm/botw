@@ -14,9 +14,7 @@ void PlayerUpdateEquip::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerUpdateEquip::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerUpdateEquip::leave_() {}
 
 void PlayerUpdateEquip::calc_() {
     PlayerAction::calc_();
