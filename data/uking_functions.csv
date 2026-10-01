@@ -12578,8 +12578,8 @@ Address,Quality,Size,Name
 0x00000071001da7e4,U,000216,
 0x00000071001da8bc,W,000084,_ZN5uking6action16LevelFlyMoveBase6leave_Ev
 0x00000071001da910,W,000564,_ZN5uking6action16LevelFlyMoveBase11loadParams_Ev
-0x00000071001dab44,U,000132,uking::action::LevelFlyMoveBase::m33
-0x00000071001dabc8,U,000188,uking::action::LevelFlyMoveBase::m32
+0x00000071001dab44,U,000132,_ZN5uking6action16LevelFlyMoveBase3m33Ev
+0x00000071001dabc8,U,000188,_ZN5uking6action16LevelFlyMoveBase3m32Ev
 0x00000071001dac84,U,000048,uking::action::LevelFlyMoveBase::m34
 0x00000071001dacb4,U,000364,uking::action::LevelFlyMoveBase::m35
 0x00000071001dae20,O,000288,_ZNK5uking6action16LevelFlyMoveBase27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -19073,7 +19073,7 @@ Address,Quality,Size,Name
 0x00000071002bf7e8,U,000056,_ZNK5uking6action19WizzrobeVisibleWalk10isFinishedEv
 0x00000071002bf820,U,000084,_ZNK5uking6action19WizzrobeVisibleWalk8isFailedEv
 0x00000071002bf874,U,000160,uking::action::WizzrobeVisibleWalk::m34
-0x00000071002bf914,U,000028,uking::action::WizzrobeVisibleWalk::m33
+0x00000071002bf914,U,000028,_ZN5uking6action19WizzrobeVisibleWalk3m33Ev
 0x00000071002bf930,U,000176,uking::action::WizzrobeVisibleWalk::m35
 0x00000071002bf9e0,O,000132,_ZNK5uking6action19WizzrobeVisibleWalk27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002bfa64,O,000092,_ZNK5uking6action19WizzrobeVisibleWalk18getRuntimeTypeInfoEv
