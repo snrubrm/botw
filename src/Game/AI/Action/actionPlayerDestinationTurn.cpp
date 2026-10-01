@@ -24,4 +24,12 @@ bool PlayerDestinationTurn::isChangeable() const {
     return false;
 }
 
+bool PlayerDestinationTurn::m34() {
+    return true;
+}
+
+bool PlayerDestinationTurn::m35() {
+    return true;
+}
+
 }  // namespace uking::action

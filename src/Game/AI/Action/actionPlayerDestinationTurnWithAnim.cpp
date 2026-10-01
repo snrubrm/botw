@@ -30,4 +30,8 @@ void PlayerDestinationTurnWithAnim::calc_() {
     PlayerDestinationTurn::calc_();
 }
 
+bool PlayerDestinationTurnWithAnim::m35() {
+    return *mUsePartBind_d;
+}
+
 }  // namespace uking::action
