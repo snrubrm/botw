@@ -44,7 +44,7 @@ public:
     /*  81 */ void m81() override;
     /*  83 */ bool m83() override;
     /*  84 */ void updateMtxFromPhysics() override;
-    /*  85 */ void setMtx() override;
+    /*  85 */ void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     /*  88 */ void m88() override;
     /*  89 */ void m89() override;
     /*  90 */ void m90() override;
@@ -56,7 +56,7 @@ public:
     /* 117 */ void m117() override;
     /* 119 */ void m119() override;
     /* 129 */ void m129() override;
-    /* 130 */ void getPlayerRideInfo() override;
+    /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;
     /* 145 */ void m145() override {}
     /* 146 */ bool m146() override;
     /* 147 */ void m147() override;

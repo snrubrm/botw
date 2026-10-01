@@ -39,11 +39,11 @@ public:
     s32* getLife() override;
     void m100() override;
     int getExtraHeapSize() override;
-    void getAtk() override;
+    ActorAtk* getAtk() override;
     void m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     void m128() override;
-    void getDropData() override;
+    DropData* getDropData() override;
     void m135() override;
 
     // FIXME: figure out return types, parameters and names
@@ -66,7 +66,7 @@ public:
 protected:
     /* 0x840 */ uking::dmg::DamageManagerBase* mDamageMgr = nullptr;
     /* 0x848 */ s32 mLife = 1;
-    /* 0x850 */ void* _850 = nullptr;  // created by ActorAtk::makeForActor
+    /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
     /* 0x858 */ void* _858 = nullptr;
     /* 0x860 */ f32 _860 = 0.0;
     /* 0x868 */ void* _868 = nullptr;
@@ -81,7 +81,9 @@ protected:
     /* 0x9e0 */ BaseProcLink _9e0;
     /* 0x9f0 */ sead::CriticalSection _9f0;
     /* 0xa30 */ f32 _a30 = -1.0;
-    /* 0xa38 */ u8 _a38[0xa80 - 0xa38];
+    /* 0xa38 */ u8 _a38[0xa60 - 0xa38];
+    /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
+    /* 0xa68 */ u8 _a68[0xa80 - 0xa68];
     /* 0xa80 */ BaseProcLink _a80;
     /* 0xa90 */ u8 _a90[0xb90 - 0xa90];
 };

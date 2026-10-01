@@ -48,14 +48,14 @@ public:
     }
     s32 m94() override { return _1054; }
     ksys::act::ActorWeapons* getWeapons() override { return &mWeapons; }
-    void m101() override;
+    Unk_7100d3cd74* m101() override;
     void m114() override;
     void m117() override;
     void m119() override;
-    void getAtk() override;
+    ksys::act::ActorAtk* getAtk() override;
     void m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
-    void getPlayerRideInfo() override;
+    HorseRideInfo* getPlayerRideInfo() override;
     bool m146() override;
 
     // FIXME: figure out return types, parameters and names

@@ -25,4 +25,12 @@ uking::dmg::DamageManagerBase* DynamicActor::getDamageMgr() {
     return mDamageMgr;
 }
 
+ActorAtk* DynamicActor::getAtk() {
+    return _850;
+}
+
+DropData* DynamicActor::getDropData() {
+    return _a60;
+}
+
 }  // namespace ksys::act

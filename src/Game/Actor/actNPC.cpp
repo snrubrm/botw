@@ -21,4 +21,8 @@ void NPC::onPreDeleteStart_(PrepareArg& arg) {
     NPCBase::onPreDeleteStart_(arg);
 }
 
+Unk_7100d3cd74* NPC::m101() {
+    return &_fa8;
+}
+
 }  // namespace uking::act

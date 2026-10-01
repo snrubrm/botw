@@ -204,11 +204,11 @@ public:
         }
     }
     s32 m94() override { return _f40; }
-    void m101() override;
+    Unk_7100d3cd74* m101() override;
     void m114() override;
     void m117() override;
     void m119() override;
-    void getPlayerRideInfo() override;
+    HorseRideInfo* getPlayerRideInfo() override;
     void getHorseOptionsMaybe() override;
     void m132() override;
     void getMotorcyclePriorityStuffMaybe() override;
@@ -267,7 +267,7 @@ public:
     /* 0x1010 */ u8 _1010[0x10b8 - 0x1010];  // BoneHandle
     /* 0x10b8 */ s64 _10b8 = -1;
     /* 0x10c0 */ u8 _10c0[0x10f8 - 0x10c0];
-    /* 0x10f8 */ void* _10f8 = nullptr;
+    /* 0x10f8 */ HorseRideInfo* _10f8 = nullptr;  // getPlayerRideInfo
     /* 0x1100 */ ksys::act::BaseProcLink _1100;
     /* 0x1110 */ u8 _1110[0x1128 - 0x1110];  // list head + count
     /* 0x1128 */ Unk_7100d3cd74 _1128{this};

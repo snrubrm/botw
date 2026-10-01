@@ -107,4 +107,12 @@ Unk_7102357978::~Unk_7102357978() = default;
 
 Unk_7102357948::~Unk_7102357948() = default;
 
+Unk_7100d3cd74* Enemy::m101() {
+    return &_1128;
+}
+
+HorseRideInfo* Enemy::getPlayerRideInfo() {
+    return _10f8;
+}
+
 }  // namespace uking::act

@@ -23,6 +23,11 @@ namespace gsys {
 class Model;
 }  // namespace gsys
 
+namespace uking::act {
+class HorseRideInfo;
+class Unk_7100d3cd74;
+}  // namespace uking::act
+
 namespace uking::dmg {
 class DamageManagerBase;
 }  // namespace uking::dmg
@@ -47,6 +52,7 @@ class UMii;
 namespace phys {
 class StaticCompoundRigidBodyGroup;
 class InstanceSet;
+class NavMeshCharacter;
 class Reaction;
 class RigidBody;
 class CharacterController;
@@ -68,6 +74,7 @@ class RootAi;
 
 class LifeRecoverInfo;
 class Actor;
+class ActorAtk;
 class ActorCreator;
 class ActorParam;
 class ActorWeapons;
@@ -76,6 +83,7 @@ class Awareness;
 class BaseProcLink;
 class BoneControl;
 class Chemical;
+class DropData;
 class ImpulseBaseProcLink;
 class ModelBindInfo;
 class Schedule;
@@ -242,7 +250,8 @@ public:
     virtual void m42();
     virtual void m43(bool on);
     virtual void m44();
-    virtual void m45();
+    // Returns mPhysics->mNavMeshCharacter (or null).
+    virtual phys::NavMeshCharacter* m45();
     virtual void m46();
     virtual bool m47();
     virtual void m48();
@@ -282,7 +291,7 @@ public:
     virtual int getCalcTiming();
     virtual bool m83();
     virtual void updateMtxFromPhysics();
-    virtual void setMtx();
+    virtual void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3);
     virtual void m86();
     virtual s32* getLife();
     virtual void m88();
@@ -298,7 +307,7 @@ public:
     virtual ActorWeapons* getWeapons();
     virtual void getArmors();
     virtual void m100();
-    virtual void m101();
+    virtual uking::act::Unk_7100d3cd74* m101();
     virtual int getExtraHeapSize();
     virtual void m103();
     // Order matters: these overrides of MessageReceiverEx virtuals get primary vtable slots 104 (handleAck)
@@ -324,16 +333,16 @@ public:
     virtual void m122();
     virtual bool m123();
     virtual void onPlacementObjReset();
-    virtual void getAtk();
+    virtual ActorAtk* getAtk();
     virtual void m126();
     virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual void m128();
     virtual void m129();
-    virtual void getPlayerRideInfo();
+    virtual uking::act::HorseRideInfo* getPlayerRideInfo();
     virtual void getHorseOptionsMaybe();
     virtual void m132();
     virtual void getMotorcyclePriorityStuffMaybe();
-    virtual void getDropData();
+    virtual DropData* getDropData();
     virtual void m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();

@@ -185,6 +185,12 @@ phys::CharacterController* Actor::getCharacterController() {
     return mPhysics->getCharacterController();
 }
 
+phys::NavMeshCharacter* Actor::m45() {
+    if (!mPhysics)
+        return nullptr;
+    return mPhysics->getNavMeshCharacter();
+}
+
 void Actor::destruct_(int should_destruct) {
     BaseProc::destruct_(should_destruct);
 }
@@ -348,6 +354,10 @@ ActorWeapons* Actor::getWeapons() {
     return nullptr;
 }
 
+uking::act::Unk_7100d3cd74* Actor::m101() {
+    return nullptr;
+}
+
 int Actor::getExtraHeapSize() {
     return 0;
 }
@@ -377,6 +387,18 @@ bool Actor::m123() {
 }
 
 void Actor::onPlacementObjReset() {}
+
+ActorAtk* Actor::getAtk() {
+    return nullptr;
+}
+
+uking::act::HorseRideInfo* Actor::getPlayerRideInfo() {
+    return nullptr;
+}
+
+DropData* Actor::getDropData() {
+    return nullptr;
+}
 
 uking::dmg::DamageManagerBase* Actor::getDamageMgr() {
     return nullptr;
