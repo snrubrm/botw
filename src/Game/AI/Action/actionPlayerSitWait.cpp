@@ -21,4 +21,8 @@ void PlayerSitWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSitWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
