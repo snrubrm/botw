@@ -12,6 +12,7 @@ bool PullOut::init_(sead::Heap* heap) {
 
 void PullOut::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    playAS("PullOut", false, 0, 0, -1.0f);
 }
 
 void PullOut::leave_() {
