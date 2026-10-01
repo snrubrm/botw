@@ -14,6 +14,10 @@ void GiantArmorAsWeakPoint::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantArmorRoot::enter_(params);
 }
 
+void GiantArmorAsWeakPoint::calc_() {
+    GiantArmorRoot::calc_();
+}
+
 void GiantArmorAsWeakPoint::leave_() {
     GiantArmorRoot::leave_();
 }
