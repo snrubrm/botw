@@ -166,7 +166,7 @@ public:
     void m41() override;
     void m48() override;
     void m49() override;
-    void killWithDropsAndEffects() override;
+    void killWithDropsAndEffects(int a1) override;
     bool m57() override;
     bool shouldUnload() override;
     void m63() override;

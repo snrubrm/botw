@@ -231,7 +231,7 @@ public:
     virtual void m51();
     virtual void m52();
     virtual bool m53();
-    virtual void killWithDropsAndEffects();
+    virtual void killWithDropsAndEffects(int a1);
     virtual bool m55();
     virtual bool m56(sead::Vector3f* pos);
     virtual bool m57();

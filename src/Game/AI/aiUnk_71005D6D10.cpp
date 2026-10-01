@@ -8,6 +8,12 @@
 
 using uking::act::Enemy;
 
+void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1) {
+    if (actor->isDeletedOrDeleting())
+        return;
+    actor->killWithDropsAndEffects(a1);
+}
+
 void sub_71005D7014(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return;
