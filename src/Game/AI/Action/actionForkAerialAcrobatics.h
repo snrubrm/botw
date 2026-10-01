@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -30,6 +31,11 @@ protected:
     const float* mRetGravityPer_s{};
     // static_param at offset 0x48
     const bool* mIsStopGravitySpeed_s{};
+    ksys::VFRValue _50;
+    f32 _5c = 0;
+    bool _60 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkAerialAcrobatics, 0x68);
 
 }  // namespace uking::action
