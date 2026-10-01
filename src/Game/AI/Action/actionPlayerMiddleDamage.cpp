@@ -33,4 +33,8 @@ void PlayerMiddleDamage::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerMiddleDamage::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
