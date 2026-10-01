@@ -199,7 +199,7 @@ private:
     void requestPrepareLoad(util::TaskPostRunResult* result, const util::TaskPostRunContext& ctx);
 
     void unloadForSync();
-    void clearCacheForSync(bool x);
+    bool clearCacheForSync(bool x);
 
     void unload();
     void clearCache(void* x);

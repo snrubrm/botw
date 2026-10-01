@@ -93896,7 +93896,7 @@ Address,Quality,Size,Name
 0x0000007101211af8,U,000256,ResourceBinder::requestPrepareLoad
 0x0000007101211bf8,U,000272,ResourceBinder::e
 0x0000007101211d08,U,000368,
-0x0000007101211e78,U,000120,_ZN4ksys3res12ResourceUnit17clearCacheForSyncEb
+0x0000007101211e78,O,000120,_ZN4ksys3res12ResourceUnit17clearCacheForSyncEb
 0x0000007101211ef0,U,000368,
 0x0000007101212060,U,001856,ResourceBinder::unload
 0x00000071012127a0,U,000976,ResourceBinder::clearCacheUnloadDestroyDev

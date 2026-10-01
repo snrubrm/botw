@@ -2,6 +2,7 @@
 #include <filedevice/seadArchiveFileDevice.h>
 #include <resource/seadArchiveRes.h>
 #include "KingSystem/Resource/resCache.h"
+#include "KingSystem/Resource/resCacheCriticalSection.h"
 #include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -387,6 +388,24 @@ void ResourceUnit::adjustHeapAndArena() {
             return;
         }
     }
+}
+
+bool ResourceUnit::clearCacheForSync(bool x) {
+    lockCacheCriticalSection();
+    if (returnFalse())
+        stubbedLogFunction();
+
+    if (mRefCount > 0) {
+        stubbedLogFunction();
+        return false;
+    }
+
+    removeFromCache();
+    if (returnFalse())
+        stubbedLogFunction();
+
+    unlockCacheCriticalSection();
+    return true;
 }
 
 bool ResourceUnit::waitForTask1(const sead::TickSpan& span) {
