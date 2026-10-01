@@ -15,6 +15,10 @@ void PriestBossBlowoffReadyReaction::enter_(ksys::act::ai::InlineParamPack* para
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestBossBlowoffReadyReaction::calc_() {
+    setFinished();
+}
+
 void PriestBossBlowoffReadyReaction::leave_() {
     ksys::act::ai::Ai::leave_();
 }
