@@ -50826,7 +50826,7 @@ Address,Quality,Size,Name
 0x00000071008060f4,U,002404,uking::action::PlayerPlayASAdapt::m36
 0x0000007100806a58,U,000348,uking::action::PlayerPlayASAdapt::m34
 0x0000007100806bb4,U,000336,uking::action::PlayerPlayASAdapt::m35
-0x0000007100806d04,W,000172,_ZN5uking6action17PlayerPlayASAdapt11loadParams_Ev
+0x0000007100806d04,O,000172,_ZN5uking6action17PlayerPlayASAdapt11loadParams_Ev
 0x0000007100806db0,O,000008,_ZNK5uking6action17PlayerPlayASAdapt27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100806db8,O,000092,_ZNK5uking6action17PlayerPlayASAdapt18getRuntimeTypeInfoEv
 0x0000007100806e14,O,000004,_ZN5uking6action17PlayerPlayASAdaptD1Ev
