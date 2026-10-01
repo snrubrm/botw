@@ -12,7 +12,7 @@ bool OpenGetDemoDialogDressFairy::init_(sead::Heap* heap) {
 }
 
 void OpenGetDemoDialogDressFairy::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void OpenGetDemoDialogDressFairy::leave_() {
