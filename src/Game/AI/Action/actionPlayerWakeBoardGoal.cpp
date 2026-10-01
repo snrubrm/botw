@@ -22,4 +22,8 @@ void PlayerWakeBoardGoal::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWakeBoardGoal::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
