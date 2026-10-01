@@ -16,4 +16,8 @@ void PlayerSquatDamage::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSquatDamage::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
