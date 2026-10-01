@@ -20,4 +20,8 @@ void PlayerPullSwordFirstFail::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerPullSwordFirstFail::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
