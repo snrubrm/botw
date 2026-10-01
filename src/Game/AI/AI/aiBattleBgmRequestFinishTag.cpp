@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBattleBgmRequestFinishTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,8 @@ bool BattleBgmRequestFinishTag::init_(sead::Heap* heap) {
 }
 
 void BattleBgmRequestFinishTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = mActor->checkBasicSig();
+    changeChild("待機");
 }
 
 void BattleBgmRequestFinishTag::leave_() {
