@@ -8,9 +8,7 @@ void PlayerZoraJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerZoraJump::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerZoraJump::leave_() {}
 
 void PlayerZoraJump::loadParams_() {
     getStaticParam(&mJumpSpeedF_s, "JumpSpeedF");
