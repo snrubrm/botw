@@ -14,6 +14,16 @@ void RapidAttackAllowSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void RapidAttackAllowSelect::calc_() {}
+
+bool RapidAttackAllowSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool RapidAttackAllowSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void RapidAttackAllowSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
