@@ -23,6 +23,8 @@ void DieAnmKnockBack::loadParams_() {
 
 void DieAnmKnockBack::calc_() {
     SmallDamageBase::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
