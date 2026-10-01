@@ -32,6 +32,7 @@ protected:
     const sead::Vector3f* mAddVec_s{};
     // static_param at offset 0x58
     const sead::Vector3f* mRotVec_s{};
+    int _60 = 0;
 };
 
 }  // namespace uking::action
