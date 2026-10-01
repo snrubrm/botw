@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -12,10 +13,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(const sead::Vector3f& pos);
+
 protected:
+    void sub_71005AC38C(f32 min_angle, f32 max_angle, f32 min_dist, f32 max_dist,
+                        sead::Vector3f* pos);
+
     // static_param at offset 0x38
     const float* mAngleLimit_s{};
     // static_param at offset 0x40
