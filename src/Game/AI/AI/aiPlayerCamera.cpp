@@ -9,7 +9,10 @@ bool PlayerCamera::init_(sead::Heap* heap) {
 }
 
 void PlayerCamera::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (hasPendingChildChange())
+        changeChild(mPendingChildIdx);
+    else
+        changeChild("通常");
 }
 
 void PlayerCamera::leave_() {
