@@ -13,8 +13,12 @@ target_sources(uking PRIVATE
   actPlayerCreateTrace.h
   actPlayerCreateUtils.cpp
   actPlayerCreateUtils.h
+  actRideable.cpp
+  actRideable.h
+  actRideableBase.cpp
   actUnk_71002dccbc.h
   actUnk_7100d3cd74.h
+  actUnk_7100e8b2b8.cpp
   actWeapon.cpp
   actWeapon.h
   actWolfLink.cpp

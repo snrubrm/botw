@@ -1,5 +1,6 @@
 #include "Game/Actor/actEnemy.h"
 #include <prim/seadScopedLock.h>
+#include "Game/Actor/actRideable.h"
 
 namespace uking::act {
 
@@ -113,6 +114,18 @@ Unk_7100d3cd74* Enemy::m101() {
 
 HorseRideInfo* Enemy::getPlayerRideInfo() {
     return _10f8;
+}
+
+Rideable* Enemy::getHorseOptionsMaybe() {
+    return sead::DynamicCast<Rideable>(_1148._20);
+}
+
+RideableBase* Enemy::m132() {
+    return _1148._20;
+}
+
+Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
+    return sead::DynamicCast<Rideable>(_1148._20);
 }
 
 }  // namespace uking::act

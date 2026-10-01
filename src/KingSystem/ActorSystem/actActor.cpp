@@ -404,6 +404,18 @@ uking::act::HorseRideInfo* Actor::getPlayerRideInfo() {
     return nullptr;
 }
 
+uking::act::Rideable* Actor::getHorseOptionsMaybe() {
+    return nullptr;
+}
+
+uking::act::RideableBase* Actor::m132() {
+    return nullptr;
+}
+
+uking::act::Unk_7100e8b2b8* Actor::getMotorcyclePriorityStuffMaybe() {
+    return nullptr;
+}
+
 DropData* Actor::getDropData() {
     return nullptr;
 }

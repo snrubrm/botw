@@ -25,7 +25,10 @@ class Model;
 
 namespace uking::act {
 class HorseRideInfo;
+class Rideable;
+class RideableBase;
 class Unk_7100d3cd74;
+class Unk_7100e8b2b8;
 }  // namespace uking::act
 
 namespace uking::dmg {
@@ -340,9 +343,9 @@ public:
     virtual void m128();
     virtual void m129();
     virtual uking::act::HorseRideInfo* getPlayerRideInfo();
-    virtual void getHorseOptionsMaybe();
-    virtual void m132();
-    virtual void getMotorcyclePriorityStuffMaybe();
+    virtual uking::act::Rideable* getHorseOptionsMaybe();
+    virtual uking::act::RideableBase* m132();
+    virtual uking::act::Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe();
     virtual DropData* getDropData();
     virtual void m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();

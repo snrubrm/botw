@@ -69,7 +69,7 @@ public:
     /* 0x08 */ ksys::act::Actor* mActor;
     /* 0x10 */ void* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
-    /* 0x20 */ void* _20 = nullptr;
+    /* 0x20 */ RideableBase* _20 = nullptr;  // Enemy::m132
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ u32 _30 = 0;
     /* 0x38 */ ksys::act::BaseProcLink _38;
@@ -209,9 +209,9 @@ public:
     void m117() override;
     void m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
-    void getHorseOptionsMaybe() override;
-    void m132() override;
-    void getMotorcyclePriorityStuffMaybe() override;
+    Rideable* getHorseOptionsMaybe() override;
+    RideableBase* m132() override;
+    Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
     void m141() override;
     bool m146() override;
