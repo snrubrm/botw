@@ -21,4 +21,8 @@ void PlayerSuperBlow::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSuperBlow::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
