@@ -35,4 +35,12 @@ void FollowDungeonRotate::calc_() {
     m32();
 }
 
+void FollowDungeonRotate::m32() {
+    if (auto* body = mActor->getMainBody()) {
+        sead::Matrix34f mtx;
+        mActor->getHomeMtx(&mtx);
+        body->changePositionAndRotation(mtx);
+    }
+}
+
 }  // namespace uking::action
