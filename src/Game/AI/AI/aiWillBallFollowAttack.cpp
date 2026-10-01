@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiWillBallFollowAttack.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,48 @@ bool WillBallFollowAttack::init_(sead::Heap* heap) {
 }
 
 void WillBallFollowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _78 = 0;
+    _80 = _84 = *mDelayTimer_s;
+    _7c = _80;
+    _88 = false;
+
+    sead::Vector3f target = *mTargetPos_d;
+    const f32 freq = sead::Mathf::pi2() / *mCycleY_s;
+    target.y += *mAmplitudeY_s * sead::Mathf::sin(freq * _78);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    if (sead::Mathf::sqrt(ksys::util::sqXZDistance(target, pos)) < *mImmidiateLightningXZ_s &&
+        sead::Mathf::abs(pos.y - target.y) < *mImmidiateLightningY_s) {
+        sub_71005F34A0();
+    } else {
+        sub_71005F35E4();
+    }
+}
+
+// NON_MATCHING: instruction scheduling of the cycle/amplitude loads and fmul operand order
+void WillBallFollowAttack::sub_71005F34A0() {
+    sead::Vector3f target = *mTargetPos_d;
+    const f32 cycle = *mCycleY_s;
+    const f32 amp = *mAmplitudeY_s;
+    const f32 rate = sead::Mathf::pi2() / cycle;
+    target.y += amp * sead::Mathf::sin(_78 * rate);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target, "TargetPos", -1);
+    params.addVec3(*mCenterPos_d, "CenterPos", -1);
+    changeChild("待機", &params);
+}
+
+// NON_MATCHING: instruction scheduling of the cycle/amplitude loads and fmul operand order
+void WillBallFollowAttack::sub_71005F35E4() {
+    sead::Vector3f target = *mTargetPos_d;
+    const f32 cycle = *mCycleY_s;
+    const f32 amp = *mAmplitudeY_s;
+    const f32 rate = sead::Mathf::pi2() / cycle;
+    target.y += amp * sead::Mathf::sin(_78 * rate);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target, "TargetPos", -1);
+    params.addVec3(*mCenterPos_d, "CenterPos", -1);
+    m34(&params);
+    changeChild("追尾", &params);
 }
 
 void WillBallFollowAttack::leave_() {

@@ -12,10 +12,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(ksys::act::ai::InlineParamPack* params) {}
+
 protected:
+    void sub_71005F34A0();
+    void sub_71005F35E4();
+
     // static_param at offset 0x38
     const int* mImmidiateLightningTime_s{};
     // static_param at offset 0x40
@@ -32,6 +38,11 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mCenterPos_d{};
+    f32 _78{};
+    f32 _7c{};
+    int _80{};
+    int _84{};
+    bool _88{};
 };
 
 }  // namespace uking::ai
