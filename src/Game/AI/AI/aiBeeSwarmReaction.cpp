@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBeeSwarmReaction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void BeeSwarmReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BeeSwarmReaction::leave_() {
-    ksys::act::ai::Ai::leave_();
+    *mActor->getLife() = mActor->getMaxLife();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
 void BeeSwarmReaction::loadParams_() {}

@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class GuardianBeam : public ksys::act::ai::Ai {
@@ -18,8 +22,8 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mMaxDistance_s{};
-    void* _40{};
-    void* _48{};
+    ksys::phys::RigidBody* _40{};
+    ksys::phys::RigidBody* _48{};
 };
 
 }  // namespace uking::ai

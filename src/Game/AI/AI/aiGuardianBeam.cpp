@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianBeam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,11 @@ GuardianBeam::GuardianBeam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 GuardianBeam::~GuardianBeam() = default;
 
 bool GuardianBeam::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _40 = mActor->getMainBody();
+    _48 = mActor->findPhysicsBodyByName("Atk", "AtkBody");
+    if (!_40 || !_48)
+        return false;
+    return true;
 }
 
 void GuardianBeam::enter_(ksys::act::ai::InlineParamPack* params) {

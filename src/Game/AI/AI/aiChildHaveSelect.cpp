@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChildHaveSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ bool ChildHaveSelect::init_(sead::Heap* heap) {
 }
 
 void ChildHaveSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->getConnectedCalcChild())
+        changeChild("子所持", params);
+    else
+        changeChild("非子所持", params);
 }
 
 bool ChildHaveSelect::isFailed() const {

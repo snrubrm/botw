@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDeadOrOtherState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,11 @@ bool DeadOrOtherState::init_(sead::Heap* heap) {
 }
 
 void DeadOrOtherState::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const auto* life = mActor->getLife();
+    if (life && *life <= 0)
+        changeChild("死亡");
+    else
+        changeChild("その他");
 }
 
 void DeadOrOtherState::leave_() {

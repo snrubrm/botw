@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniRecognizeTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -8,7 +9,13 @@ GuardianMiniRecognizeTarget::GuardianMiniRecognizeTarget(const InitArg& arg)
 GuardianMiniRecognizeTarget::~GuardianMiniRecognizeTarget() = default;
 
 void GuardianMiniRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000)) {
+        changeChild("発見");
+        return;
+    }
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    changeChild("未発見");
 }
 
 bool GuardianMiniRecognizeTarget::isChangeable() const {

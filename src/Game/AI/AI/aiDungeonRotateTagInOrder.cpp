@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTagInOrder.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,11 @@ bool DungeonRotateTagInOrder::init_(sead::Heap* heap) {
 }
 
 void DungeonRotateTagInOrder::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
+    if (mActor->checkBasicSig())
+        changeChild("回転");
+    else
+        changeChild("待機");
 }
 
 void DungeonRotateTagInOrder::leave_() {
