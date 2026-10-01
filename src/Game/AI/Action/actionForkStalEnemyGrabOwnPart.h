@@ -26,6 +26,7 @@ protected:
     sead::SafeString mBoneName_s{};
     // dynamic_param at offset 0x40
     int* mPartIndex_d{};
+    u16 _48 = 0;
 };
 
 }  // namespace uking::action
