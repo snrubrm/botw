@@ -21,4 +21,12 @@ void RangeAttackSelect::loadParams_() {
     getStaticParam(&mIsIgnoreSmallHit_s, "IsIgnoreSmallHit");
 }
 
+bool RangeAttackSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool RangeAttackSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

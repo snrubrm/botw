@@ -10,6 +10,9 @@ public:
     explicit RangeAttackSelect(const InitArg& arg);
     ~RangeAttackSelect() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
