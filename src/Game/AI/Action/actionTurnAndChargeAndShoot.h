@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionChargeAndShoot.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,6 +23,9 @@ protected:
 
     // static_param at offset 0xb0
     const float* mRotSpeed_s{};
+    sead::Matrix33f _b8;
+    ksys::VFRValue _dc;
+    int _e8 = 0;
 };
 
 }  // namespace uking::action

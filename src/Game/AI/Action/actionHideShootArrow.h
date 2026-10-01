@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionShootArrow.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -27,6 +28,8 @@ protected:
     sead::SafeString mShootEndASName_s{};
     // static_param at offset 0xe0
     const int* mLoopTime_s{};
+    s8 _e8 = -1;
+    ksys::Timer _ec{0, 0};
 };
 
 }  // namespace uking::action

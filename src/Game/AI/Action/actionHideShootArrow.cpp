@@ -8,6 +8,8 @@ HideShootArrow::~HideShootArrow() = default;
 
 void HideShootArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ShootArrow::enter_(params);
+    playAS(mShootStartASName_s.cstr(), false, 0, 0, -1.0f);
+    _e8 = 0;
 }
 
 void HideShootArrow::leave_() {

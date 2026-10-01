@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTurnAndChargeAndShoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -12,6 +14,11 @@ bool TurnAndChargeAndShoot::init_(sead::Heap* heap) {
 
 void TurnAndChargeAndShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ChargeAndShoot::enter_(params);
+    _e8 = 0;
+    sub_710073FA90(&_b8, mActor);
+    const f32 speed = mActor->getAngVelocity().length();
+    _dc.value = speed;
+    _dc.prev_value = speed;
 }
 
 void TurnAndChargeAndShoot::leave_() {
