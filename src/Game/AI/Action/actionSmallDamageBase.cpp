@@ -12,4 +12,8 @@ void SmallDamageBase::calc_() {
     TakeHitImpactForce::calc_();
 }
 
+bool SmallDamageBase::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action

@@ -11,6 +11,7 @@ public:
     explicit SmallDamageBase(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    bool isChangeable() const override;
 
 protected:
     void calc_() override;
