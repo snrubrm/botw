@@ -39,6 +39,9 @@ protected:
     const bool* mHasToDecelerateNearGoal_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    int _68 = 1;
 };
+
+KSYS_CHECK_SIZE_NX150(AnimalMoveBase, 0x70);
 
 }  // namespace uking::action
