@@ -14,6 +14,10 @@ void LumberjackFallenTree::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LumberjackFallenTree::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 void LumberjackFallenTree::leave_() {
     ksys::act::ai::Ai::leave_();
 }
