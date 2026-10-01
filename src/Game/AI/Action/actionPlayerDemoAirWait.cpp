@@ -16,4 +16,8 @@ void PlayerDemoAirWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDemoAirWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
