@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710046BEF4();
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};

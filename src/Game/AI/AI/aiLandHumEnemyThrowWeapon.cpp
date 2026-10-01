@@ -7,7 +7,7 @@ LandHumEnemyThrowWeapon::LandHumEnemyThrowWeapon(const InitArg& arg) : ksys::act
 LandHumEnemyThrowWeapon::~LandHumEnemyThrowWeapon() = default;
 
 void LandHumEnemyThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710046BEF4();
 }
 
 bool LandHumEnemyThrowWeapon::isChangeable() const {
