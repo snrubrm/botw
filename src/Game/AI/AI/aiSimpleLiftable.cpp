@@ -15,4 +15,8 @@ bool SimpleLiftable::m36() {
     return isCurrentChild("通常");
 }
 
+void SimpleLiftable::m34() {
+    _78.x();
+}
+
 }  // namespace uking::ai

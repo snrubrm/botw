@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -18,6 +20,9 @@ public:
     virtual void m37() {}
 
 protected:
+    Unk_71024507c8 _38{0x1800004};
+    Unk_71023da100 _78;
+    int _c0 = 0;
 };
 
 }  // namespace uking::ai

@@ -100,3 +100,19 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };
+
+// vtable 0x71024507c8 (EnemyRoot, PreyRoot, SimpleLiftable, StalEnemyRoot, CarryBox, RemoteBomb, ...)
+class Unk_71024507c8 : public Unk_7102450648 {
+public:
+    explicit Unk_71024507c8(u32 type) : Unk_7102450648(type) {}
+    bool m2(const ksys::Message& message) override;
+};
+
+// vtable 0x71023da100 (SimpleLiftable family; functions in the BarrelBomb/SimpleLiftable TU)
+class Unk_71023da100 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+};
