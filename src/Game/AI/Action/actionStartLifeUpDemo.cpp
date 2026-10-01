@@ -11,7 +11,7 @@ bool StartLifeUpDemo::init_(sead::Heap* heap) {
 }
 
 void StartLifeUpDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void StartLifeUpDemo::loadParams_() {}
