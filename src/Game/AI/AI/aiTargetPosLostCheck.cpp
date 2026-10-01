@@ -26,4 +26,8 @@ void TargetPosLostCheck::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool TargetPosLostCheck::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai
