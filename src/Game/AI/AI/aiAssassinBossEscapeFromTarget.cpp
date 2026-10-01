@@ -15,6 +15,10 @@ void AssassinBossEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params
     SimpleEscapeFromTarget::enter_(params);
 }
 
+bool AssassinBossEscapeFromTarget::isChangeable() const {
+    return false;
+}
+
 void AssassinBossEscapeFromTarget::leave_() {
     SimpleEscapeFromTarget::leave_();
 }

@@ -10,6 +10,7 @@ class AssassinBossEscapeFromTarget : public SimpleEscapeFromTarget {
 public:
     explicit AssassinBossEscapeFromTarget(const InitArg& arg);
     ~AssassinBossEscapeFromTarget() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
