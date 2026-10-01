@@ -4163,7 +4163,7 @@ Address,Quality,Size,Name
 0x00000071000c2ea8,O,000020,_ZN5uking6action14BecomePreActorD1Ev
 0x00000071000c2ebc,O,000052,_ZN5uking6action14BecomePreActorD0Ev
 0x00000071000c2ef0,O,000008,_ZN5uking6action14BecomePreActor5init_EPN4sead4HeapE
-0x00000071000c2ef8,W,000016,_ZN5uking6action14BecomePreActor6enter_EPN4ksys3act2ai15InlineParamPackE
+0x00000071000c2ef8,O,000016,_ZN5uking6action14BecomePreActor6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071000c2f08,O,000004,_ZN5uking6action14BecomePreActor5calc_Ev
 0x00000071000c2f0c,O,000004,_ZN5uking6action14BecomePreActor6leave_Ev
 0x00000071000c2f10,O,000004,_ZN5uking6action14BecomePreActor11loadParams_Ev
@@ -92569,7 +92569,7 @@ Address,Quality,Size,Name
 0x00000071011c7cc4,U,000004,Actor::m58n
 0x00000071011c7cc8,U,000004,Actor::m59n
 0x00000071011c7ccc,U,000004,Actor::m60n
-0x00000071011c7cd0,U,000508,Actor::becomePreActor
+0x00000071011c7cd0,U,000508,_ZN4ksys3act5Actor14becomePreActorENS1_10DeleteTypeENS0_8BaseProc12DeleteReasonE
 0x00000071011c7ecc,U,000388,Actor::finalizeInit
 0x00000071011c8050,U,000056,Actor::resetMubinBymlIter
 0x00000071011c8088,U,000248,Actor::unlinkPlacementObj

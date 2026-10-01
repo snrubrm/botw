@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBecomePreActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool BecomePreActor::init_(sead::Heap* heap) {
 }
 
 void BecomePreActor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->becomePreActor(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason::_0);
 }
 
 void BecomePreActor::leave_() {
