@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m32() = 0;
+    virtual bool m33() = 0;
 
     // static_param at offset 0x70
     const int* mRecoverDelayTimeMin_s{};

@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m33() override;
+    int m32() override;
 
     // static_param at offset 0xd8
     const int* mDisableTime_s{};
