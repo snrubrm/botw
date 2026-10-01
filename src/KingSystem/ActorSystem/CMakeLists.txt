@@ -36,6 +36,8 @@ target_sources(uking PRIVATE
     actActor.h
     actActorCaptureMgr.cpp
     actActorCaptureMgr.h
+    actActorChemicals.cpp
+    actActorChemicals.h
     actActorConstDataAccess.cpp
     actActorConstDataAccess.h
     actActorCreator.cpp
@@ -114,6 +116,8 @@ target_sources(uking PRIVATE
     actCCAccessor.cpp
     actCCAccessor.h
     actUnk_710072AFD0.cpp
+    actChemical.cpp
+    actChemical.h
     actClusteredRenderer.cpp
     actClusteredRenderer.h
     actDebug.cpp

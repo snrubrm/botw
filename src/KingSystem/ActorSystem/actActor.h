@@ -75,6 +75,7 @@ class RootAi;
 class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
+class ActorChemicals;
 class ActorCreator;
 class ActorParam;
 class ActorWeapons;
@@ -568,7 +569,7 @@ protected:
     /* 0x694 */ sead::Atomic<int> mFadeOutDeleteType = 0;
     /* 0x698 */ sead::Atomic<u32> mFadeOutSleepFlags;
     /* 0x6a0 */ void* _6a0 = nullptr;
-    /* 0x6a8 */ Chemical* mChemical = nullptr;
+    /* 0x6a8 */ ActorChemicals* mChemical = nullptr;
     /* 0x6b0 */ phys::Reaction* mReaction = nullptr;
     /* 0x6b8 */ void* _6b8 = nullptr;
     /* 0x6c0 */ UMiiModelLink mUMiiModelLink{this};
