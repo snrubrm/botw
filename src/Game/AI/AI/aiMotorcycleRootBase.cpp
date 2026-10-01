@@ -6,6 +6,14 @@ MotorcycleRootBase::MotorcycleRootBase(const InitArg& arg) : ksys::act::ai::Ai(a
 
 MotorcycleRootBase::~MotorcycleRootBase() = default;
 
+bool MotorcycleRootBase::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool MotorcycleRootBase::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool MotorcycleRootBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
