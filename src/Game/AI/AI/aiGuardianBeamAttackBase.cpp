@@ -14,6 +14,8 @@ void GuardianBeamAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GuardianBeamAttackBase::calc_() {}
+
 void GuardianBeamAttackBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
