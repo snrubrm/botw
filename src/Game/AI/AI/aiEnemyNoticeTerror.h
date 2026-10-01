@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,17 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // Unnamed target record filled by m34.
+    struct Unk {
+        ksys::act::BaseProcLink _0;
+        sead::Vector3f _10;
+        u8 _1c = 0;
+    };
+
+    virtual bool m34(Unk* out);
+    virtual void m35();
+    virtual void m36();
+
 protected:
     // static_param at offset 0x38
     const int* mWaitTime_s{};
@@ -27,6 +40,11 @@ protected:
     const float* mNoWarnHeightMax_s{};
     // static_param at offset 0x58
     const float* mNoTerrorDist_s{};
+    Unk _60;
+    Unk _80;
+    f32 _a0{};
+    int _a4{};
+    int _a8{};
 };
 
 }  // namespace uking::ai

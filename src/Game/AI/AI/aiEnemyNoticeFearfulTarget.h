@@ -11,6 +11,8 @@ public:
     explicit EnemyNoticeFearfulTarget(const InitArg& arg);
     ~EnemyNoticeFearfulTarget() override;
 
+    bool m34(Unk* out) override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
