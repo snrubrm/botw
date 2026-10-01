@@ -12,6 +12,8 @@ bool SwimTurn::init_(sead::Heap* heap) {
 
 void SwimTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     SwimTurnBase::enter_(params);
+    if (mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void SwimTurn::leave_() {
