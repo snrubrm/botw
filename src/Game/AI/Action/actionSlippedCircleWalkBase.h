@@ -30,6 +30,12 @@ protected:
     int* mRotDir_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    // unknown object (0x24 bytes, no ctor; same type as FlyMoveBase::_84, method 0x710073fa90)
+    u8 _50[0x74 - 0x50];
+    s32 _74 = 0;
+    f32 _78 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(SlippedCircleWalkBase, 0x80);
 
 }  // namespace uking::action
