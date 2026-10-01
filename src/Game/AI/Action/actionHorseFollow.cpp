@@ -28,4 +28,8 @@ void HorseFollow::calc_() {
     AnimalFollowBase::calc_();
 }
 
+float HorseFollow::m32() {
+    return *mDistanceKept_d;
+}
+
 }  // namespace uking::action
