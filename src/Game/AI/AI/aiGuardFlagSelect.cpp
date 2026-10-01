@@ -10,6 +10,16 @@ void GuardFlagSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GuardFlagSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
+}
+
 void GuardFlagSelect::loadParams_() {}
 
 }  // namespace uking::ai
