@@ -14,6 +14,8 @@ void PlayerSetTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PlayerSetTarget::calc_() {}
+
 void PlayerSetTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }
