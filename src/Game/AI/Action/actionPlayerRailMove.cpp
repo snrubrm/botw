@@ -21,4 +21,8 @@ void PlayerRailMove::calc_() {
     PlayerGuidedMove::calc_();
 }
 
+bool PlayerRailMove::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
