@@ -24,6 +24,12 @@ void ForkDynActorNoTargetSelfBase::loadParams_() {
 
 void ForkDynActorNoTargetSelfBase::calc_() {
     Fork::calc_();
+    if (m32())
+        setEndState();
+}
+
+bool ForkDynActorNoTargetSelfBase::m32() {
+    return true;
 }
 
 }  // namespace uking::action
