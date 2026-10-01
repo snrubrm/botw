@@ -24,7 +24,8 @@ void TestAction::loadParams_() {
 }
 
 void TestAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!isFinished() && !isFailed())
+        setFinished();
 }
 
 }  // namespace uking::action
