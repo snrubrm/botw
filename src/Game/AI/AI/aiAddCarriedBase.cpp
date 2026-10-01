@@ -14,6 +14,10 @@ void AddCarriedBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AddCarriedBase::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 void AddCarriedBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }

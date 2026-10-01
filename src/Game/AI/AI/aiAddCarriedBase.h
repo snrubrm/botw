@@ -10,6 +10,8 @@ public:
     explicit AddCarriedBase(const InitArg& arg);
     ~AddCarriedBase() override;
 
+    bool hasUpdateForPreDeleteCb() override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
