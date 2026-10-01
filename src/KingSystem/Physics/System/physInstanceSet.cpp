@@ -106,8 +106,9 @@ void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     if (mRagdollInstance != nullptr)
         mRagdollInstance->disableContactLayer(layer);
 
+    // The original calls enableContactLayer here (0x7100f605e4 forwards to RigidBody::enableContactLayer).
     if (mCharacterController != nullptr)
-        mCharacterController->disableContactLayer(layer);
+        mCharacterController->enableContactLayer(layer);
 }
 
 void InstanceSet::sub_7100FBAD74() {
