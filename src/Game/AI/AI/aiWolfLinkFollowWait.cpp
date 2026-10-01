@@ -11,7 +11,7 @@ bool WolfLinkFollowWait::init_(sead::Heap* heap) {
 }
 
 void WolfLinkFollowWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("待機");
 }
 
 void WolfLinkFollowWait::leave_() {
