@@ -299,6 +299,10 @@ private:
     ~ResourceMgrTask();
 
     bool calc_(void* userdata);
+    bool doLoadOnThread(void* userdata);
+    void callCacheLoad2(util::TaskPostRunResult* result, const util::TaskPostRunContext& context);
+    void loadTaskRemoveCb(const util::TaskRemoveCallbackContext& context);
+    void jamThreadMessageQueuesAndWait();
     void systemCalc_();
     bool callSystemCalc_(void* userdata);
     void clearUnits_();

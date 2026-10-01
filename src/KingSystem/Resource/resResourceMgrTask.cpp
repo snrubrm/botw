@@ -7,6 +7,7 @@
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/Resource/resCache.h"
 #include "KingSystem/Resource/resCompactedHeap.h"
+#include "KingSystem/Resource/resControlTask.h"
 #include "KingSystem/Resource/resEntryFactory.h"
 #include "KingSystem/Resource/resMemoryTask.h"
 #include "KingSystem/Resource/resSystem.h"
@@ -246,6 +247,54 @@ void ResourceMgrTask::setFlag2000Or5000(s32 type) {
 
 void ResourceMgrTask::resetFlag20000() {
     mFlags.reset(Flag::_20000);
+}
+
+// NON_MATCHING: the original reloads handle->getUnit() (unused) after loading and stores the
+// status to the stack only right before setStatusForResourceMgr_
+bool ResourceMgrTask::doLoadOnThread(void* userdata) {
+    auto* data = static_cast<ControlTaskData*>(userdata);
+    Handle* handle = data->mResHandle;
+    const sead::SafeString& path = data->mResLoadReq.mPath;
+    if (res::returnFalse())
+        stubbedLogFunction();
+
+    const Handle::Status status = mCaches[getCacheIdx(path)]->loadResource(*data);
+
+    if (res::returnFalse())
+        stubbedLogFunction();
+    handle->setStatusForResourceMgr_(status);
+    return true;
+}
+
+void ResourceMgrTask::callCacheLoad2(util::TaskPostRunResult* result,
+                                     const util::TaskPostRunContext& context) {
+    auto* data = static_cast<ControlTaskData*>(context.mUserData);
+    Handle* handle = data->mResHandle;
+    if (res::returnFalse())
+        stubbedLogFunction();
+    handle->mTaskHandle.finalize();
+    result->setResult(false);
+    if (res::returnFalse())
+        stubbedLogFunction();
+}
+
+void ResourceMgrTask::loadTaskRemoveCb(const util::TaskRemoveCallbackContext& context) {
+    auto* data = static_cast<ControlTaskData*>(context.mUserData);
+    Handle* handle = data->mResHandle;
+    if (res::returnFalse())
+        stubbedLogFunction();
+    handle->mTaskHandle.finalize();
+    if (res::returnFalse())
+        stubbedLogFunction();
+}
+
+void ResourceMgrTask::jamThreadMessageQueuesAndWait() {
+    stubbedLogFunction();
+    mResourceLoadingThread->resumeAndWaitForAck();
+    mResourceMemoryThread->resumeAndWaitForAck();
+    mResourceControlThread->resumeAndWaitForAck();
+    mMovableMemoryThread->resumeAndWaitForAck();
+    stubbedLogFunction();
 }
 
 bool ResourceMgrTask::isFlag4Set() const {

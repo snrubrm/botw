@@ -93,6 +93,8 @@ public:
     static size_t getListNodeOffset() { return offsetof(Handle, mListNode); }
 
 private:
+    friend class ResourceMgrTask;
+
     enum class Flag : u8 {
         Dummy = 0x1,
         LoadRequested = 0x2,
