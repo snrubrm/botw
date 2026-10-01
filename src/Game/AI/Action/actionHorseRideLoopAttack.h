@@ -31,6 +31,10 @@ protected:
     sead::SafeString mFinishAS_s{};
     // static_param at offset 0x60
     sead::SafeString mASName_s{};
+    float _70 = 0.0f;
+    int _74 = 0;
+    int _78 = 0;
+    int _7c = 0;
 };
 
 }  // namespace uking::action
