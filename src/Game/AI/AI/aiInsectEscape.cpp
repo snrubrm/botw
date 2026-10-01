@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiInsectEscape.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,26 @@ bool InsectEscape::init_(sead::Heap* heap) {
 
 void InsectEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+// NON_MATCHING: the original keeps the "out of water" bool materialized (cset/cbnz)
+void InsectEscape::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+        return;
+    }
+
+    child->isChangeable();
+
+    bool out_of_water = true;
+    if (mActor->get68f().load()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        out_of_water = mActor->get6f0() - y < 0.1f;
+    }
+
+    if (out_of_water && *mInWater_s)
+        setFinished();
 }
 
 void InsectEscape::leave_() {

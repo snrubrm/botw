@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCircleMoveInWater.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,18 @@ bool CircleMoveInWater::init_(sead::Heap* heap) {
 
 void CircleMoveInWater::enter_(ksys::act::ai::InlineParamPack* params) {
     CircleMoveInFluid::enter_(params);
+}
+
+void CircleMoveInWater::calc_() {
+    f32 depth = 0.0f;
+    if (mActor->get68f().load()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        depth = mActor->get6f0() - y;
+    }
+
+    if (depth < *mAllowMoveWaterDepth_s)
+        _cc = !_cc;
+    CircleMoveInFluid::calc_();
 }
 
 void CircleMoveInWater::leave_() {
