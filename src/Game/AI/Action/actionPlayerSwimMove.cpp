@@ -24,4 +24,8 @@ void PlayerSwimMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimMove::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
