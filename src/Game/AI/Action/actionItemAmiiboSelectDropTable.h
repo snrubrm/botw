@@ -76,6 +76,8 @@ protected:
     const int* mAmiiboCharacterId_m{};
     // map_unit_param at offset 0x1d8
     const int* mAmiiboNumberingId_m{};
+    int _1e0 = 0;
+    int _1e4 = 0;
 };
 
 }  // namespace uking::action
