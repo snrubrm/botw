@@ -14,6 +14,8 @@ void VacuumedBombDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void VacuumedBombDamageSelect::calc_() {}
+
 void VacuumedBombDamageSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
