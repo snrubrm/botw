@@ -25,6 +25,9 @@ protected:
     const int* mAttackPowerForPlayer_m{};
     // map_unit_param at offset 0x80
     const sead::Vector3f* mPosOffset_m{};
+    sead::Vector3f _88;
 };
+
+KSYS_CHECK_SIZE_NX150(GanonBeamMove, 0x98);
 
 }  // namespace uking::action

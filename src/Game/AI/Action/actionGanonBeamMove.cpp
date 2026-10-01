@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonBeamMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,12 @@ bool GanonBeamMove::init_(sead::Heap* heap) {
 
 void GanonBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     BeamMove::enter_(params);
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent())) {
+        parent->getMtx().getTranslation(_88);
+        mActor->resetConnectedCalcParent(false);
+    } else {
+        mActor->getMtx().getTranslation(_88);
+    }
 }
 
 void GanonBeamMove::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionStepDoubleAttack.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -8,7 +10,16 @@ StepDoubleAttack::StepDoubleAttack(const InitArg& arg) : ksys::act::ai::Action(a
 StepDoubleAttack::~StepDoubleAttack() = default;
 
 void StepDoubleAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS("DoubleAttack", false, 0, 0, -1.0f);
+    _bc = mActor->getVelocity();
+    _bc.y = 0.0f;
+    const f32 speed = _bc.normalize();
+    _88.value = speed;
+    _88.prev_value = speed;
+    _94 = -1.0f;
+    _c8 = 0;
+    sub_710073FA90(&_98, mActor);
+    setDamageCallbackTiming(mActor, 4, &_60);
 }
 
 void StepDoubleAttack::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionApplyHorizontalImpulse.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,15 @@ bool ApplyHorizontalImpulse::init_(sead::Heap* heap) {
 }
 
 void ApplyHorizontalImpulse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        sead::Vector3f center;
+        body->getCenterOfMassInWorld(&center);
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        body->setLinearVelocity(*mDynVel_d * 30.0f);
+        body->setAngularVelocity(*mDynAngVel_d * 30.0f);
+    }
+    _4c = false;
+    mFlags.set(Flag::Changeable);
 }
 
 void ApplyHorizontalImpulse::leave_() {

@@ -13,6 +13,7 @@ class Actor;
 // todo: move?
 enum class MotionType {
     _0 = 0,
+    _1 = 1,
     Hover = 3,
 };
 

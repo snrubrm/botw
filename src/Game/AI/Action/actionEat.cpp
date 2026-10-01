@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEat.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ void Eat::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Eat::leave_() {
+    if (auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild()))
+        child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     ActionWithPosAngReduce::leave_();
 }
 
