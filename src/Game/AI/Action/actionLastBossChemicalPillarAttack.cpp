@@ -30,4 +30,6 @@ void LastBossChemicalPillarAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void LastBossChemicalPillarAttack::m32() {}
+
 }  // namespace uking::action
