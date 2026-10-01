@@ -8,9 +8,7 @@ void PlayerControl::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerControl::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerControl::leave_() {}
 
 void PlayerControl::calc_() {
     PlayerAction::calc_();
