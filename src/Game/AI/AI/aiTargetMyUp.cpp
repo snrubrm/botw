@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTargetMyUp.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,37 @@ bool TargetMyUp::init_(sead::Heap* heap) {
 }
 
 void TargetMyUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    if (pos.y > *mEndHeight_s) {
+        changeChild("終了");
+        return;
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pos.y = *mEndHeight_s;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("行動", &pack);
+}
+
+void TargetMyUp::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("行動")) {
+            changeChild("終了");
+            return;
+        }
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+        return;
+    }
+
+    if (child->isChangeable() && isCurrentChild("行動") &&
+        mActor->getMtx().getTranslation().y > *mEndHeight_s) {
+        changeChild("終了");
+    }
 }
 
 void TargetMyUp::leave_() {
