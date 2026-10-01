@@ -4,15 +4,11 @@ namespace uking::ai {
 
 SeqTwoAction::SeqTwoAction(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// NON_MATCHING: original keeps a dead bool (w20 = "is second action") alive across the call; block layout
 bool SeqTwoAction::isFailed() const {
     if (mFlags.isOn(Flag::Failed))
         return true;
 
-    if (*mIsFinishedByFailAction_s || isCurrentChild("後行動"))
-        return getCurrentChild()->isFailed();
-
-    return false;
+    return (*mIsFinishedByFailAction_s || isCurrentChild("後行動")) && getCurrentChild()->isFailed();
 }
 
 bool SeqTwoAction::isFinished() const {
