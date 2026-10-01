@@ -14,6 +14,10 @@ void EnemyNoticeFearfulTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNoticeTerror::enter_(params);
 }
 
+void EnemyNoticeFearfulTarget::calc_() {
+    EnemyNoticeTerror::calc_();
+}
+
 void EnemyNoticeFearfulTarget::leave_() {
     EnemyNoticeTerror::leave_();
 }
