@@ -187,4 +187,26 @@ bool PlacementMgr::objStuff(const Object* obj) const {
     return obj->getId() != _1e4;
 }
 
+void PlacementMgr::clusteredRendererRequestDraw() {
+    if (!mClusteredRenderer)
+        return;
+
+    if (!(mClusteredRenderer->_c9c & 0x20)) {
+        mClusteredRenderer->requestDraw();
+        return;
+    }
+
+    mClusteredRenderer->_c9c &= ~0x20;
+    mClusteredRenderer->requestDraw();
+    mClusteredRenderer->_c9c |= 0x20;
+}
+
+void PlacementMgr::updateTimeDivisionFlags(bool on) {
+    if (on) {
+        if (!mFlags.isOn(MgrFlag::_4000))
+            mFlags.set(MgrFlag::_1);
+    }
+    mFlags.change(MgrFlag::_4000, on);
+}
+
 }  // namespace ksys::map

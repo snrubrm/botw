@@ -92979,7 +92979,7 @@ Address,Quality,Size,Name
 0x00000071011eb304,O,000040,_ZN4ksys3map12PlacementMgr15setFlag8EnabledEb
 0x00000071011eb32c,U,000080,
 0x00000071011eb37c,U,000036,
-0x00000071011eb3a0,U,000088,PlacementMgr::clusteredRendererRequestDraw
+0x00000071011eb3a0,O,000088,_ZN4ksys3map12PlacementMgr28clusteredRendererRequestDrawEv
 0x00000071011eb3f8,U,000020,PlacementMgr::__auto6
 0x00000071011eb40c,U,000028,
 0x00000071011eb428,U,000020,
@@ -92992,7 +92992,7 @@ Address,Quality,Size,Name
 0x00000071011eb4a0,O,000040,_ZNK4ksys3map12PlacementMgr21getLoadDistancePlus10EPKNS0_6ObjectE
 0x00000071011eb4c8,O,000020,_ZNK4ksys3map12PlacementMgr22getDispDistanceComplexEPKNS0_6ObjectE
 0x00000071011eb4dc,O,000012,_ZN4ksys3map12PlacementMgr6auto17EPNS0_6ObjectE
-0x00000071011eb4e8,U,000080,PlacementMgr::updateTimeDivisionFlags
+0x00000071011eb4e8,O,000080,_ZN4ksys3map12PlacementMgr23updateTimeDivisionFlagsEb
 0x00000071011eb538,U,000164,
 0x00000071011eb5dc,U,002508,_ZN4ksys3map23makeProjectMapMuuntPathERKN4sead14SafeStringBaseIcEEPNS0_6ObjectE
 0x00000071011ebfa8,O,000020,_ZNK4ksys3map12PlacementMgr8objStuffEPKNS0_6ObjectE
@@ -94593,7 +94593,7 @@ Address,Quality,Size,Name
 0x000000710124536c,U,003384,ClusteredRenderer::loadX_0
 0x00000071012460a4,U,003864,
 0x0000007101246fbc,U,001164,
-0x0000007101247448,U,000084,ClusteredRenderer::requestDraw
+0x0000007101247448,U,000084,_ZN4ksys3act17ClusteredRenderer11requestDrawEv
 0x000000710124749c,U,000336,
 0x00000071012475ec,U,000648,
 0x0000007101247874,U,002436,

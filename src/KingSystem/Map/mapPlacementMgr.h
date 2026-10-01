@@ -65,6 +65,8 @@ public:
     f32 getLoadDistancePlus10(const Object* obj) const;
     f32 getDispDistanceComplex(const Object* obj) const;
     bool objStuff(const Object* obj) const;
+    void clusteredRendererRequestDraw();
+    void updateTimeDivisionFlags(bool on);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);
     // 0x00000071011eb4dc
@@ -74,6 +76,7 @@ public:
         _1 = 0x1,
         _2 = 0x2,
         _20 = 0x20,
+        _4000 = 0x4000,
         _40000 = 0x40000,
         _80000 = 0x80000,
         _100000 = 0x100000,
