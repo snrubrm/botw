@@ -8,7 +8,21 @@ GuardianMiniTransformSelect::GuardianMiniTransformSelect(const InitArg& arg)
 GuardianMiniTransformSelect::~GuardianMiniTransformSelect() = default;
 
 void GuardianMiniTransformSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsTransformedGuardianMini_a)
+        changeChild("変形後", params);
+    else
+        changeChild("変形前", params);
+}
+
+void GuardianMiniTransformSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (getCurrentChild()->isFinished())
+        setFinished();
+    else
+        setFailed();
 }
 
 void GuardianMiniTransformSelect::leave_() {
