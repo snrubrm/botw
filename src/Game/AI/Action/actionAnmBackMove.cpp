@@ -12,6 +12,8 @@ bool AnmBackMove::init_(sead::Heap* heap) {
 
 void AnmBackMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void AnmBackMove::leave_() {
