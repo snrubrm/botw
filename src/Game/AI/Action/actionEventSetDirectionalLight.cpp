@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventSetDirectionalLight.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -25,7 +26,14 @@ void EventSetDirectionalLight::loadParams_() {
 }
 
 void EventSetDirectionalLight::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFailed())
+        return;
+    if (auto* wm = ksys::world::Manager::instance()) {
+        wm->setDirectionalLight(*mangleX_d, *mangleY_d);
+        return;
+    }
+    setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
