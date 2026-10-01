@@ -40,4 +40,8 @@ void PlayerCutJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerCutJump::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
