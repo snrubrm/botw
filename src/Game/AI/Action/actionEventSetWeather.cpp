@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventSetWeather.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -23,7 +24,8 @@ void EventSetWeather::loadParams_() {
 }
 
 void EventSetWeather::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::world::Manager::instance()->setWeatherType(*mWeatherType_d, true, false, false);
+    setFinished();
 }
 
 }  // namespace uking::action
