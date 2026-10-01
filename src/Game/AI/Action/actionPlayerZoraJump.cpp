@@ -20,4 +20,8 @@ void PlayerZoraJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerZoraJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
