@@ -29,4 +29,12 @@ void TargetInFanAreaSelect::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool TargetInFanAreaSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool TargetInFanAreaSelect::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
