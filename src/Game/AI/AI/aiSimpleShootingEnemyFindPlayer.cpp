@@ -15,6 +15,10 @@ void SimpleShootingEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* param
     EnemyBaseFindPlayer::enter_(params);
 }
 
+void SimpleShootingEnemyFindPlayer::calc_() {
+    EnemyBaseFindPlayer::calc_();
+}
+
 void SimpleShootingEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
 }
