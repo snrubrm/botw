@@ -22,4 +22,8 @@ void PlayerStainWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerStainWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
