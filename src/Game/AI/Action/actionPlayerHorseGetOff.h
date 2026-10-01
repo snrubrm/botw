@@ -20,6 +20,7 @@ protected:
 
     // static_param at offset 0x20
     const float* mSideFallSpeed_s{};
+    int _28 = 0;
 };
 
 }  // namespace uking::action
