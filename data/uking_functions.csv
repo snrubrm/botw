@@ -10720,7 +10720,7 @@ Address,Quality,Size,Name
 0x000000710018ee40,W,000408,_ZN5uking6action4Grab5calc_Ev
 0x000000710018efd8,O,000004,_ZN5uking6action4Grab6leave_Ev
 0x000000710018efdc,O,000164,_ZN5uking6action4Grab11loadParams_Ev
-0x000000710018f080,U,000028,uking::action::Grab::m32
+0x000000710018f080,O,000028,_ZN5uking6action4Grab3m32Ev
 0x000000710018f09c,U,000044,uking::action::Grab::m33
 0x000000710018f0c8,U,000456,uking::action::Grab::m34
 0x000000710018f290,O,000132,_ZNK5uking6action4Grab27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE

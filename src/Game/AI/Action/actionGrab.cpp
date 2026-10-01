@@ -28,4 +28,8 @@ void Grab::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+void Grab::m32() {
+    playAS("Grab", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
