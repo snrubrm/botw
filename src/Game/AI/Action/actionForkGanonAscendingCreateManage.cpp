@@ -28,4 +28,8 @@ void ForkGanonAscendingCreateManage::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool ForkGanonAscendingCreateManage::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
