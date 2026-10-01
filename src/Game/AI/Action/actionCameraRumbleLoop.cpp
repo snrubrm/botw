@@ -15,4 +15,8 @@ void CameraRumbleLoop::loadParams_() {
     getAITreeVariable(&mCamVibId_a, "CamVibId");
 }
 
+bool CameraRumbleLoop::hasPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action

@@ -11,6 +11,7 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
+    bool hasPreDeleteCb() override;
 
 protected:
     // dynamic2_param at offset 0x20
