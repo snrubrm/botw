@@ -9,6 +9,7 @@ class DrawnWeaponSelector : public ksys::act::ai::Ai {
 public:
     explicit DrawnWeaponSelector(const InitArg& arg);
     ~DrawnWeaponSelector() override;
+    void calc_() override;
     bool isFinished() const override;
     bool isFailed() const override;
 

@@ -28,4 +28,12 @@ void MotorcycleRootBase::leave_() {
 
 void MotorcycleRootBase::loadParams_() {}
 
+void MotorcycleRootBase::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return;
+    if (child->isChangeable())
+        sub_710043EABC(nullptr);
+}
+
 }  // namespace uking::ai

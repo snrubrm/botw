@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonEntranceRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,12 @@ void DungeonEntranceRoot::leave_() {
 
 void DungeonEntranceRoot::loadParams_() {
     getStaticParam(&mIsCheckClear_s, "IsCheckClear");
+}
+
+// NON_MATCHING: the original loads mActor before the isCurrentChild call (see log: single-use `auto* actor` local)
+void DungeonEntranceRoot::calc_() {
+    if (isCurrentChild("クローズ") && mActor->checkBasicSig())
+        changeChild("オープン");
 }
 
 }  // namespace uking::ai

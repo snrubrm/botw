@@ -9,6 +9,7 @@ class DisplaySelect : public ksys::act::ai::Ai {
 public:
     explicit DisplaySelect(const InitArg& arg);
     ~DisplaySelect() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 

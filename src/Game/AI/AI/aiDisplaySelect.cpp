@@ -31,4 +31,12 @@ void DisplaySelect::loadParams_() {
     getStaticParam(&mIsCheckEveryFrame_s, "IsCheckEveryFrame");
 }
 
+void DisplaySelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return;
+    if (child->isChangeable() && *mIsCheckEveryFrame_s)
+        sub_7100361960(nullptr);
+}
+
 }  // namespace uking::ai

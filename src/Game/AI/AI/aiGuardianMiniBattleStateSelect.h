@@ -9,6 +9,7 @@ class GuardianMiniBattleStateSelect : public ksys::act::ai::Ai {
 public:
     explicit GuardianMiniBattleStateSelect(const InitArg& arg);
     ~GuardianMiniBattleStateSelect() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
     bool isChangeable() const override;

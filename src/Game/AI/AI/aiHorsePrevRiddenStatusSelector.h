@@ -9,6 +9,7 @@ class HorsePrevRiddenStatusSelector : public ksys::act::ai::Ai {
 public:
     explicit HorsePrevRiddenStatusSelector(const InitArg& arg);
     ~HorsePrevRiddenStatusSelector() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

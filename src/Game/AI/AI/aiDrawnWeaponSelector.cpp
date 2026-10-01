@@ -28,4 +28,12 @@ void DrawnWeaponSelector::leave_() {
 
 void DrawnWeaponSelector::loadParams_() {}
 
+void DrawnWeaponSelector::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return;
+    if (child->isChangeable())
+        sub_7100373988(nullptr);
+}
+
 }  // namespace uking::ai

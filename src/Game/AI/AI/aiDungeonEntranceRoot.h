@@ -9,6 +9,7 @@ class DungeonEntranceRoot : public ksys::act::ai::Ai {
 public:
     explicit DungeonEntranceRoot(const InitArg& arg);
     ~DungeonEntranceRoot() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

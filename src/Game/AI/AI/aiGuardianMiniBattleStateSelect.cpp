@@ -33,4 +33,9 @@ void GuardianMiniBattleStateSelect::loadParams_() {
     getStaticParam(&mIsEnterOnly_s, "IsEnterOnly");
 }
 
+void GuardianMiniBattleStateSelect::calc_() {
+    if (getCurrentChild()->isChangeable() && !*mIsEnterOnly_s)
+        sub_7100416744(nullptr, false);
+}
+
 }  // namespace uking::ai

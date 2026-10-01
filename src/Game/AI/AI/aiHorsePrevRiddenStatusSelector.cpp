@@ -21,4 +21,12 @@ void HorsePrevRiddenStatusSelector::leave_() {
 
 void HorsePrevRiddenStatusSelector::loadParams_() {}
 
+void HorsePrevRiddenStatusSelector::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return;
+    if (child->isChangeable())
+        sub_710043C1D4(nullptr);
+}
+
 }  // namespace uking::ai

@@ -9,6 +9,7 @@ class MotorcycleRootBase : public ksys::act::ai::Ai {
 public:
     explicit MotorcycleRootBase(const InitArg& arg);
     ~MotorcycleRootBase() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 
