@@ -20,6 +20,7 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mFrame_d{};
+    float _28 = 0.0f;
 };
 
 }  // namespace uking::action
