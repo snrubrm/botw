@@ -19,7 +19,7 @@ bool MotorcycleRootBase::init_(sead::Heap* heap) {
 }
 
 void MotorcycleRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710043EABC(params);
 }
 
 void MotorcycleRootBase::leave_() {

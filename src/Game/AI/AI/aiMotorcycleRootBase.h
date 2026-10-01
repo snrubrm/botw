@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710043EABC(ksys::act::ai::InlineParamPack* params);
+
 protected:
 };
 
