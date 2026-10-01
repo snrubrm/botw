@@ -11,7 +11,8 @@ bool FishSafeReturn::init_(sead::Heap* heap) {
 }
 
 void FishSafeReturn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _60.set(*mTargetPos_d);
+    sub_71003CF5DC();
 }
 
 void FishSafeReturn::leave_() {

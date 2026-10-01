@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003CF5DC();
+
 protected:
     // static_param at offset 0x38
     const float* mInWaterDepth_s{};
@@ -26,6 +28,7 @@ protected:
     bool* mIsEscape_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _60{0, 0, 0};
 };
 
 }  // namespace uking::ai
