@@ -6,6 +6,10 @@ ChemicalExplode::ChemicalExplode(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 ChemicalExplode::~ChemicalExplode() = default;
 
+bool ChemicalExplode::isChangeable() const {
+    return false;
+}
+
 bool ChemicalExplode::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
