@@ -10,6 +10,10 @@ void GuardianMiniFinalBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
+bool GuardianMiniFinalBattle::isChangeable() const {
+    return false;
+}
+
 void GuardianMiniFinalBattle::leave_() {
     EnemyBattle::leave_();
 }

@@ -10,6 +10,7 @@ class GuardianMiniFinalBattle : public EnemyBattle {
 public:
     explicit GuardianMiniFinalBattle(const InitArg& arg);
     ~GuardianMiniFinalBattle() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
