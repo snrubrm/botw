@@ -14,6 +14,10 @@ void EnemyTargetInAreaSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetInAreaSelect::enter_(params);
 }
 
+void EnemyTargetInAreaSelect::calc_() {
+    TargetInAreaSelect::calc_();
+}
+
 void EnemyTargetInAreaSelect::leave_() {
     TargetInAreaSelect::leave_();
 }
