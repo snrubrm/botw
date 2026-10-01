@@ -23,7 +23,7 @@ bool EnemyWaitViewItem::init_(sead::Heap* heap) {
 }
 
 void EnemyWaitViewItem::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71003C3A2C(true);
 }
 
 void EnemyWaitViewItem::leave_() {
