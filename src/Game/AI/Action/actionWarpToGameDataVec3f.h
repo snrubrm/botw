@@ -14,6 +14,8 @@ public:
     void loadParams_() override;
 
 protected:
+    virtual void m32();
+
     // dynamic_param at offset 0x20
     float* mDestinationX_d{};
     // dynamic_param at offset 0x28
