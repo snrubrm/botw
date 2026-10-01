@@ -27,4 +27,8 @@ void AnimalFollow::calc_() {
     AnimalFollowBase::calc_();
 }
 
+float AnimalFollow::m32() {
+    return *mDistanceKept_s;
+}
+
 }  // namespace uking::action

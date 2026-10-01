@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    float m32() override;
 
     // static_param at offset 0xc0
     const float* mDistanceKept_s{};
