@@ -20,4 +20,12 @@ void TargetClimbSelect::leave_() {
 
 void TargetClimbSelect::loadParams_() {}
 
+bool TargetClimbSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool TargetClimbSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
