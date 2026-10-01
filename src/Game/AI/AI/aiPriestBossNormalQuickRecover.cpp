@@ -13,6 +13,21 @@ bool PriestBossNormalQuickRecover::init_(sead::Heap* heap) {
 
 void PriestBossNormalQuickRecover::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
+    if (*mIsFromRagdoll_d)
+        changeChild("ラグドールから復帰");
+    else
+        changeChild("ダウンから復帰");
+}
+
+void PriestBossNormalQuickRecover::calc_() {
+    PriestBossMode::calc_();
+    auto* child = getCurrentChild();
+    if (child && (child->isFinished() || child->isFailed())) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 void PriestBossNormalQuickRecover::leave_() {
