@@ -8,9 +8,7 @@ void PlayerBowFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerFall::enter_(params);
 }
 
-void PlayerBowFall::leave_() {
-    PlayerFall::leave_();
-}
+void PlayerBowFall::leave_() {}
 
 void PlayerBowFall::loadParams_() {
     PlayerFall::loadParams_();
