@@ -30,6 +30,8 @@ protected:
     const float* mNoWaitRatio_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mCentralPos_d{};
+    bool _70{};
+    int _74 = 8;
 };
 
 }  // namespace uking::ai
