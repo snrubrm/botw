@@ -14,6 +14,10 @@ void GuardianBezierRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMoveWithClose::enter_(params);
 }
 
+void GuardianBezierRailMove::calc_() {
+    RailMoveWithClose::calc_();
+}
+
 void GuardianBezierRailMove::leave_() {
     RailMoveWithClose::leave_();
 }
