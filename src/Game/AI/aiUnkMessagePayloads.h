@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
+#include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -75,5 +76,70 @@ struct Unk_7102410070_Payload {
     ksys::act::BaseProcLink mLink;
     sead::Vector3f _10;
     sead::Vector3f _1c;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000007 (sender Unk_710236f520)
+struct Unk_710236f520_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000008 (sender Unk_7102372510)
+struct Unk_7102372510_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProcLink* out) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        *out = mLink;
+    }
+
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000d3 (sender Unk_7102413398)
+struct Unk_7102413398_Payload {
+    u32 _0;
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000da (sender Unk_7102409958)
+struct Unk_7102409958_Payload {
+    u32 _0;
+    u32 _4;
+    u32 _8;
+    u32 _c;
+    sead::JobQueueLock mLock;
+    u32 _14;
+    ksys::act::BaseProcLink mLink;
+};
+
+// Message 0x80000db (sender unknown; placeholder name = listener vtable)
+struct Unk_71024508e8_Payload {
+    u32 _0;
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000dc (sender Unk_7102411178)
+struct Unk_7102411178_Payload {
+    u32 _0;
+    u32 _4;
+    ksys::act::BaseProcLink mLink;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x80000d5 (sender Unk_71023b1860)
+struct Unk_71023b1860_Payload {
+    u32 _0;
+    ksys::act::BaseProcLink mLink;
+    bool _18;
     sead::JobQueueLock mLock;
 };

@@ -200,3 +200,130 @@ public:
     sead::Vector3f _48;
     sead::Vector3f _54;
 };
+
+// vtable 0x7102450558 (message 0x8000007)
+class Unk_7102450558 : public Unk_7102357210 {
+public:
+    ~Unk_7102450558() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+};
+
+// vtable 0x7102450588 (message 0x8000008)
+class Unk_7102450588 : public Unk_7102357210 {
+public:
+    ~Unk_7102450588() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    ksys::act::BaseProcLink _38;
+};
+
+// vtable 0x71024505e8 (message 0x80000b1)
+class Unk_71024505e8 : public Unk_7102357210 {
+public:
+    ~Unk_71024505e8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    u32 _34;
+};
+
+// vtable 0x7102450618 (message 0x8000022)
+class Unk_7102450618 : public Unk_7102357210 {
+public:
+    ~Unk_7102450618() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+// vtable 0x71024506d8 (message 0x800000a)
+class Unk_71024506d8 : public Unk_7102357210 {
+public:
+    ~Unk_71024506d8() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+// vtable 0x7102450768 (message 0x8000084)
+class Unk_7102450768 : public Unk_7102357210 {
+public:
+    ~Unk_7102450768() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    u32 _34;
+};
+
+// vtable 0x7102450798 (message 0x8000004)
+class Unk_7102450798 : public Unk_7102357210 {
+public:
+    ~Unk_7102450798() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+// vtable 0x7102450b28 (message 0x800003f)
+class Unk_7102450b28 : public Unk_7102357210 {
+public:
+    ~Unk_7102450b28() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+// vtable 0x7102450b58 (message 0x800003c)
+class Unk_7102450b58 : public Unk_7102357210 {
+public:
+    ~Unk_7102450b58() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+
+    u64 _38;
+};
+
+// vtable 0x7102450888 (message 0x80000d3)
+class Unk_7102450888 : public Unk_7102357210 {
+public:
+    ~Unk_7102450888() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_7102413398_Payload _38;
+};
+
+// vtable 0x71024508b8 (message 0x80000da)
+class Unk_71024508b8 : public Unk_7102357210 {
+public:
+    ~Unk_71024508b8() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_7102409958_Payload _38;
+};
+
+// vtable 0x71024508e8 (message 0x80000db)
+class Unk_71024508e8 : public Unk_7102357210 {
+public:
+    ~Unk_71024508e8() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_71024508e8_Payload _38;
+};
+
+// vtable 0x7102450918 (message 0x80000dc)
+class Unk_7102450918 : public Unk_7102357210 {
+public:
+    ~Unk_7102450918() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_7102411178_Payload _38;
+};
+
+// vtable 0x7102450948 (message 0x80000d5)
+class Unk_7102450948 : public Unk_7102357210 {
+public:
+    ~Unk_7102450948() override;
+    bool m2(const ksys::Message& message) override;
+
+    Unk_71023b1860_Payload _38;
+};
