@@ -1934,8 +1934,8 @@ void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect
     const auto& items = getItems();
 
     auto min_hp = std::numeric_limits<s32>::max();
-    auto min_stam = std::numeric_limits<f32>::infinity();
-    auto min_level = std::numeric_limits<f32>::infinity();
+    auto min_stam = std::numeric_limits<f32>::max();
+    auto min_level = std::numeric_limits<f32>::max();
     PouchItem* to_remove = nullptr;
 
     for (auto* item = getItemHead(PouchCategory::Food); item; item = items.next(item)) {
