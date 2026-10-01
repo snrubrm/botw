@@ -23,6 +23,8 @@ class PlayerInfo : public PlayerInfoBase {
 
 public:
     BaseProcLink& getPlayerLink() { return mPlayerLink; }
+    // 0x710072b8c8 (CSV name; defined outside the PlayerInfo TU)
+    static BaseProcLink& getSomeProcLink();
     BaseProcLink& getHorseLink() { return mHorseLink; }
     bool init();
     void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase

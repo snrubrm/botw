@@ -9,4 +9,6 @@ target_sources(uking PRIVATE
   aiAiFactories.h
   aiQueryFactories.cpp
   aiQueryFactories.h
+  aiUnk_7102357210.cpp
+  aiUnk_7102357210.h
 )
