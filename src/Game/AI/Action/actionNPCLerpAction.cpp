@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNPCLerpAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -9,7 +11,8 @@ void NPCLerpAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCLerpAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void NPCLerpAction::loadParams_() {
