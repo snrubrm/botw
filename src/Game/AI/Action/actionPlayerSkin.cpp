@@ -20,4 +20,8 @@ void PlayerSkin::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSkin::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
