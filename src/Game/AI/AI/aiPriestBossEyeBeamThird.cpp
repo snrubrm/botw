@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossEyeBeamThird.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,14 @@ bool PriestBossEyeBeamThird::init_(sead::Heap* heap) {
 
 void PriestBossEyeBeamThird::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossEyeBeam::enter_(params);
+}
+
+void PriestBossEyeBeamThird::calc_() {
+    PriestBossEyeBeam::calc_();
+    if (isCurrentChild("照準") || isCurrentChild("チャージ"))
+        sub_7100516FAC(*mDestinationPos_a, *mIsArrivedAtDestination_a);
+    else if (isCurrentChild("発射"))
+        *mDestinationPos_a = mActor->getMtx().getTranslation();
 }
 
 void PriestBossEyeBeamThird::leave_() {
