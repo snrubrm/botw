@@ -15,6 +15,10 @@ void RangeLineReachSelectTwoAction::enter_(ksys::act::ai::InlineParamPack* param
     RangeSelectTwoAction::enter_(params);
 }
 
+void RangeLineReachSelectTwoAction::calc_() {
+    RangeSelectTwoAction::calc_();
+}
+
 void RangeLineReachSelectTwoAction::leave_() {
     RangeSelectTwoAction::leave_();
 }
