@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSwitchTimeLimited.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,35 @@ bool SwitchTimeLimited::init_(sead::Heap* heap) {
 }
 
 void SwitchTimeLimited::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _40 = 0.0f;
+    changeChild("オフ");
+}
+
+// NON_MATCHING: the chase target is loaded before the VFR delta (see SwitchTimeLag::calc_)
+void SwitchTimeLimited::calc_() {
+    auto* actor = mActor;
+    const bool on = actor->checkBasicSig();
+    if (isCurrentChild("オフ")) {
+        if (on) {
+            _40 = 0.0f;
+            changeChild("オン");
+        }
+        return;
+    }
+
+    if (!isCurrentChild("オン"))
+        return;
+
+    if (on) {
+        _40 = 0.0f;
+        return;
+    }
+
+    actor->m107();
+    if (sead::Mathf::chase(&_40, *mWaitTime_m, ksys::VFR::instance()->getDeltaFrame())) {
+        _40 = 0.0f;
+        changeChild("オフ");
+    }
 }
 
 void SwitchTimeLimited::leave_() {
