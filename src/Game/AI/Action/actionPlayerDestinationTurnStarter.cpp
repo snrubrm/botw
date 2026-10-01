@@ -15,9 +15,7 @@ void PlayerDestinationTurnStarter::enter_(ksys::act::ai::InlineParamPack* params
     PlayerAction::enter_(params);
 }
 
-void PlayerDestinationTurnStarter::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerDestinationTurnStarter::leave_() {}
 
 void PlayerDestinationTurnStarter::loadParams_() {}
 
