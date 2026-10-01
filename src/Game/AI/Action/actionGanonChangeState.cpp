@@ -26,4 +26,8 @@ void GanonChangeState::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GanonChangeState::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
