@@ -11,6 +11,8 @@ class GolemFireREnemyBattle : public EnemyBattle {
 public:
     explicit GolemFireREnemyBattle(const InitArg& arg);
     ~GolemFireREnemyBattle() override;
+    void calc_() override;
+    bool m42() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

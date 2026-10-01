@@ -27,4 +27,9 @@ void AnimalBattleAggressive::loadParams_() {
     getAITreeVariable(&mAnimalEnableCounterFlag_a, "AnimalEnableCounterFlag");
 }
 
+void AnimalBattleAggressive::m37() {
+    _b8 = ksys::Timer(*mForceAttackTimer_s, *mForceAttackTimer_s);
+    EnemyBattle::m37();
+}
+
 }  // namespace uking::ai

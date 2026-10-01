@@ -16,6 +16,10 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m37() override;
+    void m38() override;
+    bool m41() override;
+    bool isFinished() const override;
 
 protected:
     // static_param at offset 0x90
@@ -26,6 +30,7 @@ protected:
     sead::SafeString mFrontCheckBoneName_s{};
     // static_param at offset 0xb0
     const sead::Vector3f* mFrontDirFromBone_s{};
+    int _b8{};
 };
 
 }  // namespace uking::ai

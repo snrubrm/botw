@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyBattle.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m37() override;
+    bool m40() override;
+    virtual void m44();
+    virtual void m45();
 
 protected:
     // static_param at offset 0x90
@@ -27,6 +32,8 @@ protected:
     const float* mCounterAttackRange_s{};
     // aitree_variable at offset 0xb0
     bool* mAnimalEnableCounterFlag_a{};
+    ksys::Timer _b8;
+    ksys::Timer _c4;
 };
 
 }  // namespace uking::ai

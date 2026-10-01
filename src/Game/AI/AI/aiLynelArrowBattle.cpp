@@ -11,6 +11,7 @@ bool LynelArrowBattle::init_(sead::Heap* heap) {
 }
 
 void LynelArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
+    _b8 = *mAttackCount_s;
     EnemyBattle::enter_(params);
 }
 
@@ -28,6 +29,24 @@ void LynelArrowBattle::loadParams_() {
     getStaticParam(&mAttackCount_s, "AttackCount");
     getStaticParam(&mFrontCheckBoneName_s, "FrontCheckBoneName");
     getStaticParam(&mFrontDirFromBone_s, "FrontDirFromBone");
+}
+
+void LynelArrowBattle::m37() {
+    EnemyBattle::m37();
+}
+
+bool LynelArrowBattle::m41() {
+    return true;
+}
+
+void LynelArrowBattle::m38() {
+    --_b8;
+    EnemyBattle::m38();
+}
+
+bool LynelArrowBattle::isFinished() const {
+    return ActionBase::isFinished() ||
+           (getCurrentChild()->isFinished() && *mAttackCount_s > 0 && _b8 <= 0);
 }
 
 }  // namespace uking::ai
