@@ -55,6 +55,12 @@ protected:
     const bool* mIsTargetPosEqualToLeaderPos_s{};
     // dynamic_param at offset 0xa8
     sead::Vector3f* mTargetPos_d{};
+    s32 _b0 = -1;
+    f32 _b4 = 0;
+    f32 _b8 = 0;
+    bool _bc = false;
 };
+
+KSYS_CHECK_SIZE_NX150(AnimalFollowBase, 0xc0);
 
 }  // namespace uking::action
