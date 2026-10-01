@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFadeoutDelete.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,8 +24,15 @@ void FadeoutDelete::loadParams_() {
     getStaticParam(&mDeleteType_s, "DeleteType");
 }
 
+// NON_MATCHING: the original keeps the mActor load in both branches (branch layout)
 void FadeoutDelete::calc_() {
-    ksys::act::ai::Action::calc_();
+    _30.update();
+    if (_30.value <= sead::Mathf::epsilon()) {
+        if (*mDeleteType_s == 1)
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+        else
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 }  // namespace uking::action

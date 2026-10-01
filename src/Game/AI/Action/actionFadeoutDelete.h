@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -22,6 +23,7 @@ protected:
     const int* mFadeoutTime_s{};
     // static_param at offset 0x28
     const int* mDeleteType_s{};
+    ksys::Timer _30;
 };
 
 }  // namespace uking::action
