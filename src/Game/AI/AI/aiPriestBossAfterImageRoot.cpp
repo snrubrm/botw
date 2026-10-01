@@ -7,7 +7,8 @@ PriestBossAfterImageRoot::PriestBossAfterImageRoot(const InitArg& arg) : ksys::a
 PriestBossAfterImageRoot::~PriestBossAfterImageRoot() = default;
 
 bool PriestBossAfterImageRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _38 = false;
+    return true;
 }
 
 void PriestBossAfterImageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
