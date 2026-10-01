@@ -59,6 +59,8 @@ public:
     bool onMaxPositionExceeded(ContactLayerType layer_type, RigidBody* body);
 
     bool addImpulse(RigidBody* body_a, RigidBody* body_b, float impulse);
+    // 0x0000007100fa742c
+    bool x_8(RigidBody* body, u8 type);
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);

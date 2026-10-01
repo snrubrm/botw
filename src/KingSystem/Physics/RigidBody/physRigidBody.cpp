@@ -531,6 +531,13 @@ void RigidBody::resetFrozenState() {
         mMotionAccessor->resetFrozenState();
 }
 
+void RigidBody::x_17(u8 type) {
+    if (isSensor())
+        return;
+
+    System::instance()->getRigidBodyRequestMgr()->x_8(this, type != 0 ? type : 1);
+}
+
 void RigidBody::updateCollidableQualityType(bool high_quality) {
     auto lock = makeScopedLock();
 
