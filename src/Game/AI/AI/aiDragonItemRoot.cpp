@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDragonItemRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -37,6 +38,14 @@ void DragonItemRoot::loadParams_() {
     getMapUnitParam(&mTargetPosition_m, "TargetPosition");
     getAITreeVariable(&mIsInitFromCarryBox_a, "IsInitFromCarryBox");
     getAITreeVariable(&mIsInsideObserverArea_a, "IsInsideObserverArea");
+}
+
+bool DragonItemRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x3000009) {
+        *mIsInsideObserverArea_a = true;
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

@@ -33,4 +33,11 @@ void InWaterSelect::loadParams_() {
     getStaticParam(&mIsForceChange_s, "IsForceChange");
 }
 
+void InWaterSelect::calc_() {
+    if (!*mIsCheckEveryFrame_s)
+        return;
+    if (getCurrentChild()->isChangeable() || *mIsForceChange_s)
+        sub_710044DC94(nullptr);
+}
+
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHeroSoulGiftRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,14 @@ void HeroSoulGiftRoot::loadParams_() {
     getStaticParam(&mUseInitMtxForBaseRot_s, "UseInitMtxForBaseRot");
     getStaticParam(&mPosOffset_s, "PosOffset");
     getStaticParam(&mRotOffset_s, "RotOffset");
+}
+
+bool HeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x8000036) {
+        _88 = true;
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
