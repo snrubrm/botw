@@ -9,6 +9,7 @@ class GuardianMiniChangeWeapon : public ksys::act::ai::Ai {
 public:
     explicit GuardianMiniChangeWeapon(const InitArg& arg);
     ~GuardianMiniChangeWeapon() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

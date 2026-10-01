@@ -14,6 +14,10 @@ void GuardianMiniChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool GuardianMiniChangeWeapon::isChangeable() const {
+    return false;
+}
+
 void GuardianMiniChangeWeapon::leave_() {
     ksys::act::ai::Ai::leave_();
 }
