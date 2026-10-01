@@ -14,6 +14,16 @@ void GolemSleepTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GolemSleepTypeSelect::calc_() {}
+
+bool GolemSleepTypeSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool GolemSleepTypeSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void GolemSleepTypeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
