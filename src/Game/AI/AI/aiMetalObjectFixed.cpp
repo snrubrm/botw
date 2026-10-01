@@ -7,7 +7,8 @@ MetalObjectFixed::MetalObjectFixed(const InitArg& arg) : ksys::act::ai::Ai(arg) 
 MetalObjectFixed::~MetalObjectFixed() = default;
 
 bool MetalObjectFixed::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _40 = true;
+    return true;
 }
 
 void MetalObjectFixed::enter_(ksys::act::ai::InlineParamPack* params) {
