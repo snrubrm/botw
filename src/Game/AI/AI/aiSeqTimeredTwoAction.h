@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,8 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual int m34() { return *mFirstActionTime_s; }
+    virtual int m35() { return *mSecondActionTime_s; }
+    virtual int m36() { return *mAllActionTime_s; }
 
 protected:
     // static_param at offset 0x38
@@ -22,6 +28,9 @@ protected:
     const int* mSecondActionTime_s{};
     // static_param at offset 0x48
     const int* mAllActionTime_s{};
+    ksys::Timer _50;
+    ksys::Timer _5c;
+    bool _68 = true;
 };
 
 }  // namespace uking::ai
