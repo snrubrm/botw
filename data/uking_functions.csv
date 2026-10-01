@@ -16772,7 +16772,7 @@ Address,Quality,Size,Name
 0x000000710026d674,U,000296,uking::action::SiteBossSwordThrowElectricBall::m34
 0x000000710026d79c,O,000008,_ZNK5uking6action30SiteBossSwordThrowElectricBall27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710026d7a4,O,000092,_ZNK5uking6action30SiteBossSwordThrowElectricBall18getRuntimeTypeInfoEv
-0x000000710026d800,U,000012,_ZNK5uking6action18SiteBossThrowParts10isFinishedEv
+0x000000710026d800,O,000012,_ZNK5uking6action18SiteBossThrowParts10isFinishedEv
 0x000000710026d80c,U,000008,uking::action::SiteBossThrowParts::m32
 0x000000710026d814,U,000008,uking::action::SiteBossThrowParts::m33
 0x000000710026d81c,U,000008,uking::action::SiteBossSwordThrowElectricBall::m35
