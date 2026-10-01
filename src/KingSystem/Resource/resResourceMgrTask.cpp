@@ -764,6 +764,25 @@ void ResourceMgrTask::setCompactionStopped(bool stopped) {
         stubbedLogFunction();
 }
 
+void ResourceMgrTask::x(bool b) {
+    if (mTexHandleMgr)
+        mTexHandleMgr->sub_7100FE60B0(b);
+}
+
+void ResourceMgrTask::x_1(bool b) {
+    if (mTexHandleMgr)
+        mTexHandleMgr->sub_7100FE60DC(b);
+}
+
+void ResourceMgrTask::repairAllHandlesForSync() {
+    if (mTexHandleMgr)
+        mTexHandleMgr->repairAllHandlesForSync();
+}
+
+bool ResourceMgrTask::x_2() {
+    return mTexHandleMgr->sub_7100FE6120();
+}
+
 bool ResourceMgrTask::isCompactionStopped() const {
     return mCompactionCounter == 0;
 }

@@ -223,6 +223,10 @@ public:
     void updateCompaction();
     void setCompactionStopped(bool stopped);
     bool isCompactionStopped() const;
+    void x(bool b);
+    void x_1(bool b);
+    void repairAllHandlesForSync();
+    bool x_2();
 
     void requestCalc();
     void waitForCalc();

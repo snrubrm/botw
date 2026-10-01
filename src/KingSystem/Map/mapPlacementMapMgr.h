@@ -8,6 +8,10 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::res {
+class CompactionMgr;
+}
+
 namespace ksys::map {
 
 class MapProperties;
@@ -44,6 +48,8 @@ public:
     bool isShrineOrDivineBeast() const { return mIsShrineOrDivineBeast; }
 
 private:
+    friend class res::CompactionMgr;
+
     sead::Buffer<PlacementMap> mMaps;
     MapProperties* mMapProps;
     s32 _18;

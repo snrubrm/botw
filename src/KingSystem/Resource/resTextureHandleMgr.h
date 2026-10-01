@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadBitFlag.h>
 
 namespace ksys::res {
 
@@ -15,11 +16,17 @@ public:
     void calc();
 
     ArchiveWork* getArchiveWork() const;
+    void repairAllHandlesForSync();
     void clearAllCache();
+    void sub_7100FE60B0(bool on);
+    void sub_7100FE60DC(bool on);
+    bool sub_7100FE6120() const;
 
 private:
     // TODO
-    u8 _8[0x768 - 0x8];
+    sead::BitFlag8 mFlags;
+    sead::BitFlag8 mFlags2;
+    u8 _a[0x768 - 0xa];
     ArchiveWork* mArchiveWork;
 };
 

@@ -18,8 +18,10 @@ class InstParamPack;
 namespace ksys::map {
 
 class Object;
-class PlacementTree;
+class Placement18;
 class PlacementActors;
+class PlacementMapMgr;
+class PlacementTree;
 
 class PlacementMgr {
     SEAD_SINGLETON_DISPOSER(PlacementMgr)
@@ -111,16 +113,19 @@ public:
 
     void* mVillagerManager;
 
+    PlacementMapMgr* mPlacementMapMgr;
+    Placement18* mPlacement18;
+    u8 TEMP2[0x1c];
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
-    u8 TEMP2[0x70];
+    u8 TEMP2_[0x44];
 
     u32 _278;
     sead::Vector3f _27c;
     u32 _288;
 
-    u32 mPreActorNumDone;
-    u32 mLoadActorNumTotal;
+    s32 mPreActorNumDone;
+    s32 mLoadActorNumTotal;
     sead::Vector3f mPrevCameraPos{};
     f32 mDeltaCameraDistance;
     sead::FixedSafeString<256> mStr1;
@@ -159,5 +164,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(PlacementMgr, 0x818);
 static_assert(offsetof(PlacementMgr, mThreadStarted) == 0x688);
+static_assert(offsetof(PlacementMgr, mPlacementMapMgr) == 0x200);
+static_assert(offsetof(PlacementMgr, mNumStaticObjs) == 0x22c);
+static_assert(offsetof(PlacementMgr, mPreActorNumDone) == 0x28c);
 
 }  // namespace ksys::map

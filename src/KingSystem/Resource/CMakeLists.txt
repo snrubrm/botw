@@ -90,6 +90,8 @@ target_sources(uking PRIVATE
   resCacheCriticalSection.h
   resCompactedHeap.cpp
   resCompactedHeap.h
+  resCompactionMgr.cpp
+  resCompactionMgr.h
   resControlTask.cpp
   resControlTask.h
   resCounter.cpp
