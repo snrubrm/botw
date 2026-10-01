@@ -17,6 +17,11 @@ public:
 
 protected:
     void calc_() override;
+    bool _1c = false;
+    void* _20{};
+    void* _28{};
+    int _30 = 0;
+    void* _38{};
 };
 
 }  // namespace uking::action
