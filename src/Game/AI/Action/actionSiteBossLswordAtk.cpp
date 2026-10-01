@@ -42,4 +42,8 @@ void SiteBossLswordAtk::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossLswordAtk::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
