@@ -7,7 +7,17 @@ SetPartBind::SetPartBind(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 SetPartBind::~SetPartBind() = default;
 
 void SetPartBind::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100567E78();
+    changeChild("行動", params);
+}
+
+void SetPartBind::calc_() {
+    if (getCurrentChild()->isFinished()) {
+        setFinished();
+        return;
+    }
+    if (getCurrentChild()->isFailed())
+        setFailed();
 }
 
 void SetPartBind::leave_() {
