@@ -25,4 +25,18 @@ void SwitchDistance::loadParams_() {
     getStaticParam(&mChangeSeq_s, "ChangeSeq");
 }
 
+void SwitchDistance::calc_() {
+    SwitchAI::calc_();
+}
+
+bool SwitchDistance::m37() {
+    auto* child = getCurrentChild();
+    return isCurrentChild("オン") && child->isFinished();
+}
+
+bool SwitchDistance::m38() {
+    auto* child = getCurrentChild();
+    return isCurrentChild("オフ") && child->isFinished();
+}
+
 }  // namespace uking::ai
