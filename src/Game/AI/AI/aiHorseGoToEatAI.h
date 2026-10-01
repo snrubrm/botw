@@ -20,6 +20,8 @@ protected:
     const int* mTimeoutFrame_s{};
     // dynamic_param at offset 0x40
     ksys::act::BaseProcLink* mTargetActor_d{};
+    f32 _48{};
+    int _4c = -1;
 };
 
 }  // namespace uking::ai
