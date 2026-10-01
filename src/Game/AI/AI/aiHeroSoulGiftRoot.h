@@ -18,6 +18,11 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    virtual bool m34(sead::Matrix34f* mtx);
+    virtual bool m35(sead::Matrix34f* mtx);
+    virtual void m36();
+    virtual bool m37() { return true; }
+
 protected:
     // static_param at offset 0x38
     const bool* mUseInitMtxForBasePos_s{};

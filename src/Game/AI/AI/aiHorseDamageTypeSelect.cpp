@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseDamageTypeSelect.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,13 @@ bool HorseDamageTypeSelect::init_(sead::Heap* heap) {
 }
 
 void HorseDamageTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->getDamageMgr()->getField54() == 0) {
+        changeChild("継続ダメージ");
+        auto* child = getCurrentChild();
+        if (!child->isFinished() && !child->isFailed())
+            return;
+    }
+    changeChild("その他");
 }
 
 void HorseDamageTypeSelect::calc_() {

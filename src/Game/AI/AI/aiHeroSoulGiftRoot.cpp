@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHeroSoulGiftRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -32,6 +33,17 @@ bool HeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
         return true;
     }
     return false;
+}
+
+void HeroSoulGiftRoot::m36() {
+    _88 = false;
+    if (isCurrentChild("退場"))
+        return;
+
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
+        mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    else
+        changeChild("退場");
 }
 
 }  // namespace uking::ai
