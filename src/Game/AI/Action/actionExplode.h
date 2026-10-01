@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -32,6 +33,14 @@ protected:
     const bool* mIsDamageGuarantee_s{};
     // static_param at offset 0x50
     const bool* mIsVanish_s{};
+    void* _58{};
+    void* _60{};
+    ksys::Timer _68{0, 0};
+    f32 _74 = 0;
+    f32 _78 = 0;
+    f32 _7c = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(Explode, 0x80);
 
 }  // namespace uking::action
