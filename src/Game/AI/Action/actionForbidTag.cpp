@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForbidTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,7 +22,14 @@ void ForbidTag::leave_() {
 void ForbidTag::loadParams_() {}
 
 void ForbidTag::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->checkBasicSig())
+        m32();
+    else
+        m33();
 }
+
+void ForbidTag::m32() {}
+
+void ForbidTag::m33() {}
 
 }  // namespace uking::action
