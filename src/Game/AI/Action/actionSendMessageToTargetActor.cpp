@@ -27,4 +27,6 @@ void SendMessageToTargetActor::calc_() {
     SendMessage::calc_();
 }
 
+void SendMessageToTargetActor::m33() {}
+
 }  // namespace uking::action
