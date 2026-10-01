@@ -14,6 +14,10 @@ void AddViewTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
     AddViewTargetPosBase::enter_(params);
 }
 
+void AddViewTargetPos::calc_() {
+    AddViewTargetPosBase::calc_();
+}
+
 void AddViewTargetPos::leave_() {
     AddViewTargetPosBase::leave_();
 }
