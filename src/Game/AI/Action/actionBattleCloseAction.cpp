@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: store ordering/merging of the zero-initialised members (original merges 0x88-0x97 into one stp)
 BattleCloseAction::BattleCloseAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 BattleCloseAction::~BattleCloseAction() = default;

@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionBattleCloseAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::VFRValue _98;
 };
 
 }  // namespace uking::action

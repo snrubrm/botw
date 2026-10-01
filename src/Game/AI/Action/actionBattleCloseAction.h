@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -32,6 +33,12 @@ protected:
     const float* mBaseRotRatio_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _58;
+    u32 _64[9];
+    float _88 = 0.0f;
+    float _8c = 0.0f;
+    float _90 = 0.0f;
+    float _94 = -1.0f;
 };
 
 }  // namespace uking::action
