@@ -3,9 +3,17 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
+namespace ksys::eco {
+enum class WeaponModifier;
+}
+
 namespace ksys::act {
 
 class InstParamPack;
+
+// 0x0000007100ef2808
+eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
+                                            const sead::SafeString& actor_name);
 
 // TODO
 class WeaponBase : public Actor {
