@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    int _38{};
+    void* _40{};
+    int _48{};
 };
 
 }  // namespace uking::ai
