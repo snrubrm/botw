@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetTreasureBoxOpenAndClose.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,25 @@ bool SetTreasureBoxOpenAndClose::init_(sead::Heap* heap) {
 }
 
 void SetTreasureBoxOpenAndClose::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const s32 set_open = *mIsSetOpen_d;
+    const bool is_open = *mIsOpenTreasureBox_a;
+    if (set_open != 0) {
+        if (is_open) {
+            mActor->emitBasicSigOff();
+            *mIsOpenTreasureBox_a = false;
+            playAS("Close", true, 0, 0, -1.0f);
+        } else {
+            setFinished();
+        }
+    } else {
+        if (!is_open) {
+            *mIsOpenTreasureBox_a = true;
+            playAS("Open", true, 0, 0, -1.0f);
+        } else {
+            setFinished();
+        }
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void SetTreasureBoxOpenAndClose::leave_() {
@@ -25,7 +44,8 @@ void SetTreasureBoxOpenAndClose::loadParams_() {
 }
 
 void SetTreasureBoxOpenAndClose::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
