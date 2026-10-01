@@ -22,4 +22,8 @@ void BeamExplode::loadParams_() {
     BeamExplodeBase::loadParams_();
 }
 
+void BeamExplode::m35() {
+    changeChild("爆発");
+}
+
 }  // namespace uking::ai
