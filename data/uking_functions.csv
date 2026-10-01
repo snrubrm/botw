@@ -15498,9 +15498,9 @@ Address,Quality,Size,Name
 0x00000071002422a0,U,000184,uking::action::SandwormTackleMove::m32
 0x0000007100242358,W,000036,_ZN5uking6action18SandwormTackleMove6leave_Ev
 0x000000710024237c,W,000192,_ZN5uking6action18SandwormTackleMove11loadParams_Ev
-0x000000710024243c,U,000004,uking::action::SandwormTackleMove::m36
-0x0000007100242440,U,000004,uking::action::SandwormTackleMove::m37
-0x0000007100242444,U,000008,uking::action::SandwormTackleMove::m38
+0x000000710024243c,O,000004,_ZN5uking6action18SandwormTackleMove3m36Ev
+0x0000007100242440,O,000004,_ZN5uking6action18SandwormTackleMove3m37Ev
+0x0000007100242444,U,000008,_ZN5uking6action18SandwormTackleMove3m38Ev
 0x000000710024244c,U,000008,_ZN5uking6action18SandwormTackleMove10handleAck_ERKN4ksys10MessageAckE
 0x0000007100242454,O,000132,_ZNK5uking6action18SandwormTackleMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002424d8,O,000092,_ZNK5uking6action18SandwormTackleMove18getRuntimeTypeInfoEv
@@ -17716,9 +17716,9 @@ Address,Quality,Size,Name
 0x0000007100291210,W,000108,_ZN5uking6action13AtkTackleMove5calc_Ev
 0x000000710029127c,W,000056,_ZN5uking6action13AtkTackleMove6leave_Ev
 0x00000071002912b4,W,000084,_ZN5uking6action13AtkTackleMove11loadParams_Ev
-0x0000007100291308,U,000240,uking::action::AtkTackleMove::m36
-0x00000071002913f8,U,000136,uking::action::AtkTackleMove::m37
-0x0000007100291480,U,000008,uking::action::AtkTackleMove::m38
+0x0000007100291308,U,000240,_ZN5uking6action13AtkTackleMove3m36Ev
+0x00000071002913f8,U,000136,_ZN5uking6action13AtkTackleMove3m37Ev
+0x0000007100291480,U,000008,_ZN5uking6action13AtkTackleMove3m38Ev
 0x0000007100291488,O,000008,_ZNK5uking6action13AtkTackleMove27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100291490,O,000092,_ZNK5uking6action13AtkTackleMove18getRuntimeTypeInfoEv
 0x00000071002914ec,U,000064,AI_ActionTackleMoveOrNo::ctor

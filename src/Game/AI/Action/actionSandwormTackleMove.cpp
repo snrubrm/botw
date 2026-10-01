@@ -35,4 +35,8 @@ bool SandwormTackleMove::isFailed() const {
     return false;
 }
 
+void SandwormTackleMove::m36() {}
+
+void SandwormTackleMove::m37() {}
+
 }  // namespace uking::action

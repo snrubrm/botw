@@ -19,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    void m37() override;
+    void m36() override;
 
     // static_param at offset 0xc0
     const float* mTargetSandOffset_s{};

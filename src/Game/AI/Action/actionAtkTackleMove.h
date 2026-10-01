@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m36();
+    virtual void m37();
+    virtual bool m38();
 
     // static_param at offset 0x88
     sead::SafeString mAtkSensorName_s{};
