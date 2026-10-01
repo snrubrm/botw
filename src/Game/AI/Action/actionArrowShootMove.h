@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -51,6 +52,20 @@ protected:
     int* mAtMinDamage_d{};
     // static_param at offset 0x98
     const float* mFallSpeedRatioByRange_s{};
+    // zero-initialised by the ctor (contents unknown)
+    u8 _a0[0xb4 - 0xa0]{};
+    ksys::VFRValue _b4{0.0f};
+    ksys::VFRVec3f _c0;
+    // zero-initialised by the ctor (contents unknown)
+    u8 _e4[0x134 - 0xe4]{};
+    void* _138 = nullptr;
+    s8 _140 = -1;
+    u32 _144 = 0;
+    u8 _148 = 0;
+    u8 _149 = 0;
+    u8 _14a = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(ArrowShootMove, 0x150);
 
 }  // namespace uking::action

@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: store scheduling of the trailing members around the second memset
 ArrowShootMove::ArrowShootMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 ArrowShootMove::~ArrowShootMove() = default;
