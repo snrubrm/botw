@@ -14,4 +14,8 @@ void PlayerGuardJustFall::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGuardJustFall::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
