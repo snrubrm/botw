@@ -30,4 +30,12 @@ void FallAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+int FallAttack::m32() {
+    return 12;
+}
+
+int FallAttack::m33() {
+    return 4;
+}
+
 }  // namespace uking::action
