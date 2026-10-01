@@ -16,6 +16,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m38();
 
     // static_param at offset 0x90
     const float* mRotSubsAngRate_s{};

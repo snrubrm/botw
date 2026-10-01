@@ -21,4 +21,8 @@ bool Guard::isChangeable() const {
     return true;
 }
 
+void Guard::m38() {
+    playAS("GuardShock", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
