@@ -1,11 +1,18 @@
 #include "Game/AI/Action/actionForkOnEnterSwapDropTableActorBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
 ForkOnEnterSwapDropTableActorBase::ForkOnEnterSwapDropTableActorBase(const InitArg& arg)
     : Fork(arg) {}
 
-ForkOnEnterSwapDropTableActorBase::~ForkOnEnterSwapDropTableActorBase() = default;
+ForkOnEnterSwapDropTableActorBase::~ForkOnEnterSwapDropTableActorBase() {
+    if (_38.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_38, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool ForkOnEnterSwapDropTableActorBase::init_(sead::Heap* heap) {
     return Fork::init_(heap);
@@ -17,6 +24,7 @@ void ForkOnEnterSwapDropTableActorBase::enter_(ksys::act::ai::InlineParamPack* p
 
 void ForkOnEnterSwapDropTableActorBase::leave_() {
     Fork::leave_();
+    _38.reset();
 }
 
 void ForkOnEnterSwapDropTableActorBase::loadParams_() {
@@ -26,6 +34,10 @@ void ForkOnEnterSwapDropTableActorBase::loadParams_() {
 
 void ForkOnEnterSwapDropTableActorBase::calc_() {
     Fork::calc_();
+}
+
+bool ForkOnEnterSwapDropTableActorBase::m32(sead::BufferedSafeString* name) {
+    return false;
 }
 
 }  // namespace uking::action
