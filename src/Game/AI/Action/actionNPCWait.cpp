@@ -23,6 +23,10 @@ void NPCWait::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+const sead::SafeString& NPCWait::m32() {
+    return mASName_s;
+}
+
 void NPCWait::calc_() {
     ksys::act::ai::Action::calc_();
 }

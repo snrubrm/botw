@@ -17,11 +17,13 @@ public:
 
 protected:
     void calc_() override;
+    virtual const sead::SafeString& m32();
 
     // static_param at offset 0x20
     const bool* mIsIgnoreSameKey_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
+    ksys::act::Actor* _38 = nullptr;
 };
 
 }  // namespace uking::action
