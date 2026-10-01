@@ -28,4 +28,8 @@ void LargeAttack::calc_() {
     ActionEx::calc_();
 }
 
+bool LargeAttack::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
