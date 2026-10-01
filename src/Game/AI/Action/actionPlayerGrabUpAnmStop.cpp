@@ -14,4 +14,8 @@ void PlayerGrabUpAnmStop::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerGrabUpAnmStop::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
