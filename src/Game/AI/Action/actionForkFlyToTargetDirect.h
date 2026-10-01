@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionFreeMovingAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -29,6 +30,7 @@ protected:
     const bool* mOnGround_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _58;
 };
 
 }  // namespace uking::action

@@ -12,6 +12,8 @@ bool OnetimeHoverASPlay::init_(sead::Heap* heap) {
 
 void OnetimeHoverASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     HoverBase::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    mFlags.reset(Flag::Changeable);
 }
 
 void OnetimeHoverASPlay::leave_() {

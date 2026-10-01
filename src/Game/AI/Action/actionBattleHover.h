@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionHover.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -23,6 +24,7 @@ protected:
     const float* mRotSpeed_s{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mTargetPos_d{};
+    sead::Matrix33f _80;
 };
 
 }  // namespace uking::action

@@ -12,6 +12,14 @@ bool WizzrobeChanceTime::init_(sead::Heap* heap) {
 
 void WizzrobeChanceTime::enter_(ksys::act::ai::InlineParamPack* params) {
     HoverBase::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    const f32 counter = *mDefaultCounter_s;
+    if (counter <= 0.0f) {
+        setFinished();
+        return;
+    }
+    _68 = ksys::Timer(counter, counter);
 }
 
 void WizzrobeChanceTime::leave_() {

@@ -113,6 +113,7 @@ target_sources(uking PRIVATE
     actBoneControl.h
     actCCAccessor.cpp
     actCCAccessor.h
+    actUnk_710072AFD0.cpp
     actClusteredRenderer.cpp
     actClusteredRenderer.h
     actDebug.cpp

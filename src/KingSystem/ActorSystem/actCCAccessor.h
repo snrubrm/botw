@@ -34,4 +34,20 @@ private:
     sead::BitFlag8 _5;
 };
 
+// Unnamed CCAccessor extension (its functions follow CCAccessor's in the same TU): puts the actor into
+// hover mode (character controller motion type Hover, else zero gravity on the main rigid body) and
+// restores the previous state.
+class Unk_710072AFD0 : public CCAccessor {
+public:
+    Unk_710072AFD0();
+    ~Unk_710072AFD0();
+
+    bool sub_710072AFFC(Actor* actor);
+    void sub_710072B078(Actor* actor);
+
+private:
+    f32 _8 = 1.0f;
+    int _c = 0;
+};
+
 }  // namespace ksys::act

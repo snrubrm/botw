@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionNoticeTurn.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::act::Unk_710072AFD0 _80;
 };
 
 }  // namespace uking::action

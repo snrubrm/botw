@@ -12,9 +12,11 @@ bool HoverNoticeTurn::init_(sead::Heap* heap) {
 
 void HoverNoticeTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     NoticeTurn::enter_(params);
+    _80.sub_710072AFFC(mActor);
 }
 
 void HoverNoticeTurn::leave_() {
+    _80.sub_710072B078(mActor);
     NoticeTurn::leave_();
 }
 

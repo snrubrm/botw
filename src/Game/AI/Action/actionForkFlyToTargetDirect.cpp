@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFlyToTargetDirect.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,10 @@ bool ForkFlyToTargetDirect::init_(sead::Heap* heap) {
 
 void ForkFlyToTargetDirect::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMovingAction::enter_(params);
+    const f32 speed = mActor->getVelocity().length();
+    _58.value = speed;
+    _58.prev_value = speed;
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkFlyToTargetDirect::leave_() {

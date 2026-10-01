@@ -11,11 +11,12 @@ bool FreeMovingAction::init_(sead::Heap* heap) {
 }
 
 void FreeMovingAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c.sub_710072AFFC(mActor);
 }
 
+// NON_MATCHING: regalloc (this+0x1c is built in x8 and moved to x0)
 void FreeMovingAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    _1c.sub_710072B078(mActor);
 }
 
 void FreeMovingAction::loadParams_() {}

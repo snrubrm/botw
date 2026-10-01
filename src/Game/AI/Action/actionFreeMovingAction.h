@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::act::Unk_710072AFD0 _1c;
 };
 
 }  // namespace uking::action
