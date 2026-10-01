@@ -31,4 +31,20 @@ void BackStepToTargetPos::calc_() {
     BackStepToTarget::calc_();
 }
 
+void BackStepToTargetPos::m34() {
+    playAS(mStartAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void BackStepToTargetPos::m35() {
+    playAS(mLoopAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void BackStepToTargetPos::m36() {
+    playAS(mPreLandAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
+void BackStepToTargetPos::m37() {
+    playAS(mEndAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

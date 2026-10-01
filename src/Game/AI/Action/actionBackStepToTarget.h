@@ -18,6 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual void m33(sead::Vector3f* dir);
+    virtual void m34() = 0;
+    virtual void m35() = 0;
+    virtual void m36() = 0;
+    virtual void m37() = 0;
 
     // static_param at offset 0x20
     const float* mStopSpeedRatio_s{};

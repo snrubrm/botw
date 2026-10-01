@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    void m34() override;
+    void m35() override;
+    void m36() override;
+    void m37() override;
 
     // static_param at offset 0xc0
     const bool* mIsJumpHeightFromHigherPos_s{};
