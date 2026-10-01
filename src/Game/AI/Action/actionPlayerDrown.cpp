@@ -18,4 +18,8 @@ void PlayerDrown::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDrown::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
