@@ -12,7 +12,7 @@ bool NPCHorseReceptionResurrect::init_(sead::Heap* heap) {
 }
 
 void NPCHorseReceptionResurrect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void NPCHorseReceptionResurrect::leave_() {
