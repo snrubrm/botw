@@ -31,6 +31,8 @@ public:
 
     bool callEvent(const Metadata& metadata, act::Actor* actor = nullptr, void* x = nullptr);
 
+    void setNoDeleteCurrentActor(bool no_delete);
+
 private:
     friend class ksys::OverlayArenaSystemS1;
 
