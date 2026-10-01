@@ -34027,7 +34027,7 @@ Address,Quality,Size,Name
 0x00000071005809e4,U,001644,uking::ai::SiteBossReaction::m40
 0x0000007100581050,U,000308,
 0x0000007100581184,U,000164,uking::ai::SiteBossReaction::m36
-0x0000007100581228,U,000008,uking::ai::SiteBossReaction::m38
+0x0000007100581228,O,000008,_ZN5uking2ai16SiteBossReaction3m38EPNS_3dmg17DamageManagerBaseE
 0x0000007100581230,O,000008,_ZNK5uking2ai16SiteBossReaction27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100581238,O,000092,_ZNK5uking2ai16SiteBossReaction18getRuntimeTypeInfoEv
 0x0000007100581294,O,000372,_ZN5uking2ai16SiteBossReaction33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE

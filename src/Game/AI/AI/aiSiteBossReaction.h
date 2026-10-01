@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m38(dmg::DamageManagerBase* damage_mgr) override { return false; }
+
 protected:
     // static_param at offset 0x68
     const bool* mIsChangeEffectiveDamage_s{};
