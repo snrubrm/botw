@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -40,6 +41,25 @@ protected:
     const float* mVelocityControlRate_m{};
     // map_unit_param at offset 0x68
     const float* mAngleVelocityControlAccelDeg_m{};
+    sead::Vector3f _70 = sead::Vector3f::ey;
+    f32 _7c = 0;
+    f32 _80 = 0;
+    sead::Vector3f _84{0, 0, 0};
+    f32 _90 = 0;
+    u32 _94 = 0;
+    s32 _98 = -1;
+    u32 _9c;
+    void* _a0 = nullptr;
+    void* _a8 = nullptr;
+    u32 _b0 = 0;
+    u8 _b4 = 0;
+    bool _b5 = false;
+    f32 _b8 = 1.0f;
+    f32 _bc = 100.0f;
+    f32 _c0 = 100.0f;
+    bool _c4 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(DungeonRotateBase, 0xc8);
 
 }  // namespace uking::action
