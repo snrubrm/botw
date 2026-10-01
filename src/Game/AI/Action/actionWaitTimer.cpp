@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitTimer.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,18 @@ bool WaitTimer::init_(sead::Heap* heap) {
 }
 
 void WaitTimer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = *mWaitFrame_s;
+    mFlags.set(Flag::Changeable);
+}
+
+bool WaitTimer::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!ksys::act::ai::Action::reenter_(other, true))
+        return false;
+    auto* other_ = sead::DynamicCast<WaitTimer>(other);
+    if (!other_)
+        return false;
+    _28 = other_->_28;
+    return true;
 }
 
 void WaitTimer::leave_() {
@@ -23,7 +35,9 @@ void WaitTimer::loadParams_() {
 }
 
 void WaitTimer::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::Timer::update(&_28, -1.0f);
+    if (_28 <= 0.0f)
+        setFinished();
 }
 
 }  // namespace uking::action
