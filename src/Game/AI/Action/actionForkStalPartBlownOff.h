@@ -28,6 +28,7 @@ protected:
     sead::SafeString mBaseNodeName_s{};
     // static_param at offset 0x48
     const sead::Vector3f* mShootDir_s{};
+    int _50 = 0;
 };
 
 }  // namespace uking::action
