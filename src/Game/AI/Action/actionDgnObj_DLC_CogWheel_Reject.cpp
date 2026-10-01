@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDgnObj_DLC_CogWheel_Reject.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +14,14 @@ bool DgnObj_DLC_CogWheel_Reject::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CogWheel_Reject::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mActor) {
+        if (auto* body = mActor->getMainBody()) {
+            body->changeMotionType(ksys::phys::MotionType::Keyframed);
+            body->setAngularVelocity(sead::Vector3f::zero);
+            body->setLinearVelocity(sead::Vector3f::zero);
+        }
+    }
+    playAS("Neutral", false, 0, 0, -1.0f);
 }
 
 void DgnObj_DLC_CogWheel_Reject::leave_() {
