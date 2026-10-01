@@ -14,6 +14,10 @@ void CircleMoveFlying::enter_(ksys::act::ai::InlineParamPack* params) {
     CircleMoveInFluid::enter_(params);
 }
 
+void CircleMoveFlying::calc_() {
+    CircleMoveInFluid::calc_();
+}
+
 void CircleMoveFlying::leave_() {
     CircleMoveInFluid::leave_();
 }
