@@ -38,6 +38,7 @@ target_sources(uking PRIVATE
     OverlayArenaSystem.h
     OverlayArenaSystemS1.cpp
     OverlayArenaSystemS1.h
+    OverlayArenaSystemS2.cpp
     OverlayArenaSystemS2.h
     Patrol.cpp
     Patrol.h

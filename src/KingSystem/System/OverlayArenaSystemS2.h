@@ -23,8 +23,11 @@ public:
     bool x_a() const;
 
 private:
+    bool sub_71012BBA50(void* userdata);
+
     u32 _0 = 0;
-    sead::Delegate1<OverlayArenaSystemS2, void*> mDelegate;
+    sead::Delegate1R<OverlayArenaSystemS2, void*, bool> mDelegate{
+        this, &OverlayArenaSystemS2::sub_71012BBA50};
     u32 _28 = 1;
     void* _30 = nullptr;
     void* _38 = nullptr;
