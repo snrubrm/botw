@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
@@ -33,9 +34,13 @@ public:
     bool sub_7100F62D34() const;
     void sub_7100F62CA8(bool clear);
 
+    void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
+
     RigidBody* mRigidBody;
     u8 _10[0x118 - 0x10];
     sead::BitFlag32 mFlags;
+    u8 _11c[0x298 - 0x11c];
+    RigidBody* _298;
 };
 
 }  // namespace ksys::phys

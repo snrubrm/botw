@@ -33,4 +33,9 @@ bool CharacterController::sub_7100F62D34() const {
     return mRigidBody->isEntityMotionFlag4Off();
 }
 
+// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped)
+void CharacterController::physicsXXXGetMtx_1(sead::Matrix34f* mtx) const {
+    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(mtx);
+}
+
 }  // namespace ksys::phys

@@ -5,7 +5,11 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::act {
 
@@ -109,6 +113,32 @@ int Actor::handleMessage(const Message& message) {
     case HandleMessageResult::_2:
         m107();
         return 1;
+    }
+}
+
+bool Actor::x_18(sead::Vector3f* out) const {
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    if (mPhysics && mPhysics->getCharacterController()) {
+        mPhysics->getCharacterController()->physicsXXXGetMtx_1(&mtx);
+    } else if (phys::RigidBody* body = mMainBody) {
+        body->getTransform(&mtx);
+    } else {
+        mMtx.getTranslation(*out);
+        return false;
+    }
+    *out = _4b4;
+    *out *= mtx;
+    return true;
+}
+
+void Actor::getHomePos(sead::Vector3f* pos) const {
+    if (mFieldBodyGroup) {
+        sead::Vector3f home_pos;
+        mHomeMtx.getTranslation(home_pos);
+        *pos = phys::System::instance()->getStaticCompoundMgr()->getTransformedPos(mFieldBodyGroup,
+                                                                                   home_pos);
+    } else {
+        mHomeMtx.getTranslation(*pos);
     }
 }
 
