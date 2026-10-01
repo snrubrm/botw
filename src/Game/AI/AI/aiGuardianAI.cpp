@@ -14,6 +14,8 @@ void GuardianAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void GuardianAI::calc_() {}
+
 void GuardianAI::leave_() {
     ksys::act::ai::Ai::leave_();
 }
