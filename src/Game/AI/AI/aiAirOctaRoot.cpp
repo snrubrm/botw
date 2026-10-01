@@ -14,6 +14,8 @@ void AirOctaRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork2AI::enter_(params);
 }
 
+void AirOctaRoot::calc_() {}
+
 void AirOctaRoot::leave_() {
     Fork2AI::leave_();
 }
