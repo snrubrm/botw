@@ -30,4 +30,8 @@ void LynelLineMoveAttack::loadParams_() {
     getDynamicParam(&mTargetVel_d, "TargetVel");
 }
 
+bool LynelLineMoveAttack::isFinished() const {
+    return isCurrentChild("攻撃") && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

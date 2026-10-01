@@ -8,6 +8,8 @@ class EnemyNotice : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNotice, ksys::act::ai::Ai)
 public:
     explicit EnemyNotice(const InitArg& arg);
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

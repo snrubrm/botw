@@ -24,4 +24,8 @@ void EnemyRoamViewItem::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+bool EnemyRoamViewItem::isFinished() const {
+    return isCurrentChild("行動") && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

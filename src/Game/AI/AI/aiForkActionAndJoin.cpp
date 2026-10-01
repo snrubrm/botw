@@ -21,4 +21,16 @@ void ForkActionAndJoin::leave_() {
 
 void ForkActionAndJoin::loadParams_() {}
 
+bool ForkActionAndJoin::isFinished() const {
+    if (isCurrentChild("行動"))
+        return getCurrentChild()->isFinished();
+    return _38 == 0;
+}
+
+bool ForkActionAndJoin::isFailed() const {
+    if (isCurrentChild("行動"))
+        return getCurrentChild()->isFailed();
+    return _38 == 1;
+}
+
 }  // namespace uking::ai

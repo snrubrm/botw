@@ -17,4 +17,12 @@ void EnemyNotice::loadParams_() {
     getStaticParam(&mTurnStartAngle_s, "TurnStartAngle");
 }
 
+bool EnemyNotice::isFinished() const {
+    return isCurrentChild("追跡") && getCurrentChild()->isFinished();
+}
+
+bool EnemyNotice::isFailed() const {
+    return isCurrentChild("追跡") && getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai

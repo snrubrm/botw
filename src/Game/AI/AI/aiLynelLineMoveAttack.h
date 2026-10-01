@@ -9,6 +9,7 @@ class LynelLineMoveAttack : public ksys::act::ai::Ai {
 public:
     explicit LynelLineMoveAttack(const InitArg& arg);
     ~LynelLineMoveAttack() override;
+    bool isFinished() const override;
     bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;

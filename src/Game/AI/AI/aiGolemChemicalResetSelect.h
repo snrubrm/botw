@@ -9,6 +9,7 @@ class GolemChemicalResetSelect : public ksys::act::ai::Ai {
 public:
     explicit GolemChemicalResetSelect(const InitArg& arg);
     ~GolemChemicalResetSelect() override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

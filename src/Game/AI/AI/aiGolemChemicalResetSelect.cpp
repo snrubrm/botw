@@ -22,4 +22,8 @@ void GolemChemicalResetSelect::loadParams_() {
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 
+bool GolemChemicalResetSelect::isFinished() const {
+    return isCurrentChild("通常") && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai

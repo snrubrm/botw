@@ -9,6 +9,8 @@ class ForkActionAndJoin : public ksys::act::ai::Ai {
 public:
     explicit ForkActionAndJoin(const InitArg& arg);
     ~ForkActionAndJoin() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
