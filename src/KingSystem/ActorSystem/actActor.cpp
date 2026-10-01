@@ -212,6 +212,22 @@ void Actor::setFlag0x40() {
         mActorFlags.setBit(ActorFlag::_6);
 }
 
+void Actor::setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel) {
+    if (!isInit() && !isSleep())
+        return;
+
+    if (vel)
+        mVelocity = *vel;
+    if (ang_vel)
+        mAngVelocity = *ang_vel;
+    if (vel || ang_vel)
+        _68a = true;
+}
+
+void Actor::resetMubinBymlIter() {
+    mMapObjIter = map::MubinIter();
+}
+
 s32 Actor::getMaxHp_() {
     const auto* gparamlist = mActorParam->getRes().mGParamList;
     if (!gparamlist)

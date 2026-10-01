@@ -375,6 +375,8 @@ public:
     void nullsub_4648();
     void unlinkPlacementObj();
     void setFlag0x40();
+    void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
+    void resetMubinBymlIter();
     s32 getMaxHp_();
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
