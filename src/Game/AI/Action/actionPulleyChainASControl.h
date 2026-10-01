@@ -24,6 +24,11 @@ protected:
     const int* mSeqBankIdx_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
+    float _40 = 0.0f;
+    float _44 = 0.0f;
+    float _48 = 0.0f;
+    int _4c = 0;
+    void* _50{};
 };
 
 }  // namespace uking::action
