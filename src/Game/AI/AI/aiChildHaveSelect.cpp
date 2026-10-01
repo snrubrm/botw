@@ -14,6 +14,22 @@ void ChildHaveSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool ChildHaveSelect::isFailed() const {
+    if (ksys::act::ai::Ai::isFailed())
+        return true;
+    if (!getCurrentChild())
+        return false;
+    return getCurrentChild()->isFailed();
+}
+
+bool ChildHaveSelect::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+    if (!getCurrentChild())
+        return false;
+    return getCurrentChild()->isFinished();
+}
+
 void ChildHaveSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
