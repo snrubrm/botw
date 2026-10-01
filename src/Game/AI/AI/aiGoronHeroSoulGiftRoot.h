@@ -11,6 +11,7 @@ class GoronHeroSoulGiftRoot : public HeroSoulGiftRoot {
 public:
     explicit GoronHeroSoulGiftRoot(const InitArg& arg);
     ~GoronHeroSoulGiftRoot() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

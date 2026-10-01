@@ -30,4 +30,14 @@ bool GolemChemicalResetSelect::isFailed() const {
     return ActionBase::isFailed() || (isCurrentChild("通常") && getCurrentChild()->isFailed());
 }
 
+void GolemChemicalResetSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ケミカル復帰"))
+            changeChild("通常");
+    } else {
+        child->isChangeable();
+    }
+}
+
 }  // namespace uking::ai

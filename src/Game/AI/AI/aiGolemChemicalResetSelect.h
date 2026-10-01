@@ -9,6 +9,7 @@ class GolemChemicalResetSelect : public ksys::act::ai::Ai {
 public:
     explicit GolemChemicalResetSelect(const InitArg& arg);
     ~GolemChemicalResetSelect() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 

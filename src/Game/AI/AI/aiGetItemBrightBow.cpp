@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGetItemBrightBow.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -33,6 +34,14 @@ bool GetItemBrightBow::m34() {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     return (pos - getPlayerPosition()).squaredLength() < sead::Mathf::square(*mGetRadius_s);
+}
+
+// NON_MATCHING: the original negates the m270() result with mvn+and in its own return block
+bool GetItemBrightBow::m35() {
+    auto* player = ksys::act::PlayerInfo::instance()->getPlayer();
+    if (!player)
+        return true;
+    return !player->m270();
 }
 
 }  // namespace uking::ai

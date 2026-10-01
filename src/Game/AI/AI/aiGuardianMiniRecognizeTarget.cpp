@@ -28,4 +28,20 @@ void GuardianMiniRecognizeTarget::leave_() {
 
 void GuardianMiniRecognizeTarget::loadParams_() {}
 
+void GuardianMiniRecognizeTarget::calc_() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("未発見")) {
+        changeChild("発見");
+        return;
+    }
+
+    child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("発見")) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
+}
+
 }  // namespace uking::ai

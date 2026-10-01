@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGoronHeroSoulGiftRoot.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,14 @@ void GoronHeroSoulGiftRoot::leave_() {
 
 void GoronHeroSoulGiftRoot::loadParams_() {
     HeroSoulGiftRoot::loadParams_();
+}
+
+void GoronHeroSoulGiftRoot::calc_() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (player.hasProc() && player.x_12())
+        _8c.update();
+    HeroSoulGiftRoot::calc_();
 }
 
 }  // namespace uking::ai

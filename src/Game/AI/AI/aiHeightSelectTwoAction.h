@@ -14,8 +14,10 @@ public:
     bool isFailed() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void sub_710042E7CC();
 
 protected:
     // static_param at offset 0x38

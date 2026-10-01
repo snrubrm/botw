@@ -8,6 +8,7 @@ class GuardAndRevenge : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(GuardAndRevenge, ksys::act::ai::Ai)
 public:
     explicit GuardAndRevenge(const InitArg& arg);
+    void calc_() override;
     bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;

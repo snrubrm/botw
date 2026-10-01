@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGanonWeaponAttackOnFloor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -33,6 +36,21 @@ bool GanonWeaponAttackOnFloor::isFinished() const {
             return true;
     }
     return false;
+}
+
+void GanonWeaponAttackOnFloor::sub_71003F1E0C() {
+    _50 = 120.0f;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mTargetPos_d, "MoveDstPos", -1);
+
+    const auto& mtx = mActor->getMtx();
+    const f32 dx = mtx(0, 3) - mTargetPos_d->x;
+    const f32 dz = mtx(2, 3) - mTargetPos_d->z;
+    pack.addBool(dx * dx + dz * dz <= *mCloseDist_s * *mCloseDist_s, "IsMoveSide", -1);
+    pack.addBool(!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0), "IsChangeable", -1);
+    changeChild("接近", &pack);
 }
 
 }  // namespace uking::ai
