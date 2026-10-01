@@ -15,6 +15,16 @@ void PriestBossBlowoffDamageSelect::enter_(ksys::act::ai::InlineParamPack* param
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestBossBlowoffDamageSelect::calc_() {
+    if (!getCurrentChild()->isFinished())
+        return;
+
+    if (isCurrentChild("リアクション準備"))
+        sub_7100510A94();
+    else
+        setFinished();
+}
+
 void PriestBossBlowoffDamageSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
