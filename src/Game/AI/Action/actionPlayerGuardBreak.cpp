@@ -8,9 +8,7 @@ void PlayerGuardBreak::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerGuardBreak::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerGuardBreak::leave_() {}
 
 void PlayerGuardBreak::loadParams_() {}
 
