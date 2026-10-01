@@ -115,6 +115,8 @@ protected:
     }
 
 protected:
+    friend class System;
+
     ContactMgr* mMgr{};
     ContactLayerType mLayerType{};
     u32 mLayerBase{};

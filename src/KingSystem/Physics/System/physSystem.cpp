@@ -115,6 +115,24 @@ void System::freeLayerContactPointInfo(LayerContactPointInfo* info) const {
     mContactMgr->freeContactPointInfo(info);
 }
 
+// NON_MATCHING: regalloc (x8/w9 swapped)
+void System::setEntityContactListenerField90(bool value) {
+    mContactListeners(int(ContactLayerType::Entity))->_90 = value;
+}
+
+bool System::getEntityContactListenerField90() const {
+    return mContactListeners(int(ContactLayerType::Entity))->_90;
+}
+
+// NON_MATCHING: regalloc (x8/w9 swapped)
+void System::setEntityContactListenerField91(bool value) {
+    mContactListeners(int(ContactLayerType::Entity))->_91 = value;
+}
+
+bool System::getEntityContactListenerField91() const {
+    return mContactListeners(int(ContactLayerType::Entity))->_91;
+}
+
 void System::registerContactPointInfo(ContactPointInfo* info) const {
     mContactMgr->registerContactPointInfo(info);
 }
