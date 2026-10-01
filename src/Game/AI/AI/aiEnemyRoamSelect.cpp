@@ -14,6 +14,18 @@ void EnemyRoamSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyRoamSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool EnemyRoamSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+bool EnemyRoamSelect::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyRoamSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
