@@ -30,6 +30,17 @@ protected:
     const float* mHeightOffset_s{};
     // static_param at offset 0x48
     const float* mTerritoryArea_s{};
+    int _50 = 1;
+    int _54 = 0;
+    u16 _58 = 256;
+    bool _5a = true;
+    int _5c = 0;
+    float _60 = 0.0f;
+    int _64 = 0;
+    float _68 = 0.0f;
+    float _6c = 0.0f;
+    int _70 = 0;
+    int _74 = 0;
 };
 
 }  // namespace uking::action
