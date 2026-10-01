@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBasicSignalChangeDamping.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,7 +27,12 @@ void BasicSignalChangeDamping::loadParams_() {
 }
 
 void BasicSignalChangeDamping::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!mActor->checkBasicSig())
+        return;
+    if (auto* body = mActor->getMainBody()) {
+        body->setLinearDamping(*mLinearDamping_s);
+        body->setAngularDamping(*mAngularDamping_s);
+    }
 }
 
 }  // namespace uking::action
