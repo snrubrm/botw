@@ -13,6 +13,7 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
+    bool m35() const override;
 
 protected:
     // static_param at offset 0x50
@@ -21,6 +22,7 @@ protected:
     const float* mCloseDist_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    bool _68{};
 };
 
 }  // namespace uking::ai
