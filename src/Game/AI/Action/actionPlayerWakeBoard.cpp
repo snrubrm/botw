@@ -18,4 +18,8 @@ void PlayerWakeBoard::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWakeBoard::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
