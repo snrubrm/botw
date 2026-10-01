@@ -40,6 +40,12 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mTargetPos_d{};
+    u8 _80[0xa4 - 0x80];
+    float _a4 = 0.0f;
+    int _a8 = 0;
+    int _ac = 0;
+    int _b0 = 0;
+    int _b4 = 0;
 };
 
 }  // namespace uking::action
