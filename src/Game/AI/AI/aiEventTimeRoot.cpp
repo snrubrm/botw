@@ -11,8 +11,10 @@ bool EventTimeRoot::init_(sead::Heap* heap) {
 }
 
 void EventTimeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("待機");
 }
+
+void EventTimeRoot::calc_() {}
 
 void EventTimeRoot::leave_() {
     ksys::act::ai::Ai::leave_();
