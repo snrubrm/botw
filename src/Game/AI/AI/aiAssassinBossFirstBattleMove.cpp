@@ -15,6 +15,14 @@ void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params)
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AssassinBossFirstBattleMove::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool AssassinBossFirstBattleMove::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void AssassinBossFirstBattleMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }

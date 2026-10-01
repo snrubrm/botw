@@ -9,6 +9,8 @@ class AssassinBossFirstBattleMove : public ksys::act::ai::Ai {
 public:
     explicit AssassinBossFirstBattleMove(const InitArg& arg);
     ~AssassinBossFirstBattleMove() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
