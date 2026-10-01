@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m35();
+    virtual int m36();
+    virtual int m37();
 
     // static_param at offset 0x88
     const int* mAttackPower_s{};
