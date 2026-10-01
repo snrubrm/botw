@@ -13,6 +13,7 @@ bool FlyingCharacterFreeFall::init_(sead::Heap* heap) {
 
 void FlyingCharacterFreeFall::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingCharacterReaction::enter_(params);
+    playAS("Fall", false, 0, 0, -1.0f);
 }
 
 void FlyingCharacterFreeFall::leave_() {
