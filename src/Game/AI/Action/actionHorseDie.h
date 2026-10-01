@@ -24,6 +24,10 @@ protected:
     const bool* mCheckIfStable_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
+    float _40 = 0.0f;
+    int _44 = -1;
+    float _48 = 0.0f;
+    bool _4c = true;
 };
 
 }  // namespace uking::action
