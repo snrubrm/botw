@@ -12,6 +12,7 @@ bool SwimMoveOneTimeAS::init_(sead::Heap* heap) {
 
 void SwimMoveOneTimeAS::enter_(ksys::act::ai::InlineParamPack* params) {
     SwimMoveBase::enter_(params);
+    playAS(mASName_s.cstr(), *mIsIgnoreSameKey_s, 0, 0, -1.0f);
 }
 
 void SwimMoveOneTimeAS::leave_() {
