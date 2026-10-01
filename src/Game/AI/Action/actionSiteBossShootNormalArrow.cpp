@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossShootNormalArrow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void SiteBossShootNormalArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossShootNormalArrow::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void SiteBossShootNormalArrow::loadParams_() {

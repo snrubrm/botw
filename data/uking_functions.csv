@@ -16582,7 +16582,7 @@ Address,Quality,Size,Name
 0x0000007100263c04,W,000096,_ZN5uking6action24SiteBossShootNormalArrow6enter_EPN4ksys3act2ai15InlineParamPackE
 0x0000007100263c64,U,000816,
 0x0000007100263f94,W,000732,_ZN5uking6action24SiteBossShootNormalArrow5calc_Ev
-0x0000007100264270,W,000044,_ZN5uking6action24SiteBossShootNormalArrow6leave_Ev
+0x0000007100264270,O,000044,_ZN5uking6action24SiteBossShootNormalArrow6leave_Ev
 0x000000710026429c,O,000640,_ZN5uking6action24SiteBossShootNormalArrow11loadParams_Ev
 0x000000710026451c,U,000724,uking::action::SiteBossShootNormalArrow::m32
 0x00000071002647f0,U,001408,uking::action::SiteBossShootNormalArrow::m33
