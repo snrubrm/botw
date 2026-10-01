@@ -27,4 +27,12 @@ void LevelFlyLookRisingToTgtHeight::calc_() {
     LevelFlyRiseLookingTarget::calc_();
 }
 
+float LevelFlyLookRisingToTgtHeight::m32() {
+    return mTargetPos_d->y + *mHeight_s;
+}
+
+bool LevelFlyLookRisingToTgtHeight::m33(float x) {
+    return m32() <= x;
+}
+
 }  // namespace uking::action
