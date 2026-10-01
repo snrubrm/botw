@@ -29,4 +29,8 @@ void StepDoubleAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool StepDoubleAttack::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
