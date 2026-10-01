@@ -13,6 +13,7 @@ bool BattleCloseSlippedWalk::init_(sead::Heap* heap) {
 
 void BattleCloseSlippedWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseSlippedWalkBase::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void BattleCloseSlippedWalk::leave_() {
