@@ -1,8 +1,34 @@
 #include "KingSystem/Map/mapRail.h"
 #include <heap/seadHeapMgr.h>
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
 namespace ksys::map {
+
+static bool isNearZero(const sead::Vector3f& v) {
+    return v.x <= 0.01f && v.x >= -0.01f && v.y <= 0.01f && v.y >= -0.01f && v.z <= 0.01f &&
+           v.z >= -0.01f;
+}
+
+static void calcBezierPoint(sead::Vector3f* out, const sead::Vector3f& p0, const sead::Vector3f& c0,
+                            const sead::Vector3f& c1, const sead::Vector3f& p1, float t) {
+    const float s = 1.0f - t;
+    const float s2 = s * s;
+    const float t2 = t * t;
+    out->setScale(p0, s * s2);
+    *out = *out + c0 * (t * s2 * 3.0f) + c1 * (t2 * s * 3.0f);
+    out->setScaleAdd(t * t2, p1, *out);
+}
+
+static void calcBezierTangent(sead::Vector3f* out, const sead::Vector3f& p0,
+                              const sead::Vector3f& c0, const sead::Vector3f& c1,
+                              const sead::Vector3f& p1, float t) {
+    const float s = 1.0f - t;
+    const float t3 = t * 3.0f;
+    out->setScale(p0, s * s * -3.0f);
+    *out = *out + c0 * (s * 3.0f * (1.0f - t3)) + c1 * (t3 * (2.0f - t3));
+    out->setScaleAdd(t * t * 3.0f, p1, *out);
+}
 
 RailPoint::~RailPoint() = default;
 
@@ -110,6 +136,60 @@ sead::Vector3f Rail::calcTranslate(float progress) const {
 
 void Rail::calcTranslate(sead::Vector3f* pos_out, float progress) const {
     calcTranslateRotate(pos_out, nullptr, progress);
+}
+
+// NON_MATCHING: the original evaluates the near-zero control point checks as a branch chain
+// (y/z loads not speculated; `t` tested between y and z) and lays out the blocks differently
+void Rail::calcTranslateRotate(sead::Vector3f* pos_out, sead::Vector3f* rot_out,
+                               float progress) const {
+    const s32 num_points = mRailPoints.size();
+    if (num_points == 1) {
+        *pos_out = mRailPoints[0]->mSRT.translate;
+        if (rot_out)
+            rot_out->set(0, 0, 0);
+        return;
+    }
+
+    if (isClosed()) {
+        const float n = num_points;
+        progress -= n * sead::Mathf::floor(progress / n);
+    }
+
+    s32 idx = sead::Mathf::floor(progress);
+    if (!isClosed() && idx == num_points - 1)
+        idx = num_points - 2;
+
+    const s32 next_idx = (idx + 1) % num_points;
+    const float t = progress - idx;
+    const RailPoint* p0 = mRailPoints[idx];
+    const RailPoint* p1 = mRailPoints[next_idx];
+
+    if (!isBezier()) {
+        util::lerp(pos_out, p0->mSRT.translate, p1->mSRT.translate, t);
+        if (rot_out) {
+            rot_out->setSub(p1->mSRT.translate, p0->mSRT.translate);
+            rot_out->normalize();
+        }
+        return;
+    }
+
+    calcBezierPoint(pos_out, p0->mSRT.translate, p0->mCtrlPoints[1] + p0->mSRT.translate,
+                    p1->mCtrlPoints[0] + p1->mSRT.translate, p1->mSRT.translate, t);
+
+    if (!rot_out)
+        return;
+
+    if (isNearZero(p0->mCtrlPoints[1]) && t < 0.01f) {
+        rot_out->setAdd(p1->mSRT.translate, p1->mCtrlPoints[0]);
+        *rot_out -= p0->mSRT.translate;
+    } else if (isNearZero(p1->mCtrlPoints[0]) && t > 0.99f) {
+        rot_out->setSub(p1->mSRT.translate, p0->mCtrlPoints[1]);
+        *rot_out -= p0->mSRT.translate;
+    } else {
+        calcBezierTangent(rot_out, p0->mSRT.translate, p0->mCtrlPoints[1] + p0->mSRT.translate,
+                          p1->mCtrlPoints[0] + p1->mSRT.translate, p1->mSRT.translate, t);
+    }
+    rot_out->normalize();
 }
 
 bool Rail::isClosed() const {
