@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,8 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mRemainTime_s{};
+    ksys::Timer _40;
 };
+KSYS_CHECK_SIZE_NX150(PickShootItemRoot, 0x50);
 
 }  // namespace uking::ai
