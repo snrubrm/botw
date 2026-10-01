@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkReaction.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
@@ -7,17 +8,24 @@ WolfLinkReaction::WolfLinkReaction(const InitArg& arg) : ksys::act::ai::Ai(arg) 
 WolfLinkReaction::~WolfLinkReaction() = default;
 
 bool WolfLinkReaction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _40 = sead::DynamicCast<act::WolfLink>(mActor);
+    return true;
 }
 
 void WolfLinkReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+    _38 = true;
 }
 
-void WolfLinkReaction::leave_() {
-    ksys::act::ai::Ai::leave_();
-}
+void WolfLinkReaction::leave_() {}
 
 void WolfLinkReaction::loadParams_() {}
+
+bool WolfLinkReaction::isFinished() const {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+    return true;
+}
 
 }  // namespace uking::ai
