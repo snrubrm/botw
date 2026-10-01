@@ -57,6 +57,10 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(BaseProcLink, 0x10);
 
+/// Unnamed global link (placeholder name; constructed by actBaseProcLink.cpp's static initialiser).
+/// Used as the fallback link by AI helpers (e.g. sub_71005D94AC).
+extern BaseProcLink sUnk_71026505e0;
+
 class BaseProcLinkData {
 public:
     u32 id() const { return mId; }

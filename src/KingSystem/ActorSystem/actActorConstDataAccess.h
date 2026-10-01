@@ -106,6 +106,8 @@ public:
 
     const sead::Vector3f& getPreviousPos() const;
     const sead::Vector3f& getPreviousPos2() const;
+    // CSV name; returns Actor::_454
+    const sead::Vector3f& getField44C_Vec3() const;
     const sead::Vector3f& getVelocity() const;
     const sead::Vector3f& getAngVelocity() const;
     void getHomeMtx(sead::Matrix34f* mtx) const;

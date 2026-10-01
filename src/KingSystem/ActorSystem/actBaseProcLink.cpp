@@ -7,6 +7,8 @@
 
 namespace ksys::act {
 
+BaseProcLink sUnk_71026505e0;
+
 BaseProcLink::BaseProcLink() = default;
 
 BaseProcLink& BaseProcLink::operator=(const BaseProcLink& rhs) {

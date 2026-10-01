@@ -461,6 +461,14 @@ const sead::Vector3f& ActorConstDataAccess::getPreviousPos2() const {
 }
 
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching
+const sead::Vector3f& ActorConstDataAccess::getField44C_Vec3() const {
+    auto* actor = getActor();
+    if (!actor)
+        return sead::Vector3f::zero;
+    return actor->_454;
+}
+
+// NON_MATCHING: the original selects between the two addresses (csel) instead of branching
 const sead::Vector3f& ActorConstDataAccess::getVelocity() const {
     auto* actor = getActor();
     if (!actor)

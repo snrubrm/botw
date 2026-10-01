@@ -66,6 +66,24 @@ const sead::Vector3f& sub_71005D9330(ksys::act::Actor* actor) {
     return sead::Vector3f::zero;
 }
 
+// NON_MATCHING: the original's csel has the operands swapped (eq: global, ne: field)
+ksys::act::BaseProcLink& sub_71005D94AC(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return ksys::act::sUnk_71026505e0;
+    auto* enemy = static_cast<Enemy*>(actor);
+    return enemy->_c48._8;
+}
+
+// NON_MATCHING: the original branches to pick the link (field or global) instead of a csel
+const sead::Vector3f& sub_71005D93CC(ksys::act::Actor* actor) {
+    auto& link = sub_71005D94AC(actor);
+    if (!link.hasProc())
+        return sead::Vector3f::zero;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    return accessor.getField44C_Vec3();
+}
+
 const sead::Vector3f& sub_71005D9548(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return sead::Vector3f::zero;
