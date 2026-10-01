@@ -20,6 +20,8 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mValidInput_d{};
+    int _28 = 0;
+    int _2c = 0;
 };
 
 }  // namespace uking::action
