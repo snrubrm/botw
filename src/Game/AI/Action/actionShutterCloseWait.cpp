@@ -11,7 +11,9 @@ bool ShutterCloseWait::init_(sead::Heap* heap) {
 }
 
 void ShutterCloseWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void ShutterCloseWait::leave_() {
