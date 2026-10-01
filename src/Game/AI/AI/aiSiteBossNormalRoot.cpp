@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossNormalRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -19,5 +20,16 @@ void SiteBossNormalRoot::leave_() {
 }
 
 void SiteBossNormalRoot::loadParams_() {}
+
+bool SiteBossNormalRoot::isChangeable() const {
+    auto* life = mActor->getLife();
+    if (life && *life < 1)
+        return true;
+
+    auto* child = getCurrentChild();
+    if (!child)
+        return false;
+    return child->isChangeable();
+}
 
 }  // namespace uking::ai

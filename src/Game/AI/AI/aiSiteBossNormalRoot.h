@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isChangeable() const override;
+
 protected:
 };
 
