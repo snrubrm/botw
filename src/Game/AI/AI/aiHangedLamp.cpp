@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHangedLamp.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,11 +12,20 @@ bool HangedLamp::init_(sead::Heap* heap) {
 }
 
 void HangedLamp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mDisableImpulseByArrow_s)
+        setDamageCallbackTiming(mActor, 2, &_38);
+    changeChild("待機");
+}
+
+void HangedLamp::calc_() {
+    const s32* life = mActor->getLife();
+    if (life && *life <= 0 && isCurrentChild("待機"))
+        changeChild("発火");
 }
 
 void HangedLamp::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mDisableImpulseByArrow_s)
+        sub_71005DA114(mActor, &_38);
 }
 
 void HangedLamp::loadParams_() {

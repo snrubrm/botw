@@ -1,8 +1,15 @@
 #pragma once
 
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
+
+// vtable 0x71023fa168
+class Unk_71023fa168 : public dmg::DamageCallback {
+public:
+    void call(u32* a1, s32* a2, u32* a3, u32* a4, u32* a5, u64 a6) override;
+};
 
 class HangedLamp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(HangedLamp, ksys::act::ai::Ai)
@@ -12,12 +19,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x28];
+    Unk_71023fa168 _38;
     // static_param at offset 0x60
     const bool* mDisableImpulseByArrow_s{};
 };
