@@ -8,9 +8,7 @@ void PlayerSwimWait::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSwimWait::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSwimWait::leave_() {}
 
 void PlayerSwimWait::loadParams_() {
     getStaticParam(&mEnergyWait_s, "EnergyWait");
