@@ -22,6 +22,9 @@ protected:
     int* mSignalType_d{};
     // dynamic_param at offset 0x28
     bool* mValue_d{};
+    float _30 = 0.0f;
+    int _34 = 0;
+    int _38 = 0;
 };
 
 }  // namespace uking::action
