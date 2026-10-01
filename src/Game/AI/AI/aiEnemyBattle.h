@@ -35,6 +35,7 @@ protected:
     const bool* mIsUpdateNoticeState_s{};
     // static_param at offset 0x80
     const bool* mIsCheckLineReachable_s{};
+    bool _88{};
 };
 
 }  // namespace uking::ai
