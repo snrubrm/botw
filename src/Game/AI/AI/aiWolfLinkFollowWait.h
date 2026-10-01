@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkFollowWait : public ksys::act::ai::Ai {
@@ -12,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,6 +25,8 @@ protected:
     const float* mTurnThreshold_s{};
     // static_param at offset 0x40
     const float* mLockonTurnThreshold_s{};
+    act::WolfLink* _48{};
 };
+KSYS_CHECK_SIZE_NX150(WolfLinkFollowWait, 0x50);
 
 }  // namespace uking::ai
