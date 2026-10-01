@@ -10,6 +10,9 @@ public:
     explicit TargetLostCheck(const InitArg& arg);
     ~TargetLostCheck() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
@@ -22,6 +25,10 @@ protected:
     const bool* mIsLostByScaffold_s{};
     // static_param at offset 0x48
     const bool* mIsLostByTeached_s{};
+    f32 _50 = 0;
+    int _54 = 0;
+    int _58 = 0;
 };
+KSYS_CHECK_SIZE_NX150(TargetLostCheck, 0x60);
 
 }  // namespace uking::ai
