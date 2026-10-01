@@ -16,4 +16,8 @@ void PlayerBackJumpLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerBackJumpLand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
