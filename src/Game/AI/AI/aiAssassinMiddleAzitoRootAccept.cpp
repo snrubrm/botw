@@ -15,6 +15,10 @@ void AssassinMiddleAzitoRootAccept::enter_(ksys::act::ai::InlineParamPack* param
     AssassinMiddleRoot::enter_(params);
 }
 
+void AssassinMiddleAzitoRootAccept::calc_() {
+    AssassinMiddleRoot::calc_();
+}
+
 void AssassinMiddleAzitoRootAccept::leave_() {
     AssassinMiddleRoot::leave_();
 }
