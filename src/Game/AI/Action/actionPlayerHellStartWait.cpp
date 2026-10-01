@@ -18,4 +18,8 @@ void PlayerHellStartWait::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHellStartWait::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
