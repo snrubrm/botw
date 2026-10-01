@@ -30,4 +30,8 @@ void TargetCircle::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+float TargetCircle::m32() {
+    return *mRotDist_s;
+}
+
 }  // namespace uking::action
