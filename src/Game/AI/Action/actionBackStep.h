@@ -11,6 +11,10 @@ public:
     explicit BackStep(const InitArg& arg);
 
 protected:
+    void m34() override;
+    void m35() override;
+    void m36() override;
+    void m37() override;
 };
 
 }  // namespace uking::action
