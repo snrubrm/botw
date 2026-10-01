@@ -14,6 +14,10 @@ void ChildFavoriteSelectorBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool ChildFavoriteSelectorBase::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void ChildFavoriteSelectorBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
