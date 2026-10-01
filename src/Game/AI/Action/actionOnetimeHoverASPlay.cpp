@@ -26,6 +26,8 @@ void OnetimeHoverASPlay::loadParams_() {
 
 void OnetimeHoverASPlay::calc_() {
     HoverBase::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool OnetimeHoverASPlay::isFinished() const {
