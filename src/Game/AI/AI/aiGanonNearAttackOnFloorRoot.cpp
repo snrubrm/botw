@@ -7,6 +7,20 @@ GanonNearAttackOnFloorRoot::GanonNearAttackOnFloorRoot(const InitArg& arg)
 
 GanonNearAttackOnFloorRoot::~GanonNearAttackOnFloorRoot() = default;
 
+bool GanonNearAttackOnFloorRoot::isFinished() const {
+    auto* child = getCurrentChild();
+    if (child && child->isFinished())
+        return true;
+    return false;
+}
+
+bool GanonNearAttackOnFloorRoot::isFailed() const {
+    auto* child = getCurrentChild();
+    if (child && child->isFailed())
+        return true;
+    return false;
+}
+
 bool GanonNearAttackOnFloorRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
