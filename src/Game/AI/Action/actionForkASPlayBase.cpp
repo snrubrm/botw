@@ -31,4 +31,8 @@ void ForkASPlayBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+const char* ForkASPlayBase::m32() {
+    return nullptr;
+}
+
 }  // namespace uking::action
