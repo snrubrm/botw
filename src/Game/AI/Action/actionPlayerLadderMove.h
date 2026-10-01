@@ -20,6 +20,7 @@ protected:
 
     // static_param at offset 0x20
     const float* mDownMoveSpeed_s{};
+    bool _28 = false;
 };
 
 }  // namespace uking::action
