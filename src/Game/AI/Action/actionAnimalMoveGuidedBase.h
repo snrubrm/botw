@@ -37,6 +37,10 @@ protected:
     const bool* mHasToDecelerateNearGoal_s{};
     // static_param at offset 0x68
     const bool* mWaitUntilPathSucceeded_s{};
+    s32 _70 = 1;
+    bool _74 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(AnimalMoveGuidedBase, 0x78);
 
 }  // namespace uking::action
