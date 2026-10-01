@@ -7,6 +7,8 @@
 
 namespace ksys::act {
 
+class Unk_7102459df8;
+
 // TODO: incomplete. Factory size 0xb90 (DynamicActor::construct); the vtable has 163 slots.
 class DynamicActor : public Actor {
     SEAD_RTTI_OVERRIDE(DynamicActor, Actor)
@@ -40,7 +42,7 @@ public:
     void m100() override;
     int getExtraHeapSize() override;
     Unk_71025ae640* getAtk() override;
-    void m126() override;
+    Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     void m128() override;
     Unk_71025ae620* getDropData() override;
@@ -67,7 +69,7 @@ protected:
     /* 0x840 */ uking::dmg::DamageManagerBase* mDamageMgr = nullptr;
     /* 0x848 */ s32 mLife = 1;
     /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
-    /* 0x858 */ void* _858 = nullptr;
+    /* 0x858 */ Unk_7102459df8* _858 = nullptr;  // DynamicActor::initField858 (CSV)
     /* 0x860 */ f32 _860 = 0.0;
     /* 0x868 */ void* _868 = nullptr;
     /* 0x870 */ Actor* _870 = this;

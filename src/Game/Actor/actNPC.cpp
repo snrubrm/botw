@@ -33,4 +33,8 @@ ksys::act::Unk_71025ae640* NPC::getAtk() {
     return &_c78;
 }
 
+ksys::act::Unk_71025b08f8* NPC::m126() {
+    return _cf8;
+}
+
 }  // namespace uking::act

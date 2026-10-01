@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
@@ -29,6 +30,10 @@ uking::dmg::DamageManagerBase* DynamicActor::getDamageMgr() {
 
 Unk_71025ae640* DynamicActor::getAtk() {
     return _850;
+}
+
+Unk_71025b08f8* DynamicActor::m126() {
+    return _858;
 }
 
 Unk_71025ae620* DynamicActor::getDropData() {

@@ -10,6 +10,7 @@
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
@@ -55,7 +56,7 @@ public:
     void m117() override;
     void m119() override;
     ksys::act::Unk_71025ae640* getAtk() override;
-    void m126() override;
+    ksys::act::Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     HorseRideInfo* getPlayerRideInfo() override;
     bool m146() override;
@@ -71,7 +72,7 @@ public:
     void sub_7100022660(int idx, const Unk_71002edaec& arg);
 
     /* 0x0c78 */ ksys::act::ActorAtk _c78{this};  // getAtk
-    /* 0x0cf8 */ void* _cf8 = nullptr;     // m126
+    /* 0x0cf8 */ ksys::act::Unk_7102459df8* _cf8 = nullptr;  // m126
     /* 0x0d00 */ ksys::act::ActorWeapons mWeapons{this};
     // DamageManagerBase subclass (vtable 0x71023ceca0, ctor 0x71002c9024); getDamageMgr
     /* 0x0da0 */ u8 _da0[0xe30 - 0xda0];

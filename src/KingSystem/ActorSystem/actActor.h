@@ -80,6 +80,7 @@ class Actor;
 class ActorAtk;
 class ActorChemicals;
 class Unk_71025ae640;
+class Unk_71025b08f8;
 class ActorCreator;
 class ActorParam;
 class ActorWeapons;
@@ -340,7 +341,7 @@ public:
     virtual bool m123();
     virtual void onPlacementObjReset();
     virtual Unk_71025ae640* getAtk();
-    virtual void m126();
+    virtual Unk_71025b08f8* m126();
     virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual void m128();
     virtual void m129();

@@ -144,6 +144,8 @@ target_sources(uking PRIVATE
     actPlayerInfoBase.cpp
     actPlayerInfoStub.cpp
     actTag.h
+    actUnk_7102459df8.cpp
+    actUnk_7102459df8.h
 
     actionDummyAction.cpp
     actionDummyAction.h

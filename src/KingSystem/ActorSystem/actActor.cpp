@@ -416,6 +416,10 @@ uking::act::Unk_7100e8b2b8* Actor::getMotorcyclePriorityStuffMaybe() {
     return nullptr;
 }
 
+Unk_71025b08f8* Actor::m126() {
+    return nullptr;
+}
+
 Unk_71025ae620* Actor::getDropData() {
     return nullptr;
 }
