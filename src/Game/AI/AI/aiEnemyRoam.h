@@ -23,6 +23,7 @@ protected:
     const float* mMinMoveDist_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mCentralPos_d{};
+    bool _60{};
 };
 
 }  // namespace uking::ai
