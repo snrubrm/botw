@@ -26,4 +26,16 @@ void CameraAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool CameraAction::m32() {
+    return true;
+}
+
+void CameraAction::m33() {}
+
+void CameraAction::m34() {}
+
+void CameraAction::m35() {}
+
+void CameraAction::m36() {}
+
 }  // namespace uking::action

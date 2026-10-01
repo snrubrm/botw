@@ -17,6 +17,11 @@ public:
 
 protected:
     void calc_() override;
+    virtual bool m32();
+    virtual void m33();
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
 
     // FIXME: remove this
     u8 pad_0x20[0x20];

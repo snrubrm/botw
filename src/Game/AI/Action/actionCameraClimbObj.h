@@ -12,6 +12,7 @@ public:
     ~CameraClimbObj() override;
 
 protected:
+    bool m32() override;
 };
 
 }  // namespace uking::action
