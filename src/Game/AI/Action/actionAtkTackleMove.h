@@ -9,6 +9,7 @@ class AtkTackleMove : public TackleMove {
     SEAD_RTTI_OVERRIDE(AtkTackleMove, TackleMove)
 public:
     explicit AtkTackleMove(const InitArg& arg);
+    ~AtkTackleMove() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

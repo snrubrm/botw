@@ -4,6 +4,8 @@ namespace uking::action {
 
 RailMoveBase::RailMoveBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+RailMoveBase::~RailMoveBase() = default;
+
 bool RailMoveBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

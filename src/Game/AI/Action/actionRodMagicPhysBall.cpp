@@ -4,6 +4,8 @@ namespace uking::action {
 
 RodMagicPhysBall::RodMagicPhysBall(const InitArg& arg) : ChemicalPhysBall(arg) {}
 
+RodMagicPhysBall::~RodMagicPhysBall() = default;
+
 void RodMagicPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
     ChemicalPhysBall::enter_(params);
 }

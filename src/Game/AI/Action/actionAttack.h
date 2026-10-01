@@ -9,6 +9,7 @@ class Attack : public AttackBase {
     SEAD_RTTI_OVERRIDE(Attack, AttackBase)
 public:
     explicit Attack(const InitArg& arg);
+    ~Attack() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

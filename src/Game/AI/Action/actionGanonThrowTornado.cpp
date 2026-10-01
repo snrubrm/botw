@@ -4,6 +4,8 @@ namespace uking::action {
 
 GanonThrowTornado::GanonThrowTornado(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+GanonThrowTornado::~GanonThrowTornado() = default;
+
 bool GanonThrowTornado::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

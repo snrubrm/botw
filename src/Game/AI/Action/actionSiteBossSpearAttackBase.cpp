@@ -4,6 +4,8 @@ namespace uking::action {
 
 SiteBossSpearAttackBase::SiteBossSpearAttackBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+SiteBossSpearAttackBase::~SiteBossSpearAttackBase() = default;
+
 bool SiteBossSpearAttackBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

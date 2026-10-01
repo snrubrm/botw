@@ -9,6 +9,7 @@ class RodMagicPhysBall : public ChemicalPhysBall {
     SEAD_RTTI_OVERRIDE(RodMagicPhysBall, ChemicalPhysBall)
 public:
     explicit RodMagicPhysBall(const InitArg& arg);
+    ~RodMagicPhysBall() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

@@ -8,6 +8,7 @@ class AnmBlownOff : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(AnmBlownOff, ksys::act::ai::Action)
 public:
     explicit AnmBlownOff(const InitArg& arg);
+    ~AnmBlownOff() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

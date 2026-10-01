@@ -9,6 +9,7 @@ class TimeredASPlay : public WaitBase {
     SEAD_RTTI_OVERRIDE(TimeredASPlay, WaitBase)
 public:
     explicit TimeredASPlay(const InitArg& arg);
+    ~TimeredASPlay() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

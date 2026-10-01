@@ -4,6 +4,8 @@ namespace uking::action {
 
 LastBossFlyWait::LastBossFlyWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+LastBossFlyWait::~LastBossFlyWait() = default;
+
 bool LastBossFlyWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

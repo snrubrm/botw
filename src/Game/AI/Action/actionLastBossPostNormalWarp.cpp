@@ -4,6 +4,8 @@ namespace uking::action {
 
 LastBossPostNormalWarp::LastBossPostNormalWarp(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+LastBossPostNormalWarp::~LastBossPostNormalWarp() = default;
+
 bool LastBossPostNormalWarp::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

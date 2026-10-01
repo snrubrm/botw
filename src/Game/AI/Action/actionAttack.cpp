@@ -4,6 +4,8 @@ namespace uking::action {
 
 Attack::Attack(const InitArg& arg) : AttackBase(arg) {}
 
+Attack::~Attack() = default;
+
 void Attack::enter_(ksys::act::ai::InlineParamPack* params) {
     AttackBase::enter_(params);
 }

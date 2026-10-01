@@ -4,6 +4,8 @@ namespace uking::action {
 
 TurnToActor::TurnToActor(const InitArg& arg) : TurnToActorBase(arg) {}
 
+TurnToActor::~TurnToActor() = default;
+
 bool TurnToActor::init_(sead::Heap* heap) {
     return TurnToActorBase::init_(heap);
 }

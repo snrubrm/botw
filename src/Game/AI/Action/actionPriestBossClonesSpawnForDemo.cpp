@@ -5,6 +5,8 @@ namespace uking::action {
 PriestBossClonesSpawnForDemo::PriestBossClonesSpawnForDemo(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
+PriestBossClonesSpawnForDemo::~PriestBossClonesSpawnForDemo() = default;
+
 bool PriestBossClonesSpawnForDemo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

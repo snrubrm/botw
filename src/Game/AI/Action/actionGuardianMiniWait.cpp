@@ -4,6 +4,8 @@ namespace uking::action {
 
 GuardianMiniWait::GuardianMiniWait(const InitArg& arg) : Wait(arg) {}
 
+GuardianMiniWait::~GuardianMiniWait() = default;
+
 void GuardianMiniWait::enter_(ksys::act::ai::InlineParamPack* params) {
     Wait::enter_(params);
 }

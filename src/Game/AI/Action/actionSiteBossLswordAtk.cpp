@@ -4,6 +4,8 @@ namespace uking::action {
 
 SiteBossLswordAtk::SiteBossLswordAtk(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+SiteBossLswordAtk::~SiteBossLswordAtk() = default;
+
 bool SiteBossLswordAtk::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

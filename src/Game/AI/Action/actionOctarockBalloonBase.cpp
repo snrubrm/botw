@@ -4,6 +4,8 @@ namespace uking::action {
 
 OctarockBalloonBase::OctarockBalloonBase(const InitArg& arg) : BalloonBase(arg) {}
 
+OctarockBalloonBase::~OctarockBalloonBase() = default;
+
 bool OctarockBalloonBase::init_(sead::Heap* heap) {
     return BalloonBase::init_(heap);
 }

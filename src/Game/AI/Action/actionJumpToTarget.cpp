@@ -4,6 +4,8 @@ namespace uking::action {
 
 JumpToTarget::JumpToTarget(const InitArg& arg) : JumpTo(arg) {}
 
+JumpToTarget::~JumpToTarget() = default;
+
 bool JumpToTarget::init_(sead::Heap* heap) {
     return JumpTo::init_(heap);
 }

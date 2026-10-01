@@ -4,6 +4,8 @@ namespace uking::action {
 
 PriestBossAimBeam::PriestBossAimBeam(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+PriestBossAimBeam::~PriestBossAimBeam() = default;
+
 bool PriestBossAimBeam::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

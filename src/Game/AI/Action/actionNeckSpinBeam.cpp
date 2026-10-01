@@ -4,6 +4,8 @@ namespace uking::action {
 
 NeckSpinBeam::NeckSpinBeam(const InitArg& arg) : NeckSpin(arg) {}
 
+NeckSpinBeam::~NeckSpinBeam() = default;
+
 bool NeckSpinBeam::init_(sead::Heap* heap) {
     return NeckSpin::init_(heap);
 }

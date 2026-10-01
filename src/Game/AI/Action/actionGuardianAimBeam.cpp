@@ -4,6 +4,8 @@ namespace uking::action {
 
 GuardianAimBeam::GuardianAimBeam(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+GuardianAimBeam::~GuardianAimBeam() = default;
+
 bool GuardianAimBeam::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -9,6 +9,7 @@ class NeckSpinBeam : public NeckSpin {
     SEAD_RTTI_OVERRIDE(NeckSpinBeam, NeckSpin)
 public:
     explicit NeckSpinBeam(const InitArg& arg);
+    ~NeckSpinBeam() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

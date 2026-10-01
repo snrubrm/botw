@@ -4,6 +4,8 @@ namespace uking::action {
 
 NPCTargetMove::NPCTargetMove(const InitArg& arg) : RandomMoveAction(arg) {}
 
+NPCTargetMove::~NPCTargetMove() = default;
+
 bool NPCTargetMove::init_(sead::Heap* heap) {
     return RandomMoveAction::init_(heap);
 }

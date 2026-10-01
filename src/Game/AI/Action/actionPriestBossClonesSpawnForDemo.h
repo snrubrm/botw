@@ -8,6 +8,7 @@ class PriestBossClonesSpawnForDemo : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PriestBossClonesSpawnForDemo, ksys::act::ai::Action)
 public:
     explicit PriestBossClonesSpawnForDemo(const InitArg& arg);
+    ~PriestBossClonesSpawnForDemo() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

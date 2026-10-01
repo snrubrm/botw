@@ -4,6 +4,8 @@ namespace uking::action {
 
 ChuchuPreAttackBase::ChuchuPreAttackBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+ChuchuPreAttackBase::~ChuchuPreAttackBase() = default;
+
 bool ChuchuPreAttackBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

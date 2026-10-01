@@ -5,6 +5,8 @@ namespace uking::action {
 SwimEnemyAnmBackBlownOffBase::SwimEnemyAnmBackBlownOffBase(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
+SwimEnemyAnmBackBlownOffBase::~SwimEnemyAnmBackBlownOffBase() = default;
+
 bool SwimEnemyAnmBackBlownOffBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

@@ -9,6 +9,7 @@ class TurnToActor : public TurnToActorBase {
     SEAD_RTTI_OVERRIDE(TurnToActor, TurnToActorBase)
 public:
     explicit TurnToActor(const InitArg& arg);
+    ~TurnToActor() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

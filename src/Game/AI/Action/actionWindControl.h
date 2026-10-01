@@ -8,6 +8,7 @@ class WindControl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WindControl, ksys::act::ai::Action)
 public:
     explicit WindControl(const InitArg& arg);
+    ~WindControl() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

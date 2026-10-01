@@ -9,6 +9,7 @@ class JumpToTarget : public JumpTo {
     SEAD_RTTI_OVERRIDE(JumpToTarget, JumpTo)
 public:
     explicit JumpToTarget(const InitArg& arg);
+    ~JumpToTarget() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

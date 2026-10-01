@@ -4,6 +4,8 @@ namespace uking::action {
 
 OnCliffWait::OnCliffWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
+OnCliffWait::~OnCliffWait() = default;
+
 bool OnCliffWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

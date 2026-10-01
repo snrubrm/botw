@@ -8,6 +8,7 @@ class LastBossPostNormalWarp : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(LastBossPostNormalWarp, ksys::act::ai::Action)
 public:
     explicit LastBossPostNormalWarp(const InitArg& arg);
+    ~LastBossPostNormalWarp() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
