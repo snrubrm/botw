@@ -28,6 +28,8 @@ void AnmKnockBackShock::loadParams_() {
 
 void AnmKnockBackShock::calc_() {
     KnockBackShock::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
