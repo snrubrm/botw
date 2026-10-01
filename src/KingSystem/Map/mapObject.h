@@ -30,6 +30,7 @@ class Object {
 public:
     // TODO: rename
     enum class Flag0 : u32 {
+        _1 = 0x1,
         _2 = 0x2,
         _4 = 0x4,
         _8 = 0x8,

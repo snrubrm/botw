@@ -354,6 +354,63 @@ void PlacementMap::unload() {
     mDynamicMubinRes.requestUnload();
 }
 
+void PlacementMap::resetDynamic() {
+    sead::ReadWriteLock* rw_lock = &mPa->mLock;
+    rw_lock->writeLock();
+    mPa->resetGroup(mDynamicGroupIdx);
+    mDynamicGroupIdx = 0xFFFFFFFF;
+    rw_lock->writeUnlock();
+
+    const auto lock = sead::makeScopedLock(mCs);
+    mDynamicMubinRes.requestUnload();
+}
+
+void PlacementMap::unloadStaticMubin() {
+    if (mInitStatus != InitStatus::None) {
+        mStaticMubinRes.requestUnload2();
+        mInitStatus = InitStatus::None;
+    }
+}
+
+void PlacementMap::x_5() {
+    if (mDynamicGroupIdx < 0)
+        return;
+
+    const int num_objs = mPa->getNumObjs(mDynamicGroupIdx);
+    for (int i = 0; i < num_objs; i++)
+        mPa->getObj(mDynamicGroupIdx, i)->resetFlags0(Object::Flag0::_1);
+}
+
+bool PlacementMap::x_1(int id, float x, float z) {
+    bool ret = false;
+    if (sead::Mathf::abs(x - (1000 * mCol + 500 * (id % 2) - 4750)) < 750.0f)
+        ret = sead::Mathf::abs(z - (500 * (id / 2) + 1000 * mRow - 3750)) < 750.0f;
+
+    if (mMgr->isShrineOrDivineBeast())
+        return id == 0;
+    return ret;
+}
+
+// NON_MATCHING: the original re-checks the resource pointer for null after the RTTI check
+bool PlacementMap::staticCompoundStuff(int sc_id, bool cleanup) {
+    bool ret = true;
+    auto* resource = mRes[sc_id].mRes.getResource();
+    if (auto* sc = sead::DynamicCast<phys::StaticCompound>(resource)) {
+        if (sc->isAnyRigidBodyAddedToWorld()) {
+            if (cleanup)
+                sc->removeFromWorldImmediately();
+            else
+                sc->removeFromWorld();
+        }
+
+        if (sc->isAnyRigidBodyAddedToWorld())
+            ret = false;
+        else
+            ret = !sc->isAnyRigidBodyAddedOrBeingAddedToWorld();
+    }
+    return ret;
+}
+
 phys::StaticCompoundRigidBodyGroup* PlacementMap::getFieldBodyGroup(int field_group_idx) {
     const auto lock = sead::makeScopedLock(mCs);
 

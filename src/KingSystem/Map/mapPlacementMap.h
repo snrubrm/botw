@@ -93,7 +93,7 @@ private:
     void updateObjectCollisionAndId(int id, Object* obj);
     void unloadHksc(int hksc_idx);
     bool clearStaticCompoundActorId(int id);
-    int x_1(int id);
+    bool x_1(int id, float x, float z);
     bool staticCompoundStuff(int sc_id, bool cleanup);
     int doSomethingStaticCompound(int hksc_idx);
     bool isDynamicLoaded(const sead::Vector3f& pos);
