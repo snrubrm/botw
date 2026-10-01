@@ -33,8 +33,6 @@ void Unk_7102450498::m3() {
 
 Unk_71024505b8::Unk_71024505b8() = default;
 
-Unk_71024505b8::~Unk_71024505b8() = default;
-
 bool Unk_71024505b8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x800001e)
         return false;
@@ -51,8 +49,6 @@ bool Unk_71024505b8::m2(const ksys::Message& message) {
 
 Unk_7102450a08::Unk_7102450a08() = default;
 
-Unk_7102450a08::~Unk_7102450a08() = default;
-
 bool Unk_7102450a08::m2(const ksys::Message& message) {
     if (message.getType().value != 0x800001b)
         return false;
@@ -68,8 +64,6 @@ bool Unk_7102450a08::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_71024504c8::~Unk_71024504c8() = default;
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_71024504c8::m2(const ksys::Message& message) {
@@ -96,8 +90,6 @@ bool Unk_71024504c8::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_71024504f8::~Unk_71024504f8() = default;
-
 bool Unk_71024504f8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000a4)
         return false;
@@ -118,8 +110,6 @@ bool Unk_71024504f8::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450528::~Unk_7102450528() = default;
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450528::m2(const ksys::Message& message) {
@@ -156,8 +146,6 @@ void Unk_7102450528::m3() {
     _38._34 = false;
 }
 
-Unk_7102450558::~Unk_7102450558() = default;
-
 bool Unk_7102450558::m2(const ksys::Message& message) {
     if (message.getType().value != 0x8000007)
         return false;
@@ -171,8 +159,6 @@ bool Unk_7102450558::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450588::~Unk_7102450588() = default;
 
 bool Unk_7102450588::m2(const ksys::Message& message) {
     if (message.getType().value != 0x8000008)
@@ -280,8 +266,6 @@ bool Unk_7102450b58::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_7102450888::~Unk_7102450888() = default;
-
 bool Unk_7102450888::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000d3)
         return false;
@@ -300,8 +284,6 @@ bool Unk_7102450888::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_71024508b8::~Unk_71024508b8() = default;
 
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
@@ -328,8 +310,6 @@ bool Unk_71024508b8::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_71024508e8::~Unk_71024508e8() = default;
-
 bool Unk_71024508e8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000db)
         return false;
@@ -348,8 +328,6 @@ bool Unk_71024508e8::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450918::~Unk_7102450918() = default;
 
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
@@ -372,8 +350,6 @@ bool Unk_7102450918::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450948::~Unk_7102450948() = default;
 
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
@@ -413,8 +389,6 @@ bool Unk_7102450678::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450708::~Unk_7102450708() = default;
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450708::m2(const ksys::Message& message) {
@@ -461,8 +435,6 @@ void Unk_7102450738::m3() {
     _34._0 = 0;
 }
 
-Unk_71024507f8::~Unk_71024507f8() = default;
-
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
 bool Unk_71024507f8::m2(const ksys::Message& message) {
@@ -500,8 +472,6 @@ bool Unk_7102450858::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450978::~Unk_7102450978() = default;
 
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
@@ -565,8 +535,6 @@ bool Unk_7102450a38::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_7102450a98::~Unk_7102450a98() = default;
-
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
 bool Unk_7102450a98::m2(const ksys::Message& message) {
@@ -587,8 +555,6 @@ bool Unk_7102450a98::m2(const ksys::Message& message) {
     return true;
 }
 
-Unk_7102450b88::~Unk_7102450b88() = default;
-
 bool Unk_7102450b88::m2(const ksys::Message& message) {
     if (message.getType().value != 0x800001f)
         return false;
@@ -602,8 +568,6 @@ bool Unk_7102450b88::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450a68::~Unk_7102450a68() = default;
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450a68::m2(const ksys::Message& message) {
@@ -625,8 +589,6 @@ bool Unk_7102450a68::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450be8::~Unk_7102450be8() = default;
 
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
@@ -655,8 +617,6 @@ bool Unk_7102450be8::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-Unk_7102450ac8::~Unk_7102450ac8() = default;
 
 bool Unk_7102450ac8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x8000040)
