@@ -22,6 +22,8 @@ protected:
     int* mClipIndex_d{};
     // dynamic_param at offset 0x28
     sead::SafeString mScreenName_d{};
+    int _38 = 99;
+    void* _40{};
 };
 
 }  // namespace uking::action
