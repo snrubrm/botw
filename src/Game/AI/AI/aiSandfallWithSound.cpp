@@ -14,6 +14,11 @@ void SandfallWithSound::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void SandfallWithSound::calc_() {
+    sub_7100556370();
+    sub_710055646C();
+}
+
 void SandfallWithSound::leave_() {
     ksys::act::ai::Ai::leave_();
 }
