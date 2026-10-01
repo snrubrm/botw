@@ -14,6 +14,10 @@ void WaitForCloseOrWaterSide::enter_(ksys::act::ai::InlineParamPack* params) {
     WaitForTargetClose::enter_(params);
 }
 
+void WaitForCloseOrWaterSide::calc_() {
+    WaitForTargetClose::calc_();
+}
+
 void WaitForCloseOrWaterSide::leave_() {
     WaitForTargetClose::leave_();
 }
