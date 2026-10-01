@@ -12,7 +12,9 @@ bool DungeonRotateTagWaterChemical::init_(sead::Heap* heap) {
 }
 
 void DungeonRotateTagWaterChemical::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _5c = 0;
+    _58 = 0xff;
+    changeChild("待機");
 }
 
 void DungeonRotateTagWaterChemical::leave_() {
