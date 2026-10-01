@@ -42,6 +42,10 @@ protected:
     const float* mGlideRotSpeed_s{};
     // static_param at offset 0x78
     const float* mGlideNoSideAngle_s{};
+    // zeroed by the ctor, not used by PlayerGlide itself (type unknown)
+    u64 _80 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(PlayerGlide, 0x88);
 
 }  // namespace uking::action
