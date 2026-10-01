@@ -15,6 +15,10 @@ void PriestBossIronBallStageRotate::enter_(ksys::act::ai::InlineParamPack* param
     PriestBossIronBall::enter_(params);
 }
 
+void PriestBossIronBallStageRotate::calc_() {
+    PriestBossIronBall::calc_();
+}
+
 void PriestBossIronBallStageRotate::leave_() {
     PriestBossIronBall::leave_();
 }
