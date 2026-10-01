@@ -15,9 +15,14 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isChangeable() const override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
+    virtual void m32();
+    virtual int m33();
+    virtual int m34();
+    virtual int m35();
 
     // static_param at offset 0x20
     const int* mAtMinDamage_s{};

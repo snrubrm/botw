@@ -44,4 +44,18 @@ bool SiteBossSwordAttackBase::isChangeable() const {
     return true;
 }
 
+void SiteBossSwordAttackBase::m32() {}
+
+int SiteBossSwordAttackBase::m33() {
+    return 66;
+}
+
+int SiteBossSwordAttackBase::m35() {
+    return *mAtMinDamage_s;
+}
+
+bool SiteBossSwordAttackBase::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
