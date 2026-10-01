@@ -26,4 +26,8 @@ void GiantNavMeshWalk::calc_() {
     GiantNavMeshWalkWithVibration::calc_();
 }
 
+void GiantNavMeshWalk::m34() {
+    playAS("Walk", true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
