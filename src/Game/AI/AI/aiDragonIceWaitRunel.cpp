@@ -14,6 +14,8 @@ void DragonIceWaitRunel::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void DragonIceWaitRunel::calc_() {}
+
 void DragonIceWaitRunel::leave_() {
     ksys::act::ai::Ai::leave_();
 }
