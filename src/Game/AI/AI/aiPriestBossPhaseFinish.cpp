@@ -23,7 +23,7 @@ void PriestBossPhaseFinish::calc_() {
     _90.update();
     if (_90.value <= sead::Mathf::epsilon()) {
         if (ksys::gdt::getFlag_Defeated_Priest_Boss_Normal_Num() == 0)
-            ksys::gdt::increaseFlag_FamouseValue(1);
+            ksys::gdt::increaseFlag_Defeated_Priest_Boss_Normal_Num(1);
         mActor->emitBasicSigOn();
         setFinished();
         return;
