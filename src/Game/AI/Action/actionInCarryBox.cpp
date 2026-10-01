@@ -26,4 +26,8 @@ void InCarryBox::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool InCarryBox::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
