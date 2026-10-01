@@ -8,9 +8,7 @@ void PlayerSwitchHang::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSwitchHang::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSwitchHang::leave_() {}
 
 void PlayerSwitchHang::calc_() {
     PlayerAction::calc_();
