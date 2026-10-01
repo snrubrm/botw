@@ -14,6 +14,14 @@ void AnimalRushAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool AnimalRushAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool AnimalRushAttack::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void AnimalRushAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }
