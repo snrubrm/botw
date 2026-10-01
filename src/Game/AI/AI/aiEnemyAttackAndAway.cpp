@@ -10,6 +10,10 @@ void EnemyAttackAndAway::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyAttackAndAway::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyAttackAndAway::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mAwayStartDist_s, "AwayStartDist");
