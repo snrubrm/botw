@@ -8,9 +8,7 @@ void PlayerLandDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLandDamage::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLandDamage::leave_() {}
 
 void PlayerLandDamage::loadParams_() {
     getStaticParam(&mWaitTimeMin_s, "WaitTimeMin");
