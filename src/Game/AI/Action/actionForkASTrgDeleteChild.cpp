@@ -9,7 +9,7 @@ ForkASTrgDeleteChild::ForkASTrgDeleteChild(const InitArg& arg) : ForkASTrgDelete
 ForkASTrgDeleteChild::~ForkASTrgDeleteChild() = default;
 
 void ForkASTrgDeleteChild::m32() {
-    auto* child = sead::DynamicCast<ksys::act::BaseProc>(mActor->getConnectedCalcChild());
+    auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
     if (child) {
         child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         mActor->resetConnectedCalcChild(false);
