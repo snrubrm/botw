@@ -24,6 +24,8 @@ protected:
     const float* mEnergyDecreasePerSec_s{};
     // dynamic_param at offset 0x30
     bool* mHasToPlayRidingOnAS_d{};
+    float _38 = 0.0f;
+    int _3c = 0;
 };
 
 }  // namespace uking::action
