@@ -54,6 +54,10 @@ protected:
     sead::SafeString mOption_d{};
     // dynamic_param at offset 0xc8
     bool* mCutChangeReset_d{};
+    void* _d0{};
+    int _d8 = 0;
+    void* _e0{};
+    int _e8 = 0;
 };
 
 }  // namespace uking::action
