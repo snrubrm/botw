@@ -30,6 +30,7 @@ protected:
     sead::SafeString mDisappearASName_s{};
     // map_unit_param at offset 0x60
     sead::SafeString mPlacementType_m{};
+    bool _70 = false;
 };
 
 }  // namespace uking::action
