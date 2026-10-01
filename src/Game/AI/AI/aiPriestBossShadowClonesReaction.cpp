@@ -13,6 +13,11 @@ bool PriestBossShadowClonesReaction::init_(sead::Heap* heap) {
 
 void PriestBossShadowClonesReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
+    sub_710052D98C();
+}
+
+void PriestBossShadowClonesReaction::calc_() {
+    EnemyDefaultReaction::calc_();
 }
 
 void PriestBossShadowClonesReaction::leave_() {
