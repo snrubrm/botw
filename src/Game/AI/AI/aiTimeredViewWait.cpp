@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTimeredViewWait.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -12,6 +13,16 @@ bool TimeredViewWait::init_(sead::Heap* heap) {
 
 void TimeredViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);
+    const s32 time = *mTime_s;
+    const s32 rand_time = *mTimeRand_s;
+    _70 = time + s32(sead::GlobalRandom::instance()->getU32(rand_time));
+}
+
+void TimeredViewWait::calc_() {
+    ViewWait::calc_();
+    ksys::Timer::update(&_70, -1.0f);
+    if (_70 <= 0 && isChangeable())
+        setFinished();
 }
 
 void TimeredViewWait::leave_() {
