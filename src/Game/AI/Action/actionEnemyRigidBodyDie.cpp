@@ -29,6 +29,8 @@ void EnemyRigidBodyDie::loadParams_() {
 
 void EnemyRigidBodyDie::calc_() {
     EnemyRigidBodyDieBase::calc_();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
