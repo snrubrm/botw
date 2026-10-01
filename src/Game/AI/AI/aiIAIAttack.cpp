@@ -14,6 +14,10 @@ void IAIAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool IAIAttack::isChangeable() const {
+    return false;
+}
+
 void IAIAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }
