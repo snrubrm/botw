@@ -24,6 +24,7 @@ protected:
     sead::SafeString mEvflName_d{};
     // dynamic_param at offset 0x38
     sead::SafeString mEntryPointName_d{};
+    int _48 = -1;
 };
 
 }  // namespace uking::action

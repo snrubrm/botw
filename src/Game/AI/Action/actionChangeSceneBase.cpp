@@ -11,7 +11,10 @@ bool ChangeSceneBase::init_(sead::Heap* heap) {
 }
 
 void ChangeSceneBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (u32(*mStartType_d + 1) < 4)
+        _48 = *mStartType_d;
+    else
+        setFailed();
 }
 
 void ChangeSceneBase::leave_() {
