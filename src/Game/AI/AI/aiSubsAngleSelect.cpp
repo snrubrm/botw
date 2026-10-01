@@ -25,4 +25,8 @@ void SubsAngleSelect::loadParams_() {
     getStaticParam(&mYRotOnly_s, "YRotOnly");
 }
 
+bool SubsAngleSelect::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai
