@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -30,6 +31,10 @@ protected:
     const float* mChangeDepthSpeed_s{};
     // static_param at offset 0x48
     const bool* mIsCheckWaterFall_s{};
+    f32 _50 = 0;
+    ksys::act::CCAccessor mCCAccessor;
 };
+
+KSYS_CHECK_SIZE_NX150(WaterFloatBase, 0x60);
 
 }  // namespace uking::action

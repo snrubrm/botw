@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaterFloatBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +12,20 @@ bool WaterFloatBase::init_(sead::Heap* heap) {
 }
 
 void WaterFloatBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* cc = mActor->getCharacterController();
+    if (!cc) {
+        setFailed();
+        return;
+    }
+    mCCAccessor.changeMotionType(cc, ksys::act::MotionType::Hover);
+    _50 = mActor->getVelocity().y * 30.0f;
 }
 
 void WaterFloatBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    mCCAccessor.resetRigidBodyMotion(actor);
+    mCCAccessor.resetMotionType(actor->getCharacterController());
 }
 
 void WaterFloatBase::loadParams_() {
