@@ -4561,7 +4561,7 @@ Address,Quality,Size,Name
 0x00000071000d4f28,W,000140,_ZN5uking6action7CarriedD0Ev
 0x00000071000d4fb4,U,000284,uking::action::Carried::m33
 0x00000071000d50d0,U,000124,uking::action::Carried::m35
-0x00000071000d514c,U,000156,uking::action::Carried::m32
+0x00000071000d514c,U,000156,_ZN5uking6action7Carried3m32Ev
 0x00000071000d51e8,W,001072,_ZN5uking6action7Carried6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071000d5618,W,001000,_ZN5uking6action7Carried5calc_Ev
 0x00000071000d5a00,W,000268,_ZN5uking6action7Carried6leave_Ev
