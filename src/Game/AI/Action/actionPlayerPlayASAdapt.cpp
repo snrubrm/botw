@@ -24,4 +24,8 @@ void PlayerPlayASAdapt::calc_() {
     PlayASForDemo::calc_();
 }
 
+bool PlayerPlayASAdapt::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
