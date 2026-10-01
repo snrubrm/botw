@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m35();
 
     // static_param at offset 0x108
     const bool* mForceKillMode_s{};
