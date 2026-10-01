@@ -38,6 +38,12 @@ protected:
     const float* mNearTiredOffset_s{};
     // map_unit_param at offset 0x88
     const float* mTerritoryArea_m{};
+    f32 _90{};
+    int _94{};
+    int _98{};
+    bool _9c{};
+    bool _9d{};
+    bool _9e{};
 };
 
 }  // namespace uking::ai
