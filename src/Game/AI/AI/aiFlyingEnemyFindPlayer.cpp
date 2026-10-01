@@ -14,6 +14,10 @@ void FlyingEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseFindPlayer::enter_(params);
 }
 
+void FlyingEnemyFindPlayer::calc_() {
+    EnemyBaseFindPlayer::calc_();
+}
+
 void FlyingEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
 }
