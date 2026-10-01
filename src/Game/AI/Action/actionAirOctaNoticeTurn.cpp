@@ -26,4 +26,6 @@ void AirOctaNoticeTurn::calc_() {
     NoticeTurn::calc_();
 }
 
+void AirOctaNoticeTurn::m32() {}
+
 }  // namespace uking::action
