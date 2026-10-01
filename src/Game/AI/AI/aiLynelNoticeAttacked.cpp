@@ -14,6 +14,14 @@ void LynelNoticeAttacked::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LynelNoticeAttacked::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool LynelNoticeAttacked::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void LynelNoticeAttacked::leave_() {
     ksys::act::ai::Ai::leave_();
 }
