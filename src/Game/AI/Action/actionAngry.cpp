@@ -25,4 +25,8 @@ void Angry::calc_() {
     ActionWithAS::calc_();
 }
 
+bool Angry::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
