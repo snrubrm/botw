@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "Game/AI/Action/actionFork.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,9 +19,11 @@ public:
 
 protected:
     void calc_() override;
+    virtual float m32();
 
     // static_param at offset 0x30
     const bool* mIsCheckOnlyXZ_s{};
+    sead::Vector3f _38;
 };
 
 }  // namespace uking::action
