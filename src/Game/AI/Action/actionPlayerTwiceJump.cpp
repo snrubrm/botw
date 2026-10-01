@@ -8,9 +8,7 @@ void PlayerTwiceJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerFall::enter_(params);
 }
 
-void PlayerTwiceJump::leave_() {
-    PlayerFall::leave_();
-}
+void PlayerTwiceJump::leave_() {}
 
 void PlayerTwiceJump::loadParams_() {
     PlayerFall::loadParams_();
