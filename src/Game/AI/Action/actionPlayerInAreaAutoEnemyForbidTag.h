@@ -33,6 +33,7 @@ protected:
     const bool* mNonAutoPlacementMaterial_m{};
     // map_unit_param at offset 0x50
     const bool* mNonEnemySearchPlayer_m{};
+    bool _58 = false;
 };
 
 }  // namespace uking::action
