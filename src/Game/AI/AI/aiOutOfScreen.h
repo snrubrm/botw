@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,6 +23,8 @@ protected:
     const float* mTagetDistance_s{};
     // static_param at offset 0x48
     const float* mDeleteDistance_s{};
+    ksys::Timer _50;
 };
+KSYS_CHECK_SIZE_NX150(OutOfScreen, 0x60);
 
 }  // namespace uking::ai
