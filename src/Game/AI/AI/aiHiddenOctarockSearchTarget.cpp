@@ -12,7 +12,7 @@ bool HiddenOctarockSearchTarget::init_(sead::Heap* heap) {
 }
 
 void HiddenOctarockSearchTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("飛び出す", params);
 }
 
 void HiddenOctarockSearchTarget::leave_() {
