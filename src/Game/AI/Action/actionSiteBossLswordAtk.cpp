@@ -46,4 +46,8 @@ bool SiteBossLswordAtk::isChangeable() const {
     return true;
 }
 
+bool SiteBossLswordAtk::isFinished() const {
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
