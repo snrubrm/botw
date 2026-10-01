@@ -14,6 +14,16 @@ void EnemyVacuumBombSelectBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyVacuumBombSelectBase::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool EnemyVacuumBombSelectBase::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
+void EnemyVacuumBombSelectBase::calc_() {}
+
 void EnemyVacuumBombSelectBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
