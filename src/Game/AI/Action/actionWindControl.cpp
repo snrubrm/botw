@@ -33,4 +33,8 @@ void WindControl::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool WindControl::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
