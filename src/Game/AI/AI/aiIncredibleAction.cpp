@@ -15,7 +15,7 @@ void IncredibleAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void IncredibleAction::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100448C0C(false);
 }
 
 void IncredibleAction::loadParams_() {

@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100448C0C(bool);
+
 protected:
     // static_param at offset 0x38
     const bool* mIsInvincible_s{};
