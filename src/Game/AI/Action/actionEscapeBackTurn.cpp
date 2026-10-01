@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEscapeBackTurn.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ void EscapeBackTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EscapeBackTurn::leave_() {
-    ActionEx::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
 }
 
 void EscapeBackTurn::loadParams_() {}
