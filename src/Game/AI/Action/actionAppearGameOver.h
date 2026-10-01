@@ -20,6 +20,8 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mDelay_d{};
+    float _28 = 0.0f;
+    bool _2c = false;
 };
 
 }  // namespace uking::action
