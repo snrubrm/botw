@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -31,9 +32,7 @@ protected:
     // dynamic_param at offset 0x50
     sead::SafeString mPartsName_d{};
     bool _60 = false;
-    int _64 = 0;
-    int _68 = 0;
-    int _6c = 0;
+    ksys::Timer _64;
 };
 
 }  // namespace uking::action

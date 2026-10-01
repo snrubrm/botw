@@ -27,7 +27,7 @@ void LevelFlyRiseLookingTarget::calc_() {
 }
 
 float LevelFlyRiseLookingTarget::m32() {
-    return _90 + *mHeight_s;
+    return _8c.y + *mHeight_s;
 }
 
 bool LevelFlyRiseLookingTarget::m33(float x) {

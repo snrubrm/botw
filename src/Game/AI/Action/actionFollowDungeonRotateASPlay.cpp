@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFollowDungeonRotateASPlay.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,6 +14,13 @@ bool FollowDungeonRotateASPlay::init_(sead::Heap* heap) {
 
 void FollowDungeonRotateASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     FollowDungeonRotate::enter_(params);
+    auto* actor = mActor;
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+    if (*mOnWaitRevival_s)
+        actor->setRevivalFlagForUsed(true);
+    if (*mOnLinkTagBasic_s)
+        actor->emitBasicSigOn();
 }
 
 void FollowDungeonRotateASPlay::leave_() {

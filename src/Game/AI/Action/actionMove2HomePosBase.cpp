@@ -13,7 +13,13 @@ bool Move2HomePosBase::init_(sead::Heap* heap) {
 }
 
 void Move2HomePosBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsReturn_s) {
+        _44.set(sead::Vector3f::zero);
+        _38.set(_44 + sead::Vector3f::ey * *mDynMoveDis_d);
+    } else {
+        _38.set(sead::Vector3f::zero);
+        _44.set(_38 + sead::Vector3f::ey * *mDynMoveDis_d);
+    }
 }
 
 void Move2HomePosBase::leave_() {

@@ -11,7 +11,14 @@ bool SiteBossLswordFireBall::init_(sead::Heap* heap) {
 }
 
 void SiteBossLswordFireBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mWaitASName_s.isEmpty()) {
+        mFlags.reset(Flag::Changeable);
+    } else {
+        playAS(mWaitASName_s.cstr(), true, 0, 0, -1.0f);
+        mFlags.set(Flag::Changeable);
+    }
+    _64.reset(*mAppearInterval_s);
+    _60 = false;
 }
 
 void SiteBossLswordFireBall::leave_() {

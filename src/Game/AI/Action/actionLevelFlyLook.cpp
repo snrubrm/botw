@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionLevelFlyLook.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +15,19 @@ bool LevelFlyLook::init_(sead::Heap* heap) {
 }
 
 void LevelFlyLook::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    auto* actor = mActor;
+    _60 = actor->getVelocity().y;
+    _64 = actor->getAngVelocity().y;
+    sub_7100741034(&_68, actor);
+    actor->getMtx().getTranslation(_8c);
+    _98 = ksys::Timer(8.0f, 8.0f);
+    _a4 = _8c.y;
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void LevelFlyLook::leave_() {
@@ -33,7 +49,7 @@ void LevelFlyLook::calc_() {
 }
 
 float LevelFlyLook::m32() {
-    return _90 + *mHeight_s;
+    return _8c.y + *mHeight_s;
 }
 
 bool LevelFlyLook::m33(float x) {

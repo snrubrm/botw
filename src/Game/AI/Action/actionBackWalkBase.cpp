@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBackWalkBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -8,7 +10,16 @@ BackWalkBase::BackWalkBase(const InitArg& arg) : ActionEx(arg) {}
 BackWalkBase::~BackWalkBase() = default;
 
 void BackWalkBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    if (!mActor->getCharacterController())
+        return;
+    const f32 time = *mTime_s;
+    _98 = ksys::Timer(time, time);
+    _a4 = ksys::Timer(20.0f, 20.0f);
+    sub_7100741034(&_74, mActor);
+    const f32 speed = mActor->getAngVelocity().length();
+    _68.value = speed;
+    _68.prev_value = speed;
+    mFlags.set(Flag::Changeable);
 }
 
 void BackWalkBase::leave_() {

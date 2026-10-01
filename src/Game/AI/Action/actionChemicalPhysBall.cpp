@@ -35,6 +35,12 @@ void ChemicalPhysBall::loadParams_() {
 
 void ChemicalPhysBall::calc_() {
     ChemicalAttackBall::calc_();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    _a4 += (pos - _98).length();
+    _98 = pos;
+    if (_b4)
+        _a8.update();
 }
 
 void ChemicalPhysBall::m32() {}

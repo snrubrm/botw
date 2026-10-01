@@ -1,7 +1,9 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -37,15 +39,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     float _60{};
     float _64{};
-    sead::Vector3f _68;
-    sead::Vector3f _74;
-    sead::Vector3f _80;
-    float _8c{};
-    float _90{};
-    float _94{};
-    float _98{};
-    float _9c{};
-    float _a0{};
+    sead::Matrix33f _68;
+    sead::Vector3f _8c{0, 0, 0};
+    ksys::Timer _98;
     float _a4{};
 };
 
