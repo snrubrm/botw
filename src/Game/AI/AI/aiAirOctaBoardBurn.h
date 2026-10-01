@@ -10,6 +10,7 @@ class AirOctaBoardBurn : public SeqTwoAction {
 public:
     explicit AirOctaBoardBurn(const InitArg& arg);
     ~AirOctaBoardBurn() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

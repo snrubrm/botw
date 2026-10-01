@@ -8,6 +8,7 @@ class BokoblinHoldArrow : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BokoblinHoldArrow, ksys::act::ai::Ai)
 public:
     explicit BokoblinHoldArrow(const InitArg& arg);
+    bool isFinished() const override;
 
     bool isChangeable() const override;
 

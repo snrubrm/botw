@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAirOctaBoardBurn.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,14 @@ void AirOctaBoardBurn::leave_() {
 void AirOctaBoardBurn::loadParams_() {
     SeqTwoAction::loadParams_();
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
+}
+
+void AirOctaBoardBurn::calc_() {
+    SeqTwoAction::calc_();
+    if (isCurrentChild("先行動"))
+        mActor->m93(4, 0.0f);
+    else
+        mActor->m93(0, 0.0f);
 }
 
 }  // namespace uking::ai

@@ -24,4 +24,15 @@ void GanonWeaponAttackOnFloor::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool GanonWeaponAttackOnFloor::isFinished() const {
+    if (isCurrentChild("攻撃")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished())
+            return true;
+        if (child->isFailed())
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai

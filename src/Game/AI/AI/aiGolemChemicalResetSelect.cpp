@@ -26,4 +26,8 @@ bool GolemChemicalResetSelect::isFinished() const {
     return isCurrentChild("通常") && getCurrentChild()->isFinished();
 }
 
+bool GolemChemicalResetSelect::isFailed() const {
+    return ActionBase::isFailed() || (isCurrentChild("通常") && getCurrentChild()->isFailed());
+}
+
 }  // namespace uking::ai

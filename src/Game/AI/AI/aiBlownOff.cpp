@@ -9,7 +9,7 @@ bool BlownOff::init_(sead::Heap* heap) {
 }
 
 void BlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("ふっとび", params);
 }
 
 void BlownOff::leave_() {
@@ -20,6 +20,10 @@ void BlownOff::loadParams_() {
     getStaticParam(&mDrownDepth_s, "DrownDepth");
     getStaticParam(&mIsForceGetUp_s, "IsForceGetUp");
     getStaticParam(&mIsIceBreak_s, "IsIceBreak");
+}
+
+bool BlownOff::isFinished() const {
+    return ActionBase::isFinished() || (isCurrentChild("起き上がり") && getCurrentChild()->isFinished());
 }
 
 }  // namespace uking::ai

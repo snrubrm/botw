@@ -23,4 +23,16 @@ void DeadOrOtherState::leave_() {
 
 void DeadOrOtherState::loadParams_() {}
 
+bool DeadOrOtherState::isFinished() const {
+    if (isCurrentChild("死亡"))
+        return ActionBase::isFinished();
+    return ActionBase::isFinished() || getCurrentChild()->isFinished();
+}
+
+bool DeadOrOtherState::isFailed() const {
+    if (isCurrentChild("死亡"))
+        return ActionBase::isFailed();
+    return ActionBase::isFailed() || getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai

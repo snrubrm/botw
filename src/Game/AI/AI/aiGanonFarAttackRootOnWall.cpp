@@ -25,4 +25,15 @@ void GanonFarAttackRootOnWall::loadParams_() {
     getDynamicParam(&mViewPos_d, "ViewPos");
 }
 
+bool GanonFarAttackRootOnWall::isFinished() const {
+    if (getCurrentChild()) {
+        auto* child = getCurrentChild();
+        if ((child->isFinished() || child->isFailed()) && !isCurrentChild("落雷") &&
+            !isCurrentChild("落雷後待機")) {
+            return true;
+        }
+    }
+    return ActionBase::isFinished();
+}
+
 }  // namespace uking::ai

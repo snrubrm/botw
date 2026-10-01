@@ -10,6 +10,8 @@ class EnemyFeintBattle : public EnemyBattle {
 public:
     explicit EnemyFeintBattle(const InitArg& arg);
     ~EnemyFeintBattle() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
 
     void loadParams_() override;
 

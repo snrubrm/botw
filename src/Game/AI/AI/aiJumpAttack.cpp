@@ -16,4 +16,8 @@ void JumpAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool JumpAttack::isFinished() const {
+    return ActionBase::isFinished() || (isCurrentChild("攻撃") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

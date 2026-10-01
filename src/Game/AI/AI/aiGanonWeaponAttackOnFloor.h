@@ -9,6 +9,7 @@ class GanonWeaponAttackOnFloor : public ksys::act::ai::Ai {
 public:
     explicit GanonWeaponAttackOnFloor(const InitArg& arg);
     ~GanonWeaponAttackOnFloor() override;
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

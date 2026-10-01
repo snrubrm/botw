@@ -29,4 +29,10 @@ void AssassinBattleRange::loadParams_() {
     getStaticParam(&mServiceDist_s, "ServiceDist");
 }
 
+bool AssassinBattleRange::isChangeable() const {
+    if (isCurrentChild("戦闘攻撃") || isCurrentChild("変わり身"))
+        return false;
+    return getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

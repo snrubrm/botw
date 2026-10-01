@@ -25,4 +25,12 @@ void EnemyPursuingAttackCheck::loadParams_() {
     getStaticParam(&mAttackAng_s, "AttackAng");
 }
 
+bool EnemyPursuingAttackCheck::isFinished() const {
+    return ActionBase::isFinished() || (isCurrentChild("通常戦闘") && getCurrentChild()->isFinished());
+}
+
+bool EnemyPursuingAttackCheck::isFailed() const {
+    return ActionBase::isFailed() || (isCurrentChild("通常戦闘") && getCurrentChild()->isFailed());
+}
+
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAmbushableWeaponShoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,9 @@ bool AmbushableWeaponShoot::init_(sead::Heap* heap) {
 }
 
 void AmbushableWeaponShoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("投擲", &pack);
 }
 
 void AmbushableWeaponShoot::leave_() {

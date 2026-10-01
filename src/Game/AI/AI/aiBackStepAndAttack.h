@@ -9,6 +9,7 @@ class BackStepAndAttack : public ksys::act::ai::Ai {
 public:
     explicit BackStepAndAttack(const InitArg& arg);
     ~BackStepAndAttack() override;
+    bool isFinished() const override;
 
     bool isFailed() const override;
     bool init_(sead::Heap* heap) override;

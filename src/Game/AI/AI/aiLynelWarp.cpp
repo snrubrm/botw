@@ -24,4 +24,11 @@ bool LynelWarp::isChangeable() const {
     return isCurrentChild("出現") && getCurrentChild()->isChangeable();
 }
 
+bool LynelWarp::isFinished() const {
+    if (!isCurrentChild("出現"))
+        return false;
+    auto* child = getCurrentChild();
+    return child->isFinished() || child->isFailed();
+}
+
 }  // namespace uking::ai

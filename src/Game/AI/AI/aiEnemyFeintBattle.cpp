@@ -11,4 +11,16 @@ void EnemyFeintBattle::loadParams_() {
     getStaticParam(&mIsAttackEnd_s, "IsAttackEnd");
 }
 
+bool EnemyFeintBattle::isFinished() const {
+    if (*mIsAttackEnd_s && getCurrentChild()->isFinished() && isCurrentChild("戦闘攻撃"))
+        return true;
+    return ActionBase::isFinished();
+}
+
+bool EnemyFeintBattle::isFailed() const {
+    if (*mIsAttackEnd_s && getCurrentChild()->isFailed() && isCurrentChild("戦闘攻撃"))
+        return true;
+    return ActionBase::isFailed();
+}
+
 }  // namespace uking::ai

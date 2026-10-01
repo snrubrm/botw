@@ -21,4 +21,8 @@ void GuardAndRevenge::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool GuardAndRevenge::isFinished() const {
+    return ActionBase::isFinished() || (!isCurrentChild("ガード") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

@@ -8,6 +8,7 @@ class BlownOff : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BlownOff, ksys::act::ai::Ai)
 public:
     explicit BlownOff(const InitArg& arg);
+    bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

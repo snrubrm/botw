@@ -16,4 +16,8 @@ void BokoblinHoldArrow::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool BokoblinHoldArrow::isFinished() const {
+    return ActionBase::isFinished() || (getCurrentChild()->isFinished() && isCurrentChild("発射"));
+}
+
 }  // namespace uking::ai
