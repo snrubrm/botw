@@ -20,4 +20,8 @@ void PlayerSwimSpinAttack::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerSwimSpinAttack::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
