@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonResetPosTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,20 @@ bool DungeonResetPosTag::init_(sead::Heap* heap) {
 }
 
 void DungeonResetPosTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("待機");
+}
+
+void DungeonResetPosTag::calc_() {
+    auto* actor = mActor;
+    if (!actor->hasPlacementLinkForBasicSig())
+        return;
+
+    if (actor->checkBasicSig()) {
+        if (isCurrentChild("待機"))
+            changeChild("復帰位置指定");
+    } else if (!isCurrentChild("待機")) {
+        changeChild("待機");
+    }
 }
 
 void DungeonResetPosTag::leave_() {
