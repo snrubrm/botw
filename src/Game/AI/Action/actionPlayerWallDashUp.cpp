@@ -22,4 +22,8 @@ void PlayerWallDashUp::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerWallDashUp::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
