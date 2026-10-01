@@ -27,4 +27,8 @@ void SideStep::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SideStep::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
