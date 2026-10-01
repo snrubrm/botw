@@ -21,6 +21,9 @@ protected:
     const int* mMinTiredTime_s{};
     // static_param at offset 0x48
     const float* mTiredTimeRate_s{};
+    f32 _50{};
+    f32 _54{};
+    f32 _58 = 1.0f;
 };
 
 }  // namespace uking::ai
