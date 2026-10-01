@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35(ksys::act::ai::InlineParamPack* params);
+
 protected:
     // static_param at offset 0x38
     const bool* mIsKeepDisableDraw_s{};
@@ -30,6 +33,7 @@ protected:
     bool* mIsPartsWarpEffectSync_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    bool _78 = false;
 };
 
 }  // namespace uking::ai

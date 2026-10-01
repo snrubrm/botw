@@ -12,6 +12,7 @@ public:
     ~LastBossRailWarpRoot() override;
 
     void loadParams_() override;
+    void m35(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
     // dynamic_param at offset 0x80
