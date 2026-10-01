@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMainFieldDungeonSelect.h"
+#include "Game/gameScene.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,22 @@ bool MainFieldDungeonSelect::init_(sead::Heap* heap) {
 }
 
 void MainFieldDungeonSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const sead::SafeString map_name = GameScene::getCurrentMapName();
+    if (map_name.include("RemainsWind"))
+        changeChild("風の遺物");
+    else if (map_name.include("RemainsElectric"))
+        changeChild("電気の遺物");
+    else if (map_name.include("RemainsWater"))
+        changeChild("水の遺物");
+    else if (map_name.include("RemainsFire"))
+        changeChild("火の遺物");
+    else if (map_name.include("FinalTrial"))
+        changeChild("その他");
+    else
+        changeChild("風の遺物");
 }
+
+void MainFieldDungeonSelect::calc_() {}
 
 void MainFieldDungeonSelect::leave_() {
     ksys::act::ai::Ai::leave_();
