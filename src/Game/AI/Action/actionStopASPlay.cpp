@@ -10,9 +10,7 @@ void StopASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
 }
 
-void StopASPlay::leave_() {
-    ActionWithPosAngReduce::leave_();
-}
+void StopASPlay::leave_() {}
 
 void StopASPlay::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
