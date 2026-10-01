@@ -425,6 +425,30 @@ bool ResourceMgrTask::callSystemCalc_(void* userdata) {
     return true;
 }
 
+// NON_MATCHING: loop shape differs; also the original's StringBuilder::at clamps out-of-range indices to the first character
+// (our sead version returns cNullChar instead)
+void ResourceMgrTask::addSExtensionPrefix(sead::StringBuilder& builder) const {
+    const s32 length = builder.getLength();
+    s32 ext_idx = length;
+    for (; ext_idx > 0; --ext_idx) {
+        if (builder.cstr()[ext_idx - 1] == '.')
+            break;
+    }
+
+    if (ext_idx == 0)
+        return;
+
+    sead::FixedStringBuilder<32> extension;
+    extension.copy(&builder[ext_idx]);
+
+    const sead::SafeString extension_str = extension.cstr();
+    if (mExtensions2.binarySearch(&extension_str) == -1)
+        return;
+
+    builder.copyAtWithTerminate(ext_idx, "s", 1);
+    builder.copyAtWithTerminate(ext_idx + 1, extension.cstr(), extension.getLength());
+}
+
 bool ResourceMgrTask::dropSFromExtensionIfNeeded(const sead::SafeString& path,
                                                  sead::BufferedSafeString& new_path, s32 dot_idx,
                                                  const sead::SafeString& extension) const {
