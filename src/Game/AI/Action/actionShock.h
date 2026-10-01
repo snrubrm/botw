@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -15,7 +16,8 @@ public:
 
 protected:
     void calc_() override;
-    virtual int m32();
+    bool isFinished() const override;
+    virtual bool m32();
     virtual void m33();
 
     // static_param at offset 0x20
@@ -34,6 +36,7 @@ protected:
     const int* mASSlot_s{};
     // static_param at offset 0x58
     sead::SafeString mASName_s{};
+    ksys::Timer _68;
 };
 
 }  // namespace uking::action

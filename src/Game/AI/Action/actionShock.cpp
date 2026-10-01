@@ -27,4 +27,8 @@ void Shock::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool Shock::isFinished() const {
+    return ksys::act::ai::Action::isFinished() || isFinishedAS(*mASSlot_s, 0);
+}
+
 }  // namespace uking::action

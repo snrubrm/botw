@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionShockDynamicWeapon.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -8,6 +9,7 @@ ShockDynamicWeapon::~ShockDynamicWeapon() = default;
 
 void ShockDynamicWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     Shock::enter_(params);
+    _88 = false;
 }
 
 void ShockDynamicWeapon::leave_() {
@@ -25,5 +27,9 @@ void ShockDynamicWeapon::calc_() {
 }
 
 void ShockDynamicWeapon::m33() {}
+
+bool ShockDynamicWeapon::m32() {
+    return mDropWeapon_d->hasProc();
+}
 
 }  // namespace uking::action

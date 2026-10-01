@@ -17,12 +17,14 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
     void m33() override;
 
     // dynamic_param at offset 0x78
     ksys::act::BaseProcLink* mDropWeapon_d{};
     // dynamic_param at offset 0x80
     sead::Vector3f* mDropDir_d{};
+    bool _88 = false;
 };
 
 }  // namespace uking::action
