@@ -20,7 +20,8 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mType_d{};
-    u16 _28 = 0;
+    bool _28 = false;
+    bool _29 = false;
 };
 
 }  // namespace uking::action
