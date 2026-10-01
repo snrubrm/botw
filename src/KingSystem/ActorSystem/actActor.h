@@ -302,6 +302,8 @@ public:
     bool checkBasicSig() const;
     bool hasPlacementLinkForBasicSig() const;
 
+    void getHomePos(sead::Vector3f* pos) const;
+
     void nullsub_4649();  // Some kind of logging which has been excluded from the build?
 
     sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
