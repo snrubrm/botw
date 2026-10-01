@@ -28,6 +28,8 @@ protected:
     const float* mGravityScale_s{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
+    float _48 = 1.0f;
+    bool _4c = false;
 };
 
 }  // namespace uking::action
