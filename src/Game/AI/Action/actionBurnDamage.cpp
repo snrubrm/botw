@@ -12,6 +12,7 @@ bool BurnDamage::init_(sead::Heap* heap) {
 
 void BurnDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     TimeredASPlay::enter_(params);
+    mFlags.reset(Flag::Changeable);
 }
 
 void BurnDamage::leave_() {
