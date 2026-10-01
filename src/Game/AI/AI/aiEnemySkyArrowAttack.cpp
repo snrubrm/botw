@@ -14,6 +14,10 @@ void EnemySkyArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBaseArrowAttack::enter_(params);
 }
 
+void EnemySkyArrowAttack::calc_() {
+    EnemyBaseArrowAttack::calc_();
+}
+
 void EnemySkyArrowAttack::leave_() {
     EnemyBaseArrowAttack::leave_();
 }
