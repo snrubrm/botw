@@ -12,6 +12,7 @@ bool RemainsFireTailAttack::init_(sead::Heap* heap) {
 
 void RemainsFireTailAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+    playAS(mASKeyName_s.cstr(), *mIsIgnoreSame_s, 0, 0, -1.0f);
 }
 
 void RemainsFireTailAttack::leave_() {
