@@ -1,13 +1,16 @@
 #include "Game/AI/AI/aiWolfLinkChainAttack.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: store scheduling (the target writes _a8/_b0/_c0.. before the array)
 WolfLinkChainAttack::WolfLinkChainAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 WolfLinkChainAttack::~WolfLinkChainAttack() = default;
 
 bool WolfLinkChainAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _c8 = sead::DynamicCast<act::WolfLink>(mActor);
+    return _c8 != nullptr;
 }
 
 void WolfLinkChainAttack::enter_(ksys::act::ai::InlineParamPack* params) {
