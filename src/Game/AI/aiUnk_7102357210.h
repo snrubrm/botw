@@ -71,3 +71,16 @@ public:
     bool _39 = false;
     bool _3a = false;
 };
+
+// vtable 0x71023f5f90 (GoronHeroDescendentRoot, MessageReceiveCheck)
+class Unk_71023f5f90 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x8000045)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};

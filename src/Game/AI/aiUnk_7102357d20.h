@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverBase.h"
 
@@ -40,6 +41,16 @@ public:
     ksys::MessageTransceiverBase* _8;
     ksys::MessageType _10;
     bool _14 = false;
+};
+
+// vtable 0x710235aba0: sends a BaseProcLink; _28 guards _18 (spin lock, see sub_710070E194 / sub_710070E1F8).
+class Unk_710235aba0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+    u32 _28 = 0;
 };
 
 // vtable 0x7102396b20 (GolemSleepNormal)
