@@ -15,7 +15,8 @@ void FlyingCharacterReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FlyingCharacterReaction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mIsSetBackLastState_s)
+        mCCAccessor.resetMotionType(mCCAccessor.sub_710072ACF8(mActor));
 }
 
 void FlyingCharacterReaction::loadParams_() {
