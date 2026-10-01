@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemDelete.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool SystemDelete::init_(sead::Heap* heap) {
 }
 
 void SystemDelete::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 void SystemDelete::leave_() {
