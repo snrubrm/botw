@@ -11,7 +11,7 @@ bool ForkSlipAndStop::init_(sead::Heap* heap) {
 }
 
 void ForkSlipAndStop::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkSlipAndStop::leave_() {
