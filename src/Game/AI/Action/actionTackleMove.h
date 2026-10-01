@@ -19,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* pos);
+    virtual void m33();
+    virtual f32 m34();
+    virtual f32 m35();
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};

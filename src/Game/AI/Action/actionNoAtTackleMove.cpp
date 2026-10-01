@@ -29,4 +29,8 @@ void NoAtTackleMove::calc_() {
     TackleMove::calc_();
 }
 
+void NoAtTackleMove::m33() {
+    setFinished();
+}
+
 }  // namespace uking::action

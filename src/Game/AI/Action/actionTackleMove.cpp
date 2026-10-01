@@ -32,4 +32,20 @@ void TackleMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void TackleMove::m32(sead::Vector3f* pos) {
+    pos->set(*mTargetPos_d);
+}
+
+void TackleMove::m33() {
+    setFailed();
+}
+
+f32 TackleMove::m34() {
+    return *mSpeed_s;
+}
+
+f32 TackleMove::m35() {
+    return 0.2f;
+}
+
 }  // namespace uking::action
