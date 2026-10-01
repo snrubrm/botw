@@ -10,6 +10,10 @@ bool WaitHeartDemo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool WaitHeartDemo::oneShot_() {
+    return true;
+}
+
 void WaitHeartDemo::loadParams_() {}
 
 }  // namespace uking::action
