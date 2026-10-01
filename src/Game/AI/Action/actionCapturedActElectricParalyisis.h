@@ -21,6 +21,9 @@ protected:
 
     // static_param at offset 0x40
     const float* mPauseDelayFrames_s{};
+    float _48 = 0.0f;
+    float _4c = 0.0f;
+    int _50 = 0;
 };
 
 }  // namespace uking::action
