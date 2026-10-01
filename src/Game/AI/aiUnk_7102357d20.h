@@ -165,3 +165,20 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
 };
+
+// vtable 0x710239c018 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideMoveCommand):
+// sends an int payload
+class Unk_710239c018 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return reinterpret_cast<void*>(_18); }
+
+    s32 _18 = 0;
+};
+
+// vtable 0x710239c040 (HorseRideChaseBattleAttackMove, HorseRideDynSetGearCommand, HorseRideMoveCommand)
+class Unk_710239c040 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};

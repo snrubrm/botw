@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseRideChaseBattleAttackMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,36 @@ void HorseRideChaseBattleAttackMove::leave_() {
 
 void HorseRideChaseBattleAttackMove::loadParams_() {
     HorseRideChaseBattleMoveBase::loadParams_();
+}
+
+void HorseRideChaseBattleAttackMove::calc_() {
+    HorseRideChaseBattleMoveBase::calc_();
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("攻撃")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
+            changeChild("攻撃", &pack);
+        }
+    } else {
+        child->isChangeable();
+    }
+}
+
+bool HorseRideChaseBattleAttackMove::m36() {
+    return isCurrentChild("攻撃");
+}
+
+void HorseRideChaseBattleAttackMove::m35() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
+    changeChild("攻撃", &pack);
 }
 
 }  // namespace uking::ai

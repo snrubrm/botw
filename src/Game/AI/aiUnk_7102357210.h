@@ -92,6 +92,19 @@ public:
     void m3() override {}
 };
 
+// vtable 0x71023fbec8 (HorseRideChaseBattleMoveBase; m2 handles message type 0x3800021)
+class Unk_71023fbec8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800021)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
 // vtable 0x7102450af8 (ReflectableThrown)
 class Unk_7102450af8 : public Unk_7102357210 {
 public:

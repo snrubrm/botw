@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseRideRangeKeepMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,13 @@ bool HorseRideRangeKeepMove::init_(sead::Heap* heap) {
 }
 
 void HorseRideRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!sub_71005D8F28(mActor)) {
+        setFailed();
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("指令", &pack);
 }
 
 void HorseRideRangeKeepMove::leave_() {

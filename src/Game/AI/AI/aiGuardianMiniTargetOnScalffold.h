@@ -9,6 +9,7 @@ class GuardianMiniTargetOnScalffold : public ksys::act::ai::Ai {
 public:
     explicit GuardianMiniTargetOnScalffold(const InitArg& arg);
     ~GuardianMiniTargetOnScalffold() override;
+    void calc_() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

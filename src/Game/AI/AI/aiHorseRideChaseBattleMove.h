@@ -15,6 +15,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    void m34(int gear) override;
+    void m35() override;
+    bool m36() override;
+
+    void sub_7100440144(int gear);
 
 protected:
 };
