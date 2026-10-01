@@ -12,6 +12,8 @@ bool EnemyRigidBodyDie::init_(sead::Heap* heap) {
 
 void EnemyRigidBodyDie::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRigidBodyDieBase::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void EnemyRigidBodyDie::leave_() {
