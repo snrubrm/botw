@@ -22,4 +22,8 @@ void PlayerRideJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerRideJump::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
