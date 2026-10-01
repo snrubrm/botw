@@ -23,6 +23,7 @@ protected:
     const int* mMinWaitFrame_s{};
     // aitree_variable at offset 0x38
     int* mChemicalChuchuCommonDownTime_a{};
+    float _40 = 0.0f;
 };
 
 }  // namespace uking::action
