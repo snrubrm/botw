@@ -4,8 +4,6 @@ namespace uking::ai {
 
 EnemyLifted::EnemyLifted(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyLifted::~EnemyLifted() = default;
-
 bool EnemyLifted::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }

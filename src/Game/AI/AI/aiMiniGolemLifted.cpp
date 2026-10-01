@@ -18,6 +18,10 @@ void MiniGolemLifted::leave_() {
     EnemyLifted::leave_();
 }
 
+void MiniGolemLifted::m34() {
+    changeChild("設置");
+}
+
 void MiniGolemLifted::loadParams_() {
     EnemyLifted::loadParams_();
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");

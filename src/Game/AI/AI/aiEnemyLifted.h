@@ -10,7 +10,7 @@ class EnemyLifted : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyLifted, ksys::act::ai::Ai)
 public:
     explicit EnemyLifted(const InitArg& arg);
-    ~EnemyLifted() override;
+    ~EnemyLifted() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

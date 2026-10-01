@@ -15,10 +15,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m34() override;
 
 protected:
     // aitree_variable at offset 0x70
     void* mGolemChemicalController_a{};
+    Unk_7102451a18 _78{mActor};
 };
 
 }  // namespace uking::ai
