@@ -33,4 +33,8 @@ void LynelTackleMove::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool LynelTackleMove::isFinished() const {
+    return ActionBase::isFinished() || (isCurrentChild("通り過ぎ") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

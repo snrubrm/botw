@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMoveLOSFeedback.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,10 @@ bool MoveLOSFeedback::init_(sead::Heap* heap) {
 }
 
 void MoveLOSFeedback::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50.value = _50.previous_value = 0.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void MoveLOSFeedback::leave_() {

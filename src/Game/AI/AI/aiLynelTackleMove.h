@@ -9,6 +9,7 @@ class LynelTackleMove : public ksys::act::ai::Ai {
 public:
     explicit LynelTackleMove(const InitArg& arg);
     ~LynelTackleMove() override;
+    bool isFinished() const override;
     bool isChangeable() const override;
     bool isFailed() const override;
 

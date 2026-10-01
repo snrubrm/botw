@@ -11,7 +11,8 @@ bool AirOctaWait::init_(sead::Heap* heap) {
 }
 
 void AirOctaWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mFlags.set(Flag::Changeable);
+    changeChild("通常");
 }
 
 void AirOctaWait::leave_() {

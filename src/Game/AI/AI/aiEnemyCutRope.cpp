@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyCutRope.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void EnemyCutRope::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyCutRope::leave_() {
-    ksys::act::ai::Ai::leave_();
+    ksys::act::ActorConstDataAccess acc;
+    ksys::act::acquireActor(mTargetActor_d, &acc);
 }
 
 void EnemyCutRope::loadParams_() {
