@@ -28,4 +28,8 @@ void PlayerHorseJump::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHorseJump::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
