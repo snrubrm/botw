@@ -20,4 +20,8 @@ void PlayerHell::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerHell::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
