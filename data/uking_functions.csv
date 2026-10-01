@@ -12675,7 +12675,7 @@ Address,Quality,Size,Name
 0x00000071001dd530,O,000036,_ZN5uking6action12LookAtObjectD0Ev
 0x00000071001dd554,O,000004,_ZN5uking6action12LookAtObject5init_EPN4sead4HeapE
 0x00000071001dd558,U,000400,_ZN5uking6action12LookAtObject8oneShot_Ev
-0x00000071001dd6e8,U,000044,uking::action::LookAtObject::m33
+0x00000071001dd6e8,U,000044,_ZN5uking6action12LookAtObject3m33Ev
 0x00000071001dd714,U,000372,uking::action::LookAtObject::m37
 0x00000071001dd888,O,000004,_ZN5uking6action12LookAtObject11loadParams_Ev
 0x00000071001dd88c,O,000216,_ZNK5uking6action12LookAtObject27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -14621,7 +14621,7 @@ Address,Quality,Size,Name
 0x000000710021ef88,W,000288,_ZN5uking6action28PlayerTurnAndLookToObjectNow6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710021f0a8,W,000152,_ZN5uking6action28PlayerTurnAndLookToObjectNow5calc_Ev
 0x000000710021f140,W,000088,_ZN5uking6action28PlayerTurnAndLookToObjectNow6leave_Ev
-0x000000710021f198,U,000624,uking::action::PlayerTurnAndLookToObjectNow::m33
+0x000000710021f198,U,000624,_ZN5uking6action28PlayerTurnAndLookToObjectNow3m33Ev
 0x000000710021f408,U,000260,uking::action::PlayerTurnAndLookToObjectNow::m40
 0x000000710021f50c,U,000112,uking::action::PlayerTurnAndLookToObjectNow::m41
 0x000000710021f57c,O,000004,_ZN5uking6action28PlayerTurnAndLookToObjectNow11loadParams_Ev
@@ -18125,7 +18125,7 @@ Address,Quality,Size,Name
 0x000000710029dde4,W,000420,_ZN5uking6action24TurnAndLookAtToObjectNow6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710029df88,W,000184,_ZN5uking6action24TurnAndLookAtToObjectNow5calc_Ev
 0x000000710029e040,W,000044,_ZN5uking6action24TurnAndLookAtToObjectNow6leave_Ev
-0x000000710029e06c,U,000332,uking::action::TurnAndLookAtToObjectNow::m33
+0x000000710029e06c,U,000332,_ZN5uking6action24TurnAndLookAtToObjectNow3m33Ev
 0x000000710029e1b8,U,000260,uking::action::TurnAndLookAtToObjectNow::m40
 0x000000710029e2bc,U,000736,uking::action::TurnAndLookAtToObjectNow::m41
 0x000000710029e59c,W,000112,_ZN5uking6action24TurnAndLookAtToObjectNow11loadParams_Ev
@@ -18138,7 +18138,7 @@ Address,Quality,Size,Name
 0x000000710029e890,O,000004,_ZN5uking6action16LookAtObjectBase6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710029e894,O,000004,_ZN5uking6action16LookAtObjectBase5calc_Ev
 0x000000710029e898,O,000004,_ZN5uking6action16LookAtObjectBase6leave_Ev
-0x000000710029e89c,U,000124,uking::action::LookAtObjectBase::m33
+0x000000710029e89c,U,000124,_ZN5uking6action16LookAtObjectBase3m33Ev
 0x000000710029e918,U,001060,uking::action::LookAtObjectBase::m34
 0x000000710029ed3c,U,000200,uking::action::LookAtObjectBase::m35
 0x000000710029ee04,U,002512,uking::action::LookAtObjectBase::m36
@@ -18153,7 +18153,7 @@ Address,Quality,Size,Name
 0x000000710029fb0c,W,000420,_ZN5uking6action19TurnAndLookToObject6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710029fcb0,W,000236,_ZN5uking6action19TurnAndLookToObject5calc_Ev
 0x000000710029fd9c,W,000044,_ZN5uking6action19TurnAndLookToObject6leave_Ev
-0x000000710029fdc8,U,000332,uking::action::TurnAndLookToObject::m33
+0x000000710029fdc8,U,000332,_ZN5uking6action19TurnAndLookToObject3m33Ev
 0x000000710029ff14,U,000680,uking::action::TurnAndLookToObject::m40
 0x00000071002a01bc,U,000372,uking::action::TurnAndLookToObject::m41
 0x00000071002a0330,W,000112,_ZN5uking6action19TurnAndLookToObject11loadParams_Ev
@@ -50726,7 +50726,7 @@ Address,Quality,Size,Name
 0x00000071007fe6ec,O,000036,_ZN5uking6action18PlayerLookAtObjectD0Ev
 0x00000071007fe710,O,000004,_ZN5uking6action18PlayerLookAtObject5init_EPN4sead4HeapE
 0x00000071007fe714,U,000260,_ZN5uking6action18PlayerLookAtObject8oneShot_Ev
-0x00000071007fe818,U,000052,uking::action::PlayerLookAtObject::m33
+0x00000071007fe818,U,000052,_ZN5uking6action18PlayerLookAtObject3m33Ev
 0x00000071007fe84c,U,000204,uking::action::PlayerLookAtObject::m37
 0x00000071007fe918,U,000084,uking::action::PlayerLookAtObject::m38
 0x00000071007fe96c,O,000004,_ZN5uking6action18PlayerLookAtObject11loadParams_Ev
@@ -51258,7 +51258,7 @@ Address,Quality,Size,Name
 0x000000710081e6a8,W,000368,_ZN5uking6action25PlayerTurnAndLookToObject6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710081e818,W,000152,_ZN5uking6action25PlayerTurnAndLookToObject5calc_Ev
 0x000000710081e8b0,W,000076,_ZN5uking6action25PlayerTurnAndLookToObject6leave_Ev
-0x000000710081e8fc,U,000624,uking::action::PlayerTurnAndLookToObject::m33
+0x000000710081e8fc,U,000624,_ZN5uking6action25PlayerTurnAndLookToObject3m33Ev
 0x000000710081eb6c,U,000516,uking::action::PlayerTurnAndLookToObject::m40
 0x000000710081ed70,U,000508,uking::action::PlayerTurnAndLookToObject::m41
 0x000000710081ef6c,W,000172,_ZN5uking6action25PlayerTurnAndLookToObject11loadParams_Ev

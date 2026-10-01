@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m33();
 
     // dynamic_param at offset 0x78
     int* mObjectId_d{};
