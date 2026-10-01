@@ -14,6 +14,10 @@ void LynelDistanceLostCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     DistanceLostCheck::enter_(params);
 }
 
+void LynelDistanceLostCheck::calc_() {
+    DistanceLostCheck::calc_();
+}
+
 void LynelDistanceLostCheck::leave_() {
     DistanceLostCheck::leave_();
 }
