@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiMetalObjectFixed.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,8 +15,28 @@ bool MetalObjectFixed::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original loads mActor after reading *mIsFixedPlace_m (scheduling)
 void MetalObjectFixed::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (_40) {
+        _40 = false;
+        auto* actor = mActor;
+        if (*mIsFixedPlace_m) {
+            ksys::act::disableAllAttClients(actor);
+            if (auto* body = actor->getMainBody())
+                body->changeMotionType(ksys::phys::MotionType::Keyframed);
+            changeChild("固定中");
+            return;
+        }
+        ksys::act::enableAllAttClients(actor);
+    } else {
+        auto* actor = mActor;
+        if (*mIsFixedPlace_m) {
+            if (auto* physics = actor->getPhysics())
+                physics->sub_7100FBADDC();
+        }
+        ksys::act::enableAllAttClients(actor);
+    }
+    changeChild("通常");
 }
 
 void MetalObjectFixed::leave_() {

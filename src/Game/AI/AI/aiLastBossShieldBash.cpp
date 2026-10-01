@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossShieldBash.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,16 @@ bool LastBossShieldBash::init_(sead::Heap* heap) {
 }
 
 void LastBossShieldBash::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsAttackPatternFixed_d) {
+        ksys::act::ai::InlineParamPack pack;
+        const sead::Vector3f pos = *mTargetPos_d;
+        pack.addVec3(pos, "TargetPos", -1);
+        changeChild("ジャンプ斬り", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("盾突き攻撃", &pack);
+    }
 }
 
 void LastBossShieldBash::leave_() {

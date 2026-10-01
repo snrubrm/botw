@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelWarp.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -29,6 +31,22 @@ bool LynelWarp::isFinished() const {
         return false;
     auto* child = getCurrentChild();
     return child->isFinished() || child->isFailed();
+}
+
+void LynelWarp::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("消失")) {
+            ksys::act::disableAttClient(mActor, "JumpRide");
+            changeChild("ワープ");
+        } else if (isCurrentChild("ワープ")) {
+            mActor->get68c() = false;
+            ksys::act::enableAttClient(mActor, "JumpRide");
+            changeChild("出現");
+        }
+    } else {
+        child->isChangeable();
+    }
 }
 
 }  // namespace uking::ai

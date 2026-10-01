@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelThreeBreathAttack.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,9 @@ bool LynelThreeBreathAttack::init_(sead::Heap* heap) {
 }
 
 void LynelThreeBreathAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("先行動", &pack);
 }
 
 void LynelThreeBreathAttack::leave_() {

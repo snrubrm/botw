@@ -9,6 +9,7 @@ class LastBossSwordWhirlSlash : public ksys::act::ai::Ai {
 public:
     explicit LastBossSwordWhirlSlash(const InitArg& arg);
     ~LastBossSwordWhirlSlash() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
