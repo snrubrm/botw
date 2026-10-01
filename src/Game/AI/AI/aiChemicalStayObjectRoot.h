@@ -14,10 +14,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    virtual bool m34();
 
 protected:
     // static_param at offset 0x38
     const bool* mIsCheckDelete_s{};
+    u8 _40{};
 };
 
 }  // namespace uking::ai

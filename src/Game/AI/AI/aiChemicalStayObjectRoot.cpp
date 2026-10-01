@@ -11,7 +11,7 @@ bool ChemicalStayObjectRoot::init_(sead::Heap* heap) {
 }
 
 void ChemicalStayObjectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("通常");
 }
 
 void ChemicalStayObjectRoot::leave_() {
