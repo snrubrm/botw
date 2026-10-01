@@ -11,7 +11,9 @@ bool LynelRepeatAttack::init_(sead::Heap* heap) {
 }
 
 void LynelRepeatAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 = false;
+    _4c = 1;
+    changeChild("初撃", params);
 }
 
 bool LynelRepeatAttack::isFailed() const {
