@@ -26,4 +26,8 @@ void TakeHitImpactForce::calc_() {
     ActionEx::calc_();
 }
 
+bool TakeHitImpactForce::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
