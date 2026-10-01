@@ -20,4 +20,8 @@ void PlayerPickUp::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerPickUp::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
