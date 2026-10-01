@@ -27,14 +27,14 @@ public:
     static BaseProcLink& getSomeProcLink();
     BaseProcLink& getHorseLink() { return mHorseLink; }
     bool init();
-    void setAndAcquirePlayer(PlayerBase* player);  // requires PlayerOrEnemy and PlayerBase
+    void setAndAcquirePlayer(PlayerBase* player);
     void resetPlayer(PlayerBase* player);
     bool acquireHorse(BaseProc* horse);
     void setHorseLink(const BaseProcLink& horse_link);
     PlayerBase* getPlayer() const;
     PlayerBase* getPlayer_() const;                // possibly duped by compiler?
-    Actor* getRiddenHorse() const;                 // requires PlayerBase vtable
-    void setMaxLifeForPlayerActor(s32 max_heart);  // requires PlayerBase
+    Actor* getRiddenHorse() const;
+    void setMaxLifeForPlayerActor(s32 max_heart);  // writes a Player (not PlayerBase) field
     s32 getMaxLifeFromPlayerActor() const;
     void setMaxHeartValue(s32 quarter_hearts);
     u32 getMaxHeartValue() const;
@@ -45,7 +45,7 @@ public:
     void updateLifeAfterGameOver();               // requires a global flag
     void
     resetLifeToBeforeSwordPull();     // requires HeartDisplayMgr (0x25D6578) and PlayerBase vtable
-    void saveLifeInfoForSwordPull();  // requires PlayerBase vtable
+    void saveLifeInfoForSwordPull();
     void recoverLife();
     void setStaminaCurrentMax(f32 max_stamina);
     f32 getStaminaCurrentMax() const;
@@ -53,10 +53,10 @@ public:
     void setStaminaMax(f32 max_stamina);
     f32 getStaminaMax() const;
     void updateStaminaMaxFromGameData();
-    void setMaxStaminaForPlayerActor(f32 max_stamina);  // requires PlayerBase
-    f32 getMaxStaminaFromPlayerActor() const;           // requires PlayerBase
-    void recoverStamina();                              // requires PlayerBase
-    void recoverCondition();                            // requires PlayerBase
+    void setMaxStaminaForPlayerActor(f32 max_stamina);  // writes a Player field
+    f32 getMaxStaminaFromPlayerActor() const;           // reads a Player field
+    void recoverStamina();                              // reads a Player field
+    void recoverCondition();
 
     PlayerBase* getPlayerUnchecked();
 
