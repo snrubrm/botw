@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossSpearChangeWaterLevel.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void SiteBossSpearChangeWaterLevel::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void SiteBossSpearChangeWaterLevel::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5F6FC(sead::Vector3f::zero);
 }
 
 void SiteBossSpearChangeWaterLevel::loadParams_() {
