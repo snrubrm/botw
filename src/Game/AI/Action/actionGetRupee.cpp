@@ -24,4 +24,8 @@ void GetRupee::calc_() {
     GetItem::calc_();
 }
 
+void GetRupee::m32() {
+    GetItem::m32();
+}
+
 }  // namespace uking::action
