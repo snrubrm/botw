@@ -37,4 +37,8 @@ void Chemicalward::calc_() {
     ActionWithPosAngReduce::calc_();
 }
 
+bool Chemicalward::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
