@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 StepDoubleAttack::StepDoubleAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 StepDoubleAttack::~StepDoubleAttack() = default;

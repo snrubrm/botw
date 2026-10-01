@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionLinearFlyAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,9 +19,11 @@ public:
 
 protected:
     void calc_() override;
+    void m33(sead::Vector3f* dir) override;
 
     // static_param at offset 0xd8
     const float* mRotSpeed_s{};
+    ksys::VFRValue _e0;
 };
 
 }  // namespace uking::action

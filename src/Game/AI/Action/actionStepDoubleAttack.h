@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -35,6 +38,12 @@ protected:
     const float* mJustAvoidAngle_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    Unk_7102451ba0 _60;
+    ksys::VFRValue _88{0.0f};
+    f32 _94 = 0;
+    sead::Matrix33f _98;
+    sead::Vector3f _bc = {0, 0, 0};
+    int _c8 = 0;
 };
 
 }  // namespace uking::action

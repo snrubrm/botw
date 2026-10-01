@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -50,6 +51,14 @@ protected:
     const sead::Vector3f* mThirdUnitePosOffset_s{};
     // static_param at offset 0xd0
     const sead::Vector3f* mThirdUniteRotOffset_s{};
+    u32 _d8 = 0;
+    f32 _dc = 0;
+    f32 _e0 = 0;
+    f32 _e4 = 0;
+    int _e8 = 0;
+    int _ec = 0;
+    Unk_7102451ba0 _f0;
+    u32 _118 = 0;
 };
 
 }  // namespace uking::action

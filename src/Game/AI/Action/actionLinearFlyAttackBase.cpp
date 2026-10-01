@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 LinearFlyAttackBase::LinearFlyAttackBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 LinearFlyAttackBase::~LinearFlyAttackBase() = default;
@@ -33,6 +34,10 @@ void LinearFlyAttackBase::calc_() {
 
 int LinearFlyAttackBase::m32() {
     return 8192;
+}
+
+f32 LinearFlyAttackBase::m34() {
+    return 30.0f;
 }
 
 }  // namespace uking::action

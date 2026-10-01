@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSpinFlyAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include <math/seadMatrix.h>
 
 namespace uking::action {
 
@@ -12,6 +14,8 @@ bool SpinFlyAttack::init_(sead::Heap* heap) {
 
 void SpinFlyAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     LinearFlyAttack::enter_(params);
+    _e0.value = 0;
+    _e0.prev_value = 0;
 }
 
 void SpinFlyAttack::leave_() {
@@ -24,7 +28,22 @@ void SpinFlyAttack::loadParams_() {
 }
 
 void SpinFlyAttack::calc_() {
+    _e0.lerp(*mRotSpeed_s, 0.5f);
+    _e0.updateStats();
     LinearFlyAttack::calc_();
+}
+
+// NON_MATCHING: floating-point operation order and register allocation in the rotation (makeR + multiply)
+void SpinFlyAttack::m33(sead::Vector3f* dir) {
+    sead::Vector3f axis;
+    mActor->getMtx().getBase(axis, 2);
+    axis.normalize();
+    sead::Vector3f up;
+    mActor->getMtx().getBase(up, 1);
+    up.normalize();
+    sead::Matrix33f rot;
+    rot.makeR(axis * _e0.mean);
+    dir->setMul(rot, up);
 }
 
 }  // namespace uking::action
