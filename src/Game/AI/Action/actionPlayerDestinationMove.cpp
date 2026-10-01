@@ -23,4 +23,8 @@ void PlayerDestinationMove::calc_() {
     PlayerGuidedMove::calc_();
 }
 
+bool PlayerDestinationMove::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
