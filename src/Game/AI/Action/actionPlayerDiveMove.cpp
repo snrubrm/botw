@@ -22,4 +22,8 @@ void PlayerDiveMove::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerDiveMove::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
