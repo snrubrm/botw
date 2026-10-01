@@ -29797,7 +29797,7 @@ Address,Quality,Size,Name
 0x00000071004b63e4,U,000020,
 0x00000071004b63f8,W,000168,_ZN5uking2ai18UnarmedEnemySearch6leave_Ev
 0x00000071004b64a0,O,000128,_ZN5uking2ai18UnarmedEnemySearch11loadParams_Ev
-0x00000071004b6520,U,000036,_ZNK5uking2ai18UnarmedEnemySearch12isChangeableEv
+0x00000071004b6520,O,000036,_ZNK5uking2ai18UnarmedEnemySearch12isChangeableEv
 0x00000071004b6544,U,000512,
 0x00000071004b6744,U,000064,
 0x00000071004b6784,U,000256,uking::ai::UnarmedEnemySearch::m35
