@@ -6,6 +6,14 @@ HorseRideDamagedSelector::HorseRideDamagedSelector(const InitArg& arg) : ksys::a
 
 HorseRideDamagedSelector::~HorseRideDamagedSelector() = default;
 
+bool HorseRideDamagedSelector::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool HorseRideDamagedSelector::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool HorseRideDamagedSelector::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
@@ -13,6 +21,8 @@ bool HorseRideDamagedSelector::init_(sead::Heap* heap) {
 void HorseRideDamagedSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
+
+void HorseRideDamagedSelector::calc_() {}
 
 void HorseRideDamagedSelector::leave_() {
     ksys::act::ai::Ai::leave_();
