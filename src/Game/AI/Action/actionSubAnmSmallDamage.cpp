@@ -12,6 +12,7 @@ bool SubAnmSmallDamage::init_(sead::Heap* heap) {
 
 void SubAnmSmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     SmallDamage::enter_(params);
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void SubAnmSmallDamage::leave_() {
