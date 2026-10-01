@@ -28,6 +28,7 @@ protected:
     sead::SafeString mSound_m{};
     // map_unit_param at offset 0x50
     sead::SafeString mShape_m{};
+    void* _60{};
 };
 
 }  // namespace uking::action
