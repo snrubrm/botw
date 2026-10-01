@@ -10,6 +10,10 @@ bool LastBossJustGuard::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool LastBossJustGuard::isFinished() const {
+    return mFlags.isOn(Flag::Finished) || isFinishedAS(0, 0);
+}
+
 void LastBossJustGuard::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("GuardJust", false, 0, 0, -1.0f);
 }
