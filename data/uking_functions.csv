@@ -3537,7 +3537,7 @@ Address,Quality,Size,Name
 0x00000071000acd38,O,000004,_ZN5uking6action6Attack6leave_Ev
 0x00000071000acd3c,U,000008,uking::action::Attack::m35
 0x00000071000acd44,O,000084,_ZN5uking6action6Attack11loadParams_Ev
-0x00000071000acd98,U,000064,uking::action::Attack::m33
+0x00000071000acd98,O,000064,_ZN5uking6action6Attack3m33Ev
 0x00000071000acdd8,O,000216,_ZNK5uking6action6Attack27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000aceb0,O,000092,_ZNK5uking6action6Attack18getRuntimeTypeInfoEv
 0x00000071000acf0c,W,000104,_ZN5uking6action6AttackD1Ev
@@ -3569,7 +3569,7 @@ Address,Quality,Size,Name
 0x00000071000adb78,O,000004,_ZN5uking6action14AttackPartBind5calc_Ev
 0x00000071000adb7c,O,000004,_ZN5uking6action14AttackPartBind6leave_Ev
 0x00000071000adb80,W,000084,_ZN5uking6action14AttackPartBind11loadParams_Ev
-0x00000071000adbd4,U,000120,uking::action::AttackPartBind::m33
+0x00000071000adbd4,U,000120,_ZN5uking6action14AttackPartBind3m33Ev
 0x00000071000adc4c,O,000300,_ZNK5uking6action14AttackPartBind27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000add78,O,000092,_ZNK5uking6action14AttackPartBind18getRuntimeTypeInfoEv
 0x00000071000addd4,U,000008,uking::action::AttackPartBind::m32

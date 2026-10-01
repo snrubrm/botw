@@ -23,4 +23,8 @@ void Attack::calc_() {
     AttackBase::calc_();
 }
 
+void Attack::m33() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
