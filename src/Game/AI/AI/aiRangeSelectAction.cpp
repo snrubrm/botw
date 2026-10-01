@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiRangeSelectAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,17 @@ bool RangeSelectAction::init_(sead::Heap* heap) {
 }
 
 void RangeSelectAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+}
+
+void RangeSelectAction::calc_() {
+    auto* child = getCurrentChild();
+    child->setDynamicParam(*mTargetPos_d, "TargetPos");
+    if (child->isFinished() || child->isFailed())
+        return;
+
+    if (child->isChangeable() && *mIsSelectEveryFrame_s)
+        m34();
 }
 
 void RangeSelectAction::leave_() {
@@ -23,6 +35,13 @@ void RangeSelectAction::loadParams_() {
     getStaticParam(&mIsSelectEveryFrame_s, "IsSelectEveryFrame");
     getStaticParam(&mIsRangeXZ_s, "IsRangeXZ");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: regalloc (operand registers of the shared sqrt tail)
+f32 RangeSelectAction::m35() {
+    if (*mIsRangeXZ_s)
+        return sead::Mathf::sqrt(ksys::util::sqXZDistance(mActor->getMtx().getTranslation(), *mTargetPos_d));
+    return (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
 }
 
 }  // namespace uking::ai

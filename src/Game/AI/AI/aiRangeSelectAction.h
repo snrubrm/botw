@@ -10,10 +10,22 @@ public:
     explicit RangeSelectAction(const InitArg& arg);
     ~RangeSelectAction() override;
 
+    bool isFailed() const override {
+        return mFlags.isOn(Flag::Failed) || getCurrentChild()->isFailed();
+    }
+    bool isFinished() const override {
+        return mFlags.isOn(Flag::Finished) || getCurrentChild()->isFinished();
+    }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34() = 0;
+    virtual f32 m35();
+    f32 sub_7100539F84();
 
 protected:
     // static_param at offset 0x38
