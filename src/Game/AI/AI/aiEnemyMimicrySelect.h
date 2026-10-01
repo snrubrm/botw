@@ -9,6 +9,7 @@ class EnemyMimicrySelect : public ksys::act::ai::Ai {
 public:
     explicit EnemyMimicrySelect(const InitArg& arg);
     ~EnemyMimicrySelect() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
