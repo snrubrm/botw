@@ -37,4 +37,8 @@ void ForkTurn::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool ForkTurn::m32() {
+    return true;
+}
+
 }  // namespace uking::action
