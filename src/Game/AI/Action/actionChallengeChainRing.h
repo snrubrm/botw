@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m33();
 
     // map_unit_param at offset 0xab0
     const float* mChainRingOrbitSpeed_m{};
