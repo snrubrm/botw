@@ -7,7 +7,7 @@ NPCHorseReception::NPCHorseReception(const InitArg& arg) : ksys::act::ai::Action
 NPCHorseReception::~NPCHorseReception() = default;
 
 void NPCHorseReception::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void NPCHorseReception::calc_() {
