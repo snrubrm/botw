@@ -16,7 +16,7 @@ void LimitedTimeredActorCreator::enter_(ksys::act::ai::InlineParamPack* params) 
 }
 
 void LimitedTimeredActorCreator::leave_() {
-    ksys::act::ai::Ai::leave_();
+    *static_cast<void**>(mGeneratedActorLink_a) = nullptr;
 }
 
 void LimitedTimeredActorCreator::loadParams_() {
