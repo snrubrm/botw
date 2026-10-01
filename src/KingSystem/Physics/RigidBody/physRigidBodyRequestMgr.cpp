@@ -190,4 +190,20 @@ void RigidBodyRequestMgr::Config::enableLinearVelocityChecks(bool enable) {
     sEnableLinearVelocityChecks = enable;
 }
 
+bool RigidBodyRequestMgr::pushConstraint(Constraint* constraint) {
+    return _38.push(constraint);
+}
+
+void RigidBodyRequestMgr::removeConstraint(Constraint* constraint) {
+    _38.erase(constraint);
+}
+
+void RigidBodyRequestMgr::x_10(float a, float b) {
+    _218 = a;
+    _220 = _21c;
+    _21c = b;
+    x_9(false);
+    x_9(true);
+}
+
 }  // namespace ksys::phys

@@ -19,6 +19,7 @@ class hkpEntity;
 
 namespace ksys::phys {
 
+class Constraint;
 class MotionAccessor;
 class RigidBody;
 
@@ -65,6 +66,12 @@ public:
 
     bool registerMotionAccessor(MotionAccessor* accessor);
     bool deregisterMotionAccessor(MotionAccessor* accessor);
+
+    bool pushConstraint(Constraint* constraint);
+    void removeConstraint(Constraint* constraint);
+    // 0x0000007100fa76d8
+    void x_9(bool x);
+    void x_10(float a, float b);
 
 private:
     friend class RigidBody;
@@ -117,7 +124,7 @@ private:
     static constexpr int MaxNumImpulseEntries = 0x100;
 
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mRigidBodies1;
-    util::LockFreeQueue<Unk1> _38;
+    util::LockFreeQueue<Constraint> _38;
     util::LockFreeQueue<Unk1> _50;
     /// Rigid bodies that are out of bounds.
     sead::SafeArray<util::LockFreeQueue<RigidBody>, NumRigidBodyBuffers> mOobRigidBodies;
