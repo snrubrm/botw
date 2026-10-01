@@ -11,6 +11,7 @@ public:
     explicit NavMeshEscape(const InitArg& arg);
 
 protected:
+    void m34() override;
 };
 
 }  // namespace uking::action
