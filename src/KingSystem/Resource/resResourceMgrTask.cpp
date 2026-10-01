@@ -345,7 +345,7 @@ void ResourceMgrTask::requestUnloadForSync(Handle* handle) {
         return;
 
     if (mFlags.isOff(Flag::_4)) {
-        sead::FormatFixedSafeString<256> message("↓↓↓\nファイル名 : %s\n↑↑↑", unit->getPath().cstr());
+        sead::FormatFixedSafeString<256> message("↓↓↓\nファイル名 : %s\n↑↑↑\n", unit->getPath().cstr());
     }
 
     unit->detachFromHandle_(handle);
