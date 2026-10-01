@@ -14,6 +14,8 @@ void WeaponPrepareSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void WeaponPrepareSelect::calc_() {}
+
 void WeaponPrepareSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
