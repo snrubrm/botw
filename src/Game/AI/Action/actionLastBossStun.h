@@ -24,6 +24,11 @@ protected:
     const float* mAddStunTime_s{};
     // static_param at offset 0x30
     const float* mShockWaveDownTime_s{};
+    int _38 = 0;
+    float _3c = 0.0f;
+    float _40 = 0.0f;
+    int _44 = 0;
+    u8 _48[0x88 - 0x48];
 };
 
 }  // namespace uking::action
