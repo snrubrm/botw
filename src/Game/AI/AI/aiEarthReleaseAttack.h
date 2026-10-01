@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::ai {
@@ -17,6 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(ksys::act::InstParamPack& pack);
     void sub_710037BC08();
 
     void sub_710037BDF0();

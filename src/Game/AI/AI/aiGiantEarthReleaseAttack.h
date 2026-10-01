@@ -10,6 +10,7 @@ class GiantEarthReleaseAttack : public EarthReleaseAttack {
 public:
     explicit GiantEarthReleaseAttack(const InitArg& arg);
     ~GiantEarthReleaseAttack() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

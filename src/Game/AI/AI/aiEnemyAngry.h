@@ -8,6 +8,7 @@ class EnemyAngry : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyAngry, ksys::act::ai::Ai)
 public:
     explicit EnemyAngry(const InitArg& arg);
+    void calc_() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;

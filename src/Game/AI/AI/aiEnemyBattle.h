@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -15,6 +17,17 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34(ksys::act::ai::InlineParamPack* params);
+    virtual ksys::act::BaseProcLink* m35();
+    virtual void m36(sead::Vector3f* pos);
+    virtual void m37();
+    virtual void m38();
+    virtual bool m39();
+    virtual bool m40();
+    virtual bool m41() { return true; }
+    virtual bool m42() { return !m41(); }
+    virtual void m43(ksys::act::ai::InlineParamPack* params) {}
 
 protected:
     // static_param at offset 0x38

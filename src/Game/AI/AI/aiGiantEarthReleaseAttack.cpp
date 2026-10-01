@@ -30,4 +30,13 @@ void GiantEarthReleaseAttack::loadParams_() {
     getAITreeVariable(&mDestinationPos_a, "DestinationPos");
 }
 
+void GiantEarthReleaseAttack::calc_() {
+    if (isCurrentChild("準備")) {
+        if (*mIsArrivedAtDestination_a)
+            sub_710037BDF0();
+    } else {
+        EarthReleaseAttack::calc_();
+    }
+}
+
 }  // namespace uking::ai

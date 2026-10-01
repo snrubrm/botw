@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyBaseArrowAttack.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -27,6 +28,13 @@ void EnemyBaseArrowAttack::loadParams_() {
 
 void EnemyBaseArrowAttack::m36() {
     getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
+void EnemyBaseArrowAttack::m34() {
+    sead::Vector3f pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("リロード", &pack);
 }
 
 }  // namespace uking::ai
