@@ -25,6 +25,7 @@ protected:
     sead::SafeString mJumpLoopAS_s{};
     // static_param at offset 0x48
     sead::SafeString mLandingAS_s{};
+    int _58 = 0;
 };
 
 }  // namespace uking::action
