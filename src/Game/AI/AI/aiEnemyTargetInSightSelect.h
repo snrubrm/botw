@@ -10,7 +10,12 @@ public:
     explicit EnemyTargetInSightSelect(const InitArg& arg);
     ~EnemyTargetInSightSelect() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+    bool isChangeable() const override;
+
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
 
 protected:
