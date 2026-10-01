@@ -14,7 +14,12 @@ void InWaterKeepSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     InWaterSelect::enter_(params);
 }
 
+void InWaterKeepSelect::calc_() {
+    InWaterSelect::calc_();
+}
+
 void InWaterKeepSelect::leave_() {
+    *mIsKeepInWater_a = isCurrentChild("水中");
     InWaterSelect::leave_();
 }
 
