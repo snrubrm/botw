@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponOnetimeUse.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void WeaponOnetimeUse::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WeaponOnetimeUse::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB6D0(mActor, *mWeaponIdx_s);
 }
 
 void WeaponOnetimeUse::loadParams_() {

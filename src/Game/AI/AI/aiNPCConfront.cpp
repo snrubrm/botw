@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCConfront.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void NPCConfront::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCConfront::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005D7518(mActor, true);
 }
 
 void NPCConfront::loadParams_() {
