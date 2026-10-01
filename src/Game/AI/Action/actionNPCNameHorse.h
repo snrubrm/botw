@@ -14,7 +14,8 @@ public:
 
 protected:
     void calc_() override;
-    u16 _1c = 0;
+    bool _1c = false;
+    bool _1d = false;
     int _20 = -1;
 };
 

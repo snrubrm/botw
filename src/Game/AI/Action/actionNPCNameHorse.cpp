@@ -7,7 +7,9 @@ NPCNameHorse::NPCNameHorse(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 NPCNameHorse::~NPCNameHorse() = default;
 
 void NPCNameHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
+    _1d = false;
+    _20 = -1;
 }
 
 void NPCNameHorse::calc_() {
