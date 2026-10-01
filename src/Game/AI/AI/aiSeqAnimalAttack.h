@@ -10,6 +10,8 @@ public:
     explicit SeqAnimalAttack(const InitArg& arg);
     ~SeqAnimalAttack() override;
 
+    bool isFinished() const override;
+
     bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;

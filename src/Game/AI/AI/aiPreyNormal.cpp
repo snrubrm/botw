@@ -40,4 +40,8 @@ void PreyNormal::loadParams_() {
     getMapUnitParam(&mEnableNoEntryAreaCheck_m, "EnableNoEntryAreaCheck");
 }
 
+bool PreyNormal::isChangeable() const {
+    return !isCurrentChild("逃走") && !isCurrentChild("ダメージ逃走") && !isCurrentChild("戦闘");
+}
+
 }  // namespace uking::ai

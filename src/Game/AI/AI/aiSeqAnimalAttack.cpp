@@ -27,4 +27,15 @@ bool SeqAnimalAttack::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
 
+// NON_MATCHING: scheduling of the SafeString argument setup before the shared isCurrentChild call
+bool SeqAnimalAttack::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+    if (!getCurrentChild()->isFinished())
+        return false;
+    if (*mIsUseAfterAttackState_s)
+        return isCurrentChild("攻撃ヒット後") || isCurrentChild("攻撃ハズレ後");
+    return isCurrentChild("攻撃");
+}
+
 }  // namespace uking::ai
