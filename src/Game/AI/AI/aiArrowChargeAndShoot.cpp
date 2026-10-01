@@ -14,6 +14,10 @@ void ArrowChargeAndShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
 }
 
+void ArrowChargeAndShoot::calc_() {
+    SeqTwoAction::calc_();
+}
+
 void ArrowChargeAndShoot::leave_() {
     SeqTwoAction::leave_();
 }
