@@ -1,10 +1,12 @@
 #include "KingSystem/World/worldShootingStarMgr.h"
 #include <container/seadObjArray.h>
+#include <gfx/seadCamera.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcHeapMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::world {
@@ -87,6 +89,25 @@ void ShootingStarMgr::calc_() {
         mInitialised = false;
         mNeedSpawnStar = false;
     }
+}
+
+bool ShootingStarMgr::checkCamera() {
+    act::InstParamPack pack;
+
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (camera) {
+        const sead::Vector3f pos = camera->getPos();
+        sead::Vector3f dir;
+        camera->getLookVectorByMatrix(&dir);
+        dir.normalize();
+
+        const sead::Vector3f star_pos = pos - dir * 1000.0f;
+        if (star_pos.x < -4000.0f || star_pos.x > 4000.0f)
+            return false;
+        if (star_pos.z < -3000.0f || star_pos.z > 3000.0f)
+            return false;
+    }
+    return true;
 }
 
 bool ShootingStarMgr::isScheduledTime() {
