@@ -11,7 +11,7 @@ bool SeqIfElseAction::init_(sead::Heap* heap) {
 }
 
 void SeqIfElseAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("先行動", params);
 }
 
 void SeqIfElseAction::leave_() {
