@@ -17,6 +17,17 @@ public:
 
 protected:
     void calc_() override;
+    float _1c = 0.0f;
+    float _20 = 0.0f;
+    float _24 = -1.0f;
+    void* _28{};
+    void* _30{};
+    void* _38{};
+    void* _40{};
+    void* _48{};
+    float _50 = 0.0f;
+    float _54 = 0.0f;
+    float _58 = 0.0f;
 };
 
 }  // namespace uking::action
