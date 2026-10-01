@@ -9,6 +9,7 @@ class EnemyWaitViewItem : public ksys::act::ai::Ai {
 public:
     explicit EnemyWaitViewItem(const InitArg& arg);
     ~EnemyWaitViewItem() override;
+    void calc_() override;
 
     bool isFailed() const override;
     bool isFinished() const override;

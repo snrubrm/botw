@@ -33,4 +33,21 @@ bool ForkActionAndJoin::isFailed() const {
     return _38 == 1;
 }
 
+void ForkActionAndJoin::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        child->isChangeable();
+        return;
+    }
+
+    if (isCurrentChild("行動")) {
+        _38 = !child->isFinished();
+        changeChild("同期待ち");
+    } else if (_38 != 0) {
+        setFailed();
+    } else {
+        setFinished();
+    }
+}
+
 }  // namespace uking::ai

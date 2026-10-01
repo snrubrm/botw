@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGanonNearAttackOnFloorRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -40,6 +42,20 @@ void GanonNearAttackOnFloorRoot::loadParams_() {
     getDynamicParam(&mIsCounter_d, "IsCounter");
     getDynamicParam(&mIsPrevBeam_d, "IsPrevBeam");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void GanonNearAttackOnFloorRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+
+    child->setDynamicParam(*mTargetPos_d, "TargetPos");
+    if (isCurrentChild("衝撃波")) {
+        if (auto* cc = mActor->getCharacterController())
+            cc->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 }  // namespace uking::ai

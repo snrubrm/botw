@@ -9,6 +9,7 @@ class ForkActionAndJoin : public ksys::act::ai::Ai {
 public:
     explicit ForkActionAndJoin(const InitArg& arg);
     ~ForkActionAndJoin() override;
+    void calc_() override;
     bool isFailed() const override;
     bool isFinished() const override;
 

@@ -9,6 +9,7 @@ class EnemyRoamViewItem : public ksys::act::ai::Ai {
 public:
     explicit EnemyRoamViewItem(const InitArg& arg);
     ~EnemyRoamViewItem() override;
+    void calc_() override;
     bool isFinished() const override;
 
     bool init_(sead::Heap* heap) override;

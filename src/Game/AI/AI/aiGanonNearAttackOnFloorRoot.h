@@ -9,6 +9,7 @@ class GanonNearAttackOnFloorRoot : public ksys::act::ai::Ai {
 public:
     explicit GanonNearAttackOnFloorRoot(const InitArg& arg);
     ~GanonNearAttackOnFloorRoot() override;
+    void calc_() override;
 
     bool isFinished() const override;
     bool isFailed() const override;

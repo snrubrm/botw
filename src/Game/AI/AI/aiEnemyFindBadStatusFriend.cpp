@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyFindBadStatusFriend.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -32,6 +34,16 @@ void EnemyFindBadStatusFriend::leave_() {
 
 void EnemyFindBadStatusFriend::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void EnemyFindBadStatusFriend::sub_710038BFB0() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    ksys::act::ActorConstDataAccess acc;
+    ksys::act::acquireActor(mTargetActor_d, &acc);
+    acc.getActorMtx().getTranslation(pos);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("ビタロック", &pack);
 }
 
 }  // namespace uking::ai

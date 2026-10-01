@@ -10,6 +10,7 @@ class EnemyTimelineAI : public TimelineAI {
 public:
     explicit EnemyTimelineAI(const InitArg& arg);
     ~EnemyTimelineAI() override;
+    void calc_() override;
     bool isFinished() const override;
     bool isFailed() const override;
 

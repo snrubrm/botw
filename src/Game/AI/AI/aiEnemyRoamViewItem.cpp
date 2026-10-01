@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyRoamViewItem.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,17 @@ bool EnemyRoamViewItem::init_(sead::Heap* heap) {
 }
 
 void EnemyRoamViewItem::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsChanged_d) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addActor(*mTargetActor_d, "TargetActor", -1);
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("変化感知", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addActor(*mTargetActor_d, "TargetActor", -1);
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("行動", &pack);
+    }
 }
 
 void EnemyRoamViewItem::leave_() {
@@ -26,6 +37,20 @@ void EnemyRoamViewItem::loadParams_() {
 
 bool EnemyRoamViewItem::isFinished() const {
     return isCurrentChild("行動") && getCurrentChild()->isFinished();
+}
+
+void EnemyRoamViewItem::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("変化感知")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addActor(*mTargetActor_d, "TargetActor", -1);
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("行動", &pack);
+        }
+    } else {
+        child->isChangeable();
+    }
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyWaitViewItem.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -32,6 +33,21 @@ void EnemyWaitViewItem::leave_() {
 
 void EnemyWaitViewItem::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void EnemyWaitViewItem::calc_() {
+    if (!mTargetActor_d->hasProc())
+        setFailed();
+
+    auto* child = getCurrentChild();
+    if (child->isChangeable())
+        sub_71003C3A2C(false);
+
+    ksys::act::ActorConstDataAccess acc;
+    ksys::act::acquireActor(mTargetActor_d, &acc);
+    sead::Vector3f pos;
+    acc.getActorMtx().getTranslation(pos);
+    child->setDynamicParam(pos, "TargetPos");
 }
 
 }  // namespace uking::ai

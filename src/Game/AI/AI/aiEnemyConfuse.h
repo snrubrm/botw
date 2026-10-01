@@ -9,6 +9,7 @@ class EnemyConfuse : public ksys::act::ai::Ai {
 public:
     explicit EnemyConfuse(const InitArg& arg);
     ~EnemyConfuse() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

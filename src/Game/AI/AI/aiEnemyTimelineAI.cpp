@@ -35,4 +35,10 @@ void EnemyTimelineAI::loadParams_() {
     getDynamicParam(&mCentralPos_d, "CentralPos");
 }
 
+void EnemyTimelineAI::calc_() {
+    TimelineAI::calc_();
+    getCurrentChild()->setDynamicParam(*mCentralPos_d, "CentralPos");
+    getCurrentChild()->setDynamicParam(*mCentralPos_d, "TargetPos");
+}
+
 }  // namespace uking::ai
