@@ -16,4 +16,8 @@ void PlayerLand::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLand::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
