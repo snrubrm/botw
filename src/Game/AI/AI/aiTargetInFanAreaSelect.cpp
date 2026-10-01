@@ -14,6 +14,10 @@ void TargetInFanAreaSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetInAreaSelect::enter_(params);
 }
 
+void TargetInFanAreaSelect::calc_() {
+    TargetInAreaSelect::calc_();
+}
+
 void TargetInFanAreaSelect::leave_() {
     TargetInAreaSelect::leave_();
 }
