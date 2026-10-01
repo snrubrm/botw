@@ -27,4 +27,8 @@ void GrabAndShoot::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool GrabAndShoot::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
