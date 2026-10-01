@@ -14,6 +14,11 @@ void StoneBall_BRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void StoneBall_BRoot::calc_() {
+    if (_70 > 0.0f)
+        _70 -= 1.0f;
+}
+
 void StoneBall_BRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }

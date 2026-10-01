@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -22,6 +23,9 @@ protected:
     const float* mBombImpulseAmplifyPower_s{};
     // static_param at offset 0x48
     const float* mDoubleBombImpulseAmplifyPower_s{};
+    // sead::Delegate1<StoneBall_BRoot, ?*> (handler 0x71005a98f4; argument type unknown)
+    u8 _50[0x20];
+    f32 _70{};
 };
 
 }  // namespace uking::ai
