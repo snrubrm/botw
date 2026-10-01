@@ -9920,7 +9920,7 @@ Address,Quality,Size,Name
 0x0000007100172fa8,U,000400,
 0x0000007100173138,U,002076,
 0x0000007100173954,W,000212,_ZN5uking6action27GanonAttackWithEmitChemical6leave_Ev
-0x0000007100173a28,W,000612,_ZN5uking6action27GanonAttackWithEmitChemical11loadParams_Ev
+0x0000007100173a28,O,000612,_ZN5uking6action27GanonAttackWithEmitChemical11loadParams_Ev
 0x0000007100173c8c,U,000032,uking::action::GanonAttackWithEmitChemical::m32
 0x0000007100173cac,U,000012,uking::action::GanonAttackWithEmitChemical::m33
 0x0000007100173cb8,O,000008,_ZNK5uking6action27GanonAttackWithEmitChemical27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
