@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,12 +15,14 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // aitree_variable at offset 0x38
     bool* mIsOpenTreasureBox_a{};
     // aitree_variable at offset 0x40
     sead::SafeString* mDropActorName_a{};
+    Unk_7102450828 _48{0x1800005};
 };
 
 }  // namespace uking::ai
