@@ -6,6 +6,18 @@ EnemyFindBadStatusFriend::EnemyFindBadStatusFriend(const InitArg& arg) : ksys::a
 
 EnemyFindBadStatusFriend::~EnemyFindBadStatusFriend() = default;
 
+bool EnemyFindBadStatusFriend::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool EnemyFindBadStatusFriend::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
+bool EnemyFindBadStatusFriend::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 bool EnemyFindBadStatusFriend::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
