@@ -16,4 +16,8 @@ void PlayerIceBreak::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerIceBreak::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
