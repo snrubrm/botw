@@ -2536,7 +2536,7 @@ Address,Quality,Size,Name
 0x0000007100084550,O,000004,_ZN5uking6action12AirOctaFloat11loadParams_Ev
 0x0000007100084554,U,000120,_ZN5uking6action12AirOctaFloat14handleMessage_ERKN4ksys7MessageE
 0x00000071000845cc,U,002020,
-0x0000007100084db0,U,000696,uking::action::AirOctaFloat::m32
+0x0000007100084db0,U,000696,_ZN5uking6action12AirOctaFloat3m32Ev
 0x0000007100085068,U,000040,uking::action::AirOctaFloat::m33
 0x0000007100085090,U,000096,uking::action::AirOctaFloat::m34
 0x00000071000850f0,O,000008,_ZNK5uking6action12AirOctaFloat27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -2580,7 +2580,7 @@ Address,Quality,Size,Name
 0x00000071000886b8,U,001188,
 0x0000007100088b5c,W,000048,_ZN5uking6action16AirOctaFloatBase6leave_Ev
 0x0000007100088b8c,O,000156,_ZN5uking6action16AirOctaFloatBase11loadParams_Ev
-0x0000007100088c28,U,000384,uking::action::AirOctaFloatBase::m32
+0x0000007100088c28,U,000384,_ZN5uking6action16AirOctaFloatBase3m32Ev
 0x0000007100088da8,U,000144,
 0x0000007100088e38,U,000872,
 0x00000071000891a0,U,000040,uking::action::AirOctaFloatBase::m33
