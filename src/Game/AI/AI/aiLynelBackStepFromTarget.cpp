@@ -14,6 +14,16 @@ void LynelBackStepFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void LynelBackStepFromTarget::calc_() {}
+
+bool LynelBackStepFromTarget::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool LynelBackStepFromTarget::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
 void LynelBackStepFromTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }
