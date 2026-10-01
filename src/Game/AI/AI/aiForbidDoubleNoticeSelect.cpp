@@ -6,6 +6,14 @@ ForbidDoubleNoticeSelect::ForbidDoubleNoticeSelect(const InitArg& arg) : ksys::a
 
 ForbidDoubleNoticeSelect::~ForbidDoubleNoticeSelect() = default;
 
+bool ForbidDoubleNoticeSelect::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool ForbidDoubleNoticeSelect::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 bool ForbidDoubleNoticeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
@@ -13,6 +21,8 @@ bool ForbidDoubleNoticeSelect::init_(sead::Heap* heap) {
 void ForbidDoubleNoticeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
+
+void ForbidDoubleNoticeSelect::calc_() {}
 
 void ForbidDoubleNoticeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
