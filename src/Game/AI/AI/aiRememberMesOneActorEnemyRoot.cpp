@@ -14,6 +14,10 @@ void RememberMesOneActorEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params
     EnemyRoot::enter_(params);
 }
 
+void RememberMesOneActorEnemyRoot::calc_() {
+    EnemyRoot::calc_();
+}
+
 void RememberMesOneActorEnemyRoot::leave_() {
     EnemyRoot::leave_();
 }
