@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -32,6 +33,11 @@ protected:
     int* mMimicryMaterial_a{};
     // aitree_variable at offset 0x78
     bool* mIsStartResetMimicry_a{};
+    s32 _80 = -1;
+    f32 _84 = 0;
+    ksys::Timer _88;
 };
+
+KSYS_CHECK_SIZE_NX150(Mimic, 0x98);
 
 }  // namespace uking::action

@@ -8,6 +8,10 @@ Mimic::~Mimic() = default;
 
 void Mimic::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    *mIsStartResetMimicry_a = false;
+    _80 = 0;
+    playAS(mMimicStartASName_s.cstr(), false, 0, 0, -1.0f);
+    mFlags.reset(Flag::Changeable);
 }
 
 void Mimic::leave_() {
