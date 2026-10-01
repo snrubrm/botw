@@ -26,7 +26,7 @@ public:
     virtual void m35() {}
     virtual bool m36();
     virtual bool m37(f32* x) { return false; }
-    virtual int m38() { return 4; }
+    virtual Flag m38() { return Flag::_4; }
     virtual void m39() {}
     virtual void m40();
 

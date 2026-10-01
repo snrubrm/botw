@@ -16,6 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override {}
+    bool m36() override { return PriestBossPhase::m36(); }
+    Flag m38() override { return Flag::_1; }
+
 protected:
     // static_param at offset 0x80
     const int* mModeChangeLife_s{};

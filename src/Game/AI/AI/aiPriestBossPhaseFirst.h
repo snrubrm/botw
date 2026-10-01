@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    Flag m38() override { return Flag::_0; }
+
 protected:
 };
 
