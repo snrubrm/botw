@@ -11,6 +11,10 @@ void EnemyChaseTargetAndAction::enter_(ksys::act::ai::InlineParamPack* params) {
     UnarmedEnemySearch::enter_(params);
 }
 
+bool EnemyChaseTargetAndAction::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyChaseTargetAndAction::leave_() {
     UnarmedEnemySearch::leave_();
 }
