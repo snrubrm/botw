@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTimeredHorseRideViewWait.h"
+#include "KingSystem/System/Timer.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -10,8 +12,10 @@ bool TimeredHorseRideViewWait::init_(sead::Heap* heap) {
     return HorseRideViewWait::init_(heap);
 }
 
+// NON_MATCHING: the original loads both params before fetching the GlobalRandom instance
 void TimeredHorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRideViewWait::enter_(params);
+    _60 = *mTime_s + s32(sead::GlobalRandom::instance()->getU32(*mTimeRand_s));
 }
 
 void TimeredHorseRideViewWait::leave_() {
@@ -26,6 +30,9 @@ void TimeredHorseRideViewWait::loadParams_() {
 
 void TimeredHorseRideViewWait::calc_() {
     HorseRideViewWait::calc_();
+    ksys::Timer::update(&_60, -1.0f);
+    if (_60 <= 0.0f)
+        setFinished();
 }
 
 }  // namespace uking::action
