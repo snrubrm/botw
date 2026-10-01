@@ -31,6 +31,8 @@ protected:
     const bool* mIsImpulseLarge_s{};
     // static_param at offset 0x68
     const bool* mIsUseAttackParam_s{};
+    // static_param at offset 0x70 ("AtkBodyName%d", 1-3)
+    sead::SafeString mAtkBodyName_s[3]{};
     // static_param at offset 0xa0
     sead::SafeString mChmName1_s{};
 };

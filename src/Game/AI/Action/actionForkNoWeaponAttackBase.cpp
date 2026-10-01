@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkNoWeaponAttackBase.h"
+#include <prim/seadStringBuilder.h>
 
 namespace uking::action {
 
@@ -20,15 +21,18 @@ void ForkNoWeaponAttackBase::leave_() {
     ForkAttackWithWeaponOrWithout::leave_();
 }
 
+// NON_MATCHING: regalloc (&mAttackType_s kept in x20 from before the first call)
 void ForkNoWeaponAttackBase::loadParams_() {
     ForkAttackWithWeaponOrWithout::loadParams_();
     getStaticParam(&mIsImpulseLarge_s, "IsImpulseLarge");
     getStaticParam(&mAttackType_s, "AttackType");
     getStaticParam(&mAttackPowerScale_s, "AttackPowerScale");
     getStaticParam(&mIsUseAttackParam_s, "IsUseAttackParam");
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
-    // FIXME: CALL _ZN4sead17StringBuilderBaseIcE6formatEPKcz @ 0x7100b0d550
+    sead::FixedStringBuilder<64> name;
+    for (int i = 0; i < 3; ++i) {
+        name.format("AtkBodyName%d", i + 1);
+        getStaticParam(&mAtkBodyName_s[i], name.cstr());
+    }
     getStaticParam(&mChmName1_s, "ChmName1");
 }
 
