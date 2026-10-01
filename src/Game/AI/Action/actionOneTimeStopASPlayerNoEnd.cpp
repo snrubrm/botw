@@ -12,6 +12,7 @@ bool OneTimeStopASPlayerNoEnd::init_(sead::Heap* heap) {
 
 void OneTimeStopASPlayerNoEnd::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASPlay::enter_(params);
+    mFlags.reset(Flag::Changeable);
 }
 
 void OneTimeStopASPlayerNoEnd::leave_() {
@@ -24,6 +25,8 @@ void OneTimeStopASPlayerNoEnd::loadParams_() {
 
 void OneTimeStopASPlayerNoEnd::calc_() {
     StopASPlay::calc_();
+    if (isFinishedAS(0, 0))
+        mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
