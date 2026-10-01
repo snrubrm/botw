@@ -213,6 +213,8 @@ bool Actor::m39() {
 
 void Actor::m42() {}
 
+void Actor::m43(bool on) {}
+
 bool Actor::m47() {
     return false;
 }
@@ -274,6 +276,8 @@ bool Actor::m83() {
 s32* Actor::getLife() {
     return nullptr;
 }
+
+void Actor::m93(int a1, float a2) {}
 
 bool Actor::m94() {
     return false;

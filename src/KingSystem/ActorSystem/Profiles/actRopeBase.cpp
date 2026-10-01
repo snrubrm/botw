@@ -1,10 +1,22 @@
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Map/mapTypes.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
 
 RopeBase::~RopeBase() = default;
+
+void RopeBase::m43(bool on) {
+    for (int i = 0; i < _92c; ++i) {
+        if (_860[i])
+            _860[i]->setFixedAndPreserveImpulse(phys::Fixed(on), phys::MarkLinearVelAsDirty(false));
+    }
+    for (int i = 0; i < _92c; ++i) {
+        if (_880[i])
+            _880[i]->setFixedAndPreserveImpulse(phys::Fixed(on), phys::MarkLinearVelAsDirty(false));
+    }
+}
 
 bool RopeBase::shouldUnload() {
     if (!_95a && !mMapObject)
