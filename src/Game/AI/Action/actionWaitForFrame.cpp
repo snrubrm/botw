@@ -11,7 +11,9 @@ bool WaitForFrame::init_(sead::Heap* heap) {
 }
 
 void WaitForFrame::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30 = *mFrame_d;
+    if (*mValidInput_s == 1)
+        _34 = 0xff062ff;
 }
 
 void WaitForFrame::leave_() {
