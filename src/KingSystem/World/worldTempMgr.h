@@ -24,12 +24,15 @@ protected:
     void calc_() override;
     void calcType2_() override;
 
-private:
     f32 calcTemperature();
+
+private:
     f32 sub_71010E58C0();
     void calc2();
     void calc1();
     f32 sub_71010E5F00() const;
+
+    friend class WeatherMgr;
 
     f32 _20;
     VFRValue _24;

@@ -3,8 +3,23 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldTempMgr.h"
 
 namespace ksys::world {
+
+WeatherMgr::~WeatherMgr() = default;
+
+WeatherType WeatherMgr::getWeather() const {
+    return WeatherType(weather);
+}
+
+u8 WeatherMgr::x_6(int idx) const {
+    if (idx <= 5)
+        return _284[idx];
+    return 0;
+}
+
+void WeatherMgr::init_(sead::Heap* heap) {}
 
 void WeatherMgr::onUnload() {}
 
@@ -61,4 +76,130 @@ WeatherType WeatherMgr::rollNewWeather(Climate climate) {
         return weather;
     return WeatherType::Bluesky;
 }
+
+bool WeatherMgr::x_8() const {
+    return _390;
+}
+
+bool WeatherMgr::x_7() {
+    auto* wm = Manager::instance();
+    const f32 temp = wm->getTempMgr()->calcTemperature();
+    const f32 temp2 = wm->getTempMgr()->_60;
+    return temp <= -2.0f || temp2 <= -2.0f;
+}
+
+void WeatherMgr::setWeatherEffect(int effect) {
+    switch (effect) {
+    case 0:
+        _334 = 4;
+        break;
+    case 1:
+        _338 = 4;
+        break;
+    case 2:
+        _344 = 4;
+        break;
+    case 3:
+        _348 = 4;
+        break;
+    case 4:
+        _34c = 4;
+        break;
+    case 5:
+        _340 = 4;
+        break;
+    case 6:
+        _350 = 4;
+        break;
+    }
+}
+
+void WeatherMgr::calcType2_() {}
+
+void WeatherMgr::x_16() {
+    if (_36c != 0)
+        --_36c;
+    if (_370 != 0)
+        --_370;
+    if (_374 != 0)
+        --_374;
+}
+
+void WeatherMgr::x_17() {
+    if (_380 != 0)
+        --_380;
+}
+
+static WeatherType sanitizeWeather(WeatherType weather) {
+    if (u8(weather) >= NumWeatherTypes)
+        return WeatherType::Bluesky;
+    return weather;
+}
+
+WeatherType WeatherMgr::x_1(int climate) const {
+    return sanitizeWeather(_2a[climate][0]);
+}
+
+WeatherType WeatherMgr::x_2(int climate) const {
+    return sanitizeWeather(_2a[climate][1]);
+}
+
+WeatherType WeatherMgr::x_3(int climate) const {
+    return sanitizeWeather(_2a[climate][2]);
+}
+
+WeatherType WeatherMgr::x_4(int climate) const {
+    return sanitizeWeather(_2a[climate][3]);
+}
+
+WeatherType WeatherMgr::x_5(int climate) const {
+    return sanitizeWeather(_2a[climate][4]);
+}
+
+WeatherType WeatherMgr::x_18(int climate) const {
+    return sanitizeWeather(_2a[climate][5]);
+}
+
+void WeatherMgr::x_13() {
+    _370 = 4;
+}
+
+void WeatherMgr::x_14() {
+    _374 = 4;
+}
+
+void WeatherMgr::sub_71010EDEBC(int value) {
+    if (_391 && _320 == 3) {
+        _328 = value;
+        _324 = value;
+    }
+}
+
+int WeatherMgr::x() const {
+    if (!_391)
+        return 0;
+    if (_320 != 3)
+        return 0;
+    return _324;
+}
+
+// NON_MATCHING: the original materializes the false result before the first branch and branches
+// on the last comparison
+bool WeatherMgr::isRaining() {
+    auto* wm = Manager::instance();
+    const f32 temp = wm->getTempMgr()->calcTemperature();
+    if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f)
+        return false;
+    return Manager::instance()->getWeatherMgr()->_2dc > 0.1f;
+}
+
+// NON_MATCHING: same as isRaining
+bool WeatherMgr::isSnowing() {
+    auto* wm = Manager::instance();
+    const f32 temp = wm->getTempMgr()->calcTemperature();
+    if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f)
+        return Manager::instance()->getWeatherMgr()->_2dc > 0.1f;
+    return false;
+}
+
 }  // namespace ksys::world
