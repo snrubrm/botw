@@ -6,6 +6,12 @@ MoveAroundTarget::MoveAroundTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) 
 
 MoveAroundTarget::~MoveAroundTarget() = default;
 
+bool MoveAroundTarget::isChangeable() const {
+    if (!ActionBase::isChangeable())
+        return false;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
 bool MoveAroundTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
