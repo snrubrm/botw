@@ -8,9 +8,7 @@ void PlayerLadderMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerLadderMove::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerLadderMove::leave_() {}
 
 void PlayerLadderMove::loadParams_() {
     getStaticParam(&mDownMoveSpeed_s, "DownMoveSpeed");
