@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,6 +20,10 @@ protected:
 
     // static_param at offset 0x20
     const bool* mIsSuccessWhenGoalReached_s{};
+    sead::Vector3f _28 = sead::Vector3f::zero;
+    f32 _34 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(RandomMoveAction, 0x38);
 
 }  // namespace uking::action
