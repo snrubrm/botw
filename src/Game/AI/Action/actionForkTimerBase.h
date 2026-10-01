@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    virtual int m32();
+    virtual float m33();
+
+    float _30 = 0.0f;
 };
 
 }  // namespace uking::action
