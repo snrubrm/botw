@@ -15,6 +15,10 @@ void HorseRideShooterFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) 
     SimpleShootingEnemyFindPlayer::enter_(params);
 }
 
+void HorseRideShooterFindPlayer::calc_() {
+    SimpleShootingEnemyFindPlayer::calc_();
+}
+
 void HorseRideShooterFindPlayer::leave_() {
     SimpleShootingEnemyFindPlayer::leave_();
 }
