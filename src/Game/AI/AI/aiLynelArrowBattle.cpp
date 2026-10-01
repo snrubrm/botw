@@ -14,6 +14,10 @@ void LynelArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
 }
 
+void LynelArrowBattle::calc_() {
+    EnemyBattle::calc_();
+}
+
 void LynelArrowBattle::leave_() {
     EnemyBattle::leave_();
 }
