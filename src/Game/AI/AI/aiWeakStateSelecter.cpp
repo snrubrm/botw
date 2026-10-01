@@ -30,6 +30,10 @@ void WeakStateSelecter::calc_() {
     }
 }
 
+void WeakStateSelecter::leave_() {
+    ksys::act::ai::Ai::leave_();
+}
+
 void WeakStateSelecter::loadParams_() {
     getStaticParam(&mIsAlwaysUpdate_s, "IsAlwaysUpdate");
     getAITreeVariable(&mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
