@@ -14,6 +14,10 @@ void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool LastBossBeamAttackRoot::isChangeable() const {
+    return *mIsChangeable_s;
+}
+
 void LastBossBeamAttackRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
