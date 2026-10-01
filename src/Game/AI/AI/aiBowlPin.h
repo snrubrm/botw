@@ -18,6 +18,7 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mDegree_s{};
+    bool _40{};
 };
 
 }  // namespace uking::ai
