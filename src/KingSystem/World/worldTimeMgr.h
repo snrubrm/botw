@@ -86,6 +86,7 @@ public:
     int getHour() const;
     int getMinute() const;
     MoonType getMoonType() const;
+    void setMoonType(MoonType type) { mMoonType = type; }
     bool willBloodMoonHappenTonight() const;
     float getTemperatureMultiplier() const;
     bool isTimeFlowingNormally() const;

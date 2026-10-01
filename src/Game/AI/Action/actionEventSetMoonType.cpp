@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventSetMoonType.h"
+#include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ bool EventSetMoonType::init_(sead::Heap* heap) {
 }
 
 void EventSetMoonType::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::world::Manager::instance()->getTimeMgr()->setMoonType(
+        static_cast<ksys::world::MoonType>(*mMoonType_d));
 }
 
 void EventSetMoonType::leave_() {
