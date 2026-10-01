@@ -1,7 +1,9 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadFreeList.h>
 #include <container/seadObjArray.h>
+#include <math/seadVector.h>
 #include <limits>
 #include <thread/seadReadWriteLock.h>
 
@@ -26,10 +28,13 @@ public:
     PlacementTree();
     ~PlacementTree();
 
+    void resetPlacementObjPtrs();
+    u32 x_1(const sead::Vector3f& pos, int level) const;
+    int sub_71011ED960(f32 distance) const;
+
     sead::Buffer<TreeObject> mBuffer{};
     sead::Buffer<u32*> mObjects{};
-    void* _20{};
-    Object** _28{};
+    sead::FreeList mFreeList;
     u32 _30{};
     f32 _34 = F32Limits::max();
     f32 _38 = F32Limits::max();

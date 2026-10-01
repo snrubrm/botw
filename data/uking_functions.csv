@@ -93024,9 +93024,9 @@ Address,Quality,Size,Name
 0x00000071011ed3ec,O,000060,_ZN4ksys3map13PlacementTreeC1Ev
 0x00000071011ed428,O,000084,_ZN4ksys3map13PlacementTreeD1Ev
 0x00000071011ed47c,U,000940,PlacementTree::x
-0x00000071011ed828,U,000160,PlacementTree::resetPlacementObjPtrs
-0x00000071011ed8c8,U,000152,PlacementTree::x_1
-0x00000071011ed960,U,000140,
+0x00000071011ed828,O,000160,_ZN4ksys3map13PlacementTree21resetPlacementObjPtrsEv
+0x00000071011ed8c8,O,000152,_ZNK4ksys3map13PlacementTree3x_1ERKN4sead7Vector3IfEEi
+0x00000071011ed960,O,000140,_ZNK4ksys3map13PlacementTree14sub_71011ED960Ef
 0x00000071011ed9ec,U,000396,PlacementTree::calledForPlaceActor1
 0x00000071011edb78,U,000448,PlacementTree::checkSpawnStuff_x
 0x00000071011edd38,U,000096,
