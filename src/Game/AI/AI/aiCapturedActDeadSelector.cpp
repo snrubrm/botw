@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCapturedActDeadSelector.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -11,8 +13,18 @@ bool CapturedActDeadSelector::init_(sead::Heap* heap) {
 }
 
 void CapturedActDeadSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const s32* life = mActor->getLife();
+    if (life && *life <= 0)
+        changeChild("通常");
+    else if (*mIsDrop_a)
+        changeChild("ドロップ");
+    else if (*mIsPlayerPut_m)
+        changeChild("手置き");
+    else
+        changeChild("通常");
 }
+
+void CapturedActDeadSelector::calc_() {}
 
 void CapturedActDeadSelector::leave_() {
     ksys::act::ai::Ai::leave_();
@@ -20,8 +32,7 @@ void CapturedActDeadSelector::leave_() {
 
 void CapturedActDeadSelector::loadParams_() {
     getMapUnitParam(&mIsPlayerPut_m, "IsPlayerPut");
-    // FIXME: CALL _ZNK4ksys3act2ai6RootAi18getAITreeVariable2EPPbRKN4sead14SafeStringBaseIcEE @
-    // 0x7100d66968
+    mActor->getRootAi()->getAITreeVariable2(&mIsDrop_a, "IsDrop");
 }
 
 }  // namespace uking::ai
