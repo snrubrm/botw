@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiZoraHeroSoulGiftRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,23 @@ void ZoraHeroSoulGiftRoot::leave_() {
 
 void ZoraHeroSoulGiftRoot::loadParams_() {
     HeroSoulGiftRoot::loadParams_();
+}
+
+void ZoraHeroSoulGiftRoot::calc_() {
+    HeroSoulGiftRoot::calc_();
+    if (_8c != 0) {
+        --_8c;
+        if (_8c == 1)
+            _89 = true;
+    }
+}
+
+bool ZoraHeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x800007b) {
+        _89 = true;
+        return true;
+    }
+    return HeroSoulGiftRoot::handleMessage_(message);
 }
 
 }  // namespace uking::ai
