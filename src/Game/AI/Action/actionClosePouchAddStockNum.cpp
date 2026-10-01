@@ -11,7 +11,7 @@ bool ClosePouchAddStockNum::init_(sead::Heap* heap) {
 }
 
 void ClosePouchAddStockNum::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void ClosePouchAddStockNum::leave_() {
