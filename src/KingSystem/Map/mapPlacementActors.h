@@ -8,6 +8,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadReadWriteLock.h>
 #include "KingSystem/Map/mapPlacementMap.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::map {
@@ -15,6 +16,7 @@ namespace ksys::map {
 class Object;
 class PlacementMap;
 class PlacementAreaMgr;
+class PlacementTree;
 
 // TODO: rename
 enum class ActorFlag8 {
@@ -103,7 +105,9 @@ public:
     u8 _9;
     u8 _a;
     u8 _b;
-    u8 TEMP[0x13C];
+    u8 _c[0x88 - 0xc];
+    res::Handle mRes;
+    u8 _d8[0x148 - 0xd8];
     sead::FixedSafeString<64> mActorName;
 };
 KSYS_CHECK_SIZE_NX150(ActorData, 0x1A0);
@@ -122,6 +126,10 @@ public:
     int allocGroupForDynamicMap(PlacementMap* pmap);
     // 0x0000007101256ee8
     void resetGroup(int group_idx);
+    // 0x0000007101256cc4
+    void freeObjects();
+    // 0x0000007101256f04
+    void x_0(PlacementTree* tree);
 
     void* _0;
     sead::SafeArray<Group, 10> mGroups;
@@ -148,13 +156,26 @@ public:
     // 0x0000007100d58218
     void setNumInUseForStaticGroup(int num);
     u32 allocGroupForDynamicMap(PlacementMap* pmap);
+    void removeInnerData1();
+    void clearActorDataAndObjects();
+    bool checkResLoadStartedAndFailed();
+    void freeObjects();
+    void reinitActorDataEntryForTreeBuild();
+    u32 getStaticNumInUse() const;
+    void rebuildTree(PlacementTree* tree);
+    int getNumGroups() const;
+    // 0x0000007100d522bc
+    void deleteActorData(ActorData* data);
+    // 0x0000007100d53d18
+    void initActorDataEntry(ActorData* data, const char* name);
 
     u8 _8[0x28 - 0x8];
     sead::ReadWriteLock mLock;
     PlacementAreaMgr* mStruct1;
-    u8 _e8[0xf0 - 0xe8];
+    u32 _e8;
     PlacementObjs* mObjs;
-    u8 _f8[0x538 - 0xf8];
+    sead::SafeArray<u32, 256> _f8;
+    u8 _4f8[0x538 - 0x4f8];
     sead::SafeArray<ActorData, 6000> mActorData;
     u8 _261b38[0x2a8058 - 0x261b38];
     u32 mActorDataMapSize;
