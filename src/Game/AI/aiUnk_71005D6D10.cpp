@@ -1,6 +1,8 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -145,6 +147,30 @@ void sub_71005D9974(ksys::act::Actor* actor, u32 mask, bool set) {
         else
             flags &= ~mask;
     }
+}
+
+bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
+                             uking::dmg::DamageCallback* callback) {
+    auto* damage_mgr = actor->getDamageMgr();
+    if (!damage_mgr)
+        return false;
+    if (damage_mgr == callback->mDamageManager)
+        return true;
+    auto* mgr = sead::DynamicCast<uking::dmg::DamageManager>(damage_mgr);
+    if (!mgr)
+        return false;
+    mgr->addDamageCallback(timing, callback);
+    return true;
+}
+
+bool sub_71005DA114(ksys::act::Actor* actor, uking::dmg::DamageCallback* callback) {
+    if (!callback->mDamageManager)
+        return false;
+    auto* damage_mgr = actor->getDamageMgr();
+    if (!damage_mgr)
+        return false;
+    damage_mgr->removeDamageCallback(callback);
+    return true;
 }
 
 bool sub_71005DAFB0(ksys::act::Actor* actor) {

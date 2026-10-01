@@ -19,7 +19,10 @@ namespace uking::dmg {
 class DamageCallback;
 
 // FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
+// The RTTI root of the damage managers: the original vtables start with checkDerivedRuntimeTypeInfo /
+// getRuntimeTypeInfo (slots 0-1), followed by the destructors (slots 2-3). RTTI static 0x71025ae5c0.
 class DamageManagerBase_UnknownBase1 {
+    SEAD_RTTI_BASE(DamageManagerBase_UnknownBase1)
 public:
     explicit DamageManagerBase_UnknownBase1(ksys::act::Actor* WeaponActor);
     virtual ~DamageManagerBase_UnknownBase1() = default;
@@ -50,8 +53,8 @@ public:
     explicit DamageManagerBase(ksys::act::Actor* actor);
     ~DamageManagerBase() override = default;
 
-    SEAD_RTTI_BASE(DamageManagerBase)
-
+    SEAD_RTTI_OVERRIDE(DamageManagerBase, DamageManagerBase_UnknownBase1)
+public:
     virtual u32 getDamage();
     virtual s32 getField48() { return mField_48; }
     virtual s32 getMinDmg() { return mMinDmg; }
