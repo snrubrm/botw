@@ -14,6 +14,10 @@ void TargetLastDamagedPos::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetPosAI::enter_(params);
 }
 
+void TargetLastDamagedPos::calc_() {
+    TargetPosAI::calc_();
+}
+
 void TargetLastDamagedPos::leave_() {
     TargetPosAI::leave_();
 }
