@@ -11,7 +11,8 @@ bool SetChemicalWeaponPower::init_(sead::Heap* heap) {
 }
 
 void SetChemicalWeaponPower::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = -1;
+    mFlags.set(Flag::Changeable);
 }
 
 void SetChemicalWeaponPower::leave_() {
