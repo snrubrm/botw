@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBalloonBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ BalloonBase::BalloonBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 BalloonBase::~BalloonBase() = default;
 
 bool BalloonBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _a4 = mActor->getMtx().m[1][3];
+    return true;
 }
 
 void BalloonBase::enter_(ksys::act::ai::InlineParamPack* params) {

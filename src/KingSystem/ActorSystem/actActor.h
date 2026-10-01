@@ -206,6 +206,7 @@ public:
 
     phys::CharacterController* getCharacterController();
     phys::InstanceSet* getPhysics() const { return mPhysics; }
+    phys::StaticCompoundRigidBodyGroup* getFieldBodyGroup() const { return mFieldBodyGroup; }
 
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool shouldUnloadBecauseOfDistance();

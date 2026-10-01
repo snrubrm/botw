@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCSaleAppReception.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::action {
 
@@ -7,11 +8,14 @@ NPCSaleAppReception::NPCSaleAppReception(const InitArg& arg) : ksys::act::ai::Ac
 NPCSaleAppReception::~NPCSaleAppReception() = default;
 
 bool NPCSaleAppReception::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _20 = heap;
+    return true;
 }
 
 void NPCSaleAppReception::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* gdm = ksys::gdt::Manager::instance())
+        gdm->setBool(false, "Shop_IsDecide");
+    _28 = 0;
 }
 
 void NPCSaleAppReception::calc_() {

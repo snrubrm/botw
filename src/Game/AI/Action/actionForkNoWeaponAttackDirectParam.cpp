@@ -30,4 +30,22 @@ void ForkNoWeaponAttackDirectParam::calc_() {
     ForkNoWeaponAttack::calc_();
 }
 
+int ForkNoWeaponAttackDirectParam::m32() {
+    if (*mImpulse_s >= 0)
+        return *mImpulse_s;
+    return ForkNoWeaponAttackBase::m32();
+}
+
+int ForkNoWeaponAttackDirectParam::m33() {
+    if (*mAttackPower_s >= 0)
+        return *mAttackPower_s * *mAttackPowerScale_s;
+    return ForkNoWeaponAttackBase::m33();
+}
+
+int ForkNoWeaponAttackDirectParam::m34() {
+    if (*mGuardBreakPower_s >= 0)
+        return *mGuardBreakPower_s;
+    return ForkNoWeaponAttackBase::m34();
+}
+
 }  // namespace uking::action

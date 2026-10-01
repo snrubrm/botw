@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWillBallParabolaAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void WillBallParabolaAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WillBallParabolaAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(_48);
 }
 
 void WillBallParabolaAttack::loadParams_() {

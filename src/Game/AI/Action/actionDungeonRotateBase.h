@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::phys {
+class StaticCompoundRigidBodyGroup;
+}
+
 namespace uking::action {
 
 class DungeonRotateBase : public ksys::act::ai::Action {
@@ -15,11 +19,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m9() override;
 
 protected:
     void calc_() override;
     virtual float m32();
     virtual void m33();
+    virtual void m34(f32 x);
 
     // static_param at offset 0x20
     const int* mRotateAxisIndex_s{};
@@ -42,11 +48,12 @@ protected:
     // map_unit_param at offset 0x68
     const float* mAngleVelocityControlAccelDeg_m{};
     sead::Vector3f _70 = sead::Vector3f::ey;
-    f32 _7c = 0;
+    int _7c = 0;
     f32 _80 = 0;
-    sead::Vector3f _84{0, 0, 0};
-    f32 _90 = 0;
-    u32 _94 = 0;
+    f32 _84 = 0;
+    f32 _88 = 0;
+    f32 _8c = 0;
+    ksys::phys::StaticCompoundRigidBodyGroup* _90 = nullptr;
     s32 _98 = -1;
     u32 _9c;
     void* _a0 = nullptr;

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHornUseBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -30,6 +31,10 @@ void HornUseBase::calc_() {
 
 bool HornUseBase::hasPreDeleteCb() {
     return true;
+}
+
+void HornUseBase::onPreDelete() {
+    mActor->emitBasicSigOff();
 }
 
 }  // namespace uking::action

@@ -16,6 +16,7 @@ void AnimalPlayASAndKeepOnGround::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void AnimalPlayASAndKeepOnGround::leave_() {
+    *mIsChangeableStateFreeFall_a = true;
     PlayASForAnimalUnit::leave_();
 }
 

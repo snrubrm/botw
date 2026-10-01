@@ -11,7 +11,7 @@ bool ForkASTrgShootArrow::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgShootArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _70 = false;
 }
 
 void ForkASTrgShootArrow::leave_() {

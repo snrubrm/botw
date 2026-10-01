@@ -35,4 +35,8 @@ void DungeonRotate2Target::calc_() {
     DungeonRotateBase::calc_();
 }
 
+void DungeonRotate2Target::m33() {
+    _84 = 0;
+}
+
 }  // namespace uking::action

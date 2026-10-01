@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    void m33(sead::Vector3f* up) override;
+    void m34(sead::Vector3f* front) override;
+    void m35(sead::Vector3f* dir) override;
 
     // static_param at offset 0x90
     sead::SafeString mASName_s{};

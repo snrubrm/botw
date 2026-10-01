@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOnCliffTurn.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,18 @@ void OnCliffTurn::loadParams_() {
 
 void OnCliffTurn::calc_() {
     TurnBase::calc_();
+}
+
+void OnCliffTurn::m33(sead::Vector3f* up) {
+    mActor->getMtx().getBase(*up, 1);
+}
+
+void OnCliffTurn::m34(sead::Vector3f* front) {
+    mActor->getMtx().getBase(*front, 2);
+}
+
+void OnCliffTurn::m35(sead::Vector3f* dir) {
+    dir->normalize();
 }
 
 }  // namespace uking::action

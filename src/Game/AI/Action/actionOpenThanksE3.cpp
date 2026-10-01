@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenThanksE3.h"
+#include "Game/E3Mgr.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void OpenThanksE3::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OpenThanksE3::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* mgr = E3Mgr::instance())
+        mgr->_auto3();
 }
 
 void OpenThanksE3::loadParams_() {}

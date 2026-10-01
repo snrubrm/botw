@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMoveMainRidigBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void MoveMainRidigBody::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MoveMainRidigBody::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->clearFlag2000000(_60);
 }
 
 void MoveMainRidigBody::loadParams_() {
@@ -31,6 +34,13 @@ void MoveMainRidigBody::loadParams_() {
 
 void MoveMainRidigBody::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool MoveMainRidigBody::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    const sead::Vector3f target = *mTargetPos_d + *mTargetPosOffset_s;
+    return (mActor->getMtx().getTranslation() - target).length() < *mFinLength_s;
 }
 
 }  // namespace uking::action

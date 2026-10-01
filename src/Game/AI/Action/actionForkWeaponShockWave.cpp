@@ -7,7 +7,8 @@ ForkWeaponShockWave::ForkWeaponShockWave(const InitArg& arg) : ksys::act::ai::Ac
 ForkWeaponShockWave::~ForkWeaponShockWave() = default;
 
 void ForkWeaponShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _48 = false;
 }
 
 void ForkWeaponShockWave::loadParams_() {

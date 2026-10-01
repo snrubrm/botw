@@ -18,6 +18,11 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(int weapon_idx, const sead::SafeString& name, bool x, f32 y);
+    virtual void m33();
+    virtual bool m34(sead::SafeString* name);
+    virtual bool m35();
+    virtual int m36();
 
     // static_param at offset 0x50
     const int* mSeqBank_s{};

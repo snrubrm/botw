@@ -8,7 +8,8 @@ OneTimeEffectLocaterAction::OneTimeEffectLocaterAction(const InitArg& arg)
 OneTimeEffectLocaterAction::~OneTimeEffectLocaterAction() = default;
 
 bool OneTimeEffectLocaterAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _1c = false;
+    return true;
 }
 
 void OneTimeEffectLocaterAction::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -11,7 +11,9 @@ bool PlayerCalmHorseDown::init_(sead::Heap* heap) {
 }
 
 void PlayerCalmHorseDown::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _38 = 0.0f;
+    _3c = 0;
+    mFlags.reset(Flag::Changeable);
 }
 
 void PlayerCalmHorseDown::leave_() {

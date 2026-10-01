@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    float m32() override;
+    void m33() override;
 
     // static_param at offset 0xc8
     const bool* mIsSlowDown_s{};

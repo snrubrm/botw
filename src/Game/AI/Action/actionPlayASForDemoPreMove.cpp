@@ -14,6 +14,10 @@ void PlayASForDemoPreMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForDemo::enter_(params);
 }
 
+bool PlayASForDemoPreMove::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    return true;
+}
+
 void PlayASForDemoPreMove::leave_() {
     PlayASForDemo::leave_();
 }

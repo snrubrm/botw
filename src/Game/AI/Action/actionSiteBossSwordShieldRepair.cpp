@@ -7,7 +7,8 @@ SiteBossSwordShieldRepair::SiteBossSwordShieldRepair(const InitArg& arg) : Oneti
 SiteBossSwordShieldRepair::~SiteBossSwordShieldRepair() = default;
 
 bool SiteBossSwordShieldRepair::init_(sead::Heap* heap) {
-    return OnetimeStopASPlay::init_(heap);
+    _4c = 0;
+    return true;
 }
 
 void SiteBossSwordShieldRepair::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -23,6 +24,10 @@ void SiteBossSwordShieldRepair::loadParams_() {
 }
 
 void SiteBossSwordShieldRepair::calc_() {
+    if (_48) {
+        setFinished();
+        return;
+    }
     OnetimeStopASPlay::calc_();
 }
 

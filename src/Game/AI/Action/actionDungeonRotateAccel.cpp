@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDungeonRotateAccel.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -27,6 +28,20 @@ void DungeonRotateAccel::loadParams_() {
 
 void DungeonRotateAccel::calc_() {
     DungeonRotateBase::calc_();
+}
+
+void DungeonRotateAccel::m33() {
+    _84 = *mDynCurrentAngVel_d;
+}
+
+float DungeonRotateAccel::m32() {
+    f32 speed;
+    if (*mIsSlowDown_s)
+        speed = 0.0f;
+    else
+        speed = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
+    _88 = speed;
+    return speed;
 }
 
 }  // namespace uking::action

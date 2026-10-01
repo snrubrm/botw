@@ -26,6 +26,18 @@ void WizzrobeTurn::loadParams_() {
 
 void WizzrobeTurn::calc_() {
     HoverTurn::calc_();
+    if (*mSucEndWithASFinish_s && isFinishedAS(0, 0))
+        setFinished();
+}
+
+bool WizzrobeTurn::isFinished() const {
+    return HoverTurn::isFinished() || m36();
+}
+
+bool WizzrobeTurn::m36() const {
+    if (*mIsWaitASFinish_s)
+        return isFinishedAS(0, 0);
+    return true;
 }
 
 }  // namespace uking::action

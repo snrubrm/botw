@@ -15,9 +15,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
+    bool m36() const override;
 
     // static_param at offset 0xb0
     const bool* mIsWaitASFinish_s{};

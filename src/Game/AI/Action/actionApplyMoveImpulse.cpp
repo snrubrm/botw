@@ -11,7 +11,8 @@ bool ApplyMoveImpulse::init_(sead::Heap* heap) {
 }
 
 void ApplyMoveImpulse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30 = 0;
+    mFlags.set(Flag::Changeable);
 }
 
 void ApplyMoveImpulse::leave_() {

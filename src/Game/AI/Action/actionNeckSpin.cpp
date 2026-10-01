@@ -25,7 +25,13 @@ void NeckSpin::loadParams_() {
 }
 
 void NeckSpin::calc_() {
+    _58.updateStats();
+    m33();
     StopASPlay::calc_();
+}
+
+float NeckSpin::m32() {
+    return _58.mean;
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkSimpleGrabBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +12,12 @@ bool ForkSimpleGrabBase::init_(sead::Heap* heap) {
 }
 
 void ForkSimpleGrabBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30 = false;
 }
 
 void ForkSimpleGrabBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!_30)
+        mActor->resetConnectedCalcChild(true);
 }
 
 void ForkSimpleGrabBase::loadParams_() {

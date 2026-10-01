@@ -15,7 +15,7 @@ public:
 
 protected:
     void calc_() override;
-    void* _20{};
+    sead::Heap* _20{};
     int _28 = 0;
 };
 

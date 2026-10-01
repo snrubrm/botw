@@ -45,4 +45,10 @@ void SiteBossShootNormalArrow::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossShootNormalArrow::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    return isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action

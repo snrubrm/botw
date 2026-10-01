@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWillBallAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void WillBallAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WillBallAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(_88);
 }
 
 void WillBallAction::loadParams_() {

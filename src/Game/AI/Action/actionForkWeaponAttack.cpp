@@ -11,4 +11,8 @@ void ForkWeaponAttack::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
 }
 
+int ForkWeaponAttack::m36() {
+    return *mWeaponIdx_s;
+}
+
 }  // namespace uking::action

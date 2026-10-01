@@ -30,4 +30,16 @@ void DynamicAttackPowerExplode::calc_() {
     AttackPowerExplode::calc_();
 }
 
+int DynamicAttackPowerExplode::m35() {
+    return *mAttackPower_s;
+}
+
+int DynamicAttackPowerExplode::m36() {
+    return *mMinDamage_s;
+}
+
+int DynamicAttackPowerExplode::m37() {
+    return *mPlayerDamage_s;
+}
+
 }  // namespace uking::action
