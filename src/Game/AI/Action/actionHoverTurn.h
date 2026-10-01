@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionTurnBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -23,6 +24,9 @@ protected:
     const bool* mIsIgnoreSameAS_s{};
     // static_param at offset 0x98
     sead::SafeString mASKeyName_s{};
+    ksys::act::CCAccessor mCCAccessor;
 };
+
+KSYS_CHECK_SIZE_NX150(HoverTurn, 0xb0);
 
 }  // namespace uking::action
