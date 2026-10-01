@@ -26,4 +26,8 @@ void AnimalNoCheckMove::calc_() {
     AnimalMove::calc_();
 }
 
+bool AnimalNoCheckMove::m34(const sead::Vector3f& pos, float x) {
+    return true;
+}
+
 }  // namespace uking::action

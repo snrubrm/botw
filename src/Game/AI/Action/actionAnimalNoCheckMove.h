@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m34(const sead::Vector3f& pos, float x) override;
 };
 
 }  // namespace uking::action
