@@ -20,4 +20,8 @@ void GetItemIntoBag::calc_() {
     GetItem::calc_();
 }
 
+void GetItemIntoBag::m32() {
+    GetItem::m32();
+}
+
 }  // namespace uking::action
