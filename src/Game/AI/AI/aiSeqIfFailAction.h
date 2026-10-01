@@ -10,8 +10,13 @@ public:
     explicit SeqIfFailAction(const InitArg& arg);
     ~SeqIfFailAction() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override { return getCurrentChild()->isFinished(); }
+    bool isChangeable() const override;
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
