@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include <math/seadVector.h>
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -43,6 +45,12 @@ protected:
     const bool* mIsChangeable_s{};
     // static_param at offset 0x78
     const bool* mIsUpFollow_s{};
+    ksys::VFRValue _80;
+    // unknown object (0x24 bytes; same type as TurnBase::_6c, methods 0x7100741034...)
+    u8 _8c[0xb0 - 0x8c];
+    sead::Vector3f _b0;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkTurn, 0xc0);
 
 }  // namespace uking::action
