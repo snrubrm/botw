@@ -11,7 +11,24 @@ bool PartsSleepSelect::init_(sead::Heap* heap) {
 }
 
 void PartsSleepSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71004F50A0())
+        changeChild("寝てる", params);
+    else
+        changeChild("起きてる", params);
+}
+
+void PartsSleepSelect::calc_() {
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    const bool is_on = isCurrentChild("寝てる");
+    const bool should_be_on = sub_71004F50A0();
+    if (is_on) {
+        if (!should_be_on)
+            changeChild("起きてる");
+    } else if (should_be_on) {
+        changeChild("寝てる");
+    }
 }
 
 void PartsSleepSelect::leave_() {
