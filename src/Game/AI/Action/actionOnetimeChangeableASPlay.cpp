@@ -26,4 +26,8 @@ void OnetimeChangeableASPlay::calc_() {
     OnetimeStopASPlay::calc_();
 }
 
+bool OnetimeChangeableASPlay::isChangeable() const {
+    return true;
+}
+
 }  // namespace uking::action
