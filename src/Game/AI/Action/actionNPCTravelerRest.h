@@ -19,6 +19,8 @@ protected:
 
     // dynamic_param at offset 0x20
     bool* mIsWarpHorse_d{};
+    u16 _28 = 0;
+    u8 _2a[0x60 - 0x2a];
 };
 
 }  // namespace uking::action
