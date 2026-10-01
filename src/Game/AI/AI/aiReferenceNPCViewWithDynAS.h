@@ -10,6 +10,8 @@ public:
     explicit ReferenceNPCViewWithDynAS(const InitArg& arg);
     ~ReferenceNPCViewWithDynAS() override;
 
+    bool isFailed() const override { return getCurrentChild()->isFailed(); }
+
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
