@@ -12,6 +12,7 @@ bool SubAnmKnockBackShock::init_(sead::Heap* heap) {
 
 void SubAnmKnockBackShock::enter_(ksys::act::ai::InlineParamPack* params) {
     AnmKnockBackShock::enter_(params);
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void SubAnmKnockBackShock::leave_() {
