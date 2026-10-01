@@ -17,6 +17,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
+    void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
+             ksys::act::ai::InlineParamPack* params) override;
+    void m42(ksys::act::ai::InlineParamPack* params) override;
+
 protected:
     // aitree_variable at offset 0x68
     void* mAirOctaDataMgr_a{};
