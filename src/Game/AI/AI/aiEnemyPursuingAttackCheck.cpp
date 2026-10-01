@@ -10,6 +10,10 @@ void EnemyPursuingAttackCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+bool EnemyPursuingAttackCheck::isChangeable() const {
+    return getCurrentChild()->isChangeable();
+}
+
 void EnemyPursuingAttackCheck::leave_() {
     ksys::act::ai::Ai::leave_();
 }

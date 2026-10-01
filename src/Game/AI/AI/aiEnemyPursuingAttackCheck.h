@@ -9,6 +9,7 @@ class EnemyPursuingAttackCheck : public ksys::act::ai::Ai {
 public:
     explicit EnemyPursuingAttackCheck(const InitArg& arg);
     ~EnemyPursuingAttackCheck() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
