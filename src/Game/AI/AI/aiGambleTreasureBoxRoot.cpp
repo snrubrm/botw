@@ -7,7 +7,8 @@ GambleTreasureBoxRoot::GambleTreasureBoxRoot(const InitArg& arg) : ksys::act::ai
 GambleTreasureBoxRoot::~GambleTreasureBoxRoot() = default;
 
 bool GambleTreasureBoxRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    *mIsOpenTreasureBox_a = false;
+    return true;
 }
 
 void GambleTreasureBoxRoot::enter_(ksys::act::ai::InlineParamPack* params) {
