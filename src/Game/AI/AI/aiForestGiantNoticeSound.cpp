@@ -14,6 +14,10 @@ void ForestGiantNoticeSound::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNoticeSound::enter_(params);
 }
 
+void ForestGiantNoticeSound::calc_() {
+    EnemyNoticeSound::calc_();
+}
+
 void ForestGiantNoticeSound::leave_() {
     EnemyNoticeSound::leave_();
 }
