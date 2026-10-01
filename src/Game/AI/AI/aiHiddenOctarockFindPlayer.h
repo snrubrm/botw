@@ -29,6 +29,12 @@ protected:
     const float* mLostDistOffset_s{};
     // static_param at offset 0x60
     const float* mNoticeDelayTime_s{};
+    f32 _68{};
+    int _6c{};
+    int _70{};
+    f32 _74{};
+    int _78{};
+    int _7c{};
 };
 
 }  // namespace uking::ai

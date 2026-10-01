@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,9 @@ protected:
     const bool* mIsInterpolateYUp_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    int _68 = 3;
+    sead::Vector3f _6c;
+    ksys::Timer _78;
 };
 
 }  // namespace uking::ai

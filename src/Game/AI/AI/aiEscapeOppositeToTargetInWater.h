@@ -26,6 +26,8 @@ protected:
     const float* mDivePercent_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _60{0, 0, 0};
+    sead::Vector3f _6c{0, 0, 0};
 };
 
 }  // namespace uking::ai

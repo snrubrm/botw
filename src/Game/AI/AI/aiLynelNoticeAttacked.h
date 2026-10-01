@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x58
     int* mLynelNoticeAttackRepeatNum_a{};
+    sead::Vector3f _60{0, 0, 0};
+    ksys::Timer _6c;
 };
 
 }  // namespace uking::ai
