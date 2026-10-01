@@ -8,9 +8,7 @@ void PlayerSleep::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-void PlayerSleep::leave_() {
-    PlayerAction::leave_();
-}
+void PlayerSleep::leave_() {}
 
 void PlayerSleep::calc_() {
     PlayerAction::calc_();
