@@ -26,4 +26,8 @@ void AscendingCurrent::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool AscendingCurrent::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
 }  // namespace uking::action
