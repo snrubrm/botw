@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -43,6 +45,11 @@ protected:
     sead::SafeString mShockWaveActorName_s{};
     // static_param at offset 0x80
     sead::SafeString mShockWavePartsKey_s{};
+    bool _90 = false;
+    ksys::act::BaseProcLink _98;
+    ksys::Timer _a8;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkASTrgEmitShockWave, 0xb8);
 
 }  // namespace uking::action
