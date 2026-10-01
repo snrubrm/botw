@@ -24,6 +24,9 @@ protected:
     const float* mBackCliffCheckLength_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    f32 _58{};
+    int _5c{};
+    int _60{};
 };
 
 }  // namespace uking::ai

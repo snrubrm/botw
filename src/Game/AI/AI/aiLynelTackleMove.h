@@ -28,6 +28,7 @@ protected:
     const float* mCloseEndDist_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _58{0, 0, 0};
 };
 
 }  // namespace uking::ai

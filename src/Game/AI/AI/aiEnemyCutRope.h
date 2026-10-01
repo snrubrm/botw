@@ -26,6 +26,8 @@ protected:
     const bool* mCutFlyAttack_s{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
+    void* _60{};
+    int _68 = 3;
 };
 
 }  // namespace uking::ai

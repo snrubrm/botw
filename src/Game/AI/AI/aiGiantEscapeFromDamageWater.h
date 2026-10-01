@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    sead::Vector3f _38{0, 0, 0};
 };
 
 }  // namespace uking::ai

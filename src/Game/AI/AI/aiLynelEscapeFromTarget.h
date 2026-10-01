@@ -26,6 +26,9 @@ protected:
     const float* mMoveDistMin_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    f32 _60{};
+    int _64{};
+    int _68{};
 };
 
 }  // namespace uking::ai

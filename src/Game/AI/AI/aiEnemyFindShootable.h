@@ -27,6 +27,8 @@ protected:
     const float* mChaseItemDist_s{};
     // static_param at offset 0x60
     const float* mChaseItemSpeed_s{};
+    sead::Vector3f _68;
+    bool _74{};
 };
 
 }  // namespace uking::ai
