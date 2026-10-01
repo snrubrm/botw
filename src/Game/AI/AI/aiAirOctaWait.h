@@ -20,6 +20,7 @@ protected:
     bool* mIsSameChange_d{};
     // aitree_variable at offset 0x40
     void* mAirOctaDataMgr_a{};
+    bool _48 = true;
 };
 
 }  // namespace uking::ai

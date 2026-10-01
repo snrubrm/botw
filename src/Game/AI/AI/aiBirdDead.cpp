@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBirdDead.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -23,7 +25,8 @@ void BirdDead::calc_() {
 }
 
 void BirdDead::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5EEB8(_40);
 }
 
 void BirdDead::loadParams_() {

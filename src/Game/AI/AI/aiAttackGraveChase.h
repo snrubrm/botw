@@ -26,6 +26,8 @@ protected:
     const float* mEndNear_s{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
+    f32 _60{};
+    bool _64{};
 };
 
 }  // namespace uking::ai

@@ -19,6 +19,7 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mGravityScale_s{};
+    f32 _40 = 1.0f;
 };
 
 }  // namespace uking::ai

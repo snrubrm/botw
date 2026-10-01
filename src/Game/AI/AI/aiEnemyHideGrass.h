@@ -21,6 +21,8 @@ protected:
     const float* mSightRatio_s{};
     // static_param at offset 0x40
     const float* mHearingRatio_s{};
+    f32 _48 = 1.0f;
+    f32 _4c = 1.0f;
 };
 
 }  // namespace uking::ai

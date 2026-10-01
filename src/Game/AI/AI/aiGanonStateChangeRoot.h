@@ -18,6 +18,7 @@ public:
 protected:
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
+    f32 _40{};
 };
 
 }  // namespace uking::ai
