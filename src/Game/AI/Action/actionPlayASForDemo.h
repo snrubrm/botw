@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual float m32();
+    virtual bool m33();
 
     // static_param at offset 0x20
     const int* mAnimeDrivenSettings_s{};

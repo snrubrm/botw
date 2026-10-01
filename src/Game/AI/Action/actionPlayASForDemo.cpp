@@ -33,4 +33,8 @@ void PlayASForDemo::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool PlayASForDemo::m33() {
+    return false;
+}
+
 }  // namespace uking::action

@@ -27,4 +27,8 @@ void PlayASForTimeline::calc_() {
     PlayASForDemo::calc_();
 }
 
+bool PlayASForTimeline::m33() {
+    return true;
+}
+
 }  // namespace uking::action

@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33() override;
 
     // dynamic_param at offset 0xb0
     int* mClipIndex_d{};
