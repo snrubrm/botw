@@ -14,4 +14,8 @@ void PlayerLadderToClimb::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerLadderToClimb::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
