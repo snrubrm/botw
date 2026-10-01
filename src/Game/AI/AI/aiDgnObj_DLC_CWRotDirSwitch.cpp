@@ -11,7 +11,7 @@ bool DgnObj_DLC_CWRotDirSwitch::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CWRotDirSwitch::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("Off");
 }
 
 void DgnObj_DLC_CWRotDirSwitch::leave_() {
