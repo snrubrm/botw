@@ -48,3 +48,6 @@ public:
 KSYS_CHECK_SIZE_NX150(WolfLink, 0x16a0);
 
 }  // namespace uking::act
+
+// 0x7100742e30 (CSV name; namespace unknown): true if the Wolf Link amiibo cannot be used right now.
+bool cannotUseWolfLinkAmiibo();

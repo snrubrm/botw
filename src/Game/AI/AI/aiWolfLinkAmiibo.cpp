@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWolfLinkAmiibo.h"
+#include "Game/Actor/actWolfLink.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,13 @@ bool WolfLinkAmiibo::init_(sead::Heap* heap) {
 }
 
 void WolfLinkAmiibo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _5c = false;
+    if (cannotUseWolfLinkAmiibo()) {
+        ui::showInfoOverlay(26);
+        setFailed();
+        return;
+    }
+    sub_7100600A6C();
 }
 
 void WolfLinkAmiibo::leave_() {
