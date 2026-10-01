@@ -9,4 +9,8 @@ void Rebound::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("Rebound", false, 0, 0, -1.0f);
 }
 
+bool Rebound::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
