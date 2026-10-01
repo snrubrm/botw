@@ -37,8 +37,8 @@ protected:
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _60;
-    sead::Vector3f _6c{};
-    sead::Vector3f _78{};
+    sead::Vector3f _6c{0, 0, 0};
+    sead::Vector3f _78{0, 0, 0};
     // unknown object (0x24 bytes, no ctor; method 0x710073fa90)
     u8 _84[0xa8 - 0x84];
     ksys::VFRValue _a8;
