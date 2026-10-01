@@ -23,7 +23,7 @@ bool EnemyFindBadStatusFriend::init_(sead::Heap* heap) {
 }
 
 void EnemyFindBadStatusFriend::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710038BFB0();
 }
 
 void EnemyFindBadStatusFriend::leave_() {

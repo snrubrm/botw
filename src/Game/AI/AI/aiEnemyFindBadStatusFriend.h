@@ -19,6 +19,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710038BFB0();
+
 protected:
     // dynamic_param at offset 0x38
     ksys::act::BaseProcLink* mTargetActor_d{};
