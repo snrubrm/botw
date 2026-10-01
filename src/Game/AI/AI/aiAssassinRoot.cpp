@@ -14,6 +14,10 @@ void AssassinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
 }
 
+bool AssassinRoot::hasPreDeleteCb() {
+    return true;
+}
+
 void AssassinRoot::leave_() {
     NPCRoot::leave_();
 }
