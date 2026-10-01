@@ -10,6 +10,10 @@ bool DummyTriggerAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool DummyTriggerAction::oneShot_() {
+    return true;
+}
+
 void DummyTriggerAction::loadParams_() {}
 
 }  // namespace uking::action
