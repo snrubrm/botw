@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -21,6 +22,9 @@ protected:
     const float* mAttackHeightMin_s{};
     // static_param at offset 0x70
     const float* mAttackHeightMax_s{};
+    f32 _78{};
+    s32 _7c{};
+    s32 _80{};
 };
 
 }  // namespace uking::ai
