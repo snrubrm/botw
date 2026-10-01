@@ -67,8 +67,8 @@ public:
     /* 47 */ virtual bool m210() = 0;
     /* 48 */ virtual bool m211() = 0;
     /* 49 */ virtual void m369(int) {}
-    /* 50 */ virtual void m370() {}
-    /* 51 */ virtual void m371() {}
+    /* 50 */ virtual void m370(f32) {}
+    /* 51 */ virtual void m371(f32) {}
     /* 52 */ virtual void m372() {}
     /* 53 */ virtual bool m306() = 0;
     /* 54 */ virtual bool m374() { return false; }

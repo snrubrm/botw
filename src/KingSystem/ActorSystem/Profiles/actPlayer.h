@@ -76,8 +76,8 @@ public:
     /* 182 */ bool m182() override;
     /* 183 */ bool m183() override;
     /* 198 */ bool isNoShieldDamageFloor() override;
-    /* 203 */ bool m203() override;
-    /* 213 */ bool isMasterSwordEquipped() override;
+    /* 203 */ bool m203() override { return x_21(); }
+    /* 213 */ bool isMasterSwordEquipped() override { return isMasterSwordEquipped_(); }
     /* 214 */ bool m214() override { return _1ca4 == 6; }
     /* 215 */ bool m215() override { return _207e; }
     /* 216 */ bool armorEffectHasWakeWindEffect() override { return _2081; }
@@ -152,14 +152,14 @@ public:
     /* 303 */ bool m303() override;
     /* 304 */ bool m304() override;
     /* 305 */ f32 m305() override;
-    /* 306 */ bool m306() override;
+    /* 306 */ bool m306() override { return x_44(); }
     /* 309 */ void m309(f32) override;
     /* 310 */ void m310(f32) override;
     /* 311 */ void m311() override;
     /* 312 */ s32 m312(int idx) override;
     /* 318 */ void m318() override;
     /* 319 */ f32 m319() override { return _2094; }
-    /* 320 */ f32 m320() override;
+    /* 320 */ f32 m320() override { return getStatusEffectSpeed(); }
     /* 321 */ s32 m321() override { return _1ffc; }
     /* 322 */ s32 m322() override { return _2000; }
     /* 323 */ void m323() override;
@@ -208,12 +208,12 @@ public:
         _c50.setBit(14);
         _e5c = value;
     }
-    /* 370 */ void m370() override;
-    /* 371 */ void m371() override;
+    /* 370 */ void m370(f32 value) override { x_34(value, false); }
+    /* 371 */ void m371(f32 value) override { decreaseStaminaForActionMaybe(value); }
     /* 372 */ void m372() override;
     /* 373 */ bool m373() override;
     /* 374 */ bool m374() override;
-    /* 375 */ bool m375() override;
+    /* 375 */ bool m375() override { return stillAlive(); }
     /* 376 */ bool m376() override;
     /* 377 */ void m377() override;
     /* 378 */ bool m378() override;
@@ -225,6 +225,35 @@ public:
     /* 384 */ int m384() override { return _1cd4; }
     /* 385 */ int m385() override { return _1cd8; }
     /* 386 */ virtual void m386() {}
+
+    // Non-virtual member functions (CSV names; placeholder names x_NN are the CSV's).
+    // Parameter names are unknown; the order of float vs. integer parameters is a guess.
+    void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
+    void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
+    void x_18(bool a1);                                                 // 0x855a6c
+    void x_19();                                                        // 0x855d40
+    void x_24();                                                        // 0x855e24
+    void x_25();                                                        // 0x8551fc
+    void x_53(int* a1);                                                 // 0x8679fc
+    f32 x_39();                                                         // 0x867cd4
+    void someFloatCalc(f32 a1, f32* a2);                                // 0x868990
+    f32 getStatusEffectSpeed();                                         // 0x869a8c
+    void actionCommon();                                                // 0x86aa94
+    bool isSurfingOnGround() const;                                     // 0x87f290
+    bool stillAlive();                                                  // 0x884510
+    bool x_44();                                                        // 0x885090
+    void x_34(f32 value, bool a2);                                      // 0x885bb4
+    void decreaseStaminaForActionMaybe(f32 value);                      // 0x885bd0
+    bool x_21();                                                        // 0x887a20
+    bool isMasterSwordEquipped_();                                      // 0x86d024
+    bool x_35();                                                        // 0x8886f4
+    void x_7();                                                         // 0x88a048
+    void x_8();                                                         // 0x88a8a8
+    void x_33();                                                        // 0x88c900
+    void x_38();                                                        // 0x88d564
+    void x_40();                                                        // 0x8922cc
+    bool x_17();                                                        // 0x892bf0
+    void x_16();                                                        // 0x892e18
 
     /* 0x17f0 */ u8 _17f0[0x1868 - 0x17f0];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
