@@ -23,4 +23,12 @@ void SiteBossSpearLifeSelector::loadParams_() {
     getStaticParam(&mPatternChangeLife3_s, "PatternChangeLife3");
 }
 
+bool SiteBossSpearLifeSelector::isFailed() const {
+    return getCurrentChild() && getCurrentChild()->isFailed();
+}
+
+bool SiteBossSpearLifeSelector::isFinished() const {
+    return getCurrentChild() && getCurrentChild()->isFinished();
+}
+
 }  // namespace uking::ai
