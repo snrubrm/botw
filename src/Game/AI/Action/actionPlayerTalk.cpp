@@ -26,4 +26,8 @@ void PlayerTalk::calc_() {
     PlayerAction::calc_();
 }
 
+bool PlayerTalk::isChangeable() const {
+    return _1c;
+}
+
 }  // namespace uking::action
