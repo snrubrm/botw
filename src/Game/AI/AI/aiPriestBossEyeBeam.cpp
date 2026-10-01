@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiPriestBossEyeBeam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: this+0x88 is kept in x20 across the memset instead of being recomputed
 PriestBossEyeBeam::PriestBossEyeBeam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PriestBossEyeBeam::~PriestBossEyeBeam() = default;
@@ -29,6 +33,30 @@ void PriestBossEyeBeam::loadParams_() {
     getStaticParam(&mIsChangeable_s, "IsChangeable");
     getStaticParam(&mReflectOffset_s, "ReflectOffset");
     getStaticParam(&mShotOffset_s, "ShotOffset");
+}
+
+void PriestBossEyeBeam::m34() {
+    sead::Vector3f pos;
+    m36(&pos);
+    m42(pos);
+}
+
+bool PriestBossEyeBeam::m35() {
+    if (_a8) {
+        _a8 = false;
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: stack slot of the MessageType temporary (same issue as AirOctaFlyUp / OctarockEscape)
+void PriestBossEyeBeam::m41() {
+    if (!_88.hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_88, &accessor))
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000039, nullptr, true);
 }
 
 }  // namespace uking::ai
