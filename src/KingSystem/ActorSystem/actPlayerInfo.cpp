@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -62,6 +63,11 @@ Actor* PlayerInfo::getRiddenHorse() const {
     if (!player || !player->isRidingHorse())
         return nullptr;
     return sead::DynamicCast<Actor>(mHorseLink.getProc(nullptr, nullptr));
+}
+
+void PlayerInfo::setMaxLifeForPlayerActor(s32 max_heart) {
+    if (mPlayerActor)
+        static_cast<Player*>(mPlayerActor)->_1868 = max_heart;
 }
 
 s32 PlayerInfo::getMaxLifeFromPlayerActor() const {
@@ -141,6 +147,21 @@ f32 PlayerInfo::getStaminaMax() const {
 
 void PlayerInfo::updateStaminaMaxFromGameData() {
     mStaminaMax = gdt::getFlag_StaminaMax();
+}
+
+void PlayerInfo::setMaxStaminaForPlayerActor(f32 max_stamina) {
+    if (mPlayerActor)
+        static_cast<Player*>(mPlayerActor)->_186c = max_stamina;
+}
+
+f32 PlayerInfo::getMaxStaminaFromPlayerActor() const {
+    if (mPlayerActor)
+        return static_cast<Player*>(mPlayerActor)->_186c;
+    return 0.0f;
+}
+
+void PlayerInfo::recoverStamina() {
+    setStaminaCurrentMax(getMaxStaminaFromPlayerActor());
 }
 
 void PlayerInfo::recoverCondition() {
