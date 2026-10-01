@@ -10,6 +10,7 @@ bool HoverBase::init_(sead::Heap* heap) {
 
 void HoverBase::enter_(ksys::act::ai::InlineParamPack* params) {
     FreeMovingAction::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void HoverBase::leave_() {
