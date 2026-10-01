@@ -32,7 +32,6 @@ protected:
     sead::Vector3f _60;
     ksys::Timer _6c;
     int _78{};
-    int _78 = 0;
 };
 
 }  // namespace uking::ai
