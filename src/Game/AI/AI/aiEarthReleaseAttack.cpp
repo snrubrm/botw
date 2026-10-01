@@ -11,7 +11,8 @@ bool EarthReleaseAttack::init_(sead::Heap* heap) {
 }
 
 void EarthReleaseAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710037BC08();
+    sub_710037BDF0();
 }
 
 void EarthReleaseAttack::leave_() {

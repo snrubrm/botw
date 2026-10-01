@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710037BC08();
+
+    void sub_710037BDF0();
+
 protected:
     // static_param at offset 0x38
     const int* mAttackPower_s{};
