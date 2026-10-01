@@ -22,6 +22,8 @@ protected:
     const int* mAttackNum_s{};
     // static_param at offset 0x40
     const int* mWeaponIdx_s{};
+    bool _48{};
+    int _4c{};
 };
 
 }  // namespace uking::ai
