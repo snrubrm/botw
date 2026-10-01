@@ -29,4 +29,11 @@ void PriestBossShadowClonesReaction::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
+bool PriestBossShadowClonesReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+    if (!EnemyDefaultReaction::m34(damage_mgr, damage_type))
+        return false;
+    sub_710052D98C();
+    return true;
+}
+
 }  // namespace uking::ai
