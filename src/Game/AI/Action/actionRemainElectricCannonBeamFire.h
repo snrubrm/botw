@@ -28,6 +28,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mSafePos_d{};
+    float _48 = 0.0f;
+    void* _50{};
+    int _58 = 0;
 };
 
 }  // namespace uking::action
