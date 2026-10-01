@@ -29,4 +29,8 @@ void JumpAttack::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool JumpAttack::isChangeable() const {
+    return false;
+}
+
 }  // namespace uking::action
