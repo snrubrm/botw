@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiArrowChargeAndShoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
 
@@ -19,7 +21,8 @@ void ArrowChargeAndShoot::calc_() {
 }
 
 void ArrowChargeAndShoot::leave_() {
-    SeqTwoAction::leave_();
+    if (sub_71005D8514(mActor, *mWeaponIdx_s))
+        sub_71005D787C(mActor, *mWeaponIdx_s, uking::act::Unk_71002eda38(5));
 }
 
 void ArrowChargeAndShoot::loadParams_() {

@@ -13,8 +13,25 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual bool m34();
+    virtual int m35() { return *mWeaponIdx_s; }
+    virtual void m36() {}
+    virtual void m37() {}
+    virtual void m38() {}
+    virtual void m39() { m38(); }
+    virtual void m40() {}
+
+    void sub_71003AB3FC();
+    void sub_71003AB8A0();
+    void sub_71003ABF50();
+    bool sub_71003AD058();
+    bool sub_71003AD160();
+    bool sub_71003AD1F8();
+    bool sub_71003AD298();
 
 protected:
     // aitree_variable at offset 0x38
@@ -53,6 +70,21 @@ protected:
     const bool* mIsCheckReachable_s{};
     // static_param at offset 0xc0
     const float* mNoMoveDist_s{};
+    f32 _c8{};
+    s32 _cc{};
+    s32 _d0{};
+    f32 _d4{};
+    s32 _d8{};
+    s32 _dc{};
+    f32 _e0{};
+    s32 _e4{};
+    s32 _e8{};
+    // Vibrate checker holders (see mRefPosVibrateCheckerForAI_a / mRefVelRotVibrateCheckerforAI_a)
+    void* _f0{};
+    void* _f8{};
+    sead::Vector3f _100 = sead::Vector3f::zero;
+    bool _10c{};
+    bool _10d{};
 };
 
 }  // namespace uking::ai

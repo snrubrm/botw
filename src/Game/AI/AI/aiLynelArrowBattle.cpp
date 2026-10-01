@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelArrowBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,7 @@ void LynelArrowBattle::calc_() {
 }
 
 void LynelArrowBattle::leave_() {
+    sub_71005D787C(mActor, *mWeaponIdx_s, uking::act::Unk_71002eda38(5));
     EnemyBattle::leave_();
 }
 

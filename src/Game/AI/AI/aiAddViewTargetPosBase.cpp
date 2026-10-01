@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAddViewTargetPosBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -22,8 +23,14 @@ void AddViewTargetPosBase::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("行動", params);
 }
 
+void AddViewTargetPosBase::calc_() {
+    sead::Vector3f pos;
+    m34(&pos);
+    sub_71005DB068(mActor, pos);
+}
+
 void AddViewTargetPosBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void AddViewTargetPosBase::loadParams_() {}

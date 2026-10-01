@@ -10,6 +10,7 @@ class AssassinBossFirstRangeKeepMove : public EnemyRangeKeepMove {
 public:
     explicit AssassinBossFirstRangeKeepMove(const InitArg& arg);
     ~AssassinBossFirstRangeKeepMove() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -23,6 +24,7 @@ protected:
     const float* mNoMoveAnchorDist_s{};
     // static_param at offset 0x118
     sead::SafeString mAnchorName_s{};
+    sead::Vector3f _128;
 };
 
 }  // namespace uking::ai

@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -35,6 +36,8 @@ protected:
     const float* mBreathEndDist_s{};
     // static_param at offset 0x158
     const int* mBreathMinTime_s{};
+    ksys::Timer _160{0, 0};
+    bool _16c = false;
 };
 
 }  // namespace uking::ai

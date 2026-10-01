@@ -10,6 +10,7 @@ class AssassinBattleMove : public EnemyRangeKeepMove {
 public:
     explicit AssassinBattleMove(const InitArg& arg);
     ~AssassinBattleMove() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

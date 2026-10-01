@@ -12,6 +12,9 @@ bool BreathEnemyRangeKeepMove::init_(sead::Heap* heap) {
 
 void BreathEnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRangeKeepMove::enter_(params);
+    _16c = false;
+    _160 = ksys::Timer(0, 0);
+    changeChild("ブレス開始");
 }
 
 void BreathEnemyRangeKeepMove::leave_() {

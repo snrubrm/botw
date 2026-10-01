@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAppearNearTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -31,6 +32,14 @@ void AppearNearTarget::loadParams_() {
     getStaticParam(&mTeraDist_s, "TeraDist");
     getMapUnitParam(&mNearCreateAppearID_m, "NearCreateAppearID");
     getAITreeVariable(&mIsStopFallCheck_a, "IsStopFallCheck");
+}
+
+void AppearNearTarget::m34(sead::Vector3f* out) {
+    sub_71005D96A8(mActor).getBase(*out, 2);
+}
+
+void AppearNearTarget::m35(sead::Vector3f* out) {
+    *out = sub_71005D9330(mActor);
 }
 
 }  // namespace uking::ai

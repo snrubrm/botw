@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -41,6 +44,23 @@ void EnemyRangeKeepMove::loadParams_() {
     getStaticParam(&mIsCheckReachable_s, "IsCheckReachable");
     getAITreeVariable(&mRefPosVibrateCheckerForAI_a, "RefPosVibrateCheckerForAI");
     getAITreeVariable(&mRefVelRotVibrateCheckerforAI_a, "RefVelRotVibrateCheckerforAI");
+}
+
+void EnemyRangeKeepMove::sub_71003AB8A0() {
+    m38();
+    _c8 = _cc == _d0 ? _cc : sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘後ずさり", &pack);
+}
+
+void EnemyRangeKeepMove::sub_71003ABF50() {
+    m36();
+    sub_71003AB3FC();
+    _e0 = _e4 == _e8 ? _e4 : sead::GlobalRandom::instance()->getS32Range(_e4, _e8);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘待機", &pack);
 }
 
 }  // namespace uking::ai
