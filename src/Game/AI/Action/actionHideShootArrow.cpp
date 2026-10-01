@@ -26,4 +26,6 @@ void HideShootArrow::calc_() {
     ShootArrow::calc_();
 }
 
+void HideShootArrow::m32() {}
+
 }  // namespace uking::action
