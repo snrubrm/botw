@@ -47586,7 +47586,7 @@ Address,Quality,Size,Name
 0x000000710075b590,U,000056,
 0x000000710075b5c8,U,000092,AI_Action_CameraEventLook::ctor
 0x000000710075b624,U,000108,_ZN5uking6action15CameraEventLook3m46Ev
-0x000000710075b690,U,000544,uking::action::CameraEventLook::m47
+0x000000710075b690,U,000544,_ZN5uking6action15CameraEventLook3m47Ev
 0x000000710075b8b0,U,000140,uking::action::CameraEventLook::m48
 0x000000710075b93c,O,000216,_ZNK5uking6action15CameraEventLook27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710075ba14,O,000092,_ZNK5uking6action15CameraEventLook18getRuntimeTypeInfoEv
@@ -47604,7 +47604,7 @@ Address,Quality,Size,Name
 0x000000710075c970,O,000092,_ZNK5uking6action19CameraEventLookBase18getRuntimeTypeInfoEv
 0x000000710075c9cc,W,000020,_ZN5uking6action19CameraEventLookBaseD1Ev
 0x000000710075c9e0,W,000052,_ZN5uking6action19CameraEventLookBaseD0Ev
-0x000000710075ca14,U,000004,uking::action::CameraEventLookBase::m47
+0x000000710075ca14,O,000004,_ZN5uking6action19CameraEventLookBase3m47Ev
 0x000000710075ca18,U,000004,uking::action::CameraEventLookBase::m48
 0x000000710075ca1c,U,000024,
 0x000000710075ca34,U,000056,

@@ -12,6 +12,7 @@ public:
     ~CameraEventLookBase() override;
 
 protected:
+    virtual void m47();
 };
 
 }  // namespace uking::action
