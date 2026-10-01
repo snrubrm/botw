@@ -14,6 +14,16 @@ void AddBasicLinkOn::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void AddBasicLinkOn::calc_() {}
+
+bool AddBasicLinkOn::isFailed() const {
+    return getCurrentChild()->isFailed();
+}
+
+bool AddBasicLinkOn::isFinished() const {
+    return getCurrentChild()->isFinished();
+}
+
 void AddBasicLinkOn::leave_() {
     ksys::act::ai::Ai::leave_();
 }
