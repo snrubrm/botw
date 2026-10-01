@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(const sead::SafeString& actor_name);
 
     // dynamic_param at offset 0x20
     sead::SafeString mGetActorName_d{};

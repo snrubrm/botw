@@ -11,7 +11,8 @@ bool GetItemAnotherActor::init_(sead::Heap* heap) {
 }
 
 void GetItemAnotherActor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    m32(mGetActorName_d);
+    mFlags.set(Flag::Changeable);
 }
 
 void GetItemAnotherActor::leave_() {
