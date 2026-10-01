@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemSetWindAction.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -13,7 +14,7 @@ void SystemSetWindAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SystemSetWindAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    ksys::world::Manager::instance()->resetManualWind();
 }
 
 void SystemSetWindAction::loadParams_() {
@@ -24,8 +25,10 @@ void SystemSetWindAction::loadParams_() {
     getDynamicParam(&mIsAutoWind_d, "IsAutoWind");
 }
 
+// NON_MATCHING: load order of the four param pointers (power is loaded first in the original)
 void SystemSetWindAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* wm = ksys::world::Manager::instance())
+        wm->setManualWind(false, {*mWindDirX_d, *mWindDirY_d, *mWindDirZ_d}, *mWindPower_d);
 }
 
 }  // namespace uking::action
