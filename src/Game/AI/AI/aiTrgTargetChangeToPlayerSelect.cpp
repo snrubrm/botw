@@ -12,8 +12,13 @@ bool TrgTargetChangeToPlayerSelect::init_(sead::Heap* heap) {
 }
 
 void TrgTargetChangeToPlayerSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsTrgTargetChangeToPlayer_a)
+        changeChild("プレイヤーに変更", params);
+    else
+        changeChild("通常", params);
 }
+
+void TrgTargetChangeToPlayerSelect::calc_() {}
 
 void TrgTargetChangeToPlayerSelect::leave_() {
     ksys::act::ai::Ai::leave_();
