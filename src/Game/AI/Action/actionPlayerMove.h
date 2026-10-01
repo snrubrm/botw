@@ -30,6 +30,7 @@ protected:
     const float* mPushStopDistY_s{};
     // static_param at offset 0x48
     const float* mInvalidFallFrame_s{};
+    float _50 = 0.0f;
 };
 
 }  // namespace uking::action
