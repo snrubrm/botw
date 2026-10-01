@@ -5,7 +5,7 @@ namespace uking::action {
 ActionWithPosAngReduce::ActionWithPosAngReduce(const InitArg& arg) : ActionEx(arg) {}
 
 void ActionWithPosAngReduce::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 void ActionWithPosAngReduce::leave_() {
