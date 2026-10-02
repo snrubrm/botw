@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossReaction.h"
+#include "Game/Actor/actSiteBoss.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,14 @@ void SiteBossReaction::leave_() {
 void SiteBossReaction::loadParams_() {
     EnemyDefaultReaction::loadParams_();
     getStaticParam(&mIsChangeEffectiveDamage_s, "IsChangeEffectiveDamage");
+}
+
+bool SiteBossReaction::m36() {
+    if (_74++ >= 3) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+            boss->_1558.set(4);
+    }
+    return false;
 }
 
 }  // namespace uking::ai
