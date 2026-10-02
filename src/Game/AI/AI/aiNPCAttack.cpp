@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCAttack.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,8 @@ NPCAttack::NPCAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 NPCAttack::~NPCAttack() = default;
 
 bool NPCAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _98 = sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NPCAttack::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +17,10 @@ void NPCAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_98) {
+        _98->_fe8 &= ~0x800;
+        _98->_fe8 &= ~0x1000;
+    }
 }
 
 void NPCAttack::loadParams_() {

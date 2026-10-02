@@ -1,6 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::act {
+class NPC;
+}
 
 namespace uking::ai {
 
@@ -40,6 +45,15 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mEnemyLink_d{};
+    bool _90 = true;
+    bool _91 = false;
+    bool _92 = false;
+    u32 _94 = 0;
+    act::NPC* _98 = nullptr;
+    ksys::Timer _a0{};
+    ksys::Timer _ac{};
+    ksys::Timer _b8{};
 };
+KSYS_CHECK_SIZE_NX150(NPCAttack, 0xc8);
 
 }  // namespace uking::ai
