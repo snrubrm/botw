@@ -94,6 +94,8 @@ public:
     // 0x7100f5e764: RigidBody::clearEntityMotionFlag10 on the main body and (if _114 has 0x2000) on
     // every body of _288.
     void sub_7100F5E764(bool clear);
+    // 0x7100f62bb0: sub_7100F5F270(1) (declaration only).
+    void sub_7100F62BB0();
     // 0x7100f62bb8: sub_7100F5F270(0).
     void sub_7100F62BB8();
 

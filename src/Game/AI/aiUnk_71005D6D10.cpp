@@ -844,6 +844,12 @@ bool sub_71005DA8CC(ksys::act::Actor* actor, int idx) {
     return chemical->_1b8 > 0.0f;
 }
 
+void sub_71005DD2E8(ksys::act::Actor* actor) {
+    ksys::act::disableAllAttClients(actor);
+    ksys::act::enableAttClient(actor, "LockOn");
+    ksys::act::enableAttClient(actor, "AutoAim");
+}
+
 void sub_71005DD34C(ksys::act::Actor* actor, bool on) {
     if (!actor)
         return;

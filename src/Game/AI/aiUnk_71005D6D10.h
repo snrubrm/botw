@@ -209,7 +209,14 @@ f32 sub_71005DA668(ksys::act::Actor* actor, int idx);
 bool sub_71005DA7F4(ksys::act::Actor* actor, int idx);
 /// Whether Chemical::_1b8 of the Weapon equipped in slot `idx` is positive.
 bool sub_71005DA8CC(ksys::act::Actor* actor, int idx);
+/// 0x71005dd2e8: disables all attention clients except LockOn and AutoAim.
+void sub_71005DD2E8(ksys::act::Actor* actor);
 void sub_71005DD34C(ksys::act::Actor* actor, bool on);
+/// 0x71005dcf80 (declaration only): ray cast along `dir` through the actor's position; stores a
+/// texture index for the hit (terrain textures / material mask) in `material`. `a4` is unused.
+bool sub_71005DCF80(s32* material, ksys::act::Actor* actor, const sead::Vector3f& dir, bool a4);
+/// 0x71005dd27c (declaration only): uses texture index `material` for the actor's model.
+void sub_71005DD27C(ksys::act::Actor* actor, u32 material, f32 a3);
 /// The actor linked by the actor's ride info (Actor::getPlayerRideInfo), or nullptr.
 ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
 
