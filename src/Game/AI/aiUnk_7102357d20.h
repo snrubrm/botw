@@ -31,6 +31,9 @@ public:
     // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
     // { ; } (commit 96101229).
     virtual ~Unk_7102357d20() { ; }
+    // PriestBossGiantEnemyRoot::_268: constructed without a transceiver (set by its init_).
+    explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(type) {}
+    virtual ~Unk_7102357d20() = default;
     virtual void* m2() = 0;
 
     bool sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack);

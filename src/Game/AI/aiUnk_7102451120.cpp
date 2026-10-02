@@ -16,3 +16,22 @@ bool Unk_7102451120::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
     }
     return true;
 }
+
+// NON_MATCHING: the last disable block sets the return value after the flag (scheduling)
+bool Unk_7102451148::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
+                            const ksys::phys::ContactPointInfo::Event& event) {
+    if (event.body->getMotionType() != ksys::phys::MotionType::Dynamic) {
+        switch (event.body->getContactLayer()) {
+        case ksys::phys::ContactLayer::EntityGround:
+            return true;
+        default:
+            *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
+            return false;
+        }
+    }
+    if (event.body->hasFlag(ksys::phys::RigidBody::Flag::Fixed) || event.body->getMass() > _8) {
+        *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
+        return false;
+    }
+    return true;
+}

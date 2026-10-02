@@ -22,6 +22,18 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102451120, 0x10);
 
+// Unnamed contact callback (vtable 0x7102451148, same TU; invoke 0x71007212f0) embedded in
+// PriestBossGiantEnemyRoot (_258): like Unk_7102451120, but non-dynamic bodies are kept only if they
+// are EntityGround. Placeholder name = vtable address.
+class Unk_7102451148 : public ksys::phys::ContactPointInfo::ContactCallback {
+public:
+    bool invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
+                const ksys::phys::ContactPointInfo::Event& event) override;
+
+    f32 _8 = sead::Mathf::infinity();  // max mass
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102451148, 0x10);
+
 // Free helpers in the same TU.
 // 0x7100720140: sets Enemy::_e90 = 1 if the actor is an Enemy.
 void sub_7100720140(ksys::act::Actor* actor);

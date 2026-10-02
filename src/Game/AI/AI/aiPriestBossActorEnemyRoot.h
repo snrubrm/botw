@@ -4,6 +4,8 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+class Unk_7102450fa8;
+
 namespace uking::ai {
 
 class PriestBossActorEnemyRoot : public EnemyRoot {
@@ -30,6 +32,7 @@ public:
     virtual bool m53();
 
     void sub_7100507440(bool a1);
+    Unk_7102450fa8* sub_7100506A40();
 
 protected:
     // static_param at offset 0x1d8

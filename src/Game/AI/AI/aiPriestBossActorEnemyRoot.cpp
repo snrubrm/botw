@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
 #include "Game/AI/aiUnk_710071edf8.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
 
@@ -43,6 +44,11 @@ void PriestBossActorEnemyRoot::loadParams_() {
 bool PriestBossActorEnemyRoot::handleMessage_(const ksys::Message& message) {
     EnemyRoot::handleMessage_(message);
     return false;
+}
+
+Unk_7102450fa8* PriestBossActorEnemyRoot::sub_7100506A40() {
+    return sead::DynamicCast<Unk_7102450fa8>(
+        *static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
 }
 
 bool PriestBossActorEnemyRoot::m45() {
