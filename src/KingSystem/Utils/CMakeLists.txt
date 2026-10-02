@@ -84,6 +84,8 @@ target_sources(uking PRIVATE
   ParamIO.cpp
   ParamIO.h
   SafeDelete.h
+  StateMachine.cpp
+  StateMachine.h
   StringUtil.cpp
   StringUtil.h
   TypeTraits.h
