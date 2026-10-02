@@ -23,8 +23,8 @@ public:
     bool m6(sead::Heap* heap) override;
     void m8() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100632734)
-    void m9() override;  // not decompiled yet (0x7100632824)
+    void m7() override;
+    void m9() override;
 
     /* 0x28 */ const float* mRatio_s{};
     /* 0x30 */ sead::SafeString mPartsName_s{};

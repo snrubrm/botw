@@ -14,7 +14,7 @@ public:
     bool m6(sead::Heap* heap) override;
     void m7() override;  // TODO 0x7100627074
     void m8() override;  // TODO 0x7100626f6c
-    void m9() override;  // TODO 0x710062717c
+    void m9() override;
     void loadParams() override;
     virtual void m15(sead::Matrix34f* out);
 

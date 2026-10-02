@@ -18,10 +18,13 @@ public:
     void loadParams() override;
     virtual const sead::SafeString* m14();
     virtual bool m15() { return false; }
-    virtual void m16();  // not decompiled yet (0x710064214c)
+    virtual void m16();
+    // 0x7100641eb8 (not decompiled): opens the dialog (UI request built from mstxtName / label /
+    // CloseOption / Type / Timer), sets `_84` and, with Once, `_85`.
+    void sub_7100641EB8();
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // not decompiled yet (0x7100641e4c)
-    bool updateForPreDelete() override;  // not decompiled yet (0x7100619d1c)
+    void m7() override;
+    bool updateForPreDelete() override;
 
     /* 0x28 */ const int* mCloseOption_s{};
     /* 0x30 */ const int* mTimer_s{};
@@ -32,7 +35,7 @@ public:
     /* 0x60 */ sead::SafeString mlabelName_s{};
     /* 0x70 */ void* mSimpleDialogUnit_a{};
     /* 0x78 */ Unk_71000b0800<Unk_71025b2aa8> _78;
-    /* 0x80 */ u32 _80 = 0;
+    /* 0x80 */ f32 _80 = 0;
     /* 0x84 */ bool _84 = false;
     /* 0x85 */ bool _85 = false;
 };

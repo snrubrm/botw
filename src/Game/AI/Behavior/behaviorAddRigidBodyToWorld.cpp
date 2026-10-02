@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorAddRigidBodyToWorld.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::behavior {
 
@@ -15,6 +18,19 @@ bool AddRigidBodyToWorld::m6(sead::Heap* heap) {
 }
 
 void AddRigidBodyToWorld::m7() {}
+
+void AddRigidBodyToWorld::m9() {
+    if (!_40)
+        return;
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName(mRigidBodySetName_s)) {
+            set->removeFromWorld();
+            if (*mEnableNavMeshCut_s)
+                physics->sub_7100FC01B0();
+        }
+    }
+    _40 = false;
+}
 
 void AddRigidBodyToWorld::loadParams() {
     getStaticParam(&mEnableNavMeshCut_s, "EnableNavMeshCut");

@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorPartsMagneFollowRatioChanger.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::behavior {
 
@@ -15,7 +18,37 @@ bool PartsMagneFollowRatioChanger::m6(sead::Heap* heap) {
     return true;
 }
 
+void PartsMagneFollowRatioChanger::m7() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        auto& link = enemy->getActorPartsActor(mPartsName_s);
+        if (link.hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.sub_7100D13BB8()) {
+                _40._18 = *mRatio_s;
+                _40.sub_710070DCC0(&link, true);
+            }
+        }
+    }
+}
+
 void PartsMagneFollowRatioChanger::m8() {}
+
+void PartsMagneFollowRatioChanger::m9() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        auto& link = enemy->getActorPartsActor(mPartsName_s);
+        if (link.hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.sub_7100D13BB8()) {
+                _40._18 = 1.0f;
+                _40.sub_710070DCC0(&link, true);
+            }
+        }
+    }
+}
 
 void PartsMagneFollowRatioChanger::loadParams() {
     getStaticParam(&mRatio_s, "Ratio");

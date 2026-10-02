@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorSimpleAtvUnitOpDlgRestWpTimeR3.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::behavior {
 
@@ -31,6 +32,20 @@ void SimpleAtvUnitOpDlgRestWpTimeR3::loadParams() {
     SimpleAtvUnitOpDlgRestWpTimeR3Base::loadParams();
     getStaticParam(&mlabelName3_s, "labelName3");
     getStaticParam(&mlabelName2_s, "labelName2");
+}
+
+void SimpleAtvUnitOpDlgRestWpTimeR3::m15() {
+    if ((7 & ~_b8.getDirect() & 0xff) == 0)
+        _b8.makeAllZero();
+    u32 candidates = 1;
+    for (s32 i = 0; i < 3; ++i) {
+        if (_b8.isOffBit(i)) {
+            if (sead::GlobalRandom::instance()->getU32(candidates) == 0)
+                _bc = i;
+            ++candidates;
+        }
+    }
+    _b8.setBit(_bc);
 }
 
 // NON_MATCHING: csel operand order (the first select uses `ne`)

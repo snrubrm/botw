@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include "Game/AI/Behavior/behaviorSimpleAtvUnitOpenSimpleDialog.h"
 
 namespace uking::behavior {
@@ -16,9 +17,9 @@ public:
     void loadParams() override;
     virtual s32 m17() { return 1; }
     virtual s32 m18() { return 1; }
-    void m16() override;  // not decompiled yet (0x71006418d0)
+    void m16() override;
 
-    /* 0x86 */ u16 _86 = 0;
+    /* 0x86 */ sead::BitFlag16 _86;
     /* 0x88 */ u32 _88 = 0;
 };
 

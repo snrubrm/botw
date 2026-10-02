@@ -1,10 +1,38 @@
 #include "Game/AI/Behavior/behaviorSimpleAtvUnitOpenSimpleDialog.h"
 #include "Game/AI/aiUnk_71025b2aa8.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::behavior {
 
 SimpleAtvUnitOpenSimpleDialog::SimpleAtvUnitOpenSimpleDialog(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
+
+void SimpleAtvUnitOpenSimpleDialog::m7() {
+    if (m15() || _85 || _84)
+        return;
+    if (_80 <= 0)
+        sub_7100641EB8();
+    else
+        ksys::Timer::update(&_80, -1.0f);
+}
+
+void SimpleAtvUnitOpenSimpleDialog::m16() {
+    _84 = false;
+    f32 delay;
+    if (*mDelayTimer_s <= 0) {
+        delay = 0.0f;
+        if (!m15())
+            sub_7100641EB8();
+    } else {
+        delay = *mDelayTimer_s;
+    }
+    _80 = delay;
+}
+
+bool SimpleAtvUnitOpenSimpleDialog::updateForPreDelete() {
+    _78.release();
+    return true;
+}
 
 void SimpleAtvUnitOpenSimpleDialog::m8() {
     if (_85)

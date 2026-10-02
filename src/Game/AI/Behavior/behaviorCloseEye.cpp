@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorCloseEye.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::behavior {
 
@@ -15,6 +16,26 @@ bool CloseEye::m6(sead::Heap* heap) {
 }
 
 void CloseEye::m7() {}
+
+void CloseEye::m8() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        enemy->_f60.sub_7100701BE4(mLeftEyeLidName_s, mRightEyeLidName_s, *mCloseOffset_s);
+        enemy->_f60.sub_7100701CE8();
+        enemy->_f60.sub_7100701DF0();
+    }
+}
+
+// NON_MATCHING: the original computes &_f60 once before the branch and stores through it (+0x192)
+void CloseEye::m9() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        if (enemy->_f60._178 <= 0)
+            enemy->_f60.sub_7100701D4C();
+        else
+            enemy->_f60._192 = true;
+    }
+}
 
 void CloseEye::loadParams() {
     getStaticParam(&mLeftEyeLidName_s, "LeftEyeLidName");

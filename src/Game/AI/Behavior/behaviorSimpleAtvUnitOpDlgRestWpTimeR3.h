@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/Behavior/behaviorSimpleAtvUnitOpDlgRestWpTimeR3Base.h"
 
@@ -16,11 +17,11 @@ public:
     void m9() override;
     void loadParams() override;
     const sead::SafeString* m14() override;
-    void m15() override;  // not decompiled yet (0x7100640b8c)
+    void m15() override;
 
     /* 0x98 */ sead::SafeString mlabelName3_s{};
     /* 0xa8 */ sead::SafeString mlabelName2_s{};
-    /* 0xb8 */ bool _b8 = false;
+    /* 0xb8 */ sead::BitFlag8 _b8;
     /* 0xbc */ u32 _bc = 0;
 };
 KSYS_CHECK_SIZE_NX150(SimpleAtvUnitOpDlgRestWpTimeR3, 0xc0);

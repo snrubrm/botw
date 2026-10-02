@@ -1,5 +1,7 @@
 #include "Game/AI/Behavior/behaviorGuardFrontBarrier.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -13,6 +15,16 @@ GuardFrontBarrier::~GuardFrontBarrier() {
 
 bool GuardFrontBarrier::m6(sead::Heap* heap) {
     return GuardFrontBarrierBase::m6(heap);
+}
+
+void GuardFrontBarrier::m9() {
+    GuardFrontBarrierBase::m9();
+    auto* body =
+        mActor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(), mTgtName_s.cstr());
+    if (body && body->isAddedToWorld()) {
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+    }
 }
 
 void GuardFrontBarrier::loadParams() {

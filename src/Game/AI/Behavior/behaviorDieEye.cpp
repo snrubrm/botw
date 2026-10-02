@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorDieEye.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::behavior {
 
@@ -15,6 +16,26 @@ bool DieEye::m6(sead::Heap* heap) {
 }
 
 void DieEye::m7() {}
+
+void DieEye::m8() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        enemy->_f60.sub_7100701BE4(mLeftEyeLidName_s, mRightEyeLidName_s, *mCloseOffset_s);
+        enemy->_f60.sub_7100701CE8();
+        enemy->_f60.sub_7100701DD8();
+    }
+}
+
+// NON_MATCHING: the original computes &_f60 once before the branch and stores through it (+0x192)
+void DieEye::m9() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        if (enemy->_f60._178 <= 0)
+            enemy->_f60.sub_7100701D4C();
+        else
+            enemy->_f60._192 = true;
+    }
+}
 
 void DieEye::loadParams() {
     getStaticParam(&mLeftEyeLidName_s, "LeftEyeLidName");

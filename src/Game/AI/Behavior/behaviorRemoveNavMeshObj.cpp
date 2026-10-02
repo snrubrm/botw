@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorRemoveNavMeshObj.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::behavior {
 
@@ -11,6 +13,16 @@ bool RemoveNavMeshObj::m6(sead::Heap* heap) {
 }
 
 void RemoveNavMeshObj::m7() {}
+
+void RemoveNavMeshObj::m8() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FC01B0();
+}
+
+void RemoveNavMeshObj::m9() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FC012C(nullptr);
+}
 
 void RemoveNavMeshObj::loadParams() {
 

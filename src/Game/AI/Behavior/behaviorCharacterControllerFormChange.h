@@ -13,7 +13,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061c430)
+    bool m6(sead::Heap* heap) override;
 
     /* 0x28 */ const int* mEnterState_s{};
     /* 0x30 */ const bool* mIsRestoreWhenLeave_s{};
