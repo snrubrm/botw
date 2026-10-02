@@ -19,8 +19,9 @@ namespace ksys::act {
 class BoneHandleBase {
 public:
     BoneHandleBase();
-    // NON_MATCHING (D2 0x7100012274): the original keeps the vtable store of this empty dtor.
-    virtual ~BoneHandleBase() {}
+    // The original keeps the vtable store of this empty dtor: `{ ; }` as in upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() (commit 96101229).
+    virtual ~BoneHandleBase() { ; }
 
     // Called every frame with the actor's model.
     virtual void m2(gsys::Model* model) = 0;
