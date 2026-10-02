@@ -242,6 +242,9 @@ public:
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
     using Unk1 = util::Unk_7101EC6BAC;
     Unk1 x_5();                                                         // 0x85ed1c
+    // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its
+    // direction relative to x_5() in _1c68 (~18 player actions call it).
+    void sub_7100877BD8();
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
     f32 getStatusEffectSpeed();                                         // 0x869a8c
@@ -273,7 +276,9 @@ public:
     /* 0x1b18 */ sead::Matrix34f _1b18;
     /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
     /* 0x1b90 */ void* _1b90;
-    /* 0x1b98 */ u8 _1b98[0x1ca4 - 0x1b98];
+    /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
+    /* 0x1c68 */ u32 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
+    /* 0x1c6c */ u8 _1c6c[0x1ca4 - 0x1c6c];
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ u8 _1ca8[0x1cbe - 0x1ca8];
     /* 0x1cbe */ u8 _1cbe;
@@ -319,7 +324,10 @@ public:
     /* 0x2088 */ f32 _2088;
     /* 0x208c */ u8 _208c[0x2094 - 0x208c];
     /* 0x2094 */ f32 _2094;
-    /* 0x2098 */ u8 _2098[0x20d0 - 0x2098];
+    /* 0x2098 */ u8 _2098[0x20bc - 0x2098];
+    /* 0x20bc */ f32 _20bc;
+    /* 0x20c0 */ f32 _20c0;
+    /* 0x20c4 */ u8 _20c4[0x20d0 - 0x20c4];
     /* 0x20d0 */ f32 _20d0;
     /* 0x20d4 */ u8 _20d4[0x20f0 - 0x20d4];
     /* 0x20f0 */ f32 _20f0;
