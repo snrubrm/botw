@@ -1,11 +1,23 @@
 #include "Game/AI/Action/actionBalloonBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::action {
 
 BalloonBase::BalloonBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-BalloonBase::~BalloonBase() = default;
+BalloonBase::~BalloonBase() {
+    if (_20.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_20, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool BalloonBase::init_(sead::Heap* heap) {
     _a4 = mActor->getMtx().m[1][3];
@@ -13,11 +25,78 @@ bool BalloonBase::init_(sead::Heap* heap) {
 }
 
 void BalloonBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _b5 = ksys::StageInfo::sIsMainFieldDungeon;
+    if (auto* set = actor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        auto* body = set->findBodyByHavokName("Body");
+        if (!body && set->getRigidBodies().size() > 0)
+            body = set->getRigidBodies()(0);
+        if (body)
+            body->setFlag200();
+    }
+
+    actor = mActor;
+    const f32 scale = actor->getScale().y;
+    _ac = scale;
+    _b0 = (scale - 1.0f) * 0.3f + 1.0f;
+    _a8 = *mUpLimitSpeed_s * 30.0f;
+    if (auto* body = actor->getMainBody())
+        _a0 = body->getMass();
+    actor->getMtx().getTranslation(_e0);
+    _d0 = ksys::Timer(*mBreakTimer_s, *mBreakTimer_s);
+    if (mIsFlyingBalloon_a)
+        *mIsFlyingBalloon_a = true;
 }
 
+// NON_MATCHING: stack slot of the MessageType temporary / an extra saved register
 void BalloonBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        auto* body = set->findBodyByHavokName("Body");
+        if (!body && set->getRigidBodies().size() > 0)
+            body = set->getRigidBodies()(0);
+        if (body)
+            body->resetFlag200();
+    }
+
+    if (_20.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_20, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+
+    if (_b8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_b8, &accessor)) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                ksys::MessageType(0x80000bd), nullptr, false);
+        }
+    }
+    _b8.reset();
+
+    if (mBalloonHungActorBaseProcID_a)
+        *mBalloonHungActorBaseProcID_a = -1;
+    if (mIsFlyingBalloon_a)
+        *mIsFlyingBalloon_a = false;
+}
+
+int BalloonBase::m32() {
+    const auto* life = mActor->getLife();
+    if (life && *life < 1)
+        return true;
+    if (*mBreakTimer_s > 0.0f && _d0.value <= sead::Mathf::epsilon())
+        return true;
+    const f32 limit = _b5 ? *mRemainsHeightLimit_s : *mHeightLimit_s;
+    if (limit > 0.0f && mActor->getMtx().m[1][3] >= limit)
+        return true;
+    return false;
+}
+
+// NON_MATCHING: the original loads _b0 before the vector component (pre-indexed load)
+float BalloonBase::m33() {
+    const sead::Vector3f* vec = &sead::Vector3f::zero;
+    if (auto* chemical = mActor->getChemicalStuff())
+        vec = (chemical->_c & 0x1000000) ? &sead::Vector3f::zero : &chemical->_d8;
+    return vec->y * _b0;
 }
 
 void BalloonBase::loadParams_() {
