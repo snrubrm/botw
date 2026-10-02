@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGiantNavMoveTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -12,8 +14,26 @@ bool GiantNavMoveTarget::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original tests `(state | 1) == 5` on the byte (not `state == 4 || state == 5`)
 void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _78 = sub_71005E2BCC(mActor);
+    if (!_78) {
+        changeChild("見まわす", nullptr);
+        setFailed();
+        return;
+    }
+
+    if (auto* nav = mActor->m45()) {
+        nav->_1e0.lock();
+        const u8 state = nav->_294;
+        nav->_1e0.unlock();
+        if (state == 4 || state == 5)
+            nav->sub_7100F76790();
+    }
+
+    if (auto* nav = _78->_0)
+        nav->sub_7100F7604C(nav->_2a8 * nav->_2ac);
+    m34();
 }
 
 void GiantNavMoveTarget::leave_() {

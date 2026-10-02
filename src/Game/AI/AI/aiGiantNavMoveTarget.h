@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -15,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34();
 
 protected:
     // static_param at offset 0x38
@@ -33,8 +36,8 @@ protected:
     const float* mFrontAngle_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
-    // Result of the unnamed enemy helper 0x71005e2bcc (init_); type unknown.
-    void* _78{};
+    // Result of sub_71005E2BCC (enter_): the actor's Enemy::_12d0.
+    act::Enemy::Unk_12d0* _78{};
     ksys::Timer _80;
 };
 

@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    const sead::SafeString& m34() override;
 
     void sub_7100450D14();
 

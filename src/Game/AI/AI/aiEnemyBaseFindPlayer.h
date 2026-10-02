@@ -55,6 +55,10 @@ public:
     // 0x7100380b50: whether a swift attack (速攻) is possible: target height difference within
     // SwiftAttackVMin..Max, target not x_13() (player accessor), EnemyLevel IsSwiftAttack.
     bool sub_7100380B50();
+    // 0x710037ef30 (not decompiled; tail-called by enter_)
+    void sub_710037EF30();
+    // 0x71003806c8 (not decompiled; called by sub_710037EF30)
+    void sub_71003806C8();
     // 0x7100380e90: TargetPos → 不意討ち.
     void sub_7100380E90();
 

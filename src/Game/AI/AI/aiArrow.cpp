@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiArrow.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -16,6 +17,11 @@ Arrow::~Arrow() {
     _130.fadeXLink();
     _150.fadeXLink();
     sub_7100463940();
+}
+
+void Arrow::sub_7100463940() {
+    if (_170.sub_7101241AD8(0))
+        xlink::fade(_170.mELink, -1);
 }
 
 bool Arrow::init_(sead::Heap* heap) {

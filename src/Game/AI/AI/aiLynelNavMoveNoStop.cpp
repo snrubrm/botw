@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelNavMoveNoStop.h"
+#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -24,6 +26,11 @@ void LynelNavMoveNoStop::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LynelNavMoveNoStop::leave_() {
     ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor)) {
+        if (auto* holder = static_cast<act::Enemy*>(actor)->_12d0)
+            holder->_8 = -1;
+    }
 }
 
 void LynelNavMoveNoStop::loadParams_() {
@@ -32,6 +39,21 @@ void LynelNavMoveNoStop::loadParams_() {
     getStaticParam(&mRepathTime_s, "RepathTime");
     getStaticParam(&mTooFarDist_s, "TooFarDist");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void LynelNavMoveNoStop::sub_71004923C0() {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor)) {
+        if (auto* holder = static_cast<act::Enemy*>(actor)->_12d0) {
+            if (holder->_0)
+                holder->_0->inlineReset();
+            holder->_8 = -1;
+            return;
+        }
+    }
+
+    if (auto* nav = mActor->m45())
+        nav->inlineReset();
 }
 
 void LynelNavMoveNoStop::m34() {

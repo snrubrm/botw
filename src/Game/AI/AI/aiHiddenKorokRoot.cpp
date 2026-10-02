@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiHiddenKorokRoot.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
@@ -38,6 +40,17 @@ void HiddenKorokRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void HiddenKorokRoot::leave_() {
     if (_82)
         _82 = false;
+}
+
+bool HiddenKorokRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType() != 0x1800010)
+        return false;
+
+    if (auto* schedule = mActor->getSchedule())
+        schedule->_122 = false;
+    xlinkEventOn(mActor, 26, 0, false);
+    callHiddenKorokFoundDemo();
+    return true;
 }
 
 void HiddenKorokRoot::invokedTalk() {

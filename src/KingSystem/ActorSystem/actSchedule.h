@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 
 namespace ksys::act {
@@ -8,7 +9,11 @@ namespace ksys::act {
 // Actor::mSchedule (the actor's schedule; the CSV has no names for it). TODO: incomplete (size unknown).
 class Schedule {
 public:
-    /* 0x000 */ u8 _0[0x124];
+    /* 0x000 */ u8 _0[0x88];
+    /* 0x088 */ sead::SafeString _88;  // current timeline key name (lane1 s21: KakarikoKokkoTimeline)
+    /* 0x098 */ u8 _98[0x122 - 0x98];
+    /* 0x122 */ bool _122;
+    /* 0x123 */ u8 _123;
     /* 0x124 */ sead::Atomic<bool> _124;  // near trigger enabled (ChangeEnableNearTrigger behavior)
     /* 0x125 */ u8 _125[0x2f8 - 0x125];
     /* 0x2f8 */ u32 _2f8;  // flags (bit 1 set by KakarikoKokkoTimeline::init_)

@@ -35,6 +35,35 @@ void EnemyBaseFindPlayer::sub_710037ECD0() {
     changeChild("ナビメッシュ無し", &params);
 }
 
+// NON_MATCHING: operand order of the flag-2 select (ours `csel hi` with swapped operands) and the
+// original loads the RerouteTimeMin/Max values before the GlobalRandom instance
+void EnemyBaseFindPlayer::sub_710037EF30() {
+    const f32 range = m34();
+    const f32 x = mActor->getMtx().m[0][3];
+    const f32 z = mActor->getMtx().m[2][3];
+    const auto& target = sub_71005D9330(mActor);
+    const sead::Vector2f diff(x - target.x, z - target.z);
+    if (diff.length() <= range)
+        _e8.reset(2);
+    else
+        _e8.set(2);
+    if (_e8.isOff(4)) {
+        _e8.set(4);
+        const s32 time = *mRestreintTime_s;
+        _12c = time > 0 ? time : 100.0f;
+    }
+
+    if (!isCurrentChild("威嚇")) {
+        _e4 = sead::GlobalRandom::instance()->getS32Range(*mRerouteTimeMin_s, *mRerouteTimeMax_s);
+        sub_71003806C8();
+    }
+
+    _130 = sub_71005D9330(mActor);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("威嚇", &params);
+}
+
 void EnemyBaseFindPlayer::sub_710037EDA4() {
     _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
     ksys::act::ai::InlineParamPack params;
@@ -113,7 +142,44 @@ bool EnemyBaseFindPlayer::sub_71003804F4() {
 }
 
 void EnemyBaseFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _130.set(-100000.0f, 0, 0);
+    _f0 = sub_71005E2BCC(mActor);
+    if (sub_71005D9744(mActor))
+        sub_710037E9A4();
+    _12c = -1;
+    _fc = _100 = *mRetTiredFromTime_s;
+    _128 = _124 = *mRetTiredFromTime_s;
+    _e8.reset(0xc);
+    _e8.set(8);
+
+    if (!sub_71005D8F28(mActor)) {
+        sub_710037EDA4();
+        return;
+    }
+
+    if (mActor->m45()) {
+        if (m38()) {
+            sub_710037ECD0();
+            return;
+        }
+        if (m35()) {
+            m40();
+            return;
+        }
+        if (sub_71005D9744(mActor) == 1) {
+            sub_710037EDA4();
+            return;
+        }
+        if (sub_710037EEAC()) {
+            sub_710037EF30();
+            return;
+        }
+        _e8.set(1);
+    } else if (m35()) {
+        m40();
+        return;
+    }
+    sub_710037EDA4();
 }
 
 void EnemyBaseFindPlayer::leave_() {
