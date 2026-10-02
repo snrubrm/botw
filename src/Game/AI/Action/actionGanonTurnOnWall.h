@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -33,6 +35,8 @@ protected:
     const bool* mIsChangeable_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _50;
+    sead::Matrix33f _5c;
 };
 
 }  // namespace uking::action
