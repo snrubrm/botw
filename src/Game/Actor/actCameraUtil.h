@@ -126,7 +126,8 @@ class Viewport;
 
 namespace ksys::act {
 class ActorConstDataAccess;
-}
+class PlayerBase;
+}  // namespace ksys::act
 
 namespace uking::act {
 class Camera;
@@ -166,6 +167,30 @@ bool sub_7100925110(const sead::Matrix33f& mtx, int axis);
 f32 sub_71009251C4(const uking::act::Camera* camera);
 // 0x710092523c: 1 - (1 - t)^exponent.
 f32 sub_710092523C(f32 exponent, f32 t);
+// Camera player-state helpers (TU 0x7100926430-).
+// 0x7100926430: searches the ground / water height below `pos` (`count` probes); a4-a6 are distances
+// (parameter order between the floats and the others is a guess).
+bool sub_7100926430(const sead::Vector3f& pos, int count, f32* out, f32 a4, f32 a5, f32 a6);
+// 0x71009269f8: sub_7100926430(pos, 3, out, 1, 1, 5).
+bool sub_71009269F8(const sead::Vector3f& pos, f32* out);
+// 0x7100926a14 / 0x7100926a2c: PlayerInfo::getPlayer() / getPlayer_() (null without PlayerInfo).
+ksys::act::PlayerBase* sub_7100926A14();
+ksys::act::PlayerBase* sub_7100926A2C();
+// 0x7100926a50: acquires the player into `accessor` (same as sub_7100924BE4).
+void sub_7100926A50(ksys::act::ActorConstDataAccess* accessor);
+// 0x7100926a74 / 0x7100926a9c: acquires the player's horse (PlayerInfo's horse link).
+bool sub_7100926A74(ksys::act::ActorConstDataAccess* accessor);
+bool sub_7100926A9C(ksys::act::ActorConstDataAccess* accessor);
+// 0x7100926cb0: acc::PlayerBase m190 || m191.
+bool sub_7100926CB0();
+// 0x7100926d24: acc::PlayerBase isRidingHorse || x_15 || x_17 || (x_16 && !x_17 && !x_18).
+bool sub_7100926D24();
+// 0x7100926fd0: false.
+bool sub_7100926FD0();
+// 0x7100927228 / 0x7100927230: -1.
+f32 sub_7100927228();
+f32 sub_7100927230();
+
 // 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null without manager.
 const sead::Viewport* sub_710092DAD0();
 
