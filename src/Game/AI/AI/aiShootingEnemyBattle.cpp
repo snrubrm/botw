@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiShootingEnemyBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,20 @@ void ShootingEnemyBattle::m38() {
         return;
     }
     EnemyBattle::m38();
+}
+
+bool ShootingEnemyBattle::m39() {
+    return m40();
+}
+
+void ShootingEnemyBattle::sub_7100569CA0() {
+    sub_7100569DC8(&_b8);
+    sead::Vector3f pos = sub_71005D93CC(mActor);
+    pos += _b8;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("画面外攻撃", &params);
+    ++_b0;
 }
 
 }  // namespace uking::ai
