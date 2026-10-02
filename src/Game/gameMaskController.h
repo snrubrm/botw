@@ -9,6 +9,7 @@
 
 namespace sead {
 class Controller;
+class ControllerWrapperBase;
 class Heap;
 }  // namespace sead
 
@@ -38,6 +39,9 @@ public:
     // Returns nullptr when there is no instance.
     static sead::Controller* getControllerSafe(ControllerIdx idx);
     sead::Controller* getController(ControllerIdx idx);
+    // 0x71008bca40: the controller wrapper at +0x40 (a sead::MaskControllerWrapper subclass, not
+    // declared yet; WaitForKeyInput / KeyInputCheck test its trigger mask). Declared only.
+    sead::ControllerWrapperBase* sub_71008BCA40();
 
 private:
     bool _28 = false;
