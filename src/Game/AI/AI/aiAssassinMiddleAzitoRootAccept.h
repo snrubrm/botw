@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiAssassinMiddleRoot.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,12 +17,16 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710031ff00: not decompiled (calls the unnamed ksys::evt::Manager function 0x7100db0ca0).
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // static_param at offset 0x340
     sead::SafeString mEntryPoint_s{};
     // static_param at offset 0x350
     sead::SafeString mDemoName_s{};
+    Unk_7102450678 _360;
 };
+KSYS_CHECK_SIZE_NX150(AssassinMiddleAzitoRootAccept, 0x398);
 
 }  // namespace uking::ai
