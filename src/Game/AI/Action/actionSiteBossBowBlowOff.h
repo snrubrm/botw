@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
 
+    s32 m37() override;
+
     // static_param at offset 0x170
     const int* mAddForceRecoverTime_s{};
     // static_param at offset 0x178

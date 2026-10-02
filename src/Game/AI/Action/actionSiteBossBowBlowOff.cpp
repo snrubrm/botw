@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossBowBlowOff.h"
+#include "Game/Actor/actSiteBoss.h"
 
 namespace uking::action {
 
@@ -28,6 +29,19 @@ void SiteBossBowBlowOff::loadParams_() {
 
 void SiteBossBowBlowOff::calc_() {
     SiteBossBlowOff::calc_();
+}
+
+s32 SiteBossBowBlowOff::m37() {
+    const s32 time = SiteBossBlowOff::m37();
+    int level = getNumberOfDeadBlights();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        const s32 kind = boss->_1534 & ~3;
+        if (kind == 4)
+            level = 3;
+        else if (kind == 8)
+            level = 4;
+    }
+    return time + *mAddForceRecoverTime_s * level;
 }
 
 }  // namespace uking::action

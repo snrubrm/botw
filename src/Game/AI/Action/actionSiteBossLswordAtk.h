@@ -22,6 +22,12 @@ public:
 protected:
     void calc_() override;
 
+    virtual void m32(f32 ratio);
+    virtual void m33(sead::Vector3f* vel);
+    virtual int m34();
+    virtual int m35();
+    virtual int m36();
+
     // static_param at offset 0x20
     const int* mAtMinDamage_s{};
     // static_param at offset 0x28
