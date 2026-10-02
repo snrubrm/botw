@@ -79,7 +79,7 @@ public:
     void calcMaybe() override;
     void m70() override;
     void updatePositionMaybe() override;
-    void m81() override;
+    bool m81(const ksys::Message& message) override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     s32* getLife() override { return &_b80; }
     void m88() override;
@@ -95,8 +95,8 @@ public:
     void m144() override { Actor::m144(); }
     bool m146() override;
 
-    // FIXME: figure out return types, parameters and names
-    virtual void m148() {}
+    // Name from the CSV (Horse's override reads eco StatusEffect ReduceAncientEnemyDamge).
+    virtual void loadReduceAncientEnemyDamageInfo() {}
 
     // CSV name. Reads GParamList HorseUnit (RiddenAnimalType); 1 if there is none.
     s32 x() const;

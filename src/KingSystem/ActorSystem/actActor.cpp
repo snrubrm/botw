@@ -366,6 +366,11 @@ s32 Actor::m94() {
     return 0;
 }
 
+void Actor::m96(s32* a1, s32* a2) {
+    *a1 = -1;
+    *a2 = 0;
+}
+
 ActorWeapons* Actor::getWeapons() {
     return nullptr;
 }

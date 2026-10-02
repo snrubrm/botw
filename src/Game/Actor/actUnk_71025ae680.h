@@ -4,9 +4,12 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
-namespace ksys::act {
+namespace ksys {
+class Message;
+namespace act {
 class Actor;
-}  // namespace ksys::act
+}  // namespace act
+}  // namespace ksys
 
 namespace uking::act {
 
@@ -26,7 +29,7 @@ public:
     virtual void m5();
     virtual void m6();
     virtual void m7();
-    virtual void m8();
+    virtual bool m8(const ksys::Message& message);
     virtual void m9();
     virtual void m10();
     virtual void m11();
@@ -37,6 +40,24 @@ public:
     /* 0x0a */ u8 _a;
     /* 0x10 */ ksys::act::Actor* _10;
     /* 0x18 */ s32 _18;
+    /* 0x1c */ u32 _1c;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025ae680, 0x20);
+
+// Placeholder name (vtable 0x710244dd20; ctor 0x71006cef7c, size 0x140). Horse::_1028 and the
+// second kind of object created by Enemy vtable slot 178. Has a second base (vtable 0x710244dd20 +
+// 0xc8) at 0x20.
+// TODO: incomplete.
+class Unk_710244dd20 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244dd20, Unk_71025ae680)
+public:
+    explicit Unk_710244dd20(ksys::act::Actor* actor);
+
+    void m7() override;
+    bool m8(const ksys::Message& message) override;
+
+    /* 0x20 */ u8 _20[0x140 - 0x20];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 
 }  // namespace uking::act

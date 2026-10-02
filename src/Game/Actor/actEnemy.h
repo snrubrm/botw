@@ -196,7 +196,7 @@ public:
     void m74() override;
     void m75() override;
     void m76() override;
-    void m81() override;
+    bool m81(const ksys::Message& message) override;
     void updateMtxFromPhysics() override;
     void m92() override;
     void m93(int a1, float a2) override {

@@ -87,6 +87,15 @@ bool PlayerOrEnemy::getWeapon(ActorConstDataAccess* accessor, int idx) const {
 
 namespace ksys::act {
 
+bool PlayerOrEnemy::m81(const Message& message) {
+    if (DynamicActor::m81(message))
+        return true;
+    auto* obj = m159();
+    if (!obj)
+        return false;
+    return obj->m8(message);
+}
+
 bool PlayerOrEnemy::m151(u16 bit) {
     auto* obj = m159();
     if (!obj)

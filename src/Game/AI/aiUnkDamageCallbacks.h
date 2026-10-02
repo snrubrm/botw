@@ -62,6 +62,14 @@ public:
     ksys::act::Actor* mActor;
 };
 
+// vtable 0x7102451a50 (`call` 0x7100748ae8 is not defined yet: it calls two unnamed functions).
+// Embedded in Horse (0x1170) and the SetIgnoreHorseDamage behavior.
+class Unk_7102451a50 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451a50, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
+
 // vtable 0x7102451a88
 class Unk_7102451a88 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451a88, uking::dmg::DamageCallback)

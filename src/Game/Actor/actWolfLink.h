@@ -27,7 +27,7 @@ public:
     s32 getMaxLife() override { return _1690; }
     bool shouldUnload() override;
     void calcMaybe() override;
-    void m81() override;
+    bool m81(const ksys::Message& message) override;
     void m156() override;
     void getBaseAtkPower() override;
 

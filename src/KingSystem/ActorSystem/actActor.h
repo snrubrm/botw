@@ -306,7 +306,8 @@ public:
     virtual void afterModelMatrixUpdate();
     virtual void m79();
     virtual bool m80();
-    virtual void m81();
+    // Message handler (overrides forward the message to sub-objects).
+    virtual bool m81(const Message& message) { return false; }
     virtual int getCalcTiming();
     virtual bool m83();
     virtual void updateMtxFromPhysics();
@@ -321,7 +322,7 @@ public:
     virtual void m93(int a1, float a2);
     virtual s32 m94();
     virtual void m95();
-    virtual void m96();
+    virtual void m96(s32* a1, s32* a2);
     virtual Chemical* getChemicalStuff();
     virtual ActorWeapons* getWeapons();
     virtual void getArmors();

@@ -43,7 +43,7 @@ public:
     void updatePositionMaybe() override;
     void m73() override;
     void m76() override;
-    void m81() override;
+    bool m81(const Message& message) override;
     s32* getLife() override;
     Unk_7100e4e084* m100() override;
     int getExtraHeapSize() override;

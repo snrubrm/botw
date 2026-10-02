@@ -41,7 +41,7 @@ public:
     /*  76 */ void m76() override;
     /*  77 */ void m77() override;
     /*  78 */ void afterModelMatrixUpdate() override;
-    /*  81 */ void m81() override;
+    /*  81 */ bool m81(const Message& message) override;
     /*  83 */ bool m83() override;
     /*  84 */ void updateMtxFromPhysics() override;
     /*  85 */ void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
