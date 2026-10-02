@@ -12,6 +12,7 @@ bool GetUp::init_(sead::Heap* heap) {
 
 void GetUp::enter_(ksys::act::ai::InlineParamPack* params) {
     GetUpBase::enter_(params);
+    _150.value = _150.prev_value = 0;
 }
 
 void GetUp::leave_() {

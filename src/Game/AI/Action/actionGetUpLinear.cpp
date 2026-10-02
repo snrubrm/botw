@@ -12,6 +12,7 @@ bool GetUpLinear::init_(sead::Heap* heap) {
 
 void GetUpLinear::enter_(ksys::act::ai::InlineParamPack* params) {
     GetUpBase::enter_(params);
+    _150 = 0;
 }
 
 void GetUpLinear::leave_() {

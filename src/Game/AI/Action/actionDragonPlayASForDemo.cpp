@@ -33,6 +33,7 @@ void DragonPlayASForDemo::loadParams_() {
 
 void DragonPlayASForDemo::calc_() {
     PlayASForDemo::calc_();
+    sub_71000F7020();
 }
 
 }  // namespace uking::action

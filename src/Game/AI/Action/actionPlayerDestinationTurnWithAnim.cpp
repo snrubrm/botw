@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerDestinationTurnWithAnim.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -32,6 +34,12 @@ void PlayerDestinationTurnWithAnim::calc_() {
 
 bool PlayerDestinationTurnWithAnim::m35() {
     return *mUsePartBind_d;
+}
+
+bool PlayerDestinationTurnWithAnim::m34() {
+    if (*mIsWaitASFinish_d)
+        return mActor->getASList()->x_4(0, 0);
+    return true;
 }
 
 }  // namespace uking::action

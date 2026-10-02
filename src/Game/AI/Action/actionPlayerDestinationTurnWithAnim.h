@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m34() override;
     bool m35() override;
 
     // dynamic_param at offset 0x40
