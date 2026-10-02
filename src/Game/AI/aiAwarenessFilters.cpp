@@ -285,3 +285,10 @@ bool Unk_7102451420::m2(Unk_71024dc978* entry) {
     return sub_7100739E24(_28, &target->mLink, -1) &&
            sub_71007369D0(&target->mLink, "IsDrop");
 }
+
+bool Unk_71024515d8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    return sub_71005DA304(&target->mLink);
+}

@@ -6,6 +6,7 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <gsys/gsysModelAccessKey.h>
@@ -1001,6 +1002,14 @@ bool sub_71005DD66C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int 
     if (!as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101163940))
         return false;
     return as_list->x(3, query, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+// NON_MATCHING: the original branches on both exposure compares; ours folds them into cset + and
+bool sub_71005DA304(ksys::act::BaseProcLink* link) {
+    if (!ksys::act::hasTag(link, ksys::act::tags::ObjectNightGlow))
+        return false;
+    const f32 exposure = ksys::world::Manager::instance()->getEnvMgr()->getExposure();
+    return exposure <= sead::Mathf::epsilon() && exposure >= -sead::Mathf::epsilon();
 }
 
 Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor) {
