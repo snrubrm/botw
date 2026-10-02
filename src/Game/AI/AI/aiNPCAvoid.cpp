@@ -6,6 +6,7 @@ namespace uking::ai {
 
 NPCAvoid::NPCAvoid(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+// NON_MATCHING: register choice for the saved &_f8 / &_b8 (D0 matches)
 NPCAvoid::~NPCAvoid() = default;
 
 void NPCAvoid::enter_(ksys::act::ai::InlineParamPack* params) {
