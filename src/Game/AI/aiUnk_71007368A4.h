@@ -51,5 +51,8 @@ bool sub_7100739E24(ksys::act::Actor* actor, ksys::act::BaseProcLink* link, int 
 /// 0x710073a010: `proc` is a favourite food of the actor (EatTarget FavoriteEatActorTags /
 /// FavoriteEatActorNames).
 bool sub_710073A010(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+/// 0x710073d51c (CSV Actor::checkHpRate): whether the actor's life is at most `rate` times its max
+/// life (life is 1 without a life value).
+bool checkHpRate(ksys::act::Actor* actor, f32 rate);
 /// 0x710073d584 (CSV name; declared only).
 bool enemyTeamStuff(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);

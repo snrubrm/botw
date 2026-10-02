@@ -154,3 +154,11 @@ bool sub_7100739A10(ksys::act::Actor* actor, const sead::SafeString& name) {
     }
     return false;
 }
+
+// TU of 0x710073d51c (next to enemyTeamStuff); defined here with the other AI utilities.
+bool checkHpRate(ksys::act::Actor* actor, f32 rate) {
+    f32 life = 1.0f;
+    if (auto* p = actor->getLife())
+        life = *p;
+    return actor->getMaxLife() * rate >= life;
+}
