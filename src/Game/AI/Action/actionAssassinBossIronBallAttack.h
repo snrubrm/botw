@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* out);
+    virtual void m33(sead::Vector3f* out);
 
     // static_param at offset 0x20
     const int* mIronBallNum_s{};

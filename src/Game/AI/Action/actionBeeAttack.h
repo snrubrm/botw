@@ -21,6 +21,10 @@ protected:
 
     // static_param at offset 0xc0
     const float* mThroughDist_s{};
+    sead::Vector3f _c8;
+    void m32(sead::Vector3f* target) override;
 };
+
+KSYS_CHECK_SIZE_NX150(BeeAttack, 0xd8);
 
 }  // namespace uking::action

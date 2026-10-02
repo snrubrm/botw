@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAssassinBossIronBallAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,6 +30,14 @@ void AssassinBossIronBallAttack::loadParams_() {
 
 void AssassinBossIronBallAttack::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void AssassinBossIronBallAttack::m32(sead::Vector3f* out) {
+    *out = sead::Vector3f::zero;
+}
+
+void AssassinBossIronBallAttack::m33(sead::Vector3f* out) {
+    mActor->getMtx().getTranslation(*out);
 }
 
 }  // namespace uking::action

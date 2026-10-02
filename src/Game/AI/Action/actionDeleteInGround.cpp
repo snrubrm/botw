@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionDeleteInGround.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -17,7 +20,12 @@ void DeleteInGround::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DeleteInGround::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* mgr = mActor->getDamageMgr())
+        mgr->mField_34 = 0;
+    if (auto* unit = mActor->get548())
+        unit->_18._50 = 0;
+    sub_71007A3800(mActor);
+    mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 void DeleteInGround::loadParams_() {

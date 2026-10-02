@@ -20,6 +20,11 @@ public:
 
 protected:
     void calc_() override;
+    // Writes the target position (TargetPos with TargetHeightOffset added to y).
+    virtual void m32(sead::Vector3f* target);
+    // Writes the normalised direction to the target position and its distance.
+    virtual void m33(sead::Vector3f* dir, f32* dist);
+    bool sub_710013443C();
 
     // static_param at offset 0x20
     const float* mSpeed_s{};
