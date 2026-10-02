@@ -45363,7 +45363,7 @@ Address,Quality,Size,Name
 0x00000071006dfd40,O,000076,_ZN5uking3dmg17DamageManagerBase10preDelete1Ev
 0x00000071006dfd8c,m,000076,_ZN5uking3dmg17DamageManagerBaseC1EPN4ksys3act5ActorE
 0x00000071006dfdd8,U,000096,DamageMgrBase::m20
-0x00000071006dfe38,U,000020,DamageMgrBase::resetStuff
+0x00000071006dfe38,m,000020,_ZN5uking3dmg17DamageManagerBase10resetStuffEv
 0x00000071006dfe4c,O,000500,_ZN5uking3dmg17DamageManagerBase11applyDamageERi
 0x00000071006e0040,O,000204,_ZN5uking3dmg17DamageManagerBase21handleDamageForPlayerEPjS2_S2_S2_S2_
 0x00000071006e010c,O,000072,_ZN5uking3dmg17DamageManagerBase9addDamageEliiiiii
@@ -45385,7 +45385,7 @@ Address,Quality,Size,Name
 0x00000071006e11f4,U,000128,
 0x00000071006e1274,O,000004,_ZN5uking3dmg17DamageManagerBase3m45Ev
 0x00000071006e1278,O,000016,_ZN5uking3dmg17DamageManagerBase3m49Ei
-0x00000071006e1288,U,000028,DamageMgr::getActorDamageParam
+0x00000071006e1288,O,000028,_ZN5uking3dmg17DamageManagerBase19getActorDamageParamEv
 0x00000071006e12a4,O,000208,_ZN5uking3dmg8Struct2012combineMaybeEPNS0_12Struct20BaseE
 0x00000071006e1374,U,000020,DamageMgrBase::m36
 0x00000071006e1388,U,000020,DamageMgrBase::m37
@@ -73711,10 +73711,10 @@ Address,Quality,Size,Name
 0x0000007100d2d208,U,000048,
 0x0000007100d2d238,U,000092,
 0x0000007100d2d294,U,000052,
-0x0000007100d2d2c8,U,000168,DamageMgrBase::clearCallbacks
+0x0000007100d2d2c8,O,000168,_ZN5uking3dmg17DamageManagerBase14clearCallbacksEv
 0x0000007100d2d370,U,000180,DamageMgrBase::calcMaybe
 0x0000007100d2d424,U,000160,
-0x0000007100d2d4c4,U,000152,DamageMgrBase::callDamageCallbacks
+0x0000007100d2d4c4,O,000152,_ZN5uking3dmg17DamageManagerBase19callDamageCallbacksEiPiS2_PjS3_S2_m
 0x0000007100d2d55c,O,000080,_ZN5uking3dmg17DamageManagerBase17addDamageCallbackEiPNS0_14DamageCallbackE
 0x0000007100d2d5ac,O,000220,_ZN5uking3dmg17DamageManagerBase20removeDamageCallbackEPNS0_14DamageCallbackE
 0x0000007100d2d688,O,000020,_ZN4ksys3act22getSystemIsGetItemSelfEPNS0_8InfoDataEPKc

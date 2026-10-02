@@ -11,6 +11,10 @@
 #include "Game/Damage/dmgStruct20.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::res {
+class DamageParam;
+}  // namespace ksys::res
+
 namespace ksys::act {
 class Actor;
 class ActorParam;
@@ -124,9 +128,13 @@ public:
     // Something depending on damage type?
     virtual s32 m49(s32 damageTypeMaybe);
 
+    // 0x71006e1288 (CSV DamageMgr::getActorDamageParam; in the DamageManagerBase TU): the actor's
+    // DamageParam resource (null without an ActorParam).
+    ksys::res::DamageParam* getActorDamageParam();
+
     void clearCallbacks();
     void resetStuff();
-    void callDamageCallbacks(u32 a2, u32* a3, s32* a4, u32* a5, u32* a6, u32* a7, u64 a8);
+    void callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6);
     s64 calcMaybe();
 
     inline void tryBuffDamage(s32& damage);

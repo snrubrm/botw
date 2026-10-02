@@ -32,6 +32,41 @@ u32 DamageManagerBase::getDamage() {
     return result;
 }
 
+// NON_MATCHING: the original stores the two -1 values as a pair of words (stp w8, w8); ours merges
+// them into one 64-bit store
+void DamageManagerBase::resetStuff() {
+    mField_40 = 0;
+    mDamage = 0;
+    mField_48 = 0;
+    mMinDmg = 0;
+    mField_50 = -1;
+    mField_54 = -1;
+    mDamageType = 0;
+}
+
+ksys::res::DamageParam* DamageManagerBase::getActorDamageParam() {
+    auto* param = mActor->getParam();
+    if (!param)
+        return nullptr;
+    return param->getRes().mDamageParam;
+}
+
+void DamageManagerBase::clearCallbacks() {
+    if (mCallbacks.isBufferReady()) {
+        for (s32 i = 0, n = mCallbacks.size(); i < n; ++i)
+            mCallbacks(i) = nullptr;
+    }
+    resetDamage();
+}
+
+void DamageManagerBase::callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4,
+                                            s32* a5, u64 a6) {
+    if (!mCallbacks.isBufferReady())
+        return;
+    for (auto* callback = mCallbacks[event_id]; callback; callback = callback->mNext)
+        callback->call(a1, a2, a3, a4, a5, a6);
+}
+
 void DamageManagerBase::addDamageCallback(s32 eventId, DamageCallback* callback) {
     if (mCallbacks.isBufferReady() && !callback->mDamageManager) {
         DamageCallback* next = mCallbacks[eventId];
