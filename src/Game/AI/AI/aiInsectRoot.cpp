@@ -14,12 +14,17 @@ bool InsectRoot::init_(sead::Heap* heap) {
     return SimpleWildlifeRoot::init_(heap);
 }
 
-// NON_MATCHING: the original then calls getCharacterController() and CharacterController
-// sub_7100F62EFC / sub_7100F62E74 and discards their results (see lane1 log, borderline)
 void InsectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleWildlifeRoot::enter_(params);
     _100 = ksys::Timer(20.0f, 20.0f);
     _10c = false;
+    if (auto* cc = mActor->getCharacterController()) {
+        sead::Vector3f pos;
+        if (cc->sub_7100F62EFC(&pos, 0)) {
+            f32 value;
+            cc->sub_7100F62E74(&value, 0);
+        }
+    }
 }
 
 void InsectRoot::leave_() {

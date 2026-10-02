@@ -43,10 +43,11 @@ void GuardianMini2ndBattleAttack::enter_(ksys::act::ai::InlineParamPack* params)
     sub_7100412DE8();
 }
 
-// NON_MATCHING: the original calls getDamageMgr() (result unused) before each setDamageCallbackTiming
 void GuardianMini2ndBattleAttack::sub_7100412DE8() {
+    mActor->getDamageMgr();
     setDamageCallbackTiming(mActor, 4, &_88);
     if (auto* actor = mActor) {
+        actor->getDamageMgr();
         setDamageCallbackTiming(actor, 5, &_b8);
         if (auto* chemical = actor->getChemicalStuff()) {
             chemical->sub_7100D90C2C(true);
