@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -120,6 +121,49 @@ f32 sub_71009226D8(const f32& deg);
 f32 sub_71009226EC(const f32& deg);
 
 namespace uking::act {
+
+// Placeholder name (out-of-line ctor 0x71009214b8, in the camera utility code): a camera state
+// (position, look-at, up and four parameters). Camera embeds many of them (Camera::_860 starts with
+// six; camera actions read state 0 at Camera+0x860 / +0x86c).
+class Unk_71009214b8 {
+public:
+    Unk_71009214b8();
+
+    // 0x7100921524
+    void set(const sead::Vector3f& pos, const sead::Vector3f& at, const sead::Vector3f& up, f32 a24,
+             f32 a28, f32 a2c, f32 a30, f32 a34);
+    // 0x710092156c
+    f32 sub_710092156C(f32 a1, f32 a2, const sead::Vector3f& pos) const;
+    // 0x7100921710: transforms `pos` by the inverse of the view matrix (false if it is degenerate).
+    bool sub_7100921710(const sead::Vector3f& pos, sead::Vector3f* out) const;
+    // 0x7100921818: the view (look-at) matrix (false if degenerate).
+    bool sub_7100921818(sead::Matrix34f* out) const;
+    // 0x7100921a24: radius of the near plane (from _24, _2c and _30) plus `offset`.
+    f32 sub_7100921A24(f32 offset) const;
+    // 0x7100921a90: the point at distance _30 from the position towards the look-at point.
+    void sub_7100921A90(sead::Vector3f* out) const;
+    // 0x7100921b48 (CSV: mis-named agl::sdw::ShadowUtil::calcViewDir duplicate): moves the
+    // position to `p` plus _30 in the direction from the old position to `p`.
+    void sub_7100921B48(const sead::Vector3f& p);
+    // 0x7100921c04 / 0x7100921c50: elevation (negated) / azimuth of the look direction (degrees).
+    f32 sub_7100921C04() const;
+    f32 sub_7100921C50() const;
+    // 0x7100921c98: _28 in degrees.
+    f32 sub_7100921C98() const;
+    // 0x7100921cac: validity check; `flags` (optional) receives the error bits (NaN components,
+    // _24 outside (0, pi), non-positive _2c/_30/_34, position == look-at, _34 <= _30).
+    void sub_7100921CAC(u32* flags) const;
+
+    /* 0x00 */ sead::Vector3f _0 = sead::Vector3f::zero;  // position
+    /* 0x0c */ sead::Vector3f _c = sead::Vector3f::ez;    // look-at point
+    /* 0x18 */ sead::Vector3f _18 = sead::Vector3f::ey;   // up
+    /* 0x24 */ f32 _24 = 1.5;  // an angle in radians (the Camera ctor sets pi/4 for Camera::_860._0)
+    /* 0x28 */ f32 _28 = 0;    // an angle in radians (sub_7100921C98)
+    /* 0x2c */ f32 _2c = 1.7;
+    /* 0x30 */ f32 _30 = 1.0;
+    /* 0x34 */ f32 _34 = 100.0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71009214b8, 0x38);
 
 // Placeholder name (out-of-line ctors 0x7100922700 (r, a, b) and 0x71009228a8 (vector)): a polar
 // coordinate in degrees: distance, elevation (_4, from the XZ plane towards +Y) and azimuth (_8,

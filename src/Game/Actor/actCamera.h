@@ -9,6 +9,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -16,31 +17,9 @@ namespace ksys::act::ai {
 class ActionBase;
 }
 
-// Camera utility code (0x710092xxxx).
-// 0x7100922058: a float camera parameter (used when Unk_710079a8e8::_804 does not select _15c).
-f32 sub_7100922058();
-
 namespace uking::act {
 
 class Camera;
-
-// Placeholder name (out-of-line ctor 0x71009214b8, in the camera utility code): a camera state
-// (position, look-at, up and four parameters). Camera embeds many of them (Camera::_860 starts with
-// six; camera actions read state 0 at Camera+0x860 / +0x86c).
-class Unk_71009214b8 {
-public:
-    Unk_71009214b8();
-
-    /* 0x00 */ sead::Vector3f _0;   // Vector3f::zero
-    /* 0x0c */ sead::Vector3f _c;   // Vector3f::ez
-    /* 0x18 */ sead::Vector3f _18;  // Vector3f::ey
-    /* 0x24 */ f32 _24;             // 1.5 (the Camera ctor sets pi/4 for Camera::_860._0)
-    /* 0x28 */ f32 _28;             // 0
-    /* 0x2c */ f32 _2c;             // 1.7
-    /* 0x30 */ f32 _30;             // 1.0
-    /* 0x34 */ f32 _34;             // 100.0
-};
-KSYS_CHECK_SIZE_NX150(Unk_71009214b8, 0x38);
 
 // Placeholder name (vtable 0x7102459dd8: empty D1 0x710079c5a8 and D0 only; out-of-line ctor
 // 0x710079c364).
