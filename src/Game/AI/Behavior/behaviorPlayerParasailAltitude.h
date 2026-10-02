@@ -1,6 +1,11 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiBehavior.h"
+
+namespace ksys::phys {
+class RayCastForRequest;
+}
 
 namespace uking::behavior {
 
@@ -15,10 +20,10 @@ public:
     void m9() override;
     void loadParams() override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ u32 _30 = 0;
-    /* 0x34 */ u8 _34[0xc];
-    /* 0x40 */ u32 _40 = 0x1;
+    /* 0x28 */ ksys::phys::RayCastForRequest* _28 = nullptr;
+    /* 0x30 */ f32 _30 = 0;  // altitude
+    /* 0x34 */ sead::Vector3f _34;  // cast start
+    /* 0x40 */ s32 _40 = 1;  // frames since the last completed cast
     /* 0x44 */ bool _44 = true;
 };
 KSYS_CHECK_SIZE_NX150(PlayerParasailAltitude, 0x48);

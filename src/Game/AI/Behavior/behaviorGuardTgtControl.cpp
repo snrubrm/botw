@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorGuardTgtControl.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::behavior {
 
@@ -12,6 +13,15 @@ GuardTgtControl::~GuardTgtControl() {
 
 void GuardTgtControl::loadParams() {
     getStaticParam(&mGuardTgtName_s, "GuardTgtName");
+}
+
+void GuardTgtControl::m8() {
+    _38 = false;
+    sub_71007A3910(mActor, mGuardTgtName_s.cstr());
+}
+
+void GuardTgtControl::m9() {
+    sub_71007A3910(mActor, mGuardTgtName_s.cstr());
 }
 
 }  // namespace uking::behavior

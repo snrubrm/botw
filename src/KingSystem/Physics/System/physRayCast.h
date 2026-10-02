@@ -80,6 +80,8 @@ public:
     bool phantomRayCast(Phantom* phantom);
 
     bool hasHit() const { return mHasHit; }
+    // 1 once a cast has completed (set by postCast, cleared by resetCastResult).
+    u32 get70() const { return _70; }
     void setNormalCheckingMode(NormalCheckingMode mode) { mNormalCheckingMode = mode; }
     const MaterialMask& getMaterialMask() const { return mMaterialMask; }
     void getHitPosition(sead::Vector3f* position) const;
