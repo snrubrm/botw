@@ -287,8 +287,9 @@ public:
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
 
-    void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f& vel,
-                       const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
+    // vel, ang_vel and scale are optional (null-checked by the original).
+    void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f* vel,
+                       const sead::Vector3f* ang_vel, const sead::Vector3f* scale,
                        bool is_life_infinite, int i, int life) const;
 
     // FIXME: figure out return types, parameters and names

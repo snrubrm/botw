@@ -78,11 +78,12 @@ public:
     bool deleteEx(BaseProc::DeleteReason reason) const;
     bool sleep(BaseProc::SleepWakeReason reason) const;
     bool wakeUp(BaseProc::SleepWakeReason reason) const;
-    bool setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f& vel,
-                       const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
+    // vel, ang_vel and scale are optional (Actor::setProperties null-checks them).
+    bool setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f* vel,
+                       const sead::Vector3f* ang_vel, const sead::Vector3f* scale,
                        bool is_life_infinite, int i, int life) const;
-    bool setProperties(const sead::Matrix34f& mtx, const sead::Vector3f& vel,
-                       const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
+    bool setProperties(const sead::Matrix34f& mtx, const sead::Vector3f* vel,
+                       const sead::Vector3f* ang_vel, const sead::Vector3f* scale,
                        bool is_life_infinite, int i, int life) const;
     bool isStateSleep() const;
     bool isStateCalc() const;

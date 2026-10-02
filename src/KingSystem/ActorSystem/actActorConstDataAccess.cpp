@@ -198,8 +198,8 @@ bool ActorConstDataAccess::wakeUp(BaseProc::SleepWakeReason reason) const {
 }
 
 bool ActorConstDataAccess::setProperties(int x, const sead::Matrix34f& mtx,
-                                         const sead::Vector3f& vel, const sead::Vector3f& ang_vel,
-                                         const sead::Vector3f& scale, bool is_life_infinite, int i,
+                                         const sead::Vector3f* vel, const sead::Vector3f* ang_vel,
+                                         const sead::Vector3f* scale, bool is_life_infinite, int i,
                                          int life) const {
     auto* actor = getActor();
     if (!actor)
@@ -208,8 +208,8 @@ bool ActorConstDataAccess::setProperties(int x, const sead::Matrix34f& mtx,
     return true;
 }
 
-bool ActorConstDataAccess::setProperties(const sead::Matrix34f& mtx, const sead::Vector3f& vel,
-                                         const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
+bool ActorConstDataAccess::setProperties(const sead::Matrix34f& mtx, const sead::Vector3f* vel,
+                                         const sead::Vector3f* ang_vel, const sead::Vector3f* scale,
                                          bool is_life_infinite, int i, int life) const {
     return setProperties(0, mtx, vel, ang_vel, scale, is_life_infinite, i, life);
 }
