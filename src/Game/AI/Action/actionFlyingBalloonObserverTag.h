@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m37(const ksys::act::ActorConstDataAccess& accessor) override;
 };
 
 }  // namespace uking::action

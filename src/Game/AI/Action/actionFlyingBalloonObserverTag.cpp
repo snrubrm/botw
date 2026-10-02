@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFlyingBalloonObserverTag.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -21,6 +22,12 @@ void FlyingBalloonObserverTag::leave_() {
 
 void FlyingBalloonObserverTag::calc_() {
     AreaObserveActorAction::calc_();
+}
+
+bool FlyingBalloonObserverTag::m37(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!AreaObserveActorAction::m37(accessor))
+        return false;
+    return accessor.isFlyingBalloon();
 }
 
 }  // namespace uking::action
