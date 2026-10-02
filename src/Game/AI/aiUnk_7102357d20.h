@@ -131,3 +131,21 @@ public:
 
     Unk_7102396ae0_Payload _18;
 };
+
+// vtable 0x71023b1860 (PriestBossCloneBulletRoot); message 0x80000d5
+class Unk_71023b1860 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023b1860_Payload _18;
+};
+
+// vtable 0x7102409958 (PriestBossMetaAIRoot); message 0x80000da
+class Unk_7102409958 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102409958_Payload _18;
+};

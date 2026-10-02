@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossMode.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,10 +17,18 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // aitree_variable at offset 0x40
     void* mPriestBossMetaAIUnit_a{};
+    void* _48 = nullptr;
+    u32 _50 = 0;
+    ksys::act::BaseProcLink _58;
+    Unk_7102450978 _68;
+    Unk_71023b1860 _e0{mActor, 0x80000d5};
+    bool _118 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossCloneBulletRoot, 0x120);
 
 }  // namespace uking::ai

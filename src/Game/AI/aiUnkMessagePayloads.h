@@ -113,12 +113,12 @@ struct Unk_7102413398_Payload {
 
 // Message 0x80000da (sender Unk_7102409958)
 struct Unk_7102409958_Payload {
-    u32 _0;
+    u32 _0 = 0;
     u32 _4;
     u32 _8;
     u32 _c;
     sead::JobQueueLock mLock;
-    u32 _14;
+    u32 _14 = 0;
     ksys::act::BaseProcLink mLink;
 };
 
@@ -139,9 +139,9 @@ struct Unk_7102411178_Payload {
 
 // Message 0x80000d5 (sender Unk_71023b1860)
 struct Unk_71023b1860_Payload {
-    u32 _0;
+    u32 _0 = 0;
     ksys::act::BaseProcLink mLink;
-    bool _18;
+    bool _18 = false;
     sead::JobQueueLock mLock;
 };
 
@@ -175,14 +175,14 @@ struct Unk_7102411f48_Payload {
 
 // Message 0x80000d4 (sender unknown; placeholder name = listener vtable)
 struct Unk_7102450978_Payload {
-    u32 _0;
+    u32 _0 = 0;
     ksys::act::BaseProcLink _8;
     ksys::act::BaseProcLink _18;
     u32 _28;
     u32 _2c;
     u32 _30;
     sead::JobQueueLock mLock;
-    u32 _38;
+    u32 _38 = 0;
 };
 
 // Message 0x80000d7 (sender Unk_71023dbd40)

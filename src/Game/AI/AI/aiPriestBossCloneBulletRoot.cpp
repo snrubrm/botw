@@ -23,4 +23,8 @@ void PriestBossCloneBulletRoot::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
+bool PriestBossCloneBulletRoot::handleMessage_(const ksys::Message& message) {
+    return !_68.m2(message);
+}
+
 }  // namespace uking::ai

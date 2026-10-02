@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossMeta.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -33,6 +34,14 @@ protected:
     const int* mPriestBossStartPhase_m{};
     // map_unit_param at offset 0xa8
     sead::SafeString mUniqueNameMessageLabel_m{};
+    Unk_71023dbd40 _b8{mActor, 0x80000d7};
+    Unk_7102409958 _e8{mActor, 0x80000da};
+    void* _128 = nullptr;
+    f32 _130 = -1.0f;
+    void* _138 = nullptr;
+    u32 _140 = 0;
+    s32 _144 = -1;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossMetaAIRoot, 0x148);
 
 }  // namespace uking::ai
