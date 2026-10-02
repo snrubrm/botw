@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiTargetPosTracking.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: the original stores _38 before and _5c after the vtable (see PreyLookAtTarget)
 TargetPosTracking::TargetPosTracking(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 TargetPosTracking::~TargetPosTracking() = default;
@@ -11,7 +15,37 @@ bool TargetPosTracking::init_(sead::Heap* heap) {
 }
 
 void TargetPosTracking::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _5c = false;
+    _50 = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_50, "TargetPos", -1);
+    changeChild("追跡行動", &pack);
+}
+
+// NON_MATCHING: the TargetPos pointer load is hoisted above the speed branch here; register
+// allocation of the difference vector
+void TargetPosTracking::calc_() {
+    if (*mIsStoppedByJustAvoid_s) {
+        if (_5c)
+            return;
+        if (sub_710072B7C4())
+            _5c = true;
+    }
+
+    const f32 speed = *mTrackSpeed_s;
+    if (speed < 0.0f) {
+        _50 = *mTargetPos_d;
+    } else {
+        const sead::Vector3f& target = *mTargetPos_d;
+        const f32 step = speed * ksys::VFR::instance()->getDeltaFrame();
+        const sead::Vector3f diff = target - _50;
+        const f32 len = diff.length();
+        if (len <= step)
+            _50.set(target);
+        else
+            _50 += diff * (1.0f / len) * step;
+    }
+    getCurrentChild()->setDynamicParam(_50, "TargetPos");
 }
 
 void TargetPosTracking::leave_() {
