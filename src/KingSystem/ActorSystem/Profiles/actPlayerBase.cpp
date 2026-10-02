@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -45,6 +46,10 @@ sead::Vector3f& PlayerBase::getPlayerPosForPostCalc() {
 PlayerBase* PlayerBase::getPlayer() {
     BaseProcMgr::instance()->isAccessingProcSafe(this, nullptr);
     return this;
+}
+
+bool PlayerBase::x_51() {
+    return _17d0->controllerCheckPressedMaybe(3);
 }
 
 bool PlayerBase::getActorViaAccessor(ActorLinkConstDataAccess* accessor) {

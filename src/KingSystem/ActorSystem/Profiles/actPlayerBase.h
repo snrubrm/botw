@@ -8,6 +8,10 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+namespace uking {
+class Unk_710246d058;
+}
+
 namespace ksys::act {
 
 namespace acc {
@@ -330,7 +334,9 @@ protected:
     /* 0x1770 */ sead::Vector3f _1770;  // a position (Player::sub_7100892100)
     /* 0x177c */ u8 _177c[0x17a0 - 0x177c];
     /* 0x17a0 */ sead::Vector3f _17a0;
-    /* 0x17ac */ u8 _17ac[0x17f0 - 0x17ac];
+    /* 0x17ac */ u8 _17ac[0x17d0 - 0x17ac];
+    /* 0x17d0 */ uking::Unk_710246d058* _17d0;  // controller (Player::initControllerMaybe)
+    /* 0x17d8 */ u8 _17d8[0x17f0 - 0x17d8];
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);
 
