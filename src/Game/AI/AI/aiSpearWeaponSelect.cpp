@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSpearWeaponSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ bool SpearWeaponSelect::init_(sead::Heap* heap) {
 }
 
 void SpearWeaponSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005DBB60(mActor, 0) == 2)
+        changeChild("槍装備", params);
+    else
+        changeChild("槍以外", params);
 }
 
 void SpearWeaponSelect::calc_() {}

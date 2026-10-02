@@ -298,6 +298,9 @@ ksys::act::BaseProcLink& sub_71005DE7F4(ksys::act::Actor* actor, f32 dist, f32 s
 /// Whether `link`'s actor is within (dist, speed, angle) of `actor`.
 bool sub_71005DEC08(ksys::act::BaseProcLink* link, ksys::act::Actor* actor, f32 dist, f32 speed,
                     f32 angle);
+/// 0x71005dbb60 (declared only): the weapon type (weapon actor +0xcf0) of the actor's weapon link
+/// `idx` (0..5; Actor slot 98), or -1. Placeholder name.
+s32 sub_71005DBB60(ksys::act::Actor* actor, s32 idx);
 /// 0x71005df270 (declared only): the position of the actor's link (actor+0x7c8 links) whose map
 /// object unit config name is `anchor_name`, offset by `dist`. Placeholder name.
 void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::SafeString& anchor_name,
