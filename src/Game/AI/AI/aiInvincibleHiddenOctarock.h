@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/AI/aiUnk_71024519a8.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {

@@ -21,7 +21,6 @@ protected:
     u32 _40{};
     bool _44{};
     Unk_71023da100 _48;
-    u32 _90{};
 };
 
 }  // namespace uking::ai

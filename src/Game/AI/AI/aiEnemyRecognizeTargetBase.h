@@ -42,8 +42,6 @@ protected:
     ksys::act::BaseProcLink _80;
     Unk_7102372510 _90{mActor, 0x8000008};
     Unk_7102450a98 _c0;
-    u32 _118 = 0;
-    u32 _11c;
     s32 _120 = 0;
     bool _124 = false;
     bool _125 = false;

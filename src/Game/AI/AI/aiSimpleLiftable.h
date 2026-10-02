@@ -22,9 +22,6 @@ public:
 protected:
     Unk_71024507c8 _38{0x1800004};
     Unk_71023da100 _78;
-    int _c0 = 0;
-    // Not initialised or used by SimpleLiftable itself; KorokStoneLift's first member is at 0xc8.
-    u32 _c4;
 };
 
 }  // namespace uking::ai

@@ -2,8 +2,6 @@
 
 #include <basis/seadTypes.h>
 #include "Game/AI/aiUnkMessagePayloads.h"
-#include <math/seadMatrix.h>
-#include <mc/seadJobQueue.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -82,8 +80,6 @@ public:
 
 // vtable 0x7102418f20 (RemainsFireBattleMove)
 class Unk_7102418f20 : public Unk_7102357d20 {
-// vtable 0x71023ec318 (EnemyTreeWeaponSearchOrBattle)
-class Unk_71023ec318 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
@@ -161,6 +157,16 @@ public:
     void* m2() override { return &_18; }
 
     Unk_7102413c08_Payload _18;
+};
+
+// --- lane1 session 6 senders (merged by coordinator) ---
+// vtable 0x71023ec318 (EnemyTreeWeaponSearchOrBattle)
+class Unk_71023ec318 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
 // vtable 0x71023ec340 (EnemyTreeWeaponSearchOrBattle)
 class Unk_71023ec340 : public Unk_7102357d20 {
 public:
