@@ -7,7 +7,18 @@ ForkAlwaysForceGetUp::ForkAlwaysForceGetUp(const InitArg& arg) : ksys::act::ai::
 ForkAlwaysForceGetUp::~ForkAlwaysForceGetUp() = default;
 
 bool ForkAlwaysForceGetUp::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (*mIsUseCRBOffsetUnit_s) {
+        _78.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mHolder)) {
+            if (!(unit->_b0 & 1)) {
+                unit->_8.setName("Skl_Root");
+                unit->_8._68 = sead::Matrix34f::ident;
+                unit->_b4 = 0;
+                unit->_b0 |= 1;
+            }
+        }
+    }
+    return true;
 }
 
 void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {

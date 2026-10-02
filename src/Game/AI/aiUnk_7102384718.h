@@ -17,7 +17,7 @@ class Unk_71025b2718 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_71025b2718, Unk_71025afb58)
 public:
     /* 0x08 */ ksys::act::BoneHandle _8;
-    /* 0xb0 */ bool _b0 = false;
+    /* 0xb0 */ u8 _b0 = 0;  // bit 0: initialised (by the owners' init_)
     /* 0xb4 */ u32 _b4 = 0;
 };
 

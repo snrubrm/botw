@@ -7,7 +7,16 @@ ForkASTrgTurnGround::ForkASTrgTurnGround(const InitArg& arg) : ksys::act::ai::Ac
 ForkASTrgTurnGround::~ForkASTrgTurnGround() = default;
 
 bool ForkASTrgTurnGround::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _58.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_58.mHolder)) {
+        if (!(unit->_b0 & 1)) {
+            unit->_8.setName("Skl_Root");
+            unit->_8._68 = sead::Matrix34f::ident;
+            unit->_b4 = 0;
+            unit->_b0 |= 1;
+        }
+    }
+    return true;
 }
 
 void ForkASTrgTurnGround::enter_(ksys::act::ai::InlineParamPack* params) {
