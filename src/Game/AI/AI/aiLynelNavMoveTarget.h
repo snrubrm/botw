@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
+
 protected:
     // static_param at offset 0x70
     const int* mStopGear_s{};

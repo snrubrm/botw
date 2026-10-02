@@ -17,4 +17,10 @@ void GuardianMiniBeamToExplosives::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+bool GuardianMiniBeamToExplosives::m39() {
+    return m40();
+}
+
+void GuardianMiniBeamToExplosives::m42() {}
+
 }  // namespace uking::ai

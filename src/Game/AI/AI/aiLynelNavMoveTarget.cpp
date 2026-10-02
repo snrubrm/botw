@@ -24,4 +24,8 @@ void LynelNavMoveTarget::loadParams_() {
     getStaticParam(&mCliffCheckDist_s, "CliffCheckDist");
 }
 
+bool LynelNavMoveTarget::m35() {
+    return true;
+}
+
 }  // namespace uking::ai

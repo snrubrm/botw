@@ -14,6 +14,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
+    bool m39() override;
+    void m42() override;
+
 protected:
     // static_param at offset 0x2d8
     const float* mExplosivesAvoidDist_s{};
