@@ -47,4 +47,6 @@ bool HorseCheckLineOfSightSelectorBase::isFailed() const {
     return child && child->isFailed();
 }
 
+void HorseCheckLineOfSightSelectorBase::m34() {}
+
 }  // namespace uking::ai

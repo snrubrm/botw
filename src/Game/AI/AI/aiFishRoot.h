@@ -16,6 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34() override;
+    bool m36() override;
+    void m40() override;
+
 protected:
     // static_param at offset 0xf8
     const float* mInWaterDepth_s{};

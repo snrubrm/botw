@@ -85,4 +85,8 @@ void GolemRootBase::loadParams_() {
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 
+void GolemRootBase::m37() {
+    EnemyRoot::m37();
+}
+
 }  // namespace uking::ai

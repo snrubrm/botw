@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFishRoot.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -31,6 +33,20 @@ void FishRoot::loadParams_() {
     getStaticParam(&mIgnoreFoodRand_s, "IgnoreFoodRand");
     getStaticParam(&mIgnoreFoodAfterSuccessBase_s, "IgnoreFoodAfterSuccessBase");
     getStaticParam(&mIgnoreFoodAfterSuccessRand_s, "IgnoreFoodAfterSuccessRand");
+}
+
+bool FishRoot::m34() {
+    return SimpleWildlifeRoot::m34();
+}
+
+bool FishRoot::m36() {
+    return false;
+}
+
+void FishRoot::m40() {
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F60604();
+    SimpleWildlifeRoot::m40();
 }
 
 }  // namespace uking::ai

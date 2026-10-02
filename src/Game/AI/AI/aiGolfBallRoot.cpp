@@ -25,4 +25,6 @@ void GolfBallRoot::loadParams_() {
     getStaticParam(&mFloatJudgeStop_s, "FloatJudgeStop");
 }
 
+void GolfBallRoot::m34() {}
+
 }  // namespace uking::ai

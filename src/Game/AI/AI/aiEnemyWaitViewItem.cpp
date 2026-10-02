@@ -50,4 +50,10 @@ void EnemyWaitViewItem::calc_() {
     child->setDynamicParam(pos, "TargetPos");
 }
 
+void EnemyWaitViewItem::m34() {}
+
+void EnemyWaitViewItem::m35() {}
+
+void EnemyWaitViewItem::m36() {}
+
 }  // namespace uking::ai

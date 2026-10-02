@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m37() override;
+
     bool m35() override;
 
     void sub_71004012F8();
