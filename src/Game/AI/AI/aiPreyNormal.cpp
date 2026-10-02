@@ -94,8 +94,8 @@ bool PreyNormal::m40() {
     return isCurrentChild("徘徊");
 }
 
-void PreyNormal::m41() {
-    sub_71004FCA60();
+bool PreyNormal::m41() {
+    return sub_71004FCA60();
 }
 
 // NON_MATCHING: scheduling (the original computes the clamped index before the own-target link)

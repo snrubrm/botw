@@ -42,11 +42,11 @@ public:
     virtual bool m38();
     virtual bool m39();
     virtual bool m40();
-    virtual void m41();
+    virtual bool m41();
     virtual bool m42() { return false; }
     virtual ksys::act::Unk_7100d78e50* m43(s32 idx, bool skip_own_target);
 
-    void sub_71004FCA60();
+    bool sub_71004FCA60();
     bool sub_7100500A0C(const sead::Vector3f* pos);
 
 protected:

@@ -23,6 +23,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // Slot 44 (PreyNormal ends at m43): true in the escape / notice / look / interest / target
+    // notice / last resort states.
+    virtual bool m44();
+
 protected:
     // static_param at offset 0x340
     const int* mWaitFramesAfterRunMax_s{};

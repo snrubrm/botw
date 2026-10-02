@@ -22,6 +22,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool m40() override;
+    bool m41() override;
+    bool m44() override;
+    // 0x7100364460 (CSV: AI_AI_DogNormal::x): friend / follow update (per-frame helper of m41).
+    void sub_7100364460();
 
 protected:
     // static_param at offset 0x3a0

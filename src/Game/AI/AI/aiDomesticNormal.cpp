@@ -18,6 +18,12 @@ void DomesticNormal::leave_() {
     PreyNormal::leave_();
 }
 
+bool DomesticNormal::m44() {
+    return isCurrentChild("逃走") || isCurrentChild("ダメージ逃走") || isCurrentChild("気づき") ||
+           isCurrentChild("ふり向き") || isCurrentChild("興味対象発見") ||
+           isCurrentChild("ターゲット通知") || isCurrentChild("最後の手段");
+}
+
 void DomesticNormal::loadParams_() {
     PreyNormal::loadParams_();
     getStaticParam(&mWaitFramesAfterRunMax_s, "WaitFramesAfterRunMax");
