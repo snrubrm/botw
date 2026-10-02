@@ -19,6 +19,9 @@ public:
     Message3DText();
     ~Message3DText();
 
+    // 0x7100721830: sets the actor and the message label prefix ("EventFlowMsg/" or
+    // "ShoutMsg/Shout_" + the actor's same-group name; hidden Koroks share "Npc_HiddenKorok").
+    void sub_7100721830(ksys::act::Actor* actor, bool shout);
     // 0x7100721c48 (not decompiled): per-frame update (timer).
     void sub_7100721C48();
 
