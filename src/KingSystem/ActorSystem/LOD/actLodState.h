@@ -25,6 +25,8 @@ public:
 private:
     void initFlags();
 
+public:
+    // Public: AI code reads mFlags10 / mFlags14 / mFlags26 through Actor::getLodState().
     sead::BitFlag64 mFlags8;
     sead::BitFlag32 mFlags10;
     sead::BitFlag32 mFlags14;

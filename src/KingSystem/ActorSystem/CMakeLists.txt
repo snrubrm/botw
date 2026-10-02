@@ -123,6 +123,8 @@ target_sources(uking PRIVATE
     actBoneHandle.cpp
     actBoneHandle.h
     actBoneHandleBase.cpp
+    actUnk_7100d3bc4c.cpp
+    actUnk_7100d3bc4c.h
     actCCAccessor.cpp
     actCCAccessor.h
     actUnk_710072AFD0.cpp

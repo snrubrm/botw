@@ -98,6 +98,7 @@ class Chemical;
 class DropData;
 class Unk_71025ae620;
 class ImpulseBaseProcLink;
+class LodState;
 class ModelBindInfo;
 class Schedule;
 
@@ -254,6 +255,8 @@ public:
     void sub_71011DA868(BoneHandleBase* handle);
     // Read inline by the Unk_7102459df8 helpers (isBgGroundHit, ...).
     BaseProcLink& getCreateArgBaseProcLink() { return mCreateArgBaseProcLink; }
+    // AI code reads the LOD state's flags (_10, _14, _26) inline.
+    LodState* getLodState() const { return _598; }
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ModelBindInfo* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
@@ -576,7 +579,7 @@ protected:
     /* 0x570 */ ActorParam* mActorParam = nullptr;
     /* 0x578 */ phys::InstanceSet* mPhysics = nullptr;
     /* 0x580 */ PhysicsConstraints mConstraints;
-    /* 0x598 */ void* _598 = nullptr;
+    /* 0x598 */ LodState* _598 = nullptr;  // created by Actor::makeField598 (0x710124b050)
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
     /* 0x5a8 */ phys::StaticCompoundRigidBodyGroup* mFieldBodyGroup = nullptr;
     /* 0x5b0 */ void* _5b0 = nullptr;
