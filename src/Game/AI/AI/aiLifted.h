@@ -9,7 +9,7 @@ class Lifted : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(Lifted, ksys::act::ai::Ai)
 public:
     explicit Lifted(const InitArg& arg);
-    ~Lifted() override;
+    ~Lifted() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

@@ -8,7 +8,6 @@ namespace uking::ai {
 
 Lifted::Lifted(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-Lifted::~Lifted() = default;
 
 void Lifted::enter_(ksys::act::ai::InlineParamPack* params) {
     _40 = 0;
