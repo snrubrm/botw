@@ -189,7 +189,6 @@ void EnemyNormal::sub_710039EC4C() {
     }
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (sp+0xc vs sp+0x8)
 void EnemyNormal::sub_710039ED94() {
     auto* actor = mActor;
     auto* chemical = actor->getChemicalStuff();
@@ -685,7 +684,7 @@ bool EnemyNormal::m72(Unk2* out, Unk1* info) {
         return true;
     }
 
-    auto* link = &enemy->_e08;
+    auto* link = &enemy->_e08._0;
     if (!ksys::act::isPlayerProfile(link) && !ksys::act::isNotLivingCreature(link) &&
         link->hasProc()) {
         return false;
@@ -875,7 +874,7 @@ void EnemyNormal::m34() {
     {
         auto* actor = sead::DynamicCast<act::Enemy>(mActor);
         if (actor && actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000) &&
-            sub_710039E1D0(&target, 2, &info) && *target._0 == actor->_e08) {
+            sub_710039E1D0(&target, 2, &info) && *target._0 == actor->_e08._0) {
             target._44 |= 1;
             m57(1, &target);
             m58(1, &target);

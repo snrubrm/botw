@@ -18,8 +18,6 @@ bool RemainElectricCannonBeamAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (sp+4 in the original; same known issue as
-// OctarockEscape / AreaActorObserve)
 void RemainElectricCannonBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710053E864();
     if (_38.hasProc()) {

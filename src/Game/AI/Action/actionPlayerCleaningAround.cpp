@@ -17,8 +17,6 @@ void PlayerCleaningAround::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
-// NON_MATCHING: the original passes the motion type as a 64-bit zero (`mov x1, xzr`): MotionType is
-// probably a 4-byte struct type (SEAD_ENUM) in the original, an enum class here
 void PlayerCleaningAround::leave_() {
     if (auto* controller = mActor->getCharacterController()) {
         controller->sub_7100F5EEB8(1.0f);

@@ -8,7 +8,6 @@ namespace uking::action {
 Msg2CameraResetNoConnect::Msg2CameraResetNoConnect(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-// NON_MATCHING: stack slot of the MessageType temporary (x29-8 vs the original's x29-4; known issue)
 bool Msg2CameraResetNoConnect::oneShot_() {
     ksys::act::ActorConstDataAccess accessor;
     getRoot6SomeActor(&accessor);

@@ -9,7 +9,6 @@ namespace uking::action {
 Msg2CameraResetInterpolate::Msg2CameraResetInterpolate(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-// NON_MATCHING: stack slot of the MessageType temporary (sp+0 vs the original's sp+4; known issue)
 bool Msg2CameraResetInterpolate::oneShot_() {
     act::Camera* camera = nullptr;
     sub_710092DB74(&camera);
