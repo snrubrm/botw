@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35();
+
 protected:
     // map_unit_param at offset 0x38
     const float* mGearRatio_m{};

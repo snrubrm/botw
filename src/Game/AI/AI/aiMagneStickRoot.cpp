@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMagneStickRoot.h"
+#include "Game/gameGearMgr.h"
 #include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -39,7 +40,8 @@ void MagneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MagneStickRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* gear_mgr = GearMgr::instance())
+        gear_mgr->sub_71006694B4(mActor);
 }
 
 void MagneStickRoot::loadParams_() {
@@ -50,6 +52,12 @@ void MagneStickRoot::loadParams_() {
     getMapUnitParam(&mRegistFromBeginning_m, "RegistFromBeginning");
     getMapUnitParam(&mIgnoreObstacle_m, "IgnoreObstacle");
     getAITreeVariable(&mIsTargetFixedAcceptor_a, "IsTargetFixedAcceptor");
+}
+
+void MagneStickRoot::m35() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006694B4(mActor);
 }
 
 }  // namespace uking::ai

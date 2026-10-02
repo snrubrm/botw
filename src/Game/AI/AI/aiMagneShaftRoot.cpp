@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiMagneShaftRoot.h"
+#include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -31,6 +33,17 @@ void MagneShaftRoot::leave_() {
 
 void MagneShaftRoot::loadParams_() {
     MagneShaftRootBase::loadParams_();
+}
+
+void MagneShaftRoot::m50() {
+    MagneShaftRootBase::m50();
+    if (!mActor)
+        return;
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    if (auto* gear_mgr = GearMgr::instance())
+        physics->sub_7100FBDFA4(gear_mgr->_1050);
 }
 
 ksys::phys::RigidBody* MagneShaftRoot::m52() {

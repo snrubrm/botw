@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDgnObj_DLC_CogWheel2.h"
+#include "Game/gameGearMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -24,6 +26,30 @@ void DgnObj_DLC_CogWheel2::loadParams_() {
     getMapUnitParam(&mRegistFromBeginning_m, "RegistFromBeginning");
     getMapUnitParam(&mJoinSystemGroup_m, "JoinSystemGroup");
     getAITreeVariable(&mRotationOffset_a, "RotationOffset");
+}
+
+void DgnObj_DLC_CogWheel2::m34() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006692F0(mActor, *mJoinSystemGroup_m);
+}
+
+void DgnObj_DLC_CogWheel2::m35() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006694B4(mActor);
+}
+
+void DgnObj_DLC_CogWheel2::m36() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_710066956C(mActor, *mJoinSystemGroup_m);
+}
+
+void DgnObj_DLC_CogWheel2::m37() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006695DC(mActor);
 }
 
 }  // namespace uking::ai

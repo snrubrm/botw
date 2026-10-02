@@ -16,6 +16,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
+    virtual bool m38() { return false; }
+
 protected:
     // FIXME: remove this
     u8 pad_0x38[0x28];

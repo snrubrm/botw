@@ -21,6 +21,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m50() override;
     ksys::phys::RigidBody* m52() override;
 
 protected:

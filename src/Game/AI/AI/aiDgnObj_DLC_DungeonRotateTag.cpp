@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDgnObj_DLC_DungeonRotateTag.h"
+#include "Game/gameGearMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -23,6 +25,20 @@ void DgnObj_DLC_DungeonRotateTag::loadParams_() {
     getMapUnitParam(&mGearRatio_m, "GearRatio");
     getMapUnitParam(&mRegistFromBeginning_m, "RegistFromBeginning");
     getAITreeVariable(&mRotationOffset_a, "RotationOffset");
+}
+
+void DgnObj_DLC_DungeonRotateTag::m34() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor) {
+        gear_mgr->sub_71006692F0(mActor, false);
+        *mRotationOffset_a = gear_mgr->_1098;
+    }
+}
+
+void DgnObj_DLC_DungeonRotateTag::m35() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006694B4(mActor);
 }
 
 }  // namespace uking::ai
