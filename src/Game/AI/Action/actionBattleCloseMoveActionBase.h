@@ -20,6 +20,9 @@ public:
 protected:
     void calc_() override;
 
+    bool m37(ksys::phys::CharacterController* controller, f32 speed,
+             const sead::Vector3f& dir) override;
+
     ksys::VFRValue _98;
 };
 

@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
 
+    bool m34(const sead::Vector3f& pos, float x) override;
+
     // static_param at offset 0x80
     const float* mTimeForCalcCheckCliffDist_s{};
 };
