@@ -35012,9 +35012,9 @@ Address,Quality,Size,Name
 0x00000071005b6028,O,000004,_ZN5uking2ai14SwitchDistance5calc_Ev
 0x00000071005b602c,O,000004,_ZN5uking2ai14SwitchDistance6leave_Ev
 0x00000071005b6030,O,000136,_ZN5uking2ai14SwitchDistance11loadParams_Ev
-0x00000071005b60b8,U,000176,uking::ai::SwitchDistance::m34
-0x00000071005b6168,U,000332,uking::ai::SwitchDistance::m35
-0x00000071005b62b4,U,000340,uking::ai::SwitchDistance::m36
+0x00000071005b60b8,O,000176,_ZN5uking2ai14SwitchDistance3m34Ev
+0x00000071005b6168,m,000332,_ZN5uking2ai14SwitchDistance3m35Ev
+0x00000071005b62b4,m,000340,_ZN5uking2ai14SwitchDistance3m36Ev
 0x00000071005b6408,O,000124,_ZN5uking2ai14SwitchDistance3m37Ev
 0x00000071005b6484,O,000124,_ZN5uking2ai14SwitchDistance3m38Ev
 0x00000071005b6500,O,000008,_ZNK5uking2ai14SwitchDistance27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
