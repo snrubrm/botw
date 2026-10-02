@@ -20,6 +20,8 @@ target_sources(uking PRIVATE
   gameUnk_71008ba8d8.cpp
   gameUnk_71008ba8d8.h
   gameUnk_71008bbda4.cpp
+  gameUnk_710246d058.cpp
+  gameUnk_710246d058.h
   gamePlayReport.cpp
   gamePlayReport.h
   gameScene.cpp

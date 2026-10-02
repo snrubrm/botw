@@ -50,6 +50,7 @@ target_sources(uking PRIVATE
     ProductReporter.h
     Revision.cpp
     Revision.h
+    SeadController.h
     StageInfo.cpp
     StageInfo.h
     StarterPackMgr.cpp
