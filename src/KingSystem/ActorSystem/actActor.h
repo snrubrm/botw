@@ -252,6 +252,8 @@ public:
     void boneHandleStuff(BoneHandleBase* handle, bool sorted);
     // Removes `handle` from the bone handle list _4d8.
     void sub_71011DA868(BoneHandleBase* handle);
+    // Read inline by the Unk_7102459df8 helpers (isBgGroundHit, ...).
+    BaseProcLink& getCreateArgBaseProcLink() { return mCreateArgBaseProcLink; }
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ModelBindInfo* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).

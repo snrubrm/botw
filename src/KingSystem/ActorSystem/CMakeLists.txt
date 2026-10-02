@@ -61,6 +61,8 @@ target_sources(uking PRIVATE
     actActorParam.h
     actActorParamMgr.cpp
     actActorParamMgr.h
+    actActorSensorUtil.cpp
+    actActorSensorUtil.h
     actActorSystem.cpp
     actActorSystem.h
     actActorTemplate.cpp

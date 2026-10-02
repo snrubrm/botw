@@ -50,6 +50,10 @@ class ActorAtk : public Unk_71025ae640, public Unk_7102459f48 {
 public:
     // CSV Struct7 (dtor 0x710079e574): 8 attack infos (0x78 bytes each) and their count.
     struct Struct7 {
+        struct AttackInfo {
+            u8 _0[0x78];
+        };
+
         void reset();
         void sub_710079E958(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_710079EFBC(sead::Buffer<u8>* buffer, Actor* actor);
@@ -59,6 +63,10 @@ public:
     };
     // dtor 0x710079e64c: 8 entries of 0x100 bytes and their count.
     struct Unk_710079e64c {
+        struct Unk1 {
+            u8 _0[0x100];
+        };
+
         void sub_71007A124C();
         void sub_71007A12CC(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_71007A1C40(sead::Buffer<u8>* buffer, Actor* actor);
@@ -85,6 +93,10 @@ public:
 
     s32 getNumAttackInfoMaybe() const;
     s32 sub_710079E270() const;
+    // 0x710079e288 (CSV name): attack info `idx` of _18, or a static default entry.
+    const Struct7::AttackInfo* getAttackInfo(int idx) const;
+    // 0x710079e2c0 (CSV ActorAtk::x): entry `idx` of _48, or a static default entry.
+    const Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
 
     /* 0x18 */ Struct7* _18 = nullptr;
     /* 0x20 */ sead::Buffer<u8> _20;
