@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionRequestEventFromMapUnit.h"
+#include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::action {
 
@@ -28,7 +32,22 @@ void RequestEventFromMapUnit::loadParams_() {
 }
 
 void RequestEventFromMapUnit::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::evt::callEvent(mActor, mEventFlowName_m, mEventFlowEntryName_m, true, false);
+    if (*mIsWaitStartEvent_s) {
+        auto* actor = mActor;
+        bool in_event = actor->get1a0() != nullptr;
+        if (!in_event) {
+            auto* obj = actor->getMapObject();
+            in_event = obj && obj->getFlags0().isOn(ksys::map::Object::Flag0::_20000);
+        }
+        if (!in_event)
+            return;
+        auto* manager = ksys::evt::Manager::instance();
+        if (manager && manager->isActiveEventNameEqualTo(mEventFlowName_m, mEventFlowEntryName_m))
+            setFinished();
+    } else if (isFinishedAS(0, 0)) {
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

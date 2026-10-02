@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAddCalcScaleMapUnit.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -14,6 +15,15 @@ bool ForkAddCalcScaleMapUnit::init_(sead::Heap* heap) {
 
 void ForkAddCalcScaleMapUnit::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _58 = mActor->getScale().x;
+    _54 = _58 / *mScaleTime_m;
+    _50 = sead::Mathf::clamp(_58 * *mMinAddScaleRate_s, 0.0f, 1.0f);
+    f32 scale = *mStartRate_s * _58;
+    if (scale <= 0.0f) {
+        scale = 0.0f;
+        ksys::VFR::lerp(&scale, _58, *mAddRate_s, _54, _50);
+    }
+    mActor->setScale({scale, scale, scale});
 }
 
 void ForkAddCalcScaleMapUnit::leave_() {

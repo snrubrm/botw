@@ -57,7 +57,18 @@ void PlayerCleaningAround::loadParams_() {
 }
 
 void PlayerCleaningAround::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon()) {
+        if (auto* set = mActor->getPhysics()->findBodyByName("Player")) {
+            if (auto* body = set->findBodyByHavokName("Cleaning")) {
+                if (body->isAddedToWorld())
+                    body->removeFromWorld();
+            }
+        }
+        setFinished();
+    } else {
+        player->_1844.update();
+    }
 }
 
 }  // namespace uking::action

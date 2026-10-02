@@ -27,6 +27,8 @@ void ChargeAndShoot::loadParams_() {
 
 void ChargeAndShoot::calc_() {
     ShootArrow::calc_();
+    if (sub_71005DD780(mActor, 55, nullptr, 0, 0))
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 }  // namespace uking::action
