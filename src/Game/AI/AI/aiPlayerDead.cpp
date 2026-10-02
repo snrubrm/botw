@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPlayerDead.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -39,6 +40,14 @@ bool PlayerDead::isChangeable() const {
     if (isCurrentChild("死亡デモ開始"))
         return false;
     return getCurrentChild()->isChangeable();
+}
+
+void PlayerDead::calc_() {
+    if (isCurrentChild("死亡デモ開始") && mActor->getASList()->x_1(0, 0) == "Dead") {
+        static_cast<ksys::act::Player*>(mActor)->sub_7100877BD8();
+        static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    }
+    handlePendingChildChange();
 }
 
 }  // namespace uking::ai

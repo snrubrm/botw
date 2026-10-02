@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiTowingPlayer.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -29,6 +32,20 @@ void TowingPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TowingPlayer::leave_() {
+    if (auto* set = mActor->getPhysics()->findBodyByName("Atk")) {
+        if (auto* body = set->getRigidBodies()[0])
+            body->setContactLayer(ksys::phys::ContactLayer(0x35));
+    }
+
+    if (mActor->getRootAi()->getNewChildIdx() == 0)
+        return;
+
+    if (!_75)
+        _d8.sub_710070DCC0(&ksys::act::PlayerInfo::getSomeProcLink(), true);
+    if (auto* attention = mActor->getAttention()) {
+        attention->enableAllClients();
+        ksys::act::disableAttClient(mActor, "Hang");
+    }
     Towing::leave_();
 }
 
