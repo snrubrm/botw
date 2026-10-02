@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,12 +17,30 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+    void calc_() override;
+
+    virtual bool m45();
+    virtual bool m46();
+    virtual bool m47();
+    virtual void m48();
+    virtual void m49();
+    virtual void m50();
+    virtual bool m51();
+    virtual bool m52();
+    virtual bool m53();
+
+    void sub_7100507440(bool a1);
 
 protected:
     // static_param at offset 0x1d8
     const bool* mIsReactionOnDead_s{};
     // aitree_variable at offset 0x1e0
     void* mPriestBossMetaAIUnit_a{};
+    u32 _1e8 = 4;
+    Unk_7102411178 _1f0{mActor, 0x80000dc};
+    u32 _228 = 0;
+    bool _22c = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossActorEnemyRoot, 0x230);
 
 }  // namespace uking::ai

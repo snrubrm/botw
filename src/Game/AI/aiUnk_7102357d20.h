@@ -173,6 +173,15 @@ public:
     Unk_71023d4bb0_Payload _18;
 };
 
+// vtable 0x7102411178 (PriestBossActorEnemyRoot); message 0x80000dc
+class Unk_7102411178 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102411178_Payload _18;
+};
+
 // vtable 0x7102409958 (PriestBossMetaAIRoot); message 0x80000da
 class Unk_7102409958 : public Unk_7102357d20 {
 public:

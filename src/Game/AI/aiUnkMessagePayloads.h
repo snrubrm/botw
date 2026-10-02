@@ -131,8 +131,8 @@ struct Unk_71024508e8_Payload {
 
 // Message 0x80000dc (sender Unk_7102411178)
 struct Unk_7102411178_Payload {
-    u32 _0;
-    u32 _4;
+    u32 _0 = 0;
+    u32 _4 = 0;
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };
