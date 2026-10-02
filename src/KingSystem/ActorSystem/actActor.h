@@ -88,6 +88,7 @@ class ActorParam;
 class ActorWeapons;
 class Attention;
 class Awareness;
+class AwarenessInstance;
 class BaseProcLink;
 class BoneControl;
 class Chemical;
@@ -210,6 +211,7 @@ public:
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     as::ASList* getASList() const { return mASList; }
+    AwarenessInstance* getAwareness() const { return mAwareness; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
 
@@ -539,7 +541,7 @@ protected:
     /* 0x540 */ sead::Atomic<bool> _540 = false;
 
     /* 0x548 */ void* _548 = nullptr;
-    /* 0x550 */ Awareness* mAwareness = nullptr;
+    /* 0x550 */ AwarenessInstance* mAwareness = nullptr;
     /* 0x558 */ ai::RootAi* mRootAi = nullptr;
     /* 0x560 */ as::ASList* mASList = nullptr;
     /* 0x568 */ xlink::XLink* mXLink = nullptr;
