@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyTimelineAI.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -43,6 +44,16 @@ void EnemyTimelineAI::calc_() {
     TimelineAI::calc_();
     getCurrentChild()->setDynamicParam(*mCentralPos_d, "CentralPos");
     getCurrentChild()->setDynamicParam(*mCentralPos_d, "TargetPos");
+}
+
+const sead::SafeString& EnemyTimelineAI::m34() {
+    const auto& name = TimelineAI::m34();
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e84.isOnBit(24) && name == "Sleep") {
+        static const sead::SafeString sUnk_71025b8d98 = "Idle";
+        return sUnk_71025b8d98;
+    }
+    return name;
 }
 
 void EnemyTimelineAI::m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) {
