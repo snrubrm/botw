@@ -83,6 +83,44 @@ bool RemainsWaterBulletController::sub_7100548A38() {
     return false;
 }
 
+void RemainsWaterBulletController::sub_710054779C() {
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info) {
+            for (auto*& ptr : info->_8)
+                ptr = nullptr;
+        }
+    }
+    ksys::gdt::setFlag_Water_Relic_ChanceTime(true);
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info)
+            info->_3c = 2;
+    }
+    changeChild("冷却中");
+}
+
+void RemainsWaterBulletController::sub_71005478C8() {
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info) {
+            for (auto*& ptr : info->_8)
+                ptr = nullptr;
+        }
+    }
+    ksys::gdt::setFlag_Water_Relic_ChanceTime(false);
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info)
+            info->_3c = 0;
+    }
+    changeChild("射出前待機");
+}
+
 bool RemainsWaterBulletController::sub_7100548B34() {
     for (auto& bullet : _f0) {
         if (bullet.mLink.mLink.hasProc())
