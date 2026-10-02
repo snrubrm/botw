@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSandwormLost.h"
+#include "Game/Actor/actSandworm.h"
 
 namespace uking::ai {
 
@@ -32,6 +33,19 @@ void SandwormLost::leave_() {
 void SandwormLost::loadParams_() {
     EnemyLost::loadParams_();
     getStaticParam(&mDiveSandOffset_s, "DiveSandOffset");
+}
+
+void SandwormLost::m34() {
+    if (!_68) {
+        auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor);
+        if (sandworm && sandworm->_159c >= *mDiveSandOffset_s) {
+            _68 = true;
+            changeChild("潜る");
+            return;
+        }
+    }
+    _68 = true;
+    EnemyLost::m34();
 }
 
 }  // namespace uking::ai
