@@ -9,6 +9,11 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::act {
+class Unk_71024dc858;
+class Unk_71024dccf8;
+}
+
 namespace uking::ai {
 
 // Unnamed 0x68-byte heap object owned by EnemyNormal (_48). It has no out-of-line constructor:
@@ -32,6 +37,26 @@ public:
         s32 _0 = -1;
         s32 _4 = 0;
         u16 _8 = 0;
+    };
+
+    // Target candidate passed to m56-m58, m66-m69, m71/m72 (stack object of m34
+    // 0x710039e394); placeholder.
+    struct Unk2 {
+        ksys::act::BaseProcLink* _0 = nullptr;
+        sead::Matrix34f _8 = sead::Matrix34f::ident;
+        sead::Vector3f _38 = {0, 0, 0};
+        u8 _44 = 0;
+
+        // 0x710039e308: target = link (position and matrix of its actor).
+        void sub_710039E308(ksys::act::BaseProcLink* link);
+        // 0x71003a02a4: target = an awareness entry.
+        void sub_71003A02A4(ksys::act::Unk_71024dc858* entry);
+    };
+
+    // Result filled by m60/m61 and passed to m62/m63 ({type, flags}); placeholder.
+    struct Unk3 {
+        s32 _0;
+        u8 _4;
     };
 
     explicit EnemyNormal(const InitArg& arg);
@@ -67,26 +92,31 @@ public:
     virtual s32 m53() { return 9; }
     virtual bool m54();
     virtual bool m55();
-    virtual bool m56() { return false; }
-    virtual void m57();
-    virtual void m58(s32 a1) {}
+    virtual bool m56(Unk2* out, Unk1* info) { return false; }
+    virtual void m57(s32 type, Unk2* target);
+    virtual void m58(s32 type, Unk2* target) {}
     virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual bool m63() { return false; }
+    virtual void m60(Unk3* out);
+    virtual void m61(Unk3* out);
+    virtual void m62(Unk3* result);
+    virtual bool m63(Unk3* result) { return false; }
     virtual void m64();
     virtual bool m65(sead::Heap* heap);
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
+    virtual bool m66(Unk2* out, Unk1* info);
+    virtual bool m67(Unk2* out, Unk1* info);
+    virtual bool m68(Unk2* out, Unk1* info);
+    virtual void m69(Unk2* target);
     virtual bool m70();
-    virtual void m71();
-    virtual void m72();
+    virtual bool m71(Unk2* out, Unk1* info);
+    virtual bool m72(Unk2* out, Unk1* info);
     virtual bool m73();
 
     void sub_71003A19AC();
+    // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
+    ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
+                                              bool a4);
+    // 0x710039faa4
+    void sub_710039FAA4(const sead::Vector3f& pos);
 protected:
     // aitree_variable at offset 0x38
     int* mPlayerSoundSealRefCount_a{};

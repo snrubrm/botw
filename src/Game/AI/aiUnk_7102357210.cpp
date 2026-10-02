@@ -510,8 +510,6 @@ bool Unk_71024509a8::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _34._0 = payload->_0;
-        _34._4 = payload->_4;
-        _34._8 = payload->_8;
         _34._c = payload->_c;
     }
     _30 = true;
@@ -759,8 +757,6 @@ bool Unk_71023e7d28::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _34._0 = payload->_0;
-        _34._4 = payload->_4;
-        _34._8 = payload->_8;
     }
     _30 = true;
     _18 = message.getSource();

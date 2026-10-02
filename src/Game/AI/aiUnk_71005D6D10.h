@@ -270,3 +270,14 @@ void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
 void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
+
+// --- awareness / territory helpers used by EnemyNormal subclasses (lane1; declarations only) ---
+
+/// Searches the actor's awareness entries within (dist, speed, angle); returns the found link.
+ksys::act::BaseProcLink& sub_71005DE7F4(ksys::act::Actor* actor, f32 dist, f32 speed, f32 angle,
+                                        bool a4);
+/// Whether `link`'s actor is within (dist, speed, angle) of `actor`.
+bool sub_71005DEC08(ksys::act::BaseProcLink* link, ksys::act::Actor* actor, f32 dist, f32 speed,
+                    f32 angle);
+/// Sends `sender`'s message to the actors of the fortress tagged `tag` (no-op for an empty tag).
+bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag);

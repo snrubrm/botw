@@ -1,9 +1,11 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
+#include <cmath>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
@@ -138,6 +140,33 @@ bool EnemyNormal::m54() {
 
 bool EnemyNormal::m55() {
     return isCurrentChild("諦め") || isCurrentChild("見失い");
+}
+
+void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    const sead::Vector3f diff = home - mActor->getMtx().getTranslation();
+    if (std::sqrt(diff.x * diff.x + diff.z * diff.z) < *mHomePosRadius_s) {
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_2e0._18.mLock);
+            _2e0._18._0 = pos;
+        }
+        sub_71005E1884(mActor, &_2e0, mFortressTag_s.cstr());
+    }
+}
+
+void EnemyNormal::Unk2::sub_710039E308(ksys::act::BaseProcLink* link) {
+    _0 = link;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    accessor.getActorMtx().getTranslation(_38);
+    _8 = accessor.getActorMtx();
+}
+
+void EnemyNormal::Unk2::sub_71003A02A4(ksys::act::Unk_71024dc858* entry) {
+    _0 = &entry->mLink;
+    _38 = entry->_88;
+    _8 = entry->_58;
 }
 
 }  // namespace uking::ai

@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void m58(s32 a1) override;
+    void m58(s32 type, Unk2* target) override;
     void m49(Unk1* out, s32 idx) override;
     s32 m52(s32 idx) override;
     s32 m53() override { return 10; }

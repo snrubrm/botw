@@ -51,8 +51,8 @@ s32 GolemNormal::m52(s32 idx) {
     return sTable[idx];
 }
 
-void GolemNormal::m58(s32 a1) {
-    if (a1 == 9)
+void GolemNormal::m58(s32 type, Unk2* target) {
+    if (type == 9)
         m40();
 }
 

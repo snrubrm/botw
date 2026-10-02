@@ -365,9 +365,7 @@ struct Unk_71023e9028_Payload {
 
 // Message 0x80000c0 (sender unknown; placeholder name = listener vtable)
 struct Unk_71023e7d28_Payload {
-    u32 _0;
-    u32 _4;
-    u32 _8;
+    sead::Vector3f _0;  // EnemyNormal: a position within its home radius (sub_710039FAA4)
     sead::JobQueueLock mLock;
 };
 
