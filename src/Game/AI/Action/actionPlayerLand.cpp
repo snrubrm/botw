@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerLand.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -9,7 +11,12 @@ void PlayerLand::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerLand::leave_() {
-    PlayerAction::leave_();
+    if (static_cast<ksys::act::Player*>(mActor)->m194()) {
+        auto* player = static_cast<ksys::act::Player*>(mActor);
+        auto* proc = player->_2c28.getProc(nullptr, nullptr);
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
+            actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 void PlayerLand::calc_() {

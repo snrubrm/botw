@@ -11,8 +11,8 @@ void PlayerSlideLand::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x80);
     static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SlideLand", true, -1.0f);
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc *= 0.5f;
-    player->_20c0 = player->_20bc;
+    player->_20bc.value *= 0.5f;
+    player->_20bc.prev_value = player->_20bc.value;
 }
 
 // NON_MATCHING: the original loads mActor before the x_5() result

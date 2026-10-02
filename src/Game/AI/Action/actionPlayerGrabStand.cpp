@@ -15,8 +15,8 @@ void PlayerGrabStand::leave_() {}
 
 void PlayerGrabStand::calc_() {
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0;
-    player->_20c0 = 0;
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
     m32();
 }

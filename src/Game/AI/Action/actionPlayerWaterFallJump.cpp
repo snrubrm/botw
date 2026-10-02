@@ -25,8 +25,8 @@ void PlayerWaterFallJump::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     auto* player = static_cast<ksys::act::Player*>(mActor);
     const f32& speed = *mJumpSpeedF_s;
-    player->_20bc = speed;
-    player->_20c0 = speed;
+    player->_20bc.value = speed;
+    player->_20bc.prev_value = speed;
 }
 
 void PlayerWaterFallJump::leave_() {

@@ -30,8 +30,8 @@ void PlayerCleaningAround::enter_(ksys::act::ai::InlineParamPack* params) {
         controller->sub_7100F5F458(ksys::act::MotionType::Hover);
     }
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0;
-    player->_20c0 = 0;
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
     if (auto* set = mActor->getPhysics()->findBodyByName("Player")) {
         if (auto* body = set->findBodyByHavokName("Cleaning")) {
             body->addToWorld();

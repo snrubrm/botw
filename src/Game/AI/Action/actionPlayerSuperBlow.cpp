@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSuperBlow.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -18,7 +20,13 @@ void PlayerSuperBlow::loadParams_() {
 }
 
 void PlayerSuperBlow::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon())
+        setFinished();
+    else
+        player->_1844.update();
+    static_cast<ksys::act::Player*>(mActor)->_20bc.chase(0.0f, *mDecSpeed_s);
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerSuperBlow::isChangeable() const {

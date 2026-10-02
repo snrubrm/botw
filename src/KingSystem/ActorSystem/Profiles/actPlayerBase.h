@@ -177,6 +177,13 @@ public:
         const auto lock = sead::makeScopedLock(_c58);
         _c98.set(0x40);
     }
+
+    // Inline-only in the original (m266 / m307 and SwitchPlayerEquipment::calc_ inline it with a
+    // constant); the name is a placeholder.
+    void setC98Locked(u32 bits) {
+        const auto lock = sead::makeScopedLock(_c58);
+        _c98.set(bits);
+    }
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}

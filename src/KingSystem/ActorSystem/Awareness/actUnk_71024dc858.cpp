@@ -54,6 +54,25 @@ void Unk_71024dc858::m9(int idx, f32 value) {
     }
 }
 
+// NON_MATCHING: store merging (the original merges only the _18[1] / _18[2] zeros into one 64-bit
+// store and keeps _18[0] / _18[3] separate; ours pairs them: stp w8, wzr / stp wzr, w8)
+void Unk_71024dc858::m15() {
+    _18[0] = 1.0f;
+    _18[1] = 0.0f;
+    _18[2] = 0.0f;
+    _18[3] = 1.0f;
+    _38 = 0;
+    _3c = 0;
+    _40 = 0;
+    _4c = -1.0f;
+}
+
+bool Unk_71024dc858::m16(Unk_71024dc978* other) {
+    if (auto* entry = sead::DynamicCast<Unk_71024dc858>(other))
+        return mLink == entry->mLink;
+    return false;
+}
+
 void Unk_71024dc858::sub_7100D77518(int idx, f32 value) {
     _18[idx] = value;
 }

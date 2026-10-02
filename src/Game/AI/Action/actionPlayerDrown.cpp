@@ -18,8 +18,8 @@ void PlayerDrown::enter_(ksys::act::ai::InlineParamPack* params) {
         static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SwimDead", true, -1.0f);
     ksys::eft::searchAndEmitSLink(mActor, "warp", false);
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0;
-    player->_20c0 = 0;
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F5F6FC(sead::Vector3f::zero);
     static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;

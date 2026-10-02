@@ -44,7 +44,8 @@ protected:
     sead::SafeString mPorchItemName_ArmorLower_d{};
     // dynamic_param at offset 0xb0
     sead::SafeString mPorchItemName_Arrow_d{};
-    u16 _c0 = 0;
+    bool _c0 = false;
+    bool _c1 = false;
 };
 
 }  // namespace uking::action

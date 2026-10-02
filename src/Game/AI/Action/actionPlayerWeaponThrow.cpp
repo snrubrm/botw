@@ -25,8 +25,8 @@ void PlayerWeaponThrow::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0;
-    player->_20c0 = 0;
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
 }
 
 void PlayerWeaponThrow::leave_() {

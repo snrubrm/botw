@@ -16,8 +16,7 @@ PlayerBase::~PlayerBase() = default;
 // NON_MATCHING: the original tail-calls CriticalSection::unlock (the locked part was probably an inlined helper)
 void PlayerBase::m266(const sead::SafeString& slot, int frames) {
     switchEquipment(slot, frames);
-    const auto lock = sead::makeScopedLock(_c58);
-    _c98.set(0x20);
+    setC98Locked(0x20);
 }
 
 void PlayerBase::getActorDirect() {}

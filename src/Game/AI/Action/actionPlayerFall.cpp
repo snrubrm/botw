@@ -10,7 +10,13 @@ void PlayerFall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerFall::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x2000000);
+    if (static_cast<ksys::act::Player*>(mActor)->m194()) {
+        auto* player = static_cast<ksys::act::Player*>(mActor);
+        auto* proc = player->_2c28.getProc(nullptr, nullptr);
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
+            actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 void PlayerFall::loadParams_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSwitchPlayerEquipment.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -35,7 +38,20 @@ void SwitchPlayerEquipment::loadParams_() {
 }
 
 void SwitchPlayerEquipment::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_c0) {
+        _c0 = false;
+        return;
+    }
+    if (!act::CreatePlayerEquipActorMgr::instance()->areAllWeaponActorsReady())
+        return;
+    if (!_c1) {
+        if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+            player->setC98Locked(0x20);
+        _c1 = true;
+    }
+    setFinished();
 }
 
 }  // namespace uking::action

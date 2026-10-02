@@ -26,8 +26,8 @@ void PlayerSuperJumpCharge::loadParams_() {
 // NON_MATCHING: the two discarded ELink / SLink handles get separate stack slots in the original
 void PlayerSuperJumpCharge::calc_() {
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0;
-    player->_20c0 = 0;
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
 
     player = static_cast<ksys::act::Player*>(mActor);

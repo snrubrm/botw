@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::act {
@@ -379,9 +380,8 @@ public:
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
     /* 0x20a0 */ u8 _20a0[0x20bc - 0x20a0];
-    /* 0x20bc */ f32 _20bc;
-    /* 0x20c0 */ f32 _20c0;
-    /* 0x20c4 */ u8 _20c4[0x20d0 - 0x20c4];
+    /* 0x20bc */ ksys::VFRValue _20bc;  // PlayerSuperBlow::calc_ calls VFRValue::chase on it
+    /* 0x20c8 */ u8 _20c8[0x20d0 - 0x20c8];
     /* 0x20d0 */ f32 _20d0;
     /* 0x20d4 */ u8 _20d4[0x20f0 - 0x20d4];
     /* 0x20f0 */ f32 _20f0;
@@ -396,7 +396,9 @@ public:
     /* 0x2550 */ u8 _2550[0x2559 - 0x2550];
     /* 0x2559 */ u8 _2559;
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
-    /* 0x26b0 */ u8 _26b0[0x2c78 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
+    /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
+    /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
+    /* 0x2c38 */ u8 _2c38[0x2c78 - 0x2c38];
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
     /* 0x2c88 */ u8 _2c88[0x2c98 - 0x2c88];
     /* 0x2c98 */ BaseProcLink _2c98;

@@ -10,8 +10,8 @@ void PlayerSwimLand::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_cec.set(0x400);
     static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SwimWait", true, -1.0f);
     auto* player = static_cast<ksys::act::Player*>(mActor);
-    player->_20bc = 0.3f;
-    player->_20c0 = 0.3f;
+    player->_20bc.value = 0.3f;
+    player->_20bc.prev_value = 0.3f;
     static_cast<ksys::act::Player*>(mActor)->_1844 = ksys::Timer(15.0f, 15.0f);
 }
 

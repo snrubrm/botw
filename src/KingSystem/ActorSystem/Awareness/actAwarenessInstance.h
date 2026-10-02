@@ -74,6 +74,16 @@ public:
     virtual bool m8(sead::Vector3f* vel) = 0;  // the linked actor's velocity
     virtual void m9(int idx, f32 value) = 0;
     virtual void m10(int bit, bool on) = 0;  // sets / clears a bit of the u16 at +0x38
+    // Slots 11-13 are empty / return -1 (0x7100d7825c, 0x7100d78260, 0x7100d78264); 14-18 are pure.
+    // Names and the parameter types of m11 / m12 / m14 / m16 are placeholders (see Unk_71024dc858).
+    virtual void m11() {}
+    virtual void m12(void*) {}
+    virtual f32 m13() { return -1.0f; }
+    virtual bool m14(Unk_71024dc978* other) = 0;
+    virtual void m15() = 0;
+    virtual bool m16(Unk_71024dc978* other) = 0;
+    virtual f32 m17(int idx) = 0;
+    virtual void m18() = 0;
 };
 
 // Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctors 0x7100d771cc / 0x7100d77254
@@ -81,7 +91,7 @@ public:
 // 0x52 and the embedding objects place the next member at +0x58 (Unk_71024dc900: entry at +0x18,
 // actor at +0x70; the HornUse awareness object 0x710235f078: entry at +0x28, member at +0x80).
 // Must not be `final`: filters call its virtuals through DynamicCast results.
-// TODO: incomplete (virtual slots 11-16 not declared).
+// TODO: incomplete (m11 / m12 / m14 are declared only).
 class Unk_71024dc858 : public Unk_71024dc978 {
     SEAD_RTTI_OVERRIDE(Unk_71024dc858, Unk_71024dc978)
 public:
@@ -97,6 +107,21 @@ public:
     bool m8(sead::Vector3f* vel) override;
     void m9(int idx, f32 value) override;
     void m10(int bit, bool on) override;
+
+    // Slots 11-18. 0x7100d7774c: unless inactive (_50) or the world manager's (GOT 0x7102590c10)
+    // byte 0x128 has bits 4 / 1 set: clears _1c/_20/_3c/_48, calls m10(1, 0) / m10(2, 0)... (not
+    // decompiled). 0x7100d77854: takes a pointer (not decompiled). 0x7100d77530: copies an entry
+    // (`other` is a Unk_71024dc858; returns whether it was one; not decompiled).
+    void m11() override;
+    void m12(void* arg) override;
+    f32 m13() override { return _4c; }
+    bool m14(Unk_71024dc978* other) override;
+    // 0x7100d77230: resets the entry values (AITerror users call it devirtualised).
+    void m15() override;
+    // 0x7100d776b0: DynamicCast<Unk_71024dc858>(other) && mLink == other->mLink.
+    bool m16(Unk_71024dc978* other) override;
+    f32 m17(int idx) override { return _18[idx]; }
+    void m18() override {}
 
     // 0x7100d77518 (used by AITerror::x)
     void sub_7100D77518(int idx, f32 value);

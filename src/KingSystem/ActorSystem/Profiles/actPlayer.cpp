@@ -126,8 +126,8 @@ void Player::sub_7100877BD8() {
     f32 value = speed;
     if (_cf4.isOnBit(27))
         value = 0.0f;
-    _20bc = value;
-    _20c0 = value;
+    _20bc.value = value;
+    _20bc.prev_value = value;
     if (speed == 0.0f)
         return;
     const u32 angle = sead::Mathf::atan2Idx(translation.x, translation.z);
@@ -135,8 +135,8 @@ void Player::sub_7100877BD8() {
 }
 
 void Player::sub_71008697E4() {
-    _20bc = 0;
-    _20c0 = 0;
+    _20bc.value = 0;
+    _20bc.prev_value = 0;
     if (auto* controller = getCharacterController())
         controller->sub_7100F5F6FC(sead::Vector3f::zero);
 }

@@ -22,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    void calcTerrorVelocityStuff(f32 speed, const sead::Vector3f* dir);
 
     // static_param at offset 0x20
     const float* mCrashVelocityThreshold_s{};
