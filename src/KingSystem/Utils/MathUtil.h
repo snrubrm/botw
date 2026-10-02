@@ -105,9 +105,6 @@ float sub_71011EFAA4(const sead::Vector3f& a, const sead::Vector3f& b);
 // 0x71011efad8: length of the part of `vec` perpendicular to `axis`.
 float sub_71011EFAD8(const sead::Vector3f& vec, const sead::Vector3f& axis);
 
-// 0x71011f00ec: builds a matrix whose Y axis is `up` and Z axis is `front` made perpendicular to it.
-void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
-                    const sead::Vector3f& pos);
 
 // 0x71011f0260: builds a matrix whose Z axis is `front` and Y axis is `up` made perpendicular to it.
 void sub_71011F0260(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,

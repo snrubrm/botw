@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletFall.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -36,7 +36,7 @@ void RemainsWaterChaseBulletFall::calc_() {
 
 bool RemainsWaterChaseBulletFall::isFinished() const {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4864(actor, false))
+    if (isBgGroundHit(actor, false))
         return true;
 
     const f32 depth_threshold = *mInWaterDepth_s;

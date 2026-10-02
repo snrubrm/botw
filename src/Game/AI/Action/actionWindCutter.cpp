@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionWindCutter.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -59,8 +59,8 @@ bool WindCutter::m33() {
     if (ChemicalAttack::m33())
         return true;
     auto* actor = mActor;
-    return ksys::act::sub_71007A4638(actor, false) || ksys::act::sub_71007A4864(actor, false) ||
-           ksys::act::sub_71007A4178(actor, false);
+    return isLandedMaybe(actor, false) || isBgGroundHit(actor, false) ||
+           sub_71007A4178(actor, false);
 }
 
 }  // namespace uking::action

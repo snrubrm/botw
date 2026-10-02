@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -21,7 +21,7 @@ void RandomJump::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void RandomJump::leave_() {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4864(actor, false)) {
+    if (isBgGroundHit(actor, false)) {
         if (auto* cc = actor->getCharacterController())
             cc->sub_7100F5F6FC(sead::Vector3f::zero);
     }
@@ -53,7 +53,7 @@ void RandomJump::calc_() {
     bool on_ground = false;
     auto* controller = mActor->getCharacterController();
     if (!controller || !controller->mFlags.isOn(1))
-        on_ground = ksys::act::sub_71007A4864(mActor, false);
+        on_ground = isBgGroundHit(mActor, false);
 
     if (state != 0) {
         if (on_ground) {
@@ -71,7 +71,7 @@ void RandomJump::calc_() {
     cc->sub_7100F5E7F0(_60.value * 30.0f);
 
     if (*mIsReturnByHitWall_s) {
-        const bool hit = ksys::act::sub_71007A4638(actor, false);
+        const bool hit = isLandedMaybe(actor, false);
         if (hit && !_ac)
             sub_710072C1B4(cc, _a0);
         _ac = hit;
@@ -88,7 +88,7 @@ void RandomJump::calc_() {
 bool RandomJump::isFinished() const {
     if (_78 == 2 || ActionBase::isFinished())
         return true;
-    return _78 == 1 && ksys::act::sub_71007A4864(mActor, false);
+    return _78 == 1 && isBgGroundHit(mActor, false);
 }
 
 }  // namespace uking::action

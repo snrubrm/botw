@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionDropBreakWeaponUnEquiped.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -34,7 +34,7 @@ void DropBreakWeaponUnEquiped::loadParams_() {
 
 void DropBreakWeaponUnEquiped::calc_() {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4638(actor, false) || ksys::act::sub_71007A4864(actor, false)) {
+    if (isLandedMaybe(actor, false) || isBgGroundHit(actor, false)) {
         if (--_34 <= 0) {
             actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
             setFinished();

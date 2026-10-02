@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionWillBallParabolaAttack.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -37,7 +37,7 @@ void WillBallParabolaAttack::calc_() {
         _4c = true;
     else if (!_4c)
         return;
-    if (ksys::act::sub_71007A4864(actor, false))
+    if (isBgGroundHit(actor, false))
         setFinished();
 }
 

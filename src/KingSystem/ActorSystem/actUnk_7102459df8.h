@@ -60,7 +60,6 @@ public:
     struct Unk_7102459e88 {
         struct Unk1 {
             u8 _0[0x18];
-            BaseProcLink _18;
             BaseProcLink _18;  // compared with Actor::getCreateArgBaseProcLink() (isBgGroundHit)
             u8 _28[0x58 - 0x28];
         };

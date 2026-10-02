@@ -495,10 +495,6 @@ protected:
     friend class ActorCreator;
     friend class ActorConstDataAccess;
     friend class ActorSystem;
-    // Placeholder helpers in actUnk_71007A24BC.cpp that read mCreateArgBaseProcLink.
-    friend bool sub_71007A4178(Actor* actor, bool flag);
-    friend bool sub_71007A4638(Actor* actor, bool flag);
-    friend bool sub_71007A4864(Actor* actor, bool flag);
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
 
     struct Unk1 {

@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionFlyingCharacterFreezeDie.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -30,9 +30,9 @@ void FlyingCharacterFreezeDie::calc_() {
 
 bool FlyingCharacterFreezeDie::isFinished() const {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4638(actor, false))
+    if (isLandedMaybe(actor, false))
         return true;
-    return ksys::act::sub_71007A4864(actor, false);
+    return isBgGroundHit(actor, false);
 }
 
 }  // namespace uking::action

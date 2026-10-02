@@ -1,7 +1,7 @@
 #include "Game/AI/Action/actionDieHomeRun.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -41,7 +41,7 @@ void DieHomeRun::calc_() {
 
     ksys::Timer::update(&_17c, -1.0f);
     if (_17c < 0.0f &&
-        (ksys::act::sub_71007A4638(actor, false) || ksys::act::sub_71007A4864(actor, false))) {
+        (isLandedMaybe(actor, false) || isBgGroundHit(actor, false))) {
         _ec = 2;
         setFinished();
     }

@@ -3,7 +3,7 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -64,9 +64,9 @@ void FlyingCharacterReaction::m37(ksys::phys::CharacterController* controller) {
 
 bool FlyingCharacterReaction::m38() {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4638(actor, false))
+    if (isLandedMaybe(actor, false))
         return true;
-    return ksys::act::sub_71007A4864(actor, false);
+    return isBgGroundHit(actor, false);
 }
 
 }  // namespace uking::action

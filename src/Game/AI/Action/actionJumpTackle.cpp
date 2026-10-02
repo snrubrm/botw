@@ -1,5 +1,5 @@
 #include "Game/AI/Action/actionJumpTackle.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -51,7 +51,7 @@ void JumpTackle::calc_() {
 }
 
 bool JumpTackle::m34() {
-    return ksys::act::sub_71007A4864(mActor, false);
+    return isBgGroundHit(mActor, false);
 }
 
 }  // namespace uking::action

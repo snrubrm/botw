@@ -1,6 +1,6 @@
 #include "Game/AI/Action/actionChemicalAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -69,7 +69,7 @@ int ChemicalAttack::m39() {
 
 bool ChemicalAttack::m33() {
     auto* actor = mActor;
-    if (ksys::act::sub_71007A4638(actor, false))
+    if (isLandedMaybe(actor, false))
         return true;
     return (actor->getMtx().getTranslation() - _60).length() > m34();
 }
