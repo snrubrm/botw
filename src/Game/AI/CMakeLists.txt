@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
   aiActorLink.h
   aiAiFactories.cpp
   aiAiFactories.h
+  aiBehaviorFactories.cpp
+  aiBehaviorFactories.h
   aiAwarenessFilters.cpp
   aiAwarenessFilters.h
   aiGuardianAimBeamState.cpp
