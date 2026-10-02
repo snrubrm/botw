@@ -220,7 +220,7 @@ struct Unk_7102396ae0_Payload {
     sead::JobQueueLock mLock;
 };
 
-// Message 0x80000de (sender Unk_7102413c08; sender method 0x710070E2BC, not decompiled)
+// Message 0x80000de (sender Unk_7102413c08; sender method Unk_7102413c08::sub_710070E2BC)
 struct Unk_7102413c08_Payload {
     void sub_710070E270(Unk_7102413c08_Payload* out);
 
