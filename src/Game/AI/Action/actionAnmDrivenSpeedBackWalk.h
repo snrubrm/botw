@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -30,6 +32,11 @@ protected:
     const float* mFinishDist_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    f32 _50 = 0;
+    sead::Matrix33f _54;
+    ksys::Timer _78{0, 0};
+    ksys::Timer _84{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(AnmDrivenSpeedBackWalk, 0x90);
 
 }  // namespace uking::action

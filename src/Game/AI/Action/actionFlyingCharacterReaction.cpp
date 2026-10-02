@@ -4,6 +4,8 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -15,8 +17,27 @@ bool FlyingCharacterReaction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: ours hoists the mActor load of both branches above the branch
 void FlyingCharacterReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    mCCAccessor.changeMotionType(controller, ksys::act::MotionType::_1);
+    sub_710073FA90(&_40, mActor);
+    _64 = isBgGroundHit(mActor, false);
+    if (_64) {
+        ksys::eft::searchAndEmitSLink(mActor, "FallGround", false);
+        if (auto* as_list = mActor->getASList())
+            as_list->x_2(66, 17, false, false);
+        m35();
+        m36();
+    } else {
+        if (auto* as_list = mActor->getASList())
+            as_list->x_2(66, 17, true, false);
+        m32();
+        m33();
+    }
 }
 
 void FlyingCharacterReaction::leave_() {
@@ -32,7 +53,32 @@ void FlyingCharacterReaction::loadParams_() {
 }
 
 void FlyingCharacterReaction::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    if (m38()) {
+        if (!_64) {
+            ksys::eft::searchAndEmitSLink(mActor, "FallGround", false);
+            if (auto* as_list = mActor->getASList())
+                as_list->x_2(66, 17, false, false);
+            m35();
+            m36();
+        }
+        _64 = true;
+        m37(controller);
+    } else {
+        if (_64) {
+            if (auto* as_list = mActor->getASList())
+                as_list->x_2(66, 17, true, false);
+            m32();
+            m33();
+        }
+        _64 = false;
+        m34(controller);
+    }
 }
 
 void FlyingCharacterReaction::m32() {}

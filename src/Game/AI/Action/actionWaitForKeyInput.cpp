@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWaitForKeyInput.h"
+#include <controller/seadController.h>
+#include <controller/seadControllerWrapperBase.h>
+#include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -45,7 +48,26 @@ void WaitForKeyInput::loadParams_() {
 }
 
 void WaitForKeyInput::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* mask = MaskController::instance();
+    if (_28 != 0) {
+        sead::Controller* controller;
+        if (!mask || !(controller = mask->getController(MaskController::ControllerIdx(2))))
+            setFailed();
+        else if (controller->isTrig(_28))
+            setFinished();
+    }
+    if (_2c != 0) {
+        if (!mask)
+            setFailed();
+        else if (mask->sub_71008BCA40()->isTrig(_2c))
+            setFinished();
+    }
+
+    if (isFinished() || isFailed())
+        mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
