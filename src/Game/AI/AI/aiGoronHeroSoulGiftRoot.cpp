@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGoronHeroSoulGiftRoot.h"
+#include <algorithm>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ai {
@@ -30,6 +31,18 @@ void GoronHeroSoulGiftRoot::calc_() {
     if (player.hasProc() && player.x_12())
         _8c.update();
     HeroSoulGiftRoot::calc_();
+}
+
+bool GoronHeroSoulGiftRoot::m35(sead::Matrix34f* mtx) {
+    if (!HeroSoulGiftRoot::m35(mtx))
+        return false;
+
+    sead::Vector3f offset = sead::Vector3f::zero;
+    offset.z = -std::min(_8c.value, 5.0f);
+    sead::Vector3f pos;
+    pos.setMul(*mtx, offset);
+    mtx->setTranslation(pos);
+    return true;
 }
 
 }  // namespace uking::ai

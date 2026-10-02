@@ -17,6 +17,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool m35(sead::Matrix34f* mtx) override;
 
 protected:
     ksys::Timer _8c;
