@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -14,8 +17,15 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    void sub_71003ED718(int idx);
+    bool sub_71003ED9B0();
 
 protected:
+    sead::SafeArray<ksys::act::BaseProcHandle, 4> _38;
+    sead::SafeArray<ksys::act::BaseProcLink, 4> _78;
 };
+KSYS_CHECK_SIZE_NX150(GanonNormalRoot, 0xb8);
 
 }  // namespace uking::ai
