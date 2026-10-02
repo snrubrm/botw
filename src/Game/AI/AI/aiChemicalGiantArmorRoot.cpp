@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiChemicalGiantArmorRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -26,6 +28,24 @@ void ChemicalGiantArmorRoot::loadParams_() {
     GiantArmorRoot::loadParams_();
     getStaticParam(&mElectricTime_s, "ElectricTime");
     getStaticParam(&mElectricDamageScale_s, "ElectricDamageScale");
+}
+
+void ChemicalGiantArmorRoot::calc_() {
+    GiantArmorRoot::calc_();
+    if (_48)
+        sub_7100348188();
+
+    auto* chemical = mActor->getChemicalStuff();
+    if (chemical && !_48 && chemical->_1b8 > 0.0f) {
+        _48 = true;
+        return;
+    }
+
+    chemical = mActor->getChemicalStuff();
+    if (chemical && _48 && !(chemical->_1b8 > 0.0f)) {
+        _48 = false;
+        _4c = 0.0f;
+    }
 }
 
 }  // namespace uking::ai

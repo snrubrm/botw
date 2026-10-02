@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiMetalObjectBuried.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -14,7 +16,25 @@ bool MetalObjectBuried::init_(sead::Heap* heap) {
 }
 
 void MetalObjectBuried::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    _74 = 0;
+    if (!actor->getMapObject())
+        _72 = false;
+
+    if (*mIsInGround_m && !_72) {
+        sub_71004A5514();
+        return;
+    }
+
+    ksys::act::enableAllAttClients(actor);
+    if (*mIsInGround_m) {
+        if (auto* physics = actor->getPhysics())
+            physics->sub_7100FBADDC();
+    }
+    _70 = true;
+    _71 = false;
+    _72 = true;
+    changeChild("地上");
 }
 
 void MetalObjectBuried::leave_() {

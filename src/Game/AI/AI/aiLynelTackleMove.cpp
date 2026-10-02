@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiLynelTackleMove.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -57,6 +58,14 @@ void LynelTackleMove::sub_710049BEC4() {
             rigid_body->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
         }
     }
+}
+
+bool LynelTackleMove::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x3000003)
+        sub_710049BEC4();
+    else if (message.getType().value == 0x3000004)
+        sub_710049B8F0();
+    return false;
 }
 
 }  // namespace uking::ai

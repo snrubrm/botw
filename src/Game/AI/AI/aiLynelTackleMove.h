@@ -20,6 +20,8 @@ public:
 
     void sub_710049BEC4();
 
+    void sub_710049B8F0();
+    bool handleMessage_(const ksys::Message& message) override;
 protected:
     // static_param at offset 0x38
     const float* mThroughDist_s{};

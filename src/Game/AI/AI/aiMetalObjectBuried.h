@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71004A5514();
 protected:
     // static_param at offset 0x38
     const float* mPullOutSpeed_s{};

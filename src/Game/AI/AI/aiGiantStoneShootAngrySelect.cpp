@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGiantStoneShootAngrySelect.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::ai {
 
@@ -20,7 +22,14 @@ bool GiantStoneShootAngrySelect::init_(sead::Heap* heap) {
 }
 
 void GiantStoneShootAngrySelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* handle = *mIgniteHandle_d;
+    if (handle && handle->isProcReady() &&
+        (_50 || sead::GlobalRandom::instance()->getS32Range(0, 100) >= *mThrowableAngryRate_s)) {
+        sub_71003FAC88();
+        return;
+    }
+    _50 = true;
+    changeChild("怒り");
 }
 
 void GiantStoneShootAngrySelect::calc_() {}
