@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -31,7 +32,7 @@ public:
     void sub_71002DCBDC(u16 flags);
     // Callers pass -1 in w1 (not 0xffff): the mask is a 32-bit int.
     bool sub_71002DCCBC(s32 flags);
-    ksys::act::BaseProcLink* sub_71002DCEDC(u16 flags, f32* a2);
+    ksys::act::BaseProcLink* sub_71002DCEDC(u16 flags, const sead::Vector3f& pos);
 
     /* 0x00 */ ksys::act::Actor* mActor;
     /* 0x08 */ sead::SafeArray<Entry, 6> mEntries;
