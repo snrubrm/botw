@@ -307,7 +307,9 @@ public:
     /* 0x17f1 */ u8 _17f1[0x1810 - 0x17f1];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
-    /* 0x1828 */ u8 _1828[0x1844 - 0x1828];
+    /* 0x1828 */ u8 _1828[0x1834 - 0x1828];
+    /* 0x1834 */ Unk1 _1834;  // x_5() angle index, copied to _1c68 (PlayerCutHorseJump::enter_)
+    /* 0x1838 */ u8 _1838[0x1844 - 0x1838];
     /* 0x1844 */ ksys::Timer _1844;  // set to CleaningTime by PlayerCleaningAround::enter_
     /* 0x1850 */ u8 _1850[0x1868 - 0x1850];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
@@ -323,7 +325,8 @@ public:
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ u8 _1ca8[0x1cbe - 0x1ca8];
     /* 0x1cbe */ u8 _1cbe;
-    /* 0x1cbf */ u8 _1cbf[0x1cc8 - 0x1cbf];
+    /* 0x1cbf */ u8 _1cbf;
+    /* 0x1cc0 */ u8 _1cc0[0x1cc8 - 0x1cc0];
     /* 0x1cc8 */ s32 _1cc8;
     /* 0x1ccc */ s32 _1ccc;
     /* 0x1cd0 */ s32 _1cd0;
