@@ -1,6 +1,7 @@
 #include <limits>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
@@ -44,6 +45,13 @@ bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3) {
     if (!ksys::act::isEnemyProfile(enemy))
         return false;
     return state == 2 || state == 5 || (state == 3 && include_3);
+}
+
+bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
+                      const sead::Vector3f& dir, f32 distance) {
+    sead::Vector3f end = pos;
+    end += dir * distance;
+    return uking::sub_710090DB04(pos, end, hit_position, nullptr, nullptr);
 }
 
 // NON_MATCHING: the original branches to two copies of the point selection (the valid path reuses the

@@ -79,6 +79,8 @@ public:
     bool shapeRayCast(RigidBody* rigid_body);
     bool phantomRayCast(Phantom* phantom);
 
+    bool hasHit() const { return mHasHit; }
+    const MaterialMask& getMaterialMask() const { return mMaterialMask; }
     void getHitPosition(sead::Vector3f* position) const;
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
                               u32 shape_key) const;

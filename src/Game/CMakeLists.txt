@@ -14,6 +14,9 @@ target_sources(uking PRIVATE
   gameResetter.h
   gameResidentActorMgr.cpp
   gameResidentActorMgr.h
+  gameUnk_71024739d0.cpp
+  gameUnk_71024739d0.h
+  gameUnk_710090d904.cpp
   gameUnk_71008ba8d8.cpp
   gameUnk_71008ba8d8.h
   gameUnk_71008bbda4.cpp

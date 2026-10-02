@@ -78,6 +78,10 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+// 0x710072e280 (CSV name): casts a world ray from `pos` to `pos + dir * distance` (the TU after
+// uking::Unk_71024739d0, sub_710090DB04); writes the hit position.
+bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
+                      const sead::Vector3f& dir, f32 distance);
 
 /// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
