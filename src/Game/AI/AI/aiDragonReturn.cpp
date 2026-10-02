@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDragonReturn.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,12 @@ bool DragonReturn::init_(sead::Heap* heap) {
 }
 
 void DragonReturn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _70 = false;
+    _9c = false;
+    sub_710036D5BC();
+    _98 = *mAvoidStartDistance_s;
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor))
+        dragon->_1f70.set(0x20000000);
 }
 
 void DragonReturn::leave_() {
