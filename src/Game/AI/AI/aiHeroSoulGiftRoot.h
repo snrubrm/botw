@@ -24,6 +24,9 @@ public:
     virtual bool m37() { return true; }
 
 protected:
+    // 0x710042eeb4: sleeps the actor if ActorFlag2::_20 is set, otherwise changes to 退場.
+    void sub_710042EEB4();
+
     // static_param at offset 0x38
     const bool* mUseInitMtxForBasePos_s{};
     // static_param at offset 0x40
