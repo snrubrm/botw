@@ -16,11 +16,15 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m34();
-    virtual void m35();
+    bool isFinished() const override;
+
+    virtual bool m34() const;
+    virtual bool m35();
     virtual void m36();
     virtual s32 m37(s32 value) { return value; }
     virtual void m38();
+
+    ksys::act::Actor* sub_71003EF66C(s32 count);
 
 protected:
     // static_param at offset 0x38
