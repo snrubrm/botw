@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiForestGiantBattle.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,13 @@ void ForestGiantBattle::leave_() {
 void ForestGiantBattle::loadParams_() {
     EnemyBattle::loadParams_();
     getStaticParam(&mForceAttackArea_s, "ForceAttackArea");
+}
+
+void ForestGiantBattle::m43(ksys::act::ai::InlineParamPack* params) {
+    if (auto* link = sub_71005D9050(mActor))
+        params->addActor(*link, "ShootItem", -1);
+    else
+        params->addActor(ksys::act::sUnk_71026505e0, "ShootItem", -1);
 }
 
 }  // namespace uking::ai
