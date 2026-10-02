@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,14 @@ void KokkoAngry::leave_() {
 
 void KokkoAngry::loadParams_() {
     CreateActorWithTarget::loadParams_();
+}
+
+bool KokkoAngry::m36() {
+    if (CreateActorWithTarget::m36() &&
+        mActor->getASList()->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101162FE8)) {
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
