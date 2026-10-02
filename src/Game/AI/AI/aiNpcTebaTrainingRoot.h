@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiNPCRoot.h"
+#include "Game/AI/aiMessage3DText.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    Message3DText _238;
 };
+KSYS_CHECK_SIZE_NX150(NpcTebaTrainingRoot, 0x310);
 
 }  // namespace uking::ai

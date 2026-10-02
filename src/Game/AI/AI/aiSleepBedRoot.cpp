@@ -15,9 +15,15 @@ void SleepBedRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SleepBedRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _38.x();
 }
 
 void SleepBedRoot::loadParams_() {}
+
+bool SleepBedRoot::handleMessage_(const ksys::Message& message) {
+    if (!_38._30 && isCurrentChild("Wait"))
+        return _38.m2(message);
+    return false;
+}
 
 }  // namespace uking::ai

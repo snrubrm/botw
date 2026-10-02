@@ -16,8 +16,14 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+
+    bool m41() override;
+    bool m42() override;
 
 protected:
+    bool _f0 = false;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordWeapon, 0xf8);
 
 }  // namespace uking::ai
