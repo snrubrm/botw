@@ -60,6 +60,14 @@ void EnemyRoot::m37() {
     changeChild("リアクション");
 }
 
+void EnemyRoot::m39() {
+    if (isCurrentChild("通常"))
+        *mIsTrgChangeUnderWaterState_a = true;
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        enemy->_e84.resetBit(13);
+    changeChild("水中");
+}
+
 void EnemyRoot::m40() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e84.resetBit(13);
