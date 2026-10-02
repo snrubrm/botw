@@ -10,6 +10,10 @@ class CloseSmallAttack : public CloseSmallAttackBase {
 public:
     explicit CloseSmallAttack(const InitArg& arg);
     ~CloseSmallAttack() override;
+    bool isFinished() const override;
+
+    const char* m34() const override { return "ステップ"; }
+    const char* m35() const override { return "小攻撃"; }
 
 protected:
 };
