@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSiteBossBowChildDeviceBreak.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,7 +28,16 @@ void SiteBossBowChildDeviceBreak::loadParams_() {
 }
 
 void SiteBossBowChildDeviceBreak::calc_() {
-    ksys::act::ai::Action::calc_();
+    _30.update();
+    if (_30.value <= sead::Mathf::epsilon()) {
+        if (auto* body = mActor->getMainBody())
+            body->removeFromWorld();
+        mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        setFinished();
+    } else if (_30.value <= 5.0f) {
+        if (auto* chemical = mActor->getChemicalStuff())
+            chemical->sub_7100D909A4();
+    }
 }
 
 }  // namespace uking::action

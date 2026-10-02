@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBeltConveyor.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,9 @@ void BeltConveyor::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BeltConveyor::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->m126());
+    if (unk && unk->_20)
+        unk->_20->_588 = nullptr;
 }
 
 void BeltConveyor::loadParams_() {

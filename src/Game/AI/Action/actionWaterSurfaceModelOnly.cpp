@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaterSurfaceModelOnly.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,10 @@ bool WaterSurfaceModelOnly::init_(sead::Heap* heap) {
 }
 
 void WaterSurfaceModelOnly::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* as_list = mActor->getASList()) {
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "Flow", 0, 0, true);
+        as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100, *mFlowSpeedFactor_m);
+    }
 }
 
 void WaterSurfaceModelOnly::leave_() {

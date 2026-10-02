@@ -81,6 +81,8 @@ public:
         sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum;
         u8 _582;
+        // cleared by BeltConveyor::leave_
+        void* _588;
     };
 
     explicit Unk_7102459df8(Actor* actor) : Unk_71025b08f8(actor) {}

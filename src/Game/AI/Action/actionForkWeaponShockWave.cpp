@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkWeaponShockWave.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,6 +23,18 @@ void ForkWeaponShockWave::loadParams_() {
 
 void ForkWeaponShockWave::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool ForkWeaponShockWave::m32() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return false;
+    if (as_list->x(3, nullptr, *mTargetBone_s, *mSeqBank_s,
+                   &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        return true;
+    }
+    return as_list->x(3, nullptr, *mTargetBone_s, *mSeqBank_s,
+                      &ksys::as::ASList::Unk2::sub_710116388C, true);
 }
 
 }  // namespace uking::action

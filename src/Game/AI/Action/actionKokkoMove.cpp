@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionKokkoMove.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +18,15 @@ void KokkoMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void KokkoMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* nav = mActor->m45();
+    auto* controller = mActor->getCharacterController();
+    if (!nav || !controller)
+        return;
+    if (!*mAvoidPlayer_s)
+        nav->sub_7100F7D350();
+    controller->sub_7100F5EDD8(1.0f);
+    controller->sub_7100F5EDE0(0.0f);
+    controller->sub_7100F5E7F0(0.0f);
 }
 
 void KokkoMove::loadParams_() {
