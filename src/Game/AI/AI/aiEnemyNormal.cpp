@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -639,7 +640,7 @@ bool EnemyNormal::m65(sead::Heap* heap) {
     return _48 != nullptr;
 }
 
-bool EnemyNormal::m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
+bool EnemyNormal::m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink& target,
                       bool skip_own_pos) {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
@@ -648,6 +649,111 @@ bool EnemyNormal::m45(const sead::Vector3f& target_pos, const ksys::act::BasePro
     if (target.hasProcInCalcState() && !m46(target_pos, target))
         return true;
     return false;
+}
+
+// NON_MATCHING: the original shares one "return false" block (ours duplicates it per early return)
+bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target) {
+    sead::Vector3f center;
+    m48(&center);
+
+    f32 area;
+    if (!target.hasProc())
+        area = *_3b0;
+    else if (ksys::act::isNPCProfile(&target))
+        area = *mNpcTerritoryArea_s;
+    else if (ksys::act::isPlayerProfile(&target) || ksys::act::isNotLivingCreature(&target))
+        area = *_3b0 + _3b8;
+    else
+        area = *mNoPlayerTerritoryArea_s;
+
+    const bool has_target = target.hasProc();
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&target, &accessor);
+    const auto& mtx = accessor.getActorMtx();
+    const sead::Vector2f target_xz(mtx.m[0][3], mtx.m[2][3]);
+
+    const f32 height = *mTerritoryHeight_s;
+    if (height > 0.0f) {
+        if (sead::Mathf::abs(center.y - pos.y) > height)
+            return false;
+        if (sead::Mathf::abs(center.y - mtx.m[1][3]) > height)
+            return false;
+    }
+
+    const sead::Vector2f center_xz(center.x, center.z);
+    const f32 area_sq = area * area;
+    if (!((center_xz - sead::Vector2f(pos.x, pos.z)).squaredLength() < area_sq))
+        return false;
+    if (has_target && !((center_xz - target_xz).squaredLength() < area_sq))
+        return false;
+
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (!mgr)
+        return true;
+    sead::Vector3f own_pos;
+    mActor->getMtx().getTranslation(own_pos);
+    if (mgr->isNonAutoPlacement(own_pos, true))
+        return false;
+    return !mgr->isNonAutoPlacement(pos, true);
+}
+
+// NON_MATCHING: the original selects the range member address per case (2 / 1) and shares the
+// distance check; the final checks are laid out differently
+ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter,
+                                                       s32 a3, bool a4) {
+    auto* actor = mActor;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+        if (mgr->isNonAutoPlacement(pos, true))
+            return nullptr;
+    }
+
+    auto* awareness = actor->getAwareness();
+    if (!awareness)
+        return nullptr;
+
+    ksys::act::Unk_71024dc858* entry;
+    if (a4) {
+        do {
+            entry = ksys::act::sub_7100D7EEE8(&awareness->_8, filter);
+            if (!entry)
+                return nullptr;
+        } while (m45(entry->_88, entry->mLink, false));
+    } else {
+        if (awareness->_300 == 0)
+            return nullptr;
+        entry = m47(awareness, filter, a3);
+        if (!entry)
+            return nullptr;
+    }
+
+    auto* link = &entry->mLink;
+    if (a3 == 2 || a3 == 1) {
+        const f32 range = a3 == 2 ? *mShortRangeTerritoryArea_s : *mCloseRangeTerritoryArea_s;
+        f32 dist;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(link, &accessor);
+            const auto& mtx = accessor.getActorMtx();
+            const auto& own_mtx = mActor->getMtx();
+            const f32 dx = mtx.m[0][3] - own_mtx.m[0][3];
+            const f32 dz = mtx.m[2][3] - own_mtx.m[2][3];
+            dist = std::sqrt(dx * dx + dz * dz);
+        }
+        if (!(dist < range))
+            return nullptr;
+    }
+
+    sead::Vector3f center;
+    m48(&center);
+    if (entry->_a0 == 0)
+        return nullptr;
+    if (a1)
+        return entry;
+    if (m45(entry->_88, *link, false))
+        return nullptr;
+    return entry;
 }
 
 bool EnemyNormal::m70() {

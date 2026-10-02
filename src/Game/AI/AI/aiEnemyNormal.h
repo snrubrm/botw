@@ -87,9 +87,10 @@ public:
     virtual void m42();
     virtual bool m43();
     virtual bool m44(const sead::Vector3f& pos) { return true; }
-    virtual bool m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
+    virtual bool m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink& target,
                      bool skip_own_pos);
-    virtual bool m46(const sead::Vector3f& pos, const ksys::act::BaseProcLink& target);
+    // `target` is non-const: it is passed to isNPCProfile / acquireActor.
+    virtual bool m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target);
     virtual ksys::act::Unk_71024dc858* m47(ksys::act::AwarenessInstance* awareness,
                                            ksys::act::Unk_71024dccf8* filter, s32 a3);
     virtual void m48(sead::Vector3f* pos);

@@ -188,7 +188,9 @@ public:
     sead::SafeArray<Unk_71024dce08*, 4> _260;
     /* 0x280 */ u8 _280[0x2e8 - 0x280];
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
-    /* 0x2f0 */ u8 _2f0[0x334 - 0x2f0];
+    /* 0x2f0 */ u8 _2f0[0x300 - 0x2f0];
+    /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
+    /* 0x304 */ u8 _304[0x334 - 0x304];
     s8 _334;
     u8 _335[0x337 - 0x335];
     /* 0x337 */ bool _337;  // registered with Awareness::Instances
