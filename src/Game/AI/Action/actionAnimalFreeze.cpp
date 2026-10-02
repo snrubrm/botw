@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimalFreeze.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
@@ -26,6 +27,11 @@ void AnimalFreeze::loadParams_() {
 
 void AnimalFreeze::calc_() {
     HorseFreeze::calc_();
+    if (_68 >= *mPauseDelayFrames_s)
+        sub_71005DB41C(mActor);
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (actor && !actor->m151(3))
+        setFinished();
 }
 
 }  // namespace uking::action

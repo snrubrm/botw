@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimalElectricParalysis.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
@@ -27,6 +28,11 @@ void AnimalElectricParalysis::loadParams_() {
 
 void AnimalElectricParalysis::calc_() {
     HorseElectricParalysis::calc_();
+    if (_68 >= *mPauseDelayFrames_s)
+        sub_71005DB41C(mActor);
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (actor && !actor->m151(4))
+        setFinished();
 }
 
 }  // namespace uking::action

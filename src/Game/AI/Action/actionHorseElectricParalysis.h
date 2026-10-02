@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class HorseElectricParalysis : public ActionWithPosAngReduce {
@@ -29,6 +33,9 @@ protected:
     sead::SafeString mThrowOffAttackRigidBodyName_s{};
     // dynamic_param at offset 0x60
     bool* mIsEnableThrowOffAttack_d{};
+    f32 _68 = 0;
+    ksys::phys::RigidBody* _70 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(HorseElectricParalysis, 0x78);
 
 }  // namespace uking::action
