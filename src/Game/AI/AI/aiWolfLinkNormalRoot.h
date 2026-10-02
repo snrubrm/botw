@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::act {
-class Awareness;
+class AwarenessInstance;
 }
 
 namespace ksys::res {
@@ -59,7 +59,7 @@ protected:
     const float* mWarpToPlayerDistance_s{};
     act::WolfLink* _70{};
     const ksys::res::GParamListObjectWolfLink* _78{};
-    ksys::act::Awareness* _80{};
+    ksys::act::AwarenessInstance* _80{};
     Unk_7102450648 _88{0x1800025};
     Unk_7102450648 _c8{0x1800024};
     Unk_7102450bb8 _108;
