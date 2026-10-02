@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -12,8 +13,11 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    bool sub_710054B518();
 
 protected:
     // static_param at offset 0x38
@@ -24,6 +28,10 @@ protected:
     const sead::Vector3f* mInsideAreaWidth02_s{};
     // static_param at offset 0x50
     const sead::Vector3f* mInsideAreaCenter02_s{};
+    bool _58 = false;
+    sead::BoundBox3f _5c;
+    sead::BoundBox3f _74;
 };
+KSYS_CHECK_SIZE_NX150(RemainsWaterNormal, 0x90);
 
 }  // namespace uking::ai
