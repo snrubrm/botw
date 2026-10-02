@@ -2,6 +2,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::ai {
 
@@ -81,6 +83,28 @@ bool IAIAttack::m37() {
     dir.normalize();
     const sead::Vector3f front = {mtx(0, 2), mtx(1, 2), mtx(2, 2)};
     return !(dir.dot(front) >= sead::Mathf::cos(*mTiredAngle_s));
+}
+
+bool IAIAttack::m36(const sead::Vector3f& pos) {
+    auto* actor = mActor;
+    sead::Vector3f diff;
+    actor->getMtx().getTranslation(diff);
+    diff -= *mTargetPos_d;
+    sead::Vector3f front;
+    actor->getMtx().getBase(front, 2);
+
+    sead::Vector3f side;
+    ksys::util::sub_71011EFA00(&side, diff, front);
+    sead::Vector3f forward;
+    ksys::util::sub_71011EFA54(&forward, diff, front);
+
+    const f32 range = sub_71007320F0(actor, *mWeaponIdx_s);
+    const f32 dist_lr = range + *mCloseDistLR_s;
+    if (side.x * side.x + side.z * side.z < dist_lr * dist_lr) {
+        const f32 dist_fb = range + *mClsoeDistFB_s;
+        return forward.x * forward.x + forward.z * forward.z < dist_fb * dist_fb;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

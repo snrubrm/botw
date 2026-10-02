@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiMagneStickRoot.h"
+#include <math/seadBoundBox.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -14,7 +18,24 @@ bool MagneStickRoot::init_(sead::Heap* heap) {
 }
 
 void MagneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _7c = 0;
+    changeChild("通常");
+    _8c = ksys::Timer(1, 1);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+
+    _98 = actor->findPhysicsBodyByName("EntitySensor", "SensorBody");
+    sead::BoundBox3f aabb;
+    body->getAabbInLocal(&aabb);
+    _88 = aabb.getMax().z - aabb.getMin().z;
+    _80 = body->getMaxLinearVelocity();
+    _84 = body->getMaxAngularVelocity();
+    sub_71007A458C(actor, *mIgnoreObstacle_m);
 }
 
 void MagneStickRoot::leave_() {

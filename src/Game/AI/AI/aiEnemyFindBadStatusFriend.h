@@ -9,6 +9,7 @@ class EnemyFindBadStatusFriend : public ksys::act::ai::Ai {
 public:
     explicit EnemyFindBadStatusFriend(const InitArg& arg);
     ~EnemyFindBadStatusFriend() override;
+    void calc_() override;
 
     bool isFailed() const override;
     bool isFinished() const override;

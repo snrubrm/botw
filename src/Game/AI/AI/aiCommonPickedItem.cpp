@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCommonPickedItem.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -47,6 +49,27 @@ void CommonPickedItem::m38() {
     _88.x();
     m34();
     changeChild("通常");
+}
+
+void CommonPickedItem::m37() {
+    auto* actor = mActor;
+    if (*mCanGetOnBurning_s) {
+        ksys::act::enableAttClient(actor, "NoticeDo");
+        return;
+    }
+
+    auto* chemical = actor->sub_71011D8A44(0);
+    if (!chemical)
+        return;
+
+    if (chemical->_c0 == 2) {
+        m35();
+        ksys::act::disableAttClient(actor, "NoticeDo");
+    } else {
+        m34();
+        if (*mIsControlNoticeDo_s)
+            ksys::act::enableAttClient(actor, "NoticeDo");
+    }
 }
 
 }  // namespace uking::ai

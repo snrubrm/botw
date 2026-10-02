@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiLynelTackleMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
 
@@ -35,6 +40,23 @@ void LynelTackleMove::loadParams_() {
 
 bool LynelTackleMove::isFinished() const {
     return ActionBase::isFinished() || (isCurrentChild("通り過ぎ") && getCurrentChild()->isFinished());
+}
+
+void LynelTackleMove::sub_710049BEC4() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    }
+
+    auto* body = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+    if (!body)
+        return;
+    for (int i = 0, n = body->getRigidBodies().size(); i < n; ++i) {
+        if (auto* rigid_body = body->getRigidBody(i)) {
+            rigid_body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            rigid_body->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+    }
 }
 
 }  // namespace uking::ai

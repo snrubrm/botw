@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiAppearNearTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -48,6 +49,15 @@ bool AppearNearTarget::isFinished() const {
     if (isCurrentChild("湧出"))
         return getCurrentChild()->isFinished();
     return false;
+}
+
+void AppearNearTarget::m38(sead::Matrix34f* mtx, const sead::Vector3f& pos) {
+    sead::Vector3f dir = sub_71005D9330(mActor) - pos;
+    dir.y = 0;
+    dir.normalize();
+    if (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f)
+        dir.set(sead::Vector3f::ez);
+    ksys::util::sub_71011F00EC(mtx, dir, sead::Vector3f::ey, pos, false);
 }
 
 }  // namespace uking::ai

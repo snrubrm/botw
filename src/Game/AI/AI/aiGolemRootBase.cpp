@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiGolemRootBase.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
 
@@ -15,6 +19,17 @@ void GolemRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GolemRootBase::leave_() {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_a68 |= 1;
+
+    if (auto* body = mActor->getRigidBodyByName(sub_71007A250C()->cstr())) {
+        for (int i = 0, n = body->getRigidBodies().size(); i < n; ++i) {
+            auto* rigid_body = body->getRigidBody(i);
+            if (rigid_body->isAddedToWorld())
+                rigid_body->removeFromWorld();
+        }
+    }
     EnemyRoot::leave_();
 }
 

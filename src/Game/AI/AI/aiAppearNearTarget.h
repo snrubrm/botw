@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -24,7 +25,7 @@ public:
     virtual void m35(sead::Vector3f* out);
     virtual bool m36(const sead::Vector3f& pos);
     virtual void m37(const sead::Vector3f& pos);
-    virtual void m38(sead::Vector3f* out, const sead::Vector3f& pos);
+    virtual void m38(sead::Matrix34f* mtx, const sead::Vector3f& pos);
 
 protected:
     // static_param at offset 0x38

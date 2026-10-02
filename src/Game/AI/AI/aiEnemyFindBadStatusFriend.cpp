@@ -46,4 +46,15 @@ void EnemyFindBadStatusFriend::sub_710038BFB0() {
     changeChild("ビタロック", &pack);
 }
 
+void EnemyFindBadStatusFriend::calc_() {
+    auto* child = getCurrentChild();
+    ksys::act::ActorConstDataAccess acc;
+    ksys::act::acquireActor(mTargetActor_d, &acc);
+    if (child->isChangeable() && !acc.sub_7100D10FB8())
+        setFailed();
+    sead::Vector3f pos;
+    acc.getActorMtx().getTranslation(pos);
+    child->setDynamicParam(pos, "TargetPos");
+}
+
 }  // namespace uking::ai

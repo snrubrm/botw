@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class MagneStickRoot : public ksys::act::ai::Ai {
@@ -61,8 +65,7 @@ protected:
     f32 _84 = 0.0f;
     f32 _88 = sead::Mathf::maxNumber();
     ksys::Timer _8c;
-    u32 _98 = 0;
-    u32 _9c = 0;
+    ksys::phys::RigidBody* _98 = nullptr;
 };
 
 }  // namespace uking::ai

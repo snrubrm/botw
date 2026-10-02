@@ -1,5 +1,11 @@
 #include "Game/AI/AI/aiGoronCannonBase.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
@@ -16,7 +22,25 @@ bool GoronCannonBase::init_(sead::Heap* heap) {
 }
 
 void GoronCannonBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _f8 = sead::Mathf::deg2rad(*mTiltAngle_m) + 0.0f;
+    auto* actor = mActor;
+    _fc = 0;
+    _104 = 0;
+    _108 = false;
+    _109 = false;
+
+    ksys::act::InstParamPack pack;
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, actor);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        mActName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_b8, &pack,
+        nullptr, 1);
+
+    if (auto* body = actor->getRigidBodyByName(sub_71007A2520()->cstr())) {
+        body->addToWorld();
+        body->setSystemGroupHandler(nullptr, ksys::phys::ContactLayerType::Entity);
+    }
+    _10a = false;
+    _10b = false;
 }
 
 void GoronCannonBase::leave_() {
