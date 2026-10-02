@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyBattle.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -19,6 +20,7 @@ public:
 protected:
     // static_param at offset 0x90
     const float* mBackAttackAngle_s{};
+    Unk_7102451ba0 _98;
 };
 
 }  // namespace uking::ai

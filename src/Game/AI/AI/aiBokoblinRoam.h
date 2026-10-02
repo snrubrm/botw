@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -46,6 +49,13 @@ protected:
     const float* mTurnCheckDist_s{};
     // static_param at offset 0xb0
     const float* mTurnCheckHeight_s{};
+    f32 _b8{};
+    s32 _bc{};
+    s32 _c0{};
+    ksys::Timer _c4;
+    ksys::Timer _d0;
+    bool _dc{};
+    bool _dd{};
 };
 
 }  // namespace uking::ai

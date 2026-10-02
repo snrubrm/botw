@@ -115,3 +115,13 @@ class Unk_71024500d8 : public uking::dmg::DamageCallback {
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 };
+
+// vtable 0x7102451ba0 (BackAttackEnemyBattle and ~30 actions). `call` needs ASList::x / isSlowTimeMaybe and an
+// unnamed DamageManager method (0x71006d8534), so it is only declared.
+class Unk_7102451ba0 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451ba0, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    bool _24 = false;
+};

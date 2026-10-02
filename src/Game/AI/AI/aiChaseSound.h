@@ -1,6 +1,12 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace ksys::phys {
+class RayCastForRequest;
+}
 
 namespace uking::ai {
 
@@ -27,6 +33,11 @@ protected:
     const bool* mUseViewPointSimpleOffset_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _68{0, 0, 0};
+    u32 _74{};
+    ksys::phys::RayCastForRequest* _78{};
+    sead::Vector3f _80;
+    bool _8c = false;
 };
 
 }  // namespace uking::ai
