@@ -59,4 +59,9 @@ bool HiddenOctarockNormal::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("攻撃反応");
 }
 
+s32 HiddenOctarockNormal::m52(s32 idx) {
+    static const s32 sTable[] = {0, 2};
+    return sTable[idx];
+}
+
 }  // namespace uking::ai

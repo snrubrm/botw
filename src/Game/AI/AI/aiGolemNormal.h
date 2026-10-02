@@ -15,6 +15,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    s32 m52(s32 idx) override;
+    s32 m53() override { return 10; }
+
+    void m34() override;
+    void m37() override;
+    void m38() override;
 
 protected:
 };

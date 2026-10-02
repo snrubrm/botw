@@ -72,4 +72,9 @@ bool LynelNormal::handleMessage_(const ksys::Message& message) {
     return LandHumEnemyNormal::handleMessage_(message);
 }
 
+void LynelNormal::m37() {
+    *mLynelNoticeAttackRepeatNum_a = 0;
+    LandHumEnemyNormal::m37();
+}
+
 }  // namespace uking::ai

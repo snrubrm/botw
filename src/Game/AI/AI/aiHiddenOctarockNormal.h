@@ -16,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    s32 m52(s32 idx) override;
+    s32 m53() override { return 2; }
 
 protected:
     // static_param at offset 0x3d0
