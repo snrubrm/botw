@@ -7,7 +7,10 @@ MagneStickRoot::MagneStickRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 MagneStickRoot::~MagneStickRoot() = default;
 
 bool MagneStickRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (*mRegistFromBeginning_m)
+        m34();
+    _8c = ksys::Timer(1, 1);
+    return true;
 }
 
 void MagneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {

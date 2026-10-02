@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniFinalBattle.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -43,6 +44,12 @@ void GuardianMiniFinalBattle::sub_710041B2E8() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("戦闘予兆移動", &pack);
+}
+
+bool GuardianMiniFinalBattle::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x8000043)
+        ++_d4;
+    return false;
 }
 
 }  // namespace uking::ai

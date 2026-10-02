@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiChemicalExplode.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,13 @@ bool ChemicalExplode::init_(sead::Heap* heap) {
 }
 
 void ChemicalExplode::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* chemical = mActor->getChemicalStuff();
+    if (!chemical || chemical->_c0 == 4) {
+        changeChild("爆破");
+        return;
+    }
+    chemical->sub_7100D909A4();
+    changeChild("爆破予約");
 }
 
 void ChemicalExplode::leave_() {

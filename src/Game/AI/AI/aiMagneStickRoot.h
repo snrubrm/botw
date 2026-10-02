@@ -3,6 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -59,9 +60,7 @@ protected:
     f32 _80 = 0.0f;
     f32 _84 = 0.0f;
     f32 _88 = sead::Mathf::maxNumber();
-    f32 _8c = 0.0f;
-    u32 _90 = 0;
-    u32 _94 = 0;
+    ksys::Timer _8c;
     u32 _98 = 0;
     u32 _9c = 0;
 };

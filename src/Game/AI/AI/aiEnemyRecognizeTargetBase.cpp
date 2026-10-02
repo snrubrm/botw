@@ -18,8 +18,12 @@ bool EnemyRecognizeTargetBase::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }
 
+// NON_MATCHING: the original computes &_c0 into a callee-saved register before the sender call
 void EnemyRecognizeTargetBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_c0._30) {
+        _90.sub_710070DCC0(&_c0._38._10, true);
+        _c0.x();
+    }
 }
 
 void EnemyRecognizeTargetBase::loadParams_() {
