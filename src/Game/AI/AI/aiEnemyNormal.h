@@ -125,8 +125,16 @@ public:
                                               bool a4);
     // 0x710039db34
     bool sub_710039DB34(bool a1);
-    // 0x71003a361c (not decompiled)
-    bool sub_71003A361C(Unk2* out, bool a2, Unk1* info);
+    // 0x710039e1d0
+    bool sub_710039E1D0(Unk2* out, s32 type, Unk1* info);
+    // 0x71003a0114: not decompiled (constructs the awareness filter 0x7100745bfc).
+    ksys::act::Unk_71024dc858* sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags);
+    // 0x71003a33c0 (not decompiled)
+    bool sub_71003A33C0(s32 type, ksys::act::BaseProcLink* target, u16* flags);
+    // 0x71003a34d0
+    bool sub_71003A34D0(Unk2* out, s32 type, Unk1* info);
+    // 0x71003a361c
+    bool sub_71003A361C(Unk2* out, s32 type, Unk1* info);
     // 0x710039faa4
     void sub_710039FAA4(const sead::Vector3f& pos);
 protected:

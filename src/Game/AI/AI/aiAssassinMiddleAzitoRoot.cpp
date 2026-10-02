@@ -220,7 +220,7 @@ bool AssassinMiddleAzitoRoot::m66(Unk2* out, Unk1* info) {
 }
 
 bool AssassinMiddleAzitoRoot::m67(Unk2* out, Unk1* info) {
-    return sub_71003A361C(out, true, info);
+    return sub_71003A361C(out, 1, info);
 }
 
 bool AssassinMiddleAzitoRoot::m76() {

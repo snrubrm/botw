@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/actEnemy.h"
 #include <cmath>
@@ -162,6 +163,81 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
     }
 }
 
+// NON_MATCHING: the original updates out->_44 with branches (ours selects)
+bool EnemyNormal::sub_710039E1D0(Unk2* out, s32 type, Unk1* info) {
+    if (!sub_71005D8F28(mActor))
+        return false;
+    if (m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), false))
+        return false;
+    auto* target = sub_71005D9050(mActor);
+    if (!sub_71003A33C0(type, target, &info->_8))
+        return false;
+    out->sub_710039E308(target);
+    if (info->_8 & 4)
+        out->_44 |= 1;
+    else
+        out->_44 &= ~1;
+    return true;
+}
+
+// NON_MATCHING: the original updates out->_44 with branches (ours selects)
+bool EnemyNormal::sub_71003A34D0(Unk2* out, s32 type, Unk1* info) {
+    auto& data = _188._38.mData;
+    if (data._20 != 0 || data._24 != 2 || _368 > 0.0f)
+        return false;
+
+    auto* link = &data._0;
+    switch (type) {
+    case 1:
+        if (!ksys::act::isPlayerProfile(link))
+            return false;
+        if (!(data._34 & 1) && enemyTeamStuff(mActor, link))
+            return false;
+        break;
+    case 2:
+        if (ksys::act::isPlayerProfile(link))
+            return false;
+        break;
+    case 3:
+        if (data._34 & 1)
+            return false;
+        if (!enemyTeamStuff(mActor, link))
+            return false;
+        break;
+    default:
+        return false;
+    }
+
+    out->_0 = link;
+    out->_38 = data._28;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        out->_8 = accessor.getActorMtx();
+    }
+    if (info->_8 & 5)
+        out->_44 |= 1;
+    else
+        out->_44 &= ~1;
+    return true;
+}
+
+bool EnemyNormal::sub_71003A361C(Unk2* out, s32 type, Unk1* info) {
+    if (sub_710039E1D0(out, type, info))
+        return true;
+    if (info->_8 & 2)
+        return false;
+    auto* entry = sub_71003A0114(m51(), type, info->_4, &info->_8);
+    if (!entry)
+        return sub_71003A34D0(out, type, info);
+    out->sub_71003A02A4(entry);
+    if (info->_8 & 4)
+        out->_44 |= 1;
+    else
+        out->_44 &= ~1;
+    return true;
+}
+
 bool EnemyNormal::sub_710039DB34(bool a1) {
     return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), a1);
 }
@@ -255,6 +331,42 @@ ksys::act::Unk_71024dc858* EnemyNormal::m47(ksys::act::AwarenessInstance* awaren
     return nullptr;
 }
 
+void EnemyNormal::m50(Unk1* out, s32 idx) {
+    const s32 type = m52(idx);
+    if (type == 4) {
+        if (!*mIsMindDoubtTarget_s || isCurrentChild("不審者発見")) {
+            out->_0 = -1;
+            return;
+        }
+    } else if ((type == 6 || type == 7) && _368 > 0.0f) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("プレイヤー発見") || isCurrentChild("怒り") || isCurrentChild("見失い") ||
+        isCurrentChild("気配気づき") || isCurrentChild("攻撃反応") ||
+        isCurrentChild("行動中仲間発見") || isCurrentChild("不調仲間発見") ||
+        isCurrentChild("脅威感知")) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("音気づき")) {
+        switch (type) {
+        case 0:
+        case 1:
+        case 4:
+            break;
+        default:
+            out->_0 = -1;
+            return;
+        }
+    }
+
+    out->_0 = type;
+    out->_8 |= 1;
+}
+
 void EnemyNormal::m60(Unk3* out) {
     if (isCurrentChild("プレイヤー発見") || isCurrentChild("不審者発見")) {
         auto* target = sub_71005D9050(mActor);
@@ -340,6 +452,38 @@ bool EnemyNormal::m66(Unk2* out, Unk1* info) {
                     }
                 }
             }
+        }
+    }
+    return false;
+}
+
+bool EnemyNormal::m67(Unk2* out, Unk1* info) {
+    if (sub_71003A361C(out, 1, info))
+        return true;
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e84.isOnBit(15)) {
+        auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&player, &accessor);
+        sead::Vector3f pos;
+        accessor.getActorMtx().getTranslation(pos);
+        if (!m45(pos, player, false)) {
+            out->sub_710039E308(&ksys::act::PlayerInfo::getSomeProcLink());
+            out->_44 |= 1;
+            return true;
+        }
+    }
+
+    if (info->_8 & 8) {
+        auto* unk = sub_71005D9D68(mActor);
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        auto* link = unk->sub_71002DCEDC(8, pos);
+        if (link->hasProcInCalcState() && !m45(pos, *link, false)) {
+            out->sub_710039E308(link);
+            out->_44 |= 1;
+            return true;
         }
     }
     return false;
