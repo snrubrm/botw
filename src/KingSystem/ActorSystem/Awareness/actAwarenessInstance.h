@@ -85,6 +85,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024dccf8, 0x28);
 
+// 0x7100d78e30 (in the TU of Unk_71024dc858, not inlined by its callers): `array->at(idx)`.
+Unk_71024dc858* sub_7100D78E30(const sead::ObjArray<Unk_71024dc858>* array, s32 idx);
+
 // 0x7100d7eee8: returns the next entry of `array` (after filter->_8) that the filter accepts and
 // stores its index in filter->_8; nullptr at the end.
 Unk_71024dc858* sub_7100D7EEE8(sead::ObjArray<Unk_71024dc858>* array, Unk_71024dccf8* filter);

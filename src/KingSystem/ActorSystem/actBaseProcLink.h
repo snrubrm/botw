@@ -43,6 +43,9 @@ public:
 
     bool isAccessingSpecifiedProcUnsafe(BaseProc* other) const;
 
+    // Read inline by the awareness filter Unk_7102451768::m2 (0x71007472ec).
+    u32 getId() const { return mId; }
+
     template <typename Function>
     auto getProcInContext(const Function& function) const;
 

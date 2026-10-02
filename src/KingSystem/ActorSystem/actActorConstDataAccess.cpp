@@ -500,4 +500,20 @@ const sead::Vector3f& ActorConstDataAccess::getAngVelocity() const {
     return actor->getAngVelocity();
 }
 
+// 0x7100d10e6c: whether bit `bit` of the actor's previous ActorFlag2 value (Actor::_51c) is set.
+bool ActorConstDataAccess::sub_7100D10E6C(int bit) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->mActorFlags2Prev.isOn(Actor::ActorFlag2(1 << bit));
+}
+
+// 0x7100d10fb8
+bool ActorConstDataAccess::sub_7100D10FB8() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->getActorFlags2().isOn(Actor::ActorFlag2::_40);
+}
+
 }  // namespace ksys::act

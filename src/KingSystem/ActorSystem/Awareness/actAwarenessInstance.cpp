@@ -54,6 +54,18 @@ void AwarenessInstance::sub_7100D7EA7C(Unk_71024dccf8* filter) {
     filter->_10 = nullptr;
 }
 
+Unk_71024dc858* sub_7100D7EEE8(sead::ObjArray<Unk_71024dc858>* array, Unk_71024dccf8* filter) {
+    s32 i = filter->_8;
+    const s32 num = array->size();
+    while (++i < num) {
+        auto* entry = sub_7100D78E30(array, i);
+        filter->_8 = i;
+        if (filter->m2(entry))
+            return sub_7100D78E30(array, i);
+    }
+    return nullptr;
+}
+
 // NON_MATCHING: sub_7100D7EA7C is inlined here (the original calls it)
 Unk_71024dccf8::~Unk_71024dccf8() {
     if (_20)

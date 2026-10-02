@@ -117,6 +117,11 @@ public:
     uking::act::Unk_7100e8b2b8* getHorseRideStuff() const;
     const sead::Vector3f& getVelocity() const;
     const sead::Vector3f& getAngVelocity() const;
+    // 0x7100d10e6c (~50 callers): checks a bit of the actor's previous ActorFlag2 value (Actor::_51c);
+    // AI code passes 26 (ActorFlag2::Alive).
+    bool sub_7100D10E6C(int bit) const;
+    // 0x7100d10fb8 (~25 callers): Actor::mActorFlags2 & ActorFlag2::_40.
+    bool sub_7100D10FB8() const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
 

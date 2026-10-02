@@ -8,7 +8,7 @@
 // ksys::act::sub_7100D7EEE8(&actor->getAwareness()->_8, &filter); the base dtor unlinks them.
 // Placeholder names are the vtable addresses. Members are the ones each m2 reads (types from the
 // load widths: pointer / bool / f32 / u32); the initial values written by the callers are not
-// verified yet. TODO: m2 bodies.
+// verified yet. m2 bodies are in aiAwarenessFilters.cpp (TODO: the ones calling unnamed helpers).
 
 // vtable 0x7102451358 (m2 0x7100744bb8, D0 0x7100744c78)
 class Unk_7102451358 : public ksys::act::Unk_71024dccf8 {
