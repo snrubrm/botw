@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Game/AI/AI/aiLastBossShootNormalArrowRoot.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::ai {
 
@@ -13,11 +15,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     // 0x71003e46f0 (not decompiled: calls the unnamed 0x71002c52dc).
     bool m38() override;
+
+    // 0x71003e4208 (not decompiled): turns `_298` towards the target.
+    void sub_71003E4208();
 
 protected:
     // static_param at offset 0x260
@@ -30,6 +36,12 @@ protected:
     sead::SafeString mWalkAS_s{};
     // static_param at offset 0x288
     sead::SafeString mTurnAS_s{};
+    sead::Matrix33f _298;
+    ksys::VFRValue _2bc;
+    ksys::VFRValue _2c8;
+    bool _2d4 = false;
+    bool _2d5 = false;
 };
+KSYS_CHECK_SIZE_NX150(GanonBeamOnFloor, 0x2d8);
 
 }  // namespace uking::ai
