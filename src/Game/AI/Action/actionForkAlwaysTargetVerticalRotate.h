@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
+#include <math/seadVector.h>
 
 namespace uking::action {
 
@@ -30,6 +32,10 @@ protected:
     const sead::Vector3f* mOtherAxis_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _50;
+    sead::Vector3f _5c;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkAlwaysTargetVerticalRotate, 0x68);
 
 }  // namespace uking::action

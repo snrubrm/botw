@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionForkAlwaysTurn.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -19,6 +20,10 @@ public:
 protected:
     void m34(f32 ratio) override;
     void calc_() override;
+
+    ksys::act::CCAccessor mCCAccessor;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkAlwaysHoverTurn, 0xd0);
 
 }  // namespace uking::action

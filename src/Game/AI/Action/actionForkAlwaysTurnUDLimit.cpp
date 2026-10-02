@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwaysTurnUDLimit.h"
+#include <cmath>
 
 namespace uking::action {
 
@@ -25,6 +26,15 @@ void ForkAlwaysTurnUDLimit::loadParams_() {
 
 void ForkAlwaysTurnUDLimit::calc_() {
     ForkAlwaysTurn::calc_();
+}
+
+void ForkAlwaysTurnUDLimit::m33(sead::Vector3f* dir) {
+    const f32 xz = std::sqrt(dir->x * dir->x + dir->z * dir->z);
+    const f32 angle = std::atan2(dir->y, xz);
+    if (sead::Mathf::abs(angle) > *mLimitUD_s) {
+        dir->y = xz * std::tan(*mLimitUD_s) * (dir->y > 0 ? 1.0f : -1.0f);
+        dir->normalize();
+    }
 }
 
 }  // namespace uking::action

@@ -31,7 +31,10 @@ void ForkAlwaysRotate::loadParams_() {
 }
 
 void ForkAlwaysRotate::calc_() {
-    ksys::act::ai::Action::calc_();
+    const f32 max_speed = sead::Mathf::max(*mRotSpd_s, _38.value);
+    _38.lerp(*mRotSpd_s, 0.12f, max_speed * 0.2f, max_speed * 0.05f);
+    _38.updateStats();
+    ksys::act::sub_7100EE5A14(mActor, *mRotAxis_s * _38.value);
 }
 
 }  // namespace uking::action

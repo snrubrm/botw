@@ -13,10 +13,14 @@ bool ForkAlwaysHoverTurn::init_(sead::Heap* heap) {
 
 void ForkAlwaysHoverTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkAlwaysTurn::enter_(params);
+    mCCAccessor.changeMotionType(mCCAccessor.sub_710072ACF8(mActor), ksys::act::MotionType::Hover);
 }
 
 void ForkAlwaysHoverTurn::leave_() {
     ForkAlwaysTurn::leave_();
+    auto* actor = mActor;
+    mCCAccessor.resetRigidBodyMotion(actor);
+    mCCAccessor.resetMotionType(mCCAccessor.sub_710072ACF8(actor));
 }
 
 void ForkAlwaysHoverTurn::loadParams_() {
