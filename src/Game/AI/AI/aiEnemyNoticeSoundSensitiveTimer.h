@@ -19,6 +19,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36() override;
+
 protected:
     // static_param at offset 0x70
     const int* mTimer_s{};

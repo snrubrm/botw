@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m36();
+
 protected:
     f32 _60{};
     s32 _64{};

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLastBossWeaponAttackRoot.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,8 @@ void LastBossWeaponAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossWeaponAttackRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->disable();
 }
 
 void LastBossWeaponAttackRoot::loadParams_() {

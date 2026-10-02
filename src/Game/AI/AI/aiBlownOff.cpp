@@ -26,4 +26,8 @@ bool BlownOff::isFinished() const {
     return ActionBase::isFinished() || (isCurrentChild("起き上がり") && getCurrentChild()->isFinished());
 }
 
+void BlownOff::m34(ksys::act::ai::InlineParamPack* params) {
+    changeChild("起き上がり", params);
+}
+
 }  // namespace uking::ai

@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(ksys::act::ai::InlineParamPack* params);
+
 protected:
     // static_param at offset 0x38
     const float* mDrownDepth_s{};

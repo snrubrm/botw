@@ -69,7 +69,7 @@ public:
     virtual void m55();
     virtual bool m56() { return false; }
     virtual void m57();
-    virtual void m58() {}
+    virtual void m58(s32 a1) {}
     virtual void m59();
     virtual void m60();
     virtual void m61();

@@ -5,7 +5,8 @@ namespace uking::ai {
 CameraEditRoot::CameraEditRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 bool CameraEditRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    mFlags.set(Flag::Changeable);
+    return true;
 }
 
 }  // namespace uking::ai

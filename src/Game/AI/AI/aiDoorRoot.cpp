@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDoorRoot.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -17,7 +19,8 @@ void DoorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DoorRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->disable();
 }
 
 void DoorRoot::loadParams_() {

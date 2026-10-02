@@ -51,4 +51,9 @@ s32 GolemNormal::m52(s32 idx) {
     return sTable[idx];
 }
 
+void GolemNormal::m58(s32 a1) {
+    if (a1 == 9)
+        m40();
+}
+
 }  // namespace uking::ai

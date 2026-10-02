@@ -20,6 +20,8 @@ public:
     virtual void m34();
     virtual void m35();
 
+    void sub_71003A6298();
+
 protected:
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};

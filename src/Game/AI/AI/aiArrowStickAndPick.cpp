@@ -19,4 +19,11 @@ void ArrowStickAndPick::loadParams_() {
     getDynamicParam(&mStickBodyName_d, "StickBodyName");
 }
 
+void ArrowStickAndPick::m37() {
+    if (_110)
+        return;
+    _110 = true;
+    CommonPickedItem::m37();
+}
+
 }  // namespace uking::ai

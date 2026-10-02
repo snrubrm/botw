@@ -40,4 +40,8 @@ void EnemyNoticeSoundSensitiveTimer::loadParams_() {
     getStaticParam(&mTimer_s, "Timer");
 }
 
+void EnemyNoticeSoundSensitiveTimer::m36() {
+    _78 = *mTimer_s;
+}
+
 }  // namespace uking::ai

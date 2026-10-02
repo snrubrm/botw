@@ -45,4 +45,8 @@ void GiantSleepNormal::m35() {
     changeChild("待機", &params);
 }
 
+bool GiantSleepNormal::m36() {
+    return _98 - 2 < 3;
+}
+
 }  // namespace uking::ai
