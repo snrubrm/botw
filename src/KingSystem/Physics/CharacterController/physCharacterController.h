@@ -13,6 +13,8 @@ enum class MotionType;
 
 namespace ksys::phys {
 
+class CollisionInfo;
+class ContactPointInfo;
 class RigidBody;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
@@ -35,6 +37,15 @@ public:
     // 0x7100f63388 (not decompiled; AssassinBossRoot enter_/m42 pass (true / false, -1)).
     void sub_7100F63388(bool enable, s32 idx);
     bool sub_7100F63590() const;
+    // 0x7100f635b4-0x7100f636a8: forwarders to the main rigid body.
+    bool sub_7100F635B4() const;  // isAddingBodyToWorld
+    void sub_7100F635BC(sead::Vector3f* velocity) const;  // getAngularVelocity
+    void sub_7100F635D0(ContactPointInfo* info);  // setContactPointInfo
+    ContactPointInfo* sub_7100F635D8() const;  // getContactPointInfo
+    ContactPointInfo* sub_7100F635E4() const;  // getContactPointInfo (a second copy)
+    void sub_7100F635F0(CollisionInfo* info);  // setCollisionInfo
+    CollisionInfo* sub_7100F635F8() const;  // getCollisionInfo
+    void sub_7100F636A8(f32 factor);  // setMagneMassScalingFactor
     void sub_7100F63554(bool clear);
     bool sub_7100F62D34() const;
     void sub_7100F62CA8(bool clear);

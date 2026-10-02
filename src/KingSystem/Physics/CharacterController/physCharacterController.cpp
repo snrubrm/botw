@@ -34,6 +34,38 @@ void CharacterController::sub_7100F62BB8() {
     sub_7100F5F270(0);
 }
 
+bool CharacterController::sub_7100F635B4() const {
+    return mRigidBody->isAddingBodyToWorld();
+}
+
+void CharacterController::sub_7100F635BC(sead::Vector3f* velocity) const {
+    mRigidBody->getAngularVelocity(velocity);
+}
+
+void CharacterController::sub_7100F635D0(ContactPointInfo* info) {
+    mRigidBody->setContactPointInfo(info);
+}
+
+ContactPointInfo* CharacterController::sub_7100F635D8() const {
+    return mRigidBody->getContactPointInfo();
+}
+
+ContactPointInfo* CharacterController::sub_7100F635E4() const {
+    return mRigidBody->getContactPointInfo();
+}
+
+void CharacterController::sub_7100F635F0(CollisionInfo* info) {
+    mRigidBody->setCollisionInfo(info);
+}
+
+CollisionInfo* CharacterController::sub_7100F635F8() const {
+    return mRigidBody->getCollisionInfo();
+}
+
+void CharacterController::sub_7100F636A8(f32 factor) {
+    mRigidBody->setMagneMassScalingFactor(factor);
+}
+
 bool CharacterController::sub_7100F636EC() const {
     return !mRigidBody->hasFlag(RigidBody::Flag::_200);
 }
