@@ -12,7 +12,6 @@
 
 Unk_71023c8568::Unk_71023c8568(ksys::act::ai::ActionBase* owner) : Unk_71025afc58(owner) {}
 
-// NON_MATCHING: the original copies Vector3f::ey into _38 as one 8-byte + one 4-byte copy (memcpy)
 void Unk_71023c8568::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f up;
     if (auto* controller = mOwner->getActor()->getCharacterController()) {
@@ -43,7 +42,7 @@ void Unk_71023c8568::enter_(ksys::act::ai::InlineParamPack* params) {
 
     mFlags.reset(Flag::Changeable);
     _58 = false;
-    _38 = sead::Vector3f::ey;
+    _38.set(sead::Vector3f::ey);
     auto* actor = mOwner->getActor();
     _54 = 0.0f;
     if (actor->getASList()) {

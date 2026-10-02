@@ -184,6 +184,12 @@ bool getRandomAreaItem(sead::SafeString* item, const eco::AreaItemType& type,
                        const sead::Vector3f& pos);
 bool isInSatoriMountainArea(const sead::Vector3f& pos);
 
+// 0x7100ee22b4: returns the map object linked to `actor` whose unit config name is `unit_config_name`
+// (any if empty) and which passes the `a3` filter (unchecked if empty). `idx` (optional) is the link
+// index to start the search at and receives the index of the result (-1 if none).
+map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx);
+
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
