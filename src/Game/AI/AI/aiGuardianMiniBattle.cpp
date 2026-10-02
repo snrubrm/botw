@@ -104,4 +104,8 @@ bool GuardianMiniBattle::m45() {
     return _1a0.value <= sead::Mathf::epsilon();
 }
 
+bool GuardianMiniBattle::handleMessage_(const ksys::Message& message) {
+    return _148.m2(message);
+}
+
 }  // namespace uking::ai
