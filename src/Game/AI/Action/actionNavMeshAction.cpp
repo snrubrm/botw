@@ -8,8 +8,6 @@ namespace uking::action {
 // NON_MATCHING: the 0x90-0xa3 zero/-1 stores are merged differently (stp xzr,x8 @0x90 vs str/stur/str)
 NavMeshAction::NavMeshAction(const InitArg& arg) : ActionEx(arg) {}
 
-NavMeshAction::~NavMeshAction() = default;
-
 void NavMeshAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }
