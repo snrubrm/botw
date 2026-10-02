@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71005B51E8();
+    void sub_71005B52EC();
+
 protected:
     // static_param at offset 0x38
     const float* mRoamRadius_s{};

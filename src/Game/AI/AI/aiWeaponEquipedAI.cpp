@@ -4,7 +4,9 @@ namespace uking::ai {
 
 WeaponEquipedAI::WeaponEquipedAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WeaponEquipedAI::~WeaponEquipedAI() = default;
+WeaponEquipedAI::~WeaponEquipedAI() {
+    sub_7100E1DC50();
+}
 
 void WeaponEquipedAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);

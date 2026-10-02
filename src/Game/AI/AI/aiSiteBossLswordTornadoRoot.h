@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710057DD54();
+
 protected:
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};

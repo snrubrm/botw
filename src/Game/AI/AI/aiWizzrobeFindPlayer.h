@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void wizzrobeFindPlayer();
+    void sub_71005FDD14();
+
 protected:
     // static_param at offset 0x38
     const float* mHomeTerritoryWidth_s{};

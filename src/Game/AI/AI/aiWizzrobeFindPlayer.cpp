@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWizzrobeFindPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,13 @@ bool WizzrobeFindPlayer::init_(sead::Heap* heap) {
 }
 
 void WizzrobeFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    *mIsWizzrobeInBattleAreaFlag_a = true;
+    auto* actor = mActor;
+    sub_71005D7444(actor, sub_71005D960C(actor), true, true);
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        wizzrobeFindPlayer();
+    else
+        sub_71005FDD14();
 }
 
 void WizzrobeFindPlayer::leave_() {

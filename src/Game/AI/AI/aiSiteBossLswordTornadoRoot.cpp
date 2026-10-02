@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossLswordTornadoRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,9 @@ bool SiteBossLswordTornadoRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossLswordTornadoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1558.reset(0x40000);
+    sub_710057DD54();
 }
 
 void SiteBossLswordTornadoRoot::leave_() {
