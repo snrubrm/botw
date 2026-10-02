@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossCircleFormationShoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -16,6 +19,44 @@ bool PriestBossCircleFormationShoot::init_(sead::Heap* heap) {
 void PriestBossCircleFormationShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossFormation::enter_(params);
     m43();
+}
+
+void PriestBossCircleFormationShoot::calc_() {
+    PriestBossFormation::calc_();
+
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+
+    if (isCurrentChild("攻撃")) {
+        if (*mHomingAttackTime_s >= 0) {
+            if (_88.value <= sead::Mathf::epsilon())
+                return;
+            _88.update();
+        }
+        child->setDynamicParam(sub_71005D93CC(mActor), "TargetPos");
+        return;
+    }
+
+    if (!isCurrentChild("陣形作成後待機"))
+        return;
+
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    sead::Vector3f pos = sead::Vector3f::zero;
+    if (!unit || !unit->sub_710071A020(&pos, unit->sub_7100719534(mActor)))
+        return;
+
+    child->setDynamicParam(pos, "TargetPos");
+    if (child->isFinished() || child->isFailed()) {
+        if (auto* body = mActor->getPhysicsMainBody()) {
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setAngularVelocity(sead::Vector3f::zero);
+        }
+        ksys::act::ai::InlineParamPack params;
+        params.addVec3(pos, "TargetPos", -1);
+        changeChild("陣形作成後待機", &params);
+    }
 }
 
 void PriestBossCircleFormationShoot::leave_() {
