@@ -52,3 +52,16 @@ void sub_710124127C(ksys::act::Actor* actor, int kind);
 void sub_71012412E4(ksys::act::Actor* actor, u32 idx, f32 value, bool force);
 /// 0x7101241390 (CSV Actor::xlinkEventOn): int version of sub_71012412E4.
 void xlinkEventOn(ksys::act::Actor* actor, u32 idx, s32 value, bool force);
+
+namespace ksys::eft {
+
+// Names from the CSV (eft::searchAndEmitELink 0x7100da07fc, eft::searchAndEmitSLink 0x710105dd24; the
+// SLink one sits in the UI sound TU). They emit an event on the actor's ELink / SLink user instance
+// (XLink::_48 / _50) and return its handle, or a copy of a function-local static empty handle when
+// the actor has none (ELink: also for a null actor; SLink: also when XLink::_cc bit 8 is set unless
+// `force`). Declared only: the static handle copy can't be written against lib/xlink2, whose Handle
+// copy constructor is deleted.
+xlink2::HandleELink searchAndEmitELink(act::Actor* actor, const char* name);
+xlink2::HandleSLink searchAndEmitSLink(act::Actor* actor, const char* name, bool force);
+
+}  // namespace ksys::eft
