@@ -41,6 +41,7 @@ target_sources(uking PRIVATE
   actRideable.cpp
   actRideable.h
   actRideableBase.cpp
+  actRideableBaseS1.cpp
   actSandworm.cpp
   actSandworm.h
   actSiteBoss.cpp

@@ -20,6 +20,10 @@ class Actor;
 }  // namespace act
 }  // namespace ksys
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace uking::act {
 
 // Placeholder name (ctor 0x7100e8b2b8, D1 0x7100e8b304, vtable 0x71024ec660, 17 slots, size 0x40;
@@ -66,28 +70,37 @@ public:
 class RideableBase {
     SEAD_RTTI_BASE(RideableBase)
 public:
-    // CSV RideableBase::S1 (ctor 0x7100e7459c, size 0x88)
+    // CSV RideableBase::S1 (ctor 0x7100e7459c, size 0x88): the rider's AS (animation) controller; its
+    // methods are in TU 0x7100e7459c-0x7100e78f00 (actRideableBaseS1.cpp).
     struct S1 {
         S1();
 
-        /* 0x00 */ void* _0;
-        /* 0x08 */ u8 _8;
-        /* 0x09 */ u8 _9;
-        /* 0x0a */ u8 _a;
-        /* 0x0b */ u8 _b;
-        /* 0x0c */ f32 _c;
-        /* 0x10 */ u32 _10;
-        /* 0x18 */ u64 _18;
-        /* 0x20 */ f32 _20;
-        /* 0x24 */ f32 _24;
-        /* 0x28 */ u32 _28;
-        /* 0x2c */ u16 _2c;
-        /* 0x2e */ u8 _2e;
-        /* 0x2f */ u8 _2f;
+        // 0x7100e76260: plays AS `name` (slot / bank arguments; placeholder signature).
+        void sub_7100E76260(const sead::SafeString& name, int a2, int slot, int a4, int bank);
+        // 0x7100e770c4: clears flag bits 0x600 (sets 0x10) and _40 unless 0x400 is set (or `force`).
+        void sub_7100E770C4(bool force);
+        // 0x7100e786f0: sub_7100E76260(name, 0, 0, 0, bank) with the bank picked from _2e.
+        void sub_7100E786F0(const sead::SafeString& name);
+
+        /* 0x00 */ ksys::as::ASList* _0 = nullptr;
+        /* 0x08 */ u8 _8 = 0;
+        /* 0x09 */ u8 _9 = 0;
+        /* 0x0a */ u8 _a = 0;
+        /* 0x0b */ u8 _b = 0;
+        /* 0x0c */ f32 _c = 0;
+        /* 0x10 */ u32 _10 = 0;
+        /* 0x18 */ u64 _18 = 0;
+        /* 0x20 */ f32 _20 = -1.0f;
+        /* 0x24 */ f32 _24 = 1.0f;
+        /* 0x28 */ u32 _28 = 0;
+        /* 0x2c */ u16 _2c = 0;
+        /* 0x2e */ s8 _2e = 1;
+        /* 0x2f */ u8 _2f = 3;
         /* 0x30 */ sead::SafeString _30;
         /* 0x40 */ sead::SafeString _40;
-        /* 0x50 */ u16 _50;
-        /* 0x52 */ u16 _52;
+        /* 0x50 */ u8 _50 = 0;
+        /* 0x51 */ u8 _51 = 0;
+        /* 0x52 */ u16 _52 = 2;
         /* 0x58 */ sead::SafeString _58;
         /* 0x68 */ sead::SafeString _68;
         /* 0x78 */ sead::SafeString _78;
