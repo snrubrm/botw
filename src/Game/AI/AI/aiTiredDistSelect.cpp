@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTiredDistSelect.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,12 @@ void TiredDistSelect::leave_() {
 void TiredDistSelect::loadParams_() {
     TargetHomeRangeSelect::loadParams_();
     getMapUnitParam(&mTerritoryArea_m, "TerritoryArea");
+}
+
+f32 TiredDistSelect::m34() {
+    if (*mTerritoryArea_m <= 0)
+        return RangeSelect::m34();
+    return *mTerritoryArea_m + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai

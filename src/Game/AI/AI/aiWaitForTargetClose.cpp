@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWaitForTargetClose.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -39,6 +40,10 @@ void WaitForTargetClose::loadParams_() {
     getStaticParam(&mRange_s, "Range");
     getStaticParam(&mFailRange_s, "FailRange");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool WaitForTargetClose::m34(f32 distance) {
+    return sub_71007320F0(mActor, *mWeaponIdx_s) + *mRange_s >= distance;
 }
 
 }  // namespace uking::ai

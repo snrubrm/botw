@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    f32 m34() override;
+
 protected:
     // map_unit_param at offset 0x50
     const float* mTerritoryArea_m{};

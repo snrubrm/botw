@@ -4,12 +4,16 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 
 namespace uking::ai {
 
 class PriestBossGiantStageRotate : public PriestBossMode {
     SEAD_RTTI_OVERRIDE(PriestBossGiantStageRotate, PriestBossMode)
 public:
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6)
+
     explicit PriestBossGiantStageRotate(const InitArg& arg);
     ~PriestBossGiantStageRotate() override;
 
@@ -20,6 +24,7 @@ public:
 
     void sub_710051C210();
     bool handleMessage_(const ksys::Message& message) override;
+    bool handleAck_(const ksys::MessageAck& ack) override;
 
 protected:
     // static_param at offset 0x40
@@ -33,7 +38,7 @@ protected:
     void* _d0 = nullptr;
     Unk_7102409958 _d8{mActor, 0x80000da};
     Unk_7102413c08 _118{mActor, 0x80000de};
-    u8 _140 = 0;
+    sead::BitFlag8 _140;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossGiantStageRotate, 0x148);
 

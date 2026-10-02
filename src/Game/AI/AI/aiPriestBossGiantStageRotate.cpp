@@ -14,7 +14,7 @@ bool PriestBossGiantStageRotate::init_(sead::Heap* heap) {
 
 void PriestBossGiantStageRotate::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
-    _140 = 0;
+    _140.makeAllZero();
     if (!*mSendOnThrowASEvent_s)
         sub_710051C210();
 
@@ -41,6 +41,14 @@ bool PriestBossGiantStageRotate::handleMessage_(const ksys::Message& message) {
     if (!_88._30 && _88.m2(message))
         return true;
     return false;
+}
+
+// NON_MATCHING: operand order of the orr in setBit (same as PriestBossIronBallRoot::m41)
+bool PriestBossGiantStageRotate::handleAck_(const ksys::MessageAck& ack) {
+    if (!_58.sub_710070E070(ack))
+        return false;
+    _140.setBit(Flag(Flag::_6));
+    return true;
 }
 
 }  // namespace uking::ai
