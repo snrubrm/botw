@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
+    void m35(sead::Vector3f* out, s32 idx) override;
+
 protected:
     // static_param at offset 0x6c0
     const float* mIronBallSummonRadius_s{};
