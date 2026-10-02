@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnmDrivenHover.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -25,6 +26,7 @@ void AnmDrivenHover::loadParams_() {
 
 void AnmDrivenHover::calc_() {
     AnmDrivenHoverBase::calc_();
+    sub_7100738AA8(mActor, *mRotReduceRatio_s);
 }
 
 }  // namespace uking::action

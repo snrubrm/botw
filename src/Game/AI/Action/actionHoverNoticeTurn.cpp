@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHoverNoticeTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -26,6 +27,10 @@ void HoverNoticeTurn::loadParams_() {
 
 void HoverNoticeTurn::calc_() {
     NoticeTurn::calc_();
+}
+
+void HoverNoticeTurn::m32() {
+    sub_7100738428(mActor, 0.1f);
 }
 
 }  // namespace uking::action

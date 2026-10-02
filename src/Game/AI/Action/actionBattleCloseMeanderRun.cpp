@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBattleCloseMeanderRun.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -19,6 +22,10 @@ void BattleCloseMeanderRun::loadParams_() {
 
 void BattleCloseMeanderRun::calc_() {
     BattleCloseMoveAction::calc_();
+    if (*mJumpUpSpeedReduceRatio_s < 1.0f) {
+        if (auto* controller = mActor->getCharacterController())
+            sub_710073852C(controller, *mJumpUpSpeedReduceRatio_s);
+    }
 }
 
 }  // namespace uking::action

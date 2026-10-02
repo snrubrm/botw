@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionGanonTurnOnWall.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -29,6 +32,18 @@ void GanonTurnOnWall::loadParams_() {
 
 void GanonTurnOnWall::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void GanonTurnOnWall::m32(f32 x) {
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100737C0C(controller, x, controller->get70());
+}
+
+void GanonTurnOnWall::m33(sead::Vector3f* up) {
+    if (auto* controller = mActor->getCharacterController())
+        up->set(controller->get70());
+    else
+        up->set(sead::Vector3f::ey);
 }
 
 }  // namespace uking::action

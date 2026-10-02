@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(f32 x);
+    virtual void m33(sead::Vector3f* up);
+    virtual bool m34() { return true; }
 
     // static_param at offset 0x20
     const float* mRotSpd_s{};

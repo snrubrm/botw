@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHoverPredictVacuumShoot.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void HoverPredictVacuumShoot::loadParams_() {
 
 void HoverPredictVacuumShoot::calc_() {
     PredictVacuumShoot::calc_();
+}
+
+void HoverPredictVacuumShoot::m32() {
+    sub_7100738428(mActor, *mPosReduceRatio_s);
 }
 
 }  // namespace uking::action

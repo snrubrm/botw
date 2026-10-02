@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOnCliffTurn.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -38,6 +40,11 @@ void OnCliffTurn::m34(sead::Vector3f* front) {
 
 void OnCliffTurn::m35(sead::Vector3f* dir) {
     dir->normalize();
+}
+
+void OnCliffTurn::m32(f32 x) {
+    if (auto* controller = mActor->getCharacterController())
+        sub_71007377D4(controller, x);
 }
 
 }  // namespace uking::action

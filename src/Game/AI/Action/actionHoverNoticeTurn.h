@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
 
     ksys::act::Unk_710072AFD0 _80;
 };

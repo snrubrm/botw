@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(f32 x) override;
 
     // static_param at offset 0x90
     const bool* mIsIgnoreSameAS_s{};

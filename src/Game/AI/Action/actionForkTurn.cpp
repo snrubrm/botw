@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void ForkTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkTurn::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mIsFinishForceStopRot_s)
+        sub_7100738AA8(mActor, 0.0f);
 }
 
 void ForkTurn::loadParams_() {

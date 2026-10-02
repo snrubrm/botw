@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHoverTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -35,6 +36,11 @@ void HoverTurn::loadParams_() {
 
 void HoverTurn::calc_() {
     TurnBase::calc_();
+}
+
+void HoverTurn::m32(f32 x) {
+    if (auto* controller = mActor->getCharacterController())
+        sub_71007377D4(controller, x);
 }
 
 }  // namespace uking::action

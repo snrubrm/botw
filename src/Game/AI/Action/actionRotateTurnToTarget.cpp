@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRotateTurnToTarget.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -28,6 +29,10 @@ void RotateTurnToTarget::loadParams_() {
 
 void RotateTurnToTarget::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void RotateTurnToTarget::m32() {
+    sub_7100738488(mActor, 0.1f, -sead::Vector3f::ey);
 }
 
 }  // namespace uking::action

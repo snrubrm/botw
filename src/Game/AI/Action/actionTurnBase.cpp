@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTurnBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "math/seadMathCalcCommon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -58,6 +59,11 @@ void TurnBase::m35(sead::Vector3f* dir) {
 
 bool TurnBase::m36() const {
     return true;
+}
+
+void TurnBase::m32(f32 x) {
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100737C0C(controller, x, controller->get70());
 }
 
 }  // namespace uking::action

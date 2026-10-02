@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChangePostureWithAS.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -23,7 +24,10 @@ void ChangePostureWithAS::loadParams_() {
 }
 
 void ChangePostureWithAS::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
+    sub_7100738AA8(mActor, 0.0f);
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

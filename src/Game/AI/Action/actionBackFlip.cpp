@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBackFlip.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -16,6 +17,9 @@ void BackFlip::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void BackFlip::leave_() {
     RotateTurnToTarget::leave_();
+    auto* actor = mActor;
+    sub_7100738AA8(actor, 0.0f);
+    sub_7100738428(actor, 0.1f);
 }
 
 void BackFlip::loadParams_() {

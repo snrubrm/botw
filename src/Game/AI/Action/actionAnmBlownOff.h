@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class AnmBlownOff : public ksys::act::ai::Action {
@@ -18,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::phys::CharacterController* controller);
 
     // static_param at offset 0x20
     const int* mOnGroundTime_s{};

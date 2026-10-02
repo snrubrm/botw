@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionGuard.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -14,7 +17,10 @@ void Guard::loadParams_() {
 }
 
 void Guard::calc_() {
-    TakeHitImpactForce::calc_();
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_7100738660(controller, 0.8f);
+        TakeHitImpactForce::calc_();
+    }
 }
 
 bool Guard::isChangeable() const {

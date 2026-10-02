@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCTravelerRest.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -19,7 +20,8 @@ void NPCTravelerRest::loadParams_() {
 }
 
 void NPCTravelerRest::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
+    sub_7100738AA8(mActor, 0.0f);
 }
 
 }  // namespace uking::action

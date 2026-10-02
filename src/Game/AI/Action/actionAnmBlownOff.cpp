@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionAnmBlownOff.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -36,6 +39,10 @@ void AnmBlownOff::loadParams_() {
 
 void AnmBlownOff::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void AnmBlownOff::m32(ksys::phys::CharacterController* controller) {
+    sub_7100738660(controller, *mRotReduceRatio_s);
 }
 
 }  // namespace uking::action

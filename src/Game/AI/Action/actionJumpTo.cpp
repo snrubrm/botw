@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionJumpTo.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -48,6 +51,11 @@ void JumpTo::m43() {}
 
 const sead::Vector3f& JumpTo::m44() {
     return sead::Vector3f::zero;
+}
+
+void JumpTo::m41() {
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100738660(controller, *mRotReduceRatioOnGround_s);
 }
 
 }  // namespace uking::action

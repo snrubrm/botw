@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionShopFixedItemNum.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -23,7 +25,10 @@ void ShopFixedItemNum::loadParams_() {
 }
 
 void ShopFixedItemNum::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
+    sub_7100738AA8(mActor, 0.0f);
+    if (ksys::gdt::getFlag_Shop_TradeItemNum(false) >= 1)
+        setFinished();
 }
 
 }  // namespace uking::action

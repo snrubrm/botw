@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBackStepToTarget.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -34,6 +37,15 @@ bool BackStepToTarget::isChangeable() const {
 
 f32 BackStepToTarget::m42() {
     return *mJumpHeight_s;
+}
+
+void BackStepToTarget::m39() {
+    sub_7100738428(mActor, *mStopSpeedRatio_s);
+}
+
+void BackStepToTarget::m40() {
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100738660(controller, *mStopRotSpeedRatio_s);
 }
 
 }  // namespace uking::action

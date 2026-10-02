@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSwarmAreaDamaged.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -25,6 +28,8 @@ void SwarmAreaDamaged::loadParams_() {
 
 void SwarmAreaDamaged::calc_() {
     SwarmDamagedBase::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        sub_7100737C0C(controller, 0.2f, -sead::Vector3f::ey);
 }
 
 }  // namespace uking::action
