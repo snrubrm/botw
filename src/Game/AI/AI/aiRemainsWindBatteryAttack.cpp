@@ -1,11 +1,18 @@
 #include "Game/AI/AI/aiRemainsWindBatteryAttack.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
 RemainsWindBatteryAttack::RemainsWindBatteryAttack(const InitArg& arg)
     : GuardianBeamAttackBase(arg) {}
 
-RemainsWindBatteryAttack::~RemainsWindBatteryAttack() = default;
+RemainsWindBatteryAttack::~RemainsWindBatteryAttack() {
+    for (s32 i = 0; i < 5; ++i) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_38[i], &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool RemainsWindBatteryAttack::init_(sead::Heap* heap) {
     return GuardianBeamAttackBase::init_(heap);
