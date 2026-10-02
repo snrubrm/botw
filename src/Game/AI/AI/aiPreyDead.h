@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,6 +25,10 @@ protected:
     const float* mSendRadius_s{};
     // static_param at offset 0x40
     const bool* mIsEmitForceEscapeSignal_s{};
+    Unk_7102410070 _48{mActor, 0x80000a4};
+    ksys::Timer _90;
+    sead::Vector3f _9c;
 };
+KSYS_CHECK_SIZE_NX150(PreyDead, 0xa8);
 
 }  // namespace uking::ai

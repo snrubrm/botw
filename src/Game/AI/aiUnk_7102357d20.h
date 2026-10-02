@@ -436,3 +436,13 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
 };
+
+// vtable 0x7102410070 (PreyDead; D1/D0/m2 at 0x71004fa4ec / 0x71004fa52c / 0x71004fa560);
+// message 0x80000a4
+class Unk_7102410070 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102410070_Payload _18;
+};
