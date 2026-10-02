@@ -1,4 +1,21 @@
 #include "Game/AI/AI/aiIncredibleAction.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+
+void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (!_38) {
+        *a1 = 0;
+        return;
+    }
+
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManagerBase>(mDamageManager);
+    if (!manager)
+        return;
+
+    auto* attacker = manager->getAttacker();
+    ksys::act::ActorConstDataAccess acc;
+    if (attacker->hasProc())
+        ksys::act::acquireActor(attacker, &acc);
+}
 
 namespace uking::ai {
 
@@ -11,7 +28,9 @@ bool IncredibleAction::init_(sead::Heap* heap) {
 }
 
 void IncredibleAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100448C0C(true);
+    _58._38 = false;
+    changeChild("インクレディブル", params);
 }
 
 void IncredibleAction::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKeepBackSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -6,12 +7,19 @@ KeepBackSelect::KeepBackSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 KeepBackSelect::~KeepBackSelect() = default;
 
+// NON_MATCHING: regalloc (this+0x70 computed into x8 before the name argument)
 bool KeepBackSelect::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (!mNodeName_s.isEmpty())
+        _70.search(mActor->getModel(), mNodeName_s);
+    return true;
 }
 
 void KeepBackSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const s32 keep_time = *mKeepTime_s;
+    _ac = keep_time;
+    _b0 = keep_time;
+    _a8 = keep_time;
+    changeChild("角度内", params);
 }
 
 void KeepBackSelect::leave_() {

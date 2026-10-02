@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -29,6 +31,12 @@ protected:
     const float* mChangeRangeRate_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _68;
+    sead::Vector3f _74;
+    ksys::Timer _80;
+    f32 _8c{};
+    s32 _90{};
+    s32 _94{};
 };
 
 }  // namespace uking::ai

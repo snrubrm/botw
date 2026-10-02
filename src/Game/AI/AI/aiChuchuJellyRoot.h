@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::act::Actor* _50 = mActor;
+    void* _58{};
+    u32 _60 = 0;
 };
 
 }  // namespace uking::ai
