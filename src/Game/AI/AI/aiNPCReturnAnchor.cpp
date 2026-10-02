@@ -20,4 +20,16 @@ void NPCReturnAnchor::leave_() {
 
 void NPCReturnAnchor::loadParams_() {}
 
+void NPCReturnAnchor::calc_() {
+    if (isCurrentChild("振り向く")) {
+        if (getCurrentChild()->isFinished())
+            sub_71004D6E7C();
+    } else if (isCurrentChild("姿勢変更")) {
+        if (getCurrentChild()->isFinished()) {
+            sub_71004D70D8();
+            setFinished();
+        }
+    }
+}
+
 }  // namespace uking::ai

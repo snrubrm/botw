@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossRecognizeRootBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actLastBoss.h"
@@ -15,8 +17,27 @@ bool SiteBossRecognizeRootBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original computes the getU32 argument before loading the GlobalRandom instance
+// (C++14 evaluation order)
 void SiteBossRecognizeRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    _64 = 0;
+    if (mAttackNum_s)
+        _60 = *mAttackNum_s + sead::GlobalRandom::instance()->getU32(*mAttackRandNum_s + 1);
+    else
+        _60 = 1;
+
+    if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        sub_7100478B7C();
+    else if (m35())
+        m40();
+    else
+        siteBossStuff();
+
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 }
 
 void SiteBossRecognizeRootBase::leave_() {

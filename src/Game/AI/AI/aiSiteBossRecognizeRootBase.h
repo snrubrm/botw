@@ -24,6 +24,9 @@ public:
     virtual void m40();
     virtual bool m41();
 
+    void siteBossStuff();
+    void sub_7100478B7C();
+
 protected:
     // static_param at offset 0x38
     const int* mAttackNum_s{};
