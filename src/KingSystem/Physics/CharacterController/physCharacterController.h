@@ -60,6 +60,10 @@ public:
     void sub_7100F60500(const sead::Matrix34f& mtx);
     RigidBody* sub_7100F61A34() const;
     void sub_7100F62B70(float value);
+    float sub_7100F60370() const;
+    void sub_7100F60398(const sead::Vector3f& impulse);
+    bool sub_7100F62E74(f32* out, int idx) const;
+    bool sub_7100F62EFC(sead::Vector3f* out, int idx) const;
 
     RigidBody* mRigidBody;
     u8 _10[0x64 - 0x10];

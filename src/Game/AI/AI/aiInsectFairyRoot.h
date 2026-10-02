@@ -16,7 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-protected:
+    bool m34() override;
+    void m44() override;
+    virtual void m45();
 };
+KSYS_CHECK_SIZE_NX150(InsectFairyRoot, 0x110);
 
 }  // namespace uking::ai

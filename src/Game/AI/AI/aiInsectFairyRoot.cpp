@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiInsectFairyRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,25 @@ void InsectFairyRoot::leave_() {
 
 void InsectFairyRoot::loadParams_() {
     InsectRoot::loadParams_();
+}
+
+bool InsectFairyRoot::m34() {
+    if (isCurrentChild("解凍後"))
+        return false;
+    return InsectRoot::m34();
+}
+
+void InsectFairyRoot::m44() {
+    m45();
+    _f5 = false;
+}
+
+void InsectFairyRoot::m45() {
+    sead::Vector3f pos;
+    mActor->getHomePos(&pos);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("解凍後", &params);
 }
 
 }  // namespace uking::ai

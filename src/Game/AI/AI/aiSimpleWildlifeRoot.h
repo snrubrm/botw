@@ -31,7 +31,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m34();
+    virtual bool m34();
     virtual bool m35();
     virtual bool m36() { return true; }
     virtual void m37();
@@ -42,6 +42,8 @@ public:
     virtual void m42();
     virtual void m43();
     virtual void m44();
+
+    void sub_7100343510();
 
 protected:
     Unk_71023dcc38 _38{};
