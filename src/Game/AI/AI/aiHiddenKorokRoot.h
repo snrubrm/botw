@@ -1,6 +1,12 @@
 #pragma once
 
+#include <prim/seadDelegate.h>
+#include "Game/AI/aiMessage3DText.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace ksys::phys {
+class CollisionInfo;
+}
 
 namespace uking::ai {
 
@@ -14,6 +20,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void invokedTalk();
+    void invokedExamine();
+    void callHiddenKorokFoundDemo();
 
 protected:
     // static_param at offset 0x38
@@ -30,6 +40,19 @@ protected:
     const bool* mIsHiddenKorokLiftAppear_m{};
     // map_unit_param at offset 0x70
     const bool* mIsInvisibleKorok_m{};
+    ksys::phys::CollisionInfo* _78{};
+    bool _80{};
+    bool _81{};
+    bool _82{};
+    // Zeroed by the constructor (8 + 4 bytes each); not used by this class's functions.
+    void* _88{};
+    u32 _90{};
+    void* _98{};
+    u32 _a0{};
+    Message3DText _a8;
+    sead::Delegate<HiddenKorokRoot> _180{this, &HiddenKorokRoot::invokedTalk};
+    sead::Delegate<HiddenKorokRoot> _1a0{this, &HiddenKorokRoot::invokedExamine};
 };
+KSYS_CHECK_SIZE_NX150(HiddenKorokRoot, 0x1c0);
 
 }  // namespace uking::ai

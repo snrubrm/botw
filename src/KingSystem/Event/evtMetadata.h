@@ -53,6 +53,7 @@ public:
     void* get18() const { return _18; }
     u32 get20() const { return _20; }
     int getEventStartWaitFrame() const { return mEventStartWaitFrame; }
+    void setEventStartWaitFrame(int frame) { mEventStartWaitFrame = frame; }
     const sead::SafeString& getEventName() const { return mEventName; }
     const sead::SafeString& getEntryPointName() const { return mEntryPointName; }
     const sead::SafeString& getType() const { return mType; }
