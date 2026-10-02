@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the two param zero stores (0x38/0x48) are emitted in the opposite order
 EnemySearchHorse::EnemySearchHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemySearchHorse::~EnemySearchHorse() = default;
@@ -11,7 +12,11 @@ bool EnemySearchHorse::init_(sead::Heap* heap) {
 }
 
 void EnemySearchHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _100 = ksys::Timer(*mRepathTime_s, *mRepathTime_s);
+    if (sub_71003B9914())
+        return;
+    _58.reset();
+    changeChild("馬未発見", params);
 }
 
 void EnemySearchHorse::leave_() {

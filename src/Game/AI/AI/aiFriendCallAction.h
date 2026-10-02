@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,6 +16,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+    bool handleAck_(const ksys::MessageAck& ack) override;
+
+    void sub_71003DD74C();
 
 protected:
     // static_param at offset 0x38
@@ -26,6 +32,10 @@ protected:
     const float* mNearDistVMin_s{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
+    Unk_710236f520 _60{mActor, 0x8000007};
+    Unk_7102450588 _90;
+    bool _e0 = false;
 };
+KSYS_CHECK_SIZE_NX150(FriendCallAction, 0xe8);
 
 }  // namespace uking::ai
