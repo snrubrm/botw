@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiActorLink.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,8 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x40];
+    Unk_71023e0020 _38{0x1800029};
     // static_param at offset 0x78
     sead::SafeString mDisplayAttKey_s{};
     // static_param at offset 0x88
@@ -26,6 +27,9 @@ protected:
     const int* mEquipStandSlot_m{};
     // aitree_variable at offset 0xa0
     void* mEquipDisplayChild_a{};
+    bool _a8 = false;
+    ActorLink _b0;
 };
+KSYS_CHECK_SIZE_NX150(EquipStand, 0xc8);
 
 }  // namespace uking::ai

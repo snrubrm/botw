@@ -1,10 +1,17 @@
 #include "Game/AI/AI/aiEquipStand.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
 EquipStand::EquipStand(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EquipStand::~EquipStand() = default;
+EquipStand::~EquipStand() {
+    if (_b0.mLink.hasProc()) {
+        ksys::act::ActorConstDataAccess acc;
+        if (ksys::act::acquireActor(&_b0.mLink, &acc))
+            acc.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool EquipStand::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
