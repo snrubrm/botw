@@ -30,7 +30,7 @@ void SwitchWindHit::loadParams_() {
 }
 
 bool SwitchWindHit::handleMessage_(const ksys::Message& message) {
-    if (!isCurrentChild("オフ待機") && message.getType().value == 0x8000080) {
+    if (!isCurrentChild("オフ待機") && message.getType() == 0x8000080) {
         _46 = true;
         return true;
     }

@@ -9,7 +9,7 @@ namespace ksys {
 class IMessageBroker;
 class IMessageBrokerRegister;
 struct MesTransceiverId;
-struct MessageType;
+enum MessageType : u32;
 
 class MessageTransceiverBase {
 public:

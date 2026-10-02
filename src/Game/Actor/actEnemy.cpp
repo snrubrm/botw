@@ -20,7 +20,7 @@ bool Enemy::m57() {
 }
 
 bool Unk_7102357a08::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b0)
+    if (message.getType() != 0x80000b0)
         return false;
 
     _30 = true;
@@ -29,7 +29,7 @@ bool Unk_7102357a08::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102357a38::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000af)
+    if (message.getType() != 0x80000af)
         return false;
 
     _30 = true;
@@ -38,7 +38,7 @@ bool Unk_7102357a38::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023579d8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000cb)
+    if (message.getType() != 0x80000cb)
         return false;
 
     auto* payload = static_cast<Unk_71023579d8_Payload*>(message.getUserData());
@@ -55,7 +55,7 @@ bool Unk_71023579d8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023579a8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d0)
+    if (message.getType() != 0x80000d0)
         return false;
 
     auto* payload = static_cast<Unk_71023579a8_Payload*>(message.getUserData());
@@ -72,7 +72,7 @@ bool Unk_71023579a8::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102357978::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d1)
+    if (message.getType() != 0x80000d1)
         return false;
 
     auto* payload = static_cast<Unk_7102357978_Payload*>(message.getUserData());
@@ -89,7 +89,7 @@ bool Unk_7102357978::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102357948::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d2)
+    if (message.getType() != 0x80000d2)
         return false;
 
     auto* payload = static_cast<Unk_7102357948_Payload*>(message.getUserData());

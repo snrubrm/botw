@@ -83,7 +83,7 @@ public:
 class Unk_71023f5f90 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x8000045)
+        if (message.getType() != 0x8000045)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -96,7 +96,7 @@ public:
 class Unk_71023f5fc0 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x8000046)
+        if (message.getType() != 0x8000046)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -119,7 +119,7 @@ public:
 class Unk_71023fbec8 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800021)
+        if (message.getType() != 0x3800021)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -138,7 +138,7 @@ public:
 class Unk_71023fbad8 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800022)
+        if (message.getType() != 0x3800022)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -151,7 +151,7 @@ public:
 class Unk_71023fc720 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800023)
+        if (message.getType() != 0x3800023)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -164,7 +164,7 @@ public:
 class Unk_71023fc750 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800024)
+        if (message.getType() != 0x3800024)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -177,7 +177,7 @@ public:
 class Unk_71023fc5a0 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800025)
+        if (message.getType() != 0x3800025)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -190,7 +190,7 @@ public:
 class Unk_71023fc5d0 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x3800026)
+        if (message.getType() != 0x3800026)
             return false;
         _30 = true;
         _18 = message.getSource();
@@ -735,7 +735,7 @@ public:
 class Unk_71023afc10 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x800002d)
+        if (message.getType() != 0x800002d)
             return false;
 
         _30 = true;
@@ -749,7 +749,7 @@ public:
 class Unk_71023afbe0 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x800002e)
+        if (message.getType() != 0x800002e)
             return false;
 
         _30 = true;
@@ -763,7 +763,7 @@ public:
 class Unk_710242fd28 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x800002f)
+        if (message.getType() != 0x800002f)
             return false;
 
         _30 = true;
@@ -777,7 +777,7 @@ public:
 class Unk_710242fd58 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0x8000030)
+        if (message.getType() != 0x8000030)
             return false;
 
         _30 = true;

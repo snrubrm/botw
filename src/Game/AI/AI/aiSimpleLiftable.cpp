@@ -114,7 +114,7 @@ bool SimpleLiftable::handleMessage_(const ksys::Message& message) {
 
 // Defined in this TU in the original (inlined into SimpleLiftable::handleMessage_).
 bool Unk_71023da100::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x5800000)
+    if (message.getType() != 0x5800000)
         return false;
 
     auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());

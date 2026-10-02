@@ -62,7 +62,7 @@ bool SeqNextMessage::handleMessage_(const ksys::Message& message) {
 }  // namespace uking::ai
 
 bool Unk_710241d7c8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a6)
+    if (message.getType() != 0x80000a6)
         return false;
 
     _30 = true;

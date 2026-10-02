@@ -51,7 +51,6 @@ bool SiteBoss::sub_71002D33D0(f32 value) const {
     return _1554 < value;
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary
 void SiteBoss::x_2(Enemy* boss, ksys::act::Actor* sender) {
     if (!boss)
         return;
@@ -61,11 +60,10 @@ void SiteBoss::x_2(Enemy* boss, ksys::act::Actor* sender) {
             continue;
         ksys::act::ActorConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
-        sender->sendMessage(*acc.getMessageTransceiverId(), 0x800002f, nullptr, true);
+        sender->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x800002f), nullptr, true);
     }
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary
 void SiteBoss::sub_71002D3498(Enemy* boss, ksys::act::Actor* sender) {
     if (!boss)
         return;
@@ -76,11 +74,10 @@ void SiteBoss::sub_71002D3498(Enemy* boss, ksys::act::Actor* sender) {
         ksys::act::ActorConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         if (acc.isStateCalc())
-            sender->sendMessage(*acc.getMessageTransceiverId(), 0x8000030, nullptr, true);
+            sender->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x8000030), nullptr, true);
     }
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary
 void SiteBoss::sub_71002D3624(SiteBoss* boss, const sead::SafeString& part) {
     if (!boss)
         return;
@@ -88,7 +85,7 @@ void SiteBoss::sub_71002D3624(SiteBoss* boss, const sead::SafeString& part) {
         return;
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(&boss->_1128.getActorPartsActor(part), &acc);
-    boss->sendMessage(*acc.getMessageTransceiverId(), 0x8000004, nullptr, true);
+    boss->sendMessage(*acc.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
 }
 
 bool SiteBoss::sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& part) {

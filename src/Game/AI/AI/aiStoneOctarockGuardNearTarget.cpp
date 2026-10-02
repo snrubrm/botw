@@ -30,7 +30,7 @@ void StoneOctarockGuardNearTarget::loadParams_() {
 }
 
 bool StoneOctarockGuardNearTarget::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000003 &&
+    if (message.getType() == 0x3000003 &&
         (isCurrentChild("ガード開始") || isCurrentChild("高速ガード開始"))) {
         _60._24 = false;
     }

@@ -53,7 +53,7 @@ void MetalObjectBuried::loadParams_() {
 }
 
 bool MetalObjectBuried::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x3000007)
+    if (message.getType() != 0x3000007)
         return false;
 
     auto* actor = mActor;

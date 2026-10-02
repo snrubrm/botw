@@ -26,9 +26,9 @@ class BaseProcLink;
 class Unk_7102357d20 {
 public:
     Unk_7102357d20(ksys::act::Actor* actor, u32 type)
-        : _8(&actor->getMessageTransceiver()), _10(type) {}
+        : _8(&actor->getMessageTransceiver()), _10(ksys::MessageType(type)) {}
     // PriestBossGiantEnemyRoot::_268: constructed without a transceiver (set by its init_).
-    explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(type) {}
+    explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(ksys::MessageType(type)) {}
     // The original keeps the base vtable store in every (inlined) destructor of this class, which a
     // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
     // { ; } (commit 96101229).

@@ -30,7 +30,7 @@ void HeroSoulGiftRoot::loadParams_() {
 }
 
 bool HeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000036) {
+    if (message.getType() == 0x8000036) {
         _88 = true;
         return true;
     }

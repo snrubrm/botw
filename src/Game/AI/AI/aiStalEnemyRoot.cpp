@@ -44,7 +44,7 @@ bool StalEnemyRoot::handleMessage_(const ksys::Message& message) {
         }
     }
 
-    if (message.getType().value == 0x3000007) {
+    if (message.getType() == 0x3000007) {
         _2e0 = true;
         return true;
     }

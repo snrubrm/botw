@@ -34,11 +34,11 @@ void ForestGiantNormal::loadParams_() {
 }
 
 bool ForestGiantNormal::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000015) {
+    if (message.getType() == 0x3000015) {
         _3d8 = false;
         return false;
     }
-    if (message.getType().value == 0x3000016) {
+    if (message.getType() == 0x3000016) {
         _3d8 = true;
         return false;
     }

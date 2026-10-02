@@ -41,7 +41,7 @@ void DragonItemRoot::loadParams_() {
 }
 
 bool DragonItemRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000009) {
+    if (message.getType() == 0x3000009) {
         *mIsInsideObserverArea_a = true;
         return true;
     }

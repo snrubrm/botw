@@ -33,7 +33,6 @@ void AreaActorObserve::loadParams_() {
 
 void AreaActorObserve::m32() {}
 
-// NON_MATCHING: stack slot of the MessageType temporary
 bool AreaActorObserve::m15(const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasProc())
         return false;

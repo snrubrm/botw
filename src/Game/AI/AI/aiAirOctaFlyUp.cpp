@@ -52,7 +52,7 @@ void AirOctaFlyUp::calc_() {
             ksys::act::ActorConstDataAccess linkData;
             if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
                 mUserData = 3;
-                getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,
+                getActor()->sendMessage(*linkData.getMessageTransceiverId(), ksys::MessageType(0x80000C8), &mUserData,
                                         false);
             }
         }
@@ -61,14 +61,14 @@ void AirOctaFlyUp::calc_() {
         ksys::act::ActorConstDataAccess linkData;
         if (ksys::act::acquireActor(&getDataMgr()->mBaseProcLink, &linkData)) {
             mUserData = 2;
-            getActor()->sendMessage(*linkData.getMessageTransceiverId(), 0x80000C8, &mUserData,
+            getActor()->sendMessage(*linkData.getMessageTransceiverId(), ksys::MessageType(0x80000C8), &mUserData,
                                     false);
         }
     }
 }
 
 bool AirOctaFlyUp::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x80000c8) {
+    if (message.getType() != 0x80000c8) {
         return false;
     }
     u32* user_data = static_cast<u32*>(message.getUserData());

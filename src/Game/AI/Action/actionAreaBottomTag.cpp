@@ -41,7 +41,6 @@ void AreaBottomTag::calc_() {
     AreaTagAction::calc_();
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary
 bool AreaBottomTag::m15(const ksys::act::ActorConstDataAccess& accessor) {
     if (accessor.hasProc()) {
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000007),

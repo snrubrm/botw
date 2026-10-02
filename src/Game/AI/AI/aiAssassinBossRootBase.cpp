@@ -14,7 +14,7 @@
 namespace uking::ai {
 
 bool Unk_71023d7eb0::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800007d)
+    if (message.getType() != 0x800007d)
         return false;
 
     _30 = true;
@@ -23,7 +23,7 @@ bool Unk_71023d7eb0::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023d7ee0::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800007e)
+    if (message.getType() != 0x800007e)
         return false;
 
     _30 = true;

@@ -80,7 +80,7 @@ void PriestBossIronBallRoot::loadParams_() {
 // NON_MATCHING: the Flag temporaries of the first two branches get their own stack slots, and mActor
 // is loaded after the payload lock (lane2 log: inline-helper forms)
 bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000007) {
+    if (message.getType() == 0x3000007) {
         _80.setBit(Flag(Flag::_8));
         if (mActor->getConnectedCalcChild())
             mActor->resetConnectedCalcChild(false);
@@ -94,7 +94,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         return true;
     }
 
-    if (message.getType().value == 0x3000003) {
+    if (message.getType() == 0x3000003) {
         if (auto* body = mActor->getMainBody(); body && _268 > 0)
             body->setMass(_268 * 5.0f);
         m35();
@@ -106,7 +106,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         return true;
     }
 
-    if (message.getType().value == 0x3000004) {
+    if (message.getType() == 0x3000004) {
         if (!_80.isOnBit(Flag(Flag::_0)) || mActor->getConnectedCalcChild()) {
             if (!_80.isOnBit(Flag(Flag::_6))) {
                 if (_80.isOnBit(Flag(Flag::_7))) {

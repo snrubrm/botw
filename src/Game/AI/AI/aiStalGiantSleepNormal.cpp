@@ -39,7 +39,7 @@ bool StalGiantSleepNormal::handleMessage_(const ksys::Message& message) {
 
 // Defined in this TU in the original (inlined into StalGiantSleepNormal::handleMessage_).
 bool Unk_7102424730::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b8)
+    if (message.getType() != 0x80000b8)
         return false;
 
     auto* payload = static_cast<Unk_71023c5480_Payload*>(message.getUserData());

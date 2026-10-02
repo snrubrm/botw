@@ -146,7 +146,7 @@ void DragonRoot::loadParams_() {
 }
 
 bool DragonRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000010) {
+    if (message.getType() == 0x3000010) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
         return true;
     }

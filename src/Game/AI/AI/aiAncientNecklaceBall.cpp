@@ -52,7 +52,7 @@ bool AncientNecklaceBall::m36() {
 
 // Defined in this TU in the original (inlined into AncientNecklaceBall::handleMessage_).
 bool Unk_71023d4c08::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000ab)
+    if (message.getType() != 0x80000ab)
         return false;
 
     auto* payload = static_cast<Unk_71023d4bb0_Payload*>(message.getUserData());

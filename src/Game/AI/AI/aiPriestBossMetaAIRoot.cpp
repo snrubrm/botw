@@ -131,7 +131,7 @@ void PriestBossMetaAIRoot::leave_() {
 bool PriestBossMetaAIRoot::handleMessage_(const ksys::Message& message) {
     if (_138->m4(message))
         return true;
-    if (message.getType().value != 0x80000d9)
+    if (message.getType() != 0x80000d9)
         return false;
 
     _138->sub_71007190CC(message.getSource());

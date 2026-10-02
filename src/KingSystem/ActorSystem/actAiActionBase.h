@@ -15,7 +15,7 @@ class IMessageBroker;
 class Message;
 class MessageAck;
 struct MesTransceiverId;
-struct MessageType;
+enum MessageType : u32;
 }  // namespace ksys
 
 namespace ksys::res {

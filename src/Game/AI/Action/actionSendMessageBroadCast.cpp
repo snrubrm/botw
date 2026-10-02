@@ -42,7 +42,6 @@ void SendMessageBroadCast::calc_() {
     }
 }
 
-// NON_MATCHING: stack slot of the MessageType temporaries (x29-0x14 vs x29-0x18; see OctarockEscape)
 void SendMessageBroadCast::doSendMessage() {
     auto* actor = mActor;
     switch (*mMsgType_s) {
@@ -51,7 +50,7 @@ void SendMessageBroadCast::doSendMessage() {
             ksys::act::ActorConstDataAccess accessor;
             ksys::act::acquireActor(&_30, &accessor);
             if (accessor.hasProc())
-                actor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000004, nullptr, true);
+                actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
         }
         break;
     case 2:
@@ -59,7 +58,7 @@ void SendMessageBroadCast::doSendMessage() {
             ksys::act::ActorConstDataAccess accessor;
             ksys::act::acquireActor(&_30, &accessor);
             if (accessor.hasProc())
-                actor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000046, nullptr, true);
+                actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000046), nullptr, true);
         }
         break;
     }

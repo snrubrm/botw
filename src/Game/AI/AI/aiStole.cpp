@@ -15,7 +15,7 @@ void Stole::enter_(ksys::act::ai::InlineParamPack* params) {
 void Stole::calc_() {}
 
 bool Stole::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x8000024)
+    if (message.getType() != 0x8000024)
         return false;
     if (mActor)
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20000000);

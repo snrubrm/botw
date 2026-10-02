@@ -33,7 +33,7 @@ bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message& message)
         _70.x();
         return true;
     }
-    if (message.getType().value == 0x800006a) {
+    if (message.getType() == 0x800006a) {
         _c0 = true;
         return true;
     }

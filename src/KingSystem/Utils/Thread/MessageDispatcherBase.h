@@ -1,5 +1,7 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 #include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys {
@@ -7,7 +9,7 @@ namespace ksys {
 class IMessageBrokerRegister;
 class MessageReceiverEx;
 struct MesTransceiverId;
-struct MessageType;
+enum MessageType : u32;
 
 class MessageDispatcherBase {
     SEAD_RTTI_BASE(MessageDispatcherBase)

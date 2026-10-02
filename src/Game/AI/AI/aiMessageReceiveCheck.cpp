@@ -43,7 +43,7 @@ bool MessageReceiveCheck::handleMessage_(const ksys::Message& message) {
     case 0:
         return _48.m2(message);
     case 1:
-        if (message.getType().value == 0x8000004) {
+        if (message.getType() == 0x8000004) {
             _38 = true;
             return true;
         }

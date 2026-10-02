@@ -66,7 +66,6 @@ void LastBossDemoWarpRoot::m36() {
     changeChild("ワープ後", &pack);
 }
 
-// NON_MATCHING: the MessageType temporary is at sp+0x2c in the original (sp+0x28 here)
 void LastBossDemoWarpRoot::m37() {
     sub_71007A3540(mActor);
     if (!*mIsPartsActorTgOn_s)
@@ -82,7 +81,7 @@ void LastBossDemoWarpRoot::m37() {
         ksys::act::ActorConstDataAccess accessor;
         ksys::act::acquireActor(&part->mLink, &accessor);
         if (accessor.isStateCalc())
-            mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000030, nullptr, true);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000030), nullptr, true);
     }
 }
 

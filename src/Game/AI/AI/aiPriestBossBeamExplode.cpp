@@ -27,7 +27,7 @@ void PriestBossBeamExplode::loadParams_() {
 }
 
 bool PriestBossBeamExplode::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000039 && isCurrentChild("着弾前"))
+    if (message.getType() == 0x8000039 && isCurrentChild("着弾前"))
         m34();
     return true;
 }

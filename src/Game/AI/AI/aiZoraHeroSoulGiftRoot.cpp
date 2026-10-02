@@ -33,7 +33,7 @@ void ZoraHeroSoulGiftRoot::calc_() {
 }
 
 bool ZoraHeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x800007b) {
+    if (message.getType() == 0x800007b) {
         _89 = true;
         return true;
     }

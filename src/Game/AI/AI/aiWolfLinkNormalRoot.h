@@ -22,7 +22,7 @@ namespace uking::ai {
 class Unk_7102432a80 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override {
-        if (message.getType().value != 0)
+        if (message.getType() != 0)
             return false;
         _30 = true;
         _18 = message.getSource();

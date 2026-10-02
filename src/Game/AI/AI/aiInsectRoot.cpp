@@ -37,7 +37,7 @@ void InsectRoot::loadParams_() {
 }
 
 bool InsectRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x3000009 || _10c || isCurrentChild("死亡"))
+    if (message.getType() != 0x3000009 || _10c || isCurrentChild("死亡"))
         return false;
 
     if (isCurrentChild("逃走"))

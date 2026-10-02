@@ -37,7 +37,7 @@ bool GuardianMini2ndBattle::m45() {
 }
 
 bool GuardianMini2ndBattle::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000043)
+    if (message.getType() == 0x8000043)
         ++_1c8;
     return GuardianMiniBattle::handleMessage_(message);
 }

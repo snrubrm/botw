@@ -84,7 +84,6 @@ void OctarockEscape::m35() {
     changeChild("移動", &params);
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (x29-0x18 vs x29-0x14)
 void OctarockEscape::sub_71004EC6F0() {
     auto* actor = mActor;
     if (!actor->getConnectedCalcChild() && _40.hasProc()) {

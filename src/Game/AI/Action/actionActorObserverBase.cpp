@@ -65,7 +65,7 @@ bool ActorObserverBase::sub_7100E289C0(const ksys::Message* message) {
     if (!message)
         return true;
 
-    if (message->getType().value == 0x4800002) {
+    if (message->getType() == 0x4800002) {
         _11 = true;
         return true;
     }

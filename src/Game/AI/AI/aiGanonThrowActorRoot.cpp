@@ -171,8 +171,7 @@ void GanonThrowActorRoot::m36() {
     changeChild("投げる", &params);
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128; MessageType
-// temporary at sp+0 instead of sp+4
+// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 void GanonThrowActorRoot::m38() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
@@ -182,7 +181,7 @@ void GanonThrowActorRoot::m38() {
     ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (accessor.hasProc() && accessor.isStateCalc()) {
         if (*mIsSendDeleteMessageAtLeave_s)
-            sendMessage(*accessor.getMessageTransceiverId(), 0x800005c, nullptr);
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800005c), nullptr);
         else
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }

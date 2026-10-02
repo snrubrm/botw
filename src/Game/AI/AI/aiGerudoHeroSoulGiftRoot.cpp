@@ -35,7 +35,7 @@ void GerudoHeroSoulGiftRoot::loadParams_() {
 }
 
 bool GerudoHeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000028 && isCurrentChild("待機")) {
+    if (message.getType() == 0x8000028 && isCurrentChild("待機")) {
         _9c = true;
         return true;
     }

@@ -24,9 +24,9 @@ void GiantSleepReaction::leave_() {
 void GiantSleepReaction::loadParams_() {}
 
 bool GiantSleepReaction::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000015)
+    if (message.getType() == 0x3000015)
         _38 = false;
-    else if (message.getType().value == 0x3000016)
+    else if (message.getType() == 0x3000016)
         _38 = true;
     return false;
 }

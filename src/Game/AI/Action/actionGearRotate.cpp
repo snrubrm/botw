@@ -70,7 +70,7 @@ void GearRotate::loadParams_() {
 }
 
 bool GearRotate::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000003)
+    if (message.getType() == 0x3000003)
         mActor->emitBasicSigOff();
     return false;
 }

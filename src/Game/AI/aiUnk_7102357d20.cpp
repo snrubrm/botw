@@ -65,7 +65,7 @@ bool Unk_7102357d20::sub_710070DFD8(const ksys::act::ActorLinkConstDataAccess& a
 }
 
 bool Unk_7102357d20::sub_710070E070(const ksys::MessageAck& ack) {
-    if (ack.getType().value != _10.value || ack.getUserData() != m2())
+    if (ack.getType() != _10 || ack.getUserData() != m2())
         return false;
     _14 = ack.isDestinationValid() && ack.isSuccess();
     return true;

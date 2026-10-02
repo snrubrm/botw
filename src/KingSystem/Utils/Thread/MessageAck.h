@@ -1,9 +1,11 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+
 namespace ksys {
 
 struct MesTransceiverId;
-struct MessageType;
+enum MessageType : u32;
 
 class MessageAck {
 public:

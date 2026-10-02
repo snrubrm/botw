@@ -12,7 +12,6 @@ bool NPCStartTurnToPlayer::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (x29-0x4 vs sp+0x8; same as OctarockEscape)
 bool NPCStartTurnToPlayer::oneShot_() {
     mValue = *mTurnRange_d * 0.5f;
 

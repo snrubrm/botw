@@ -10,7 +10,7 @@
 Unk_7102450498::~Unk_7102450498() = default;
 
 bool Unk_7102450498::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000021)
+    if (message.getType() != 0x8000021)
         return false;
 
     auto* payload = static_cast<Unk_71023f83e8_Payload*>(message.getUserData());
@@ -38,7 +38,7 @@ void Unk_7102450498::m3() {
 Unk_71024505b8::Unk_71024505b8() = default;
 
 bool Unk_71024505b8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800001e)
+    if (message.getType() != 0x800001e)
         return false;
 
     auto* payload = static_cast<Unk_710237ecc0_Payload*>(message.getUserData());
@@ -54,7 +54,7 @@ bool Unk_71024505b8::m2(const ksys::Message& message) {
 Unk_7102450a08::Unk_7102450a08() = default;
 
 bool Unk_7102450a08::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800001b)
+    if (message.getType() != 0x800001b)
         return false;
 
     auto* payload = static_cast<Unk_71023b1608_Payload*>(message.getUserData());
@@ -71,7 +71,7 @@ bool Unk_7102450a08::m2(const ksys::Message& message) {
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_71024504c8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000010)
+    if (message.getType() != 0x8000010)
         return false;
 
     auto* payload = static_cast<Unk_71024504c8_Payload*>(message.getUserData());
@@ -93,7 +93,7 @@ bool Unk_71024504c8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71024504f8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a4)
+    if (message.getType() != 0x80000a4)
         return false;
 
     auto* payload = static_cast<Unk_7102410070_Payload*>(message.getUserData());
@@ -115,7 +115,7 @@ bool Unk_71024504f8::m2(const ksys::Message& message) {
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450528::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000006)
+    if (message.getType() != 0x8000006)
         return false;
 
     auto* payload = static_cast<Unk_710235abc8_Payload*>(message.getUserData());
@@ -149,7 +149,7 @@ void Unk_7102450528::m3() {
 }
 
 bool Unk_7102450558::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000007)
+    if (message.getType() != 0x8000007)
         return false;
 
     auto* payload = static_cast<Unk_710236f520_Payload*>(message.getUserData());
@@ -163,7 +163,7 @@ bool Unk_7102450558::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102450588::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000008)
+    if (message.getType() != 0x8000008)
         return false;
 
     auto* payload = static_cast<Unk_7102372510_Payload*>(message.getUserData());
@@ -179,7 +179,7 @@ bool Unk_7102450588::m2(const ksys::Message& message) {
 Unk_71024505e8::~Unk_71024505e8() = default;
 
 bool Unk_71024505e8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b1)
+    if (message.getType() != 0x80000b1)
         return false;
 
     auto* data = static_cast<const u32*>(message.getUserData());
@@ -195,7 +195,7 @@ bool Unk_71024505e8::m2(const ksys::Message& message) {
 Unk_7102450618::~Unk_7102450618() = default;
 
 bool Unk_7102450618::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000022)
+    if (message.getType() != 0x8000022)
         return false;
 
     _30 = true;
@@ -206,7 +206,7 @@ bool Unk_7102450618::m2(const ksys::Message& message) {
 Unk_71024506d8::~Unk_71024506d8() = default;
 
 bool Unk_71024506d8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800000a)
+    if (message.getType() != 0x800000a)
         return false;
 
     _30 = true;
@@ -217,7 +217,7 @@ bool Unk_71024506d8::m2(const ksys::Message& message) {
 Unk_7102450768::~Unk_7102450768() = default;
 
 bool Unk_7102450768::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000084)
+    if (message.getType() != 0x8000084)
         return false;
 
     auto* data = static_cast<const u32*>(message.getUserData());
@@ -233,7 +233,7 @@ bool Unk_7102450768::m2(const ksys::Message& message) {
 Unk_7102450798::~Unk_7102450798() = default;
 
 bool Unk_7102450798::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000004)
+    if (message.getType() != 0x8000004)
         return false;
 
     _30 = true;
@@ -244,7 +244,7 @@ bool Unk_7102450798::m2(const ksys::Message& message) {
 Unk_7102450b28::~Unk_7102450b28() = default;
 
 bool Unk_7102450b28::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800003f)
+    if (message.getType() != 0x800003f)
         return false;
 
     _30 = true;
@@ -255,7 +255,7 @@ bool Unk_7102450b28::m2(const ksys::Message& message) {
 Unk_7102450b58::~Unk_7102450b58() = default;
 
 bool Unk_7102450b58::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800003c)
+    if (message.getType() != 0x800003c)
         return false;
 
     auto* data = static_cast<const u64*>(message.getUserData());
@@ -269,7 +269,7 @@ bool Unk_7102450b58::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102450888::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d3)
+    if (message.getType() != 0x80000d3)
         return false;
 
     auto* payload = static_cast<Unk_7102413398_Payload*>(message.getUserData());
@@ -290,7 +290,7 @@ bool Unk_7102450888::m2(const ksys::Message& message) {
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
 bool Unk_71024508b8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000da)
+    if (message.getType() != 0x80000da)
         return false;
 
     auto* payload = static_cast<Unk_7102409958_Payload*>(message.getUserData());
@@ -311,7 +311,7 @@ bool Unk_71024508b8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71024508e8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000db)
+    if (message.getType() != 0x80000db)
         return false;
 
     auto* payload = static_cast<Unk_71024508e8_Payload*>(message.getUserData());
@@ -332,7 +332,7 @@ bool Unk_71024508e8::m2(const ksys::Message& message) {
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
 bool Unk_7102450918::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000dc)
+    if (message.getType() != 0x80000dc)
         return false;
 
     auto* payload = static_cast<Unk_7102411178_Payload*>(message.getUserData());
@@ -354,7 +354,7 @@ bool Unk_7102450918::m2(const ksys::Message& message) {
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
 bool Unk_7102450948::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d5)
+    if (message.getType() != 0x80000d5)
         return false;
 
     auto* payload = static_cast<Unk_71023b1860_Payload*>(message.getUserData());
@@ -376,7 +376,7 @@ bool Unk_7102450948::m2(const ksys::Message& message) {
 Unk_7102450678::~Unk_7102450678() = default;
 
 bool Unk_7102450678::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000044)
+    if (message.getType() != 0x8000044)
         return false;
 
     auto* link = static_cast<ksys::act::BaseProcLink*>(message.getUserData());
@@ -392,7 +392,7 @@ bool Unk_7102450678::m2(const ksys::Message& message) {
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450708::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a5)
+    if (message.getType() != 0x80000a5)
         return false;
 
     auto* payload = static_cast<Unk_7102379de0_Payload*>(message.getUserData());
@@ -414,7 +414,7 @@ bool Unk_7102450708::m2(const ksys::Message& message) {
 Unk_7102450738::~Unk_7102450738() = default;
 
 bool Unk_7102450738::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000047)
+    if (message.getType() != 0x8000047)
         return false;
 
     auto* payload = static_cast<Unk_7102450738_Payload*>(message.getUserData());
@@ -438,7 +438,7 @@ void Unk_7102450738::m3() {
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
 bool Unk_71024507f8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000017)
+    if (message.getType() != 0x8000017)
         return false;
 
     auto* payload = static_cast<Unk_71023eaec8_Payload*>(message.getUserData());
@@ -459,7 +459,7 @@ bool Unk_71024507f8::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102450858::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d8)
+    if (message.getType() != 0x80000d8)
         return false;
 
     auto* payload = static_cast<Unk_7102411f48_Payload*>(message.getUserData());
@@ -476,7 +476,7 @@ bool Unk_7102450858::m2(const ksys::Message& message) {
 // NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
 // (lane2 log: overloaded operator= evaluation order)
 bool Unk_7102450978::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d4)
+    if (message.getType() != 0x80000d4)
         return false;
 
     auto* payload = static_cast<Unk_7102450978_Payload*>(message.getUserData());
@@ -501,7 +501,7 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
 
 // NON_MATCHING: the original copies _0.._8 as one 12-byte block (ldr x + ldr w)
 bool Unk_71024509a8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000d7)
+    if (message.getType() != 0x80000d7)
         return false;
 
     auto* payload = static_cast<Unk_71023dbd40_Payload*>(message.getUserData());
@@ -518,7 +518,7 @@ bool Unk_71024509a8::m2(const ksys::Message& message) {
 Unk_7102450a38::~Unk_7102450a38() = default;
 
 bool Unk_7102450a38::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800005d)
+    if (message.getType() != 0x800005d)
         return false;
 
     auto* payload = static_cast<Unk_7102450a38_Payload*>(message.getUserData());
@@ -538,7 +538,7 @@ bool Unk_7102450a38::m2(const ksys::Message& message) {
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
 bool Unk_7102450a98::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000029)
+    if (message.getType() != 0x8000029)
         return false;
 
     auto* payload = static_cast<Unk_7102450a98_Payload*>(message.getUserData());
@@ -556,7 +556,7 @@ bool Unk_7102450a98::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102450b88::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800001f)
+    if (message.getType() != 0x800001f)
         return false;
 
     auto* payload = static_cast<Unk_7102396ae0_Payload*>(message.getUserData());
@@ -571,7 +571,7 @@ bool Unk_7102450b88::m2(const ksys::Message& message) {
 
 // NON_MATCHING: the original computes &_38 before taking the lock (see lane2 log, borderline)
 bool Unk_7102450a68::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a9)
+    if (message.getType() != 0x80000a9)
         return false;
 
     auto* payload = static_cast<Unk_7102450a68_Payload*>(message.getUserData());
@@ -593,7 +593,7 @@ bool Unk_7102450a68::m2(const ksys::Message& message) {
 // NON_MATCHING: the original computes &_38 before taking the lock and evaluates the destination of
 // BaseProcLink::operator= first (see lane2 log, borderline)
 bool Unk_7102450be8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000037)
+    if (message.getType() != 0x8000037)
         return false;
 
     auto* payload = static_cast<Unk_7102450be8_Payload*>(message.getUserData());
@@ -619,7 +619,7 @@ bool Unk_7102450be8::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102450ac8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000040)
+    if (message.getType() != 0x8000040)
         return false;
 
     auto* payload = static_cast<Unk_710235aba0_Payload*>(message.getUserData());
@@ -633,7 +633,7 @@ bool Unk_7102450ac8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71024509d8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000de)
+    if (message.getType() != 0x80000de)
         return false;
 
     static_cast<Unk_7102413c08_Payload*>(message.getUserData())->sub_710070E270(&_34);
@@ -645,7 +645,7 @@ bool Unk_71024509d8::m2(const ksys::Message& message) {
 // ---- Listeners embedded in AI classes (functions in their owners' TUs in the original) ----
 
 bool Unk_71023e7c38::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800009c)
+    if (message.getType() != 0x800009c)
         return false;
 
     auto* payload = static_cast<Unk_71023e7c38_Payload*>(message.getUserData());
@@ -659,7 +659,7 @@ bool Unk_71023e7c38::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e7c68::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800009d)
+    if (message.getType() != 0x800009d)
         return false;
 
     auto* payload = static_cast<Unk_71023e7c68_Payload*>(message.getUserData());
@@ -673,7 +673,7 @@ bool Unk_71023e7c68::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e7c98::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800009e)
+    if (message.getType() != 0x800009e)
         return false;
 
     auto* payload = static_cast<Unk_7102379988_Payload*>(message.getUserData());
@@ -687,7 +687,7 @@ bool Unk_71023e7c98::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e7cc8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a1)
+    if (message.getType() != 0x80000a1)
         return false;
 
     auto* payload = static_cast<Unk_71023e78b0_Payload*>(message.getUserData());
@@ -701,7 +701,7 @@ bool Unk_71023e7cc8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e7cf8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a2)
+    if (message.getType() != 0x80000a2)
         return false;
 
     auto* payload = static_cast<Unk_71023e7cf8_Payload*>(message.getUserData());
@@ -715,7 +715,7 @@ bool Unk_71023e7cf8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e8ff8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b3)
+    if (message.getType() != 0x80000b3)
         return false;
 
     auto* payload = static_cast<Unk_71023e8ff8_Payload*>(message.getUserData());
@@ -729,7 +729,7 @@ bool Unk_71023e8ff8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e9028::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000bf)
+    if (message.getType() != 0x80000bf)
         return false;
 
     auto* payload = static_cast<Unk_71023e9028_Payload*>(message.getUserData());
@@ -745,7 +745,7 @@ bool Unk_71023e9028::m2(const ksys::Message& message) {
 Unk_71023e7d28::~Unk_71023e7d28() = default;
 
 bool Unk_71023e7d28::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000c0)
+    if (message.getType() != 0x80000c0)
         return false;
 
     auto* payload = static_cast<Unk_71023e7d28_Payload*>(message.getUserData());
@@ -762,7 +762,7 @@ bool Unk_71023e7d28::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102358dc0::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800006e)
+    if (message.getType() != 0x800006e)
         return false;
 
     auto* payload = static_cast<Unk_7102358dc0_Payload*>(message.getUserData());
@@ -776,7 +776,7 @@ bool Unk_7102358dc0::m2(const ksys::Message& message) {
 }
 
 bool Unk_710235cec8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000041)
+    if (message.getType() != 0x8000041)
         return false;
 
     auto* payload = static_cast<Unk_71023e7bc0_Payload*>(message.getUserData());
@@ -790,7 +790,7 @@ bool Unk_710235cec8::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023799b0::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a3)
+    if (message.getType() != 0x80000a3)
         return false;
 
     auto* payload = static_cast<Unk_71023799b0_Payload*>(message.getUserData());
@@ -804,7 +804,7 @@ bool Unk_71023799b0::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102379b00::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x800009f)
+    if (message.getType() != 0x800009f)
         return false;
 
     auto* payload = static_cast<Unk_7102379b00_Payload*>(message.getUserData());
@@ -818,7 +818,7 @@ bool Unk_7102379b00::m2(const ksys::Message& message) {
 }
 
 bool Unk_7102379b30::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000a0)
+    if (message.getType() != 0x80000a0)
         return false;
 
     auto* payload = static_cast<Unk_7102379b30_Payload*>(message.getUserData());
@@ -834,7 +834,7 @@ bool Unk_7102379b30::m2(const ksys::Message& message) {
 // Unk_71023d4c08::m2 is defined in aiAncientNecklaceBall.cpp (inlined there in the original).
 
 bool Unk_7102404060::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000018)
+    if (message.getType() != 0x8000018)
         return false;
 
     auto* payload = static_cast<Unk_7102404060_Payload*>(message.getUserData());
@@ -848,7 +848,7 @@ bool Unk_7102404060::m2(const ksys::Message& message) {
 }
 
 bool Unk_710240dd68::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x8000042)
+    if (message.getType() != 0x8000042)
         return false;
 
     auto* payload = static_cast<Unk_710240dd68_Payload*>(message.getUserData());
@@ -863,7 +863,7 @@ bool Unk_710240dd68::m2(const ksys::Message& message) {
 
 
 bool Unk_710244e760::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000cc)
+    if (message.getType() != 0x80000cc)
         return false;
 
     auto* payload = static_cast<Unk_710244e760_Payload*>(message.getUserData());
@@ -879,7 +879,7 @@ bool Unk_710244e760::m2(const ksys::Message& message) {
 Unk_710244e7f0::~Unk_710244e7f0() = default;
 
 bool Unk_710244e7f0::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000cf)
+    if (message.getType() != 0x80000cf)
         return false;
 
     auto* payload = static_cast<Unk_710244e7f0_Payload*>(message.getUserData());

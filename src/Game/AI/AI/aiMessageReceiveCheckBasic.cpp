@@ -49,7 +49,7 @@ void MessageReceiveCheckBasic::m36() {
 }
 
 bool MessageReceiveCheckBasic::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000004) {
+    if (message.getType() == 0x8000004) {
         _38 = true;
         return true;
     }

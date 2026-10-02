@@ -30,7 +30,7 @@ void HorseReturnToSafePos::calc_() {
 }
 
 bool HorseReturnToSafePos::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x3000010)
+    if (message.getType() != 0x3000010)
         return false;
     _40 = 0;
     return true;

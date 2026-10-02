@@ -7,7 +7,7 @@
 Unk_71024056a8::~Unk_71024056a8() = default;
 
 bool Unk_71024056a8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000ac)
+    if (message.getType() != 0x80000ac)
         return false;
 
     auto* payload = static_cast<Unk_71024056a8_Payload*>(message.getUserData());

@@ -6,12 +6,10 @@
 
 namespace ksys {
 
-struct MessageType {
-    MessageType() = default;
-    MessageType(u32 v) : value(v) {}  // NOLINT(google-explicit-constructor)
-
-    u32 value;
-};
+// An enum, not a struct: temporaries passed by reference sit at the top of the frame (x29-4) in
+// the original, which only happens for scalar allocas (an aggregate gets 8-byte preferred
+// alignment on AArch64).
+enum MessageType : u32 {};
 
 class MessageDelayer {
 public:

@@ -26,7 +26,7 @@ void ForkModelFadeOut::loadParams_() {
 }
 
 bool ForkModelFadeOut::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value != 0x3000010)
+    if (message.getType() != 0x3000010)
         return false;
     setEndState();
     return true;

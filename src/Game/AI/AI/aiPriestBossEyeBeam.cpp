@@ -57,14 +57,14 @@ bool PriestBossEyeBeam::m35() {
     return false;
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (same issue as AirOctaFlyUp / OctarockEscape)
+// NON_MATCHING: regalloc (the original rematerialises the accessor address instead of keeping it in x19)
 void PriestBossEyeBeam::m41() {
     if (!_88.hasProc())
         return;
 
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&_88, &accessor))
-        mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000039, nullptr, true);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000039), nullptr, true);
 }
 
 void PriestBossEyeBeam::m38(const sead::Vector3f& pos) {

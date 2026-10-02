@@ -38,7 +38,7 @@ void ShelterFromRain::calc_() {
 
 // NON_MATCHING: the original checks the message reference for null
 bool ShelterFromRain::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x8000076) {
+    if (message.getType() == 0x8000076) {
         _50 = false;
         return true;
     }
@@ -47,7 +47,7 @@ bool ShelterFromRain::handleMessage_(const ksys::Message& message) {
 
 // NON_MATCHING: the original checks the ack reference for null
 bool ShelterFromRain::handleAck_(const ksys::MessageAck& ack) {
-    if (ack.getType().value == 0x8000075 && ack.isDestinationValid() && ack.isSuccess()) {
+    if (ack.getType() == 0x8000075 && ack.isDestinationValid() && ack.isSuccess()) {
         _50 = true;
         return true;
     }
@@ -81,7 +81,7 @@ bool ShelterFromRain::m15(const ksys::act::ActorConstDataAccess& accessor) {
 
     _51 = true;
     _54 = mActor->getMtx();
-    sendMessage(*npc.getMessageTransceiverId(), 0x8000075, &_54);
+    sendMessage(*npc.getMessageTransceiverId(), ksys::MessageType(0x8000075), &_54);
     return false;
 }
 

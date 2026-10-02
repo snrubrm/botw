@@ -56,7 +56,6 @@ bool Unk_7100d3cd74::sub_7100D3CED8(const sead::SafeString& name, sead::Heap* he
     return true;
 }
 
-// NON_MATCHING: the MessageType temporary is at a different stack offset
 bool Unk_7100d3cd74::sub_7100D3CFEC(const sead::SafeString& name) {
     Unk1* data = find(name);
 

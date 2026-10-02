@@ -169,7 +169,7 @@ void PriestBossBananaMode::loadParams_() {
 
 // NON_MATCHING: operand order of the orr in setBit (see PriestBossIronBallRoot::m41)
 bool PriestBossBananaMode::handleAck_(const ksys::MessageAck& ack) {
-    if (ack.getType().value != 0x80000d8)
+    if (ack.getType() != 0x80000d8)
         return false;
     _b0.setBit(Flag(Flag::_2));
     return true;

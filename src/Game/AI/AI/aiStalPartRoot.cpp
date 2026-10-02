@@ -33,7 +33,7 @@ void StalPartRoot::loadParams_() {
 }
 
 bool StalPartRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType().value == 0x3000003)
+    if (message.getType() == 0x3000003)
         sub_71005A8A8C(false);
     return false;
 }

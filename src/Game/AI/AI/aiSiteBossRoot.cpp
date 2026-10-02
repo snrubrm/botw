@@ -69,7 +69,7 @@ void SiteBossRoot::loadParams_() {
 }
 
 bool SiteBossRoot::handleMessage_(const ksys::Message& message) {
-    return message.getType().value == 0x3000007;
+    return message.getType() == 0x3000007;
 }
 
 }  // namespace uking::ai
