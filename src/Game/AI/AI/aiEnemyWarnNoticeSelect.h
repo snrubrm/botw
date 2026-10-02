@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -45,6 +46,20 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     // aitree_variable at offset 0x98
     bool* mIsTrgChangeUnderWaterState_a{};
+    f32 _a0{};
+    s32 _a4{};
+    s32 _a8{};
+    f32 _ac{};
+    s32 _b0{};
+    s32 _b4{};
+    Unk_7102450528 _b8;
+    sead::JobQueueLock _128;
+    u8 _12c[4];
+    f32 _130 = 0;
+    u32 _134 = 0;
+    bool _138 = false;
+    bool _139 = false;
 };
+KSYS_CHECK_SIZE_NX150(EnemyWarnNoticeSelect, 0x140);
 
 }  // namespace uking::ai

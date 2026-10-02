@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyWarnNoticeSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -27,7 +28,8 @@ bool EnemyWarnNoticeSelect::isChangeable() const {
 }
 
 void EnemyWarnNoticeSelect::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->m93(0, 0.0f);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
 void EnemyWarnNoticeSelect::loadParams_() {
