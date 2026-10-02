@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,25 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+
+    virtual void m34(const sead::Vector3f& a1, bool a2);
+    virtual void m35();
+    virtual void m36();
+    virtual void m37(bool* a1, bool* a2);
+    virtual bool m38();
+    virtual bool m39();
+    virtual void m40();
+    virtual s32 m41();
+    // m42..m46 are inline: their only copies are in the SiteBossGaleArrowRoot and
+    // ChildDeviceReflectArrow TUs.
+    virtual f32 m42() { return *mAccel_s; }
+    virtual f32 m43() { return *mAimSpeed_s; }
+    virtual s32 m44() { return *mAttackPower_m; }
+    virtual s32 m45() { return *mAtMinDamage_m; }
+    virtual bool m46() { return _115; }
+    virtual s32 m47();
+    virtual bool m48();
 
 protected:
     // static_param at offset 0x38
@@ -65,6 +85,14 @@ protected:
     const int* mAtMinDamage_m{};
     // map_unit_param at offset 0x100
     const int* mAttackPower_m{};
+    ksys::Timer _108{};
+    bool _114 = true;
+    bool _115 = false;
+    bool _116 = false;
+    sead::Vector3f _118;
+    u8 _124[0x13c - 0x124];
+    s32 _13c = 1;
 };
+KSYS_CHECK_SIZE_NX150(WithoutWeaponArrow, 0x140);
 
 }  // namespace uking::ai

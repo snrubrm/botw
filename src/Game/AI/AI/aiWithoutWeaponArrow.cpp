@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWithoutWeaponArrow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -43,6 +45,37 @@ void WithoutWeaponArrow::loadParams_() {
     getStaticParam(&mTransOffset_s, "TransOffset");
     getMapUnitParam(&mAtMinDamage_m, "AtMinDamage");
     getMapUnitParam(&mAttackPower_m, "AttackPower");
+}
+
+void WithoutWeaponArrow::m36() {
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->_c0 != 4)
+            chemical->sub_7100D909A4();
+    }
+    changeChild("爆発");
+}
+
+bool WithoutWeaponArrow::m39() {
+    return true;
+}
+
+void WithoutWeaponArrow::m40() {
+    if (*mIsDelete_s)
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    else
+        mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
+
+s32 WithoutWeaponArrow::m41() {
+    return _13c;
+}
+
+s32 WithoutWeaponArrow::m47() {
+    return *mStickTime_s;
+}
+
+bool WithoutWeaponArrow::m48() {
+    return isCurrentChild("発射");
 }
 
 }  // namespace uking::ai
