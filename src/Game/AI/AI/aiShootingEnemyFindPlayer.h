@@ -1,5 +1,8 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
+
 #include "Game/AI/AI/aiSimpleShootingEnemyFindPlayer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -16,6 +19,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m45() override;
+
 protected:
     // static_param at offset 0x150
     const int* mReHideTime_s{};
@@ -29,6 +34,9 @@ protected:
     const float* mHideStartDistMin_s{};
     // static_param at offset 0x178
     const float* mHideStartDistMax_s{};
+    ksys::act::BaseProcLink _180;
+    ksys::Timer _190{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(ShootingEnemyFindPlayer, 0x1a0);
 
 }  // namespace uking::ai
