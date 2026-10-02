@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -22,6 +23,7 @@ protected:
     const float* mWaitDist_s{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTargetActor_d{};
+    Unk_7102372510 _50{mActor, 0x8000008};
 };
 
 }  // namespace uking::ai

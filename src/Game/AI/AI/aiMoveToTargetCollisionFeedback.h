@@ -36,6 +36,16 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x80
     sead::Vector3f* mMoveAwayFromPos_d{};
+    f32 _88{};
+    f32 _8c{};
+    f32 _90 = -1.0f;
+    f32 _94 = 1.0f;
+    f32 _98 = 1.0f;
+    f32 _9c = 0.0f;
+    f32 _a0 = 0.0f;
+    f32 _a4 = 0.0f;
+    f32 _a8 = 0.0f;
+    f32 _ac = 1.0f;
 };
 
 }  // namespace uking::ai

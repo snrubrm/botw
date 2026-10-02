@@ -18,6 +18,11 @@ public:
 protected:
     // map_unit_param at offset 0x38
     const int* mKorokFlowerColorNum_m{};
+    bool _40 = false;
+    void* _48{};
+    u32 _50{};
+    void* _58{};
+    u32 _60{};
 };
 
 }  // namespace uking::ai

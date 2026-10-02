@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the zero store of _94/_98 is scheduled differently
 LynelAttackThroughMove::LynelAttackThroughMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LynelAttackThroughMove::~LynelAttackThroughMove() = default;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -33,6 +35,11 @@ protected:
     const float* mFrontAngle_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _78;
+    sead::Vector3f _84;
+    f32 _90 = 0;
+    s32 _94 = 0;
+    s32 _98 = 0;
 };
 
 }  // namespace uking::ai
