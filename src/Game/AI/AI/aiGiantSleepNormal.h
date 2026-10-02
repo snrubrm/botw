@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "Game/AI/AI/aiSpecialEnemySleep.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -21,6 +23,10 @@ protected:
     const float* mForceAwakeDist_s{};
     // static_param at offset 0x68
     sead::SafeString mAwakeRbName_s{};
+    void* _78{};
+    sead::Vector3f _80;
+    sead::Vector3f _8c;
+    u32 _98 = 0;
 };
 
 }  // namespace uking::ai

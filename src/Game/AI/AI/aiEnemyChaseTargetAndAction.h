@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiUnarmedEnemySearch.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -27,6 +28,7 @@ protected:
     const float* mLostAng_s{};
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mTargetActor_d{};
+    ksys::Timer _90{0, 0};
 };
 
 }  // namespace uking::ai
