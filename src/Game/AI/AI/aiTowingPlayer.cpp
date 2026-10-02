@@ -1,7 +1,14 @@
 #include "Game/AI/AI/aiTowingPlayer.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: the original converts mActor to a MessageTransceiverTxOnly::IHandler pointer with a
+// null check (csel) before binding _108's handler reference; the reference conversion has none
 TowingPlayer::TowingPlayer(const InitArg& arg) : Towing(arg) {}
 
 TowingPlayer::~TowingPlayer() = default;
@@ -11,6 +18,15 @@ bool TowingPlayer::init_(sead::Heap* heap) {
 }
 
 void TowingPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
+    _75 = false;
+    _158 = ksys::Timer(*mCheckPlayerStateDef_s, *mCheckPlayerStateDef_s);
+    _164 = ksys::Timer(*mInterruptDef_s, *mInterruptDef_s);
+    if (auto* set = mActor->getPhysics()->findBodyByName("Atk")) {
+        if (auto* body = set->getRigidBodies()[0])
+            body->setContactLayer(ksys::phys::ContactLayer(0x27));
+    }
+    if (auto* attention = mActor->getAttention())
+        attention->disableAllClients();
     Towing::enter_(params);
 }
 

@@ -409,3 +409,19 @@ public:
 
     Unk_7102450978_Payload _18;
 };
+
+// vtable 0x710242cb98 (TowingPlayer::_d8; D0 0x71005cd730, m2 0x71005cd734); message 0x8000025,
+// no payload
+class Unk_710242cb98 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+// vtable 0x710242cbc0 (TowingPlayer::_f0; D0 0x71005cd73c, m2 0x71005cd740); message 0x8000026,
+// no payload
+class Unk_710242cbc0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
