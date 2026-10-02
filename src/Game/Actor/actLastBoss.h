@@ -47,6 +47,8 @@ public:
     // CSV names; called by LastBoss / Ganon AI.
     void stunEnd();
     void update();
+    // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
+    void x();
     bool sub_71002C6210(f32 value) const;
 
     /* 0x14c8 */ void* _14c8 = nullptr;
