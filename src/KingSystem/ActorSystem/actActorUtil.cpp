@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -902,6 +903,16 @@ void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel) {
     body->setAngularVelocity(ang_vel * 30.0f);
 }
 
+void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* body) {
+    if (!body)
+        return;
+    auto* tag = body->getUserTag();
+    if (!tag)
+        return;
+    if (auto* user_tag = sead::DynamicCast<PhysicsUserTag>(tag))
+        user_tag->acquireActor(accessor);
+}
+
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link) {
     ActorConstDataAccess accessor;
     acquireActor(link, &accessor);
@@ -993,6 +1004,11 @@ const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name) {
     if (!attention)
         return nullptr;
     return attention->getClientByName(name);
+}
+
+void sub_7100EEAC50(ActorLinkConstDataAccess* accessor, phys::RigidBody* body) {
+    if (auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag()))
+        tag->acquireActor(accessor);
 }
 
 void sub_7100EEACE8(phys::RayCast* cast) {

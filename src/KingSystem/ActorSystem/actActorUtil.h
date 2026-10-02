@@ -240,9 +240,11 @@ void sub_7100EE6228(phys::CharacterController* controller, const sead::Vector3f&
 void sub_7100EE6268(phys::RigidBody* body, const sead::Vector3f& vel);
 void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel);
 
-// 0x7100ee5d34 (CSV name; declared only): acquires the actor owning `body` (through its
-// PhysicsUserTag) into `accessor`; does nothing for a null body or a body without an actor tag.
+// 0x7100ee5d34 (CSV name): acquires the actor owning `body` (through its PhysicsUserTag) into
+// `accessor`; does nothing for a null body or a body without an actor tag.
 void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
+// 0x7100eeac50: same without the null check on `body`.
+void sub_7100EEAC50(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
 
 // 0x7100ee67b0: position of the actor `link` points to.
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);
