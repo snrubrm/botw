@@ -29,6 +29,19 @@ void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+// NON_MATCHING: branch layout (the original returns the constants 1 / 0 from separate blocks; ours
+// ends with `and w0, w0, #1` on isFailed's result)
+bool LastBossBeamAttackRoot::isFinished() const {
+    if (getCurrentChild()) {
+        if (isCurrentChild("発射")) {
+            auto* child = getCurrentChild();
+            if (child->isFinished() || child->isFailed())
+                return true;
+        }
+    }
+    return false;
+}
+
 bool LastBossBeamAttackRoot::isChangeable() const {
     return *mIsChangeable_s;
 }

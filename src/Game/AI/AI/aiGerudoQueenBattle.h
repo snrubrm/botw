@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -18,6 +21,24 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mRetireFrame_s{};
+    void* _40{};
+    u32 _48 = 0;
+    ksys::act::BaseProcLink _50;
+    ksys::act::BaseProcLink _60;
+    ksys::act::BaseProcLink _70;
+    u64 _80 = 0;
+    bool _88 = false;
+    bool _89 = false;
+    sead::Matrix34f _8c = sead::Matrix34f::ident;
+    sead::Matrix34f _bc = sead::Matrix34f::ident;
+    f32 _ec = 1.0f;
+    f32 _f0 = 1.0f;
+    f32 _f4 = 0.2f;
+    bool _f8 = false;
+    sead::Vector3f _fc{0, 0, 0};
+    sead::Vector3f _108{0, 0, 0};
+    sead::Vector3f _114{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(GerudoQueenBattle, 0x120);
 
 }  // namespace uking::ai
