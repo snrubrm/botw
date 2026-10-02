@@ -25,6 +25,10 @@ namespace ksys::as {
 class ASList;
 }
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::act {
 
 // Placeholder name (ctor 0x7100e8b2b8, D1 0x7100e8b304, vtable 0x71024ec660, 17 slots, size 0x40;
@@ -229,5 +233,14 @@ public:
     /* 0x278 */ u16 _278 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Rideable, 0x280);
+
+// Ridden anim-driven movement helpers (TU 0x7100e7f25c-, after Rideable's RTTI functions).
+// 0x7100e7f318: applies the AS anim-driven movement of `as_list` to `controller` (`scale` = 1 / the
+// rider AS speed). Not decompiled yet.
+void sub_7100E7F318(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale);
+// 0x7100e7f698: sub_7100E7F318 with the scale from `rideable` (_18._24); with bit 2 of
+// rideable->_8 set it resets the controller (sub_7100F5EDD8(1) / sub_7100F5EDE0(0)) instead.
+void sub_7100E7F698(RideableBase* rideable, ksys::as::ASList* as_list,
+                    ksys::phys::CharacterController* controller);
 
 }  // namespace uking::act
