@@ -92,6 +92,7 @@ class Awareness;
 class AwarenessInstance;
 class BaseProcLink;
 class BoneControl;
+class Unk_7100d860d8;
 class BoneHandleBase;
 class Chemical;
 class DropData;
@@ -130,6 +131,7 @@ public:
     };
 
     enum class ActorFlag {
+        _5 = 0x5,
         _6 = 0x6,
         _18 = 0x18,
         _1c = 0x1c,
@@ -250,6 +252,12 @@ public:
     void boneHandleStuff(BoneHandleBase* handle, bool sorted);
     // Removes `handle` from the bone handle list _4d8.
     void sub_71011DA868(BoneHandleBase* handle);
+    // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
+    void sub_71011DA824(ModelBindInfo* info);
+    // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
+    void sub_71011DA834();
+    // The spine controller of the bone control (BoneControl::_0->_10), if any.
+    Unk_7100d860d8* sub_71011D8A10();
 
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;

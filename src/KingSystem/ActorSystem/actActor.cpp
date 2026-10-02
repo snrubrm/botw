@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
@@ -185,6 +186,25 @@ void Actor::boneHandleStuff(BoneHandleBase* handle, bool sorted) {
 
 void Actor::sub_71011DA868(BoneHandleBase* handle) {
     handle->sub_7100D3BBD4(&_4d8);
+}
+
+void Actor::sub_71011DA824(ModelBindInfo* info) {
+    if (!mActorFlags.isOnBit(ActorFlag::_5))
+        mModelBindInfo = info;
+}
+
+void Actor::sub_71011DA834() {
+    if (!mActorFlags.isOnBit(ActorFlag::_5))
+        mModelBindInfo = nullptr;
+}
+
+Unk_7100d860d8* Actor::sub_71011D8A10() {
+    if (!mBoneControl)
+        return nullptr;
+    auto* control = mBoneControl->_0;
+    if (!control)
+        return nullptr;
+    return &control->_10;
 }
 
 const sead::Vector3f& Actor::getPreviousPos() const {
