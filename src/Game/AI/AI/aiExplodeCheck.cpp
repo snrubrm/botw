@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiExplodeCheck.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,15 @@ bool ExplodeCheck::init_(sead::Heap* heap) {
 }
 
 void ExplodeCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* life = mActor->getLife();
+    if (!life || *life >= 1) {
+        auto* chemical = mActor->getChemicalStuff();
+        if (!chemical || (chemical->_c0 != 4 && !(chemical->_b8 & 0x10))) {
+            changeChild("通常", params);
+            return;
+        }
+    }
+    changeChild("爆発", params);
 }
 
 bool ExplodeCheck::isFailed() const {

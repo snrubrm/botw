@@ -42,4 +42,12 @@ void AppearNearTarget::m35(sead::Vector3f* out) {
     *out = sub_71005D9330(mActor);
 }
 
+bool AppearNearTarget::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("湧出"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

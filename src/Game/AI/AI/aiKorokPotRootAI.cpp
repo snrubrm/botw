@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiKorokPotRootAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,14 @@ bool KorokPotRootAI::init_(sead::Heap* heap) {
 }
 
 void KorokPotRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getHomeMtx(&_58);
+    _88 = true;
+    _89 = false;
+    _8c = 0;
+    if (*mIsCrayShot_m) {
+        mActor->getMainBody()->setMaxImpulse(100.0f);
+        mActor->getMainBody()->setGravityFactor(0.3f);
+    }
 }
 
 void KorokPotRootAI::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAttackGraveChaseWithSensor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -8,7 +9,10 @@ AttackGraveChaseWithSensor::AttackGraveChaseWithSensor(const InitArg& arg)
 AttackGraveChaseWithSensor::~AttackGraveChaseWithSensor() = default;
 
 bool AttackGraveChaseWithSensor::init_(sead::Heap* heap) {
-    return AttackGraveChase::init_(heap);
+    if (!AttackGraveChase::init_(heap))
+        return false;
+    return mActor->findPhysicsBodyByName(mRigidBodyGroupName_s.cstr(), mRigidBodyName_s.cstr()) !=
+           nullptr;
 }
 
 void AttackGraveChaseWithSensor::enter_(ksys::act::ai::InlineParamPack* params) {

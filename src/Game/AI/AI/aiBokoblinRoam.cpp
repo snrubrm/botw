@@ -29,4 +29,8 @@ void BokoblinRoam::loadParams_() {
     getStaticParam(&mTurnCheckHeight_s, "TurnCheckHeight");
 }
 
+bool BokoblinRoam::isChangeable() const {
+    return ksys::act::ai::Ai::isChangeable() || isCurrentChild("索敵") || isCurrentChild("暇つぶし");
+}
+
 }  // namespace uking::ai

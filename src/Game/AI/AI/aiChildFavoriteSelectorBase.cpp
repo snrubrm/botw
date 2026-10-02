@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChildFavoriteSelectorBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,16 @@ void ChildFavoriteSelectorBase::leave_() {
 void ChildFavoriteSelectorBase::loadParams_() {
     getStaticParam(&mIsNoChildForceEnd_s, "IsNoChildForceEnd");
     getStaticParam(&mIsCheckEveryFrame_s, "IsCheckEveryFrame");
+}
+
+bool ChildFavoriteSelectorBase::isFailed() const {
+    if (isFinished())
+        return false;
+    if (getCurrentChild()->isFailed())
+        return true;
+    if (!*mIsNoChildForceEnd_s)
+        return false;
+    return mActor->getConnectedCalcChild() == nullptr;
 }
 
 }  // namespace uking::ai
