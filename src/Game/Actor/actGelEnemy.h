@@ -2,6 +2,7 @@
 
 #include <math/seadVector.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::act {
 
@@ -32,7 +33,7 @@ public:
     bool m81(const ksys::Message& message) override;
 
     // BoneHandle (ctor 0x7100d3b3f0; the jump/pre-attack actions write its 0x68 / 0x78 / 0x88)
-    /* 0x14c8 */ u8 _14c8[0x1570 - 0x14c8];
+    /* 0x14c8 */ ksys::act::BoneHandle _14c8;
     // three gsys::BoneAccessKeyEx
     /* 0x1570 */ u8 _1570[0x1618 - 0x1570];
     /* 0x1618 */ void* _1618 = nullptr;
