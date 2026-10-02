@@ -77,6 +77,11 @@ bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     f32 a3, f32 a4);
+/// 0x710072cb78 (declared only): sub_710072F28C from the actor's position (NaN) to `target` with the
+/// tolerance `a3` and the other two default (-1); a4 is passed as the integer argument 5. Placeholder
+/// name.
+bool sub_710072CB78(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3, s32 a4);
 /// 0x710072e154: sub_710072F28C from the actor's position to `target` with default tolerances.
 bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     s32 a4);

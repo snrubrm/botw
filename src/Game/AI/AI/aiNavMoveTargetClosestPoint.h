@@ -13,6 +13,8 @@ public:
 
     void loadParams_() override;
 
+    bool m38(f32* out) override;
+
 protected:
     // static_param at offset 0x3a0
     const float* mSearchRadius_s{};

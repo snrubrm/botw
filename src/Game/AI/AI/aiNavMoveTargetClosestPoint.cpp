@@ -11,4 +11,9 @@ void NavMoveTargetClosestPoint::loadParams_() {
     getStaticParam(&mSearchRadius_s, "SearchRadius");
 }
 
+bool NavMoveTargetClosestPoint::m38(f32* out) {
+    *out = *mSearchRadius_s;
+    return true;
+}
+
 }  // namespace uking::ai
