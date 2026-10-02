@@ -1,0 +1,25 @@
+#include "Game/AI/Behavior/behaviorGiantWeaponGrabAS.h"
+
+namespace uking::behavior {
+
+GiantWeaponGrabAS::GiantWeaponGrabAS(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
+
+void GiantWeaponGrabAS::loadParams() {
+    getStaticParam(&mTargetBone_s, "TargetBone");
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mLeftTargetBone_s, "LeftTargetBone");
+    getStaticParam(&mVeryThinFrame_s, "VeryThinFrame");
+    getStaticParam(&mThinFrame_s, "ThinFrame");
+    getStaticParam(&mNormalFrame_s, "NormalFrame");
+    getStaticParam(&mThickFrame_s, "ThickFrame");
+    getStaticParam(&mASName_s, "ASName");
+    getStaticParam(&mPartialBone0_s, "PartialBone0");
+    getStaticParam(&mPartialBone1_s, "PartialBone1");
+    getStaticParam(&mPartialBone2_s, "PartialBone2");
+    getStaticParam(&mLeftPartialBone0_s, "LeftPartialBone0");
+    getStaticParam(&mLeftPartialBone1_s, "LeftPartialBone1");
+    getStaticParam(&mLeftPartialBone2_s, "LeftPartialBone2");
+    getAITreeVariable(&mGiantPartBoneUnit_a, "GiantPartBoneUnit");
+}
+
+}  // namespace uking::behavior

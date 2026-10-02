@@ -93,6 +93,25 @@ public:
     void* m2() override { return nullptr; }
 };
 
+// Non-virtual helper with the two senders above (ctor 0x710001bf60, dtor 0x710001bfd4; in this
+// translation unit). Embedded in the GiantGuardWeakPoint behavior (0xa8). Placeholder name (ctor).
+class Unk_710001bf60 {
+public:
+    explicit Unk_710001bf60(ksys::act::Actor* actor);
+    ~Unk_710001bf60();
+
+    ksys::act::Actor* mActor;
+    s32 _8 = 1;
+    s32 _c = 0;
+    sead::SafeString _10;
+    sead::SafeString _20;
+    sead::SafeString _30;
+    Unk_7102357d48 _40;
+    Unk_7102357d70 _58;
+    void* _70 = nullptr;
+    void* _78 = nullptr;
+};
+
 // vtable 0x7102396b20 (GolemSleepNormal)
 class Unk_7102396b20 : public Unk_7102357d20 {
 public:

@@ -147,8 +147,14 @@ target_sources(uking PRIVATE
   behaviorForceSealSilentKill.h
   behaviorGelDisableEyeControl.cpp
   behaviorGelDisableEyeControl.h
+  behaviorGiantDownReaction.cpp
+  behaviorGiantDownReaction.h
   behaviorGiantEyeBlink.cpp
   behaviorGiantEyeBlink.h
+  behaviorGiantGuardWeakPoint.cpp
+  behaviorGiantGuardWeakPoint.h
+  behaviorGiantWeaponGrabAS.cpp
+  behaviorGiantWeaponGrabAS.h
   behaviorGreatGoddesStatueLightEffect.cpp
   behaviorGreatGoddesStatueLightEffect.h
   behaviorGuardFrontBarrierBase.cpp
@@ -163,8 +169,14 @@ target_sources(uking PRIVATE
   behaviorHideLifeGage.h
   behaviorHitIceBlockBreak.cpp
   behaviorHitIceBlockBreak.h
+  behaviorHorseAttackBehavior.cpp
+  behaviorHorseAttackBehavior.h
+  behaviorHorseNoise.cpp
+  behaviorHorseNoise.h
   behaviorHorseSetCollarBehavior.cpp
   behaviorHorseSetCollarBehavior.h
+  behaviorHorseSlipBehavior.cpp
+  behaviorHorseSlipBehavior.h
   behaviorHorseSwitchAttRideBehavior.cpp
   behaviorHorseSwitchAttRideBehavior.h
   behaviorHorseTerrorBehavior.cpp
@@ -181,6 +193,8 @@ target_sources(uking PRIVATE
   behaviorInWaterNoise.h
   behaviorLookAtOwnedHorse.cpp
   behaviorLookAtOwnedHorse.h
+  behaviorLowCeilingController.cpp
+  behaviorLowCeilingController.h
   behaviorLynelBodyFitToGroundNormal.cpp
   behaviorLynelBodyFitToGroundNormal.h
   behaviorLynelGearAttackCollision.cpp
@@ -193,6 +207,10 @@ target_sources(uking PRIVATE
   behaviorNeckBattleMode.h
   behaviorNeckControl.cpp
   behaviorNeckControl.h
+  behaviorNeckParamChange.cpp
+  behaviorNeckParamChange.h
+  behaviorNeckRotateToPlayerAndNPC.cpp
+  behaviorNeckRotateToPlayerAndNPC.h
   behaviorNeckRotateToPlayer.cpp
   behaviorNeckRotateToPlayer.h
   behaviorNoiseBase.cpp
@@ -237,6 +255,8 @@ target_sources(uking PRIVATE
   behaviorOnTrgGuardOffTargetXLinkCreateBase.h
   behaviorOnTrgGuardOffTargetXLinkCreate.cpp
   behaviorOnTrgGuardOffTargetXLinkCreate.h
+  behaviorPartsMagneFollowRatioChanger.cpp
+  behaviorPartsMagneFollowRatioChanger.h
   behaviorPlayASWithBurnState.cpp
   behaviorPlayASWithBurnState.h
   behaviorPlayerEmitInterest.cpp
@@ -265,10 +285,14 @@ target_sources(uking PRIVATE
   behaviorReduceUpwardVelocity.h
   behaviorRemoveNavMeshObj.cpp
   behaviorRemoveNavMeshObj.h
+  behaviorRequestEventResident.cpp
+  behaviorRequestEventResident.h
   behaviorRumbleController.cpp
   behaviorRumbleController.h
   behaviorSandwormBgmControl.cpp
   behaviorSandwormBgmControl.h
+  behaviorSandwormTeraPach.cpp
+  behaviorSandwormTeraPach.h
   behaviorSandwormTeraShapeChanger.cpp
   behaviorSandwormTeraShapeChanger.h
   behaviorSandwormTeraUpdateTypeSetter.cpp
@@ -291,6 +315,8 @@ target_sources(uking PRIVATE
   behaviorSetAttensionASEvent.h
   behaviorSetAttension.cpp
   behaviorSetAttension.h
+  behaviorSetBasicThrownEnemyDCCallback.cpp
+  behaviorSetBasicThrownEnemyDCCallback.h
   behaviorSetBattleNodeBasisSelfPosBattle.cpp
   behaviorSetBattleNodeBasisSelfPosBattle.h
   behaviorSetBoneControlNoSlow.cpp
@@ -307,6 +333,8 @@ target_sources(uking PRIVATE
   behaviorSetDefenselessDCCallback.h
   behaviorSetDefenselessInAirDCCallback.cpp
   behaviorSetDefenselessInAirDCCallback.h
+  behaviorSetEnableResetToInitialState.cpp
+  behaviorSetEnableResetToInitialState.h
   behaviorSetEnemyChemicalPower.cpp
   behaviorSetEnemyChemicalPower.h
   behaviorSetFixedNoActionDCCallBack.cpp

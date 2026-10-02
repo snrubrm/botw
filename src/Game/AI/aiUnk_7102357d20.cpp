@@ -117,3 +117,8 @@ void Unk_71023b0898_Payload::Data::sub_71009033FC(const Data& other) {
     _0 = other._0;
     _8 = other._8;
 }
+
+Unk_710001bf60::Unk_710001bf60(ksys::act::Actor* actor)
+    : mActor(actor), _40(actor, 0x800002f), _58(actor, 0x8000030) {}
+
+Unk_710001bf60::~Unk_710001bf60() = default;
