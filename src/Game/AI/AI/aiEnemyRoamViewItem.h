@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+
 protected:
     // dynamic_param at offset 0x38
     bool* mIsChanged_d{};

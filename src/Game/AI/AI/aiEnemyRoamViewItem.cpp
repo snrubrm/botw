@@ -53,4 +53,10 @@ void EnemyRoamViewItem::calc_() {
     }
 }
 
+bool EnemyRoamViewItem::m34() {
+    if (isCurrentChild("行動"))
+        return getCurrentChild()->isFailed();
+    return false;
+}
+
 }  // namespace uking::ai
