@@ -20,10 +20,10 @@ public:
         bool sub_7101163950();
         bool sub_7101163AF4();
         // used with x
-        bool sub_71011637EC(const sead::SafeString& name, int a2, bool a3);
-        bool sub_710116383C(const sead::SafeString& name, int a2, bool a3);
-        bool sub_710116388C(const sead::SafeString& name, int a2, bool a3);
-        bool sub_71011638DC(const sead::SafeString& name, int a2, bool a3);
+        bool sub_71011637EC(const sead::SafeString* name, int a2, bool a3);
+        bool sub_710116383C(const sead::SafeString* name, int a2, bool a3);
+        bool sub_710116388C(const sead::SafeString* name, int a2, bool a3);
+        bool sub_71011638DC(const sead::SafeString* name, int a2, bool a3);
         // used with x_3
         void sub_7101163044(f32 value);
         void sub_7101163100(f32 value);
@@ -76,8 +76,9 @@ public:
     bool x_4(u32 slot, u32 seq_bank);
 
     // Call `fn` on the entry of slot `slot`, bank `bank` (if it exists).
-    bool x(int a1, const sead::SafeString& a2, int slot, int bank,
-           bool (Unk2::*fn)(const sead::SafeString&, int, bool), bool a6);
+    // `a2` is null in 356 of the 432 calls in the original, so it is a pointer.
+    bool x(int a1, const sead::SafeString* a2, int slot, int bank,
+           bool (Unk2::*fn)(const sead::SafeString*, int, bool), bool a6);
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
     bool x_7(int slot, int bank, bool (Unk2::*fn)());

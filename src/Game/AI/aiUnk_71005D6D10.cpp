@@ -839,30 +839,30 @@ bool sub_71005D723C() {
     return weather->isRaining();
 }
 
-bool sub_71005DD734(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+bool sub_71005DD734(ksys::act::Actor* actor, int a1, const sead::SafeString* name, int slot,
                     int bank) {
     return actor->getASList()->x(a1, name, slot, bank,
                                  &ksys::as::ASList::Unk2::sub_710116388C, true);
 }
 
-bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank) {
+bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString* name, int slot, int bank) {
     return actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_710116388C,
                                  true);
 }
 
-bool sub_71005DD780(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+bool sub_71005DD780(ksys::act::Actor* actor, int a1, const sead::SafeString* name, int slot,
                     int bank) {
     return actor->getASList()->x(a1, name, slot, bank,
                                  &ksys::as::ASList::Unk2::sub_71011637EC, true);
 }
 
-bool sub_71005DD798(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+bool sub_71005DD798(ksys::act::Actor* actor, int a1, const sead::SafeString* name, int slot,
                     int bank) {
     return actor->getASList()->x(a1, name, slot, bank,
                                  &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
-bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank) {
+bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString* name, int slot, int bank) {
     return actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC,
                                  true);
 }
@@ -929,13 +929,13 @@ uking::act::Weapon* sub_71005DA374(ksys::act::Actor* actor, int idx) {
 
 bool sub_71005DAF0C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank,
                     bool a5) {
-    if (actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, a5))
+    if (actor->getASList()->x(3, &name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, a5))
         return true;
-    return actor->getASList()->x(0x10, name, slot, bank,
+    return actor->getASList()->x(0x10, &name, slot, bank,
                                  &ksys::as::ASList::Unk2::sub_71011638DC, a5);
 }
 
-bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, const sead::SafeString* name, int slot,
                     int bank) {
     auto* as_list = actor->getASList();
     if (as_list->x(a1, name, slot, bank, &ksys::as::ASList::Unk2::sub_710116383C, true))
@@ -988,7 +988,7 @@ bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key) {
     return false;
 }
 
-bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank) {
+bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString* name, int slot, int bank) {
     auto* as_list = actor->getASList();
     if (as_list->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_710116383C, true))
         return true;
