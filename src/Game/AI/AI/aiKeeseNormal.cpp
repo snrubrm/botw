@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKeeseNormal.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
@@ -43,6 +44,17 @@ bool KeeseNormal::handleMessage_(const ksys::Message& message) {
     if (isCurrentChild("ぶらさがり"))
         return false;
     return EnemyNormal::handleMessage_(message);
+}
+
+void KeeseNormal::m48(sead::Vector3f* pos) {
+    if (_488.hasProc()) {
+        ksys::act::ActorConstDataAccess acc;
+        ksys::act::acquireActor(&_488, &acc);
+        *pos = acc.getPreviousPos();
+        pos->y = *mRoamHeightFromGlowObj_s + pos->y;
+    } else {
+        pos->set(_430);
+    }
 }
 
 void KeeseNormal::m49(Unk1* out, s32 idx) {
