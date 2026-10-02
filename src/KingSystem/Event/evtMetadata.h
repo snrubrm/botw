@@ -59,6 +59,9 @@ public:
     bool isAsync() const { return mIsAsync; }
 
 private:
+    // BaseProcLinkForEvent::init (0x7100dbdaa0) sets mFlags / mIsAsync of its copy directly.
+    friend class BaseProcLinkForEvent;
+
     void initOrderParam_();
     void initFlags_();
     void doAssign_(const Metadata& other);

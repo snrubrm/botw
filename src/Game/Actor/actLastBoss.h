@@ -3,6 +3,7 @@
 #include <prim/seadBitFlag.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/Event/evtResidentEvent.h"
 
 namespace uking::act {
 
@@ -64,8 +65,11 @@ public:
     /* 0x153c */ s32 _153c = 0;
     /* 0x1540 */ s32 _1540 = 0;
     /* 0x1544 */ s32 _1544 = 0;
-    // five evt::ResidentEvent (ctor 0x7100701858, dtor 0x710070187c)
-    /* 0x1548 */ u8 _1548[0x1e58 - 0x1548];
+    /* 0x1548 */ ksys::evt::ResidentEvent _1548;
+    /* 0x1718 */ ksys::evt::ResidentEvent _1718;
+    /* 0x18e8 */ ksys::evt::ResidentEvent _18e8;
+    /* 0x1ab8 */ ksys::evt::ResidentEvent _1ab8;
+    /* 0x1c88 */ ksys::evt::ResidentEvent _1c88;
 };
 KSYS_CHECK_SIZE_NX150(LastBoss, 0x1e58);
 

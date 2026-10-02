@@ -7,6 +7,7 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/Event/evtResidentEvent.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -172,9 +173,8 @@ public:
     /* 0x2388 */ u32 _2388 = 0;
     // object with ctor 0x7100722420(this + 0x2390, this) and dtor 0x71007224cc
     /* 0x2390 */ u8 _2390[0x25e8 - 0x2390];
-    // two evt::ResidentEvent (ctor 0x7100701858, dtor 0x710070187c)
-    /* 0x25e8 */ u8 _25e8[0x27b8 - 0x25e8];
-    /* 0x27b8 */ u8 _27b8[0x2988 - 0x27b8];
+    /* 0x25e8 */ ksys::evt::ResidentEvent _25e8;
+    /* 0x27b8 */ ksys::evt::ResidentEvent _27b8;
 };
 KSYS_CHECK_SIZE_NX150(SiteBoss, 0x2988);
 

@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   evtActorBindings.h
   evtActorManager.cpp
   evtActorManager.h
+  evtBaseProcLinkForEvent.cpp
+  evtBaseProcLinkForEvent.h
   evtDemoInfo.cpp
   evtDemoInfo.h
   evtEvent.cpp
@@ -19,6 +21,8 @@ target_sources(uking PRIVATE
   evtMetadata.h
   evtOrderParam.cpp
   evtOrderParam.h
+  evtResidentEvent.cpp
+  evtResidentEvent.h
   evtResourceFlowchart.cpp
   evtResourceFlowchart.h
   evtResourceTimeline.cpp
