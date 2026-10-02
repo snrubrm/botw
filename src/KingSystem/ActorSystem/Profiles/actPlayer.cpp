@@ -1,8 +1,13 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace ksys::act {
+
+BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Player(arg);
+}
 
 // NON_MATCHING: members are not declared yet
 Player::~Player() = default;

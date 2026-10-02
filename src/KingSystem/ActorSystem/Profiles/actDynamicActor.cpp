@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -8,6 +9,10 @@
 #include "KingSystem/ActorSystem/actTag.h"
 
 namespace ksys::act {
+
+BaseProc* DynamicActor::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) DynamicActor(arg);
+}
 
 // NON_MATCHING: most member types are still unknown (placeholders)
 DynamicActor::~DynamicActor() = default;

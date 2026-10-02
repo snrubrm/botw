@@ -1,10 +1,15 @@
 #include "Game/Actor/actDragon.h"
+#include <basis/seadNew.h>
 #include <math/seadVector.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::act {
+
+ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Dragon(arg);
+}
 
 inline float sqXYZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
     sead::Vector3f diff = a;

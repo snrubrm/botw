@@ -1,9 +1,14 @@
 #include "Game/Actor/actGuardian.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 
 namespace uking::act {
+
+ksys::act::BaseProc* Guardian::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Guardian(arg);
+}
 
 // NON_MATCHING: member types incomplete
 Guardian::~Guardian() = default;

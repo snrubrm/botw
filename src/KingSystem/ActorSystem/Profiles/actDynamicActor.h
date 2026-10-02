@@ -30,6 +30,8 @@ class DynamicActor : public Actor {
     SEAD_RTTI_OVERRIDE(DynamicActor, Actor)
 public:
     explicit DynamicActor(const CreateArg& arg);
+    // CSV DynamicActor::construct: the actor factory function.
+    static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~DynamicActor() override;
 
 protected:

@@ -1,8 +1,13 @@
 #include "Game/Actor/actEnemy.h"
+#include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
 
 namespace uking::act {
+
+ksys::act::BaseProc* Enemy::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Enemy(arg);
+}
 
 // NON_MATCHING: BoneHandle members (0xf68, 0x1010) are not typed yet; the original also skips the
 // vtable store of the object at 0x1148

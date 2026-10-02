@@ -167,6 +167,8 @@ class Enemy : public ksys::act::PlayerOrEnemy {
     SEAD_RTTI_OVERRIDE(Enemy, ksys::act::PlayerOrEnemy)
 public:
     explicit Enemy(const CreateArg& arg);
+    // CSV Enemy::construct: the actor factory function.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Enemy() override;
 
 protected:

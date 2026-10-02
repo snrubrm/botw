@@ -32,6 +32,8 @@ public:
     };
 
     explicit NPC(const CreateArg& arg);
+    // CSV NPC::construct: the actor factory function.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~NPC() override;
 
 protected:

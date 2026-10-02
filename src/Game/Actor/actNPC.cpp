@@ -1,9 +1,14 @@
 #include "Game/Actor/actNPC.h"
+#include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::act {
+
+ksys::act::BaseProc* NPC::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) NPC(arg);
+}
 
 // NON_MATCHING: member types are incomplete
 NPC::~NPC() = default;

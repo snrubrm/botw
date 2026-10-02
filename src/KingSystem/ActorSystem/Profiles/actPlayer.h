@@ -19,6 +19,8 @@ class Player : public PlayerBase {
     SEAD_RTTI_OVERRIDE(Player, PlayerBase)
 public:
     explicit Player(const CreateArg& arg);
+    // CSV Player::construct: the actor factory function.
+    static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Player() override;
 
     // Overrides of PlayerBase (and inherited) slots.

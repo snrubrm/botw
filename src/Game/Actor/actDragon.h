@@ -16,6 +16,8 @@ class Dragon : public Enemy {
     SEAD_RTTI_OVERRIDE(Dragon, Enemy)
 public:
     explicit Dragon(const CreateArg& arg);
+    // CSV Dragon::construct: the actor factory function.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Dragon() override;
 
 protected:

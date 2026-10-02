@@ -14,6 +14,8 @@ class Guardian : public Enemy {
     SEAD_RTTI_OVERRIDE(Guardian, Enemy)
 public:
     explicit Guardian(const CreateArg& arg);
+    // CSV Guardian::construct: the actor factory function.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Guardian() override;
 
 protected:
