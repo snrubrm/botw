@@ -12,6 +12,17 @@ bool DungeonRotateApp::init_(sead::Heap* heap) {
 
 void DungeonRotateApp::enter_(ksys::act::ai::InlineParamPack* params) {
     DungeonRotateBase::enter_(params);
+    _d8 = sead::Mathf::deg2rad(*mDynTargetAng_d);
+    switch (*mRotDirType_s) {
+    case 1:
+        if (_d8 - _80 > 0.0f)
+            _d8 += -2 * sead::Mathf::pi();
+        break;
+    case 2:
+        if (_d8 - _80 < 0.0f)
+            _d8 += 2 * sead::Mathf::pi();
+        break;
+    }
 }
 
 void DungeonRotateApp::leave_() {

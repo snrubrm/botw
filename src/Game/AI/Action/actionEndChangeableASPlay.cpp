@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEndChangeableASPlay.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -26,7 +28,14 @@ void EndChangeableASPlay::loadParams_() {
 }
 
 void EndChangeableASPlay::calc_() {
-    ksys::act::ai::Action::calc_();
+    bool ended = false;
+    if (auto* as_list = mActor->getASList())
+        ended = as_list->x_7(*mTargetIdx_s, *mSeqBankIdx_s, &ksys::as::ASList::Unk2::sub_7101162FE8);
+    const bool finished = isFinishedAS(*mTargetIdx_s, *mSeqBankIdx_s);
+    if (ended || finished)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
 }
 
 }  // namespace uking::action

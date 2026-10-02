@@ -16,6 +16,12 @@ bool OnCliffTurn::init_(sead::Heap* heap) {
 
 void OnCliffTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (auto* controller = mActor->getCharacterController()) {
+        _a0 = controller->sub_7100F5F0E4();
+        controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void OnCliffTurn::leave_() {
