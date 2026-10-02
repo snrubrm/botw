@@ -51,7 +51,7 @@ public:
     struct Unk2 {
         ksys::act::BaseProcLink* _0 = nullptr;
         sead::Matrix34f _8 = sead::Matrix34f::ident;
-        sead::Vector3f _38 = {0, 0, 0};
+        sead::Vector3f _38 = sead::Vector3f::zero;
         u8 _44 = 0;
 
         // 0x710039e308: target = link (position and matrix of its actor).
@@ -85,7 +85,7 @@ public:
     virtual void m40();
     virtual void m41();
     virtual void m42();
-    virtual void m43();
+    virtual bool m43();
     virtual bool m44(const sead::Vector3f& pos) { return true; }
     virtual bool m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
                      bool skip_own_pos);
@@ -119,7 +119,15 @@ public:
     virtual bool m72(Unk2* out, Unk1* info);
     virtual bool m73();
 
-    void sub_71003A19AC();
+    bool sub_71003A19AC();
+    // 0x710039f938: signals aware actors within SpreadDist (a1) / SpeadDist2 and, with a1, the
+    // fortress when the actor is near its home position.
+    void sub_710039F938(bool a1);
+    // 0x710039e76c: clears _3ac bit 2 once the player is no longer checked by m46.
+    void sub_710039E76C();
+    // 0x71003a02e0 / 0x71003a0e38: switch to プレイヤー発見 / 不審者発見 for `target`.
+    void sub_71003A02E0(Unk2* target);
+    void sub_71003A0E38(Unk2* target);
     // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
     ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);

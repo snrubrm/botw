@@ -38,11 +38,43 @@ bool EnemyNormal::init_(sead::Heap* heap) {
 }
 
 void EnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* awareness = mActor->getAwareness()) {
+        m41();
+        awareness->enable();
+    }
+    _3b0 = *mTerritoryArea_m > 0.0f ? mTerritoryArea_m : mTerritoryArea_s;
+    _364 = 0;
+    _368 = 0;
+    m34();
+    _36c = 15.0f;
+
+    auto* actor = mActor;
+    _3ac.makeAllZero();
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        _3ac.set(1);
+    _3ac.set(2);
+    if (auto* lod = actor->getLodState())
+        lod->mFlags14.set(0x2000000);
+
+    const s32 min = sead::Mathi::min(*mNoActionReactTimeMin_s, *mNoActionReactTimeMax_s);
+    const s32 max = sead::Mathi::max(*mNoActionReactTimeMin_s, *mNoActionReactTimeMax_s);
+    _124 = min;
+    _128 = max;
+    const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    _120 = time;
+    _12c = false;
+    _290.x();
 }
 
 void EnemyNormal::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->disable();
+    if (_3ac.isOff(2)) {
+        _3ac.set(2);
+        if (auto* lod = mActor->getLodState())
+            lod->mFlags14.set(0x2000000);
+    }
+    _188.x();
 }
 
 void EnemyNormal::loadParams_() {
@@ -327,8 +359,64 @@ bool EnemyNormal::m73() {
     return isCurrentChild("プレイヤー発見") || isCurrentChild("諦め");
 }
 
-void EnemyNormal::m43() {
-    sub_71003A19AC();
+bool EnemyNormal::m43() {
+    return sub_71003A19AC();
+}
+
+bool EnemyNormal::sub_71003A19AC() {
+    Unk2 target;
+    Unk1 info;
+    info._8 |= 0x800;
+    if (!m66(&target, &info))
+        return false;
+
+    target._8.getTranslation(_60);
+    _50 = *target._0;
+    if (!ksys::act::isPlayerProfile(&_50)) {
+        if (auto* unk = sub_71005D9D68(mActor))
+            unk->sub_71002DC628(_50, 4);
+    }
+
+    auto* link = target._0;
+    auto* actor = mActor;
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_130._18.mLock);
+        auto& data = _130._18.mData;
+        if (link)
+            data._0 = *link;
+        else
+            data._0.reset();
+        data._10.acquire(actor, false);
+        data._20 = 1;
+        data._24 = 1;
+        data._28 = target._38;
+        data._34 = 0;
+    }
+    sub_710039F938(true);
+    return true;
+}
+
+void EnemyNormal::sub_710039F938(bool a1) {
+    const f32 dist = a1 ? *mSpreadDist_s : *mSpeadDist2_s;
+    if (auto* awareness = mActor->getAwareness()) {
+        Unk_7102451448 filter;
+        while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+            if (entry->_a8 < dist) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&entry->mLink, &accessor);
+                _130.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+            }
+        }
+    }
+
+    if (!a1)
+        return;
+
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    const sead::Vector3f diff = home - mActor->getMtx().getTranslation();
+    if (std::sqrt(diff.x * diff.x + diff.z * diff.z) < dist)
+        sub_71005E1884(mActor, &_130, mFortressTag_s.cstr());
 }
 
 bool EnemyNormal::m51() {
@@ -359,6 +447,45 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
 }
 
 // NON_MATCHING: the original updates out->_44 with branches (ours selects)
+bool EnemyNormal::m72(Unk2* out, Unk1* info) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    if (enemy->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000) &&
+        sub_710039E1D0(out, 1, info)) {
+        out->_44 |= 1;
+        return true;
+    }
+
+    if (!sub_7100736D98(mActor) && !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        return false;
+    }
+
+    if (auto* entry = sub_71003A0114(m51(), 1, info->_4, &info->_8)) {
+        out->sub_71003A02A4(entry);
+        out->_44 |= 1;
+        return true;
+    }
+
+    auto* link = &enemy->_e08;
+    if (!ksys::act::isPlayerProfile(link) && !ksys::act::isNotLivingCreature(link) &&
+        link->hasProc()) {
+        return false;
+    }
+
+    auto* unk = sub_71005D9D68(mActor);
+    auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+    if (!unk || !unk->sub_71002DC9E8(player, 8, false))
+        return false;
+
+    out->sub_710039E308(&player);
+    out->_44 |= 1;
+    return true;
+}
+
 bool EnemyNormal::sub_710039E1D0(Unk2* out, s32 type, Unk1* info) {
     if (!sub_71005D8F28(mActor))
         return false;
@@ -512,6 +639,137 @@ bool EnemyNormal::sub_710039DB34(bool a1) {
     return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), a1);
 }
 
+// NON_MATCHING: info._8 (0 or 8) is computed with branches in the original (cset + lsl here)
+void EnemyNormal::m34() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    sub_710039E76C();
+
+    Unk2 target;
+    Unk1 info;
+    info._8 = enemy->_e84.isOnBit(1) || !*mIsMindDoubtTarget_s ? 8 : 0;
+
+    if (m72(&target, &info)) {
+        m57(0, &target);
+        m58(0, &target);
+        sub_71003A02E0(&target);
+        if (auto* unk = sub_71005D9D68(mActor))
+            unk->sub_71002DCBDC(8);
+        return;
+    }
+
+    {
+        auto* actor = sead::DynamicCast<act::Enemy>(mActor);
+        if (actor && actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000) &&
+            sub_710039E1D0(&target, 2, &info) && *target._0 == actor->_e08) {
+            target._44 |= 1;
+            m57(1, &target);
+            m58(1, &target);
+            sub_71003A02E0(&target);
+            return;
+        }
+    }
+
+    if (*mIsMindDoubtTarget_s) {
+        auto* actor = sead::DynamicCast<act::Enemy>(mActor);
+        if (actor && sub_710039E1D0(&target, 3, &info)) {
+            target._44 |= 1;
+            m57(4, &target);
+            m58(4, &target);
+            sub_71003A0E38(&target);
+            return;
+        }
+    }
+
+    if (m71(&target, &info)) {
+        m57(8, &target);
+        m58(8, &target);
+        m69(&target);
+        return;
+    }
+
+    if (m70()) {
+        Unk3 result;
+        result._4 = 0;
+        result._0 = 1;
+        m62(&result);
+        m38();
+    } else {
+        m35();
+    }
+}
+
+void EnemyNormal::sub_710039E76C() {
+    if (_3ac.isOff(4))
+        return;
+
+    auto* player_info = ksys::act::PlayerInfo::instance();
+    if (!player_info) {
+        _3b8 = 0;
+        _3ac.reset(4);
+        return;
+    }
+
+    auto* link = &player_info->getPlayerLink();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    if (!m46(pos, *link))
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    sead::Vector3f player_pos;
+    accessor.getActorMtx().getTranslation(player_pos);
+    if (m46(player_pos, *link)) {
+        _3b8 = 0;
+        _3ac.reset(4);
+    }
+}
+
+void EnemyNormal::sub_71003A02E0(Unk2* target) {
+    if (isCurrentChild("プレイヤー発見") && *target->_0 == sub_71005D94AC(mActor))
+        return;
+
+    _3ac.reset(8);
+    if (auto* unk = sub_71005D9D68(mActor))
+        unk->sub_71002DCBDC(4);
+    _3ac.reset(4);
+    _3b8 = 0;
+    const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    _120 = time;
+    _12c = false;
+    _50.reset();
+    _364 = 0;
+    m41();
+    _36c = 10.0f;
+
+    ksys::act::ai::InlineParamPack params;
+    params.addActor(*target->_0, "TargetActor", -1);
+    params.addVec3(target->_38, "TargetPos", -1);
+    params.addBool(target->_44 & 1, "ForceNotice", -1);
+    changeChild("プレイヤー発見", &params);
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        sub_710039FAA4(target->_38);
+}
+
+void EnemyNormal::sub_71003A0E38(Unk2* target) {
+    _3ac.reset(8);
+    const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    _120 = time;
+    _12c = false;
+    _50.reset();
+    _364 = 0;
+    m41();
+    _36c = 10.0f;
+
+    ksys::act::ai::InlineParamPack params;
+    params.addActor(*target->_0, "TargetActor", -1);
+    params.addVec3(target->_38, "TargetPos", -1);
+    params.addBool(target->_44 & 1, "ForceNotice", -1);
+    changeChild("不審者発見", &params);
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        sub_710039FAA4(target->_38);
+}
+
 void EnemyNormal::m37() {
     _3ac.reset(0xc);
     _3b8 = 0;
@@ -599,6 +857,219 @@ ksys::act::Unk_71024dc858* EnemyNormal::m47(ksys::act::AwarenessInstance* awaren
             return entry;
     }
     return nullptr;
+}
+
+// NON_MATCHING: switch lowering order in the 諦め case, the type-1 result stores (merged into one
+// 8-byte constant store here) and some scheduling
+void EnemyNormal::m49(Unk1* out, s32 idx) {
+    if (*mSealNoPlayerAwnRequestCount_a > 0)
+        out->_8 |= 0x1000;
+
+    const s32 type = m52(idx);
+    if (type == 4) {
+        if (!*mIsMindDoubtTarget_s) {
+            out->_0 = -1;
+            return;
+        }
+    } else if ((type == 6 || type == 7) && _368 > 0.0f) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("プレイヤー発見")) {
+        auto& target = sub_71005D94AC(mActor);
+        if (ksys::act::isPlayerProfile(&target)) {
+            out->_0 = -1;
+            return;
+        }
+        switch (type) {
+        case 1: {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&target, &accessor);
+            if (accessor.hasProc() && accessor.sub_7100022FD0()) {
+                out->_8 |= 0x4f0;
+                out->_0 = type;
+                out->_4 = 1;
+                return;
+            }
+            break;
+        }
+        case 0:
+        case 2:
+            out->_8 |= 0x684;
+            out->_0 = type;
+            out->_4 = 2;
+            return;
+        default:
+            break;
+        }
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("不審者発見")) {
+        switch (type) {
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            out->_0 = -1;
+            return;
+        default:
+            out->_0 = type;
+            out->_4 = 2;
+            out->_8 |= 0x384;
+            return;
+        }
+    }
+
+    if (isCurrentChild("怒り")) {
+        switch (type) {
+        case 0:
+        case 1:
+        case 4:
+            out->_0 = type;
+            out->_8 |= 3;
+            return;
+        default:
+            out->_0 = -1;
+            return;
+        }
+    }
+
+    if (isCurrentChild("見失い")) {
+        out->_0 = type;
+        out->_8 |= 0x1003;
+        return;
+    }
+
+    if (isCurrentChild("諦め")) {
+        switch (type) {
+        case 0:
+        case 1:
+        case 4:
+            break;
+        case 2:
+            out->_0 = -1;
+            return;
+        default:
+            out->_0 = type;
+            out->_8 |= 0x1000;
+            return;
+        }
+    } else if (isCurrentChild("音気づき")) {
+        if (type == 2) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("行動中仲間発見")) {
+        switch (type) {
+        case 2:
+        case 6:
+        case 7:
+            out->_0 = -1;
+            return;
+        default:
+            break;
+        }
+    } else if (isCurrentChild("不調仲間発見")) {
+        if (type == 7 || type == 2) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("攻撃反応")) {
+        switch (type) {
+        case 0:
+        case 1:
+        case 4:
+            out->_0 = type;
+            out->_8 |= 1;
+            if (_370 > 0.0f)
+                out->_8 |= 8;
+            return;
+        case 3:
+        case 8:
+            out->_0 = type;
+            return;
+        default:
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("脅威感知")) {
+        if (!(type == 0 || type == 1)) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("気配気づき")) {
+        if (type == 5) {
+            out->_0 = -1;
+            return;
+        }
+    }
+
+    out->_0 = type;
+    out->_8 |= 1;
+}
+
+void EnemyNormal::m50(Unk1* out, s32 idx) {
+    const s32 type = m52(idx);
+    if (type == 4) {
+        if (!*mIsMindDoubtTarget_s || isCurrentChild("不審者発見")) {
+            out->_0 = -1;
+            return;
+        }
+    } else if ((type == 6 || type == 7) && _368 > 0.0f) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("プレイヤー発見") || isCurrentChild("怒り") || isCurrentChild("見失い") ||
+        isCurrentChild("気配気づき") || isCurrentChild("攻撃反応") ||
+        isCurrentChild("行動中仲間発見") || isCurrentChild("不調仲間発見") ||
+        isCurrentChild("脅威感知")) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("音気づき")) {
+        switch (type) {
+        case 0:
+        case 1:
+        case 4:
+            break;
+        default:
+            out->_0 = -1;
+            return;
+        }
+    }
+
+    out->_0 = type;
+    out->_8 |= 1;
+}
+
+void EnemyNormal::m59() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("音気づき")) {
+        if (m43()) {
+            child->setDynamicParam(_60, "TargetPos");
+            child->setDynamicParamImpl(_50, "TargetActor", &ksys::act::ai::ParamPack::setActor);
+            _358 = ksys::Timer(*mSoundLostTimer_s, *mSoundLostTimer_s);
+        } else if (!(_358.value <= sead::Mathf::epsilon())) {
+            _358.update();
+        }
+    } else if (isCurrentChild("行動中仲間発見")) {
+        if (auto* entry = sub_710039FE20(&_390)) {
+            _390 = entry->mLink;
+            _3a0 = entry->_88;
+            child->setDynamicParam(_3a0, "TargetPos");
+            child->setDynamicParamImpl(_390, "TargetActor", &ksys::act::ai::ParamPack::setActor);
+        }
+    } else if (isCurrentChild("プレイヤー発見") || isCurrentChild("不審者発見")) {
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    } else if (isCurrentChild("攻撃反応")) {
+        if (_370 > 0.0f)
+            ksys::Timer::update(&_370, -1.0f);
+    }
 }
 
 void EnemyNormal::m60(Unk3* out) {
