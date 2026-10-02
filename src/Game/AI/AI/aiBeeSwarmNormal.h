@@ -10,12 +10,20 @@ class BeeSwarmNormal : public EnemyNormal {
 public:
     explicit BeeSwarmNormal(const InitArg& arg);
     ~BeeSwarmNormal() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+
+    void m37() override;
+    void m38() override;
+    void m48(sead::Vector3f* pos) override;
+    s32 m52(s32 idx) override;
+    s32 m53() override { return 9; }
+    bool m73() override { return true; }
 
 protected:
     // DynamicCast of mActor to an Enemy-derived actor class (RTTI 0x71025b08b8, probably Swarm) that

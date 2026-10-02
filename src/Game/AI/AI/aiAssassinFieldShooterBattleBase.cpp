@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiAssassinFieldShooterBattleBase.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -16,8 +21,23 @@ bool AssassinFieldShooterBattleBase::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original loads *mIntervalIntensity_s before forming &enemy->_f28 (see lane1 log)
 void AssassinFieldShooterBattleBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) && mActor) {
+        const s32 time =
+            static_cast<act::Enemy*>(mActor)->_f28.sub_7100001AA4(*mIntervalIntensity_s);
+        if (time >= 0) {
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->_e68 = ksys::Timer(time, time);
+        }
+    }
+
+    _70 = _74 == _78 ? _74 : sead::GlobalRandom::instance()->getS32Range(_74, _78);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 void AssassinFieldShooterBattleBase::leave_() {

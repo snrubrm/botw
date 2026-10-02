@@ -75,7 +75,7 @@ public:
     virtual void m70();
     virtual void m71();
     virtual void m72();
-    virtual void m73();
+    virtual bool m73();
 
 protected:
     // aitree_variable at offset 0x38

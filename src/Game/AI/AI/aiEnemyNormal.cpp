@@ -87,4 +87,8 @@ bool EnemyNormal::m65(sead::Heap* heap) {
     return _48 != nullptr;
 }
 
+bool EnemyNormal::m73() {
+    return isCurrentChild("プレイヤー発見") || isCurrentChild("諦め");
+}
+
 }  // namespace uking::ai

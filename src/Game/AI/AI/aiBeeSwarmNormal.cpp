@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBeeSwarmNormal.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -36,6 +37,59 @@ bool BeeSwarmNormal::handleMessage_(const ksys::Message& message) {
         return true;
     }
     return EnemyNormal::handleMessage_(message);
+}
+
+void BeeSwarmNormal::calc_() {
+    if (isCurrentChild("死亡")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason::_0);
+        return;
+    }
+
+    if (_3d8._30 && isCurrentChild("諦め")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            auto* actor = mActor;
+            sub_710072BB28(actor);
+            actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+            actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+            actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+            changeChild("死亡");
+            return;
+        }
+    }
+
+    EnemyNormal::calc_();
+    if (_3d8._30 && isCurrentChild("待機")) {
+        auto* actor = mActor;
+        sub_710072BB28(actor);
+        actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("死亡");
+    }
+}
+
+s32 BeeSwarmNormal::m52(s32 idx) {
+    static const s32 sTable[] = {1, 0, 2, 3, 4, 5, 6, 7, 8};
+    return sTable[idx];
+}
+
+void BeeSwarmNormal::m37() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->enable();
+    EnemyNormal::m37();
+}
+
+void BeeSwarmNormal::m38() {
+    EnemyNormal::m38();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->disable();
+}
+
+void BeeSwarmNormal::m48(sead::Vector3f* pos) {
+    *pos = _450;
 }
 
 }  // namespace uking::ai
