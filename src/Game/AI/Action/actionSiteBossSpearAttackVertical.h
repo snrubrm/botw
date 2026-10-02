@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionSiteBossSpearAttackBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -19,8 +20,10 @@ public:
 protected:
     void calc_() override;
 
+    ksys::act::BaseProcHandle _f0;
     // static_param at offset 0x100
     const int* mShockWaveAttackPower_s{};
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSpearAttackVertical, 0x108);
 
 }  // namespace uking::action

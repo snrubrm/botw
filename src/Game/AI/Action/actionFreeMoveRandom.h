@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionFreeMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -43,9 +44,7 @@ protected:
     f32 _100 = 0;
     f32 _104 = 0;
     f32 _108 = 0;
-    f32 _10c = 0;
-    u32 _110 = 0;
-    u32 _114 = 0;
+    ksys::Timer _10c;
 };
 
 }  // namespace uking::action

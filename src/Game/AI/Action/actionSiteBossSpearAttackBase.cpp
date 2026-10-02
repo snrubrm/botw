@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSpearAttackBase.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -15,8 +17,21 @@ void SiteBossSpearAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
+// NON_MATCHING: the original addresses _2378-_237b through one base register (as if they were
+// members of a struct at SiteBoss+0x2378)
 void SiteBossSpearAttackBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005D79AC(mActor, 0, act::Unk_71002edaec(1));
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->_2378) {
+            boss->_237a = boss->_237b;
+            boss->_2378 = 0;
+        }
+        if (boss->_2379) {
+            boss->_237c = boss->_2380;
+            boss->_2384 = boss->_2388;
+            boss->_2379 = 0;
+        }
+    }
 }
 
 void SiteBossSpearAttackBase::loadParams_() {
