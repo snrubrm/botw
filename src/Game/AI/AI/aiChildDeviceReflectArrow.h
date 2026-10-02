@@ -13,6 +13,7 @@ public:
     ~ChildDeviceReflectArrow() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
 
 
@@ -38,8 +39,9 @@ protected:
     bool _159 = false;
     bool _15a = false;
     u32 _15c = 0;
-    u64 _160 = 0;
-    u8 _168[0x174 - 0x168];
+    f32 _160 = 0;
+    f32 _164 = 0;
+    sead::Vector3f _168;
     sead::Vector3f _174;
     ksys::Timer _180;
 };

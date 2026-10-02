@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiChildDeviceReflectArrow.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -65,6 +69,41 @@ sead::Vector3f* ChildDeviceReflectArrow::m52() {
 
 void ChildDeviceReflectArrow::m53(const sead::Vector3f& a1) {
     _174 = a1;
+}
+
+void ChildDeviceReflectArrow::calc_() {
+    WithoutWeaponArrow::calc_();
+    _180.update();
+
+    if (!m49()) {
+        getCurrentChild()->setDynamicParam(false, "IsReInitShoot");
+        return;
+    }
+
+    _160 = mActor->getVelocity().length();
+    sead::Vector3f dir = _174;
+    dir -= _168;
+    const f32 distance = dir.normalize();
+
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, dir, sead::Vector3f::ey, _168, false);
+    if (auto* body = mActor->getMainBody())
+        body->setTransform(mtx, ksys::phys::PropagateToLinkedMotions{true});
+    m50(false);
+
+    f32 speed = 0.2f;
+    if (distance > 0.2f)
+        speed = sead::Mathf::max(_160 * _164, 0.8f);
+    dir *= speed;
+
+    if ((m51() & 3) == 0) {
+        m34(dir, false, "発射");
+    } else {
+        getCurrentChild()->setDynamicParam(dir, "FirstSpeed");
+        getCurrentChild()->setDynamicParam(_174, "TargetPos");
+        getCurrentChild()->setDynamicParam(true, "IsReInitShoot");
+    }
+    _159 = false;
 }
 
 }  // namespace uking::ai
