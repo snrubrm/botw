@@ -22,6 +22,7 @@ protected:
     int* mClipIndex_d{};
     // dynamic_param at offset 0x28
     int* mTextType_d{};
+    void* _30{};
 };
 
 }  // namespace uking::action

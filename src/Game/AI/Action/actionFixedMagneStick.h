@@ -24,6 +24,14 @@ protected:
     float* mMagneStickLength_a{};
     // aitree_variable at offset 0x30
     bool* mIsTargetFixedAcceptor_a{};
+    void* _38{};
+    f32 _40 = 0.0f;
+    int _44 = 0;
+    int _48 = 0;
+    f32 _4c = 0.0f;
+    f32 _50 = 0.0f;
+    f32 _54 = 0.0f;
+    u16 _58 = 0;
 };
 
 }  // namespace uking::action

@@ -26,6 +26,7 @@ protected:
     const int* mSeqBank_s{};
     // static_param at offset 0x38
     const int* mTargetBone_s{};
+    int _40 = 0;
 };
 
 }  // namespace uking::action

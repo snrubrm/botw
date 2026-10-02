@@ -22,6 +22,7 @@ protected:
     const int* mDgnRotDir_m{};
     // map_unit_param at offset 0xd0
     const float* mTiltAngle_m{};
+    f32 _d8 = 0.0f;
 };
 
 }  // namespace uking::action

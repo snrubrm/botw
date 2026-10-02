@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionNavMeshAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -26,6 +27,7 @@ protected:
     const float* mFloatDepth_s{};
     // static_param at offset 0xb8
     sead::SafeString mASName_s{};
+    ksys::act::CCAccessor _c8;
 };
 
 }  // namespace uking::action

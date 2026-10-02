@@ -19,6 +19,7 @@ protected:
     const float* mPosReduceRatio_s{};
     // static_param at offset 0xf0
     sead::SafeString mASName_s{};
+    f32 _100 = -10.0f;
 };
 
 }  // namespace uking::action

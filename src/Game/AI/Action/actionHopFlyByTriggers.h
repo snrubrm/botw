@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,7 @@ protected:
     const float* mHopAccRatio_s{};
     // static_param at offset 0x30
     sead::SafeString mASName_s{};
+    ksys::act::CCAccessor _40;
 };
 
 }  // namespace uking::action

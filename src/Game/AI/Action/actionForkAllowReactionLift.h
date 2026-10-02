@@ -20,6 +20,7 @@ protected:
 
     // aitree_variable at offset 0x20
     bool* mIsAllowReactionLift_a{};
+    bool _28 = false;
 };
 
 }  // namespace uking::action

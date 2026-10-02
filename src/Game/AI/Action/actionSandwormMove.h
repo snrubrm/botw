@@ -34,6 +34,7 @@ protected:
     const bool* mIsCheckAnmSeqCancel_s{};
     // aitree_variable at offset 0x120
     void* mRefPosVibrateChecker_a{};
+    void* _128{};
 };
 
 }  // namespace uking::action

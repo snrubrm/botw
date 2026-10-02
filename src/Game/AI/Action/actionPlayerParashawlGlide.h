@@ -22,6 +22,9 @@ protected:
     const float* mEnergyGlide_s{};
     // static_param at offset 0x90
     const float* mNoEnergyTime_s{};
+    int _98 = 0;
+    int _9c = 0;
+    bool _a0 = false;
 };
 
 }  // namespace uking::action

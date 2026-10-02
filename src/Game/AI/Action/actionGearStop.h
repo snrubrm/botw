@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,7 @@ protected:
     const int* mDgnRotDir_m{};
     // map_unit_param at offset 0x28
     const float* mRotateDamp_m{};
+    ksys::VFRValue _30;
 };
 
 }  // namespace uking::action

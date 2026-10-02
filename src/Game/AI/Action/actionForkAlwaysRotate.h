@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,7 @@ protected:
     const bool* mOnEndForceStop_s{};
     // static_param at offset 0x30
     const sead::Vector3f* mRotAxis_s{};
+    ksys::VFRValue _38;
 };
 
 }  // namespace uking::action

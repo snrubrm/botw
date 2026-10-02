@@ -30,6 +30,7 @@ protected:
     const sead::Vector3f* mFrontDirOfBaseBone_s{};
     // dynamic_param at offset 0x50
     ksys::act::BaseProcLink* mTargetActor_d{};
+    bool _58 = false;
 };
 
 }  // namespace uking::action

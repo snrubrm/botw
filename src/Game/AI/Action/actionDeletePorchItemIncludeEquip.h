@@ -22,6 +22,7 @@ protected:
     int* mDeleteNum_d{};
     // dynamic_param at offset 0x28
     sead::SafeString mPorchItemName_d{};
+    u16 _38 = 0;
 };
 
 }  // namespace uking::action

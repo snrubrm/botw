@@ -29,6 +29,7 @@ protected:
     const float* mHeadTransSmoothRate_s{};
     // static_param at offset 0xe0
     const float* mHeadTransSmoothSklRootRate_s{};
+    f32 _e8 = 0.0f;
 };
 
 }  // namespace uking::action

@@ -21,6 +21,7 @@ protected:
 
     // static_param at offset 0x70
     const int* mTimeMin_s{};
+    f32 _78 = 0.0f;
 };
 
 }  // namespace uking::action

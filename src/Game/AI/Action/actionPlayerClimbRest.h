@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,6 +22,7 @@ protected:
 
     // static_param at offset 0x20
     const float* mEnergyClimb_s{};
+    ksys::act::BaseProcLink _28;
 };
 
 }  // namespace uking::action

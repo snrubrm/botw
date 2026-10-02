@@ -21,6 +21,8 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::Vector3f* mOffset_d{};
+    void* _28{};
+    bool _30 = false;
 };
 
 }  // namespace uking::action

@@ -29,6 +29,7 @@ protected:
     const float* mVibRange_s{};
     // static_param at offset 0x70
     const bool* mIsVibration_s{};
+    int _78 = -4294967297;
 };
 
 }  // namespace uking::action

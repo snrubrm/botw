@@ -27,6 +27,9 @@ protected:
     const float* mMinAddScaleRate_s{};
     // map_unit_param at offset 0x48
     const float* mScaleTime_m{};
+    f32 _50 = 0.0f;
+    f32 _54 = 1.0f;
+    f32 _58 = 1.0f;
 };
 
 }  // namespace uking::action

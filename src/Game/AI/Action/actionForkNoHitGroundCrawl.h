@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,7 @@ protected:
     const float* mEndRadius_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _38;
 };
 
 }  // namespace uking::action

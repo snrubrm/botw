@@ -29,6 +29,7 @@ protected:
     const bool* mIsFinishedByBgHit_s{};
     // static_param at offset 0x48
     sead::SafeString mASName_s{};
+    bool _58 = true;
 };
 
 }  // namespace uking::action

@@ -20,6 +20,9 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mClipIndex_d{};
+    void* _28{};
+    int _30 = 0;
+    int _34 = -4294967297;
 };
 
 }  // namespace uking::action

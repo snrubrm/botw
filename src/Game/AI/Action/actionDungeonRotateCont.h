@@ -25,6 +25,7 @@ protected:
     const float* mTiltAngle_m{};
     // aitree_variable at offset 0xd8
     bool* mIsContinueRotateOrMove_a{};
+    f32 _e0 = 0.0f;
 };
 
 }  // namespace uking::action

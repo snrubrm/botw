@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionJumpTo.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -34,6 +35,7 @@ protected:
     sead::SafeString mJumpAS_s{};
     // static_param at offset 0xd8
     sead::SafeString mLandAS_s{};
+    ksys::act::CCAccessor _e8;
 };
 
 }  // namespace uking::action

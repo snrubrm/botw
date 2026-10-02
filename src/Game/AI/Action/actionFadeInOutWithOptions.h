@@ -34,6 +34,12 @@ protected:
     const bool* mToggleCollision_s{};
     // static_param at offset 0x58
     const bool* mToggleHorseOptions_s{};
+    f32 _60 = -1.0f;
+    f32 _64 = 0.0f;
+    f32 _68 = 0.0f;
+    f32 _6c = 0.0f;
+    f32 _70 = 0.0f;
+    int _74 = 1;
 };
 
 }  // namespace uking::action

@@ -24,6 +24,8 @@ protected:
     int* mActorType_d{};
     // dynamic_param at offset 0x30
     sead::SafeString mActorName_d{};
+    void* _40{};
+    f32 _48 = -1.0f;
 };
 
 }  // namespace uking::action

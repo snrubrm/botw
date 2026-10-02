@@ -31,6 +31,7 @@ protected:
     sead::SafeString mFallAS_s{};
     // static_param at offset 0xa0
     sead::SafeString mOnGroundAS_s{};
+    bool _b0 = false;
 };
 
 }  // namespace uking::action

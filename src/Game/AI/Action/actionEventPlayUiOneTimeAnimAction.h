@@ -24,6 +24,10 @@ protected:
     sead::SafeString mScreenName_d{};
     // dynamic_param at offset 0x38
     sead::SafeString mAnimName_d{};
+    int _48 = 99;
+    void* _50{};
+    int _58 = 0;
+    int _5c = 0;
 };
 
 }  // namespace uking::action

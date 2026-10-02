@@ -20,6 +20,10 @@ protected:
 
     // static_param at offset 0x20
     const float* mWaitTime_s{};
+    f32 _28 = 0.0f;
+    int _2c = 0;
+    int _30 = 0;
+    int _34 = 0;
 };
 
 }  // namespace uking::action

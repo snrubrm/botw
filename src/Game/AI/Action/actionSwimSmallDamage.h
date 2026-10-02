@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionSmallDamage.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -24,6 +25,7 @@ protected:
     const float* mFloatRadius_s{};
     // static_param at offset 0xa8
     sead::SafeString mASName_s{};
+    ksys::act::CCAccessor _b8;
 };
 
 }  // namespace uking::action

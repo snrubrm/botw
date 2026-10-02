@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void* _c8{};
+    int _d0 = 0;
 };
 
 }  // namespace uking::action

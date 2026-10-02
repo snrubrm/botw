@@ -32,6 +32,8 @@ protected:
     const float* mTurnRate_s{};
     // static_param at offset 0x50
     const bool* mIsTurnToWindDir_s{};
+    f32 _58 = 0.0f;
+    f32 _5c = 0.0f;
 };
 
 }  // namespace uking::action

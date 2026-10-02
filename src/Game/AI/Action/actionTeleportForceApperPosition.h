@@ -29,6 +29,10 @@ protected:
     sead::SafeString mHideEffectName_s{};
     // dynamic_param at offset 0xa0
     sead::Vector3f* mAppearPosition_d{};
+    f32 _a8 = 0.0f;
+    int _ac = 0;
+    f32 _b0 = -1.0f;
+    bool _b4 = false;
 };
 
 }  // namespace uking::action

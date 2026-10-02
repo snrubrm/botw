@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,6 +21,8 @@ protected:
 
     // static_param at offset 0x20
     sead::SafeString mPosBaseRagdollRbName_s{};
+    ksys::act::CCAccessor _30;
+    bool _38 = false;
 };
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,6 +21,7 @@ protected:
 
     // static_param at offset 0x20
     sead::SafeString mActorName_s{};
+    ksys::act::BaseProcLink _30;
 };
 
 }  // namespace uking::action

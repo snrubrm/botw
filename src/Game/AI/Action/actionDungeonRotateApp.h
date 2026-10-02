@@ -23,6 +23,7 @@ protected:
     const int* mRotDirType_s{};
     // dynamic_param at offset 0xd0
     float* mDynTargetAng_d{};
+    f32 _d8 = 0.0f;
 };
 
 }  // namespace uking::action

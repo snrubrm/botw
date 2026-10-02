@@ -22,6 +22,7 @@ protected:
     float* mWatchFrame_d{};
     // dynamic_param at offset 0x28
     sead::SafeString mXLinkKey_d{};
+    f32 _38 = 0.0f;
 };
 
 }  // namespace uking::action

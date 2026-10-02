@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionOnetimeStopASPlay.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -20,6 +21,10 @@ protected:
 
     // static_param at offset 0x48
     const bool* mIsChangable_s{};
+    ksys::VFRValue _50{0.0f};
+    int _5c = 0;
+    int _60 = 0;
+    int _64 = 0;
 };
 
 }  // namespace uking::action

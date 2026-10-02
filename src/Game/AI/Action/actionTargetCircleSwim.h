@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionTargetCircle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -26,6 +27,7 @@ protected:
     const float* mInWaterDepth_s{};
     // static_param at offset 0xa0
     const float* mChangeDepthSpeed_s{};
+    ksys::act::CCAccessor _a8;
 };
 
 }  // namespace uking::action

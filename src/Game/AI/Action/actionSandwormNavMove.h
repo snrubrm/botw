@@ -31,6 +31,7 @@ protected:
     const float* mVibrateMemoryStep_s{};
     // aitree_variable at offset 0xe8
     void* mRefPosVibrateChecker_a{};
+    void* _f0{};
 };
 
 }  // namespace uking::action

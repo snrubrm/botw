@@ -23,6 +23,7 @@ protected:
     sead::SafeString mCallSEKeyAtStick_s{};
     // dynamic_param at offset 0x168
     bool* mIsReInitShoot_d{};
+    bool _170 = false;
 };
 
 }  // namespace uking::action

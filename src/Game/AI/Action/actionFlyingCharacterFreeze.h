@@ -20,6 +20,9 @@ protected:
 
     // static_param at offset 0x70
     const float* mStopTime_s{};
+    f32 _78 = 0.0f;
+    int _7c = 0;
+    int _80 = 0;
 };
 
 }  // namespace uking::action

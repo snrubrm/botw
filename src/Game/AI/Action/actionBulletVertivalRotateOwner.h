@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,11 @@ protected:
     const float* mRotSpdAccRatio_s{};
     // static_param at offset 0x30
     const float* mOffsetY_s{};
+    ksys::VFRValue _38;
+    ksys::VFRValue _44;
+    f32 _50 = 0.0f;
+    f32 _54 = 0.0f;
+    bool _58 = false;
 };
 
 }  // namespace uking::action
