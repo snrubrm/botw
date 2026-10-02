@@ -2,6 +2,8 @@
 
 #include "Game/AI/AI/aiUnarmedEnemySearch.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,14 @@ protected:
     const bool* mIsValidForceNeck_s{};
     // dynamic_param at offset 0x88
     bool* mIsNotice_d{};
+    ksys::Timer _90{0, 0};
+    ksys::act::BaseProcLink _a0;
+    f32 _b0 = 0;
+    s32 _b4 = 0;
+    s32 _b8 = 0;
+    f32 _bc = 0;
+    f32 _c0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(LandHumEnemyFindBait, 0xc8);
 
 }  // namespace uking::ai
