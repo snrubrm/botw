@@ -16,14 +16,15 @@ public:
     void loadParams() override;
 
     /* 0x28 */ const bool* mIgnorePlayerByTimePass_s{};
-    /* 0x30 */ void* _30 = nullptr;
+    /* 0x30 */ f32 _30 = 0;  // NPCIgnorePlayerTime (global parameter)
+    /* 0x34 */ f32 _34 = 0;  // NPCCancelIgnorePlayerTime
     /* 0x38 */ f32 _38 = -1.0f;
     /* 0x3c */ u32 _3c = 0;
-    /* 0x40 */ u32 _40 = 0;
-    /* 0x44 */ u32 _44 = 0;
-    /* 0x48 */ u32 _48 = 0;
-    /* 0x4c */ u32 _4c = 0;
-    /* 0x50 */ u32 _50 = 0;
+    /* 0x40 */ f32 _40 = 0;
+    /* 0x44 */ f32 _44 = 0;
+    /* 0x48 */ f32 _48 = 0;
+    /* 0x4c */ f32 _4c = 0;
+    /* 0x50 */ f32 _50 = 0;
     /* 0x54 */ u32 _54 = 0;
 };
 KSYS_CHECK_SIZE_NX150(InterestNeckControl, 0x58);
