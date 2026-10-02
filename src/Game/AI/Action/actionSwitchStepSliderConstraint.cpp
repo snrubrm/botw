@@ -71,4 +71,8 @@ void SwitchStepSliderConstraint::m32(f32 value) {
     }
 }
 
+void SwitchStepSliderConstraint::m9() {
+    _d8 = mActor->getFieldBodyGroup();
+}
+
 }  // namespace uking::action

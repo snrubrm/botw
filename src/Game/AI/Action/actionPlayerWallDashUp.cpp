@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerWallDashUp.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ void PlayerWallDashUp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerWallDashUp::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x80000);
 }
 
 void PlayerWallDashUp::loadParams_() {

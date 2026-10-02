@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerDeadWait.h"
+#include "Game/gameUnk_71008ba8d8.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ void PlayerDeadWait::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerDeadWait::leave_() {}
 
 void PlayerDeadWait::calc_() {
-    PlayerAction::calc_();
+    callPlayerGameOverDemo(mActor);
 }
 
 bool PlayerDeadWait::isChangeable() const {

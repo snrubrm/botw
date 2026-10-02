@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOpenMessageDialog.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -33,6 +35,11 @@ void OpenMessageDialog::calc_() {
 
 const char* OpenMessageDialog::m32() {
     return mASName_d.cstr();
+}
+
+void OpenMessageDialog::m33(const sead::SafeString& name) {
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115BC28(name, -1.0f);
 }
 
 }  // namespace uking::action

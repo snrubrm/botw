@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOpenMessageDialogWithSkelAnm.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -34,6 +36,13 @@ void OpenMessageDialogWithSkelAnm::calc_() {
 
 const char* OpenMessageDialogWithSkelAnm::m32() {
     return mAnimName_d.cstr();
+}
+
+void OpenMessageDialogWithSkelAnm::m33(const sead::SafeString& name) {
+    if (auto* as_list = mActor->getASList()) {
+        as_list->sub_710115BED4(true);
+        playAS(name.cstr(), false, 0, 0, -1.0f);
+    }
 }
 
 }  // namespace uking::action

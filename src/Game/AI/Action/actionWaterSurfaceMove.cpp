@@ -11,7 +11,7 @@ bool WaterSurfaceMove::init_(sead::Heap* heap) {
 }
 
 void WaterSurfaceMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _30.value = _30.prev_value = *mSpeed_d / 30.0f;
 }
 
 void WaterSurfaceMove::leave_() {

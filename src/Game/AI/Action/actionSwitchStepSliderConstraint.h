@@ -7,6 +7,10 @@ namespace ksys::phys {
 class Constraint;
 }
 
+namespace ksys::phys {
+class StaticCompoundRigidBodyGroup;
+}
+
 namespace uking::action {
 
 class SwitchStepSliderConstraint : public ksys::act::ai::Action {
@@ -19,6 +23,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m9() override;
 
 protected:
     void calc_() override;
@@ -56,7 +61,7 @@ protected:
     u32 _cc;
     f32 _d0 = 0;
     u32 _d4;
-    void* _d8 = nullptr;
+    ksys::phys::StaticCompoundRigidBodyGroup* _d8 = nullptr;
     u8 _e0 = 0;
 };
 

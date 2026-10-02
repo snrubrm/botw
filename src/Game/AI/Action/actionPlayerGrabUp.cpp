@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerGrabUp.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ void PlayerGrabUp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerGrabUp::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c4c.reset(0x4000);
 }
 
 void PlayerGrabUp::calc_() {
