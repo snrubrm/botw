@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRitoHeroSoulGiftRoot.h"
+#include "Game/gameResidentActorMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -17,6 +18,14 @@ bool RitoHeroSoulGiftRoot::init_(sead::Heap* heap) {
 }
 
 void RitoHeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (!_a8.hasProc()) {
+        if (auto* mgr = ResidentActorMgr::instance()) {
+            if (auto* actor = mgr->getActorByName(sead::SafeString(mActorName_s.cstr())))
+                _a8.acquire(actor, false);
+        }
+    }
+    _b8 = false;
+    setPosition();
     HeroSoulGiftRoot::enter_(params);
 }
 
