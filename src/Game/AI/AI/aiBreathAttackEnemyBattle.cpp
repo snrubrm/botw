@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBreathAttackEnemyBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -71,6 +72,20 @@ const sead::Vector3f* BreathAttackEnemyBattle::m35() {
 
 const sead::SafeString& BreathAttackEnemyBattle::m36() {
     return mBreathName_s;
+}
+
+// NON_MATCHING: stack slots of target_pos / accessor swapped (the original's accessor sits above
+// target_pos, as if from an inline helper)
+bool BreathAttackEnemyBattle::m40() {
+    sead::Vector3f target_pos;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&m34(), &accessor);
+        accessor.getActorMtx().getTranslation(target_pos);
+    }
+    if (!m38())
+        return false;
+    return sub_710072DDB8(target_pos, mActor->getMtx(), *mAttackAngle_s);
 }
 
 void BreathAttackEnemyBattle::m41() {}
