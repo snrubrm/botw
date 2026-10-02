@@ -1,8 +1,8 @@
 #include "Game/AI/Action/actionArrowShootMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
-// NON_MATCHING: store scheduling of the trailing members around the second memset
 ArrowShootMove::ArrowShootMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 ArrowShootMove::~ArrowShootMove() = default;
@@ -41,5 +41,29 @@ void ArrowShootMove::calc_() {
 float ArrowShootMove::m32() {
     return 0.5f;
 }
+
+bool ArrowShootMove::m35(const ksys::act::ActorConstDataAccess& accessor) {
+    return false;
+}
+
+void ArrowShootMove::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {}
+
+void ArrowShootMove::m39(sead::Vector3f* out) {
+    *out = _e4;
+}
+
+bool ArrowShootMove::m40() {
+    if (*mAtRange_d <= 10.0f)
+        return true;
+    sead::Vector3f diff = _11c;
+    diff -= mActor->getMtx().getTranslation();
+    return diff.length() >= *mAtRange_d;
+}
+
+f32 ArrowShootMove::m41() {
+    return 0.0f;
+}
+
+void ArrowShootMove::m42() {}
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionArrowShootMoveWithStickOffset.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -26,6 +27,22 @@ void ArrowShootMoveWithStickOffset::loadParams_() {
 
 void ArrowShootMoveWithStickOffset::calc_() {
     ArrowShootMove::calc_();
+}
+
+float ArrowShootMoveWithStickOffset::m32() {
+    return *mStickOffset_s;
+}
+
+bool ArrowShootMoveWithStickOffset::m35(const ksys::act::ActorConstDataAccess& accessor) {
+    return accessor.hasProc() && accessor.getName() == "GanonTornado";
+}
+
+void ArrowShootMoveWithStickOffset::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {
+    *out = false;
+}
+
+f32 ArrowShootMoveWithStickOffset::m41() {
+    return 1.0f;
 }
 
 }  // namespace uking::action

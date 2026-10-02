@@ -17,6 +17,10 @@ public:
 protected:
     void calc_() override;
 
+    float m32() override;
+    bool m35(const ksys::act::ActorConstDataAccess& accessor) override;
+    f32 m41() override;
+
     // static_param at offset 0x150
     const float* mRayCastDist_s{};
     // static_param at offset 0x158

@@ -1,4 +1,5 @@
 #pragma once
+#include "KingSystem/System/Timer.h"
 
 #include "Game/AI/Action/actionArrowShootMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -18,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    bool m34(sead::Vector3f* pos, bool* a, bool* b, sead::Vector3f* vel) override;
+    bool m40() override;
+
     // static_param at offset 0x150
     const int* mInterval_s{};
     // static_param at offset 0x158
@@ -26,6 +30,9 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     // dynamic_param at offset 0x168
     sead::Vector3f* mPosOffset_d{};
+    s8 _170 = -1;
+    ksys::Timer _174{0, 0};
+    sead::Vector3f _180{0, 0, 0};
 };
 
 }  // namespace uking::action

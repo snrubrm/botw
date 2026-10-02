@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionArrowShootMoveForLargeObject.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -21,6 +23,19 @@ void ArrowShootMoveForLargeObject::loadParams_() {
 
 void ArrowShootMoveForLargeObject::calc_() {
     ArrowShootMove::calc_();
+}
+
+float ArrowShootMoveForLargeObject::m32() {
+    return *mRayCastDist_s * 0.5f;
+}
+
+bool ArrowShootMoveForLargeObject::m35(const ksys::act::ActorConstDataAccess& accessor) {
+    return accessor.hasProc() &&
+           (accessor.hasTag(ksys::act::tags::IsIceMakerBlock) || accessor.getName() == "GanonTornado");
+}
+
+f32 ArrowShootMoveForLargeObject::m41() {
+    return *mRayCastDist_s;
 }
 
 }  // namespace uking::action
