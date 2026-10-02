@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    Unk_7102451d08 _38;
 };
+KSYS_CHECK_SIZE_NX150(PillarCrack, 0x70);
 
 }  // namespace uking::ai

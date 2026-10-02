@@ -11,13 +11,17 @@ bool PillarCrack::init_(sead::Heap* heap) {
 }
 
 void PillarCrack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38._28 = mActor;
+    _38._30 = 3;
+    _38._34 = 12;
+    setDamageCallbackTiming(mActor, 4, &_38);
+    changeChild("通常");
 }
 
 void PillarCrack::calc_() {}
 
 void PillarCrack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_38);
 }
 
 void PillarCrack::loadParams_() {}

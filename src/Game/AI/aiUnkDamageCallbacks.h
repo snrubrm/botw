@@ -4,6 +4,10 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageCallback.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 // Unnamed damage callback classes with their own RTTI, embedded in many AI/Action/Behavior classes.
 // Their virtual functions (call, checkDerivedRuntimeTypeInfo, getRuntimeTypeInfo, D0) all live in
 // one translation unit (0x7100747a0c-0x710074a950), so `call` is the key function and is defined
@@ -105,6 +109,26 @@ class Unk_7102451c98 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451c98, uking::dmg::DamageCallback)
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
+
+// vtable 0x7102451cd0 (SetNoWeakHitReactionDCCallBack behavior): caps the reaction level (*a5) at 2
+// unless the damage manager has damage flag 0.
+class Unk_7102451cd0 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451cd0, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
+
+// vtable 0x7102451d08 (PillarCrack): writes the life of `_28` to *a1 when the damage type *a4 is
+// `_30` and the actor's first attack-info entry has all of the `_34` flags in its `_54`.
+class Unk_7102451d08 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451d08, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    ksys::act::Actor* _28 = nullptr;
+    u32 _30 = 0;
+    u32 _34 = 0;
 };
 
 // vtable 0x7102451d78

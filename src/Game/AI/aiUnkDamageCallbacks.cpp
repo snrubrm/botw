@@ -1,5 +1,6 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 void Unk_71024518c8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a4 == 3) {
@@ -82,6 +83,24 @@ void Unk_7102451c10::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 void Unk_7102451c98::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a5 >= 3)
         *a5 = 2;
+}
+
+void Unk_7102451cd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManagerBase>(mDamageManager);
+    if (manager && manager->checkDamageFlags(0))
+        return;
+    if (*a5 >= 3)
+        *a5 = 2;
+}
+
+void Unk_7102451d08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 != 0 || *a4 != _30 || !_28)
+        return;
+    const auto* info = sub_71007A255C(_28, 0);
+    if (!info || (_34 & ~info->_54) != 0)
+        return;
+    const s32* life = _28->getLife();
+    *a1 = life ? *life : 1;
 }
 
 void Unk_7102451d78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
