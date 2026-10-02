@@ -99,7 +99,8 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
 /// layers from ksys::act::sub_7100EEACE8) from `from` to `to`, both raised by `y_offset`. On a hit,
 /// writes the hit position / normal / material when the pointers are non-null. Placeholder name.
 bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
-                    sead::Vector3f* hit_normal, void* hit_info, f32 y_offset);
+                    sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask,
+                    f32 y_offset);
 
 /// 0x710072eb10 (declared only): sub_710072E928 with the query's normal checking mode and, if `actor`
 /// has physics, its system group handler (to ignore the actor itself). Placeholder name.
@@ -107,3 +108,17 @@ bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
                     ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal, void* hit_info,
                     f32 y_offset);
+/// 0x710072e5f8 / 0x710072e830 / 0x710072ea18: same with the layers of ksys::act::sub_7100EEAE58 /
+/// sub_7100EEAECC / sub_7100EEACE8 and a normal checking mode (ksys::phys::RayCast::
+/// NormalCheckingMode). Placeholder names.
+bool sub_710072E5F8(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* material_mask, f32 y_offset);
+bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* material_mask, f32 y_offset);
+bool sub_710072EA18(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* material_mask, f32 y_offset);
+/// 0x710072e804: group handler `idx` (0 / 1) of the actor's physics instance set (null without one).
+ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx);
