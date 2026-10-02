@@ -11,11 +11,11 @@ class GanonBeastFirstMessage : public ksys::act::ai::Behavior {
 public:
     explicit GanonBeastFirstMessage(const InitArg& arg);
     ~GanonBeastFirstMessage() override;
+    void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x7100623ef4)
     void m7() override;  // not decompiled yet (0x7100624204)
     void m8() override;  // not decompiled yet (0x7100623ff4)
-    void m9() override;  // not decompiled yet (0x71006243cc)
 
     /* 0x28 */ const int* mCloseOption_s{};
     /* 0x30 */ const int* mDelayTimer_s{};
@@ -33,8 +33,8 @@ public:
     /* 0xac */ u8 _ac = 0;
     /* 0xad */ u8 _ad = 0;
     /* 0xae */ u16 _ae = 0;
-    /* 0xb0 */ u32 _b0 = 0;
-    /* 0xb4 */ u8 _b4 = 0;
+    /* 0xb0 */ s32 _b0 = 0;
+    /* 0xb4 */ bool _b4 = false;
 };
 KSYS_CHECK_SIZE_NX150(GanonBeastFirstMessage, 0xb8);
 

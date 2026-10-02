@@ -10,10 +10,10 @@ public:
     explicit CharacterControllerFormChange(const InitArg& arg);
     ~CharacterControllerFormChange() override;
     void m7() override;
+    void m8() override;
+    void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061c430)
-    void m8() override;  // not decompiled yet (0x710061c4e8)
-    void m9() override;  // not decompiled yet (0x710061c540)
 
     /* 0x28 */ const int* mEnterState_s{};
     /* 0x30 */ const bool* mIsRestoreWhenLeave_s{};

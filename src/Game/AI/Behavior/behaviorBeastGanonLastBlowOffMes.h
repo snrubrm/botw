@@ -11,10 +11,10 @@ class BeastGanonLastBlowOffMes : public SimpleAtvUnitOpenDlgRnd3 {
 public:
     explicit BeastGanonLastBlowOffMes(const InitArg& arg);
     ~BeastGanonLastBlowOffMes() override;
+    bool m6(sead::Heap* heap) override;
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x7100619820)
     void m7() override;  // not decompiled yet (0x7100619868)
     bool m15() override;  // not decompiled yet (0x710061997c)
 

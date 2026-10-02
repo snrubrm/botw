@@ -5,6 +5,15 @@ namespace uking::behavior {
 
 GanonBeastFirstMessage::GanonBeastFirstMessage(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+void GanonBeastFirstMessage::m9() {
+    if (*mOnce_s && _b0 >= 2)
+        _b0 = 5;
+    if (_b4 && _b0 <= 4) {
+        --*mGanonBeastVoiceSequenceCount_a;
+        _b4 = false;
+    }
+}
+
 void GanonBeastFirstMessage::loadParams() {
     getStaticParam(&mCloseOption_s, "CloseOption");
     getStaticParam(&mDelayTimer_s, "DelayTimer");
