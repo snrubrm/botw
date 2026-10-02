@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "Game/AI/AI/aiSimpleEscapeFromTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -24,6 +25,8 @@ protected:
     const float* mCheckDist_s{};
     // static_param at offset 0x70
     sead::SafeString mAnchorName_s{};
+    sead::Vector3f _80;
 };
+KSYS_CHECK_SIZE_NX150(AssassinBossEscapeFromTarget, 0x90);
 
 }  // namespace uking::ai

@@ -12,6 +12,7 @@ bool AnimalRoamCheckWater::init_(sead::Heap* heap) {
 
 void AnimalRoamCheckWater::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalRoam::enter_(params);
+    _108 = false;
 }
 
 void AnimalRoamCheckWater::leave_() {
