@@ -3,7 +3,7 @@
 
 namespace ksys {
 
-MessageTransceiverTxOnly::MessageTransceiverTxOnly(IHandler& handler) : mReceiver(handler) {
+MessageTransceiverTxOnly::MessageTransceiverTxOnly(IHandler* handler) : mReceiver(handler) {
     registerReceiver(mReceiver);
 }
 
@@ -40,7 +40,7 @@ bool MessageTransceiverTxOnly::sendMessageOnProcessingThread(IMessageBroker& bro
 MessageTransceiverTxOnly::Receiver::~Receiver() = default;
 
 void MessageTransceiverTxOnly::Receiver::handleAck(const MessageAck& ack) {
-    mHandler.handleAck(ack);
+    mHandler->handleAck(ack);
 }
 
 }  // namespace ksys

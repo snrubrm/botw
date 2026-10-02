@@ -255,7 +255,8 @@ public:
     bool isMasterSwordEquipped_();                                      // 0x86d024
     bool x_35();                                                        // 0x8886f4
     void x_7();                                                         // 0x88a048
-    void x_8();                                                         // 0x88a8a8
+    // All ~45 callers pass (0, 0); x_8 does not read them (types a guess).
+    void x_8(bool a1, bool a2);                                         // 0x88a8a8
     void x_33();                                                        // 0x88c900
     void x_38();                                                        // 0x88d564
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).

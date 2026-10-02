@@ -181,7 +181,11 @@ protected:
 
     void copyParams(InlineParamPack* dest, bool x) const;
 
+public:
+    // Public: an AI calls it on its current child (PriestBossAttackGrave::calc_).
     void setFinished();
+
+protected:
     void setFailed();
 
     void setRootAiFlag(RootAiFlag flag) const;

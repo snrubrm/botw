@@ -15,7 +15,9 @@ public:
         virtual void handleAck(const MessageAck& ack) = 0;
     };
 
-    explicit MessageTransceiverTxOnly(IHandler& handler);
+    // Takes a pointer: owners pass their actor (`mActor`, whose IHandler base is at +0x188) with a
+    // null check (RemainsElectricWeakPointWait, TowingPlayer, PlayerStainWait, ... ctors).
+    explicit MessageTransceiverTxOnly(IHandler* handler);
     ~MessageTransceiverTxOnly() override;
     bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
                      bool ack) override;
@@ -31,12 +33,12 @@ private:
     class Receiver : public MessageReceiverEx {
         SEAD_RTTI_OVERRIDE(Receiver, MessageReceiverEx)
     public:
-        explicit Receiver(IHandler& handler) : mHandler(handler) {}
+        explicit Receiver(IHandler* handler) : mHandler(handler) {}
         ~Receiver() override;
         void handleAck(const MessageAck& ack) override;
 
     private:
-        IHandler& mHandler;
+        IHandler* mHandler;
     };
 
     Receiver mReceiver;
