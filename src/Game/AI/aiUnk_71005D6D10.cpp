@@ -49,7 +49,7 @@ void sub_71005D7014(ksys::act::Actor* actor) {
         return;
     auto* enemy = static_cast<Enemy*>(actor);
     ksys::act::acc::PlayerBase accessor;
-    ksys::act::acquireActor(&enemy->_e08, &accessor);
+    ksys::act::acquireActor(&enemy->_e08._0, &accessor);
     accessor.x_0(actor);
 }
 

@@ -10,6 +10,7 @@
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -91,12 +92,7 @@ public:
     /* 0x0d00 */ ksys::act::ActorWeapons mWeapons{this};
     // DamageManagerBase subclass (vtable 0x71023ceca0, ctor 0x71002c9024); getDamageMgr
     /* 0x0da0 */ u8 _da0[0xe30 - 0xda0];
-    /* 0x0e30 */ ksys::act::BaseProcLink _e30;
-    /* 0x0e40 */ sead::Matrix34f _e40 = sead::Matrix34f::ident;
-    /* 0x0e70 */ sead::Vector3f _e70 = sead::Vector3f::zero;
-    /* 0x0e7c */ sead::Vector3f _e7c = sead::Vector3f::zero;
-    /* 0x0e88 */ u32 _e88 = 0;
-    /* 0x0e8c */ u16 _e8c = 0;
+    /* 0x0e30 */ ksys::act::Unk_71006e4478 _e30;
     /* 0x0e90 */ Unk_71002dccbc _e90{this};
     /* 0x0f28 */ Unk_71023cee88 _f28{this};  // getPlayerRideInfo
     /* 0x0f70 */ ksys::act::BaseProcLink _f70;

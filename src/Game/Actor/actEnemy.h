@@ -240,13 +240,8 @@ public:
     /* 0xc38 */ sead::Buffer<ksys::act::BaseProcLink> _c38;  // indexed by weapon slot (m177)
     /* 0xc48 */ Unk_7100013308 _c48{this};
     /* 0xd70 */ Unk_71002dccbc _d70{this};
-    /* 0xe08 */ ksys::act::BaseProcLink _e08;
-    /* 0xe18 */ sead::Matrix34f _e18 = sead::Matrix34f::ident;
-    /* 0xe48 */ sead::Vector3f _e48 = sead::Vector3f::zero;
-    /* 0xe54 */ sead::Vector3f _e54 = sead::Vector3f::zero;
-    /* 0xe60 */ u32 _e60 = 0;
-    /* 0xe64 */ u8 _e64 = 0;
-    /* 0xe65 */ u8 _e65 = 0;
+    // Passed as a whole to 0x710039dd0c (EnemyNormal), which stores its address as a link.
+    /* 0xe08 */ ksys::act::Unk_71006e4478 _e08;
     /* 0xe68 */ ksys::Timer _e68;
     /* 0xe74 */ f32 _e74 = 0;  // written by NoticeTurn::leave_
     /* 0xe78 */ Unk_71025ae680* _e78 = nullptr;  // m159, created by m178
