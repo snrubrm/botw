@@ -5,6 +5,10 @@
 #include <prim/seadTypedBitFlag.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 
+namespace ksys {
+class Message;
+}
+
 namespace ksys::act {
 class BaseProcHandle;
 }
@@ -39,6 +43,7 @@ public:
     void calc() { calc_(); }
     void leave() { leave_(); }
     void loadParams() { loadParams_(); }
+    bool handleMessage(const ksys::Message& message) { return handleMessage_(message); }
 
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
@@ -52,7 +57,8 @@ protected:
     virtual void loadParams_() = 0;
 
 public:
-    virtual bool m12() { return true; }
+    // Called by the owner's handleMessage_ (FollowIgniteToSelfPos) through the wrapper above.
+    virtual bool handleMessage_(const ksys::Message& message) { return true; }
 
     // 0x71002a58e0 - 0x71002a5900: forward to the owner's getStaticParam.
     bool getStaticParam(sead::SafeString* value, const sead::SafeString& key) const;

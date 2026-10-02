@@ -33,6 +33,8 @@ void sub_710073852C(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_7100738660(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_7100738898(ksys::phys::RigidBody* body, f32 ratio);
 void sub_7100738AA8(ksys::act::Actor* actor, f32 ratio);
+/// 0x7100738c88: links the physics of `actor` to `other`'s (ActorPhysics::x_5), if both have one.
+void sub_7100738C88(ksys::act::Actor* actor, ksys::act::Actor* other);
 
 // Single-branch functions of the same area forwarding to KingSystem actor utilities (0x7100ee5b84,
 // 0x7100ee60ac). Names are placeholders.

@@ -3695,6 +3695,8 @@ target_sources(uking PRIVATE
   actionUnk_71023c8568.h
   actionUnk_71023c8600.cpp
   actionUnk_71023c8600.h
+  actionUnk_71023c8678.cpp
+  actionUnk_71023c8678.h
   actionUnk_71023c8700.cpp
   actionUnk_71023c8700.h
   actionUpdateDataByGetDemoAction.cpp
