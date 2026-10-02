@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSiteBossLswordTornadoRoot.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -35,6 +36,19 @@ void SiteBossLswordTornadoRoot::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mDestPos_d, "DestPos");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void SiteBossLswordTornadoRoot::sub_710057DD54() {
+    _88 = ksys::Timer(90, 90);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    params.addVec3(*mDestPos_d, "MoveDstPos", -1);
+    params.addInt(0, "RailIndex", -1);
+    params.addBool(false, "IsReturnHome", -1);
+    params.addBool(false, "IsForceWarp", -1);
+    params.addBool(false, "IsPartsActorTgOn", -1);
+    params.addBool(false, "IsPartsWarpEffectSync", -1);
+    changeChild("移動", &params);
 }
 
 }  // namespace uking::ai
