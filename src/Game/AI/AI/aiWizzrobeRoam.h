@@ -36,6 +36,10 @@ protected:
     const float* mHeightOffset_s{};
     // dynamic_param at offset 0x80
     sead::Vector3f* mCentralPos_d{};
+    u32 _88 = 0;
+    u32 _8c = 0;
+    u32 _90 = 1;
 };
+KSYS_CHECK_SIZE_NX150(WizzrobeRoam, 0x98);
 
 }  // namespace uking::ai

@@ -40,6 +40,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x90
     void* mPriestBossMetaAIUnit_a{};
+    bool _98 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossWalkAttack, 0xa0);
 
 }  // namespace uking::ai

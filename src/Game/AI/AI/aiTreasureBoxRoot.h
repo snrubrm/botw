@@ -32,6 +32,10 @@ protected:
     const bool* mIsInGround_m{};
     // map_unit_param at offset 0x70
     const bool* mEnableRevival_m{};
+    bool _78 = false;
+    bool _79 = false;
+    bool _7a = false;
 };
+KSYS_CHECK_SIZE_NX150(TreasureBoxRoot, 0x80);
 
 }  // namespace uking::ai

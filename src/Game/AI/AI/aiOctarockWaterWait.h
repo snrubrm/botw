@@ -32,6 +32,15 @@ protected:
     const float* mMinHeightFromWater_s{};
     // aitree_variable at offset 0x68
     void* mOctarockFormChangeUnit_a{};
+    f32 _70 = 0;
+    f32 _74 = 0;
+    u32 _78 = 0;
+    u32 _7c = 0;
+    f32 _80 = 0;
+    u32 _84 = 0;
+    u32 _88 = 0;
+    f32 _8c = -1.0f;
 };
+KSYS_CHECK_SIZE_NX150(OctarockWaterWait, 0x90);
 
 }  // namespace uking::ai

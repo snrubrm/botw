@@ -29,6 +29,15 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x68
     ksys::act::BaseProcLink* mTerrorEmitter_d{};
+    f32 _70 = 0;
+    bool _74 = false;
+    bool _75 = false;
+    bool _76 = false;
+    bool _77 = false;
+    f32 _78 = 0;
+    f32 _7c = 0;
+    u32 _80 = 0;
 };
+KSYS_CHECK_SIZE_NX150(NPCAlert, 0x88);
 
 }  // namespace uking::ai

@@ -43,6 +43,13 @@ protected:
     const float* mItemDropDeleteScaleOffset_s{};
     // static_param at offset 0x140
     const float* mMinImpulseRatio_s{};
+    f32 _148 = 0;
+    f32 _14c = -100.0f;
+    f32 _150 = 0;
+    f32 _154 = 1.0f;
+    f32 _158 = 0;
+    bool _15c = false;
 };
+KSYS_CHECK_SIZE_NX150(SnowBallNormal, 0x160);
 
 }  // namespace uking::ai

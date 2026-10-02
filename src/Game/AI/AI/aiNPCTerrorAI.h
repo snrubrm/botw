@@ -35,6 +35,11 @@ protected:
     sead::Vector3f* mTargetVel_d{};
     // dynamic_param at offset 0x78
     ksys::act::BaseProcLink* mTerrorEmitter_d{};
+    u32 _80 = 0;
+    u32 _84 = 0;
+    u32 _88 = 0;
+    u32 _8c = 0;
 };
+KSYS_CHECK_SIZE_NX150(NPCTerrorAI, 0x90);
 
 }  // namespace uking::ai

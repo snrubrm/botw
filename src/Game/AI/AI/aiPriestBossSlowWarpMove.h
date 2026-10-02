@@ -34,6 +34,18 @@ protected:
     sead::Vector3f* mAfterImage0Pos_d{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mAfterImage1Pos_d{};
+    u32 _80 = 0;
+    u32 _84 = 0;
+    u32 _88 = 0;
+    u32 _8c = 0;
+    u32 _90 = 0;
+    u32 _94 = 0;
+    u32 _98 = 0;
+    u32 _9c = 0;
+    u32 _a0 = 0;
+    u32 _a4 = 0;
+    bool _a8 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossSlowWarpMove, 0xb0);
 
 }  // namespace uking::ai

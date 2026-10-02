@@ -34,6 +34,21 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mOldTargetPos_d{};
+    f32 _78 = 0;
+    u32 _7c = 0;
+    u32 _80 = 0;
+    u32 _84 = 0;
+    f32 _88 = 0;
+    bool _8c = false;
+    u8 _8d[0x9c - 0x8d];
+    u32 _9c;
+    u32 _a0;
+    u32 _a4;
+    f32 _a8;
+    f32 _ac;
+    u32 _b0;
+    u8 _b4[0xc0 - 0xb4];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordApproachRoot, 0xc0);
 
 }  // namespace uking::ai
