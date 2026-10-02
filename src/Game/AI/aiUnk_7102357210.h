@@ -124,6 +124,32 @@ public:
     void m3() override {}
 };
 
+// vtable 0x71023fc5a0 (HorseRideTurn; m2 handles message type 0x3800025)
+class Unk_71023fc5a0 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800025)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
+// vtable 0x71023fc5d0 (HorseRideTurn; m2 handles message type 0x3800026)
+class Unk_71023fc5d0 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800026)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
 // vtable 0x7102450a98 (EnemyRecognizeTargetBase; m2 handles message type 0x8000029 and copies two
 // links from a lock-guarded user data struct)
 class Unk_7102450a98 : public Unk_7102357210 {
