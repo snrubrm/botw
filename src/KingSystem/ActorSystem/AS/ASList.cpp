@@ -17,6 +17,19 @@ bool ASList::sub_710115AA68(const sead::SafeString& name) {
     return sub_710115AABC(name, &out_name, &a3, &a4, true) != nullptr;
 }
 
+// NON_MATCHING: the original reloads _163 after zeroing _68/_74 (its stores may alias the flag byte there,
+// e.g. if the flag is not a plain member) and allocates the zero vector in different registers
+const sead::Vector3f& ASList::sub_710115D2D4() {
+    if (!(_163 & 1)) {
+        _68 = sead::Vector3f::zero;
+        _74 = sead::Vector3f::zero;
+        for (int i = 0, n = mSlots.size(); i < n; ++i)
+            mSlots[i].sub_7101164F3C(&_68, &_74, &_14);
+        _163 |= 1;
+    }
+    return _68;
+}
+
 bool ASList::x_6(int kind, int a2, f32 value) {
     const s8 idx = _f0[kind];
     if (idx < 0)
