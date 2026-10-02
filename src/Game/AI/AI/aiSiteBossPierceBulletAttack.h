@@ -20,6 +20,7 @@ public:
     void m40() override;
     void m41() override;
     s32 m44() override;
+    void m50(ksys::act::BaseProc* proc, s32 idx) override;
 
 protected:
     bool _338 = false;

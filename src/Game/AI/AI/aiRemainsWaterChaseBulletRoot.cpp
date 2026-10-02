@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -30,6 +35,18 @@ void RemainsWaterChaseBulletRoot::loadParams_() {
     getStaticParam(&mLowDamageAddSpd_s, "LowDamageAddSpd");
     getStaticParam(&mShootAddSpd_s, "ShootAddSpd");
     getStaticParam(&mResetASName_s, "ResetASName");
+}
+
+void RemainsWaterChaseBulletRoot::sub_710054AAD8() {
+    auto* actor = mActor;
+    sub_71007A2D7C(actor, "BulletAtk");
+    sub_71007A3634(actor, "BulletTgt");
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName(*sub_71007A2548())) {
+            if (auto* body = set->findBodyByHavokName("PlayerSensor"))
+                body->removeFromWorld();
+        }
+    }
 }
 
 }  // namespace uking::ai

@@ -35,7 +35,11 @@ public:
     virtual void m46(sead::Vector3f* out);
     virtual bool m47();
     virtual bool m48();
-    // Slots 49..52 (and 53 in SiteBossReflectArrowRoot) are not declared yet (argument types unknown).
+    // 0x710058823c (4.9 KB, not decompiled; the argument is read as a position).
+    virtual void m49(const sead::Vector3f& pos);
+    // 0x71005879f4: SiteBoss `_1560` method 0x710066dabc(proc, idx) (not decompiled).
+    virtual void m50(ksys::act::BaseProc* proc, s32 idx);
+    // Slots 51..52 (and 53 in SiteBossReflectArrowRoot) are not declared yet (types unknown).
 
     bool sub_7100588164(bool a1);
 

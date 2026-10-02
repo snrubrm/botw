@@ -54,4 +54,9 @@ s32 SiteBossPierceBulletAttack::m44() {
     return 12;
 }
 
+void SiteBossPierceBulletAttack::m50(ksys::act::BaseProc* proc, s32 idx) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1560.sub_710066DB98(proc, idx);
+}
+
 }  // namespace uking::ai
