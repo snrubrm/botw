@@ -247,6 +247,8 @@ public:
     void sub_7100877BD8();
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
+    // 0x71008697e4: clears _20bc / _20c0 and the character controller velocity.
+    void sub_71008697E4();
     f32 getStatusEffectSpeed();                                         // 0x869a8c
     void actionCommon();                                                // 0x86aa94
     bool isSurfingOnGround() const;                                     // 0x87f290
@@ -264,6 +266,9 @@ public:
     void x_38();                                                        // 0x88d564
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
     s32 playerWeapons_return0();
+    // 0x7100892100: sets the character controller velocity towards `pos` (from _1770, scaled by
+    // 30 / _20f0) and its matrix to _1b18 (ladder actions).
+    void sub_7100892100(const sead::Vector3f& pos);
     void x_40();                                                        // 0x8922cc
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18

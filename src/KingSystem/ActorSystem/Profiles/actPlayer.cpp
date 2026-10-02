@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace ksys::act {
 
@@ -48,8 +49,26 @@ void Player::sub_7100877BD8() {
     _1c68 = (x_5().value + angle) & util::sUnk_7101EC6BA0;
 }
 
+void Player::sub_71008697E4() {
+    _20bc = 0;
+    _20c0 = 0;
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+}
+
 s32 Player::playerWeapons_return0() {
     return 0;
+}
+
+// NON_MATCHING: load order / register allocation of the velocity components
+void Player::sub_7100892100(const sead::Vector3f& pos) {
+    auto* controller = getCharacterController();
+    if (!controller)
+        return;
+    const f32 factor = 1.0f / _20f0;
+    const sead::Vector3f velocity = (pos - _1770) * 30.0f * factor;
+    controller->sub_7100F5F6FC(velocity);
+    controller->sub_7100F5FC8C(_1b18);
 }
 
 }  // namespace ksys::act

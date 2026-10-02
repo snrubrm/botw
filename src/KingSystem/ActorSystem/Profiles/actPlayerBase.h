@@ -322,7 +322,8 @@ protected:
     /* 0x16ac */ u8 _16ac[0x1700 - 0x16ac];
     /* 0x1700 */ sead::CriticalSection _1700;
     /* 0x1740 */ sead::Matrix34f _1740;
-    /* 0x1770 */ u8 _1770[0x17a0 - 0x1770];
+    /* 0x1770 */ sead::Vector3f _1770;  // a position (Player::sub_7100892100)
+    /* 0x177c */ u8 _177c[0x17a0 - 0x177c];
     /* 0x17a0 */ sead::Vector3f _17a0;
     /* 0x17ac */ u8 _17ac[0x17f0 - 0x17ac];
 };
