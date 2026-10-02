@@ -103,7 +103,8 @@ public:
         struct Unk1 : Struct8Base {
             Unk1();
 
-            /* 0x50 */ void* _50 = nullptr;
+            /* 0x50 */ s32 _50 = 0;
+            /* 0x54 */ u32 _54 = 0;
             /* 0x58 */ u8 _58[0x88 - 0x58];
             /* 0x88 */ u32 _88 = 0;
             /* 0x8c */ u32 _8c = 0;
@@ -118,8 +119,7 @@ public:
             /* 0xb0 */ void* _b0 = nullptr;
             /* 0xb8 */ s32 _b8 = 1;
             /* 0xbc */ s32 _bc = -1;
-            /* 0xc0 */ u32 _c0 = 0;
-            /* 0xc4 */ u32 _c4 = 0;
+            /* 0xc0 */ phys::RigidBody* _c0 = nullptr;
             /* 0xc8 */ u32 _c8 = 0;
             /* 0xcc */ u32 _cc = 0;
             /* 0xd0 */ u32 _d0 = 53;  // ContactLayer SensorNoHit?
@@ -127,12 +127,6 @@ public:
             /* 0xe8 */ BaseProcLink _e8;
             /* 0xf8 */ s32 _f8 = -1;
             /* 0xfc */ bool _fc = false;
-        struct Unk1 {
-            u8 _0[0x50];
-            s32 _50;
-            u8 _54[0xc0 - 0x54];
-            phys::RigidBody* _c0;
-            u8 _c8[0x100 - 0xc8];
         };
         KSYS_CHECK_SIZE_NX150(Unk1, 0x100);
 

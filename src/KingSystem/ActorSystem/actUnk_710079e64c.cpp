@@ -9,7 +9,8 @@ void ActorAtk::Unk_710079e64c::sub_71007A124C() {
     for (int i = 0; i < mNum; ++i) {
         auto& entry = mEntries[i];
         entry.resetFlags();
-        entry._50 = nullptr;
+        entry._50 = 0;
+        entry._54 = 0;
         entry._fc = false;
         entry._d8.reset();
         entry._e8.reset();
