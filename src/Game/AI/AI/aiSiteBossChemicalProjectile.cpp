@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -99,6 +100,11 @@ u32 SiteBossChemicalProjectile::m50() {
 
 u32 SiteBossChemicalProjectile::m51() {
     return 4;
+}
+
+void SiteBossChemicalProjectile::m52(ksys::phys::RigidBody* body) {
+    sub_71007A2B64(body, nullptr);
+    sub_71007A2EB0(body, mActor, nullptr);
 }
 
 void SiteBossChemicalProjectile::m53(ksys::phys::RigidBody* body) {
