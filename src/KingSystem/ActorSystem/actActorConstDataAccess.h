@@ -149,6 +149,8 @@ public:
                         const res::AttCheck_Unk1* arg, bool a4) const;
     // 0x7100d10448: the physics instance set's system group handler `idx` (0 / 1).
     phys::SystemGroupHandler* sub_7100D10448(s32 idx) const;
+    // 0x7100d103a0 (CSV act::acc::Actor::x): the physics instance set's handler _188[idx] (0 / 1).
+    phys::SystemGroupHandler* x(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
 

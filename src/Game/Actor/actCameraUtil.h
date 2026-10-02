@@ -133,9 +133,14 @@ class BaseProcLink;
 class PlayerBase;
 }  // namespace ksys::act
 
+namespace ksys::phys {
+class SystemGroupHandler;
+}
+
 namespace uking::act {
 class Camera;
-}
+class Unk_71009214b8;
+}  // namespace uking::act
 
 // Camera math helpers (TU 0x7100924be4-).
 // 0x7100924be4: acquires the player (PlayerInfo's player link) into `accessor`.
@@ -181,6 +186,13 @@ f32 sub_710092523C(f32 exponent, f32 t);
 bool sub_7100926430(const sead::Vector3f& pos, int count, f32* out, f32 a4, f32 a5, f32 a6);
 // 0x71009269f8: sub_7100926430(pos, 3, out, 1, 1, 5).
 bool sub_71009269F8(const sead::Vector3f& pos, f32* out);
+// 0x7100925654: collision check of the camera state `state` against `prev` (sphere cast; `handler`
+// is the system group handler of an actor to ignore); true if it was hit.
+bool sub_7100925654(uking::act::Unk_71009214b8* state, const uking::act::Unk_71009214b8& prev,
+                    ksys::phys::SystemGroupHandler* handler);
+// 0x7100926210: the look-at position of the actor (acc::PlayerBase::getLookAtPosForCamera for the
+// player, else getPreviousPos2); false (out unchanged) if it is NaN / infinite.
+bool sub_7100926210(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
 // 0x7100926a14 / 0x7100926a2c: PlayerInfo::getPlayer() / getPlayer_() (null without PlayerInfo).
 ksys::act::PlayerBase* sub_7100926A14();
 ksys::act::PlayerBase* sub_7100926A2C();

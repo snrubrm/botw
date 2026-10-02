@@ -85,3 +85,5 @@ private:
 // `flow` / `entry` (either may be null).
 void getActiveEventFlowPath_0(ksys::act::Actor* actor, sead::BufferedSafeString* flow,
                               sead::BufferedSafeString* entry);
+// 0x7100dc8838 (CSV name): copies "<flow><entry>" of the active event for `actor` into `path`.
+void getActiveEventFlowPath(ksys::act::Actor* actor, sead::BufferedSafeString* path);
