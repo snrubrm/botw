@@ -20,6 +20,8 @@ public:
 protected:
     // aitree_variable at offset 0x160
     void* mBeamActorLink_a{};
+    void* _168{};
 };
+KSYS_CHECK_SIZE_NX150(BeamosCarried, 0x170);
 
 }  // namespace uking::ai

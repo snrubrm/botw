@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiAddCarriedBase.h"
+#include "Game/AI/aiUnk_7102450058.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,10 +18,12 @@ public:
     void loadParams_() override;
 
 protected:
+    Unk_710244ed58 _c0;
     // static_param at offset 0x138
     sead::SafeString mMyNode_s{};
     // static_param at offset 0x148
     const sead::Vector3f* mNodeRotOffset_s{};
 };
+KSYS_CHECK_SIZE_NX150(AddNodeNodeCarried, 0x150);
 
 }  // namespace uking::ai

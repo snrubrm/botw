@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiAddCarriedBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::act::ModelBindInfo _c0;
 };
+KSYS_CHECK_SIZE_NX150(AddCarried, 0x160);
 
 }  // namespace uking::ai

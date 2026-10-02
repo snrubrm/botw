@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102450058.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -27,6 +28,9 @@ protected:
     const bool* mIsUseConstraint_s{};
     // static_param at offset 0x50
     sead::SafeString mHoldOnXLinkKey_s{};
+    u32 _60 = 0;
+    Unk_7102450298 _68{mActor};
 };
+KSYS_CHECK_SIZE_NX150(AddCarriedBase, 0xc0);
 
 }  // namespace uking::ai
