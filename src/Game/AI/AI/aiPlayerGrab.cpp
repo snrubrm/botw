@@ -18,6 +18,22 @@ void PlayerGrab::leave_() {
 
 void PlayerGrab::loadParams_() {}
 
+bool PlayerGrab::isFinished() const {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("投げ") || isCurrentChild("立ち上がり"))
+            return true;
+        if (getCurrentChild()->isFailed()) {
+            if (isCurrentChild("準備") || isCurrentChild("持上げ"))
+                return true;
+        } else if (getCurrentChild()->isFinished()) {
+            if (isCurrentChild("持上げ"))
+                return true;
+        }
+    }
+    return false;
+}
+
 bool PlayerGrab::isChangeable() const {
     if (getCurrentChild()->isChangeable()) {
         if (isCurrentChild("投げ") || isCurrentChild("立ち上がり"))

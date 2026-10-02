@@ -22,4 +22,14 @@ void PlayerSwim::loadParams_() {
     getStaticParam(&mEnableHeight_s, "EnableHeight");
 }
 
+bool PlayerSwim::isChangeable() const {
+    if (getCurrentChild()->isChangeable()) {
+        if (isCurrentChild("泳ぎ待機") || isCurrentChild("泳ぎ移動") || isCurrentChild("泳ぎダッシュ") ||
+            isCurrentChild("スピンアタック")) {
+            return true;
+        }
+    }
+    return false;
+}
+
 }  // namespace uking::ai
