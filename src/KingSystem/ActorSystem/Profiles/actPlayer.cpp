@@ -60,6 +60,32 @@ s32 Player::playerWeapons_return0() {
     return 0;
 }
 
+s32 Player::playerWeapons_return1() {
+    return 1;
+}
+
+s32 Player::playerWeapons_return2() {
+    return 2;
+}
+
+bool playerIsReloadingBow(Player* player) {
+    return player->getASList()->x_1(1, 1) == "BowReload" ||
+           player->getASList()->x_1(1, 1) == "SquatBowReload" ||
+           player->getASList()->x_1(0, 0) == "WallBowReloadL" ||
+           player->getASList()->x_1(0, 0) == "WallBowReloadR";
+}
+
+bool playerIsChargingBow(Player* player) {
+    return player->getASList()->x_1(1, 1) == "BowCharge" ||
+           player->getASList()->x_1(1, 1) == "SquatBowCharge" ||
+           player->getASList()->x_1(0, 0) == "WallBowChargeL" ||
+           player->getASList()->x_1(0, 0) == "WallBowChargeR";
+}
+
+bool playerIsReloadingOrChargingOrShootingBow(Player* player) {
+    return playerIsReloadingBow(player) || playerIsChargingBow(player) || player->isShootingBow();
+}
+
 // NON_MATCHING: load order / register allocation of the velocity components
 void Player::sub_7100892100(const sead::Vector3f& pos) {
     auto* controller = getCharacterController();

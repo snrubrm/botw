@@ -2,6 +2,7 @@
 
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -252,6 +253,12 @@ public:
     f32 getStatusEffectSpeed();                                         // 0x869a8c
     void actionCommon();                                                // 0x86aa94
     bool isSurfingOnGround() const;                                     // 0x87f290
+    // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
+    bool isShootingBow() const {
+        return getASList()->x_1(1, 1) == "BowShoot" || getASList()->x_1(1, 1) == "SquatBowShoot" ||
+               getASList()->x_1(0, 0) == "WallBowShootL" ||
+               getASList()->x_1(0, 0) == "WallBowShootR";
+    }
     bool stillAlive();                                                  // 0x884510
     bool x_44();                                                        // 0x885090
     void x_34(f32 value, bool a2);                                      // 0x885bb4
@@ -266,6 +273,9 @@ public:
     void x_38();                                                        // 0x88d564
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
     s32 playerWeapons_return0();
+    // 0x8883b0 / 0x881ff8 (CSV playerWeapons_return1 / _return2): weapon slot indices 1 / 2.
+    s32 playerWeapons_return1();
+    s32 playerWeapons_return2();
     // 0x7100892100: sets the character controller velocity towards `pos` (from _1770, scaled by
     // 30 / _20f0) and its matrix to _1b18 (ladder actions).
     void sub_7100892100(const sead::Vector3f& pos);
@@ -352,5 +362,11 @@ public:
     /* 0x2ca8 */ u8 _2ca8[0x2ec0 - 0x2ca8];
 };
 KSYS_CHECK_SIZE_NX150(Player, 0x2ec0);
+
+// 0x8777b8 / 0x8779c8 / 0x882178 (CSV names): checks of the player's current AS (bow reload / charge /
+// reload, charge or shoot).
+bool playerIsReloadingBow(Player* player);
+bool playerIsChargingBow(Player* player);
+bool playerIsReloadingOrChargingOrShootingBow(Player* player);
 
 }  // namespace ksys::act
