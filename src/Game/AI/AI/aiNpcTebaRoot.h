@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiMessage3DText.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -13,6 +15,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message& message) override;
     void loadParams_() override;
 
 protected:
@@ -22,6 +25,13 @@ protected:
     const float* mApproachPlayerHeight_s{};
     // static_param at offset 0x48
     const float* mShowMessageDoDist_s{};
+    // set by message 0x800000e
+    bool _50 = false;
+    bool _51 = false;
+    ksys::Timer _54;
+    ksys::Timer _60;
+    Message3DText _70;
 };
+KSYS_CHECK_SIZE_NX150(NpcTebaRoot, 0x148);
 
 }  // namespace uking::ai

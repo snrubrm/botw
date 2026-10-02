@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,15 @@ void NpcTebaRoot::leave_() {
         controller->sub_7100F5F6FC(sead::Vector3f::zero);
         controller->sub_7100F5FB24(sead::Vector3f::zero);
     }
+}
+
+// NON_MATCHING: the original null-checks the message reference (`cbz x1`; see lane2 log s16)
+bool NpcTebaRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType() == 0x800000e) {
+        _50 = true;
+        return true;
+    }
+    return false;
 }
 
 void NpcTebaRoot::loadParams_() {
