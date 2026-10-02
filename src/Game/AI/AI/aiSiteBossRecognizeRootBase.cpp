@@ -9,6 +9,8 @@
 
 namespace uking::ai {
 
+bool sUnk_71025ba278 = false;
+
 SiteBossRecognizeRootBase::SiteBossRecognizeRootBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 SiteBossRecognizeRootBase::~SiteBossRecognizeRootBase() = default;
@@ -83,6 +85,65 @@ void SiteBossRecognizeRootBase::m39(sead::Vector3f* pos) {
         *pos = sub_71005D9330(actor);
     else
         *pos = getPlayerPosition();
+}
+
+void SiteBossRecognizeRootBase::siteBossStuff() {
+    sead::DynamicCast<act::LastBoss>(mActor);
+    ksys::act::ai::InlineParamPack params;
+    m38(&params);
+    ++_64;
+    changeChild("戦闘", &params);
+}
+
+void SiteBossRecognizeRootBase::sub_7100478B7C() {
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f target_pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        target_pos = link && link->hasProc() && ksys::act::isPlayerProfile(link) ?
+                         sub_71005D9330(actor) :
+                         getPlayerPosition();
+    }
+    params.addVec3(target_pos, "TargetPos", -1);
+    changeChild("気付く", &params);
+}
+
+bool SiteBossRecognizeRootBase::m35() {
+    if (!sub_710072B8E4())
+        return false;
+    const sead::Vector3f player_pos = getPlayerPosition();
+    return (mActor->getMtx().getTranslation() - player_pos).length() >= *mWarpStartDist_s;
+}
+
+// NON_MATCHING: sUnk_71025ba278 is reached through the GOT here (the original addresses it directly:
+// a TU-local object that is never written, yet not folded); getU32 argument order as in enter_
+void SiteBossRecognizeRootBase::m40() {
+    if (sUnk_71025ba278) {
+        _64 = 0;
+        _60 = *mAttackNum_s + sead::GlobalRandom::instance()->getU32(*mAttackRandNum_s + 1);
+        siteBossStuff();
+        return;
+    }
+
+    m37();
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f target_pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        target_pos = link && link->hasProc() && ksys::act::isPlayerProfile(link) ?
+                         sub_71005D9330(actor) :
+                         getPlayerPosition();
+    }
+    params.addVec3(target_pos, "TargetPos", -1);
+    params.addBool(false, "IsReturnHome", -1);
+    params.addBool(false, "IsForceWarp", -1);
+    params.addBool(false, "IsPartsActorTgOn", -1);
+    changeChild("ワープ移動", &params);
+}
+
+// NON_MATCHING: sUnk_71025ba278 through the GOT (see m40)
+bool SiteBossRecognizeRootBase::m41() {
+    return sUnk_71025ba278;
 }
 
 }  // namespace uking::ai

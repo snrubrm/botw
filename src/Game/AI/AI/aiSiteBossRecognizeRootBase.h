@@ -41,6 +41,9 @@ protected:
     s32 _60 = 0;
     s32 _64 = 0;
 };
+
+// 0x71025ba278: read by m40 / m41, never written (a debug switch?). Placeholder name.
+extern bool sUnk_71025ba278;
 KSYS_CHECK_SIZE_NX150(SiteBossRecognizeRootBase, 0x68);
 
 }  // namespace uking::ai

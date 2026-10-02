@@ -131,3 +131,7 @@ bool isSlowTimeMaybe();
 // 0x710072b7c4 (declared only): acc::PlayerBase::x_40() on the PlayerInfo's player link (false
 // without PlayerInfo). Placeholder name.
 bool sub_710072B7C4();
+
+// 0x710072b8e4 (declared only): tail call to 0x710084d068 (whether PlayerInfo exists and its player
+// link (+0x68) has a proc). Placeholder name.
+bool sub_710072B8E4();
