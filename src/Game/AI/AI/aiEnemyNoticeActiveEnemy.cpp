@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyNoticeActiveEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -42,6 +43,18 @@ bool EnemyNoticeActiveEnemy::isFinished() const {
     if (isCurrentChild("行動"))
         return getCurrentChild()->isFinished();
     return false;
+}
+
+void EnemyNoticeActiveEnemy::m34() {
+    if (isCurrentChild("気づき")) {
+        ksys::act::ActorConstDataAccess acc;
+        ksys::act::acquireActor(mTargetActor_d, &acc);
+        sead::Vector3f pos;
+        acc.getActorMtx().getTranslation(pos);
+        sub_71005DB1D8(mActor, pos);
+    } else {
+        sub_71005DB3EC(mActor);
+    }
 }
 
 }  // namespace uking::ai
