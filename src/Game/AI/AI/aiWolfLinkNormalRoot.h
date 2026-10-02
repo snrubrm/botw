@@ -41,6 +41,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // static_param at offset 0x38
@@ -66,9 +67,7 @@ protected:
     Unk_7102432a80 _140;
     sead::Vector3f _178 = {0, 0, 0};
     sead::Vector3f _184 = {0, 0, 0};
-    f32 _190 = 0;
-    f32 _194 = 0;
-    f32 _198 = 0;
+    sead::Vector3f _190 = {0, 0, 0};
     sead::Vector3f _19c = {0, 0, 0};
     s32 _1a8 = 0;
     s32 _1ac = 4;

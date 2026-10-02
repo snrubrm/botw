@@ -1,7 +1,10 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::act {
 
@@ -28,9 +31,14 @@ public:
     void m156() override;
     void getBaseAtkPower() override;
 
+    // Index type of _14f8 (19 values; no text in the executable, names unknown).
+    SEAD_ENUM(Idx14f8, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16,
+              _17, _18)
+
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)
-    /* 0x14f8 */ u8 _14f8[0x15e0 - 0x14f8];  // zero-initialised (memset)
+    /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)
+    /* 0x15dc */ u32 _15dc;
     /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];  // object with vtable (GOT 0x7102584a68)
     /* 0x1608 */ u8 _1608[0x1618 - 0x1608];  // buffer (count, pointer) of 0x28-byte entries
                                              // with a BaseProcLink at +0x10; freed in preDelete2_

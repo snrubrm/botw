@@ -15,6 +15,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::act {
 
@@ -242,8 +243,8 @@ public:
     /* 0xe60 */ u32 _e60 = 0;
     /* 0xe64 */ u8 _e64 = 0;
     /* 0xe65 */ u8 _e65 = 0;
-    /* 0xe68 */ void* _e68 = nullptr;
-    /* 0xe70 */ void* _e70 = nullptr;
+    /* 0xe68 */ ksys::Timer _e68;
+    /* 0xe74 */ u32 _e74 = 0;
     /* 0xe78 */ void* _e78 = nullptr;
     /* 0xe80 */ u16 _e80 = 0;
     /* 0xe82 */ u16 _e82 = 0;

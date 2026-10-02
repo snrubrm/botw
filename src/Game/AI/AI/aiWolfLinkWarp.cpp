@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiWolfLinkWarp.h"
 #include "Game/Actor/actWolfLink.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -12,8 +14,20 @@ bool WolfLinkWarp::init_(sead::Heap* heap) {
     return _a8 != nullptr;
 }
 
+// NON_MATCHING: the original's enum temporaries share one stack slot with the InlineParamPack
+// (they have lifetime markers, as inlined by-value parameters would) and _a8 is loaded first
 void WolfLinkWarp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _8c = ksys::Timer(*mTransitFrames_s, *mTransitFrames_s);
+    _98 = ksys::Timer(*mFramesUntilFail_s, *mFramesUntilFail_s);
+    _c0.makeAllZero();
+    _c0.setBit(Flag(Flag::_0));
+    using Idx = act::WolfLink::Idx14f8;
+    if (!(_a8->_14f8[Idx(Idx::_10)].value <= sead::Mathf::epsilon()))
+        _c0.setBit(Flag(Flag::_1));
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
+    changeChild("ワープ前", &pack);
 }
 
 void WolfLinkWarp::leave_() {

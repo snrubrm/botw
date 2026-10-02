@@ -1,0 +1,14 @@
+#pragma once
+
+namespace ksys::act {
+class Actor;
+}
+
+namespace uking::dmg {
+class DamageManager;
+}
+
+// Unnamed free function (0x710072BA90, CSV placeholder "Actor::getDamageMgrDerived"; its neighbours
+// are getPlayerPosition / PlayerInfo::getSomeProcLink): the actor's damage manager if it is a
+// uking::dmg::DamageManager.
+uking::dmg::DamageManager* sub_710072BA90(ksys::act::Actor* actor);

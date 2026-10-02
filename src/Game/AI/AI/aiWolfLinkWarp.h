@@ -2,6 +2,7 @@
 
 #include <limits>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -18,6 +19,9 @@ namespace uking::ai {
 class WolfLinkWarp : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkWarp, ksys::act::ai::Ai)
 public:
+    // Bit indices of _c0 (names unknown).
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8)
+
     explicit WolfLinkWarp(const InitArg& arg);
     ~WolfLinkWarp() override;
 
