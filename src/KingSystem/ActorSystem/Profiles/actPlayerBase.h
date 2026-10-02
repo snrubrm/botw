@@ -380,6 +380,8 @@ public:
     bool m212() const;
     bool m190() const;
     bool x_20() const;
+    // 0x710084de94 (CSV name; declared only).
+    bool x_21() const;
     bool x_22() const;
     f32 getStopTimerReloadTime() const;
     f32 getStopTimerBlowAngle() const;

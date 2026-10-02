@@ -294,6 +294,24 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71009214b8, 0x38);
 
+// Placeholder name (out-of-line ctor 0x71008a45f0, TU 0x71008a45f0-0x71008a4ad4; not in a camera TU):
+// a rotation smoother starting with two rotation matrices (both set to Matrix33f::ident by the ctor;
+// sub_7100925110 is called on _0). Members after _24 are untyped.
+class Unk_71008a45f0 {
+public:
+    Unk_71008a45f0();
+
+    // 0x71008a4644: resets the matrices to identity if _da is set.
+    void sub_71008A4644();
+
+    /* 0x00 */ sead::Matrix33f _0;
+    /* 0x24 */ sead::Matrix33f _24;
+    /* 0x48 */ u8 _48[0xd8 - 0x48];
+    /* 0xd8 */ u16 _d8;
+    /* 0xda */ u8 _da;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71008a45f0, 0xdc);
+
 // Placeholder name (out-of-line ctors 0x7100922700 (r, a, b) and 0x71009228a8 (vector)): a polar
 // coordinate in degrees: distance, elevation (_4, from the XZ plane towards +Y) and azimuth (_8,
 // around Y from +Z towards +X).
