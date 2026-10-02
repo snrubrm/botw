@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiSiteBossSpearAttackRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -7,7 +11,14 @@ SiteBossSpearAttackRoot::SiteBossSpearAttackRoot(const InitArg& arg) : ksys::act
 SiteBossSpearAttackRoot::~SiteBossSpearAttackRoot() = default;
 
 bool SiteBossSpearAttackRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* model = mActor->getModel())
+        _f0.search(model, "Head");
+    else
+        _f0.getKey().reset();
+    _da = false;
+    _e4 = 0;
+    _e8 = 0;
+    return true;
 }
 
 void SiteBossSpearAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +26,9 @@ void SiteBossSpearAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSpearAttackRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && !boss->_1558.isOnBit(13))
+        changeAS("ForceRepair", false, 0, 0);
 }
 
 void SiteBossSpearAttackRoot::loadParams_() {
@@ -37,6 +50,18 @@ void SiteBossSpearAttackRoot::loadParams_() {
     getStaticParam(&mChaseDist_s, "ChaseDist");
     getStaticParam(&mChaseDistOffset_s, "ChaseDistOffset");
     getDynamicParam(&mIsAttackPatternFixed_d, "IsAttackPatternFixed");
+}
+
+void SiteBossSpearAttackRoot::m34(sead::Vector3f* pos) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* link = sub_71005D9050(actor);
+    if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+        *pos = sub_71005D9330(actor);
+    else
+        *pos = getPlayerPosition();
 }
 
 }  // namespace uking::ai
