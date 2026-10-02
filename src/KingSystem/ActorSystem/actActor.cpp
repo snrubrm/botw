@@ -169,6 +169,18 @@ bool Actor::x_18(sead::Vector3f* out) const {
     return true;
 }
 
+void Actor::setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale) {
+    mMtx = mtx;
+    if (mFieldBodyGroup) {
+        mHomeMtx = phys::System::instance()->getStaticCompoundMgr()->getInvTransformedMatrix(
+            mFieldBodyGroup, mtx);
+    } else {
+        mHomeMtx = mtx;
+    }
+    if (scale)
+        mScale = *scale;
+}
+
 void Actor::getHomeMtx(sead::Matrix34f* mtx) const {
     if (mFieldBodyGroup) {
         *mtx = phys::System::instance()->getStaticCompoundMgr()->getTransformedMatrix(

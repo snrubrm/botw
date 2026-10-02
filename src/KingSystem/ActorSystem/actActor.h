@@ -510,6 +510,9 @@ public:
     void unlinkPlacementObj();
     void setFlag0x40();
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
+    // 0x71011c7378 (CSV name): sets the matrix and the home matrix (relative to the field body
+    // group, if any) and, if given, the scale.
+    void setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale);
     // 0x71011c88f8: sets the translation / rotation (radians) / scale (each optional).
     void sub_71011C88F8(const sead::Vector3f* pos, const sead::Vector3f* rot,
                         const sead::Vector3f* scale);
