@@ -6,6 +6,7 @@
 
 namespace ksys::act {
 class Actor;
+class BoneHandle;
 }
 
 namespace ksys::phys {
@@ -42,6 +43,10 @@ bool sub_71007407F0(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::
 void sub_7100740E04(const sead::Matrix33f& mtx, ksys::phys::CharacterController* controller);
 void sub_7100740E8C(const sead::Matrix33f& mtx, ksys::phys::RigidBody* body);
 void sub_7100740F1C(const sead::Matrix33f& mtx, ksys::act::Actor* actor);
+
+// 0x71007448c0 (declaration only): moves the transform of the bone handle `handle` towards `target` by
+// `ratio` (BoneHandle::_68 / _98 blend). Placeholder name.
+void sub_71007448C0(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio);
 
 // --- Group B ---
 

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkAlwaysForceGetUp.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -17,16 +20,35 @@ bool ForkAlwaysForceGetUp::init_(sead::Heap* heap) {
                 unit->_b0 |= 1;
             }
         }
+        _78.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+        _78.x();
     }
     return true;
 }
 
+// NON_MATCHING: the original keeps &unit->_8 in a callee-saved register and addresses the attach count
+// through it ([x21 + 0xac]); ours addresses it from `unit`
 void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsUseCRBOffsetUnit_s) {
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot)) {
+            if (unit->_b4 <= 0)
+                mActor->boneHandleStuff(&unit->_8, false);
+            ++unit->_b4;
+        }
+    }
+    m32(&_48);
+    mFlags.set(Flag::Changeable);
+    _80 = false;
 }
 
 void ForkAlwaysForceGetUp::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mIsUseCRBOffsetUnit_s) {
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot)) {
+            auto* actor = mActor;
+            if (--unit->_b4 <= 0)
+                actor->sub_71011DA868(&unit->_8);
+        }
+    }
 }
 
 void ForkAlwaysForceGetUp::loadParams_() {
@@ -38,7 +60,37 @@ void ForkAlwaysForceGetUp::loadParams_() {
 }
 
 void ForkAlwaysForceGetUp::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_80) {
+        sub_7100738AA8(mActor, 0.0f);
+        if (*mIsUseCRBOffsetUnit_s) {
+            if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+                unit->_8._68 = sead::Matrix34f::ident;
+        }
+        return;
+    }
+
+    sub_710073FA94(&_54, mActor);
+    _80 = sub_710074006C(&_54, _48, sead::Vector3f::ey, true, *mRotRatio_s, *mRotSpdMax_s,
+                         *mRotSpdMin_s);
+    sub_7100740F1C(_54, mActor);
+    if (*mIsUseCRBOffsetUnit_s) {
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+            sub_71007448C0(&unit->_8, sead::Matrix34f::ident, *mRotRatio_s);
+    }
+}
+
+void ForkAlwaysForceGetUp::m32(sead::Vector3f* dir) {
+    mActor->getMtx().getBase(*dir, 2);
+    const f32 front_y = dir->y;
+    dir->y = 0;
+    const f32 len = dir->normalize();
+    if (len <= sead::Mathf::epsilon() && len >= -sead::Mathf::epsilon()) {
+        mActor->getMtx().getBase(*dir, 1);
+        if (front_y >= 0)
+            dir->negate();
+    } else if (mActor->getMtx()(1, 1) < 0) {
+        dir->negate();
+    }
 }
 
 }  // namespace uking::action

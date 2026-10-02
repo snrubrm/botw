@@ -19,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    // Writes the (unit) direction the actor should turn to (0x7100137... m32, not decompiled).
+    virtual void m32(sead::Vector3f* dir);
 
     // aitree_variable at offset 0x20
     void* mCRBOffsetUnit_a{};
