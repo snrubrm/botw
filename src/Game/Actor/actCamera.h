@@ -23,6 +23,9 @@ namespace uking::act {
 
 class Camera;
 
+// 0x710079be9c (in the Camera TU): idx < 1.
+bool sub_710079BE9C(int idx);
+
 // Placeholder name (vtable 0x7102459dd8: empty D1 0x710079c5a8 and D0 only; out-of-line ctor
 // 0x710079c364): an eased progress value. _14 moves towards 1 by _10 = 1 / (_8 * _c) per frame;
 // _18 = (sin(_14 * pi - pi / 2) + 1) / 2. Camera actions embed or construct them.
@@ -52,6 +55,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7102459dd8, 0x20);
 class Unk_7100791b1c {
 public:
     Unk_7100791b1c();
+
+    // 0x7100791b88: clears the name, _58 = -1 and resets the link.
+    void sub_7100791B88();
 
     /* 0x00 */ sead::FixedSafeString<64> _0;
     /* 0x58 */ s32 _58 = -1;
@@ -126,6 +132,8 @@ public:
     void sub_710079AEE0();
     bool sub_710079B63C(u32 mask) const;
     void sub_710079BC8C();
+    // 0x710079bc98: _240 = _230 and copies the _354 camera state into _39c.
+    void sub_710079BC98();
     void sub_710079BD2C();
     void sub_710079BD5C();
     void sub_710079BD6C(f32 value);
@@ -167,7 +175,7 @@ public:
     /* 0x188 */ f32 _188 = 1.0;
     /* 0x18c */ f32 _18c;  // initialised from a global float constant (1.0)
     /* 0x190 */ f32 _190 = -1.0;
-    /* 0x198 */ void* _198 = nullptr;
+    /* 0x198 */ const f32* _198 = nullptr;  // CameraRoot static param sideOffsetBowCus
     /* 0x1a0 */ sead::Vector3f _1a0 = sead::Vector3f::zero;
     /* 0x1ac */ sead::Vector3f _1ac = sead::Vector3f::zero;
     /* 0x1b8 */ f32 _1b8;  // angleStuff(0)
@@ -177,8 +185,8 @@ public:
     /* 0x1c8 */ s32 _1c8 = 2;
     /* 0x1cc */ u32 _1cc = 0;
     /* 0x1d0 */ Unk_7102459dd8 _1d0;
-    /* 0x1f0 */ void* _1f0 = nullptr;
-    /* 0x1f8 */ void* _1f8 = nullptr;
+    /* 0x1f0 */ const f32* _1f0 = nullptr;  // CameraRoot static param guardianDist
+    /* 0x1f8 */ const f32* _1f8 = nullptr;  // CameraRoot static param guardianAngle
     /* 0x200 */ ksys::act::BaseProcLink _200;
     /* 0x210 */ ksys::act::BaseProcLink _210;
     /* 0x220 */ ksys::act::BaseProcLink _220;
@@ -232,7 +240,9 @@ public:
     /* 0x7e8 */ u32 _7e8 = 0;
     /* 0x7ec */ f32 _7ec;  // angleStuff(0)
     /* 0x7f0 */ sead::SafeArray<f32, 2> _7f0{{-1.0, -1.0}};
-    /* 0x7f8 */ u32 _7f8 = 0;
+    // _7f8 bit 0 is restored from _7fa bit 0 by CameraRoot::m35.
+    /* 0x7f8 */ sead::BitFlag16 _7f8;
+    /* 0x7fa */ sead::BitFlag16 _7fa;
     /* 0x7fc */ Unk_710079b62c _7fc;
     /* 0x800 */ Unk_710079b62c _800;  // masks _7fc in sub_710079B63C
     /* 0x804 */ Unk_710079adc8 _804;
@@ -246,7 +256,10 @@ public:
     /* 0x812 */ u8 _812 = 2;
     /* 0x813 */ u8 _813 = 0;
     /* 0x814 */ u8 _814 = 2;
-    /* 0x815 */ u8 _815[0x81a - 0x815]{};
+    /* 0x815 */ u8 _815[2]{};
+    /* 0x817 */ u8 _817 = 0;  // saturating counter (CameraAction::m41)
+    /* 0x818 */ u8 _818 = 0;
+    /* 0x819 */ u8 _819 = 0;
     /* 0x81a */ u8 _81a = 0;  // selects the _7c0 link (Camera::sub_71007929E0 resets the other one)
     /* 0x81b */ u8 _81b[0x81d - 0x81b]{};
 };
@@ -327,6 +340,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7100928644, 0x18);
 class Camera : public ksys::act::Actor, public Unk_7102459cc0 {
     SEAD_RTTI_OVERRIDE(Camera, ksys::act::Actor)
 public:
+    // 0x7100795e08: copies `src` to `dst` and adjusts dst._24 (in place when they are the same).
+    void sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
 
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
