@@ -19,6 +19,11 @@ public:
     virtual bool m34();
     virtual void m35(bool finished);
     virtual void m36(sead::Vector3f* dir);
+    virtual void m37();
+    virtual void m38(sead::Vector3f* dir, s32 idx);
+    virtual bool m39(const sead::Vector3f& dir);
+
+    bool sub_710056D354(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38
