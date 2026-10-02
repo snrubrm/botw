@@ -1,6 +1,9 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::ai {
 
@@ -15,6 +18,23 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
+
+    // 準備 (aim at m37's position).
+    virtual void m34();
+    // 弾発射 with the next arrow (IgniteActor / ArrowHandle / Index / AtAttr); counts the arrow.
+    virtual void m35();
+    // 終了.
+    virtual void m36();
+    virtual void m37(sead::Vector3f* pos);
+    // Whether all ArrowNum arrows were shot.
+    virtual bool m38();
+    virtual s32 m39();
+    // Creates the arrow actor (ArrowName) with the attack parameters.
+    virtual ksys::act::Actor* m40();
+
+    // 0x710047ca1c (4.3 KB, not decompiled): aims the arm bones at `target`.
+    void sub_710047CA1C(const sead::Vector3f& target);
 
 protected:
     // static_param at offset 0x38
@@ -39,6 +59,18 @@ protected:
     const sead::Vector3f* mReflectOffset_s{};
     // dynamic_param at offset 0x98
     sead::Vector3f* mTargetPos_d{};
+    // Zeroed by the ctor together with the members above.
+    u32 _a0{};  // number of arrows shot (m35 / m38)
+    f32 _a4{};
+    f32 _a8{};
+    f32 _ac{};
+    sead::Quatf _b0;
+    sead::Quatf _c0;
+    f32 _d0 = 0;
+    ksys::act::BoneHandle _d8;
+    ksys::act::BoneHandle _180;
+    gsys::BoneAccessKeyEx _228;
 };
+KSYS_CHECK_SIZE_NX150(LastBossShootNormalArrowRoot, 0x260);
 
 }  // namespace uking::ai

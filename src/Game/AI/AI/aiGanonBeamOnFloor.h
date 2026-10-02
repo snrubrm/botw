@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003e46f0 (not decompiled: calls the unnamed 0x71002c52dc).
+    bool m38() override;
+
 protected:
     // static_param at offset 0x260
     const float* mTurnStartAng_s{};
