@@ -121,4 +121,8 @@ bool EnemyNormal::m54() {
     return isCurrentChild("待機");
 }
 
+bool EnemyNormal::m55() {
+    return isCurrentChild("諦め") || isCurrentChild("見失い");
+}
+
 }  // namespace uking::ai
