@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadObjArray.h>
 #include <container/seadSafeArray.h>
+#include <math/seadMatrix.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -33,7 +34,9 @@ public:
 class Unk_71024dc978 {
     SEAD_RTTI_BASE(Unk_71024dc978)
 public:
-    virtual ~Unk_71024dc978() = default;
+    // The original D1 (0x7100d78244) keeps the vtable store that a defaulted dtor drops; written as
+    // `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
+    virtual ~Unk_71024dc978() { ; }
 };
 
 // Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctor 0x7100d771cc, D1
@@ -61,7 +64,9 @@ public:
     /* 0x48 */ u32 _48 = 0;
     /* 0x4c */ f32 _4c = -1.0;
     /* 0x50 */ u16 _50 = 0;
-    /* 0x52 */ u8 _52[0xa0 - 0x52];
+    /* 0x52 */ u8 _52[0x58 - 0x52];
+    /* 0x58 */ sead::Matrix34f _58;  // passed as a matrix by EnemyCalledAppear::calc_ (sub_71005D8DE8)
+    /* 0x88 */ u8 _88[0xa0 - 0x88];
     /* 0xa0 */ s32 _a0;  // kind (e.g. 2 checked by BeeSwarmNormal::m47)
     /* 0xa4 */ u32 _a4;
     /* 0xa8 */ f32 _a8;  // distance-like value compared by many AI functions

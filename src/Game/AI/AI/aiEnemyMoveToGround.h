@@ -26,7 +26,7 @@ protected:
     // static_param at offset 0x48
     const float* mSearchRadius_s{};
     s32 _50 = 0;
-    ksys::act::Unk_7100d3bc4c _58{mActor};
+    ksys::act::Unk_7100d3bce4 _58{mActor};
     sead::Vector3f _70;
     u32 _7c;
 };

@@ -57,7 +57,7 @@ protected:
     // aitree_variable at offset 0x118
     void* mGolemChemicalController_a{};
     bool _120 = true;
-    ksys::act::Unk_7100d3bc4c _128{mActor};
+    ksys::act::Unk_7100d3bce4 _128{mActor};
     ksys::act::BaseProcLink _140;
 };
 KSYS_CHECK_SIZE_NX150(GolemReaction, 0x150);

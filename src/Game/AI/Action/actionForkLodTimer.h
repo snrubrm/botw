@@ -22,7 +22,7 @@ protected:
 
     // static_param at offset 0x30
     const int* mWaitFrame_s{};
-    ksys::act::Unk_7100d3bc4c _38{mActor};
+    ksys::act::Unk_7100d3bce4 _38{mActor};
 };
 
 }  // namespace uking::action

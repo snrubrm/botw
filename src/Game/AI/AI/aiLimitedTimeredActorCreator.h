@@ -37,7 +37,7 @@ protected:
     sead::SafeString mActorName_m{};
     // aitree_variable at offset 0x70
     void* mGeneratedActorLink_a{};
-    ksys::act::Unk_7100d3bc4c _78{mActor, 1.0f};
+    ksys::act::Unk_7100d3bce4 _78{mActor, 1.0f};
     ksys::act::BaseProcHandle _90;
     sead::Buffer<Unk_7102370e70> _a0;
 };

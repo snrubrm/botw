@@ -49,7 +49,7 @@ protected:
     const float* mRemainsWaterBulletAngle_m{};
     // map_unit_param at offset 0xe8
     const sead::Vector3f* mRemainsWaterBulletOffset_m{};
-    ksys::act::Unk_7100d3bc4c _f0{mActor};
+    ksys::act::Unk_7100d3bce4 _f0{mActor};
     sead::Vector3f _108{0, 1, 0};
     bool _114 = false;
 };
