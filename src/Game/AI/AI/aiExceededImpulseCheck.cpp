@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiExceededImpulseCheck.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,15 @@ bool ExceededImpulseCheck::init_(sead::Heap* heap) {
 
 void ExceededImpulseCheck::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("オフ");
+}
+
+void ExceededImpulseCheck::calc_() {
+    auto* actor = mActor;
+    if (!isCurrentChild("オフ"))
+        return;
+    auto* link = actor->getImpulseBaseProcLink();
+    if (link && link->_10._c > 0 && link->_10._8 > 0)
+        changeChild("オン");
 }
 
 void ExceededImpulseCheck::leave_() {
