@@ -24,8 +24,8 @@ protected:
     const float* mFramesRetryNormalActionAtFailed_s{};
     ksys::MesTransceiverId _48;
     ksys::act::BaseProcLink _60;
-    u32 _70{};
-    u32 _74{};
+    f32 _70{};
+    f32 _74{};
     bool _78 = false;
 };
 

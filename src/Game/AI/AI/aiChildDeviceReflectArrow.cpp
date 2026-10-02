@@ -8,6 +8,12 @@ ChildDeviceReflectArrow::~ChildDeviceReflectArrow() = default;
 
 void ChildDeviceReflectArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     WithoutWeaponArrow::enter_(params);
+    _180 = ksys::Timer(0, 0);
+    _158 = false;
+    _159 = false;
+    _15a = false;
+    _160 = 0;
+    _15c = 0;
 }
 
 void ChildDeviceReflectArrow::loadParams_() {

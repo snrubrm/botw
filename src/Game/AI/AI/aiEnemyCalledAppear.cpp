@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyCalledAppear.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,13 +13,28 @@ bool EnemyCalledAppear::init_(sead::Heap* heap) {
 }
 
 void EnemyCalledAppear::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->sub_7100D7EBE0(1.5f);
+        awareness->enable();
+    }
+    m34();
+}
+
+void EnemyCalledAppear::m34() {
+    changeChild("出現");
 }
 
 void EnemyCalledAppear::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->sub_7100D7EBE0(1.0f);
+        awareness->disable();
+    }
 }
 
 void EnemyCalledAppear::loadParams_() {}
+
+bool EnemyCalledAppear::m35() {
+    return false;
+}
 
 }  // namespace uking::ai

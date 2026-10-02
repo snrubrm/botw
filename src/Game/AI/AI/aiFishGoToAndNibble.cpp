@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFishGoToAndNibble.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void FishGoToAndNibble::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FishGoToAndNibble::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_c0->isAddedToWorld() || _c0->isAddingBodyToWorld())
+        _c0->removeFromWorld();
 }
 
 void FishGoToAndNibble::loadParams_() {

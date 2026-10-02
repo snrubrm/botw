@@ -11,7 +11,11 @@ bool HorseRiddenByEnemyAI::init_(sead::Heap* heap) {
 }
 
 void HorseRiddenByEnemyAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _60.reset();
+    _70 = 0;
+    _74 = -1.0f;
+    _78 = false;
+    changeChild("通常");
 }
 
 void HorseRiddenByEnemyAI::leave_() {

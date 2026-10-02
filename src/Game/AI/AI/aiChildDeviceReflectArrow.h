@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiWithoutWeaponArrow.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -40,8 +41,7 @@ protected:
     u64 _160 = 0;
     u8 _168[0x174 - 0x168];
     sead::Vector3f _174;
-    u64 _180 = 0;
-    u32 _188 = 0;
+    ksys::Timer _180;
 };
 KSYS_CHECK_SIZE_NX150(ChildDeviceReflectArrow, 0x190);
 

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAnimalRoamBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,10 @@ bool AnimalRoamBase::init_(sead::Heap* heap) {
 }
 
 void AnimalRoamBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _a0 = 0;
+    _a4 = true;
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F7604C(0.5f);
 }
 
 void AnimalRoamBase::calc_() {}
