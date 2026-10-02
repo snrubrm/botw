@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBreathAttackEnemyBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -29,6 +31,27 @@ void BreathAttackEnemyBattle::loadParams_() {
     getStaticParam(&mIsDeleteBreath_s, "IsDeleteBreath");
     getStaticParam(&mBreathName_s, "BreathName");
     getStaticParam(&mIsUpdateNoticeState_s, "IsUpdateNoticeState");
+}
+
+ksys::act::BaseProcLink& BreathAttackEnemyBattle::m34() {
+    auto* link = sub_71005D9050(mActor);
+    if (link != nullptr)
+        return *link;
+    return ksys::act::getDummyBaseProcLink();
+}
+
+const sead::Vector3f* BreathAttackEnemyBattle::m35() {
+    return &sub_71005D9330(mActor);
+}
+
+const sead::SafeString& BreathAttackEnemyBattle::m36() {
+    return mBreathName_s;
+}
+
+void BreathAttackEnemyBattle::m41() {}
+
+bool BreathAttackEnemyBattle::m44() {
+    return _90.isProcReady();
 }
 
 }  // namespace uking::ai

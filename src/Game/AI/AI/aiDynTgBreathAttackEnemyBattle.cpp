@@ -28,4 +28,8 @@ void DynTgBreathAttackEnemyBattle::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+ksys::act::BaseProcLink& DynTgBreathAttackEnemyBattle::m34() {
+    return *mTargetActor_d;
+}
+
 }  // namespace uking::ai

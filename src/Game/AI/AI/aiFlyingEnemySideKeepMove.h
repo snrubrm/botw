@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "Game/AI/AI/aiFlyingEnemyKeepMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -20,6 +22,9 @@ public:
 protected:
     // static_param at offset 0x80
     const int* mSideDirType_s{};
+    sead::Vector3f _88;
+    u32 _94;
+    sead::Vector3f _98{0, 0, 0};
 };
 
 }  // namespace uking::ai
