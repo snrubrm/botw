@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+
 protected:
     // static_param at offset 0x38
     const float* mBasePosOffsetFront_s{};

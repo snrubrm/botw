@@ -38,4 +38,8 @@ bool ChildFavoriteSelectorBase::isFailed() const {
     return mActor->getConnectedCalcChild() == nullptr;
 }
 
+bool ChildFavoriteSelectorBase::m34(ksys::act::BaseProc* proc) {
+    return false;
+}
+
 }  // namespace uking::ai

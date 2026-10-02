@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34(ksys::act::BaseProc* proc) override;
+
 protected:
 };
 

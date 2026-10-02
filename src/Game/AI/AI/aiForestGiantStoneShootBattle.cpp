@@ -26,4 +26,8 @@ void ForestGiantStoneShootBattle::loadParams_() {
     getStaticParam(&mShootItemName2_s, "ShootItemName2");
 }
 
+bool ForestGiantStoneShootBattle::m41() {
+    return true;
+}
+
 }  // namespace uking::ai

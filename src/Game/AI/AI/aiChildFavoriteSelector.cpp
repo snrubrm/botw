@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChildFavoriteSelector.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,10 @@ void ChildFavoriteSelector::leave_() {
 
 void ChildFavoriteSelector::loadParams_() {
     ChildFavoriteSelectorBase::loadParams_();
+}
+
+bool ChildFavoriteSelector::m34(ksys::act::BaseProc* proc) {
+    return sub_710073A010(mActor, proc);
 }
 
 }  // namespace uking::ai

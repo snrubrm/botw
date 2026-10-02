@@ -67,9 +67,9 @@ public:
     virtual s32 m53() { return 9; }
     virtual void m54();
     virtual void m55();
-    virtual void m56();
+    virtual bool m56() { return false; }
     virtual void m57();
-    virtual void m58();
+    virtual void m58() {}
     virtual void m59();
     virtual void m60();
     virtual void m61();

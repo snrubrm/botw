@@ -23,4 +23,12 @@ void ItemRoot::loadParams_() {
     getMapUnitParam(&mInitMotionStatus_m, "InitMotionStatus");
 }
 
+void ItemRoot::m34() {
+    m35();
+}
+
+void ItemRoot::m35() {
+    changeChild("通常");
+}
+
 }  // namespace uking::ai

@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34(ksys::act::BaseProc* proc);
+
 protected:
     // static_param at offset 0x38
     const bool* mIsNoChildForceEnd_s{};

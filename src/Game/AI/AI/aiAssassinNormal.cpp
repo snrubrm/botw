@@ -29,4 +29,8 @@ void AssassinNormal::loadParams_() {
     LandHumEnemyNormal::loadParams_();
 }
 
+s32 AssassinNormal::m53() {
+    return 12;
+}
+
 }  // namespace uking::ai

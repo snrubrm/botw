@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m41() override;
+
 protected:
     // static_param at offset 0xb0
     const int* mShootItemRate1_s{};

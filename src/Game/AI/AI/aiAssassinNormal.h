@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    s32 m53() override;
+
 protected:
     ksys::act::BaseProcLink _400;
     sead::Vector3f _410;
