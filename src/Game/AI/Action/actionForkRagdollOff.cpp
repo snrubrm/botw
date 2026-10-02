@@ -16,6 +16,8 @@ bool ForkRagdollOff::init_(sead::Heap* heap) {
             unit->_b0 |= 1;
         }
     }
+    _30.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+    _30.x();
     return true;
 }
 

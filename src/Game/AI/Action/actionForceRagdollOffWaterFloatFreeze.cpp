@@ -19,6 +19,8 @@ bool ForceRagdollOffWaterFloatFreeze::init_(sead::Heap* heap) {
             unit->_b0 |= 1;
         }
     }
+    _80.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+    _80.x();
     return true;
 }
 

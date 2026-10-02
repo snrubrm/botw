@@ -16,6 +16,8 @@ bool Freeze::init_(sead::Heap* heap) {
             unit->_b0 |= 1;
         }
     }
+    _68.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
+    _68.x();
     return true;
 }
 
