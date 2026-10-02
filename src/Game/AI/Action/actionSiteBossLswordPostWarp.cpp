@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionSiteBossLswordPostWarp.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -27,8 +32,30 @@ void SiteBossLswordPostWarp::loadParams_() {
     getStaticParam(&mCancelSleepPartsName_s, "CancelSleepPartsName");
 }
 
+// NON_MATCHING: stack slot of the MessageType temporary (sp + 4 in the original)
 void SiteBossLswordPostWarp::calc_() {
     LastBossPostNormalWarp::calc_();
+    if (!sub_71005DD780(mActor, 0x3b, nullptr, 0, 0))
+        return;
+
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || mCancelSleepPartsName_s.isEmpty() || !checkHpRate(boss, 0.5f))
+        return;
+    if (*mIsKeepDisableDraw_d || *mIsPartsActorTgOn_d || boss->_1558.isOn(0x80000))
+        return;
+    if (!boss->_1128.getActorPartsActor(mCancelSleepPartsName_s).hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&boss->_1128.getActorPartsActor(mCancelSleepPartsName_s), &accessor);
+    if (accessor.isStateSleep()) {
+        accessor.setProperties(boss->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
+        if (!mActor->getConnectedCalcChild()) {
+            accessor.setThisActorAsChild(mActor, false);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000002),
+                                nullptr, true);
+        }
+    }
 }
 
 }  // namespace uking::action
