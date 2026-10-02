@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGrabAttack.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,10 +9,19 @@ GrabAttack::GrabAttack(const InitArg& arg) : Grab(arg) {}
 GrabAttack::~GrabAttack() = default;
 
 void GrabAttack::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtRigidBodyName_s.cstr())) {
+        sub_71007A2B64(body, nullptr);
+        sub_71007A3258(body, nullptr);
+    }
+    _70 = false;
     Grab::enter_(params);
 }
 
 void GrabAttack::leave_() {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtRigidBodyName_s.cstr()))
+        sub_71007A2D34(body);
+    if (sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild()))
+        mActor->resetConnectedCalcChild(false);
     Grab::leave_();
 }
 

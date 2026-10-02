@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionSetEnableRayHit.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +16,11 @@ bool SetEnableRayHit::init_(sead::Heap* heap) {
 }
 
 void SetEnableRayHit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* set = mActor->getPhysics()->findBodyByName(sub_71007A24D0()->cstr())) {
+        if (auto* body = set->getRigidBodies()[0])
+            body->setFlag200();
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void SetEnableRayHit::leave_() {

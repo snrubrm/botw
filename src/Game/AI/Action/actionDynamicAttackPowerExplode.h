@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m34(ksys::act::AttackSensor* sensor) override;
     virtual int m35();
     virtual int m36();
     virtual int m37();
