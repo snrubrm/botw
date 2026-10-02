@@ -11,8 +11,6 @@ namespace uking::action {
 
 TurnBase::TurnBase(const InitArg& arg) : ActionEx(arg) {}
 
-TurnBase::~TurnBase() = default;
-
 void TurnBase::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!mActor->getCharacterController())
         return;

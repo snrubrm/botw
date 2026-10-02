@@ -11,7 +11,10 @@ class TurnBase : public ActionEx {
     SEAD_RTTI_OVERRIDE(TurnBase, ActionEx)
 public:
     explicit TurnBase(const InitArg& arg);
-    ~TurnBase() override;
+    // The original keeps this destructor out of line next to the subclasses' inlined copies, which a
+    // defaulted destructor does not. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    ~TurnBase() override { ; }
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
