@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionRemainsWaterBulletAction.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -12,7 +15,20 @@ bool RemainsWaterBulletAction::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterBulletAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    const f32 time = sead::Mathf::max(*mEndTimer_s, 0.0f);
+    _6c = ksys::Timer(time, time);
+    _68 = false;
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    _78 = body->isFlag100000Set();
+    body->changeFlag100000(*mIgnroeWater_s);
+    _7c = body->getGravityFactor();
+    if (*mIgnoreGravity_s)
+        body->setGravityFactor(0.0f);
+    else
+        body->setGravityFactor(1.0f);
 }
 
 void RemainsWaterBulletAction::leave_() {

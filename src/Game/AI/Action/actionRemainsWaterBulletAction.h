@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -38,9 +39,7 @@ protected:
     // static_param at offset 0x58
     sead::SafeString mSignASName_s{};
     bool _68 = false;
-    f32 _6c = 0;
-    f32 _70 = 0;
-    u32 _74 = 0;
+    ksys::Timer _6c;
     bool _78 = false;
     f32 _7c = 1.0f;
 };

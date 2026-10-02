@@ -2,6 +2,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -51,6 +52,13 @@ void BackStepToTarget::m38() {
         controller->sub_7100F5E7F0(_58 * 30.0f);
         sub_710072C1B4(controller, _a8);
     }
+}
+
+void BackStepToTarget::m33(sead::Vector3f* dir, const sead::Vector3f& up) {
+    sead::Vector3f d = *mTargetPos_d - mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&d, d, up);
+    d.normalize();
+    *dir = d;
 }
 
 }  // namespace uking::action

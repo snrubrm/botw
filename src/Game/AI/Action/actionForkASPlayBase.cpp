@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkASPlayBase.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -14,7 +15,19 @@ bool ForkASPlayBase::init_(sead::Heap* heap) {
 }
 
 void ForkASPlayBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const char* name = m32();
+    if (name && *name) {
+        playAS(name, *mIsIgnoreSame_s, *mTargetBone_s, *mSeqBank_s, -1.0f);
+        const f32 ratio = *mFirstRandomRatio_s;
+        if (ratio > 0.0f) {
+            mActor->getASList()->sub_710115F1D8(0, 0,
+                                                ratio * sead::GlobalRandom::instance()->getF32());
+        }
+    }
+    if (*mChangeableTiming_s == 0)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
 }
 
 void ForkASPlayBase::leave_() {

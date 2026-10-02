@@ -590,6 +590,10 @@ public:
     void setFlag20() { mFlags.set(Flag::_20); }
     // Set inline by AI code (ChuchuRoot::enter_: atomic or of 0x100000 on a body found by name).
     void setFlag100000() { mFlags.set(Flag::_100000); }
+    // Read / changed inline by AI code (RemainsWaterBulletAction::enter_: saves the bit, then sets it
+    // from IgnroeWater with an atomic and+or).
+    bool isFlag100000Set() const { return mFlags.isOn(Flag::_100000); }
+    void changeFlag100000(bool on) { mFlags.change(Flag::_100000, on); }
 
     // Internal.
     void onCollisionAdded() {
