@@ -630,7 +630,11 @@ protected:
     /* 0x51c */ sead::TypedBitFlag<ActorFlag2> mActorFlags2Prev{};
     /* 0x520 */ util::AtomicLongBitFlag<64, ActorFlag> mActorFlags{};
 
+public:
+    // Restored as the main body's user tag by AirOctaWoodBridge's destructor.
     /* 0x528 */ PhysicsUserTag mPhysicsUserTag{this};
+
+protected:
     /* 0x540 */ sead::Atomic<bool> _540 = false;
 
     // Created by 0x71011c57c0 (CSV Actor::x_27; new(0x80)).
@@ -704,7 +708,11 @@ protected:
     /* 0x720 */ sead::BitFlag32 _720;
     /* 0x728 */ void* _728 = nullptr;
     /* 0x730 */ u16 _730 = 0;
+public:
+    // Bit 1 is set by AirOctaWoodBridge::init_ and AirOctaMgr::init_.
     /* 0x732 */ sead::BitFlag16 mDrawDistanceFlags;
+
+protected:
     /* 0x738 */ BaseProcLink _738;
     /* 0x748 */ BaseProcLink mCreateArgBaseProcLink;
     /* 0x758 */ void* _758 = nullptr;

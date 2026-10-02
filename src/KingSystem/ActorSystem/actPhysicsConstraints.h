@@ -22,8 +22,10 @@ public:
 
     s32 size() const { return mConstraints.size(); }
 
-private:
+    // Iterated by AirOctaWoodBridge::calc_.
     sead::Buffer<phys::Constraint*> mConstraints;
+
+private:
     bool _10 = false;
     bool _11 = false;
 };
