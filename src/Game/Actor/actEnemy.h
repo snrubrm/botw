@@ -18,6 +18,10 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}  // namespace ksys::phys
+
 namespace uking::act {
 
 // Placeholder name (ctor 0x710070ef50, dtor 0x710070efa8 - empty, out of line).
@@ -253,6 +257,16 @@ public:
     /* 0xe90 */ u32 _e90 = 0;
     /* 0xe98 */ sead::SafeString _e98;
     /* 0xea8 */ sead::SafeArray<ksys::act::BaseProcLink, 8> _ea8{};
+    // Placeholder (offset of Enemy's pointer to it): heap object (0x20 bytes, `new (heap, 8)`) built
+    // by Enemy's init 0x71000139.. with the actor's NavMeshCharacter (m45()); deleted in preDelete2_.
+    // Returned by sub_71005E2BCC; AI code (LynelNavMoveNoStop, ForestGiantRoam, ...) sets _8.
+    struct Unk_12d0 {
+        /* 0x00 */ ksys::phys::NavMeshCharacter* _0;
+        /* 0x08 */ s32 _8 = -1;
+        /* 0x0c */ s32 _c = -1;
+        /* 0x10 */ sead::Vector3f _10 = sead::Vector3f::zero;
+    };
+
     // Placeholder name (no vtable, inline ctor; only method 0x7100001aa4, called by ~20 enemy AI
     // functions with this + 0xf28). Picks the next attack interval kind (_8: 0 / 1 / 2, the short /
     // middle / long ranges of the actor's GParamList AttackInterval) and returns a random time in that
@@ -297,7 +311,7 @@ public:
     /* 0x1250 */ void* _1250 = nullptr;
     /* 0x1258 */ Unk_7102357a08 _1258;
     /* 0x1290 */ Unk_7102357a38 _1290;
-    /* 0x12d0 */ void* _12d0 = nullptr;
+    /* 0x12d0 */ Unk_12d0* _12d0 = nullptr;
     /* 0x12d8 */ void* _12d8 = nullptr;
     /* 0x12e0 */ sead::Matrix34f _12e0 = sead::Matrix34f::ident;
     /* 0x1310 */ f32 _1310 = 0.0;

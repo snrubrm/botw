@@ -1003,6 +1003,12 @@ bool sub_71005DD66C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int 
     return as_list->x(3, query, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, true);
 }
 
+Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return nullptr;
+    return static_cast<Enemy*>(actor)->_12d0;
+}
+
 void sub_71005E2C58(ksys::act::Actor* actor) {
     if (auto* enemy = sead::DynamicCast<Enemy>(actor))
         enemy->_e82 |= 0x40;

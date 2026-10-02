@@ -10,7 +10,14 @@ class ByamlIter;
 
 namespace ksys::eco {
 enum class AreaItemType;
-}
+
+// 0x7100ee78b0 (CSV eco::getEcosystemActorName; in the actor utility TU): resolves the special
+// actor names "LocalSeafood" (random fish of the area, same-group name), "EcoSystemRain" (rain bonus
+// material of the area), "MaliceEnemyRandom" / "MaliceEnemyRandom2" (random Enemy_GanonGrudge
+// variant); any other name is copied. Returns false for an empty name or when nothing was found.
+bool getEcosystemActorName(sead::SafeString* out, const sead::SafeString& name,
+                           const sead::Vector3f& pos);
+}  // namespace ksys::eco
 
 namespace ksys::map {
 class Object;

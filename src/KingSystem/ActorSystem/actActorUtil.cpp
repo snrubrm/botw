@@ -631,6 +631,88 @@ bool getSameGroupActorName(sead::SafeString* name, const sead::SafeString& actor
     return true;
 }
 
+}  // namespace ksys::act
+
+namespace ksys::eco {
+
+bool getEcosystemActorName(sead::SafeString* out, const sead::SafeString& name,
+                           const sead::Vector3f& pos) {
+    if (name.isEmpty()) {
+        *out = sead::SafeString::cEmptyString;
+        return false;
+    }
+
+    if (name == "LocalSeafood") {
+        if (!act::getRandomAreaItem(out, AreaItemType::Fish, pos))
+            return false;
+        act::getSameGroupActorName(out, *out);
+        return true;
+    }
+
+    if (name == "EcoSystemRain") {
+        *out = sead::SafeString::cEmptyString;
+        auto* eco = Ecosystem::instance();
+        const int area = eco->getFieldMapArea(pos.x, pos.z);
+        if (area < 0)
+            return false;
+
+        AreaItemSet items;
+        eco->getAreaItems(area, AreaItemType::RainBonusMaterial, &items);
+        f32 value = sead::GlobalRandom::instance()->getF32() * 100.0f;
+        for (int i = 0; i < items.count; ++i) {
+            if (value < items.items[i].num) {
+                *out = items.items[i].name;
+                return true;
+            }
+            value -= items.items[i].num;
+        }
+        return true;
+    }
+
+    if (name == "MaliceEnemyRandom") {
+        switch (sead::GlobalRandom::instance()->getU32(3)) {
+        case 0:
+            *out = "Enemy_GanonGrudge";
+            break;
+        case 1:
+            *out = "Enemy_GanonGrudge_01";
+            break;
+        case 2:
+            *out = "Enemy_GanonGrudge_02";
+            break;
+        default:
+            *out = sead::SafeString::cEmptyString;
+            return false;
+        }
+        return true;
+    }
+
+    if (name == "MaliceEnemyRandom2") {
+        switch (sead::GlobalRandom::instance()->getU32(3)) {
+        case 0:
+            *out = "Enemy_GanonGrudge_NoLost";
+            break;
+        case 1:
+            *out = "Enemy_GanonGrudge_01_NoLost";
+            break;
+        case 2:
+            *out = "Enemy_GanonGrudge_02_NoLost";
+            break;
+        default:
+            *out = sead::SafeString::cEmptyString;
+            return false;
+        }
+        return true;
+    }
+
+    *out = name;
+    return true;
+}
+
+}  // namespace ksys::eco
+
+namespace ksys::act {
+
 bool getRandomAreaItem(sead::SafeString* item, const eco::AreaItemType& type,
                        const sead::Vector3f& pos) {
     auto* eco = eco::Ecosystem::instance();

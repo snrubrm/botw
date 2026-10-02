@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -28,12 +29,9 @@ struct Struct8Base {
 
     void resetFlags();
 
-    /* 0x00 */ u32 _0 = 0;
-    /* 0x04 */ u32 _4 = 0;
-    /* 0x08 */ u32 _8 = 0;
-    /* 0x0c */ u32 _c = 0;
-    /* 0x10 */ u32 _10 = 0;
-    /* 0x14 */ f32 _14 = 1.0;
+    /* 0x00 */ sead::Vector3f _0{0, 0, 0};
+    // Position (copied out by DamageMgrSword::getAttackPos for AttackInfo 0).
+    /* 0x0c */ sead::Vector3f _c{0, 0, 1};
     /* 0x18 */ u32 _18 = 0;  // flags (cleared by resetFlags; bits 0-1 tested by LynelRepeatAttack::calc_)
     /* 0x20 */ phys::MaterialMask _20;
     /* 0x38 */ phys::MaterialMask _38;

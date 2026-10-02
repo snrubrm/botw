@@ -12,6 +12,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/physLayerMaskBuilder.h"
 #include "KingSystem/Utils/Types.h"
@@ -111,8 +112,13 @@ public:
         Iterator(const Points& points, int count);
         Iterator(const Points& points, int count, IsEnd is_end);
 
+        // Skips invalid points like the constructor (inlined in FixableLiftable::calc_: the index is
+        // stored after each increment and points with flag bit 0 at +0x68 are skipped).
         Iterator& operator++() {
-            ++mIdx;
+            while (++mIdx != mPointsNum) {
+                if (!mPoints[mIdx]->flags.isOn(ContactPoint::Flag::Invalid))
+                    break;
+            }
             return *this;
         }
 

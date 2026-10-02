@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace ksys::act {
@@ -226,6 +227,8 @@ bool sub_71005DA9A8(ksys::act::Actor* actor, int idx);
 bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key);
 /// Sets bit 6 of Enemy::_e82.
 void sub_71005E2C58(ksys::act::Actor* actor);
+// 0x71005e2bcc: the enemy's Enemy::_12d0 object (nullptr for non-enemies).
+uking::act::Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor);
 /// Normalised horizontal direction perpendicular to `dir` (ey x dir with y = 0).
 void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const sead::Vector3f& dir);
 // --- attack helpers (used by the attack actions' calc_ and the Unk_71025afc58 family) ---

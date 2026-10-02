@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 #include "Game/Damage/dmgInfoManager.h"
@@ -82,7 +84,8 @@ public:
     virtual s64 m25() { return 0; }
     virtual s64 m26() { return 0; }
     virtual s32 getPosition() { return 0; }
-    virtual s32 m28() { return 0; }
+    // Slot 28 (CSV DamageMgrSword::getAttackPos: AttackInfo position; DamageMgr::m28).
+    virtual bool getAttackPos(sead::Vector3f* out) { return false; }
 
     //(FIXME: incomplete)
     virtual s64 m29(s64 a2);
@@ -94,7 +97,8 @@ public:
     virtual s32 m32() { return 0; }
     virtual s64 m33() { return 0; }
     virtual s64 tgSensorMaterialOnHitMaybe() { return 0; }
-    virtual s32 m35() { return 0; }
+    // Slot 35: overrides write a matrix (DamageMgr::m35: the attacker's actor matrix).
+    virtual bool m35(sead::Matrix34f* out) { return false; }
 
     // FIXME: incomplete. Return dummy Base Proc Link
     virtual ksys::act::BaseProcLink* getAttacker();

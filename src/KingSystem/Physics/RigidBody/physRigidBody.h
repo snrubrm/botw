@@ -588,6 +588,8 @@ public:
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
     void setFlag20() { mFlags.set(Flag::_20); }
+    // Set inline by AI code (ChuchuRoot::enter_: atomic or of 0x100000 on a body found by name).
+    void setFlag100000() { mFlags.set(Flag::_100000); }
 
     // Internal.
     void onCollisionAdded() {
