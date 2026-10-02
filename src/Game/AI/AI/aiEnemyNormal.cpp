@@ -64,6 +64,15 @@ void EnemyNormal::m35() {
     m37();
 }
 
+void EnemyNormal::m36() {
+    sead::Vector3f home_pos;
+    m48(&home_pos);
+    if ((home_pos - mActor->getMtx().getTranslation()).length() < *mHomePosRadius_s)
+        m37();
+    else
+        m38();
+}
+
 void EnemyNormal::m42() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7EBE0(*mEnlargeAwnRatio_s);
