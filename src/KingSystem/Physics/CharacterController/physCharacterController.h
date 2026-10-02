@@ -69,6 +69,8 @@ public:
     // 0x7100f5ee1c: sets _70 and its normalised copy _7c (unless flag 4 of _114 is set).
     void sub_7100F5EE1C(const sead::Vector3f& value);
     void sub_7100F5EEB8(float value);
+    // 0x7100f5eee0: sets _220.
+    void sub_7100F5EEE0(float value);
     float sub_7100F5EF00() const;
     void sub_7100F5EF08(bool on);
     bool sub_7100F5F234(sead::Vector3f* out) const;

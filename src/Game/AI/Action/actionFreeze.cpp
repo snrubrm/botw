@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionFreeze.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 
 namespace uking::action {
 
@@ -39,6 +43,17 @@ void Freeze::loadParams_() {
 
 void Freeze::calc_() {
     ActionWithPosAngReduce::calc_();
+    if (_30) {
+        sub_7100738428(mActor, 0.0f);
+        sub_7100738AA8(mActor, 0.0f);
+        _30 = false;
+    } else if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (dynamic_actor->_868)
+            dynamic_actor->_868->sub_71006EDFBC();
+    }
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (actor && !actor->m151(3))
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -35,7 +35,7 @@ public:
     virtual void m10();
     virtual void m11();
     virtual void m12();
-    virtual void m13();
+    virtual void m13(int index);  // DemoEnemyReset::enter_ calls it for 0..11
 
     /* 0x08 */ sead::BitFlag16 _8;  // tested by DynamicActor slots 151 (bit) and 152 (mask)
     /* 0x0a */ u8 _a;

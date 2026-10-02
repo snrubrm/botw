@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -25,6 +26,15 @@ int DynamicActor::getExtraHeapSize() {
 
 void DynamicActor::onEnterDelete_() {
     Actor::onEnterDelete_();
+}
+
+void DynamicActor::sub_71006DD92C(bool enable) {
+    if (!_868)
+        return;
+    if (enable)
+        _868->sub_71006EDD5C();
+    else
+        _868->sub_71006EDCB8();
 }
 
 s32* DynamicActor::getLife() {

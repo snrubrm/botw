@@ -61,6 +61,7 @@ class NavMeshCharacter;
 class Reaction;
 class RigidBody;
 class CharacterController;
+class RagdollInstance;
 }  // namespace phys
 
 namespace res {
@@ -288,6 +289,13 @@ public:
     void boneHandleStuff(BoneHandleBase* handle, bool sorted);
     // Removes `handle` from the bone handle list _4d8.
     void sub_71011DA868(BoneHandleBase* handle);
+    // 0x71011db2d0 (CSV Actor::getPhysicsField70): mPhysics's ragdoll instance (null without physics).
+    phys::RagdollInstance* getRagdollInstance();
+    // 0x71011cea90: true if the ragdoll instance exists and its world state is 0 (added to the world).
+    bool sub_71011CEA90() const;
+    // 0x71011d7e24 / 0x71011d7e68: ragdoll instance world state 0 / 2, then InstanceSet::sub_7100FBC838(1 / 0).
+    void sub_71011D7E24();
+    void sub_71011D7E68();
     // Read inline by the Unk_7102459df8 helpers (isBgGroundHit, ...).
     BaseProcLink& getCreateArgBaseProcLink() { return mCreateArgBaseProcLink; }
     // AI code reads the LOD state's flags (_10, _14, _26) inline.

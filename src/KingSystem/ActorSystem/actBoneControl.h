@@ -101,6 +101,8 @@ public:
     BoneControl();
 
     bool init(Actor* actor, res::BoneControl* res, sead::Heap* heap);
+    // 0x7100d82fc4: _0->sub_7100D857B0() if _0 is set (declaration only).
+    void sub_7100D82FC4();
 
     /* 0x0 */ Unk_7100d8557c* _0 = nullptr;
 };

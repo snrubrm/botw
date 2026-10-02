@@ -16,6 +16,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
@@ -271,6 +272,39 @@ phys::CharacterController* Actor::getCharacterController() {
     if (!mPhysics)
         return nullptr;
     return mPhysics->getCharacterController();
+}
+
+phys::RagdollInstance* Actor::getRagdollInstance() {
+    if (!mPhysics)
+        return nullptr;
+    return mPhysics->getRagdollInstance();
+}
+
+bool Actor::sub_71011CEA90() const {
+    if (!mPhysics)
+        return false;
+    auto* ragdoll = mPhysics->getRagdollInstance();
+    return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
+}
+
+void Actor::sub_71011D7E24() {
+    auto* physics = mPhysics;
+    if (!physics)
+        return;
+    if (auto* ragdoll = physics->getRagdollInstance()) {
+        ragdoll->changeWorldState(phys::RagdollInstance::WorldState::AddedToWorld);
+        physics->sub_7100FBC838(1);
+    }
+}
+
+void Actor::sub_71011D7E68() {
+    auto* physics = mPhysics;
+    if (!physics)
+        return;
+    if (auto* ragdoll = physics->getRagdollInstance()) {
+        ragdoll->changeWorldState(phys::RagdollInstance::WorldState::NotAddedToWorld);
+        physics->sub_7100FBC838(0);
+    }
 }
 
 phys::RigidBodySet* Actor::getRigidBodyByName(const char* name) {

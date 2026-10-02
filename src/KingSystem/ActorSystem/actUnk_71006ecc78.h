@@ -1,0 +1,71 @@
+#pragma once
+
+#include <basis/seadTypes.h>
+#include <prim/seadBitFlag.h>
+#include "KingSystem/Utils/Types.h"
+
+namespace sead {
+class Heap;
+}
+
+namespace ksys::act {
+
+class Actor;
+class Unk_7100e9d810;
+
+// Placeholder name (functions at 0x71006ecc78-0x71006ee3e0; ctor inlined into DynamicActor::initField868
+// 0x71006dc5d4): the ragdoll handler of a DynamicActor (DynamicActor::_868, size 0xd8). Only the members
+// needed so far are named; the functions are the ones called by AI actions.
+class Unk_71006ecc78 {
+public:
+    // 0x71006ecc78 (declaration only): creates `_8` in `heap` and applies the ragdoll gravity factor.
+    bool sub_71006ECC78(sead::Heap* heap);
+    // 0x71006ecd6c (declaration only): sets the contact layer of the actor's rigid bodies.
+    void sub_71006ECD6C(bool a1);
+
+    // 0x71006ed484
+    void sub_71006ED484();
+    // 0x71006ed9ec: whether the ragdoll can be switched on (world state 0 and the controller selection
+    // `_c8` / `_cc` is not already active).
+    bool sub_71006ED9EC() const;
+    // 0x71006edcb8 / 0x71006edd5c
+    void sub_71006EDCB8();
+    void sub_71006EDD5C();
+    // 0x71006eddd4: as sub_71006ED9EC but also requires `_8` and a second world state check.
+    bool sub_71006EDDD4() const;
+    // 0x71006edf9c: whether the actor's ragdoll has contact points.
+    bool sub_71006EDF9C() const;
+    // 0x71006edfbc / 0x71006ee018: enables / disables the player contact layer of the ragdoll.
+    void sub_71006EDFBC();
+    void sub_71006EE018();
+    // 0x71006ee15c / 0x71006ee1a4
+    bool sub_71006EE15C() const;
+    bool sub_71006EE1A4() const;
+    // 0x71006ee2e8 / 0x71006ee2fc: friction scale of the actor's physics bodies (the latter 1.0).
+    void sub_71006EE2E8(f32 scale);
+    void sub_71006EE2FC();
+
+    /* 0x00 */ Actor* mActor;
+    /* 0x08 */ Unk_7100e9d810* _8;
+    /* 0x10 */ u8 _10[0x88 - 0x10];
+    /* 0x88 */ f32 _88;
+    /* 0x8c */ f32 _8c;
+    /* 0x90 */ f32 _90;
+    /* 0x94 */ f32 _94;
+    /* 0x98 */ f32 _98;
+    /* 0x9c */ u8 _9c;
+    /* 0xa0 */ f32 _a0[3];
+    /* 0xac */ f32 _ac[3];
+    /* 0xb8 */ f32 _b8;
+    /* 0xbc */ s32 _bc;
+    /* 0xc0 */ s32 _c0;
+    /* 0xc4 */ s32 _c4;
+    /* 0xc8 */ s32 _c8;
+    /* 0xcc */ s32 _cc;
+    /* 0xd0 */ u8 _d0;
+    /* 0xd1 */ bool _d1;
+    /* 0xd2 */ sead::BitFlag8 _d2;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71006ecc78, 0xd8);
+
+}  // namespace ksys::act

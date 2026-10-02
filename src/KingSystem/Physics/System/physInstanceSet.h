@@ -91,7 +91,8 @@ public:
     // 0x7100fbb18c: called with the actor's "Tgt" body set (actActorSensorUtil sub_71007A3800).
     void sub_7100FBB18C(RigidBodySet* set);
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
-    void sub_7100FBB4B4();
+    // 0x7100fbb4b4: whether the ragdoll contact point info (_a8) has any contact (declaration only).
+    bool sub_7100FBB4B4() const;
     void* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
     RigidBody* findRigidBody(const sead::SafeString& name) const;
     // 0x7100fbb7bc (CSV ActorPhysics::findBodyGroupByName): the rigid body set called `name`.
@@ -101,6 +102,15 @@ public:
     RigidBodySet* findBodyByName(const sead::SafeString& name) const;
     s32 findContactPointInfo(const sead::SafeString& name) const;
     s32 findCollisionInfo(const sead::SafeString& name) const;
+    // 0x7100fbc838 (declaration only): selects ragdoll controller `idx` (clamped; resets the previous
+    // one, stored in _112).
+    void sub_7100FBC838(s32 idx);
+    // 0x7100fbdc70 (declaration only): scales the friction of the bodies by the ragdoll config.
+    void sub_7100FBDC70(f32 scale);
+    // 0x7100fbdd40 (declaration only).
+    void sub_7100FBDD40(bool on);
+    // Read inline by Unk_71006ecc78::sub_71006ED9EC (currently selected ragdoll controller).
+    s8 get112() const { return _112; }
     void sub_7100FBD284(const sead::Matrix34f& mtx);
     // 0x7100fbdfa4 (CSV ActorPhysics::x_5): sets `handler` as the system group handler of every
     // rigid body set, listed body, the ragdoll and the character controller.
@@ -172,6 +182,7 @@ private:
     NavMeshCharacter* mNavMeshCharacter;
     sead::Buffer<void*> _100;
     u16 _110{};
+    s8 _112;
     sead::ObjArray<Unk1> mLinkMatricesMaybe;
     sead::Buffer<void*> _138;
     sead::TList<RigidBody*> mList;

@@ -31,7 +31,7 @@ protected:
     sead::SafeString mASName_s{};
     // static_param at offset 0x38
     const sead::Vector3f* mRootOffset_s{};
-    u32 _40 = 0;
+    f32 _40 = 0;
     sead::Matrix33f _44;
     u32 _68 = 0;
     sead::Vector2f _6c{0.0f, 0.0f};

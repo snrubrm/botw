@@ -174,6 +174,8 @@ target_sources(uking PRIVATE
     actUnk_710079e64c.cpp
     actUnk_7100e4e084.cpp
     actUnk_7100e4e084.h
+    actUnk_71006ecc78.cpp
+    actUnk_71006ecc78.h
     actUnk_7102459df8.cpp
     actUnk_7102459df8.h
 

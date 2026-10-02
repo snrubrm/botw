@@ -14,6 +14,7 @@ class Unk_71025ae680;
 namespace ksys::act {
 
 class Unk_71006e45c4;
+class Unk_71006ecc78;
 class Unk_7102459df8;
 
 // Placeholder name (ctor 0x71006dc134, inlined into DynamicActor::m36 0x71006dc16c): the argument
@@ -95,7 +96,7 @@ public:
     /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
     /* 0x858 */ Unk_7102459df8* _858 = nullptr;  // DynamicActor::initField858 (CSV)
     /* 0x860 */ f32 _860 = 0.0;
-    /* 0x868 */ void* _868 = nullptr;
+    /* 0x868 */ Unk_71006ecc78* _868 = nullptr;  // ragdoll handler (initField868)
     /* 0x870 */ Unk_7100e4e084 _870{this};  // m100
     /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
     /* 0xa58 */ void* _a58 = nullptr;
