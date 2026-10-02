@@ -88,5 +88,40 @@ void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sea
 // result in `out`.
 bool sub_71011F03C8(sead::Matrix34f* out, const sead::Matrix34f& from, const sead::Matrix34f& to,
                     f32 t, f32 a5, f32 a6, f32 a7, f32 a8);
+// 0x71011eeb08: the rotation (unit axis, angle in [0, pi]) from `from` to `to`; `default_axis` is used
+// when they are parallel.
+void sub_71011EEB08(sead::Vector3f* axis, float* angle, const sead::Vector3f& from,
+                    const sead::Vector3f& to, const sead::Vector3f& default_axis);
+
+// 0x71011efa00: the part of `vec` perpendicular to `axis` (unit vector): vec - axis * dot(vec, axis).
+void sub_71011EFA00(sead::Vector3f* out, const sead::Vector3f& vec, const sead::Vector3f& axis);
+
+// 0x71011efa54: the projection of `vec` on `axis` (unit vector): axis * dot(vec, axis).
+void sub_71011EFA54(sead::Vector3f* out, const sead::Vector3f& vec, const sead::Vector3f& axis);
+
+// 0x71011efaa4: |dot(a, b)|.
+float sub_71011EFAA4(const sead::Vector3f& a, const sead::Vector3f& b);
+
+// 0x71011efad8: length of the part of `vec` perpendicular to `axis`.
+float sub_71011EFAD8(const sead::Vector3f& vec, const sead::Vector3f& axis);
+
+// 0x71011f00ec: builds a matrix whose Y axis is `up` and Z axis is `front` made perpendicular to it.
+void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
+                    const sead::Vector3f& pos);
+
+// 0x71011f0260: builds a matrix whose Z axis is `front` and Y axis is `up` made perpendicular to it.
+void sub_71011F0260(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
+                    const sead::Vector3f& pos);
+
+// 0x71011f0f88 / 0x71011f0fc8 / 0x71011f1040 / 0x71011f10f4: whether any component is NaN or infinite.
+bool sub_71011F0F88(const float& value);
+bool sub_71011F0FC8(const sead::Vector2f& vec);
+bool sub_71011F1040(const sead::Vector3f& vec);
+
+bool sub_71011F10F4(const sead::Matrix34f& mtx);
+
+// 0x71011efe58 / 0x71011effa8: Matrix33 versions of sub_71011F00EC / sub_71011F0260.
+void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up);
+void sub_71011EFFA8(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up);
 
 }  // namespace ksys::util
