@@ -338,3 +338,26 @@ public:
 
     Unk_7102399748_Payload _18;
 };
+
+// --- lane1 session 10 senders ---
+// vtable 0x71023b0898 (CookPotRoot, DragonRoot, IceMakerBlock, PlayerAreaInOutSendMessage; functions
+// at 0x710021d230..); message 0x8000083
+class Unk_71023b0898 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023b0898_Payload _18;
+};
+
+// vtable 0x71023e7bc0 (MoveAndFreeFallGondola; functions at 0x71003906fc..); message 0x8000041 with
+// a link to the sending actor (acquired in the constructor)
+class Unk_71023e7bc0 : public Unk_7102357d20 {
+public:
+    Unk_71023e7bc0(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        _18.x(actor);
+    }
+    void* m2() override { return &_18; }
+
+    Unk_71023e7bc0_Payload _18;
+};

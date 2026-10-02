@@ -383,6 +383,12 @@ struct Unk_71023e7bc0_Payload {
         *out = mLink;
     }
 
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };
@@ -524,5 +530,14 @@ struct Unk_7102399748_Payload {
 
     ksys::act::BaseProcLink mLink;
     f32 _10 = 0;
+    sead::JobQueueLock mLock;
+};
+
+// Message 0x8000083 (sender Unk_71023b0898; the listener at 0x7100903408 copies _0, _8 and _10)
+struct Unk_71023b0898_Payload {
+    bool _0 = true;
+    u32 _4;
+    s32 _8 = -1;
+    ksys::act::BaseProcLink _10;
     sead::JobQueueLock mLock;
 };

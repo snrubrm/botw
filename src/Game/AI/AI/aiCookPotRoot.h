@@ -1,10 +1,20 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/Cooking/cookManager.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
+
+// vtable 0x71023e0418 (RTTI typeInfo static 0x71025b0f00): object shared through the
+// CurrentCookResultHolder AI tree variable; placeholder name.
+class Unk_71023e0418 : public Unk_71025afb58 {
+    SEAD_RTTI_OVERRIDE(Unk_71023e0418, Unk_71025afb58)
+public:
+    CookItem mCookItem;
+};
 
 class CookPotRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(CookPotRoot, ksys::act::ai::Ai)
@@ -23,26 +33,16 @@ protected:
     const bool* mInitBurnState_m{};
     // aitree_variable at offset 0x40
     void* mCurrentCookResultHolder_a{};
-    bool _48;
-    bool mHasFinishedCookItem;
+    bool _48 = true;
+    bool mHasFinishedCookItem = true;
     u8 _4A[6];
     CookArg mCookArg;
     sead::Buffer<sead::FixedSafeString<64>> mCookIngredients;
-    u8 _240;
-    u8 _241;
-    u8 _242[6];
-    // vtable
-    void* _248;
-    s64 _250;
-    s32 _258;
-    u8 _25C[4];
-    u8 _260[8];
-    u32 _268;
-    ksys::act::BaseProcLink mProcLink;
-    s32 _280;
-    // vtable
-    void* _288;
-    CookItem mCookItem;
+    bool _240 = false;
+    bool _241 = false;
+    bool _242 = false;
+    Unk_71023b0898 _248{mActor, 0x8000083};
+    Unk_71023e0418 _288;
 };
 KSYS_CHECK_SIZE_NX150(CookPotRoot, 0x4B8);
 

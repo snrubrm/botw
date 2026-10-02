@@ -11,7 +11,21 @@ bool MoveAndFreeFallGondola::init_(sead::Heap* heap) {
 }
 
 void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (!_f0) {
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        return;
+    }
     RailMove::enter_(params);
+}
+
+void MoveAndFreeFallGondola::m34() {}
+
+f32 MoveAndFreeFallGondola::m35() {
+    return *mRailMoveSpeed_m;
+}
+
+bool MoveAndFreeFallGondola::m40() {
+    return false;
 }
 
 void MoveAndFreeFallGondola::leave_() {

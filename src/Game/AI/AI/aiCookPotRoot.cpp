@@ -11,7 +11,9 @@ namespace uking::ai {
 
 CookPotRoot::CookPotRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-CookPotRoot::~CookPotRoot() = default;
+CookPotRoot::~CookPotRoot() {
+    mCookIngredients.freeBuffer();
+}
 
 // NON_MATCHING
 bool CookPotRoot::init_(sead::Heap* heap) {
@@ -25,7 +27,7 @@ bool CookPotRoot::init_(sead::Heap* heap) {
         // TODO
     }
     mActor->getChemicalStuff();
-    mProcLink.reset();
+    _248._18._10.reset();
     return true;
 }
 
@@ -60,7 +62,7 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
                     auto* cooking_mgr = CookingMgr::instance();
 
                     cooking_mgr->resetArgCookData(mCookArg, mCookIngredients, num_ingredients,
-                                                  mCookItem);
+                                                  _288.mCookItem);
 
                     CookingMgr::BoostArg boost_arg{.always_boost = false,
                                                    .enable_random_boost = true};
@@ -69,19 +71,19 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
                         boost_arg.always_boost = true;
                     }
 
-                    if (cooking_mgr->cook(mCookArg, mCookItem, boost_arg)) {
+                    if (cooking_mgr->cook(mCookArg, _288.mCookItem, boost_arg)) {
                         if (const auto* hard_mode_manager = aoc::HardModeManager::instance()) {
                             if (hard_mode_manager->checkFlag(
                                     aoc::HardModeManager::Flag::EnableHardMode)) {
                                 if (hard_mode_manager->isHardModeChangeOn(
                                         aoc::HardModeManager::HardModeChange::NerfHpRestore)) {
-                                    hard_mode_manager->nerfHpRestore(&mCookItem.life_recover);
+                                    hard_mode_manager->nerfHpRestore(&_288.mCookItem.life_recover);
                                 }
                             }
                         }
                         if (true /* TODO: callCookingDemo */) {
                             ui::PauseMenuDataMgr::instance()->removeGrabbedItems();
-                            cooking_mgr->setCookItem(mCookItem);
+                            cooking_mgr->setCookItem(_288.mCookItem);
                             mHasFinishedCookItem = true;
                             return true;
                         }
