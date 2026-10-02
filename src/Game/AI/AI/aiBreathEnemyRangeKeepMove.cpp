@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBreathEnemyRangeKeepMove.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,17 @@ void BreathEnemyRangeKeepMove::loadParams_() {
     getStaticParam(&mLoopTime_s, "LoopTime");
     getStaticParam(&mBreathEndDist_s, "BreathEndDist");
     getStaticParam(&mBreathMinTime_s, "BreathMinTime");
+}
+
+// NON_MATCHING: the original computes &enemy->_1128 after the name temporary (as if through an inline
+// Enemy parts accessor); regalloc differs as a result
+void BreathEnemyRangeKeepMove::sub_7100340570() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto& link = enemy->_1128.getActorPartsActor(mBreathName_s.cstr());
+        ksys::act::ActorConstDataAccess acc;
+        ksys::act::acquireActor(&link, &acc);
+        acc.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 }  // namespace uking::ai
