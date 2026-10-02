@@ -85,6 +85,9 @@ public:
     virtual void m161() {}
     virtual bool m162() { return false; }
 
+    // 0x71006dd92c: forwards to the object at _868 (a different routine for true / false).
+    void sub_71006DD92C(bool enable);
+
 public:
     // Members are public: AI and action code read them directly.
     /* 0x840 */ uking::dmg::DamageManagerBase* mDamageMgr = nullptr;

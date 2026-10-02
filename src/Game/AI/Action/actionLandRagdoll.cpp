@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLandRagdoll.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::action {
 
@@ -16,6 +18,9 @@ void LandRagdoll::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LandRagdoll::leave_() {
     Ragdoll::leave_();
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->sub_71006DD92C(true);
+    sub_71007A3540(mActor);
 }
 
 void LandRagdoll::loadParams_() {

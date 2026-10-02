@@ -864,6 +864,20 @@ bool Actor::checkForbidAttentionSignal() const {
 
 namespace ksys::act {
 
+void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx) {
+    if (auto* controller = actor->getCharacterController()) {
+        if (controller->sub_7100F5E954())
+            controller->sub_7100F5F938(mtx);
+        else
+            controller->sub_7100F60500(mtx);
+    } else if (auto* body = actor->getMainBody()) {
+        if (body->isAddedToWorld())
+            body->changePositionAndRotation(mtx);
+        else
+            body->setTransform(mtx);
+    }
+}
+
 void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel) {
     if (auto* controller = actor->getCharacterController())
         controller->sub_7100F5F6FC(vel * 30.0f);

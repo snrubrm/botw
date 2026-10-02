@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkRagdollOff.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::action {
 
@@ -22,11 +23,24 @@ bool ForkRagdollOff::init_(sead::Heap* heap) {
 }
 
 void ForkRagdollOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (*mOffTiming_s != 0)
+        return;
+
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->sub_71006DD92C(true);
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_30.mSlot))
+        unit->_8._68 = sead::Matrix34f::ident;
 }
 
 void ForkRagdollOff::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mOffTiming_s != 1)
+        return;
+
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->sub_71006DD92C(true);
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_30.mSlot))
+        unit->_8._68 = sead::Matrix34f::ident;
 }
 
 void ForkRagdollOff::loadParams_() {

@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionForceGetUpWaterFloatFreeze.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -17,6 +21,19 @@ bool ForceGetUpWaterFloatFreeze::init_(sead::Heap* heap) {
 }
 
 void ForceGetUpWaterFloatFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->sub_71006DD92C(false);
+
+    sead::Matrix34f mtx;
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    ksys::util::sub_71011F00EC(&mtx, mActor->getMtx().getBase(2), sead::Vector3f::ey, pos, false);
+    ksys::act::sub_7100EE58C0(mActor, mtx);
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_710072C1B4(controller, mtx.getBase(2));
+    }
+    _88 = 0;
     WaterFloatFreeze::enter_(params);
 }
 
