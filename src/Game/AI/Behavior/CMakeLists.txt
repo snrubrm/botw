@@ -135,6 +135,8 @@ target_sources(uking PRIVATE
   behaviorInvalidateCondition.h
   behaviorInvincible.cpp
   behaviorInvincible.h
+  behaviorInWaterNoise.cpp
+  behaviorInWaterNoise.h
   behaviorLynelBodyFitToGroundNormal.cpp
   behaviorLynelBodyFitToGroundNormal.h
   behaviorLynelGearAttackCollision.cpp
@@ -149,6 +151,16 @@ target_sources(uking PRIVATE
   behaviorNeckControl.h
   behaviorNeckRotateToPlayer.cpp
   behaviorNeckRotateToPlayer.h
+  behaviorNoiseBase.cpp
+  behaviorNoiseBase.h
+  behaviorNoise.cpp
+  behaviorNoise.h
+  behaviorNoSensorBombLandNoise.cpp
+  behaviorNoSensorBombLandNoise.h
+  behaviorNoSensorHoldNoise.cpp
+  behaviorNoSensorHoldNoise.h
+  behaviorNoSensorWaterInNoise.cpp
+  behaviorNoSensorWaterInNoise.h
   behaviorNpcClerkCheck.cpp
   behaviorNpcClerkCheck.h
   behaviorNPCTerrorNeckControl.cpp
@@ -173,6 +185,10 @@ target_sources(uking PRIVATE
   behaviorPlayerEmitInterest.h
   behaviorPlayerHoldNoise.cpp
   behaviorPlayerHoldNoise.h
+  behaviorPlayerLandNoiseBase.cpp
+  behaviorPlayerLandNoiseBase.h
+  behaviorPlayerLandNoise.cpp
+  behaviorPlayerLandNoise.h
   behaviorPlayerMoveNoise.cpp
   behaviorPlayerMoveNoise.h
   behaviorPlayerParasailAltitude.cpp
@@ -293,6 +309,8 @@ target_sources(uking PRIVATE
   behaviorSubAS.h
   behaviorSyncASFrameToAnimalUnit.cpp
   behaviorSyncASFrameToAnimalUnit.h
+  behaviorTriggerNoise.cpp
+  behaviorTriggerNoise.h
   behaviorUnderSelectedReactionNoAction.cpp
   behaviorUnderSelectedReactionNoAction.h
   behaviorViewLastAttackerPos.cpp

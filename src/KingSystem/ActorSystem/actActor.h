@@ -461,6 +461,7 @@ public:
     sead::Atomic<bool>& get689() { return _689; }
     sead::Atomic<bool>& get68c() { return _68c; }
     sead::Atomic<bool>& get68f() { return _68f; }
+    bool get690() const { return _690; }
     float get6f0() const { return _6f0; }
 
     bool becomePreActor(DeleteType type, DeleteReason reason);
