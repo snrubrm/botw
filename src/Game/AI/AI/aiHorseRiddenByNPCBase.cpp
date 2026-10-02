@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseRiddenByNPCBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -13,7 +15,10 @@ void HorseRiddenByNPCBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseRiddenByNPCBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || _40)
+        return;
+    awareness->disable();
 }
 
 void HorseRiddenByNPCBase::loadParams_() {
