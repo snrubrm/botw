@@ -269,6 +269,12 @@ phys::CharacterController* Actor::getCharacterController() {
     return mPhysics->getCharacterController();
 }
 
+phys::RagdollInstance* Actor::getPhysicsField70() const {
+    if (!mPhysics)
+        return nullptr;
+    return mPhysics->getRagdollInstance();
+}
+
 phys::RigidBodySet* Actor::getRigidBodyByName(const char* name) {
     if (!mPhysics)
         return nullptr;
