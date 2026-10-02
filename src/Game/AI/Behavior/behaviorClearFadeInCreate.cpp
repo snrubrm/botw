@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorClearFadeInCreate.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -11,5 +12,9 @@ bool ClearFadeInCreate::m6(sead::Heap* heap) {
 }
 
 void ClearFadeInCreate::m9() {}
+
+void ClearFadeInCreate::m8() {
+    mActor->clearFadeInCreate();
+}
 
 }  // namespace uking::behavior

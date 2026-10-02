@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorSetTransBoneForAnimeDriven.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -19,6 +21,13 @@ void SetTransBoneForAnimeDriven::m7() {}
 
 void SetTransBoneForAnimeDriven::loadParams() {
     getStaticParam(&mTransBoneName_s, "TransBoneName");
+}
+
+void SetTransBoneForAnimeDriven::m8() {
+    if (!mActor->getModel())
+        return;
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115BAF8(mTransBoneName_s);
 }
 
 }  // namespace uking::behavior

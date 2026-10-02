@@ -14,4 +14,12 @@ void CurseGanonBGMApplyLPF::loadParams() {
     getStaticParam(&mLPF_s, "LPF");
 }
 
+void CurseGanonBGMApplyLPF::m8() {
+    _30 = nullptr;
+}
+
+void CurseGanonBGMApplyLPF::m9() {
+    _30 = nullptr;
+}
+
 }  // namespace uking::behavior

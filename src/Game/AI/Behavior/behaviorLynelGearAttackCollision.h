@@ -26,8 +26,10 @@ public:
     /* 0x60 */ const bool* mIsForceGuardBreak_s{};
     /* 0x68 */ const bool* mIsIniviciblePierce_s{};
     /* 0x70 */ sead::SafeString mAttackRigidName_s{};
-    /* 0x80 */ void* _80 = nullptr;
-    /* 0x88 */ void* _88 = nullptr;
+    /* 0x80 */ f32 _80 = 0;
+    /* 0x84 */ f32 _84 = 0;
+    /* 0x88 */ f32 _88 = 0;
+    /* 0x8c */ u32 _8c = 0;
     /* 0x90 */ bool _90 = false;
 };
 KSYS_CHECK_SIZE_NX150(LynelGearAttackCollision, 0x98);

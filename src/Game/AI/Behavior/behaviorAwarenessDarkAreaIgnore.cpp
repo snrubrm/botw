@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorAwarenessDarkAreaIgnore.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -15,6 +17,16 @@ void AwarenessDarkAreaIgnore::m7() {}
 
 void AwarenessDarkAreaIgnore::loadParams() {
 
+}
+
+void AwarenessDarkAreaIgnore::m8() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->_334 |= 8;
+}
+
+void AwarenessDarkAreaIgnore::m9() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->_334 &= ~8;
 }
 
 }  // namespace uking::behavior

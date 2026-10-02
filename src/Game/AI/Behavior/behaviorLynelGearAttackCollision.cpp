@@ -30,4 +30,12 @@ void LynelGearAttackCollision::loadParams() {
     getStaticParam(&mAttackRigidName_s, "AttackRigidName");
 }
 
+void LynelGearAttackCollision::m8() {
+    _88 = -1.0f;
+    _8c = 0;
+    _90 = false;
+    _80 = 20.0f;
+    _84 = 20.0f;
+}
+
 }  // namespace uking::behavior

@@ -16,4 +16,8 @@ void EnemyGanonBgmStop::loadParams() {
 
 }
 
+void EnemyGanonBgmStop::m8() {
+    _28 = false;
+}
+
 }  // namespace uking::behavior

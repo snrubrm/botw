@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorDisableBoneController.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::behavior {
 
@@ -16,6 +17,10 @@ void DisableBoneController::m9() {}
 
 void DisableBoneController::loadParams() {
 
+}
+
+void DisableBoneController::m7() {
+    sub_71005DB3EC(mActor);
 }
 
 }  // namespace uking::behavior

@@ -16,4 +16,12 @@ void SealNoticePlayerSound::loadParams() {
     getAITreeVariable(&mPlayerSoundSealRefCount_a, "PlayerSoundSealRefCount");
 }
 
+void SealNoticePlayerSound::m8() {
+    ++*mPlayerSoundSealRefCount_a;
+}
+
+void SealNoticePlayerSound::m9() {
+    --*mPlayerSoundSealRefCount_a;
+}
+
 }  // namespace uking::behavior

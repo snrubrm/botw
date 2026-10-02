@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorSetMotionType.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -16,6 +18,11 @@ void SetMotionType::m9() {}
 
 void SetMotionType::loadParams() {
 
+}
+
+void SetMotionType::m8() {
+    if (auto* body = mActor->getMainBody())
+        body->changeMotionType(ksys::phys::MotionType::Fixed);
 }
 
 }  // namespace uking::behavior

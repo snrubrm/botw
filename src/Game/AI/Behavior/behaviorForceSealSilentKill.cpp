@@ -16,4 +16,12 @@ void ForceSealSilentKill::loadParams() {
     getAITreeVariable(&mForceSealSilentKillCount_a, "ForceSealSilentKillCount");
 }
 
+void ForceSealSilentKill::m8() {
+    ++*mForceSealSilentKillCount_a;
+}
+
+void ForceSealSilentKill::m9() {
+    --*mForceSealSilentKillCount_a;
+}
+
 }  // namespace uking::behavior

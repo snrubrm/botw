@@ -16,4 +16,9 @@ void BeastGanonBgmCtrl::loadParams() {
     getStaticParam(&mLevel_s, "Level");
 }
 
+bool BeastGanonBgmCtrl::m6(sead::Heap* heap) {
+    _30 = false;
+    return true;
+}
+
 }  // namespace uking::behavior

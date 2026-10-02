@@ -16,4 +16,12 @@ void SealNoPlayerNotice::loadParams() {
     getAITreeVariable(&mSealNoPlayerAwnRequestCount_a, "SealNoPlayerAwnRequestCount");
 }
 
+void SealNoPlayerNotice::m8() {
+    ++*mSealNoPlayerAwnRequestCount_a;
+}
+
+void SealNoPlayerNotice::m9() {
+    --*mSealNoPlayerAwnRequestCount_a;
+}
+
 }  // namespace uking::behavior

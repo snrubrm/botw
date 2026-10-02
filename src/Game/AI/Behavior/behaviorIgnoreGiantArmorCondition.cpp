@@ -17,4 +17,12 @@ void IgnoreGiantArmorCondition::loadParams() {
     getAITreeVariable(&mIgnoreGiantArmorCondition_a, "IgnoreGiantArmorCondition");
 }
 
+void IgnoreGiantArmorCondition::m8() {
+    *mIgnoreGiantArmorCondition_a = true;
+}
+
+void IgnoreGiantArmorCondition::m9() {
+    *mIgnoreGiantArmorCondition_a = false;
+}
+
 }  // namespace uking::behavior

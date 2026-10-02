@@ -20,4 +20,8 @@ void PriestBossUrbosasFuryEShock::loadParams() {
     getAITreeVariable(&mPriestBossUrbosasFuryEShock_a, "PriestBossUrbosasFuryEShock");
 }
 
+void PriestBossUrbosasFuryEShock::m8() {
+    *mPriestBossUrbosasFuryEShock_a = *mElectricShock_s;
+}
+
 }  // namespace uking::behavior

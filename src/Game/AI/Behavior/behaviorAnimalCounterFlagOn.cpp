@@ -16,4 +16,14 @@ void AnimalCounterFlagOn::loadParams() {
     getAITreeVariable(&mAnimalEnableCounterFlag_a, "AnimalEnableCounterFlag");
 }
 
+void AnimalCounterFlagOn::m8() {
+    if (mAnimalEnableCounterFlag_a)
+        *mAnimalEnableCounterFlag_a = true;
+}
+
+void AnimalCounterFlagOn::m9() {
+    if (mAnimalEnableCounterFlag_a)
+        *mAnimalEnableCounterFlag_a = false;
+}
+
 }  // namespace uking::behavior
