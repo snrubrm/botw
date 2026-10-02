@@ -4,6 +4,8 @@ namespace uking::behavior {
 
 RequestEventResident::RequestEventResident(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+RequestEventResident::~RequestEventResident() = default;
+
 bool RequestEventResident::m6(sead::Heap* heap) {
     return true;
 }

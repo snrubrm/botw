@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
 namespace uking::behavior {
@@ -9,12 +10,12 @@ class GiantWeaponGrabAS : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(GiantWeaponGrabAS, ksys::act::ai::Behavior)
 public:
     explicit GiantWeaponGrabAS(const InitArg& arg);
+    ~GiantWeaponGrabAS() override;
     void m8() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x71006261a0)
     void m7() override;  // not decompiled yet (0x7100626348)
     void m9() override;  // not decompiled yet (0x71006268fc)
-    ~GiantWeaponGrabAS() override;  // not decompiled yet
 
     /* 0x28 */ const int* mTargetBone_s{};
     /* 0x30 */ const int* mWeaponIdx_s{};
@@ -33,7 +34,7 @@ public:
     /* 0xd0 */ void* mGiantPartBoneUnit_a{};
     /* 0xd8 */ bool _d8 = false;
     /* 0xd9 */ bool _d9 = false;
-    /* 0xe0 */ void* _e0 = nullptr;
+    /* 0xe0 */ Unk_71025afb58** _e0 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(GiantWeaponGrabAS, 0xe8);
 

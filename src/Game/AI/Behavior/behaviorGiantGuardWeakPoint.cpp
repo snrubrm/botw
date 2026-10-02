@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorGiantGuardWeakPoint.h"
+#include "Game/AI/aiUnk_71025be918.h"
 
 namespace uking::behavior {
 
@@ -16,6 +17,18 @@ void GiantGuardWeakPoint::loadParams() {
     getStaticParam(&mGuardTgName_s, "GuardTgName");
     getStaticParam(&mPartialBoneName_s, "PartialBoneName");
     getAITreeVariable(&mGiantPartBoneUnit_a, "GiantPartBoneUnit");
+}
+
+// NON_MATCHING: the original tests the decremented count with b.ne on the subs flags (cbnz here)
+GiantGuardWeakPoint::~GiantGuardWeakPoint() {
+    if (_138) {
+        auto* unit = sead::DynamicCast<Unk_71025be918>(*_138);
+        if (unit && unit->_98 > 0 && --unit->_98 == 0) {
+            *_138 = nullptr;
+            delete unit;
+        }
+        _138 = nullptr;
+    }
 }
 
 }  // namespace uking::behavior

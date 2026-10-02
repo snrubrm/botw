@@ -6,6 +6,8 @@ namespace uking::behavior {
 SetLocalBoneOffsetRandom::SetLocalBoneOffsetRandom(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
+SetLocalBoneOffsetRandom::~SetLocalBoneOffsetRandom() = default;
+
 void SetLocalBoneOffsetRandom::m7() {}
 
 void SetLocalBoneOffsetRandom::m8() {

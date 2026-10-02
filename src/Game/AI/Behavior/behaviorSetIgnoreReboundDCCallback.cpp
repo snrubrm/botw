@@ -7,6 +7,8 @@ namespace uking::behavior {
 SetIgnoreReboundDCCallback::SetIgnoreReboundDCCallback(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
+SetIgnoreReboundDCCallback::~SetIgnoreReboundDCCallback() = default;
+
 bool SetIgnoreReboundDCCallback::m6(sead::Heap* heap) {
     return true;
 }

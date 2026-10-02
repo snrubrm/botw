@@ -5,6 +5,8 @@ namespace uking::behavior {
 
 SetLocalBoneOffset::SetLocalBoneOffset(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+SetLocalBoneOffset::~SetLocalBoneOffset() = default;
+
 void SetLocalBoneOffset::m7() {}
 
 void SetLocalBoneOffset::m8() {

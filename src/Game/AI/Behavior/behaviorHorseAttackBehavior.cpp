@@ -4,6 +4,8 @@ namespace uking::behavior {
 
 HorseAttackBehavior::HorseAttackBehavior(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+HorseAttackBehavior::~HorseAttackBehavior() = default;
+
 bool HorseAttackBehavior::m6(sead::Heap* heap) {
     return true;
 }

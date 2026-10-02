@@ -9,12 +9,12 @@ class SetIgnoreReboundDCCallback : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(SetIgnoreReboundDCCallback, ksys::act::ai::Behavior)
 public:
     explicit SetIgnoreReboundDCCallback(const InitArg& arg);
+    ~SetIgnoreReboundDCCallback() override;
     bool m6(sead::Heap* heap) override;
     void m7() override;
     void m8() override;
     void m9() override;
     void loadParams() override;
-    ~SetIgnoreReboundDCCallback() override;  // not decompiled yet
 
     /* 0x28 */ const bool* mEnableRebound_s{};
     /* 0x30 */ const bool* mEnableReboundStrong_s{};

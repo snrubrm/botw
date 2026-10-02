@@ -11,12 +11,12 @@ class SetLocalBoneOffsetRandom : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(SetLocalBoneOffsetRandom, ksys::act::ai::Behavior)
 public:
     explicit SetLocalBoneOffsetRandom(const InitArg& arg);
+    ~SetLocalBoneOffsetRandom() override;
     void m7() override;
     void m8() override;
     void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710063cda4)
-    ~SetLocalBoneOffsetRandom() override;  // not decompiled yet
 
     /* 0x28 */ sead::SafeString mBoneName_s{};
     /* 0x38 */ const sead::Vector3f* mTransOffsetMax_s{};

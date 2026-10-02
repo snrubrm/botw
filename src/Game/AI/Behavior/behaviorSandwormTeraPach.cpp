@@ -4,6 +4,8 @@ namespace uking::behavior {
 
 SandwormTeraPach::SandwormTeraPach(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+SandwormTeraPach::~SandwormTeraPach() = default;
+
 bool SandwormTeraPach::m6(sead::Heap* heap) {
     return true;
 }

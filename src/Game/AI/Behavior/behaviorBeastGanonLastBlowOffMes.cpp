@@ -5,6 +5,8 @@ namespace uking::behavior {
 BeastGanonLastBlowOffMes::BeastGanonLastBlowOffMes(const InitArg& arg)
     : SimpleAtvUnitOpenDlgRnd3(arg) {}
 
+BeastGanonLastBlowOffMes::~BeastGanonLastBlowOffMes() = default;
+
 void BeastGanonLastBlowOffMes::m8() {
     SimpleAtvUnitOpenDlgRnd3::m8();
 }

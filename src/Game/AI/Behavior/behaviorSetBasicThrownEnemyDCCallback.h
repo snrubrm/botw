@@ -24,12 +24,12 @@ class SetBasicThrownEnemyDCCallback : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(SetBasicThrownEnemyDCCallback, ksys::act::ai::Behavior)
 public:
     explicit SetBasicThrownEnemyDCCallback(const InitArg& arg);
+    ~SetBasicThrownEnemyDCCallback() override;
     bool m6(sead::Heap* heap) override;
     void m7() override;
     void loadParams() override;
     void m8() override;  // not decompiled yet (0x7100638530)
     void m9() override;  // not decompiled yet (0x710063857c)
-    ~SetBasicThrownEnemyDCCallback() override;  // not decompiled yet
 
     /* 0x28 */ Unk_7102451970 _28;
     /* 0x50 */ Unk_7102438dd0 _50;

@@ -4,6 +4,8 @@ namespace uking::behavior {
 
 DisableWeakPointActor::DisableWeakPointActor(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+DisableWeakPointActor::~DisableWeakPointActor() = default;
+
 bool DisableWeakPointActor::m6(sead::Heap* heap) {
     return true;
 }

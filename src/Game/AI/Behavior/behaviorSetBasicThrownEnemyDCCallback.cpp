@@ -5,6 +5,8 @@ namespace uking::behavior {
 SetBasicThrownEnemyDCCallback::SetBasicThrownEnemyDCCallback(const InitArg& arg)
     : ksys::act::ai::Behavior(arg) {}
 
+SetBasicThrownEnemyDCCallback::~SetBasicThrownEnemyDCCallback() = default;
+
 bool SetBasicThrownEnemyDCCallback::m6(sead::Heap* heap) {
     return true;
 }

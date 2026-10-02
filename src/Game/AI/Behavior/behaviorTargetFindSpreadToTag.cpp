@@ -4,6 +4,8 @@ namespace uking::behavior {
 
 TargetFindSpreadToTag::TargetFindSpreadToTag(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+TargetFindSpreadToTag::~TargetFindSpreadToTag() = default;
+
 bool TargetFindSpreadToTag::m6(sead::Heap* heap) {
     return true;
 }
