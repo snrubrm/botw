@@ -272,6 +272,7 @@ public:
     void getHomePos(sead::Vector3f* pos) const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
+    const sead::Vector3f& getPreviousPos2() const { return mPreviousPos2; }
     // CSV name. Adds `handle` to the bone handle list _4d8 (if the actor has a model).
     void boneHandleStuff(BoneHandleBase* handle, bool sorted);
     // Removes `handle` from the bone handle list _4d8.
