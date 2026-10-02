@@ -132,13 +132,15 @@ public:
     Unk_710236f520_Payload _18;
 };
 
-// vtable 0x71023eaec8 (StalEnemyRoot; D2/D0/m2 at 0x71003b4dc8..0x71003b641c); message 0x8000017
+// vtable 0x71023eaec8 (EnemyRoot)
 class Unk_71023eaec8 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
-    void* m2() override { return &_18; }
+    void* m2() override { return _18; }
 
-    Unk_71023eaec8_Payload _18;
+    ksys::act::BaseProcLink _18[2];
+    sead::Matrix34f _38 = sead::Matrix34f::ident;
+    u32 _68 = 0;
 };
 
 // vtable 0x7102396ae0 (StalPartNormal); message 0x800001f
