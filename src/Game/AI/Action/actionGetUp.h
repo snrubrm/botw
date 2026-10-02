@@ -21,6 +21,7 @@ protected:
 
     // static_param at offset 0x148
     const float* mRotRatio_s{};
+    ksys::VFRValue _150;
 };
 
 }  // namespace uking::action

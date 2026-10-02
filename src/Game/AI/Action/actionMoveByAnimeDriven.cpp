@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionMoveByAnimeDriven.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void MoveByAnimeDriven::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void MoveByAnimeDriven::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_50) {
+        _50 = false;
+        mActor->getASList()->sub_710115D0AC();
+    }
 }
 
 void MoveByAnimeDriven::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerPullSwordFirstFail.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ void PlayerPullSwordFirstFail::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerPullSwordFirstFail::leave_() {
-    PlayerAction::leave_();
+    mActor->getASList()->sub_710115C11C();
 }
 
 void PlayerPullSwordFirstFail::loadParams_() {

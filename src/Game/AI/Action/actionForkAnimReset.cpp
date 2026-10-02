@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAnimReset.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool ForkAnimReset::init_(sead::Heap* heap) {
 }
 
 void ForkAnimReset::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->getASList()->sub_710115B01C(*mTargetBone_s, *mSeqBank_s, true);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAnimReset::leave_() {

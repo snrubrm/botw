@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTurnToActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -20,6 +21,8 @@ void TurnToActor::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void TurnToActor::leave_() {
     TurnToActorBase::leave_();
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115C11C();
 }
 
 void TurnToActor::loadParams_() {

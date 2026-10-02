@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossSpearBlownOff.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -37,6 +38,13 @@ void SiteBossSpearBlownOff::loadParams_() {
 
 void SiteBossSpearBlownOff::calc_() {
     SiteBossBowBlowOff::calc_();
+}
+
+s32 SiteBossSpearBlownOff::m37() {
+    s32 time = SiteBossBowBlowOff::m37();
+    if (checkHpRate(mActor, 0.5f))
+        time += *mDownTimeAtLater_s;
+    return time;
 }
 
 }  // namespace uking::action

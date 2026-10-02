@@ -1,6 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
+
+namespace ksys::phys {
+class Constraint;
+}
 
 namespace uking::action {
 
@@ -18,8 +23,7 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x8];
+    ksys::phys::Constraint* _20{};
     // static_param at offset 0x28
     const int* mTargetIdx_s{};
     // static_param at offset 0x30
@@ -40,6 +44,17 @@ protected:
     sead::SafeString mOnASName_s{};
     // static_param at offset 0x78
     sead::SafeString mOffASName_s{};
+    sead::Vector3f _88 = sead::Vector3f::zero;
+    sead::Vector3f _94 = sead::Vector3f::zero;
+    f32 _a0 = 0;
+    ksys::act::Unk_7100d3bce4 _a8{mActor};
+    void* _c0 = nullptr;
+    u32 _c8 = 0;
+    u32 _cc;
+    f32 _d0 = 0;
+    u32 _d4;
+    void* _d8 = nullptr;
+    u8 _e0 = 0;
 };
 
 }  // namespace uking::action

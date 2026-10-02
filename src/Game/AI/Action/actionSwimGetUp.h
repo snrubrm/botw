@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionGetUp.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -30,6 +31,7 @@ protected:
     const float* mChangeDepthSpeed_s{};
     // static_param at offset 0x188
     const float* mUnderWaterDepth_s{};
+    ksys::act::CCAccessor _190;
 };
 
 }  // namespace uking::action

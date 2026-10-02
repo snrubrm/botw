@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGetUpMoveAnmDriven.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -18,8 +19,13 @@ void GetUpMoveAnmDriven::enter_(ksys::act::ai::InlineParamPack* params) {
     GetUp::enter_(params);
 }
 
+// NON_MATCHING: the original loads the ASList before clearing _170 (scheduling)
 void GetUpMoveAnmDriven::leave_() {
     GetUp::leave_();
+    if (_170) {
+        _170 = false;
+        mActor->getASList()->sub_710115D0AC();
+    }
 }
 
 void GetUpMoveAnmDriven::loadParams_() {

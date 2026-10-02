@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAnimDriveMove.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void ForkAnimDriveMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkAnimDriveMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_30) {
+        _30 = false;
+        mActor->getASList()->sub_710115D0AC();
+    }
 }
 
 void ForkAnimDriveMove::loadParams_() {

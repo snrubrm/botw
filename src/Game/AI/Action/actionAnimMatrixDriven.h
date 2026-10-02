@@ -30,7 +30,8 @@ protected:
     bool* mIsChangeable_d{};
     // dynamic_param at offset 0x48
     sead::SafeString mASName_d{};
-    u16 _58 = 0;
+    bool _58 = false;
+    bool _59 = false;
 };
 
 }  // namespace uking::action

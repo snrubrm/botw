@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSwimDamage.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,9 @@ void PlayerSwimDamage::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerSwimDamage::leave_() {}
 
 void PlayerSwimDamage::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877BD8();
+    m32();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerSwimDamage::isChangeable() const {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFadeoutDelete.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -12,7 +13,10 @@ bool FadeoutDelete::init_(sead::Heap* heap) {
 }
 
 void FadeoutDelete::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const f32 time = *mFadeoutTime_s;
+    _30 = ksys::Timer(time, time);
+    if (auto* attention = mActor->getAttention())
+        attention->disableAllClients();
 }
 
 void FadeoutDelete::leave_() {

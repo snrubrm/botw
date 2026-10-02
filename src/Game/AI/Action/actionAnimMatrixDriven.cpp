@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimMatrixDriven.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void AnimMatrixDriven::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnimMatrixDriven::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_58) {
+        _58 = false;
+        mActor->getASList()->sub_710115D0AC();
+    }
 }
 
 void AnimMatrixDriven::loadParams_() {

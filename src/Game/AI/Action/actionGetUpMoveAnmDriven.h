@@ -21,6 +21,7 @@ protected:
 
     // static_param at offset 0x160
     sead::SafeString mTargetBoneName_s{};
+    bool _170 = false;
 };
 
 }  // namespace uking::action

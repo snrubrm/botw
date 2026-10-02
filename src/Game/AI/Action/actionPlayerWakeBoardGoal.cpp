@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerWakeBoardGoal.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -11,7 +12,9 @@ void PlayerWakeBoardGoal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerWakeBoardGoal::leave_() {
-    PlayerAction::leave_();
+    auto* as_list = mActor->getASList();
+    if (as_list && as_list->_163 & 2)
+        as_list->sub_710115C11C();
 }
 
 void PlayerWakeBoardGoal::loadParams_() {

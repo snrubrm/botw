@@ -1,11 +1,17 @@
 #include "Game/AI/Action/actionSwitchStepSliderConstraint.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 
 namespace uking::action {
 
 SwitchStepSliderConstraint::SwitchStepSliderConstraint(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-SwitchStepSliderConstraint::~SwitchStepSliderConstraint() = default;
+SwitchStepSliderConstraint::~SwitchStepSliderConstraint() {
+    if (_20) {
+        ksys::phys::Constraint::destroy(_20);
+        _20 = nullptr;
+    }
+}
 
 bool SwitchStepSliderConstraint::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
@@ -16,7 +22,8 @@ void SwitchStepSliderConstraint::enter_(ksys::act::ai::InlineParamPack* params) 
 }
 
 void SwitchStepSliderConstraint::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_20)
+        _20->sub_7100F6A074();
 }
 
 void SwitchStepSliderConstraint::loadParams_() {

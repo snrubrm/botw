@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+
+    sead::SafeString _20;
+    bool _30 = false;
 };
 
 }  // namespace uking::action

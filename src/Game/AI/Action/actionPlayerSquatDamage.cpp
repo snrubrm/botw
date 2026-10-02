@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSquatDamage.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -13,7 +14,9 @@ void PlayerSquatDamage::leave_() {
 }
 
 void PlayerSquatDamage::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877BD8();
+    m32();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerSquatDamage::isChangeable() const {

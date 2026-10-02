@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 m37() override;
 
     // static_param at offset 0x190
     const int* mDownTimeAtLater_s{};

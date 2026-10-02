@@ -21,6 +21,8 @@ protected:
 
     // static_param at offset 0x148
     const sead::Vector3f* mRotCenterPos_s{};
+    f32 _150 = 0;
+    sead::Vector3f _154;
 };
 
 }  // namespace uking::action

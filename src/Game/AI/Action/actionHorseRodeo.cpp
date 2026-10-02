@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseRodeo.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void HorseRodeo::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseRodeo::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* rideable = mActor->getHorseOptionsMaybe())
+        rideable->_18.sub_7100E770C4(false);
 }
 
 void HorseRodeo::loadParams_() {}

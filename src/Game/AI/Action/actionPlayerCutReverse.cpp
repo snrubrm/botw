@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerCutReverse.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,9 @@ void PlayerCutReverse::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerCutReverse::leave_() {}
 
 void PlayerCutReverse::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877BD8();
+    m32();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerCutReverse::isChangeable() const {
