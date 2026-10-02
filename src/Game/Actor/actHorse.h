@@ -73,7 +73,8 @@ public:
     /* 0x1170 */ Unk_7102451a50 _1170{};
     /* 0x1198 */ u32 _1198 = 0;
     /* 0x11a0 */ void* _11a0 = nullptr;
-    /* 0x11a8 */ u16 _11a8 = 0;
+    /* 0x11a8 */ u8 _11a8 = 0;
+    /* 0x11a9 */ s8 _11a9 = 0;  // escape count (NushiEscapeSelector)
 };
 KSYS_CHECK_SIZE_NX150(Horse, 0x11b0);
 

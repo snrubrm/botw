@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiNushiEscapeSelector.h"
+#include "Game/Actor/actHorse.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {
+
+static const sead::SafeString sUnk_710240D298 = "AnimalMaster_Appearance";
 
 NushiEscapeSelector::NushiEscapeSelector(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
@@ -11,7 +15,24 @@ bool NushiEscapeSelector::init_(sead::Heap* heap) {
 }
 
 void NushiEscapeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* horse = sead::DynamicCast<act::Horse>(mActor);
+    if (!horse) {
+        setFailed();
+        return;
+    }
+
+    if (!mActor->getMapObject()) {
+        changeChild("消滅");
+        return;
+    }
+
+    bool appeared = false;
+    ksys::gdt::Manager::instance()->getParam().get().getBool(&appeared, sUnk_710240D298);
+    ++horse->_11a9;
+    if (appeared && horse->_11a9 < *mNumOfAllowedEscapes_s)
+        changeChild("ワープ");
+    else
+        changeChild("消滅");
 }
 
 void NushiEscapeSelector::calc_() {
