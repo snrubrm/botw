@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSnowOctarockBattle.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
@@ -34,6 +36,29 @@ void SnowOctarockBattle::m38() {
     if (!sub_710072E1B4(mActor, true))
         ++_b0;
     EnemyBattle::m38();
+}
+
+// NON_MATCHING: block placement (the original moves the setFailed path to the end)
+void SnowOctarockBattle::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    if (isCurrentChild("戦闘攻撃")) {
+        auto* child = getCurrentChild();
+        if ((child->isFinished() || child->isFailed()) && _b0 >= 5) {
+            setFailed();
+            return;
+        }
+    }
+
+    EnemyBattle::calc_();
+    if (_b0 > 0 && sub_710072E1B4(mActor, true))
+        _b0 = 0;
+    getCurrentChild()->setDynamicParam(sub_71005D9548(mActor), "TargetVel");
+}
+
+void SnowOctarockBattle::m43(ksys::act::ai::InlineParamPack* params) {
+    params->addVec3(sub_71005D9548(mActor), "TargetVel", -1);
 }
 
 }  // namespace uking::ai
