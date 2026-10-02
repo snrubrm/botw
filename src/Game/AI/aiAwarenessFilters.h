@@ -97,7 +97,7 @@ public:
 
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x38 */ void* _38 = nullptr;
+    /* 0x38 */ ksys::act::BaseProcLink* _38 = nullptr;
 };
 
 // vtable 0x7102451510 (m2 0x7100745b14, D0 0x710074627c); m2 calls Unk_71024514c0::m2.

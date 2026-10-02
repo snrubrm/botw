@@ -36,7 +36,7 @@ static BaseProc* getProcIfActor(BaseProc* proc) {
     return nullptr;
 }
 
-const BaseProcLink& Bullet::sub_71000056E4() const {
+BaseProcLink& Bullet::sub_71000056E4() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (sead::IsDerivedFrom<act::Bullet>(actor))
         return static_cast<act::Bullet*>(actor)->_ba0;

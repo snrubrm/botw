@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadAtomic.h>
@@ -33,6 +34,11 @@ namespace uking::act {
 // overrides both); the others are named after their primary slot in Rideable.
 class Unk_7100e8b2b8 {
 public:
+    // Placeholder enum (no enum text in the binary): the value kept in the low byte of _8, read by
+    // value (stack store + reload) in the awareness filter 0x71007456fc, which treats 1 / 2 / 3 like
+    // the TargetActorType names "Player" / "Enemy" / "NPC". m22 replaces it.
+    SEAD_ENUM(Unk8, _0, _1, _2, _3)
+
     Unk_7100e8b2b8();
     virtual ~Unk_7100e8b2b8();
 

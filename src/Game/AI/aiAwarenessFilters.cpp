@@ -5,6 +5,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actWeapon.h"
 #include <prim/seadSafeString.h>
@@ -12,6 +13,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
@@ -197,6 +199,87 @@ bool Unk_7102451470::m2(Unk_71024dc978* entry) {
         return false;
     if (ksys::act::isNotLivingCreature(&target->mLink))
         return true;
+    return Unk_71024514c0::m2(entry);
+}
+
+bool Unk_71024514e8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    auto* link = &target->mLink;
+    if (ksys::act::hasTag(link, ksys::act::tags::EnemyNotTarget))
+        return false;
+    if (target->m5(1))
+        return true;
+
+    const bool not_living = ksys::act::isNotLivingCreature(link);
+    if (!not_living) {
+        ksys::act::acc::PlayerBase accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.getSpAttackTarget().hasProcById(_28))
+            return false;
+    }
+
+    if (_30 & 0x28) {
+        if (target->m5(8)) {
+            if (target->m5(8) && (_30 & 0x20))
+                return false;
+        } else {
+            ksys::act::acc::Bullet accessor;
+            ksys::act::acquireActor(link, &accessor);
+            if (accessor.isDerivedFrom<ksys::act::Bullet>()) {
+                if (target->m5(8) || ksys::act::isPlayerProfile(&accessor.sub_71000056E4())) {
+                    if (_30 & 0x20)
+                        return false;
+                } else if (_30 & 8) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    if ((_30 & 4) && enemyTeamStuff(_28, link))
+        return false;
+    if ((_30 & 0x10) && ksys::act::isPreyOrSwarm(link))
+        return false;
+
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (uking::act::Unk_7100e8b2b8* rideable = accessor.getHorseOptions()) {
+            const uking::act::Unk_7100e8b2b8::Unk8 type = rideable->_8 & 0xff;
+            switch (type) {
+            case uking::act::Unk_7100e8b2b8::Unk8::_3:
+                if (sub_7100739A10(_28, "NPC") || sub_7100739A10(_28, "ClerkNPC"))
+                    return true;
+                // fallthrough
+            case uking::act::Unk_7100e8b2b8::Unk8::_1:
+                if (sub_7100739A10(_28, "Player")) {
+                    if ((_30 & 4) && enemyTeamStuff(_28, &ksys::act::PlayerInfo::getSomeProcLink()))
+                        return false;
+                    return true;
+                }
+                break;
+            case uking::act::Unk_7100e8b2b8::Unk8::_2:
+                if (sub_7100739A10(_28, "Enemy"))
+                    return true;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    if (_38 && *_38 == *link) {
+        if (not_living)
+            return true;
+    } else if (auto* unk = sub_71005D9E64(_28)) {
+        const bool result = unk->sub_71002DC9E8(*link, 4, false);
+        if (not_living || result)
+            return !result;
+    } else if (not_living) {
+        return true;
+    }
     return Unk_71024514c0::m2(entry);
 }
 
