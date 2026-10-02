@@ -126,6 +126,12 @@ void EnemyNormal::m43() {
     sub_71003A19AC();
 }
 
+bool EnemyNormal::m51() {
+    return isCurrentChild("諦め") || isCurrentChild("音気づき") ||
+           isCurrentChild("行動中仲間発見") || isCurrentChild("不調仲間発見") ||
+           isCurrentChild("脅威感知");
+}
+
 bool EnemyNormal::m54() {
     return isCurrentChild("待機");
 }

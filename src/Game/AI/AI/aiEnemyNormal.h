@@ -62,7 +62,7 @@ public:
     virtual void m48(sead::Vector3f* pos);
     virtual void m49(Unk1* out, s32 idx);
     virtual void m50(Unk1* out, s32 idx);
-    virtual void m51();
+    virtual bool m51();
     virtual s32 m52(s32 idx);
     virtual s32 m53() { return 9; }
     virtual bool m54();
