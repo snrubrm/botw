@@ -14,15 +14,6 @@ BaseProc* DynamicActor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) DynamicActor(arg);
 }
 
-bool DynamicActor::initField868(sead::Heap* heap) {
-    if (!getPhysicsField70())
-        return true;
-    _868 = new (heap, 8) Unk_71006ecc78(this);
-    if (!_868)
-        return false;
-    return _868->sub_71006ECC78(heap);
-}
-
 // NON_MATCHING: most member types are still unknown (placeholders)
 DynamicActor::~DynamicActor() = default;
 

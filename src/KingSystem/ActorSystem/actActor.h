@@ -61,7 +61,6 @@ class NavMeshCharacter;
 class Reaction;
 class RigidBody;
 class CharacterController;
-class RagdollInstance;
 }  // namespace phys
 
 namespace res {
@@ -271,8 +270,6 @@ public:
     void setDeleteDistance(f32 distance) { mDeleteDistanceSq = sead::Mathf::square(distance); }
 
     phys::CharacterController* getCharacterController();
-    // 0x71011db2d0 (CSV Actor::getPhysicsField70): the ragdoll instance of mPhysics (0x90), or null.
-    phys::RagdollInstance* getPhysicsField70() const;
     // 0x71011d7c18 (not decompiled): the character controller's main body if any, else mMainBody.
     phys::RigidBody* getPhysicsMainBody();
     phys::InstanceSet* getPhysics() const { return mPhysics; }

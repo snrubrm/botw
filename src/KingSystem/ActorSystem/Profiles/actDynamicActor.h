@@ -5,7 +5,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
-#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
 namespace uking::act {
@@ -45,9 +44,6 @@ protected:
     void onPreDeleteStart_(PrepareArg&) override;
     void preDelete2_(const PreDeleteArg& arg) override;
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
-    // 0x71006dc5d4 (CSV DynamicActor::initField868): creates the ragdoll controller `_868` if the
-    // actor has a ragdoll instance.
-    bool initField868(sead::Heap* heap);
 
 public:
     Actor* m31() override;
@@ -96,7 +92,7 @@ public:
     /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
     /* 0x858 */ Unk_7102459df8* _858 = nullptr;  // DynamicActor::initField858 (CSV)
     /* 0x860 */ f32 _860 = 0.0;
-    /* 0x868 */ Unk_71006ecc78* _868 = nullptr;  // ragdoll controller (heap-allocated)
+    /* 0x868 */ void* _868 = nullptr;
     /* 0x870 */ Unk_7100e4e084 _870{this};  // m100
     /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
     /* 0xa58 */ void* _a58 = nullptr;
