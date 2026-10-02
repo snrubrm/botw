@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFadeInOutWithOptions.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void FadeInOutWithOptions::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FadeInOutWithOptions::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mFadeType_s != 0 || !*mToggleHorseOptions_s)
+        return;
+    if (auto* rideable = mActor->getHorseOptionsMaybe())
+        rideable->Unk_7100e8b2b8::_8 &= ~0x200;
 }
 
 void FadeInOutWithOptions::loadParams_() {

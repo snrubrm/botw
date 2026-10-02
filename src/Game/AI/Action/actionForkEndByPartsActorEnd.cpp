@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkEndByPartsActorEnd.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -28,6 +30,13 @@ void ForkEndByPartsActorEnd::loadParams_() {
 
 void ForkEndByPartsActorEnd::calc_() {
     Fork::calc_();
+    auto* parts = mActor->m101();
+    if (!parts) {
+        setFailed();
+        return;
+    }
+    if (!parts->getActorPartsActor(mPartsKey_s).hasProcInCalcState())
+        setEndState();
 }
 
 }  // namespace uking::action

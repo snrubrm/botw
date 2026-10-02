@@ -32,4 +32,9 @@ void NavMeshSwim::calc_() {
     NavMeshAction::calc_();
 }
 
+void NavMeshSwim::m34() {
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

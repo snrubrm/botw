@@ -29,7 +29,13 @@ void Windmill_Wing::loadParams_() {
 }
 
 void Windmill_Wing::calc_() {
-    ksys::act::ai::Action::calc_();
+    m32(false);
+    if (*mIsTurnToWindDir_s)
+        m34(0.0f);
+}
+
+void Windmill_Wing::m33() {
+    playAS("Rotate", false, 0, 0, -1.0f);
 }
 
 }  // namespace uking::action

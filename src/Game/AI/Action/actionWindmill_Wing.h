@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(bool a1);
+    virtual void m33();
+    virtual void m34(f32 a1);
 
     // static_param at offset 0x20
     const float* mStartFrameRange_s{};

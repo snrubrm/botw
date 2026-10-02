@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnmDamage.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -26,6 +27,12 @@ void AnmDamage::loadParams_() {
 
 void AnmDamage::calc_() {
     SmallDamageBase::calc_();
+}
+
+// NON_MATCHING: the original passes a 0x18-byte stack object (a SafeString followed by another field, like
+// the ASList::x query objects) instead of a plain SafeString
+bool AnmDamage::isChangeable() const {
+    return sub_71005DD798(mActor, 2, sead::SafeString(), 0, 0);
 }
 
 }  // namespace uking::action

@@ -11,7 +11,10 @@ bool EnemyRigidBodySpinDie::init_(sead::Heap* heap) {
 }
 
 void EnemyRigidBodySpinDie::enter_(ksys::act::ai::InlineParamPack* params) {
+    _58 = true;
     EnemyRigidBodyDieBase::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void EnemyRigidBodySpinDie::leave_() {

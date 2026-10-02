@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWillBallParabolaAttack.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -30,7 +32,13 @@ void WillBallParabolaAttack::loadParams_() {
 }
 
 void WillBallParabolaAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (actor->getVelocity().y < 0.0f)
+        _4c = true;
+    else if (!_4c)
+        return;
+    if (ksys::act::sub_71007A4864(actor, false))
+        setFinished();
 }
 
 }  // namespace uking::action
