@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -9,6 +10,8 @@ class SiteBossSwordApproachRoot : public ksys::act::ai::Ai {
 public:
     explicit SiteBossSwordApproachRoot(const InitArg& arg);
     ~SiteBossSwordApproachRoot() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
     bool isChangeable() const override { return true; }
 
     bool init_(sead::Heap* heap) override;
@@ -16,6 +19,13 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34(sead::Vector3f* out);
+    virtual bool m35();
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
+    virtual bool m39();
 
 protected:
     // static_param at offset 0x38
@@ -34,19 +44,14 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mOldTargetPos_d{};
-    f32 _78 = 0;
-    u32 _7c = 0;
-    u32 _80 = 0;
+    ksys::Timer _78;  // CurrentFrame
     u32 _84 = 0;
     f32 _88 = 0;
     bool _8c = false;
-    u8 _8d[0x9c - 0x8d];
-    u32 _9c;
-    u32 _a0;
-    u32 _a4;
-    f32 _a8;
-    f32 _ac;
-    u32 _b0;
+    u8 _8d[0x90 - 0x8d];
+    sead::Vector3f _90;  // AfterImage0Pos
+    sead::Vector3f _9c;  // AfterImage1Pos
+    sead::Vector3f _a8;  // MoveDstPos
     u8 _b4[0xc0 - 0xb4];
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSwordApproachRoot, 0xc0);
