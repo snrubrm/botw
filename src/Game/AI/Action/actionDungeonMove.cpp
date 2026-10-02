@@ -1,14 +1,25 @@
 #include "Game/AI/Action/actionDungeonMove.h"
+#include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 DungeonMove::DungeonMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DungeonMove::~DungeonMove() = default;
+DungeonMove::~DungeonMove() {
+    if (_90) {
+        delete _90;
+        _90 = nullptr;
+    }
+}
 
 bool DungeonMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _80 = mActor->getFieldBodyGroup();
+    if (!mActor->getMapObjIter().tryGetParamIntByKey(&_88, "FieldBodyGroup"))
+        _88 = -1;
+    _78 = *mInitDgnPriority_m;
+    _90 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void DungeonMove::enter_(ksys::act::ai::InlineParamPack* params) {

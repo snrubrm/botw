@@ -1,15 +1,32 @@
 #include "Game/AI/Action/actionDungeonRotateBase.h"
 #include <math/seadMathCalcCommon.h>
+#include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 DungeonRotateBase::DungeonRotateBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DungeonRotateBase::~DungeonRotateBase() = default;
+DungeonRotateBase::~DungeonRotateBase() {
+    if (_a0) {
+        delete _a0;
+        _a0 = nullptr;
+    }
+    if (_a8) {
+        delete _a8;
+        _a8 = nullptr;
+    }
+}
 
 bool DungeonRotateBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _90 = mActor->getFieldBodyGroup();
+    if (!mActor->getMapObjIter().tryGetParamIntByKey(&_98, "FieldBodyGroup"))
+        _98 = -1;
+    _7c = *mInitDgnPriority_m;
+    _84 = _88 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
+    _a0 = new (heap) xlink2::Handle;
+    _a8 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void DungeonRotateBase::enter_(ksys::act::ai::InlineParamPack* params) {
