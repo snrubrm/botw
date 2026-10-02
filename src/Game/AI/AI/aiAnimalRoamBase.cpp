@@ -41,4 +41,15 @@ void AnimalRoamBase::loadParams_() {
     getAITreeVariable(&mIsStuckOnTerrain_a, "IsStuckOnTerrain");
 }
 
+bool AnimalRoamBase::m35() {
+    if (auto* nav = mActor->m45()) {
+        nav->_1e0.lock();
+        const u8 state = nav->_294;
+        nav->_1e0.unlock();
+        if (state == 1)
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai
