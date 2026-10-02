@@ -15,6 +15,13 @@ bool FishOnGround::init_(sead::Heap* heap) {
 
 void FishOnGround::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        _40 = controller->sub_7100F5F0E4();
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+    }
+    mFlags.reset(Flag::Changeable);
+    if (!mASKey_s.isEmpty())
+        playAS(mASKey_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void FishOnGround::leave_() {

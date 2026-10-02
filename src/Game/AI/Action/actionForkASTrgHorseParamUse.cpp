@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgHorseParamUse.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -21,7 +23,10 @@ void ForkASTrgHorseParamUse::leave_() {
 void ForkASTrgHorseParamUse::loadParams_() {}
 
 void ForkASTrgHorseParamUse::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!sub_71005DD780(mActor, 0x49, nullptr, 0, 0))
+        return;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.set(0x2000);
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCWait.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actNPC.h"
@@ -15,7 +16,13 @@ bool NPCWait::init_(sead::Heap* heap) {
 }
 
 void NPCWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!m32().isEmpty())
+        playAS(m32().cstr(), *mIsIgnoreSameKey_s, 0, 0, -1.0f);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5E7F0(0.0f);
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F76778();
+    mFlags.set(Flag::Changeable);
 }
 
 void NPCWait::leave_() {
