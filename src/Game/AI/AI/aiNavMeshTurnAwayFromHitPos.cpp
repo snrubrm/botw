@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNavMeshTurnAwayFromHitPos.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,29 @@ bool NavMeshTurnAwayFromHitPos::init_(sead::Heap* heap) {
 
 void NavMeshTurnAwayFromHitPos::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void NavMeshTurnAwayFromHitPos::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child) {
+        if (!child->isFinished() && !child->isFailed())
+            return;
+
+        if (!child->isFailed()) {
+            if (isCurrentChild("回転") && *mMoveToSafePosAfterTurn_s) {
+                ksys::act::ai::InlineParamPack params;
+                params.addVec3(_60, "TargetPos", -1);
+                changeChild("移動", &params);
+            } else {
+                setFinished();
+            }
+            return;
+        }
+    }
+    setFailed();
 }
 
 void NavMeshTurnAwayFromHitPos::leave_() {

@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -26,9 +27,7 @@ protected:
     sead::Vector3f* mHitPos_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
-    u32 _60 = 0;
-    u32 _64 = 0;
-    u32 _68 = 0;
+    sead::Vector3f _60{0, 0, 0};
 };
 KSYS_CHECK_SIZE_NX150(NavMeshTurnAwayFromHitPos, 0x70);
 
