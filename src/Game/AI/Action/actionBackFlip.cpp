@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionBackFlip.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -33,6 +35,18 @@ void BackFlip::loadParams_() {
 
 void BackFlip::calc_() {
     RotateTurnToTarget::calc_();
+}
+
+bool BackFlip::isFinished() const {
+    if (!_cc)
+        return false;
+    auto* actor = mActor;
+    if (isBgGroundHit(actor, false))
+        return true;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    const sead::Vector3f down = -sead::Vector3f::ey;
+    return somePositionCalc(&pos, pos, down, *mNearGrHeight_s);
 }
 
 }  // namespace uking::action

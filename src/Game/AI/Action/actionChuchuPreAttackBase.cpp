@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionChuchuPreAttackBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -34,5 +36,13 @@ void ChuchuPreAttackBase::calc_() {
 }
 
 void ChuchuPreAttackBase::m32() {}
+
+bool ChuchuPreAttackBase::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    if (_68 != *mJumpNum_s)
+        return false;
+    return isBgGroundHit(mActor, false) || sub_71005E1064(mActor);
+}
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkHopInAir.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -31,6 +33,30 @@ void ForkHopInAir::loadParams_() {
 
 void ForkHopInAir::calc_() {
     Fork::calc_();
+}
+
+bool ForkHopInAir::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    if (*mEndState_s != 0)
+        return false;
+    return isBgGroundHit(mActor, false) || sub_71005E1064(mActor);
+}
+
+bool ForkHopInAir::isFailed() const {
+    if (ksys::act::ai::Action::isFailed())
+        return true;
+    if (*mEndState_s != 1)
+        return false;
+    return isBgGroundHit(mActor, false) || sub_71005E1064(mActor);
+}
+
+bool ForkHopInAir::isChangeable() const {
+    if (ksys::act::ai::Action::isChangeable())
+        return true;
+    if (*mEndState_s != 2)
+        return false;
+    return isBgGroundHit(mActor, false) || sub_71005E1064(mActor);
 }
 
 }  // namespace uking::action

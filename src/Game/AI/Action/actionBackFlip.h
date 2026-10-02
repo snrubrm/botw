@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -29,6 +30,12 @@ protected:
     const float* mJumpHeight_s{};
     // static_param at offset 0x98
     const float* mNearGrHeight_s{};
+    // a reference-counted object (released by the destructor)
+    void* _a0 = nullptr;
+    u8 _a8[0xcc - 0xa8];
+    bool _cc = false;
+    bool _cd = false;
 };
+KSYS_CHECK_SIZE_NX150(BackFlip, 0xd0);
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionStopJump.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -28,6 +30,14 @@ void StopJump::loadParams_() {
 
 void StopJump::calc_() {
     ActionWithPosAngReduce::calc_();
+}
+
+bool StopJump::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    if (_58 != 1 || !mLandingAS_s.isEmpty())
+        return false;
+    return isBgGroundHit(mActor, false) || sub_71005E1064(mActor);
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionJumpTackle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -56,7 +57,7 @@ void JumpTackle::calc_() {
     _90 = true;
 }
 
-bool JumpTackle::m34() {
+bool JumpTackle::m34() const {
     return isBgGroundHit(mActor, false);
 }
 
@@ -82,6 +83,16 @@ void JumpTackle::m32() {
         _91 = chemical->_c >> 6 & 1;
         chemical->sub_7100D91098(true);
     }
+}
+
+bool JumpTackle::isFinished() const {
+    if (ksys::act::ai::Action::isFinished())
+        return true;
+    if (_90 && m34())
+        return true;
+    if (*mIsFinishedAtPreLandFrame_s)
+        return sub_71005E1064(mActor);
+    return false;
 }
 
 }  // namespace uking::action

@@ -16,12 +16,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
     virtual void m32();
     virtual void m33();
-    virtual bool m34();
+    virtual bool m34() const;
 
     // static_param at offset 0x20
     const float* mMaxSpeed_s{};

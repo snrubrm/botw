@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m34() const override;
 
     // static_param at offset 0x98
     const float* mPosReduceRate_s{};
