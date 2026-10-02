@@ -11,6 +11,8 @@ public:
     explicit SunazarashiNormal(const InitArg& arg);
     ~SunazarashiNormal() override;
 
+    bool m38() override { return false; }
+
 protected:
 };
 

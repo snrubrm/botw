@@ -4,9 +4,18 @@
 #include <math/seadVector.h>
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
+
+// Awareness filter used by PreyNormal::m43 (vtable 0x7102410738; m2 0x71005013d8, D0 0x7100501f94 in
+// PreyNormal's TU). Placeholder name.
+class Unk_7102410738 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
 
 namespace uking::ai {
 
@@ -20,8 +29,25 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+    void m9() override;
+
+    virtual bool m34();
+    virtual bool m35();
+    virtual bool m36();
+    virtual bool m37(ksys::act::BaseProcLink* link);
+    virtual bool m38();
+    virtual bool m39();
+    virtual bool m40();
+    virtual void m41();
+    virtual bool m42() { return false; }
+    virtual ksys::act::Unk_7100d78e50* m43(s32 idx, bool skip_own_target);
+
+    void sub_71004FCA60();
+    bool sub_7100500A0C(const sead::Vector3f* pos);
 
 protected:
     // static_param at offset 0x38
@@ -62,8 +88,8 @@ protected:
     const bool* mIsLocatorCreate_m{};
     // map_unit_param at offset 0xc8
     const bool* mEnableNoEntryAreaCheck_m{};
-    /* 0x0d0 */ void* _d0 = nullptr;
-    /* 0x0d8 */ void* _d8 = nullptr;
+    /* 0x0d0 */ act::Enemy* _d0 = nullptr;  // m9: DynamicCast<Enemy>(mActor)
+    /* 0x0d8 */ ksys::act::AwarenessInstance* _d8 = nullptr;
     /* 0x0e0 */ sead::Vector3f _e0;
     /* 0x0f0 */ void* _f0 = nullptr;
     /* 0x0f8 */ s32 _f8 = -1;
