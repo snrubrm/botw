@@ -22,6 +22,10 @@ protected:
     bool* mIsNoWait_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    f32 _50{};
+    s32 _54{};
+    s32 _58{};
+    bool _5c{};
 };
 
 }  // namespace uking::ai
