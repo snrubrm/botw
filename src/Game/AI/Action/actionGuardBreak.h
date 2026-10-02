@@ -9,7 +9,10 @@ class GuardBreak : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(GuardBreak, ksys::act::ai::Action)
 public:
     explicit GuardBreak(const InitArg& arg);
-    ~GuardBreak() override;
+    // The original keeps this destructor out of line next to the subclasses' inlined copies, which a
+    // defaulted destructor does not. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    ~GuardBreak() override { ; }
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

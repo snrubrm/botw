@@ -8,8 +8,6 @@ namespace uking::action {
 
 GuardBreak::GuardBreak(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-GuardBreak::~GuardBreak() = default;
-
 bool GuardBreak::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
