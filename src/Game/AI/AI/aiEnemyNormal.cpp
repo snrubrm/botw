@@ -181,6 +181,81 @@ bool EnemyNormal::sub_710039E1D0(Unk2* out, s32 type, Unk1* info) {
 }
 
 // NON_MATCHING: the original updates out->_44 with branches (ours selects)
+// NON_MATCHING: the original keeps a separate `return true` block per case; ours shares one
+bool EnemyNormal::sub_71003A2BE0(Unk2* out, Unk1* info) {
+    switch (info->_0) {
+    case 0:
+        if (m67(out, info))
+            return true;
+        break;
+    case 1:
+        if (sub_71003A361C(out, 2, info))
+            return true;
+        break;
+    case 2:
+        if (sub_71003A2E20(out, info))
+            return true;
+        break;
+    case 3:
+        if (m68(out, info))
+            return true;
+        break;
+    case 4:
+        if (sub_71003A361C(out, 3, info))
+            return true;
+        break;
+    case 5:
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_71024514c0 filter(mActor);
+            auto* sensor = awareness->_260[3];
+            if (sensor) {
+                auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+                if (entry && !m45(entry->_88, entry->mLink, false)) {
+                    out->sub_71003A02A4(entry);
+                    return true;
+                }
+            }
+        }
+        break;
+    case 6:
+        if (auto* entry = sub_710039FE20(nullptr)) {
+            out->sub_71003A02A4(entry);
+            return true;
+        }
+        break;
+    case 7:
+        if (sub_71003A2F18(out))
+            return true;
+        break;
+    case 8:
+        if (sub_71003A31C0(out))
+            return true;
+        break;
+    default:
+        break;
+    }
+    return false;
+}
+
+bool EnemyNormal::sub_71003A2E20(Unk2* out, Unk1* info) {
+    if (m66(out, info))
+        return true;
+
+    auto& data = _188._38.mData;
+    if (_368 > 0.0f || !_188._30 || data._20 != 1)
+        return false;
+    auto* unk = sub_71005D9D68(mActor);
+    auto* link = &data._0;
+    if (unk && unk->sub_71002DC9E8(*link, 4, false))
+        return false;
+    out->_0 = link;
+    out->_38 = data._28;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    out->_8 = accessor.getActorMtx();
+    return true;
+}
+
 bool EnemyNormal::sub_71003A34D0(Unk2* out, s32 type, Unk1* info) {
     auto& data = _188._38.mData;
     if (data._20 != 0 || data._24 != 2 || _368 > 0.0f)
