@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiSiteBossLswordTornadoRoot.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -17,8 +18,17 @@ void SiteBossLswordTornadoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710057DD54();
 }
 
+// NON_MATCHING: register allocation and the block order around isStateSleep()
 void SiteBossLswordTornadoRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    if (!enemy->_1128.getActorPartsActor("SiteBossBigFlameBall0").hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor("SiteBossBigFlameBall0"), &accessor);
+    if (!accessor.isStateSleep())
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000004, nullptr, true);
 }
 
 void SiteBossLswordTornadoRoot::loadParams_() {

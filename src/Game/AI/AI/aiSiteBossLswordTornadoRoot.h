@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,10 @@ protected:
     sead::Vector3f* mDestPos_d{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTargetActor_d{};
+    u8 _50[0x78 - 0x50];  // not used by this class
+    ksys::act::BaseProcHandle _78;
+    ksys::Timer _88{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordTornadoRoot, 0x98);
 
 }  // namespace uking::ai
