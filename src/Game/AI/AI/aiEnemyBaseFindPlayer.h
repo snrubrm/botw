@@ -2,6 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,6 @@ class EnemyBaseFindPlayer : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyBaseFindPlayer, ksys::act::ai::Ai)
 public:
     explicit EnemyBaseFindPlayer(const InitArg& arg);
-    ~EnemyBaseFindPlayer() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -88,10 +88,8 @@ protected:
     f32 _f8 = 0;
     s32 _fc = 0;
     s32 _100 = 0;
-    // An unidentified helper object that holds the actor (methods around 0x7100d3bc4c).
-    ksys::act::Actor* _108 = mActor;
-    f32 _110 = 0;
-    u32 _114;
+    // Float counter advanced by the delta frame (m44 calls 0x7100d3bc4c on it; init_ sets its value).
+    ksys::act::Unk_7100d3bc4c _108{mActor};
     s32 _118 = 0;
     s32 _11c = 0;
     f32 _120 = 0;

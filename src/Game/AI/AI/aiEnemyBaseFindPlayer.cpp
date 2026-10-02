@@ -9,16 +9,12 @@ namespace uking::ai {
 
 EnemyBaseFindPlayer::EnemyBaseFindPlayer(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyBaseFindPlayer::~EnemyBaseFindPlayer() = default;
-
-
-
 bool EnemyBaseFindPlayer::init_(sead::Heap* heap) {
     const s32 lost_timer = *mLostTimer_s;
     const s32 lost_timer2 = lost_timer * 1.1f;
     _118 = sead::Mathi::min(lost_timer, lost_timer2);
     _11c = sead::Mathi::max(lost_timer, lost_timer2);
-    _110 = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+    _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
     sub_71005E2C58(mActor);
     return true;
 }

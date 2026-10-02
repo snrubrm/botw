@@ -16,6 +16,11 @@ class Actor;
 class Unk_7100d3bc4c {
 public:
     explicit Unk_7100d3bc4c(Actor* actor) : mActor(actor) {}
+    // User-provided (empty) destructor: EnemyBaseFindPlayer (+0x108) keeps its own D2 copy
+    // (0x71003819a0) instead of aliasing Ai::~Ai, while its subclasses' destructors call
+    // Ai::~Ai directly and store no vtable - i.e. a member with a non-trivial destructor whose
+    // body is trivial. This is EnemyBaseFindPlayer's only class-type member.
+    ~Unk_7100d3bc4c() {}
 
     // value += (delta frame + LOD delta) * rate.
     void sub_7100D3BC4C(f32 rate);
