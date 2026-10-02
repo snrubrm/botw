@@ -44,4 +44,10 @@ void TeleportForceApperPosition::calc_() {
     TeleportBase::calc_();
 }
 
+bool TeleportForceApperPosition::isFinished() const {
+    if (!ActionBase::isFinished())
+        return false;
+    return !_b4;
+}
+
 }  // namespace uking::action
