@@ -1,13 +1,22 @@
 #include "Game/AI/AI/aiGanonApproachOnFloorRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking::ai {
 
-GanonApproachOnFloorRoot::GanonApproachOnFloorRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+GanonApproachOnFloorRoot::GanonApproachOnFloorRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    for (auto*& request : _f8)
+        request = nullptr;
+}
 
 GanonApproachOnFloorRoot::~GanonApproachOnFloorRoot() = default;
 
 bool GanonApproachOnFloorRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (mActor->getModel())
+        _258.search(mActor->getModel(), "Head");
+    else
+        _258.getKey().reset();
+    return true;
 }
 
 void GanonApproachOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +24,12 @@ void GanonApproachOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonApproachOnFloorRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    for (auto*& request : _f8) {
+        if (request && !request->isRequestFinished()) {
+            request->release();
+            request = nullptr;
+        }
+    }
 }
 
 void GanonApproachOnFloorRoot::loadParams_() {

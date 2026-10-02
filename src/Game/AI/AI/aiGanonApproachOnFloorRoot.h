@@ -1,6 +1,13 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace ksys::phys {
+class RayCastForRequest;
+}
 
 namespace uking::ai {
 
@@ -52,6 +59,19 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0xc0
     sead::Vector3f* mMoveDstPos_d{};
+    bool _c8{};
+    ksys::Timer _cc;
+    ksys::Timer _d8;
+    ksys::Timer _e4;
+    s32 _f0{};
+    ksys::phys::RayCastForRequest* _f8[5];
+    sead::Vector3f _120[5];
+    sead::Vector3f _15c[15];
+    f32 _210[15];
+    sead::Vector3f _24c;
+    gsys::BoneAccessKeyEx _258;
+    s32 _290 = 5;
 };
+KSYS_CHECK_SIZE_NX150(GanonApproachOnFloorRoot, 0x298);
 
 }  // namespace uking::ai
