@@ -238,6 +238,7 @@ namespace uking::act {
 class Unk_71009214b8 {
 public:
     Unk_71009214b8();
+    ~Unk_71009214b8() {}
 
     // 0x7100921524
     void set(const sead::Vector3f& pos, const sead::Vector3f& at, const sead::Vector3f& up, f32 a24,

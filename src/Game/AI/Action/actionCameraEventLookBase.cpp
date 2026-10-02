@@ -4,8 +4,6 @@ namespace uking::action {
 
 CameraEventLookBase::CameraEventLookBase(const InitArg& arg) : CameraEvent(arg) {}
 
-CameraEventLookBase::~CameraEventLookBase() = default;
-
 void CameraEventLookBase::m46() {
     getDynamicParam_2(&mAngle_d, "Angle");
     getDynamicParam_2(&mNear_d, "Near");
