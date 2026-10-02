@@ -21,6 +21,7 @@ public:
     s32 m53() override { return 10; }
 
     void m34() override;
+    bool m54() override;
     void m37() override;
     void m38() override;
 

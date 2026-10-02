@@ -56,4 +56,10 @@ void GolemNormal::m58(s32 a1) {
         m40();
 }
 
+bool GolemNormal::m54() {
+    if (EnemyNormal::m54())
+        return true;
+    return isCurrentChild("初期待機");
+}
+
 }  // namespace uking::ai
