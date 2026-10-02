@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking {
+class AirOctaDataMgr;
+}
+
 namespace uking::ai {
 
 class AirOctaReaction : public EnemyDefaultReaction {
@@ -24,7 +28,7 @@ public:
 
 protected:
     // aitree_variable at offset 0x68
-    void* mAirOctaDataMgr_a{};
+    AirOctaDataMgr** mAirOctaDataMgr_a{};
 };
 
 }  // namespace uking::ai

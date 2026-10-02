@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiAirOctaReaction.h"
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -37,6 +42,19 @@ bool AirOctaReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
         return true;
     }
     return false;
+}
+
+void AirOctaReaction::m42(ksys::act::ai::InlineParamPack* params) {
+    if (auto* mgr = sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a))
+        mgr->mFlags |= 8;
+
+    const char* name = "通常";
+    if (auto* damage_mgr = sub_710072BA90(mActor)) {
+        if (damage_mgr->getField50() == 3 && damage_mgr->checkDamageFlags(0))
+            name = "ヘッドショット";
+    }
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x2f, name, 0);
+    EnemyDefaultReaction::m42(params);
 }
 
 void AirOctaReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
