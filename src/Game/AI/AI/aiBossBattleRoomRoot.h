@@ -1,6 +1,11 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace uking::ai {
 
@@ -34,6 +39,32 @@ protected:
     const float* mFramesDelayRoll_s{};
     // static_param at offset 0x78
     const float* mFramesRollKeepFirst_s{};
+    sead::Matrix34f _80 = sead::Matrix34f::ident;
+    sead::Matrix34f _b0 = sead::Matrix34f::ident;
+    sead::Matrix34f _e0 = sead::Matrix34f::ident;
+    Unk_71023dbd40 _110{mActor, 0x80000d7};
+    Unk_71024509a8 _140;
+    void* _188 = nullptr;
+    u32 _190 = 0;
+    u32 _194 = 0;
+    u32 _198 = 0;
+    ksys::Timer _19c{0, 0};
+    ksys::Timer _1a8{0, 0};
+    u32 _1b4 = 0;
+    ksys::MesTransceiverId _1b8;
+    f32 _1d0 = 0;
+    u32 _1d4 = 0;
+    u32 _1d8 = 0;
+    void* _1e0 = nullptr;
+    void* _1e8 = nullptr;
+    // aal::Shape* (destroyed by the destructor; aal is not in the repo)
+    void* _1f0 = nullptr;
+    // xlink2 handle (event pointer + create id; leave_ fades the event)
+    void* _1f8 = nullptr;
+    u32 _200 = 0;
+    u32 _204;
+    bool _208 = true;
 };
+KSYS_CHECK_SIZE_NX150(BossBattleRoomRoot, 0x210);
 
 }  // namespace uking::ai

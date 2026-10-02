@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: regalloc (ours keeps &_80 in a callee-saved register across the memset)
 BossBattleRoomRoot::BossBattleRoomRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 BossBattleRoomRoot::~BossBattleRoomRoot() = default;
