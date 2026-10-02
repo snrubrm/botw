@@ -87,6 +87,7 @@ public:
     union Unk3 {
         f32 _f32;
         u64* _u64_ptr;
+        sead::SafeString* _str_ptr;
     };
 
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
@@ -134,6 +135,17 @@ public:
     bool sub_710115B01C(int slot, int bank, bool a3);
     // 0x710115c11c: clears bit 1 of _163 (returns whether it was set) and updates every slot.
     bool sub_710115C11C();
+    // 0x710115bed4: per-slot update (placeholder; returns a slot index). Not decompiled yet (calls
+    // unnamed Unk1 helpers 0x71011653a4 / 0x7101164ff8 / 0x7101165008 / 0x7101164e38).
+    s32 sub_710115BED4(bool a1);
+    // 0x710115bc28: looks up the define `name` (sub_710115AABC) and applies it with `value`
+    // (placeholder; returns a slot index or 0). Not decompiled yet.
+    s32 sub_710115BC28(const sead::SafeString& name, f32 value);
+    // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
+    const char* sub_710115ECF4(int kind, int a2);
+    // 0x710115ed5c: getter counterpart of x_2: bit `bit` of the flags parameter (_f0[0x42]), with
+    // bits 0 / 0x19 / 6 answered by the owner (basic signal / remains signal / LodState flag 1).
+    bool sub_710115ED5C(int a1, int bit);
 
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())

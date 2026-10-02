@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 
 
@@ -114,6 +116,43 @@ bool ASList::x_2(int a1, int bit, bool on, bool a4) {
     else
         *bits &= ~(1ul << bit);
     return true;
+}
+
+const char* ASList::sub_710115ECF4(int kind, int a2) {
+    const s8 idx = _f0[kind];
+    if (idx < 0)
+        return "";
+    return _e0[idx]._str_ptr->cstr();
+}
+
+// NON_MATCHING: the original tests 0, 0x19 and then 6 (our switch lowering tests 0x19, 6, then 0)
+bool ASList::sub_710115ED5C(int a1, int bit) {
+    if (bit < 0)
+        return false;
+
+    switch (bit) {
+    case 0:
+        return _d8 && _d8->checkBasicSig();
+    case 0x19:
+        return _d8 && _d8->checkRemainsSignal();
+    case 6:
+        if (_d8) {
+            if (auto* lod = _d8->getLodState()) {
+                if (!lod->mFlags8.isOnBit(1))
+                    return true;
+            }
+        }
+        return false;
+    default: {
+        const s8 idx = _f0[0x42];
+        if (idx < 0)
+            return false;
+        const u64* bits = _e0[idx]._u64_ptr;
+        if (!bits)
+            return false;
+        return *bits & (1ul << bit);
+    }
+    }
 }
 
 void ASList::x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value) {
