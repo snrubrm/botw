@@ -30,4 +30,9 @@ void LandHumEnemyNormal::loadParams_() {
     getStaticParam(&mExplosivesSearchAng_s, "ExplosivesSearchAng");
 }
 
+s32 LandHumEnemyNormal::m52(s32 idx) {
+    static const s32 sTable[] = {0, 1, 2, 3, 9, 10, 4, 5, 6, 7, 8};
+    return sTable[idx];
+}
+
 }  // namespace uking::ai

@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    s32 m52(s32 idx) override;
+    s32 m53() override { return 11; }
+
 protected:
     // static_param at offset 0x3d0
     const float* mTerrorIgnoreDist_s{};
@@ -26,6 +29,8 @@ protected:
     const float* mExplosivesSearchSpeed_s{};
     // static_param at offset 0x3e8
     const float* mExplosivesSearchAng_s{};
+    ksys::act::BaseProcLink _3f0;
 };
+KSYS_CHECK_SIZE_NX150(LandHumEnemyNormal, 0x400);
 
 }  // namespace uking::ai

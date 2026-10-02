@@ -25,4 +25,9 @@ void MimicEnemyNormal::loadParams_() {
     getAITreeVariable(&mIsStartResetMimicry_a, "IsStartResetMimicry");
 }
 
+bool MimicEnemyNormal::isFinished() const {
+    return ActionBase::isFinished() ||
+           (isCurrentChild("プレイヤー発見") && getCurrentChild()->isFinished());
+}
+
 }  // namespace uking::ai

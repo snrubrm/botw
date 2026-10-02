@@ -1,8 +1,27 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
+
+// Unnamed 0x68-byte heap object owned by EnemyNormal (_48). It has no out-of-line constructor:
+// it is constructed inline by EnemyNormal::m65 (0x710039d8f0); placeholder name = that address.
+struct Unk_710039D8F0 {
+    s32 _0 = -1;
+    void* _8 = nullptr;
+    sead::Matrix34f _10 = sead::Matrix34f::ident;
+    sead::Vector3f _40 = sead::Vector3f::zero;
+    bool _4c = false;
+    ksys::act::BaseProcLink _50;
+    u32 _60 = 0;
+};
 
 class EnemyNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNormal, ksys::act::ai::Ai)
@@ -15,12 +34,58 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual bool m44() { return true; }
+    virtual void m45();
+    virtual void m46();
+    virtual void m47();
+    virtual void m48(sead::Vector3f* pos);
+    virtual void m49();
+    virtual void m50();
+    virtual void m51();
+    virtual s32 m52(s32 idx);
+    virtual s32 m53() { return 9; }
+    virtual void m54();
+    virtual void m55();
+    virtual void m56();
+    virtual void m57();
+    virtual void m58();
+    virtual void m59();
+    virtual void m60();
+    virtual void m61();
+    virtual void m62();
+    virtual bool m63() { return false; }
+    virtual void m64();
+    virtual bool m65(sead::Heap* heap);
+    virtual void m66();
+    virtual void m67();
+    virtual void m68();
+    virtual void m69();
+    virtual void m70();
+    virtual void m71();
+    virtual void m72();
+    virtual void m73();
 
 protected:
     // aitree_variable at offset 0x38
     int* mPlayerSoundSealRefCount_a{};
     // aitree_variable at offset 0x40
     int* mSealNoPlayerAwnRequestCount_a{};
+    Unk_710039D8F0* _48 = nullptr;
+    ksys::act::BaseProcLink _50;
+    sead::Vector3f _60;
+    u32 _6c;
     // static_param at offset 0x70
     const int* mWeaponIdx_s{};
     // static_param at offset 0x78
@@ -63,6 +128,32 @@ protected:
     sead::SafeString mFortressTag_s{};
     // map_unit_param at offset 0x118
     const float* mTerritoryArea_m{};
+    f32 _120 = 0;
+    s32 _124 = 0;
+    s32 _128 = 0;
+    bool _12c = false;
+    Unk_710235abc8 _130{mActor, 0x8000006};
+    Unk_7102450528 _188;
+    // The payload lock of _188 (Unk_7102450528 embeds only the payload data; same as Enemy::_118).
+    sead::JobQueueLock _1f8;
+    Unk_71024507f8 _200;
+    Unk_71023e8ff8 _290;
+    Unk_71023e8fd0 _2e0{mActor, 0x80000c0};
+    Unk_71023e9028 _308;
+    ksys::Timer _358;
+    u32 _364 = 0;
+    f32 _368 = 0;
+    f32 _36c = 0;
+    f32 _370 = 0;
+    u8 _374[0x390 - 0x374];
+    ksys::act::BaseProcLink _390;
+    sead::Vector3f _3a0;
+    sead::BitFlag32 _3ac;
+    const float* _3b0 = nullptr;
+    f32 _3b8 = 0;
+    u32 _3bc;
+    ksys::act::BaseProcLink _3c0;
 };
+KSYS_CHECK_SIZE_NX150(EnemyNormal, 0x3d0);
 
 }  // namespace uking::ai

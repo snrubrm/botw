@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m41() override;
+    void m42() override;
+
 protected:
     // static_param at offset 0x3d0
     const float* mSightAwarenessScale_s{};

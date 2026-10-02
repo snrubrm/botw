@@ -13,6 +13,8 @@ bool LandHumGourmandEnemyNormal::init_(sead::Heap* heap) {
 
 void LandHumGourmandEnemyNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     LandHumEnemyNormal::enter_(params);
+    sub_7100472538();
+    _418 = ksys::Timer(0, 0);
 }
 
 void LandHumGourmandEnemyNormal::calc_() {
@@ -30,6 +32,19 @@ void LandHumGourmandEnemyNormal::loadParams_() {
     getStaticParam(&mEatNavType_s, "EatNavType");
     getAITreeVariable(&mTargetBaitActorLink_a, "TargetBaitActorLink");
     getAITreeVariable(&mIsTrgChangeUnderWaterState_a, "IsTrgChangeUnderWaterState");
+}
+
+void LandHumGourmandEnemyNormal::m35() {
+    if (*mIsTrgChangeUnderWaterState_a) {
+        m36();
+        return;
+    }
+    EnemyNormal::m35();
+}
+
+s32 LandHumGourmandEnemyNormal::m52(s32 idx) {
+    static const s32 sTable[] = {0, 1, 11, 2, 3, 9, 4, 5, 6, 7, 8, 10};
+    return sTable[idx];
 }
 
 }  // namespace uking::ai

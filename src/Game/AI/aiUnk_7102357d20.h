@@ -293,3 +293,23 @@ public:
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
 };
+
+// --- lane1 session 7 senders ---
+// vtable 0x710235abc8 (EnemyNormal); message 0x8000006. Its D2/D0/m2 are at 0x7100032a4c..
+class Unk_710235abc8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_710235abc8_Payload _18;
+};
+
+// vtable 0x71023e8fd0 (EnemyNormal); message 0x80000c0 (payload declared as Unk_71023e7d28_Payload,
+// named after its listener)
+class Unk_71023e8fd0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023e7d28_Payload _18;
+};
