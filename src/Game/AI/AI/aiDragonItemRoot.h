@@ -1,7 +1,19 @@
 #pragma once
 
 #include "Game/AI/AI/aiItemRoot.h"
+#include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
+#include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace ksys::phys {
+class RigidBody;
+}
+
+namespace ksys::phys {
+class RigidBody;
+}
 
 namespace uking::ai {
 
@@ -52,6 +64,18 @@ protected:
     bool* mIsInitFromCarryBox_a{};
     // aitree_variable at offset 0x120
     bool* mIsInsideObserverArea_a{};
+    ksys::phys::RigidBody* _128{};
+    sead::Vector3f _130;
+    f32 _13c;
+    f32 _140;
+    f32 _144;
+    f32 _148 = 0;
+    sead::BitFlag8 _14c;
+    f32 _150 = 0;
+    f32 _154 = 0;
+    f32 _158 = 0;
+    f32 _15c = 0;
 };
+KSYS_CHECK_SIZE_NX150(DragonItemRoot, 0x160);
 
 }  // namespace uking::ai

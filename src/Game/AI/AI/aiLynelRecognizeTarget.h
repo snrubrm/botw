@@ -62,6 +62,17 @@ protected:
     int* mLynelAIFlags_a{};
     // aitree_variable at offset 0xe8
     int* mLynelAreaAlarmPoint_a{};
+    s32 _f0{};
+    bool _f4{};
+    f32 _f8 = 0;
+    // An unidentified actor-time-scaled timer object {Actor*, f32 value, ...} (methods 0x7100d3bc4c, ...)
+    ksys::act::Actor* _100 = mActor;
+    f32 _108 = 0;
+    u32 _10c;
+    // Same type as _100
+    ksys::act::Actor* _110 = mActor;
+    f32 _118 = 0;
+    u32 _11c;
 };
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void LynelRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LynelRecognizeTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    mActor->m93(0, 0.0f);
 }
 
 void LynelRecognizeTarget::loadParams_() {

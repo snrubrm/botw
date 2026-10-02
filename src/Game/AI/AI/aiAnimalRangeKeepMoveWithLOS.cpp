@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAnimalRangeKeepMoveWithLOS.h"
+#include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
 
@@ -8,7 +9,8 @@ AnimalRangeKeepMoveWithLOS::AnimalRangeKeepMoveWithLOS(const InitArg& arg)
 AnimalRangeKeepMoveWithLOS::~AnimalRangeKeepMoveWithLOS() = default;
 
 bool AnimalRangeKeepMoveWithLOS::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _a0 = sead::DynamicCast<act::WolfLink>(mActor);
+    return _a0 != nullptr;
 }
 
 void AnimalRangeKeepMoveWithLOS::enter_(ksys::act::ai::InlineParamPack* params) {

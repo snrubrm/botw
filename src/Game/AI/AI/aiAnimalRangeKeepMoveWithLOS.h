@@ -1,6 +1,12 @@
 #pragma once
 
+#include <limits>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+
+namespace uking::act {
+class WolfLink;
+}
 
 namespace uking::ai {
 
@@ -34,6 +40,19 @@ protected:
     const float* mBattleEndDist_s{};
     // static_param at offset 0x70
     const float* mDistFailOnUnreachablePath_s{};
+    f32 _78{};
+    s32 _7c{};
+    s32 _80{};
+    f32 _84{};
+    s32 _88{};
+    s32 _8c{};
+    sead::Vector3f _90{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                       std::numeric_limits<f32>::quiet_NaN()};
+    act::WolfLink* _a0{};
+    f32 _a8{};
+    bool _ac{};
+    bool _ad{};
 };
+KSYS_CHECK_SIZE_NX150(AnimalRangeKeepMoveWithLOS, 0xb0);
 
 }  // namespace uking::ai
