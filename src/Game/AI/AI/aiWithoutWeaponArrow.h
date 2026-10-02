@@ -21,7 +21,7 @@ public:
     virtual void m34(const sead::Vector3f& a1, bool a2, const char* child_name);
     virtual void m35();
     virtual void m36();
-    virtual void m37(bool* a1, bool* a2);
+    virtual bool m37(bool* broke_ice_block, bool* hit_player);
     virtual bool m38();
     virtual bool m39();
     virtual void m40();

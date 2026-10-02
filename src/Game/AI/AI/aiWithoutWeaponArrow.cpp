@@ -1,5 +1,11 @@
 #include "Game/AI/AI/aiWithoutWeaponArrow.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 
@@ -88,6 +94,52 @@ bool WithoutWeaponArrow::m38() {
     if (!chemical)
         return false;
     return chemical->mMaterial->attribute.ref() & 0x10;
+}
+
+void WithoutWeaponArrow::m35() {
+    if (!mCallHitSEKey_s.isEmpty())
+        ksys::eft::searchAndEmitSLink(mActor, mCallHitSEKey_s.cstr(), false);
+
+    if (m47() != 0) {
+        const f32 time = m47();
+        _108 = ksys::Timer(time, time);
+        if (auto* body = mActor->getMainBody()) {
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setGravityFactor(0);
+        }
+        changeChild("刺さる");
+        ksys::act::disableAllAttClients(mActor);
+    } else {
+        m40();
+    }
+}
+
+bool WithoutWeaponArrow::m37(bool* broke_ice_block, bool* hit_player) {
+    if (!hasAttackInfo(mActor))
+        return false;
+    const s32 num = getNumAttackInfoMaybe(mActor);
+    if (num < 1)
+        return false;
+
+    bool hit = false;
+    for (s32 i = 0; i < num; ++i) {
+        auto* info = getAttackInfo(mActor, i);
+        if (!info)
+            continue;
+
+        auto* link = &info->_50;
+        if (*mIsBreakIceBlock_s && ksys::act::hasTag(link, ksys::act::tags::IsIceMakerBlock)) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(link, &accessor);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                                nullptr, true);
+            *broke_ice_block = true;
+        }
+        hit = true;
+        if (ksys::act::isPlayerProfile(link))
+            *hit_player = true;
+    }
+    return hit;
 }
 
 }  // namespace uking::ai
