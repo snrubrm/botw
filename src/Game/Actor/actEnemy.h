@@ -255,8 +255,19 @@ public:
     /* 0xe90 */ u32 _e90 = 0;
     /* 0xe98 */ sead::SafeString _e98;
     /* 0xea8 */ sead::SafeArray<ksys::act::BaseProcLink, 8> _ea8{};
-    /* 0xf28 */ Actor* _f28 = this;
-    /* 0xf30 */ s32 _f30 = -1;
+    // Placeholder name (no vtable, inline ctor; only method 0x7100001aa4, called by ~20 enemy AI
+    // functions with this + 0xf28). Picks the next attack interval kind (_8: 0 / 1 / 2, the short /
+    // middle / long ranges of the actor's GParamList AttackInterval) and returns a random time in that
+    // range multiplied by `scale`.
+    struct Unk_7100001aa4 {
+        explicit Unk_7100001aa4(Actor* actor) : mActor(actor) {}
+
+        int sub_7100001AA4(f32 scale);
+
+        Actor* mActor;
+        s32 _8 = -1;
+    };
+    /* 0xf28 */ Unk_7100001aa4 _f28{this};
     /* 0xf38 */ void* _f38 = nullptr;
     /* 0xf40 */ s32 _f40 = 0;
     /* 0xf44 */ s32 _f44 = -1;
