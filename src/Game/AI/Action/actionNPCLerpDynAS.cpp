@@ -27,4 +27,8 @@ void NPCLerpDynAS::calc_() {
     NPCLerpAction::calc_();
 }
 
+const char* NPCLerpDynAS::m32() {
+    return mDynASName_d.cstr();
+}
+
 }  // namespace uking::action
