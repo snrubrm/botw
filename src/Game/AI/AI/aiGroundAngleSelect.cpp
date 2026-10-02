@@ -26,6 +26,32 @@ void GroundAngleSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: block order of the slope test (the original's normal shares its stack slot with the
+// SafeString temporaries, as if the test were an inline helper)
+void GroundAngleSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !child->isChangeable() ||
+        !*mIsCheckEveryFrame_s) {
+        return;
+    }
+
+    bool on_slope;
+    {
+        const f32 cos = sead::Mathf::cos(*mSlopeAngle_s);
+        sead::Vector3f normal;
+        auto* cc = mActor->getCharacterController();
+        on_slope = (cc && cc->sub_7100F5F234(&normal) && normal.y < cos) ||
+                   (*mIsCheckActorMtx_s && mActor->getMtx().m[1][1] < cos);
+    }
+    if (on_slope) {
+        if (!isCurrentChild("斜面"))
+            changeChild("斜面");
+    } else {
+        if (!isCurrentChild("平地"))
+            changeChild("平地");
+    }
+}
+
 bool GroundAngleSelect::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
