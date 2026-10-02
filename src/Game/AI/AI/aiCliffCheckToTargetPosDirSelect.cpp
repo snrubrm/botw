@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCliffCheckToTargetPosDirSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,15 @@ void CliffCheckToTargetPosDirSelect::leave_() {
 
 void CliffCheckToTargetPosDirSelect::loadParams_() {
     CliffCheckSelect::loadParams_();
+}
+
+void CliffCheckToTargetPosDirSelect::m34(sead::Vector3f* out) {
+    auto* actor = mActor;
+    if (!actor)
+        *out = sead::Vector3f::ez;
+    *out = sub_71005D9330(mActor);
+    *out -= actor->getMtx().getTranslation();
+    out->normalize();
 }
 
 }  // namespace uking::ai

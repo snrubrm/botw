@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiForestGiantStoneShootBattle.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -60,6 +63,19 @@ void ForestGiantStoneShootBattle::loadParams_() {
 
 bool ForestGiantStoneShootBattle::m41() {
     return true;
+}
+
+void ForestGiantStoneShootBattle::m44(ksys::act::BaseProcHandle* handle,
+                                      ksys::act::InstParamPack* params) {
+    if (sead::GlobalRandom::instance()->getF32() * 100.0f < *mShootItemRate1_s) {
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            mShootItemName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+            handle, params, nullptr, 1);
+    } else {
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            mShootItemName2_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+            handle, params, nullptr, 1);
+    }
 }
 
 }  // namespace uking::ai

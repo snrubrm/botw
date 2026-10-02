@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     bool m41() override;
+    void m44(ksys::act::BaseProcHandle* handle, ksys::act::InstParamPack* params) override;
 
 protected:
     // static_param at offset 0xb0

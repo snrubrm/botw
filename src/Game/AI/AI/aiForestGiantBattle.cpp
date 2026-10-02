@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -36,6 +38,13 @@ bool ForestGiantBattle::m39() {
     if ((pos - target_pos).length() <= *mForceAttackArea_s)
         return true;
     return EnemyBattle::m39();
+}
+
+bool ForestGiantBattle::m40() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !(enemy->_e68.value <= sead::Mathf::epsilon()))
+        return false;
+    return sub_710072DDB8(sub_71005D9330(mActor), mActor->getMtx(), *mAttackAngle_s);
 }
 
 void ForestGiantBattle::m43(ksys::act::ai::InlineParamPack* params) {
