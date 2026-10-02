@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnimalElectricParalysis.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -15,6 +17,12 @@ bool AnimalElectricParalysis::init_(sead::Heap* heap) {
 
 void AnimalElectricParalysis::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseElectricParalysis::enter_(params);
+    if (mASName_s.isEmpty())
+        return;
+    if (mActor->m132())
+        mActor->m132()->_18.sub_7100E786F0(mASName_s);
+    else
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void AnimalElectricParalysis::leave_() {
