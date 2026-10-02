@@ -298,6 +298,10 @@ ksys::act::BaseProcLink& sub_71005DE7F4(ksys::act::Actor* actor, f32 dist, f32 s
 /// Whether `link`'s actor is within (dist, speed, angle) of `actor`.
 bool sub_71005DEC08(ksys::act::BaseProcLink* link, ksys::act::Actor* actor, f32 dist, f32 speed,
                     f32 angle);
+/// 0x71005df270 (declared only): the position of the actor's link (actor+0x7c8 links) whose map
+/// object unit config name is `anchor_name`, offset by `dist`. Placeholder name.
+void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::SafeString& anchor_name,
+                    f32 dist);
 /// Sends `sender`'s message to the actors of the fortress tagged `tag` (no-op for an empty tag).
 bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag);
 

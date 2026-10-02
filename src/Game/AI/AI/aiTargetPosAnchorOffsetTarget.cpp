@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTargetPosAnchorOffsetTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -30,6 +31,10 @@ void TargetPosAnchorOffsetTarget::loadParams_() {
     TargetPosAI::loadParams_();
     getStaticParam(&mDist_s, "Dist");
     getStaticParam(&mAnchorName_s, "AnchorName");
+}
+
+void TargetPosAnchorOffsetTarget::m35(sead::Vector3f* pos) {
+    sub_71005DF270(pos, mActor, mAnchorName_s, *mDist_s);
 }
 
 }  // namespace uking::ai
