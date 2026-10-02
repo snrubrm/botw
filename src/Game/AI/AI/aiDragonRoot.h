@@ -1,9 +1,22 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <prim/seadBitFlag.h>
 #include "Game/AI/AI/aiDragonRootBase.h"
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
+
+// vtable 0x71023e3a40: damage callback (functions in the DragonRoot TU); placeholder name.
+class Unk_71023e3a40 : public dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_71023e3a40, dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
 
 class DragonRoot : public DragonRootBase {
     SEAD_RTTI_OVERRIDE(DragonRoot, DragonRootBase)
@@ -18,7 +31,33 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    f32 m34() override;
+    void m37() override;
+    void m38() override;
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual void m44();
+    virtual void m45();
+    virtual void m46();
+    virtual bool m47();
+
+    // 0x20-byte element of _238 (allocated in init_ with ChemicalBulletNum entries).
+    struct Unk1 {
+        ksys::act::BaseProcHandle _0;
+        ksys::act::BaseProcLink _10;
+    };
+
+    // Owner of the Unk1 array: the destructor frees it after _250 is destroyed, so the buffer is
+    // freed by a member destructor rather than by ~DragonRoot's body. Placeholder.
+    struct Unk2 {
+        ~Unk2() { _0.freeBuffer(); }
+        sead::Buffer<Unk1> _0;
+    };
+
 protected:
+    Unk_71023e3a40 _98;
     // static_param at offset 0xc0
     const int* mChemicalBulletRate_s{};
     // static_param at offset 0xc8
@@ -75,6 +114,17 @@ protected:
     sead::SafeString mHornAnmName_s{};
     // aitree_variable at offset 0x1d0
     sead::SafeString* mCreateRailName_a{};
+    s32 _1d8 = 0;
+    f32 _1dc = 0;
+    f32 _1e0 = 0;
+    sead::Vector3f _1e4;
+    Unk_71023b0898 _1f0{mActor, 0x8000083};
+    f32 _230 = 0;
+    Unk2 _238;
+    f32 _248 = 0;
+    sead::BitFlag16 _24c;
+    ksys::act::BaseProcHandle _250;
 };
+KSYS_CHECK_SIZE_NX150(DragonRoot, 0x260);
 
 }  // namespace uking::ai

@@ -4,6 +4,10 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::dmg {
 
 // CSV: DamageMgr (vtable 0x710244ddf8, 57 slots; ctor 0x71006d23e0). RTTI static 0x71025ae600.
@@ -13,6 +17,10 @@ class DamageManager : public DamageManagerBase {
     SEAD_RTTI_OVERRIDE(DamageManager, DamageManagerBase)
 public:
     explicit DamageManager(ksys::act::Actor* actor);
+
+    // 0x71006d69f8 (not decompiled): the rigid body hit by the current damage (by damage kind
+    // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
+    ksys::phys::RigidBody* sub_71006D69F8();
 
     u8 _68[0x74 - 0x68];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo

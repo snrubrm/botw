@@ -38,6 +38,15 @@ void Unk_71024f15c0::sub_7100EEBE9C(s32 direction) {
     _58 = direction;
 }
 
+ksys::map::Rail* sub_7100EEF034(ksys::act::Actor* actor, s32 idx) {
+    auto* object = actor->getMapObject();
+    if (!object)
+        return nullptr;
+    if (!object->getRails_0())
+        return nullptr;
+    return static_cast<ksys::map::Rail**>(object->getRails_0())[idx];
+}
+
 ksys::map::Rail* sub_7100EEF264(ksys::act::Actor* actor, s32 idx) {
     auto* object = actor->getMapObject();
     if (!object)

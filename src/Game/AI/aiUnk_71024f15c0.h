@@ -47,6 +47,8 @@ public:
 
 // The actor's idx-th linked rail (prints "レールがリンクされていません" if the actor has none).
 ksys::map::Rail* sub_7100EEF264(ksys::act::Actor* actor, s32 idx);
+// The actor's idx-th linked rail, or null (no debug message).
+ksys::map::Rail* sub_7100EEF034(ksys::act::Actor* actor, s32 idx);
 // Progress of the point on `rail` nearest to `pos` (not decompiled).
 f32 sub_7100EEF7AC(const ksys::map::Rail* rail, const sead::Vector3f& pos, bool a3, f32 a4, f32 a5);
 // The "WaitASKeyName" parameter of the rail's idx-th point (empty string if missing).
