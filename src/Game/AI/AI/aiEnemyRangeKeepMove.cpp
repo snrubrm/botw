@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
@@ -72,6 +73,16 @@ bool EnemyRangeKeepMove::sub_71003AD058() {
     dir -= sub_71005D9330(mActor);
     dir.normalize();
     return sub_710072FEC4(mActor, dir, 3.0f, nullptr, false, nullptr);
+}
+
+// NON_MATCHING: the zero for the y term is materialised before the first square (scheduling)
+bool EnemyRangeKeepMove::m34() {
+    auto* actor = mActor;
+    const auto& target_pos = sub_71005D9330(actor);
+    sead::Vector3f diff = target_pos - actor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 dist = diff.length();
+    return dist > *mBaseDist_s + *mOutDist_s + sub_71007320F0(actor, m35());
 }
 
 }  // namespace uking::ai
