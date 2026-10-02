@@ -4,7 +4,9 @@ namespace uking::ai {
 
 GoronHeroDescendentRoot::GoronHeroDescendentRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GoronHeroDescendentRoot::~GoronHeroDescendentRoot() = default;
+GoronHeroDescendentRoot::~GoronHeroDescendentRoot() {
+    sub_7100A9A6AC(false);
+}
 
 bool GoronHeroDescendentRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

@@ -1,6 +1,12 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+#include <prim/seadDelegate.h>
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace uking::ai {
 
@@ -14,6 +20,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    // Called through the delegate _240.
+    void sub_7100406E90();
 
 protected:
     // static_param at offset 0x38
@@ -34,6 +43,38 @@ protected:
     sead::SafeString mFollowModeFlagName_s{};
     // static_param at offset 0x80
     const sead::Vector3f* mPlayerFollowOffset_s{};
+    bool _88 = false;
+    bool _89 = false;
+    bool _8a = false;
+    bool _8b = false;
+    bool _8c = false;
+    sead::Matrix34f _90;
+    sead::Matrix34f _c0;
+    sead::Vector3f _f0 = sead::Vector3f::zero;
+    f32 _fc = 0;
+    u32 _100 = 0x8000000;
+    f32 _104 = 0;
+    f32 _108 = 0;
+    u32 _10c = 0;
+    u64 _110 = 0;
+    u32 _118 = 0;
+    f32 _11c = -1.0f;
+    f32 _120 = -1.0f;
+    u32 _124 = 0;
+    ksys::MesTransceiverId _128;
+    u64 _140 = 0;
+    u32 _148 = 0;
+    u64 _150 = 0;
+    u32 _158 = 0;
+    Unk_710235aba0 _160{mActor, 0x8000040};
+    Unk_71023f5f90 _190;
+    Unk_71023f5fc0 _1c8;
+    Unk_71023f5f60 _200;
+    sead::Delegate<GoronHeroDescendentRoot> _240{this, &GoronHeroDescendentRoot::sub_7100406E90};
 };
+KSYS_CHECK_SIZE_NX150(GoronHeroDescendentRoot, 0x260);
+
+// 0x7100a9a6ac (not decompiled; a bool setter on an unknown global, called by the destructor).
+void sub_7100A9A6AC(bool on);
 
 }  // namespace uking::ai
