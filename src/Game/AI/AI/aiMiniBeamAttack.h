@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Game/AI/AI/aiBreathAttackEnemyBattle.h"
+#include "Game/AI/aiGuardianAimBeamState.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -38,6 +41,11 @@ protected:
     const bool* mIsChangeable_s{};
     // static_param at offset 0xf0
     sead::SafeString mAimEffectName_s{};
+    GuardianAimBeamState _100;
+    Unk_7102451ba0 _1f8;
+    sead::Vector3f _220{0, 0, 0};
+    Unk_71012419b4 _230{};
 };
+KSYS_CHECK_SIZE_NX150(MiniBeamAttack, 0x250);
 
 }  // namespace uking::ai

@@ -32,6 +32,7 @@ public:
     virtual bool m44();
 
     void sub_710033E970();
+    void sub_710033F27C(s32 time);
 protected:
     // static_param at offset 0x38
     const int* mEnlargeTime_s{};

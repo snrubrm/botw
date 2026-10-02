@@ -23,5 +23,6 @@ protected:
     // dynamic_param at offset 0x2e0
     ksys::act::BaseProcLink* mTargetActor_d{};
 };
+KSYS_CHECK_SIZE_NX150(GuardianMiniBeamToExplosives, 0x2e8);
 
 }  // namespace uking::ai

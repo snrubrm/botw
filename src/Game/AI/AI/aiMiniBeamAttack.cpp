@@ -4,6 +4,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the original zeroes _230 (the xlink handle pair) with four 8-byte stores
 MiniBeamAttack::MiniBeamAttack(const InitArg& arg) : BreathAttackEnemyBattle(arg) {}
 
 MiniBeamAttack::~MiniBeamAttack() = default;

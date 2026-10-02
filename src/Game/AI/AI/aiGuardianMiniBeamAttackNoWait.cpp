@@ -13,6 +13,13 @@ bool GuardianMiniBeamAttackNoWait::init_(sead::Heap* heap) {
 
 void GuardianMiniBeamAttackNoWait::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianMiniBeamAttack::enter_(params);
+    _2e0 = true;
+}
+
+void GuardianMiniBeamAttackNoWait::calc_() {
+    GuardianMiniBeamAttack::calc_();
+    if (_2e0)
+        _2e0 = false;
 }
 
 void GuardianMiniBeamAttackNoWait::leave_() {

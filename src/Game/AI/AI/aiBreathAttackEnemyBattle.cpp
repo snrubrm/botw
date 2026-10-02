@@ -34,6 +34,13 @@ void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710033E970();
 }
 
+void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
+    if (time < 0)
+        return;
+    if (auto* enemy = static_cast<act::Enemy*>(mActor))
+        enemy->_e68 = ksys::Timer(time, time);
+}
+
 void BreathAttackEnemyBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
