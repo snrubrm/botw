@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMoriblinUnarmedBattle.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +9,9 @@ MoriblinUnarmedBattle::MoriblinUnarmedBattle(const InitArg& arg) : ksys::act::ai
 MoriblinUnarmedBattle::~MoriblinUnarmedBattle() = default;
 
 void MoriblinUnarmedBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    sub_71004AC4F8();
+    _b8 = ksys::Timer(0, 0);
 }
 
 bool MoriblinUnarmedBattle::isChangeable() const {
@@ -15,7 +19,7 @@ bool MoriblinUnarmedBattle::isChangeable() const {
 }
 
 void MoriblinUnarmedBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_90);
 }
 
 void MoriblinUnarmedBattle::loadParams_() {

@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiMoriblinSpearBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -7,8 +12,20 @@ MoriblinSpearBattle::MoriblinSpearBattle(const InitArg& arg) : ksys::act::ai::Ai
 
 MoriblinSpearBattle::~MoriblinSpearBattle() = default;
 
+// NON_MATCHING: clang inlines sub_71004AA798/sub_71004AA888 here; the original tail-calls them
 void MoriblinSpearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        sead::Vector3f diff = sub_71005D9330(mActor);
+        diff -= mActor->getMtx().getTranslation();
+        diff.y = 0;
+        if (diff.length() <= sub_71007320F0(mActor, *mWeaponIdx_s) + *mNearDist_s) {
+            sub_71004AA798();
+            return;
+        }
+    }
+    sub_71004AA888();
 }
 
 bool MoriblinSpearBattle::isChangeable() const {
@@ -29,6 +46,23 @@ void MoriblinSpearBattle::loadParams_() {
     getStaticParam(&mAttackIntervalIntensity_s, "AttackIntervalIntensity");
     getStaticParam(&mAttackStartRotate_s, "AttackStartRotate");
     getStaticParam(&mForceAttackDist_s, "ForceAttackDist");
+}
+
+void MoriblinSpearBattle::sub_71004AA798() {
+    setDamageCallbackTiming(mActor, 4, &_90);
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target_pos, "TargetPos", -1);
+    changeChild("近距離", &params);
+}
+
+void MoriblinSpearBattle::sub_71004AA888() {
+    sead::Vector3f diff = sub_71005D9330(mActor);
+    diff -= mActor->getMtx().getTranslation();
+    diff.y = 0;
+    if (diff.length() >= sub_71007320F0(mActor, *mWeaponIdx_s) + (*mBaseDist_s + *mOutDist_s))
+        setFailed();
+    sub_71004AB3E4();
 }
 
 }  // namespace uking::ai

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,6 +15,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    void sub_710044ABCC();
+    void sub_710044ACE4(sead::Vector3f* pos, sead::Vector3f* dir);
 
 protected:
     // static_param at offset 0x38
@@ -26,6 +31,15 @@ protected:
     const float* mMoveSpeed_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    bool _60 = false;
+    f32 _64 = 0;
+    sead::Vector3f _68;
+    sead::Vector3f _74;
+    sead::Vector3f _80;
+    sead::Vector3f _8c;
+    ksys::Timer _98;
+    ksys::Timer _a4;
 };
+KSYS_CHECK_SIZE_NX150(InsectRoam, 0xb0);
 
 }  // namespace uking::ai

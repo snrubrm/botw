@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void sub_71004AC4F8();
 
 protected:
     // static_param at offset 0x38
@@ -34,6 +38,9 @@ protected:
     const int* mPursuingAttackInterval_s{};
     // static_param at offset 0x78
     const float* mPursuingAttackStartAng_s{};
+    ksys::Timer _80{0, 0};
+    Unk_7102451ba0 _90;
+    ksys::Timer _b8{0, 0};
 };
 
 }  // namespace uking::ai
