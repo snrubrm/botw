@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiRemainsFireBattleMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actRemains.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -16,8 +17,15 @@ bool RemainsFireBattleMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: scheduling only (`add x20, x19, #0x50` for &_50 is placed before the lock loop)
 void RemainsFireBattleMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _80 = false;
+    _50._18.y(mActor);
+    sub_71005E02E0(mActor, &_50, nullptr);
+    if (auto* remains = sead::DynamicCast<act::Remains>(mActor))
+        remains->_bb9 = true;
+    if (!handlePendingChildChange())
+        changeChild("待機");
 }
 
 // NON_MATCHING: the original keeps &mActor in a callee-saved register (frame with x22) and tests the
