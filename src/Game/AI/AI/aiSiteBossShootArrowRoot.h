@@ -1,8 +1,15 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
+
+// 0x7101e7abb4 (rodata, GOT 0x710258b798): 12 rows of 8 percentages (each row sums to 100); copied
+// into SiteBossShootArrowRoot::_160 by init_. Placeholder name.
+extern const sead::SafeArray<s32, 8> sUnk_7101e7abb4[12];
 
 class SiteBossShootArrowRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossShootArrowRoot, ksys::act::ai::Ai)
@@ -16,6 +23,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100584940 (not decompiled)
+    void sub_7100584940(bool a1);
+
     // static_param at offset 0x38
     const int* mChildDeviceMax_s{};
     // static_param at offset 0x40
@@ -68,6 +78,15 @@ protected:
     bool* mIsCancelAttack_d{};
     // dynamic_param at offset 0x108
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _110;
+    s32 _11c = 0;
+    bool _120 = false;
+    bool _121 = false;
+    bool _122 = false;
+    u32 _124 = 0;
+    gsys::BoneAccessKeyEx _128;
+    sead::SafeArray<sead::SafeArray<s32, 8>, 12> _160{};
 };
+KSYS_CHECK_SIZE_NX150(SiteBossShootArrowRoot, 0x2e0);
 
 }  // namespace uking::ai

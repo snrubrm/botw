@@ -124,6 +124,8 @@ public:
         s32 sub_710066C074();
         // 0x710066db98: replaces the actor linked at _360 with `proc` (deleting the old one).
         void sub_710066DB98(ksys::act::BaseProc* proc);
+        // 0x710066de24: &_3b0[idx] (out-of-line).
+        ksys::act::BaseProcLink* sub_710066DE24(int idx);
 
         // 0x710066c634: sub_710066C164(.., 0x8000054, .., flags = 1) + the same message to the
         // actors in _3b0.
