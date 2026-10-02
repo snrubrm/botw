@@ -27,6 +27,8 @@ protected:
     const float* mMagicAttackDir_s{};
     // static_param at offset 0x208
     const float* mMagicIntervalIntensity_s{};
+    f32 _210 = 0;
 };
+KSYS_CHECK_SIZE_NX150(RodEnemyFindPlayer, 0x218);
 
 }  // namespace uking::ai

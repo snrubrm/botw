@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool _3d0 = false;
 };
+KSYS_CHECK_SIZE_NX150(SwimEnemyNormal, 0x3d8);
 
 }  // namespace uking::ai

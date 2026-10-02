@@ -20,6 +20,9 @@ public:
 protected:
     // dynamic_param at offset 0xc0
     bool* mIsResetOldMoveIdx_d{};
+    u32 _c8 = -1;
+    bool _cc = false;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordRailApproach, 0xd0);
 
 }  // namespace uking::ai

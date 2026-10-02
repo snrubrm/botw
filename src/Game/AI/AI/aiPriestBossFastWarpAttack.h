@@ -18,6 +18,16 @@ public:
     void loadParams_() override;
 
 protected:
+    void* _c0;
+    u32 _c8;
+    u8 _cc[0xd4 - 0xcc];
+    u32 _d4;
+    void* _d8;
+    u32 _e0;
+    u8 _e4[0xec - 0xe4];
+    u32 _ec;
+    bool _f0 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossFastWarpAttack, 0xf8);
 
 }  // namespace uking::ai
