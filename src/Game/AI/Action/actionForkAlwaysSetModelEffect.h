@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -20,6 +21,9 @@ protected:
 
     // static_param at offset 0x20
     const int* mTimer_s{};
+    f32 _28 = 0;
 };
+
+KSYS_CHECK_SIZE_NX150(ForkAlwaysSetModelEffect, 0x30);
 
 }  // namespace uking::action

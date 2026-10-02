@@ -253,6 +253,8 @@ public:
     // (EquipedWeaponChild, PlayerStoleOpen, ChemicalAttack, ForkModelVisibleOff) and other classes.
     void setScale(const sead::Vector3f& scale) { mScale = scale; }
     void setStartModelOpacity(f32 opacity) { mStartModelOpacity = opacity; }
+    // 0x71011ccad8 (CSV Actor::x_3, declaration only): sets _4f4 (and notifies the model when it changed).
+    void x_3(f32 value);
     phys::RigidBody* getMainBody() const { return mMainBody; }
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 
