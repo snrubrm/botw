@@ -60,4 +60,38 @@ void MagneStickRoot::m35() {
         gear_mgr->sub_71006694B4(mActor);
 }
 
+void MagneStickRoot::m34() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006692F0(mActor, *mJoinSystemGroup_m);
+}
+
+void MagneStickRoot::m36() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_710066956C(mActor, *mJoinSystemGroup_m);
+}
+
+void MagneStickRoot::m37() {
+    auto* gear_mgr = GearMgr::instance();
+    if (gear_mgr && mActor)
+        gear_mgr->sub_71006695DC(mActor);
+}
+
+void MagneStickRoot::m38() {
+    auto* gear_mgr = GearMgr::instance();
+    if (!gear_mgr || !mActor || !*mJoinSystemGroup_m)
+        return;
+    auto* handler = gear_mgr->_1050;
+    if (auto* body = mActor->getMainBody())
+        body->setSystemGroupHandler(handler);
+}
+
+void MagneStickRoot::m39() {
+    if (!GearMgr::instance() || !mActor || !*mJoinSystemGroup_m)
+        return;
+    if (auto* body = mActor->getMainBody())
+        body->setSystemGroupHandler(nullptr);
+}
+
 }  // namespace uking::ai
