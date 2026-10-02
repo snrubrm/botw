@@ -58,7 +58,8 @@ public:
     }
 
     // The T::Data base of the object behind the slot (null if the object is not a T).
-    typename T::Data* getData() const {
+    template <typename U = T>
+    typename U::Data* getData() const {
         auto* obj = *mHolder;
         if (sead::IsDerivedFrom<T>(obj))
             return static_cast<T*>(obj);

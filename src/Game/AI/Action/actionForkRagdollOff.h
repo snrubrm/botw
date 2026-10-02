@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,7 +23,7 @@ protected:
     const int* mOffTiming_s{};
     // aitree_variable at offset 0x28
     void* mCRBOffsetUnit_a{};
-    void* _30{};
+    Unk_71025afb58Ref<Unk_7102384718> _30;
 };
 
 }  // namespace uking::action

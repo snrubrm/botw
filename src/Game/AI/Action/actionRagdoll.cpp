@@ -6,7 +6,9 @@ namespace uking::action {
 
 Ragdoll::Ragdoll(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-Ragdoll::~Ragdoll() = default;
+Ragdoll::~Ragdoll() {
+    _f8.release();
+}
 
 bool Ragdoll::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
