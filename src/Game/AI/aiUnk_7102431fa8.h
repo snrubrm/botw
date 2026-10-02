@@ -28,7 +28,8 @@ public:
     // 0x7100741e14
     void sub_7100741E14();
 
-    u64 _8 = 0;
+    u32 _8 = 0;
+    u32 _c = 0;  // WizzrobeWeatherMagic sets 1 (sub_71005FF9BC) / 2 (leave_)
     bool _10 = false;
     // zeroed with a single 8-byte store by the ctor (aggregate of two words)
     u32 _14[2]{};

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWizzrobeWeatherMagic.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool WizzrobeWeatherMagic::init_(sead::Heap* heap) {
 }
 
 void WizzrobeWeatherMagic::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _78 = sead::DynamicCast<Unk_7102431fa8>(
+        *static_cast<Unk_71025afb58**>(mWizzrobeMagicWeatherUnit_a));
+    _74 = -1.0f;
+    _70 = mActor->getMtx().m[1][3] + *mRiseLength_s;
+    sub_71005FF9BC();
 }
 
 void WizzrobeWeatherMagic::leave_() {
@@ -28,6 +34,18 @@ void WizzrobeWeatherMagic::loadParams_() {
 bool WizzrobeWeatherMagic::isFinished() const {
     return ksys::act::ai::Ai::isFinished() ||
            (isCurrentChild("発動") && getCurrentChild()->isFinished());
+}
+
+void WizzrobeWeatherMagic::sub_71005FF9BC() {
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    params.addVec3(*mTargetPos_d, "AttPos", -1);
+    sub_71005FFF84(&pos);
+    params.addVec3(pos, "TargetPos", -1);
+    _58.mTimer = ksys::Timer(*mTimer_s, *mTimer_s);
+    if (_78)
+        _78->_c = 1;
+    changeChild("準備", &params);
 }
 
 }  // namespace uking::ai
