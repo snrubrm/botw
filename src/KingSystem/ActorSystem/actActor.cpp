@@ -335,7 +335,7 @@ bool Actor::m39() {
 
 void Actor::m34(sead::Vector3f* pos, f32* value) {}
 
-void Actor::m42() {}
+void Actor::m42(const sead::Matrix34f& mtx) {}
 
 void Actor::m43(bool on) {}
 

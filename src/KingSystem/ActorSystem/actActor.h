@@ -296,7 +296,8 @@ public:
     virtual bool m39();
     virtual void m40();
     virtual void m41();
-    virtual void m42();
+    // Called by setMtx with the new matrix (Player::m42 forwards it).
+    virtual void m42(const sead::Matrix34f& mtx);
     virtual void m43(bool on);
     virtual void m44();
     // Returns mPhysics->mNavMeshCharacter (or null).
