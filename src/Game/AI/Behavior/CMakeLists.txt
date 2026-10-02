@@ -36,6 +36,8 @@ target_sources(uking PRIVATE
   behaviorBgmCtrlBehavior.cpp
   behaviorBgmCtrlBehavior.h
   behaviorBossBgm.cpp
+  behaviorBossBgmDamaged.cpp
+  behaviorBossBgmDamaged.h
   behaviorBossBgm.h
   behaviorBreakIceBlockAtAttackHit.cpp
   behaviorBreakIceBlockAtAttackHit.h
@@ -45,6 +47,12 @@ target_sources(uking PRIVATE
   behaviorCameraNotify2Sound.h
   behaviorCameraTalkFlag.cpp
   behaviorCameraTalkFlag.h
+  behaviorCancelMessageSendToPartsBase.cpp
+  behaviorCancelMessageSendToPartsBase.h
+  behaviorCancelMessageSendToParts.cpp
+  behaviorCancelMessageSendToParts.h
+  behaviorCanRideAnimalTerror.cpp
+  behaviorCanRideAnimalTerror.h
   behaviorChangeCharacterStandingOnFlag.cpp
   behaviorChangeCharacterStandingOnFlag.h
   behaviorChangeEnableNearTrigger.cpp
@@ -57,6 +65,10 @@ target_sources(uking PRIVATE
   behaviorCloseEye.h
   behaviorConditionReset.cpp
   behaviorConditionReset.h
+  behaviorCreateEaselBase.cpp
+  behaviorCreateEaselBase.h
+  behaviorCreateEasel.cpp
+  behaviorCreateEasel.h
   behaviorCurseGanonBGMApplyLPF.cpp
   behaviorCurseGanonBGMApplyLPF.h
   behaviorCutGrass.cpp
@@ -97,6 +109,8 @@ target_sources(uking PRIVATE
   behaviorEnemyNeckRotateToOffsetAng.h
   behaviorEnemyNoticeMasqueradeFlagSetter.cpp
   behaviorEnemyNoticeMasqueradeFlagSetter.h
+  behaviorEyeBlink.cpp
+  behaviorEyeBlink.h
   behaviorFadeLeaf.cpp
   behaviorFadeLeaf.h
   behaviorFootstepChanger.cpp
@@ -115,6 +129,8 @@ target_sources(uking PRIVATE
   behaviorForceSealSilentKill.h
   behaviorGelDisableEyeControl.cpp
   behaviorGelDisableEyeControl.h
+  behaviorGiantEyeBlink.cpp
+  behaviorGiantEyeBlink.h
   behaviorGreatGoddesStatueLightEffect.cpp
   behaviorGreatGoddesStatueLightEffect.h
   behaviorGuardFrontBarrierBase.cpp
@@ -133,6 +149,8 @@ target_sources(uking PRIVATE
   behaviorHorseSetCollarBehavior.h
   behaviorHorseSwitchAttRideBehavior.cpp
   behaviorHorseSwitchAttRideBehavior.h
+  behaviorHorseTerrorBehavior.cpp
+  behaviorHorseTerrorBehavior.h
   behaviorIgnoreGiantArmorCondition.cpp
   behaviorIgnoreGiantArmorCondition.h
   behaviorInterestNeckControl.cpp
@@ -143,6 +161,8 @@ target_sources(uking PRIVATE
   behaviorInvincible.h
   behaviorInWaterNoise.cpp
   behaviorInWaterNoise.h
+  behaviorLookAtOwnedHorse.cpp
+  behaviorLookAtOwnedHorse.h
   behaviorLynelBodyFitToGroundNormal.cpp
   behaviorLynelBodyFitToGroundNormal.h
   behaviorLynelGearAttackCollision.cpp
@@ -315,6 +335,10 @@ target_sources(uking PRIVATE
   behaviorSetXLinkProperty.h
   behaviorShortRangeBattleAlignment.cpp
   behaviorShortRangeBattleAlignment.h
+  behaviorShowMessage3D.cpp
+  behaviorShowMessage3D.h
+  behaviorShowRandomMessage3D.cpp
+  behaviorShowRandomMessage3D.h
   behaviorSignalControl.cpp
   behaviorSignalControl.h
   behaviorSiteBossSetFlinchFlag.cpp
@@ -345,10 +369,14 @@ target_sources(uking PRIVATE
   behaviorSwarmPatternMovingSphere.h
   behaviorSyncASFrameToAnimalUnit.cpp
   behaviorSyncASFrameToAnimalUnit.h
+  behaviorTerrorBehavior.cpp
+  behaviorTerrorBehavior.h
   behaviorTriggerNoise.cpp
   behaviorTriggerNoise.h
   behaviorUnderSelectedReactionNoAction.cpp
   behaviorUnderSelectedReactionNoAction.h
+  behaviorUnk_7102435118.cpp
+  behaviorUnk_7102435118.h
   behaviorViewLastAttackerPos.cpp
   behaviorViewLastAttackerPos.h
   behaviorWeaponChemicalReset.cpp

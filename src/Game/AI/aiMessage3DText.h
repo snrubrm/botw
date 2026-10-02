@@ -19,6 +19,9 @@ public:
     Message3DText();
     ~Message3DText();
 
+    // 0x7100721c48 (not decompiled): per-frame update (timer).
+    void sub_7100721C48();
+
     ksys::act::Actor* mActor = nullptr;
     sead::FixedSafeString<80> _8;
     sead::FixedSafeString<64> _70;
