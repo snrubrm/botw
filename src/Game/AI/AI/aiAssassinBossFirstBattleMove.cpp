@@ -53,14 +53,16 @@ void AssassinBossFirstBattleMove::loadParams_() {
     getStaticParam(&mAnchorName_s, "AnchorName");
 }
 
-// NON_MATCHING: the original copies the position as 8 + 4 bytes in x, z order (ours: z first)
+// NON_MATCHING: the original loop compares the index with a signed `<` and copies the position as
+// 8 + 4 bytes (see AssassinBossEscapeFromTarget::sub_7100315244; the index-loop form gets inlined
+// into init_)
 void AssassinBossFirstBattleMove::sub_7100316D50() {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* links = obj->getLinkData()) {
-            const auto objects = links->mObjects;
-            for (s32 i = 0; i < objects.size(); ++i) {
-                if (sead::SafeString(objects(i)->getUnitConfigName()) == mAnchorName_s) {
-                    _6c.set(objects(i)->getTranslate());
+            auto& objects = links->mObjects;
+            for (auto it = objects.begin(), end = objects.end(); it != end; ++it) {
+                if (sead::SafeString((*it)->getUnitConfigName()) == mAnchorName_s) {
+                    _6c = (*it)->getTranslate();
                     return;
                 }
             }

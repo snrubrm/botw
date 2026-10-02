@@ -58,14 +58,16 @@ void AssassinBossFirstRangeKeepMove::calc_() {
     EnemyRangeKeepMove::calc_();
 }
 
-// NON_MATCHING: the original copies the position as 8 + 4 bytes in x, z order (ours: z first)
+// NON_MATCHING: the original loop compares the index with a signed `<` and copies the position as
+// 8 + 4 bytes (see AssassinBossEscapeFromTarget::sub_7100315244; the index-loop form gets inlined
+// into init_)
 void AssassinBossFirstRangeKeepMove::sub_7100317AB8() {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* links = obj->getLinkData()) {
-            const auto objects = links->mObjects;
-            for (s32 i = 0; i < objects.size(); ++i) {
-                if (sead::SafeString(objects(i)->getUnitConfigName()) == mAnchorName_s) {
-                    _128.set(objects(i)->getTranslate());
+            auto& objects = links->mObjects;
+            for (auto it = objects.begin(), end = objects.end(); it != end; ++it) {
+                if (sead::SafeString((*it)->getUnitConfigName()) == mAnchorName_s) {
+                    _128 = (*it)->getTranslate();
                     return;
                 }
             }
