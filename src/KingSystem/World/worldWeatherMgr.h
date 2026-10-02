@@ -49,8 +49,8 @@ public:
     void x_14();
     void sub_71010EDEBC(int value);
     int x() const;
-    static bool isRaining();
-    static bool isSnowing();
+    bool isRaining();
+    bool isSnowing();
 
 protected:
     void init_(sead::Heap* heap) override;

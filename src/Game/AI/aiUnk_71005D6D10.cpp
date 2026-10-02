@@ -829,13 +829,14 @@ bool sub_71005D83C8(ksys::act::Actor* actor, int idx) {
     return weapon && (weapon->_e50 >> 6 & 1);
 }
 
-// NON_MATCHING: the original passes the WeatherMgr as `this` (WeatherMgr::isRaining is declared
-// static in this repo)
 bool sub_71005D723C() {
     auto* wm = ksys::world::Manager::instance();
-    if (wm && wm->getWeatherMgr())
-        return ksys::world::WeatherMgr::isRaining();
-    return false;
+    if (!wm)
+        return false;
+    auto* weather = wm->getWeatherMgr();
+    if (!weather)
+        return false;
+    return weather->isRaining();
 }
 
 bool sub_71005DD734(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
