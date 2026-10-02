@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
     virtual void m33();
+    virtual void m34(const sead::Vector3f& pos, const sead::Vector3f& dir);
 
     // map_unit_param at offset 0xab0
     const float* mChainRingOrbitSpeed_m{};
