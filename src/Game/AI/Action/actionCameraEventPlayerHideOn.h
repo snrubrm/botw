@@ -9,6 +9,8 @@ class CameraEventPlayerHideOn : public ksys::act::ai::Action {
 public:
     explicit CameraEventPlayerHideOn(const InitArg& arg);
 
+    bool oneShot_() override;
+
 protected:
 };
 

@@ -9,6 +9,8 @@ class Msg2CameraResetInterpolate : public ksys::act::ai::Action {
 public:
     explicit Msg2CameraResetInterpolate(const InitArg& arg);
 
+    bool oneShot_() override;
+
     void loadParams_() override;
 
 protected:

@@ -9,6 +9,8 @@ class CameraEventPermitGfxNear : public ksys::act::ai::Action {
 public:
     explicit CameraEventPermitGfxNear(const InitArg& arg);
 
+    bool oneShot_() override;
+
 protected:
 };
 

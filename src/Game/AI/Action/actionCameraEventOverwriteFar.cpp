@@ -2,16 +2,18 @@
 
 namespace uking::action {
 
-CameraEventOverwriteFar::CameraEventOverwriteFar(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+CameraEventOverwriteFar::CameraEventOverwriteFar(const InitArg& arg) : ksys::act::ai::Action(arg), Unk_7102459708(this) {}
 
 CameraEventOverwriteFar::~CameraEventOverwriteFar() = default;
 
 void CameraEventOverwriteFar::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* camera = getCamera())
+        camera->_860.sub_710079AE88(*mFar_d);
 }
 
 void CameraEventOverwriteFar::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* camera = getCamera())
+        camera->_860.sub_710079AED0();
 }
 
 void CameraEventOverwriteFar::loadParams_() {

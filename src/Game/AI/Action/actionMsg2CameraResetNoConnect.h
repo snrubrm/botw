@@ -9,6 +9,8 @@ class Msg2CameraResetNoConnect : public ksys::act::ai::Action {
 public:
     explicit Msg2CameraResetNoConnect(const InitArg& arg);
 
+    bool oneShot_() override;
+
 protected:
 };
 

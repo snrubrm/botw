@@ -6,7 +6,7 @@ CameraClimbObj::CameraClimbObj(const InitArg& arg) : CameraAction(arg) {}
 
 CameraClimbObj::~CameraClimbObj() = default;
 
-bool CameraClimbObj::m32() {
+bool CameraClimbObj::m32(sead::Heap* heap) {
     return true;
 }
 

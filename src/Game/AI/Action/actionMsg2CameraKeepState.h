@@ -9,6 +9,8 @@ class Msg2CameraKeepState : public ksys::act::ai::Action {
 public:
     explicit Msg2CameraKeepState(const InitArg& arg);
 
+    bool oneShot_() override;
+
 protected:
 };
 

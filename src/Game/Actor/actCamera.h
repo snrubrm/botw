@@ -126,7 +126,11 @@ public:
     void sub_710079AD90();
     f32 sub_710079ADA0() const;
     bool sub_710079ADBC() const;
+    // 0x710079add8 / 0x710079ae88: _15c (near) / _160 (far) = value and set _804 bit 0x2000 /
+    // 0x8000 (unless value is NaN or not positive).
+    void sub_710079ADD8(f32 value);
     void sub_710079AE30();
+    void sub_710079AE88(f32 value);
     void sub_710079AED0();
     // 0x710079aee0: zeroes _1a0 and _1c0 / _1c4, angleStuff(0) into _1b8 / _1bc, _1d0.sub_710079C510(1).
     void sub_710079AEE0();
@@ -143,6 +147,8 @@ public:
     void sub_710079BEA8();
     void sub_710079BEB4();
     bool sub_710079BEBC() const;
+    // 0x710079bed0: _7e0 = value (unless it is NaN or negative).
+    void sub_710079BED0(f32 value);
     f32 sub_710079BF0C() const;
     void sub_710079BF14();
     bool sub_710079BF20() const;

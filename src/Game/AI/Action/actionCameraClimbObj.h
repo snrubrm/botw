@@ -12,7 +12,7 @@ public:
     ~CameraClimbObj() override;
 
 protected:
-    bool m32() override;
+    bool m32(sead::Heap* heap) override;
 };
 
 }  // namespace uking::action

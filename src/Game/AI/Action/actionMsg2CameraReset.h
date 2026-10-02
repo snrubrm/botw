@@ -9,6 +9,8 @@ class Msg2CameraReset : public ksys::act::ai::Action {
 public:
     explicit Msg2CameraReset(const InitArg& arg);
 
+    bool oneShot_() override;
+
 protected:
 };
 

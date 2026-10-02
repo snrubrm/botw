@@ -263,6 +263,8 @@ public:
     // 0x7100921cac: validity check; `flags` (optional) receives the error bits (NaN components,
     // _24 outside (0, pi), non-positive _2c/_30/_34, position == look-at, _34 <= _30).
     void sub_7100921CAC(u32* flags) const;
+    // 0x71009237bc: recomputes the up vector (_18) from the look direction and the roll _28.
+    void sub_71009237BC();
 
     /* 0x00 */ sead::Vector3f _0 = sead::Vector3f::zero;  // position
     /* 0x0c */ sead::Vector3f _c = sead::Vector3f::ez;    // look-at point

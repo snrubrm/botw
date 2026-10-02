@@ -1,13 +1,14 @@
 #include "Game/AI/Action/actionCameraAction.h"
+#include "Game/Actor/actCameraUtil.h"
 
 namespace uking::action {
 
-CameraAction::CameraAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
-
-CameraAction::~CameraAction() = default;
+CameraAction::CameraAction(const InitArg& arg)
+    : ksys::act::ai::Action(arg), Unk_7102459708(this) {}
 
 bool CameraAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mFlags.set(Flag::Changeable);
+    return m32(heap);
 }
 
 void CameraAction::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -20,22 +21,74 @@ void CameraAction::leave_() {
 
 void CameraAction::loadParams_() {
     getStaticParam(&mBowFlag_s, "BowFlag");
+    m36();
 }
 
 void CameraAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* camera = getCamera())
+        camera->_860.sub_710079C158(1, *mBowFlag_s);
+
+    if (auto* camera = getCamera())
+        camera->_860._0._30 = camera->_860.sub_710079ADA0();
+
+    auto* camera = getCamera();
+    if (camera && camera->_860._804.sub_710079AE50(0x80000)) {
+        act::Unk_71009214b8 states[6];
+        sub_710074B590(states);
+        m34();
+        sub_710074B838(states);
+    } else {
+        m34();
+    }
+
+    m40();
+    m41();
 }
 
-bool CameraAction::m32() {
-    return true;
+void CameraAction::sub_710074B590(act::Unk_71009214b8* states) {
+    if (auto* camera = getCameraActor()) {
+        states[0] = camera->_860._0;
+        states[1] = camera->_860._38;
+        states[2] = camera->_860._70;
+        states[3] = camera->_860._a8;
+        states[4] = camera->_860._e0;
+        states[5] = camera->_860._118;
+    }
+}
+
+void CameraAction::sub_710074B838(const act::Unk_71009214b8* states) {
+    if (auto* camera = getCamera()) {
+        camera->_860._0 = states[0];
+        camera->_860._38 = states[1];
+        camera->_860._70 = states[2];
+        camera->_860._a8 = states[3];
+        camera->_860._e0 = states[4];
+        camera->_860._118 = states[5];
+    }
 }
 
 void CameraAction::m33() {}
 
 void CameraAction::m34() {}
 
-void CameraAction::m35() {}
-
 void CameraAction::m36() {}
+
+// NON_MATCHING: the original zeroes x0 (`mov x0, xzr`): the return type is probably a 4-byte struct
+// (e.g. a SEAD_ENUM) whose type is unknown; enter_ stores it to Camera::_860._72c._0.
+u32 CameraAction::m37() {
+    return 0;
+}
+
+void CameraAction::m40() {
+    if (auto* camera = getCamera())
+        camera->_860._0.sub_71009237BC();
+}
+
+void CameraAction::m41() {
+    if (auto* camera = getCamera()) {
+        if (camera->_860._817 != 0xff)
+            ++camera->_860._817;
+    }
+}
 
 }  // namespace uking::action
