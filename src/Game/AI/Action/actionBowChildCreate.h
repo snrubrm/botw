@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -22,6 +23,7 @@ protected:
     int* mID_d{};
     // dynamic_param at offset 0x28
     ksys::act::BaseProcLink* mParentActor_d{};
+    ksys::act::ModelBindInfo _30;
 };
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionAtkTackleMove.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -33,6 +34,10 @@ void AtkTackleMove::calc_() {
     TackleMove::calc_();
     if (!isFinished() && !isFailed() && m38())
         setFinished();
+}
+
+bool AtkTackleMove::m38() {
+    return hasAttackInfo(mActor);
 }
 
 }  // namespace uking::action

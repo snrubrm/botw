@@ -13,6 +13,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
+    void m32() override;
+    ksys::act::Actor* m33() override;
     void calc_() override;
 };
 

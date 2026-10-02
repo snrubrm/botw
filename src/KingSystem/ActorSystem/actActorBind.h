@@ -24,7 +24,16 @@ public:
     virtual bool m7(BaseProc* proc);
     virtual bool m8(BaseProc* proc);
     virtual void m9(BaseProc* proc);
-    virtual void m10() {}
+    // Called with the object's own link `_8` by BindAction::m34 / BowChildCreate (after acquiring
+    // the bound actor into it).
+    virtual void m10(BaseProcLink* link) {}
+
+    // Inline only (placeholder name): BindAction::m34 and BowChildCreate (0x71000cec68) acquire the
+    // actor into _8 and call m10 through the vtable (not devirtualized there).
+    void x(BaseProc* proc) {
+        _8.acquire(proc, false);
+        m10(&_8);
+    }
 
     // Returns the bound actor (looked up as `_20` if set, else as `proc`).
     Actor* sub_7100D3C5E0(BaseProc* proc);

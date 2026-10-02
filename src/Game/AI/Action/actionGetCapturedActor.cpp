@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGetCapturedActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +13,8 @@ bool GetCapturedActor::init_(sead::Heap* heap) {
 }
 
 void GetCapturedActor::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS("Wait", false, 0, 0, -1.0f);
+    mActor->getASList()->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, 0.0f);
     GetItem::enter_(params);
 }
 
@@ -24,6 +28,10 @@ void GetCapturedActor::loadParams_() {
 
 void GetCapturedActor::calc_() {
     GetItem::calc_();
+}
+
+void GetCapturedActor::m32() {
+    mActor->deleteAndEmit(1);
 }
 
 }  // namespace uking::action

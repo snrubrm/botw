@@ -228,7 +228,7 @@ void Actor::sub_71011DA824(ModelBindInfo* info) {
         mModelBindInfo = info;
 }
 
-void Actor::sub_71011DA834() {
+void Actor::sub_71011DA834(ModelBindInfo* info) {
     if (!mActorFlags.isOnBit(ActorFlag::_5))
         mModelBindInfo = nullptr;
 }

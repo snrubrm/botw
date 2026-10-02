@@ -11,6 +11,8 @@ public:
     explicit EquipedOptionalWeaponAction(const InitArg& arg);
 
 protected:
+    void m32() override;
+    ksys::act::Actor* m33() override;
 };
 
 }  // namespace uking::action

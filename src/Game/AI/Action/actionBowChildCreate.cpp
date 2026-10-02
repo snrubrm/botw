@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBowChildCreate.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void BowChildCreate::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BowChildCreate::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->sub_71011DA834(&_30);
 }
 
 void BowChildCreate::loadParams_() {

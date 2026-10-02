@@ -15,8 +15,11 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32() override;
+    ksys::act::Actor* m33() override;
     // static_param at offset 0xd8
     const bool* mIsChangeScale_s{};
+    sead::Vector3f _e0{0, 0, 0};
 };
 
 }  // namespace uking::action

@@ -271,8 +271,9 @@ public:
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ModelBindInfo* info);
-    // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
-    void sub_71011DA834();
+    // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
+    // sub_71011DA824 by every caller) is unused.
+    void sub_71011DA834(ModelBindInfo* info);
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.

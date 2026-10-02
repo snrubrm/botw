@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void m32() override;
+    ksys::act::Actor* m33() override;
     void calc_() override;
 };
 

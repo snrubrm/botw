@@ -2,7 +2,9 @@
 
 namespace uking::action {
 
-GiantArmorEquip::GiantArmorEquip(const InitArg& arg) : BindAction(arg) {}
+GiantArmorEquip::GiantArmorEquip(const InitArg& arg) : BindAction(arg) {
+    _38._98 = 0;
+}
 
 GiantArmorEquip::~GiantArmorEquip() = default;
 
@@ -25,5 +27,7 @@ void GiantArmorEquip::loadParams_() {
 void GiantArmorEquip::calc_() {
     BindAction::calc_();
 }
+
+void GiantArmorEquip::m32() {}
 
 }  // namespace uking::action
