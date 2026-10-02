@@ -90,6 +90,16 @@ bool sub_71009270A4() {
     return true;
 }
 
+bool sub_7100927110() {
+    auto* root = uking::act::Root6::getInstance();
+    if (!root)
+        return false;
+    ksys::act::acc::Camera accessor;
+    root->sub_7100927198(&accessor);
+    if (!accessor.hasProc())
+        return false;
+    return accessor.sub_7100799F60();
+}
 
 namespace uking::act {
 
@@ -103,6 +113,17 @@ void Root6::sub_7100927198(ksys::act::ActorLinkConstDataAccess* accessor) {
 }
 
 }  // namespace uking::act
+
+bool sub_71009271B0() {
+    auto* root = uking::act::Root6::getInstance();
+    if (!root)
+        return false;
+    ksys::act::acc::Camera accessor;
+    root->sub_7100927198(&accessor);
+    if (!accessor.hasProc())
+        return false;
+    return accessor.sub_710079A05C();
+}
 
 f32 sub_7100927228() {
     return -1.0f;

@@ -9,6 +9,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -28,7 +29,7 @@ class Camera;
 class Unk_7102459dd8 {
 public:
     Unk_7102459dd8();
-    virtual ~Unk_7102459dd8();
+    virtual ~Unk_7102459dd8() = default;
 
     // 0x710079c384: _8 = max(a, 0), _14 = clamp(t, 0, 1).
     void sub_710079C384(f32 a, f32 t);
@@ -311,6 +312,11 @@ public:
 
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
+    // 0x7100794fd0: bit 0x8000 of _860._800.
+    bool sub_7100794FD0() const;
+    // 0x710079614c / 0x7100796164: bits 2-3 of _13fd equal 1 / bit 2 of _13fd.
+    bool sub_710079614C() const;
+    bool sub_7100796164() const;
 
     /* 0x0850 */ ksys::act::BaseProcLink _850;
     /* 0x0860 */ Unk_710079a8e8 _860;
@@ -340,10 +346,12 @@ public:
     /* 0x13d8 */ void* _13d8 = nullptr;
     /* 0x13e0 */ void* _13e0 = nullptr;
     /* 0x13e8 */ u32 _13e8 = 0;
+    /* 0x13ec */ u32 _13ec;  // not initialised by the ctor
     /* 0x13f0 */ u32 _13f0 = 0;
     /* 0x13f4 */ f32 _13f4 = 1.0;
     /* 0x13f8 */ u32 _13f8 = 0;
-    /* 0x13fc */ u16 _13fc = 0;
+    /* 0x13fc */ u8 _13fc = 0;
+    /* 0x13fd */ u8 _13fd = 0;
     /* 0x13fe */ u8 _13fe = 0;
     /* 0x1400 */ sead::Delegate<Camera> _1400;
     /* 0x1420 */ u16 _1420 = 0;
@@ -370,3 +378,24 @@ public:
 
     ksys::act::ai::ActionBase* mOwner;
 };
+
+namespace ksys::act::acc {
+
+// Access to a uking::act::Camera through an ActorConstDataAccess (CSV: act::acc::Camera; functions
+// 0x7100799f60-0x710079a6xx in the Camera TU). Namespace as for the other acc:: accessors.
+// TODO: incomplete (requestCameraPack, setSunazarashiTurnParam, setWaterRemainsData,
+// getPlayerAlphaRate not declared).
+class Camera : public ActorConstDataAccess {
+public:
+    // 0x7100799f60 / 0x710079a05c / 0x710079a158: Camera::sub_710079614C / sub_7100796164 /
+    // sub_7100794FD0 (false if the actor is no Camera).
+    bool sub_7100799F60() const;
+    bool sub_710079A05C() const;
+    bool sub_710079A158() const;
+
+protected:
+    uking::act::Camera* getCamera() const;
+};
+KSYS_CHECK_SIZE_NX150(Camera, 0x18);
+
+}  // namespace ksys::act::acc

@@ -200,6 +200,10 @@ bool sub_7100926FD0();
 void sub_7100927054(sead::Vector2f* stick);
 // 0x71009270a4: whether that stick is not zero.
 bool sub_71009270A4();
+// 0x7100927110 / 0x71009271b0: acc::Camera::sub_7100799F60 / sub_710079A05C on the camera of Root6
+// (false without a Root6 or camera).
+bool sub_7100927110();
+bool sub_71009271B0();
 // 0x7100927238: sub_71009220FC of the "StickSensitivity" game data value (2 by default).
 f32 sub_7100927238();
 // 0x71009272a8: sub_7100927238's value times sub_7100922120().
