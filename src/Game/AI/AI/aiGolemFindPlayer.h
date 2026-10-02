@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m47() override;
+
 protected:
     // static_param at offset 0x140
     const float* mSearchExplosiveDist_s{};

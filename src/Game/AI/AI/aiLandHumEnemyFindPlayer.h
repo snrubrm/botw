@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiEnemyBaseFindPlayer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -14,6 +15,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    bool m43() override;
+    virtual s32 m53() { return *mWeaponIdx_s; }
 
 protected:
     // static_param at offset 0x140
@@ -46,6 +50,13 @@ protected:
     const float* mClimbVmax_s{};
     // static_param at offset 0x1b0
     const float* mClimbHmax_s{};
+    ksys::act::BaseProcLink _1b8;
+    ksys::act::BaseProcLink _1c8;
+    f32 _1d8 = 0;
+    u32 _1dc = 0;
+    bool _1e0 = false;
+    bool _1e1 = false;
 };
+KSYS_CHECK_SIZE_NX150(LandHumEnemyFindPlayer, 0x1e8);
 
 }  // namespace uking::ai

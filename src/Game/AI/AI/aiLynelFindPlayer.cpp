@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,16 @@ void LynelFindPlayer::leave_() {
 void LynelFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
+}
+
+void LynelFindPlayer::m40() {
+    *mLynelAIFlags_a &= ~0x20;
+    EnemyBaseFindPlayer::m40();
+}
+
+void LynelFindPlayer::m47() {
+    const auto& pos = sub_71005D93CC(mActor);
+    sub_71005DB068(mActor, pos);
 }
 
 }  // namespace uking::ai

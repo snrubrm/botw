@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGolemFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -21,6 +22,11 @@ void GolemFindPlayer::leave_() {
 void GolemFindPlayer::loadParams_() {
     LargeEnemyFindPlayer::loadParams_();
     getStaticParam(&mSearchExplosiveDist_s, "SearchExplosiveDist");
+}
+
+void GolemFindPlayer::m47() {
+    const auto& pos = sub_71005D9330(mActor);
+    sub_71005DB068(mActor, pos);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiEnemyBaseFindPlayer.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::ai {
 
@@ -6,8 +10,16 @@ EnemyBaseFindPlayer::EnemyBaseFindPlayer(const InitArg& arg) : ksys::act::ai::Ai
 
 EnemyBaseFindPlayer::~EnemyBaseFindPlayer() = default;
 
+
+
 bool EnemyBaseFindPlayer::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    const s32 lost_timer = *mLostTimer_s;
+    const s32 lost_timer2 = lost_timer * 1.1f;
+    _118 = sead::Mathi::min(lost_timer, lost_timer2);
+    _11c = sead::Mathi::max(lost_timer, lost_timer2);
+    _110 = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+    sub_71005E2C58(mActor);
+    return true;
 }
 
 void EnemyBaseFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -40,6 +52,26 @@ void EnemyBaseFindPlayer::loadParams_() {
     getStaticParam(&mPathTooLongDist_s, "PathTooLongDist");
     getStaticParam(&mNoSearchFromTiredDist_s, "NoSearchFromTiredDist");
     getAITreeVariable(&mIsTryingReturnRestreint_a, "IsTryingReturnRestreint");
+}
+
+f32 EnemyBaseFindPlayer::m34() {
+    return *mAttackRange_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+}
+
+bool EnemyBaseFindPlayer::m36(bool b) {
+    return m39(sub_71005D9330(mActor), b);
+}
+
+bool EnemyBaseFindPlayer::m37() {
+    return m39(sub_71005D98D8(mActor), false);
+}
+
+bool EnemyBaseFindPlayer::m42(s32 x) {
+    return x != 2 && x != 3 && x != 5;
+}
+
+void EnemyBaseFindPlayer::m47() {
+    sub_71005DB248(mActor);
 }
 
 }  // namespace uking::ai

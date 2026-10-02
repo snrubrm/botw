@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m52() override { return false; }
+
 protected:
 };
 

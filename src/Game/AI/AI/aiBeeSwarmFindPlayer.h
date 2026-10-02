@@ -18,6 +18,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m51() override {
+        setFinished();
+        return true;
+    }
+
 protected:
 };
 

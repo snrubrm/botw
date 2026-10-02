@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // In the tail padding of LandHumEnemyFindPlayer.
+    bool _1e2 = true;
 };
+KSYS_CHECK_SIZE_NX150(ChemicalEnemyFindPlayer, 0x1e8);
 
 }  // namespace uking::ai

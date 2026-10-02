@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    f32 m34() override;
+    bool m42(s32 x) override;
+    bool m43() override;
+
 protected:
     // static_param at offset 0x140
     const float* mShootBaseDist_s{};

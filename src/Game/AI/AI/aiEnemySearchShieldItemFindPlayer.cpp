@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: scheduling of the zero stores around the address of _220
 EnemySearchShieldItemFindPlayer::EnemySearchShieldItemFindPlayer(const InitArg& arg)
     : LandHumEnemyFindPlayer(arg) {}
 

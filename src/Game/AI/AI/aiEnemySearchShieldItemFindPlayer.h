@@ -31,6 +31,9 @@ protected:
     const float* mItemChasealeRot_s{};
     // static_param at offset 0x218
     const bool* mCanGrabHeavy_s{};
+    ksys::act::BaseProcLink _220;
+    ksys::act::BaseProcLink _230;
+    bool _240 = true;
 };
 
 }  // namespace uking::ai

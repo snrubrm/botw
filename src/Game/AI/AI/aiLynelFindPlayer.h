@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m40() override;
+    void m47() override;
+
 protected:
     // aitree_variable at offset 0x140
     int* mLynelAIFlags_a{};

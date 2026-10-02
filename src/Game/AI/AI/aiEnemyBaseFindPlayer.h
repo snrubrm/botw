@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,26 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual f32 m34();
+    virtual bool m35();
+    virtual bool m36(bool b);
+    virtual bool m37();
+    virtual bool m38();
+    virtual bool m39(const sead::Vector3f& pos, bool b);
+    virtual void m40();
+    virtual void m41();
+    virtual bool m42(s32 x);
+    virtual bool m43();
+    virtual void m44();
+    virtual bool m45() { return isCurrentChild("威嚇"); }
+    virtual bool m46() { return true; }
+    virtual void m47();
+    virtual bool m48() { return false; }
+    virtual bool m49() { return false; }
+    virtual bool m50() { return false; }
+    virtual bool m51() { return false; }
+    virtual bool m52() { return false; }
 
 protected:
     // static_param at offset 0x38
@@ -59,6 +80,26 @@ protected:
     const float* mNoSearchFromTiredDist_s{};
     // aitree_variable at offset 0xd8
     bool* mIsTryingReturnRestreint_a{};
+    f32 _e0{};
+    f32 _e4{};
+    sead::BitFlag32 _e8;
+    // Result of the unnamed enemy helper 0x71005e2bcc (type unknown).
+    void* _f0 = nullptr;
+    f32 _f8 = 0;
+    s32 _fc = 0;
+    s32 _100 = 0;
+    // An unidentified helper object that holds the actor (methods around 0x7100d3bc4c).
+    ksys::act::Actor* _108 = mActor;
+    f32 _110 = 0;
+    u32 _114;
+    s32 _118 = 0;
+    s32 _11c = 0;
+    f32 _120 = 0;
+    s32 _124 = 0;
+    s32 _128 = 0;
+    f32 _12c = 0;
+    sead::Vector3f _130{-100000.0f, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(EnemyBaseFindPlayer, 0x140);
 
 }  // namespace uking::ai
