@@ -30,4 +30,13 @@ void WillBallOperated::loadParams_() {
     getStaticParam(&mIsAttackedTimeAffect_s, "IsAttackedTimeAffect");
 }
 
+bool WillBallOperated::handleMessage_(const ksys::Message& message) {
+    if (_78._30 || !_78.m2(message))
+        return false;
+
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    _70 = _78._38._44;
+    return true;
+}
+
 }  // namespace uking::ai

@@ -211,7 +211,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102372510_Payload _38;
 };
 
 // vtable 0x71024505e8 (message 0x80000b1)

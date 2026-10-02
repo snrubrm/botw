@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,14 @@ protected:
     const bool* mIsExplode_s{};
     // map_unit_param at offset 0x78
     const int* mCount_m{};
+    ksys::act::BaseProcLink _80;
+    Unk_7102450be8 _90;
+    Unk_7102450588 _120;
+    u32 _170 = 0;
+    bool _174 = false;
+    bool _175 = false;
+    bool _176 = false;
 };
+KSYS_CHECK_SIZE_NX150(WillBallRoot, 0x178);
 
 }  // namespace uking::ai
