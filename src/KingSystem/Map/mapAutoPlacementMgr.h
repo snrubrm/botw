@@ -35,6 +35,11 @@ public:
     bool auto0(const sead::Vector3f& pos, u32 placement_type);
     // 0x0000007100659350
     bool auto11(const sead::Vector3f& pos);
+    // 0x000000710065946c (CSV name). With `a2`, true while the s8 at 0x171e6e is positive
+    // (after a discarded dlc::isPlayingOneHitObliteratorQuest() call); otherwise asks the
+    // AutoPlacementInfo at 0x171ef0 (AutoPlacementInfo::x(pos, true, 0x40, nullptr)). Not decompiled
+    // yet: AutoPlacementInfo is not declared.
+    bool isNonAutoPlacement(const sead::Vector3f& pos, bool a2);
 
     // TODO: rename
     struct Unk1 {
