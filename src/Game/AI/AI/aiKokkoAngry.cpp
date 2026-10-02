@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -30,6 +31,22 @@ bool KokkoAngry::m36() {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: the original passes -1 as a full 32-bit value to sub_71002DCCBC (its parameter is
+// probably not u16) and keeps &_d70 in x20
+void KokkoAngry::calc_() {
+    const ksys::act::BaseProcLink* target = &ksys::act::sUnk_71026505e0;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto& targets = enemy->_d70;
+        target = targets.sub_71002DCCBC(0xffff) ? &ksys::act::sUnk_71026505e0 :
+                                                  &targets.mEntries[0].link;
+    }
+
+    if (target->hasProc())
+        CreateActorWithTarget::calc_();
+    else
+        setFinished();
 }
 
 }  // namespace uking::ai

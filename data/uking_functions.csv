@@ -27972,7 +27972,7 @@ Address,Quality,Size,Name
 0x0000007100455a44,W,000036,_ZN5uking2ai10KokkoAngryD0Ev
 0x0000007100455a68,O,000004,_ZN5uking2ai10KokkoAngry5init_EPN4sead4HeapE
 0x0000007100455a6c,W,000200,_ZN5uking2ai10KokkoAngry6enter_EPN4ksys3act2ai15InlineParamPackE
-0x0000007100455b34,U,000216,_ZN5uking2ai10KokkoAngry5calc_Ev
+0x0000007100455b34,m,000216,_ZN5uking2ai10KokkoAngry5calc_Ev
 0x0000007100455c0c,W,000220,_ZN5uking2ai10KokkoAngry6leave_Ev
 0x0000007100455ce8,O,000004,_ZN5uking2ai10KokkoAngry11loadParams_Ev
 0x0000007100455cec,U,000312,uking::ai::KokkoAngry::m35
