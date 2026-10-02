@@ -235,6 +235,14 @@ public:
     void x_24();                                                        // 0x855e24
     void x_25();                                                        // 0x8551fc
     void x_53(int* a1);                                                 // 0x8679fc
+    // Placeholder: a 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not
+    // trivially copyable in the original (0x710092dba4 returns the same kind of value).
+    struct Unk1 {
+        explicit Unk1(u32 v) : value(v) {}
+        Unk1(const Unk1& other) : value(other.value) {}
+        u32 value;
+    };
+    Unk1 x_5();                                                         // 0x85ed1c
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, f32* a2);                                // 0x868990
     f32 getStatusEffectSpeed();                                         // 0x869a8c
@@ -259,7 +267,9 @@ public:
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ void* _1870;
-    /* 0x1878 */ u8 _1878[0x1b90 - 0x1878];
+    /* 0x1878 */ u8 _1878[0x1b18 - 0x1878];
+    /* 0x1b18 */ sead::Matrix34f _1b18;
+    /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1ca4 - 0x1b98];
     /* 0x1ca4 */ s32 _1ca4;

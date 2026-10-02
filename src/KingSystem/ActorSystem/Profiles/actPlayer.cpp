@@ -10,3 +10,19 @@ bool Player::isSurfingOnGround() const {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: operand order of the XZ length addition (z*z + x*x in the original)
+Player::Unk1 Player::x_5() {
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    if (sead::Vector2f(dir.x, dir.z).length() == 0.0f) {
+        _1b18.getBase(dir, 1);
+        dir.normalize();
+    }
+    return Unk1(sead::Mathf::atan2Idx(dir.x, dir.z));
+}
+
+}  // namespace ksys::act
