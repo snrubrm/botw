@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFlyingCharacterDie.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
 
@@ -10,6 +11,7 @@ bool FlyingCharacterDie::init_(sead::Heap* heap) {
 
 void FlyingCharacterDie::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingCharacterDamageBase::enter_(params);
+    sub_710072BB28(mActor);
 }
 
 void FlyingCharacterDie::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFlyingCharacterFreeFallDie.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -16,6 +17,7 @@ bool FlyingCharacterFreeFallDie::init_(sead::Heap* heap) {
 
 void FlyingCharacterFreeFallDie::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingCharacterReaction::enter_(params);
+    sub_710072BB28(mActor);
 }
 
 void FlyingCharacterFreeFallDie::leave_() {

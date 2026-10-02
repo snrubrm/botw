@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwaysColTgOff.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool ForkAlwaysColTgOff::init_(sead::Heap* heap) {
 }
 
 void ForkAlwaysColTgOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_71007A397C(mActor);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAlwaysColTgOff::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDie.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ bool Die::init_(sead::Heap* heap) {
 
 void Die::enter_(ksys::act::ai::InlineParamPack* params) {
     BlownOff::enter_(params);
+    sub_710072BB28(mActor);
 }
 
 void Die::leave_() {

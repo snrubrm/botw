@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNoCountDead.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,10 @@ bool NoCountDead::init_(sead::Heap* heap) {
 }
 
 void NoCountDead::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsFadeout_s)
+        mActor->deleteEx(ksys::act::Actor::DeleteType::_5, ksys::act::BaseProc::DeleteReason::_0);
+    else
+        mActor->deleteAndEmit(2);
 }
 
 void NoCountDead::leave_() {

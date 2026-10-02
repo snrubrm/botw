@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkBattleNodeForAttackGround.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void ForkBattleNodeForAttackGround::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void ForkBattleNodeForAttackGround::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* spine = mActor->sub_71011D8A10())
+        spine->_d4 &= ~0x40;
 }
 
 void ForkBattleNodeForAttackGround::loadParams_() {

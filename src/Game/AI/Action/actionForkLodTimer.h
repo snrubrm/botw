@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionFork.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::action {
 
@@ -21,6 +22,7 @@ protected:
 
     // static_param at offset 0x30
     const int* mWaitFrame_s{};
+    ksys::act::Unk_7100d3bc4c _38{mActor};
 };
 
 }  // namespace uking::action

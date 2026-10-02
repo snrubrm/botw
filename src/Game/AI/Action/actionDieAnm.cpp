@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDieAnm.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
 
@@ -10,6 +11,9 @@ bool DieAnm::init_(sead::Heap* heap) {
 
 void DieAnm::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_710072BB28(mActor);
 }
 
 void DieAnm::leave_() {

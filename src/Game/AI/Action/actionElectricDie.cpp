@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionElectricDie.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
 
@@ -8,6 +9,7 @@ ElectricDie::~ElectricDie() = default;
 
 void ElectricDie::enter_(ksys::act::ai::InlineParamPack* params) {
     ElectricBlownOff::enter_(params);
+    sub_710072BB28(mActor);
 }
 
 void ElectricDie::leave_() {

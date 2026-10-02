@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionRemainsWaterBulletAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::action {
 
@@ -48,6 +49,9 @@ protected:
     const float* mRemainsWaterBulletAngle_m{};
     // map_unit_param at offset 0xe8
     const sead::Vector3f* mRemainsWaterBulletOffset_m{};
+    ksys::act::Unk_7100d3bc4c _f0{mActor};
+    sead::Vector3f _108{0, 1, 0};
+    bool _114 = false;
 };
 
 }  // namespace uking::action

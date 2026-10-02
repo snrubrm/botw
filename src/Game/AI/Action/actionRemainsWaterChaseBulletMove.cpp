@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletMove.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -12,7 +13,19 @@ bool RemainsWaterChaseBulletMove::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterChaseBulletMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (*mWeakChaseTimer_s > 0.0f) {
+        _114 = true;
+        _f0.mTimer = ksys::Timer(*mWeakChaseTimer_s, *mWeakChaseTimer_s);
+    } else {
+        _114 = false;
+    }
+
     RemainsWaterBulletAction::enter_(params);
+
+    _108 = *mBaseTargetOffset_s;
+    _108.x += mBaseTargetRandOffset_s->x * sead::GlobalRandom::instance()->getF32();
+    _108.y += mBaseTargetRandOffset_s->y * sead::GlobalRandom::instance()->getF32();
+    _108.z += mBaseTargetRandOffset_s->z * sead::GlobalRandom::instance()->getF32();
 }
 
 void RemainsWaterChaseBulletMove::leave_() {
@@ -39,6 +52,12 @@ void RemainsWaterChaseBulletMove::loadParams_() {
 
 void RemainsWaterChaseBulletMove::calc_() {
     RemainsWaterBulletAction::calc_();
+    if (!_114)
+        return;
+
+    _f0.sub_7100D3BCE4();
+    if (_f0.mTimer.value <= sead::Mathf::epsilon())
+        _114 = false;
 }
 
 }  // namespace uking::action
