@@ -56,7 +56,9 @@ public:
     void m7() override;
     bool m8(const ksys::Message& message) override;
 
-    /* 0x20 */ u8 _20[0x140 - 0x20];
+    /* 0x020 */ u8 _20[0x138 - 0x20];
+    /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
+    /* 0x139 */ u8 _139[0x140 - 0x139];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 
