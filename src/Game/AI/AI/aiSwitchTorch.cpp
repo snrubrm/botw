@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSwitchTorch.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,20 @@ bool SwitchTorch::init_(sead::Heap* heap) {
 }
 
 void SwitchTorch::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    auto* chemical = actor->getChemicalStuff();
+    if (*mSwitchTorchSpType_m == 1) {
+        if (chemical)
+            chemical->sub_7100D90B78();
+    } else if (actor->checkLinkBasicSig() || actor->isWaitRevivalForUsed()) {
+        if (chemical) {
+            chemical->sub_7100D90858(chemical->mMaterial->attribute.ref() & 0x200000, 2, false,
+                                     true, false);
+        }
+        changeChild("オン");
+        return;
+    }
+    changeChild("オフ");
 }
 
 void SwitchTorch::leave_() {
