@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
+    void m35(f32 a2, f32 a3, f32 a4) override;
+
 protected:
     // static_param at offset 0xe0
     const bool* mIsCheckSafetyAreaRadius_s{};
