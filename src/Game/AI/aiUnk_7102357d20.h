@@ -27,13 +27,12 @@ class Unk_7102357d20 {
 public:
     Unk_7102357d20(ksys::act::Actor* actor, u32 type)
         : _8(&actor->getMessageTransceiver()), _10(type) {}
+    // PriestBossGiantEnemyRoot::_268: constructed without a transceiver (set by its init_).
+    explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(type) {}
     // The original keeps the base vtable store in every (inlined) destructor of this class, which a
     // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
     // { ; } (commit 96101229).
     virtual ~Unk_7102357d20() { ; }
-    // PriestBossGiantEnemyRoot::_268: constructed without a transceiver (set by its init_).
-    explicit Unk_7102357d20(u32 type) : _8(nullptr), _10(type) {}
-    virtual ~Unk_7102357d20() = default;
     virtual void* m2() = 0;
 
     bool sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack);
@@ -346,8 +345,6 @@ public:
 // vtable 0x71023b0898 (CookPotRoot, DragonRoot, IceMakerBlock, PlayerAreaInOutSendMessage; functions
 // at 0x710021d230..); message 0x8000083
 class Unk_71023b0898 : public Unk_7102357d20 {
-// vtable 0x7102415900 (PriestBossPhaseThird; m2 0x710052d234, D0 0x710052d230); message 0x80000dd
-class Unk_7102415900 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return &_18; }
@@ -372,5 +369,13 @@ class Unk_71023f54b0 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
+};
+
+// vtable 0x7102415900 (PriestBossPhaseThird; m2 0x710052d234, D0 0x710052d230); message 0x80000dd
+class Unk_7102415900 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
     Unk_7102415900_Payload _18;
 };
