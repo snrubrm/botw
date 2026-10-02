@@ -14,6 +14,9 @@ public:
     ~CameraChase() override;
 
 protected:
+    // 0x7100750858 / 0x71007518d8 (not decompiled yet).
+    void m33() override;
+    void m34() override;
     void m36() override;
 
     act::Unk_7102459dd8 _50;

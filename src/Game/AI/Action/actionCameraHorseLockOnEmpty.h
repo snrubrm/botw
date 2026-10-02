@@ -13,6 +13,9 @@ public:
     ~CameraHorseLockOnEmpty() override;
 
 protected:
+    // 0x710077218c / 0x7100772584 (not decompiled yet).
+    void m33() override;
+    void m34() override;
     void m35() override;
     void m36() override;
 
