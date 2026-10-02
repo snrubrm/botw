@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionHorseSwim.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class Unk_7102372790;
+}
+
 namespace uking::action {
 
 class HorseSwimAction : public HorseSwim {
@@ -32,7 +36,7 @@ protected:
     // static_param at offset 0x48
     const float* mResolvePenetrationSearchRadius_s{};
     int _50 = 0;
-    void* _58{};
+    ksys::phys::Unk_7102372790* _58{};
     bool _60 = false;
 };
 

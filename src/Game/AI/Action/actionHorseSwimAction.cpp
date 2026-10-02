@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionHorseSwimAction.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +19,15 @@ void HorseSwimAction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HorseSwimAction::leave_() {
     HorseSwim::leave_();
+    if (_60) {
+        if (auto* nav = mActor->m45())
+            nav->sub_7100F75AB8();
+        _60 = false;
+    }
+    if (_58) {
+        ksys::phys::HavokAI::instance()->destroyQuery(_58);
+        _58 = nullptr;
+    }
 }
 
 void HorseSwimAction::loadParams_() {

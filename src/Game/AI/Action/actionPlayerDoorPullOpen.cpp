@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerDoorPullOpen.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -16,7 +17,12 @@ void PlayerDoorPullOpen::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerDoorPullOpen::leave_() {}
 
 void PlayerDoorPullOpen::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (mActor->getASList()->x_4(0, 0))
+        setFinished();
 }
 
 bool PlayerDoorPullOpen::isChangeable() const {
