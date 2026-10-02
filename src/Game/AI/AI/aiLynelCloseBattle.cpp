@@ -26,4 +26,18 @@ void LynelCloseBattle::loadParams_() {
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
 }
 
+bool LynelCloseBattle::isFinished() const {
+    return ActionBase::isFinished() ||
+           (isCurrentChild("戦闘攻撃") && getCurrentChild()->isFinished() &&
+            (*mBackAngleAction_s != 1 || !sub_710048FA58()));
+}
+
+bool LynelCloseBattle::isFailed() const {
+    if (ActionBase::isFailed() || getCurrentChild()->isFailed())
+        return true;
+    if (*mBackAngleAction_s == 1 && isCurrentChild("戦闘攻撃") && getCurrentChild()->isFinished())
+        return sub_710048FA58();
+    return false;
+}
+
 }  // namespace uking::ai

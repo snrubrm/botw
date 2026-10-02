@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiBreathAttackEnemyBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -13,7 +15,21 @@ bool BreathAttackEnemyBattle::init_(sead::Heap* heap) {
 }
 
 void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsUpdateNoticeState_s) {
+        auto* actor = mActor;
+        actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    }
+    m42();
+    _a0.reset();
+    if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0)) {
+        if (auto* enemy = static_cast<act::Enemy*>(mActor)) {
+            const s32 time = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
+            enemy->_e68 = ksys::Timer(time, time);
+        }
+    }
+    sub_710033E970();
 }
 
 void BreathAttackEnemyBattle::leave_() {

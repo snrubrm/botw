@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isFinished() const override;
+    bool isFailed() const override;
+    bool sub_710048FA58() const;
 protected:
     // static_param at offset 0x90
     const int* mBackAngleAction_s{};
