@@ -29,7 +29,7 @@ void SiteBossLswordTornadoRoot::leave_() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&enemy->_1128.getActorPartsActor("SiteBossBigFlameBall0"), &accessor);
     if (!accessor.isStateSleep())
-        mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000004, nullptr, true);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
 }
 
 void SiteBossLswordTornadoRoot::loadParams_() {
