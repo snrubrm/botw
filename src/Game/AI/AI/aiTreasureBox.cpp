@@ -4,7 +4,13 @@ namespace uking::ai {
 
 TreasureBox::TreasureBox(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-TreasureBox::~TreasureBox() = default;
+TreasureBox::~TreasureBox() {
+    auto** unit = static_cast<Unk_71025afb58**>(mSharpWeaponAddParam_a);
+    if (*unit)
+        *unit = nullptr;
+    if (_c0._10)
+        delete _c0._10;
+}
 
 bool TreasureBox::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
