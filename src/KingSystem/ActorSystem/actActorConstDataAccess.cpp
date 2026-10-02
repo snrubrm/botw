@@ -1,9 +1,11 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -514,6 +516,35 @@ bool ActorConstDataAccess::sub_7100D10FB8() const {
     if (!actor)
         return false;
     return actor->getActorFlags2().isOn(Actor::ActorFlag2::_40);
+}
+
+bool ActorConstDataAccess::sub_7100D11F10() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (!actor->getMainBody() && !actor->getCharacterController())
+        return false;
+    return true;
+
+
+}
+
+int ActorConstDataAccess::sub_7100D131D0(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    Chemical* chemical;
+    if (idx < 0) {
+        chemical = actor->getChemicalStuff();
+    } else {
+        auto* chemicals = actor->mChemical;
+        if (!chemicals)
+            return 0;
+        chemical = chemicals->getStuff(idx);
+    }
+    if (!chemical)
+        return 0;
+    return chemical->_c0;
 }
 
 }  // namespace ksys::act

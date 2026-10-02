@@ -95,3 +95,53 @@ ksys::act::Unk_71025b08f8* NPC::m126() {
 }
 
 }  // namespace uking::act
+
+namespace ksys::act {
+
+static BaseProc* getProcIfActor(BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+static inline uking::act::NPC* getNPC(BaseProc* proc) {
+    auto* actor = static_cast<Actor*>(getProcIfActor(proc));
+    return sead::DynamicCast<uking::act::NPC>(actor);
+}
+
+bool ActorConstDataAccess::sub_7100022ED8() const {
+    auto* npc = getNPC(mProc);
+    if (!npc)
+        return false;
+    return npc->_fe8 & 4;
+}
+
+bool ActorConstDataAccess::sub_7100022FD0() const {
+    auto* npc = getNPC(mProc);
+    if (!npc)
+        return false;
+    return npc->_fe8 & 0x2000;
+}
+
+bool ActorConstDataAccess::sub_7100023358() const {
+    auto* npc = getNPC(mProc);
+    if (!npc)
+        return false;
+    return npc->_fe8 & 0x40000;
+}
+
+bool ActorConstDataAccess::sub_7100023450() const {
+    auto* npc = getNPC(mProc);
+    if (!npc)
+        return false;
+    return npc->_1048 == 3;
+}
+
+const sead::Vector3f& ActorConstDataAccess::sub_710002354C() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!sead::IsDerivedFrom<uking::act::NPC>(actor))
+        return sead::Vector3f::zero;
+    return static_cast<uking::act::NPC*>(actor)->_1098;
+}
+
+}  // namespace ksys::act

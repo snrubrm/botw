@@ -5,7 +5,8 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
-#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem//ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -209,3 +210,22 @@ public:
 };
 
 }  // namespace uking::act
+
+namespace ksys::act::acc {
+
+// Access to a uking::act::Weapon through an ActorConstDataAccess (CSV: act::acc::Weapon; functions
+// 0x71002ef980-0x71002f13f0 in the Weapon TU). Namespace as for the other acc:: accessors.
+// TODO: incomplete
+class Weapon : public ActorConstDataAccess {
+public:
+    // 0x71002ef980: Weapon::hasParentActor() (false if not a weapon)
+    bool sub_71002EF980() const;
+    // 0x71002f1228: Actor::checkForbidAttentionSignal() (false if not a weapon)
+    bool sub_71002F1228() const;
+
+protected:
+    uking::act::Weapon* getWeapon() const;
+};
+KSYS_CHECK_SIZE_NX150(Weapon, 0x18);
+
+}  // namespace ksys::act::acc

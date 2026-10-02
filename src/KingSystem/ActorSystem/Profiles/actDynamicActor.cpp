@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -57,3 +59,37 @@ Unk_71025ae620* DynamicActor::getDropData() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+static BaseProc* getProcIfActor(BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+bool ActorConstDataAccess::sub_71006DE298(const sead::SafeString& name) const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor)
+        return false;
+    return actorAIGetBool(actor, name, false);
+}
+
+bool ActorConstDataAccess::sub_71006DE338(const sead::SafeString& name) const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor)
+        return false;
+    return getBoolParam(actor, name, false);
+}
+
+bool ActorConstDataAccess::isBgGroundHit() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor)
+        return false;
+    debugLog(1, "isBgGroundHit");
+    debugLog(2, "isBgGroundHit");
+    return ::isBgGroundHit(actor, false);
+}
+
+}  // namespace ksys::act
+

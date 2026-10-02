@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -770,6 +771,40 @@ bool Actor::checkForbidAttentionSignal() const {
     if (!hasForbidAttentionLink())
         return false;
     return checkSignal(map::MapLinkDefType::ForbidAttention);
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link) {
+    ActorConstDataAccess accessor;
+    acquireActor(link, &accessor);
+    accessor.getActorMtx().getTranslation(*pos);
+}
+
+bool getBoolParam(Actor* actor, const sead::SafeString& name, bool default_value) {
+    bool* value = nullptr;
+    auto* root = actor->getRootAi();
+    if (root && root->getAITreeVariable2(&value, name) && value)
+        return *value;
+    return default_value;
+}
+
+bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value) {
+    const bool* value = nullptr;
+    auto* root = actor->getRootAi();
+    if (root && root->getMapUnitParam(&value, name) && value)
+        return *value;
+    return default_value;
+}
+
+s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value) {
+    const s32* value = nullptr;
+    auto* root = actor->getRootAi();
+    if (root && root->getMapUnitParam(&value, name) && value)
+        return *value;
+    return default_value;
 }
 
 }  // namespace ksys::act

@@ -122,6 +122,11 @@ public:
     bool sub_7100D10E6C(int bit) const;
     // 0x7100d10fb8 (~25 callers): Actor::mActorFlags2 & ActorFlag2::_40.
     bool sub_7100D10FB8() const;
+    // 0x7100d11f10: the actor has a main rigid body or a character controller.
+    bool sub_7100D11F10() const;
+    // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
+    // (getChemicalStuff() if idx < 0).
+    int sub_7100D131D0(int idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
 
@@ -137,6 +142,22 @@ public:
     u32 getBalloonHungActorBaseProcID() const;
 
     bool checkFlag25() const;
+
+    // Defined in Profiles/actDynamicActor.cpp (the DynamicActor TU). sub_71006DE298 returns the bool
+    // map unit parameter `name` (actorAIGetBool), sub_71006DE338 the AI tree variable
+    // (getBoolParam); both false if not an actor.
+    bool sub_71006DE298(const sead::SafeString& name) const;
+    bool sub_71006DE338(const sead::SafeString& name) const;
+    // 0x71006de850 (CSV act::acc::isBgGroundHit; debugLog name)
+    bool isBgGroundHit() const;
+
+    // NPC accessors (placeholder names; defined in Game/Actor/actNPC.cpp, the NPC TU):
+    // each casts the actor to uking::act::NPC and reads an NPC field (false / zero if not an NPC).
+    bool sub_7100022ED8() const;
+    bool sub_7100022FD0() const;
+    bool sub_7100023358() const;
+    bool sub_7100023450() const;
+    const sead::Vector3f& sub_710002354C() const;
 
     f32 getHorseMoveRadius() const;
     f32 getHorseAvoidOffset() const;

@@ -83,7 +83,7 @@ public:
     /* 0x0bd */ u8 _bd = 0;
     /* 0x0be */ u8 _be = 0;  // flags
     /* 0x0bf */ u8 _bf = 0;  // flags
-    /* 0x0c0 */ u8 _c0 = 0;
+    /* 0x0c0 */ u8 _c0 = 0;  // state (ActorConstDataAccess::sub_7100D131D0; callers test 1 / 2)
     /* 0x0c1 */ u8 _c1 = 0;
     /* 0x0c2 */ u8 _c2 = 0;
     /* 0x0c3 */ u8 _c3 = 0;

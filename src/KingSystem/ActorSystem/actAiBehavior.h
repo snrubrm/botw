@@ -96,7 +96,7 @@ public:
     static void setFactories(int count, BehaviorFactory* factories);
 
 private:
-    static inline sead::Buffer<BehaviorFactory> sFactories;
+    static sead::Buffer<BehaviorFactory> sFactories;
     sead::Buffer<Behavior*> mClasses;
     // Non-owning buffer.
     sead::Buffer<Behavior*> mOnPreDeleteCbs;

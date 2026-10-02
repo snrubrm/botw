@@ -258,4 +258,6 @@ void Behaviors::setFactories(int count, BehaviorFactory* factories) {
     sFactories.setBuffer(count, factories);
 }
 
+sead::Buffer<BehaviorFactory> Behaviors::sFactories;
+
 }  // namespace ksys::act::ai

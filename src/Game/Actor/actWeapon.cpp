@@ -495,3 +495,32 @@ void Weapon::sub_71002EDAEC(const Unk_71002edaec& arg) {
 }
 
 }  // namespace uking::act
+
+namespace ksys::act::acc {
+
+static BaseProc* getProcIfActor(BaseProc* proc) {
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        return proc;
+    return nullptr;
+}
+
+inline uking::act::Weapon* Weapon::getWeapon() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    return sead::DynamicCast<uking::act::Weapon>(actor);
+}
+
+bool Weapon::sub_71002EF980() const {
+    auto* weapon = getWeapon();
+    if (!weapon)
+        return false;
+    return weapon->hasParentActor();
+}
+
+bool Weapon::sub_71002F1228() const {
+    auto* weapon = getWeapon();
+    if (!weapon)
+        return false;
+    return weapon->checkForbidAttentionSignal();
+}
+
+}  // namespace ksys::act::acc

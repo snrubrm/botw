@@ -1,7 +1,16 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+
+namespace ksys::act {
+class Actor;
+}
+
+namespace uking::act {
+class Unk_71002dccbc;
+}
 
 // Awareness filters shared by many AI classes (their m2 and D0 live in the AI utility TU
 // 0x7100744bb8-0x7100747a00). AI code builds them on the stack and iterates with
@@ -50,11 +59,6 @@ public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 
-// vtable 0x7102451470 (m2 0x7100745410, D0 0x71007454c0)
-class Unk_7102451470 : public ksys::act::Unk_71024dccf8 {
-public:
-    bool m2(ksys::act::Unk_71024dc978* entry) override;
-};
 
 // vtable 0x7102451498 (m2 0x7100746070, D0 0x71007462a0)
 class Unk_7102451498 : public ksys::act::Unk_71024dccf8 {
@@ -67,30 +71,33 @@ public:
 };
 
 // vtable 0x71024514c0 (m2 0x71007454e4, D0 0x7100746234)
+// Enemy target filter: _28 is the searching enemy, _30 a set of flag bits (1, 2, 4).
 class Unk_71024514c0 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ bool _30 = false;
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;
+    /* 0x30 */ u8 _30 = 0;
 };
 
-// vtable 0x71024514e8 (m2 0x71007456fc, D0 0x7100746258)
-class Unk_71024514e8 : public ksys::act::Unk_71024dccf8 {
+// vtable 0x7102451470 (m2 0x7100745410, D0 0x71007454c0); m2 tail-calls Unk_71024514c0::m2.
+class Unk_7102451470 : public Unk_71024514c0 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x71024514e8 (m2 0x71007456fc, D0 0x7100746258); m2 calls Unk_71024514c0::m2.
+class Unk_71024514e8 : public Unk_71024514c0 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ bool _30 = false;
     /* 0x38 */ void* _38 = nullptr;
 };
 
-// vtable 0x7102451510 (m2 0x7100745b14, D0 0x710074627c)
-class Unk_7102451510 : public ksys::act::Unk_71024dccf8 {
+// vtable 0x7102451510 (m2 0x7100745b14, D0 0x710074627c); m2 calls Unk_71024514c0::m2.
+class Unk_7102451510 : public Unk_71024514c0 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
-
-    /* 0x28 */ void* _28 = nullptr;
 };
 
 // vtable 0x7102451538 (m2 0x71007462c4, D0 0x7100746360)
@@ -104,7 +111,7 @@ class Unk_7102451560 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ uking::act::Unk_71002dccbc* _28 = nullptr;
 };
 
 // vtable 0x7102451588 (m2 0x71007464d4, D0 0x7100746604)
@@ -166,15 +173,13 @@ class Unk_71024516f0 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
+    // m2: Stalfos parts within XZ distance sqrt(_28) of _34 and sqrt(_2c) of _40, and within
+    // height difference _30 of _34.
     /* 0x28 */ f32 _28 = 0;
     /* 0x2c */ f32 _2c = 0;
     /* 0x30 */ f32 _30 = 0;
-    /* 0x34 */ f32 _34 = 0;
-    /* 0x38 */ f32 _38 = 0;
-    /* 0x3c */ f32 _3c = 0;
-    /* 0x40 */ f32 _40 = 0;
-    /* 0x44 */ f32 _44 = 0;
-    /* 0x48 */ f32 _48 = 0;
+    /* 0x34 */ sead::Vector3f _34 = sead::Vector3f::zero;
+    /* 0x40 */ sead::Vector3f _40 = sead::Vector3f::zero;
 };
 
 // vtable 0x7102451768 (m2 0x71007472ec, D0 0x7100747418)
@@ -201,8 +206,8 @@ public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 
-// vtable 0x7102451808 (m2 0x7100747834, D0 0x7100747900)
-class Unk_7102451808 : public ksys::act::Unk_71024dccf8 {
+// vtable 0x7102451808 (m2 0x7100747834, D0 0x7100747900); m2 tail-calls Unk_71024517e0::m2.
+class Unk_7102451808 : public Unk_71024517e0 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };

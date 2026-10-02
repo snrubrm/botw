@@ -207,4 +207,13 @@ void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
 void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
 
+// 0x7100ee67b0: position of the actor `link` points to.
+void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);
+// 0x7100ee6818 (CSV name): AI tree variable `name` of the actor, or `default_value` if it has none.
+bool getBoolParam(Actor* actor, const sead::SafeString& name, bool default_value);
+// 0x7100ee686c (CSV name): bool map unit parameter `name`, or `default_value` if it has none.
+bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value);
+// 0x7100ee68c0 (CSV name): s32 map unit parameter `name`, or `default_value` if it has none.
+s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value);
+
 }  // namespace ksys::act
