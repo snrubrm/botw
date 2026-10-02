@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalGiantEnemyReaction.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,6 +14,8 @@ bool StalGiantEnemyReaction::init_(sead::Heap* heap) {
 }
 
 void StalGiantEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.setBit(1);
     ForestGiantReaction::enter_(params);
 }
 

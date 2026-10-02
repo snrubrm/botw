@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPartsNoticeSelect.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -37,6 +39,16 @@ void PartsNoticeSelect::calc_() {
 
 void PartsNoticeSelect::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+bool PartsNoticeSelect::sub_71004F4C38() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName_s), &accessor);
+    return accessor.isStateCalc() && accessor.sub_7100D10E6C(25);
 }
 
 void PartsNoticeSelect::loadParams_() {

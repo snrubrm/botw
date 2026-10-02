@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPartsSleepSelect.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -37,6 +39,16 @@ void PartsSleepSelect::calc_() {
 
 void PartsSleepSelect::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+bool PartsSleepSelect::sub_71004F50A0() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mPartsName_s), &accessor);
+    return !accessor.hasProc() || accessor.isStateSleep();
 }
 
 void PartsSleepSelect::loadParams_() {

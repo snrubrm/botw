@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPreyStun.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,12 @@ bool PreyStun::init_(sead::Heap* heap) {
 }
 
 void PreyStun::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _40.reset(*mStunTime_s);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->_e84.isOnBit(3))
+            setFailed();
+    }
+    changeChild("気絶中");
 }
 
 void PreyStun::calc_() {
@@ -31,7 +37,8 @@ void PreyStun::calc_() {
 }
 
 void PreyStun::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.resetBit(3);
 }
 
 void PreyStun::loadParams_() {

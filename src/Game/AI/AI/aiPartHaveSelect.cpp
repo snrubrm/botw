@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPartHaveSelect.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,22 @@ void PartHaveSelect::calc_() {
 
 void PartHaveSelect::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void PartHaveSelect::sub_71004F4758(ksys::act::ai::InlineParamPack* params) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy) {
+        setFailed();
+        return;
+    }
+
+    if (enemy->getActorPartsActor(mPartsKey_s).hasProc()) {
+        if (!isCurrentChild("パーツ有"))
+            changeChild("パーツ有", params);
+    } else {
+        if (!isCurrentChild("パーツ無"))
+            changeChild("パーツ無", params);
+    }
 }
 
 void PartHaveSelect::loadParams_() {
