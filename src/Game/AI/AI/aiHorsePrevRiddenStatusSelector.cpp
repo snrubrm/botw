@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorsePrevRiddenStatusSelector.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,30 @@ void HorsePrevRiddenStatusSelector::leave_() {
 }
 
 void HorsePrevRiddenStatusSelector::loadParams_() {}
+
+void HorsePrevRiddenStatusSelector::sub_710043C1D4(ksys::act::ai::InlineParamPack* params) {
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        const uking::act::Unk_7100e8b2b8::Unk8 status = rideable->Unk_7100e8b2b8::_c.load();
+        switch (status) {
+        case uking::act::Unk_7100e8b2b8::Unk8::_1:
+            if (!isCurrentChild("プレイヤー騎乗"))
+                changeChild("プレイヤー騎乗", params);
+            return;
+        case uking::act::Unk_7100e8b2b8::Unk8::_2:
+            if (!isCurrentChild("敵騎乗"))
+                changeChild("敵騎乗", params);
+            return;
+        case uking::act::Unk_7100e8b2b8::Unk8::_3:
+            if (!isCurrentChild("NPC騎乗"))
+                changeChild("NPC騎乗", params);
+            return;
+        default:
+            break;
+        }
+    }
+    if (!isCurrentChild("騎乗無し"))
+        changeChild("騎乗無し", params);
+}
 
 void HorsePrevRiddenStatusSelector::calc_() {
     auto* child = getCurrentChild();

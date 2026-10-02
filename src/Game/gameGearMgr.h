@@ -34,11 +34,20 @@ public:
     // under the CriticalSection. Placeholder name.
     void sub_71006698B0(bool on);
 
-    u8 _28[0x1050 - 0x28];
+    // Index (0 / 1) of the current entry of `_10a8`.
+    s32 _28;
+    u8 _2c[0x1050 - 0x2c];
     ksys::phys::SystemGroupHandler* _1050;
     u8 _1058[0x1098 - 0x1058];
     f32 _1098;  // read as a rotation offset by DgnObj_DLC_DungeonRotateTag
-    u8 _109c[0x1108 - 0x109c];
+    u8 _109c[0x10a4 - 0x109c];
+    // Bit 3 is tested by DgnObj_DLC_CWRotDirSwitch::calc_.
+    u8 _10a4;
+    u8 _10a5[3];
+    // Two entries (current one: `_28`); bit 0 is read by DgnObj_DLC_CWRotDirSwitch::calc_ from the other
+    // entry, bit 2 is set / cleared by sub_71006698B0.
+    u32 _10a8[2];
+    u8 _10b0[0x1108 - 0x10b0];
 };
 KSYS_CHECK_SIZE_NX150(GearMgr, 0x1108);
 

@@ -10,6 +10,19 @@ void EnemySomeIgniteBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     BreathAttackEnemyBattle::enter_(params);
 }
 
+void EnemySomeIgniteBattle::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘攻撃")) {
+            for (s32 i = 0; i < *mIgniteNum_s; ++i) {
+                if (_b8[i].isAllocatedOrFailed())
+                    _b8[i].deleteProcIfFailed();
+            }
+        }
+    }
+    BreathAttackEnemyBattle::calc_();
+}
+
 void EnemySomeIgniteBattle::leave_() {
     for (s32 i = 0; i < *mIgniteNum_s; ++i)
         _b8[i].deleteProc();
