@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiChemicalEnemyRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::ai {
 
@@ -10,6 +11,19 @@ ChemicalEnemyRoot::~ChemicalEnemyRoot() = default;
 
 void ChemicalEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+    if (*mIsElementNoHit_s) {
+        if (auto* chemical = mActor->getChemicalStuff())
+            chemical->sub_7100D90FF0(true);
+    } else {
+        if (auto* chemical = mActor->getChemicalStuff())
+            chemical->sub_7100D90FF0(false);
+    }
+    _1f9 = false;
+    _1f8 = !mColorASName_s.isEmpty();
+    if (auto* as_list = mActor->getASList()) {
+        as_list->sub_710115C11C();
+        as_list->sub_710115BED4(true);
+    }
 }
 
 void ChemicalEnemyRoot::loadParams_() {
