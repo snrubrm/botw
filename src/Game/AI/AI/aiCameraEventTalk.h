@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiCameraEvent.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
@@ -16,24 +17,26 @@ public:
     void m40(ksys::act::ai::InlineParamPack* params) override;
     void m41() override;
 
-    virtual bool m44() { return true; }
+    void sub_710078E964();
+
+    virtual u32 m44() { return 1; }
     virtual f32 m45();
     virtual bool m46();
     virtual f32 m47() { return -1.0f; }
     virtual bool m48();
     virtual void m49() {}
     virtual void m50();
-    virtual void m51() {}
+    virtual void m51(ksys::act::ai::InlineParamPack* params) {}
     virtual void m52(ksys::act::ai::InlineParamPack* params) {}
 
 protected:
     ksys::act::BaseProcLink _48;
-    bool _58 = true;
+    u8 _58 = true;
     s32 _5c = 2;
-    bool _60 = false;
-    bool _61 = false;
-    u8 _62 = 0;
-    bool _63 = false;
+    sead::BitFlag8 _60;
+    sead::BitFlag8 _61;
+    u8 _62 = 0;  // saturating counters
+    u8 _63 = 0;
 };
 
 }  // namespace uking::ai

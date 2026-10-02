@@ -11,6 +11,11 @@ public:
     explicit CameraRoot(const InitArg& arg);
     ~CameraRoot() override;
     bool m34(sead::Heap* heap) override;
+    void m35(ksys::act::ai::InlineParamPack* params) override;
+    void m37() override;
+    void m38() override;
+
+    void sub_710078F434();
 
 protected:
     // 0x48..0x54: not initialised and not used by the decompiled functions

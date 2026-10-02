@@ -13,6 +13,7 @@ public:
     f32 m45() override;
     bool m46() override;
     bool m48() override;
+    void m50() override;
 
 protected:
     const f32* _68{};

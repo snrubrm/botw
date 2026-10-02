@@ -12,6 +12,8 @@ public:
     void m43() override;
     f32 m45() override;
     f32 m47() override;
+    void m49() override;
+    void m50() override;
     void m52(ksys::act::ai::InlineParamPack* params) override;
 
 protected:

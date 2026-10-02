@@ -10,6 +10,8 @@ class CameraGameRoot : public CameraAI {
 public:
     explicit CameraGameRoot(const InitArg& arg);
 
+    void m36() override;
+
 protected:
 };
 
