@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking::ai {
@@ -44,6 +45,20 @@ bool KeeseNormal::handleMessage_(const ksys::Message& message) {
     if (isCurrentChild("ぶらさがり"))
         return false;
     return EnemyNormal::handleMessage_(message);
+}
+
+void KeeseNormal::m38() {
+    m41();
+    _364 = 0;
+    ksys::act::ai::InlineParamPack params;
+    if (_448) {
+        params.addVec3(_43c, "TargetPos", -1);
+    } else {
+        sead::Vector3f pos;
+        m48(&pos);
+        params.addVec3(pos, "TargetPos", -1);
+    }
+    changeChild("諦め", &params);
 }
 
 void KeeseNormal::m48(sead::Vector3f* pos) {
