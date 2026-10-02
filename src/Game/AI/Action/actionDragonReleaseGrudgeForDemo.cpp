@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDragonReleaseGrudgeForDemo.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::action {
 
@@ -13,6 +14,11 @@ bool DragonReleaseGrudgeForDemo::init_(sead::Heap* heap) {
 
 void DragonReleaseGrudgeForDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     DragonPlayASForDemo::enter_(params);
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        dragon->_14c8._930 |= 0x40;
+        playAS("Release_Grudge_Mat", false, 5, 1, -1.0f);
+        _e8 = 0;
+    }
 }
 
 void DragonReleaseGrudgeForDemo::leave_() {
