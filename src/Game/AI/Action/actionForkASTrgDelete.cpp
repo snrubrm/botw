@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgDelete.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,7 +23,8 @@ void ForkASTrgDelete::leave_() {
 void ForkASTrgDelete::loadParams_() {}
 
 void ForkASTrgDelete::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x(0x43, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        m32();
 }
 
 void ForkASTrgDelete::m32() {}

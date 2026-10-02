@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerLadderJumpLand.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +11,12 @@ void PlayerLadderJumpLand::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerLadderJumpLand::leave_() {
-    PlayerAction::leave_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_181c = player->_1810;
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityGround);
+        controller->disableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    }
 }
 
 void PlayerLadderJumpLand::loadParams_() {

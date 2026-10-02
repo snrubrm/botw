@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionJumpMainRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -32,6 +34,19 @@ void JumpMainRigidBody::loadParams_() {
 
 void JumpMainRigidBody::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool JumpMainRigidBody::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (_78 || !_79)
+        return false;
+    auto* actor = mActor;
+    if (isBgGroundHit(actor, false))
+        return true;
+    if (_7c && mActor->get68f())
+        return true;
+    return false;
 }
 
 }  // namespace uking::action

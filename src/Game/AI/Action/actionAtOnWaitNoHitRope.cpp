@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionAtOnWaitNoHitRope.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +14,8 @@ bool AtOnWaitNoHitRope::init_(sead::Heap* heap) {
 }
 
 void AtOnWaitNoHitRope::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A24BC()->cstr()))
+        set->enableContactLayer(ksys::phys::ContactLayer::SensorRope);
     AtOnWait::enter_(params);
 }
 

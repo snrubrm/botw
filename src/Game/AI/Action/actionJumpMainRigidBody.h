@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -37,7 +38,10 @@ protected:
     // aitree_variable at offset 0x68
     void* mRefPosVibrateChecker_a{};
     void* _70{};
-    int _78 = 65537;
+    bool _78 = true;
+    bool _79 = false;
+    bool _7a = true;
+    bool _7b = false;
     bool _7c = false;
 };
 
