@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -71,13 +72,14 @@ public:
 
     using ContactIterator = ksys::phys::ContactPointInfo::Iterator;
 
-    // User data of the message (type 0x4800001) that calc() sends to every observed actor for each
-    // entry of the buffer returned by m6(). Buffers of it are allocated with an array cookie, so the
-    // type has a non-trivial destructor.
+    // User data of the message (type 0x4800001) that calc() sends to every area actor for each
+    // entry of the buffer returned by m6(); _0 is a contact layer (subclasses request e.g.
+    // SensorObject..SensorChemical). Buffers of it are allocated
+    // with an array cookie, so the type has a non-trivial destructor.
     struct Payload {
         ~Payload() {}
 
-        u32 _0 = 0x38;
+        ksys::phys::ContactLayer _0 = ksys::phys::ContactLayer::SensorEnd;
         bool _4 = false;
     };
 

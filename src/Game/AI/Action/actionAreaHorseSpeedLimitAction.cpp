@@ -15,8 +15,8 @@ bool AreaHorseSpeedLimitAction::init_(sead::Heap* heap) {
     _38.tryAllocBuffer(2, heap);
     if (!_38.isBufferReady())
         return false;
-    _38[0]._0 = 35;
-    _38[1]._0 = 37;
+    _38[0]._0 = ksys::phys::ContactLayer::SensorEnemy;
+    _38[1]._0 = ksys::phys::ContactLayer::SensorHorse;
     return true;
 }
 

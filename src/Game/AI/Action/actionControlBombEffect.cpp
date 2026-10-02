@@ -15,7 +15,7 @@ bool ControlBombEffect::init_(sead::Heap* heap) {
     _38.tryAllocBuffer(1, heap);
     if (!_38.isBufferReady())
         return false;
-    _38[0]._0 = 32;
+    _38[0]._0 = ksys::phys::ContactLayer::SensorObject;
     return true;
 }
 

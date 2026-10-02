@@ -16,8 +16,8 @@ bool AreaOutRecreateActorAction::init_(sead::Heap* heap) {
     _38.tryAllocBuffer(2, heap);
     if (!_38.isBufferReady())
         return false;
-    _38[0]._0 = 32;
-    _38[1]._0 = 33;
+    _38[0]._0 = ksys::phys::ContactLayer::SensorObject;
+    _38[1]._0 = ksys::phys::ContactLayer::SensorSmallObject;
     return true;
 }
 

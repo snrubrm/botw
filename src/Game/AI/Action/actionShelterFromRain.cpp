@@ -15,7 +15,7 @@ ShelterFromRain::~ShelterFromRain() {
 
 bool ShelterFromRain::init_(sead::Heap* heap) {
     _40.tryAllocBuffer(1, heap);
-    _40[0]._0 = 36;
+    _40[0]._0 = ksys::phys::ContactLayer::SensorNPC;
     return true;
 }
 

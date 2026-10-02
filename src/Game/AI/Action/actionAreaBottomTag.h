@@ -18,6 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    sead::Buffer<Payload>* m6() override { return &_38; }
+    bool m16(ksys::phys::RigidBody* body) override;
+
+    sead::Buffer<Payload> _38;
 };
+KSYS_CHECK_SIZE_NX150(AreaBottomTag, 0x48);
 
 }  // namespace uking::action

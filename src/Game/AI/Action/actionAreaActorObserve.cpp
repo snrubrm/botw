@@ -14,13 +14,13 @@ bool AreaActorObserve::init_(sead::Heap* heap) {
     _50.tryAllocBuffer(7, heap);
     if (!_50.isBufferReady())
         return false;
-    _50[0]._0 = 32;
-    _50[1]._0 = 33;
-    _50[2]._0 = 35;
-    _50[4]._0 = 37;
-    _50[3]._0 = 36;
-    _50[5]._0 = 41;
-    _50[6]._0 = 39;
+    _50[0]._0 = ksys::phys::ContactLayer::SensorObject;
+    _50[1]._0 = ksys::phys::ContactLayer::SensorSmallObject;
+    _50[2]._0 = ksys::phys::ContactLayer::SensorEnemy;
+    _50[4]._0 = ksys::phys::ContactLayer::SensorHorse;
+    _50[3]._0 = ksys::phys::ContactLayer::SensorNPC;
+    _50[5]._0 = ksys::phys::ContactLayer::SensorChemical;
+    _50[6]._0 = ksys::phys::ContactLayer::SensorAttackPlayer;
     return true;
 }
 
