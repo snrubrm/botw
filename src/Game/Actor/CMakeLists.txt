@@ -5,6 +5,8 @@ target_sources(uking PRIVATE
   actEnemy.h
   actExtendedEntity.cpp
   actExtendedEntity.h
+  actGuardian.cpp
+  actGuardian.h
   actHorse.cpp
   actHorse.h
   actHorseBase.cpp

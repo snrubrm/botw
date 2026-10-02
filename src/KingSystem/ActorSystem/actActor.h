@@ -306,7 +306,8 @@ public:
     virtual void m77(VFR::ScopedDeltaSetter* setter);
     virtual void afterModelMatrixUpdate();
     virtual void m79();
-    virtual bool m80();
+    // Message ack handler (Actor::handleAck forwards the ack here first).
+    virtual bool m80(const MessageAck& ack);
     // Message handler (overrides forward the message to sub-objects).
     virtual bool m81(const Message& message) { return false; }
     virtual int getCalcTiming();

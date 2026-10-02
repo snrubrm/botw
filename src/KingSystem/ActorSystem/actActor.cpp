@@ -122,7 +122,7 @@ const char* Actor::getUniqueName() const {
 }
 
 void Actor::handleAck(const MessageAck& ack) {
-    if (m80())
+    if (m80(ack))
         return;
 
     if (mRootAi)
@@ -344,7 +344,7 @@ void Actor::m77(VFR::ScopedDeltaSetter* setter) {}
 
 void Actor::m79() {}
 
-bool Actor::m80() {
+bool Actor::m80(const MessageAck& ack) {
     return false;
 }
 
