@@ -5,7 +5,11 @@ namespace uking::ai {
 SiteBossIceSplinterRoot::SiteBossIceSplinterRoot(const InitArg& arg)
     : SiteBossChemicalProjectile(arg) {}
 
-SiteBossIceSplinterRoot::~SiteBossIceSplinterRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SiteBossIceSplinterRoot::~SiteBossIceSplinterRoot() {
+    ;
+}
 
 bool SiteBossIceSplinterRoot::init_(sead::Heap* heap) {
     return SiteBossChemicalProjectile::init_(heap);

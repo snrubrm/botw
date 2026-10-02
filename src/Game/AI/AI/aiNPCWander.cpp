@@ -4,7 +4,11 @@ namespace uking::ai {
 
 NPCWander::NPCWander(const InitArg& arg) : NPCTravelBase(arg) {}
 
-NPCWander::~NPCWander() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+NPCWander::~NPCWander() {
+    ;
+}
 
 bool NPCWander::init_(sead::Heap* heap) {
     return NPCTravelBase::init_(heap);

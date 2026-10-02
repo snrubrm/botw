@@ -4,7 +4,11 @@ namespace uking::ai {
 
 RemainsFireRoot::RemainsFireRoot(const InitArg& arg) : RemainsRoot(arg) {}
 
-RemainsFireRoot::~RemainsFireRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+RemainsFireRoot::~RemainsFireRoot() {
+    ;
+}
 
 bool RemainsFireRoot::init_(sead::Heap* heap) {
     return RemainsRoot::init_(heap);

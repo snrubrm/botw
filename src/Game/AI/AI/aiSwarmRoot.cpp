@@ -6,7 +6,11 @@ namespace uking::ai {
 
 SwarmRoot::SwarmRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-SwarmRoot::~SwarmRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SwarmRoot::~SwarmRoot() {
+    ;
+}
 
 bool SwarmRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);

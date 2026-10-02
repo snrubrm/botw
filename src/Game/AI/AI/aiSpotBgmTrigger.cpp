@@ -5,7 +5,11 @@ namespace uking::ai {
 
 SpotBgmTrigger::SpotBgmTrigger(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SpotBgmTrigger::~SpotBgmTrigger() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SpotBgmTrigger::~SpotBgmTrigger() {
+    ;
+}
 
 bool SpotBgmTrigger::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

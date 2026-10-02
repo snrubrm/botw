@@ -6,7 +6,11 @@ namespace uking::ai {
 
 SignaledSpotBgmTrigger::SignaledSpotBgmTrigger(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SignaledSpotBgmTrigger::~SignaledSpotBgmTrigger() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SignaledSpotBgmTrigger::~SignaledSpotBgmTrigger() {
+    ;
+}
 
 bool SignaledSpotBgmTrigger::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

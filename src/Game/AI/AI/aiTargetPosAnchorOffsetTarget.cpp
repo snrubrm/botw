@@ -4,7 +4,11 @@ namespace uking::ai {
 
 TargetPosAnchorOffsetTarget::TargetPosAnchorOffsetTarget(const InitArg& arg) : TargetPosAI(arg) {}
 
-TargetPosAnchorOffsetTarget::~TargetPosAnchorOffsetTarget() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+TargetPosAnchorOffsetTarget::~TargetPosAnchorOffsetTarget() {
+    ;
+}
 
 bool TargetPosAnchorOffsetTarget::init_(sead::Heap* heap) {
     return TargetPosAI::init_(heap);

@@ -4,7 +4,11 @@ namespace uking::ai {
 
 NPCMamonoShopRoot::NPCMamonoShopRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-NPCMamonoShopRoot::~NPCMamonoShopRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+NPCMamonoShopRoot::~NPCMamonoShopRoot() {
+    ;
+}
 
 bool NPCMamonoShopRoot::init_(sead::Heap* heap) {
     return NPCRoot::init_(heap);

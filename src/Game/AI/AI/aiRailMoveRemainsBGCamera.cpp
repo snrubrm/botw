@@ -4,7 +4,11 @@ namespace uking::ai {
 
 RailMoveRemainsBGCamera::RailMoveRemainsBGCamera(const InitArg& arg) : RailMoveRemains(arg) {}
 
-RailMoveRemainsBGCamera::~RailMoveRemainsBGCamera() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+RailMoveRemainsBGCamera::~RailMoveRemainsBGCamera() {
+    ;
+}
 
 bool RailMoveRemainsBGCamera::init_(sead::Heap* heap) {
     return RailMoveRemains::init_(heap);

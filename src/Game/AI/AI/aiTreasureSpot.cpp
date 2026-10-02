@@ -8,7 +8,11 @@ namespace uking::ai {
 
 TreasureSpot::TreasureSpot(const InitArg& arg) : CommonPickedItem(arg) {}
 
-TreasureSpot::~TreasureSpot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+TreasureSpot::~TreasureSpot() {
+    ;
+}
 
 bool TreasureSpot::init_(sead::Heap* heap) {
     return CommonPickedItem::init_(heap);

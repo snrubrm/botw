@@ -4,7 +4,11 @@ namespace uking::ai {
 
 OctarockBattle::OctarockBattle(const InitArg& arg) : ShootingEnemyBattle(arg) {}
 
-OctarockBattle::~OctarockBattle() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+OctarockBattle::~OctarockBattle() {
+    ;
+}
 
 bool OctarockBattle::init_(sead::Heap* heap) {
     return ShootingEnemyBattle::init_(heap);

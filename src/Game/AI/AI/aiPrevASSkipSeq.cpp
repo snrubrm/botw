@@ -6,7 +6,11 @@ namespace uking::ai {
 
 PrevASSkipSeq::PrevASSkipSeq(const InitArg& arg) : SeqTwoAction(arg) {}
 
-PrevASSkipSeq::~PrevASSkipSeq() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+PrevASSkipSeq::~PrevASSkipSeq() {
+    ;
+}
 
 bool PrevASSkipSeq::init_(sead::Heap* heap) {
     return SeqTwoAction::init_(heap);

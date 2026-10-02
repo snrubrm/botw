@@ -4,7 +4,11 @@ namespace uking::ai {
 
 SetPartBind::SetPartBind(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SetPartBind::~SetPartBind() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SetPartBind::~SetPartBind() {
+    ;
+}
 
 void SetPartBind::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100567E78();

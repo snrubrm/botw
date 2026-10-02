@@ -5,7 +5,11 @@ namespace uking::ai {
 PriestBossActorCloneRoot::PriestBossActorCloneRoot(const InitArg& arg)
     : PriestBossActorNormalRoot(arg) {}
 
-PriestBossActorCloneRoot::~PriestBossActorCloneRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+PriestBossActorCloneRoot::~PriestBossActorCloneRoot() {
+    ;
+}
 
 bool PriestBossActorCloneRoot::init_(sead::Heap* heap) {
     return PriestBossActorNormalRoot::init_(heap);
