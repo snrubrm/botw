@@ -2,12 +2,30 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 using ksys::act::Actor;
 using ksys::act::ActorAtk;
 using ksys::act::Unk_7102459df8;
+
+namespace ksys::act {
+
+AttackSensor2::AttackSensor2(Actor* actor) : PhysicsUserTag(actor) {
+    if (actor && actor->getChemicalStuff())
+        _18 |= 0x800;
+}
+
+// NON_MATCHING: the original decrements this->_20's count directly (it erases through the list,
+// not through each node's mList)
+AttackSensor2::~AttackSensor2() {
+    for (auto it = _20.robustBegin(), end = _20.robustEnd(); it != end; ++it)
+        it->erase();
+}
+
+}  // namespace ksys::act
 
 const sead::SafeString* sub_71007A24BC() {
     return &ksys::act::getStr_Atk();
@@ -54,6 +72,149 @@ void sub_71007A397C(Actor* actor) {
     }
 }
 
+void sub_71007A2B64(ksys::phys::RigidBody* body, const sead::Matrix34f* mtx) {
+    if (!body)
+        return;
+    if (mtx)
+        body->setTransform(*mtx);
+    if (!body->isAddedToWorld() || body->isRemovingBodyFromWorld())
+        body->addToWorld();
+    if (auto* sensor = sead::DynamicCast<ksys::act::AttackSensor>(body->getUserTag())) {
+        ++sensor->_44;
+        sensor->_49 = true;
+    }
+}
+
+void sub_71007A2C30(Actor* actor, const sead::SafeString& name, const sead::Matrix34f* mtx) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    sub_71007A2B64(set->findBodyByHavokName(name), mtx);
+}
+
+void sub_71007A2C9C(Actor* actor) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+        sub_71007A2B64(set->getRigidBodies()[i], nullptr);
+}
+
+void sub_71007A2D34(ksys::phys::RigidBody* body) {
+    if (body && (body->isAddedToWorld() || body->isAddingBodyToWorld()))
+        body->removeFromWorld();
+}
+
+void sub_71007A2D7C(Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    sub_71007A2D34(set->findBodyByHavokName(name));
+}
+
+void sub_71007A2E04(Actor* actor) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+        sub_71007A2D34(set->getRigidBodies()[i]);
+}
+
+void sub_71007A3258(ksys::phys::RigidBody* body, ksys::phys::SystemGroupHandler* handler) {
+    if (body)
+        body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit, handler);
+}
+
+void sub_71007A3270(Actor* actor, const sead::SafeString& name,
+                    ksys::phys::SystemGroupHandler* handler) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    sub_71007A3258(set->findBodyByHavokName(name), handler);
+}
+
+void sub_71007A3470(ksys::phys::RigidBody* body) {
+    if (body && (!body->isAddedToWorld() || body->isRemovingBodyFromWorld()))
+        body->addToWorld();
+}
+
+void sub_71007A34B8(Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    sub_71007A3470(set->findBodyByHavokName(name));
+}
+
+void sub_71007A3540(Actor* actor) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+        sub_71007A3470(set->getRigidBodies()[i]);
+}
+
+void sub_71007A35EC(ksys::phys::RigidBody* body) {
+    if (body && (body->isAddedToWorld() || body->isAddingBodyToWorld()))
+        body->removeFromWorld();
+}
+
+void sub_71007A3634(Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    sub_71007A35EC(set->findBodyByHavokName(name));
+}
+
+void sub_71007A36BC(Actor* actor) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i)
+        sub_71007A35EC(set->getRigidBodies()[i]);
+}
+
+void sub_71007A3768(Actor* actor, ksys::phys::RigidBody* body) {
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBAF18(body);
+}
+
+void sub_71007A3778(Actor* actor, const sead::SafeString& name) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* set = physics->findBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    if (auto* body = set->findBodyByHavokName(name))
+        physics->sub_7100FBAF18(body);
+}
+
+void sub_71007A3800(Actor* actor) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* set = physics->findBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
+    if (!atk || !atk->_70)
+        return;
+    atk->_70->_38 = false;
+    physics->sub_7100FBB18C(set);
+}
+
+void sub_71007A3900(ksys::phys::RigidBody* body) {
+    if (body)
+        body->setContactLayer(ksys::phys::ContactLayer::SensorQueryOnly);
+}
+
+void sub_71007A3910(Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    sub_71007A3900(set->findBodyByHavokName(name));
+}
+
 const ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
@@ -96,7 +257,7 @@ s32 getNumAttackInfoMaybe(Actor* actor) {
     return atk->getNumAttackInfoMaybe();
 }
 
-void* getActorAttackSensor(Actor* actor) {
+ksys::act::AttackSensor* getActorAttackSensor(Actor* actor) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
         return nullptr;

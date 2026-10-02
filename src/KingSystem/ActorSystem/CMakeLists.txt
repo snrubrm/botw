@@ -37,6 +37,7 @@ target_sources(uking PRIVATE
     actActor.h
     actActorAtk.cpp
     actActorAtk.h
+    actAttackSensor.h
     actActorCaptureMgr.cpp
     actActorCaptureMgr.h
     actActorChemicals.cpp

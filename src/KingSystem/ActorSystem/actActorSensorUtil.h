@@ -1,13 +1,20 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
 namespace ksys::act {
 class Actor;
+class AttackSensor;
 }  // namespace ksys::act
+
+namespace ksys::phys {
+class RigidBody;
+class SystemGroupHandler;
+}  // namespace ksys::phys
 
 // Helpers around an actor's attack info (Actor::getAtk() -> ActorAtk) and its slot-126 object
 // (Actor::m126() -> Unk_7102459df8), TU 0x71007a21d4-0x71007a4bd8. Names are the CSV names where
@@ -30,6 +37,38 @@ const sead::SafeString* sub_71007A2548();  // getStr_GeneralSensor
 // SensorQueryOnly (if the actor has attack info).
 void sub_71007A397C(ksys::act::Actor* actor);
 
+// --- "Atk" / "Tgt" rigid bodies (0x71007a2d34-0x71007a3978) ---
+// Activates an "Atk" body: optional new transform, added to the world, and its AttackSensor user
+// tag gets _44 incremented and _49 set (2B64); the body `name` (2C30); all bodies (2C9C).
+void sub_71007A2B64(ksys::phys::RigidBody* body, const sead::Matrix34f* mtx);
+void sub_71007A2C30(ksys::act::Actor* actor, const sead::SafeString& name,
+                    const sead::Matrix34f* mtx);
+void sub_71007A2C9C(ksys::act::Actor* actor);
+// Single bodies: removed from / added to the physics world when needed.
+void sub_71007A2D34(ksys::phys::RigidBody* body);  // remove
+void sub_71007A3470(ksys::phys::RigidBody* body);  // add
+void sub_71007A35EC(ksys::phys::RigidBody* body);  // remove
+void sub_71007A3258(ksys::phys::RigidBody* body, ksys::phys::SystemGroupHandler* handler);
+void sub_71007A3900(ksys::phys::RigidBody* body);  // SensorQueryOnly
+// The body `name` of the actor's "Atk" set: remove (2D7C), contact layer SensorNoHit with
+// `handler` (3270); all "Atk" bodies: remove (2E04).
+void sub_71007A2D7C(ksys::act::Actor* actor, const sead::SafeString& name);
+void sub_71007A2E04(ksys::act::Actor* actor);
+void sub_71007A3270(ksys::act::Actor* actor, const sead::SafeString& name,
+                    ksys::phys::SystemGroupHandler* handler);
+// The body `name` of the actor's "Tgt" set: add (34B8), remove (3634), SensorQueryOnly (3910);
+// all "Tgt" bodies: add (3540), remove (36BC, CSV Actor::x_56).
+void sub_71007A34B8(ksys::act::Actor* actor, const sead::SafeString& name);
+void sub_71007A3540(ksys::act::Actor* actor);
+void sub_71007A3634(ksys::act::Actor* actor, const sead::SafeString& name);
+void sub_71007A36BC(ksys::act::Actor* actor);
+void sub_71007A3910(ksys::act::Actor* actor, const sead::SafeString& name);
+// InstanceSet::sub_7100FBAF18(body) on the actor's physics (3768) / on the "Tgt" body `name` (3778).
+void sub_71007A3768(ksys::act::Actor* actor, ksys::phys::RigidBody* body);
+// Clears AttackSensor2::_38 and calls InstanceSet::sub_7100FBB18C on the "Tgt" body set.
+void sub_71007A3800(ksys::act::Actor* actor);
+void sub_71007A3778(ksys::act::Actor* actor, const sead::SafeString& name);
+
 // --- ActorAtk ---
 // 0x71007a255c (CSV Actor::x_46): ActorAtk::sub_710079E2C0(idx).
 const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(ksys::act::Actor* actor, int idx);
@@ -44,7 +83,7 @@ bool hasAttackInfo(ksys::act::Actor* actor);
 // 0x71007a2a2c (CSV Actor::getNumAttackInfoMaybe).
 s32 getNumAttackInfoMaybe(ksys::act::Actor* actor);
 // 0x71007a2acc (CSV): ActorAtk::_40.
-void* getActorAttackSensor(ksys::act::Actor* actor);
+ksys::act::AttackSensor* getActorAttackSensor(ksys::act::Actor* actor);
 // 0x71007a44e4 / 0x71007a458c: set or clear bit 0 / bit 1 of ActorAtk::_78.
 void sub_71007A44E4(ksys::act::Actor* actor, bool on);
 void sub_71007A458C(ksys::act::Actor* actor, bool on);

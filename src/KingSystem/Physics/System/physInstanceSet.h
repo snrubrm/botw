@@ -80,13 +80,20 @@ public:
     void sub_7100FBAD74();
     void sub_7100FBADDC();
     void* sub_7100FBAEDC(s32 rigidbody_idx, s32 ragdoll_idx) const;
+    // 0x7100fbaf18: called with one body of the actor (actActorSensorUtil sub_71007A3768/3778).
+    void sub_7100FBAF18(RigidBody* body);
     void sub_7100FBB00C(RigidBody* body, RigidBodyParam* param);
+    // 0x7100fbb18c: called with the actor's "Tgt" body set (actActorSensorUtil sub_71007A3800).
+    void sub_7100FBB18C(RigidBodySet* set);
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
     void sub_7100FBB4B4();
     void* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
     RigidBody* findRigidBody(const sead::SafeString& name) const;
     // 0x7100fbb7bc (CSV ActorPhysics::findBodyGroupByName): the rigid body set called `name`.
     RigidBodySet* findBodyGroupByName(const sead::SafeString& name);
+    // 0x7100fbb50c (CSV ActorPhysics::findBodyByName, ~100 callers): byte-identical to
+    // findBodyGroupByName (the original has two copies; const-ness is a guess).
+    RigidBodySet* findBodyByName(const sead::SafeString& name) const;
     s32 findContactPointInfo(const sead::SafeString& name) const;
     s32 findCollisionInfo(const sead::SafeString& name) const;
     void sub_7100FBD284(const sead::Matrix34f& mtx);

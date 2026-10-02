@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 
 namespace ksys::act {
 
@@ -80,6 +81,23 @@ bool ActorAtk::hasAttackInfoMaybe() {
     if (!_18)
         return false;
     return _18->mNumAttackInfo > 0;
+}
+
+AttackSensor::AttackSensor(Actor* actor) : PhysicsUserTag(actor) {}
+
+void AttackSensor::activateAttackSensor(u32 a1, u32 a2, u32 a3, u32 a4, f32 a5, u32 a6, u32 a7,
+                                        u32 a8, bool a11, u32 a9, u32 a10) {
+    _18 = a1;
+    _1c = a2;
+    _24 = a3;
+    _28 = a4;
+    _2c = a5;
+    _30 = a6;
+    _34 = a7;
+    _38 = a8;
+    _3c = a9;
+    _40 = a10;
+    _48 = a11;
 }
 
 }  // namespace ksys::act

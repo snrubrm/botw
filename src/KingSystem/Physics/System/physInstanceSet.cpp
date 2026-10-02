@@ -157,6 +157,18 @@ RigidBody* InstanceSet::findRigidBody(const sead::SafeString& name) const {
     return nullptr;
 }
 
+// NON_MATCHING: loop shape (the original increments the index after the end check and re-checks
+// the sign of the found index)
+RigidBodySet* InstanceSet::findBodyGroupByName(const sead::SafeString& name) {
+    s32 idx = 0;
+    for (auto& set : mRigidBodySets) {
+        if (mRigidBodySets[idx] && name == set.getName())
+            break;
+        ++idx;
+    }
+    return mRigidBodySets[idx];
+}
+
 s32 InstanceSet::findContactPointInfo(const sead::SafeString& name) const {
     s32 idx = 0;
     for (auto& info : mContactPointInfo) {

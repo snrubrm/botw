@@ -12,6 +12,8 @@ class Heap;
 namespace ksys::act {
 
 class Actor;
+class AttackSensor;
+class AttackSensor2;
 
 // Placeholder name (RTTI static 0x71025ae640; it has no vtable of its own in the binary). Abstract
 // base of ActorAtk and the type returned by Actor::getAtk() (vtable slot 125): callers
@@ -101,11 +103,11 @@ public:
     /* 0x18 */ Struct7* _18 = nullptr;
     /* 0x20 */ sead::Buffer<u8> _20;
     /* 0x30 */ sead::Buffer<u8> _30;
-    /* 0x40 */ void* _40 = nullptr;
+    /* 0x40 */ AttackSensor* _40 = nullptr;
     /* 0x48 */ Unk_710079e64c* _48 = nullptr;
     /* 0x50 */ sead::Buffer<u8> _50;
     /* 0x60 */ sead::Buffer<u8> _60;
-    /* 0x70 */ void* _70 = nullptr;
+    /* 0x70 */ AttackSensor2* _70 = nullptr;
     /* 0x78 */ u8 _78 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ActorAtk, 0x80);
