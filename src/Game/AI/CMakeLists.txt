@@ -6,6 +6,7 @@ target_sources(uking PRIVATE
   aiActionFactories.cpp
   aiActionFactories.h
   aiAiFactories.cpp
+  aiAwarenessFilters.h
   aiAiFactories.h
   aiQueryFactories.cpp
   aiQueryFactories.h
