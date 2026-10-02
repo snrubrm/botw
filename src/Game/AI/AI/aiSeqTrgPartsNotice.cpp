@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSeqTrgPartsNotice.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,39 @@ bool SeqTrgPartsNotice::init_(sead::Heap* heap) {
 
 void SeqTrgPartsNotice::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
+}
+
+// NON_MATCHING: the original computes the name argument before `enemy + 0x1128` (see lane2-log s16)
+void SeqTrgPartsNotice::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (*mIsFinishByNoNoticeActionEnd_s) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+            return;
+        }
+    } else if (child->isChangeable() && isCurrentChild("先行動")) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            auto& link = enemy->_1128.getActorPartsActor(mPartsName_s);
+            if (!link.hasProcInCalcState()) {
+                changeChild("後行動");
+                return;
+            }
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.sub_7100D10E6C(25)) {
+                changeChild("後行動");
+                return;
+            }
+        }
+    }
+
+    SeqTwoAction::calc_();
 }
 
 void SeqTrgPartsNotice::leave_() {
