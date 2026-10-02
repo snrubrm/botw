@@ -20,4 +20,8 @@ void CreateEaselBase::loadParams() {
     getStaticParam(&mOffset_s, "Offset");
 }
 
+const char* CreateEaselBase::m14() {
+    return mActorName_s.cstr();
+}
+
 }  // namespace uking::behavior

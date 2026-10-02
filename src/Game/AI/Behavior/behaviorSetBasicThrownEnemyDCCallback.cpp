@@ -13,6 +13,18 @@ bool SetBasicThrownEnemyDCCallback::m6(sead::Heap* heap) {
 
 void SetBasicThrownEnemyDCCallback::m7() {}
 
+void SetBasicThrownEnemyDCCallback::m8() {
+    setDamageCallbackTiming(mActor, 4, &_28);
+    setDamageCallbackTiming(mActor, 1, &_50);
+    setDamageCallbackTiming(mActor, 3, &_78);
+}
+
+void SetBasicThrownEnemyDCCallback::m9() {
+    sub_71005DA114(mActor, &_28);
+    sub_71005DA114(mActor, &_50);
+    sub_71005DA114(mActor, &_78);
+}
+
 void SetBasicThrownEnemyDCCallback::loadParams() {
 
 }

@@ -7,6 +7,13 @@ SimpleAtvUnitOpenDlg::SimpleAtvUnitOpenDlg(const InitArg& arg)
 
 SimpleAtvUnitOpenDlg::~SimpleAtvUnitOpenDlg() = default;
 
+bool SimpleAtvUnitOpenDlg::m6(sead::Heap* heap) {
+    if (!SimpleAtvUnitOpenSimpleDialog::m6(heap))
+        return false;
+    _86 = 0;
+    return true;
+}
+
 void SimpleAtvUnitOpenDlg::m7() {
     SimpleAtvUnitOpenSimpleDialog::m7();
 }

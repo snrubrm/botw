@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    virtual const char* m14();  // not decompiled yet (0x710061dd24)
+    virtual const char* m14();
     virtual bool m15() { return true; }
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061d7ec)
     void m7() override;  // not decompiled yet (0x710061d894)

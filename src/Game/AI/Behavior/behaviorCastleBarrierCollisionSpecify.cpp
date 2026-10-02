@@ -1,5 +1,6 @@
 #include "Game/AI/Behavior/behaviorCastleBarrierCollisionSpecify.h"
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -25,6 +26,10 @@ void CastleBarrierCollisionSpecify::m9() {
         return;
     if (auto* wall = sead::DynamicCast<ksys::act::AirWall>(actor))
         wall->sub_7100E245B8(nullptr);
+}
+
+void CastleBarrierCollisionSpecify::sub_710061BCB0(ksys::phys::RigidBody* body) {
+    body->setGroundHitMask(body->getContactLayer(), 0);
 }
 
 }  // namespace uking::behavior

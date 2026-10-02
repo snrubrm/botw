@@ -10,6 +10,11 @@ bool CanRideAnimalTerror::m6(sead::Heap* heap) {
     return TerrorBehavior::m6(heap);
 }
 
+void CanRideAnimalTerror::m8() {
+    TerrorBehavior::m8();
+    _160 = ksys::Timer(-1.0f, -1.0f);
+}
+
 void CanRideAnimalTerror::m9() {
     TerrorBehavior::m9();
 }
