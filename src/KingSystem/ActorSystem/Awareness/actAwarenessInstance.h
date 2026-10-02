@@ -9,6 +9,8 @@
 
 namespace ksys::act {
 
+class Unk_71024dc858;
+
 // Placeholder name (vtable 0x71024dce08): base class of the four sensor objects an
 // AwarenessInstance owns (created in 0x7100d7b974; derived vtables e.g. 0x71024dcea8).
 // TODO: incomplete.
@@ -16,9 +18,12 @@ class Unk_71024dce08 {
 public:
     virtual ~Unk_71024dce08();
 
-    /* 0x08 */ u8 _8[0x4c - 0x8];
+    /* 0x08 */ sead::ObjArray<Unk_71024dc858> _8;
+    /* 0x28 */ u8 _28[0x3c - 0x28];
+    /* 0x3c */ u32 _3c;
+    /* 0x40 */ u8 _40[0x4c - 0x40];
     /* 0x4c */ f32 _4c;
-    /* 0x50 */ u8 _50;
+    /* 0x50 */ bool _50;  // active (AwarenessInstance::sub_7100D7E9BC / sub_7100D7EAE4)
 };
 
 // Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the entries of
@@ -113,6 +118,10 @@ public:
 
     // Removes `filter` from the list of registered filters (_2e8). Called by the filter dtor.
     void sub_7100D7EA7C(Unk_71024dccf8* filter);
+    // 0x7100d7e9bc: activates sensor `idx` (registering the instance with Awareness if no sensor
+    // was active); 0x7100d7eae4: clears and deactivates it (deregistering if none is left active).
+    bool sub_7100D7E9BC(int idx);
+    void sub_7100D7EAE4(int idx);
 
     /* 0x008 */ sead::ObjArray<Unk_71024dc858> _8;  // awareness entries (allocBuffer 0x7100d78d44)
     /* 0x028 */ u8 _28[0x260 - 0x28];
@@ -121,6 +130,8 @@ public:
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
     /* 0x2f0 */ u8 _2f0[0x334 - 0x2f0];
     s8 _334;
+    u8 _335[0x337 - 0x335];
+    /* 0x337 */ bool _337;  // registered with Awareness::Instances
     u32 _338;
 };
 KSYS_CHECK_SIZE_NX150(AwarenessInstance, 0x340);

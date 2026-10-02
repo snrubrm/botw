@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 
 namespace ksys::act {
 
@@ -70,6 +71,55 @@ Unk_71024dc858* sub_7100D7EEE8(sead::ObjArray<Unk_71024dc858>* array, Unk_71024d
 Unk_71024dccf8::~Unk_71024dccf8() {
     if (_20)
         _20->sub_7100D7EA7C(this);
+}
+
+bool AwarenessInstance::sub_7100D7E9BC(int idx) {
+    auto* sensor = _260[idx];
+    if (!sensor)
+        return false;
+
+    bool any_active = false;
+    for (auto* s : _260) {
+        if (s && s->_50) {
+            any_active = true;
+            break;
+        }
+    }
+
+    if (!any_active && !_337) {
+        auto* awareness = Awareness::instance();
+        if (!awareness)
+            return false;
+        if (!awareness->mInstances.registerInstance(this))
+            return false;
+        _337 = true;
+        sensor = _260[idx];
+    }
+    sensor->_50 = true;
+    return true;
+}
+
+// NON_MATCHING: ObjArray::clear calls the entries' destructor through the vtable; the original
+// calls Unk_71024dc858's D1 directly (matches if that class is declared `final`)
+void AwarenessInstance::sub_7100D7EAE4(int idx) {
+    auto* sensor = _260[idx];
+    if (!sensor)
+        return;
+    sensor->_8.clear();
+    sensor->_3c = 0;
+    _260[idx]->_50 = false;
+
+    for (auto* s : _260) {
+        if (s && s->_50)
+            return;
+    }
+    if (_337)
+        return;
+    auto* awareness = Awareness::instance();
+    if (!awareness)
+        return;
+    awareness->mInstances.deregisterInstance(this);
+    _337 = false;
 }
 
 }  // namespace ksys::act

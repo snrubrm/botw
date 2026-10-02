@@ -97,6 +97,9 @@ public:
     s32 findContactPointInfo(const sead::SafeString& name) const;
     s32 findCollisionInfo(const sead::SafeString& name) const;
     void sub_7100FBD284(const sead::Matrix34f& mtx);
+    // 0x7100fbdfa4 (CSV ActorPhysics::x_5): sets `handler` as the system group handler of every
+    // rigid body set, listed body, the ragdoll and the character controller.
+    void sub_7100FBDFA4(SystemGroupHandler* handler);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
 
