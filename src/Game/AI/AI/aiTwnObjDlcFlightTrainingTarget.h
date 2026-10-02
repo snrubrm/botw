@@ -18,6 +18,10 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mLimitTime_s{};
+    f32 _40 = 0;
+    bool _44 = true;
+    bool _45 = false;
 };
+KSYS_CHECK_SIZE_NX150(TwnObjDlcFlightTrainingTarget, 0x48);
 
 }  // namespace uking::ai

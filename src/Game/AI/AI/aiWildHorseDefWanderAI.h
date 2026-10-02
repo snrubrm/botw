@@ -22,6 +22,11 @@ protected:
     const float* mMaxWaitTime_s{};
     // static_param at offset 0x48
     const float* mMinWaitTime_s{};
+    f32 _50 = 0;
+    s8 _54 = -1;
+    s8 _55 = -1;
+    s8 _56 = 0;
 };
+KSYS_CHECK_SIZE_NX150(WildHorseDefWanderAI, 0x58);
 
 }  // namespace uking::ai
