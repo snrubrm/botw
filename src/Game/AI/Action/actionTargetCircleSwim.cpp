@@ -9,6 +9,8 @@ TargetCircleSwim::~TargetCircleSwim() = default;
 
 void TargetCircleSwim::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetCircle::enter_(params);
+    playAS("SideSwim", false, 0, 0, -1.0f);
+    _a8.sub_710072AD1C(mActor->getCharacterController());
 }
 
 void TargetCircleSwim::leave_() {

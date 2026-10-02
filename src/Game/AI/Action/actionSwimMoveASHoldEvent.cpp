@@ -8,6 +8,8 @@ SwimMoveASHoldEvent::~SwimMoveASHoldEvent() = default;
 
 void SwimMoveASHoldEvent::enter_(ksys::act::ai::InlineParamPack* params) {
     SwimMoveBase::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _100 = -10.0f;
 }
 
 void SwimMoveASHoldEvent::loadParams_() {

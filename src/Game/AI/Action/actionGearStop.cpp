@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGearStop.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool GearStop::init_(sead::Heap* heap) {
 }
 
 void GearStop::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        const f32 speed = body->getAngularVelocity().length();
+        _30.value = speed;
+        _30.prev_value = speed;
+    }
+    actor->emitBasicSigOff();
 }
 
 void GearStop::leave_() {

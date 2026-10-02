@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwaysRotate.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,10 @@ bool ForkAlwaysRotate::init_(sead::Heap* heap) {
 }
 
 void ForkAlwaysRotate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const f32 speed = mActor->getAngVelocity().length();
+    _38.value = speed;
+    _38.prev_value = speed;
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAlwaysRotate::leave_() {

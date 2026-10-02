@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAllowReactionLift.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,9 @@ void ForkAllowReactionLift::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkAllowReactionLift::leave_() {
-    ksys::act::ai::Action::leave_();
+    *mIsAllowReactionLift_a = false;
+    if (!_28)
+        ksys::act::disableAttClient(mActor, "Grab");
 }
 
 void ForkAllowReactionLift::loadParams_() {

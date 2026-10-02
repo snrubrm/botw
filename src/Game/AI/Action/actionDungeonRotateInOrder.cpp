@@ -10,6 +10,8 @@ bool DungeonRotateInOrder::init_(sead::Heap* heap) {
 
 void DungeonRotateInOrder::enter_(ksys::act::ai::InlineParamPack* params) {
     DungeonRotateBase::enter_(params);
+    const f32 angle = sead::Mathf::deg2rad(*mTiltAngle_m);
+    _d8 = _80 + (*mDgnRotDir_m == 0 ? -angle : angle);
 }
 
 void DungeonRotateInOrder::leave_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkNoHitGroundCrawl.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ bool ForkNoHitGroundCrawl::init_(sead::Heap* heap) {
 }
 
 void ForkNoHitGroundCrawl::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const auto& vel = mActor->getVelocity();
+    const f32 speed = sead::Mathf::sqrt(vel.x * vel.x + vel.z * vel.z);
+    _38.value = speed;
+    _38.prev_value = speed;
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkNoHitGroundCrawl::leave_() {
