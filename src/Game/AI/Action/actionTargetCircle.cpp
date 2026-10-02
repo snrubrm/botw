@@ -10,8 +10,6 @@ namespace uking::action {
 
 TargetCircle::TargetCircle(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-TargetCircle::~TargetCircle() = default;
-
 bool TargetCircle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
