@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerGrabPut.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,8 @@ void PlayerGrabPut::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerGrabPut::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    static_cast<ksys::act::Player*>(mActor)->x_19(-1.0f);
 }
 
 void PlayerGrabPut::loadParams_() {

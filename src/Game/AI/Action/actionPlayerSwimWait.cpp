@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSwimWait.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -21,6 +22,10 @@ void PlayerSwimWait::calc_() {
 
 bool PlayerSwimWait::isChangeable() const {
     return true;
+}
+
+bool PlayerSwimWait::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->_209c > 0.05f;
 }
 
 }  // namespace uking::action

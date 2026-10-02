@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerBackJumpLand.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ void PlayerBackJumpLand::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerBackJumpLand::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_1d70 = ksys::Timer(0, 0);
 }
 
 void PlayerBackJumpLand::calc_() {

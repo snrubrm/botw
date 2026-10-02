@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFixedOrConstraint.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,7 +13,10 @@ bool FixedOrConstraint::init_(sead::Heap* heap) {
 }
 
 void FixedOrConstraint::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    auto* body = actor->getMainBody();
+    if (body && actor->getConstraints().size() == 0)
+        body->changeMotionType(ksys::phys::MotionType::Fixed);
 }
 
 void FixedOrConstraint::leave_() {
