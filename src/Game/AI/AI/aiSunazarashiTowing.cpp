@@ -35,4 +35,15 @@ bool SunazarashiTowing::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable();
 }
 
+void SunazarashiTowing::calc_() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("牽引開始") && child->isFinished()) {
+        sub_71005B012C();
+        return;
+    }
+
+    if (!isCurrentChild("牽引開始") && !isCurrentChild("牽引終了") && child->isFinished())
+        changeChild("牽引終了");
+}
+
 }  // namespace uking::ai

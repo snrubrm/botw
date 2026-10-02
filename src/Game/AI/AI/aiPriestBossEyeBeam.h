@@ -35,6 +35,8 @@ public:
     virtual void m45() { changeChild("待機"); }
     virtual sead::SafeString m46() { return "Beam"; }
 
+    void sub_710051459C();
+
 protected:
     // static_param at offset 0x38
     const int* mAtMinDamage_s{};

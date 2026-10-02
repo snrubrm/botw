@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100550C44(ksys::act::ai::InlineParamPack* params);
+
 protected:
     // static_param at offset 0x38
     const float* mLifeRatio_s{};

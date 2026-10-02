@@ -13,10 +13,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_710056EA38();
+    void sub_710056EC90();
+    // Inline only (no out-of-line copy in the executable); placeholder name (as SimpleLiftable::x).
+    void x();
 
 protected:
     // static_param at offset 0x38

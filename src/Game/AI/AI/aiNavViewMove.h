@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_71004BABDC();
+    void sub_71004BAE20();
+
 protected:
     // static_param at offset 0x38
     const float* mSubsAngle_s{};

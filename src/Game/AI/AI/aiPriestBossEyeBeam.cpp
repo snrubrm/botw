@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossEyeBeam.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -12,7 +13,13 @@ PriestBossEyeBeam::PriestBossEyeBeam(const InitArg& arg) : ksys::act::ai::Ai(arg
 PriestBossEyeBeam::~PriestBossEyeBeam() = default;
 
 bool PriestBossEyeBeam::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _98 = m46();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->_1128.getActorPartsActor(_98).hasProc())
+            enemy->_1128.sub_7100D3CED8(_98, heap);
+    }
+    sub_710051459C();
+    return true;
 }
 
 void PriestBossEyeBeam::enter_(ksys::act::ai::InlineParamPack* params) {

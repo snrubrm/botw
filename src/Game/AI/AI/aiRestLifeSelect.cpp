@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRestLifeSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -10,8 +11,23 @@ bool RestLifeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original shares one sub_7100550C44 call between the two paths (branch layout)
 void RestLifeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!*mIsEnter_s && *mIsTrgOnly_s) {
+        auto* life = mActor->getLife();
+        const f32 current = life ? f32(*life) : 1.0f;
+        if (f32(mActor->getMaxLife()) * *mLifeRatio_s > current ||
+            (current <= 0.0f && *mLifeRatio_s < 0.0f))
+            changeChild("元気", params);
+        else
+            sub_7100550C44(params);
+    } else {
+        sub_7100550C44(params);
+    }
+
+    _54 = false;
+    auto* life = mActor->getLife();
+    _50 = life ? *life : 1;
 }
 
 void RestLifeSelect::leave_() {

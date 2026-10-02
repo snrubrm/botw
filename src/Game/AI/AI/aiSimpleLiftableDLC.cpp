@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSimpleLiftableDLC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -26,6 +28,32 @@ void SimpleLiftableDLC::leave_() {
 
 void SimpleLiftableDLC::loadParams_() {
     getStaticParam(&mScaleToLiftUp_s, "ScaleToLiftUp");
+}
+
+inline void SimpleLiftableDLC::x() {
+    auto* actor = mActor;
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBADDC();
+    ksys::act::disableAllAttClients(actor);
+    _40.x();
+    changeChild("所持");
+}
+
+void SimpleLiftableDLC::calc_() {
+    sub_710056EC90();
+
+    if (_d0) {
+        auto* actor = mActor;
+        if (isCurrentChild("通常") &&
+            (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _40._30)) {
+            x();
+            return;
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        changeChild("通常");
 }
 
 }  // namespace uking::ai

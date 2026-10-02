@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71005990E8(const char* name);
+
 protected:
     // static_param at offset 0x38
     const bool* mIsSkipLastAction_s{};

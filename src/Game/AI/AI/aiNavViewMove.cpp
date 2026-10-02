@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNavViewMove.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,15 @@ bool NavViewMove::init_(sead::Heap* heap) {
 }
 
 void NavViewMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!sub_71004BABDC()) {
+        sub_71004BAE20();
+        return;
+    }
+
+    _5c = false;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void NavViewMove::leave_() {

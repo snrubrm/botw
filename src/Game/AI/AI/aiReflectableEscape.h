@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710053C804(sead::Vector3f* out, const sead::Vector3f& target, f32 dist);
+
 protected:
     // static_param at offset 0x38
     const float* mEscapeDist_s{};
@@ -24,12 +27,8 @@ protected:
     const float* mEscapeTimer_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
-    f32 _58 = 0;
-    u32 _5c = 0;
-    f32 _60 = 0;
-    f32 _64 = 0;
-    u32 _68 = 0;
-    u32 _6c = 0;
+    sead::Vector3f _58{0, 0, 0};
+    ksys::Timer _64;
 };
 KSYS_CHECK_SIZE_NX150(ReflectableEscape, 0x70);
 

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReflectableEscape.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,11 @@ bool ReflectableEscape::init_(sead::Heap* heap) {
 }
 
 void ReflectableEscape::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _64 = ksys::Timer(*mEscapeTimer_s, *mEscapeTimer_s);
+    sub_710053C804(&_58, *mTargetPos_d, *mEscapeDist_s);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_58, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void ReflectableEscape::leave_() {
