@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOctarockReloadWig.h"
+#include "Game/AI/aiUnk_7102450d10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,8 +17,14 @@ void OctarockReloadWig::enter_(ksys::act::ai::InlineParamPack* params) {
     OctarockReloadWigBase::enter_(params);
 }
 
-// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void OctarockReloadWig::leave_() {
+    if (!_90 && _48.mOwner->getActor()->getConnectedCalcChild()) {
+        auto* unit = sead::DynamicCast<Unk_7102450d10>(
+            *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a));
+        if (unit)
+            unit->sub_7100714C9C();
+        _90 = true;
+    }
     OctarockReloadWigBase::leave_();
 }
 
@@ -26,9 +34,15 @@ void OctarockReloadWig::loadParams_() {
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
-// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void OctarockReloadWig::calc_() {
     OctarockReloadWigBase::calc_();
+    if (!_90 && _48.mOwner->getActor()->getConnectedCalcChild()) {
+        auto* unit = sead::DynamicCast<Unk_7102450d10>(
+            *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a));
+        if (unit)
+            unit->sub_7100714C9C();
+        _90 = true;
+    }
 }
 
 }  // namespace uking::action

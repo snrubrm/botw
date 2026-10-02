@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkOctarockEnterReloadWig.h"
+#include "Game/AI/aiUnk_7102450d10.h"
 
 namespace uking::action {
 
@@ -18,8 +19,15 @@ void ForkOctarockEnterReloadWig::enter_(ksys::act::ai::InlineParamPack* params) 
     _40.enter(params);
 }
 
-// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void ForkOctarockEnterReloadWig::leave_() {
+    if (!_38 && _40.isFinished()) {
+        auto* unit = sead::DynamicCast<Unk_7102450d10>(
+            *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a));
+        if (unit)
+            unit->sub_7100714C9C();
+        _38 = true;
+    }
+    _40.leave();
     Fork::leave_();
 }
 
@@ -30,9 +38,23 @@ void ForkOctarockEnterReloadWig::loadParams_() {
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
-// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void ForkOctarockEnterReloadWig::calc_() {
     Fork::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    _40.calc();
+    _40.sub_71002A7A38();
+    if (!_38 && _40.isFinished()) {
+        auto* unit = sead::DynamicCast<Unk_7102450d10>(
+            *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a));
+        if (unit)
+            unit->sub_7100714C9C();
+        _38 = true;
+        setEndState();
+    } else if (_40.isFailed()) {
+        setFailed();
+    }
 }
 
 }  // namespace uking::action
