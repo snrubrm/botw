@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionForkAllowReactionLift.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -12,7 +13,14 @@ bool ForkAllowReactionLift::init_(sead::Heap* heap) {
 }
 
 void ForkAllowReactionLift::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    *mIsAllowReactionLift_a = true;
+    if (ksys::act::isAttClientEnabled(mActor, "Grab")) {
+        _28 = true;
+    } else {
+        _28 = false;
+        ksys::act::enableAttClient(mActor, "Grab");
+    }
 }
 
 void ForkAllowReactionLift::leave_() {
