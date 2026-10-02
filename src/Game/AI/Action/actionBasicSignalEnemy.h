@@ -22,7 +22,7 @@ protected:
     virtual void m34();
     virtual void m35();
 
-    bool _1c;
+    bool _1c = false;
 };
 
 }  // namespace uking::action

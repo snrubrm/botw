@@ -54,7 +54,7 @@ struct Unk_710235abc8_Payload {
         s32 _20 = 0x7fffffff;
         u32 _24 = 0;
         sead::Vector3f _28 = sead::Vector3f::zero;
-        bool _34 = false;
+        u8 _34 = 0;  // set to 2 by BasicSignalEnemyForceNotice
     };
 
     Data mData;

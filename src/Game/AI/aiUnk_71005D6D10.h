@@ -26,6 +26,8 @@ struct Unk_71002eda38;
 struct Unk_71002edaec;
 }  // namespace uking::act
 
+class Unk_7102357d20;
+
 // Free helper functions of an unnamed AI utility translation unit (0x71005d6d10 - 0x71005e2f3c,
 // linked between aiUrbosasFuryDamageSelector and aiVacuumedBombDamageSelect). Most of them take an
 // actor, DynamicCast it (e.g. to uking::act::Enemy) and access the result.
@@ -209,6 +211,9 @@ bool sub_71005D723C();
 /// NPC flag 0x2000 of the actor `link` points to (ActorConstDataAccess::sub_7100022FD0).
 bool sub_71005D777C(ksys::act::BaseProcLink* link);
 bool sub_71005E116C(ksys::act::BaseProcLink* link);
+// 0x71005e1630: sends `sender`'s message to the map objects linked to `actor` (only those whose unit
+// config name is `name`, if not null/empty). One caller (BasicSignalEnemyForceNotice).
+bool sub_71005E1630(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* name);
 int sub_71005E2B28(int value);
 void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,
                     f32 scale);
