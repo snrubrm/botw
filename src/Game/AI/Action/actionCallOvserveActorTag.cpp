@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCallOvserveActorTag.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -20,6 +21,17 @@ void CallOvserveActorTag::leave_() {
 
 void CallOvserveActorTag::calc_() {
     AreaObserveActorAction::calc_();
+}
+
+bool CallOvserveActorTag::m15(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.hasProc())
+        return false;
+
+    if (m37(accessor)) {
+        _98._18.x(mActor);
+        _98.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+    }
+    return AreaActorObserve::m15(accessor);
 }
 
 }  // namespace uking::action
