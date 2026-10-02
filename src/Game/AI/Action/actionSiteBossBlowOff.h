@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionBlownOff.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    bool m36() override;
+    s32 m40() override;
+
+    ksys::Timer _160;
 };
 
 }  // namespace uking::action

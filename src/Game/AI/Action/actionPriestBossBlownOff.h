@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    s32 m41(uking::dmg::DamageManager* manager) override;
     bool _15d = false;
 };
 

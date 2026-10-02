@@ -4,6 +4,10 @@
 #include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::dmg {
+class DamageManager;
+}
+
 namespace uking::action {
 
 class BlownOff : public Ragdoll {
@@ -20,6 +24,9 @@ public:
 
 protected:
     void calc_() override;
+    void m38() override;
+    s32 m40() override;
+    virtual s32 m41(uking::dmg::DamageManager* manager);
 
     // static_param at offset 0x118
     const int* mAddTime_s{};

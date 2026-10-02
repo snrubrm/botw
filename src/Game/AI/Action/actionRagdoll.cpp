@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRagdoll.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -41,6 +43,23 @@ void Ragdoll::loadParams_() {
 
 void Ragdoll::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool Ragdoll::m36() {
+    if (m37() >= 1 && _c0.x < 0.0f)
+        return true;
+    return false;
+}
+
+void Ragdoll::m39() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F60604();
+        controller->sub_7100F62CA8(true);
+    }
+}
+
+s32 Ragdoll::m40() {
+    return *mTime_s;
 }
 
 }  // namespace uking::action

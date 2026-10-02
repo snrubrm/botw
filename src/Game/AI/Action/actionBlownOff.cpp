@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBlownOff.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -48,6 +49,14 @@ void BlownOff::calc_() {
 
 bool BlownOff::isChangeable() const {
     return _ec == 1;
+}
+
+s32 BlownOff::m40() {
+    return _158;
+}
+
+s32 BlownOff::m41(uking::dmg::DamageManager* manager) {
+    return manager->getField50();
 }
 
 }  // namespace uking::action

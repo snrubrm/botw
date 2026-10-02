@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPriestBossBlownOff.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -27,6 +29,12 @@ void PriestBossBlownOff::loadParams_() {
 
 void PriestBossBlownOff::calc_() {
     BlownOff::calc_();
+}
+
+s32 PriestBossBlownOff::m41(uking::dmg::DamageManager* manager) {
+    if (!ksys::act::sub_71007A4864(mActor, false) && manager->getField50() == 8)
+        return 12;
+    return manager->getField50();
 }
 
 }  // namespace uking::action
