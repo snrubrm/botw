@@ -30,18 +30,16 @@ void ForceGetUpWaterFloatFreeze::loadParams_() {
 }
 
 void ForceGetUpWaterFloatFreeze::calc_() {
-    switch (_88) {
-    case 1:
+    if (_88 == 2) {
+        WaterFloatFreeze::calc_();
+        return;
+    }
+    if (_88 == 1) {
         ksys::act::sub_7100EE5980(mActor, sead::Vector3f::zero);
         ksys::act::sub_7100EE5A14(mActor, sead::Vector3f::zero);
         ++_88;
-        break;
-    case 2:
-        WaterFloatFreeze::calc_();
-        break;
-    default:
+    } else {
         _88 = 1;
-        break;
     }
 }
 

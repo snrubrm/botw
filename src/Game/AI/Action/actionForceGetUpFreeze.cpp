@@ -29,18 +29,16 @@ void ForceGetUpFreeze::loadParams_() {
 }
 
 void ForceGetUpFreeze::calc_() {
-    switch (_88) {
-    case 1:
+    if (_88 == 2) {
+        Freeze::calc_();
+        return;
+    }
+    if (_88 == 1) {
         ksys::act::sub_7100EE5980(mActor, sead::Vector3f::zero);
         ksys::act::sub_7100EE5A14(mActor, sead::Vector3f::zero);
         ++_88;
-        break;
-    case 2:
-        Freeze::calc_();
-        break;
-    default:
+    } else {
         _88 = 1;
-        break;
     }
 }
 
