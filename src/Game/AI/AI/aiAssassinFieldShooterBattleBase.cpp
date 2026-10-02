@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinFieldShooterBattleBase.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -8,7 +9,11 @@ AssassinFieldShooterBattleBase::AssassinFieldShooterBattleBase(const InitArg& ar
 AssassinFieldShooterBattleBase::~AssassinFieldShooterBattleBase() = default;
 
 bool AssassinFieldShooterBattleBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    const s32 tired_time = *mTiredTime_s;
+    const s32 tired_time2 = tired_time * 1.2f;
+    _74 = sead::Mathi::min(tired_time, tired_time2);
+    _78 = sead::Mathi::max(tired_time, tired_time2);
+    return true;
 }
 
 void AssassinFieldShooterBattleBase::enter_(ksys::act::ai::InlineParamPack* params) {

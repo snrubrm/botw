@@ -1,11 +1,30 @@
 #include "Game/AI/AI/aiMagneSliderBlockRootThunder.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+bool Unk_7102406e88::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
+                            const ksys::phys::ContactPointInfo::Event& event) {
+    if (event.body->getContactLayer() == ksys::phys::ContactLayer::EntityGround) {
+        if (sead::Mathf::abs(event.separating_normal->dot(_8)) < 0.9f) {
+            *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
+            return false;
+        }
+    }
+    return true;
+}
 
 namespace uking::ai {
 
 MagneSliderBlockRootThunder::MagneSliderBlockRootThunder(const InitArg& arg)
     : MagneShaftRootBase(arg) {}
 
-MagneSliderBlockRootThunder::~MagneSliderBlockRootThunder() = default;
+MagneSliderBlockRootThunder::~MagneSliderBlockRootThunder() {
+    if (_a0) {
+        ksys::phys::Constraint::destroy(_a0);
+        _a0 = nullptr;
+    }
+}
 
 bool MagneSliderBlockRootThunder::init_(sead::Heap* heap) {
     return MagneShaftRootBase::init_(heap);

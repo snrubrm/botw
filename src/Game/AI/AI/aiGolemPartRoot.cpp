@@ -1,10 +1,16 @@
 #include "Game/AI/AI/aiGolemPartRoot.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
 GolemPartRoot::GolemPartRoot(const InitArg& arg) : ReuseBulletPartsRoot(arg) {}
 
-GolemPartRoot::~GolemPartRoot() = default;
+GolemPartRoot::~GolemPartRoot() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_c8, &accessor);
+    if (accessor.hasProc() && accessor.isStateSleep())
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+}
 
 bool GolemPartRoot::init_(sead::Heap* heap) {
     return ReuseBulletPartsRoot::init_(heap);

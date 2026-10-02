@@ -30,6 +30,10 @@ protected:
     const float* mTiredGrHeight_s{};
     // static_param at offset 0x68
     const float* mIntervalIntensity_s{};
+    f32 _70{};
+    s32 _74{};
+    s32 _78{};
 };
+KSYS_CHECK_SIZE_NX150(AssassinFieldShooterBattleBase, 0x80);
 
 }  // namespace uking::ai

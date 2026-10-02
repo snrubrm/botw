@@ -28,6 +28,7 @@ protected:
     bool* mGolemPartInitialIceMagic_a{};
     // aitree_variable at offset 0xc0
     bool* mGolemPartInitialBurn_a{};
+    ksys::act::BaseProcLink _c8;
 };
 
 }  // namespace uking::ai
