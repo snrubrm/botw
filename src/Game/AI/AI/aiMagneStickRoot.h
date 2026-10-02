@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMathCalcCommon.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,8 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x8];
+    u32 _38 = 0;
     // static_param at offset 0x40
     const float* mDefaultConnectionDistance_s{};
     // static_param at offset 0x48
@@ -33,6 +34,17 @@ protected:
     const bool* mIgnoreObstacle_m{};
     // aitree_variable at offset 0x70
     bool* mIsTargetFixedAcceptor_a{};
+    bool _78 = false;
+    bool _79 = false;
+    u32 _7c = 0;
+    f32 _80 = 0.0f;
+    f32 _84 = 0.0f;
+    f32 _88 = sead::Mathf::maxNumber();
+    f32 _8c = 0.0f;
+    u32 _90 = 0;
+    u32 _94 = 0;
+    u32 _98 = 0;
+    u32 _9c = 0;
 };
 
 }  // namespace uking::ai

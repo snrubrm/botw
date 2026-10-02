@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71024519a8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    Unk_71024519a8 _38;
 };
 
 }  // namespace uking::ai

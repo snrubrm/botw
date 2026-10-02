@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -10,6 +11,7 @@ class GuardianMiniReaction : public EnemyDefaultReaction {
 public:
     explicit GuardianMiniReaction(const InitArg& arg);
     ~GuardianMiniReaction() override;
+    void m39(ksys::act::ai::InlineParamPack* params) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -41,6 +43,11 @@ protected:
     const bool* mIsChangeWeapon_s{};
     // aitree_variable at offset 0xf0
     int* mGuardianMiniChanceTimeState_a{};
+    bool _f8;
+    bool _f9;
+    bool _fa;
+    u32 _fc = 0;
+    ksys::act::BaseProcLink _100;
 };
 
 }  // namespace uking::ai

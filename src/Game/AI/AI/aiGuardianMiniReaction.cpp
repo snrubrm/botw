@@ -7,10 +7,15 @@ GuardianMiniReaction::GuardianMiniReaction(const InitArg& arg) : EnemyDefaultRea
 GuardianMiniReaction::~GuardianMiniReaction() = default;
 
 bool GuardianMiniReaction::init_(sead::Heap* heap) {
-    return EnemyDefaultReaction::init_(heap);
+    _fa = false;
+    _f8 = false;
+    _f9 = false;
+    return true;
 }
 
 void GuardianMiniReaction::enter_(ksys::act::ai::InlineParamPack* params) {
+    _fc = -1;
+    _100.reset();
     EnemyDefaultReaction::enter_(params);
 }
 
@@ -32,6 +37,10 @@ void GuardianMiniReaction::loadParams_() {
     getStaticParam(&mJustGuardNumForBreak_s, "JustGuardNumForBreak");
     getStaticParam(&mIsChangeWeapon_s, "IsChangeWeapon");
     getAITreeVariable(&mGuardianMiniChanceTimeState_a, "GuardianMiniChanceTimeState");
+}
+
+void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
+    EnemyDefaultReaction::m39(params);
 }
 
 }  // namespace uking::ai

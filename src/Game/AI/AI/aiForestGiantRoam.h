@@ -19,6 +19,7 @@ public:
 protected:
     // static_param at offset 0xe0
     const float* mReturnHomeDist_s{};
+    bool _e8 = false;
 };
 
 }  // namespace uking::ai
