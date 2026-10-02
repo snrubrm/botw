@@ -29,8 +29,8 @@ bool GetUpBase::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original evaluates the three `_84 != 0` tests without branches (cset/orr) before the
-// `scale > 0` branch, and does not merge the three stores of the scaled offset
+// NON_MATCHING: the original evaluates the three `x != 0` tests without branches (cset/orr) before the
+// `scale > 0` branch and stores the scaled offset with three separate stores
 void GetUpBase::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* controller = mActor->getCharacterController();
     if (!controller)
@@ -44,11 +44,14 @@ void GetUpBase::enter_(ksys::act::ai::InlineParamPack* params) {
             actor->sub_71006DD92C(true);
             const f32 scale = handler->_b8;
             _84 = *mRootOffset_s;
-            if (scale > 0.0f && !(_84.x == 0.0f && _84.y == 0.0f && _84.z == 0.0f)) {
+            const f32 x = _84.x;
+            const f32 y = _84.y;
+            const f32 z = _84.z;
+            if (scale > 0.0f && (x != 0.0f || y != 0.0f || z != 0.0f)) {
                 const f32 inv_scale = 1.0f / scale;
-                _84.x = inv_scale * _84.x;
-                _84.y = inv_scale * _84.y;
-                _84.z = inv_scale * _84.z;
+                _84.x = inv_scale * x;
+                _84.y = inv_scale * y;
+                _84.z = inv_scale * z;
                 _90.setName("Skl_Root");
                 _90._68 = sead::Matrix34f::ident;
                 actor->boneHandleStuff(&_90, false);
@@ -60,9 +63,7 @@ void GetUpBase::enter_(ksys::act::ai::InlineParamPack* params) {
         mActor->getASList()->x_6(9, 0, angle);
     }
     if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138.mSlot)) {
-        if (unit->_b4 <= 0)
-            mActor->boneHandleStuff(&unit->_8, false);
-        ++unit->_b4;
+        unit->_8.sub_attach(mActor);
     }
     sub_7100741034(&_44, mActor);
     _80 = false;

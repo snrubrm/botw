@@ -30,7 +30,7 @@ void ForkRagdollOff::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
         actor->sub_71006DD92C(true);
     if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_30.mSlot))
-        unit->_8._68 = sead::Matrix34f::ident;
+        unit->_8.mHandle._68 = sead::Matrix34f::ident;
 }
 
 void ForkRagdollOff::leave_() {
@@ -40,7 +40,7 @@ void ForkRagdollOff::leave_() {
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
         actor->sub_71006DD92C(true);
     if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_30.mSlot))
-        unit->_8._68 = sead::Matrix34f::ident;
+        unit->_8.mHandle._68 = sead::Matrix34f::ident;
 }
 
 void ForkRagdollOff::loadParams_() {

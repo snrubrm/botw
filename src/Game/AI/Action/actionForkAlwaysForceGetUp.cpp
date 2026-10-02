@@ -26,15 +26,10 @@ bool ForkAlwaysForceGetUp::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original keeps &unit->_8 in a callee-saved register and addresses the attach count
-// through it ([x21 + 0xac]); ours addresses it from `unit`
 void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsUseCRBOffsetUnit_s) {
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot)) {
-            if (unit->_b4 <= 0)
-                mActor->boneHandleStuff(&unit->_8, false);
-            ++unit->_b4;
-        }
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+            unit->_8.sub_attach(mActor);
     }
     m32(&_48);
     mFlags.set(Flag::Changeable);
@@ -44,7 +39,7 @@ void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
 void ForkAlwaysForceGetUp::leave_() {
     if (*mIsUseCRBOffsetUnit_s) {
         if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
-            unit->sub_unattach(mActor);
+            unit->_8.sub_detach(mActor);
     }
 }
 
@@ -61,7 +56,7 @@ void ForkAlwaysForceGetUp::calc_() {
         sub_7100738AA8(mActor, 0.0f);
         if (*mIsUseCRBOffsetUnit_s) {
             if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
-                unit->_8._68 = sead::Matrix34f::ident;
+                unit->_8.mHandle._68 = sead::Matrix34f::ident;
         }
         return;
     }
@@ -72,7 +67,7 @@ void ForkAlwaysForceGetUp::calc_() {
     sub_7100740F1C(_54, mActor);
     if (*mIsUseCRBOffsetUnit_s) {
         if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
-            sub_71007448C0(&unit->_8, sead::Matrix34f::ident, *mRotRatio_s);
+            sub_71007448C0(&unit->_8.mHandle, sead::Matrix34f::ident, *mRotRatio_s);
     }
 }
 

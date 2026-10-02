@@ -36,7 +36,7 @@ void Ragdoll::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void Ragdoll::leave_() {
     if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_f8.mSlot))
-        unit->sub_unattach(mActor);
+        unit->_8.sub_detach(mActor);
     if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
         if (actor->_868)
             actor->_868->sub_71006EE2FC();
