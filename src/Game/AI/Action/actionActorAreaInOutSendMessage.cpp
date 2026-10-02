@@ -48,7 +48,7 @@ void ActorAreaInOutSendMessage::calc_() {
 
 // NON_MATCHING: the original's sead::Buffer iterator compares only the index (ours also compares the
 // buffer pointer, which is reloaded after each call)
-void ActorAreaInOutSendMessage::m5() {
+void ActorAreaInOutSendMessage::m2() {
     s32 next = _64 + 1;
     if (u32(next) > 1)
         next = 0;
@@ -76,7 +76,7 @@ bool ActorAreaInOutSendMessage::m15(const ksys::act::ActorConstDataAccess& acces
 }
 
 // NON_MATCHING: regalloc and address computation order of the two buffers
-void ActorAreaInOutSendMessage::m2() {
+void ActorAreaInOutSendMessage::m5() {
     const s32 prev_idx = _64 < 1 ? 1 : _64 - 1;
     auto& cur = _40[_64];
     auto& prev = _40[prev_idx];

@@ -29,9 +29,11 @@ protected:
     virtual void m33(const ksys::act::ActorConstDataAccess& accessor) {}
     // Whether the actor is ignored.
     virtual bool m34(const ksys::act::ActorConstDataAccess& accessor) { return false; }
-    void m5() override;
-    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    // Swaps the buffers.
     void m2() override;
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    // Compares the buffers.
+    void m5() override;
 
     // static_param at offset 0x38
     const int* mBufferNum_s{};
