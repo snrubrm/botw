@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -24,6 +25,9 @@ protected:
     const float* mReachTargetArea_s{};
     // static_param at offset 0x48
     const float* mTurnStartAng_s{};
+    void* _50 = nullptr;
+    sead::Vector3f _58{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(UnarmedEnemySearch, 0x68);
 
 }  // namespace uking::ai
