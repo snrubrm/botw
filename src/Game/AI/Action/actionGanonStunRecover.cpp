@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonStunRecover.h"
+#include "Game/Actor/actLastBoss.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void GanonStunRecover::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonStunRecover::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        boss->stunEnd();
+        boss->_14e8.resetBit(3);
+    }
 }
 
 void GanonStunRecover::loadParams_() {}

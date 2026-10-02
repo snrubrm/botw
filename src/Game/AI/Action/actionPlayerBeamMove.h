@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool m33() override;
+
     void* _c8{};
     int _d0 = 0;
 };

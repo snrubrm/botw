@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -19,7 +20,7 @@ protected:
     void calc_() override;
     void* _20{};
     void* _28{};
-    void* _30{};
+    ksys::act::ModelBindInfo* _30{};
 };
 
 }  // namespace uking::action

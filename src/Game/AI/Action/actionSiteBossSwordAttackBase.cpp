@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossSwordAttackBase.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -58,6 +59,18 @@ int SiteBossSwordAttackBase::m35() {
 
 bool SiteBossSwordAttackBase::isFinished() const {
     return isFinishedAS(0, 0);
+}
+
+int SiteBossSwordAttackBase::m34() {
+    int level = getNumberOfDeadBlights();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        const s32 kind = boss->_1534 & ~3;
+        if (kind == 4)
+            level = 3;
+        else if (kind == 8)
+            level = 4;
+    }
+    return *mAttackPower_s + *mAddAttackPower_s * level;
 }
 
 }  // namespace uking::action

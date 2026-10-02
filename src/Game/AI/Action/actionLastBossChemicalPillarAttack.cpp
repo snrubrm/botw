@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLastBossChemicalPillarAttack.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
 
@@ -31,5 +33,14 @@ void LastBossChemicalPillarAttack::calc_() {
 }
 
 void LastBossChemicalPillarAttack::m32() {}
+
+bool LastBossChemicalPillarAttack::isChangeable() const {
+    auto* damage_mgr = sub_710072BA90(mActor);
+    if (damage_mgr && (damage_mgr->getField54() == 9 || damage_mgr->getField54() == 10 ||
+                       damage_mgr->getField54() == 22)) {
+        return true;
+    }
+    return false;
+}
 
 }  // namespace uking::action

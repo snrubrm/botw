@@ -4,10 +4,16 @@ namespace uking::action {
 
 RemainsWindBarrier::RemainsWindBarrier(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-RemainsWindBarrier::~RemainsWindBarrier() = default;
+RemainsWindBarrier::~RemainsWindBarrier() {
+    if (_30) {
+        delete _30;
+        _30 = nullptr;
+    }
+}
 
 bool RemainsWindBarrier::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _30 = new (heap) ksys::act::ModelBindInfo;
+    return true;
 }
 
 void RemainsWindBarrier::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLastBossStun.h"
+#include "Game/Actor/actLastBoss.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void LastBossStun::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossStun::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        boss->_14e8.resetBit(3);
+        boss->stunEnd();
+    }
 }
 
 void LastBossStun::loadParams_() {

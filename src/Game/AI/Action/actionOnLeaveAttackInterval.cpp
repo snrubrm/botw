@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOnLeaveAttackInterval.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -15,7 +16,11 @@ void OnLeaveAttackInterval::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OnLeaveAttackInterval::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* enemy = static_cast<act::Enemy*>(mActor);
+    if (!enemy)
+        return;
+    const s32 interval = enemy->_f28.sub_7100001AA4(1.0f);
+    enemy->_e68 = ksys::Timer(interval, interval);
 }
 
 void OnLeaveAttackInterval::loadParams_() {}

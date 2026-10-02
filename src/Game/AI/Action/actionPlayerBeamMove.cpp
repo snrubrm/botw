@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerBeamMove.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -16,6 +17,12 @@ void PlayerBeamMove::leave_() {
 
 void PlayerBeamMove::loadParams_() {
     WindCutter::loadParams_();
+}
+
+bool PlayerBeamMove::m33() {
+    if (WindCutter::m33())
+        return true;
+    return hasAttackInfo(mActor);
 }
 
 }  // namespace uking::action
