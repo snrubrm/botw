@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiDieSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -32,6 +34,69 @@ void DieSelect::calc_() {
         callDeleteAndCreateDropAndEmit(mActor, 0);
         setFinished();
     }
+}
+
+// NON_MATCHING: the original computes the switch flag before the final getLife() call (with a
+// range check + bit test); ours sinks it after the call
+void DieSelect::m34(s32 a2, s32 a3, bool a4, bool a5) {
+    if (a3 == 34) {
+        changeChild("消滅");
+        return;
+    }
+    if (a5) {
+        *mActor->getLife() = 0;
+        changeChild("被暗殺");
+        return;
+    }
+    if (a4) {
+        *mActor->getLife() = 0;
+        changeChild("被特効");
+        return;
+    }
+    if (a3 == 32) {
+        changeChild("溺死");
+        return;
+    }
+    if (sub_7100736BD8(a3)) {
+        *mActor->getLife() = 0;
+        changeChild("落下死");
+        return;
+    }
+    if (a2 == 22 && a3 == 29) {
+        changeChild("濡死");
+        return;
+    }
+
+    bool x;
+    switch (a3) {
+    case 1:
+    case 4:
+    case 5:
+    case 6:
+    case 11:
+    case 14:
+    case 15:
+    case 17:
+    case 18:
+    case 21:
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+    case 29:
+    case 30:
+    case 31:
+        x = true;
+        break;
+    default:
+        x = false;
+        break;
+    }
+    *mActor->getLife() = 0;
+    if (a3 == 23 || x)
+        changeChild("死亡");
+    else
+        changeChild("自然死");
 }
 
 }  // namespace uking::ai

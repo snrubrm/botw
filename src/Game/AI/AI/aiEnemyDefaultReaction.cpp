@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -62,6 +65,30 @@ void EnemyDefaultReaction::m44() {
     _60 = true;
     _61 = false;
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
+}
+
+// NON_MATCHING: the original loads the two params before the GlobalRandom instance (same as
+// BokoblinArrowBattle::enter_)
+void EnemyDefaultReaction::sub_710038782C(ksys::act::ai::InlineParamPack* params) {
+    if (_58 <= 0) {
+        _58 = sead::GlobalRandom::instance()->getS32Range(*mJustGuardTimesMin_s,
+                                                          *mJustGuardTimesMax_s + 1);
+    }
+
+    auto* damage_mgr = sub_710072BA90(mActor);
+    s32 damage_type = -1;
+    bool flag = false;
+    if (damage_mgr) {
+        damage_type = damage_mgr->getField54();
+        flag = damage_mgr->checkDamageFlags(10);
+    }
+    mActor->getLife();
+
+    if (m45()) {
+        m42(params);
+        return;
+    }
+    m35(damage_mgr, damage_type, flag, params);
 }
 
 }  // namespace uking::ai
