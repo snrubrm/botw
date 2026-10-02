@@ -9,6 +9,7 @@ class AssassinBossFirstBattleMove : public ksys::act::ai::Ai {
 public:
     explicit AssassinBossFirstBattleMove(const InitArg& arg);
     ~AssassinBossFirstBattleMove() override;
+    bool isChangeable() const override;
     bool isFinished() const override;
     bool isFailed() const override;
 

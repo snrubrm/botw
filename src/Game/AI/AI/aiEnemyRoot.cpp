@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -81,6 +82,21 @@ void EnemyRoot::m42() {
 
 bool EnemyRoot::m35() {
     return sub_71005D6E28(mActor);
+}
+
+bool EnemyRoot::sub_71003B5804(bool a1) {
+    if (_e8._30) {
+        if (sub_71005DC444(mActor)) {
+            _e8.x();
+            m40();
+            return true;
+        }
+        if (!mActor->getConnectedCalcParent())
+            _e8.x();
+    } else if (a1) {
+        ksys::act::enableAttClient(mActor, "Grab");
+    }
+    return false;
 }
 
 }  // namespace uking::ai

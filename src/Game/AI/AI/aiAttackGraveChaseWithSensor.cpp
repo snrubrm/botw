@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiAttackGraveChaseWithSensor.h"
-#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::ai {
 
@@ -36,6 +37,23 @@ void AttackGraveChaseWithSensor::loadParams_() {
     AttackGraveChase::loadParams_();
     getStaticParam(&mRigidBodyGroupName_s, "RigidBodyGroupName");
     getStaticParam(&mRigidBodyName_s, "RigidBodyName");
+}
+
+void AttackGraveChaseWithSensor::calc_() {
+    AttackGraveChase::calc_();
+    auto* body =
+        mActor->findPhysicsBodyByName(mRigidBodyGroupName_s.cstr(), mRigidBodyName_s.cstr());
+    if (!body) {
+        setFailed();
+        return;
+    }
+    auto* info = body->getContactPointInfo();
+    if (!info) {
+        setFailed();
+        return;
+    }
+    if (info->begin() != info->end())
+        setFinished();
 }
 
 }  // namespace uking::ai

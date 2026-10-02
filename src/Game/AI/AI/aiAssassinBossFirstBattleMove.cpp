@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAssassinBossFirstBattleMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,18 @@ bool AssassinBossFirstBattleMove::init_(sead::Heap* heap) {
 
 void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+bool AssassinBossFirstBattleMove::isChangeable() const {
+    if (!getCurrentChild()->isChangeable())
+        return false;
+    if (isCurrentChild("直進接近不能"))
+        return false;
+
+    sub_71005D9330(mActor);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const sead::Vector2f diff(pos.x - _6c.x, pos.z - _6c.z);
+    return !(diff.length() <= *mDistXZ_s);
 }
 
 bool AssassinBossFirstBattleMove::isFailed() const {
