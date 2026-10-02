@@ -255,7 +255,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual s32 getMaxLife();
-    virtual void m31();
+    virtual Actor* m31();
     virtual void m32();
     virtual bool m33();
     virtual void m34();
@@ -273,7 +273,7 @@ public:
     virtual phys::NavMeshCharacter* m45();
     virtual void m46();
     virtual bool m47();
-    virtual void m48();
+    virtual Actor* m48();
     virtual void m49();
     virtual void m50();
     virtual void m51();

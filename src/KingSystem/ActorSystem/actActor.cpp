@@ -362,6 +362,10 @@ ActorWeapons* Actor::getWeapons() {
     return nullptr;
 }
 
+Actor* Actor::m48() {
+    return nullptr;
+}
+
 Unk_7100e4e084* Actor::m100() {
     return nullptr;
 }

@@ -116,6 +116,18 @@ HorseRideInfo* Enemy::getPlayerRideInfo() {
     return _10f8;
 }
 
+ksys::act::Actor* Enemy::m31() {
+    if (auto* rideable = getHorseOptionsMaybe())
+        return rideable->sub_7100E8B644();
+    return DynamicActor::m31();
+}
+
+ksys::act::Actor* Enemy::m48() {
+    if (auto* rideable = getHorseOptionsMaybe())
+        return rideable->sub_7100E8B6E0();
+    return DynamicActor::m48();
+}
+
 Rideable* Enemy::getHorseOptionsMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
 }

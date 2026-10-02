@@ -29,9 +29,9 @@ protected:
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
 
 public:
-    void m31() override;
+    Actor* m31() override;
     void m36() override;
-    void m48() override;
+    Actor* m48() override;
     bool m53() override;
     void m63() override;
     void initMaybe() override;

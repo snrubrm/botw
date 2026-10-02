@@ -177,10 +177,10 @@ protected:
 
 public:
     s32 getMaxLife() override;
-    void m31() override;
+    Actor* m31() override;
     void m36() override;
     void m41() override;
-    void m48() override;
+    Actor* m48() override;
     void m49() override;
     void killWithDropsAndEffects(int a1) override;
     bool m57() override;

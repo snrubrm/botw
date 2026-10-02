@@ -48,6 +48,9 @@ public:
     /* 15 */ virtual void m42(int a1) {}
     /* 16 */ virtual void m43() {}
 
+    ksys::act::Actor* sub_7100E8B644();
+    ksys::act::Actor* sub_7100E8B6E0();
+
     /* 0x08 */ sead::Atomic<u32> _8 = 0;
     /* 0x0c */ sead::Atomic<u32> _c = 0;
     /* 0x10 */ sead::Atomic<u32> _10 = 0;
