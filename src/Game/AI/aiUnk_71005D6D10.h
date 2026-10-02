@@ -208,3 +208,13 @@ int sub_71005E2B28(int value);
 void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,
                     f32 scale);
 void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2);
+/// The uking::act::Weapon equipped in slot `idx` (0-5), or nullptr.
+uking::act::Weapon* sub_71005DA374(ksys::act::Actor* actor, int idx);
+bool sub_71005DAF0C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank,
+                    bool a5);
+bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank);
+/// Enables or disables all ragdoll constraints of the actor.
+void sub_71005E1B7C(ksys::act::Actor* actor, bool enable);
+/// Resets Enemy::_f4c.
+void sub_71005E21E8(ksys::act::Actor* actor);

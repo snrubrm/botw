@@ -1,4 +1,6 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -910,4 +912,48 @@ void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2) {
         units[a2]->_1e |= 0x20;
     if (a1 >= 0 && units[a1]->mModelUnit)
         units[a1]->_1e &= ~0x20;
+}
+
+uking::act::Weapon* sub_71005DA374(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return nullptr;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return nullptr;
+    return sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+}
+
+bool sub_71005DAF0C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank,
+                    bool a5) {
+    if (actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, a5))
+        return true;
+    return actor->getASList()->x(0x10, name, slot, bank,
+                                 &ksys::as::ASList::Unk2::sub_71011638DC, a5);
+}
+
+bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank) {
+    auto* as_list = actor->getASList();
+    if (as_list->x(a1, name, slot, bank, &ksys::as::ASList::Unk2::sub_710116383C, true))
+        return true;
+    if (!as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101163940))
+        return false;
+    return as_list->x(a1, name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+void sub_71005E1B7C(ksys::act::Actor* actor, bool enable) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* ragdoll = physics->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    const int num = ragdoll->getNumConstraints();
+    for (int i = 0; i < num; ++i)
+        ragdoll->enableConstraint(i, enable);
+}
+
+void sub_71005E21E8(ksys::act::Actor* actor) {
+    if (auto* enemy = sead::DynamicCast<Enemy>(actor))
+        enemy->_f4c = 0;
 }

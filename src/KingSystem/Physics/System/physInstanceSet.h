@@ -60,6 +60,7 @@ public:
     const ParamSet* getParamSet() const { return mParamSet; }
     CharacterController* getCharacterController() const { return mCharacterController; }
     NavMeshCharacter* getNavMeshCharacter() const { return mNavMeshCharacter; }
+    RagdollInstance* getRagdollInstance() const { return mRagdollInstance; }
 
     void setFlag2();
     void clothVisibleStuff();
