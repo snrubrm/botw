@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 
 namespace ksys::act {
@@ -62,6 +63,10 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+
+/// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
+/// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
+bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);
 
 /// 0x710072e928: world ray cast (RayCastBodyQuery, GroundHit 0xf, contact layer type 0) from `from` to
 /// `to`, both raised by `y_offset`. On a hit, writes the hit position / normal and (for `hit_info`)
