@@ -7,10 +7,22 @@ namespace uking::ai {
 // NON_MATCHING: instruction scheduling / register allocation around the second sender (_198)
 EnemyRoot::EnemyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyRoot::~EnemyRoot() = default;
+EnemyRoot::~EnemyRoot() {
+    if (_38) {
+        delete _38;
+        _38 = nullptr;
+    }
+}
 
 bool EnemyRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    const float* in_water_depth{};
+    getStaticParam(&in_water_depth, "InWaterDepth");
+    if (*in_water_depth >= 0.0f) {
+        _38 = new (heap) Unk_7100702370(mActor, in_water_depth);
+        if (!_38)
+            return false;
+    }
+    return true;
 }
 
 void EnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -16,6 +16,24 @@ public:
     bool _8;
 };
 
+// Unnamed 0x18-byte water-state helper that EnemyRoot::init_ allocates (when InWaterDepth >= 0) and
+// its destructor deletes; no vtable or out-of-line constructor. Its non-virtual functions are at
+// 0x7100702370 / 0x7100702384 (same translation unit as Unk_7100700834). Placeholder name = first
+// function address.
+struct Unk_7100702370 {
+    Unk_7100702370(ksys::act::Actor* actor, const float* in_water_depth)
+        : mActor(actor), mInWaterDepth(in_water_depth) {}
+
+    void sub_7100702370();
+    void sub_7100702384();
+
+    ksys::act::Actor* mActor;
+    const float* mInWaterDepth;
+    f32 _10 = 0;
+    u8 _14 = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7100702370, 0x18);
+
 namespace uking::ai {
 
 class EnemyRoot : public ksys::act::ai::Ai {
@@ -48,8 +66,7 @@ public:
     virtual bool m44() { return !isCurrentChild("所持") && !m36(); }
 
 protected:
-    // Heap-allocated 0x18-byte object (actor, InWaterDepth param, ...) created in init_; type unknown.
-    void* _38{};
+    Unk_7100702370* _38{};
     // static_param at offset 0x40
     const float* mInWaterDepth_s{};
     // static_param at offset 0x48
