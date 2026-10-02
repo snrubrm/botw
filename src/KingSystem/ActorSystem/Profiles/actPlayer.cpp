@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <basis/seadNew.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -12,8 +14,86 @@ BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
 // NON_MATCHING: members are not declared yet
 Player::~Player() = default;
 
+bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& end,
+                            phys::WallCode wall, sead::Vector3f* hit_pos,
+                            sead::Vector3f* hit_normal) {
+    uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
+    ray.sub_710090D73C();
+    ray.setStart(start);
+    ray.setEnd(end);
+    ray.worldRayCast();
+    if (!ray.hasHit())
+        return false;
+
+    const auto& mask = ray.mQuery.getMaterialMask();
+    if (wall == phys::WallCode::NoClimb) {
+        if (int(mask.getWallCode()) == phys::WallCode::NoClimb ||
+            int(mask.getWallCode()) == phys::WallCode::NoDashUpAndNoClimb) {
+            return false;
+        }
+    } else if (wall == phys::WallCode::NoDashUpAndNoClimb) {
+        if (int(mask.getWallCode()) == phys::WallCode::NoDashUpAndNoClimb)
+            return false;
+    } else if (int(mask.getWallCode()) != int(wall)) {
+        return false;
+    }
+
+    if (hit_pos)
+        ray.getHitPosition(hit_pos);
+    if (hit_normal)
+        ray.getHitNormal(hit_normal);
+    return true;
+}
+
 bool Player::isSurfingOnGround() const {
     return _cfc.isOnBit(0);
+}
+
+bool Player::sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
+                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
+    return sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0.0f);
+}
+
+bool Player::sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
+                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
+    uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
+    ray.sub_710090D73C();
+    ray.sub_710090D784();
+    ray.setStart(start);
+    ray.setEnd(end);
+    ray.worldRayCast();
+    if (!ray.hasHit())
+        return false;
+
+    if (hit_pos)
+        ray.getHitPosition(hit_pos);
+    if (hit_normal)
+        ray.getHitNormal(hit_normal);
+    return true;
+}
+
+bool Player::sub_710087F4F8(const sead::Vector3f& start, const sead::Vector3f& end,
+                            sead::Vector3f* hit_pos, sead::Vector3f* hit_normal) {
+    uking::Unk_71024739d0 ray(phys::GroundHit::HitAll);
+    ray.sub_710090D784();
+    ray.setStart(start);
+    ray.setEnd(end);
+    ray.worldRayCast();
+    if (!ray.hasHit())
+        return false;
+
+    const auto& mask = ray.mQuery.getMaterialMask();
+    if (int(mask.getMaterial()) != phys::Material::Water)
+        return false;
+    const sead::SafeString sub_material = mask.getSubMaterialName();
+    if (sub_material == "Water_Ice" || sub_material == "Water_Poison")
+        return false;
+
+    if (hit_pos)
+        ray.getHitPosition(hit_pos);
+    if (hit_normal)
+        ray.getHitNormal(hit_normal);
+    return true;
 }
 
 }  // namespace ksys::act

@@ -4,6 +4,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -274,6 +275,21 @@ public:
     void x_33();                                                        // 0x88c900
     // 0x874514: acquires links to the resident actors (ResidentActorMgr::getActorByName).
     void initResidentActors();
+    // World ray casts (uking::Unk_71024739d0) from `start` to `end`; on a hit the position and the
+    // normal are written to the non-null outputs.
+    // 0x87f168: ground layers; `wall` NoClimb rejects the wall codes NoClimb and
+    // NoDashUpAndNoClimb, NoDashUpAndNoClimb rejects itself, any other value requires that code.
+    bool sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& end, phys::WallCode wall,
+                        sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
+    // 0x87f360: sub_710072E928(start, end, hit_pos, hit_normal, nullptr, 0).
+    bool sub_710087F360(const sead::Vector3f& start, const sead::Vector3f& end,
+                        sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
+    // 0x87f43c: ground and water layers.
+    bool sub_710087F43C(const sead::Vector3f& start, const sead::Vector3f& end,
+                        sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
+    // 0x87f4f8: water only (not Water_Ice / Water_Poison).
+    bool sub_710087F4F8(const sead::Vector3f& start, const sead::Vector3f& end,
+                        sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
     void x_38();                                                        // 0x88d564
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
     s32 playerWeapons_return0();
