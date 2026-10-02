@@ -65,4 +65,27 @@ void GuardianMiniBeamAttackMove::calc_() {
     sub_7100418694();
 }
 
+bool GuardianMiniBeamAttackMove::sub_710041889C() {
+    if (*mAttackInterval_s < 0)
+        return false;
+
+    if (!(_7c.value <= sead::Mathf::epsilon()))
+        _7c.update();
+
+    if (_88.hasProcCreationFailed()) {
+        _88.deleteProcIfFailed();
+        return false;
+    }
+
+    if (!_88.isAllocatedOrFailed()) {
+        sub_7100418D7C();
+        _7c = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
+        return false;
+    }
+
+    if (!_88.isProcReady())
+        return false;
+    return _7c.value <= sead::Mathf::epsilon();
+}
+
 }  // namespace uking::ai
