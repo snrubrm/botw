@@ -211,6 +211,10 @@ f32 sub_71009272A8();
 // 0x7100927228 / 0x7100927230: -1.
 f32 sub_7100927228();
 f32 sub_7100927230();
+// 0x710092738c: terrain slope (degrees, negated and weighted) ahead of `pos` along the horizontal
+// direction from `target` to `pos`, from ground ray casts; 0 when the ground below `pos` is less
+// than 4 units deep.
+f32 sub_710092738C(const sead::Vector3f& pos, const sead::Vector3f& target);
 
 // Camera access helpers (TU 0x710092da50-).
 // 0x710092dab8 / 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null

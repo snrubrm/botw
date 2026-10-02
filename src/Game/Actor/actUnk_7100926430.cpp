@@ -1,5 +1,8 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
+#include <algorithm>
+#include <cmath>
+#include "Game/gameUnk_71024739d0.h"
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -145,4 +148,143 @@ f32 sub_71009272A8() {
     if (auto* gdm = ksys::gdt::Manager::instance())
         gdm->getParam().get().getS32(&value, "StickSensitivity");
     return sub_71009220FC(value) * sub_7100922120();
+}
+
+// NON_MATCHING: one fadd has swapped operands (dir.y * 2 + start.y, where start.y was just set)
+f32 sub_710092738C(const sead::Vector3f& pos, const sead::Vector3f& target) {
+    uking::Unk_71024739d0 ray(ksys::phys::GroundHit::HitAll);
+    ray.sub_710090D73C();
+
+    sead::Vector3f start = pos;
+    ray.setStart(start);
+    sead::Vector3f end;
+    end.x = start.x;
+    end.z = start.z;
+    end.y = start.y + 10.0f;
+    ray.setEnd(end);
+    f32 top;
+    if (ray.worldRayCast()) {
+        ray.getHitPosition(&end);
+        top = end.y;
+    } else {
+        top = start.y + 10.0f;
+    }
+
+    ray.mQuery.resetCastResult();
+    ray.setStart(start);
+    end.x = start.x;
+    end.z = start.z;
+    end.y = start.y - 10.0f;
+    ray.setEnd(end);
+    f32 bottom;
+    if (ray.worldRayCast()) {
+        ray.getHitPosition(&end);
+        bottom = end.y;
+    } else {
+        bottom = start.y - 10.0f;
+    }
+
+    f32 result;
+    if (top - bottom < 4.0f) {
+        result = 0.0f;
+    } else {
+        sead::Vector3f dir = {pos.x - target.x, 0.0f, pos.z - target.z};
+        dir.normalize();
+        start.y = bottom;
+
+        end = start + dir * 2.0f;
+        end.y += 1.0f;
+        ray.mQuery.resetCastResult();
+        ray.setStart(pos);
+        ray.setEnd(end);
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            sead::Vector3f hit_normal;
+            ray.getHitPosition(&hit_pos);
+            ray.getHitNormal(&hit_normal);
+            hit_normal.normalize();
+            end = hit_pos + hit_normal * 0.3f;
+        }
+        ray.mQuery.resetCastResult();
+        ray.setStart(end);
+        ray.setEnd(sead::Vector3f(end.x, end.y - 10.0f, end.z));
+        f32 near_y;
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            ray.getHitPosition(&hit_pos);
+            near_y = hit_pos.y;
+        } else {
+            near_y = start.y;
+        }
+        end.y = near_y;
+        const sead::Vector3f near_diff = end - start;
+        const f32 near_angle = sead::Mathf::rad2deg(std::atan2(
+            near_diff.y, std::sqrt(near_diff.x * near_diff.x + near_diff.z * near_diff.z)));
+        const f32 a = near_angle * (near_angle >= 0.0f ? 0.2f : 0.6f);
+
+        sead::Vector3f mid = dir * 10.0f + start;
+        mid.y += 8.0f;
+        ray.mQuery.resetCastResult();
+        ray.setStart(pos);
+        ray.setEnd(mid);
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            sead::Vector3f hit_normal;
+            ray.getHitPosition(&hit_pos);
+            ray.getHitNormal(&hit_normal);
+            hit_normal.normalize();
+            mid = hit_pos + hit_normal * 0.3f;
+        }
+        ray.mQuery.resetCastResult();
+        ray.setStart(mid);
+        ray.setEnd(sead::Vector3f(mid.x, mid.y - 10.0f, mid.z));
+        f32 mid_y;
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            ray.getHitPosition(&hit_pos);
+            mid_y = hit_pos.y;
+        } else {
+            mid_y = start.y;
+        }
+
+        sead::Vector3f far = dir * 9.1f + start;
+        far.y += 8.0f;
+        ray.mQuery.resetCastResult();
+        ray.setStart(pos);
+        ray.setEnd(far);
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            sead::Vector3f hit_normal;
+            ray.getHitPosition(&hit_pos);
+            ray.getHitNormal(&hit_normal);
+            hit_normal.normalize();
+            far = hit_pos + hit_normal * 0.3f;
+        }
+        ray.mQuery.resetCastResult();
+        ray.setStart(far);
+        ray.setEnd(sead::Vector3f(far.x, far.y - 10.0f, far.z));
+        f32 far_y;
+        if (ray.worldRayCast()) {
+            sead::Vector3f hit_pos;
+            ray.getHitPosition(&hit_pos);
+            far_y = hit_pos.y;
+        } else {
+            far_y = start.y;
+        }
+
+        mid.y = (mid_y + far_y) * 0.5f;
+        const sead::Vector3f far_diff = mid - start;
+        f32 b = sead::Mathf::rad2deg(
+            std::atan2(far_diff.y, std::sqrt(far_diff.x * far_diff.x + far_diff.z * far_diff.z)));
+        b *= b >= 0.0f ? 0.45f : 0.25f;
+
+        if (a > 0.0f && b > 0.0f)
+            result = b <= a ? a : b;
+        else if (a <= 0.0f && b <= 0.0f)
+            result = a <= b ? a : b;
+        else
+            result = a * 0.75f + b * 0.25f;
+        result = -result;
+    }
+    return result;
 }
