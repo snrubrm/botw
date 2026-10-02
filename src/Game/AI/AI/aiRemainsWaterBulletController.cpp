@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiRemainsWaterBulletController.h"
 #include "Game/AI/aiUnk_7102419cb0.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
@@ -56,6 +59,40 @@ void RemainsWaterBulletController::sub_7100546D30(s32 type) {
                 bullet.mHandle.deleteProc();
         }
     }
+}
+
+// NON_MATCHING: the original keeps two "destructor + constant" exits (ours merges the result) and
+// puts the MessageType temporary below the accessor on the stack
+bool RemainsWaterBulletController::sub_7100548A38() {
+    const s32 num = _2d0.size();
+    if (num < 1)
+        return false;
+
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        auto* bullet = _2d0.at(sead::GlobalRandom::instance()->getU32(num));
+        if (bullet && !bullet->_28 &&
+            ksys::act::acquireActor(&bullet->mLink.mLink, &accessor)) {
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800006b),
+                        nullptr);
+            bullet->_28 = true;
+            _330.pushBack(bullet);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool RemainsWaterBulletController::sub_7100548B34() {
+    for (auto& bullet : _f0) {
+        if (bullet.mLink.mLink.hasProc())
+            return false;
+    }
+    for (auto& bullet : _1e0) {
+        if (bullet.mLink.mLink.hasProc())
+            return false;
+    }
+    return true;
 }
 
 void RemainsWaterBulletController::loadParams_() {

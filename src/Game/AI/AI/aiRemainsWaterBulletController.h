@@ -37,6 +37,8 @@ public:
     void sub_710054779C();
     void sub_71005478C8();
     void sub_7100547D20(s32 type);
+    bool sub_7100548A38();
+    bool sub_7100548B34();
 
 protected:
     ksys::act::Unk_7100d3bce4 _38{mActor};
