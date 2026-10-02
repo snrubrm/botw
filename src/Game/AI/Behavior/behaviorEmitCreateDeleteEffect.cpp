@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorEmitCreateDeleteEffect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::behavior {
 
@@ -18,6 +20,16 @@ void EmitCreateDeleteEffect::m9() {}
 
 void EmitCreateDeleteEffect::loadParams() {
     getStaticParam(&mEffectName_s, "EffectName");
+}
+
+void EmitCreateDeleteEffect::m8() {
+    if (mActor->checkFlag(ksys::act::Actor::ActorFlag::_35) && !mEffectName_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mEffectName_s.cstr(), 2, nullptr);
+}
+
+void EmitCreateDeleteEffect::m7() {
+    if (mActor->checkFlag(ksys::act::Actor::ActorFlag::_36) && !mEffectName_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mEffectName_s.cstr(), 2, nullptr);
 }
 
 }  // namespace uking::behavior

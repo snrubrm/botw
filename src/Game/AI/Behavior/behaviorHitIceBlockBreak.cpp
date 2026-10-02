@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorHitIceBlockBreak.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::behavior {
 
@@ -16,6 +18,12 @@ void HitIceBlockBreak::m9() {}
 
 void HitIceBlockBreak::loadParams() {
     getStaticParam(&mRigidBodyName_s, "RigidBodyName");
+}
+
+bool HitIceBlockBreak::m6(sead::Heap* heap) {
+    auto* actor = mActor;
+    _38 = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), mRigidBodyName_s.cstr());
+    return true;
 }
 
 }  // namespace uking::behavior

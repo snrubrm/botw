@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorOctarockHideHPGage.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::behavior {
 
@@ -14,6 +15,11 @@ void OctarockHideHPGage::m8() {}
 
 void OctarockHideHPGage::loadParams() {
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
+}
+
+void OctarockHideHPGage::m9() {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        enemy->_e90 = 0;
 }
 
 }  // namespace uking::behavior
