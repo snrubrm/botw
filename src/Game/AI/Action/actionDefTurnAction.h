@@ -33,7 +33,7 @@ protected:
     float _58 = 0.0f;
     float _5c = 0.0f;
     float _60 = 0.0f;
-    int _64 = 0;
+    float _64 = 0.0f;
     float _68 = 0.0f;
 };
 

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventCheckAndCreateEquip.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
 
 namespace uking::action {
 
@@ -26,7 +27,9 @@ void EventCheckAndCreateEquip::loadParams_() {
 }
 
 void EventCheckAndCreateEquip::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* mgr = act::CreatePlayerEquipActorMgr::instance();
+    if (mgr && mgr->areAllWeaponActorsReady())
+        setFinished();
 }
 
 }  // namespace uking::action

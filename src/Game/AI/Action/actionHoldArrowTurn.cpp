@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionHoldArrowTurn.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -9,13 +12,19 @@ void HoldArrowTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HoldArrowTurn::leave_() {
-    TurnBase::leave_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
-void HoldArrowTurn::loadParams_() {}
+void HoldArrowTurn::loadParams_() {
+    if (!mActor->getParam())
+        return;
+    TurnBase::loadParams_();
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+}
 
 void HoldArrowTurn::calc_() {
     TurnBase::calc_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 }  // namespace uking::action

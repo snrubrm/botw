@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHoldArrowWalk.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -21,6 +23,7 @@ void HoldArrowWalk::loadParams_() {
 
 void HoldArrowWalk::calc_() {
     MoveBase::calc_();
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 f32 HoldArrowWalk::m34() {

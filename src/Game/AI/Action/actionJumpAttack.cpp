@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionJumpAttack.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -14,7 +17,8 @@ void JumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void JumpAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
+    sub_71005DA114(mActor, &_60);
 }
 
 void JumpAttack::loadParams_() {

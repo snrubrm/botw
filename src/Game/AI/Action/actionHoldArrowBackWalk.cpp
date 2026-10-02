@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHoldArrowBackWalk.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -10,6 +12,7 @@ void HoldArrowBackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HoldArrowBackWalk::leave_() {
     BackWalkEx::leave_();
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HoldArrowBackWalk::loadParams_() {
@@ -19,6 +22,7 @@ void HoldArrowBackWalk::loadParams_() {
 
 void HoldArrowBackWalk::calc_() {
     BackWalkEx::calc_();
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 }  // namespace uking::action

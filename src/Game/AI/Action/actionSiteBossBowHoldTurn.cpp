@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossBowHoldTurn.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -28,6 +29,8 @@ void SiteBossBowHoldTurn::loadParams_() {
 
 void SiteBossBowHoldTurn::calc_() {
     TurnBase::calc_();
+    sub_71005DB51C(mActor, *mSpineControlOffsetAngleLR_s, true);
+    sub_71005DB558(mActor, *mSpineControlOffsetAngleUD_s, true);
 }
 
 }  // namespace uking::action

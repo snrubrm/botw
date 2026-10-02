@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBackStepAttack.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -14,6 +17,8 @@ void BackStepAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void BackStepAttack::leave_() {
     BackStepBase::leave_();
+    sub_71005DA114(mActor, &_d8);
+    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
 }
 
 void BackStepAttack::loadParams_() {

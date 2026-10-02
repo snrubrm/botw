@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseRideLoopAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -15,6 +17,7 @@ void HorseRideLoopAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseRideLoopAttack::leave_() {
+    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
     HorseRide::leave_();
 }
 

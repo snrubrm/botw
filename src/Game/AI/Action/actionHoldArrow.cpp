@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHoldArrow.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -10,6 +12,7 @@ void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HoldArrow::leave_() {
     ActionWithPosAngReduce::leave_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HoldArrow::loadParams_() {
@@ -19,6 +22,7 @@ void HoldArrow::loadParams_() {
 
 void HoldArrow::calc_() {
     ActionWithPosAngReduce::calc_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 bool HoldArrow::isChangeable() const {

@@ -24,7 +24,8 @@ void EventChangeFadeColor::loadParams_() {
 }
 
 void EventChangeFadeColor::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
 }
 
 }  // namespace uking::action

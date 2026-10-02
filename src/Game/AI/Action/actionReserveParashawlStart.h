@@ -9,6 +9,7 @@ class ReserveParashawlStart : public ksys::act::ai::Action {
 public:
     explicit ReserveParashawlStart(const InitArg& arg);
     ~ReserveParashawlStart() override;
+    bool oneShot_() override;
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDefTurnAction.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -11,7 +12,10 @@ bool DefTurnAction::init_(sead::Heap* heap) {
 }
 
 void DefTurnAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _5c = _60 = *mWaitRotate_s;
+    _64 = -1.0f;
+    _68 = *mWaitRotate_s - 1.0f;
+    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mASKeyName_s, 0, 0, true);
 }
 
 void DefTurnAction::leave_() {

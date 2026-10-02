@@ -16,7 +16,8 @@ public:
 
 protected:
     void calc_() override;
-    void* _90{};
+    // static_param at offset 0x90
+    const int* mWeaponIdx_s{};
 };
 
 }  // namespace uking::action
