@@ -290,7 +290,8 @@ public:
     // 0x87f4f8: water only (not Water_Ice / Water_Poison).
     bool sub_710087F4F8(const sead::Vector3f& start, const sead::Vector3f& end,
                         sead::Vector3f* hit_pos, sead::Vector3f* hit_normal);
-    void x_38();                                                        // 0x88d564
+    // 0x88d564: called when _d30 differs from getEquipmentTypeName(type) (PlayerStepAttack: type 1).
+    void x_38(u32 type);
     // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
     s32 playerWeapons_return0();
     // 0x8883b0 / 0x881ff8 (CSV playerWeapons_return1 / _return2): weapon slot indices 1 / 2.

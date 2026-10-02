@@ -36,13 +36,11 @@ void EnemyAreaInOutSendMessage::calc_() {
     ActorAreaInOutSendMessage::calc_();
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (as AreaBottomTag::m15)
 void EnemyAreaInOutSendMessage::m32(const ksys::act::ActorConstDataAccess& accessor) {
     if (*mMessageID_s == 0)
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000015), nullptr);
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (as AreaBottomTag::m15)
 void EnemyAreaInOutSendMessage::m33(const ksys::act::ActorConstDataAccess& accessor) {
     if (*mMessageID_s == 0)
         sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3000016), nullptr);

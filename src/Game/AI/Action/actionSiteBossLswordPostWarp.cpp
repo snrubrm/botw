@@ -32,7 +32,6 @@ void SiteBossLswordPostWarp::loadParams_() {
     getStaticParam(&mCancelSleepPartsName_s, "CancelSleepPartsName");
 }
 
-// NON_MATCHING: stack slot of the MessageType temporary (sp + 4 in the original)
 void SiteBossLswordPostWarp::calc_() {
     LastBossPostNormalWarp::calc_();
     if (!sub_71005DD780(mActor, 0x3b, nullptr, 0, 0))

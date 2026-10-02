@@ -17,7 +17,7 @@ CameraEventMovePosBase::CameraEventMovePosBase(const InitArg& arg) : CameraEvent
 // NON_MATCHING: the original checks the message pointer for null (`cbz x1`); clang folds the check
 // on a reference.
 bool CameraEventMovePosBase::handleMessage_(const ksys::Message& message) {
-    if (&message == nullptr || message.getType().value != 0x8800006)
+    if (&message == nullptr || message.getType() != 0x8800006)
         return false;
 
     {
