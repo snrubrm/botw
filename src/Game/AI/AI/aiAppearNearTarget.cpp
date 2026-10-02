@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiAppearNearTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
@@ -25,7 +30,21 @@ bool AppearNearTarget::m36(const sead::Vector3f& pos) {
 }
 
 void AppearNearTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20000);
+    if (auto* awareness = actor->getAwareness())
+        awareness->disable();
+    if (auto* damage_mgr = sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr()))
+        damage_mgr->removeDamageCallback(&_60);
+
+    if (auto* body = mActor->getRigidBodyByName("Ragdoll")) {
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        for (int i = 0, n = body->getRigidBodies().size(); i < n; ++i) {
+            if (auto* rigid_body = body->getRigidBody(i))
+                rigid_body->setPosition(pos + sead::Vector3f(0.0f, 0.5f, 0.0f));
+        }
+    }
+    *mIsStopFallCheck_a = false;
 }
 
 void AppearNearTarget::loadParams_() {

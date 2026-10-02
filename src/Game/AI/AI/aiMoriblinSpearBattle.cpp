@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiMoriblinSpearBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -63,6 +64,20 @@ void MoriblinSpearBattle::sub_71004AA888() {
     if (diff.length() >= sub_71007320F0(mActor, *mWeaponIdx_s) + (*mBaseDist_s + *mOutDist_s))
         setFailed();
     sub_71004AB3E4();
+}
+
+void MoriblinSpearBattle::sub_71004AB3E4() {
+    sub_71005DA114(mActor, &_90);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const s32 time = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
+        enemy->_e68 = ksys::Timer(time, time);
+    }
+    _80 = ksys::Timer(10, 10);
+
+    sead::Vector3f pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 }  // namespace uking::ai
