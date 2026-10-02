@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseTurnAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void HorseTurnAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseTurnAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* rideable = mActor->m132())
+        rideable->_18.sub_7100E770C4(false);
 }
 
 void HorseTurnAction::loadParams_() {

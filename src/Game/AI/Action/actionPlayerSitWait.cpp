@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSitWait.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +11,9 @@ void PlayerSitWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSitWait::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5EEB8(1.0f);
+    static_cast<ksys::act::Player*>(mActor)->_2098 = 1.0f;
 }
 
 void PlayerSitWait::loadParams_() {

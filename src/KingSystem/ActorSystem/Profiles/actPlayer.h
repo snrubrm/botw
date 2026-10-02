@@ -372,7 +372,7 @@ public:
     /* 0x2088 */ f32 _2088;
     /* 0x208c */ u8 _208c[0x2094 - 0x208c];
     /* 0x2094 */ f32 _2094;
-    /* 0x2098 */ u8 _2098[0x209c - 0x2098];
+    /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
     /* 0x20a0 */ u8 _20a0[0x20bc - 0x20a0];
     /* 0x20bc */ f32 _20bc;

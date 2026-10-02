@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSlideLand.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -8,8 +9,10 @@ void PlayerSlideLand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
+// NON_MATCHING: the original loads mActor before the x_5() result
 void PlayerSlideLand::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_1c68 =
+        static_cast<ksys::act::Player*>(mActor)->x_5().value;
 }
 
 void PlayerSlideLand::calc_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerIceBreak.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -13,7 +14,11 @@ void PlayerIceBreak::leave_() {
 }
 
 void PlayerIceBreak::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    m32();
 }
 
 bool PlayerIceBreak::isChangeable() const {

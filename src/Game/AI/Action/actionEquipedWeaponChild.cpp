@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEquipedWeaponChild.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 
 namespace uking::action {
@@ -11,6 +12,7 @@ void EquipedWeaponChild::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void EquipedWeaponChild::leave_() {
     BindAction::leave_();
+    mActor->setScale(_e0);
 }
 
 void EquipedWeaponChild::loadParams_() {
