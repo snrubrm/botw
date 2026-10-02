@@ -287,6 +287,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71009214b8, 0x38);
 // around Y from +Z towards +X).
 class Unk_7100922700 {
 public:
+    // Inline (e.g. CameraEventPolarCoordPlayerRel::m52: _0 = 0, then angleStuff(0) twice).
+    Unk_7100922700() : _0(0), _4(angleStuff(0)), _8(angleStuff(0)) {}
     Unk_7100922700(f32 r, f32 a, f32 b);
     explicit Unk_7100922700(const sead::Vector3f& v);
 
