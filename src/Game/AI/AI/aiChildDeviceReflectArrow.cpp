@@ -17,6 +17,7 @@ void ChildDeviceReflectArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     _159 = false;
     _15a = false;
     _160 = 0;
+    _164 = 0;
     _15c = 0;
 }
 
