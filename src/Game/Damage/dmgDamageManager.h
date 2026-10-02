@@ -22,7 +22,8 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
-    u8 _68[0x74 - 0x68];
+    s32 _68;  // WolfLinkRoot::enter_
+    u8 _6c[0x74 - 0x6c];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
     u8 _78[0x8c - 0x78];
     s32 _8c;  // WeakPointRoot::m35

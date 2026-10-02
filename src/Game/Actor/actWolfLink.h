@@ -38,6 +38,9 @@ public:
     // 0x71002f2e78 (not decompiled; 720 bytes, switch on idx). Placeholder name; return type unknown
     // (WolfLinkWarp::leave_ tail-calls it with Idx14f8::_10).
     void sub_71002F2E78(Idx14f8 idx);
+    // 0x71002f4428 (not decompiled): `s32(p->_850 + p->_870 * (getMaxLife-like virtual 0xf0 / 4))` from the
+    // parameter object _1680.
+    s32 sub_71002F4428();
 
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)

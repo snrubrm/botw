@@ -36,7 +36,11 @@ void NavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NavMoveTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_368) {
+        if (_368->_0)
+            _368->_0->inlineReset();
+        _368->_8 = -1;
+    }
 }
 
 // NON_MATCHING: the original computes this + 0x320 (WeaponIdx) before the first call

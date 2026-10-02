@@ -67,6 +67,8 @@ public:
 
     // Unnamed accessors/setters (placeholder names; signatures from their bodies and callers)
     void sub_7100F5E7F0(float value);
+    // 0x7100f62dd0 (not decompiled): RigidBody::setColImpulseScale on the main body and the extra bodies.
+    void sub_7100F62DD0(f32 scale);
     void sub_7100F5EDBC(const sead::Vector3f& value);
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);

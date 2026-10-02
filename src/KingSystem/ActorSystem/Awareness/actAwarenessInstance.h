@@ -270,7 +270,9 @@ public:
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
     /* 0x2f0 */ u8 _2f0[0x300 - 0x2f0];
     /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
-    /* 0x304 */ u8 _304[0x334 - 0x304];
+    /* 0x304 */ u8 _304[0x328 - 0x304];
+    /* 0x328 */ u32 _328;  // WolfLinkRoot::enter_ (0x2000b8)
+    /* 0x32c */ u8 _32c[0x334 - 0x32c];
     s8 _334;
     u8 _335[0x337 - 0x335];
     /* 0x337 */ bool _337;  // registered with Awareness::Instances

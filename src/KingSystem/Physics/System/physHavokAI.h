@@ -64,6 +64,9 @@ public:
     // its `_220`, stores this in its `_20` and queues it. Callers run it when `nav->_18` is null.
     void sub_7100F82BCC(NavMeshCharacter* nav);
 
+    // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
+    void sub_7100F82DD8(NavMeshCharacter* nav);
+
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
     void destroyQuery(Unk_7102372790* query);
     bool submitQuery(Unk_7102372790* query);
