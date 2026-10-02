@@ -187,6 +187,10 @@ bool sub_7100926CB0();
 bool sub_7100926D24();
 // 0x7100926fd0: false.
 bool sub_7100926FD0();
+// 0x7100927238: sub_71009220FC of the "StickSensitivity" game data value (2 by default).
+f32 sub_7100927238();
+// 0x71009272a8: sub_7100927238's value times sub_7100922120().
+f32 sub_71009272A8();
 // 0x7100927228 / 0x7100927230: -1.
 f32 sub_7100927228();
 f32 sub_7100927230();
@@ -259,5 +263,33 @@ public:
     /* 0x8 */ f32 _8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100922700, 0xc);
+
+// 0x7100923494: n! (1 for 0, -1 for negative n); used by the curve below.
+s32 sub_7100923494(s32 n);
+
+// Placeholder name (vtable 0x71024741b8 (no RTTI): empty dtor, D0, eval; ctor 0x7100923674): a
+// rational cubic Bezier curve over [0, 1] with control values _8-_14 and weights 1, _18, _1c, 1.
+// Camera actions build one on the stack, call set() and then sub_71009234D8.
+class Unk_71024741b8 {
+public:
+    Unk_71024741b8();
+    virtual ~Unk_71024741b8() {}
+    // 0x71009236b4: the curve value at `t` (clamped to [0, 1]).
+    virtual f32 eval(f32 t) const;
+
+    // 0x710092368c: control values and the two inner weights (clamped to >= 0).
+    void set(f32 p0, f32 p1, f32 p2, f32 p3, f32 w1, f32 w2);
+    // 0x71009234d8: the t for which eval(t) == value (bisection with `iterations` steps, then a
+    // linear interpolation).
+    f32 sub_71009234D8(f32 value, int iterations) const;
+
+    /* 0x08 */ f32 _8 = 0;
+    /* 0x0c */ f32 _c = 0;
+    /* 0x10 */ f32 _10 = 0;
+    /* 0x14 */ f32 _14 = 0;
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ f32 _1c = 0;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024741b8, 0x20);
 
 }  // namespace uking::act

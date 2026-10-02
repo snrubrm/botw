@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 bool sub_71009269F8(const sead::Vector3f& pos, f32* out) {
     return sub_7100926430(pos, 3, out, 1.0f, 1.0f, 5.0f);
@@ -70,4 +71,18 @@ f32 sub_7100927228() {
 
 f32 sub_7100927230() {
     return -1.0f;
+}
+
+f32 sub_7100927238() {
+    s32 value = 2;
+    if (auto* gdm = ksys::gdt::Manager::instance())
+        gdm->getParam().get().getS32(&value, "StickSensitivity");
+    return sub_71009220FC(value);
+}
+
+f32 sub_71009272A8() {
+    s32 value = 2;
+    if (auto* gdm = ksys::gdt::Manager::instance())
+        gdm->getParam().get().getS32(&value, "StickSensitivity");
+    return sub_71009220FC(value) * sub_7100922120();
 }

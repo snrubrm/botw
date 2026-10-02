@@ -543,4 +543,24 @@ sead::Vector3f Unk_7100922700::sub_7100923254() const {
     return {sb * h, sa * _0, cb * h};
 }
 
+s32 sub_7100923494(s32 n) {
+    if (n >= 3)
+        return n * sub_7100923494(n - 1);
+    if (n > 0)
+        return n;
+    return n == 0 ? 1 : -1;
+}
+
+
+Unk_71024741b8::Unk_71024741b8() = default;
+
+void Unk_71024741b8::set(f32 p0, f32 p1, f32 p2, f32 p3, f32 w1, f32 w2) {
+    _8 = p0;
+    _c = p1;
+    _10 = p2;
+    _14 = p3;
+    _18 = sead::Mathf::clampMin(w1, 0.0f);
+    _1c = sead::Mathf::clampMin(w2, 0.0f);
+}
+
 }  // namespace uking::act
