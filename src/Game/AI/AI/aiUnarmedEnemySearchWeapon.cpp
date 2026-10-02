@@ -7,7 +7,23 @@ UnarmedEnemySearchWeapon::UnarmedEnemySearchWeapon(const InitArg& arg) : Unarmed
 UnarmedEnemySearchWeapon::~UnarmedEnemySearchWeapon() = default;
 
 void UnarmedEnemySearchWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
+    _78.clear();
     UnarmedEnemySearch::enter_(params);
+}
+
+bool UnarmedEnemySearchWeapon::m34() {
+    if (!UnarmedEnemySearch::m34())
+        return false;
+    _78.clear();
+    return true;
+}
+
+void UnarmedEnemySearchWeapon::m44() {
+    setFailed();
+}
+
+void UnarmedEnemySearchWeapon::m45() {
+    setFinished();
 }
 
 void UnarmedEnemySearchWeapon::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSnowBallNormal.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -33,6 +35,13 @@ void SnowBallNormal::loadParams_() {
     getStaticParam(&mItemDropSetScaleOffset_s, "ItemDropSetScaleOffset");
     getStaticParam(&mItemDropDeleteScaleOffset_s, "ItemDropDeleteScaleOffset");
     getStaticParam(&mMinImpulseRatio_s, "MinImpulseRatio");
+}
+
+// NON_MATCHING: the original loads *mScaleMin_s before the actor scale (load order only)
+void SnowBallNormal::m38() {
+    auto* actor = mActor;
+    _d8 = sead::Mathf::clamp(actor->getScale().x, *mScaleMin_s, *mScaleMax_s);
+    actor->setScale({_d8, _d8, _d8});
 }
 
 }  // namespace uking::ai
