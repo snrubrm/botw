@@ -31,6 +31,7 @@ class RigidBody;
 namespace ksys::act {
 
 class Actor;
+class AttClient;
 class ActorConstDataAccess;
 class BaseProcLink;
 
@@ -151,6 +152,10 @@ bool enableAttClient(Actor* actor, const sead::SafeString& client);
 bool disableAttClient(Actor* actor, const sead::SafeString& client);
 void enableAllAttClients(Actor* actor);
 void disableAllAttClients(Actor* actor);
+// 0x7100ee3e14 (CSV act::getAttClientByName) / 0x7100ee3e2c: the actor's attention client `name`
+// (ActorAttention::getClientByName / its const overload).
+AttClient* getAttClientByName(Actor* actor, const sead::SafeString& name);
+const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name);
 bool isGrabAttClientEnabled(void* x, BaseProcLink* link);
 // 0x7100ee3d9c (informal CSV name)
 bool attentionStuff_0(Actor* actor);

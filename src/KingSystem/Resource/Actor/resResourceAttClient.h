@@ -1,6 +1,8 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <utility/aglParameter.h>
 #include <utility/aglParameterList.h>
@@ -11,7 +13,14 @@
 #include "KingSystem/Utils/ParamIO.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class Actor;
+class ActorConstDataAccess;
+}  // namespace ksys::act
+
 namespace ksys::res {
+
+struct AttCheck_Unk1;
 
 class AttCheck;
 
@@ -29,7 +38,12 @@ public:
 
     int getNumChecks() const;
 
-    // TODO: check functions
+    // 0x7101094670 (CSV res::AttClient::check): runs every check with the matching matrix of
+    // `mtxs`; returns the index of the first failing check, -1 if all pass, -2 if `mtxs` is too
+    // small.
+    int check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+              const sead::Buffer<sead::Matrix34f>& mtxs, const sead::Vector3f& pos,
+              const AttCheck_Unk1* arg, bool a6, bool a7) const;
 
     void appendPriority(sead::BufferedSafeString* str);
 

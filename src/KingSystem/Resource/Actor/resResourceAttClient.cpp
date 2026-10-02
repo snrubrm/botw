@@ -188,6 +188,22 @@ bool AttClient::parse_(u8* data, size_t size, sead::Heap* heap) {
     return true;
 }
 
+int AttClient::check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                     const sead::Buffer<sead::Matrix34f>& mtxs, const sead::Vector3f& pos,
+                     const AttCheck_Unk1* arg, bool a6, bool a7) const {
+    const int num = mChecks.size();
+    if (num > 0 && (!mtxs.getBufferPtr() || mtxs.size() < num))
+        return -2;
+
+    int i = 0;
+    for (auto* att_check : mChecks) {
+        if (!att_check->check(actor, accessor, &mtxs[i], pos, arg, a6, a7))
+            return i;
+        ++i;
+    }
+    return -1;
+}
+
 int AttClient::getNumChecks() const {
     return mChecks.size();
 }

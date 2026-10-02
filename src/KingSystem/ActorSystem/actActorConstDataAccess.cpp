@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -437,6 +438,17 @@ bool ActorConstDataAccess::getAabb(sead::Vector3f* min, sead::Vector3f* max) con
     if (max)
         *max = actor->mAabb.getMax();
     return true;
+}
+
+bool ActorConstDataAccess::sub_7100D13AE4(const sead::SafeString& name, BaseProc* proc,
+                                          const res::AttCheck_Unk1* arg, bool a4) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    const auto* client = sub_7100EE3E2C(actor, name);
+    if (!client)
+        return false;
+    return client->sub_7100D72554(proc, arg, a4);
 }
 
 phys::SystemGroupHandler* ActorConstDataAccess::sub_7100D10448(s32 idx) const {

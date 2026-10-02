@@ -88,7 +88,7 @@ class Unk_71025b08f8;
 class ActorCreator;
 class ActorParam;
 class ActorWeapons;
-class Attention;
+class ActorAttention;
 class Awareness;
 class AwarenessInstance;
 class Unk_71024dc900;
@@ -226,6 +226,7 @@ public:
     xlink::XLink* getXLink() const { return mXLink; }
     AwarenessInstance* getAwareness() const { return mAwareness; }
     Unk_71024dc900* get548() const { return _548; }
+    ActorAttention* getAttention() const { return mAttention; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
 
@@ -618,7 +619,7 @@ protected:
     /* 0x5c0 */ sead::Heap* mDualHeap2 = nullptr;  // TODO: rename
     /* 0x5c8 */ sead::Heap* mHeap = nullptr;       // TODO: rename
     /* 0x5d0 */ ActorUniqueName* mUniqueName = nullptr;
-    /* 0x5d8 */ Attention* mAttention = nullptr;
+    /* 0x5d8 */ ActorAttention* mAttention = nullptr;
     /* 0x5e0 */ ActorMessageTransceiver mMsgTransceiver{*this, this};
     /* 0x638 */ Schedule* mSchedule = nullptr;
 

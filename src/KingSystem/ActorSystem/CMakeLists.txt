@@ -2,6 +2,8 @@ target_sources(uking PRIVATE
     AS/ASList.h
     AS/ASList.cpp
     
+    Attention/actActorAttention.cpp
+    Attention/actActorAttention.h
     Attention/actAttClient.cpp
     Attention/actAttClient.h
     Attention/actAttention.cpp

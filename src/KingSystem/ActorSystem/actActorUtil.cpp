@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include <container/seadSafeArray.h>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
@@ -928,6 +929,69 @@ s32 actorAIGetInt(Actor* actor, const sead::SafeString& name, s32 default_value)
     if (root && root->getMapUnitParam(&value, name) && value)
         return *value;
     return default_value;
+}
+
+bool isAttClientEnabled(Actor* actor, const sead::SafeString& client) {
+    if (!actor)
+        return false;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return false;
+    return attention->isClientEnabled(client);
+}
+
+bool enableAttClient(Actor* actor, const sead::SafeString& client) {
+    if (!actor)
+        return false;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return false;
+    return attention->enableClient(client);
+}
+
+bool disableAttClient(Actor* actor, const sead::SafeString& client) {
+    if (!actor)
+        return false;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return false;
+    return attention->disableClient(client);
+}
+
+void enableAllAttClients(Actor* actor) {
+    if (!actor)
+        return;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return;
+    attention->enableAllClients();
+}
+
+void disableAllAttClients(Actor* actor) {
+    if (!actor)
+        return;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return;
+    attention->disableAllClients();
+}
+
+AttClient* getAttClientByName(Actor* actor, const sead::SafeString& name) {
+    if (!actor)
+        return nullptr;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return nullptr;
+    return attention->getClientByName(name);
+}
+
+const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name) {
+    if (!actor)
+        return nullptr;
+    const auto* attention = actor->getAttention();
+    if (!attention)
+        return nullptr;
+    return attention->getClientByName(name);
 }
 
 }  // namespace ksys::act

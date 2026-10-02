@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/Actor/resResourceAttClient.h"
@@ -8,6 +10,7 @@
 namespace ksys::act {
 
 class Actor;
+class BaseProc;
 
 // TODO: incomplete
 class AttClient {
@@ -22,6 +25,9 @@ public:
     void setEnabled(bool enabled);
     bool isEnabled() const;
     void setCallback(void* callback);
+    // 0x7100d72554: whether the client's checks pass for `proc` (NameBalloon: never; Appeal:
+    // camera within 30 of the actor).
+    bool sub_7100D72554(BaseProc* proc, const res::AttCheck_Unk1* arg, bool a3) const;
 
 private:
     Actor* mActor = nullptr;
@@ -33,8 +39,7 @@ private:
     f32 _20;
     void* mCallback = nullptr;
     void* _30 = nullptr;
-    u32 _38 = 0;
-    void* _40 = nullptr;
+    sead::Buffer<sead::Matrix34f> _38;  // one matrix per check of the resource client
     sead::Vector3f _48;
     u32 _54 = 0;
     u32 _58 = 0;

@@ -1,11 +1,18 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <utility/aglParameter.h>
 #include <utility/aglParameterList.h>
 #include <utility/aglParameterObj.h>
 #include "resResourceAttClient.h"
 #include "resResourceAttPos.h"
+
+namespace ksys::act {
+class Actor;
+class ActorConstDataAccess;
+}  // namespace ksys::act
 
 namespace ksys::res {
 
@@ -33,6 +40,17 @@ enum class AttCheckType {
 
 class AttClient;
 
+// Placeholder (no ctor / vtable): the argument struct AI code builds on the stack for
+// AttCheck::check (through ActorConstDataAccess::sub_7100D13AE4). Only the fields AI code sets are
+// known.
+struct AttCheck_Unk1 {
+    /* 0x00 */ sead::Matrix34f _0;
+    /* 0x30 */ u32 _30;
+    /* 0x34 */ bool _34;
+    /* 0x35 */ bool _35;
+    /* 0x36 */ bool _36;
+};
+
 class AttCheck {
     SEAD_RTTI_BASE(AttCheck)
 public:
@@ -49,7 +67,10 @@ public:
 
     // FIXME: signatures and names
     virtual void m4();
-    virtual bool check();
+    // Slot 5 (res::AttClient::check calls it for every check with the client's matrix `i`).
+    virtual bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+                       const sead::Matrix34f* mtx, const sead::Vector3f& pos,
+                       const AttCheck_Unk1* arg, bool a6, bool a7);
     virtual float m6();
     virtual void m7() {}
 
@@ -72,7 +93,9 @@ class AttCheckLine : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
     bool parse(const CreateArg& arg) override;
 
 private:
@@ -85,7 +108,9 @@ class AttCheckScreen : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckArea : public AttCheck {
@@ -94,7 +119,9 @@ public:
     using AttCheck::AttCheck;
 
     void m4() override;
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
     float m6() override;
     void m7() override;
     bool parse(const CreateArg& arg) override;
@@ -206,7 +233,9 @@ public:
     explicit AttCheckEachOtherArea(AttCheckType type);
 
     void m4() override;
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
     float m6() override;
     void m7() override;
     bool parse(const CreateArg& arg) override;
@@ -233,7 +262,9 @@ public:
     using AttCheck::AttCheck;
 
     void m4() override;
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
     bool parse(const CreateArg& arg) override;
 
 private:
@@ -246,7 +277,9 @@ class AttCheckWeight : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckRideHorse : public AttCheck {
@@ -254,7 +287,9 @@ class AttCheckRideHorse : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckRideSpace : public AttCheck {
@@ -262,7 +297,9 @@ class AttCheckRideSpace : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckSwim : public AttCheck {
@@ -270,7 +307,9 @@ class AttCheckSwim : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckCarry : public AttCheck {
@@ -278,7 +317,9 @@ class AttCheckCarry : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckNoCarry : public AttCheck {
@@ -286,7 +327,9 @@ class AttCheckNoCarry : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckGrab : public AttCheck {
@@ -294,7 +337,9 @@ class AttCheckGrab : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckBootFirstTower : public AttCheck {
@@ -302,7 +347,9 @@ class AttCheckBootFirstTower : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckFireContact : public AttCheck {
@@ -310,7 +357,9 @@ class AttCheckFireContact : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckCharacterOn : public AttCheck {
@@ -318,7 +367,9 @@ class AttCheckCharacterOn : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 class AttCheckUnderWater : public AttCheck {
@@ -326,7 +377,9 @@ class AttCheckUnderWater : public AttCheck {
 public:
     using AttCheck::AttCheck;
 
-    bool check() override;
+    bool check(act::Actor* actor, const act::ActorConstDataAccess& accessor,
+               const sead::Matrix34f* mtx, const sead::Vector3f& pos, const AttCheck_Unk1* arg,
+               bool a6, bool a7) override;
 };
 
 }  // namespace ksys::res

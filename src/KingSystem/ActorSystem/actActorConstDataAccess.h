@@ -23,6 +23,7 @@ class SystemGroupHandler;
 }
 
 namespace ksys::res {
+struct AttCheck_Unk1;
 class GParamList;
 class Shop;
 }  // namespace ksys::res
@@ -136,6 +137,9 @@ public:
     s32 getLife() const;
     // 0x7100d14078: Actor::getMaxLife().
     s32 getMaxLife() const;
+    // 0x7100d13ae4: AttClient::sub_7100D72554 of the actor's attention client `name`.
+    bool sub_7100D13AE4(const sead::SafeString& name, BaseProc* proc,
+                        const res::AttCheck_Unk1* arg, bool a4) const;
     // 0x7100d10448: the physics instance set's system group handler `idx` (0 / 1).
     phys::SystemGroupHandler* sub_7100D10448(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;

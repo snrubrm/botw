@@ -4,7 +4,8 @@ namespace ksys::res {
 
 void AttCheck::m4() {}
 
-bool AttCheck::check() {
+bool AttCheck::check(act::Actor*, const act::ActorConstDataAccess&, const sead::Matrix34f*,
+                     const sead::Vector3f&, const AttCheck_Unk1*, bool, bool) {
     return true;
 }
 
