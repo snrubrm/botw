@@ -22,6 +22,7 @@ public:
 // D0 0x710031faac): the enemy target filter, plus kokkos unless excluded by _30.
 class Unk_71023d8870 : public Unk_71024514e8 {
 public:
+    using Unk_71024514e8::Unk_71024514e8;
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 

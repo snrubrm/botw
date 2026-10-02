@@ -185,46 +185,38 @@ void AssassinMiddleAzitoRoot::m61(Unk3* out) {
     AssassinNormal::m61(out);
 }
 
-// NON_MATCHING: filter construction order, the seal flag test (branches in the original) and
-// register allocation
+// NON_MATCHING: the seal flag is computed with branches in the original; `or` operand order; order
+// of the m5 / Unk_71002dccbc null tests (same as EnemyNormal::m66)
 bool AssassinMiddleAzitoRoot::m66(Unk2* out, Unk1* info) {
     auto* awareness = mActor->getAwareness();
-    if (!awareness)
-        return false;
-    auto* sensor = awareness->_260[1];
-    if (!sensor || sensor->_8.size() == 0)
-        return false;
+    if (awareness && awareness->_260[1] && awareness->_260[1]->_8.size() != 0) {
+        auto* sensor = awareness->_260[1];
+        Unk_71023d8870 filter(mActor, &_50);
+        u8 flags = *mPlayerSoundSealRefCount_a > 0 || _364 > 0.0f;
+        if (info->_8 & 0x80)
+            flags |= 8;
+        if (info->_8 & 0x200)
+            flags |= 4;
+        if (info->_8 & 0x400)
+            flags |= 0x10;
+        filter._30 = flags;
 
-    Unk_71023d8870 filter;
-    filter._28 = mActor;
-    filter._38 = &_50;
-    u8 flags = *mPlayerSoundSealRefCount_a > 0 || _364 > 0.0f;
-    if (info->_8 & 0x80)
-        flags |= 8;
-    if (info->_8 & 0x200)
-        flags |= 4;
-    if (info->_8 & 0x400)
-        flags |= 0x10;
-    filter._30 = flags;
-
-    auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
-    if (!entry)
-        return false;
-
-    auto* target = sub_71005D9050(mActor);
-    if (target && target->hasProc() && *target == entry->mLink)
-        return false;
-    if (m45(entry->_88, entry->mLink, false))
-        return false;
-    if (!m44(entry->_88))
-        return false;
-
-    auto* unk = sub_71005D9D68(mActor);
-    if (!entry->m5(1) && unk && !(info->_8 & 0x800) && unk->sub_71002DC9E8(entry->mLink, 4, false))
-        return false;
-
-    out->sub_71003A02A4(entry);
-    return true;
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+        if (entry) {
+            auto* target = sub_71005D9050(mActor);
+            if (!target || !target->hasProc() || !(*target == entry->mLink)) {
+                if (!m45(entry->_88, entry->mLink, false) && m44(entry->_88)) {
+                    auto* unk = sub_71005D9D68(mActor);
+                    if (entry->m5(1) || !unk || (info->_8 & 0x800) ||
+                        !unk->sub_71002DC9E8(entry->mLink, 4, false)) {
+                        out->sub_71003A02A4(entry);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 bool AssassinMiddleAzitoRoot::m67(Unk2* out, Unk1* info) {

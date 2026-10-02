@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
 #include <cmath>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
@@ -245,6 +246,42 @@ void EnemyNormal::m62(Unk3* result) {
                 lod->mFlags14.set(0x2000000);
         }
     }
+}
+
+// NON_MATCHING: the seal flag is computed with branches in the original; `or` operand order; order
+// of the m5 / Unk_71002dccbc null tests
+bool EnemyNormal::m66(Unk2* out, Unk1* info) {
+    auto* awareness = mActor->getAwareness();
+    if (awareness && awareness->_260[1] && awareness->_260[1]->_8.size() != 0) {
+        auto* sensor = awareness->_260[1];
+        Unk_71024514e8 filter(mActor, &_50);
+        u8 flags = *mPlayerSoundSealRefCount_a > 0 || _364 > 0.0f;
+        if (info->_8 & 0x80)
+            flags |= 8;
+        if (info->_8 & 0x100)
+            flags |= 0x20;
+        if (info->_8 & 0x200)
+            flags |= 4;
+        if (info->_8 & 0x400)
+            flags |= 0x10;
+        filter._30 = flags;
+
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+        if (entry) {
+            auto* target = sub_71005D9050(mActor);
+            if (!target || !target->hasProc() || !(*target == entry->mLink)) {
+                if (!m45(entry->_88, entry->mLink, false) && m44(entry->_88)) {
+                    auto* unk = sub_71005D9D68(mActor);
+                    if (entry->m5(1) || !unk || (info->_8 & 0x800) ||
+                        !unk->sub_71002DC9E8(entry->mLink, 4, false)) {
+                        out->sub_71003A02A4(entry);
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: register allocation (&filter kept in a callee-saved register)

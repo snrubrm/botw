@@ -74,6 +74,9 @@ public:
 // Enemy target filter: _28 is the searching enemy, _30 a set of flag bits (1, 2, 4).
 class Unk_71024514c0 : public ksys::act::Unk_71024dccf8 {
 public:
+    Unk_71024514c0() = default;
+    explicit Unk_71024514c0(ksys::act::Actor* actor) : _28(actor) {}
+
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
     /* 0x28 */ ksys::act::Actor* _28 = nullptr;
@@ -89,6 +92,9 @@ public:
 // vtable 0x71024514e8 (m2 0x71007456fc, D0 0x7100746258); m2 calls Unk_71024514c0::m2.
 class Unk_71024514e8 : public Unk_71024514c0 {
 public:
+    Unk_71024514e8() = default;
+    Unk_71024514e8(ksys::act::Actor* actor, void* x) : Unk_71024514c0(actor), _38(x) {}
+
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
     /* 0x38 */ void* _38 = nullptr;
