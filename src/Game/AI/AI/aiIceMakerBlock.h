@@ -31,6 +31,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100447C8C();
+
 protected:
     Unk_71023fd228 _38;
     // static_param at offset 0x60

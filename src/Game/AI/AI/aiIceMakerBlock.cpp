@@ -2,7 +2,9 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::ai {
 
@@ -23,6 +25,21 @@ bool IceMakerBlock::init_(sead::Heap* heap) {
 
 void IceMakerBlock::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void IceMakerBlock::sub_7100447C8C() {
+    auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "PlayerSensor");
+    if (body && body->getCollisionInfo()) {
+        if (_a8 != (body->getCollisionInfo()->getCollidingBodies().size() != 0)) {
+            const bool state = !_a8;
+            _a8 = state;
+            {
+                sead::ScopedLock<sead::JobQueueLock> lock(&_150._18.mLock);
+                _150._18._0 = state;
+            }
+            _150.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+        }
+    }
 }
 
 // NON_MATCHING: the original computes `&_150` for the sender call between the payload store and the
