@@ -10,6 +10,13 @@ bool ASList::Unk2::sub_7101163AF4() {
     return false;
 }
 
+bool ASList::sub_710115AA68(const sead::SafeString& name) {
+    sead::SafeString out_name;
+    bool a3 = false;
+    void* a4 = nullptr;
+    return sub_710115AABC(name, &out_name, &a3, &a4, true) != nullptr;
+}
+
 bool ASList::x_6(int kind, int a2, f32 value) {
     const s8 idx = _f0[kind];
     if (idx < 0)

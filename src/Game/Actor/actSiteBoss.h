@@ -2,6 +2,7 @@
 
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
+#include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
@@ -118,6 +119,10 @@ public:
         void sub_710066CBD4(int idx);                // 0x800005c, no target
         // 0x710066cc64: deletes bound actor `idx`.
         void sub_710066CC64(int idx);
+        // 0x710066c074: number of bound actors that are in the calc state.
+        s32 sub_710066C074();
+        // 0x710066db98: replaces the actor linked at _360 with `proc` (deleting the old one).
+        void sub_710066DB98(ksys::act::BaseProc* proc);
 
         // 0x710066c634: sub_710066C164(.., 0x8000054, .., flags = 1) + the same message to the
         // actors in _3b0.
@@ -135,11 +140,14 @@ public:
         /* 0x000 */ ksys::act::Actor* mOwner;
         /* 0x008 */ u8 _8[0x1e0 - 0x8];
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
-        /* 0x320 */ u8 _320[0x3b0 - 0x320];
+        /* 0x320 */ u8 _320[0x360 - 0x320];
+        /* 0x360 */ ksys::act::BaseProcLink _360;
+        /* 0x370 */ u8 _370[0x3b0 - 0x370];
         /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
         /* 0x530 */ u8 _530[0x710 - 0x530];  // MesTransceiverId x 20 (stride 0x18)
         /* 0x710 */ Payload _710[24];
-        /* 0xad0 */ u8 _ad0[0xdb8 - 0xad0];
+        /* 0xad0 */ u8 _ad0[0xdb0 - 0xad0];
+        /* 0xdb0 */ sead::JobQueueLock _db0;
     };
     /* 0x1560 */ Unk_71002cf2ac _1560;
     /* 0x2318 */ sead::Vector3f _2318;  // home position (m63)

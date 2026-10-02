@@ -127,6 +127,8 @@ public:
     // was active); 0x7100d7eae4: clears and deactivates it (deregistering if none is left active).
     bool sub_7100D7E9BC(int idx);
     void sub_7100D7EAE4(int idx);
+    // 0x7100d7e964: whether a sensor is active (else whether the instance is registered).
+    bool sub_7100D7E964() const;
 
     /* 0x008 */ sead::ObjArray<Unk_71024dc858> _8;  // awareness entries (allocBuffer 0x7100d78d44)
     /* 0x028 */ u8 _28[0x260 - 0x28];

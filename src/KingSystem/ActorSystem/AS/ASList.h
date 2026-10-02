@@ -94,6 +94,13 @@ public:
     // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after
     // `value` cannot be told from the binary; the other helpers take two ints first).
     bool x_6(int kind, int a2, f32 value);
+    // 0x710115aabc: looks up the AS define `name` (res::ASList::findASDefine) and returns its entry
+    // (null if none); outputs the define's name and two values. Return type and outputs are
+    // placeholders.
+    void* sub_710115AABC(const sead::SafeString& name, sead::SafeString* out_name, bool* out_a3,
+                         void** out_a4, bool a5);
+    // 0x710115aa68: whether sub_710115AABC finds `name` (a5 = true).
+    bool sub_710115AA68(const sead::SafeString& name);
 
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())

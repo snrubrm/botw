@@ -71,4 +71,34 @@ void SiteBoss::Unk_71002cf2ac::sub_710066CC64(int idx) {
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
+s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
+    _db0.lock();
+    s32 count = 0;
+    for (int i = 0; i < 20; ++i) {
+        auto& link = _1e0[i];
+        if (link.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            count += accessor.isStateCalc();
+        }
+    }
+    _db0.unlock();
+    return count;
+}
+
+
+void SiteBoss::Unk_71002cf2ac::sub_710066DB98(ksys::act::BaseProc* proc) {
+    if (proc && !_360.hasProc()) {
+        _360.acquire(proc, false);
+        return;
+    }
+    if (!_360.hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_360, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _360.acquire(proc, false);
+}
+
+
 }  // namespace uking::act

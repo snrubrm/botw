@@ -73,6 +73,14 @@ Unk_71024dccf8::~Unk_71024dccf8() {
         _20->sub_7100D7EA7C(this);
 }
 
+bool AwarenessInstance::sub_7100D7E964() const {
+    for (auto* s : _260) {
+        if (s && s->_50)
+            return true;
+    }
+    return _337;
+}
+
 bool AwarenessInstance::sub_7100D7E9BC(int idx) {
     auto* sensor = _260[idx];
     if (!sensor)
