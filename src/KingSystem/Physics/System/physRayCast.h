@@ -80,6 +80,7 @@ public:
     bool phantomRayCast(Phantom* phantom);
 
     bool hasHit() const { return mHasHit; }
+    void setNormalCheckingMode(NormalCheckingMode mode) { mNormalCheckingMode = mode; }
     const MaterialMask& getMaterialMask() const { return mMaterialMask; }
     void getHitPosition(sead::Vector3f* position) const;
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,

@@ -25,6 +25,7 @@ class Object;
 
 namespace ksys::phys {
 class CharacterController;
+class RayCast;
 class RigidBody;
 }  // namespace ksys::phys
 
@@ -254,6 +255,16 @@ void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
 // 0x7100ee9a14 (declared only): whether `body` is a player body other than the one whose Havok
 // name is "SensorForArea".
 bool sub_7100EE9A14(phys::RigidBody* body);
+
+// 0x7100eeace8-0x7100eeaecc: contact layer presets for ray casts (each enables a fixed list of
+// layers on `cast`). Placeholder names; sub_7100EEACE8 is used by the AI world ray cast
+// sub_710072E928, sub_7100EEAE58 by sub_710072E5F8.
+void sub_7100EEACE8(phys::RayCast* cast);
+void sub_7100EEAD38(phys::RayCast* cast);
+void sub_7100EEAD7C(phys::RayCast* cast);
+void sub_7100EEADFC(phys::RayCast* cast);
+void sub_7100EEAE58(phys::RayCast* cast);
+void sub_7100EEAECC(phys::RayCast* cast);
 // 0x7100ee686c (CSV name): bool map unit parameter `name`, or `default_value` if it has none.
 bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value);
 // 0x7100ee68c0 (CSV name): s32 map unit parameter `name`, or `default_value` if it has none.

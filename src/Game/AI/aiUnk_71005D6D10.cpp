@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -902,6 +904,16 @@ bool sub_71005DD798(ksys::act::Actor* actor, int a1, ksys::as::ASList::Unk4* que
 bool sub_71005DD7B0(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int slot, int bank) {
     return actor->getASList()->x(3, query, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC,
                                  true);
+}
+
+bool sub_71005E1064(ksys::act::Actor* actor) {
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    if (actor->getVelocity().y >= 0.0f)
+        return false;
+    sead::Vector3f end = pos;
+    end += actor->getVelocity() * ksys::VFR::instance()->getDeltaFrame();
+    return sub_710072E5F8(pos, end, 0, nullptr, nullptr, nullptr, 0.0f);
 }
 
 bool sub_71005E116C(ksys::act::BaseProcLink* link) {

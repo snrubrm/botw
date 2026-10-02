@@ -220,6 +220,9 @@ bool sub_71005D83C8(ksys::act::Actor* actor, int idx);
 bool sub_71005D723C();
 /// NPC flag 0x2000 of the actor `link` points to (ActorConstDataAccess::sub_7100022FD0).
 bool sub_71005D777C(ksys::act::BaseProcLink* link);
+/// 0x71005e1064: while the actor falls (velocity.y < 0), whether there is ground (sub_710072E5F8)
+/// between its position and where its velocity takes it within one frame.
+bool sub_71005E1064(ksys::act::Actor* actor);
 bool sub_71005E116C(ksys::act::BaseProcLink* link);
 // 0x71005e1630: sends `sender`'s message to the map objects linked to `actor` (only those whose unit
 // config name is `name`, if not null/empty). One caller (BasicSignalEnemyForceNotice).

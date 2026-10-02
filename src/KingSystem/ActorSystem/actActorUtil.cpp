@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -992,6 +993,62 @@ const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name) {
     if (!attention)
         return nullptr;
     return attention->getClientByName(name);
+}
+
+void sub_7100EEACE8(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityTree);
+}
+
+void sub_7100EEAD38(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+}
+
+void sub_7100EEAD7C(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityNPC);
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityTree);
+    cast->enableLayer(phys::ContactLayer::EntityObject);
+    cast->enableLayer(phys::ContactLayer::EntitySmallObject);
+    cast->enableLayer(phys::ContactLayer::EntityRope);
+}
+
+void sub_7100EEADFC(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityNPC);
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityTree);
+}
+
+void sub_7100EEAE58(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityTree);
+    cast->enableLayer(phys::ContactLayer::EntityObject);
+    cast->enableLayer(phys::ContactLayer::EntitySmallObject);
+    cast->enableLayer(phys::ContactLayer::EntityRope);
+}
+
+void sub_7100EEAECC(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityGround);
+    cast->enableLayer(phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(phys::ContactLayer::EntityGroundSmooth);
+    cast->enableLayer(phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(phys::ContactLayer::EntityTree);
+    cast->enableLayer(phys::ContactLayer::EntityObject);
 }
 
 }  // namespace ksys::act
