@@ -198,3 +198,12 @@ public:
     s32 _24 = -1;
     s32 _28 = -1;
 };
+
+// vtable 0x7102451b68 (SetIgnoreReboundDCCallback behavior; `call` 0x7100749510 not decompiled yet).
+class Unk_7102451b68 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451b68, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    sead::BitFlag8 _24;
+};

@@ -31,6 +31,8 @@ target_sources(uking PRIVATE
   behaviorAwarenessScaleByASEvent.h
   behaviorAwarenessScale.cpp
   behaviorAwarenessScale.h
+  behaviorAwnHearingParamChange.cpp
+  behaviorAwnHearingParamChange.h
   behaviorBalloonBehavior.cpp
   behaviorBalloonBehavior.h
   behaviorBattleTensionUp.cpp
@@ -351,6 +353,8 @@ target_sources(uking PRIVATE
   behaviorSetIgnoreHorseDamage.h
   behaviorSetIgnoreMultiDamageDCCallback.cpp
   behaviorSetIgnoreMultiDamageDCCallback.h
+  behaviorSetIgnoreReboundDCCallback.cpp
+  behaviorSetIgnoreReboundDCCallback.h
   behaviorSetIgnoreSmallHitDCCallBack.cpp
   behaviorSetIgnoreSmallHitDCCallBack.h
   behaviorSetInfRotSpeedToSpineController.cpp
@@ -361,6 +365,10 @@ target_sources(uking PRIVATE
   behaviorSetIsCalcSkipProhibited.h
   behaviorSetJustAvoidHit1DamageDCCB.cpp
   behaviorSetJustAvoidHit1DamageDCCB.h
+  behaviorSetLocalBoneOffset.cpp
+  behaviorSetLocalBoneOffset.h
+  behaviorSetLocalBoneOffsetRandom.cpp
+  behaviorSetLocalBoneOffsetRandom.h
   behaviorSetMotionType.cpp
   behaviorSetMotionType.h
   behaviorSetNoReactionDCCallBack.cpp
@@ -371,8 +379,16 @@ target_sources(uking PRIVATE
   behaviorSetPlayerLargeAttackDeathDCCB.h
   behaviorSetPopPoolDamageAttrDCCallback.cpp
   behaviorSetPopPoolDamageAttrDCCallback.h
+  behaviorSetRagdollBodyForceKeyframed.cpp
+  behaviorSetRagdollBodyForceKeyframed.h
+  behaviorSetReceivedImpulseRate.cpp
+  behaviorSetReceivedImpulseRate.h
   behaviorSetStaticSystemGroupHandler.cpp
   behaviorSetStaticSystemGroupHandler.h
+  behaviorSetThroughArrow.cpp
+  behaviorSetThroughArrow.h
+  behaviorSetThroughCloseWeapon.cpp
+  behaviorSetThroughCloseWeapon.h
   behaviorSetTransBoneForAnimeDriven.cpp
   behaviorSetTransBoneForAnimeDriven.h
   behaviorSetWindForceScale.cpp
@@ -381,6 +397,8 @@ target_sources(uking PRIVATE
   behaviorSetXLinkProperty.h
   behaviorShortRangeBattleAlignment.cpp
   behaviorShortRangeBattleAlignment.h
+  behaviorShowConstStringBoard.cpp
+  behaviorShowConstStringBoard.h
   behaviorShowMessage3D.cpp
   behaviorShowMessage3D.h
   behaviorShowRandomMessage3D.cpp
@@ -393,6 +411,8 @@ target_sources(uking PRIVATE
   behaviorSoundStateLoad.h
   behaviorSpeedEmitInterest.cpp
   behaviorSpeedEmitInterest.h
+  behaviorSpeedTerror.cpp
+  behaviorSpeedTerror.h
   behaviorStopUpdateAwarenessBasePos.cpp
   behaviorStopUpdateAwarenessBasePos.h
   behaviorSubAS.cpp
@@ -415,6 +435,10 @@ target_sources(uking PRIVATE
   behaviorSwarmPatternMovingSphere.h
   behaviorSyncASFrameToAnimalUnit.cpp
   behaviorSyncASFrameToAnimalUnit.h
+  behaviorSyncBodyASAndAnimalUnitAS.cpp
+  behaviorSyncBodyASAndAnimalUnitAS.h
+  behaviorTargetFindSpreadToTag.cpp
+  behaviorTargetFindSpreadToTag.h
   behaviorTerrorBehavior.cpp
   behaviorTerrorBehavior.h
   behaviorTriggerNoise.cpp
