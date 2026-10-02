@@ -103,7 +103,8 @@ public:
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
-    /* 0x34c */ u8 _34c[0x368 - 0x34c];
+    /* 0x34c */ u32 _34c;
+    /* 0x350 */ u8 _350[0x368 - 0x350];
     /* 0x368 */ Unk_71024508b8 _368;
     /* 0x3c8 */ u32 _3c8;
     /* 0x3cc */ bool _3cc;  // PriestBossIronBallRoot::enter_
@@ -113,3 +114,10 @@ public:
     /* 0x444 */ u8 _444[0x448 - 0x444];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);
+
+// Global Vector3f in the unit's TU (0x71025c8cf8), set to {0, 0, 900} by the TU's static initialiser
+// (0x710071a8f4); copied to PriestBossGiantStageRotRoot's FacePos. Placeholder name.
+extern sead::Vector3f sUnk_71025c8cf8;
+// Global constant in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
+// radius, see Unk3::_c). Placeholder name.
+extern const f32 sUnk_7102450fa0;

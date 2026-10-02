@@ -1,6 +1,9 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
+const f32 sUnk_7102450fa0 = 50.0f;
+
 bool Unk_7102450fa8::sub_71007194CC(ksys::act::ActorConstDataAccess* accessor) {
     return ksys::act::acquireActor(&_18, accessor);
 }
