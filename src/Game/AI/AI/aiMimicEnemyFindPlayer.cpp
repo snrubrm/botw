@@ -9,7 +9,10 @@ MimicEnemyFindPlayer::MimicEnemyFindPlayer(const InitArg& arg) : EnemyBaseFindPl
 MimicEnemyFindPlayer::~MimicEnemyFindPlayer() = default;
 
 void MimicEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBaseFindPlayer::enter_(params);
+    sub_710037E9A4();
+    sub_710037EDA4();
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
 bool MimicEnemyFindPlayer::isChangeable() const {

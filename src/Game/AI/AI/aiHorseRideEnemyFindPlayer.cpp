@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHorseRideEnemyFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -23,6 +24,13 @@ void HorseRideEnemyFindPlayer::leave_() {
 
 void HorseRideEnemyFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
+}
+
+void HorseRideEnemyFindPlayer::calc_() {
+    EnemyBaseFindPlayer::calc_();
+    sub_71005DB3EC(mActor);
+    if (getCurrentChild()->isChangeable() && sub_71003804F4())
+        setFailed();
 }
 
 bool HorseRideEnemyFindPlayer::m38() {

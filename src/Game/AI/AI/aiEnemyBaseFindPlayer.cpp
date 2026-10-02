@@ -12,13 +12,51 @@ namespace uking::ai {
 EnemyBaseFindPlayer::EnemyBaseFindPlayer(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 bool EnemyBaseFindPlayer::init_(sead::Heap* heap) {
+    sub_710037E9A4();
+    sub_71005E2C58(mActor);
+    return true;
+}
+
+void EnemyBaseFindPlayer::sub_710037E9A4() {
     const s32 lost_timer = *mLostTimer_s;
     const s32 lost_timer2 = lost_timer * 1.1f;
     _118 = sead::Mathi::min(lost_timer, lost_timer2);
     _11c = sead::Mathi::max(lost_timer, lost_timer2);
     _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
-    sub_71005E2C58(mActor);
-    return true;
+}
+
+void EnemyBaseFindPlayer::sub_710037ECD0() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("ナビメッシュ無し", &params);
+}
+
+void EnemyBaseFindPlayer::sub_710037EDA4() {
+    _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D98D8(mActor), "TargetPos", -1);
+    changeChild("気づき", &params);
+}
+
+bool EnemyBaseFindPlayer::sub_710037EEAC() {
+    auto* actor = mActor;
+    if (*mLostTimer_s < 0)
+        return !sub_71005D8F28(actor);
+    const s32 state = sub_71005D9744(actor);
+    if (!sub_71005D8F28(actor))
+        return true;
+    return m42(state);
+}
+
+bool EnemyBaseFindPlayer::sub_71003804F4() {
+    const s32 lost_timer = *mLostTimer_s;
+    if (lost_timer >= 0) {
+        if (_108.mValue <= 0)
+            return true;
+        if (lost_timer > 0)
+            return false;
+    }
+    return !sub_71005D8F28(mActor);
 }
 
 void EnemyBaseFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {

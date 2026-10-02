@@ -37,6 +37,17 @@ public:
     virtual bool m51() { return false; }
     virtual bool m52() { return false; }
 
+    // 0x710037e9a4: picks the lost timer range (LostTimer .. LostTimer * 1.1) and a random value.
+    void sub_710037E9A4();
+    // 0x710037ecd0: TargetPos → ナビメッシュ無し.
+    void sub_710037ECD0();
+    // 0x710037eda4: new random lost timer value; TargetPos (sub_71005D98D8) → 気づき.
+    void sub_710037EDA4();
+    // 0x710037eeac
+    bool sub_710037EEAC();
+    // 0x71003804f4
+    bool sub_71003804F4();
+
 protected:
     // static_param at offset 0x38
     const int* mSurpriseAttackPer_s{};
