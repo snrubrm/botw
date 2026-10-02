@@ -30,6 +30,45 @@ void SwitchTorch::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("オフ");
 }
 
+// NON_MATCHING: the "lit" flag is kept as a re-normalised value in the original (cset after the
+// merge, orn for the オン待機 test); branch shapes and register allocation differ
+void SwitchTorch::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    auto* chemical = actor->getChemicalStuff();
+    bool lit = false;
+    if (chemical) {
+        if (chemical->mMaterial->attribute.ref() & 0x200000) {
+            lit = chemical->_c0 == 2 && (chemical->_c & 0x100000);
+            if (!lit && *mSwitchTorchSpType_m == 2)
+                chemical->sub_7100D90858(true, 2, false, true, false);
+        } else {
+            lit = chemical->_c0 == 2;
+            if (!lit && *mSwitchTorchSpType_m == 2)
+                chemical->sub_7100D90858(false, 2, false, true, false);
+        }
+
+        if (*mSwitchTorchSpType_m == 3) {
+            if (chemical->_c & 0x400000) {
+                if (!actor->checkLinkGimmickSuccessSignal())
+                    actor->emitGimmickSuccessSignal_1();
+            } else {
+                if (actor->checkLinkGimmickSuccessSignal())
+                    actor->emitGimmickSuccessSignal_0();
+            }
+        }
+    }
+
+    if (isCurrentChild("オフ待機") && child->isChangeable() && lit)
+        changeChild("オン");
+    else if (isCurrentChild("オン待機") && child->isChangeable() && !lit)
+        changeChild("オフ");
+    else if (isCurrentChild("オフ") && child->isFinished())
+        changeChild("オフ待機");
+    else if (isCurrentChild("オン") && child->isFinished())
+        changeChild("オン待機");
+}
+
 void SwitchTorch::leave_() {
     ksys::act::ai::Ai::leave_();
 }
