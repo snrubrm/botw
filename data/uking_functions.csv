@@ -27033,7 +27033,7 @@ Address,Quality,Size,Name
 0x000000710042cfa4,U,000448,
 0x000000710042d164,W,000068,_ZN5uking2ai14MiniBeamAttack6leave_Ev
 0x000000710042d1a8,U,000096,uking::ai::MiniBeamAttack::m41
-0x000000710042d208,U,000144,uking::ai::MiniBeamAttack::m45
+0x000000710042d208,O,000144,_ZN5uking2ai14MiniBeamAttack3m45Ev
 0x000000710042d298,U,000068,uking::ai::MiniBeamAttack::m37
 0x000000710042d2dc,O,000024,_ZN5uking2ai14MiniBeamAttack3m35Ev
 0x000000710042d2f4,O,000276,_ZN5uking2ai14MiniBeamAttack11loadParams_Ev

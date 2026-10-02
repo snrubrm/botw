@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMiniBeamAttack.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -39,6 +40,12 @@ bool MiniBeamAttack::isChangeable() const {
 
 const sead::Vector3f* MiniBeamAttack::m35() {
     return &sub_71005D9330(mActor);
+}
+
+s32 MiniBeamAttack::m45() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        return enemy->_e68.value;
+    return 100;
 }
 
 }  // namespace uking::ai

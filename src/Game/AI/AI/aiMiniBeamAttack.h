@@ -19,6 +19,8 @@ public:
     bool isChangeable() const override;
     const sead::Vector3f* m35() override;
 
+    virtual s32 m45();
+
 protected:
     // static_param at offset 0xb0
     const float* mFluctuationRange_s{};
