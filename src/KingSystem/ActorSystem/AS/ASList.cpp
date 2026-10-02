@@ -30,6 +30,18 @@ const sead::Vector3f& ASList::sub_710115D2D4() {
     return _68;
 }
 
+// NON_MATCHING: see sub_710115D2D4
+const sead::Vector3f& ASList::sub_710115D3B8() {
+    if (!(_163 & 1)) {
+        _68 = sead::Vector3f::zero;
+        _74 = sead::Vector3f::zero;
+        for (int i = 0, n = mSlots.size(); i < n; ++i)
+            mSlots[i].sub_7101164F3C(&_68, &_74, &_14);
+        _163 |= 1;
+    }
+    return _74;
+}
+
 bool ASList::x_6(int kind, int a2, f32 value) {
     const s8 idx = _f0[kind];
     if (idx < 0)

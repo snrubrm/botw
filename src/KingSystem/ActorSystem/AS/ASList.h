@@ -92,7 +92,6 @@ public:
     // All 141 callers pass a fourth argument in w4 (129 x 0, 12 x 1) that is unused here; its type (bool or
     // int) cannot be told from the binary.
     bool x_2(int a1, int bit, bool on, bool a4);
-    u8 sub_710115D3B8();
     // 0x000000710115c458
     const sead::SafeString& x_1(u32 slot, u32 seq_bank);
     // 0x000000710115c4d4
@@ -117,6 +116,8 @@ public:
     // 0x710115d2d4: the anim-driven translation of this frame (_68), accumulated over all slots on the
     // first call (bit 0 of _163; _74 is accumulated alongside). ~36 anim-driven move actions use it.
     const sead::Vector3f& sub_710115D2D4();
+    // 0x710115d3b8: the same, returning _74 (~40 callers).
+    const sead::Vector3f& sub_710115D3B8();
 
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())
