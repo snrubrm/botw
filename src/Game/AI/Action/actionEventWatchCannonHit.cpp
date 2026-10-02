@@ -11,7 +11,7 @@ bool EventWatchCannonHit::init_(sead::Heap* heap) {
 }
 
 void EventWatchCannonHit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _38 = 0;
 }
 
 void EventWatchCannonHit::leave_() {

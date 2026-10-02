@@ -9,6 +9,7 @@ ArrowShootMoveForLargeObject::~ArrowShootMoveForLargeObject() = default;
 
 void ArrowShootMoveForLargeObject::enter_(ksys::act::ai::InlineParamPack* params) {
     ArrowShootMove::enter_(params);
+    _170 = false;
 }
 
 void ArrowShootMoveForLargeObject::loadParams_() {

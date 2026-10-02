@@ -11,7 +11,7 @@ bool ForkASTrgChargeArrow::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgChargeArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = 0;
 }
 
 void ForkASTrgChargeArrow::leave_() {

@@ -9,6 +9,7 @@ class PlayerParashawlGlide : public PlayerGlide {
     SEAD_RTTI_OVERRIDE(PlayerParashawlGlide, PlayerGlide)
 public:
     explicit PlayerParashawlGlide(const InitArg& arg);
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

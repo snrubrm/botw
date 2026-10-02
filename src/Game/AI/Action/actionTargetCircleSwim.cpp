@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTargetCircleSwim.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ void TargetCircleSwim::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void TargetCircleSwim::leave_() {
     TargetCircle::leave_();
+    _a8.resetMotionType(mActor->getCharacterController());
 }
 
 void TargetCircleSwim::loadParams_() {

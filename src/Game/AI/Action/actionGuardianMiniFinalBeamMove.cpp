@@ -8,6 +8,7 @@ GuardianMiniFinalBeamMove::~GuardianMiniFinalBeamMove() = default;
 
 void GuardianMiniFinalBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianBeamFire::enter_(params);
+    _80 = false;
 }
 
 void GuardianMiniFinalBeamMove::leave_() {

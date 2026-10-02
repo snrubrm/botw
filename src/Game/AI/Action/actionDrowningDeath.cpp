@@ -15,7 +15,7 @@ void DrowningDeath::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DrowningDeath::leave_() {
-    ksys::act::ai::Action::leave_();
+    _30.resetMotionType(_30.sub_710072ACF8(mActor));
 }
 
 void DrowningDeath::loadParams_() {

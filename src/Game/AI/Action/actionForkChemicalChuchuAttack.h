@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionForkNoWeaponAttackAllTime.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class SphereRigidBody;
+}
+
 namespace uking::action {
 
 class ForkChemicalChuchuAttack : public ForkNoWeaponAttackAllTime {
@@ -23,7 +27,7 @@ protected:
     const int* mLandAtkTime_s{};
     // static_param at offset 0xc8
     const float* mLandAtkRadius_s{};
-    void* _d0{};
+    ksys::phys::SphereRigidBody* _d0{};
     f32 _d8 = 0.0f;
     f32 _dc = 1.0f;
     int _e0 = 0;

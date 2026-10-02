@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStopCliffTongueAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -12,6 +13,9 @@ bool StopCliffTongueAttack::init_(sead::Heap* heap) {
 
 void StopCliffTongueAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     OnCliffWait::enter_(params);
+    _68 = sub_71005DB4DC(mActor);
+    _6c = sub_71005DB4FC(mActor);
+    _64 = 0;
 }
 
 void StopCliffTongueAttack::leave_() {

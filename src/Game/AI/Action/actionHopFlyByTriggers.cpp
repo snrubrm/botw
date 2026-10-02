@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHopFlyByTriggers.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void HopFlyByTriggers::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HopFlyByTriggers::leave_() {
-    ksys::act::ai::Action::leave_();
+    _40.resetMotionType(mActor->getCharacterController());
 }
 
 void HopFlyByTriggers::loadParams_() {

@@ -11,7 +11,8 @@ bool FixedMagneStick::init_(sead::Heap* heap) {
 }
 
 void FixedMagneStick::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    _58 = 0;
 }
 
 void FixedMagneStick::leave_() {

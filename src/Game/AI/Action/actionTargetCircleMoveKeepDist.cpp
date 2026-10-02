@@ -27,4 +27,8 @@ void TargetCircleMoveKeepDist::calc_() {
     TargetCircle::calc_();
 }
 
+f32 TargetCircleMoveKeepDist::m32() {
+    return _90;
+}
+
 }  // namespace uking::action

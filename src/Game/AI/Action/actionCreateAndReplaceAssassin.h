@@ -9,6 +9,7 @@ class CreateAndReplaceAssassin : public ksys::act::ai::Action {
 public:
     explicit CreateAndReplaceAssassin(const InitArg& arg);
     ~CreateAndReplaceAssassin() override;
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -21,7 +22,7 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::Vector3f* mOffset_d{};
-    void* _28{};
+    ksys::act::Actor* _28{};
     bool _30 = false;
 };
 

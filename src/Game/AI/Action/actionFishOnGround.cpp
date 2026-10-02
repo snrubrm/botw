@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionFishOnGround.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +19,8 @@ void FishOnGround::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void FishOnGround::leave_() {
     ActionWithPosAngReduce::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(_40);
 }
 
 void FishOnGround::loadParams_() {

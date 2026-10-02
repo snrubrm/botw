@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -21,7 +22,7 @@ protected:
 
     // static_param at offset 0x30
     sead::SafeString mASKey_s{};
-    int _40 = 0;
+    ksys::act::MotionType _40{};
 };
 
 }  // namespace uking::action

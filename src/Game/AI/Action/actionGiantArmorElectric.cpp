@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantArmorElectric.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ bool GiantArmorElectric::init_(sead::Heap* heap) {
 
 void GiantArmorElectric::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantArmorAction::enter_(params);
+    _78 = *mTimeMin_s;
 }
 
 void GiantArmorElectric::leave_() {
@@ -24,6 +26,8 @@ void GiantArmorElectric::loadParams_() {
 }
 
 void GiantArmorElectric::calc_() {
+    if (_78 > 0.0f)
+        ksys::Timer::update(&_78, -1.0f);
     GiantArmorAction::calc_();
 }
 

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkChemicalChuchuAttack.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 
 namespace uking::action {
 
@@ -13,9 +14,13 @@ bool ForkChemicalChuchuAttack::init_(sead::Heap* heap) {
 
 void ForkChemicalChuchuAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkNoWeaponAttackAllTime::enter_(params);
+    _e0 = 0;
+    _d8 = 0;
 }
 
 void ForkChemicalChuchuAttack::leave_() {
+    if (_d0)
+        _d0->setRadius(_dc);
     ForkNoWeaponAttackAllTime::leave_();
 }
 

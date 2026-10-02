@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionTurnBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -25,7 +26,7 @@ protected:
 
     // static_param at offset 0x90
     sead::SafeString mASName_s{};
-    int _a0 = 0;
+    ksys::act::MotionType _a0{};
 };
 
 }  // namespace uking::action

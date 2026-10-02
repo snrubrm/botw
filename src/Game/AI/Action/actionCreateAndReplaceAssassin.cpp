@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCreateAndReplaceAssassin.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,6 +30,13 @@ void CreateAndReplaceAssassin::calc_() {
 
 bool CreateAndReplaceAssassin::hasPreDeleteCb() {
     return true;
+}
+
+void CreateAndReplaceAssassin::onPreDelete() {
+    if (_30)
+        return;
+    if (_28)
+        _28->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 }  // namespace uking::action

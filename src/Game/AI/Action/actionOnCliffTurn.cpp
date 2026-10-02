@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOnCliffTurn.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -19,6 +20,8 @@ void OnCliffTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void OnCliffTurn::leave_() {
     TurnBase::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(_a0);
 }
 
 void OnCliffTurn::loadParams_() {

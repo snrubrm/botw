@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNavMeshFly.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,9 +13,11 @@ bool NavMeshFly::init_(sead::Heap* heap) {
 
 void NavMeshFly::enter_(ksys::act::ai::InlineParamPack* params) {
     NavMeshAction::enter_(params);
+    _b8.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
 }
 
 void NavMeshFly::leave_() {
+    _b8.resetMotionType(mActor->getCharacterController());
     NavMeshAction::leave_();
 }
 

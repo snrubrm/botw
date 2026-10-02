@@ -11,7 +11,8 @@ bool ForkASTrgShootSkyArrow::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgShootSkyArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _58 = false;
 }
 
 void ForkASTrgShootSkyArrow::leave_() {

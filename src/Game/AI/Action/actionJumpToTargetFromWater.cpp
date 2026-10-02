@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionJumpToTargetFromWater.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void JumpToTargetFromWater::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void JumpToTargetFromWater::leave_() {
     JumpTo::leave_();
+    _e8.resetMotionType(mActor->getCharacterController());
 }
 
 void JumpToTargetFromWater::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerParashawlGlide.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void PlayerParashawlGlide::calc_() {
 
 bool PlayerParashawlGlide::isChangeable() const {
     return _1c;
+}
+
+bool PlayerParashawlGlide::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround() || _a0;
 }
 
 }  // namespace uking::action
