@@ -153,6 +153,8 @@ target_sources(uking PRIVATE
     System/physEntityGroupFilter.h
     System/physGroupFilter.cpp
     System/physGroupFilter.h
+    System/physHavokAI.cpp
+    System/physHavokAI.h
     System/physInstanceSet.cpp
     System/physInstanceSet.h
     System/physMaterialTable.cpp
