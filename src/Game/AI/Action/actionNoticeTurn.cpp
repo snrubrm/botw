@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNoticeTurn.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -16,6 +17,8 @@ void NoticeTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NoticeTurn::leave_() {
     RotateTurnToTarget::leave_();
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+        enemy->_e74 = *mNoDoubleNoticeTime_s;
 }
 
 void NoticeTurn::loadParams_() {

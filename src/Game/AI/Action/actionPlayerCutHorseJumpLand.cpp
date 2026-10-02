@@ -8,8 +8,21 @@ namespace uking::action {
 
 PlayerCutHorseJumpLand::PlayerCutHorseJumpLand(const InitArg& arg) : PlayerAction(arg) {}
 
+// NON_MATCHING: block order of the two switchToAnimSequenceMaybe calls
 void PlayerCutHorseJumpLand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x1);
+    const auto* life = mActor->getLife();
+    if (life && *life <= 0)
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("LandDamage", true, -1.0f);
+    else
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("CutJumpLandHorseRide", true,
+                                                                       -1.0f);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    static_cast<ksys::act::Player*>(mActor)->_c50.set(1);
 }
 
 void PlayerCutHorseJumpLand::leave_() {

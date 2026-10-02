@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGelEnemyFreeze.h"
+#include "Game/Actor/actGelEnemy.h"
 
 namespace uking::action {
 
@@ -19,6 +20,8 @@ void GelEnemyFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GelEnemyFreeze::leave_() {
+    if (auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mActor))
+        gel->_1678 &= ~3;
     Freeze::leave_();
 }
 

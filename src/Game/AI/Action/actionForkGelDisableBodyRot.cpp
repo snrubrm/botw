@@ -12,7 +12,9 @@ bool ForkGelDisableBodyRot::init_(sead::Heap* heap) {
 }
 
 void ForkGelDisableBodyRot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mActor))
+        gel->_1678 |= 1;
 }
 
 void ForkGelDisableBodyRot::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWindmill_Wing.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -11,7 +13,11 @@ bool Windmill_Wing::init_(sead::Heap* heap) {
 }
 
 void Windmill_Wing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _58 = sead::GlobalRandom::instance()->getF32() * sead::Mathf::piHalf();
+    m32(true);
+    m33();
+    if (*mIsTurnToWindDir_s)
+        m34(1.0f);
 }
 
 void Windmill_Wing::leave_() {
