@@ -369,6 +369,8 @@ public:
 class Unk_7102368740 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
+    // AssassinBossFirstBattle allocates an array of these and sets _8 afterwards.
+    Unk_7102368740() : Unk_7102357d20(0x8000037) {}
     void* m2() override { return &_18; }
 
     Unk_7102368740_Payload _18;
