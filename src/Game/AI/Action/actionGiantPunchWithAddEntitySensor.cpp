@@ -16,6 +16,10 @@ bool GiantPunchWithAddEntitySensor::init_(sead::Heap* heap) {
 
 void GiantPunchWithAddEntitySensor::enter_(ksys::act::ai::InlineParamPack* params) {
     GiantPunchAttack::enter_(params);
+    auto* body = mActor->findPhysicsBodyByName(ksys::act::getStr_EntitySensor().cstr(),
+                                               mCoBodyName_s.cstr());
+    if (body && !body->isAddedToWorld())
+        body->addToWorld();
 }
 
 void GiantPunchWithAddEntitySensor::leave_() {

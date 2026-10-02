@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseVanish.h"
+#include "Game/Actor/actHorseBase.h"
 
 namespace uking::action {
 
@@ -21,7 +22,8 @@ void HorseVanish::leave_() {
 void HorseVanish::loadParams_() {}
 
 void HorseVanish::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* horse = sead::DynamicCast<uking::act::HorseBase>(mActor))
+        horse->_b74 |= 0x20;
 }
 
 }  // namespace uking::action

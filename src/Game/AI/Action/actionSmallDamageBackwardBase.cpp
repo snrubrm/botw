@@ -14,6 +14,8 @@ bool SmallDamageBackwardBase::init_(sead::Heap* heap) {
 
 void SmallDamageBackwardBase::enter_(ksys::act::ai::InlineParamPack* params) {
     TakeHitImpactForce::enter_(params);
+    _90.set(-_68.value.x, 0.0f, -_68.value.z);
+    _90.normalize();
 }
 
 void SmallDamageBackwardBase::leave_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerLaunch.h"
+#include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -21,7 +24,18 @@ void PlayerLaunch::loadParams_() {
 }
 
 void PlayerLaunch::calc_() {
-    PlayerAction::calc_();
+    if (!static_cast<ksys::act::Player*>(mActor)->stillAlive())
+        callPlayerGameOverDemo(mActor);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon()) {
+        if (player->getASList()->x(35, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                   true)) {
+            setFinished();
+        }
+    } else {
+        player->_1844.update();
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerLaunch::isChangeable() const {
