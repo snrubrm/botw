@@ -84,4 +84,9 @@ void sub_71011EFA54(sead::Vector3f* out, const sead::Vector3f& v, const sead::Ve
 void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
                     const sead::Vector3f& pos, bool);
 
+// 0x71011f03c8: moves `from` towards `to` (by the ratio `t`, with limits a5 - a8) and stores the
+// result in `out`.
+bool sub_71011F03C8(sead::Matrix34f* out, const sead::Matrix34f& from, const sead::Matrix34f& to,
+                    f32 t, f32 a5, f32 a6, f32 a7, f32 a8);
+
 }  // namespace ksys::util

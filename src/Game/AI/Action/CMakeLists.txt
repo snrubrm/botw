@@ -3689,6 +3689,10 @@ target_sources(uking PRIVATE
   actionUnk_71023c8418.h
   actionUnk_71023c8378.cpp
   actionUnk_71023c8378.h
+  actionUnk_71023c84b8.cpp
+  actionUnk_71023c84b8.h
+  actionUnk_71023c8568.cpp
+  actionUnk_71023c8568.h
   actionUpdateDataByGetDemoAction.cpp
   actionUpdateDataByGetDemoAction.h
   actionUseNavMeshConnectAction.cpp

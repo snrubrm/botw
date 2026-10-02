@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 
@@ -182,5 +183,10 @@ s32 getSelectedChoiceIdx(s32 max, const char* query_name);
 bool getRandomAreaItem(sead::SafeString* item, const eco::AreaItemType& type,
                        const sead::Vector3f& pos);
 bool isInSatoriMountainArea(const sead::Vector3f& pos);
+
+// 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
+void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
+// 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
+void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
 
 }  // namespace ksys::act
