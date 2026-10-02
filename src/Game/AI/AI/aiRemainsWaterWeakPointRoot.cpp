@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiRemainsWaterWeakPointRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,19 @@ bool RemainsWaterWeakPointRoot::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterWeakPointRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71007A458C(mActor, true);
+    if (ksys::gdt::getFlag_Water_Relic_Step4()) {
+        changeChild("戦闘終了");
+    } else if (mActor->checkLinkBasicSig()) {
+        changeChild("機能停止");
+    } else {
+        const bool battle_time = ksys::gdt::getFlag_Water_Relic_BattleTime();
+        mActor->emitBasicSigOff();
+        if (battle_time)
+            changeChild("起動中");
+        else
+            changeChild("待機");
+    }
 }
 
 void RemainsWaterWeakPointRoot::leave_() {

@@ -17,9 +17,13 @@ public:
     void leave_() override;
 
     bool m34() override;
+    void m40() override;
+    void m41() override;
     s32 m44() override;
 
 protected:
+    bool _338 = false;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossPierceBulletAttack, 0x340);
 
 }  // namespace uking::ai
