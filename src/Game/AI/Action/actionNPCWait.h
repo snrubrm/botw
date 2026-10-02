@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::action {
 
 class NPCWait : public ksys::act::ai::Action {
@@ -23,7 +27,7 @@ protected:
     const bool* mIsIgnoreSameKey_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
-    ksys::act::Actor* _38 = nullptr;
+    act::NPC* _38 = nullptr;
 };
 
 }  // namespace uking::action

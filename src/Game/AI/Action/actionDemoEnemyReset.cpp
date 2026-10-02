@@ -21,7 +21,10 @@ void DemoEnemyReset::leave_() {
 void DemoEnemyReset::loadParams_() {}
 
 void DemoEnemyReset::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_1c)
+        _1c = false;
+    else
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerWaterDivingJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void PlayerWaterDivingJump::calc_() {
 
 bool PlayerWaterDivingJump::isChangeable() const {
     return true;
+}
+
+bool PlayerWaterDivingJump::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround();
 }
 
 }  // namespace uking::action

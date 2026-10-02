@@ -7,7 +7,8 @@ TerrainHideCenter::TerrainHideCenter(const InitArg& arg) : ksys::act::ai::Action
 TerrainHideCenter::~TerrainHideCenter() = default;
 
 bool TerrainHideCenter::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _1c = false;
+    return true;
 }
 
 void TerrainHideCenter::enter_(ksys::act::ai::InlineParamPack* params) {

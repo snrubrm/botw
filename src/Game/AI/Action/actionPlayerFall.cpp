@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerFall.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void PlayerFall::calc_() {
 
 bool PlayerFall::isChangeable() const {
     return true;
+}
+
+bool PlayerFall::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround() || ActionBase::isFinished();
 }
 
 }  // namespace uking::action

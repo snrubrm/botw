@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerRemainsBlow.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -16,7 +17,9 @@ void PlayerRemainsBlow::loadParams_() {
 }
 
 void PlayerRemainsBlow::calc_() {
-    PlayerAction::calc_();
+    if (static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround())
+        setFinished();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerRemainsBlow::isChangeable() const {

@@ -7,7 +7,9 @@ TerrainCalcCenter::TerrainCalcCenter(const InitArg& arg) : ksys::act::ai::Action
 TerrainCalcCenter::~TerrainCalcCenter() = default;
 
 bool TerrainCalcCenter::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _40 &= ~2u;
+    _40 |= 4u;
+    return true;
 }
 
 void TerrainCalcCenter::enter_(ksys::act::ai::InlineParamPack* params) {

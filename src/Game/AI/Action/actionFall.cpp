@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFall.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ void Fall::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void Fall::leave_() {
     ActionEx::leave_();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.reset(0x40000);
 }
 
 void Fall::loadParams_() {

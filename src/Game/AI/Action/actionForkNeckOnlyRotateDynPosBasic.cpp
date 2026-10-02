@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkNeckOnlyRotateDynPosBasic.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,7 +17,7 @@ void ForkNeckOnlyRotateDynPosBasic::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void ForkNeckOnlyRotateDynPosBasic::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005DB3B8(mActor);
 }
 
 void ForkNeckOnlyRotateDynPosBasic::loadParams_() {
@@ -24,7 +25,7 @@ void ForkNeckOnlyRotateDynPosBasic::loadParams_() {
 }
 
 void ForkNeckOnlyRotateDynPosBasic::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_71005DB110(mActor, *mTargetPos_d);
 }
 
 }  // namespace uking::action

@@ -11,7 +11,7 @@ bool StartHeartDemo::init_(sead::Heap* heap) {
 }
 
 void StartHeartDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void StartHeartDemo::leave_() {

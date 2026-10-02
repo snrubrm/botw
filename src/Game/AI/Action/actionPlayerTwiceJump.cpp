@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerTwiceJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -21,6 +22,10 @@ void PlayerTwiceJump::calc_() {
 
 bool PlayerTwiceJump::isChangeable() const {
     return true;
+}
+
+bool PlayerTwiceJump::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround();
 }
 
 }  // namespace uking::action

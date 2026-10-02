@@ -13,7 +13,7 @@ void PlayerWakeBoardEnd::leave_() {}
 void PlayerWakeBoardEnd::loadParams_() {}
 
 void PlayerWakeBoardEnd::calc_() {
-    PlayerAction::calc_();
+    setFinished();
 }
 
 bool PlayerWakeBoardEnd::isChangeable() const {

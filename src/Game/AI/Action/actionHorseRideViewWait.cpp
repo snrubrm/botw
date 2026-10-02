@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseRideViewWait.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void HorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HorseRideViewWait::leave_() {
     HorseRide::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void HorseRideViewWait::loadParams_() {
@@ -27,6 +29,7 @@ void HorseRideViewWait::loadParams_() {
 
 void HorseRideViewWait::calc_() {
     HorseRide::calc_();
+    sub_71005DB1D8(mActor, *mTargetPos_d);
 }
 
 }  // namespace uking::action

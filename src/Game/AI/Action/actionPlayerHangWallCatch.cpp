@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerHangWallCatch.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -9,7 +12,8 @@ void PlayerHangWallCatch::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerHangWallCatch::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
 }
 
 void PlayerHangWallCatch::calc_() {

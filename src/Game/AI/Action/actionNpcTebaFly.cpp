@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNpcTebaFly.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ NpcTebaFly::NpcTebaFly(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 NpcTebaFly::~NpcTebaFly() = default;
 
 bool NpcTebaFly::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NpcTebaFly::enter_(ksys::act::ai::InlineParamPack* params) {

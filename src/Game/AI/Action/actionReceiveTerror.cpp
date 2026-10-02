@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionReceiveTerror.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::action {
 
@@ -8,6 +9,12 @@ ReceiveTerror::~ReceiveTerror() = default;
 
 bool ReceiveTerror::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool ReceiveTerror::oneShot_() {
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_fe8 |= 0x800000;
+    return true;
 }
 
 void ReceiveTerror::loadParams_() {}

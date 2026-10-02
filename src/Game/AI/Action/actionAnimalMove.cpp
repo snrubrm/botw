@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimalMove.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::action {
 
@@ -26,6 +27,10 @@ void AnimalMove::loadParams_() {
 
 void AnimalMove::calc_() {
     AnimalMoveBase::calc_();
+}
+
+bool AnimalMove::m33(float x) {
+    return *mFinRadius_s + sub_71007320F0(mActor, *mWeaponIdx_s) >= x;
 }
 
 }  // namespace uking::action

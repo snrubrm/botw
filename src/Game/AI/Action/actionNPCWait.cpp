@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCWait.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ NPCWait::NPCWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 NPCWait::~NPCWait() = default;
 
 bool NPCWait::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _38 = sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NPCWait::enter_(ksys::act::ai::InlineParamPack* params) {

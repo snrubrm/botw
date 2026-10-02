@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCTurnToObjectGreeting.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::action {
 
@@ -15,6 +16,8 @@ void NPCTurnToObjectGreeting::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTurnToObjectGreeting::leave_() {
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_fe8 &= ~0x40000000u;
     NPCTurnToObject::leave_();
 }
 

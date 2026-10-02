@@ -9,6 +9,7 @@ class ChangePosture : public ksys::act::ai::Action {
 public:
     explicit ChangePosture(const InitArg& arg);
     ~ChangePosture() override;
+    bool oneShot_() override;
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;

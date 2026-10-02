@@ -12,7 +12,9 @@ bool EventOffWaitRevivalAction::init_(sead::Heap* heap) {
 }
 
 void EventOffWaitRevivalAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = 0;
+    _1d = 0;
+    _1e = 0;
 }
 
 void EventOffWaitRevivalAction::loadParams_() {}

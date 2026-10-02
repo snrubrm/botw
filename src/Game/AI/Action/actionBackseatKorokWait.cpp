@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBackseatKorokWait.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::action {
 
@@ -7,7 +8,9 @@ BackseatKorokWait::BackseatKorokWait(const InitArg& arg) : ksys::act::ai::Action
 BackseatKorokWait::~BackseatKorokWait() = default;
 
 bool BackseatKorokWait::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_1060 = 0;
+    return true;
 }
 
 void BackseatKorokWait::enter_(ksys::act::ai::InlineParamPack* params) {

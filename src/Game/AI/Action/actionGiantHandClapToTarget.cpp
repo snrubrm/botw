@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantHandClapToTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -26,6 +27,7 @@ void GiantHandClapToTarget::loadParams_() {
 
 void GiantHandClapToTarget::calc_() {
     PunchAttack::calc_();
+    sub_71005DB1D8(mActor, *mTargetPos_d);
 }
 
 }  // namespace uking::action

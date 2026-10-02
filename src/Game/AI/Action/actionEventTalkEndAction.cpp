@@ -11,7 +11,7 @@ bool EventTalkEndAction::init_(sead::Heap* heap) {
 }
 
 void EventTalkEndAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
 }
 
 void EventTalkEndAction::leave_() {

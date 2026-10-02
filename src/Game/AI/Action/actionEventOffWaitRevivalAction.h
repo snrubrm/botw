@@ -16,6 +16,10 @@ public:
 
 protected:
     void calc_() override;
+
+    s8 _1c = 0;
+    u8 _1d = 0;
+    u16 _1e = 0;
 };
 
 }  // namespace uking::action

@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33(float x) override;
 
     // static_param at offset 0x70
     const int* mWeaponIdx_s{};

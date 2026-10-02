@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChangePosture.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -12,6 +13,11 @@ bool ChangePosture::init_(sead::Heap* heap) {
 
 void ChangePosture::loadParams_() {
     getDynamicParam(&mPosture_d, "Posture");
+}
+
+bool ChangePosture::oneShot_() {
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x3b, mPosture_d, 0);
+    return true;
 }
 
 }  // namespace uking::action

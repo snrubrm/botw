@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerStepGuardJust.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -20,6 +21,10 @@ void PlayerStepGuardJust::calc_() {
 
 bool PlayerStepGuardJust::isChangeable() const {
     return _1c;
+}
+
+bool PlayerStepGuardJust::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround();
 }
 
 }  // namespace uking::action

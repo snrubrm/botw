@@ -9,6 +9,7 @@ class PlayerWaterDivingJump : public PlayerAction {
     SEAD_RTTI_OVERRIDE(PlayerWaterDivingJump, PlayerAction)
 public:
     explicit PlayerWaterDivingJump(const InitArg& arg);
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
