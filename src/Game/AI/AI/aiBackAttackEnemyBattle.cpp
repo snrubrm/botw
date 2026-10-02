@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBackAttackEnemyBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,27 @@ void BackAttackEnemyBattle::leave_() {
 void BackAttackEnemyBattle::loadParams_() {
     EnemyBattle::loadParams_();
     getStaticParam(&mBackAttackAngle_s, "BackAttackAngle");
+}
+
+void BackAttackEnemyBattle::calc_() {
+    if (!isCurrentChild("背面攻撃")) {
+        EnemyBattle::calc_();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed()) {
+        getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+        return;
+    }
+
+    sub_71005DA114(mActor, &_98);
+    if (child->isFailed()) {
+        setFailed();
+    } else {
+        sub_7100381ED4();
+        m37();
+    }
 }
 
 }  // namespace uking::ai

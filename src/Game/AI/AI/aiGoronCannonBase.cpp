@@ -67,4 +67,19 @@ void GoronCannonBase::m35(ksys::act::Actor* actor, ksys::act::Actor* ball) {}
 
 void GoronCannonBase::m36(ksys::act::Actor* ball) {}
 
+// NON_MATCHING: the original loads mActor (for m35) before releasing the handle (see the lane1 log)
+void GoronCannonBase::m34(const sead::Matrix34f& mtx, const sead::Vector3f* vel) {
+    auto* ball = sead::DynamicCast<ksys::act::Actor>(_b8.releaseAndWakeProc());
+    if (!ball)
+        return;
+
+    ball->setMtx(mtx, true, true);
+    ball->nullsub_4648();
+    const f32 scale = *mShotCannonBallScale_s;
+    ball->setScale({scale, scale, scale});
+    ball->setVelocity(vel, nullptr);
+    m35(mActor, ball);
+    m36(ball);
+}
+
 }  // namespace uking::ai

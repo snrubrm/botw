@@ -20,6 +20,7 @@ public:
 
     void sub_710032D5FC();
 
+    virtual void m34(const sead::Matrix34f& mtx, const sead::Vector3f* vel);
     virtual void m35(ksys::act::Actor* actor, ksys::act::Actor* ball);
     virtual void m36(ksys::act::Actor* ball);
 
