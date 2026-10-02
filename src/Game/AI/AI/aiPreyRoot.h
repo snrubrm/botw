@@ -65,6 +65,8 @@ public:
     virtual bool m38();
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x38
     const int* mAfterEscapeForceEndState_s{};
     // static_param at offset 0x40

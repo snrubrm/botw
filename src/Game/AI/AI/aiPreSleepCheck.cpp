@@ -23,6 +23,14 @@ void PreSleepCheck::loadParams_() {
     getStaticParam(&mCheckRadius_s, "CheckRadius");
 }
 
+void PreSleepCheck::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転"))
+            changeChild("睡眠");
+    }
+}
+
 bool PreSleepCheck::isFailed() const {
     return isCurrentChild("睡眠") && getCurrentChild()->isFailed();
 }

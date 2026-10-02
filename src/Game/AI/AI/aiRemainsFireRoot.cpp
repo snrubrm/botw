@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiRemainsFireRoot.h"
+#include "Game/Actor/actRemains.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -28,5 +31,12 @@ void RemainsFireRoot::loadParams_() {
 }
 
 void RemainsFireRoot::m34() {}
+
+void RemainsFireRoot::m36() {
+    if (auto* remains = sead::DynamicCast<act::Remains>(mActor))
+        remains->_bb8 = true;
+    sub_71007A36BC(mActor);
+    RemainsRoot::m36();
+}
 
 }  // namespace uking::ai

@@ -10,6 +10,7 @@ public:
     explicit StalEnemyChasePart(const InitArg& arg);
     ~StalEnemyChasePart() override;
 
+    bool isFinished() const override;
     bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;

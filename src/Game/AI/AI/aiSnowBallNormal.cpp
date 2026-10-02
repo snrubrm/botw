@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSnowBallNormal.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -35,6 +36,14 @@ void SnowBallNormal::loadParams_() {
     getStaticParam(&mItemDropSetScaleOffset_s, "ItemDropSetScaleOffset");
     getStaticParam(&mItemDropDeleteScaleOffset_s, "ItemDropDeleteScaleOffset");
     getStaticParam(&mMinImpulseRatio_s, "MinImpulseRatio");
+}
+
+bool SnowBallNormal::handleMessage_(const ksys::Message& message) {
+    if (message.getType() == 0x3000009 && !isCurrentChild("壊れる")) {
+        changeChild("壊れる");
+        return true;
+    }
+    return FixableLiftable::handleMessage_(message);
 }
 
 // NON_MATCHING: the original loads *mScaleMin_s before the actor scale (load order only)

@@ -184,9 +184,11 @@ protected:
 public:
     // Public: an AI calls it on its current child (PriestBossAttackGrave::calc_).
     void setFinished();
+    // Public: WaitPartsSleep::calc_ calls it on its current child (the original passes the child, not
+    // `this`, to setFailed).
+    void setFailed();
 
 protected:
-    void setFailed();
 
     void setRootAiFlag(RootAiFlag flag) const;
     void resetRootAiFlag(RootAiFlag flag) const;

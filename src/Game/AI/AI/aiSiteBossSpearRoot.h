@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35(act::SiteBoss* boss) override;
+
 protected:
     // static_param at offset 0xf8
     const int* mThrowSpearAttackPower_s{};

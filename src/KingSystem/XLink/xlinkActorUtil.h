@@ -63,5 +63,8 @@ namespace ksys::eft {
 // copy constructor is deleted.
 xlink2::HandleELink searchAndEmitELink(act::Actor* actor, const char* name);
 xlink2::HandleSLink searchAndEmitSLink(act::Actor* actor, const char* name, bool force);
+/// 0x710105ddb8 (declaration only): searchAndEmit(name, handle) on the actor's SLink user instance (XLink::_50),
+/// unless `handle` is null or XLink::_cc bit 1 is set.
+void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* handle);
 
 }  // namespace ksys::eft

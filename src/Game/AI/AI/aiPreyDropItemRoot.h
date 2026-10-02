@@ -20,6 +20,8 @@ public:
     void sub_71004FAE28();
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x208
     const int* mMaxDropCount_s{};
     // static_param at offset 0x210

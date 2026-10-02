@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,8 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x38
     const float* mRotateStartRad_s{};
     // static_param at offset 0x40
@@ -28,16 +33,9 @@ protected:
     const bool* mIsAbleToReverse_s{};
     // map_unit_param at offset 0x60
     const int* mRotAxis_m{};
-    f32 _68;
-    f32 _6c;
-    f32 _70;
-    f32 _74;
-    f32 _78;
-    f32 _7c;
-    f32 _80;
-    f32 _84;
-    f32 _88;
-    void* _90 = nullptr;
+    // Inverse of the actor's home rotation (enter_).
+    sead::Matrix33f _68;
+    xlink2::HandleSLink* _90 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(SwitchWheel, 0x98);
 

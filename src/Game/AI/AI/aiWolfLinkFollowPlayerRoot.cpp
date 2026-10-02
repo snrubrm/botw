@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkFollowPlayerRoot.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWolfLink.h"
 
 namespace uking::ai {
@@ -21,10 +22,19 @@ bool WolfLinkFollowPlayerRoot::init_(sead::Heap* heap) {
 
 void WolfLinkFollowPlayerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseFollow::enter_(params);
+    m39(true);
+    m40();
+    m35();
+    _17c = false;
 }
 
 void WolfLinkFollowPlayerRoot::leave_() {
-    HorseFollow::leave_();
+    if (auto* rideable = _100->m132()) {
+        rideable->_154 = 1.0f;
+        HorseFollow::leave_();
+    } else {
+        setFailed();
+    }
 }
 
 void WolfLinkFollowPlayerRoot::loadParams_() {

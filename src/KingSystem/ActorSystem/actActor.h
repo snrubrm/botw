@@ -282,6 +282,8 @@ public:
     const PhysicsConstraints& getConstraints() const { return mConstraints; }
     phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const { return mFieldBodyGroup; }
 
+    // Inline-only in the original (SwitchWheel::enter_ reads the field at +0x3d0 directly); name is a guess.
+    const sead::Matrix34f& getHomeMtxRaw() const { return mHomeMtx; }
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool shouldUnloadBecauseOfDistance();
     void getHomePos(sead::Vector3f* pos) const;

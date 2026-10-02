@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiNPCTalkBalloon.h"
 #include "Game/Actor/actNPCBase.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::ai {
 
@@ -24,7 +25,10 @@ void NPCTalkBalloon::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTalkBalloon::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* ui = ui::UI::instance()) {
+        if (ui->sub_71010A5B0C(mActor))
+            ui->sub_71010A6BEC(mActor, false);
+    }
 }
 
 void NPCTalkBalloon::loadParams_() {

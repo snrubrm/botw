@@ -28,6 +28,15 @@ void PreyDropItemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         _220 = ksys::Timer(interval, interval);
 }
 
+void PreyDropItemRoot::calc_() {
+    PreyRoot::calc_();
+    if (_230 >= *mMaxDropCount_s) {
+        _220.update();
+        if (_220.value <= sead::Mathf::epsilon() && !isCurrentChild("強制消去"))
+            changeChild("強制消去");
+    }
+}
+
 void PreyDropItemRoot::leave_() {
     if (auto* object = mActor->getMapObject())
         object->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalEnable, true);

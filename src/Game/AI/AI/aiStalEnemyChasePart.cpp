@@ -24,6 +24,13 @@ void StalEnemyChasePart::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool StalEnemyChasePart::isFinished() const {
+    const bool chasing = isCurrentChild("持たれパーツ追跡") || isCurrentChild("通常パーツ追跡");
+    if (chasing)
+        return ActionBase::isFinished();
+    return ActionBase::isFinished() || getCurrentChild()->isFinished();
+}
+
 bool StalEnemyChasePart::isChangeable() const {
     if (isCurrentChild("通常パーツ待機"))
         return true;
