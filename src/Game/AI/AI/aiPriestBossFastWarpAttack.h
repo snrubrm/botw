@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m39() override;
+
 protected:
     void* _c0;
     u32 _c8;

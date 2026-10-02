@@ -18,6 +18,7 @@ bool RodEnemyFindPlayer::init_(sead::Heap* heap) {
 
 void RodEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     LandHumEnemyFindPlayer::enter_(params);
+    _210 = *mMagicCheckInterval_s;
 }
 
 void RodEnemyFindPlayer::calc_() {

@@ -15,7 +15,7 @@ void WeatherReactionCheck::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WeatherReactionCheck::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _60.reset(1);
 }
 
 void WeatherReactionCheck::loadParams_() {

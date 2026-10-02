@@ -53,4 +53,9 @@ bool StalEnemySleep::m39(sead::Vector3f* pos) {
     return true;
 }
 
+void StalEnemySleep::m38(int x, ksys::act::Unk_7100d78e50* entry) {
+    if (entry)
+        _70.set(entry->_88);
+}
+
 }  // namespace uking::ai

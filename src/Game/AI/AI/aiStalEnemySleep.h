@@ -18,6 +18,7 @@ public:
 
     bool m36() override;
     ksys::act::Unk_7100d78e50* m37(int* x) override;
+    void m38(int x, ksys::act::Unk_7100d78e50* entry) override;
     bool m39(sead::Vector3f* pos) override;
 
 protected:

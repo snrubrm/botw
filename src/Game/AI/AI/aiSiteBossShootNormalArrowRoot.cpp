@@ -6,6 +6,10 @@
 
 namespace uking::ai {
 
+namespace {
+const sead::Vector3f sUnk_7102421fd0{-1.0f, 0.0f, 0.3f};
+}  // namespace
+
 // TU-level variable in .data right after the class vtable (only read in this TU).
 static f32 sUnk_7102422198 = 0.05f;
 
@@ -94,6 +98,10 @@ void SiteBossShootNormalArrowRoot::m40() {}
 void SiteBossShootNormalArrowRoot::m41() {}
 
 void SiteBossShootNormalArrowRoot::m42() {}
+
+const sead::Vector3f& SiteBossShootNormalArrowRoot::m51() {
+    return sUnk_7102421fd0;
+}
 
 s32 SiteBossShootNormalArrowRoot::m43() {
     return 1;

@@ -27,7 +27,7 @@ void OutOfScreen::sub_71004F4054() {
 }
 
 void OutOfScreen::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getLodState()->mFlags10.reset(0x40);
 }
 
 void OutOfScreen::loadParams_() {

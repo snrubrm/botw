@@ -7,7 +7,8 @@ SiteBossSpearLifeSelector::SiteBossSpearLifeSelector(const InitArg& arg) : ksys:
 SiteBossSpearLifeSelector::~SiteBossSpearLifeSelector() = default;
 
 bool SiteBossSpearLifeSelector::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _48 = 0;
+    return true;
 }
 
 void SiteBossSpearLifeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -29,6 +30,15 @@ bool SiteBossSpearLifeSelector::isFailed() const {
 
 bool SiteBossSpearLifeSelector::isFinished() const {
     return getCurrentChild() && getCurrentChild()->isFinished();
+}
+
+void SiteBossSpearLifeSelector::calc_() {
+    if (getCurrentChild()) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        else if (getCurrentChild()->isFailed())
+            setFailed();
+    }
 }
 
 }  // namespace uking::ai

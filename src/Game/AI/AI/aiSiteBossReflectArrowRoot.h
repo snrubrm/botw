@@ -26,6 +26,8 @@ public:
     void m37() override;
     void m41() override;
     s32 m43() override;
+    const sead::Vector3f& m51() override;
+    virtual f32 m53();
     void m45(sead::Vector3f* out) override;
     void m46(sead::Vector3f* out) override;
     bool m48() override;

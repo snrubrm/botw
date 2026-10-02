@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiNPCConfrontEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,8 @@ void NPCConfrontEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCConfrontEnemy::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->getLodState()->mFlags8.reset(0x40000);
+    sub_71005D7518(mActor, true);
 }
 
 void NPCConfrontEnemy::loadParams_() {

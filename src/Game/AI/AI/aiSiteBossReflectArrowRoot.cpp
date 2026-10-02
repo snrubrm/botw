@@ -39,6 +39,14 @@ bool SiteBossReflectArrowRoot::m34() {
 
 void SiteBossReflectArrowRoot::m41() {}
 
+const sead::Vector3f& SiteBossReflectArrowRoot::m51() {
+    return sead::Vector3f::zero;
+}
+
+f32 SiteBossReflectArrowRoot::m53() {
+    return 40.0f;
+}
+
 s32 SiteBossReflectArrowRoot::m43() {
     return 1;
 }

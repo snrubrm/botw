@@ -39,7 +39,11 @@ public:
     virtual void m49(const sead::Vector3f& pos);
     // 0x71005879f4: SiteBoss `_1560` method 0x710066dabc(proc, idx) (not decompiled).
     virtual void m50(ksys::act::BaseProc* proc, s32 idx);
-    // Slots 51..52 (and 53 in SiteBossReflectArrowRoot) are not declared yet (types unknown).
+    // 0x7100588230: returns the TU-local constant sUnk_7102421fd0 = (-1, 0, 0.3).
+    virtual const sead::Vector3f& m51();
+    // 0x71005877d8 (540 B, not decompiled): the argument is read as an integer. Slot 53 exists only
+    // in SiteBossReflectArrowRoot and its subclasses.
+    virtual void m52(s32 a1);
 
     bool sub_7100588164(bool a1);
 

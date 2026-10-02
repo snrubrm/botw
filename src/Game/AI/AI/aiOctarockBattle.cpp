@@ -22,6 +22,7 @@ void OctarockBattle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OctarockBattle::leave_() {
+    _118 = _b0;
     ShootingEnemyBattle::leave_();
 }
 

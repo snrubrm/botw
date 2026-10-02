@@ -27,4 +27,8 @@ void PriestBossFastWarpAttack::loadParams_() {
     SiteBossSwordApproachRoot::loadParams_();
 }
 
+bool PriestBossFastWarpAttack::m39() {
+    return true;
+}
+
 }  // namespace uking::ai

@@ -74,6 +74,10 @@ void SiteBossArrowRainAttack::m45(sead::Vector3f* out) {
     out->y += -0.5f;
 }
 
+f32 SiteBossArrowRainAttack::m53() {
+    return 15.0f;
+}
+
 bool SiteBossArrowRainAttack::m48() {
     return SiteBossReflectArrowRoot::m48();
 }

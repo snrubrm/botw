@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x38
     const float* mPatternChangeLife2_s{};
     // static_param at offset 0x40

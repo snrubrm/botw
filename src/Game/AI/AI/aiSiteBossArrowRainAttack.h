@@ -25,6 +25,7 @@ public:
     s32 m43() override;
     void m45(sead::Vector3f* out) override;
     bool m48() override;
+    f32 m53() override;
 
 protected:
     // in SiteBossReflectArrowRoot's tail padding
