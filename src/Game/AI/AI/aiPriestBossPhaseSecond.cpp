@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseSecond.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -41,6 +42,14 @@ void PriestBossPhaseSecond::loadParams_() {
     getStaticParam(&mLineFormFallWait_s, "LineFormFallWait");
     getStaticParam(&mLineFormFallInterval_s, "LineFormFallInterval");
     getMapUnitParam(&mPriestBossStartPhase_m, "PriestBossStartPhase");
+}
+
+void PriestBossPhaseSecond::m39() {
+    ksys::act::ActorConstDataAccess accessor;
+    for (int i = 2; i <= 10; ++i) {
+        if (sub_7100525B18(i, &accessor))
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 }  // namespace uking::ai

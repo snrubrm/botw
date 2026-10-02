@@ -17,8 +17,11 @@ public:
     void loadParams_() override;
 
     Flag m38() override { return Flag::_0; }
+    void m39() override;
 
 protected:
+    bool _7c = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossPhaseFirst, 0x80);
 
 }  // namespace uking::ai
