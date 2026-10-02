@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isFinished() const override;
+    bool isFailed() const override;
+
 protected:
 };
 

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPlayerWaterFall.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::ai {
 
@@ -19,5 +20,23 @@ void PlayerWaterFall::leave_() {
 }
 
 void PlayerWaterFall::loadParams_() {}
+
+bool PlayerWaterFall::isFinished() const {
+    if (isCurrentChild("ジャンプ")) {
+        if (getCurrentChild()->isFinished())
+            return true;
+    }
+    return false;
+}
+
+bool PlayerWaterFall::isFailed() const {
+    if (getCurrentChild()->isFailed())
+        return true;
+    if (!static_cast<ksys::act::Player*>(mActor)->_207f) {
+        if (isCurrentChild("潜水移動") || isCurrentChild("登り"))
+            return true;
+    }
+    return false;
+}
 
 }  // namespace uking::ai

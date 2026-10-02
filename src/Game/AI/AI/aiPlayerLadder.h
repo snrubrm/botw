@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isFinished() const override;
+
 protected:
     // FIXME: remove this
     u8 pad_0x38[0x18];

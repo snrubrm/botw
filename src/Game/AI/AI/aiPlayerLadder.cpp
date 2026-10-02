@@ -30,4 +30,13 @@ bool PlayerLadder::isChangeable() const {
     return isCurrentChild("登り終わり") && getCurrentChild()->isChangeable();
 }
 
+bool PlayerLadder::isFinished() const {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("登り終わり") || isCurrentChild("下り終わり"))
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai
