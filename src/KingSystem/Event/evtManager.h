@@ -51,6 +51,13 @@ public:
 
     void setNoDeleteCurrentActor(bool no_delete);
 
+    // 0x7100db0ca0: always false (placeholder name; AssassinMiddleAzitoRoot passes a Metadata and
+    // its actor).
+    bool sub_7100DB0CA0(const Metadata& metadata, act::Actor* actor);
+    // 0x7100db2910 (CSV name): whether the active event is `event_name` / `entry_point`.
+    bool isActiveEventNameEqualTo(const sead::SafeString& event_name,
+                                  const sead::SafeString& entry_point) const;
+
     // 0x7100db1138 / 0x7100db1158 / 0x7100db1174: EventMgrStruct1 entry `idx` (-99: none): clock
     // time minus the entry's _0 / free the entry / the entry's _4.
     f32 sub_7100DB1138(int idx) const;

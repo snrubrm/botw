@@ -29,4 +29,6 @@ target_sources(uking PRIVATE
   evtResourceFlowchart.h
   evtResourceTimeline.cpp
   evtResourceTimeline.h
+  evtUnk_7100dc816c.cpp
+  evtUnk_7100dc816c.h
 )

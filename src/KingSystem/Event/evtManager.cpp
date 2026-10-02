@@ -21,6 +21,10 @@ f32 Manager::sub_7100DB1174(int idx) const {
     return _1d2d0->sub_7101273448(idx);
 }
 
+bool Manager::sub_7100DB0CA0(const Metadata& metadata, act::Actor* actor) {
+    return false;
+}
+
 bool Manager::hasActiveEvent() const {
     return _1d2b8 != nullptr;
 }
