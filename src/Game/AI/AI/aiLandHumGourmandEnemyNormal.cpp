@@ -1,14 +1,19 @@
 #include "Game/AI/AI/aiLandHumGourmandEnemyNormal.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actUnk_71002dccbc.h"
 
 namespace uking::ai {
 
-// NON_MATCHING: the "ActorLink" object at 0x440 (vtables 0x7102370ea0/0x7102370e70) is not declared yet
 LandHumGourmandEnemyNormal::LandHumGourmandEnemyNormal(const InitArg& arg)
     : LandHumEnemyNormal(arg) {}
 
 LandHumGourmandEnemyNormal::~LandHumGourmandEnemyNormal() = default;
 
 bool LandHumGourmandEnemyNormal::init_(sead::Heap* heap) {
+    if (!sead::IsDerivedFrom<act::Enemy>(mActor))
+        return false;
+    *static_cast<Unk_7102370e70**>(mTargetBaitActorLink_a) = &_440;
     return LandHumEnemyNormal::init_(heap);
 }
 
@@ -46,6 +51,17 @@ void LandHumGourmandEnemyNormal::m35() {
 s32 LandHumGourmandEnemyNormal::m52(s32 idx) {
     static const s32 sTable[] = {0, 1, 11, 2, 3, 9, 4, 5, 6, 7, 8, 10};
     return sTable[idx];
+}
+
+void LandHumGourmandEnemyNormal::sub_7100472538() {
+    auto* link =
+        sead::DynamicCast<Unk_7102370e70>(*static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
+    if (!link)
+        return;
+    auto& bait = link->mLink;
+    if (auto* unk = sub_71005D9D68(mActor))
+        unk->sub_71002DC8A0(bait, 0x10);
+    bait.reset();
 }
 
 }  // namespace uking::ai
