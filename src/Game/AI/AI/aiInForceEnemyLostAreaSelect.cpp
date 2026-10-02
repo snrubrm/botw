@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiInForceEnemyLostAreaSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -20,7 +23,15 @@ bool InForceEnemyLostAreaSelect::init_(sead::Heap* heap) {
 }
 
 void InForceEnemyLostAreaSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (mgr && (mgr->isNonAutoPlacement(pos, true) ||
+                mgr->isNonAutoPlacement(getPlayerPosition(), true))) {
+        changeChild("エリア内", params);
+    } else {
+        changeChild("エリア外", params);
+    }
 }
 
 void InForceEnemyLostAreaSelect::calc_() {}

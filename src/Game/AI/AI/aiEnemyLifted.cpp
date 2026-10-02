@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemyLifted.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::ai {
 
@@ -9,7 +12,13 @@ bool EnemyLifted::init_(sead::Heap* heap) {
 }
 
 void EnemyLifted::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* dynamic = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        dynamic->_a68 &= ~1;
+    setDamageCallbackTiming(mActor, 4, &_48);
+    auto* actor = mActor;
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_40000000);
+    actor->getPhysics()->sub_7100FBADDC();
+    changeChild("所持");
 }
 
 void EnemyLifted::leave_() {

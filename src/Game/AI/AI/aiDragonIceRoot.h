@@ -19,6 +19,7 @@ public:
 
     void m41() override;
     void m44(const sead::Vector3f& pos) override;
+    bool m46() override;
 
     // 0x10-byte zero-initialised pair (only the constructor touches them). Placeholder.
     struct Unk3 {

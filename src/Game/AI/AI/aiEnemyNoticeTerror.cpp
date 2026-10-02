@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 
 namespace uking::ai {
@@ -53,6 +54,28 @@ void EnemyNoticeTerror::m36() {
     if (unk)
         unk->sub_71002DC628(_60._0, 2);
     sub_71003A7DD4();
+}
+
+// NON_MATCHING: the original calls Unk_71024dc858::m5 directly (devirtualised; see the `final`
+// discussion in TIPS), ours through the vtable
+bool EnemyNoticeTerror::m34(Unk* out) {
+    out->_0.reset();
+    out->_1c = 0;
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+    auto* sensor = awareness->_260[2];
+    if (!sensor || sensor->_8.size() < 1)
+        return false;
+    auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, 0);
+    if (!entry)
+        return false;
+    out->_0 = entry->mLink;
+    out->_10 = entry->_88;
+    out->_1c |= 1;
+    if (entry->m5(3) || entry->m5(4))
+        out->_1c |= 2;
+    return true;
 }
 
 }  // namespace uking::ai

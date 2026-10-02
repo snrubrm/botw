@@ -41,7 +41,7 @@ public:
     virtual void m43();
     virtual void m44(const sead::Vector3f& pos);
     virtual void m45();
-    virtual void m46();
+    virtual bool m46();
     virtual bool m47();
 
     // 0x20-byte element of _238 (allocated in init_ with ChemicalBulletNum entries).

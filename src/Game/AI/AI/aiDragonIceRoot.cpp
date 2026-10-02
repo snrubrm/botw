@@ -91,4 +91,13 @@ void DragonIceRoot::m44(const sead::Vector3f& pos) {
         nullptr, 2);
 }
 
+bool DragonIceRoot::m46() {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return false;
+    if (dragon->_1e0c == 3)
+        return true;
+    return DragonRoot::m46();
+}
+
 }  // namespace uking::ai
