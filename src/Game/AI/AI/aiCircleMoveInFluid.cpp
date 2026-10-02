@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiCircleMoveInFluid.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
@@ -15,6 +18,34 @@ bool CircleMoveInFluid::init_(sead::Heap* heap) {
 
 void CircleMoveInFluid::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void CircleMoveInFluid::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        sub_710034F850();
+    else
+        child->isChangeable();
+
+    if (!isCurrentChild("移動"))
+        return;
+
+    if (*mChangeInterval_s >= 0.0f) {
+        _d0.update();
+        if (_d0.value <= sead::Mathf::epsilon()) {
+            const f32 range_y = *mRandRangeY_s;
+            _c4 = sead::GlobalRandom::instance()->getF32Range(-range_y, range_y) +
+                  *mRandRangeYOffest_s;
+            const f32 interval = *mChangeInterval_s +
+                                 *mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
+            _d0 = ksys::Timer(interval, interval);
+        }
+    }
+
+    m38();
+    sead::Vector3f target_pos;
+    m37(&target_pos);
+    child->setDynamicParam(target_pos, "TargetPos");
 }
 
 void CircleMoveInFluid::leave_() {
@@ -62,6 +93,43 @@ void CircleMoveInFluid::m37(sead::Vector3f* out) {
 
 // NON_MATCHING: stack slots of the two inlined VFR core-index temporaries are swapped; operand order
 // of the final add
+// NON_MATCHING: register allocation (dir.x / dir.z in s9 / s8)
+void CircleMoveInFluid::sub_710034F850() {
+    sead::Vector3f center;
+    m36(&center);
+
+    const auto& mtx = mActor->getMtx();
+    sead::Vector3f dir(mtx(0, 2), 0.0f, mtx(2, 2));
+    dir.normalize();
+
+    const f32 min_rate = sead::Mathf::clampMax(*mMinRandRadiusRate_s, *mMaxRandRadiusRate_s);
+    m35(*mRadiusX_s, *mRadiusZ_s,
+        sead::GlobalRandom::instance()->getF32Range(min_rate, *mMaxRandRadiusRate_s));
+    _cc = sead::GlobalRandom::instance()->getF32() < *mReverseMoveRate_s;
+
+    f32 angle = std::atan2(dir.x, dir.z);
+    const f32 offset = sead::GlobalRandom::instance()->getF32Range(0.0f, sead::Mathf::pi() / 3);
+    angle += (_cc ? -1.0f : 1.0f) * offset;
+    angle -= sead::Mathf::floor(angle * (1.0f / sead::Mathf::pi2())) * sead::Mathf::pi2();
+    if (angle >= sead::Mathf::pi2())
+        angle = 0.0f;
+    _bc = angle;
+    _c0 = angle;
+
+    const f32 range_y = *mRandRangeY_s;
+    _c4 = sead::GlobalRandom::instance()->getF32Range(-range_y, range_y) + *mRandRangeYOffest_s;
+    const f32 interval =
+        *mChangeInterval_s + *mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
+    _d0 = ksys::Timer(interval, interval);
+
+    m38();
+    sead::Vector3f target_pos;
+    m37(&target_pos);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target_pos, "TargetPos", -1);
+    changeChild("移動", &params);
+}
+
 void CircleMoveInFluid::m38() {
     const f32 add_x = *mSpeed_s / _b4 * *mAddAngleRateX_s;
     const f32 add_z = *mSpeed_s / _b8 * *mAddAngleRateZ_s;

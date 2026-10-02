@@ -24,6 +24,9 @@ public:
     virtual void m37(sead::Vector3f* out);
     virtual void m38();
 
+    // 0x710034f850 (CSV: AI_AICircleMove::x)
+    void sub_710034F850();
+
 protected:
     // static_param at offset 0x38
     const float* mSpeed_s{};
