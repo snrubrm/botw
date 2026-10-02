@@ -44,6 +44,7 @@ public:
         _2 = 1 << 1,
         _8 = 1 << 3,
         DisableDraw = 1 << 2,
+        _10 = 1 << 4,
         _200000 = 1 << 21,
         Cloth1 = 1 << 22,
         Cloth2 = 1 << 23,
@@ -61,6 +62,8 @@ public:
     CharacterController* getCharacterController() const { return mCharacterController; }
     NavMeshCharacter* getNavMeshCharacter() const { return mNavMeshCharacter; }
     RagdollInstance* getRagdollInstance() const { return mRagdollInstance; }
+    // Read inline by ksys::act::ActorBind::m6-m8 (0x7100d3c78c...).
+    const sead::TypedBitFlag<Flag>& getFlags() const { return mFlags; }
 
     void setFlag2();
     // Removes the system group handlers _178[0] / _178[1] from phys::System (clearing _188).
