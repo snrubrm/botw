@@ -313,3 +313,19 @@ public:
 
     Unk_71023e7d28_Payload _18;
 };
+
+// vtable 0x71023f31f8 (GerudoHeroSoulGiftRoot); no payload
+class Unk_71023f31f8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+// vtable 0x7102399748 (GerudoHeroSoulGiftRoot; functions at 0x710019a9ec..); message 0x800001d
+class Unk_7102399748 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102399748_Payload _18;
+};

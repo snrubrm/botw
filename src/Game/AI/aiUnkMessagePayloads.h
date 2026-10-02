@@ -507,3 +507,10 @@ struct Unk_71024512c0_Payload {
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };
+
+// Message 0x800001d (sender Unk_7102399748)
+struct Unk_7102399748_Payload {
+    ksys::act::BaseProcLink mLink;
+    f32 _10 = 0;
+    sead::JobQueueLock mLock;
+};
