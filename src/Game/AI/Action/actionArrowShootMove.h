@@ -72,21 +72,21 @@ protected:
     int* mAtMinDamage_d{};
     // static_param at offset 0x98
     const float* mFallSpeedRatioByRange_s{};
-    // zero-initialised by the ctor (contents unknown)
-    u8 _a0[0xb4 - 0xa0]{};
+    u32 _a0 = 0;
+    f32 _a4 = 0;
+    f32 _a8 = 0;
+    f32 _ac = 0;
+    f32 _b0 = 0;
     ksys::VFRValue _b4{0.0f};
     ksys::VFRVec3f _c0;
     sead::Vector3f _e4{0, 0, 0};
-    // zero-initialised by the ctor (contents unknown)
-    u8 _f0[0xfc - 0xf0]{};
+    sead::Vector3f _f0{0, 0, 0};
     f32 _fc = 0;
     f32 _100 = 0;
-    // zero-initialised by the ctor (contents unknown)
-    u8 _104[0x11c - 0x104]{};
+    sead::Vector3f _104{0, 0, 0};
+    sead::Vector3f _110{0, 0, 0};
     sead::Vector3f _11c{0, 0, 0};
-    f32 _128 = 0;
-    // zero-initialised by the ctor (contents unknown)
-    u8 _12c[0x134 - 0x12c]{};
+    sead::Vector3f _128{0, 0, 0};
     ksys::phys::RigidBody* _138 = nullptr;
     s8 _140 = -1;
     u32 _144 = 0;

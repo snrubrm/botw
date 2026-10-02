@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDragonMoveTo.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::action {
 
@@ -13,7 +14,20 @@ bool DragonMoveTo::init_(sead::Heap* heap) {
 }
 
 void DragonMoveTo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+    _80._24 = false;
+    _80._20 = -1.0f;
+    _a8._20 = -1.0f;
+    _a8._24 = false;
+    _d0._20 = -1.0f;
+    _d0._24 = false;
+    _108 = dragon->sub_710001014C();
+    _138 = dragon->sub_710001014C().getBase(1);
+    if (mActor->getCharacterController())
+        mFlags.set(Flag::Changeable);
 }
 
 void DragonMoveTo::leave_() {

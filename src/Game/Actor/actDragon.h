@@ -50,9 +50,14 @@ public:
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
+    // 0x710001014c: *_14c8.sub_71006FC514() (DragonMoveTo::enter_).
+    const sead::Matrix34f& sub_710001014C() const;
 
     // Object with ctor 0x710000b710(this + 0x14c8); the Dragon AI reads 0x8b0-0x930.
     struct Unk_710000b710 {
+        // 0x71006fc514: the matrix at +0x20.
+        const sead::Matrix34f* sub_71006FC514() const;
+
         u8 _0[0x8b8];
         /* 0x8b8 */ f32 _8b8;  // Dragon + 0x1d80 (DragonPlayASForDemo: 0 on enter, 1 on leave)
         u8 _8bc[0x930 - 0x8bc];
