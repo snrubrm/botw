@@ -80,6 +80,11 @@ public:
     bool sub_7100F5F344(int idx, bool force);
     bool sub_7100F62E74(f32* out, int idx) const;
     bool sub_7100F62EFC(sead::Vector3f* out, int idx) const;
+    // 0x7100f5e764: RigidBody::clearEntityMotionFlag10 on the main body and (if _114 has 0x2000) on
+    // every body of _288.
+    void sub_7100F5E764(bool clear);
+    // 0x7100f62bb8: sub_7100F5F270(0).
+    void sub_7100F62BB8();
 
     RigidBody* mRigidBody;
     u8 _10[0x64 - 0x10];

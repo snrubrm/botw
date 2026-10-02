@@ -20,6 +20,20 @@ void CharacterController::disableContactLayer(ContactLayer layer) {
     mRigidBody->disableContactLayer(layer);
 }
 
+void CharacterController::sub_7100F5E764(bool clear) {
+    mRigidBody->clearEntityMotionFlag10(clear);
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->clearEntityMotionFlag10(clear);
+    }
+}
+
+void CharacterController::sub_7100F62BB8() {
+    sub_7100F5F270(0);
+}
+
 bool CharacterController::sub_7100F636EC() const {
     return !mRigidBody->hasFlag(RigidBody::Flag::_200);
 }
