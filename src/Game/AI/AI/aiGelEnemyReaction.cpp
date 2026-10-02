@@ -13,7 +13,6 @@ bool GelEnemyReaction::init_(sead::Heap* heap) {
     return EnemyDefaultReaction::init_(heap);
 }
 
-// NON_MATCHING: scheduling (the parts-list address is computed after the SafeString temporary)
 void GelEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
     if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor))
@@ -24,7 +23,7 @@ void GelEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
-    auto& weapon = enemy->_1128.getActorPartsActor("EatWeapon");
+    auto& weapon = enemy->getActorPartsActor("EatWeapon");
     if (!weapon.hasProc())
         return;
     ksys::act::ActorConstDataAccess accessor;

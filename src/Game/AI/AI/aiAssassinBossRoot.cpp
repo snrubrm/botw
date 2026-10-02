@@ -12,8 +12,6 @@ namespace uking::ai {
 // NON_MATCHING: store scheduling (the original zeroes mBattleAvoidNum_s first)
 AssassinBossRoot::AssassinBossRoot(const InitArg& arg) : AssassinBossRootBase(arg) {}
 
-// NON_MATCHING: loop shape (the original tests the count with b.le and computes &enemy->_1128 in
-// both branches)
 AssassinBossRoot::~AssassinBossRoot() {
     if (!mIronBallNum_s)
         return;
@@ -25,22 +23,22 @@ AssassinBossRoot::~AssassinBossRoot() {
     sead::FixedSafeString<32> name;
     for (int i = 0; i < *mIronBallNum_s; ++i) {
         name.format("IronBall%d", i);
-        auto& link = enemy->_1128.getActorPartsActor(name);
+        auto& link = enemy->getActorPartsActor(name);
         if (link.hasProc()) {
             ksys::act::ActorConstDataAccess accessor;
             ksys::act::acquireActor(&link, &accessor);
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         }
-        enemy->_1128.sub_7100D3CFEC(name);
+        enemy->sub_7100D3CFEC(name);
     }
 
-    auto& link = enemy->_1128.getActorPartsActor("SpareBall0");
+    auto& link = enemy->getActorPartsActor("SpareBall0");
     if (link.hasProc()) {
         ksys::act::ActorConstDataAccess accessor;
         ksys::act::acquireActor(&link, &accessor);
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
-    enemy->_1128.sub_7100D3CFEC("SpareBall0");
+    enemy->sub_7100D3CFEC("SpareBall0");
 }
 
 bool AssassinBossRoot::init_(sead::Heap* heap) {

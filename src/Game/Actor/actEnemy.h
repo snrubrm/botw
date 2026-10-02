@@ -238,6 +238,24 @@ public:
     virtual void m179();
     virtual void m180() {}
 
+    // Forwarders to the parts object _1128. Inline-only in the original; names are a guess (the
+    // forwarded method's name). Codegen evidence: ~25 AI functions compute the name / heap / proc
+    // arguments before `enemy + 0x1128`, which a direct `enemy->_1128.f(args)` call cannot reproduce.
+    bool sub_7100D3CED8(const sead::SafeString& name, sead::Heap* heap) {
+        return _1128.sub_7100D3CED8(name, heap);
+    }
+    bool sub_7100D3CFEC(const sead::SafeString& name) { return _1128.sub_7100D3CFEC(name); }
+    bool sub_7100D3D108(const sead::SafeString& name, ksys::act::BaseProc* proc) {
+        return _1128.sub_7100D3D108(name, proc);
+    }
+    bool sub_7100D3D1E0(const sead::SafeString& name, const ksys::act::BaseProcLink& link) {
+        return _1128.sub_7100D3D1E0(name, link);
+    }
+    bool sub_7100D3D2B4(const sead::SafeString& name) { return _1128.sub_7100D3D2B4(name); }
+    ksys::act::BaseProcLink& getActorPartsActor(const sead::SafeString& name) {
+        return _1128.getActorPartsActor(name);
+    }
+
     // Fields are accessed directly by the AI helper functions (aiUnk_71005D6D10.cpp) and AI classes.
     /* 0xc38 */ sead::Buffer<ksys::act::BaseProcLink> _c38;  // indexed by weapon slot (m177)
     /* 0xc48 */ Unk_7100013308 _c48{this};

@@ -8,20 +8,18 @@ namespace uking::ai {
 
 GanonThrowActorRoot::GanonThrowActorRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 GanonThrowActorRoot::~GanonThrowActorRoot() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
 
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s), &accessor);
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (accessor.hasProc())
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
-    enemy->_1128.sub_7100D3CFEC(mRegisterPartsName_s);
+    enemy->sub_7100D3CFEC(mRegisterPartsName_s);
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 bool GanonThrowActorRoot::init_(sead::Heap* heap) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
@@ -30,15 +28,14 @@ bool GanonThrowActorRoot::init_(sead::Heap* heap) {
     if (sub_71005D6D10())
         return true;
 
-    enemy->_1128.sub_7100D3CED8(mRegisterPartsName_s, heap);
+    enemy->sub_7100D3CED8(mRegisterPartsName_s, heap);
     auto* actor = sub_71003EF66C(0);
     if (!actor)
         return false;
-    enemy->_1128.sub_7100D3D108(mRegisterPartsName_s, actor);
+    enemy->sub_7100D3D108(mRegisterPartsName_s, actor);
     return true;
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 void GanonThrowActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _a0 = false;
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -49,7 +46,7 @@ void GanonThrowActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s), &accessor);
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (!accessor.hasProc() || accessor.isStateCalc())
         changeChild("生成待ち");
     else if (*mIsThrowQuick_s)
@@ -58,7 +55,6 @@ void GanonThrowActorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("所持");
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 void GanonThrowActorRoot::calc_() {
     getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
     sub_71005D7444(mActor, *mTargetPos_d, true, true);
@@ -69,7 +65,7 @@ void GanonThrowActorRoot::calc_() {
             return;
 
         ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s),
+        ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (!accessor.hasProc() || !accessor.isStateSleep())
             setFailed();
@@ -134,11 +130,10 @@ bool GanonThrowActorRoot::isFinished() const {
     return false;
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 bool GanonThrowActorRoot::m34() const {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s),
+        ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
             return true;
@@ -146,11 +141,10 @@ bool GanonThrowActorRoot::m34() const {
     return false;
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 bool GanonThrowActorRoot::m35() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s),
+        ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s),
                                 &accessor);
         if (accessor.hasProc() && accessor.isStateSleep())
             return true;
@@ -171,14 +165,13 @@ void GanonThrowActorRoot::m36() {
     changeChild("投げる", &params);
 }
 
-// NON_MATCHING: the original computes &mRegisterPartsName_s before &enemy->_1128
 void GanonThrowActorRoot::m38() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
 
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(mRegisterPartsName_s), &accessor);
+    ksys::act::acquireActor(&enemy->getActorPartsActor(mRegisterPartsName_s), &accessor);
     if (accessor.hasProc() && accessor.isStateCalc()) {
         if (*mIsSendDeleteMessageAtLeave_s)
             sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800005c), nullptr);

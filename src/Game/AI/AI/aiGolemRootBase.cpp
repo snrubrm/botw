@@ -15,17 +15,16 @@ GolemRootBase::~GolemRootBase() {
     _2f0._8.freeBuffer();
 }
 
-// NON_MATCHING: regalloc (this / the actor swap x19 and x20)
 void GolemRootBase::sub_71004014A4() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
 
-    auto& link = enemy->_1128.getActorPartsActor(mChemicalFieldKey_s);
+    auto& link = enemy->getActorPartsActor(mChemicalFieldKey_s);
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
-    enemy->_1128.sub_7100D3CFEC(mChemicalFieldKey_s);
+    enemy->sub_7100D3CFEC(mChemicalFieldKey_s);
 }
 
 void GolemRootBase::m38() {

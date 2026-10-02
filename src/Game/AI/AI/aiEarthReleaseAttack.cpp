@@ -11,19 +11,16 @@ namespace uking::ai {
 
 EarthReleaseAttack::EarthReleaseAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// NON_MATCHING: the original computes the name argument before `enemy + 0x1128` (as in
-// GolemRootBase::sub_71004014A4)
 EarthReleaseAttack::~EarthReleaseAttack() {
     if (_80.isAllocatedOrFailed())
         _80.deleteProc();
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
-        enemy->_1128.sub_7100D3CFEC(mEarthReleasePartsName_s);
+        enemy->sub_7100D3CFEC(mEarthReleasePartsName_s);
 }
 
-// NON_MATCHING: register allocation / argument order (see the destructor)
 bool EarthReleaseAttack::init_(sead::Heap* heap) {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
-        enemy->_1128.sub_7100D3CED8(mEarthReleasePartsName_s, heap);
+        enemy->sub_7100D3CED8(mEarthReleasePartsName_s, heap);
     return true;
 }
 

@@ -38,11 +38,9 @@ void BreathEnemyRangeKeepMove::loadParams_() {
     getStaticParam(&mBreathMinTime_s, "BreathMinTime");
 }
 
-// NON_MATCHING: the original computes &enemy->_1128 after the name temporary (as if through an inline
-// Enemy parts accessor); regalloc differs as a result
 void BreathEnemyRangeKeepMove::sub_7100340570() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        auto& link = enemy->_1128.getActorPartsActor(mBreathName_s.cstr());
+        auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());
         ksys::act::ActorConstDataAccess acc;
         ksys::act::acquireActor(&link, &acc);
         acc.sleep(ksys::act::BaseProc::SleepWakeReason::_0);

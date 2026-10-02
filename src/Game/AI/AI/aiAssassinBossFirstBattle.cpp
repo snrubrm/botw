@@ -13,7 +13,7 @@ AssassinBossFirstBattle::~AssassinBossFirstBattle() {
         sead::FixedSafeString<32> name;
         for (int i = 0; i < *mIronBallNum_s; ++i) {
             name.format("%s%d", mIronBallKeyName_s.cstr(), i);
-            enemy->_1128.sub_7100D3CFEC(name);
+            enemy->sub_7100D3CFEC(name);
         }
     }
     _b8.freeBuffer();
@@ -31,7 +31,7 @@ bool AssassinBossFirstBattle::init_(sead::Heap* heap) {
         sead::FixedSafeString<32> name;
         for (int i = 0; i < *mIronBallNum_s; ++i) {
             name.format("%s%d", mIronBallKeyName_s.cstr(), i);
-            enemy->_1128.sub_7100D3CED8(name, heap);
+            enemy->sub_7100D3CED8(name, heap);
         }
     }
 
@@ -92,7 +92,7 @@ bool AssassinBossFirstBattle::m41() {
     sead::FixedSafeString<32> name;
     for (int i = 0; i < *mIronBallNum_s; ++i) {
         name.format("%s%d", mIronBallKeyName_s.cstr(), i);
-        auto& link = enemy->_1128.getActorPartsActor(name);
+        auto& link = enemy->getActorPartsActor(name);
         if (!link.hasProc() || link.hasProcInCalcState())
             return false;
     }

@@ -83,7 +83,7 @@ bool AssassinMiddleRoot::handleMessage_(const ksys::Message& message) {
     if (message.getType() == 0x3000003 && !mMagicUsePartsName_s.isEmpty()) {
         auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
         if (enemy) {
-            auto& link = enemy->_1128.getActorPartsActor(mMagicUsePartsName_s);
+            auto& link = enemy->getActorPartsActor(mMagicUsePartsName_s);
             if (link.hasProcInCalcState()) {
                 _310.sub_710070DF20(&link, true);
             } else {

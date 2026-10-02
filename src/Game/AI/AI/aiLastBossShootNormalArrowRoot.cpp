@@ -23,10 +23,10 @@ LastBossShootNormalArrowRoot::~LastBossShootNormalArrowRoot() {
     for (u32 i = 0; i < u32(*mArrowNum_s); ++i) {
         sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), i);
         ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&enemy->_1128.getActorPartsActor(name), &accessor);
+        ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
         if (accessor.hasProc())
             accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
-        enemy->_1128.sub_7100D3CFEC(name);
+        enemy->sub_7100D3CFEC(name);
     }
 }
 
@@ -43,11 +43,11 @@ bool LastBossShootNormalArrowRoot::init_(sead::Heap* heap) {
     if (!sub_71005D6D10()) {
         for (u32 i = 0; i < u32(*mArrowNum_s); ++i) {
             sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), i);
-            if (enemy->_1128.getActorPartsActor(name).hasProc())
+            if (enemy->getActorPartsActor(name).hasProc())
                 continue;
-            enemy->_1128.sub_7100D3CED8(name, heap);
+            enemy->sub_7100D3CED8(name, heap);
             if (auto* arrow = m40())
-                enemy->_1128.sub_7100D3D108(name, arrow);
+                enemy->sub_7100D3D108(name, arrow);
         }
     }
     return true;
@@ -144,7 +144,7 @@ void LastBossShootNormalArrowRoot::m35() {
     params.addVec3(pos, "TargetPos", -1);
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         sead::FormatFixedSafeString<32> name("%s%d", mPartsName_s.cstr(), _a0);
-        params.addActor(enemy->_1128.getActorPartsActor(name), "IgniteActor", -1);
+        params.addActor(enemy->getActorPartsActor(name), "IgniteActor", -1);
     }
     params.addPointer(nullptr, "ArrowHandle", ksys::AIDefParamType::BaseProcHandle, -1);
     params.addInt(_a0, "Index", -1);
