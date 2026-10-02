@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -18,6 +19,8 @@ public:
 protected:
     // static_param at offset 0x38
     sead::SafeString mRailName_s{};
+    sead::Matrix34f _48[3];
 };
+KSYS_CHECK_SIZE_NX150(DungeonRemainsFire, 0xd8);
 
 }  // namespace uking::ai
