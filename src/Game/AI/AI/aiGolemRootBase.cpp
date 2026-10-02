@@ -15,6 +15,44 @@ GolemRootBase::~GolemRootBase() {
     _2f0._8.freeBuffer();
 }
 
+void GolemRootBase::sub_71004012F8() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    {
+        auto& link = enemy->_1128.getActorPartsActor(mUpperArmL_PartsKey_s);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->_1128.sub_7100D3CFEC(mUpperArmL_PartsKey_s);
+    }
+
+    {
+        auto& link = enemy->_1128.getActorPartsActor(mLowerArmL_PartsKey_s);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->_1128.sub_7100D3CFEC(mLowerArmL_PartsKey_s);
+    }
+
+    {
+        auto& link = enemy->_1128.getActorPartsActor(mUpperArmR_PartsKey_s);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->_1128.sub_7100D3CFEC(mUpperArmR_PartsKey_s);
+    }
+
+    {
+        auto& link = enemy->_1128.getActorPartsActor(mLowerArmR_PartsKey_s);
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        enemy->_1128.sub_7100D3CFEC(mLowerArmR_PartsKey_s);
+    }
+}
+
 void GolemRootBase::sub_71004014A4() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)

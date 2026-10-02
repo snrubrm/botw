@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "Game/AI/aiAwarenessFilters.h"
 
 namespace uking::ai {
 
@@ -67,5 +68,26 @@ void GanonNormalRoot::leave_() {
 }
 
 void GanonNormalRoot::loadParams_() {}
+
+// NON_MATCHING: the original computes &entry->_58 before the getHomePos call (unused home position)
+bool GanonNormalRoot::sub_71003ED9B0() {
+    auto* target = sub_71005D9050(mActor);
+    if (target && target->hasProc())
+        return true;
+
+    auto* awareness = mActor->getAwareness();
+    if (!awareness || awareness->_300 == 0)
+        return false;
+
+    Unk_7102451678 filter;
+    auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+    if (!entry || entry->_a0 == 0)
+        return false;
+
+    sead::Vector3f home_pos;
+    mActor->getHomePos(&home_pos);
+    sub_71005D8DE8(mActor, entry->_0.mLink, &entry->_58, nullptr);
+    return true;
+}
 
 }  // namespace uking::ai
