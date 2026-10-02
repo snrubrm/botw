@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSandwormBattle.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ bool SandwormBattle::init_(sead::Heap* heap) {
 }
 
 void SandwormBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    sub_7100557504();
 }
 
 void SandwormBattle::leave_() {

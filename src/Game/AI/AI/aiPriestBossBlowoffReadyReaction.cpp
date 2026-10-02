@@ -12,7 +12,7 @@ bool PriestBossBlowoffReadyReaction::init_(sead::Heap* heap) {
 }
 
 void PriestBossBlowoffReadyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_7100510E80();
 }
 
 void PriestBossBlowoffReadyReaction::calc_() {

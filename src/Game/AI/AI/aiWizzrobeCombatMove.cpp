@@ -19,7 +19,7 @@ void WizzrobeCombatMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WizzrobeCombatMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005FD0AC();
 }
 
 void WizzrobeCombatMove::loadParams_() {

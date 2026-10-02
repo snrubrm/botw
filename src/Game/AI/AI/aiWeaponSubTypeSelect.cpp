@@ -7,7 +7,7 @@ WeaponSubTypeSelect::WeaponSubTypeSelect(const InitArg& arg) : ksys::act::ai::Ai
 WeaponSubTypeSelect::~WeaponSubTypeSelect() = default;
 
 void WeaponSubTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005F18C0(params);
 }
 
 void WeaponSubTypeSelect::calc_() {

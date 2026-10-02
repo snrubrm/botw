@@ -12,8 +12,10 @@ public:
     ~SwimEnemyNormal() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71005B488C();
 
 protected:
     bool _3d0 = false;

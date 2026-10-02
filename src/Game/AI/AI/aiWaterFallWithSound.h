@@ -14,6 +14,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71005EC090();
+    void sub_71005EBEC0();
 
 protected:
     void* _38 = nullptr;

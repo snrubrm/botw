@@ -28,4 +28,12 @@ void ShootingEnemyBattle::loadParams_() {
     getStaticParam(&mOutScrnAtkOffsetY_s, "OutScrnAtkOffsetY");
 }
 
+void ShootingEnemyBattle::m38() {
+    if (!_b4 && _b0 < *mOutScreenAttackNum_s) {
+        sub_7100569CA0();
+        return;
+    }
+    EnemyBattle::m38();
+}
+
 }  // namespace uking::ai

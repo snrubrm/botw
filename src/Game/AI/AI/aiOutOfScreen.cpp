@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiOutOfScreen.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,8 @@ bool OutOfScreen::init_(sead::Heap* heap) {
 }
 
 void OutOfScreen::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71004F4054();
+    mActor->getLodState()->mFlags10.set(0x40);
 }
 
 void OutOfScreen::leave_() {

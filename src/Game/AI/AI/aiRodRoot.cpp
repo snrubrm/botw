@@ -23,4 +23,11 @@ void RodRoot::loadParams_() {
     getAITreeVariable(&mMagicCreateUnit_a, "MagicCreateUnit");
 }
 
+void RodRoot::calc_() {
+    WeaponRootAI::calc_();
+    sub_71005539C0();
+    sub_71005531E8();
+    sub_7100553CF0();
+}
+
 }  // namespace uking::ai

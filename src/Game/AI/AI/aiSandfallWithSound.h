@@ -17,6 +17,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71005565D8();
 
 protected:
     void sub_7100556370();

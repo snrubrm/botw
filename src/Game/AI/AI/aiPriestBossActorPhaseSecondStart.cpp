@@ -12,7 +12,7 @@ bool PriestBossActorPhaseSecondStart::init_(sead::Heap* heap) {
 }
 
 void PriestBossActorPhaseSecondStart::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710050E7E0();
 }
 
 void PriestBossActorPhaseSecondStart::leave_() {

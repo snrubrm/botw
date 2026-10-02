@@ -20,7 +20,7 @@ void RemainsWaterChaseBulletRoot::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void RemainsWaterChaseBulletRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_710054AAD8();
 }
 
 void RemainsWaterChaseBulletRoot::loadParams_() {

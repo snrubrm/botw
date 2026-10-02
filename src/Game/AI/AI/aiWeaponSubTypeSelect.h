@@ -17,6 +17,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void sub_71005F18C0(ksys::act::ai::InlineParamPack* params);
 
 protected:
     // static_param at offset 0x38

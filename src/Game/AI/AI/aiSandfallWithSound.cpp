@@ -20,7 +20,7 @@ void SandfallWithSound::calc_() {
 }
 
 void SandfallWithSound::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005565D8();
 }
 
 void SandfallWithSound::loadParams_() {}

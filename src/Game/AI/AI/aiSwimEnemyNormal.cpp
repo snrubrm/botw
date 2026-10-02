@@ -18,4 +18,9 @@ void SwimEnemyNormal::loadParams_() {
     EnemyNormal::loadParams_();
 }
 
+void SwimEnemyNormal::calc_() {
+    EnemyNormal::calc_();
+    sub_71005B488C();
+}
+
 }  // namespace uking::ai

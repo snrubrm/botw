@@ -11,11 +11,11 @@ bool WaterFallWithSound::init_(sead::Heap* heap) {
 }
 
 void WaterFallWithSound::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005EBEC0();
 }
 
 void WaterFallWithSound::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005EC090();
 }
 
 void WaterFallWithSound::loadParams_() {}

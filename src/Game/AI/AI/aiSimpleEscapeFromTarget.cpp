@@ -12,7 +12,8 @@ bool SimpleEscapeFromTarget::init_(sead::Heap* heap) {
 }
 
 void SimpleEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _5c = _60 = *mKeepTime_s;
+    sub_710056CF84();
 }
 
 void SimpleEscapeFromTarget::leave_() {

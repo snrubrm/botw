@@ -16,6 +16,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void sub_710050E7E0();
 
 protected:
     // aitree_variable at offset 0x38

@@ -11,7 +11,7 @@ bool PipeDrawing::init_(sead::Heap* heap) {
 }
 
 void PipeDrawing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71004F6298();
 }
 
 void PipeDrawing::leave_() {
