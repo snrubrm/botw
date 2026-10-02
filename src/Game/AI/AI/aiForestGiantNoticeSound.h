@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m35() override;
+
 protected:
     // static_param at offset 0x48
     const float* mFrontAngle_s{};

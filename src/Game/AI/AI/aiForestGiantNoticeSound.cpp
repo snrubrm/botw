@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForestGiantNoticeSound.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,13 @@ void ForestGiantNoticeSound::loadParams_() {
     EnemyNoticeSound::loadParams_();
     getStaticParam(&mFrontAngle_s, "FrontAngle");
     getStaticParam(&mUseSimpleOffset_s, "UseSimpleOffset");
+}
+
+void ForestGiantNoticeSound::m35() {
+    if (*mUseSimpleOffset_s)
+        sub_71005DB1D8(mActor, *mTargetPos_d);
+    else
+        sub_71005DB068(mActor, *mTargetPos_d);
 }
 
 }  // namespace uking::ai
