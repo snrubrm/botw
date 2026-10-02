@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiRailMoveObject.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71024f15c0.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -21,7 +23,92 @@ bool RailMoveObject::init_(sead::Heap* heap) {
 }
 
 void RailMoveObject::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    _60 = m34();
+    if (_60) {
+        _74 = 0;
+        _68 = _60->getNumPoints();
+    }
+    m35();
+    _6c = 0;
+
+    if (!_60 || (!actor->checkBasicSig() && actor->hasPlacementLinkForBasicSig())) {
+        if (auto* as_list = actor->getASList(); as_list && as_list->sub_710115AA68(mASKeyName_Off_s))
+            changeAS(mASKeyName_Off_s.cstr(), true, 0, 0);
+        m37();
+        return;
+    }
+
+    if (auto* as_list = actor->getASList(); as_list && as_list->sub_710115AA68(mASKeyName_On_s))
+        changeAS(mASKeyName_On_s.cstr(), true, 0, 0);
+    _70 = _6c + 1.0f;
+    m38();
+}
+
+void RailMoveObject::calc_() {
+    m36();
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (!_60)
+        return;
+
+    if (actor->hasPlacementLinkForBasicSig()) {
+        if (!actor->checkBasicSig()) {
+            if (auto* as_list = actor->getASList();
+                as_list && as_list->sub_710115AA68(mASKeyName_Off_s)) {
+                changeAS(mASKeyName_Off_s.cstr(), true, 0, 0);
+            }
+            if (isCurrentChild("移動")) {
+                sub_7100533DB0();
+                m37();
+            }
+            return;
+        }
+        if (auto* as_list = actor->getASList(); as_list && as_list->sub_710115AA68(mASKeyName_On_s))
+            changeAS(mASKeyName_On_s.cstr(), true, 0, 0);
+    }
+
+    if (isCurrentChild("停止") && child->isChangeable()) {
+        sub_7100533C58();
+        m38();
+    } else if (child->isFinished()) {
+        _6c = _70;
+        m37();
+    }
+}
+
+// NON_MATCHING: the int conversion of _6c is scheduled before `_68 - 1`, and the `_70 = 0` store of
+// the closed-rail branch is merged with the other branch's store
+void RailMoveObject::sub_7100533C58() {
+    if (sead::Mathf::abs(_6c - s32(_6c)) <= 0.0f) {
+        _6c = _70;
+        switch (_74) {
+        case 0:
+            _70 = _6c + 1.0f;
+            break;
+        case 1:
+            _70 = _6c - 1.0f;
+            break;
+        }
+        const f32 last = _68 - 1;
+        _6c = sead::Mathf::clamp(_6c, 0.0f, last);
+        _70 = sead::Mathf::clamp(_70, 0.0f, last);
+    }
+
+    const s32 idx = _6c;
+    if (idx == _68 - 1 && sead::Mathf::abs(_6c - idx) <= 0.0f && _60) {
+        if (_60->isClosed()) {
+            _74 = 0;
+            _70 = 0;
+        } else {
+            _74 = 1;
+            _70 = _6c - 1.0f;
+        }
+    } else if (idx == 0 && sead::Mathf::abs(_6c - idx) <= 0.0f && _74 == 1) {
+        _74 = 0;
+        _6c = 0;
+        _70 = 1.0f;
+    }
 }
 
 void RailMoveObject::leave_() {

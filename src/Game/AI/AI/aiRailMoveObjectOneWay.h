@@ -20,6 +20,9 @@ public:
     void loadParams_() override;
     void m9() override;
 
+    void sub_710053479C();
+    void sub_71005348DC();
+
 protected:
     // static_param at offset 0x38
     sead::SafeString mASKeyName_On_s{};

@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void m9() override;
@@ -26,6 +27,9 @@ public:
     virtual void m36();
     virtual void m37();
     virtual void m38();
+
+    void sub_7100533C58();
+    void sub_7100533DB0();
 
 protected:
     // static_param at offset 0x38
