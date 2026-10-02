@@ -261,5 +261,8 @@ void sub_7100E7F4FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* 
 // rideable->_8 set it resets the controller (sub_7100F5EDD8(1) / sub_7100F5EDE0(0)) instead.
 void sub_7100E7F698(RideableBase* rideable, ksys::as::ASList* as_list,
                     ksys::phys::CharacterController* controller);
+// 0x7100e7f6fc: another anim-driven movement variant (ForkAnimDriveFreeMoving::calc_ passes scale 1).
+// Not decompiled yet.
+void sub_7100E7F6FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale);
 
 }  // namespace uking::act
