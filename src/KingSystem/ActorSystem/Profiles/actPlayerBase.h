@@ -335,6 +335,7 @@ public:
     void setExtraLife(f32 life) const;
     void setMtx(const sead::Matrix34f& mtx) const;
     bool x_2() const;
+    bool runeMgrCheckCanUseSquareBomb() const;  // CSV name (0x710084f3d4)
     bool getLastDamageAttacker(sead::BufferedSafeString* name) const;
     bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;
     bool isRidingThisSandSeal(BaseProc* proc) const;

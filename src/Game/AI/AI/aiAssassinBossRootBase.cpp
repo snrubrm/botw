@@ -1,6 +1,58 @@
 #include "Game/AI/AI/aiAssassinBossRootBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
+
+bool Unk_71023d7eb0::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800007d)
+        return false;
+
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023d7ee0::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x800007e)
+        return false;
+
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+void Unk_71023d7e40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 < 1)
+        return;
+
+    auto* damage_manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (!damage_manager)
+        return;
+    auto* enemy = sead::DynamicCast<act::Enemy>(damage_manager->mActor);
+    if (!enemy || enemy->_e84.isOnBit(3))
+        return;
+
+    const s32* life_ptr = mDamageManager->mActor->getLife();
+    s32 life = life_ptr ? *life_ptr : 1;
+    if (enemy->getLifeRecoverInfo()) {
+        auto* info = enemy->getLifeRecoverInfo();
+        life += info->mExtraHp1;
+        info->onApplyDamage_0();
+    }
+
+    if (life - *a1 <= _24)
+        *a1 = sead::Mathi::max(life - 1 - _24, 0);
+}
 
 AssassinBossRootBase::AssassinBossRootBase(const InitArg& arg) : EnemyRoot(arg) {}
 
@@ -12,12 +64,76 @@ bool AssassinBossRootBase::init_(sead::Heap* heap) {
 
 void AssassinBossRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+    if (isRootAiParamINot5()) {
+        _1e8.x();
+        _220.x();
+    }
+
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    player.runeMgrCheckCanUseSquareBomb();
+    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), &player.getActorMtx(),
+                   &player.getPreviousPos());
+
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e90 = 4;
+
+    _1e8.x();
+    _220.x();
+    _258 = 10.0f;
+    if (!_288.mDamageManager) {
+        _288._24 = *mRockBallDamage_s;
+        setDamageCallbackTiming(mActor, 2, &_288);
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.set(0xc00);
 }
 
 void AssassinBossRootBase::leave_() {
     EnemyRoot::leave_();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e90 = 1;
+
+    sub_71005DA114(mActor, &_260);
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_71007377D4(controller, 0.0f);
+        sub_7100738660(controller, 0.0f);
+    } else if (auto* body = mActor->getMainBody()) {
+        sub_71007379FC(body, 0.0f);
+        sub_7100738898(body, 0.0f);
+    }
+    if (_288.mDamageManager)
+        sub_71005DA114(mActor, &_288);
 }
 
+bool AssassinBossRootBase::handleMessage_(const ksys::Message& message) {
+    if (EnemyRoot::handleMessage_(message))
+        return true;
+    if (_1e8.m2(message))
+        return true;
+    return _220.m2(message);
+}
+
+bool AssassinBossRootBase::m45() {
+    return false;
+}
+
+void AssassinBossRootBase::m46() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    sead::Vector3f pos;
+    player.getActorMtx().getTranslation(pos);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("強制ワープ回避", &params);
+}
+
+void AssassinBossRootBase::m47() {
+    changeChild("呼ばれ");
+}
+
+// NON_MATCHING: the original computes &mRockBallDamage_s before the first getStaticParam call
 void AssassinBossRootBase::loadParams_() {
     EnemyRoot::loadParams_();
     getStaticParam(&mChangeModeLifeRatio_s, "ChangeModeLifeRatio");
