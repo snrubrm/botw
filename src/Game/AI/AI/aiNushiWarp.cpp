@@ -14,6 +14,20 @@ void NushiWarp::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void NushiWarp::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (child->isFinished())
+        setFinished();
+    else
+        setFailed();
+}
+
 void NushiWarp::leave_() {
     ksys::act::ai::Ai::leave_();
 }
