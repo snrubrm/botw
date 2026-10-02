@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSwimEnemyAnmBackBlownOffBase.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void SwimEnemyAnmBackBlownOffBase::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void SwimEnemyAnmBackBlownOffBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62CA8(true);
 }
 
 void SwimEnemyAnmBackBlownOffBase::loadParams_() {

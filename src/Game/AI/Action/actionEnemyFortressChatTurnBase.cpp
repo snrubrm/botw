@@ -31,4 +31,8 @@ void EnemyFortressChatTurnBase::calc_() {
 
 void EnemyFortressChatTurnBase::m32() {}
 
+bool EnemyFortressChatTurnBase::handleMessage_(const ksys::Message& message) {
+    return false;
+}
+
 }  // namespace uking::action

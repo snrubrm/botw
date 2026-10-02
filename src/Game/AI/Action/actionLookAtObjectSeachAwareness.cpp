@@ -15,4 +15,8 @@ void LookAtObjectSeachAwareness::loadParams_() {
     getDynamicParam(&mIsRetrySearchBaseProc_d, "IsRetrySearchBaseProc");
 }
 
+bool LookAtObjectSeachAwareness::oneShot_() {
+    return LookAtObject::oneShot_();
+}
+
 }  // namespace uking::action

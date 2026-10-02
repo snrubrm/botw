@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerGlide.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -33,6 +34,10 @@ void PlayerGlide::calc_() {
 
 bool PlayerGlide::isChangeable() const {
     return true;
+}
+
+bool PlayerGlide::isFinished() const {
+    return static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround();
 }
 
 }  // namespace uking::action

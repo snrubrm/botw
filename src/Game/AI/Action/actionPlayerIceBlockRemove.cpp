@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerIceBlockRemove.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -13,7 +14,8 @@ void PlayerIceBlockRemove::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerIceBlockRemove::leave_() {}
 
 void PlayerIceBlockRemove::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    setFinished();
 }
 
 bool PlayerIceBlockRemove::isChangeable() const {

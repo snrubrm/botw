@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionThrownAndBreak.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void ThrownAndBreak::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ThrownAndBreak::leave_() {
     Thrown::leave_();
+    callDeleteAndCreateDropAndEmit(mActor, 0);
 }
 
 void ThrownAndBreak::loadParams_() {

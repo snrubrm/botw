@@ -10,6 +10,7 @@ class LookAtObjectSeachAwareness : public LookAtObject {
 public:
     explicit LookAtObjectSeachAwareness(const InitArg& arg);
     ~LookAtObjectSeachAwareness() override;
+    bool oneShot_() override;
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;

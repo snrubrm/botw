@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGetItem.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -20,6 +21,10 @@ void GetItem::loadParams_() {}
 
 void GetItem::calc_() {
     m32();
+}
+
+void GetItem::m32() {
+    sub_71005D6D48(mActor);
 }
 
 }  // namespace uking::action

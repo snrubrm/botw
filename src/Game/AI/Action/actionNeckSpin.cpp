@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNeckSpin.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -15,6 +16,7 @@ void NeckSpin::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NeckSpin::leave_() {
+    sub_71005DB498(mActor);
     StopASPlay::leave_();
 }
 

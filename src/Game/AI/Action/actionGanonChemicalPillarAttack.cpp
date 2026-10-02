@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonChemicalPillarAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,7 +17,7 @@ void GanonChemicalPillarAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonChemicalPillarAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005D74E8(mActor);
 }
 
 void GanonChemicalPillarAttack::loadParams_() {

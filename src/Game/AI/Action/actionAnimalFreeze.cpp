@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimalFreeze.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void AnimalFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void AnimalFreeze::leave_() {
     HorseFreeze::leave_();
+    sub_71005DB434(mActor);
 }
 
 void AnimalFreeze::loadParams_() {

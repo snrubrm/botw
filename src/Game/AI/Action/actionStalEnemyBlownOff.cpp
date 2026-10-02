@@ -45,4 +45,8 @@ void StalEnemyBlownOff::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool StalEnemyBlownOff::handleMessage_(const ksys::Message& message) {
+    return false;
+}
+
 }  // namespace uking::action

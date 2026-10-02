@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerHorseGetOffInDemo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ void PlayerHorseGetOffInDemo::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerHorseGetOffInDemo::leave_() {}
 
 void PlayerHorseGetOffInDemo::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    setFinished();
 }
 
 bool PlayerHorseGetOffInDemo::isChangeable() const {

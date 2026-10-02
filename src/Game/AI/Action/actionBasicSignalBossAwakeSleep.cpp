@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBasicSignalBossAwakeSleep.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,6 +16,7 @@ void BasicSignalBossAwakeSleep::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BasicSignalBossAwakeSleep::leave_() {
+    mActor->emitBasicSigOff();
     BasicSignalEnemy::leave_();
 }
 
