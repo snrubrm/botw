@@ -3,6 +3,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class Unk_7102372790;
+}
+
 namespace uking::ai {
 
 class WolfLinkAmiibo : public ksys::act::ai::Ai {
@@ -27,8 +31,8 @@ protected:
     const float* mAreaSearchRadius_s{};
     sead::Vector3f _50 = sead::Vector3f::zero;
     bool _5c = false;
-    // Navigation query handle (HavokAI::destroyQuery in the destructor).
-    void* _60{};
+    // Navigation query (HavokAI::destroyQuery in the destructor).
+    ksys::phys::Unk_7102372790* _60{};
     bool _68 = false;
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkAmiibo, 0x70);

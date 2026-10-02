@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWolfLinkAmiibo.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/Actor/actWolfLink.h"
 #include "Game/UI/uiUtils.h"
 
@@ -6,7 +7,10 @@ namespace uking::ai {
 
 WolfLinkAmiibo::WolfLinkAmiibo(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WolfLinkAmiibo::~WolfLinkAmiibo() = default;
+WolfLinkAmiibo::~WolfLinkAmiibo() {
+    if (_60)
+        ksys::phys::HavokAI::instance()->destroyQuery(_60);
+}
 
 bool WolfLinkAmiibo::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
