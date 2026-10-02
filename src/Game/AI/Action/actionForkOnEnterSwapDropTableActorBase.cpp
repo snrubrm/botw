@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionForkOnEnterSwapDropTableActorBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
 namespace uking::action {
 
@@ -20,6 +23,18 @@ bool ForkOnEnterSwapDropTableActorBase::init_(sead::Heap* heap) {
 
 void ForkOnEnterSwapDropTableActorBase::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _48 = mActor->getMtx();
+    if (*mOnGroundPos_s) {
+        if (isBgGroundHit(mActor, false)) {
+            if (auto* entry = sub_71007A4948(mActor, 0))
+                _48.setTranslation(entry->_0);
+        }
+    } else {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        mActor->x_18(&pos);
+        _48.setTranslation(pos);
+    }
 }
 
 void ForkOnEnterSwapDropTableActorBase::leave_() {

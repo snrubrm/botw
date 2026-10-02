@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionKnockBackShock.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -25,7 +28,18 @@ void KnockBackShock::loadParams_() {
 }
 
 void KnockBackShock::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (isBgGroundHit(actor, false))
+        sub_7100737C0C(controller, *mVelReduceOnGround_s, -sead::Vector3f::ey);
+    else
+        sub_7100737C0C(controller, *mVelReduce_s, -sead::Vector3f::ey);
 }
 
 }  // namespace uking::action

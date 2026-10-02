@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionWaterFloatWait.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -12,6 +13,11 @@ bool WaterFloatWait::init_(sead::Heap* heap) {
 
 void WaterFloatWait::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterFloatImmobile::enter_(params);
+    const f32 time = f32(*mTime_s) + f32(*mTimeRand_s) * sead::GlobalRandom::instance()->getF32();
+    _a0 = ksys::Timer(time, time);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), *mIsIgnoreSameAS_s, 0, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void WaterFloatWait::leave_() {
