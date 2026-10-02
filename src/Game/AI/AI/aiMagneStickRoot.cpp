@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiMagneStickRoot.h"
 #include "Game/gameGearMgr.h"
+#include <algorithm>
 #include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -92,6 +93,15 @@ void MagneStickRoot::m39() {
         return;
     if (auto* body = mActor->getMainBody())
         body->setSystemGroupHandler(nullptr);
+}
+
+void MagneStickRoot::m49(sead::Vector3f* out, sead::Vector3f pos, const sead::Vector3f& target) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    const sead::Vector3f diff = pos - target;
+    const f32 scale = 1.0f / std::max(diff.length(), 0.5f) * 0.25f;
+    *out = actor->getMtx().getTranslation() + diff * scale;
 }
 
 }  // namespace uking::ai

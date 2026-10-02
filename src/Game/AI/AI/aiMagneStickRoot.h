@@ -38,7 +38,7 @@ public:
     virtual void m46();
     virtual void m47();
     virtual void m48();
-    virtual void m49();
+    virtual void m49(sead::Vector3f* out, sead::Vector3f pos, const sead::Vector3f& target);
     virtual void m50() {}
     virtual void m51() {}
 
