@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionWindCutter.h"
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,8 +19,7 @@ public:
 protected:
     bool m33() override;
 
-    void* _c8{};
-    int _d0 = 0;
+    xlink2::HandleSLink _c8;
 };
 
 }  // namespace uking::action

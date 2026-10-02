@@ -258,7 +258,12 @@ protected:
     /* 0xca0 */ sead::CriticalSection _ca0;
     /* 0xce0 */ sead::BitFlag32 _ce0;
     /* 0xce4 */ u8 _ce4[0xcec - 0xce4];
+
+public:
+    // Public: AI actions reset bits directly (PlayerGuardBreak::calc_).
     /* 0xcec */ sead::BitFlag32 _cec;
+
+protected:
     /* 0xcf0 */ sead::BitFlag32 _cf0;
     /* 0xcf4 */ sead::BitFlag32 _cf4;
     /* 0xcf8 */ sead::BitFlag32 _cf8;

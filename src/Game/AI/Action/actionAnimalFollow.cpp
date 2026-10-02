@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnimalFollow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
 
 namespace uking::action {
 
@@ -11,6 +13,12 @@ bool AnimalFollow::init_(sead::Heap* heap) {
 }
 
 void AnimalFollow::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* rideable = mActor->m132();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    rideable->_18.sub_7100E770C4(false);
     AnimalFollowBase::enter_(params);
 }
 

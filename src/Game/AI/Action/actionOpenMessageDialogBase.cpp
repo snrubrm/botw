@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenMessageDialogBase.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void OpenMessageDialogBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OpenMessageDialogBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_74)
+        _64.resetMotionType(_64.sub_710072ACF8(mActor));
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115C11C();
 }
 
 void OpenMessageDialogBase::loadParams_() {

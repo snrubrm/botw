@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionFixedMagneStick.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -16,7 +19,13 @@ void FixedMagneStick::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FixedMagneStick::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->emitBasicSigOff();
+    if (_38)
+        _38->sub_7100F6A074();
+    if (mActor) {
+        if (auto* body = mActor->getMainBody())
+            body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    }
 }
 
 void FixedMagneStick::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNotStopXLinkWithDemoVisibleOff.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -12,7 +13,10 @@ void NotStopXLinkWithDemoVisibleOff::enter_(ksys::act::ai::InlineParamPack* para
 }
 
 void NotStopXLinkWithDemoVisibleOff::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115D0AC();
+    mActor->setFlag(ksys::act::Actor::ActorFlag::_2b, false);
 }
 
 }  // namespace uking::action

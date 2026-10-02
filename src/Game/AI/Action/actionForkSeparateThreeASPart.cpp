@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkSeparateThreeASPart.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -15,7 +16,9 @@ void ForkSeparateThreeASPart::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkSeparateThreeASPart::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->getASList()->sub_710115B01C(1, 0, true);
+    mActor->getASList()->sub_710115B01C(2, 0, true);
+    mActor->getASList()->sub_710115C11C();
 }
 
 void ForkSeparateThreeASPart::loadParams_() {

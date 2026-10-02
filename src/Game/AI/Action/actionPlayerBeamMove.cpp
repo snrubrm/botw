@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerBeamMove.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
@@ -9,6 +10,7 @@ PlayerBeamMove::~PlayerBeamMove() = default;
 
 void PlayerBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     WindCutter::enter_(params);
+    _c8 = ksys::eft::searchAndEmitSLink(mActor, "Beam", false);
 }
 
 void PlayerBeamMove::leave_() {

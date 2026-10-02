@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class Constraint;
+}
+
 namespace uking::action {
 
 class FixedMagneStick : public ksys::act::ai::Action {
@@ -24,7 +28,7 @@ protected:
     float* mMagneStickLength_a{};
     // aitree_variable at offset 0x30
     bool* mIsTargetFixedAcceptor_a{};
-    void* _38{};
+    ksys::phys::Constraint* _38{};
     f32 _40 = 0.0f;
     int _44 = 0;
     int _48 = 0;

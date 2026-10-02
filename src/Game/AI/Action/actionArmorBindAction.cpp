@@ -4,7 +4,9 @@ namespace uking::action {
 
 ArmorBindAction::ArmorBindAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ArmorBindAction::~ArmorBindAction() = default;
+ArmorBindAction::~ArmorBindAction() {
+    delete[] _28;
+}
 
 bool ArmorBindAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
