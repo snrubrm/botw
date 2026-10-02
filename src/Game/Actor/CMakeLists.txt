@@ -6,6 +6,8 @@ target_sources(uking PRIVATE
   actUnk_7100799f60.cpp
   actUnk_710079a8e8.cpp
   actUnk_71009214b8.cpp
+  actUnk_7100928b6c.cpp
+  actUnk_7102459dd8.cpp
   actUnk_7100924be4.cpp
   actUnk_7100926430.cpp
   actUnk_710092da50.cpp

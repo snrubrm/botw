@@ -122,6 +122,8 @@ public:
     bool sub_710079ADBC() const;
     void sub_710079AE30();
     void sub_710079AED0();
+    // 0x710079aee0: zeroes _1a0 and _1c0 / _1c4, angleStuff(0) into _1b8 / _1bc, _1d0.sub_710079C510(1).
+    void sub_710079AEE0();
     bool sub_710079B63C(u32 mask) const;
     void sub_710079BC8C();
     void sub_710079BD2C();
@@ -244,7 +246,9 @@ public:
     /* 0x812 */ u8 _812 = 2;
     /* 0x813 */ u8 _813 = 0;
     /* 0x814 */ u8 _814 = 2;
-    /* 0x815 */ u8 _815[8]{};
+    /* 0x815 */ u8 _815[0x81a - 0x815]{};
+    /* 0x81a */ u8 _81a = 0;  // selects the _7c0 link (Camera::sub_71007929E0 resets the other one)
+    /* 0x81b */ u8 _81b[0x81d - 0x81b]{};
 };
 KSYS_CHECK_SIZE_NX150(Unk_710079a8e8, 0x820);
 
@@ -265,6 +269,15 @@ class Unk_7100928b6c {
 public:
     explicit Unk_7100928b6c(Camera* camera);
 
+    // 0x7100928c10 / 0x7100928c20: set / clear `mask` in _140.
+    void sub_7100928C10(u8 mask);
+    void sub_7100928C20(u8 mask);
+    // 0x7100928c30 / 0x7100928c40: set / clear bit 0 of _141.
+    void sub_7100928C30();
+    void sub_7100928C40();
+    // 0x710092a83c: resets _11c-_124 to -1, _128 / _140-_142 / _148 to 0 and _145 to 1.
+    void sub_710092A83C();
+
     /* 0x000 */ Camera* mCamera;
     /* 0x008 */ Unk_71009214b8 _8;
     /* 0x040 */ Unk_71009214b8 _40;
@@ -278,10 +291,16 @@ public:
     /* 0x11c */ f32 _11c = -1.0;
     /* 0x120 */ f32 _120 = -1.0;
     /* 0x124 */ f32 _124 = -1.0;
-    /* 0x128 */ void* _128 = nullptr;
+    /* 0x128 */ u32 _128 = 0;
+    /* 0x12c */ u32 _12c = 0;
     /* 0x130 */ void* _130 = nullptr;
     /* 0x138 */ void* _138 = nullptr;
-    /* 0x140 */ void* _140 = nullptr;
+    /* 0x140 */ u8 _140 = 0;  // flags (sub_7100928C10 / sub_7100928C20)
+    /* 0x141 */ u8 _141 = 0;  // bit 0: sub_7100928C30 / sub_7100928C40
+    /* 0x142 */ u8 _142 = 0;
+    /* 0x143 */ u8 _143[0x145 - 0x143]{};
+    /* 0x145 */ u8 _145 = 0;
+    /* 0x146 */ u8 _146[0x148 - 0x146]{};
     /* 0x148 */ bool _148 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100928b6c, 0x150);
@@ -312,6 +331,9 @@ public:
 
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
+    // 0x71007929e0: copies camera state _860._e0 into _860._0 / _38 / _70 / _a8 (and its look-at
+    // point into _860._150), resets _1240, _860 and some flags, and the unused _860._7c0 link.
+    void sub_71007929E0();
     // 0x7100794fd0: bit 0x8000 of _860._800.
     bool sub_7100794FD0() const;
     // 0x710079614c / 0x7100796164: bits 2-3 of _13fd equal 1 / bit 2 of _13fd.
