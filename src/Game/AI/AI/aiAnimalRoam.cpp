@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAnimalRoam.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -28,6 +30,18 @@ void AnimalRoam::loadParams_() {
     getStaticParam(&mIsSendGoalPos_s, "IsSendGoalPos");
     getStaticParam(&mCheckValidStartPos_s, "CheckValidStartPos");
     getStaticParam(&mCheckLOS_s, "CheckLOS");
+}
+
+bool AnimalRoam::m40(sead::Vector3f* pos) {
+    if (!pos)
+        return false;
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    nav->_1e0.lock();
+    pos->set(nav->_194);
+    nav->_1e0.unlock();
+    return true;
 }
 
 }  // namespace uking::ai

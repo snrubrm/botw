@@ -19,6 +19,14 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34(const sead::Vector3f* pos) override;
+    bool m35() override;
+    virtual void m36();
+    virtual void m37();
+    virtual bool m38();
+    virtual bool m39();
+    virtual bool m40(sead::Vector3f* pos);
+
 protected:
     // static_param at offset 0xa8
     const int* mFinishChangeCount_s{};
