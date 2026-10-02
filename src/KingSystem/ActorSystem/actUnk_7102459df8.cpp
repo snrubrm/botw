@@ -13,6 +13,23 @@ void Unk_7102459df8::m5() {
         _20->sub_710079F600();
 }
 
+void Unk_7102459df8::m6() {
+    if (_18) {
+        delete _18;
+        _18 = nullptr;
+    }
+    if (_10) {
+        delete _10;
+        _10 = nullptr;
+    }
+    if (_20) {
+        delete _20;
+        _20 = nullptr;
+    }
+    _38.freeBuffer();
+    _28.freeBuffer();
+}
+
 bool Unk_7102459df8::m9() {
     if (_20)
         _20->sub_710079F600();

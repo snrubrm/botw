@@ -2,7 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -14,6 +18,27 @@ namespace ksys::act {
 class Actor;
 class AttackSensor;
 class AttackSensor2;
+
+// CSV name (ctor 0x7a0460, resetFlags 0x7a0498, operator= 0x7a0b0c): the common 0x50-byte head of
+// the attack / contact info entries (ActorAtk::Struct7::AttackInfo, ActorAtk::Unk_710079e64c::Unk1,
+// Unk_7102459df8::Unk_710079d5a0::Unk1), which are reset with resetFlags() and a link reset.
+struct Struct8Base {
+    Struct8Base();
+    Struct8Base& operator=(const Struct8Base& other);
+
+    void resetFlags();
+
+    /* 0x00 */ u32 _0 = 0;
+    /* 0x04 */ u32 _4 = 0;
+    /* 0x08 */ u32 _8 = 0;
+    /* 0x0c */ u32 _c = 0;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x14 */ f32 _14 = 1.0;
+    /* 0x18 */ u32 _18 = 0;  // flags (cleared by resetFlags; bits 0-1 tested by LynelRepeatAttack::calc_)
+    /* 0x20 */ phys::MaterialMask _20;
+    /* 0x38 */ phys::MaterialMask _38;
+};
+KSYS_CHECK_SIZE_NX150(Struct8Base, 0x50);
 
 // Placeholder name (RTTI static 0x71025ae640; it has no vtable of its own in the binary). Abstract
 // base of ActorAtk and the type returned by Actor::getAtk() (vtable slot 125): callers
@@ -52,31 +77,64 @@ class ActorAtk : public Unk_71025ae640, public Unk_7102459f48 {
 public:
     // CSV Struct7 (dtor 0x710079e574): 8 attack infos (0x78 bytes each) and their count.
     struct Struct7 {
-        struct AttackInfo {
-            u8 _0[0x18];
-            u8 _18;  // flags (bits 0-1 tested by LynelRepeatAttack::calc_)
-            u8 _19[0x78 - 0x19];
+        // ctor 0x79f28c (CSV AttackInfo::ctor).
+        struct AttackInfo : Struct8Base {
+            AttackInfo();
+
+            /* 0x50 */ BaseProcLink _50;
+            /* 0x60 */ u32 _60 = 0x38;
+            /* 0x68 */ sead::SafeString _68 = sead::SafeString::cEmptyString;
         };
+        KSYS_CHECK_SIZE_NX150(AttackInfo, 0x78);
 
         void reset();
         void sub_710079E958(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_710079EFBC(sead::Buffer<u8>* buffer, Actor* actor);
 
-        u8 _0[0x3c0];
+        sead::SafeArray<AttackInfo, 8> mAttackInfos;
         s16 mNumAttackInfo;
+        u8 _3c2;
     };
     // dtor 0x710079e64c: 8 entries of 0x100 bytes and their count.
     struct Unk_710079e64c {
-        struct Unk1 {
-            u8 _0[0x100];
+        // ctor 0x7a1f04 (0x58-0x88 left uninitialised).
+        struct Unk1 : Struct8Base {
+            Unk1();
+
+            /* 0x50 */ void* _50 = nullptr;
+            /* 0x58 */ u8 _58[0x88 - 0x58];
+            /* 0x88 */ u32 _88 = 0;
+            /* 0x8c */ u32 _8c = 0;
+            /* 0x90 */ u32 _90 = 0;
+            /* 0x94 */ u32 _94 = 0;
+            /* 0x98 */ u32 _98 = 0;
+            /* 0x9c */ f32 _9c = 1.0;
+            /* 0xa0 */ u32 _a0 = 0;
+            /* 0xa4 */ u32 _a4 = 0;
+            /* 0xa8 */ u32 _a8 = 0;
+            /* 0xac */ u32 _ac = 0;
+            /* 0xb0 */ void* _b0 = nullptr;
+            /* 0xb8 */ s32 _b8 = 1;
+            /* 0xbc */ s32 _bc = -1;
+            /* 0xc0 */ u32 _c0 = 0;
+            /* 0xc4 */ u32 _c4 = 0;
+            /* 0xc8 */ u32 _c8 = 0;
+            /* 0xcc */ u32 _cc = 0;
+            /* 0xd0 */ u32 _d0 = 53;  // ContactLayer SensorNoHit?
+            /* 0xd8 */ BaseProcLink _d8;
+            /* 0xe8 */ BaseProcLink _e8;
+            /* 0xf8 */ s32 _f8 = -1;
+            /* 0xfc */ bool _fc = false;
         };
+        KSYS_CHECK_SIZE_NX150(Unk1, 0x100);
 
         void sub_71007A124C();
         void sub_71007A12CC(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_71007A1C40(sead::Buffer<u8>* buffer, Actor* actor);
 
-        u8 _0[0x800];
+        sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum;
+        u8 _802;
     };
 
     static ActorAtk* makeForActor(Actor* actor, sead::Heap* heap);
@@ -98,7 +156,8 @@ public:
     s32 getNumAttackInfoMaybe() const;
     s32 sub_710079E270() const;
     // 0x710079e288 (CSV name): attack info `idx` of _18, or a static default entry.
-    const Struct7::AttackInfo* getAttackInfo(int idx) const;
+    // Non-const result: callers acquire the actor through the entry's link (ChildDeviceReflectArrow::m37).
+    Struct7::AttackInfo* getAttackInfo(int idx) const;
     // 0x710079e2c0 (CSV ActorAtk::x): entry `idx` of _48, or a static default entry.
     const Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
 

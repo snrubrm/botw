@@ -17,6 +17,29 @@ ActorAtk* ActorAtk::makeForActor(Actor* actor, sead::Heap* heap) {
     return atk;
 }
 
+void ActorAtk::free() {
+    _20.freeBuffer();
+    _30.freeBuffer();
+    _50.freeBuffer();
+    _60.freeBuffer();
+    if (_18) {
+        delete _18;
+        _18 = nullptr;
+    }
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+    if (_40) {
+        delete _40;
+        _40 = nullptr;
+    }
+    if (_70) {
+        delete _70;
+        _70 = nullptr;
+    }
+}
+
 void ActorAtk::m5() {
     _78 = 0;
     if (mActor->getProfile() == "MapConstActive")

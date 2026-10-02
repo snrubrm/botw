@@ -222,7 +222,7 @@ const ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     return atk->sub_710079E2C0(idx);
 }
 
-const ActorAtk::Struct7::AttackInfo* getAttackInfo(Actor* actor, int idx) {
+ActorAtk::Struct7::AttackInfo* getAttackInfo(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
         return nullptr;

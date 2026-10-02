@@ -1,8 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -72,9 +76,17 @@ public:
     };
     // dtor 0x710079d5a0; 8 entries of 0xb0 bytes
     struct Unk_710079d5a0 {
-        struct Unk1 {
-            u8 _0[0xb0];
+        // ctor 0x79fbe0.
+        struct Unk1 : Struct8Base {
+            Unk1();
+
+            /* 0x50 */ BaseProcLink _50;
+            /* 0x60 */ sead::Matrix34f _60 = sead::Matrix34f::ident;
+            /* 0x90 */ sead::Vector3f _90 = sead::Vector3f::zero;
+            /* 0x9c */ sead::Vector3f _9c = sead::Vector3f::ez;
+            /* 0xa8 */ u32 _a8 = 0;
         };
+        KSYS_CHECK_SIZE_NX150(Unk1, 0xb0);
 
         void sub_710079F600();
 
@@ -110,10 +122,8 @@ public:
     /* 0x10 */ Unk_7102459e60* _10 = nullptr;
     /* 0x18 */ Unk_7102459e88* _18 = nullptr;
     /* 0x20 */ Unk_710079d5a0* _20 = nullptr;
-    /* 0x28 */ s32 _28 = 0;
-    /* 0x30 */ void* _30 = nullptr;
-    /* 0x38 */ s32 _38 = 0;
-    /* 0x40 */ void* _40 = nullptr;
+    /* 0x28 */ sead::Buffer<u8> _28;  // freed in m6 (element type unknown)
+    /* 0x38 */ sead::Buffer<u8> _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102459df8, 0x48);
 
