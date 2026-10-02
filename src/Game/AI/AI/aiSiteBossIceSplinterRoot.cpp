@@ -41,4 +41,36 @@ void SiteBossIceSplinterRoot::loadParams_() {
     getMapUnitParam(&mCount_m, "Count");
 }
 
+const sead::SafeString& SiteBossIceSplinterRoot::m34() {
+    return mBindNodeName1_s;
+}
+
+bool SiteBossIceSplinterRoot::m39() {
+    return false;
+}
+
+bool SiteBossIceSplinterRoot::m40() {
+    return _22a;
+}
+
+u32 SiteBossIceSplinterRoot::m50() {
+    return 8;
+}
+
+u32 SiteBossIceSplinterRoot::m51() {
+    return 10;
+}
+
+bool SiteBossIceSplinterRoot::m54() {
+    if (!*mIsAdjustHeight_s || m55())
+        return false;
+    return !_228;
+}
+
+bool SiteBossIceSplinterRoot::m56() {
+    if (m55())
+        return false;
+    return !_228;
+}
+
 }  // namespace uking::ai

@@ -30,4 +30,12 @@ void SiteBossFlameBall::loadParams_() {
     getMapUnitParam(&mPosOffset_m, "PosOffset");
 }
 
+sead::Vector3f SiteBossFlameBall::m35() {
+    return *mPosOffset_m;
+}
+
+u32 SiteBossFlameBall::m51() {
+    return *mAtAttr_s;
+}
+
 }  // namespace uking::ai

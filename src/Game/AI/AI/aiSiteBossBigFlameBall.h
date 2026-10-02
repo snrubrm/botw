@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m37() override;
+    u32 m50() override;
+    virtual sead::Vector3f m58();
+
 protected:
     // static_param at offset 0x1d0
     const sead::Vector3f* mDestOffset_s{};
@@ -26,6 +30,11 @@ protected:
     const float* mSpeed_m{};
     // map_unit_param at offset 0x1e8
     const sead::Vector3f* mRotOffset_m{};
+    f32 _1f0 = 0;
+    sead::Vector3f _1f4;
+    sead::Vector3f _200;
+    sead::Vector3f _20c;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossBigFlameBall, 0x218);
 
 }  // namespace uking::ai

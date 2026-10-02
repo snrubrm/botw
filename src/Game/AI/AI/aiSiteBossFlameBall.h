@@ -17,6 +17,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    sead::Vector3f m35() override;
+    void m37() override;
+    bool m40() override;
+    bool m41() override;
+    u32 m51() override;
+    void m52(ksys::phys::RigidBody* body) override {}
+
 protected:
     // static_param at offset 0x180
     const int* mChemicalIndex_s{};
@@ -34,6 +41,10 @@ protected:
     const int* mCount_m{};
     // map_unit_param at offset 0x1b8
     const sead::Vector3f* mPosOffset_m{};
+    u64 _1c0 = 0;
+    bool _1c8 = false;
+    bool _1c9 = false;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossFlameBall, 0x1d0);
 
 }  // namespace uking::ai

@@ -1,6 +1,14 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/VFRValue.h"
+
+namespace ksys::phys {
+class RigidBody;
+}
 
 namespace uking::ai {
 
@@ -14,6 +22,31 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual const sead::SafeString& m34();
+    virtual sead::Vector3f m35();
+    virtual sead::Vector3f m36();
+    virtual void m37();
+    virtual void m38();
+    virtual bool m39();
+    virtual bool m40();
+    virtual bool m41();
+    virtual void m42();
+    virtual void m43();
+    virtual void m44();
+    virtual const sead::Vector3f& m45();
+    virtual void m46(const sead::Vector3f& v);
+    virtual void m47(f32 v);
+    virtual const sead::Vector3f& m48();
+    virtual void m49(const sead::Vector3f& v);
+    virtual u32 m50();
+    virtual u32 m51();
+    virtual void m52(ksys::phys::RigidBody* body);
+    virtual void m53(ksys::phys::RigidBody* body);
+    virtual bool m54();
+    virtual bool m55();
+    virtual bool m56();
+    virtual f32 m57();
 
 protected:
     // static_param at offset 0x38
@@ -44,6 +77,25 @@ protected:
     const float* mRange_m{};
     // map_unit_param at offset 0xa8
     const float* mAtkRadiusMax_m{};
+    sead::Vector3f _b0 = sead::Vector3f::zero;
+    sead::Vector3f _bc = sead::Vector3f::zero;
+    sead::Vector3f _c8;
+    bool _d4 = false;
+    bool _d5 = false;
+    bool _d6 = false;
+    bool _d7 = false;
+    bool _d8 = false;
+    bool _d9 = false;
+    f32 _dc = 0.1f;
+    ksys::VFRValue _e0;
+    u8 _ec[0x108 - 0xec];
+    ksys::act::BaseProcLink _108;
+    f32 _118 = 0;
+    sead::FixedSafeString<32> _120;
+    ksys::act::BaseProcLink _158;
+    ksys::act::BaseProcLink _168;
+    void* _178 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossChemicalProjectile, 0x180);
 
 }  // namespace uking::ai

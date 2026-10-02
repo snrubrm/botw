@@ -63,6 +63,8 @@ public:
     RagdollInstance* getRagdollInstance() const { return mRagdollInstance; }
 
     void setFlag2();
+    // Removes the system group handlers _178[0] / _178[1] from phys::System (clearing _188).
+    void sub_7100FB835C();
     void clothVisibleStuff();
     void setInDemo();
     void resetInDemo();
