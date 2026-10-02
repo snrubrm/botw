@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionSiteBossShieldBashAttack.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,11 +16,22 @@ bool SiteBossShieldBashAttack::init_(sead::Heap* heap) {
 }
 
 void SiteBossShieldBashAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mActor->getCharacterController())
+        return;
+    sub_710073FA90(&_5c, mActor);
+    playAS("ShieldBash", false, 0, 0, -1.0f);
+    _80 = true;
+    _81 = false;
+    _50.value = *mInitSpeed_s;
+    _50.prev_value = *mInitSpeed_s;
+    m33();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1558.setBit(2);
 }
 
 void SiteBossShieldBashAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    m35();
+    m32();
 }
 
 void SiteBossShieldBashAttack::loadParams_() {
@@ -32,5 +47,19 @@ void SiteBossShieldBashAttack::calc_() {
 }
 
 void SiteBossShieldBashAttack::m32() {}
+
+bool SiteBossShieldBashAttack::isChangeable() const {
+    return _80;
+}
+
+void SiteBossShieldBashAttack::m33() {
+    if (!_48) {
+        _48 = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkShield");
+        if (!_48)
+            return;
+    }
+    sub_71007A2B64(_48, nullptr);
+    sub_71007A3258(_48, nullptr);
+}
 
 }  // namespace uking::action

@@ -40,4 +40,11 @@ bool AtkTackleMove::m38() {
     return hasAttackInfo(mActor);
 }
 
+void AtkTackleMove::m37() {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtkSensorName_s.cstr())) {
+        sub_71007A2D34(body);
+        sub_71007A3258(body, nullptr);
+    }
+}
+
 }  // namespace uking::action
