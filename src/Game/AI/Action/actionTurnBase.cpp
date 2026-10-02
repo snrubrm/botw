@@ -61,7 +61,44 @@ void TurnBase::loadParams_() {
 }
 
 void TurnBase::calc_() {
-    ActionEx::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f up;
+    m33(&up);
+    sub_7100741038(&_6c, mActor);
+    m32(*mPosReduceRatio_s);
+
+    sead::Vector3f to_target = *mTargetPos_d;
+    to_target -= mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&to_target, to_target, up);
+    to_target.normalize();
+
+    _60.lerp(*mRotSpd_s, 0.16f, *mRotSpd_s);
+    _60.updateStats();
+
+    sead::Vector3f normal;
+    if (!*mIsFollowGround_s || !controller->sub_7100F5F234(&normal))
+        normal = up;
+
+    sead::Vector3f front;
+    m34(&front);
+    sub_7100741578(&_6c, to_target, normal, true, *mBaseRotRatio_s, _60.value,
+                   _60.value * *mRotMinSpeedRatio_s);
+    sub_71007419F4(_6c, controller);
+
+    m35(&to_target);
+    if (!m36())
+        return;
+    if (to_target.x == 0.0f && to_target.y == 0.0f && to_target.z == 0.0f) {
+        setFinished();
+        return;
+    }
+    if (front.dot(to_target) >= std::cos(*mFinRotate_s))
+        setFinished();
 }
 
 void TurnBase::m33(sead::Vector3f* up) {
