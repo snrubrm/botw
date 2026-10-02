@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -14,6 +15,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+
+    bool sub_71005EABF4();
 
 protected:
     // static_param at offset 0x38
@@ -28,6 +32,9 @@ protected:
     const int* mRemainsTerminalType_m{};
     // map_unit_param at offset 0x60
     const int* mRemainsTerminalIndex_m{};
+    Unk_7102450648 _68{0x1800029};
+    bool _a8 = false;
 };
+KSYS_CHECK_SIZE_NX150(WarpActivateTerminal, 0xb0);
 
 }  // namespace uking::ai
