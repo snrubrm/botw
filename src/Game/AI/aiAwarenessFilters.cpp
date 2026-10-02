@@ -84,6 +84,13 @@ bool Unk_71024516a0::m2(Unk_71024dc978* entry) {
     return ksys::act::hasTag(&target->mLink, ksys::act::tags::IsPressBreakByEnNPC);
 }
 
+bool Unk_7102451740::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    return target->mLink == _28;
+}
+
 bool Unk_7102451768::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
@@ -133,6 +140,21 @@ bool Unk_71024513f8::m2(Unk_71024dc978* entry) {
            ksys::act::isWeaponProfile(&target->mLink) ||
            accessor.getName().findIndex("RemoteBomb") != -1;
 
+}
+
+Unk_7102451498::Unk_7102451498(ksys::act::Actor* actor) : _28(actor) {
+    const auto* race = actor->getParam()->getRes().mGParamList->getEnemyRace();
+    const sead::SafeString& types = race->mTargetActorType.ref();
+    if (types.isEmpty())
+        return;
+    sead::FixedSafeString<32> type;
+    for (auto it = types.tokenBegin(","); types.tokenEnd(",") != it; ++it) {
+        it.get(&type);
+        if (type == "Player")
+            _30 = true;
+        else if (type == "WolfLink")
+            _31 = true;
+    }
 }
 
 bool Unk_7102451498::m2(Unk_71024dc978* entry) {

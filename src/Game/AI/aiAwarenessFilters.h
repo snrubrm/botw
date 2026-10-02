@@ -60,12 +60,14 @@ public:
 };
 
 
-// vtable 0x7102451498 (m2 0x7100746070, D0 0x71007462a0)
+// vtable 0x7102451498 (m2 0x7100746070, D0 0x71007462a0, ctor 0x7100745bfc)
+// Accepts the player / wolf link if the actor's EnemyRace TargetActorType lists them.
 class Unk_7102451498 : public ksys::act::Unk_71024dccf8 {
 public:
+    explicit Unk_7102451498(ksys::act::Actor* actor);
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;
     /* 0x30 */ bool _30 = false;
     /* 0x31 */ bool _31 = false;
 };
@@ -186,6 +188,15 @@ public:
     /* 0x30 */ f32 _30 = 0;
     /* 0x34 */ sead::Vector3f _34 = sead::Vector3f::zero;
     /* 0x40 */ sead::Vector3f _40 = sead::Vector3f::zero;
+};
+
+// vtable 0x7102451740 (m2 0x7100747250, D2 0x71007473a8, D0 0x71007473dc): accepts the entry whose
+// link equals _28.
+class Unk_7102451740 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+
+    /* 0x28 */ ksys::act::BaseProcLink _28;
 };
 
 // vtable 0x7102451768 (m2 0x71007472ec, D0 0x7100747418)
