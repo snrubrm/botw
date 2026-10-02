@@ -1,14 +1,17 @@
 #include "Game/AI/Action/actionEnvSeEmitPointInsectPlayAction.h"
+#include <xlink2/xlink2Handle.h>
 
 namespace uking::action {
 
 EnvSeEmitPointInsectPlayAction::EnvSeEmitPointInsectPlayAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
+// TODO: the original fades the xlink2 handle (inline Handle code lib/xlink2 lacks) before deleting it
 EnvSeEmitPointInsectPlayAction::~EnvSeEmitPointInsectPlayAction() = default;
 
 bool EnvSeEmitPointInsectPlayAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _28 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void EnvSeEmitPointInsectPlayAction::enter_(ksys::act::ai::InlineParamPack* params) {

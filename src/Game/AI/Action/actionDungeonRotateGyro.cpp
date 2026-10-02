@@ -1,13 +1,20 @@
 #include "Game/AI/Action/actionDungeonRotateGyro.h"
+#include <xlink2/xlink2Handle.h>
 
 namespace uking::action {
 
 DungeonRotateGyro::DungeonRotateGyro(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DungeonRotateGyro::~DungeonRotateGyro() = default;
+DungeonRotateGyro::~DungeonRotateGyro() {
+    if (_108) {
+        delete _108;
+        _108 = nullptr;
+    }
+}
 
 bool DungeonRotateGyro::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _108 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void DungeonRotateGyro::enter_(ksys::act::ai::InlineParamPack* params) {

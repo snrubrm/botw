@@ -1,13 +1,20 @@
 #include "Game/AI/Action/actionDungeonRotateSymmetry.h"
+#include <xlink2/xlink2Handle.h>
 
 namespace uking::action {
 
 DungeonRotateSymmetry::DungeonRotateSymmetry(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DungeonRotateSymmetry::~DungeonRotateSymmetry() = default;
+DungeonRotateSymmetry::~DungeonRotateSymmetry() {
+    if (_88) {
+        delete _88;
+        _88 = nullptr;
+    }
+}
 
 bool DungeonRotateSymmetry::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _88 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void DungeonRotateSymmetry::enter_(ksys::act::ai::InlineParamPack* params) {
