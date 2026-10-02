@@ -5,8 +5,6 @@ namespace uking::action {
 // NON_MATCHING: order of the zeroing stores for the params
 SwimMoveBase::SwimMoveBase(const InitArg& arg) : WaterFloatBase(arg) {}
 
-SwimMoveBase::~SwimMoveBase() = default;
-
 bool SwimMoveBase::init_(sead::Heap* heap) {
     return WaterFloatBase::init_(heap);
 }
