@@ -85,6 +85,7 @@ protected:
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
     /* 0xa68 */ u8 _a68[0xa78 - 0xa68];
     /* 0xa78 */ Unk3 _a78;  // m135
+    /* 0xa80 */ BaseProcLink _a80;
     /* 0xa90 */ u8 _a90[0xb90 - 0xa90];
 };
 KSYS_CHECK_SIZE_NX150(DynamicActor, 0xb90);

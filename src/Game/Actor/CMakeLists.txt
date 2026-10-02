@@ -3,6 +3,10 @@ target_sources(uking PRIVATE
   actDragon.h
   actEnemy.cpp
   actEnemy.h
+  actExtendedEntity.cpp
+  actExtendedEntity.h
+  actHorseBase.cpp
+  actHorseBase.h
   actHorseRideInfo.cpp
   actHorseRideInfo.h
   actNPC.cpp

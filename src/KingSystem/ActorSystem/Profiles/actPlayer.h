@@ -30,7 +30,7 @@ public:
     /*  41 */ void m41() override;
     /*  42 */ void m42() override;
     /*  47 */ bool m47() override;
-    /*  50 */ void m50() override;
+    /*  50 */ bool m50() override;
     /*  62 */ bool shouldUnload() override { return false; }
     /*  63 */ void m63() override;
     /*  64 */ void initMaybe() override;

@@ -28,7 +28,7 @@ protected:
 public:
     f32 getGuardableAngle() override { return sead::Mathf::deg2rad(100.0f); }
     void m49() override;
-    void m50() override;
+    bool m50() override;
     void m51() override;
     bool m55() override { return true; }
     void initMaybe() override;

@@ -196,10 +196,11 @@ public:
 public:
     // Returned by vtable slot 135 (DynamicActor::_a78, Horse::_1168, MapConst::_848,
     // Weapon::_1008). Callers set _4 (e.g. to 1 before deleting the actor).
+    // 8 bytes: the members that follow it differ (DynamicActor: a BaseProcLink; Horse: a damage
+    // callback; MapConst: end of the class).
     struct Unk3 {
         u8 _0 = 0;
         s32 _4 = 0;
-        BaseProcLink _8;
     };
 
     const sead::SafeString& getProfile() const;
@@ -274,7 +275,7 @@ public:
     virtual bool m47();
     virtual Actor* m48();
     virtual void m49();
-    virtual void m50();
+    virtual bool m50();
     virtual void m51();
     virtual void m52();
     virtual bool m53();

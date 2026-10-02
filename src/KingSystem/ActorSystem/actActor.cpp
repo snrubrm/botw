@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -191,6 +192,13 @@ Chemical* Actor::getChemicalStuff() {
     if (chemicals && chemicals->_58 + chemicals->_80 > 0 && chemicals->getStuff(0))
         return chemicals->getStuff(0);
     return nullptr;
+}
+
+bool Actor::m50() {
+    auto* chemical = getChemicalStuff();
+    if (!chemical)
+        return false;
+    return chemical->_bc >> 3 & 1;
 }
 
 phys::NavMeshCharacter* Actor::m45() {

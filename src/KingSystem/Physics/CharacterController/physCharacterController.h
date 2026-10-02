@@ -57,6 +57,7 @@ public:
     void sub_7100F5F6E0(sead::Vector3f* position) const;
     void sub_7100F5F6FC(const sead::Vector3f& velocity);
     void sub_7100F5FB24(const sead::Vector3f& angular_velocity);
+    void sub_7100F60500(const sead::Matrix34f& mtx);
     RigidBody* sub_7100F61A34() const;
     void sub_7100F62B70(float value);
 
