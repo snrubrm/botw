@@ -13,6 +13,7 @@
 namespace ksys::act {
 class Unk_71024dc858;
 class Unk_71024dccf8;
+struct Unk_71006e4478;
 }
 
 namespace uking::ai {
@@ -160,8 +161,11 @@ public:
     bool sub_71003A2E20(Unk2* out, Unk1* info);
     // 0x71003a2f18
     bool sub_71003A2F18(Unk2* out);
-    // 0x71003a31c0 (not decompiled)
+    // 0x71003a31c0
     bool sub_71003A31C0(Unk2* out);
+    // 0x710039dd0c: target = an Enemy target snapshot (Enemy::_e08); for a moved snapshot the
+    // position is placed behind the own position along its velocity (or its Z axis).
+    void sub_710039DD0C(Unk2* out, ksys::act::Unk_71006e4478* snapshot);
     // 0x710039e1d0
     bool sub_710039E1D0(Unk2* out, s32 type, Unk1* info);
     // 0x71003a0114: sub_71003A04E0 with a filter chosen by `type` / `flags`.

@@ -11,6 +11,8 @@
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -723,6 +725,39 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_7
     return entry;
 }
 
+void EnemyNormal::m57(s32 type, Unk2* target) {
+    switch (type) {
+    case 0:
+    case 1:
+        sub_71005D8DE8(mActor, *target->_0, &target->_8, nullptr);
+        break;
+    case 2:
+        _50 = *target->_0;
+        _60 = target->_38;
+        break;
+    case 4:
+        sub_71005D8DE8(mActor, *target->_0, &target->_8, nullptr);
+        if (auto* unk = sub_71005D9D68(mActor))
+            unk->sub_71002DC628(*target->_0, 8);
+        break;
+    case 6:
+    case 7:
+        _390 = *target->_0;
+        _3a0 = target->_38;
+        break;
+    case 8:
+        if (target->_44 & 2) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                enemy->_e08.sub_71006E4478(target->_0, target->_8);
+                enemy->_e08._5c = true;
+            }
+        }
+        break;
+    default:
+        break;
+    }
+}
+
 bool EnemyNormal::m70() {
     if (sub_7100736D98(mActor) || testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
         testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4) ||
@@ -855,6 +890,82 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_710039FE20(ksys::act::BaseProcLink* 
             return entry;
     }
     return nullptr;
+}
+
+bool EnemyNormal::m71(Unk2* out, Unk1* info) {
+    auto* actor = mActor;
+    if (!sub_7100736D98(actor) && !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        return false;
+    }
+
+    if (m45(getPlayerPosition(), ksys::act::PlayerInfo::getSomeProcLink(), false))
+        return false;
+    if (m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), false))
+        return false;
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (!enemy)
+        return false;
+    auto* snapshot = &enemy->_e08;
+    if (_3ac.isOn(8) && !ksys::act::isPlayerProfile(&snapshot->_0) &&
+        !ksys::act::isNotLivingCreature(&snapshot->_0)) {
+        return false;
+    }
+    sub_710039DD0C(out, snapshot);
+    return true;
+}
+
+// NON_MATCHING: the original loads the velocity's x and z before the first branch (y only in the
+// moving branch); commutative operand order of the scale multiplies and the store order differ
+void EnemyNormal::sub_710039DD0C(Unk2* out, ksys::act::Unk_71006e4478* snapshot) {
+    out->_8 = snapshot->_10;
+    if (snapshot->_5d) {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        if (snapshot->_40.x == 0 && snapshot->_40.z == 0) {
+            sead::Vector3f dir;
+            snapshot->_10.getBase(dir, 2);
+            dir.normalize();
+            if (dir.x == 0 && dir.z == 0)
+                out->_38.setMul(mActor->getMtx(), {0, 0, 20});
+            else
+                out->_38 = pos - dir * 20;
+        } else {
+            sead::Vector3f vel = snapshot->_40;
+            const f32 len = vel.normalize();
+            out->_38 = pos - vel * sead::Mathf::max(len + len, 20);
+        }
+    } else {
+        snapshot->_10.getTranslation(out->_38);
+    }
+    out->_0 = &snapshot->_0;
+}
+
+bool EnemyNormal::sub_71003A31C0(Unk2* out) {
+    auto* damage_manager = sub_710072BA90(mActor);
+    if (damage_manager && damage_manager->_216.isOn(2)) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            sub_710039DD0C(out, &enemy->_e08);
+            return true;
+        }
+    }
+    if (_120 < 0) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            sub_710039DD0C(out, &enemy->_e08);
+            return true;
+        }
+    }
+    if (_368 > 0 || !_200._30)
+        return false;
+
+    sead::DynamicCast<act::Enemy>(mActor);
+    out->_0 = &_200._38._10;
+    _200._38._20.getTranslation(out->_38);
+    out->_8 = _200._38._20;
+    out->_44 |= 2;
+    return true;
 }
 
 // NON_MATCHING: the original updates out->_44 with branches (ours selects)
