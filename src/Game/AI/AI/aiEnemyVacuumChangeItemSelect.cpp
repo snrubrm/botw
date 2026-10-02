@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyVacuumChangeItemSelect.h"
+#include "Game/AI/aiUnk_710073CDFC.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,10 @@ void EnemyVacuumChangeItemSelect::leave_() {
 
 void EnemyVacuumChangeItemSelect::loadParams_() {
     EnemyVacuumBombSelect::loadParams_();
+}
+
+bool EnemyVacuumChangeItemSelect::m34(ksys::act::BaseProcLink* link) {
+    return sub_710073CDFC(mActor, link) >= 0;
 }
 
 }  // namespace uking::ai

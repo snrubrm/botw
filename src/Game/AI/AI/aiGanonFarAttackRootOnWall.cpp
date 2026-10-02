@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGanonFarAttackRootOnWall.h"
+#include <prim/seadSafeString.h>
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -34,6 +37,23 @@ bool GanonFarAttackRootOnWall::isFinished() const {
         }
     }
     return ActionBase::isFinished();
+}
+
+void GanonFarAttackRootOnWall::sub_71003E9150() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    const int max = *mPillarMax_s;
+    for (int i = 0; i <= max; ++i) {
+        sead::FormatFixedSafeString<64> name("IronPile%d", i);
+        if (enemy->getActorPartsActor(name).hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                                nullptr, true);
+        }
+    }
 }
 
 }  // namespace uking::ai

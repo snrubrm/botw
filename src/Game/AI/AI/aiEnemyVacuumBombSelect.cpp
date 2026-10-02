@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyVacuumBombSelect.h"
+#include "Game/AI/aiUnk_7100736460.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,10 @@ void EnemyVacuumBombSelect::leave_() {
 
 void EnemyVacuumBombSelect::loadParams_() {
     EnemyVacuumBombSelectBase::loadParams_();
+}
+
+bool EnemyVacuumBombSelect::m34(ksys::act::BaseProcLink* link) {
+    return sub_7100736460(link);
 }
 
 }  // namespace uking::ai

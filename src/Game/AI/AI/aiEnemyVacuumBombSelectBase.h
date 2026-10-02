@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual bool m34(ksys::act::Actor* actor);
+    virtual bool m34(ksys::act::BaseProcLink* link);
 
     bool sub_71003C3198();
 

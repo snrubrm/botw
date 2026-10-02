@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyVacuumBombSelectBase.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -31,7 +32,7 @@ void EnemyVacuumBombSelectBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-bool EnemyVacuumBombSelectBase::m34(ksys::act::Actor* actor) {
+bool EnemyVacuumBombSelectBase::m34(ksys::act::BaseProcLink* link) {
     return false;
 }
 
@@ -67,6 +68,21 @@ void EnemyVacuumBombSelectBase::loadParams_() {
     // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
     // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
     // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
+}
+
+bool EnemyVacuumBombSelectBase::sub_71003C3198() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    for (auto& key : mPartsKey_s) {
+        if (!key.isEmpty()) {
+            auto& link = enemy->getActorPartsActor(key);
+            if (m34(&link))
+                return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
