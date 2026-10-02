@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
     void sub_7100449E98();
+    bool sub_710044A218(const sead::Vector3f& dir, f32 distance);
 
 protected:
     // static_param at offset 0x38
@@ -33,6 +34,10 @@ protected:
     const bool* mInWater_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _70;
+    sead::Vector3f _7c;
+    // 0x88-0x98: never accessed in the original
+    u8 _88[0x10];
 };
 
 }  // namespace uking::ai
