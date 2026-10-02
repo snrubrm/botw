@@ -1,9 +1,13 @@
 #include "Game/AI/AI/aiEventTagRootAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
-// NON_MATCHING: the stores to _38 are scheduled after the other members
-EventTagRootAI::EventTagRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+EventTagRootAI::EventTagRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    _38 = 0;
+    _3c = 0;
+    _40 = 0;
+}
 
 EventTagRootAI::~EventTagRootAI() = default;
 
@@ -12,7 +16,21 @@ bool EventTagRootAI::init_(sead::Heap* heap) {
 }
 
 void EventTagRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (isRootAiParamINot5()) {
+        _38 = _3c;
+        _3c = 0;
+        _40 = 0;
+        _80 = mActor->checkBasicSig();
+    }
+
+    auto* actor = mActor;
+    if (actor->getFieldBodyGroup()) {
+        actor->m107();
+        sead::Matrix34f mtx;
+        actor->getHomeMtx(&mtx);
+        actor->setMtx(mtx, true, true);
+        actor->nullsub_4648();
+    }
 }
 
 void EventTagRootAI::leave_() {

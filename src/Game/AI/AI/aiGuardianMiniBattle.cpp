@@ -93,7 +93,6 @@ bool GuardianMiniBattle::isChangeable() const {
 
 void GuardianMiniBattle::m44() {}
 
-// NON_MATCHING: the original loads NavMeshCharacter::_2a4 as a word and masks it with 0xffff; ours uses ldrh
 bool GuardianMiniBattle::m45() {
     if (!sub_71004282EC(mActor))
         return false;

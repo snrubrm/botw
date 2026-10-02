@@ -25,4 +25,12 @@ void EnemyRandomRepeatSideStep::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool EnemyRandomRepeatSideStep::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (_78 <= 1 && isCurrentChild("サイドステップ"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

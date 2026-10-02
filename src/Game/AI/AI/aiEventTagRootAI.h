@@ -17,7 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
-    sead::Vector3f _38{0, 0, 0};
+    s32 _38;
+    s32 _3c;
+    s32 _40;
     // map_unit_param at offset 0x48
     const bool* mLaunchEventByOnSignal_m{};
     // map_unit_param at offset 0x50

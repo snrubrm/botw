@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGiantEscapeFromDamageWater.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -20,5 +22,13 @@ void GiantEscapeFromDamageWater::leave_() {
 }
 
 void GiantEscapeFromDamageWater::loadParams_() {}
+
+bool GiantEscapeFromDamageWater::isChangeable() const {
+    if (isCurrentChild("移動")) {
+        if (auto* nav = mActor->m45())
+            return ksys::act::ai::Ai::isChangeable() && (nav->_2a4 & 0xffff) != 0x17;
+    }
+    return ksys::act::ai::Ai::isChangeable();
+}
 
 }  // namespace uking::ai

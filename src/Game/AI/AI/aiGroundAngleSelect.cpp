@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGroundAngleSelect.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -10,8 +13,17 @@ bool GroundAngleSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: block order of the two changeChild calls ("平地" first in the original)
 void GroundAngleSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const f32 cos = sead::Mathf::cos(*mSlopeAngle_s);
+    sead::Vector3f normal;
+    auto* cc = mActor->getCharacterController();
+    if ((cc && cc->sub_7100F5F234(&normal) && normal.y < cos) ||
+        (*mIsCheckActorMtx_s && mActor->getMtx().m[1][1] < cos)) {
+        changeChild("斜面", params);
+    } else {
+        changeChild("平地", params);
+    }
 }
 
 bool GroundAngleSelect::isFailed() const {
