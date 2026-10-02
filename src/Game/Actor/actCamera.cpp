@@ -25,33 +25,69 @@ uking::act::Camera* Unk_7102459708::getCameraActor() const {
 
 namespace uking::act {
 
+void Unk_710079b62c::sub_710079B62C(u32 mask) {
+    _0 |= mask;
+}
+
+bool Unk_710079b62c::sub_710079BFB0(u32 mask) const {
+    return (_0 & mask) == 0;
+}
+
+bool Unk_710079b62c::sub_710079C0CC(u32 mask) const {
+    return (_0 & mask) != 0;
+}
+
+bool Unk_710079adc8::sub_710079ADC8(u32 mask) const {
+    return (_0 & mask) == 0;
+}
+
+void Unk_710079adc8::sub_710079AE20(u32 mask) {
+    _0 |= mask;
+}
+
+void Unk_710079adc8::sub_710079AE40(u32 mask) {
+    _0 &= ~mask;
+}
+
+bool Unk_710079adc8::sub_710079AE50(u32 mask) const {
+    return (_0 & mask) != 0;
+}
+
+bool Unk_710079c1c8::sub_710079C1C8(u8 mask) const {
+    return (_0 & mask) != 0;
+}
+
+bool Unk_710079c1f4::sub_710079C1F4(u8 mask) const {
+    return (_0 & mask) != 0;
+}
+
 void Unk_710079a8e8::sub_710079AD90() {
     _7f0[0] = -1.0;
     _7f0[1] = -1.0;
 }
 
 f32 Unk_710079a8e8::sub_710079ADA0() const {
-    if ((_804.getDirect() & 0x6000) == 0x2000)
+    if ((_804._0 & 0x6000) == 0x2000)
         return _15c;
     return sub_7100922058();
 }
 
 bool Unk_710079a8e8::sub_710079ADBC() const {
-    return _804.isOn(0x2000);
+    return _804.sub_710079AE50(0x2000);
 }
 
 void Unk_710079a8e8::sub_710079AE30() {
-    _804.reset(0x2000);
+    _804.sub_710079AE40(0x2000);
 }
 
 void Unk_710079a8e8::sub_710079AED0() {
-    _804.reset(0x8000);
+    _804.sub_710079AE40(0x8000);
 }
 
 bool Unk_710079a8e8::sub_710079B63C(u32 mask) const {
-    if (_800.isOn(mask))
+    if (_800.sub_710079C0CC(mask))
         return false;
-    return _7fc.isOn(mask);
+    return _7fc.sub_710079C0CC(mask);
 }
 
 void Unk_710079a8e8::sub_710079BC8C() {
@@ -61,11 +97,11 @@ void Unk_710079a8e8::sub_710079BC8C() {
 
 void Unk_710079a8e8::sub_710079BD2C() {
     _240.reset();
-    _804.reset(0x800);
+    _804.sub_710079AE40(0x800);
 }
 
 void Unk_710079a8e8::sub_710079BD5C() {
-    _7fc.set(0x20);
+    _7fc.sub_710079B62C(0x20);
 }
 
 void Unk_710079a8e8::sub_710079BD6C(f32 value) {
@@ -120,8 +156,12 @@ void Unk_710079a8e8::sub_710079BF58() {
 }
 
 void Unk_710079a8e8::sub_710079C0AC() {
-    _804.change(0x10000, _7fc.isOn(0x80000));
+    if (!_7fc.sub_710079C0CC(0x80000))
+        _804.sub_710079AE40(0x10000);
+    else
+        _804.sub_710079AE20(0x10000);
 }
+
 
 void Unk_710079a8e8::sub_710079C0DC(int idx, f32 value) {
     _7f0[idx] = value;
@@ -158,9 +198,9 @@ void Unk_710079a8e8::sub_710079C17C() {
 }
 
 bool Unk_710079a8e8::sub_710079C184(u32 mask) const {
-    if (_808.isOn(mask))
+    if (_808.sub_710079AE50(mask))
         return false;
-    return _804.isOn(mask);
+    return _804.sub_710079AE50(mask);
 }
 
 }  // namespace uking::act

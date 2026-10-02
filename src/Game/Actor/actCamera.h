@@ -46,6 +46,45 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100791b1c, 0x70);
 
+// Placeholder names (after their first out-of-line method): flag words of Unk_710079a8e8 whose
+// methods are not inlined into the camera actions (they are defined in the Camera TU).
+// Unk_710079a8e8::_7fc / _800.
+class Unk_710079b62c {
+public:
+    void sub_710079B62C(u32 mask);              // set
+    bool sub_710079BFB0(u32 mask) const;        // none of the bits set
+    bool sub_710079C0CC(u32 mask) const;        // any of the bits set
+
+    u32 _0 = 0;
+};
+
+// Unk_710079a8e8::_804 / _808.
+class Unk_710079adc8 {
+public:
+    bool sub_710079ADC8(u32 mask) const;  // none of the bits set
+    void sub_710079AE20(u32 mask);        // set
+    void sub_710079AE40(u32 mask);        // reset
+    bool sub_710079AE50(u32 mask) const;  // any of the bits set
+
+    u32 _0 = 0;
+};
+
+// Unk_710079a8e8::_80e.
+class Unk_710079c1c8 {
+public:
+    bool sub_710079C1C8(u8 mask) const;  // any of the bits set
+
+    u8 _0 = 0;
+};
+
+// Unk_710079a8e8::_80f.
+class Unk_710079c1f4 {
+public:
+    bool sub_710079C1F4(u8 mask) const;  // any of the bits set
+
+    u8 _0 = 0;
+};
+
 // Placeholder name (out-of-line ctor 0x710079a8e8): the large sub-object of Camera at 0x860 that
 // most camera actions (via Unk_7102459708::getCamera) read and write. Initial values from the ctor.
 // TODO: incomplete (field meanings unknown; 0x164-0x170 not initialised by the ctor).
@@ -178,12 +217,14 @@ public:
     /* 0x7ec */ f32 _7ec;  // angleStuff(0)
     /* 0x7f0 */ sead::SafeArray<f32, 2> _7f0{{-1.0, -1.0}};
     /* 0x7f8 */ u32 _7f8 = 0;
-    /* 0x7fc */ sead::BitFlag32 _7fc;
-    /* 0x800 */ sead::BitFlag32 _800;  // masks _7fc in sub_710079B63C
-    /* 0x804 */ sead::BitFlag32 _804;
-    /* 0x808 */ sead::BitFlag32 _808;  // masks _804 in sub_710079C184
+    /* 0x7fc */ Unk_710079b62c _7fc;
+    /* 0x800 */ Unk_710079b62c _800;  // masks _7fc in sub_710079B63C
+    /* 0x804 */ Unk_710079adc8 _804;
+    /* 0x808 */ Unk_710079adc8 _808;  // masks _804 in sub_710079C184
     /* 0x80c */ sead::BitFlag8 _80c;
-    /* 0x80d */ u8 _80d[3]{};
+    /* 0x80d */ u8 _80d = 0;
+    /* 0x80e */ Unk_710079c1c8 _80e;
+    /* 0x80f */ Unk_710079c1f4 _80f;
     /* 0x810 */ u8 _810 = 3;
     /* 0x811 */ u8 _811 = 0;
     /* 0x812 */ u8 _812 = 2;
