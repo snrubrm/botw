@@ -108,7 +108,7 @@ public:
     /* 0x3c */ u32 _3c = 0;
     /* 0x40 */ u32 _40 = 0;
     /* 0x44 */ u32 _44 = 0;
-    /* 0x48 */ u32 _48 = 0;
+    /* 0x48 */ s32 _48 = 0;
     /* 0x4c */ f32 _4c = -1.0;
     /* 0x50 */ u16 _50 = 0;
 };
@@ -173,7 +173,15 @@ public:
     void m6() override;
     // 0x7100d78028: the awareness entry at +0x18.
     Unk_71024dc978* m8() override;
+
+    // TODO: a second polymorphic base (only a virtual destructor; secondary vtable at
+    // 0x71024dc958) sits here; not modelled yet.
+    /* 0x10 */ u8 _10[0x18 - 0x10];
+    /* 0x18 */ Unk_71024dc858 _18;  // _18._44: flags, _18._48: level (EmitInterest behaviors)
+    /* 0x70 */ Actor* _70;
+    /* 0x78 */ u16 _78;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71024dc900, 0x80);
 
 // Placeholder name (vtable 0x71024dccf8; D1 0x7100d7f0dc, D0 0x7100d7f104): base of the filters used
 // to iterate over the awareness entries (sub_7100D7EEE8). ~48 derived classes (vtables
