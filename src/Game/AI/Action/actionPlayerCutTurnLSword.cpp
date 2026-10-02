@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerCutTurnLSword.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +12,11 @@ void PlayerCutTurnLSword::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerCutTurnLSword::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c4c.resetBit(5);
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    static_cast<ksys::act::Player*>(mActor)->_1de8 = ksys::Timer(5.0f, 5.0f);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    sub_71005D79AC(player, player->playerWeapons_return0(), act::Unk_71002edaec(1));
 }
 
 void PlayerCutTurnLSword::loadParams_() {

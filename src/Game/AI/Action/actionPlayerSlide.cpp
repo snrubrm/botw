@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSlide.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/gameUnk_710246d058.h"
 
 namespace uking::action {
 
@@ -12,6 +14,12 @@ void PlayerSlide::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PlayerSlide::leave_() {
     PlayerAction::leave_();
+}
+
+bool PlayerSlide::isChangeable() const {
+    if (_1c)
+        return true;
+    return static_cast<ksys::act::Player*>(mActor)->_17d0->controllerCheckPressedMaybe(2);
 }
 
 void PlayerSlide::loadParams_() {

@@ -280,7 +280,11 @@ protected:
     /* 0xd11 */ u8 _d11;
     /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
     /* 0xd18 */ s32 _d18;
-    /* 0xd1c */ u8 _d1c[0xd24 - 0xd1c];
+public:
+    /* 0xd1c */ u8 _d1c;  // 1-3 select the CutAfterJump turn angle (PlayerCutAfterJump::enter_)
+
+protected:
+    /* 0xd1d */ u8 _d1d[0xd24 - 0xd1d];
     /* 0xd24 */ s32 _d24;
     /* 0xd28 */ u8 _d28[0xd30 - 0xd28];
 
@@ -342,7 +346,10 @@ protected:
     /* 0x177c */ u8 _177c[0x17a0 - 0x177c];
     /* 0x17a0 */ sead::Vector3f _17a0;
     /* 0x17ac */ u8 _17ac[0x17d0 - 0x17ac];
+public:
     /* 0x17d0 */ uking::Unk_710246d058* _17d0;  // controller (Player::initControllerMaybe)
+
+protected:
     /* 0x17d8 */ u8 _17d8[0x17f0 - 0x17d8];
 };
 KSYS_CHECK_SIZE_NX150(PlayerBase, 0x17f0);

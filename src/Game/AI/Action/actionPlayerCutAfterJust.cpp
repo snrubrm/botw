@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionPlayerCutAfterJust.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -8,8 +12,20 @@ void PlayerCutAfterJust::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
 }
 
+// NON_MATCHING: the original copies the velocity once more (element-wise self-copy after the call)
 void PlayerCutAfterJust::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f vel;
+        controller->sub_7100F5F598(&vel);
+        if (vel.y > 0.0f) {
+            vel.y = 0.0f;
+            controller->sub_7100F5F6FC(vel);
+        }
+    }
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    sub_71005D79AC(player, player->playerWeapons_return0(), act::Unk_71002edaec(1));
+    static_cast<ksys::act::Player*>(mActor)->_1d70 = ksys::Timer(0.0f, 0.0f);
 }
 
 void PlayerCutAfterJust::loadParams_() {
