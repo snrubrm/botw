@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponUsageSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,22 @@ bool WeaponUsageSelect::init_(sead::Heap* heap) {
 }
 
 void WeaponUsageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005D8B60(mActor)) {
+        changeChild("素手", params);
+        return;
+    }
+
+    switch (sub_71005DBB60(mActor, *mWeaponIdx_s)) {
+    case 3:
+        changeChild("遠隔武器", params);
+        break;
+    case 1:
+        changeChild("近接重量武器", params);
+        break;
+    default:
+        changeChild("近接軽量武器", params);
+        break;
+    }
 }
 
 void WeaponUsageSelect::calc_() {}

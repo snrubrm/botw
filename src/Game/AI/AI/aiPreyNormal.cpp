@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -77,6 +78,16 @@ bool PreyNormal::m36() {
     if (_170.hasProc())
         _140.update();
     return _140.value <= sead::Mathf::epsilon();
+}
+
+bool PreyNormal::m38() {
+    if (auto* nav = mActor->m45()) {
+        if ((nav->_2a4 & 0xffff) != 0x17) {
+            if (sub_7100500A0C(&_e0))
+                return true;
+        }
+    }
+    return false;
 }
 
 bool PreyNormal::m40() {
