@@ -67,6 +67,8 @@ target_sources(uking PRIVATE
     UIGlue.h
     VideoRecorder.cpp
     VideoRecorder.h
+    Vibration.cpp
+    Vibration.h
     VFR.cpp
     VFR.h
     VFRValue.cpp
