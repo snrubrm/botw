@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponRootAI.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,21 @@ void WeaponRootAI::loadParams_() {
     getStaticParam(&mLandNoiseLevel_s, "LandNoiseLevel");
     getMapUnitParam(&mIsFixedPlace_m, "IsFixedPlace");
     getMapUnitParam(&mIsEmitLandNoise_m, "IsEmitLandNoise");
+}
+
+void WeaponRootAI::m36() {}
+
+void WeaponRootAI::m37() {}
+
+void WeaponRootAI::m38() {}
+
+void WeaponRootAI::m39() {}
+
+void WeaponRootAI::m40() {}
+
+void WeaponRootAI::m45() {
+    ksys::act::enableAllAttClients(mActor);
+    ksys::act::disableAttClient(mActor, "CatchBoomerang");
 }
 
 }  // namespace uking::ai
