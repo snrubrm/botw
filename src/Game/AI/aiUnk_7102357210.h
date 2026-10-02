@@ -111,6 +111,19 @@ public:
     bool m2(const ksys::Message& message) override { return false; }
 };
 
+// vtable 0x71023fbad8 (HorseRideChargeAttack; m2 handles message type 0x3800022)
+class Unk_71023fbad8 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800022)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
 // vtable 0x7102450a98 (EnemyRecognizeTargetBase; m2 handles message type 0x8000029 and copies two
 // links from a lock-guarded user data struct)
 class Unk_7102450a98 : public Unk_7102357210 {

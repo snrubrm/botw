@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -17,6 +18,10 @@ public:
 protected:
     // static_param at offset 0x38
     const bool* mIsGetItem_s{};
+    u32 _40{};
+    bool _44{};
+    Unk_71023da100 _48;
+    u32 _90{};
 };
 
 }  // namespace uking::ai
