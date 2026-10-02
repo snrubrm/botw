@@ -1,4 +1,8 @@
 #include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
@@ -151,6 +155,38 @@ bool Unk_7102451560::m2(Unk_71024dc978* entry) {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.sub_7100D10E6C(25) && !accessor.sub_7100D10FB8();
+}
+
+bool Unk_71024514c0::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    if (_28->getParam()->getRes().mGParamList->getEnemyRace()->mTargetActorType.ref().isEmpty())
+        return false;
+
+    auto* link = &target->mLink;
+    if (sub_71005D777C(link))
+        return false;
+    if (ksys::act::hasTag(link, ksys::act::tags::EnemyNotTarget))
+        return false;
+
+    if (ksys::act::isPlayerProfile(link)) {
+        if (_30 & 1)
+            return false;
+        if ((_30 & 4) && enemyTeamStuff(_28, link))
+            return false;
+    } else if (_30 & 2) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.getProfile() != "WolfLink")
+            return false;
+    }
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (sub_71007399B4(_28, accessor))
+        return true;
+    return sub_7100739A10(_28, accessor.getProfile());
 }
 
 bool Unk_7102451470::m2(Unk_71024dc978* entry) {

@@ -6,6 +6,7 @@
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -31,3 +32,13 @@ bool sub_7100736BBC(int value);
 bool sub_7100736BD8(int value);
 /// The actor's damage manager reports damage type 2, 1 or 5 (DamageManagerBase::getField54).
 bool sub_7100736D98(ksys::act::Actor* actor);
+
+// Further functions of the AI utility code (same placeholder conventions).
+
+/// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the
+/// accessed actor has the EnemyTarget tag.
+bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor);
+/// 0x7100739a10 (declared only): `name` is one of the actor's EnemyRace TargetActorType entries.
+bool sub_7100739A10(ksys::act::Actor* actor, const sead::SafeString& name);
+/// 0x710073d584 (CSV name; declared only).
+bool enemyTeamStuff(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);

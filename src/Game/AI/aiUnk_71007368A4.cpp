@@ -2,6 +2,9 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
 bool sub_71007368A4(ksys::act::BaseProcLink* link) {
@@ -62,3 +65,13 @@ bool sub_7100736D98(ksys::act::Actor* actor) {
         return false;
     return dmg->getField54() == 2 || dmg->getField54() == 1 || dmg->getField54() == 5;
 }
+
+bool sub_71007399B4(ksys::act::Actor* actor, const ksys::act::ActorConstDataAccess& accessor) {
+    if (actor->getParam()->getRes().mGParamList->getEnemyRace()->mIsUseTargetTag.ref() &&
+        accessor.hasTag(ksys::act::tags::EnemyTarget)) {
+        return true;
+    }
+    return false;
+
+}
+

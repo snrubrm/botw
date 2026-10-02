@@ -205,6 +205,8 @@ ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
 /// Bit 6 of Weapon::_e50 of the uking::act::Weapon in slot `idx`.
 bool sub_71005D83C8(ksys::act::Actor* actor, int idx);
 bool sub_71005D723C();
+/// NPC flag 0x2000 of the actor `link` points to (ActorConstDataAccess::sub_7100022FD0).
+bool sub_71005D777C(ksys::act::BaseProcLink* link);
 bool sub_71005E116C(ksys::act::BaseProcLink* link);
 int sub_71005E2B28(int value);
 void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,

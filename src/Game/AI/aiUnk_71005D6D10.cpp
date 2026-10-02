@@ -519,6 +519,12 @@ bool sub_71005DB7E4(ksys::act::Actor* actor, int idx) {
     return actor->getWeapons()->mWeapons[idx]._10;
 }
 
+bool sub_71005D777C(ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.sub_7100022FD0();
+}
+
 void sub_71005D787C(ksys::act::Actor* actor, int idx, const uking::act::Unk_71002eda38& arg) {
     if (idx < 0)
         return;
