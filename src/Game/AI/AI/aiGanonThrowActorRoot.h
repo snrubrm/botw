@@ -16,6 +16,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual s32 m37(s32 value) { return value; }
+    virtual void m38();
+
 protected:
     // static_param at offset 0x38
     const int* mAttackDamage_s{};

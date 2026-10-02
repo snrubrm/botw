@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiForestGiantNormal.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -38,6 +41,18 @@ bool ForestGiantNormal::handleMessage_(const ksys::Message& message) {
         return false;
     }
     return EnemyNormal::handleMessage_(message);
+}
+
+void ForestGiantNormal::m34() {
+    if (mActor->getRootAi()->getI() == 5) {
+        EnemyNormal::m34();
+        return;
+    }
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    m48(&pos);
+    params.addVec3(pos, "CentralPos", -1);
+    changeChild("初期待機", &params);
 }
 
 }  // namespace uking::ai

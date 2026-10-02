@@ -27,4 +27,17 @@ void AssassinBossIronBallAttack::loadParams_() {
     getStaticParam(&mIronBallPartsName_s, "IronBallPartsName");
 }
 
+void AssassinBossIronBallAttack::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("準備完了待ち"))
+            setFailed();
+        else
+            setFinished();
+        return;
+    }
+    if (child->isChangeable() && sub_71003189D4() && !isCurrentChild("攻撃"))
+        changeChild("攻撃");
+}
+
 }  // namespace uking::ai

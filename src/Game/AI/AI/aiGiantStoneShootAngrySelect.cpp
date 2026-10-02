@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGiantStoneShootAngrySelect.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
@@ -42,6 +43,14 @@ void GiantStoneShootAngrySelect::loadParams_() {
     getStaticParam(&mThrowableAngryRate_s, "ThrowableAngryRate");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mIgniteHandle_d, "IgniteHandle");
+}
+
+void GiantStoneShootAngrySelect::sub_71003FAC88() {
+    _50 = false;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    params.addPointer(*mIgniteHandle_d, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    changeChild("投石", &params);
 }
 
 }  // namespace uking::ai

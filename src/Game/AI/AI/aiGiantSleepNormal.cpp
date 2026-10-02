@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -34,6 +35,14 @@ void GiantSleepNormal::m34() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7E9BC(0);
     SpecialEnemySleep::m34();
+}
+
+void GiantSleepNormal::m35() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7E9BC(0);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_80, "TargetPos", -1);
+    changeChild("待機", &params);
 }
 
 }  // namespace uking::ai

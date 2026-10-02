@@ -15,6 +15,26 @@ void LynelCloseBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     *mLynelAIFlags_a |= 0x800;
 }
 
+void LynelCloseBattle::calc_() {
+    EnemyBattle::calc_();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !child->isChangeable())
+        return;
+    if (*mBackAngleAction_s == 0 || !isCurrentChild("戦闘準備") || !sub_710048FA58())
+        return;
+
+    switch (*mBackAngleAction_s) {
+    case 1:
+        setFailed();
+        break;
+    case 2:
+        m38();
+        break;
+    default:
+        break;
+    }
+}
+
 void LynelCloseBattle::leave_() {
     EnemyBattle::leave_();
 }

@@ -2,6 +2,8 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
@@ -68,6 +70,20 @@ void BreathAttackEnemyBattle::m41() {}
 
 bool BreathAttackEnemyBattle::m44() {
     return _90.isProcReady();
+}
+
+// NON_MATCHING: stack layout (the original's accessor slot comes first, as if it came from an
+// inlined helper)
+void BreathAttackEnemyBattle::sub_710033E970() {
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&m34(), &accessor);
+        accessor.getActorMtx().getTranslation(pos);
+    }
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("戦闘準備", &params);
 }
 
 }  // namespace uking::ai
