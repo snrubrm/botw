@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionArrowShootMove.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -12,7 +14,14 @@ void ArrowShootMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ArrowShootMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!_149)
+        sub_71000A331C();
+
+    if (_138) {
+        _138->setLinearVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+        _138->setAngularVelocity(sead::Vector3f::zero, sead::Mathf::epsilon());
+        sub_71007A2D34(_138);
+    }
 }
 
 void ArrowShootMove::loadParams_() {

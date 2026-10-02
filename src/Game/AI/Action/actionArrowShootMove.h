@@ -7,6 +7,10 @@ namespace ksys::act {
 class ActorConstDataAccess;
 }
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class ArrowShootMove : public ksys::act::ai::Action {
@@ -32,6 +36,9 @@ protected:
     virtual bool m40();
     virtual f32 m41();
     virtual void m42();
+
+    // 0x71000a331c (declared only): applies the arrow's attack info (called by leave_ unless _149).
+    bool sub_71000A331C();
 
     // dynamic_param at offset 0x20
     bool* mIsShootByPlayer_d{};
@@ -80,7 +87,7 @@ protected:
     f32 _128 = 0;
     // zero-initialised by the ctor (contents unknown)
     u8 _12c[0x134 - 0x12c]{};
-    void* _138 = nullptr;
+    ksys::phys::RigidBody* _138 = nullptr;
     s8 _140 = -1;
     u32 _144 = 0;
     u8 _148 = 0;
