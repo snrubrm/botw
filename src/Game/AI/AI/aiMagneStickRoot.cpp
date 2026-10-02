@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -40,6 +42,54 @@ void MagneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _80 = body->getMaxLinearVelocity();
     _84 = body->getMaxAngularVelocity();
     sub_71007A458C(actor, *mIgnoreObstacle_m);
+}
+
+// NON_MATCHING: stack layout only (the original keeps the discarded HandleSLink temporary in its own
+// slot, above the SafeString temporary of isCurrentChild; ours lets them share one)
+void MagneStickRoot::calc_() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    const bool grabbed = actor->m128()->m2();
+    if (auto* gear_mgr = GearMgr::instance()) {
+        const bool registered = gear_mgr->sub_71006690B8(actor);
+        if (actor->hasPlacementLinkForBasicSig()) {
+            const bool signal = actor->checkBasicSig();
+            if (!registered) {
+                if (signal)
+                    m34();
+            } else if (!signal) {
+                m35();
+            }
+        }
+    }
+
+    if (_79)
+        return;
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (isCurrentChild("はめ込まれた")) {
+        if (grabbed) {
+            changeChild("通常");
+            _8c = ksys::Timer(30, 30);
+            if (auto* body = actor->getMainBody()) {
+                body->x_114(true);
+                body->setMagneMassScalingFactor(1.0f);
+            }
+            m51();
+        }
+    } else if (_8c.value <= sead::Mathf::epsilon()) {
+        if (m40()) {
+            m50();
+            changeChild("はめ込まれた");
+            ksys::eft::searchAndEmitSLink(mActor, "Put", false);
+            _79 = *mIsTargetFixedAcceptor_a;
+        }
+    } else {
+        _8c.update();
+    }
 }
 
 void MagneStickRoot::leave_() {

@@ -6,6 +6,8 @@ add_subdirectory(DLC)
 add_subdirectory(UI)
 
 target_sources(uking PRIVATE
+  gameGearMgr.cpp
+  gameGearMgr.h
   gameItemUtils.cpp
   gameItemUtils.h
   gameMaskController.cpp

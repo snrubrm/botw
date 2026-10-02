@@ -2,6 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <thread/seadCriticalSection.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -34,11 +36,20 @@ public:
     // under the CriticalSection. Placeholder name.
     void sub_71006698B0(bool on);
 
+    // 0x71006690b8: true if `proc` is linked in one of the 0x80 actor links (under mCS).
+    bool sub_71006690B8(ksys::act::BaseProc* proc);
+
     // Index (0 / 1) of the current entry of `_10a8`.
     s32 _28;
-    u8 _2c[0x1050 - 0x2c];
+    u8 _2c[0x30 - 0x2c];
+    struct Entry {
+        ksys::act::BaseProcLink mLink;
+        u8 _10[0x10];
+    };
+    Entry mEntries[0x80];
+    u8 _1030[0x1050 - 0x1030];
     ksys::phys::SystemGroupHandler* _1050;
-    u8 _1058[0x1098 - 0x1058];
+    sead::CriticalSection mCS;
     f32 _1098;  // read as a rotation offset by DgnObj_DLC_DungeonRotateTag
     u8 _109c[0x10a4 - 0x109c];
     // Bit 3 is tested by DgnObj_DLC_CWRotDirSwitch::calc_.
