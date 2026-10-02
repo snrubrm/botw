@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void* m37(int* x) override;
+    ksys::act::Unk_71024dc858* m37(int* x) override;
     bool m39(sead::Vector3f* pos) override;
 
 protected:

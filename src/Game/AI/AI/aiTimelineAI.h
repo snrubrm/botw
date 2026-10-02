@@ -16,8 +16,8 @@ public:
     void loadParams_() override;
 
     virtual const sead::SafeString& m34();
-    virtual bool m35() { return true; }
-    virtual void m36();
+    virtual bool m35(const sead::SafeString& name) { return true; }
+    virtual void m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params);
 
 protected:
     // static_param at offset 0x38

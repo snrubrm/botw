@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -22,8 +23,8 @@ public:
     virtual void m35();
     virtual bool m36() { return false; }
     // Returns an awareness-related object (type unknown); x receives an index.
-    virtual void* m37(int* x);
-    virtual void m38(int x, void* obj) {}
+    virtual ksys::act::Unk_71024dc858* m37(int* x);
+    virtual void m38(int x, ksys::act::Unk_71024dc858* entry) {}
     virtual bool m39(sead::Vector3f* pos) { return false; }
 
 protected:

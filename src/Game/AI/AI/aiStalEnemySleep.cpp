@@ -29,7 +29,7 @@ void StalEnemySleep::loadParams_() {
     getStaticParam(&mUseNoticeActiveWakeUp_s, "UseNoticeActiveWakeUp");
 }
 
-void* StalEnemySleep::m37(int* x) {
+ksys::act::Unk_71024dc858* StalEnemySleep::m37(int* x) {
     if (!*mUseAwarenessWakeUp_s)
         return nullptr;
     return SpecialEnemySleep::m37(x);
