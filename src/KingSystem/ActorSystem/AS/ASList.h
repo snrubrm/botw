@@ -5,6 +5,14 @@
 namespace ksys::as {
 class ASList {
 public:
+    // Placeholder: event query filled by the handlers passed to x() (0x7101259c78 copies a 0x20-byte AS
+    // event entry: the name, then two 32-bit values). Callers pass nullptr when they only test for the event.
+    struct Unk4 {
+        sead::SafeString name;
+        f32 _10;
+        u32 _14;
+    };
+
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
@@ -20,10 +28,10 @@ public:
         bool sub_7101163950();
         bool sub_7101163AF4();
         // used with x
-        bool sub_71011637EC(const sead::SafeString* name, int a2, bool a3);
-        bool sub_710116383C(const sead::SafeString* name, int a2, bool a3);
-        bool sub_710116388C(const sead::SafeString* name, int a2, bool a3);
-        bool sub_71011638DC(const sead::SafeString* name, int a2, bool a3);
+        bool sub_71011637EC(Unk4* query, int a2, bool a3);
+        bool sub_710116383C(Unk4* query, int a2, bool a3);
+        bool sub_710116388C(Unk4* query, int a2, bool a3);
+        bool sub_71011638DC(Unk4* query, int a2, bool a3);
         // used with x_3
         void sub_7101163044(f32 value);
         void sub_7101163100(f32 value);
@@ -76,9 +84,8 @@ public:
     bool x_4(u32 slot, u32 seq_bank);
 
     // Call `fn` on the entry of slot `slot`, bank `bank` (if it exists).
-    // `a2` is null in 356 of the 432 calls in the original, so it is a pointer.
-    bool x(int a1, const sead::SafeString* a2, int slot, int bank,
-           bool (Unk2::*fn)(const sead::SafeString*, int, bool), bool a6);
+    // `query` is null in 356 of the 432 calls in the original.
+    bool x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, int, bool), bool a6);
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
     bool x_7(int slot, int bank, bool (Unk2::*fn)());

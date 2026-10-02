@@ -30,11 +30,10 @@ void ForkWeaponAttackBase::loadParams_() {
     getStaticParam(&mIsNoRod_s, "IsNoRod");
 }
 
-// NON_MATCHING: stack frame is 0x10 larger in the original (the string sits at sp+8)
 void ForkWeaponAttackBase::calc_() {
-    sead::SafeString name;
-    if (m34(&name)) {
-        m32(m36(), name, _68, 1.0f);
+    ksys::as::ASList::Unk4 query;
+    if (m34(&query)) {
+        m32(m36(), query.name, _68, 1.0f);
         _68 = true;
     } else if (m35()) {
         m33();
@@ -45,8 +44,8 @@ int ForkWeaponAttackBase::m36() {
     return 0;
 }
 
-bool ForkWeaponAttackBase::m34(sead::SafeString* name) {
-    return sub_71005DD66C(mActor, name, *mTargetBone_s, *mSeqBank_s);
+bool ForkWeaponAttackBase::m34(ksys::as::ASList::Unk4* query) {
+    return sub_71005DD66C(mActor, query, *mTargetBone_s, *mSeqBank_s);
 }
 
 bool ForkWeaponAttackBase::m35() {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/Action/actionUnk_7102451ba0.h"
@@ -24,7 +25,7 @@ public:
     virtual void m13();
     virtual int m14() { return 0; }
     virtual void m15(int weapon_idx, const sead::SafeString* name, bool a3, f32 a4);
-    virtual bool m16(const sead::SafeString* name);
+    virtual bool m16(ksys::as::ASList::Unk4* query);
     virtual bool m17();
 
     void sub_71002A665C(ksys::act::Actor* actor, int weapon_idx, u32 a3,

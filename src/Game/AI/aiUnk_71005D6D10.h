@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace ksys::act {
 namespace ai {
@@ -209,7 +210,7 @@ void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
 void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2);
 /// The uking::act::Weapon equipped in slot `idx` (0-5), or nullptr.
 uking::act::Weapon* sub_71005DA374(ksys::act::Actor* actor, int idx);
-bool sub_71005DAF0C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank,
+bool sub_71005DAF0C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int slot, int bank,
                     bool a5);
 /// Enables or disables all ragdoll constraints of the actor.
 void sub_71005E1B7C(ksys::act::Actor* actor, bool enable);
@@ -229,14 +230,18 @@ void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const se
 /// Just-avoid setup: a3 is an angle (ignored if <= epsilon), a1/a2 distances, a4 is passed to
 /// ASList::x.
 void sub_71005DAB2C(ksys::act::Actor* actor, f32 a1, f32 a2, f32 a3, int a4);
-bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
-bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
+bool sub_71005DD66C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
+bool sub_71005DD74C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
 /// Same as sub_71005DD66C / sub_71005DD74C with an explicit ASList::x type (they use 3).
-bool sub_71005DD5B0(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
-bool sub_71005DD734(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
-bool sub_71005DD780(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
-bool sub_71005DD798(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
-bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
+bool sub_71005DD5B0(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
+                    int a4);
+bool sub_71005DD734(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
+                    int a4);
+bool sub_71005DD780(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
+                    int a4);
+bool sub_71005DD798(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
+                    int a4);
+bool sub_71005DD7B0(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
 /// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
 /// `flags` may be null; flags is copied to Unk_71002edaec::_14.
 void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,

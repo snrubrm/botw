@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/AI/Action/actionForkAttackWithWeaponOrWithout.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -20,7 +21,7 @@ protected:
     void calc_() override;
     virtual void m32(int weapon_idx, const sead::SafeString& name, bool x, f32 y);
     virtual void m33();
-    virtual bool m34(sead::SafeString* name);
+    virtual bool m34(ksys::as::ASList::Unk4* query);
     virtual bool m35();
     virtual int m36();
 

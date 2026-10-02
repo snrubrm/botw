@@ -51,10 +51,10 @@ bool ASList::x_7(int slot, int bank, bool (Unk2::*fn)()) {
     return false;
 }
 
-bool ASList::x(int a1, const sead::SafeString* a2, int slot, int bank,
-               bool (Unk2::*fn)(const sead::SafeString*, int, bool), bool a6) {
+bool ASList::x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, int, bool),
+               bool a6) {
     if (auto* entry = getEntry(slot, bank))
-        return (entry->*fn)(a2, a1, a6);
+        return (entry->*fn)(query, a1, a6);
     return false;
 }
 

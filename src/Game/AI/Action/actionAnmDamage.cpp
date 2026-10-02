@@ -29,11 +29,9 @@ void AnmDamage::calc_() {
     SmallDamageBase::calc_();
 }
 
-// NON_MATCHING: the original passes a 0x18-byte stack object (a SafeString followed by another field, like
-// the ASList::x query objects) instead of a plain SafeString
 bool AnmDamage::isChangeable() const {
-    const sead::SafeString name;
-    return sub_71005DD798(mActor, 2, &name, 0, 0);
+    ksys::as::ASList::Unk4 query;
+    return sub_71005DD798(mActor, 2, &query, 0, 0);
 }
 
 }  // namespace uking::action

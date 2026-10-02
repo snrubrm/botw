@@ -12,7 +12,7 @@ void Unk_71023c8418::enter_(ksys::act::ai::InlineParamPack* params) {
         setDamageCallbackTiming(mOwner->getActor(), 4, &_60);
 }
 
-// NON_MATCHING: stack layout (the original places the request below the SafeString)
+// NON_MATCHING: stack layout (the original places the query below the weapon request)
 void Unk_71023c8418::calc_() {
     if (sub_71005DAFB0(mOwner->getActor())) {
         mFlags.set(Flag::Failed);
@@ -24,9 +24,9 @@ void Unk_71023c8418::calc_() {
     sub_71005DAB2C(mOwner->getActor(), range + *mJustAvoidSideDist_s,
                    range + *mJustAvoidBackDist_s, *mJustAvoidAngle_s, m14());
 
-    sead::SafeString name;
-    if (m16(&name)) {
-        m15(*mWeaponIdx_s, &name, _88, 1.0f);
+    ksys::as::ASList::Unk4 query;
+    if (m16(&query)) {
+        m15(*mWeaponIdx_s, &query.name, _88, 1.0f);
         _88 = true;
     } else if (m17()) {
         sub_71005D79AC(mOwner->getActor(), *mWeaponIdx_s, uking::act::Unk_71002edaec(1));
@@ -59,8 +59,8 @@ void Unk_71023c8418::m15(int weapon_idx, const sead::SafeString* name, bool a3, 
     sub_71002A665C(mOwner->getActor(), weapon_idx, a3 ? _58 | 0x40 : _58, name, flags, 1, a4, 1.0f);
 }
 
-bool Unk_71023c8418::m16(const sead::SafeString* name) {
-    return sub_71005DD66C(mOwner->getActor(), name, 0, 0);
+bool Unk_71023c8418::m16(ksys::as::ASList::Unk4* query) {
+    return sub_71005DD66C(mOwner->getActor(), query, 0, 0);
 }
 
 bool Unk_71023c8418::m17() {
