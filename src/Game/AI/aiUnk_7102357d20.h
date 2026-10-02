@@ -231,3 +231,17 @@ public:
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
 };
+
+// vtable 0x71023e78b0 (EnemyFortressChat): same behaviour as Unk_71023eaef0.
+class Unk_71023e78b0 : public Unk_7102357d20 {
+public:
+    Unk_71023e78b0(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        _28.lock();
+        _18.acquire(actor, false);
+        _28.unlock();
+    }
+    void* m2() override { return &_18; }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};

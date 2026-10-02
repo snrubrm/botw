@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -28,6 +30,11 @@ protected:
     sead::SafeString mActorName_m{};
     // aitree_variable at offset 0x70
     void* mGeneratedActorLink_a{};
+    ksys::act::Actor* _78 = mActor;
+    ksys::Timer _80{1, 1, 0};
+    ksys::act::BaseProcHandle _90;
+    u32 _a0 = 0;
+    void* _a8{};
 };
 
 }  // namespace uking::ai
