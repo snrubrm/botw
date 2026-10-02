@@ -1,7 +1,10 @@
 #pragma once
 
+#include <limits>
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <math/seadMathCalcCommon.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -41,6 +44,20 @@ class HavokAI {
     virtual ~HavokAI();
 
 public:
+    // Placeholder: result of sub_7100F86174 (callers build it on the stack: twelve NaN floats and a
+    // zeroed u16). _24 is the resulting point.
+    struct Unk1 {
+        sead::Vector3f _0{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
+        sead::Vector3f _c{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
+        sead::Vector3f _18{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
+        sead::Vector3f _24{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
+        u16 _30 = 0;
+    };
+
+    // 0x7100f86174 (not decompiled): a navmesh query from `from` towards `to` (`a4`: a height
+    // tolerance); true if it hit.
+    bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
+
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
     void destroyQuery(Unk_7102372790* query);
     bool submitQuery(Unk_7102372790* query);

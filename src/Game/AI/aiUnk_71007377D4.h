@@ -60,6 +60,21 @@ void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vec
 bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 distance,
                     sead::Vector3f* out_pos, bool flag, bool* out_flag);
 
+/// 0x710072f28c (declared only): line reachability check from `from` (NaN: the actor's position) to
+/// `to` on the navmesh / collision; optional outputs. Placeholder name; parameter types partly
+/// guessed (a5 is stored as a byte and a word; the three floats are tolerances, -1 = default).
+bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 a7,
+                    f32 a8, f32 a9);
+/// 0x710072e154: sub_710072F28C from the actor's position to `target` with default tolerances.
+bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    s32 a4);
+/// 0x710072ec90: HavokAI navmesh query from `pos` to `target` (HavokAI::sub_7100F86174);
+/// `out` receives the resulting point (or `pos`). True if the query hit, or if the point is within
+/// `max_dist` of `target` in XZ and less than `max_height` apart in Y.
+bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sead::Vector3f* out,
+                    f32 max_dist, f32 max_height);
+
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
