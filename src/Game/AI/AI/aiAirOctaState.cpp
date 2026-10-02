@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAirOctaState.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::ai {
 
@@ -26,5 +28,20 @@ void AirOctaState::loadParams_() {
     getStaticParam(&mWindForceScale_s, "WindForceScale");
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
 }
+
+void AirOctaState::m37() {
+    if (isCurrentChild("逃げる")) {
+        auto* damage_manager = sub_710072BA90(mActor);
+        if (damage_manager && damage_manager->getField54() == 20)
+            return;
+    }
+    changeChild("リアクション");
+}
+
+void AirOctaState::m38() {
+    sub_71002FD098(false);
+}
+
+void AirOctaState::m39() {}
 
 }  // namespace uking::ai
