@@ -1,14 +1,19 @@
 #include "Game/AI/Action/actionMotorcycleRiddenByPlayer.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 
 namespace uking::action {
 
+// NON_MATCHING: the original keeps the six 0xffff halfword stores of the BoneAccessKeys separate
 MotorcycleRiddenByPlayer::MotorcycleRiddenByPlayer(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-MotorcycleRiddenByPlayer::~MotorcycleRiddenByPlayer() = default;
+MotorcycleRiddenByPlayer::~MotorcycleRiddenByPlayer() {
+    _c0.sub_7100D786EC();
+}
 
 bool MotorcycleRiddenByPlayer::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _c0.sub_7100D78564(heap);
+    return true;
 }
 
 void MotorcycleRiddenByPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -46,6 +51,13 @@ void MotorcycleRiddenByPlayer::calc_() {
 
 bool MotorcycleRiddenByPlayer::hasUpdateForPreDeleteCb() {
     return true;
+}
+
+bool MotorcycleRiddenByPlayer::updateForPreDelete() {
+    auto* body = _c0._8;
+    if (!body)
+        return true;
+    return !body->isAddedToWorld();
 }
 
 }  // namespace uking::action

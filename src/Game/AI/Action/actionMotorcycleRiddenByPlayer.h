@@ -1,5 +1,8 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <prim/seadBitFlag.h>
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -15,6 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool hasUpdateForPreDeleteCb() override;
+    bool updateForPreDelete() override;
 
 protected:
     void calc_() override;
@@ -55,6 +59,17 @@ protected:
     const float* mPermitManualWheelieAngleRange_s{};
     // static_param at offset 0xa8
     const sead::Vector3f* mAttackChargeBoneOffset_s{};
+    /* 0x0b0 */ f32 _b0 = 0;
+    /* 0x0b4 */ f32 _b4 = -1.0f;
+    /* 0x0b8 */ f32 _b8 = 0;
+    /* 0x0bc */ f32 _bc = 0;
+    /* 0x0c0 */ ksys::act::AITerror _c0{mActor};
+    /* 0x178 */ gsys::BoneAccessKey _178;
+    /* 0x17c */ gsys::BoneAccessKey _17c;
+    /* 0x180 */ gsys::BoneAccessKey _180;
+    /* 0x184 */ bool _184 = false;
+    /* 0x186 */ sead::BitFlag16 _186;
 };
+KSYS_CHECK_SIZE_NX150(MotorcycleRiddenByPlayer, 0x188);
 
 }  // namespace uking::action
