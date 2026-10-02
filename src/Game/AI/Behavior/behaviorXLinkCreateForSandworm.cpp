@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorXLinkCreateForSandworm.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -12,6 +13,15 @@ bool XLinkCreateForSandworm::m6(sead::Heap* heap) {
 
 void XLinkCreateForSandworm::m7() {
     OnStateXLinkCreate::m7();
+    sub_7100647278();
+}
+
+void XLinkCreateForSandworm::m8() {
+    if (auto* model = mActor->getModel()) {
+        if (!mBoneKey_s.isEmpty())
+            _90.search(model, mBoneKey_s);
+    }
+    OnStateXLinkCreate::m8();
     sub_7100647278();
 }
 

@@ -1,5 +1,7 @@
 #include "Game/AI/Behavior/behaviorBeastGanonLastBlowOffMes.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::behavior {
 
@@ -13,6 +15,14 @@ bool BeastGanonLastBlowOffMes::m6(sead::Heap* heap) {
         return false;
     _d8.search(mActor->getModel(), mXZBaseNode_s);
     return true;
+}
+
+void BeastGanonLastBlowOffMes::m7() {
+    SimpleAtvUnitOpenDlgRnd3::m7();
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    if (accessor.isGroundForEvent() && _84)
+        m16();
 }
 
 void BeastGanonLastBlowOffMes::m8() {

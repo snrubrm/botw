@@ -13,9 +13,9 @@ public:
     ~XLinkCreateForSandworm() override;
     bool m6(sead::Heap* heap) override;
     void m7() override;
+    void m8() override;
     void m9() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x710064721c)
     // 0x7100647278
     void sub_7100647278();
 

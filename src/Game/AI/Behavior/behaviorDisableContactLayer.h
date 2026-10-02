@@ -24,10 +24,10 @@ public:
     explicit DisableContactLayer(const InitArg& arg);
     ~DisableContactLayer() override;
     void m7() override;
+    void m8() override;
+    void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061f198)
-    void m8() override;  // not decompiled yet (0x710061f290)
-    void m9() override;  // not decompiled yet (0x710061f324)
 
     /* 0x28 */ const bool* mIgnoreContactPoint_s{};
     /* 0x30 */ sead::SafeString mLayerNameToDisable_s{};

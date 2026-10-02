@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorUnk_7102435118.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -24,6 +25,13 @@ void Unk_7102435118::m9() {
 
 void Unk_7102435118::loadParams() {
     CreateEaselBase::loadParams();
+}
+
+const char* Unk_7102435118::m14() {
+    const char* name;
+    if (mActor->getMapObjIter().tryGetParamStringByKey(&name, "ActorName"))
+        return name;
+    return &sead::SafeString::cNullChar;
 }
 
 }  // namespace uking::behavior

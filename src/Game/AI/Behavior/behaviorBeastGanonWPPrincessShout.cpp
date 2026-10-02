@@ -42,4 +42,29 @@ void BeastGanonWPPrincessShout::loadParams() {
     getAITreeVariable(&mWeakPointActiveFlag_a, "WeakPointActiveFlag");
 }
 
+const sead::SafeString* BeastGanonWPPrincessShout::m14() {
+    switch (_88) {
+    case 1:
+        return &mlabelName2_s;
+    case 2:
+        return &mlabelName3_s;
+    case 3:
+        return &mlabelName4_s;
+    case 4:
+        return &mlabelName5_s;
+    case 5:
+        return &mlabelName6_s;
+    case 6:
+        return &mlabelName7_s;
+    case 7:
+        return &mlabelName8_s;
+    case 8:
+        return &mlabelName9_s;
+    case 9:
+        return &mlabelName10_s;
+    default:
+        return &mlabelName_s;
+    }
+}
+
 }  // namespace uking::behavior

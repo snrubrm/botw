@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorDisableContactLayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
@@ -12,6 +14,38 @@ DisableContactLayer::~DisableContactLayer() {
 }
 
 void DisableContactLayer::m7() {}
+
+void DisableContactLayer::m8() {
+    if (auto* cc = mActor->getCharacterController()) {
+        cc->enableContactLayer(ksys::phys::ContactLayer(_40._10));
+        if (*mIgnoreContactPoint_s) {
+            if (auto* info = cc->sub_7100F635D8())
+                info->setContactCallback(&_40);
+        }
+    } else if (auto* body = mActor->getMainBody()) {
+        body->enableContactLayer(ksys::phys::ContactLayer(_40._10));
+        if (*mIgnoreContactPoint_s) {
+            if (auto* info = body->getContactPointInfo())
+                info->setContactCallback(&_40);
+        }
+    }
+}
+
+void DisableContactLayer::m9() {
+    if (auto* cc = mActor->getCharacterController()) {
+        cc->disableContactLayer(ksys::phys::ContactLayer(_40._10));
+        if (*mIgnoreContactPoint_s) {
+            if (auto* info = cc->sub_7100F635D8())
+                info->setContactCallback(nullptr);
+        }
+    } else if (auto* body = mActor->getMainBody()) {
+        body->disableContactLayer(ksys::phys::ContactLayer(_40._10));
+        if (*mIgnoreContactPoint_s) {
+            if (auto* info = body->getContactPointInfo())
+                info->setContactCallback(nullptr);
+        }
+    }
+}
 
 // NON_MATCHING: the original computes &mIgnoreContactPoint_s before the first call (as in NeckControl)
 void DisableContactLayer::loadParams() {
