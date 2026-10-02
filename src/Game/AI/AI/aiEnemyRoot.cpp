@@ -15,10 +15,10 @@ EnemyRoot::~EnemyRoot() {
 }
 
 bool EnemyRoot::init_(sead::Heap* heap) {
-    const float* in_water_depth{};
-    getStaticParam(&in_water_depth, "InWaterDepth");
-    if (*in_water_depth >= 0.0f) {
-        _38 = new (heap) Unk_7100702370(mActor, in_water_depth);
+    const float* fall_height{};
+    getStaticParam(&fall_height, "FallHeight");
+    if (*fall_height >= 0.0f) {
+        _38 = new (heap) Unk_7100702370(mActor, fall_height);
         if (!_38)
             return false;
     }
