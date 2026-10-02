@@ -39,7 +39,7 @@ public:
     virtual void m41();
     virtual void m42();
     virtual void m43();
-    virtual void m44();
+    virtual void m44(const sead::Vector3f& pos);
     virtual void m45();
     virtual void m46();
     virtual bool m47();

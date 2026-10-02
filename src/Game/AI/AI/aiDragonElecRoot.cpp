@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiDragonElecRoot.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -26,6 +29,18 @@ void DragonElecRoot::leave_() {
 
 void DragonElecRoot::loadParams_() {
     DragonRoot::loadParams_();
+}
+
+void DragonElecRoot::m42() {
+    DragonRoot::m42();
+}
+
+void DragonElecRoot::m44(const sead::Vector3f& pos) {
+    ksys::act::InstParamPack pack;
+    pack->addPosition(pos);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        "DragonThunderBall", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr, &pack,
+        nullptr, 2);
 }
 
 }  // namespace uking::ai

@@ -180,7 +180,7 @@ void DragonRoot::m43() {
         _24c.set(0x20);
 }
 
-void DragonRoot::m44() {}
+void DragonRoot::m44(const sead::Vector3f& pos) {}
 
 bool DragonRoot::m47() {
     auto* dragon = sead::DynamicCast<act::Dragon>(mActor);

@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiDragonIceRoot.h"
+#include "Game/Actor/actDragon.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -7,7 +11,14 @@ DragonIceRoot::DragonIceRoot(const InitArg& arg) : DragonRoot(arg) {}
 DragonIceRoot::~DragonIceRoot() = default;
 
 bool DragonIceRoot::init_(sead::Heap* heap) {
-    return DragonRoot::init_(heap);
+    if (!DragonRoot::init_(heap))
+        return false;
+
+    _3c0 = 99999.0f;
+    const s32 num = *mGrudgeBulletMaxNum_s;
+    if (num > 0)
+        _260._0.tryAllocBuffer(num, heap);
+    return true;
 }
 
 void DragonIceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -44,6 +55,40 @@ void DragonIceRoot::loadParams_() {
     getStaticParam(&mGrudgeEventRail_End_s, "GrudgeEventRail_End");
     getStaticParam(&mGrudgeEventRail_ReturnToSky_s, "GrudgeEventRail_ReturnToSky");
     getStaticParam(&mGrudgeBulletActorName_s, "GrudgeBulletActorName");
+}
+
+bool DragonIceRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!DragonRoot::reenter_(other, true))
+        return false;
+    auto* root = sead::DynamicCast<DragonIceRoot>(other);
+    if (!root)
+        return false;
+    if (!sead::DynamicCast<act::Dragon>(root->mActor))
+        return false;
+    if (!sead::DynamicCast<act::Dragon>(mActor))
+        return false;
+
+    _3bc = root->_3bc;
+    _3c0 = root->_3c0;
+    _3c4 = root->_3c4;
+    _3c8 = root->_3c8;
+    return true;
+}
+
+void DragonIceRoot::m41() {
+    DragonRoot::m41();
+}
+
+void DragonIceRoot::m44(const sead::Vector3f& pos) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon || dragon->_1e0c == 3)
+        return;
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(pos);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        "DragonIceBall", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr, &pack,
+        nullptr, 2);
 }
 
 }  // namespace uking::ai

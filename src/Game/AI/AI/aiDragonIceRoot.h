@@ -15,8 +15,19 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
+
+    void m41() override;
+    void m44(const sead::Vector3f& pos) override;
+
+    // 0x10-byte zero-initialised pair (only the constructor touches them). Placeholder.
+    struct Unk3 {
+        u64 _0 = 0;
+        u32 _8 = 0;
+    };
 
 protected:
+    Unk2 _260;
     // static_param at offset 0x270
     const int* mGrudgeBulletMaxNum_s{};
     // static_param at offset 0x278
@@ -65,6 +76,18 @@ protected:
     sead::SafeString mGrudgeEventRail_ReturnToSky_s{};
     // static_param at offset 0x378
     sead::SafeString mGrudgeBulletActorName_s{};
+    s32 _388 = 6;
+    u32 _38c = 0;
+    f32 _390 = 0;
+    Unk3 _398;
+    Unk3 _3a8;
+    f32 _3b8 = 0;
+    f32 _3bc = 0;
+    f32 _3c0 = 0;
+    f32 _3c4 = 0;
+    f32 _3c8 = -99999.0f;
+    void* _3d0 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(DragonIceRoot, 0x3d8);
 
 }  // namespace uking::ai

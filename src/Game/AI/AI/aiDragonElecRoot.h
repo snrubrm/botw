@@ -16,6 +16,8 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m42() override;
+    void m44(const sead::Vector3f& pos) override;
 
 protected:
 };
