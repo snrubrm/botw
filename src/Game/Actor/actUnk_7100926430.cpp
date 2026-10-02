@@ -1,8 +1,11 @@
 #include "Game/Actor/actCameraUtil.h"
+#include <controller/seadController.h>
+#include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 bool sub_71009269F8(const sead::Vector3f& pos, f32* out) {
     return sub_7100926430(pos, 3, out, 1.0f, 1.0f, 5.0f);
@@ -64,6 +67,27 @@ bool sub_7100926D24() {
 bool sub_7100926FD0() {
     return false;
 }
+
+void sub_7100927054(sead::Vector2f* stick) {
+    stick->set(0, 0);
+    auto* controller =
+        uking::MaskController::getControllerSafe(uking::MaskController::ControllerIdx::_1);
+    if (!controller)
+        return;
+    sead::Vector2f left_stick = controller->getLeftStick();
+    if (ksys::util::sub_71011F0FC8(left_stick))
+        return;
+    *stick = left_stick;
+}
+
+bool sub_71009270A4() {
+    sead::Vector2f stick;
+    sub_7100927054(&stick);
+    if (stick.x == 0.0f && stick.y == 0.0f)
+        return false;
+    return true;
+}
+
 
 f32 sub_7100927228() {
     return -1.0f;

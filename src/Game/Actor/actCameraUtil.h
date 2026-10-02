@@ -161,6 +161,10 @@ f32 sub_7100924DFC(f32 deg);
 bool sub_7100924E48(const sead::Vector3f& dir, const f32& scale, sead::Vector3f* out);
 // 0x7100924f04: sub_71009222E8().
 f32 sub_7100924F04();
+// 0x7100924f08: the right stick of MaskController controller 3 with a dead zone (0.005) and a
+// response curve (length raised to sub_710092212C()); zero without a controller or when a component
+// is NaN / infinite.
+void sub_7100924F08(sead::Vector2f* stick);
 // 0x7100925110: whether axis `axis` of `mtx` is less than 60 degrees from the horizontal plane.
 bool sub_7100925110(const sead::Matrix33f& mtx, int axis);
 // 0x71009251c4: Camera::_848 (secondary base _8), else the VFR delta frame (1 without VFR).
@@ -187,6 +191,11 @@ bool sub_7100926CB0();
 bool sub_7100926D24();
 // 0x7100926fd0: false.
 bool sub_7100926FD0();
+// 0x7100927054: the left stick of MaskController controller 1 (zero without a controller or when
+// a component is NaN / infinite).
+void sub_7100927054(sead::Vector2f* stick);
+// 0x71009270a4: whether that stick is not zero.
+bool sub_71009270A4();
 // 0x7100927238: sub_71009220FC of the "StickSensitivity" game data value (2 by default).
 f32 sub_7100927238();
 // 0x71009272a8: sub_7100927238's value times sub_7100922120().

@@ -1,11 +1,14 @@
 #include <cmath>
+#include <controller/seadController.h>
 #include <gfx/seadViewport.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
+#include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 void sub_7100924BE4(ksys::act::ActorConstDataAccess* accessor) {
     if (auto* info = ksys::act::PlayerInfo::instance())
@@ -78,6 +81,55 @@ bool sub_7100924E48(const sead::Vector3f& dir, const f32& scale, sead::Vector3f*
 
 f32 sub_7100924F04() {
     return sub_71009222E8();
+}
+
+void sub_7100924F08(sead::Vector2f* stick) {
+    stick->set(0, 0);
+    auto* controller =
+        uking::MaskController::getControllerSafe(uking::MaskController::ControllerIdx::_3);
+    if (!controller)
+        return;
+    sead::Vector2f right_stick = controller->getRightStick();
+    if (ksys::util::sub_71011F0FC8(right_stick))
+        return;
+
+    sead::Vector2f value = right_stick;
+    const f32 length = value.length();
+    if (length < 0.005f) {
+        value.set(0, 0);
+    } else if (length > 0.995f) {
+        const f32 old_length = value.length();
+        if (old_length > 0) {
+            const f32 scale = 0.99f / old_length;
+            value.x *= scale;
+            value.y *= scale;
+        }
+    } else {
+        const f32 old_length = value.length();
+        if (old_length > 0) {
+            const f32 scale = (length - 0.005f) / old_length;
+            value.x *= scale;
+            value.y *= scale;
+        }
+    }
+
+    value.x *= 1.0f / 0.99f;
+    value.y *= 1.0f / 0.99f;
+    if (value.squaredLength() > 1.0f)
+        value.normalize();
+
+    const f32 exponent = sub_710092212C();
+    const f32 new_length = std::pow(value.length(), exponent);
+    const f32 old_length = value.length();
+    if (old_length > 0) {
+        const f32 scale = new_length / old_length;
+        value.x *= scale;
+        value.y *= scale;
+    }
+
+    if (ksys::util::sub_71011F0FC8(value))
+        return;
+    *stick = value;
 }
 
 bool sub_7100925110(const sead::Matrix33f& mtx, int axis) {
