@@ -16,6 +16,11 @@ namespace ksys::map {
 class Object;
 }
 
+namespace ksys::phys {
+class CharacterController;
+class RigidBody;
+}  // namespace ksys::phys
+
 namespace ksys::act {
 
 class Actor;
@@ -204,8 +209,22 @@ map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_con
 
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
+// 0x7100ee5980: sets the actor's linear velocity (per frame; scaled by 30 for the physics system)
+// through its character controller or main rigid body.
+void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
 void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
+
+// Per-frame -> per-second (x30) forwarders to the character controller / rigid body setters
+// (0x7100ee60a0-0x7100ee62b0).
+void sub_7100EE60A0(phys::CharacterController* controller, f32 value);
+// 0x7100ee60ac (declared only).
+void sub_7100EE60AC(phys::CharacterController* controller, const sead::Vector3f& up);
+void sub_7100EE61B4(phys::CharacterController* controller, f32 value, const sead::Vector3f& up);
+void sub_7100EE61E8(phys::CharacterController* controller, const sead::Vector3f& vel);
+void sub_7100EE6228(phys::CharacterController* controller, const sead::Vector3f& ang_vel);
+void sub_7100EE6268(phys::RigidBody* body, const sead::Vector3f& vel);
+void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel);
 
 // 0x7100ee67b0: position of the actor `link` points to.
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);

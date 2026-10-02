@@ -15,6 +15,8 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
@@ -776,6 +778,45 @@ bool Actor::checkForbidAttentionSignal() const {
 }  // namespace ksys::act
 
 namespace ksys::act {
+
+void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5F6FC(vel * 30.0f);
+    else if (auto* body = actor->getMainBody())
+        body->setLinearVelocity(vel * 30.0f);
+}
+
+void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5FB24(ang_vel * 30.0f);
+    else if (auto* body = actor->getMainBody())
+        body->setAngularVelocity(ang_vel * 30.0f);
+}
+
+void sub_7100EE60A0(phys::CharacterController* controller, f32 value) {
+    controller->sub_7100F5E7F0(value * 30.0f);
+}
+
+void sub_7100EE61B4(phys::CharacterController* controller, f32 value, const sead::Vector3f& up) {
+    controller->sub_7100F5E7F0(value * 30.0f);
+    sub_7100EE60AC(controller, up);
+}
+
+void sub_7100EE61E8(phys::CharacterController* controller, const sead::Vector3f& vel) {
+    controller->sub_7100F5F6FC(vel * 30.0f);
+}
+
+void sub_7100EE6228(phys::CharacterController* controller, const sead::Vector3f& ang_vel) {
+    controller->sub_7100F5FB24(ang_vel * 30.0f);
+}
+
+void sub_7100EE6268(phys::RigidBody* body, const sead::Vector3f& vel) {
+    body->setLinearVelocity(vel * 30.0f);
+}
+
+void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel) {
+    body->setAngularVelocity(ang_vel * 30.0f);
+}
 
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link) {
     ActorConstDataAccess accessor;

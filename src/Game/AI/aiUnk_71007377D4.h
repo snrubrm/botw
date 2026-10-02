@@ -18,6 +18,15 @@ class RigidBody;
 // character controller or its main rigid body, Actor+0x190). The f32 argument is a ratio that makes
 // the helper return early when it equals 1.0. Names are placeholders.
 
+// 0x7100737708-0x710073771c: forwarders to the ksys::act per-frame velocity setters
+// (actActorUtil.h, 0x7100ee60a0-0x7100ee62b0). Defined in aiUnk_71007377D4.cpp.
+void sub_7100737708(ksys::phys::CharacterController* controller, f32 value);
+void sub_710073770C(ksys::phys::CharacterController* controller, f32 value, const sead::Vector3f& up);
+void sub_7100737710(ksys::phys::CharacterController* controller, const sead::Vector3f& vel);
+void sub_7100737714(ksys::phys::CharacterController* controller, const sead::Vector3f& ang_vel);
+void sub_7100737718(ksys::phys::RigidBody* body, const sead::Vector3f& vel);
+void sub_710073771C(ksys::phys::RigidBody* body, const sead::Vector3f& ang_vel);
+
 /// Reduces the linear velocity.
 void sub_71007377D4(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_71007379FC(ksys::phys::RigidBody* body, f32 ratio);
