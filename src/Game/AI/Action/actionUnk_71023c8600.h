@@ -18,8 +18,8 @@ public:
     explicit Unk_71023c8600(ksys::act::ai::ActionBase* owner);
     ~Unk_71023c8600() override;
 
-    bool isFailed() const override { return mState == 4; }
-    bool isFinished() const override { return mState == 3; }
+    bool isFailed() const override { return _28 == 4; }
+    bool isFinished() const override { return _28 == 3; }
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
@@ -30,7 +30,8 @@ public:
 
     const int* mGrabIdx_s{};
     ksys::act::BaseProcHandle** mIgniteHandle_d{};
-    int mState = 0;
+    /// 0: wait for the AS, 1: connected, 2: grabbed, 3: finished, 4: failed.
+    int _28 = 0;
     sead::SafeString _30;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023c8600, 0x40);
