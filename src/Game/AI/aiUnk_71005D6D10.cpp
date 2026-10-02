@@ -975,6 +975,26 @@ void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     *out = dir * scale + actor->getVelocity();
 }
 
+void sub_71005E2318(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr) {
+    sead::Vector3f dir = sead::Vector3f::zero;
+    if (!(mgr && mgr->m30(&dir))) {
+        actor->getMtx().getBase(dir, 2);
+        dir.normalize();
+        dir = -dir;
+    }
+    *out = dir;
+}
+
+void sub_71005E242C(sead::Vector3f* out, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr) {
+    sead::Vector3f dir = sead::Vector3f::zero;
+    if (!(mgr && mgr->m29(&dir))) {
+        actor->getMtx().getBase(dir, 2);
+        dir.normalize();
+        dir = -dir;
+    }
+    *out = dir;
+}
+
 void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2) {
     auto* model = actor->getModel();
     if (!model)

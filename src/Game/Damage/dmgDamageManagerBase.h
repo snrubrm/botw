@@ -91,8 +91,9 @@ public:
     // Slot 28 (CSV DamageMgrSword::getAttackPos: AttackInfo position; DamageMgr::m28).
     virtual bool getAttackPos(sead::Vector3f* out) { return false; }
 
-    //(FIXME: incomplete)
-    virtual s64 m29(s64 a2);
+    // Slot 29 (0x71006e0158 DamageMgrBase::m29, DamageMgr::m29): writes a direction to `out` (callers test
+    // the result; sub_71005E242C).
+    virtual bool m29(sead::Vector3f* out);
 
     // 0x71006e029c (DamageMgrBase::m30): writes a direction to `out` (callers test the result).
     virtual bool m30(sead::Vector3f* out);
