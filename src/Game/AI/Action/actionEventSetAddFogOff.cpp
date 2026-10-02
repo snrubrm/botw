@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventSetAddFogOff.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldTempMgr.h"
 
 namespace uking::action {
 
@@ -21,7 +23,10 @@ void EventSetAddFogOff::leave_() {
 void EventSetAddFogOff::loadParams_() {}
 
 void EventSetAddFogOff::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFailed())
+        return;
+    ksys::world::Manager::instance()->getTempMgr()->x();
+    setFinished();
 }
 
 }  // namespace uking::action

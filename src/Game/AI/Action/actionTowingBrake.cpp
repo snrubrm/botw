@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTowingBrake.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,10 @@ bool TowingBrake::init_(sead::Heap* heap) {
 }
 
 void TowingBrake::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mActor->getASList()->sub_710115ED5C(66, 10))
+        playAS("Swim", true, 0, 0, -1.0f);
+    else
+        playAS("Swim_Ground", false, 0, 0, -1.0f);
 }
 
 void TowingBrake::leave_() {

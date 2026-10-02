@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionHorseFallAction.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +18,11 @@ void HorseFallAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseFallAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->getASList()->sub_710115B01C(0, 0, true);
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        rideable->sub_7100E8BD80();
+        rideable->Unk_7100e8b2b8::_8 &= ~0x200u;
+    }
 }
 
 void HorseFallAction::loadParams_() {}

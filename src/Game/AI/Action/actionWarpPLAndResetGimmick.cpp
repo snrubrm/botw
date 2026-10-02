@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWarpPLAndResetGimmick.h"
+#include "Game/gameResetter.h"
 
 namespace uking::action {
 
@@ -25,7 +26,10 @@ void WarpPLAndResetGimmick::loadParams_() {
 }
 
 void WarpPLAndResetGimmick::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (Resetter::instance()->finishedReset())
+        setFinished();
 }
 
 }  // namespace uking::action

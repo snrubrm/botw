@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseWaitThrowOffAction.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,12 @@ void HorseWaitThrowOffAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseWaitThrowOffAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mSetRideAttentionInvalid_s) {
+        if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+            rideable->sub_7100E8BD80();
+            rideable->Unk_7100e8b2b8::_8 &= ~0x200u;
+        }
+    }
 }
 
 void HorseWaitThrowOffAction::loadParams_() {
