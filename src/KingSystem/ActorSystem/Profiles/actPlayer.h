@@ -304,7 +304,8 @@ public:
     void x_16();                                                        // 0x892e18
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
-    /* 0x17f1 */ u8 _17f1[0x181c - 0x17f1];
+    /* 0x17f1 */ u8 _17f1[0x1810 - 0x17f1];
+    /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
     /* 0x1828 */ u8 _1828[0x1844 - 0x1828];
     /* 0x1844 */ ksys::Timer _1844;  // set to CleaningTime by PlayerCleaningAround::enter_
@@ -382,7 +383,9 @@ public:
     /* 0x2550 */ u8 _2550[0x2559 - 0x2550];
     /* 0x2559 */ u8 _2559;
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
-    /* 0x26b0 */ u8 _26b0[0x2c98 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
+    /* 0x26b0 */ u8 _26b0[0x2c78 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
+    /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
+    /* 0x2c88 */ u8 _2c88[0x2c98 - 0x2c88];
     /* 0x2c98 */ BaseProcLink _2c98;
     /* 0x2ca8 */ u8 _2ca8[0x2ec0 - 0x2ca8];
 };
