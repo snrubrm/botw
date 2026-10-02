@@ -233,6 +233,7 @@ public:
     // Non-virtual member functions defined in PlayerBase's TU (CSV names, prefix "Player::").
     bool isSlowTime() const;                 // 0x848f10 (reads a global slow-time object)
     bool x_51();                             // 0x848f34 (controller object at 0x17d0, check 3)
+    uking::Unk_710246d058* get17d0() const { return _17d0; }
     bool x_50();                             // 0x848f4c
     bool x_48();                             // 0x84a988
     bool x_2();                              // 0x84bce8

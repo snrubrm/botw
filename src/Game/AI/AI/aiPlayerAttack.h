@@ -13,6 +13,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
+    bool isFinished() const override;
+    bool isChangeable() const override;
+
 protected:
 };
 
