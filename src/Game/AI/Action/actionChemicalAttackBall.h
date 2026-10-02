@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    float m34() override;
     int m35() override;
 
     // static_param at offset 0x80

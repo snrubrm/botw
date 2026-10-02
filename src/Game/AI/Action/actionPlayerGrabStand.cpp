@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerGrabStand.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ void PlayerGrabStand::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerGrabStand::leave_() {}
 
 void PlayerGrabStand::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    m32();
 }
 
 bool PlayerGrabStand::isChangeable() const {

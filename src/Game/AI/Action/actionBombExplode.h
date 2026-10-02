@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class BombExplode : public ActionEx {
@@ -24,7 +28,7 @@ protected:
     void* _30{};
     void* _38{};
     void* _40{};
-    void* _48{};
+    ksys::phys::RigidBody* _48{};
     float _50 = 0.0f;
     float _54 = 0.0f;
     float _58 = 0.0f;

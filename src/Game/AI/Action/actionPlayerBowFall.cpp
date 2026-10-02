@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerBowFall.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -6,6 +7,8 @@ PlayerBowFall::PlayerBowFall(const InitArg& arg) : PlayerFall(arg) {}
 
 void PlayerBowFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerFall::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x20000000);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x4);
 }
 
 void PlayerBowFall::leave_() {}

@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionChemicalAttackBall.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,10 +17,14 @@ bool ChemicalAttackBall::init_(sead::Heap* heap) {
 
 void ChemicalAttackBall::enter_(ksys::act::ai::InlineParamPack* params) {
     ChemicalAttack::enter_(params);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(true);
 }
 
 void ChemicalAttackBall::leave_() {
     ChemicalAttack::leave_();
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(false);
 }
 
 void ChemicalAttackBall::loadParams_() {
@@ -37,6 +46,12 @@ int ChemicalAttackBall::m35() {
     default:
         return 0x800;
     }
+}
+
+float ChemicalAttackBall::m34() {
+    if (*mIsUseMyRange_s)
+        return mActor->getParam()->getRes().mGParamList->getAttack()->mRange.ref();
+    return *mRange_m;
 }
 
 }  // namespace uking::action

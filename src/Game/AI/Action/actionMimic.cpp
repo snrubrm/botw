@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionMimic.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -15,6 +16,9 @@ void Mimic::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Mimic::leave_() {
+    if (*mMimicryMaterial_a >= 0)
+        sub_71005DD27C(mActor, *mMimicryMaterial_a, 0.0f);
+    sub_71005DD34C(mActor, true);
     ActionWithPosAngReduce::leave_();
 }
 
