@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -56,8 +57,7 @@ void SwitchStepSliderConstraint::m32(f32 value) {
             actor->emitBasicSigOn();
             _e0 = 1;
             ksys::eft::searchAndEmitSLink(actor, "on", false);
-            if (!mOnASName_s.isEmpty())
-                playAS(mOnASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+            sub_710028EE24();
         }
     } else if (value >= 0.001f) {
         _a8.mTimer = ksys::Timer(6, 6);
@@ -65,10 +65,28 @@ void SwitchStepSliderConstraint::m32(f32 value) {
             actor->emitBasicSigOff();
             _e0 = 0;
             ksys::eft::searchAndEmitSLink(actor, "off", false);
-            if (!mOffASName_s.isEmpty())
-                playAS(mOffASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+            sub_710028EE98();
         }
     }
+}
+
+void SwitchStepSliderConstraint::m33(ksys::phys::RigidBody* body, const sead::Vector3f* impulse,
+                                     const sead::Vector3f* pos) {
+    body->applyLinearImpulse(*impulse * body->getTimeFactor());
+}
+
+void SwitchStepSliderConstraint::m34() {
+    sub_710028EE98();
+}
+
+void SwitchStepSliderConstraint::sub_710028EE24() {
+    if (!mOnASName_s.isEmpty())
+        playAS(mOnASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+}
+
+void SwitchStepSliderConstraint::sub_710028EE98() {
+    if (!mOffASName_s.isEmpty())
+        playAS(mOffASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
 }
 
 void SwitchStepSliderConstraint::m9() {

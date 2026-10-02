@@ -18,6 +18,13 @@ public:
 
 protected:
     void calc_() override;
+    virtual ksys::act::BaseProcHandle* m32();
+    virtual const sead::Vector3f* m33();
+    virtual const sead::Vector3f* m34();
+    // Gravity-derived factor (y component of the actor's gravity / 900).
+    virtual f32 m35(ksys::act::Actor* actor);
+    // 0x71001b734c (declaration only): ignites the actor referenced by `handle`.
+    void sub_71001B734C(ksys::act::BaseProcHandle* handle);
 
     // static_param at offset 0x48
     const float* mIgniteSpeed_s{};

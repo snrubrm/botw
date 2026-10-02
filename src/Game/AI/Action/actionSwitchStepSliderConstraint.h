@@ -5,6 +5,7 @@
 
 namespace ksys::phys {
 class Constraint;
+class RigidBody;
 }
 
 namespace ksys::phys {
@@ -30,6 +31,14 @@ protected:
     // Called with the slider position: switches on (emitBasicSigOn, "on" SLink, OnASName) after the
     // timer _a8 ran out at the bottom, off when it moves up.
     virtual void m32(f32 value);
+    // Applies the impulse to the slider body (Once: moves the body to `pos` once the switch is on).
+    virtual void m33(ksys::phys::RigidBody* body, const sead::Vector3f* impulse,
+                     const sead::Vector3f* pos);
+    // Plays OffASName.
+    virtual void m34();
+    // 0x710028ee24 / 0x710028ee98: play OnASName / OffASName (if set).
+    void sub_710028EE24();
+    void sub_710028EE98();
 
     ksys::phys::Constraint* _20{};
     // static_param at offset 0x28
