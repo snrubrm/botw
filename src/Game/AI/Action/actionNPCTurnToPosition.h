@@ -1,6 +1,10 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace uking::action {
 
@@ -24,6 +28,15 @@ protected:
     float* mPosY_d{};
     // dynamic_param at offset 0x30
     float* mPosZ_d{};
+    sead::Vector3f _38;
+    bool _44 = false;
+    bool _45 = false;
+    sead::Vector3f _48;
+    bool _54 = false;
+    sead::Vector3f _58;
+    ksys::Timer _64{};
+    ksys::VFRVec3f _70;
 };
+KSYS_CHECK_SIZE_NX150(NPCTurnToPosition, 0x98);
 
 }  // namespace uking::action
