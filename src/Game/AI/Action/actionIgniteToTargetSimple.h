@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::act::BaseProcHandle* handle);
 
     // static_param at offset 0x48
     const float* mIgniteSpeed_s{};

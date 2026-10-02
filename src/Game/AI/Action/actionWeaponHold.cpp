@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWeaponHold.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +28,8 @@ void WeaponHold::loadParams_() {
 
 void WeaponHold::calc_() {
     OnetimeStopASPlay::calc_();
+    if (mActor->getASList()->x(0x54, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        sub_71005DB6D0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::action

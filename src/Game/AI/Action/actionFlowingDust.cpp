@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFlowingDust.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,7 +23,10 @@ void FlowingDust::leave_() {
 void FlowingDust::loadParams_() {}
 
 void FlowingDust::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        mActor->emitBasicSigOn();
+    else
+        mActor->emitBasicSigOff();
 }
 
 }  // namespace uking::action

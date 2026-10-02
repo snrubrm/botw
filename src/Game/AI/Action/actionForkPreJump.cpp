@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkPreJump.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -22,6 +24,10 @@ void ForkPreJump::loadParams_() {}
 
 void ForkPreJump::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool ForkPreJump::isFinished() const {
+    return mActor->getASList()->x(0x44, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true);
 }
 
 }  // namespace uking::action

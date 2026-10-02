@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionOnetimeStopASPlay.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::act::BaseProcHandle* handle);
+    virtual const sead::Matrix34f& m33();
 
     // static_param at offset 0x48
     const float* mIgniteSpeed_s{};
