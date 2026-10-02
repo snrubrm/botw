@@ -28,6 +28,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -37,6 +38,9 @@ public:
     void sub_710054779C();
     void sub_71005478C8();
     void sub_7100547D20(s32 type);
+    void sub_7100547FF4();
+    bool sub_7100548220(bool a1);
+    void sub_71005484D4();
     void sub_7100548638();
     bool sub_7100548A38();
     void sub_7100549108(Unk1* bullet);

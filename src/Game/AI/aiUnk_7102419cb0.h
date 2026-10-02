@@ -20,7 +20,10 @@ public:
     // RemainsWaterBulletShooter::enter_ counts the non-null entries; RemainsWaterBulletController
     // clears them in its destructor.
     void* _8[5]{};
-    u32 _30 = 0;
+    bool _30 = false;  // RemainsWaterBulletController::calc_
+    bool _31 = false;
+    bool _32 = false;
+    bool _33 = false;  // RemainsWaterBulletController::calc_
     bool _34 = false;  // RemainsWaterBattleRoot::handleMessage_ (message 0x8000069)
     s32 _38 = 0;  // number of destroyed weak points (RemainsWaterRoot::sub_710054BAC8)
     s32 _3c = 0;  // phase (RemainsWaterBattleRoot::sub_7100545B8C switches on 0/1/2)

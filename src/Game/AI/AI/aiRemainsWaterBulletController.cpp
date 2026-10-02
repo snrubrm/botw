@@ -39,6 +39,73 @@ void RemainsWaterBulletController::enter_(ksys::act::ai::InlineParamPack* params
         sub_71005478C8();
 }
 
+void RemainsWaterBulletController::calc_() {
+    sub_71005474E4();
+
+    if (!mRemainsWaterBattleInfo_a)
+        return;
+    auto* info = sead::DynamicCast<Unk_7102419cb0>(
+        *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+    if (!info)
+        return;
+
+    if (info->_34) {
+        sub_7100547D20(-1);
+        info->_34 = false;
+        sub_71005478C8();
+        return;
+    }
+
+    if (_36c != info->_38) {
+        sub_7100547D20(-1);
+        _36c = info->_38;
+    }
+    if (_36c <= 3)
+        sub_7100547FF4();
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("射出前待機")) {
+            if (!sub_7100548220(false))
+                sub_71005478C8();
+        } else if (isCurrentChild("射出後待機")) {
+            sub_71005484D4();
+        } else if (isCurrentChild("冷却中")) {
+            sub_710054779C();
+        } else if (isCurrentChild("誘導弾発射")) {
+            sub_7100548220(true);
+        } else {
+            sub_71005484D4();
+        }
+        return;
+    }
+
+    if (!child->isChangeable())
+        return;
+
+    if (isCurrentChild("射出前待機")) {
+        sub_7100548220(false);
+    } else if (isCurrentChild("射出後待機")) {
+        if (!(_38.mTimer.value <= sead::Mathf::epsilon()))
+            _38.sub_7100D3BCE4();
+        sub_7100548638();
+        if (_38.mTimer.value <= sead::Mathf::epsilon() && _370 <= 0) {
+            if (_370 != 0 || (info->_30 && !info->_33)) {
+                if (sub_7100548A38()) {
+                    _38.mTimer = ksys::Timer(*mSecondBulletTimer_s, *mSecondBulletTimer_s);
+                    ++_370;
+                }
+            }
+        }
+        if (_370 == 1 && _330.size() == 0) {
+            _370 = 0;
+            _38.mTimer.reset(*mFirstBulletTimer_s);
+        }
+        if (sub_7100548B34())
+            sub_710054779C();
+    }
+}
+
 void RemainsWaterBulletController::leave_() {
     sub_7100546D30(-1);
     sub_7100547D20(-1);
@@ -180,6 +247,31 @@ void RemainsWaterBulletController::sub_7100548638() {
             ++i;
         }
     }
+}
+
+// NON_MATCHING: same as sub_7100548638 (matches with a separate `delay` local)
+void RemainsWaterBulletController::sub_71005484D4() {
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info) {
+            for (auto*& ptr : info->_8)
+                ptr = nullptr;
+        }
+    }
+    _370 = 0;
+    const f32 time =
+        *mFirstBulletTimer_s + (_374.value <= sead::Mathf::epsilon() ? 0.0f : 30.0f);
+    _38.mTimer = ksys::Timer(time, time);
+    _330.clear();
+    sub_7100548638();
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info)
+            info->_3c = 1;
+    }
+    changeChild("射出後待機");
 }
 
 bool RemainsWaterBulletController::sub_7100548B34() {

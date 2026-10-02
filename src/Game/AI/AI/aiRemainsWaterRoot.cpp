@@ -71,7 +71,10 @@ void RemainsWaterRoot::sub_710054BAC8(bool x) {
                 *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a) = &_58;
                 for (auto*& ptr : _58._8)
                     ptr = nullptr;
-                _58._30 = 0;
+                _58._30 = false;
+                _58._31 = false;
+                _58._32 = false;
+                _58._33 = false;
                 _58._34 = false;
                 _58._38 = 0;
                 _58._3c = 0;
@@ -90,7 +93,10 @@ void RemainsWaterRoot::sub_710054BAC8(bool x) {
             *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a) = &_58;
             for (auto*& ptr : _58._8)
                 ptr = nullptr;
-            _58._30 = 0;
+            _58._30 = false;
+            _58._31 = false;
+            _58._32 = false;
+            _58._33 = false;
             _58._34 = false;
             _58._38 = 0;
             _58._3c = 0;
