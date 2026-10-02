@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100316D50();
 protected:
     // static_param at offset 0x38
     const float* mDistXZ_s{};

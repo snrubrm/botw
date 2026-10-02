@@ -64,4 +64,8 @@ void BeamExplodeBase::calc_() {
     setFinished();
 }
 
+void BeamExplodeBase::m34() {
+    sub_710056CA00();
+}
+
 }  // namespace uking::ai

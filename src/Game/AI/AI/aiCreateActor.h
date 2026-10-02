@@ -19,6 +19,7 @@ public:
 
     virtual const sead::SafeString& m34();
 
+    void sub_71003591E4(ksys::act::ai::InlineParamPack* params);
 protected:
     // static_param at offset 0x38
     const int* mCreatePriorityState_s{};

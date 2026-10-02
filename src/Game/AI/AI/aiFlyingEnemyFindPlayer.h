@@ -19,6 +19,9 @@ public:
 
     bool m38() override { return false; }
 
+    bool sub_71003D2E30(const sead::Vector3f& pos);
+    bool m36(bool b) override;
+    bool m37() override;
 protected:
 };
 

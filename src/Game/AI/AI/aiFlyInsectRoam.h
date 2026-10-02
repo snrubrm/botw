@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003D38B4();
 protected:
     // static_param at offset 0x38
     const float* mTerritoryRadius_s{};
@@ -38,7 +40,7 @@ protected:
     const bool* mIsEnableOnLand_s{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
-    sead::Vector3f _90{0, 0, 0};
+    ksys::Timer _90;
     f32 _9c{};
     bool _a0{};
 };

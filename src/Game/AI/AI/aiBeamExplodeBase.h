@@ -21,6 +21,7 @@ public:
     void loadParams_() override;
     virtual void m34();
 
+    void sub_710056CA00();
 protected:
     // static_param at offset 0x38
     const float* mMaxDistance_s{};

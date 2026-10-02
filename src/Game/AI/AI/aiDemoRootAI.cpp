@@ -11,7 +11,10 @@ bool DemoRootAI::init_(sead::Heap* heap) {
 }
 
 void DemoRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48 &= 4;
+    _4a = 0;
+    setFinished();
+    sub_7100D62598();
 }
 
 void DemoRootAI::leave_() {

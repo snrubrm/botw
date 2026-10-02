@@ -11,7 +11,8 @@ bool EnemyFortressChat::init_(sead::Heap* heap) {
 }
 
 void EnemyFortressChat::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _48.reset();
+    sub_710038E110();
 }
 
 void EnemyFortressChat::leave_() {

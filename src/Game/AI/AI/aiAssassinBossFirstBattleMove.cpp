@@ -8,7 +8,10 @@ AssassinBossFirstBattleMove::AssassinBossFirstBattleMove(const InitArg& arg)
 AssassinBossFirstBattleMove::~AssassinBossFirstBattleMove() = default;
 
 bool AssassinBossFirstBattleMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    sub_7100316D50();
+    _64 = 15;
+    _68 = 15;
+    return true;
 }
 
 void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params) {

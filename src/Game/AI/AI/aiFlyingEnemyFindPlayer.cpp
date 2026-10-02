@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyingEnemyFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,16 @@ void FlyingEnemyFindPlayer::leave_() {
 
 void FlyingEnemyFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
+}
+
+bool FlyingEnemyFindPlayer::m36(bool b) {
+    return sub_71003D2E30(sub_71005D960C(mActor));
+}
+
+bool FlyingEnemyFindPlayer::m37() {
+    sead::Vector3f pos = sub_71005D98D8(mActor);
+    pos.y += 0.8f;
+    return sub_71003D2E30(pos);
 }
 
 }  // namespace uking::ai

@@ -91,4 +91,8 @@ bool EnemyNormal::m73() {
     return isCurrentChild("プレイヤー発見") || isCurrentChild("諦め");
 }
 
+void EnemyNormal::m43() {
+    sub_71003A19AC();
+}
+
 }  // namespace uking::ai

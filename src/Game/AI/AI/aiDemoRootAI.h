@@ -15,10 +15,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100D62598();
 protected:
     int _38{};
     void* _40{};
-    int _48{};
+    u16 _48{};
+    u16 _4a{};
 };
 
 }  // namespace uking::ai

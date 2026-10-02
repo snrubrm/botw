@@ -16,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_710038E110();
 protected:
     // static_param at offset 0x38
     const float* mNextPer_s{};

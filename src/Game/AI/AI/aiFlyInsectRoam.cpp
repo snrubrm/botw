@@ -13,7 +13,9 @@ bool FlyInsectRoam::init_(sead::Heap* heap) {
 }
 
 void FlyInsectRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _a0 = false;
+    sub_71003D38B4();
+    _90 = ksys::Timer(30, 30);
 }
 
 void FlyInsectRoam::leave_() {

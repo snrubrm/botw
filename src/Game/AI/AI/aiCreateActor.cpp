@@ -11,7 +11,7 @@ bool CreateActor::init_(sead::Heap* heap) {
 }
 
 void CreateActor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71003591E4(nullptr);
 }
 
 void CreateActor::leave_() {

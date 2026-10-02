@@ -77,6 +77,7 @@ public:
     virtual void m72();
     virtual bool m73();
 
+    void sub_71003A19AC();
 protected:
     // aitree_variable at offset 0x38
     int* mPlayerSoundSealRefCount_a{};
