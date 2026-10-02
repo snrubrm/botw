@@ -176,8 +176,8 @@ struct Unk_71023eaec8_Payload {
 
 // Message 0x80000d8 (sender Unk_7102411f48)
 struct Unk_7102411f48_Payload {
-    bool _0;
-    u32 _4;
+    bool _0 = true;
+    u32 _4 = 0;
     sead::JobQueueLock mLock;
 };
 
