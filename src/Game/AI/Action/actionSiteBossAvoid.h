@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -34,6 +36,11 @@ protected:
     sead::Vector3f* mAvoidVec_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mPlayerPos_d{};
+    ksys::Timer _60;
+    sead::Matrix33f _6c;
+    sead::Vector3f _90;
+    f32 _9c = 0;
+    f32 _a0 = 0;
 };
 
 }  // namespace uking::action
