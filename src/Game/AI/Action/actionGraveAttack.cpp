@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionGraveAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -27,7 +29,25 @@ void GraveAttack::loadParams_() {
 }
 
 void GraveAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    switch (_3c) {
+    case 0: {
+        ksys::Timer::update(&_38, -1.0f);
+        mActor->setScale({1.0f, (*mTime_s - _38) / *mTime_s, 1.0f});
+        if (_38 <= 0.0f) {
+            mActor->setScale(sead::Vector3f::ones);
+            _38 = *mKeepTime_s;
+            _3c = 1;
+        }
+        break;
+    }
+    case 1:
+        ksys::Timer::update(&_38, -1.0f);
+        if (_38 <= 0.0f) {
+            setFinished();
+            _3c = 2;
+        }
+        break;
+    }
 }
 
 }  // namespace uking::action

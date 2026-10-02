@@ -16,7 +16,12 @@ bool GelEnemyFreeze::init_(sead::Heap* heap) {
 }
 
 void GelEnemyFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
     Freeze::enter_(params);
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
+        gel->_1678 |= 3;
+        gel->_1620.z = 1.0f;
+    }
 }
 
 void GelEnemyFreeze::leave_() {

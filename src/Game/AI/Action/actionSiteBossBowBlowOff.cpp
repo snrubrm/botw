@@ -28,6 +28,14 @@ void SiteBossBowBlowOff::loadParams_() {
 }
 
 void SiteBossBowBlowOff::calc_() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && boss->_1558.isOnBit(7))
+        return;
+    if (m36()) {
+        _160 = ksys::Timer(0.0f, 0.0f);
+        if (_ec == 1)
+            setFinished();
+    }
     SiteBossBlowOff::calc_();
 }
 
