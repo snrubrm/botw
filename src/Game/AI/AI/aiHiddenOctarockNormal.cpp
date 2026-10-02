@@ -4,6 +4,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
@@ -123,6 +124,33 @@ void HiddenOctarockNormal::m69(Unk2* target) {
             awareness->sub_7100D7E9BC(0);
     }
     sub_71005D8E9C(mActor);
+}
+
+void HiddenOctarockNormal::m34() {
+    if (*mIsHide_s && (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+                       testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+                       testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4))) {
+        _3ac.reset(8);
+        if (*mIsSitDown_s)
+            sub_7100432294();
+        changeChild("隠れる");
+        return;
+    }
+    if (*mIsSitDown_s)
+        sub_7100432294();
+    EnemyNormal::m34();
+}
+
+void HiddenOctarockNormal::sub_7100432294() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller || !*mIsHitGround_s)
+        return;
+    controller->sub_7100F605F0();
+    controller->disableContactLayer(ksys::phys::ContactLayer::EntityGround);
+    controller->disableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    controller->disableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    controller->disableContactLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    controller->disableContactLayer(ksys::phys::ContactLayer::EntityTree);
 }
 
 }  // namespace uking::ai

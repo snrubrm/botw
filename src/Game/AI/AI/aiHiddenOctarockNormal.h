@@ -26,6 +26,11 @@ public:
     void m60(Unk3* out) override;
     void m61(Unk3* out) override;
     void m69(Unk2* target) override;
+    void m34() override;
+
+    // 0x7100432294: with IsHitGround, the character controller stops colliding with the ground
+    // layers.
+    void sub_7100432294();
 protected:
     // static_param at offset 0x3d0
     const float* mOptionHitReactionDelay_s{};
