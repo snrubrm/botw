@@ -46,6 +46,9 @@ void setShowGolfCount(const sead::SafeString& counter_name);
 void setShowRaceResult(s32 result_type);
 void showInfoOverlay(s32 type);
 void showRuntimeTip(s32 type);
+// 0x7100a95f5c: called by PlayerCutFall::enter_ with the player's current tip type (0x54). Not
+// decompiled yet.
+void sub_7100A95F5C(s32 type);
 
 void minigameScreenMove();
 

@@ -323,7 +323,9 @@ public:
     /* 0x1c68 */ u32 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
     /* 0x1c6c */ u8 _1c6c[0x1ca4 - 0x1c6c];
     /* 0x1ca4 */ s32 _1ca4;
-    /* 0x1ca8 */ u8 _1ca8[0x1cbe - 0x1ca8];
+    /* 0x1ca8 */ u8 _1ca8[0x1cb0 - 0x1ca8];
+    /* 0x1cb0 */ s32 _1cb0;  // a ui tip type (PlayerCutFall::enter_)
+    /* 0x1cb4 */ u8 _1cb4[0x1cbe - 0x1cb4];
     /* 0x1cbe */ u8 _1cbe;
     /* 0x1cbf */ u8 _1cbf;
     /* 0x1cc0 */ u8 _1cc0[0x1cc8 - 0x1cc0];
