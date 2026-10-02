@@ -66,6 +66,7 @@ void GolemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GolemRoot::leave_() {
     GolemRootBase::leave_();
+    sub_71005DA114(mActor, &_3b0);
 }
 
 void GolemRoot::loadParams_() {
