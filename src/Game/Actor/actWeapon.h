@@ -198,6 +198,8 @@ public:
     /* 0xc4c */ bool _c4c = false;
     /* 0xc50 */ u8 _c50[0xd54 - 0xc50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
+    /* 0xd58 */ u8 _d58[0xe50 - 0xd58];  // TODO
+    /* 0xe50 */ u8 _e50 = 0;  // flags
 };
 
 }  // namespace uking::act

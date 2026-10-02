@@ -1,4 +1,10 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
@@ -811,4 +817,97 @@ ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor) {
         return nullptr;
     return sead::DynamicCast<ksys::act::Actor>(
         ride_info->_18.getProc(nullptr, ride_info->mActor));
+}
+
+bool sub_71005D83C8(ksys::act::Actor* actor, int idx) {
+    auto* weapon = sub_71005D83E8(actor, idx);
+    return weapon && (weapon->_e50 >> 6 & 1);
+}
+
+// NON_MATCHING: the original passes the WeatherMgr as `this` (WeatherMgr::isRaining is declared
+// static in this repo)
+bool sub_71005D723C() {
+    auto* wm = ksys::world::Manager::instance();
+    if (wm && wm->getWeatherMgr())
+        return ksys::world::WeatherMgr::isRaining();
+    return false;
+}
+
+bool sub_71005DD734(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank) {
+    return actor->getASList()->x(a1, name, slot, bank,
+                                 &ksys::as::ASList::Unk2::sub_710116388C, true);
+}
+
+bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank) {
+    return actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_710116388C,
+                                 true);
+}
+
+bool sub_71005DD780(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank) {
+    return actor->getASList()->x(a1, name, slot, bank,
+                                 &ksys::as::ASList::Unk2::sub_71011637EC, true);
+}
+
+bool sub_71005DD798(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank) {
+    return actor->getASList()->x(a1, name, slot, bank,
+                                 &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank) {
+    return actor->getASList()->x(3, name, slot, bank, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                 true);
+}
+
+bool sub_71005E116C(ksys::act::BaseProcLink* link) {
+    if (ksys::act::hasTag(link, ksys::act::tags::BeeTarget))
+        return true;
+    return ksys::act::isPlayerProfile(link);
+}
+
+int sub_71005E2B28(int value) {
+    switch (value) {
+    case 0:
+        return 0;
+    case 1:
+        return 1;
+    case 2:
+        return 2;
+    case 3:
+        return 3;
+    case 4:
+        return 4;
+    case 5:
+        return 5;
+    case 6:
+        return 8;
+    case 7:
+        return 9;
+    case 8:
+        return 10;
+    default:
+        return 3;
+    }
+}
+
+void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,
+                    f32 scale) {
+    if (!out || !actor)
+        return;
+    *out = dir * scale + actor->getVelocity();
+}
+
+void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    auto& units = model->getUnits();
+    if (sead::Mathi::max(a2, a1) >= units.size())
+        return;
+    if (a2 >= 0 && units[a2]->mModelUnit)
+        units[a2]->_1e |= 0x20;
+    if (a1 >= 0 && units[a1]->mModelUnit)
+        units[a1]->_1e &= ~0x20;
 }

@@ -189,3 +189,22 @@ bool sub_71005DA8CC(ksys::act::Actor* actor, int idx);
 void sub_71005DD34C(ksys::act::Actor* actor, bool on);
 /// The actor linked by the actor's ride info (Actor::getPlayerRideInfo), or nullptr.
 ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
+
+// --- misc ---
+
+/// Bit 6 of Weapon::_e50 of the uking::act::Weapon in slot `idx`.
+bool sub_71005D83C8(ksys::act::Actor* actor, int idx);
+bool sub_71005D723C();
+bool sub_71005DD734(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank);
+bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank);
+bool sub_71005DD780(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank);
+bool sub_71005DD798(ksys::act::Actor* actor, int a1, const sead::SafeString& name, int slot,
+                    int bank);
+bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank);
+bool sub_71005E116C(ksys::act::BaseProcLink* link);
+int sub_71005E2B28(int value);
+void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,
+                    f32 scale);
+void sub_71005E01CC(ksys::act::Actor* actor, int a1, int a2);
