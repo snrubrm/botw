@@ -128,6 +128,23 @@ public:
     // 0x71003a02e0 / 0x71003a0e38: switch to プレイヤー発見 / 不審者発見 for `target`.
     void sub_71003A02E0(Unk2* target);
     void sub_71003A0E38(Unk2* target);
+    // 0x71003a0fd8 / 0x71003a1164 / 0x71003a1298 / 0x71003a13e4 / 0x71003a157c: switch to
+    // 音気づき / 脅威感知 / 気配気づき / 行動中仲間発見 / 不調仲間発見 for `target`.
+    void sub_71003A0FD8(Unk2* target);
+    void sub_71003A1164(Unk2* target);
+    void sub_71003A1298(Unk2* target);
+    void sub_71003A13E4(Unk2* target);
+    void sub_71003A157C(Unk2* target);
+    // 0x71003a3d0c: m58 + the state change for an attack candidate type.
+    void sub_71003A3D0C(s32 type, Unk2* target);
+    // 0x710039ef24: tries the attack candidates of m49 (mode 0) / m50 (mode 1).
+    bool sub_710039EF24(s32 mode);
+    // 0x710039f570 (not decompiled: iterates Enemy::_d70 entries with an inline iterator).
+    void sub_710039F570(bool a1);
+    // 0x710039eb7c / 0x710039ec4c / 0x710039ed94: per-frame updates called by calc_.
+    void sub_710039EB7C();
+    void sub_710039EC4C();
+    void sub_710039ED94();
     // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
     ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);
