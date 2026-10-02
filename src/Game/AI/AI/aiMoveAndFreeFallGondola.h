@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    f32 m35() override;
 
 protected:
     // map_unit_param at offset 0xa0

@@ -16,6 +16,10 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    f32 m35() override;
+    void m38() override;
+
+    void sub_7100537354(const sead::Vector3f& rail_pos, const sead::Vector3f& pos);
 
 protected:
     // static_param at offset 0xa0

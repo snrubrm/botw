@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRailMoveRandomIgnoreStop.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -25,6 +26,13 @@ void RailMoveRandomIgnoreStop::leave_() {
 void RailMoveRandomIgnoreStop::loadParams_() {
     RailMoveWithClose::loadParams_();
     getStaticParam(&mStopRate_s, "StopRate");
+}
+
+void RailMoveRandomIgnoreStop::m39() {
+    if (sead::GlobalRandom::instance()->getS32Range(0, 100) < *mStopRate_s)
+        RailMove::m39();
+    else
+        sub_710032C088();
 }
 
 }  // namespace uking::ai

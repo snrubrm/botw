@@ -28,4 +28,6 @@ void RemainsFireDroneNormal::loadParams_() {
     getAITreeVariable(&mTargetSpeed_a, "TargetSpeed");
 }
 
+void RemainsFireDroneNormal::m34() {}
+
 }  // namespace uking::ai
