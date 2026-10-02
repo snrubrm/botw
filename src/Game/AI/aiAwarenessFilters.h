@@ -88,6 +88,8 @@ public:
 // vtable 0x7102451470 (m2 0x7100745410, D0 0x71007454c0); m2 tail-calls Unk_71024514c0::m2.
 class Unk_7102451470 : public Unk_71024514c0 {
 public:
+    using Unk_71024514c0::Unk_71024514c0;
+
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 

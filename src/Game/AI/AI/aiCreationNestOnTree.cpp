@@ -42,4 +42,13 @@ void CreationNestOnTree::loadParams_() {
     getStaticParam(&mIsRemainNum_s, "IsRemainNum");
 }
 
+void CreationNestOnTree::m36() {
+    _d0.sub_7100711C5C();
+    _d0.sub_7100711B14(false);
+    _d0._d = true;
+    if (auto* awareness = mActor->getAwareness())
+        awareness->disable();
+    ItemOnTree::m36();
+}
+
 }  // namespace uking::ai

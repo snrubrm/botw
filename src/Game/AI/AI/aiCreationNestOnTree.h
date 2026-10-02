@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36() override;
+
 protected:
     // static_param at offset 0xb8
     const int* mActorNum_s{};
