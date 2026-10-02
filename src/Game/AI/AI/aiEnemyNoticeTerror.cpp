@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiEnemyNoticeTerror.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actUnk_71002dccbc.h"
 
 namespace uking::ai {
 
@@ -39,6 +41,18 @@ void EnemyNoticeTerror::loadParams_() {
     getStaticParam(&mNoWarnHeightMin_s, "NoWarnHeightMin");
     getStaticParam(&mNoWarnHeightMax_s, "NoWarnHeightMax");
     getStaticParam(&mNoTerrorDist_s, "NoTerrorDist");
+}
+
+void EnemyNoticeTerror::m36() {
+    auto* unk = sub_71005D9D68(mActor);
+    auto* link = sub_71005D9050(mActor);
+    if ((link && *link == _60._0) || (unk && unk->sub_71002DC9E8(_60._0, 2, false))) {
+        m35();
+        return;
+    }
+    if (unk)
+        unk->sub_71002DC628(_60._0, 2);
+    sub_71003A7DD4();
 }
 
 }  // namespace uking::ai

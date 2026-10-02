@@ -34,6 +34,7 @@ public:
     virtual void m44();
     virtual bool m45();
 
+    void sub_710038782C(ksys::act::ai::InlineParamPack* params);
 protected:
     // static_param at offset 0x38
     const int* mJustGuardTimesMin_s{};

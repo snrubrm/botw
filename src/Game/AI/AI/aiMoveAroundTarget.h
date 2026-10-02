@@ -18,6 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71004B004C();
 protected:
     // static_param at offset 0x38
     const int* mTurnTimeBase_s{};

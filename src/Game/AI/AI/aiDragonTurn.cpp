@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDragonTurn.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,11 @@ bool DragonTurn::init_(sead::Heap* heap) {
 }
 
 void DragonTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!sead::IsDerivedFrom<act::Dragon>(mActor))
+        return;
+    sub_7100371E4C();
+    _74 = *mAvoidStartDistance_s;
+    mFlags.set(Flag::Changeable);
 }
 
 void DragonTurn::leave_() {

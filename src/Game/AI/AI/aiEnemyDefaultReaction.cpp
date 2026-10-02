@@ -8,7 +8,15 @@ namespace uking::ai {
 EnemyDefaultReaction::EnemyDefaultReaction(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void EnemyDefaultReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (ksys::act::isAttClientEnabled(mActor, "Grab")) {
+        _62 = true;
+        ksys::act::disableAttClient(mActor, "Grab");
+    } else {
+        _62 = false;
+    }
+    m44();
+    sub_710038782C(params);
+    _5c = *mSmallDamageCancelTimes_s;
 }
 
 void EnemyDefaultReaction::leave_() {

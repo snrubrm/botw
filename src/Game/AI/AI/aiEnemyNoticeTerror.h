@@ -29,6 +29,7 @@ public:
     virtual void m35();
     virtual void m36();
 
+    void sub_71003A7DD4();
 protected:
     // static_param at offset 0x38
     const int* mWaitTime_s{};
