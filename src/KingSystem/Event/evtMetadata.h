@@ -46,8 +46,10 @@ public:
 
     bool isSetNoDeleteCurrentActor() const { return mSetNoDeleteCurrentActor; }
     bool isSkipIsStartableAirCheck() const { return mSkipIsStartableAirCheck; }
+    void setSkipIsStartableAirCheck(bool skip) { mSkipIsStartableAirCheck = skip; }
     bool isForceNoChild() const { return mForceNoChild; }
     bool is13() const { return _13; }
+    void set13(bool value) { _13 = value; }
     void* get18() const { return _18; }
     u32 get20() const { return _20; }
     int getEventStartWaitFrame() const { return mEventStartWaitFrame; }

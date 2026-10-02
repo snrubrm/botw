@@ -12,6 +12,8 @@ target_sources(uking PRIVATE
   gameMaskController.h
   gameResetter.cpp
   gameResetter.h
+  gameUnk_71008ba8d8.cpp
+  gameUnk_71008ba8d8.h
   gameUnk_71008bbda4.cpp
   gamePlayReport.cpp
   gamePlayReport.h
