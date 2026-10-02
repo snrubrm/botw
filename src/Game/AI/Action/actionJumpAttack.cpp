@@ -10,7 +10,6 @@ namespace uking::action {
 // NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 JumpAttack::JumpAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-JumpAttack::~JumpAttack() = default;
 
 void JumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
