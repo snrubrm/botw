@@ -4,6 +4,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71025afb58.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/Utils/Types.h"
 

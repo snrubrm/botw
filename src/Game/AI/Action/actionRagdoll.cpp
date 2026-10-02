@@ -1,6 +1,11 @@
 #include "Game/AI/Action/actionRagdoll.h"
-#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include <cmath>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -30,7 +35,18 @@ void Ragdoll::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Ragdoll::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_f8.mSlot))
+        unit->sub_unattach(mActor);
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (actor->_868)
+            actor->_868->sub_71006EE2FC();
+    }
+    m39();
+    if (auto* controller = mActor->getCharacterController()) {
+        mCCAccessor.resetMotionType(controller);
+        mCCAccessor.sub_710072AEEC(controller);
+        controller->sub_7100F60604();
+    }
 }
 
 void Ragdoll::loadParams_() {
@@ -56,6 +72,54 @@ void Ragdoll::loadParams_() {
 
 void Ragdoll::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: the original re-reads pos.y from the stack after getAabbInWorld (ours keeps it in a callee-saved
+// register)
+bool Ragdoll::m34() {
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!actor)
+        return true;
+    if (!actor->_868)
+        return false;
+    if (!actor->_868->sub_71006EDF9C())
+        return false;
+
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    ksys::phys::RigidBody* body;
+    if (auto* controller = actor->getCharacterController()) {
+        body = controller->sub_7100F61A34();
+    } else {
+        body = actor->getMainBody();
+        if (!body)
+            return true;
+    }
+    f32 min_y;
+    {
+        sead::BoundBox3f aabb;
+        body->getAabbInWorld(&aabb);
+        min_y = aabb.getMin().y;
+    }
+    pos.y += 1.0f;
+    sead::Vector3f to = pos;
+    to.y = min_y - 1.5f;
+    sead::Vector3f hit_pos;
+    sead::Vector3f normal;
+    if (!sub_710072E928(pos, to, &hit_pos, &normal, nullptr, 0.0f))
+        return false;
+    const f32 angle =
+        std::atan2(normal.y, std::sqrt(normal.x * normal.x + normal.z * normal.z)) - sead::Mathf::pi() / 2;
+    return sead::Mathf::abs(angle) < *mGetUpGroundAngle_s;
+}
+
+bool Ragdoll::m35() {
+    if (_c0.z <= 0.0f || _cc.z <= 0.0f || _d8.z <= 0.0f)
+        return true;
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (actor && actor->_868 && !actor->_868->sub_71006EE15C())
+        return false;
+    return true;
 }
 
 bool Ragdoll::m36() {

@@ -43,11 +43,8 @@ void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ForkAlwaysForceGetUp::leave_() {
     if (*mIsUseCRBOffsetUnit_s) {
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot)) {
-            auto* actor = mActor;
-            if (--unit->_b4 <= 0)
-                actor->sub_71011DA868(&unit->_8);
-        }
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+            unit->sub_unattach(mActor);
     }
 }
 
