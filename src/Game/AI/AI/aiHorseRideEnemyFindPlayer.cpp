@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHorseRideEnemyFindPlayer.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -42,6 +43,22 @@ bool HorseRideEnemyFindPlayer::m38() {
         }
     }
     return EnemyBaseFindPlayer::m38();
+}
+
+bool HorseRideEnemyFindPlayer::m39(const sead::Vector3f& pos, bool b) {
+    if (auto* ride_info = mActor->getPlayerRideInfo()) {
+        auto* proc = ride_info->_18.getProc(nullptr, ride_info->mActor);
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
+            f32 dist;
+            if (auto* nav = actor->m45())
+                dist = nav->_2a8 * nav->_2ac;
+            else
+                dist = 0;
+            sead::Vector3f out;
+            return sub_710072F944(actor, pos, &out, dist, 3.0f);
+        }
+    }
+    return EnemyBaseFindPlayer::m39(pos, false);
 }
 
 }  // namespace uking::ai

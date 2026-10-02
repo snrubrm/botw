@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100462930 (not decompiled yet)
+    void m40() override;
+
     bool m43() override;
     virtual s32 m53() { return *mWeaponIdx_s; }
 

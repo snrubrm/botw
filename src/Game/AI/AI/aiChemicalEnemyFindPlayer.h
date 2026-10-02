@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m40() override;
+    void m41() override;
+
 protected:
     // In the tail padding of LandHumEnemyFindPlayer.
     bool _1e2 = true;

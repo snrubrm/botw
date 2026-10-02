@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiEnemyDemoSumonRecgTgt.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/Event/evtMetadata.h"
 
 namespace uking::ai {
 
@@ -37,6 +39,18 @@ bool EnemyDemoSumonRecgTgt::m34() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         return !enemy->_e84.isOnBit(9);
     return false;
+}
+
+bool EnemyDemoSumonRecgTgt::m35() {
+    if (*mOnlyOne_s) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->_e84.set(0x200);
+        if (*mIsBroadCastOnlyOne_s)
+            sub_71005E02E0(mActor, &_158, nullptr);
+    }
+    ksys::evt::Metadata metadata(mDemoName_s.cstr(), mEntryPoint_s.cstr(), "");
+    mActor->emitBasicSigOn();
+    return true;
 }
 
 }  // namespace uking::ai

@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     bool m38() override;
+    bool m39(const sead::Vector3f& pos, bool b) override;
     void leave_() override;
     void loadParams_() override;
 
