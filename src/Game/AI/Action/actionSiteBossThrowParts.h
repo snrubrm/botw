@@ -18,6 +18,13 @@ public:
 
 protected:
     void calc_() override;
+    virtual const sead::Vector3f* m32() { return mIgniteOffset_s; }
+    virtual const sead::Vector3f* m33() { return mIgniteRotate_s; }
+    virtual const sead::SafeString& m34();
+    virtual void m35();
+
+    // 0x710026e3b0 (not decompiled; 1.7 KB): throws the parts actor.
+    void sub_710026E3B0(bool a1);
 
     // static_param at offset 0x20
     const float* mIgniteSpeed_s{};

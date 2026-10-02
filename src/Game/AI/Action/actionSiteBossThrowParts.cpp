@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossThrowParts.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -39,11 +41,23 @@ void SiteBossThrowParts::loadParams_() {
 }
 
 void SiteBossThrowParts::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        m35();
+    if (isFinishedAS(0, 0))
+        setFinished();
+    _b8 = *mTargetPos_d;
 }
 
 bool SiteBossThrowParts::isFinished() const {
     return isFinishedAS(0, 0);
+}
+
+const sead::SafeString& SiteBossThrowParts::m34() {
+    return mPartsName_s;
+}
+
+void SiteBossThrowParts::m35() {
+    sub_710026E3B0(true);
 }
 
 }  // namespace uking::action

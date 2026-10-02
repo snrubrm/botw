@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+public:
+    bool isChangeable() const override;
+
 protected:
     void calc_() override;
     virtual const char* m32();

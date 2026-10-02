@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m35() override;
 
     // static_param at offset 0xc8
     const float* mMoveSpeed_s{};

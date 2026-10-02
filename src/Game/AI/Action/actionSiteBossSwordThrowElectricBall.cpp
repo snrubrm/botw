@@ -29,4 +29,8 @@ void SiteBossSwordThrowElectricBall::calc_() {
     SiteBossThrowParts::calc_();
 }
 
+void SiteBossSwordThrowElectricBall::m35() {
+    sub_710026E3B0(false);
+}
+
 }  // namespace uking::action

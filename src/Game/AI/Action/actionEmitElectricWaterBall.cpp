@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEmitElectricWaterBall.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool EmitElectricWaterBall::init_(sead::Heap* heap) {
 }
 
 void EmitElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (_30.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_30, &accessor);
+        if (accessor.isStateSleep())
+            accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
+    }
+    setFinished();
 }
 
 void EmitElectricWaterBall::leave_() {

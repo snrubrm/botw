@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkASPlayBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -33,6 +36,22 @@ void ForkASPlayBase::calc_() {
 
 const char* ForkASPlayBase::m32() {
     return nullptr;
+}
+
+bool ForkASPlayBase::isChangeable() const {
+    switch (*mChangeableTiming_s) {
+    case 2:
+        if (mActor->getASList()->x_7(*mTargetBone_s, *mSeqBank_s,
+                                     &ksys::as::ASList::Unk2::sub_7101162FE8)) {
+            return true;
+        }
+        break;
+    case 3:
+        if (!sub_71005DD798(mActor, 22, nullptr, *mTargetBone_s, *mSeqBank_s))
+            return true;
+        break;
+    }
+    return ActionBase::isChangeable();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkGelDisableBodyRot.h"
+#include "Game/Actor/actGelEnemy.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void ForkGelDisableBodyRot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkGelDisableBodyRot::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* gel = sead::DynamicCast<uking::act::GelEnemy>(mActor))
+        gel->_1678 &= ~1;
 }
 
 void ForkGelDisableBodyRot::loadParams_() {}
