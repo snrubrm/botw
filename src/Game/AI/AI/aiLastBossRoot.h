@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -36,6 +37,16 @@ protected:
     sead::SafeString mAuraWallEntry_s{};
     // static_param at offset 0x90
     sead::SafeString mAuraDemoDownEntry_s{};
+    sead::SafeString _a0;
+    u32 _b0 = 0;
+    bool _b4 = false;
+    bool _b5 = false;
+    bool _b6 = false;
+    ksys::Timer _b8;
+    ksys::Timer _c4;
+    ksys::Timer _d0;
+    u32 _dc = 0;
 };
+KSYS_CHECK_SIZE_NX150(LastBossRoot, 0xe0);
 
 }  // namespace uking::ai
