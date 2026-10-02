@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -12,13 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_7100D62598();
 protected:
-    int _38{};
-    void* _40{};
+    sead::Buffer<ksys::act::ai::ActionBase*> _38;
     u16 _48{};
     u16 _4a{};
 };

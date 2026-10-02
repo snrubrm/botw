@@ -2,6 +2,7 @@
 
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -40,11 +41,7 @@ protected:
     f32 _94 = 0;
     f32 _98 = -1.0f;
     bool _9c = false;
-    // eft::Effect (undeclared; CSV eft::Effect::fadeXLink is called on &_a0 by leave_)
-    u64 _a0 = 0;
-    u32 _a8 = 0;
-    u64 _b0 = 0;
-    u32 _b8 = 0;
+    Unk_71012419b4 _a0;
 };
 KSYS_CHECK_SIZE_NX150(DragonReturn, 0xc0);
 

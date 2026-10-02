@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHiddenOctarockNormal.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -62,6 +63,14 @@ bool HiddenOctarockNormal::isChangeable() const {
 s32 HiddenOctarockNormal::m52(s32 idx) {
     static const s32 sTable[] = {0, 2};
     return sTable[idx];
+}
+
+void HiddenOctarockNormal::m37() {
+    EnemyNormal::m37();
+    if (*mIsIvalidateSight_s) {
+        if (auto* awareness = mActor->getAwareness())
+            awareness->sub_7100D7EAE4(0);
+    }
 }
 
 }  // namespace uking::ai

@@ -26,7 +26,10 @@ bool EnemyRoot::init_(sead::Heap* heap) {
 }
 
 void EnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (_38)
+        _38->sub_7100702370();
+    *mIsTrgChangeUnderWaterState_a = false;
+    m34(params);
 }
 
 void EnemyRoot::leave_() {

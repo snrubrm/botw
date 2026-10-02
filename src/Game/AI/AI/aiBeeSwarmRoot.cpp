@@ -26,4 +26,8 @@ void BeeSwarmRoot::loadParams_() {
     SwarmRoot::loadParams_();
 }
 
+bool BeeSwarmRoot::m35() {
+    return SwarmRoot::m35();
+}
+
 }  // namespace uking::ai

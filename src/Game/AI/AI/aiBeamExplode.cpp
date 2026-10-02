@@ -14,6 +14,17 @@ void BeamExplode::enter_(ksys::act::ai::InlineParamPack* params) {
     BeamExplodeBase::enter_(params);
 }
 
+void BeamExplode::calc_() {
+    BeamExplodeBase::calc_();
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    if ((child->isFinished() || child->isFailed() || child->isChangeable()) &&
+        isCurrentChild("爆発")) {
+        sub_710056CA00();
+    }
+}
+
 void BeamExplode::leave_() {
     BeamExplodeBase::leave_();
 }

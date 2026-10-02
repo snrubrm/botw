@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGiantSleepNormal.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -27,6 +28,12 @@ void GiantSleepNormal::loadParams_() {
     SpecialEnemySleep::loadParams_();
     getStaticParam(&mForceAwakeDist_s, "ForceAwakeDist");
     getStaticParam(&mAwakeRbName_s, "AwakeRbName");
+}
+
+void GiantSleepNormal::m34() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7E9BC(0);
+    SpecialEnemySleep::m34();
 }
 
 }  // namespace uking::ai

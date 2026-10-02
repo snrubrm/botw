@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBeamExplodeBase.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -66,6 +67,18 @@ void BeamExplodeBase::calc_() {
 
 void BeamExplodeBase::m34() {
     sub_710056CA00();
+}
+
+void BeamExplodeBase::sub_710056CA00() {
+    if (_50 && _50->isAddedToWorld()) {
+        _50->removeFromWorld();
+        _50->setLinearVelocity(sead::Vector3f::zero);
+    }
+    if (_48 && _48->isAddedToWorld()) {
+        _48->removeFromWorld();
+        _48->setLinearVelocity(sead::Vector3f::zero);
+    }
+    changeChild("後処理");
 }
 
 }  // namespace uking::ai

@@ -5,7 +5,11 @@ namespace uking::ai {
 CollaborationShootingStarRoot::CollaborationShootingStarRoot(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 
-CollaborationShootingStarRoot::~CollaborationShootingStarRoot() = default;
+// The original keeps this class's vtable store, which a defaulted destructor drops. Written like
+// upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+CollaborationShootingStarRoot::~CollaborationShootingStarRoot() {
+    ;
+}
 
 bool CollaborationShootingStarRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
@@ -16,7 +20,7 @@ void CollaborationShootingStarRoot::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void CollaborationShootingStarRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _58.fadeXLink();
 }
 
 void CollaborationShootingStarRoot::loadParams_() {

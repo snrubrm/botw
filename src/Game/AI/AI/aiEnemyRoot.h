@@ -49,7 +49,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    virtual void m34();
+    virtual void m34(ksys::act::ai::InlineParamPack* params);
     virtual bool m35();
     virtual bool m36() { return isCurrentChild("リアクション"); }
     virtual void m37();

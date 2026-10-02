@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKorokStartStandRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,17 @@ bool KorokStartStandRoot::init_(sead::Heap* heap) {
 
 void KorokStartStandRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = false;
+}
+
+void KorokStartStandRoot::calc_() {
+    if (!mActor->checkBasicSig()) {
+        _38 = false;
+        return;
+    }
+    if (_38)
+        return;
+    xlinkSearchAndEmit(mActor, "Start", 2, &_40);
+    _38 = true;
 }
 
 void KorokStartStandRoot::leave_() {

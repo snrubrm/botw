@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyTimelineAI.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -28,6 +29,8 @@ bool EnemyTimelineAI::isFinished() const {
 
 void EnemyTimelineAI::leave_() {
     TimelineAI::leave_();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7E9BC(0);
 }
 
 void EnemyTimelineAI::loadParams_() {

@@ -36,11 +36,11 @@ void ChuchuRoot::loadParams_() {
     // 0x7100d66968
 }
 
-void ChuchuRoot::m34() {
+void ChuchuRoot::m34(ksys::act::ai::InlineParamPack* params) {
     if (*_218)
         sub_710034E090();
     else
-        EnemyRoot::m34();
+        EnemyRoot::m34(params);
 }
 
 void ChuchuRoot::sub_710034E090() {

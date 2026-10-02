@@ -21,7 +21,7 @@ void DragonReturn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DragonReturn::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _a0.fadeXLink();
 }
 
 void DragonReturn::loadParams_() {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -20,10 +21,7 @@ protected:
     sead::SafeString* mCollaboShootingStarId_a{};
     u32 _40{};
     sead::SafeString _48;
-    void* _58{};
-    u32 _60{};
-    void* _68{};
-    u32 _70{};
+    Unk_71012419b4 _58;
 };
 
 }  // namespace uking::ai
