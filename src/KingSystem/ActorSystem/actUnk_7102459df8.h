@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -58,7 +59,9 @@ public:
     // vtable 0x7102459e88 (derived: 0x710245a028, 0x710245a000); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e88 {
         struct Unk1 {
-            u8 _0[0x58];
+            u8 _0[0x18];
+            BaseProcLink _18;
+            u8 _28[0x58 - 0x28];
         };
 
         virtual ~Unk_7102459e88();

@@ -149,6 +149,8 @@ target_sources(uking PRIVATE
     actPlayerInfoStub.cpp
     actTag.h
     actUnk_71006e45c4.cpp
+    actUnk_71007A24BC.cpp
+    actUnk_71007A24BC.h
     actUnk_71006e45c4.h
     actUnk_7100e4e084.cpp
     actUnk_7100e4e084.h

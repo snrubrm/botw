@@ -68,4 +68,20 @@ void sub_71011EF010(sead::Vector3f* vec, float angle);
 // 0x71011ef0cc: wraps `angle` (radians) into [-pi, pi].
 float sub_71011EF0CC(float angle);
 
+// 0x71011eeb08: rotation `axis` (normalised `from` x `to`, or `default_axis` if they are parallel) and
+// unsigned `angle` that rotate `from` onto `to`.
+void sub_71011EEB08(sead::Vector3f* axis, f32* angle, const sead::Vector3f& from,
+                    const sead::Vector3f& to, const sead::Vector3f& default_axis);
+
+// 0x71011efa00: `out` = `v` minus its projection onto `n` (`n` is assumed to be normalised).
+void sub_71011EFA00(sead::Vector3f* out, const sead::Vector3f& v, const sead::Vector3f& n);
+
+// 0x71011efa54: `out` = projection of `v` onto `n` (`n` is assumed to be normalised).
+void sub_71011EFA54(sead::Vector3f* out, const sead::Vector3f& v, const sead::Vector3f& n);
+
+// 0x71011f00ec: builds `mtx` from an up vector and an approximate front vector (orthonormalised),
+// translated to `pos`. The last parameter is unused.
+void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
+                    const sead::Vector3f& pos, bool);
+
 }  // namespace ksys::util
