@@ -28,6 +28,10 @@ void GolemRootBase::sub_71004014A4() {
     enemy->_1128.sub_7100D3CFEC(mChemicalFieldKey_s);
 }
 
+void GolemRootBase::m38() {
+    EnemyRoot::m38();
+}
+
 // NON_MATCHING: the original tests _2f0._18 with tbnz (bit 0), as if read through an inline
 // accessor or a 1-bit field
 bool GolemRootBase::m35() {
