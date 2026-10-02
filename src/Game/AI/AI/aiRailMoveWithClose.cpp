@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiRailMoveWithClose.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -49,6 +50,14 @@ f32 RailMoveWithClose::m35() {
     const f32 t = sead::Mathf::clamp((dist - *mOnRailDistance_s) / (*mFarDistance_s - *mOnRailDistance_s),
                                      0.0f, 1.0f);
     return *mSpeed_s * (1.0f - t);
+}
+
+void RailMoveWithClose::sub_7100537354(const sead::Vector3f& rail_pos, const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(rail_pos, "TargetPos", -1);
+    params.addVec3(rail_pos, "DynTargetPos", -1);
+    params.addVec3(pos, "DynStartPos", -1);
+    changeChild("レールに向かう", &params);
 }
 
 }  // namespace uking::ai
