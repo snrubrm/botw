@@ -46,7 +46,7 @@ public:
     void sub_710040CE58();
     // 0x710040cf88
     bool sub_710040CF88(ksys::act::Unk_71024dccf8* filter, Unk2* out);
-    // 0x710040d048: not decompiled (calls the unnamed helpers 0x71005dec08 and 0x710072ec90).
+    // 0x710040d048: whether an awareness entry is a reachable target.
     bool sub_710040D048(ksys::act::Unk_71024dc858* entry);
     // 0x710040d3a8
     void sub_710040D3A8(Unk2* target);

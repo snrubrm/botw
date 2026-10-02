@@ -19,6 +19,25 @@ void GolemNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
 }
 
+// NON_MATCHING: our clang computes the Enemy cast once for the two inner branches (as in
+// GanonNormalRoot::enter_); the original keeps a cast/store per branch
+void GolemNormal::calc_() {
+    EnemyNormal::calc_();
+    if (isCurrentChild("プレイヤー発見") || isCurrentChild("攻撃反応") || isCurrentChild("怒り") ||
+        isCurrentChild("見失い")) {
+        if (sub_71005E0384(mActor)) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+                enemy->_e90 = 1;
+        } else {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+                enemy->_e90 = 4;
+        }
+    } else {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->_e90 = 1;
+    }
+}
+
 void GolemNormal::leave_() {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
         enemy->_e90 = 4;

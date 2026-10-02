@@ -27,6 +27,7 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -622,6 +623,18 @@ bool sub_71005D9F70(ksys::act::Actor* actor) {
     if (!mgr)
         return false;
     return mgr->isNonAutoPlacement(pos, true);
+}
+
+// NON_MATCHING: block order (the original falls through into `return true` and branches to a shared
+// `return false`)
+bool sub_71005E0384(ksys::act::Actor* actor) {
+    auto* lod = actor->getLodState();
+    if (lod && lod->_1c != 1) {
+        const sead::Vector3f pos = actor->getMtx().getTranslation();
+        if ((getPlayerPosition() - pos).length() > 100.0f)
+            return true;
+    }
+    return false;
 }
 
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor) {

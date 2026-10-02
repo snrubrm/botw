@@ -112,6 +112,8 @@ bool sub_71005D9E68(ksys::act::Actor* actor);
 bool sub_71005D9F4C(const sead::Vector3f& pos);
 // 0x71005d9f70: the same for the actor's translation.
 bool sub_71005D9F70(ksys::act::Actor* actor);
+// 0x71005e0384: the actor has a LOD state whose _1c is not 1 and is more than 100 from the player.
+bool sub_71005E0384(ksys::act::Actor* actor);
 
 /// The actor in weapon slot `idx` if it is a uking::act::Weapon (nullptr otherwise).
 uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx);

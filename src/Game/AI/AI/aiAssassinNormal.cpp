@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiAssassinNormal.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -221,6 +223,35 @@ bool AssassinNormal::sub_710040CF88(ksys::act::Unk_71024dccf8* filter, Unk2* out
         }
     }
     return false;
+}
+
+// NON_MATCHING: block layout (the original's null-check returns jump straight to the epilogue with a
+// preset false and the other false returns share one block before it)
+bool AssassinNormal::sub_710040D048(ksys::act::Unk_71024dc858* entry) {
+    if (!entry)
+        return false;
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    if (m75(entry->mLink))
+        return false;
+
+    bool invalid;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->mLink, &accessor);
+        invalid = accessor.sub_7100D10E6C(30) || accessor.checkFlag25();
+    }
+    if (invalid || sub_71005DEC08(&entry->mLink, actor, 999.0f, 999.0f, sead::Mathf::pi()))
+        return false;
+
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    sead::Vector3f target;
+    entry->_58.getTranslation(target);
+    auto* nav = mActor->m45();
+    const f32 max_dist = nav ? nav->_2a8 * nav->_2ac : 3.0f;
+    return sub_710072EC90(pos, target, nullptr, max_dist, 2.0f);
 }
 
 void AssassinNormal::sub_710040CE58() {
