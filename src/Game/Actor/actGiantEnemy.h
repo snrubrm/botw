@@ -1,0 +1,83 @@
+#pragma once
+
+#include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physMaterialMask.h"
+
+namespace uking::act {
+
+// Placeholder name (vtable 0x710235a050; inherits DamageCallback's RTTI; D1 0x710002ab28, `call`
+// 0x710002b994). GiantEnemy::_1510.
+class Unk_710235a050 : public dmg::DamageCallback {
+public:
+    ~Unk_710235a050() override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
+
+// Name from the CSV (GiantEnemy::*): Hinox / Stalnox / Talus / Molduga-sized enemies. vtable
+// 0x7102359a48 (181 slots, no new virtuals), RTTI static 0x71025af110 (parent: Enemy). Factory
+// 0x710002a150 (CSV GiantEnemy::construct, which inlines the ctor): new(0x1588).
+// TODO: incomplete. Members are public: AI code reads them directly.
+class GiantEnemy : public Enemy {
+    SEAD_RTTI_OVERRIDE(GiantEnemy, Enemy)
+public:
+    // Object at 0x14c8 (owner + four links); m76 calls sub_710002A94C(this) on it.
+    struct Unk1 {
+        explicit Unk1(Actor* owner) : mOwner(owner) {}
+        void sub_710002A94C(Actor* actor);
+
+        /* 0x00 */ Actor* mOwner;
+        /* 0x08 */ ksys::act::BaseProcLink _8;
+        /* 0x18 */ ksys::act::BaseProcLink _18;
+        /* 0x28 */ ksys::act::BaseProcLink _28;
+        /* 0x38 */ ksys::act::BaseProcLink _38;
+    };
+
+    explicit GiantEnemy(const CreateArg& arg);
+    ~GiantEnemy() override;
+
+protected:
+    InitResult init_() override;
+    bool startPreparingForPreDelete_() override;
+    void onDeleteRequested_(DeleteReason reason) override;
+    void onSleepRequested_(SleepWakeReason reason) override;
+    void onWakeUpRequested_(SleepWakeReason reason) override;
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
+
+public:
+    void m44() override;
+    void killWithDropsAndEffects(int a1) override;
+    bool m56(sead::Vector3f* pos) override;
+    void m63() override;
+    void initMaybe() override;
+    void calcMaybe() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
+    void m79() override;
+    void m110() override;
+    void m111() override;
+    void m112() override;
+    void m113() override;
+    void m117() override;
+    void m119() override;
+    void m145() override;
+    bool m146() override;
+    bool weaponDroppedByEnemy() override;
+    Unk_71025ae680* m178(sead::Heap* heap) override;
+    // Not declared: slot 180 (writes &_1538 to its pointer argument's +0x30 when _1550 is set; Enemy
+    // declares `void m180()`).
+
+    /* 0x14c8 */ Unk1 _14c8{this};
+    /* 0x1510 */ Unk_710235a050 _1510;
+    /* 0x1538 */ ksys::phys::MaterialMask _1538;
+    /* 0x1550 */ u8 _1550 = 0;
+    /* 0x1558 */ void* _1558 = nullptr;  // m119 calls its vtable slot 8
+    /* 0x1560 */ void* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs
+    /* 0x1568 */ u8 _1568 = 0;  // written by several giant AIs
+    // object with vtable 0x7102357908 (owner = this); m79 forwards to 0x71006cef08 on it
+    /* 0x1570 */ u8 _1570[0x1588 - 0x1570];
+};
+KSYS_CHECK_SIZE_NX150(GiantEnemy, 0x1588);
+
+}  // namespace uking::act
