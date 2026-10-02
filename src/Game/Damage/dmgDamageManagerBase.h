@@ -108,7 +108,7 @@ public:
     virtual ksys::act::BaseProcLink* getAttacker();
 
     // FIXME: incomplete. Same as getAttacker, but return different Actor ProcLink I assume.
-    virtual s64 m37();
+    virtual ksys::act::BaseProcLink* m37();
 
     virtual s32 m38() { return 0; }
 
