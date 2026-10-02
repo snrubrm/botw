@@ -9,6 +9,7 @@ class ChangeEmotion : public ksys::act::ai::Action {
 public:
     explicit ChangeEmotion(const InitArg& arg);
     ~ChangeEmotion() override;
+    bool oneShot_() override;
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;

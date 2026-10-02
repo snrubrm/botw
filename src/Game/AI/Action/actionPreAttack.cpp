@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionPreAttack.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -11,7 +16,14 @@ bool PreAttack::init_(sead::Heap* heap) {
 }
 
 void PreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_710073FA90(&_70, mActor);
+    const sead::Vector3f axis = mActor->getMtx().getBase(2);
+    sub_710072C1B4(controller, axis);
+    setDamageCallbackTiming(mActor, 4, &_48);
 }
 
 void PreAttack::leave_() {
