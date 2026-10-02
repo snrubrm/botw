@@ -234,6 +234,7 @@ public:
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     as::ASList* getASList() const { return mASList; }
     xlink::XLink* getXLink() const { return mXLink; }
+    Schedule* getSchedule() const { return mSchedule; }
     AwarenessInstance* getAwareness() const { return mAwareness; }
     Unk_71024dc900* get548() const { return _548; }
     void* get1a0() const { return _1a0; }

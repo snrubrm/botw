@@ -111,6 +111,8 @@ public:
     // Read inline by ActorConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
     // and MagneShaftRoot::m51.
     SystemGroupHandler* get178(s32 idx) const { return _178[idx]; }
+    // Read inline (DisableCloth behavior); null if the actor has no cloth.
+    ClothSet* getClothSet() const { return mClothSet; }
     // Read inline by LastBossRailWarpAction::leave_ and sub_710072E804 (index clamped).
     SystemGroupHandler* get188(s32 idx) const { return _188[idx]; }
     // 0x7100fbb668: index of the rigid body set called `name` (-1 if none).

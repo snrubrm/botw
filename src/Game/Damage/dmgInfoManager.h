@@ -50,6 +50,11 @@ private:
     /* 0x11e8 */ bool mMasterSwordDetectedEvil;
     /* 0x11e9 */ bool mMasterSwordDisableTrueForm;
     /* 0x11ea */ bool mOneHitObliteratorActive;
+
+public:
+    /* 0x11eb */ sead::SafeArray<u8, 4> _11eb;  // per-core counters (ForceConfront behavior)
+
+private:
     /* 0x11f0 */ ksys::act::BaseProcLink _11f0;
     /* 0x1200 */ ksys::act::BaseProcLink _1200;
     /* 0x1210 */ ksys::act::BaseProcLink _1210;

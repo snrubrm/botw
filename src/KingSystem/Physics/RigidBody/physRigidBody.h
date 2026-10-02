@@ -594,6 +594,8 @@ public:
     // from IgnroeWater with an atomic and+or).
     bool isFlag100000Set() const { return mFlags.isOn(Flag::_100000); }
     void changeFlag100000(bool on) { mFlags.change(Flag::_100000, on); }
+    // Changed inline by AI code (ChangeCharacterStandingOnFlag behavior: atomic and / and+or).
+    void changeNoCharStandingOnFlag(bool on) { mFlags.change(Flag::NoCharStandingOn, on); }
 
     // Internal.
     void onCollisionAdded() {

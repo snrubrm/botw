@@ -11,6 +11,14 @@ class UserInstanceSLink;
 
 namespace ksys::xlink {
 
+// Placeholder name (result of 0x710123830c, created from the actor's footstep proc type name in
+// ActorEffects::init; the XLink member at +0xa0 points to it): footstep settings. The FootstepSilencer
+// behavior sets / clears bit 4 of the flags.
+struct Unk_710123830c {
+    /* 0x00 */ u8 _0[0x1c];
+    /* 0x1c */ sead::BitFlag16 _1c;
+};
+
 // The per-actor xlink object (Actor::mXLink; name from the existing forward declaration in
 // actActor.h). The CSV calls its functions ActorEffects::* (ctor 0x710122fce0, init 0x710122edb0;
 // created by ActorXLinkInstanceBuilder::build with new(0x110)) and uses "XLink::" for the xlink
@@ -21,7 +29,9 @@ public:
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
-    /* 0x58 */ u8 _58[0xcc - 0x58];
+    /* 0x58 */ u8 _58[0xa0 - 0x58];
+    /* 0xa0 */ Unk_710123830c* _a0;
+    /* 0xa8 */ u8 _a8[0xcc - 0xa8];
     // Flags (ctor 0x710122fce0 sets 0x800c0000, then 0x200 / 0x10000 / 0x4000000 depending on the
     // actor; AI code sets 0x200 (IbutsuWaterFallRoot::enter_) and clears 0x80000
     // (AppearFromTargetFrontAfterChase::m37) directly).

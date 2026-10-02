@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorChangeCharacterStandingOnFlag.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -9,6 +11,13 @@ ChangeCharacterStandingOnFlag::~ChangeCharacterStandingOnFlag() = default;
 
 bool ChangeCharacterStandingOnFlag::m6(sead::Heap* heap) {
     return true;
+}
+
+void ChangeCharacterStandingOnFlag::m7() {
+    if (auto* body = mActor->getMainBody()) {
+        if (mActor->getScale().x < *mChangeScaleLimit_s)
+            body->changeNoCharStandingOnFlag(!*mSetValue_s);
+    }
 }
 
 void ChangeCharacterStandingOnFlag::m8() {}

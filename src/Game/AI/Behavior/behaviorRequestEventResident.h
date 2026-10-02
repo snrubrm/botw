@@ -15,7 +15,7 @@ public:
     void m7() override;
     void m9() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x71006350e4)
+    void m8() override;
 
     /* 0x28 */ sead::SafeString mEventName_s{};
     /* 0x38 */ sead::SafeString mEntryPointName_s{};

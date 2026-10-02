@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorForceConfront.h"
+#include <mc/seadCoreInfo.h>
+#include "Game/Damage/dmgInfoManager.h"
 
 namespace uking::behavior {
 
@@ -11,6 +13,20 @@ bool ForceConfront::m6(sead::Heap* heap) {
 }
 
 void ForceConfront::m7() {}
+
+void ForceConfront::m8() {
+    if (auto* mgr = dmg::DamageInfoMgr::instance()) {
+        const sead::CoreId core = sead::CoreInfo::getCurrentCoreId();
+        ++mgr->_11eb[core];
+    }
+}
+
+void ForceConfront::m9() {
+    if (auto* mgr = dmg::DamageInfoMgr::instance()) {
+        const sead::CoreId core = sead::CoreInfo::getCurrentCoreId();
+        --mgr->_11eb[core];
+    }
+}
 
 void ForceConfront::loadParams() {
 

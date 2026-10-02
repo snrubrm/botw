@@ -6,6 +6,7 @@ target_sources(uking PRIVATE
     Cloth/physClothParam.h
     Cloth/physClothResource.cpp
     Cloth/physClothResource.h
+    Cloth/physClothSet.h
 
     Constraint/physConstraint.cpp
     Constraint/physConstraint.h
