@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -36,7 +38,7 @@ protected:
     u32 _60 = 0;
     sead::Vector3f _64{0, 0, 0};  // roam target position
     u32 _70 = 0;
-    u8 _74[0xa4 - 0x74];  // not initialised by the ctor
+    sead::Matrix34f _74;  // the actor matrix when roaming starts (not initialised by the ctor)
     ksys::Timer _a4{0, 0};
 };
 KSYS_CHECK_SIZE_NX150(SwimEnemyRoam, 0xb0);

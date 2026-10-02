@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSwimEnemyRoam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -48,6 +50,16 @@ void SwimEnemyRoam::calc_() {
     sead::Vector3f target = _64;
     target.y = mActor->getMtx().m[1][3];
     sub_71005DB068(mActor, target);
+}
+
+void SwimEnemyRoam::sub_71005B51E8() {
+    _70 = 0;
+    _74 = mActor->getMtx();
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f target;
+    sub_71005B5628(&target);
+    params.addVec3(target, "TargetPos", -1);
+    changeChild("徘徊", &params);
 }
 
 }  // namespace uking::ai
