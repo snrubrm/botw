@@ -188,6 +188,31 @@ void Actor::sub_71011DA868(BoneHandleBase* handle) {
     handle->sub_7100D3BBD4(&_4d8);
 }
 
+bool Actor::deleteAndEmit(int a1) {
+    if (isDeletedOrDeleting() || _687)
+        return false;
+    if (!deleteLater(DeleteReason::_0))
+        return false;
+    emitSignalsOrDisappearEffectForDelete(a1);
+    return true;
+}
+
+void Actor::clearFadeInCreate() {
+    if (mFadeOutDeleteType == 0) {
+        mStartModelOpacity = 1.0f;
+        _68e = true;
+        _4f8 = 0.0f;
+    }
+    mNoFadeInCreate = true;
+}
+
+void Actor::sub_71011CCB1C(f32 value) {
+    if (_4f0 != value) {
+        _4f0 = value;
+        _68e = true;
+    }
+}
+
 void Actor::sub_71011DA824(ModelBindInfo* info) {
     if (!mActorFlags.isOnBit(ActorFlag::_5))
         mModelBindInfo = info;

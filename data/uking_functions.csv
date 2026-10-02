@@ -92590,7 +92590,7 @@ Address,Quality,Size,Name
 0x00000071011c8e88,U,002104,_ZN4ksys3act5Actor16doHandleMessage_ERKNS_7MessageE
 0x00000071011c96c0,O,000080,_ZThn384_N4ksys3act5Actor13handleMessageERKNS_7MessageE
 0x00000071011c9710,U,000260,Actor::updateVelocityStuff
-0x00000071011c9814,U,000108,Actor::deleteAndEmit
+0x00000071011c9814,O,000108,_ZN4ksys3act5Actor13deleteAndEmitEi
 0x00000071011c9880,U,000120,Actor::x_15
 0x00000071011c98f8,U,000108,
 0x00000071011c9964,U,000120,
@@ -92612,14 +92612,14 @@ Address,Quality,Size,Name
 0x00000071011cb994,U,000660,Actor::reactionStuff
 0x00000071011cbc28,U,000032,
 0x00000071011cbc48,U,000368,_ZN4ksys3act5Actor8deleteExENS1_10DeleteTypeENS0_8BaseProc12DeleteReasonEPb
-0x00000071011cbdb8,U,000040,Actor::clearFadeInCreate
+0x00000071011cbdb8,O,000040,_ZN4ksys3act5Actor17clearFadeInCreateEv
 0x00000071011cbde0,U,000144,_ZN4ksys3act5Actor12fadeOutSleepENS0_8BaseProc15SleepWakeReasonE
 0x00000071011cbe70,U,000148,Actor::x_23
 0x00000071011cbf04,U,000208,Actor::x_34
 0x00000071011cbfd4,U,000612,Actor::updatePlacementObjDistanceFlags
 0x00000071011cc238,U,000156,Actor::deleteIfDeleteType2
 0x00000071011cc2d4,U,000392,Actor::handleFadeoutDelete
-0x00000071011cc45c,U,000176,Actor::emitSignalsOrDisappearEffectForDelete
+0x00000071011cc45c,U,000176,_ZN4ksys3act5Actor37emitSignalsOrDisappearEffectForDeleteEi
 0x00000071011cc50c,U,001380,Actor::handleModelFadeInOutAndFadeDelete
 0x00000071011cca70,U,000012,_ZN4ksys3act5Actor11sendMessageERKNS_16MesTransceiverIdERKNS_11MessageTypeEPvb
 0x00000071011cca7c,U,000020,_ZN4ksys3act5Actor4m110Ev
@@ -92628,7 +92628,7 @@ Address,Quality,Size,Name
 0x00000071011ccac0,U,000024,_ZN4ksys3act5Actor4m113Ev
 0x00000071011ccad8,U,000044,Actor::x_3
 0x00000071011ccb04,U,000024,_ZN4ksys3act5Actor4m139Ev
-0x00000071011ccb1c,U,000028,Actor::x_9
+0x00000071011ccb1c,O,000028,_ZN4ksys3act5Actor14sub_71011CCB1CEf
 0x00000071011ccb38,U,000152,
 0x00000071011ccbd0,U,000152,
 0x00000071011ccc68,U,000432,Actor::deleteIfPlacementStuff

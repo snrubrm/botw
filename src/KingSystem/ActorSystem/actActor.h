@@ -257,6 +257,15 @@ public:
     BaseProcLink& getCreateArgBaseProcLink() { return mCreateArgBaseProcLink; }
     // AI code reads the LOD state's flags (_10, _14, _26) inline.
     LodState* getLodState() const { return _598; }
+    // CSV name. deleteLater(_0) unless the actor is (being) deleted or _687 is set; then
+    // emitSignalsOrDisappearEffectForDelete(a1).
+    bool deleteAndEmit(int a1);
+    // CSV name (0x71011cc45c).
+    void emitSignalsOrDisappearEffectForDelete(int a1);
+    // CSV name.
+    void clearFadeInCreate();
+    // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
+    void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ModelBindInfo* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
