@@ -2,6 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys {
@@ -56,7 +57,10 @@ public:
     void m7() override;
     bool m8(const ksys::Message& message) override;
 
-    /* 0x020 */ u8 _20[0x138 - 0x20];
+    /* 0x020 */ u8 _20[0x88 - 0x20];
+    // Listener (message 0x800009b); PriestBossShadowCloneEnemyRoot::enter_ resets it (x()).
+    /* 0x088 */ Unk_710235a0c0 _88;
+    /* 0x0c0 */ u8 _c0[0x138 - 0xc0];
     /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
     /* 0x139 */ u8 _139[0x140 - 0x139];
 };

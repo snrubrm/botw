@@ -360,6 +360,15 @@ public:
     u32 _34;
 };
 
+// vtable 0x710235a0c0 (message 0x800009b; D0 0x710002c304, m2 0x710002c348, m3 nullsub_61; its
+// D1 slot is the base's D2). Embedded in uking::act::Unk_710244dd20 at 0x88.
+class Unk_710235a0c0 : public Unk_7102357210 {
+public:
+    ~Unk_710235a0c0() override;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
 // vtable 0x7102450798 (message 0x8000004)
 class Unk_7102450798 : public Unk_7102357210 {
 public:
