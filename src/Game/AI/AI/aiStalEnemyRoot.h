@@ -2,6 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
@@ -40,6 +41,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
     virtual bool m34();
     virtual void m35();
@@ -47,7 +49,7 @@ public:
 
 protected:
     Unk_7102424170 _38;
-    void* _60{};
+    Unk_7100702370* _60{};
     // static_param at offset 0x68
     const int* mDeadCount_s{};
     // static_param at offset 0x70
