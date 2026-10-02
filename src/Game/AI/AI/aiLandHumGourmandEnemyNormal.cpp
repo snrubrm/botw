@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiLandHumGourmandEnemyNormal.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -174,12 +175,98 @@ void LandHumGourmandEnemyNormal::m59() {
     }
 }
 
+void LandHumGourmandEnemyNormal::m49(Unk1* out, s32 idx) {
+    const s32 type = m52(idx);
+    if (isCurrentChild("プレイヤー発見")) {
+        if (type == 11) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("攻撃反応")) {
+        if (type == 11) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("見失い")) {
+        if (type == 11) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("脅威感知")) {
+        if (type == 11) {
+            out->_0 = -1;
+            return;
+        }
+    } else if (isCurrentChild("音気づき")) {
+        if (type == 11) {
+            auto* bait = sead::DynamicCast<Unk_7102370e70>(
+                *static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
+            if (bait && bait->mLink.hasProcInCalcState()) {
+                out->_0 = -1;
+                return;
+            }
+        }
+    } else if (isCurrentChild("餌発見")) {
+        if (type == 11) {
+            out->_0 = -1;
+            return;
+        }
+        if (type <= 3) {
+            out->_0 = type;
+            return;
+        }
+        ksys::act::ActorConstDataAccess accessor;
+        if (auto* bait = sead::DynamicCast<Unk_7102370e70>(
+                *static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a))) {
+            ksys::act::acquireActor(&bait->mLink, &accessor);
+        }
+        if (accessor.sub_71006E3FB4() && type == 10)
+            out->_0 = type;
+        else
+            out->_0 = -1;
+        return;
+    }
+    LandHumEnemyNormal::m49(out, idx);
+}
+
 void LandHumGourmandEnemyNormal::m60(Unk3* out) {
     if (isCurrentChild("餌発見")) {
         out->_0 = 1;
         return;
     }
     LandHumEnemyNormal::m60(out);
+}
+
+void LandHumGourmandEnemyNormal::m61(Unk3* out) {
+    if (isCurrentChild("餌発見")) {
+        auto* bait = sead::DynamicCast<Unk_7102370e70>(
+            *static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
+        if (!bait)
+            return;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&bait->mLink, &accessor);
+        if (accessor.sub_71006E3FB4())
+            out->_0 = 1;
+    } else {
+        LandHumEnemyNormal::m61(out);
+    }
+}
+
+bool LandHumGourmandEnemyNormal::sub_71004726B4(ksys::act::BaseProcLink* link) {
+    if (m45(mActor->getMtx().getTranslation(), *link, false))
+        return true;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    ksys::act::ActorConstDataAccess parent;
+    accessor.acquireConnectedCalcParent(&parent);
+    if (!parent.hasProc(mActor) && accessor.sub_7100D10E6C(30))
+        return true;
+    if (sub_71005DEC08(link, mActor, 999.0f, 999.0f, sead::Mathf::pi()))
+        return true;
+    if (accessor.sub_71006E3FB4())
+        return true;
+    return accessor.checkFlag25();
 }
 
 void LandHumGourmandEnemyNormal::sub_71004727CC(const ksys::act::BaseProcLink& link) {
@@ -226,6 +313,82 @@ bool LandHumGourmandEnemyNormal::sub_71004729D8(Unk2* out, Unk1* info) {
     else
         out->_44 &= ~4;
     return true;
+}
+
+// NON_MATCHING: the original loads mActor for sub_710072E154 before the EatNavType lookup (the lookup
+// was inside the argument list) and keeps the awareness loop rotated
+ksys::act::BaseProcLink& LandHumGourmandEnemyNormal::sub_7100472AE8() {
+    if (!mActor)
+        return ksys::act::getDummyBaseProcLink();
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return ksys::act::getDummyBaseProcLink();
+
+    if (auto* unk = sub_71005D9E64(mActor)) {
+        sead::Vector3f pos;
+        mActor->getMtx().getTranslation(pos);
+        auto* link = unk->sub_71002DCEDC(0x100, pos);
+        if (link->hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(link, &accessor);
+            sead::Vector3f target_pos;
+            accessor.getActorMtx().getTranslation(target_pos);
+            if ((pos - target_pos).length() <= f32(*mEatArea_s) && !sub_71004726B4(link)) {
+                s32 nav_type;
+                switch (*mEatNavType_s) {
+                case -1:
+                    nav_type = -1;
+                    break;
+                case 0:
+                    nav_type = 2;
+                    break;
+                case 1:
+                    nav_type = 13;
+                    break;
+                case 2:
+                    nav_type = 15;
+                    break;
+                default:
+                    nav_type = -1;
+                    break;
+                }
+                if (sub_710072E154(mActor, target_pos, nullptr, nav_type))
+                    return *link;
+            }
+        }
+    }
+
+    Unk_7102451380 filter;
+    filter._28 = mActor;
+    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        if (entry->_a8 > f32(*mEatArea_s))
+            break;
+        if (sub_71004726B4(&entry->mLink))
+            continue;
+        sead::Vector3f pos;
+        entry->_58.getTranslation(pos);
+        s32 nav_type;
+        switch (*mEatNavType_s) {
+        case -1:
+            nav_type = -1;
+            break;
+        case 0:
+            nav_type = 2;
+            break;
+        case 1:
+            nav_type = 13;
+            break;
+        case 2:
+            nav_type = 15;
+            break;
+        default:
+            nav_type = -1;
+            break;
+        }
+        if (sub_710072E154(mActor, pos, nullptr, nav_type))
+            return entry->mLink;
+    }
+    return ksys::act::getDummyBaseProcLink();
 }
 
 }  // namespace uking::ai
