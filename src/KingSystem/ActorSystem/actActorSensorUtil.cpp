@@ -269,6 +269,18 @@ s32 sub_71007A26AC(Actor* actor) {
     return atk->sub_710079E270();
 }
 
+bool sub_71007A274C(Actor* actor) {
+    auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
+    if (!atk || !atk->m10())
+        return false;
+    const s32 num = atk->sub_710079E270();
+    for (int i = 0; i < num; ++i) {
+        if (atk->sub_710079E2C0(i)->sub_71007A1F68(0x1f81f))
+            return true;
+    }
+    return false;
+}
+
 bool hasAttackInfo(Actor* actor) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)

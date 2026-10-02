@@ -103,6 +103,10 @@ public:
         struct Unk1 : Struct8Base {
             Unk1();
 
+            // 0x7a1f68 / 0x7a1f78: whether any of `mask` is set in _50 / _54.
+            bool sub_71007A1F68(u32 mask) const;
+            bool sub_71007A1F78(u32 mask) const;
+
             /* 0x50 */ s32 _50 = 0;
             /* 0x54 */ u32 _54 = 0;
             /* 0x58 */ u8 _58[0x88 - 0x58];

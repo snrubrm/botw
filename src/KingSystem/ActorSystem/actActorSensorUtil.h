@@ -80,6 +80,9 @@ const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(ksys::act::Actor
 ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo(ksys::act::Actor* actor, int idx);
 // 0x71007a2604 (CSV Actor::x_52): ActorAtk::m10().
 bool sub_71007A2604(ksys::act::Actor* actor);
+// 0x71007a274c (CSV Actor::x_47): whether ActorAtk::m10() and one of its sub_710079E2C0 entries has
+// any of the bits 0x1f81f in _50.
+bool sub_71007A274C(ksys::act::Actor* actor);
 // 0x71007a26ac: ActorAtk::sub_710079E270().
 s32 sub_71007A26AC(ksys::act::Actor* actor);
 // 0x71007a2984 (CSV): ActorAtk::hasAttackInfoMaybe().
