@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -93,14 +96,24 @@ protected:
     bool* mIsCancelAttack_d{};
     // dynamic_param at offset 0x118
     sead::Vector3f* mTargetPos_d{};
-    // Zeroed by the ctor together with the members above; layout from 0x150 (incl. two BoneHandle
-    // objects at 0x178/0x220 and two gsys::BoneAccessKeyEx at 0x2c8/0x300, size 0x338) not declared yet.
-    f32 _120{};
-    u8 _124[0x144 - 0x124]{};
+    // Zeroed by the ctor together with the members above.
+    ksys::Timer _120{};
+    ksys::Timer _12c{};
+    ksys::Timer _138{};
     u32 _144{};
     u8 _148{};
     bool _149{};
     bool _14a{};
+    u32 _14c = 2;
+    sead::Quatf _150;
+    sead::Quatf _160;
+    f32 _170 = 0;
+    bool _174 = false;
+    ksys::act::BoneHandle _178;
+    ksys::act::BoneHandle _220;
+    gsys::BoneAccessKeyEx _2c8;
+    gsys::BoneAccessKeyEx _300;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossShootNormalArrowRoot, 0x338);
 
 }  // namespace uking::ai

@@ -3,7 +3,7 @@
 
 namespace uking::ai {
 
-WeaponRootAI::WeaponRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+WeaponRootAI::WeaponRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg), _c8() {}
 
 WeaponRootAI::~WeaponRootAI() = default;
 
@@ -16,7 +16,7 @@ void WeaponRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WeaponRootAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _c8.fadeXLink();
 }
 
 void WeaponRootAI::loadParams_() {

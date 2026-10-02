@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWaterRoot.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -37,6 +38,11 @@ void RemainsWaterRoot::m35(bool x) {
     auto* child = getCurrentChild();
     if (child && (child->isFinished() || child->isFailed() || child->isChangeable()))
         sub_710054BAC8(false);
+}
+
+void RemainsWaterRoot::m36() {
+    xlinkEventOn(mActor, 25, 1, false);
+    changeChild("通常行動");
 }
 
 }  // namespace uking::ai

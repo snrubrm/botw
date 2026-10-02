@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -59,10 +60,7 @@ protected:
     u8 _b4[0xc4 - 0xb4]{};
     bool _c4 = false;
     bool _c5 = true;
-    // eft effect object (CSV eft::Effect::fadeXLink)
-    void* _c8 = nullptr;
-    u32 _d0 = 0;
-    u8 _d4[0xe8 - 0xd4]{};
+    Unk_71012419b4 _c8;
 };
 KSYS_CHECK_SIZE_NX150(WeaponRootAI, 0xe8);
 

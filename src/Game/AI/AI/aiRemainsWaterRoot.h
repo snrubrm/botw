@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     void m35(bool x) override;
+    void m36() override;
 
 protected:
     void sub_710054BAC8(bool x);

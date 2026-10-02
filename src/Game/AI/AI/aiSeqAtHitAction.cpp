@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSeqAtHitAction.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -13,6 +14,12 @@ bool SeqAtHitAction::init_(sead::Heap* heap) {
 void SeqAtHitAction::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
     _50 = false;
+}
+
+void SeqAtHitAction::calc_() {
+    if (hasAttackInfo(mActor))
+        _50 = true;
+    SeqTwoAction::calc_();
 }
 
 void SeqAtHitAction::leave_() {

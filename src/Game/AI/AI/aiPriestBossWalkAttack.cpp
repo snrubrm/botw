@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossWalkAttack.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void PriestBossWalkAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PriestBossWalkAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71007A2E04(mActor);
 }
 
 void PriestBossWalkAttack::loadParams_() {

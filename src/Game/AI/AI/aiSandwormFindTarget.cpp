@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSandwormFindTarget.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void SandwormFindTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SandwormFindTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71007A397C(mActor);
 }
 
 void SandwormFindTarget::loadParams_() {

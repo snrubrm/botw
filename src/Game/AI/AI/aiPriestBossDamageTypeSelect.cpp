@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossDamageTypeSelect.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,10 @@ bool PriestBossDamageTypeSelect::init_(sead::Heap* heap) {
 }
 
 void PriestBossDamageTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (isSlowTimeMaybe())
+        changeChild("該当", params);
+    else
+        changeChild("非該当", params);
 }
 
 void PriestBossDamageTypeSelect::calc_() {

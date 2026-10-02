@@ -1,7 +1,12 @@
 #include "Game/AI/AI/aiSiteBossShootNormalArrowRoot.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
+
+// TU-level variable in .data right after the class vtable (only read in this TU).
+static f32 sUnk_7102422198 = 0.05f;
 
 SiteBossShootNormalArrowRoot::SiteBossShootNormalArrowRoot(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
@@ -12,12 +17,34 @@ bool SiteBossShootNormalArrowRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original reads sUnk_7102422198 from memory (ours folds the never-written
+// static); the two makeUnit() store sequences are merged differently
 void SiteBossShootNormalArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _144 = 0;
+    m35();
+    _178.setName("Arm_1_R");
+    _220.setName("Arm_2_R");
+    _220._68 = sead::Matrix34f::ident;
+    _178._68 = sead::Matrix34f::ident;
+    mActor->boneHandleStuff(&_220, false);
+    mActor->boneHandleStuff(&_178, false);
+    _150.makeUnit();
+    _160.makeUnit();
+    _14c = 2;
+    _148 = 0;
+    _149 = false;
+    _174 = false;
+    _170 = sUnk_7102422198;
+    _12c = ksys::Timer(*mTrigEventAtHold_s, *mTrigEventAtHold_s);
+    _138 = ksys::Timer(0, 0);
 }
 
 void SiteBossShootNormalArrowRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->sub_71011DA868(&_178);
+    mActor->sub_71011DA868(&_220);
+    sub_71005D74E8(mActor);
+    sub_71005DB51C(mActor, 0.0f, false);
+    sub_71005DB558(mActor, 0.0f, false);
 }
 
 void SiteBossShootNormalArrowRoot::loadParams_() {
@@ -52,7 +79,7 @@ void SiteBossShootNormalArrowRoot::loadParams_() {
 }
 
 bool SiteBossShootNormalArrowRoot::m34() {
-    return _120 <= sead::Mathf::epsilon();
+    return _120.value <= sead::Mathf::epsilon();
 }
 
 void SiteBossShootNormalArrowRoot::m35() {
@@ -88,7 +115,7 @@ bool SiteBossShootNormalArrowRoot::m48() {
 }
 
 bool SiteBossShootNormalArrowRoot::sub_7100588164(bool a1) {
-    return _120 <= sead::Mathf::epsilon();
+    return _120.value <= sead::Mathf::epsilon();
 }
 
 }  // namespace uking::ai

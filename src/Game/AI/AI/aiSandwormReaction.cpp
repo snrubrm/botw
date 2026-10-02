@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSandwormReaction.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ bool SandwormReaction::init_(sead::Heap* heap) {
 
 void SandwormReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
+    sub_71007A3800(mActor);
 }
 
 void SandwormReaction::calc_() {
@@ -20,6 +22,7 @@ void SandwormReaction::calc_() {
 
 void SandwormReaction::leave_() {
     EnemyDefaultReaction::leave_();
+    sub_71007A397C(mActor);
 }
 
 void SandwormReaction::loadParams_() {

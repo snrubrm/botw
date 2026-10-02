@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
-#include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -25,9 +25,7 @@ public:
 protected:
     // aitree_variable at offset 0x68
     bool* mPriestBossUrbosasFuryEShock_a{};
-    // effect object (CSV eft::Effect::x_0 / fadeXLink are called on &_70)
-    xlink2::Handle _70;
-    xlink2::Handle _80;
+    Unk_71012419b4 _70;
     bool _90 = false;
 };
 

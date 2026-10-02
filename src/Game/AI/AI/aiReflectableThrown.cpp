@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReflectableThrown.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -24,7 +25,7 @@ void ReflectableThrown::calc_() {
 }
 
 void ReflectableThrown::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71007A3634(mActor, mHitColName_s);
 }
 
 void ReflectableThrown::loadParams_() {

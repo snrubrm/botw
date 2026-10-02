@@ -18,6 +18,8 @@ void PriestBossGiantReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PriestBossGiantReaction::leave_() {
     EnemyDefaultReaction::leave_();
+    if (_70.sub_7101241B6C())
+        _70.fadeXLink();
 }
 
 void PriestBossGiantReaction::loadParams_() {
