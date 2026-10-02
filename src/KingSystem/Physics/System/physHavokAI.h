@@ -9,6 +9,8 @@
 
 namespace ksys::phys {
 
+class NavMeshCharacter;
+
 // Placeholder name (vtable 0x7102372790; a second base with its own vtable at +0x10): base of the
 // navmesh query requests that AI / horse code allocates from NavMeshQueryRequestPool's heap and
 // hands to HavokAI::submitQuery / destroyQuery (e.g. the derived class with vtable 0x71024ed690).
@@ -57,6 +59,10 @@ public:
     // 0x7100f86174 (not decompiled): a navmesh query from `from` towards `to` (`a4`: a height
     // tolerance); true if it hit.
     bool sub_7100F86174(const sead::Vector3f& from, const sead::Vector3f& to, Unk1* result, f32 a4);
+
+    // 0x7100f82bcc (CSV HavokAI::__auto2): registers a navmesh character: clears flag 2 / sets flag 1 of
+    // its `_220`, stores this in its `_20` and queues it. Callers run it when `nav->_18` is null.
+    void sub_7100F82BCC(NavMeshCharacter* nav);
 
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
     void destroyQuery(Unk_7102372790* query);

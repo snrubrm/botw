@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSleepBedRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 
 namespace uking::ai {
 
@@ -19,6 +22,23 @@ void SleepBedRoot::leave_() {
 }
 
 void SleepBedRoot::loadParams_() {}
+
+// NON_MATCHING: the original computes &_38 before the Metadata ctor (kept in x22 across the calls) and
+// stores the message type to a stack slot first, then copies it into the temporary it passes
+// (sp+4 -> sp); ours keeps both in place.
+void SleepBedRoot::calc_() {
+    auto* actor = mActor;
+    auto* child = getCurrentChild();
+    if (_38._30) {
+        ksys::evt::Metadata metadata("Demo007_0");
+        _78.initWithEvent(actor, &metadata);
+        actor->sendMessage(*ksys::evt::Manager::instance()->_48, ksys::MessageType(0x800002), &_78,
+                           true);
+        _38.x();
+    }
+    if (!child->isFinished() && !child->isFailed())
+        child->isChangeable();
+}
 
 bool SleepBedRoot::handleMessage_(const ksys::Message& message) {
     if (!_38._30 && isCurrentChild("Wait"))

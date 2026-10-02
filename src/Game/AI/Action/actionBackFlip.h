@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionRotateTurnToTarget.h"
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,8 +31,7 @@ protected:
     const float* mJumpHeight_s{};
     // static_param at offset 0x98
     const float* mNearGrHeight_s{};
-    // a reference-counted object (released by the destructor)
-    void* _a0 = nullptr;
+    Unk_71000b0800<Unk_71025b0578> _a0;
     u8 _a8[0xcc - 0xa8];
     bool _cc = false;
     bool _cd = false;

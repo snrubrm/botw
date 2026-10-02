@@ -5,6 +5,7 @@
 
 namespace ksys {
 class OverlayArenaSystemS1;
+struct MesTransceiverId;
 }
 
 namespace ksys::act {
@@ -67,7 +68,16 @@ public:
 private:
     friend class ksys::OverlayArenaSystemS1;
 
-    u8 pad_20[0x1d178 - 0x20];
+    u8 pad_28[0x48 - 0x28];
+
+public:
+    // The message transceiver id of the event manager actor (placeholder name; read by
+    // SleepBedRoot::calc_ and ResidentEvent::sendMessageToEventMgrActor, which pass `*_48` as the
+    // destination of Actor::sendMessage).
+    /* 0x48 */ const MesTransceiverId* _48;
+
+private:
+    u8 pad_50[0x1d180 - 0x50];
     sead::Heap* mEventHeap;
     u8 pad_1d188[0x1d2b8 - 0x1d188];
     void* _1d2b8;

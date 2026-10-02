@@ -153,6 +153,10 @@ public:
     // bits 0 / 0x19 / 6 answered by the owner (basic signal / remains signal / LodState flag 1).
     bool sub_710115ED5C(int a1, int bit);
 
+    // Inline-only in the original (loop bounds of CapturedActFreeze / CapturedActElectricParalyisis
+    // calc_ / leave_); the name is a placeholder: the number of banks of slot 0.
+    s32 getSlot0BankCount() const { return mSlots.size() > 0 ? mSlots[0]._20.size() : 0; }
+
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())
             return nullptr;

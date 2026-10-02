@@ -10,11 +10,17 @@ BackFlip::BackFlip(const InitArg& arg) : RotateTurnToTarget(arg) {}
 BackFlip::~BackFlip() = default;
 
 bool BackFlip::init_(sead::Heap* heap) {
-    return RotateTurnToTarget::init_(heap);
+    if (!RotateTurnToTarget::init_(heap))
+        return false;
+    return _a0.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void BackFlip::enter_(ksys::act::ai::InlineParamPack* params) {
     RotateTurnToTarget::enter_(params);
+    _cc = false;
+    _cd = false;
+    if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_a0._0))
+        checker->reset(15.0f);
 }
 
 void BackFlip::leave_() {

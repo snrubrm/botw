@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtResidentEvent.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
@@ -46,6 +47,16 @@ bool ResidentEvent::callEvent(bool a1) {
     arg.metadata = &mLink.mMetadata;
     arg.proc = mProc;
     return mgr->callEvent(arg);
+}
+
+bool ResidentEvent::sendMessageToEventMgrActor(act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* mgr = Manager::instance();
+    if (!mgr)
+        return false;
+    actor->sendMessage(*mgr->_48, MessageType(0x800002), this, true);
+    return true;
 }
 
 bool ResidentEvent::loadEvent() {

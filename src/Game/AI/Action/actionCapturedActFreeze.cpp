@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionCapturedActFreeze.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -19,6 +22,8 @@ void CapturedActFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CapturedActFreeze::leave_() {
+    for (int i = 0; i < mActor->getASList()->getSlot0BankCount(); ++i)
+        mActor->getASList()->x_3(0, i, &ksys::as::ASList::Unk2::sub_71011631BC, 1.0f);
     Freeze::leave_();
 }
 
@@ -29,6 +34,12 @@ void CapturedActFreeze::loadParams_() {
 }
 
 void CapturedActFreeze::calc_() {
+    _90.update();
+    if (_90.value <= sead::Mathf::epsilon()) {
+        for (int i = 0; i < mActor->getASList()->getSlot0BankCount(); ++i)
+            mActor->getASList()->x_3(0, i, &ksys::as::ASList::Unk2::sub_71011631BC, 0.0f);
+        _90.reset(1.0f, 0.0f);
+    }
     Freeze::calc_();
 }
 

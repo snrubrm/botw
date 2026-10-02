@@ -25,6 +25,8 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
 protected:
+    void calc_() override;
+
     Unk_7102423268 _38{0x180000b};
     ksys::evt::BaseProcLinkForEvent _78;
 };

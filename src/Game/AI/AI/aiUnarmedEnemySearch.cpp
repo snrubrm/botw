@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -33,6 +34,19 @@ void UnarmedEnemySearch::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mReachTargetArea_s, "ReachTargetArea");
     getStaticParam(&mTurnStartAng_s, "TurnStartAng");
+}
+
+bool UnarmedEnemySearch::m34() {
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    if (!nav->_18)
+        ksys::phys::HavokAI::instance()->sub_7100F82BCC(nav);
+    if (!_50)
+        return false;
+    if (auto* character = _50->_0)
+        character->sub_7100F7604C(0.5f);
+    return true;
 }
 
 void UnarmedEnemySearch::m39() {
