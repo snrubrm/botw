@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physShapeCastWithInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -93,6 +95,76 @@ void MagneStickRoot::m39() {
         return;
     if (auto* body = mActor->getMainBody())
         body->setSystemGroupHandler(nullptr);
+}
+
+bool MagneStickRoot::m41(const sead::Matrix34f* mtx, const sead::Vector3f* a,
+                         const sead::Vector3f* b) {
+    if (auto* actor = mActor) {
+        if ((sead::Vector3f::ez * a->z - *a).length() <= 0.01f) {
+            sead::Vector3f dir = actor->getMtx().getTranslation() - *b;
+            dir.normalize();
+            sead::Vector3f axis{mtx->m[0][2], mtx->m[1][2], mtx->m[2][2]};
+            axis.normalize();
+            if (std::acos(sead::Mathf::abs(dir.dot(axis))) <= sead::Mathf::deg2rad(4))
+                return true;
+        }
+    }
+    return false;
+}
+
+bool MagneStickRoot::m44(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                         const sead::BoundBox3f* bounds) {
+    return m46(accessor, pos, bounds);
+}
+
+bool MagneStickRoot::m47(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                         const sead::BoundBox3f* bounds) {
+    sead::Vector3f start;
+    start = accessor->getActorMtx().getTranslation();
+    bool result = false;
+    if ((start - *pos).length() > sead::Mathf::epsilon()) {
+        const f32 radius = sead::Mathf::max((bounds->getMax().x - bounds->getMin().x) * 0.5f,
+                                            (bounds->getMax().y - bounds->getMin().y) * 0.5f);
+        ksys::phys::SphereCast cast{ksys::phys::ContactLayer::EntityObject,
+                                    ksys::phys::GroundHit::HitAll,
+                                    nullptr,
+                                    0x80,
+                                    ksys::phys::ShapeCast::Mode::_0,
+                                    sead::Vector3f::zero,
+                                    radius,
+                                    sead::SafeString::cEmptyString,
+                                    ksys::phys::LowPriority::No};
+        cast.setMode(ksys::phys::ShapeCast::Mode::_2);
+        cast.setStartAndEnd(*pos, start);
+        result = sub_71004A1138(&cast);
+    }
+    return result;
+}
+
+// NON_MATCHING: the original loads the actor matrix rows up front (8-byte pair loads) and builds the
+// rotation matrix from those registers; ours reloads the rows (scheduling / load order only)
+bool MagneStickRoot::m46(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                         const sead::BoundBox3f* bounds) {
+    bool result = false;
+    if (_98) {
+        const sead::Matrix34f& mtx = accessor->getActorMtx();
+        sead::Vector3f dir = mtx.getTranslation() - *pos;
+        if (dir.length() > sead::Mathf::epsilon()) {
+            dir.normalize();
+            const f32 half = (bounds->getMax().z - bounds->getMin().z) * 0.5f;
+            sead::Matrix34f rot{sead::Matrix33f{mtx}, {0, 0, 0}};
+            sead::Vector3f end = mtx.getTranslation() + mtx.getBase(2) * half;
+            sead::Vector3f start = end;
+            ksys::phys::ShapeCastWithInfo cast{_98, 0x80, ksys::phys::ShapeCast::Mode::_0,
+                                               sead::SafeString::cEmptyString,
+                                               ksys::phys::LowPriority::No};
+            cast.setRotation(rot);
+            cast.setStartAndEnd(start, end);
+            cast.setMode(ksys::phys::ShapeCast::Mode::_2);
+            result = sub_71004A1138(&cast);
+        }
+    }
+    return result;
 }
 
 void MagneStickRoot::m49(sead::Vector3f* out, sead::Vector3f pos, const sead::Vector3f& target) {

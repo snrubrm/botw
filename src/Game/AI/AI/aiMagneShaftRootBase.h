@@ -21,7 +21,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m41(const sead::Matrix34f* mtx, const sead::Vector3f* a, const sead::Vector3f* b) override;
     f32 m42() override { return *mCollideRadius_m; }
+    void m48(f32 radius, const sead::Matrix34f* mtx, const sead::Vector3f* a,
+             const sead::Vector3f* b) override;
     void m50() override;
     void m51() override;
     virtual ksys::phys::RigidBody* m52() { return nullptr; }

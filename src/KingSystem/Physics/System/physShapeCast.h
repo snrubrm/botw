@@ -43,6 +43,10 @@ public:
 
     void reset();
 
+    // Inline-only in the original (MagneStickRoot::m47 / m46 / m45 store 2 here after setStartAndEnd);
+    // the name is a guess.
+    void setMode(Mode mode) { mMode = mode; }
+
     void setRotation(sead::Quatf rotation);
     void setRotation(const sead::Matrix33f& rotation_matrix);
     void setRotation(const sead::Matrix34f& transform_matrix);

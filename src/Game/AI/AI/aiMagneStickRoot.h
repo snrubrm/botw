@@ -1,12 +1,20 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::act {
+class ActorLinkConstDataAccess;
+}
+
 namespace ksys::phys {
 class RigidBody;
+class ShapeCast;
 }
 
 namespace uking::ai {
@@ -29,18 +37,25 @@ public:
     virtual void m37();
     virtual void m38();
     virtual void m39();
-    virtual void m40();
-    virtual void m41();
+    virtual bool m40();
+    virtual bool m41(const sead::Matrix34f* mtx, const sead::Vector3f* a, const sead::Vector3f* b);
     virtual f32 m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
+    virtual void m43(sead::Matrix34f* out, ksys::act::ActorLinkConstDataAccess* accessor);
+    virtual bool m44(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                     const sead::BoundBox3f* bounds);
+    virtual bool m45(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                     const sead::BoundBox3f* bounds);
+    virtual bool m46(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                     const sead::BoundBox3f* bounds);
+    virtual bool m47(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                     const sead::BoundBox3f* bounds);
+    virtual void m48(f32 radius, const sead::Matrix34f* mtx, const sead::Vector3f* a,
+                     const sead::Vector3f* b);
     virtual void m49(sead::Vector3f* out, sead::Vector3f pos, const sead::Vector3f& target);
     virtual void m50() {}
     virtual void m51() {}
+
+    bool sub_71004A1138(ksys::phys::ShapeCast* cast);
 
 protected:
     u32 _38 = 0;
