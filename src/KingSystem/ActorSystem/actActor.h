@@ -325,6 +325,9 @@ public:
     Chemical* sub_71011D8A34(int idx);
     // mChemical->sub_7100E37788(idx), if any.
     Chemical* sub_71011D8A44(int idx);
+    // 0x71011d8a54 (declared only; lane1 s21): mChemical->(0x7100e381dc)(name) — the chemical called
+    // `name` (e.g. EnemyChemicalSelect::init_), null without a chemical container.
+    Chemical* sub_71011D8A54(const sead::SafeString& name);
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
     // 0x71011d57f8: the world matrix of the model bone `bone_name` (false without a model or bone).

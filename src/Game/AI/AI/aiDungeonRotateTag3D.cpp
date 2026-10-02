@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiDungeonRotateTag3D.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -19,7 +20,7 @@ bool DungeonRotateTag3D::init_(sead::Heap* heap) {
         _e4 = -1;
     _e8 = 0;
     _f0 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
-    _100 = new (heap) xlink2::Handle;
+    _100 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -28,7 +29,8 @@ void DungeonRotateTag3D::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DungeonRotateTag3D::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_100)
+        xlink::fade(*_100, -1);
 }
 
 void DungeonRotateTag3D::loadParams_() {

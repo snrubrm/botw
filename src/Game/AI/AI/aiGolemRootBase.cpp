@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGolemRootBase.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -84,7 +85,12 @@ bool GolemRootBase::init_(sead::Heap* heap) {
 }
 
 void GolemRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_a68 &= ~1;
+
     EnemyRoot::enter_(params);
+    sub_71006F5D3C(sub_71006F5694(mActor), mActor);
 }
 
 void GolemRootBase::leave_() {

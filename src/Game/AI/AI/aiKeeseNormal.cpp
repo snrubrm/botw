@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiKeeseNormal.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -14,7 +16,14 @@ KeeseNormal::KeeseNormal(const InitArg& arg) : EnemyNormal(arg) {}
 KeeseNormal::~KeeseNormal() = default;
 
 bool KeeseNormal::init_(sead::Heap* heap) {
-    return EnemyNormal::init_(heap);
+    if (!EnemyNormal::init_(heap))
+        return false;
+
+    auto* actor = mActor;
+    sub_71006F5D3C(sub_71006F5694(actor), actor);
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F63700(false);
+    return true;
 }
 
 void KeeseNormal::enter_(ksys::act::ai::InlineParamPack* params) {

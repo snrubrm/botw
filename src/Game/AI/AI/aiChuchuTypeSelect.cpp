@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChuchuTypeSelect.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,20 @@ bool ChuchuTypeSelect::init_(sead::Heap* heap) {
 }
 
 void ChuchuTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    switch (sub_71006F5694(mActor).value()) {
+    case Unk_71006F5DB0::Fire:
+        changeChild("ファイア", params);
+        break;
+    case Unk_71006F5DB0::Electric:
+        changeChild("エレキ", params);
+        break;
+    case Unk_71006F5DB0::Ice:
+        changeChild("アイス", params);
+        break;
+    default:
+        changeChild("ノーマル", params);
+        break;
+    }
 }
 
 void ChuchuTypeSelect::calc_() {}

@@ -21,6 +21,11 @@ public:
     void sub_710034E090();
 
 protected:
+    void calc_() override;
+
+public:
+
+protected:
     // static_param at offset 0x1d8
     const int* mSubASSlot_s{};
     // static_param at offset 0x1e0

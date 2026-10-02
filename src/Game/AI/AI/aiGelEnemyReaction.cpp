@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGelEnemyReaction.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 #include "Game/Actor/actGelEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -30,6 +31,22 @@ void GelEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::acquireActor(&weapon, &accessor);
     const sead::Vector3f vel(0, 0.2f, 0);
     accessor.setProperties(mActor->getMtx(), &vel, nullptr, nullptr, false, 0, -1);
+}
+
+void GelEnemyReaction::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        const int element = sub_71006F5694(mActor);
+        if (element != 0 && !sub_71006F594C(element, mActor->getChemicalStuff())) {
+            if (!isCurrentChild("ケミカル鎮静") && !isCurrentChild("死亡")) {
+                changeChild("ケミカル鎮静");
+                return;
+            }
+        }
+    } else {
+        child->isChangeable();
+    }
+    EnemyDefaultReaction::calc_();
 }
 
 void GelEnemyReaction::leave_() {

@@ -141,4 +141,11 @@ void CharacterController::physicsXXXGetMtx_1(sead::Matrix34f* mtx) const {
     (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(mtx);
 }
 
+void CharacterController::sub_7100F63700(bool clear) {
+    if (clear)
+        mFlags.reset(0x40);
+    else
+        mFlags.set(0x40);
+}
+
 }  // namespace ksys::phys

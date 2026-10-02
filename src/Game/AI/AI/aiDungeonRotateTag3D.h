@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <xlink2/xlink2Handle.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::phys {
@@ -54,7 +55,7 @@ protected:
     bool _f5 = false;
     f32 _f8 = 0;
     // xlink2 event handle (allocated in init_, faded in leave_)
-    xlink2::Handle* _100 = nullptr;
+    xlink2::HandleSLink* _100 = nullptr;
     u32 _108 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DungeonRotateTag3D, 0x110);
