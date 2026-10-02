@@ -1,10 +1,44 @@
 #include "Game/AI/AI/aiGolemRoot.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
 
+void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a4 != 4 || *a5 == -1)
+        return;
+
+    auto* actor = mDamageManager->mActor;
+    const auto* body_set = actor->getRigidBodyByName(sub_71007A24D0()->cstr());
+    if (!body_set)
+        return;
+    auto* body = body_set->getRigidBody(0);
+    if (!body)
+        return;
+
+    const s32 num = sub_71007A26AC(actor);
+    bool found = false;
+    for (s32 i = 0; i < num; ++i) {
+        const auto* info = sub_71007A255C(actor, i);
+        if (info && info->_50 == 0x10) {
+            if (info->_c0 != body)
+                return;
+            found = true;
+        }
+    }
+    if (found) {
+        *a5 = -1;
+        *a4 = -1;
+    }
+}
+
 GolemRoot::GolemRoot(const InitArg& arg) : GolemRootBase(arg) {}
 
-GolemRoot::~GolemRoot() = default;
+GolemRoot::~GolemRoot() {
+    sub_710040007C();
+}
 
 bool GolemRoot::init_(sead::Heap* heap) {
     return GolemRootBase::init_(heap);

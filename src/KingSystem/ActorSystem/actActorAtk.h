@@ -14,6 +14,10 @@ namespace sead {
 class Heap;
 }  // namespace sead
 
+namespace ksys::phys {
+class RigidBody;
+}  // namespace ksys::phys
+
 namespace ksys::act {
 
 class Actor;
@@ -123,6 +127,12 @@ public:
             /* 0xe8 */ BaseProcLink _e8;
             /* 0xf8 */ s32 _f8 = -1;
             /* 0xfc */ bool _fc = false;
+        struct Unk1 {
+            u8 _0[0x50];
+            s32 _50;
+            u8 _54[0xc0 - 0x54];
+            phys::RigidBody* _c0;
+            u8 _c8[0x100 - 0xc8];
         };
         KSYS_CHECK_SIZE_NX150(Unk1, 0x100);
 

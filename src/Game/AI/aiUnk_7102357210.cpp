@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -925,3 +926,7 @@ void sub_7100708FF0(ksys::act::Actor* actor, f32 max_velocity) {
     if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "RigidBody_Leg_2_L"))
         body->setMaxLinearVelocity(max_velocity);
 }
+
+Unk_7102450410::Unk_7102450410() = default;
+
+Unk_7102450410::~Unk_7102450410() = default;

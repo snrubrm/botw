@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRoot.h"
+#include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void sub_71004012F8();
+    void sub_71004014A4();
 
 protected:
     // static_param at offset 0x1d8
@@ -57,6 +61,8 @@ protected:
     sead::SafeString mGolemTextureName_m{};
     // aitree_variable at offset 0x2e8
     void* mGolemChemicalController_a{};
+    Unk_7102450410 _2f0;
 };
+KSYS_CHECK_SIZE_NX150(GolemRootBase, 0x310);
 
 }  // namespace uking::ai

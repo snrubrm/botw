@@ -8,7 +8,11 @@ namespace uking::ai {
 
 GolemRootBase::GolemRootBase(const InitArg& arg) : EnemyRoot(arg) {}
 
-GolemRootBase::~GolemRootBase() = default;
+GolemRootBase::~GolemRootBase() {
+    sub_71004012F8();
+    sub_71004014A4();
+    _2f0._8.freeBuffer();
+}
 
 bool GolemRootBase::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);

@@ -361,3 +361,10 @@ public:
 
     Unk_71023e7bc0_Payload _18;
 };
+
+// vtable 0x71023f54b0 (GolemRoot; D0/m2 at 0x710040118c..); message 0x80000aa, no payload
+class Unk_71023f54b0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
