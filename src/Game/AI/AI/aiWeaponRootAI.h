@@ -32,6 +32,9 @@ public:
     virtual void m44();
     virtual void m45();
 
+    // 0x7100e21228 (declaration only; called by MasterSwordRoot::enter_).
+    void sub_7100E21228();
+
 protected:
     bool _38 = false;
     bool _39 = false;
