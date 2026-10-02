@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossThrowIceRoot.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -15,11 +17,16 @@ bool SiteBossThrowIceRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossThrowIceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack child_params;
+    child_params.addInt(*mIgnitionNum_s, "IgnitionNum", -1);
+    changeChild("弾生成", &child_params);
 }
 
 void SiteBossThrowIceRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        for (int i = 0; i < 9; ++i)
+            boss->_1560.sub_710066CBD4(i);
+    }
 }
 
 void SiteBossThrowIceRoot::loadParams_() {

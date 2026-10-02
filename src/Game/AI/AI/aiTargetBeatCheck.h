@@ -15,7 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_71005BC648();
+
 protected:
+    void calc_() override;
 };
 
 }  // namespace uking::ai

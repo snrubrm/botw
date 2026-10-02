@@ -17,28 +17,12 @@ void SeqTwoLineReachableTargetActionBase::enter_(ksys::act::ai::InlineParamPack*
     m34(params);
 }
 
-// NON_MATCHING: the isFinished / isFailed bodies are duplicated like in the other calc_ of this shape, but here the
-// body starts with the same `child->isFailed()` call as the else-if condition, which our compiler hoists above the
-// branch (the original keeps it in the two arms)
+// NON_MATCHING: 4 bytes bigger; the original has the child's vtable load hoisted into both condition blocks (SimplifyCFG
+// hoisting of the load that starts the shared body and the next condition); the plain `||` form here keeps them in the
+// blocks (the duplicated-body form hoists the whole isFailed() call instead)
 void SeqTwoLineReachableTargetActionBase::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished()) {
-        if (child->isFailed()) {
-            setFailed();
-        } else if (isCurrentChild("先行動")) {
-            const int type = *mReachableCheckType1_s;
-            if ((type == 0 || type == 2) && !sub_710072E154(mActor, *m36(), nullptr, -1))
-                setFailed();
-            else
-                m35();
-        } else {
-            const int type = *mReachableCheckType2_s;
-            if ((type == 0 || type == 2) && !sub_710072E154(mActor, *m36(), nullptr, -1))
-                setFailed();
-            else
-                setFinished();
-        }
-    } else if (child->isFailed()) {
+    if (child->isFinished() || child->isFailed()) {
         if (child->isFailed()) {
             setFailed();
         } else if (isCurrentChild("先行動")) {

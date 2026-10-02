@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    float m34() override;
+
 protected:
 };
 

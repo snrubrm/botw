@@ -18,6 +18,19 @@ void SiteBossNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("攻撃");
 }
 
+void SiteBossNormalRoot::calc_() {
+    if (getCurrentChild()->isFinished()) {
+        changeChild("攻撃");
+        return;
+    }
+    if (isCurrentChild("待機")) {
+        if (auto* awareness = mActor->getAwareness()) {
+            if (awareness->_300)
+                changeChild("攻撃");
+        }
+    }
+}
+
 void SiteBossNormalRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }

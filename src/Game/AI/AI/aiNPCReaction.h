@@ -15,6 +15,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     // dynamic_param at offset 0x38
     int* mReactionId_d{};
     // dynamic_param at offset 0x40

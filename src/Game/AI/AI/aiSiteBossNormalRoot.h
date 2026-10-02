@@ -18,6 +18,7 @@ public:
     bool isChangeable() const override;
 
 protected:
+    void calc_() override;
 };
 
 }  // namespace uking::ai

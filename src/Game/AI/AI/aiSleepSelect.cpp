@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSleepSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,17 @@ bool SleepSelect::init_(sead::Heap* heap) {
 }
 
 void SleepSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005DD798(mActor, 19, nullptr, 0, 0)) {
+        changeChild("睡眠中", params);
+        return;
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_e84.isOnBit(8)) {
+            changeChild("睡眠中", params);
+            return;
+        }
+    }
+    changeChild("活動中", params);
 }
 
 void SleepSelect::calc_() {}

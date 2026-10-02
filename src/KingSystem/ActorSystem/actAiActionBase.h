@@ -159,6 +159,10 @@ public:
                                    &ParamPack::setPtrGeneric<sead::Vector3f, AIDefParamType::Vec3>);
     }
 
+    bool setDynamicParam(const BaseProcLink& value, const sead::SafeString& key) {
+        return setDynamicParamImpl(value, key, &ParamPack::setActor);
+    }
+
     bool setDynamicParam(bool value, const sead::SafeString& key) {
         return setDynamicParamImpl(value, key, &ParamPack::setPtrGeneric<bool, AIDefParamType::Bool>);
     }

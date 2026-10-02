@@ -27,6 +27,16 @@ void TargetIsEquipItemSelector::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("非武器族", &pack);
 }
 
+void TargetIsEquipItemSelector::calc_() {
+    auto* child = getCurrentChild();
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+    child->setDynamicParam(pos, "TargetPos");
+    child->setDynamicParam(*mTargetActor_d, "TargetActor");
+}
+
 void TargetIsEquipItemSelector::leave_() {
     ksys::act::ai::Ai::leave_();
 }

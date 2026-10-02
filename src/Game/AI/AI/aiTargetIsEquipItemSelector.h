@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     // dynamic_param at offset 0x38
     ksys::act::BaseProcLink* mTargetActor_d{};
 };
