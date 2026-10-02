@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSwarmRoot.h"
+#include "Game/Actor/actSwarm.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,18 @@ void SwarmRoot::leave_() {
 void SwarmRoot::loadParams_() {
     EnemyRoot::loadParams_();
     getStaticParam(&mASName_s, "ASName");
+}
+
+bool SwarmRoot::m35() {
+    auto* damage_mgr = mActor->getDamageMgr();
+    if (damage_mgr && damage_mgr->getField54() == 6)
+        return false;
+
+    auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
+    if (swarm && swarm->_1614)
+        return true;
+
+    return EnemyRoot::m35();
 }
 
 }  // namespace uking::ai
