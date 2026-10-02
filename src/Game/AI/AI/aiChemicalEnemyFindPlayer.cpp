@@ -21,6 +21,24 @@ void ChemicalEnemyFindPlayer::loadParams_() {
     LandHumEnemyFindPlayer::loadParams_();
 }
 
+void ChemicalEnemyFindPlayer::calc_() {
+    if (sub_710037EEAC())
+        _1e2 = true;
+
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("ケミカル攻撃")) {
+        if (sub_710037EEAC())
+            setFailed();
+        else
+            sub_710037EDA4();
+        return;
+    }
+
+    LandHumEnemyFindPlayer::calc_();
+    if (isCurrentChild("ケミカル攻撃"))
+        getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+}
+
 void ChemicalEnemyFindPlayer::m40() {
     if (_1e2) {
         _1e2 = false;

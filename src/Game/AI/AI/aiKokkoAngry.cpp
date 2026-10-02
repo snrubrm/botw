@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKokkoAngry.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -47,6 +48,20 @@ void KokkoAngry::calc_() {
         CreateActorWithTarget::calc_();
     else
         setFinished();
+}
+
+// NON_MATCHING: the original derives the entry link address from &_d70 (+8) (regalloc follows)
+sead::Vector3f KokkoAngry::m35() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::BaseProcLink* link = &ksys::act::sUnk_71026505e0;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->_d70.sub_71002DCCBC(-1))
+            link = &enemy->_d70.mEntries[0].link;
+    }
+    if (ksys::act::acquireActor(link, &accessor))
+        return accessor.getActorMtx().getTranslation();
+    const auto& mtx = mActor->getMtx();
+    return mtx.getTranslation() + mtx.getBase(2);
 }
 
 }  // namespace uking::ai

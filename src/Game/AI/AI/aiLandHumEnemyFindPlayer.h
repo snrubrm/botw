@@ -13,6 +13,8 @@ public:
     ~LandHumEnemyFindPlayer() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    // 0x7100461158 (not decompiled yet)
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
