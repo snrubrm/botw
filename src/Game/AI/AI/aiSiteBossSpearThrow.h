@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -30,6 +32,9 @@ protected:
     sead::SafeString mThrowActorName_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    ksys::act::BaseProcHandle _68;
+    ksys::Timer _78;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSpearThrow, 0x88);
 
 }  // namespace uking::ai
