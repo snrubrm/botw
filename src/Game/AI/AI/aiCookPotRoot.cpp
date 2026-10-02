@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCookPotRoot.h"
+#include "Game/gameSceneSubsys14.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
@@ -35,8 +36,23 @@ void CookPotRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+// NON_MATCHING: the original computes `&_248` for the sender call after the payload lock is released
+// (ours materialises it before the lock; scheduling only)
 void CookPotRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (!isActorDeletedOrDeleting() && !isActorGoingBackToRootAi() && _242) {
+        _242 = false;
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_248._18.mLock);
+            _248._18._0 = false;
+        }
+        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+    }
+    if (!isActorGoingBackToRootAi()) {
+        if (auto* holder = static_cast<void**>(mCurrentCookResultHolder_a)) {
+            if (*holder == &_288)
+                *holder = nullptr;
+        }
+    }
 }
 
 void CookPotRoot::loadParams_() {

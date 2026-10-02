@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiLifted.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -28,7 +29,21 @@ void Lifted::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Lifted::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    actor->resetConnectedCalcParent(false);
+    sub_71005DC5DC(actor);
+    if (*mIsGetItem_s) {
+        ksys::act::enableAttClient(actor, "Catch");
+        ksys::act::enableAttClient(actor, "Pick");
+        ksys::act::enableAttClient(actor, "NoticeDo");
+        ksys::act::enableAttClient(actor, "AutoAim");
+        ksys::act::enableAttClient(actor, "NameBalloon");
+    } else {
+        ksys::act::enableAllAttClients(actor);
+    }
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_40000000);
+    if (auto* physics = actor->getPhysics())
+        physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_800);
 }
 
 void Lifted::loadParams_() {

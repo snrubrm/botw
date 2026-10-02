@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiIceMakerBlock.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/gameSceneSubsys14.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -21,8 +25,22 @@ void IceMakerBlock::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+// NON_MATCHING: the original computes `&_150` for the sender call between the payload store and the
+// lock release (ours materialises it before the lock)
 void IceMakerBlock::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_38);
+    for (auto* body : _78) {
+        if (body && body->isAddedToWorld())
+            body->removeFromWorld();
+    }
+    if (!isActorDeletedOrDeleting() && _a8) {
+        _a8 = false;
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_150._18.mLock);
+            _150._18._0 = false;
+        }
+        _150.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+    }
 }
 
 void IceMakerBlock::loadParams_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemyLifted.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
@@ -22,7 +25,16 @@ void EnemyLifted::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyLifted::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    actor->resetConnectedCalcParent(false);
+    sub_71005DC5DC(actor);
+    ksys::act::enableAttClient(actor, "Grab");
+    if (auto* dynamic = sead::DynamicCast<ksys::act::DynamicActor>(actor))
+        dynamic->_a68 |= 1;
+    sub_71005DA114(mActor, &_48);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_40000000);
+    if (auto* physics = actor->getPhysics())
+        physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_800);
 }
 
 void EnemyLifted::m34() {}

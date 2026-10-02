@@ -141,6 +141,43 @@ bool MagneStickRoot::m47(ksys::act::ActorLinkConstDataAccess* accessor, const se
     return result;
 }
 
+// NON_MATCHING: the original loads the actor matrix up front and copies rows 0-2 of it as 8-byte + 4-byte
+// pieces; ours reloads the elements (scheduling / load order only)
+bool MagneStickRoot::m45(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
+                         const sead::BoundBox3f* bounds) {
+    bool result = false;
+    if (_98) {
+        const sead::Matrix34f& mtx = accessor->getActorMtx();
+        const sead::Vector3f trans = mtx.getTranslation();
+        sead::Vector3f dir = trans - *pos;
+        const f32 distance = dir.length();
+        if (distance > sead::Mathf::epsilon()) {
+            dir.normalize();
+            const f32 half = (bounds->getMax().z - bounds->getMin().z) * 0.5f;
+            const f32 length = sead::Mathf::min(half, distance * 0.5f);
+            const sead::Vector3f end = trans - dir * length;
+            sead::Vector3f x_axis = mtx.getBase(1).cross(dir);
+            x_axis.normalize();
+            sead::Vector3f y_axis = dir.cross(x_axis);
+            y_axis.normalize();
+            sead::Matrix34f rot;
+            rot.setBase(0, x_axis);
+            rot.setBase(1, y_axis);
+            rot.setBase(2, dir);
+            rot.setTranslation(0, 0, 0);
+            const sead::Vector3f start = *pos + dir * length;
+            ksys::phys::ShapeCastWithInfo cast{_98, 0x80, ksys::phys::ShapeCast::Mode::_0,
+                                               sead::SafeString::cEmptyString,
+                                               ksys::phys::LowPriority::No};
+            cast.setRotation(rot);
+            cast.setStartAndEnd(start, end);
+            cast.setMode(ksys::phys::ShapeCast::Mode::_2);
+            result = sub_71004A1138(&cast);
+        }
+    }
+    return result;
+}
+
 // NON_MATCHING: the original loads the actor matrix rows up front (8-byte pair loads) and builds the
 // rotation matrix from those registers; ours reloads the rows (scheduling / load order only)
 bool MagneStickRoot::m46(ksys::act::ActorLinkConstDataAccess* accessor, const sead::Vector3f* pos,
