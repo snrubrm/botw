@@ -33,3 +33,11 @@ void sub_710073852C(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_7100738660(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_7100738898(ksys::phys::RigidBody* body, f32 ratio);
 void sub_7100738AA8(ksys::act::Actor* actor, f32 ratio);
+
+// Single-branch functions of the same area forwarding to KingSystem actor utilities (0x7100ee5b84,
+// 0x7100ee60ac). Names are placeholders.
+
+/// Gravity acting on the actor (character controller gravity, or world gravity scaled by the main
+/// rigid body's gravity factor).
+void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
+void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up);

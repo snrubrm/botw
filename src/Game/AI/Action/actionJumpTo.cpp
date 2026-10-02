@@ -58,4 +58,20 @@ void JumpTo::m41() {
         sub_7100738660(controller, *mRotReduceRatioOnGround_s);
 }
 
+void JumpTo::m38() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5E7F0(_58.value * 30.0f);
+        sub_710072C1B4(controller, _88);
+    }
+}
+
+void JumpTo::m40() {
+    if (auto* controller = mActor->getCharacterController()) {
+        _58 *= *mPosReduceRatioOnGround_s;
+        _58.updateStats();
+        controller->sub_7100F5E7F0(_58.value * 30.0f);
+        sub_710072C1B4(controller, _88);
+    }
+}
+
 }  // namespace uking::action

@@ -48,4 +48,11 @@ void BackStepToTarget::m40() {
         sub_7100738660(controller, *mStopRotSpeedRatio_s);
 }
 
+void BackStepToTarget::m38() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5E7F0(_58 * 30.0f);
+        sub_710072C1B4(controller, _a8);
+    }
+}
+
 }  // namespace uking::action

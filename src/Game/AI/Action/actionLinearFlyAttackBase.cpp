@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLinearFlyAttackBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -38,6 +39,15 @@ int LinearFlyAttackBase::m32() {
 
 f32 LinearFlyAttackBase::m34() {
     return 30.0f;
+}
+
+void LinearFlyAttackBase::m33(sead::Vector3f* dir) {
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, mActor);
+    sead::Vector3f up = -gravity;
+    if (up.normalize() < sead::Mathf::epsilon())
+        up.set(sead::Vector3f::ey);
+    dir->set(up);
 }
 
 }  // namespace uking::action

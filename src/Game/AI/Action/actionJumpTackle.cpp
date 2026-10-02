@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionJumpTackle.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -30,7 +33,20 @@ void JumpTackle::loadParams_() {
 }
 
 void JumpTackle::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    _78 *= 0.978f;
+    _78.updateStats();
+    controller->sub_7100F5E7F0(_78.value * 30.0f);
+    const sead::Vector3f axis = mActor->getMtx().getBase(2);
+    sub_710072C1B4(controller, axis);
+    sub_7100738660(controller, 0.75f);
+    if (_90 && m34())
+        setFinished();
+    _90 = true;
 }
 
 }  // namespace uking::action

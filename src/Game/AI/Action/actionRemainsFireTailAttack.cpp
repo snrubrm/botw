@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionRemainsFireTailAttack.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -25,7 +28,18 @@ void RemainsFireTailAttack::loadParams_() {
 }
 
 void RemainsFireTailAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    if (auto* controller = actor->getCharacterController()) {
+        sub_71007377D4(controller, 0.0f);
+        sub_7100738660(controller, 0.0f);
+    } else if (auto* body = actor->getMainBody()) {
+        sub_71007379FC(body, 0.0f);
+        sub_7100738898(body, 0.0f);
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
