@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWaterBattleRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,11 +12,23 @@ bool RemainsWaterBattleRoot::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _80.mTimer = ksys::Timer(0, 0);
+    _98.mTimer = ksys::Timer(*mFirstBulletTimer_s, *mFirstBulletTimer_s);
+    _b0 = 0;
+    _b4 = false;
+    _b5 = false;
+    _b6 = false;
+    _b7 = false;
+    _b8 = false;
+    _b9 = false;
+    _ba = false;
+    sub_7100545B8C();
+    _c0.initWithName(mActor, "Demo344_1", "Demo344_1");
+    _c0.loadEvent();
 }
 
 void RemainsWaterBattleRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _c0.unloadEvent();
 }
 
 void RemainsWaterBattleRoot::loadParams_() {

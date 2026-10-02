@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
+#include "KingSystem/Event/evtResidentEvent.h"
 
 namespace uking::ai {
 
@@ -15,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100545B8C();
+
 protected:
     // static_param at offset 0x38
     const float* mCallClearDemoTimer_s{};
@@ -28,6 +32,19 @@ protected:
     const float* mFirstBulletTimer_s{};
     // aitree_variable at offset 0x60
     void* mRemainsWaterBattleInfo_a{};
+    ksys::act::Unk_7100d3bce4 _68{mActor};
+    ksys::act::Unk_7100d3bce4 _80{mActor};
+    ksys::act::Unk_7100d3bce4 _98{mActor};
+    f32 _b0 = 0;
+    bool _b4 = false;
+    bool _b5 = false;
+    bool _b6 = false;
+    bool _b7 = false;
+    bool _b8 = false;
+    bool _b9 = false;
+    bool _ba = false;
+    ksys::evt::ResidentEvent _c0;
 };
+KSYS_CHECK_SIZE_NX150(RemainsWaterBattleRoot, 0x290);
 
 }  // namespace uking::ai
