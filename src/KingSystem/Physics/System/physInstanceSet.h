@@ -106,7 +106,7 @@ public:
     // Read inline by ActorConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
     // and MagneShaftRoot::m51.
     SystemGroupHandler* get178(s32 idx) const { return _178[idx]; }
-    // Read inline by LastBossRailWarpAction::leave_.
+    // Read inline by LastBossRailWarpAction::leave_ and sub_710072E804 (index clamped).
     SystemGroupHandler* get188(s32 idx) const { return _188[idx]; }
     // 0x7100fbb668: index of the rigid body set called `name` (-1 if none).
     int sub_7100FBB668(const sead::SafeString& name) const;
@@ -158,7 +158,7 @@ private:
     sead::ListNode _160;
     u32 _170{};
     sead::SafeArray<SystemGroupHandler*, 2> _178;
-    SystemGroupHandler* _188[2];
+    sead::SafeArray<SystemGroupHandler*, 2> _188;
 };
 KSYS_CHECK_SIZE_NX150(InstanceSet, 0x198);
 

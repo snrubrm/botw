@@ -14,6 +14,7 @@ namespace ksys::phys {
 class CharacterController;
 class MaterialMask;
 class RigidBody;
+class SystemGroupHandler;
 }  // namespace ksys::phys
 
 // Velocity damping helpers of an unnamed AI utility translation unit (0x7100737000 - 0x7100738cb0).

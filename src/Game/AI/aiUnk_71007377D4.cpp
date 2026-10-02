@@ -5,6 +5,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include <math/seadMathCalcCommon.h>
 
@@ -80,6 +81,40 @@ bool sub_710072E5F8(const sead::Vector3f& from, const sead::Vector3f& to, int no
     return true;
 }
 
+ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx) {
+    if (!actor)
+        return nullptr;
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return nullptr;
+    return physics->get188(idx);
+}
+
+bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* material_mask, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEAECC(&query);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(
+        static_cast<ksys::phys::RayCast::NormalCheckingMode>(normal_checking_mode));
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (material_mask)
+        *material_mask = query.getMaterialMask();
+    return true;
+}
+
 bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
                     sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask,
                     f32 y_offset) {
@@ -91,6 +126,31 @@ bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::
     ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
     ksys::act::sub_7100EEACE8(&query);
     query.setStartAndEnd(start, end);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (material_mask)
+        *material_mask = query.getMaterialMask();
+    return true;
+}
+
+bool sub_710072EA18(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* material_mask, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(
+        static_cast<ksys::phys::RayCast::NormalCheckingMode>(normal_checking_mode));
     if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
         return false;
 
