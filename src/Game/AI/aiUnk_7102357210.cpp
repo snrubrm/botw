@@ -301,8 +301,6 @@ bool Unk_71024508b8::m2(const ksys::Message& message) {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _38._0 = payload->_0;
         _38._4 = payload->_4;
-        _38._8 = payload->_8;
-        _38._c = payload->_c;
         _38._14 = payload->_14;
         _38.mLink = payload->mLink;
     }

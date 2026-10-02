@@ -101,6 +101,11 @@ public:
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
     /* 0x34c */ u8 _34c[0x368 - 0x34c];
     /* 0x368 */ Unk_71024508b8 _368;
-    /* 0x3c8 */ u8 _3c8[0x448 - 0x3c8];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
+    /* 0x3c8 */ u32 _3c8;
+    /* 0x3cc */ bool _3cc;  // PriestBossIronBallRoot::enter_
+    /* 0x3cd */ u8 _3cd[0x43c - 0x3cd];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
+    /* 0x43c */ f32 _43c;  // PriestBossIronBallRoot::m38: attack power (int-converted)
+    /* 0x440 */ f32 _440;  // PriestBossIronBallRoot::m38(true): attack power
+    /* 0x444 */ u8 _444[0x448 - 0x444];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);

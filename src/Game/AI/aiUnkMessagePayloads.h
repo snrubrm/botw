@@ -124,9 +124,7 @@ struct Unk_7102413398_Payload {
 // Message 0x80000da (sender Unk_7102409958)
 struct Unk_7102409958_Payload {
     u32 _0 = 0;
-    u32 _4;
-    u32 _8;
-    u32 _c;
+    sead::Vector3f _4;  // PriestBossIronBallRoot::handleMessage_ stores Vector3f::zero
     sead::JobQueueLock mLock;
     u32 _14 = 0;
     ksys::act::BaseProcLink mLink;

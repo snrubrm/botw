@@ -15,6 +15,16 @@ namespace ksys::act {
 class Unk_71006e45c4;
 class Unk_7102459df8;
 
+// Placeholder name (ctor 0x71006dc134, inlined into DynamicActor::m36 0x71006dc16c): the argument
+// m36 passes (by pointer) to the sead::IDelegate1 at _a70 (e.g. PriestBossIronBallRoot::_248).
+struct Unk_71006dc134 {
+    sead::Vector3f _0;
+    sead::Vector3f _c;
+    void* _18;
+    bool _20;
+    bool _21;
+};
+
 // TODO: incomplete. Factory size 0xb90 (DynamicActor::construct); the vtable has 163 slots.
 class DynamicActor : public Actor {
     SEAD_RTTI_OVERRIDE(DynamicActor, Actor)
