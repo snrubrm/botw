@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionPlayASForAnimalUnit.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -27,6 +29,9 @@ protected:
     const float* mNoiseLevel_s{};
     // static_param at offset 0x78
     const bool* mUseNoise_s{};
+    Unk_710235abc8 _80{mActor, 0x8000006};
+    ksys::Timer _d8;
 };
+KSYS_CHECK_SIZE_NX150(AlertNearbyEnemies, 0xe8);
 
 }  // namespace uking::action

@@ -42,6 +42,9 @@ ksys::act::BaseProcLink* sub_71005D9050(ksys::act::Actor* actor);
 ksys::act::BaseProcLink& sub_71005D94AC(ksys::act::Actor* actor);
 /// Whether the Enemy has a target (link has a proc).
 bool sub_71005D8F28(ksys::act::Actor* actor);
+// 0x71005d8d4c (declared only): forwards to the object at Actor+0x548 (slot 8 -> slot 9 with
+// `value` and `a2`; if `a3`, also slot 10 with (true, true)). AlertNearbyEnemies: noise level.
+void sub_71005D8D4C(ksys::act::Actor* actor, f32 value, bool a2, bool a3);
 /// Whether the Enemy target is the player.
 bool sub_71005D8FBC(ksys::act::Actor* actor);
 /// Resets the Enemy target link and state.
