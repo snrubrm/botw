@@ -28,11 +28,10 @@ void GanonBeastFirstMessage::loadParams() {
     getAITreeVariable(&mSimpleDialogUnit_a, "SimpleDialogUnit");
 }
 
-// NON_MATCHING: the original tests the decremented count with b.ne on the subs flags (cbnz here)
 GanonBeastFirstMessage::~GanonBeastFirstMessage() {
     if (_a0) {
         auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_a0);
-        if (unit && unit->_20 > 0 && --unit->_20 == 0) {
+        if (unit && unit->_20 > 0 && --unit->_20 <= 0) {
             *_a0 = nullptr;
             delete unit;
         }

@@ -28,11 +28,10 @@ const sead::SafeString* SimpleAtvUnitOpDlgRestWpTimeR3Base::m14() {
     return &mlabelName_s;
 }
 
-// NON_MATCHING: the original tests the decremented count with b.ne on the subs flags (cbnz here)
 SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() {
     if (_88) {
         auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_88);
-        if (unit && unit->_20 > 0 && --unit->_20 == 0) {
+        if (unit && unit->_20 > 0 && --unit->_20 <= 0) {
             *_88 = nullptr;
             delete unit;
         }
