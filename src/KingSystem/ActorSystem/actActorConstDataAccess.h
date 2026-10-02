@@ -163,6 +163,8 @@ public:
     // (getBoolParam); both false if not an actor.
     bool sub_71006DE298(const sead::SafeString& name) const;
     bool sub_71006DE338(const sead::SafeString& name) const;
+    // 0x71006e3e00: the actor's "IsEnemyLiftable" AI bool (true by default).
+    bool sub_71006E3E00() const;
     // 0x71006de850 (CSV act::acc::isBgGroundHit; debugLog name)
     bool isBgGroundHit() const;
 

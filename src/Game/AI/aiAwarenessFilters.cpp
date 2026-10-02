@@ -8,10 +8,12 @@
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actWeapon.h"
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Resource/Actor/resResourceAttCheck.h"
 
 using ksys::act::Unk_71024dc858;
 using ksys::act::Unk_71024dc978;
@@ -291,4 +293,74 @@ bool Unk_71024515d8::m2(Unk_71024dc978* entry) {
     if (!target)
         return false;
     return sub_71005DA304(&target->mLink);
+}
+
+bool Unk_71024517b8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    auto* link = &target->mLink;
+
+    if (ksys::act::isWeaponProfile(link)) {
+        ksys::act::acc::Weapon accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.sub_71002EF980())
+            return false;
+        return !accessor.hasTag(ksys::act::tags::CanPullOutGiantObject);
+    }
+
+    if (ksys::act::isGrabAttClientEnabled(_28, link)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        ksys::res::AttCheck_Unk1 arg;
+        arg._35 = true;
+        arg._34 = _30;
+        arg._36 = true;
+        if (!accessor.sub_7100D13AE4("Grab", _28, &arg, false))
+            return false;
+        return !accessor.sub_7100D10E6C(30);
+    }
+
+    if (!_31)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.sub_7100D10E6C(30);
+}
+
+bool Unk_71024516c8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    auto* link = &target->mLink;
+
+    if (!ksys::act::isGrabAttClientEnabled(_28, link))
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (accessor.sub_7100D10FB8())
+        return false;
+    if (accessor.getProfile() == "Prey")
+        return false;
+    if (ksys::act::isEnemyProfile(_28) && !accessor.sub_71006E3E00())
+        return false;
+    if (accessor.sub_7100D131D0(-1) == 1 && accessor.isDisableFreezeLift())
+        return false;
+    if (accessor.sub_7100D131D0(-1) == 2 && accessor.isDisableBurnLift())
+        return false;
+
+    ksys::act::acc::Bullet bullet;
+    ksys::act::acquireActor(link, &bullet);
+    const auto& owner = bullet.sub_71000056E4();
+    if (owner.hasProc() && owner.hasProcById(_28))
+        return false;
+
+    ksys::res::AttCheck_Unk1 arg;
+    arg._35 = true;
+    arg._34 = _30;
+    arg._36 = true;
+    if (!accessor.sub_7100D13AE4("Grab", _28, &arg, false))
+        return false;
+    return !accessor.sub_7100D10E6C(30);
 }

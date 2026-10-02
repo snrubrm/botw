@@ -164,7 +164,7 @@ class Unk_71024516c8 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;
     /* 0x30 */ bool _30 = false;
 };
 
@@ -195,7 +195,7 @@ class Unk_71024517b8 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::act::BaseProc* _28 = nullptr;
     /* 0x30 */ bool _30 = false;
     /* 0x31 */ bool _31 = false;
 };

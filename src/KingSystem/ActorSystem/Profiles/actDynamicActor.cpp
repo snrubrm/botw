@@ -82,6 +82,13 @@ bool ActorConstDataAccess::sub_71006DE338(const sead::SafeString& name) const {
     return getBoolParam(actor, name, false);
 }
 
+bool ActorConstDataAccess::sub_71006E3E00() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor)
+        return false;
+    return actorAIGetBool(actor, "IsEnemyLiftable", true);
+}
+
 bool ActorConstDataAccess::isBgGroundHit() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
