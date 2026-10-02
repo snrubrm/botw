@@ -1,13 +1,20 @@
 #pragma once
 
+#include <limits>
+#include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "Game/AI/AI/aiDomesticNormal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
 class DogNormal : public DomesticNormal {
     SEAD_RTTI_OVERRIDE(DogNormal, DomesticNormal)
 public:
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
+
     explicit DogNormal(const InitArg& arg);
     ~DogNormal() override;
 
@@ -51,6 +58,20 @@ protected:
     const float* mFramesStayAfterLead_s{};
     // static_param at offset 0x420
     const float* mAngleTurnToPlayer_s{};
+    ksys::Timer _428{0, 0};  // enter_: value = previous value = FriendTickRate
+    u32 _434 = 0;
+    u32 _438 = 0;
+    u32 _43c = 0;
+    sead::Vector3f _440{0, 0, 0};
+    // init_: translate and rotate (y) of the map object
+    sead::Vector3f _44c{std::numeric_limits<f32>::quiet_NaN(),
+                        std::numeric_limits<f32>::quiet_NaN(),
+                        std::numeric_limits<f32>::quiet_NaN()};
+    f32 _458 = std::numeric_limits<f32>::quiet_NaN();
+    f32 _45c = 0;
+    u32 _460 = 0;
+    sead::BitFlag16 _464;
 };
+KSYS_CHECK_SIZE_NX150(DogNormal, 0x468);
 
 }  // namespace uking::ai

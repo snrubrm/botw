@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiDogNormal.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::ai {
 
@@ -6,12 +9,40 @@ DogNormal::DogNormal(const InitArg& arg) : DomesticNormal(arg) {}
 
 DogNormal::~DogNormal() = default;
 
+// NON_MATCHING: the original sets the flag through a SEAD_ENUM value that is kept in memory (stack
+// round trip, no constant folding) and copies the translation as 8+4 bytes in x, z order
 bool DogNormal::init_(sead::Heap* heap) {
-    return DomesticNormal::init_(heap);
+    if (!DomesticNormal::init_(heap))
+        return false;
+
+    auto* object = mActor->getMapObject();
+    if (!object)
+        return true;
+    auto* link_data = object->getLinkData();
+    if (!link_data || link_data->mLinksOther.links.size() < 1)
+        return true;
+    auto* other = link_data->mLinksOther.links(0).other_obj;
+    if (!other)
+        return true;
+    link_data = other->getLinkData();
+    if (!link_data || link_data->mLinksOther.links.size() < 1)
+        return true;
+    auto* target = link_data->mLinksOther.links(0).other_obj;
+    if (!target)
+        return true;
+
+    if (target->isRevivalGameDataFlagOn())
+        return true;
+
+    _464.setBit(Flag(Flag::_0));
+    _44c.set(target->getTranslate());
+    _458 = target->getRotate().y;
+    return true;
 }
 
 void DogNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     DomesticNormal::enter_(params);
+    _428.previous_value = _428.value = *mFriendTickRate_s;
 }
 
 void DogNormal::leave_() {
