@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
+    bool m35() override;
+
 protected:
     // static_param at offset 0x38
     sead::SafeString mChangeDemoName_s{};

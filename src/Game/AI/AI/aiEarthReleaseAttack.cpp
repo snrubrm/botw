@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEarthReleaseAttack.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -10,10 +11,20 @@ namespace uking::ai {
 
 EarthReleaseAttack::EarthReleaseAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EarthReleaseAttack::~EarthReleaseAttack() = default;
+// NON_MATCHING: the original computes the name argument before `enemy + 0x1128` (as in
+// GolemRootBase::sub_71004014A4)
+EarthReleaseAttack::~EarthReleaseAttack() {
+    if (_80.isAllocatedOrFailed())
+        _80.deleteProc();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_1128.sub_7100D3CFEC(mEarthReleasePartsName_s);
+}
 
+// NON_MATCHING: register allocation / argument order (see the destructor)
 bool EarthReleaseAttack::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_1128.sub_7100D3CED8(mEarthReleasePartsName_s, heap);
+    return true;
 }
 
 void EarthReleaseAttack::enter_(ksys::act::ai::InlineParamPack* params) {
