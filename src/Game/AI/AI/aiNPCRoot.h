@@ -23,6 +23,8 @@ public:
     // 0x71004dcba8 (not decompiled): forwards mActor to the unnamed 0x71007132e4.
     void onPreDelete() override;
 
+    virtual void m34();
+
     // Bound to the delegate _218.
     void sub_71004D8C5C();
 

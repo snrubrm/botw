@@ -30283,7 +30283,7 @@ Address,Quality,Size,Name
 0x00000071004dc91c,O,000156,_ZN5uking2ai7NPCRoot11loadParams_Ev
 0x00000071004dc9b8,U,000496,_ZN5uking2ai7NPCRoot14handleMessage_ERKN4ksys7MessageE
 0x00000071004dcba8,U,000008,_ZN5uking2ai7NPCRoot11onPreDeleteEv
-0x00000071004dcbb0,U,000180,uking::ai::NPCRoot::m34
+0x00000071004dcbb0,m,000180,_ZN5uking2ai7NPCRoot3m34Ev
 0x00000071004dcc64,U,001032,
 0x00000071004dd06c,O,000288,_ZNK5uking2ai7NPCRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071004dd18c,O,000092,_ZNK5uking2ai7NPCRoot18getRuntimeTypeInfoEv

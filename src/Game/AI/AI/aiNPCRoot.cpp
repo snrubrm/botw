@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -23,6 +25,15 @@ void NPCRoot::loadParams_() {
     getStaticParam(&mPlayerHitVelocity_s, "PlayerHitVelocity");
     getStaticParam(&mStaggerUpperASName_s, "StaggerUpperASName");
     getStaticParam(&mStaggerUpperRunASName_s, "StaggerUpperRunASName");
+}
+
+// NON_MATCHING: scheduling (the original loads the name's first character and cNullChar before mActor)
+void NPCRoot::m34() {
+    const sead::SafeString name = mActor->getASList()->sub_710115ECF4(59, 1);
+    mActor->getASList()->x_2(66, 35, name.isEmpty() && _201, false);
+    changeChild("Timeline");
+    _201 = false;
+    mActor->getASList()->x_2(66, 35, false, false);
 }
 
 }  // namespace uking::ai
