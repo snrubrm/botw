@@ -25,4 +25,14 @@ void SiteBossReflectArrowRoot::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+bool SiteBossReflectArrowRoot::m34() {
+    return sub_7100588164(false);
+}
+
+void SiteBossReflectArrowRoot::m41() {}
+
+s32 SiteBossReflectArrowRoot::m43() {
+    return 1;
+}
+
 }  // namespace uking::ai

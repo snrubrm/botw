@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossShootNormalArrowRoot.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -48,6 +49,46 @@ void SiteBossShootNormalArrowRoot::loadParams_() {
     getStaticParam(&mReflectOffset_s, "ReflectOffset");
     getDynamicParam(&mIsCancelAttack_d, "IsCancelAttack");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool SiteBossShootNormalArrowRoot::m34() {
+    return _120 <= sead::Mathf::epsilon();
+}
+
+void SiteBossShootNormalArrowRoot::m35() {
+    changeChild("子機発射");
+}
+
+void SiteBossShootNormalArrowRoot::m39() {}
+
+void SiteBossShootNormalArrowRoot::m40() {}
+
+void SiteBossShootNormalArrowRoot::m41() {}
+
+void SiteBossShootNormalArrowRoot::m42() {}
+
+s32 SiteBossShootNormalArrowRoot::m43() {
+    return 1;
+}
+
+s32 SiteBossShootNormalArrowRoot::m44() {
+    return 2;
+}
+
+void SiteBossShootNormalArrowRoot::m45(sead::Vector3f* out) {
+    *out = *mTargetPos_d;
+}
+
+void SiteBossShootNormalArrowRoot::m46(sead::Vector3f* out) {
+    m45(out);
+}
+
+bool SiteBossShootNormalArrowRoot::m48() {
+    return _144 >= u32(*mArrowNum_s);
+}
+
+bool SiteBossShootNormalArrowRoot::sub_7100588164(bool a1) {
+    return _120 <= sead::Mathf::epsilon();
 }
 
 }  // namespace uking::ai

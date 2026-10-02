@@ -17,6 +17,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34() override;
+    void m37() override;
+    void m41() override;
+    s32 m43() override;
+    void m45(sead::Vector3f* out) override;
+    bool m48() override;
+
 protected:
     // dynamic_param at offset 0x338
     bool* mIsReflectAmongChild_d{};

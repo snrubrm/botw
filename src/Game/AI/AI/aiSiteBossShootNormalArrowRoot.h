@@ -17,6 +17,25 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+    virtual void m35();
+    virtual void m36(bool a1);
+    virtual void m37();
+    virtual void m38(bool a1, bool a2);
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual s32 m43();
+    virtual s32 m44();
+    virtual void m45(sead::Vector3f* out);
+    virtual void m46(sead::Vector3f* out);
+    virtual bool m47();
+    virtual bool m48();
+    // Slots 49..52 (and 53 in SiteBossReflectArrowRoot) are not declared yet (argument types unknown).
+
+    bool sub_7100588164(bool a1);
+
 protected:
     // static_param at offset 0x38
     const int* mArrowNum_s{};
@@ -74,6 +93,14 @@ protected:
     bool* mIsCancelAttack_d{};
     // dynamic_param at offset 0x118
     sead::Vector3f* mTargetPos_d{};
+    // Zeroed by the ctor together with the members above; layout from 0x150 (incl. two BoneHandle
+    // objects at 0x178/0x220 and two gsys::BoneAccessKeyEx at 0x2c8/0x300, size 0x338) not declared yet.
+    f32 _120{};
+    u8 _124[0x144 - 0x124]{};
+    u32 _144{};
+    u8 _148{};
+    bool _149{};
+    bool _14a{};
 };
 
 }  // namespace uking::ai

@@ -16,6 +16,9 @@ public:
     void calc_() override;
     void leave_() override;
 
+    bool m34() override;
+    s32 m44() override;
+
 protected:
 };
 

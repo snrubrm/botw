@@ -26,4 +26,12 @@ void SiteBossPierceBulletAttack::calc_() {
         sub_71005D74E8(mActor);
 }
 
+bool SiteBossPierceBulletAttack::m34() {
+    return sub_7100588164(false);
+}
+
+s32 SiteBossPierceBulletAttack::m44() {
+    return 12;
+}
+
 }  // namespace uking::ai
