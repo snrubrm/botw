@@ -28,7 +28,8 @@ public:
     /* 0x028 */ ksys::act::BaseProcLink _28;
     /* 0x038 */ u32 _38;
     /* 0x03c */ Phase _3c;
-    /* 0x040 */ u8 _40[0x78 - 0x40];
+    /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
+    /* 0x044 */ u8 _44[0x78 - 0x44];
     /* 0x078 */ sead::BitFlag32 _78;
     /* 0x07c */ u8 _7c[0xa0 - 0x7c];
     /* 0x0a0 */ u8 _a0[0x1b8 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0

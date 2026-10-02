@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossActorNormalMode.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
 
@@ -34,6 +35,42 @@ void PriestBossActorNormalMode::loadParams_() {
     getDynamicParam(&mFromSyncMode_d, "FromSyncMode");
     getAITreeVariable(&mEquipWeaponBufIndex_a, "EquipWeaponBufIndex");
     getAITreeVariable(&mReturnFromBananaMode_a, "ReturnFromBananaMode");
+}
+
+f32 PriestBossActorNormalMode::m35() {
+    return 0.0f;
+}
+
+f32 PriestBossActorNormalMode::m36() {
+    if (!sub_7100505BE4())
+        return 1.0f;
+    return sub_7100505BE4()->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_11)) ? 1.0f :
+                                                                                         0.01f;
+}
+
+f32 PriestBossActorNormalMode::m37() {
+    return 0.0f;
+}
+
+f32 PriestBossActorNormalMode::m38() {
+    return 0.0f;
+}
+
+f32 PriestBossActorNormalMode::m42() {
+    f32 weight = 0.0f;
+    if (sub_7100505BE4() && sub_7100505BE4()->_3c == Unk_7102450fa8::Phase::_0 &&
+        sub_7100505BE4()->_40 <= *mSecondHalfLifePercent_s) {
+        weight = 0.5f;
+    }
+    return weight;
+}
+
+f32 PriestBossActorNormalMode::m45() {
+    return 0.0f;
+}
+
+f32 PriestBossActorNormalMode::m46() {
+    return 0.0f;
 }
 
 }  // namespace uking::ai
