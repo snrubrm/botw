@@ -135,6 +135,7 @@ public:
     };
 
     enum class ActorFlag {
+        _2 = 0x2,  // set by sub_71011C88C0 (physics matrix written)
         _5 = 0x5,
         _6 = 0x6,
         _18 = 0x18,
@@ -357,7 +358,9 @@ public:
     virtual bool shouldUnload();
     virtual void m63();
     virtual void initMaybe();
-    virtual void updateLodStuff();
+    // Called by onEnterCalc_ with the actor whose state is being taken over (Remains copies its
+    // rail follower and matrix). The name is a guess.
+    virtual void updateLodStuff(Actor* other);
     virtual void m66();
     virtual void m67();
     virtual void m68();
@@ -498,6 +501,10 @@ public:
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
 
     void nullsub_4648();
+    // 0x71011c88c0: copies `mtx` to mPhysicsMtx (if any) and sets ActorFlag::_2.
+    void sub_71011C88C0(const sead::Matrix34f& mtx);
+    // 0x71011d6c14 (CSV name): InstanceSet::setFlag2() if the actor has physics.
+    void actorPhysicsSetFlag2();
     void unlinkPlacementObj();
     void setFlag0x40();
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);

@@ -246,6 +246,11 @@ const sead::Vector3f& Actor::getPreviousPos() const {
     return mPreviousPos;
 }
 
+void Actor::actorPhysicsSetFlag2() {
+    if (mPhysics)
+        mPhysics->setFlag2();
+}
+
 phys::CharacterController* Actor::getCharacterController() {
     if (!mPhysics)
         return nullptr;
@@ -389,6 +394,13 @@ bool Actor::m57() {
 
 void Actor::nullsub_4648() {}
 
+void Actor::sub_71011C88C0(const sead::Matrix34f& mtx) {
+    if (mPhysicsMtx) {
+        *mPhysicsMtx = mtx;
+        mActorFlags.setBit(ActorFlag::_2);
+    }
+}
+
 void Actor::onPreFadeOutDelete() {}
 
 void Actor::onFadeOutSleep() {}
@@ -405,7 +417,7 @@ void Actor::m63() {}
 
 void Actor::initMaybe() {}
 
-void Actor::updateLodStuff() {}
+void Actor::updateLodStuff(Actor* other) {}
 
 void Actor::m66() {}
 

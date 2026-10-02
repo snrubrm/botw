@@ -170,7 +170,8 @@ public:
     /* 0x040 */ sead::FixedSafeString<20> _40;  // saved _18 while pushed
     /* 0x068 */ sead::Vector3f _68;
     /* 0x074 */ sead::Vector3f _74;
-    /* 0x080 */ u8 _80[0xb8 - 0x80];
+    /* 0x080 */ sead::Matrix34f _80;  // read with _14 (Remains::sub_71002CA3EC)
+    /* 0x0b0 */ u8 _b0[0xb8 - 0xb0];
     /* 0x0b8 */ sead::Buffer<Unk1> mSlots;
     /* 0x0c8 */ sead::Buffer<Unk2*> _c8;
     /* 0x0d8 */ act::Actor* _d8;  // owner

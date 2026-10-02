@@ -22,6 +22,14 @@ namespace uking::act {
 class NPC : public NPCBase {
     SEAD_RTTI_OVERRIDE(NPC, NPCBase)
 public:
+    // Pointed to by _f80: a position and a rotation (the AI reads _c.y as a Y angle) stored in
+    // the NPC's horse-ride AI (0x71004cb89c / NPCTravel::calc_ fill them and set _f80 before
+    // sending message 0x8000077). Meanings beyond that unknown.
+    struct Unk_f80 {
+        sead::Vector3f _0;
+        sead::Vector3f _c;
+    };
+
     explicit NPC(const CreateArg& arg);
     ~NPC() override;
 
@@ -92,7 +100,7 @@ public:
     /* 0x0e90 */ Unk_71002dccbc _e90{this};
     /* 0x0f28 */ Unk_71023cee88 _f28{this};  // getPlayerRideInfo
     /* 0x0f70 */ ksys::act::BaseProcLink _f70;
-    /* 0x0f80 */ void* _f80 = nullptr;
+    /* 0x0f80 */ Unk_f80* _f80 = nullptr;
     /* 0x0f88 */ u8 _f88[0xfa8 - 0xf88];  // object with vtable 0x7102358858
     /* 0x0fa8 */ Unk_7100d3cd74 _fa8{this};  // m101
     /* 0x0fc8 */ ksys::act::BaseProcLink _fc8;
