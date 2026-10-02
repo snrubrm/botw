@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
     bool m38() override { return false; }
 
     bool sub_71003D2E30(const sead::Vector3f& pos);

@@ -4,6 +4,8 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -75,6 +77,72 @@ bool EnemyBaseFindPlayer::m43() {
     if (sub_710072E1B4(mActor, true))
         return false;
     return sub_71005D9744(mActor) != 4;
+}
+
+// NON_MATCHING: the original evaluates the params before copying the translation (element-wise) and
+// the forward axis, as if through an inline helper taking the matrix (lane1 log, session 18)
+bool EnemyBaseFindPlayer::m35() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    const auto& target = sub_71005D9330(actor);
+    const f32 max_dist = m34();
+    if (!sub_710072DEF0(target, max_dist, *mAttackVMin_s, *mAttackVMax_s,
+                        actor->getMtx().getTranslation(), actor->getMtx().getBase(2),
+                        sead::Mathf::pi(), sead::Mathf::maxNumber(), 0.8f)) {
+        return false;
+    }
+    return m36(true);
+}
+
+bool EnemyBaseFindPlayer::m38() {
+    return !sub_710072E368(mActor);
+}
+
+bool EnemyBaseFindPlayer::m39(const sead::Vector3f& pos, bool b) {
+    f32 dist;
+    if (auto* nav = mActor->m45())
+        dist = nav->_2a8 * nav->_2ac;
+    else
+        dist = 0;
+    if (b)
+        dist += sub_71007320F0(mActor, *mWeaponIdx_s);
+    sead::Vector3f out;
+    return sub_710072F944(mActor, pos, &out, dist, 3.0f);
+}
+
+void EnemyBaseFindPlayer::m40() {
+    _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+    _e8.reset(4);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘", &params);
+}
+
+void EnemyBaseFindPlayer::m41() {
+    _e8.reset(4);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    params.addVec3(sub_71005D9548(mActor), "TargetVel", -1);
+    changeChild("速攻", &params);
+}
+
+void EnemyBaseFindPlayer::m44() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("戦闘") || isCurrentChild("不意討ち") || isCurrentChild("速攻")) {
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+        return;
+    }
+
+    const bool noticing = isCurrentChild("気づき");
+    if (m43()) {
+        _108.sub_7100D3BC4C(-1.0f);
+    } else {
+        _108.mValue =
+            _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+    }
+    child->setDynamicParam(noticing ? sub_71005D98D8(mActor) : sub_71005D9330(mActor),
+                           "TargetPos");
 }
 
 }  // namespace uking::ai

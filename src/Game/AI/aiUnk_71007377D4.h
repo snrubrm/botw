@@ -73,6 +73,10 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 a7,
                     f32 a8, f32 a9);
+/// 0x710072f944: sub_710072F28C from the actor's position to `target` with the given tolerances.
+/// Placeholder name.
+bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3, f32 a4);
 /// 0x710072e154: sub_710072F28C from the actor's position to `target` with default tolerances.
 bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     s32 a4);
@@ -98,6 +102,21 @@ bool sub_710072E368(ksys::act::Actor* actor);
 /// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);
+
+/// 0x710072def0: whether `target` is within reach of an actor at `pos` facing `dir`: XZ distance
+/// <= `max_dist`, height difference in [`min_dy`, `max_dy`], within `angle` of `dir` (checked only
+/// beyond `angle_check_dist`), and no line-of-sight hit between the two points raised by
+/// `y_offset`. Placeholder name; the float parameters' position among the vector ones is inferred
+/// from the argument evaluation order of EnemyBaseFindPlayer::m35.
+bool sub_710072DEF0(const sead::Vector3f& target, f32 max_dist, f32 min_dy, f32 max_dy,
+                    const sead::Vector3f& pos, const sead::Vector3f& dir, f32 angle,
+                    f32 angle_check_dist, f32 y_offset);
+
+/// 0x710072e0a0: sub_710072DEF0 from the translation / forward axis of `mtx`, then a reachability
+/// check (sub_710072E154) from the actor to `target`. False without an actor. Placeholder name.
+bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,
+                    const sead::Matrix34f& mtx, f32 max_dist, f32 min_dy, f32 max_dy, f32 angle,
+                    f32 angle_check_dist, f32 y_offset);
 
 /// 0x710072e928: world ray cast (RayCastBodyQuery, GroundHit 0xf, contact layer type 0, ground
 /// layers from ksys::act::sub_7100EEACE8) from `from` to `to`, both raised by `y_offset`. On a hit,

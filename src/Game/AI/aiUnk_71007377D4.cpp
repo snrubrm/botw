@@ -33,10 +33,30 @@ void sub_710073771C(ksys::phys::RigidBody* body, const sead::Vector3f& ang_vel) 
     ksys::act::sub_7100EE62B0(body, ang_vel);
 }
 
+// NON_MATCHING: the original copies the translation element-wise into a short-lived local (as an
+// out-param getTranslation(pos) inside an inline helper would); ours pairs the stores
+bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,
+                    const sead::Matrix34f& mtx, f32 max_dist, f32 min_dy, f32 max_dy, f32 angle,
+                    f32 angle_check_dist, f32 y_offset) {
+    if (!actor)
+        return false;
+    if (!sub_710072DEF0(target, max_dist, min_dy, max_dy, mtx.getTranslation(), mtx.getBase(2),
+                        angle, angle_check_dist, y_offset)) {
+        return false;
+    }
+    return sub_710072E154(actor, target, nullptr, -1);
+}
+
 bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     s32 a4) {
     const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
     return sub_710072F28C(actor, from, target, nullptr, out_pos, a4, true, -1.0f, -1.0f, -1.0f);
+}
+
+bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3, f32 a4) {
+    const sead::Vector3f from = actor->getMtx().getTranslation();
+    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, a3, a4, -1.0f);
 }
 
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3) {
@@ -113,6 +133,39 @@ bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int no
     if (material_mask)
         *material_mask = query.getMaterialMask();
     return true;
+}
+
+// NON_MATCHING: the original keeps the dy / max_dist checks as separate branches (ours merges them
+// with fccmp) and computes the result after the query destructor
+bool sub_710072DEF0(const sead::Vector3f& target, f32 max_dist, f32 min_dy, f32 max_dy,
+                    const sead::Vector3f& pos, const sead::Vector3f& dir, f32 angle,
+                    f32 angle_check_dist, f32 y_offset) {
+    sead::Vector3f diff = target - pos;
+    const f32 dy = diff.y;
+    diff.y = 0;
+    const f32 dist = diff.normalize();
+    const f32 dot = diff.dot(dir);
+    const f32 cos = sead::Mathf::cos(angle);
+    if (dist > angle_check_dist && dot < cos)
+        return false;
+
+    if (dy < min_dy)
+        return false;
+    if (dy > max_dy)
+        return false;
+    if (dist > max_dist)
+        return false;
+
+    sead::Vector3f start = pos;
+    sead::Vector3f end = target;
+    start.y += y_offset;
+    end.y += y_offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    query.setStartAndEnd(start, end);
+    query.setGroundHit(ksys::phys::GroundHit::LineOfSight);
+    return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
 bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
