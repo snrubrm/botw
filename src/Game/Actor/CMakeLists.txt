@@ -6,6 +6,8 @@ target_sources(uking PRIVATE
   actUnk_71009214b8.cpp
   actUnk_7100924be4.cpp
   actUnk_7100926430.cpp
+  actUnk_710092da50.cpp
+  actRoot6.cpp
   actDragon.cpp
   actDragon.h
   actEnemy.cpp

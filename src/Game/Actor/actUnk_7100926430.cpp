@@ -1,8 +1,10 @@
+#include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -88,6 +90,19 @@ bool sub_71009270A4() {
     return true;
 }
 
+
+namespace uking::act {
+
+Root6* Root6::getInstance() {
+    return Root6::instance();
+}
+
+void Root6::sub_7100927198(ksys::act::ActorLinkConstDataAccess* accessor) {
+    if (accessor)
+        accessor->acquire(mCamera);
+}
+
+}  // namespace uking::act
 
 f32 sub_7100927228() {
     return -1.0f;

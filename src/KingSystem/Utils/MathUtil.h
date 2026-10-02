@@ -136,4 +136,21 @@ void sub_71011EF070(sead::Vector3f* vec, float angle);
 void sub_71011EF10C(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to,
                     const sead::Vector3f& default_axis);
 
+// Placeholder (no name known; named after its zero constant): a 4-byte angle index in
+// sead::Mathf *Idx units (2^32 = one turn). It is returned through x8 (Player::x_5,
+// 0x710092dba4), so it is not trivially copyable in the original. Constants (const objects with
+// external linkage in .rodata, read through the GOT; ~50 users each): sUnk_7101EC6BA0 (0xffffffff),
+// sUnk_7101EC6BA4 (360 / 2^32, index to degrees), sUnk_7101EC6BA8 (2pi / 2^32, index to radians),
+// sUnk_7101EC6BAC (zero angle).
+struct Unk_7101EC6BAC {
+    explicit constexpr Unk_7101EC6BAC(u32 v) : value(v) {}
+    Unk_7101EC6BAC(const Unk_7101EC6BAC& other) : value(other.value) {}
+    u32 value;
+};
+
+extern const u32 sUnk_7101EC6BA0;
+extern const f32 sUnk_7101EC6BA4;
+extern const f32 sUnk_7101EC6BA8;
+extern const Unk_7101EC6BAC sUnk_7101EC6BAC;
+
 }  // namespace ksys::util

@@ -183,3 +183,14 @@ void sub_71011EF10C(sead::Vector3f* out, const sead::Vector3f& from, const sead:
 }
 
 }  // namespace ksys::util
+
+namespace ksys::util {
+
+// .rodata 0x7101ec6ba0-0x7101ec6baf, between constants of the TUs around 0x71011e5240 and
+// 0x71011fc108 (that they belong to this TU is a guess).
+const u32 sUnk_7101EC6BA0 = 0xffffffff;
+const f32 sUnk_7101EC6BA4 = 360.0f / 4294967296.0f;
+const f32 sUnk_7101EC6BA8 = 2 * sead::numbers::pi / 4294967296.0f;
+const Unk_7101EC6BAC sUnk_7101EC6BAC{0};
+
+}  // namespace ksys::util

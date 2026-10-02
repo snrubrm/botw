@@ -4,6 +4,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::act {
 
@@ -237,13 +238,9 @@ public:
     void x_24();                                                        // 0x855e24
     void x_25();                                                        // 0x8551fc
     void x_53(int* a1);                                                 // 0x8679fc
-    // Placeholder: a 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not
-    // trivially copyable in the original (0x710092dba4 returns the same kind of value).
-    struct Unk1 {
-        explicit Unk1(u32 v) : value(v) {}
-        Unk1(const Unk1& other) : value(other.value) {}
-        u32 value;
-    };
+    // A 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not trivially
+    // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
+    using Unk1 = util::Unk_7101EC6BAC;
     Unk1 x_5();                                                         // 0x85ed1c
     f32 x_39();                                                         // 0x867cd4
     void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990

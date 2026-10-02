@@ -1,8 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <heap/seadDisposer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 // Camera utility code (0x71009212d0-0x710092e000): camera states, angle and polar-coordinate
@@ -126,6 +128,8 @@ class Viewport;
 
 namespace ksys::act {
 class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
+class BaseProcLink;
 class PlayerBase;
 }  // namespace ksys::act
 
@@ -204,8 +208,23 @@ f32 sub_71009272A8();
 f32 sub_7100927228();
 f32 sub_7100927230();
 
-// 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null without manager.
+// Camera access helpers (TU 0x710092da50-).
+// 0x710092dab8 / 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null
+// without manager.
+const sead::Viewport* sub_710092DAB8();
 const sead::Viewport* sub_710092DAD0();
+// 0x710092dae8 / 0x710092db0c (CSV getRoot6SomeActor): acquire the camera into `accessor` (Root6
+// sub_7100927198 / sub_71009287CC).
+void sub_710092DAE8(ksys::act::ActorLinkConstDataAccess* accessor);
+void getRoot6SomeActor(ksys::act::ActorLinkConstDataAccess* accessor);
+// 0x710092db30: acquires the camera into `link`.
+void sub_710092DB30(ksys::act::BaseProcLink* link);
+// 0x710092db74: stores the camera (null if not accessible) in `camera`.
+void sub_710092DB74(uking::act::Camera** camera);
+// 0x710092dba4: Camera::_139c, or ksys::util::sUnk_7101EC6BAC (0) without camera.
+ksys::util::Unk_7101EC6BAC sub_710092DBA4();
+// 0x710092dc00: Camera::_860.sub_710079C120(1) (false without camera).
+bool sub_710092DC00();
 
 namespace uking::act {
 
@@ -300,5 +319,32 @@ public:
     /* 0x1c */ f32 _1c = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024741b8, 0x20);
+
+// Name from the CSV (Root6::createInstance 0x7100928700, Root6::getInstance 0x7100927188,
+// Root6::getCameraActor 0x71009287e4). A sead singleton without vtable (size 0x28, instance
+// 0x71025d2508) that holds the camera actor. TU 0x71009285f0-0x710092886c; getInstance and
+// sub_7100927198 are in the camera player-state TU (0x7100926430-).
+class Root6 {
+    SEAD_SINGLETON_DISPOSER(Root6)
+    Root6() = default;
+
+public:
+    static Root6* getInstance();
+
+    // 0x71009285f0 / 0x71009287e4 (CSV getCameraActor): the camera if it is still accessible.
+    Camera* sub_71009285F0();
+    Camera* getCameraActor();
+    // 0x71009287cc / 0x7100927198: acquires the camera into `accessor` (if not null).
+    void sub_71009287CC(ksys::act::ActorLinkConstDataAccess* accessor);
+    void sub_7100927198(ksys::act::ActorLinkConstDataAccess* accessor);
+    // 0x7100928838: registers `camera` unless one is registered already.
+    bool sub_7100928838(Camera* camera);
+    // 0x7100928854: unregisters `camera`.
+    void sub_7100928854(Camera* camera);
+
+private:
+    Camera* mCamera = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Root6, 0x28);
 
 }  // namespace uking::act

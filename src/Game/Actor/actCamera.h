@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actCameraUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act::ai {
@@ -329,7 +330,10 @@ public:
     /* 0x122d */ u8 _122d[0x1240 - 0x122d];
     /* 0x1240 */ Unk_7100928b6c _1240{this};
     /* 0x1390 */ void* _1390 = nullptr;
-    /* 0x1398 */ void* _1398 = nullptr;
+    // Angle indices (Player::x_5's value type): _1398 is computed with atan2Idx each frame and
+    // copied to _139c (read through 0x710092dba4).
+    /* 0x1398 */ ksys::util::Unk_7101EC6BAC _1398{0};
+    /* 0x139c */ ksys::util::Unk_7101EC6BAC _139c{0};
     /* 0x13a0 */ u32 _13a0 = 0;
     /* 0x13a4 */ Unk_7100928644 _13a4;
     /* 0x13bc */ u32 _13bc[6]{};
