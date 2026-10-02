@@ -18,6 +18,11 @@ bool HorseRideLoopAttack::init_(sead::Heap* heap) {
 
 void HorseRideLoopAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    if (!mASName_s.isEmpty())
+        sub_71001AD8A0(mASName_s.cstr(), true);
+    mFlags.reset(Flag::Changeable);
+    _70 = ksys::Timer(0, 0, 1.0f);
+    _7c = 0;
 }
 
 void HorseRideLoopAttack::leave_() {

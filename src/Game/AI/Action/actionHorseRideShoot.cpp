@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseRideShoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,9 +18,14 @@ bool HorseRideShoot::init_(sead::Heap* heap) {
 
 void HorseRideShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    sub_71001AD8A0(mASName_s.cstr(), true);
+    sub_71001ADAA0(*mTargetPos_d);
+    _78 = false;
 }
 
 void HorseRideShoot::leave_() {
+    sub_71005DB3B8(mActor);
+    sub_71001ADAA8();
     HorseRide::leave_();
 }
 

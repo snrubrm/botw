@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionHorseRide.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -31,9 +32,7 @@ protected:
     sead::SafeString mFinishAS_s{};
     // static_param at offset 0x60
     sead::SafeString mASName_s{};
-    float _70 = 0.0f;
-    int _74 = 0;
-    int _78 = 0;
+    ksys::Timer _70{0, 0, 0};
     int _7c = 0;
 };
 
