@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorGuardToTargetBarrier.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::behavior {
 
@@ -20,6 +23,16 @@ void GuardToTargetBarrier::m8() {
 
 void GuardToTargetBarrier::m9() {
     GuardFrontBarrier::m9();
+}
+
+void GuardToTargetBarrier::m15(sead::Matrix34f* out) {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    sead::Vector3f dir = sub_71005D9330(mActor);
+    dir -= pos;
+    dir.y = 0;
+    dir.normalize();
+    ksys::util::sub_71011F00EC(out, dir, sead::Vector3f::ey, pos, false);
 }
 
 void GuardToTargetBarrier::loadParams() {

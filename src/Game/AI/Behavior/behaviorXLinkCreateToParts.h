@@ -16,8 +16,8 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m15(sead::Vector3f* out) override;  // TODO 0x710064826c
-    void m16(sead::Vector3f* out) override;  // TODO 0x7100648178
+    void m15(sead::Vector3f* out) override;
+    void m16(sead::Vector3f* out) override;
 
     /* 0x78 */ sead::SafeString mPartsName_s{};
     /* 0x88 */ const sead::Vector3f* mOffset_s{};

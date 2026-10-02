@@ -13,6 +13,17 @@ DisableContactLayer::~DisableContactLayer() {
     ;
 }
 
+// NON_MATCHING: ContactLayer::fromText (sead) builds a SafeString temporary per candidate and calls
+// its virtual cstr() through memory; the original compares the name against text(i) with a single
+// virtual call on the name and devirtualised access to the candidate
+bool DisableContactLayer::m6(sead::Heap* heap) {
+    ksys::phys::ContactLayer layer(int(_40._10));
+    const bool found = layer.fromText(mLayerNameToDisable_s);
+    _40._10 = layer;
+    _40._8 = layer;
+    return found;
+}
+
 void DisableContactLayer::m7() {}
 
 void DisableContactLayer::m8() {

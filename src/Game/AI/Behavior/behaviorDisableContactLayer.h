@@ -27,7 +27,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061f198)
+    bool m6(sead::Heap* heap) override;
 
     /* 0x28 */ const bool* mIgnoreContactPoint_s{};
     /* 0x30 */ sead::SafeString mLayerNameToDisable_s{};

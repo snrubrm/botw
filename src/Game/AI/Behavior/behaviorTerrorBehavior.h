@@ -17,7 +17,7 @@ public:
     void m9() override;
     void loadParams() override;
     bool updateForPreDelete() override { return !_a0._8 || !_a0._8->isAddedToWorld(); }
-    void m8() override;  // not decompiled yet (0x7100e932fc)
+    void m8() override;
 
     /* 0x28 */ const int* mLevel_s{};
     /* 0x30 */ const float* mRadius_s{};

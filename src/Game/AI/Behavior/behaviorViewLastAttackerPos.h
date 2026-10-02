@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m15(sead::Vector3f* out) override;  // TODO 0x7100646c20
+    void m15(sead::Vector3f* out) override;
 
 };
 KSYS_CHECK_SIZE_NX150(ViewLastAttackerPos, 0x38);

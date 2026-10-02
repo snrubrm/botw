@@ -12,6 +12,36 @@ bool SpeedTerror::m6(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original loads and converts *mLevel_s before building the layer mask (same as
+// TerrorBehavior::m8; the mask code is duplicated in m7, probably one inline helper)
+void SpeedTerror::m8() {
+    u32 flags = *mIsPlayerLayer_s;
+    if (*mIsNpcLayer_s)
+        flags |= 0x2;
+    if (*mIsEnemyLayer_s)
+        flags |= 0x4;
+    if (*mIsGuardianLayer_s)
+        flags |= 0x8;
+    if (*mIsImpulseLayer_s)
+        flags |= 0x10;
+    if (*mIsFireLayer_s)
+        flags |= 0x20;
+    if (*mIsInsectLayer_s)
+        flags |= 0x40;
+    if (*mIsHorseLayer_s)
+        flags |= 0x80;
+    if (*mIsAnimalLayer_s)
+        flags |= 0x100;
+    if (*mIsWolfLinkLayer_s)
+        flags |= 0x200;
+    if (*mIsIceLayer_s)
+        flags |= 0x400;
+    if (*mIsElectricLayer_s)
+        flags |= 0x800;
+    _28.x(2, flags, f32(*mLevel_s));
+    _28.setRadius(*mRadius_s);
+}
+
 void SpeedTerror::m9() {
     if (auto* owner = mActor->get548())
         owner->sub_7100D78444(&_28);

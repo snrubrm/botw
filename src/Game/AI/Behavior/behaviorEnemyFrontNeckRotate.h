@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m14() override;  // TODO 0x710062118c
+    bool m14() override;
 
     /* 0x38 */ const float* mFrontAngleXZ_s{};
 };

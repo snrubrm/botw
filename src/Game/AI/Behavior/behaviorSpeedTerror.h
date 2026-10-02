@@ -14,7 +14,7 @@ public:
     void m9() override;
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x7100642d14)
-    void m8() override;  // not decompiled yet (0x7100642bf0)
+    void m8() override;
 
     /* 0x28 */ ksys::act::AITerror _28{mActor};
     /* 0xe0 */ const int* mLevel_s{};

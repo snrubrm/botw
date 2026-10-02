@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m15(sead::Matrix34f* out) override;  // TODO 0x71006279a4
+    void m15(sead::Matrix34f* out) override;
 
 };
 KSYS_CHECK_SIZE_NX150(GuardToTargetBarrier, 0x88);
