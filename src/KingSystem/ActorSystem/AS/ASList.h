@@ -40,6 +40,9 @@ public:
         bool sub_71011638DC(Unk4* query, int a2, bool a3);
         // 0x7101162254
         bool sub_7101162254(bool a1);
+        // 0x7101161cf8 / 0x71011633c0: used by ASList::sub_710115F1D8 / sub_710115F158.
+        void sub_7101161CF8(bool a1, f32 a2);
+        void sub_71011633C0(Unk2* other);
         // used by Unk1::sub_7101164F3C
         void sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // used with x_3
@@ -141,6 +144,11 @@ public:
     // 0x710115bc28: looks up the define `name` (sub_710115AABC) and applies it with `value`
     // (placeholder; returns a slot index or 0). Not decompiled yet.
     s32 sub_710115BC28(const sead::SafeString& name, f32 value);
+    // 0x710115f1d8: Unk2::sub_7101161CF8(true, value) on the entry of `slot` / `bank`.
+    void sub_710115F1D8(int slot, int bank, f32 value);
+    // 0x710115f158: Unk2::sub_71011633C0 on this list's entry (slot, bank) with `other`'s entry
+    // (other_slot, other_bank).
+    void sub_710115F158(ASList* other, int slot, int other_slot, int bank, int other_bank);
     // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
     const char* sub_710115ECF4(int kind, int a2);
     // 0x710115ed5c: getter counterpart of x_2: bit `bit` of the flags parameter (_f0[0x42]), with

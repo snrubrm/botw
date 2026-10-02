@@ -155,6 +155,21 @@ bool ASList::sub_710115ED5C(int a1, int bit) {
     }
 }
 
+void ASList::sub_710115F158(ASList* other, int slot, int other_slot, int bank, int other_bank) {
+    auto* entry = getEntry(slot, bank);
+    if (!entry)
+        return;
+    auto* other_entry = other->getEntry(other_slot, other_bank);
+    if (!other_entry)
+        return;
+    entry->sub_71011633C0(other_entry);
+}
+
+void ASList::sub_710115F1D8(int slot, int bank, f32 value) {
+    if (auto* entry = getEntry(slot, bank))
+        entry->sub_7101161CF8(true, value);
+}
+
 void ASList::x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value) {
     if (auto* entry = getEntry(slot, bank))
         (entry->*fn)(value);
