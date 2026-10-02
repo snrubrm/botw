@@ -62,4 +62,13 @@ bool GolemNormal::m54() {
     return isCurrentChild("初期待機");
 }
 
+void GolemNormal::m49(Unk1* out, s32 idx) {
+    if (m52(idx) != 9) {
+        EnemyNormal::m49(out, idx);
+        return;
+    }
+
+    out->_0 = isCurrentChild("プレイヤー発見") || isCurrentChild("怒り") ? -1 : 9;
+}
+
 }  // namespace uking::ai

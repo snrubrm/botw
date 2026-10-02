@@ -26113,7 +26113,7 @@ Address,Quality,Size,Name
 0x00000071003fc89c,O,000004,_ZN5uking2ai11GolemNormal11loadParams_Ev
 0x00000071003fc8a0,U,000212,uking::ai::GolemNormal::m56
 0x00000071003fc974,U,000028,uking::ai::GolemNormal::m57
-0x00000071003fc990,U,000196,uking::ai::GolemNormal::m49
+0x00000071003fc990,O,000196,_ZN5uking2ai11GolemNormal3m49EPNS0_11EnemyNormal4Unk1Ei
 0x00000071003fca54,O,000024,_ZN5uking2ai11GolemNormal3m58Ei
 0x00000071003fca6c,O,000144,_ZN5uking2ai11GolemNormal3m37Ev
 0x00000071003fcafc,O,000144,_ZN5uking2ai11GolemNormal3m38Ev
