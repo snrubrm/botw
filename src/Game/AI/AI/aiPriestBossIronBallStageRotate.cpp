@@ -13,6 +13,7 @@ bool PriestBossIronBallStageRotate::init_(sead::Heap* heap) {
 
 void PriestBossIronBallStageRotate::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossIronBall::enter_(params);
+    *mIsActive_a = true;
 }
 
 void PriestBossIronBallStageRotate::calc_() {
@@ -21,6 +22,7 @@ void PriestBossIronBallStageRotate::calc_() {
 
 void PriestBossIronBallStageRotate::leave_() {
     PriestBossIronBall::leave_();
+    *mIsActive_a = false;
 }
 
 void PriestBossIronBallStageRotate::loadParams_() {

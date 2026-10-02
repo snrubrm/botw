@@ -27,4 +27,8 @@ void PriestBossShadowCloneEnemyRoot::loadParams_() {
     PriestBossActorEnemyRoot::loadParams_();
 }
 
+bool PriestBossShadowCloneEnemyRoot::m45() {
+    return m35();
+}
+
 }  // namespace uking::ai

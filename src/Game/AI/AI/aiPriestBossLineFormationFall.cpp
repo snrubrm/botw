@@ -13,6 +13,8 @@ bool PriestBossLineFormationFall::init_(sead::Heap* heap) {
 
 void PriestBossLineFormationFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossFormation::enter_(params);
+    m43();
+    _94 = false;
 }
 
 void PriestBossLineFormationFall::leave_() {

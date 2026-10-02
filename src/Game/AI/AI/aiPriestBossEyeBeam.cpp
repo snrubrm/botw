@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossEyeBeam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -57,6 +58,10 @@ void PriestBossEyeBeam::m41() {
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&_88, &accessor))
         mActor->sendMessage(*accessor.getMessageTransceiverId(), 0x8000039, nullptr, true);
+}
+
+void PriestBossEyeBeam::m38(const sead::Vector3f& pos) {
+    sub_71005DB068(mActor, pos);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossEyeBeamFourth.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -41,6 +43,27 @@ void PriestBossEyeBeamFourth::loadParams_() {
     getAITreeVariable(&mDestinationPos_a, "DestinationPos");
     getAITreeVariable(&mFacePos_a, "FacePos");
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
+}
+
+void PriestBossEyeBeamFourth::m34() {
+    m47(getPlayerPosition());
+}
+
+sead::SafeString PriestBossEyeBeamFourth::m46() {
+    return "FourthBeam";
+}
+
+void PriestBossEyeBeamFourth::m47(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "AimTargetPos", -1);
+    params.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("索敵", &params);
+}
+
+void PriestBossEyeBeamFourth::m48(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("速攻照準", &params);
 }
 
 }  // namespace uking::ai

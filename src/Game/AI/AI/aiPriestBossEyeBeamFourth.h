@@ -16,6 +16,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34() override;
+    sead::SafeString m46() override;
+    virtual void m47(const sead::Vector3f& pos);
+    virtual void m48(const sead::Vector3f& pos);
+
 protected:
     // static_param at offset 0xb8
     const int* mAtDirType_s{};

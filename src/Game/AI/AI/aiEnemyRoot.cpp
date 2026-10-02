@@ -56,8 +56,8 @@ void EnemyRoot::m42() {
     changeChild("奈落");
 }
 
-void EnemyRoot::m35() {
-    sub_71005D6E28(mActor);
+bool EnemyRoot::m35() {
+    return sub_71005D6E28(mActor);
 }
 
 }  // namespace uking::ai

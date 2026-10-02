@@ -32,7 +32,7 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
     virtual void m34();
-    virtual void m35();
+    virtual bool m35();
     virtual bool m36() { return isCurrentChild("リアクション"); }
     virtual void m37();
     virtual void m38() {

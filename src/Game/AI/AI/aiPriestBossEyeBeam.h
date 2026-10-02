@@ -25,7 +25,7 @@ public:
     virtual bool m35();
     virtual void m36(sead::Vector3f* pos);
     virtual void m37(sead::Vector3f* pos) { *pos = _ac; }
-    virtual bool m38();
+    virtual void m38(const sead::Vector3f& pos);
     virtual bool m39(const sead::Vector3f& start, const sead::Vector3f& end);
     virtual void m40(const sead::Matrix34f& mtx, const sead::Vector3f& pos, f32 x, f32 y);
     virtual void m41();

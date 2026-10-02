@@ -13,6 +13,7 @@ bool PriestBossCircleFormationShoot::init_(sead::Heap* heap) {
 
 void PriestBossCircleFormationShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossFormation::enter_(params);
+    m43();
 }
 
 void PriestBossCircleFormationShoot::leave_() {

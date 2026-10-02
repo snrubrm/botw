@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossLineFormationRush.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -13,6 +15,9 @@ bool PriestBossLineFormationRush::init_(sead::Heap* heap) {
 
 void PriestBossLineFormationRush::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossFormation::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+    m43();
 }
 
 void PriestBossLineFormationRush::leave_() {

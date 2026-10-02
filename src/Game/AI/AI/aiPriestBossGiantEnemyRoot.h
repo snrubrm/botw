@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m47() override;
+    bool m52() override;
+
 protected:
     // static_param at offset 0x230
     const int* mInvalidateIronBallDamageFrame_s{};

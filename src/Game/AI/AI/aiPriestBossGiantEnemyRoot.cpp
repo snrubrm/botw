@@ -26,4 +26,12 @@ void PriestBossGiantEnemyRoot::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
+bool PriestBossGiantEnemyRoot::m47() {
+    return false;
+}
+
+bool PriestBossGiantEnemyRoot::m52() {
+    return PriestBossActorEnemyRoot::m52();
+}
+
 }  // namespace uking::ai
