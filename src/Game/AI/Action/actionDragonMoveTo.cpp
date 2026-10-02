@@ -4,7 +4,9 @@ namespace uking::action {
 
 DragonMoveTo::DragonMoveTo(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-DragonMoveTo::~DragonMoveTo() = default;
+DragonMoveTo::~DragonMoveTo() {
+    _f8.freeBuffer();
+}
 
 bool DragonMoveTo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
@@ -15,7 +17,9 @@ void DragonMoveTo::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DragonMoveTo::leave_() {
-    ksys::act::ai::Action::leave_();
+    _80.handle.fadeXLink();
+    _a8.handle.fadeXLink();
+    _d0.handle.fadeXLink();
 }
 
 void DragonMoveTo::loadParams_() {
