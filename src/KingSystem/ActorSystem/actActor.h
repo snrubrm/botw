@@ -260,7 +260,6 @@ public:
     LodState* getLodState() const { return _598; }
     // CSV name. deleteLater(_0) unless the actor is (being) deleted or _687 is set; then
     // emitSignalsOrDisappearEffectForDelete(a1).
-    bool deleteAndEmit(int a1);
     // CSV name (0x71011cc45c).
     void emitSignalsOrDisappearEffectForDelete(int a1);
     // CSV name.
