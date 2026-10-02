@@ -56,6 +56,11 @@ public:
     virtual void m46();
     virtual void m47();
 
+    // 0x710031bbc4 (not decompiled): creates the part actor `actor_name` registered as `part_name`
+    // (with index `idx`).
+    void sub_710031BBC4(const sead::SafeString& part_name, const sead::SafeString& actor_name,
+                        s32 idx, sead::Heap* heap);
+
 protected:
     // static_param at offset 0x1d8
     const int* mRockBallDamage_s{};

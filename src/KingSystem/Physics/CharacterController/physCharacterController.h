@@ -32,6 +32,8 @@ public:
 
     bool sub_7100F636EC() const;
     void sub_7100F636B0(bool clear);
+    // 0x7100f63388 (not decompiled; AssassinBossRoot enter_/m42 pass (true / false, -1)).
+    void sub_7100F63388(bool enable, s32 idx);
     bool sub_7100F63590() const;
     void sub_7100F63554(bool clear);
     bool sub_7100F62D34() const;

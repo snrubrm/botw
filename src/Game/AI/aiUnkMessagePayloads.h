@@ -541,6 +541,20 @@ struct Unk_7102399748_Payload {
     sead::JobQueueLock mLock;
 };
 
+// Message 0x8000037 (sender Unk_7102368740: AssassinBossRoot, AssassinBossFirstBattle and the
+// AssassinBossIron* actions); the owners fill it under the lock.
+struct Unk_7102368740_Payload {
+    ksys::act::BaseProcLink _0;
+    ksys::act::BaseProcLink _10;
+    sead::Vector3f _20 = sead::Vector3f::zero;
+    sead::Vector3f _2c;
+    sead::Vector3f _38;
+    s32 _44 = 0;
+    s32 _48 = 0;
+    u32 _4c = 0;
+    sead::JobQueueLock mLock;
+};
+
 // Message 0x8000083 (sender Unk_71023b0898; the listener at 0x7100903408 copies _0, _8 and _10)
 struct Unk_71023b0898_Payload {
     struct Data {

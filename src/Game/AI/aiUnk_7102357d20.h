@@ -364,6 +364,16 @@ public:
     Unk_71023e7bc0_Payload _18;
 };
 
+// vtable 0x7102368740 (functions in the AssassinBossIronBallAppear TU, 0x71000aa480..); message
+// 0x8000037
+class Unk_7102368740 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102368740_Payload _18;
+};
+
 // vtable 0x71024013b8 (Arrow; D0/m2 at 0x710046be74..); message 0x80000bb, no payload
 class Unk_71024013b8 : public Unk_7102357d20 {
 public:
