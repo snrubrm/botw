@@ -2,7 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include "Game/AI/AI/aiStalEnemyRoot.h"
-#include "Game/AI/aiUnk_7100726FF4.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 

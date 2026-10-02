@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiStalEnemyBlownOff.h"
+#include "Game/AI/AI/aiStalEnemyRoot.h"
+#include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,17 @@ bool StalEnemyBlownOff::init_(sead::Heap* heap) {
 }
 
 void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    auto* unit = sub_7100726FF4(actor);
+    if (unit && unit->_8.isOff(0xe)) {
+        auto* damage_mgr = sub_710072BA90(actor);
+        if (damage_mgr && damage_mgr->getField50() == 3 && damage_mgr->checkDamageFlags(0) &&
+            sub_7100726620(actor)) {
+            changeChild("ヘッドショット");
+            return;
+        }
+    }
+    changeChild("ふっとび");
 }
 
 void StalEnemyBlownOff::calc_() {

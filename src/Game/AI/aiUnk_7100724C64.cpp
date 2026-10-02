@@ -1,6 +1,8 @@
 #include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/AI/aiStalEnemyRoot.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actTag.h"
 
 // 0x71024511f8
@@ -116,4 +118,58 @@ bool sub_7100725790(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link
 // NON_MATCHING: the original builds the part-name SafeString before computing &enemy->_1128
 bool sub_710072587C(ksys::act::Actor* actor) {
     return sub_71007250E4(actor, 0);
+}
+
+// NON_MATCHING: the original builds the part-name SafeString before computing &enemy->_1128
+bool sub_7100726004(ksys::act::Actor* actor, u32 part) {
+    auto* enemy = sub_7100724D7C(actor);
+    if (!enemy)
+        return true;
+    return enemy->_1128.getActorPartsActor(sUnk_71024511f8[part]).hasProc();
+}
+
+bool sub_7100726620(ksys::act::Actor* actor) {
+    return sub_7100726004(actor, 0);
+}
+
+uking::ai::Unk_71024241a8* sub_7100726628(ksys::act::Actor* actor) {
+    void* unit = nullptr;
+    actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
+    return sead::DynamicCast<uking::ai::Unk_71024241a8>(
+        *static_cast<Unk_71025afb58**>(unit));
+}
+
+uking::ai::Unk_71024241a8* sub_7100726FF4(ksys::act::Actor* actor) {
+    void* unit = nullptr;
+    actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
+    return sead::DynamicCast<uking::ai::Unk_71024241a8>(
+        *static_cast<Unk_71025afb58**>(unit));
+}
+
+bool sub_7100726E54(ksys::act::Actor* actor) {
+    auto* enemy = sub_7100724D7C(actor);
+    if (!enemy || ksys::act::hasTag(enemy, ksys::act::tags::TeamMoriblin))
+        return true;
+    return sub_7100726004(enemy, 1);
+}
+
+bool sub_7100726F20(ksys::act::Actor* actor) {
+    return sub_7100726004(actor, 1);
+}
+
+bool sub_7100726F28(ksys::act::Actor* actor) {
+    auto* enemy = sub_7100724D7C(actor);
+    if (!enemy || !ksys::act::hasTag(enemy, ksys::act::tags::TeamBokoblin))
+        return true;
+    return sub_7100726004(enemy, 1);
+}
+
+bool sub_71007271D4(ksys::act::Actor* actor) {
+    void* unit = nullptr;
+    actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
+    auto* stal_unit =
+        sead::DynamicCast<uking::ai::Unk_71024241a8>(*static_cast<Unk_71025afb58**>(unit));
+    if (!stal_unit)
+        return false;
+    return stal_unit->_8.isOnBit(1);
 }

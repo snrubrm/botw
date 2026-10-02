@@ -16,6 +16,10 @@ namespace uking::act {
 class Enemy;
 }
 
+namespace uking::ai {
+class Unk_71024241a8;
+}
+
 // Unnamed free helpers for Stalfos part actors (0x7100724c80-0x7100725960, CSV placeholders
 // aiStalPartStuff_3..16). They act on the uking::act::Unk_7100d3cd74 parts list (Enemy::_1128) of an
 // Enemy that has the StalfosParts tag. `part` indexes the part name table
@@ -42,3 +46,25 @@ bool sub_71007255B8(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
 bool sub_71007256A4(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
 bool sub_7100725790(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
 bool sub_710072587C(ksys::act::Actor* actor);
+
+// Whether the Stalfos part `part` still has its parts actor (true if the actor isn't a Stalfos-parts
+// Enemy). CSV aiStalEnemyRootStuff_1.
+bool sub_7100726004(ksys::act::Actor* actor, u32 part);
+// sub_7100726004(actor, 0) (StalHead).
+bool sub_7100726620(ksys::act::Actor* actor);
+// The actor's "StalEnemyUnit" AI tree variable object (two identical out-of-line copies:
+// 0x7100726628 is called by StalEnemySleep::m36, 0x7100726ff4 by StalEnemyNoHeadWait,
+// StalEnemyBlownOff and StalEnemySleep::calc_).
+uking::ai::Unk_71024241a8* sub_7100726628(ksys::act::Actor* actor);
+uking::ai::Unk_71024241a8* sub_7100726FF4(ksys::act::Actor* actor);
+
+// Whether the Stalfos left arm (part 1) is present: true if the actor isn't a Stalfos-parts Enemy
+// or has the TeamMoriblin tag. CSV aiLandHumEnemyUnarmedStuff.
+bool sub_7100726E54(ksys::act::Actor* actor);
+// sub_7100726004(actor, 1) (StalLeftArm).
+bool sub_7100726F20(ksys::act::Actor* actor);
+// Whether the Stalfos left arm (part 1) is present for a Stalfos-parts Enemy with the TeamBokoblin
+// tag; true otherwise. CSV aiBokoblinRestraintStuff.
+bool sub_7100726F28(ksys::act::Actor* actor);
+// Bit 1 of the "StalEnemyUnit" object's flags (false without the object).
+bool sub_71007271D4(ksys::act::Actor* actor);

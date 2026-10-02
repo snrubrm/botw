@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalPartsHasSelect.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,23 @@ bool StalPartsHasSelect::init_(sead::Heap* heap) {
 }
 
 void StalPartsHasSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_7100726004(mActor, *mPartsID_s))
+        changeChild("ある", params);
+    else
+        changeChild("ない", params);
+}
+
+void StalPartsHasSelect::calc_() {
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (sub_7100726004(mActor, *mPartsID_s)) {
+        if (isCurrentChild("ない"))
+            changeChild("ある");
+    } else {
+        if (isCurrentChild("ある"))
+            changeChild("ない");
+    }
 }
 
 bool StalPartsHasSelect::isFailed() const {
