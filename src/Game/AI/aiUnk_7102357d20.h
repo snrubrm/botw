@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadScopedLock.h>
+#include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnkMessagePayloads.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -112,6 +114,54 @@ class Unk_710239bb28 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
+};
+
+// vtable 0x710239cca0 (HorseRideTurnCommand::_58; message 0x3800005): unit direction to the target
+class Unk_710239cca0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &mLock; }
+
+    sead::CriticalSection mLock;
+    sead::Vector3f _58;
+};
+
+// vtable 0x710239c3a0 (HorseRideMoveToCommand::_98; message 0x3800003): the target position
+class Unk_710239c3a0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &mLock; }
+
+    // Inline only (HorseRideMoveToCommand::m32); placeholder name.
+    void x(const sead::Vector3f& pos) {
+        sead::ScopedLock<sead::CriticalSection> lock(&mLock);
+        _58.set(pos);
+    }
+
+    sead::CriticalSection mLock;
+    sead::Vector3f _58;
+};
+
+// vtable 0x710239bc68 (HorseRideChargeCommand::_98; message 0x3800006): the target actor
+class Unk_710239bc68 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &mLock; }
+
+    sead::CriticalSection mLock;
+    ksys::act::BaseProcLink _58;
+    s32 _68 = 0;
+};
+
+// vtable 0x710239bdc0 (HorseRideChaseCommand::_a0; message 0x3800008): the target actor and keep distance
+class Unk_710239bdc0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &mLock; }
+
+    sead::CriticalSection mLock;
+    ksys::act::BaseProcLink _58;
+    f32 _68 = 0;
 };
 
 // Non-virtual helper with the two senders above (ctor 0x710001bf60, dtor 0x710001bfd4; in this

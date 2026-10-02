@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseRideMoveToCommand.h"
+#include <prim/seadScopedLock.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,6 +26,13 @@ void HorseRideMoveToCommand::loadParams_() {
 
 void HorseRideMoveToCommand::calc_() {
     HorseRideMoveCommand::calc_();
+}
+
+bool HorseRideMoveToCommand::m32(ksys::act::Actor* actor) {
+    _98.x(*mTargetPos_d);
+    if (!_98.sub_710070DC38(actor, true))
+        return false;
+    return HorseRideMoveCommand::m32(actor);
 }
 
 }  // namespace uking::action
