@@ -15,6 +15,13 @@ void SandwormRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SandwormRoot::leave_() {
+    sub_71005DA114(mActor, &_250);
+    if (_288 != 0) {
+        auto* actor = mActor;
+        sub_7100720140(actor);
+        sub_7100720A70(actor);
+    }
+    _288 = 0;
     EnemyRoot::leave_();
 }
 
