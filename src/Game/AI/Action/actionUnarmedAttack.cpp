@@ -11,8 +11,6 @@ namespace uking::action {
 // NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 UnarmedAttack::UnarmedAttack(const InitArg& arg) : ActionEx(arg) {}
 
-UnarmedAttack::~UnarmedAttack() = default;
-
 void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

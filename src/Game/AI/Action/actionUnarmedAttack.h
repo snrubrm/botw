@@ -11,7 +11,7 @@ class UnarmedAttack : public ActionEx {
     SEAD_RTTI_OVERRIDE(UnarmedAttack, ActionEx)
 public:
     explicit UnarmedAttack(const InitArg& arg);
-    ~UnarmedAttack() override;
+    ~UnarmedAttack() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

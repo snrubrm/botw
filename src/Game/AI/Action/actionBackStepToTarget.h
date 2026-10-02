@@ -11,7 +11,7 @@ class BackStepToTarget : public ActionEx {
     SEAD_RTTI_OVERRIDE(BackStepToTarget, ActionEx)
 public:
     explicit BackStepToTarget(const InitArg& arg);
-    ~BackStepToTarget() override;
+    ~BackStepToTarget() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

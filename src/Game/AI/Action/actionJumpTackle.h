@@ -10,7 +10,7 @@ class JumpTackle : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(JumpTackle, ksys::act::ai::Action)
 public:
     explicit JumpTackle(const InitArg& arg);
-    ~JumpTackle() override;
+    ~JumpTackle() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

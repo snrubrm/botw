@@ -10,7 +10,7 @@ class ShootArrow : public ActionEx {
     SEAD_RTTI_OVERRIDE(ShootArrow, ActionEx)
 public:
     explicit ShootArrow(const InitArg& arg);
-    ~ShootArrow() override;
+    ~ShootArrow() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;

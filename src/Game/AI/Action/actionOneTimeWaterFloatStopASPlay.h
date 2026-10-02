@@ -9,7 +9,7 @@ class OneTimeWaterFloatStopASPlay : public WaterFloatImmobile {
     SEAD_RTTI_OVERRIDE(OneTimeWaterFloatStopASPlay, WaterFloatImmobile)
 public:
     explicit OneTimeWaterFloatStopASPlay(const InitArg& arg);
-    ~OneTimeWaterFloatStopASPlay() override;
+    ~OneTimeWaterFloatStopASPlay() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

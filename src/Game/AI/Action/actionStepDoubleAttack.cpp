@@ -10,8 +10,6 @@ namespace uking::action {
 // NON_MATCHING: store scheduling (the damage callback member's zero stores are ordered differently)
 StepDoubleAttack::StepDoubleAttack(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-StepDoubleAttack::~StepDoubleAttack() = default;
-
 void StepDoubleAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     playAS("DoubleAttack", false, 0, 0, -1.0f);
     _bc = mActor->getVelocity();

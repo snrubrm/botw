@@ -7,8 +7,6 @@ namespace uking::action {
 
 BackStepToTarget::BackStepToTarget(const InitArg& arg) : ActionEx(arg) {}
 
-BackStepToTarget::~BackStepToTarget() = default;
-
 void BackStepToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionEx::enter_(params);
 }

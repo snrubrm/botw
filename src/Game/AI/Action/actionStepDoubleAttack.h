@@ -11,7 +11,7 @@ class StepDoubleAttack : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(StepDoubleAttack, ksys::act::ai::Action)
 public:
     explicit StepDoubleAttack(const InitArg& arg);
-    ~StepDoubleAttack() override;
+    ~StepDoubleAttack() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

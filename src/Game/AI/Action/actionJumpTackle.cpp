@@ -16,8 +16,6 @@ namespace uking::action {
 // NON_MATCHING: store scheduling (param zeroing is sunk below the vtable store)
 JumpTackle::JumpTackle(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-JumpTackle::~JumpTackle() = default;
-
 bool JumpTackle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

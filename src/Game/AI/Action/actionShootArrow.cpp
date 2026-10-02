@@ -5,8 +5,6 @@ namespace uking::action {
 
 ShootArrow::ShootArrow(const InitArg& arg) : ActionEx(arg) {}
 
-ShootArrow::~ShootArrow() = default;
-
 void ShootArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     m32();
     auto* actor = mActor;
