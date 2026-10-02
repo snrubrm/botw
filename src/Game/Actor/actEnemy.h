@@ -229,7 +229,8 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual void m177();
-    virtual void m178();
+    // Creates the object returned by DynamicActor slot 159 (_e78).
+    virtual Unk_71025ae680* m178(sead::Heap* heap);
     virtual void m179();
     virtual void m180() {}
 

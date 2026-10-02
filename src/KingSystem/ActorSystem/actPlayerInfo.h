@@ -124,3 +124,6 @@ KSYS_CHECK_SIZE_NX150(PlayerInfo, 0x3B0);
 
 // 0x710072b82c (CSV name; namespace unknown)
 const sead::Vector3f& getPlayerPosition();
+
+// 0x710072b730 (CSV name; namespace unknown)
+bool isSlowTimeMaybe();
