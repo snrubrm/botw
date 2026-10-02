@@ -1,10 +1,11 @@
 #include "Game/AI/AI/aiLynelTackleMove.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -17,7 +18,11 @@ bool LynelTackleMove::init_(sead::Heap* heap) {
 }
 
 void LynelTackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58 = ksys::Timer(5, 5);
+    sub_710049B8F0();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("近づき", &pack);
 }
 
 bool LynelTackleMove::isFailed() const {
@@ -41,6 +46,23 @@ void LynelTackleMove::loadParams_() {
 
 bool LynelTackleMove::isFinished() const {
     return ActionBase::isFinished() || (isCurrentChild("通り過ぎ") && getCurrentChild()->isFinished());
+}
+
+void LynelTackleMove::sub_710049B8F0() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    }
+
+    auto* body = mActor->getRigidBodyByName(ksys::act::getStr_Body().cstr());
+    if (!body)
+        return;
+    for (int i = 0, n = body->getRigidBodies().size(); i < n; ++i) {
+        if (auto* rigid_body = body->getRigidBody(i)) {
+            rigid_body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            rigid_body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+    }
 }
 
 void LynelTackleMove::sub_710049BEC4() {

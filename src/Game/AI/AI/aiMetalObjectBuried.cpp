@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiMetalObjectBuried.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -61,6 +62,20 @@ bool MetalObjectBuried::handleMessage_(const ksys::Message& message) {
     else
         actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     return true;
+}
+
+void MetalObjectBuried::sub_71004A5514() {
+    auto* actor = mActor;
+    ksys::act::disableAllAttClients(actor);
+    if (auto* body = actor->getMainBody()) {
+        body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        sead::BoundBox3f box;
+        body->getAabbInLocal(&box);
+        _74 = (box.getMax() - box.getMin()).length() * 0.5f;
+    }
+    _70 = false;
+    _71 = false;
+    changeChild("地中");
 }
 
 }  // namespace uking::ai

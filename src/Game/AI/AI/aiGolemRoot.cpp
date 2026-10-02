@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiGolemRoot.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
@@ -35,6 +37,20 @@ void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 }
 
 GolemRoot::GolemRoot(const InitArg& arg) : GolemRootBase(arg) {}
+
+// NON_MATCHING: the original builds the "WeakPoint" SafeString before computing &enemy->_1128
+// (same as SiteBossRoot::x)
+void GolemRoot::sub_710040007C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    auto& link = enemy->_1128.getActorPartsActor("WeakPoint");
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    enemy->_1128.sub_7100D3CFEC("WeakPoint");
+}
 
 GolemRoot::~GolemRoot() {
     sub_710040007C();

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiGolemRootBase.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -12,6 +13,19 @@ GolemRootBase::~GolemRootBase() {
     sub_71004012F8();
     sub_71004014A4();
     _2f0._8.freeBuffer();
+}
+
+// NON_MATCHING: regalloc (this / the actor swap x19 and x20)
+void GolemRootBase::sub_71004014A4() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    auto& link = enemy->_1128.getActorPartsActor(mChemicalFieldKey_s);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    enemy->_1128.sub_7100D3CFEC(mChemicalFieldKey_s);
 }
 
 bool GolemRootBase::init_(sead::Heap* heap) {
