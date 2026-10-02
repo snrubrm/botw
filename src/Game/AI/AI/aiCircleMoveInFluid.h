@@ -21,6 +21,8 @@ public:
     virtual void m34();
     virtual void m35(f32 a2, f32 a3, f32 a4);
     virtual void m36(sead::Vector3f* out);
+    virtual void m37(sead::Vector3f* out);
+    virtual void m38();
 
 protected:
     // static_param at offset 0x38

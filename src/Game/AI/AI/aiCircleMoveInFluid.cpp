@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCircleMoveInFluid.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -47,6 +48,15 @@ void CircleMoveInFluid::m35(f32 a2, f32 a3, f32 a4) {
 
 void CircleMoveInFluid::m36(sead::Vector3f* out) {
     out->set(_a8);
+}
+
+void CircleMoveInFluid::m37(sead::Vector3f* out) {
+    if (!out)
+        return;
+    m36(out);
+    out->x += sead::Mathf::cos(_bc) * _b4;
+    out->y += _c8;
+    out->z += sead::Mathf::sin(_c0) * _b8;
 }
 
 }  // namespace uking::ai
