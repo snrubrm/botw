@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGolemSleepNormal.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/actGiantEnemy.h"
 
 namespace uking::ai {
 
@@ -22,6 +24,13 @@ bool GolemSleepNormal::handleAck_(const ksys::MessageAck& ack) {
     if (_a8.sub_710070E070(ack))
         return true;
     return _90.sub_710070E070(ack);
+}
+
+void GolemSleepNormal::m34() {
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
+        giant->_1568 = 0;
+    sub_7100708FF0(mActor, 30.0f);
+    SpecialEnemySleep::m34();
 }
 
 void GolemSleepNormal::loadParams_() {

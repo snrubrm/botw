@@ -18,6 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleAck_(const ksys::MessageAck& ack) override;
+    void m34() override;
 
 protected:
     // aitree_variable at offset 0x60

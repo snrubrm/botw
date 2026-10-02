@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,10 +22,7 @@ protected:
     const bool* mIsNoAppearEffect_m{};
     // map_unit_param at offset 0x40
     const bool* mIsLastKorokFlower_m{};
-    void* _48{};
-    u32 _50{};
-    void* _58{};
-    u32 _60{};
+    Unk_71012419b4 _48;
 };
 
 }  // namespace uking::ai

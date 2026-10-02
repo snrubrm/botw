@@ -47,8 +47,9 @@ public:
     virtual void m42();
     virtual void m43();
     virtual bool m44() { return true; }
-    virtual void m45();
-    virtual void m46();
+    virtual bool m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
+                     bool skip_own_pos);
+    virtual bool m46(const sead::Vector3f& pos, const ksys::act::BaseProcLink& target);
     virtual void m47();
     virtual void m48(sead::Vector3f* pos);
     virtual void m49();
@@ -72,7 +73,7 @@ public:
     virtual void m67();
     virtual void m68();
     virtual void m69();
-    virtual void m70();
+    virtual bool m70();
     virtual void m71();
     virtual void m72();
     virtual bool m73();

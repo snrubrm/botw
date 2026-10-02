@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -85,6 +87,26 @@ void EnemyNormal::m64() {
 bool EnemyNormal::m65(sead::Heap* heap) {
     _48 = new (heap) Unk_710039D8F0;
     return _48 != nullptr;
+}
+
+bool EnemyNormal::m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
+                      bool skip_own_pos) {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    if (!skip_own_pos && !m46(pos, target))
+        return true;
+    if (target.hasProcInCalcState() && !m46(target_pos, target))
+        return true;
+    return false;
+}
+
+bool EnemyNormal::m70() {
+    if (sub_7100736D98(mActor) || testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        return true;
+    }
+    return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), false);
 }
 
 bool EnemyNormal::m73() {

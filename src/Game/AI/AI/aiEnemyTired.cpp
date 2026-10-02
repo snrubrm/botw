@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyTired.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,14 @@ void EnemyTired::calc_() {
     } else {
         sub_71003C16B0();
     }
+}
+
+void EnemyTired::sub_71003C16B0() {
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    mActor->getHomePos(&pos);
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("帰還", &params);
 }
 
 }  // namespace uking::ai
