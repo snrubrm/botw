@@ -130,6 +130,35 @@ void AssassinNormal::m60(Unk3* out) {
     LandHumEnemyNormal::m60(out);
 }
 
+void AssassinNormal::m61(Unk3* out) {
+    if (!isCurrentChild("不審物発見")) {
+        LandHumEnemyNormal::m61(out);
+        return;
+    }
+
+    if (!_400.hasProcInCalcState())
+        out->_0 = 3;
+
+    auto* unk = sub_71005D9D68(mActor);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_400, &accessor);
+    if (accessor.sub_7100D10E6C(30)) {
+        out->_0 = 3;
+        if (unk)
+            unk->sub_71002DCBDC(0x80);
+    }
+    if (accessor.checkFlag25()) {
+        out->_0 = 3;
+        if (unk)
+            unk->sub_71002DCBDC(0x80);
+    }
+    if (sub_71005DEC08(&_400, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
+        out->_0 = 3;
+        if (unk)
+            unk->sub_71002DCBDC(0x80);
+    }
+}
+
 void AssassinNormal::m62(Unk3* result) {
     if (result->_0 == 3) {
         _400.reset();

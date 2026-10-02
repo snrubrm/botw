@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBeeSwarmNormal.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -12,11 +13,22 @@ BeeSwarmNormal::BeeSwarmNormal(const InitArg& arg) : EnemyNormal(arg) {}
 BeeSwarmNormal::~BeeSwarmNormal() = default;
 
 bool BeeSwarmNormal::init_(sead::Heap* heap) {
-    return EnemyNormal::init_(heap);
+    if (!EnemyNormal::init_(heap))
+        return false;
+    _3d0 = sead::DynamicCast<act::Swarm>(mActor);
+    mActor->getMtx().getTranslation(_450);
+    return true;
 }
 
 void BeeSwarmNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
+    auto* swarm = _3d0;
+    if (!swarm)
+        return;
+    for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
+        if (auto* unit = swarm->_14c8[i])
+            unit->_5c = sead::GlobalRandom::instance()->getF32Range(0.1f, 0.2f);
+    }
 }
 
 void BeeSwarmNormal::leave_() {

@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
     void m35() override;
+    void m50(Unk1* out, s32 idx) override;
     s32 m52(s32 idx) override;
     s32 m53() override { return 12; }
 

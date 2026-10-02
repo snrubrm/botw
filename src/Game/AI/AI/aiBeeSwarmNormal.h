@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyNormal.h"
+#include "Game/Actor/actSwarm.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -30,9 +31,7 @@ public:
     bool m73() override { return true; }
 
 protected:
-    // DynamicCast of mActor to an Enemy-derived actor class (RTTI 0x71025b08b8, probably Swarm) that
-    // is not declared yet.
-    void* _3d0 = nullptr;
+    act::Swarm* _3d0 = nullptr;  // DynamicCast of mActor (init_)
     Unk_71024504c8 _3d8;
     sead::Vector3f _450;
     u32 _45c;

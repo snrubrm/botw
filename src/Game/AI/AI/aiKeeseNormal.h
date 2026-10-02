@@ -20,6 +20,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m37() override;
     void m38() override;
     void m48(sead::Vector3f* pos) override;
     void m49(Unk1* out, s32 idx) override;

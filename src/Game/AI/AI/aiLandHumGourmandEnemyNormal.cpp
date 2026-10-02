@@ -52,6 +52,52 @@ void LandHumGourmandEnemyNormal::m35() {
     EnemyNormal::m35();
 }
 
+void LandHumGourmandEnemyNormal::m50(Unk1* out, s32 idx) {
+    const s32 type = m52(idx);
+    if (isCurrentChild("餌発見")) {
+        if (type != 11) {
+            out->_0 = -1;
+            return;
+        }
+        out->_0 = 11;
+        out->_8 |= 0x4000;
+        return;
+    }
+
+    if (isCurrentChild("見失い")) {
+        if (type == 11) {
+            out->_0 = 11;
+            out->_8 |= 0x2000;
+            return;
+        }
+    } else if (isCurrentChild("音気づき")) {
+        if (type == 11) {
+            out->_0 = 11;
+            out->_8 |= 0x2000;
+            return;
+        }
+    } else if (isCurrentChild("気配気づき")) {
+        if (type == 11) {
+            out->_0 = 11;
+            out->_8 |= 0x2000;
+            return;
+        }
+    } else if (isCurrentChild("攻撃反応")) {
+        if (type == 11) {
+            out->_0 = 11;
+            out->_8 |= 0x2000;
+            return;
+        }
+    } else if (isCurrentChild("浮遊物発見")) {
+        if (type == 11) {
+            out->_0 = 11;
+            out->_8 |= 0x2000;
+            return;
+        }
+    }
+    LandHumEnemyNormal::m50(out, idx);
+}
+
 s32 LandHumGourmandEnemyNormal::m52(s32 idx) {
     static const s32 sTable[] = {0, 1, 11, 2, 3, 9, 4, 5, 6, 7, 8, 10};
     return sTable[idx];

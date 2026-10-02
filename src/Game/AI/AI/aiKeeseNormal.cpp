@@ -47,6 +47,24 @@ bool KeeseNormal::handleMessage_(const ksys::Message& message) {
     return EnemyNormal::handleMessage_(message);
 }
 
+void KeeseNormal::m37() {
+    m41();
+    _364 = 0;
+    if (_448) {
+        ksys::act::ai::InlineParamPack params;
+        sead::Vector3f pos;
+        m48(&pos);
+        params.addVec3(pos, "TargetPos", -1);
+        changeChild("天井近づき", &params);
+    } else {
+        ksys::act::ai::InlineParamPack params;
+        sead::Vector3f pos;
+        m48(&pos);
+        params.addVec3(pos, "CentralPos", -1);
+        changeChild("待機", &params);
+    }
+}
+
 void KeeseNormal::m38() {
     m41();
     _364 = 0;

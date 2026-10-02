@@ -15,7 +15,8 @@ class Swarm : public Enemy {
 public:
     // One member of the swarm (placeholder; the AI patterns write _60 / _68).
     struct Unit {
-        u8 _0[0x60];
+        u8 _0[0x5c];
+        /* 0x5c */ f32 _5c;  // random 0.1-0.2 set by BeeSwarmNormal::enter_
         /* 0x60 */ sead::Vector3f _60;
         u8 _6c[0x78 - 0x6c];
         /* 0x78 */ void* _78;  // returned by vtable slot 40 for unit `idx`
