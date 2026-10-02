@@ -20,6 +20,8 @@ public:
 protected:
     // static_param at offset 0x1d8
     sead::SafeString mRememberKey_s{};
+    Unk_7102450ac8 _1e8;
 };
+KSYS_CHECK_SIZE_NX150(RememberMesOneActorEnemyRoot, 0x238);
 
 }  // namespace uking::ai
