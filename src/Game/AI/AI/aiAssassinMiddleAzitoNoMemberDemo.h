@@ -13,9 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+
+    // 0x710031e040
+    void sub_710031E040();
 
 protected:
     // static_param at offset 0x38
@@ -24,8 +28,8 @@ protected:
     const int* mDelayTimeMax_s{};
     Unk_7102450528 _48;
     f32 _c0 = 0;
-    u32 _c4 = 0;
-    u32 _c8 = 0;
+    s32 _c4 = 0;
+    s32 _c8 = 0;
     bool _cc = false;
     f32 _d0 = 0;
 };
