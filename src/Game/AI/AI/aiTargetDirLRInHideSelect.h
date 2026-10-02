@@ -11,6 +11,8 @@ public:
     explicit TargetDirLRInHideSelect(const InitArg& arg);
     ~TargetDirLRInHideSelect() override;
 
+    u8 m34() override;
+
 protected:
 };
 

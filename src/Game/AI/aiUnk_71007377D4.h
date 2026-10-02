@@ -62,3 +62,10 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+
+/// 0x710072e928: world ray cast (RayCastBodyQuery, GroundHit 0xf, contact layer type 0) from `from` to
+/// `to`, both raised by `y_offset`. On a hit, writes the hit position / normal and (for `hit_info`)
+/// a u32 of the query at +0x8 and nullptr at +0x10 when the pointers are non-null. Placeholder name;
+/// the type of `hit_info` is unknown.
+bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
+                    sead::Vector3f* hit_normal, void* hit_info, f32 y_offset);
