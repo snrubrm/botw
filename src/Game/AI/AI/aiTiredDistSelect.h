@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     f32 m34() override;
+    bool m35() override;
 
 protected:
     // map_unit_param at offset 0x50

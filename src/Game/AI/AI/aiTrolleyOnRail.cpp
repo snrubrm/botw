@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTrolleyOnRail.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,15 @@ bool TrolleyOnRail::init_(sead::Heap* heap) {
 }
 
 void TrolleyOnRail::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        body->setGravityFactor(1.0f);
+        body->setContactLayerAndGroundHitAndHandler(body->getContactLayer(),
+                                                    ksys::phys::GroundHit::MovingTrolley,
+                                                    sub_710072E804(mActor, 0));
+    }
+    mFlags.set(Flag::Changeable);
+    _68 = 0;
+    _6c = 0;
 }
 
 void TrolleyOnRail::leave_() {

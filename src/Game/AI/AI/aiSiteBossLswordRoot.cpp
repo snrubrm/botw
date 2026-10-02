@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiSiteBossLswordRoot.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -16,6 +18,12 @@ bool SiteBossLswordRoot::init_(sead::Heap* heap) {
 
 void SiteBossLswordRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossRoot::enter_(params);
+    if (!_160)
+        _160 = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgBarrier");
+    if (checkHpRate(mActor, 0.5f))
+        changeAS("Chemical_Loop", true, 3, 0);
+    else
+        changeAS("Blade_Blue", true, 3, 0);
 }
 
 void SiteBossLswordRoot::calc_() {
