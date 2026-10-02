@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m36(sead::Vector3f* target) override;
 
     // dynamic_param at offset 0xc0
     sead::Vector3f* mTargetPos_d{};

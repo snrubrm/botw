@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwaysHoverTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -24,6 +25,10 @@ void ForkAlwaysHoverTurn::loadParams_() {
 
 void ForkAlwaysHoverTurn::calc_() {
     ForkAlwaysTurn::calc_();
+}
+
+void ForkAlwaysHoverTurn::m34(f32 ratio) {
+    sub_7100738428(mActor, ratio);
 }
 
 }  // namespace uking::action

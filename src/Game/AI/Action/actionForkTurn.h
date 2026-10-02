@@ -21,6 +21,10 @@ public:
 protected:
     void calc_() override;
     virtual bool m32();
+    virtual void m33(sead::Vector3f* dir);
+    virtual void m34(f32 ratio);
+    virtual void m35(sead::Vector3f* up);
+    virtual void m36(sead::Vector3f* target);
 
     // static_param at offset 0x20
     const float* mRotSpd_s{};

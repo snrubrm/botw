@@ -27,4 +27,8 @@ void ForkAlwaysTurn::calc_() {
     ForkTurn::calc_();
 }
 
+void ForkAlwaysTurn::m36(sead::Vector3f* target) {
+    *target = *mTargetPos_d;
+}
+
 }  // namespace uking::action

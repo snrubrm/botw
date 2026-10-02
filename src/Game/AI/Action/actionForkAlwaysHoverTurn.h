@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void m34(f32 ratio) override;
     void calc_() override;
 };
 

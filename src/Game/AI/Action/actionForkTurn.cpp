@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionForkTurn.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
@@ -12,7 +17,34 @@ bool ForkTurn::init_(sead::Heap* heap) {
 }
 
 void ForkTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sead::Vector3f up;
+    m35(&up);
+    m36(&_b0);
+
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const f32 speed = actor->getAngVelocity().length();
+    _80.value = speed;
+    _80.prev_value = speed;
+    sub_7100741034(&_8c, actor);
+
+    sead::Vector3f to_target = _b0;
+    to_target -= pos;
+    ksys::util::sub_71011EFA00(&to_target, to_target, up);
+    to_target.normalize();
+
+    sead::Vector3f front;
+    actor->getMtx().getBase(front, 2);
+    ksys::util::sub_71011EFA00(&front, front, up);
+    front.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, to_target, sead::Vector3f::ey);
+    actor->getASList()->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void ForkTurn::leave_() {
@@ -42,5 +74,26 @@ void ForkTurn::calc_() {
 bool ForkTurn::m32() {
     return true;
 }
+
+void ForkTurn::m33(sead::Vector3f* dir) {}
+
+// NON_MATCHING: the original copies the gravity vector to another stack temporary before the call
+void ForkTurn::m34(f32 ratio) {
+    auto* actor = mActor;
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    sub_7100738488(actor, ratio, gravity);
+}
+
+void ForkTurn::m35(sead::Vector3f* up) {
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, mActor);
+    sead::Vector3f dir = -gravity;
+    if (dir.normalize() < sead::Mathf::epsilon())
+        dir.set(sead::Vector3f::ey);
+    up->set(dir);
+}
+
+void ForkTurn::m36(sead::Vector3f* target) {}
 
 }  // namespace uking::action

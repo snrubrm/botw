@@ -13,6 +13,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
 };
 
 }  // namespace uking::action
