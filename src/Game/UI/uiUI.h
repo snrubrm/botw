@@ -17,6 +17,8 @@ class UI {
     UI() = default;
 
 public:
+    // 0x71010a5b0c (CSV unnamed): called by NpcTebaRoot::calc_ with its actor.
+    bool sub_71010A5B0C(ksys::act::Actor* actor);
     // 0x71010a6ccc (CSV: UI::x_0)
     void x_0(bool flag);
     // 0x71010a6bec (CSV unnamed)
