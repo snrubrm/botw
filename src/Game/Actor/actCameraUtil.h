@@ -120,6 +120,55 @@ f32 sub_71009226D8(const f32& deg);
 // 0x71009226ec: cos(deg).
 f32 sub_71009226EC(const f32& deg);
 
+namespace sead {
+class Viewport;
+}
+
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
+namespace uking::act {
+class Camera;
+}
+
+// Camera math helpers (TU 0x7100924be4-).
+// 0x7100924be4: acquires the player (PlayerInfo's player link) into `accessor`.
+void sub_7100924BE4(ksys::act::ActorConstDataAccess* accessor);
+// 0x7100924c08: 2 * atan2(tan(fovy / 2) * aspect, 1).
+f32 sub_7100924C08(f32 fovy, f32 aspect);
+// 0x7100924c40: `in` scaled by half the size of the camera manager's viewport (if any).
+void sub_7100924C40(sead::Vector2f* out, const sead::Vector2f& in);
+// 0x7100924c94: min / max of a and b.
+void sub_7100924C94(f32 a, f32 b, f32* min, f32* max);
+// 0x7100924cac: clamps to [-89.9, 89.9].
+f32 sub_7100924CAC(f32 value);
+// 0x7100924cdc: sub_7100924C94 of the values clamped with sub_7100924CAC.
+void sub_7100924CDC(f32 a, f32 b, f32* min, f32* max);
+// 0x7100924d40: at least 0.01.
+f32 sub_7100924D40(f32 value);
+// 0x7100924d50: clamps to [0.1 degree, 180 - 0.1 degree] (radians).
+f32 sub_7100924D50(f32 value);
+// 0x7100924d80: clamps to [0, 1].
+f32 sub_7100924D80(f32 value);
+// 0x7100924da4: sub_7100924C94 of the values clamped with sub_7100924D80.
+void sub_7100924DA4(f32 a, f32 b, f32* min, f32* max);
+// 0x7100924dfc: wraps degrees into [-180, 180] by adding / subtracting 360.
+f32 sub_7100924DFC(f32 deg);
+// 0x7100924e48: the horizontal vector perpendicular to `dir` (z, 0, -x), normalized and scaled by
+// `scale` (false if dir has no horizontal component).
+bool sub_7100924E48(const sead::Vector3f& dir, const f32& scale, sead::Vector3f* out);
+// 0x7100924f04: sub_71009222E8().
+f32 sub_7100924F04();
+// 0x7100925110: whether axis `axis` of `mtx` is less than 60 degrees from the horizontal plane.
+bool sub_7100925110(const sead::Matrix33f& mtx, int axis);
+// 0x71009251c4: Camera::_848 (secondary base _8), else the VFR delta frame (1 without VFR).
+f32 sub_71009251C4(const uking::act::Camera* camera);
+// 0x710092523c: 1 - (1 - t)^exponent.
+f32 sub_710092523C(f32 exponent, f32 t);
+// 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null without manager.
+const sead::Viewport* sub_710092DAD0();
+
 namespace uking::act {
 
 // Placeholder name (out-of-line ctor 0x71009214b8, in the camera utility code): a camera state

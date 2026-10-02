@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   actCameraUtil.cpp
   actCameraUtil.h
   actUnk_71009214b8.cpp
+  actUnk_7100924be4.cpp
   actDragon.cpp
   actDragon.h
   actEnemy.cpp
