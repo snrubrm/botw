@@ -68,6 +68,13 @@ const sead::SafeString& BreathAttackEnemyBattle::m36() {
 
 void BreathAttackEnemyBattle::m41() {}
 
+void BreathAttackEnemyBattle::m43() {
+    if (_90.hasProcCreationFailed())
+        _90.deleteProcIfFailed();
+    if (!_90.isAllocatedOrFailed())
+        m42();
+}
+
 bool BreathAttackEnemyBattle::m44() {
     return _90.isProcReady();
 }
