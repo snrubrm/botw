@@ -9,6 +9,7 @@ class CameraRotRumble : public ksys::act::ai::Action {
 public:
     explicit CameraRotRumble(const InitArg& arg);
 
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:
@@ -18,7 +19,7 @@ protected:
     int* mCount_d{};
     // dynamic2_param at offset 0x30
     float* mPower_d{};
-    bool _38 = true;
+    u8 _38 = 1;
 };
 
 }  // namespace uking::action

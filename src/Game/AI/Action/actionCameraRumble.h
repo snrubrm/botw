@@ -9,6 +9,7 @@ class CameraRumble : public ksys::act::ai::Action {
 public:
     explicit CameraRumble(const InitArg& arg);
 
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:
@@ -20,7 +21,7 @@ protected:
     float* mPower_d{};
     // dynamic2_param at offset 0x38
     bool* mSideways_d{};
-    bool _40 = true;
+    u8 _40 = 1;
 };
 
 }  // namespace uking::action

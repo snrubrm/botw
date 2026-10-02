@@ -9,6 +9,7 @@ class CameraRumbleStop : public ksys::act::ai::Action {
 public:
     explicit CameraRumbleStop(const InitArg& arg);
 
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:

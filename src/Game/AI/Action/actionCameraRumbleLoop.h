@@ -11,6 +11,8 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+    void onPreDelete() override;
     bool hasPreDeleteCb() override;
 
 protected:
