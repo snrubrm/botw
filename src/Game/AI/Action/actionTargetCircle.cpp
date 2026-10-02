@@ -1,4 +1,10 @@
 #include "Game/AI/Action/actionTargetCircle.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -10,8 +16,29 @@ bool TargetCircle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the normalised up vector is kept in registers and stored after the epsilon check (same as
+// RandomJump::calc_); stack slots differ
 void TargetCircle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    sead::Vector3f up = -gravity;
+    if (up.normalize() < sead::Mathf::epsilon())
+        up.set(sead::Vector3f::ey);
+
+    sead::Vector3f velocity;
+    ksys::util::sub_71011EFA00(&velocity, actor->getVelocity(), up);
+    const f32 speed = velocity.length();
+    _48.value = speed;
+    _48.prev_value = speed;
+    _78 = actor->getAngVelocity().length();
+    sub_710073FA90(&_54, actor);
+
+    _7c = *mRotDir_d;
+    if (_7c == 0)
+        _7c = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    actor->getASList()->x_6(9, 0, -_7c * 90.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void TargetCircle::leave_() {

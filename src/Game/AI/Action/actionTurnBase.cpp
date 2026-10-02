@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionTurnBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "math/seadMathCalcCommon.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -11,7 +14,35 @@ TurnBase::TurnBase(const InitArg& arg) : ActionEx(arg) {}
 TurnBase::~TurnBase() = default;
 
 void TurnBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    if (!mActor->getCharacterController())
+        return;
+
+    sead::Vector3f up;
+    m33(&up);
+    const f32 speed = mActor->getAngVelocity().length();
+    _60.value = speed;
+    _60.prev_value = speed;
+    sub_7100741034(&_6c, mActor);
+
+    sead::Vector3f to_target = *mTargetPos_d;
+    to_target -= mActor->getMtx().getTranslation();
+    ksys::util::sub_71011EFA00(&to_target, to_target, up);
+    to_target.normalize();
+
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    ksys::util::sub_71011EFA00(&front, front, up);
+    front.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, to_target, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
 }
 
 void TurnBase::leave_() {
