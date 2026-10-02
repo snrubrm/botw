@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::ai {
 
@@ -12,10 +14,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    bool _38 = false;
+    ksys::act::ModelBindInfo _40;
+    ksys::act::BaseProcLink _e0;
 };
+KSYS_CHECK_SIZE_NX150(LastBossThunderRoot, 0xf0);
 
 }  // namespace uking::ai
