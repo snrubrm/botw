@@ -1,8 +1,23 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
+
+// vtable 0x71023dcc38: unnamed sub-object of SimpleWildlifeRoot with a single virtual function
+// (0x7100343a18) and a pointer to itself at +0x18.
+class Unk_71023dcc38 {
+public:
+    virtual bool m0();
+
+    u64 _8 = 0;
+    u64 _10;
+    Unk_71023dcc38* _18 = this;
+    u64 _20 = 0;
+    bool _28;
+};
 
 class SimpleWildlifeRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SimpleWildlifeRoot, ksys::act::ai::Ai)
@@ -10,14 +25,26 @@ public:
     explicit SimpleWildlifeRoot(const InitArg& arg);
     ~SimpleWildlifeRoot() override;
 
+    void m9() override;
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual bool m35();
+    virtual bool m36() { return true; }
+    virtual void m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual void m44();
+
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x30];
+    Unk_71023dcc38 _38{};
     // static_param at offset 0x68
     const int* mInvalidTgtTimerVal_s{};
     // static_param at offset 0x70
@@ -36,6 +63,18 @@ protected:
     const bool* mIsLocatorCreate_m{};
     // map_unit_param at offset 0xa8
     const bool* mIsCreateDead_m{};
+    bool* mIsDrop_a{};
+    sead::Vector3f _b8;
+    ksys::Timer _c4;
+    ksys::Timer _d0;
+    f32 _dc = 0;
+    s32 _e0 = 0;
+    s32 _e4 = 0;
+    ksys::Timer _e8;
+    bool _f4 = false;
+    bool _f5 = false;
+    bool _f6 = false;
 };
+KSYS_CHECK_SIZE_NX150(SimpleWildlifeRoot, 0xf8);
 
 }  // namespace uking::ai

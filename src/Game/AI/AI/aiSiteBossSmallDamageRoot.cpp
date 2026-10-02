@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSmallDamageRoot.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,15 @@ bool SiteBossSmallDamageRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossSmallDamageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* damage_mgr = sub_710072BA90(mActor)) {
+        // The result is unused, but the call is in the original.
+        damage_mgr->getField54();
+        if (damage_mgr->checkDamageFlags(1))
+            changeChild("大ダメージ");
+        else
+            changeChild("小ダメージ");
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void SiteBossSmallDamageRoot::calc_() {}
