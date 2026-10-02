@@ -23,15 +23,15 @@ void BattleCloseMoveAction::calc_() {
     BattleCloseMoveActionBase::calc_();
 }
 
-ksys::act::Unk_71024dc858* BattleCloseMoveAction::m33(int idx) {
+ksys::act::Unk_7100d78e50* BattleCloseMoveAction::m33(int idx) {
     auto* awareness = mActor->getAwareness();
     if (awareness && awareness->_8.size() > idx)
         return ksys::act::sub_7100D78E30(&awareness->_8, idx);
     return nullptr;
 }
 
-bool BattleCloseMoveAction::m34(ksys::act::Unk_71024dc858* entry) {
-    return ksys::act::isPlayerProfile(&entry->mLink) || ksys::act::isWeaponProfile(&entry->mLink);
+bool BattleCloseMoveAction::m34(ksys::act::Unk_7100d78e50* entry) {
+    return ksys::act::isPlayerProfile(&entry->_0.mLink) || ksys::act::isWeaponProfile(&entry->_0.mLink);
 }
 
 }  // namespace uking::action

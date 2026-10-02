@@ -56,8 +56,6 @@ void EnemyNoticeTerror::m36() {
     sub_71003A7DD4();
 }
 
-// NON_MATCHING: the original calls Unk_71024dc858::m5 directly (devirtualised; see the `final`
-// discussion in TIPS), ours through the vtable
 bool EnemyNoticeTerror::m34(Unk* out) {
     out->_0.reset();
     out->_1c = 0;
@@ -70,10 +68,10 @@ bool EnemyNoticeTerror::m34(Unk* out) {
     auto* entry = ksys::act::sub_7100D78E30(&sensor->_8, 0);
     if (!entry)
         return false;
-    out->_0 = entry->mLink;
+    out->_0 = entry->_0.mLink;
     out->_10 = entry->_88;
     out->_1c |= 1;
-    if (entry->m5(3) || entry->m5(4))
+    if (entry->_0.m5(3) || entry->_0.m5(4))
         out->_1c |= 2;
     return true;
 }

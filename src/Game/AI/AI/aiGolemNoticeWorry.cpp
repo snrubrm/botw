@@ -36,7 +36,7 @@ void GolemNoticeWorry::calc_() {
                         if (!current || current->_8.size() <= i)
                             continue;
                         auto* entry = ksys::act::sub_7100D78E30(&current->_8, i);
-                        if (entry && entry->mLink == *mTargetActor_d) {
+                        if (entry && entry->_0.mLink == *mTargetActor_d) {
                             found = true;
                             break;
                         }
@@ -64,7 +64,7 @@ void GolemNoticeWorry::calc_() {
                         if (!current || current->_8.size() <= i)
                             continue;
                         auto* entry = ksys::act::sub_7100D78E30(&current->_8, i);
-                        if (entry && entry->mLink == *mTargetActor_d) {
+                        if (entry && entry->_0.mLink == *mTargetActor_d) {
                             found = true;
                             break;
                         }

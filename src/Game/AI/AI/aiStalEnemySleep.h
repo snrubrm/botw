@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
     bool m36() override;
-    ksys::act::Unk_71024dc858* m37(int* x) override;
+    ksys::act::Unk_7100d78e50* m37(int* x) override;
     bool m39(sead::Vector3f* pos) override;
 
 protected:

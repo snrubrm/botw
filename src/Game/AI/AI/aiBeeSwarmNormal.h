@@ -23,7 +23,7 @@ public:
 
     void m37() override;
     void m38() override;
-    ksys::act::Unk_71024dc858* m47(ksys::act::AwarenessInstance* awareness,
+    ksys::act::Unk_7100d78e50* m47(ksys::act::AwarenessInstance* awareness,
                                    ksys::act::Unk_71024dccf8* filter, s32 a3) override;
     void m48(sead::Vector3f* pos) override;
     s32 m52(s32 idx) override;

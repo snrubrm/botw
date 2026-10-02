@@ -227,22 +227,22 @@ bool AssassinNormal::sub_710040CF88(ksys::act::Unk_71024dccf8* filter, Unk2* out
 
 // NON_MATCHING: block layout (the original's null-check returns jump straight to the epilogue with a
 // preset false and the other false returns share one block before it)
-bool AssassinNormal::sub_710040D048(ksys::act::Unk_71024dc858* entry) {
+bool AssassinNormal::sub_710040D048(ksys::act::Unk_7100d78e50* entry) {
     if (!entry)
         return false;
     auto* actor = mActor;
     if (!actor)
         return false;
-    if (m75(entry->mLink))
+    if (m75(entry->_0.mLink))
         return false;
 
     bool invalid;
     {
         ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&entry->mLink, &accessor);
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         invalid = accessor.sub_7100D10E6C(30) || accessor.checkFlag25();
     }
-    if (invalid || sub_71005DEC08(&entry->mLink, actor, 999.0f, 999.0f, sead::Mathf::pi()))
+    if (invalid || sub_71005DEC08(&entry->_0.mLink, actor, 999.0f, 999.0f, sead::Mathf::pi()))
         return false;
 
     sead::Vector3f pos;

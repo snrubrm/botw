@@ -6,7 +6,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::act {
-class Unk_71024dc858;
+struct Unk_7100d78e50;
 }
 
 namespace ksys::phys {
@@ -30,8 +30,8 @@ protected:
     void calc_() override;
 
     virtual void m32(sead::Vector3f* target_pos);
-    virtual ksys::act::Unk_71024dc858* m33(int idx);
-    virtual bool m34(ksys::act::Unk_71024dc858* entry);
+    virtual ksys::act::Unk_7100d78e50* m33(int idx);
+    virtual bool m34(ksys::act::Unk_7100d78e50* entry);
     virtual f32 m35();
     virtual void m36(const sead::Matrix34f& mtx);
     virtual bool m37(ksys::phys::CharacterController* controller, f32 speed,

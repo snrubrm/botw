@@ -37,11 +37,11 @@ void BattleCloseAction::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-ksys::act::Unk_71024dc858* BattleCloseAction::m33(int idx) {
+ksys::act::Unk_7100d78e50* BattleCloseAction::m33(int idx) {
     return nullptr;
 }
 
-bool BattleCloseAction::m34(ksys::act::Unk_71024dc858* entry) {
+bool BattleCloseAction::m34(ksys::act::Unk_7100d78e50* entry) {
     return false;
 }
 

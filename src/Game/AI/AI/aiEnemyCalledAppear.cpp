@@ -39,7 +39,7 @@ void EnemyCalledAppear::calc_() {
     if (auto* awareness = actor->getAwareness()) {
         Unk_7102451678 filter;
         if (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
-            sub_71005D8DE8(actor, entry->mLink, &entry->_58, nullptr);
+            sub_71005D8DE8(actor, entry->_0.mLink, &entry->_58, nullptr);
             actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
         }
     }

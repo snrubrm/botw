@@ -188,7 +188,7 @@ void EnemyNormal::sub_710039EC4C() {
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
         if (entry->_a8 > *mPressBreakObject_s)
             break;
-        ksys::act::acquireActor(&entry->mLink, &accessor);
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000be),
                            nullptr, true);
     }
@@ -215,7 +215,7 @@ void EnemyNormal::sub_710039ED94() {
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
         if (entry->_a8 > *mLostExtinguishFireDist_s)
             break;
-        ksys::act::acquireActor(&entry->mLink, &accessor);
+        ksys::act::acquireActor(&entry->_0.mLink, &accessor);
         if (!accessor.sub_71002EF980()) {
             actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x800002c),
                                nullptr, true);
@@ -641,7 +641,7 @@ f32 EnemyNormal::sub_71003A234C(ksys::act::BaseProcLink* target) {
 
 // NON_MATCHING: the three filter branches are tail-merged differently; the filter bits are stored
 // once more in the original's "2" path layout
-ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags) {
+ksys::act::Unk_7100d78e50* EnemyNormal::sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags) {
     if (*flags & 0x30) {
         if (type != 2)
             return nullptr;
@@ -668,7 +668,7 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A0114(bool a1, s32 type, s32 a3
 
 // NON_MATCHING: the original selects the range member address per case (2 / 1) and shares the
 // distance check; the final checks are laid out differently
-ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter,
+ksys::act::Unk_7100d78e50* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter,
                                                        s32 a3, bool a4) {
     auto* actor = mActor;
     sead::Vector3f pos;
@@ -682,13 +682,13 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_7
     if (!awareness)
         return nullptr;
 
-    ksys::act::Unk_71024dc858* entry;
+    ksys::act::Unk_7100d78e50* entry;
     if (a4) {
         do {
             entry = ksys::act::sub_7100D7EEE8(&awareness->_8, filter);
             if (!entry)
                 return nullptr;
-        } while (m45(entry->_88, entry->mLink, false));
+        } while (m45(entry->_88, entry->_0.mLink, false));
     } else {
         if (awareness->_300 == 0)
             return nullptr;
@@ -697,7 +697,7 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A04E0(bool a1, ksys::act::Unk_7
             return nullptr;
     }
 
-    auto* link = &entry->mLink;
+    auto* link = &entry->_0.mLink;
     if (a3 == 2 || a3 == 1) {
         const f32 range = a3 == 2 ? *mShortRangeTerritoryArea_s : *mCloseRangeTerritoryArea_s;
         f32 dist;
@@ -815,7 +815,7 @@ void EnemyNormal::sub_710039F938(bool a1) {
         while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
             if (entry->_a8 < dist) {
                 ksys::act::ActorConstDataAccess accessor;
-                ksys::act::acquireActor(&entry->mLink, &accessor);
+                ksys::act::acquireActor(&entry->_0.mLink, &accessor);
                 _130.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }
         }
@@ -859,7 +859,7 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
 }
 
 // NON_MATCHING: the filter address of the link branch is materialised after the link copy, not before
-ksys::act::Unk_71024dc858* EnemyNormal::sub_710039FE20(ksys::act::BaseProcLink* link) {
+ksys::act::Unk_7100d78e50* EnemyNormal::sub_710039FE20(ksys::act::BaseProcLink* link) {
     Unk_7102451560 member_filter;
     Unk_7102451740 link_filter;
     link_filter._28.reset();
@@ -879,14 +879,14 @@ ksys::act::Unk_71024dc858* EnemyNormal::sub_710039FE20(ksys::act::BaseProcLink* 
 
     if (auto* sensor = awareness->_260[0]) {
         auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, filter);
-        if (entry && !m45(entry->_88, entry->mLink, false))
+        if (entry && !m45(entry->_88, entry->_0.mLink, false))
             return entry;
     }
 
     filter->_8 = -1;
     if (auto* sensor = awareness->_260[1]) {
         auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, filter);
-        if (entry && entry->_a8 < 5.0f && !m45(entry->_88, entry->mLink, false))
+        if (entry && entry->_a8 < 5.0f && !m45(entry->_88, entry->_0.mLink, false))
             return entry;
     }
     return nullptr;
@@ -1054,7 +1054,7 @@ bool EnemyNormal::sub_71003A2BE0(Unk2* out, Unk1* info) {
             auto* sensor = awareness->_260[3];
             if (sensor) {
                 auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
-                if (entry && !m45(entry->_88, entry->mLink, false)) {
+                if (entry && !m45(entry->_88, entry->_0.mLink, false)) {
                     out->sub_71003A02A4(entry);
                     return true;
                 }
@@ -1123,7 +1123,7 @@ bool EnemyNormal::sub_71003A2F18(Unk2* out) {
             Unk_7102451358 filter;
             if (auto* sensor = awareness->_260[0]) {
                 auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
-                if (entry && !m45(entry->_88, entry->mLink, false)) {
+                if (entry && !m45(entry->_88, entry->_0.mLink, false)) {
                     out->sub_71003A02A4(entry);
                     return true;
                 }
@@ -1439,13 +1439,13 @@ void EnemyNormal::m39() {
     changeChild("見失い");
 }
 
-ksys::act::Unk_71024dc858* EnemyNormal::m47(ksys::act::AwarenessInstance* awareness,
+ksys::act::Unk_7100d78e50* EnemyNormal::m47(ksys::act::AwarenessInstance* awareness,
                                             ksys::act::Unk_71024dccf8* filter, s32 a3) {
     while (awareness->_260[0]) {
         auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_260[0]->_8, filter);
         if (!entry)
             break;
-        if (!m45(entry->_88, entry->mLink, false))
+        if (!m45(entry->_88, entry->_0.mLink, false))
             return entry;
     }
     return nullptr;
@@ -1651,7 +1651,7 @@ void EnemyNormal::m59() {
         }
     } else if (isCurrentChild("行動中仲間発見")) {
         if (auto* entry = sub_710039FE20(&_390)) {
-            _390 = entry->mLink;
+            _390 = entry->_0.mLink;
             _3a0 = entry->_88;
             child->setDynamicParam(_3a0, "TargetPos");
             child->setDynamicParamImpl(_390, "TargetActor", &ksys::act::ai::ParamPack::setActor);
@@ -1739,11 +1739,11 @@ bool EnemyNormal::m66(Unk2* out, Unk1* info) {
         auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
         if (entry) {
             auto* target = sub_71005D9050(mActor);
-            if (!target || !target->hasProc() || !(*target == entry->mLink)) {
-                if (!m45(entry->_88, entry->mLink, false) && m44(entry->_88)) {
+            if (!target || !target->hasProc() || !(*target == entry->_0.mLink)) {
+                if (!m45(entry->_88, entry->_0.mLink, false) && m44(entry->_88)) {
                     auto* unk = sub_71005D9D68(mActor);
-                    if (entry->m5(1) || !unk || (info->_8 & 0x800) ||
-                        !unk->sub_71002DC9E8(entry->mLink, 4, false)) {
+                    if (entry->_0.m5(1) || !unk || (info->_8 & 0x800) ||
+                        !unk->sub_71002DC9E8(entry->_0.mLink, 4, false)) {
                         out->sub_71003A02A4(entry);
                         return true;
                     }
@@ -1792,7 +1792,7 @@ bool EnemyNormal::m68(Unk2* out, Unk1* info) {
     if (!awareness)
         return false;
 
-    ksys::act::Unk_71024dc858* entry;
+    ksys::act::Unk_7100d78e50* entry;
     if (info->_8 & 0x1000) {
         Unk_71023e8fa8 filter;
         auto* sensor = awareness->_260[2];
@@ -1825,8 +1825,8 @@ void EnemyNormal::Unk2::sub_710039E308(ksys::act::BaseProcLink* link) {
     _8 = accessor.getActorMtx();
 }
 
-void EnemyNormal::Unk2::sub_71003A02A4(ksys::act::Unk_71024dc858* entry) {
-    _0 = &entry->mLink;
+void EnemyNormal::Unk2::sub_71003A02A4(ksys::act::Unk_7100d78e50* entry) {
+    _0 = &entry->_0.mLink;
     _38 = entry->_88;
     _8 = entry->_58;
 }

@@ -58,7 +58,7 @@ void HorseRiddenByNPCBase::calc_() {
                     entry_kind = 2;
                 if (entry_kind > kind) {
                     entry->_58.getTranslation(pos);
-                    link = &entry->mLink;
+                    link = &entry->_0.mLink;
                     kind = entry_kind;
                 }
                 break;
@@ -93,10 +93,10 @@ void HorseRiddenByNPCBase::m34(u32 kind, const sead::Vector3f& pos,
     }
 }
 
-bool HorseRiddenByNPCBase::m35(ksys::act::Unk_71024dc858* entry, s32 idx) {
+bool HorseRiddenByNPCBase::m35(ksys::act::Unk_7100d78e50* entry, s32 idx) {
     if (!*mIsEscapeFromSameActorType_s) {
         ksys::act::ActorConstDataAccess accessor;
-        if (ksys::act::acquireActor(&entry->mLink, &accessor) &&
+        if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
             accessor.getProfile() == mActor->getProfile()) {
             return true;
         }

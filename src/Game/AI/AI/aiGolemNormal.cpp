@@ -100,7 +100,7 @@ bool GolemNormal::m56(Unk2* out, Unk1* info) {
             filter._30 = 2;
             auto* sensor = awareness->_260[0];
             auto* entry = sensor ? ksys::act::sub_7100D7EEE8(&sensor->_8, &filter) : nullptr;
-            if (entry && !m46(entry->_88, entry->mLink)) {
+            if (entry && !m46(entry->_88, entry->_0.mLink)) {
                 out->sub_71003A02A4(entry);
                 return true;
             }

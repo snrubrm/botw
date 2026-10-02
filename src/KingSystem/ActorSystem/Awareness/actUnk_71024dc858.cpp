@@ -48,7 +48,7 @@ void Unk_71024dc858::m9(int idx, f32 value) {
 }
 
 
-Unk_71024dc858* sub_7100D78E30(const sead::ObjArray<Unk_71024dc858>* array, s32 idx) {
+Unk_7100d78e50* sub_7100D78E30(const sead::ObjArray<Unk_7100d78e50>* array, s32 idx) {
     return array->at(idx);
 }
 

@@ -61,7 +61,7 @@ void AlertNearbyEnemies::calc_() {
         while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
             if (entry->_a8 < *mAlertRange_s) {
                 ksys::act::ActorConstDataAccess accessor;
-                ksys::act::acquireActor(&entry->mLink, &accessor);
+                ksys::act::acquireActor(&entry->_0.mLink, &accessor);
                 _80.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
             }
         }

@@ -138,7 +138,7 @@ void LandHumGourmandEnemyNormal::m57(s32 type, Unk2* target) {
                 auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
                 if (entry) {
                     if (auto* unk = sub_71005D9D68(mActor))
-                        unk->sub_71002DC628(entry->mLink, 0x10);
+                        unk->sub_71002DC628(entry->_0.mLink, 0x10);
                 }
             }
         }
@@ -363,7 +363,7 @@ ksys::act::BaseProcLink& LandHumGourmandEnemyNormal::sub_7100472AE8() {
     while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
         if (entry->_a8 > f32(*mEatArea_s))
             break;
-        if (sub_71004726B4(&entry->mLink))
+        if (sub_71004726B4(&entry->_0.mLink))
             continue;
         sead::Vector3f pos;
         entry->_58.getTranslation(pos);
@@ -386,7 +386,7 @@ ksys::act::BaseProcLink& LandHumGourmandEnemyNormal::sub_7100472AE8() {
             break;
         }
         if (sub_710072E154(mActor, pos, nullptr, nav_type))
-            return entry->mLink;
+            return entry->_0.mLink;
     }
     return ksys::act::getDummyBaseProcLink();
 }

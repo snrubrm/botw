@@ -114,7 +114,7 @@ bool LynelNormal::m56(Unk2* out, Unk1* info) {
                 auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
                 if (!entry)
                     break;
-                if (!m45(entry->_88, entry->mLink, false)) {
+                if (!m45(entry->_88, entry->_0.mLink, false)) {
                     out->sub_71003A02A4(entry);
                     out->_44 |= 1;
                     return true;

@@ -55,13 +55,13 @@ void AwarenessInstance::sub_7100D7EA7C(Unk_71024dccf8* filter) {
     filter->_10 = nullptr;
 }
 
-Unk_71024dc858* sub_7100D7EEE8(sead::ObjArray<Unk_71024dc858>* array, Unk_71024dccf8* filter) {
+Unk_7100d78e50* sub_7100D7EEE8(sead::ObjArray<Unk_7100d78e50>* array, Unk_71024dccf8* filter) {
     s32 i = filter->_8;
     const s32 num = array->size();
     while (++i < num) {
         auto* entry = sub_7100D78E30(array, i);
         filter->_8 = i;
-        if (filter->m2(entry))
+        if (filter->m2(&entry->_0))
             return sub_7100D78E30(array, i);
     }
     return nullptr;
@@ -107,8 +107,6 @@ bool AwarenessInstance::sub_7100D7E9BC(int idx) {
     return true;
 }
 
-// NON_MATCHING: ObjArray::clear calls the entries' destructor through the vtable; the original
-// calls Unk_71024dc858's D1 directly (matches if that class is declared `final`)
 void AwarenessInstance::sub_7100D7EAE4(int idx) {
     auto* sensor = _260[idx];
     if (!sensor)

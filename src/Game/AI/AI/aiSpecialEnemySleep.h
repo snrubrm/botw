@@ -23,8 +23,8 @@ public:
     virtual void m35();
     virtual bool m36() { return false; }
     // Returns an awareness-related object (type unknown); x receives an index.
-    virtual ksys::act::Unk_71024dc858* m37(int* x);
-    virtual void m38(int x, ksys::act::Unk_71024dc858* entry) {}
+    virtual ksys::act::Unk_7100d78e50* m37(int* x);
+    virtual void m38(int x, ksys::act::Unk_7100d78e50* entry) {}
     virtual bool m39(sead::Vector3f* pos) { return false; }
 
 protected:

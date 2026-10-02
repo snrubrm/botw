@@ -5,7 +5,7 @@
 
 namespace ksys::act {
 class BaseProcLink;
-class Unk_71024dc858;
+struct Unk_7100d78e50;
 }  // namespace ksys::act
 
 namespace uking::ai {
@@ -24,7 +24,7 @@ public:
     // Switches to 徘徊 / 逃走 (from `pos`) for the threat level `kind` found by calc_.
     virtual void m34(u32 kind, const sead::Vector3f& pos, ksys::act::BaseProcLink* link);
     // Whether an awareness entry of sensor `idx` is ignored.
-    virtual bool m35(ksys::act::Unk_71024dc858* entry, s32 idx);
+    virtual bool m35(ksys::act::Unk_7100d78e50* entry, s32 idx);
 
 protected:
     // static_param at offset 0x38

@@ -204,11 +204,11 @@ bool AssassinMiddleAzitoRoot::m66(Unk2* out, Unk1* info) {
         auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
         if (entry) {
             auto* target = sub_71005D9050(mActor);
-            if (!target || !target->hasProc() || !(*target == entry->mLink)) {
-                if (!m45(entry->_88, entry->mLink, false) && m44(entry->_88)) {
+            if (!target || !target->hasProc() || !(*target == entry->_0.mLink)) {
+                if (!m45(entry->_88, entry->_0.mLink, false) && m44(entry->_88)) {
                     auto* unk = sub_71005D9D68(mActor);
-                    if (entry->m5(1) || !unk || (info->_8 & 0x800) ||
-                        !unk->sub_71002DC9E8(entry->mLink, 4, false)) {
+                    if (entry->_0.m5(1) || !unk || (info->_8 & 0x800) ||
+                        !unk->sub_71002DC9E8(entry->_0.mLink, 4, false)) {
                         out->sub_71003A02A4(entry);
                         return true;
                     }

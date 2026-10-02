@@ -11,7 +11,7 @@
 #include "KingSystem/System/Timer.h"
 
 namespace ksys::act {
-class Unk_71024dc858;
+struct Unk_7100d78e50;
 class Unk_71024dccf8;
 struct Unk_71006e4478;
 }
@@ -58,7 +58,7 @@ public:
         // 0x710039e308: target = link (position and matrix of its actor).
         void sub_710039E308(ksys::act::BaseProcLink* link);
         // 0x71003a02a4: target = an awareness entry.
-        void sub_71003A02A4(ksys::act::Unk_71024dc858* entry);
+        void sub_71003A02A4(ksys::act::Unk_7100d78e50* entry);
     };
 
     // Result filled by m60/m61 and passed to m62/m63 ({type, flags}); placeholder.
@@ -92,7 +92,7 @@ public:
                      bool skip_own_pos);
     // `target` is non-const: it is passed to isNPCProfile / acquireActor.
     virtual bool m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target);
-    virtual ksys::act::Unk_71024dc858* m47(ksys::act::AwarenessInstance* awareness,
+    virtual ksys::act::Unk_7100d78e50* m47(ksys::act::AwarenessInstance* awareness,
                                            ksys::act::Unk_71024dccf8* filter, s32 a3);
     virtual void m48(sead::Vector3f* pos);
     virtual void m49(Unk1* out, s32 idx);
@@ -148,13 +148,13 @@ public:
     void sub_710039EC4C();
     void sub_710039ED94();
     // 0x71003a04e0: the first awareness entry accepted by `filter`.
-    ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
+    ksys::act::Unk_7100d78e50* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);
     // 0x710039db34
     bool sub_710039DB34(bool a1);
     // 0x710039fe20: an awareness entry of sensor 0 / 1 for `link` (filter 0x7102451740) or for the
     // Unk_71002dccbc members (filter 0x7102451560).
-    ksys::act::Unk_71024dc858* sub_710039FE20(ksys::act::BaseProcLink* link);
+    ksys::act::Unk_7100d78e50* sub_710039FE20(ksys::act::BaseProcLink* link);
     // 0x71003a2be0: finds a target for an attack candidate (dispatches on info->_0).
     bool sub_71003A2BE0(Unk2* out, Unk1* info);
     // 0x71003a2e20
@@ -169,7 +169,7 @@ public:
     // 0x710039e1d0
     bool sub_710039E1D0(Unk2* out, s32 type, Unk1* info);
     // 0x71003a0114: sub_71003A04E0 with a filter chosen by `type` / `flags`.
-    ksys::act::Unk_71024dc858* sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags);
+    ksys::act::Unk_7100d78e50* sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags);
     // 0x71003a33c0: whether `target` is acceptable for the search type (1 / 2 / 3).
     bool sub_71003A33C0(s32 type, ksys::act::BaseProcLink* target, u16* flags);
     // 0x71003a234c: territory radius for `target` (NPC / player or non-living / other).

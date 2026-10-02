@@ -85,7 +85,7 @@ void HiddenOctarockNormal::m49(Unk1* out, s32 idx) {
     EnemyNormal::m49(out, idx);
 }
 
-ksys::act::Unk_71024dc858* HiddenOctarockNormal::m47(ksys::act::AwarenessInstance* awareness,
+ksys::act::Unk_7100d78e50* HiddenOctarockNormal::m47(ksys::act::AwarenessInstance* awareness,
                                                      ksys::act::Unk_71024dccf8* filter, s32 a3) {
     auto* entry = EnemyNormal::m47(awareness, filter, a3);
     if (entry && entry->_a0 != 0)
@@ -96,7 +96,7 @@ ksys::act::Unk_71024dc858* HiddenOctarockNormal::m47(ksys::act::AwarenessInstanc
         entry = ksys::act::sub_7100D7EEE8(&awareness->_260[3]->_8, filter);
         if (!entry)
             return nullptr;
-        if (m46(entry->_88, entry->mLink))
+        if (m46(entry->_88, entry->_0.mLink))
             return entry;
     }
     return nullptr;

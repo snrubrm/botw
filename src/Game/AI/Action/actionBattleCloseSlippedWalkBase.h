@@ -19,8 +19,8 @@ public:
 protected:
     void calc_() override;
 
-    ksys::act::Unk_71024dc858* m33(int idx) override;
-    bool m34(ksys::act::Unk_71024dc858* entry) override;
+    ksys::act::Unk_7100d78e50* m33(int idx) override;
+    bool m34(ksys::act::Unk_7100d78e50* entry) override;
 };
 
 }  // namespace uking::action

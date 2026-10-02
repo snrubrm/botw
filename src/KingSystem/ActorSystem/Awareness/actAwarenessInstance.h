@@ -13,6 +13,7 @@
 namespace ksys::act {
 
 class Unk_71024dc858;
+struct Unk_7100d78e50;
 
 // Placeholder name (vtable 0x71024dce08): base class of the four sensor objects an
 // AwarenessInstance owns (created in 0x7100d7b974; derived vtables e.g. 0x71024dcea8).
@@ -44,7 +45,7 @@ public:
     virtual sead::BitFlag8* m16();
     virtual void m17();
 
-    /* 0x08 */ sead::ObjArray<Unk_71024dc858> _8;
+    /* 0x08 */ sead::ObjArray<Unk_7100d78e50> _8;
     /* 0x28 */ u8 _28[0x3c - 0x28];
     /* 0x3c */ u32 _3c;
     /* 0x40 */ u8 _40[0x4c - 0x40];
@@ -52,8 +53,9 @@ public:
     /* 0x50 */ bool _50;  // active (AwarenessInstance::sub_7100D7E9BC / sub_7100D7EAE4)
 };
 
-// Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the entries of
-// the awareness arrays (AwarenessInstance::_8, sensor::_8); the filters get them through this type.
+// Placeholder name (vtable 0x71024dc978, RTTI static 0x71025af288): abstract base of the awareness
+// entries (Unk_71024dc858, the first member of the awareness array elements Unk_7100d78e50); the
+// filters get them through this type.
 // 17 virtual slots: RTTI, dtor (empty), 4-10 / 14-16 pure, 11 / 12 empty, 13.
 // TODO: incomplete.
 class Unk_71024dc978 {
@@ -73,9 +75,12 @@ public:
     virtual void m10(int bit, bool on) = 0;  // sets / clears a bit of the u16 at +0x38
 };
 
-// Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctor 0x7100d771cc, D1
-// 0x7100d772d4, size 0xb0): one entry of AwarenessInstance::_8 (an awareness target).
-// TODO: incomplete (virtual functions not declared).
+// Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctors 0x7100d771cc / 0x7100d77254
+// (with an actor), D1 0x7100d772d4, size 0x58): an awareness target entry. The ctors initialise up to
+// 0x52 and the embedding objects place the next member at +0x58 (Unk_71024dc900: entry at +0x18,
+// actor at +0x70; the HornUse awareness object 0x710235f078: entry at +0x28, member at +0x80).
+// Must not be `final`: filters call its virtuals through DynamicCast results.
+// TODO: incomplete (virtual slots 11-16 not declared).
 class Unk_71024dc858 : public Unk_71024dc978 {
     SEAD_RTTI_OVERRIDE(Unk_71024dc858, Unk_71024dc978)
 public:
@@ -100,16 +105,26 @@ public:
     /* 0x48 */ u32 _48 = 0;
     /* 0x4c */ f32 _4c = -1.0;
     /* 0x50 */ u16 _50 = 0;
-    /* 0x52 */ u8 _52[0x58 - 0x52];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024dc858, 0x58);
+
+// Placeholder name (no vtable, inline ctor; named after 0x7100d78e50, which builds one on the stack
+// and inserts a copy into an awareness array): an element of the awareness arrays
+// (AwarenessInstance::_8, Unk_71024dce08::_8). Size 0xb0: the arrays' FreeList stride is 0xb0 and
+// their buffer is capacity * (0xb0 + sizeof(T*)) = 0xb8 per element (allocBuffer 0x7100d78d44).
+// The entry is a member, not a base: element construction calls the entry ctor and stores no
+// other vtable, and element destruction (sead::ObjArray::clear / erase in 0x7100d78f4c and
+// AwarenessInstance::sub_7100D7EAE4) calls Unk_71024dc858's D1 directly.
+struct Unk_7100d78e50 {
+    /* 0x00 */ Unk_71024dc858 _0;
     /* 0x58 */ sead::Matrix34f _58;  // passed as a matrix by EnemyCalledAppear::calc_ (sub_71005D8DE8)
     /* 0x88 */ sead::Vector3f _88;
-    /* 0x94 */ u8 _94[0xa0 - 0x94];
+    /* 0x94 */ sead::Vector3f _94;
     /* 0xa0 */ s32 _a0;  // kind (e.g. 2 checked by BeeSwarmNormal::m47)
     /* 0xa4 */ f32 _a4;  // compared with StoneOctarockGuardNearTarget NoticeTerrorLevel
-    /* 0xa8 */ f32 _a8;  // distance-like value compared by many AI functions
-    /* 0xac */ u32 _ac;
+    /* 0xa8 */ f32 _a8;  // distance-like value compared by many AI functions (arrays sorted by it)
 };
-KSYS_CHECK_SIZE_NX150(Unk_71024dc858, 0xb0);
+KSYS_CHECK_SIZE_NX150(Unk_7100d78e50, 0xb0);
 
 class AwarenessInstance;
 
@@ -149,11 +164,11 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024dccf8, 0x28);
 
 // 0x7100d78e30 (in the TU of Unk_71024dc858, not inlined by its callers): `array->at(idx)`.
-Unk_71024dc858* sub_7100D78E30(const sead::ObjArray<Unk_71024dc858>* array, s32 idx);
+Unk_7100d78e50* sub_7100D78E30(const sead::ObjArray<Unk_7100d78e50>* array, s32 idx);
 
 // 0x7100d7eee8: returns the next entry of `array` (after filter->_8) that the filter accepts and
 // stores its index in filter->_8; nullptr at the end.
-Unk_71024dc858* sub_7100D7EEE8(sead::ObjArray<Unk_71024dc858>* array, Unk_71024dccf8* filter);
+Unk_7100d78e50* sub_7100D7EEE8(sead::ObjArray<Unk_7100d78e50>* array, Unk_71024dccf8* filter);
 
 // FIXME. The per-actor awareness object (Actor::mAwareness, Actor+0x550). CSV names some of its
 // methods "ActorAwareness::*".
@@ -183,7 +198,7 @@ public:
     // 0x7100d7e964: whether a sensor is active (else whether the instance is registered).
     bool sub_7100D7E964() const;
 
-    /* 0x008 */ sead::ObjArray<Unk_71024dc858> _8;  // awareness entries (allocBuffer 0x7100d78d44)
+    /* 0x008 */ sead::ObjArray<Unk_7100d78e50> _8;  // awareness entries (allocBuffer 0x7100d78d44)
     /* 0x028 */ u8 _28[0x260 - 0x28];
     sead::SafeArray<Unk_71024dce08*, 4> _260;
     /* 0x280 */ u8 _280[0x2e8 - 0x280];
