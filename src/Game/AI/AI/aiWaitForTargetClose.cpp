@@ -31,6 +31,29 @@ void WaitForTargetClose::sub_71005E87FC() {
     }
 }
 
+void WaitForTargetClose::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("待機")) {
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            const f32 distance = (pos - *mTargetPos_d).length();
+            if (m34(distance)) {
+                ksys::act::ai::InlineParamPack params;
+                params.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("近づき反応", &params);
+            } else if (sub_71007320F0(mActor, *mWeaponIdx_s) + *mFailRange_s < distance) {
+                setFailed();
+            }
+        }
+    }
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
 void WaitForTargetClose::leave_() {
     ksys::act::ai::Ai::leave_();
 }

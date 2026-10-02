@@ -49,7 +49,8 @@ public:
     /* 0x08 */ sead::ObjArray<Unk_7100d78e50> _8;
     /* 0x28 */ u8 _28[0x3c - 0x28];
     /* 0x3c */ u32 _3c;
-    /* 0x40 */ u8 _40[0x4c - 0x40];
+    /* 0x40 */ u8 _40[0x48 - 0x40];
+    /* 0x48 */ s32 _48;  // cleared by SimpleWildlifeRoot::m37
     /* 0x4c */ f32 _4c;
     /* 0x50 */ bool _50;  // active (AwarenessInstance::sub_7100D7E9BC / sub_7100D7EAE4)
 };

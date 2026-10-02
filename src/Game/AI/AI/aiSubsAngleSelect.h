@@ -20,6 +20,12 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+
+    // Inline-only in the original (name is a guess): dot product of the actor's front vector and the
+    // direction to the target.
+    f32 getFrontDot() const;
+
     // static_param at offset 0x38
     const float* mSubsAngle_s{};
     // static_param at offset 0x40
