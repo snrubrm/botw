@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCreateActorWithTarget.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -31,5 +32,20 @@ void CreateActorWithTarget::loadParams_() {
     getStaticParam(&mProhibitedCreateArea_s, "ProhibitedCreateArea");
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
+
+sead::Vector3f CreateActorWithTarget::m35() {
+    return *mTargetPos_d;
+}
+
+bool CreateActorWithTarget::m36() {
+    if (_a4.value <= sead::Mathf::epsilon()) {
+        _b0.update();
+        if (_b0.value <= sead::Mathf::epsilon())
+            return true;
+    }
+    return false;
+}
+
+void CreateActorWithTarget::m37() {}
 
 }  // namespace uking::ai

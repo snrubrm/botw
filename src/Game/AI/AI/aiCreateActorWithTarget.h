@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,6 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m34();
+    virtual sead::Vector3f m35();
+    virtual bool m36();
+    virtual void m37();
 
 protected:
     // static_param at offset 0x38
@@ -38,6 +45,13 @@ protected:
     const sead::Vector3f* mProhibitedCreateArea_s{};
     // dynamic_param at offset 0x90
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _98;
+    ksys::Timer _a4;
+    ksys::Timer _b0;
+    ksys::act::BaseProcHandle _c0[3];
+    s32 _f0 = 0;
+    f32 _f4 = 0;
+    ksys::Timer _f8;
 };
 
 }  // namespace uking::ai
