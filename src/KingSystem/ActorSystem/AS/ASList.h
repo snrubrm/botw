@@ -108,6 +108,8 @@ public:
     // `query` is null in 356 of the 432 calls in the original.
     bool x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, int, bool), bool a6);
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
+    // 0x710115f228 (declaration only; MiniGolemRoot::calc_ passes a 0..1 ratio).
+    void sub_710115F228(f32 value);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
     bool x_7(int slot, int bank, bool (Unk2::*fn)());
     // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after

@@ -65,6 +65,9 @@ public:
     virtual void m43();
     virtual bool m44() { return !isCurrentChild("所持") && !m36(); }
 
+    // 0x71003b5804 (not decompiled; MiniGolemRoot::calc_ calls it with false).
+    bool sub_71003B5804(bool a1);
+
 protected:
     Unk_7100702370* _38{};
     // static_param at offset 0x40
