@@ -19,6 +19,9 @@ AArch64). It is never merged upstream.
   - `/home/snrub/botw-tools/bin/strcheck <base commit>` — every added string literal must exist in the original.
   - `/home/snrub/botw-tools/bin/datarefs` — data references, vtables and constants vs the original; must exit 0.
     Known/accepted issues live in `/home/snrub/botw-tools/datarefs-known.txt`.
+  - `/home/snrub/botw-tools/bin/rodatacheck` — values of read-only constants (floats, vectors, integer literals)
+    loaded by matched functions; must report 0 mismatches.
+  - `/home/snrub/botw-tools/bin/gate <base commit>` runs the build and all four checks and prints `GATE OK`.
 - Original asm: `/home/snrub/botw-tools/bin/fnasm <name|0xaddr>`; strings/u64 at an address:
   `/home/snrub/botw-tools/bin/fstr <vaddr> | q:<vaddr>`; Ghidra pseudo-C:
   `/home/snrub/botw-tools/research/ghidra-c/<address>.c`.
