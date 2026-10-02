@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHornUseBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -13,10 +15,14 @@ bool HornUseBase::init_(sead::Heap* heap) {
 
 void HornUseBase::enter_(ksys::act::ai::InlineParamPack* params) {
     TimeredASPlay::enter_(params);
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(1));
+    _70 = *mSignalOnTime_s;
+    _74 = false;
 }
 
 void HornUseBase::leave_() {
     TimeredASPlay::leave_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(0));
 }
 
 void HornUseBase::loadParams_() {

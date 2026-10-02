@@ -9,6 +9,8 @@ HoldArrowTurn::HoldArrowTurn(const InitArg& arg) : TurnBase(arg) {}
 
 void HoldArrowTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     TurnBase::enter_(params);
+    playAS("BowTurn", false, 0, 0, -1.0f);
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 void HoldArrowTurn::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkOnEnterWeaponUse.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ bool ForkOnEnterWeaponUse::init_(sead::Heap* heap) {
 }
 
 void ForkOnEnterWeaponUse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(1));
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkOnEnterWeaponUse::leave_() {

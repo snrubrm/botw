@@ -8,6 +8,8 @@ HoldArrowBackWalk::HoldArrowBackWalk(const InitArg& arg) : BackWalkEx(arg) {}
 
 void HoldArrowBackWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);
+    playAS("BowBackWalk", false, 0, 0, -1.0f);
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 void HoldArrowBackWalk::leave_() {

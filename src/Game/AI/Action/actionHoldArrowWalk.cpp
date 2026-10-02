@@ -10,10 +10,13 @@ HoldArrowWalk::~HoldArrowWalk() = default;
 
 void HoldArrowWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveBase::enter_(params);
+    playAS("BowBattleWalk", false, 0, 0, -1.0f);
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 void HoldArrowWalk::leave_() {
     MoveBase::leave_();
+    sub_71005D787C(mActor, *mHoldWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HoldArrowWalk::loadParams_() {

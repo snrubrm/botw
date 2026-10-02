@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionLargeAttack.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
@@ -16,7 +20,9 @@ void LargeAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LargeAttack::leave_() {
-    ActionEx::leave_();
+    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
+    ksys::act::disableAttClient(mActor, "Counter");
+    sub_71005DA114(mActor, &_58);
 }
 
 void LargeAttack::loadParams_() {

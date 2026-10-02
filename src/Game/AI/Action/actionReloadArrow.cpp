@@ -1,7 +1,11 @@
 #include "Game/AI/Action/actionReloadArrow.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
+// NON_MATCHING: scheduling of the param pointer stores around the vtable store
 ReloadArrow::ReloadArrow(const InitArg& arg) : ActionEx(arg) {}
 
 ReloadArrow::~ReloadArrow() = default;
@@ -11,10 +15,17 @@ void ReloadArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ReloadArrow::leave_() {
-    ActionEx::leave_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
-void ReloadArrow::loadParams_() {}
+void ReloadArrow::loadParams_() {
+    if (!mActor->getParam())
+        return;
+    getStaticParam(&mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mStopSpeedRatio_s, "StopSpeedRatio");
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
+}
 
 void ReloadArrow::calc_() {
     ActionEx::calc_();

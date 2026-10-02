@@ -20,6 +20,7 @@ public:
 protected:
     void calc_() override;
     void m33(sead::Vector3f* dir) override;
+    f32 m34() override { return *mRotSpeed_s; }
 
     // static_param at offset 0xd8
     const float* mRotSpeed_s{};

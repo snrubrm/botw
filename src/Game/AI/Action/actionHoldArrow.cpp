@@ -7,7 +7,9 @@ namespace uking::action {
 HoldArrow::HoldArrow(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 void HoldArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionWithPosAngReduce::enter_(params);
+    playAS("ArrowDraw", false, 0, 0, -1.0f);
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+    mFlags.set(Flag::Changeable);
 }
 
 void HoldArrow::leave_() {

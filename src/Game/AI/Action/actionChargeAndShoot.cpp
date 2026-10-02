@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionChargeAndShoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void ChargeAndShoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChargeAndShoot::leave_() {
-    ShootArrow::leave_();
+    if (sub_71005D8514(mActor, *mWeaponIdx_s))
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void ChargeAndShoot::loadParams_() {
