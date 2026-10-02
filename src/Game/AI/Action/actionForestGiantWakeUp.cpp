@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForestGiantWakeUp.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::action {
 
@@ -12,9 +13,13 @@ bool ForestGiantWakeUp::init_(sead::Heap* heap) {
 
 void ForestGiantWakeUp::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForAnimalUnit::enter_(params);
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->_a68 &= ~1;
 }
 
 void ForestGiantWakeUp::leave_() {
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->_a68 |= 1;
     PlayASForAnimalUnit::leave_();
 }
 

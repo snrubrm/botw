@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWindCutter.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "math/seadMathCalcCommon.h"
 
@@ -18,6 +19,8 @@ void WindCutter::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WindCutter::leave_() {
     ChemicalAttack::leave_();
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        bullet->_cf4 &= ~1;
 }
 
 void WindCutter::loadParams_() {
