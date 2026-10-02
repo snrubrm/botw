@@ -13,6 +13,7 @@ class InlineParamPack;
 }  // namespace ai
 class Actor;
 class BaseProc;
+class BaseProcHandle;
 class BaseProcLink;
 class Unk_7100d860d8;
 }  // namespace ksys::act
@@ -185,6 +186,7 @@ const sead::Matrix34f& sub_71005DC57C(ksys::act::Actor* actor);
 const sead::SafeString& sub_71005DC5AC(ksys::act::Actor* actor);
 void sub_71005DC5DC(ksys::act::Actor* actor);
 void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+void sub_71005DC640(ksys::act::Actor* actor, ksys::act::BaseProcHandle* handle, int grab_idx);
 
 // --- helpers using the typed Actor slots 97 (Chemical), 130 (ride info) ---
 
