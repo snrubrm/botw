@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: store merging/scheduling (target pairs 0x68/0x6c and stores 0x70 alone)
 GuardianBeamAttack::GuardianBeamAttack(const InitArg& arg) : GuardianBeamAttackBase(arg) {}
 
 GuardianBeamAttack::~GuardianBeamAttack() = default;
