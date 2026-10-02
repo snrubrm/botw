@@ -12,14 +12,14 @@ Unk_71023c8678::~Unk_71023c8678() {
     if (mMemoryPartsName_s.isEmpty())
         return;
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mOwner->getActor()))
-        enemy->_1128.sub_7100D3CFEC(mMemoryPartsName_s);
+        enemy->sub_7100D3CFEC(mMemoryPartsName_s);
 }
 
 bool Unk_71023c8678::init_(sead::Heap* heap) {
     if (mMemoryPartsName_s.isEmpty())
         return true;
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mOwner->getActor()))
-        enemy->_1128.sub_7100D3CED8(mMemoryPartsName_s, heap);
+        enemy->sub_7100D3CED8(mMemoryPartsName_s, heap);
     return true;
 }
 
@@ -57,7 +57,7 @@ void Unk_71023c8678::sub_71002A81D4(ksys::act::BaseProcHandle* handle) {
     auto* released = sead::DynamicCast<ksys::act::Actor>(handle->releaseAndWakeProc());
     if (!mMemoryPartsName_s.isEmpty()) {
         if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mOwner->getActor()))
-            enemy->_1128.sub_7100D3D108(mMemoryPartsName_s, released);
+            enemy->sub_7100D3D108(mMemoryPartsName_s, released);
     }
     m14(released);
 }

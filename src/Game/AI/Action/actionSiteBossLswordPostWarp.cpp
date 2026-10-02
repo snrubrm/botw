@@ -42,11 +42,11 @@ void SiteBossLswordPostWarp::calc_() {
         return;
     if (*mIsKeepDisableDraw_d || *mIsPartsActorTgOn_d || boss->_1558.isOn(0x80000))
         return;
-    if (!boss->_1128.getActorPartsActor(mCancelSleepPartsName_s).hasProc())
+    if (!boss->getActorPartsActor(mCancelSleepPartsName_s).hasProc())
         return;
 
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&boss->_1128.getActorPartsActor(mCancelSleepPartsName_s), &accessor);
+    ksys::act::acquireActor(&boss->getActorPartsActor(mCancelSleepPartsName_s), &accessor);
     if (accessor.isStateSleep()) {
         accessor.setProperties(boss->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
         if (!mActor->getConnectedCalcChild()) {
