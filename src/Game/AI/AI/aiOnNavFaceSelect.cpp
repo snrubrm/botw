@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiOnNavFaceSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool OnNavFaceSelect::init_(sead::Heap* heap) {
 }
 
 void OnNavFaceSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* nav = mActor->m45();
+    if (!nav || (nav->_2a4 & 0xffff) == 0x17)
+        changeChild("ナビメッシュ無し", params);
+    else
+        changeChild("ナビメッシュ有り", params);
 }
 
 void OnNavFaceSelect::calc_() {}

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponPrepareSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ bool WeaponPrepareSelect::init_(sead::Heap* heap) {
 }
 
 void WeaponPrepareSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005D8324(mActor, *mWeaponIdx_s))
+        changeChild("完了", params);
+    else
+        changeChild("未完", params);
 }
 
 void WeaponPrepareSelect::calc_() {}

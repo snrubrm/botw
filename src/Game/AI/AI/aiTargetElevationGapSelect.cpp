@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTargetElevationGapSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,12 @@ bool TargetElevationGapSelect::init_(sead::Heap* heap) {
 }
 
 void TargetElevationGapSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const f32 y = mActor->getMtx().getTranslation().y;
+    const f32 target_y = sub_71005D9330(mActor).y;
+    if (y + *mElvGap_s < target_y)
+        changeChild("高い", params);
+    else
+        changeChild("低い", params);
 }
 
 void TargetElevationGapSelect::calc_() {}

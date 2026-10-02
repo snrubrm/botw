@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTargetPlayerPos.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,10 @@ void TargetPlayerPos::leave_() {
 
 void TargetPlayerPos::loadParams_() {
     TargetPosAI::loadParams_();
+}
+
+void TargetPlayerPos::m35(sead::Vector3f* pos) {
+    *pos = getPlayerPosition();
 }
 
 }  // namespace uking::ai

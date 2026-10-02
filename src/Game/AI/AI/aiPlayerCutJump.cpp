@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPlayerCutJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,12 @@ bool PlayerCutJump::init_(sead::Heap* heap) {
 }
 
 void PlayerCutJump::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (hasPendingChildChange())
+        changeChild(mPendingChildIdx);
+    else if (static_cast<ksys::act::PlayerBase*>(mActor)->m194())
+        changeChild("落下斬り");
+    else
+        changeChild("ジャンプ斬り");
 }
 
 void PlayerCutJump::calc_() {

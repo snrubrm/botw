@@ -244,7 +244,7 @@ public:
     };
     Unk1 x_5();                                                         // 0x85ed1c
     f32 x_39();                                                         // 0x867cd4
-    void someFloatCalc(f32 a1, f32* a2);                                // 0x868990
+    void someFloatCalc(f32 a1, const sead::Vector3f& a2);               // 0x868990
     f32 getStatusEffectSpeed();                                         // 0x869a8c
     void actionCommon();                                                // 0x86aa94
     bool isSurfingOnGround() const;                                     // 0x87f290

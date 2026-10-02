@@ -17,7 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    const sead::Vector3f& m36() override;
+    const sead::Vector3f* m36() override;
 
 protected:
 };

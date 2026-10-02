@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSeqTwoLineReachableTargetAction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,10 @@ void SeqTwoLineReachableTargetAction::leave_() {
 
 void SeqTwoLineReachableTargetAction::loadParams_() {
     SeqTwoLineReachableTargetActionBase::loadParams_();
+}
+
+const sead::Vector3f* SeqTwoLineReachableTargetAction::m36() {
+    return &sub_71005D9330(mActor);
 }
 
 }  // namespace uking::ai

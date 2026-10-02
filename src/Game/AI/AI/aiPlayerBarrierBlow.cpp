@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiPlayerBarrierBlow.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::ai {
 
@@ -44,7 +45,7 @@ void PlayerBarrierBlow::calc_() {
 }
 
 void PlayerBarrierBlow::leave_() {
-    ksys::act::ai::Ai::leave_();
+    static_cast<ksys::act::Player*>(mActor)->someFloatCalc(2.0f, {0, 1, 0});
 }
 
 void PlayerBarrierBlow::loadParams_() {

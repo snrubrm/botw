@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRangeSelect.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 
 namespace uking::ai {
 
@@ -49,6 +50,10 @@ void RangeSelect::loadParams_() {
 
 f32 RangeSelect::m38() {
     return 0.0f;
+}
+
+f32 RangeSelect::m34() {
+    return *mFarDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai

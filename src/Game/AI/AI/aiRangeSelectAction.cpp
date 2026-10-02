@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRangeSelectAction.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -42,6 +43,10 @@ f32 RangeSelectAction::m35() {
     if (*mIsRangeXZ_s)
         return sead::Mathf::sqrt(ksys::util::sqXZDistance(mActor->getMtx().getTranslation(), *mTargetPos_d));
     return (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
+}
+
+f32 RangeSelectAction::sub_7100539F84() {
+    return sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai
