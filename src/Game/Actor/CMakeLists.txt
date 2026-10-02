@@ -23,6 +23,7 @@ target_sources(uking PRIVATE
   actUnk_7100d3cd74.cpp
   actUnk_7100d3cd74.h
   actUnk_7100e8b2b8.cpp
+  actUnk_71025ae680.h
   actWeapon.cpp
   actWeapon.h
   actWolfLink.cpp

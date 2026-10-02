@@ -43,8 +43,8 @@ public:
 
     void m149(int) override;
     void m150() override;
-    void m151() override;
-    void m152() override;
+    bool m151(u16 bit) override;
+    bool m152(u16 mask) override;
     f32 m153() override;
     bool m154() override;
     bool m155() override;

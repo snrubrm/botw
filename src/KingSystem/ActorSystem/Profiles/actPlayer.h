@@ -61,10 +61,10 @@ public:
     /* 146 */ bool m146() override;
     /* 147 */ void m147() override;
     /* 148 */ f32 m148() override { return _20d0; }
-    /* 151 */ void m151() override;
+    /* 151 */ bool m151(u16 bit) override;
     /* 157 */ void m157() override;
     /* 158 */ void m158() override;
-    /* 159 */ void m159() override;
+    /* 159 */ uking::act::Unk_71025ae680* m159() override;
     /* 160 */ void m160() override;
     /* 161 */ void m161() override;
     /* 165 */ void m165() override;

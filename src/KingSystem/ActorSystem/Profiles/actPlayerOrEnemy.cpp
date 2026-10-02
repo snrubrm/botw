@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
 
 namespace ksys::act {
@@ -81,5 +82,23 @@ bool PlayerOrEnemy::getWeapon(ActorConstDataAccess* accessor, int idx) const {
 }
 
 }  // namespace acc
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+bool PlayerOrEnemy::m151(u16 bit) {
+    auto* obj = m159();
+    if (!obj)
+        return false;
+    return obj->_8.isOnBit(bit);
+}
+
+bool PlayerOrEnemy::m152(u16 mask) {
+    auto* obj = m159();
+    if (!obj)
+        return false;
+    return obj->_8.isOn(mask);
+}
 
 }  // namespace ksys::act

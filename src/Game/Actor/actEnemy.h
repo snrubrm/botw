@@ -12,6 +12,7 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
+#include "Game/Actor/actUnk_71025ae680.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -216,7 +217,7 @@ public:
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
     void m141() override;
     bool m146() override;
-    void m159() override;
+    Unk_71025ae680* m159() override { return _e78; }
     void m160() override;
     bool m162() override { return _e82 >> 9 & 1; }
     void m164() override;
@@ -246,6 +247,9 @@ public:
     /* 0xe68 */ ksys::Timer _e68;
     /* 0xe74 */ u32 _e74 = 0;
     /* 0xe78 */ void* _e78 = nullptr;
+    /* 0xe68 */ void* _e68 = nullptr;
+    /* 0xe70 */ void* _e70 = nullptr;
+    /* 0xe78 */ Unk_71025ae680* _e78 = nullptr;  // m159, created by m178
     /* 0xe80 */ u16 _e80 = 0;
     /* 0xe82 */ u16 _e82 = 0;
     /* 0xe84 */ sead::BitFlag32 _e84;

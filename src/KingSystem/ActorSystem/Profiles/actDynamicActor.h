@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
+namespace uking::act {
+class Unk_71025ae680;
+}  // namespace uking::act
+
 namespace ksys::act {
 
 class Unk_71006e45c4;
@@ -54,15 +58,16 @@ public:
     virtual f32 m148() { return _860; }
     virtual void m149(int) {}
     virtual void m150() {}
-    virtual void m151();
-    virtual void m152();
+    // Test a bit / a mask of the BitFlag16 at +8 of the object returned by m159.
+    virtual bool m151(u16 bit) { return false; }
+    virtual bool m152(u16 mask) { return false; }
     virtual f32 m153() { return 1.0f; }
     virtual bool m154() { return false; }
     virtual bool m155() { return false; }
     virtual void m156();
     virtual void m157();
     virtual void m158();
-    virtual void m159();
+    virtual uking::act::Unk_71025ae680* m159() { return nullptr; }
     virtual void m160();
     virtual void m161() {}
     virtual bool m162() { return false; }
