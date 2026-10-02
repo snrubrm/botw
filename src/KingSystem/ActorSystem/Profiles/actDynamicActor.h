@@ -4,6 +4,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
 namespace ksys::act {
 
@@ -40,14 +41,14 @@ public:
     void m76() override;
     void m81() override;
     s32* getLife() override;
-    void m100() override;
+    Unk_7100e4e084* m100() override;
     int getExtraHeapSize() override;
     Unk_71025ae640* getAtk() override;
     Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     Unk_71006e45c4* m128() override;
     Unk_71025ae620* getDropData() override;
-    void m135() override;
+    Unk3* m135() override;
 
     // FIXME: figure out return types, parameters and names
     virtual f32 m148() { return _860; }
@@ -73,23 +74,12 @@ protected:
     /* 0x858 */ Unk_7102459df8* _858 = nullptr;  // DynamicActor::initField858 (CSV)
     /* 0x860 */ f32 _860 = 0.0;
     /* 0x868 */ void* _868 = nullptr;
-    /* 0x870 */ Actor* _870 = this;
-    /* 0x878 */ sead::CriticalSection _878;
-    /* 0x8b8 */ sead::FixedSafeString<32> _8b8;
-    /* 0x8f0 */ u8 _8f0[0x92c - 0x8f0];
-    /* 0x92c */ bool _92c = false;
-    /* 0x930 */ sead::CriticalSection _930;
-    /* 0x970 */ u8 _970[0x9a0 - 0x970];
-    /* 0x9a0 */ sead::CriticalSection _9a0;
-    /* 0x9e0 */ BaseProcLink _9e0;
-    /* 0x9f0 */ sead::CriticalSection _9f0;
-    /* 0xa30 */ f32 _a30 = -1.0;
-    /* 0xa38 */ u8 _a38[0xa50 - 0xa38];
+    /* 0x870 */ Unk_7100e4e084 _870{this};  // m100
     /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
     /* 0xa58 */ void* _a58 = nullptr;
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
-    /* 0xa68 */ u8 _a68[0xa80 - 0xa68];
-    /* 0xa80 */ BaseProcLink _a80;
+    /* 0xa68 */ u8 _a68[0xa78 - 0xa68];
+    /* 0xa78 */ Unk3 _a78;  // m135
     /* 0xa90 */ u8 _a90[0xb90 - 0xa90];
 };
 KSYS_CHECK_SIZE_NX150(DynamicActor, 0xb90);

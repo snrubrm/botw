@@ -362,6 +362,10 @@ ActorWeapons* Actor::getWeapons() {
     return nullptr;
 }
 
+Unk_7100e4e084* Actor::m100() {
+    return nullptr;
+}
+
 uking::act::Unk_7100d3cd74* Actor::m101() {
     return nullptr;
 }
@@ -413,6 +417,10 @@ uking::act::RideableBase* Actor::m132() {
 }
 
 uking::act::Unk_7100e8b2b8* Actor::getMotorcyclePriorityStuffMaybe() {
+    return nullptr;
+}
+
+Actor::Unk3* Actor::m135() {
     return nullptr;
 }
 

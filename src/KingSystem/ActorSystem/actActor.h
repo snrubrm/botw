@@ -80,6 +80,7 @@ class Actor;
 class ActorAtk;
 class ActorChemicals;
 class Unk_71006e45c4;
+class Unk_7100e4e084;
 class Unk_71025ae640;
 class Unk_71025b08f8;
 class ActorCreator;
@@ -192,6 +193,14 @@ public:
     SEAD_RTTI_OVERRIDE(Actor, BaseProc)
 
 public:
+    // Returned by vtable slot 135 (DynamicActor::_a78, Horse::_1168, MapConst::_848,
+    // Weapon::_1008). Callers set _4 (e.g. to 1 before deleting the actor).
+    struct Unk3 {
+        u8 _0 = 0;
+        s32 _4 = 0;
+        BaseProcLink _8;
+    };
+
     const sead::SafeString& getProfile() const;
     const char* getUniqueName() const;
 
@@ -314,7 +323,7 @@ public:
     virtual Chemical* getChemicalStuff();
     virtual ActorWeapons* getWeapons();
     virtual void getArmors();
-    virtual void m100();
+    virtual Unk_7100e4e084* m100();
     virtual uking::act::Unk_7100d3cd74* m101();
     virtual int getExtraHeapSize();
     virtual void m103();
@@ -351,7 +360,7 @@ public:
     virtual uking::act::RideableBase* m132();
     virtual uking::act::Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe();
     virtual Unk_71025ae620* getDropData();
-    virtual void m135();
+    virtual Unk3* m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();
     virtual bool m138();
