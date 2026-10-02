@@ -930,3 +930,15 @@ void sub_7100708FF0(ksys::act::Actor* actor, f32 max_velocity) {
 Unk_7102450410::Unk_7102450410() = default;
 
 Unk_7102450410::~Unk_7102450410() = default;
+
+// NON_MATCHING: the original tests _b4 with tbnz (bit 0), as if read through an inline accessor
+// or a 1-bit field
+bool sub_71007090F4(const Unk_7102450410* controller) {
+    if (!controller)
+        return false;
+    for (int i = 0; i < controller->_8.size(); ++i) {
+        if (controller->_8[i]._b4)
+            return true;
+    }
+    return false;
+}

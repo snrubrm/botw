@@ -16,7 +16,10 @@ public:
     struct Entry {
         ~Entry();
 
-        u8 _0[0xb8];
+        u8 _0[0xb4];
+        bool _b4;
+        bool _b5;
+        u8 _b6[2];
     };
     KSYS_CHECK_SIZE_NX150(Entry, 0xb8);
 
@@ -24,6 +27,10 @@ public:
     ~Unk_7102450410() override;
 
     sead::Buffer<Entry> _8;
-    u16 _18 = 0;
+    bool _18 = false;
+    bool _19 = false;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450410, 0x20);
+
+// 0x71007090f4: whether any entry of the controller (may be null) has _b4 set.
+bool sub_71007090F4(const Unk_7102450410* controller);

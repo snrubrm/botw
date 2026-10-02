@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGolemReaction.h"
+#include "Game/AI/aiUnk_7102450410.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102357210.h"
@@ -87,6 +88,16 @@ void GolemReaction::loadParams_() {
     getStaticParam(&mArmRMaterialName_s, "ArmRMaterialName");
     getAITreeVariable(&mGolemClimbedTime_a, "GolemClimbedTime");
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
+}
+
+bool GolemReaction::sub_71003FEC7C() {
+    if (auto* damage_mgr = mActor->getDamageMgr()) {
+        if (damage_mgr->getField54() == 21 || damage_mgr->checkDamageFlags(0))
+            return true;
+    }
+    auto* controller = sead::DynamicCast<Unk_7102450410>(
+        *static_cast<Unk_71025afb58**>(mGolemChemicalController_a));
+    return sub_71007090F4(controller);
 }
 
 }  // namespace uking::ai

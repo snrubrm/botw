@@ -28,6 +28,16 @@ void GolemRootBase::sub_71004014A4() {
     enemy->_1128.sub_7100D3CFEC(mChemicalFieldKey_s);
 }
 
+// NON_MATCHING: the original tests _2f0._18 with tbnz (bit 0), as if read through an inline
+// accessor or a 1-bit field
+bool GolemRootBase::m35() {
+    if (EnemyRoot::m35())
+        return true;
+    if (!_2f0._18 && sub_71007090F4(&_2f0))
+        return true;
+    return false;
+}
+
 bool GolemRootBase::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
 }
