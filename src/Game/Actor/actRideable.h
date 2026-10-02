@@ -18,6 +18,7 @@ namespace ksys {
 class Message;
 namespace act {
 class Actor;
+class BaseProc;
 }  // namespace act
 }  // namespace ksys
 
@@ -64,9 +65,20 @@ public:
 
     ksys::act::Actor* sub_7100E8B644();
     ksys::act::Actor* sub_7100E8B6E0();
-    // 0x7100e8bff4 / 0x7100e8c03c (declared only).
+    // 0x7100e8bd6c: links `proc` in _20 (resets the link if null).
+    void sub_7100E8BD6C(ksys::act::BaseProc* proc);
+    // 0x7100e8bd80 / 0x7100e8be10: enable / disable the actor's "Ride", "Ride2" (the enable variant
+    // only looks it up) and "JumpRide" attention clients.
+    void sub_7100E8BD80();
+    void sub_7100E8BE10();
+    // 0x7100e8bfd4: sets bit 8 of _8; true if it was clear.
+    bool sub_7100E8BFD4();
+    // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
+    // 0x7100e8bff4 (declared only).
     bool sub_7100E8BFF4();
-    int sub_7100E8C03C();
+    s32 sub_7100E8C03C() const;
+    // 0x7100e8c068: with Unk8 3, the previous position of the actor linked in _20.
+    bool sub_7100E8C068(sead::Vector3f* pos);
 
     /* 0x08 */ sead::Atomic<u32> _8 = 0;
     /* 0x0c */ sead::Atomic<u32> _c = 0;

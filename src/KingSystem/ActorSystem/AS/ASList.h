@@ -113,10 +113,6 @@ public:
     // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after
     // `value` cannot be told from the binary; the other helpers take two ints first).
     bool x_6(int kind, int a2, f32 value);
-    // 0x710115ed5c: whether signal `sig` is set (0: Actor::checkBasicSig, 6: a flag of the actor's +0x598
-    // object, 25: Actor::checkRemainsSignal, otherwise bit `sig` of the current entry's flags). `a1` is
-    // not used. Placeholder name.
-    bool sub_710115ED5C(int a1, int sig);
     // 0x710115aabc: looks up the AS define `name` (res::ASList::findASDefine) and returns its entry
     // (null if none); outputs the define's name and two values. Return type and outputs are
     // placeholders.

@@ -546,7 +546,7 @@ void EnemyNormal::m38() {
     if (enemy && enemy->_e84.isOnBit(26)) {
         if (auto* nav = mActor->m45()) {
             sead::Vector3f nav_pos;
-            if (nav->sub_7100F76078(nav_pos, pos, 15.0f).sub_7100F7EB40())
+            if (nav->sub_7100F76078(&nav_pos, pos, 15.0f).sub_7100F7EB40())
                 pos = nav_pos;
         }
     }
@@ -599,42 +599,6 @@ ksys::act::Unk_71024dc858* EnemyNormal::m47(ksys::act::AwarenessInstance* awaren
             return entry;
     }
     return nullptr;
-}
-
-void EnemyNormal::m50(Unk1* out, s32 idx) {
-    const s32 type = m52(idx);
-    if (type == 4) {
-        if (!*mIsMindDoubtTarget_s || isCurrentChild("不審者発見")) {
-            out->_0 = -1;
-            return;
-        }
-    } else if ((type == 6 || type == 7) && _368 > 0.0f) {
-        out->_0 = -1;
-        return;
-    }
-
-    if (isCurrentChild("プレイヤー発見") || isCurrentChild("怒り") || isCurrentChild("見失い") ||
-        isCurrentChild("気配気づき") || isCurrentChild("攻撃反応") ||
-        isCurrentChild("行動中仲間発見") || isCurrentChild("不調仲間発見") ||
-        isCurrentChild("脅威感知")) {
-        out->_0 = -1;
-        return;
-    }
-
-    if (isCurrentChild("音気づき")) {
-        switch (type) {
-        case 0:
-        case 1:
-        case 4:
-            break;
-        default:
-            out->_0 = -1;
-            return;
-        }
-    }
-
-    out->_0 = type;
-    out->_8 |= 1;
 }
 
 void EnemyNormal::m60(Unk3* out) {

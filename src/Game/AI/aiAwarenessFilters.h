@@ -95,7 +95,7 @@ public:
 class Unk_71024514e8 : public Unk_71024514c0 {
 public:
     Unk_71024514e8() = default;
-    Unk_71024514e8(ksys::act::Actor* actor, void* x) : Unk_71024514c0(actor), _38(x) {}
+    Unk_71024514e8(ksys::act::Actor* actor, ksys::act::BaseProcLink* x) : Unk_71024514c0(actor), _38(x) {}
 
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
