@@ -32,8 +32,8 @@ bool sub_710073FBC0(sead::Matrix33f* mtx, const sead::Matrix33f& target, f32 a, 
 bool sub_710073FF90(sead::Matrix33f* mtx, const sead::Matrix34f& target, f32 a, f32 b, f32 c);
 bool sub_710074006C(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,
                     f32 a, f32 b, f32 c);
-bool sub_7100740118(sead::Matrix33f* mtx);
-bool sub_710074018C(sead::Matrix33f* mtx);
+bool sub_7100740118(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
+bool sub_710074018C(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
 bool sub_7100740200(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b, f32 c);
 bool sub_71007404F0(sead::Matrix33f* mtx, const sead::Matrix33f& target, f32 a);
 bool sub_71007407F0(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,

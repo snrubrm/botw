@@ -27,4 +27,8 @@ void FlyingCharacterBlownOffDie::calc_() {
     FlyingCharacterBlownOff::calc_();
 }
 
+void FlyingCharacterBlownOffDie::m35() {
+    playAS("LargeDamage", false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

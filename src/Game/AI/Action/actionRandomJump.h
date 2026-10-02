@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -14,6 +16,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -32,6 +35,12 @@ protected:
     const bool* mIsReturnByHitWall_s{};
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
+    ksys::VFRValue _60;
+    u8 _6c[0xc];
+    u8 _78 = 0;
+    sead::Matrix33f _7c;
+    sead::Vector3f _a0;
+    bool _ac = false;
 };
 
 }  // namespace uking::action

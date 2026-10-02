@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+    void m34(ksys::phys::CharacterController* controller) override;
+    void m35() override;
+    void m37(ksys::phys::CharacterController* controller) override;
 
     // static_param at offset 0x70
     const float* mPosReduceRatioOnGround_s{};

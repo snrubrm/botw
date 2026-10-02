@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionFlyingCharacterReaction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -17,12 +18,11 @@ public:
 
 protected:
     void calc_() override;
+    void m34(ksys::phys::CharacterController* controller) override;
 
     // static_param at offset 0x70
     const float* mStopTime_s{};
-    f32 _78 = 0.0f;
-    int _7c = 0;
-    int _80 = 0;
+    ksys::Timer _78;
 };
 
 }  // namespace uking::action

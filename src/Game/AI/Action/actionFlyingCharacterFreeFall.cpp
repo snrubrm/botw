@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFlyingCharacterFreeFall.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 
 namespace uking::action {
 
@@ -26,6 +27,16 @@ void FlyingCharacterFreeFall::loadParams_() {
 
 void FlyingCharacterFreeFall::calc_() {
     FlyingCharacterReaction::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (ksys::act::sub_71007A4864(mActor, false))
+        setFinished();
+}
+
+bool FlyingCharacterFreeFall::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    return ksys::act::sub_71007A4864(mActor, false);
 }
 
 }  // namespace uking::action

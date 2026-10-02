@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
     void m33() override;
+    void m34(ksys::phys::CharacterController* controller) override;
+    void m36() override;
+    void m37(ksys::phys::CharacterController* controller) override;
 
     // static_param at offset 0x70
     const float* mHitImpactForceSmallSwordS_s{};

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetTgIgnoreObstacle.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool SetTgIgnoreObstacle::init_(sead::Heap* heap) {
 }
 
 void SetTgIgnoreObstacle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::act::sub_71007A458C(mActor, true);
 }
 
 void SetTgIgnoreObstacle::leave_() {

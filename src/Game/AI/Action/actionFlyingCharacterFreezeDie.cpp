@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFlyingCharacterFreezeDie.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 
 namespace uking::action {
 
@@ -25,6 +26,13 @@ void FlyingCharacterFreezeDie::loadParams_() {
 
 void FlyingCharacterFreezeDie::calc_() {
     FlyingCharacterFreeze::calc_();
+}
+
+bool FlyingCharacterFreezeDie::isFinished() const {
+    auto* actor = mActor;
+    if (ksys::act::sub_71007A4638(actor, false))
+        return true;
+    return ksys::act::sub_71007A4864(actor, false);
 }
 
 }  // namespace uking::action

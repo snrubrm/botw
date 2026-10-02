@@ -21,6 +21,11 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual void m33();
+    virtual void m34(ksys::phys::CharacterController* controller);
+    virtual void m35();
+    virtual void m36();
+    virtual void m37(ksys::phys::CharacterController* controller);
+    virtual bool m38();
 
     // static_param at offset 0x20
     const float* mPosReduceRatio_s{};

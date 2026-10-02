@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionFallAttack.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 
 namespace uking::action {
 
@@ -36,6 +37,10 @@ int FallAttack::m32() {
 
 int FallAttack::m33() {
     return 4;
+}
+
+bool FallAttack::isFinished() const {
+    return ksys::act::sub_71007A4864(mActor, false);
 }
 
 }  // namespace uking::action
