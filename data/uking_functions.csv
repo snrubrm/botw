@@ -21445,8 +21445,8 @@ Address,Quality,Size,Name
 0x000000710032a8ec,O,000048,_ZN5uking2ai14BeeSwarmNormal3m37Ev
 0x000000710032a91c,O,000056,_ZN5uking2ai14BeeSwarmNormal3m38Ev
 0x000000710032a954,U,000108,uking::ai::BeeSwarmNormal::m47
-0x000000710032a9c0,U,000188,uking::ai::BeeSwarmNormal::m50
-0x000000710032aa7c,U,000352,uking::ai::BeeSwarmNormal::m49
+0x000000710032a9c0,O,000188,_ZN5uking2ai14BeeSwarmNormal3m50EPNS0_11EnemyNormal4Unk1Ei
+0x000000710032aa7c,m,000352,_ZN5uking2ai14BeeSwarmNormal3m49EPNS0_11EnemyNormal4Unk1Ei
 0x000000710032abdc,O,000008,_ZNK5uking2ai14BeeSwarmNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710032abe4,O,000092,_ZNK5uking2ai14BeeSwarmNormal18getRuntimeTypeInfoEv
 0x000000710032ac40,O,000028,_ZN5uking2ai14BeeSwarmNormal3m48EPN4sead7Vector3IfEE
@@ -24051,8 +24051,8 @@ Address,Quality,Size,Name
 0x00000071003a234c,U,000128,
 0x00000071003a23cc,O,000008,_ZN5uking2ai11EnemyNormal3m48EPN4sead7Vector3IfEE
 0x00000071003a23d4,U,000172,_ZN5uking2ai11EnemyNormal3m36Ev
-0x00000071003a2480,U,000972,uking::ai::EnemyNormal::m49
-0x00000071003a284c,U,000508,uking::ai::EnemyNormal::m50
+0x00000071003a2480,U,000972,_ZN5uking2ai11EnemyNormal3m49EPNS1_4Unk1Ei
+0x00000071003a284c,U,000508,_ZN5uking2ai11EnemyNormal3m50EPNS1_4Unk1Ei
 0x00000071003a2a48,U,000064,uking::ai::EnemyNormal::m54
 0x00000071003a2a88,U,000108,uking::ai::EnemyNormal::m55
 0x00000071003a2af4,U,000236,uking::ai::EnemyNormal::m51
@@ -27157,7 +27157,7 @@ Address,Quality,Size,Name
 0x0000007100432318,O,000072,_ZN5uking2ai20HiddenOctarockNormal3m37Ev
 0x0000007100432360,U,000072,uking::ai::HiddenOctarockNormal::m69
 0x00000071004323a8,U,000140,uking::ai::HiddenOctarockNormal::m47
-0x0000007100432434,U,000184,uking::ai::HiddenOctarockNormal::m49
+0x0000007100432434,O,000184,_ZN5uking2ai20HiddenOctarockNormal3m49EPNS0_11EnemyNormal4Unk1Ei
 0x00000071004324ec,U,000100,uking::ai::HiddenOctarockNormal::m60
 0x0000007100432550,U,000136,uking::ai::HiddenOctarockNormal::m61
 0x00000071004325d8,O,000008,_ZNK5uking2ai20HiddenOctarockNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -27430,8 +27430,8 @@ Address,Quality,Size,Name
 0x0000007100441edc,O,000084,_ZN5uking2ai20HorseRideEnemyNormal11loadParams_Ev
 0x0000007100441f30,O,000080,_ZN5uking2ai20HorseRideEnemyNormal3m41Ev
 0x0000007100441f80,O,000100,_ZN5uking2ai20HorseRideEnemyNormal3m42Ev
-0x0000007100441fe4,U,000104,uking::ai::HorseRideEnemyNormal::m49
-0x000000710044204c,U,000104,uking::ai::HorseRideEnemyNormal::m50
+0x0000007100441fe4,O,000104,_ZN5uking2ai20HorseRideEnemyNormal3m49EPNS0_11EnemyNormal4Unk1Ei
+0x000000710044204c,O,000104,_ZN5uking2ai20HorseRideEnemyNormal3m50EPNS0_11EnemyNormal4Unk1Ei
 0x00000071004420b4,O,000008,_ZNK5uking2ai20HorseRideEnemyNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071004420bc,O,000092,_ZNK5uking2ai20HorseRideEnemyNormal18getRuntimeTypeInfoEv
 0x0000007100442118,O,000372,_ZN5uking2ai20HorseRideEnemyNormal33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -27912,8 +27912,8 @@ Address,Quality,Size,Name
 0x0000007100453768,U,000424,uking::ai::KeeseNormal::m37
 0x0000007100453910,U,000292,uking::ai::KeeseNormal::m38
 0x0000007100453a34,U,000168,uking::ai::KeeseNormal::m48
-0x0000007100453adc,U,000120,uking::ai::KeeseNormal::m49
-0x0000007100453b54,U,000192,uking::ai::KeeseNormal::m50
+0x0000007100453adc,O,000120,_ZN5uking2ai11KeeseNormal3m49EPNS0_11EnemyNormal4Unk1Ei
+0x0000007100453b54,O,000192,_ZN5uking2ai11KeeseNormal3m50EPNS0_11EnemyNormal4Unk1Ei
 0x0000007100453c14,O,000008,_ZNK5uking2ai11KeeseNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100453c1c,O,000092,_ZNK5uking2ai11KeeseNormal18getRuntimeTypeInfoEv
 0x0000007100453c78,U,000008,uking::ai::KeeseNormal::m68
@@ -28218,8 +28218,8 @@ Address,Quality,Size,Name
 0x00000071004630b0,U,000268,
 0x00000071004631bc,U,000324,
 0x0000007100463300,U,000116,uking::ai::LandHumEnemyNormal::m61
-0x0000007100463374,U,000120,uking::ai::LandHumEnemyNormal::m50
-0x00000071004633ec,U,000268,uking::ai::LandHumEnemyNormal::m49
+0x0000007100463374,O,000120,_ZN5uking2ai18LandHumEnemyNormal3m50EPNS0_11EnemyNormal4Unk1Ei
+0x00000071004633ec,m,000268,_ZN5uking2ai18LandHumEnemyNormal3m49EPNS0_11EnemyNormal4Unk1Ei
 0x00000071004634f8,U,000136,uking::ai::LandHumEnemyNormal::m60
 0x0000007100463580,U,000220,uking::ai::LandHumEnemyNormal::m59
 0x000000710046365c,U,000024,uking::ai::LandHumEnemyNormal::m57
@@ -28700,8 +28700,8 @@ Address,Quality,Size,Name
 0x0000007100483a9c,O,000004,_ZN5uking2ai18LinkageEnemyNormal6leave_Ev
 0x0000007100483aa0,O,000004,_ZN5uking2ai18LinkageEnemyNormal11loadParams_Ev
 0x0000007100483aa4,O,000088,_ZN5uking2ai18LinkageEnemyNormal14handleMessage_ERKN4ksys7MessageE
-0x0000007100483afc,U,000120,uking::ai::LinkageEnemyNormal::m49
-0x0000007100483b74,U,000192,uking::ai::LinkageEnemyNormal::m50
+0x0000007100483afc,O,000120,_ZN5uking2ai18LinkageEnemyNormal3m49EPNS0_11EnemyNormal4Unk1Ei
+0x0000007100483b74,O,000192,_ZN5uking2ai18LinkageEnemyNormal3m50EPNS0_11EnemyNormal4Unk1Ei
 0x0000007100483c34,O,000008,_ZNK5uking2ai18LinkageEnemyNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100483c3c,O,000092,_ZNK5uking2ai18LinkageEnemyNormal18getRuntimeTypeInfoEv
 0x0000007100483c98,O,000372,_ZN5uking2ai18LinkageEnemyNormal33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE

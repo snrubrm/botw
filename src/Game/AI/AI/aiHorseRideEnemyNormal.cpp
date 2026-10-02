@@ -51,4 +51,20 @@ void HorseRideEnemyNormal::m42() {
     }
 }
 
+void HorseRideEnemyNormal::m49(Unk1* out, s32 idx) {
+    if (m52(idx) == 6) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m49(out, idx);
+}
+
+void HorseRideEnemyNormal::m50(Unk1* out, s32 idx) {
+    if (m52(idx) == 6) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m50(out, idx);
+}
+
 }  // namespace uking::ai

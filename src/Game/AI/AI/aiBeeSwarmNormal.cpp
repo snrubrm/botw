@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -90,6 +91,50 @@ void BeeSwarmNormal::m38() {
 
 void BeeSwarmNormal::m48(sead::Vector3f* pos) {
     *pos = _450;
+}
+
+void BeeSwarmNormal::m50(Unk1* out, s32 idx) {
+    if (isCurrentChild("見失い") || isCurrentChild("諦め") || isCurrentChild("怒り")) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m50(out, idx);
+}
+
+// NON_MATCHING: the original stores _0 = 1 / _4 = 2 as a 32-bit pair (stp) after the flag update;
+// ours merges them into one 64-bit constant store
+void BeeSwarmNormal::m49(Unk1* out, s32 idx) {
+    if (isCurrentChild("見失い") || isCurrentChild("諦め") || isCurrentChild("怒り")) {
+        out->_0 = -1;
+        return;
+    }
+    const s32 type = m52(idx);
+    if (type == 5) {
+        out->_0 = -1;
+        return;
+    }
+
+    if (isCurrentChild("プレイヤー発見")) {
+        if (ksys::act::isPlayerProfile(&sub_71005D94AC(mActor)) && type == 1) {
+            out->_8 |= 0x284;
+            out->_0 = 1;
+            out->_4 = 2;
+            return;
+        }
+        out->_0 = -1;
+        return;
+    }
+
+    if (type == 1) {
+        if (!_3d8._30) {
+            out->_0 = -1;
+            return;
+        }
+        out->_0 = 1;
+        out->_8 |= 2;
+        return;
+    }
+    EnemyNormal::m49(out, idx);
 }
 
 }  // namespace uking::ai

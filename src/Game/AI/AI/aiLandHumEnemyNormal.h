@@ -16,6 +16,8 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m49(Unk1* out, s32 idx) override;
+    void m50(Unk1* out, s32 idx) override;
 
     s32 m52(s32 idx) override;
     s32 m53() override { return 11; }

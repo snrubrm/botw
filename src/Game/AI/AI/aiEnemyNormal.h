@@ -26,6 +26,14 @@ struct Unk_710039D8F0 {
 class EnemyNormal : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(EnemyNormal, ksys::act::ai::Ai)
 public:
+    // Attack candidate filled by m49/m50 (stack object of the attack selection at 0x710039ef24:
+    // initialised to {-1, 0, 0}); placeholder.
+    struct Unk1 {
+        s32 _0 = -1;
+        s32 _4 = 0;
+        u16 _8 = 0;
+    };
+
     explicit EnemyNormal(const InitArg& arg);
     ~EnemyNormal() override;
 
@@ -52,8 +60,8 @@ public:
     virtual bool m46(const sead::Vector3f& pos, const ksys::act::BaseProcLink& target);
     virtual void m47();
     virtual void m48(sead::Vector3f* pos);
-    virtual void m49();
-    virtual void m50();
+    virtual void m49(Unk1* out, s32 idx);
+    virtual void m50(Unk1* out, s32 idx);
     virtual void m51();
     virtual s32 m52(s32 idx);
     virtual s32 m53() { return 9; }

@@ -50,4 +50,32 @@ void LinkageEnemyNormal::sub_71004839A4(const ksys::act::BaseProcLink& link) {
     changeChild("連携", &params);
 }
 
+void LinkageEnemyNormal::m49(Unk1* out, s32 idx) {
+    if (isCurrentChild("連携")) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m49(out, idx);
+}
+
+void LinkageEnemyNormal::m50(Unk1* out, s32 idx) {
+    if (!isCurrentChild("連携")) {
+        EnemyNormal::m50(out, idx);
+        return;
+    }
+    const s32 type = m52(idx);
+    switch (type) {
+    case 0:
+    case 1:
+    case 4:
+        out->_8 |= 6;
+        out->_0 = type;
+        out->_4 = 2;
+        break;
+    default:
+        out->_0 = -1;
+        break;
+    }
+}
+
 }  // namespace uking::ai

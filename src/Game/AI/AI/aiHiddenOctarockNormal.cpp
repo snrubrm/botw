@@ -73,4 +73,13 @@ void HiddenOctarockNormal::m37() {
     }
 }
 
+void HiddenOctarockNormal::m49(Unk1* out, s32 idx) {
+    if (isCurrentChild("カツラ反応") || isCurrentChild("攻撃反応") ||
+        (m52(idx) == 2 && *mIsSealHearing_s)) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m49(out, idx);
+}
+
 }  // namespace uking::ai

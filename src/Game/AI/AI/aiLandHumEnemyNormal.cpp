@@ -35,4 +35,44 @@ s32 LandHumEnemyNormal::m52(s32 idx) {
     return sTable[idx];
 }
 
+// NON_MATCHING: block placement (the original puts the shared "_0 = -1" block right after the
+// first isCurrentChild check)
+void LandHumEnemyNormal::m49(Unk1* out, s32 idx) {
+    const s32 type = m52(idx);
+    if (isCurrentChild("危険回避")) {
+        out->_0 = -1;
+    } else if (isCurrentChild("脅威感知")) {
+        if (type == 9)
+            out->_0 = -1;
+        else
+            EnemyNormal::m49(out, idx);
+    } else if (isCurrentChild("浮遊物発見")) {
+        switch (type) {
+        case 2:
+            out->_8 |= 0xf;
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 10:
+            out->_0 = -1;
+            break;
+        default:
+            EnemyNormal::m49(out, idx);
+            break;
+        }
+    } else {
+        EnemyNormal::m49(out, idx);
+    }
+}
+
+void LandHumEnemyNormal::m50(Unk1* out, s32 idx) {
+    if (isCurrentChild("危険回避")) {
+        out->_0 = -1;
+        return;
+    }
+    EnemyNormal::m50(out, idx);
+}
+
 }  // namespace uking::ai

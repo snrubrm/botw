@@ -16,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m49(Unk1* out, s32 idx) override;
+    void m50(Unk1* out, s32 idx) override;
 
     void m41() override;
     void m42() override;
