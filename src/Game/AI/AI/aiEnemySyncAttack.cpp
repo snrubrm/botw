@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemySyncAttack.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,26 @@ bool EnemySyncAttack::isChangeable() const {
     if (_c8)
         return false;
     return getCurrentChild()->isChangeable();
+}
+
+bool EnemySyncAttack::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("行動") && getCurrentChild()->isFinished()) {
+        auto* as_list = mActor->getASList();
+        return as_list && as_list->x_4(*mAttackASSlot_s, 0);
+    }
+    return false;
+}
+
+bool EnemySyncAttack::isFailed() const {
+    if (ActionBase::isFailed())
+        return true;
+    if (isCurrentChild("行動") && getCurrentChild()->isFailed()) {
+        auto* as_list = mActor->getASList();
+        return as_list && as_list->x_4(*mAttackASSlot_s, 0);
+    }
+    return false;
 }
 
 }  // namespace uking::ai

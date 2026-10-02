@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonBattleOnWallRoot.h"
+#include "Game/Actor/actLastBoss.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,10 @@ void GanonBattleOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonBattleOnWallRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        if (boss->_14f8._30.isOnBit(2))
+            _60 = ksys::Timer(900, 900);
+    }
 }
 
 void GanonBattleOnWallRoot::loadParams_() {

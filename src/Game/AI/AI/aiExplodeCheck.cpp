@@ -42,4 +42,16 @@ bool ExplodeCheck::isChangeable() const {
     return isCurrentChild("通常") && getCurrentChild()->isChangeable();
 }
 
+void ExplodeCheck::calc_() {
+    if (!isCurrentChild("通常"))
+        return;
+    auto* life = mActor->getLife();
+    if (!life || *life >= 1) {
+        auto* chemical = mActor->getChemicalStuff();
+        if (!chemical || (chemical->_c0 != 4 && !(chemical->_b8 & 0x10)))
+            return;
+    }
+    changeChild("爆発");
+}
+
 }  // namespace uking::ai

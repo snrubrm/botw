@@ -24,4 +24,11 @@ void GanonBattleOnFloorRoot::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool GanonBattleOnFloorRoot::isFinished() const {
+    auto* child = getCurrentChild();
+    if (child && (isCurrentChild("近接攻撃") || isCurrentChild("遠距離攻撃")))
+        return child->isFinished();
+    return ActionBase::isFinished();
+}
+
 }  // namespace uking::ai

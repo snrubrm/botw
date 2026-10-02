@@ -10,6 +10,8 @@ class EnemySyncAttack : public ksys::act::ai::Ai {
 public:
     explicit EnemySyncAttack(const InitArg& arg);
     ~EnemySyncAttack() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

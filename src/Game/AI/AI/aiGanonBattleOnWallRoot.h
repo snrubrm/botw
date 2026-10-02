@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -26,9 +27,7 @@ protected:
     s32 _54{};
     s32 _58{};
     s32 _5c{};
-    f32 _60{};
-    u32 _64{};
-    u32 _68{};
+    ksys::Timer _60;
 };
 
 }  // namespace uking::ai
