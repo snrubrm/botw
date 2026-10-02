@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -14,6 +15,10 @@ public:
     void loadParams_() override;
 
 protected:
+    Unk_71012419b4 _38;
+    Unk_71012419b4 _58;
+    bool _78 = false;
 };
+KSYS_CHECK_SIZE_NX150(ItemConductor, 0x80);
 
 }  // namespace uking::ai
