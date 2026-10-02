@@ -57,6 +57,7 @@ public:
     Unk_71025ae680* m178(sead::Heap* heap) override;
 
     // Placeholder names (CSV x_N where it had one); called by SiteBoss AI functions.
+    void x_0();
     void x_1(bool a1, bool a2, bool skip_flag);
     void x_5(bool on);
     void x_6(bool on);

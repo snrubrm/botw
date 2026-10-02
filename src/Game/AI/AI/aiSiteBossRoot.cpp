@@ -1,11 +1,35 @@
 #include "Game/AI/AI/aiSiteBossRoot.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
 SiteBossRoot::SiteBossRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SiteBossRoot::~SiteBossRoot() = default;
+SiteBossRoot::~SiteBossRoot() {
+    x();
+    if (ksys::act::hasTag(mActor, ksys::act::tags::EnemySiteBoss_R) &&
+        !mIsPlayed_DemoFlagName_s.isEmpty()) {
+        ksys::gdt::setBoolByKey(false, mIsPlayed_DemoFlagName_s);
+    }
+}
+
+// NON_MATCHING: the original builds the "WeakPoint" SafeString before computing &enemy->_1128
+void SiteBossRoot::x() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    auto& link = enemy->_1128.getActorPartsActor("WeakPoint");
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&link, &accessor);
+    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    enemy->_1128.sub_7100D3CFEC("WeakPoint");
+}
 
 bool SiteBossRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
@@ -18,6 +42,13 @@ void SiteBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void SiteBossRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
+
+void SiteBossRoot::onPreDelete() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->x_0();
+}
+
+void SiteBossRoot::m34(act::SiteBoss* boss) {}
 
 void SiteBossRoot::loadParams_() {
     getStaticParam(&mOffFlagIndexAtClipping_s, "OffFlagIndexAtClipping");

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiSiteBossRoot.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -25,6 +26,10 @@ protected:
     const int* mReflectArrowAttackPower_s{};
     // static_param at offset 0x110
     sead::SafeString mDemoName_s{};
+    u32 _120 = 0;
+    bool _124 = false;
+    ksys::act::BaseProcLink _128;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossBowRoot, 0x138);
 
 }  // namespace uking::ai

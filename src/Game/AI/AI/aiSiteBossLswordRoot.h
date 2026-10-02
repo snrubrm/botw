@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiSiteBossRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class SiteBossLswordRoot : public SiteBossRoot {
@@ -13,8 +17,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    void m34(act::SiteBoss* boss) override;
+    bool m35(act::SiteBoss* boss) override;
 
 protected:
     // static_param at offset 0xf8
@@ -43,6 +51,8 @@ protected:
     const sead::Vector3f* mBigFireBallPosOffset_s{};
     // static_param at offset 0x158
     const sead::Vector3f* mBigFireBallRotOffset_s{};
+    ksys::phys::RigidBody* _160{};
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordRoot, 0x168);
 
 }  // namespace uking::ai

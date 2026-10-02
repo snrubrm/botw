@@ -1,6 +1,11 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace uking::act {
+class SiteBoss;
+}
 
 namespace uking::ai {
 
@@ -13,9 +18,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void onPreDelete() override;
     bool handleMessage_(const ksys::Message& message) override;
+
+    virtual void m34(act::SiteBoss* boss);
+    virtual bool m35(act::SiteBoss* boss);
+
+    void x();
 
 protected:
     // static_param at offset 0x38
@@ -48,6 +60,15 @@ protected:
     sead::SafeString mIsPlayed_DemoFlagName_s{};
     // map_unit_param at offset 0xc8
     sead::SafeString mUniqueNameMessageLabel_m{};
+    bool _d8 = false;
+    bool _d9 = false;
+    bool _da = false;
+    ksys::Timer _dc{};
+    u32 _e8 = 0;
+    u32 _ec = 0;
+    f32 _f0 = 0;
+    s32 _f4 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossRoot, 0xf8);
 
 }  // namespace uking::ai

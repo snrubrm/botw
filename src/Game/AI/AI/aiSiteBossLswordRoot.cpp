@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiSiteBossLswordRoot.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -12,6 +16,20 @@ bool SiteBossLswordRoot::init_(sead::Heap* heap) {
 
 void SiteBossLswordRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossRoot::enter_(params);
+}
+
+void SiteBossLswordRoot::calc_() {
+    SiteBossRoot::calc_();
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || !_160)
+        return;
+
+    if (act::SiteBoss::sub_71002D3804(boss, "WearFlame")) {
+        if (!_160->isAddedToWorld())
+            _160->addToWorld();
+    } else if (_160->isAddedToWorld()) {
+        _160->removeFromWorld();
+    }
 }
 
 void SiteBossLswordRoot::leave_() {
@@ -33,6 +51,32 @@ void SiteBossLswordRoot::loadParams_() {
     getStaticParam(&mBigFireBallMoveSpeed1_s, "BigFireBallMoveSpeed1");
     getStaticParam(&mBigFireBallPosOffset_s, "BigFireBallPosOffset");
     getStaticParam(&mBigFireBallRotOffset_s, "BigFireBallRotOffset");
+}
+
+// NON_MATCHING: the original tests the range as `type - 9 > 5` (cmp #5; b.hi), the switch gives
+// cmp #6; b.hs and an if-statement range check is turned into a select
+bool SiteBossLswordRoot::m35(act::SiteBoss* boss) {
+    const bool ret = SiteBossRoot::m35(boss);
+    if (!boss)
+        return ret;
+
+    if (!getCurrentChild())
+        return false;
+
+    if (auto* damage_mgr = sub_710072BA90(mActor)) {
+        switch (damage_mgr->getField54()) {
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            return false;
+        default:
+            break;
+        }
+    }
+    return ret;
 }
 
 }  // namespace uking::ai
