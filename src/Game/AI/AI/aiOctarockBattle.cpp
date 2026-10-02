@@ -11,7 +11,10 @@ OctarockBattle::~OctarockBattle() {
 }
 
 bool OctarockBattle::init_(sead::Heap* heap) {
-    return ShootingEnemyBattle::init_(heap);
+    if (!ShootingEnemyBattle::init_(heap))
+        return false;
+    _118 = 0;
+    return true;
 }
 
 void OctarockBattle::enter_(ksys::act::ai::InlineParamPack* params) {

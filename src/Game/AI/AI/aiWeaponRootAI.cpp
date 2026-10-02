@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiWeaponRootAI.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -44,6 +45,16 @@ void WeaponRootAI::m40() {}
 void WeaponRootAI::m45() {
     ksys::act::enableAllAttClients(mActor);
     ksys::act::disableAttClient(mActor, "CatchBoomerang");
+}
+
+void WeaponRootAI::m43() {
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(true);
+}
+
+void WeaponRootAI::m44() {
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(false);
 }
 
 }  // namespace uking::ai

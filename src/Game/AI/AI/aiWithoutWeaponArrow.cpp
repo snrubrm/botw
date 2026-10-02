@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiWithoutWeaponArrow.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 
 namespace uking::ai {
 
@@ -80,6 +81,13 @@ s32 WithoutWeaponArrow::m47() {
 
 bool WithoutWeaponArrow::m48() {
     return isCurrentChild("発射");
+}
+
+bool WithoutWeaponArrow::m38() {
+    auto* chemical = mActor->getChemicalStuff();
+    if (!chemical)
+        return false;
+    return chemical->mMaterial->attribute.ref() & 0x10;
 }
 
 }  // namespace uking::ai

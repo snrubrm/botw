@@ -15,7 +15,9 @@ bool NPCSuspend::init_(sead::Heap* heap) {
 }
 
 void NPCSuspend::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68 = *mRetryCount_s;
+    _6c = ksys::Timer(*mWaitTime_s, *mWaitTime_s);
+    changeChild("停止");
 }
 
 void NPCSuspend::leave_() {

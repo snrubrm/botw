@@ -13,11 +13,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     void sub_7100564154();
+    void sub_710056439C();
+    void sub_710056464C();
+    void sub_7100564738();
 
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
