@@ -45,6 +45,13 @@ public:
         return mSubscribedLayers[int(type)].isOnBit(getContactLayerBaseRelativeValue(layer));
     }
 
+    // Inline (BeamMove::m33 clears EntityPlayer / EntityNPC this way); written like
+    // CollisionInfoBase::disableLayer.
+    void unsubscribeLayer(ContactLayer layer) {
+        mSubscribedLayers[int(getContactLayerType(layer))].resetBit(
+            getContactLayerBaseRelativeValue(layer));
+    }
+
     // TODO: rename
     bool isLayerInMask2(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);

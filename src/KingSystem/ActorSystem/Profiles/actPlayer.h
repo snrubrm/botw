@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/System/Timer.h"
 
 namespace ksys::act {
 
@@ -231,7 +232,8 @@ public:
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
     void x_18(bool a1);                                                 // 0x855a6c
-    void x_19();                                                        // 0x855d40
+    // All 33 callers pass -1.0f in s0, which x_19 does not use.
+    void x_19(f32 a1);                                                  // 0x855d40
     void x_24();                                                        // 0x855e24
     void x_25();                                                        // 0x8551fc
     void x_53(int* a1);                                                 // 0x8679fc
@@ -283,7 +285,12 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1df4 - 0x1cdc];
+    /* 0x1cdc */ u8 _1cdc[0x1d70 - 0x1cdc];
+    // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
+    /* 0x1d70 */ ksys::Timer _1d70;
+    /* 0x1d7c */ u8 _1d7c[0x1de8 - 0x1d7c];
+    // Reset with Timer(5, 5) by PlayerCutTurnLSword::leave_.
+    /* 0x1de8 */ ksys::Timer _1de8;
     /* 0x1df4 */ f32 _1df4;
     /* 0x1df8 */ f32 _1df8;
     /* 0x1dfc */ f32 _1dfc;

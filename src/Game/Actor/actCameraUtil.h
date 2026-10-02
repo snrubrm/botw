@@ -108,6 +108,16 @@ f32 sub_7100922408(s32 idx);
 
 // 0x7100922468 (CSV angleStuff): wraps an angle in degrees into [-180, 180).
 f32 angleStuff(f32 deg);
+// Helpers on an angle in degrees passed by reference (callers pass fields such as
+// Unk_7100922700::_4 / _8 or Unk_710079a8e8::_1b8):
+// 0x7100922530: angleStuff(deg + 180).
+f32 sub_7100922530(const f32& deg);
+// 0x7100922600: deg = angleStuff(deg + 180).
+void sub_7100922600(f32& deg);
+// 0x71009226d8: |deg|.
+f32 sub_71009226D8(const f32& deg);
+// 0x71009226ec: cos(deg).
+f32 sub_71009226EC(const f32& deg);
 
 namespace uking::act {
 

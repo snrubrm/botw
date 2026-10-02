@@ -4,6 +4,8 @@
 #include <container/seadObjArray.h>
 #include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -37,6 +39,15 @@ public:
     // The original D1 (0x7100d78244) keeps the vtable store that a defaulted dtor drops; written as
     // `{ ; }` like upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229).
     virtual ~Unk_71024dc978() { ; }
+
+    // Slots 4-10 (implemented by Unk_71024dc858 at 0x7100d77368-0x7100d773e0; names unknown).
+    virtual f32 m4(int idx) = 0;
+    virtual bool m5(int bit) const = 0;
+    virtual sead::BitFlag16* m6() = 0;
+    virtual bool m7(sead::Vector3f* pos) = 0;  // the linked actor's previous position
+    virtual bool m8(sead::Vector3f* vel) = 0;  // the linked actor's velocity
+    virtual void m9(int idx, f32 value) = 0;
+    virtual void m10(int bit, bool on) = 0;  // sets / clears a bit of the u16 at +0x38
 };
 
 // Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctor 0x7100d771cc, D1
@@ -48,16 +59,18 @@ public:
     Unk_71024dc858();
     ~Unk_71024dc858() override;
 
+    f32 m4(int idx) override;
+    bool m5(int bit) const override;
+    sead::BitFlag16* m6() override;
+    bool m7(sead::Vector3f* pos) override;
+    bool m8(sead::Vector3f* vel) override;
+    void m9(int idx, f32 value) override;
+    void m10(int bit, bool on) override;
+
     /* 0x08 */ BaseProcLink mLink;  // the target actor
-    /* 0x18 */ f32 _18 = 1.0;
-    /* 0x1c */ u32 _1c = 0;
-    /* 0x20 */ u32 _20 = 0;
-    /* 0x24 */ f32 _24 = 1.0;
-    /* 0x28 */ f32 _28 = 1.0;
-    /* 0x2c */ f32 _2c = 1.0;
-    /* 0x30 */ f32 _30 = 1.0;
-    /* 0x34 */ f32 _34 = 1.0;
-    /* 0x38 */ u16 _38 = 0;
+    /* 0x18 */ sead::SafeArray<f32, 4> _18{{1.0, 0, 0, 1.0}};  // m4 / m9
+    /* 0x28 */ sead::SafeArray<f32, 4> _28{{1.0, 1.0, 1.0, 1.0}};  // m4
+    /* 0x38 */ sead::BitFlag16 _38;  // m5 / m6 / m10
     /* 0x3c */ u32 _3c = 0;
     /* 0x40 */ u32 _40 = 0;
     /* 0x44 */ u32 _44 = 0;
@@ -75,6 +88,22 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71024dc858, 0xb0);
 
 class AwarenessInstance;
+
+// Placeholder name (vtable 0x71024dc900; RTTI; created by 0x71011c57c0 (CSV Actor::x_27) with
+// new(0x80)): Actor::_548. Contains an awareness entry at +0x18 (vtable 0x71024dc858, ctor
+// 0x7100d77254 (entry, actor)), the actor at +0x70 and a u16 at +0x78; a second base at +0x10.
+// TODO: incomplete (only the virtual slot used by player actions is declared).
+class Unk_71024dc900 {
+    SEAD_RTTI_BASE(Unk_71024dc900)
+public:
+    virtual ~Unk_71024dc900();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    // 0x7100d78028: the awareness entry at +0x18.
+    virtual Unk_71024dc978* m8();
+};
 
 // Placeholder name (vtable 0x71024dccf8; D1 0x7100d7f0dc, D0 0x7100d7f104): base of the filters used
 // to iterate over the awareness entries (sub_7100D7EEE8). ~48 derived classes (vtables

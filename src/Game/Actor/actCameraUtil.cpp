@@ -459,6 +459,22 @@ f32 angleStuff(f32 deg) {
 
 
 
+f32 sub_7100922530(const f32& deg) {
+    return angleStuff(deg + 180.0f);
+}
+
+void sub_7100922600(f32& deg) {
+    deg = angleStuff(deg + 180.0f);
+}
+
+f32 sub_71009226D8(const f32& deg) {
+    return deg < 0 ? -deg : deg;
+}
+
+f32 sub_71009226EC(const f32& deg) {
+    return std::cos(deg * (sead::Mathf::pi() / 180.0f));
+}
+
 namespace uking::act {
 
 Unk_7100922700::Unk_7100922700(f32 r, f32 a, f32 b) {

@@ -91,6 +91,7 @@ class ActorWeapons;
 class Attention;
 class Awareness;
 class AwarenessInstance;
+class Unk_71024dc900;
 class BaseProcLink;
 class BoneControl;
 class Unk_7100d860d8;
@@ -224,6 +225,7 @@ public:
     as::ASList* getASList() const { return mASList; }
     xlink::XLink* getXLink() const { return mXLink; }
     AwarenessInstance* getAwareness() const { return mAwareness; }
+    Unk_71024dc900* get548() const { return _548; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
 
@@ -599,7 +601,8 @@ protected:
     /* 0x528 */ PhysicsUserTag mPhysicsUserTag{this};
     /* 0x540 */ sead::Atomic<bool> _540 = false;
 
-    /* 0x548 */ void* _548 = nullptr;
+    // Created by 0x71011c57c0 (CSV Actor::x_27; new(0x80)).
+    /* 0x548 */ Unk_71024dc900* _548 = nullptr;
     /* 0x550 */ AwarenessInstance* mAwareness = nullptr;
     /* 0x558 */ ai::RootAi* mRootAi = nullptr;
     /* 0x560 */ as::ASList* mASList = nullptr;
