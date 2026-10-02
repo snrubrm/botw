@@ -714,34 +714,6 @@ bool Unk_71023e7cf8::m2(const ksys::Message& message) {
     return true;
 }
 
-bool Unk_71023e8ff8::m2(const ksys::Message& message) {
-    if (message.getType() != 0x80000b3)
-        return false;
-
-    auto* payload = static_cast<Unk_71023e8ff8_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
-bool Unk_71023e9028::m2(const ksys::Message& message) {
-    if (message.getType() != 0x80000bf)
-        return false;
-
-    auto* payload = static_cast<Unk_71023e9028_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
 Unk_71023e7d28::~Unk_71023e7d28() = default;
 
 bool Unk_71023e7d28::m2(const ksys::Message& message) {

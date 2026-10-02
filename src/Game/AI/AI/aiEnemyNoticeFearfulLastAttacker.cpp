@@ -32,8 +32,8 @@ bool EnemyNoticeFearfulLastAttacker::m34(Unk* out) {
     out->_0.reset();
     out->_1c = 0;
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
-    if (enemy && enemy->_e08.hasProcInCalcState()) {
-        out->_0 = enemy->_e08;
+    if (enemy && enemy->_e08._0.hasProcInCalcState()) {
+        out->_0 = enemy->_e08._0;
         out->_1c |= 1;
         return true;
     }

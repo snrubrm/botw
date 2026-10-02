@@ -561,7 +561,7 @@ bool EnemyNormal::handleMessage_(const ksys::Message& message) {
 }  // namespace uking::ai
 
 bool Unk_71023e9028::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000bf)
+    if (message.getType() != 0x80000bf)
         return false;
 
     auto* payload = static_cast<Unk_71023e9028_Payload*>(message.getUserData());
@@ -575,7 +575,7 @@ bool Unk_71023e9028::m2(const ksys::Message& message) {
 }
 
 bool Unk_71023e8ff8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b3)
+    if (message.getType() != 0x80000b3)
         return false;
 
     auto* payload = static_cast<Unk_71023e8ff8_Payload*>(message.getUserData());
