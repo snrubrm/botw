@@ -4,8 +4,6 @@ namespace uking::action {
 
 AreaTagAction::AreaTagAction(const InitArg& arg) : ksys::act::ai::Action(arg), ActorObserver(this) {}
 
-AreaTagAction::~AreaTagAction() = default;
-
 void AreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100E28168();
 }

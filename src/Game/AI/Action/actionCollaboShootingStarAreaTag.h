@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100053f98 (declared only): calls an unnamed world manager job class (CSV WorldMgrStruct0_2).
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
 
     // map_unit_param at offset 0x38
     sead::SafeString mcollaboSSFalloutFlagName_m{};

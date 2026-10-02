@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
 };
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetComebackPosition.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,6 +26,20 @@ void SetComebackPosition::loadParams_() {
 
 void SetComebackPosition::calc_() {
     AreaTagAction::calc_();
+}
+
+bool SetComebackPosition::m15(const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.isPlayerProfile())
+        return false;
+
+    ksys::act::acc::PlayerBase player;
+    player.acquireActor(accessor);
+    auto* actor = mActor;
+    sead::Vector3f pos;
+    actor->getHomePos(&pos);
+    player.setRestartBuf(pos, *mAngleY_m);
+    actor->m107();
+    return true;
 }
 
 }  // namespace uking::action

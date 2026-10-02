@@ -18,6 +18,11 @@ public:
 
 protected:
     void calc_() override;
+    bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
+    sead::Buffer<Payload>* m6() override { return &_38; }
+
+    sead::Buffer<Payload> _38;
 };
+KSYS_CHECK_SIZE_NX150(ControlBombEffect, 0x48);
 
 }  // namespace uking::action

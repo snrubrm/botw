@@ -29,7 +29,7 @@ public:
     bool m12(const ContactIterator& it, const CollisionIterator& begin,
              const CollisionIterator& end) override;
     // Whether the observed actor `accessor` is accepted.
-    virtual bool m15(const ksys::act::ActorLinkConstDataAccess& accessor) { return false; }
+    virtual bool m15(const ksys::act::ActorConstDataAccess& accessor) { return false; }
     // Whether `body` is to be ignored.
     virtual bool m16(ksys::phys::RigidBody* body);
 

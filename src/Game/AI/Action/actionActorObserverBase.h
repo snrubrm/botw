@@ -72,10 +72,13 @@ public:
     using ContactIterator = ksys::phys::ContactPointInfo::Iterator;
 
     // User data of the message (type 0x4800001) that calc() sends to every observed actor for each
-    // entry of the buffer returned by m6().
+    // entry of the buffer returned by m6(). Buffers of it are allocated with an array cookie, so the
+    // type has a non-trivial destructor.
     struct Payload {
-        u32 _0;
-        bool _4;
+        ~Payload() {}
+
+        u32 _0 = 0x38;
+        bool _4 = false;
     };
 
     explicit ActorObserverBase(ksys::act::ai::ActionBase* owner);
