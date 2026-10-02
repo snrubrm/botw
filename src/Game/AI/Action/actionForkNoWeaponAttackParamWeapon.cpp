@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkNoWeaponAttackParamWeapon.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void ForkNoWeaponAttackParamWeapon::enter_(ksys::act::ai::InlineParamPack* param
 }
 
 void ForkNoWeaponAttackParamWeapon::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A2D34(
+        mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtkBodyName_s.cstr()));
 }
 
 void ForkNoWeaponAttackParamWeapon::loadParams_() {

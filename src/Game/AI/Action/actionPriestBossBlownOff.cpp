@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossBlownOff.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -29,6 +30,10 @@ void PriestBossBlownOff::loadParams_() {
 
 void PriestBossBlownOff::calc_() {
     BlownOff::calc_();
+    if (!_15d && mActor->getMtx()(1, 1) < 0.70710677f && m34()) {
+        xlinkSearchAndEmit(mActor, "Down", 2, nullptr);
+        _15d = true;
+    }
 }
 
 s32 PriestBossBlownOff::m41(uking::dmg::DamageManager* manager) {

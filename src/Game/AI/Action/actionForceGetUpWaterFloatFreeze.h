@@ -21,6 +21,7 @@ protected:
 
     // static_param at offset 0x78
     sead::SafeString mASName_s{};
+    int _88 = 0;
 };
 
 }  // namespace uking::action

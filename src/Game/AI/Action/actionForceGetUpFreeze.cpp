@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForceGetUpFreeze.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -28,7 +29,19 @@ void ForceGetUpFreeze::loadParams_() {
 }
 
 void ForceGetUpFreeze::calc_() {
-    Freeze::calc_();
+    switch (_88) {
+    case 1:
+        ksys::act::sub_7100EE5980(mActor, sead::Vector3f::zero);
+        ksys::act::sub_7100EE5A14(mActor, sead::Vector3f::zero);
+        ++_88;
+        break;
+    case 2:
+        Freeze::calc_();
+        break;
+    default:
+        _88 = 1;
+        break;
+    }
 }
 
 }  // namespace uking::action

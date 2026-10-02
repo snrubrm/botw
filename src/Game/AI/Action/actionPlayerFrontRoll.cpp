@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionPlayerFrontRoll.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +13,9 @@ void PlayerFrontRoll::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerFrontRoll::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F270(static_cast<ksys::act::Player*>(mActor)->_1cd4);
 }
 
 void PlayerFrontRoll::loadParams_() {

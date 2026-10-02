@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+
+    bool m32(ksys::act::BaseProcLink* link) override;
 };
 
 }  // namespace uking::action

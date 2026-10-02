@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerCutTurn.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +14,10 @@ void PlayerCutTurn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerCutTurn::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    if (_68.sub_7101241AD8(0))
+        _68.fadeXLink();
+    sub_71005D79AC(mActor, static_cast<ksys::act::Player*>(mActor)->playerWeapons_return0(), act::Unk_71002edaec(1));
 }
 
 void PlayerCutTurn::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionJumpTackle.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -52,6 +53,13 @@ void JumpTackle::calc_() {
 
 bool JumpTackle::m34() {
     return isBgGroundHit(mActor, false);
+}
+
+void JumpTackle::m33() {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+        sub_71007A2D34(body);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(_91);
 }
 
 }  // namespace uking::action

@@ -27,4 +27,8 @@ void RegistedActorDeadCheckBase::calc_() {
     RegistedActorActionBase::calc_();
 }
 
+bool RegistedActorDeadCheckBase::m32(ksys::act::BaseProcLink* link) {
+    return true;
+}
+
 }  // namespace uking::action

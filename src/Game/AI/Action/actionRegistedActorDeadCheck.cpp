@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRegistedActorDeadCheck.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -25,6 +27,12 @@ void RegistedActorDeadCheck::loadParams_() {
 
 void RegistedActorDeadCheck::calc_() {
     RegistedActorDeadCheckBase::calc_();
+}
+
+bool RegistedActorDeadCheck::m32(ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.getLife() > 0;
 }
 
 }  // namespace uking::action

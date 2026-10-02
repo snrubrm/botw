@@ -1,4 +1,5 @@
 #pragma once
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -37,6 +38,7 @@ protected:
     const float* mRangeDiamAdd_s{};
     // static_param at offset 0x60
     const float* mRangeDiamAddNSword_s{};
+    Unk_71012419b4 _68;
 };
 
 }  // namespace uking::action

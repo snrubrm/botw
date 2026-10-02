@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionRegistedActorActionBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::act {
+class BaseProcLink;
+}
+
 namespace uking::action {
 
 class RegistedActorDeadCheckBase : public RegistedActorActionBase {
@@ -18,6 +22,8 @@ public:
 
 protected:
     void calc_() override;
+
+    virtual bool m32(ksys::act::BaseProcLink* link);
 };
 
 }  // namespace uking::action

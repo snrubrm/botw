@@ -20,7 +20,7 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual void m33();
-    virtual void m34();
+    virtual bool m34();
     virtual bool m35();
     virtual bool m36();
     virtual s32 m37() { return *mForceFinishTime_s; }

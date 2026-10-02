@@ -295,7 +295,12 @@ protected:
     /* 0x1399 */ u8 _1399[0x1478 - 0x1399];
     /* 0x1478 */ sead::CriticalSection _1478;
     /* 0x14b8 */ bool _14b8;
-    /* 0x14b9 */ u8 _14b9[0x1530 - 0x14b9];
+    /* 0x14b9 */ u8 _14b9[0x14c0 - 0x14b9];
+public:
+    /* 0x14c0 */ bool _14c0;  // cleared by ~30 player action leave_ functions
+
+protected:
+    /* 0x14c1 */ u8 _14c1[0x1530 - 0x14c1];
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ BaseProcLink _1570;
     /* 0x1580 */ u8 _1580[0x1654 - 0x1580];

@@ -1,4 +1,11 @@
 #include "Game/AI/Action/actionPlayerSwimSpinAttack.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +16,11 @@ void PlayerSwimSpinAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSwimSpinAttack::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = false;
+    if (auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24BC())) {
+        if (auto* body = set->findBodyByHavokName("AtkPlayerBody"))
+            body->removeFromWorld();
+    }
 }
 
 void PlayerSwimSpinAttack::loadParams_() {
