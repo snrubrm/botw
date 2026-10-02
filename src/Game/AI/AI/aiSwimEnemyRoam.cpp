@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSwimEnemyRoam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007368A4.h"
@@ -21,7 +22,7 @@ void SwimEnemyRoam::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SwimEnemyRoam::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void SwimEnemyRoam::loadParams_() {
@@ -29,6 +30,24 @@ void SwimEnemyRoam::loadParams_() {
     getStaticParam(&mRoamRatio_s, "RoamRatio");
     getStaticParam(&mRoamXRadius_s, "RoamXRadius");
     getStaticParam(&mRoamZRadius_s, "RoamZRadius");
+}
+
+void SwimEnemyRoam::calc_() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("徘徊準備")) {
+        sub_71005B51E8();
+        return;
+    }
+
+    if (!isCurrentChild("徘徊"))
+        return;
+
+    sead::Vector3f pos;
+    sub_71005B5628(&pos);
+    getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    sead::Vector3f target = _64;
+    target.y = mActor->getMtx().m[1][3];
+    sub_71005DB068(mActor, target);
 }
 
 }  // namespace uking::ai

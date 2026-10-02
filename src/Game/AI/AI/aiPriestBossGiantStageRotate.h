@@ -17,6 +17,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void sub_710051C210();
     bool handleMessage_(const ksys::Message& message) override;
 
 protected:

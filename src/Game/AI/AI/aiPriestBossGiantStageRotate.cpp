@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossGiantStageRotate.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,16 @@ bool PriestBossGiantStageRotate::init_(sead::Heap* heap) {
 
 void PriestBossGiantStageRotate::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
+    _140 = 0;
+    if (!*mSendOnThrowASEvent_s)
+        sub_710051C210();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    if (*mIsUseStartAction_s)
+        changeChild("開始", &pack);
+    else
+        changeChild("回転終了待機", &pack);
 }
 
 void PriestBossGiantStageRotate::leave_() {

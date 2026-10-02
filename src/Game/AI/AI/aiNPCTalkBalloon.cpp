@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCTalkBalloon.h"
+#include "Game/Actor/actNPCBase.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,15 @@ NPCTalkBalloon::~NPCTalkBalloon() {
 }
 
 void NPCTalkBalloon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _60 = false;
+    const f32 duration = *mDurationTime_s * 30.0f;
+    _64 = ksys::Timer(duration, duration);
+    const f32 delay = *mDelayFrame_s;
+    _70 = ksys::Timer(delay, delay);
+    _80 = sead::SafeString();
+    if (auto* npc = sead::DynamicCast<act::NPCBase>(mActor))
+        _80 = npc->_c18;
+    sub_71004E1684();
 }
 
 void NPCTalkBalloon::leave_() {

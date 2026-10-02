@@ -33,4 +33,23 @@ void WizzrobeFindPlayer::loadParams_() {
     getAITreeVariable(&mIsWizzrobeInBattleAreaFlag_a, "IsWizzrobeInBattleAreaFlag");
 }
 
+void WizzrobeFindPlayer::calc_() {
+    auto* actor = mActor;
+    sub_71005DB068(actor, sub_71005D960C(actor));
+    auto* child = getCurrentChild();
+    *mIsWizzrobeInBattleAreaFlag_a = sub_71005FDF08();
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("気づき")) {
+            wizzrobeFindPlayer();
+        } else if (isCurrentChild("戦闘")) {
+            if (child->isFinished())
+                wizzrobeFindPlayer();
+            else
+                setFailed();
+        }
+    }
+    wizzrobeFindPlayer_0();
+}
+
 }  // namespace uking::ai

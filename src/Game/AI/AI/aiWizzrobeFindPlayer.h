@@ -12,11 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void wizzrobeFindPlayer();
     void sub_71005FDD14();
+    bool sub_71005FDF08();
+    void wizzrobeFindPlayer_0();
 
 protected:
     // static_param at offset 0x38

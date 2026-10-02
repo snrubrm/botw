@@ -16,9 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
     void sub_71005B51E8();
     void sub_71005B52EC();
+    void sub_71005B5628(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38
@@ -31,8 +33,8 @@ protected:
     const float* mRoamZRadius_s{};
     u32 _58 = 0;
     u32 _5c = 0;
-    void* _60 = nullptr;
-    void* _68 = nullptr;
+    u32 _60 = 0;
+    sead::Vector3f _64{0, 0, 0};  // roam target position
     u32 _70 = 0;
     u8 _74[0xa4 - 0x74];  // not initialised by the ctor
     ksys::Timer _a4{0, 0};
