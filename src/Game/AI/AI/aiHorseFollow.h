@@ -16,6 +16,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34(sead::Vector3f* out, const sead::Vector3f& pos, const sead::Vector3f& target_pos,
+                     const sead::Vector3f& target_velocity, const sead::Vector3f& up);
+    virtual void m35();
+    virtual bool m36() { return true; }
+    virtual bool m37() { return true; }
+    virtual const sead::Vector3f* m38() { return mSelfPositionOffsetLocal_s; }
+
 protected:
     // static_param at offset 0x38
     const float* mDistanceSuccessEnd_s{};

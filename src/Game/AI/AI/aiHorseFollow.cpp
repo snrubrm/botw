@@ -39,4 +39,22 @@ void HorseFollow::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+void HorseFollow::m34(sead::Vector3f* out, const sead::Vector3f& pos, const sead::Vector3f& target_pos,
+                      const sead::Vector3f& target_velocity, const sead::Vector3f& up) {
+    out->set(target_pos);
+
+    if (*mSideDistance_s > 0.0f) {
+        sead::Vector3f dir = target_pos - pos;
+        dir.normalize();
+        const f32 dot = dir.dot(up);
+        sead::Vector3f side(up.x - dir.x * dot, 0.0f, up.z - dir.z * dot);
+        if (side.normalize() == 0.0f)
+            side.setCross(up, sead::Vector3f::ey);
+        out->setScaleAdd(*mSideDistance_s, side, *out);
+    }
+
+    if (*mTargetVelocityDistanceSec_s > 0.0f)
+        out->setScaleAdd(*mTargetVelocityDistanceSec_s * 30.0f, target_velocity, *out);
+}
+
 }  // namespace uking::ai
