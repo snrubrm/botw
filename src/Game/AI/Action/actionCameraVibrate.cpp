@@ -1,14 +1,21 @@
 #include "Game/AI/Action/actionCameraVibrate.h"
+#include <xlink2/xlink2Handle.h>
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
 CameraVibrate::CameraVibrate(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-CameraVibrate::~CameraVibrate() = default;
+CameraVibrate::~CameraVibrate() {
+    if (_68) {
+        delete _68;
+        _68 = nullptr;
+    }
+}
 
 bool CameraVibrate::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _68 = new (heap) xlink2::Handle;
+    return true;
 }
 
 void CameraVibrate::enter_(ksys::act::ai::InlineParamPack* params) {

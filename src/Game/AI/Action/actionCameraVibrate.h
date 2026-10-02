@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace xlink2 {
+class Handle;
+}
+
 namespace uking::action {
 
 class CameraVibrate : public ksys::act::ai::Action {
@@ -34,7 +38,7 @@ protected:
     const float* mCameraRange_m{};
     bool _60 = false;
     int _64 = -1;
-    void* _68{};
+    xlink2::Handle* _68 = nullptr;
 };
 
 }  // namespace uking::action
