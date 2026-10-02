@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,6 +17,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // static_param at offset 0x38
@@ -24,6 +26,16 @@ protected:
     const bool* mIsAwakenByHearing_s{};
     // static_param at offset 0x48
     const bool* mIsWaitAfterAwaken_s{};
+    sead::Vector3f _50 = sead::Vector3f::zero;
+    Unk_7102424730 _60;
+    u32 _b0 = 0;
+    bool _b4 = false;
+    bool _b5 = false;
+    bool _b6 = false;
+    ksys::act::Actor* _b8 = mActor;
+    void* _c0 = nullptr;
+    u32 _c8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(StalGiantSleepNormal, 0xd0);
 
 }  // namespace uking::ai

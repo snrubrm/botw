@@ -122,3 +122,12 @@ public:
 
     Unk_71023dbd40_Payload _18;
 };
+
+// vtable 0x7102396ae0 (StalPartNormal); message 0x800001f
+class Unk_7102396ae0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102396ae0_Payload _18;
+};

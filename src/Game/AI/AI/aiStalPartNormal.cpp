@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the two param-zeroing stp stores are scheduled in the opposite order
 StalPartNormal::StalPartNormal(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 StalPartNormal::~StalPartNormal() = default;
@@ -23,6 +24,16 @@ void StalPartNormal::loadParams_() {
     getStaticParam(&mCatchArea_s, "CatchArea");
     getStaticParam(&mWaitTimer_s, "WaitTimer");
     getStaticParam(&mTgtOffset_s, "TgtOffset");
+}
+
+bool StalPartNormal::handleMessage_(const ksys::Message& message) {
+    if (_e8 <= sead::Mathf::epsilon() && !_68._30 && !isCurrentChild("行動禁止") &&
+        _68.m2(message)) {
+        if (_58 == _68._38.mLink)
+            _68.x();
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

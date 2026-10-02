@@ -877,19 +877,6 @@ bool Unk_710240dd68::m2(const ksys::Message& message) {
     return true;
 }
 
-bool Unk_7102424730::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000b8)
-        return false;
-
-    auto* payload = static_cast<Unk_71023c5480_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
 
 bool Unk_710244e760::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000cc)
