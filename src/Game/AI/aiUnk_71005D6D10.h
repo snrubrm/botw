@@ -3,9 +3,11 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 
 namespace ksys::act {
 class Actor;
+class BaseProc;
 class BaseProcLink;
 class Unk_7100d860d8;
 }  // namespace ksys::act
@@ -152,3 +154,26 @@ void sub_71005DB558(ksys::act::Actor* actor, f32 a2, bool a3);
 void sub_71005DB594(ksys::act::Actor* actor, const sead::Vector3f& pos);
 /// &BoneControl::_0->_10, or nullptr.
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor);
+
+// --- Actor vtable slot 100 object (ksys::act::Unk_7100e4e084, DynamicActor+0x870) ---
+
+void sub_71005DC270(ksys::act::Actor* actor, const sead::Vector3f& pos);
+void sub_71005DC2B0(ksys::act::Actor* actor, const sead::Vector3f& pos, f32 a3, f32 a4);
+void sub_71005DC30C(ksys::act::Actor* actor, const sead::Vector3f& pos);
+void sub_71005DC350(ksys::act::Actor* actor, const sead::Vector3f& pos);
+void sub_71005DC394(ksys::act::Actor* actor);
+void sub_71005DC3CC(ksys::act::Actor* actor);
+void sub_71005DC3F4(ksys::act::Actor* actor);
+void sub_71005DC41C(ksys::act::Actor* actor);
+bool sub_71005DC444(ksys::act::Actor* actor);
+/// Whether the state (Unk_7100e4e084::_100) is 1 / 2 / 4 / 3 / 0.
+bool sub_71005DC470(ksys::act::Actor* actor);
+bool sub_71005DC49C(ksys::act::Actor* actor);
+bool sub_71005DC4C8(ksys::act::Actor* actor);
+bool sub_71005DC4F4(ksys::act::Actor* actor);
+bool sub_71005DC520(ksys::act::Actor* actor);
+const sead::Vector3f& sub_71005DC54C(ksys::act::Actor* actor);
+const sead::Matrix34f& sub_71005DC57C(ksys::act::Actor* actor);
+const sead::SafeString& sub_71005DC5AC(ksys::act::Actor* actor);
+void sub_71005DC5DC(ksys::act::Actor* actor);
+void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc);

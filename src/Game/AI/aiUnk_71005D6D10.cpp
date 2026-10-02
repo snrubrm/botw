@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -634,4 +635,105 @@ bool sub_71005DB904(ksys::act::Actor* actor, int idx) {
     if (!weapons->getEquippedWeapon(idx))
         return false;
     return !weapons->mWeapons[idx]._10;
+}
+
+void sub_71005DC270(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E5007C(1, pos);
+}
+
+void sub_71005DC2B0(ksys::act::Actor* actor, const sead::Vector3f& pos, f32 a3, f32 a4) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E500F8(1, pos, a3, a4);
+}
+
+void sub_71005DC30C(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50010(1, pos, false);
+}
+
+void sub_71005DC350(ksys::act::Actor* actor, const sead::Vector3f& pos) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50010(1, pos, true);
+}
+
+void sub_71005DC394(ksys::act::Actor* actor) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50010(4, sead::Vector3f::zero, false);
+}
+
+void sub_71005DC3CC(ksys::act::Actor* actor) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50220();
+}
+
+void sub_71005DC3F4(ksys::act::Actor* actor) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50288();
+}
+
+void sub_71005DC41C(ksys::act::Actor* actor) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E50254();
+}
+
+bool sub_71005DC444(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_bc != 0;
+}
+
+bool sub_71005DC470(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_100 == 1;
+}
+
+bool sub_71005DC49C(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_100 == 2;
+}
+
+bool sub_71005DC4C8(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_100 == 4;
+}
+
+bool sub_71005DC4F4(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_100 == 3;
+}
+
+bool sub_71005DC520(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    return obj && obj->_100 == 0;
+}
+
+const sead::Vector3f& sub_71005DC54C(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    if (!obj)
+        return sead::Vector3f::zero;
+    return obj->_104;
+}
+
+const sead::Matrix34f& sub_71005DC57C(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    if (!obj)
+        return sead::Matrix34f::ident;
+    return obj->_80;
+}
+
+const sead::SafeString& sub_71005DC5AC(ksys::act::Actor* actor) {
+    auto* obj = actor->m100();
+    if (!obj)
+        return sead::SafeString::cEmptyString;
+    return obj->_48;
+}
+
+void sub_71005DC5DC(ksys::act::Actor* actor) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E4E084();
+}
+
+void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
+    if (auto* obj = actor->m100())
+        obj->sub_7100E502EC(proc);
 }

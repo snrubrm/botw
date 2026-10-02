@@ -6,6 +6,14 @@
 
 namespace ksys::act {
 
+void Unk_7100e4e084::sub_7100E50010(int state, const sead::Vector3f& pos, bool a3) {
+    auto lock = sead::makeScopedLock(_c0);
+    _104 = pos;
+    _100 = state;
+    _128 = a3;
+    _129 = false;
+}
+
 void Unk_7100e4e084::sub_7100E50220() {
     auto lock = sead::makeScopedLock(_c0);
     _100 = 3;
