@@ -27,7 +27,10 @@ class Unk_7102357d20 {
 public:
     Unk_7102357d20(ksys::act::Actor* actor, u32 type)
         : _8(&actor->getMessageTransceiver()), _10(type) {}
-    virtual ~Unk_7102357d20() = default;
+    // The original keeps the base vtable store in every (inlined) destructor of this class, which a
+    // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    virtual ~Unk_7102357d20() { ; }
     virtual void* m2() = 0;
 
     bool sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack);
