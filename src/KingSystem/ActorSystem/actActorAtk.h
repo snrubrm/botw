@@ -53,7 +53,9 @@ public:
     // CSV Struct7 (dtor 0x710079e574): 8 attack infos (0x78 bytes each) and their count.
     struct Struct7 {
         struct AttackInfo {
-            u8 _0[0x78];
+            u8 _0[0x18];
+            u8 _18;  // flags (bits 0-1 tested by LynelRepeatAttack::calc_)
+            u8 _19[0x78 - 0x19];
         };
 
         void reset();

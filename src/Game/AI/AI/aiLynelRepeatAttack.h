@@ -9,6 +9,7 @@ class LynelRepeatAttack : public ksys::act::ai::Ai {
 public:
     explicit LynelRepeatAttack(const InitArg& arg);
     ~LynelRepeatAttack() override;
+    void calc_() override;
     bool isChangeable() const override;
     bool isFinished() const override;
     bool isFailed() const override;
