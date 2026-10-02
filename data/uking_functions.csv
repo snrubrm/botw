@@ -25220,7 +25220,7 @@ Address,Quality,Size,Name
 0x00000071003d7b8c,O,000004,_ZN5uking2ai17ForestGiantNormal6leave_Ev
 0x00000071003d7b90,O,000084,_ZN5uking2ai17ForestGiantNormal11loadParams_Ev
 0x00000071003d7be4,O,000272,_ZN5uking2ai17ForestGiantNormal3m34Ev
-0x00000071003d7cf4,U,000096,uking::ai::ForestGiantNormal::m54
+0x00000071003d7cf4,O,000096,_ZN5uking2ai17ForestGiantNormal3m54Ev
 0x00000071003d7d54,O,000152,_ZN5uking2ai17ForestGiantNormal14handleMessage_ERKN4ksys7MessageE
 0x00000071003d7dec,U,000104,uking::ai::ForestGiantNormal::m60
 0x00000071003d7e54,U,000248,uking::ai::ForestGiantNormal::m63

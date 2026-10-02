@@ -55,4 +55,10 @@ void ForestGiantNormal::m34() {
     changeChild("初期待機", &params);
 }
 
+bool ForestGiantNormal::m54() {
+    if (isCurrentChild("初期待機"))
+        return true;
+    return EnemyNormal::m54();
+}
+
 }  // namespace uking::ai

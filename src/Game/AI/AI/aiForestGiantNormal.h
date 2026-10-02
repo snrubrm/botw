@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
     void m34() override;
+    bool m54() override;
 
 protected:
     // static_param at offset 0x3d0
