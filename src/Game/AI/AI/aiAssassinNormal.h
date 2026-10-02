@@ -18,6 +18,11 @@ public:
     void loadParams_() override;
 
     s32 m53() override;
+    bool m55() override {
+        if (EnemyNormal::m55())
+            return true;
+        return isCurrentChild("不審物排除後");
+    }
 
 protected:
     ksys::act::BaseProcLink _400;

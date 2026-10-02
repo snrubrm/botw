@@ -21053,7 +21053,7 @@ Address,Quality,Size,Name
 0x000000710031d60c,O,000092,_ZNK5uking2ai26AssassinMiddleAzitoDlcRoot18getRuntimeTypeInfoEv
 0x000000710031d668,O,000008,_ZN5uking2ai11EnemyNormal3m44Ev
 0x000000710031d670,U,000008,uking::ai::AssassinMiddleAzitoRoot::m53
-0x000000710031d678,U,000096,uking::ai::AssassinNormal::m55
+0x000000710031d678,O,000096,_ZN5uking2ai14AssassinNormal3m55Ev
 0x000000710031d6d8,U,000004,uking::ai::AssassinMiddleAzitoRoot::m75
 0x000000710031d6dc,U,000036,
 0x000000710031d700,O,000140,_ZNK4sead15RuntimeTypeInfo6DeriveIN5uking2ai23AssassinMiddleAzitoRootEE9isDerivedEPKNS0_9InterfaceE
