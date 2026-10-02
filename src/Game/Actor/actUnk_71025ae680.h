@@ -57,7 +57,9 @@ public:
     void m7() override;
     bool m8(const ksys::Message& message) override;
 
-    /* 0x020 */ u8 _20[0x88 - 0x20];
+    /* 0x020 */ u8 _20[0x38 - 0x20];
+    /* 0x038 */ f32 _38;  // FlyingCharacterFreezeDie: 0 in enter_, 1 in leave_
+    /* 0x03c */ u8 _3c[0x88 - 0x3c];
     // Listener (message 0x800009b); PriestBossShadowCloneEnemyRoot::enter_ resets it (x()).
     /* 0x088 */ Unk_710235a0c0 _88;
     /* 0x0c0 */ u8 _c0[0x138 - 0xc0];
