@@ -547,4 +547,21 @@ int ActorConstDataAccess::sub_7100D131D0(int idx) const {
     return chemical->_c0;
 }
 
+s32 ActorConstDataAccess::getLife() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* life = actor->getLife();
+    if (!life)
+        return 1;
+    return *life;
+}
+
+s32 ActorConstDataAccess::getMaxLife() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    return actor->getMaxLife();
+}
+
 }  // namespace ksys::act

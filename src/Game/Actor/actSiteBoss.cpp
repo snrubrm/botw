@@ -52,7 +52,7 @@ bool SiteBoss::sub_71002D33D0(f32 value) const {
 }
 
 // NON_MATCHING: stack slot of the MessageType temporary
-void SiteBoss::x_2(SiteBoss* boss, ksys::act::Actor* sender) {
+void SiteBoss::x_2(Enemy* boss, ksys::act::Actor* sender) {
     if (!boss)
         return;
     for (auto* part : boss->_1128.mList) {
@@ -66,7 +66,7 @@ void SiteBoss::x_2(SiteBoss* boss, ksys::act::Actor* sender) {
 }
 
 // NON_MATCHING: stack slot of the MessageType temporary
-void SiteBoss::sub_71002D3498(SiteBoss* boss, ksys::act::Actor* sender) {
+void SiteBoss::sub_71002D3498(Enemy* boss, ksys::act::Actor* sender) {
     if (!boss)
         return;
     for (auto* part : boss->_1128.mList) {

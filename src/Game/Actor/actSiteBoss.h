@@ -66,8 +66,9 @@ public:
     void sub_71002D38EC(const sead::SafeString& name);
 
     // Called with a possibly null boss: iterate / query the actor parts (Enemy::_1128).
-    static void x_2(SiteBoss* boss, ksys::act::Actor* sender);
-    static void sub_71002D3498(SiteBoss* boss, ksys::act::Actor* sender);
+    // x_2 / sub_71002D3498 take the DynamicCast<Enemy> result of their callers.
+    static void x_2(Enemy* boss, ksys::act::Actor* sender);
+    static void sub_71002D3498(Enemy* boss, ksys::act::Actor* sender);
     static void sub_71002D3624(SiteBoss* boss, const sead::SafeString& part);
     static bool sub_71002D3804(ksys::act::Actor* actor, const sead::SafeString& part);
 
