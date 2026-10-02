@@ -270,6 +270,10 @@ public:
     void sub_71011DA824(ModelBindInfo* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA834();
+    // CSV Actor::x_4: mChemical->getStuff(idx), if any.
+    Chemical* sub_71011D8A34(int idx);
+    // mChemical->sub_7100E37788(idx), if any.
+    Chemical* sub_71011D8A44(int idx);
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
 

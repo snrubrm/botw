@@ -242,9 +242,21 @@ phys::CharacterController* Actor::getCharacterController() {
     return mPhysics->getCharacterController();
 }
 
+Chemical* Actor::sub_71011D8A34(int idx) {
+    if (!mChemical)
+        return nullptr;
+    return mChemical->getStuff(idx);
+}
+
+Chemical* Actor::sub_71011D8A44(int idx) {
+    if (!mChemical)
+        return nullptr;
+    return mChemical->sub_7100E37788(idx);
+}
+
 Chemical* Actor::getChemicalStuff() {
     auto* chemicals = mChemical;
-    if (chemicals && chemicals->_58 + chemicals->_80 > 0 && chemicals->getStuff(0))
+    if (chemicals && chemicals->_58.size() + chemicals->_80 > 0 && chemicals->getStuff(0))
         return chemicals->getStuff(0);
     return nullptr;
 }
