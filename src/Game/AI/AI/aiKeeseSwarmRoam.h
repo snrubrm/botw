@@ -1,5 +1,7 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+
 #include "Game/AI/AI/aiCircleMove.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -20,6 +22,8 @@ public:
 protected:
     // dynamic_param at offset 0x60
     sead::Vector3f* mCentralPos_d{};
+    sead::SafeArray<f32, 10> _68{};
 };
+KSYS_CHECK_SIZE_NX150(KeeseSwarmRoam, 0x90);
 
 }  // namespace uking::ai

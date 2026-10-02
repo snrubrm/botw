@@ -7,7 +7,10 @@ KeeseSwarmRoam::KeeseSwarmRoam(const InitArg& arg) : CircleMove(arg) {}
 KeeseSwarmRoam::~KeeseSwarmRoam() = default;
 
 bool KeeseSwarmRoam::init_(sead::Heap* heap) {
-    return CircleMove::init_(heap);
+    if (!CircleMove::init_(heap))
+        return false;
+    _68.fill(0);
+    return true;
 }
 
 void KeeseSwarmRoam::enter_(ksys::act::ai::InlineParamPack* params) {
