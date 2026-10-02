@@ -17610,7 +17610,7 @@ Address,Quality,Size,Name
 0x000000710028e774,W,000680,_ZN5uking6action26SwitchStepSliderConstraint5calc_Ev
 0x000000710028ea1c,U,000592,
 0x000000710028ec6c,U,000088,uking::action::SwitchStepSliderConstraint::m33
-0x000000710028ecc4,U,000352,uking::action::SwitchStepSliderConstraint::m32
+0x000000710028ecc4,m,000352,_ZN5uking6action26SwitchStepSliderConstraint3m32Ef
 0x000000710028ee24,U,000116,
 0x000000710028ee98,U,000116,
 0x000000710028ef0c,O,000016,_ZN5uking6action26SwitchStepSliderConstraint6leave_Ev

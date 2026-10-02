@@ -22,6 +22,9 @@ public:
 
 protected:
     void calc_() override;
+    // Called with the slider position: switches on (emitBasicSigOn, "on" SLink, OnASName) after the
+    // timer _a8 ran out at the bottom, off when it moves up.
+    virtual void m32(f32 value);
 
     ksys::phys::Constraint* _20{};
     // static_param at offset 0x28

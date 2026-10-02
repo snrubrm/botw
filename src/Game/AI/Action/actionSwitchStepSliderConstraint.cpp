@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSwitchStepSliderConstraint.h"
+#include <limits>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 
 namespace uking::action {
@@ -41,6 +44,31 @@ void SwitchStepSliderConstraint::loadParams_() {
 
 void SwitchStepSliderConstraint::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+// NON_MATCHING: the two discarded SLink handles get separate stack slots in the original
+void SwitchStepSliderConstraint::m32(f32 value) {
+    auto* actor = mActor;
+    if (value <= 0.001f) {
+        if (!(_a8.mTimer.value <= std::numeric_limits<f32>::epsilon()))
+            _a8.sub_7100D3BCE4();
+        if (!_e0 && _a8.mTimer.value <= std::numeric_limits<f32>::epsilon()) {
+            actor->emitBasicSigOn();
+            _e0 = 1;
+            ksys::eft::searchAndEmitSLink(actor, "on", false);
+            if (!mOnASName_s.isEmpty())
+                playAS(mOnASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+        }
+    } else if (value >= 0.001f) {
+        _a8.mTimer = ksys::Timer(6, 6);
+        if (_e0) {
+            actor->emitBasicSigOff();
+            _e0 = 0;
+            ksys::eft::searchAndEmitSLink(actor, "off", false);
+            if (!mOffASName_s.isEmpty())
+                playAS(mOffASName_s.cstr(), *mIsIgnoreSame_s, *mTargetIdx_s, *mSeqBankIdx_s, -1.0f);
+        }
+    }
 }
 
 }  // namespace uking::action
