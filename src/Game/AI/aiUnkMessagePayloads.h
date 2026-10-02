@@ -543,9 +543,23 @@ struct Unk_7102399748_Payload {
 
 // Message 0x8000083 (sender Unk_71023b0898; the listener at 0x7100903408 copies _0, _8 and _10)
 struct Unk_71023b0898_Payload {
+    struct Data {
+        // 0x71009033fc (in the listener's TU, where the listener inlines it); placeholder name.
+        void sub_71009033FC(const Data& other);
+
+        s32 _0 = -1;
+        ksys::act::BaseProcLink _8;
+    };
+
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(const Data& data) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        _0 = true;
+        _8.sub_71009033FC(data);
+    }
+
     bool _0 = true;
     u32 _4;
-    s32 _8 = -1;
-    ksys::act::BaseProcLink _10;
+    Data _8;
     sead::JobQueueLock mLock;
 };

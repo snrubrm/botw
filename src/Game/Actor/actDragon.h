@@ -48,6 +48,8 @@ public:
     bool sub_710000FDFC() const;
     bool getGameDataFlagGrudgeAlive(int idx);  // CSV name
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
+    void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
+    void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
 
     // Object with ctor 0x710000b710(this + 0x14c8); the Dragon AI reads 0x8b0-0x930.
     struct Unk_710000b710 {

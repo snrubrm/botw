@@ -27,7 +27,7 @@ bool CookPotRoot::init_(sead::Heap* heap) {
         // TODO
     }
     mActor->getChemicalStuff();
-    _248._18._10.reset();
+    _248._18._8._8.reset();
     return true;
 }
 

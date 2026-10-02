@@ -30,11 +30,12 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
 
     f32 m34() override;
     void m37() override;
     void m38() override;
-    virtual void m40();
+    virtual void m40(f32 a1);
     virtual void m41();
     virtual void m42();
     virtual void m43();

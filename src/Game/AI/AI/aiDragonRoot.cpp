@@ -55,11 +55,58 @@ DragonRoot::DragonRoot(const InitArg& arg) : DragonRootBase(arg) {}
 DragonRoot::~DragonRoot() = default;
 
 bool DragonRoot::init_(sead::Heap* heap) {
-    return DragonRootBase::init_(heap);
+    if (!DragonRootBase::init_(heap))
+        return false;
+
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    _1dc = 0;
+    _1e0 = 0;
+    _1e4 = {0, 0, 0};
+
+    Unk_71023b0898_Payload::Data data;
+    data._8.acquire(mActor, false);
+    data._0 = 5;
+    _1f0._18.x(data);
+
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return false;
+
+    if (!dragon->_1f70.isOnBit(28)) {
+        const s32 num = *mChemicalBulletNum_s;
+        if (num > 0)
+            _238._0.tryAllocBuffer(num, heap);
+    }
+    dragon->x(dragon->getMtx());
+    return true;
 }
 
 void DragonRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     DragonRootBase::enter_(params);
+}
+
+bool DragonRoot::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!DragonRootBase::reenter_(other, true))
+        return false;
+    auto* root = sead::DynamicCast<DragonRoot>(other);
+    if (!root)
+        return false;
+    auto* other_dragon = sead::DynamicCast<act::Dragon>(root->mActor);
+    if (!other_dragon)
+        return false;
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return false;
+
+    dragon->sub_710000C160(other_dragon);
+    _248 = root->_248;
+    _1e0 = root->_1e0;
+    _24c = root->_24c;
+    _24c.reset(0x43);
+    _24c.set(0x40);
+    mActor->getActorFlags2().change(ksys::act::Actor::ActorFlag2::_20, !root->_24c.isOn(8));
+    mActor->clearFadeInCreate();
+    return true;
 }
 
 void DragonRoot::leave_() {
@@ -110,10 +157,27 @@ f32 DragonRoot::m34() {
     return _248;
 }
 
+void DragonRoot::m38() {
+    sub_7100357314(0.1f);
+    sead::Vector3f pos;
+    sub_710035797C(nullptr, &pos, mActor->getMtx().getTranslation());
+    m40(-1.0f);
+}
+
 void DragonRoot::m41() {
     sub_7100356CFC();
     _1d8 = 30;
     _24c.set(0x14);
+}
+
+// NON_MATCHING: the original tests bit 8 of _24c between the two BaseProcHandle fields
+void DragonRoot::m43() {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon || dragon->_1f70.isOnBit(28))
+        return;
+    _24c.reset(0x20);
+    if (!_24c.isOn(8) || _250.isAllocatedOrFailed() || _24c.isOn(0x100) || m47())
+        _24c.set(0x20);
 }
 
 void DragonRoot::m44() {}

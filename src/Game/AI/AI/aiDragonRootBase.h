@@ -33,9 +33,11 @@ public:
     virtual bool m39();
 
     void sub_7100356764(ksys::map::Rail* rail, f32 progress);
+    void sub_7100356A7C();
     void sub_7100356CFC();
     void sub_7100356D48();
     void sub_7100356F30();
+    bool sub_7100357314(f32 progress);
     bool sub_7100357414(f32 progress);
     void sub_7100357440(f32 wait_frame);
     bool sub_710035797C(f32* out_progress, sead::Vector3f* out_pos, const sead::Vector3f& pos);

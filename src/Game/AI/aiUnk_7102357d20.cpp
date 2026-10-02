@@ -112,3 +112,8 @@ void Unk_7102413c08::sub_710070E2BC(const u32& a, s32 b) {
     _18._4 = a;
     _18._8 = b;
 }
+
+void Unk_71023b0898_Payload::Data::sub_71009033FC(const Data& other) {
+    _0 = other._0;
+    _8 = other._8;
+}
