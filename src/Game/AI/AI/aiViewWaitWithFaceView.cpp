@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiViewWaitWithFaceView.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -14,8 +15,19 @@ void ViewWaitWithFaceView::enter_(ksys::act::ai::InlineParamPack* params) {
     ViewWait::enter_(params);
 }
 
+void ViewWaitWithFaceView::calc_() {
+    const bool use_simple_offset = *mUseSimpleOffset_s;
+    auto* actor = mActor;
+    const auto& target_pos = m34();
+    if (use_simple_offset)
+        sub_71005DB1D8(actor, target_pos);
+    else
+        sub_71005DB068(actor, target_pos);
+    ViewWait::calc_();
+}
+
 void ViewWaitWithFaceView::leave_() {
-    ViewWait::leave_();
+    sub_71005DB3EC(mActor);
 }
 
 void ViewWaitWithFaceView::loadParams_() {

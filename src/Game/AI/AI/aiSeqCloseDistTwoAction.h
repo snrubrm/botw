@@ -12,6 +12,7 @@ public:
     ~SeqCloseDistTwoAction() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
     bool m35() const override;
 

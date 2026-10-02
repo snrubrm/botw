@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+    bool m37() override { return _89; }
 
 protected:
     bool _89 = true;
