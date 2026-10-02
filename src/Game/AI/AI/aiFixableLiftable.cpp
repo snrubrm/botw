@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiFixableLiftable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::ai {
 
@@ -14,6 +17,35 @@ bool FixableLiftable::init_(sead::Heap* heap) {
 
 void FixableLiftable::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleLiftable::enter_(params);
+}
+
+// NON_MATCHING: the original constructs the begin iterator once for an emptiness test (index vs the
+// point count) and again for the loop; the sub_71007A2604 / scale part matches
+void FixableLiftable::calc_() {
+    SimpleLiftable::calc_();
+    auto* actor = mActor;
+    auto* body = actor->getMainBody();
+    if (!body || !actor->getMapObject())
+        return;
+    if (!*mIsFixedPlace_m)
+        return;
+    if (body->getMotionType() == ksys::phys::MotionType::Dynamic)
+        return;
+
+    bool touching_dynamic = false;
+    if (auto* info = body->getContactPointInfo()) {
+        if (info->getNumContactPoints() != 0) {
+            for (auto it = info->begin(); it != info->end(); ++it) {
+                auto* other = (*it)->body_b;
+                if (other && other->getMotionType() == ksys::phys::MotionType::Dynamic)
+                    touching_dynamic = true;
+            }
+        }
+    }
+
+    const f32 scale = actor->getScale().x;
+    if (sub_71007A2604(actor) || (touching_dynamic | (*mCancelFixedScale_s <= _d8 - scale)))
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
 }
 
 void FixableLiftable::leave_() {
