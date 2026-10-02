@@ -4,7 +4,11 @@ namespace uking::ai {
 
 HorseEscapeRouteRailAI::HorseEscapeRouteRailAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-HorseEscapeRouteRailAI::~HorseEscapeRouteRailAI() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store (a SafeString lives in the embedded Unk_71024f15f8).
+HorseEscapeRouteRailAI::~HorseEscapeRouteRailAI() {
+    ;
+}
 
 bool HorseEscapeRouteRailAI::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

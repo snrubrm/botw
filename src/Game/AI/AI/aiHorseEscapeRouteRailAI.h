@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71024f15f8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -22,6 +23,9 @@ protected:
     const float* mUpdatePosDistance_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    Unk_71024f15f8 _50;
+    u32 _c0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(HorseEscapeRouteRailAI, 0xc8);
 
 }  // namespace uking::ai
