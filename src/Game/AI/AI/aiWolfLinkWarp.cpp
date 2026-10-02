@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiWolfLinkWarp.h"
 #include "Game/Actor/actWolfLink.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
@@ -7,7 +9,16 @@ namespace uking::ai {
 
 WolfLinkWarp::WolfLinkWarp(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WolfLinkWarp::~WolfLinkWarp() = default;
+WolfLinkWarp::~WolfLinkWarp() {
+    if (_b8) {
+        ksys::phys::HavokAI::instance()->destroyQuery(_b8);
+        _b8 = nullptr;
+    }
+    if (_b0) {
+        _b0->release();
+        _b0 = nullptr;
+    }
+}
 
 bool WolfLinkWarp::init_(sead::Heap* heap) {
     _a8 = sead::DynamicCast<act::WolfLink>(mActor);
@@ -31,7 +42,17 @@ void WolfLinkWarp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WolfLinkWarp::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_b8) {
+        ksys::phys::HavokAI::instance()->destroyQuery(_b8);
+        _b8 = nullptr;
+    }
+    if (_b0) {
+        _b0->release();
+        _b0 = nullptr;
+    }
+    _c0.makeAllZero();
+    using Idx = act::WolfLink::Idx14f8;
+    _a8->sub_71002F2E78(Idx::_10);
 }
 
 void WolfLinkWarp::loadParams_() {

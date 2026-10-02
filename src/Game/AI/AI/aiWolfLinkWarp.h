@@ -8,6 +8,7 @@
 
 namespace ksys::phys {
 class RayCastForRequest;
+class Unk_7102372790;
 }
 
 namespace uking::act {
@@ -55,8 +56,8 @@ protected:
     ksys::Timer _98;
     act::WolfLink* _a8{};
     ksys::phys::RayCastForRequest* _b0{};
-    // Navigation query handle (HavokAI::destroyQuery in leave_ / the destructor).
-    void* _b8{};
+    // Navigation query (HavokAI::destroyQuery in leave_ / the destructor).
+    ksys::phys::Unk_7102372790* _b8{};
     sead::BitFlag16 _c0;
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkWarp, 0xc8);

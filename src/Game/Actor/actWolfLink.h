@@ -35,6 +35,10 @@ public:
     SEAD_ENUM(Idx14f8, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16,
               _17, _18)
 
+    // 0x71002f2e78 (not decompiled; 720 bytes, switch on idx). Placeholder name; return type unknown
+    // (WolfLinkWarp::leave_ tail-calls it with Idx14f8::_10).
+    void sub_71002F2E78(Idx14f8 idx);
+
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)
     /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)
