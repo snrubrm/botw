@@ -106,6 +106,8 @@ public:
     // Read inline by ActorConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
     // and MagneShaftRoot::m51.
     SystemGroupHandler* get178(s32 idx) const { return _178[idx]; }
+    // Read inline by LastBossRailWarpAction::leave_.
+    SystemGroupHandler* get188(s32 idx) const { return _188[idx]; }
     // 0x7100fbb668: index of the rigid body set called `name` (-1 if none).
     int sub_7100FBB668(const sead::SafeString& name) const;
     // Read inline by sub_71007A2EB0 (actActorSensorUtil; null if out of range).

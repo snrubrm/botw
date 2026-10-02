@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLynelSpinAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actRideable.h"
 
 namespace uking::action {
 
@@ -14,8 +16,15 @@ bool LynelSpinAttack::init_(sead::Heap* heap) {
     return ForkWeaponAttack::init_(heap);
 }
 
+// NON_MATCHING: the original computes &mStartASName_s before the m132() call (scheduling)
 void LynelSpinAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ForkWeaponAttack::enter_(params);
+    ForkWeaponAttackBase::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    if (auto* rideable = mActor->m132())
+        rideable->_18.sub_7100E786F0(mStartASName_s);
+    playAS(mStartASName_s.cstr(), false, *mTargetBone_s, *mSeqBank_s, -1.0f);
+    _cc = 0;
+    _d0 = 0;
 }
 
 void LynelSpinAttack::leave_() {

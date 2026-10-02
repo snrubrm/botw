@@ -45,4 +45,12 @@ float PlayASForDemo::m32() {
     return 0.0f;
 }
 
+const sead::SafeString& PlayASForDemo::m34() {
+    auto* as_list = mActor->getASList();
+    if (!as_list || mASName_d.isEmpty())
+        return sead::SafeString::cEmptyString;
+    as_list->sub_710115AA68(mASName_d);
+    return mASName_d;
+}
+
 }  // namespace uking::action

@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionForkWeaponAttack.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -31,6 +32,9 @@ protected:
     sead::SafeString mEndASName_s{};
     // dynamic_param at offset 0xb8
     sead::Vector3f* mTargetPos_d{};
+    ksys::Timer _c0;
+    int _cc = 0;
+    int _d0 = 0;
 };
 
 }  // namespace uking::action

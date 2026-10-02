@@ -20,6 +20,10 @@ protected:
     void calc_() override;
     virtual float m32();
     virtual bool m33();
+    virtual const sead::SafeString& m34();
+    virtual const sead::SafeString& m35() { return mASName_d; }
+    // 0x710021be00 (declared only): plays the AS (playAS or the ASList at 0x710115bc28).
+    virtual void m36();
 
     // static_param at offset 0x20
     const int* mAnimeDrivenSettings_s{};

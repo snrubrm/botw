@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGerudoQueenWakeBoardReady.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool GerudoQueenWakeBoardReady::init_(sead::Heap* heap) {
 }
 
 void GerudoQueenWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _20 = ksys::eft::searchAndEmitELink(mActor, "SafetyZone");
+    playAS("WakeBoarding", false, 0, 0, -1.0f);
 }
 
 void GerudoQueenWakeBoardReady::leave_() {

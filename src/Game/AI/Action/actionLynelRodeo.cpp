@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLynelRodeo.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +18,13 @@ void LynelRodeo::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LynelRodeo::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (auto* rideable = actor->getHorseOptionsMaybe())
+        rideable->_18.sub_7100E770C4(false);
+    if (auto* controller = actor->getCharacterController()) {
+        controller->sub_7100F5EDE0(0.0f);
+        controller->sub_7100F5EDD8(1.0f);
+    }
 }
 
 void LynelRodeo::loadParams_() {

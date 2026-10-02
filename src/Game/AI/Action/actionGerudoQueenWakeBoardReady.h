@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,8 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    void* _20{};
-    int _28 = 0;
+    xlink2::HandleELink _20;
 };
 
 }  // namespace uking::action

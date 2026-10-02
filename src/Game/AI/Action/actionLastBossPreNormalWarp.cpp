@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLastBossPreNormalWarp.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
 
 namespace uking::action {
 
@@ -28,6 +31,13 @@ void LastBossPreNormalWarp::loadParams_() {
 
 void LastBossPreNormalWarp::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void LastBossPreNormalWarp::m33() {
+    if (auto* client = mActor->getAttention()->getClientByName("LockOn"))
+        client->disable();
+    if (auto* client = mActor->getAttention()->getClientByName("AutoAim"))
+        client->disable();
 }
 
 }  // namespace uking::action

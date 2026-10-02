@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionZoraHeroWaterFallJump.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ bool ZoraHeroWaterFallJump::init_(sead::Heap* heap) {
 }
 
 void ZoraHeroWaterFallJump::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* as_list = mActor->getASList();
+    auto* model = mActor->getModel();
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (as_list && model)
+        as_list->sub_710115BAF8("Root");
 }
 
 void ZoraHeroWaterFallJump::leave_() {

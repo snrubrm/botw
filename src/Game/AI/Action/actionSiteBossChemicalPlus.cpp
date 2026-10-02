@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossChemicalPlus.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -12,6 +14,11 @@ bool SiteBossChemicalPlus::init_(sead::Heap* heap) {
 
 void SiteBossChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    _60 = false;
+    playAS(mChmicalPlusASName_s.cstr(), false, 0, 0, -1.0f);
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115B01C(3, 0, true);
+    sub_71005DB41C(mActor);
 }
 
 void SiteBossChemicalPlus::leave_() {
