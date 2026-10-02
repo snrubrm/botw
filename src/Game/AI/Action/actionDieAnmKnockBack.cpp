@@ -27,4 +27,8 @@ void DieAnmKnockBack::calc_() {
         setFinished();
 }
 
+bool DieAnmKnockBack::m36() {
+    return false;
+}
+
 }  // namespace uking::action

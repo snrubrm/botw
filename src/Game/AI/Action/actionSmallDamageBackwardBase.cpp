@@ -37,4 +37,9 @@ void SmallDamageBackwardBase::calc_() {
     sub_7100740F1C(_9c, mActor);
 }
 
+void SmallDamageBackwardBase::m34() {
+    _90.set(-_68.value.x, 0.0f, -_68.value.z);
+    _90.normalize();
+}
+
 }  // namespace uking::action

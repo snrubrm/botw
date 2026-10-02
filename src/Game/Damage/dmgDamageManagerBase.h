@@ -94,8 +94,8 @@ public:
     //(FIXME: incomplete)
     virtual s64 m29(s64 a2);
 
-    // qword pointer? (FIXME: incomplete)
-    virtual s64 m30(u64 a2);
+    // 0x71006e029c (DamageMgrBase::m30): writes a direction to `out` (callers test the result).
+    virtual bool m30(sead::Vector3f* out);
 
     virtual s32 m31() { return 0; }
     virtual s32 m32() { return 0; }

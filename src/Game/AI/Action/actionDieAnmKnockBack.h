@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m36() override;
 
     // static_param at offset 0x90
     const float* mWeaponDropSpeedY_s{};

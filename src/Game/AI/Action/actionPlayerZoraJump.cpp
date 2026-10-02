@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerZoraJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -17,7 +18,9 @@ void PlayerZoraJump::loadParams_() {
 }
 
 void PlayerZoraJump::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (mActor->getVelocity().y <= 0.01f)
+        setFinished();
 }
 
 bool PlayerZoraJump::isChangeable() const {

@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    void m34() override;
     sead::Vector3f _90;
     sead::Matrix33f _9c;
 };

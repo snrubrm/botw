@@ -33,4 +33,10 @@ void SmallDamageBackward::calc_() {
     SmallDamageBackwardBase::calc_();
 }
 
+void SmallDamageBackward::m34() {
+    SmallDamageBackwardBase::m34();
+    if (*mIsReStartASByDamage_s)
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

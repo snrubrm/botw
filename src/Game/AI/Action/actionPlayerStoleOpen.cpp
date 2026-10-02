@@ -1,11 +1,15 @@
 #include "Game/AI/Action/actionPlayerStoleOpen.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 PlayerStoleOpen::PlayerStoleOpen(const InitArg& arg) : PlayerStoleOpenEx(arg) {}
 
 void PlayerStoleOpen::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerStoleOpenEx::enter_(params);
+    PlayerStoleOpenBase::enter_(params);
+    _e0 = 0;
+    mActor->setScale(sead::Vector3f::zero);
+    _38._98 = 0;
 }
 
 void PlayerStoleOpen::loadParams_() {

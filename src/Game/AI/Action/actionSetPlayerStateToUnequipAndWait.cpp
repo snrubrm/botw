@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetPlayerStateToUnequipAndWait.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -12,5 +13,11 @@ bool SetPlayerStateToUnequipAndWait::init_(sead::Heap* heap) {
 }
 
 void SetPlayerStateToUnequipAndWait::loadParams_() {}
+
+bool SetPlayerStateToUnequipAndWait::oneShot_() {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    return player.setPlayerStateToUnequipAndWait();
+}
 
 }  // namespace uking::action

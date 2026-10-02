@@ -31,4 +31,8 @@ void SubAnmSmallDamage::calc_() {
     SmallDamage::calc_();
 }
 
+void SubAnmSmallDamage::m34() {
+    playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
+}
+
 }  // namespace uking::action

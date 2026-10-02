@@ -27,4 +27,8 @@ void ForkKnockBackNoRot::calc_() {
     SmallDamageBase::calc_();
 }
 
+bool ForkKnockBackNoRot::m37() {
+    return false;
+}
+
 }  // namespace uking::action

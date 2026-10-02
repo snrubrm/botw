@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
+namespace uking::dmg {
+class DamageManager;
+}
+
 namespace uking::action {
 
 class TakeHitImpactForce : public ActionEx {
@@ -18,6 +22,12 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* dir, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr);
+    virtual bool m33(sead::Vector3f* dir, uking::dmg::DamageManager* mgr);
+    virtual void m34() {}
+    virtual void m35();
+    virtual bool m36() { return true; }
+    virtual bool m37() { return isFinishedAS(0, 0); }
 
     // static_param at offset 0x20
     const float* mVelReduce_s{};

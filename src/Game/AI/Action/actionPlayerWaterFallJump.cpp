@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerWaterFallJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -20,7 +21,9 @@ void PlayerWaterFallJump::loadParams_() {
 }
 
 void PlayerWaterFallJump::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (mActor->getVelocity().y <= 0.01f)
+        setFinished();
 }
 
 bool PlayerWaterFallJump::isChangeable() const {

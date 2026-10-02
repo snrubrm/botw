@@ -12,6 +12,8 @@ public:
     ~SmallDamageDirectPreTargetBack() override;
 
 protected:
+    void m32(sead::Vector3f* dir, ksys::act::Actor* actor, uking::dmg::DamageManager* mgr) override;
+    bool m33(sead::Vector3f* dir, uking::dmg::DamageManager* mgr) override;
 };
 
 }  // namespace uking::action
