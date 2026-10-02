@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    Unk_71024f15c0* m45() override;
+
 protected:
     // static_param at offset 0x80
     const bool* mIsAllowRotAxisX_s{};
@@ -24,6 +26,8 @@ protected:
     sead::SafeString mDungeonName_s{};
     // static_param at offset 0x98
     sead::SafeString mRailName_s{};
+    Unk_71024f15c0 _a8;
 };
+KSYS_CHECK_SIZE_NX150(RailMoveRemainsBGCamera, 0x108);
 
 }  // namespace uking::ai

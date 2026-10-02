@@ -35,6 +35,7 @@ public:
     void sub_7100EEBAE0(ksys::map::Rail* rail, f32 progress);
     bool sub_7100EEBB74() const;
     bool sub_7100EEBE88() const;
+    void sub_7100EEBDB8(const Unk_71024f15c0* other);
     // Inline only (no out-of-line copy in the executable); placeholder name.
     void x(f32 distance) { m4(distance, nullptr, nullptr); }
     void sub_7100EEBE9C(s32 direction);
@@ -52,3 +53,5 @@ f32 sub_7100EEF7AC(const ksys::map::Rail* rail, const sead::Vector3f& pos, bool 
 const char* sub_7100EEF358(const ksys::map::Rail* rail, s32 idx);
 // The "WaitFrame" parameter of the rail's idx-th point (0 if missing).
 f32 sub_7100EEF078(const ksys::map::Rail* rail, s32 idx);
+// The "MoveSpeed" parameter of the rail's idx-th point (0 if missing).
+f32 sub_7100EEF60C(const ksys::map::Rail* rail, s32 idx);

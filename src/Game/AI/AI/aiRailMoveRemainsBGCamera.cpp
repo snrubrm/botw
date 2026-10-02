@@ -29,4 +29,8 @@ void RailMoveRemainsBGCamera::loadParams_() {
     getStaticParam(&mRailName_s, "RailName");
 }
 
+Unk_71024f15c0* RailMoveRemainsBGCamera::m45() {
+    return &_a8;
+}
+
 }  // namespace uking::ai

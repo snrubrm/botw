@@ -21,6 +21,13 @@ bool Unk_71024f15c0::sub_7100EEBB74() const {
     return _30.rail != nullptr;
 }
 
+// NON_MATCHING: the original copies each Data's progress and rail before pos and rot
+void Unk_71024f15c0::sub_7100EEBDB8(const Unk_71024f15c0* other) {
+    _8 = other->_8;
+    _30 = other->_30;
+    _58 = other->_58;
+}
+
 bool Unk_71024f15c0::sub_7100EEBE88() const {
     return _8.rail->isClosed();
 }
@@ -62,5 +69,13 @@ f32 sub_7100EEF078(const ksys::map::Rail* rail, s32 idx) {
     const auto* point = rail->getPoint(idx);
     if (point && point->getIter().isValid())
         point->getIter().tryGetParamFloatByKey(&value, "WaitFrame");
+    return value;
+}
+
+f32 sub_7100EEF60C(const ksys::map::Rail* rail, s32 idx) {
+    f32 value = 0;
+    const auto* point = rail->getPoint(idx);
+    if (point && point->getIter().isValid())
+        point->getIter().tryGetParamFloatByKey(&value, "MoveSpeed");
     return value;
 }

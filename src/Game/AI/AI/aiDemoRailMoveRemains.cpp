@@ -28,4 +28,12 @@ void DemoRailMoveRemains::loadParams_() {
     getDynamicParam(&mDynInitPosByRailRatio_d, "DynInitPosByRailRatio");
 }
 
+f32 DemoRailMoveRemains::m41() {
+    return *mDynSpeedScale_d;
+}
+
+f32 DemoRailMoveRemains::m42() {
+    return *mDynInitPosByRailRatio_d;
+}
+
 }  // namespace uking::ai
