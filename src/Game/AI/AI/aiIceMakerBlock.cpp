@@ -2,9 +2,16 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the original merges the _a0-_a7 stores into one 8-byte store (ours: _a5-_a8)
 IceMakerBlock::IceMakerBlock(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-IceMakerBlock::~IceMakerBlock() = default;
+IceMakerBlock::~IceMakerBlock() {
+    _78[0] = nullptr;
+    _78[1] = nullptr;
+    _88 = nullptr;
+    _90 = nullptr;
+    _98 = nullptr;
+}
 
 bool IceMakerBlock::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
