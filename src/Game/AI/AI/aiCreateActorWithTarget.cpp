@@ -15,6 +15,18 @@ void CreateActorWithTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void CreateActorWithTarget::calc_() {
+    _98.update();
+    _a4.update();
+    _f8.update();
+    if (m36()) {
+        setFinished();
+        return;
+    }
+    m34();
+    getCurrentChild()->setDynamicParam(m35(), "TargetPos");
+}
+
 void CreateActorWithTarget::leave_() {
     ksys::act::ai::Ai::leave_();
 }
