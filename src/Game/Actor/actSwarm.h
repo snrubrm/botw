@@ -59,7 +59,9 @@ public:
     /* 0x15f0 */ void* _15f0 = nullptr;
     /* 0x15f8 */ u32 _15f8 = 0;
     /* 0x1600 */ void* _1600 = nullptr;
-    /* 0x1608 */ u8 _1608[0x1615 - 0x1608]{};
+    /* 0x1608 */ u8 _1608[0x1610 - 0x1608]{};
+    /* 0x1610 */ s32 _1610 = 0;  // living unit count? (0 -> SwarmReaction deletes the actor)
+    /* 0x1614 */ bool _1614 = false;
     /* 0x1618 */ Actor* _1618 = this;
     /* 0x1620 */ f32 _1620 = 0.1;
     /* 0x1624 */ f32 _1624 = 0.1;

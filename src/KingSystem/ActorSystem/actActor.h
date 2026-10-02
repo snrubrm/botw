@@ -285,6 +285,8 @@ public:
     void setFlag(ActorFlag flag);
     void setFlag(ActorFlag flag, bool on);
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
+    // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
+    bool deleteAndEmit(s32 type);
 
     void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f& vel,
                        const sead::Vector3f& ang_vel, const sead::Vector3f& scale,
