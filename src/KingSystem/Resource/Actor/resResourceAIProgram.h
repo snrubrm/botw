@@ -72,6 +72,8 @@ public:
     }
 
     const sead::Buffer<u16>& getDemoAiActionIndices() const { return mDemoAIActionIndices; }
+    // Passed to Ai::initChildren_ by uking::ai::DemoRootAI::initChildren.
+    sead::Buffer<u16>& getDemoAiActionIndices() { return mDemoAIActionIndices; }
     const sead::Buffer<u8>& getDemoBehaviorIndices() const { return mDemoBehaviorIndices; }
 
     bool getSInstParam(const char** value, const Definition& def,

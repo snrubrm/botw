@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiDemoRootAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 
 namespace uking::ai {
 
@@ -12,6 +15,13 @@ DemoRootAI::~DemoRootAI() {
         }
     }
     _38.freeBuffer();
+}
+
+bool DemoRootAI::initChildren(const ksys::AIDefSet& set, sead::Heap* heap) {
+    auto& indices = mActor->getParam()->getRes().mAIProgram->getDemoAiActionIndices();
+    if (indices.size() == 0)
+        return true;
+    return initChildren_(indices.size(), nullptr, indices, heap);
 }
 
 bool DemoRootAI::init_(sead::Heap* heap) {

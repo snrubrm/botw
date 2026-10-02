@@ -42,6 +42,10 @@ void HeroSoulGiftRoot::m36() {
     if (isCurrentChild("退場"))
         return;
 
+    sub_710042EEB4();
+}
+
+void HeroSoulGiftRoot::sub_710042EEB4() {
     if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
         mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     else
