@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
@@ -16,6 +17,30 @@ bool CreateActor::init_(sead::Heap* heap) {
 
 void CreateActor::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71003591E4(nullptr);
+}
+
+void CreateActor::calc_() {
+    if (!isCurrentChild("生成中")) {
+        if (isCurrentChild("生成")) {
+            auto* child = getCurrentChild();
+            if (child->isFinished() || child->isFailed())
+                setFinished();
+        }
+    } else if (_58.isAllocatedOrFailed()) {
+        if (!_58.isProcReady()) {
+            if (_58.hasProcCreationFailed()) {
+                _58.deleteProcIfFailed();
+                setFailed();
+            }
+        } else {
+            auto* child = getCurrentChild();
+            if (child->isChangeable() || child->isFinished() || child->isFailed()) {
+                ksys::act::ai::InlineParamPack params;
+                params.addPointer(&_58, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+                changeChild("生成", &params);
+            }
+        }
+    }
 }
 
 void CreateActor::leave_() {

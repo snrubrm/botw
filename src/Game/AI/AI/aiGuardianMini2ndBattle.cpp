@@ -22,6 +22,33 @@ void GuardianMini2ndBattle::loadParams_() {
     getStaticParam(&mCounterStopTime_s, "CounterStopTime");
 }
 
+void GuardianMini2ndBattle::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("反撃終了")) {
+            sub_7100381ED4();
+            m37();
+            return;
+        }
+    }
+
+    if (getCurrentChild()->isChangeable()) {
+        if (isCurrentChild("反撃")) {
+            if (*mAttackHitNum_s < 1)
+                return;
+            if (_1c8 < *mAttackHitNum_s)
+                return;
+            if (!(_1d0.value <= sead::Mathf::epsilon()))
+                _1d0.update();
+            if (!(_1d0.value <= sead::Mathf::epsilon()))
+                return;
+            changeChild("反撃終了");
+            return;
+        }
+    }
+    GuardianMiniBattle::calc_();
+}
+
 void GuardianMini2ndBattle::m44() {
     _1c8 = 0;
     _1d0 = ksys::Timer(*mCounterStopTime_s, *mCounterStopTime_s);
