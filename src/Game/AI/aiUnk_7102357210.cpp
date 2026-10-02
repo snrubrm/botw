@@ -154,7 +154,7 @@ bool Unk_7102450558::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
