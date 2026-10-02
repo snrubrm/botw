@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkOnEnterCharCtrlInvalid.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -12,7 +15,11 @@ bool ForkOnEnterCharCtrlInvalid::init_(sead::Heap* heap) {
 }
 
 void ForkOnEnterCharCtrlInvalid::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5EC44();
+    else if (auto* body = mActor->getMainBody())
+        body->removeFromWorld();
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkOnEnterCharCtrlInvalid::leave_() {

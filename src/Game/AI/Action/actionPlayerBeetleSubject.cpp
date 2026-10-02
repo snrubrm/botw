@@ -12,7 +12,7 @@ void PlayerBeetleSubject::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerBeetleSubject::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c40.reset(0x800);
 }
 
 void PlayerBeetleSubject::loadParams_() {

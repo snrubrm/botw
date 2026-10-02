@@ -7,6 +7,8 @@ PlayerGrabStand::PlayerGrabStand(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerGrabStand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x1);
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("GrabStand", true, -1.0f);
 }
 
 void PlayerGrabStand::leave_() {}

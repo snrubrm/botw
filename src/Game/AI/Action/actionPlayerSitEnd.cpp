@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSitEnd.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -8,6 +9,9 @@ PlayerSitEnd::PlayerSitEnd(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerSitEnd::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SitDownEd", true, -1.0f);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5EEB8(0.0f);
 }
 
 void PlayerSitEnd::leave_() {

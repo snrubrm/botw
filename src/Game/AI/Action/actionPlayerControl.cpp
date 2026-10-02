@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerControl.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -11,7 +12,10 @@ void PlayerControl::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerControl::leave_() {}
 
 void PlayerControl::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerControl::isChangeable() const {

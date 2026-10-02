@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionUseNavMeshConnectAction.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +14,17 @@ bool UseNavMeshConnectAction::init_(sead::Heap* heap) {
 }
 
 void UseNavMeshConnectAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("NavMeshConnect"))
+            set->addToWorld();
+    }
 }
 
 void UseNavMeshConnectAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("NavMeshConnect"))
+            set->removeFromWorld();
+    }
 }
 
 void UseNavMeshConnectAction::loadParams_() {}
