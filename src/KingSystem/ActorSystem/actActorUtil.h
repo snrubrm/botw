@@ -228,6 +228,8 @@ void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
 void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
+// 0x7100edd218 (declaration only): the actor's Liftable ThrownMass, or 1 without Liftable params.
+s32 sub_7100EDD218(Actor* actor);
 
 // Per-frame -> per-second (x30) forwarders to the character controller / rigid body setters
 // (0x7100ee60a0-0x7100ee62b0).

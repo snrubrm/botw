@@ -201,6 +201,10 @@ const sead::Matrix34f& sub_71005DC57C(ksys::act::Actor* actor);
 const sead::SafeString& sub_71005DC5AC(ksys::act::Actor* actor);
 void sub_71005DC5DC(ksys::act::Actor* actor);
 void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+// 0x71005dc02c (declaration only; called by Thrown::leave_ when IsOnImpact).
+void sub_71005DC02C(ksys::act::Actor* actor);
+// 0x71005dc8ac (declaration only): writes a throw velocity to `out`; Thrown::calc_.
+bool sub_71005DC8AC(ksys::act::Actor* actor, sead::Vector3f* out);
 void sub_71005DC640(ksys::act::Actor* actor, ksys::act::BaseProcHandle* handle, int grab_idx);
 
 // --- helpers using the typed Actor slots 97 (Chemical), 130 (ride info) ---

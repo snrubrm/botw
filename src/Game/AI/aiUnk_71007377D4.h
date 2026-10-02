@@ -35,6 +35,8 @@ void sub_710073771C(ksys::phys::RigidBody* body, const sead::Vector3f& ang_vel);
 void sub_71007377D4(ksys::phys::CharacterController* controller, f32 ratio);
 void sub_71007379FC(ksys::phys::RigidBody* body, f32 ratio);
 void sub_7100738428(ksys::act::Actor* actor, f32 ratio);
+// 0x7100738dc8 (declaration only): InstanceSet::sub_7100FBDFA4 with the actor's group handler.
+void sub_7100738DC8(ksys::act::Actor* actor);
 /// Reduces the velocity along `dir`.
 void sub_7100737C0C(ksys::phys::CharacterController* controller, f32 ratio,
                     const sead::Vector3f& dir);
