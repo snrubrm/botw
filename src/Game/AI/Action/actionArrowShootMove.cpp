@@ -7,8 +7,6 @@ namespace uking::action {
 
 ArrowShootMove::ArrowShootMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ArrowShootMove::~ArrowShootMove() = default;
-
 void ArrowShootMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
