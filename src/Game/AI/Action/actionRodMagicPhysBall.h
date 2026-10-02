@@ -17,7 +17,7 @@ public:
 
 protected:
     void calc_() override;
-    int m33() override;
+    bool m33() override;
 
     // static_param at offset 0xb8
     sead::SafeString mCreateActorName_s{};

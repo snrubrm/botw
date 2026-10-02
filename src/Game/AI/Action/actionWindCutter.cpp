@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWindCutter.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -52,6 +53,14 @@ int WindCutter::m36() {
 
 int WindCutter::m37() {
     return *mAttackPower_m * sead::Mathi::max(*mAttackLevel_m, 0) * *mLevelAtkMult_s;
+}
+
+bool WindCutter::m33() {
+    if (ChemicalAttack::m33())
+        return true;
+    auto* actor = mActor;
+    return ksys::act::sub_71007A4638(actor, false) || ksys::act::sub_71007A4864(actor, false) ||
+           ksys::act::sub_71007A4178(actor, false);
 }
 
 }  // namespace uking::action

@@ -18,7 +18,7 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
-    virtual int m33();
+    virtual bool m33();
     virtual float m34();
     virtual int m35();
     virtual int m36();

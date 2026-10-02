@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -14,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isFinished() const override;
 
 protected:
     void calc_() override;
@@ -26,6 +28,8 @@ protected:
     const float* mSetVelocity_s{};
     // static_param at offset 0x38
     const float* mSetVelocityFromWeapon_s{};
+    ksys::Timer _40;
+    bool _4c = false;
 };
 
 }  // namespace uking::action

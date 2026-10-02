@@ -23,6 +23,8 @@ protected:
     const float* mToStarHeight_s{};
     // static_param at offset 0x168
     const float* mFallHeight_s{};
+    sead::Vector3f _170 = sead::Vector3f::zero;
+    f32 _17c = 0;
 };
 
 }  // namespace uking::action

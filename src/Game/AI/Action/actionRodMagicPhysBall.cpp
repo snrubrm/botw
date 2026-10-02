@@ -25,8 +25,8 @@ void RodMagicPhysBall::calc_() {
     ChemicalPhysBall::calc_();
 }
 
-int RodMagicPhysBall::m33() {
-    return 0;
+bool RodMagicPhysBall::m33() {
+    return false;
 }
 
 }  // namespace uking::action

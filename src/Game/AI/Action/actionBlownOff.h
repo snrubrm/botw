@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionRagdoll.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,9 @@ protected:
     const float* mLifeReflexRatio_s{};
     // static_param at offset 0x128
     const float* mImpulseRatio_s{};
+    Unk_7102451970 _130;
+    int _158 = 0;
+    bool _15c = true;
 };
 
 }  // namespace uking::action

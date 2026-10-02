@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33() override;
     f32 m34() override;
     int m36() override;
     int m37() override;

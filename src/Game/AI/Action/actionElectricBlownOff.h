@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "Game/AI/Action/actionBlownOff.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -29,6 +30,9 @@ protected:
     sead::SafeString mElectricActorName_s{};
     // static_param at offset 0x188
     sead::SafeString mElectricActorKey_s{};
+    u32 _198 = 0;
+    ksys::Timer _19c{0, 0};
+    u8 _1a8 = 0xff;
 };
 
 }  // namespace uking::action

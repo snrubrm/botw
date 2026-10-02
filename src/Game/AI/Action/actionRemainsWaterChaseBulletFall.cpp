@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletFall.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actUnk_71007A24BC.h"
 
 namespace uking::action {
 
@@ -27,7 +29,30 @@ void RemainsWaterChaseBulletFall::loadParams_() {
 }
 
 void RemainsWaterChaseBulletFall::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_40.value <= sead::Mathf::epsilon())
+        return;
+    _40.update();
+}
+
+bool RemainsWaterChaseBulletFall::isFinished() const {
+    auto* actor = mActor;
+    if (ksys::act::sub_71007A4864(actor, false))
+        return true;
+
+    const f32 depth_threshold = *mInWaterDepth_s;
+    if (depth_threshold >= 0.0f) {
+        f32 depth = 0.0f;
+        if (actor->get68f().load()) {
+            const f32 y = actor->getMtx().m[1][3];
+            depth = actor->get6f0() - y;
+        }
+        if (depth >= depth_threshold)
+            return true;
+    }
+
+    if (*mEndTimer_s > 0.0f && _40.value <= sead::Mathf::epsilon())
+        return true;
+    return false;
 }
 
 }  // namespace uking::action
