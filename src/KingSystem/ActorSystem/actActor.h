@@ -289,6 +289,8 @@ public:
     void emitSignalsOrDisappearEffectForDelete(int a1);
     // CSV name.
     void clearFadeInCreate();
+    // CSV name (0x71011d6cbc; not decompiled): emits the effect for the m135()->_4 disappear type.
+    void emitDisappearEffect();
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
