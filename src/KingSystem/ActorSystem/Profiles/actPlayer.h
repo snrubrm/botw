@@ -304,7 +304,9 @@ public:
     void x_16();                                                        // 0x892e18
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
-    /* 0x17f1 */ u8 _17f1[0x1844 - 0x17f1];
+    /* 0x17f1 */ u8 _17f1[0x181c - 0x17f1];
+    /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
+    /* 0x1828 */ u8 _1828[0x1844 - 0x1828];
     /* 0x1844 */ ksys::Timer _1844;  // set to CleaningTime by PlayerCleaningAround::enter_
     /* 0x1850 */ u8 _1850[0x1868 - 0x1850];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
