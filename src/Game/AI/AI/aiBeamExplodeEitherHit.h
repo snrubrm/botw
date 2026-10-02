@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m35() override;
+
 protected:
     // aitree_variable at offset 0x58
     bool* mIsReflectThrownBullet_a{};

@@ -51,6 +51,21 @@ void CommonPickedItem::m38() {
     changeChild("通常");
 }
 
+void CommonPickedItem::m34() {
+    auto* actor = mActor;
+    if (actor->getFadeOutDeleteType() != 0)
+        return;
+    ksys::act::enableAttClient(actor, "NameBalloon");
+    ksys::act::enableAttClient(actor, "AutoAim");
+    if (ksys::act::itemIsForSale(actor)) {
+        ksys::act::enableAttClient(actor, "Buy");
+        ksys::act::disableAttClient(actor, m36());
+    } else {
+        ksys::act::enableAttClient(actor, m36());
+        ksys::act::disableAttClient(actor, "Buy");
+    }
+}
+
 void CommonPickedItem::m37() {
     auto* actor = mActor;
     if (*mCanGetOnBurning_s) {

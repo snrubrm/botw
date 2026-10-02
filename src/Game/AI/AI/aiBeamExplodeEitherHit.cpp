@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBeamExplodeEitherHit.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,12 @@ void BeamExplodeEitherHit::leave_() {
 void BeamExplodeEitherHit::loadParams_() {
     BeamExplode::loadParams_();
     getAITreeVariable(&mIsReflectThrownBullet_a, "IsReflectThrownBullet");
+}
+
+void BeamExplodeEitherHit::m35() {
+    ksys::act::ai::InlineParamPack params;
+    params.addBool(*mIsReflectThrownBullet_a, "IsPlayerAttack", -1);
+    changeChild("爆発", &params);
 }
 
 }  // namespace uking::ai
