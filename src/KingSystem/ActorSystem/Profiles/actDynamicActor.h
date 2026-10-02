@@ -72,7 +72,8 @@ public:
     virtual void m161() {}
     virtual bool m162() { return false; }
 
-protected:
+public:
+    // Members are public: AI and action code read them directly.
     /* 0x840 */ uking::dmg::DamageManagerBase* mDamageMgr = nullptr;
     /* 0x848 */ s32 mLife = 1;
     /* 0x850 */ ActorAtk* _850 = nullptr;  // created by ActorAtk::makeForActor
@@ -83,7 +84,9 @@ protected:
     /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
     /* 0xa58 */ void* _a58 = nullptr;
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
-    /* 0xa68 */ u8 _a68[0xa78 - 0xa68];
+    /* 0xa68 */ u8 _a68 = 0;  // flags (byte accesses from AI/action code)
+    /* 0xa69 */ u8 _a69 = 0;
+    /* 0xa70 */ void* _a70 = nullptr;
     /* 0xa78 */ Unk3 _a78;  // m135
     /* 0xa80 */ BaseProcLink _a80;
     /* 0xa90 */ u8 _a90[0xb90 - 0xa90];

@@ -249,7 +249,8 @@ public:
     /* 0xe74 */ u32 _e74 = 0;
     /* 0xe78 */ void* _e78 = nullptr;
     /* 0xe68 */ void* _e68 = nullptr;
-    /* 0xe70 */ void* _e70 = nullptr;
+    /* 0xe70 */ u32 _e70 = 0;
+    /* 0xe74 */ f32 _e74 = 0;  // written by NoticeTurn::leave_
     /* 0xe78 */ Unk_71025ae680* _e78 = nullptr;  // m159, created by m178
     /* 0xe80 */ u16 _e80 = 0;
     /* 0xe82 */ u16 _e82 = 0;

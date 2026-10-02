@@ -58,7 +58,7 @@ public:
     virtual bool isGuardJust();
     virtual void getBaseAtkPower();
     virtual bool m169() { return false; }
-    virtual void m170();
+    virtual bool m170();
     virtual void m171();
     virtual void m172();
     virtual bool m173();

@@ -241,11 +241,15 @@ protected:
     friend class acc::PlayerBase;
     friend class PlayerInfo;
 
+public:
+    // State flags; also read and written directly by action code (inlined accesses).
     /* 0xc40 */ sead::BitFlag32 _c40;
     /* 0xc44 */ sead::BitFlag32 _c44;
     /* 0xc48 */ sead::BitFlag32 _c48;
     /* 0xc4c */ sead::BitFlag32 _c4c;
     /* 0xc50 */ sead::BitFlag64 _c50;
+
+protected:
     /* 0xc58 */ sead::CriticalSection _c58;
     /* 0xc98 */ sead::BitFlag32 _c98;
     /* 0xca0 */ sead::CriticalSection _ca0;
