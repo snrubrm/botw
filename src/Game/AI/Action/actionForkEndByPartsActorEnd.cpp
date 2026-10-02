@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkEndByPartsActorEnd.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool ForkEndByPartsActorEnd::init_(sead::Heap* heap) {
 
 void ForkEndByPartsActorEnd::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    if (!mActor->m101())
+        setFailed();
 }
 
 void ForkEndByPartsActorEnd::leave_() {

@@ -27,4 +27,8 @@ void ThrowWeaponByBodyCenter::calc_() {
     ThrowWeapon::calc_();
 }
 
+void ThrowWeaponByBodyCenter::m33() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

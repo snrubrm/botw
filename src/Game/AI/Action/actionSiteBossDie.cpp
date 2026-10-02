@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossDie.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -31,6 +32,15 @@ bool SiteBossDie::isFinished() const {
     if (isFinishedAS(0, 0))
         return true;
     return isFinishedAS(0, 0);
+}
+
+void SiteBossDie::m32() {
+    if (*mIsUseYAxisSignal_s) {
+        mActor->emitBasicSigOff();
+        mActor->emitSignalAxisY_1();
+    } else {
+        mActor->emitBasicSigOn();
+    }
 }
 
 }  // namespace uking::action

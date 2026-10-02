@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionExplodeReserved.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
@@ -34,6 +35,7 @@ void ExplodeReserved::loadParams_() {
 
 void ExplodeReserved::calc_() {
     StopASPlay::calc_();
+    mActor->m107();
 }
 
 }  // namespace uking::action

@@ -5,7 +5,9 @@ namespace uking::action {
 SmallDamage::SmallDamage(const InitArg& arg) : SmallDamageBase(arg) {}
 
 void SmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
+    m38();
     SmallDamageBase::enter_(params);
+    mFlags.set(Flag::Changeable);
 }
 
 bool SmallDamage::isFinished() const {

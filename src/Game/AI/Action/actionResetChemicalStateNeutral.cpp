@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionResetChemicalStateNeutral.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,5 +14,11 @@ bool ResetChemicalStateNeutral::init_(sead::Heap* heap) {
 }
 
 void ResetChemicalStateNeutral::loadParams_() {}
+
+bool ResetChemicalStateNeutral::oneShot_() {
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D8EEE0();
+    return true;
+}
 
 }  // namespace uking::action

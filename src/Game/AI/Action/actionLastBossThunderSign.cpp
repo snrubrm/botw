@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLastBossThunderSign.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -12,7 +14,9 @@ bool LastBossThunderSign::init_(sead::Heap* heap) {
 }
 
 void LastBossThunderSign::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _28 = ksys::Timer(*mSignTime_s, *mSignTime_s);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D90FF0(true);
 }
 
 void LastBossThunderSign::leave_() {

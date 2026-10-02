@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionThrowWeapon.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -28,6 +31,16 @@ void ThrowWeapon::loadParams_() {
 
 void ThrowWeapon::calc_() {
     ActionWithAS::calc_();
+}
+
+void ThrowWeapon::m32(sead::Vector3f* pos, uking::act::Enemy* enemy, int weapon_idx) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->_c38[weapon_idx], &accessor);
+    accessor.getActorMtx().getTranslation(*pos);
+}
+
+void ThrowWeapon::m33() {
+    playAS("Throw", false, 0, 0, -1.0f);
 }
 
 }  // namespace uking::action

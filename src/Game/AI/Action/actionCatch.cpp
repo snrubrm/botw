@@ -23,4 +23,8 @@ void Catch::calc_() {
     ActionEx::calc_();
 }
 
+void Catch::m32() {
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

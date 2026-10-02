@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionActionWithAS.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class Enemy;
+}
+
 namespace uking::action {
 
 class ThrowWeapon : public ActionWithAS {
@@ -17,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(sead::Vector3f* pos, uking::act::Enemy* enemy, int weapon_idx);
+    virtual void m33();
 
     // static_param at offset 0x30
     const int* mWeaponIdx_s{};

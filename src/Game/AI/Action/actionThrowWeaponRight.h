@@ -12,6 +12,7 @@ public:
     ~ThrowWeaponRight() override;
 
 protected:
+    void m33() override;
 };
 
 }  // namespace uking::action

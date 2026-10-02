@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWarn.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,10 +14,14 @@ bool Warn::init_(sead::Heap* heap) {
 
 void Warn::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASPlay::enter_(params);
+    if (auto* awareness = mActor->getAwareness())
+        awareness->_334 |= 2;
 }
 
 void Warn::leave_() {
     StopASPlay::leave_();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->_334 &= ~2;
 }
 
 void Warn::loadParams_() {

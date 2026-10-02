@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNPCWait.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actNPC.h"
 
 namespace uking::action {
@@ -17,7 +19,8 @@ void NPCWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCWait::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F76790();
 }
 
 void NPCWait::loadParams_() {

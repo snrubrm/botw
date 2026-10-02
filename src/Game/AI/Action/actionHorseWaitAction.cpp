@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseWaitAction.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void HorseWaitAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseWaitAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F76314();
 }
 
 void HorseWaitAction::loadParams_() {

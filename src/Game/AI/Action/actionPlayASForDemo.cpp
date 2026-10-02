@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayASForDemo.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -35,6 +37,12 @@ void PlayASForDemo::calc_() {
 
 bool PlayASForDemo::m33() {
     return false;
+}
+
+float PlayASForDemo::m32() {
+    if (auto* as_list = mActor->getASList())
+        return as_list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_71011632F8);
+    return 0.0f;
 }
 
 }  // namespace uking::action

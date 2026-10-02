@@ -12,6 +12,7 @@ public:
     ~ForkASTrgDeleteEquip() override;
 
     void loadParams_() override;
+    void m32() override;
 
 protected:
     // static_param at offset 0x20
