@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
     void m38() override;
     bool m39() override;
+    bool m40() override;
 
     void sub_7100569CA0();
     void sub_7100569DC8(sead::Vector3f* out);

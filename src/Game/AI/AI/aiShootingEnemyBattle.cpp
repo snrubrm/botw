@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiShootingEnemyBattle.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -50,6 +52,13 @@ void ShootingEnemyBattle::sub_7100569CA0() {
     params.addVec3(pos, "TargetPos", -1);
     changeChild("画面外攻撃", &params);
     ++_b0;
+}
+
+bool ShootingEnemyBattle::m40() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || !(enemy->_e68.value <= sead::Mathf::epsilon()))
+        return false;
+    return sub_710072DDB8(sub_71005D9330(mActor), mActor->getMtx(), *mAttackAngle_s);
 }
 
 }  // namespace uking::ai
