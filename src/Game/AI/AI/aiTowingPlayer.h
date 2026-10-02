@@ -28,7 +28,7 @@ protected:
     const float* mCheckPlayerStateDef_s{};
     /* 0x0d8 */ Unk_710242cb98 _d8{mActor, 0x8000025};
     /* 0x0f0 */ Unk_710242cbc0 _f0{mActor, 0x8000026};
-    /* 0x108 */ ksys::MessageTransceiverTxOnly _108{*mActor};
+    /* 0x108 */ ksys::MessageTransceiverTxOnly _108{mActor};
     /* 0x158 */ ksys::Timer _158;  // CheckPlayerStateDef
     /* 0x164 */ ksys::Timer _164;  // InterruptDef
 };

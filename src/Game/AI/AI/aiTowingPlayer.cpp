@@ -7,8 +7,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original converts mActor to a MessageTransceiverTxOnly::IHandler pointer with a
-// null check (csel) before binding _108's handler reference; the reference conversion has none
 TowingPlayer::TowingPlayer(const InitArg& arg) : Towing(arg) {}
 
 TowingPlayer::~TowingPlayer() = default;
