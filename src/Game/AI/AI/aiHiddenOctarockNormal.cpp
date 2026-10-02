@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHiddenOctarockNormal.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -80,6 +82,30 @@ void HiddenOctarockNormal::m49(Unk1* out, s32 idx) {
         return;
     }
     EnemyNormal::m49(out, idx);
+}
+
+void HiddenOctarockNormal::m60(Unk3* out) {
+    if (!isCurrentChild("攻撃反応") || !sub_71005D9050(mActor))
+        out->_0 = -1;
+}
+
+void HiddenOctarockNormal::m61(Unk3* out) {
+    if (isCurrentChild("プレイヤー発見") && sub_710039DB34(true)) {
+        auto* target = sub_71005D9050(mActor);
+        if (target && ksys::act::isPlayerProfile(target))
+            out->_4 |= 2;
+        out->_0 = 2;
+    }
+}
+
+void HiddenOctarockNormal::m69(Unk2* target) {
+    EnemyNormal::m69(target);
+    _410 = false;
+    if (*mIsIvalidateSight_s) {
+        if (auto* awareness = mActor->getAwareness())
+            awareness->sub_7100D7E9BC(0);
+    }
+    sub_71005D8E9C(mActor);
 }
 
 }  // namespace uking::ai

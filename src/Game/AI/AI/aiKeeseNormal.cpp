@@ -100,4 +100,5 @@ void KeeseNormal::m50(Unk1* out, s32 idx) {
     }
 }
 
+
 }  // namespace uking::ai

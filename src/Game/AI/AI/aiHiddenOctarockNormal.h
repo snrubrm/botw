@@ -21,6 +21,9 @@ public:
     s32 m52(s32 idx) override;
     s32 m53() override { return 2; }
 
+    void m60(Unk3* out) override;
+    void m61(Unk3* out) override;
+    void m69(Unk2* target) override;
 protected:
     // static_param at offset 0x3d0
     const float* mOptionHitReactionDelay_s{};

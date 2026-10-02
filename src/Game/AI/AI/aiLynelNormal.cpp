@@ -90,4 +90,22 @@ void LynelNormal::m49(Unk1* out, s32 idx) {
     }
 }
 
+void LynelNormal::m57(s32 type, Unk2* target) {
+    LandHumEnemyNormal::m57(type, target);
+    switch (type) {
+    case 0:
+    case 1:
+        *mLynelNoticeAttackRepeatNum_a = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+void LynelNormal::m60(Unk3* out) {
+    LandHumEnemyNormal::m60(out);
+    if (out->_0 == 0 && isCurrentChild("プレイヤー発見"))
+        out->_0 = 3;
+}
+
 }  // namespace uking::ai

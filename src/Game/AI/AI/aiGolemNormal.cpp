@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGolemNormal.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/Actor/actEnemy.h"
@@ -69,6 +71,31 @@ void GolemNormal::m49(Unk1* out, s32 idx) {
     }
 
     out->_0 = isCurrentChild("プレイヤー発見") || isCurrentChild("怒り") ? -1 : 9;
+}
+
+// NON_MATCHING: register allocation (&filter kept in a callee-saved register)
+bool GolemNormal::m56(Unk2* out, Unk1* info) {
+    if (info->_0 == 9) {
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_71024514c0 filter(mActor);
+            filter._30 = 2;
+            auto* sensor = awareness->_260[0];
+            auto* entry = sensor ? ksys::act::sub_7100D7EEE8(&sensor->_8, &filter) : nullptr;
+            if (entry && !m46(entry->_88, entry->mLink)) {
+                out->sub_71003A02A4(entry);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void GolemNormal::m57(s32 type, Unk2* target) {
+    if (type == 9) {
+        sub_71005D8DE8(mActor, *target->_0, &target->_8, nullptr);
+        return;
+    }
+    EnemyNormal::m57(type, target);
 }
 
 }  // namespace uking::ai

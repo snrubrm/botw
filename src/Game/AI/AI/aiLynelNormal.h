@@ -21,6 +21,8 @@ public:
     void calc_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    void m57(s32 type, Unk2* target) override;
+    void m60(Unk3* out) override;
 protected:
     // aitree_variable at offset 0x400
     int* mLynelAreaAlarmPoint_a{};

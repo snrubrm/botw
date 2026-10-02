@@ -26,6 +26,7 @@ public:
     void m50(Unk1* out, s32 idx) override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    bool m68(Unk2* out, Unk1* info) override { return false; }
 protected:
     // static_param at offset 0x3d0
     const float* mRoamHeightFromGlowObj_s{};

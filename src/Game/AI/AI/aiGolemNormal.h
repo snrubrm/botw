@@ -26,6 +26,8 @@ public:
     void m37() override;
     void m38() override;
 
+    bool m56(Unk2* out, Unk1* info) override;
+    void m57(s32 type, Unk2* target) override;
 protected:
 };
 

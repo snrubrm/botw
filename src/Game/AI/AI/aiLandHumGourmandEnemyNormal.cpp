@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiLandHumGourmandEnemyNormal.h"
+#include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -62,6 +66,120 @@ void LandHumGourmandEnemyNormal::sub_7100472538() {
     if (auto* unk = sub_71005D9D68(mActor))
         unk->sub_71002DC8A0(bait, 0x10);
     bait.reset();
+}
+
+bool LandHumGourmandEnemyNormal::m56(Unk2* out, Unk1* info) {
+    if (info->_0 == 11 && sub_71004729D8(out, info))
+        return true;
+    return LandHumEnemyNormal::m56(out, info);
+}
+
+void LandHumGourmandEnemyNormal::m57(s32 type, Unk2* target) {
+    if (type == 11) {
+        mActor->getMtx().getTranslation(_424);
+        sub_71004727CC(*target->_0);
+        return;
+    }
+    if (type == 10) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(target->_0, &accessor);
+        const s32 id = accessor.getBalloonHungActorBaseProcID();
+        if (id != -1) {
+            if (auto* awareness = mActor->getAwareness()) {
+                Unk_7102451768 filter;
+                filter._28 = id;
+                auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter);
+                if (entry) {
+                    if (auto* unk = sub_71005D9D68(mActor))
+                        unk->sub_71002DC628(entry->mLink, 0x10);
+                }
+            }
+        }
+    }
+    LandHumEnemyNormal::m57(type, target);
+}
+
+void LandHumGourmandEnemyNormal::m58(s32 type, Unk2* target) {
+    if (type == 11) {
+        sub_71004728A4(target);
+        return;
+    }
+    LandHumEnemyNormal::m58(type, target);
+}
+
+void LandHumGourmandEnemyNormal::m59() {
+    if (!isCurrentChild("餌発見")) {
+        LandHumEnemyNormal::m59();
+        return;
+    }
+
+    _418.update();
+    auto* child = getCurrentChild();
+    if (child->isChangeable() && _418.value <= sead::Mathf::epsilon()) {
+        auto& bait = sub_7100472AE8();
+        if (bait.hasProcInCalcState()) {
+            sub_71004727CC(bait);
+            child->setDynamicParamImpl(bait, "TargetBait", &ksys::act::ai::ParamPack::setActor);
+            const f32 time = *mRefindBaitTime_s;
+            _418 = ksys::Timer(time, time);
+        } else {
+            sub_7100472538();
+        }
+    }
+}
+
+void LandHumGourmandEnemyNormal::m60(Unk3* out) {
+    if (isCurrentChild("餌発見")) {
+        out->_0 = 1;
+        return;
+    }
+    LandHumEnemyNormal::m60(out);
+}
+
+void LandHumGourmandEnemyNormal::sub_71004727CC(const ksys::act::BaseProcLink& link) {
+    auto* bait =
+        sead::DynamicCast<Unk_7102370e70>(*static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
+    if (!bait || bait->mLink == link)
+        return;
+    bait->mLink = link;
+    if (auto* unk = sub_71005D9D68(mActor))
+        unk->sub_71002DC628(link, 0x10);
+}
+
+void LandHumGourmandEnemyNormal::sub_71004728A4(Unk2* target) {
+    _3ac.reset(8);
+    const f32 time = *mRefindBaitTime_s;
+    _418 = ksys::Timer(time, time);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addActor(*target->_0, "TargetBait", -1);
+    params.addBool(!(target->_44 & 4), "IsNotice", -1);
+    changeChild("餌発見", &params);
+    sub_710039FAA4(target->_38);
+}
+
+// NON_MATCHING: the original loads out->_44 before testing the IsNotice bit (the |= 4 paths are
+// merged); ours selects with a csel
+bool LandHumGourmandEnemyNormal::sub_71004729D8(Unk2* out, Unk1* info) {
+    auto* bait =
+        sead::DynamicCast<Unk_7102370e70>(*static_cast<Unk_71025afb58**>(mTargetBaitActorLink_a));
+    if (bait && !sub_71004726B4(&bait->mLink)) {
+        out->sub_710039E308(&bait->mLink);
+        out->_44 |= 4;
+        return true;
+    }
+
+    if (info->_8 & 0x2000)
+        return false;
+    auto& link = sub_7100472AE8();
+    if (!link.hasProcInCalcState())
+        return false;
+    out->sub_710039E308(&link);
+    if (info->_8 & 0x4000)
+        out->_44 |= 4;
+    else
+        out->_44 &= ~4;
+    return true;
 }
 
 }  // namespace uking::ai

@@ -160,6 +160,10 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
     }
 }
 
+bool EnemyNormal::sub_710039DB34(bool a1) {
+    return m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), a1);
+}
+
 void EnemyNormal::m37() {
     _3ac.reset(0xc);
     _3b8 = 0;

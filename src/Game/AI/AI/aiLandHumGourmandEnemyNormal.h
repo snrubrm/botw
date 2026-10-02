@@ -22,7 +22,25 @@ public:
     s32 m52(s32 idx) override;
     s32 m53() override { return 12; }
 
+    bool m56(Unk2* out, Unk1* info) override;
+    void m57(s32 type, Unk2* target) override;
+    void m58(s32 type, Unk2* target) override;
+    void m59() override;
+    void m60(Unk3* out) override;
+    // 0x710047346c: not decompiled (calls the unnamed function 0x71006e3fb4).
+    void m61(Unk3* out) override;
+
     void sub_7100472538();
+    // 0x71004726b4: not decompiled (calls the unnamed functions 0x71006e3fb4 and 0x71005dec08).
+    bool sub_71004726B4(ksys::act::BaseProcLink* link);
+    // 0x71004727cc
+    void sub_71004727CC(const ksys::act::BaseProcLink& link);
+    // 0x71004728a4
+    void sub_71004728A4(Unk2* target);
+    // 0x71004729d8
+    bool sub_71004729D8(Unk2* out, Unk1* info);
+    // 0x7100472ae8: not decompiled (calls the unnamed function 0x710072e154).
+    ksys::act::BaseProcLink& sub_7100472AE8();
 
 protected:
     // static_param at offset 0x400
@@ -32,9 +50,7 @@ protected:
     // static_param at offset 0x410
     const int* mEatNavType_s{};
     ksys::Timer _418{0, 0};
-    u32 _424 = 0;
-    u32 _428 = 0;
-    u32 _42c = 0;
+    sead::Vector3f _424{0, 0, 0};
     // aitree_variable at offset 0x430
     void* mTargetBaitActorLink_a{};
     // aitree_variable at offset 0x438

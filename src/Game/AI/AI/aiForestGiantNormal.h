@@ -19,6 +19,9 @@ public:
     void m34() override;
     bool m54() override;
 
+    void m60(Unk3* out) override;
+    bool m63(Unk3* result) override;
+    bool m68(Unk2* out, Unk1* info) override;
 protected:
     // static_param at offset 0x3d0
     const float* mSleepingHearAwnRatio_s{};

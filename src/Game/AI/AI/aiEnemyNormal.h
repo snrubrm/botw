@@ -122,6 +122,8 @@ public:
     // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
     ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);
+    // 0x710039db34
+    bool sub_710039DB34(bool a1);
     // 0x71003a361c (not decompiled)
     bool sub_71003A361C(Unk2* out, bool a2, Unk1* info);
     // 0x710039faa4
