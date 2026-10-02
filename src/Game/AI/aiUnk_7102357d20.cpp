@@ -4,6 +4,13 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
+bool Unk_7102357d20::sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack) {
+    _14 = false;
+    if (!_8)
+        return false;
+    return _8->sendMessage(dest, _10, m2(), ack);
+}
+
 bool Unk_7102357d20::sub_710070DC38(ksys::act::Actor* actor, bool ack) {
     const auto* dest = actor->getMesTransceiverId();
     _14 = false;

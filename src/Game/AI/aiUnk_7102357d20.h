@@ -30,6 +30,7 @@ public:
     virtual ~Unk_7102357d20() = default;
     virtual void* m2() = 0;
 
+    bool sub_710070DBB0(const ksys::MesTransceiverId& dest, bool ack);
     bool sub_710070DC38(ksys::act::Actor* actor, bool ack);
     bool sub_710070DCC0(ksys::act::BaseProcLink* link, bool ack);
     bool sub_710070DD78(const ksys::act::ActorLinkConstDataAccess& accessor, bool ack);

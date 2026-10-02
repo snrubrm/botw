@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -8,7 +9,13 @@
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/Utils/Types.h"
+
+namespace ksys::act {
+class ActorConstDataAccess;
+class BaseProc;
+}  // namespace ksys::act
 
 // Unnamed class of the object shared by the PriestBoss* AI trees through the
 // "PriestBossMetaAIUnit" AI tree variable. Created by PriestBossMetaAIRoot::init_ (create 0x7100718360,
@@ -20,10 +27,22 @@ public:
     SEAD_ENUM(Phase, _0, _1, _2, _3, _4)
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15)
 
+    // Element of the 33-entry buffer allocated by the init function (0x71007183a4).
+    struct Unk1 {
+        u32 _0 = 0;
+        ksys::act::InstParamPack _8;
+        ksys::act::BaseProcLink _e0;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk1, 0xf0);
+
     ~Unk_7102450fa8() override;
 
-    /* 0x008 */ s32 _8;
-    /* 0x010 */ void* _10;  // new[]'d array of 0xf0-byte objects (BaseProcLink at +0xe0)
+    bool sub_71007194CC(ksys::act::ActorConstDataAccess* accessor);
+    bool sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor);
+    int sub_7100719534(ksys::act::BaseProc* proc);
+    int sub_71007195B0(const ksys::act::BaseProcLink& link);
+
+    /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;
     /* 0x028 */ ksys::act::BaseProcLink _28;
     /* 0x038 */ u32 _38;
