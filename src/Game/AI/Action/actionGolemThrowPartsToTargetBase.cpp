@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGolemThrowPartsToTargetBase.h"
+#include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::action {
 
@@ -12,6 +13,9 @@ bool GolemThrowPartsToTargetBase::init_(sead::Heap* heap) {
 
 void GolemThrowPartsToTargetBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    setDamageCallbackTiming(mActor, 4, &_f0);
+    mFlags.reset(Flag::Changeable);
 }
 
 void GolemThrowPartsToTargetBase::leave_() {

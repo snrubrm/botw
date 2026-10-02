@@ -7,6 +7,12 @@ PlayerSlideLand::PlayerSlideLand(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerSlideLand::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x8000000);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x80);
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SlideLand", true, -1.0f);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc *= 0.5f;
+    player->_20c0 = player->_20bc;
 }
 
 // NON_MATCHING: the original loads mActor before the x_5() result
