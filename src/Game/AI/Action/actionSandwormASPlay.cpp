@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSandwormASPlay.h"
+#include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +15,26 @@ bool SandwormASPlay::init_(sead::Heap* heap) {
 
 void SandwormASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
+    auto* actor = mActor;
+    const int delay = *mChangeOffsetDelay_s;
+    if (delay >= 1) {
+        _90 = ksys::Timer(delay, delay);
+    } else if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor)) {
+        sandworm->_15b0 = *mTargetSandOffset_s;
+        sandworm->_1638 = true;
+        sandworm->_15ac = *mSandOffsetSpeed_s;
+        sandworm->_1638 = true;
+    }
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
+    if (!mTransBoneName_s.isEmpty()) {
+        if (auto* as_list = actor->getASList())
+            as_list->sub_710115BAF8(mTransBoneName_s);
+    }
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void SandwormASPlay::leave_() {

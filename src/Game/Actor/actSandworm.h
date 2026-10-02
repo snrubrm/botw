@@ -62,8 +62,9 @@ public:
     /* 0x15a0 */ u32 _15a0 = 0;
     /* 0x15a4 */ u32 _15a4 = 0;
     /* 0x15a8 */ u32 _15a8 = 0;
-    /* 0x15ac */ u32 _15ac = 0;
-    /* 0x15b0 */ u32 _15b0;
+    /* 0x15ac */ f32 _15ac = 0;  // sand offset speed (SandwormASPlay)
+    /* 0x15b0 */ f32 _15b0;      // target sand offset (SandwormASPlay)
+    /* 0x15b4 */ u32 _15b4;
     /* 0x15b8 */ u8 _15b8[0x1628 - 0x15b8];  // two gsys::BoneAccessKeyEx
     /* 0x1628 */ sead::Random _1628;
     /* 0x1638 */ u8 _1638 = 0;

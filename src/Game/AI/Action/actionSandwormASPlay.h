@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -39,6 +40,8 @@ protected:
     sead::SafeString mASName_s{};
     // static_param at offset 0x80
     sead::SafeString mTransBoneName_s{};
+    ksys::Timer _90;
 };
+KSYS_CHECK_SIZE_NX150(SandwormASPlay, 0xa0);
 
 }  // namespace uking::action
