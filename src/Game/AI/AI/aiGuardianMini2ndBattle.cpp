@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMini2ndBattle.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
 
 namespace uking::ai {
@@ -33,6 +34,12 @@ bool GuardianMini2ndBattle::m45() {
     if (_1cc)
         return true;
     return GuardianMiniBattle::m45();
+}
+
+bool GuardianMini2ndBattle::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x8000043)
+        ++_1c8;
+    return GuardianMiniBattle::handleMessage_(message);
 }
 
 }  // namespace uking::ai
