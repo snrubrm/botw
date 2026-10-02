@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChaseSound.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,10 @@ void ChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChaseSound::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_78) {
+        _78->release();
+        _78 = nullptr;
+    }
 }
 
 void ChaseSound::loadParams_() {
