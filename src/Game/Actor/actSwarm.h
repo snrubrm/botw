@@ -66,7 +66,9 @@ public:
     /* 0x1618 */ Actor* _1618 = this;
     /* 0x1620 */ f32 _1620 = 0.1;
     /* 0x1624 */ f32 _1624 = 0.1;
-    /* 0x1628 */ u64 _1628 = 0;
+    // Set by the SwarmPattern behaviors (pattern type / sub-type?).
+    /* 0x1628 */ s32 _1628 = 0;
+    /* 0x162c */ s32 _162c = 0;
     /* 0x1630 */ u32 _1630 = 0;
     /* 0x1638 */ u64 _1638 = 0;
 };

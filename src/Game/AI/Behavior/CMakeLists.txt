@@ -307,6 +307,22 @@ target_sources(uking PRIVATE
   behaviorStopUpdateAwarenessBasePos.h
   behaviorSubAS.cpp
   behaviorSubAS.h
+  behaviorSwarmPatternBase.cpp
+  behaviorSwarmPatternBase.h
+  behaviorSwarmPatternBeeAttack.cpp
+  behaviorSwarmPatternBeeAttack.h
+  behaviorSwarmPattern.cpp
+  behaviorSwarmPatternCross.cpp
+  behaviorSwarmPatternCross.h
+  behaviorSwarmPatternDisc.cpp
+  behaviorSwarmPatternDisc.h
+  behaviorSwarmPatternDoubleRing.cpp
+  behaviorSwarmPatternDoubleRing.h
+  behaviorSwarmPattern.h
+  behaviorSwarmPatternHoldHomePos.cpp
+  behaviorSwarmPatternHoldHomePos.h
+  behaviorSwarmPatternMovingSphere.cpp
+  behaviorSwarmPatternMovingSphere.h
   behaviorSyncASFrameToAnimalUnit.cpp
   behaviorSyncASFrameToAnimalUnit.h
   behaviorTriggerNoise.cpp
