@@ -28,15 +28,13 @@ void GanonBeastFirstMessage::loadParams() {
     getAITreeVariable(&mSimpleDialogUnit_a, "SimpleDialogUnit");
 }
 
-GanonBeastFirstMessage::~GanonBeastFirstMessage() {
-    if (_a0) {
-        auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_a0);
-        if (unit && unit->_20 > 0 && --unit->_20 <= 0) {
-            *_a0 = nullptr;
-            delete unit;
-        }
-        _a0 = nullptr;
-    }
+GanonBeastFirstMessage::~GanonBeastFirstMessage() = default;
+
+bool GanonBeastFirstMessage::m6(sead::Heap* heap) {
+    if (!_a0.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a)))
+        return false;
+    _b0 = 0;
+    return true;
 }
 
 }  // namespace uking::behavior

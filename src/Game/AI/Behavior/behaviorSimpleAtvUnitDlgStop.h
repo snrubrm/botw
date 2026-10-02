@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71000b0800.h"
+#include "Game/AI/aiUnk_71025b2aa8.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
@@ -13,11 +15,11 @@ public:
     void m7() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x7100640758)
+    bool m6(sead::Heap* heap) override;
     void m8() override;  // not decompiled yet (0x7100640854)
 
     /* 0x28 */ void* mSimpleDialogUnit_a{};
-    /* 0x30 */ Unk_71025afb58** _30 = nullptr;
+    /* 0x30 */ Unk_71000b0800<Unk_71025b2aa8> _30;
 };
 KSYS_CHECK_SIZE_NX150(SimpleAtvUnitDlgStop, 0x38);
 

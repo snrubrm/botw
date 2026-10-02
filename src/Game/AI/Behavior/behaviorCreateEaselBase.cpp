@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorCreateEaselBase.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::behavior {
 
@@ -8,6 +11,17 @@ CreateEaselBase::CreateEaselBase(const InitArg& arg) : ksys::act::ai::Behavior(a
 // the original keeps the vtable store that a defaulted destructor drops (SafeString member).
 CreateEaselBase::~CreateEaselBase() {
     ;
+}
+
+bool CreateEaselBase::m6(sead::Heap* heap) {
+    ksys::act::InstParamPack pack;
+    const char* name = m14();
+    if (*name != sead::SafeString::cNullChar) {
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            name, ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_48, &pack, nullptr,
+            1);
+    }
+    return true;
 }
 
 void CreateEaselBase::m8() {}

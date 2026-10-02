@@ -1,7 +1,9 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/AI/aiUnk_71025b2aa8.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
 namespace uking::behavior {
@@ -17,7 +19,7 @@ public:
     void loadParams() override;
     virtual const sead::SafeString* m14();
     virtual void m15() {}
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x7100641100)
+    bool m6(sead::Heap* heap) override;
     void m7() override;  // not decompiled yet (0x7100641200)
 
     /* 0x28 */ const int* mCloseOption_s{};
@@ -30,7 +32,7 @@ public:
     /* 0x70 */ bool* mInBeastGanonVoiceSequence_a{};
     /* 0x78 */ void* mWeakPointCounter_a{};
     /* 0x80 */ void* mSimpleDialogUnit_a{};
-    /* 0x88 */ Unk_71025afb58** _88 = nullptr;
+    /* 0x88 */ Unk_71000b0800<Unk_71025b2aa8> _88;
     /* 0x90 */ bool _90 = false;
 };
 

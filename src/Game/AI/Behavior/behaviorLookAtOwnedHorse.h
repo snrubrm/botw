@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Behavior/behaviorInterestNeckControl.h"
+#include "Game/Actor/actNPC.h"
 
 namespace uking::behavior {
 
@@ -12,7 +13,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710062ac24)
+    bool m6(sead::Heap* heap) override;
     void m7() override;  // not decompiled yet (0x710062acd0)
 
     /* 0x58 */ const float* mDistance_s{};

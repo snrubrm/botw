@@ -17,7 +17,7 @@ public:
     void loadParams() override;
     virtual const char* m14();
     virtual bool m15() { return true; }
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710061d7ec)
+    bool m6(sead::Heap* heap) override;
     void m7() override;  // not decompiled yet (0x710061d894)
 
     /* 0x28 */ const bool* mIsNoSystemDelete_s{};

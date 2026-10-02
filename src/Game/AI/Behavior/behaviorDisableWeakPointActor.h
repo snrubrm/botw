@@ -14,8 +14,8 @@ public:
     bool m6(sead::Heap* heap) override;
     void m7() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x710061ffd8)
-    void m9() override;  // not decompiled yet (0x7100620094)
+    void m8() override;
+    void m9() override;
 
     /* 0x28 */ sead::SafeString mWeakPointKey_s{};
     /* 0x38 */ Unk_7102357d48 _38{mActor, 0x800002f};

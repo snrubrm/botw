@@ -28,15 +28,10 @@ const sead::SafeString* SimpleAtvUnitOpDlgRestWpTimeR3Base::m14() {
     return &mlabelName_s;
 }
 
-SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() {
-    if (_88) {
-        auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_88);
-        if (unit && unit->_20 > 0 && --unit->_20 <= 0) {
-            *_88 = nullptr;
-            delete unit;
-        }
-        _88 = nullptr;
-    }
+SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() = default;
+
+bool SimpleAtvUnitOpDlgRestWpTimeR3Base::m6(sead::Heap* heap) {
+    return _88.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a));
 }
 
 }  // namespace uking::behavior
