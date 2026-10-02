@@ -209,6 +209,8 @@ public:
     /* 0xd54 */ s32 _d54 = 0;
     /* 0xd58 */ u8 _d58[0xe50 - 0xd58];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
+    /* 0xe52 */ u8 _e52[0xf89 - 0xe52];  // TODO
+    /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
 };
 
 }  // namespace uking::act
