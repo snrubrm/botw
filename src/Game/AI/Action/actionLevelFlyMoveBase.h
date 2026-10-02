@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,6 +20,13 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual bool m33();
+    // Writes the target position (raised by TargetHeightOffset) to `pos`.
+    virtual void m34(sead::Vector3f* pos);
+    // 0x71001dacb4 (not decompiled yet).
+    virtual void m35(sead::Vector3f* dir, f32 speed);
+    // Inline (emitted out of line in another TU, 0x71001ba780 / 0x71001ba784).
+    virtual void m36(sead::Vector3f* dir) {}
+    virtual void m37(sead::Vector3f* dir) {}
 
     // static_param at offset 0x20
     const float* mXZSpeed_s{};

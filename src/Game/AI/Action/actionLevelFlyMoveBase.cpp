@@ -43,4 +43,11 @@ void LevelFlyMoveBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+void LevelFlyMoveBase::m34(sead::Vector3f* pos) {
+    if (!pos)
+        return;
+    pos->set(*mTargetPos_d);
+    pos->y += *mTargetHeightOffset_s;
+}
+
 }  // namespace uking::action
