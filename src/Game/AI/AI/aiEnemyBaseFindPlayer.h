@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadBitFlag.h>
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
@@ -47,6 +48,15 @@ public:
     bool sub_710037EEAC();
     // 0x71003804f4
     bool sub_71003804F4();
+    // 0x71003803e8: surprise attack timer, lost timer, then sub_710037EDA4.
+    void sub_71003803E8();
+    // 0x710038054c: new random timers (_f8, _120); TargetPos + CentralPos (home) → 威嚇帰還.
+    void sub_710038054C();
+    // 0x7100380b50: whether a swift attack (速攻) is possible: target height difference within
+    // SwiftAttackVMin..Max, target not x_13() (player accessor), EnemyLevel IsSwiftAttack.
+    bool sub_7100380B50();
+    // 0x7100380e90: TargetPos → 不意討ち.
+    void sub_7100380E90();
 
 protected:
     // static_param at offset 0x38
@@ -94,8 +104,8 @@ protected:
     f32 _e0{};
     f32 _e4{};
     sead::BitFlag32 _e8;
-    // Result of the unnamed enemy helper 0x71005e2bcc (type unknown).
-    void* _f0 = nullptr;
+    // Result of sub_71005E2BCC.
+    act::Enemy::Unk_12d0* _f0 = nullptr;
     f32 _f8 = 0;
     s32 _fc = 0;
     s32 _100 = 0;

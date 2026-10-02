@@ -276,6 +276,9 @@ public:
     // by Enemy's init 0x71000139.. with the actor's NavMeshCharacter (m45()); deleted in preDelete2_.
     // Returned by sub_71005E2BCC; AI code (LynelNavMoveNoStop, ForestGiantRoam, ...) sets _8.
     struct Unk_12d0 {
+        // 0x7100710f04 (CSV nullsub_2335; declared only): empty.
+        void sub_7100710F04();
+
         /* 0x00 */ ksys::phys::NavMeshCharacter* _0;
         /* 0x08 */ s32 _8 = -1;
         /* 0x0c */ s32 _c = -1;

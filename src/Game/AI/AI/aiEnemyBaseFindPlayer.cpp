@@ -5,7 +5,11 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 
 namespace uking::ai {
 
@@ -46,6 +50,55 @@ bool EnemyBaseFindPlayer::sub_710037EEAC() {
     if (!sub_71005D8F28(actor))
         return true;
     return m42(state);
+}
+
+// NON_MATCHING: the original loads the GlobalRandom GOT entry after the _e8 store and the
+// SurpriseAttackTime value before the instance
+void EnemyBaseFindPlayer::sub_71003803E8() {
+    _e8.set(2);
+    _e0 = sead::GlobalRandom::instance()->getS32Range(
+        *mSurpriseAttackTime_s, *mSurpriseAttackTime_s + *mSurpriseAttackTimeRand_s);
+    if (sub_710037EEAC())
+        sub_710037E9A4();
+    sub_710037EDA4();
+}
+
+void EnemyBaseFindPlayer::sub_710038054C() {
+    if (_f0)
+        _f0->sub_7100710F04();
+    _f8 = _fc == _100 ? _fc : sead::GlobalRandom::instance()->getS32Range(_fc, _100);
+    _120 = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    _e8.reset(4);
+    sead::Vector3f home_pos;
+    mActor->getHomePos(&home_pos);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    params.addVec3(home_pos, "CentralPos", -1);
+    changeChild("威嚇帰還", &params);
+}
+
+bool EnemyBaseFindPlayer::sub_7100380B50() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+
+    const f32 dy = sub_71005D9330(enemy).y - enemy->getMtx()(1, 3);
+    if (dy < *mSwiftAttackVMin_s || dy > *mSwiftAttackVMax_s)
+        return false;
+
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&enemy->_c48._8, &player);
+    if (player.x_13())
+        return false;
+    const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
+    return level && level->mIsSwiftAttack.ref();
+}
+
+void EnemyBaseFindPlayer::sub_7100380E90() {
+    _e8.reset(4);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("不意討ち", &params);
 }
 
 bool EnemyBaseFindPlayer::sub_71003804F4() {
