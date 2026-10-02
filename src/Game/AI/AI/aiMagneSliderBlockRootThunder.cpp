@@ -41,6 +41,12 @@ void MagneSliderBlockRootThunder::calc_() {
 
 void MagneSliderBlockRootThunder::leave_() {
     MagneShaftRootBase::leave_();
+    if (_a0 && (_a0->_50 & 1))
+        _a0->sub_7100F6A074();
+    if (mActor) {
+        if (auto* body = mActor->findPhysicsBodyByName("BodyParts_00", "Body"))
+            body->removeFromWorld();
+    }
 }
 
 void MagneSliderBlockRootThunder::loadParams_() {

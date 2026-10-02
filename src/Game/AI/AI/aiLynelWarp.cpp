@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiLynelWarp.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
 
@@ -13,11 +14,16 @@ bool LynelWarp::init_(sead::Heap* heap) {
 }
 
 void LynelWarp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* xlink = mActor->getXLink())
+        xlink->_cc.reset(0x80000);
+    changeChild("消失", params);
 }
 
 void LynelWarp::leave_() {
-    ksys::act::ai::Ai::leave_();
+    ksys::act::enableAttClient(mActor, "JumpRide");
+    mActor->get68c() = false;
+    if (auto* xlink = mActor->getXLink())
+        xlink->_cc.set(0x80000);
 }
 
 void LynelWarp::loadParams_() {}

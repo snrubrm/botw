@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniChangeWeapon.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -28,7 +29,13 @@ bool GuardianMiniChangeWeapon::isChangeable() const {
 }
 
 void GuardianMiniChangeWeapon::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_78);
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            as_list->sub_710115C11C();
+            as_list->sub_710115BED4(true);
+        }
+    }
 }
 
 void GuardianMiniChangeWeapon::loadParams_() {

@@ -10,6 +10,7 @@ EnemyChaseTargetAndAction::~EnemyChaseTargetAndAction() = default;
 
 void EnemyChaseTargetAndAction::enter_(ksys::act::ai::InlineParamPack* params) {
     UnarmedEnemySearch::enter_(params);
+    m37();
 }
 
 bool EnemyChaseTargetAndAction::isChangeable() const {

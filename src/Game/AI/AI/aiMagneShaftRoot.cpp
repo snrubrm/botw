@@ -29,6 +29,12 @@ void MagneShaftRoot::calc_() {
 
 void MagneShaftRoot::leave_() {
     MagneShaftRootBase::leave_();
+    if (_a0 && (_a0->_50 & 1))
+        _a0->sub_7100F6A074();
+    if (mActor) {
+        if (auto* body = mActor->findPhysicsBodyByName("BodyParts_00", "RigidBody_0"))
+            body->removeFromWorld();
+    }
 }
 
 void MagneShaftRoot::loadParams_() {

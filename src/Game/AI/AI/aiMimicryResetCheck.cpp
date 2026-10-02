@@ -37,7 +37,8 @@ void MimicryResetCheck::calc_() {
 }
 
 void MimicryResetCheck::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mMimicryMaterial_a >= 0)
+        sub_71005DD27C(mActor, *mMimicryMaterial_a, 0.0f);
 }
 
 void MimicryResetCheck::loadParams_() {

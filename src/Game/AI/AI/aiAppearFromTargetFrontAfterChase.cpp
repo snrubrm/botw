@@ -17,6 +17,11 @@ void AppearFromTargetFrontAfterChase::enter_(ksys::act::ai::InlineParamPack* par
 }
 
 void AppearFromTargetFrontAfterChase::leave_() {
+    ksys::act::enableAllAttClients(mActor);
+    sub_71007A3800(mActor);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    mActor->getXLink()->_cc.set(0x80000);
+    sub_71005DD34C(mActor, true);
     AppearNearTarget::leave_();
 }
 

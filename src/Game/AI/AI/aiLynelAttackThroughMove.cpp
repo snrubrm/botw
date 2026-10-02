@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelAttackThroughMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -20,7 +22,8 @@ bool LynelAttackThroughMove::isFailed() const {
 }
 
 void LynelAttackThroughMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F7D350();
 }
 
 void LynelAttackThroughMove::loadParams_() {
