@@ -28,10 +28,7 @@ public:
         void sub_710002A94C(Actor* actor);
 
         /* 0x00 */ Actor* mOwner;
-        /* 0x08 */ ksys::act::BaseProcLink _8;
-        /* 0x18 */ ksys::act::BaseProcLink _18;
-        /* 0x28 */ ksys::act::BaseProcLink _28;
-        /* 0x38 */ ksys::act::BaseProcLink _38;
+        /* 0x08 */ ksys::act::BaseProcLink _8[4];  // iterated as an array
     };
 
     explicit GiantEnemy(const CreateArg& arg);

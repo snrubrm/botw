@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34() override;
+
 protected:
     // static_param at offset 0x7c0
     sead::SafeString mActorNameChin_s{};

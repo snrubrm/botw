@@ -34536,7 +34536,7 @@ Address,Quality,Size,Name
 0x00000071005a44a4,U,000168,_ZN5uking2ai18StalGiantEnemyRoot5calc_Ev
 0x00000071005a454c,W,000188,_ZN5uking2ai18StalGiantEnemyRoot6leave_Ev
 0x00000071005a4608,W,001088,_ZN5uking2ai18StalGiantEnemyRoot11loadParams_Ev
-0x00000071005a4a48,U,000420,uking::ai::StalGiantEnemyRoot::m34
+0x00000071005a4a48,O,000420,_ZN5uking2ai18StalGiantEnemyRoot3m34Ev
 0x00000071005a4bec,U,000252,
 0x00000071005a4ce8,U,000200,uking::ai::StalGiantEnemyRoot::m35
 0x00000071005a4db0,O,000008,_ZNK5uking2ai18StalGiantEnemyRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
