@@ -30,4 +30,9 @@ void LastAttackerSelect::leave_() {
 
 void LastAttackerSelect::loadParams_() {}
 
+bool LastAttackerSelect::m34() {
+    auto* child = getCurrentChild();
+    return child->isFinished() || child->isFailed();
+}
+
 }  // namespace uking::ai
