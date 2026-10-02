@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionDefRandomMoveAction.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,7 +28,20 @@ void DefRandomMoveAction::loadParams_() {
 }
 
 void DefRandomMoveAction::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    auto* controller = mActor->getCharacterController();
+    auto* nav = mActor->m45();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (!nav || !nav->_18) {
+        controller->sub_7100F5E7F0(0.0f);
+        return;
+    }
     RandomMoveAction::calc_();
+    controller->sub_7100F5FDF0(controller->get64());
 }
 
 }  // namespace uking::action
