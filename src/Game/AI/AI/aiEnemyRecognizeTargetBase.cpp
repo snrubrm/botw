@@ -44,4 +44,8 @@ bool EnemyRecognizeTargetBase::m35() {
     return true;
 }
 
+bool EnemyRecognizeTargetBase::handleMessage_(const ksys::Message& message) {
+    return _c0.m2(message);
+}
+
 }  // namespace uking::ai

@@ -21,6 +21,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // static_param at offset 0x38
