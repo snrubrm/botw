@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageManagerBase.h"
 
@@ -15,7 +16,15 @@ public:
 
     u8 _68[0x74 - 0x68];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
-    u8 _78[0x230 - 0x78];
+    u8 _78[0x210 - 0x78];
+    // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
+    u32 _210;
+    u16 _214;
+    // Flags (ctor: 9). AI code tests bit 1 (`_216.isOn(2)`, ~15 functions).
+    sead::BitFlag16 _216;
+    u16 _218;
+    u64 _220;
+    u32 _228;
 };
 KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);
 
