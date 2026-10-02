@@ -14,6 +14,12 @@ void PriestBossAttackGrave::enter_(ksys::act::ai::InlineParamPack* params) {
     AttackGrave::enter_(params);
 }
 
+void PriestBossAttackGrave::calc_() {
+    AttackGrave::calc_();
+    if (isCurrentChild("先行動") && !sub_710050F15C())
+        getCurrentChild()->setFinished();
+}
+
 void PriestBossAttackGrave::leave_() {
     AttackGrave::leave_();
 }

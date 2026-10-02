@@ -12,6 +12,8 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    // 0x7100323f00 (not decompiled yet; declared for PriestBossAttackGrave::calc_)
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
