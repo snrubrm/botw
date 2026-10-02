@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHorseRideMoveTo.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,11 @@ bool HorseRideMoveTo::init_(sead::Heap* heap) {
 }
 
 void HorseRideMoveTo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("指令", &pack);
+    _60.x();
+    _98.x();
 }
 
 void HorseRideMoveTo::leave_() {
@@ -24,6 +29,10 @@ void HorseRideMoveTo::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mFinRadius_s, "FinRadius");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool HorseRideMoveTo::handleMessage_(const ksys::Message& message) {
+    return _60.m2(message) || _98.m2(message);
 }
 
 }  // namespace uking::ai

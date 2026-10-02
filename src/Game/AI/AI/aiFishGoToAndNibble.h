@@ -1,6 +1,13 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
+
+namespace ksys::phys {
+class RigidBody;
+}
 
 namespace uking::ai {
 
@@ -30,6 +37,13 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x68
     ksys::act::BaseProcLink* mTargetActor_d{};
+    sead::Vector3f _70{0, 0, 0};
+    ksys::Timer _7c{0, 0};
+    sead::BoundBox3f _88;
+    sead::BoundBox3f _a0;
+    f32 _b8 = 0;
+    ksys::phys::RigidBody* _c0 = nullptr;
+    s8 _c8 = 0;
 };
 
 }  // namespace uking::ai

@@ -124,6 +124,32 @@ public:
     void m3() override {}
 };
 
+// vtable 0x71023fc720 (HorseRideMoveTo; m2 handles message type 0x3800023)
+class Unk_71023fc720 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800023)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
+// vtable 0x71023fc750 (HorseRideMoveTo; m2 handles message type 0x3800024)
+class Unk_71023fc750 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x3800024)
+            return false;
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
 // vtable 0x71023fc5a0 (HorseRideTurn; m2 handles message type 0x3800025)
 class Unk_71023fc5a0 : public Unk_7102357210 {
 public:
