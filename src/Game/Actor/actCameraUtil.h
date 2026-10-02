@@ -147,7 +147,7 @@ f32 sub_7100924CAC(f32 value);
 void sub_7100924CDC(f32 a, f32 b, f32* min, f32* max);
 // 0x7100924d40: at least 0.01.
 f32 sub_7100924D40(f32 value);
-// 0x7100924d50: clamps to [0.1 degree, 180 - 0.1 degree] (radians).
+// 0x7100924d50: clamps to [0.1, 179.9] degrees (in radians).
 f32 sub_7100924D50(f32 value);
 // 0x7100924d80: clamps to [0, 1].
 f32 sub_7100924D80(f32 value);

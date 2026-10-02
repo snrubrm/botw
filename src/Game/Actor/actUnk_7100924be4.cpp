@@ -44,8 +44,7 @@ f32 sub_7100924D40(f32 value) {
 }
 
 f32 sub_7100924D50(f32 value) {
-    return sead::Mathf::clamp(value, sead::Mathf::deg2rad(0.1f),
-                              sead::Mathf::pi() - sead::Mathf::deg2rad(0.1f));
+    return sead::Mathf::clamp(value, sead::Mathf::deg2rad(0.1f), sead::Mathf::deg2rad(179.9f));
 }
 
 f32 sub_7100924D80(f32 value) {
