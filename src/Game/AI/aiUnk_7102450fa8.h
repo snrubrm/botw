@@ -58,7 +58,8 @@ public:
     /* 0x248 */ u8 _248[0x258 - 0x248];
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
-    /* 0x348 */ u8 _348[0x368 - 0x348];
+    /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
+    /* 0x34c */ u8 _34c[0x368 - 0x34c];
     /* 0x368 */ Unk_71024508b8 _368;
     /* 0x3c8 */ u8 _3c8[0x448 - 0x3c8];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
 };

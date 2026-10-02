@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSwimEnemyFindPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,15 @@ void SwimEnemyFindPlayer::loadParams_() {
     getStaticParam(&mClimbVmin_s, "ClimbVmin");
     getStaticParam(&mClimbVmax_s, "ClimbVmax");
     getStaticParam(&mClimbHmax_s, "ClimbHmax");
+}
+
+bool SwimEnemyFindPlayer::m38() {
+    if (!mActor)
+        return false;
+    auto* nav = mActor->m45();
+    if (nav && nav->_1d8 == 13 && (nav->_2a4 & 0xffff) == 7)
+        return false;
+    return EnemyBaseFindPlayer::m38();
 }
 
 }  // namespace uking::ai

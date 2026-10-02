@@ -38,4 +38,11 @@ void PriestBossPhaseFirst::m39() {
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
+bool PriestBossPhaseFirst::m36() {
+    ksys::act::ActorConstDataAccess accessor;
+    if (sub_7100525B18(0, &accessor))
+        return accessor.getLife() == 0;
+    return PriestBossPhase::m36();
+}
+
 }  // namespace uking::ai

@@ -86,6 +86,10 @@ public:
             /* 0x50 */ BaseProcLink _50;
             /* 0x60 */ u32 _60 = 0x38;
             /* 0x68 */ sead::SafeString _68 = sead::SafeString::cEmptyString;
+        struct AttackInfo {
+            u8 _0[0x18];
+            u32 _18;  // flags (bits 0-1 tested by LynelRepeatAttack::calc_, SeqPursuit::calc_)
+            u8 _1c[0x78 - 0x1c];
         };
         KSYS_CHECK_SIZE_NX150(AttackInfo, 0x78);
 

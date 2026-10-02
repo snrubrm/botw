@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiSeqPursuit.h"
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,14 @@ void SeqPursuit::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
     _78 = false;
     _79 = sead::GlobalRandom::instance()->getS32Range(0, 100) < *mPursuitPer_s;
+}
+
+void SeqPursuit::calc_() {
+    if (hasAttackInfo(mActor)) {
+        const auto* info = getAttackInfo(mActor, 0);
+        _78 = *mIsGuardNoPursuit_s || (info && !(info->_18 & 1) && !(info->_18 & 2));
+    }
+    SeqTwoAction::calc_();
 }
 
 void SeqPursuit::leave_() {

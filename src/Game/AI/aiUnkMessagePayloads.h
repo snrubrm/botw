@@ -239,6 +239,14 @@ struct Unk_7102413c08_Payload {
     s32 _8 = -1;
 };
 
+// Message 0x80000dd (sender Unk_7102415900). Filled by the sender's non-virtual 0x710070e254 (a
+// 0x18-byte copy) from the struct getLifeRecoverParams (0x7100d68598) writes; field types unknown.
+struct Unk_7102415900_Payload {
+    u64 _0 = 0;
+    u64 _8 = 0;
+    u64 _10 = 0;
+};
+
 // Message 0x8000040 (sender Unk_710235aba0)
 struct Unk_710235aba0_Payload {
     // Inline only (no out-of-line copy in the executable); placeholder name.

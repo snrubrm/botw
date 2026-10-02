@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseFourth.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,15 @@ void PriestBossPhaseFourth::loadParams_() {
     getStaticParam(&mSimAtkMax_s, "SimAtkMax");
     getStaticParam(&mBowEquipMax_s, "BowEquipMax");
     getStaticParam(&mRespawnSpan_s, "RespawnSpan");
+}
+
+bool PriestBossPhaseFourth::m37(f32* x) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (sub_7100525B18(1, &accessor) && accessor.isStateCalc()) {
+        *x = accessor.getLife() / (accessor.getMaxLife() * 0.5f);
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

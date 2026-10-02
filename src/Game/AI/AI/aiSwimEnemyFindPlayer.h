@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m38() override;
+
 protected:
     // static_param at offset 0x140
     const bool* mIsAbleToLand_s{};

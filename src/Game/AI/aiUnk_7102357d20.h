@@ -343,6 +343,8 @@ public:
 // vtable 0x71023b0898 (CookPotRoot, DragonRoot, IceMakerBlock, PlayerAreaInOutSendMessage; functions
 // at 0x710021d230..); message 0x8000083
 class Unk_71023b0898 : public Unk_7102357d20 {
+// vtable 0x7102415900 (PriestBossPhaseThird; m2 0x710052d234, D0 0x710052d230); message 0x80000dd
+class Unk_7102415900 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return &_18; }
@@ -367,4 +369,5 @@ class Unk_71023f54b0 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return nullptr; }
+    Unk_7102415900_Payload _18;
 };
