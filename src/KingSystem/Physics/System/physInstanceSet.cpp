@@ -159,6 +159,16 @@ RigidBody* InstanceSet::findRigidBody(const sead::SafeString& name) const {
 
 // NON_MATCHING: loop shape (the original increments the index after the end check and re-checks
 // the sign of the found index)
+int InstanceSet::sub_7100FBB668(const sead::SafeString& name) const {
+    s32 idx = 0;
+    for (auto& set : mRigidBodySets) {
+        if (mRigidBodySets[idx] && name == set.getName())
+            return idx;
+        ++idx;
+    }
+    return -1;
+}
+
 RigidBodySet* InstanceSet::findBodyGroupByName(const sead::SafeString& name) {
     s32 idx = 0;
     for (auto& set : mRigidBodySets) {

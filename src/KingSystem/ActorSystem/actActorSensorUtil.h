@@ -41,6 +41,10 @@ void sub_71007A397C(ksys::act::Actor* actor);
 // Activates an "Atk" body: optional new transform, added to the world, and its AttackSensor user
 // tag gets _44 incremented and _49 set (2B64); the body `name` (2C30); all bodies (2C9C).
 void sub_71007A2B64(ksys::phys::RigidBody* body, const sead::Matrix34f* mtx);
+// 0x71007a2eb0: restores the contact layer / ground hit of an attack sensor body from the owner's
+// physics parameters (with `handler` as system group handler) and counts the activation.
+void sub_71007A2EB0(ksys::phys::RigidBody* body, ksys::act::Actor* actor,
+                    ksys::phys::SystemGroupHandler* handler);
 void sub_71007A2C30(ksys::act::Actor* actor, const sead::SafeString& name,
                     const sead::Matrix34f* mtx);
 void sub_71007A2C9C(ksys::act::Actor* actor);

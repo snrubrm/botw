@@ -26,6 +26,9 @@ public:
     // FIXME: name for x and name+type for y
     void switchEquipment(const sead::SafeString& slot, int frames, int x = -1,
                          const uintptr_t& y = {});
+    // 0x7100848efc (CSV name; ~70 callers): the name of equipment type `type` (an entry of a table
+    // of SafeStrings in the PlayerBase TU's static data; `this` is unused).
+    const sead::SafeString& getEquipmentTypeName(u32 type) const;
 
     // FIXME: name for x
     void setExtraLife(s32 extra_life, f32 x);

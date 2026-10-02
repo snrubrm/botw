@@ -6,6 +6,11 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
+#include "KingSystem/Physics/System/physParamSet.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourcePhysics.h"
 
 using ksys::act::Actor;
 using ksys::act::ActorAtk;
@@ -83,6 +88,27 @@ void sub_71007A2B64(ksys::phys::RigidBody* body, const sead::Matrix34f* mtx) {
         ++sensor->_44;
         sensor->_49 = true;
     }
+}
+
+void sub_71007A2EB0(ksys::phys::RigidBody* body, Actor* actor,
+                    ksys::phys::SystemGroupHandler* handler) {
+    if (!body)
+        return;
+    auto* sensor = sead::DynamicCast<ksys::act::AttackSensor>(body->getUserTag());
+    if (!sensor)
+        return;
+    if (auto* owner = sensor->getActor(nullptr, actor)) {
+        const int set_idx = owner->getPhysics()->sub_7100FBB668(ksys::act::getStr_Atk());
+        auto* set = owner->getPhysics()->getRigidBodySet(set_idx);
+        const int body_idx = set->findBodyIndexByHavokName(body->getHkBodyName());
+        auto& set_param =
+            owner->getParam()->getRes().mPhysics->getParamSet().getRigidBodySet(set_idx);
+        auto& param = set_param.rigid_bodies[body_idx];
+        body->setContactLayerAndGroundHitAndHandler(param.getContactLayer(), param.getGroundHit(),
+                                                    handler);
+    }
+    ++sensor->_44;
+    sensor->_49 = true;
 }
 
 void sub_71007A2C30(Actor* actor, const sead::SafeString& name, const sead::Matrix34f* mtx) {
