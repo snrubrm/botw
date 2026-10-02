@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalEnemyReaction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,11 @@ void StalEnemyReaction::leave_() {
 
 void StalEnemyReaction::loadParams_() {
     EnemyDefaultReaction::loadParams_();
+}
+
+void StalEnemyReaction::m40(ksys::act::ai::InlineParamPack* params) {
+    sub_71005D7014(mActor);
+    changeChild("ふっとび", params);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSnowOctarockBattle.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -27,6 +28,12 @@ void SnowOctarockBattle::loadParams_() {
     EnemyBattle::loadParams_();
     getStaticParam(&mVacuumPartsKey_s, "VacuumPartsKey");
     getStaticParam(&mShootActorKey_s, "ShootActorKey");
+}
+
+void SnowOctarockBattle::m38() {
+    if (!sub_710072E1B4(mActor, true))
+        ++_b0;
+    EnemyBattle::m38();
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalGiantEnemyReaction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -37,6 +38,11 @@ bool StalGiantEnemyReaction::m37() {
         }
     }
     return EnemyDefaultReaction::m37();
+}
+
+void StalGiantEnemyReaction::m40(ksys::act::ai::InlineParamPack* params) {
+    sub_71005D7014(mActor);
+    changeChild("ふっとび", params);
 }
 
 }  // namespace uking::ai

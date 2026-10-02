@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiWolfLinkSeqAttack.h"
 #include "Game/Actor/actWolfLink.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -17,7 +18,10 @@ void WolfLinkSeqAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WolfLinkSeqAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F7D350();
+    else
+        setFailed();
 }
 
 void WolfLinkSeqAttack::loadParams_() {

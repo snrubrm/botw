@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiNPCAlert.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceAwareness.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 namespace uking::ai {
 
@@ -7,7 +12,10 @@ NPCAlert::NPCAlert(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 NPCAlert::~NPCAlert() = default;
 
 bool NPCAlert::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    _70 = actor->getParam()->getRes().mAwareness->sight_angle.ref();
+    _74 = actor->getParam()->getRes().mGParamList->getNpc()->mIsNotTurnDetect.ref();
+    return true;
 }
 
 void NPCAlert::enter_(ksys::act::ai::InlineParamPack* params) {

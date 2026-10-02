@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34(Unk_7102450fa8* unit) override;
+    void m42() override;
+    void m43() override;
+
 protected:
     // static_param at offset 0x80
     const float* mWarpHightOffset_s{};

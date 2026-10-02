@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiNPCAttentionAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceAwareness.h"
 
 namespace uking::ai {
 
@@ -7,7 +10,9 @@ NPCAttentionAI::NPCAttentionAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 NPCAttentionAI::~NPCAttentionAI() = default;
 
 bool NPCAttentionAI::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _74 = *mIsUseSight_s ? mActor->getParam()->getRes().mAwareness->sight_angle.ref() :
+                           *mTurnAngleDiff_s;
+    return true;
 }
 
 void NPCAttentionAI::enter_(ksys::act::ai::InlineParamPack* params) {

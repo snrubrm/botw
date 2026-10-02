@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseSecond.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -50,6 +51,12 @@ void PriestBossPhaseSecond::m39() {
         if (sub_7100525B18(i, &accessor))
             accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
+}
+
+void PriestBossPhaseSecond::m40() {
+    if (sub_7100525A88()->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_0)))
+        return;
+    PriestBossPhase::m40();
 }
 
 }  // namespace uking::ai

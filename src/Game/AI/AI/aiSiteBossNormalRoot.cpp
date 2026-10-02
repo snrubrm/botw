@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossNormalRoot.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -12,7 +13,9 @@ bool SiteBossNormalRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* awareness = mActor->getAwareness())
+        awareness->enable();
+    changeChild("攻撃");
 }
 
 void SiteBossNormalRoot::leave_() {

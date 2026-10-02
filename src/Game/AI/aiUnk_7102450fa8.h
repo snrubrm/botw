@@ -80,6 +80,7 @@ public:
     bool sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor);
     int sub_7100719534(ksys::act::BaseProc* proc);
     int sub_71007195B0(const ksys::act::BaseProcLink& link);
+    s32 sub_710071A048(s32 idx);
 
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;

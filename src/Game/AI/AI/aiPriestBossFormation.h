@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -31,6 +32,9 @@ public:
     virtual void m43();
     virtual void m44();
     virtual void m45();
+
+    void sub_71005183C0(bool on);
+    s32 sub_7100518B50();
 
 protected:
     // aitree_variable at offset 0x38

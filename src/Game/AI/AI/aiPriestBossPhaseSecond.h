@@ -20,6 +20,7 @@ public:
     bool m36() override { return PriestBossPhase::m36(); }
     Flag m38() override { return Flag::_1; }
     void m39() override;
+    void m40() override;
 
 protected:
     // static_param at offset 0x80

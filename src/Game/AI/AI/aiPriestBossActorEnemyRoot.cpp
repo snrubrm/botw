@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "Game/AI/aiUnk_710071edf8.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 
@@ -61,6 +63,13 @@ bool PriestBossActorEnemyRoot::m46() {
 
 bool PriestBossActorEnemyRoot::m47() {
     return true;
+}
+
+void PriestBossActorEnemyRoot::m48() {
+    if (!m47())
+        return;
+    if (auto* lod = mActor->getLodState())
+        sub_710071EDD0(mActor, lod->mFlags8.isOn(2));
 }
 
 }  // namespace uking::ai

@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -93,6 +94,24 @@ void PriestBossFormation::m43() {
 
 void PriestBossFormation::m44() {
     changeChild("分身消す");
+}
+
+void PriestBossFormation::sub_71005183C0(bool on) {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    if (on)
+        controller->sub_7100F60604();
+    else
+        controller->enableContactLayer(ksys::phys::ContactLayer(4));
+}
+
+s32 PriestBossFormation::sub_7100518B50() {
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (!unit)
+        return -1;
+    return unit->sub_710071A048(unit->sub_7100719534(mActor));
 }
 
 }  // namespace uking::ai

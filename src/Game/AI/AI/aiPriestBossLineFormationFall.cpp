@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossLineFormationFall.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -24,6 +27,25 @@ void PriestBossLineFormationFall::leave_() {
 void PriestBossLineFormationFall::loadParams_() {
     PriestBossFormation::loadParams_();
     getStaticParam(&mWarpHightOffset_s, "WarpHightOffset");
+}
+
+void PriestBossLineFormationFall::m34(Unk_7102450fa8* unit) {
+    if (!unit)
+        return;
+    unit->sub_7100719534(mActor);
+    PriestBossFormation::m34(unit);
+}
+
+void PriestBossLineFormationFall::m42() {
+    sead::FixedSafeString<16> name;
+    name.format("%d", sub_7100518B50());
+    mActor->getASList()->goLimpFromHeadShotMaybe(0x2f, name, 0);
+    changeChild("攻撃前");
+}
+
+void PriestBossLineFormationFall::m43() {
+    if (!isCurrentChild("攻撃"))
+        changeChild("待機");
 }
 
 }  // namespace uking::ai
