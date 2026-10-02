@@ -11,6 +11,7 @@ class LynelAttackThroughMove : public ksys::act::ai::Ai {
 public:
     explicit LynelAttackThroughMove(const InitArg& arg);
     ~LynelAttackThroughMove() override;
+    bool isFinished() const override;
     bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;

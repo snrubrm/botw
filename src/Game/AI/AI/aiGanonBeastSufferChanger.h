@@ -9,6 +9,8 @@ class GanonBeastSufferChanger : public ksys::act::ai::Ai {
 public:
     explicit GanonBeastSufferChanger(const InitArg& arg);
     ~GanonBeastSufferChanger() override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

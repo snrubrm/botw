@@ -36,4 +36,12 @@ void EnemyNoticeActiveEnemy::sub_71003A4B3C() {
     changeChild("気づき", &pack);
 }
 
+bool EnemyNoticeActiveEnemy::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("行動"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

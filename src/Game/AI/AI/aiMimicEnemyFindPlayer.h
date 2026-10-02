@@ -10,6 +10,7 @@ class MimicEnemyFindPlayer : public EnemyBaseFindPlayer {
 public:
     explicit MimicEnemyFindPlayer(const InitArg& arg);
     ~MimicEnemyFindPlayer() override;
+    bool isFinished() const override;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGiantRoamSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace uking::ai {
 
@@ -26,8 +29,17 @@ bool GiantRoamSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: block order of the last two changeChild calls (tried if/else both ways, switch, else-if)
 void GiantRoamSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* object = mActor->getMapObject();
+    if (object && object->getRails_0() && static_cast<ksys::map::Rail**>(object->getRails_0())[0]) {
+        changeChild("レール移動", params);
+        return;
+    }
+    if (*mGiantRoamType_m == 1)
+        changeChild("徘徊", params);
+    else
+        changeChild("待機", params);
 }
 
 void GiantRoamSelect::calc_() {}

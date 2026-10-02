@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForestGiantChanceWait.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,8 @@ void ForestGiantChanceWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForestGiantChanceWait::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e68.rate = -1.0f;
 }
 
 void ForestGiantChanceWait::loadParams_() {

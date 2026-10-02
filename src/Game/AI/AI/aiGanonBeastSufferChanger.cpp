@@ -35,4 +35,20 @@ void GanonBeastSufferChanger::loadParams_() {
     getAITreeVariable(&mInBeastGanonVoiceSequence_a, "InBeastGanonVoiceSequence");
 }
 
+bool GanonBeastSufferChanger::isFailed() const {
+    if (ActionBase::isFailed())
+        return true;
+    if (isCurrentChild("通常"))
+        return getCurrentChild()->isFailed();
+    return false;
+}
+
+bool GanonBeastSufferChanger::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("通常"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

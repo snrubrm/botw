@@ -25,4 +25,20 @@ void EnemySearchHorse::loadParams_() {
     getStaticParam(&mNoWeaponRiding_s, "NoWeaponRiding");
 }
 
+bool EnemySearchHorse::isFailed() const {
+    if (ActionBase::isFailed())
+        return true;
+    if (isCurrentChild("馬未発見"))
+        return getCurrentChild()->isFailed();
+    return false;
+}
+
+bool EnemySearchHorse::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("馬未発見"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

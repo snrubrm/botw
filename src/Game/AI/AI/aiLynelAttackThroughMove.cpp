@@ -34,4 +34,12 @@ void LynelAttackThroughMove::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool LynelAttackThroughMove::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("通り過ぎ"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai

@@ -27,4 +27,12 @@ void MimicEnemyFindPlayer::loadParams_() {
     getAITreeVariable(&mIsStartResetMimicry_a, "IsStartResetMimicry");
 }
 
+bool MimicEnemyFindPlayer::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (isCurrentChild("戦闘"))
+        return getCurrentChild()->isFinished();
+    return false;
+}
+
 }  // namespace uking::ai
