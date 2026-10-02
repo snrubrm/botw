@@ -19,6 +19,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) override;
+
 protected:
     // dynamic_param at offset 0x40
     sead::Vector3f* mCentralPos_d{};

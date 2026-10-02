@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyTimelineAI.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -42,6 +43,11 @@ void EnemyTimelineAI::calc_() {
     TimelineAI::calc_();
     getCurrentChild()->setDynamicParam(*mCentralPos_d, "CentralPos");
     getCurrentChild()->setDynamicParam(*mCentralPos_d, "TargetPos");
+}
+
+void EnemyTimelineAI::m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) {
+    params->addVec3(*mCentralPos_d, "CentralPos", -1);
+    params->addVec3(*mCentralPos_d, "TargetPos", -1);
 }
 
 }  // namespace uking::ai

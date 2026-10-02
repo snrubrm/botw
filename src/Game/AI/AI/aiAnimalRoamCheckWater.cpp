@@ -1,6 +1,6 @@
 #include "Game/AI/AI/aiAnimalRoamCheckWater.h"
-#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -40,6 +40,13 @@ bool AnimalRoamCheckWater::m40(sead::Vector3f* pos) {
         }
     }
     return false;
+}
+
+bool AnimalRoamCheckWater::m39() {
+    auto* nav = mActor->m45();
+    if (!nav || !AnimalRoam::m39() || (nav->_220 & 0x41000) != 0)
+        return false;
+    return _108;
 }
 
 }  // namespace uking::ai
