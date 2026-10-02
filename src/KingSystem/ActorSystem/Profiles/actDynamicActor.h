@@ -103,4 +103,23 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(DynamicActor, 0xb90);
 
+// Placeholder name (after its out-of-line setter 0x71006e4478 in the DynamicActor TU; no ctor of its
+// own): a target snapshot (link, matrix, velocity, previous position). Enemy embeds one at 0xe08
+// (currently declared as separate members _e08-_e65), NPC at 0xe30.
+struct Unk_71006e4478 {
+    // 0x71006e4478: copies `link` / `mtx` and the linked actor's velocity / previous position; for
+    // Arrow-tagged actors the translation and the previous position are moved back by the
+    // velocity (and _5d is set).
+    void sub_71006E4478(BaseProcLink* link, const sead::Matrix34f& mtx);
+
+    /* 0x00 */ BaseProcLink _0;
+    /* 0x10 */ sead::Matrix34f _10 = sead::Matrix34f::ident;
+    /* 0x40 */ sead::Vector3f _40 = sead::Vector3f::zero;  // velocity
+    /* 0x4c */ sead::Vector3f _4c = sead::Vector3f::zero;  // previous position
+    /* 0x58 */ u32 _58 = 0;
+    /* 0x5c */ bool _5c = false;
+    /* 0x5d */ bool _5d = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71006e4478, 0x60);
+
 }  // namespace ksys::act

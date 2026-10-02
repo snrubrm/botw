@@ -172,6 +172,8 @@ public:
     bool sub_71006DE338(const sead::SafeString& name) const;
     // 0x71006e3e00: the actor's "IsEnemyLiftable" AI bool (true by default).
     bool sub_71006E3E00() const;
+    // 0x71006e3fb4: DynamicActor::_a69 != 0 (false if not a DynamicActor).
+    bool sub_71006E3FB4() const;
     // 0x71006de850 (CSV act::acc::isBgGroundHit; debugLog name)
     bool isBgGroundHit() const;
 

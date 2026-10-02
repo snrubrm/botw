@@ -89,6 +89,14 @@ bool ActorConstDataAccess::sub_71006E3E00() const {
     return actorAIGetBool(actor, "IsEnemyLiftable", true);
 }
 
+bool ActorConstDataAccess::sub_71006E3FB4() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    auto* dynamic_actor = sead::DynamicCast<DynamicActor>(actor);
+    if (!dynamic_actor)
+        return false;
+    return dynamic_actor->_a69 != 0;
+}
+
 bool ActorConstDataAccess::isBgGroundHit() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
@@ -96,6 +104,24 @@ bool ActorConstDataAccess::isBgGroundHit() const {
     debugLog(1, "isBgGroundHit");
     debugLog(2, "isBgGroundHit");
     return ::isBgGroundHit(actor, false);
+}
+
+void Unk_71006e4478::sub_71006E4478(BaseProcLink* link, const sead::Matrix34f& mtx) {
+    _0 = *link;
+    _10 = mtx;
+    ActorConstDataAccess accessor;
+    acquireActor(&_0, &accessor);
+    _4c = accessor.getPreviousPos2();
+    _5d = false;
+    if (hasTag(link, tags::Arrow)) {
+        sead::Vector3f translation;
+        _10.getTranslation(translation);
+        _10.setTranslation(translation - accessor.getVelocity());
+        _4c -= accessor.getVelocity();
+        _5d = true;
+    }
+    _40 = accessor.getVelocity();
+    _5c = false;
 }
 
 }  // namespace ksys::act
