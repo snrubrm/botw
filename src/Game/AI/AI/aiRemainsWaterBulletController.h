@@ -39,10 +39,12 @@ public:
     void sub_71005478C8();
     void sub_7100547D20(s32 type);
     void sub_7100547FF4();
-    bool sub_7100548220(bool a1);
+    // Fires the chase (type 0) or explode (type 1) bullets of the current phase.
+    bool sub_7100548220(s32 type);
     void sub_71005484D4();
     void sub_7100548638();
     bool sub_7100548A38();
+    bool sub_7100548D8C(s32 type);
     void sub_7100549108(Unk1* bullet);
     bool sub_7100548B34();
 

@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_7102419cb0.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -66,14 +67,14 @@ void RemainsWaterBulletController::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("射出前待機")) {
-            if (!sub_7100548220(false))
+            if (!sub_7100548220(0))
                 sub_71005478C8();
         } else if (isCurrentChild("射出後待機")) {
             sub_71005484D4();
         } else if (isCurrentChild("冷却中")) {
             sub_710054779C();
         } else if (isCurrentChild("誘導弾発射")) {
-            sub_7100548220(true);
+            sub_7100548220(1);
         } else {
             sub_71005484D4();
         }
@@ -84,7 +85,7 @@ void RemainsWaterBulletController::calc_() {
         return;
 
     if (isCurrentChild("射出前待機")) {
-        sub_7100548220(false);
+        sub_7100548220(0);
     } else if (isCurrentChild("射出後待機")) {
         if (!(_38.mTimer.value <= sead::Mathf::epsilon()))
             _38.sub_7100D3BCE4();
@@ -246,6 +247,48 @@ void RemainsWaterBulletController::sub_7100548638() {
         } else {
             ++i;
         }
+    }
+}
+
+// NON_MATCHING: the original does not use the `_36c > 3` check to simplify the index clamp, and
+// duplicates the explode path for the chase fallthrough
+bool RemainsWaterBulletController::sub_7100548220(s32 type) {
+    if (!mRemainsWaterBattleInfo_a)
+        return false;
+    auto* info = sead::DynamicCast<Unk_7102419cb0>(
+        *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+    if (!info)
+        return false;
+    if (_36c > 3)
+        return false;
+
+    const s32 phase = sead::Mathi::clamp(_36c, 0, 3);
+    switch (type) {
+    case 0:
+        if (info->_33 || !info->_30)
+            return false;
+        if (_d0[phase] > 0) {
+            if (!sub_7100548D8C(0))
+                return false;
+            ksys::act::ai::InlineParamPack params;
+            changeChild("誘導弾発射", &params);
+            return true;
+        }
+        // fallthrough
+    case 1:
+        if (_e0[phase] == 0) {
+            sub_71005484D4();
+            return true;
+        }
+        if (!sub_7100548D8C(1))
+            return false;
+        {
+            ksys::act::ai::InlineParamPack params;
+            changeChild("魚雷発射", &params);
+        }
+        return true;
+    default:
+        return false;
     }
 }
 
