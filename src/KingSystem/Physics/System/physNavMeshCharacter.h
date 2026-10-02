@@ -41,8 +41,9 @@ public:
     void sub_7100F7604C(f32 value);
     void sub_7100F7605C(f32 value);
     void sub_7100F7606C(u32 value);
-    Unk_7100f7e9f0 sub_7100F76078(const sead::Vector3f& from, const sead::Vector3f& to,
-                                  f32 a3);
+    // 0x7100f76078: `out` is written by the query (lane1: an output parameter); `to` is checked for
+    // NaN first (default result).
+    Unk_7100f7e9f0 sub_7100F76078(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
     void sub_7100F76314();
     void sub_7100F76778();
     void sub_7100F76790();
