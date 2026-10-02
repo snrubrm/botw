@@ -72,8 +72,8 @@ bool SandwormNormal::m43() {
         if (!entry)
             return false;
         entry->_58.getTranslation(_60);
-        _50 = entry->mLink;
-        if (!ksys::act::isPlayerProfile(&entry->mLink))
+        _50 = entry->_0.mLink;
+        if (!ksys::act::isPlayerProfile(&entry->_0.mLink))
             getCurrentChild()->setDynamicParamImpl(_50, "TargetActor",
                                                    &ksys::act::ai::ParamPack::setActor);
         return true;
@@ -84,9 +84,9 @@ bool SandwormNormal::m43() {
         auto* entry = sensor ? ksys::act::sub_7100D7EEE8(&sensor->_8, &filter) : nullptr;
         if (!entry)
             return false;
-        if (_50 == entry->mLink) {
+        if (_50 == entry->_0.mLink) {
             entry->_58.getTranslation(_60);
-            _50 = entry->mLink;
+            _50 = entry->_0.mLink;
             return true;
         }
     }

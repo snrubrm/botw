@@ -39,7 +39,7 @@ void NPCSearch::calc_() {
                     auto* entry = current && current->_8.size() > i ?
                                       ksys::act::sub_7100D78E30(&current->_8, i) :
                                       nullptr;
-                    auto& link = entry->mLink;
+                    auto& link = entry->_0.mLink;
                     if (link == ksys::act::PlayerInfo::getSomeProcLink()) {
                         ksys::act::ai::InlineParamPack params;
                         params.addBool(false, "ForceNotice", -1);

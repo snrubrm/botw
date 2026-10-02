@@ -196,10 +196,10 @@ bool MimicCliffStopEnemyNormalBase::sub_7100352D14() {
     auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
     if (!entry)
         return false;
-    if (enemyTeamStuff(mActor, &entry->mLink))
+    if (enemyTeamStuff(mActor, &entry->_0.mLink))
         return false;
 
-    sub_71005D8DE8(actor, entry->mLink, &entry->_58, nullptr);
+    sub_71005D8DE8(actor, entry->_0.mLink, &entry->_58, nullptr);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("気づき", &params);
