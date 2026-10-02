@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71023698d0.h"
+#include "Game/AI/aiUnk_71023ea3f8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -80,8 +82,8 @@ protected:
     s32 _e4{};
     s32 _e8{};
     // Vibrate checker holders (see mRefPosVibrateCheckerForAI_a / mRefVelRotVibrateCheckerforAI_a)
-    void* _f0{};
-    void* _f8{};
+    Unk_71025afb58Ref<Unk_71023698d0> _f0;
+    Unk_71025afb58Ref<Unk_71023ea3f8> _f8;
     sead::Vector3f _100 = sead::Vector3f::zero;
     bool _10c{};
     bool _10d{};

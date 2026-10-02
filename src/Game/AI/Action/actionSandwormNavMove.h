@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionNavMeshMoveWithAS.h"
+#include "Game/AI/aiUnk_71023698d0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -31,7 +32,7 @@ protected:
     const float* mVibrateMemoryStep_s{};
     // aitree_variable at offset 0xe8
     void* mRefPosVibrateChecker_a{};
-    void* _f0{};
+    Unk_71025afb58Ref<Unk_71023698d0> _f0;
 };
 
 }  // namespace uking::action

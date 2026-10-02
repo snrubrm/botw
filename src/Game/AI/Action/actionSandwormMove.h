@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionMoveWithAS.h"
+#include "Game/AI/aiUnk_71023698d0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -34,7 +35,7 @@ protected:
     const bool* mIsCheckAnmSeqCancel_s{};
     // aitree_variable at offset 0x120
     void* mRefPosVibrateChecker_a{};
-    void* _128{};
+    Unk_71025afb58Ref<Unk_71023698d0> _128;
 };
 
 }  // namespace uking::action

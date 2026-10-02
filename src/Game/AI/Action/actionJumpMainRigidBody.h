@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71023698d0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -37,7 +38,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x68
     void* mRefPosVibrateChecker_a{};
-    void* _70{};
+    Unk_71025afb58Ref<Unk_71023698d0> _70;
     bool _78 = true;
     bool _79 = false;
     bool _7a = true;
