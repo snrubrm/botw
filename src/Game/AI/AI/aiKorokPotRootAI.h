@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -24,6 +26,10 @@ protected:
     const float* mCrayLaunchSpeed_m{};
     // map_unit_param at offset 0x50
     const bool* mIsCrayShot_m{};
+    sead::Matrix34f _58 = sead::Matrix34f::ident;
+    bool _88 = true;
+    bool _89 = false;
+    u32 _8c = 0;
 };
 
 }  // namespace uking::ai

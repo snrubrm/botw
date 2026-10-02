@@ -20,6 +20,10 @@ protected:
     const bool* mIsNoAppearEffect_m{};
     // map_unit_param at offset 0x40
     const bool* mIsLastKorokFlower_m{};
+    void* _48{};
+    u32 _50{};
+    void* _58{};
+    u32 _60{};
 };
 
 }  // namespace uking::ai

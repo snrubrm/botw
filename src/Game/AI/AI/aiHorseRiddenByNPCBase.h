@@ -17,6 +17,7 @@ public:
 protected:
     // static_param at offset 0x38
     const bool* mIsEscapeFromSameActorType_s{};
+    bool _40 = false;
 };
 
 }  // namespace uking::ai

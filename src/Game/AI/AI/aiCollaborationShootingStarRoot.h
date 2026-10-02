@@ -18,6 +18,12 @@ public:
 protected:
     // aitree_variable at offset 0x38
     sead::SafeString* mCollaboShootingStarId_a{};
+    u32 _40{};
+    sead::SafeString _48;
+    void* _58{};
+    u32 _60{};
+    void* _68{};
+    u32 _70{};
 };
 
 }  // namespace uking::ai

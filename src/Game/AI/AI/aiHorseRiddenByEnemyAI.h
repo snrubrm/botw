@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,11 @@ protected:
     const float* mAngryASPeriods_s{};
     // static_param at offset 0x40
     const float* mFramesRetryNormalActionAtFailed_s{};
+    ksys::MesTransceiverId _48;
+    ksys::act::BaseProcLink _60;
+    u32 _70{};
+    u32 _74{};
+    bool _78 = false;
 };
 
 }  // namespace uking::ai

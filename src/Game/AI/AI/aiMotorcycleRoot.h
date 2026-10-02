@@ -31,6 +31,11 @@ protected:
     const float* mNoiseThrottleOpen_s{};
     // static_param at offset 0x68
     const float* mForestFogRatioForDisappear_s{};
+    void* _70{};
+    void* _78{};
+    bool _80{};
+    bool _81{};
+    u32 _84 = 0;
 };
 
 }  // namespace uking::ai

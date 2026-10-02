@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "Game/AI/AI/aiGuardianAI.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -17,6 +18,11 @@ public:
     void loadParams_() override;
 
 protected:
+    sead::Vector3f _38 = sead::Vector3f::zero;
+    sead::Vector3f _44 = sead::Vector3f::zero;
+    s32 _50 = 0;
+    s32 _54 = 0;
+    sead::Vector3f _58 = sead::Vector3f::zero;
     // static_param at offset 0x68
     const int* mLostCountMax_s{};
     // static_param at offset 0x70
