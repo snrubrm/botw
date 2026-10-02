@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -51,6 +52,11 @@ bool EnemyDefaultReaction::m38(dmg::DamageManagerBase* damage_mgr) {
 
 void EnemyDefaultReaction::m39(ksys::act::ai::InlineParamPack* params) {
     changeChild("突風", params);
+}
+
+void EnemyDefaultReaction::m40(ksys::act::ai::InlineParamPack* params) {
+    sub_71005D7014(mActor);
+    changeChild("ふっとび", params);
 }
 
 void EnemyDefaultReaction::m41(ksys::act::ai::InlineParamPack* params) {

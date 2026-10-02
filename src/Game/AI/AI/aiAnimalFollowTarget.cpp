@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiAnimalFollowTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalFollowOffset.h"
 
 namespace uking::ai {
 
@@ -25,6 +29,16 @@ void AnimalFollowTarget::leave_() {
 void AnimalFollowTarget::loadParams_() {
     HorseFollow::loadParams_();
     getStaticParam(&mUseLocalOffsetType_s, "UseLocalOffsetType");
+}
+
+const sead::Vector3f* AnimalFollowTarget::m38() {
+    if (*mUseLocalOffsetType_s == 1) {
+        if (const auto* offset =
+                mActor->getParam()->getRes().mGParamList->getAnimalFollowOffset()) {
+            return &offset->mEatLocalOffset.ref();
+        }
+    }
+    return mSelfPositionOffsetLocal_s;
 }
 
 }  // namespace uking::ai

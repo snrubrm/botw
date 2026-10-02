@@ -21,6 +21,8 @@ public:
 
     bool isChangeable() const override;
     const sead::Vector3f* m35() override;
+    void m37() override;
+    void m41() override;
 
     virtual s32 m45();
 

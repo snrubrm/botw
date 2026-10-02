@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    const sead::Vector3f* m38() override;
+
 protected:
     // static_param at offset 0xe0
     const int* mUseLocalOffsetType_s{};

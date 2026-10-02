@@ -52,4 +52,15 @@ ksys::phys::RigidBody* MagneShaftRoot::m52() {
     return mActor->findPhysicsBodyByName("BodyParts_00", "RigidBody_0");
 }
 
+void MagneShaftRoot::m51() {
+    MagneShaftRootBase::m51();
+    if (!mActor)
+        return;
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    physics->sub_7100FBDFA4(physics->get178(0));
+    physics->sub_7100FBDFA4(physics->get178(1));
+}
+
 }  // namespace uking::ai

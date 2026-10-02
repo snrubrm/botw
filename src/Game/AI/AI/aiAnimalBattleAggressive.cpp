@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAnimalBattleAggressive.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -30,6 +32,13 @@ void AnimalBattleAggressive::loadParams_() {
 void AnimalBattleAggressive::m37() {
     _b8 = ksys::Timer(*mForceAttackTimer_s, *mForceAttackTimer_s);
     EnemyBattle::m37();
+}
+
+bool AnimalBattleAggressive::m40() {
+    if (!EnemyBattle::m40())
+        return false;
+    auto* actor = mActor;
+    return sub_710072E154(actor, sub_71005D9330(actor), nullptr, -1);
 }
 
 }  // namespace uking::ai

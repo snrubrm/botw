@@ -43,6 +43,17 @@ const sead::Vector3f* MiniBeamAttack::m35() {
     return &sub_71005D9330(mActor);
 }
 
+void MiniBeamAttack::m37() {
+    _220 = *m35();
+    BreathAttackEnemyBattle::m37();
+}
+
+void MiniBeamAttack::m41() {
+    if (*mIsValidGuide_s)
+        _100.end("Target_End");
+    _230.fadeXLink();
+}
+
 s32 MiniBeamAttack::m45() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         return enemy->_e68.value;

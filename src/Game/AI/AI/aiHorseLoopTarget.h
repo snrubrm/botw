@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::map {
+class Rail;
+}
+
 namespace uking::ai {
 
 class HorseLoopTarget : public ksys::act::ai::Ai {
@@ -11,7 +15,10 @@ public:
     ~HorseLoopTarget() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
+
+    virtual ksys::map::Rail* m34();
 
 protected:
     // static_param at offset 0x38

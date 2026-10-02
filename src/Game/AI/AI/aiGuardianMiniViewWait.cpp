@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniViewWait.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -28,6 +30,17 @@ void GuardianMiniViewWait::loadParams_() {
     getStaticParam(&mArm2NodeName_s, "Arm2NodeName");
     getStaticParam(&mArm3NodeName_s, "Arm3NodeName");
     getStaticParam(&mIsPartialBind_s, "IsPartialBind");
+}
+
+void GuardianMiniViewWait::m37() {
+    if (*mIsPartialBind_s) {
+        auto* actor = mActor;
+        if (actor && actor->getModel() && actor->getASList()) {
+            actor->getASList()->sub_710115C11C();
+            actor->getASList()->sub_710115BED4(true);
+        }
+    }
+    ViewWait::m37();
 }
 
 }  // namespace uking::ai
