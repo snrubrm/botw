@@ -1,6 +1,7 @@
 #pragma once
 
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 
 namespace ksys::phys {
 class CharacterController;
@@ -11,11 +12,9 @@ namespace ksys::act {
 class Actor;
 
 // todo: move?
-enum class MotionType {
-    _0 = 0,
-    _1 = 1,
-    Hover = 3,
-};
+// A 4-byte struct in the original (MotionType 0 is passed as `mov x1, xzr`, e.g.
+// PlayerCleaningAround::leave_ / ChangeFreeMovingForDemo::enter_) — most likely a SEAD_ENUM.
+SEAD_ENUM(MotionType, _0, _1, _2, Hover)
 
 class CCAccessor {
 public:

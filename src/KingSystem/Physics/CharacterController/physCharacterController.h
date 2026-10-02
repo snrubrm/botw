@@ -8,7 +8,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
-enum class MotionType;
+class MotionType;
 }
 
 namespace ksys::phys {

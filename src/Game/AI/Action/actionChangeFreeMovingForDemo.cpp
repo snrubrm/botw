@@ -14,7 +14,6 @@ bool ChangeFreeMovingForDemo::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original materialises the MotionType 0 argument as a 64-bit zero (mov x1, xzr)
 void ChangeFreeMovingForDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* body = mActor->getMainBody()) {
         if (*mSetFreeMoving_d)
