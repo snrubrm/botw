@@ -71,6 +71,13 @@ public:
     void sub_71000225B0(int idx, const Unk_71002eda38& arg);
     void sub_7100022660(int idx, const Unk_71002edaec& arg);
 
+    // Placeholder names (called by NPC AI code).
+    bool sub_71000228F8();
+    bool sub_7100022B54();
+    bool sub_7100022D44(bool on, int mode, const sead::Vector3f& pos, ksys::act::BaseProcLink* link,
+                        const sead::Vector3f& pos2);
+    bool sub_7100022E3C(bool on);
+
     /* 0x0c78 */ ksys::act::ActorAtk _c78{this};  // getAtk
     /* 0x0cf8 */ ksys::act::Unk_7102459df8* _cf8 = nullptr;  // m126
     /* 0x0d00 */ ksys::act::ActorWeapons mWeapons{this};
