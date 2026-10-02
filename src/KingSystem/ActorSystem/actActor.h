@@ -219,6 +219,7 @@ public:
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     as::ASList* getASList() const { return mASList; }
+    xlink::XLink* getXLink() const { return mXLink; }
     AwarenessInstance* getAwareness() const { return mAwareness; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
