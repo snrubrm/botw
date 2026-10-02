@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyBaseFindPlayer.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -72,6 +73,12 @@ bool EnemyBaseFindPlayer::m42(s32 x) {
 
 void EnemyBaseFindPlayer::m47() {
     sub_71005DB248(mActor);
+}
+
+bool EnemyBaseFindPlayer::m43() {
+    if (sub_710072E1B4(mActor, true))
+        return false;
+    return sub_71005D9744(mActor) != 4;
 }
 
 }  // namespace uking::ai

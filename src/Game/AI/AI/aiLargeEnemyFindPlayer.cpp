@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLargeEnemyFindPlayer.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,12 @@ void LargeEnemyFindPlayer::leave_() {
 
 void LargeEnemyFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
+}
+
+bool LargeEnemyFindPlayer::m35() {
+    if (!sub_710072E1B4(mActor, false))
+        return false;
+    return EnemyBaseFindPlayer::m35();
 }
 
 }  // namespace uking::ai

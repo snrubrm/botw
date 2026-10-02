@@ -58,3 +58,7 @@ void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vec
 /// the f32 argument among the integer arguments is unknown.
 bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 distance,
                     sead::Vector3f* out_pos, bool flag, bool* out_flag);
+
+/// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
+/// when `include_3` is set. Placeholder name.
+bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyTargetInSightSelect.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,10 @@ bool EnemyTargetInSightSelect::isChangeable() const {
 }
 
 void EnemyTargetInSightSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_710072E1B4(mActor, false))
+        changeChild("見えてる", params);
+    else
+        changeChild("見えてない", params);
 }
 
 void EnemyTargetInSightSelect::calc_() {
