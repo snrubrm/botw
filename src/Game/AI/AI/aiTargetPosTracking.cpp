@@ -28,4 +28,6 @@ bool TargetPosTracking::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
 
+void TargetPosTracking::m34() {}
+
 }  // namespace uking::ai

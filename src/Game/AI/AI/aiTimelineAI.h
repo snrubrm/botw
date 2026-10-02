@@ -15,6 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual const sead::SafeString& m34();
+    virtual bool m35() { return true; }
+    virtual void m36();
+
 protected:
     // static_param at offset 0x38
     const int* mIntervalToCheckSchedule_s{};

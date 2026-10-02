@@ -20,4 +20,6 @@ void TimelineAI::loadParams_() {
     getStaticParam(&mIntervalToCheckSchedule_s, "IntervalToCheckSchedule");
 }
 
+void TimelineAI::m36() {}
+
 }  // namespace uking::ai

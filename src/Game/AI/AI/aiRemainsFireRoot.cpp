@@ -23,4 +23,6 @@ void RemainsFireRoot::loadParams_() {
     getStaticParam(&mTargetBoneName_s, "TargetBoneName");
 }
 
+void RemainsFireRoot::m34() {}
+
 }  // namespace uking::ai
