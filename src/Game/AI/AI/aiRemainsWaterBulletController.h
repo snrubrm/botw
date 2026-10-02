@@ -37,7 +37,9 @@ public:
     void sub_710054779C();
     void sub_71005478C8();
     void sub_7100547D20(s32 type);
+    void sub_7100548638();
     bool sub_7100548A38();
+    void sub_7100549108(Unk1* bullet);
     bool sub_7100548B34();
 
 protected:

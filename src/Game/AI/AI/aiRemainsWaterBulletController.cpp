@@ -121,6 +121,67 @@ void RemainsWaterBulletController::sub_71005478C8() {
     changeChild("射出前待機");
 }
 
+// NON_MATCHING: stack slot of the MessageType temporary (sp+4 in the original) and regalloc
+void RemainsWaterBulletController::sub_7100547D20(s32 type) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (type == -1 || type == 0) {
+        for (auto& bullet : _f0) {
+            if (ksys::act::acquireActor(&bullet.mLink.mLink, &accessor)) {
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                            nullptr);
+                bullet.mLink.mLink.reset();
+            }
+        }
+    }
+    if (type == -1 || type == 1) {
+        for (auto& bullet : _1e0) {
+            if (ksys::act::acquireActor(&bullet.mLink.mLink, &accessor)) {
+                sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004),
+                            nullptr);
+                bullet.mLink.mLink.reset();
+            }
+        }
+    }
+}
+
+// NON_MATCHING: the original loads _374 before the parameter (see log: matches with a separate
+// `delay` local)
+void RemainsWaterBulletController::sub_7100548638() {
+    _2d0.clear();
+    for (auto& bullet : _f0) {
+        if (bullet.mLink.mLink.hasProc() && !bullet._28)
+            _2d0.pushBack(&bullet);
+    }
+    for (auto& bullet : _1e0) {
+        if (bullet.mLink.mLink.hasProc() && !bullet._28)
+            _2d0.pushBack(&bullet);
+    }
+
+    for (s32 i = 0; i < _330.size();) {
+        if (!_330[i]->mLink.mLink.hasProc()) {
+            _330.erase(i);
+            if (_370 > 0)
+                --_370;
+            _38.mTimer = ksys::Timer(*mNextBulletTimerSuccess_s, *mNextBulletTimerSuccess_s);
+            continue;
+        }
+
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_330[i]->mLink.mLink, &accessor) &&
+            accessor.isStateSleep()) {
+            sub_7100549108(_330[i]);
+            _330.erase(i);
+            if (_370 > 0)
+                --_370;
+            const f32 time =
+                *mNextBulletTimerFail_s + (_374.value <= sead::Mathf::epsilon() ? 0.0f : 30.0f);
+            _38.mTimer = ksys::Timer(time, time);
+        } else {
+            ++i;
+        }
+    }
+}
+
 bool RemainsWaterBulletController::sub_7100548B34() {
     for (auto& bullet : _f0) {
         if (bullet.mLink.mLink.hasProc())
