@@ -37,6 +37,8 @@ public:
     void release() { acquire(nullptr); }
 
     bool hasProc() const { return mProc != nullptr; }
+    // Inline in the original (ActorObserver compares the procs of two accessors directly).
+    BaseProc* getProc() const { return mProc; }
 
     const MesTransceiverId* getMessageTransceiverId() const;
     const Actor* getActor() const;

@@ -33,6 +33,7 @@ namespace ksys::act {
 class Actor;
 class AttClient;
 class ActorConstDataAccess;
+class ActorLinkConstDataAccess;
 class BaseProcLink;
 
 enum class ArrowType {
@@ -238,10 +239,21 @@ void sub_7100EE6228(phys::CharacterController* controller, const sead::Vector3f&
 void sub_7100EE6268(phys::RigidBody* body, const sead::Vector3f& vel);
 void sub_7100EE62B0(phys::RigidBody* body, const sead::Vector3f& ang_vel);
 
+// 0x7100ee5d34 (CSV name; declared only): acquires the actor owning `body` (through its
+// PhysicsUserTag) into `accessor`; does nothing for a null body or a body without an actor tag.
+void getCollidedActorMaybe(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
+
 // 0x7100ee67b0: position of the actor `link` points to.
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);
 // 0x7100ee6818 (CSV name): AI tree variable `name` of the actor, or `default_value` if it has none.
 bool getBoolParam(Actor* actor, const sead::SafeString& name, bool default_value);
+// 0x7100ee7828 (CSV name; declared only): clears both strings, then fills them from the actor's
+// map placement object (no-op for a null actor).
+void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
+                                   sead::BufferedSafeString* unique_name);
+// 0x7100ee9a14 (declared only): whether `body` is a player body other than the one whose Havok
+// name is "SensorForArea".
+bool sub_7100EE9A14(phys::RigidBody* body);
 // 0x7100ee686c (CSV name): bool map unit parameter `name`, or `default_value` if it has none.
 bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value);
 // 0x7100ee68c0 (CSV name): s32 map unit parameter `name`, or `default_value` if it has none.

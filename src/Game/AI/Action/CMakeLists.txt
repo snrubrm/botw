@@ -15,6 +15,10 @@ target_sources(uking PRIVATE
   actionActorInfoToGameDataInt.h
   actionActorInfoToGameDataVec3.cpp
   actionActorInfoToGameDataVec3.h
+  actionActorObserver.cpp
+  actionActorObserver.h
+  actionActorObserverBase.cpp
+  actionActorObserverBase.h
   actionAddAutoPlacementCreator.cpp
   actionAddAutoPlacementCreator.h
   actionAddNoUseTerritoryCounter.cpp

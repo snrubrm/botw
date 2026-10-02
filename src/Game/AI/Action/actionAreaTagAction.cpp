@@ -2,16 +2,20 @@
 
 namespace uking::action {
 
-AreaTagAction::AreaTagAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+AreaTagAction::AreaTagAction(const InitArg& arg) : ksys::act::ai::Action(arg), ActorObserver(this) {}
 
 AreaTagAction::~AreaTagAction() = default;
 
 void AreaTagAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_7100E28168();
 }
 
 void AreaTagAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100E282AC();
+}
+
+bool AreaTagAction::handleMessage_(const ksys::Message& message) {
+    return sub_7100E289C0(&message);
 }
 
 }  // namespace uking::action
