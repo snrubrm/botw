@@ -5,8 +5,6 @@ namespace uking::action {
 
 WaterFloatBase::WaterFloatBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-WaterFloatBase::~WaterFloatBase() = default;
-
 bool WaterFloatBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }

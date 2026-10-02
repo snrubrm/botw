@@ -9,7 +9,7 @@ class WaterFloatBase : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WaterFloatBase, ksys::act::ai::Action)
 public:
     explicit WaterFloatBase(const InitArg& arg);
-    ~WaterFloatBase() override;
+    ~WaterFloatBase() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

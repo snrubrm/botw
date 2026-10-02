@@ -1,7 +1,11 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "Game/AI/Action/actionWaterFloatBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace uking::action {
 
@@ -37,6 +41,13 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // static_param at offset 0xa0
     const bool* mIsCheckCliff_s{};
+    ksys::VFRValue _a8;
+    ksys::VFRValue _b4;
+    sead::Matrix33f _c0;
+    sead::Vector2f _e4{0, 0};
+    sead::Vector2f _ec{0, 0};
+    sead::Vector2f _f4{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(BackSwim, 0x100);
 
 }  // namespace uking::action
