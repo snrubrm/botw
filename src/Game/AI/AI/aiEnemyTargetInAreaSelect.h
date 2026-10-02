@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003c0820 (not decompiled yet)
+    bool m34() override;
+
 protected:
     // static_param at offset 0x40
     const float* mLengthXZ_s{};
