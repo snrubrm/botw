@@ -124,4 +124,19 @@ bool sub_71011F10F4(const sead::Matrix34f& mtx);
 void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up);
 void sub_71011EFFA8(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up);
 
+// 0x71011eee2c / 0x71011eee98: sets x/z of `vec` to the XZ direction of `angle` (sead index /
+// radians) scaled by `length`; 0x71011eeee0 / 0x71011eef5c add it instead.
+void sub_71011EEE2C(sead::Vector3f* vec, const u32& angle, float length);
+void sub_71011EEE98(sead::Vector3f* vec, float angle, float length);
+void sub_71011EEEE0(sead::Vector3f* vec, const u32& angle, float length);
+void sub_71011EEF5C(sead::Vector3f* vec, float angle, float length);
+
+// 0x71011eefb4 / 0x71011ef070: rotate `vec` around the X / Z axis by `angle` (radians).
+void sub_71011EEFB4(sead::Vector3f* vec, float angle);
+void sub_71011EF070(sead::Vector3f* vec, float angle);
+
+// 0x71011ef10c: sub_71011EEB08 as a single rotation vector (axis * angle).
+void sub_71011EF10C(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to,
+                    const sead::Vector3f& default_axis);
+
 }  // namespace ksys::util

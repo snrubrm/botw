@@ -16,7 +16,7 @@ void sub_71011EF010(sead::Vector3f* vec, float angle) {
     const float x = vec->x;
     const float z = vec->z;
     vec->x = c * x + s * z;
-    vec->z = c * z - s * x;
+    vec->z = -s * x + c * z;
 }
 
 float sub_71011EF0CC(float angle) {
@@ -169,6 +169,51 @@ void sub_71011EFFA8(sead::Matrix33f* mtx, const sead::Vector3f& front, const sea
     mtx->setBase(0, x);
     mtx->setBase(1, y);
     mtx->setBase(2, front);
+}
+
+void sub_71011EEE2C(sead::Vector3f* vec, const u32& angle, float length) {
+    vec->x = sead::Mathf::sinIdx(angle) * length;
+    vec->z = sead::Mathf::cosIdx(angle) * length;
+}
+
+void sub_71011EEE98(sead::Vector3f* vec, float angle, float length) {
+    vec->x = std::sin(angle) * length;
+    vec->z = std::cos(angle) * length;
+}
+
+void sub_71011EEEE0(sead::Vector3f* vec, const u32& angle, float length) {
+    vec->x += sead::Mathf::sinIdx(angle) * length;
+    vec->z += sead::Mathf::cosIdx(angle) * length;
+}
+
+void sub_71011EEF5C(sead::Vector3f* vec, float angle, float length) {
+    vec->x += std::sin(angle) * length;
+    vec->z += std::cos(angle) * length;
+}
+
+void sub_71011EEFB4(sead::Vector3f* vec, float angle) {
+    const float c = std::cos(angle);
+    const float s = std::sin(angle);
+    const float y = vec->y;
+    const float z = vec->z;
+    vec->y = c * y - s * z;
+    vec->z = s * y + c * z;
+}
+
+void sub_71011EF070(sead::Vector3f* vec, float angle) {
+    const float c = std::cos(angle);
+    const float s = std::sin(angle);
+    const float x = vec->x;
+    const float y = vec->y;
+    vec->x = c * x - s * y;
+    vec->y = s * x + c * y;
+}
+
+void sub_71011EF10C(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to,
+                    const sead::Vector3f& default_axis) {
+    float angle;
+    sub_71011EEB08(out, &angle, from, to, default_axis);
+    *out *= angle;
 }
 
 }  // namespace ksys::util
