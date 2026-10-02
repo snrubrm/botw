@@ -51,10 +51,13 @@ KSYS_CHECK_SIZE_NX150(BoneHandleBase, 0x20);
 class BoneHandle : public BoneHandleBase {
 public:
     BoneHandle();
-    ~BoneHandle() override;
+    // Inline: AI classes that embed a BoneHandle inline it into their destructors. (m3 is
+    // declared first so that the vtable, D1 and D0 stay in actBoneHandle.cpp; m2 0x7100d3b474 is
+    // not decompiled yet.)
+    ~BoneHandle() override = default;
 
-    void m2(gsys::Model* model) override;
     bool m3(gsys::Model* model, bool sorted) override;
+    void m2(gsys::Model* model) override;
     const gsys::BoneAccessKey* m4() override { return &_30.getKey(); }
 
     void setName(const sead::SafeString& name);
