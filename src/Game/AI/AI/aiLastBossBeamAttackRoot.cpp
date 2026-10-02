@@ -1,13 +1,30 @@
 #include "Game/AI/AI/aiLastBossBeamAttackRoot.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
 LastBossBeamAttackRoot::LastBossBeamAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-LastBossBeamAttackRoot::~LastBossBeamAttackRoot() = default;
+// NON_MATCHING: the original builds the name arguments before computing `enemy + 0x1128` (scheduling)
+LastBossBeamAttackRoot::~LastBossBeamAttackRoot() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto& parts = enemy->_1128;
+        if (parts.getActorPartsActor("Beam").hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&parts.getActorPartsActor("Beam"), &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        parts.sub_7100D3CFEC("Beam");
+    }
+}
 
+// NON_MATCHING: the original builds the name argument before computing `enemy + 0x1128` (scheduling)
 bool LastBossBeamAttackRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_1128.sub_7100D3CED8("Beam", heap);
+    sub_710047555C();
+    return true;
 }
 
 void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,6 +1,12 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::ai {
 
@@ -16,6 +22,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x710047555c (not decompiled; called by init_).
+    void sub_710047555C();
 
 protected:
     // static_param at offset 0x38
@@ -52,6 +61,17 @@ protected:
     const bool* mIsCreateGuardEffect_s{};
     // static_param at offset 0xb8
     const sead::Vector3f* mReflectOffset_s{};
+    ksys::Timer _c0;
+    ksys::VFRValue _cc;
+    bool _d8 = false;
+    sead::Vector3f _dc;
+    u64 _e8 = 0;
+    ksys::Timer _f0;
+    ksys::Timer _fc;
+    sead::Matrix33f _108;
+    gsys::BoneAccessKeyEx _130;
+    ksys::act::BaseProcLink _168;
 };
+KSYS_CHECK_SIZE_NX150(LastBossBeamAttackRoot, 0x178);
 
 }  // namespace uking::ai
