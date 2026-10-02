@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m34();
+    virtual void m34(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38

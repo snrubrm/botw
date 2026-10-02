@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseCheckLineOfSightSelector.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,14 @@ void HorseCheckLineOfSightSelector::leave_() {
 
 void HorseCheckLineOfSightSelector::loadParams_() {
     HorseCheckLineOfSightSelectorBase::loadParams_();
+}
+
+void HorseCheckLineOfSightSelector::m34(sead::Vector3f* out) {
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (!rideable)
+        return;
+    if (rideable->_148.x != 0.0f || rideable->_148.z != 0.0f)
+        out->set(rideable->_148);
 }
 
 }  // namespace uking::ai
