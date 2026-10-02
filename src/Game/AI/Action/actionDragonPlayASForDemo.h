@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
 
+    void sub_71000F7020();
+
     // static_param at offset 0xb0
     const sead::Vector3f* mPosition_s{};
     // static_param at offset 0xb8

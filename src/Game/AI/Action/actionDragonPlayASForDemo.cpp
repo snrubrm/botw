@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDragonPlayASForDemo.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::action {
 
@@ -12,10 +13,16 @@ bool DragonPlayASForDemo::init_(sead::Heap* heap) {
 
 void DragonPlayASForDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayASForDemo::enter_(params);
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        dragon->_14c8._8b8 = 0;
+        sub_71000F7020();
+    }
 }
 
 void DragonPlayASForDemo::leave_() {
     PlayASForDemo::leave_();
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor))
+        dragon->_14c8._8b8 = 1.0f;
 }
 
 void DragonPlayASForDemo::loadParams_() {
