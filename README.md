@@ -1,18 +1,8 @@
 # The Legend of Zelda: Breath of the Wild
 
-[![Decompilation Progress][progress-badge]][progress] [![Decompilation Progress (functions)][fn-progress-badge]][fn-progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
+This is a personal fork of [zeldaret/botw](https://github.com/zeldaret/botw). Most of the decompilation here is the great work of the zeldaret contributors, and full credit goes to them. I was curious how far AI-assisted decompilation could take the rest of the game, so this fork is where I've been trying that out. Nothing here is submitted upstream.
 
-[progress]: https://botw.link/progress
-[progress-badge]: https://img.shields.io/endpoint?url=https://botw.link/badges/progress.json
-
-[fn-progress]: https://botw.link/progress
-[fn-progress-badge]: https://img.shields.io/endpoint?url=https://botw.link/badges/fn_progress.json
-
-[contributors]: https://github.com/zeldaret/botw/graphs/contributors
-[contributors-badge]: https://img.shields.io/github/contributors/zeldaret/botw
-
-[discord]: https://discord.zelda.deco.mp
-[discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
+Feel free to use this repository, or not; if you'd rather work only from human-written code, use [zeldaret/botw](https://github.com/zeldaret/botw) instead.
 
 This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of the Wild* v1.5.0 (Switch).
 
@@ -20,4 +10,13 @@ This is an experimental, WIP decompilation of *The Legend of Zelda: Breath of th
 
 The goal of this project is to better understand game internals, aid with glitch hunting and document existing knowledge in a permanent, unambiguous form which helps further reverse engineer the game.
 
-For more information, see https://botw.link
+## Progress
+
+Functions marked matching in `data/uking_functions.csv` (byte-identical to the original after compilation):
+
+| | Matching functions | Code size |
+|---|---|---|
+| zeldaret/botw at the fork point | 32,071 / 113,490 (28.26%) | 15.51% |
+| This fork | 41,463 / 113,490 (36.53%) | 18.33% |
+
+For more information about the original project, see https://botw.link
