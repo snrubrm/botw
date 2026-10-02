@@ -33,4 +33,8 @@ void RemainsWaterBulletRevive::calc_() {
     RemainsWaterBulletWait::calc_();
 }
 
+bool RemainsWaterBulletRevive::isFinished() const {
+    return mFlags.isOn(Flag::Finished) || !_c0.sub_7101241B6C();
+}
+
 }  // namespace uking::action

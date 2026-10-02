@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAlwaysRotate.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -19,7 +20,8 @@ void ForkAlwaysRotate::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkAlwaysRotate::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mOnEndForceStop_s)
+        ksys::act::sub_7100EE5A14(mActor, sead::Vector3f::zero);
 }
 
 void ForkAlwaysRotate::loadParams_() {

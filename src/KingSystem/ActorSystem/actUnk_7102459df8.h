@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -51,7 +52,9 @@ public:
     // vtable 0x7102459e60 (derived: 0x710245a0e0); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e60 {
         struct Unk1 {
-            u8 _0[0x58];
+            u8 _0[0xc];
+            sead::Vector3f _c;  // dotted with the actor's front (BattleCloseAction::m39)
+            u8 _18[0x58 - 0x18];
         };
 
         virtual ~Unk_7102459e60();

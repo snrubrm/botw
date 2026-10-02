@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkWeaponAttackWithAtkBody.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -30,6 +31,11 @@ void ForkWeaponAttackWithAtkBody::loadParams_() {
 
 void ForkWeaponAttackWithAtkBody::calc_() {
     ForkWeaponAttack::calc_();
+}
+
+void ForkWeaponAttackWithAtkBody::m33() {
+    ForkWeaponAttack::m33();
+    sub_71007A2D7C(mActor, mAtkBodyName_s);
 }
 
 }  // namespace uking::action

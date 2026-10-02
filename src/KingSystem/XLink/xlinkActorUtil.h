@@ -29,7 +29,7 @@ struct Unk_71012419b4 {
     /// Whether the handle of `kind` (0 = ELink, 1 = SLink, 2 = both) is active.
     bool sub_7101241AD8(int kind);
     /// Whether either handle is active (CSV eft::Effect::x_0).
-    bool sub_7101241B6C();
+    bool sub_7101241B6C() const;
     /// Fades both events (CSV eft::Effect::fadeXLink).
     void fadeXLink();
 

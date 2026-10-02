@@ -1,7 +1,17 @@
 #pragma once
+#include "KingSystem/System/Timer.h"
+#include <math/seadMatrix.h>
 
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace ksys::act {
+class Unk_71024dc858;
+}
+
+namespace ksys::phys {
+class CharacterController;
+}
 
 namespace uking::action {
 
@@ -19,6 +29,16 @@ public:
 protected:
     void calc_() override;
 
+    virtual void m32(sead::Vector3f* target_pos);
+    virtual ksys::act::Unk_71024dc858* m33(int idx);
+    virtual bool m34(ksys::act::Unk_71024dc858* entry);
+    virtual f32 m35();
+    virtual void m36(const sead::Matrix34f& mtx);
+    virtual bool m37(ksys::phys::CharacterController* controller, f32 speed,
+                     const sead::Vector3f& dir);
+    virtual int m38(f32 x);
+    virtual bool m39();
+
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
     // static_param at offset 0x28
@@ -34,11 +54,9 @@ protected:
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
     sead::Vector3f _58;
-    u32 _64[9];
+    sead::Matrix33f _64;
     float _88 = 0.0f;
-    float _8c = 0.0f;
-    float _90 = 0.0f;
-    float _94 = -1.0f;
+    ksys::Timer _8c{0, 0};
 };
 
 }  // namespace uking::action

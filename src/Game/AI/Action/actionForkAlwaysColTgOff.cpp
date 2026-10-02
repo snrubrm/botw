@@ -17,7 +17,7 @@ void ForkAlwaysColTgOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkAlwaysColTgOff::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A3800(mActor);
 }
 
 void ForkAlwaysColTgOff::loadParams_() {}

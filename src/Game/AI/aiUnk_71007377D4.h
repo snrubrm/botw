@@ -62,3 +62,9 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+/// 0x710072fec4: navigation-mesh check from the actor's position along `dir` (x/z) for `distance`
+/// (through the navmesh object returned by actor vtable slot 45). Optionally returns the end position
+/// and a flag. 41 callers in AI/Action code. The position of the f32 parameter is a guess (it is
+/// passed in s0).
+bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 distance,
+                    sead::Vector3f* out_pos, bool x, bool* out_flag);

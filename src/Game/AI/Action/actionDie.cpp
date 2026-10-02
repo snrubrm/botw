@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDie.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 
 namespace uking::action {
@@ -17,6 +18,7 @@ void Die::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Die::leave_() {
+    sub_71007A3800(mActor);
     BlownOff::leave_();
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -44,6 +45,13 @@ protected:
     const sead::Vector3f* mInitRotate_s{};
     // static_param at offset 0x88
     const sead::Vector3f* mRotateSpeed_s{};
+    Unk_71012419b4 _90;
+    sead::Vector3f _b0 = sead::Vector3f::zero;
+    sead::Vector3f _bc = sead::Vector3f::zero;
+    bool _c8 = false;
+    bool _c9 = false;
+    f32 _cc = 0;
+    f32 _d0 = 0;
 };
 
 }  // namespace uking::action

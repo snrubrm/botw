@@ -15,7 +15,7 @@ void BrightBowSlowFall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BrightBowSlowFall::leave_() {
-    ksys::act::ai::Action::leave_();
+    _90.fadeXLink();
 }
 
 void BrightBowSlowFall::loadParams_() {

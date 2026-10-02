@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionXLinkEventEnable.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -12,6 +13,11 @@ bool XLinkEventEnable::init_(sead::Heap* heap) {
 
 void XLinkEventEnable::loadParams_() {
     getDynamicParam(&mIsEnable_d, "IsEnable");
+}
+
+bool XLinkEventEnable::oneShot_() {
+    xlinkEventOn(mActor, 0x19, *mIsEnable_d, false);
+    return true;
 }
 
 }  // namespace uking::action

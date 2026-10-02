@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionStrangeBeacon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 namespace uking::action {
 
@@ -11,11 +16,24 @@ bool StrangeBeacon::init_(sead::Heap* heap) {
 }
 
 void StrangeBeacon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    bool linked_calc = false;
+    if (auto* obj = mActor->getMapObject()) {
+        auto* link_data = obj->getLinkData();
+        if (link_data && link_data->mObjects.size() >= 1) {
+            if (auto* linked = link_data->mObjects[0]) {
+                ksys::act::ActorConstDataAccess accessor;
+                linked->getActorWithAccessor(accessor);
+                linked_calc = accessor.hasProc() && accessor.isStateCalc();
+            }
+        }
+    }
+    if (linked_calc && !ksys::gdt::getBoolByKey(mSaveFlag_s, false))
+        return;
+    xlinkSearchAndEmit(mActor, mKeyName_s.cstr(), 2, &_50);
 }
 
 void StrangeBeacon::leave_() {
-    ksys::act::ai::Action::leave_();
+    _50.fadeXLink();
 }
 
 void StrangeBeacon::loadParams_() {

@@ -15,7 +15,7 @@ void ShootingStarBrightTower::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ShootingStarBrightTower::leave_() {
-    ksys::act::ai::Action::leave_();
+    _30.fadeXLink();
 }
 
 void ShootingStarBrightTower::loadParams_() {

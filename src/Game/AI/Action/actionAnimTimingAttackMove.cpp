@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAnimTimingAttackMove.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void AnimTimingAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnimTimingAttackMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A2D7C(mActor, mRigidBodyName_s);
 }
 
 void AnimTimingAttackMove::loadParams_() {

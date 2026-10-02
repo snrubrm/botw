@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAmbushThrown.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool AmbushThrown::init_(sead::Heap* heap) {
 
 void AmbushThrown::enter_(ksys::act::ai::InlineParamPack* params) {
     ReflectThrown::enter_(params);
+    sub_71007A2E04(mActor);
+    mFlags.set(Flag::Changeable);
 }
 
 void AmbushThrown::leave_() {

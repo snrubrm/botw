@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class TargetCircle : public ksys::act::ai::Action {
@@ -20,6 +24,8 @@ public:
 protected:
     void calc_() override;
     virtual float m32();
+    virtual void m33(ksys::phys::CharacterController* controller, f32 speed,
+                     const sead::Vector3f& dir);
 
     // static_param at offset 0x20
     const float* mSpeed_s{};

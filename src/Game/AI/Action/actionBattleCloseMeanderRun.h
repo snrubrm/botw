@@ -17,6 +17,8 @@ public:
 protected:
     void calc_() override;
 
+    virtual void m40();
+
     // static_param at offset 0xa8
     const float* mMeanderWidth_s{};
     // static_param at offset 0xb0

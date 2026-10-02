@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionChemicalAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
@@ -32,6 +33,10 @@ void ChemicalAttack::loadParams_() {
 
 void ChemicalAttack::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void ChemicalAttack::m32() {
+    ksys::act::sub_7100EE5980(mActor, _6c);
 }
 
 float ChemicalAttack::m34() {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -22,10 +23,7 @@ protected:
     sead::SafeString mTransformKey_s{};
     // static_param at offset 0x30
     sead::SafeString mTrueFormKey_s{};
-    void* _40{};
-    int _48 = 0;
-    void* _50{};
-    int _58 = 0;
+    Unk_71012419b4 _40;
 };
 
 }  // namespace uking::action

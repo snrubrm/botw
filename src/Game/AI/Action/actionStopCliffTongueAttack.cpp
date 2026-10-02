@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStopCliffTongueAttack.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
@@ -24,6 +25,8 @@ void StopCliffTongueAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void StopCliffTongueAttack::leave_() {
     OnCliffWait::leave_();
+    sub_71007A2D7C(mActor, mRigidName_s);
+    sub_71005DB3EC(mActor);
 }
 
 void StopCliffTongueAttack::loadParams_() {

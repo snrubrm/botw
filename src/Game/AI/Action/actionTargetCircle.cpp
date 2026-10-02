@@ -61,4 +61,9 @@ float TargetCircle::m32() {
     return *mRotDist_s;
 }
 
+void TargetCircle::m33(ksys::phys::CharacterController* controller, f32 speed,
+                       const sead::Vector3f& dir) {
+    sub_710073770C(controller, speed, dir);
+}
+
 }  // namespace uking::action

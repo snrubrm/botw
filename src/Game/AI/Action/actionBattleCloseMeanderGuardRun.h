@@ -11,6 +11,8 @@ public:
     explicit BattleCloseMeanderGuardRun(const InitArg& arg);
     ~BattleCloseMeanderGuardRun() override;
 
+    void m40() override;
+
 protected:
 };
 

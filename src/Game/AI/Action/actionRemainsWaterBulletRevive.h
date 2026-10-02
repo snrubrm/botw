@@ -1,4 +1,5 @@
 #pragma once
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 #include "Game/AI/Action/actionRemainsWaterBulletWait.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -18,11 +19,13 @@ public:
 
 protected:
     void calc_() override;
+    bool isFinished() const override;
 
     // static_param at offset 0xa8
     sead::SafeString mXLinkKey_s{};
     // dynamic_param at offset 0xb8
     sead::Vector3f* mTargetPos_d{};
+    Unk_71012419b4 _c0;
 };
 
 }  // namespace uking::action

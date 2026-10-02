@@ -28,4 +28,8 @@ void BattleCloseMeanderRun::calc_() {
     }
 }
 
+void BattleCloseMeanderRun::m40() {
+    playAS("Run", true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action
