@@ -30,6 +30,9 @@ public:
     void sub_71006694B4(ksys::act::BaseProc* proc);
     void sub_710066956C(ksys::act::BaseProc* proc, bool join_system_group);
     void sub_71006695DC(ksys::act::BaseProc* proc);
+    // 0x71006698b0: sets / clears bit 2 of the current entry's flags (+0x10a8, indexed by +0x28)
+    // under the CriticalSection. Placeholder name.
+    void sub_71006698B0(bool on);
 
     u8 _28[0x1050 - 0x28];
     ksys::phys::SystemGroupHandler* _1050;

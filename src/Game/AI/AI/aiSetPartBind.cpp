@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSetPartBind.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -25,7 +27,12 @@ void SetPartBind::calc_() {
 }
 
 void SetPartBind::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    if (actor && actor->getModel() && actor->getASList()) {
+        actor->getASList()->sub_710115B01C(1, 0, true);
+        actor->getASList()->sub_710115C11C();
+        actor->getASList()->sub_710115BED4(true);
+    }
 }
 
 void SetPartBind::loadParams_() {
