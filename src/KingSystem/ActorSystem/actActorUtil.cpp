@@ -35,6 +35,16 @@ ActorConstDataAccess getAccessor(Actor* actor) {
     return accessor;
 }
 
+sead::SafeString sStr_Atk = "Atk";
+sead::SafeString sStr_Tgt = "Tgt";
+sead::SafeString sStr_Body = "Body";
+sead::SafeString sStr_Chemical = "Chemical";
+sead::SafeString sStr_EntitySensor = "EntitySensor";
+sead::SafeString sStr_Secure = "Secure";
+sead::SafeString sStr_Lod = "Lod";
+sead::SafeString sStr_CameraCheck = "CameraCheck";
+sead::SafeString sStr_GeneralSensor = "GeneralSensor";
+sead::SafeString sStr_AtvKeyActorSaveDataIndex = "AtvKeyActorSaveDataIndex";
 sead::SafeString sDefaultDropActor = "Item_Fruit_A";
 sead::SafeArray<const char*, 6> sArrowTypes{{
     "NormalArrow",
@@ -287,6 +297,42 @@ bool isPlayerProfile(BaseProcLink* link) {
 
 const sead::SafeString& getDefaultDropActor() {
     return sDefaultDropActor;
+}
+
+const sead::SafeString& getStr_Atk() {
+    return sStr_Atk;
+}
+
+const sead::SafeString& getStr_Tgt() {
+    return sStr_Tgt;
+}
+
+const sead::SafeString& getStr_Body() {
+    return sStr_Body;
+}
+
+const sead::SafeString& getStr_Chemical() {
+    return sStr_Chemical;
+}
+
+const sead::SafeString& getStr_EntitySensor() {
+    return sStr_EntitySensor;
+}
+
+const sead::SafeString& getStr_Secure() {
+    return sStr_Secure;
+}
+
+const sead::SafeString& getStr_Lod() {
+    return sStr_Lod;
+}
+
+const sead::SafeString& getStr_CameraCheck() {
+    return sStr_CameraCheck;
+}
+
+const sead::SafeString& getStr_GeneralSensor() {
+    return sStr_GeneralSensor;
 }
 
 bool isCameraProfile(Actor* actor) {

@@ -85,6 +85,8 @@ public:
     void sub_7100FBB4B4();
     void* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
     RigidBody* findRigidBody(const sead::SafeString& name) const;
+    // 0x7100fbb7bc (CSV ActorPhysics::findBodyGroupByName): the rigid body set called `name`.
+    RigidBodySet* findBodyGroupByName(const sead::SafeString& name);
     s32 findContactPointInfo(const sead::SafeString& name) const;
     s32 findCollisionInfo(const sead::SafeString& name) const;
     void sub_7100FBD284(const sead::Matrix34f& mtx);

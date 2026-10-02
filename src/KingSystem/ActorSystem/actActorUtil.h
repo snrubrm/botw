@@ -168,6 +168,18 @@ bool isAirOctaWoodPlatformDlc(const sead::SafeString& name);
 
 const sead::SafeString& getDefaultDropActor();
 
+// 0x7100ee52c4-0x7100ee5324 (CSV names getStr_Atk / _Tgt / _Body / _Chemical; the rest named after
+// their strings): rigid body / sensor group names.
+const sead::SafeString& getStr_Atk();
+const sead::SafeString& getStr_Tgt();
+const sead::SafeString& getStr_Body();
+const sead::SafeString& getStr_Chemical();
+const sead::SafeString& getStr_EntitySensor();
+const sead::SafeString& getStr_Secure();
+const sead::SafeString& getStr_Lod();
+const sead::SafeString& getStr_CameraCheck();
+const sead::SafeString& getStr_GeneralSensor();
+
 void getRevivalGridPosition(const sead::Vector3f& pos, int* col1, int* row1, int* col2, int* row2);
 
 bool itemIsForSale(Actor* actor);

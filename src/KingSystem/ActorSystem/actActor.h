@@ -56,6 +56,7 @@ class UMii;
 namespace phys {
 class StaticCompoundRigidBodyGroup;
 class InstanceSet;
+class RigidBodySet;
 class NavMeshCharacter;
 class Reaction;
 class RigidBody;
@@ -270,6 +271,8 @@ public:
     void sub_71011DA824(ModelBindInfo* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA834();
+    // CSV name: the physics rigid body set called `name` (null without physics).
+    phys::RigidBodySet* getRigidBodyByName(const char* name);
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.
     Chemical* sub_71011D8A34(int idx);
     // mChemical->sub_7100E37788(idx), if any.

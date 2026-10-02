@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
@@ -12,6 +13,22 @@ class Actor;
 // (Actor::m126() -> Unk_7102459df8), TU 0x71007a21d4-0x71007a4bd8. Names are the CSV names where
 // it has one (namespace unknown; CSV "Actor::*" / "PlayerOrEnemy::*" entries are free functions
 // taking the actor), `sub_<ADDR>` otherwise.
+
+// --- rigid body / sensor group names ---
+// 0x71007a24bc-0x71007a2548 (CSV getStr_Atk_0, getStr_Tgt_0, getStr_Body_0, j_getStr_Chemical, ...): the
+// ksys::act::getStr_* names as pointers (the return type differs, so the calls are not tail calls).
+const sead::SafeString* sub_71007A24BC();  // getStr_Atk
+const sead::SafeString* sub_71007A24D0();  // getStr_Tgt
+const sead::SafeString* sub_71007A24E4();  // getStr_Body
+const sead::SafeString* sub_71007A24F8();  // getStr_Chemical
+const sead::SafeString* sub_71007A250C();  // getStr_EntitySensor
+const sead::SafeString* sub_71007A2520();  // getStr_Secure
+const sead::SafeString* sub_71007A2534();  // getStr_Lod
+const sead::SafeString* sub_71007A2548();  // getStr_GeneralSensor
+
+// 0x71007a397c: sets the contact layer of every body of the actor's "Tgt" rigid body set to
+// SensorQueryOnly (if the actor has attack info).
+void sub_71007A397C(ksys::act::Actor* actor);
 
 // --- ActorAtk ---
 // 0x71007a255c (CSV Actor::x_46): ActorAtk::sub_710079E2C0(idx).

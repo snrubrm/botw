@@ -1,10 +1,58 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 using ksys::act::Actor;
 using ksys::act::ActorAtk;
 using ksys::act::Unk_7102459df8;
+
+const sead::SafeString* sub_71007A24BC() {
+    return &ksys::act::getStr_Atk();
+}
+
+const sead::SafeString* sub_71007A24D0() {
+    return &ksys::act::getStr_Tgt();
+}
+
+const sead::SafeString* sub_71007A24E4() {
+    return &ksys::act::getStr_Body();
+}
+
+const sead::SafeString* sub_71007A24F8() {
+    return &ksys::act::getStr_Chemical();
+}
+
+const sead::SafeString* sub_71007A250C() {
+    return &ksys::act::getStr_EntitySensor();
+}
+
+const sead::SafeString* sub_71007A2520() {
+    return &ksys::act::getStr_Secure();
+}
+
+const sead::SafeString* sub_71007A2534() {
+    return &ksys::act::getStr_Lod();
+}
+
+const sead::SafeString* sub_71007A2548() {
+    return &ksys::act::getStr_GeneralSensor();
+}
+
+void sub_71007A397C(Actor* actor) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
+    if (!set)
+        return;
+    auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
+    if (!atk)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
+        if (auto* body = set->getRigidBodies()[i])
+            body->setContactLayer(ksys::phys::ContactLayer::SensorQueryOnly);
+    }
+}
 
 const ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());

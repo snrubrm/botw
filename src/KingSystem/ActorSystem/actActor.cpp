@@ -242,6 +242,12 @@ phys::CharacterController* Actor::getCharacterController() {
     return mPhysics->getCharacterController();
 }
 
+phys::RigidBodySet* Actor::getRigidBodyByName(const char* name) {
+    if (!mPhysics)
+        return nullptr;
+    return mPhysics->findBodyGroupByName(name);
+}
+
 Chemical* Actor::sub_71011D8A34(int idx) {
     if (!mChemical)
         return nullptr;
