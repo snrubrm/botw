@@ -16,10 +16,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool m34(const sead::Vector3f* pos) override;
     bool m39() override;
     bool m40(sead::Vector3f* pos) override;
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0xf8
     const float* mWaterLevelLimitLower_s{};
     // static_param at offset 0x100

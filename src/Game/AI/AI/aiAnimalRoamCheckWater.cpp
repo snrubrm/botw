@@ -27,6 +27,35 @@ void AnimalRoamCheckWater::loadParams_() {
     getStaticParam(&mWaterLevelLimitUpper_s, "WaterLevelLimitUpper");
 }
 
+void AnimalRoamCheckWater::calc_() {
+    auto* nav = mActor->m45();
+    if (_108 && !nav->_194.isNan()) {
+        const sead::Vector3f& pos = nav->_194;
+        const f32 dx = pos.x - _10c.x;
+        const f32 dy = pos.y - _10c.y;
+        const f32 dz = pos.z - _10c.z;
+        if (dx <= 0.01f && dx >= -0.01f) {
+            if (dy <= 0.01f && dy >= -0.01f) {
+                if (dz <= 0.01f && dz >= -0.01f) {
+                    AnimalRoam::calc_();
+                    return;
+                }
+            }
+        }
+        _108 = false;
+        mActor->m45()->inlineReset();
+        mActor->m45()->inlineClearTargets();
+    }
+    AnimalRoam::calc_();
+}
+
+bool AnimalRoamCheckWater::m34(const sead::Vector3f* pos) {
+    _108 = false;
+    mActor->m45()->inlineReset();
+    mActor->m45()->inlineClearTargets();
+    return AnimalRoam::m34(pos);
+}
+
 bool AnimalRoamCheckWater::m40(sead::Vector3f* pos) {
     if (!pos)
         return false;

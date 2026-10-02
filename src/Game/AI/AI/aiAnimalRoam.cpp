@@ -20,6 +20,14 @@ bool AnimalRoam::init_(sead::Heap* heap) {
 
 void AnimalRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalRoamBase::enter_(params);
+    auto* nav = mActor->m45();
+    if (!nav) {
+        setFailed();
+        return;
+    }
+    mActor->getMtx().getTranslation(_e0);
+    nav->inlineReset();
+    m36();
 }
 
 void AnimalRoam::calc_() {
@@ -110,6 +118,29 @@ bool AnimalRoam::m34(const sead::Vector3f* pos) {
     const f32 time = (nav && (nav->_2a4 & 0xffff) != 0x17) ? 10.0f : 150.0f;
     _ec = ksys::Timer(time, time);
     return AnimalRoamBase::m34(&dir);
+}
+
+void AnimalRoam::m36() {
+    auto* nav = mActor->m45();
+    auto* nav2 = mActor->m45();
+    const f32 time = (nav2 && (nav2->_2a4 & 0xffff) != 0x17) ? 10.0f : 150.0f;
+    _ec = ksys::Timer(time, time);
+    if (!m35() || *mIsSendGoalPos_s)
+        nav->inlineReset();
+    changeChild("待機", nullptr);
+}
+
+bool AnimalRoam::m38() {
+    auto* nav = mActor->m45();
+    if (!nav || !(_ec.value <= sead::Mathf::epsilon()))
+        return false;
+    if (!m35() && !(nav->_220 & 0x41000) && isCurrentChild("待機"))
+        return true;
+    const f32 frames = mFramesStuckOnTerrain_a ? *mFramesStuckOnTerrain_a : -1.0f;
+    if (!(frames >= *mFramesStuckOnTerrainAction_s))
+        return false;
+    nav->inlineReset();
+    return true;
 }
 
 void AnimalRoam::m37() {

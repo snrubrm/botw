@@ -70,6 +70,19 @@ public:
         _1db = 0;
     }
 
+    // Inline-only in the original (lane1 s21; name is a placeholder): sets the three vectors at
+    // 0x194 / 0x1a0 / 0x1ac to NaN under _1e0 (seen after inlineReset() in AnimalRoamCheckWater,
+    // HorseMoveToTargetAction::enter_ and others).
+    void inlineClearTargets() {
+        auto lock = sead::makeScopedLock(_1e0);
+        _194.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+        _1a0.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+        _1ac.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+    }
+
     /* 0x008 */ u64 _8 = 0;
     /* 0x010 */ void* _10 = nullptr;
     /* 0x018 */ void* _18 = nullptr;
