@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionWaterFloatFreeze.h"
+#include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,7 @@ public:
 protected:
     // aitree_variable at offset 0x78
     void* mCRBOffsetUnit_a{};
+    Unk_71025afb58Ref<Unk_7102384718> _80;
 };
 
 }  // namespace uking::action

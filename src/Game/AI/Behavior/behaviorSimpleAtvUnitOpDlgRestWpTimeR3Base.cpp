@@ -35,7 +35,7 @@ bool SimpleAtvUnitOpDlgRestWpTimeR3Base::m6(sead::Heap* heap) {
 SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() {
     if (_88) {
         auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_88);
-        if (unit && unit->_20 > 0 && unit->_20-- == 1) {
+        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
             *_88 = nullptr;
             delete unit;
         }

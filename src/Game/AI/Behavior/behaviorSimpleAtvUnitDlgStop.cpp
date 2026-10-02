@@ -20,7 +20,7 @@ bool SimpleAtvUnitDlgStop::m6(sead::Heap* heap) {
 SimpleAtvUnitDlgStop::~SimpleAtvUnitDlgStop() {
     if (_30) {
         auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_30);
-        if (unit && unit->_20 > 0 && unit->_20-- == 1) {
+        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
             *_30 = nullptr;
             delete unit;
         }

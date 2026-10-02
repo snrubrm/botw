@@ -38,7 +38,7 @@ bool GanonBeastFirstMessage::m6(sead::Heap* heap) {
 GanonBeastFirstMessage::~GanonBeastFirstMessage() {
     if (_a0) {
         auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_a0);
-        if (unit && unit->_20 > 0 && unit->_20-- == 1) {
+        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
             *_a0 = nullptr;
             delete unit;
         }
