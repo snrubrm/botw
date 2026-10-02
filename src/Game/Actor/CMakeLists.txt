@@ -30,6 +30,8 @@ target_sources(uking PRIVATE
   actRideableBase.cpp
   actSiteBoss.cpp
   actSiteBoss.h
+  actSwarm.cpp
+  actSwarm.h
   actUnk_71002dccbc.h
   actUnk_71023cee88.cpp
   actUnk_7100d3cd74.cpp
