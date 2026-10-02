@@ -2,6 +2,7 @@
 
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -31,7 +32,7 @@ public:
     virtual f32 m43();
     virtual void m44();
     virtual Unk_71024f15c0* m45();
-    virtual void m46();
+    virtual void m46(const sead::Vector3f& pos, const sead::Vector3f& dir);
     virtual void m47(sead::Vector3f* out);
 
 protected:
@@ -47,7 +48,7 @@ protected:
     const float* mInitPosByRailRatio_s{};
     Unk_71024f15c0* _60{};
     sead::Vector3f _68;
-    sead::Vector3f _74 = {0, 0, 0};
+    ksys::Timer _74;
 };
 KSYS_CHECK_SIZE_NX150(RailMoveRemains, 0x80);
 
