@@ -18,4 +18,12 @@ void PlayerGrab::leave_() {
 
 void PlayerGrab::loadParams_() {}
 
+bool PlayerGrab::isChangeable() const {
+    if (getCurrentChild()->isChangeable()) {
+        if (isCurrentChild("投げ") || isCurrentChild("立ち上がり"))
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai

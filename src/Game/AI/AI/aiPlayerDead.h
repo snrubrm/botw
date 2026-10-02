@@ -14,6 +14,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isFinished() const override;
+    bool isChangeable() const override;
+
 protected:
     // static_param at offset 0x38
     const int* mRumbleType_s{};

@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool isFailed() const override;
+    bool isFinished() const override;
+
 protected:
     // static_param at offset 0x38
     const float* mNoClimbTime_s{};

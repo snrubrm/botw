@@ -20,4 +20,20 @@ void PlayerClimb::loadParams_() {
     getStaticParam(&mNoClimbTime_s, "NoClimbTime");
 }
 
+bool PlayerClimb::isFailed() const {
+    if (getCurrentChild()->isFailed()) {
+        if (isCurrentChild("壁登り"))
+            return true;
+    }
+    return false;
+}
+
+bool PlayerClimb::isFinished() const {
+    if (getCurrentChild()->isFinished()) {
+        if (isCurrentChild("壁登り"))
+            return true;
+    }
+    return false;
+}
+
 }  // namespace uking::ai

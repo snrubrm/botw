@@ -26,4 +26,19 @@ void PlayerDead::loadParams_() {
     getStaticParam(&mRumblePower_s, "RumblePower");
 }
 
+bool PlayerDead::isFinished() const {
+    if (isCurrentChild("死亡デモ開始"))
+        return false;
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+    return true;
+}
+
+bool PlayerDead::isChangeable() const {
+    if (isCurrentChild("死亡デモ開始"))
+        return false;
+    return getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai
