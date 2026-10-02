@@ -1,10 +1,17 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/Message.h"
+
+namespace ksys::map {
+class Rail;
+}
 
 namespace uking::act {
 
@@ -85,10 +92,52 @@ public:
     /* 0x1550 */ f32 _1550 = 0;
     /* 0x1554 */ f32 _1554 = 0;  // = 1000.0 by m63
     /* 0x1558 */ sead::BitFlag32 _1558;
-    // object with ctor 0x71002cf2ac(this + 0x1560, this) and dtor 0x710066b9b8
+    // object with ctor 0x71002cf2ac(this + 0x1560, this) and dtor 0x710066b9b8; its methods are in
+    // the TU at 0x710066b9b8 (actUnk_71002cf2ac.cpp). Manages up to 20 bound actors (_1e0) and
+    // sends them messages (sub_710066C164; per-actor MesTransceiverId at 0x530 / payload at 0x710,
+    // stride 0x18 / 0x28; spin lock at 0xdb0).
+    // TODO: incomplete.
     struct Unk_71002cf2ac {
-        ksys::act::Actor* mOwner;
-        u8 _8[0xdb8 - 0x8];
+        // 0x710066c164: sends `type` to bound actor `idx` (every bound actor when idx >= 20).
+        void sub_710066C164(ksys::act::Actor* owner, ksys::act::BaseProcLink* target,
+                            ksys::MessageType type, int idx, u32 flags, ksys::map::Rail* rail);
+        // Wrappers of sub_710066C164 (message type in the comment).
+        void sub_710066C13C(ksys::act::BaseProcLink* target, int idx);  // 0x800004d
+        void sub_710066C518(ksys::act::BaseProcLink* target, int idx);  // 0x800004e
+        void sub_710066C540(ksys::act::BaseProcLink* target, int idx);  // 0x800004f
+        void sub_710066C568(ksys::act::BaseProcLink* target, int idx);  // 0x8000050
+        void sub_710066C590(ksys::act::BaseProcLink* target, int idx);  // 0x8000051
+        void sub_710066C5B8(ksys::act::BaseProcLink* target, int idx);  // 0x8000052
+        void sub_710066C5E0(ksys::act::BaseProcLink* target, int idx,
+                            ksys::map::Rail* rail);  // 0x8000053
+        void sub_710066C60C(ksys::act::BaseProcLink* target, int idx);  // 0x8000054
+        void sub_710066C70C(ksys::act::BaseProcLink* target, int idx, bool flag,
+                            ksys::map::Rail* rail);  // 0x8000055
+        void sub_710066CBD4(int idx);                // 0x800005c, no target
+        // 0x710066cc64: deletes bound actor `idx`.
+        void sub_710066CC64(int idx);
+
+        // 0x710066c634: sub_710066C164(.., 0x8000054, .., flags = 1) + the same message to the
+        // actors in _3b0.
+        void sub_710066C634(ksys::act::BaseProcLink* target, int idx);
+
+        // Message payload (sendMessage's void* argument); 0x710066c164 fills it.
+        struct Payload {
+            ksys::act::Actor* owner;
+            ksys::act::BaseProcLink* target;
+            sead::Vector3f pos;  // average of the rail points (zero without a rail)
+            s32 idx;
+            u32 flags;
+        };
+
+        /* 0x000 */ ksys::act::Actor* mOwner;
+        /* 0x008 */ u8 _8[0x1e0 - 0x8];
+        /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
+        /* 0x320 */ u8 _320[0x3b0 - 0x320];
+        /* 0x3b0 */ sead::SafeArray<ksys::act::BaseProcLink, 24> _3b0;
+        /* 0x530 */ u8 _530[0x710 - 0x530];  // MesTransceiverId x 20 (stride 0x18)
+        /* 0x710 */ Payload _710[24];
+        /* 0xad0 */ u8 _ad0[0xdb8 - 0xad0];
     };
     /* 0x1560 */ Unk_71002cf2ac _1560;
     /* 0x2318 */ sead::Vector3f _2318;  // home position (m63)

@@ -36,6 +36,7 @@ target_sources(uking PRIVATE
   actSandworm.h
   actSiteBoss.cpp
   actSiteBoss.h
+  actUnk_71002cf2ac.cpp
   actSwarm.cpp
   actSwarm.h
   actUnk_71002dccbc.h
