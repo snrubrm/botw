@@ -28,4 +28,8 @@ void DynTargetStoneShootEnemyBattle::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
+ksys::act::BaseProcLink& DynTargetStoneShootEnemyBattle::m35() {
+    return *mTargetActor_d;
+}
+
 }  // namespace uking::ai

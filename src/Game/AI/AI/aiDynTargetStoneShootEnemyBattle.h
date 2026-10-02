@@ -17,9 +17,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    ksys::act::BaseProcLink& m35() override;
+
 protected:
     // dynamic_param at offset 0xb0
     ksys::act::BaseProcLink* mTargetActor_d{};
 };
+KSYS_CHECK_SIZE_NX150(DynTargetStoneShootEnemyBattle, 0xb8);
 
 }  // namespace uking::ai
