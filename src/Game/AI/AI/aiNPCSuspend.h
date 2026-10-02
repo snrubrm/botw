@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -25,7 +26,11 @@ protected:
     // static_param at offset 0x50
     const float* mSearchRadius_s{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mASName_d{};
+    sead::SafeString mASName_d{};
+    s32 _68 = 1;
+    ksys::Timer _6c{};
+    ksys::Timer _78{};
 };
+KSYS_CHECK_SIZE_NX150(NPCSuspend, 0x88);
 
 }  // namespace uking::ai

@@ -20,9 +20,9 @@ protected:
     // dynamic_param at offset 0x40
     bool* mIsReceiveInterest2_d{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mGazeASName_d{};
+    sead::SafeString mGazeASName_d{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mStaggerDir_d{};
 };

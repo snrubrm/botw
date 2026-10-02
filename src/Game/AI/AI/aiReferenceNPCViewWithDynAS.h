@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -25,7 +26,9 @@ protected:
     // static_param at offset 0x40
     const bool* mCheckOnce_s{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mDynASKey_d{};
+    sead::SafeString mDynASKey_d{};
+    ksys::act::BaseProcLink _58;
 };
+KSYS_CHECK_SIZE_NX150(ReferenceNPCViewWithDynAS, 0x68);
 
 }  // namespace uking::ai

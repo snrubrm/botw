@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -20,9 +21,14 @@ protected:
     // static_param at offset 0x40
     const int* mDelayFrame_s{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mMessageId_d{};
+    sead::SafeString mMessageId_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    bool _60 = false;
+    ksys::Timer _64{};
+    ksys::Timer _70{};
+    sead::SafeString _80;
 };
+KSYS_CHECK_SIZE_NX150(NPCTalkBalloon, 0x90);
 
 }  // namespace uking::ai

@@ -21,11 +21,14 @@ protected:
     // dynamic_param at offset 0x40
     bool* mIsAlignmentAnchor_d{};
     // dynamic_param at offset 0x48
-    sead::SafeString* mAnchorName_d{};
+    sead::SafeString mAnchorName_d{};
     // dynamic_param at offset 0x58
-    sead::SafeString* mAnchorUniqueName_d{};
+    sead::SafeString mAnchorUniqueName_d{};
     // dynamic_param at offset 0x68
-    sead::SafeString* mASKeyName_d{};
+    sead::SafeString mASKeyName_d{};
+    sead::Vector3f _78;
+    sead::Vector3f _84;
 };
+KSYS_CHECK_SIZE_NX150(NpcMoveToAnchor, 0x90);
 
 }  // namespace uking::ai

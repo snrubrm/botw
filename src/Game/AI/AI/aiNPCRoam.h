@@ -27,9 +27,12 @@ protected:
     // static_param at offset 0x58
     const float* mWalkDistMax_s{};
     // dynamic_param at offset 0x60
-    sead::SafeString* mWaitASName_d{};
+    sead::SafeString mWaitASName_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mBasisPos_d{};
+    sead::Vector3f _78;
+    sead::FixedSafeString<32> _88;
 };
+KSYS_CHECK_SIZE_NX150(NPCRoam, 0xc0);
 
 }  // namespace uking::ai
