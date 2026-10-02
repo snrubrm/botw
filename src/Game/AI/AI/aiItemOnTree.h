@@ -17,6 +17,10 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    void m34() override;
+    void m35() override;
+    virtual void m36();
+
 protected:
     // static_param at offset 0x50
     const int* mFallPowerMin_s{};

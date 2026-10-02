@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiItemOnTree.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -43,6 +45,21 @@ bool ItemOnTree::handleMessage_(const ksys::Message& message) {
         _b4 = true;
     }
     return false;
+}
+
+// NON_MATCHING: the original keeps two separate m36() tail calls (ours shares one block)
+void ItemOnTree::m34() {
+    if (mActor->getMapObject() && *mInitMotionStatus_m != 1)
+        m35();
+    else
+        m36();
+}
+
+void ItemOnTree::m35() {
+    auto* actor = mActor;
+    ksys::act::enableAttClient(actor, mAttOnTree_s);
+    ksys::act::disableAttClient(actor, mAttOnGround_s);
+    changeChild("通常");
 }
 
 }  // namespace uking::ai

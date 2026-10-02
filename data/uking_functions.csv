@@ -27805,9 +27805,9 @@ Address,Quality,Size,Name
 0x000000710044f8e0,O,000012,_ZN5uking2ai10ItemOnTree6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710044f8ec,U,000696,_ZN5uking2ai10ItemOnTree5calc_Ev
 0x000000710044fba4,O,000004,_ZN5uking2ai10ItemOnTree6leave_Ev
-0x000000710044fba8,U,000060,uking::ai::ItemOnTree::m34
-0x000000710044fbe4,U,000072,uking::ai::ItemOnTree::m35
-0x000000710044fc2c,U,000108,uking::ai::ItemOnTree::m36
+0x000000710044fba8,m,000060,_ZN5uking2ai10ItemOnTree3m34Ev
+0x000000710044fbe4,O,000072,_ZN5uking2ai10ItemOnTree3m35Ev
+0x000000710044fc2c,U,000108,_ZN5uking2ai10ItemOnTree3m36Ev
 0x000000710044fc98,O,000276,_ZN5uking2ai10ItemOnTree11loadParams_Ev
 0x000000710044fdac,O,000172,_ZN5uking2ai10ItemOnTree14handleMessage_ERKN4ksys7MessageE
 0x000000710044fe58,O,000008,_ZNK5uking2ai10ItemOnTree27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
