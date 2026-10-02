@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossShadowCloneEnemyRoot.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -21,6 +23,8 @@ void PriestBossShadowCloneEnemyRoot::calc_() {
 
 void PriestBossShadowCloneEnemyRoot::leave_() {
     PriestBossActorEnemyRoot::leave_();
+    sub_710052D6E8();
+    mActor->getDamageMgr()->removeDamageCallback(&_230);
 }
 
 void PriestBossShadowCloneEnemyRoot::loadParams_() {
