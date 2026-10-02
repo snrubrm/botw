@@ -259,7 +259,7 @@ public:
     virtual Actor* m31();
     virtual void m32();
     virtual bool m33();
-    virtual void m34();
+    virtual void m34(sead::Vector3f* pos, f32* value);
     virtual void m35();
     virtual void m36();
     virtual f32 getGuardableAngle();

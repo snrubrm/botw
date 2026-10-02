@@ -278,7 +278,7 @@ bool Actor::m39() {
     return false;
 }
 
-void Actor::m34() {}
+void Actor::m34(sead::Vector3f* pos, f32* value) {}
 
 void Actor::m42() {}
 

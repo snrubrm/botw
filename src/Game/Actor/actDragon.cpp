@@ -48,3 +48,26 @@ bool getDragonItemDropPosition(sead::Vector3f* target_pos, const sead::Vector3f&
 }
 
 }  // namespace uking::act
+
+namespace uking::act {
+
+// NON_MATCHING: member types incomplete
+Dragon::~Dragon() = default;
+
+void Dragon::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    Enemy::m76(setter);
+}
+
+void Dragon::m115() {}
+
+bool Dragon::sub_710000FDFC() const {
+    return _1f70.isOn(0xf0);
+}
+
+bool Dragon::getGameDataFlagGrudgeAlive(int idx) {
+    if (_1e0c != 3)
+        return false;
+    return getGameDataFlag("GrudgeAlive", idx);
+}
+
+}  // namespace uking::act
