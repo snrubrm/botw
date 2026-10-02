@@ -36,4 +36,16 @@ void GanonBeamMove::calc_() {
     BeamMove::calc_();
 }
 
+bool GanonBeamMove::m32(const AttackInfo* info) {
+    if (*mIsReflectThrownBullet_a)
+        return false;
+    return BeamMove::m32(info);
+}
+
+bool GanonBeamMove::m34(const AttackInfo* info) {
+    if (*mIsReflectThrownBullet_a)
+        return false;
+    return BeamMove::m34(info);
+}
+
 }  // namespace uking::action

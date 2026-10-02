@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGraveAttack.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void GraveAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GraveAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A3270(mActor, "AtkBody", nullptr);
+    sub_71007A2D7C(mActor, "AtkBody");
 }
 
 void GraveAttack::loadParams_() {

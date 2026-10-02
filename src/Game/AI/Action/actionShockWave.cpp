@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionShockWave.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +18,15 @@ void ShockWave::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ShockWave::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
+        sub_71007A3258(body, nullptr);
+        sub_71007A2D34(body);
+    }
+    if (auto* lod = mActor->getLodState()) {
+        lod->mFlags10.reset(0x40);
+        if (*mIsReuseActor_m)
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000);
+    }
 }
 
 void ShockWave::loadParams_() {

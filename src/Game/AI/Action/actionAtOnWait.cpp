@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionAtOnWait.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,7 +16,13 @@ void AtOnWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AtOnWait::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* set = mActor->getRigidBodyByName(sub_71007A24BC()->cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
+        if (auto* body = set->getRigidBodies()[i])
+            sub_71007A2D34(body);
+    }
 }
 
 void AtOnWait::loadParams_() {

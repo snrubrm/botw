@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPunchAttack.h"
+#include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <prim/seadStringBuilder.h>
 
 namespace uking::action {
@@ -18,7 +20,14 @@ void PunchAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PunchAttack::leave_() {
-    ActionWithAS::leave_();
+    auto* actor = mActor;
+    for (int i = 0; i < 3; ++i) {
+        if (mAtkBodyName_s[i].isEmpty())
+            break;
+        sub_71007A2D7C(actor, mAtkBodyName_s[i]);
+    }
+    sub_71005DA114(mActor, &_a8);
+    ActionWithPosAngReduce::leave_();
 }
 
 void PunchAttack::loadParams_() {

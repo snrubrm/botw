@@ -16,6 +16,8 @@ public:
 protected:
     void calc_() override;
 
+    int m34() override;
+
     // static_param at offset 0x1e8
     const float* mEmitChangeDist_s{};
     // static_param at offset 0x1f0

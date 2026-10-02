@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    bool m32(const AttackInfo* info) override;
+    bool m34(const AttackInfo* info) override;
+
     // map_unit_param at offset 0x70
     const int* mAttackPower_m{};
     // map_unit_param at offset 0x78
