@@ -47,14 +47,12 @@ void CancelMessageSendToPartsBase::m11() {
     }
 }
 
-// NON_MATCHING: the original computes the name argument before `enemy + 0x1128` (should use lane1's
-// inline Enemy::getActorPartsActor wrapper, which is on decomp but not on this branch yet)
 void CancelMessageSendToPartsBase::sub_710062C280() {
     auto* sender = m15();
     if (!sender)
         return;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        auto& link = enemy->_1128.getActorPartsActor(mPartsName_s);
+        auto& link = enemy->getActorPartsActor(mPartsName_s);
         if (link.hasProc())
             sender->sub_710070DCC0(&link, true);
     }
