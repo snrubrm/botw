@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiStalEnemyDoShootPartSelect.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_7100724C64.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,12 @@ bool StalEnemyDoShootPartSelect::init_(sead::Heap* heap) {
 }
 
 void StalEnemyDoShootPartSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (s32(sead::GlobalRandom::instance()->getU32() & 0x7fffffff) % 100 < *mShootRate_s &&
+        sub_7100728640(mActor)) {
+        changeChild("パーツ投げ", params);
+    } else {
+        changeChild("通常", params);
+    }
 }
 
 // NON_MATCHING: the original hoists the child vtable reloads above the branches

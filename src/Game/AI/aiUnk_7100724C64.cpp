@@ -159,3 +159,20 @@ bool sub_71007271D4(ksys::act::Actor* actor) {
         return false;
     return stal_unit->_8.isOnBit(1);
 }
+
+bool sub_7100728640(ksys::act::Actor* actor) {
+    auto* unit = sub_7100726628(actor);
+    if (unit && unit->_8.isOnBit(1)) {
+        if (auto* enemy = sub_7100724D7C(actor)) {
+            if (enemy->getActorPartsActor(sUnk_71024511f8[1]).hasProc() ||
+                enemy->getActorPartsActor(sUnk_71024511f8[2]).hasProc() ||
+                enemy->getActorPartsActor(sUnk_71024511f8[3]).hasProc() ||
+                enemy->getActorPartsActor(sUnk_71024511f8[4]).hasProc() ||
+                enemy->getActorPartsActor(sUnk_71024511f8[5]).hasProc() ||
+                enemy->getActorPartsActor(sUnk_71024511f8[6]).hasProc()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

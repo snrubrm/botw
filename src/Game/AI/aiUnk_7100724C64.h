@@ -68,3 +68,7 @@ bool sub_7100726F20(ksys::act::Actor* actor);
 bool sub_7100726F28(ksys::act::Actor* actor);
 // Bit 1 of the "StalEnemyUnit" object's flags (false without the object).
 bool sub_71007271D4(ksys::act::Actor* actor);
+
+// 0x7100728640 (CSV aiStalPartStuff): whether the StalEnemyUnit has flag bit 1 and any of the parts
+// StalLeftArm..StalRib4 (table entries 1-6) of the Stalfos actor is present.
+bool sub_7100728640(ksys::act::Actor* actor);
