@@ -109,4 +109,8 @@ void PlacementActors::resetGroup(int group_idx) {
     mObjs->resetGroup(group_idx);
 }
 
+f32 getActorTraverseDistPlus100(const sead::SafeString& name, f32 a2) {
+    return getActorTraverseDist(name, a2) + 100.0f;
+}
+
 }  // namespace ksys::map

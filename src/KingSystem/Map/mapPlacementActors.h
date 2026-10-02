@@ -183,4 +183,11 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(PlacementActors, 0x2A80D0);
 
+// 0x7100d57658 (CSV name): traverse distance of actor `name`: InfoData::getTraverseDist (x 0.7 for
+// "Enemy" / "NPC" profiles), or else derived from InfoData::getBoundingForTraverse (`a2` if that is not
+// positive) through two lookup tables (0x7101ec0b8c / 0x7101ec0c04). Not decompiled yet.
+f32 getActorTraverseDist(const sead::SafeString& name, f32 a2);
+// 0x7100d5787c (CSV name): getActorTraverseDist(name, a2) + 100.
+f32 getActorTraverseDistPlus100(const sead::SafeString& name, f32 a2);
+
 }  // namespace ksys::map
