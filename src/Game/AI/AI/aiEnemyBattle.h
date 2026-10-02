@@ -30,6 +30,7 @@ public:
     virtual void m43(ksys::act::ai::InlineParamPack* params) {}
 
     void sub_7100381ED4();
+    bool sub_7100382558();
 
 protected:
     // static_param at offset 0x38
