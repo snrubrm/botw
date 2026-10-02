@@ -54,6 +54,9 @@ public:
 
     ksys::act::Actor* sub_7100E8B644();
     ksys::act::Actor* sub_7100E8B6E0();
+    // 0x7100e8bff4 / 0x7100e8c03c (declared only).
+    bool sub_7100E8BFF4();
+    int sub_7100E8C03C();
 
     /* 0x08 */ sead::Atomic<u32> _8 = 0;
     /* 0x0c */ sead::Atomic<u32> _c = 0;

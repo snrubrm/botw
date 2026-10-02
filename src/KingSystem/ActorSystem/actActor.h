@@ -80,6 +80,7 @@ class RootAi;
 class LifeRecoverInfo;
 class Actor;
 class ActorAtk;
+class ActorConstDataAccess;
 class ActorChemicals;
 class Unk_71006e45c4;
 class Unk_7100e4e084;
@@ -286,6 +287,10 @@ public:
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
     // sub_71011DA824 by every caller) is unused.
     void sub_71011DA834(ModelBindInfo* info);
+    // 0x71011da808 (declared only): forwards `accessor` to the map object's link data (0x7100d4ef30:
+    // handles a Recreate link to the accessor's map object); false without a map object or link
+    // data.
+    bool sub_71011DA808(const ActorConstDataAccess& accessor);
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.

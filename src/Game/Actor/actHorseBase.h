@@ -13,6 +13,10 @@
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}  // namespace ksys::act
+
 namespace ksys::phys {
 class RayCastForRequest;
 }  // namespace ksys::phys
@@ -191,5 +195,8 @@ public:
     /* 0xc50 */ u32 _c50 = 0;
 };
 KSYS_CHECK_SIZE_NX150(HorseBase, 0xc58);
+
+// 0x7100e6dc50 (declared only): whether the accessor's actor is a HorseBase.
+bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor);
 
 }  // namespace uking::act
