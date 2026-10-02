@@ -12,9 +12,15 @@ bool KokkoRoot::init_(sead::Heap* heap) {
 
 void KokkoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PreyRoot::enter_(params);
+    _220 = 0;
+    _228.reset();
+    _238 = ksys::Timer(-1, -1, 0);
+    _248._28 = mAvoidCountActorName_s;
+    setDamageCallbackTiming(mActor, 0, &_248);
 }
 
 void KokkoRoot::leave_() {
+    sub_71005DA114(mActor, &_248);
     PreyRoot::leave_();
 }
 
