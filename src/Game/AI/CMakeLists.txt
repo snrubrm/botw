@@ -5,6 +5,7 @@ add_subdirectory(Query)
 target_sources(uking PRIVATE
   aiActionFactories.cpp
   aiActionFactories.h
+  aiActorLink.h
   aiAiFactories.cpp
   aiAiFactories.h
   aiAwarenessFilters.cpp
