@@ -1,6 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageCallback.h"
@@ -10,6 +11,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
 using uking::act::Enemy;
@@ -19,6 +22,14 @@ void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1) {
     if (actor->isDeletedOrDeleting())
         return;
     actor->killWithDropsAndEffects(a1);
+}
+
+void sub_71005D6D48(ksys::act::Actor* actor) {
+    if (actor->getDropData()) {
+        if (auto* drop_data = sead::DynamicCast<ksys::act::DropData>(actor->getDropData()))
+            drop_data->_c |= 1;
+    }
+    callDeleteAndCreateDropAndEmit(actor, false);
 }
 
 void sub_71005D7014(ksys::act::Actor* actor) {
@@ -736,4 +747,68 @@ void sub_71005DC5DC(ksys::act::Actor* actor) {
 void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
     if (auto* obj = actor->m100())
         obj->sub_7100E502EC(proc);
+}
+
+f32 sub_71005DA668(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return 0.0f;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return 0.0f;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return 0.0f;
+    auto* chemical = weapon->getChemicalStuff();
+    if (!chemical)
+        return 0.0f;
+    return chemical->_1b8;
+}
+
+bool sub_71005DA7F4(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    auto* chemical = weapon->getChemicalStuff();
+    if (!chemical)
+        return false;
+    return chemical->_b8 >> 2 & 1;
+}
+
+bool sub_71005DA8CC(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    auto* chemical = weapon->getChemicalStuff();
+    if (!chemical)
+        return false;
+    return chemical->_1b8 > 0.0f;
+}
+
+void sub_71005DD34C(ksys::act::Actor* actor, bool on) {
+    if (!actor)
+        return;
+    auto* chemical = actor->getChemicalStuff();
+    if (!chemical)
+        return;
+    chemical->sub_7100D90AF4(on);
+    if (!on)
+        chemical->sub_7100D91978(0.0f);
+}
+
+ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor) {
+    auto* ride_info = actor->getPlayerRideInfo();
+    if (!ride_info)
+        return nullptr;
+    return sead::DynamicCast<ksys::act::Actor>(
+        ride_info->_18.getProc(nullptr, ride_info->mActor));
 }

@@ -177,3 +177,15 @@ const sead::Matrix34f& sub_71005DC57C(ksys::act::Actor* actor);
 const sead::SafeString& sub_71005DC5AC(ksys::act::Actor* actor);
 void sub_71005DC5DC(ksys::act::Actor* actor);
 void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+
+// --- helpers using the typed Actor slots 97 (Chemical), 130 (ride info) ---
+
+/// Chemical::_1b8 of the uking::act::Weapon equipped in slot `idx` (0-5), or 0.
+f32 sub_71005DA668(ksys::act::Actor* actor, int idx);
+/// Bit 2 of Chemical::_b8 of the Weapon equipped in slot `idx`.
+bool sub_71005DA7F4(ksys::act::Actor* actor, int idx);
+/// Whether Chemical::_1b8 of the Weapon equipped in slot `idx` is positive.
+bool sub_71005DA8CC(ksys::act::Actor* actor, int idx);
+void sub_71005DD34C(ksys::act::Actor* actor, bool on);
+/// The actor linked by the actor's ride info (Actor::getPlayerRideInfo), or nullptr.
+ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
