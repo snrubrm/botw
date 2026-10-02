@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -20,6 +21,8 @@ public:
 protected:
     // aitree_variable at offset 0x38
     void* mPriestBossMetaAIUnit_a{};
+    Unk_7102409958 _40{mActor, 0x80000da};
 };
+KSYS_CHECK_SIZE_NX150(PriestBossBlowoffReadyReaction, 0x80);
 
 }  // namespace uking::ai
