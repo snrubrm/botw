@@ -29,9 +29,9 @@ struct Unk_710237ecc0_Payload {
 
 // Message 0x8000021 (sender Unk_71023f83e8)
 struct Unk_71023f83e8_Payload {
-    sead::Vector3f _0;
-    u32 _c;
-    bool _10;
+    sead::Vector3f _0 = sead::Vector3f::zero;
+    u32 _c = 0;
+    bool _10 = false;
     sead::JobQueueLock mLock;
 };
 

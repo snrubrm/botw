@@ -23,6 +23,7 @@ protected:
     const float* mPursuingAttackStartDist_s{};
     // static_param at offset 0x140
     const float* mPursuingAttackStartAng_s{};
+    ksys::Timer _148{0, 0};
 };
 
 }  // namespace uking::ai
