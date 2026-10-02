@@ -93,4 +93,10 @@ void BreathAttackEnemyBattle::sub_710033E970() {
     changeChild("戦闘準備", &params);
 }
 
+bool BreathAttackEnemyBattle::m38() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        return enemy->_e68.value <= sead::Mathf::epsilon();
+    return false;
+}
+
 }  // namespace uking::ai

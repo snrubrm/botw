@@ -21745,7 +21745,7 @@ Address,Quality,Size,Name
 0x000000710033edd0,U,000108,
 0x000000710033ee3c,W,000188,_ZN5uking2ai23BreathAttackEnemyBattle6leave_Ev
 0x000000710033eef8,U,000436,_ZN5uking2ai23BreathAttackEnemyBattle3m37Ev
-0x000000710033f0ac,U,000156,_ZN5uking2ai23BreathAttackEnemyBattle3m38Ev
+0x000000710033f0ac,O,000156,_ZN5uking2ai23BreathAttackEnemyBattle3m38Ev
 0x000000710033f148,U,000144,_ZN5uking2ai23BreathAttackEnemyBattle3m39Ev
 0x000000710033f1d8,U,000164,_ZN5uking2ai23BreathAttackEnemyBattle3m40Ev
 0x000000710033f27c,U,000036,
