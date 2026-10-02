@@ -32,4 +32,22 @@ void ChemicalExplode::leave_() {
 
 void ChemicalExplode::loadParams_() {}
 
+void ChemicalExplode::calc_() {
+    if (!isCurrentChild("爆破")) {
+        auto* chemical = mActor->getChemicalStuff();
+        if (chemical && chemical->_c0 == 4) {
+            changeChild("爆破");
+            return;
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("爆破予約"))
+            setFailed();
+        else
+            setFinished();
+    }
+}
+
 }  // namespace uking::ai

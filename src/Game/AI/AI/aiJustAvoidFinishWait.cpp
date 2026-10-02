@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiJustAvoidFinishWait.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,24 @@ void JustAvoidFinishWait::leave_() {
 
 void JustAvoidFinishWait::loadParams_() {
     getStaticParam(&mIsUseWaitAfterMain_s, "IsUseWaitAfterMain");
+}
+
+void JustAvoidFinishWait::calc_() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+
+    if (child->isChangeable())
+        mFlags.set(Flag::Changeable);
+
+    if ((child->isFinished() || child->isFailed()) && !sub_710072B7C4()) {
+        if (isCurrentChild("メイン") && *mIsUseWaitAfterMain_s)
+            changeChild("待機");
+        else if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 }  // namespace uking::ai

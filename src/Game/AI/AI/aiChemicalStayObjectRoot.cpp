@@ -16,6 +16,26 @@ void ChemicalStayObjectRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("通常");
 }
 
+// NON_MATCHING: the original tests the material attribute bit with a byte load + branch (ours: word
+// load + csel)
+void ChemicalStayObjectRoot::calc_() {
+    if (!isCurrentChild("通常"))
+        return;
+
+    if (getCurrentChild()->isFinished())
+        changeChild("自然消滅");
+    if (*mIsCheckDelete_s && m34())
+        changeChild("強制消滅");
+
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        _40 = chemical->_c0 == 2 ? (_40 | 1) : (_40 & ~1);
+        if (chemical->mMaterial->attribute.ref() & 0x8000)
+            _40 |= 2;
+        else
+            _40 &= ~2;
+    }
+}
+
 void ChemicalStayObjectRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
