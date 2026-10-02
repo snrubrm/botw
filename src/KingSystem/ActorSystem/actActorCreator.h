@@ -41,6 +41,7 @@ public:
 
     void setActorFactory(ActorFactory* factory) { mActorFactory = factory; }
     bool get5a() const { return _5a; }
+    bool isBlockSpawns() const { return mBlockSpawns; }
 
     sead::OffsetList<Actor>& getActorList() { return mActorList; }
     sead::CriticalSection& getCS() { return mActorListCS; }

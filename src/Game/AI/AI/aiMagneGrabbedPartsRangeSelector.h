@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    f32 m38() override;
+
 protected:
     // static_param at offset 0x50
     sead::SafeString mPartsName_s{};

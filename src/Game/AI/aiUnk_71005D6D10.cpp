@@ -23,6 +23,7 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -38,6 +39,10 @@ void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1) {
     if (actor->isDeletedOrDeleting())
         return;
     actor->killWithDropsAndEffects(a1);
+}
+
+bool sub_71005D6D10() {
+    return ksys::act::ActorCreator::instance()->isBlockSpawns();
 }
 
 void sub_71005D6D48(ksys::act::Actor* actor) {

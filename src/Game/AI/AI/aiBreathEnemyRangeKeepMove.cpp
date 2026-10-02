@@ -1,12 +1,21 @@
 #include "Game/AI/AI/aiBreathEnemyRangeKeepMove.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::ai {
 
 BreathEnemyRangeKeepMove::BreathEnemyRangeKeepMove(const InitArg& arg) : EnemyRangeKeepMove(arg) {}
 
-BreathEnemyRangeKeepMove::~BreathEnemyRangeKeepMove() = default;
+BreathEnemyRangeKeepMove::~BreathEnemyRangeKeepMove() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(mBreathName_s.cstr());
+}
 
 bool BreathEnemyRangeKeepMove::init_(sead::Heap* heap) {
     if (!EnemyRangeKeepMove::init_(heap))
@@ -45,6 +54,40 @@ void BreathEnemyRangeKeepMove::sub_7100340570() {
         ksys::act::acquireActor(&link, &acc);
         acc.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
     }
+}
+
+// NON_MATCHING: the original branches on the Enemy cast result (keeping `enemy != nullptr` as a
+// separate bool for the final check) where ours selects the pointer; regalloc follows
+bool BreathEnemyRangeKeepMove::sub_710033FB98(sead::Heap* heap) {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+
+    auto* creator = ksys::act::ActorCreator::instance();
+    if (creator && creator->isBlockSpawns())
+        return true;
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (enemy && enemy->getActorPartsActor(mBreathName_s.cstr()).hasProc())
+        return true;
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(actor->getMtx().getTranslation());
+    pack->add(s32(actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref() *
+                  *mAttackRatio_s),
+              "AttackPower");
+    pack->add(f32(*mEnlargeTime_s), "ScaleTime");
+    pack->add(actor->getParam()->getRes().mGParamList->getAttack()->mRange.ref(), "Range");
+    ksys::act::ActorCreator::addScale(pack, *mBreathSize_s);
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, actor);
+    auto* breath = sead::DynamicCast<ksys::act::Actor>(ksys::act::ActorCreator::instance()->createActor(
+        mBreathName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false));
+    if (enemy && breath && enemy->sub_7100D3CED8(mBreathName_s.cstr(), heap)) {
+        enemy->sub_7100D3D108(mBreathName_s.cstr(), breath);
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
