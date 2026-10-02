@@ -72,6 +72,7 @@ public:
     void sub_7100FB9BAC(InstanceSet* other);
     u32 sub_7100FB9C2C() const;
     void sub_7100FBA9BC();
+    void sub_7100FBAC4C(ContactLayer layer);
     void sub_7100FBACE0(ContactLayer layer);
     void sub_7100FBAD74();
     void sub_7100FBADDC();

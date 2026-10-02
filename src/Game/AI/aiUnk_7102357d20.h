@@ -161,6 +161,18 @@ public:
     Unk_71023b1860_Payload _18;
 };
 
+// vtable 0x71023d4bb0 (AncientNecklaceBall; D2/D0/m2 at 0x71003015fc/0x710030254c/0x7100302580);
+// message 0x80000ab
+class Unk_71023d4bb0 : public Unk_7102357d20 {
+public:
+    explicit Unk_71023d4bb0(ksys::act::Actor* actor) : Unk_7102357d20(actor, 0x80000ab) {
+        _18.y(actor);
+    }
+    void* m2() override { return &_18; }
+
+    Unk_71023d4bb0_Payload _18;
+};
+
 // vtable 0x7102409958 (PriestBossMetaAIRoot); message 0x80000da
 class Unk_7102409958 : public Unk_7102357d20 {
 public:

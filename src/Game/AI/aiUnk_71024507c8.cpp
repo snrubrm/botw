@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 // NON_MATCHING: regalloc (&_8 is materialised before the getUserData call)
 bool Unk_71024507c8::m2(const ksys::Message& message) {
@@ -12,4 +13,9 @@ bool Unk_71024507c8::m2(const ksys::Message& message) {
         return true;
     }
     return false;
+}
+
+void Unk_71024507c8::sub_710070B5A0(ksys::act::Actor* actor) {
+    sub_71007094F4(actor);
+    sub_71005DC5DC(actor);
 }

@@ -421,6 +421,12 @@ struct Unk_71023d4bb0_Payload {
         *out = mLink;
     }
 
+    // Inline only (AncientNecklaceBall ctor and init_); placeholder name.
+    void y(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };

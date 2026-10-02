@@ -15,6 +15,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
+    void calc_() override;
 
 protected:
     // static_param at offset 0xc8
@@ -25,6 +27,7 @@ protected:
     sead::SafeString mOnAS_s{};
     // static_param at offset 0xe8
     sead::SafeString mOffAS_s{};
+    bool _f8 = false;
 };
 
 }  // namespace uking::ai

@@ -169,6 +169,9 @@ class Unk_71024507c8 : public Unk_7102450648 {
 public:
     explicit Unk_71024507c8(u32 type) : Unk_7102450648(type) {}
     bool m2(const ksys::Message& message) override;
+
+    bool sub_71007094F4(ksys::act::Actor* actor);
+    void sub_710070B5A0(ksys::act::Actor* actor);
 };
 
 // vtable 0x71023da100 (SimpleLiftable family; functions in the BarrelBomb/SimpleLiftable TU)

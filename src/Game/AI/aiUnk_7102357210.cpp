@@ -2,6 +2,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 Unk_7102450498::~Unk_7102450498() = default;
 
@@ -835,19 +836,7 @@ bool Unk_7102379b30::m2(const ksys::Message& message) {
     return true;
 }
 
-bool Unk_71023d4c08::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000ab)
-        return false;
-
-    auto* payload = static_cast<Unk_71023d4bb0_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
+// Unk_71023d4c08::m2 is defined in aiAncientNecklaceBall.cpp (inlined there in the original).
 
 bool Unk_7102404060::m2(const ksys::Message& message) {
     if (message.getType().value != 0x8000018)
@@ -930,16 +919,17 @@ bool Unk_710244e7f0::m2(const ksys::Message& message) {
     return true;
 }
 
-bool Unk_71023da100::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x5800000)
+// Unk_71023da100::m2 is defined in aiSimpleLiftable.cpp (inlined there in the original).
+
+
+bool Unk_71024507c8::sub_71007094F4(ksys::act::Actor* actor) {
+    if (!_8.hasProc())
         return false;
 
-    auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
+    if (actor->getConnectedCalcParent())
+        actor->resetConnectedCalcParent(false);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_8, &accessor);
+    accessor.setThisActorAsParent(actor, false);
     return true;
 }
