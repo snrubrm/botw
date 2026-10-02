@@ -22,16 +22,27 @@ namespace uking::act {
 class Camera;
 
 // Placeholder name (vtable 0x7102459dd8: empty D1 0x710079c5a8 and D0 only; out-of-line ctor
-// 0x710079c364).
+// 0x710079c364): an eased progress value. _14 moves towards 1 by _10 = 1 / (_8 * _c) per frame;
+// _18 = (sin(_14 * pi - pi / 2) + 1) / 2. Camera actions embed or construct them.
 class Unk_7102459dd8 {
 public:
     Unk_7102459dd8();
     virtual ~Unk_7102459dd8();
 
+    // 0x710079c384: _8 = max(a, 0), _14 = clamp(t, 0, 1).
+    void sub_710079C384(f32 a, f32 t);
+    // 0x710079c3f8: _c = max(a, 0).
+    void sub_710079C3F8(f32 a);
+    // 0x710079c408: advances _14 towards 1.
+    void sub_710079C408();
+    // 0x710079c510: _14 = clamp(t, 0, 1).
+    void sub_710079C510(f32 t);
+
     /* 0x08 */ f32 _8 = 0;
     /* 0x0c */ f32 _c = 1.0;
-    /* 0x10 */ void* _10 = nullptr;
-    /* 0x18 */ u32 _18 = 0;
+    /* 0x10 */ f32 _10 = 0;
+    /* 0x14 */ f32 _14 = 0;
+    /* 0x18 */ f32 _18 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102459dd8, 0x20);
 
@@ -101,6 +112,8 @@ public:
     };
 
     Unk_710079a8e8();
+    // 0x7100792408
+    ~Unk_710079a8e8();
 
     void sub_710079AD90();
     f32 sub_710079ADA0() const;
@@ -209,8 +222,7 @@ public:
     /* 0x7b8 */ u8 _7b8 = 0;
     /* 0x7b9 */ u8 _7b9 = 0;
     /* 0x7ba */ u8 _7ba[2]{};
-    /* 0x7c0 */ ksys::act::BaseProcLink _7c0{};
-    /* 0x7d0 */ ksys::act::BaseProcLink _7d0{};
+    /* 0x7c0 */ ksys::act::BaseProcLink _7c0[2]{};
     /* 0x7e0 */ f32 _7e0 = -1.0;
     /* 0x7e4 */ f32 _7e4 = -1.0;
     /* 0x7e8 */ u32 _7e8 = 0;
@@ -296,6 +308,9 @@ class Camera : public ksys::act::Actor, public Unk_7102459cc0 {
 public:
     explicit Camera(const CreateArg& arg);
 
+    // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
+    void sub_71007953C8();
+
     /* 0x0850 */ ksys::act::BaseProcLink _850;
     /* 0x0860 */ Unk_710079a8e8 _860;
     /* 0x1080 */ void* _1080 = nullptr;
@@ -345,6 +360,9 @@ public:
     // it is a Camera.
     uking::act::Camera* getCamera() const;
     uking::act::Camera* getCameraActor() const;
+    // 0x7100791e44: the per-frame lerp factor for `t` (sub_710092523C with the camera's
+    // sub_71009251C4 frame count).
+    f32 sub_7100791E44(f32 t) const;
 
     ksys::act::ai::ActionBase* mOwner;
 };

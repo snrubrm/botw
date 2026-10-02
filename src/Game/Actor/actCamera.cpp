@@ -2,6 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
+#include "KingSystem/System/VFR.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
 
@@ -23,7 +24,20 @@ uking::act::Camera* Unk_7102459708::getCameraActor() const {
     return sead::DynamicCast<uking::act::Camera>(actor);
 }
 
+f32 Unk_7102459708::sub_7100791E44(f32 t) const {
+    return sub_710092523C(sub_71009251C4(getCamera()), t);
+}
+
 namespace uking::act {
+
+Unk_710079a8e8::~Unk_710079a8e8() = default;
+
+void Camera::sub_71007953C8() {
+    if (sub_7100922078())
+        return;
+    const f32 rate = sub_710092523C(Unk_7102459cc0::_8, 0.6f);
+    _860._0._28 += rate * (0.0f - _860._0._28);
+}
 
 void Unk_710079b62c::sub_710079B62C(u32 mask) {
     _0 |= mask;
@@ -201,6 +215,43 @@ bool Unk_710079a8e8::sub_710079C184(u32 mask) const {
     if (_808.sub_710079AE50(mask))
         return false;
     return _804.sub_710079AE50(mask);
+}
+
+Unk_7102459dd8::Unk_7102459dd8() = default;
+
+Unk_7102459dd8::~Unk_7102459dd8() = default;
+
+static f32 sub_ease(f32 t) {
+    return (std::sin(t * sead::Mathf::pi() - sead::Mathf::piHalf()) + 1.0f) * 0.5f;
+}
+
+void Unk_7102459dd8::sub_710079C384(f32 a, f32 t) {
+    _8 = sead::Mathf::clampMin(a, 0.0f);
+    _14 = sead::Mathf::clamp(t, 0.0f, 1.0f);
+    _18 = sub_ease(_14);
+}
+
+void Unk_7102459dd8::sub_710079C3F8(f32 a) {
+    _c = sead::Mathf::clampMin(a, 0.0f);
+}
+
+void Unk_7102459dd8::sub_710079C408() {
+    const f32 total = _8 * _c;
+    _10 = total == 0.0f ? 1.0f : 1.0f / total;
+    const f32 step = _10 * ksys::VFR::instance()->getDeltaFrame();
+    if (_14 < 1.0f) {
+        const f32 t = _14 + step;
+        _14 = (t >= 1.0f || t < _14) ? 1.0f : t;
+    } else if (_14 > 1.0f) {
+        const f32 t = _14 - step;
+        _14 = (t <= 1.0f || _14 < t) ? 1.0f : t;
+    }
+    _18 = sub_ease(_14);
+}
+
+void Unk_7102459dd8::sub_710079C510(f32 t) {
+    _14 = sead::Mathf::clamp(t, 0.0f, 1.0f);
+    _18 = sub_ease(_14);
 }
 
 }  // namespace uking::act
