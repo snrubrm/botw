@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayASForAnimalUnit.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,6 +26,13 @@ void PlayASForAnimalUnit::loadParams_() {
 
 void PlayASForAnimalUnit::calc_() {
     ForkAnimalASPlay::calc_();
+    auto* as_list = mActor->getASList();
+    auto* controller = mActor->getCharacterController();
+    auto* rideable = mActor->m132();
+    if (as_list && controller && rideable)
+        uking::act::sub_7100E7F698(rideable, as_list, controller);
+    else
+        setFailed();
 }
 
 }  // namespace uking::action

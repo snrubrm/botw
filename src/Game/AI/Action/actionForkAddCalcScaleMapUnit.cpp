@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAddCalcScaleMapUnit.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -28,6 +30,13 @@ void ForkAddCalcScaleMapUnit::loadParams_() {
 
 void ForkAddCalcScaleMapUnit::calc_() {
     Fork::calc_();
+    f32 scale = mActor->getScale().x;
+    if (scale == _58) {
+        setEndState();
+        return;
+    }
+    ksys::VFR::lerp(&scale, _58, *mAddRate_s, _54, _50);
+    mActor->setScale({scale, scale, scale});
 }
 
 }  // namespace uking::action
