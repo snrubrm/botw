@@ -162,7 +162,7 @@ struct Unk_7102450738_Payload {
 struct Unk_71023eaec8_Payload {
     ksys::act::BaseProcLink _0;
     ksys::act::BaseProcLink _10;
-    sead::Matrix34f _20;
+    sead::Matrix34f _20 = sead::Matrix34f::ident;
     sead::JobQueueLock mLock;
 };
 

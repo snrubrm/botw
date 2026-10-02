@@ -1,8 +1,34 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
+#include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
+
+// vtable 0x7102424170: damage callback embedded in StalEnemyRoot (no RTTI of its own).
+class Unk_7102424170 : public dmg::DamageCallback {
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    bool _24 = false;
+};
+
+// vtable 0x71024241a8: the object StalEnemyRoot shares through the "StalEnemyUnit" AI tree variable.
+class Unk_71024241a8 : public Unk_71025afb58 {
+    SEAD_RTTI_OVERRIDE(Unk_71024241a8, Unk_71025afb58)
+public:
+    sead::BitFlag8 _8;
+    f32 _c = 80.0f;
+    f32 _10 = 160.0f;
+    f32 _14 = 60.0f;
+};
 
 class StalEnemyRoot : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(StalEnemyRoot, ksys::act::ai::Ai)
@@ -15,9 +41,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+    virtual void m35();
+    virtual bool m36();
+
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x30];
+    Unk_7102424170 _38;
+    void* _60{};
     // static_param at offset 0x68
     const int* mDeadCount_s{};
     // static_param at offset 0x70
@@ -44,6 +74,19 @@ protected:
     bool* mIsStopFallCheck_a{};
     // aitree_variable at offset 0xc8
     void* mStalEnemyUnit_a{};
+    Unk_710236f520 _d0{mActor, 0x8000007};
+    Unk_7102450b88 _100;
+    Unk_71024507c8 _150{0x1800004};
+    Unk_71023eaec8 _190{mActor, 0x8000017};
+    ksys::Timer _200{0, 0};
+    ksys::Timer _20c{0, 0};
+    u32 _218 = 0;
+    ksys::act::BaseProcLink _220;
+    sead::FixedSafeString<64> _230;
+    sead::FixedSafeString<64> _288;
+    bool _2e0 = false;
+    Unk_71024241a8 _2e8;
 };
+KSYS_CHECK_SIZE_NX150(StalEnemyRoot, 0x300);
 
 }  // namespace uking::ai

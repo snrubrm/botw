@@ -126,6 +126,8 @@ void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1);
 /// Sets bit 0 of a flag field (+0xc) in the actor's DropData (Actor vslot 134, RTTI 0x71025ae610),
 /// then callDeleteAndCreateDropAndEmit(actor, false).
 void sub_71005D6D48(ksys::act::Actor* actor);
+/// Not decompiled (492 bytes; actor flag 0x51b bit 2, damage manager, Enemy::_e84 bit 0).
+bool sub_71005D6E28(ksys::act::Actor* actor);
 /// Whether the actor's map object has rails.
 bool sub_71005D9F04(ksys::act::Actor* actor);
 

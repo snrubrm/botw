@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalEnemyRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ void StalEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StalEnemyRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_38);
 }
 
 void StalEnemyRoot::loadParams_() {
@@ -32,6 +33,21 @@ void StalEnemyRoot::loadParams_() {
     getMapUnitParam(&mIsCreateStalPart_m, "IsCreateStalPart");
     getAITreeVariable(&mIsStopFallCheck_a, "IsStopFallCheck");
     getAITreeVariable(&mStalEnemyUnit_a, "StalEnemyUnit");
+}
+
+bool StalEnemyRoot::m34() {
+    if (_2e8._8.isOnBit(0))
+        return false;
+    return sub_71005D6E28(mActor);
+}
+
+void StalEnemyRoot::m35() {}
+
+bool StalEnemyRoot::m36() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        return true;
+    return getCurrentChild()->isChangeable();
 }
 
 }  // namespace uking::ai

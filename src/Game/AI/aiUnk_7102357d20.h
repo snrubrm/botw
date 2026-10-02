@@ -123,6 +123,24 @@ public:
     Unk_71023dbd40_Payload _18;
 };
 
+// vtable 0x710236f520 (StalEnemyRoot; D2/D0/m2 at 0x71000d3e98..0x71000d425c); message 0x8000007
+class Unk_710236f520 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_710236f520_Payload _18;
+};
+
+// vtable 0x71023eaec8 (StalEnemyRoot; D2/D0/m2 at 0x71003b4dc8..0x71003b641c); message 0x8000017
+class Unk_71023eaec8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_71023eaec8_Payload _18;
+};
+
 // vtable 0x7102396ae0 (StalPartNormal); message 0x800001f
 class Unk_7102396ae0 : public Unk_7102357d20 {
 public:
