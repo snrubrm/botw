@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyChemTargetAction.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,10 @@ void EnemyChemTargetAction::leave_() {
 void EnemyChemTargetAction::loadParams_() {
     EnemyChemTargetActionBase::loadParams_();
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void EnemyChemTargetAction::m36(ksys::act::ai::InlineParamPack* params) {
+    params->addActor(*mTargetActor_d, "TargetActor", -1);
 }
 
 }  // namespace uking::ai

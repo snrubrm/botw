@@ -42,6 +42,6 @@ bool EnemyChemTargetActionBase::m35() {
     return dist < *mActionDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
-void EnemyChemTargetActionBase::m36() {}
+void EnemyChemTargetActionBase::m36(ksys::act::ai::InlineParamPack* params) {}
 
 }  // namespace uking::ai
