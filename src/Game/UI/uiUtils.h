@@ -7,6 +7,10 @@ namespace uking::act {
 enum class CreateEquipmentSlot : u8;
 }
 
+namespace eui {
+class MessageString;
+}
+
 namespace uking::ui {
 
 enum class EquipmentSlot;
@@ -23,6 +27,11 @@ struct WeaponStats {
 };
 
 bool isMasterSwordItem(const PouchItem& item);
+
+// 0x7100aa248c (CSV: ui::getMessage): looks up `label` in the message set `message_set`; returns 0
+// if found.
+int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
+               eui::MessageString* out);
 
 int getItemHitPointRecover(const sead::SafeString& name);
 

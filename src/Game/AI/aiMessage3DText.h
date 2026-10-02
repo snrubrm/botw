@@ -19,11 +19,17 @@ public:
     Message3DText();
     ~Message3DText();
 
+    // 0x71007219e8 (CSV name): like sub_7100721B1C, but only while `_c9`.
+    void set(f32 time, const sead::SafeString& label);
+
     // 0x7100721830: sets the actor and the message label prefix ("EventFlowMsg/" or
     // "ShoutMsg/Shout_" + the actor's same-group name; hidden Koroks share "Npc_HiddenKorok").
     void sub_7100721830(ksys::act::Actor* actor, bool shout);
-    // 0x7100721c48 (not decompiled): per-frame update (timer).
+    // 0x7100721c48: per-frame update (timer; starts the display once it ran out).
     void sub_7100721C48();
+    // 0x7100721b1c: looks the message up and, if found, starts the display timer and remembers the
+    // label (same as `set` without the `_c9` check).
+    void sub_7100721B1C(f32 time, const sead::SafeString& label);
 
     ksys::act::Actor* mActor = nullptr;
     sead::FixedSafeString<80> _8;
