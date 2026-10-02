@@ -21,6 +21,8 @@ public:
     s32 m52(s32 idx) override;
     s32 m53() override { return 2; }
 
+    ksys::act::Unk_71024dc858* m47(ksys::act::AwarenessInstance* awareness,
+                                   ksys::act::Unk_71024dccf8* filter, s32 a3) override;
     void m60(Unk3* out) override;
     void m61(Unk3* out) override;
     void m69(Unk2* target) override;

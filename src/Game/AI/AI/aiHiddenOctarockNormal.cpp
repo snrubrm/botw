@@ -84,6 +84,23 @@ void HiddenOctarockNormal::m49(Unk1* out, s32 idx) {
     EnemyNormal::m49(out, idx);
 }
 
+ksys::act::Unk_71024dc858* HiddenOctarockNormal::m47(ksys::act::AwarenessInstance* awareness,
+                                                     ksys::act::Unk_71024dccf8* filter, s32 a3) {
+    auto* entry = EnemyNormal::m47(awareness, filter, a3);
+    if (entry && entry->_a0 != 0)
+        return entry;
+
+    filter->_8 = -1;
+    while (awareness->_260[3]) {
+        entry = ksys::act::sub_7100D7EEE8(&awareness->_260[3]->_8, filter);
+        if (!entry)
+            return nullptr;
+        if (m46(entry->_88, entry->mLink))
+            return entry;
+    }
+    return nullptr;
+}
+
 void HiddenOctarockNormal::m60(Unk3* out) {
     if (!isCurrentChild("攻撃反応") || !sub_71005D9050(mActor))
         out->_0 = -1;

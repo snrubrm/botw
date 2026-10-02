@@ -90,7 +90,8 @@ public:
     virtual bool m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
                      bool skip_own_pos);
     virtual bool m46(const sead::Vector3f& pos, const ksys::act::BaseProcLink& target);
-    virtual void m47();
+    virtual ksys::act::Unk_71024dc858* m47(ksys::act::AwarenessInstance* awareness,
+                                           ksys::act::Unk_71024dccf8* filter, s32 a3);
     virtual void m48(sead::Vector3f* pos);
     virtual void m49(Unk1* out, s32 idx);
     virtual void m50(Unk1* out, s32 idx);

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "Game/Actor/actEnemy.h"
 #include <cmath>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiAwarenessFilters.h"
@@ -178,6 +180,34 @@ void EnemyNormal::m37() {
     changeChild("待機", &params);
 }
 
+void EnemyNormal::m38() {
+    if (isCurrentChild("プレイヤー発見"))
+        _3ac.set(8);
+    _188.x();
+    if (!_200._30 && _3ac.isOff(2)) {
+        _3ac.set(2);
+        if (auto* lod = mActor->getLodState())
+            lod->mFlags14.set(0x2000000);
+    }
+    _50.reset();
+    m41();
+    _364 = 0;
+
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    m48(&pos);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e84.isOnBit(26)) {
+        if (auto* nav = mActor->m45()) {
+            sead::Vector3f nav_pos;
+            if (nav->sub_7100F76078(nav_pos, pos, 15.0f).sub_7100F7EB40())
+                pos = nav_pos;
+        }
+    }
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("諦め", &params);
+}
+
 void EnemyNormal::m40() {
     _3ac.reset(8);
     const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
@@ -196,6 +226,33 @@ void EnemyNormal::m40() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("怒り", &params);
+}
+
+void EnemyNormal::m39() {
+    if (isCurrentChild("プレイヤー発見"))
+        _3ac.set(8);
+    _188.x();
+    if (!_200._30 && _3ac.isOff(2)) {
+        _3ac.set(2);
+        if (auto* lod = mActor->getLodState())
+            lod->mFlags14.set(0x2000000);
+    }
+    m41();
+    _50.reset();
+    _364 = 50.0f;
+    changeChild("見失い");
+}
+
+ksys::act::Unk_71024dc858* EnemyNormal::m47(ksys::act::AwarenessInstance* awareness,
+                                            ksys::act::Unk_71024dccf8* filter, s32 a3) {
+    while (awareness->_260[0]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_260[0]->_8, filter);
+        if (!entry)
+            break;
+        if (!m45(entry->_88, entry->mLink, false))
+            return entry;
+    }
+    return nullptr;
 }
 
 void EnemyNormal::m60(Unk3* out) {

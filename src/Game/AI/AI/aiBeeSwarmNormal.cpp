@@ -137,4 +137,16 @@ void BeeSwarmNormal::m49(Unk1* out, s32 idx) {
     EnemyNormal::m49(out, idx);
 }
 
+ksys::act::Unk_71024dc858* BeeSwarmNormal::m47(ksys::act::AwarenessInstance* awareness,
+                                               ksys::act::Unk_71024dccf8* filter, s32 a3) {
+    while (awareness->_260[3]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_260[3]->_8, filter);
+        if (!entry)
+            return nullptr;
+        if (entry->_a0 == 2 && sub_71005E116C(&entry->mLink))
+            return entry;
+    }
+    return nullptr;
+}
+
 }  // namespace uking::ai
