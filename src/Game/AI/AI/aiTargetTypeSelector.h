@@ -20,6 +20,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     // aitree_variable at offset 0x38
     bool* mIsTrgTargetChangeToPlayer_a{};
     u32 _40 = -1;

@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     // static_param at offset 0x38
     const bool* mIsCheckEveryFrame_s{};
     // dynamic_param at offset 0x40

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiUrbosasFuryDamageSelector.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool UrbosasFuryDamageSelector::init_(sead::Heap* heap) {
 }
 
 void UrbosasFuryDamageSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+    if (mgr && mgr->checkDamageFlags(22))
+        changeChild("ウルボザの怒り由来である", params);
+    else
+        changeChild("ウルボザの怒り由来でない", params);
 }
 
 void UrbosasFuryDamageSelector::calc_() {
