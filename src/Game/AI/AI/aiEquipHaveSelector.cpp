@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEquipHaveSelector.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -42,6 +43,10 @@ void EquipHaveSelector::calc_() {
             changeChild("所持");
         }
     }
+}
+
+bool EquipHaveSelector::m34() {
+    return sub_71005DBB60(mActor, *mWeaponIdx_s) == -1;
 }
 
 bool EquipHaveSelector::isChangeable() const {

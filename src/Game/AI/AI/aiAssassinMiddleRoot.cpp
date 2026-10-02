@@ -9,6 +9,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 
@@ -94,6 +96,18 @@ bool AssassinMiddleRoot::handleMessage_(const ksys::Message& message) {
         }
     }
     return EnemyRoot::handleMessage_(message);
+}
+
+bool AssassinMiddleRoot::m35() {
+    if (ksys::evt::sub_7100DC866C()) {
+        auto* actor = mActor;
+        if (actor->get1a0())
+            return false;
+        auto* object = actor->getMapObject();
+        if (object && object->getFlags0().isOn(ksys::map::Object::Flag0::_20000))
+            return false;
+    }
+    return EnemyRoot::m35();
 }
 
 void AssassinMiddleRoot::m43() {

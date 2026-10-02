@@ -40,7 +40,6 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    // 0x7100321338: not decompiled (calls the unnamed ksys::evt helper 0x7100dc866c).
     bool m35() override;
     void m43() override;
 
