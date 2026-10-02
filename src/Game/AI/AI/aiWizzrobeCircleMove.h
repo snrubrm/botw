@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
+
 #include "Game/AI/AI/aiCircleMoveTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -13,6 +15,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -25,6 +28,9 @@ protected:
     const float* mEndTimer_s{};
     // static_param at offset 0x80
     const bool* mIsAttCentral_s{};
+    bool _88 = false;
+    ksys::Timer _8c;
 };
+KSYS_CHECK_SIZE_NX150(WizzrobeCircleMove, 0x98);
 
 }  // namespace uking::ai
