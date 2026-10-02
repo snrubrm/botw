@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSimpleEscapeFromTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,25 @@ void SimpleEscapeFromTarget::loadParams_() {
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getStaticParam(&mSpaceDist_s, "SpaceDist");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool SimpleEscapeFromTarget::m34() {
+    setFailed();
+    return false;
+}
+
+void SimpleEscapeFromTarget::m35(bool finished) {
+    if (finished)
+        setFinished();
+    else
+        setFailed();
+}
+
+void SimpleEscapeFromTarget::m36(sead::Vector3f* dir) {
+    dir->set(*mTargetPos_d);
+    *dir -= mActor->getMtx().getTranslation();
+    dir->y = 0.0f;
+    dir->normalize();
 }
 
 }  // namespace uking::ai

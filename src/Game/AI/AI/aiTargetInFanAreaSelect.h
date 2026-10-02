@@ -21,6 +21,12 @@ public:
     bool isChangeable() const override;
     void loadParams_() override;
 
+    virtual bool m34();
+    virtual void m35(ksys::act::ai::InlineParamPack* params);
+    virtual void m36(ksys::act::ai::InlineParamPack* params);
+    virtual void m37(sead::Vector3f* out);
+    virtual void m38(sead::Vector3f* out);
+
 protected:
     // static_param at offset 0x40
     const float* mNearYMax_s{};

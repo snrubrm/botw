@@ -15,6 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+    virtual void m35(bool finished);
+    virtual void m36(sead::Vector3f* dir);
+
 protected:
     // static_param at offset 0x38
     const int* mKeepTime_s{};
@@ -24,6 +28,10 @@ protected:
     const float* mSpaceDist_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    u32 _58 = 0;
+    s32 _5c = 0;
+    s32 _60 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SimpleEscapeFromTarget, 0x68);
 
 }  // namespace uking::ai

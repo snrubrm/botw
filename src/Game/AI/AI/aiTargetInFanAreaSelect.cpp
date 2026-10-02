@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTargetInFanAreaSelect.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -43,6 +45,22 @@ bool TargetInFanAreaSelect::isFinished() const {
 
 bool TargetInFanAreaSelect::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() || getCurrentChild()->isChangeable();
+}
+
+void TargetInFanAreaSelect::m35(ksys::act::ai::InlineParamPack* params) {
+    params->addVec3(*mTargetPos_d, "TargetPos", -1);
+}
+
+void TargetInFanAreaSelect::m36(ksys::act::ai::InlineParamPack* params) {
+    params->addVec3(*mTargetPos_d, "TargetPos", -1);
+}
+
+void TargetInFanAreaSelect::m37(sead::Vector3f* out) {
+    mActor->getMtx().getTranslation(*out);
+}
+
+void TargetInFanAreaSelect::m38(sead::Vector3f* out) {
+    mActor->getMtx().getBase(*out, 2);
 }
 
 }  // namespace uking::ai
