@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForbidDoubleNoticeSelect.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,11 @@ bool ForbidDoubleNoticeSelect::init_(sead::Heap* heap) {
 }
 
 void ForbidDoubleNoticeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e74 > 0)
+        changeChild("禁止", params);
+    else
+        changeChild("解禁", params);
 }
 
 void ForbidDoubleNoticeSelect::calc_() {}
