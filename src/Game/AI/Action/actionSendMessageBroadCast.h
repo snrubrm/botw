@@ -1,4 +1,6 @@
 #pragma once
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 
 #include "Game/AI/Action/actionSendMessage.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -19,8 +21,12 @@ public:
 protected:
     void calc_() override;
 
+    void doSendMessage() override;
+
     // static_param at offset 0x28
     const int* mMsgType_s{};
+    ksys::act::BaseProcLink _30;
+    Unk_710235aba0 _40{mActor, 0x8000040};
 };
 
 }  // namespace uking::action

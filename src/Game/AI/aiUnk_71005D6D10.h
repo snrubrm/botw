@@ -214,6 +214,9 @@ bool sub_71005E116C(ksys::act::BaseProcLink* link);
 // 0x71005e1630: sends `sender`'s message to the map objects linked to `actor` (only those whose unit
 // config name is `name`, if not null/empty). One caller (BasicSignalEnemyForceNotice).
 bool sub_71005E1630(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* name);
+// 0x71005e02e0: sends `sender`'s message to the actor linked to `actor` by the
+// "RegistedActorMessageBroadCastTag" link; stores that actor in `link` if not null. 11 callers.
+bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::BaseProcLink* link);
 int sub_71005E2B28(int value);
 void sub_71005E22D4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f& dir,
                     f32 scale);
