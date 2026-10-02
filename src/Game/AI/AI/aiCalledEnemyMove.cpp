@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCalledEnemyMove.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,10 @@ void CalledEnemyMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CalledEnemyMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    _50.x(mActor);
+    _50.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }
 
 void CalledEnemyMove::loadParams_() {

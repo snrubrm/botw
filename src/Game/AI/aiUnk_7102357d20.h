@@ -265,6 +265,12 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return &_18; }
 
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28);
+        _18.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
 };
