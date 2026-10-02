@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionRemainsWaterBulletExplode.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -26,6 +31,16 @@ void RemainsWaterBulletExplode::loadParams_() {
 
 void RemainsWaterBulletExplode::calc_() {
     Explode::calc_();
+}
+
+void RemainsWaterBulletExplode::m34(ksys::act::AttackSensor* sensor) {
+    if (!sensor)
+        return;
+    sensor->activateAttackSensor(
+        0x10, sub_710012B058(), *mMaxDamage_s,
+        mActor->getParam()->getRes().mGParamList->getAttack()->mImpulseLarge.ref(), 0.0f,
+        mActor->getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref(), 0x1e, -1,
+        false, *mMinDamage_s, -1);
 }
 
 }  // namespace uking::action

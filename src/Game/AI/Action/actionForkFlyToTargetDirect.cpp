@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFlyToTargetDirect.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -21,6 +22,8 @@ void ForkFlyToTargetDirect::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ForkFlyToTargetDirect::leave_() {
     FreeMovingAction::leave_();
+    if (*mOnEndForceStop_s)
+        ksys::act::sub_7100EE5980(mActor, sead::Vector3f::zero);
 }
 
 void ForkFlyToTargetDirect::loadParams_() {

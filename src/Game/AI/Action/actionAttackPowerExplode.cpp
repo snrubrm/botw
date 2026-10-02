@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionAttackPowerExplode.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +30,17 @@ void AttackPowerExplode::loadParams_() {
 
 void AttackPowerExplode::calc_() {
     Explode::calc_();
+}
+
+ksys::phys::SphereRigidBody* AttackPowerExplode::m32() {
+    auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24BC());
+    if (!set)
+        return nullptr;
+    if (*mIsPlayerAttack_d)
+        return sead::DynamicCast<ksys::phys::SphereRigidBody>(
+            set->findBodyByHavokName("AtkPlayerExplode"));
+    return sead::DynamicCast<ksys::phys::SphereRigidBody>(
+        set->findBodyByHavokName("AtkEnemyExplode"));
 }
 
 }  // namespace uking::action

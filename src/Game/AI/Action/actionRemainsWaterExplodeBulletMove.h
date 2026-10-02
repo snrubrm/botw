@@ -1,4 +1,5 @@
 #pragma once
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 #include "Game/AI/Action/actionRemainsWaterBulletAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -36,6 +37,10 @@ protected:
     const float* mRemainsWaterBulletAngle_m{};
     // map_unit_param at offset 0xb8
     const sead::Vector3f* mRemainsWaterBulletOffset_m{};
+    bool _c0 = false;
+    Unk_71012419b4 _c8;
+    f32 _e8 = 1.0f;
+    f32 _ec = 1.0f;
 };
 
 }  // namespace uking::action

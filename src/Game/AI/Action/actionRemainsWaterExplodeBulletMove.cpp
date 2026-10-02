@@ -12,11 +12,16 @@ bool RemainsWaterExplodeBulletMove::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterExplodeBulletMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    _c0 = false;
+    _e8 = 1.0f;
+    _ec = 1.0f;
     RemainsWaterBulletAction::enter_(params);
 }
 
 void RemainsWaterExplodeBulletMove::leave_() {
     RemainsWaterBulletAction::leave_();
+    if (_c8.sub_7101241B6C())
+        _c8.fadeXLink();
 }
 
 void RemainsWaterExplodeBulletMove::loadParams_() {

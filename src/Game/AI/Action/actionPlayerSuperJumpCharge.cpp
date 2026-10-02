@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSuperJumpCharge.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +11,9 @@ void PlayerSuperJumpCharge::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSuperJumpCharge::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_1cbe = 0;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F270(static_cast<ksys::act::Player*>(mActor)->_1cd4);
 }
 
 void PlayerSuperJumpCharge::loadParams_() {

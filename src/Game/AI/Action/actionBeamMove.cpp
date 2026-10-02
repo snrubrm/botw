@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBeamMove.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -36,6 +39,76 @@ void BeamMove::loadParams_() {
 
 void BeamMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool BeamMove::m32(const AttackInfo* info) {
+    return info->_18 & 0xa;
+}
+
+bool BeamMove::m34(const AttackInfo* info) {
+    return info->_18 & 1;
+}
+
+void BeamMove::m35(sead::Vector3f* dir) {
+    *dir = -_40;
+}
+
+void BeamMove::m36(const AttackInfo* info) {
+    if (!info)
+        return;
+
+    sead::Matrix34f mtx;
+    _50->getTransform(&mtx);
+    mtx.setTranslation(info->_0);
+    _50->setTransform(mtx);
+    _58->setTransform(mtx);
+    _50->setLinearVelocity(sead::Vector3f::zero);
+    _58->setLinearVelocity(sead::Vector3f::zero);
+    if (_60) {
+        _60->setTransform(mtx);
+        _60->setLinearVelocity(sead::Vector3f::zero);
+    }
+    setFinished();
+}
+
+f32 BeamMove::m37() {
+    return 0.3f;
+}
+
+bool BeamMove::m38() {
+    if (_6a)
+        return false;
+
+    sead::Vector3f pos;
+    if (!m39(&pos))
+        return false;
+
+    _6a = true;
+    sead::Matrix34f mtx;
+    _50->getTransform(&mtx);
+    mtx.setTranslation(pos);
+    _50->changePositionAndRotation(mtx);
+    _58->changePositionAndRotation(mtx);
+    if (_60)
+        _60->changePositionAndRotation(mtx);
+    return true;
+}
+
+void BeamMove::m40() {
+    _40 = mActor->getVelocity();
+    _4c = _40.normalize() * 30.0f;
+}
+
+int BeamMove::m41() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+}
+
+int BeamMove::m42() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mPowerForPlayer.ref();
+}
+
+int BeamMove::m43() {
+    return 2;
 }
 
 }  // namespace uking::action

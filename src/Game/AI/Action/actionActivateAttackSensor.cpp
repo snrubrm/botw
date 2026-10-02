@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionActivateAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void ActivateAttackSensor::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ActivateAttackSensor::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A2D7C(mActor, mAtkSensorName_s);
+    sub_71007A3270(mActor, mAtkSensorName_s, nullptr);
 }
 
 void ActivateAttackSensor::loadParams_() {
@@ -36,7 +38,16 @@ void ActivateAttackSensor::loadParams_() {
 }
 
 void ActivateAttackSensor::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_a4)
+        return;
+    _98.update();
+    if (_98.value <= sead::Mathf::epsilon()) {
+        sub_71007A2D7C(mActor, mAtkSensorName_s);
+        sub_71007A3270(mActor, mAtkSensorName_s, nullptr);
+        _a4 = true;
+        if (*mIsSuccessFinishCounterEnd_s)
+            setFinished();
+    }
 }
 
 }  // namespace uking::action

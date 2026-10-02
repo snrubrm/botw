@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLastBossThunderAppear.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void LastBossThunderAppear::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossThunderAppear::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71007A2D7C(mActor, "AtkCommon");
 }
 
 void LastBossThunderAppear::loadParams_() {

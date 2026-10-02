@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/VFRValue.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class NavMeshAction : public ActionEx {
@@ -22,6 +26,10 @@ protected:
     virtual void m32();
     virtual void m33();
     virtual void m34() = 0;
+    virtual sead::Vector3f* m35();
+    virtual void m36(ksys::phys::CharacterController* controller, f32 speed,
+                     const sead::Vector3f& up);
+    virtual void m37(const sead::Matrix34f& mtx);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};

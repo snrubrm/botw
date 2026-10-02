@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerLargeDamageUp.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +11,9 @@ void PlayerLargeDamageUp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerLargeDamageUp::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F270(static_cast<ksys::act::Player*>(mActor)->_1cd4);
+    static_cast<ksys::act::Player*>(mActor)->_c50.resetBit(30);
 }
 
 void PlayerLargeDamageUp::calc_() {

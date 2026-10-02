@@ -1,13 +1,25 @@
 #include "Game/AI/Action/actionExplode.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 
 namespace uking::action {
 
 Explode::Explode(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-Explode::~Explode() = default;
+Explode::~Explode() {
+    if (_60) {
+        delete _60;
+        _60 = nullptr;
+    }
+}
 
 bool Explode::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _60 = new (heap) ksys::act::AttackSensor(mActor);
+    return _60 != nullptr;
 }
 
 void Explode::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -30,6 +42,52 @@ void Explode::loadParams_() {
 
 void Explode::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+ksys::phys::SphereRigidBody* Explode::m32() {
+    auto* set = mActor->getPhysics()->findBodyByName(*sub_71007A24BC());
+    if (!set)
+        return nullptr;
+    return sead::DynamicCast<ksys::phys::SphereRigidBody>(set->findBodyByHavokName("AtkExplode"));
+}
+
+void Explode::m33() {
+    _58 = m32();
+    if (!_58)
+        return;
+
+    m34(_60);
+    _58->setUserTag(_60);
+    _74 = _58->getRadius();
+    f32 step = _74;
+    if (*mSizeUpTime_s != 0)
+        step = _74 / *mSizeUpTime_s;
+    _7c = step;
+    _58->setTransform(mActor->getMtx());
+    _78 = 0.001f;
+    _58->setRadius(0.001f);
+    sub_71007A2B64(_58, nullptr);
+}
+
+u32 Explode::sub_710012B058() {
+    u32 type;
+    switch (*mAttackIntensity_s) {
+    case 1:
+        type = 1;
+        break;
+    case 2:
+        type = 2;
+        break;
+    case 3:
+        type = 4;
+        break;
+    default:
+        type = 0;
+        break;
+    }
+    if (*mIsDamageGuarantee_s)
+        type |= 0x10000000;
+    return type;
 }
 
 }  // namespace uking::action

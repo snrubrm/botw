@@ -1,4 +1,5 @@
 #pragma once
+#include "KingSystem/ActorSystem/actActorAtk.h"
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
@@ -22,6 +23,20 @@ public:
 
 protected:
     void calc_() override;
+
+    using AttackInfo = ksys::act::ActorAtk::Struct7::AttackInfo;
+    virtual bool m32(const AttackInfo* info);
+    virtual void m33(const AttackInfo* info);
+    virtual bool m34(const AttackInfo* info);
+    virtual void m35(sead::Vector3f* dir);
+    virtual void m36(const AttackInfo* info);
+    virtual f32 m37();
+    virtual bool m38();
+    virtual bool m39(sead::Vector3f* pos);
+    virtual void m40();
+    virtual int m41();
+    virtual int m42();
+    virtual int m43();
 
     // static_param at offset 0x20
     const int* mAtMinDamage_s{};

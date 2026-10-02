@@ -3,6 +3,14 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::act {
+class AttackSensor;
+}
+
+namespace ksys::phys {
+class SphereRigidBody;
+}
+
 namespace uking::action {
 
 class Explode : public ksys::act::ai::Action {
@@ -19,6 +27,12 @@ public:
 protected:
     void calc_() override;
 
+    virtual ksys::phys::SphereRigidBody* m32();
+    virtual void m33();
+    virtual void m34(ksys::act::AttackSensor* sensor);
+
+    u32 sub_710012B058();
+
     // static_param at offset 0x20
     const int* mSizeUpTime_s{};
     // static_param at offset 0x28
@@ -33,8 +47,8 @@ protected:
     const bool* mIsDamageGuarantee_s{};
     // static_param at offset 0x50
     const bool* mIsVanish_s{};
-    void* _58{};
-    void* _60{};
+    ksys::phys::SphereRigidBody* _58{};
+    ksys::act::AttackSensor* _60{};
     ksys::Timer _68{0, 0};
     f32 _74 = 0;
     f32 _78 = 0;
