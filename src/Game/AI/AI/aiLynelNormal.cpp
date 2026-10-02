@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiLynelNormal.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 // The functions of the listener Unk_71024056a8 are in this translation unit in the original
 // (LynelNormal's D1 and handleMessage_ inline them).
@@ -102,6 +104,25 @@ void LynelNormal::m57(s32 type, Unk2* target) {
     default:
         break;
     }
+}
+
+bool LynelNormal::m56(Unk2* out, Unk1* info) {
+    if (info->_0 == 0 && !(info->_8 & 0x42)) {
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_7102451498 filter(mActor);
+            while (auto* sensor = awareness->_260[3]) {
+                auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+                if (!entry)
+                    break;
+                if (!m45(entry->_88, entry->mLink, false)) {
+                    out->sub_71003A02A4(entry);
+                    out->_44 |= 1;
+                    return true;
+                }
+            }
+        }
+    }
+    return LandHumEnemyNormal::m56(out, info);
 }
 
 void LynelNormal::m60(Unk3* out) {

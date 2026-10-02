@@ -146,27 +146,30 @@ public:
     void sub_710039EB7C();
     void sub_710039EC4C();
     void sub_710039ED94();
-    // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
+    // 0x71003a04e0: the first awareness entry accepted by `filter`.
     ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);
     // 0x710039db34
     bool sub_710039DB34(bool a1);
-    // 0x710039fe20: not decompiled (uses the awareness filter 0x7102451740, not declared yet).
+    // 0x710039fe20: an awareness entry of sensor 0 / 1 for `link` (filter 0x7102451740) or for the
+    // Unk_71002dccbc members (filter 0x7102451560).
     ksys::act::Unk_71024dc858* sub_710039FE20(ksys::act::BaseProcLink* link);
     // 0x71003a2be0: finds a target for an attack candidate (dispatches on info->_0).
     bool sub_71003A2BE0(Unk2* out, Unk1* info);
     // 0x71003a2e20
     bool sub_71003A2E20(Unk2* out, Unk1* info);
-    // 0x71003a2f18 (not decompiled)
+    // 0x71003a2f18
     bool sub_71003A2F18(Unk2* out);
     // 0x71003a31c0 (not decompiled)
     bool sub_71003A31C0(Unk2* out);
     // 0x710039e1d0
     bool sub_710039E1D0(Unk2* out, s32 type, Unk1* info);
-    // 0x71003a0114: not decompiled (constructs the awareness filter 0x7100745bfc).
+    // 0x71003a0114: sub_71003A04E0 with a filter chosen by `type` / `flags`.
     ksys::act::Unk_71024dc858* sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags);
-    // 0x71003a33c0 (not decompiled)
+    // 0x71003a33c0: whether `target` is acceptable for the search type (1 / 2 / 3).
     bool sub_71003A33C0(s32 type, ksys::act::BaseProcLink* target, u16* flags);
+    // 0x71003a234c: territory radius for `target` (NPC / player or non-living / other).
+    f32 sub_71003A234C(ksys::act::BaseProcLink* target);
     // 0x71003a34d0
     bool sub_71003A34D0(Unk2* out, s32 type, Unk1* info);
     // 0x71003a361c

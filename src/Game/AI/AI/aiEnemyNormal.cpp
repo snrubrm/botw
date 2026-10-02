@@ -491,7 +491,6 @@ bool EnemyNormal::m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink&
     return false;
 }
 
-// NON_MATCHING: the original shares one "return false" block (ours duplicates it per early return)
 // NON_MATCHING: register allocation (the address of _308's link is kept in a callee-saved register
 // across the lock instead of being recomputed for sub_71002DC628)
 bool EnemyNormal::handleMessage_(const ksys::Message& message) {
@@ -591,20 +590,12 @@ bool Unk_71023e8ff8::m2(const ksys::Message& message) {
 
 namespace uking::ai {
 
+// NON_MATCHING: the original shares one "return false" block (ours duplicates it per early return)
 bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target) {
     sead::Vector3f center;
     m48(&center);
 
-    f32 area;
-    if (!target.hasProc())
-        area = *_3b0;
-    else if (ksys::act::isNPCProfile(&target))
-        area = *mNpcTerritoryArea_s;
-    else if (ksys::act::isPlayerProfile(&target) || ksys::act::isNotLivingCreature(&target))
-        area = *_3b0 + _3b8;
-    else
-        area = *mNoPlayerTerritoryArea_s;
-
+    const f32 area = sub_71003A234C(&target);
     const bool has_target = target.hasProc();
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&target, &accessor);
@@ -634,6 +625,16 @@ bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target
     if (mgr->isNonAutoPlacement(own_pos, true))
         return false;
     return !mgr->isNonAutoPlacement(pos, true);
+}
+
+f32 EnemyNormal::sub_71003A234C(ksys::act::BaseProcLink* target) {
+    if (!target || !target->hasProc())
+        return *_3b0;
+    if (ksys::act::isNPCProfile(target))
+        return *mNpcTerritoryArea_s;
+    if (ksys::act::isPlayerProfile(target) || ksys::act::isNotLivingCreature(target))
+        return *_3b0 + _3b8;
+    return *mNoPlayerTerritoryArea_s;
 }
 
 // NON_MATCHING: the three filter branches are tail-merged differently; the filter bits are stored

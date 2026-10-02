@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink& target,
+             bool skip_own_pos) override;
+    bool m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target) override;
+
 protected:
 };
 

@@ -108,6 +108,10 @@ s32 sub_71005D7854(ksys::act::Actor* actor);
 bool sub_71005D8324(ksys::act::Actor* actor, int idx);
 /// PlayerOrEnemy::m173() (false if not a PlayerOrEnemy).
 bool sub_71005D9E68(ksys::act::Actor* actor);
+// 0x71005d9f4c: AutoPlacementMgr::isNonAutoPlacement(pos, true); false without the manager.
+bool sub_71005D9F4C(const sead::Vector3f& pos);
+// 0x71005d9f70: the same for the actor's translation.
+bool sub_71005D9F70(ksys::act::Actor* actor);
 
 /// The actor in weapon slot `idx` if it is a uking::act::Weapon (nullptr otherwise).
 uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx);

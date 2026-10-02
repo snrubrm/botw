@@ -21,6 +21,7 @@ public:
     void calc_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
+    bool m56(Unk2* out, Unk1* info) override;
     void m57(s32 type, Unk2* target) override;
     void m60(Unk3* out) override;
     bool m63(Unk3* result) override;

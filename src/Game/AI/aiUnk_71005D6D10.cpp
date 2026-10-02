@@ -26,6 +26,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -605,6 +606,22 @@ bool sub_71005D9E68(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
         return false;
     return static_cast<ksys::act::PlayerOrEnemy*>(actor)->m173();
+}
+
+bool sub_71005D9F4C(const sead::Vector3f& pos) {
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (!mgr)
+        return false;
+    return mgr->isNonAutoPlacement(pos, true);
+}
+
+bool sub_71005D9F70(ksys::act::Actor* actor) {
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    auto* mgr = ksys::map::AutoPlacementMgr::instance();
+    if (!mgr)
+        return false;
+    return mgr->isNonAutoPlacement(pos, true);
 }
 
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor) {
