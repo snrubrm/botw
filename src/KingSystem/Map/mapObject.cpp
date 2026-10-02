@@ -505,11 +505,11 @@ void Object::setFieldATrue() {
     }
 }
 
-void* Object::getRails() const {
+Rail** Object::getRails() const {
     return getRails_0();
 }
 
-void* Object::getRails_0() const {
+Rail** Object::getRails_0() const {
     if (mLinkData == nullptr)
         return nullptr;
     return mLinkData->mRails;

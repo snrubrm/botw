@@ -22,6 +22,7 @@ class BaseProcCreateTask;
 namespace ksys::map {
 
 class ObjectLinkData;
+class Rail;
 struct ObjectLink;
 struct ObjectLinkArray;
 class LinkTag;
@@ -164,8 +165,8 @@ public:
     bool hasGenGroup() const;
     void spawnGenGroupActorsIfNeeded(Object* obj);
 
-    void* getRails() const;
-    void* getRails_0() const;
+    Rail** getRails() const;
+    Rail** getRails_0() const;
     bool setupTargetLinks(Object* src, ObjectLink* link, sead::Heap* heap);
     bool allocLinkData(sead::Heap* heap);
     void incrementLinkNum();

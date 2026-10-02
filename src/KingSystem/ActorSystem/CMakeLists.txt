@@ -39,6 +39,7 @@ target_sources(uking PRIVATE
 
     actActor.cpp
     actActor.h
+    actImpulseBaseProcLink.h
     actActorAtk.cpp
     actActorAtk.h
     actAttackInfo.cpp

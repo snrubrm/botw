@@ -12,7 +12,7 @@ class BaseProc;
 namespace uking::act {
 
 // Sub-object of Enemy (at 0xd70) and of NPC (at 0xe90). Placeholder name after its method
-// 0x71002dccbc (bool (u16 mask): no linked actor in calc state has a matching flag).
+// 0x71002dccbc (bool (s32 mask): no linked actor in calc state has a matching flag).
 class Unk_71002dccbc {
 public:
     struct Entry {
@@ -29,7 +29,8 @@ public:
     bool sub_71002DC8A0(const ksys::act::BaseProcLink& link, u16 flags);
     bool sub_71002DC9E8(const ksys::act::BaseProcLink& link, u16 flags, bool a3);
     void sub_71002DCBDC(u16 flags);
-    bool sub_71002DCCBC(u16 flags);
+    // Callers pass -1 in w1 (not 0xffff): the mask is a 32-bit int.
+    bool sub_71002DCCBC(s32 flags);
     ksys::act::BaseProcLink* sub_71002DCEDC(u16 flags, f32* a2);
 
     /* 0x00 */ ksys::act::Actor* mActor;

@@ -227,6 +227,8 @@ public:
     AwarenessInstance* getAwareness() const { return mAwareness; }
     Unk_71024dc900* get548() const { return _548; }
     ActorAttention* getAttention() const { return mAttention; }
+    int getFadeOutDeleteType() const { return mFadeOutDeleteType; }
+    ImpulseBaseProcLink* getImpulseBaseProcLink() const { return mImpulseBaseProcLink; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
 

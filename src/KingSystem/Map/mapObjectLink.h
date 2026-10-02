@@ -127,7 +127,7 @@ public:
     bool field_57 = false;
 
     GenGroup* mGenGroup = nullptr;
-    Rail* mRails = nullptr;
+    Rail** mRails = nullptr;  // array of rail pointers (plain delete[])
 };
 KSYS_CHECK_SIZE_NX150(ObjectLinkData, 0x68);
 
