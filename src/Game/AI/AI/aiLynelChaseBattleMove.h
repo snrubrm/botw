@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,8 @@ protected:
     const float* mOutDist_s{};
     // static_param at offset 0x58
     const float* mCloseStartDist_s{};
+    ksys::act::Actor* _60 = mActor;
+    ksys::Timer _68;
 };
 
 }  // namespace uking::ai

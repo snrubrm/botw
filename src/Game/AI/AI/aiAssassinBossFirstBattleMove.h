@@ -26,6 +26,10 @@ protected:
     const float* mTooFarXZ_s{};
     // static_param at offset 0x50
     sead::SafeString mAnchorName_s{};
+    f32 _60 = 0;
+    s32 _64 = 0;
+    s32 _68 = 0;
+    sead::Vector3f _6c;
 };
 
 }  // namespace uking::ai

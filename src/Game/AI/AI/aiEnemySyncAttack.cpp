@@ -30,4 +30,10 @@ void EnemySyncAttack::loadParams_() {
     getStaticParam(&mAttackIntervalRand_s, "AttackIntervalRand");
 }
 
+bool EnemySyncAttack::isChangeable() const {
+    if (_c8)
+        return false;
+    return getCurrentChild()->isChangeable();
+}
+
 }  // namespace uking::ai

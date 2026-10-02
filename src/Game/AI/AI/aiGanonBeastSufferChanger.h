@@ -44,6 +44,11 @@ protected:
     sead::SafeString mlabelName2_s{};
     // static_param at offset 0xb8
     sead::SafeString mlabelName3_s{};
+    // Holder of a ref-counted object stored in an AITree variable (see init_); type unknown.
+    void* _c8{};
+    u32 _d0{};
+    bool _d4{};
+    bool _d5{};
 };
 
 }  // namespace uking::ai

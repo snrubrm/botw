@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -9,6 +10,7 @@ class EnemySyncAttack : public ksys::act::ai::Ai {
 public:
     explicit EnemySyncAttack(const InitArg& arg);
     ~EnemySyncAttack() override;
+    bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
@@ -41,6 +43,9 @@ protected:
     const int* mAttackInterval_s{};
     // static_param at offset 0xc0
     const int* mAttackIntervalRand_s{};
+    bool _c8 = false;
+    bool _c9 = false;
+    ksys::Timer _cc{0, 0};
 };
 
 }  // namespace uking::ai

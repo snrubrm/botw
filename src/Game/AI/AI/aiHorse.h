@@ -21,6 +21,11 @@ protected:
     const float* mDistanceFall_s{};
     // static_param at offset 0x40
     const float* mDistanceFallDie_s{};
+    bool _48 = false;
+    u32 _4c{};
+    u32 _50{};
+    u32 _54{};
+    u32 _58{};
 };
 
 }  // namespace uking::ai
