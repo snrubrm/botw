@@ -165,7 +165,8 @@ public:
     // Non-const result: callers acquire the actor through the entry's link (ChildDeviceReflectArrow::m37).
     Struct7::AttackInfo* getAttackInfo(int idx) const;
     // 0x710079e2c0 (CSV ActorAtk::x): entry `idx` of _48, or a static default entry.
-    const Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
+    // Non-const result: callers acquire the actor through the entry's _e8 link.
+    Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
 
     /* 0x18 */ Struct7* _18 = nullptr;
     /* 0x20 */ sead::Buffer<u8> _20;

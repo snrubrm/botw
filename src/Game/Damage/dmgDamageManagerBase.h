@@ -137,6 +137,9 @@ public:
     void callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6);
     s64 calcMaybe();
 
+    // Read inline by the damage callback 0x710074a584 (compares it with 9).
+    s32 getDamageType() const { return mDamageType; }
+
     inline void tryBuffDamage(s32& damage);
     inline void tryApplyDamageRecovery(s32& damage);
 

@@ -46,6 +46,9 @@ public:
                             const sead::Vector3f& scale);
     // 0x7100bf7bb4 (CSV name)
     BoneAccessKey searchBone(const sead::SafeString& name) const;
+    // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
+    // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
+    void x(bool on, int bit);
 
     // For internal use.
     void add_(IModelAccesssHandle* handle) const;

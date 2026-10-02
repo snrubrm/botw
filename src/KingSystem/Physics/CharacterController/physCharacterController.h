@@ -102,7 +102,10 @@ public:
     sead::Vector3f _64;
     sead::Vector3f _70;
     sead::Vector3f _7c;
-    u8 _88[0x110 - 0x88];
+    sead::Vector3f _88;  // zero in the ctor
+    sead::Vector3f _94;  // zero in the ctor
+    sead::Matrix34f _a0;  // ident in the ctor; PreyDead::enter_ reads its translation
+    u8 _d0[0x110 - 0xd0];
     f32 _110;
     u16 _114;  // flags
     u8 _116[0x118 - 0x116];
