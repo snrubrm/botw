@@ -18,8 +18,31 @@ class Unk_71024dc858;
 // AwarenessInstance owns (created in 0x7100d7b974; derived vtables e.g. 0x71024dcea8).
 // TODO: incomplete.
 class Unk_71024dce08 {
+    SEAD_RTTI_BASE(Unk_71024dce08)
 public:
+    // D1 0x7100d7f7b4, D0 0x7100d7f848 (vtable slots 2/3 after the RTTI functions 0x7100d8018c /
+    // 0x7100d801fc).
     virtual ~Unk_71024dce08();
+
+    // Slots 4-17 (base implementations 0x7100d7f71c-0x7100d7f750 and 0x7100d80038). Names and
+    // signatures are placeholders except m16: 4-6, 12 and 14 are pure; the base m7 / m11 return true,
+    // m10 returns 0, m8 / m9 / m13 are empty.
+    virtual void m4() = 0;
+    virtual void m5() = 0;
+    virtual void m6() = 0;
+    virtual bool m7();
+    virtual void m8();
+    virtual void m9();
+    virtual bool m10();
+    virtual bool m11();
+    virtual void m12() = 0;
+    virtual void m13();
+    virtual void m14() = 0;
+    virtual void m15();
+    // 0x7100d7f748 (base: null); 0x7100d81dc8 (vtable 0x71024dcea8): a flag byte at +0x68.
+    // EnemyNormal::m41 clears bit 0 of it.
+    virtual sead::BitFlag8* m16();
+    virtual void m17();
 
     /* 0x08 */ sead::ObjArray<Unk_71024dc858> _8;
     /* 0x28 */ u8 _28[0x3c - 0x28];
