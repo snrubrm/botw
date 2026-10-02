@@ -29,6 +29,20 @@ protected:
     sead::Vector3f* mOffset_d{};
     // aitree_variable at offset 0x48
     void* mPriestBossMetaAIUnit_a{};
+    int _50 = -1;
+    f32 _54 = 0;
+    f32 _58 = 0;
+    f32 _5c = 0;
+    sead::Vector3f _60 = sead::Vector3f::zero;
+    f32 _6c = 0;
+    f32 _70 = 0;
+    f32 _74 = 0;
+    int _78 = 1;
+    int _7c = 0;
+    u16 _80 = 0x100;
+    u8 _82 = 1;
+    u8 _83;
+    bool _84 = false;
 };
 
 }  // namespace uking::action

@@ -224,6 +224,12 @@ struct Unk_7102396ae0_Payload {
         *out = mLink;
     }
 
+    // Inline only (GolemRepairParts ctor); placeholder name.
+    void y(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };

@@ -2,7 +2,9 @@
 
 namespace uking::action {
 
-GolemRepairParts::GolemRepairParts(const InitArg& arg) : ActionWithAS(arg) {}
+GolemRepairParts::GolemRepairParts(const InitArg& arg) : ActionWithAS(arg) {
+    _e8._18.y(mActor);
+}
 
 GolemRepairParts::~GolemRepairParts() = default;
 
@@ -23,8 +25,8 @@ void GolemRepairParts::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mTgtBodyName_s, "TgtBodyName");
     getStaticParam(&mChmObjectName_s, "ChmObjectName");
-    // FIXME: CALL sub_71005E1BE8 @ 0x71005e1be8
-    // FIXME: CALL sub_71005E1BE8 @ 0x71005e1be8
+    _60.sub_71005E1BE8(this, 0);
+    _a0.sub_71005E1BE8(this, 1);
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 

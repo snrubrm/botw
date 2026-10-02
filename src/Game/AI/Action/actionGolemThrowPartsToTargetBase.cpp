@@ -23,8 +23,10 @@ void GolemThrowPartsToTargetBase::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mTgtBodyName_s, "TgtBodyName");
     getStaticParam(&mChmObjectName_s, "ChmObjectName");
-    // FIXME: CALL sub_71005E1BE8 @ 0x71005e1be8
-    // FIXME: CALL sub_71005E1BE8 @ 0x71005e1be8
+    _60.sub_71005E1BE8(this, 0);
+    _a0.sub_71005E1BE8(this, 1);
+    _e0 = false;
+    _e1 = false;
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 

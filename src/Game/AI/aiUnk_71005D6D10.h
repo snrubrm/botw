@@ -10,6 +10,7 @@
 
 namespace ksys::act {
 namespace ai {
+class ActionBase;
 class InlineParamPack;
 }  // namespace ai
 class Actor;
