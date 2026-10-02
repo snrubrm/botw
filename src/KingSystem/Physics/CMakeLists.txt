@@ -157,6 +157,8 @@ target_sources(uking PRIVATE
     System/physInstanceSet.h
     System/physMaterialTable.cpp
     System/physMaterialTable.h
+    System/physNavMeshCharacter.cpp
+    System/physNavMeshCharacter.h
     System/physParamSet.cpp
     System/physParamSet.h
     System/physPhantom.cpp
