@@ -255,6 +255,12 @@ struct Unk_710235aba0_Payload {
         *out = mLink;
     }
 
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void y(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+    }
+
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };

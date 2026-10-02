@@ -53,7 +53,8 @@ public:
 // Placeholder name (vtable 0x71024dc858, RTTI static 0x71025af278, ctor 0x7100d771cc, D1
 // 0x7100d772d4, size 0xb0): one entry of AwarenessInstance::_8 (an awareness target).
 // TODO: incomplete (virtual functions not declared).
-class Unk_71024dc858 : public Unk_71024dc978 {
+// `final`: every call site of its virtual slots in the executable (14) calls them directly.
+class Unk_71024dc858 final : public Unk_71024dc978 {
     SEAD_RTTI_OVERRIDE(Unk_71024dc858, Unk_71024dc978)
 public:
     Unk_71024dc858();

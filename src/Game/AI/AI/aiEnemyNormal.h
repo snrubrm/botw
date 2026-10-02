@@ -79,7 +79,7 @@ public:
     virtual void m41();
     virtual void m42();
     virtual void m43();
-    virtual bool m44() { return true; }
+    virtual bool m44(const sead::Vector3f& pos) { return true; }
     virtual bool m45(const sead::Vector3f& target_pos, const ksys::act::BaseProcLink& target,
                      bool skip_own_pos);
     virtual bool m46(const sead::Vector3f& pos, const ksys::act::BaseProcLink& target);
@@ -115,6 +115,8 @@ public:
     // 0x71003a04e0: the first awareness entry accepted by `filter` (not decompiled).
     ksys::act::Unk_71024dc858* sub_71003A04E0(bool a1, ksys::act::Unk_71024dccf8* filter, s32 a3,
                                               bool a4);
+    // 0x71003a361c (not decompiled)
+    bool sub_71003A361C(Unk2* out, bool a2, Unk1* info);
     // 0x710039faa4
     void sub_710039FAA4(const sead::Vector3f& pos);
 protected:
@@ -179,7 +181,7 @@ protected:
     Unk_71023e8fd0 _2e0{mActor, 0x80000c0};
     Unk_71023e9028 _308;
     ksys::Timer _358;
-    u32 _364 = 0;
+    f32 _364 = 0;
     f32 _368 = 0;
     f32 _36c = 0;
     f32 _370 = 0;
