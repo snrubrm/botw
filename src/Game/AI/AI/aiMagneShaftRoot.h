@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiMagneShaftRootBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class Constraint;
+}
+
 namespace uking::ai {
 
 class MagneShaftRoot : public MagneShaftRootBase {
@@ -18,6 +22,7 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::phys::Constraint* _a0{};
 };
 
 }  // namespace uking::ai

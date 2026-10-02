@@ -1,10 +1,16 @@
 #include "Game/AI/AI/aiMagneShaftRoot.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 
 namespace uking::ai {
 
 MagneShaftRoot::MagneShaftRoot(const InitArg& arg) : MagneShaftRootBase(arg) {}
 
-MagneShaftRoot::~MagneShaftRoot() = default;
+MagneShaftRoot::~MagneShaftRoot() {
+    if (_a0) {
+        ksys::phys::Constraint::destroy(_a0);
+        _a0 = nullptr;
+    }
+}
 
 bool MagneShaftRoot::init_(sead::Heap* heap) {
     return MagneShaftRootBase::init_(heap);

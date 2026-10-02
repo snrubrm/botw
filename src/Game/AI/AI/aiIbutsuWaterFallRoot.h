@@ -20,6 +20,17 @@ public:
     void sub_7100445AA0();
 
 protected:
+    bool _38{};
+    // aal::ShapeCylinder*, aal::ShapeCylinder*, aal::ShapeSphere* (created in sub_7100445394)
+    void* _40{};
+    void* _48{};
+    void* _50{};
+    void* _58{};
+    u32 _60{};
+    void* _68{};
+    u32 _70{};
+    void* _78{};
+    u32 _80{};
 };
 
 }  // namespace uking::ai

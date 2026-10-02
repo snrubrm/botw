@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBirdEscape.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -7,7 +9,9 @@ BirdEscape::BirdEscape(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 BirdEscape::~BirdEscape() = default;
 
 bool BirdEscape::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* root = mActor->getRootAi();
+    _74 = (root && root->getI() == 4) || *mIsLocatorCreate_m;
+    return true;
 }
 
 void BirdEscape::enter_(ksys::act::ai::InlineParamPack* params) {

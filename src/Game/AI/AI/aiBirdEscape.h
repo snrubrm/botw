@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // map_unit_param at offset 0x58
     const bool* mIsLocatorCreate_m{};
+    ksys::act::CCAccessor _60;
+    ksys::Timer _68;
+    bool _74{};
 };
 
 }  // namespace uking::ai
