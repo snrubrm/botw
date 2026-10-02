@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardNearTarget.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -71,6 +72,14 @@ void GuardNearTarget::m37(bool enable) {
     } else {
         damage_mgr->removeDamageCallback(&_60);
     }
+}
+
+bool GuardNearTarget::m34(float distance) {
+    return *mBaseDist_s + *mGuardStartDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) >= distance;
+}
+
+bool GuardNearTarget::m36(float distance) {
+    return *mBaseDist_s + *mGuardEndDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) < distance;
 }
 
 }  // namespace uking::ai
