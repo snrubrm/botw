@@ -18,6 +18,10 @@ public:
     void loadParams_() override;
 
     virtual void m34(sead::Vector3f* out) = 0;
+    virtual void m35(const sead::Vector3f& target_pos);
+    virtual void m36(const sead::Vector3f& target_pos);
+    virtual f32 m37() { return *mRadius_s; }
+    virtual void m38(sead::Vector3f* out, f32 angle, f32 radius);
 
 protected:
     // static_param at offset 0x38
