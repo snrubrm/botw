@@ -76,6 +76,24 @@ bool EnemyRangeKeepMove::sub_71003AD058() {
 }
 
 // NON_MATCHING: the zero for the y term is materialised before the first square (scheduling)
+bool EnemyRangeKeepMove::sub_71003AD1F8() {
+    auto* actor = mActor;
+    sead::Vector3f diff = sub_71005D9330(actor) - actor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 dist = diff.length();
+    return dist < *mBaseDist_s + sub_71007320F0(actor, m35());
+}
+
+// NON_MATCHING: the zero for the y term is materialised before the first square (scheduling)
+bool EnemyRangeKeepMove::sub_71003AD298() {
+    auto* actor = mActor;
+    sead::Vector3f diff = sub_71005D9330(actor) - actor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 dist = diff.length();
+    return dist < *mBaseDist_s + *mCloseDist_s + sub_71007320F0(actor, m35());
+}
+
+// NON_MATCHING: the zero for the y term is materialised before the first square (scheduling)
 bool EnemyRangeKeepMove::m34() {
     auto* actor = mActor;
     const auto& target_pos = sub_71005D9330(actor);
