@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMagneShaftRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 
 namespace uking::ai {
@@ -30,6 +31,12 @@ void MagneShaftRoot::leave_() {
 
 void MagneShaftRoot::loadParams_() {
     MagneShaftRootBase::loadParams_();
+}
+
+ksys::phys::RigidBody* MagneShaftRoot::m52() {
+    if (!mActor)
+        return nullptr;
+    return mActor->findPhysicsBodyByName("BodyParts_00", "RigidBody_0");
 }
 
 }  // namespace uking::ai

@@ -33,6 +33,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    ksys::phys::RigidBody* m52() override;
+
 protected:
     ksys::phys::Constraint* _a0{};
     Unk_7102406e88 _a8;

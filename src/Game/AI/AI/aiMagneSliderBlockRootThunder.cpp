@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMagneSliderBlockRootThunder.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -44,6 +45,12 @@ void MagneSliderBlockRootThunder::leave_() {
 
 void MagneSliderBlockRootThunder::loadParams_() {
     MagneShaftRootBase::loadParams_();
+}
+
+ksys::phys::RigidBody* MagneSliderBlockRootThunder::m52() {
+    if (!mActor)
+        return nullptr;
+    return mActor->findPhysicsBodyByName("BodyParts_00", "Body");
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMagneShaftRootBase.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,20 @@ void MagneShaftRootBase::leave_() {
 
 void MagneShaftRootBase::loadParams_() {
     MagneStickRoot::loadParams_();
+}
+
+void MagneShaftRootBase::m50() {
+    if (mActor) {
+        if (auto* body = m52())
+            body->enableGroundCollision(false);
+    }
+}
+
+void MagneShaftRootBase::m51() {
+    if (mActor) {
+        if (auto* body = m52())
+            body->enableGroundCollision(true);
+    }
 }
 
 }  // namespace uking::ai

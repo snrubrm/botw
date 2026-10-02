@@ -18,6 +18,25 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual f32 m42();
+    virtual void m43();
+    virtual void m44();
+    virtual void m45();
+    virtual void m46();
+    virtual void m47();
+    virtual void m48();
+    virtual void m49();
+    virtual void m50() {}
+    virtual void m51() {}
+
 protected:
     u32 _38 = 0;
     // static_param at offset 0x40

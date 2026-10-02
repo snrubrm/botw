@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiMagneStickRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::ai {
 
 class MagneShaftRootBase : public MagneStickRoot {
@@ -16,6 +20,11 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    f32 m42() override { return *mCollideRadius_m; }
+    void m50() override;
+    void m51() override;
+    virtual ksys::phys::RigidBody* m52() { return nullptr; }
 
 protected:
 };
