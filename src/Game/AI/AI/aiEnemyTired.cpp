@@ -13,4 +13,19 @@ void EnemyTired::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void EnemyTired::loadParams_() {}
 
+void EnemyTired::calc_() {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("帰還")) {
+        if (isFailed())
+            setFailed();
+        else
+            setFinished();
+    } else {
+        sub_71003C16B0();
+    }
+}
+
 }  // namespace uking::ai

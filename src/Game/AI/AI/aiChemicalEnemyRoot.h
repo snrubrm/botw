@@ -10,10 +10,12 @@ class ChemicalEnemyRoot : public EnemyRoot {
 public:
     explicit ChemicalEnemyRoot(const InitArg& arg);
     ~ChemicalEnemyRoot() override;
+    void calc_() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
+    void sub_710034790C();
 protected:
     // static_param at offset 0x1d8
     const bool* mIsElementNoHit_s{};
