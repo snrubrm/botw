@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiGuardianMiniBattle.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -15,7 +18,47 @@ bool GuardianMiniBattle::init_(sead::Heap* heap) {
 }
 
 void GuardianMiniBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBattle::enter_(params);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    _140 = false;
+    _141 = false;
+    _188 = ksys::Timer(*mRollingInterval_s, *mRollingInterval_s);
+    _1ac = ksys::Timer(5, 5);
+    _88 = testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1);
+
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) && m45()) {
+        sub_7100413A38();
+        return;
+    }
+
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
+        m37();
+        return;
+    }
+
+    sub_7100381ED4();
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        m37();
+        return;
+    }
+
+    if (sub_71004282EC(mActor)) {
+        const sead::Vector3f target_pos = sub_71005D9330(mActor);
+        const auto& pos = mActor->getMtx().getTranslation();
+        const f32 dx = pos.x - target_pos.x;
+        const f32 dz = pos.z - target_pos.z;
+        if (!(dx * dx + dz * dz < *mTurnMoveStartDist_s * *mTurnMoveStartDist_s) &&
+            sead::GlobalRandom::instance()->getS32Range(0, 100) < *mTurnMovePer_s) {
+            sub_7100413BA0();
+        } else {
+            m37();
+        }
+    } else {
+        m37();
+    }
+
+    _1a0 = ksys::Timer(*mCounterStartTime_s, *mCounterStartTime_s);
 }
 
 void GuardianMiniBattle::leave_() {

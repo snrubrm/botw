@@ -29,6 +29,8 @@ public:
     virtual bool m42() { return !m41(); }
     virtual void m43(ksys::act::ai::InlineParamPack* params) {}
 
+    void sub_7100381ED4();
+
 protected:
     // static_param at offset 0x38
     const int* mRetFrmGrdAtkTimer_s{};

@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
     bool m34() override;
     void m44() override;

@@ -16,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    void sub_710032D5FC();
 
     virtual void m35(ksys::act::Actor* actor, ksys::act::Actor* ball);
     virtual void m36(ksys::act::Actor* ball);

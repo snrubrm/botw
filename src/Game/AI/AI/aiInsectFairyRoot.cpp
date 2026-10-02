@@ -24,6 +24,15 @@ void InsectFairyRoot::loadParams_() {
     InsectRoot::loadParams_();
 }
 
+void InsectFairyRoot::calc_() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("解凍後")) {
+        m38();
+        return;
+    }
+    InsectRoot::calc_();
+}
+
 bool InsectFairyRoot::m34() {
     if (isCurrentChild("解凍後"))
         return false;
