@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100420E7C();
+    void m40(ksys::act::ai::InlineParamPack* params) override;
 protected:
     // static_param at offset 0x68
     sead::SafeString mRootNodeName_s{};

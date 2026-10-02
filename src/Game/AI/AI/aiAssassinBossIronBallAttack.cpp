@@ -12,7 +12,10 @@ bool AssassinBossIronBallAttack::init_(sead::Heap* heap) {
 }
 
 void AssassinBossIronBallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71003189D4())
+        changeChild("攻撃", params);
+    else
+        changeChild("準備完了待ち", params);
 }
 
 void AssassinBossIronBallAttack::leave_() {

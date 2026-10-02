@@ -7,7 +7,9 @@ BreathEnemyRangeKeepMove::BreathEnemyRangeKeepMove(const InitArg& arg) : EnemyRa
 BreathEnemyRangeKeepMove::~BreathEnemyRangeKeepMove() = default;
 
 bool BreathEnemyRangeKeepMove::init_(sead::Heap* heap) {
-    return EnemyRangeKeepMove::init_(heap);
+    if (!EnemyRangeKeepMove::init_(heap))
+        return false;
+    return sub_710033FB98(heap);
 }
 
 void BreathEnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {

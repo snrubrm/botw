@@ -14,7 +14,9 @@ bool GiantEscapeFromDamageWater::init_(sead::Heap* heap) {
 }
 
 void GiantEscapeFromDamageWater::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71003F6CF0();
+    _38 = ksys::Timer(60, 60);
+    changeChild("初回探索");
 }
 
 void GiantEscapeFromDamageWater::leave_() {

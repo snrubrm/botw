@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMiniReaction.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -41,6 +42,16 @@ void GuardianMiniReaction::loadParams_() {
 
 void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m39(params);
+}
+
+void GuardianMiniReaction::m40(ksys::act::ai::InlineParamPack* params) {
+    if (*mGuardianMiniChanceTimeState_a == 1) {
+        sub_71005D7014(mActor);
+        sub_7100420E7C();
+        *mGuardianMiniChanceTimeState_a = -1;
+    } else {
+        EnemyDefaultReaction::m40(params);
+    }
 }
 
 }  // namespace uking::ai

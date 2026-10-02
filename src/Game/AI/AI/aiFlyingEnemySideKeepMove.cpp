@@ -23,4 +23,16 @@ void FlyingEnemySideKeepMove::loadParams_() {
     getStaticParam(&mSideDirType_s, "SideDirType");
 }
 
+void FlyingEnemySideKeepMove::m34(sead::Vector3f* out) {
+    *out = _88;
+}
+
+void FlyingEnemySideKeepMove::m37(sead::Vector3f* out) {
+    *out = sead::Vector3f::ex;
+}
+
+void FlyingEnemySideKeepMove::m38(sead::Vector3f* out) {
+    *out = -sead::Vector3f::ex;
+}
+
 }  // namespace uking::ai

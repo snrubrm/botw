@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLandingChemicalBall.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 
@@ -9,7 +10,9 @@ LandingChemicalBall::LandingChemicalBall(const InitArg& arg) : ksys::act::ai::Ai
 LandingChemicalBall::~LandingChemicalBall() = default;
 
 bool LandingChemicalBall::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (!sub_71005D6D10() && !mExpandActorName_s.isEmpty() && !sub_71004737B0())
+        return false;
+    return true;
 }
 
 void LandingChemicalBall::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,8 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71003F6CF0();
 protected:
-    sead::Vector3f _38{0, 0, 0};
+    ksys::Timer _38;
 };
 
 }  // namespace uking::ai

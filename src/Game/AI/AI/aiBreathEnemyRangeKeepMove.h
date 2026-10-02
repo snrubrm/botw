@@ -19,6 +19,7 @@ public:
 
     void sub_7100340570();
 
+    bool sub_710033FB98(sead::Heap* heap);
 protected:
     // static_param at offset 0x110
     const int* mEnlargeTime_s{};

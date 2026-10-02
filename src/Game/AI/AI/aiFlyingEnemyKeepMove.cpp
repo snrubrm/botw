@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyingEnemyKeepMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,21 @@ void FlyingEnemyKeepMove::loadParams_() {
     getStaticParam(&mBaseHeight_s, "BaseHeight");
     getStaticParam(&mLowHeight_s, "LowHeight");
     getStaticParam(&mHighHeight_s, "HighHeight");
+}
+
+void FlyingEnemyKeepMove::m35(sead::Vector3f* out, const sead::Vector3f& dir) {
+    if (!out)
+        return;
+    const auto& mtx = sub_71005D96A8(mActor);
+    sead::Vector3f offset = dir;
+    offset *= *mBaseDist_s;
+    offset.y += *mBaseHeight_s;
+    out->setMul(mtx, offset);
+}
+
+void FlyingEnemyKeepMove::m36(sead::Vector3f* out) {
+    out->set(sub_71005D9330(mActor));
+    out->y += *mBaseHeight_s;
 }
 
 }  // namespace uking::ai

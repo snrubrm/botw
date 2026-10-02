@@ -12,7 +12,10 @@ bool CalledEnemyMove::init_(sead::Heap* heap) {
 }
 
 void CalledEnemyMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mTargetActor_d && mTargetActor_d->hasProc())
+        sub_7100340C04();
+    else
+        setFailed();
 }
 
 void CalledEnemyMove::leave_() {

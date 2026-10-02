@@ -19,6 +19,9 @@ public:
     void loadParams_() override;
     void m34(sead::Vector3f* out) override;
 
+    virtual void m37(sead::Vector3f* out);
+    virtual void m38(sead::Vector3f* out);
+
 protected:
     // static_param at offset 0x80
     const int* mSideDirType_s{};
