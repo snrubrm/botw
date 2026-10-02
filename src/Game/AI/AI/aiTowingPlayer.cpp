@@ -24,4 +24,6 @@ void TowingPlayer::loadParams_() {
     getStaticParam(&mCheckPlayerStateDef_s, "CheckPlayerStateDef");
 }
 
+void TowingPlayer::m38() {}
+
 }  // namespace uking::ai

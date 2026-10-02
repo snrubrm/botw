@@ -1,9 +1,11 @@
 #include "Game/AI/AI/aiTowing.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: the original zeroes 0x50..0x76 after the param memset
 Towing::Towing(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 Towing::~Towing() = default;
@@ -13,7 +15,29 @@ bool Towing::init_(sead::Heap* heap) {
 }
 
 void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = 0;
+    _40 = *mAddSpeed_s;
+    _3c = *mInitSpeed_s;
+    _44 = 0;
+    _74 = false;
+    _75 = false;
+    _50 = ksys::Timer(*mStopTowingDef_s, *mStopTowingDef_s);
+    _68 = ksys::Timer(30, 30);
+
+    sead::Vector3f dir = mActor->getMtx().getBase(2);
+    dir.normalize();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+        controller->sub_7100F5EDBC(dir);
+        controller->sub_7100F5E7F0(*mInitSpeed_s * 30.0f);
+        controller->sub_7100F5FDF0(dir);
+        controller->sub_7100F5EEB8(1.2f);
+    } else {
+        setFailed();
+    }
+    _48.set(0, 0);
+    m37();
+    changeChild("通常");
 }
 
 void Towing::leave_() {
@@ -38,5 +62,42 @@ void Towing::loadParams_() {
     getStaticParam(&mSandCheckLength_s, "SandCheckLength");
     getStaticParam(&mSandCheckAngle_s, "SandCheckAngle");
 }
+
+void Towing::calc_() {
+    if (_75) {
+        _50.update();
+        if (_50.value <= sead::Mathf::epsilon())
+            setFinished();
+    }
+    m34();
+    m35();
+    m36();
+    m37();
+    m38();
+}
+
+void Towing::m34() {
+    switch (_38) {
+    case 1:
+        if (_3c >= *mMaxSpeed_s) {
+            _38 = 2;
+            _5c = ksys::Timer(*mKeepMaxTime_s, *mKeepMaxTime_s);
+        }
+        break;
+    case 2:
+        _5c.update();
+        if (_5c.value <= sead::Mathf::epsilon())
+            _38 = 3;
+        break;
+    case 3:
+        if (_3c <= *mStandardSpeed_s)
+            _38 = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+void Towing::m38() {}
 
 }  // namespace uking::ai

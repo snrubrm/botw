@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,10 +15,25 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual void m37();
+    virtual void m38();
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x40];
+    s32 _38 = 0;  // speed state (1: accelerating, 2: keeping the max speed, 3: slowing down)
+    f32 _3c = 0;  // speed
+    f32 _40 = 0;
+    f32 _44 = 0;
+    sead::Vector2f _48 = sead::Vector2f::zero;
+    ksys::Timer _50;
+    ksys::Timer _5c;
+    ksys::Timer _68;
+    bool _74 = false;
+    bool _75 = false;
     // static_param at offset 0x78
     const int* mKeepMaxTime_s{};
     // static_param at offset 0x80

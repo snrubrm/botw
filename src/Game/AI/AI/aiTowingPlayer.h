@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m38() override;
+
 protected:
     // static_param at offset 0xc8
     const float* mInterruptDef_s{};
