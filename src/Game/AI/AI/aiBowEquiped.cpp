@@ -4,7 +4,6 @@ namespace uking::ai {
 
 BowEquiped::BowEquiped(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-BowEquiped::~BowEquiped() = default;
 
 bool BowEquiped::isChangeable() const {
     return !_38.isAllocatedOrFailed();

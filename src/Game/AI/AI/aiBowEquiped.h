@@ -10,7 +10,7 @@ class BowEquiped : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(BowEquiped, ksys::act::ai::Ai)
 public:
     explicit BowEquiped(const InitArg& arg);
-    ~BowEquiped() override;
+    ~BowEquiped() override = default;
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;

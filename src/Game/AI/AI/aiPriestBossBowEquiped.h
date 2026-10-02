@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "Game/AI/AI/aiBowEquiped.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    sead::FixedSafeString<32> _60;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossBowEquiped, 0x98);
 
 }  // namespace uking::ai
