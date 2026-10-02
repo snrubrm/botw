@@ -133,9 +133,6 @@ public:
     // 0x7100d12e64: bit 0 of byte +0x30 of the object returned by Actor vtable slot 130 (+0x410);
     // false if there is none.
     bool sub_7100D12E64() const;
-    // 0x7100d13bb8 (declared only): calls Actor vtable slot 128 (AreaObserveActorAction uses it for
-    // its IsMagneGrabbed parameter).
-    bool sub_7100D13BB8() const;
     // 0x7100d0feac (declared only): Actor vtable slot 50 (false if the proc is not an actor).
     bool sub_7100D0FEAC() const;
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
