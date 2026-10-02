@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWaterBattleRoot.h"
+#include "Game/AI/aiUnk_7102419cb0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -29,6 +30,30 @@ void RemainsWaterBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void RemainsWaterBattleRoot::leave_() {
     _c0.unloadEvent();
+}
+
+void RemainsWaterBattleRoot::sub_7100545B8C() {
+    if (!mRemainsWaterBattleInfo_a)
+        return;
+    auto* info = sead::DynamicCast<Unk_7102419cb0>(
+        *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+    if (!info)
+        return;
+
+    switch (info->_3c) {
+    case 1:
+        if (!isCurrentChild("攻撃中"))
+            changeChild("攻撃中");
+        break;
+    case 0:
+        if (!isCurrentChild("生成中"))
+            changeChild("生成中");
+        break;
+    case 2:
+        if (!isCurrentChild("へたれ中"))
+            changeChild("へたれ中");
+        break;
+    }
 }
 
 void RemainsWaterBattleRoot::loadParams_() {
