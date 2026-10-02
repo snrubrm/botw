@@ -17,7 +17,9 @@ bool TrolleyRoot::init_(sead::Heap* heap) {
 }
 
 void TrolleyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("転がり");
+    if (_d0)
+        _d0->sub_7100F69FF0();
 }
 
 void TrolleyRoot::leave_() {

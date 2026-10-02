@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiZoraHeroSoulGiftRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -17,6 +19,8 @@ void ZoraHeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ZoraHeroSoulGiftRoot::leave_() {
     HeroSoulGiftRoot::leave_();
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115B01C(0, 0, false);
 }
 
 void ZoraHeroSoulGiftRoot::loadParams_() {
