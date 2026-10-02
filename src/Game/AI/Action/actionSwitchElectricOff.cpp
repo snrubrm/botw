@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionSwitchElectricOff.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::action {
 
@@ -28,7 +31,15 @@ void SwitchElectricOff::loadParams_() {
 }
 
 void SwitchElectricOff::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    f32 value = 0.0f;
+    if (auto* chemical = actor->getChemicalStuff())
+        value = chemical->_1b4 / (*mTargetVol_s / chemical->_58);
+    if (*mUseSklAnm_s) {
+        const f32 max = actor->getASList()->x_5(1, 0, &ksys::as::ASList::Unk2::sub_710116323C);
+        value = sead::Mathf::clamp(value * max, 0.0f, max);
+        actor->getASList()->x_3(1, 0, &ksys::as::ASList::Unk2::sub_7101163298, value);
+    }
 }
 
 }  // namespace uking::action

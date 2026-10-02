@@ -40,7 +40,21 @@ void ForkLynelDrawWeapon::loadParams_() {
 }
 
 void ForkLynelDrawWeapon::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* as_list = mActor->getASList();
+    if (!as_list) {
+        setFailed();
+        return;
+    }
+    if (auto* weapon = sub_71005D83E8(mActor, *mASWeaponIdx_s))
+        as_list->goLimpFromHeadShotMaybe(44, weapon->getProfile(), 0);
+    if (sub_71005DD780(mActor, 0x53, nullptr, *mTargetBone_s, *mSeqBank_s)) {
+        if (*mWeaponIdx0_s >= 0)
+            sub_71005DB5C0(mActor, *mWeaponIdx0_s);
+        if (*mWeaponIdx1_s >= 0)
+            sub_71005DB5C0(mActor, *mWeaponIdx1_s);
+    }
+    if (isFinishedAS(*mTargetBone_s, *mSeqBank_s))
+        setFinished();
 }
 
 }  // namespace uking::action

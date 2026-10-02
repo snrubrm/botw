@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -33,9 +34,7 @@ protected:
     const float* mWeaponVel_s{};
     // static_param at offset 0x48
     const float* mWeaponVelY_s{};
-    float _50 = 0.0f;
-    float _54 = 0.0f;
-    int _58 = 0;
+    ksys::Timer _50;
 };
 
 }  // namespace uking::action

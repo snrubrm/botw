@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkTimerForceResetCondition.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,14 @@ void ForkTimerForceResetCondition::loadParams_() {
 
 void ForkTimerForceResetCondition::calc_() {
     ForkTimer::calc_();
+    if (_30 <= 0.0f) {
+        if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+            if (*mResetCondition_s >= 0)
+                actor->m149(*mResetCondition_s);
+            else
+                actor->m150();
+        }
+    }
 }
 
 }  // namespace uking::action

@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionShock.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -24,7 +28,21 @@ void Shock::loadParams_() {
 }
 
 void Shock::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    if (_68.value <= sead::Mathf::epsilon()) {
+        controller->sub_7100F5E7F0(0.0f);
+        sub_7100738660(controller, *mVelReduce_s);
+    } else {
+        sub_71007377D4(controller, *mVelReduce_s);
+        sub_7100738660(controller, *mVelReduce_s);
+        _68.update();
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool Shock::isFinished() const {
