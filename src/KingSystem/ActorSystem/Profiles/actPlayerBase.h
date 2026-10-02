@@ -266,11 +266,8 @@ protected:
 public:
     // Public: AI actions reset bits directly (PlayerGuardBreak::calc_).
     /* 0xcec */ sead::BitFlag32 _cec;
-
-protected:
+    // Public: AI actions set bits directly (PlayerStepAttack::enter_).
     /* 0xcf0 */ sead::BitFlag32 _cf0;
-
-public:
     // Public: AI actions set bits directly (PlayerDrown::enter_).
     /* 0xcf4 */ sead::BitFlag32 _cf4;
 
