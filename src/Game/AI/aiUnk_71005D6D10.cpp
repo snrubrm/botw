@@ -1,4 +1,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actAiParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -956,4 +959,30 @@ void sub_71005E1B7C(ksys::act::Actor* actor, bool enable) {
 void sub_71005E21E8(ksys::act::Actor* actor) {
     if (auto* enemy = sead::DynamicCast<Enemy>(actor))
         enemy->_f4c = 0;
+}
+
+bool sub_71005DA9A8(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->_d54 == 1;
+}
+
+bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key) {
+    auto& link = ksys::act::PlayerInfo::getSomeProcLink();
+    if (link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        sead::Vector3f pos;
+        accessor.getActorMtx().getTranslation(pos);
+        params->addVec3(pos, key, -1);
+        return true;
+    }
+    params->addVec3(sead::Vector3f::zero, key, -1);
+    return false;
 }

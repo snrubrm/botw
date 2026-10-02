@@ -6,6 +6,9 @@
 #include <prim/seadSafeString.h>
 
 namespace ksys::act {
+namespace ai {
+class InlineParamPack;
+}  // namespace ai
 class Actor;
 class BaseProc;
 class BaseProcLink;
@@ -218,3 +221,7 @@ bool sub_71005DD5B0(ksys::act::Actor* actor, int a1, const sead::SafeString& nam
 void sub_71005E1B7C(ksys::act::Actor* actor, bool enable);
 /// Resets Enemy::_f4c.
 void sub_71005E21E8(ksys::act::Actor* actor);
+/// Whether the Weapon equipped in slot `idx` (0-5) has Weapon::_d54 == 1.
+bool sub_71005DA9A8(ksys::act::Actor* actor, int idx);
+/// Adds the position of the actor PlayerInfo::getSomeProcLink() links to (or zero) to `params`.
+bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key);
