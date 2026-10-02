@@ -4,6 +4,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,37 @@ bool RodEnemyFindPlayer::init_(sead::Heap* heap) {
 
 void RodEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     LandHumEnemyFindPlayer::enter_(params);
+}
+
+void RodEnemyFindPlayer::calc_() {
+    ksys::Timer::update(&_210, -1.0f);
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ロッド攻撃")) {
+            if (auto* enemy = static_cast<act::Enemy*>(mActor)) {
+                const s32 time = enemy->_f28.sub_7100001AA4(*mMagicCheckInterval_s);
+                enemy->_e68 = ksys::Timer(time, time);
+            }
+            if (m35())
+                m40();
+            else
+                sub_710037EDA4();
+            return;
+        }
+    } else if (child->isChangeable()) {
+        if (_210 <= 0.0f) {
+            _210 = *mMagicCheckInterval_s;
+            if (m54()) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("ロッド攻撃", &pack);
+                return;
+            }
+        }
+    }
+    if (isCurrentChild("ロッド攻撃"))
+        child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    LandHumEnemyFindPlayer::calc_();
 }
 
 void RodEnemyFindPlayer::leave_() {

@@ -16,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
     bool m38() override;
 
 protected:

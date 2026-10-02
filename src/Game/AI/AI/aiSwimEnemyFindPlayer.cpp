@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiSwimEnemyFindPlayer.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -27,6 +31,15 @@ void SwimEnemyFindPlayer::loadParams_() {
     getStaticParam(&mClimbVmin_s, "ClimbVmin");
     getStaticParam(&mClimbVmax_s, "ClimbVmax");
     getStaticParam(&mClimbHmax_s, "ClimbHmax");
+}
+
+bool SwimEnemyFindPlayer::m35() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    return sub_710072E0A0(actor, sub_71005D9330(actor), actor->getMtx(),
+                          *mAttackRange_s + sub_71007320F0(actor, *mWeaponIdx_s), *mAttackVMin_s,
+                          *mAttackVMax_s, sead::Mathf::pi(), 0.8f, 1.2f);
 }
 
 bool SwimEnemyFindPlayer::m38() {

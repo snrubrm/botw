@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+
     Message3DText _238;
 };
 KSYS_CHECK_SIZE_NX150(NpcTebaTrainingRoot, 0x310);
