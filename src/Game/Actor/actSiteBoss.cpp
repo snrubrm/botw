@@ -18,8 +18,8 @@ void SiteBoss::m63() {
     Enemy::m63();
 }
 
-void SiteBoss::m76() {
-    Enemy::m76();
+void SiteBoss::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    Enemy::m76(setter);
 }
 
 bool SiteBoss::isGuard() {

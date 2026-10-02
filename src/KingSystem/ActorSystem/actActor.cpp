@@ -338,9 +338,9 @@ void Actor::m73() {}
 
 void Actor::afterModelMatrixUpdate() {}
 
-void Actor::m76() {}
+void Actor::m76(VFR::ScopedDeltaSetter* setter) {}
 
-void Actor::m77() {}
+void Actor::m77(VFR::ScopedDeltaSetter* setter) {}
 
 void Actor::m79() {}
 

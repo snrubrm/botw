@@ -34,7 +34,7 @@ public:
     void initMaybe() override;
     void calcMaybe() override;
     void m73() override;
-    void m76() override;
+    void m76(VFR::ScopedDeltaSetter* setter) override;
     bool m81(const Message& message) override;
     ActorWeapons* getWeapons() override { return &mWeapons; }
     void m116() override;

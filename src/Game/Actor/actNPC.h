@@ -41,7 +41,7 @@ public:
     void calcMaybe() override;
     void updatePositionMaybe() override;
     void m73() override;
-    void m76() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void m79() override;
     void m93(int a1, float a2) override {
         if (_1058 <= a1) {

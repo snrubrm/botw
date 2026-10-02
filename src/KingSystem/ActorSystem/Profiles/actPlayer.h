@@ -38,8 +38,8 @@ public:
     /*  70 */ void m70() override;
     /*  71 */ void updatePositionMaybe() override;
     /*  74 */ void m74() override;
-    /*  76 */ void m76() override;
-    /*  77 */ void m77() override;
+    /*  76 */ void m76(VFR::ScopedDeltaSetter* setter) override;
+    /*  77 */ void m77(VFR::ScopedDeltaSetter* setter) override;
     /*  78 */ void afterModelMatrixUpdate() override;
     /*  81 */ bool m81(const Message& message) override;
     /*  83 */ bool m83() override;

@@ -21,6 +21,7 @@ public:
 
     /* 0x28 */ SiteBoss* mBoss;
     /* 0x30 */ sead::BitFlag16 _30;  // read by many SiteBoss AI functions (SiteBoss + 0x14f8)
+    /* 0x34 */ u32 _34 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 
@@ -42,7 +43,7 @@ public:
     void m63() override;
     void initMaybe() override;
     void m73() override;
-    void m76() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void m117() override;
     bool isGuard() override;
     bool isGuardJust() override;

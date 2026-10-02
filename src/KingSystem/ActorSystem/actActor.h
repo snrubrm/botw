@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actPhysicsConstraints.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Map/mapMubinIter.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/AtomicLongBitFlag.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
@@ -301,8 +302,8 @@ public:
     virtual void m73();
     virtual void m74();
     virtual void m75();
-    virtual void m76();
-    virtual void m77();
+    virtual void m76(VFR::ScopedDeltaSetter* setter);
+    virtual void m77(VFR::ScopedDeltaSetter* setter);
     virtual void afterModelMatrixUpdate();
     virtual void m79();
     virtual bool m80();

@@ -26,7 +26,7 @@ public:
     void m66() override;
     void calcMaybe() override;
     void updatePositionMaybe() override;
-    void m76() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
 
     /* 0x840 */ void* _840 = nullptr;
     /* 0x848 */ u8 _848[0x8a8 - 0x848];  // object with ctor 0x7100eebaac (CSV Rail::ctor)
