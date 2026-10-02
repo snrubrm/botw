@@ -240,7 +240,8 @@ public:
     /* 0x7b8 */ u8 _7b8 = 0;
     /* 0x7b9 */ u8 _7b9 = 0;
     /* 0x7ba */ u8 _7ba[2]{};
-    /* 0x7c0 */ ksys::act::BaseProcLink _7c0[2]{};
+    // Indexed by _81a (current) and (_81a + 1) % 2 (with the SafeArray bounds clamp).
+    /* 0x7c0 */ sead::SafeArray<ksys::act::BaseProcLink, 2> _7c0{};
     /* 0x7e0 */ f32 _7e0 = -1.0;
     /* 0x7e4 */ f32 _7e4 = -1.0;
     /* 0x7e8 */ u32 _7e8 = 0;

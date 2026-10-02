@@ -12,6 +12,7 @@ public:
 
 protected:
     void m43() override;
+    void m44() override;
 };
 
 }  // namespace uking::action
