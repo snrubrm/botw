@@ -20,6 +20,8 @@ public:
 protected:
     // aitree_variable at offset 0x40
     sead::SafeString* mDomesticAnimalRailName_a{};
+    sead::FixedSafeString<32> _48;
 };
+KSYS_CHECK_SIZE_NX150(AnimalTimelineAI, 0x80);
 
 }  // namespace uking::ai

@@ -4,7 +4,9 @@ namespace uking::ai {
 
 KakarikoKokkoTimeline::KakarikoKokkoTimeline(const InitArg& arg) : AnimalTimelineAI(arg) {}
 
-KakarikoKokkoTimeline::~KakarikoKokkoTimeline() = default;
+// The SafeString members make the original keep the vtable store that a defaulted destructor drops;
+// written as upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+KakarikoKokkoTimeline::~KakarikoKokkoTimeline() { ; }
 
 bool KakarikoKokkoTimeline::init_(sead::Heap* heap) {
     return AnimalTimelineAI::init_(heap);

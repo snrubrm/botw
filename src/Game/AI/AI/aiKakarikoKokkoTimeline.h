@@ -28,6 +28,8 @@ protected:
     sead::SafeString mEndForceChangeFlagName_s{};
     // map_unit_param at offset 0xb0
     sead::SafeString mCheckGatheredFlagName_m{};
+    sead::SafeString _c0{};
 };
+KSYS_CHECK_SIZE_NX150(KakarikoKokkoTimeline, 0xd0);
 
 }  // namespace uking::ai

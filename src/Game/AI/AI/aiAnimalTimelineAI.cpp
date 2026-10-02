@@ -1,17 +1,32 @@
 #include "Game/AI/AI/aiAnimalTimelineAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
 AnimalTimelineAI::AnimalTimelineAI(const InitArg& arg) : TimelineAI(arg) {}
 
-AnimalTimelineAI::~AnimalTimelineAI() = default;
+// The SafeString member makes the original keep the vtable store that a defaulted destructor drops;
+// written as upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+AnimalTimelineAI::~AnimalTimelineAI() { ; }
 
 bool AnimalTimelineAI::init_(sead::Heap* heap) {
-    return TimelineAI::init_(heap);
+    if (!TimelineAI::init_(heap))
+        return false;
+    _48.clear();
+    mActor->setFlag(ksys::act::Actor::ActorFlag::_33, true);
+    return true;
 }
 
 void AnimalTimelineAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    TimelineAI::enter_(params);
+    if (_48.isEmpty()) {
+        TimelineAI::enter_(params);
+        return;
+    }
+    const sead::SafeString& name = m34();
+    ksys::act::ai::InlineParamPack pack;
+    m36(name, &pack);
+    changeChild(name.cstr(), &pack);
 }
 
 void AnimalTimelineAI::calc_() {
