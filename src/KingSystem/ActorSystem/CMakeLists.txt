@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
     LOD/actLodState.cpp
     LOD/actLodState.h
 
+    Profiles/actBullet.cpp
+    Profiles/actBullet.h
     Profiles/actDynamicActor.cpp
     Profiles/actDynamicActor.h
     Profiles/actPlayer.cpp
