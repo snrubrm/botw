@@ -11,6 +11,8 @@ target_sources(uking PRIVATE
   evtDemoInfo.h
   evtEvent.cpp
   evtEvent.h
+  evtEventMgrStruct1.cpp
+  evtEventMgrStruct1.h
   evtEventResource.cpp
   evtEventResource.h
   evtInfoData.cpp

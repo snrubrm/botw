@@ -15,6 +15,7 @@ namespace ksys::evt {
 
 class Event;
 class EventFlow;
+class EventMgrStruct1;
 struct CallArg;
 class Metadata;
 
@@ -50,6 +51,12 @@ public:
 
     void setNoDeleteCurrentActor(bool no_delete);
 
+    // 0x7100db1138 / 0x7100db1158 / 0x7100db1174: EventMgrStruct1 entry `idx` (-99: none): clock
+    // time minus the entry's _0 / free the entry / the entry's _4.
+    f32 sub_7100DB1138(int idx) const;
+    void sub_7100DB1158(int idx);
+    f32 sub_7100DB1174(int idx) const;
+
 private:
     friend class ksys::OverlayArenaSystemS1;
 
@@ -57,7 +64,9 @@ private:
     sead::Heap* mEventHeap;
     u8 pad_1d188[0x1d2b8 - 0x1d188];
     void* _1d2b8;
-    u8 pad_1d2c0[0x1d2e0 - 0x1d2c0];
+    u8 pad_1d2c0[0x1d2d0 - 0x1d2c0];
+    EventMgrStruct1* _1d2d0;
+    u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];
     EventFlowMgr* mEventFlowMgr;
     u8 pad_1d2e8[0x1d2f4 - 0x1d2e8];
     u32 _1d2f4;
