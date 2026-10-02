@@ -23,7 +23,9 @@ void DemoKokkoAngry::loadParams_() {
 }
 
 void DemoKokkoAngry::calc_() {
-    ksys::act::ai::Action::calc_();
+    _28.update();
+    if (_28.value <= sead::Mathf::epsilon() && isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

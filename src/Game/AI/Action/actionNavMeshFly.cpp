@@ -30,4 +30,8 @@ void NavMeshFly::calc_() {
     NavMeshAction::calc_();
 }
 
+void NavMeshFly::m34() {
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+}
+
 }  // namespace uking::action

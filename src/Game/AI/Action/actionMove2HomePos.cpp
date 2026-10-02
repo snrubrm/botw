@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMove2HomePos.h"
+#include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -29,6 +31,14 @@ void Move2HomePos::loadParams_() {
 
 void Move2HomePos::calc_() {
     Move2HomePosBase::calc_();
+}
+
+// NON_MATCHING: the original never sets the return register (w0 is whatever the last call returned)
+bool Move2HomePos::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value != 0x2000001)
+        return false;
+    _78 = *static_cast<const int*>(message.getUserData());
+    return true;
 }
 
 }  // namespace uking::action

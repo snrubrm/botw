@@ -10,6 +10,7 @@ class Move2HomePos : public Move2HomePosBase {
 public:
     explicit Move2HomePos(const InitArg& arg);
     ~Move2HomePos() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -29,7 +30,7 @@ protected:
     const float* mVibRange_s{};
     // static_param at offset 0x70
     const bool* mIsVibration_s{};
-    int _78 = -4294967297;
+    int _78 = -1;
 };
 
 }  // namespace uking::action

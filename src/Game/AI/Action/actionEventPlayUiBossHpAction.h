@@ -22,7 +22,7 @@ protected:
     int* mClipIndex_d{};
     void* _28{};
     int _30 = 0;
-    int _34 = -4294967297;
+    int _34 = -1;
 };
 
 }  // namespace uking::action

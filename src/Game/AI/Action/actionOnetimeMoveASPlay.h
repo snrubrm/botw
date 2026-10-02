@@ -22,9 +22,7 @@ protected:
     // static_param at offset 0x48
     const bool* mIsChangable_s{};
     ksys::VFRValue _50{0.0f};
-    int _5c = 0;
-    int _60 = 0;
-    int _64 = 0;
+    sead::Vector3f _5c{0, 0, 0};
 };
 
 }  // namespace uking::action

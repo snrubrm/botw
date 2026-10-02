@@ -12,6 +12,7 @@ bool JumpToTargetFromWater::init_(sead::Heap* heap) {
 }
 
 void JumpToTargetFromWater::enter_(ksys::act::ai::InlineParamPack* params) {
+    _e8.sub_710072AD1C(mActor->getCharacterController());
     JumpTo::enter_(params);
 }
 
