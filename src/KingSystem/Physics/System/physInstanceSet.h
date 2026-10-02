@@ -4,6 +4,7 @@
 #include <container/seadListImpl.h>
 #include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -102,6 +103,9 @@ public:
     void sub_7100FBDFA4(SystemGroupHandler* handler);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
+    // Read inline by ActorConstDataAccess::sub_7100D10448 (index clamped like a sead::SafeArray)
+    // and MagneShaftRoot::m51.
+    SystemGroupHandler* get178(s32 idx) const { return _178[idx]; }
 
 private:
     struct Unk1 {
@@ -147,7 +151,7 @@ private:
     sead::TList<RigidBody*> mList;
     sead::ListNode _160;
     u32 _170{};
-    SystemGroupHandler* _178[2];
+    sead::SafeArray<SystemGroupHandler*, 2> _178;
     SystemGroupHandler* _188[2];
 };
 KSYS_CHECK_SIZE_NX150(InstanceSet, 0x198);

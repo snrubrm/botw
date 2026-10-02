@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
@@ -436,6 +437,16 @@ bool ActorConstDataAccess::getAabb(sead::Vector3f* min, sead::Vector3f* max) con
     if (max)
         *max = actor->mAabb.getMax();
     return true;
+}
+
+phys::SystemGroupHandler* ActorConstDataAccess::sub_7100D10448(s32 idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return nullptr;
+    return physics->get178(idx);
 }
 
 void ActorConstDataAccess::getHomeMtx(sead::Matrix34f* mtx) const {

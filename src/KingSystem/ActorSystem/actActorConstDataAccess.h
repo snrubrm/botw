@@ -18,6 +18,10 @@ class Object;
 class ObjectLinkData;
 }  // namespace ksys::map
 
+namespace ksys::phys {
+class SystemGroupHandler;
+}
+
 namespace ksys::res {
 class GParamList;
 class Shop;
@@ -132,6 +136,8 @@ public:
     s32 getLife() const;
     // 0x7100d14078: Actor::getMaxLife().
     s32 getMaxLife() const;
+    // 0x7100d10448: the physics instance set's system group handler `idx` (0 / 1).
+    phys::SystemGroupHandler* sub_7100D10448(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
 
