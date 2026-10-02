@@ -1,18 +1,37 @@
 #include "Game/AI/AI/aiPriestBossShadowCloneThrow.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
 PriestBossShadowCloneThrow::PriestBossShadowCloneThrow(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 
-PriestBossShadowCloneThrow::~PriestBossShadowCloneThrow() = default;
+// The original keeps the vtable store that a defaulted destructor drops (SafeString members); written
+// like upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+PriestBossShadowCloneThrow::~PriestBossShadowCloneThrow() {
+    ;
+}
 
 bool PriestBossShadowCloneThrow::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    for (auto& sender : _b8)
+        sender._8 = &mActor->getMessageTransceiver();
+    return true;
 }
 
 void PriestBossShadowCloneThrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("準備完了待ち", params);
+    _80 = ksys::Timer(*mPrepareTimer_s, *mPrepareTimer_s);
+    _8c = 0;
+    _90 = 2;
+    _3ea = false;
+    _3e8 = true;
+    _3e9 = false;
+}
+
+bool PriestBossShadowCloneThrow::m37() {
+    return mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC,
+                                  true);
 }
 
 void PriestBossShadowCloneThrow::leave_() {

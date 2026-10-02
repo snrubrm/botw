@@ -183,7 +183,7 @@ struct Unk_7102411f48_Payload {
     sead::JobQueueLock mLock;
 };
 
-// Message 0x80000d4 (sender unknown; placeholder name = listener vtable)
+// Message 0x80000d4 (sender Unk_7102415df0; placeholder name = listener vtable)
 struct Unk_7102450978_Payload {
     u32 _0 = 0;
     ksys::act::BaseProcLink _8;

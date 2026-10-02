@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -14,6 +17,14 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    // Signatures of the virtuals other than m37 are not known yet (declared for the vtable layout).
+    virtual void m34();
+    virtual void m35();
+    virtual void m36();
+    virtual bool m37();
+    virtual void m38(void* out, bool a2);
+    virtual void m39();
 
 protected:
     // static_param at offset 0x38
@@ -30,6 +41,17 @@ protected:
     sead::SafeString mShadowCloneRightBoneName_s{};
     // aitree_variable at offset 0x78
     void* mPriestBossMetaAIUnit_a{};
+    ksys::Timer _80;
+    s32 _8c = 0;
+    u32 _90 = 0;
+    s32 _94[8];
+    sead::SafeArray<Unk_7102415df0, 8> _b8;
+    Unk_71023b1860 _378{mActor, 0x80000d5};
+    Unk_71023b1860 _3b0{mActor, 0x80000d5};
+    bool _3e8 = false;
+    bool _3e9 = false;
+    bool _3ea = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossShadowCloneThrow, 0x3f0);
 
 }  // namespace uking::ai

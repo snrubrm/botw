@@ -379,3 +379,14 @@ public:
 
     Unk_7102415900_Payload _18;
 };
+
+// vtable 0x7102415df0 (PriestBossShadowCloneThrow: SafeArray of 8 at 0xb8; D2 0x710052f644, D0
+// 0x710052f68c, m2 0x710052f6c8); message 0x80000d4. Default-constructed without a transceiver
+// (PriestBossShadowCloneThrow::init_ sets _8).
+class Unk_7102415df0 : public Unk_7102357d20 {
+public:
+    Unk_7102415df0() : Unk_7102357d20(0x80000d4) {}
+    void* m2() override { return &_18; }
+
+    Unk_7102450978_Payload _18;
+};
