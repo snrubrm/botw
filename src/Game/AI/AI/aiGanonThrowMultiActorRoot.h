@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiGanonThrowActorRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class Enemy;
+}
+
 namespace uking::ai {
 
 class GanonThrowMultiActorRoot : public GanonThrowActorRoot {
@@ -16,6 +20,13 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    bool m34() const override;
+    bool m35() override;
+    void m36() override;
+    void m38() override;
+
+    bool sub_71003F18A4(act::Enemy* enemy, const sead::SafeString& name, bool stop);
 
 protected:
     // static_param at offset 0xa8
