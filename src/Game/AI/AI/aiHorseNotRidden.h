@@ -1,6 +1,11 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnk_710071edf8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/GameData/gdtFlagHandle.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {
 
@@ -14,6 +19,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100438bc0 (gdt reinit callback; CSV name).
+    void setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::ReinitEvent* event);
 
 protected:
     // static_param at offset 0x38
@@ -50,6 +58,21 @@ protected:
     const sead::Vector3f* mCarriedItemPosRTYWidth_s{};
     // dynamic_param at offset 0xb8
     int* mChildSelectAtFirst_d{};
+    Unk_710071edf8 _c0{mActor};
+    u32 _f0 = 0;
+    ksys::act::BaseProcLink _f8;
+    u32 _108 = 0;
+    sead::Vector3f _10c = sead::Vector3f::zero;
+    f32 _118 = 0;
+    u32 _11c = 0;
+    s32 _120 = -1;
+    ksys::gdt::Manager::ReinitSignal::Slot _128{this,
+                                                &HorseNotRidden::setAnimalMasterAppearanceFlagIdx};
+    ksys::gdt::FlagHandle _198 = ksys::gdt::InvalidHandle;
+    sead::Vector3f _19c = sead::Vector3f::zero;
+    bool _1a8 = false;
+    bool _1a9 = false;
 };
+KSYS_CHECK_SIZE_NX150(HorseNotRidden, 0x1b0);
 
 }  // namespace uking::ai

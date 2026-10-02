@@ -1,13 +1,28 @@
 #include "Game/AI/AI/aiHorseNotRidden.h"
+#include "Game/Actor/actHorseBase.h"
 
 namespace uking::ai {
 
+// NON_MATCHING: the address of _c0 is computed before the memset of the parameters (register
+// allocation)
 HorseNotRidden::HorseNotRidden(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+// NON_MATCHING: the original calls gdt::Manager::removeReinitCallback(_128) first when the slot is
+// connected (sead's Slot::mConnectedToDelegateEvent is private in our sead headers)
 HorseNotRidden::~HorseNotRidden() = default;
 
 bool HorseNotRidden::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (horse && horse->x() == 9) {
+        auto* gdm = ksys::gdt::Manager::instance();
+        _198 = gdm->getBoolHandle("AnimalMaster_Appearance");
+        ksys::gdt::Manager::instance()->addReinitCallback(_128);
+    }
+    return true;
+}
+
+void HorseNotRidden::setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::ReinitEvent* event) {
+    _198 = ksys::gdt::Manager::instance()->getBoolHandle("AnimalMaster_Appearance");
 }
 
 void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
