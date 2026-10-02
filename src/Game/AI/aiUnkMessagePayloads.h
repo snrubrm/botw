@@ -65,10 +65,8 @@ struct Unk_710235abc8_Payload {
 struct Unk_71024504c8_Payload {
     ksys::act::BaseProcLink _0;
     ksys::act::BaseProcLink _10;
-    u32 _20;
-    u32 _24;
-    sead::Vector3f _28;
-    u32 _34;
+    sead::Vector3f _20 = sead::Vector3f::zero;
+    sead::Vector3f _2c = sead::Vector3f::zero;
     sead::JobQueueLock mLock;
 };
 

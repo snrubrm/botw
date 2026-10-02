@@ -15,8 +15,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
 
 protected:
+    sead::Vector3f _3d0{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(GanonGrudgeNormal, 0x3e0);
 
 }  // namespace uking::ai

@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::act::BaseProcLink _400;
+    sead::Vector3f _410;
 };
 
 }  // namespace uking::ai

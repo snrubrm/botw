@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiHiddenOctarockNormal.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -12,9 +15,31 @@ bool HiddenOctarockNormal::init_(sead::Heap* heap) {
 
 void HiddenOctarockNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyNormal::enter_(params);
+    _410 = false;
+    const s32 delay = *mOptionHitReactionDelay_s;
+    _418 = delay;
+    _41c = delay;
+    _414 = delay;
+    if (!*mIsHitGround_s) {
+        if (auto* controller = mActor->getCharacterController()) {
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+            controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+        }
+    }
+    sead::DynamicCast<uking::act::Enemy>(mActor);
 }
 
 void HiddenOctarockNormal::leave_() {
+    auto* controller = mActor->getCharacterController();
+    if (controller && *mIsHitGround_s)
+        controller->sub_7100F60604();
+    if (!*mIsHitGround_s) {
+        if (auto* controller2 = mActor->getCharacterController())
+            controller2->sub_7100F60604();
+    }
+    sead::DynamicCast<uking::act::Enemy>(mActor);
     EnemyNormal::leave_();
 }
 

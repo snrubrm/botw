@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinNormal.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,8 @@ bool AssassinNormal::init_(sead::Heap* heap) {
 
 void AssassinNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     LandHumEnemyNormal::enter_(params);
+    mActor->getMtx().getTranslation(_410);
+    _400.reset();
 }
 
 void AssassinNormal::calc_() {

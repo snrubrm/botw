@@ -34,6 +34,11 @@ protected:
     const bool* mIsSealHearing_s{};
     // map_unit_param at offset 0x408
     const bool* mIsNearCreate_m{};
+    bool _410 = false;
+    f32 _414 = 0;
+    s32 _418 = 0;
+    s32 _41c = 0;
 };
+KSYS_CHECK_SIZE_NX150(HiddenOctarockNormal, 0x420);
 
 }  // namespace uking::ai

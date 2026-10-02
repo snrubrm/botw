@@ -15,6 +15,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
 protected:
     // aitree_variable at offset 0x400
@@ -23,6 +25,10 @@ protected:
     int* mLynelAIFlags_a{};
     // aitree_variable at offset 0x410
     int* mLynelNoticeAttackRepeatNum_a{};
+    Unk_71024056a8 _418;
+    s32 _458 = 0;
+    bool _45c = false;
 };
+KSYS_CHECK_SIZE_NX150(LynelNormal, 0x460);
 
 }  // namespace uking::ai

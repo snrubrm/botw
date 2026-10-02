@@ -77,12 +77,10 @@ bool Unk_71024504c8::m2(const ksys::Message& message) {
 
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
-        _38[0] = payload->_0;
-        _38[1] = payload->_10;
-        _58 = payload->_20;
-        _5c = payload->_24;
-        _60 = payload->_28;
-        _6c = payload->_34;
+        _38._0 = payload->_0;
+        _38._10 = payload->_10;
+        _38._20 = payload->_20;
+        _38._2c = payload->_2c;
     }
     auto* actor = sead::DynamicCast<ksys::act::Actor>(payload->_10.getProc(nullptr, nullptr));
     _8.acquire(actor, false);
@@ -876,25 +874,6 @@ bool Unk_710244e760::m2(const ksys::Message& message) {
         return false;
 
     payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
-Unk_71024056a8::~Unk_71024056a8() = default;
-
-bool Unk_71024056a8::m2(const ksys::Message& message) {
-    if (message.getType().value != 0x80000ac)
-        return false;
-
-    auto* payload = static_cast<Unk_71024056a8_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    {
-        sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
-        _34._0 = payload->_0;
-    }
     _30 = true;
     _18 = message.getSource();
     return true;
