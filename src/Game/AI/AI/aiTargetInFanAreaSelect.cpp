@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiTargetInFanAreaSelect.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -45,6 +46,30 @@ bool TargetInFanAreaSelect::isFinished() const {
 
 bool TargetInFanAreaSelect::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() || getCurrentChild()->isChangeable();
+}
+
+bool TargetInFanAreaSelect::m34() {
+    sead::Vector3f pos;
+    m37(&pos);
+    sead::Vector3f diff = *mTargetPos_d;
+    diff -= pos;
+    sead::Vector3f dir;
+    m38(&dir);
+
+    sead::Vector3f xz_dir{diff.x, 0.0f, diff.z};
+    const f32 dist = xz_dir.normalize();
+    if (!(xz_dir.dot(dir) >= std::cos(*mAngle_s)))
+        return false;
+
+    if (dist > *mXZRange_s)
+        return false;
+
+    const f32 rate = dist / *mXZRange_s;
+    if (diff.y < *mNearYMin_s + rate * (*mFarYMin_s - *mNearYMin_s) ||
+        *mNearYMax_s + rate * (*mFarYMax_s - *mNearYMax_s) < diff.y) {
+        return false;
+    }
+    return true;
 }
 
 void TargetInFanAreaSelect::m35(ksys::act::ai::InlineParamPack* params) {
