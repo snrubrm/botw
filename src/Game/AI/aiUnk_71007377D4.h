@@ -84,6 +84,11 @@ bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
 bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
                       const sead::Vector3f& dir, f32 distance);
 
+/// 0x710072e368 (declared only): navmesh-character check on Actor::m45(): false without one or when
+/// the low half of its +0x2a4 word is 0x17; otherwise a virtual call (slot 4) on its +0x58 object,
+/// or |sub_7100F74FD8(...)| <= a constant. Placeholder name.
+bool sub_710072E368(ksys::act::Actor* actor);
+
 /// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);
