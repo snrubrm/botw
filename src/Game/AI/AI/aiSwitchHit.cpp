@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
@@ -12,7 +13,16 @@ SwitchHit::SwitchHit(const InitArg& arg) : SwitchAI(arg) {}
 SwitchHit::~SwitchHit() = default;
 
 bool SwitchHit::init_(sead::Heap* heap) {
-    return SwitchAI::init_(heap);
+    if (!SwitchAI::init_(heap))
+        return false;
+    if (auto* body = mActor->getMainBody()) {
+        if (mActor->getConstraints().size() > 0) {
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        }
+        body->clearEntityMotionFlag10(false);
+    }
+    return true;
 }
 
 void SwitchHit::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -14,6 +14,10 @@ void PriestIronBallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
+void PriestIronBallAttack::calc_() {
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+}
+
 void PriestIronBallAttack::leave_() {
     ksys::act::ai::Ai::leave_();
 }

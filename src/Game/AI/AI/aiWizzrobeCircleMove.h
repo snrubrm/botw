@@ -19,6 +19,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m35(const sead::Vector3f& target_pos) override;
+    void m36(const sead::Vector3f& target_pos) override;
+    f32 m37() override;
+
 protected:
     // static_param at offset 0x68
     const float* mFinRadius_s{};

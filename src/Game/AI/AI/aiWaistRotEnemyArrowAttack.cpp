@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWaistRotEnemyArrowAttack.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -28,6 +30,14 @@ void WaistRotEnemyArrowAttack::leave_() {
 void WaistRotEnemyArrowAttack::loadParams_() {
     EnemyBaseArrowAttack::loadParams_();
     getStaticParam(&mRandomPredictFrame_s, "RandomPredictFrame");
+}
+
+void WaistRotEnemyArrowAttack::m35() {
+    if (*mRandomPredictFrame_s > 0) {
+        _64 = *mRandomPredictFrame_s * sead::GlobalRandom::instance()->getF32();
+        _58 = sub_71005D9548(mActor);
+    }
+    EnemyBaseArrowAttack::m35();
 }
 
 void WaistRotEnemyArrowAttack::m37() {}
