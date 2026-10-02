@@ -262,6 +262,7 @@ public:
     // 0x71011d7c18 (not decompiled): the character controller's main body if any, else mMainBody.
     phys::RigidBody* getPhysicsMainBody();
     phys::InstanceSet* getPhysics() const { return mPhysics; }
+    const PhysicsConstraints& getConstraints() const { return mConstraints; }
     phys::StaticCompoundRigidBodyGroup* getFieldBodyGroup() const { return mFieldBodyGroup; }
 
     void getHomeMtx(sead::Matrix34f* mtx) const;

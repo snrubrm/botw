@@ -40,6 +40,8 @@ public:
     bool isCurrentChild(const sead::SafeString& name) const;
     bool isCurrentAction(const sead::SafeString& name);
 
+    u16 getNewChildIdx() const { return mNewChildIdx; }
+
 protected:
     virtual void calc_() {}
     virtual void handlePendingChildChange_() { changeChild(mPendingChildIdx); }

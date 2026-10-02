@@ -123,7 +123,7 @@ public:
         // 0x710066c074: number of bound actors that are in the calc state.
         s32 sub_710066C074();
         // 0x710066db98: replaces the actor linked at _360 with `proc` (deleting the old one).
-        void sub_710066DB98(ksys::act::BaseProc* proc);
+        void sub_710066DB98(ksys::act::BaseProc* proc, int idx);
         // 0x710066de24: &_3b0[idx] (out-of-line).
         ksys::act::BaseProcLink* sub_710066DE24(int idx);
 

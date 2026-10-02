@@ -20,6 +20,8 @@ public:
     void finalize();
     void calc();
 
+    s32 size() const { return mConstraints.size(); }
+
 private:
     sead::Buffer<phys::Constraint*> mConstraints;
     bool _10 = false;
