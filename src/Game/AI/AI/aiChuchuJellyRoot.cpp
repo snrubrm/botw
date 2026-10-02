@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiChuchuJellyRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ bool ChuchuJellyRoot::init_(sead::Heap* heap) {
 
 void ChuchuJellyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ItemRoot::enter_(params);
+    mActor->getChemicalStuff();
 }
 
 void ChuchuJellyRoot::leave_() {
