@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWindBatteryRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,12 @@ RemainsWindBatteryRoot::RemainsWindBatteryRoot(const InitArg& arg) : ksys::act::
 RemainsWindBatteryRoot::~RemainsWindBatteryRoot() = default;
 
 bool RemainsWindBatteryRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    if (actor->getModel()) {
+        _48.search(actor->getModel(), "Head");
+        _80.search(actor->getModel(), "Neck");
+    }
+    return true;
 }
 
 void RemainsWindBatteryRoot::enter_(ksys::act::ai::InlineParamPack* params) {

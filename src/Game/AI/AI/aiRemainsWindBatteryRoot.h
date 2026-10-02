@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,6 +18,16 @@ public:
     void loadParams_() override;
 
 protected:
+    u32 _38 = 3;
+    u32 _3c = 0;
+    bool _40 = true;
+    bool _41 = false;
+    gsys::BoneAccessKeyEx _48;  // Head
+    gsys::BoneAccessKeyEx _80;  // Neck
+    u64 _b8 = 0;
+    sead::Vector3f _c0 = sead::Vector3f::zero;
+    u32 _cc = 0;
 };
+KSYS_CHECK_SIZE_NX150(RemainsWindBatteryRoot, 0xd0);
 
 }  // namespace uking::ai
