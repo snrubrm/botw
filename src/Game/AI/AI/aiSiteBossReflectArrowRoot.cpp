@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossReflectArrowRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -74,6 +75,20 @@ bool SiteBossReflectArrowRoot::handleMessage_(const ksys::Message& message) {
     if (idx >= 0 && idx <= 20)
         _488[idx] = true;
     return true;
+}
+
+void SiteBossReflectArrowRoot::m37() {
+    m41();
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    if (!sub_7100582C20(&pos))
+        SiteBossShootNormalArrowRoot::m45(&pos);
+    params.addVec3(pos, "TargetPos", -1);
+    params.addPointer(nullptr, "ArrowHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    params.acquireActor(nullptr, "IgniteActor", -1);
+    params.addInt(_144, "Index", -1);
+    params.addInt(SiteBossShootNormalArrowRoot::m44(), "AtAttr", -1);
+    changeChild("弾発射", &params);
 }
 
 }  // namespace uking::ai
