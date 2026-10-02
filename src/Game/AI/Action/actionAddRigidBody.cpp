@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionAddRigidBody.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,7 +28,23 @@ void AddRigidBody::loadParams_() {
 }
 
 void AddRigidBody::calc_() {
-    ksys::act::ai::Action::calc_();
+    mFlags.set(Flag::Changeable);
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    if (auto* controller = physics->getCharacterController())
+        controller->sub_7100F5EC30();
+    auto* set = physics->findBodyByName(*sub_71007A24E4());
+    if (!set)
+        return;
+    if (!*mResetLayer_s) {
+        set->addToWorld();
+        return;
+    }
+    for (int i = 0; i < set->getRigidBodies().size(); ++i) {
+        if (auto* body = set->getRigidBodies()[i])
+            physics->sub_7100FBAF18(body);
+    }
 }
 
 }  // namespace uking::action

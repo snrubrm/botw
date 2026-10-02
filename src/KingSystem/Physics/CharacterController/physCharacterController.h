@@ -21,6 +21,7 @@ public:
     virtual ~CharacterController();
 
     void sub_7100F5EC30();
+    void sub_7100F5EC44();
     void sub_7100F60604();
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
