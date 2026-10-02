@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
@@ -49,6 +50,8 @@ public:
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);
     void sub_7100F5EDE8(const sead::Vector3f& value);
+    // 0x7100f5ee1c: sets _70 and its normalised copy _7c (unless flag 4 of _114 is set).
+    void sub_7100F5EE1C(const sead::Vector3f& value);
     void sub_7100F5EEB8(float value);
     float sub_7100F5EF00() const;
     void sub_7100F5EF08(bool on);
@@ -62,6 +65,16 @@ public:
     void sub_7100F62B70(float value);
     float sub_7100F60370() const;
     void sub_7100F60398(const sead::Vector3f& impulse);
+    // 0x7100f5f270: switches to body `idx` of _288 (keeping the transform) when flag 0x10000 is
+    // set, then sub_7100F5F344(idx, switched_or_unchanged).
+    bool sub_7100F5F270(int idx);
+    // 0x7100f5f938: validates `mtx`, then sets the velocities that move the body to it.
+    void sub_7100F5F938(const sead::Matrix34f& mtx);
+    // 0x7100f5fc8c: sets the angular velocity that rotates the body to `mtx`.
+    void sub_7100F5FC8C(const sead::Matrix34f& mtx);
+    // 0x7100f5fdf0: sets the angular velocity that turns the body towards `dir`.
+    void sub_7100F5FDF0(const sead::Vector3f& dir);
+    bool sub_7100F5F344(int idx, bool force);
 
     RigidBody* mRigidBody;
     u8 _10[0x64 - 0x10];
@@ -70,9 +83,13 @@ public:
     sead::Vector3f _7c;
     u8 _88[0x110 - 0x88];
     f32 _110;
-    u8 _114[0x118 - 0x114];
+    u16 _114;  // flags
+    u8 _116[0x118 - 0x116];
     sead::BitFlag32 mFlags;
-    u8 _11c[0x298 - 0x11c];
+    u8 _11c[0x224 - 0x11c];
+    s32 _224;  // index into _288 of the current body (_298)
+    u8 _228[0x288 - 0x228];
+    sead::Buffer<RigidBody*> _288;
     RigidBody* _298;
 };
 

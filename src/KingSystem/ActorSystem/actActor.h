@@ -233,8 +233,10 @@ public:
 
     const MesTransceiverId* getMesTransceiverId() const { return mMsgTransceiver.getId(); }
     ActorMessageTransceiver& getMessageTransceiver() { return mMsgTransceiver; }
-    void sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
+    bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
                      bool ack);
+    // 0x71011daf34 (CSV Actor::sendMessage3)
+    bool sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data, bool ack);
 
     f32 getDeleteDistance() const {
         return sead::Mathf::sqrt(sead::Mathf::clampMin(mDeleteDistanceSq, 0.0f));

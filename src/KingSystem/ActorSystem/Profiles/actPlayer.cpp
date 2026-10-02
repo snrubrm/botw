@@ -26,3 +26,11 @@ Player::Unk1 Player::x_5() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+s32 Player::playerWeapons_return0() {
+    return 0;
+}
+
+}  // namespace ksys::act

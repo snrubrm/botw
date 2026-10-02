@@ -215,6 +215,15 @@ res::GParamList* ActionBase::getGParamList() const {
     return mActor->getParam()->getRes().mGParamList;
 }
 
+bool ActionBase::sendMessage(const MesTransceiverId& dest, const MessageType& type,
+                             void* user_data) {
+    return mActor->sendMessage(dest, type, user_data, true);
+}
+
+bool ActionBase::sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data) {
+    return mActor->sendMessage(broker, type, user_data, true);
+}
+
 Action* ActionBase::getCurrentAction() {
     auto action = std::ref(*this);
     while (true) {

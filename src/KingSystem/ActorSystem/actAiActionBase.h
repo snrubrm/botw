@@ -11,6 +11,7 @@ class Unk_71025afc58;
 
 namespace ksys {
 struct AIDefSet;
+class IMessageBroker;
 class Message;
 class MessageAck;
 struct MesTransceiverId;
@@ -75,6 +76,8 @@ public:
     bool oneShot(InlineParamPack* params);
 
     bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data);
+    // 0x7100d16c5c (CSV ActionBase::messageStuff)
+    bool sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data);
 
     Action* getCurrentAction();
     bool handleMessage(const Message& message);

@@ -259,6 +259,8 @@ public:
     void x_8();                                                         // 0x88a8a8
     void x_33();                                                        // 0x88c900
     void x_38();                                                        // 0x88d564
+    // 0x8922c4 (CSV playerWeapons_return0, ~45 player AI callers): a weapon slot index (always 0).
+    s32 playerWeapons_return0();
     void x_40();                                                        // 0x8922cc
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18

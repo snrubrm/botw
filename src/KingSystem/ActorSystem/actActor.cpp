@@ -43,6 +43,16 @@ Actor::~Actor() {
     // FIXME
 }
 
+bool Actor::sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
+                        bool ack) {
+    return mMsgTransceiver.sendMessage(dest, type, user_data, ack);
+}
+
+bool Actor::sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data,
+                        bool ack) {
+    return mMsgTransceiver.sendMessage(broker, type, user_data, ack);
+}
+
 void Actor::clearFlag(Actor::ActorFlag flag) {
     mActorFlags.resetBit(flag);
 }
