@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    f32 m33() override;
 
     // map_unit_param at offset 0x40
     const float* mRailMoveSpeed_m{};

@@ -27,4 +27,8 @@ void MoveToTarget::calc_() {
     MoveToTargetBase::calc_();
 }
 
+f32 MoveToTarget::m33() {
+    return *mRailMoveSpeed_m;
+}
+
 }  // namespace uking::action

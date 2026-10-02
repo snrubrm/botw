@@ -274,7 +274,7 @@ public:
     phys::RigidBody* getPhysicsMainBody();
     phys::InstanceSet* getPhysics() const { return mPhysics; }
     const PhysicsConstraints& getConstraints() const { return mConstraints; }
-    phys::StaticCompoundRigidBodyGroup* getFieldBodyGroup() const { return mFieldBodyGroup; }
+    phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const { return mFieldBodyGroup; }
 
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool shouldUnloadBecauseOfDistance();

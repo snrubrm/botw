@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
+    void m33(f32 dist, sead::Vector3f* pos) override;
+    void m34(sead::Vector3f* target) override;
+    f32 m35(const sead::Vector3f* from, const sead::Vector3f* to) override;
 
     // map_unit_param at offset 0x68
     const sead::Vector3f* mTargetPosition_m{};

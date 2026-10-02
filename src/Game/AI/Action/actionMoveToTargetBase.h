@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    // Moves `pos` towards `target` by one step; returns true once it has arrived.
+    virtual bool m32(sead::Vector3f* pos, const sead::Vector3f* target);
+    // Movement speed (per frame at 30 fps).
+    virtual f32 m33() = 0;
 
     // dynamic_param at offset 0x20
     sead::Vector3f* mDynTargetPos_d{};

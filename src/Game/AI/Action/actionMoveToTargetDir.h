@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m32(sead::Vector3f* pos, const sead::Vector3f* target) override;
+    f32 m33() override;
 
     // dynamic_param at offset 0x40
     sead::Vector3f* mFrontDir_d{};
@@ -27,6 +29,9 @@ protected:
     sead::Vector3f* mDynStartPos_d{};
     // map_unit_param at offset 0x58
     const float* mRailMoveSpeed_m{};
+    sead::Vector3f _60 = sead::Vector3f::zero;
 };
+
+KSYS_CHECK_SIZE_NX150(MoveToTargetDir, 0x70);
 
 }  // namespace uking::action

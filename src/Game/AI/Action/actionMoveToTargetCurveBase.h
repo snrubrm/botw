@@ -2,6 +2,7 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -18,6 +19,14 @@ public:
 
 protected:
     void calc_() override;
+    // Called at the end of enter_.
+    virtual void m32() = 0;
+    // Called every frame with the distance to the target and the next position on the curve.
+    virtual void m33(f32 dist, sead::Vector3f* pos) = 0;
+    // Writes the target position.
+    virtual void m34(sead::Vector3f* target) = 0;
+    // Height of the curve's apex above the start (at least `MaxHeight`).
+    virtual f32 m35(const sead::Vector3f* from, const sead::Vector3f* to);
 
     // static_param at offset 0x20
     const float* mMaxHeight_s{};
@@ -25,12 +34,12 @@ protected:
     const float* mTimeScale_s{};
     // static_param at offset 0x30
     const bool* mIsDebugDrawTargetPos_s{};
-    u32 _38 = 0;
-    u32 _3c = 0;
-    u32 _40 = 0;
+    ksys::Timer _38;
     sead::Vector3f _44 = sead::Vector3f::zero;
     f32 _50 = 0;
-    sead::Vector3f _54{0, 0, 0};
+    f32 _54 = 0;
+    f32 _58 = 0;
+    f32 _5c = 0;
     f32 _60 = 0;
     f32 _64 = 0;
 };

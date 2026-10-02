@@ -28,6 +28,8 @@ public:
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
+    // 0x7100f62bc0: setFixed on the main rigid body (unless it is already unfixed and `fixed` is false).
+    void sub_7100F62BC0(bool fixed);
 
     act::MotionType sub_7100F5F0E4() const;
     void sub_7100F5F458(act::MotionType type);
