@@ -24,10 +24,10 @@ void SiteBossLswordTornadoRoot::leave_() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
-    if (!enemy->_1128.getActorPartsActor("SiteBossBigFlameBall0").hasProc())
+    if (!enemy->getActorPartsActor("SiteBossBigFlameBall0").hasProc())
         return;
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&enemy->_1128.getActorPartsActor("SiteBossBigFlameBall0"), &accessor);
+    ksys::act::acquireActor(&enemy->getActorPartsActor("SiteBossBigFlameBall0"), &accessor);
     if (!accessor.isStateSleep())
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr, true);
 }

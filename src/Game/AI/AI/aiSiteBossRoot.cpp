@@ -18,17 +18,16 @@ SiteBossRoot::~SiteBossRoot() {
     }
 }
 
-// NON_MATCHING: the original builds the "WeakPoint" SafeString before computing &enemy->_1128
 void SiteBossRoot::x() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy)
         return;
 
-    auto& link = enemy->_1128.getActorPartsActor("WeakPoint");
+    auto& link = enemy->getActorPartsActor("WeakPoint");
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&link, &accessor);
     accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
-    enemy->_1128.sub_7100D3CFEC("WeakPoint");
+    enemy->sub_7100D3CFEC("WeakPoint");
 }
 
 bool SiteBossRoot::init_(sead::Heap* heap) {

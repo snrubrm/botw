@@ -7,10 +7,9 @@ namespace uking::ai {
 
 SiteBossSpearThrow::SiteBossSpearThrow(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// NON_MATCHING: the original builds the "Spear" SafeString before computing &enemy->_1128
 SiteBossSpearThrow::~SiteBossSpearThrow() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
-        enemy->_1128.sub_7100D3CFEC("Spear");
+        enemy->sub_7100D3CFEC("Spear");
 }
 
 bool SiteBossSpearThrow::init_(sead::Heap* heap) {
@@ -21,7 +20,8 @@ void SiteBossSpearThrow::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
-// NON_MATCHING: the original builds the "Spear" SafeString before computing &enemy->_1128
+// NON_MATCHING: the original addresses SiteBoss _2378-_237b through one base register (as if they
+// were members of a struct at SiteBoss+0x2378; same as SiteBossSpearAttackBase::leave_)
 void SiteBossSpearThrow::leave_() {
     if (_68.isAllocatedOrFailed())
         _68.deleteProc();
@@ -29,7 +29,7 @@ void SiteBossSpearThrow::leave_() {
     if (isActorGoingBackToRootAi()) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
             ksys::act::ActorConstDataAccess accessor;
-            ksys::act::acquireActor(&enemy->_1128.getActorPartsActor("Spear"), &accessor);
+            ksys::act::acquireActor(&enemy->getActorPartsActor("Spear"), &accessor);
             if (accessor.hasProc() && accessor.isStateCalc())
                 accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         }

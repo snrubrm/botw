@@ -20,7 +20,6 @@ void SeqTrgPartsNotice::enter_(ksys::act::ai::InlineParamPack* params) {
     SeqTwoAction::enter_(params);
 }
 
-// NON_MATCHING: the original computes the name argument before `enemy + 0x1128` (see lane2-log s16)
 void SeqTrgPartsNotice::calc_() {
     if (isFinished() || isFailed())
         return;
@@ -36,7 +35,7 @@ void SeqTrgPartsNotice::calc_() {
         }
     } else if (child->isChangeable() && isCurrentChild("先行動")) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-            auto& link = enemy->_1128.getActorPartsActor(mPartsName_s);
+            auto& link = enemy->getActorPartsActor(mPartsName_s);
             if (!link.hasProcInCalcState()) {
                 changeChild("後行動");
                 return;
