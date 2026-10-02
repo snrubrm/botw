@@ -3,6 +3,8 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
 namespace uking::ai {
@@ -45,6 +47,28 @@ bool KeeseNormal::handleMessage_(const ksys::Message& message) {
     if (isCurrentChild("ぶらさがり"))
         return false;
     return EnemyNormal::handleMessage_(message);
+}
+
+void KeeseNormal::m34() {
+    if (!*mIsCreateOnFace_m || mActor->getRootAi()->getI() == 5) {
+        EnemyNormal::m34();
+        return;
+    }
+
+    auto* actor = mActor;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    sead::Vector3f top;
+    top.setAdd(pos, sead::Vector3f(0, 5, 0));
+    sead::Vector3f hit;
+    if (sub_710072EB10(pos, top, ksys::phys::RayCast::NormalCheckingMode::_0, actor, &hit, nullptr,
+                       nullptr, 0.0f)) {
+        _430 = hit;
+        _448 = true;
+        changeChild("ぶらさがり");
+        return;
+    }
+    EnemyNormal::m34();
 }
 
 void KeeseNormal::m37() {

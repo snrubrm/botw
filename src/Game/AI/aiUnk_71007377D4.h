@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "KingSystem/Physics/System/physRayCast.h"
 
 namespace ksys::act {
 class Actor;
@@ -93,3 +94,10 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
 /// the type of `hit_info` is unknown.
 bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
                     sead::Vector3f* hit_normal, void* hit_info, f32 y_offset);
+
+/// 0x710072eb10 (declared only): sub_710072E928 with the query's normal checking mode and, if `actor`
+/// has physics, its system group handler (to ignore the actor itself). Placeholder name.
+bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
+                    ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal, void* hit_info,
+                    f32 y_offset);
