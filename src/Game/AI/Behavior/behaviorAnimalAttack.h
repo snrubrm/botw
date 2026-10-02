@@ -3,6 +3,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::behavior {
 
 class AnimalAttack : public ksys::act::ai::Behavior {
@@ -19,7 +23,7 @@ public:
     /* 0x28 */ const bool* mIsUseASEventAtCollision_s{};
     /* 0x30 */ sead::SafeString mAtkRigidName_s{};
     /* 0x40 */ bool _40 = false;
-    /* 0x48 */ void* _48 = nullptr;
+    /* 0x48 */ ksys::phys::RigidBody* _48 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(AnimalAttack, 0x50);
 

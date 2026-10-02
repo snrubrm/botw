@@ -20,7 +20,8 @@ public:
     /* 0x38 */ void* _38 = nullptr;
     /* 0x40 */ u32 _40 = 0;
     /* 0x48 */ void* _48 = nullptr;
-    /* 0x50 */ u16 _50 = 0;
+    /* 0x50 */ bool _50 = false;
+    /* 0x51 */ bool _51 = false;
 };
 KSYS_CHECK_SIZE_NX150(PlayerSlipXLinkEventBehavior, 0x58);
 

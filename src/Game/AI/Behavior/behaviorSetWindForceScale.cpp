@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorSetWindForceScale.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::behavior {
 
@@ -16,6 +18,11 @@ void SetWindForceScale::m9() {}
 
 void SetWindForceScale::loadParams() {
     getStaticParam(&mWindScale_s, "WindScale");
+}
+
+void SetWindForceScale::m8() {
+    if (auto* chemical = mActor->sub_71011D8A44(0))
+        chemical->_14c = *mWindScale_s;
 }
 
 }  // namespace uking::behavior

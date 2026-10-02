@@ -88,7 +88,9 @@ public:
     /* 0x0c2 */ u8 _c2 = 0;
     /* 0x0c3 */ u8 _c3 = 0;
     /* 0x0c4 */ f32 _c4 = 1.0;
-    /* 0x0c8 */ u8 _c8[0x170 - 0xc8];
+    /* 0x0c8 */ u8 _c8[0x14c - 0xc8];
+    /* 0x14c */ f32 _14c;  // wind force scale (behavior SetWindForceScale)
+    /* 0x150 */ u8 _150[0x170 - 0x150];
     /* 0x170 */ f32 _170;
     /* 0x174 */ f32 _174;
     /* 0x178 */ f32 _178;

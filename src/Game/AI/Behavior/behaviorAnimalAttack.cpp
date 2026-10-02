@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorAnimalAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -17,6 +20,12 @@ bool AnimalAttack::m6(sead::Heap* heap) {
 void AnimalAttack::loadParams() {
     getStaticParam(&mIsUseASEventAtCollision_s, "IsUseASEventAtCollision");
     getStaticParam(&mAtkRigidName_s, "AtkRigidName");
+}
+
+void AnimalAttack::m9() {
+    if (_48)
+        _48->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    sub_71007A2D7C(mActor, mAtkRigidName_s);
 }
 
 }  // namespace uking::behavior
