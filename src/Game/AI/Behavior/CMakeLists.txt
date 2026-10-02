@@ -25,6 +25,8 @@ target_sources(uking PRIVATE
   behaviorAwarenessScale.h
   behaviorBalloonBehavior.cpp
   behaviorBalloonBehavior.h
+  behaviorBattleTensionUp.cpp
+  behaviorBattleTensionUp.h
   behaviorBeastGanonBgmCtrl.cpp
   behaviorBeastGanonBgmCtrl.h
   behaviorBeastGanonBgmStop.cpp
@@ -35,6 +37,12 @@ target_sources(uking PRIVATE
   behaviorBossBgm.h
   behaviorBreakIceBlockAtAttackHit.cpp
   behaviorBreakIceBlockAtAttackHit.h
+  behaviorCameraIndoorFlag.cpp
+  behaviorCameraIndoorFlag.h
+  behaviorCameraNotify2Sound.cpp
+  behaviorCameraNotify2Sound.h
+  behaviorCameraTalkFlag.cpp
+  behaviorCameraTalkFlag.h
   behaviorChangeCharacterStandingOnFlag.cpp
   behaviorChangeCharacterStandingOnFlag.h
   behaviorChangeEnableNearTrigger.cpp
@@ -149,10 +157,16 @@ target_sources(uking PRIVATE
   behaviorPlayASWithBurnState.h
   behaviorPlayerEmitInterest.cpp
   behaviorPlayerEmitInterest.h
+  behaviorPlayerHoldNoise.cpp
+  behaviorPlayerHoldNoise.h
+  behaviorPlayerMoveNoise.cpp
+  behaviorPlayerMoveNoise.h
   behaviorPlayerParasailAltitude.cpp
   behaviorPlayerParasailAltitude.h
   behaviorPlayerSlipXLinkEventBehavior.cpp
   behaviorPlayerSlipXLinkEventBehavior.h
+  behaviorPlayerTriggerNoise.cpp
+  behaviorPlayerTriggerNoise.h
   behaviorPosControl.cpp
   behaviorPosControl.h
   behaviorPriestBossUrbosasFuryEShock.cpp
@@ -207,10 +221,14 @@ target_sources(uking PRIVATE
   behaviorSetWindForceScale.h
   behaviorSetXLinkProperty.cpp
   behaviorSetXLinkProperty.h
+  behaviorShortRangeBattleAlignment.cpp
+  behaviorShortRangeBattleAlignment.h
   behaviorSignalControl.cpp
   behaviorSignalControl.h
   behaviorSiteBossSetFlinchFlag.cpp
   behaviorSiteBossSetFlinchFlag.h
+  behaviorSoundStateLoad.cpp
+  behaviorSoundStateLoad.h
   behaviorSpeedEmitInterest.cpp
   behaviorSpeedEmitInterest.h
   behaviorStopUpdateAwarenessBasePos.cpp
