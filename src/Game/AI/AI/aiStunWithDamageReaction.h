@@ -20,6 +20,9 @@ protected:
     const int* mTimer_s{};
     // static_param at offset 0x40
     const float* mForceEndLifeRatio_s{};
+    f32 _48 = 0;
+    bool _4c = false;
 };
+KSYS_CHECK_SIZE_NX150(StunWithDamageReaction, 0x50);
 
 }  // namespace uking::ai

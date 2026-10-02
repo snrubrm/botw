@@ -30,6 +30,9 @@ protected:
     const bool* mIsReturnNormal_s{};
     // static_param at offset 0x58
     const bool* mIsForceChangeable_s{};
+    bool _60 = false;
+    f32 _64 = 0;
 };
+KSYS_CHECK_SIZE_NX150(WeatherReactionCheck, 0x68);
 
 }  // namespace uking::ai

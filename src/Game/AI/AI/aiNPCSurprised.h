@@ -22,6 +22,8 @@ protected:
     bool* mIsNeedUnEquipWeapon_d{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTerrorEmitter_d{};
+    u32 _50 = 0;
 };
+KSYS_CHECK_SIZE_NX150(NPCSurprised, 0x58);
 
 }  // namespace uking::ai

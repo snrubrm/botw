@@ -23,6 +23,11 @@ public:
 protected:
     // static_param at offset 0x50
     sead::SafeString mTargetBoneName_s{};
+    f32 _60;
+    u32 _64;
+    f32 _68;
+    u32 _6c = 0;
 };
+KSYS_CHECK_SIZE_NX150(RemainsFireRoot, 0x70);
 
 }  // namespace uking::ai

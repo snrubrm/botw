@@ -24,6 +24,8 @@ protected:
     const float* mRiseFailedMoveDist_s{};
     // static_param at offset 0x48
     const float* mAttackIntervalIntensity_s{};
+    u32 _50 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SwarmBattle, 0x58);
 
 }  // namespace uking::ai

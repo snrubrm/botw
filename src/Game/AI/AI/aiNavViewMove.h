@@ -25,6 +25,11 @@ protected:
     const bool* mCheckOnce_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    f32 _50 = 0;
+    f32 _54 = 0;
+    u32 _58 = 0;
+    bool _5c = false;
 };
+KSYS_CHECK_SIZE_NX150(NavViewMove, 0x60);
 
 }  // namespace uking::ai

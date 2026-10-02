@@ -16,6 +16,10 @@ public:
     void loadParams_() override;
 
 protected:
+    void* _38 = nullptr;
+    void* _40 = nullptr;
+    u32 _48 = 0;
 };
+KSYS_CHECK_SIZE_NX150(WaterFallWithSound, 0x50);
 
 }  // namespace uking::ai

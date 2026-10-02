@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,14 @@ protected:
     const float* mRoamXRadius_s{};
     // static_param at offset 0x50
     const float* mRoamZRadius_s{};
+    u32 _58 = 0;
+    u32 _5c = 0;
+    void* _60 = nullptr;
+    void* _68 = nullptr;
+    u32 _70 = 0;
+    u8 _74[0xa4 - 0x74];  // not initialised by the ctor
+    ksys::Timer _a4{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(SwimEnemyRoam, 0xb0);
 
 }  // namespace uking::ai

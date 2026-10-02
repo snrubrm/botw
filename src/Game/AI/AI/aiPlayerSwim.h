@@ -21,6 +21,9 @@ protected:
     const float* mCatchHeightH_s{};
     // static_param at offset 0x48
     const float* mEnableHeight_s{};
+    bool _50 = false;
+    bool _51 = false;
 };
+KSYS_CHECK_SIZE_NX150(PlayerSwim, 0x58);
 
 }  // namespace uking::ai

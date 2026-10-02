@@ -19,6 +19,10 @@ public:
 protected:
     // dynamic_param at offset 0x40
     sead::Vector3f* mMoveTargetPos_d{};
+    u32 _48 = 0;
+    u32 _4c = 0;
+    u32 _50 = -1;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossNormalMoveSelector, 0x58);
 
 }  // namespace uking::ai

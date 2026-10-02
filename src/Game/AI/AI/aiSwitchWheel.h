@@ -28,6 +28,17 @@ protected:
     const bool* mIsAbleToReverse_s{};
     // map_unit_param at offset 0x60
     const int* mRotAxis_m{};
+    f32 _68;
+    f32 _6c;
+    f32 _70;
+    f32 _74;
+    f32 _78;
+    f32 _7c;
+    f32 _80;
+    f32 _84;
+    f32 _88;
+    void* _90 = nullptr;
 };
+KSYS_CHECK_SIZE_NX150(SwitchWheel, 0x98);
 
 }  // namespace uking::ai

@@ -15,6 +15,14 @@ public:
     void leave_() override;
 
 protected:
+    bool _38 = false;
+    bool _39 = false;
+    u32 _3c = -1;
+    void* _40 = nullptr;
+    u32 _48 = 0;
+    void* _50 = nullptr;
+    u32 _58 = 0;
 };
+KSYS_CHECK_SIZE_NX150(WeaponEquipedAI, 0x60);
 
 }  // namespace uking::ai

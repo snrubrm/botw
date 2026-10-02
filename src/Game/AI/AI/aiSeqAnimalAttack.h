@@ -24,6 +24,11 @@ protected:
     const bool* mIsUseAfterAttackState_s{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
+    u32 _48;
+    u32 _4c;
+    u32 _50;
+    bool _54 = false;
 };
+KSYS_CHECK_SIZE_NX150(SeqAnimalAttack, 0x58);
 
 }  // namespace uking::ai

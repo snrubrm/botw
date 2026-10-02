@@ -41,6 +41,15 @@ protected:
     sead::Vector3f* mAttPos_d{};
     // aitree_variable at offset 0x90
     bool* mIsWizzrobeInBattleAreaFlag_a{};
+    u8 _98[0xb0 - 0x98];
+    f32 _b0 = 0;
+    f32 _b4 = 0;
+    f32 _b8 = 0;
+    u32 _bc = 0;
+    u32 _c0 = 0;
+    u32 _c4 = 0;
+    bool _c8 = false;
 };
+KSYS_CHECK_SIZE_NX150(WizzrobeCombatMove, 0xd0);
 
 }  // namespace uking::ai

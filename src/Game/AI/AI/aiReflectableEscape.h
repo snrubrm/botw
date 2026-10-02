@@ -24,6 +24,13 @@ protected:
     const float* mEscapeTimer_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    f32 _58 = 0;
+    u32 _5c = 0;
+    f32 _60 = 0;
+    f32 _64 = 0;
+    u32 _68 = 0;
+    u32 _6c = 0;
 };
+KSYS_CHECK_SIZE_NX150(ReflectableEscape, 0x70);
 
 }  // namespace uking::ai

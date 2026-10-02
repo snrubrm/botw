@@ -22,6 +22,8 @@ public:
 protected:
     // aitree_variable at offset 0x38
     bool* mIsTrgTargetChangeToPlayer_a{};
+    u32 _40 = -1;
 };
+KSYS_CHECK_SIZE_NX150(TargetTypeSelector, 0x48);
 
 }  // namespace uking::ai

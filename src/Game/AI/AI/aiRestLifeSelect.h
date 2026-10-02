@@ -22,6 +22,9 @@ protected:
     const bool* mIsTrgOnly_s{};
     // static_param at offset 0x48
     const bool* mIsEnter_s{};
+    u32 _50 = 0;
+    bool _54 = false;
 };
+KSYS_CHECK_SIZE_NX150(RestLifeSelect, 0x58);
 
 }  // namespace uking::ai

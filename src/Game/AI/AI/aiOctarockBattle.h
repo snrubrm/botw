@@ -33,6 +33,8 @@ protected:
     sead::SafeString mShootActorKey_s{};
     // static_param at offset 0x108
     sead::SafeString mVacuumPartsKey_s{};
+    u32 _118 = 0;
 };
+KSYS_CHECK_SIZE_NX150(OctarockBattle, 0x120);
 
 }  // namespace uking::ai

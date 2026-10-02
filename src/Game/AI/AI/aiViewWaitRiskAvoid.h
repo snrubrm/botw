@@ -26,6 +26,10 @@ protected:
     const float* mSpaceAngle_s{};
     // static_param at offset 0x78
     const float* mSpaceDist_s{};
+    f32 _80 = 0;
+    f32 _84 = 0;
+    u32 _88 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ViewWaitRiskAvoid, 0x90);
 
 }  // namespace uking::ai

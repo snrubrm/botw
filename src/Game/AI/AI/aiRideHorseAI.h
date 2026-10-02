@@ -18,6 +18,8 @@ public:
 protected:
     // dynamic2_param at offset 0x38
     bool* mHasToPlayRidingOnAS_d{};
+    u32 _40 = 0;
 };
+KSYS_CHECK_SIZE_NX150(RideHorseAI, 0x48);
 
 }  // namespace uking::ai

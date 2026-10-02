@@ -22,6 +22,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x48
     ksys::act::BaseProcLink* mTarget_d{};
+    bool _50 = false;
 };
+KSYS_CHECK_SIZE_NX150(NPCSearch, 0x58);
 
 }  // namespace uking::ai

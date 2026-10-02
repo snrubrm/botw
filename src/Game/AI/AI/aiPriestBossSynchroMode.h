@@ -21,6 +21,8 @@ protected:
     int* mEquipWeaponBufIndex_a{};
     // aitree_variable at offset 0x48
     bool* mReturnFromBananaMode_a{};
+    u32 _50 = 0;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossSynchroMode, 0x58);
 
 }  // namespace uking::ai

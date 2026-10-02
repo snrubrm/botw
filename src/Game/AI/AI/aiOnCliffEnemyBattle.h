@@ -28,6 +28,10 @@ protected:
     const float* mAttackAngleVMin_s{};
     // static_param at offset 0x60
     const float* mAttackIntervalIntensity_s{};
+    u32 _68 = 0;
+    u32 _6c = 0;
+    u32 _70 = 0;
 };
+KSYS_CHECK_SIZE_NX150(OnCliffEnemyBattle, 0x78);
 
 }  // namespace uking::ai

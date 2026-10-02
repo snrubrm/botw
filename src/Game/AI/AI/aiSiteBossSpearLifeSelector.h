@@ -23,6 +23,8 @@ protected:
     const float* mPatternChangeLife2_s{};
     // static_param at offset 0x40
     const float* mPatternChangeLife3_s{};
+    u32 _48 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSpearLifeSelector, 0x50);
 
 }  // namespace uking::ai

@@ -26,6 +26,10 @@ protected:
     const float* mLostRange_s{};
     // static_param at offset 0x58
     const float* mAttackRange_s{};
+    u32 _60 = 0;
+    u32 _64 = 0;
+    u32 _68 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SandwormFindTarget, 0x70);
 
 }  // namespace uking::ai

@@ -20,6 +20,14 @@ protected:
     sead::SafeString mASKeyName_On_s{};
     // static_param at offset 0x48
     sead::SafeString mASKeyName_Off_s{};
+    void* _58 = nullptr;
+    f32 _60 = 0;
+    f32 _64 = 0;
+    f32 _68 = 0;
+    bool _6c = false;
+    bool _6d = false;
+    bool _6e = false;
 };
+KSYS_CHECK_SIZE_NX150(RailMoveObjectOneWay, 0x70);
 
 }  // namespace uking::ai

@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    bool _38 = false;
+    bool _39 = false;
 };
+KSYS_CHECK_SIZE_NX150(PauseMenuPlayerRoot, 0x40);
 
 }  // namespace uking::ai

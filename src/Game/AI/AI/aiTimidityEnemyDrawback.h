@@ -28,6 +28,11 @@ protected:
     const float* mLostVMax_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    u32 _68 = 0;
+    u32 _6c = 0;
+    u32 _70 = 0;
+    bool _74 = false;
 };
+KSYS_CHECK_SIZE_NX150(TimidityEnemyDrawback, 0x78);
 
 }  // namespace uking::ai
