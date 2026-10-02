@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionLastBossPostNormalWarp.h"
 #include "math/seadMathCalcCommon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,7 +21,22 @@ void LastBossPostNormalWarp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossPostNormalWarp::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+
+    if (!*mIsKeepDisableDraw_d) {
+        if (auto* client = mActor->getAttention()->getClientByName("LockOn"))
+            client->enable();
+        if (auto* client = mActor->getAttention()->getClientByName("AutoAim"))
+            client->enable();
+        m32();
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+    }
+
+    if (!*mIsTurnToTarget_s)
+        sub_71005DB434(mActor);
 }
 
 void LastBossPostNormalWarp::loadParams_() {

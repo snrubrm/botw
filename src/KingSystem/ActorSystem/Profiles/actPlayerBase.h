@@ -269,7 +269,12 @@ public:
 
 protected:
     /* 0xcf0 */ sead::BitFlag32 _cf0;
+
+public:
+    // Public: AI actions set bits directly (PlayerDrown::enter_).
     /* 0xcf4 */ sead::BitFlag32 _cf4;
+
+protected:
     /* 0xcf8 */ sead::BitFlag32 _cf8;
     /* 0xcfc */ sead::BitFlag32 _cfc;
     /* 0xd00 */ u8 _d00[0xd11 - 0xd00];

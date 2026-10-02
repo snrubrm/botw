@@ -303,7 +303,8 @@ public:
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18
 
-    /* 0x17f0 */ u8 _17f0[0x1868 - 0x17f0];
+    /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
+    /* 0x17f1 */ u8 _17f1[0x1868 - 0x17f1];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ void* _1870;
