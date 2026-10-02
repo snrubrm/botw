@@ -225,3 +225,8 @@ void sub_71005E21E8(ksys::act::Actor* actor);
 bool sub_71005DA9A8(ksys::act::Actor* actor, int idx);
 /// Adds the position of the actor PlayerInfo::getSomeProcLink() links to (or zero) to `params`.
 bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key);
+bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString& name, int slot, int bank);
+/// Sets bit 6 of Enemy::_e82.
+void sub_71005E2C58(ksys::act::Actor* actor);
+/// Normalised horizontal direction perpendicular to `dir` (ey x dir with y = 0).
+void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const sead::Vector3f& dir);
