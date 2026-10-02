@@ -209,6 +209,10 @@ target_sources(uking PRIVATE
   behaviorSetBattleNodeBasisSelfPosBattle.h
   behaviorSetBoneControlNoSlow.cpp
   behaviorSetBoneControlNoSlow.h
+  behaviorSetChemicalOffensive.cpp
+  behaviorSetChemicalOffensive.h
+  behaviorSetChemicalPower.cpp
+  behaviorSetChemicalPower.h
   behaviorSetCollisionImpulseScale.cpp
   behaviorSetCollisionImpulseScale.h
   behaviorSetDamageCallback.cpp
@@ -217,6 +221,8 @@ target_sources(uking PRIVATE
   behaviorSetDefenselessDCCallback.h
   behaviorSetDefenselessInAirDCCallback.cpp
   behaviorSetDefenselessInAirDCCallback.h
+  behaviorSetEnemyChemicalPower.cpp
+  behaviorSetEnemyChemicalPower.h
   behaviorSetFixedNoActionDCCallBack.cpp
   behaviorSetFixedNoActionDCCallBack.h
   behaviorSetForceSmallRagdoll.cpp
