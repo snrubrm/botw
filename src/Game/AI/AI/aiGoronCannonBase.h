@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
@@ -15,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m35(ksys::act::Actor* actor, ksys::act::Actor* ball);
+    virtual void m36(ksys::act::Actor* ball);
 
 protected:
     // static_param at offset 0x38
@@ -44,6 +48,28 @@ protected:
     // map_unit_param at offset 0xa8
     sead::SafeString mActorName_m{};
     ksys::act::BaseProcHandle _b8;
+    void* _c8 = nullptr;
+    u32 _d0 = 0;
+    void* _d8 = nullptr;
+    u32 _e0 = 0;
+    u32 _e4;
+    sead::Vector3f _e8 = sead::Vector3f::ey;
+    s32 _f4 = -1;
+    f32 _f8 = 0;
+    f32 _fc = 0;
+    f32 _100 = 0;
+    f32 _104 = 0;
+    bool _108 = false;
+    bool _109 = false;
+    bool _10a = false;
+    bool _10b = false;
+    sead::Vector3f _10c = sead::Vector3f::zero;
+    sead::Vector3f _118 = sead::Vector3f::zero;
+    f32 _124 = 0;
+    f32 _128 = 0;
+    bool _12c = false;
+    bool _12d = false;
 };
+KSYS_CHECK_SIZE_NX150(GoronCannonBase, 0x130);
 
 }  // namespace uking::ai

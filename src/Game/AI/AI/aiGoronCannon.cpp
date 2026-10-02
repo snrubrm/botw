@@ -12,6 +12,7 @@ bool GoronCannon::init_(sead::Heap* heap) {
 
 void GoronCannon::enter_(ksys::act::ai::InlineParamPack* params) {
     GoronCannonBase::enter_(params);
+    changeChild("発射前待機");
 }
 
 void GoronCannon::leave_() {

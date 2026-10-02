@@ -1,10 +1,15 @@
 #include "Game/AI/AI/aiGoronCannonBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
 GoronCannonBase::GoronCannonBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GoronCannonBase::~GoronCannonBase() = default;
+GoronCannonBase::~GoronCannonBase() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FB835C();
+}
 
 bool GoronCannonBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
@@ -33,5 +38,9 @@ void GoronCannonBase::loadParams_() {
     getMapUnitParam(&mSpeed_m, "Speed");
     getMapUnitParam(&mActorName_m, "ActorName");
 }
+
+void GoronCannonBase::m35(ksys::act::Actor* actor, ksys::act::Actor* ball) {}
+
+void GoronCannonBase::m36(ksys::act::Actor* ball) {}
 
 }  // namespace uking::ai
