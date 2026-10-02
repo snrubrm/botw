@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyNoiseTarget.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,10 @@ void EnemyNoiseTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyNoiseTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* unit = sub_71005E2BCC(mActor)) {
+        unit->_8 = -1;
+        unit->_c = 0;
+    }
 }
 
 void EnemyNoiseTarget::loadParams_() {
