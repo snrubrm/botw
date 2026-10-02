@@ -22,6 +22,32 @@ bool BirdEscape::isChangeable() const {
     return false;
 }
 
+void BirdEscape::calc_() {
+    if (!(_68.value <= sead::Mathf::epsilon())) {
+        _68.update();
+        if (_68.value <= sead::Mathf::epsilon()) {
+            if (mActor->m135())
+                mActor->m135()->_4 = 0;
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!isCurrentChild("逃走前")) {
+            if (!isCurrentChild("逃走") || !*mIsUseEscapeEnd_s) {
+                setFinished();
+                return;
+            }
+            changeChild("逃走終了");
+        } else {
+            changeChild("逃走");
+        }
+        return;
+    }
+    child->isChangeable();
+}
+
 void BirdEscape::leave_() {
     ksys::act::ai::Ai::leave_();
 }

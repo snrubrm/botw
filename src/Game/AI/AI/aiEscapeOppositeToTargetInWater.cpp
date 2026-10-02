@@ -22,6 +22,37 @@ void EscapeOppositeToTargetInWater::enter_(ksys::act::ai::InlineParamPack* param
     changeChild("移動", &pack);
 }
 
+void EscapeOppositeToTargetInWater::calc_() {
+    if (isFinished())
+        return;
+    if (isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("移動")) {
+            changeChild("待機");
+            return;
+        }
+        if (isCurrentChild("待機")) {
+            setFinished();
+            return;
+        }
+    }
+
+    if (!isCurrentChild("移動"))
+        return;
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    if ((pos - _6c).squaredLength() > *mRunAwayDistanceMax_s * *mRunAwayDistanceMax_s)
+        changeChild("待機");
+}
+
 void EscapeOppositeToTargetInWater::leave_() {
     ksys::act::ai::Ai::leave_();
 }
