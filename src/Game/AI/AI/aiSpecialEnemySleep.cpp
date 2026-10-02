@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSpecialEnemySleep.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 namespace uking::ai {
@@ -25,7 +26,26 @@ bool SpecialEnemySleep::init_(sead::Heap* heap) {
 }
 
 void SpecialEnemySleep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _54 = ksys::Timer(*mAwakeDelayTime_s, *mAwakeDelayTime_s);
+    _52 = false;
+    if (auto* awareness = mActor->getAwareness()) {
+        _50 = awareness->sub_7100D7E964();
+        _51 = awareness->_260[0] ? awareness->_260[0]->_50 : false;
+        awareness->enable();
+    }
+
+    if (mActor->getRootAi()->getI() == 5) {
+        changeChild("横になる");
+        return;
+    }
+
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->sub_7100D7EAE4(0);
+        awareness->sub_7100D7EAE4(2);
+        if (!*mIsAwakenByHearing_s)
+            awareness->sub_7100D7EAE4(1);
+    }
+    changeChild("睡眠");
 }
 
 void SpecialEnemySleep::leave_() {

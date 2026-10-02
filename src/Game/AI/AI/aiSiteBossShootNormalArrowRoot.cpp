@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSiteBossShootNormalArrowRoot.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -108,6 +109,13 @@ void SiteBossShootNormalArrowRoot::m45(sead::Vector3f* out) {
 
 void SiteBossShootNormalArrowRoot::m46(sead::Vector3f* out) {
     m45(out);
+}
+
+bool SiteBossShootNormalArrowRoot::m47() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return false;
+    return boss->_1560.sub_710066C074() != 0;
 }
 
 bool SiteBossShootNormalArrowRoot::m48() {

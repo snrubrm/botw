@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiNpcTebaRoot.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -15,7 +19,12 @@ void NpcTebaRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NpcTebaRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* client = mActor->getAttention()->getClientByName("Ride"))
+        client->disable();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void NpcTebaRoot::loadParams_() {
