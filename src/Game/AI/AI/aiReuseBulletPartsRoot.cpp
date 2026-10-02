@@ -20,4 +20,20 @@ void ReuseBulletPartsRoot::leave_() {
 
 void ReuseBulletPartsRoot::loadParams_() {}
 
+bool ReuseBulletPartsRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType().value == 0x3000007) {
+        sub_7100551DAC();
+        return true;
+    }
+    if (_38.m2(message)) {
+        _88 = true;
+        return true;
+    }
+    return false;
+}
+
+bool ReuseBulletPartsRoot::m34() {
+    return true;
+}
+
 }  // namespace uking::ai

@@ -12,7 +12,11 @@ bool ZoraHeroRelicBattleRidePlayer::init_(sead::Heap* heap) {
 }
 
 void ZoraHeroRelicBattleRidePlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _c0 = false;
+    _50.reset();
+    _60.reset();
+    _40.reset();
+    sub_71006138CC();
 }
 
 void ZoraHeroRelicBattleRidePlayer::leave_() {
@@ -21,6 +25,19 @@ void ZoraHeroRelicBattleRidePlayer::leave_() {
 
 void ZoraHeroRelicBattleRidePlayer::loadParams_() {
     getAITreeVariable(&mZoraHeroShowMsgUnit_a, "ZoraHeroShowMsgUnit");
+}
+
+bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message& message) {
+    if (!_70._30 && _70.m2(message)) {
+        sub_7100614194(_70._38.mLink);
+        _70.x();
+        return true;
+    }
+    if (message.getType().value == 0x800006a) {
+        _c0 = true;
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
