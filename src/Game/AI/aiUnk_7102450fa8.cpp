@@ -33,3 +33,13 @@ int Unk_7102450fa8::sub_71007195B0(const ksys::act::BaseProcLink& link) {
     }
     return -1;
 }
+
+bool Unk_7102450fa8::sub_710071A22C() {
+    if (_3c8 <= 0.0f)
+        return false;
+    return _350.value <= sead::Mathf::epsilon();
+}
+
+bool Unk_7102450fa8::sub_710071A2D0() {
+    return _35c.value <= sead::Mathf::epsilon();
+}

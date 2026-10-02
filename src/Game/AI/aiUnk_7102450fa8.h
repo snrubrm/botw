@@ -11,6 +11,7 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -84,6 +85,10 @@ public:
     // true (the formation position of `idx`). Placeholder name.
     bool sub_710071A020(sead::Vector3f* out, s32 idx);
     s32 sub_710071A048(s32 idx);
+    // `_3c8 > 0 && _350 has ended`. Placeholder name.
+    bool sub_710071A22C();
+    // `_35c has ended`. Placeholder name.
+    bool sub_710071A2D0();
 
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;
@@ -104,9 +109,10 @@ public:
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
     /* 0x34c */ u32 _34c;
-    /* 0x350 */ u8 _350[0x368 - 0x350];
+    /* 0x350 */ ksys::Timer _350;
+    /* 0x35c */ ksys::Timer _35c;  // PriestBossIronBall::sub_710051EE40: ChangeEndAnime
     /* 0x368 */ Unk_71024508b8 _368;
-    /* 0x3c8 */ u32 _3c8;
+    /* 0x3c8 */ f32 _3c8;
     /* 0x3cc */ bool _3cc;  // PriestBossIronBallRoot::enter_
     /* 0x3cd */ u8 _3cd[0x43c - 0x3cd];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
     /* 0x43c */ f32 _43c;  // PriestBossIronBallRoot::m38: attack power (int-converted)

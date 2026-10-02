@@ -210,6 +210,8 @@ public:
 class Unk_7102409958 : public Unk_7102357d20 {
 public:
     using Unk_7102357d20::Unk_7102357d20;
+    // PriestBossIronBall embeds an array of these and sets _8 afterwards.
+    Unk_7102409958() : Unk_7102357d20(0x80000da) {}
     void* m2() override { return &_18; }
 
     Unk_7102409958_Payload _18;
