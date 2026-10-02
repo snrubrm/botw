@@ -148,6 +148,10 @@ public:
     RideableBase();
     virtual ~RideableBase();
 
+    // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
+    // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
+    void sub_7100E63224(u32 type, s32 gear);
+
     /*  4 */ virtual bool m4(ksys::act::Actor* actor, sead::Heap* heap);
     /*  5 */ virtual void m5();
     /*  6 */ virtual void m6() {}

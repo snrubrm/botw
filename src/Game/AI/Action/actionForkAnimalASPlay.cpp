@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkAnimalASPlay.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +14,32 @@ bool ForkAnimalASPlay::init_(sead::Heap* heap) {
 }
 
 void ForkAnimalASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* as_list = mActor->getASList();
+    auto* controller = mActor->getCharacterController();
+    auto* rideable = mActor->m132();
+    if (!as_list || !controller || !rideable) {
+        setFailed();
+        return;
+    }
+
+    const s32 frame = *mAllowChangeableFrame_s;
+    if (frame >= 0) {
+        _50.reset(frame + 0.5f);
+        if (_50.value < 1.0f)
+            mFlags.set(Flag::Changeable);
+    } else {
+        _50.reset(frame, 0.0f);
+    }
+
+    if (mASKeyName_s.isEmpty()) {
+        setFailed();
+        return;
+    }
+
+    if (*mIsIgnoreSameAS_s && as_list->x_1(0, 0) == mASKeyName_s)
+        return;
+
+    rideable->_18.sub_7100E786F0(mASKeyName_s);
 }
 
 void ForkAnimalASPlay::leave_() {
@@ -26,8 +54,33 @@ void ForkAnimalASPlay::loadParams_() {
     getStaticParam(&mASKeyName_s, "ASKeyName");
 }
 
+// NON_MATCHING: the original passes both RideableBase::sub_7100E63224 arguments as 64-bit registers
+// (small by-value structs, probably SEAD_ENUM wrappers; the callee spills the second one)
 void ForkAnimalASPlay::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* as_list = mActor->getASList();
+    if (!as_list) {
+        setFailed();
+        return;
+    }
+
+    m32();
+    if (mASKeyName_s != as_list->x_1(0, 0))
+        return;
+    if (!isFinishedAS(0, 0))
+        return;
+
+    if (auto* list = mActor->getASList()) {
+        const s32 gear = *mSelectNextGear_s;
+        if (gear >= 0) {
+            if (auto* rideable = mActor->m132()) {
+                const s32 type = *mSelectNextGearType_s;
+                rideable->sub_7100E63224(type >= 1 && type <= 5 ? type : 0, gear);
+                list->x_6(1, 0, 0.0f);
+                list->x_6(2, 0, 0.0f);
+            }
+        }
+    }
+    setFinished();
 }
 
 void ForkAnimalASPlay::m32() {
