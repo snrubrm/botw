@@ -14,9 +14,13 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
 
 protected:
+    // 0x710033788c (not decompiled): checks the actor (DynamicCast) and its state (_af8 == 2 / 3).
+    bool sub_710033788C();
+
     ksys::act::BaseProcHandle _38;
     bool _48{};
     bool _49{};

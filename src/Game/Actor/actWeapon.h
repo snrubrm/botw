@@ -190,6 +190,8 @@ class Weapon : public ksys::act::WeaponBase {
 public:
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
+    // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
+    void bowGetArrowName(sead::BufferedSafeString* name);
 
     /* 0xab8 */ sead::CriticalSection _ab8;
     /* 0xaf8 */ Unk_71002eda38 _af8;
