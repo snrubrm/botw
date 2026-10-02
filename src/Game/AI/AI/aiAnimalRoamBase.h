@@ -46,7 +46,7 @@ protected:
     float* mFramesStuckOnTerrain_a{};
     // aitree_variable at offset 0x98
     bool* mIsStuckOnTerrain_a{};
-    u32 _a0{};
+    s32 _a0{};
     bool _a4 = true;
 };
 
