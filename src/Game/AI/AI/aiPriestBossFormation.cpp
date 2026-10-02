@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPriestBossFormation.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -94,6 +95,45 @@ void PriestBossFormation::m43() {
 
 void PriestBossFormation::m44() {
     changeChild("分身消す");
+}
+
+void PriestBossFormation::calc_() {
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (!unit)
+        return;
+
+    auto* child = getCurrentChild();
+    m34(unit);
+    if (m36()) {
+        m35(unit);
+        if (m37())
+            m43();
+    }
+
+    if (isCurrentChild("陣形作成_現れる")) {
+        sead::Vector3f appear_pos = sead::Vector3f::zero;
+        if (!unit->sub_710071A020(&appear_pos, unit->sub_7100719534(mActor)))
+            return;
+        child->setDynamicParam(appear_pos, "AppearPosition");
+        child->setDynamicParam(getPlayerPosition(), "TargetPos");
+    } else if (isCurrentChild("攻撃後")) {
+        child->setDynamicParam(sub_71005D93CC(mActor), "TargetPos");
+    }
+}
+
+void PriestBossFormation::m41() {
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (!unit)
+        return;
+
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f appear_pos = sead::Vector3f::zero;
+    unit->sub_710071A020(&appear_pos, unit->sub_7100719534(mActor));
+    params.addVec3(getPlayerPosition(), "TargetPos", -1);
+    params.addVec3(appear_pos, "AppearPosition", -1);
+    changeChild("陣形作成_現れる", &params);
 }
 
 void PriestBossFormation::sub_71005183C0(bool on) {

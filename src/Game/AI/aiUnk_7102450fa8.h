@@ -80,6 +80,9 @@ public:
     bool sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor);
     int sub_7100719534(ksys::act::BaseProc* proc);
     int sub_71007195B0(const ksys::act::BaseProcLink& link);
+    // 0x710071a020: if the object at +0x88 exists, calls its vtable slot 7 with (out, idx) and returns
+    // true (the formation position of `idx`). Placeholder name.
+    bool sub_710071A020(sead::Vector3f* out, s32 idx);
     s32 sub_710071A048(s32 idx);
 
     /* 0x008 */ sead::Buffer<Unk1> _8;
