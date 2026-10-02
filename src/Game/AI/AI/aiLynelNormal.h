@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
     void m37() override;
+    void m49(Unk1* out, s32 idx) override;
     void calc_() override;
     bool handleMessage_(const ksys::Message& message) override;
 

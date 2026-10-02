@@ -77,4 +77,17 @@ void LynelNormal::m37() {
     LandHumEnemyNormal::m37();
 }
 
+void LynelNormal::m49(Unk1* out, s32 idx) {
+    LandHumEnemyNormal::m49(out, idx);
+    const s32 type = m52(idx);
+    if (out->_0 != -1 || !isCurrentChild("攻撃反応"))
+        return;
+    if (type == 9) {
+        out->_0 = 9;
+    } else if (type == 2) {
+        out->_8 |= 0x480;
+        out->_0 = 2;
+    }
+}
+
 }  // namespace uking::ai

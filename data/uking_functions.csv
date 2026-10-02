@@ -29034,7 +29034,7 @@ Address,Quality,Size,Name
 0x00000071004945ac,U,000104,uking::ai::LynelNormal::m60
 0x0000007100494614,U,000248,uking::ai::LynelNormal::m63
 0x000000710049470c,O,000012,_ZN5uking2ai11LynelNormal3m37Ev
-0x0000007100494718,U,000184,uking::ai::LynelNormal::m49
+0x0000007100494718,O,000184,_ZN5uking2ai11LynelNormal3m49EPNS0_11EnemyNormal4Unk1Ei
 0x00000071004947d0,U,000052,uking::ai::LynelNormal::m57
 0x0000007100494804,O,000132,_ZNK5uking2ai11LynelNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100494888,O,000092,_ZNK5uking2ai11LynelNormal18getRuntimeTypeInfoEv
