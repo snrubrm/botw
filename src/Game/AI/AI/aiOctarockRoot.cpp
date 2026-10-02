@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiOctarockRoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -47,5 +50,27 @@ void OctarockRoot::loadParams_() {
     getAITreeVariable(&mVacuumedExplodingBomb_a, "VacuumedExplodingBomb");
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
+
+void OctarockRoot::m37() {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "HeadBody"))
+        body->setContactAll();
+    changeChild("リアクション");
+}
+
+void OctarockRoot::m38() {
+    if (isCurrentChild("水中"))
+        *mIsTrgChangeUnderWaterState_a = true;
+    changeChild("通常");
+}
+
+void OctarockRoot::m39() {
+    EnemyRoot::m39();
+}
+
+bool OctarockRoot::m41() {
+    return isCurrentChild("水中") || isCurrentChild("水中怒り");
+}
+
+void OctarockRoot::m45() {}
 
 }  // namespace uking::ai
