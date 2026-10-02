@@ -117,8 +117,14 @@ target_sources(uking PRIVATE
   behaviorGelDisableEyeControl.h
   behaviorGreatGoddesStatueLightEffect.cpp
   behaviorGreatGoddesStatueLightEffect.h
+  behaviorGuardFrontBarrierBase.cpp
+  behaviorGuardFrontBarrierBase.h
+  behaviorGuardFrontBarrier.cpp
+  behaviorGuardFrontBarrier.h
   behaviorGuardTgtControl.cpp
   behaviorGuardTgtControl.h
+  behaviorGuardToTargetBarrier.cpp
+  behaviorGuardToTargetBarrier.h
   behaviorHideLifeGage.cpp
   behaviorHideLifeGage.h
   behaviorHitIceBlockBreak.cpp
@@ -177,8 +183,22 @@ target_sources(uking PRIVATE
   behaviorOffSmallRagdollReaction.h
   behaviorOnAnimalSupportNrmCalcFrontRay.cpp
   behaviorOnAnimalSupportNrmCalcFrontRay.h
+  behaviorOnChangeXLinkCreateAtTarget.cpp
+  behaviorOnChangeXLinkCreateAtTarget.h
+  behaviorOnChangeXLinkCreate.cpp
+  behaviorOnChangeXLinkCreateForLocator.cpp
+  behaviorOnChangeXLinkCreateForLocator.h
+  behaviorOnChangeXLinkCreate.h
+  behaviorOnChangeXLinkCreateTrgDrop.cpp
+  behaviorOnChangeXLinkCreateTrgDrop.h
   behaviorOnLeaveResetAttackInterval.cpp
   behaviorOnLeaveResetAttackInterval.h
+  behaviorOnStateXLinkCreate.cpp
+  behaviorOnStateXLinkCreate.h
+  behaviorOnTrgGuardOffTargetXLinkCreateBase.cpp
+  behaviorOnTrgGuardOffTargetXLinkCreateBase.h
+  behaviorOnTrgGuardOffTargetXLinkCreate.cpp
+  behaviorOnTrgGuardOffTargetXLinkCreate.h
   behaviorPlayASWithBurnState.cpp
   behaviorPlayASWithBurnState.h
   behaviorPlayerEmitInterest.cpp
@@ -333,6 +353,14 @@ target_sources(uking PRIVATE
   behaviorViewLastAttackerPos.h
   behaviorWeaponChemicalReset.cpp
   behaviorWeaponChemicalReset.h
+  behaviorXLinkCreate.cpp
+  behaviorXLinkCreateForSandworm.cpp
+  behaviorXLinkCreateForSandworm.h
+  behaviorXLinkCreate.h
+  behaviorXLinkCreateModelTracks.cpp
+  behaviorXLinkCreateModelTracks.h
+  behaviorXLinkCreateToParts.cpp
+  behaviorXLinkCreateToParts.h
   behaviorYunBoIconInfo.cpp
   behaviorYunBoIconInfo.h
 )
