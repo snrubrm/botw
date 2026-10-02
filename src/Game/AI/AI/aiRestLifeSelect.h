@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -24,7 +25,7 @@ protected:
     const bool* mIsTrgOnly_s{};
     // static_param at offset 0x48
     const bool* mIsEnter_s{};
-    u32 _50 = 0;
+    s32 _50 = 0;
     bool _54 = false;
 };
 KSYS_CHECK_SIZE_NX150(RestLifeSelect, 0x58);
