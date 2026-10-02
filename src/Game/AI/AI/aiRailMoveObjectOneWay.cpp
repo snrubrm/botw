@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiRailMoveObjectOneWay.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
+#include "KingSystem/Map/mapRail.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,12 @@ void RailMoveObjectOneWay::leave_() {
 void RailMoveObjectOneWay::loadParams_() {
     getStaticParam(&mASKeyName_On_s, "ASKeyName_On");
     getStaticParam(&mASKeyName_Off_s, "ASKeyName_Off");
+}
+
+void RailMoveObjectOneWay::m9() {
+    _58 = sub_7100EEF264(mActor, 0);
+    if (_58)
+        _60 = _58->getNumPoints();
 }
 
 }  // namespace uking::ai

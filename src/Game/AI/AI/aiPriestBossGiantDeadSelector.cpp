@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossGiantDeadSelector.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
 
@@ -12,7 +15,13 @@ bool PriestBossGiantDeadSelector::init_(sead::Heap* heap) {
 }
 
 void PriestBossGiantDeadSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    if (auto* body_set = mActor->getRigidBodyByName(sub_71007A24D0()->cstr()))
+        body_set->removeFromWorld();
+    if (*mPriestBossDownSideASPlaying_a)
+        changeChild("ダウン状態");
+    else
+        changeChild("立ち状態");
 }
 
 void PriestBossGiantDeadSelector::calc_() {

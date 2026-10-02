@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::map {
+class Rail;
+}
+
 namespace uking::ai {
 
 class RailMoveObjectOneWay : public ksys::act::ai::Ai {
@@ -14,14 +18,15 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m9() override;
 
 protected:
     // static_param at offset 0x38
     sead::SafeString mASKeyName_On_s{};
     // static_param at offset 0x48
     sead::SafeString mASKeyName_Off_s{};
-    void* _58 = nullptr;
-    f32 _60 = 0;
+    ksys::map::Rail* _58 = nullptr;
+    s32 _60 = 0;  // number of rail points
     f32 _64 = 0;
     f32 _68 = 0;
     bool _6c = false;

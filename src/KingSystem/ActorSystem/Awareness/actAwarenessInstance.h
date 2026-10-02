@@ -68,7 +68,7 @@ public:
     /* 0x58 */ sead::Matrix34f _58;  // passed as a matrix by EnemyCalledAppear::calc_ (sub_71005D8DE8)
     /* 0x88 */ u8 _88[0xa0 - 0x88];
     /* 0xa0 */ s32 _a0;  // kind (e.g. 2 checked by BeeSwarmNormal::m47)
-    /* 0xa4 */ u32 _a4;
+    /* 0xa4 */ f32 _a4;  // compared with StoneOctarockGuardNearTarget NoticeTerrorLevel
     /* 0xa8 */ f32 _a8;  // distance-like value compared by many AI functions
     /* 0xac */ u32 _ac;
 };
