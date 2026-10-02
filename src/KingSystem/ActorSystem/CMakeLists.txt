@@ -9,6 +9,8 @@ target_sources(uking PRIVATE
     Attention/actAttention.cpp
     Attention/actAttention.h
 
+    Awareness/actAITerror.cpp
+    Awareness/actAITerror.h
     Awareness/actAwareness.cpp
     Awareness/actAwareness.h
     Awareness/actAwarenessDefs.cpp

@@ -12,6 +12,7 @@
 
 namespace ksys::act {
 
+class Actor;
 class Unk_71024dc858;
 struct Unk_7100d78e50;
 
@@ -85,6 +86,8 @@ class Unk_71024dc858 : public Unk_71024dc978 {
     SEAD_RTTI_OVERRIDE(Unk_71024dc858, Unk_71024dc978)
 public:
     Unk_71024dc858();
+    // 0x7100d77254: also links `actor`.
+    explicit Unk_71024dc858(Actor* actor);
     ~Unk_71024dc858() override;
 
     f32 m4(int idx) override;
@@ -94,6 +97,9 @@ public:
     bool m8(sead::Vector3f* vel) override;
     void m9(int idx, f32 value) override;
     void m10(int bit, bool on) override;
+
+    // 0x7100d77518 (used by AITerror::x)
+    void sub_7100D77518(int idx, f32 value);
 
     /* 0x08 */ BaseProcLink mLink;  // the target actor
     /* 0x18 */ sead::SafeArray<f32, 4> _18{{1.0, 0, 0, 1.0}};  // m4 / m9
@@ -127,21 +133,46 @@ struct Unk_7100d78e50 {
 KSYS_CHECK_SIZE_NX150(Unk_7100d78e50, 0xb0);
 
 class AwarenessInstance;
+class AITerror;
+
+// Placeholder name (vtable 0x71024dca28, RTTI functions 0x7100d78464 / 0x7100d784d4): abstract base
+// of Unk_71024dc900; keeps a list of AITerror objects (_8, linked through AITerror::_a8).
+// Slots 4-7 forward to the entry returned by m8 (0x7100d77fd8: `*m8()->m6()`; 0x7100d78530: entry
+// slot 11; 0x7100d78388: updates every AITerror (0x7100d789e4) then entry slot 12; 0x7100d78004:
+// entry slot 15). Signatures of m5-m7 are placeholders.
+class Unk_71024dca28 {
+    SEAD_RTTI_BASE(Unk_71024dca28)
+public:
+    Unk_71024dca28() = default;
+    // 0x7100d782f8: unlinks every AITerror.
+    virtual ~Unk_71024dca28();
+    virtual u16 m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual Unk_71024dc978* m8() = 0;
+
+    // 0x7100d783e4: activates `terror` and appends it to the list.
+    void sub_7100D783E4(AITerror* terror);
+    // 0x7100d78444: removes `terror` from the list (and deactivates it).
+    void sub_7100D78444(AITerror* terror);
+
+    /* 0x08 */ AITerror* _8 = nullptr;  // first AITerror
+};
 
 // Placeholder name (vtable 0x71024dc900; RTTI; created by 0x71011c57c0 (CSV Actor::x_27) with
 // new(0x80)): Actor::_548. Contains an awareness entry at +0x18 (vtable 0x71024dc858, ctor
 // 0x7100d77254 (entry, actor)), the actor at +0x70 and a u16 at +0x78; a second base at +0x10.
+// Overrides slots 5, 6 and 8 of Unk_71024dca28.
 // TODO: incomplete (only the virtual slot used by player actions is declared).
-class Unk_71024dc900 {
-    SEAD_RTTI_BASE(Unk_71024dc900)
+class Unk_71024dc900 : public Unk_71024dca28 {
+    SEAD_RTTI_OVERRIDE(Unk_71024dc900, Unk_71024dca28)
 public:
-    virtual ~Unk_71024dc900();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
+    ~Unk_71024dc900() override;
+    void m5() override;
+    void m6() override;
     // 0x7100d78028: the awareness entry at +0x18.
-    virtual Unk_71024dc978* m8();
+    Unk_71024dc978* m8() override;
 };
 
 // Placeholder name (vtable 0x71024dccf8; D1 0x7100d7f0dc, D0 0x7100d7f104): base of the filters used

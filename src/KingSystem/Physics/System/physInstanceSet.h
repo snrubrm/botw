@@ -35,6 +35,8 @@ class NavMeshCharacter;
 class ParamSet;
 class RagdollInstance;
 class RigidBodySet;
+class SphereParam;
+class SphereRigidBody;
 class SystemGroupHandler;
 class UserTag;
 
@@ -112,6 +114,11 @@ public:
     int sub_7100FBB668(const sead::SafeString& name) const;
     // Read inline by sub_71007A2EB0 (actActorSensorUtil; null if out of range).
     RigidBodySet* getRigidBodySet(int idx) const { return mRigidBodySets[idx]; }
+    // 0x7100fc0300: makes a sphere rigid body (group handler from _188 unless the param has one)
+    // and links it into the body list at 0x148. Used by ksys::act::AITerror.
+    SphereRigidBody* sub_7100FC0300(SphereParam* param, sead::Heap* heap);
+    // 0x7100fc0600: unlinks `body` from that list and deletes it.
+    void sub_7100FC0600(RigidBody* body);
 
 private:
     struct Unk1 {
