@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiSiteBossRecognizeRootBase.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -24,6 +29,39 @@ void SiteBossRecognizeRootBase::loadParams_() {
     getStaticParam(&mWarpStartDist_s, "WarpStartDist");
     getStaticParam(&mForceWarpRetryDist_s, "ForceWarpRetryDist");
     getDynamicParam(&mIsAttackPatternFixed_d, "IsAttackPatternFixed");
+}
+
+void SiteBossRecognizeRootBase::m34(bool on) {}
+
+bool SiteBossRecognizeRootBase::m36() {
+    if (*mAttackNum_s == 0)
+        return false;
+    return _64 >= _60;
+}
+
+void SiteBossRecognizeRootBase::m37() {
+    // The original performs the cast and discards the result.
+    sead::DynamicCast<act::LastBoss>(mActor);
+    m34(false);
+}
+
+void SiteBossRecognizeRootBase::m38(ksys::act::ai::InlineParamPack* params) {
+    sead::Vector3f pos;
+    SiteBossRecognizeRootBase::m39(&pos);
+    params->addVec3(pos, "TargetPos", -1);
+    params->addBool(*mIsAttackPatternFixed_d, "IsAttackPatternFixed", -1);
+}
+
+void SiteBossRecognizeRootBase::m39(sead::Vector3f* pos) {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* link = sub_71005D9050(actor);
+    if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+        *pos = sub_71005D9330(actor);
+    else
+        *pos = getPlayerPosition();
 }
 
 }  // namespace uking::ai

@@ -16,6 +16,12 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34(bool on) override;
+    bool m35() override;
+    bool m36() override;
+    void m38(ksys::act::ai::InlineParamPack* params) override;
+    void m40() override;
+
 protected:
     // static_param at offset 0x68
     const int* mIgnoreWaprDistMax_s{};
@@ -27,6 +33,9 @@ protected:
     const sead::Vector3f* mChaseDist_s{};
     // static_param at offset 0x88
     const sead::Vector3f* mChaseDistOffset_s{};
+    bool _90 = false;
+    s32 _94 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossRecognizeRoot, 0x98);
 
 }  // namespace uking::ai
