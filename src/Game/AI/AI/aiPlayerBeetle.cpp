@@ -14,7 +14,11 @@ bool PlayerBeetle::init_(sead::Heap* heap) {
 }
 
 void PlayerBeetle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (hasPendingChildChange()) {
+        changeChild(mPendingChildIdx);
+        return;
+    }
+    changeChild("構え");
 }
 
 // NON_MATCHING: the original calls getEquipmentTypeName before loading mActor for _d30 (lane2 log)

@@ -8,6 +8,13 @@ namespace uking::ai {
 
 PlayerCaught::PlayerCaught(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+bool PlayerCaught::isFinished() const {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+    return true;
+}
+
 bool PlayerCaught::isChangeable() const {
     return false;
 }

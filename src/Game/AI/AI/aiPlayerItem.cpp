@@ -5,6 +5,13 @@ namespace uking::ai {
 
 PlayerItem::PlayerItem(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+bool PlayerItem::isFinished() const {
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+    return true;
+}
+
 bool PlayerItem::isChangeable() const {
     return false;
 }

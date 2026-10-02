@@ -153,6 +153,7 @@ public:
     enum class ActorFlag2 : u32 {
         _1 = 0x1,
         InstEvent = 0x8,
+        _10 = 0x10,
         _40 = 0x40,
         _20 = 0x20,
         NoDistanceCheck = 0x80,

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPlayerDead.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -13,7 +15,10 @@ void PlayerDead::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerDead::leave_() {
-    ksys::act::ai::Ai::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c48.reset(1);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10);
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.set(8);
 }
 
 void PlayerDead::loadParams_() {

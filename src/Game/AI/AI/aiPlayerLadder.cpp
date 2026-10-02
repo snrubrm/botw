@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPlayerLadder.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,8 @@ void PlayerLadder::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerLadder::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
 }
 
 void PlayerLadder::loadParams_() {
