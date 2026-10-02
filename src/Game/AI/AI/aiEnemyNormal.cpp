@@ -117,4 +117,8 @@ void EnemyNormal::m43() {
     sub_71003A19AC();
 }
 
+bool EnemyNormal::m54() {
+    return isCurrentChild("待機");
+}
+
 }  // namespace uking::ai
