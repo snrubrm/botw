@@ -40,6 +40,8 @@ target_sources(uking PRIVATE
     actActorCaptureMgr.h
     actActorChemicals.cpp
     actActorChemicals.h
+    actActorBind.cpp
+    actActorBind.h
     actActorConstDataAccess.cpp
     actActorConstDataAccess.h
     actActorCreator.cpp
@@ -135,6 +137,8 @@ target_sources(uking PRIVATE
     actInstParamPack.cpp
     actInstParamPack.h
     actLifeRecoveryInfo.h
+    actModelBindInfo.cpp
+    actModelBindInfo.h
     actPhysicsConstraints.cpp
     actPhysicsConstraints.h
     actPhysicsUserTag.cpp
