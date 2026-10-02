@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+class Unk_7102450fa8;
+
 namespace uking::ai {
 
 class PriestBossMode : public ksys::act::ai::Ai {
@@ -19,6 +21,8 @@ public:
     virtual bool m34();
 
 protected:
+    Unk_7102450fa8* sub_7100505BE4();
+
     // aitree_variable at offset 0x38
     void* mPriestBossMetaAIUnit_a{};
 };

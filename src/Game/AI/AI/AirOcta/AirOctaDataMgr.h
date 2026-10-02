@@ -4,10 +4,11 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
+#include "Game/AI/aiUnk_71025afb58.h"
 
 namespace uking {
-class AirOctaDataMgr {
-    SEAD_RTTI_BASE(AirOctaDataMgr)
+class AirOctaDataMgr : public Unk_71025afb58 {
+    SEAD_RTTI_OVERRIDE(AirOctaDataMgr, Unk_71025afb58)
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
     void changeOctasYheightMaybe();
