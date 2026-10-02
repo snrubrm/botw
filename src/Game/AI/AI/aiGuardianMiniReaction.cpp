@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniReaction.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -52,6 +54,12 @@ void GuardianMiniReaction::m40(ksys::act::ai::InlineParamPack* params) {
     } else {
         EnemyDefaultReaction::m40(params);
     }
+}
+
+void GuardianMiniReaction::m42(ksys::act::ai::InlineParamPack* params) {
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags26.set(1);
+    EnemyDefaultReaction::m42(params);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGiantEscapeFromDamageWater.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -10,7 +11,8 @@ GiantEscapeFromDamageWater::GiantEscapeFromDamageWater(const InitArg& arg)
 GiantEscapeFromDamageWater::~GiantEscapeFromDamageWater() = default;
 
 bool GiantEscapeFromDamageWater::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    sub_71005E2C58(mActor);
+    return true;
 }
 
 void GiantEscapeFromDamageWater::enter_(ksys::act::ai::InlineParamPack* params) {

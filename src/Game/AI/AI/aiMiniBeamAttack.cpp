@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMiniBeamAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,16 @@ void MiniBeamAttack::loadParams_() {
     getStaticParam(&mIsIgnoreSmallHit_s, "IsIgnoreSmallHit");
     getStaticParam(&mIsChangeable_s, "IsChangeable");
     getStaticParam(&mAimEffectName_s, "AimEffectName");
+}
+
+bool MiniBeamAttack::isChangeable() const {
+    if (!*mIsChangeable_s)
+        return false;
+    return ksys::act::ai::Ai::isChangeable();
+}
+
+const sead::Vector3f* MiniBeamAttack::m35() {
+    return &sub_71005D9330(mActor);
 }
 
 }  // namespace uking::ai

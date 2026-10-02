@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyEscapeMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,8 @@ EnemyEscapeMove::EnemyEscapeMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 EnemyEscapeMove::~EnemyEscapeMove() = default;
 
 bool EnemyEscapeMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    sub_71005E2C58(mActor);
+    return true;
 }
 
 void EnemyEscapeMove::enter_(ksys::act::ai::InlineParamPack* params) {

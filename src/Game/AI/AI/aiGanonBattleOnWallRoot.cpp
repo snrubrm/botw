@@ -8,7 +8,8 @@ GanonBattleOnWallRoot::GanonBattleOnWallRoot(const InitArg& arg) : ksys::act::ai
 GanonBattleOnWallRoot::~GanonBattleOnWallRoot() = default;
 
 bool GanonBattleOnWallRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _60 = ksys::Timer(900.0f, 900.0f);
+    return true;
 }
 
 void GanonBattleOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {

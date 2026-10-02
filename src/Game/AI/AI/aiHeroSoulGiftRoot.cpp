@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiHeroSoulGiftRoot.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -17,7 +18,8 @@ void HeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HeroSoulGiftRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags26.reset(1);
 }
 
 void HeroSoulGiftRoot::loadParams_() {
