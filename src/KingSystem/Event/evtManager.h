@@ -80,3 +80,8 @@ private:
 };
 
 }  // namespace ksys::evt
+
+// 0x7100dc86ac (CSV name): copies the names of the active event's flow / entry point for `actor` into
+// `flow` / `entry` (either may be null).
+void getActiveEventFlowPath_0(ksys::act::Actor* actor, sead::BufferedSafeString* flow,
+                              sead::BufferedSafeString* entry);

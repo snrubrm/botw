@@ -11,6 +11,7 @@ public:
     explicit CameraEventAnimFlowAbs(const InitArg& arg);
 
 protected:
+    bool m51() override { return true; }
 };
 
 }  // namespace uking::action
