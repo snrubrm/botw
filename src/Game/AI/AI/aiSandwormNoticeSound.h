@@ -1,6 +1,9 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -26,6 +29,14 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
+    ksys::Timer _60{0, 0, 0};
+    bool _6c = false;
+    bool _6d = false;
+    sead::Vector3f _70;
+    sead::Vector3f _7c;
+    sead::Vector3f _88;
+    ksys::act::BaseProcLink _98;
 };
+KSYS_CHECK_SIZE_NX150(SandwormNoticeSound, 0xa8);
 
 }  // namespace uking::ai
