@@ -1,6 +1,8 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void sub_7100579E30(const sead::Vector3f& pos, bool a2);
+    void sub_7100579FA4();
+    void sub_710057A348(const sead::Vector3f& pos, bool a2);
 
 protected:
     // static_param at offset 0x38
@@ -42,6 +48,19 @@ protected:
     bool* mIsAttackPatternFixed_d{};
     // dynamic_param at offset 0x90
     bool* mIsCancelAttack_d{};
+    bool _98 = false;
+    bool _99 = false;
+    bool _9a = false;
+    u32 _9c = 0;
+    s32 _a0;
+    s32 _a4;
+    s32 _a8;
+    s32 _ac;
+    s32 _b0;
+    gsys::BoneAccessKeyEx _b8;
+    ksys::Timer _f0{0, 0, 0};
+    ksys::Timer _fc{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordAttackRoot, 0x108);
 
 }  // namespace uking::ai

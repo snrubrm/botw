@@ -1,4 +1,10 @@
 #include "Game/AI/AI/aiSiteBossLswordAttackRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -7,11 +13,47 @@ SiteBossLswordAttackRoot::SiteBossLswordAttackRoot(const InitArg& arg) : ksys::a
 SiteBossLswordAttackRoot::~SiteBossLswordAttackRoot() = default;
 
 bool SiteBossLswordAttackRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* model = mActor->getModel())
+        _b8.search(model, "Head");
+    else
+        _b8.getKey().reset();
+    _9a = false;
+    _a0 = *mHighSlashRate_s;
+    _a4 = *mCrossSlashRate_s;
+    _a8 = *mWhirlSlashRate_s;
+    _ac = 0;
+    _b0 = 0;
+    return true;
 }
 
 void SiteBossLswordAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _98 = false;
+    _99 = false;
+    _f0 = ksys::Timer(0, 0);
+    _fc = ksys::Timer(0, 0);
+
+    sead::Vector3f pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+            pos = sub_71005D9330(actor);
+        else
+            pos = getPlayerPosition();
+    }
+
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_1558.reset(8);
+        if (boss->_1558.isOn(0x200000)) {
+            sub_7100579E30(pos, true);
+            boss->_1558.reset(0x400000);
+            return;
+        }
+    }
+
+    if (act::SiteBoss::sub_71002D3804(mActor, "WearFlame"))
+        sub_7100579FA4();
+    else
+        sub_710057A348(pos, false);
 }
 
 void SiteBossLswordAttackRoot::leave_() {
@@ -37,6 +79,35 @@ bool SiteBossLswordAttackRoot::isChangeable() const {
     if (isCurrentChild("待機") || isCurrentChild("攻撃前待機"))
         return true;
     return ksys::act::ai::Ai::isChangeable();
+}
+
+void SiteBossLswordAttackRoot::sub_7100579E30(const sead::Vector3f& pos, bool a2) {
+    ksys::act::ai::InlineParamPack params;
+    params.addString("", "ThrowActorName", -1);
+    params.addVec3(pos, "TargetPos", -1);
+    auto* link = sub_71005D9050(mActor);
+    if (!link) {
+        setFailed();
+        return;
+    }
+    params.addActor(*link, "TargetActor", -1);
+    if (a2) {
+        changeChild("火球投げカウンター", &params);
+    } else {
+        _a0 = *mHighSlashRate_s;
+        _a4 = *mCrossSlashRate_s;
+        _a8 = *mWhirlSlashRate_s;
+        _ac = 0;
+        _b0 = 0;
+        changeChild("火球投げ", &params);
+    }
+}
+
+void SiteBossLswordAttackRoot::sub_710057A348(const sead::Vector3f& pos, bool a2) {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "TargetPos", -1);
+    params.addBool(a2, "IsMoveSide", -1);
+    changeChild("攻撃前待機", &params);
 }
 
 }  // namespace uking::ai
