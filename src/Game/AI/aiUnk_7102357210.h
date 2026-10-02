@@ -119,7 +119,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71024512c0_Payload _38;
 };
 
 // vtable 0x7102450528 (m2 handles message type 0x8000006 (payload Unk_710235abc8_Payload); embedded
@@ -401,7 +401,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102396ae0_Payload _38;
 };
 
 // vtable 0x7102450a68 (message 0x80000a9)
@@ -428,7 +428,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_710235aba0_Payload _38;
 };
 
 // vtable 0x71024509d8 (message 0x80000de)
@@ -447,7 +447,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e7c38_Payload _38;
 };
 
 // vtable 0x71023e7c68 (message 0x800009d)
@@ -456,7 +456,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e7c68_Payload _38;
 };
 
 // vtable 0x71023e7c98 (message 0x800009e)
@@ -465,7 +465,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102379988_Payload _38;
 };
 
 // vtable 0x71023e7cc8 (message 0x80000a1)
@@ -474,7 +474,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e78b0_Payload _38;
 };
 
 // vtable 0x71023e7cf8 (message 0x80000a2)
@@ -483,7 +483,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e7cf8_Payload _38;
 };
 
 // vtable 0x71023e8ff8 (message 0x80000b3)
@@ -492,7 +492,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e8ff8_Payload _38;
 };
 
 // vtable 0x71023e9028 (message 0x80000bf)
@@ -501,7 +501,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e9028_Payload _38;
 };
 
 // vtable 0x71023e7d28 (message 0x80000c0)
@@ -520,7 +520,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102358dc0_Payload _38;
 };
 
 // vtable 0x710235cec8 (message 0x8000041)
@@ -529,7 +529,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023e7bc0_Payload _38;
 };
 
 // vtable 0x71023799b0 (message 0x80000a3)
@@ -538,7 +538,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023799b0_Payload _38;
 };
 
 // vtable 0x7102379b00 (message 0x800009f)
@@ -547,7 +547,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102379b00_Payload _38;
 };
 
 // vtable 0x7102379b30 (message 0x80000a0)
@@ -556,7 +556,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102379b30_Payload _38;
 };
 
 // vtable 0x71023d4c08 (message 0x80000ab)
@@ -565,7 +565,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023d4bb0_Payload _38;
 };
 
 // vtable 0x7102404060 (message 0x8000018)
@@ -574,7 +574,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_7102404060_Payload _38;
 };
 
 // vtable 0x710240dd68 (message 0x8000042)
@@ -583,7 +583,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_710240dd68_Payload _38;
 };
 
 // vtable 0x7102424730 (message 0x80000b8)
@@ -592,7 +592,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_71023c5480_Payload _38;
 };
 
 // vtable 0x710244e760 (message 0x80000cc)
@@ -601,7 +601,7 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    ksys::act::BaseProcLink _38;
+    Unk_710244e760_Payload _38;
 };
 
 // vtable 0x71024056a8 (message 0x80000ac)

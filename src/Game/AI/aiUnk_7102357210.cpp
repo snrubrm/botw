@@ -565,7 +565,7 @@ bool Unk_7102450b88::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -628,7 +628,7 @@ bool Unk_7102450ac8::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -654,7 +654,7 @@ bool Unk_71023e7c38::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -668,7 +668,7 @@ bool Unk_71023e7c68::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -682,7 +682,7 @@ bool Unk_71023e7c98::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -696,7 +696,7 @@ bool Unk_71023e7cc8::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -710,7 +710,7 @@ bool Unk_71023e7cf8::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -724,7 +724,7 @@ bool Unk_71023e8ff8::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -738,7 +738,7 @@ bool Unk_71023e9028::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -773,7 +773,7 @@ bool Unk_7102358dc0::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -787,7 +787,7 @@ bool Unk_710235cec8::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -801,7 +801,7 @@ bool Unk_71023799b0::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -815,7 +815,7 @@ bool Unk_7102379b00::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -829,7 +829,7 @@ bool Unk_7102379b30::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -843,7 +843,7 @@ bool Unk_71023d4c08::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -857,7 +857,7 @@ bool Unk_7102404060::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -871,7 +871,7 @@ bool Unk_710240dd68::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -885,7 +885,7 @@ bool Unk_7102424730::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -899,7 +899,7 @@ bool Unk_710244e760::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;
@@ -951,7 +951,7 @@ bool Unk_71023da100::m2(const ksys::Message& message) {
     if (!payload)
         return false;
 
-    payload->x(&_38);
+    payload->x(&_38.mLink);
     _30 = true;
     _18 = message.getSource();
     return true;

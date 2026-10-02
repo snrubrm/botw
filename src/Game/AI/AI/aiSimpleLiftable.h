@@ -22,7 +22,6 @@ public:
 protected:
     Unk_71024507c8 _38{0x1800004};
     Unk_71023da100 _78;
-    int _c0 = 0;
 };
 
 }  // namespace uking::ai
