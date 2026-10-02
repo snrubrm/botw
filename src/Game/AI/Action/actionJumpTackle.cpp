@@ -4,6 +4,11 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::action {
 
@@ -60,6 +65,23 @@ void JumpTackle::m33() {
         sub_71007A2D34(body);
     if (auto* chemical = mActor->getChemicalStuff())
         chemical->sub_7100D91098(_91);
+}
+
+void JumpTackle::m32() {
+    auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody");
+    if (!body)
+        return;
+    body->setTransform(mActor->getMtx());
+    sub_71007A2B64(body, nullptr);
+    sub_71007A2EB0(body, mActor, nullptr);
+    getActorAttackSensor(mActor)->activateAttackSensor(
+        0x2000, 0x4001, mActor->getParam()->getRes().mGParamList->getAttack()->mPower.ref(),
+        mActor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref(), 0.0f, 0, 1, -1,
+        false, 1, -1);
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        _91 = chemical->_c >> 6 & 1;
+        chemical->sub_7100D91098(true);
+    }
 }
 
 }  // namespace uking::action

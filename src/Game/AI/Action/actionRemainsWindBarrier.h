@@ -3,6 +3,11 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 
+namespace ksys::phys {
+class RigidBody;
+class RigidBodySet;
+}  // namespace ksys::phys
+
 namespace uking::action {
 
 class RemainsWindBarrier : public ksys::act::ai::Action {
@@ -18,8 +23,8 @@ public:
 
 protected:
     void calc_() override;
-    void* _20{};
-    void* _28{};
+    ksys::phys::RigidBody* _20{};
+    ksys::phys::RigidBodySet* _28{};
     ksys::act::ModelBindInfo* _30{};
 };
 

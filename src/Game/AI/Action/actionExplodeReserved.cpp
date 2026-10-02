@@ -1,7 +1,15 @@
 #include "Game/AI/Action/actionExplodeReserved.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physParamSet.h"
+#include "KingSystem/Resource/Actor/resResourcePhysics.h"
 
 namespace uking::action {
 
@@ -27,6 +35,19 @@ void ExplodeReserved::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ExplodeReserved::leave_() {
     StopASPlay::leave_();
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        const int set_idx = actor->getPhysics()->sub_7100FBB668(*sub_71007A24E4());
+        auto* set = actor->getPhysics()->getRigidBodySet(set_idx);
+        const int body_idx = set->findBodyIndexByHavokName(body->getHkBodyName());
+        auto& set_param =
+            actor->getParam()->getRes().mPhysics->getParamSet().getRigidBodySet(set_idx);
+        auto& param = set_param.rigid_bodies[body_idx];
+        body->setContactLayerAndGroundHit(param.getContactLayer(), param.getGroundHit());
+        body->setGravityFactor(1.0f);
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    }
+    mActor->setFlag(ksys::act::Actor::ActorFlag::_20, false);
 }
 
 void ExplodeReserved::loadParams_() {

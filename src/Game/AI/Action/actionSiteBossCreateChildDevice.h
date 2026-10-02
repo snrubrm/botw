@@ -27,7 +27,8 @@ protected:
     bool* mIsCreateC_d{};
     // dynamic_param at offset 0x38
     bool* mIsCreateD_d{};
-    u16 _40 = 0;
+    u8 _40 = 0;
+    bool _41 = false;
     bool _42 = false;
     int _44 = 0;
     float _48 = 0.0f;
