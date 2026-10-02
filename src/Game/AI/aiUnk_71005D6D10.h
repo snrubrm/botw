@@ -282,3 +282,15 @@ bool sub_71005DEC08(ksys::act::BaseProcLink* link, ksys::act::Actor* actor, f32 
                     f32 angle);
 /// Sends `sender`'s message to the actors of the fortress tagged `tag` (no-op for an empty tag).
 bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag);
+
+// Placeholder name (after its only method, 0x71005e1be8; no ctor/vtable): four static-param strings
+// of a Golem part (GolemRepairParts / GolemThrowPartsToTargetBase embed two, at +0x60 / +0xa0).
+struct Unk_71005e1be8 {
+    // 0x71005e1be8: loads the strings as static params whose names are formatted with `idx` + 1.
+    void sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx);
+
+    sead::SafeString _0;
+    sead::SafeString _10;
+    sead::SafeString _20;
+    sead::SafeString _30;
+};

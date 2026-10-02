@@ -361,6 +361,14 @@ public:
     // 0x710079614c / 0x7100796164: bits 2-3 of _13fd equal 1 / bit 2 of _13fd.
     bool sub_710079614C() const;
     bool sub_7100796164() const;
+    // 0x7100795c44: updates the _860 camera states (when _860._1c8 != 0).
+    void sub_7100795C44();
+    // 0x7100795c08 (CSV name; `idx` is not used by the function itself).
+    void x_1(u8 idx);
+    // 0x7100799920 (CSV nullsub_6133): empty.
+    void sub_7100799920();
+    // 0x7100795f40: `*out` = the current core's entry of the f32 array at 0x1230 (false if out is null).
+    bool sub_7100795F40(f32** out);
 
     /* 0x0850 */ ksys::act::BaseProcLink _850;
     /* 0x0860 */ Unk_710079a8e8 _860;
