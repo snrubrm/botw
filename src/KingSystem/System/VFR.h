@@ -78,6 +78,8 @@ public:
     f32 getIntervalRatio(u32 core) const { return *mIntervalRatios[core]; }
     f32 getIntervalRatio() const { return getIntervalRatio(sead::CoreInfo::getCurrentCoreId()); }
 
+    u32 getFrameRate() const { return mFrameRate; }
+
     template <typename T>
     static inline void add(T* value, const T& v) {
         *value += v * instance()->getDeltaFrame();

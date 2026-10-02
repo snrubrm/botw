@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossCircleFormationRush.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
@@ -95,6 +96,11 @@ void PriestBossCircleFormationRush::m43() {
         }
     }
     changeChild("待機");
+}
+
+void PriestBossCircleFormationRush::m39() {
+    PriestBossFormation::m39();
+    _88.reset(*mHomingAttackTime_s * f32(ksys::VFR::instance()->getFrameRate()));
 }
 
 }  // namespace uking::ai
