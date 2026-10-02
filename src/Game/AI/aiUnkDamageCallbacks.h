@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Damage/dmgDamageCallback.h"
 
@@ -156,4 +157,44 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 
     bool _24 = false;
+};
+
+// vtable 0x7102451858 (AcceptLSwordDamageDCCallback behavior): turns reaction 5 / 2 of damage type 1
+// into 15 when the actor's ASList accepts event 5.
+class Unk_7102451858 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451858, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+};
+
+// vtable 0x7102451890 (SetAcceptOnlyBombDCCallback behavior).
+class Unk_7102451890 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451890, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    // IsThroughEffectiveDamage / IsThroughDieAttribute (written by the behavior's m8).
+    bool _24 = false;
+    bool _25 = false;
+};
+
+// vtable 0x7102451b30 (SetIgnoreMultiDamageDCCallback behavior). `_24` bits 0-5 are the behavior's
+// EnableCritical / SmallHit / MiddleHit / LargeHit / BlowOff / Gust parameters.
+class Unk_7102451b30 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451b30, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    sead::BitFlag8 _24;
+};
+
+// vtable 0x7102451d40 (SetPopPoolDamageAttrDCCallback behavior): replaces the reaction of damage
+// type 9 by `_24` (reaction 5) or `_28` (other reactions) unless they are -1.
+class Unk_7102451d40 : public uking::dmg::DamageCallback {
+    SEAD_RTTI_OVERRIDE(Unk_7102451d40, uking::dmg::DamageCallback)
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    s32 _24 = -1;
+    s32 _28 = -1;
 };

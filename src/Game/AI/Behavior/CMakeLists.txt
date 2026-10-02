@@ -1,4 +1,6 @@
 target_sources(uking PRIVATE
+  behaviorAcceptLSwordDamageDCCallback.cpp
+  behaviorAcceptLSwordDamageDCCallback.h
   behaviorActorFlagSetterAttensionNotice.cpp
   behaviorActorFlagSetterAttensionNotice.h
   behaviorAddRigidBodyToWorld.cpp
@@ -191,6 +193,12 @@ target_sources(uking PRIVATE
   behaviorSealNoticePlayerSound.h
   behaviorSendControlFireMessage.cpp
   behaviorSendControlFireMessage.h
+  behaviorSetAcceptOnlyBombDCCallback.cpp
+  behaviorSetAcceptOnlyBombDCCallback.h
+  behaviorSetAllNoDamageDCCallback.cpp
+  behaviorSetAllNoDamageDCCallback.h
+  behaviorSetAllOneDamageDCCallback.cpp
+  behaviorSetAllOneDamageDCCallback.h
   behaviorSetAnimalSupportNormalCalc.cpp
   behaviorSetAnimalSupportNormalCalc.h
   behaviorSetAttensionASEvent.cpp
@@ -203,16 +211,46 @@ target_sources(uking PRIVATE
   behaviorSetBoneControlNoSlow.h
   behaviorSetCollisionImpulseScale.cpp
   behaviorSetCollisionImpulseScale.h
+  behaviorSetDamageCallback.cpp
+  behaviorSetDamageCallback.h
+  behaviorSetDefenselessDCCallback.cpp
+  behaviorSetDefenselessDCCallback.h
+  behaviorSetDefenselessInAirDCCallback.cpp
+  behaviorSetDefenselessInAirDCCallback.h
+  behaviorSetFixedNoActionDCCallBack.cpp
+  behaviorSetFixedNoActionDCCallBack.h
   behaviorSetForceSmallRagdoll.cpp
   behaviorSetForceSmallRagdoll.h
+  behaviorSetGuardJustDamageCallback.cpp
+  behaviorSetGuardJustDamageCallback.h
+  behaviorSetIgnoreDrownDCCallBack.cpp
+  behaviorSetIgnoreDrownDCCallBack.h
+  behaviorSetIgnoreGustDCCallback.cpp
+  behaviorSetIgnoreGustDCCallback.h
+  behaviorSetIgnoreHorseDamage.cpp
+  behaviorSetIgnoreHorseDamage.h
+  behaviorSetIgnoreMultiDamageDCCallback.cpp
+  behaviorSetIgnoreMultiDamageDCCallback.h
+  behaviorSetIgnoreSmallHitDCCallBack.cpp
+  behaviorSetIgnoreSmallHitDCCallBack.h
   behaviorSetInfRotSpeedToSpineController.cpp
   behaviorSetInfRotSpeedToSpineController.h
   behaviorSetIsAffectWeak.cpp
   behaviorSetIsAffectWeak.h
   behaviorSetIsCalcSkipProhibited.cpp
   behaviorSetIsCalcSkipProhibited.h
+  behaviorSetJustAvoidHit1DamageDCCB.cpp
+  behaviorSetJustAvoidHit1DamageDCCB.h
   behaviorSetMotionType.cpp
   behaviorSetMotionType.h
+  behaviorSetNoReactionDCCallBack.cpp
+  behaviorSetNoReactionDCCallBack.h
+  behaviorSetNoWeakHitReactionDCCallBack.cpp
+  behaviorSetNoWeakHitReactionDCCallBack.h
+  behaviorSetPlayerLargeAttackDeathDCCB.cpp
+  behaviorSetPlayerLargeAttackDeathDCCB.h
+  behaviorSetPopPoolDamageAttrDCCallback.cpp
+  behaviorSetPopPoolDamageAttrDCCallback.h
   behaviorSetStaticSystemGroupHandler.cpp
   behaviorSetStaticSystemGroupHandler.h
   behaviorSetTransBoneForAnimeDriven.cpp
@@ -237,6 +275,8 @@ target_sources(uking PRIVATE
   behaviorSubAS.h
   behaviorSyncASFrameToAnimalUnit.cpp
   behaviorSyncASFrameToAnimalUnit.h
+  behaviorUnderSelectedReactionNoAction.cpp
+  behaviorUnderSelectedReactionNoAction.h
   behaviorWeaponChemicalReset.cpp
   behaviorWeaponChemicalReset.h
   behaviorYunBoIconInfo.cpp
