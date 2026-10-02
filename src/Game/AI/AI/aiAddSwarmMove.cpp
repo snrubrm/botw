@@ -32,4 +32,10 @@ void AddSwarmMove::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+bool AddSwarmMove::isFailed() const {
+    if (_78 || ActionBase::isFailed())
+        return true;
+    return getCurrentChild()->isFailed();
+}
+
 }  // namespace uking::ai
