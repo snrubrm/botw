@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionFork.h"
+#include "Game/AI/Action/actionUnk_71023c8600.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -21,6 +22,7 @@ protected:
 
     // static_param at offset 0x30
     const bool* mIsCheckAfterChildState_s{};
+    Unk_71023c8600 _38{this};
 };
 
 }  // namespace uking::action

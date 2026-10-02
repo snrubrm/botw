@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionOnetimeStopASPlay.h"
+#include "Game/AI/Action/actionUnk_71023c8600.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    bool isFailed() const override;
+    bool isFinished() const override;
+
+    Unk_71023c8600 _48{this};
 };
 
 }  // namespace uking::action

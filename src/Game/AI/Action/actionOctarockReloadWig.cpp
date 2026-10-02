@@ -11,19 +11,22 @@ bool OctarockReloadWig::init_(sead::Heap* heap) {
 }
 
 void OctarockReloadWig::enter_(ksys::act::ai::InlineParamPack* params) {
+    _90 = false;
     OctarockReloadWigBase::enter_(params);
 }
 
+// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void OctarockReloadWig::leave_() {
     OctarockReloadWigBase::leave_();
 }
 
 void OctarockReloadWig::loadParams_() {
     OctarockReloadWigBase::loadParams_();
-    // FIXME: CALL _ZN4sead14SafeStringBaseIcEaSERKS1_ @ 0x7100b0caa0
+    _48._30 = "Wig";
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
+// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void OctarockReloadWig::calc_() {
     OctarockReloadWigBase::calc_();
 }

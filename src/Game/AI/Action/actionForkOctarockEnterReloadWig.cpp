@@ -7,23 +7,30 @@ ForkOctarockEnterReloadWig::ForkOctarockEnterReloadWig(const InitArg& arg) : For
 ForkOctarockEnterReloadWig::~ForkOctarockEnterReloadWig() = default;
 
 bool ForkOctarockEnterReloadWig::init_(sead::Heap* heap) {
-    return Fork::init_(heap);
+    if (!Fork::init_(heap))
+        return false;
+    return _40.init(heap);
 }
 
 void ForkOctarockEnterReloadWig::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _38 = false;
+    _40.enter(params);
 }
 
+// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void ForkOctarockEnterReloadWig::leave_() {
     Fork::leave_();
 }
 
 void ForkOctarockEnterReloadWig::loadParams_() {
     Fork::loadParams_();
-    // FIXME: CALL _ZN4sead14SafeStringBaseIcEaSERKS1_ @ 0x7100b0caa0
+    _40.loadParams();
+    _40._30 = "Wig";
     getAITreeVariable(&mOctarockFormChangeUnit_a, "OctarockFormChangeUnit");
 }
 
+// TODO: calls 0x7100714c9c on the OctarockFormChangeUnit AI tree variable (class not declared yet)
 void ForkOctarockEnterReloadWig::calc_() {
     Fork::calc_();
 }

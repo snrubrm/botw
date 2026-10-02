@@ -21,6 +21,7 @@ protected:
 
     // aitree_variable at offset 0x88
     void* mOctarockFormChangeUnit_a{};
+    bool _90 = false;
 };
 
 }  // namespace uking::action

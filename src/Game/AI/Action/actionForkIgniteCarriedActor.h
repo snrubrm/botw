@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionFork.h"
+#include "Game/AI/Action/actionUnk_71023c8600.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+
+    Unk_71023c8600 _30{this};
 };
 
 }  // namespace uking::action

@@ -14,7 +14,9 @@ public:
 
 protected:
     void calc_() override;
-    bool isFinished() const override;
+    // Inline: the original emits it in the first TU that needs it (Angry's) and inlines it into
+    // overrides (OctarockReloadWigBase::isFinished).
+    bool isFinished() const override { return mFlags.isOn(Flag::Finished) || isFinishedAS(0, 0); }
 };
 
 }  // namespace uking::action

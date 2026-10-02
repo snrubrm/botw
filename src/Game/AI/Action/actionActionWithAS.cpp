@@ -15,8 +15,4 @@ void ActionWithAS::calc_() {
         setFinished();
 }
 
-bool ActionWithAS::isFinished() const {
-    return mFlags.isOn(Flag::Finished) || isFinishedAS(0, 0);
-}
-
 }  // namespace uking::action
