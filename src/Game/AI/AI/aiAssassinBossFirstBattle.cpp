@@ -99,4 +99,31 @@ bool AssassinBossFirstBattle::m41() {
     return true;
 }
 
+void AssassinBossFirstBattle::sub_710031657C(s32 a1, s32 a2) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    sead::FixedSafeString<32> name;
+    for (int i = 0; i < *mIronBallNum_s; ++i) {
+        name.format("%s%d", mIronBallKeyName_s.cstr(), i);
+        auto& link = enemy->getActorPartsActor(name);
+        auto* actor = mActor;
+        auto& payload = _b8[i]._18;
+        const sead::Vector3f pos = actor->getMtx().getTranslation();
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&payload.mLock);
+            payload._0.acquire(actor, false);
+            payload._10 = enemy->_c48._8;
+            payload._44 = a2;
+            payload._20 = pos;
+            payload._2c = sead::Vector3f::zero;
+            payload._38 = pos;
+            payload._48 = a1;
+            payload._4c = 0;
+        }
+        _b8[i].sub_710070DCC0(&link, true);
+    }
+}
+
 }  // namespace uking::ai
