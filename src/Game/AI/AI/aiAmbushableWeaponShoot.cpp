@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiAmbushableWeaponShoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
 
@@ -18,7 +21,8 @@ void AmbushableWeaponShoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AmbushableWeaponShoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* body = mActor->getRigidBodyByName(sub_71007A24D0()->cstr()))
+        body->setScale(mActor->getScale().x);
 }
 
 void AmbushableWeaponShoot::loadParams_() {

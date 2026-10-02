@@ -9,6 +9,7 @@ class FldObjIvyBurnRoot : public ksys::act::ai::Ai {
 public:
     explicit FldObjIvyBurnRoot(const InitArg& arg);
     ~FldObjIvyBurnRoot() override;
+    void calc_() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGiantSleepNormal.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -7,7 +9,10 @@ GiantSleepNormal::GiantSleepNormal(const InitArg& arg) : SpecialEnemySleep(arg) 
 GiantSleepNormal::~GiantSleepNormal() = default;
 
 bool GiantSleepNormal::init_(sead::Heap* heap) {
-    return SpecialEnemySleep::init_(heap);
+    if (!SpecialEnemySleep::init_(heap))
+        return false;
+    _78 = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), mAwakeRbName_s.cstr());
+    return true;
 }
 
 void GiantSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {

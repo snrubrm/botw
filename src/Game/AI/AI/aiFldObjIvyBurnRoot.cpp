@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFldObjIvyBurnRoot.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -19,5 +21,23 @@ void FldObjIvyBurnRoot::leave_() {
 }
 
 void FldObjIvyBurnRoot::loadParams_() {}
+
+void FldObjIvyBurnRoot::calc_() {
+    sub_710072BA90(mActor);
+    auto* unk = mActor->m135();
+    if (unk->_4 == 1) {
+        mActor->emitBasicSigOn();
+    } else if (unk->_4 == 4) {
+        mActor->emitGimmickSuccessSignal_1();
+    } else {
+        if (mActor->checkBasicSig())
+            unk->_4 = 1;
+        else if (mActor->checkGimmickSuccessSignal())
+            unk->_4 = 4;
+        else
+            return;
+        mActor->deleteAndEmit(0);
+    }
+}
 
 }  // namespace uking::ai

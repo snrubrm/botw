@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGroundHitSelect.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,17 @@ bool GroundHitSelect::init_(sead::Heap* heap) {
 }
 
 void GroundHitSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsEnterCheck_s) {
+        auto* actor = mActor;
+        _48 = actor && (isBgGroundHit(actor, false) || isLandedMaybe(actor, false));
+    } else {
+        _48 = false;
+    }
+
+    if (_48)
+        changeChild("接地", params);
+    else
+        changeChild("通常", params);
 }
 
 void GroundHitSelect::leave_() {
@@ -21,6 +32,32 @@ void GroundHitSelect::leave_() {
 void GroundHitSelect::loadParams_() {
     getStaticParam(&mIsActionEndEnd_s, "IsActionEndEnd");
     getStaticParam(&mIsEnterCheck_s, "IsEnterCheck");
+}
+
+void GroundHitSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (*mIsActionEndEnd_s) {
+            if (getCurrentChild()->isFinished())
+                setFinished();
+            else
+                setFailed();
+            return;
+        }
+        if (isCurrentChild("接地")) {
+            changeChild("通常");
+            return;
+        }
+    }
+
+    if (isCurrentChild("通常") && !_48) {
+        auto* actor = mActor;
+        if (actor && (isBgGroundHit(actor, false) || isLandedMaybe(actor, false)))
+            changeChild("接地");
+    }
+
+    auto* actor = mActor;
+    _48 = actor && (isBgGroundHit(actor, false) || isLandedMaybe(actor, false));
 }
 
 }  // namespace uking::ai

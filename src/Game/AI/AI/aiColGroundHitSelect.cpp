@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiColGroundHitSelect.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,10 @@ bool ColGroundHitSelect::init_(sead::Heap* heap) {
 }
 
 void ColGroundHitSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (isBgGroundHit(mActor, false))
+        changeChild("地上", params);
+    else
+        changeChild("空中", params);
 }
 
 void ColGroundHitSelect::leave_() {
@@ -28,6 +32,19 @@ void ColGroundHitSelect::leave_() {
 
 void ColGroundHitSelect::loadParams_() {
     getStaticParam(&mIsCheckEachFrame_s, "IsCheckEachFrame");
+}
+
+void ColGroundHitSelect::calc_() {
+    if (!*mIsCheckEachFrame_s || !getCurrentChild()->isChangeable())
+        return;
+
+    if (isBgGroundHit(mActor, false)) {
+        if (isCurrentChild("空中"))
+            changeChild("地上");
+    } else {
+        if (isCurrentChild("地上"))
+            changeChild("空中");
+    }
 }
 
 }  // namespace uking::ai

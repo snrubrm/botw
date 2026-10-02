@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -24,7 +25,9 @@ bool EnemyBattle::isChangeable() const {
 }
 
 void EnemyBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor) && static_cast<act::Enemy*>(actor)->_e84.isOnBit(0))
+        sub_7100381ED4();
 }
 
 void EnemyBattle::loadParams_() {
@@ -68,6 +71,15 @@ ksys::act::BaseProcLink& EnemyBattle::m35() {
     if (link != nullptr)
         return *link;
     return ksys::act::getDummyBaseProcLink();
+}
+
+// NON_MATCHING: the scale load is scheduled before &_f28 (leave_, which inlines this, matches)
+void EnemyBattle::sub_7100381ED4() {
+    auto* enemy = static_cast<act::Enemy*>(mActor);
+    if (enemy) {
+        const s32 time = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
+        enemy->_e68 = ksys::Timer(time, time);
+    }
 }
 
 }  // namespace uking::ai

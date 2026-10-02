@@ -9,6 +9,7 @@ class ColGroundHitSelect : public ksys::act::ai::Ai {
 public:
     explicit ColGroundHitSelect(const InitArg& arg);
     ~ColGroundHitSelect() override;
+    void calc_() override;
 
     bool isFailed() const override;
     bool isFinished() const override;

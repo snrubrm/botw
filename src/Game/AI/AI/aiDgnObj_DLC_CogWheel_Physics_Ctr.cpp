@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDgnObj_DLC_CogWheel_Physics_Ctr.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,11 @@ bool DgnObj_DLC_CogWheel_Physics_Ctr::init_(sead::Heap* heap) {
 }
 
 void DgnObj_DLC_CogWheel_Physics_Ctr::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (!isCurrentChild("atk有効")) {
+        mActor->emitBasicSigOn();
+        changeChild("atk有効");
+    }
+    sub_71007A44E4(mActor, true);
 }
 
 void DgnObj_DLC_CogWheel_Physics_Ctr::calc_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLandingChemicalBall.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,9 @@ bool LandingChemicalBall::init_(sead::Heap* heap) {
 }
 
 void LandingChemicalBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* chemical = mActor->sub_71011D8A44(0))
+        chemical->sub_7100D91098(true);
+    changeChild("着弾前");
 }
 
 void LandingChemicalBall::leave_() {
