@@ -7,8 +7,6 @@ namespace uking::action {
 
 RandomMoveAction::RandomMoveAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-RandomMoveAction::~RandomMoveAction() = default;
-
 void RandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

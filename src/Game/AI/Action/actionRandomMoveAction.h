@@ -9,7 +9,10 @@ class RandomMoveAction : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(RandomMoveAction, ksys::act::ai::Action)
 public:
     explicit RandomMoveAction(const InitArg& arg);
-    ~RandomMoveAction() override;
+    // The original keeps this destructor out of line next to the subclasses' inlined copies, which a
+    // defaulted destructor does not. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    ~RandomMoveAction() override { ; }
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
