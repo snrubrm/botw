@@ -130,6 +130,9 @@ public:
     bool sub_7100D10FB8() const;
     // 0x7100d11f10: the actor has a main rigid body or a character controller.
     bool sub_7100D11F10() const;
+    // 0x7100d12e64: bit 0 of byte +0x30 of the object returned by Actor vtable slot 130 (+0x410);
+    // false if there is none.
+    bool sub_7100D12E64() const;
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
     // (getChemicalStuff() if idx < 0).
     int sub_7100D131D0(int idx) const;
