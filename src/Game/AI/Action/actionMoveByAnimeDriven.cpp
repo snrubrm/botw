@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionMoveByAnimeDriven.h"
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +16,66 @@ bool MoveByAnimeDriven::init_(sead::Heap* heap) {
 }
 
 void MoveByAnimeDriven::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _50 = false;
+    auto* as_list = mActor->getASList();
+    if (!as_list) {
+        setFailed();
+        return;
+    }
+
+    playAS(m32(), *mIsIgnoreSameAS_s, 0, 0, -1.0f);
+    if (!as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_710002E82C)) {
+        setFailed();
+        return;
+    }
+
+    if (!mTargetBoneName_s.isEmpty()) {
+        sead::SafeString bone_name = "";
+        const auto& key = as_list->_14;
+        if (key.isValid()) {
+            bone_name = mActor->getModel()
+                            ->getUnits()
+                            .unsafeAt(key.model_unit_index)
+                            ->mModelUnit->getBoneName(key.bone_index);
+        }
+        if (bone_name != mTargetBoneName_s) {
+            as_list->sub_710115CE44(mTargetBoneName_s);
+            _50 = true;
+            if (!as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_710002E82C) ||
+                !as_list->_14.isValid()) {
+                setFailed();
+                return;
+            }
+        }
+    }
+
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+}
+
+bool MoveByAnimeDriven::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!ksys::act::ai::Action::reenter_(other, true))
+        return false;
+    _50 = false;
+    if (!sead::DynamicCast<MoveByAnimeDriven>(other))
+        return false;
+
+    if (!mTargetBoneName_s.isEmpty()) {
+        auto* as_list = mActor->getASList();
+        sead::SafeString bone_name = "";
+        const auto& key = as_list->_14;
+        if (key.isValid()) {
+            bone_name = mActor->getModel()
+                            ->getUnits()
+                            .unsafeAt(key.model_unit_index)
+                            ->mModelUnit->getBoneName(key.bone_index);
+        }
+        if (bone_name != mTargetBoneName_s) {
+            as_list->sub_710115CE44(mTargetBoneName_s);
+            _50 = true;
+        }
+    }
+    return true;
 }
 
 void MoveByAnimeDriven::leave_() {
