@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMoriblinSpearBattle.h"
+#include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,7 @@ bool MoriblinSpearBattle::isChangeable() const {
 }
 
 void MoriblinSpearBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_90);
 }
 
 void MoriblinSpearBattle::loadParams_() {

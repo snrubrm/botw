@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnkDamageCallbacks.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,8 @@ protected:
     const float* mForceAttackDist_s{};
     // static_param at offset 0x78
     const float* mAttackIntervalIntensity_s{};
+    ksys::Timer _80{0, 0};
+    Unk_7102451ba0 _90;
 };
 
 }  // namespace uking::ai

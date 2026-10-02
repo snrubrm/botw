@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -42,6 +44,14 @@ protected:
     const float* mUnReachableToRepathDist_s{};
     // static_param at offset 0x98
     const float* mTooFarPathDist_s{};
+    f32 _a0{};
+    s32 _a4{};
+    s32 _a8{};
+    sead::Vector3f _ac;
+    u32 _b8{};
+    sead::Vector3f _bc;
+    ksys::act::BaseProcLink _c8;
+    bool _d8{};
 };
 
 }  // namespace uking::ai
