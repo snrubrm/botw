@@ -52,3 +52,9 @@ void sub_7100738C88(ksys::act::Actor* actor, ksys::act::Actor* other);
 /// rigid body's gravity factor).
 void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up);
+
+/// 0x710072fec4 (declared only): probes along `dir` from the actor (used by the cliff/edge checks of
+/// several enemy AIs); optionally outputs a position and a flag. Placeholder name; the position of
+/// the f32 argument among the integer arguments is unknown.
+bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 distance,
+                    sead::Vector3f* out_pos, bool flag, bool* out_flag);

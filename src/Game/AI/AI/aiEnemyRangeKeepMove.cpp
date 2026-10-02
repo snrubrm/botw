@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -61,6 +63,15 @@ void EnemyRangeKeepMove::sub_71003ABF50() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("戦闘待機", &pack);
+}
+
+bool EnemyRangeKeepMove::sub_71003AD058() {
+    if (!*mIsCheckBack_s)
+        return false;
+    sead::Vector3f dir = mActor->getMtx().getTranslation();
+    dir -= sub_71005D9330(mActor);
+    dir.normalize();
+    return sub_710072FEC4(mActor, dir, 3.0f, nullptr, false, nullptr);
 }
 
 }  // namespace uking::ai

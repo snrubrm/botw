@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCliffCheckSelect.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -52,6 +54,27 @@ void CliffCheckSelect::calc_() {
         if (sub_710035116C())
             changeChild("崖である");
     }
+}
+
+bool CliffCheckSelect::sub_710035116C() {
+    if (!mActor)
+        return false;
+
+    sead::Vector3f dir;
+    m34(&dir);
+    sead::Vector3f rot = sead::Vector3f::ey;
+    rot *= *mCheckAngle_s;
+    sead::Matrix34f mtx;
+    mtx.makeR(rot);
+    dir.rotate(mtx);
+    return sub_710072FEC4(mActor, dir, *mCheckDist_s, nullptr, false, nullptr);
+}
+
+// NON_MATCHING: regalloc (x8/x9 swapped)
+void CliffCheckSelect::m34(sead::Vector3f* out) {
+    if (!mActor)
+        *out = sead::Vector3f::ez;
+    mActor->getMtx().getBase(*out, 2);
 }
 
 }  // namespace uking::ai

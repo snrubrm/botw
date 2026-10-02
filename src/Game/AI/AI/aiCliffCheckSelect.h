@@ -17,6 +17,8 @@ public:
     void calc_() override;
     void loadParams_() override;
 
+    virtual void m34(sead::Vector3f* out);
+
     bool sub_710035116C();
 
 protected:
