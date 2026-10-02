@@ -213,17 +213,6 @@ public:
     void* m2() override { return nullptr; }
 };
 
-// vtable 0x71023eaec8 (EnemyRoot)
-class Unk_71023eaec8 : public Unk_7102357d20 {
-public:
-    using Unk_7102357d20::Unk_7102357d20;
-    void* m2() override { return _18; }
-
-    ksys::act::BaseProcLink _18[2];
-    sead::Matrix34f _38 = sead::Matrix34f::ident;
-    u32 _68 = 0;
-};
-
 // vtable 0x71023eaef0 (EnemyRoot): the payload link is set to the owner actor on construction.
 class Unk_71023eaef0 : public Unk_7102357d20 {
 public:
