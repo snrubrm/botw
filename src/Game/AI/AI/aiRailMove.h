@@ -33,7 +33,7 @@ public:
     void sub_710032C56C();
     bool sub_710032C5AC() const;
     void sub_710032C5BC(sead::Vector3f* pos) const;
-    void sub_710032C5F8();
+    void sub_710032C5F8(f32 wait_frame);
     f32 sub_710032C97C() const;
     bool sub_710032C984(f32* progress, sead::Vector3f* pos, const sead::Vector3f& target) const;
     void sub_710032CA64();
