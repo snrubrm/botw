@@ -1,46 +1,82 @@
+# Agent guide for this fork
 
+This is a **private fork** (`snrubrm/botw`) of the Breath of the Wild decompilation (Switch v1.5.0, Clang 4.0.1,
+AArch64). It is never merged upstream.
 
-It is strongly recommended to disclose your vendor and model (e.g. `GitHub Copilot on GPT 5.6 Sol`)
-in your commit messages and PR description.
+- Never open upstream PRs, post code to decomp.me, Discord or anywhere else, or suggest doing so.
+- No AI attribution of any kind in commits or PR descriptions (no `Co-Authored-By`, no "Generated with", no model
+  disclosure).
+- Don't push or rewrite pushed history unless the user asks.
 
-# RE/Decompile Rules
+# Building and checking
 
-- Currently we are focused on reverse-engineering unknown subsystems and components
-  instead of matching trivial functions, as the maintainer resources are limited.
-- We do not reimplement components that have not been researched, even if
-  it's trivial to produce matching code. Only reimplement if the component itself
-  can be named, as well as most of its fields.
-  - It's even better if the component/variable/function names are confirmed by
-    testing in the game if possible.
-- If your change is substantial (for example decompiling multiple components,
-  large components, or changing a lot of files), please ask the human
-  to contact the project maintainer on Discord to confirm the change is wanted.
-  The contact information can be found in the contributing guidelines.
+- Build: `ninja -C build` (or `/home/snrub/botw-tools/bin/lb` from inside a worktree — shared ccache, `-j4`).
+- Check one function: `./tools/check <mangled-or-demangled name>`. It prints OK or an asm diff and **rewrites that
+  function's status in `data/uking_functions.csv`**. A full `./tools/check` must print OK before every commit; it also
+  rewrites statuses of everything that currently matches, so review `git diff data/uking_functions.csv`.
+- `tools/check` does not compare string literal contents, literal-pool values (floats) or unlisted data references.
+  Before committing also run, from the repo root:
+  - `/home/snrub/botw-tools/bin/strcheck <base commit>` — every added string literal must exist in the original.
+  - `/home/snrub/botw-tools/bin/datarefs` — data references, vtables and constants vs the original; must exit 0.
+    Known/accepted issues live in `/home/snrub/botw-tools/datarefs-known.txt`.
+- Original asm: `/home/snrub/botw-tools/bin/fnasm <name|0xaddr>`; strings/u64 at an address:
+  `/home/snrub/botw-tools/bin/fstr <vaddr> | q:<vaddr>`; Ghidra pseudo-C:
+  `/home/snrub/botw-tools/research/ghidra-c/<address>.c`.
+- When you identify a global, vtable or RTTI object, add `<address>,<mangled name>` to `data/data_symbols.csv`
+  (sorted; the first line is a header) so `tools/check` verifies references to it.
 
-# Code Style Rules 
+# Function list
 
-- Do not include any assembly or disassembly as code or comment
-- Do not use inline assembly for matching. Any PR with a substantial amount of 
-  inline assembly will be automatically rejected. Even for a small amount, it is
-  preferred to keep the function as non-matching when it's trivially provable
-  that it is equivalent to the original (e.g. register renaming, reordering).
-  - The only exception is `asm("")` which can serve as a barrier for optimization.
-- Do not use `goto` for matching unless it is **absolutely** necessary and plausible
-  that the original source code contained `goto`.
-- The naming convention are different across the game and libraries. For the most
-  part just be consistent with the code around your changes.
+`data/uking_functions.csv` is the symbol map: `Address,Quality,Size,Name` with Quality O (matching), m (minor
+mismatch), M (major), W (stub/WIP), U (undecompiled), L (library). A function matches only if our build defines its
+exact mangled name, so when you give a placeholder entry (`Class::m34`, `AI_AI_X::ctor`, an informal IDA name) its real
+signature, rename the CSV entry to the new mangled symbol — also for functions that are declared but not defined yet,
+or their callers can't match.
 
-# PR Rules
+# Matching rules (the user rejects workarounds — honest non-matching beats a hack)
 
-- English only
-- Do not publish a PR without human review. If the human doesn't know what
-  they are doing, do not create a PR.
-- Do not commit one-off scripts.
-- Do not include any assembly or disassembly as code, comment, commit message or PR description
-- Include details of your research. e.g.:
-  - Where the symbol (class/variable/function) names come from
-  - For matching, if a cleaner code pattern is tried but does not match
-- Make the PRs small and focused, which helps review:
-  - One subsystem/component per PR
-  - If the change spans across a lot of components, batch them into smaller PRs
+Write plausible original source. Never use:
 
+- inline asm (including `asm("")` barriers);
+- `goto` only to steer codegen;
+- invented globals, helpers or stand-in functions;
+- pointer punning (`*(T*)&x`, `reinterpret_cast` struct overlays);
+- casts that only change codegen;
+- register-steering locals;
+- invented calls (calls that are not in the target asm);
+- self-assignments, `volatile`;
+- pragmas, attributes or compiler flags without evidence.
+
+Allowed, with evidence:
+
+- A call whose result is discarded, when that call really is in the target asm. Log it.
+- A cast, local or inline helper when natural code would contain it, or when matched human-written code (this repo,
+  sead/agl, other Nintendo decomps) uses the same form in the same situation.
+- A named local for a value used more than once, or holding a getter's by-value result.
+- `{ ; }` as a destructor body where the original keeps the vtable store a defaulted dtor drops (precedent: upstream's
+  `GameDataFlagSelector::~GameDataFlagSelector() { ; }`, commit 96101229). Comment it.
+
+If only a trick makes a function match: keep the natural version, mark it `m`/`M` in the CSV, add
+`// NON_MATCHING: <reason>` above it, and record the trick as "borderline" for the user to decide. Decisions and the
+review backlog are in `/home/snrub/botw-tools/research/decisions.md` and `REVIEW.md`.
+
+# Names
+
+Use names from the CSV, existing headers, aidef/status data (`data/*.yml`), strings in the binary, RTTI, or
+sead/agl/NintendoSDK headers. Don't invent descriptive names. For things that exist in the binary but have no known
+name, use the placeholder conventions: `mNN` (virtual slot), `sub_<ADDR>` (function), `_xx` (field at offset xx),
+`Unk_<vtable or ctor address>` (class), `sUnk_<address>` (global).
+
+# Code style
+
+- No assembly or disassembly in code, comments or commit messages.
+- Follow the surrounding code's naming and formatting (`.clang-format`).
+- Keep class sizes and offsets right; add `KSYS_CHECK_SIZE_NX150` when you learn a size.
+- Shared headers (Actor, ActionBase, listener/sender headers, ...): additive edits; grep for an existing declaration
+  before adding one.
+- Don't edit `lib/` (submodules) or tooling.
+
+# Commits
+
+One class (or one logical batch) per commit, subject like `Decompile <class>` / `Match <class>::<fn>`, body listing
+what matches and what is left non-matching. Stage specific files. No AI attribution lines.
