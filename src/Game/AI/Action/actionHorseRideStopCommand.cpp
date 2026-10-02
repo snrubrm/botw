@@ -26,4 +26,8 @@ void HorseRideStopCommand::calc_() {
     HorseRideCommand::calc_();
 }
 
+bool HorseRideStopCommand::m32(ksys::act::Actor* actor) {
+    return _58.sub_710070DC38(actor, true);
+}
+
 }  // namespace uking::action

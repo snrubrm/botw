@@ -27,4 +27,8 @@ void HorseRideAngryGear1Coomand::calc_() {
     HorseRideCommand::calc_();
 }
 
+bool HorseRideAngryGear1Coomand::m32(ksys::act::Actor* actor) {
+    return _58.sub_710070DC38(actor, true);
+}
+
 }  // namespace uking::action

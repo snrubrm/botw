@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionHorseRideCommand.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,9 +19,14 @@ public:
 
 protected:
     void calc_() override;
+    bool m32(ksys::act::Actor* actor) override;
 
     // dynamic_param at offset 0x58
     int* mGear_d{};
+    Unk_710239c018 _60{mActor, 0x380000b};
+    Unk_710239c040 _80{mActor, 0x380000c};
 };
+
+KSYS_CHECK_SIZE_NX150(HorseRideDynSetGearCommand, 0x98);
 
 }  // namespace uking::action

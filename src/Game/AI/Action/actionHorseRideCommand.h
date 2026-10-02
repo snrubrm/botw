@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // Sends the command to `actor` (the rider); returns true on success.
+    virtual bool m32(ksys::act::Actor* actor);
 
     // static_param at offset 0x50
     const int* mCommandTiming_s{};
