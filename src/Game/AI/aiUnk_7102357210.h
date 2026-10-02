@@ -342,7 +342,10 @@ public:
 // vtable 0x71024506d8 (message 0x800000a)
 class Unk_71024506d8 : public Unk_7102357210 {
 public:
-    ~Unk_71024506d8() override;
+    // Inlined into AttackGrave's destructor, yet the original keeps its own D1 copy (0x710070ab70)
+    // instead of aliasing the base destructor; written as upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_71024506d8() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };
