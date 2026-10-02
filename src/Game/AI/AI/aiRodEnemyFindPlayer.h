@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    s32 m53() override { return *mRodWeaponIdx_s; }
+    virtual bool m54();
+
 protected:
     // static_param at offset 0x1e8
     const int* mMagicPer_s{};
