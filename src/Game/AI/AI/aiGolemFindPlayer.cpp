@@ -24,9 +24,9 @@ void GolemFindPlayer::loadParams_() {
     getStaticParam(&mSearchExplosiveDist_s, "SearchExplosiveDist");
 }
 
+// NON_MATCHING: the original loads mActor for the first argument after the call
 void GolemFindPlayer::m47() {
-    const auto& pos = sub_71005D9330(mActor);
-    sub_71005DB068(mActor, pos);
+    sub_71005DB068(mActor, sub_71005D9330(mActor));
 }
 
 }  // namespace uking::ai

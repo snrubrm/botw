@@ -14,8 +14,7 @@ void CloseSmallAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     const f32 dx = pos.x - mTargetPos_d->x;
     const f32 dz = pos.z - mTargetPos_d->z;
-    const f32 dist = sead::Mathf::sqrt(dx * dx + dz * dz);
-    if (dist < *mCloseRadius_s + sub_71007320F0(mActor, *mWeaponIdx_s)) {
+    if (sead::Mathf::sqrt(dx * dx + dz * dz) < *mCloseRadius_s + sub_71007320F0(mActor, *mWeaponIdx_s)) {
         ksys::act::ai::InlineParamPack pack;
         pack.addVec3(*mTargetPos_d, "TargetPos", -1);
         changeChild(m35(), &pack);
@@ -38,8 +37,8 @@ void CloseSmallAttackBase::calc_() {
         const sead::Vector3f pos = mActor->getMtx().getTranslation();
         const f32 dx = pos.x - mTargetPos_d->x;
         const f32 dz = pos.z - mTargetPos_d->z;
-        const f32 dist = sead::Mathf::sqrt(dx * dx + dz * dz);
-        if (dist < *mCloseRadius_s + sub_71007320F0(mActor, *mWeaponIdx_s)) {
+        if (sead::Mathf::sqrt(dx * dx + dz * dz) <
+            *mCloseRadius_s + sub_71007320F0(mActor, *mWeaponIdx_s)) {
             ksys::act::ai::InlineParamPack pack;
             pack.addVec3(*mTargetPos_d, "TargetPos", -1);
             changeChild(m35(), &pack);

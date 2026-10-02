@@ -33,9 +33,9 @@ void LynelFindPlayer::m40() {
     EnemyBaseFindPlayer::m40();
 }
 
+// NON_MATCHING: the original loads mActor for the first argument after the call
 void LynelFindPlayer::m47() {
-    const auto& pos = sub_71005D93CC(mActor);
-    sub_71005DB068(mActor, pos);
+    sub_71005DB068(mActor, sub_71005D93CC(mActor));
 }
 
 }  // namespace uking::ai

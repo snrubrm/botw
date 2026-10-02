@@ -510,6 +510,13 @@ struct Unk_71024512c0_Payload {
 
 // Message 0x800001d (sender Unk_7102399748)
 struct Unk_7102399748_Payload {
+    // Inline only (no out-of-line copy in the executable); placeholder name.
+    void x(ksys::act::BaseProc* proc, f32 value) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        mLink.acquire(proc, false);
+        _10 = value;
+    }
+
     ksys::act::BaseProcLink mLink;
     f32 _10 = 0;
     sead::JobQueueLock mLock;

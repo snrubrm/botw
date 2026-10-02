@@ -13,12 +13,7 @@ bool GerudoHeroSoulGiftRoot::init_(sead::Heap* heap) {
 }
 
 void GerudoHeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    {
-        auto* actor = mActor;
-        sead::ScopedLock<sead::JobQueueLock> lock(&_b8._18.mLock);
-        _b8._18.mLink.acquire(actor, false);
-        _b8._18._10 = 100.0f;
-    }
+    _b8._18.x(mActor, 100.0f);
     HeroSoulGiftRoot::enter_(params);
     _9c = false;
     _9d = false;
