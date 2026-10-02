@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
 
@@ -26,6 +27,12 @@ struct Unk_710039D8F0 {
     bool _4c = false;
     ksys::act::BaseProcLink _50;
     u32 _60 = 0;
+};
+
+// Awareness filter of EnemyNormal::m68 (vtable 0x71023e8fa8; m2 0x71003a40dc, D0 0x71003a4170).
+class Unk_71023e8fa8 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 
 class EnemyNormal : public ksys::act::ai::Ai {

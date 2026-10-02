@@ -1,10 +1,14 @@
 #include "Game/AI/AI/aiEnemyNormal.h"
 #include <cmath>
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -153,6 +157,125 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
         }
         sub_71005E1884(mActor, &_2e0, mFortressTag_s.cstr());
     }
+}
+
+void EnemyNormal::m37() {
+    _3ac.reset(0xc);
+    _3b8 = 0;
+    m41();
+    _50.reset();
+    _364 = 0;
+
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f pos;
+    m48(&pos);
+    params.addVec3(pos, "CentralPos", -1);
+    changeChild("待機", &params);
+}
+
+void EnemyNormal::m40() {
+    _3ac.reset(8);
+    const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    _120 = time;
+    _12c = false;
+    _188.x();
+    if (!_200._30 && _3ac.isOff(2)) {
+        _3ac.set(2);
+        if (auto* lod = mActor->getLodState())
+            lod->mFlags14.set(0x2000000);
+    }
+    _50.reset();
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EBE0(1.0f);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("怒り", &params);
+}
+
+void EnemyNormal::m60(Unk3* out) {
+    if (isCurrentChild("プレイヤー発見") || isCurrentChild("不審者発見")) {
+        auto* target = sub_71005D9050(mActor);
+        if (target && target->hasProc() && sub_71005D777C(target))
+            out->_0 = 1;
+        else
+            out->_0 = getCurrentChild()->isFinished();
+        out->_4 |= 2;
+    } else if (isCurrentChild("音気づき")) {
+        out->_0 = 0;
+    } else if (isCurrentChild("行動中仲間発見")) {
+        out->_0 = 0;
+    } else if (isCurrentChild("諦め")) {
+        out->_0 = -1;
+    } else if (!m54()) {
+        out->_0 = 1;
+    }
+}
+
+void EnemyNormal::m61(Unk3* out) {
+    if (isCurrentChild("プレイヤー発見") || isCurrentChild("不審者発見")) {
+        if (m45(sub_71005D9330(mActor), sub_71005D94AC(mActor), true)) {
+            auto* target = sub_71005D9050(mActor);
+            if (target && ksys::act::isPlayerProfile(target))
+                out->_4 |= 2;
+            out->_0 = 2;
+        }
+    } else if (isCurrentChild("音気づき")) {
+        if (*mSoundLostTimer_s >= 0 && _358.value <= sead::Mathf::epsilon())
+            out->_0 = 0;
+    }
+}
+
+void EnemyNormal::m62(Unk3* result) {
+    if (auto* unk = sub_71005D9D68(mActor))
+        unk->sub_71002DCBDC(8);
+
+    if (result->_4 & 1) {
+        _3ac.set(4);
+        const f32 value = *_3b0;
+        const f32 sub_area = *mSubsTerritoryArea_s;
+        _3b8 = value > sub_area + sub_area ? -sub_area : value * -0.5f;
+    }
+
+    if (result->_4 & 2) {
+        _188.x();
+        if (!_200._30 && _3ac.isOff(2)) {
+            _3ac.set(2);
+            if (auto* lod = mActor->getLodState())
+                lod->mFlags14.set(0x2000000);
+        }
+    }
+}
+
+// NON_MATCHING: register allocation (&filter kept in a callee-saved register)
+bool EnemyNormal::m68(Unk2* out, Unk1* info) {
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return false;
+
+    ksys::act::Unk_71024dc858* entry;
+    if (info->_8 & 0x1000) {
+        Unk_71023e8fa8 filter;
+        auto* sensor = awareness->_260[2];
+        entry = sensor ? ksys::act::sub_7100D7EEE8(&sensor->_8, &filter) : nullptr;
+    } else {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || sensor->_8.size() < 1)
+            return false;
+        entry = ksys::act::sub_7100D78E30(&sensor->_8, 0);
+    }
+
+    if (!entry || !(*mNoticeTerrorLevel_s <= entry->_a4))
+        return false;
+    out->sub_71003A02A4(entry);
+    return true;
+}
+
+bool Unk_71023e8fa8::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return true;
+    return !(target->_3c & 0x40);
 }
 
 void EnemyNormal::Unk2::sub_710039E308(ksys::act::BaseProcLink* link) {
