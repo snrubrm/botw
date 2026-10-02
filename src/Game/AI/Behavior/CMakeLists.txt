@@ -41,6 +41,10 @@ target_sources(uking PRIVATE
   behaviorBeastGanonBgmCtrl.h
   behaviorBeastGanonBgmStop.cpp
   behaviorBeastGanonBgmStop.h
+  behaviorBeastGanonLastBlowOffMes.cpp
+  behaviorBeastGanonLastBlowOffMes.h
+  behaviorBeastGanonWPPrincessShout.cpp
+  behaviorBeastGanonWPPrincessShout.h
   behaviorBgmCtrlBehavior.cpp
   behaviorBgmCtrlBehavior.h
   behaviorBossBgm.cpp
@@ -147,6 +151,8 @@ target_sources(uking PRIVATE
   behaviorForceFixed.h
   behaviorForceSealSilentKill.cpp
   behaviorForceSealSilentKill.h
+  behaviorGanonBeastFirstMessage.cpp
+  behaviorGanonBeastFirstMessage.h
   behaviorGelDisableEyeControl.cpp
   behaviorGelDisableEyeControl.h
   behaviorGiantDownReaction.cpp
@@ -405,6 +411,18 @@ target_sources(uking PRIVATE
   behaviorShowRandomMessage3D.h
   behaviorSignalControl.cpp
   behaviorSignalControl.h
+  behaviorSimpleAtvUnitDlgStop.cpp
+  behaviorSimpleAtvUnitDlgStop.h
+  behaviorSimpleAtvUnitOpDlgRestWpTimeR3Base.cpp
+  behaviorSimpleAtvUnitOpDlgRestWpTimeR3Base.h
+  behaviorSimpleAtvUnitOpDlgRestWpTimeR3.cpp
+  behaviorSimpleAtvUnitOpDlgRestWpTimeR3.h
+  behaviorSimpleAtvUnitOpenDlg.cpp
+  behaviorSimpleAtvUnitOpenDlg.h
+  behaviorSimpleAtvUnitOpenDlgRnd3.cpp
+  behaviorSimpleAtvUnitOpenDlgRnd3.h
+  behaviorSimpleAtvUnitOpenSimpleDialog.cpp
+  behaviorSimpleAtvUnitOpenSimpleDialog.h
   behaviorSiteBossSetFlinchFlag.cpp
   behaviorSiteBossSetFlinchFlag.h
   behaviorSoundStateLoad.cpp

@@ -1,0 +1,24 @@
+#include "Game/AI/Behavior/behaviorBeastGanonLastBlowOffMes.h"
+
+namespace uking::behavior {
+
+BeastGanonLastBlowOffMes::BeastGanonLastBlowOffMes(const InitArg& arg)
+    : SimpleAtvUnitOpenDlgRnd3(arg) {}
+
+void BeastGanonLastBlowOffMes::m8() {
+    SimpleAtvUnitOpenDlgRnd3::m8();
+}
+
+void BeastGanonLastBlowOffMes::m9() {
+    SimpleAtvUnitOpenDlgRnd3::m9();
+}
+
+void BeastGanonLastBlowOffMes::loadParams() {
+    SimpleAtvUnitOpenDlgRnd3::loadParams();
+    getStaticParam(&mDistXZ_s, "DistXZ");
+    getStaticParam(&mSubsY_s, "SubsY");
+    getStaticParam(&mFrontAngle_s, "FrontAngle");
+    getStaticParam(&mXZBaseNode_s, "XZBaseNode");
+}
+
+}  // namespace uking::behavior
