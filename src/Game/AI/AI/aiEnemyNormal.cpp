@@ -19,6 +19,9 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 
 namespace uking::ai {
 
@@ -368,6 +371,39 @@ void EnemyNormal::sub_71003A157C(Unk2* target) {
     sub_710039FAA4(target->_38);
 }
 
+void EnemyNormal::m69(Unk2* target) {
+    _3ac.reset(8);
+    const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
+    auto* actor = mActor;
+    _120 = time;
+    _12c = false;
+    _364 = 0;
+    _50.reset();
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target->_38, "TargetPos", -1);
+    m42();
+    if (auto* awareness = actor->getAwareness()) {
+        if (auto* sensor = awareness->_260[0]) {
+            if (auto* flags = sensor->m16())
+                flags->set(1);
+        }
+    }
+    _370 = 60.0f;
+    changeChild("攻撃反応", &params);
+    sub_710039FAA4(target->_38);
+}
+
+void EnemyNormal::m41() {
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->sub_7100D7EBE0(1.0f);
+        if (auto* sensor = awareness->_260[0]) {
+            if (auto* flags = sensor->m16())
+                flags->reset(1);
+        }
+    }
+}
+
 void EnemyNormal::leave_() {
     if (auto* awareness = mActor->getAwareness())
         awareness->disable();
@@ -456,6 +492,105 @@ bool EnemyNormal::m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink&
 }
 
 // NON_MATCHING: the original shares one "return false" block (ours duplicates it per early return)
+// NON_MATCHING: register allocation (the address of _308's link is kept in a callee-saved register
+// across the lock instead of being recomputed for sub_71002DC628)
+bool EnemyNormal::handleMessage_(const ksys::Message& message) {
+    if (_308.m2(message)) {
+        if (auto* unk = sub_71005D9D68(mActor))
+            unk->sub_71002DC628(_308._38.mLink, 0x40);
+        _308.x();
+        return true;
+    }
+
+    if (_188._30 || m73())
+        return false;
+
+    if (_188.m2(message)) {
+        sead::Vector3f center;
+        m48(&center);
+        if (m45(_188._38.mData._28, _188._38.mData._0, false)) {
+            _188.x();
+            return false;
+        }
+        if (ksys::map::AutoPlacementMgr::instance() &&
+            ksys::map::AutoPlacementMgr::instance()->isNonAutoPlacement(_188._38.mData._28, true)) {
+            return false;
+        }
+        _290.x();
+        if (!_200._30) {
+            _368 = sead::GlobalRandom::instance()->getF32Range(8.0f, 20.0f);
+            if (_3ac.isOn(2)) {
+                _3ac.reset(2);
+                if (auto* lod = mActor->getLodState())
+                    lod->mFlags14.reset(0x2000000);
+            }
+        }
+        return !(_188._38.mData._34 & 2);
+    }
+
+    if (!_200._30 && _200.m2(message)) {
+        if (_188._30)
+            return true;
+        _368 = sead::GlobalRandom::instance()->getF32Range(8.0f, 20.0f);
+        _290.x();
+        if (_3ac.isOn(2)) {
+            _3ac.reset(2);
+            if (auto* lod = mActor->getLodState())
+                lod->mFlags14.reset(0x2000000);
+        }
+        return true;
+    }
+
+    if (mActor->getParam()->getRes().mGParamList->getEnemy()->mIsMindFriend.ref() && !_290._30 &&
+        _290.m2(message)) {
+        if (_188._30)
+            return true;
+        if (_200._30)
+            return true;
+        _368 = sead::GlobalRandom::instance()->getF32Range(18.0f, 40.0f);
+        if (_3ac.isOn(2)) {
+            _3ac.reset(2);
+            if (auto* lod = mActor->getLodState())
+                lod->mFlags14.reset(0x2000000);
+        }
+        return true;
+    }
+
+    return false;
+}
+
+}  // namespace uking::ai
+
+bool Unk_71023e9028::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000bf)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e9028_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38.mLink);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_71023e8ff8::m2(const ksys::Message& message) {
+    if (message.getType().value != 0x80000b3)
+        return false;
+
+    auto* payload = static_cast<Unk_71023e8ff8_Payload*>(message.getUserData());
+    if (!payload)
+        return false;
+
+    payload->x(&_38.mLink);
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+namespace uking::ai {
+
 bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target) {
     sead::Vector3f center;
     m48(&center);
@@ -499,6 +634,33 @@ bool EnemyNormal::m46(const sead::Vector3f& pos, ksys::act::BaseProcLink& target
     if (mgr->isNonAutoPlacement(own_pos, true))
         return false;
     return !mgr->isNonAutoPlacement(pos, true);
+}
+
+// NON_MATCHING: the three filter branches are tail-merged differently; the filter bits are stored
+// once more in the original's "2" path layout
+ksys::act::Unk_71024dc858* EnemyNormal::sub_71003A0114(bool a1, s32 type, s32 a3, u16* flags) {
+    if (*flags & 0x30) {
+        if (type != 2)
+            return nullptr;
+        Unk_7102451600 filter;
+        filter._28 = *flags & 0x20;
+        return sub_71003A04E0(a1, &filter, a3, *flags & 0x40);
+    }
+
+    auto* actor = mActor;
+    if (isCurrentChild("攻撃反応")) {
+        Unk_7102451498 filter(actor);
+        return sub_71003A04E0(a1, &filter, a3, *flags & 0x40);
+    }
+
+    Unk_71024514c0 filter(actor);
+    if (type == 1 || *mSealNoPlayerAwnRequestCount_a >= 1)
+        filter._30 |= 2;
+    filter._30 |= type == 2;
+    auto* enemy = static_cast<act::Enemy*>(actor);
+    if (type != 3 && !(*flags & 8) && *mIsMindDoubtTarget_s && !(enemy && enemy->_e84.isOnBit(1)))
+        filter._30 |= 4;
+    return sub_71003A04E0(a1, &filter, a3, *flags & 0x40);
 }
 
 // NON_MATCHING: the original selects the range member address per case (2 / 1) and shares the
@@ -660,6 +822,40 @@ void EnemyNormal::sub_710039FAA4(const sead::Vector3f& pos) {
     }
 }
 
+// NON_MATCHING: the filter address of the link branch is materialised after the link copy, not before
+ksys::act::Unk_71024dc858* EnemyNormal::sub_710039FE20(ksys::act::BaseProcLink* link) {
+    Unk_7102451560 member_filter;
+    Unk_7102451740 link_filter;
+    link_filter._28.reset();
+
+    ksys::act::Unk_71024dccf8* filter;
+    if (link) {
+        link_filter._28 = *link;
+        filter = &link_filter;
+    } else {
+        member_filter._28 = sub_71005D9E64(mActor);
+        filter = &member_filter;
+    }
+
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return nullptr;
+
+    if (auto* sensor = awareness->_260[0]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, filter);
+        if (entry && !m45(entry->_88, entry->mLink, false))
+            return entry;
+    }
+
+    filter->_8 = -1;
+    if (auto* sensor = awareness->_260[1]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, filter);
+        if (entry && entry->_a8 < 5.0f && !m45(entry->_88, entry->mLink, false))
+            return entry;
+    }
+    return nullptr;
+}
+
 // NON_MATCHING: the original updates out->_44 with branches (ours selects)
 bool EnemyNormal::m72(Unk2* out, Unk1* info) {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -790,6 +986,76 @@ bool EnemyNormal::sub_71003A2E20(Unk2* out, Unk1* info) {
     ksys::act::acquireActor(link, &accessor);
     out->_8 = accessor.getActorMtx();
     return true;
+}
+
+// NON_MATCHING: register allocation (the filter address is kept in a callee-saved register for its dtor)
+bool EnemyNormal::sub_71003A2F18(Unk2* out) {
+    if (mActor->getParam()->getRes().mGParamList->getEnemy()->mIsMindFriend.ref()) {
+        if (auto* unk = sub_71005D9D68(mActor)) {
+            auto* link = unk->sub_71002DCEDC(0x100, mActor->getMtx().getTranslation());
+            if (link->hasProcInCalcState()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(link, &accessor);
+                if (accessor.sub_7100D10FB8()) {
+                    sead::Vector3f target_pos;
+                    accessor.getActorMtx().getTranslation(target_pos);
+                    if (!m45(target_pos, *link, false)) {
+                        out->sub_710039E308(link);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_7102451358 filter;
+            if (auto* sensor = awareness->_260[0]) {
+                auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter);
+                if (entry && !m45(entry->_88, entry->mLink, false)) {
+                    out->sub_71003A02A4(entry);
+                    return true;
+                }
+            }
+        }
+    }
+
+    if (_368 > 0.0f || !_290._30)
+        return false;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_290._38.mLink, &accessor);
+    out->_0 = &_290._38.mLink;
+    accessor.getActorMtx().getTranslation(out->_38);
+    out->_8 = accessor.getActorMtx();
+    return true;
+}
+
+bool EnemyNormal::sub_71003A33C0(s32 type, ksys::act::BaseProcLink* target, u16* flags) {
+    if (!target)
+        return false;
+
+    if (type == 1) {
+        if (!ksys::act::isPlayerProfile(target))
+            return false;
+        if (*flags & 8)
+            return true;
+        return !enemyTeamStuff(mActor, target);
+    }
+
+    if (type == 2) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(target, &accessor);
+        if ((*flags & 0x10) && !accessor.sub_7100022ED8())
+            return false;
+        if ((*flags & 0x20) && (!accessor.isNPCProfile() || accessor.sub_7100022FD0()))
+            return false;
+        return !ksys::act::isPlayerProfile(target);
+    }
+
+    if (type == 3)
+        return enemyTeamStuff(mActor, target);
+
+    return false;
 }
 
 bool EnemyNormal::sub_71003A34D0(Unk2* out, s32 type, Unk1* info) {
