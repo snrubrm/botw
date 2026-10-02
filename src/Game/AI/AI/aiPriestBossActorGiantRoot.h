@@ -17,6 +17,17 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual const char* m36();
+    virtual f32 m37();
+    virtual f32 m38();
+    virtual f32 m39();
+    virtual f32 m40();
+    virtual f32 m41();
+    virtual f32 m42();
+    virtual f32 m43();
+    virtual f32 m44();
+    virtual f32 m45();
+
 protected:
     // static_param at offset 0x40
     const float* mFreqIronBallAttack_s{};

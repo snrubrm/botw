@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiPriestBossFormation.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,9 +17,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m36() override;
+
 protected:
     // static_param at offset 0x80
     const float* mHomingAttackTime_s{};
+    ksys::Timer _88{};
 };
+KSYS_CHECK_SIZE_NX150(PriestBossCircleFormationShoot, 0x98);
 
 }  // namespace uking::ai

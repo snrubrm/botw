@@ -32,4 +32,8 @@ void PriestBossActorGiantFouthRoot::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
+const char* PriestBossActorGiantFouthRoot::m36() {
+    return "第四段階";
+}
+
 }  // namespace uking::ai

@@ -34,4 +34,28 @@ void PriestBossActorGiantRoot::loadParams_() {
     getAITreeVariable(&mFacePos_a, "FacePos");
 }
 
+const char* PriestBossActorGiantRoot::m36() {
+    return "第三段階";
+}
+
+f32 PriestBossActorGiantRoot::m37() {
+    return 0.0f;
+}
+
+f32 PriestBossActorGiantRoot::m38() {
+    return 0.01f;
+}
+
+f32 PriestBossActorGiantRoot::m39() {
+    return 0.0f;
+}
+
+f32 PriestBossActorGiantRoot::m43() {
+    return 0.0f;
+}
+
+f32 PriestBossActorGiantRoot::m45() {
+    return 0.0f;
+}
+
 }  // namespace uking::ai

@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    const char* m36() override;
+
 protected:
     // static_param at offset 0xf8
     const float* mStompDistance_s{};

@@ -24,4 +24,10 @@ void PriestBossCircleFormationShoot::loadParams_() {
     getStaticParam(&mHomingAttackTime_s, "HomingAttackTime");
 }
 
+bool PriestBossCircleFormationShoot::m36() {
+    if (isCurrentChild("陣形作成後待機"))
+        return false;
+    return PriestBossFormation::m36();
+}
+
 }  // namespace uking::ai

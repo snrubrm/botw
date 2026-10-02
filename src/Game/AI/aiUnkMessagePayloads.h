@@ -106,7 +106,14 @@ struct Unk_7102372510_Payload {
 
 // Message 0x80000d3 (sender Unk_7102413398)
 struct Unk_7102413398_Payload {
-    u32 _0;
+    // Inline only (PriestBossFormation::m35); placeholder name.
+    void y(u32 value, ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        _0 = value;
+        mLink.acquire(proc, false);
+    }
+
+    u32 _0 = 0;
     ksys::act::BaseProcLink mLink;
     sead::JobQueueLock mLock;
 };
