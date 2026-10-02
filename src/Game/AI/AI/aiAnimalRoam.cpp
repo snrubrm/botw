@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: zero stores of the params are paired/scheduled differently
 AnimalRoam::AnimalRoam(const InitArg& arg) : AnimalRoamBase(arg) {}
 
 AnimalRoam::~AnimalRoam() = default;

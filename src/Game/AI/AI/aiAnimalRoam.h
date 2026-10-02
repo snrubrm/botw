@@ -1,7 +1,10 @@
 #pragma once
 
+#include <math/seadVector.h>
+
 #include "Game/AI/AI/aiAnimalRoamBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -31,6 +34,8 @@ protected:
     const bool* mCheckValidStartPos_s{};
     // static_param at offset 0xd8
     const bool* mCheckLOS_s{};
+    sead::Vector3f _e0;
+    ksys::Timer _ec;
 };
 
 }  // namespace uking::ai

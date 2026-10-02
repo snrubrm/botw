@@ -25,6 +25,12 @@ protected:
     const float* mAttackInterseptDist_s{};
     // static_param at offset 0xa8
     sead::SafeString mIronBallKeyName_s{};
+    // Count + pointer of a heap-allocated array (built in init_; element type unknown).
+    s32 _b8 = 0;
+    void* _c0 = nullptr;
+    u32 _c8 = 0;
+    u32 _cc = 0;
+    u32 _d0 = 0;
 };
 
 }  // namespace uking::ai
