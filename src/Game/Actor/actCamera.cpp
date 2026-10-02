@@ -1,4 +1,6 @@
 #include "Game/Actor/actCamera.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 
 Unk_7102459708::Unk_7102459708(ksys::act::ai::ActionBase* owner) : mOwner(owner) {}
@@ -20,3 +22,145 @@ uking::act::Camera* Unk_7102459708::getCameraActor() const {
         return nullptr;
     return sead::DynamicCast<uking::act::Camera>(actor);
 }
+
+namespace uking::act {
+
+void Unk_710079a8e8::sub_710079AD90() {
+    _7f0[0] = -1.0;
+    _7f0[1] = -1.0;
+}
+
+f32 Unk_710079a8e8::sub_710079ADA0() const {
+    if ((_804.getDirect() & 0x6000) == 0x2000)
+        return _15c;
+    return sub_7100922058();
+}
+
+bool Unk_710079a8e8::sub_710079ADBC() const {
+    return _804.isOn(0x2000);
+}
+
+void Unk_710079a8e8::sub_710079AE30() {
+    _804.reset(0x2000);
+}
+
+void Unk_710079a8e8::sub_710079AED0() {
+    _804.reset(0x8000);
+}
+
+bool Unk_710079a8e8::sub_710079B63C(u32 mask) const {
+    if (_800.isOn(mask))
+        return false;
+    return _7fc.isOn(mask);
+}
+
+void Unk_710079a8e8::sub_710079BC8C() {
+    _170 = false;
+    _180 = false;
+}
+
+void Unk_710079a8e8::sub_710079BD2C() {
+    _240.reset();
+    _804.reset(0x800);
+}
+
+void Unk_710079a8e8::sub_710079BD5C() {
+    _7fc.set(0x20);
+}
+
+void Unk_710079a8e8::sub_710079BD6C(f32 value) {
+    _190 = sead::Mathf::clamp(value, 0.0f, 1.0f);
+}
+
+void Unk_710079a8e8::sub_710079BD98() {
+    _190 = -1.0;
+}
+
+bool Unk_710079a8e8::sub_710079BDA4() const {
+    return _190 >= 0.0f && _190 <= 1.0f;
+}
+
+void Unk_710079a8e8::sub_710079BE34() {
+    _6f0 = nullptr;
+    _6f8 = 0;
+}
+
+void Unk_710079a8e8::sub_710079BEA8() {
+    _72c._3c = 2;
+}
+
+void Unk_710079a8e8::sub_710079BEB4() {
+    _7b9 = 0;
+}
+
+bool Unk_710079a8e8::sub_710079BEBC() const {
+    return _7e0 != -1.0f;
+}
+
+f32 Unk_710079a8e8::sub_710079BF0C() const {
+    return _7e0;
+}
+
+void Unk_710079a8e8::sub_710079BF14() {
+    _7e0 = -1.0;
+}
+
+bool Unk_710079a8e8::sub_710079BF20() const {
+    return _7e4 != -1.0f;
+}
+
+void Unk_710079a8e8::sub_710079BF34(f32 value) {
+    if (value < 0.0f || std::isnan(value))
+        return;
+    _7e4 = value;
+}
+
+void Unk_710079a8e8::sub_710079BF58() {
+    _7e4 = -1.0;
+}
+
+void Unk_710079a8e8::sub_710079C0AC() {
+    _804.change(0x10000, _7fc.isOn(0x80000));
+}
+
+void Unk_710079a8e8::sub_710079C0DC(int idx, f32 value) {
+    _7f0[idx] = value;
+}
+
+bool Unk_710079a8e8::sub_710079C0F4(f32* out) const {
+    for (f32 value : _7f0) {
+        if (value >= 0.0f) {
+            *out = value;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Unk_710079a8e8::sub_710079C120(u8 mask) const {
+    return _80c.isOn(mask);
+}
+
+bool Unk_710079a8e8::sub_710079C134(u8 mask) const {
+    return _80c.isOff(mask);
+}
+
+void Unk_710079a8e8::sub_710079C148(u8 mask) {
+    _80c.set(mask);
+}
+
+void Unk_710079a8e8::sub_710079C158(u8 mask, bool on) {
+    _80c.change(mask, on);
+}
+
+void Unk_710079a8e8::sub_710079C17C() {
+    _80c.makeAllZero();
+}
+
+bool Unk_710079a8e8::sub_710079C184(u32 mask) const {
+    if (_808.isOn(mask))
+        return false;
+    return _804.isOn(mask);
+}
+
+}  // namespace uking::act

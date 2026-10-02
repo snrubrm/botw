@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -13,6 +15,10 @@
 namespace ksys::act::ai {
 class ActionBase;
 }
+
+// Camera utility code (0x710092xxxx).
+// 0x7100922058: a float camera parameter (used when Unk_710079a8e8::_804 does not select _15c).
+f32 sub_7100922058();
 
 namespace uking::act {
 
@@ -77,6 +83,37 @@ public:
     };
 
     Unk_710079a8e8();
+
+    void sub_710079AD90();
+    f32 sub_710079ADA0() const;
+    bool sub_710079ADBC() const;
+    void sub_710079AE30();
+    void sub_710079AED0();
+    bool sub_710079B63C(u32 mask) const;
+    void sub_710079BC8C();
+    void sub_710079BD2C();
+    void sub_710079BD5C();
+    void sub_710079BD6C(f32 value);
+    void sub_710079BD98();
+    bool sub_710079BDA4() const;
+    void sub_710079BE34();
+    void sub_710079BEA8();
+    void sub_710079BEB4();
+    bool sub_710079BEBC() const;
+    f32 sub_710079BF0C() const;
+    void sub_710079BF14();
+    bool sub_710079BF20() const;
+    void sub_710079BF34(f32 value);
+    void sub_710079BF58();
+    void sub_710079C0AC();
+    void sub_710079C0DC(int idx, f32 value);
+    bool sub_710079C0F4(f32* out) const;
+    bool sub_710079C120(u8 mask) const;
+    bool sub_710079C134(u8 mask) const;
+    void sub_710079C148(u8 mask);
+    void sub_710079C158(u8 mask, bool on);
+    void sub_710079C17C();
+    bool sub_710079C184(u32 mask) const;
 
     /* 0x000 */ Unk_71009214b8 _0;
     /* 0x038 */ Unk_71009214b8 _38;
@@ -151,18 +188,23 @@ public:
     /* 0x6fc */ sead::Matrix34f _6fc = sead::Matrix34f::ident;
     /* 0x72c */ Unk72c _72c{};
     /* 0x7b4 */ u32 _7b4 = 0;
-    /* 0x7b8 */ u32 _7b8 = 0;
+    /* 0x7b8 */ u8 _7b8 = 0;
+    /* 0x7b9 */ u8 _7b9 = 0;
+    /* 0x7ba */ u8 _7ba[2]{};
     /* 0x7c0 */ ksys::act::BaseProcLink _7c0{};
     /* 0x7d0 */ ksys::act::BaseProcLink _7d0{};
     /* 0x7e0 */ f32 _7e0 = -1.0;
     /* 0x7e4 */ f32 _7e4 = -1.0;
     /* 0x7e8 */ u32 _7e8 = 0;
     /* 0x7ec */ f32 _7ec;  // angleStuff(0)
-    /* 0x7f0 */ f32 _7f0 = -1.0;
-    /* 0x7f4 */ f32 _7f4 = -1.0;
-    /* 0x7f8 */ void* _7f8 = nullptr;
-    /* 0x800 */ void* _800 = nullptr;
-    /* 0x808 */ void* _808 = nullptr;
+    /* 0x7f0 */ sead::SafeArray<f32, 2> _7f0{{-1.0, -1.0}};
+    /* 0x7f8 */ u32 _7f8 = 0;
+    /* 0x7fc */ sead::BitFlag32 _7fc;
+    /* 0x800 */ sead::BitFlag32 _800;  // masks _7fc in sub_710079B63C
+    /* 0x804 */ sead::BitFlag32 _804;
+    /* 0x808 */ sead::BitFlag32 _808;  // masks _804 in sub_710079C184
+    /* 0x80c */ sead::BitFlag8 _80c;
+    /* 0x80d */ u8 _80d[3]{};
     /* 0x810 */ u8 _810 = 3;
     /* 0x811 */ u8 _811 = 0;
     /* 0x812 */ u8 _812 = 2;
