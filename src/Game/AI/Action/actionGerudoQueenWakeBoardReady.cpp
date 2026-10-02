@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGerudoQueenWakeBoardReady.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
@@ -18,7 +19,7 @@ void GerudoQueenWakeBoardReady::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GerudoQueenWakeBoardReady::leave_() {
-    ksys::act::ai::Action::leave_();
+    xlink::fade(_20, -1);
 }
 
 void GerudoQueenWakeBoardReady::loadParams_() {}

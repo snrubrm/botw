@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -24,7 +25,8 @@ void UnarmedEnemySearch::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void UnarmedEnemySearch::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_50 && _50->_0)
+        _50->_0->inlineReset();
 }
 
 void UnarmedEnemySearch::loadParams_() {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -24,9 +25,7 @@ protected:
     sead::Vector3f* mRailPos_d{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mRailDir_d{};
-    void* _58 = nullptr;
-    u32 _60 = 0;
-    u8 _64[0x68 - 0x64];
+    xlink2::HandleSLink _58;
     f32 _68 = 0;
     u32 _6c = 0;
 };

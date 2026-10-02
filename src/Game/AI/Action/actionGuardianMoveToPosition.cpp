@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGuardianMoveToPosition.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -16,6 +18,8 @@ void GuardianMoveToPosition::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GuardianMoveToPosition::leave_() {
     GuardianMoveTo::leave_();
+    if (auto* nav = mActor->m45())
+        nav->inlineReset();
 }
 
 void GuardianMoveToPosition::loadParams_() {

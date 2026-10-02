@@ -1,7 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <limits>
 #include <math/seadVector.h>
+#include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
@@ -50,6 +52,23 @@ public:
     void sub_7100F7D2C8();
     void sub_7100F7D308(s32 value);
     void sub_7100F7D350();
+
+    // Inline-only in the original (no out-of-line copy; inlined at ~45 call sites: enemy / animal /
+    // horse AI actions and NavMeshCharacter's own TU); the name is a placeholder. Under _1e0: flags
+    // _220 |= 0x10000, _220 &= ~0x201000, then clears the path state.
+    void inlineReset() {
+        auto lock = sead::makeScopedLock(_1e0);
+        _220 |= 0x10000;
+        _220 &= ~0x201000u;
+        _294 = 0;
+        _194.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+        _1a0.set(std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                 std::numeric_limits<f32>::quiet_NaN());
+        _23c.set(0, 0, 0);
+        _2cc = 0;
+        _1db = 0;
+    }
 
     /* 0x008 */ u64 _8 = 0;
     /* 0x010 */ void* _10 = nullptr;

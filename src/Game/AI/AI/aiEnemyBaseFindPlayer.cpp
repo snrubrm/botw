@@ -117,7 +117,10 @@ void EnemyBaseFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemyBaseFindPlayer::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DB3EC(mActor);
+    _e8.reset(4);
+    if (_f0 && _f0->_0)
+        _f0->_0->inlineReset();
 }
 
 void EnemyBaseFindPlayer::loadParams_() {

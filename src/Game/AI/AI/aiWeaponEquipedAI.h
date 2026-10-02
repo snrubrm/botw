@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -20,10 +21,8 @@ protected:
     bool _38 = false;
     bool _39 = false;
     u32 _3c = -1;
-    void* _40 = nullptr;
-    u32 _48 = 0;
-    void* _50 = nullptr;
-    u32 _58 = 0;
+    xlink2::HandleELink _40;
+    xlink2::HandleELink _50;
 };
 KSYS_CHECK_SIZE_NX150(WeaponEquipedAI, 0x60);
 
