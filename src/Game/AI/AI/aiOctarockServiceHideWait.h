@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71004EF670();
+
     // static_param at offset 0x38
     const float* mSafeAreaDist_s{};
     // static_param at offset 0x40
@@ -30,6 +33,10 @@ protected:
     const float* mNoticeTerrorLevel_s{};
     // static_param at offset 0x60
     const float* mNoticeWorryRange_s{};
+    bool _68 = false;  // "AutoAim" att client enabled on enter
+    bool _69 = false;  // "AutoAimHidden" att client enabled on enter
+    ksys::Timer _6c;
 };
+KSYS_CHECK_SIZE_NX150(OctarockServiceHideWait, 0x78);
 
 }  // namespace uking::ai

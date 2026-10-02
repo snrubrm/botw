@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -25,6 +26,8 @@ protected:
     const bool* mSealedTerror_s{};
     // static_param at offset 0x3e8
     const bool* mSealedWorry_s{};
+    ksys::act::ai::ActionBase* _3f0 = nullptr;  // child at the last sensor update
+    u8 _3f8 = 0;  // bit i: awareness sensor i was active on enter
 };
 
 }  // namespace uking::ai

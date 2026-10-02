@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiOctarockServiceHideWait.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
 namespace uking::ai {
 
@@ -11,11 +15,19 @@ bool OctarockServiceHideWait::init_(sead::Heap* heap) {
 }
 
 void OctarockServiceHideWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68 = ksys::act::isAttClientEnabled(mActor, "AutoAim");
+    _69 = ksys::act::isAttClientEnabled(mActor, "AutoAimHidden");
+    sub_71004EF670();
 }
 
 void OctarockServiceHideWait::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_68)
+        ksys::act::enableAttClient(mActor, "AutoAimHidden");
+    if (!_69)
+        ksys::act::disableAttClient(mActor, "AutoAim");
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EAE4(0);
+    mActor->m93(0, 0.0f);
 }
 
 void OctarockServiceHideWait::loadParams_() {
@@ -29,6 +41,16 @@ void OctarockServiceHideWait::loadParams_() {
 
 bool OctarockServiceHideWait::isChangeable() const {
     return isCurrentChild("待機") && getCurrentChild()->isChangeable();
+}
+
+void OctarockServiceHideWait::sub_71004EF670() {
+    if (_68)
+        ksys::act::enableAttClient(mActor, "AutoAimHidden");
+    if (!_69)
+        ksys::act::disableAttClient(mActor, "AutoAim");
+    const f32 time = *mMinWaitTime_s + *mMinWaitTimeRand_s * sead::GlobalRandom::instance()->getF32();
+    _6c = ksys::Timer(time, time);
+    changeChild("待機");
 }
 
 }  // namespace uking::ai
