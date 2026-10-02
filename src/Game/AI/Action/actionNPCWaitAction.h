@@ -12,6 +12,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    virtual const sead::SafeString& m32();
 
 protected:
     void calc_() override;

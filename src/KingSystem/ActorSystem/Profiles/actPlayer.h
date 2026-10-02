@@ -313,7 +313,8 @@ public:
     /* 0x1834 */ Unk1 _1834;  // x_5() angle index, copied to _1c68 (PlayerCutHorseJump::enter_)
     /* 0x1838 */ u8 _1838[0x1844 - 0x1838];
     /* 0x1844 */ ksys::Timer _1844;  // set to CleaningTime by PlayerCleaningAround::enter_
-    /* 0x1850 */ u8 _1850[0x1868 - 0x1850];
+    /* 0x1850 */ ksys::Timer _1850;  // set to min(WaitTime, 5) by PlayerSkin::enter_
+    /* 0x185c */ u8 _185c[0x1868 - 0x185c];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ void* _1870;
@@ -354,7 +355,9 @@ public:
     /* 0x1e18 */ f32 _1e18;
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
-    /* 0x1e24 */ u8 _1e24[0x1f84 - 0x1e24];
+    /* 0x1e24 */ u8 _1e24[0x1ec0 - 0x1e24];
+    /* 0x1ec0 */ ksys::Timer _1ec0;  // set to Timer(4, 4) by PlayerTwiceJump::enter_
+    /* 0x1ecc */ u8 _1ecc[0x1f84 - 0x1ecc];
     /* 0x1f84 */ s32 _1f84;
     /* 0x1f88 */ s32 _1f88;
     /* 0x1f8c */ s32 _1f8c;

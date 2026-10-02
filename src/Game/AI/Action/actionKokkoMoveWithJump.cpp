@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionKokkoMoveWithJump.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -12,6 +15,14 @@ bool KokkoMoveWithJump::init_(sead::Heap* heap) {
 
 void KokkoMoveWithJump::enter_(ksys::act::ai::InlineParamPack* params) {
     KokkoMove::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller || !mActor->m45()) {
+        setFailed();
+        return;
+    }
+    if (*mIsJump_d && controller->sub_7100F5F0E4() == ksys::act::MotionType::_0) {
+        controller->sub_7100F60398(*mJumpDir_s * (*mJumpSpeed_s * controller->sub_7100F60370()));
+    }
 }
 
 void KokkoMoveWithJump::leave_() {

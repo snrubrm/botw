@@ -9,7 +9,13 @@ namespace uking::action {
 NPCWaitAction::NPCWaitAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 void NPCWaitAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!m32().isEmpty())
+        playAS(m32().cstr(), *mIsIgnoreSameKey_s, 0, 0, -1.0f);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5E7F0(0.0f);
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F76778();
+    mFlags.set(Flag::Changeable);
 }
 
 void NPCWaitAction::leave_() {
@@ -20,6 +26,10 @@ void NPCWaitAction::leave_() {
 void NPCWaitAction::loadParams_() {
     getStaticParam(&mIsIgnoreSameKey_s, "IsIgnoreSameKey");
     getStaticParam(&mASName_s, "ASName");
+}
+
+const sead::SafeString& NPCWaitAction::m32() {
+    return mASName_s;
 }
 
 void NPCWaitAction::calc_() {
