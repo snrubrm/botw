@@ -4,7 +4,11 @@ namespace uking::action {
 
 SmallDamageBackward::SmallDamageBackward(const InitArg& arg) : SmallDamageBackwardBase(arg) {}
 
-SmallDamageBackward::~SmallDamageBackward() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SmallDamageBackward::~SmallDamageBackward() {
+    ;
+}
 
 bool SmallDamageBackward::init_(sead::Heap* heap) {
     return SmallDamageBackwardBase::init_(heap);

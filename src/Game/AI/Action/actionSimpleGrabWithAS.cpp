@@ -4,7 +4,11 @@ namespace uking::action {
 
 SimpleGrabWithAS::SimpleGrabWithAS(const InitArg& arg) : SimpleGrabWithASBase(arg) {}
 
-SimpleGrabWithAS::~SimpleGrabWithAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SimpleGrabWithAS::~SimpleGrabWithAS() {
+    ;
+}
 
 void SimpleGrabWithAS::loadParams_() {
     SimpleGrabWithASBase::loadParams_();

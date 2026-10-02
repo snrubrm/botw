@@ -4,7 +4,11 @@ namespace uking::action {
 
 GanonThrowMultiTornado::GanonThrowMultiTornado(const InitArg& arg) : GanonThrowTornado(arg) {}
 
-GanonThrowMultiTornado::~GanonThrowMultiTornado() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GanonThrowMultiTornado::~GanonThrowMultiTornado() {
+    ;
+}
 
 bool GanonThrowMultiTornado::init_(sead::Heap* heap) {
     return GanonThrowTornado::init_(heap);

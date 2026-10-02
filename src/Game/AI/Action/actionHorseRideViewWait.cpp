@@ -5,7 +5,11 @@ namespace uking::action {
 
 HorseRideViewWait::HorseRideViewWait(const InitArg& arg) : HorseRide(arg) {}
 
-HorseRideViewWait::~HorseRideViewWait() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+HorseRideViewWait::~HorseRideViewWait() {
+    ;
+}
 
 bool HorseRideViewWait::init_(sead::Heap* heap) {
     return HorseRide::init_(heap);

@@ -4,7 +4,11 @@ namespace uking::action {
 
 GiantAttackWithAS::GiantAttackWithAS(const InitArg& arg) : GiantAttack(arg) {}
 
-GiantAttackWithAS::~GiantAttackWithAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GiantAttackWithAS::~GiantAttackWithAS() {
+    ;
+}
 
 bool GiantAttackWithAS::init_(sead::Heap* heap) {
     return GiantAttack::init_(heap);

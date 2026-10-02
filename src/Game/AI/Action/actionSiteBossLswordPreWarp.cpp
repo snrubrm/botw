@@ -4,7 +4,11 @@ namespace uking::action {
 
 SiteBossLswordPreWarp::SiteBossLswordPreWarp(const InitArg& arg) : LastBossPreNormalWarp(arg) {}
 
-SiteBossLswordPreWarp::~SiteBossLswordPreWarp() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SiteBossLswordPreWarp::~SiteBossLswordPreWarp() {
+    ;
+}
 
 bool SiteBossLswordPreWarp::init_(sead::Heap* heap) {
     return LastBossPreNormalWarp::init_(heap);

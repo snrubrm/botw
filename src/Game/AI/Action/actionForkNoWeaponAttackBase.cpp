@@ -10,7 +10,11 @@ namespace uking::action {
 ForkNoWeaponAttackBase::ForkNoWeaponAttackBase(const InitArg& arg)
     : ForkAttackWithWeaponOrWithout(arg) {}
 
-ForkNoWeaponAttackBase::~ForkNoWeaponAttackBase() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkNoWeaponAttackBase::~ForkNoWeaponAttackBase() {
+    ;
+}
 
 bool ForkNoWeaponAttackBase::init_(sead::Heap* heap) {
     return ForkAttackWithWeaponOrWithout::init_(heap);

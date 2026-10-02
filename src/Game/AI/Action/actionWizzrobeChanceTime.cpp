@@ -4,7 +4,11 @@ namespace uking::action {
 
 WizzrobeChanceTime::WizzrobeChanceTime(const InitArg& arg) : HoverBase(arg) {}
 
-WizzrobeChanceTime::~WizzrobeChanceTime() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+WizzrobeChanceTime::~WizzrobeChanceTime() {
+    ;
+}
 
 bool WizzrobeChanceTime::init_(sead::Heap* heap) {
     return HoverBase::init_(heap);

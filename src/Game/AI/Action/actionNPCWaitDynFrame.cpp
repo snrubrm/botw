@@ -4,7 +4,11 @@ namespace uking::action {
 
 NPCWaitDynFrame::NPCWaitDynFrame(const InitArg& arg) : NPCWaitFrame(arg) {}
 
-NPCWaitDynFrame::~NPCWaitDynFrame() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+NPCWaitDynFrame::~NPCWaitDynFrame() {
+    ;
+}
 
 bool NPCWaitDynFrame::init_(sead::Heap* heap) {
     return NPCWaitFrame::init_(heap);

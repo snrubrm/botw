@@ -11,7 +11,11 @@ namespace uking::action {
 AssassinBossIronBallAtkWithRot::AssassinBossIronBallAtkWithRot(const InitArg& arg)
     : AssassinBossIronBallAttack(arg) {}
 
-AssassinBossIronBallAtkWithRot::~AssassinBossIronBallAtkWithRot() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+AssassinBossIronBallAtkWithRot::~AssassinBossIronBallAtkWithRot() {
+    ;
+}
 
 bool AssassinBossIronBallAtkWithRot::init_(sead::Heap* heap) {
     if (!AssassinBossIronBallAttack::init_(heap))

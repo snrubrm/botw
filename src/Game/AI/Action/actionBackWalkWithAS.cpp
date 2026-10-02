@@ -4,7 +4,11 @@ namespace uking::action {
 
 BackWalkWithAS::BackWalkWithAS(const InitArg& arg) : BackWalkEx(arg) {}
 
-BackWalkWithAS::~BackWalkWithAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+BackWalkWithAS::~BackWalkWithAS() {
+    ;
+}
 
 void BackWalkWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkEx::enter_(params);

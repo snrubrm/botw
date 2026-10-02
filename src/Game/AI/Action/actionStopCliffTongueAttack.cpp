@@ -5,7 +5,11 @@ namespace uking::action {
 
 StopCliffTongueAttack::StopCliffTongueAttack(const InitArg& arg) : OnCliffWait(arg) {}
 
-StopCliffTongueAttack::~StopCliffTongueAttack() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+StopCliffTongueAttack::~StopCliffTongueAttack() {
+    ;
+}
 
 bool StopCliffTongueAttack::init_(sead::Heap* heap) {
     return OnCliffWait::init_(heap);

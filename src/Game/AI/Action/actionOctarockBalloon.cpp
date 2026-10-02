@@ -4,7 +4,11 @@ namespace uking::action {
 
 OctarockBalloon::OctarockBalloon(const InitArg& arg) : OctarockBalloonBase(arg) {}
 
-OctarockBalloon::~OctarockBalloon() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+OctarockBalloon::~OctarockBalloon() {
+    ;
+}
 
 bool OctarockBalloon::init_(sead::Heap* heap) {
     return OctarockBalloonBase::init_(heap);

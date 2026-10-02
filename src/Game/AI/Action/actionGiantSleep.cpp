@@ -4,7 +4,11 @@ namespace uking::action {
 
 GiantSleep::GiantSleep(const InitArg& arg) : Sleep(arg) {}
 
-GiantSleep::~GiantSleep() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GiantSleep::~GiantSleep() {
+    ;
+}
 
 bool GiantSleep::init_(sead::Heap* heap) {
     return Sleep::init_(heap);

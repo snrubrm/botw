@@ -4,7 +4,11 @@ namespace uking::action {
 
 GanonThrowMultiIce::GanonThrowMultiIce(const InitArg& arg) : GanonThrowFireBall(arg) {}
 
-GanonThrowMultiIce::~GanonThrowMultiIce() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GanonThrowMultiIce::~GanonThrowMultiIce() {
+    ;
+}
 
 bool GanonThrowMultiIce::init_(sead::Heap* heap) {
     return GanonThrowFireBall::init_(heap);

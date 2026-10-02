@@ -5,7 +5,11 @@ namespace uking::action {
 OpenMessageDialogWithSkelAnm::OpenMessageDialogWithSkelAnm(const InitArg& arg)
     : OpenMessageDialogBase(arg) {}
 
-OpenMessageDialogWithSkelAnm::~OpenMessageDialogWithSkelAnm() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+OpenMessageDialogWithSkelAnm::~OpenMessageDialogWithSkelAnm() {
+    ;
+}
 
 bool OpenMessageDialogWithSkelAnm::init_(sead::Heap* heap) {
     return OpenMessageDialogBase::init_(heap);

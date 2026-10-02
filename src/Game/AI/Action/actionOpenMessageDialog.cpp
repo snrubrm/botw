@@ -4,7 +4,11 @@ namespace uking::action {
 
 OpenMessageDialog::OpenMessageDialog(const InitArg& arg) : OpenMessageDialogBase(arg) {}
 
-OpenMessageDialog::~OpenMessageDialog() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+OpenMessageDialog::~OpenMessageDialog() {
+    ;
+}
 
 bool OpenMessageDialog::init_(sead::Heap* heap) {
     return OpenMessageDialogBase::init_(heap);

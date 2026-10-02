@@ -4,7 +4,11 @@ namespace uking::action {
 
 ChangeScene::ChangeScene(const InitArg& arg) : ChangeSceneBase(arg) {}
 
-ChangeScene::~ChangeScene() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ChangeScene::~ChangeScene() {
+    ;
+}
 
 bool ChangeScene::init_(sead::Heap* heap) {
     return ChangeSceneBase::init_(heap);

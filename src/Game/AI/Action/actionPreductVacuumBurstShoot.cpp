@@ -5,7 +5,11 @@ namespace uking::action {
 PreductVacuumBurstShoot::PreductVacuumBurstShoot(const InitArg& arg)
     : HoverPredictVacuumShoot(arg) {}
 
-PreductVacuumBurstShoot::~PreductVacuumBurstShoot() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+PreductVacuumBurstShoot::~PreductVacuumBurstShoot() {
+    ;
+}
 
 bool PreductVacuumBurstShoot::init_(sead::Heap* heap) {
     return HoverPredictVacuumShoot::init_(heap);

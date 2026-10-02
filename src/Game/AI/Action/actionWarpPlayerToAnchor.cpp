@@ -4,7 +4,11 @@ namespace uking::action {
 
 WarpPlayerToAnchor::WarpPlayerToAnchor(const InitArg& arg) : WarpPlayerBase(arg) {}
 
-WarpPlayerToAnchor::~WarpPlayerToAnchor() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+WarpPlayerToAnchor::~WarpPlayerToAnchor() {
+    ;
+}
 
 bool WarpPlayerToAnchor::init_(sead::Heap* heap) {
     return WarpPlayerBase::init_(heap);

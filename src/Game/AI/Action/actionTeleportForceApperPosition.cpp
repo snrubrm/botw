@@ -4,7 +4,11 @@ namespace uking::action {
 
 TeleportForceApperPosition::TeleportForceApperPosition(const InitArg& arg) : TeleportBase(arg) {}
 
-TeleportForceApperPosition::~TeleportForceApperPosition() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+TeleportForceApperPosition::~TeleportForceApperPosition() {
+    ;
+}
 
 bool TeleportForceApperPosition::init_(sead::Heap* heap) {
     return TeleportBase::init_(heap);

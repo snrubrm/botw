@@ -4,7 +4,11 @@ namespace uking::action {
 
 SubAnmBlownOff::SubAnmBlownOff(const InitArg& arg) : AnmBlownOff(arg) {}
 
-SubAnmBlownOff::~SubAnmBlownOff() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SubAnmBlownOff::~SubAnmBlownOff() {
+    ;
+}
 
 bool SubAnmBlownOff::init_(sead::Heap* heap) {
     return AnmBlownOff::init_(heap);

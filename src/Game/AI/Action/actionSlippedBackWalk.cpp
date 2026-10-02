@@ -4,7 +4,11 @@ namespace uking::action {
 
 SlippedBackWalk::SlippedBackWalk(const InitArg& arg) : SlippedBackWalkBase(arg) {}
 
-SlippedBackWalk::~SlippedBackWalk() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SlippedBackWalk::~SlippedBackWalk() {
+    ;
+}
 
 bool SlippedBackWalk::init_(sead::Heap* heap) {
     return SlippedBackWalkBase::init_(heap);

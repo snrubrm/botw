@@ -6,7 +6,11 @@ namespace uking::action {
 
 HorseRideLoopAttack::HorseRideLoopAttack(const InitArg& arg) : HorseRide(arg) {}
 
-HorseRideLoopAttack::~HorseRideLoopAttack() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+HorseRideLoopAttack::~HorseRideLoopAttack() {
+    ;
+}
 
 bool HorseRideLoopAttack::init_(sead::Heap* heap) {
     return HorseRide::init_(heap);

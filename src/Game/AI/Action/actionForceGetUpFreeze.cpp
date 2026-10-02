@@ -4,7 +4,11 @@ namespace uking::action {
 
 ForceGetUpFreeze::ForceGetUpFreeze(const InitArg& arg) : Freeze(arg) {}
 
-ForceGetUpFreeze::~ForceGetUpFreeze() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForceGetUpFreeze::~ForceGetUpFreeze() {
+    ;
+}
 
 bool ForceGetUpFreeze::init_(sead::Heap* heap) {
     return Freeze::init_(heap);

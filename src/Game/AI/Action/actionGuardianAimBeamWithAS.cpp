@@ -4,7 +4,11 @@ namespace uking::action {
 
 GuardianAimBeamWithAS::GuardianAimBeamWithAS(const InitArg& arg) : GuardianAimBeam(arg) {}
 
-GuardianAimBeamWithAS::~GuardianAimBeamWithAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GuardianAimBeamWithAS::~GuardianAimBeamWithAS() {
+    ;
+}
 
 bool GuardianAimBeamWithAS::init_(sead::Heap* heap) {
     return GuardianAimBeam::init_(heap);

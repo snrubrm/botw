@@ -4,7 +4,11 @@ namespace uking::action {
 
 LynelSpinAttack::LynelSpinAttack(const InitArg& arg) : ForkWeaponAttack(arg) {}
 
-LynelSpinAttack::~LynelSpinAttack() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+LynelSpinAttack::~LynelSpinAttack() {
+    ;
+}
 
 bool LynelSpinAttack::init_(sead::Heap* heap) {
     return ForkWeaponAttack::init_(heap);

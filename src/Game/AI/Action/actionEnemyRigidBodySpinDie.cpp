@@ -4,7 +4,11 @@ namespace uking::action {
 
 EnemyRigidBodySpinDie::EnemyRigidBodySpinDie(const InitArg& arg) : EnemyRigidBodyDieBase(arg) {}
 
-EnemyRigidBodySpinDie::~EnemyRigidBodySpinDie() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+EnemyRigidBodySpinDie::~EnemyRigidBodySpinDie() {
+    ;
+}
 
 bool EnemyRigidBodySpinDie::init_(sead::Heap* heap) {
     return EnemyRigidBodyDieBase::init_(heap);

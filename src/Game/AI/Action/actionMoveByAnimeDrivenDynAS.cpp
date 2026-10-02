@@ -4,7 +4,11 @@ namespace uking::action {
 
 MoveByAnimeDrivenDynAS::MoveByAnimeDrivenDynAS(const InitArg& arg) : MoveByAnimeDriven(arg) {}
 
-MoveByAnimeDrivenDynAS::~MoveByAnimeDrivenDynAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+MoveByAnimeDrivenDynAS::~MoveByAnimeDrivenDynAS() {
+    ;
+}
 
 bool MoveByAnimeDrivenDynAS::init_(sead::Heap* heap) {
     return MoveByAnimeDriven::init_(heap);

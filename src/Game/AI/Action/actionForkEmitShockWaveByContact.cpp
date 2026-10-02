@@ -5,7 +5,11 @@ namespace uking::action {
 ForkEmitShockWaveByContact::ForkEmitShockWaveByContact(const InitArg& arg)
     : ForkASTrgEmitShockWave(arg) {}
 
-ForkEmitShockWaveByContact::~ForkEmitShockWaveByContact() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkEmitShockWaveByContact::~ForkEmitShockWaveByContact() {
+    ;
+}
 
 bool ForkEmitShockWaveByContact::init_(sead::Heap* heap) {
     return ForkASTrgEmitShockWave::init_(heap);

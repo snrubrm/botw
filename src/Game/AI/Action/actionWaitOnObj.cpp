@@ -4,7 +4,11 @@ namespace uking::action {
 
 WaitOnObj::WaitOnObj(const InitArg& arg) : WaitOnObjBase(arg) {}
 
-WaitOnObj::~WaitOnObj() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+WaitOnObj::~WaitOnObj() {
+    ;
+}
 
 bool WaitOnObj::init_(sead::Heap* heap) {
     return WaitOnObjBase::init_(heap);

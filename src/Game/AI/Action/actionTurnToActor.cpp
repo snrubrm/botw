@@ -4,7 +4,11 @@ namespace uking::action {
 
 TurnToActor::TurnToActor(const InitArg& arg) : TurnToActorBase(arg) {}
 
-TurnToActor::~TurnToActor() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+TurnToActor::~TurnToActor() {
+    ;
+}
 
 bool TurnToActor::init_(sead::Heap* heap) {
     return TurnToActorBase::init_(heap);

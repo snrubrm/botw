@@ -4,7 +4,11 @@ namespace uking::action {
 
 ForkSetJustAvoidFromBone::ForkSetJustAvoidFromBone(const InitArg& arg) : ForkSetJustAvoid(arg) {}
 
-ForkSetJustAvoidFromBone::~ForkSetJustAvoidFromBone() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkSetJustAvoidFromBone::~ForkSetJustAvoidFromBone() {
+    ;
+}
 
 bool ForkSetJustAvoidFromBone::init_(sead::Heap* heap) {
     return ForkSetJustAvoid::init_(heap);

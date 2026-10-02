@@ -4,7 +4,11 @@ namespace uking::action {
 
 EatWithAS::EatWithAS(const InitArg& arg) : Eat(arg) {}
 
-EatWithAS::~EatWithAS() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+EatWithAS::~EatWithAS() {
+    ;
+}
 
 void EatWithAS::loadParams_() {
     Eat::loadParams_();

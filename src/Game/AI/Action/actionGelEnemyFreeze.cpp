@@ -4,7 +4,11 @@ namespace uking::action {
 
 GelEnemyFreeze::GelEnemyFreeze(const InitArg& arg) : Freeze(arg) {}
 
-GelEnemyFreeze::~GelEnemyFreeze() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+GelEnemyFreeze::~GelEnemyFreeze() {
+    ;
+}
 
 bool GelEnemyFreeze::init_(sead::Heap* heap) {
     return Freeze::init_(heap);

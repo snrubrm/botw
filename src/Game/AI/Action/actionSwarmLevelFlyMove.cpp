@@ -4,7 +4,11 @@ namespace uking::action {
 
 SwarmLevelFlyMove::SwarmLevelFlyMove(const InitArg& arg) : LevelFlyMoveBase(arg) {}
 
-SwarmLevelFlyMove::~SwarmLevelFlyMove() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SwarmLevelFlyMove::~SwarmLevelFlyMove() {
+    ;
+}
 
 bool SwarmLevelFlyMove::init_(sead::Heap* heap) {
     return LevelFlyMoveBase::init_(heap);

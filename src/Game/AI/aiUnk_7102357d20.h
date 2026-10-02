@@ -32,6 +32,8 @@ public:
     // The original keeps the base vtable store in every (inlined) destructor of this class, which a
     // defaulted destructor drops. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
     // { ; } (commit 96101229).
+    // Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+    // the original keeps the vtable store that a defaulted destructor drops.
     virtual ~Unk_7102357d20() { ; }
     virtual void* m2() = 0;
 
