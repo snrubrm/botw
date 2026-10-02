@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLeadToTarget.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,18 @@ void LeadToTarget::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mLeaderActor_d, "LeaderActor");
     getStaticParam(&mWaitFramesAfterArrive_s, "WaitFramesAfterArrive");
+}
+
+void LeadToTarget::sub_710047FE18() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(mLeaderActor_d, &accessor)) {
+        if (accessor.sub_7100D12E64())
+            changeChild("誘導(騎乗)", &params);
+        else
+            changeChild("誘導", &params);
+    }
 }
 
 }  // namespace uking::ai
