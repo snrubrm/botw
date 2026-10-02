@@ -1,0 +1,16 @@
+#include "Game/AI/Behavior/behaviorFadeLeaf.h"
+
+namespace uking::behavior {
+
+FadeLeaf::FadeLeaf(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
+
+FadeLeaf::~FadeLeaf() = default;
+
+void FadeLeaf::m9() {}
+
+void FadeLeaf::loadParams() {
+    getStaticParam(&mAlphaLower_s, "AlphaLower");
+    getStaticParam(&mAlphaSpeed_s, "AlphaSpeed");
+}
+
+}  // namespace uking::behavior

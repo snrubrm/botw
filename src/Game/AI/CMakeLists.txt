@@ -1,4 +1,5 @@
 add_subdirectory(Action)
+add_subdirectory(Behavior)
 add_subdirectory(AI)
 add_subdirectory(Query)
 

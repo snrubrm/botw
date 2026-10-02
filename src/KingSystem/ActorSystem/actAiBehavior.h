@@ -62,7 +62,7 @@ public:
     virtual void m7() {}
     virtual void m8() {}
     virtual void m9() {}
-    virtual void m10() {}
+    virtual void loadParams() {}
     virtual void m11() {}
     virtual bool updateForPreDelete() { return true; }
     virtual void onPreDelete() {}
@@ -85,6 +85,11 @@ struct BehaviorFactory {
     using CreateFn = Behavior* (*)(const Behavior::InitArg& arg, sead::Heap* heap);
     u32 hash;
     CreateFn create_fn;
+
+    template <typename T>
+    static Behavior* make(const Behavior::InitArg& arg, sead::Heap* heap) {
+        return new (heap) T(arg);
+    }
 };
 
 class Behaviors {

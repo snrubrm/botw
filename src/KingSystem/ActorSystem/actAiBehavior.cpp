@@ -32,7 +32,7 @@ bool Behavior::init(sead::Heap* heap) {
     if (!mActor->getRootAi()->loadAITreeParams(set.ai_tree_params, heap))
         return false;
 
-    m10();
+    loadParams();
     return m6(heap);
 }
 
