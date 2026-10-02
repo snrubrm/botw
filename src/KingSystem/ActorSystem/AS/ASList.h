@@ -81,7 +81,9 @@ public:
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
     bool x_7(int slot, int bank, bool (Unk2::*fn)());
-    bool x_6(int kind, f32 value);
+    // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after
+    // `value` cannot be told from the binary; the other helpers take two ints first).
+    bool x_6(int kind, int a2, f32 value);
 
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())

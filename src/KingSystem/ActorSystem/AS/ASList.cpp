@@ -10,7 +10,7 @@ bool ASList::Unk2::sub_7101163AF4() {
     return false;
 }
 
-bool ASList::x_6(int kind, f32 value) {
+bool ASList::x_6(int kind, int a2, f32 value) {
     const s8 idx = _f0[kind];
     if (idx < 0)
         return false;

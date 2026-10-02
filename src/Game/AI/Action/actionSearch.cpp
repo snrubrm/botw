@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSearch.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
@@ -8,7 +10,10 @@ Search::Search(const InitArg& arg) : ActionWithAS(arg) {}
 Search::~Search() = default;
 
 void Search::enter_(ksys::act::ai::InlineParamPack* params) {
+    playAS("Search", false, 0, 0, -1.0f);
+    mActor->getASList()->x_6(9, 0, mActor->getAngVelocity().y);
     ActionWithAS::enter_(params);
+    _38 = *mNoChangeTime_s;
 }
 
 void Search::loadParams_() {

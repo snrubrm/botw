@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNpcRideWaitAction.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +13,8 @@ bool NpcRideWaitAction::init_(sead::Heap* heap) {
 }
 
 void NpcRideWaitAction::enter_(ksys::act::ai::InlineParamPack* params) {
+    mActor->getASList()->x_6(10, 0, *mGearSpeed_d);
+    _40 = *mGearSpeed_d;
     NPCWaitAction::enter_(params);
 }
 
