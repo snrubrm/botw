@@ -79,6 +79,20 @@ public:
     Unk_7102450c80_Payload _18;
 };
 
+// vtable 0x7102357d48 (DisableWeakPointActor behavior; functions next to the base's, 0x710001c2ec)
+class Unk_7102357d48 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+// vtable 0x7102357d70 (DisableWeakPointActor behavior; functions next to the base's, 0x710001c2f8)
+class Unk_7102357d70 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
 // vtable 0x7102396b20 (GolemSleepNormal)
 class Unk_7102396b20 : public Unk_7102357d20 {
 public:

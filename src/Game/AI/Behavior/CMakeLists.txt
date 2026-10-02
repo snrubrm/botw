@@ -5,10 +5,16 @@ target_sources(uking PRIVATE
   behaviorActorFlagSetterAttensionNotice.h
   behaviorAddRigidBodyToWorld.cpp
   behaviorAddRigidBodyToWorld.h
+  behaviorAirWallCollisionSpecify.cpp
+  behaviorAirWallCollisionSpecify.h
+  behaviorAirWallMaterialSpecify.cpp
+  behaviorAirWallMaterialSpecify.h
   behaviorAnimalAttack.cpp
   behaviorAnimalAttack.h
   behaviorAnimalCounterFlagOn.cpp
   behaviorAnimalCounterFlagOn.h
+  behaviorAnimalNeckRotate.cpp
+  behaviorAnimalNeckRotate.h
   behaviorAnimalUnitIgnoreStickXLimit.cpp
   behaviorAnimalUnitIgnoreStickXLimit.h
   behaviorAssassinBossBgmControl.cpp
@@ -53,18 +59,24 @@ target_sources(uking PRIVATE
   behaviorCancelMessageSendToParts.h
   behaviorCanRideAnimalTerror.cpp
   behaviorCanRideAnimalTerror.h
+  behaviorCastleBarrierCollisionSpecify.cpp
+  behaviorCastleBarrierCollisionSpecify.h
   behaviorChangeCharacterStandingOnFlag.cpp
   behaviorChangeCharacterStandingOnFlag.h
   behaviorChangeEnableNearTrigger.cpp
   behaviorChangeEnableNearTrigger.h
   behaviorChangeEnemyNoticeUIState.cpp
   behaviorChangeEnemyNoticeUIState.h
+  behaviorCharacterControllerFormChange.cpp
+  behaviorCharacterControllerFormChange.h
   behaviorClearFadeInCreate.cpp
   behaviorClearFadeInCreate.h
   behaviorCloseEye.cpp
   behaviorCloseEye.h
   behaviorConditionReset.cpp
   behaviorConditionReset.h
+  behaviorCreateBgm.cpp
+  behaviorCreateBgm.h
   behaviorCreateEaselBase.cpp
   behaviorCreateEaselBase.h
   behaviorCreateEasel.cpp
@@ -81,12 +93,16 @@ target_sources(uking PRIVATE
   behaviorDisableBoneController.h
   behaviorDisableCloth.cpp
   behaviorDisableCloth.h
+  behaviorDisableContactLayer.cpp
+  behaviorDisableContactLayer.h
   behaviorDisableForbidJob.cpp
   behaviorDisableForbidJob.h
   behaviorDisableGiantArmorWeakPoint.cpp
   behaviorDisableGiantArmorWeakPoint.h
   behaviorDisableSkipCalcCloth.cpp
   behaviorDisableSkipCalcCloth.h
+  behaviorDisableWeakPointActor.cpp
+  behaviorDisableWeakPointActor.h
   behaviorElevatorBaseEmitPassingSe.cpp
   behaviorElevatorBaseEmitPassingSe.h
   behaviorEmitCreateDeleteEffect.cpp
@@ -115,6 +131,8 @@ target_sources(uking PRIVATE
   behaviorFadeLeaf.h
   behaviorFootstepChanger.cpp
   behaviorFootstepChanger.h
+  behaviorFootstepReactionChanger.cpp
+  behaviorFootstepReactionChanger.h
   behaviorFootstepSilencer.cpp
   behaviorFootstepSilencer.h
   behaviorForceConfront.cpp
