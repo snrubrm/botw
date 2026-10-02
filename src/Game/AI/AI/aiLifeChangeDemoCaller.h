@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Event/evtResidentEvent.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -29,6 +31,10 @@ protected:
     sead::SafeString mDemoName_s{};
     // static_param at offset 0x60
     sead::SafeString mDemoEntryPoint_s{};
+    ksys::evt::ResidentEvent _70;
+    s32 _240 = 0;
+    bool _244 = false;
 };
+KSYS_CHECK_SIZE_NX150(LifeChangeDemoCaller, 0x248);
 
 }  // namespace uking::ai
