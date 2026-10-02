@@ -168,6 +168,8 @@ void sub_71005DB41C(ksys::act::Actor* actor);
 void sub_71005DB434(ksys::act::Actor* actor);
 void sub_71005DB44C(ksys::act::Actor* actor, f32 a2, f32 a3);
 void sub_71005DB498(ksys::act::Actor* actor);
+/// The bone control's look-at position (unchanged if the actor has no bone control).
+void sub_71005DB4B8(sead::Vector3f* out, ksys::act::Actor* actor);
 f32 sub_71005DB4DC(ksys::act::Actor* actor);
 f32 sub_71005DB4FC(ksys::act::Actor* actor);
 void sub_71005DB51C(ksys::act::Actor* actor, f32 a2, bool a3);

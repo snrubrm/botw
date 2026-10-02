@@ -107,7 +107,7 @@ public:
     /* 0x0ff0 */ sead::FixedSafeString<32> _ff0;
     /* 0x1028 */ sead::SafeString _1028;
     /* 0x1038 */ u32 _1038 = 0;
-    /* 0x103c */ u8 _103c[0x1048 - 0x103c];
+    /* 0x103c */ sead::Vector3f _103c;  // look-at position (NPCTerrorNeckControl behavior)
     /* 0x1048 */ u32 _1048 = 4;
     /* 0x104c */ u32 _104c = 0;
     /* 0x1050 */ bool _1050 = true;

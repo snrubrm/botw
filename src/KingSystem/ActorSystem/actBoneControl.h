@@ -29,6 +29,7 @@ class Unk_7100d860d8 {
 public:
     explicit Unk_7100d860d8(Actor* actor);
 
+    void sub_7100D88CF4(sead::Vector3f* out) const;
     void sub_7100D892C4(sead::Vector3f* out) const;
     void sub_7100D89348(const f32& a1, const f32& a2);
     f32 sub_7100D8A6DC() const;

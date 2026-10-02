@@ -418,6 +418,16 @@ void sub_71005DB498(ksys::act::Actor* actor) {
     unk->_10._d4 &= ~0x3000;
 }
 
+void sub_71005DB4B8(sead::Vector3f* out, ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return;
+    unk->_10.sub_7100D88CF4(out);
+}
+
 f32 sub_71005DB4DC(ksys::act::Actor* actor) {
     auto* bone_control = actor->getBoneControl();
     if (!bone_control)

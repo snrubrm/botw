@@ -85,10 +85,16 @@ target_sources(uking PRIVATE
   behaviorEmitHalfLifeDamageSe.h
   behaviorEmitInterest.cpp
   behaviorEmitInterest.h
+  behaviorEnemyFrontNeckRotate.cpp
+  behaviorEnemyFrontNeckRotate.h
   behaviorEnemyGanonBgmStop.cpp
   behaviorEnemyGanonBgmStop.h
   behaviorEnemyKeepAnimeDriven.cpp
   behaviorEnemyKeepAnimeDriven.h
+  behaviorEnemyNeckRotate.cpp
+  behaviorEnemyNeckRotate.h
+  behaviorEnemyNeckRotateToOffsetAng.cpp
+  behaviorEnemyNeckRotateToOffsetAng.h
   behaviorEnemyNoticeMasqueradeFlagSetter.cpp
   behaviorEnemyNoticeMasqueradeFlagSetter.h
   behaviorFadeLeaf.cpp
@@ -139,8 +145,14 @@ target_sources(uking PRIVATE
   behaviorNavMeshNonAvoidPlayer.h
   behaviorNeckBattleMode.cpp
   behaviorNeckBattleMode.h
+  behaviorNeckControl.cpp
+  behaviorNeckControl.h
+  behaviorNeckRotateToPlayer.cpp
+  behaviorNeckRotateToPlayer.h
   behaviorNpcClerkCheck.cpp
   behaviorNpcClerkCheck.h
+  behaviorNPCTerrorNeckControl.cpp
+  behaviorNPCTerrorNeckControl.h
   behaviorOctarockConstraint.cpp
   behaviorOctarockConstraint.h
   behaviorOctarockHideForm.cpp
@@ -283,6 +295,8 @@ target_sources(uking PRIVATE
   behaviorSyncASFrameToAnimalUnit.h
   behaviorUnderSelectedReactionNoAction.cpp
   behaviorUnderSelectedReactionNoAction.h
+  behaviorViewLastAttackerPos.cpp
+  behaviorViewLastAttackerPos.h
   behaviorWeaponChemicalReset.cpp
   behaviorWeaponChemicalReset.h
   behaviorYunBoIconInfo.cpp
