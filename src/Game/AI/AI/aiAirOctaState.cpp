@@ -1,15 +1,29 @@
 #include "Game/AI/AI/aiAirOctaState.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
 AirOctaState::AirOctaState(const InitArg& arg) : EnemyRoot(arg) {}
 
-AirOctaState::~AirOctaState() = default;
+AirOctaState::~AirOctaState() {
+    if (_218.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_218, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+}
 
 bool AirOctaState::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+    sub_710073FA90(&_238, mActor);
+    return true;
 }
 
 void AirOctaState::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -27,6 +41,19 @@ void AirOctaState::loadParams_() {
     getStaticParam(&mBalloonMassRatio_s, "BalloonMassRatio");
     getStaticParam(&mWindForceScale_s, "WindForceScale");
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
+}
+
+void AirOctaState::sub_71002FD098(bool a1) {
+    if (isCurrentChild("逃げる"))
+        return;
+    if (isCurrentChild("滝死亡"))
+        return;
+
+    mActor->m93(0, 0.0f);
+    ksys::act::ai::InlineParamPack params;
+    mActor->getASList()->x_2(66, 40, _278.isOnBit(3), false);
+    params.addBool(a1, "IsSameChange", -1);
+    changeChild("待機", &params);
 }
 
 void AirOctaState::m37() {

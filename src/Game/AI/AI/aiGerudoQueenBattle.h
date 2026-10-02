@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::ai {
 
@@ -37,7 +38,8 @@ protected:
     bool _f8 = false;
     sead::Vector3f _fc{0, 0, 0};
     sead::Vector3f _108{0, 0, 0};
-    sead::Vector3f _114{0, 0, 0};
+    u32 _114 = 0;
+    ksys::act::BoneHandle* _118 = nullptr;  // new BoneHandle[3] (the destructor deletes it)
 };
 KSYS_CHECK_SIZE_NX150(GerudoQueenBattle, 0x120);
 
