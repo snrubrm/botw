@@ -134,6 +134,34 @@ bool Behavior::getStaticParam(const s32** value, const sead::SafeString& key) co
     return getAIProg()->getSInstParam(value, getDef(), key);
 }
 
+bool Behavior::getStaticParam(const f32** value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
+
+bool Behavior::getStaticParam(const sead::Vector3f** value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
+
+bool Behavior::getStaticParam(const bool** value, const sead::SafeString& key) const {
+    return getAIProg()->getSInstParam(value, getDef(), key);
+}
+
+bool Behavior::getMapUnitParam(const s32** value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getMapUnitParam(value, key);
+}
+
+bool Behavior::getAITreeVariable(s32** value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getAITreeVariable(value, key);
+}
+
+bool Behavior::getAITreeVariable(bool** value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getAITreeVariable(value, key);
+}
+
+bool Behavior::getAITreeVariable(void** value, const sead::SafeString& key) const {
+    return mActor->getRootAi()->getAITreeVariable(value, key);
+}
+
 Behaviors::Behaviors() = default;
 
 Behaviors::~Behaviors() {

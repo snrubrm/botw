@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
@@ -47,6 +48,13 @@ public:
 
     bool getStaticParam(sead::SafeString* value, const sead::SafeString& key) const;
     bool getStaticParam(const s32** value, const sead::SafeString& key) const;
+    bool getStaticParam(const f32** value, const sead::SafeString& key) const;
+    bool getStaticParam(const sead::Vector3f** value, const sead::SafeString& key) const;
+    bool getStaticParam(const bool** value, const sead::SafeString& key) const;
+    bool getMapUnitParam(const s32** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(s32** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(bool** value, const sead::SafeString& key) const;
+    bool getAITreeVariable(void** value, const sead::SafeString& key) const;
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
