@@ -52,7 +52,7 @@ public:
     /*  4 */ virtual bool m17() { return false; }
     /*  5 */ virtual void m7();
     /*  6 */ virtual void m8() {}
-    /*  7 */ virtual bool m22(int a1);
+    /*  7 */ virtual bool m22(Unk8 a1);
     /*  8 */ virtual void procLink8() { _c = 1; }
     /*  9 */ virtual bool m25() { return false; }
     /* 10 */ virtual f32 m26() { return 0.0f; }
@@ -207,7 +207,7 @@ public:
     /* 19 */ virtual bool m19() { return false; }
     /* 20 */ virtual void m20() {}
     /* 21 */ virtual bool m21() { return false; }
-    /* 22 */ bool m22(int a1) override;
+    /* 22 */ bool m22(Unk8 a1) override;
     // callers and overrides copy the result through the stack: probably a SEAD_ENUM
     /* 23 */ virtual int m23();
     /* 24 */ virtual void m24();

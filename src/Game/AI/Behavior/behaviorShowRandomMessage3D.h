@@ -11,7 +11,7 @@ public:
     ~ShowRandomMessage3D() override;
     void m7() override;
     void loadParams() override;
-    void m14(sead::BufferedSafeString* out) override;  // not decompiled yet (0x7100640090)
+    void m14(sead::BufferedSafeString* out) override;
 
     /* 0x128 */ const int* mRandomWidth_s{};
 };

@@ -2,6 +2,7 @@
 
 #include <prim/seadBitFlag.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
@@ -18,6 +19,7 @@ public:
 };
 
 enum class RootAiFlag {
+    _7 = 7,
     _8 = 8,
 };
 
@@ -114,6 +116,10 @@ private:
     ParamPack mAiTreeParams;
 };
 KSYS_CHECK_SIZE_NX150(RootAi, 0x180);
+
+inline bool ActionBase::testRootAiFlag(RootAiFlag flag) const {
+    return mActor->getRootAi()->_16c.isOnBit(int(flag));
+}
 
 const char* getDefaultAiName(s32 root_idx);
 const char* getDefaultActionName(s32 idx);

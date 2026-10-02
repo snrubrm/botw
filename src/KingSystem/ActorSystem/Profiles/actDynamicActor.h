@@ -3,6 +3,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 
@@ -20,7 +21,7 @@ class Unk_7102459df8;
 struct Unk_71006dc134 {
     sead::Vector3f _0;
     sead::Vector3f _c;
-    void* _18;
+    ActorAtk::Unk_710079e64c::Unk1* _18;
     bool _20;
     bool _21;
 };

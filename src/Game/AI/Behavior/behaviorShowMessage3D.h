@@ -13,8 +13,8 @@ public:
     ~ShowMessage3D() override;
     void m7() override;
     void loadParams() override;
-    virtual void m14(sead::BufferedSafeString* out);  // not decompiled yet (0x710063fd00)
-    void m8() override;  // not decompiled yet (0x710063fc38)
+    virtual void m14(sead::BufferedSafeString* out);
+    void m8() override;
 
     /* 0x28 */ const int* mDelayFrame_s{};
     /* 0x30 */ const bool* mIsCloseOtherMessage_s{};
