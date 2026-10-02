@@ -15,7 +15,7 @@ public:
     void m8() override;
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x710062852c)
-    void m9() override;  // not decompiled yet (0x7100628d68)
+    void m9() override;
 
     /* 0x28 */ const float* mChargeAttackOffsetY_s{};
     /* 0x30 */ const bool* mIsRemovedAllAtkCollision_s{};

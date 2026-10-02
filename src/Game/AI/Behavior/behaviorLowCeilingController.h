@@ -13,15 +13,15 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x710062b0a4)
-    void m7() override;  // not decompiled yet (0x710062b134)
+    bool m6(sead::Heap* heap) override;
+    void m7() override;
 
     /* 0x28 */ const float* mChangeFrame_s{};
     /* 0x30 */ const float* mReverseFrame_s{};
     /* 0x38 */ sead::SafeString mShapeName_s{};
     /* 0x48 */ u32 _48 = 0;
     /* 0x4c */ s32 _4c = -1;
-    /* 0x50 */ u32 _50 = 0;
+    /* 0x50 */ f32 _50 = 0;
 };
 KSYS_CHECK_SIZE_NX150(LowCeilingController, 0x58);
 

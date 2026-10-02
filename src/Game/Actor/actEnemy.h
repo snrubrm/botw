@@ -78,7 +78,14 @@ public:
     /* 0x30 */ u32 _30 = 0;
     /* 0x38 */ ksys::act::BaseProcLink _38;
     /* 0x48 */ void* _48 = nullptr;
-    /* 0x50 */ void* _50 = nullptr;
+    // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear
+    // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
+    // OnAnimalSupportNrmCalcFrontRay).
+    struct Unk50 {
+        /* 0x00 */ u8 _0[0x28];
+        /* 0x28 */ u8 _28;
+    };
+    /* 0x50 */ Unk50* _50 = nullptr;
     /* 0x58 */ u32 _58 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102357908, 0x60);

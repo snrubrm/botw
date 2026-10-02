@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorOnAnimalSupportNrmCalcFrontRay.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::behavior {
 
@@ -12,6 +13,22 @@ bool OnAnimalSupportNrmCalcFrontRay::m6(sead::Heap* heap) {
 }
 
 void OnAnimalSupportNrmCalcFrontRay::m7() {}
+
+void OnAnimalSupportNrmCalcFrontRay::m8() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        if (auto* support = enemy->_1148._50)
+            support->_28 |= 2;
+    }
+}
+
+void OnAnimalSupportNrmCalcFrontRay::m9() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        if (auto* support = enemy->_1148._50)
+            support->_28 &= ~2;
+    }
+}
 
 void OnAnimalSupportNrmCalcFrontRay::loadParams() {
 

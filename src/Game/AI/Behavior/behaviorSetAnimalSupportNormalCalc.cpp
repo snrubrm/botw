@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorSetAnimalSupportNormalCalc.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::behavior {
 
@@ -12,6 +13,14 @@ bool SetAnimalSupportNormalCalc::m6(sead::Heap* heap) {
 }
 
 void SetAnimalSupportNormalCalc::m7() {}
+
+void SetAnimalSupportNormalCalc::m9() {
+    auto* actor = mActor;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+        if (auto* support = enemy->_1148._50)
+            support->_28 &= ~1;
+    }
+}
 
 void SetAnimalSupportNormalCalc::loadParams() {
     getStaticParam(&mRayCastLength_s, "RayCastLength");
