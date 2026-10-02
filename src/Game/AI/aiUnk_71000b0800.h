@@ -43,5 +43,14 @@ struct Unk_71000b0800 {
         }
     }
 
+    // The T::Data base of the object behind the slot (null if the object is not a T).
+    template <typename U = T>
+    typename U::Data* getData() const {
+        auto* obj = *_0;
+        if (sead::IsDerivedFrom<T>(obj))
+            return static_cast<T*>(obj);
+        return nullptr;
+    }
+
     Unk_71025afb58** _0 = nullptr;
 };

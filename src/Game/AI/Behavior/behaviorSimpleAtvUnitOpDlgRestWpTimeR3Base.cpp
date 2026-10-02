@@ -32,15 +32,6 @@ SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() = defa
 
 bool SimpleAtvUnitOpDlgRestWpTimeR3Base::m6(sead::Heap* heap) {
     return _88.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a));
-SimpleAtvUnitOpDlgRestWpTimeR3Base::~SimpleAtvUnitOpDlgRestWpTimeR3Base() {
-    if (_88) {
-        auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_88);
-        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
-            *_88 = nullptr;
-            delete unit;
-        }
-        _88 = nullptr;
-    }
 }
 
 }  // namespace uking::behavior

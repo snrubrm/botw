@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71025b2aa8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -48,7 +49,7 @@ protected:
     // static_param at offset 0xb8
     sead::SafeString mlabelName3_s{};
     // Holder of a ref-counted object stored in an AITree variable (see init_); type unknown.
-    Unk_71025afb58Ref<Unk_71025b2aa8> _c8;
+    Unk_71000b0800<Unk_71025b2aa8> _c8;
     u32 _d0{};
     bool _d4{};
     bool _d5{};

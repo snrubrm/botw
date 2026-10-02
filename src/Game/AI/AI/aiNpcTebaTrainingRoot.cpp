@@ -2,7 +2,6 @@
 #include <prim/seadSafeString.h>
 #include "Game/gameFlagUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
-#include "Game/gameFlagInt.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ai {
@@ -30,12 +29,6 @@ void NpcTebaTrainingRoot::calc_() {
         sead::FixedSafeString<64> label;
         label.format("%s_%02d", "BreakTarget", value - 1);
         _238.sub_7100721B1C(0.0f, label);
-    s32 break_targets;
-    if (!ksys::gdt::getBoolByKey("Wind_Relic_Finished", false) &&
-        getFlagInt(&break_targets, "Wind_Relic_BreakTarget") && break_targets <= 4) {
-        sead::FixedSafeString<64> label;
-        label.format("%s_%02d", "BreakTarget", break_targets - 1);
-        _238.sub_7100721B1C(label, 0.0f);
     }
     _238.sub_7100721C48();
 }

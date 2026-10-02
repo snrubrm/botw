@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/Utils/Types.h"
@@ -24,7 +25,7 @@ public:
 // Reference-counted object behind the "CRBOffsetUnit" AI tree variable (all ActionWithPosAngReduce
 // subclasses: Freeze, Ragdoll, GetUpBase, ForkRagdollOff, ...). Placeholder name = vtable address
 // (0x7102384718; D0 0x7100138004, RTTI functions 0x7100137e88 / 0x7100137fa8); created inline by
-// Unk_71025afb58Ref<Unk_7102384718>::acquire (0x7100137a28 is its out-of-line copy).
+// Unk_71000b0800<Unk_7102384718>::acquire (0x7100137a28 is its out-of-line copy).
 class Unk_7102384718 : public Unk_71025b2718 {
     SEAD_RTTI_OVERRIDE(Unk_7102384718, Unk_71025b2718)
 public:

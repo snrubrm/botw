@@ -21,15 +21,6 @@ struct Unk_71025b2aa8Data {
     /* 0x14 */ bool _14 = false;
 };
 
-// Intermediate class between the AI tree variable root class and Unk_71025b2aa8; placeholder name
-// from its RTTI typeInfo static (0x71025b2ab8). Evidence: the original's checkDerivedRuntimeTypeInfo
-// of Unk_71025b2aa8 (0x7100147774) compares against the statics 0x71025b2aa8, 0x71025b2ab8 and the
-// root's 0x71025afb58, and the typeInfo of Unk_71025b2aa8 uses its own RuntimeTypeInfo::Derive
-// vtable (0x7102388008, not the root's 0x710235ff20).
-class Unk_71025b2ab8 : public Unk_71025afb58 {
-    SEAD_RTTI_OVERRIDE(Unk_71025b2ab8, Unk_71025afb58)
-};
-
 // Reference-counted object shared by the SimpleAtvUnit* / GanonBeast* dialog behaviors through the
 // "SimpleDialogUnit" AI tree variable. Placeholder name from its RTTI typeInfo static (0x71025b2aa8);
 // most members are unknown.

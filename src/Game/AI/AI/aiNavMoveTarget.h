@@ -2,8 +2,7 @@
 
 #include <container/seadObjList.h>
 #include <math/seadVector.h>
-#include "Game/AI/aiUnk_71023698d0.h"
-#include "Game/AI/aiUnk_71023ea3f8.h"
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -41,8 +40,8 @@ protected:
     /* 0x50 */ sead::FixedObjList<sead::Vector3f, 20> _50;
     /* 0x300 */ u64 _300 = 0;
     /* 0x308 */ u32 _308 = 0;
-    /* 0x310 */ Unk_71025afb58Ref<Unk_71023698d0> _310;
-    /* 0x318 */ Unk_71025afb58Ref<Unk_71023ea3f8> _318;
+    /* 0x310 */ Unk_71000b0800<Unk_71025b0578> _310;
+    /* 0x318 */ Unk_71000b0800<Unk_71025b7688> _318;
     // static_param at offset 0x320
     const int* mWeaponIdx_s{};
     // static_param at offset 0x328

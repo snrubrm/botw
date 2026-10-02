@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -30,7 +31,7 @@ protected:
     // static_param at offset 0x40
     const bool* mIsUseCRBOffsetUnit_s{};
     u8 _48[0x78 - 0x48];
-    Unk_71025afb58Ref<Unk_7102384718> _78;
+    Unk_71000b0800<Unk_7102384718> _78;
     bool _80{};
 };
 

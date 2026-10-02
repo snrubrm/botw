@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionFreeze.h"
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -22,7 +23,7 @@ protected:
 
     // aitree_variable at offset 0x78
     void* mCRBOffsetUnit_a{};
-    Unk_71025afb58Ref<Unk_7102384718> _80;
+    Unk_71000b0800<Unk_7102384718> _80;
 };
 
 }  // namespace uking::action

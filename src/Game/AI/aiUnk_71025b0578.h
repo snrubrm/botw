@@ -38,7 +38,7 @@ struct Unk_7100716408 {
         _8c = false;
     }
 
-    /* 0x00 */ u8 _0[0x78];
+    /* 0x00 */ sead::Vector3f _0[10];
     /* 0x78 */ f32 _78 = 10.0f;
     /* 0x7c */ f32 _7c = 0.0f;
     /* 0x80 */ f32 _80 = 0.0f;
@@ -53,6 +53,7 @@ KSYS_CHECK_SIZE_NX150(Unk_7100716408, 0xa8);
 class Unk_71025b0578 : public Unk_71025b0588, public Unk_7100716408 {
     SEAD_RTTI_OVERRIDE(Unk_71025b0578, Unk_71025b0588)
 public:
+    using Data = Unk_7100716408;
     /* 0xb0 */ s32 mRefCount = 0;  // released by the holders' destructors
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025b0578, 0xb8);
@@ -66,8 +67,10 @@ public:
 // Placeholder name (method 0x710071f494, called with the object's +8 as `this`): the data of the
 // velocity / rotation vibrate checker (a non-polymorphic base of Unk_71025b7688).
 struct Unk_710071f494 {
-    // 0x710071f494 (not decompiled): (count, interval).
-    void sub_710071F494(s32 count, f32 interval);
+    // 0x710071f47c: reset().
+    void sub_710071F47C();
+    // 0x710071f494: init(s32 check_time, f32 value).
+    void sub_710071F494(s32 check_time, f32 value);
 
     /* 0x00 */ f32 _0 = 5.0f;
     /* 0x04 */ f32 _4 = 5.0f;
@@ -82,6 +85,7 @@ KSYS_CHECK_SIZE_NX150(Unk_710071f494, 0x14);
 class Unk_71025b7688 : public Unk_71025b7698, public Unk_710071f494 {
     SEAD_RTTI_OVERRIDE(Unk_71025b7688, Unk_71025b7698)
 public:
+    using Data = Unk_710071f494;
     /* 0x1c */ s32 mRefCount = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025b7688, 0x20);

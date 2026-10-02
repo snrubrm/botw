@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
@@ -71,7 +72,7 @@ protected:
     s32 _ec = -1;
     f32 _f0 = 0;
     f32 _f4 = 1.0f;
-    Unk_71025afb58Ref<Unk_7102384718> _f8;
+    Unk_71000b0800<Unk_7102384718> _f8;
     ksys::act::CCAccessor mCCAccessor;
     void* _108 = nullptr;
     // aitree_variable at offset 0x110

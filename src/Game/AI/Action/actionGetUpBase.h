@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadMatrix.h>
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
@@ -38,7 +39,7 @@ protected:
     bool _80 = false;
     sead::Vector3f _84 = sead::Vector3f::zero;
     ksys::act::BoneHandle _90;
-    Unk_71025afb58Ref<Unk_7102384718> _138;
+    Unk_71000b0800<Unk_7102384718> _138;
     // aitree_variable at offset 0x140
     void* mCRBOffsetUnit_a{};
 };

@@ -36,15 +36,6 @@ bool SimpleAtvUnitOpenSimpleDialog::m6(sead::Heap* heap) {
         return false;
     _85 = false;
     return true;
-SimpleAtvUnitOpenSimpleDialog::~SimpleAtvUnitOpenSimpleDialog() {
-    if (_78) {
-        auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_78);
-        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
-            *_78 = nullptr;
-            delete unit;
-        }
-        _78 = nullptr;
-    }
 }
 
 }  // namespace uking::behavior

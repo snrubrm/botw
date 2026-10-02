@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
 #include "Game/AI/aiUnk_7102384718.h"
@@ -32,7 +33,7 @@ protected:
     // aitree_variable at offset 0x60
     void* mCRBOffsetUnit_a{};
     // unknown reference-counted object (created in init_ by 0x7100137a28)
-    Unk_71025afb58Ref<Unk_7102384718> _68;
+    Unk_71000b0800<Unk_7102384718> _68;
     bool _70 = false;
 };
 

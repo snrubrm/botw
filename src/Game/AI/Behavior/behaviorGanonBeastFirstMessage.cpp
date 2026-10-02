@@ -35,15 +35,6 @@ bool GanonBeastFirstMessage::m6(sead::Heap* heap) {
         return false;
     _b0 = 0;
     return true;
-GanonBeastFirstMessage::~GanonBeastFirstMessage() {
-    if (_a0) {
-        auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_a0);
-        if (unit && unit->mRefCount > 0 && unit->mRefCount-- == 1) {
-            *_a0 = nullptr;
-            delete unit;
-        }
-        _a0 = nullptr;
-    }
 }
 
 }  // namespace uking::behavior
