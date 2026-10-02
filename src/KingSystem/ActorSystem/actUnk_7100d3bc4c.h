@@ -15,6 +15,8 @@ class Actor;
 class Unk_7100d3bc4c {
 public:
     explicit Unk_7100d3bc4c(Actor* actor) : mActor(actor) {}
+    // LimitedTimeredActorCreator starts the timer at 1 (value and previous value 1, rate 0).
+    Unk_7100d3bc4c(Actor* actor, f32 value) : mActor(actor), mTimer(value, value, 0.0f) {}
 
     // value += (delta frame + LOD delta) * rate.
     void sub_7100D3BC4C(f32 rate);

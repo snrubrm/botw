@@ -1,7 +1,10 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -14,8 +17,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    void createOneActor();
+    void sub_7100482EB0();
 
 protected:
     // static_param at offset 0x38
@@ -30,11 +37,9 @@ protected:
     sead::SafeString mActorName_m{};
     // aitree_variable at offset 0x70
     void* mGeneratedActorLink_a{};
-    ksys::act::Actor* _78 = mActor;
-    ksys::Timer _80{1, 1, 0};
+    ksys::act::Unk_7100d3bc4c _78{mActor, 1.0f};
     ksys::act::BaseProcHandle _90;
-    u32 _a0 = 0;
-    void* _a8{};
+    sead::Buffer<Unk_7102370e70> _a0;
 };
 
 }  // namespace uking::ai
