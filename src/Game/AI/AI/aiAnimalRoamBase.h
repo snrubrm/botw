@@ -16,6 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34(const sead::Vector3f* pos);
+    virtual bool m35();
+
 protected:
     // static_param at offset 0x38
     const float* mSearchNextPathRadius_s{};

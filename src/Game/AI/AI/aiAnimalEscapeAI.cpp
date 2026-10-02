@@ -34,4 +34,8 @@ void AnimalEscapeAI::loadParams_() {
     getAITreeVariable(&mIsUseTerritory_a, "IsUseTerritory");
 }
 
+bool AnimalEscapeAI::m37() {
+    return isCurrentChild("逃走前");
+}
+
 }  // namespace uking::ai

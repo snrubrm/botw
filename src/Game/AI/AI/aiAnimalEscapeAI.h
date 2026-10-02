@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiAnimalRoamBase.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,11 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    bool m34(const sead::Vector3f* pos) override;
+    virtual bool m36();
+    virtual bool m37();
+    virtual void m38(ksys::act::ai::InlineParamPack* params) {}
 
 protected:
     // static_param at offset 0xa8
@@ -42,6 +48,15 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x100
     bool* mIsUseTerritory_a{};
+    sead::Vector3f _108;
+    sead::Vector3f _114{0, 0, 0};
+    sead::Vector3f _120;
+    f32 _12c = 1.0f;
+    ksys::Timer _130{150, 150};
+    ksys::Timer _13c;
+    f32 _148 = 0;
+    s32 _14c = 0;
+    bool _150 = false;
 };
 
 }  // namespace uking::ai
