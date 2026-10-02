@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFirstRunelGrudgeDemo.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::action {
 
@@ -12,6 +14,11 @@ bool FirstRunelGrudgeDemo::init_(sead::Heap* heap) {
 
 void FirstRunelGrudgeDemo::enter_(ksys::act::ai::InlineParamPack* params) {
     DragonPlayASForDemo::enter_(params);
+    xlinkEventOn(mActor, 0x19, 0, false);
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        dragon->_14c8._930 &= ~0x40;
+        dragon->_1f70.set(0x80000);
+    }
 }
 
 void FirstRunelGrudgeDemo::leave_() {

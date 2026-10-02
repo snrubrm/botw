@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTeleportForceApperPosition.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,14 @@ bool TeleportForceApperPosition::init_(sead::Heap* heap) {
 }
 
 void TeleportForceApperPosition::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (!mHideEffectName_s.isEmpty() &&
+        !mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20)) {
+        xlinkSearchAndEmit(mActor, mHideEffectName_s.cstr(), 2, nullptr);
+    }
     TeleportBase::enter_(params);
+    const f32 time = *mArriveAtTargetTimeOut_s;
+    _a8 = ksys::Timer(time, time);
+    _b4 = false;
 }
 
 void TeleportForceApperPosition::leave_() {
