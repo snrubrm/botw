@@ -30,8 +30,6 @@ void RestLifeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     _50 = life ? *life : 1;
 }
 
-// NON_MATCHING: the original loads the child vtable once after each isFinished/isFailed call (shared
-// by both successors); see lane2-log session 16
 void RestLifeSelect::calc_() {
     if (*mIsTrgOnly_s) {
         auto* life = mActor->getLife();
@@ -50,7 +48,12 @@ void RestLifeSelect::calc_() {
     }
 
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isFailed()) {
         if (child->isFinished())
             setFinished();
         else

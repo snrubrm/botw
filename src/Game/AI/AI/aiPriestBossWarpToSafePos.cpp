@@ -26,4 +26,24 @@ void PriestBossWarpToSafePos::loadParams_() {
     getAITreeVariable(&mDestinationPos_a, "DestinationPos");
 }
 
+void PriestBossWarpToSafePos::calc_() {
+    PriestBossMode::calc_();
+    if (isFinished() || isFailed())
+        return;
+    auto* child = getCurrentChild();
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isFailed()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isChangeable()) {
+        mFlags.set(Flag::Changeable);
+    }
+}
+
 }  // namespace uking::ai

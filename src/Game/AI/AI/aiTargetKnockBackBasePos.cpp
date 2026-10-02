@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTargetKnockBackBasePos.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,6 +14,9 @@ bool TargetKnockBackBasePos::init_(sead::Heap* heap) {
 }
 
 void TargetKnockBackBasePos::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71005E2318(&_40, mActor, sub_710072BA90(mActor));
+    _40 *= -3.0f;
+    _40 += mActor->getMtx().getTranslation();
     TargetPosAI::enter_(params);
 }
 

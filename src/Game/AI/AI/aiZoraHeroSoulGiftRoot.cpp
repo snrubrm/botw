@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiZoraHeroSoulGiftRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -14,6 +15,8 @@ bool ZoraHeroSoulGiftRoot::init_(sead::Heap* heap) {
 }
 
 void ZoraHeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _89 = ui::isPauseMenuScreenNotClosed();
+    _8c = 30;
     HeroSoulGiftRoot::enter_(params);
 }
 

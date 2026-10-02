@@ -22,10 +22,14 @@ void StalEnemyDoShootPartSelect::enter_(ksys::act::ai::InlineParamPack* params) 
     }
 }
 
-// NON_MATCHING: the original hoists the child vtable reloads above the branches
 void StalEnemyDoShootPartSelect::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        if (child->isFailed())
+            setFailed();
+    } else if (child->isFailed()) {
         if (child->isFinished())
             setFinished();
         if (child->isFailed())

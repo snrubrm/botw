@@ -31,10 +31,10 @@ void AssassinMiddleAzitoNoMemberDemo::enter_(ksys::act::ai::InlineParamPack* par
     changeChild("待機");
 }
 
-// NON_MATCHING: the original keeps &_c0 in a callee-saved register (register allocation)
 void AssassinMiddleAzitoNoMemberDemo::calc_() {
+    f32& timer = _c0;
     if (_cc)
-        ksys::Timer::update(&_c0, -1.0f);
+        ksys::Timer::update(&timer, -1.0f);
     else if (_48._30)
         _cc = true;
 
@@ -46,7 +46,14 @@ void AssassinMiddleAzitoNoMemberDemo::calc_() {
     }
 
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+        return;
+    }
+    if (child->isFailed()) {
         if (child->isFinished())
             setFinished();
         else
@@ -54,7 +61,7 @@ void AssassinMiddleAzitoNoMemberDemo::calc_() {
         return;
     }
 
-    if (child->isChangeable() && isCurrentChild("待機") && _c0 < 0.0f)
+    if (child->isChangeable() && isCurrentChild("待機") && timer < 0.0f)
         sub_710031E040();
 }
 

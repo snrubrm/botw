@@ -73,4 +73,7 @@ act::CreateEquipmentSlot getCreateEquipmentSlot(ui::PouchItemType type);
 ui::EquipmentSlot getEquipmentSlot(act::CreateEquipmentSlot slot);
 bool createEquipmentFromItem(const ui::PouchItem* item, const sead::SafeString& caller);
 
+/// 0x7100a9e660 (declared only): whether the pause menu screen exists and is not closed.
+bool isPauseMenuScreenNotClosed();
+
 }  // namespace uking::ui

@@ -30,13 +30,17 @@ void EnemyConfuse::loadParams_() {
     getStaticParam(&mConfuseTime_s, "ConfuseTime");
 }
 
-// NON_MATCHING: the original hoists the child vtable loads above the isFinished/isFailed branches
 void EnemyConfuse::calc_() {
     if (_40 > 0.0f)
         ksys::Timer::update(&_40, -1.0f);
 
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isFailed()) {
         if (child->isFinished())
             setFinished();
         else

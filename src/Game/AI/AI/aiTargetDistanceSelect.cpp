@@ -33,7 +33,6 @@ void TargetDistanceSelect::sub_71005BE164() {
     changeChild("外側", &params);
 }
 
-// NON_MATCHING: the original hoists the child vtable load into the isFinished/isFailed branches
 void TargetDistanceSelect::calc_() {
     float distance = *mBoundaryDistance_s;
     if (isCurrentChild("内側"))
@@ -43,7 +42,12 @@ void TargetDistanceSelect::calc_() {
 
     const float distance_sq = m34();
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    if (child->isFinished()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isFailed()) {
         if (child->isFinished())
             setFinished();
         else
