@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAddViewTargetPos.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,10 @@ void AddViewTargetPos::leave_() {
 
 void AddViewTargetPos::loadParams_() {
     AddViewTargetPosBase::loadParams_();
+}
+
+void AddViewTargetPos::m34(sead::Vector3f* out) {
+    *out = sub_71005D960C(mActor);
 }
 
 }  // namespace uking::ai
