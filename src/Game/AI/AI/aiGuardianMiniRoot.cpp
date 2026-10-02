@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -26,6 +28,18 @@ void GuardianMiniRoot::loadParams_() {
     getAITreeVariable(&mDamagedCount_a, "DamagedCount");
     getAITreeVariable(&mIsTransformedGuardianMini_a, "IsTransformedGuardianMini");
     getAITreeVariable(&mGuardianMiniChanceTimeState_a, "GuardianMiniChanceTimeState");
+}
+
+bool sub_71004282EC(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    const bool* value = nullptr;
+    auto* root_ai = actor->getRootAi();
+    if (!root_ai)
+        return false;
+    if (!root_ai->getMapUnitParam(&value, "IsAnnihilateDungeonEnemy"))
+        return false;
+    return *value;
 }
 
 }  // namespace uking::ai

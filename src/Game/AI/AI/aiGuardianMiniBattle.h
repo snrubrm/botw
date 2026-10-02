@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyBattle.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,6 +18,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    virtual void m44();
+    virtual bool m45();
 
 protected:
     // static_param at offset 0x90
@@ -54,6 +59,15 @@ protected:
     const bool* mCheckOnNoNavMesh_s{};
     // aitree_variable at offset 0x138
     int* mDamagedCount_a{};
+    bool _140 = false;
+    bool _141 = false;
+    s32 _144 = 0;
+    Unk_7102450738 _148;
+    ksys::Timer _188{0, 0};
+    ksys::Timer _194{0, 0};
+    ksys::Timer _1a0{0, 0};
+    ksys::Timer _1ac{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(GuardianMiniBattle, 0x1b8);
 
 }  // namespace uking::ai

@@ -5,6 +5,9 @@
 
 namespace uking::ai {
 
+// Returns the root AI's "IsAnnihilateDungeonEnemy" map unit parameter (false if missing).
+bool sub_71004282EC(ksys::act::Actor* actor);
+
 class GuardianMiniRoot : public EnemyRoot {
     SEAD_RTTI_OVERRIDE(GuardianMiniRoot, EnemyRoot)
 public:

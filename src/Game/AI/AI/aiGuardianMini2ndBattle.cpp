@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianMini2ndBattle.h"
+#include "Game/AI/AI/aiGuardianMiniRoot.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,20 @@ void GuardianMini2ndBattle::loadParams_() {
     GuardianMiniBattle::loadParams_();
     getStaticParam(&mAttackHitNum_s, "AttackHitNum");
     getStaticParam(&mCounterStopTime_s, "CounterStopTime");
+}
+
+void GuardianMini2ndBattle::m44() {
+    _1c8 = 0;
+    _1d0 = ksys::Timer(*mCounterStopTime_s, *mCounterStopTime_s);
+    _1cc = false;
+}
+
+bool GuardianMini2ndBattle::m45() {
+    if (!sub_71004282EC(mActor))
+        return false;
+    if (_1cc)
+        return true;
+    return GuardianMiniBattle::m45();
 }
 
 }  // namespace uking::ai

@@ -159,7 +159,7 @@ struct Unk_7102379de0_Payload {
 
 // Message 0x8000047 (sender unknown; placeholder name = listener vtable)
 struct Unk_7102450738_Payload {
-    u32 _0;
+    u32 _0 = 0;
     sead::JobQueueLock mLock;
 };
 
