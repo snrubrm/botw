@@ -30,7 +30,7 @@ class Unk_7102451380 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;  // the eater (sub_7100739E24)
 };
 
 // vtable 0x71024513d0 (m2 0x7100745034, D0 0x71007450c8)
@@ -50,7 +50,7 @@ class Unk_7102451420 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;  // the eater (sub_7100739E24)
 };
 
 // vtable 0x7102451448 (m2 0x7100745338, D0 0x71007453ec)

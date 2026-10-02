@@ -264,3 +264,24 @@ bool Unk_71024515b0::m2(Unk_71024dc978* entry) {
     ksys::act::acquireActor(&target->mLink, &accessor);
     return accessor.sub_7100D11F10();
 }
+
+bool Unk_7102451380::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    if (!sub_7100739E24(_28, &target->mLink, -1))
+        return false;
+    return sub_710073697C(&target->mLink, "IsPlayerPut") ||
+           sub_71007369D0(&target->mLink, "IsDrop") ||
+           ksys::act::isWeaponProfile(&target->mLink) || accessor.sub_7100D10E6C(26);
+}
+
+bool Unk_7102451420::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    return sub_7100739E24(_28, &target->mLink, -1) &&
+           sub_71007369D0(&target->mLink, "IsDrop");
+}
