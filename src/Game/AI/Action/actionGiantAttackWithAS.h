@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(const sead::SafeString* name);
+    virtual void m33();
 
     // static_param at offset 0x128
     sead::SafeString mASName_s{};

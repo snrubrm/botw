@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaterFloatWait.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,6 +31,16 @@ void WaterFloatWait::loadParams_() {
 
 void WaterFloatWait::calc_() {
     WaterFloatImmobile::calc_();
+    if (*mIsEndWhenASFinished_s && mActor->getASList()->x_4(0, 0)) {
+        setFinished();
+        return;
+    }
+    if (*mTime_s < 1)
+        return;
+    if (_a0.value <= sead::Mathf::epsilon())
+        setFinished();
+    else
+        _a0.update();
 }
 
 }  // namespace uking::action

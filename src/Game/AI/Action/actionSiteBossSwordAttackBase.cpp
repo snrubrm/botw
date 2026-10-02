@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossSwordAttackBase.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -15,7 +17,7 @@ void SiteBossSwordAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordAttackBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005D79AC(mActor, 0, act::Unk_71002edaec(1));
 }
 
 void SiteBossSwordAttackBase::loadParams_() {

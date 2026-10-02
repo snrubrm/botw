@@ -27,4 +27,8 @@ void GiantAttackWithAS::calc_() {
     GiantAttack::calc_();
 }
 
+void GiantAttackWithAS::m32(const sead::SafeString* name) {}
+
+void GiantAttackWithAS::m33() {}
+
 }  // namespace uking::action

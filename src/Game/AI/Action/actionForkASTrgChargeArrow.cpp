@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgChargeArrow.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -15,7 +17,7 @@ void ForkASTrgChargeArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkASTrgChargeArrow::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void ForkASTrgChargeArrow::loadParams_() {
