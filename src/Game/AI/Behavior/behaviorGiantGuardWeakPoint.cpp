@@ -32,6 +32,7 @@ GiantGuardWeakPoint::~GiantGuardWeakPoint() {
     if (_138) {
         auto* unit = sead::DynamicCast<Unk_71025be918>(*_138);
         if (unit && unit->_98 > 0 && --unit->_98 <= 0) {
+        if (unit && unit->_98 > 0 && unit->_98-- == 1) {
             *_138 = nullptr;
             delete unit;
         }

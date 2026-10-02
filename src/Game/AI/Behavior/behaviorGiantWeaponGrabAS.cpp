@@ -32,6 +32,7 @@ GiantWeaponGrabAS::~GiantWeaponGrabAS() {
     if (_e0) {
         auto* unit = sead::DynamicCast<Unk_71025be918>(*_e0);
         if (unit && unit->_98 > 0 && --unit->_98 <= 0) {
+        if (unit && unit->_98 > 0 && unit->_98-- == 1) {
             *_e0 = nullptr;
             delete unit;
         }
