@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiGuardianAimBeamState.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(const char* name);
+    virtual void m33(const sead::Vector3f& target_pos);
+    virtual void m34();
+    virtual void m35();
+    virtual bool m36(const sead::Vector3f& start, const sead::Vector3f& end, sead::Vector3f* hit_pos);
+
 
     // static_param at offset 0x20
     const int* mAimLockFrame_s{};
@@ -40,6 +47,11 @@ protected:
     const sead::Vector3f* mNodeOffset_s{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mAimTargetPos_d{};
+    ai::GuardianAimBeamState _80;
+    bool _178 = false;
+    sead::Vector3f _17c = sead::Vector3f::zero;
+    bool _188 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossAimBeam, 0x190);
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGuardianAimBeamWithAS.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,10 @@ bool GuardianAimBeamWithAS::init_(sead::Heap* heap) {
 
 void GuardianAimBeamWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAimBeam::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _178 = false;
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void GuardianAimBeamWithAS::leave_() {
@@ -29,7 +34,22 @@ void GuardianAimBeamWithAS::loadParams_() {
 }
 
 void GuardianAimBeamWithAS::calc_() {
-    GuardianAimBeam::calc_();
+    if (_178) {
+        GuardianAimBeam::calc_();
+        return;
+    }
+    m32("Aim");
+}
+
+void GuardianAimBeamWithAS::m32(const char* name) {
+    if (sub_71005DD780(mActor, 59, nullptr, 0, 0)) {
+        GuardianAimBeam::m32(name);
+        _178 = true;
+    }
+}
+
+f32 GuardianAimBeamWithAS::m33() {
+    return *mFluctuationTime_s;
 }
 
 }  // namespace uking::action

@@ -18,9 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    void m32(const char* name) override;
+
 
     // static_param at offset 0x190
     sead::SafeString mASName_s{};
+    bool _1a0 = false;
 };
 
 }  // namespace uking::action

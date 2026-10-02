@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossAimBeamWithAS.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,8 @@ bool PriestBossAimBeamWithAS::init_(sead::Heap* heap) {
 
 void PriestBossAimBeamWithAS::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossAimBeam::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _1a0 = false;
 }
 
 void PriestBossAimBeamWithAS::leave_() {
@@ -28,7 +31,18 @@ void PriestBossAimBeamWithAS::loadParams_() {
 }
 
 void PriestBossAimBeamWithAS::calc_() {
-    PriestBossAimBeam::calc_();
+    if (_1a0) {
+        PriestBossAimBeam::calc_();
+        return;
+    }
+    m32("Aim");
+}
+
+void PriestBossAimBeamWithAS::m32(const char* name) {
+    if (sub_71005DD780(mActor, 59, nullptr, 0, 0)) {
+        PriestBossAimBeam::m32(name);
+        _1a0 = true;
+    }
 }
 
 }  // namespace uking::action

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiGuardianAimBeamState.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(const char* name);
+    virtual f32 m33();
+
 
     // static_param at offset 0x20
     const float* mTargetOffset_s{};
@@ -34,6 +38,8 @@ protected:
     const sead::Vector3f* mNodeOffset_s{};
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    ai::GuardianAimBeamState _68;
 };
+KSYS_CHECK_SIZE_NX150(GuardianAimBeam, 0x160);
 
 }  // namespace uking::action

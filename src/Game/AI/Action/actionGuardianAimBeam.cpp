@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: order of the zero stores to the parameter pointers
 GuardianAimBeam::GuardianAimBeam(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 GuardianAimBeam::~GuardianAimBeam() = default;
@@ -11,11 +12,11 @@ bool GuardianAimBeam::init_(sead::Heap* heap) {
 }
 
 void GuardianAimBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    m32("");
 }
 
 void GuardianAimBeam::leave_() {
-    ksys::act::ai::Action::leave_();
+    _68.sub_71006F2D08();
 }
 
 void GuardianAimBeam::loadParams_() {
@@ -30,7 +31,23 @@ void GuardianAimBeam::loadParams_() {
 }
 
 void GuardianAimBeam::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_68._f4 <= _68._d8) {
+        _68.end("Target_End");
+        setFinished();
+        return;
+    }
+    _68.update(*mTargetPos_d);
+}
+
+void GuardianAimBeam::m32(const char* name) {
+    _68.init(mActor, "Target", "Laser", name, "BeamSightSearch", "BeamSightLocking",
+             "BeamSightLocked", *mFluctuationRange_s, *mFluctuationSpan_s, *mFluctuationTime_s,
+             *mTargetOffsetY_s, *mTargetPos_d, mNodeName_s, *mNodeOffset_s);
+    _68._f4 = m33();
+}
+
+f32 GuardianAimBeam::m33() {
+    return 150.0f;
 }
 
 }  // namespace uking::action
