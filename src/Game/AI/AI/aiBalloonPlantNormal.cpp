@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBalloonPlantNormal.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,11 +12,21 @@ bool BalloonPlantNormal::init_(sead::Heap* heap) {
 }
 
 void BalloonPlantNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_710032782C();
+    _60.copy("Body");
+    ksys::act::disableAllAttClients(mActor);
+    _c4 = false;
+    _b8.set(sead::Vector3f::zero);
+    _60.clear();
+    _c8 = 0;
+    changeChild("準備待機");
 }
 
 void BalloonPlantNormal::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_50.hasProcCreationFailed())
+        _50.deleteProcIfFailed();
+    if (_50.isAllocatedOrFailed())
+        _50.deleteProc();
 }
 
 void BalloonPlantNormal::loadParams_() {
