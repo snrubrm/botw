@@ -731,6 +731,62 @@ public:
     Unk_710244e7f0_Payload _34;
 };
 
+// vtable 0x71023afc10 (message 0x800002d; WeakPointRoot; m2 0x7100219e94, inline (COMDAT) outside the listener TU)
+class Unk_71023afc10 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x800002d)
+            return false;
+
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
+// vtable 0x71023afbe0 (message 0x800002e; WeakPointRoot; m2 0x7100219e04, inline (COMDAT) outside the listener TU)
+class Unk_71023afbe0 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x800002e)
+            return false;
+
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
+// vtable 0x710242fd28 (message 0x800002f; WeakPointRoot; m2 0x71005ef0d0, inline (COMDAT) outside the listener TU)
+class Unk_710242fd28 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x800002f)
+            return false;
+
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
+// vtable 0x710242fd58 (message 0x8000030; WeakPointRoot; m2 0x71005ef160, inline (COMDAT) outside the listener TU)
+class Unk_710242fd58 : public Unk_7102357210 {
+public:
+    bool m2(const ksys::Message& message) override {
+        if (message.getType().value != 0x8000030)
+            return false;
+
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
+    void m3() override {}
+};
+
 // 0x7100708ff0 (free function in this TU, used by GolemReaction): sets the max linear velocity of
 // the golem's four leg rigid bodies (group "Body").
 void sub_7100708FF0(ksys::act::Actor* actor, f32 max_velocity);

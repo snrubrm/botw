@@ -24,7 +24,9 @@ public:
 
     u8 _68[0x74 - 0x68];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
-    u8 _78[0x210 - 0x78];
+    u8 _78[0x8c - 0x78];
+    s32 _8c;  // WeakPointRoot::m35
+    u8 _90[0x210 - 0x90];
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
     u32 _210;
     u16 _214;
