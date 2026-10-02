@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSandwormAttackMove.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -10,12 +11,17 @@ bool SandwormAttackMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: scheduling of the two address computations for search()
 void SandwormAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _70._30.search(_70._28, mDamageBaseNode_s);
+    _70._68 = *mDamageAngle_s;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("攻撃移動", &pack);
 }
 
 void SandwormAttackMove::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005DA114(mActor, &_70);
 }
 
 void SandwormAttackMove::loadParams_() {
