@@ -6,6 +6,14 @@
 
 namespace uking::ai {
 
+void Unk_7102424d70::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 >= 1 && *a4 != 3) {
+        *a1 = 0;
+        *a5 = -1;
+        *a4 = -1;
+    }
+}
+
 StalPartRoot::StalPartRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 StalPartRoot::~StalPartRoot() = default;
