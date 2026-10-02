@@ -216,8 +216,9 @@ public:
     bool m2(const ksys::Message& message) override;
     void m3() override;
 
-    Unk_710235abc8_Payload::Data _38;
+    Unk_710235abc8_Payload _38;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102450528, 0x78);
 
 // vtable 0x7102450bb8 (WolfLinkNormalRoot; m2 handles message type 0x80000a8 with a u32 payload)
 class Unk_7102450bb8 : public Unk_7102357210 {

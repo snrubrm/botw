@@ -55,8 +55,6 @@ protected:
     s32 _b0{};
     s32 _b4{};
     Unk_7102450528 _b8;
-    sead::JobQueueLock _128;
-    u8 _12c[4];
     f32 _130 = 0;
     u32 _134 = 0;
     bool _138 = false;

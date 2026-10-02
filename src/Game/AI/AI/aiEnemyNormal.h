@@ -134,8 +134,6 @@ protected:
     bool _12c = false;
     Unk_710235abc8 _130{mActor, 0x8000006};
     Unk_7102450528 _188;
-    // The payload lock of _188 (Unk_7102450528 embeds only the payload data; same as Enemy::_118).
-    sead::JobQueueLock _1f8;
     Unk_71024507f8 _200;
     Unk_71023e8ff8 _290;
     Unk_71023e8fd0 _2e0{mActor, 0x80000c0};

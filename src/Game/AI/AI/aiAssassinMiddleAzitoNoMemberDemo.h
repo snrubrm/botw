@@ -23,8 +23,6 @@ protected:
     // static_param at offset 0x40
     const int* mDelayTimeMax_s{};
     Unk_7102450528 _48;
-    sead::JobQueueLock _b8;
-    u8 _bc[4];
     f32 _c0 = 0;
     u32 _c4 = 0;
     u32 _c8 = 0;

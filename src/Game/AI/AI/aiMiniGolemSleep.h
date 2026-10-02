@@ -25,7 +25,6 @@ protected:
     // aitree_variable at offset 0x60
     void* mGolemChemicalController_a{};
     Unk_7102450528 _68;
-    sead::JobQueueLock _d8;
 };
 KSYS_CHECK_SIZE_NX150(MiniGolemSleep, 0xe0);
 

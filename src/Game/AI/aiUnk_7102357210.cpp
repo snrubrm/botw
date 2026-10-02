@@ -121,12 +121,12 @@ bool Unk_7102450528::m2(const ksys::Message& message) {
 
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
-        _38._0 = payload->mData._0;
-        _38._10 = payload->mData._10;
-        _38._24 = payload->mData._24;
-        _38._20 = payload->mData._20;
-        _38._28 = payload->mData._28;
-        _38._34 = payload->mData._34;
+        _38.mData._0 = payload->mData._0;
+        _38.mData._10 = payload->mData._10;
+        _38.mData._24 = payload->mData._24;
+        _38.mData._20 = payload->mData._20;
+        _38.mData._28 = payload->mData._28;
+        _38.mData._34 = payload->mData._34;
     }
     auto* actor =
         sead::DynamicCast<ksys::act::Actor>(payload->mData._10.getProc(nullptr, nullptr));
@@ -137,12 +137,12 @@ bool Unk_7102450528::m2(const ksys::Message& message) {
 }
 
 void Unk_7102450528::m3() {
-    _38._20 = 0x7fffffff;
-    _38._24 = 0;
-    _38._28.set(sead::Vector3f::zero);
-    _38._10.reset();
-    _38._0.reset();
-    _38._34 = false;
+    _38.mData._20 = 0x7fffffff;
+    _38.mData._24 = 0;
+    _38.mData._28.set(sead::Vector3f::zero);
+    _38.mData._10.reset();
+    _38.mData._0.reset();
+    _38.mData._34 = false;
 }
 
 bool Unk_7102450558::m2(const ksys::Message& message) {
