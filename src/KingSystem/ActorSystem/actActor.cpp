@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -175,6 +176,15 @@ void Actor::getHomePos(sead::Vector3f* pos) const {
     } else {
         mHomeMtx.getTranslation(*pos);
     }
+}
+
+void Actor::boneHandleStuff(BoneHandleBase* handle, bool sorted) {
+    if (mModel)
+        handle->sub_7100D3BAAC(&_4d8, mModel, sorted);
+}
+
+void Actor::sub_71011DA868(BoneHandleBase* handle) {
+    handle->sub_7100D3BBD4(&_4d8);
 }
 
 const sead::Vector3f& Actor::getPreviousPos() const {

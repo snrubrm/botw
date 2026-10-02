@@ -92,6 +92,7 @@ class Awareness;
 class AwarenessInstance;
 class BaseProcLink;
 class BoneControl;
+class BoneHandleBase;
 class Chemical;
 class DropData;
 class Unk_71025ae620;
@@ -245,6 +246,10 @@ public:
     void getHomePos(sead::Vector3f* pos) const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
+    // CSV name. Adds `handle` to the bone handle list _4d8 (if the actor has a model).
+    void boneHandleStuff(BoneHandleBase* handle, bool sorted);
+    // Removes `handle` from the bone handle list _4d8.
+    void sub_71011DA868(BoneHandleBase* handle);
 
     void clearFlag(ActorFlag flag);
     bool checkFlag(ActorFlag flag) const;
@@ -536,7 +541,7 @@ protected:
     /* 0x4c0 */ sead::Vector3f mEnterCalcPos{0, 0, 0};
 
     /* 0x4d0 */ ModelBindInfo* mModelBindInfo = nullptr;
-    /* 0x4d8 */ void* _4d8 = nullptr;
+    /* 0x4d8 */ BoneHandleBase* _4d8 = nullptr;  // list of bone handles (actBoneHandle.h)
     /* 0x4e0 */ gsys::Model* mModel = nullptr;
     /* 0x4e8 */ float _4e8 = 1.0;
     /* 0x4ec */ float mStartModelOpacity = 0.0;
