@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiGolemReaction.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -10,12 +15,58 @@ bool GolemReaction::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the two damage type compares (0x1b / 0x16) are emitted in the opposite order
 void GolemReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _120 = true;
+    _128.mTimer = ksys::Timer(0, 0);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
+    if (*mGolemClimbedTime_a > 0.0f) {
+        *mGolemClimbedTime_a = sead::Mathf::clampMin(
+            *mGolemClimbedTime_a, f32(*mClimbLimitTime_s - *mClampRestClimbTime_s));
+    }
+
+    auto* actor = mActor;
+    auto* life = actor->getLife();
+    if (life && *life <= 0) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("死亡");
+        return;
+    }
+
+    if (sub_71005DD798(mActor, 0x13, nullptr, 0, 0)) {
+        sub_71003FE9C4();
+        sub_7100708FF0(mActor, 30.0f);
+        changeChild("起き上がる");
+        return;
+    }
+
+    if (sead::DynamicCast<dmg::DamageManager>(actor->getDamageMgr())) {
+        if (sub_71003FEAB0())
+            return;
+
+        auto* damage_mgr = mActor->getDamageMgr();
+        if (damage_mgr && damage_mgr->getField54() <= 0x15 && *mGolemClimbedTime_a > 0.0f) {
+            changeChild("小ダメージ");
+            return;
+        }
+
+        damage_mgr = mActor->getDamageMgr();
+        const s32 type = damage_mgr ? damage_mgr->getField54() : -1;
+        if (type != 0x1b && type != 0x16 && !sub_71003FEC7C()) {
+            changeChild("小ダメージ");
+            return;
+        }
+    }
+
+    auto* damage_mgr = mActor->getDamageMgr();
+    if (damage_mgr && damage_mgr->getField50() == 4)
+        _128.mTimer.reset(*mIgnoreBombTime_s);
+    changeChild("ふっとび");
 }
 
 void GolemReaction::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100708FF0(mActor, 200.0f);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
 void GolemReaction::loadParams_() {

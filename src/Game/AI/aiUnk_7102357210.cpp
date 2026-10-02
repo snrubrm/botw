@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 Unk_7102450498::~Unk_7102450498() = default;
 
@@ -911,4 +913,15 @@ bool Unk_71024507c8::sub_71007094F4(ksys::act::Actor* actor) {
     ksys::act::acquireActor(&_8, &accessor);
     accessor.setThisActorAsParent(actor, false);
     return true;
+}
+
+void sub_7100708FF0(ksys::act::Actor* actor, f32 max_velocity) {
+    if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "RigidBody_Leg_1_R"))
+        body->setMaxLinearVelocity(max_velocity);
+    if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "RigidBody_Leg_2_R"))
+        body->setMaxLinearVelocity(max_velocity);
+    if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "RigidBody_Leg_1_L"))
+        body->setMaxLinearVelocity(max_velocity);
+    if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "RigidBody_Leg_2_L"))
+        body->setMaxLinearVelocity(max_velocity);
 }

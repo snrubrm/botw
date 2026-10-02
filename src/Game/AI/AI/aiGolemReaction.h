@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::ai {
 
@@ -14,6 +16,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    void sub_71003FE9C4();
+    bool sub_71003FEAB0();
+    bool sub_71003FEC7C();
 
 protected:
     // static_param at offset 0x38
@@ -50,6 +56,10 @@ protected:
     float* mGolemClimbedTime_a{};
     // aitree_variable at offset 0x118
     void* mGolemChemicalController_a{};
+    bool _120 = true;
+    ksys::act::Unk_7100d3bc4c _128{mActor};
+    ksys::act::BaseProcLink _140;
 };
+KSYS_CHECK_SIZE_NX150(GolemReaction, 0x150);
 
 }  // namespace uking::ai

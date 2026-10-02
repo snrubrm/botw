@@ -707,3 +707,7 @@ public:
 
     Unk_710244e7f0_Payload _34;
 };
+
+// 0x7100708ff0 (free function in this TU, used by GolemReaction): sets the max linear velocity of
+// the golem's four leg rigid bodies (group "Body").
+void sub_7100708FF0(ksys::act::Actor* actor, f32 max_velocity);

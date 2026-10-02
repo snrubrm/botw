@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyMoveToGround.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,17 @@ bool EnemyMoveToGround::init_(sead::Heap* heap) {
 }
 
 void EnemyMoveToGround::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58.mTimer.reset(*mRetryTime_s);
+    _50 = 2;
+    if (sub_710039A2B8()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_70, "TargetPos", -1);
+        changeChild("発見", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("未発見", &pack);
+    }
 }
 
 void EnemyMoveToGround::leave_() {

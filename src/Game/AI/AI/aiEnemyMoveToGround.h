@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::ai {
 
@@ -15,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool sub_710039A2B8();
+
 protected:
     // static_param at offset 0x38
     const int* mRetryTime_s{};
@@ -22,6 +25,11 @@ protected:
     const float* mAreaThreshold_s{};
     // static_param at offset 0x48
     const float* mSearchRadius_s{};
+    s32 _50 = 0;
+    ksys::act::Unk_7100d3bc4c _58{mActor};
+    sead::Vector3f _70;
+    u32 _7c;
 };
+KSYS_CHECK_SIZE_NX150(EnemyMoveToGround, 0x80);
 
 }  // namespace uking::ai
