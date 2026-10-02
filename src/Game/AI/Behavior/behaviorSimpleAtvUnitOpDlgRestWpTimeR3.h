@@ -15,7 +15,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    const sead::SafeString* m14() override;  // not decompiled yet (0x7100640e54)
+    const sead::SafeString* m14() override;
     void m15() override;  // not decompiled yet (0x7100640b8c)
 
     /* 0x98 */ sead::SafeString mlabelName3_s{};

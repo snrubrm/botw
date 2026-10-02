@@ -12,9 +12,9 @@ public:
     explicit RequestEventResident(const InitArg& arg);
     bool m6(sead::Heap* heap) override;
     void m7() override;
+    void m9() override;
     void loadParams() override;
     void m8() override;  // not decompiled yet (0x71006350e4)
-    void m9() override;  // not decompiled yet (0x710063512c)
     ~RequestEventResident() override;  // not decompiled yet
 
     /* 0x28 */ sead::SafeString mEventName_s{};

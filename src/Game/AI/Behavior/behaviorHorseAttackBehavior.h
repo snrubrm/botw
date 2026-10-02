@@ -11,9 +11,9 @@ class HorseAttackBehavior : public ksys::act::ai::Behavior {
 public:
     explicit HorseAttackBehavior(const InitArg& arg);
     bool m6(sead::Heap* heap) override;
+    void m8() override;
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x710062852c)
-    void m8() override;  // not decompiled yet (0x7100628524)
     void m9() override;  // not decompiled yet (0x7100628d68)
     ~HorseAttackBehavior() override;  // not decompiled yet
 

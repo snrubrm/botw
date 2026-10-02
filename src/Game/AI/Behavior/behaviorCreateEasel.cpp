@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorCreateEasel.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::behavior {
 
@@ -24,6 +26,10 @@ void CreateEasel::m9() {
 
 void CreateEasel::loadParams() {
     Unk_7102435118::loadParams();
+}
+
+bool CreateEasel::m15() {
+    return mActor->getASList()->x(70, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true);
 }
 
 }  // namespace uking::behavior

@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorNeckRotateToPlayerAndNPC.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::behavior {
 
@@ -10,6 +11,10 @@ NeckRotateToPlayerAndNPC::~NeckRotateToPlayerAndNPC() = default;
 
 bool NeckRotateToPlayerAndNPC::m6(sead::Heap* heap) {
     return true;
+}
+
+void NeckRotateToPlayerAndNPC::m9() {
+    sub_71005DB3EC(mActor);
 }
 
 void NeckRotateToPlayerAndNPC::loadParams() {

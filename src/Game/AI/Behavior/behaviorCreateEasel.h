@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m15() override;  // not decompiled yet (0x710061e098)
+    bool m15() override;
 
 };
 KSYS_CHECK_SIZE_NX150(CreateEasel, 0x58);

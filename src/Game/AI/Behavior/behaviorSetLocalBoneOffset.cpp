@@ -7,6 +7,10 @@ SetLocalBoneOffset::SetLocalBoneOffset(const InitArg& arg) : ksys::act::ai::Beha
 
 void SetLocalBoneOffset::m7() {}
 
+void SetLocalBoneOffset::m8() {
+    mActor->boneHandleStuff(&_48, false);
+}
+
 void SetLocalBoneOffset::m9() {
     mActor->sub_71011DA868(&_48);
 }

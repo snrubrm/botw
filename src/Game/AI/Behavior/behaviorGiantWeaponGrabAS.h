@@ -9,10 +9,10 @@ class GiantWeaponGrabAS : public ksys::act::ai::Behavior {
     SEAD_RTTI_OVERRIDE(GiantWeaponGrabAS, ksys::act::ai::Behavior)
 public:
     explicit GiantWeaponGrabAS(const InitArg& arg);
+    void m8() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;  // not decompiled yet (0x71006261a0)
     void m7() override;  // not decompiled yet (0x7100626348)
-    void m8() override;  // not decompiled yet (0x7100626340)
     void m9() override;  // not decompiled yet (0x71006268fc)
     ~GiantWeaponGrabAS() override;  // not decompiled yet
 

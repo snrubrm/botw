@@ -15,6 +15,11 @@ void XLinkCreateForSandworm::m7() {
     sub_7100647278();
 }
 
+void XLinkCreateForSandworm::m9() {
+    OnStateXLinkCreate::m9();
+    _90.getKey().reset();
+}
+
 void XLinkCreateForSandworm::loadParams() {
     OnStateXLinkCreate::loadParams();
     getStaticParam(&mPosType_s, "PosType");

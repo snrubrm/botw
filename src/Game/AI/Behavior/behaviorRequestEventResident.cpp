@@ -10,6 +10,10 @@ bool RequestEventResident::m6(sead::Heap* heap) {
 
 void RequestEventResident::m7() {}
 
+void RequestEventResident::m9() {
+    _48.unloadEvent();
+}
+
 void RequestEventResident::loadParams() {
     getStaticParam(&mEventName_s, "EventName");
     getStaticParam(&mEntryPointName_s, "EntryPointName");

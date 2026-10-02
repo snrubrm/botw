@@ -33,4 +33,13 @@ void SimpleAtvUnitOpDlgRestWpTimeR3::loadParams() {
     getStaticParam(&mlabelName2_s, "labelName2");
 }
 
+// NON_MATCHING: csel operand order (the first select uses `ne`)
+const sead::SafeString* SimpleAtvUnitOpDlgRestWpTimeR3::m14() {
+    if (_bc == 1)
+        return &mlabelName2_s;
+    if (_bc == 2)
+        return &mlabelName3_s;
+    return &mlabelName_s;
+}
+
 }  // namespace uking::behavior

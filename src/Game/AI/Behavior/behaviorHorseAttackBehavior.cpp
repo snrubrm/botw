@@ -8,6 +8,10 @@ bool HorseAttackBehavior::m6(sead::Heap* heap) {
     return true;
 }
 
+void HorseAttackBehavior::m8() {
+    _128 = 0;
+}
+
 void HorseAttackBehavior::loadParams() {
     getStaticParam(&mChargeAttackOffsetY_s, "ChargeAttackOffsetY");
     getStaticParam(&mIsRemovedAllAtkCollision_s, "IsRemovedAllAtkCollision");

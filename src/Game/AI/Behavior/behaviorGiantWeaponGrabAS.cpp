@@ -4,6 +4,11 @@ namespace uking::behavior {
 
 GiantWeaponGrabAS::GiantWeaponGrabAS(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
+void GiantWeaponGrabAS::m8() {
+    _d8 = false;
+    _d9 = false;
+}
+
 void GiantWeaponGrabAS::loadParams() {
     getStaticParam(&mTargetBone_s, "TargetBone");
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
