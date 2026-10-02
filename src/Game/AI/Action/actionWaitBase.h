@@ -10,7 +10,10 @@ class WaitBase : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(WaitBase, ActionWithPosAngReduce)
 public:
     explicit WaitBase(const InitArg& arg);
-    ~WaitBase() override;
+    // The original keeps this destructor out of line next to the subclasses' inlined copies, which a
+    // defaulted destructor does not. Written like upstream's GameDataFlagSelector::~GameDataFlagSelector()
+    // { ; } (commit 96101229).
+    ~WaitBase() override { ; }
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;

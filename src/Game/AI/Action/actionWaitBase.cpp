@@ -6,8 +6,6 @@ namespace uking::action {
 
 WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-WaitBase::~WaitBase() = default;
-
 // NON_MATCHING: load scheduling around the GlobalRandom instance load
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
