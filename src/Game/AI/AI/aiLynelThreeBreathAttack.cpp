@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiLynelThreeBreathAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -26,6 +29,51 @@ void LynelThreeBreathAttack::loadParams_() {
     getStaticParam(&mFarRange_s, "FarRange");
     getStaticParam(&mIsCheckXZ_s, "IsCheckXZ");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: the original loads IsCheckXZ before the positions (see the lane1 log, borderline)
+bool LynelThreeBreathAttack::isFinished() const {
+    if (ksys::act::ai::Ai::isFinished())
+        return true;
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+
+    const sead::Vector3f& target = *mTargetPos_d;
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    f32 dist;
+    if (*mIsCheckXZ_s)
+        dist = sead::Vector2f(mtx(0, 3) - target.x, mtx(2, 3) - target.z).length();
+    else
+        dist = (mtx.getTranslation() - target).length();
+    if (*mNearRange_s >= dist)
+        return true;
+
+    if (!sub_71005D8FBC(mActor))
+        return false;
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&sub_71005D94AC(mActor), &player);
+    return player.x_13();
+}
+
+// NON_MATCHING: as isFinished
+bool LynelThreeBreathAttack::isFailed() const {
+    if (ksys::act::ai::Ai::isFailed())
+        return true;
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return false;
+
+    const sead::Vector3f& target = *mTargetPos_d;
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    f32 dist;
+    if (*mIsCheckXZ_s)
+        dist = sead::Vector2f(mtx(0, 3) - target.x, mtx(2, 3) - target.z).length();
+    else
+        dist = (mtx.getTranslation() - target).length();
+    return *mFarRange_s > 0 && *mFarRange_s <= dist;
 }
 
 }  // namespace uking::ai

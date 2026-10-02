@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -106,6 +107,13 @@ bool GuardianMiniBattle::m45() {
 
 bool GuardianMiniBattle::handleMessage_(const ksys::Message& message) {
     return _148.m2(message);
+}
+
+void GuardianMiniBattle::sub_7100413BA0() {
+    _194 = ksys::Timer(*mTurnMoveTime_s, *mTurnMoveTime_s);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("旋回移動", &params);
 }
 
 }  // namespace uking::ai
