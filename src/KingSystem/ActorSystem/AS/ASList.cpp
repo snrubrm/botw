@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 
 
 namespace ksys::as {
@@ -28,6 +29,55 @@ const sead::Vector3f& ASList::sub_710115D2D4() {
         _163 |= 1;
     }
     return _68;
+}
+
+void ASList::sub_710115BAF8(const sead::SafeString& bone_name) {
+    if (!_8)
+        return;
+    _18.copy(bone_name);
+    if (bone_name.isEmpty())
+        _14.reset();
+    else
+        _14 = _8->searchBone(bone_name);
+}
+
+void ASList::sub_710115CE44(const sead::SafeString& bone_name) {
+    if (!_d8)
+        return;
+    if (_13 == 0xff)
+        return;
+    if (_13 == 0) {
+        _40.copy(_18);
+    } else if (_14.isValid()) {
+        static_cast<void>(bone_name == _18);
+    }
+    sub_710115BAF8(bone_name);
+    ++_13;
+}
+
+void ASList::sub_710115D0AC() {
+    if (!_d8)
+        return;
+    if (_13 == 0)
+        return;
+    if (--_13 != 0)
+        return;
+    sub_710115BAF8(_40);
+    _40.copy(sead::SafeString::cEmptyString);
+}
+
+bool ASList::sub_710115B01C(int slot, int bank, bool a3) {
+    if (auto* entry = getEntry(slot, bank))
+        return entry->sub_7101162254(a3);
+    return false;
+}
+
+bool ASList::sub_710115C11C() {
+    const bool ret = _163 & 2;
+    _163 &= ~2;
+    for (int i = 0, n = mSlots.size(); i < n; ++i)
+        mSlots[i].sub_7101164900(_d8->getParam()->getRes().mModelList, i, _d8);
+    return ret;
 }
 
 // NON_MATCHING: see sub_710115D2D4

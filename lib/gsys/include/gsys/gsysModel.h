@@ -44,6 +44,8 @@ public:
 
     void setBoneLocalMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix,
                             const sead::Vector3f& scale);
+    // 0x7100bf7bb4 (CSV name)
+    BoneAccessKey searchBone(const sead::SafeString& name) const;
 
     // For internal use.
     void add_(IModelAccesssHandle* handle) const;

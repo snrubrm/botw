@@ -1,7 +1,13 @@
 #pragma once
 #include <container/seadBuffer.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
 #include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actActor.h"
+namespace ksys::res {
+class ModelList;
+}
+
 namespace ksys::as {
 class ASList {
 public:
@@ -11,13 +17,6 @@ public:
         sead::SafeString name;
         f32 _10;
         u32 _14;
-    };
-
-    // Placeholder: a pair of indices read by the anim-driven movement accumulators below (both -1 =
-    // none).
-    struct Unk5 {
-        s16 _0;
-        s16 _2;
     };
 
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
@@ -39,8 +38,10 @@ public:
         bool sub_710116383C(Unk4* query, int a2, bool a3);
         bool sub_710116388C(Unk4* query, int a2, bool a3);
         bool sub_71011638DC(Unk4* query, int a2, bool a3);
+        // 0x7101162254
+        bool sub_7101162254(bool a1);
         // used by Unk1::sub_7101164F3C
-        void sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2, const Unk5* idx);
+        void sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // used with x_3
         void sub_7101163044(f32 value);
         void sub_7101163100(f32 value);
@@ -70,9 +71,11 @@ public:
 
     // Placeholder: 0x50-byte slot.
     struct Unk1 {
-        // 0x7101164f3c: calls Unk2::sub_7101162DE4 on every entry of _20 (unless the bit `idx` selects is
+        // 0x7101164f3c: calls Unk2::sub_7101162DE4 on every entry of _20 (unless the bit `key` selects is
         // clear or _4d is set).
-        void sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2, const Unk5* idx);
+        void sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
+        // 0x7101164900: per-slot update from the model list (partial count of slot `idx`).
+        void sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor);
 
         u8 _0[0x20];
         sead::Buffer<Unk2> _20;
@@ -118,6 +121,15 @@ public:
     const sead::Vector3f& sub_710115D2D4();
     // 0x710115d3b8: the same, returning _74 (~40 callers).
     const sead::Vector3f& sub_710115D3B8();
+    // 0x710115baf8: sets the bone name _18 and looks it up in the model (_14; invalid if empty).
+    void sub_710115BAF8(const sead::SafeString& bone_name);
+    // 0x710115ce44 / 0x710115d0ac: push / pop a bone name (the first push saves _18 in _40).
+    void sub_710115CE44(const sead::SafeString& bone_name);
+    void sub_710115D0AC();
+    // 0x710115b01c: Unk2::sub_7101162254(a3) on the entry of `slot` / `bank` (false if none).
+    bool sub_710115B01C(int slot, int bank, bool a3);
+    // 0x710115c11c: clears bit 1 of _163 (returns whether it was set) and updates every slot.
+    bool sub_710115C11C();
 
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())
@@ -128,15 +140,20 @@ public:
         return &entries[bank];
     }
 
-    /* 0x000 */ u8 _0[0x14];
-    /* 0x014 */ Unk5 _14;
-    /* 0x018 */ u8 _18[0x68 - 0x18];
+    // vtable 0x710250ff98 (6 virtual functions, the destructor 0x7101159ca0 last) — not modelled
+    /* 0x000 */ u8 _0[0x8];
+    /* 0x008 */ gsys::Model* _8;
+    /* 0x010 */ u8 _10[0x13 - 0x10];
+    /* 0x013 */ u8 _13;  // push depth of the bone name (sub_710115CE44 / sub_710115D0AC)
+    /* 0x014 */ gsys::BoneAccessKey _14;  // bone named _18 (sub_710115BAF8)
+    /* 0x018 */ sead::FixedSafeString<20> _18;
+    /* 0x040 */ sead::FixedSafeString<20> _40;  // saved _18 while pushed
     /* 0x068 */ sead::Vector3f _68;
     /* 0x074 */ sead::Vector3f _74;
     /* 0x080 */ u8 _80[0xb8 - 0x80];
     /* 0x0b8 */ sead::Buffer<Unk1> mSlots;
     /* 0x0c8 */ sead::Buffer<Unk2*> _c8;
-    /* 0x0d8 */ u8 _d8[0xe0 - 0xd8];
+    /* 0x0d8 */ act::Actor* _d8;  // owner
     /* 0x0e0 */ sead::Buffer<Unk3> _e0;
     /* 0x0f0 */ sead::SafeArray<s8, 0x43> _f0;
     /* 0x133 */ u8 _133[0x163 - 0x133];
