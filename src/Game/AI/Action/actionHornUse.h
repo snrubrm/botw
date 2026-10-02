@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/Action/actionHornUseBase.h"
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,6 +29,10 @@ protected:
     const float* mSpreadDist_s{};
     // static_param at offset 0x90
     const int* mNoticeMaskState_s{};
+    /* 0x098 */ Unk_710235abc8 _98{mActor, 0x8000006};
+    /* 0x0f0 */ ksys::act::AITerror _f0{mActor};
+    /* 0x1a8 */ f32 _1a8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(HornUse, 0x1b0);
 
 }  // namespace uking::action
