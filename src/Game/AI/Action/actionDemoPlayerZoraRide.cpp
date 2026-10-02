@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDemoPlayerZoraRide.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void DemoPlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DemoPlayerZoraRide::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::PlayerBase*>(mActor)->_c48.resetBit(8);
+    mActor->sub_71011DA834(&_20);
 }
 
 void DemoPlayerZoraRide::loadParams_() {}

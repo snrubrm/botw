@@ -11,6 +11,7 @@ public:
     explicit PlayerStoleOpenEx(const InitArg& arg);
 
 protected:
+    void m32() override;
 };
 
 }  // namespace uking::action

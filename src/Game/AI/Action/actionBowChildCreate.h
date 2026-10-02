@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
 
+    void sub_71000CEC68();
+
     // dynamic_param at offset 0x20
     int* mID_d{};
     // dynamic_param at offset 0x28

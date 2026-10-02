@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -18,6 +19,9 @@ public:
 
 protected:
     void calc_() override;
+
+    bool _1d = false;
+    ksys::act::ModelBindInfo _20;
 };
 
 }  // namespace uking::action

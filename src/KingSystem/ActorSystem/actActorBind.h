@@ -34,6 +34,11 @@ public:
         _8.acquire(proc, false);
         m10(&_8);
     }
+    // Same with a link (PlayerStoleOpenBase::enter_).
+    void x(const BaseProcLink& link) {
+        _8 = link;
+        m10(&_8);
+    }
 
     // Returns the bound actor (looked up as `_20` if set, else as `proc`).
     Actor* sub_7100D3C5E0(BaseProc* proc);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gfx/seadColor.h>
+
 #include "Game/AI/Action/actionPlayerStoleOpenEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,6 +20,8 @@ protected:
 
     // static_param at offset 0xd8
     const float* mEnlargeSpd_s{};
+    f32 _e0 = 0;
+    sead::Color4f _e4{0, 0, 0, 0};
 };
 
 }  // namespace uking::action
