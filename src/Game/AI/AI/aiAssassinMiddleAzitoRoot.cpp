@@ -4,6 +4,8 @@ namespace uking::ai {
 
 AssassinMiddleAzitoRoot::AssassinMiddleAzitoRoot(const InitArg& arg) : AssassinNormal(arg) {}
 
+// NON_MATCHING: the original inlines the destructor of the listener _490 (Unk_7102450678), whose
+// out-of-line copy is in the listener TU; ours calls it.
 AssassinMiddleAzitoRoot::~AssassinMiddleAzitoRoot() = default;
 
 bool AssassinMiddleAzitoRoot::init_(sead::Heap* heap) {
