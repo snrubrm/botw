@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetWorldRotOffsetFromTransBone.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::action {
 
@@ -16,7 +18,8 @@ void SetWorldRotOffsetFromTransBone::enter_(ksys::act::ai::InlineParamPack* para
 }
 
 void SetWorldRotOffsetFromTransBone::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* bone_control = mActor->sub_71011D8A10())
+        bone_control->sub_7100D8A830(0.0f, false);
 }
 
 void SetWorldRotOffsetFromTransBone::loadParams_() {}

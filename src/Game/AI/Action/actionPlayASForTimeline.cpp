@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayASForTimeline.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void PlayASForTimeline::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PlayASForTimeline::leave_() {
     PlayASForDemo::leave_();
+    ksys::evt::Manager::instance()->sub_7100DB1158(*mClipIndex_d);
 }
 
 void PlayASForTimeline::loadParams_() {
@@ -29,6 +31,10 @@ void PlayASForTimeline::calc_() {
 
 bool PlayASForTimeline::m33() {
     return true;
+}
+
+float PlayASForTimeline::m32() {
+    return ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d);
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGolemRepairParts.h"
+#include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::action {
 
@@ -17,6 +18,7 @@ void GolemRepairParts::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GolemRepairParts::leave_() {
+    sub_71005DA114(mActor, &_118);
     ActionWithAS::leave_();
 }
 

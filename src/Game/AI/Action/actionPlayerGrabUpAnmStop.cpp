@@ -7,6 +7,7 @@ PlayerGrabUpAnmStop::PlayerGrabUpAnmStop(const InitArg& arg) : PlayerAction(arg)
 
 void PlayerGrabUpAnmStop::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(1);
 }
 
 void PlayerGrabUpAnmStop::leave_() {}

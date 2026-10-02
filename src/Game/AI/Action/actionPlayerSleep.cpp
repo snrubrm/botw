@@ -15,7 +15,11 @@ void PlayerSleep::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerSleep::leave_() {}
 
 void PlayerSleep::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc = 0;
+    player->_20c0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    setFinished();
 }
 
 bool PlayerSleep::isChangeable() const {

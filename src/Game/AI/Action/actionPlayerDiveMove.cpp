@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerDiveMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -9,7 +11,10 @@ void PlayerDiveMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerDiveMove::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->mFlags.reset(0x8);
+        controller->mFlags.reset(0x20000);
+    }
 }
 
 void PlayerDiveMove::loadParams_() {
