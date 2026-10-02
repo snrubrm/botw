@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -10,9 +11,19 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class Message;
+}
+
+namespace sead {
+class Heap;
+}
+
 namespace ksys::act {
+class Actor;
 class ActorConstDataAccess;
 class BaseProc;
 }  // namespace ksys::act
@@ -35,7 +46,35 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk1, 0xf0);
 
+    // Argument of the init function (built by PriestBossMetaAIRoot::init_).
+    struct Unk2 {
+        sead::Vector3f _0;  // the owner actor's position
+        ksys::act::Actor* _10;
+        const sead::SafeString* _18;  // BowActorName
+        const sead::SafeString* _20;  // WeaponActorName
+        const sead::SafeString* _28;  // ThunderActorName
+    };
+    KSYS_CHECK_SIZE_NX150(Unk2, 0x30);
+
+    // Filled by PriestBossMetaAIRoot (0x710052656c) from the actor of its map object's first link.
+    struct Unk3 {
+        sead::Vector3f _0;  // the linked actor's position
+        f32 _c;             // radius of its GeneralSensor/BattleArea body (default 50)
+        ksys::MesTransceiverId _10;
+    };
+    KSYS_CHECK_SIZE_NX150(Unk3, 0x28);
+
     ~Unk_7102450fa8() override;
+    // vtable slot 4: handles the messages for the embedded listeners (0x710071a410).
+    virtual bool m4(const ksys::Message& message);
+
+    // 0x7100718360: allocates and constructs the object (ctor 0x7100717eec).
+    static Unk_7102450fa8* sub_7100718360(sead::Heap* heap);
+    bool sub_71007183A4(sead::Heap* heap, const Unk2& arg);
+    void sub_710071918C();
+    // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.
+    void sub_71007190CC(const ksys::MesTransceiverId& dest);
+    void sub_710071964C(const Unk3& arg);
 
     bool sub_71007194CC(ksys::act::ActorConstDataAccess* accessor);
     bool sub_71007194D4(int idx, ksys::act::ActorConstDataAccess* accessor);
@@ -51,7 +90,8 @@ public:
     /* 0x044 */ u8 _44[0x78 - 0x44];
     /* 0x078 */ sead::BitFlag32 _78;
     /* 0x07c */ u8 _7c[0xa0 - 0x7c];
-    /* 0x0a0 */ u8 _a0[0x1b8 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
+    /* 0x0a0 */ u8 _a0[0x1a0 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
+    /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C
     /* 0x1b8 */ Unk_71024509a8 _1b8;
     /* 0x200 */ u8 _200[0x208 - 0x200];
     /* 0x208 */ Unk_7102450858 _208;
