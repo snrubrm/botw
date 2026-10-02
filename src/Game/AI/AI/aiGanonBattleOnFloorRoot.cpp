@@ -7,7 +7,9 @@ GanonBattleOnFloorRoot::GanonBattleOnFloorRoot(const InitArg& arg) : ksys::act::
 GanonBattleOnFloorRoot::~GanonBattleOnFloorRoot() = default;
 
 bool GanonBattleOnFloorRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _50 = ksys::Timer(900.0f, 900.0f);
+    _5c = false;
+    return true;
 }
 
 void GanonBattleOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {

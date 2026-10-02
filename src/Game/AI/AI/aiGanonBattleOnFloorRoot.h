@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -23,9 +24,7 @@ protected:
     bool* mIsNoWait_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
-    f32 _50{};
-    s32 _54{};
-    s32 _58{};
+    ksys::Timer _50{};
     bool _5c{};
 };
 
