@@ -18,21 +18,20 @@ void BowArrowShoot::calc_() {
         setFinished();
 }
 
-// NON_MATCHING: the original passes a fourth argument (w4 = 0) to ASList::x_2, which is declared
-// with three parameters; it also destroys the player accessor before the x_3 call (block scope)
+// NON_MATCHING: the original destroys the player accessor before the x_3 call (block scope)
 void BowArrowShoot::m32() {
     auto* actor = mActor;
     auto* as_list = actor->getASList();
     auto* weapon = sead::DynamicCast<act::Weapon>(actor);
     if (weapon && weapon->isParentPlayer()) {
-        as_list->x_2(66, 23, true);
+        as_list->x_2(66, 23, true, false);
         playAS("Shoot", false, 0, 0, -1.0f);
         ksys::act::acc::PlayerBase player;
         player.getPlayerFromPlayerInfo();
         const f32 rate = player.m301();
         as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, rate);
     } else {
-        as_list->x_2(66, 23, false);
+        as_list->x_2(66, 23, false, false);
         playAS("Shoot", false, 0, 0, -1.0f);
     }
 }

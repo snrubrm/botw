@@ -230,6 +230,10 @@ public:
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }
+    // mScale and mStartModelOpacity are written inline (element-wise / single stores) by AI actions
+    // (EquipedWeaponChild, PlayerStoleOpen, ChemicalAttack, ForkModelVisibleOff) and other classes.
+    void setScale(const sead::Vector3f& scale) { mScale = scale; }
+    void setStartModelOpacity(f32 opacity) { mStartModelOpacity = opacity; }
     phys::RigidBody* getMainBody() const { return mMainBody; }
     phys::RigidBody* getTgtBody() const { return mTgtBody; }
 

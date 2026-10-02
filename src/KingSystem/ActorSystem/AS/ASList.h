@@ -76,7 +76,9 @@ public:
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
                              bool a7);
     bool goLimpFromHeadShotMaybe(u32 a1, const sead::SafeString& a2, u32 a3);  // x_8
-    bool x_2(int a1, int bit, bool on);
+    // All 141 callers pass a fourth argument in w4 (129 x 0, 12 x 1) that is unused here; its type (bool or
+    // int) cannot be told from the binary.
+    bool x_2(int a1, int bit, bool on, bool a4);
     u8 sub_710115D3B8();
     // 0x000000710115c458
     const sead::SafeString& x_1(u32 slot, u32 seq_bank);

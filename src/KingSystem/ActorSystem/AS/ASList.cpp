@@ -18,7 +18,7 @@ bool ASList::x_6(int kind, int a2, f32 value) {
     return true;
 }
 
-bool ASList::x_2(int a1, int bit, bool on) {
+bool ASList::x_2(int a1, int bit, bool on, bool a4) {
     if (bit < 0)
         return false;
     const s8 idx = _f0[0x42];
