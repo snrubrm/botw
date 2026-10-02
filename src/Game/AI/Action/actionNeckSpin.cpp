@@ -6,8 +6,6 @@ namespace uking::action {
 
 NeckSpin::NeckSpin(const InitArg& arg) : StopASPlay(arg) {}
 
-NeckSpin::~NeckSpin() = default;
-
 bool NeckSpin::init_(sead::Heap* heap) {
     return StopASPlay::init_(heap);
 }
