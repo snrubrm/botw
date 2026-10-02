@@ -269,7 +269,14 @@ protected:
     /* 0xd18 */ s32 _d18;
     /* 0xd1c */ u8 _d1c[0xd24 - 0xd1c];
     /* 0xd24 */ s32 _d24;
-    /* 0xd28 */ u8 _d28[0xda0 - 0xd28];
+    /* 0xd28 */ u8 _d28[0xd30 - 0xd28];
+
+public:
+    // Written directly by AI code (PlayerBeetle::leave_: equipment type name 0).
+    /* 0xd30 */ sead::FixedSafeString<64> _d30;
+
+protected:
+    /* 0xd88 */ u8 _d88[0xda0 - 0xd88];
     /* 0xda0 */ sead::FixedSafeString<64> _da0;
     /* 0xdf8 */ sead::FixedSafeString<64> _df8;
     /* 0xe50 */ u8 _e50[0xe54 - 0xe50];

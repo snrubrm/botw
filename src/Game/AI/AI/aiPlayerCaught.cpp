@@ -8,6 +8,10 @@ namespace uking::ai {
 
 PlayerCaught::PlayerCaught(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
+bool PlayerCaught::isChangeable() const {
+    return false;
+}
+
 bool PlayerCaught::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
