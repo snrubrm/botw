@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiBehavior.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::behavior {
 
@@ -16,8 +17,7 @@ public:
     void loadParams() override;
 
     /* 0x28 */ const bool* mIsIgnite_s{};
-    /* 0x30 */ void* _30 = nullptr;
-    /* 0x38 */ u32 _38 = 0;
+    /* 0x30 */ ksys::Timer _30;
 };
 KSYS_CHECK_SIZE_NX150(SendControlFireMessage, 0x40);
 
