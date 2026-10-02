@@ -19,7 +19,9 @@ protected:
 
     float m32() override;
     bool m35(const ksys::act::ActorConstDataAccess& accessor) override;
+    void m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) override;
     f32 m41() override;
+    void m42() override;
 
     // static_param at offset 0x150
     const float* mRayCastDist_s{};

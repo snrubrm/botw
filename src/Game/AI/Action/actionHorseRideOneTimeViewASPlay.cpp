@@ -26,6 +26,8 @@ void HorseRideOneTimeViewASPlay::loadParams_() {
 
 void HorseRideOneTimeViewASPlay::calc_() {
     HorseRideViewWait::calc_();
+    if (sub_71001ADA78())
+        setFinished();
 }
 
 }  // namespace uking::action

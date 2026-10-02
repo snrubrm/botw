@@ -16,9 +16,13 @@ bool HorseRideLookWait::init_(sead::Heap* heap) {
 
 void HorseRideLookWait::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    if (!mASName_s.isEmpty())
+        sub_71001AD8A0(mASName_s.cstr(), true);
+    mFlags.set(Flag::Changeable);
 }
 
 void HorseRideLookWait::leave_() {
+    sub_71001ADAA8();
     HorseRide::leave_();
 }
 
@@ -31,6 +35,7 @@ void HorseRideLookWait::loadParams_() {
 
 void HorseRideLookWait::calc_() {
     HorseRide::calc_();
+    sub_71001ADAA0(*mTargetPos_d);
 }
 
 }  // namespace uking::action

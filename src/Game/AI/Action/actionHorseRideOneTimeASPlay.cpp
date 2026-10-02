@@ -16,6 +16,7 @@ bool HorseRideOneTimeASPlay::init_(sead::Heap* heap) {
 
 void HorseRideOneTimeASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    sub_71001AD8A0(mASName_s.cstr(), *mIgnoreSameAS_s);
 }
 
 void HorseRideOneTimeASPlay::leave_() {
@@ -30,6 +31,8 @@ void HorseRideOneTimeASPlay::loadParams_() {
 
 void HorseRideOneTimeASPlay::calc_() {
     HorseRide::calc_();
+    if (sub_71001ADA78())
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionHorseRideArrowReload.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,10 +19,14 @@ bool HorseRideArrowReload::init_(sead::Heap* heap) {
 
 void HorseRideArrowReload::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    sub_71001AD8A0(mASName_s.cstr(), true);
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 void HorseRideArrowReload::leave_() {
     HorseRide::leave_();
+    sub_71001ADAA8();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void HorseRideArrowReload::loadParams_() {
@@ -32,6 +39,10 @@ void HorseRideArrowReload::loadParams_() {
 
 void HorseRideArrowReload::calc_() {
     HorseRide::calc_();
+    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
+    sub_71001ADAA0(*mTargetPos_d);
+    if (sub_71001ADA78())
+        setFinished();
 }
 
 }  // namespace uking::action

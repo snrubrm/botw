@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,16 @@ public:
 
 protected:
     void calc_() override;
+
+    // 0x71001ad8a0 (declaration only): starts the AS `name` on the upper (a2) or both body slots
+    // unless it is already playing.
+    void sub_71001AD8A0(const char* name, bool a2);
+    // 0x71001ada78: true when the AS of slot `UpperBodyASSlot` has ended (or there is no ASList).
+    bool sub_71001ADA78() const;
+    // 0x71001adaa0: turns the actor towards `target`.
+    void sub_71001ADAA0(const sead::Vector3f& target);
+    // 0x71001adaa8: stops the look-at.
+    void sub_71001ADAA8();
 
     // static_param at offset 0x20
     const int* mUpperBodyASSlot_s{};

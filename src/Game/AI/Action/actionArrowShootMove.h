@@ -42,6 +42,8 @@ protected:
 
     // 0x71000a331c (declared only): applies the arrow's attack info (called by leave_ unless _149).
     bool sub_71000A331C();
+    // 0x71000a2a64 (declared only): re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
+    void sub_71000A2A64();
 
     // dynamic_param at offset 0x20
     bool* mIsShootByPlayer_d{};

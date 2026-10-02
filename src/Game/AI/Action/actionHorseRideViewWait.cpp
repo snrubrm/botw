@@ -17,6 +17,9 @@ bool HorseRideViewWait::init_(sead::Heap* heap) {
 
 void HorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRide::enter_(params);
+    if (!mASName_s.isEmpty())
+        sub_71001AD8A0(mASName_s.cstr(), true);
+    mFlags.set(Flag::Changeable);
 }
 
 void HorseRideViewWait::leave_() {

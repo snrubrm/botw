@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionArrowShootMoveForLargeObject.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
@@ -22,6 +24,8 @@ void ArrowShootMoveForLargeObject::loadParams_() {
 }
 
 void ArrowShootMoveForLargeObject::calc_() {
+    if (*mIsReInitShoot_d)
+        sub_71000A2A64();
     ArrowShootMove::calc_();
 }
 
@@ -36,6 +40,28 @@ bool ArrowShootMoveForLargeObject::m35(const ksys::act::ActorConstDataAccess& ac
 
 f32 ArrowShootMoveForLargeObject::m41() {
     return *mRayCastDist_s;
+}
+
+// NON_MATCHING: the original keeps the MessageType temporary in its own stack slot (x29-0x14) instead of
+// sharing the ELink handle's slot (sp)
+void ArrowShootMoveForLargeObject::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {
+    if (!accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
+        *out = false;
+        return;
+    }
+    mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000004), nullptr,
+                        true);
+    ksys::eft::searchAndEmitELink(mActor, "Fade");
+    m42();
+    mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
+
+void ArrowShootMoveForLargeObject::m42() {
+    if (_170 || mCallSEKeyAtStick_s.isEmpty())
+        return;
+    auto* actor = mActor;
+    ksys::eft::searchAndEmitSLink(actor, mCallSEKeyAtStick_s.cstr(), false);
+    _170 = true;
 }
 
 }  // namespace uking::action

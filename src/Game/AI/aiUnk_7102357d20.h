@@ -93,6 +93,13 @@ public:
     void* m2() override { return nullptr; }
 };
 
+// vtable 0x710239c820 (HorseRideSearch::_40; message 0x3800007, no payload)
+class Unk_710239c820 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
 // Non-virtual helper with the two senders above (ctor 0x710001bf60, dtor 0x710001bfd4; in this
 // translation unit). Embedded in the GiantGuardWeakPoint behavior (0xa8). Placeholder name (ctor).
 class Unk_710001bf60 {

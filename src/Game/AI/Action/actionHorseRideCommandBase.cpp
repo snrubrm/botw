@@ -25,6 +25,8 @@ void HorseRideCommandBase::loadParams_() {
 
 void HorseRideCommandBase::calc_() {
     HorseRideLookWait::calc_();
+    if (sub_71001ADA78())
+        setFinished();
 }
 
 }  // namespace uking::action
