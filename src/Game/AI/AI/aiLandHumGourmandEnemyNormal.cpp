@@ -2,6 +2,7 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the "ActorLink" object at 0x440 (vtables 0x7102370ea0/0x7102370e70) is not declared yet
 LandHumGourmandEnemyNormal::LandHumGourmandEnemyNormal(const InitArg& arg)
     : LandHumEnemyNormal(arg) {}
 
