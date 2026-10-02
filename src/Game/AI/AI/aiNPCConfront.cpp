@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiNPCConfront.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 namespace uking::ai {
 
@@ -8,7 +13,11 @@ NPCConfront::NPCConfront(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 NPCConfront::~NPCConfront() = default;
 
 bool NPCConfront::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    _90 = actor->getParam()->getRes().mGParamList->getNpc()->mIsNotTurnDetect.ref();
+    if (auto* npc = sead::DynamicCast<act::NPC>(actor))
+        npc->_fe8 |= 4;
+    return true;
 }
 
 void NPCConfront::enter_(ksys::act::ai::InlineParamPack* params) {

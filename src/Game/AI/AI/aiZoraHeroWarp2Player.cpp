@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiZoraHeroWarp2Player.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool ZoraHeroWarp2Player::init_(sead::Heap* heap) {
 }
 
 void ZoraHeroWarp2Player::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    ksys::act::disableAttClient(actor, "Ride");
+    if (auto* npc = sead::DynamicCast<act::NPC>(actor))
+        npc->_fe8 |= 0x10000000;
+    changeChild("もぐる");
 }
 
 void ZoraHeroWarp2Player::leave_() {

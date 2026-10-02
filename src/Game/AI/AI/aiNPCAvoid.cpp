@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiNPCAvoid.h"
+#include "Game/Actor/actNPC.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,12 @@ void NPCAvoid::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCAvoid::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        if (*mTargetTerrorLevel_s != 5)
+            npc->_1048 = 3;
+        npc->_fe8 &= ~0x10000000;
+    }
+    sub_71005D7518(mActor, true);
 }
 
 void NPCAvoid::loadParams_() {

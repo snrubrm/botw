@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiNPCRoam.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,11 +18,18 @@ bool NPCRoam::init_(sead::Heap* heap) {
 }
 
 void NPCRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_fe8 |= 0x200;
+    _88.copy(mWaitASName_d);
+    _88.append("Walk");
+    if (!mActor->getASList()->sub_710115AA68(_88))
+        _88.copy("Walk");
+    sub_71004D7DD8();
 }
 
 void NPCRoam::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
+        npc->_fe8 &= ~0x200;
 }
 
 void NPCRoam::loadParams_() {

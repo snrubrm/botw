@@ -15,6 +15,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71004D7DD8();
+
 protected:
     // static_param at offset 0x38
     const int* mWaitFrame_s{};

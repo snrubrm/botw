@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -38,6 +39,18 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x88
     ksys::act::BaseProcLink* mTerrorEmitter_d{};
+    bool _90 = false;  // GParamList Npc IsNotTurnDetect
+    bool _91 = false;
+    bool _92 = false;
+    bool _93 = false;
+    bool _94 = false;
+    bool _95 = false;
+    bool _96 = false;
+    sead::Vector3f _98;
+    ksys::Timer _a4;
+    ksys::Timer _b0;
+    u32 _bc = 0;
 };
+KSYS_CHECK_SIZE_NX150(NPCConfront, 0xc0);
 
 }  // namespace uking::ai
