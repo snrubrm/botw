@@ -19,6 +19,8 @@ public:
 protected:
     // map_unit_param at offset 0x340
     const bool* mDeleteEndNushiTime_m{};
+    /* 0x348 */ ksys::Timer _348;
 };
+KSYS_CHECK_SIZE_NX150(RupeeRabbitNormal, 0x358);
 
 }  // namespace uking::ai
