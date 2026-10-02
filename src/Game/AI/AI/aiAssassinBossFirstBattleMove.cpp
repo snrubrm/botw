@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAssassinBossFirstBattleMove.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapObject.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -49,6 +51,22 @@ void AssassinBossFirstBattleMove::loadParams_() {
     getStaticParam(&mCheckTargetDist_s, "CheckTargetDist");
     getStaticParam(&mTooFarXZ_s, "TooFarXZ");
     getStaticParam(&mAnchorName_s, "AnchorName");
+}
+
+// NON_MATCHING: the original copies the position as 8 + 4 bytes in x, z order (ours: z first)
+void AssassinBossFirstBattleMove::sub_7100316D50() {
+    if (auto* obj = mActor->getMapObject()) {
+        if (auto* links = obj->getLinkData()) {
+            const auto objects = links->mObjects;
+            for (s32 i = 0; i < objects.size(); ++i) {
+                if (sead::SafeString(objects(i)->getUnitConfigName()) == mAnchorName_s) {
+                    _6c.set(objects(i)->getTranslate());
+                    return;
+                }
+            }
+        }
+    }
+    mActor->getHomePos(&_6c);
 }
 
 }  // namespace uking::ai

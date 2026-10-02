@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiAssassinBossFirstRangeKeepMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Map/mapObject.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -53,6 +56,22 @@ void AssassinBossFirstRangeKeepMove::calc_() {
         }
     }
     EnemyRangeKeepMove::calc_();
+}
+
+// NON_MATCHING: the original copies the position as 8 + 4 bytes in x, z order (ours: z first)
+void AssassinBossFirstRangeKeepMove::sub_7100317AB8() {
+    if (auto* obj = mActor->getMapObject()) {
+        if (auto* links = obj->getLinkData()) {
+            const auto objects = links->mObjects;
+            for (s32 i = 0; i < objects.size(); ++i) {
+                if (sead::SafeString(objects(i)->getUnitConfigName()) == mAnchorName_s) {
+                    _128.set(objects(i)->getTranslate());
+                    return;
+                }
+            }
+        }
+    }
+    mActor->getHomePos(&_128);
 }
 
 }  // namespace uking::ai

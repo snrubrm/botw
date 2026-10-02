@@ -36,15 +36,14 @@ void AssassinBossEscapeFromTarget::loadParams_() {
     getStaticParam(&mCheckDist_s, "CheckDist");
 }
 
-// NON_MATCHING: the original loop compares the index with a signed `<` and copies the position as
-// 8 + 4 bytes
+// NON_MATCHING: the original copies the position as 8 + 4 bytes in x, z order (ours: z first)
 void AssassinBossEscapeFromTarget::sub_7100315244() {
     if (auto* obj = mActor->getMapObject()) {
         if (auto* links = obj->getLinkData()) {
-            auto& objects = links->mObjects;
-            for (auto it = objects.begin(), end = objects.end(); it != end; ++it) {
-                if (sead::SafeString((*it)->getUnitConfigName()) == mAnchorName_s) {
-                    _80 = (*it)->getTranslate();
+            const auto objects = links->mObjects;
+            for (s32 i = 0; i < objects.size(); ++i) {
+                if (sead::SafeString(objects(i)->getUnitConfigName()) == mAnchorName_s) {
+                    _80.set(objects(i)->getTranslate());
                     return;
                 }
             }
