@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponRootAI.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -55,6 +56,31 @@ void WeaponRootAI::m43() {
 void WeaponRootAI::m44() {
     if (auto* chemical = mActor->getChemicalStuff())
         chemical->sub_7100D91098(false);
+}
+
+void WeaponRootAI::sub_7100E21228() {
+    _a8 = false;
+    _aa = false;
+    _ab = false;
+    ksys::act::disableAllAttClients(mActor);
+    m35();
+    if (auto* body = mActor->getMainBody()) {
+        body->disableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        body->disableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        body->disableContactLayer(ksys::phys::ContactLayer::EntityTree);
+    }
+    _c8.fadeXLink();
+    m36();
+    if (mActor) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->sub_710115AA68("ChangeColor")) {
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "ChangeColor", 0, 1, true);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0);
+            }
+        }
+    }
+    changeChild("装備");
 }
 
 }  // namespace uking::ai
