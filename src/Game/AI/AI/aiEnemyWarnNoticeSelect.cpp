@@ -48,4 +48,8 @@ void EnemyWarnNoticeSelect::loadParams_() {
     getAITreeVariable(&mIsTrgChangeUnderWaterState_a, "IsTrgChangeUnderWaterState");
 }
 
+void EnemyWarnNoticeSelect::m34() {
+    setFinished();
+}
+
 }  // namespace uking::ai
