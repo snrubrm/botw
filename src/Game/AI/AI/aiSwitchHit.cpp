@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiSwitchHit.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -60,6 +65,23 @@ void SwitchHit::m42() {
 
 void SwitchHit::m43() {
     changeChild("オン");
+}
+
+// NON_MATCHING: the original evaluates both _44 conditions without branching (orr) and loads the chase
+// target after the VFR delta (see SwitchTimeLag::calc_)
+void SwitchHit::calc_() {
+    SwitchAI::calc_();
+    auto* actor = mActor;
+    _44 = false;
+    _45 = false;
+    _44 = sub_71007A274C(actor) ||
+          (actor->getImpulseBaseProcLink() && actor->getImpulseBaseProcLink()->_10._c > 0);
+    _45 = sead::Mathf::chase(&_40, *mWaitTime_s, ksys::VFR::instance()->getDeltaFrame());
+    SwitchAI::calc_();
+    if (actor->hasPlacementLinkForBasicSig() && isCurrentChild("オン待機") && _45 &&
+        !actor->checkBasicSig()) {
+        m42();
+    }
 }
 
 }  // namespace uking::ai
