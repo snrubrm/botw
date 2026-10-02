@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRagdollFreeze.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 
 namespace uking::action {
 
@@ -26,6 +27,9 @@ void RagdollFreeze::loadParams_() {
 
 void RagdollFreeze::calc_() {
     Freeze::calc_();
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (!actor || !actor->m151(3))
+        setFinished();
 }
 
 }  // namespace uking::action

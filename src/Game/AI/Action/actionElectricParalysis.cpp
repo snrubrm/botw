@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionElectricParalysis.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 
 namespace uking::action {
 
@@ -25,6 +26,9 @@ void ElectricParalysis::loadParams_() {
 
 void ElectricParalysis::calc_() {
     ActionWithPosAngReduce::calc_();
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (actor && !actor->m151(4))
+        setFinished();
 }
 
 }  // namespace uking::action

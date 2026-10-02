@@ -305,7 +305,8 @@ public:
     void x_16();                                                        // 0x892e18
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
-    /* 0x17f1 */ u8 _17f1[0x1810 - 0x17f1];
+    /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
+    /* 0x17f2 */ u8 _17f2[0x1810 - 0x17f2];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
     /* 0x1828 */ u8 _1828[0x1834 - 0x1828];

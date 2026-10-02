@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaterFloatFreeze.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 
 namespace uking::action {
 
@@ -21,6 +22,9 @@ void WaterFloatFreeze::loadParams_() {
 
 void WaterFloatFreeze::calc_() {
     WaterFloatImmobile::calc_();
+    auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor);
+    if (actor && !actor->m151(3))
+        setFinished();
 }
 
 }  // namespace uking::action
