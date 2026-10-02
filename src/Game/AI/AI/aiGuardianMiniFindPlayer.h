@@ -12,6 +12,8 @@ public:
     ~GuardianMiniFindPlayer() override;
 
     void loadParams_() override;
+    bool m42(s32 x) override;
+    bool m43() override;
 
 protected:
 };
