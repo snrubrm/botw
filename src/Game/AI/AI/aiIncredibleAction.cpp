@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiIncredibleAction.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
@@ -42,6 +44,30 @@ void IncredibleAction::loadParams_() {
     getStaticParam(&mIsUnmoving_s, "IsUnmoving");
     getStaticParam(&mIsNoCollide_s, "IsNoCollide");
     getStaticParam(&mIsUseIncredibleActionDCCallback_s, "IsUseIncredibleActionDCCallback");
+}
+
+void IncredibleAction::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    if (*mIsUseIncredibleActionDCCallback_s) {
+        bool value = false;
+        if (auto* as_list = mActor->getASList()) {
+            value = !as_list->x(0x16, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                true);
+        } else {
+            setFailed();
+        }
+        _58._38 = value;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 }  // namespace uking::ai
