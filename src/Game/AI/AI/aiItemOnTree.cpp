@@ -7,8 +7,6 @@ namespace uking::ai {
 
 ItemOnTree::ItemOnTree(const InitArg& arg) : ItemRoot(arg) {}
 
-ItemOnTree::~ItemOnTree() = default;
-
 bool ItemOnTree::init_(sead::Heap* heap) {
     return ItemRoot::init_(heap);
 }

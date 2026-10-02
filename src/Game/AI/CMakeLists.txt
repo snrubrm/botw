@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
   aiQueryFactories.h
   aiUnk_71005D6D10.cpp
   aiUnk_71005D6D10.h
+  aiUnk_7100711020.cpp
+  aiUnk_7100711020.h
   aiUnk_710071edf8.cpp
   aiUnk_710071edf8.h
   aiUnk_7100724C64.cpp

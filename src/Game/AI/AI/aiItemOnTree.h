@@ -9,10 +9,11 @@ class ItemOnTree : public ItemRoot {
     SEAD_RTTI_OVERRIDE(ItemOnTree, ItemRoot)
 public:
     explicit ItemOnTree(const InitArg& arg);
-    ~ItemOnTree() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    // 0x710044f8ec: not decompiled yet (declared for CreationNestOnTree::calc_).
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
