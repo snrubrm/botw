@@ -16,6 +16,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool m40(sead::Vector3f* pos) override;
 
 protected:
     // static_param at offset 0xf8

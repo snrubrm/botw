@@ -20639,7 +20639,7 @@ Address,Quality,Size,Name
 0x000000710030c5c8,U,000192,uking::ai::AnimalRoamCheckWater::m38
 0x000000710030c688,U,000200,
 0x000000710030c750,U,000104,uking::ai::AnimalRoamCheckWater::m39
-0x000000710030c7b8,U,000132,uking::ai::AnimalRoamCheckWater::m40
+0x000000710030c7b8,O,000132,_ZN5uking2ai20AnimalRoamCheckWater3m40EPN4sead7Vector3IfEE
 0x000000710030c83c,O,000132,_ZNK5uking2ai20AnimalRoamCheckWater27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710030c8c0,O,000092,_ZNK5uking2ai20AnimalRoamCheckWater18getRuntimeTypeInfoEv
 0x000000710030c91c,O,000140,_ZNK4sead15RuntimeTypeInfo6DeriveIN5uking2ai10AnimalRoamEE9isDerivedEPKNS0_9InterfaceE

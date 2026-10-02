@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAnimalRoamCheckWater.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -23,6 +25,21 @@ void AnimalRoamCheckWater::loadParams_() {
     AnimalRoam::loadParams_();
     getStaticParam(&mWaterLevelLimitLower_s, "WaterLevelLimitLower");
     getStaticParam(&mWaterLevelLimitUpper_s, "WaterLevelLimitUpper");
+}
+
+bool AnimalRoamCheckWater::m40(sead::Vector3f* pos) {
+    if (!pos)
+        return false;
+    if (auto* nav = mActor->m45()) {
+        nav->_1e0.lock();
+        const u8 state = nav->_294;
+        nav->_1e0.unlock();
+        if (state == 1) {
+            pos->set(_10c);
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai
