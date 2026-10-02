@@ -436,7 +436,7 @@ class Unk_71024509d8 : public Unk_7102357210 {
 public:
     bool m2(const ksys::Message& message) override;
 
-    Unk_71024509d8_Payload _34;
+    Unk_7102413c08_Payload _34;
 };
 
 // ---- Listeners embedded in AI classes (functions in their owners' TUs in the original) ----

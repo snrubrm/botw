@@ -149,3 +149,12 @@ public:
 
     Unk_7102409958_Payload _18;
 };
+
+// vtable 0x7102413c08 (PriestBossGiantStageRotate); message 0x80000de
+class Unk_7102413c08 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102413c08_Payload _18;
+};

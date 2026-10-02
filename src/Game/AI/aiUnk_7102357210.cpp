@@ -638,7 +638,7 @@ bool Unk_71024509d8::m2(const ksys::Message& message) {
     if (message.getType().value != 0x80000de)
         return false;
 
-    static_cast<Unk_71024509d8_Payload*>(message.getUserData())->sub_710070E270(&_34);
+    static_cast<Unk_7102413c08_Payload*>(message.getUserData())->sub_710070E270(&_34);
     _30 = true;
     _18 = message.getSource();
     return true;

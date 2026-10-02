@@ -25,4 +25,10 @@ void PriestBossGiantStageRotate::loadParams_() {
     getStaticParam(&mIsUseStartAction_s, "IsUseStartAction");
 }
 
+bool PriestBossGiantStageRotate::handleMessage_(const ksys::Message& message) {
+    if (!_88._30 && _88.m2(message))
+        return true;
+    return false;
+}
+
 }  // namespace uking::ai

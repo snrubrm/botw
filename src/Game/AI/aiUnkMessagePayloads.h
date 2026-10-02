@@ -220,14 +220,13 @@ struct Unk_7102396ae0_Payload {
     sead::JobQueueLock mLock;
 };
 
-// Message 0x80000de (sender unknown; placeholder name = listener vtable). The sender keeps it at +0x18
-// (sender method 0x710070E2BC, not decompiled).
-struct Unk_71024509d8_Payload {
-    void sub_710070E270(Unk_71024509d8_Payload* out);
+// Message 0x80000de (sender Unk_7102413c08; sender method 0x710070E2BC, not decompiled)
+struct Unk_7102413c08_Payload {
+    void sub_710070E270(Unk_7102413c08_Payload* out);
 
     sead::JobQueueLock mLock;
-    u32 _4;
-    u32 _8;
+    u32 _4 = 1;
+    s32 _8 = -1;
 };
 
 // Message 0x8000040 (sender Unk_710235aba0)
