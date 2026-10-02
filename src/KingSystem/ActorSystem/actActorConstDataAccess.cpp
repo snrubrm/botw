@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
@@ -449,6 +450,16 @@ bool ActorConstDataAccess::sub_7100D13AE4(const sead::SafeString& name, BaseProc
     if (!client)
         return false;
     return client->sub_7100D72554(proc, arg, a4);
+}
+
+bool ActorConstDataAccess::sub_7100D13BB8() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* unk = actor->m128();
+    if (!unk)
+        return false;
+    return unk->m2();
 }
 
 phys::SystemGroupHandler* ActorConstDataAccess::sub_7100D10448(s32 idx) const {

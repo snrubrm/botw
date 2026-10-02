@@ -137,6 +137,8 @@ public:
     s32 getLife() const;
     // 0x7100d14078: Actor::getMaxLife().
     s32 getMaxLife() const;
+    // 0x7100d13bb8: Unk_71006e45c4::m2() of the actor's m128() object.
+    bool sub_7100D13BB8() const;
     // 0x7100d13ae4: AttClient::sub_7100D72554 of the actor's attention client `name`.
     bool sub_7100D13AE4(const sead::SafeString& name, BaseProc* proc,
                         const res::AttCheck_Unk1* arg, bool a4) const;
