@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -20,6 +23,9 @@ protected:
     const float* mRotSpd_s{};
     // static_param at offset 0x40
     const float* mLength_s{};
+    ksys::VFRValue _48;
+    sead::Matrix33f _54;
 };
+KSYS_CHECK_SIZE_NX150(KorokPinWheelRoot, 0x78);
 
 }  // namespace uking::ai
