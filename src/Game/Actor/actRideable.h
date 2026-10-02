@@ -254,6 +254,9 @@ KSYS_CHECK_SIZE_NX150(Rideable, 0x280);
 // 0x7100e7f318: applies the AS anim-driven movement of `as_list` to `controller` (`scale` = 1 / the
 // rider AS speed). Not decompiled yet.
 void sub_7100E7F318(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale);
+// 0x7100e7f4fc: variant of sub_7100E7F318 (anim-driven movement along the controller's forward
+// direction; GetUpMoveAnmDriven::calc_ passes scale 1). Not decompiled yet.
+void sub_7100E7F4FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale);
 // 0x7100e7f698: sub_7100E7F318 with the scale from `rideable` (_18._24); with bit 2 of
 // rideable->_8 set it resets the controller (sub_7100F5EDD8(1) / sub_7100F5EDE0(0)) instead.
 void sub_7100E7F698(RideableBase* rideable, ksys::as::ASList* as_list,
