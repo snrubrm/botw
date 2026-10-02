@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkDisableContactForAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -25,6 +26,14 @@ void ForkDisableContactForAttack::loadParams_() {
 
 void ForkDisableContactForAttack::calc_() {
     ForkDisableContact::calc_();
+}
+
+bool ForkDisableContactForAttack::m32() {
+    return sub_71005DD66C(mActor, nullptr, 0, 0);
+}
+
+bool ForkDisableContactForAttack::m33() {
+    return sub_71005DD7B0(mActor, nullptr, 0, 0);
 }
 
 }  // namespace uking::action

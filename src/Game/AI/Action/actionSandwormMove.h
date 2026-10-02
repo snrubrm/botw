@@ -10,6 +10,7 @@ class SandwormMove : public MoveWithAS {
 public:
     explicit SandwormMove(const InitArg& arg);
     ~SandwormMove() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

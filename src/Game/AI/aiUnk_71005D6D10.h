@@ -239,6 +239,12 @@ void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const se
 void sub_71005DAB2C(ksys::act::Actor* actor, f32 a1, f32 a2, f32 a3, int a4);
 bool sub_71005DD66C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
 bool sub_71005DD74C(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
+/// Same as sub_71005DD66C / sub_71005DD74C with an explicit ASList::x type (they use 3).
+bool sub_71005DD5B0(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
+bool sub_71005DD734(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
+bool sub_71005DD780(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
+bool sub_71005DD798(ksys::act::Actor* actor, int type, const sead::SafeString* name, int a3, int a4);
+bool sub_71005DD7B0(ksys::act::Actor* actor, const sead::SafeString* name, int a2, int a3);
 /// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
 /// `flags` may be null; flags is copied to Unk_71002edaec::_14.
 void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,

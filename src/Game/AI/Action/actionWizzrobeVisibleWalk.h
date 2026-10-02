@@ -10,6 +10,7 @@ class WizzrobeVisibleWalk : public LevelFlyMove {
 public:
     explicit WizzrobeVisibleWalk(const InitArg& arg);
     ~WizzrobeVisibleWalk() override;
+    bool isChangeable() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

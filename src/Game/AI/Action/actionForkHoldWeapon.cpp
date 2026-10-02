@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkHoldWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -25,7 +26,8 @@ void ForkHoldWeapon::loadParams_() {
 }
 
 void ForkHoldWeapon::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 0x54, nullptr, *mTargetBone_s, *mSeqBank_s))
+        sub_71005DB6D0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::action

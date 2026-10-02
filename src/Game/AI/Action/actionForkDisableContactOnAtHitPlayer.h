@@ -19,7 +19,7 @@ public:
 protected:
     void calc_() override;
     bool m33() override;
-    int m32() override;
+    bool m32() override;
 };
 
 }  // namespace uking::action

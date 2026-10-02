@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSandwormMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -31,6 +32,12 @@ void SandwormMove::loadParams_() {
 
 void SandwormMove::calc_() {
     MoveWithAS::calc_();
+}
+
+bool SandwormMove::isChangeable() const {
+    if (*mIsCheckAnmSeqCancel_s)
+        return sub_71005DD798(mActor, 2, nullptr, 0, 0);
+    return ActionBase::isChangeable();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkWeaponAttackBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -41,6 +42,14 @@ void ForkWeaponAttackBase::calc_() {
 
 int ForkWeaponAttackBase::m36() {
     return 0;
+}
+
+bool ForkWeaponAttackBase::m34(sead::SafeString* name) {
+    return sub_71005DD66C(mActor, name, *mTargetBone_s, *mSeqBank_s);
+}
+
+bool ForkWeaponAttackBase::m35() {
+    return sub_71005DD74C(mActor, nullptr, *mTargetBone_s, *mSeqBank_s);
 }
 
 }  // namespace uking::action
