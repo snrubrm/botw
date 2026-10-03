@@ -408,7 +408,10 @@ public:
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
-    /* 0x1d40 */ u8 _1d40[0x1d70 - 0x1d40];
+    /* 0x1d40 */ u8 _1d40[0x1d64 - 0x1d40];
+    /* 0x1d64 */ f32 _1d64;  // reset by x_40 / x_16
+    /* 0x1d68 */ f32 _1d68;
+    /* 0x1d6c */ f32 _1d6c;  // set to 1 by x_40 / x_16
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
     /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];

@@ -174,6 +174,22 @@ bool Player::m183() {
     return mASList->x_1(1, 1) == "HorseBowEndUpper";
 }
 
+bool Player::m225() {
+    return mASList->x_1(2, 0) == "WeaponEquipOn" || mASList->x_1(2, 0) == "WeaponEquipOff" ||
+           mASList->x_1(2, 0) == "WeaponEquipNG";
+}
+
+bool Player::m226() {
+    return mASList->x_1(2, 0) == "ItemEquipBoth" || mASList->x_1(2, 0) == "ItemEquipLeftOn" ||
+           mASList->x_1(2, 0) == "ItemEquipLeftOff" || mASList->x_1(2, 0) == "ItemEquipRight" ||
+           mASList->x_1(1, 1) == "ItemBombReady";
+}
+
+bool Player::m181() {
+    return mASList->x_1(1, 1) == "WeaponThrowCharge" || mASList->x_1(1, 1) == "WeaponThrow" ||
+           mASList->x_1(0, 0) == "WeaponThrow";
+}
+
 bool Player::m182() {
     return mASList->x_1(1, 1) == "WeaponThrow" || mASList->x_1(0, 0) == "WeaponThrow";
 }
@@ -419,6 +435,43 @@ bool Player::m261(f32* out) {
         return true;
     }
     return false;
+}
+
+bool Player::isMasterSwordEquipped_() {
+    ActorConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (!link.hasProc())
+        return false;
+    acquireActor(&link, &accessor);
+    if (accessor.hasProc())
+        return accessor.getName() == "Weapon_Sword_070";
+    return false;
+}
+
+void Player::x_40() {
+    _1d6c = 1.0f;
+    _c40.reset(0x1200000);
+    _1d64 = 0.0f;
+    _1d68 = 0.0f;
+    _1f8c = 0;
+    _1f84 = 0;
+    if (_c44.isOnBit(8)) {
+        if (mASList->x_1(1, 1) != "WeaponThrow") {
+            _c44.resetBit(8);
+            x_18(true);
+        }
+    }
+}
+
+// NON_MATCHING: the inlined copy of x_40 has its stores scheduled differently (the original keeps the order of the
+// out-of-line x_40)
+void Player::x_16() {
+    _c40.resetBit(24);
+    if (x_17())
+        x_18(true);
+    x_40();
+    x_19(-1.0f);
 }
 
 }  // namespace ksys::act
