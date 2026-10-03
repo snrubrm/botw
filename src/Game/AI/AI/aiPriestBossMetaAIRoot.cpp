@@ -57,8 +57,9 @@ void PriestBossMetaAIRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _144 = -1;
 }
 
-// NON_MATCHING: the Flag temporary gets its own stack slot (the original shares it with `arg`); the
-// blocks for phases 3 and 4 are laid out in the other order
+// NON_MATCHING: block layout only — the original lays out the `setFinished()` block at the very end
+// and the phase-3 block after the phase-4 one (the Flag temporary / `arg` slot sharing is solved by the
+// by-value `isFlagOn` helper)
 void PriestBossMetaAIRoot::calc_() {
     PriestBossMeta::calc_();
     sub_710052618C();
@@ -81,7 +82,7 @@ void PriestBossMetaAIRoot::calc_() {
     }
 
     auto* unit = sub_7100525A88();
-    if (!unit->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_5))) {
+    if (!unit->isFlagOn(Unk_7102450fa8::Flag::_5)) {
         Unk_7102450fa8::Unk3 arg;
         if (sub_710052656C(&arg))
             unit->sub_710071964C(arg);
