@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace uking {
 
@@ -93,6 +94,34 @@ void MotorcycleMgr::sub_710067AFB0() {
 void MotorcycleMgr::effectFadeXLink() {
     if (_148.sub_7101241B6C())
         _148.fadeXLink();
+}
+
+MotorcycleMgr::~MotorcycleMgr() {
+    delete _d0;
+    if (mProcHandle.isAllocatedOrFailed())
+        mProcHandle.deleteProc();
+    if (_d8)
+        ksys::phys::HavokAI::instance()->destroyQuery(_d8);
+    if (auto* gdt_mgr = ksys::gdt::Manager::instance())
+        gdt_mgr->removeReinitCallback(mSlot);
+
+    if (_168.getEvent() && _168.getEvent()->getCreateId() == _168.getCreateId()) {
+        _168.fade();
+        _168.reset();
+    }
+    if (_148.sub_7101241B6C()) {
+        if (_148.mELink.getEvent() &&
+            _148.mELink.getEvent()->getCreateId() == _148.mELink.getCreateId()) {
+            _148.mELink.fade();
+            _148.mELink.reset();
+        }
+        if (_148.mSLink.getEvent() &&
+            _148.mSLink.getEvent()->getCreateId() == _148.mSLink.getCreateId()) {
+            _148.mSLink.fade();
+            _148.mSLink.reset();
+        }
+        _148.fadeXLink();
+    }
 }
 
 }  // namespace uking
