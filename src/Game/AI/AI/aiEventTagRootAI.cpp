@@ -4,8 +4,8 @@
 namespace uking::ai {
 
 EventTagRootAI::EventTagRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {
-    _38 = 0;
-    _3c = 0;
+    _38 = State::_0;
+    _3c = State::_0;
     _40 = 0;
 }
 
@@ -22,7 +22,7 @@ bool EventTagRootAI::init_(sead::Heap* heap) {
 void EventTagRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
     if (isRootAiParamINot5()) {
         _38 = _3c;
-        _3c = 0;
+        _3c = State::_0;
         _40 = 0;
         _80 = mActor->checkBasicSig();
     }
@@ -35,6 +35,45 @@ void EventTagRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
         actor->setMtx(mtx, true, true);
         actor->nullsub_4648();
     }
+}
+
+void EventTagRootAI::calc_() {
+    {
+        auto* actor = mActor;
+        if (actor->getFieldBodyGroup()) {
+            actor->m107();
+            sead::Matrix34f mtx;
+            actor->getHomeMtx(&mtx);
+            actor->setMtx(mtx, true, true);
+            actor->nullsub_4648();
+        }
+    }
+
+    auto* actor = mActor;
+    const bool launch =
+        !actor->checkBasicSig() ? *mLaunchEventByOffSignal_m : *mLaunchEventByOnSignal_m;
+    const bool changed = actor->checkBasicSig() != _80;
+    if (launch) {
+        if (changed) {
+            _38 = _3c;
+            _3c = State::_1;
+            _40 = 0;
+        }
+    } else if (changed) {
+        auto* sig_actor = mActor;
+        _38 = _3c;
+        _3c = State::_0;
+        _40 = 0;
+        if (sig_actor->checkBasicSig())
+            sig_actor->emitBasicSigOn();
+        else
+            sig_actor->emitBasicSigOff();
+    }
+
+    sub_7100E19EDC();
+    if (_3c == State::_1 || _3c == State::_2)
+        actor->m107();
+    _80 = mActor->checkBasicSig();
 }
 
 void EventTagRootAI::leave_() {

@@ -678,6 +678,7 @@ target_sources(uking PRIVATE
   aiEternalPlayerTarget.cpp
   aiEternalPlayerTarget.h
   aiEventTagRootAI.cpp
+  aiEventTagRootAIEvent.cpp
   aiEventTagRootAI.h
   aiEventTimeRoot.cpp
   aiEventTimeRoot.h
