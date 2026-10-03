@@ -84,6 +84,10 @@ public:
 
     u32 getFrameRate() const { return mFrameRate; }
 
+    // Read inline by PlayerBase::isSlowTime and friends (name is a guess): the value of the idx-th time speed
+    // multiplier.
+    f32 getTimeSpeedMultiplierValue(s32 idx) const { return mTimeSpeedMultipliers(idx).value; }
+
     template <typename T>
     static inline void add(T* value, const T& v) {
         *value += v * instance()->getDeltaFrame();

@@ -42,6 +42,23 @@ public:
     // FIXME: name for x
     void setExtraLife(s32 extra_life, f32 x);
     void addExtraStamina(f32 x, f32 y);
+    // 0x710084ae08 (CSV Player::setStaminaDelta): adds `delta` to the current core's stamina delta (_e7c).
+    void setStaminaDelta(f32 delta);
+    // 0x710084b62c / 0x710084b680 / 0x710084b6d4 / 0x710084b7c0 (CSV Player::setItemVel / setItemSwimVel; the
+    // other two are placeholder names): store (f32(type), value) under _1140.
+    void setItemVel(s32 type, f32 vel);
+    void setItemSwimVel(s32 type, f32 vel);
+    void sub_710084B6D4(s32 type, f32 vel);
+    void sub_710084B7C0(s32 type, f32 value);
+    // 0x710084b5c4 (CSV Player::x_12): zeroes the item velocities (and the extra life / stamina unless
+    // `keep_extra`) and the block at _11a8.
+    void x_12(bool keep_extra);
+    // 0x710084aa9c (placeholder name): copies the link _1280 to `out` if _c40 bit 14 is set.
+    bool sub_710084AA9C(BaseProcLink* out);
+    // 0x710084aef8 (placeholder name; no `this`): resets the player info's current maximum stamina.
+    static void sub_710084AEF8();
+    // 0x710084ab8c (CSV Player::setNewPlayerMtx): stores the matrix under _1700 and sets _ce0 bit 7.
+    void setNewPlayerMtx(const sead::Matrix34f& mtx);
 
     // FIXME: takes a phys::RigidBody* (calls RigidBody::getPosition on it), like Actor::m92
     void m92(phys::RigidBody* body) override;
@@ -348,7 +365,8 @@ protected:
     /* 0xe54 */ f32 _e54;
     /* 0xe58 */ f32 _e58;
     /* 0xe5c */ s32 _e5c;
-    /* 0xe60 */ u8 _e60[0xe88 - 0xe60];
+    /* 0xe60 */ u8 _e60[0xe7c - 0xe60];
+    /* 0xe7c */ sead::SafeArray<f32, 3> _e7c;  // per core: stamina delta (setStaminaDelta)
     /* 0xe88 */ BaseProcLink _e88;
     /* 0xe98 */ BaseProcLink _e98;
 public:  // read by PlayerLookAtObject::m38
@@ -356,12 +374,19 @@ public:  // read by PlayerLookAtObject::m38
 protected:
     /* 0xeb8 */ u8 _eb8[0x1140 - 0xeb8];
     /* 0x1140 */ sead::CriticalSection _1140;
-    /* 0x1180 */ u8 _1180[0x1198 - 0x1180];
+    /* 0x1180 */ f32 _1180;  // item velocity type (setItemVel)
+    /* 0x1184 */ f32 _1184;  // item velocity
+    /* 0x1188 */ f32 _1188;  // item swim velocity type (setItemSwimVel)
+    /* 0x118c */ f32 _118c;
+    /* 0x1190 */ f32 _1190;  // (sub_710084B6D4)
+    /* 0x1194 */ f32 _1194;
     /* 0x1198 */ s32 _1198;
     /* 0x119c */ f32 _119c;
     /* 0x11a0 */ f32 _11a0;
     /* 0x11a4 */ f32 _11a4;
-    /* 0x11a8 */ u8 _11a8[0x1238 - 0x11a8];
+    /* 0x11a8 */ s32 _11a8;  // (sub_710084B7C0)
+    /* 0x11ac */ f32 _11ac;
+    /* 0x11b0 */ u8 _11b0[0x1238 - 0x11b0];
     /* 0x1238 */ sead::CriticalSection _1238;
     /* 0x1278 */ bool _1278;
     /* 0x1280 */ BaseProcLink _1280;
@@ -485,6 +510,16 @@ public:
     BaseProcLink& getSpAttackTarget() const;
     const sead::Vector3f& getLookAtPosForCamera() const;
     bool isSlowStartInterval() const;
+    // 0x710084ead0 (CSV slowTimeStuff): false while time is slowed, otherwise whether the slow start interval flag
+    // (_c4c bit 15) is clear.
+    bool slowTimeStuff() const;
+    // 0x710084e728: whether the character controller reports being in water (bit 2 of _116).
+    bool isInWater() const;
+    // 0x710084ef78: whether controller key 0x25 is pressed.
+    bool checkControllerX() const;
+    // 0x710084f35c / 0x710084f398.
+    bool runeMgrCheckCanUseStasis() const;
+    bool runeMgrCheckCanUseRoundBomb() const;
     bool x_25() const;
     bool x_26() const;
     bool x_27() const;

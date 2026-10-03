@@ -10,6 +10,10 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/VFR.h"
+#include <cstring>
+#include <mc/seadCoreInfo.h>
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
@@ -24,6 +28,10 @@ bool PlayerBase::x_2() {
     if (getAttachedTargetActor()->_110.isOnBit(6))
         return true;
     return getAttachedTargetActor()->_110.isOnBit(9);
+}
+
+bool PlayerBase::isSlowTime() const {
+    return VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f;
 }
 
 bool PlayerBase::x_50() {
@@ -132,6 +140,72 @@ void PlayerBase::addExtraStamina(f32 x, f32 y) {
     const auto lock = sead::makeScopedLock(_1140);
     _11a0 = x;
     _11a4 = y;
+}
+
+void PlayerBase::setStaminaDelta(f32 delta) {
+    _e7c[sead::CoreInfo::getCurrentCoreId()] += delta;
+}
+
+void PlayerBase::setItemVel(s32 type, f32 vel) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _1180 = f32(type);
+    _1184 = vel;
+}
+
+void PlayerBase::setItemSwimVel(s32 type, f32 vel) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _1188 = f32(type);
+    _118c = vel;
+}
+
+void PlayerBase::sub_710084B6D4(s32 type, f32 vel) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _1190 = f32(type);
+    _1194 = vel;
+}
+
+void PlayerBase::sub_710084B7C0(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8 = type;
+    _11ac = value;
+}
+
+void PlayerBase::x_12(bool keep_extra) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _1180 = 0;
+    _1184 = 0;
+    _1188 = 0;
+    _118c = 0;
+    _1190 = 0;
+    _1194 = 0;
+    if (!keep_extra) {
+        _1198 = 0;
+        _119c = 0;
+        _11a0 = 0;
+        _11a4 = 0;
+    }
+    memset(&_11a8, 0, 0x48);
+}
+
+// NON_MATCHING: the original keeps the full word load of _c40 (ldr + tbz #14) where we narrow it to a byte load
+bool PlayerBase::sub_710084AA9C(BaseProcLink* out) {
+    if (out && _c40.isOnBit(14)) {
+        *out = _1280;
+        return true;
+    }
+    return false;
+}
+
+void PlayerBase::sub_710084AEF8() {
+    auto* info = PlayerInfo::instance();
+    info->setStaminaCurrentMax(info->getMaxStaminaFromPlayerActor());
+}
+
+void PlayerBase::setNewPlayerMtx(const sead::Matrix34f& mtx) {
+    const auto lock = sead::makeScopedLock(_1700);
+    _1740 = mtx;
+    const auto lock2 = sead::makeScopedLock(_ca0);
+    _ce0.set(0x80);
 }
 
 sead::Vector3f& PlayerBase::getPlayerPosForPostCalc() {
@@ -583,6 +657,53 @@ const sead::Vector3f& PlayerBase::getLookAtPosForCamera() const {
         return sead::Vector3f::zero;
     debugLog(1, "getLookAtPosForCamera");
     return player->_17a0;
+}
+
+bool PlayerBase::x_23() const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return false;
+    if (player->getAttachedTargetActor()->_110.isOnBit(6))
+        return true;
+    return player->getAttachedTargetActor()->_110.isOnBit(9);
+}
+
+bool PlayerBase::slowTimeStuff() const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return false;
+    if (VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f)
+        return false;
+    return !player->_c4c.isOnBit(15);
+}
+
+bool PlayerBase::isInWater() const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return false;
+    debugLog(1, "isInWater");
+    auto* controller = player->getCharacterController();
+    if (!controller)
+        return false;
+    return (controller->_116 & 4) != 0;
+}
+
+bool PlayerBase::checkControllerX() const {
+    if (auto* player = getPlayerBase())
+        return player->_17d0->controllerCheckPressedMaybe(37);
+    return false;
+}
+
+bool PlayerBase::runeMgrCheckCanUseStasis() const {
+    if (auto* player = getPlayerBase())
+        return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(3, player);
+    return false;
+}
+
+bool PlayerBase::runeMgrCheckCanUseRoundBomb() const {
+    if (auto* player = getPlayerBase())
+        return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(0, player);
+    return false;
 }
 
 bool PlayerBase::isSlowStartInterval() const {
