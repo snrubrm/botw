@@ -20,6 +20,11 @@ public:
     // `pattern` (an index into a table of 0x10-byte entries at 0x71025d0370; takes it by value through a
     // stack slot, so probably a SEAD_ENUM) `count` times unless a stronger pattern is already running.
     void sub_7100897FE4(s32 pattern, s32 count);
+    // 0x710089813c (declaration only; placeholder name): starts the pattern `pattern` for `seconds` seconds
+    // (TimeSpecControllerRumble::enter_).
+    void sub_710089813C(s64 pattern, s32 seconds);
+    // 0x710089878c (CSV Rumble::__auto1, declaration only; placeholder name): stops the running rumble.
+    void sub_710089878C();
 };
 
 }  // namespace uking
