@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTimidityEnemyDrawback.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,34 @@ bool TimidityEnemyDrawback::init_(sead::Heap* heap) {
 }
 
 void TimidityEnemyDrawback::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _6c = 6;
+    _70 = 15;
+
+    if (sead::Mathf::sqrt(ksys::util::sqXZDistance(mActor->getMtx().getTranslation(),
+                                                   *mTargetPos_d)) < *mEscapeDist_s) {
+        auto* actor = mActor;
+        bool can_flee = false;
+        if (actor) {
+            sead::Vector3f home;
+            actor->getHomePos(&home);
+            can_flee = sead::Mathf::sqrt(ksys::util::sqXZDistance(
+                           home, actor->getMtx().getTranslation())) <= *mEscapeDistFromHome_s;
+        }
+
+        if (!can_flee) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("発狂", &pack);
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("逃走", &pack);
+        }
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("警戒", &pack);
+    }
 }
 
 void TimidityEnemyDrawback::leave_() {

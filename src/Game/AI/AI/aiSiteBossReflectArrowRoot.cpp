@@ -54,6 +54,64 @@ void SiteBossReflectArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _508 = -1;
 }
 
+// NON_MATCHING: scheduling / register allocation of the arrow search loops and the `_1560` + `_1e0` address
+// folding (the original adds 0x1560 before the saturated index and 0x1e0 after it); control flow identical
+bool SiteBossReflectArrowRoot::sub_7100582C20(sead::Vector3f* out) {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return false;
+
+    const u32 shot = _144;
+    if (shot > 19)
+        return false;
+
+    bool found_none;
+    if (_504 == s32(shot) && _508 != -1) {
+        _504 = shot;
+        found_none = false;
+    } else {
+        _504 = shot;
+        found_none = true;
+        for (u32 i = 0; i < u32(*mArrowNum_s); ++i) {
+            if (!_49c[i] && _4b0[i] > 0) {
+                _49c[i] = true;
+                _508 = i;
+                found_none = false;
+                break;
+            }
+        }
+    }
+
+    if (_508 == -1)
+        return false;
+
+    if (!found_none && !(_4b0[_508] > 0)) {
+        _49c[_508] = false;
+        bool found = false;
+        for (u32 i = 0; i < u32(*mArrowNum_s); ++i) {
+            if (_4b0[i] > 0) {
+                _49c[i] = true;
+                _508 = i;
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+            return false;
+    }
+
+    auto& link = boss->_1560._1e0[_508];
+    if (link.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.isStateCalc()) {
+            accessor.getActorMtx().getTranslation(*out);
+            return true;
+        }
+    }
+    return false;
+}
+
 void SiteBossReflectArrowRoot::leave_() {
     SiteBossShootNormalArrowRoot::leave_();
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
