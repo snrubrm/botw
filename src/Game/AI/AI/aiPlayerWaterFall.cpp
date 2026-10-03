@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiPlayerWaterFall.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -16,7 +18,10 @@ void PlayerWaterFall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerWaterFall::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->_150 = _90;
+        controller->mFlags.set(0x8);
+    }
 }
 
 void PlayerWaterFall::loadParams_() {}

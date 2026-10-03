@@ -153,7 +153,9 @@ public:
     u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x220 - 0x120];
+    u8 _120[0x150 - 0x120];
+    s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
+    u8 _154[0x220 - 0x154];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
     u8 _228[0x288 - 0x228];
