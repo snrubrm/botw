@@ -1,10 +1,22 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 
 namespace ksys::act {
 
 void AwarenessInstance::sleep() {
     disable();
+}
+
+// NON_MATCHING: store grouping of the request object (see actAwarenessRequest.h)
+bool AwarenessInstance::sub_7100D7E74C(f32 level) {
+    if (!_260[0])
+        return false;
+    Unk_71023e26d8 request;
+    if (!_260[0]->m4(&request))
+        return false;
+    request._c = level;
+    return _260[0]->m6(&request);
 }
 
 void AwarenessInstance::sub_7100D7EBE0(f32 value) {

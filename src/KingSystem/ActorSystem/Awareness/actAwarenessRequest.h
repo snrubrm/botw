@@ -21,8 +21,9 @@ public:
     /* 0x08 */ f32 _8 = 0;
 };
 
-// Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). The result fields are not known in detail
-// (read: `_c` by InterestNeckControl::m8, `_20` / `_24` / `_28` / `_2c` by ViewChaseSound, `_8` and `_20` by
+// Request of the sensor `_260[0]` (vtable 0x71023e26d8; 0x50 bytes). `_c` is the interest level (output of the sensor's
+// m5 for InterestNeckControl::m8, input of m6 for AwarenessInstance::sub_7100D7E74C). The other result fields are not
+// known in detail (read: `_20` / `_24` / `_28` / `_2c` by ViewChaseSound, `_8` and `_20` by
 // DistanceLostCheck).
 class Unk_71023e26d8 : public Unk_71023e2708 {
     SEAD_RTTI_OVERRIDE(Unk_71023e26d8, Unk_71023e2708)
