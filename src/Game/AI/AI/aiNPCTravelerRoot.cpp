@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiNPCTravelerRoot.h"
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,21 @@ bool NPCTravelerRoot::init_(sead::Heap* heap) {
 
 void NPCTravelerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
+}
+
+// NON_MATCHING: the original tests the Message reference for null before reading its type (cbz x1); a
+// reference cannot be tested without `&message`, which clang drops (same for the other handleMessage_ with
+// that test)
+bool NPCTravelerRoot::handleMessage_(const ksys::Message& message) {
+    if (NPCRoot::handleMessage_(message))
+        return true;
+    if (message.getType() == 0x8000077) {
+        if (auto* value = static_cast<const f32*>(message.getUserData())) {
+            _2a8 = ksys::Timer(*value, *value, -1.0f);
+            return true;
+        }
+    }
+    return false;
 }
 
 void NPCTravelerRoot::leave_() {
