@@ -32,6 +32,9 @@ public:
     void sub_7100F62BC0(bool fixed);
 
     act::MotionType sub_7100F5F0E4() const;
+    // 0x7100f5f14c (declared only; lane1 s21; ~35 callers across lanes): a ground / contact test
+    // (reads the controller's sub-objects at +0x10 / +0x20 / +0x28 / +0x40).
+    bool sub_7100F5F14C() const;
     void sub_7100F5F458(act::MotionType type);
 
     bool sub_7100F636EC() const;

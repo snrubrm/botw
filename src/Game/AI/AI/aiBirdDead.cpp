@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiBirdDead.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::ai {
 
@@ -13,7 +14,23 @@ bool BirdDead::init_(sead::Heap* heap) {
 }
 
 void BirdDead::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+
+    _40 = controller->get110();
+    if (controller->sub_7100F5F14C()) {
+        controller->sub_7100F5F458(ksys::act::MotionType(0));
+        changeChild("通常死亡", params);
+        return;
+    }
+
+    if (int(controller->sub_7100F5F0E4()) != 1)
+        controller->sub_7100F5F458(ksys::act::MotionType(1));
+    controller->sub_7100F5EEB8(*mGravityScale_s);
+    changeChild("空中死亡", params);
 }
 
 void BirdDead::calc_() {

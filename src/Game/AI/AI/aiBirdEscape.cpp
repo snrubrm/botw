@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBirdEscape.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -49,7 +51,18 @@ void BirdEscape::calc_() {
 }
 
 void BirdEscape::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _60.resetMotionType(_60.sub_710072ACF8(mActor));
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    if (int(controller->sub_7100F5F0E4()) == 3)
+        return;
+
+    if (controller->sub_7100F5F14C())
+        controller->sub_7100F5F458(ksys::act::MotionType(0));
+    else
+        controller->sub_7100F5F458(ksys::act::MotionType(1));
 }
 
 void BirdEscape::loadParams_() {
