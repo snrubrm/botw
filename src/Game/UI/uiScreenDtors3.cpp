@@ -10,7 +10,11 @@ ScreenMainScreen3D::~ScreenMainScreen3D() = default;
 ScreenAppCamera::~ScreenAppCamera() = default;
 ScreenEnergyMeterDLC::~ScreenEnergyMeterDLC() = default;
 ScreenMessageGet::~ScreenMessageGet() = default;
-ScreenDoCommand::~ScreenDoCommand() = default;
+// 0x7100a07408
+ScreenDoCommand::~ScreenDoCommand() {
+    _3638.freeBuffer();
+    _3648.freeBuffer();
+}
 ScreenSousaGuide::~ScreenSousaGuide() = default;
 ScreenShopBtnList15::~ScreenShopBtnList15() = default;
 ScreenShopInfo::~ScreenShopInfo() = default;

@@ -97,4 +97,16 @@ ScreenGamePadBG::ScreenGamePadBG() : ScreenEx() {}
 // 0x7100a0a420
 ScreenGameOver::ScreenGameOver() : ScreenEx() {}
 
+
+// 0x7100a073a4
+ScreenDoCommand::ScreenDoCommand() : ScreenEx() {}
+
+
+// 0x71009d0608
+ScreenAmiiboWindow::ScreenAmiiboWindow() : ScreenEx() {}
+
+
+// 0x7100a32434
+ScreenPauseMenuRecipe::ScreenPauseMenuRecipe() : ScreenEx() {}
+
 }  // namespace uking::ui

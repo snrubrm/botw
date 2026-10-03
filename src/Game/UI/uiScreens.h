@@ -434,9 +434,16 @@ public:
 
 class ScreenDoCommand : public ScreenEx {
 public:
+    ScreenDoCommand();
     void m101() override;
     ~ScreenDoCommand() override;
     SEAD_RTTI_OVERRIDE(ScreenDoCommand, ScreenEx)
+
+    /* 0x3610 */ u8 _3610[0x28]{};
+    sead::PtrArray<Unk_Elem> _3638{};
+    sead::PtrArray<Unk_Elem> _3648{};
+    s64 _3658 = -1;
+    s64 _3660 = -1;
 
     // 0x7100a0768c (CSV ScreenDoCommand::setCommand)
     bool setCommand(s32 command);
@@ -1246,10 +1253,16 @@ public:
 
 class ScreenAmiiboWindow : public ScreenEx {
 public:
+    ScreenAmiiboWindow();
     const char* m15() const override;
     s32 isEnableControl() const override;
     ~ScreenAmiiboWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
+
+    /* 0x3610 */ s32 _3610 = 4;
+    s32 _3614 = 3;
+    u8 _3618[0x74]{};
+    u8 _368c[4];
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
     virtual void m155();
@@ -1841,10 +1854,19 @@ public:
 
 class ScreenPauseMenuRecipe : public ScreenEx {
 public:
+    ScreenPauseMenuRecipe();
     const char* m15() const override;
     s32 isEnableControl() const override;
     ~ScreenPauseMenuRecipe() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuRecipe, ScreenEx)
+
+    /* 0x3610 */ u8 _3610[0x85]{};
+    u8 _3695[3];
+    u64 _3698{};
+    u64 _36a0{};
+    u64 _36a8{};
+    u64 _36b0{};
+    u64 _36b8{};
 };
 
 class ScreenStaffRoll : public ScreenEx {
