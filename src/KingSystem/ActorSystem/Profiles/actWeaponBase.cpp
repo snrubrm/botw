@@ -13,6 +13,23 @@
 
 namespace ksys::act {
 
+// NON_MATCHING: D1 / D0 and their thunks: the original keeps &_840 and &_880 in callee-saved registers across the link resets (we recompute them)
+WeaponBase::~WeaponBase() = default;
+
+bool WeaponBase::m86() {
+    ActorConstDataAccess accessor;
+    acquireActor(&_938, &accessor);
+    if (accessor.checkFlag2B())
+        return false;
+    return Actor::m86();
+}
+
+void WeaponBase::m92(phys::RigidBody* body) {
+    if (hasParentActor())
+        return;
+    Actor::m92(body);
+}
+
 bool WeaponBase::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
     const auto lock = sead::makeScopedLock(_840);
     if (_925)

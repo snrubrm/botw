@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace ksys::eco {
 enum class WeaponModifier;
@@ -23,6 +24,11 @@ eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
 class WeaponBase : public Actor {
     SEAD_RTTI_OVERRIDE(WeaponBase, Actor)
 public:
+    ~WeaponBase() override;
+    bool m86() override;
+    void m92(phys::RigidBody* body) override;
+    bool m142() override { return false; }
+
     bool areExtraActorsReady() const;
 
     // FIXME: figure out return types, parameters and names
@@ -101,10 +107,10 @@ public:
     virtual bool m203() { return _9f4.isOn(1); }
     virtual bool m204() { return false; }
     virtual bool m205() { return false; }
-    virtual void m206();
+    virtual void m206() {}
     virtual void m207();
     virtual void m208();
-    virtual void m209();
+    virtual void m209() {}
     virtual bool m210() { return false; }
     virtual bool m211() { return false; }
     virtual bool m212() { return false; }
@@ -135,16 +141,16 @@ public:
     virtual void m237();
     virtual void m238();
     virtual bool m239() { return false; }
-    virtual void m240();
-    virtual void m241();
-    virtual void m242();
-    virtual void m243();
-    virtual void m244();
-    virtual void m245();
-    virtual void m246();
-    virtual void m247();
-    virtual void m248();
-    virtual void m249();
+    virtual void m240() {}
+    virtual void m241() {}
+    virtual void m242() {}
+    virtual void m243() {}
+    virtual void m244() {}
+    virtual void m245() {}
+    virtual void m246() {}
+    virtual void m247() {}
+    virtual void m248() {}
+    virtual void m249() {}
     virtual bool m250();
 
     static void requestCreateWeaponActor(const char* actor, const sead::Matrix34f& matrix,
@@ -180,7 +186,8 @@ protected:
     sead::FixedSafeString<32> _9a0;
     u8 _9d8[0x9f4 - 0x9d8];
     sead::BitFlag8 _9f4;
-    u8 _9f5[0xaa0 - 0x9f5];
+    u8 _9f5[0xa00 - 0x9f5];
+    ModelBindInfo _a00;
     BaseProcHandle mExtraActorHandle;
     u8 _ab0;
 };
