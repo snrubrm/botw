@@ -41,6 +41,8 @@ public:
         bool m7() override { return Unk_710244eaa0::m7(); }
         void m8() override;
 
+        // 0x852b90 (CSV init): creates the fixed constraint (_2d8).
+        void init(sead::Heap* heap);
         // 0x852c28 (CSV x_0): destroys the constraint.
         void x_0();
 
