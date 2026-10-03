@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionActionWithAS.h"
+#include "Game/AI/aiUnk_7100720AB0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,6 +28,7 @@ protected:
     const bool* mIsHammer_s{};
     // static_param at offset 0x40
     sead::SafeString mASName_s{};
+    /* 0x50 */ Unk_7100720ab0 _50{mActor};
 };
 
 }  // namespace uking::action

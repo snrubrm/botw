@@ -1,4 +1,8 @@
+#include <prim/seadFormatPrint.h>
 #include "Game/AI/Action/actionGiantDoubleGroundPunch.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -11,11 +15,33 @@ GiantDoubleGroundPunch::~GiantDoubleGroundPunch() {
 }
 
 bool GiantDoubleGroundPunch::init_(sead::Heap* heap) {
-    return ForkSeqNoWeaponAttack::init_(heap);
+    if (!ForkSeqNoWeaponAttack::init_(heap))
+        return false;
+    for (auto& entry : mCoBody) {
+        entry._18 = mActor->findPhysicsBodyByName(sub_71007A250C()->cstr(), entry.mName_s.cstr());
+        if (!entry._18)
+            entry._18 = mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), entry.mName_s.cstr());
+    }
+    return true;
 }
 
 void GiantDoubleGroundPunch::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkSeqNoWeaponAttack::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    mCoBody[0]._10 = false;
+    mCoBody[1]._10 = false;
+    mCoBody[2]._10 = false;
+    mCoBody[3]._10 = false;
+    if (auto* rideable = mActor->m132()) {
+        rideable->_18.sub_7100E770C4(false);
+        rideable->_18.sub_7100E786F0(mASName_s);
+    } else {
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    }
+    _1cc = true;
+    _1cd = false;
+    _1c8 = 0;
+    _1f4 = 0;
 }
 
 void GiantDoubleGroundPunch::leave_() {
@@ -24,75 +50,24 @@ void GiantDoubleGroundPunch::leave_() {
 
 void GiantDoubleGroundPunch::loadParams_() {
     ForkSeqNoWeaponAttack::loadParams_();
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 4; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "CoBodyName%d", i) << sead::flush;
+        getStaticParam(&mCoBody[i].mName_s, key);
+    }
     getStaticParam(&mRotSpeedMax_s, "RotSpeedMax");
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mASName2_s, "ASName2");
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    for (u32 i = 0; i < 3; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "PunchAimPosL%d", i) << sead::flush;
+        getStaticParam(&mPunchAimPosL_s[i], key);
+        (sead::StringCutOffPrintFormatter(&key) << "PunchAimPosR%d", i) << sead::flush;
+        getStaticParam(&mPunchAimPosR_s[i], key);
+    }
+    for (u32 i = 0; i < 3; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "RotOffset%d", i) << sead::flush;
+        getStaticParam(&mRotOffset_s[i], key);
+    }
     getDynamicParam_2(&mTargetPos_d, "TargetPos");
 }
 

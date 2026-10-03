@@ -1,3 +1,4 @@
+#include <prim/seadFormatPrint.h>
 #include "Game/AI/Action/actionForkSeqNoWeaponAttack.h"
 
 namespace uking::action {
@@ -16,28 +17,22 @@ void ForkSeqNoWeaponAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkSeqNoWeaponAttack::leave_() {
-    ForkAttackWithWeaponOrWithout::leave_();
+    _80.sub_7100720FD0();
 }
 
 void ForkSeqNoWeaponAttack::loadParams_() {
     ForkAttackWithWeaponOrWithout::loadParams_();
     getStaticParam(&mAttackType_s, "AttackType");
     getStaticParam(&mIsImpulseLarge_s, "IsImpulseLarge");
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 2; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "ExcludeAtkName%d", i) << sead::flush;
+        getStaticParam(&mExcludeAtkName_s[i], key);
+    }
 }
 
 void ForkSeqNoWeaponAttack::calc_() {
-    ForkAttackWithWeaponOrWithout::calc_();
+    _80.sub_7100720B28();
 }
 
 }  // namespace uking::action
