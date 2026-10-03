@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadObjArray.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::map {
@@ -25,6 +26,15 @@ protected:
     sead::SafeString mTargetName_s{};
     // static_param at offset 0x48
     const bool* mIsFlip_s{};
+    // 0x50: FixedObjArray of 0x10-byte elements; element type unknown.
+    struct Unk1 {
+        u64 _0;
+        u64 _8;
+    };
+    sead::FixedObjArray<Unk1, 10> _50;
+    s32 _160 = 0;
+    s32 _164 = 1;
+    ksys::map::Rail* _168 = nullptr;
 };
 
 }  // namespace uking::ai

@@ -25,6 +25,8 @@ protected:
     const float* mMaxWaitTime_s{};
     // static_param at offset 0x180
     const float* mMinWaitTime_s{};
+    f32 _188 = 0.0f;
+    u8 _18c = 0;
 };
 
 }  // namespace uking::ai
