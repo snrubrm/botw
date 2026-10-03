@@ -188,19 +188,53 @@ public:
     void setAccelMaybe(f32 accel);
     // 0x710007a8d4
     void crashMaybe(bool crash);
-    // 0x710007a938 / 0x7100071998 (declaration only; placeholder names): called by
-    // MotorcycleAppear::enter_ after the warp effect starts.
-    // 0x710007a928 (declaration only; placeholder name): called by MotorcycleDisappear::calc_ when the
-    // effect has finished.
-    // 0x710007a74c (declaration only; placeholder name): called with the warp effect ratio by
-    // BikeWarpEffectValueSetter.
+    // 0x71000711e0 (CSV Motorcycle::searchModelHandles): looks up the bones of _11b0.
+    void searchModelHandles();
+    // 0x710007b68c: the centre of mass of the main body (_bb8).
+    void x_1(sead::Vector3f* center) const;
+    // 0x710007a708: the y axis of the main body transform ((0, 1, 0) without a body).
+    sead::Vector3f x_4() const;
+    // 0x7100077830: switches the motion type of the main body and both wheels to Fixed (once).
+    void sub_7100077830();
+    // 0x7100071cb0: clears flag bit 24 and sets it again when a ray cast from the main body (starting
+    // 1.2 above it, 2 along its z axis) hits the ground or an object.
+    void sub_7100071CB0();
+    // 0x71000769b4: restores the inertia of the main body and both wheels (_eec / _ef8 / _f04) when it
+    // differs.
+    void sub_71000769B4();
+    // 0x7100072204: switches the motion type of the main body and both wheels back to Dynamic.
+    void sub_7100072204();
+    // 0x710007a798: stores a direction in _f70 (flattened to the XZ plane and normalized if it has a y
+    // component) and sets flag bit 28.
+    void sub_710007A798(const sead::Vector3f& direction);
+    // 0x710007a4a8: 0 while flag bits 17 and 37 are both set, _e4c otherwise.
+    f32 sub_710007A4A8() const;
+    // 0x710007a6e8: flag bit 25 while bit 8 or 9 is set.
+    bool sub_710007A6E8() const;
+    // 0x710007a74c: stores `value` in _112c and sets _1128 (under the _10e8 lock).
     void sub_710007A74C(f32 value);
+    // 0x710007a928 / 0x710007a938: set / clear flag bit 44, then x_7().
     void sub_710007A928();
     void sub_710007A938();
     // 0x710007f8f8 (declaration only; placeholder name): fades the bike sound out (aal::TimedFader at _1058),
     // called by MotorcycleDisappear::enter_.
     void sub_710007F8F8();
+    // 0x7100071998 (declaration only; placeholder name): called by MotorcycleAppear::enter_ after the warp
+    // effect starts.
     void sub_7100071998();
+    // 0x710007a958 / 0x710007a994: _e74 / _e78 scaled into [-1, 1] (x 20 for the first).
+    f32 sub_710007A958() const;
+    f32 sub_710007A994() const;
+    // 0x710007aba4: the current left stick Y value (_ba8._8) when _f10 is 1 or 3.
+    f32 sub_710007ABA4() const;
+    // 0x710007f868: the centre of mass of the main body.
+    sead::Vector3f sub_710007F868() const;
+    // 0x7100077fdc: places both wheels relative to `mtx` (0.474 above and 1.41 in front of / 0.7762 behind
+    // the origin, mirrored) and resets their state.
+    void x_12(const sead::Matrix34f& mtx);
+    // 0x71000715d8 / 0x71000717b8 (not decompiled): both take two output vectors.
+    void sub_71000715D8(sead::Vector3f* a, sead::Vector3f* b);
+    void sub_71000717B8(sead::Vector3f* a, sead::Vector3f* b);
     // 0x7100070e48 (not decompiled)
     void x_7();
     // 0x710007a9c8 / 0x710007abc4 / 0x710007bf90 (not decompiled)
@@ -228,7 +262,24 @@ public:
     /* 0x0e34 */ u8 _e34[0xe3c - 0xe34];
     /* 0x0e3c */ f32 _e3c;  // acceleration (setAccelMaybe)
     /* 0x0e40 */ f32 _e40;
-    /* 0x0e44 */ u8 _e44[0xf10 - 0xe44];
+    /* 0x0e44 */ u8 _e44[0xe4c - 0xe44];
+    /* 0x0e4c */ f32 _e4c;
+    /* 0x0e50 */ u8 _e50[0xe58 - 0xe50];
+    /* 0x0e58 */ f32 _e58;
+    /* 0x0e5c */ sead::Vector3f _e5c;
+    /* 0x0e68 */ u8 _e68[0xe6c - 0xe68];
+    /* 0x0e6c */ f32 _e6c;
+    /* 0x0e70 */ f32 _e70;
+    /* 0x0e74 */ f32 _e74;
+    /* 0x0e78 */ f32 _e78;
+    /* 0x0e7c */ u8 _e7c[0xec4 - 0xe7c];
+    /* 0x0ec4 */ s32 _ec4;
+    /* 0x0ec8 */ sead::Vector3f _ec8;
+    /* 0x0ed4 */ sead::Vector3f _ed4;
+    /* 0x0ee0 */ u8 _ee0[0xeec - 0xee0];
+    /* 0x0eec */ sead::Vector3f _eec;  // target inertia of the main body / the wheels
+    /* 0x0ef8 */ sead::Vector3f _ef8;
+    /* 0x0f04 */ sead::Vector3f _f04;
     /* 0x0f10 */ s32 _f10;
     /* 0x0f14 */ u8 _f14[0xf70 - 0xf14];
     /* 0x0f70 */ sead::Vector3f _f70;
