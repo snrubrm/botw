@@ -12,6 +12,12 @@ class AirOctaDataMgr : public Unk_71025afb58 {
 public:
     ksys::act::BaseProcLink& getProc() { return mBaseProcLink; }
     void changeOctasYheightMaybe();
+    // 0x71002faf84 (not decompiled; placeholder name): finds the linked reference objects of `actor`
+    // and acquires them into mBaseProcLink / mBaseProcLink2 (unless mFlags bit 0 is set).
+    void sub_71002FAF84(ksys::act::Actor* actor);
+    // 0x71002fb1a8 (placeholder name; message 0x80000c8 type 1): passes `a1` to the helper 0x71002fb1d8 on
+    // unk_28 and sets mFlags bit 2.
+    void sub_71002FB1A8(u64 a1);
 
     struct MessageData {
         u32 unk_00;
@@ -34,10 +40,10 @@ public:
     /* 0xEC */ sead::Vector3f vec_EC{sead::Vector3f::zero};
     /* 0xF8 */ sead::Vector3f vec_F8{sead::Vector3f::zero};
     /*0x104 */ sead::Vector3f vec_104{sead::Vector3f::zero};
-    /*0x110 */ float unk_110;
-    /*0x114 */ float unk_114;
-    /*0x118 */ float unk_118;
-    /*0x11c */ float unk_11c;
-    /*0x120 */ u32 mFlags;
+    /*0x110 */ float unk_110 = 0;
+    /*0x114 */ float unk_114 = 0;
+    /*0x118 */ float unk_118 = 0;
+    /*0x11c */ float unk_11c = 0;
+    /*0x120 */ u32 mFlags = 0;
 };
 }  // namespace uking

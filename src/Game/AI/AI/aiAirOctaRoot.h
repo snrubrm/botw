@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiFork2AI.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking {
+class AirOctaDataMgr;
+}
+
 namespace uking::ai {
 
 class AirOctaRoot : public Fork2AI {
@@ -14,13 +18,14 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
+    bool handleMessage_(const ksys::Message& message) override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     // aitree_variable at offset 0x38
     void* mAirOctaDataMgr_a{};
-    void* _40{};
+    AirOctaDataMgr* _40{};
 };
 
 }  // namespace uking::ai
