@@ -551,6 +551,8 @@ public:
     bool checkFreezeSignal() const;
     bool hasPlacementLinkWithTypeFreeze() const;
     bool checkForbidAttentionSignal() const;
+    // 0x7100ee2254 (CSV Actor::hasForbidAttentionLink_0; a tail call of hasForbidAttentionLink)
+    bool hasForbidAttentionLink_0() const;
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
 
     void nullsub_4648();

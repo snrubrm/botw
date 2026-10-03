@@ -860,6 +860,10 @@ bool Actor::checkForbidAttentionSignal() const {
     return checkSignal(map::MapLinkDefType::ForbidAttention);
 }
 
+bool Actor::hasForbidAttentionLink_0() const {
+    return hasForbidAttentionLink();
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act {
