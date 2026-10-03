@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiFreezeInWaterSelect.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -9,6 +12,38 @@ FreezeInWaterSelect::~FreezeInWaterSelect() = default;
 void FreezeInWaterSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     InWaterSelect::enter_(params);
     *mIsKeepFreeze_a = false;
+}
+
+void FreezeInWaterSelect::calc_() {
+    if (isCurrentChild("凍結解除")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            setFinished();
+            return;
+        }
+        _68.update();
+        if (!(_68.value <= sead::Mathf::epsilon()))
+            return;
+        if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor))
+            actor->m149(3);
+        setFinished();
+        return;
+    }
+
+    if (isCurrentChild("水上")) {
+        f32 depth = 0.0f;
+        if (mActor->get68f().load()) {
+            const f32 y = mActor->getMtx().m[1][3];
+            depth = mActor->get6f0() - y;
+        }
+        if (depth > *mInWaterDepth_s) {
+            *mIsKeepFreeze_a = true;
+            _68 = ksys::Timer(*mIceBreakTime_s, *mIceBreakTime_s);
+            changeChild("凍結解除");
+            return;
+        }
+    }
+    InWaterSelect::calc_();
 }
 
 void FreezeInWaterSelect::leave_() {

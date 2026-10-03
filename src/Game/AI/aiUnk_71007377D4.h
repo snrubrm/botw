@@ -161,6 +161,9 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+/// 0x710072b85c (CSV name; lane1 s22): the player's actor matrix (identity without a PlayerInfo).
+/// The reference points into the actor, not into a copy.
+const sead::Matrix34f& getPlayerPositionViaPlayerInfo();
 /// 0x710073b870 (CSV name, sic; lane1 s22, declared only): starts the get-item demo for the actor
 /// (emits the get-demo sound when `a2`); false when the actor is not in a state to start it.
 bool triggereGetItemDemoMaybe(ksys::act::Actor* actor, bool a2, bool a3);

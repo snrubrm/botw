@@ -7,7 +7,9 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -321,6 +323,15 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
     to_target.y = 0;
     to_target.normalize();
     return forward.dot(to_target) >= sead::Mathf::cos(angle);
+}
+
+const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
+    if (auto* info = ksys::act::PlayerInfo::instance()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+        return accessor.getActorMtx();
+    }
+    return sead::Matrix34f::ident;
 }
 
 bool sub_7100738E70(ksys::act::Actor* actor) {
