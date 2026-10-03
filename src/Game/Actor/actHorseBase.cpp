@@ -1,8 +1,10 @@
 #include "Game/Actor/actHorseBase.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actHorseObject.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -185,6 +187,107 @@ ksys::act::Actor* HorseBase::m48() {
     if (_b10)
         return _b10->sub_7100E8B6E0();
     return nullptr;
+}
+
+void HorseBase::onDeleteRequested_(DeleteReason reason) {
+    Actor::onDeleteRequested_(reason);
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_840, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_850, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_860, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_870, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_880, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    if (x() == 9)
+        ksys::gdt::Manager::instance()->setBool(false, "AnimalMaster_Existence");
+}
+
+void HorseBase::onPreFadeOutDelete() {
+    Actor::onPreFadeOutDelete();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_840, &accessor))
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_850, &accessor))
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_860, &accessor))
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_870, &accessor))
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_880, &accessor))
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    if (x() == 9)
+        ksys::gdt::Manager::instance()->setBool(false, "AnimalMaster_Existence");
+}
+
+// NON_MATCHING: everything matches except the eight DynamicCast + x_17 forwards: the original tests the
+// proc pointer a second time after the virtual call (`cbz x21; eor w8, w0, #1; tbnz w8`) where we emit
+// a single `tbz w0`
+void HorseBase::m117(ksys::act::Unk117* arg) {
+    if (_b10 && !_b10->sub_7100E8B780(arg)) {
+        if (auto* actor = sead::DynamicCast<HorseReins>(_860.getProc(nullptr, nullptr)))
+            actor->x_17(arg);
+        if (auto* actor = sead::DynamicCast<HorseReins>(_870.getProc(nullptr, nullptr)))
+            actor->x_17(arg);
+        if (auto* actor = sead::DynamicCast<HorseReins>(_880.getProc(nullptr, nullptr)))
+            actor->x_17(arg);
+        _b70.setBitOn(7);
+        return;
+    }
+
+    if (arg->_0 == 3 && arg->_8) {
+        for (int i = 0; i < 4; ++i) {
+            auto* entry = arg->_8->mItems[i].mEntry;
+            if (!entry)
+                continue;
+            if (entry->_10 == "HyruleCastle" && entry->_68 == "GanonDead") {
+                _b70.setBitOn(6);
+                break;
+            }
+        }
+    }
+
+    if (auto* actor = sead::DynamicCast<HorseObject>(_840.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
+    if (auto* actor = sead::DynamicCast<HorseObject>(_850.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
+    if (auto* actor = sead::DynamicCast<HorseReins>(_860.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
+    if (auto* actor = sead::DynamicCast<HorseReins>(_870.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
+    if (auto* actor = sead::DynamicCast<HorseReins>(_880.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
 }
 
 }  // namespace uking::act
