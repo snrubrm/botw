@@ -7,7 +7,23 @@ namespace uking::action {
 PlayerDemoWait::PlayerDemoWait(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerDemoWait::enter_(ksys::act::ai::InlineParamPack* params) {
+    const bool is_swimming = static_cast<ksys::act::Player*>(mActor)->m188();
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(0);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.setBit(9);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.setBit(6);
+    if (is_swimming)
+        static_cast<ksys::act::Player*>(mActor)->_cec.setBit(10);
+    if (static_cast<ksys::act::Player*>(mActor)->x_48()) {
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("MotorcycleWait", true, -1.0f);
+    } else if (static_cast<ksys::act::Player*>(mActor)->isRidingHorse()) {
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("HorseWait", true, -1.0f);
+    } else if (static_cast<ksys::act::Player*>(mActor)->m188()) {
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SwimWait", false, -1.0f);
+    } else {
+        static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("DemoWait", false, -1.0f);
+    }
+    setFinished();
 }
 
 void PlayerDemoWait::leave_() {}
