@@ -2,7 +2,11 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapRail.h"
 
 namespace uking::ai {
@@ -76,6 +80,27 @@ f32 RemainsFireDroneNormal::m35() {
         (0.5f - dist) / (0.5f - 0.1f), 0.0f, 1.0f);
     *mTargetSpeed_a = speed;
     return std::max(speed * t, 0.001f);
+}
+
+// NON_MATCHING: the original loads mActor before constructing the InlineParamPack (a local `auto* actor = mActor;`
+// at the top matches)
+void RemainsFireDroneNormal::stopAtHomeMaybe() {
+    ksys::act::ai::InlineParamPack params;
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    params.addVec3(home, "DynStopPos", -1);
+    params.addFloat(120.0f, "DynStopTime", -1);
+    changeChild("停止", &params);
+}
+
+// NON_MATCHING: regalloc only (the original keeps `this` in x20 and &_d0 in x19 across the lock and the
+// link search; ours derives &_d0 at the end)
+void RemainsFireDroneNormal::broadcastToLinkedActorMaybe() {
+    _d0._18.y(mActor);
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, mActor, "RegistedActorMessageBroadCastTag");
+    if (accessor.hasProc())
+        _d0.sub_710070DD78(accessor, true);
 }
 
 bool RemainsFireDroneNormal::handleMessage_(const ksys::Message& message) {

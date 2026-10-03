@@ -26,6 +26,12 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
     bool handleAck_(const ksys::MessageAck& ack) override;
 
+    // Unnamed in the binary (0x71005420f4): changes to the "停止" child with the home position as stop target.
+    void stopAtHomeMaybe();
+    // Unnamed in the binary (0x71005421fc): records this actor in the sender's payload and sends its message
+    // to the actor linked by the "RegistedActorMessageBroadCastTag" link.
+    void broadcastToLinkedActorMaybe();
+
 protected:
     // static_param at offset 0xa0
     const float* mLightLengthOffset_s{};
