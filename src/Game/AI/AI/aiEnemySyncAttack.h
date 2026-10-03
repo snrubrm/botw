@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003bf444 (declared only, 412 bytes; placeholder name)
+    void sub_71003BF444();
+
 protected:
     // static_param at offset 0x38
     const int* mNormalASSlot_s{};

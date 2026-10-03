@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianTargetLost.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,17 @@ bool GuardianTargetLost::init_(sead::Heap* heap) {
 
 void GuardianTargetLost::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    mActor->getMtx().getTranslation(_44);
+    sub_710040E008(&_38);
+    if (auto* nav = mActor->m45()) {
+        sead::Vector3f pos;
+        auto result = nav->sub_7100F76078(&pos, _38, 3.0f);
+        if (result.sub_7100F7EB40())
+            _38 = pos;
+    }
+    _50 = 0;
+    _54 = 0;
+    sub_710042BE9C();
 }
 
 void GuardianTargetLost::leave_() {

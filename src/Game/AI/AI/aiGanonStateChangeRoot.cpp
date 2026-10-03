@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGanonStateChangeRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,13 @@ bool GanonStateChangeRoot::init_(sead::Heap* heap) {
 }
 
 void GanonStateChangeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        const sead::Vector3f up = sead::Vector3f::ey;
+        controller->sub_7100F5EE1C(up * -29.0f);
+        controller->sub_7100F5EDE8(up);
+    }
+    sub_71003EEE18();
+    _40 = 600.0f;
 }
 
 void GanonStateChangeRoot::leave_() {

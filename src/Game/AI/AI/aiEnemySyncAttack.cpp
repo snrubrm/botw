@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -13,8 +14,17 @@ EnemySyncAttack::~EnemySyncAttack() {
     ;
 }
 
+// NON_MATCHING: register allocation only (x8 / x9 and w8 / w9 swapped in the last add)
 void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _c8 = false;
+    sub_71003BF444();
+    changeChild("行動", params);
+    const s32 interval = *mAttackInterval_s;
+    const f32 interval_rand = *mAttackIntervalRand_s;
+    const f32 r = sead::GlobalRandom::instance()->getF32();
+    const s32 time = s32(f32(interval) + interval_rand * r * -0.5f) + *mAttackIntervalRand_s;
+    _c9 = false;
+    _cc = ksys::Timer(f32(time), f32(time));
 }
 
 void EnemySyncAttack::leave_() {

@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710042be9c (declared only, 504 bytes; placeholder name)
+    void sub_710042BE9C();
+
 protected:
     sead::Vector3f _38 = sead::Vector3f::zero;
     sead::Vector3f _44 = sead::Vector3f::zero;
