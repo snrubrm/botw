@@ -16,12 +16,12 @@ void SideStep::leave_() {
 }
 
 void SideStep::loadParams_() {
-    getStaticParam(&mRotSpeedRatio_s, "RotSpeedRatio");
-    getStaticParam(&mStopSpeedRatio_s, "StopSpeedRatio");
-    getStaticParam(&mStopRotSpeedRatio_s, "StopRotSpeedRatio");
-    getStaticParam(&mGravity_s, "Gravity");
-    getStaticParam(&mJumpHeight_s, "JumpHeight");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpeedRatio_s, "RotSpeedRatio");
+    getStaticParam(&mParams.mStopSpeedRatio_s, "StopSpeedRatio");
+    getStaticParam(&mParams.mStopRotSpeedRatio_s, "StopRotSpeedRatio");
+    getStaticParam(&mParams.mGravity_s, "Gravity");
+    getStaticParam(&mParams.mJumpHeight_s, "JumpHeight");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void SideStep::calc_() {

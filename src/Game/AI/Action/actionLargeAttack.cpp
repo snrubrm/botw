@@ -20,19 +20,19 @@ void LargeAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LargeAttack::leave_() {
-    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
+    sub_71005D79AC(mActor, *mParams.mWeaponIdx_s, act::Unk_71002edaec(1));
     ksys::act::disableAttClient(mActor, "Counter");
     sub_71005DA114(mActor, &_58);
 }
 
 void LargeAttack::loadParams_() {
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mAttackRatio_s, "AttackRatio");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mJustAvoidSideDist_s, "JustAvoidSideDist");
-    getStaticParam(&mJustAvoidBackDist_s, "JustAvoidBackDist");
-    getStaticParam(&mJustAvoidAngle_s, "JustAvoidAngle");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mAttackRatio_s, "AttackRatio");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mJustAvoidSideDist_s, "JustAvoidSideDist");
+    getStaticParam(&mParams.mJustAvoidBackDist_s, "JustAvoidBackDist");
+    getStaticParam(&mParams.mJustAvoidAngle_s, "JustAvoidAngle");
 }
 
 void LargeAttack::calc_() {

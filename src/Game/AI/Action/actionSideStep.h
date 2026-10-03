@@ -21,18 +21,21 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mRotSpeedRatio_s{};
-    // static_param at offset 0x28
-    const float* mStopSpeedRatio_s{};
-    // static_param at offset 0x30
-    const float* mStopRotSpeedRatio_s{};
-    // static_param at offset 0x38
-    const float* mGravity_s{};
-    // static_param at offset 0x40
-    const float* mJumpHeight_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mRotSpeedRatio_s{};
+        // static_param at offset 0x28
+        const float* mStopSpeedRatio_s{};
+        // static_param at offset 0x30
+        const float* mStopRotSpeedRatio_s{};
+        // static_param at offset 0x38
+        const float* mGravity_s{};
+        // static_param at offset 0x40
+        const float* mJumpHeight_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ksys::VFRValue _50{0.0f};
     sead::Matrix33f _5c;
     Unk_7102451ba0 _80;

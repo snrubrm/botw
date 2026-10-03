@@ -15,16 +15,16 @@ void ReloadArrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ReloadArrow::leave_() {
-    sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(5));
+    sub_71005D787C(mActor, *mParams.mWeaponIdx_s, act::Unk_71002eda38(5));
 }
 
 void ReloadArrow::loadParams_() {
     if (!mActor->getParam())
         return;
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mStopSpeedRatio_s, "StopSpeedRatio");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mStopSpeedRatio_s, "StopSpeedRatio");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void ReloadArrow::calc_() {

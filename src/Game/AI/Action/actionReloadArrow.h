@@ -20,14 +20,17 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mRotSpeed_s{};
-    // static_param at offset 0x28
-    const float* mStopSpeedRatio_s{};
-    // static_param at offset 0x30
-    const int* mWeaponIdx_s{};
-    // dynamic_param at offset 0x38
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mRotSpeed_s{};
+        // static_param at offset 0x28
+        const float* mStopSpeedRatio_s{};
+        // static_param at offset 0x30
+        const int* mWeaponIdx_s{};
+        // dynamic_param at offset 0x38
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ksys::VFRValue _40{0.0f};
     ksys::VFRVec3f _4c;
     f32 _70 = 0;

@@ -20,13 +20,13 @@ void LyzalfosFlame::leave_() {
 
 void LyzalfosFlame::loadParams_() {
     ChemicalAttackBall::loadParams_();
-    getStaticParam(&mLengthFrame_s, "LengthFrame");
-    getStaticParam(&mAtResetTime_s, "AtResetTime");
-    getStaticParam(&mAtChaseFrame_s, "AtChaseFrame");
-    getStaticParam(&mBindGrabNodeIdx_s, "BindGrabNodeIdx");
-    getStaticParam(&mChaseMax_s, "ChaseMax");
-    getStaticParam(&mChaseRate_s, "ChaseRate");
-    getStaticParam(&mOffsetRot_s, "OffsetRot");
+    getStaticParam(&mParams.mLengthFrame_s, "LengthFrame");
+    getStaticParam(&mParams.mAtResetTime_s, "AtResetTime");
+    getStaticParam(&mParams.mAtChaseFrame_s, "AtChaseFrame");
+    getStaticParam(&mParams.mBindGrabNodeIdx_s, "BindGrabNodeIdx");
+    getStaticParam(&mParams.mChaseMax_s, "ChaseMax");
+    getStaticParam(&mParams.mChaseRate_s, "ChaseRate");
+    getStaticParam(&mParams.mOffsetRot_s, "OffsetRot");
 }
 
 void LyzalfosFlame::calc_() {

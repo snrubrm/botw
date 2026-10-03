@@ -19,18 +19,18 @@ void DownSwingAttack::leave_() {
 void DownSwingAttack::loadParams_() {
     if (!mActor->getParam())
         return;
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mStopSpeedRatio_s, "StopSpeedRatio");
-    getStaticParam(&mStopRotSpeedRatio_s, "StopRotSpeedRatio");
-    getStaticParam(&mJustAvoidCheckLength_s, "JustAvoidCheckLength");
-    getStaticParam(&mJustAvoidCheckAngle_s, "JustAvoidCheckAngle");
-    getStaticParam(&mLoopTime_s, "LoopTime");
-    getStaticParam(&mLoopTimeRand_s, "LoopTimeRand");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mIsSpecialAttack_s, "IsSpecialAttack");
-    getStaticParam(&mSpecialAttackRadius_s, "SpecialAttackRadius");
-    getStaticParam(&mSpineControlOffsetY_s, "SpineControlOffsetY");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mStopSpeedRatio_s, "StopSpeedRatio");
+    getStaticParam(&mParams.mStopRotSpeedRatio_s, "StopRotSpeedRatio");
+    getStaticParam(&mParams.mJustAvoidCheckLength_s, "JustAvoidCheckLength");
+    getStaticParam(&mParams.mJustAvoidCheckAngle_s, "JustAvoidCheckAngle");
+    getStaticParam(&mParams.mLoopTime_s, "LoopTime");
+    getStaticParam(&mParams.mLoopTimeRand_s, "LoopTimeRand");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mIsSpecialAttack_s, "IsSpecialAttack");
+    getStaticParam(&mParams.mSpecialAttackRadius_s, "SpecialAttackRadius");
+    getStaticParam(&mParams.mSpineControlOffsetY_s, "SpineControlOffsetY");
 }
 
 void DownSwingAttack::calc_() {

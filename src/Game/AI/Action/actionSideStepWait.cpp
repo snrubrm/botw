@@ -15,17 +15,17 @@ void SideStepWait::leave_() {
 }
 
 void SideStepWait::loadParams_() {
-    getStaticParam(&mFirstStepDist_s, "FirstStepDist");
-    getStaticParam(&mSecondStepDist_s, "SecondStepDist");
-    getStaticParam(&mThirdStepDist_s, "ThirdStepDist");
-    getStaticParam(&mFourthStepDist_s, "FourthStepDist");
-    getStaticParam(&mGravity_s, "Gravity");
-    getStaticParam(&mFirstStepHeight_s, "FirstStepHeight");
-    getStaticParam(&mSecondStepHeight_s, "SecondStepHeight");
-    getStaticParam(&mThirdStepHeight_s, "ThirdStepHeight");
-    getStaticParam(&mFourthStepHeight_s, "FourthStepHeight");
-    getStaticParam(&mStopSpeedRatio_s, "StopSpeedRatio");
-    getStaticParam(&mStopRotSpeedRatio_s, "StopRotSpeedRatio");
+    getStaticParam(&mParams.mFirstStepDist_s, "FirstStepDist");
+    getStaticParam(&mParams.mSecondStepDist_s, "SecondStepDist");
+    getStaticParam(&mParams.mThirdStepDist_s, "ThirdStepDist");
+    getStaticParam(&mParams.mFourthStepDist_s, "FourthStepDist");
+    getStaticParam(&mParams.mGravity_s, "Gravity");
+    getStaticParam(&mParams.mFirstStepHeight_s, "FirstStepHeight");
+    getStaticParam(&mParams.mSecondStepHeight_s, "SecondStepHeight");
+    getStaticParam(&mParams.mThirdStepHeight_s, "ThirdStepHeight");
+    getStaticParam(&mParams.mFourthStepHeight_s, "FourthStepHeight");
+    getStaticParam(&mParams.mStopSpeedRatio_s, "StopSpeedRatio");
+    getStaticParam(&mParams.mStopRotSpeedRatio_s, "StopRotSpeedRatio");
 }
 
 void SideStepWait::calc_() {
