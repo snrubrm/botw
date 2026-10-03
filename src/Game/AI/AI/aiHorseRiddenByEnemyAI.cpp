@@ -20,8 +20,6 @@ void HorseRiddenByEnemyAI::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("通常");
 }
 
-// NON_MATCHING: Rideable::m22 takes a SEAD_ENUM-like argument in the original (passed as `mov x1, xzr`),
-// declared int here
 void HorseRiddenByEnemyAI::leave_() {
     if (auto* rideable = mActor->getHorseOptionsMaybe())
         rideable->m22(0);
