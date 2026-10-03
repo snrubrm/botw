@@ -27,8 +27,6 @@ void TargetPosRotFromMyPos::leave_() {
     TargetPosAI::leave_();
 }
 
-// NON_MATCHING: the original computes the later params' `this + off` addresses before the first call
-// and keeps them in callee-saved registers (extra frame slot); same family as WeaponOnetimeUse
 void TargetPosRotFromMyPos::loadParams_() {
     TargetPosAI::loadParams_();
     getStaticParam(&mParams.mIsRandSign_s, "IsRandSign");

@@ -40,8 +40,6 @@ void WeaponOnetimeUse::leave_() {
     sub_71005DB6D0(mActor, *mParams.mWeaponIdx_s);
 }
 
-// NON_MATCHING: the original's frame has an extra 8-byte slot at sp+0 (the key temporaries sit at sp+8)
-// and both param addresses (this+0x38 / this+0x40) are computed up front
 void WeaponOnetimeUse::loadParams_() {
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
     getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
