@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenThanksE3.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/E3Mgr.h"
 
 namespace uking::action {
@@ -12,7 +13,7 @@ bool OpenThanksE3::init_(sead::Heap* heap) {
 }
 
 void OpenThanksE3::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A9F8B0();
 }
 
 void OpenThanksE3::leave_() {
@@ -23,7 +24,8 @@ void OpenThanksE3::leave_() {
 void OpenThanksE3::loadParams_() {}
 
 void OpenThanksE3::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (ui::sub_7100A9F91C())
+        setFinished();
 }
 
 }  // namespace uking::action

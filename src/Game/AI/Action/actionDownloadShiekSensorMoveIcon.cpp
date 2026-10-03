@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDownloadShiekSensorMoveIcon.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -22,7 +23,14 @@ void DownloadShiekSensorMoveIcon::leave_() {
 void DownloadShiekSensorMoveIcon::loadParams_() {}
 
 void DownloadShiekSensorMoveIcon::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_1c == 1) {
+        if (ui::sub_7100A9A938(true))
+            setFinished();
+    }
+    if (_1c == 0) {
+        ui::sub_7100A9F358();
+        _1c = _1c + 1;
+    }
 }
 
 }  // namespace uking::action

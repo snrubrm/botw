@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDownloadPictureBook.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool DownloadPictureBook::init_(sead::Heap* heap) {
 }
 
 void DownloadPictureBook::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = 0;
+    ui::sub_7100A9ED74();
 }
 
 void DownloadPictureBook::leave_() {
@@ -21,7 +23,16 @@ void DownloadPictureBook::leave_() {
 void DownloadPictureBook::loadParams_() {}
 
 void DownloadPictureBook::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_1c == 2) {
+        if (ui::sub_7100A9F134())
+            setFinished();
+    }
+    if (_1c == 0) {
+        _1c = 1;
+    } else if (_1c == 1) {
+        ui::sub_7100A9F108();
+        _1c = _1c + 1;
+    }
 }
 
 }  // namespace uking::action

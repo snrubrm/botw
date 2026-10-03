@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionShopFixedItemNum.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
@@ -13,7 +14,7 @@ bool ShopFixedItemNum::init_(sead::Heap* heap) {
 }
 
 void ShopFixedItemNum::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A98284(*mIsSelectAll_d);
 }
 
 void ShopFixedItemNum::leave_() {

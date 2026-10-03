@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDRCAppNoUseTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -25,6 +27,11 @@ void DRCAppNoUseTag::loadParams_() {
 
 void DRCAppNoUseTag::calc_() {
     ForbidTag::calc_();
+}
+
+void DRCAppNoUseTag::m32() {
+    ui::sub_7100A9C0FC(*mDRCAppNoUseCause_m);
+    mActor->m107();
 }
 
 }  // namespace uking::action

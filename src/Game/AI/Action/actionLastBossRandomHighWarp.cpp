@@ -7,7 +7,10 @@ LastBossRandomHighWarp::LastBossRandomHighWarp(const InitArg& arg) : LastBossNor
 LastBossRandomHighWarp::~LastBossRandomHighWarp() = default;
 
 bool LastBossRandomHighWarp::init_(sead::Heap* heap) {
-    return LastBossNormalWarp::init_(heap);
+    if (!LastBossNormalWarp::init_(heap))
+        return false;
+    _11c = 0;
+    return true;
 }
 
 void LastBossRandomHighWarp::enter_(ksys::act::ai::InlineParamPack* params) {

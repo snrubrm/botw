@@ -574,6 +574,9 @@ public:
     void unlinkPlacementObj();
     void setFlag0x40();
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
+    // 0x71011dae64 (CSV Actor::x_22): sets the linear / angular velocity of the main body and of the
+    // character controller.
+    void x_22(const sead::Vector3f& vel, const sead::Vector3f& ang_vel);
     // 0x71011c7378 (CSV name): sets the matrix and the home matrix (relative to the field body
     // group, if any) and, if given, the scale.
     void setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale);

@@ -8,6 +8,9 @@ GuardianMiniLineBeam::~GuardianMiniLineBeam() = default;
 
 void GuardianMiniLineBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleLineBeam::enter_(params);
+    _58.reset();
+    const f32 time = *mIceBlockBreakTime_s;
+    _68 = ksys::Timer(time, time);
 }
 
 void GuardianMiniLineBeam::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenPorch.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -24,7 +25,22 @@ void OpenPorch::loadParams_() {
 }
 
 void OpenPorch::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_28) {
+        if (!ui::isPauseMenuScreenNotClosed())
+            setFinished();
+    } else if (_29) {
+        if (ui::isPauseMenuScreenNotClosed())
+            _28 = true;
+    } else {
+        const s32 category = *mRockCategory_d;
+        if (category == -1)
+            ui::sub_7100A9E584(0);
+        else
+            ui::sub_7100A9E5F8(category);
+        _29 = true;
+    }
 }
 
 }  // namespace uking::action

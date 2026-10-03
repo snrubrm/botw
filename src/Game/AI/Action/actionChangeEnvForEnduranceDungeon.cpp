@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChangeEnvForEnduranceDungeon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool ChangeEnvForEnduranceDungeon::init_(sead::Heap* heap) {
 }
 
 void ChangeEnvForEnduranceDungeon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = true;
+    mActor->m107();
 }
 
 void ChangeEnvForEnduranceDungeon::leave_() {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionNPCDyeShopSelectMaterial.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -12,7 +14,13 @@ bool NPCDyeShopSelectMaterial::init_(sead::Heap* heap) {
 }
 
 void NPCDyeShopSelectMaterial::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::gdt::setFlag_Shop_IsDecide(false);
+    if (ui::sub_7100A98558()) {
+        ui::sub_7100A98580();
+    } else {
+        _1c = 0;
+        ui::sub_7100A9853C();
+    }
 }
 
 void NPCDyeShopSelectMaterial::leave_() {

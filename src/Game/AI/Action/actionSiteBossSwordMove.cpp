@@ -34,4 +34,8 @@ void SiteBossSwordMove::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossSwordMove::isFinished() const {
+    return _6c >= *mAppearFrame_s || ActionBase::isFinished();
+}
+
 }  // namespace uking::action

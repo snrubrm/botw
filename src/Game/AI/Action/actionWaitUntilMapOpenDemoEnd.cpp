@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitUntilMapOpenDemoEnd.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -21,7 +22,10 @@ void WaitUntilMapOpenDemoEnd::leave_() {
 void WaitUntilMapOpenDemoEnd::loadParams_() {}
 
 void WaitUntilMapOpenDemoEnd::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || !ui::sub_7100A9A3F8())
+        return;
+    setFinished();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action

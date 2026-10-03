@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitUntilLifeUpDemo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -21,7 +22,10 @@ void WaitUntilLifeUpDemo::leave_() {
 void WaitUntilLifeUpDemo::loadParams_() {}
 
 void WaitUntilLifeUpDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || ui::sub_7100A94AC8() || ui::sub_7100A94E08())
+        return;
+    setFinished();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action

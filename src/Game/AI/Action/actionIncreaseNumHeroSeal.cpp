@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIncreaseNumHeroSeal.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -24,7 +25,9 @@ void IncreaseNumHeroSeal::loadParams_() {
 }
 
 void IncreaseNumHeroSeal::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || ui::sub_7100A979BC())
+        return;
+    setFinished();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAlwaysRotDownGr.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void ForkAlwaysRotDownGr::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkAlwaysRotDownGr::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.reset(2);
 }
 
 void ForkAlwaysRotDownGr::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionCloseArmorProcessing.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool CloseArmorProcessing::init_(sead::Heap* heap) {
 }
 
 void CloseArmorProcessing::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A984C0();
 }
 
 void CloseArmorProcessing::leave_() {
@@ -21,7 +22,8 @@ void CloseArmorProcessing::leave_() {
 void CloseArmorProcessing::loadParams_() {}
 
 void CloseArmorProcessing::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!ui::sub_7100A98498())
+        setFinished();
 }
 
 }  // namespace uking::action

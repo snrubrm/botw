@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStartHeartDemo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -21,7 +22,16 @@ void StartHeartDemo::leave_() {
 void StartHeartDemo::loadParams_() {}
 
 void StartHeartDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_1c) {
+        if (!ui::sub_7100A94AC8())
+            setFinished();
+    } else {
+        ui::sub_7100A94B70(true);
+        ui::sub_7100A94B08();
+        _1c = true;
+    }
 }
 
 }  // namespace uking::action

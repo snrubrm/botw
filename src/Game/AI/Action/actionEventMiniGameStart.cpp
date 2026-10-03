@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventMiniGameStart.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool EventMiniGameStart::init_(sead::Heap* heap) {
 }
 
 void EventMiniGameStart::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A992CC(*mTextType_d);
 }
 
 void EventMiniGameStart::leave_() {
@@ -23,7 +24,10 @@ void EventMiniGameStart::loadParams_() {
 }
 
 void EventMiniGameStart::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (ui::sub_7100A993BC()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action

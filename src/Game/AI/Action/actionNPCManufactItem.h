@@ -9,6 +9,7 @@ class NPCManufactItem : public ksys::act::ai::Action {
 public:
     explicit NPCManufactItem(const InitArg& arg);
     ~NPCManufactItem() override;
+    bool oneShot_() override;
 
 protected:
 };

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitCloseItemDownloadDemo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -12,7 +13,7 @@ bool WaitCloseItemDownloadDemo::init_(sead::Heap* heap) {
 }
 
 void WaitCloseItemDownloadDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A9ED74();
 }
 
 void WaitCloseItemDownloadDemo::leave_() {
@@ -22,7 +23,10 @@ void WaitCloseItemDownloadDemo::leave_() {
 void WaitCloseItemDownloadDemo::loadParams_() {}
 
 void WaitCloseItemDownloadDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || ui::sub_7100A9EBEC())
+        return;
+    setFinished();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action
