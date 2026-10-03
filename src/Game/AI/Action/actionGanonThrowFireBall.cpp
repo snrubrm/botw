@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonThrowFireBall.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool GanonThrowFireBall::init_(sead::Heap* heap) {
 }
 
 void GanonThrowFireBall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_710017BBA0(0);
 }
 
 void GanonThrowFireBall::leave_() {
@@ -39,7 +41,10 @@ void GanonThrowFireBall::loadParams_() {
 }
 
 void GanonThrowFireBall::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 0x47, nullptr, 0, 0))
+        sub_710017BE48(0);
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 bool GanonThrowFireBall::isFinished() const {
