@@ -505,6 +505,12 @@ void Weapon::sub_71002EDAEC(const Unk_71002edaec& arg) {
     _c4c = true;
 }
 
+void Weapon::sub_71002EDB3C(const s32& value) {
+    auto lock = sead::makeScopedLock(_b48);
+    _b88 = value;
+    _b8c = true;
+}
+
 }  // namespace uking::act
 
 namespace ksys::act::acc {
