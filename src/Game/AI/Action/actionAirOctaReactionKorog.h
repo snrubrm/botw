@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -25,7 +26,7 @@ protected:
     // static_param at offset 0x30
     sead::SafeString mAS_s{};
     sead::Vector3f _40 = sead::Vector3f::zero;
-    u8 _4c[0x24];
+    sead::Matrix33f _4c;
 
 };
 KSYS_CHECK_SIZE_NX150(AirOctaReactionKorog, 0x70);
