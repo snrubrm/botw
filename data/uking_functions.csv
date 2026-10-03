@@ -31295,7 +31295,7 @@ Address,Quality,Size,Name
 0x000000710050e7d4,O,000008,_ZN5uking2ai31PriestBossActorPhaseSecondStart5init_EPN4sead4HeapE
 0x000000710050e7dc,O,000004,_ZN5uking2ai31PriestBossActorPhaseSecondStart6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710050e7e0,U,000488,_ZN5uking2ai31PriestBossActorPhaseSecondStart14sub_710050E7E0Ev
-0x000000710050e9c8,U,000164,_ZN5uking2ai31PriestBossActorPhaseSecondStart5calc_Ev
+0x000000710050e9c8,O,000164,_ZN5uking2ai31PriestBossActorPhaseSecondStart5calc_Ev
 0x000000710050ea6c,O,000004,_ZN5uking2ai31PriestBossActorPhaseSecondStart6leave_Ev
 0x000000710050ea70,O,000100,_ZN5uking2ai31PriestBossActorPhaseSecondStart11loadParams_Ev
 0x000000710050ead4,U,000312,
@@ -46530,7 +46530,7 @@ Address,Quality,Size,Name
 0x000000710071e00c,U,000112,
 0x000000710071e07c,U,000092,
 0x000000710071e0d8,O,000240,_Z14sub_710071E0D8bPN4ksys3act5ActorE
-0x000000710071e1c8,U,000064,actSetVisible
+0x000000710071e1c8,O,000064,_Z13actSetVisiblebPN4ksys3act5ActorE
 0x000000710071e208,U,000128,_Z14sub_710071E208v
 0x000000710071e288,U,000336,
 0x000000710071e3d8,U,000552,

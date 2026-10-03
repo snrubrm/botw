@@ -17,3 +17,13 @@ void sub_710071E0D8(bool hover, ksys::act::Actor* actor) {
         controller->sub_7100F5EEB8(gravity);
     }
 }
+
+void actSetVisible(bool visible, ksys::act::Actor* actor) {
+    if (visible) {
+        actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        actor->setFlag(ksys::act::Actor::ActorFlag::_2b, false);
+    } else {
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        actor->setFlag(ksys::act::Actor::ActorFlag::_2b, true);
+    }
+}

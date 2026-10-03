@@ -9,3 +9,7 @@ class Actor;
 // Sets the gravity of the actor's "Body" rigid body set to 0 (`hover`) or 1, and switches its character
 // controller's motion type (hover / default) and gravity accordingly.
 void sub_710071E0D8(bool hover, ksys::act::Actor* actor);
+
+// 0x710071e1c8 (CSV name; the function right after sub_710071E0D8): shows / hides the actor
+// (ActorFlag2 0x20 and ActorFlag 0x2b).
+void actSetVisible(bool visible, ksys::act::Actor* actor);

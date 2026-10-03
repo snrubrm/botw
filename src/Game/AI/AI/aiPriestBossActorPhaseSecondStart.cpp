@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossActorPhaseSecondStart.h"
+#include "Game/AI/aiUnk_710071E0D8.h"
 
 namespace uking::ai {
 
@@ -13,6 +14,18 @@ bool PriestBossActorPhaseSecondStart::init_(sead::Heap* heap) {
 
 void PriestBossActorPhaseSecondStart::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710050E7E0();
+}
+
+void PriestBossActorPhaseSecondStart::calc_() {
+    if (isCurrentChild("共通")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            actSetVisible(true, mActor);
+            setFinished();
+        }
+    } else {
+        sub_710050E7E0();
+    }
 }
 
 void PriestBossActorPhaseSecondStart::leave_() {
