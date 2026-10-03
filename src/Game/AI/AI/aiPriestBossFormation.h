@@ -37,6 +37,10 @@ public:
     s32 sub_7100518B50();
 
 protected:
+    // inline-only in the original; name is a guess. Evidence: leave_ re-reads and re-casts the AI tree
+    // variable at each of its three uses (the other functions use the same expression once).
+    Unk_7102450fa8* getUnit();
+
     // aitree_variable at offset 0x38
     void* mPriestBossMetaAIUnit_a{};
     s32 _40 = -1;

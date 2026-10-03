@@ -77,6 +77,10 @@ public:
     // markers); only that one call site is known, the same shape appears in the other PriestBoss*
     // flag tests (IronBallRoot::m41, BananaMode).
     bool isFlagOn(Flag flag) const { return _78.isOnBit(flag); }
+    // 0x7100719fe4: `_88 ? _88->vslot6(idx) : 3` (unnamed object at 0x88).
+    s32 sub_7100719FE4(s32 idx);
+    // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
+    s32 sub_7100719FCC() const;
     void sub_710071918C();
     // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.
     void sub_71007190CC(const ksys::MesTransceiverId& dest);
