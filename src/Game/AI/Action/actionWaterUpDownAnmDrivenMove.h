@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100700620.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -28,6 +30,10 @@ protected:
     const float* mRotReduceRatio_s{};
     // static_param at offset 0x40
     sead::SafeString mASName_s{};
+    f32 _50 = 1.0f;
+    ksys::act::CCAccessor _54;
+    Unk_7100700620 _5c;
 };
+KSYS_CHECK_SIZE_NX150(WaterUpDownAnmDrivenMove, 0x68);
 
 }  // namespace uking::action
