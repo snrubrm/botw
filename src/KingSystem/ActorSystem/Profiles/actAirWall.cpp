@@ -1,0 +1,60 @@
+#include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
+
+namespace ksys::act {
+
+AirWall::AirWall(const CreateArg& arg) : AreaActor(arg) {}
+
+BaseProc* AirWall::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) AirWall(arg);
+}
+
+void AirWall::preDelete2_(const PreDeleteArg& arg) {
+    AreaActor::preDelete2_(arg);
+    _890 = nullptr;
+}
+
+void AirWall::sub_7100E245B8(RigidBodyCallback* callback) {
+    _890 = callback;
+    sub_7100E2677C();
+}
+
+void AirWall::sub_7100E245C0(RigidBodyCallback* callback) {
+    _898 = callback;
+    sub_7100E2677C();
+}
+
+void AirWall::m149(phys::RigidBody* body) {
+    AreaActor::m149(body);
+    body->setContactNone();
+    if (_890) {
+        _890->invoke(body);
+        return;
+    }
+    u32 mask = 0;
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::Camera);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::AttackHitPlayer);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::AttackHitEnemy);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::CameraBody);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::IK);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::Grudge);
+    mask = phys::orEntityGroundHitMask(mask, phys::GroundHit::LineOfSight);
+    body->setGroundHitMask(body->getContactLayer(), mask);
+}
+
+void AirWall::m151() {
+    if (auto* info = _848) {
+        info->enableLayer(phys::ContactLayer::EntityPlayer);
+        info->enableLayer(phys::ContactLayer::EntityNPC);
+    }
+    if (auto* point_info = _850) {
+        point_info->subscribeLayer(phys::ContactLayer::EntityPlayer);
+        point_info->subscribeLayer(phys::ContactLayer::EntityNPC);
+    }
+}
+
+}  // namespace ksys::act

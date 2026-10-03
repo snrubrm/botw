@@ -27,7 +27,12 @@ target_sources(uking PRIVATE
     LOD/actLodState.cpp
     LOD/actLodState.h
 
+    Profiles/actAirWall.cpp
+    Profiles/actArea.cpp
+    Profiles/actAreaActor.cpp
+    Profiles/actAreaActor.h
     Profiles/actBullet.cpp
+    Profiles/actSweepCollision.cpp
     Profiles/actBullet.h
     Profiles/actDynamicActor.cpp
     Profiles/actDynamicActor.h

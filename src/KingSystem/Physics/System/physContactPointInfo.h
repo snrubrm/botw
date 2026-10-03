@@ -61,6 +61,15 @@ public:
         mLayerMask2[int(type)].reset(mask);
     }
 
+    // Inline-only in the original (name is a guess; Area::m81 and Area::m151 both add the layer to the
+    // subscribed mask and to mask 2): the counterpart of subscribeLayer that keeps the layer in mask 2.
+    void subscribeLayerAndMask2(ContactLayer layer) {
+        const u32 mask = makeContactLayerMask(layer);
+        const auto type = getContactLayerType(layer);
+        mSubscribedLayers[int(type)].set(mask);
+        mLayerMask2[int(type)].set(mask);
+    }
+
     // TODO: rename
     bool isLayerInMask2(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);
