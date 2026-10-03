@@ -25,6 +25,8 @@ protected:
     const float* mThroughDist_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _50;
 };
+KSYS_CHECK_SIZE_NX150(SetTargetPosForFlyThroughMove, 0x60);
 
 }  // namespace uking::ai
