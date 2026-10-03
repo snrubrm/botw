@@ -19,6 +19,12 @@ class ActorLinkConstDataAccess;
 class BaseProcLink;
 }  // namespace ksys::act
 
+namespace ksys::phys {
+class RigidBody;
+}  // namespace ksys::phys
+
+struct Unk_71025be918Data;
+
 // Unnamed message sender sub-objects embedded in many AI/Action/Behavior classes: they send a
 // message of a fixed type from the owner actor's transceiver and record whether it was acknowledged.
 // Placeholder names are the vtable addresses (Unk_<vtable>); unnamed non-virtual functions are named
@@ -171,6 +177,20 @@ public:
     explicit Unk_710001bf60(ksys::act::Actor* actor);
     ~Unk_710001bf60();
 
+    // 0x710001c000 (lane4 s23): sets the AS slot, the "Tgt" physics body `tg_name`, the three AS names and the
+    // partial bone part `data` (of the GiantPartBoneUnit). False if there is no part or actor.
+    bool sub_710001C000(s32 slot, const sead::SafeString& tg_name, const sead::SafeString& start_as,
+                        const sead::SafeString& loop_as, const sead::SafeString& end_as,
+                        const sead::SafeString& partial_bone, Unk_71025be918Data* data);
+    // 0x710001c0d8: starts the guard (state 1).
+    void sub_710001C0D8();
+    // 0x710001c13c: ends the guard (state 3).
+    void sub_710001C13C();
+    // 0x710001c194: stops the guard (state 0).
+    void sub_710001C194();
+    // 0x710001c1dc: advances the guard state (1 -> 2 -> 3 -> 0 when the AS slot finished the animation).
+    void sub_710001C1DC();
+
     ksys::act::Actor* mActor;
     s32 _8 = 1;
     s32 _c = 0;
@@ -179,8 +199,8 @@ public:
     sead::SafeString _30;
     Unk_7102357d48 _40;
     Unk_7102357d70 _58;
-    void* _70 = nullptr;
-    void* _78 = nullptr;
+    ksys::phys::RigidBody* _70 = nullptr;
+    Unk_71025be918Data* _78 = nullptr;
 };
 
 // vtable 0x7102396b20 (GolemSleepNormal)

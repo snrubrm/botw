@@ -1,6 +1,8 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71000b0800.h"
+#include "Game/AI/aiUnk_71025be918.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
@@ -15,9 +17,13 @@ public:
     ~GiantGuardWeakPoint() override;
     void m8() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x71006253f0)
-    void m7() override;  // not decompiled yet (0x71006256a4)
-    void m9() override;  // not decompiled yet (0x7100625af0)
+    bool m6(sead::Heap* heap) override;
+    void m7() override;
+    void m9() override;
+
+    // 0x7100625848 (lane4 s23): whether the player is looking at the weak point (the camera direction towards
+    // the weak point or the actor is within GuardAngleRange of the camera's look direction).
+    bool sub_7100625848();
 
     /* 0x28 */ const int* mTargetBone_s{};
     /* 0x30 */ const int* mDelayTime_s{};
@@ -34,7 +40,7 @@ public:
     /* 0x128 */ ksys::Timer _128{0.0f, 0.0f};
     /* 0x134 */ bool _134 = false;
     /* 0x135 */ bool _135 = false;
-    /* 0x138 */ Unk_71025afb58** _138 = nullptr;
+    /* 0x138 */ Unk_71000b0800<Unk_71025be918> _138;
 };
 KSYS_CHECK_SIZE_NX150(GiantGuardWeakPoint, 0x140);
 

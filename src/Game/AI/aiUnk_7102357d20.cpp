@@ -1,6 +1,9 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include <prim/seadScopedLock.h>
+#include "Game/AI/aiUnk_71025be918.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
@@ -122,3 +125,88 @@ Unk_710001bf60::Unk_710001bf60(ksys::act::Actor* actor)
     : mActor(actor), _40(actor, 0x800002f), _58(actor, 0x8000030) {}
 
 Unk_710001bf60::~Unk_710001bf60() = default;
+
+// NON_MATCHING: the original presets the return value (false) before the null checks; we emit a separate
+// `mov w0, wzr` block
+bool Unk_710001bf60::sub_710001C000(s32 slot, const sead::SafeString& tg_name,
+                                    const sead::SafeString& start_as,
+                                    const sead::SafeString& loop_as, const sead::SafeString& end_as,
+                                    const sead::SafeString& partial_bone,
+                                    Unk_71025be918Data* data) {
+    bool result = false;
+    if (data) {
+        if (mActor) {
+            _78 = data;
+            data->sub_7100707A88(slot, partial_bone);
+            _70 = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), tg_name.cstr());
+            _8 = slot;
+            _10 = start_as;
+            _20 = loop_as;
+            _30 = end_as;
+            result = true;
+        }
+    }
+    return result;
+}
+
+void Unk_710001bf60::sub_710001C0D8() {
+    if (_78)
+        _78->sub_71007081B8();
+    if (auto* as_list = mActor->getASList())
+        as_list->startAnimationMaybe(-1.0f, -1.0f, _10, _8, 0, true);
+    if (_70)
+        sub_71007A35EC(_70);
+    _c = 1;
+}
+
+void Unk_710001bf60::sub_710001C13C() {
+    if (_70)
+        sub_71007A3470(_70);
+    if (auto* as_list = mActor->getASList())
+        as_list->startAnimationMaybe(-1.0f, -1.0f, _30, _8, 0, true);
+    _c = 3;
+}
+
+void Unk_710001bf60::sub_710001C194() {
+    if (_c == 0)
+        return;
+    _c = 0;
+    if (_78)
+        _78->sub_7100708308();
+    if (_70)
+        sub_71007A3470(_70);
+}
+
+void Unk_710001bf60::sub_710001C1DC() {
+    switch (_c) {
+    case 1:
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x_4(_8, 0)) {
+                if (auto* as_list2 = mActor->getASList())
+                    as_list2->startAnimationMaybe(-1.0f, -1.0f, _20, _8, 0, true);
+                _c = 2;
+            }
+        }
+        break;
+    case 2:
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x_4(_8, 0)) {
+                if (_70)
+                    sub_71007A3470(_70);
+                if (auto* as_list2 = mActor->getASList())
+                    as_list2->startAnimationMaybe(-1.0f, -1.0f, _30, _8, 0, true);
+                _c = 3;
+            }
+        }
+        break;
+    case 3:
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x_4(_8, 0)) {
+                if (_78)
+                    _78->sub_7100708308();
+                _c = 0;
+            }
+        }
+        break;
+    }
+}
