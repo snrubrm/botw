@@ -15,6 +15,8 @@ target_sources(uking PRIVATE
   gameMaskController.cpp
   gameMaskController.h
   gameResetter.cpp
+  gameRuneMgr.cpp
+  gameRuneMgr.h
   gameResetter.h
   gameResidentActorMgr.cpp
   gameResidentActorMgr.h

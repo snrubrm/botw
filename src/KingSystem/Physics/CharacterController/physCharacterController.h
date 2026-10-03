@@ -113,19 +113,24 @@ public:
     void sub_7100F62BB8();
 
     RigidBody* mRigidBody;
-    u8 _10[0x64 - 0x10];
+    u8 _10[0x60 - 0x10];
+    f32 _60;
     sead::Vector3f _64;
     sead::Vector3f _70;
     sead::Vector3f _7c;
     sead::Vector3f _88;  // zero in the ctor
     sead::Vector3f _94;  // zero in the ctor
     sead::Matrix34f _a0;  // ident in the ctor; PreyDead::enter_ reads its translation
-    u8 _d0[0x110 - 0xd0];
+    u8 _d0[0xfc - 0xd0];
+    f32 _fc;
+    f32 _100;
+    u8 _104[0x110 - 0x104];
     f32 _110;
     u16 _114;  // flags
     u8 _116[0x118 - 0x116];
     sead::BitFlag32 mFlags;
-    u8 _11c[0x224 - 0x11c];
+    f32 _11c;
+    u8 _120[0x224 - 0x120];
     s32 _224;  // index into _288 of the current body (_298)
     u8 _228[0x288 - 0x228];
     sead::Buffer<RigidBody*> _288;

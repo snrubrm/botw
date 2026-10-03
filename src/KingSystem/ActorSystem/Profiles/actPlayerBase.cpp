@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/gameRuneMgr.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -12,6 +13,26 @@ namespace ksys::act {
 
 bool PlayerBase::x_50() {
     return false;
+}
+
+bool PlayerBase::runeMgrCheckCanUseRoundBomb() {
+    return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(0, this);
+}
+
+bool PlayerBase::runeMgrCheckCanUseSquareBomb() {
+    return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(1, this);
+}
+
+bool PlayerBase::runeMgrCheckCanUseMagnesis() {
+    return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(2, this);
+}
+
+bool PlayerBase::runeMgrCheckCanUseCryonis() {
+    return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(4, this);
+}
+
+bool PlayerBase::runeMgrCheckCanUseCamera() {
+    return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(5, this);
 }
 
 bool PlayerBase::m237() {

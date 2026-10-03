@@ -9,6 +9,10 @@
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include <math/seadMathCalcCommon.h>
 
+void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
+    ksys::act::sub_7100EE60AC(controller, up);
+}
+
 void sub_7100737708(ksys::phys::CharacterController* controller, f32 value) {
     ksys::act::sub_7100EE60A0(controller, value);
 }

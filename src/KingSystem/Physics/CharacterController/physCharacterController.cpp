@@ -3,6 +3,43 @@
 
 namespace ksys::phys {
 
+void CharacterController::sub_7100F5EDD8(float value) {
+    _fc = value;
+}
+
+void CharacterController::sub_7100F5EDE0(float value) {
+    _100 = value;
+}
+
+void CharacterController::sub_7100F5EEB8(float value) {
+    _114 |= 0x20;
+    _110 = value;
+}
+
+float CharacterController::sub_7100F5EF00() const {
+    return _60;
+}
+
+void CharacterController::sub_7100F5F598(sead::Vector3f* velocity) const {
+    mRigidBody->getLinearVelocity(velocity);
+}
+
+float CharacterController::sub_7100F60370() const {
+    return mRigidBody->getMass();
+}
+
+RigidBody* CharacterController::sub_7100F61A34() const {
+    return mRigidBody;
+}
+
+void CharacterController::sub_7100F62B70(float value) {
+    _11c = value;
+}
+
+void CharacterController::sub_7100F62BB0() {
+    sub_7100F5F270(1);
+}
+
 void CharacterController::sub_7100F5EC30() {
     if (!mFlags.isOn(0x10000))
         mRigidBody->addToWorld();

@@ -246,6 +246,12 @@ public:
     bool x_2();                              // 0x84bce8
     bool checkCanUseRuneCommon();            // 0x84c04c
     bool x_13();                             // 0x84c378
+    // Called by RuneMgr::checkCanUseRune (CSV names Player::checkCanUse*, but the player is
+    // passed as a PlayerBase).
+    bool checkCanUseMagnesis();              // 0x84c320
+    bool checkCanUseCamera();                // 0x84c7b4
+    bool checkCanUseMotorcycle();            // 0x84c8e4
+    bool checkCanUseAmiibo();                // 0x84c924
     bool runeMgrCheckCanUseRoundBomb();      // 0x84ccc0
     bool runeMgrCheckCanUseSquareBomb();     // 0x84ccdc
     bool runeMgrCheckCanUseMagnesis();       // 0x84ccf8
