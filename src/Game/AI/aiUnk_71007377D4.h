@@ -115,6 +115,14 @@ bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// float is not forwarded. Placeholder name.
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9);
+/// 0x710072f7ac (lane1 s22): sub_710072F28C with `a6 = true`, tolerance `a7` and default others;
+/// writes the position to `out_pos`. Placeholder name.
+bool sub_710072F7AC(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a7);
+/// 0x710072f7d0 (lane1 s22): sub_710072F7AC with the tolerance taken from the actor's navmesh
+/// character (`_2a8 * _2ac`, 0 without one). Placeholder name.
+bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5);
 /// 0x710072f788: sub_710072F28C from `from` to `to` with default tolerances; writes the position to
 /// `out_pos`. Placeholder name.
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,

@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -78,6 +79,18 @@ bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
                     f32 a3) {
     const sead::Vector3f from = actor->getMtx().getTranslation();
     return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, -1.0f, a3, -1.0f);
+}
+
+bool sub_710072F7AC(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a7) {
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, a7, -1.0f, -1.0f);
+}
+
+bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5) {
+    auto* nav = actor->m45();
+    const f32 tolerance = nav ? nav->_2a8 * nav->_2ac : 0.0f;
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, tolerance, -1.0f, -1.0f);
 }
 
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
