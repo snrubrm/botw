@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkTogglePriestBossFreeMoving.h"
+#include "Game/AI/aiUnk_710071E0D8.h"
 
 namespace uking::action {
 
@@ -8,7 +9,9 @@ ForkTogglePriestBossFreeMoving::ForkTogglePriestBossFreeMoving(const InitArg& ar
 ForkTogglePriestBossFreeMoving::~ForkTogglePriestBossFreeMoving() = default;
 
 void ForkTogglePriestBossFreeMoving::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_710071E0D8(*mSetFreeMoving_s, mActor);
+    mFlags.set(Flag::Changeable);
+    setFinished();
 }
 
 void ForkTogglePriestBossFreeMoving::loadParams_() {

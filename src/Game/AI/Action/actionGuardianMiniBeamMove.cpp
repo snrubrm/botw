@@ -1,13 +1,21 @@
 #include "Game/AI/Action/actionGuardianMiniBeamMove.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
+// NON_MATCHING: the original zero-fills the whole 0x20-byte xlink handle pair (libwork: the lib handles leave their padding uninitialised)
 GuardianMiniBeamMove::GuardianMiniBeamMove(const InitArg& arg) : BeamMove(arg) {}
 
 GuardianMiniBeamMove::~GuardianMiniBeamMove() = default;
 
 void GuardianMiniBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     BeamMove::enter_(params);
+    _98 = 0;
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(0.0f);
+    xlinkSearchAndEmit(mActor, "Beam", 2, &_78);
 }
 
 void GuardianMiniBeamMove::leave_() {
