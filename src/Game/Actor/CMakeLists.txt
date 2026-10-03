@@ -88,6 +88,8 @@ target_sources(uking PRIVATE
   actUnk_71002c8e10.cpp
   actUnk_71002dccbc.cpp
   actUserEdgeActor.cpp
+  actNoCalcActor.cpp
+  actNoCalcActor.h
   actActorReaction.cpp
   actActorReaction.h
   actHavokActiveObject.cpp
