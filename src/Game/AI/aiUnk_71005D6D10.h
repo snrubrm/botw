@@ -80,6 +80,11 @@ void sub_71005D9974(ksys::act::Actor* actor, u32 mask, bool set);
 // --- other uking::act::Enemy fields ---
 
 void sub_71005D7014(ksys::act::Actor* actor);
+/// 0x71005d85c8 (CSV name; lane1 s22, declared only): drops weapon `idx` of a PlayerOrEnemy (or the
+/// other actor class handled by 0x7100224f0): calls Weapon::m175(velocity, a4, a5, a6, a7) on the
+/// equipped weapon. The type of `a6` is unknown (always null so far).
+bool playerOrEnemyDropWeapon(ksys::act::Actor* actor, const sead::Vector3f* velocity, int idx,
+                             bool a4, bool a5, void* a6, bool a7);
 /// Enemy::_d70 or NPC::_e90 (nullptr otherwise).
 uking::act::Unk_71002dccbc* sub_71005D9D68(ksys::act::Actor* actor);
 /// Same as sub_71005D9D68 (a separate function that tail-calls it).

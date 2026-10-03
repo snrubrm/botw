@@ -54,6 +54,12 @@ void sub_7100738AA8(ksys::act::Actor* actor, f32 ratio);
 void sub_7100738C88(ksys::act::Actor* actor, ksys::act::Actor* other);
 /// 0x7100738d28: same as sub_7100738C88 with the other system group handler (+0x190).
 void sub_7100738D28(ksys::act::Actor* actor, ksys::act::Actor* other);
+/// 0x7100738df0 (lane1 s22): whether the player is among the actor's attack contacts. Placeholder
+/// name.
+bool sub_7100738DF0(ksys::act::Actor* actor);
+/// 0x7100738e70 (lane1 s22): whether the first body of the actor's rigid body set (by the name
+/// from sub_71007A24D0) has a SensorPlayer contact. Placeholder name.
+bool sub_7100738E70(ksys::act::Actor* actor);
 
 // Single-branch functions of the same area forwarding to KingSystem actor utilities (0x7100ee5b84,
 // 0x7100ee60ac). Names are placeholders.
@@ -155,6 +161,9 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
 /// 0x710072e1b4: whether the actor is an enemy whose target state (sub_71005D9744) is 2 or 5, or 3
 /// when `include_3` is set. Placeholder name.
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
+/// 0x710073b870 (CSV name, sic; lane1 s22, declared only): starts the get-item demo for the actor
+/// (emits the get-demo sound when `a2`); false when the actor is not in a state to start it.
+bool triggereGetItemDemoMaybe(ksys::act::Actor* actor, bool a2, bool a3);
 /// 0x7100734270 (lane1 s22): copies `pos` to `out` and sets bit 0x80 in the actor's DropData flags
 /// (DropData::m5() reads it); false without DropData. Name is a placeholder.
 bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& pos);

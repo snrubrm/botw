@@ -6,9 +6,12 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -318,6 +321,37 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
     to_target.y = 0;
     to_target.normalize();
     return forward.dot(to_target) >= sead::Mathf::cos(angle);
+}
+
+bool sub_7100738E70(ksys::act::Actor* actor) {
+    if (auto* set = actor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        if (set->getRigidBodies().size() != 0) {
+            if (auto* body = set->getRigidBodies()(0)) {
+                if (auto* info = body->getContactPointInfo()) {
+                    if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+                        for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+                            if ((*it)->body_b->getContactLayer() ==
+                                ksys::phys::ContactLayer::SensorPlayer) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool sub_7100738DF0(ksys::act::Actor* actor) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    const s32 num = sub_71007A425C(actor);
+    for (s32 i = 0; i < num; ++i) {
+        if (ksys::act::isPlayerProfile(&sub_71007A40D0(actor, i)->_50))
+            return true;
+    }
+    return false;
 }
 
 bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& pos) {

@@ -19,8 +19,8 @@ void FixableLiftable::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleLiftable::enter_(params);
 }
 
-// NON_MATCHING: the original constructs the begin iterator once for an emptiness test (index vs the
-// point count) and again for the loop; the sub_71007A2604 / scale part matches
+// NON_MATCHING: the original loads the main body twice (once into the saved register, once for the
+// null test whose register is reused as the getMotionType argument); the iterator part matches
 void FixableLiftable::calc_() {
     SimpleLiftable::calc_();
     auto* actor = mActor;
@@ -34,8 +34,8 @@ void FixableLiftable::calc_() {
 
     bool touching_dynamic = false;
     if (auto* info = body->getContactPointInfo()) {
-        if (info->getNumContactPoints() != 0) {
-            for (auto it = info->begin(); it != info->end(); ++it) {
+        if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+            for (auto it = info->begin(), end = info->end(); it != end; ++it) {
                 auto* other = (*it)->body_b;
                 if (other && other->getMotionType() == ksys::phys::MotionType::Dynamic)
                     touching_dynamic = true;
@@ -44,7 +44,7 @@ void FixableLiftable::calc_() {
     }
 
     const f32 scale = actor->getScale().x;
-    if (sub_71007A2604(actor) || (touching_dynamic | (*mCancelFixedScale_s <= _d8 - scale)))
+    if (sub_71007A2604(actor) || (touching_dynamic | (_d8 - scale >= *mCancelFixedScale_s)))
         body->changeMotionType(ksys::phys::MotionType::Dynamic);
 }
 
