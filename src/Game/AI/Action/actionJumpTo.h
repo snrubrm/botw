@@ -33,20 +33,23 @@ protected:
     virtual void m43();
     virtual const sead::Vector3f& m44();
 
-    // static_param at offset 0x20
-    const float* mMaxSpeed_s{};
-    // static_param at offset 0x28
-    const float* mJumpHeight_s{};
-    // static_param at offset 0x30
-    const float* mJumpGravity_s{};
-    // static_param at offset 0x38
-    const float* mPosReduceRatioOnGround_s{};
-    // static_param at offset 0x40
-    const float* mRotReduceRatioOnGround_s{};
-    // static_param at offset 0x48
-    const float* mInWaterDepth_s{};
-    // dynamic_param at offset 0x50
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mMaxSpeed_s{};
+        // static_param at offset 0x28
+        const float* mJumpHeight_s{};
+        // static_param at offset 0x30
+        const float* mJumpGravity_s{};
+        // static_param at offset 0x38
+        const float* mPosReduceRatioOnGround_s{};
+        // static_param at offset 0x40
+        const float* mRotReduceRatioOnGround_s{};
+        // static_param at offset 0x48
+        const float* mInWaterDepth_s{};
+        // dynamic_param at offset 0x50
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ksys::VFRValue _58{0.0f};
     sead::Matrix33f _64;
     sead::Vector3f _88{0.0f, 0.0f, 0.0f};

@@ -17,7 +17,7 @@ void AttackJumpToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     JumpToTarget::enter_(params);
     if (*mParams.mIsIgnoreSmallHit_s)
         setDamageCallbackTiming(mActor, 4, &_108);
-    sead::Vector3f dir = *mTargetPos_d;
+    sead::Vector3f dir = *JumpTo::mParams.mTargetPos_d;
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     dir -= pos;
