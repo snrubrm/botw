@@ -454,7 +454,9 @@ public:
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
     /* 0x2104 */ u8 _2104[0x211c - 0x2104];
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
-    /* 0x2120 */ u8 _2120[0x22a8 - 0x2120];
+    /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
+    /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
+    /* 0x215c */ u8 _215c[0x22a8 - 0x215c];
     /* 0x22a8 */ sead::Vector3f _22a8;
     /* 0x22b4 */ u8 _22b4[0x22e8 - 0x22b4];
     /* 0x22e8 */ sead::Vector3f _22e8;

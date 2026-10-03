@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReflectableThrown.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
@@ -12,7 +13,14 @@ bool ReflectableThrown::init_(sead::Heap* heap) {
 }
 
 void ReflectableThrown::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71007A34B8(mActor, mHitColName_s);
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent()))
+        _60 = parent->getPreviousPos();
+    else
+        mActor->getMtx().getTranslation(_60);
+    _6c = mActor->getVelocity().length();
+    _70.x();
+    m34();
 }
 
 void ReflectableThrown::calc_() {

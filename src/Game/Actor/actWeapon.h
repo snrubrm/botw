@@ -216,7 +216,10 @@ public:
     /* 0xc4c */ bool _c4c = false;
     /* 0xc50 */ u8 _c50[0xd54 - 0xc50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
-    /* 0xd58 */ u8 _d58[0xe50 - 0xd58];  // TODO
+    /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
+    /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
+    /* 0xd70 */ void* _d70 = nullptr;
+    /* 0xd78 */ u8 _d78[0xe50 - 0xd78];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u8 _e52[0xf89 - 0xe52];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_

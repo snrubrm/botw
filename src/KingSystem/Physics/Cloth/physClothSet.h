@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <cstddef>
 #include <container/seadBuffer.h>
 
 namespace ksys::phys {
@@ -17,6 +18,9 @@ public:
 
     /* 0x00 */ u8 _0[0x18];
     /* 0x18 */ sead::Buffer<Unk1> _18;
+    /* 0x28 */ u8 _28[0x70 - 0x28];
+    /* 0x70 */ u32 _70;  // flags (bit 16 is set by SunazarashiRoot::init_)
 };
+static_assert(offsetof(ClothSet, _70) == 0x70);
 
 }  // namespace ksys::phys

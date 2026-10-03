@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::ai {
 
 class NPCRoot : public ksys::act::ai::Ai {
@@ -45,7 +49,7 @@ protected:
     sead::SafeString mStaggerUpperASName_s{};
     // static_param at offset 0x58
     sead::SafeString mStaggerUpperRunASName_s{};
-    void* _68 = nullptr;
+    act::NPC* _68 = nullptr;
     ksys::act::BaseProcLink _70;
     ksys::act::BaseProcLink _80;
     Unk1 _90[3];
