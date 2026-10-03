@@ -173,6 +173,14 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
     return physics->get188(idx);
 }
 
+ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx) {
+    if (!link->hasProc())
+        return nullptr;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.x(idx);
+}
+
 bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                     ksys::phys::MaterialMask* material_mask, f32 y_offset) {
