@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossAfterImageRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
 
@@ -12,7 +15,21 @@ bool PriestBossAfterImageRoot::init_(sead::Heap* heap) {
 }
 
 void PriestBossAfterImageRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = false;
+    mActor->getXLink()->toggle(true);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    changeChild("通常");
+}
+
+void PriestBossAfterImageRoot::calc_() {
+    if (isSlowTimeMaybe() || _38) {
+        auto* xlink = mActor->getXLink();
+        if (!xlink->_73)
+            xlink->setMask(1);
+        if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+        _38 = true;
+    }
 }
 
 void PriestBossAfterImageRoot::leave_() {

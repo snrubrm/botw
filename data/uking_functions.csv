@@ -31317,8 +31317,8 @@ Address,Quality,Size,Name
 0x000000710050ee9c,O,000004,_ZN5uking2ai24PriestBossAfterImageRootD1Ev
 0x000000710050eea0,O,000036,_ZN5uking2ai24PriestBossAfterImageRootD0Ev
 0x000000710050eec4,O,000012,_ZN5uking2ai24PriestBossAfterImageRoot5init_EPN4sead4HeapE
-0x000000710050eed0,W,000080,_ZN5uking2ai24PriestBossAfterImageRoot6enter_EPN4ksys3act2ai15InlineParamPackE
-0x000000710050ef20,U,000096,_ZN5uking2ai24PriestBossAfterImageRoot5calc_Ev
+0x000000710050eed0,O,000080,_ZN5uking2ai24PriestBossAfterImageRoot6enter_EPN4ksys3act2ai15InlineParamPackE
+0x000000710050ef20,O,000096,_ZN5uking2ai24PriestBossAfterImageRoot5calc_Ev
 0x000000710050ef80,O,000004,_ZN5uking2ai24PriestBossAfterImageRoot6leave_Ev
 0x000000710050ef84,O,000004,_ZN5uking2ai24PriestBossAfterImageRoot11loadParams_Ev
 0x000000710050ef88,O,000288,_ZNK5uking2ai24PriestBossAfterImageRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -32935,7 +32935,7 @@ Address,Quality,Size,Name
 0x0000007100554338,O,000064,_ZN5uking2ai8RopeRootC1ERKN4ksys3act2ai10ActionBase7InitArgE
 0x0000007100554378,O,000008,_ZN5uking2ai8RopeRoot5init_EPN4sead4HeapE
 0x0000007100554380,W,000176,_ZN5uking2ai8RopeRoot6enter_EPN4ksys3act2ai15InlineParamPackE
-0x0000007100554430,U,000360,_ZN5uking2ai8RopeRoot5calc_Ev
+0x0000007100554430,U,000360,uking::ai::RopeRoot::calc_
 0x0000007100554598,O,000004,_ZN5uking2ai8RopeRoot6leave_Ev
 0x000000710055459c,O,000100,_ZN5uking2ai8RopeRoot11loadParams_Ev
 0x0000007100554600,O,000288,_ZNK5uking2ai8RopeRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -34609,7 +34609,7 @@ Address,Quality,Size,Name
 0x00000071005a79bc,U,001952,_ZN5uking2ai14StalPartNormal5calc_Ev
 0x00000071005a815c,U,000412,
 0x00000071005a82f8,U,000360,
-0x00000071005a8460,W,000152,_ZN5uking2ai14StalPartNormal6leave_Ev
+0x00000071005a8460,O,000152,_ZN5uking2ai14StalPartNormal6leave_Ev
 0x00000071005a84f8,O,000156,_ZN5uking2ai14StalPartNormal11loadParams_Ev
 0x00000071005a8594,O,000196,_ZN5uking2ai14StalPartNormal14handleMessage_ERKN4ksys7MessageE
 0x00000071005a8658,O,000288,_ZNK5uking2ai14StalPartNormal27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -94359,7 +94359,7 @@ Address,Quality,Size,Name
 0x000000710122fce0,U,001056,ActorEffects::ctor
 0x0000007101230100,U,000152,
 0x0000007101230198,U,000312,
-0x00000071012302d0,U,000120,ActorEffects::toggle
+0x00000071012302d0,U,000120,_ZN4ksys5xlink5XLink6toggleEb
 0x0000007101230348,U,000164,
 0x00000071012303ec,U,000304,ActorEffects::initAfterActorConstruct
 0x000000710123051c,U,000016,
@@ -94373,7 +94373,7 @@ Address,Quality,Size,Name
 0x0000007101230b18,U,000368,
 0x0000007101230c88,U,000152,ActorEffects::sleep
 0x0000007101230d20,U,000140,ActorEffects::sleep_
-0x0000007101230dac,U,000108,ActorEffects::setMask
+0x0000007101230dac,U,000108,_ZN4ksys5xlink5XLink7setMaskEi
 0x0000007101230e18,U,000080,
 0x0000007101230e68,U,000248,
 0x0000007101230f60,U,000104,ActorEffects::x_4

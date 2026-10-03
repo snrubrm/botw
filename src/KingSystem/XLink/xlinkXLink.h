@@ -31,10 +31,19 @@ struct Unk_710123830c {
 // TODO: incomplete. Only the user instances read by the actor xlink helpers are declared.
 class XLink {
 public:
+    // 0x71012302d0 (CSV ActorEffects::toggle; declaration only, lane2 s21): PriestBossAfterImageRoot::enter_
+    // calls it with true.
+    void toggle(bool a1);
+    // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
+    // calls it with 1 while `_73` is 0.
+    void setMask(int a1);
+
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
     /* 0x50 */ xlink2::UserInstanceSLink* _50;
-    /* 0x58 */ u8 _58[0xa0 - 0x58];
+    /* 0x58 */ u8 _58[0x73 - 0x58];
+    /* 0x73 */ u8 _73;
+    /* 0x74 */ u8 _74[0xa0 - 0x74];
     /* 0xa0 */ Unk_710123830c* _a0;
     /* 0xa8 */ u8 _a8[0xcc - 0xa8];
     // Flags (ctor 0x710122fce0 sets 0x800c0000, then 0x200 / 0x10000 / 0x4000000 depending on the

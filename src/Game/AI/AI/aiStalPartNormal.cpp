@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiStalPartNormal.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -16,7 +20,12 @@ void StalPartNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StalPartNormal::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100738DC8(mActor);
+    if (auto* body = mActor->getMainBody())
+        body->clearFlag2000000(_f4);
+    ksys::act::enableAttClient(mActor, "UsePick");
+    ksys::act::enableAttClient(mActor, "NoticeDo");
+    ksys::act::enableAttClient(mActor, "NameBalloon");
 }
 
 void StalPartNormal::loadParams_() {
