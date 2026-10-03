@@ -13,7 +13,7 @@
 namespace uking::ai {
 
 GuardianMiniRollingAttackMove::GuardianMiniRollingAttackMove(const InitArg& arg)
-    : EnemyRangeKeepMove(arg) {}
+    : EnemyRangeKeepMove(arg), _2a8() {}
 
 GuardianMiniRollingAttackMove::~GuardianMiniRollingAttackMove() {
     if (_250) {
