@@ -147,6 +147,59 @@ void PriestBossEyeBeam::m38(const sead::Vector3f& pos) {
     sub_71005DB068(mActor, pos);
 }
 
+// NON_MATCHING: same instruction sequence and frame, but ours keeps the aim vector in s0-s4 where the original keeps it in
+// s8-s10 (stores `_ac.x/_ac.y` in the first branch and again in the common tail), and stores target.y before target.z
+void PriestBossEyeBeam::m36(sead::Vector3f* out) {
+    sead::Vector3f target = *out;
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* link = sub_71005D9050(actor);
+    const sead::Vector3f* player;
+    if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+        player = &sub_71005D9330(actor);
+    else
+        player = &getPlayerPosition();
+    target.x = player->x;
+    target.y = player->y + 1.0f;
+    target.z = player->z;
+
+    sead::Matrix34f bone_mtx = sead::Matrix34f::ident;
+    mActor->sub_71011D57F8(&bone_mtx, "Head");
+    const sead::Vector3f bone_pos = bone_mtx.getTranslation();
+
+    const bool in_angle = m40(bone_mtx, getPlayerPosition(), f32(*mParams.mShotReviseAngleY_s),
+                              f32(*mParams.mShotReviseAngleXU_s));
+    const bool blocked = m39(bone_pos, target);
+
+    sead::Matrix34f inv;
+    sead::Matrix34f mtx;
+    mtx = bone_mtx;
+    sead::Matrix34CalcCommon<f32>::inverse(inv, mtx);
+
+    sead::Vector3f aim;
+    if (!blocked && in_angle) {
+        _ac.setMul(inv, target);
+        aim = _ac;
+    } else {
+        const sead::Vector3f default_aim = sead::Vector3f::ey * 20.0f;
+        aim = default_aim;
+        bool keep = false;
+        if (_ac != sead::Vector3f::zero) {
+            sead::Vector3f candidate;
+            candidate.setMul(mtx, _ac);
+            if (!m39(bone_pos, candidate)) {
+                aim = _ac;
+                keep = true;
+            }
+        }
+        if (!keep)
+            _ac = default_aim;
+    }
+    out->setMul(mtx, aim);
+}
+
 void PriestBossEyeBeam::sub_710051459C() {
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
     if (!enemy || sub_71005D6D10())
