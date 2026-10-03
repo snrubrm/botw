@@ -65,6 +65,12 @@ public:
     // 0x71003eb688: changes to the explosion child, passing IsPlayerAttack (m55), AttackPower and
     // AtMinDamage; the first call goes to the reflected explosion state. Placeholder name.
     void sub_71003EB688();
+    // 0x71003ea0ac: activates the "AtkBody" (the "AtkPlayerBody" when `a` is false): moves it to the
+    // actor's matrix, adds it to the world and activates the attack sensor. Placeholder name.
+    void sub_71003EA0AC(bool a);
+    // 0x71003ea21c: when the connected calc parent is a BaseProc, remembers it (if `a`) in _158 and
+    // resets the connection. Placeholder name.
+    void sub_71003EA21C(bool a);
 
 protected:
     // static_param at offset 0x38
@@ -114,7 +120,8 @@ protected:
     sead::FixedSafeString<32> _120;
     ksys::act::BaseProcLink _158;
     ksys::act::BaseProcLink _168;
-    void* _178 = nullptr;
+    f32 _178 = 0;
+    u32 _17c = 0;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossChemicalProjectile, 0x180);
 

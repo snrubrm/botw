@@ -2,6 +2,8 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -61,6 +63,31 @@ bool SiteBossChemicalProjectile::handleMessage_(const ksys::Message* message) {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: the no-body path (`_bc *= -rate`) ends with a shared `str z` and an `stp` of x/y in the
+// original; ours schedules the z load between the two stores
+void SiteBossChemicalProjectile::m44() {
+    if (!(getAttackInfo(mActor, 0)->_18 & 0xa)) {
+        SiteBossChemicalProjectile::m42();
+        return;
+    }
+
+    sub_71003EA0AC(false);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
+        sead::Vector3f position;
+        body->getPosition(&position);
+        const f32 reflect_speed = _bc.length() * *mReflectSpeedRate_s;
+        _bc = _b0 - position;
+        _bc.normalize();
+        _bc *= reflect_speed;
+    } else {
+        _bc *= -*mReflectSpeedRate_s;
+    }
+    _e0 *= *mReflectSpeedRate_s;
+    _118 = *mReflectSpeedRate_s * _118;
+    _178 = *mExplosionTime_s;
+    _d4 = true;
 }
 
 void SiteBossChemicalProjectile::loadParams_() {
@@ -143,6 +170,36 @@ void SiteBossChemicalProjectile::sub_71003EB688() {
     } else {
         _d5 = true;
         changeChild("反射後爆発", &params);
+    }
+}
+
+void SiteBossChemicalProjectile::sub_71003EA0AC(bool a) {
+    auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody");
+    if (!a)
+        body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkPlayerBody");
+    if (!body)
+        return;
+
+    const u32 attack_type = m50();
+    u32 attack_attr = m51();
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->_c0 == 2)
+            attack_attr |= 0x200;
+    }
+    const sead::Matrix34f mtx = mActor->getMtx();
+    body->setTransform(mtx);
+    if (!body->isAddedToWorld())
+        body->addToWorld();
+    m52(body);
+    getActorAttackSensor(mActor)->activateAttackSensor(attack_type, attack_attr, *mAttackPower_m, 0,
+                                                       0.0f, 0, 1, -1, false, *mAtMinDamage_m, -1);
+}
+
+void SiteBossChemicalProjectile::sub_71003EA21C(bool a) {
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent())) {
+        if (a && !_158.hasProc())
+            _158.acquire(parent, false);
+        mActor->resetConnectedCalcParent(false);
     }
 }
 
