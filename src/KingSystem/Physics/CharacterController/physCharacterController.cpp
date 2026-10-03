@@ -198,4 +198,51 @@ void CharacterController::sub_7100F63700(bool clear) {
         mFlags.set(0x40);
 }
 
+bool CharacterController::sub_7100F5E954() const {
+    return mRigidBody->isAddedToWorld();
+}
+
+void CharacterController::sub_7100F5EDBC(const sead::Vector3f& value) {
+    _64.x = value.x;
+    _64.y = value.y;
+    _64.z = value.z;
+}
+
+void CharacterController::sub_7100F5EEE0(float value) {
+    _220 = value;
+}
+
+void CharacterController::sub_7100F5EF08(bool on) {
+    mFlags.changeBit(0, on);
+    _114 |= 0x20;
+}
+
+// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped), as in
+// physicsXXXGetMtx_1
+void CharacterController::sub_7100F5F6E0(sead::Vector3f* position) const {
+    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getPosition(position);
+}
+
+void CharacterController::sub_7100F5F6FC(const sead::Vector3f& velocity) {
+    sub_7100F5F774(velocity, true, false);
+    if (mFlags.isOn(0x10000))
+        _298->setLinearVelocity(velocity);
+    if (velocity.x != 0.0f || velocity.y != 0.0f || velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
+void CharacterController::sub_7100F5FB24(const sead::Vector3f& angular_velocity) {
+    mRigidBody->setAngularVelocity(angular_velocity);
+    if (mFlags.isOn(0x10000))
+        _298->setAngularVelocity(angular_velocity);
+    if (angular_velocity.x != 0.0f || angular_velocity.y != 0.0f || angular_velocity.z != 0.0f)
+        _114 |= 0x20;
+}
+
+void CharacterController::sub_7100F60398(const sead::Vector3f& impulse) {
+    if (impulse.x != 0.0f || impulse.y != 0.0f || impulse.z != 0.0f)
+        _114 |= 0x20;
+    _88 += impulse;
+}
+
 }  // namespace ksys::phys

@@ -92,6 +92,8 @@ public:
     void sub_7100F5EEB8(float value);
     // 0x7100f5eee0: sets _220.
     void sub_7100F5EEE0(float value);
+    // 0x7100f5f774 (declared only; called with (velocity, true, false) by sub_7100F5F6FC).
+    void sub_7100F5F774(const sead::Vector3f& velocity, bool a2, bool a3);
     float sub_7100F5EF00() const;
     void sub_7100F5EF08(bool on);
     bool sub_7100F5F234(sead::Vector3f* out) const;
@@ -149,7 +151,8 @@ public:
     u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x224 - 0x120];
+    u8 _120[0x220 - 0x120];
+    f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
     u8 _228[0x288 - 0x228];
     sead::Buffer<RigidBody*> _288;
