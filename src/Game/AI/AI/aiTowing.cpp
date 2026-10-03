@@ -5,7 +5,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original zeroes 0x50..0x76 after the param memset
 Towing::Towing(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 Towing::~Towing() = default;
@@ -16,12 +15,12 @@ bool Towing::init_(sead::Heap* heap) {
 
 void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = 0;
-    _40 = *mAddSpeed_s;
-    _3c = *mInitSpeed_s;
+    _40 = *mParams.mAddSpeed_s;
+    _3c = *mParams.mInitSpeed_s;
     _44 = 0;
     _74 = false;
     _75 = false;
-    _50 = ksys::Timer(*mStopTowingDef_s, *mStopTowingDef_s);
+    _50 = ksys::Timer(*mParams.mStopTowingDef_s, *mParams.mStopTowingDef_s);
     _68 = ksys::Timer(30, 30);
 
     sead::Vector3f dir = mActor->getMtx().getBase(2);
@@ -29,7 +28,7 @@ void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* controller = mActor->getCharacterController()) {
         controller->sub_7100F5F458(ksys::act::MotionType::_1);
         controller->sub_7100F5EDBC(dir);
-        controller->sub_7100F5E7F0(*mInitSpeed_s * 30.0f);
+        controller->sub_7100F5E7F0(*mParams.mInitSpeed_s * 30.0f);
         controller->sub_7100F5FDF0(dir);
         controller->sub_7100F5EEB8(1.2f);
     } else {
@@ -51,16 +50,16 @@ void Towing::leave_() {
 }
 
 void Towing::loadParams_() {
-    getStaticParam(&mKeepMaxTime_s, "KeepMaxTime");
-    getStaticParam(&mStopTowingDef_s, "StopTowingDef");
-    getStaticParam(&mMaxSpeed_s, "MaxSpeed");
-    getStaticParam(&mInitSpeed_s, "InitSpeed");
-    getStaticParam(&mAddSpeed_s, "AddSpeed");
-    getStaticParam(&mStandardSpeed_s, "StandardSpeed");
-    getStaticParam(&mBrakeDecSpeed_s, "BrakeDecSpeed");
-    getStaticParam(&mAttFrontRate_s, "AttFrontRate");
-    getStaticParam(&mSandCheckLength_s, "SandCheckLength");
-    getStaticParam(&mSandCheckAngle_s, "SandCheckAngle");
+    getStaticParam(&mParams.mKeepMaxTime_s, "KeepMaxTime");
+    getStaticParam(&mParams.mStopTowingDef_s, "StopTowingDef");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getStaticParam(&mParams.mInitSpeed_s, "InitSpeed");
+    getStaticParam(&mParams.mAddSpeed_s, "AddSpeed");
+    getStaticParam(&mParams.mStandardSpeed_s, "StandardSpeed");
+    getStaticParam(&mParams.mBrakeDecSpeed_s, "BrakeDecSpeed");
+    getStaticParam(&mParams.mAttFrontRate_s, "AttFrontRate");
+    getStaticParam(&mParams.mSandCheckLength_s, "SandCheckLength");
+    getStaticParam(&mParams.mSandCheckAngle_s, "SandCheckAngle");
 }
 
 void Towing::calc_() {
@@ -79,9 +78,9 @@ void Towing::calc_() {
 void Towing::m34() {
     switch (_38) {
     case 1:
-        if (_3c >= *mMaxSpeed_s) {
+        if (_3c >= *mParams.mMaxSpeed_s) {
             _38 = 2;
-            _5c = ksys::Timer(*mKeepMaxTime_s, *mKeepMaxTime_s);
+            _5c = ksys::Timer(*mParams.mKeepMaxTime_s, *mParams.mKeepMaxTime_s);
         }
         break;
     case 2:
@@ -90,7 +89,7 @@ void Towing::m34() {
             _38 = 3;
         break;
     case 3:
-        if (_3c <= *mStandardSpeed_s)
+        if (_3c <= *mParams.mStandardSpeed_s)
             _38 = 0;
         break;
     default:

@@ -34,26 +34,29 @@ protected:
     ksys::Timer _68;
     bool _74 = false;
     bool _75 = false;
-    // static_param at offset 0x78
-    const int* mKeepMaxTime_s{};
-    // static_param at offset 0x80
-    const int* mStopTowingDef_s{};
-    // static_param at offset 0x88
-    const float* mMaxSpeed_s{};
-    // static_param at offset 0x90
-    const float* mInitSpeed_s{};
-    // static_param at offset 0x98
-    const float* mAddSpeed_s{};
-    // static_param at offset 0xa0
-    const float* mStandardSpeed_s{};
-    // static_param at offset 0xa8
-    const float* mBrakeDecSpeed_s{};
-    // static_param at offset 0xb0
-    const float* mAttFrontRate_s{};
-    // static_param at offset 0xb8
-    const float* mSandCheckLength_s{};
-    // static_param at offset 0xc0
-    const float* mSandCheckAngle_s{};
+    struct Params {
+        // static_param at offset 0x78
+        const int* mKeepMaxTime_s{};
+        // static_param at offset 0x80
+        const int* mStopTowingDef_s{};
+        // static_param at offset 0x88
+        const float* mMaxSpeed_s{};
+        // static_param at offset 0x90
+        const float* mInitSpeed_s{};
+        // static_param at offset 0x98
+        const float* mAddSpeed_s{};
+        // static_param at offset 0xa0
+        const float* mStandardSpeed_s{};
+        // static_param at offset 0xa8
+        const float* mBrakeDecSpeed_s{};
+        // static_param at offset 0xb0
+        const float* mAttFrontRate_s{};
+        // static_param at offset 0xb8
+        const float* mSandCheckLength_s{};
+        // static_param at offset 0xc0
+        const float* mSandCheckAngle_s{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai
