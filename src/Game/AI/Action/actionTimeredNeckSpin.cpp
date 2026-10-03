@@ -16,9 +16,9 @@ void TimeredNeckSpin::leave_() {
 
 void TimeredNeckSpin::loadParams_() {
     NeckSpin::loadParams_();
-    getStaticParam(&mTime_s, "Time");
-    getStaticParam(&mSpinSpeedRatio_s, "SpinSpeedRatio");
-    getStaticParam(&mInitSpinSpeed_s, "InitSpinSpeed");
+    getStaticParam(&mParams.mTime_s, "Time");
+    getStaticParam(&mParams.mSpinSpeedRatio_s, "SpinSpeedRatio");
+    getStaticParam(&mParams.mInitSpinSpeed_s, "InitSpinSpeed");
 }
 
 void TimeredNeckSpin::calc_() {

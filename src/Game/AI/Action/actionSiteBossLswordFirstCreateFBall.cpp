@@ -20,14 +20,14 @@ void SiteBossLswordFirstCreateFBall::leave_() {
 }
 
 void SiteBossLswordFirstCreateFBall::loadParams_() {
-    getStaticParam(&mAtMinDamage_s, "AtMinDamage");
-    getStaticParam(&mAttackPower_s, "AttackPower");
-    getStaticParam(&mCreateNum_s, "CreateNum");
-    getStaticParam(&mAddAttackPower_s, "AddAttackPower");
-    getStaticParam(&mFireBallScale_s, "FireBallScale");
-    getStaticParam(&mThrowActorName_s, "ThrowActorName");
-    getStaticParam(&mASName_s, "ASName");
-    getStaticParam(&mBindPosOffset_s, "BindPosOffset");
+    getStaticParam(&mParams.mAtMinDamage_s, "AtMinDamage");
+    getStaticParam(&mParams.mAttackPower_s, "AttackPower");
+    getStaticParam(&mParams.mCreateNum_s, "CreateNum");
+    getStaticParam(&mParams.mAddAttackPower_s, "AddAttackPower");
+    getStaticParam(&mParams.mFireBallScale_s, "FireBallScale");
+    getStaticParam(&mParams.mThrowActorName_s, "ThrowActorName");
+    getStaticParam(&mParams.mASName_s, "ASName");
+    getStaticParam(&mParams.mBindPosOffset_s, "BindPosOffset");
 }
 
 void SiteBossLswordFirstCreateFBall::calc_() {
