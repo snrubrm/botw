@@ -46,11 +46,11 @@ public:
     void m35(ksys::act::Actor* actor, ksys::act::Actor* ball) override;
     void m36(ksys::act::Actor* ball) override;
 
-    // Unnamed in the binary (0x710060f440): sends the "RegistedActorMessageBroadCastTag" message of _1f0
-    // and keeps the receiver in _220; true while the receiver is in the calc state.
-    bool sub_710060F440();
-    // Unnamed in the binary (0x710060fae0): sends `mtx` with message `type` through _190 to _220.
-    void sub_710060FAE0(const sead::Matrix34f& mtx, u32 type, bool a3);
+    // Unnamed in the binary (0x710060f440): sends the "RegistedActorMessageBroadCastTag" message of mLinkSender
+    // and keeps the receiver in mReceiverLink; true while the receiver is in the calc state.
+    bool updateReceiverMaybe();
+    // Unnamed in the binary (0x710060fae0): sends `mtx` with message `type` through mMatrixSender to mReceiverLink.
+    void sendMatrixMessage(const sead::Matrix34f& mtx, u32 type, bool a3);
 
 protected:
     // inline-only in the original; name is a guess. Evidence: m35 / handleMessage_ / calc_ build the
@@ -65,11 +65,11 @@ protected:
     const int* mCannonSpot_m{};
     // map_unit_param at offset 0x148
     sead::SafeString mActorName_m{};
-    gsys::BoneAccessKeyEx _158;
-    Unk_7102433368 _190{mActor, 0x8000000};
-    Unk_710235aba0 _1f0{mActor, 0x8000040};
-    ksys::act::BaseProcLink _220;
-    u16 _230 = 0;
+    gsys::BoneAccessKeyEx mHoleKey;
+    Unk_7102433368 mMatrixSender{mActor, 0x8000000};
+    Unk_710235aba0 mLinkSender{mActor, 0x8000040};
+    ksys::act::BaseProcLink mReceiverLink;
+    u16 mStateFlags = 0;
     u8 _232 = 0;
 };
 KSYS_CHECK_SIZE_NX150(YunBoCannon, 0x238);
