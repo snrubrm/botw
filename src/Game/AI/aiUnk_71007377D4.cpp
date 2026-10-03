@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -251,4 +252,13 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
     if (dist <= max_dist)
         return sead::Mathf::abs(target.y - point.y) < max_height;
     return false;
+}
+
+void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor) {
+    sead::Vector3f dir;
+    actor->getMtx().getBase(dir, 2);
+    const sead::Vector3f up = getUpDir(actor);
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+    *out = dir;
 }

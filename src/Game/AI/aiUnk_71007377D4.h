@@ -84,6 +84,11 @@ inline sead::Vector3f getUpDir(ksys::act::Actor* actor) {
 }
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up);
 
+/// 0x71000891c8 (the one out-of-line copy of an inline function of the original; it sits in the
+/// AirOctaFloatBase TU, ~35 callers): the actor's forward direction (matrix Z axis) with the
+/// component along its up direction removed, normalised. Placeholder name.
+void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor);
+
 /// 0x710072fec4 (declared only): probes along `dir` from the actor (used by the cliff/edge checks of
 /// several enemy AIs); optionally outputs a position and a flag. Placeholder name; the position of
 /// the f32 argument among the integer arguments is unknown.
