@@ -5,12 +5,17 @@
 
 namespace uking::ai {
 
-NPCConfrontEnemy::NPCConfrontEnemy(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+// NON_MATCHING: the original issues the 60 zero stores of `_98` (descending: 0xd0, 0x98, 0xc0, 0xb0, 0xa0) after the
+// memset of the parameters; ours hoists them above it (same instructions otherwise)
+NPCConfrontEnemy::NPCConfrontEnemy(const InitArg& arg) : ksys::act::ai::Ai(arg), _98(), _e8() {}
 
+// NON_MATCHING: the original computes `this + 0x188` (CriticalSection) before the first BaseProcLink reset and keeps
+// it in x21 (as in NPCRunaway's destructor)
 NPCConfrontEnemy::~NPCConfrontEnemy() = default;
 
 bool NPCConfrontEnemy::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _88 = sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NPCConfrontEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
