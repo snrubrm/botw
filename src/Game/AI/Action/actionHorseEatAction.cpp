@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionHorseEatAction.h"
+#include "Game/Actor/actHorseStrings.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +15,16 @@ bool HorseEatAction::init_(sead::Heap* heap) {
 }
 
 void HorseEatAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* rideable = mActor->m132();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    mActor->getASList()->x_6(1, 0, 0.0f);
+    mActor->getASList()->x_6(2, 0, 0.0f);
+    rideable->_18.sub_7100E76E74(act::sUnk_71026032d0, false);
+    _58.setDirect(sead::BitFlag8::makeMask(Bit(Bit::_0)));
+    _60 = sead::SafeString::cEmptyString;
 }
 
 void HorseEatAction::leave_() {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadEnum.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -16,13 +18,15 @@ public:
     void loadParams_() override;
 
 protected:
+    SEAD_ENUM(Bit, _0, _1)
+
     void calc_() override;
 
     // static_param at offset 0x20
     const int* mSucceedGear_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
-    bool _38 = false;
+    sead::BitFlag8 _38;
 };
 
 }  // namespace uking::action

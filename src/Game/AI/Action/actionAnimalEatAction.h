@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadEnum.h>
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    SEAD_ENUM(Bit, _0, _1)
+
     void calc_() override;
     virtual int m32();
 

@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original loads the vtable address before the first member store (scheduling)
 SiteBossSwordThrowElectricBall::SiteBossSwordThrowElectricBall(const InitArg& arg)
     : SiteBossThrowParts(arg) {}
 

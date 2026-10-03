@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSwordMove.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +18,13 @@ void SiteBossSwordMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F60604();
+        controller->sub_7100F5E764(true);
+        controller->sub_7100F62CA8(true);
+    }
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    sead::DynamicCast<act::SiteBoss>(mActor);
 }
 
 void SiteBossSwordMove::loadParams_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionGanonFallAttack.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,7 +18,12 @@ void GanonFallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonFallAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14e8.resetBit(3);
 }
 
 void GanonFallAttack::loadParams_() {

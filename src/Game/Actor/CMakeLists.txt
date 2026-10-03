@@ -32,6 +32,8 @@ target_sources(uking PRIVATE
   actHorseBase.h
   actHorseRideInfo.cpp
   actHorseRideInfo.h
+  actHorseStrings.cpp
+  actHorseStrings.h
   actLastBoss.cpp
   actLastBoss.h
   actMotorcycle.cpp
