@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiGolfBallRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,24 @@ bool GolfBallRoot::init_(sead::Heap* heap) {
 }
 
 void GolfBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58 = sead::Vector3f::zero;
+    _64 = false;
+    _65 = false;
+    _68 = 0;
+    _6c = false;
+    _70 = 0;
+    _e0 = false;
+    if (!mActor)
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    if (auto* obj = ksys::act::findLinkReferenceObj(mActor, "FldObj_FlagChallengeGoal_A", "",
+                                                    nullptr)) {
+        const sead::Vector3f pos = obj->getTranslate();
+        _74 = pos;
+    }
+    _80.sub_7100EEBAE0(sub_7100EEF264(mActor, 0), 0.0f);
+    _80.sub_7100EEBE9C(1);
 }
 
 void GolfBallRoot::leave_() {

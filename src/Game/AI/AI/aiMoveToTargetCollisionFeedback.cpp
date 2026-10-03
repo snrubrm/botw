@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMoveToTargetCollisionFeedback.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,11 @@ bool MoveToTargetCollisionFeedback::init_(sead::Heap* heap) {
 }
 
 void MoveToTargetCollisionFeedback::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _a0.set(*mTargetPos_d);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_a0, "TargetPos", -1);
+    changeChild("移動", &pack);
+    _ac = 1.0f;
 }
 
 void MoveToTargetCollisionFeedback::leave_() {

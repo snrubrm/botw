@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiKokkoAngryTargetSelect.h"
+#include "Game/AI/AI/aiKokkoAngry.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -18,8 +21,12 @@ bool KokkoAngryTargetSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
 void KokkoAngryTargetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (ksys::act::isEnemyProfile(getKokkoTargetLink(mActor)))
+        changeChild("敵", params);
+    else
+        changeChild("プレイヤー", params);
 }
 
 void KokkoAngryTargetSelect::calc_() {}

@@ -14,7 +14,19 @@ bool HeroSoulGiftRoot::init_(sead::Heap* heap) {
 }
 
 void HeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _88 = false;
+    _58 = mActor->getMtx();
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags26.set(1);
+
+    sead::Matrix34f mtx;
+    if (m35(&mtx))
+        mActor->setMtx(mtx, false, true);
+
+    if (m37())
+        changeChild("発動");
+    else
+        changeChild("待機");
 }
 
 void HeroSoulGiftRoot::leave_() {

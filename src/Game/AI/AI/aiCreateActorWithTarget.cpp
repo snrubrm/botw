@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiCreateActorWithTarget.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -28,7 +30,9 @@ void CreateActorWithTarget::calc_() {
 }
 
 void CreateActorWithTarget::leave_() {
-    ksys::act::ai::Ai::leave_();
+    for (auto& handle : _c0)
+        handle.deleteProc();
+    mActor->getLodState()->mFlags10.resetBit(6);
 }
 
 void CreateActorWithTarget::loadParams_() {

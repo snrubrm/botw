@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiCannonBallRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,16 @@ bool CannonBallRoot::init_(sead::Heap* heap) {
 }
 
 void CannonBallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (actor->getCreateArgBaseProcLink().hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&actor->getCreateArgBaseProcLink(), &accessor);
+        if (accessor.hasProc()) {
+            if (auto* physics = actor->getPhysics())
+                physics->sub_7100FBDFA4(accessor.x(0));
+        }
+    }
+    changeChild("通常");
 }
 
 void CannonBallRoot::calc_() {}

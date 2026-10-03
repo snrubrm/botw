@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -63,6 +65,15 @@ void GuardianMiniBattle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMiniBattle::leave_() {
+    if (auto* pe = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor)) {
+        if (!pe->m151(3)) {
+            auto* actor = mActor;
+            if (actor && actor->getModel() && actor->getASList()) {
+                actor->getASList()->sub_710115C11C();
+                actor->getASList()->sub_710115BED4(true);
+            }
+        }
+    }
     EnemyBattle::leave_();
 }
 

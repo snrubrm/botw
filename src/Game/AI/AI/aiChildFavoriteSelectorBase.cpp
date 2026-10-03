@@ -12,7 +12,11 @@ bool ChildFavoriteSelectorBase::init_(sead::Heap* heap) {
 }
 
 void ChildFavoriteSelectorBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (m34(child))
+        changeChild("成立", params);
+    else
+        changeChild("非成立", params);
 }
 
 bool ChildFavoriteSelectorBase::isFinished() const {

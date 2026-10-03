@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGiantSleepNormal.h"
+#include "Game/Actor/actGiantEnemy.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -19,6 +21,14 @@ bool GiantSleepNormal::init_(sead::Heap* heap) {
 
 void GiantSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     SpecialEnemySleep::enter_(params);
+    _98 = 0;
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
+        giant->_1568 = 1;
+        giant->_a68 &= ~1;
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.set(0xc00);
+    mActor->getMtx().getTranslation(_8c);
 }
 
 void GiantSleepNormal::leave_() {

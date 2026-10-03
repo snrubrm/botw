@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFromPopPoolDamageSelect.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -19,7 +21,11 @@ bool FromPopPoolDamageSelect::init_(sead::Heap* heap) {
 }
 
 void FromPopPoolDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+    if (mgr && mgr->getDamageType() == 9)
+        changeChild("ストップタイマー", params);
+    else
+        changeChild("非ストップタイマー", params);
 }
 
 void FromPopPoolDamageSelect::calc_() {}

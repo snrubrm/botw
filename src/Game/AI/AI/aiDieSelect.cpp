@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiDieSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -14,7 +16,20 @@ bool DieSelect::init_(sead::Heap* heap) {
 }
 
 void DieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    // _1000000 | _2000000
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2(0x3000000));
+    s32 a3 = -1;
+    s32 a2 = -1;
+    bool a4 = false;
+    bool a5 = false;
+    if (auto* mgr = sub_710072BA90(actor)) {
+        a3 = mgr->getField54();
+        a2 = mgr->getField50();
+        a4 = mgr->checkDamageFlags(1);
+        a5 = mgr->checkDamageFlags(10);
+    }
+    m34(a2, a3, a4, a5);
 }
 
 bool DieSelect::isChangeable() const {

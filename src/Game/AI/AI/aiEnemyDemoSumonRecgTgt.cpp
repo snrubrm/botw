@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiEnemyDemoSumonRecgTgt.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Event/evtMetadata.h"
 
 namespace uking::ai {
@@ -15,6 +17,11 @@ bool EnemyDemoSumonRecgTgt::init_(sead::Heap* heap) {
 
 void EnemyDemoSumonRecgTgt::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRecognizeTargetBase::enter_(params);
+    if (mActor->getRootAi()->getI() == 6) {
+        if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor))
+            enemy->_e84.setBit(9);
+    }
+    _158.x(mActor);
 }
 
 void EnemyDemoSumonRecgTgt::calc_() {
