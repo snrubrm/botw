@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiNPCRoot.h"
+#include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/System/Timer.h"
@@ -29,10 +30,7 @@ protected:
     const bool* mIsRiderChangableAction_s{};
     bool _240 = false;
     act::NPC* _248 = nullptr;
-    sead::CriticalSection _250;
-    ksys::act::BaseProcLink _290;
-    f32 _2a0 = 0.0f;
-    u32 _2a4;
+    LockedProcLinkMaybe _250;
     ksys::Timer _2a8{-1.0f, -1.0f, 0.0f};
 };
 KSYS_CHECK_SIZE_NX150(NPCTravelerRoot, 0x2b8);

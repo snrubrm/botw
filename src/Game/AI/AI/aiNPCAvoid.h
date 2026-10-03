@@ -2,6 +2,7 @@
 
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
@@ -45,9 +46,7 @@ protected:
     ksys::Timer _94{};
     ksys::Timer _a0{};
     ksys::Timer _ac{};
-    sead::CriticalSection _b8;
-    ksys::act::BaseProcLink _f8;
-    u32 _108 = 0;
+    LockedProcLinkMaybe _b8;
     ksys::act::BaseProcLink _110[10];
 };
 KSYS_CHECK_SIZE_NX150(NPCAvoid, 0x1b0);

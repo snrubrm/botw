@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Actor/actNPC.h"
+#include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -47,9 +48,7 @@ protected:
     sead::SafeArray<sead::Vector3f, 6> _90;
     ksys::act::BaseProcLink _d8;
     sead::SafeArray<ksys::act::BaseProcLink, 10> _e8;
-    sead::CriticalSection _188;
-    ksys::act::BaseProcLink _1c8;
-    u32 _1d8 = 0;
+    LockedProcLinkMaybe _188;
 };
 KSYS_CHECK_SIZE_NX150(NPCRunaway, 0x1e0);
 

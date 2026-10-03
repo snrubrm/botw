@@ -12,8 +12,6 @@ namespace uking::ai {
 // BaseProcLink call); same address-hoisting as `this + 0x188` in the destructor
 NPCRunaway::NPCRunaway(const InitArg& arg) : ksys::act::ai::Ai(arg), _90(), _e8() {}
 
-// NON_MATCHING: the original computes `this + 0x188` (the CriticalSection / end of `_e8`) before the first
-// BaseProcLink reset and keeps it in x21
 NPCRunaway::~NPCRunaway() = default;
 
 bool NPCRunaway::init_(sead::Heap* heap) {

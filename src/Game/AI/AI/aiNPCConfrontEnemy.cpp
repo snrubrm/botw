@@ -9,8 +9,6 @@ namespace uking::ai {
 // memset of the parameters; ours hoists them above it (same instructions otherwise)
 NPCConfrontEnemy::NPCConfrontEnemy(const InitArg& arg) : ksys::act::ai::Ai(arg), _98(), _e8() {}
 
-// NON_MATCHING: the original computes `this + 0x188` (CriticalSection) before the first BaseProcLink reset and keeps
-// it in x21 (as in NPCRunaway's destructor)
 NPCConfrontEnemy::~NPCConfrontEnemy() = default;
 
 bool NPCConfrontEnemy::init_(sead::Heap* heap) {
