@@ -35,6 +35,8 @@ protected:
     sead::SafeString mUniqueName_d{};
     // dynamic_param at offset 0x70
     sead::SafeString mNodeName_d{};
+    /* 0x80 */ s8 _80 = -1;
 };
+KSYS_CHECK_SIZE_NX150(ItemConductorDemoBind, 0x88);
 
 }  // namespace uking::action
