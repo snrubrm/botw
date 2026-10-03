@@ -20,6 +20,9 @@ public:
 
 protected:
     void calc_() override;
+    const sead::Vector3f& m32() override { return *mAppearPosition_d; }
+    sead::Vector3f& m33() override { return *mAppearPosition_d; }
+    int m35() override { return *mTimeRand_s; }
 
     // static_param at offset 0x78
     const int* mArriveAtTargetTimeOut_s{};

@@ -20,8 +20,14 @@ public:
 
 protected:
     void calc_() override;
+    sead::Vector3f& m33() override;
+    void m36() override;
+    void m37() override;
+    bool m39(const sead::Vector3f& in, sead::Vector3f* out) override;
     virtual void m40();
-    virtual int m41();
+    virtual bool m41();
+    // 0x71001cdf68 (out of line; also called by NearHomePosTeleport::m41): AutoPlacementMgr check.
+    bool sub_71001CDF68(const sead::Vector3f& pos);
 
     // static_param at offset 0x78
     const float* mDistXZ_s{};

@@ -223,6 +223,9 @@ map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_con
 
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
+// 0x7100ee5b18 (declaration only): sets the actor's translation (copy of its matrix with a new
+// translation passed to InstanceSet::setMtxAndScale).
+void sub_7100EE5B18(Actor* actor, const sead::Vector3f& pos);
 // 0x7100ee5980: sets the actor's linear velocity (per frame; scaled by 30 for the physics system)
 // through its character controller or main rigid body.
 void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel);

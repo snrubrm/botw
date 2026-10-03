@@ -96,6 +96,10 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 a7,
                     f32 a8, f32 a9);
+/// 0x710072f788: sub_710072F28C from `from` to `to` with default tolerances; writes the position to
+/// `out_pos`. Placeholder name.
+bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos);
 /// 0x710072f944: sub_710072F28C from the actor's position to `target` with the given tolerances.
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,

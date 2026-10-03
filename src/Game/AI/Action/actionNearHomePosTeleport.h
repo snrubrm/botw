@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m40() override;
+    bool m41() override;
 };
 
 }  // namespace uking::action

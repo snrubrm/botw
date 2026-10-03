@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLandTeleportConsiderCameraDir.h"
+#include "KingSystem/System/CameraMgr.h"
 
 namespace uking::action {
 
@@ -26,6 +27,16 @@ void LandTeleportConsiderCameraDir::loadParams_() {
 
 void LandTeleportConsiderCameraDir::calc_() {
     LandTeleport::calc_();
+}
+
+void LandTeleportConsiderCameraDir::m36() {
+    LandTeleport::m36();
+    const sead::Vector3f base = LandTeleport::m33();
+    sead::Vector3f dir;
+    ksys::sub_7100D8C7FC(&dir);
+    dir.y = 0;
+    dir.normalize();
+    _c8 = base + dir * *mCameraDirCoeff_s;
 }
 
 }  // namespace uking::action

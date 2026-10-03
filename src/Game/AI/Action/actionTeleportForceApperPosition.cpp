@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTeleportForceApperPosition.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -41,7 +42,23 @@ void TeleportForceApperPosition::loadParams_() {
 }
 
 void TeleportForceApperPosition::calc_() {
-    TeleportBase::calc_();
+    if (!_b4)
+        TeleportBase::calc_();
+    if (*mIsArriveAtTarget_s && mFlags.isOn(Flag::Finished)) {
+        const sead::Vector3f& target = m33();
+        const sead::Vector3f pos = mActor->getMtx().getTranslation();
+        const f32 dx = target.x - pos.x;
+        const f32 dz = target.z - pos.z;
+        const f32 distance = sead::Mathf::sqrt(dx * dx + dz * dz);
+        _a8.update();
+        if (_a8.value <= sead::Mathf::epsilon() || !(distance >= *mArriveAtTargetRange_s)) {
+            m37();
+            _b4 = false;
+        } else {
+            sub_7100294F68(m33(), m34());
+            _b4 = true;
+        }
+    }
 }
 
 bool TeleportForceApperPosition::isFinished() const {
