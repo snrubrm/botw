@@ -68,6 +68,7 @@ target_sources(uking PRIVATE
   actSwarm.h
   actUnk_71002dccbc.h
   actUnk_71023cee88.cpp
+  actUnk_710244eaa0.cpp
   actUnk_710000b710.cpp
   actUnk_7100701be4.cpp
   actUnk_7100701be4.h

@@ -2,6 +2,7 @@
 
 #include <math/seadVector.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -13,6 +14,11 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/Utils/MathUtil.h"
+
+namespace ksys::phys {
+class Constraint;
+class RigidBody;
+}  // namespace ksys::phys
 
 namespace ksys::act {
 
@@ -27,12 +33,24 @@ class Player : public PlayerBase {
 public:
     // CSV Player::RideInfo (ctor 0x852aa0, vtable 0x710246ad80): a HorseRideInfo subclass with an
     // intermediate base (vtable 0x710244eaa0) in between; embedded at +0x26b0. TODO: incomplete.
-    class RideInfo : public uking::act::HorseRideInfo {
+    class RideInfo : public uking::act::Unk_710244eaa0 {
     public:
         explicit RideInfo(Actor* actor);
         ~RideInfo() override;
 
-        u8 _38[0x2f8 - 0x38];
+        bool m7() override { return Unk_710244eaa0::m7(); }
+        void m8() override;
+
+        // 0x852c28 (CSV x_0): destroys the constraint.
+        void x_0();
+
+        /* 0x1f0 */ BaseProcLink _1f0;
+        /* 0x200 */ ModelBindInfo _200;
+        /* 0x2a0 */ gsys::BoneAccessKeyEx _2a0;
+        /* 0x2d8 */ phys::Constraint* _2d8 = nullptr;
+        /* 0x2e0 */ phys::RigidBody* _2e0 = nullptr;
+        /* 0x2e8 */ u64 _2e8 = 0;
+        /* 0x2f0 */ bool _2f0 = false;
     };
     KSYS_CHECK_SIZE_NX150(RideInfo, 0x2f8);
 
