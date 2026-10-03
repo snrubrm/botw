@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStartupTelescope.h"
+#include "Game/gameRuneMgr.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool StartupTelescope::init_(sead::Heap* heap) {
 }
 
 void StartupTelescope::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* rune_mgr = RuneMgr::instance())
+        rune_mgr->sub_71006758B0();
 }
 
 void StartupTelescope::loadParams_() {}

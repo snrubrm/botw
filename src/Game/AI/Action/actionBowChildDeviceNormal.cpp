@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBowChildDeviceNormal.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,7 +14,24 @@ bool BowChildDeviceNormal::init_(sead::Heap* heap) {
 }
 
 void BowChildDeviceNormal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    // NON_MATCHING: the original stores _d0/_d4 as one 64-bit immediate and schedules the _cc store later
+    _c8 = 0;
+    sub_710073FA90(&_a0, mActor);
+    _88 = 0.0f;
+    _8c = 0.0f;
+    _90 = -1.0f;
+    _cc = false;
+    const f32 wait_time = *mWaitTime_s;
+    _98 = wait_time;
+    _9c = -1.0f;
+    _94 = wait_time;
+    _d0 = 0;
+    _d4 = 1;
+    playAS("Close", false, 0, 0, -1.0f);
+    if (auto* body = mActor->getMainBody())
+        body->setContactNone();
+    if (auto* body = mActor->getTgtBody())
+        body->setContactNone();
 }
 
 void BowChildDeviceNormal::leave_() {

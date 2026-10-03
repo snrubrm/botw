@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionCreateActorInAreaBasic.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -15,7 +18,12 @@ void CreateActorInAreaBasic::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CreateActorInAreaBasic::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    _78.deleteProc();
+    _88.deleteProc();
+    _98.deleteProc();
+    if (auto* lod = actor->getLodState())
+        lod->mFlags10.reset(0x40);
 }
 
 void CreateActorInAreaBasic::loadParams_() {

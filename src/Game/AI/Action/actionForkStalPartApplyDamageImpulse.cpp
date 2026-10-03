@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkStalPartApplyDamageImpulse.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +18,9 @@ bool ForkStalPartApplyDamageImpulse::init_(sead::Heap* heap) {
 
 void ForkStalPartApplyDamageImpulse::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _a8 = false;
+    _ac.set(0.0f, 0.0f, 0.0f);
+    sub_710073FA90(&_c4, mActor);
 }
 
 void ForkStalPartApplyDamageImpulse::leave_() {

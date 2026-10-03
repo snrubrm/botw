@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
+    float m33() override;
 
     // static_param at offset 0xf8
     const int* mHighPosWarpRate_s{};

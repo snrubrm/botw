@@ -34,7 +34,7 @@ protected:
     // static_param at offset 0x58
     const sead::Vector3f* mVelocityDir_s{};
     u64 _60 = 0;
-    s32 _68 = 0;
+    f32 _68 = 0.0f;
     u8 _6c[0x4];
     gsys::BoneAccessKeyEx _70;
 };

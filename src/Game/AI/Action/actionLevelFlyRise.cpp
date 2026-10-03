@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLevelFlyRise.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,7 @@ void LevelFlyRise::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LevelFlyRise::leave_() {
-    ksys::act::ai::Action::leave_();
+    _9c.resetMotionType(mActor->getCharacterController());
 }
 
 void LevelFlyRise::loadParams_() {

@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::action {
 
 class TornadoMove : public ksys::act::ai::Action {
@@ -41,9 +45,9 @@ protected:
     f32 _70 = 0.0f;
     u8 _74[0x30];
     f32 _a4 = 0.0f;
-    s32 _a8 = 0;
-    s32 _ac[2]{};
-    s32 _b4 = 0;
+    f32 _a8 = 0.0f;
+    f32 _ac = 0.0f;
+    ksys::phys::RigidBody* _b0 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(TornadoMove, 0xb8);
 

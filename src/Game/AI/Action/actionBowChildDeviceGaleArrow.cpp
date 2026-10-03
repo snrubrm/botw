@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBowChildDeviceGaleArrow.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -11,7 +12,14 @@ bool BowChildDeviceGaleArrow::init_(sead::Heap* heap) {
 }
 
 void BowChildDeviceGaleArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    // NON_MATCHING: store pairing (the original pairs _6c/_70 and stores _74 on its own; ours pairs _70/_74)
+    const f32 angle = static_cast<f32>(*mID_d) * sead::Mathf::piHalf();
+    _74 = 0.0f;
+    _6c = 0.0f;
+    _70 = 0.1f;
+    _60 = 0;
+    _64 = false;
+    _68 = angle;
 }
 
 void BowChildDeviceGaleArrow::leave_() {

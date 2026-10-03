@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTornadoMove.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void TornadoMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TornadoMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_b0 && _b0->isAddedToWorld()) {
+        _b0->removeFromWorld();
+        _b0 = nullptr;
+    }
 }
 
 void TornadoMove::loadParams_() {

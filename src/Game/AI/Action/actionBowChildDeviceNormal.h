@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -45,12 +46,12 @@ protected:
     // dynamic_param at offset 0x80
     ksys::act::BaseProcLink* mParentActor_d{};
     f32 _88 = 0.0f;
-    s32 _8c = 0;
-    s32 _90 = 0;
+    f32 _8c = 0.0f;
+    f32 _90 = 0.0f;
     f32 _94 = 0.0f;
-    s32 _98 = 0;
-    s32 _9c = 0;
-    u8 _a0[0x24];
+    f32 _98 = 0.0f;
+    f32 _9c = 0.0f;
+    sead::Matrix33f _a0;
     f32 _c4 = 0.0f;
     s32 _c8 = 0;
     bool _cc = false;
