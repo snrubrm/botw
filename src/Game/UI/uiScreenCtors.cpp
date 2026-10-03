@@ -6,6 +6,12 @@ namespace uking::ui {
 
 ScreenReadyGo::ScreenReadyGo() : ScreenEx() {}
 
+// 0x7100a40da0
+ScreenRupee::ScreenRupee() : ScreenEx() {}
+
+// 0x7100a265ec
+ScreenMessageTipsRunTime::ScreenMessageTipsRunTime() : ScreenEx() {}
+
 // 0x7100a0eb2c
 ScreenKologNum::ScreenKologNum() : ScreenEx() {}
 
@@ -67,5 +73,28 @@ ScreenOPtext::ScreenOPtext() : ScreenEx() {}
 ScreenAppMenuBtn::ScreenAppMenuBtn() : ScreenEx() {}
 
 ScreenHomeMenuCapture::ScreenHomeMenuCapture() : ScreenEx() {}
+
+
+// 0x7100a0e178
+ScreenKeyBoradTextArea::ScreenKeyBoradTextArea() : ScreenEx() {}
+
+// 0x7100a535a8
+ScreenSkip::ScreenSkip() : ScreenEx() {}
+
+
+// 0x7100a0fe64
+ScreenMainHardMode::ScreenMainHardMode() : ScreenEx() {}
+
+// 0x71009fbc8c
+ScreenAppSystemWindow::ScreenAppSystemWindow() : ScreenEx() {}
+
+// 0x7100a25c4c
+ScreenMessageTipsPauseMenu::ScreenMessageTipsPauseMenu() : ScreenEx() {}
+
+// 0x7100a0b044
+ScreenGamePadBG::ScreenGamePadBG() : ScreenEx() {}
+
+// 0x7100a0a420
+ScreenGameOver::ScreenGameOver() : ScreenEx() {}
 
 }  // namespace uking::ui

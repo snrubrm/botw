@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadCriticalSection.h>
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/System/UIGlue.h"
@@ -410,8 +411,23 @@ public:
 
 class ScreenMessageTipsRunTime : public ScreenEx {
 public:
+    ScreenMessageTipsRunTime();
     ~ScreenMessageTipsRunTime() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    sead::CriticalSection _3618;
+    s32 _3658 = -1;
+    u8 _365c{};
+    s32 _3660 = -1;
+    u8 _3664{};
+    u64 _3668{};
+    u64 _3670{};
+    f32 _3678 = 1.0f;
+    u8 _367c{};
+    u8 _367d[3];
+    u8 _3680{};
+    s32 _3684 = -1;
 
     void sub_7100A268AC(s32, s32);
 };
@@ -467,6 +483,7 @@ public:
 
 class ScreenGameOver : public ScreenEx {
 public:
+    ScreenGameOver();
     s32 isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
@@ -481,9 +498,11 @@ public:
     virtual void m160();
     virtual s32 m161();
 
-    /* 0x3610 */ u8 _3610;
+    /* 0x3610 */ u8 _3610{};
     u8 _pad_3611[3];
-    /* 0x3614 */ s32 _3614;
+    /* 0x3614 */ s32 _3614 = 7;
+    u64 _3618{};
+    u64 _3620{};
 
     bool sub_7100A0A8D8();
     bool sub_7100A0A914();
@@ -491,6 +510,7 @@ public:
 
 class ScreenRupee : public ScreenEx {
 public:
+    ScreenRupee();
     s32 m72() override;
     void m70() override;
     void m71() override;
@@ -514,6 +534,20 @@ public:
     virtual void m167();
     virtual void m168();
     virtual s32 m169();
+
+    /* 0x3610 */ u8 _3610{};
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    s32 _3624{};
+    s32 _3628{};
+    f32 _362c = 1.0f;
+    u8 _3630{};
+    s32 _3634 = 4;
+    Unk_7102474b78 _3638;
+    Unk_7102474b58 _3678{this};
+    sead::CriticalSection _36d0;
 
     void sub_7100A410D8(s32);
     void sub_7100A41558();
@@ -1039,12 +1073,18 @@ public:
 // destructor and the RTTI.
 class ScreenGamePadBG : public ScreenEx {
 public:
+    ScreenGamePadBG();
     void m82() override;
     void m94() override;
     s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenGamePadBG() override;
     SEAD_RTTI_OVERRIDE(ScreenGamePadBG, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    u64 _3618{};
+    u8 _3620[14]{};
+    u8 _362e[2];
 };
 
 class ScreenWolfLinkHeartGauge : public ScreenEx {
@@ -1187,9 +1227,21 @@ public:
 
 class ScreenMessageTipsPauseMenu : public ScreenEx {
 public:
+    ScreenMessageTipsPauseMenu();
     const char* m15() const override;
     ~ScreenMessageTipsPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsPauseMenu, ScreenEx)
+
+    /* 0x3610 */ s32 _3610 = 2;
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    f32 _3624 = 1.0f;
+    u8 _3628{};
+    u8 _3629[3];
+    u8 _362c{};
+    u8 _362d[3];
 };
 
 class ScreenAmiiboWindow : public ScreenEx {
@@ -1237,6 +1289,7 @@ public:
     s32 isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
+
 };
 
 class ScreenPauseMenuEiketsu : public ScreenEx {
@@ -1251,6 +1304,7 @@ public:
 
 class ScreenAppSystemWindow : public ScreenEx {
 public:
+    ScreenAppSystemWindow();
     const char* m15() const override;
     bool isPlayPartsInOut_() const override;
     s32 m81() override;
@@ -1259,6 +1313,16 @@ public:
     s32 isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
+
+    /* 0x3610 */ s32 _3610 = 10;
+    s32 _3614;
+    u64 _3618{};
+    u64 _3620{};
+    u64 _3628{};
+    u64 _3630{};
+    u64 _3638{};
+    u64 _3640{};
+    u64 _3648{};
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
     virtual void m155();
@@ -1311,19 +1375,33 @@ public:
 
 class ScreenMainHardMode : public ScreenEx {
 public:
+    ScreenMainHardMode();
     s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenMainHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    u64 _3618{};
+    f32 _3620 = 1.0f;
+    u8 _3624{};
+    u8 _3625[3];
+    u8 _3628{};
+    u8 _3629[7];
 };
 
 class ScreenSkip : public ScreenEx {
 public:
+    ScreenSkip();
     const char* m15() const override;
     bool isPlayPartsInOut_() const override;
     s32 isEnableControl() const override;
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    s32 _3618 = 30;
+    s32 _361c;
 };
 
 class ScreenChangeController : public ScreenEx {
@@ -1784,6 +1862,7 @@ public:
 
 class ScreenKeyBoradTextArea : public ScreenEx {
 public:
+    ScreenKeyBoradTextArea();
     const char* m15() const override;
     s32 m141() override;
     s32 m142() override;
@@ -1793,6 +1872,9 @@ public:
     void m97() override;
     ~ScreenKeyBoradTextArea() override;
     SEAD_RTTI_OVERRIDE(ScreenKeyBoradTextArea, ScreenEx)
+
+    /* 0x3610 */ s32 _3610 = 2;
+    s32 _3614;
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
 
