@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiRemainsWaterBattleRoot.h"
 #include "Game/AI/aiUnk_7102419cb0.h"
+#include "Game/gameIceBlockMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -54,6 +56,26 @@ void RemainsWaterBattleRoot::sub_7100545B8C() {
             changeChild("へたれ中");
         break;
     }
+}
+
+bool RemainsWaterBattleRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType() != 0x8000069)
+        return false;
+
+    _b9 = true;
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info) {
+            ++info->_38;
+            info->_34 = true;
+        }
+    }
+    _98.mTimer = ksys::Timer(*mAfterDamageTimer_s, *mAfterDamageTimer_s);
+    _b5 = false;
+    if (auto* mgr = IceBlockMgr::instance())
+        mgr->_14e = true;
+    return true;
 }
 
 void RemainsWaterBattleRoot::loadParams_() {
