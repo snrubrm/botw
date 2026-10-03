@@ -47,7 +47,6 @@ void SwitchStepSliderConstraint::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-// NON_MATCHING: the two discarded SLink handles get separate stack slots in the original
 void SwitchStepSliderConstraint::m32(f32 value) {
     auto* actor = mActor;
     if (value <= 0.001f) {

@@ -35,7 +35,7 @@ void ChuchuPreAttackBase::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-void ChuchuPreAttackBase::m32() {}
+void ChuchuPreAttackBase::m32(u32) {}
 
 bool ChuchuPreAttackBase::isFinished() const {
     if (ksys::act::ai::Action::isFinished())

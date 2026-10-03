@@ -44,8 +44,6 @@ void MagneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71007A458C(actor, *mIgnoreObstacle_m);
 }
 
-// NON_MATCHING: stack layout only (the original keeps the discarded HandleSLink temporary in its own
-// slot, above the SafeString temporary of isCurrentChild; ours lets them share one)
 void MagneStickRoot::calc_() {
     auto* actor = mActor;
     if (!actor)

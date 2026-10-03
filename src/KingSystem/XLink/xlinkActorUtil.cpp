@@ -19,8 +19,6 @@ int sub_7101240FE8(ksys::act::Actor* actor) {
 
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void sub_71012410C8(ksys::xlink::XLink* xlink, const char* name, int kind,
                     Unk_71012419b4* handle) {
     if ((kind == 0 || kind == 2) && xlink->_48) {
@@ -38,8 +36,6 @@ void sub_71012410C8(ksys::xlink::XLink* xlink, const char* name, int kind,
 
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
                         Unk_71012419b4* handle) {
     if (!actor || !actor->getXLink())
@@ -47,8 +43,6 @@ void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
     sub_71012410C8(actor->getXLink(), name, kind, handle);
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void flyingObjectEmitXlink(ksys::act::Actor* actor, const char* name, int kind,
                            Unk_71012419b4* handle) {
     auto* xlink = actor->getXLink();

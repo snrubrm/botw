@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionChuchuPreAttack.h"
+#include <prim/seadFormatPrint.h>
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -39,6 +41,12 @@ void ChuchuPreAttack::loadParams_() {
     getStaticParam(&mSubAS_s, "SubAS");
     getStaticParam(&mLeaveSubAS_s, "LeaveSubAS");
     getStaticParam(&mDamageSubAS_s, "DamageSubAS");
+}
+
+void ChuchuPreAttack::m32(u32 index) {
+    sead::FixedSafeString<32> key;
+    (sead::StringCutOffPrintFormatter(&key) << "PreJumpAttack%d", index) << sead::flush;
+    ksys::eft::searchAndEmitSLink(mActor, key.cstr(), false);
 }
 
 void ChuchuPreAttack::calc_() {

@@ -23,7 +23,6 @@ void PlayerSuperJumpCharge::loadParams_() {
     getStaticParam(&mChargeTime_s, "ChargeTime");
 }
 
-// NON_MATCHING: the two discarded ELink / SLink handles get separate stack slots in the original
 void PlayerSuperJumpCharge::calc_() {
     auto* player = static_cast<ksys::act::Player*>(mActor);
     player->_20bc.value = 0;

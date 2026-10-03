@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    void m32() override;
+    void m32(u32 index) override;
 
     // static_param at offset 0xc0
     const int* mSubASSlot_s{};
