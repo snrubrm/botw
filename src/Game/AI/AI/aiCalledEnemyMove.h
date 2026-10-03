@@ -16,7 +16,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_7100340C04();
+    void changeToApproach();
+    // 0x7100341058 (placeholder name): the position the called enemy walks to (the target's position moved
+    // along its forward vector by WaitDist); does nothing for a null `out`.
+    void sub_7100341058(sead::Vector3f* out);
     // 0x7100340f4c (placeholder name)
     void changeToWait();
 

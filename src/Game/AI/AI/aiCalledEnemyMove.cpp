@@ -15,7 +15,7 @@ bool CalledEnemyMove::init_(sead::Heap* heap) {
 
 void CalledEnemyMove::enter_(ksys::act::ai::InlineParamPack* params) {
     if (mTargetActor_d && mTargetActor_d->hasProc())
-        sub_7100340C04();
+        changeToApproach();
     else
         setFailed();
 }
@@ -31,6 +31,26 @@ void CalledEnemyMove::loadParams_() {
     getStaticParam(&mLostDist_s, "LostDist");
     getStaticParam(&mWaitDist_s, "WaitDist");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void CalledEnemyMove::changeToApproach() {
+    sead::Vector3f pos;
+    sub_7100341058(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("近づき", &pack);
+}
+
+void CalledEnemyMove::sub_7100341058(sead::Vector3f* out) {
+    if (!out)
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(*out);
+    sead::Vector3f dir;
+    accessor.getActorMtx().getBase(dir, 2);
+    dir.normalize();
+    *out += dir * *mWaitDist_s;
 }
 
 void CalledEnemyMove::changeToWait() {

@@ -16,7 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_710046BEF4();
+    void changeToThrowWeapon();
+    // 0x710046cc20 (placeholder name; declared only)
+    bool sub_710046CC20();
 
 protected:
     // static_param at offset 0x38

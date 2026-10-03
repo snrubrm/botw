@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLandHumEnemyThrowWeapon.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,14 @@ LandHumEnemyThrowWeapon::LandHumEnemyThrowWeapon(const InitArg& arg) : ksys::act
 LandHumEnemyThrowWeapon::~LandHumEnemyThrowWeapon() = default;
 
 void LandHumEnemyThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_710046BEF4();
+    changeToThrowWeapon();
+}
+
+void LandHumEnemyThrowWeapon::changeToThrowWeapon() {
+    _64 = sub_710046CC20();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("武器投げ", &pack);
 }
 
 bool LandHumEnemyThrowWeapon::isChangeable() const {
