@@ -134,6 +134,23 @@ void DragonRootBase::leave_() {
 
 void DragonRootBase::loadParams_() {}
 
+bool DragonRootBase::sub_7100357314(f32 progress) {
+    const ksys::map::Rail* rail = _38._8.rail;
+    auto* point =
+        static_cast<const ksys::map::RailConnectablePoint*>(rail->getPoint(rail->getNumPoints() - 1));
+    if (!point)
+        return false;
+    auto** junction_point = point->getJunctionPoint();
+    if (!junction_point || !*junction_point)
+        return false;
+    auto* junction_rail = (*junction_point)->getJunctionRail();
+    const s32 num_points = junction_rail->getNumPoints();
+    if (!junction_rail || num_points < 0)
+        return false;
+    _38.sub_7100EEBAE0(junction_rail, progress);
+    return true;
+}
+
 bool DragonRootBase::sub_7100357414(f32 progress) {
     if (!_38._8.rail)
         return false;

@@ -45,6 +45,8 @@ target_sources(uking PRIVATE
   gameScene.h
   gameStageInfo.cpp
   gameStageInfo.h
+  gameWildHorseMgr.cpp
+  gameWildHorseMgr.h
   E3Mgr.cpp
   E3Mgr.h
 )

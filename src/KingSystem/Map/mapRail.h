@@ -137,12 +137,12 @@ public:
     bool parse(MubinIter* iter, sead::Heap* heap) override;
 
     Rail* getJunctionRail() const;
-    RailPoint* getJunctionPoint() const;
+    RailConnectablePoint** getJunctionPoint() const;
     void parseJunctions(Placement18 p18, s32 idx, u32 hash, sead::Heap* heap);
 
 protected:
     Rail* mJunctionRail;
-    RailPoint* mJunctionPoint;
+    RailConnectablePoint** mJunctionPoint;
 };
 
 class RailConnectable : public Rail {

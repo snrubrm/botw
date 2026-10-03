@@ -276,7 +276,7 @@ Rail* RailConnectablePoint::getJunctionRail() const {
     return mJunctionRail;
 }
 
-RailPoint* RailConnectablePoint::getJunctionPoint() const {
+RailConnectablePoint** RailConnectablePoint::getJunctionPoint() const {
     return mJunctionPoint;
 }
 
