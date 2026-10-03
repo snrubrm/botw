@@ -4,7 +4,9 @@ namespace uking::action {
 
 ForkCapsuleWindFollow::ForkCapsuleWindFollow(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ForkCapsuleWindFollow::~ForkCapsuleWindFollow() = default;
+ForkCapsuleWindFollow::~ForkCapsuleWindFollow() {
+    _40.destroy(false);
+}
 
 bool ForkCapsuleWindFollow::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

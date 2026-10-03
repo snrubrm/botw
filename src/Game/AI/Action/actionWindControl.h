@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71010C3588.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -8,7 +10,7 @@ class WindControl : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(WindControl, ksys::act::ai::Action)
 public:
     explicit WindControl(const InitArg& arg);
-    ~WindControl() override;
+    ~WindControl() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -19,8 +21,7 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0xa8];
+    /* 0x20 */ ksys::act::BoneHandle _20;
     // static_param at offset 0xc8
     const float* mRadius_s{};
     // static_param at offset 0xd0
@@ -37,6 +38,10 @@ protected:
     const bool* mIsModelControlOnly_s{};
     // static_param at offset 0x100
     sead::SafeString mTargetNodeName_s{};
+    /* 0x110 */ u32 _110 = 0;
+    /* 0x118 */ Unk_710250c3c8 _118;
+    /* 0x1a0 */ f32 _1a0 = 0.1f;
+    /* 0x1a4 */ f32 _1a4 = 1.0f;
 };
 
 }  // namespace uking::action

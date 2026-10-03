@@ -19,10 +19,10 @@ void ExpandSensor::leave_() {
 }
 
 void ExpandSensor::loadParams_() {
-    getStaticParam(&mAtkAttrType_s, "AtkAttrType");
-    getStaticParam(&mAtkType_s, "AtkType");
-    getStaticParam(&mOffLength_s, "OffLength");
-    getStaticParam(&mOnLength_s, "OnLength");
+    getStaticParam(&mParams.mAtkAttrType_s, "AtkAttrType");
+    getStaticParam(&mParams.mAtkType_s, "AtkType");
+    getStaticParam(&mParams.mOffLength_s, "OffLength");
+    getStaticParam(&mParams.mOnLength_s, "OnLength");
 }
 
 void ExpandSensor::calc_() {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/AI/aiUnk_71010C3588.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -28,6 +30,13 @@ protected:
     const float* mOnLength_s{};
     // static_param at offset 0x40
     const float* mAtExpandStep_s{};
+    /* 0x48 */ Unk_710250c260 _48;
+    /* 0xb8 */ sead::Vector3f _b8 = sead::Vector3f::zero;
+    /* 0xc4 */ sead::Vector3f _c4 = sead::Vector3f::zero;
+    /* 0xd0 */ sead::Vector3f _d0 = sead::Vector3f::zero;
+    /* 0xdc */ sead::Vector3f _dc{1, 1, 1};
+    /* 0xe8 */ bool _e8 = false;
+    bool _e9 = false;
 };
 
 }  // namespace uking::action
