@@ -146,6 +146,11 @@ bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     f32 a3, f32 a4);
+/// 0x710072fab0 (lane1 s25; declared only; 22 callers, all pass -1 / -1 / -1): forwards the normalized
+/// direction from the actor to `target` and its length to 0x710072edfc. `a5` is forwarded, `a6` is set
+/// by every caller but not read by the wrapper. Placeholder name; parameter types guessed.
+bool sub_710072FAB0(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    s32 a4, f32 a5, f32 a6);
 /// 0x710072f8e4: sub_710072F28C from the actor's position to `target`, the tolerance `a3` in the second
 /// float slot. Placeholder name.
 bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,

@@ -117,9 +117,7 @@ public:
             /* 0x94 */ u32 _94 = 0;
             /* 0x98 */ u32 _98 = 0;
             /* 0x9c */ f32 _9c = 1.0;
-            /* 0xa0 */ u32 _a0 = 0;
-            /* 0xa4 */ u32 _a4 = 0;
-            /* 0xa8 */ u32 _a8 = 0;
+            /* 0xa0 */ sead::Vector3f _a0{0, 0, 0};  // read as floats by AmbushableWeaponShoot::sub_7100300908
             /* 0xac */ u32 _ac = 0;
             /* 0xb0 */ void* _b0 = nullptr;
             /* 0xb8 */ s32 _b8 = 1;

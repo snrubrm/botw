@@ -14,8 +14,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100300908 (placeholder name)
+    void sub_7100300908();
 
 protected:
     // dynamic_param at offset 0x38
