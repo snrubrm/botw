@@ -17,6 +17,10 @@ public:
 
 protected:
     void calc_() override;
+    u8 _1c[0x4];
+    u64 _20 = 0;
+    u64 _28 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ElectricCableEnergized, 0x30);
 
 }  // namespace uking::action

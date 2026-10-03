@@ -20,6 +20,8 @@ protected:
     void calc_() override;
     bool m33() override;
     bool m32() override;
+    u8 _28[0xb0];
 };
+KSYS_CHECK_SIZE_NX150(ForkDisableContactForAttack, 0xd8);
 
 }  // namespace uking::action

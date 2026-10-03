@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    u8 _28[0x58];
 };
+KSYS_CHECK_SIZE_NX150(AscendingCurrentShieldable, 0x80);
 
 }  // namespace uking::action

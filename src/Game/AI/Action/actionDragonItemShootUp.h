@@ -26,6 +26,11 @@ protected:
     const float* mContactSpeedDownY_s{};
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _40 = sead::Vector3f::zero;
+    s32 _4c = 0;
+    u16 _50 = 0;
+    u8 _52[0xe];
 };
+KSYS_CHECK_SIZE_NX150(DragonItemShootUp, 0x60);
 
 }  // namespace uking::action

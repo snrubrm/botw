@@ -24,6 +24,13 @@ protected:
     const int* mTargetBone_s{};
     // dynamic_param at offset 0x30
     bool* mIsTargetLost_d{};
+    u64 _38 = 0;
+    s32 _40 = 0;
+    u8 _44[0x4];
+    u64 _48 = 0;
+    s32 _50 = 0;
+    u8 _54[0x4];
 };
+KSYS_CHECK_SIZE_NX150(ForkASTrgRemainsHowl, 0x58);
 
 }  // namespace uking::action

@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    bool _40 = false;
+    u8 _41[0x7];
 };
+KSYS_CHECK_SIZE_NX150(EventVariableFadeIn, 0x48);
 
 }  // namespace uking::action
