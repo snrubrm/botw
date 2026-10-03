@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiGuardianMiniRangeKeepMove.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007091AC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 
 namespace uking::ai {
 
@@ -31,6 +36,22 @@ void GuardianMiniRangeKeepMove::calc_() {
         return;
     }
     EnemyRangeKeepMove::calc_();
+}
+
+// NON_MATCHING: the original loads the weapon slot (`a`) before the getWeapons() virtual call (and so
+// needs a second callee-saved register / a different frame) and returns through a pointer select.
+int GuardianMiniRangeKeepMove::m35() {
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return a;
+    auto* weapon = static_cast<uking::act::Enemy*>(actor)->getWeapons()->getEquippedWeapon(a);
+    if (sead::IsDerivedFrom<uking::act::Weapon>(weapon) && weapon->getProfile() != "WeaponShield")
+        return a;
+    return b;
 }
 
 }  // namespace uking::ai
