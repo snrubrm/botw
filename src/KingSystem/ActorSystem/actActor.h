@@ -480,7 +480,7 @@ public:
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();
     virtual bool m138();
-    virtual void m139();
+    virtual f32 m139();
     virtual bool m140();
     virtual void m141();
     virtual bool m142();

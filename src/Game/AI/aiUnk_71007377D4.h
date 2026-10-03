@@ -9,6 +9,7 @@
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
+struct Struct8Base;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -218,3 +219,8 @@ bool sub_710072EA18(const sead::Vector3f& from, const sead::Vector3f& to, int no
                     ksys::phys::MaterialMask* material_mask, f32 y_offset);
 /// 0x710072e804: group handler `idx` (0 / 1) of the actor's physics instance set (null without one).
 ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx);
+
+/// 0x7100739578 (lane1 s22): the attack info the actor's attack sensor reports (a DynamicCast'ed
+/// object's +0x6c selects it; falls back to ActorAtk entry 0 when the actor has attack info), or
+/// null. Its first three floats are the attack position. Placeholder name.
+const ksys::act::Struct8Base* sub_7100739578(ksys::act::Actor* actor);
