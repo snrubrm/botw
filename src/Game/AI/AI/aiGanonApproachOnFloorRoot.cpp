@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonApproachOnFloorRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
@@ -51,6 +52,14 @@ void GanonApproachOnFloorRoot::loadParams_() {
     getDynamicParam(&mIsChangeable_d, "IsChangeable");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mMoveDstPos_d, "MoveDstPos");
+}
+
+void GanonApproachOnFloorRoot::sub_71003DF5C4(const sead::Vector3f& pos, const sead::Vector3f& dst_pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addVec3(dst_pos, "DstPos", -1);
+    pack.addBool(*mIsChangeable_d, "IsChangeable", -1);
+    changeChild("移動", &pack);
 }
 
 }  // namespace uking::ai
