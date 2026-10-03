@@ -32,6 +32,8 @@ public:
     virtual void m40(ksys::act::BaseProc* proc);
 
     void sub_7100463940();
+    // 0x71004682cc: kills the ELink event of _170 (if it is still the one that was emitted).
+    void sub_71004682CC();
     void spawnElectricWaterBall();  // CSV name (aiArrowSpawnElectricWaterBall)
 
 protected:

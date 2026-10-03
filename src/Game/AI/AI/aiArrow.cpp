@@ -25,6 +25,11 @@ void Arrow::sub_7100463940() {
         xlink::fade(_170.mELink, -1);
 }
 
+void Arrow::sub_71004682CC() {
+    if (_170.sub_7101241AD8(0))
+        xlink::kill(_170.mELink);
+}
+
 bool Arrow::init_(sead::Heap* heap) {
     spawnElectricWaterBall();
     return true;
@@ -86,6 +91,11 @@ void Arrow::m37() {
     mActor->setFlag(ksys::act::Actor::ActorFlag::_2c, false);
     mActor->setFlag(ksys::act::Actor::ActorFlag::_20, true);
     changeChild("爆発");
+}
+
+void Arrow::m40(ksys::act::BaseProc* proc) {
+    sub_71004682CC();
+    proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 bool Arrow::m38() {

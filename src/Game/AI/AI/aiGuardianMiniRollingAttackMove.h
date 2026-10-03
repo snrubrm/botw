@@ -1,9 +1,32 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyRangeKeepMove.h"
+#include "Game/AI/aiUnkDamageCallbacks.h"
+#include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Utils/Types.h"
 
 namespace uking::ai {
+
+class GuardianMiniRollingAttackMove;
+
+// vtable 0x71023f92d8: damage callback without RTTI of its own (call 0x71004256a0, not decompiled yet).
+class Unk_71023f92d8 : public dmg::DamageCallback {
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    GuardianMiniRollingAttackMove* _28{};
+};
+
+// vtable 0x71023f9310: damage callback without RTTI of its own (call 0x7100425c88, not decompiled yet).
+class Unk_71023f9310 : public dmg::DamageCallback {
+public:
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    GuardianMiniRollingAttackMove* _28{};
+};
 
 class GuardianMiniRollingAttackMove : public EnemyRangeKeepMove {
     SEAD_RTTI_OVERRIDE(GuardianMiniRollingAttackMove, EnemyRangeKeepMove)
@@ -15,6 +38,28 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+
+    int m35() override;
+    void m36() override;
+    void m37() override;
+    void m38() override;
+    void m40() override;
+    bool handleMessage_(const ksys::Message& message) override;
+
+    // 0x71004238f0 ("バックステップ" start), 0x7100423a1c (partial bones + attack AS), 0x7100423d68 /
+    // 0x7100423f0c / 0x7100424080 (states "回転待機" / "回転後退" / "回転待機"), 0x7100424554 /
+    // 0x7100424670 / 0x7100424a3c (weapon requests). Placeholder names.
+    void sub_71004238F0();
+    void sub_7100423A1C();
+    void sub_7100423D68();
+    void sub_7100423F0C();
+    void sub_7100424080();
+    void sub_7100424554();
+    void sub_7100424670();
+    void sub_7100424A3C();
+
+    // 0x7100421b50: sends the weapon request type 1 (default arguments) to the weapons 0 - 2 of the actor.
+    void sub_7100421B50();
 
 protected:
     // static_param at offset 0x110
@@ -63,6 +108,43 @@ protected:
     const int* mCrashDamage_s{};
     // static_param at offset 0x1d8
     const int* mBreakPillarTime_s{};
+
+    /* 0x1e0 */ f32 _1e0{};
+    /* 0x1e4 */ f32 _1e4{};
+    /* 0x1e8 */ f32 _1e8 = -1.0f;
+    /* 0x1ec */ f32 _1ec = 0.0f;
+    /* 0x1f0 */ f32 _1f0 = 0.0f;
+    /* 0x1f4 */ f32 _1f4 = -1.0f;
+    /* 0x1f8 */ f32 _1f8 = 0.0f;
+    /* 0x1fc */ f32 _1fc = 0.0f;
+    /* 0x200 */ f32 _200 = -1.0f;
+    /* 0x204 */ f32 _204 = 0.0f;
+    /* 0x208 */ f32 _208 = 0.0f;
+    /* 0x20c */ f32 _20c = -1.0f;
+    /* 0x210 */ f32 _210 = 0.0f;
+    /* 0x214 */ f32 _214 = 0.0f;
+    /* 0x218 */ f32 _218 = -1.0f;
+    /* 0x21c */ f32 _21c = 0.0f;
+    /* 0x220 */ f32 _220 = 0.0f;
+    /* 0x224 */ f32 _224 = -1.0f;
+    /* 0x228 */ u8 _228 = 0;
+    /* 0x229 */ u8 _229 = 0;
+    /* 0x22a */ bool _22a = false;
+    /* 0x22c */ sead::Vector3f _22c{};
+    /* 0x238 */ sead::Vector3f _238{};
+    /* 0x244 */ f32 _244 = 0.0f;
+    /* 0x248 */ f32 _248 = 0.0f;
+    /* 0x24c */ f32 _24c = 0.0f;
+    /* 0x250 */ Unk_71023f83e8* _250{};
+    /* 0x258 */ Unk_7102450498 _258;
+    /* 0x2a8 */ u64 _2a8[4]{};
+    /* 0x2c8 */ u8 _2c8 = 0;
+    /* 0x2c9 */ u8 _2c9 = 0;
+    /* 0x2d0 */ Unk_7102451ba0 _2d0;
+    /* 0x2f8 */ Unk_71023f92d8 _2f8;
+    /* 0x328 */ Unk_71023f9310 _328;
+    /* 0x358 */ bool _358 = false;
 };
+static_assert(sizeof(GuardianMiniRollingAttackMove) == 0x360, "");
 
 }  // namespace uking::ai
