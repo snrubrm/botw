@@ -37,8 +37,9 @@ KSYS_CHECK_SIZE_NX150(AmiiboInfo, 0x158);
 
 // The listener registered with the NFP thread (vtable 0x710243b770; embedded in AmiiboMgr at
 // +0x148). Placeholder name = vtable address. Its callback slot is named spawnAmiiboRuneActor in the
-// CSV (0x7100648a2c).
-class Unk_710243b770 {
+// CSV (0x7100648a2c). The list node is a base class: the inlined constructor in createInstance
+// clears its two pointers before it stores the vtable.
+class Unk_710243b770 : public sead::ListNode {
 public:
     virtual ~Unk_710243b770() {}
     // `name`: the amiibo's name; `ids[0]` / `ids[2]` become `mInfo._0` / `mInfo._4`; `data` is the
@@ -46,7 +47,6 @@ public:
     virtual void spawnAmiiboRuneActor(const sead::SafeString& name, const u32* ids, const u8* data);
     virtual void m3() {}
 
-    sead::ListNode mNode;
     AmiiboInfo mInfo;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243b770, 0x170);

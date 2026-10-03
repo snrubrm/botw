@@ -4,7 +4,7 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: FixedObjList<Unk_7100d78e50, 8> free-node links start at 0x12c in the original (nodes packed at 4-byte alignment), we emit 0x130 and a different store order
+// NON_MATCHING: scheduling / register allocation of the inlined FixedObjList setup stores (the node addresses now match)
 UnarmedEnemyNoiseTarget::UnarmedEnemyNoiseTarget(const InitArg& arg) : UnarmedEnemySearch(arg) {}
 
 UnarmedEnemyNoiseTarget::~UnarmedEnemyNoiseTarget() = default;

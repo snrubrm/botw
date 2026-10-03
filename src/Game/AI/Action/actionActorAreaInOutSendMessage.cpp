@@ -16,8 +16,6 @@ bool ActorAreaInOutSendMessage::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original's sead::Buffer iterator compares only the index (ours also compares the
-// buffer pointer, which is reloaded after each call)
 void ActorAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
     AreaTagAction::enter_(params);
     _64 = 0;
@@ -27,8 +25,6 @@ void ActorAreaInOutSendMessage::enter_(ksys::act::ai::InlineParamPack* params) {
         it->reset();
 }
 
-// NON_MATCHING: the original's sead::Buffer iterator compares only the index (ours also compares the
-// buffer pointer, which is reloaded after each call)
 void ActorAreaInOutSendMessage::leave_() {
     auto& buffer = _40[_64];
     for (auto it = buffer.begin(); it != buffer.end(); ++it) {
@@ -46,14 +42,13 @@ void ActorAreaInOutSendMessage::calc_() {
     AreaTagAction::calc_();
 }
 
-// NON_MATCHING: the original's sead::Buffer iterator compares only the index (ours also compares the
-// buffer pointer, which is reloaded after each call)
 void ActorAreaInOutSendMessage::m2() {
     s32 next = _64 + 1;
     if (u32(next) > 1)
         next = 0;
     _64 = next;
-    for (auto it = _40[_64].begin(); it != _40[_64].end(); ++it)
+    auto& buffer = _40[_64];
+    for (auto it = buffer.begin(); it != buffer.end(); ++it)
         it->reset();
 }
 

@@ -6,8 +6,8 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: lib/sead's FixedObjList puts its work buffer at an 8-aligned offset (0x80); the original's
-// is at 0x7c (right after the ObjList), which shifts the free-list setup stores
+// NON_MATCHING: only the position of the ObjList count store (`mCount = 0`, +0x60), which the original
+// schedules after the vtable address load
 NavMoveTarget::NavMoveTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 NavMoveTarget::~NavMoveTarget() = default;

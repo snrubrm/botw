@@ -183,13 +183,11 @@ void PlayerBase::sub_710084AE78() {
     _e7c[sead::CoreInfo::getCurrentCoreId()] += max_stamina;
 }
 
-// NON_MATCHING: the original inlines a longer BufferedSafeString clear (guard against the static empty string,
-// memset(top, 0, size > 0 ? 0 : size - 1), top[that index] = 0); lib/sead's clear() is one store (libwork)
 void PlayerBase::sub_710084AA0C() {
     const auto lock = sead::makeScopedLock(_1238);
     _1278 = false;
     _1280.reset();
-    _1290.clear();
+    _1290 = "";
 }
 
 void PlayerBase::setItemVel(s32 type, f32 vel) {

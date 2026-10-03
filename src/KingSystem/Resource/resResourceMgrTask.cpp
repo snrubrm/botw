@@ -522,8 +522,7 @@ bool ResourceMgrTask::callSystemCalc_(void* userdata) {
     return true;
 }
 
-// NON_MATCHING: loop shape differs; also the original's StringBuilder::at clamps out-of-range
-// indices to the first character (our sead version returns cNullChar instead)
+// NON_MATCHING: loop shape differs (index arithmetic of the backwards search for '.')
 void ResourceMgrTask::addSExtensionPrefix(sead::StringBuilder& builder) const {
     const s32 length = builder.getLength();
     s32 ext_idx = length;
