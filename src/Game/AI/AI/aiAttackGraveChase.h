@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void getTargetPos(sead::Vector3f* out);
+
     // static_param at offset 0x38
     const int* mActionTime_s{};
     // static_param at offset 0x40
