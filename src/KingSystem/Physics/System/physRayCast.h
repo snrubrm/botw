@@ -88,6 +88,8 @@ public:
     bool getHitTriangleNormal(sead::Vector3f* normal, const hkpShape* hit_shape,
                               u32 shape_key) const;
     void getHitNormal(sead::Vector3f* normal) const;
+    // Read inline by MotorcycleMgr::spawnMotorcycle_x (name is a guess).
+    const sead::Vector3f& getHitNormalInline() const { return mHitNormal; }
     // TODO: rename
     // 0x0000007100fc4844
     void getUnkVectors(sead::Vector3f* unk1, sead::Vector3f* unk2, sead::Vector3f* unk3) const;

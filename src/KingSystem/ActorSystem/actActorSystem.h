@@ -29,6 +29,8 @@ public:
 
     sead::Heap* getEmergencyHeap() const { return mEmergencyHeap; }
     const sead::Vector3f& getPlayerPos() const { return mPlayerPos; }
+    // The player (read inline by MotorcycleMgr::isProhibited).
+    PlayerLink* getPlayerLink() const { return _c0; }
 
     bool callAutoPlacementMgrPreCalcFn(void* userdata);
     void allocEmergencyHeap(sead::Heap* heap);

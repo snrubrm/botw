@@ -13,10 +13,12 @@
 namespace ksys::act {
 class Actor;
 class BaseProc;
+class PlayerLink;
 struct Unk117;
 }
 
 namespace ksys::phys {
+class RayCastBodyQuery;
 class CapsuleRigidBody;
 class Unk_7102372790;
 }
@@ -48,6 +50,20 @@ public:
     // 0x710067b728 (CSV MotorcycleMgr::x): whether the tracked motorcycle actor is `actor`.
     bool x(ksys::act::BaseProc* actor);
     // (the BaseProc forward declaration)
+    // 0x7100679d10 (CSV MotorcycleMgr::isProhibited; the meaning of the result is a guess): false while the
+    // player (the default when `player` is null) passes PlayerLink::m211, otherwise depends on the climate at
+    // `pos` (true without a world manager).
+    bool isProhibited(const sead::Vector3f& pos, ksys::act::PlayerLink* player);
+    // 0x7100679ed8 (CSV MotorcycleMgr::spawnMotorcycle_x; name of the parameters are guesses): ray casts down at
+    // the nav mesh query result (_d8) and, if the hit surface is walkable (not water, not "Stone_DgnLight", slope
+    // below 50 degrees), returns the hit position and normal.
+    bool spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* out_normal,
+                           ksys::phys::RayCastBodyQuery* cast);
+    // 0x710067a290 (CSV MotorcycleMgr::spawnMotorcycle_x_0; parameter names are guesses): casts a ray across a box of
+    // `size` placed 1.3 units along `dir` from `pos`; if it hits, casts again 1.1 units behind `pos`. Returns whether
+    // the last cast hit.
+    bool spawnMotorcycle_x_0(const sead::Vector3f& pos, const sead::Vector3f& size,
+                             const sead::Vector3f& dir, ksys::phys::RayCastBodyQuery* cast);
     // 0x7100679ac8 (CSV MotorcycleMgr::x_0): whether there is a tracked motorcycle actor.
     bool x_0();
     // 0x71006796f8

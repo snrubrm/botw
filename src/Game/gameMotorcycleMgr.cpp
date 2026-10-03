@@ -2,10 +2,15 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking {
 
@@ -32,6 +37,100 @@ void MotorcycleMgr::init(sead::Heap* heap) {
     param.radius = 0.97f;
     param.name = "MotorcycleShapeCast";
     _d0 = ksys::phys::CapsuleRigidBody::make(&param, heap);
+}
+
+bool MotorcycleMgr::isProhibited(const sead::Vector3f& pos, ksys::act::PlayerLink* player) {
+    if (!player)
+        player = ksys::act::ActorSystem::instance()->getPlayerLink();
+    if (player && player->m211())
+        return false;
+    auto* mgr = ksys::world::Manager::instance();
+    if (!mgr)
+        return true;
+    switch (mgr->getClimate(pos)) {
+    case ksys::world::Climate::GerudoDesertClimate:
+    case ksys::world::Climate::EldinClimateLv1:
+    case ksys::world::Climate::EldinClimateLv2:
+    case ksys::world::Climate::GerudoDesertClimateLv2:
+        return false;
+    default:
+        return true;
+    }
+}
+
+// NON_MATCHING: the original re-reads the query position relative to `_d8` after every call; we keep
+// strength-reduced pointers into it in extra callee-saved registers (frame 0x50 instead of 0x40)
+bool MotorcycleMgr::spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* out_normal,
+                                      ksys::phys::RayCastBodyQuery* cast) {
+    auto* query = _d8;
+    const sead::Vector3f& pos = query->_c;
+    f32 end_offset;
+    if (query->_24 == 0x17 && _17d) {
+        const sead::Vector3f start = pos;
+        cast->setStart(start);
+        end_offset = -1.0f;
+    } else {
+        const sead::Vector3f start(pos.x, pos.y + 2.0f + 1.0f, pos.z);
+        cast->setStart(start);
+        end_offset = -2.0f;
+    }
+    const sead::Vector3f end(pos.x, pos.y + end_offset, pos.z);
+    cast->setEnd(end);
+
+    if (!cast->worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    if (auto* body = cast->getHitRigidBody()) {
+        if (body->getMotionType() == ksys::phys::MotionType::Dynamic)
+            return false;
+    }
+    const auto material = cast->getMaterialMask().getMaterial();
+    const sead::SafeString sub_material = cast->getMaterialMask().getSubMaterialName();
+    if (material == ksys::phys::Material::Water)
+        return false;
+    if (material == ksys::phys::Material::Soil && sub_material == "Stone_DgnLight")
+        return false;
+    if (cast->getHitNormalInline().y < 0.64278764f)
+        return false;
+    cast->getHitPosition(out_pos);
+    out_normal->set(cast->getHitNormalInline());
+    return true;
+}
+
+// NON_MATCHING: scheduling / register allocation of the corner computations (the original keeps the first
+// two corners' components in callee-saved registers and stores `end` with a pair store)
+bool MotorcycleMgr::spawnMotorcycle_x_0(const sead::Vector3f& pos_, const sead::Vector3f& size,
+                                        const sead::Vector3f& dir_,
+                                        ksys::phys::RayCastBodyQuery* cast) {
+    const sead::Vector3f pos = pos_;
+    const sead::Vector3f dir = dir_;
+    sead::Vector3f start, end;
+    const f32 cx = dir.x * 1.3f + pos.x;
+    const f32 cy = dir.y * 1.3f + pos.y;
+    const f32 cz = dir.z * 1.3f + pos.z;
+    start.x = cx + size.x * 0.5f;
+    start.y = cy + size.y * 0.5f;
+    start.z = cz + size.z * 0.5f;
+    end.x = cx - size.x * 0.5f;
+    end.y = cy - size.y * 0.5f;
+    end.z = cz - size.z * 0.5f;
+    cast->setStart(start);
+    cast->setEnd(end);
+    bool hit = cast->worldRayCast(ksys::phys::ContactLayerType::Entity);
+    if (hit) {
+        const f32 bx = pos.x - dir.x * 1.1f;
+        const f32 by = pos.y - dir.y * 1.1f;
+        const f32 bz = pos.z - dir.z * 1.1f;
+        start.x = bx + size.x * 0.5f;
+        end.x = bx - size.x * 0.5f;
+        start.y = by + size.y * 0.5f;
+        end.y = by - size.y * 0.5f;
+        start.z = bz + size.z * 0.5f;
+        end.z = bz - size.z * 0.5f;
+        cast->setStart(start);
+        cast->setEnd(end);
+        hit = cast->worldRayCast(ksys::phys::ContactLayerType::Entity);
+    }
+    return hit;
 }
 
 void MotorcycleMgr::setMotorcycleEnergyIter(ksys::gdt::Manager::ReinitEvent*) {

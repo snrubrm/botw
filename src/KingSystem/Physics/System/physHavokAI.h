@@ -23,6 +23,10 @@ public:
 
     /* 0x08 */ bool _8;  // set when the request is queued
     /* 0x09 */ bool _9;  // set by destroyQuery before it is queued
+    /* 0x0c */ sead::Vector3f _c;  // the result position (MotorcycleMgr::spawnMotorcycle_x; layout of the
+                                   // derived query class not modelled)
+    u8 _18[0x24 - 0x18];
+    /* 0x24 */ s32 _24;
 };
 
 // Name from the CSV (NavMeshQueryRequestPool::ctor 0x71012a8ffc, heap name

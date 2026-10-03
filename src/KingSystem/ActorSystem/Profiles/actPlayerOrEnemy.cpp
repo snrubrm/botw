@@ -47,6 +47,30 @@ void PlayerOrEnemy::m117(Unk117* arg) {
     mWeapons.sub_7100EFD458(arg);
 }
 
+bool PlayerOrEnemy::isGuardJust() {
+    return isGuard() && mActorFlags2.isOn(ActorFlag2::_10000000);
+}
+
+bool PlayerOrEnemy::m50() {
+    if (Actor::m50())
+        return true;
+    return mWeapons.sub_7100EFD1F8();
+}
+
+bool PlayerOrEnemy::dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4,
+                               bool a5) {
+    return getWeapons()->dropWeapon(idx, pos, a2, a3, a4, a5);
+}
+
+void PlayerOrEnemy::sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4,
+                                   bool a5) {
+    getWeapons()->dropAllWeapons(velocity, a2, a3, a4, a5);
+}
+
+bool PlayerOrEnemy::releaseWeapon(int idx) {
+    return getWeapons()->dropWeaponM179(idx);
+}
+
 void PlayerOrEnemy::sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg) {
     auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
     if (weapon)
