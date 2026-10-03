@@ -22,12 +22,63 @@ class Screen : public ScreenBase {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
+
+    // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot). INCOMPLETE: only the
+    // trivial slots that are defined in uiScreenSlots.cpp are declared, so the vtable order is not yet
+    // usable (slots 73-79, 80, 81, 83-89, 93-94, 96-100, 111-126 are missing).
+    virtual void m69();
+    virtual void m70();
+    virtual void m71();
+    virtual s32 m72();
+    virtual s32 m81();
+    virtual void m96();  // open(1)
+    virtual void m97();  // close(-1)
+    virtual void m82();
+    virtual void m83();
+    virtual void m84();
+    virtual void m85();
+    virtual void m86();
+    virtual void m87();
+    virtual void m88();
+    virtual void m90();
+    virtual void m91();
+    virtual void m92();
+    virtual void m95();
+    virtual void m101();
+    virtual void m102();
+    virtual void m103();
+    virtual void m104();
+    virtual void m105();
+    virtual void m106();
+    virtual void m107();
+    virtual void m108();
+    virtual void m109();
+    virtual void m110();
 };
 
 class ScreenEx : public Screen {
 public:
     ~ScreenEx() override;
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
+
+    // New virtual slots of ScreenEx (127-153; INCOMPLETE, see Screen).
+    virtual void m127();
+    virtual void m128();
+    virtual void m129();
+    virtual void m130();
+    virtual void m131();
+    virtual void m132();
+    virtual void m133();
+    virtual void m134();
+    virtual void m135();
+    virtual void m136();
+    virtual void m137();
+    virtual void m138();
+    virtual void m139();
+    virtual void m140();
+    virtual s32 m141();
+    virtual s32 m142();
+    virtual void* m143();
 
     // Placeholder for the real base-class data (the leaf classes' members start at 0x3610).
     u8 _8[0x3610 - 8];

@@ -2,6 +2,7 @@ target_sources(uking PRIVATE
   euiMessageString.h
   euiScreen.h
   uiFadeProgress.cpp
+  uiFadeScreens.cpp
   uiFadeProgress.h
   uiManager.h
   uiMiscFacade.cpp
@@ -10,11 +11,13 @@ target_sources(uking PRIVATE
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
   uiScreenFacade.cpp
+  uiScreenSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
   uiShopMgr.h
   uiUI.h
   uiUnkSingletons.h
   uiUtils.cpp
+  uiWorldFacade.cpp
   uiUtils.h
 )
