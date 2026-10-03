@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossMode.h"
+#include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -58,6 +60,18 @@ protected:
     int* mEquipWeaponBufIndex_a{};
     // aitree_variable at offset 0xa8
     bool* mReturnFromBananaMode_a{};
+    s32 _b0 = 4;
+    ksys::Timer _b4{0, 0};
+    u8 _c0[0x18];  // two Vector3f (not initialised by the ctor)
+    u64 _d8 = 0;
+    u32 _e0 = 0;
+    s32 _e4 = -1;
+    sead::SafeArray<u32, 13> _e8{};  // indexed by a SEAD_ENUM
+    void* _120 = nullptr;  // heap object freed by the destructor
+    s32 _128 = 2;
+    s32 _12c = 2;
+    u64 _130 = 0;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossActorNormalMode, 0x138);
 
 }  // namespace uking::ai

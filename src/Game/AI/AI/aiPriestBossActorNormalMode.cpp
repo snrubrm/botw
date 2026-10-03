@@ -65,6 +65,16 @@ f32 PriestBossActorNormalMode::m42() {
     return weight;
 }
 
+f32 PriestBossActorNormalMode::m44() {
+    f32 weight = 0.0f;
+    if (!(sub_7100505BE4() && sub_7100505BE4()->_3c == Unk_7102450fa8::Phase::_0) && _12c != 9 &&
+        sub_7100505BE4() && _e4 == 2) {
+        if (sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_3))
+            weight = 1.0f;
+    }
+    return weight;
+}
+
 f32 PriestBossActorNormalMode::m45() {
     return 0.0f;
 }

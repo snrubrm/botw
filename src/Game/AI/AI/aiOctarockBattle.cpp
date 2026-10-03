@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -25,6 +26,11 @@ bool OctarockBattle::init_(sead::Heap* heap) {
 
 void OctarockBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ShootingEnemyBattle::enter_(params);
+    _b0 = _118;
+    if (*mIsFirstAttackIntervalZero_s && !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) &&
+        !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        sub_7100381E58(0);
+    }
 }
 
 // NON_MATCHING: the original reads _b4 before the sub_71005D93CC call (same as ShootingEnemyBattle::calc_)

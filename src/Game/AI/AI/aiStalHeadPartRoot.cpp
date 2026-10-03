@@ -22,6 +22,15 @@ void StalHeadPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
 }
 
+void StalHeadPartRoot::calc_() {
+    sub_71003B5644();
+    if (isCurrentChild("朝が来た"))
+        return;
+    if (!isCurrentChild("リアクション") && !m35() && mActor->sub_7100EE1E94())
+        changeChild("朝が来た");
+    EnemyRoot::calc_();
+}
+
 void StalHeadPartRoot::leave_() {
     EnemyRoot::leave_();
 }
