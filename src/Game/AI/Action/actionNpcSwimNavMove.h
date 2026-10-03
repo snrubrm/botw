@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     virtual void m34();
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m35() { return mASName_s; }
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};

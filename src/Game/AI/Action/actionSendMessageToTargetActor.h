@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     virtual void m33();
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual void* m34() { return nullptr; }
 
     // dynamic_param at offset 0x28
     ksys::act::BaseProcLink* mTargetActor_d{};

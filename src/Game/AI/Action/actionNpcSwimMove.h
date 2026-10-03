@@ -18,6 +18,8 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m33() { return mASName_s; }
 
     // static_param at offset 0x20
     const float* mRotRadPerSec_s{};

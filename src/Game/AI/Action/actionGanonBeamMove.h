@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    int m42() override { return *mAttackPowerForPlayer_m; }
+    int m41() override { return *mAttackPower_m; }
 
     bool m32(const AttackInfo* info) override;
     bool m34(const AttackInfo* info) override;

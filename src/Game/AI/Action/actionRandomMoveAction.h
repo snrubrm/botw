@@ -20,6 +20,8 @@ public:
 
 protected:
     void calc_() override;
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual bool m32() { return false; }
 
     // static_param at offset 0x20
     const bool* mIsSuccessWhenGoalReached_s{};

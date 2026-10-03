@@ -19,6 +19,12 @@ public:
 
 protected:
     void calc_() override;
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m34() { return mBeamActorName_s; }
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual const sead::SafeString& m35() { return mBeamActorKey_s; }
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual int m36() { return -1; }
 
     // static_param at offset 0x68
     const float* mBeamRange_s{};

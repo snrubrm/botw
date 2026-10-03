@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual bool m33() { return false; }
 
     // static_param at offset 0xb8
     const sead::Vector3f* mOffsetPos_s{};

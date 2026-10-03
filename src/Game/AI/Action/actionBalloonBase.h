@@ -22,6 +22,8 @@ protected:
     virtual int m32();
     virtual float m33();
     virtual f32 m34(f32 current, f32 target, f32 step);
+    // inline in the original (emitted out of line in this TU); signature is a guess
+    virtual void m35() {}
 
     ksys::act::BaseProcLink _20;
     // static_param at offset 0x30

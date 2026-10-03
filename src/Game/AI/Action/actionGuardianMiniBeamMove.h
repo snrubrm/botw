@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    f32 m37() override { return *mReboundDeccel_s; }
 
     // static_param at offset 0x70
     const float* mReboundDeccel_s{};
