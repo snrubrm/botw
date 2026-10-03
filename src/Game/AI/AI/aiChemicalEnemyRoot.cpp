@@ -37,6 +37,36 @@ void ChemicalEnemyRoot::loadParams_() {
     getStaticParam(&mColorASName_s, "ColorASName");
 }
 
+// NON_MATCHING: the two epsilon range compares (-eps <= diff, diff <= eps) are emitted in the opposite
+// order (and with swapped branch conditions); the rest of the function matches
+void ChemicalEnemyRoot::sub_710034790C() {
+    if (!_1f8)
+        return;
+
+    if (_1f9) {
+        auto* chemical = mActor ? mActor->getChemicalStuff() : nullptr;
+        if (chemical && (chemical->mMaterial->attribute.ref() & 0x108) == 0x108 &&
+            !(chemical->_be & 4) && sead::Mathf::equalsEpsilon(0.0f, chemical->_1b8)) {
+            if (auto* as_list = mActor->getASList()) {
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163298, 0.0f);
+                as_list->x_3(0, 1, &ksys::as::ASList::Unk2::sub_7101163100, 0.0f);
+            }
+            _1f9 = false;
+            return;
+        }
+        if (_1f9)
+            return;
+    }
+
+    auto* chemical = mActor ? mActor->getChemicalStuff() : nullptr;
+    if (!chemical || (chemical->mMaterial->attribute.ref() & 0x108) != 0x108 ||
+        (chemical->_be & 4) || !sead::Mathf::equalsEpsilon(0.0f, chemical->_1b8)) {
+        if (auto* as_list = mActor->getASList())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, mColorASName_s.cstr(), 0, 1, true);
+        _1f9 = true;
+    }
+}
+
 void ChemicalEnemyRoot::calc_() {
     EnemyRoot::calc_();
     sub_710034790C();

@@ -133,6 +133,16 @@ void BreathAttackEnemyBattle::sub_710033E970() {
     changeChild("戦闘準備", &params);
 }
 
+void BreathAttackEnemyBattle::m37() {
+    m41();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_90, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    const sead::Vector3f target_pos = *m35();
+    pack.addVec3(target_pos, "TargetPos", -1);
+    _a0.acquire(sead::DynamicCast<ksys::act::Actor>(_90.getProc()), false);
+    changeChild("戦闘攻撃", &pack);
+}
+
 bool BreathAttackEnemyBattle::m38() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         return enemy->_e68.value <= sead::Mathf::epsilon();
