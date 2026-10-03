@@ -14,10 +14,13 @@ public:
     bool isFailed() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void changeToBattle();
+
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
     bool _40 = false;
