@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71025b1808.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -14,12 +15,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x3e0];
+    Unk_71025b1808Data _20;
     // static_param at offset 0x400
     const bool* mTeachSelfRegistedActor_s{};
 };

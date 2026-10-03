@@ -5,13 +5,14 @@ namespace uking::action {
 
 CameraEventAnimBase::CameraEventAnimBase(const InitArg& arg) : CameraEvent(arg) {}
 
-// NON_MATCHING: the original null-checks the message reference (cbz x1)
 bool CameraEventAnimBase::handleMessage_(const ksys::Message* message) {
-    if (message->getType() != 0x8800007)
-        return false;
-    sub_7100757A78();
-    if (_90 == 2)
-        sub_7100757C24();
+    if (message) {
+        if (message->getType() != 0x8800007)
+            return false;
+        sub_7100757A78();
+        if (_90 == 2)
+            sub_7100757C24();
+    }
     return true;
 }
 

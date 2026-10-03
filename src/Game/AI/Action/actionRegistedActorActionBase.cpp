@@ -2,7 +2,7 @@
 
 namespace uking::action {
 
-RegistedActorActionBase::RegistedActorActionBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+RegistedActorActionBase::RegistedActorActionBase(const InitArg& arg) : ksys::act::ai::Action(arg), _20(mActor) {}
 
 RegistedActorActionBase::~RegistedActorActionBase() = default;
 
@@ -11,7 +11,7 @@ bool RegistedActorActionBase::init_(sead::Heap* heap) {
 }
 
 void RegistedActorActionBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _20.sub_71006F0354(*mTeachSelfRegistedActor_s);
 }
 
 void RegistedActorActionBase::leave_() {
@@ -23,7 +23,15 @@ void RegistedActorActionBase::loadParams_() {
 }
 
 void RegistedActorActionBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    _20.sub_71006F03D0();
+}
+
+bool RegistedActorActionBase::handleMessage_(const ksys::Message* message) {
+    return _20.sub_71006F0448(*message);
+}
+
+bool RegistedActorActionBase::handleAck_(const ksys::MessageAck* ack) {
+    return _20.sub_71006F0604(*ack);
 }
 
 }  // namespace uking::action

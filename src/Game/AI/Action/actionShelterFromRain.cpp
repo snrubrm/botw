@@ -36,18 +36,16 @@ void ShelterFromRain::calc_() {
     _51 = false;
 }
 
-// NON_MATCHING: the original checks the message reference for null
 bool ShelterFromRain::handleMessage_(const ksys::Message* message) {
-    if (message->getType() == 0x8000076) {
+    if (message && message->getType() == 0x8000076) {
         _50 = false;
         return true;
     }
     return false;
 }
 
-// NON_MATCHING: the original checks the ack reference for null
 bool ShelterFromRain::handleAck_(const ksys::MessageAck* ack) {
-    if (ack->getType() == 0x8000075 && ack->isDestinationValid() && ack->isSuccess()) {
+    if (ack && ack->getType() == 0x8000075 && ack->isDestinationValid() && ack->isSuccess()) {
         _50 = true;
         return true;
     }

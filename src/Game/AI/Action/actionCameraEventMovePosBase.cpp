@@ -14,8 +14,6 @@ namespace uking::action {
 
 CameraEventMovePosBase::CameraEventMovePosBase(const InitArg& arg) : CameraEvent(arg) {}
 
-// NON_MATCHING: the original checks the message pointer for null (`cbz x1`); clang folds the check
-// on a reference.
 bool CameraEventMovePosBase::handleMessage_(const ksys::Message* message) {
     if (message == nullptr || message->getType() != 0x8800006)
         return false;

@@ -24,6 +24,8 @@ protected:
     void calc_() override;
 
     virtual bool m32(ksys::act::BaseProcLink* link);
+
+    bool _408 = false;
 };
 
 }  // namespace uking::action

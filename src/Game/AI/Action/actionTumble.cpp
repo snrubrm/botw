@@ -16,6 +16,10 @@ void Tumble::leave_() {
 
 void Tumble::loadParams_() {}
 
+bool Tumble::handleMessage_(const ksys::Message* message) {
+    return true;
+}
+
 void Tumble::calc_() {
     ksys::act::ai::Action::calc_();
 }
