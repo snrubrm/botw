@@ -47,6 +47,7 @@ public:
         _17 = 0x17,
         _18 = 0x18,
         _19 = 0x19,
+        _1a = 0x1a,
     };
 
     enum class SleepWakeReason : u32 {
