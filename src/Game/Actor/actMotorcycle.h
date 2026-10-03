@@ -387,6 +387,9 @@ public:
     f32 sub_710007AB7C() const;
     // 0x710007c00c
     bool sub_710007C00C() const;
+    // 0x710007c330 (placeholder name): starts a manual wheelie (_f10 = 6): copies the wheelie parameters and stores the
+    // signed angle between the body's up axis and (right x (right x y axis)) in _e00.
+    void sub_710007C330();
     // 0x710007c0b0 / 0x710007c1c4 (placeholder names; do not use `this`): angular velocity damping of `body`
     // around its z axis / correction towards the rotation `target`.
     void sub_710007C0B0(ksys::phys::RigidBody* body, f32 rate);

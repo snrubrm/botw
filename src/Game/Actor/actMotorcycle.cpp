@@ -50,6 +50,27 @@ static SpeedCurve7 sUnk_7102361220;
 
 // NON_MATCHING: everything matches except the shared cleanup block of the ray cast query (we merge the early-return
 // and the fall-through destructor calls behind a flag, the original keeps two copies)
+// NON_MATCHING: only the scheduling of the second cross product
+void Motorcycle::sub_710007C330() {
+    _dfc = _df8 = getParam()->getRes().mGParamList->getMotorcycle()->mManualWheelieRiseDegDelta.ref();
+    _df0 = 0;
+
+    sead::Vector3f right, up, forward;
+    getMtx().getBase(right, 0);
+    getMtx().getBase(up, 1);
+    getMtx().getBase(forward, 2);
+    sead::Vector3f cross1, cross2, cross3;
+    cross1.setCross(right, sead::Vector3f::ey);
+    cross2.setCross(right, cross1);
+    const f32 dot = up.dot(cross2);
+    cross3.setCross(up, cross2);
+    const f32 angle = std::atan2(cross3.length(), dot) * (180.0f / sead::Mathf::pi());
+    _f10 = 6;
+    _e00 = forward.y > 0.0f ? -angle : angle;
+    _e84 = getParam()->getRes().mGParamList->getMotorcycle()->mManualWheelieLastSec.ref();
+    _e88 = getParam()->getRes().mGParamList->getMotorcycle()->mWheelieLastSecInMidAir.ref();
+}
+
 void Motorcycle::sub_710007C0B0(ksys::phys::RigidBody* body, f32 rate) {
     sead::Vector3f parallel, perpendicular;
     sead::Matrix34f mtx;
