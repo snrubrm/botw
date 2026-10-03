@@ -16,6 +16,17 @@ bool WolfLink::shouldUnload(s32* a1) {
     return unload;
 }
 
+void WolfLink::m156() {
+    const s32 life_value = _168c;
+    if (life_value < 0) {
+        DynamicActor::m156();
+        return;
+    }
+    if (s32* life = getLife())
+        *life = life_value;
+    _168c = -1;
+}
+
 void WolfLink::sub_71002F4B3C() {
     if (auto* bone_control = mBoneControl) {
         if (auto* controller = bone_control->_0) {
