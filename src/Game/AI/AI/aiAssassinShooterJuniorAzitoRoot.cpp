@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiAssassinShooterJuniorAzitoRoot.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -15,6 +19,32 @@ bool AssassinShooterJuniorAzitoRoot::init_(sead::Heap* heap) {
 
 void AssassinShooterJuniorAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     RememberMesOneActorEnemyRoot::enter_(params);
+    sub_7100322CA8(nullptr);
+}
+
+// Sends the message of `_238` to the actors of the map object's linked objects (only those whose unit config
+// name equals `name` if it is given); the sender's actor link is set to mActor first.
+void AssassinShooterJuniorAzitoRoot::sub_7100322CA8(const char* name) {
+    _238._18.y(mActor);
+    auto* object = mActor->getMapObject();
+    if (!object)
+        return;
+    auto* links = object->getLinkData();
+    if (!links)
+        return;
+
+    auto objects = links->mObjects;
+    for (s32 i = 0; i < objects.size(); ++i) {
+        if (!objects(i))
+            continue;
+        const char* unit_name = objects(i)->getUnitConfigName();
+        if (name && sead::SafeString(unit_name) != name)
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        objects(i)->getActorWithAccessor(accessor);
+        if (accessor.hasProc())
+            _238.sub_710070DD78(accessor, true);
+    }
 }
 
 void AssassinShooterJuniorAzitoRoot::leave_() {

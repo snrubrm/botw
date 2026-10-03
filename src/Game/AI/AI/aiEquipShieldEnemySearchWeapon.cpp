@@ -8,6 +8,7 @@ EquipShieldEnemySearchWeapon::EquipShieldEnemySearchWeapon(const InitArg& arg)
 EquipShieldEnemySearchWeapon::~EquipShieldEnemySearchWeapon() = default;
 
 void EquipShieldEnemySearchWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
+    _6e8 = false;
     UnarmedEnemySearchWeapon::enter_(params);
 }
 
