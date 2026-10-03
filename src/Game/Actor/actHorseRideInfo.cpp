@@ -1,9 +1,17 @@
 #include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::act {
 
 HorseRideInfo::~HorseRideInfo() = default;
+
+ksys::act::Actor* getRideActor(ksys::act::Actor* actor) {
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return nullptr;
+    return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+}
 
 bool HorseRideInfo::sub_7100E7BEC0(ksys::act::BaseProc* proc) {
     if (!proc)

@@ -47,6 +47,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(HorseRideInfo, 0x38);
 
+// 0x7100e81140 (CSV act::getRideActor; lane2 s21): the actor linked in the ride info of `actor` (null without
+// ride info or when it is no actor).
+ksys::act::Actor* getRideActor(ksys::act::Actor* actor);
+
 // Placeholder name (vtable 0x71023cee88). The HorseRideInfo embedded in NPC at 0xf28; its
 // functions sit at 0x71002c9ffc-0x71002ca1d8.
 class Unk_71023cee88 : public HorseRideInfo {
