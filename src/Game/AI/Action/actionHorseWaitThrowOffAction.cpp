@@ -40,8 +40,6 @@ void HorseWaitThrowOffAction::loadParams_() {
     getStaticParam(&mSetRideAttentionInvalid_s, "SetRideAttentionInvalid");
 }
 
-// NON_MATCHING: the original passes the first RideableBase::sub_7100E63224 argument (0) as a 64-bit
-// register (`mov x1, xzr`)
 void HorseWaitThrowOffAction::calc_() {
     auto* as_list = mActor->getASList();
     auto* rideable = mActor->m132();
@@ -50,7 +48,7 @@ void HorseWaitThrowOffAction::calc_() {
     as_list->x_6(9, 0, 0.0f);
     if (as_list->x_4(0, 0)) {
         if (rideable && *mSucceedGear_s >= 0) {
-            rideable->sub_7100E63224(0, *mSucceedGear_s);
+            rideable->sub_7100E63224(0, u32(*mSucceedGear_s));
             as_list->x_6(10, 0, f32(*mSucceedGear_s));
         }
         as_list->sub_710115B01C(0, 0, true);
