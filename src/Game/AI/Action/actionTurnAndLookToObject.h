@@ -22,6 +22,8 @@ protected:
 
     // dynamic_param at offset 0xc8
     bool* mIsConfront_d{};
+    bool _d0 = false;
+    bool _d1 = false;
 };
 
 }  // namespace uking::action
