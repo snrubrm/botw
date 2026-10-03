@@ -12,7 +12,6 @@ bool EnemyFindShootable::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: frame layout only (the original has the ActorConstDataAccess below the param pack)
 void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
@@ -21,9 +20,7 @@ void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 
-    ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(_68, "TargetPos", -1);
-    changeChild("接近", &pack);
+    changeToApproach();
 }
 
 void EnemyFindShootable::leave_() {

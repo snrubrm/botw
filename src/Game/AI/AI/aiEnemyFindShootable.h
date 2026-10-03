@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,13 @@ public:
     void changeToAction();
 
 protected:
+    // Inline-only in the original (name guess; evidence: enter_'s ActorConstDataAccess sits below the param pack).
+    void changeToApproach() {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_68, "TargetPos", -1);
+        changeChild("接近", &pack);
+    }
+
     struct Params {
         // static_param at offset 0x38
         const float* mGrabCheckRadius_s{};
