@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGanonBeastSufferChanger.h"
+#include "Game/AI/aiUnk_710070284C.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,17 +9,48 @@ GanonBeastSufferChanger::GanonBeastSufferChanger(const InitArg& arg) : ksys::act
 GanonBeastSufferChanger::~GanonBeastSufferChanger() = default;
 
 bool GanonBeastSufferChanger::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _c8.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a));
+    _d4 = false;
+    return true;
 }
 
 void GanonBeastSufferChanger::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsWeakPointAppearMode_a) {
+        changeChild("弱点露出");
+        *mIsWeakPointAppearMode_a = true;
+    } else {
+        const int* time_ptr;
+        switch (sub_710070284C(mActor)) {
+        case 0:
+            time_ptr = mWeakPoint1Time_s;
+            break;
+        case 1:
+            time_ptr = mWeakPoint2Time_s;
+            break;
+        case 2:
+            time_ptr = mWeakPoint3Time_s;
+            break;
+        default:
+            time_ptr = mWeakPoint4Time_s;
+            break;
+        }
+        const int time = *time_ptr;
+        _d0 = time;
+        _d5 = time >= 0;
+        if (time >= 0)
+            changeChild("通常");
+        else
+            changeChild("無敵モード");
+        *mIsWeakPointAppearMode_a = false;
+    }
 }
 
 void GanonBeastSufferChanger::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+// NON_MATCHING: the original keeps `this + 0x38` (&mSufferChangeStopCounter_a) in a callee-saved register
+// from before the preceding call (frame 0x40 instead of 0x30)
 void GanonBeastSufferChanger::loadParams_() {
     getStaticParam(&mWeakPoint1Time_s, "WeakPoint1Time");
     getStaticParam(&mWeakPoint2Time_s, "WeakPoint2Time");

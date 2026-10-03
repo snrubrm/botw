@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyingEnemyKeepMove.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -12,7 +13,11 @@ bool FlyingEnemyKeepMove::init_(sead::Heap* heap) {
 }
 
 void FlyingEnemyKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sead::Vector3f pos;
+    m36(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 void FlyingEnemyKeepMove::leave_() {

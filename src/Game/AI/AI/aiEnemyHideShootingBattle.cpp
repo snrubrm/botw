@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyHideShootingBattle.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,10 @@ EnemyHideShootingBattle::EnemyHideShootingBattle(const InitArg& arg) : ksys::act
 EnemyHideShootingBattle::~EnemyHideShootingBattle() = default;
 
 void EnemyHideShootingBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("隠れる", &pack);
 }
 
 bool EnemyHideShootingBattle::isFailed() const {

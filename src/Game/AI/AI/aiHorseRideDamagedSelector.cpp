@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseRideDamagedSelector.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -19,7 +21,11 @@ bool HorseRideDamagedSelector::init_(sead::Heap* heap) {
 }
 
 void HorseRideDamagedSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    if (manager && manager->checkDamageFlags(17))
+        changeChild("騎乗", params);
+    else
+        changeChild("それ以外", params);
 }
 
 void HorseRideDamagedSelector::calc_() {}
