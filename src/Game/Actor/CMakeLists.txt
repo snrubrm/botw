@@ -56,6 +56,8 @@ target_sources(uking PRIVATE
   actRideableBase.cpp
   actRideableBaseS1.cpp
   actRideableBaseS2.cpp
+  actRideableHorse.cpp
+  actRideableHorse.h
   actRemains.cpp
   actRemains.h
   actSandworm.cpp

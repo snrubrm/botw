@@ -55,8 +55,8 @@ bool HorseBase::sub_7100E68270() const {
     return getParam()->getRes().mGParamList->getHorse()->mIsDecoy.ref();
 }
 
-s32 HorseBase::sub_7100E68298() const {
-    return getParam()->getRes().mGParamList->getHorse()->mNature.ref();
+HorseBase::Nature HorseBase::sub_7100E68298() const {
+    return Nature(getParam()->getRes().mGParamList->getHorse()->mNature.ref());
 }
 
 bool HorseBase::sub_7100E696D4() const {
@@ -67,8 +67,8 @@ bool HorseBase::sub_7100E696D4() const {
     return _b40 == nullptr;
 }
 
-void HorseBase::sub_7100E6AD3C() {
-    _b10->m29();
+void HorseBase::sub_7100E6AD3C(f32 value) {
+    _b10->m29(value);
 }
 
 f32 HorseBase::sub_7100E6AD4C() {

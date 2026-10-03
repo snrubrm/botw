@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
+class Actor;
 class ActorConstDataAccess;
 }
 
@@ -26,6 +27,10 @@ class HorseMgr {
     ~HorseMgr();
 
 public:
+    // 0x7100e88e18 (CSV HorseMgr::isLinkedToActor) / 0x7100e88bcc (CSV HorseMgr::setRiddenHorseMaybe; declared
+    // only; RideableHorse::m42 / m43 pass null).
+    bool isLinkedToActor(ksys::act::Actor* actor);
+    void setRiddenHorseMaybe(ksys::act::Actor* actor);
     // 0x7100e85334 (CSV HorseMgr::__auto0): whether `link` is the owned horse's link.
     bool sub_7100E85334(const ksys::act::BaseProcLink& link) const;
     // 0x7100e8527c (declaration only; NPCRegisterHorse / NPCRegisterAndReceiveHorse): registers

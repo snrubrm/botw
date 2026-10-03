@@ -179,7 +179,7 @@ public:
     /* 12 */ virtual f32 m12() { return 0.0f; }
     /* 13 */ virtual void* m13() { return nullptr; }
     /* 14 */ virtual f32 m14() { return 1.0f; }
-    /* 15 */ virtual void m15() {}
+    /* 15 */ virtual void m15(f32 a, f32 b) {}
     /* 16 */ virtual void m16(f32 value) {}
 
     /* 0x008 */ sead::Atomic<u32> _8 = 0;  // flags
@@ -220,9 +220,9 @@ public:
 
     /* 17 */ bool m17() override { return true; }
     /* 18 */ virtual f32 m18() { return 0.0f; }
-    /* 19 */ virtual bool m19() { return false; }
-    /* 20 */ virtual void m20() {}
-    /* 21 */ virtual bool m21() { return false; }
+    /* 19 */ virtual s32 m19() { return 0; }
+    /* 20 */ virtual void m20(s32 a) {}
+    /* 21 */ virtual s32 m21() { return 0; }
     /* 22 */ bool m22(Unk8 a1) override;
     // callers and overrides copy the result through the stack: probably a SEAD_ENUM
     /* 23 */ virtual int m23();
@@ -231,8 +231,8 @@ public:
     /* 26 */ f32 m26() override { return 0.0f; }
     /* 27 */ f32 m27() override { return 0.0f; }
     /* 28 */ f32 m28() override { return 0.0f; }
-    /* 29 */ virtual void m29() {}
-    /* 30 */ virtual f32 m30() { return m31(); }
+    /* 29 */ virtual void m29(f32 a) {}
+    /* 30 */ virtual f32 m30(f32 delta) { return m31(); }
     /* 31 */ virtual f32 m31() { return 1.0f; }
     /* 32 */ virtual f32 m32() { return 0.0f; }
     /* 33 */ virtual f32 m33() { return 0.0f; }
