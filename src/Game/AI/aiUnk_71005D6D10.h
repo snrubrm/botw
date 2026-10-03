@@ -269,6 +269,8 @@ bool sub_71005DAF0C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int 
 void sub_71005E1B7C(ksys::act::Actor* actor, bool enable);
 /// Resets Enemy::_f4c.
 void sub_71005E21E8(ksys::act::Actor* actor);
+/// Sets the keyframed state of the ragdoll bone `bone_name` (if the actor has a ragdoll and the bone exists).
+void sub_71005E226C(ksys::act::Actor* actor, const sead::SafeString& bone_name, bool keyframed);
 /// Whether the Weapon equipped in slot `idx` (0-5) has Weapon::_d54 == 1.
 bool sub_71005DA9A8(ksys::act::Actor* actor, int idx);
 /// Adds the position of the actor PlayerInfo::getSomeProcLink() links to (or zero) to `params`.

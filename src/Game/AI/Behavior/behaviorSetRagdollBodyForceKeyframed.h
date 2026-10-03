@@ -13,11 +13,11 @@ public:
     bool m6(sead::Heap* heap) override;
     void m7() override;
     void loadParams() override;
-    void m8() override;  // not decompiled yet (0x710063e16c)
-    void m9() override;  // not decompiled yet (0x710063e1e0)
+    void m8() override;
+    void m9() override;
 
-    /* 0x28 */ sead::SafeString _28{};
-    /* 0x38 */ sead::SafeString _38{};
+    /* 0x28 */ sead::SafeString mRagdollBodyName0_s{};
+    /* 0x38 */ sead::SafeString mRagdollBodyName1_s{};
 };
 KSYS_CHECK_SIZE_NX150(SetRagdollBodyForceKeyframed, 0x48);
 

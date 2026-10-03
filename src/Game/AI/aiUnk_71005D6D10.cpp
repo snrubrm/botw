@@ -1064,6 +1064,14 @@ void sub_71005E21E8(ksys::act::Actor* actor) {
         enemy->_f4c = 0;
 }
 
+void sub_71005E226C(ksys::act::Actor* actor, const sead::SafeString& bone_name, bool keyframed) {
+    if (auto* ragdoll = actor->getRagdollInstance()) {
+        const int idx = ragdoll->getBoneIndexByName(bone_name);
+        if (idx >= 0)
+            ragdoll->setKeyframed(idx, keyframed, ksys::phys::RagdollInstance::SyncToThisBone{true});
+    }
+}
+
 bool sub_71005DA9A8(ksys::act::Actor* actor, int idx) {
     if (idx < 0)
         return false;
