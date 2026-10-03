@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLyzalfosFlame.h"
+#include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -7,7 +10,11 @@ LyzalfosFlame::LyzalfosFlame(const InitArg& arg) : ChemicalAttackBall(arg) {}
 LyzalfosFlame::~LyzalfosFlame() = default;
 
 bool LyzalfosFlame::init_(sead::Heap* heap) {
-    return ChemicalAttackBall::init_(heap);
+    if (!ChemicalAttackBall::init_(heap))
+        return false;
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        bullet->_cf4 |= 0x200;
+    return true;
 }
 
 void LyzalfosFlame::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,6 +22,7 @@ void LyzalfosFlame::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LyzalfosFlame::leave_() {
+    xlink::fade(_1c8, -1);
     ChemicalAttackBall::leave_();
 }
 

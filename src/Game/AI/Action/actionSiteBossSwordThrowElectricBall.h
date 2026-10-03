@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/Action/actionSiteBossThrowParts.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -30,7 +31,8 @@ protected:
     Params mParams;
     sead::Vector3f _d8;
     f32 _e4 = 0.0f;
-    u8 _e8[0x28];
+    sead::Matrix33f _e8;
+    u8 _10c[0x4];
     sead::FixedSafeString<32> _110[3];
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSwordThrowElectricBall, 0x1b8);
