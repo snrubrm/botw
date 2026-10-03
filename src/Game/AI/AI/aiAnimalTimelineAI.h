@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) override;
 
 protected:
     // aitree_variable at offset 0x40

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSeqGroundHit.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -24,6 +26,33 @@ void SeqGroundHit::calc_() {
 
     if (sub_7100562078() || child->isFinished() || child->isFailed())
         changeChild("地上");
+}
+
+// NON_MATCHING: the original keeps every case separate with shared `true` / `false` returns (the
+// isLanded call is not a tail call and the Atomic flag is tested with cbnz); ours tail-calls the last
+// call and keeps the results in w20 (cset).
+bool SeqGroundHit::sub_7100562078() {
+    auto* actor = mActor;
+    bool hit = false;
+    switch (*mCheckType_s) {
+    case 0:
+        hit = isBgGroundHit(actor, false);
+        break;
+    case 1:
+        hit = sub_71007A4178(actor, true) || isBgGroundHit(actor, true) ||
+              isLandedMaybe(actor, true) || actor->get68f();
+        break;
+    case 2:
+        hit = actor->get68f();
+        break;
+    case 3:
+        hit = isBgGroundHit(actor, true) || isLandedMaybe(actor, true) || actor->get68f();
+        break;
+    case 4:
+        hit = isBgGroundHit(actor, true) || isLandedMaybe(actor, true);
+        break;
+    }
+    return hit;
 }
 
 bool SeqGroundHit::isFailed() const {
