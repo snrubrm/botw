@@ -18,7 +18,11 @@ public:
 
 protected:
     void calc_() override;
+    void m32(bool burning) override;
     virtual int m33();
+
+    void* _38{};
+    bool _40 = false;
 };
 
 }  // namespace uking::action

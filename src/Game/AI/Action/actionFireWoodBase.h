@@ -17,11 +17,13 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(bool burning);
 
     // static_param at offset 0x20
     const bool* mChemicalRigidOn_s{};
     // map_unit_param at offset 0x28
     const bool* mInitBurnState_m{};
+    bool _30 = false;
 };
 
 }  // namespace uking::action

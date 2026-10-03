@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool _41 = false;
     void calc_() override;
 };
 
