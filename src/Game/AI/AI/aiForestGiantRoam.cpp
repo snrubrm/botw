@@ -14,8 +14,6 @@ bool ForestGiantRoam::init_(sead::Heap* heap) {
     return BokoblinRoam::init_(heap);
 }
 
-// NON_MATCHING: scheduling of the loads for the squared XZ distance (the original loads the
-// mReturnHomeDist_s pointer before the first subtraction)
 void ForestGiantRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     BokoblinRoam::enter_(params);
     _e8 = false;
@@ -34,9 +32,8 @@ void ForestGiantRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     if (isRootAiParamINot5() || _e8)
         return;
 
-    const f32 dx = mActor->getMtx().m[0][3] - mCentralPos_d->x;
-    const f32 dz = mActor->getMtx().m[2][3] - mCentralPos_d->z;
-    if (dx * dx + dz * dz >= *mReturnHomeDist_s * *mReturnHomeDist_s) {
+    const sead::Vector3f diff = mActor->getMtx().getTranslation() - *mCentralPos_d;
+    if (diff.x * diff.x + diff.z * diff.z >= *mReturnHomeDist_s * *mReturnHomeDist_s) {
         if (holder->_0) {
             holder->_0->sub_7100F75F8C(*mCentralPos_d);
             holder->_8 = 0;
