@@ -135,6 +135,11 @@ public:
     bool sub_7100D12E64() const;
     // 0x7100d0feac (declared only): Actor vtable slot 50 (false if the proc is not an actor).
     bool sub_7100D0FEAC() const;
+    // 0x7100d11188 (declared only; lane1 s21): the actor's chemical matrix (Chemical 0x7100d9153c)
+    // into `out` and true; `*out = Matrix34f::ident` and false without a chemical.
+    bool sub_7100D11188(sead::Matrix34f* out) const;
+    // 0x7100d11254 (declared only): Chemical::_34 of the actor's chemical (0 if none).
+    f32 sub_7100D11254() const;
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
     // (getChemicalStuff() if idx < 0).
     int sub_7100D131D0(int idx) const;

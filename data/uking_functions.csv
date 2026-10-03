@@ -23551,7 +23551,7 @@ Address,Quality,Size,Name
 0x0000007100385a00,O,000004,_ZN5uking2ai21EnemyChemTargetAction5calc_Ev
 0x0000007100385a04,O,000004,_ZN5uking2ai21EnemyChemTargetAction6leave_Ev
 0x0000007100385a08,O,000112,_ZN5uking2ai21EnemyChemTargetAction11loadParams_Ev
-0x0000007100385a78,U,000212,uking::ai::EnemyChemTargetAction::m35
+0x0000007100385a78,O,000212,_ZN5uking2ai21EnemyChemTargetAction3m35Ev
 0x0000007100385b4c,O,000076,_ZN5uking2ai21EnemyChemTargetAction3m36EPN4ksys3act2ai15InlineParamPackE
 0x0000007100385b98,O,000008,_ZNK5uking2ai21EnemyChemTargetAction27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100385ba0,O,000092,_ZNK5uking2ai21EnemyChemTargetAction18getRuntimeTypeInfoEv
@@ -28191,7 +28191,7 @@ Address,Quality,Size,Name
 0x0000007100461c98,U,000220,
 0x0000007100461d74,U,000284,
 0x0000007100461e90,O,000052,_ZN5uking2ai22LandHumEnemyFindPlayer6leave_Ev
-0x0000007100461ec4,U,000252,uking::ai::LandHumEnemyFindPlayer::m44
+0x0000007100461ec4,m,000252,_ZN5uking2ai22LandHumEnemyFindPlayer3m44Ev
 0x0000007100461fc0,U,000364,uking::ai::LandHumEnemyFindPlayer::m48
 0x000000710046212c,U,000364,uking::ai::LandHumEnemyFindPlayer::m49
 0x0000007100462298,U,000364,uking::ai::LandHumEnemyFindPlayer::m50
@@ -73373,8 +73373,8 @@ Address,Quality,Size,Name
 0x0000007100d10fb8,O,000144,_ZNK4ksys3act20ActorConstDataAccess14sub_7100D10FB8Ev
 0x0000007100d11048,U,000156,
 0x0000007100d110e4,U,000164,
-0x0000007100d11188,U,000204,
-0x0000007100d11254,U,000168,
+0x0000007100d11188,U,000204,_ZNK4ksys3act20ActorConstDataAccess14sub_7100D11188EPN4sead8Matrix34IfEE
+0x0000007100d11254,U,000168,_ZNK4ksys3act20ActorConstDataAccess14sub_7100D11254Ev
 0x0000007100d112fc,U,000424,act::acc::Actor::getMtx
 0x0000007100d114a4,U,000324,act::acc::Actor::getMtxPos
 0x0000007100d115e8,U,000204,

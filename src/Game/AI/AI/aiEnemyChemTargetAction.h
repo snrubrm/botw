@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool m35() override;
     void m36(ksys::act::ai::InlineParamPack* params) override;
 
 protected:

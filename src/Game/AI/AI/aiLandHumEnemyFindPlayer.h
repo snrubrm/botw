@@ -21,6 +21,7 @@ public:
     // 0x7100462930 (not decompiled yet)
     void m40() override;
 
+    void m44() override;
     bool m43() override;
     virtual s32 m53() { return *mWeaponIdx_s; }
 

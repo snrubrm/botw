@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiLandHumEnemyFindPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -29,6 +30,25 @@ void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_7100460EE8();
     else
         sub_7100461020();
+}
+
+// NON_MATCHING: stack slot order of the accessor / matrix / position (the original keeps the accessor
+// at the top of the frame, then the matrix, then the position)
+void LandHumEnemyFindPlayer::m44() {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("ケミカル仲間招来") || isCurrentChild("武器ケミカル付与")) {
+        sead::Vector3f pos;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&_1c8, &accessor);
+            sead::Matrix34f mtx;
+            accessor.sub_7100D11188(&mtx);
+            pos.set(mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]);
+        }
+        child->setDynamicParam(pos, "TargetPos");
+    } else {
+        EnemyBaseFindPlayer::m44();
+    }
 }
 
 void LandHumEnemyFindPlayer::leave_() {
