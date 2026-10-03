@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorFootstepChanger.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::behavior {
 
@@ -15,6 +17,13 @@ bool FootstepChanger::m6(sead::Heap* heap) {
 }
 
 void FootstepChanger::m7() {}
+
+void FootstepChanger::m9() {
+    if (auto* xlink = mActor->getXLink()) {
+        if (auto* footstep = xlink->_a0)
+            footstep->sub_71012372EC();
+    }
+}
 
 void FootstepChanger::loadParams() {
     getStaticParam(&mChangeDuration_s, "ChangeDuration");

@@ -15,6 +15,11 @@ namespace ksys::xlink {
 // ActorEffects::init; the XLink member at +0xa0 points to it): footstep settings. The FootstepSilencer
 // behavior sets / clears bit 4 of the flags.
 struct Unk_710123830c {
+    // 0x71012372ec: clears bit 0 of the flags (FootstepChanger::m9). Other methods of the TU
+    // 0x7101236190-0x710123830c (not decompiled): 0x1236520 (FootstepReactionChanger::m8), 0x12370a8 (m9),
+    // 0x12381a8 (FootstepChanger::m8).
+    void sub_71012372EC();
+
     /* 0x00 */ u8 _0[0x1c];
     /* 0x1c */ sead::BitFlag16 _1c;
 };

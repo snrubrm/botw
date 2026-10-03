@@ -214,11 +214,18 @@ public:
     explicit Unk_7100d83054(Actor* actor);
 
     struct Node {
-        /* 0x000 */ u8 _0[0x28];
+        /* 0x000 */ bool _0;
+        /* 0x001 */ u8 _1[0x28 - 1];
         /* 0x028 */ BoneHandle _28;
         /* 0x0d0 */ gsys::BoneAccessKeyEx _d0;
         /* 0x108 */ gsys::BoneAccessKeyEx _108;
-        /* 0x140 */ u8 _140[0x188 - 0x140];
+        /* 0x140 */ s32 _140;
+        /* 0x144 */ u8 _144[0x15c - 0x144];
+        /* 0x15c */ bool _15c;
+        /* 0x15d */ u8 _15d[3];
+        /* 0x160 */ s32 _160;
+        /* 0x164 */ f32 _164;
+        /* 0x168 */ u8 _168[0x188 - 0x168];
         /* 0x188 */ f32 _188;
         /* 0x18c */ f32 _18c;
         /* 0x190 */ u8 _190[0x198 - 0x190];
@@ -233,6 +240,9 @@ public:
     void sub_7100D839A8();
     // 0x7100d852ec: sets 0x10 in _24 and resets the nodes (0x188 / 0x18c = 0, bone matrix = identity).
     void sub_7100D852EC();
+    // 0x7100d85378: applies the rotation (axis `_160` of node `idx` times the angle `_164`) to `mtx` if the node
+    // is enabled (_0 and _15c) and writes the column `_140` of `mtx` to `out`.
+    void sub_7100D85378(sead::Vector3f* out, sead::Matrix34f* mtx, u32 idx);
     void sub_7100D83A0C(const f32& weight);
     void sub_7100D84C2C(const f32& weight);
     void sub_7100D84E14();
