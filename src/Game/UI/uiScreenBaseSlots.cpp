@@ -119,6 +119,17 @@ void Screen::open(s32 option) {
     eui::Screen::open(option);
 }
 
+// 0x7100a828f4 (CSV Screen::m111)
+s32 Screen::m111() {
+    return 0;
+}
+
+// 0x7100a828fc (CSV Screen::m112_null)
+void Screen::m112() {}
+
+// 0x7100a82900 (CSV Screen::m113_null)
+void Screen::m113() {}
+
 // 0x7100a82904 (CSV Screen::m114_null)
 void Screen::m114() {}
 

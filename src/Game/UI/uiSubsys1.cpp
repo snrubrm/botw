@@ -117,4 +117,25 @@ bool UiSubsys1::is38b8And38b9Clear() const {
     return _38b8 && !_38b9;
 }
 
+// 0x71009648a8
+void* UiSubsys1::sub_71009648A8() {
+    for (auto& entry : _658) {
+        if (!(entry._3c & 0x10))
+            return &entry;
+    }
+    return nullptr;
+}
+
+// 0x7100964a0c
+// NON_MATCHING: same checks and the same range / null logic, but the original has a single `mov w0, wzr` exit block
+// (the three failure branches share it) where every source form gives separate exit blocks.
+bool UiSubsys1::sub_7100964A0C(s32 index) {
+    bool result = false;
+    if (index >= 0 && index < _658.size()) {
+        if (auto* entry = _658.at(index))
+            result = entry->_3c & 0x10;
+    }
+    return result;
+}
+
 }  // namespace uking::ui

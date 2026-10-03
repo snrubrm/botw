@@ -153,7 +153,7 @@ public:
     virtual void m108();
     virtual void m109();
     virtual void m110();
-    virtual void m111();
+    virtual s32 m111();
     virtual void m112();
     virtual void m113();
     virtual void m114();
