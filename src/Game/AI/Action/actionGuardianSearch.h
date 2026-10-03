@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
 
+    f32 _28 = 0.0f;
     // static_param at offset 0x30
     const int* mWaitFrame_s{};
     // static_param at offset 0x38

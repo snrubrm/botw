@@ -33,6 +33,8 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
 
+class Unk_7100041da4;  // actionGuardianMoveTo.h
+
 namespace uking::act {
 
 class Guardian;
@@ -108,7 +110,7 @@ public:
     /* 0x14d0 */ u32 _14d0 = 0;
     /* 0x14d4 */ u32 _14d4 = 0;
     /* 0x14d8 */ u32 _14d8 = 0;  // state (sub_7100035A90)
-    /* 0x14dc */ u32 _14dc = 0;
+    /* 0x14dc */ f32 _14dc = 0;  // (GuardianStopWait: stop time limit)
     /* 0x14e0 */ void* _14e0 = nullptr;
     /* 0x14e8 */ void* _14e8 = nullptr;
     /* 0x14f0 */ f32 _14f0 = 1.0f;  // +-1 (random sign, set by sub_7100035A90)
@@ -134,6 +136,10 @@ public:
     struct Unk1 {
         u8 _0[0x30];
         ksys::phys::NavMeshCharacter* _30;  // m45
+        u8 _38[0x50 - 0x38];
+        // The movement provider (GuardianMoveTo's second base), set in GuardianMoveTo::enter_ and cleared
+        // in leave_.
+        Unk_7100041da4* _50;
     };
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
     /* 0x15b8 */ u32 _15b8 = 0;

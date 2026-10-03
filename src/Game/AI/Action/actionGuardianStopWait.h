@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m0(Data* data, ksys::act::Actor* actor) override;
 
 protected:
     void calc_() override;

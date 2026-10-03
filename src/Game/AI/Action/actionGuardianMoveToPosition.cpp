@@ -14,6 +14,14 @@ bool GuardianMoveToPosition::init_(sead::Heap* heap) {
 
 void GuardianMoveToPosition::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianMoveTo::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _48 = 1.0f;
+    if (auto* nav = mActor->m45()) {
+        nav->sub_7100F76790();
+        nav->inlineReset();
+    } else {
+        setFailed();
+    }
 }
 
 void GuardianMoveToPosition::leave_() {

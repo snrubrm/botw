@@ -15,6 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m0(Data* data, ksys::act::Actor* actor) override;
 
 protected:
     void calc_() override;
@@ -27,6 +28,8 @@ protected:
     sead::Vector3f* mDynTargetPos_d{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mDynStartPos_d{};
+    // Timer (seconds) between navmesh queries in calc_
+    f32 _48 = 0.0f;
 };
 
 }  // namespace uking::action
