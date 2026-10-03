@@ -379,6 +379,7 @@ public:
 
 class ScreenMiniGame : public ScreenEx {
 public:
+    ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
 
     u8 _pad_3610[0x3660 - 0x3610];
@@ -448,6 +449,7 @@ public:
 // slots per state; slot 4 overrides eui::Screen's) are declared. INCOMPLETE (see Screen).
 class ScreenHardMode : public ScreenEx {
 public:
+    ~ScreenHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
     virtual void m156();
@@ -719,6 +721,37 @@ class ScreenHomeMenuCapture : public ScreenEx {
 public:
     ~ScreenHomeMenuCapture() override;
     SEAD_RTTI_OVERRIDE(ScreenHomeMenuCapture, ScreenEx)
+};
+
+class ScreenShopBtnList20 : public ScreenEx {
+public:
+    ~ScreenShopBtnList20() override;
+    SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
+};
+
+class ScreenTime : public ScreenEx {
+public:
+    ~ScreenTime() override;
+    SEAD_RTTI_OVERRIDE(ScreenTime, ScreenEx)
+};
+
+class ScreenChallengeWin : public ScreenEx {
+public:
+    ~ScreenChallengeWin() override;
+    SEAD_RTTI_OVERRIDE(ScreenChallengeWin, ScreenEx)
+};
+
+class ScreenControllerWindow : public ScreenEx {
+public:
+    ~ScreenControllerWindow() override;
+    SEAD_RTTI_OVERRIDE(ScreenControllerWindow, ScreenEx)
+};
+
+class ScreenDLCWindow : public ScreenEx {
+public:
+    ~ScreenDLCWindow() override;
+    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    SEAD_RTTI_OVERRIDE(ScreenDLCWindow, ScreenEx)
 };
 
 }  // namespace uking::ui

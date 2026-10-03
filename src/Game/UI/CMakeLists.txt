@@ -12,6 +12,7 @@ target_sources(uking PRIVATE
   uiPouchFacade.cpp
   uiScreenCtors.cpp
   uiScreenDtors.cpp
+  uiScreenDtors2.cpp
   uiScreenFacade.cpp
   uiScreenHardMode.cpp
   uiScreenSlots.cpp
