@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAppearFromTargetFrontAfterChase.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -37,6 +38,14 @@ void AppearFromTargetFrontAfterChase::m37(const sead::Vector3f& pos) {
     mActor->getXLink()->_cc.reset(0x80000);
     sub_71005DD34C(mActor, false);
     AppearNearTarget::m37(pos);
+}
+
+void AppearFromTargetFrontAfterChase::sub_710030F120() {
+    _98 = ksys::Timer(3.0f, 3.0f);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("湧出出現", &pack);
 }
 
 }  // namespace uking::ai

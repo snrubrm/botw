@@ -45,4 +45,14 @@ void MoriblinUnarmedBattle::sub_71004ACE74() {
     changeChild("攻撃", &pack);
 }
 
+void MoriblinUnarmedBattle::sub_71004ACF98() {
+    sub_71005DA114(mActor, &_90);
+    _80 = ksys::Timer(10.0f, 10.0f);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("待機", &pack);
+}
+
 }  // namespace uking::ai
