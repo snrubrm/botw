@@ -37,14 +37,14 @@ void FlyMoveBase::leave_() {
 }
 
 void FlyMoveBase::loadParams_() {
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mHorizontalFinRadius_s, "HorizontalFinRadius");
-    getStaticParam(&mTargetHeightOffset_s, "TargetHeightOffset");
-    getStaticParam(&mRotRatio_s, "RotRatio");
-    getStaticParam(&mVerticalFinLength_s, "VerticalFinLength");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mHorizontalFinRadius_s, "HorizontalFinRadius");
+    getStaticParam(&mParams.mTargetHeightOffset_s, "TargetHeightOffset");
+    getStaticParam(&mParams.mRotRatio_s, "RotRatio");
+    getStaticParam(&mParams.mVerticalFinLength_s, "VerticalFinLength");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void FlyMoveBase::calc_() {
@@ -54,8 +54,8 @@ void FlyMoveBase::calc_() {
     m32(&target);
     const f32 dx = target.x - pos.x;
     const f32 dz = target.z - pos.z;
-    if (std::sqrt(dx * dx + dz * dz) <= *mHorizontalFinRadius_s &&
-        sead::Mathf::abs(target.y - pos.y) <= *mVerticalFinLength_s) {
+    if (std::sqrt(dx * dx + dz * dz) <= *mParams.mHorizontalFinRadius_s &&
+        sead::Mathf::abs(target.y - pos.y) <= *mParams.mVerticalFinLength_s) {
         setFinished();
         return;
     }
@@ -66,8 +66,8 @@ void FlyMoveBase::calc_() {
 void FlyMoveBase::m32(sead::Vector3f* target) {
     if (!target)
         return;
-    target->set(*mTargetPos_d);
-    target->y += *mTargetHeightOffset_s;
+    target->set(*mParams.mTargetPos_d);
+    target->y += *mParams.mTargetHeightOffset_s;
 }
 
 void FlyMoveBase::m33(sead::Vector3f* dir, f32* dist) {
