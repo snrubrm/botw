@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDungeonRotateSymmetry.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include <xlink2/xlink2Event.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiXlinkHandle.h"
@@ -41,6 +43,11 @@ void DungeonRotateSymmetry::loadParams_() {
 
 void DungeonRotateSymmetry::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void DungeonRotateSymmetry::m9() {
+    _78 = mActor->getFieldBodyGroup();
+    _74 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
 }
 
 }  // namespace uking::action
