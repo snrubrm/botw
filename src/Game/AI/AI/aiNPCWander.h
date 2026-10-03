@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/AI/aiNPCTravelBase.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
+#include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -33,6 +35,13 @@ protected:
     sead::SafeString mRailUniqueName_s{};
     // dynamic_param at offset 0xd0
     bool* mIsPathRest_d{};
+    act::NPC* _d8{};
+    u32 _e0 = 0;
+    Unk_71024f15c0* _e8{};  // NPC::_848
+    sead::SafeString _f0{};
+    sead::SafeString _100{};
+    f32 _110 = -1.0f;
 };
+KSYS_CHECK_SIZE_NX150(NPCWander, 0x118);
 
 }  // namespace uking::ai

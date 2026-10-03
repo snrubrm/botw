@@ -463,6 +463,16 @@ public:
     sead::JobQueueLock _28;
 };
 
+// vtable 0x710240bc48 (NPCTravelBase at +0x38, NPCMove at +0x2c0); message 0x8000009. D2 / D0 / m2 at
+// 0x71004cdc50 / 0x71004d4f64 / 0x71004d4f98 (lane2 s21).
+class Unk_710240bc48 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_710240bc48_Payload _18;
+};
+
 // --- lane1 session 7 senders ---
 // vtable 0x710235abc8 (EnemyNormal); message 0x8000006. Its D2/D0/m2 are at 0x7100032a4c..
 class Unk_710235abc8 : public Unk_7102357d20 {

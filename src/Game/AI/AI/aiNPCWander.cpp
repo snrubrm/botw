@@ -11,7 +11,16 @@ NPCWander::~NPCWander() {
 }
 
 bool NPCWander::init_(sead::Heap* heap) {
-    return NPCTravelBase::init_(heap);
+    if (!NPCTravelBase::init_(heap))
+        return false;
+
+    if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
+        _d8 = npc;
+        _e8 = &npc->_848;
+    } else {
+        _d8 = nullptr;
+    }
+    return true;
 }
 
 void NPCWander::enter_(ksys::act::ai::InlineParamPack* params) {
