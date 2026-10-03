@@ -32,6 +32,9 @@ public:
     void sub_71006694B4(ksys::act::BaseProc* proc);
     void sub_710066956C(ksys::act::BaseProc* proc, bool join_system_group);
     void sub_71006695DC(ksys::act::BaseProc* proc);
+    // 0x7100669144 (lane1 s22; the CSV name is a mislabel): registers a gear ratio (updates the lcm
+    // kept at +0x10c8). Placeholder name.
+    void sub_7100669144(f32 gear_ratio);
     // 0x71006698b0: sets / clears bit 2 of the current entry's flags (+0x10a8, indexed by +0x28)
     // under the CriticalSection. Placeholder name.
     void sub_71006698B0(bool on);

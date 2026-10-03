@@ -19,7 +19,9 @@ public:
     virtual ~ActorBind() = default;
 
     virtual bool m4(BaseProc* proc) = 0;
-    virtual bool m5() { return false; }
+    // Takes the bound actor like m4 (DgnObj_DLC_CogWheel2::m5 reads it from the argument; the base and
+    // ModelBindInfo ignore it).
+    virtual bool m5(BaseProc* proc) { return false; }
     virtual bool m6(BaseProc* proc);
     virtual bool m7(BaseProc* proc);
     virtual bool m8(BaseProc* proc);
