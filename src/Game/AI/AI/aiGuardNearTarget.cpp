@@ -7,7 +7,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling (the original pairs the callback's vtable with its mPrev store)
 GuardNearTarget::GuardNearTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 GuardNearTarget::~GuardNearTarget() = default;
@@ -23,19 +22,19 @@ void GuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         m37(true);
         _60._25 = true;
         ksys::act::ai::InlineParamPack params_;
-        params_.addVec3(*mTargetPos_d, "TargetPos", -1);
+        params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
         changeChild("ガード待機", &params_);
     } else if (m34(distance)) {
         sub_710044CA3C();
     } else {
         ksys::act::ai::InlineParamPack params_;
-        params_.addVec3(*mTargetPos_d, "TargetPos", -1);
+        params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
         changeChild("通常", &params_);
     }
 }
 
 float GuardNearTarget::sub_710044C9E8() const {
-    return (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
+    return (mActor->getMtx().getTranslation() - *mParams.mTargetPos_d).length();
 }
 
 void GuardNearTarget::sub_710044CA3C() {
@@ -44,7 +43,7 @@ void GuardNearTarget::sub_710044CA3C() {
         _60._25 = false;
     }
     ksys::act::ai::InlineParamPack params;
-    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    params.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     changeChild("ガード開始", &params);
 }
 
@@ -53,11 +52,11 @@ void GuardNearTarget::leave_() {
 }
 
 void GuardNearTarget::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mBaseDist_s, "BaseDist");
-    getStaticParam(&mGuardStartDist_s, "GuardStartDist");
-    getStaticParam(&mGuardEndDist_s, "GuardEndDist");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mBaseDist_s, "BaseDist");
+    getStaticParam(&mParams.mGuardStartDist_s, "GuardStartDist");
+    getStaticParam(&mParams.mGuardEndDist_s, "GuardEndDist");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 bool GuardNearTarget::isChangeable() const {
@@ -75,11 +74,11 @@ void GuardNearTarget::m37(bool enable) {
 }
 
 bool GuardNearTarget::m34(float distance) {
-    return *mBaseDist_s + *mGuardStartDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) >= distance;
+    return *mParams.mBaseDist_s + *mParams.mGuardStartDist_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s) >= distance;
 }
 
 bool GuardNearTarget::m36(float distance) {
-    return *mBaseDist_s + *mGuardEndDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) < distance;
+    return *mParams.mBaseDist_s + *mParams.mGuardEndDist_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s) < distance;
 }
 
 void GuardNearTarget::sub_710044D00C() {
@@ -89,7 +88,7 @@ void GuardNearTarget::sub_710044D00C() {
     }
 
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     changeChild("高速ガード開始", &pack);
 }
 

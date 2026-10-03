@@ -2,7 +2,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: scheduling of the zero stores around the address of _220
 EnemySearchShieldItemFindPlayer::EnemySearchShieldItemFindPlayer(const InitArg& arg)
     : LandHumEnemyFindPlayer(arg) {}
 
@@ -22,13 +21,13 @@ void EnemySearchShieldItemFindPlayer::leave_() {
 
 void EnemySearchShieldItemFindPlayer::loadParams_() {
     LandHumEnemyFindPlayer::loadParams_();
-    getStaticParam(&mShieldIdx_s, "ShieldIdx");
-    getStaticParam(&mSearchShieldDist_s, "SearchShieldDist");
-    getStaticParam(&mNoShieldSearchDist_s, "NoShieldSearchDist");
-    getStaticParam(&mSearchObjectDist_s, "SearchObjectDist");
-    getStaticParam(&mItemChaseableSpd_s, "ItemChaseableSpd");
-    getStaticParam(&mItemChasealeRot_s, "ItemChasealeRot");
-    getStaticParam(&mCanGrabHeavy_s, "CanGrabHeavy");
+    getStaticParam(&mParams.mShieldIdx_s, "ShieldIdx");
+    getStaticParam(&mParams.mSearchShieldDist_s, "SearchShieldDist");
+    getStaticParam(&mParams.mNoShieldSearchDist_s, "NoShieldSearchDist");
+    getStaticParam(&mParams.mSearchObjectDist_s, "SearchObjectDist");
+    getStaticParam(&mParams.mItemChaseableSpd_s, "ItemChaseableSpd");
+    getStaticParam(&mParams.mItemChasealeRot_s, "ItemChasealeRot");
+    getStaticParam(&mParams.mCanGrabHeavy_s, "CanGrabHeavy");
 }
 
 }  // namespace uking::ai

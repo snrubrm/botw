@@ -17,20 +17,23 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x1e8
-    const int* mShieldIdx_s{};
-    // static_param at offset 0x1f0
-    const float* mSearchShieldDist_s{};
-    // static_param at offset 0x1f8
-    const float* mNoShieldSearchDist_s{};
-    // static_param at offset 0x200
-    const float* mSearchObjectDist_s{};
-    // static_param at offset 0x208
-    const float* mItemChaseableSpd_s{};
-    // static_param at offset 0x210
-    const float* mItemChasealeRot_s{};
-    // static_param at offset 0x218
-    const bool* mCanGrabHeavy_s{};
+    struct Params {
+        // static_param at offset 0x1e8
+        const int* mShieldIdx_s{};
+        // static_param at offset 0x1f0
+        const float* mSearchShieldDist_s{};
+        // static_param at offset 0x1f8
+        const float* mNoShieldSearchDist_s{};
+        // static_param at offset 0x200
+        const float* mSearchObjectDist_s{};
+        // static_param at offset 0x208
+        const float* mItemChaseableSpd_s{};
+        // static_param at offset 0x210
+        const float* mItemChasealeRot_s{};
+        // static_param at offset 0x218
+        const bool* mCanGrabHeavy_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _220;
     ksys::act::BaseProcLink _230;
     bool _240 = true;

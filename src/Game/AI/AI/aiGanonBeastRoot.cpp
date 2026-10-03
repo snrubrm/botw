@@ -16,7 +16,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: two adjacent zero stores (0x38 / 0x58) are emitted in the other order
 GanonBeastRoot::GanonBeastRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 GanonBeastRoot::~GanonBeastRoot() = default;
@@ -51,7 +50,7 @@ void GanonBeastRoot::enter_(ksys::act::ai::InlineParamPack* params) {
                 enemy->sendMessage(*accessor.getMessageTransceiverId(),
                                    ksys::MessageType(0x800002d), nullptr, true);
             }
-            *mIsGanonBeastAngry_a = false;
+            *mParams.mIsGanonBeastAngry_a = false;
             _128 = true;
         }
     }
@@ -75,7 +74,7 @@ void GanonBeastRoot::calc_() {
     sead::Vector3f camera_dir;
     ksys::sub_7100D8C7FC(&camera_dir);
     _50._34 = sead::Mathf::clampMin(camera_dir.y * 5.0f, 0.0f) + 25.0f;
-    if (*mIsGanonBeastAngry_a)
+    if (*mParams.mIsGanonBeastAngry_a)
         _50.sub_7100710938();
 
     auto* actor = mActor;
@@ -128,9 +127,9 @@ void GanonBeastRoot::loadParams_() {
     getStaticParam(&mInitWeakPointASName_s, "InitWeakPointASName");
     getStaticParam(&_50.mGrudeRainObject_s, "GrudeRainObject");
     getStaticParam(&_50.mGrudeRainObject2_s, "GrudeRainObject2");
-    getAITreeVariable(&mWeakPointAliveFlag_a, "WeakPointAliveFlag");
-    getAITreeVariable(&mWeakPointActiveFlag_a, "WeakPointActiveFlag");
-    getAITreeVariable(&mIsGanonBeastAngry_a, "IsGanonBeastAngry");
+    getAITreeVariable(&mParams.mWeakPointAliveFlag_a, "WeakPointAliveFlag");
+    getAITreeVariable(&mParams.mWeakPointActiveFlag_a, "WeakPointActiveFlag");
+    getAITreeVariable(&mParams.mIsGanonBeastAngry_a, "IsGanonBeastAngry");
 }
 
 void GanonBeastRoot::sub_71003E6254() {

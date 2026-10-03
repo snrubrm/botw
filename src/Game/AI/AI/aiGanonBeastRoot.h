@@ -22,12 +22,15 @@ protected:
     // 0x3e6254 (lane4 s23)
     void sub_71003E6254();
 
-    // aitree_variable at offset 0x38
-    bool* mIsGanonBeastAngry_a{};
-    // aitree_variable at offset 0x40
-    void* mWeakPointAliveFlag_a{};
-    // aitree_variable at offset 0x48
-    void* mWeakPointActiveFlag_a{};
+    struct Params {
+        // aitree_variable at offset 0x38
+        bool* mIsGanonBeastAngry_a{};
+        // aitree_variable at offset 0x40
+        void* mWeakPointAliveFlag_a{};
+        // aitree_variable at offset 0x48
+        void* mWeakPointActiveFlag_a{};
+    };
+    Params mParams;
     // The actor "rain" component (its "GrudeRainObject" / "GrudeRainObject2" static params are members
     // of it: offsets 0x90 / 0xa0).
     /* 0x50 */ Unk_71023f18e8 _50;

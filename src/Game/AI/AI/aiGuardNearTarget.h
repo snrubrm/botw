@@ -30,16 +30,19 @@ protected:
     float sub_710044C9E8() const;
     void sub_710044CA3C();
 
-    // static_param at offset 0x38
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x40
-    const float* mBaseDist_s{};
-    // static_param at offset 0x48
-    const float* mGuardStartDist_s{};
-    // static_param at offset 0x50
-    const float* mGuardEndDist_s{};
-    // dynamic_param at offset 0x58
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x40
+        const float* mBaseDist_s{};
+        // static_param at offset 0x48
+        const float* mGuardStartDist_s{};
+        // static_param at offset 0x50
+        const float* mGuardEndDist_s{};
+        // dynamic_param at offset 0x58
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_71024519a8 _60;
 };
 

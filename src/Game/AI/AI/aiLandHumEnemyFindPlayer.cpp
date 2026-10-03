@@ -9,14 +9,13 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: ours keeps &_1b8 in a callee-saved register across the param memset
 LandHumEnemyFindPlayer::LandHumEnemyFindPlayer(const InitArg& arg) : EnemyBaseFindPlayer(arg) {}
 
 LandHumEnemyFindPlayer::~LandHumEnemyFindPlayer() = default;
 
 void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     _1e0 = false;
-    if (mActor->get68f().load() || sub_71005D91A0(mActor, *mNoBurnWaterDepth_s))
+    if (mActor->get68f().load() || sub_71005D91A0(mActor, *mParams.mNoBurnWaterDepth_s))
         _1d8 = 1.0f;
     else
         _1d8 = 0.0f;
@@ -78,28 +77,28 @@ void LandHumEnemyFindPlayer::leave_() {
     dmg::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
 }
 
-// NON_MATCHING: the original keeps &mThrowWeaponPer_s in a callee-saved register from the start
+// NON_MATCHING: the original keeps &mParams.mThrowWeaponPer_s in a callee-saved register from the start
 void LandHumEnemyFindPlayer::loadParams_() {
     EnemyBaseFindPlayer::loadParams_();
-    getStaticParam(&mExplosivesAvoidDist_s, "ExplosivesAvoidDist");
-    getStaticParam(&mExplosivesAvoidSpeed_s, "ExplosivesAvoidSpeed");
-    getStaticParam(&mExplosivesAvoidAng_s, "ExplosivesAvoidAng");
-    getStaticParam(&mChemicalSearchDist_s, "ChemicalSearchDist");
-    getStaticParam(&mNoSearchDist_s, "NoSearchDist");
-    getStaticParam(&mVoltage_s, "Voltage");
-    getStaticParam(&mChemicalActionDist_s, "ChemicalActionDist");
-    getStaticParam(&mThrowWeaponPer_s, "ThrowWeaponPer");
-    getStaticParam(&mThrowWeaponDist_s, "ThrowWeaponDist");
-    getStaticParam(&mNoChemSearchWpIdx_s, "NoChemSearchWpIdx");
-    getStaticParam(&mNoBurnWaterDepth_s, "NoBurnWaterDepth");
-    getStaticParam(&mNearScaffoldDist_s, "NearScaffoldDist");
-    getStaticParam(&mClimbVmin_s, "ClimbVmin");
-    getStaticParam(&mClimbVmax_s, "ClimbVmax");
-    getStaticParam(&mClimbHmax_s, "ClimbHmax");
+    getStaticParam(&mParams.mExplosivesAvoidDist_s, "ExplosivesAvoidDist");
+    getStaticParam(&mParams.mExplosivesAvoidSpeed_s, "ExplosivesAvoidSpeed");
+    getStaticParam(&mParams.mExplosivesAvoidAng_s, "ExplosivesAvoidAng");
+    getStaticParam(&mParams.mChemicalSearchDist_s, "ChemicalSearchDist");
+    getStaticParam(&mParams.mNoSearchDist_s, "NoSearchDist");
+    getStaticParam(&mParams.mVoltage_s, "Voltage");
+    getStaticParam(&mParams.mChemicalActionDist_s, "ChemicalActionDist");
+    getStaticParam(&mParams.mThrowWeaponPer_s, "ThrowWeaponPer");
+    getStaticParam(&mParams.mThrowWeaponDist_s, "ThrowWeaponDist");
+    getStaticParam(&mParams.mNoChemSearchWpIdx_s, "NoChemSearchWpIdx");
+    getStaticParam(&mParams.mNoBurnWaterDepth_s, "NoBurnWaterDepth");
+    getStaticParam(&mParams.mNearScaffoldDist_s, "NearScaffoldDist");
+    getStaticParam(&mParams.mClimbVmin_s, "ClimbVmin");
+    getStaticParam(&mParams.mClimbVmax_s, "ClimbVmax");
+    getStaticParam(&mParams.mClimbHmax_s, "ClimbHmax");
 }
 
 bool LandHumEnemyFindPlayer::m43() {
-    if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
+    if (*mParams.mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
         return false;
     return EnemyBaseFindPlayer::m43();
 }
@@ -107,7 +106,7 @@ bool LandHumEnemyFindPlayer::m43() {
 // NON_MATCHING: the original ends with `if (dist <= Hmax) return true; return false;` as two
 // branches (one dtor call shared); ours folds the compare into a cset
 bool LandHumEnemyFindPlayer::sub_7100461B74() {
-    if (*mClimbHmax_s < 0)
+    if (*mParams.mClimbHmax_s < 0)
         return false;
     auto& link = sub_71005D94AC(mActor);
     if (!link.hasProc() || !ksys::act::isPlayerProfile(&link))
@@ -118,9 +117,9 @@ bool LandHumEnemyFindPlayer::sub_7100461B74() {
         return false;
     const sead::Vector3f diff =
         player.getActorMtx().getTranslation() - mActor->getMtx().getTranslation();
-    if (diff.y < *mClimbVmin_s || diff.y > *mClimbVmax_s)
+    if (diff.y < *mParams.mClimbVmin_s || diff.y > *mParams.mClimbVmax_s)
         return false;
-    if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mClimbHmax_s)
+    if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mClimbHmax_s)
         return true;
     return false;
 }
@@ -134,12 +133,12 @@ void LandHumEnemyFindPlayer::sub_7100461C98() {
 
 // m48 / m49 / m50 / m52 have identical bodies in the original (m51 adds the m38 tail).
 bool LandHumEnemyFindPlayer::m48() {
-    if (!(*mNearScaffoldDist_s <= 0)) {
+    if (!(*mParams.mNearScaffoldDist_s <= 0)) {
         auto* actor = mActor;
         if (sub_71005D9744(actor) == 3) {
             const sead::Vector3f target = sub_71005D9330(actor);
             const sead::Vector3f diff = target - actor->getMtx().getTranslation();
-            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mNearScaffoldDist_s) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("対象見張り台", &pack);
@@ -155,12 +154,12 @@ bool LandHumEnemyFindPlayer::m48() {
 }
 
 bool LandHumEnemyFindPlayer::m49() {
-    if (!(*mNearScaffoldDist_s <= 0)) {
+    if (!(*mParams.mNearScaffoldDist_s <= 0)) {
         auto* actor = mActor;
         if (sub_71005D9744(actor) == 3) {
             const sead::Vector3f target = sub_71005D9330(actor);
             const sead::Vector3f diff = target - actor->getMtx().getTranslation();
-            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mNearScaffoldDist_s) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("対象見張り台", &pack);
@@ -176,12 +175,12 @@ bool LandHumEnemyFindPlayer::m49() {
 }
 
 bool LandHumEnemyFindPlayer::m50() {
-    if (!(*mNearScaffoldDist_s <= 0)) {
+    if (!(*mParams.mNearScaffoldDist_s <= 0)) {
         auto* actor = mActor;
         if (sub_71005D9744(actor) == 3) {
             const sead::Vector3f target = sub_71005D9330(actor);
             const sead::Vector3f diff = target - actor->getMtx().getTranslation();
-            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mNearScaffoldDist_s) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("対象見張り台", &pack);
@@ -197,12 +196,12 @@ bool LandHumEnemyFindPlayer::m50() {
 }
 
 bool LandHumEnemyFindPlayer::m51() {
-    if (!(*mNearScaffoldDist_s <= 0)) {
+    if (!(*mParams.mNearScaffoldDist_s <= 0)) {
         auto* actor = mActor;
         if (sub_71005D9744(actor) == 3) {
             const sead::Vector3f target = sub_71005D9330(actor);
             const sead::Vector3f diff = target - actor->getMtx().getTranslation();
-            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mNearScaffoldDist_s) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("対象見張り台", &pack);
@@ -222,12 +221,12 @@ bool LandHumEnemyFindPlayer::m51() {
 }
 
 bool LandHumEnemyFindPlayer::m52() {
-    if (!(*mNearScaffoldDist_s <= 0)) {
+    if (!(*mParams.mNearScaffoldDist_s <= 0)) {
         auto* actor = mActor;
         if (sub_71005D9744(actor) == 3) {
             const sead::Vector3f target = sub_71005D9330(actor);
             const sead::Vector3f diff = target - actor->getMtx().getTranslation();
-            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mParams.mNearScaffoldDist_s) {
                 ksys::act::ai::InlineParamPack pack;
                 pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
                 changeChild("対象見張り台", &pack);
