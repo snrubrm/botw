@@ -77,16 +77,16 @@ void SwitchHit::m43() {
     changeChild("オン");
 }
 
-// NON_MATCHING: the original evaluates both _44 conditions without branching (orr) and loads the chase
-// target after the VFR delta (see SwitchTimeLag::calc_)
 void SwitchHit::calc_() {
     SwitchAI::calc_();
     auto* actor = mActor;
     _44 = false;
     _45 = false;
-    _44 = sub_71007A274C(actor) ||
-          (actor->getImpulseBaseProcLink() && actor->getImpulseBaseProcLink()->_10._c > 0);
-    _45 = sead::Mathf::chase(&_40, *mWaitTime_s, ksys::VFR::instance()->getDeltaFrame());
+    const bool hit = sub_71007A274C(actor);
+    auto* link = actor->getImpulseBaseProcLink();
+    const bool impulse = link && link->_10._c > 0;
+    _44 = hit || impulse;
+    _45 = ksys::VFR::chase(&_40, *mWaitTime_s);
     SwitchAI::calc_();
     if (actor->hasPlacementLinkForBasicSig() && isCurrentChild("オン待機") && _45 &&
         !actor->checkBasicSig()) {

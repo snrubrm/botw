@@ -72,7 +72,10 @@ public:
     // 0x7100718360: allocates and constructs the object (ctor 0x7100717eec).
     static Unk_7102450fa8* sub_7100718360(sead::Heap* heap);
     bool sub_71007183A4(sead::Heap* heap, const Unk2& arg);
-    // Inline-only in the original (by-value enum parameter -> lifetime markers on the enum temporary).
+    // inline-only in the original; name is a guess. Evidence: PriestBossMetaAIRoot::calc_ tests the flag
+    // through a by-value enum parameter (the enum temporary shares the stack slot of `arg`: lifetime
+    // markers); only that one call site is known, the same shape appears in the other PriestBoss*
+    // flag tests (IronBallRoot::m41, BananaMode).
     bool isFlagOn(Flag flag) const { return _78.isOnBit(flag); }
     void sub_710071918C();
     // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.

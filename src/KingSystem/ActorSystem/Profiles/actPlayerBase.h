@@ -178,8 +178,8 @@ public:
         _c98.set(0x40);
     }
 
-    // Inline-only in the original (m266 / m307 and SwitchPlayerEquipment::calc_ inline it with a
-    // constant); the name is a placeholder.
+    // inline-only in the original; name is a guess. Evidence: m266 / m307 and SwitchPlayerEquipment::calc_
+    // inline it with a constant.
     void setC98Locked(u32 bits) {
         const auto lock = sead::makeScopedLock(_c58);
         _c98.set(bits);

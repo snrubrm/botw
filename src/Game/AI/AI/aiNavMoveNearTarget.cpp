@@ -34,7 +34,7 @@ bool NavMoveNearTarget::m38(f32* out) {
     auto* nav = mActor->m45();
     if (!nav)
         return false;
-    *out = sead::Mathf::max(sub_71007320F0(mActor, *mWeaponIdx_s), nav->_2a8 * nav->_2ac) +
+    *out = sead::Mathf::max(sub_71007320F0(mActor, *mWeaponIdx_s), nav->getRadiusMaybe()) +
            *mReachTargetArea_s;
     return true;
 }

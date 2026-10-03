@@ -49,6 +49,8 @@ bool PreyRoot::m35() {
 }
 
 namespace {
+// inline-only in the original; name is a guess. Evidence: the SEAD_ENUM temporary of the Unk8 value shares
+// the SafeString's stack slot (by-value parameter, lifetime markers); one call site (PreyRoot::m36).
 bool isNonZero(act::Unk_7100e8b2b8::Unk8 type) {
     return int(type) != 0;
 }

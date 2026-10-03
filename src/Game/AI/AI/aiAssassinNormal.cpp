@@ -250,7 +250,7 @@ bool AssassinNormal::sub_710040D048(ksys::act::Unk_7100d78e50* entry) {
     sead::Vector3f target;
     entry->_58.getTranslation(target);
     auto* nav = mActor->m45();
-    const f32 max_dist = nav ? nav->_2a8 * nav->_2ac : 3.0f;
+    const f32 max_dist = nav ? nav->getRadiusMaybe() : 3.0f;
     return sub_710072EC90(pos, target, nullptr, max_dist, 2.0f);
 }
 

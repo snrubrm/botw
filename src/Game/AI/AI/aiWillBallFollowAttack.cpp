@@ -32,26 +32,22 @@ void WillBallFollowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: instruction scheduling of the cycle/amplitude loads and fmul operand order
 void WillBallFollowAttack::sub_71005F34A0() {
     sead::Vector3f target = *mTargetPos_d;
-    const f32 cycle = *mCycleY_s;
     const f32 amp = *mAmplitudeY_s;
-    const f32 rate = sead::Mathf::pi2() / cycle;
-    target.y += amp * sead::Mathf::sin(_78 * rate);
+    const f32 rate = sead::Mathf::pi2() / *mCycleY_s;
+    target.y += amp * sead::Mathf::sin(rate * _78);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(target, "TargetPos", -1);
     params.addVec3(*mCenterPos_d, "CenterPos", -1);
     changeChild("待機", &params);
 }
 
-// NON_MATCHING: instruction scheduling of the cycle/amplitude loads and fmul operand order
 void WillBallFollowAttack::sub_71005F35E4() {
     sead::Vector3f target = *mTargetPos_d;
-    const f32 cycle = *mCycleY_s;
     const f32 amp = *mAmplitudeY_s;
-    const f32 rate = sead::Mathf::pi2() / cycle;
-    target.y += amp * sead::Mathf::sin(_78 * rate);
+    const f32 rate = sead::Mathf::pi2() / *mCycleY_s;
+    target.y += amp * sead::Mathf::sin(rate * _78);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(target, "TargetPos", -1);
     params.addVec3(*mCenterPos_d, "CenterPos", -1);

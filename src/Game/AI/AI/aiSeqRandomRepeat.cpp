@@ -11,12 +11,13 @@ bool SeqRandomRepeat::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original loads *mMinActionNum_s before the GlobalRandom instance
 void SeqRandomRepeat::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (*mMaxActionNum_s < 1)
+    if (*mMaxActionNum_s < 1) {
         _50 = 0;
-    else
-        _50 = sead::GlobalRandom::instance()->getS32Range(*mMinActionNum_s, *mMaxActionNum_s + 1);
+    } else {
+        const int min = *mMinActionNum_s;
+        _50 = sead::GlobalRandom::instance()->getS32Range(min, *mMaxActionNum_s + 1);
+    }
     changeChild("行動", params);
 }
 

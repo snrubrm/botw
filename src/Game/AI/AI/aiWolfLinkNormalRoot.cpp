@@ -20,7 +20,8 @@
 namespace uking::ai {
 
 namespace {
-// Inline-only in the original: NavMeshCharacter's state byte (+0x294) read under its lock.
+// inline-only in the original; name is a guess. Evidence: NavMeshCharacter's state byte (+0x294) is read
+// under its lock in several WolfLinkNormalRoot helpers (no out-of-line copy).
 u8 getNavState(ksys::phys::NavMeshCharacter* nav) {
     nav->_1e0.lock();
     const u8 state = nav->_294;
@@ -28,7 +29,8 @@ u8 getNavState(ksys::phys::NavMeshCharacter* nav) {
     return state;
 }
 
-// Inline-only in the original: the by-value index parameter gives the enum temporaries lifetime markers
+// inline-only in the original; name is a guess. Evidence: ten setTimerRate() sites across the
+// WolfLinkNormalRoot helpers; the by-value index parameter gives the enum temporaries lifetime markers
 // (they share one stack slot).
 void setTimerRate(act::WolfLink* wolf, act::WolfLink::Idx14f8 idx, f32 rate) {
     wolf->_14f8[idx].rate = rate;

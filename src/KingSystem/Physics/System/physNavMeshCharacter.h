@@ -70,6 +70,11 @@ public:
         _1db = 0;
     }
 
+    // Inline-only in the original; name is a guess. Evidence: `nav ? nav->_2a8 * nav->_2ac : X` is repeated
+    // in AssassinNormal, NavMoveNearTarget, NavMoveTarget::m36/m37, HorseRideEnemyFindPlayer,
+    // GiantNavMoveTarget and LynelNavMoveNoStop (no out-of-line copy).
+    f32 getRadiusMaybe() const { return _2a8 * _2ac; }
+
     // Inline-only in the original (lane1 s21; name is a placeholder): sets the three vectors at
     // 0x194 / 0x1a0 / 0x1ac to NaN under _1e0 (seen after inlineReset() in AnimalRoamCheckWater,
     // HorseMoveToTargetAction::enter_ and others).

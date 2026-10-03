@@ -49,7 +49,6 @@ void ZoraHeroRelicBattleNormal::loadParams_() {
     getStaticParam(&mNearPlayerDistanceXZ_s, "NearPlayerDistanceXZ");
 }
 
-// NON_MATCHING: the original copies the translation as 8 + 4 bytes (memcpy order)
 void ZoraHeroRelicBattleNormal::sub_710061223C() {
     for (auto& anchor : _38)
         anchor._c = false;
@@ -72,7 +71,8 @@ void ZoraHeroRelicBattleNormal::sub_710061223C() {
 
         auto& anchor = _38[count];
         anchor._c = true;
-        anchor.pos = object->getTranslate();
+        const sead::Vector3f pos = object->getTranslate();
+        anchor.pos = pos;
         if (++count >= 5)
             return;
     }

@@ -46,10 +46,10 @@ bool SnowBallNormal::handleMessage_(const ksys::Message& message) {
     return FixableLiftable::handleMessage_(message);
 }
 
-// NON_MATCHING: the original loads *mScaleMin_s before the actor scale (load order only)
 void SnowBallNormal::m38() {
     auto* actor = mActor;
-    _d8 = sead::Mathf::clamp(actor->getScale().x, *mScaleMin_s, *mScaleMax_s);
+    const f32 scale_min = *mScaleMin_s;
+    _d8 = sead::Mathf::clamp(actor->getScale().x, scale_min, *mScaleMax_s);
     actor->setScale({_d8, _d8, _d8});
 }
 

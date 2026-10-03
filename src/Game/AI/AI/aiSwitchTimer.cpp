@@ -25,7 +25,8 @@ void SwitchTimer::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: *mWaitTime_m is loaded before the VFR delta (original: after; see SwitchRightAndWrong::calc_)
+// NON_MATCHING: the original tests the chase result with tbnz (first path) / cbz (second path); ours uses
+// cbnz / tbz
 void SwitchTimer::calc_() {
     auto* actor = mActor;
     getCurrentChild();
@@ -40,7 +41,7 @@ void SwitchTimer::calc_() {
         return;
     }
 
-    if (!sead::Mathf::chase(&_40, *mWaitTime_m, ksys::VFR::instance()->getDeltaFrame()))
+    if (!ksys::VFR::chase(&_40, *mWaitTime_m))
         return;
 
     if (isCurrentChild("オフ待機") || isCurrentChild("オフ")) {

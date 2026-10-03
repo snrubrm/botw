@@ -135,6 +135,15 @@ public:
         return false;
     }
 
+    // inline-only in the original; name is a guess. Evidence: the chase target is taken by const reference
+    // (its pointer is loaded before getDeltaFrame(), dereferenced after) in SwitchRightAndWrong::calc_,
+    // SwitchHit::calc_, SwitchWindHit::calc_, SwitchTimeLag::calc_, SwitchTimeLimited::calc_ and
+    // SwitchTimer::calc_. Same signature style as lerp() / chaseVec().
+    static inline bool chase(f32* value, const f32& target) {
+        const auto delta = instance()->getDeltaFrame();
+        return sead::Mathf::chase(value, target, delta);
+    }
+
     template <typename VectorT>
     static inline bool chaseVec(VectorT* value, const VectorT& target, f32 t) {
         const auto delta = instance()->getDeltaFrame() * t;

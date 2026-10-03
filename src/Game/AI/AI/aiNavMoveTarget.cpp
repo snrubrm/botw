@@ -63,18 +63,18 @@ void NavMoveTarget::m35(sead::Vector3f* out) {
         out->set(*mTargetPos_d);
 }
 
-// NON_MATCHING: the original loads mActor for the call after the nav radius (scheduling)
 bool NavMoveTarget::m36() {
     const sead::Vector3f pos = *m34();
     auto* nav = mActor->m45();
-    return sub_710072CB78(mActor, pos, nullptr, nav ? nav->_2a8 * nav->_2ac : 0.0f, -1);
+    const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+    return sub_710072CB78(mActor, pos, nullptr, radius, -1);
 }
 
-// NON_MATCHING: the original loads mActor for the call after the nav radius (scheduling)
 bool NavMoveTarget::m37() {
     const sead::Vector3f pos = *m34();
     auto* nav = mActor->m45();
-    return sub_710072F944(mActor, pos, nullptr, nav ? nav->_2a8 * nav->_2ac : 0.0f, 10.0f);
+    const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+    return sub_710072F944(mActor, pos, nullptr, radius, 10.0f);
 }
 
 }  // namespace uking::ai
