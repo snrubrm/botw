@@ -69,6 +69,7 @@ void GanonNormalRoot::leave_() {
 
 void GanonNormalRoot::loadParams_() {}
 
+// NON_MATCHING: the original materialises &entry->_58 before the getHomePos call (register/scheduling only)
 bool GanonNormalRoot::sub_71003ED9B0() {
     auto* target = sub_71005D9050(mActor);
     if (target && target->hasProc())
@@ -83,10 +84,9 @@ bool GanonNormalRoot::sub_71003ED9B0() {
     if (!entry || entry->_a0 == 0)
         return false;
 
-    const auto& pos = entry->_58;
     sead::Vector3f home_pos;
     mActor->getHomePos(&home_pos);
-    sub_71005D8DE8(mActor, entry->_0.mLink, &pos, nullptr);
+    sub_71005D8DE8(mActor, entry->_0.mLink, &entry->_58, nullptr);
     return true;
 }
 

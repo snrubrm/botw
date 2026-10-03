@@ -26,16 +26,16 @@ void KeepBackSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("角度内", params);
 }
 
+// NON_MATCHING: the original takes &_a8 into a register ahead of the branch (the natural form re-materialises it)
 void KeepBackSelect::calc_() {
     if (isCurrentChild("角度内")) {
-        f32* timer = &_a8;
         if (sub_710045134C()) {
-            ksys::Timer::update(timer, -1.0f);
+            ksys::Timer::update(&_a8, -1.0f);
         } else {
             s32 value = _ac;
             if (_b0 != _ac)
                 value = sead::GlobalRandom::instance()->getS32Range(_ac, _b0);
-            *timer = value;
+            _a8 = value;
         }
     }
 

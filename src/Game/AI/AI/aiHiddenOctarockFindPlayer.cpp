@@ -60,9 +60,10 @@ bool HiddenOctarockFindPlayer::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("近づき");
 }
 
+// NON_MATCHING: the original converts the weapon index int -> float -> int before the call
 bool HiddenOctarockFindPlayer::sub_7100430DF0() {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    const f32 weapon_dist = sub_71007320F0(mActor, static_cast<s32>(static_cast<f32>(*mWeaponIdx_s)));
+    const f32 weapon_dist = sub_71007320F0(mActor, *mWeaponIdx_s);
     const f32 dist = (sub_71005D9330(mActor) - pos).length();
     if (dist >= weapon_dist + *mFarDist_s) {
         sead::Vector3f actor_pos;

@@ -53,6 +53,7 @@ void AnimalRushAttack::calc_() {
     }
 }
 
+// NON_MATCHING: the original copies the out vector to a local (integer loads) before the distance test
 bool AnimalRushAttack::sub_710030CB64(bool force) {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     sead::Vector3f dir{mTargetPos_d->x - pos.x, 0.0f, mTargetPos_d->z - pos.z};
@@ -64,14 +65,13 @@ bool AnimalRushAttack::sub_710030CB64(bool force) {
         return true;
     }
 
-    const sead::Vector3f result = out;
     const f32 out_dist =
-        (pos.x - result.x) * (pos.x - result.x) + (pos.z - result.z) * (pos.z - result.z);
+        (pos.x - out.x) * (pos.x - out.x) + (pos.z - out.z) * (pos.z - out.z);
     const f32 target_dist = (pos.x - mTargetPos_d->x) * (pos.x - mTargetPos_d->x) +
                             (pos.z - mTargetPos_d->z) * (pos.z - mTargetPos_d->z);
     const bool closer = !(out_dist < target_dist);
     if (closer || force)
-        _5c = result;
+        _5c = out;
     return closer;
 }
 

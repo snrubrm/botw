@@ -25,6 +25,7 @@ void GuardianMiniBeamToExplosives::enter_(ksys::act::ai::InlineParamPack* params
     }
 }
 
+// NON_MATCHING: the original copies `pos` to a temporary before the call (load/store scheduling only)
 void GuardianMiniBeamToExplosives::calc_() {
     if (getCurrentChild()->isChangeable() &&
         sub_71005DEC08(mTargetActor_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
@@ -42,10 +43,7 @@ void GuardianMiniBeamToExplosives::calc_() {
             return;
         }
         m46(&pos);
-        {
-            const sead::Vector3f target = pos;
-            sub_71005DB1D8(mActor, target);
-        }
+        sub_71005DB1D8(mActor, pos);
         getCurrentChild()->setDynamicParam(pos, "TargetPos");
     } else {
         GuardianMiniBeamAttack::calc_();
