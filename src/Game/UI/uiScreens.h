@@ -21,7 +21,15 @@ public:
 
 // Screen's second and third bases (offsets 0x108 / 0x110: the RxOnly / TxOnly message handler interfaces,
 // see the vtable at +0x508 / +0x530 of the leaf classes' vtables).
-class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
+// Implements RxOnly::IHandler::handleMessage for all screens (the original's ScreenEx::handleMessage at
+// 0x7100a48728; declared in this intermediate class because an override declared in ScreenEx would add a slot
+// to ScreenEx's primary vtable).
+class ScreenHandlerImpl : public ksys::ActorMessageTransceiver::IHandler {
+public:
+    int handleMessage(const ksys::Message& message) override;
+};
+
+class Screen : public ScreenBase, public ScreenHandlerImpl {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
@@ -93,8 +101,6 @@ class ScreenEx : public Screen {
 public:
     ScreenEx();
     ~ScreenEx() override;
-    // NOTE: the original's ScreenEx overrides RxOnly::IHandler::handleMessage (0x7100a48728); not declared here
-    // (an override of the second base's virtual would add a primary vtable slot), so ScreenEx is abstract.
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
 
     // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
@@ -593,7 +599,11 @@ public:
 
 class ScreenKeyNum : public ScreenEx {
 public:
+    ScreenKeyNum();
     ~ScreenKeyNum() override;
+    /* 0x3610 */ u32 _3610{};
+    u8 _pad_3614[0x3618 - 0x3614];
+    /* 0x3618 */ void* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenKeyNum, ScreenEx)
 };
 
@@ -637,7 +647,12 @@ public:
 class ScreenShopBtnList5 : public ScreenEx {
 public:
     s32 m4() override;
+    ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ void* _3618{};
+    /* 0x3620 */ void* _3620{};
+    /* 0x3628 */ u8 _3628{};
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList5, ScreenEx)
 };
 
@@ -645,7 +660,9 @@ class ScreenPauseMenuBG : public ScreenEx {
 public:
     void m82() override;
     void m83() override;
+    ScreenPauseMenuBG();
     ~ScreenPauseMenuBG() override;
+    /* 0x3610 */ u8 _3610{};
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuBG, ScreenEx)
 };
 
@@ -654,25 +671,42 @@ public:
     void m82() override;
     void m83() override;
     const char* m15() const override;
+    ScreenSeekPadMenuBG();
     ~ScreenSeekPadMenuBG() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSeekPadMenuBG, ScreenEx)
 };
 
 class ScreenMainScreenMS : public ScreenEx {
 public:
+    ScreenMainScreenMS();
     ~ScreenMainScreenMS() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ void* _3618{};
+    /* 0x3620 */ void* _3620{};
+    /* 0x3628 */ void* _3628{};
+    /* 0x3630 */ u8 _3630{};
     SEAD_RTTI_OVERRIDE(ScreenMainScreenMS, ScreenEx)
 };
 
 class ScreenMainScreenHeartIchigekiDLC : public ScreenEx {
 public:
+    ScreenMainScreenHeartIchigekiDLC();
     ~ScreenMainScreenHeartIchigekiDLC() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ void* _3618{};
+    /* 0x3620 */ void* _3620{};
+    /* 0x3628 */ u8 _3628{};
     SEAD_RTTI_OVERRIDE(ScreenMainScreenHeartIchigekiDLC, ScreenEx)
 };
 
 class ScreenAppSystemWindowNoBtn : public ScreenEx {
 public:
+    ScreenAppSystemWindowNoBtn();
     ~ScreenAppSystemWindowNoBtn() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
 };
 
@@ -691,7 +725,10 @@ public:
 
 class ScreenSystemWindowNoBtn : public ScreenEx {
 public:
+    ScreenSystemWindowNoBtn();
     ~ScreenSystemWindowNoBtn() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ void* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)
 };
 
@@ -760,7 +797,11 @@ public:
 
 class ScreenOPtext : public ScreenEx {
 public:
+    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
+    ScreenOPtext();
     ~ScreenOPtext() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ u32 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenOPtext, ScreenEx)
 };
 
@@ -820,14 +861,21 @@ public:
     void m98() override;
     s32 m4() override;
     const char* m15() const override;
+    ScreenAppMenuBtn();
     ~ScreenAppMenuBtn() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ void* _3618{};
+    /* 0x3620 */ u16 _3620{};
     SEAD_RTTI_OVERRIDE(ScreenAppMenuBtn, ScreenEx)
 };
 
 class ScreenHomeMenuCapture : public ScreenEx {
 public:
     const char* m15() const override;
+    ScreenHomeMenuCapture();
     ~ScreenHomeMenuCapture() override;
+    /* 0x3610 */ void* _3610{};
+    /* 0x3618 */ u8 _3618{};
     SEAD_RTTI_OVERRIDE(ScreenHomeMenuCapture, ScreenEx)
 };
 

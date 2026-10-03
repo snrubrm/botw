@@ -34,4 +34,26 @@ ScreenChangeController::ScreenChangeController() : ScreenEx() {}
 
 ScreenDemoStart::ScreenDemoStart() : ScreenEx() {}
 
+ScreenKeyNum::ScreenKeyNum() : ScreenEx() {}
+
+ScreenShopBtnList5::ScreenShopBtnList5() : ScreenEx() {}
+
+ScreenPauseMenuBG::ScreenPauseMenuBG() : ScreenEx() {}
+
+ScreenSeekPadMenuBG::ScreenSeekPadMenuBG() : ScreenEx() {}
+
+ScreenMainScreenMS::ScreenMainScreenMS() : ScreenEx() {}
+
+ScreenMainScreenHeartIchigekiDLC::ScreenMainScreenHeartIchigekiDLC() : ScreenEx() {}
+
+ScreenAppSystemWindowNoBtn::ScreenAppSystemWindowNoBtn() : ScreenEx() {}
+
+ScreenSystemWindowNoBtn::ScreenSystemWindowNoBtn() : ScreenEx() {}
+
+ScreenOPtext::ScreenOPtext() : ScreenEx() {}
+
+ScreenAppMenuBtn::ScreenAppMenuBtn() : ScreenEx() {}
+
+ScreenHomeMenuCapture::ScreenHomeMenuCapture() : ScreenEx() {}
+
 }  // namespace uking::ui
