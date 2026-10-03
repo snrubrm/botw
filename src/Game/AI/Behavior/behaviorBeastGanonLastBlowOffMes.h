@@ -16,7 +16,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    bool m15() override;  // not decompiled yet (0x710061997c)
+    bool m15() override;
 
     /* 0xb0 */ const int* mDistXZ_s{};
     /* 0xb8 */ const float* mSubsY_s{};
