@@ -6,8 +6,6 @@ namespace uking::action {
 
 Hover::Hover(const InitArg& arg) : HoverBase(arg) {}
 
-Hover::~Hover() = default;
-
 bool Hover::init_(sead::Heap* heap) {
     return HoverBase::init_(heap);
 }

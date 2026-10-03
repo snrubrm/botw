@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionShock.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -47,6 +49,19 @@ void Shock::calc_() {
 
 bool Shock::isFinished() const {
     return ksys::act::ai::Action::isFinished() || isFinishedAS(*mASSlot_s, 0);
+}
+
+bool Shock::m32() {
+    if (*mWeaponIdx_s >= 0) {
+        auto* actor = mActor;
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
+            return enemy->m170();
+    }
+    return false;
+}
+
+void Shock::m33(const sead::Vector3f* velocity) {
+    playerOrEnemyDropWeapon(mActor, velocity, *mWeaponIdx_s, true, false, nullptr, false);
 }
 
 }  // namespace uking::action

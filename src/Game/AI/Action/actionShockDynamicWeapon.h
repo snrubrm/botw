@@ -18,7 +18,7 @@ public:
 protected:
     void calc_() override;
     bool m32() override;
-    void m33() override;
+    void m33(const sead::Vector3f* velocity) override;
 
     // dynamic_param at offset 0x78
     ksys::act::BaseProcLink* mDropWeapon_d{};
