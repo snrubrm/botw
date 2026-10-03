@@ -65,6 +65,10 @@ public:
 
     ksys::act::Actor* sub_7100E8B644();
     ksys::act::Actor* sub_7100E8B6E0();
+    // 0x7100e8bb4c: called with the base class' result by the isSpecialJobType_ overrides of Enemy, HorseBase and
+    // Motorcycle (declaration only).
+    // (BaseProc::IsSpecialJobTypeResult is protected, so the values are passed as ints.)
+    int sub_7100E8BB4C(int result);
     // 0x7100e8bd6c: links `proc` in _20 (resets the link if null).
     void sub_7100E8BD6C(ksys::act::BaseProc* proc);
     // 0x7100e8bd80 / 0x7100e8be10: enable / disable the actor's "Ride", "Ride2" (the enable variant

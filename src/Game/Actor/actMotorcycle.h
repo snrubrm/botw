@@ -1,5 +1,8 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
@@ -10,6 +13,46 @@ class RigidBody;
 namespace uking::act {
 
 class Unk_7100e8b2b8;
+
+// Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710007027c, size 0x430, at Motorcycle +
+// 0x11b0): the model bones of the motorcycle (looked up by Motorcycle::searchModelHandles).
+struct MotorcycleStruct1 {
+    MotorcycleStruct1();
+
+    /* 0x000 */ gsys::BoneAccessKeyEx mWheel_F;
+    /* 0x038 */ gsys::BoneAccessKeyEx mWheel_R;
+    /* 0x070 */ gsys::BoneAccessKeyEx mSwingArm_F;
+    /* 0x0a8 */ gsys::BoneAccessKeyEx mSwingArm_R;
+    /* 0x0e0 */ gsys::BoneAccessKeyEx mSuspension_F;
+    /* 0x118 */ gsys::BoneAccessKeyEx mSuspension_R;
+    /* 0x150 */ gsys::BoneAccessKeyEx mHandle;
+    /* 0x188 */ gsys::BoneAccessKeyEx mBody_1;
+    /* 0x1c0 */ gsys::BoneAccessKeyEx mHead_A;
+    /* 0x1f8 */ gsys::BoneAccessKeyEx mSaddle_Root;
+    /* 0x230 */ gsys::BoneAccessKeyEx mSeat_Front;
+    /* 0x268 */ gsys::BoneAccessKeyEx mSeat_Rear;
+    /* 0x2a0 */ gsys::BoneAccessKeyEx mRearCowl_A;
+    /* 0x2d8 */ gsys::BoneAccessKeyEx mSeatArm_Front;
+    /* 0x310 */ gsys::BoneAccessKeyEx mSeatArm_Rear;
+    /* 0x348 */ f32 _348 = -42.0f;
+    /* 0x34c */ f32 _34c = 7.0f;
+    /* 0x350 */ u64 _350 = 0;
+    /* 0x358 */ u64 _358 = 0;
+    /* 0x360 */ u64 _360 = 0;
+    /* 0x368 */ u64 _368 = 0;
+    /* 0x370 */ u32 _370 = 0;
+    /* 0x374 */ f32 _374 = 1.0f;
+    /* 0x378 */ f32 _378 = 1.0f;
+    /* 0x37c */ f32 _37c = 1.0f;
+    /* 0x380 */ u32 _380 = 0;
+    /* 0x384 */ u8 _384 = 0;
+    /* 0x388 */ sead::Vector3f _388 = sead::Vector3f::zero;
+    /* 0x394 */ sead::Vector3f _394 = sead::Vector3f::zero;
+    /* 0x3a0 */ sead::Matrix34f _3a0 = sead::Matrix34f::ident;
+    /* 0x3d0 */ sead::Matrix34f _3d0 = sead::Matrix34f::ident;
+    /* 0x400 */ sead::Matrix34f _400 = sead::Matrix34f::ident;
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct1, 0x430);
 
 // Name from the CSV (Motorcycle::*). vtable 0x7102361318 (GOT 0x7102361328; 165 slots: DynamicActor's
 // 163 + m163 / m164), RTTI static 0x71025af458 (parent: DynamicActor). ctor 0x710006fd9c (CSV
@@ -109,7 +152,9 @@ public:
     /* 0x10a4 */ s32 _10a4;
     /* 0x10a8 */ u8 _10a8[0x112c - 0x10a8];
     /* 0x112c */ f32 _112c;
-    /* 0x1130 */ u8 _1130[0x1648 - 0x1130];
+    /* 0x1130 */ u8 _1130[0x11b0 - 0x1130];
+    /* 0x11b0 */ MotorcycleStruct1 _11b0;
+    /* 0x15e0 */ u8 _15e0[0x1648 - 0x15e0];
     /* 0x1648 */ Unk_7100e8b2b8* _1648;
     /* 0x1650 */ ksys::phys::NavMeshCharacter* _1650;
     /* 0x1658 */ u8 _1658[0x1670 - 0x1658];
