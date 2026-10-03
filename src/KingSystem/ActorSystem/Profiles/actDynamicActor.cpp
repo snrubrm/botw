@@ -187,4 +187,9 @@ void DynamicActor::m73() {
     }
 }
 
+void DynamicActor::sub_71006DD908(sead::Vector3f* out) {
+    if (_868)
+        _868->sub_71006EE128(out);
+}
+
 }  // namespace ksys::act
