@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkHoverKeepRotateTurnBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +14,12 @@ bool ForkHoverKeepRotateTurnBase::init_(sead::Heap* heap) {
 }
 
 void ForkHoverKeepRotateTurnBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    const f32 angular_speed = actor->getAngVelocity().length();
+    _5c.value = angular_speed;
+    _5c.prev_value = angular_speed;
+    sub_710073FA90(&_38, actor);
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkHoverKeepRotateTurnBase::leave_() {

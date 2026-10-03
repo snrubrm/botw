@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkHoverKeepRotateTurn.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,9 +14,13 @@ bool ForkHoverKeepRotateTurn::init_(sead::Heap* heap) {
 
 void ForkHoverKeepRotateTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkHoverKeepRotateTurnBase::enter_(params);
+    _68.changeMotionType(mActor->getCharacterController(), ksys::act::MotionType::Hover);
 }
 
 void ForkHoverKeepRotateTurn::leave_() {
+    auto* actor = mActor;
+    _68.resetRigidBodyMotion(actor);
+    _68.resetMotionType(actor->getCharacterController());
     ForkHoverKeepRotateTurnBase::leave_();
 }
 

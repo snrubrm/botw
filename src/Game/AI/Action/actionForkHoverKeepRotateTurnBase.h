@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -24,6 +26,9 @@ protected:
     const float* mEndAngle_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mTargetPos_d{};
+    /* 0x38 */ sead::Matrix33f _38;
+    /* 0x5c */ ksys::VFRValue _5c;
 };
+KSYS_CHECK_SIZE_NX150(ForkHoverKeepRotateTurnBase, 0x68);
 
 }  // namespace uking::action
