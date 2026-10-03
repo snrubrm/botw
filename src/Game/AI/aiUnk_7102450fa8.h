@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
@@ -113,7 +114,14 @@ public:
     /* 0x1b8 */ Unk_71024509a8 _1b8;
     /* 0x200 */ u8 _200[0x208 - 0x200];
     /* 0x208 */ Unk_7102450858 _208;
-    /* 0x248 */ u8 _248[0x258 - 0x248];
+    // Per-phase flags (PriestBossActorEnemyRoot::m52 reads `_248[_3c]._0`); 3 bytes per phase.
+    struct PhaseFlags {
+        bool _0;
+        bool _1;
+        bool _2;
+    };
+    /* 0x248 */ sead::SafeArray<PhaseFlags, 5> _248;
+    /* 0x257 */ u8 _257;
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount

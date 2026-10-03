@@ -31,6 +31,24 @@ void PriestBossActorEnemyRoot::calc_() {
     EnemyRoot::calc_();
 }
 
+bool PriestBossActorEnemyRoot::m51() {
+    if (isCurrentChild("フェイズ開始")) {
+        auto* child = getCurrentChild();
+        if (!m45() && !child->isFinished() && !child->isFailed() && !child->isChangeable())
+            return true;
+        child->setFinished();
+    }
+    return false;
+}
+
+bool PriestBossActorEnemyRoot::m52() {
+    if (!sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)))
+        return false;
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    return unit->_248[unit->_3c]._0;
+}
+
 void PriestBossActorEnemyRoot::leave_() {
     EnemyRoot::leave_();
     sub_7100507440(false);
