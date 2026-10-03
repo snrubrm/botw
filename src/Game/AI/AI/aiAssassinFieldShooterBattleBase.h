@@ -12,9 +12,18 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+    // 0x710032276c: whether the target is further than WarpDistFar / nearer than WarpDistNear (XZ) from
+    // the actor, with a ground check below the target; names are guesses.
+    bool sub_710032276C();
+    // 0x7100322560: whether the shooter should give up / warp (the delay ran out, the actor or its
+    // target is on non-auto-placement ground, or the target is further than TerritoryDist from the
+    // home position); name is a guess.
+    bool sub_7100322560();
     // 0x71003228dc: whether the weapon `*mWeaponIdx_s` check passes and the enemy's attack-interval
     // timer has run out.
     bool sub_71003228DC();

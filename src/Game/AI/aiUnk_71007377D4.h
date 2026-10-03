@@ -164,6 +164,9 @@ bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3);
 /// 0x710072b85c (CSV name; lane1 s22): the player's actor matrix (identity without a PlayerInfo).
 /// The reference points into the actor, not into a copy.
 const sead::Matrix34f& getPlayerPositionViaPlayerInfo();
+/// 0x710073d318 (lane1 s22): the actor's rider (the actor behind its HorseRideInfo link), if any.
+/// Placeholder name.
+ksys::act::Actor* sub_710073D318(ksys::act::Actor* actor);
 /// 0x710073b870 (CSV name, sic; lane1 s22, declared only): starts the get-item demo for the actor
 /// (emits the get-demo sound when `a2`); false when the actor is not in a state to start it.
 bool triggereGetItemDemoMaybe(ksys::act::Actor* actor, bool a2, bool a3);

@@ -56,6 +56,15 @@ void AnimalRoam::calc_() {
     _a0 = 0;
 }
 
+bool AnimalRoam::m35() {
+    if (!AnimalRoamBase::m35())
+        return false;
+    if (!*mCheckLOS_s)
+        return true;
+    auto* nav = mActor->m45();
+    return sub_7100742588(nullptr, nav, &mActor->m45()->_194, 10.0f);
+}
+
 void AnimalRoam::leave_() {
     AnimalRoamBase::leave_();
 }

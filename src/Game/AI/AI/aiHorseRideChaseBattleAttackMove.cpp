@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHorseRideChaseBattleAttackMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -42,6 +43,18 @@ void HorseRideChaseBattleAttackMove::calc_() {
         }
     } else {
         child->isChangeable();
+    }
+}
+
+void HorseRideChaseBattleAttackMove::m34(int gear) {
+    auto* rider = sub_710073D318(mActor);
+    if (!rider)
+        return;
+    if (gear != 0) {
+        _90._18 = gear;
+        _90.sub_710070DC38(rider, true);
+    } else {
+        _b0.sub_710070DC38(rider, true);
     }
 }
 

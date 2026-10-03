@@ -4,6 +4,7 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -323,6 +324,13 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
     to_target.y = 0;
     to_target.normalize();
     return forward.dot(to_target) >= sead::Mathf::cos(angle);
+}
+
+ksys::act::Actor* sub_710073D318(ksys::act::Actor* actor) {
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return nullptr;
+    return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
 }
 
 const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
