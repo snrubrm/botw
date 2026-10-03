@@ -455,8 +455,8 @@ void Actor::m60() {}
 
 void Actor::m61() {}
 
-bool Actor::shouldUnload() {
-    return shouldUnloadBecauseOfDistance();
+bool Actor::shouldUnload(s32* a1) {
+    return shouldUnloadBecauseOfDistance(a1);
 }
 
 void Actor::m63() {}

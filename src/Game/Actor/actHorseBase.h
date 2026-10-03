@@ -76,7 +76,7 @@ public:
     void m44() override;
     Actor* m48() override;
     void onPreFadeOutDelete() override;
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void m63() override;
     void initMaybe() override;
     bool m67() override;

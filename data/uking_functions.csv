@@ -123,7 +123,7 @@ Address,Quality,Size,Name
 0x000000710000171c,U,000004,ArmorBase::m31
 0x0000007100001720,U,000056,_ZN4ksys3act5Actor3m36Ev
 0x0000007100001758,O,000008,_ZN4ksys3act5Actor3m48Ev
-0x0000007100001760,O,000004,_ZN4ksys3act5Actor12shouldUnloadEv
+0x0000007100001760,O,000004,_ZN4ksys3act5Actor12shouldUnloadEPi
 0x0000007100001764,O,000004,_ZN4ksys3act5Actor3m63Ev
 0x0000007100001768,O,000004,_ZN4ksys3act5Actor3m73Ev
 0x000000710000176c,O,000004,_ZN4ksys3act5Actor3m76EPNS_3VFR17ScopedDeltaSetterE
@@ -422,7 +422,7 @@ Address,Quality,Size,Name
 0x000000710000c2f4,U,000328,
 0x000000710000c43c,O,000004,_ZN5uking3act6Dragon4m115Ev
 0x000000710000c440,U,000148,
-0x000000710000c4d4,U,000348,_ZN5uking3act6Dragon12shouldUnloadEv
+0x000000710000c4d4,U,000348,_ZN5uking3act6Dragon12shouldUnloadEPi
 0x000000710000c630,U,000056,Dragon::x_0
 0x000000710000c668,U,001276,_ZN5uking3act6Dragon12prepareInit_EPN4sead4HeapERN4ksys3act8BaseProc10PrepareArgE
 0x000000710000cb64,U,000832,
@@ -582,7 +582,7 @@ Address,Quality,Size,Name
 0x000000710001a52c,O,000064,_ZN5uking3act5Enemy3m31Ev
 0x000000710001a56c,U,000008,_ZN5uking3act5Enemy4m119Ev
 0x000000710001a574,U,000136,_ZN5uking3act5Enemy10getMaxLifeEv
-0x000000710001a5fc,U,000160,_ZN5uking3act5Enemy12shouldUnloadEv
+0x000000710001a5fc,U,000160,_ZN5uking3act5Enemy12shouldUnloadEPi
 0x000000710001a69c,U,000256,
 0x000000710001a79c,U,000260,
 0x000000710001a8a0,U,000260,
@@ -2286,7 +2286,7 @@ Address,Quality,Size,Name
 0x0000007100070e48,U,000492,_ZN5uking3act10Motorcycle3x_7Ev
 0x0000007100071034,O,000004,_ZN5uking3act10Motorcycle17onPreDeleteStart_ERN4ksys3act8BaseProc10PrepareArgE
 0x0000007100071038,U,000288,_ZN5uking3act10Motorcycle11preDelete2_ERKN4ksys3act8BaseProc12PreDeleteArgE
-0x0000007100071158,U,000040,_ZN5uking3act10Motorcycle12shouldUnloadEv
+0x0000007100071158,U,000040,_ZN5uking3act10Motorcycle12shouldUnloadEPi
 0x0000007100071180,U,000072,_ZN5uking3act10Motorcycle3m81ERKN4ksys7MessageE
 0x00000071000711c8,U,000024,_ZN5uking3act10Motorcycle5init_Ev
 0x00000071000711e0,U,000532,Motorcycle::searchModelHandles
@@ -20065,7 +20065,7 @@ Address,Quality,Size,Name
 0x00000071002f2bf4,U,000460,_ZN5uking3act8WolfLink12prepareInit_EPN4sead4HeapERN4ksys3act8BaseProc10PrepareArgE
 0x00000071002f2dc0,O,000004,_ZN5uking3act8WolfLink17onPreDeleteStart_ERN4ksys3act8BaseProc10PrepareArgE
 0x00000071002f2dc4,U,000104,_ZN5uking3act8WolfLink11preDelete2_ERKN4ksys3act8BaseProc12PreDeleteArgE
-0x00000071002f2e2c,U,000076,_ZN5uking3act8WolfLink12shouldUnloadEv
+0x00000071002f2e2c,U,000076,_ZN5uking3act8WolfLink12shouldUnloadEPi
 0x00000071002f2e78,U,000720,_ZN5uking3act8WolfLink14sub_71002F2E78ENS1_7Idx14f8E
 0x00000071002f3148,U,000116,
 0x00000071002f31bc,U,000120,
@@ -52646,7 +52646,7 @@ Address,Quality,Size,Name
 0x0000007100876bd8,O,000216,_ZNK4ksys3act6Player27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100876cb0,O,000092,_ZNK4ksys3act6Player18getRuntimeTypeInfoEv
 0x0000007100876d0c,O,000008,_ZN4ksys3act6Player10getMaxLifeEv
-0x0000007100876d14,O,000008,_ZN4ksys3act6Player12shouldUnloadEv
+0x0000007100876d14,O,000008,_ZN4ksys3act6Player12shouldUnloadEPi
 0x0000007100876d1c,U,000036,_ZN4ksys3act6Player3m83Ev
 0x0000007100876d40,O,000012,_ZN4ksys3act6Player9getArmorsEv
 0x0000007100876d4c,O,000008,_ZN4ksys3act6Player4m109Ev
@@ -79253,7 +79253,7 @@ Address,Quality,Size,Name
 0x0000007100e6c6c8,U,000620,_ZN5uking3act9HorseBase6setMtxERKN4sead8Matrix34IfEEbb
 0x0000007100e6c934,U,000316,_ZN5uking3act9HorseBase3m44Ev
 0x0000007100e6ca70,U,000232,_ZN5uking3act9HorseBase3m88Ev
-0x0000007100e6cb58,U,000136,_ZN5uking3act9HorseBase12shouldUnloadEv
+0x0000007100e6cb58,U,000136,_ZN5uking3act9HorseBase12shouldUnloadEPi
 0x0000007100e6cbe0,U,001716,_ZN5uking3act9HorseBase4m117Ev
 0x0000007100e6d294,U,000064,_ZN5uking3act9HorseBase17isSpecialJobType_EN4ksys3act7JobTypeE
 0x0000007100e6d2d4,U,000776,_ZN5uking3act9HorseBase4m118Ev
@@ -80507,7 +80507,7 @@ Address,Quality,Size,Name
 0x0000007100ed5010,U,004632,
 0x0000007100ed6228,U,000004,j_Actor::x_45
 0x0000007100ed622c,U,000824,RopeBase::m8
-0x0000007100ed6564,O,000028,_ZN4ksys3act8RopeBase12shouldUnloadEv
+0x0000007100ed6564,O,000028,_ZN4ksys3act8RopeBase12shouldUnloadEPi
 0x0000007100ed6580,U,000564,RopeBase::m66
 0x0000007100ed67b4,O,000196,_ZN4ksys3act8RopeBase3m43Eb
 0x0000007100ed6878,U,000060,
@@ -92634,7 +92634,7 @@ Address,Quality,Size,Name
 0x00000071011ccc68,U,000432,Actor::deleteIfPlacementStuff
 0x00000071011cce18,U,000216,Actor::emitSignalsOnDeleteForAreaOrTag
 0x00000071011ccef0,U,001200,Actor::checkDeleteDistanceAndDeleteIfNeeded
-0x00000071011cd3a0,U,001804,_ZN4ksys3act5Actor29shouldUnloadBecauseOfDistanceEv
+0x00000071011cd3a0,U,001804,_ZN4ksys3act5Actor29shouldUnloadBecauseOfDistanceEPi
 0x00000071011cdaac,U,000512,Actor::handleAttentionChange
 0x00000071011cdcac,O,000036,_ZNK4ksys3act5Actor11checkSignalENS_3map14MapLinkDefTypeE
 0x00000071011cdcd0,U,000232,Actor::attentionStuff

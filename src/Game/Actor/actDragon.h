@@ -32,7 +32,7 @@ public:
         *pos = _1f60;
         *value = 300.0f;
     }
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;

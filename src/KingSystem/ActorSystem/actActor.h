@@ -292,7 +292,8 @@ public:
     // Inline-only in the original (SwitchWheel::enter_ reads the field at +0x3d0 directly); name is a guess.
     const sead::Matrix34f& getHomeMtxRaw() const { return mHomeMtx; }
     void getHomeMtx(sead::Matrix34f* mtx) const;
-    bool shouldUnloadBecauseOfDistance();
+    // 0x71011cd3a0: `a1` receives a reason code (10 or 19) when the actor is unloaded because of its distance (lane4 s23)
+    bool shouldUnloadBecauseOfDistance(s32* a1);
     void getHomePos(sead::Vector3f* pos) const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
@@ -397,7 +398,7 @@ public:
     virtual void onFadeOutSleep();
     virtual void m60();
     virtual void m61();
-    virtual bool shouldUnload();
+    virtual bool shouldUnload(s32* a1);
     virtual void m63();
     virtual void initMaybe();
     // Called by onEnterCalc_ with the actor whose state is being taken over (Remains copies its

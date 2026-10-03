@@ -200,7 +200,7 @@ public:
     // 0x7100731064 (CSV name): counts a defeated giant / sandworm (GiantEnemy / Sandworm kills).
     void incrementGiantOrSandwormDefeatCount();
     bool m57() override;
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;

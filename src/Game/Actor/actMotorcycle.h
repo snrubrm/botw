@@ -35,7 +35,7 @@ protected:
 public:
     void m44() override;
     ksys::phys::NavMeshCharacter* m45() override { return _1650; }
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void initMaybe() override;
     void calcMaybe() override;
     void m70() override;

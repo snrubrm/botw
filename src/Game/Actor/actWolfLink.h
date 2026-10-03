@@ -25,7 +25,7 @@ protected:
 
 public:
     s32 getMaxLife() override { return _1690; }
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void calcMaybe() override;
     bool m81(const ksys::Message& message) override;
     void m156() override;

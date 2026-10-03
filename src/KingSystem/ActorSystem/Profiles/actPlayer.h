@@ -39,7 +39,7 @@ public:
     /*  42 */ void m42(const sead::Matrix34f& mtx) override;
     /*  47 */ bool m47() override;
     /*  50 */ bool m50() override;
-    /*  62 */ bool shouldUnload() override { return false; }
+    /*  62 */ bool shouldUnload(s32* a1) override { return false; }
     /*  63 */ void m63() override;
     /*  64 */ void initMaybe() override;
     /*  69 */ void calcMaybe() override;
