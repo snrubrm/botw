@@ -4,7 +4,11 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actBeamBase.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -102,6 +106,41 @@ bool LastBossBeamAttackRoot::isFinished() const {
 
 bool LastBossBeamAttackRoot::isChangeable() const {
     return *mIsChangeable_s;
+}
+
+// Discarded call: `getNumberOfDeadBlights();` before the count is chosen (present in the target asm).
+void LastBossBeamAttackRoot::sub_710047555C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return;
+    if (sub_71005D6D10())
+        return;
+
+    ksys::act::InstParamPack pack;
+    getNumberOfDeadBlights();
+    s32 count;
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && (boss->_1534 & ~3) == 4)
+        count = 3;
+    else if (boss && (boss->_1534 & ~3) == 8)
+        count = 4;
+    else
+        count = getNumberOfClearedRemains();
+    const s32 add_power = *mAddAttackPower_s * count;
+    pack->add(s32(*mAttackPower_s + add_power), "AttackPower");
+    pack->add(s32(*mAtMinDamage_s), "AtMinDamage");
+    pack->add(s32(*mAttackPowerForPlayer_s + add_power), "AttackPowerForPlayer");
+    pack->add(*mReflectOffset_s, "PosOffset");
+    auto* beam = ksys::act::ActorCreator::instance()->createActor(
+        "CurseGanonBeam", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (!beam)
+        return;
+
+    enemy->sub_7100D3D108("Beam", beam);
+    _168.acquire(beam, false);
+    if (auto* beam_actor = sead::DynamicCast<act::BeamBase>(beam))
+        beam_actor->sub_7100003804(mActor, "Eyeball");
 }
 
 void LastBossBeamAttackRoot::sub_7100475B28(sead::Vector3f* out) {

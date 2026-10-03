@@ -21,6 +21,8 @@ class BeamBase : public ksys::act::DynamicActor {
 public:
     // 0x710000395c: called by PriestBossEyeBeam::sub_710051459C right after creating the beam: locks
     // `_b90`, `_bd0` acquires `shooter`, `_be0` searches `bone` in the shooter's model, `_c18 = *offset`.
+    // 0x7100003804 (declared only; lane1 s25): the same without the offset (LastBossBeamAttackRoot).
+    void sub_7100003804(ksys::act::Actor* shooter, const sead::SafeString& bone);
     void sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString& bone,
                         const sead::Vector3f* offset);
 
