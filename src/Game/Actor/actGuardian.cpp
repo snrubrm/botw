@@ -17,6 +17,14 @@ bool Guardian::m33() {
     return getParam()->getRes().mGParamList->getGuardian()->mGuardianControllerType.ref() == 2;
 }
 
+void Guardian::sub_7100034514(bool on) {
+    _14c8.change(4, on);
+}
+
+void Guardian::sub_710003B090(u32 value) {
+    _14d4 = value;
+}
+
 ksys::phys::NavMeshCharacter* Guardian::m45() {
     if (_15b0)
         return _15b0->_30;

@@ -188,6 +188,11 @@ KSYS_CHECK_SIZE_NX150(Unk_71002edaec, 0x2c);
 class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
+    // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
+    bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
+    // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
+    // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
+    void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
     bool sub_71002E9A50();
     void sub_71002EDA38(const Unk_71002eda38& arg);

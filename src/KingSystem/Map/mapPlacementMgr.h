@@ -15,6 +15,10 @@ class ClusteredRenderer;
 class InstParamPack;
 }  // namespace ksys::act
 
+namespace uking {
+class VillagerMgr;
+}
+
 namespace ksys::map {
 
 class Object;
@@ -127,11 +131,15 @@ public:
     void* mDebugHeap;
     PlacementActors* mPlacementActors;
 
+    // NOTE (lane4 s22): this is not the VillagerMgr; initAndStartPlacementThread (0x71011e5944) stores
+    // the VillagerMgr at 0x218 (`mVillagerMgr` below). Nothing uses this member.
     void* mVillagerManager;
 
     PlacementMapMgr* mPlacementMapMgr;
     Placement18* mPlacement18;
-    u8 TEMP2[0x1c];
+    u8 _210[8];
+    uking::VillagerMgr* mVillagerMgr;
+    u8 TEMP2[0xc];
     u32 mNumStaticObjs;
     u32 mActorDataMapSize;
     sead::Vector3f _234;
@@ -182,6 +190,7 @@ public:
 KSYS_CHECK_SIZE_NX150(PlacementMgr, 0x818);
 static_assert(offsetof(PlacementMgr, mThreadStarted) == 0x688);
 static_assert(offsetof(PlacementMgr, mPlacementMapMgr) == 0x200);
+static_assert(offsetof(PlacementMgr, mVillagerMgr) == 0x218);
 static_assert(offsetof(PlacementMgr, mNumStaticObjs) == 0x22c);
 static_assert(offsetof(PlacementMgr, mPreActorNumDone) == 0x28c);
 

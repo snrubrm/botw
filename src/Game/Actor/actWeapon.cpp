@@ -474,6 +474,11 @@ bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorCon
 }
 
 // NON_MATCHING: the two address computations for the BaseProcLink assignment are swapped
+bool Weapon::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    x_4(pos, false, false, a4, false);
+    return WeaponBase::m175(pos, a2, a3, a4, a5);
+}
+
 bool Weapon::sub_71002E9A50() {
     auto* chemical = getChemicalStuff();
     return chemical && chemical->_c0 == 2;
