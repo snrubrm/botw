@@ -43,6 +43,9 @@ public:
     const MesTransceiverId* getMessageTransceiverId() const;
     const Actor* getActor() const;
     const sead::Matrix34f& getActorMtx();
+    // 0x7100d11860 (declared only): the transform of the physics body of the actor (main body accessor)
+    // or its matrix; false without an actor.
+    bool sub_7100D11860(sead::Matrix34f* mtx) const;
 
 protected:
     friend class ActorConstDataAccess;
