@@ -15,7 +15,14 @@ void sub_71007130BC(ksys::act::Actor* actor, bool on);
 // `clamp(count, 0, 3)`.
 void sub_7100713564(ksys::act::Actor* actor, s32 count);
 
+namespace ksys::world {
+class WeatherMgr;
+}
+
 namespace wm {
+// 0x71010e85ec (CSV name; declaration only): the world manager's weather manager (null if there is
+// no world manager).
+ksys::world::WeatherMgr* getWeatherMgr();
 // 0x7100ee88ac (CSV name; declaration only): whether it is raining, snowing or there is a thunderstorm.
 bool isRainingOrSnowingOrThunderStorm(bool a1);
 // 0x7100712418 (CSV name): forwards to isRainingOrSnowingOrThunderStorm.
