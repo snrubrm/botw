@@ -58,6 +58,9 @@ void sub_7100741034(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
 void sub_7100741038(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
 void sub_7100741118(sead::Matrix33f* mtx, const sead::Matrix34f& transform);
 bool sub_710074149C(sead::Matrix33f* mtx, const sead::Matrix34f& target, f32 a, f32 b, f32 c);
+// 0x7100741628 (declaration only): rotates `mtx` towards the up direction `up` (the three floats are
+// ratios / speeds); returns whether the target was reached.
+bool sub_7100741628(sead::Matrix33f* mtx, const sead::Vector3f& up, f32 a, f32 b, f32 c);
 bool sub_7100741578(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,
                     f32 a, f32 b, f32 c);
 bool sub_710074191C(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,

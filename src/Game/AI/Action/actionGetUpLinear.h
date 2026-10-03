@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    void m32(ksys::phys::CharacterController* controller) override;
+    bool m33() override;
+    bool m34() override;
 
     // static_param at offset 0x148
     const sead::Vector3f* mRotCenterPos_s{};

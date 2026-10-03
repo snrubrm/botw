@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionGetUpBase.h"
 #include <cmath>
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
@@ -82,6 +83,32 @@ void GetUpBase::loadParams_() {
 
 void GetUpBase::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void GetUpBase::m32(ksys::phys::CharacterController* controller) {
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138._0)) {
+        const sead::Vector3f offset = unit->_8.mHandle._68.getTranslation();
+        if (offset.x != 0.0f || offset.y != 0.0f || offset.z != 0.0f) {
+            sead::Vector3f from = offset;
+            from.rotate(_44);
+            sead::Vector3f to = offset;
+            to.rotate(mActor->getMtx());
+            sub_7100737710(controller, to - from);
+        }
+    }
+}
+
+bool GetUpBase::m33() {
+    ksys::as::ASList::Unk4 query;
+    if (!sub_71005DD5B0(mActor, 41, &query, 0, 0))
+        return false;
+    _40 = query._10;
+    _68 = ksys::Timer(query._10, query._10);
+    return true;
+}
+
+f32 GetUpBase::m35() {
+    return 0.08f;
 }
 
 bool GetUpBase::isChangeable() const {

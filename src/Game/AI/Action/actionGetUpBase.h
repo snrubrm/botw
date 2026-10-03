@@ -4,7 +4,12 @@
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
+
+namespace ksys::phys {
+class CharacterController;
+}
 
 namespace uking::action {
 
@@ -23,6 +28,12 @@ public:
 
 protected:
     void calc_() override;
+    // Moves the character controller by the root bone offset change since enter_.
+    virtual void m32(ksys::phys::CharacterController* controller);
+    // Looks for the AS event 41 (the get-up point of the animation).
+    virtual bool m33();
+    virtual bool m34() = 0;
+    virtual f32 m35();
 
     u32 _1c = 0;
     s32 _20 = -1;
@@ -32,8 +43,7 @@ protected:
     const sead::Vector3f* mRootOffset_s{};
     f32 _40 = 0;
     sead::Matrix33f _44;
-    u32 _68 = 0;
-    sead::Vector2f _6c{0.0f, 0.0f};
+    ksys::Timer _68;
     ksys::VFRValue _74;
     bool _80 = false;
     sead::Vector3f _84 = sead::Vector3f::zero;

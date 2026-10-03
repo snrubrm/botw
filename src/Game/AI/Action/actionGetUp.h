@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m34() override;
+    f32 m35() override;
 
     // static_param at offset 0x148
     const float* mRotRatio_s{};

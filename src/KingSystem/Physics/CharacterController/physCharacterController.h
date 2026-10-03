@@ -61,6 +61,9 @@ public:
     void sub_7100F62CA8(bool clear);
 
     void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
+    // 0x7100f62ec0 (declared only): outputs the half height (?) of the controller's shape `index`; false
+    // if it has none.
+    bool sub_7100F62EC0(f32* out, int index) const;
 
     // set by sub_7100F5EEB8
     const sead::Vector3f& get64() const { return _64; }
