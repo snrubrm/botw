@@ -2,6 +2,7 @@
 
 namespace uking::action {
 
+// NON_MATCHING: scheduling only (the vtable address add and the VFRVec3f address are ordered differently)
 BattleLevelFlyMoveBase::BattleLevelFlyMoveBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 BattleLevelFlyMoveBase::~BattleLevelFlyMoveBase() = default;
