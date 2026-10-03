@@ -17,7 +17,7 @@ public:
 
     /* 0x28 */ const float* mAlphaLower_s{};
     /* 0x30 */ const float* mAlphaSpeed_s{};
-    /* 0x38 */ u8 _38[0x18];
+    /* 0x38 */ s32 _38[6];  // material indices (searchMaterial result >> 16)
     /* 0x50 */ f32 _50 = 1.0f;
 };
 KSYS_CHECK_SIZE_NX150(FadeLeaf, 0x58);

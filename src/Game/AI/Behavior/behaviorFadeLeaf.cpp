@@ -6,6 +6,12 @@ FadeLeaf::FadeLeaf(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 
 FadeLeaf::~FadeLeaf() = default;
 
+bool FadeLeaf::m6(sead::Heap* heap) {
+    for (s32& idx : _38)
+        idx = -1;
+    return true;
+}
+
 void FadeLeaf::m9() {}
 
 void FadeLeaf::loadParams() {
