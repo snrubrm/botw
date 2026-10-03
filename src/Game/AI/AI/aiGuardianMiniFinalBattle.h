@@ -47,6 +47,9 @@ public:
     void changeToMoveBattleSign();
 
     void sub_710041B3D4();
+    // 0x710041b978 (placeholder name): resets the three guard AS slots.
+    void sub_710041B978();
+    void m38() override;
 
 protected:
     // static_param at offset 0x90

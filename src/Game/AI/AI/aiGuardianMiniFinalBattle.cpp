@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiGuardianMiniFinalBattle.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -44,6 +46,48 @@ void GuardianMiniFinalBattle::changeToMoveBattleSign() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("戦闘予兆移動", &pack);
+}
+
+void GuardianMiniFinalBattle::sub_710041B978() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    if (!actor->getModel())
+        return;
+    if (!actor->getASList())
+        return;
+    actor->getASList()->sub_710115B01C(*mASSlotRight_s, 0, true);
+    actor->getASList()->sub_710115B01C(*mASSlotLeft_s, 0, true);
+    actor->getASList()->sub_710115B01C(*mASSlotBack_s, 0, true);
+    actor->getASList()->sub_710115C11C();
+    actor->getASList()->sub_710115BED4(true);
+}
+
+// Discarded call: `mActor->getDamageMgr();` before each setDamageCallbackTiming (present in the target asm).
+void GuardianMiniFinalBattle::sub_710041B3D4() {
+    sub_710041B978();
+    mActor->getDamageMgr();
+    setDamageCallbackTiming(mActor, 4, &_e0);
+    mActor->getDamageMgr();
+    setDamageCallbackTiming(mActor, 5, &_110);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘予兆開始", &pack);
+}
+
+void GuardianMiniFinalBattle::m38() {
+    _d8 = true;
+    sub_710041B978();
+    mActor->getDamageMgr();
+    setDamageCallbackTiming(mActor, 4, &_e0);
+    mActor->getDamageMgr();
+    setDamageCallbackTiming(mActor, 5, &_110);
+    _d4 = 0;
+    if (auto* parts = sub_71005DB0EC(mActor)) {
+        parts->sub_7100D8A9D0(*mRotNeckRate_s);
+        parts->sub_7100D8A9EC(*mRotNeckRate_s);
+    }
+    EnemyBattle::m38();
 }
 
 bool GuardianMiniFinalBattle::handleMessage_(const ksys::Message* message) {
