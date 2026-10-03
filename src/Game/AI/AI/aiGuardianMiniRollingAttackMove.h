@@ -52,17 +52,17 @@ public:
     // 0x7100423f0c / 0x7100424080 (states "回転待機" / "回転後退" / "回転待機"), 0x7100424554 /
     // 0x7100424670 / 0x7100424a3c (weapon requests). Placeholder names.
     void sub_71004219B8();
-    void sub_71004238F0();
+    void changeToBackStep();
     void sub_7100423A1C();
     void sub_7100423D68();
-    void sub_7100423F0C();
+    void changeToRotateBack();
     void sub_7100424080();
     void sub_7100424554();
     void sub_7100424670();
     void sub_7100424A3C();
     // 0x7100424f54 (changeChild "回転終了") / 0x7100425040 (changeChild "チャンス").
-    void sub_7100424F54();
-    void sub_7100425040();
+    void changeToRotateEnd();
+    void changeToChance();
 
     // 0x7100421b50: sends the weapon request type 1 (default arguments) to the weapons 0 - 2 of the actor.
     void sub_7100421B50();

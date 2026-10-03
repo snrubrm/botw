@@ -12,7 +12,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
     // 0x71003b2b00 (placeholder name)
-    void sub_71003B2B00();
+    void changeToRoamSearch();
 
 protected:
     // static_param at offset 0x38

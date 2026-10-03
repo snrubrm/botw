@@ -62,13 +62,13 @@ void EnemyNoticeSound::m34() {
     changeChild("気づき", &pack);
 }
 
-void EnemyNoticeSound::sub_71003A6298() {
+void EnemyNoticeSound::changeToNotice() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     changeChild("気づき", &pack);
 }
 
-void EnemyNoticeSound::sub_71003A6568() {
+void EnemyNoticeSound::changeToAct() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     changeChild("行動", &pack);

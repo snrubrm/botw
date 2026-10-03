@@ -27,7 +27,7 @@ void DungeonMoveTagCont::loadParams_() {
     getMapUnitParam(&mReturnSpeedFromCurrentPos_m, "ReturnSpeedFromCurrentPos");
 }
 
-void DungeonMoveTagCont::sub_7100375380(f32 dis, f32 speed) {
+void DungeonMoveTagCont::changeToGoBack(f32 dis, f32 speed) {
     ksys::act::ai::InlineParamPack pack;
     pack.addFloat(dis, "DynMoveDis", -1);
     pack.addFloat(speed, "DynMoveSpeed", -1);

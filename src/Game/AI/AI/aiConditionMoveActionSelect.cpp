@@ -27,7 +27,7 @@ void ConditionMoveActionSelect::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-void ConditionMoveActionSelect::sub_71003561B4() {
+void ConditionMoveActionSelect::changeToConditionSuccess() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     if (mTargetActor_d)
@@ -37,7 +37,7 @@ void ConditionMoveActionSelect::sub_71003561B4() {
     changeChild("条件成功", &pack);
 }
 
-void ConditionMoveActionSelect::sub_71003562D0() {
+void ConditionMoveActionSelect::changeToConditionFail() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
     if (mTargetActor_d)

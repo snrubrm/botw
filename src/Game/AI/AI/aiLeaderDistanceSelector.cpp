@@ -15,7 +15,7 @@ bool LeaderDistanceSelector::init_(sead::Heap* heap) {
 }
 
 void LeaderDistanceSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_710047F77C();
+    changeToInside();
 }
 
 void LeaderDistanceSelector::calc_() {
@@ -41,11 +41,11 @@ void LeaderDistanceSelector::calc_() {
     if (child->isChangeable()) {
         const sead::Vector3f diff = pos - leader_pos;
         if (diff.squaredLength() >= _50 && !isCurrentChild("外側"))
-            sub_710047F8AC();
+            changeToOutside();
     }
 }
 
-void LeaderDistanceSelector::sub_710047F8AC() {
+void LeaderDistanceSelector::changeToOutside() {
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(mLeaderActor_d, &acc);
     sead::Vector3f pos;
@@ -66,7 +66,7 @@ void LeaderDistanceSelector::loadParams_() {
     getDynamicParam(&mLeaderActor_d, "LeaderActor");
 }
 
-void LeaderDistanceSelector::sub_710047F77C() {
+void LeaderDistanceSelector::changeToInside() {
     ksys::act::ActorConstDataAccess acc;
     ksys::act::acquireActor(mLeaderActor_d, &acc);
     sead::Vector3f pos;

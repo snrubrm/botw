@@ -15,7 +15,7 @@ bool FriendCallAction::init_(sead::Heap* heap) {
 
 void FriendCallAction::enter_(ksys::act::ai::InlineParamPack* params) {
     _90.x();
-    sub_71003DD74C();
+    changeToCallOut();
 }
 
 void FriendCallAction::leave_() {
@@ -42,7 +42,7 @@ bool FriendCallAction::handleAck_(const ksys::MessageAck& ack) {
     return _60.sub_710070E070(ack);
 }
 
-void FriendCallAction::sub_71003DD74C() {
+void FriendCallAction::changeToCallOut() {
     sead::Vector3f target_pos;
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
@@ -56,7 +56,7 @@ void FriendCallAction::sub_71003DD74C() {
     changeChild("呼ぶ", &params);
 }
 
-void FriendCallAction::sub_71003DDBBC() {
+void FriendCallAction::changeToAwait() {
     sead::Vector3f pos;
     ksys::act::sub_7100EE67B0(&pos, mTargetActor_d);
 
@@ -65,7 +65,7 @@ void FriendCallAction::sub_71003DDBBC() {
     changeChild("待つ", &pack);
 }
 
-void FriendCallAction::sub_71003DDC94() {
+void FriendCallAction::changeToAction() {
     sead::Vector3f pos;
     ksys::act::sub_7100EE67B0(&pos, mTargetActor_d);
 

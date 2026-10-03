@@ -68,7 +68,7 @@ void EnemyNoticeTerror::calc_() {
                 return;
             }
             if (isCurrentChild("逃走")) {
-                sub_71003A7C44();
+                changeToGaze();
                 return;
             }
             setFinished();
@@ -138,7 +138,7 @@ bool EnemyNoticeTerror::sub_71003A7B64(sead::Vector3f* out) {
     return false;
 }
 
-void EnemyNoticeTerror::sub_71003A7C44() {
+void EnemyNoticeTerror::changeToGaze() {
     sead::Vector3f target;
     sub_71003A7B64(&target);
     ksys::act::ai::InlineParamPack params;
@@ -158,7 +158,7 @@ void EnemyNoticeTerror::loadParams_() {
     getStaticParam(&mNoTerrorDist_s, "NoTerrorDist");
 }
 
-void EnemyNoticeTerror::sub_71003A7DD4() {
+void EnemyNoticeTerror::changeToNotice() {
     sead::Vector3f target;
     sub_71003A7B64(&target);
     ksys::act::ai::InlineParamPack params;
@@ -183,7 +183,7 @@ void EnemyNoticeTerror::m36() {
     }
     if (unk)
         unk->sub_71002DC628(_60._0, 2);
-    sub_71003A7DD4();
+    changeToNotice();
 }
 
 bool EnemyNoticeTerror::m34(Unk* out) {

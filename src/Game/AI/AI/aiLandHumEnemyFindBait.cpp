@@ -20,12 +20,12 @@ void LandHumEnemyFindBait::enter_(ksys::act::ai::InlineParamPack* params) {
     _b8 = 45;
     _b0 = sead::GlobalRandom::instance()->getS32Range(10, 45);
     if (*mIsNotice_d)
-        sub_710045ED68();
+        changeToNotice();
     else
         m37();
 }
 
-void LandHumEnemyFindBait::sub_710045ED68() {
+void LandHumEnemyFindBait::changeToNotice() {
     sead::Vector3f pos = sead::Vector3f::zero;
     if (mTargetBait_d->hasProc()) {
         ksys::act::ActorConstDataAccess accessor;
@@ -63,7 +63,7 @@ void LandHumEnemyFindBait::loadParams_() {
     getStaticParam(&mIsValidForceNeck_s, "IsValidForceNeck");
 }
 
-void LandHumEnemyFindBait::sub_710045F29C() {
+void LandHumEnemyFindBait::changeToAngry() {
     s32 value = _b4;
     if (_b8 != _b4)
         value = sead::GlobalRandom::instance()->getS32Range(_b4, _b8);

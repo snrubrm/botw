@@ -18,7 +18,7 @@ public:
 
     void m37(const sead::Vector3f& pos) override;
     // 0x710030f120 (placeholder name)
-    void sub_710030F120();
+    void changeToSpawnAppear();
 
 protected:
     // static_param at offset 0x90

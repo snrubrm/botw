@@ -17,13 +17,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_71004AA798();
+    void changeToShortRange();
     void sub_71004AA888();
-    void sub_71004AB3E4();
+    void changeToWait();
     // 0x71004aaff0 (placeholder name)
-    void sub_71004AAFF0();
+    void changeToForcedSmallAttack();
     // 0x71004ab2f4 (placeholder name)
-    void sub_71004AB2F4();
+    void changeToMidRange();
 
 protected:
     // static_param at offset 0x38

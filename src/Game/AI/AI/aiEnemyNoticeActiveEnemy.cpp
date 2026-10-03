@@ -21,7 +21,7 @@ bool EnemyNoticeActiveEnemy::init_(sead::Heap* heap) {
 
 void EnemyNoticeActiveEnemy::enter_(ksys::act::ai::InlineParamPack* params) {
     _48 = _4c == _50 ? _4c : sead::GlobalRandom::instance()->getS32Range(_4c, _50);
-    sub_71003A4B3C();
+    changeToNotice();
 }
 
 void EnemyNoticeActiveEnemy::calc_() {
@@ -38,7 +38,7 @@ void EnemyNoticeActiveEnemy::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("気づき"))
-            sub_71003A4E30();
+            changeToAct();
         else if (child->isFinished())
             setFinished();
         else
@@ -60,7 +60,7 @@ void EnemyNoticeActiveEnemy::calc_() {
         getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
 }
 
-void EnemyNoticeActiveEnemy::sub_71003A4E30() {
+void EnemyNoticeActiveEnemy::changeToAct() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     pack.addActor(*mParams.mTargetActor_d, "TargetActor", -1);
@@ -76,7 +76,7 @@ void EnemyNoticeActiveEnemy::loadParams_() {
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
-void EnemyNoticeActiveEnemy::sub_71003A4B3C() {
+void EnemyNoticeActiveEnemy::changeToNotice() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     pack.addActor(*mParams.mTargetActor_d, "TargetActor", -1);

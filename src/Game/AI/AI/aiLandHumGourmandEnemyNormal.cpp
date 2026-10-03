@@ -148,7 +148,7 @@ void LandHumGourmandEnemyNormal::m57(s32 type, Unk2* target) {
 
 void LandHumGourmandEnemyNormal::m58(s32 type, Unk2* target) {
     if (type == 11) {
-        sub_71004728A4(target);
+        changeToFoundBait(target);
         return;
     }
     LandHumEnemyNormal::m58(type, target);
@@ -279,7 +279,7 @@ void LandHumGourmandEnemyNormal::sub_71004727CC(const ksys::act::BaseProcLink& l
         unk->sub_71002DC628(link, 0x10);
 }
 
-void LandHumGourmandEnemyNormal::sub_71004728A4(Unk2* target) {
+void LandHumGourmandEnemyNormal::changeToFoundBait(Unk2* target) {
     _3ac.reset(8);
     const f32 time = *mRefindBaitTime_s;
     _418 = ksys::Timer(time, time);

@@ -16,7 +16,7 @@ public:
     void calc_() override;
     void loadParams_() override;
 
-    void sub_710037E11C();
+    void changeToPrepare();
     virtual void m34();
     virtual void m35();
     virtual void m36();

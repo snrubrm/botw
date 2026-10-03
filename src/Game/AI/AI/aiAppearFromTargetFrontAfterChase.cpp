@@ -40,7 +40,7 @@ void AppearFromTargetFrontAfterChase::m37(const sead::Vector3f& pos) {
     AppearNearTarget::m37(pos);
 }
 
-void AppearFromTargetFrontAfterChase::sub_710030F120() {
+void AppearFromTargetFrontAfterChase::changeToSpawnAppear() {
     _98 = ksys::Timer(3.0f, 3.0f);
 
     ksys::act::ai::InlineParamPack pack;

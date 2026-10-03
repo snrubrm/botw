@@ -182,10 +182,10 @@ bool EnemyDefaultReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_ty
             changeChild("ガードブレイク", nullptr);
             return true;
         }
-        sub_7100387A9C(nullptr);
+        changeToGuard(nullptr);
         return true;
     case 13:
-        sub_710038794C();
+        changeToJustGuard();
         return true;
     case 18:
         if (isCurrentChild("小ダメージ") || isCurrentChild("ガード")) {
@@ -290,10 +290,10 @@ void EnemyDefaultReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_ty
                 changeChild("ガードブレイク", nullptr);
                 return;
             }
-            sub_7100387A9C(nullptr);
+            changeToGuard(nullptr);
             return;
         case 13:
-            sub_710038794C();
+            changeToJustGuard();
             return;
         case 18:
             changeChild("炎上", params);
@@ -354,7 +354,7 @@ void EnemyDefaultReaction::m44() {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
-void EnemyDefaultReaction::sub_710038794C() {
+void EnemyDefaultReaction::changeToJustGuard() {
     const s32 min = *mJustGuardTimesMin_s;
     const s32 max = *mJustGuardTimesMax_s;
     _58 = sead::GlobalRandom::instance()->getS32Range(min, max + 1);
@@ -367,7 +367,7 @@ void EnemyDefaultReaction::sub_710038794C() {
     changeChild("ジャストガード", &params);
 }
 
-void EnemyDefaultReaction::sub_7100387A9C(ksys::act::ai::InlineParamPack* params) {
+void EnemyDefaultReaction::changeToGuard(ksys::act::ai::InlineParamPack* params) {
     if (auto* attack = sub_7100739578(mActor))
         _61 = attack->sub_71007A1F78(0x20);
     const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();

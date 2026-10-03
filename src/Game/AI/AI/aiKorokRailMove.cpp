@@ -48,7 +48,7 @@ void KorokRailMove::calc_() {
         if (isCurrentChild("停止")) {
             m37();
             if (sub_710045BD08())
-                sub_710045B800();
+                changeToMove();
             else
                 sub_710045BA20();
             return;
@@ -59,7 +59,7 @@ void KorokRailMove::calc_() {
                 _b8 = idx;
                 m40();
             } else {
-                sub_710045B800();
+                changeToMove();
             }
             return;
         }
@@ -81,7 +81,7 @@ void KorokRailMove::calc_() {
             if (getCurrentChild()->isFinished()) {
                 m37();
                 if (sub_710045BD08())
-                    sub_710045B800();
+                    changeToMove();
                 else
                     sub_710045BA20();
             } else {
@@ -102,7 +102,7 @@ void KorokRailMove::loadParams_() {
     getMapUnitParam(&mRailMoveSpeed_m, "RailMoveSpeed");
 }
 
-void KorokRailMove::sub_710045B800() {
+void KorokRailMove::changeToMove() {
     const sead::Vector3f cur_pos = _58._8.sub_7100EEB370();
     sead::Vector3f dir = cur_pos - _58._30.sub_7100EEB370();
     dir.normalize();
@@ -166,7 +166,7 @@ void KorokRailMove::sub_710045BD18(f32 wait_frame) {
     changeChild("停止", &params);
 }
 
-void KorokRailMove::sub_710045BEB4(const sead::Vector3f& pos) {
+void KorokRailMove::changeToHeadToRail(const sead::Vector3f& pos) {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(pos, "TargetPos", -1);
     params.addVec3(pos, "DynTargetPos", -1);
@@ -217,11 +217,11 @@ void KorokRailMove::m39() {
     if (!_58.sub_7100EEBB74()) {
         sub_710045C3A8();
     } else if ((rail_pos - pos).length() > *mOnRailDistance_s) {
-        sub_710045BEB4(rail_pos);
+        changeToHeadToRail(rail_pos);
     } else {
         m37();
         if (sub_710045BD08())
-            sub_710045B800();
+            changeToMove();
         else
             sub_710045BA20();
     }
@@ -242,7 +242,7 @@ void KorokRailMove::m40() {
     if (*mIsIgnoreNoWaitStopPoint_s && wait_frame <= 0.0f) {
         m37();
         if (sub_710045BD08())
-            sub_710045B800();
+            changeToMove();
         else
             sub_710045BA20();
     } else {

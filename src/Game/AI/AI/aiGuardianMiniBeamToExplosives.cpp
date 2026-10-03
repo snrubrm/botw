@@ -28,7 +28,7 @@ void GuardianMiniBeamToExplosives::calc_() {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed()) {
             sub_710033EA88();
-            sub_710033E970();
+            changeToPrepareBattle();
             return;
         }
         sead::Vector3f pos;

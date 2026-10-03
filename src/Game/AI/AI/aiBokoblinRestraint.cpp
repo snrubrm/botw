@@ -17,11 +17,11 @@ void BokoblinRestraint::enter_(ksys::act::ai::InlineParamPack* params) {
     _84 = sub_7100726F28(mActor);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
-    sub_7100332BF0();
+    changeToThreaten();
     _78.reset(*mParams.mLostTimer_s);
 }
 
-// inline-only in the original (the same sequence is inlined into sub_7100332BF0, sub_7100333040 and calc_);
+// inline-only in the original (the same sequence is inlined into changeToThreaten, sub_7100333040 and calc_);
 // name is a guess.
 inline void BokoblinRestraint::spawnRock() {
     ksys::act::InstParamPack pack;
@@ -40,9 +40,9 @@ void BokoblinRestraint::calc_() {
         if (isCurrentChild("投石")) {
             if (!mActor->getConnectedCalcChild() && !_68.isAllocatedOrFailed())
                 spawnRock();
-            sub_7100332BF0();
+            changeToThreaten();
         } else if (!sub_7100333040()) {
-            sub_7100332BF0();
+            changeToThreaten();
         }
     }
 
@@ -51,7 +51,7 @@ void BokoblinRestraint::calc_() {
         setFailed();
 }
 
-void BokoblinRestraint::sub_7100332BF0() {
+void BokoblinRestraint::changeToThreaten() {
     if (!mActor->getConnectedCalcChild() && !_68.isAllocatedOrFailed())
         spawnRock();
 
@@ -60,7 +60,7 @@ void BokoblinRestraint::sub_7100332BF0() {
     changeChild("威嚇", &pack);
 }
 
-void BokoblinRestraint::sub_71003332B4() {
+void BokoblinRestraint::changeToThrowRock() {
     mActor->setConnectedCalcChild(_68.releaseAndWakeProc(), false);
 
     ksys::act::ai::InlineParamPack pack;
@@ -73,7 +73,7 @@ bool BokoblinRestraint::sub_7100333040() {
         return false;
 
     if (_68.isProcReady()) {
-        sub_71003332B4();
+        changeToThrowRock();
         return true;
     }
 

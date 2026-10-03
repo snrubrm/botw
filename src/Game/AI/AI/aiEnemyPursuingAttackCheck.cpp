@@ -36,7 +36,7 @@ bool EnemyPursuingAttackCheck::isFailed() const {
     return ActionBase::isFailed() || (isCurrentChild("通常戦闘") && getCurrentChild()->isFailed());
 }
 
-void EnemyPursuingAttackCheck::sub_71003A92AC() {
+void EnemyPursuingAttackCheck::changeToFollowUpAttack() {
     const s32 rand = *mPursuingAttackIntervalRand_s;
     const f32 random_part = rand * -0.5f;
     const f32 interval = *mPursuingAttackInterval_s;

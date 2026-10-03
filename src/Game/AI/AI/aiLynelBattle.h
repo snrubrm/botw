@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x710048d8a0 (placeholder name)
-    void sub_710048D8A0();
+    void changeToMeleeBattle();
 
 protected:
     // static_param at offset 0x38

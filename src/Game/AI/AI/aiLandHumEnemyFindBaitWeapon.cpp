@@ -24,7 +24,7 @@ void LandHumEnemyFindBaitWeapon::calc_() {
     } else if (isCurrentChild("食べる")) {
         changeChild("怪しむ");
     } else if (isCurrentChild("怪しむ")) {
-        sub_71004604A8();
+        changeToDiscard();
     } else if (isCurrentChild("捨てる")) {
         setFinished();
     }
@@ -32,7 +32,7 @@ void LandHumEnemyFindBaitWeapon::calc_() {
 
 // NON_MATCHING: same instructions, but the original builds the TargetPos vector after the
 // "TargetPos" SafeString temporary (GOT load scheduled after the matrix loads).
-void LandHumEnemyFindBaitWeapon::sub_71004604A8() {
+void LandHumEnemyFindBaitWeapon::changeToDiscard() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f dir;
     mActor->getMtx().getBase(dir, 2);

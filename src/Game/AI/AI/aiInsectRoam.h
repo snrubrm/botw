@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
     void calc_() override;
 
-    void sub_710044ABCC();
+    void changeToRoamWalk();
     void sub_710044ACE4(sead::Vector3f* pos, sead::Vector3f* dir);
 
 protected:

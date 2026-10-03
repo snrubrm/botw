@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x710041e07c (placeholder name)
-    void sub_710041E07C();
+    void changeToOnIceMaker();
 
 protected:
     // static_param at offset 0x38

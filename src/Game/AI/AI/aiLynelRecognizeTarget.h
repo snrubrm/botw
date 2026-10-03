@@ -15,17 +15,17 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x710049708c (placeholder name)
-    void sub_710049708C();
+    void changeToReturn();
     // 0x7100496894 (placeholder name)
-    void sub_7100496894();
+    void changeToNotice();
     // 0x71004966c4 (placeholder name)
-    void sub_71004966C4();
+    void changeToAlert();
     // 0x71004967ac (placeholder name)
-    void sub_71004967AC();
+    void changeToObserve();
     // 0x7100496d84 (placeholder name)
-    void sub_7100496D84();
+    void changeToStartBattle();
     // 0x7100497164 (placeholder name)
-    void sub_7100497164();
+    void changeToForceStartBattle();
 
 protected:
     // static_param at offset 0x38

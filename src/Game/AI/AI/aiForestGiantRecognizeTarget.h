@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
     // 0x71003d95c8 (placeholder name): clears the target state and starts "発見" towards the target.
-    void sub_71003D95C8();
+    void changeToFound();
 
 protected:
 };

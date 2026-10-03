@@ -22,7 +22,7 @@ void EnemyRoam::loadParams_() {
 }
 
 // NON_MATCHING: load scheduling of translation + forward * 3 (the original loads the three forward components first); same instructions otherwise
-void EnemyRoam::sub_71003B2B00() {
+void EnemyRoam::changeToRoamSearch() {
     ksys::act::ai::InlineParamPack pack;
     const sead::Matrix34f& mtx = mActor->getMtx();
     const sead::Vector3f dir = mtx.getBase(2);

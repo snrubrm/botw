@@ -21,7 +21,7 @@ public:
     virtual void m34(ksys::act::InstParamPack& pack);
     void sub_710037BC08();
 
-    void sub_710037BDF0();
+    void changeToPreAction();
 
 protected:
     // static_param at offset 0x38

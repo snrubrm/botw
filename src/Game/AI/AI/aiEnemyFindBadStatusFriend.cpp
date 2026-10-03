@@ -25,7 +25,7 @@ bool EnemyFindBadStatusFriend::init_(sead::Heap* heap) {
 }
 
 void EnemyFindBadStatusFriend::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_710038BFB0();
+    changeToStasis();
 }
 
 void EnemyFindBadStatusFriend::leave_() {
@@ -36,7 +36,7 @@ void EnemyFindBadStatusFriend::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-void EnemyFindBadStatusFriend::sub_710038BFB0() {
+void EnemyFindBadStatusFriend::changeToStasis() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos;
     ksys::act::ActorConstDataAccess acc;

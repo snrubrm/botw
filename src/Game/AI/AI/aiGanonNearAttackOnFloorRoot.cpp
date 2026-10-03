@@ -59,7 +59,7 @@ void GanonNearAttackOnFloorRoot::calc_() {
     }
 }
 
-void GanonNearAttackOnFloorRoot::sub_71003ECF34() {
+void GanonNearAttackOnFloorRoot::changeToGreatswordAttack() {
     _58 = 1;
 
     ksys::act::ai::InlineParamPack pack;
@@ -68,7 +68,7 @@ void GanonNearAttackOnFloorRoot::sub_71003ECF34() {
     changeChild("大剣攻撃", &pack);
 }
 
-void GanonNearAttackOnFloorRoot::sub_71003ED028() {
+void GanonNearAttackOnFloorRoot::changeToGreatswordSideAttack() {
     _58 = 3;
 
     ksys::act::ai::InlineParamPack pack;
@@ -77,7 +77,7 @@ void GanonNearAttackOnFloorRoot::sub_71003ED028() {
     changeChild("大剣横攻撃", &pack);
 }
 
-void GanonNearAttackOnFloorRoot::sub_71003ED11C() {
+void GanonNearAttackOnFloorRoot::changeToSwordAttack() {
     _58 = 2;
 
     ksys::act::ai::InlineParamPack pack;

@@ -14,7 +14,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x710038db48 (placeholder name)
-    void sub_710038DB48();
+    void changeToAction();
 
 protected:
     struct Params {

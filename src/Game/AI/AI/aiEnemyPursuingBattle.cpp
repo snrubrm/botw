@@ -20,7 +20,7 @@ void EnemyPursuingBattle::loadParams_() {
     getStaticParam(&mPursuingAttackStartAng_s, "PursuingAttackStartAng");
 }
 
-void EnemyPursuingBattle::sub_71003A9D24() {
+void EnemyPursuingBattle::changeToFollowUpAttack() {
     const s32 rand = *mPursuingAttackIntervalRand_s;
     const f32 random_part = rand * -0.5f;
     const f32 interval = *mPursuingAttackInterval_s;

@@ -43,7 +43,7 @@ void AirOctaState::loadParams_() {
     getAITreeVariable(&mAirOctaDataMgr_a, "AirOctaDataMgr");
 }
 
-void AirOctaState::sub_71002FD098(bool a1) {
+void AirOctaState::changeToWait(bool a1) {
     if (isCurrentChild("逃げる"))
         return;
     if (isCurrentChild("滝死亡"))
@@ -66,7 +66,7 @@ void AirOctaState::m37() {
 }
 
 void AirOctaState::m38() {
-    sub_71002FD098(false);
+    changeToWait(false);
 }
 
 void AirOctaState::m39() {}

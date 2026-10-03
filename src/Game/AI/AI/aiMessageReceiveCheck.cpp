@@ -18,7 +18,7 @@ void MessageReceiveCheck::enter_(ksys::act::ai::InlineParamPack* params) {
         auto* actor = mActor;
         _80._18.y(actor);
         sub_71005E02E0(actor, &_80, nullptr);
-        sub_71004A4D84();
+        changeToOff();
     }
     mFlags.set(Flag::Changeable);
 }

@@ -15,7 +15,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x7100366388 (placeholder name)
-    void sub_7100366388(const sead::Vector3f& vel, const sead::Vector3f& ang_vel);
+    void changeToFall(const sead::Vector3f& vel, const sead::Vector3f& ang_vel);
 
 protected:
     // static_param at offset 0x38

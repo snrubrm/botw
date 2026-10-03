@@ -22,13 +22,13 @@ void ForestGiantRecognizeTarget::enter_(ksys::act::ai::InlineParamPack* params) 
         pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
         changeChild("気づき", &pack);
     } else {
-        sub_71003D95C8();
+        changeToFound();
     }
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
-void ForestGiantRecognizeTarget::sub_71003D95C8() {
+void ForestGiantRecognizeTarget::changeToFound() {
     sub_71005DB3EC(mActor);
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -41,7 +41,7 @@ void ForestGiantRecognizeTarget::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("気づき")) {
-            sub_71003D95C8();
+            changeToFound();
         } else if (child->isFinished()) {
             setFinished();
         } else {

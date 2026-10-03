@@ -112,7 +112,7 @@ void KorokTargetRailMove::sub_710045E4FC() {
             if (_148 > -1.0f) {
                 sub_710045BD18(sub_710045BA10() - _148);
             } else if (sub_710045BD08()) {
-                sub_710045B800();
+                changeToMove();
             } else {
                 sub_710045BA20();
             }

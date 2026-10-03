@@ -29,7 +29,7 @@ void DungeonRotateTagWaterChemical::loadParams_() {
     getStaticParam(&mReverseDotTh_s, "ReverseDotTh");
 }
 
-void DungeonRotateTagWaterChemical::sub_710037B08C(f32 ang_vel, f32 ang_accel) {
+void DungeonRotateTagWaterChemical::changeToDecelerate(f32 ang_vel, f32 ang_accel) {
     _5c = 0;
 
     ksys::act::ai::InlineParamPack pack;
@@ -38,7 +38,7 @@ void DungeonRotateTagWaterChemical::sub_710037B08C(f32 ang_vel, f32 ang_accel) {
     changeChild("減速", &pack);
 }
 
-void DungeonRotateTagWaterChemical::sub_710037AE80(f32 ang_vel, f32 ang_accel) {
+void DungeonRotateTagWaterChemical::changeToClockwise(f32 ang_vel, f32 ang_accel) {
     _5c = 0;
     _58 = 0;
 
@@ -48,7 +48,7 @@ void DungeonRotateTagWaterChemical::sub_710037AE80(f32 ang_vel, f32 ang_accel) {
     changeChild("時計回り", &pack);
 }
 
-void DungeonRotateTagWaterChemical::sub_710037AF84(f32 ang_vel, f32 ang_accel) {
+void DungeonRotateTagWaterChemical::changeToCounterClockwise(f32 ang_vel, f32 ang_accel) {
     _5c = 0;
     _58 = 1;
 

@@ -48,7 +48,7 @@ void MoriblinSpearNearBattle::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-void MoriblinSpearNearBattle::sub_71004ABC20() {
+void MoriblinSpearNearBattle::changeToBackStep() {
     const sead::Vector3f target_pos = *mTargetPos_d;
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(target_pos, "TargetPos", -1);

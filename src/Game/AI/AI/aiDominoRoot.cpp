@@ -40,7 +40,7 @@ void DominoRoot::loadParams_() {
     getMapUnitParam(&mEnableToEmitSpEffect_m, "EnableToEmitSpEffect");
 }
 
-void DominoRoot::sub_7100366388(const sead::Vector3f& vel, const sead::Vector3f& ang_vel) {
+void DominoRoot::changeToFall(const sead::Vector3f& vel, const sead::Vector3f& ang_vel) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(vel, "DynVel", -1);
     pack.addVec3(ang_vel, "DynAngVel", -1);

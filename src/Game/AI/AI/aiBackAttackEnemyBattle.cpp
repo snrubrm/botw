@@ -47,7 +47,7 @@ void BackAttackEnemyBattle::calc_() {
     }
 }
 
-void BackAttackEnemyBattle::sub_710032611C() {
+void BackAttackEnemyBattle::changeToBackAttack() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("背面攻撃", &pack);

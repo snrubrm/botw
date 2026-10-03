@@ -12,11 +12,11 @@ bool MessageReceiveCheckBasic::init_(sead::Heap* heap) {
 }
 
 void MessageReceiveCheckBasic::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_71004A4D84();
+    changeToOff();
     mFlags.set(Flag::Changeable);
 }
 
-void MessageReceiveCheckBasic::sub_71004A4D84() {
+void MessageReceiveCheckBasic::changeToOff() {
     m36();
     changeChild("オフ");
 }

@@ -20,15 +20,15 @@ public:
 
     void sub_71003E9150();
     // 0x71003e9420 (placeholder name)
-    void sub_71003E9420();
+    void changeToThrowSpear();
     // 0x71003e9514 (placeholder name)
-    void sub_71003E9514();
+    void changeToFireball();
     // 0x71003e9608 (placeholder name)
-    void sub_71003E9608();
+    void changeToTornado();
     // 0x71003e96fc (placeholder name)
-    void sub_71003E96FC();
+    void changeToIcePillar();
     // 0x71003e904c (placeholder name)
-    void sub_71003E904C();
+    void changeToLightning();
 
 protected:
     // static_param at offset 0x38

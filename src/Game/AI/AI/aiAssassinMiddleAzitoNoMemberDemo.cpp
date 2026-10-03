@@ -62,7 +62,7 @@ void AssassinMiddleAzitoNoMemberDemo::calc_() {
     }
 
     if (child->isChangeable() && isCurrentChild("待機") && timer < 0.0f)
-        sub_710031E040();
+        changeToNotice();
 }
 
 void AssassinMiddleAzitoNoMemberDemo::leave_() {
@@ -80,7 +80,7 @@ bool AssassinMiddleAzitoNoMemberDemo::handleMessage_(const ksys::Message& messag
     return _48.m2(message);
 }
 
-void AssassinMiddleAzitoNoMemberDemo::sub_710031E040() {
+void AssassinMiddleAzitoNoMemberDemo::changeToNotice() {
     mActor->m93(4, 0.0f);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);

@@ -54,7 +54,7 @@ void DragonRootBase::calc_() {
         } else if (isCurrentChild("移動")) {
             if (s32(_38._30.progress) != s32(_38._8.progress))
                 m38();
-            sub_7100356D48();
+            changeToMove();
         } else if (isCurrentChild("停止点移動")) {
             m38();
         }
@@ -87,14 +87,14 @@ void DragonRootBase::sub_7100356A7C() {
 void DragonRootBase::sub_7100356CFC() {
     m36();
     if (_38._8.rail && _38._8.rail->isBezier())
-        sub_7100356D48();
+        changeToMove();
     else
         sub_7100356F30();
 }
 
 // NON_MATCHING: the original keeps the normalized direction in registers and stores it once
 // afterwards (same as RailMove::sub_710032C0D4)
-void DragonRootBase::sub_7100356D48() {
+void DragonRootBase::changeToMove() {
     sead::Vector3f dir = mActor->getMtx().getTranslation() - _38._30.sub_7100EEB370();
     dir.normalize();
 
@@ -182,7 +182,7 @@ void DragonRootBase::m37() {
     if (_38.sub_7100EEBB74()) {
         m36();
         if (_38._8.rail && _38._8.rail->isBezier())
-            sub_7100356D48();
+            changeToMove();
         else
             sub_7100356F30();
     } else {

@@ -58,7 +58,7 @@ void EnemyWaitViewItem::m35() {}
 
 void EnemyWaitViewItem::m36() {}
 
-void EnemyWaitViewItem::sub_71003C3CB8() {
+void EnemyWaitViewItem::changeToGather() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
@@ -69,7 +69,7 @@ void EnemyWaitViewItem::sub_71003C3CB8() {
     changeChild("団欒", &pack);
 }
 
-void EnemyWaitViewItem::sub_71003C3DC4() {
+void EnemyWaitViewItem::changeToDejected() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
@@ -80,7 +80,7 @@ void EnemyWaitViewItem::sub_71003C3DC4() {
     changeChild("しょんぼり", &pack);
 }
 
-void EnemyWaitViewItem::sub_71003C3ED0() {
+void EnemyWaitViewItem::changeToWatch() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;
@@ -91,7 +91,7 @@ void EnemyWaitViewItem::sub_71003C3ED0() {
     changeChild("注視", &pack);
 }
 
-void EnemyWaitViewItem::sub_71003C3FDC() {
+void EnemyWaitViewItem::changeToCheer() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     sead::Vector3f pos;

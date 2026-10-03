@@ -52,7 +52,7 @@ bool EnemyRecognizeTargetBase::handleMessage_(const ksys::Message& message) {
     return _c0.m2(message);
 }
 
-void EnemyRecognizeTargetBase::sub_71003B08C0() {
+void EnemyRecognizeTargetBase::changeToNotice() {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(sub_71005D94AC(mActor), "TargetActor", -1);
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);

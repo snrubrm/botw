@@ -28,9 +28,9 @@ void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     const bool is_enemy = ksys::act::isEnemyProfile(&_1c8);
     sub_710037E9A4();
     if (is_enemy)
-        sub_7100460EE8();
+        changeToSummonChemicalAllies();
     else
-        sub_7100461020();
+        changeToApplyWeaponChemical();
 }
 
 void LandHumEnemyFindPlayer::getChemTargetPos(sead::Vector3f* pos) {
@@ -43,7 +43,7 @@ void LandHumEnemyFindPlayer::getChemTargetPos(sead::Vector3f* pos) {
     pos->z = mtx.m[2][3];
 }
 
-void LandHumEnemyFindPlayer::sub_7100460EE8() {
+void LandHumEnemyFindPlayer::changeToSummonChemicalAllies() {
     sead::Vector3f pos;
     getChemTargetPos(&pos);
     ksys::act::ai::InlineParamPack pack;
@@ -52,7 +52,7 @@ void LandHumEnemyFindPlayer::sub_7100460EE8() {
     changeChild("ケミカル仲間招来", &pack);
 }
 
-void LandHumEnemyFindPlayer::sub_7100461020() {
+void LandHumEnemyFindPlayer::changeToApplyWeaponChemical() {
     sead::Vector3f pos;
     getChemTargetPos(&pos);
     ksys::act::ai::InlineParamPack pack;
@@ -124,7 +124,7 @@ bool LandHumEnemyFindPlayer::sub_7100461B74() {
     return false;
 }
 
-void LandHumEnemyFindPlayer::sub_7100461C98() {
+void LandHumEnemyFindPlayer::changeToGrabTargetWall() {
     _1dc = 15.0f;
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -147,7 +147,7 @@ bool LandHumEnemyFindPlayer::m48() {
         }
     }
     if (sub_7100461B74()) {
-        sub_7100461C98();
+        changeToGrabTargetWall();
         return true;
     }
     return false;
@@ -168,7 +168,7 @@ bool LandHumEnemyFindPlayer::m49() {
         }
     }
     if (sub_7100461B74()) {
-        sub_7100461C98();
+        changeToGrabTargetWall();
         return true;
     }
     return false;
@@ -189,7 +189,7 @@ bool LandHumEnemyFindPlayer::m50() {
         }
     }
     if (sub_7100461B74()) {
-        sub_7100461C98();
+        changeToGrabTargetWall();
         return true;
     }
     return false;
@@ -210,11 +210,11 @@ bool LandHumEnemyFindPlayer::m51() {
         }
     }
     if (sub_7100461B74()) {
-        sub_7100461C98();
+        changeToGrabTargetWall();
         return true;
     }
     if (m38()) {
-        sub_710037ECD0();
+        changeToNoNavMesh();
         return true;
     }
     return false;
@@ -235,7 +235,7 @@ bool LandHumEnemyFindPlayer::m52() {
         }
     }
     if (sub_7100461B74()) {
-        sub_7100461C98();
+        changeToGrabTargetWall();
         return true;
     }
     return false;

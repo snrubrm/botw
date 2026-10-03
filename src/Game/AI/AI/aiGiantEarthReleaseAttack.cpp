@@ -33,7 +33,7 @@ void GiantEarthReleaseAttack::loadParams_() {
 void GiantEarthReleaseAttack::calc_() {
     if (isCurrentChild("準備")) {
         if (*mIsArrivedAtDestination_a)
-            sub_710037BDF0();
+            changeToPreAction();
     } else {
         EarthReleaseAttack::calc_();
     }

@@ -21,7 +21,7 @@ void EnemyPursuingArrowBattle::loadParams_() {
     getStaticParam(&mPursuingAttackStartAng_s, "PursuingAttackStartAng");
 }
 
-void EnemyPursuingArrowBattle::sub_71003A8A44() {
+void EnemyPursuingArrowBattle::changeToFollowUp() {
     const s32 rand = *mPursuingAttackIntervalRand_s;
     const f32 random_part = rand * -0.5f;
     const f32 interval = *mPursuingAttackInterval_s;

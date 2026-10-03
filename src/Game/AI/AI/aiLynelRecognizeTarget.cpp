@@ -49,7 +49,7 @@ void LynelRecognizeTarget::loadParams_() {
     getAITreeVariable(&mLynelAreaAlarmPoint_a, "LynelAreaAlarmPoint");
 }
 
-void LynelRecognizeTarget::sub_710049708C() {
+void LynelRecognizeTarget::changeToReturn() {
     sead::Vector3f pos;
     mActor->getHomePos(&pos);
     ksys::act::ai::InlineParamPack pack;
@@ -57,7 +57,7 @@ void LynelRecognizeTarget::sub_710049708C() {
     changeChild("帰還", &pack);
 }
 
-void LynelRecognizeTarget::sub_7100496894() {
+void LynelRecognizeTarget::changeToNotice() {
     _108 = 0;
 
     ksys::act::ai::InlineParamPack pack;
@@ -65,7 +65,7 @@ void LynelRecognizeTarget::sub_7100496894() {
     changeChild("気づき", &pack);
 }
 
-void LynelRecognizeTarget::sub_71004966C4() {
+void LynelRecognizeTarget::changeToAlert() {
     const f32 time = *mForceBattleStartTime_s;
     _108 = 0;
     _118 = time;
@@ -75,7 +75,7 @@ void LynelRecognizeTarget::sub_71004966C4() {
     changeChild("警戒", &pack);
 }
 
-void LynelRecognizeTarget::sub_71004967AC() {
+void LynelRecognizeTarget::changeToObserve() {
     const f32 time = *mForceBattleStartTime_s;
     _108 = 0;
     _118 = time;
@@ -85,7 +85,7 @@ void LynelRecognizeTarget::sub_71004967AC() {
     changeChild("観察", &pack);
 }
 
-void LynelRecognizeTarget::sub_7100496D84() {
+void LynelRecognizeTarget::changeToStartBattle() {
     auto* actor = mActor;
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 
@@ -98,7 +98,7 @@ void LynelRecognizeTarget::sub_7100496D84() {
         static_cast<act::Enemy*>(actor)->_e84.setBit(1);
 }
 
-void LynelRecognizeTarget::sub_7100497164() {
+void LynelRecognizeTarget::changeToForceStartBattle() {
     auto* actor = mActor;
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 

@@ -29,7 +29,7 @@ void EnemyBaseFindPlayer::sub_710037E9A4() {
     _108.mValue = _118 == _11c ? _118 : sead::GlobalRandom::instance()->getS32Range(_118, _11c);
 }
 
-void EnemyBaseFindPlayer::sub_710037ECD0() {
+void EnemyBaseFindPlayer::changeToNoNavMesh() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("ナビメッシュ無し", &params);
@@ -92,7 +92,7 @@ void EnemyBaseFindPlayer::sub_71003803E8() {
     sub_710037EDA4();
 }
 
-void EnemyBaseFindPlayer::sub_710038054C() {
+void EnemyBaseFindPlayer::changeToThreatenReturn() {
     if (_f0)
         _f0->sub_7100710F04();
     _f8 = _fc == _100 ? _fc : sead::GlobalRandom::instance()->getS32Range(_fc, _100);
@@ -123,7 +123,7 @@ bool EnemyBaseFindPlayer::sub_7100380B50() {
     return level && level->mIsSwiftAttack.ref();
 }
 
-void EnemyBaseFindPlayer::sub_7100380E90() {
+void EnemyBaseFindPlayer::changeToSurpriseAttack() {
     _e8.reset(4);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -159,7 +159,7 @@ void EnemyBaseFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 
     if (mActor->m45()) {
         if (m38()) {
-            sub_710037ECD0();
+            changeToNoNavMesh();
             return;
         }
         if (m35()) {

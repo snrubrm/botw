@@ -23,7 +23,7 @@ void MetalObjectBuried::enter_(ksys::act::ai::InlineParamPack* params) {
         _72 = false;
 
     if (*mIsInGround_m && !_72) {
-        sub_71004A5514();
+        changeToUnderground();
         return;
     }
 
@@ -64,7 +64,7 @@ bool MetalObjectBuried::handleMessage_(const ksys::Message& message) {
     return true;
 }
 
-void MetalObjectBuried::sub_71004A5514() {
+void MetalObjectBuried::changeToUnderground() {
     auto* actor = mActor;
     ksys::act::disableAllAttClients(actor);
     if (auto* body = actor->getMainBody()) {

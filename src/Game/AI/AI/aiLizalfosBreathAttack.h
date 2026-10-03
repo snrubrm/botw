@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
     // 0x7100484734: changeChild("疲れる") with the tired time derived from the elapsed attack time.
-    void sub_7100484734();
+    void changeToTired();
 
 protected:
     // static_param at offset 0x38

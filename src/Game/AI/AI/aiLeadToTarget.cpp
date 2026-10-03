@@ -50,7 +50,7 @@ void LeadToTarget::sub_710047FE18() {
     }
 }
 
-void LeadToTarget::sub_7100480428() {
+void LeadToTarget::changeToWait() {
     if (!isCurrentChild("待機")) {
         ksys::act::ai::InlineParamPack pack;
         pack.addActor(*mLeaderActor_d, "LeaderActor", -1);

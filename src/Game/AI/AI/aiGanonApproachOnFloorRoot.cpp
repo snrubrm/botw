@@ -54,7 +54,7 @@ void GanonApproachOnFloorRoot::loadParams_() {
     getDynamicParam(&mMoveDstPos_d, "MoveDstPos");
 }
 
-void GanonApproachOnFloorRoot::sub_71003DF5C4(const sead::Vector3f& pos, const sead::Vector3f& dst_pos) {
+void GanonApproachOnFloorRoot::changeToMove(const sead::Vector3f& pos, const sead::Vector3f& dst_pos) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     pack.addVec3(dst_pos, "DstPos", -1);

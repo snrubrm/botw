@@ -19,9 +19,9 @@ public:
 
     void sub_71003D4414();
     // 0x71003d5108 (placeholder name)
-    void sub_71003D5108();
+    void changeToMoveFar();
     // 0x71003d5204 (placeholder name)
-    void sub_71003D5204();
+    void changeToMoveOnNavMesh();
 
 protected:
     // static_param at offset 0x38

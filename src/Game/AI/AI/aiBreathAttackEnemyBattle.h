@@ -31,7 +31,7 @@ public:
     virtual void m43();
     virtual bool m44();
 
-    void sub_710033E970();
+    void changeToPrepareBattle();
     void sub_710033EA88();
     void sub_710033F27C(s32 time);
     // The position of the actor of m34().

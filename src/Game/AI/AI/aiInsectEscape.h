@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_7100449E98();
+    void changeToMove();
     bool sub_710044A218(const sead::Vector3f& dir, f32 distance);
 
 protected:

@@ -14,10 +14,10 @@ bool HorseRideChargeAttack::init_(sead::Heap* heap) {
 void HorseRideChargeAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     _98 = false;
     _9c = ksys::Timer(8, 8);
-    sub_710043EFAC();
+    changeToCommand();
 }
 
-void HorseRideChargeAttack::sub_710043EFAC() {
+void HorseRideChargeAttack::changeToCommand() {
     _60.x();
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);

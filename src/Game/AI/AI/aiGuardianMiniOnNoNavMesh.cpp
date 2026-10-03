@@ -20,7 +20,7 @@ void GuardianMiniOnNoNavMesh::loadParams_() {
     getStaticParam(&mChangeToIceTimer_s, "ChangeToIceTimer");
 }
 
-void GuardianMiniOnNoNavMesh::sub_710041E07C() {
+void GuardianMiniOnNoNavMesh::changeToOnIceMaker() {
     _5c |= 1;
 
     ksys::act::ai::InlineParamPack pack;

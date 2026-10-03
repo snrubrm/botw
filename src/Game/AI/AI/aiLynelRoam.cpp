@@ -38,7 +38,7 @@ void LynelRoam::loadParams_() {
     getDynamicParam(&mCentralPos_d, "CentralPos");
 }
 
-void LynelRoam::sub_710049859C(const sead::Vector3f& pos) {
+void LynelRoam::changeToMove(const sead::Vector3f& pos) {
     if (!isCurrentChild("移動")) {
         const s32 min = *mMoveIntervalMin_s;
         const s32 max = *mMoveIntervalMax_s;

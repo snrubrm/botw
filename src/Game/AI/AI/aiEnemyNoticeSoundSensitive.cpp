@@ -58,7 +58,7 @@ void EnemyNoticeSoundSensitive::loadParams_() {
 }
 
 void EnemyNoticeSoundSensitive::m36() {
-    sub_71003A6298();
+    changeToNotice();
 }
 
 }  // namespace uking::ai

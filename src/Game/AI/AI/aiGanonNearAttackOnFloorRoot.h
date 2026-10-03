@@ -21,11 +21,11 @@ public:
 
     void sub_71003EC980();
     // 0x71003ecf34 (placeholder name)
-    void sub_71003ECF34();
+    void changeToGreatswordAttack();
     // 0x71003ed028 (placeholder name)
-    void sub_71003ED028();
+    void changeToGreatswordSideAttack();
     // 0x71003ed11c (placeholder name)
-    void sub_71003ED11C();
+    void changeToSwordAttack();
 
 protected:
     // static_param at offset 0x38

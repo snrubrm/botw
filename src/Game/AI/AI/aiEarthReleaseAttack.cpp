@@ -26,7 +26,7 @@ bool EarthReleaseAttack::init_(sead::Heap* heap) {
 
 void EarthReleaseAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710037BC08();
-    sub_710037BDF0();
+    changeToPreAction();
 }
 
 void EarthReleaseAttack::sub_710037BC08() {
@@ -88,7 +88,7 @@ void EarthReleaseAttack::loadParams_() {
     getStaticParam(&mEarthReleasePartsName_s, "EarthReleasePartsName");
 }
 
-void EarthReleaseAttack::sub_710037BDF0() {
+void EarthReleaseAttack::changeToPreAction() {
     ksys::act::ai::InlineParamPack pack;
     pack.addPointer(&_80, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);

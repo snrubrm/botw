@@ -57,7 +57,7 @@ void GanonFarAttackRootOnWall::sub_71003E9150() {
     }
 }
 
-void GanonFarAttackRootOnWall::sub_71003E9420() {
+void GanonFarAttackRootOnWall::changeToThrowSpear() {
     _54 = 2;
 
     ksys::act::ai::InlineParamPack pack;
@@ -66,7 +66,7 @@ void GanonFarAttackRootOnWall::sub_71003E9420() {
     changeChild("槍投げ", &pack);
 }
 
-void GanonFarAttackRootOnWall::sub_71003E9514() {
+void GanonFarAttackRootOnWall::changeToFireball() {
     _54 = 3;
 
     ksys::act::ai::InlineParamPack pack;
@@ -75,7 +75,7 @@ void GanonFarAttackRootOnWall::sub_71003E9514() {
     changeChild("火球", &pack);
 }
 
-void GanonFarAttackRootOnWall::sub_71003E9608() {
+void GanonFarAttackRootOnWall::changeToTornado() {
     _54 = 4;
 
     ksys::act::ai::InlineParamPack pack;
@@ -84,7 +84,7 @@ void GanonFarAttackRootOnWall::sub_71003E9608() {
     changeChild("竜巻", &pack);
 }
 
-void GanonFarAttackRootOnWall::sub_71003E96FC() {
+void GanonFarAttackRootOnWall::changeToIcePillar() {
     _54 = 6;
 
     ksys::act::ai::InlineParamPack pack;
@@ -93,7 +93,7 @@ void GanonFarAttackRootOnWall::sub_71003E96FC() {
     changeChild("氷柱", &pack);
 }
 
-void GanonFarAttackRootOnWall::sub_71003E904C() {
+void GanonFarAttackRootOnWall::changeToLightning() {
     _54 = 5;
     ++_50;
 

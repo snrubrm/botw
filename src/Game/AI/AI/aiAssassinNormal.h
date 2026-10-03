@@ -49,7 +49,7 @@ public:
     // 0x710040d048: whether an awareness entry is a reachable target.
     bool sub_710040D048(ksys::act::Unk_7100d78e50* entry);
     // 0x710040d3a8
-    void sub_710040D3A8(Unk2* target);
+    void changeToFoundSuspiciousObject(Unk2* target);
 
 protected:
     ksys::act::BaseProcLink _400;

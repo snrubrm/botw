@@ -23,7 +23,7 @@ void BeamExplode::calc_() {
         return;
     if ((child->isFinished() || child->isFailed() || child->isChangeable()) &&
         isCurrentChild("爆発")) {
-        sub_710056CA00();
+        changeToCleanup();
     }
 }
 

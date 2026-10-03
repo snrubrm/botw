@@ -27,18 +27,18 @@ public:
     virtual void m40() {}
 
     void sub_71003AB3FC();
-    void sub_71003AB8A0();
-    void sub_71003ABF50();
+    void changeToBattleBackAway();
+    void changeToBattleWait();
     bool sub_71003AD058();
     bool sub_71003AD160();
     bool sub_71003AD1F8();
     bool sub_71003AD298();
     // 0x71003ab624 (placeholder name)
-    void sub_71003AB624();
+    void changeToBattleWalk();
     // 0x71003acd3c (placeholder name)
-    void sub_71003ACD3C();
+    void changeToForcedRetreat();
     // 0x71003abe3c (placeholder name)
-    void sub_71003ABE3C(s8 dir);
+    void changeToMoveSideways(s8 dir);
 
 protected:
     // aitree_variable at offset 0x38

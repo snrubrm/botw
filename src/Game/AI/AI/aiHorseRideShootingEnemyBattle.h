@@ -19,9 +19,9 @@ public:
     // 0x7100443a58 (placeholder name)
     void sub_7100443A58();
     // 0x7100443b28 (placeholder name)
-    void sub_7100443B28();
+    void changeToChaseCommand();
     // 0x7100443c04 (placeholder name)
-    void sub_7100443C04();
+    void changeToDecelerateCommand();
 
 protected:
     // static_param at offset 0xc8

@@ -138,10 +138,10 @@ void LandHumEnemyNormal::m57(s32 type, Unk2* target) {
 void LandHumEnemyNormal::m58(s32 type, Unk2* target) {
     switch (type) {
     case 9:
-        sub_71004630B0(target);
+        changeToAvoidDanger(target);
         break;
     case 10:
-        sub_71004631BC(target);
+        changeToFoundFloatingObject(target);
         break;
     default:
         break;
@@ -208,7 +208,7 @@ bool LandHumEnemyNormal::m68(Unk2* out, Unk1* info) {
     return false;
 }
 
-void LandHumEnemyNormal::sub_71004630B0(Unk2* target) {
+void LandHumEnemyNormal::changeToAvoidDanger(Unk2* target) {
     auto* link = target->_0;
     if (!ksys::act::isPlayerProfile(link)) {
         if (auto* unk = sub_71005D9D68(mActor))
@@ -221,7 +221,7 @@ void LandHumEnemyNormal::sub_71004630B0(Unk2* target) {
     sub_710039FAA4(target->_38);
 }
 
-void LandHumEnemyNormal::sub_71004631BC(Unk2* target) {
+void LandHumEnemyNormal::changeToFoundFloatingObject(Unk2* target) {
     ksys::act::ai::InlineParamPack params;
     params.addActor(*target->_0, "TargetActor", -1);
     ksys::act::ActorConstDataAccess accessor;

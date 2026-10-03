@@ -25,7 +25,7 @@ void GuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
         changeChild("ガード待機", &params_);
     } else if (m34(distance)) {
-        sub_710044CA3C();
+        changeToStartGuard();
     } else {
         ksys::act::ai::InlineParamPack params_;
         params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
@@ -37,7 +37,7 @@ float GuardNearTarget::sub_710044C9E8() const {
     return (mActor->getMtx().getTranslation() - *mParams.mTargetPos_d).length();
 }
 
-void GuardNearTarget::sub_710044CA3C() {
+void GuardNearTarget::changeToStartGuard() {
     if (m38()) {
         m37(true);
         _60._25 = false;
@@ -81,7 +81,7 @@ bool GuardNearTarget::m36(float distance) {
     return *mParams.mBaseDist_s + *mParams.mGuardEndDist_s + sub_71007320F0(mActor, *mParams.mWeaponIdx_s) < distance;
 }
 
-void GuardNearTarget::sub_710044D00C() {
+void GuardNearTarget::changeToStartFastGuard() {
     if (m38()) {
         m37(true);
         _60._25 = false;

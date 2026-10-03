@@ -80,7 +80,7 @@ void AppearNearTarget::m38(sead::Matrix34f* mtx, const sead::Vector3f& pos) {
     ksys::util::sub_71011F00EC(mtx, dir, sead::Vector3f::ey, pos, false);
 }
 
-void AppearNearTarget::sub_710030DBFC() {
+void AppearNearTarget::changeToSpawnPrepare() {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20000);
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);

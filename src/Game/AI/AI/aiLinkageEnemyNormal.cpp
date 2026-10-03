@@ -28,7 +28,7 @@ void LinkageEnemyNormal::loadParams_() {
 void LinkageEnemyNormal::calc_() {
     getCurrentChild();
     if (!isCurrentChild("連携") && _3d0._30) {
-        sub_71004839A4(_3d0._38.mLink);
+        changeToCooperate(_3d0._38.mLink);
         _3d0.x();
         return;
     }
@@ -41,7 +41,7 @@ bool LinkageEnemyNormal::handleMessage_(const ksys::Message& message) {
     return EnemyNormal::handleMessage_(message);
 }
 
-void LinkageEnemyNormal::sub_71004839A4(const ksys::act::BaseProcLink& link) {
+void LinkageEnemyNormal::changeToCooperate(const ksys::act::BaseProcLink& link) {
     _3ac.reset(8);
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7EBE0(1.0f);

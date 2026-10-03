@@ -34,14 +34,14 @@ void GoronHeroDescendentRoot::loadParams_() {
     getStaticParam(&mPlayerFollowOffset_s, "PlayerFollowOffset");
 }
 
-void GoronHeroDescendentRoot::sub_7100409314() {
+void GoronHeroDescendentRoot::changeToStopCommand() {
     ksys::act::ai::InlineParamPack pack;
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
     changeChild("停止命令", &pack);
 }
 
-void GoronHeroDescendentRoot::sub_7100409824() {
+void GoronHeroDescendentRoot::changeToWaitForPlayerApproach() {
     ksys::act::ai::InlineParamPack pack;
     pack.addBool(false, "TerrorOccurring", -1);
     pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);

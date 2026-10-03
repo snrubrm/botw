@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71004abc20 (placeholder name)
-    void sub_71004ABC20();
+    void changeToBackStep();
 
 protected:
     // static_param at offset 0x38

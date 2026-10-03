@@ -20,10 +20,10 @@ void LynelArrowAttackSelect::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("通常撃ち"))
-            sub_710048B294(nullptr);
+            changeToShootUp(nullptr);
     } else if (child->isChangeable()) {
         if (isCurrentChild("通常撃ち") && !sub_710048B2B8())
-            sub_710048B294(nullptr);
+            changeToShootUp(nullptr);
     }
 }
 

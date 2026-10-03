@@ -20,7 +20,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_710038BFB0();
+    void changeToStasis();
 
 protected:
     // dynamic_param at offset 0x38

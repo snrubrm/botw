@@ -38,9 +38,9 @@ public:
     bool m68(Unk2* out, Unk1* info) override;
 
     // 0x71004630b0
-    void sub_71004630B0(Unk2* target);
+    void changeToAvoidDanger(Unk2* target);
     // 0x71004631bc
-    void sub_71004631BC(Unk2* target);
+    void changeToFoundFloatingObject(Unk2* target);
 
 protected:
     // static_param at offset 0x3d0

@@ -22,7 +22,7 @@ public:
     void loadParams_() override;
 
     void createOneActor();
-    void sub_7100482EB0();
+    void changeToCreate();
 
 protected:
     // static_param at offset 0x38

@@ -32,7 +32,7 @@ void GuardianMiniRangeKeepMove::calc_() {
     }
     if (getCurrentChild()->isChangeable() && isCurrentChild("戦闘歩行") && sub_71003AD1F8() &&
         sub_71003AD160()) {
-        sub_71003ABF50();
+        changeToBattleWait();
         return;
     }
     EnemyRangeKeepMove::calc_();

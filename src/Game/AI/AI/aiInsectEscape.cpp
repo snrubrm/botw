@@ -14,10 +14,10 @@ bool InsectEscape::init_(sead::Heap* heap) {
 }
 
 void InsectEscape::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_7100449E98();
+    changeToMove();
 }
 
-void InsectEscape::sub_7100449E98() {
+void InsectEscape::changeToMove() {
     mActor->getMtx().getTranslation(_70);
     _7c = _70;
     sead::Vector3f dir = _70 - *mTargetPos_d;

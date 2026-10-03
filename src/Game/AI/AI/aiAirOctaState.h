@@ -25,7 +25,7 @@ public:
     void m38() override;
     void m39() override;
 
-    void sub_71002FD098(bool a1);
+    void changeToWait(bool a1);
     void sub_71002FDF9C();
 
 protected:

@@ -20,9 +20,9 @@ public:
     virtual void m34();
     virtual void m35();
 
-    void sub_71003A6298();
-    // 0x71003a6568: like sub_71003A6298 with the child "行動".
-    void sub_71003A6568();
+    void changeToNotice();
+    // 0x71003a6568: like changeToNotice with the child "行動".
+    void changeToAct();
 
 protected:
     // dynamic_param at offset 0x38

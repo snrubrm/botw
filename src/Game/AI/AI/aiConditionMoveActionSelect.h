@@ -15,9 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71003561b4 (placeholder name)
-    void sub_71003561B4();
+    void changeToConditionSuccess();
     // 0x71003562d0 (placeholder name)
-    void sub_71003562D0();
+    void changeToConditionFail();
 
 protected:
     // static_param at offset 0x38

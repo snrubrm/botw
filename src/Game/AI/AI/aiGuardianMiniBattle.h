@@ -25,7 +25,7 @@ public:
     virtual bool m45();
 
     void sub_7100413A38();
-    void sub_7100413BA0();
+    void changeToMoveTurning();
 
 protected:
     // static_param at offset 0x90

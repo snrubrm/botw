@@ -37,7 +37,7 @@ public:
     // 0x71004727cc
     void sub_71004727CC(const ksys::act::BaseProcLink& link);
     // 0x71004728a4
-    void sub_71004728A4(Unk2* target);
+    void changeToFoundBait(Unk2* target);
     // 0x71004729d8
     bool sub_71004729D8(Unk2* out, Unk1* info);
     // 0x7100472ae8: a reachable bait within EatArea (dummy link if none).

@@ -35,21 +35,21 @@ void ForestGiantChanceWait::enter_(ksys::act::ai::InlineParamPack* params) {
         pack.addVec3(*mTargetPos_d, "TargetPos", -1);
         changeChild("回転", &pack);
     } else if (flag) {
-        sub_71003D6534(true);
+        changeToWait(true);
     } else {
-        sub_71003D6428();
+        changeToChance();
     }
 }
 
-void ForestGiantChanceWait::sub_71003D6428() {
+void ForestGiantChanceWait::changeToChance() {
     if (_5c) {
-        sub_71003D6534(true);
+        changeToWait(true);
         return;
     }
     _5c = true;
     const s32 roll = sead::GlobalRandom::instance()->getU32(100);
     if (roll > *mChanceRate_s + _58 * *mCorrectRate_s) {
-        sub_71003D6534(false);
+        changeToWait(false);
         return;
     }
     _58 = _58 <= 0 ? _58 - 1 : 0;
@@ -58,7 +58,7 @@ void ForestGiantChanceWait::sub_71003D6428() {
     changeChild("チャンス");
 }
 
-void ForestGiantChanceWait::sub_71003D6534(bool a2) {
+void ForestGiantChanceWait::changeToWait(bool a2) {
     if (!a2)
         _58 = _58 >= 0 ? _58 + 1 : 0;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
@@ -78,9 +78,9 @@ void ForestGiantChanceWait::calc_() {
             return;
         }
         if (isCurrentChild("チャンス"))
-            sub_71003D6534(true);
+            changeToWait(true);
         else if (isCurrentChild("回転"))
-            sub_71003D6428();
+            changeToChance();
         else
             setFinished();
         return;

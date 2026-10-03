@@ -18,7 +18,7 @@ public:
     void loadParams_() override;
     void m34(ksys::act::ai::InlineParamPack* params) override;
 
-    void sub_710034E090();
+    void changeToCreateDrop();
 
 protected:
     void calc_() override;

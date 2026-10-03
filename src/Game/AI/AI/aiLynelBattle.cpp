@@ -43,7 +43,7 @@ void LynelBattle::loadParams_() {
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
 }
 
-void LynelBattle::sub_710048D8A0() {
+void LynelBattle::changeToMeleeBattle() {
     ++_d8;
 
     ksys::act::ai::InlineParamPack pack;

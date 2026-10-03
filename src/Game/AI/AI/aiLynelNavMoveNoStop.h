@@ -21,9 +21,9 @@ public:
 
     void sub_71004923C0();
     // 0x71004925c0 (placeholder name)
-    void sub_71004925C0();
+    void changeToGoStraight();
     // 0x7100492d10 (placeholder name)
-    void sub_7100492D10();
+    void changeToMove();
 
 protected:
     // static_param at offset 0x38

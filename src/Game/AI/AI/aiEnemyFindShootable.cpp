@@ -41,7 +41,7 @@ void EnemyFindShootable::loadParams_() {
     getStaticParam(&mParams.mChaseItemSpeed_s, "ChaseItemSpeed");
 }
 
-void EnemyFindShootable::sub_710038DB48() {
+void EnemyFindShootable::changeToAction() {
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(*mParams.mTargetActor_d, "ShootItem", -1);
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);

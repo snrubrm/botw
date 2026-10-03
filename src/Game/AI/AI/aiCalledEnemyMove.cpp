@@ -33,7 +33,7 @@ void CalledEnemyMove::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-void CalledEnemyMove::sub_7100340F4C() {
+void CalledEnemyMove::changeToWait() {
     sead::Vector3f pos;
     {
         ksys::act::ActorConstDataAccess accessor;

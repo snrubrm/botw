@@ -25,7 +25,7 @@ void GuardianRoot::loadParams_() {
     getAITreeVariable(&mForceSetDropPos_a, "ForceSetDropPos");
 }
 
-void GuardianRoot::sub_710042B8B4() {
+void GuardianRoot::changeToReactToSight() {
     sead::Vector3f pos;
     if (sub_710040E008(&pos)) {
         ksys::act::ai::InlineParamPack pack;
@@ -36,7 +36,7 @@ void GuardianRoot::sub_710042B8B4() {
     }
 }
 
-void GuardianRoot::sub_710042B7C4() {
+void GuardianRoot::changeToReactToSound() {
     sead::Vector3f pos;
     if (sub_710040E048(&pos)) {
         ksys::act::ai::InlineParamPack pack;

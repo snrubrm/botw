@@ -34,7 +34,7 @@ public:
     void m43() override;
     void m46() override;
     // 0x7100457240 (placeholder name)
-    void sub_7100457240();
+    void changeToAngry();
 
 protected:
     // static_param at offset 0x208

@@ -43,7 +43,7 @@ public:
     virtual void m35();
     virtual void m36();
 
-    void sub_71003A7DD4();
+    void changeToNotice();
 
     // Placeholder names (lane1 s22).
     // 0x71003a7a88: whether no awareness entry (nearer than NoTerrorDist) is the remembered target
@@ -52,7 +52,7 @@ public:
     // 0x71003a7b64: the position of the remembered target (`_60`, else `_80`); false without one.
     bool sub_71003A7B64(sead::Vector3f* out);
     // 0x71003a7c44: starts "眺める" towards the target position.
-    void sub_71003A7C44();
+    void changeToGaze();
 
 protected:
     // static_param at offset 0x38

@@ -44,7 +44,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    void sub_710041B2E8();
+    void changeToMoveBattleSign();
 
     void sub_710041B3D4();
 

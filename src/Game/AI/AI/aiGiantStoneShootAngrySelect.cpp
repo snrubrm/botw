@@ -26,7 +26,7 @@ void GiantStoneShootAngrySelect::enter_(ksys::act::ai::InlineParamPack* params) 
     auto* handle = *mIgniteHandle_d;
     if (handle && handle->isProcReady() &&
         (_50 || sead::GlobalRandom::instance()->getS32Range(0, 100) >= *mThrowableAngryRate_s)) {
-        sub_71003FAC88();
+        changeToThrowRock();
         return;
     }
     _50 = true;
@@ -45,7 +45,7 @@ void GiantStoneShootAngrySelect::loadParams_() {
     getDynamicParam(&mIgniteHandle_d, "IgniteHandle");
 }
 
-void GiantStoneShootAngrySelect::sub_71003FAC88() {
+void GiantStoneShootAngrySelect::changeToThrowRock() {
     _50 = false;
     ksys::act::ai::InlineParamPack params;
     params.addVec3(*mTargetPos_d, "TargetPos", -1);

@@ -35,7 +35,7 @@ void InsectRoam::calc_() {
             changeChild("徘徊待機");
         } else {
             isCurrentChild("徘徊待機");
-            sub_710044ABCC();
+            changeToRoamWalk();
         }
     }
     if (isCurrentChild("徘徊歩行") && *mMoveSpeed_s > 0) {
@@ -48,7 +48,7 @@ void InsectRoam::calc_() {
     }
 }
 
-void InsectRoam::sub_710044ABCC() {
+void InsectRoam::changeToRoamWalk() {
     sub_710044ACE4(&_74, &_68);
     if (*mMoveSpeed_s > 0) {
         const f32 time = *mMoveDist_s / *mMoveSpeed_s + 30.0f;

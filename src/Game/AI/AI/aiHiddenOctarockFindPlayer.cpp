@@ -35,7 +35,7 @@ bool HiddenOctarockFindPlayer::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("近づき");
 }
 
-void HiddenOctarockFindPlayer::sub_71004312D8() {
+void HiddenOctarockFindPlayer::changeToNotice() {
     mActor->m93(4, 0.0f);
 
     ksys::act::ai::InlineParamPack pack;
@@ -43,7 +43,7 @@ void HiddenOctarockFindPlayer::sub_71004312D8() {
     changeChild("気づき", &pack);
 }
 
-void HiddenOctarockFindPlayer::sub_7100430EE0() {
+void HiddenOctarockFindPlayer::changeToApproaching() {
     s32 value = _78;
     if (_7c != _78)
         value = sead::GlobalRandom::instance()->getS32Range(_78, _7c);

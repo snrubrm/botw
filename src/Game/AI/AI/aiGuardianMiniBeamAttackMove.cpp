@@ -11,7 +11,7 @@ GuardianMiniBeamAttackMove::GuardianMiniBeamAttackMove(const InitArg& arg)
 GuardianMiniBeamAttackMove::~GuardianMiniBeamAttackMove() = default;
 
 void GuardianMiniBeamAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_7100418468();
+    changeToMove();
 }
 
 bool GuardianMiniBeamAttackMove::isChangeable() const {
@@ -32,7 +32,7 @@ void GuardianMiniBeamAttackMove::loadParams_() {
     getStaticParam(&mTargetDistOffset_s, "TargetDistOffset");
 }
 
-void GuardianMiniBeamAttackMove::sub_7100418468() {
+void GuardianMiniBeamAttackMove::changeToMove() {
     _70 = ksys::Timer(*mMoveTime_s, *mMoveTime_s);
     _7c = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
     sub_7100418D7C();

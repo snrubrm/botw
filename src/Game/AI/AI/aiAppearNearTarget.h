@@ -27,7 +27,7 @@ public:
     virtual void m37(const sead::Vector3f& pos);
     virtual void m38(sead::Matrix34f* mtx, const sead::Vector3f& pos);
     // 0x710030dbfc (placeholder name)
-    void sub_710030DBFC();
+    void changeToSpawnPrepare();
 
 protected:
     // static_param at offset 0x38

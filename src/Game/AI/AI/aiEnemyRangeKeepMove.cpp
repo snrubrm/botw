@@ -50,7 +50,7 @@ void EnemyRangeKeepMove::loadParams_() {
     getAITreeVariable(&mRefVelRotVibrateCheckerforAI_a, "RefVelRotVibrateCheckerforAI");
 }
 
-void EnemyRangeKeepMove::sub_71003AB8A0() {
+void EnemyRangeKeepMove::changeToBattleBackAway() {
     m38();
     _c8 = _cc == _d0 ? _cc : sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
     ksys::act::ai::InlineParamPack pack;
@@ -58,7 +58,7 @@ void EnemyRangeKeepMove::sub_71003AB8A0() {
     changeChild("戦闘後ずさり", &pack);
 }
 
-void EnemyRangeKeepMove::sub_71003ABF50() {
+void EnemyRangeKeepMove::changeToBattleWait() {
     m36();
     sub_71003AB3FC();
     _e0 = _e4 == _e8 ? _e4 : sead::GlobalRandom::instance()->getS32Range(_e4, _e8);
@@ -115,7 +115,7 @@ bool EnemyRangeKeepMove::sub_71003AD160() {
     return sub_710072CB78(actor, target, nullptr, radius, 3);
 }
 
-void EnemyRangeKeepMove::sub_71003AB624() {
+void EnemyRangeKeepMove::changeToBattleWalk() {
     m37();
 
     ksys::act::ai::InlineParamPack pack;
@@ -123,7 +123,7 @@ void EnemyRangeKeepMove::sub_71003AB624() {
     changeChild("戦闘歩行", &pack);
 }
 
-void EnemyRangeKeepMove::sub_71003ACD3C() {
+void EnemyRangeKeepMove::changeToForcedRetreat() {
     m39();
 
     s32 value = _cc;
@@ -136,7 +136,7 @@ void EnemyRangeKeepMove::sub_71003ACD3C() {
     changeChild("強制後退", &pack);
 }
 
-void EnemyRangeKeepMove::sub_71003ABE3C(s8 dir) {
+void EnemyRangeKeepMove::changeToMoveSideways(s8 dir) {
     sub_71003AB3FC();
     m40();
 

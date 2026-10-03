@@ -26,7 +26,7 @@ void LizalfosBreathAttack::calc_() {
             return;
         }
         if (_50.value >= f32(*mMinAttackTimeForTired_s))
-            sub_7100484734();
+            changeToTired();
         else
             setFinished();
         return;
@@ -45,7 +45,7 @@ void LizalfosBreathAttack::calc_() {
 
 // NON_MATCHING: the original keeps the tired-time product in one FP register computed before the
 // param pack initialization loop; ours sinks it below the loop (extra d9 spill pair)
-void LizalfosBreathAttack::sub_7100484734() {
+void LizalfosBreathAttack::changeToTired() {
     const s32 elapsed = s32(_50.value);
     const s32 over_min = sead::Mathi::max(elapsed - *mMinAttackTimeForTired_s, 0);
     const f32 rate = *mTiredTimeRate_s;

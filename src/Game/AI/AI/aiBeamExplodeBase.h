@@ -21,7 +21,7 @@ public:
     void loadParams_() override;
     virtual void m34();
 
-    void sub_710056CA00();
+    void changeToCleanup();
     // 0x710056ca8c: removes `_50` from the world and stops it.
     void sub_710056CA8C();
 protected:

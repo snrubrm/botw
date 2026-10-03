@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
-    void sub_71004604A8();
+    void changeToDiscard();
 
     // dynamic_param at offset 0x38
     ksys::act::BaseProcLink* mTargetWeapon_d{};

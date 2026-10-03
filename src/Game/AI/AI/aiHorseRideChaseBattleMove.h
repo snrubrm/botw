@@ -21,7 +21,7 @@ public:
     void m35() override;
     bool m36() override;
 
-    void sub_7100440144(int gear);
+    void changeToGearCommand(int gear);
 
 protected:
 };

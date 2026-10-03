@@ -40,7 +40,7 @@ void HorseRideChaseBattleMove::calc_() {
     }
 }
 
-void HorseRideChaseBattleMove::sub_7100440144(int gear) {
+void HorseRideChaseBattleMove::changeToGearCommand(int gear) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
     pack.addInt(gear, "Gear", -1);
@@ -52,7 +52,7 @@ bool HorseRideChaseBattleMove::m36() {
 }
 
 void HorseRideChaseBattleMove::m34(int gear) {
-    sub_7100440144(gear);
+    changeToGearCommand(gear);
 }
 
 void HorseRideChaseBattleMove::m35() {

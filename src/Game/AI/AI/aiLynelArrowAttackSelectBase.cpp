@@ -25,7 +25,7 @@ void LynelArrowAttackSelectBase::enter_(ksys::act::ai::InlineParamPack* params) 
     changeChild("上空撃ち", params);
 }
 
-void LynelArrowAttackSelectBase::sub_710048B294(ksys::act::ai::InlineParamPack* params) {
+void LynelArrowAttackSelectBase::changeToShootUp(ksys::act::ai::InlineParamPack* params) {
     *mLynelAIFlags_a |= 0x20;
     changeChild("上空撃ち", params);
 }

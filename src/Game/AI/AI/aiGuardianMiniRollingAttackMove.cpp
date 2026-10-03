@@ -72,7 +72,7 @@ void GuardianMiniRollingAttackMove::sub_71004219B8() {
     changeChild("回転予兆", &pack);
 }
 
-void GuardianMiniRollingAttackMove::sub_71004238F0() {
+void GuardianMiniRollingAttackMove::changeToBackStep() {
     setDamageCallbackTiming(mActor, 4, &_2d0);
     if (*mAttackType_s == 1) {
         if (auto* damage_mgr = mActor->getDamageMgr()) {
@@ -140,7 +140,7 @@ void GuardianMiniRollingAttackMove::sub_7100423D68() {
 
 // NON_MATCHING: the loads of mBackWalkRollingStartTime_s / mBackWalkMinTime_s are merged into one ldp and
 // the constant stores are scheduled differently
-void GuardianMiniRollingAttackMove::sub_7100423F0C() {
+void GuardianMiniRollingAttackMove::changeToRotateBack() {
     setDamageCallbackTiming(mActor, 4, &_2d0);
     _210.value = 5.0f;
     _1f8.rate = -1.0f;
@@ -201,7 +201,7 @@ void GuardianMiniRollingAttackMove::sub_7100424A3C() {
     }
 }
 
-void GuardianMiniRollingAttackMove::sub_7100424F54() {
+void GuardianMiniRollingAttackMove::changeToRotateEnd() {
     sub_71005DA114(mActor, &_2d0);
     auto* actor = mActor;
     _2c8 = 1;
@@ -219,7 +219,7 @@ void GuardianMiniRollingAttackMove::sub_7100424F54() {
     changeChild("回転終了", nullptr);
 }
 
-void GuardianMiniRollingAttackMove::sub_7100425040() {
+void GuardianMiniRollingAttackMove::changeToChance() {
     sub_71005DA114(mActor, &_2d0);
     auto* actor = mActor;
     _2c8 = 1;
@@ -265,9 +265,9 @@ bool GuardianMiniRollingAttackMove::handleMessage_(const ksys::Message& message)
 
     if (isCurrentChild("戦闘待機") && *mAttackType_s == 1) {
         if (!_22a && *mIsValidChanceTime_s)
-            sub_7100425040();
+            changeToChance();
         else
-            sub_7100424F54();
+            changeToRotateEnd();
         return true;
     }
 
@@ -289,7 +289,7 @@ bool GuardianMiniRollingAttackMove::handleMessage_(const ksys::Message& message)
         _204.rate = -1.0f;
         sub_7100421B50();
     } else {
-        sub_7100424F54();
+        changeToRotateEnd();
     }
     return true;
 }

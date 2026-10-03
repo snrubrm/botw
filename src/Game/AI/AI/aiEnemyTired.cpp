@@ -25,11 +25,11 @@ void EnemyTired::calc_() {
         else
             setFinished();
     } else {
-        sub_71003C16B0();
+        changeToReturn();
     }
 }
 
-void EnemyTired::sub_71003C16B0() {
+void EnemyTired::changeToReturn() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
     mActor->getHomePos(&pos);

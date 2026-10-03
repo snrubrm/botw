@@ -25,7 +25,7 @@ void EnemyChaseShield::loadParams_() {
     getStaticParam(&mShieldReachDist_s, "ShieldReachDist");
 }
 
-void EnemyChaseShield::sub_710038347C() {
+void EnemyChaseShield::changeToRotate() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos;
     auto* link = mTargetWeapon_d;
@@ -60,7 +60,7 @@ void EnemyChaseShield::sub_7100384290() {
     changeChild("ナビ追跡", &pack);
 }
 
-void EnemyChaseShield::sub_71003840F4() {
+void EnemyChaseShield::changeToAcquire() {
     ksys::act::ai::InlineParamPack pack;
     auto* link = mTargetWeapon_d;
     if (link && link->hasProc()) {

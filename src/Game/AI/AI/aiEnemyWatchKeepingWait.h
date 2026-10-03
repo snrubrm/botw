@@ -15,7 +15,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71003c5ef4 (placeholder name)
-    void sub_71003C5EF4();
+    void changeToWait();
 
 protected:
     f32 _38 = 0;

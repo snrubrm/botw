@@ -18,7 +18,7 @@ public:
 
     void sub_710047FE18();
     // 0x7100480428 (placeholder name)
-    void sub_7100480428();
+    void changeToWait();
 
 protected:
     // static_param at offset 0x38

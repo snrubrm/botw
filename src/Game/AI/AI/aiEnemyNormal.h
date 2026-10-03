@@ -132,9 +132,9 @@ public:
     void sub_71003A0E38(Unk2* target);
     // 0x71003a0fd8 / 0x71003a1164 / 0x71003a1298 / 0x71003a13e4 / 0x71003a157c: switch to
     // 音気づき / 脅威感知 / 気配気づき / 行動中仲間発見 / 不調仲間発見 for `target`.
-    void sub_71003A0FD8(Unk2* target);
-    void sub_71003A1164(Unk2* target);
-    void sub_71003A1298(Unk2* target);
+    void changeToNoticeSound(Unk2* target);
+    void changeToSenseThreat(Unk2* target);
+    void changeToNoticePresence(Unk2* target);
     void sub_71003A13E4(Unk2* target);
     void sub_71003A157C(Unk2* target);
     // 0x71003a3d0c: m58 + the state change for an attack candidate type.

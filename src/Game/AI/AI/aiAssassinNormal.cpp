@@ -103,7 +103,7 @@ void AssassinNormal::m57(s32 type, Unk2* target) {
 
 void AssassinNormal::m58(s32 type, Unk2* target) {
     if (type == 11) {
-        sub_710040D3A8(target);
+        changeToFoundSuspiciousObject(target);
         return;
     }
     LandHumEnemyNormal::m58(type, target);
@@ -258,7 +258,7 @@ void AssassinNormal::sub_710040CE58() {
     mActor->getMtx().getTranslation(_410);
 }
 
-void AssassinNormal::sub_710040D3A8(Unk2* target) {
+void AssassinNormal::changeToFoundSuspiciousObject(Unk2* target) {
     _3ac.reset(8);
     if (target->_44 & 4) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))

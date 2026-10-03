@@ -36,7 +36,7 @@ void MoriblinUnarmedBattle::loadParams_() {
     getStaticParam(&mPursuingAttackStartAng_s, "PursuingAttackStartAng");
 }
 
-void MoriblinUnarmedBattle::sub_71004ACE74() {
+void MoriblinUnarmedBattle::changeToAttack() {
     setDamageCallbackTiming(mActor, 4, &_90);
 
     const sead::Vector3f target_pos = *mTargetPos_d;
@@ -45,7 +45,7 @@ void MoriblinUnarmedBattle::sub_71004ACE74() {
     changeChild("攻撃", &pack);
 }
 
-void MoriblinUnarmedBattle::sub_71004ACF98() {
+void MoriblinUnarmedBattle::changeToWait() {
     sub_71005DA114(mActor, &_90);
     _80 = ksys::Timer(10.0f, 10.0f);
 

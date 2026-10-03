@@ -39,9 +39,9 @@ void ForestGiantNoticeSound::m34() {
     to_target.y = 0;
     to_target.normalize();
     if (to_target.dot(forward) >= sead::Mathf::cos(*mFrontAngle_s))
-        sub_71003A6568();
+        changeToAct();
     else
-        sub_71003A6298();
+        changeToNotice();
 }
 
 void ForestGiantNoticeSound::m35() {

@@ -36,9 +36,9 @@ public:
 
     void sub_710038782C(ksys::act::ai::InlineParamPack* params);
     // 0x710038794c (lane1 s22): starts the just-guard state (rolls _58, clears ActorFlag2 0x10000000).
-    void sub_710038794C();
+    void changeToJustGuard();
     // 0x7100387a9c (lane1 s22): the guard reaction (_61, just-guard countdown, 'ガード' state).
-    void sub_7100387A9C(ksys::act::ai::InlineParamPack* params);
+    void changeToGuard(ksys::act::ai::InlineParamPack* params);
 protected:
     // static_param at offset 0x38
     const int* mJustGuardTimesMin_s{};

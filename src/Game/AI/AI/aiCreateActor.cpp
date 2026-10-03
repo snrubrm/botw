@@ -16,7 +16,7 @@ bool CreateActor::init_(sead::Heap* heap) {
 }
 
 void CreateActor::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_71003591E4(nullptr);
+    changeToCreating(nullptr);
 }
 
 void CreateActor::calc_() {
@@ -54,7 +54,7 @@ void CreateActor::loadParams_() {
     getStaticParam(&mActorName_s, "ActorName");
 }
 
-void CreateActor::sub_71003591E4(ksys::act::ai::InlineParamPack* params) {
+void CreateActor::changeToCreating(ksys::act::ai::InlineParamPack* params) {
     if (_58.isAllocatedOrFailed())
         _58.deleteProc();
 

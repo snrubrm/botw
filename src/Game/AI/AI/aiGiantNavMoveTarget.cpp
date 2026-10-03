@@ -38,11 +38,11 @@ void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     m34();
 }
 
-void GiantNavMoveTarget::sub_71003F78F4() {
+void GiantNavMoveTarget::changeToLookAround() {
     changeChild("見まわす", nullptr);
 }
 
-void GiantNavMoveTarget::sub_71003F7C20() {
+void GiantNavMoveTarget::changeToGoStraight() {
     if (_78->_8 != -1) {
         _78->_8 = -1;
         if (auto* nav = _78->_0)

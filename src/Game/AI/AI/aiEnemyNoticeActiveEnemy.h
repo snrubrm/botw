@@ -18,9 +18,9 @@ public:
     void loadParams_() override;
 
     virtual void m34();
-    void sub_71003A4B3C();
+    void changeToNotice();
     // 0x71003a4e30: changeChild("行動") with TargetPos and TargetActor.
-    void sub_71003A4E30();
+    void changeToAct();
 
 protected:
     struct Params {

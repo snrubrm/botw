@@ -24,11 +24,11 @@ public:
     virtual void m37(bool enable);
     virtual bool m38() { return false; }
     // 0x710044d00c (placeholder name)
-    void sub_710044D00C();
+    void changeToStartFastGuard();
 
 protected:
     float sub_710044C9E8() const;
-    void sub_710044CA3C();
+    void changeToStartGuard();
 
     struct Params {
         // static_param at offset 0x38

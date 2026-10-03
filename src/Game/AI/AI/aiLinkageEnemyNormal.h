@@ -20,7 +20,7 @@ public:
     void calc_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    void sub_71004839A4(const ksys::act::BaseProcLink& link);
+    void changeToCooperate(const ksys::act::BaseProcLink& link);
 
 protected:
     Unk_7102450558 _3d0;

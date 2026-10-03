@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_71003FAC88();
+    void changeToThrowRock();
 protected:
     // static_param at offset 0x38
     const int* mThrowableAngryRate_s{};

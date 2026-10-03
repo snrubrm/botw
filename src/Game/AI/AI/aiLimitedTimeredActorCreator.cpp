@@ -64,7 +64,7 @@ void LimitedTimeredActorCreator::calc_() {
     if (_90.isAllocatedOrFailed()) {
         if (_90.isProcReady()) {
             if (_78.mTimer.value <= sead::Mathf::epsilon())
-                sub_7100482EB0();
+                changeToCreate();
             return;
         }
         if (!_90.hasProcCreationFailed())
@@ -119,7 +119,7 @@ void LimitedTimeredActorCreator::createOneActor() {
         1);
 }
 
-void LimitedTimeredActorCreator::sub_7100482EB0() {
+void LimitedTimeredActorCreator::changeToCreate() {
     Unk_7102370e70* link = nullptr;
     for (int i = 0, n = _a0.size(); i < n; ++i) {
         if (!_a0[i].mLink.hasProc()) {

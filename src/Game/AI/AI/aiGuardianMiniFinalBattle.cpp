@@ -12,7 +12,7 @@ GuardianMiniFinalBattle::~GuardianMiniFinalBattle() = default;
 
 void GuardianMiniFinalBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsPreAttackMove_s)
-        sub_710041B2E8();
+        changeToMoveBattleSign();
     else
         sub_710041B3D4();
 }
@@ -38,7 +38,7 @@ void GuardianMiniFinalBattle::loadParams_() {
     getAITreeVariable(&mGuardianMiniChanceTimeState_a, "GuardianMiniChanceTimeState");
 }
 
-void GuardianMiniFinalBattle::sub_710041B2E8() {
+void GuardianMiniFinalBattle::changeToMoveBattleSign() {
     mActor->getHomePos(&_c8);
     _c8.y = mActor->getMtx().m[1][3];
     ksys::act::ai::InlineParamPack pack;

@@ -265,16 +265,16 @@ void EnemyNormal::sub_71003A3D0C(s32 type, Unk2* target) {
         sub_71003A02E0(target);
         break;
     case 2:
-        sub_71003A0FD8(target);
+        changeToNoticeSound(target);
         break;
     case 3:
-        sub_71003A1164(target);
+        changeToSenseThreat(target);
         break;
     case 4:
         sub_71003A0E38(target);
         break;
     case 5:
-        sub_71003A1298(target);
+        changeToNoticePresence(target);
         break;
     case 6:
         sub_71003A13E4(target);
@@ -290,7 +290,7 @@ void EnemyNormal::sub_71003A3D0C(s32 type, Unk2* target) {
     }
 }
 
-void EnemyNormal::sub_71003A0FD8(Unk2* target) {
+void EnemyNormal::changeToNoticeSound(Unk2* target) {
     _3ac.reset(8);
     if (!ksys::act::isPlayerProfile(target->_0)) {
         if (auto* unk = sub_71005D9D68(mActor))
@@ -308,7 +308,7 @@ void EnemyNormal::sub_71003A0FD8(Unk2* target) {
     sub_710039FAA4(target->_38);
 }
 
-void EnemyNormal::sub_71003A1164(Unk2* target) {
+void EnemyNormal::changeToSenseThreat(Unk2* target) {
     _3ac.reset(8);
     const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
     _120 = time;
@@ -321,7 +321,7 @@ void EnemyNormal::sub_71003A1164(Unk2* target) {
     sub_710039FAA4(target->_38);
 }
 
-void EnemyNormal::sub_71003A1298(Unk2* target) {
+void EnemyNormal::changeToNoticePresence(Unk2* target) {
     _3ac.reset(8);
     const s32 time = _124 == _128 ? _124 : sead::GlobalRandom::instance()->getS32Range(_124, _128);
     _120 = time;

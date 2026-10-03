@@ -15,7 +15,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x710047efd4 (placeholder name)
-    void sub_710047EFD4();
+    void changeToWait();
 
 protected:
     // static_param at offset 0x38

@@ -22,7 +22,7 @@ public:
     virtual void m36();
 
     // 0x71004a4d84 (defined in this TU, so Basic::enter_ inlines it): m36() and the "オフ" child.
-    void sub_71004A4D84();
+    void changeToOff();
 
 protected:
     bool _38 = false;

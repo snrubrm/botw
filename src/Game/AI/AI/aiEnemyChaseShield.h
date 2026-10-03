@@ -14,11 +14,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
     // 0x710038347c (placeholder name)
-    void sub_710038347C();
+    void changeToRotate();
     // 0x7100384290 (placeholder name)
     void sub_7100384290();
     // 0x71003840f4 (placeholder name)
-    void sub_71003840F4();
+    void changeToAcquire();
 
 protected:
     // dynamic_param at offset 0x38

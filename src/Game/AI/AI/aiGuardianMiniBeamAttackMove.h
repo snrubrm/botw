@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_7100418468();
+    void changeToMove();
     void sub_7100418694();
     bool sub_710041889C();
     void sub_710041896C();

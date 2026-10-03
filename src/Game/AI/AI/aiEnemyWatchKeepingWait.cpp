@@ -26,7 +26,7 @@ void EnemyWatchKeepingWait::loadParams_() {
     getMapUnitParam(&mWaitTime_m, "WaitTime");
 }
 
-void EnemyWatchKeepingWait::sub_71003C5EF4() {
+void EnemyWatchKeepingWait::changeToWait() {
     _38 = *mWaitTime_m;
     _78 = std::min(s32(*mWaitTime_m * 0.5f), 30);
     changeChild("待機", nullptr);

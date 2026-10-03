@@ -13,7 +13,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
-    void sub_71003C16B0();
+    void changeToReturn();
 protected:
 };
 

@@ -30,7 +30,7 @@ public:
 
     bool m68(Unk2* out, Unk1* info) override { return false; }
     // 0x7100453518 (placeholder name)
-    void sub_7100453518(const ksys::act::BaseProcLink& target);
+    void changeToCooperate(const ksys::act::BaseProcLink& target);
 
 protected:
     // static_param at offset 0x3d0

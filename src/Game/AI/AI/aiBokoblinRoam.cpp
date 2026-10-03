@@ -64,7 +64,7 @@ bool BokoblinRoam::sub_7100333E68() {
     return dir.dot(mActor->getMtx().getBase(2)) >= sead::Mathf::cos(*mSpAttackServiceAngle_s);
 }
 
-void BokoblinRoam::sub_7100333F7C() {
+void BokoblinRoam::changeToSearch() {
     const s32 min = *mFreeIntervalMin_s;
     const s32 max = *mFreeIntervalMax_s;
     _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));
@@ -91,7 +91,7 @@ bool BokoblinRoam::isChangeable() const {
 }
 
 // NON_MATCHING: the original schedules the forward-axis loads before the translation loads (vector sum); same instructions otherwise
-void BokoblinRoam::sub_71003349E0() {
+void BokoblinRoam::changeToIdle() {
     const s32 min = *mFreeIntervalMin_s;
     const s32 max = *mFreeIntervalMax_s;
     _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));
@@ -107,8 +107,8 @@ void BokoblinRoam::sub_71003349E0() {
     changeChild("暇つぶし", &pack);
 }
 
-// NON_MATCHING: same as sub_71003349E0 (translation - forward)
-void BokoblinRoam::sub_71003344AC() {
+// NON_MATCHING: same as changeToIdle (translation - forward)
+void BokoblinRoam::changeToRotate() {
     const s32 min = *mFreeIntervalMin_s;
     const s32 max = *mFreeIntervalMax_s;
     _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));

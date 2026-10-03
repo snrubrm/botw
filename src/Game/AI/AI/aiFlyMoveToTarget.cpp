@@ -37,7 +37,7 @@ void FlyMoveToTarget::loadParams_() {
 }
 
 // NON_MATCHING: the original adds in the other operand order (fadd y, h)
-void FlyMoveToTarget::sub_71003D5108() {
+void FlyMoveToTarget::changeToMoveFar() {
     const sead::Vector3f& target = *mTargetPos_d;
     sead::Vector3f pos;
     pos.x = target.x;
@@ -52,7 +52,7 @@ void FlyMoveToTarget::sub_71003D5108() {
 }
 
 // NON_MATCHING: the original adds in the other operand order (fadd y, h)
-void FlyMoveToTarget::sub_71003D5204() {
+void FlyMoveToTarget::changeToMoveOnNavMesh() {
     const sead::Vector3f& target = *mTargetPos_d;
     sead::Vector3f pos;
     pos.x = target.x;

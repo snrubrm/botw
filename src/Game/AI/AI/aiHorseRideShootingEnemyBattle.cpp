@@ -41,7 +41,7 @@ void HorseRideShootingEnemyBattle::sub_7100443A58() {
     changeChild(_f8, &pack);
 }
 
-void HorseRideShootingEnemyBattle::sub_7100443B28() {
+void HorseRideShootingEnemyBattle::changeToChaseCommand() {
     _f4 = 0;
     _f8 = mChildIdx;
 
@@ -50,7 +50,7 @@ void HorseRideShootingEnemyBattle::sub_7100443B28() {
     changeChild("追跡指令", &pack);
 }
 
-void HorseRideShootingEnemyBattle::sub_7100443C04() {
+void HorseRideShootingEnemyBattle::changeToDecelerateCommand() {
     _f8 = mChildIdx;
     _f4 = 1;
 

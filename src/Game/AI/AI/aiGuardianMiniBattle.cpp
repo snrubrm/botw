@@ -53,7 +53,7 @@ void GuardianMiniBattle::enter_(ksys::act::ai::InlineParamPack* params) {
         const f32 dz = pos.z - target_pos.z;
         if (!(dx * dx + dz * dz < *mTurnMoveStartDist_s * *mTurnMoveStartDist_s) &&
             sead::GlobalRandom::instance()->getS32Range(0, 100) < *mTurnMovePer_s) {
-            sub_7100413BA0();
+            changeToMoveTurning();
         } else {
             m37();
         }
@@ -148,7 +148,7 @@ bool GuardianMiniBattle::handleMessage_(const ksys::Message& message) {
     return _148.m2(message);
 }
 
-void GuardianMiniBattle::sub_7100413BA0() {
+void GuardianMiniBattle::changeToMoveTurning() {
     _194 = ksys::Timer(*mTurnMoveTime_s, *mTurnMoveTime_s);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);

@@ -9,7 +9,7 @@ namespace uking::ai {
 EnemyBaseArrowAttack::EnemyBaseArrowAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void EnemyBaseArrowAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_710037E11C();
+    changeToPrepare();
 }
 
 void EnemyBaseArrowAttack::m37() {}
@@ -41,7 +41,7 @@ void EnemyBaseArrowAttack::m34() {
 }
 
 // NON_MATCHING: two stores of the request struct are scheduled in a different order
-void EnemyBaseArrowAttack::sub_710037E11C() {
+void EnemyBaseArrowAttack::changeToPrepare() {
     sub_71005D787C(mActor, *mWeaponIdx_s, uking::act::Unk_71002eda38(2));
     sead::Vector3f pos = *mTargetPos_d;
     ksys::act::ai::InlineParamPack pack;

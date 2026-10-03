@@ -18,7 +18,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    void sub_710043EFAC();
+    void changeToCommand();
 
 protected:
     // static_param at offset 0x38

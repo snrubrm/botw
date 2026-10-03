@@ -67,12 +67,12 @@ void ChuchuRoot::loadParams_() {
 
 void ChuchuRoot::m34(ksys::act::ai::InlineParamPack* params) {
     if (*_218)
-        sub_710034E090();
+        changeToCreateDrop();
     else
         EnemyRoot::m34(params);
 }
 
-void ChuchuRoot::sub_710034E090() {
+void ChuchuRoot::changeToCreateDrop() {
     sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     ksys::act::ai::InlineParamPack pack;

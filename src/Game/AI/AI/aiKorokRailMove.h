@@ -30,12 +30,12 @@ public:
     virtual void m40();
     virtual bool m41();
 
-    void sub_710045B800();
+    void changeToMove();
     f32 sub_710045BA10();
     void sub_710045BA20();
     bool sub_710045BD08();
     void sub_710045BD18(f32 wait_frame);
-    void sub_710045BEB4(const sead::Vector3f& pos);
+    void changeToHeadToRail(const sead::Vector3f& pos);
     void sub_710045C3A8();
 
 protected:

@@ -16,9 +16,9 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71004312d8 (placeholder name)
-    void sub_71004312D8();
+    void changeToNotice();
     // 0x7100430ee0 (placeholder name)
-    void sub_7100430EE0();
+    void changeToApproaching();
 
 protected:
     // static_param at offset 0x38

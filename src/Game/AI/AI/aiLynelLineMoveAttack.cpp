@@ -18,21 +18,21 @@ void LynelLineMoveAttack::enter_(ksys::act::ai::InlineParamPack* params) {
         const f32 radius = *mGoalRadius_s;
         const f32 dist = radius + sub_71007320F0(mActor, *mWeaponIdx_s);
         if (sub_710072CB78(mActor, *mTargetPos_d, nullptr, dist, -1)) {
-            sub_7100491B64();
+            changeToAttack();
             return;
         }
     }
-    sub_7100491C50();
+    changeToPrepare();
 }
 
-void LynelLineMoveAttack::sub_7100491B64() {
+void LynelLineMoveAttack::changeToAttack() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(*mTargetPos_d, "TargetPos", -1);
     params.addVec3(*mTargetVel_d, "TargetVel", -1);
     changeChild("攻撃", &params);
 }
 
-void LynelLineMoveAttack::sub_7100491C50() {
+void LynelLineMoveAttack::changeToPrepare() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(*mTargetPos_d, "TargetPos", -1);
     params.addVec3(*mTargetVel_d, "TargetVel", -1);
@@ -49,7 +49,7 @@ void LynelLineMoveAttack::calc_() {
                 setFailed();
                 return;
             }
-            sub_7100491B64();
+            changeToAttack();
             return;
         }
     } else {

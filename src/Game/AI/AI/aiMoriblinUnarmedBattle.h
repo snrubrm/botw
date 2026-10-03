@@ -19,9 +19,9 @@ public:
 
     void sub_71004AC4F8();
     // 0x71004ace74 (placeholder name)
-    void sub_71004ACE74();
+    void changeToAttack();
     // 0x71004acf98 (placeholder name)
-    void sub_71004ACF98();
+    void changeToWait();
 
 protected:
     // static_param at offset 0x38

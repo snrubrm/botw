@@ -66,7 +66,7 @@ void KokkoRoot::m46() {
     changeChild("落下", &pack);
 }
 
-void KokkoRoot::sub_7100457240() {
+void KokkoRoot::changeToAngry() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
     ksys::act::disableAttClient(mActor, "Grab");
 

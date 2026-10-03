@@ -48,7 +48,7 @@ void EnemyNoticeSoundWithUI::calc_() {
     auto* notice_targets = sub_71005D9D68(mActor);
     if (getCurrentChild()->isChangeable()) {
         if (!notice_targets || !notice_targets->sub_71002DC9E8(*mTargetActor_d, 4, true))
-            sub_71003A6298();
+            changeToNotice();
     }
     _50 = *mTargetActor_d;
 }

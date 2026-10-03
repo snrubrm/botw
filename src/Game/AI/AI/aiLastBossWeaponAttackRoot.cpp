@@ -32,7 +32,7 @@ void LastBossWeaponAttackRoot::loadParams_() {
     getDynamicParam(&mIsAttackPatternFixed_d, "IsAttackPatternFixed");
 }
 
-void LastBossWeaponAttackRoot::sub_710047EFD4() {
+void LastBossWeaponAttackRoot::changeToWait() {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7EBE0(1.0f);
 

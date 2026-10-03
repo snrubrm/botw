@@ -13,7 +13,7 @@ MoriblinSpearBattle::MoriblinSpearBattle(const InitArg& arg) : ksys::act::ai::Ai
 
 MoriblinSpearBattle::~MoriblinSpearBattle() = default;
 
-// NON_MATCHING: clang inlines sub_71004AA798/sub_71004AA888 here; the original tail-calls them
+// NON_MATCHING: clang inlines changeToShortRange/sub_71004AA888 here; the original tail-calls them
 void MoriblinSpearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
@@ -22,7 +22,7 @@ void MoriblinSpearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
         diff -= mActor->getMtx().getTranslation();
         diff.y = 0;
         if (diff.length() <= sub_71007320F0(mActor, *mWeaponIdx_s) + *mNearDist_s) {
-            sub_71004AA798();
+            changeToShortRange();
             return;
         }
     }
@@ -49,7 +49,7 @@ void MoriblinSpearBattle::loadParams_() {
     getStaticParam(&mForceAttackDist_s, "ForceAttackDist");
 }
 
-void MoriblinSpearBattle::sub_71004AA798() {
+void MoriblinSpearBattle::changeToShortRange() {
     setDamageCallbackTiming(mActor, 4, &_90);
     const sead::Vector3f target_pos = *mTargetPos_d;
     ksys::act::ai::InlineParamPack params;
@@ -63,10 +63,10 @@ void MoriblinSpearBattle::sub_71004AA888() {
     diff.y = 0;
     if (diff.length() >= sub_71007320F0(mActor, *mWeaponIdx_s) + (*mBaseDist_s + *mOutDist_s))
         setFailed();
-    sub_71004AB3E4();
+    changeToWait();
 }
 
-void MoriblinSpearBattle::sub_71004AB3E4() {
+void MoriblinSpearBattle::changeToWait() {
     sub_71005DA114(mActor, &_90);
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         enemy->startAttackInterval(*mAttackIntervalIntensity_s);
@@ -78,7 +78,7 @@ void MoriblinSpearBattle::sub_71004AB3E4() {
     changeChild("待機", &pack);
 }
 
-void MoriblinSpearBattle::sub_71004AAFF0() {
+void MoriblinSpearBattle::changeToForcedSmallAttack() {
     setDamageCallbackTiming(mActor, 4, &_90);
 
     const sead::Vector3f target_pos = *mTargetPos_d;
@@ -87,7 +87,7 @@ void MoriblinSpearBattle::sub_71004AAFF0() {
     changeChild("強制小攻撃", &pack);
 }
 
-void MoriblinSpearBattle::sub_71004AB2F4() {
+void MoriblinSpearBattle::changeToMidRange() {
     setDamageCallbackTiming(mActor, 4, &_90);
 
     const sead::Vector3f target_pos = *mTargetPos_d;

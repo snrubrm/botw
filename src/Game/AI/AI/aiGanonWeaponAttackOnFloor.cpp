@@ -16,7 +16,7 @@ bool GanonWeaponAttackOnFloor::init_(sead::Heap* heap) {
 }
 
 void GanonWeaponAttackOnFloor::enter_(ksys::act::ai::InlineParamPack* params) {
-    sub_71003F1E0C();
+    changeToApproach();
 }
 
 void GanonWeaponAttackOnFloor::calc_() {
@@ -64,7 +64,7 @@ bool GanonWeaponAttackOnFloor::isFinished() const {
     return false;
 }
 
-void GanonWeaponAttackOnFloor::sub_71003F1E0C() {
+void GanonWeaponAttackOnFloor::changeToApproach() {
     _50 = 120.0f;
 
     ksys::act::ai::InlineParamPack pack;

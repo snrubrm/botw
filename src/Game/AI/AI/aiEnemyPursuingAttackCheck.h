@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71003a92ac (placeholder name)
-    void sub_71003A92AC();
+    void changeToFollowUpAttack();
 
 protected:
     // static_param at offset 0x38

@@ -152,7 +152,7 @@ void KeeseNormal::m50(Unk1* out, s32 idx) {
     }
 }
 
-void KeeseNormal::sub_7100453518(const ksys::act::BaseProcLink& target) {
+void KeeseNormal::changeToCooperate(const ksys::act::BaseProcLink& target) {
     if (auto* awareness = mActor->getAwareness())
         awareness->sub_7100D7EBE0(1.0f);
 

@@ -40,7 +40,7 @@ void AssassinBattleMove::calc_() {
     if (isCurrentChild("転移")) {
         child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
         if (child->isFinished() || child->isFailed())
-            sub_71003ABF50();
+            changeToBattleWait();
         return;
     }
 

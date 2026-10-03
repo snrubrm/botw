@@ -17,7 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_71003F1E0C();
+    void changeToApproach();
 
 protected:
     // static_param at offset 0x38

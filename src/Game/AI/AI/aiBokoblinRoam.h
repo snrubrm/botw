@@ -19,12 +19,12 @@ public:
 
     // 0x7100333e68 / 0x7100333f7c / 0x7100333fec (placeholder names)
     bool sub_7100333E68();
-    void sub_7100333F7C();
+    void changeToSearch();
     void sub_7100333FEC();
     // 0x71003349e0 (placeholder name)
-    void sub_71003349E0();
+    void changeToIdle();
     // 0x71003344ac (placeholder name)
-    void sub_71003344AC();
+    void changeToRotate();
 
 protected:
     // static_param at offset 0x38

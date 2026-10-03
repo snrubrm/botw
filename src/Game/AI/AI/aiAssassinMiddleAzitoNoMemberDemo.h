@@ -19,7 +19,7 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
     // 0x710031e040
-    void sub_710031E040();
+    void changeToNotice();
 
 protected:
     // static_param at offset 0x38

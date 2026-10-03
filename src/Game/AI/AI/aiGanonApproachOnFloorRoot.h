@@ -22,7 +22,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71003df5c4 (placeholder name)
-    void sub_71003DF5C4(const sead::Vector3f& pos, const sead::Vector3f& dst_pos);
+    void changeToMove(const sead::Vector3f& pos, const sead::Vector3f& dst_pos);
 
 protected:
     // static_param at offset 0x38

@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71004b0f44 (placeholder name)
-    void sub_71004B0F44(const sead::Vector3f& hit_pos);
+    void changeToCollide(const sead::Vector3f& hit_pos);
 
 protected:
     // static_param at offset 0x38

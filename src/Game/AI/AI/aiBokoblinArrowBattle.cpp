@@ -22,12 +22,12 @@ void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _118 = sead::GlobalRandom::instance()->getS32Range(min_num, max_num + 1);
     _11c = *mParams.mTargetPos_d;
     _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
-    sub_7100331088();
+    changeToWait();
 }
 
 // NON_MATCHING: load/scheduling order only; the original loads *mParams.mHoldIntervalRand_s and the selected
 // hold interval before calling getF32 (the float math, timers and pack match)
-void BokoblinArrowBattle::sub_7100331088() {
+void BokoblinArrowBattle::changeToWait() {
     sub_71005DA114(mActor, &_c8);
     const s32* hold_interval = _114 == _118 - 1 ? mParams.mHoldIntervalLast_s : mParams.mHoldInterval_s;
     _f0.reset(s32(*hold_interval +
@@ -41,7 +41,7 @@ void BokoblinArrowBattle::sub_7100331088() {
     changeChild("待機", &pack);
 }
 
-void BokoblinArrowBattle::sub_71003318A8() {
+void BokoblinArrowBattle::changeToReadyBow() {
     sub_71005DA114(mActor, &_c8);
 
     ksys::act::ai::InlineParamPack pack;
@@ -49,7 +49,7 @@ void BokoblinArrowBattle::sub_71003318A8() {
     changeChild("弓構え", &pack);
 }
 
-void BokoblinArrowBattle::sub_7100331980() {
+void BokoblinArrowBattle::changeToWithdraw() {
     setDamageCallbackTiming(mActor, 4, &_c8);
     _fc.reset(*mParams.mLeaveTime_s);
 

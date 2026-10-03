@@ -34,7 +34,7 @@ void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
             enemy->_e68 = ksys::Timer(time, time);
         }
     }
-    sub_710033E970();
+    changeToPrepareBattle();
 }
 
 void BreathAttackEnemyBattle::sub_710033EA88() {
@@ -130,7 +130,7 @@ bool BreathAttackEnemyBattle::m44() {
 
 // NON_MATCHING: stack layout (the original's accessor slot comes first, as if it came from an
 // inlined helper)
-void BreathAttackEnemyBattle::sub_710033E970() {
+void BreathAttackEnemyBattle::changeToPrepareBattle() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
     {

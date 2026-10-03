@@ -66,7 +66,7 @@ void BeamExplodeBase::calc_() {
 }
 
 void BeamExplodeBase::m34() {
-    sub_710056CA00();
+    changeToCleanup();
 }
 
 void BeamExplodeBase::sub_710056CA8C() {
@@ -76,7 +76,7 @@ void BeamExplodeBase::sub_710056CA8C() {
     }
 }
 
-void BeamExplodeBase::sub_710056CA00() {
+void BeamExplodeBase::changeToCleanup() {
     if (_50 && _50->isAddedToWorld()) {
         _50->removeFromWorld();
         _50->setLinearVelocity(sead::Vector3f::zero);

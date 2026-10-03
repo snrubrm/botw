@@ -30,9 +30,9 @@ void AssassinBossFirstRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* para
         return;
     }
     if (sub_71003AD298() && !sub_71003AD058())
-        sub_71003AB8A0();
+        changeToBattleBackAway();
     else
-        sub_71003ABF50();
+        changeToBattleWait();
 }
 
 void AssassinBossFirstRangeKeepMove::leave_() {
@@ -51,7 +51,7 @@ void AssassinBossFirstRangeKeepMove::calc_() {
     if (!(sqrtf(diff.x * diff.x + diff.z * diff.z) > *mNoMoveAnchorDist_s)) {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed()) {
-            sub_71003ABF50();
+            changeToBattleWait();
             return;
         }
         if (isCurrentChild("戦闘待機")) {
