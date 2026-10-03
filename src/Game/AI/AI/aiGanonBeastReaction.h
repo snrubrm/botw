@@ -19,12 +19,15 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mASSlot_s{};
-    // aitree_variable at offset 0x40
-    bool* mIsWeakPointAppearMode_a{};
-    // aitree_variable at offset 0x48
-    void* mWeakPointAliveFlag_a{};
-    // aitree_variable at offset 0x50
-    void* mWeakPointActiveFlag_a{};
+    struct Params {
+        // aitree_variable at offset 0x40
+        bool* mIsWeakPointAppearMode_a{};
+        // aitree_variable at offset 0x48
+        void* mWeakPointAliveFlag_a{};
+        // aitree_variable at offset 0x50
+        void* mWeakPointActiveFlag_a{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai

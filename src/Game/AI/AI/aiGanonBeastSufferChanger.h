@@ -20,14 +20,17 @@ public:
     void loadParams_() override;
 
 protected:
-    // aitree_variable at offset 0x38
-    int* mSufferChangeStopCounter_a{};
-    // aitree_variable at offset 0x40
-    bool* mIsWeakPointAppearMode_a{};
-    // aitree_variable at offset 0x48
-    bool* mInBeastGanonVoiceSequence_a{};
-    // aitree_variable at offset 0x50
-    void* mSimpleDialogUnit_a{};
+    struct Params {
+        // aitree_variable at offset 0x38
+        int* mSufferChangeStopCounter_a{};
+        // aitree_variable at offset 0x40
+        bool* mIsWeakPointAppearMode_a{};
+        // aitree_variable at offset 0x48
+        bool* mInBeastGanonVoiceSequence_a{};
+        // aitree_variable at offset 0x50
+        void* mSimpleDialogUnit_a{};
+    };
+    Params mParams;
     // static_param at offset 0x58
     const int* mWeakPoint1Time_s{};
     // static_param at offset 0x60

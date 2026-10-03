@@ -9,15 +9,15 @@ GanonBeastSufferChanger::GanonBeastSufferChanger(const InitArg& arg) : ksys::act
 GanonBeastSufferChanger::~GanonBeastSufferChanger() = default;
 
 bool GanonBeastSufferChanger::init_(sead::Heap* heap) {
-    _c8.acquire(heap, static_cast<Unk_71025afb58**>(mSimpleDialogUnit_a));
+    _c8.acquire(heap, static_cast<Unk_71025afb58**>(mParams.mSimpleDialogUnit_a));
     _d4 = false;
     return true;
 }
 
 void GanonBeastSufferChanger::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (*mIsWeakPointAppearMode_a) {
+    if (*mParams.mIsWeakPointAppearMode_a) {
         changeChild("弱点露出");
-        *mIsWeakPointAppearMode_a = true;
+        *mParams.mIsWeakPointAppearMode_a = true;
     } else {
         const int* time_ptr;
         switch (sub_710070284C(mActor)) {
@@ -41,7 +41,7 @@ void GanonBeastSufferChanger::enter_(ksys::act::ai::InlineParamPack* params) {
             changeChild("通常");
         else
             changeChild("無敵モード");
-        *mIsWeakPointAppearMode_a = false;
+        *mParams.mIsWeakPointAppearMode_a = false;
     }
 }
 
@@ -49,8 +49,6 @@ void GanonBeastSufferChanger::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-// NON_MATCHING: the original keeps `this + 0x38` (&mSufferChangeStopCounter_a) in a callee-saved register
-// from before the preceding call (frame 0x40 instead of 0x30)
 void GanonBeastSufferChanger::loadParams_() {
     getStaticParam(&mWeakPoint1Time_s, "WeakPoint1Time");
     getStaticParam(&mWeakPoint2Time_s, "WeakPoint2Time");
@@ -62,10 +60,10 @@ void GanonBeastSufferChanger::loadParams_() {
     getStaticParam(&mlabelName_s, "labelName");
     getStaticParam(&mlabelName2_s, "labelName2");
     getStaticParam(&mlabelName3_s, "labelName3");
-    getAITreeVariable(&mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
-    getAITreeVariable(&mSufferChangeStopCounter_a, "SufferChangeStopCounter");
-    getAITreeVariable(&mSimpleDialogUnit_a, "SimpleDialogUnit");
-    getAITreeVariable(&mInBeastGanonVoiceSequence_a, "InBeastGanonVoiceSequence");
+    getAITreeVariable(&mParams.mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
+    getAITreeVariable(&mParams.mSufferChangeStopCounter_a, "SufferChangeStopCounter");
+    getAITreeVariable(&mParams.mSimpleDialogUnit_a, "SimpleDialogUnit");
+    getAITreeVariable(&mParams.mInBeastGanonVoiceSequence_a, "InBeastGanonVoiceSequence");
 }
 
 bool GanonBeastSufferChanger::isFailed() const {

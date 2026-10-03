@@ -67,9 +67,9 @@ void GanonBeastReaction::leave_() {
 
 void GanonBeastReaction::loadParams_() {
     getStaticParam(&mASSlot_s, "ASSlot");
-    getAITreeVariable(&mWeakPointAliveFlag_a, "WeakPointAliveFlag");
-    getAITreeVariable(&mWeakPointActiveFlag_a, "WeakPointActiveFlag");
-    getAITreeVariable(&mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
+    getAITreeVariable(&mParams.mWeakPointAliveFlag_a, "WeakPointAliveFlag");
+    getAITreeVariable(&mParams.mWeakPointActiveFlag_a, "WeakPointActiveFlag");
+    getAITreeVariable(&mParams.mIsWeakPointAppearMode_a, "IsWeakPointAppearMode");
 }
 
 }  // namespace uking::ai
