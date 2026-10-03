@@ -6,7 +6,11 @@ namespace uking::ai {
 
 AssassinRoot::AssassinRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-AssassinRoot::~AssassinRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+AssassinRoot::~AssassinRoot() {
+    ;
+}
 
 bool AssassinRoot::init_(sead::Heap* heap) {
     return NPCRoot::init_(heap);

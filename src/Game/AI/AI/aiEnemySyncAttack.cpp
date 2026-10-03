@@ -6,7 +6,11 @@ namespace uking::ai {
 
 EnemySyncAttack::EnemySyncAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemySyncAttack::~EnemySyncAttack() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+EnemySyncAttack::~EnemySyncAttack() {
+    ;
+}
 
 void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);

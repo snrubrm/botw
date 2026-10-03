@@ -5,7 +5,11 @@ namespace uking::ai {
 
 SiteBossReaction::SiteBossReaction(const InitArg& arg) : EnemyDefaultReaction(arg) {}
 
-SiteBossReaction::~SiteBossReaction() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SiteBossReaction::~SiteBossReaction() {
+    ;
+}
 
 bool SiteBossReaction::init_(sead::Heap* heap) {
     return EnemyDefaultReaction::init_(heap);

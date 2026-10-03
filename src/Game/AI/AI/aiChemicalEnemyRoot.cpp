@@ -7,7 +7,11 @@ namespace uking::ai {
 
 ChemicalEnemyRoot::ChemicalEnemyRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-ChemicalEnemyRoot::~ChemicalEnemyRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+ChemicalEnemyRoot::~ChemicalEnemyRoot() {
+    ;
+}
 
 void ChemicalEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);

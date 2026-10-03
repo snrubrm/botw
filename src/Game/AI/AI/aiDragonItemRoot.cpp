@@ -5,7 +5,11 @@ namespace uking::ai {
 
 DragonItemRoot::DragonItemRoot(const InitArg& arg) : ItemRoot(arg) {}
 
-DragonItemRoot::~DragonItemRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+DragonItemRoot::~DragonItemRoot() {
+    ;
+}
 
 bool DragonItemRoot::init_(sead::Heap* heap) {
     return ItemRoot::init_(heap);

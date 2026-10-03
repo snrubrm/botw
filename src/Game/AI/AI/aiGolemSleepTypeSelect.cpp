@@ -4,7 +4,11 @@ namespace uking::ai {
 
 GolemSleepTypeSelect::GolemSleepTypeSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GolemSleepTypeSelect::~GolemSleepTypeSelect() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+GolemSleepTypeSelect::~GolemSleepTypeSelect() {
+    ;
+}
 
 bool GolemSleepTypeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

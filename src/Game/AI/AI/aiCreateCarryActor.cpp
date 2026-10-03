@@ -4,7 +4,11 @@ namespace uking::ai {
 
 CreateCarryActor::CreateCarryActor(const InitArg& arg) : CreateActor(arg) {}
 
-CreateCarryActor::~CreateCarryActor() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+CreateCarryActor::~CreateCarryActor() {
+    ;
+}
 
 bool CreateCarryActor::init_(sead::Heap* heap) {
     return CreateActor::init_(heap);

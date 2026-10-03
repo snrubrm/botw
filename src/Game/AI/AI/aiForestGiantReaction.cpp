@@ -4,7 +4,11 @@ namespace uking::ai {
 
 ForestGiantReaction::ForestGiantReaction(const InitArg& arg) : EnemyDefaultReaction(arg) {}
 
-ForestGiantReaction::~ForestGiantReaction() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+ForestGiantReaction::~ForestGiantReaction() {
+    ;
+}
 
 bool ForestGiantReaction::init_(sead::Heap* heap) {
     return EnemyDefaultReaction::init_(heap);
