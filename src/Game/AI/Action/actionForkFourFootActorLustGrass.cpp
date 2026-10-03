@@ -55,7 +55,7 @@ bool ForkFourFootActorLustGrass::hasUpdateForPreDeleteCb() {
 }
 
 bool ForkFourFootActorLustGrass::updateForPreDelete() {
-    _88._8.sub_71007444AC();
+    _88._8._0.sub_71007444AC();
     return true;
 }
 

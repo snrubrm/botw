@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71007444AC.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -14,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool updateForPreDelete() override;
     bool hasUpdateForPreDeleteCb() override;
 
 protected:
@@ -23,6 +27,9 @@ protected:
     const int* mMaxNum_s{};
     // static_param at offset 0x28
     sead::SafeString mCreateGrudgeName_s{};
+    Unk_71007444ac _38;
+    Unk_7102450a38 _48;
 };
+KSYS_CHECK_SIZE_NX150(ForkGanonAscendingCreateManage, 0xb8);
 
 }  // namespace uking::action

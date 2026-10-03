@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gsys/gsysModelAccessKey.h>
+#include "Game/AI/aiUnk_71007444AC.h"
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -49,11 +50,7 @@ protected:
         ~Unit() override = default;
 
         struct Data {
-            // 0x71007444ac (declaration only; ForkFourFootActorLustGrass::updateForPreDelete).
-            void sub_71007444AC();
-
-            s32 _0 = 0;
-            void* _8 = nullptr;
+            Unk_71007444ac _0;
             f32 _10;
             f32 _14;
             f32 _18;

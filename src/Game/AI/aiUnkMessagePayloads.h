@@ -208,8 +208,8 @@ struct Unk_71023dbd40_Payload {
 
 // Message 0x800005d (sender unknown; placeholder name = listener vtable)
 struct Unk_7102450a38_Payload {
-    sead::Matrix34f _0;
-    u32 _30;
+    sead::Matrix34f _0 = sead::Matrix34f::ident;
+    u32 _30 = 0;
     sead::JobQueueLock mLock;
 };
 

@@ -537,7 +537,10 @@ public:
 // vtable 0x7102450a38 (message 0x800005d)
 class Unk_7102450a38 : public Unk_7102357210 {
 public:
-    ~Unk_7102450a38() override;
+    // Inline: ForkGanonAscendingCreateManage inlines it into its destructors although the original also has its own
+    // copy of D1 (which a defaulted destructor would merge into the base's). Written like upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450a38() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
