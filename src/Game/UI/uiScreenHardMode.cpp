@@ -2,6 +2,62 @@
 
 namespace uking::ui {
 
+// 0x7100a0c6f8 (CSV ScreenHardMode::m159)
+void ScreenHardMode::m159() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0c9bc
+void ScreenHardMode::m175() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0cbc0
+void ScreenHardMode::m187() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0cc4c
+void ScreenHardMode::m191() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
 void ScreenHardMode::m156() {}
 
 void ScreenHardMode::m160() {}

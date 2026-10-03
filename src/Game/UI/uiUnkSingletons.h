@@ -93,6 +93,7 @@ public:
 
     bool sub_7100960DF8();
     void sub_710095B1BC();
+    void set3885() { _3885 = true; }
     void sub_71009645D0(const void* a1);
     void sub_710096372C(const void* a1);
     void* sub_71009648A8();
@@ -145,7 +146,8 @@ private:
     /* 0x3858 */ u8 _3858;
     u8 _3859[0x3884 - 0x3859];
     /* 0x3884 */ bool _3884;
-    u8 _3885[0x38a8 - 0x3885];
+    /* 0x3885 */ bool _3885;
+    u8 _3886[0x38a8 - 0x3886];
     /* 0x38a8 */ s32 _38a8;
     /* 0x38ac */ u8 _38ac;
     u8 _38ad[0x38b8 - 0x38ad];

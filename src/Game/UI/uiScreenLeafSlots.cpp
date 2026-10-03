@@ -11,6 +11,35 @@ void ScreenAppMap::m92() {
         subsys->sub_710095B1BC();
 }
 
+// 0x71009eb49c (CSV ScreenAppMap::mainEnter)
+void ScreenAppMap::mainEnter() {
+    _3ad1 = 1;
+    _3610->_b33a = 1;
+}
+
+// 0x71009eb810 (CSV ScreenAppMap::mainLeave)
+void ScreenAppMap::mainLeave() {}
+
+// 0x71009ebbe0 (CSV ScreenAppMap::subLeave)
+void ScreenAppMap::subLeave() {
+    UiSubsys1::instance()->set3885();
+}
+
+// 0x71009f28b0
+s32 ScreenAppMap::m157() {
+    return 0;
+}
+
+// 0x71009f28b8
+s32 ScreenAppMap::m161() {
+    return 0;
+}
+
+// 0x71009f28c0 (CSV ScreenAppMap::demoReenter)
+s32 ScreenAppMap::demoReenter() {
+    return 0;
+}
+
 // ScreenAppCamera
 // 0x71009d92e4
 void ScreenAppCamera::m156() {}

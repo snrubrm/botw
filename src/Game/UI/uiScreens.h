@@ -515,6 +515,12 @@ public:
     bool openMinigameScreen(s32, s32);
 };
 
+// Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
+struct ScreenAppMapWidget {
+    u8 _0[0xb33a];
+    /* 0xb33a */ u8 _b33a;
+};
+
 class ScreenAppMap : public ScreenEx {
 public:
     void m92() override;
@@ -530,6 +536,24 @@ public:
 
     bool sub_71009EF5A8(s32);
     bool sub_71009E9F10();
+
+    // State callbacks (slots 154-165: main / sub / demo screens x enter / run / leave / a fourth one that returns 0)
+    virtual void mainEnter();
+    virtual void mainRun();
+    virtual void mainLeave();
+    virtual s32 m157();
+    virtual void subEnter();
+    virtual void subRun();
+    virtual void subLeave();
+    virtual s32 m161();
+    virtual void demoEnter();
+    virtual void demoRun();
+    virtual void demoLeave();
+    virtual s32 demoReenter();
+
+    /* 0x3610 */ ScreenAppMapWidget* _3610;
+    u8 _3618[0x3ad1 - 0x3618];
+    /* 0x3ad1 */ u8 _3ad1;
 };
 
 class ScreenPauseMenu : public ScreenEx {
@@ -606,57 +630,109 @@ public:
     ~ScreenHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
+    s32 m4() override;
+
+    // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)
+    virtual void m154();
+    virtual void m155();
     virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
     virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
     virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
     virtual void m168();
+    virtual s32 m169();
+    virtual void m170();
+    virtual void m171();
     virtual void m172();
+    virtual s32 m173();
+    virtual void m174();
+    virtual void m175();
     virtual void m176();
+    virtual s32 m177();
+    virtual void m178();
+    virtual void m179();
     virtual void m180();
+    virtual s32 m181();
+    virtual void m182();
+    virtual void m183();
     virtual void m184();
+    virtual s32 m185();
+    virtual void m186();
+    virtual void m187();
     virtual void m188();
+    virtual s32 m189();
+    virtual void m190();
+    virtual void m191();
     virtual void m192();
+    virtual s32 m193();
+    virtual void m194();
+    virtual void m195();
     virtual void m196();
+    virtual s32 m197();
+    virtual void m198();
+    virtual void m199();
     virtual void m200();
+    virtual s32 m201();
+    virtual void m202();
+    virtual void m203();
     virtual void m204();
+    virtual s32 m205();
+    virtual void m206();
+    virtual void m207();
     virtual void m208();
+    virtual s32 m209();
+    virtual void m210();
     virtual void m211();
     virtual void m212();
+    virtual s32 m213();
+    virtual void m214();
+    virtual void m215();
     virtual void m216();
+    virtual s32 m217();
+    virtual void m218();
+    virtual void m219();
     virtual void m220();
+    virtual s32 m221();
+    virtual void m222();
+    virtual void m223();
     virtual void m224();
+    virtual s32 m225();
+    virtual void m226();
+    virtual void m227();
     virtual void m228();
+    virtual s32 m229();
+    virtual void m230();
+    virtual void m231();
     virtual void m232();
+    virtual s32 m233();
+    virtual void m234();
     virtual void m235();
     virtual void m236();
+    virtual s32 m237();
+    virtual void m238();
+    virtual void m239();
     virtual void m240();
+    virtual s32 m241();
     virtual void m242();
     virtual void m243();
     virtual void m244();
-    virtual s32 m4();
-    virtual s32 m157();
-    virtual s32 m161();
-    virtual s32 m165();
-    virtual s32 m169();
-    virtual s32 m173();
-    virtual s32 m177();
-    virtual s32 m181();
-    virtual s32 m185();
-    virtual s32 m189();
-    virtual s32 m193();
-    virtual s32 m197();
-    virtual s32 m201();
-    virtual s32 m205();
-    virtual s32 m209();
-    virtual s32 m213();
-    virtual s32 m217();
-    virtual s32 m221();
-    virtual s32 m225();
-    virtual s32 m229();
-    virtual s32 m233();
-    virtual s32 m237();
-    virtual s32 m241();
     virtual s32 m245();
+
+    // 0x7100a0bb34 (CSV ScreenHardMode::x; declaration only)
+    void x();
+
+    u8 _3610[0x3704 - 0x3610];
+    /* 0x3704 */ s32 _3704;
+    u8 _3708[0x3718 - 0x3708];
+    /* 0x3718 */ s32 _3718;
 };
 
 // Screens without members of their own that are modelled yet: only the (trivial, tail-calling)
