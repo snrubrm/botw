@@ -28,6 +28,21 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f7e9f0, 0x18);
 
+// Placeholder: object at NavMeshCharacter::_10 + 0x78 (move parameters).
+struct NavMeshCharacterMoveParam {
+    /* 0x00 */ u8 _0[0x18];
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ f32 _1c;
+};
+
+// Placeholder: object at NavMeshCharacter::_10 (only the accessed fields are modelled).
+struct NavMeshCharacterUnk10 {
+    /* 0x000 */ u8 _0[0x78];
+    /* 0x078 */ NavMeshCharacterMoveParam* _78;
+    /* 0x080 */ u8 _80[0x16c - 0x80];
+    /* 0x16c */ u32 _16c;
+};
+
 // Name from the CSV (phys::NavMeshCharacter::*, ctor 0x7100f752ac). Returned by Actor vtable slot 45
 // (InstanceSet::mNavMeshCharacter). Layout from the ctor and from the fields AI code accesses.
 // The object also has vtable pointers at 0x38 and 0x48 (multiple inheritance, not modelled yet).
@@ -96,7 +111,7 @@ public:
     }
 
     /* 0x008 */ u64 _8 = 0;
-    /* 0x010 */ void* _10 = nullptr;
+    /* 0x010 */ NavMeshCharacterUnk10* _10 = nullptr;
     /* 0x018 */ HavokAI* _18 = nullptr;
     /* 0x020 */ u8 _20[0x58 - 0x20];
     /* 0x058 */ void* _58 = nullptr;

@@ -21,6 +21,10 @@ class ContactPointInfo;
 class RigidBody;
 class SystemGroupHandler;
 
+struct CharacterControllerUnk10;
+struct CharacterControllerUnk20;
+struct CharacterControllerShapes;
+
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
 public:
@@ -177,7 +181,12 @@ public:
     bool sub_7100F63370() const;
 
     RigidBody* mRigidBody;
-    u8 _10[0x60 - 0x10];
+    CharacterControllerUnk10* _10;
+    u8 _18[0x20 - 0x18];
+    CharacterControllerUnk20* _20;
+    u8 _28[0x30 - 0x28];
+    CharacterControllerShapes* _30;
+    u8 _38[0x60 - 0x38];
     f32 _60;
     sead::Vector3f _64;
     sead::Vector3f _70;
@@ -188,7 +197,8 @@ public:
     u8 _d0[0xfc - 0xd0];
     f32 _fc;
     f32 _100;
-    u8 _104[0x110 - 0x104];
+    f32 _104;
+    u8 _108[0x110 - 0x108];
     f32 _110;
     u16 _114;  // flags
     u8 _116;  // bit 2: read by PlayerFall::enter_ (the flag word at 0x114 may be a u32)

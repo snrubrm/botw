@@ -1,7 +1,44 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physConversions.h"
 
 namespace ksys::phys {
+
+// Placeholder: object at CharacterController::_10 (only the field written by sub_7100F5EDE8).
+struct CharacterControllerUnk10 {
+    /* 0x00 */ u8 _0[0x30];
+    /* 0x30 */ hkVector4f _30;
+};
+
+// Placeholder: object at CharacterController::_20.
+struct CharacterControllerUnk20 {
+    /* 0x00 */ u8 _0[0x40];
+    /* 0x40 */ u32 _40;
+    /* 0x44 */ u8 _44[0xc];
+    /* 0x50 */ hkVector4f _50;
+};
+
+// Placeholder: 0x30 byte entry of the controller's shape list (CharacterControllerShapes).
+struct CharacterControllerShape {
+    /* 0x00 */ u8 _0[8];
+    /* 0x08 */ void* _8;
+    /* 0x10 */ bool _10;
+    /* 0x11 */ u8 _11;
+    /* 0x12 */ bool _12;
+    /* 0x13 */ u8 _13;
+    /* 0x14 */ f32 _14;
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ u8 _1c[4];
+    /* 0x20 */ sead::Vector3f _20;
+    /* 0x2c */ u8 _2c[4];
+};
+KSYS_CHECK_SIZE_NX150(CharacterControllerShape, 0x30);
+
+// Placeholder: object at CharacterController::_30.
+struct CharacterControllerShapes {
+    /* 0x00 */ void* _0;
+    /* 0x08 */ sead::Buffer<CharacterControllerShape> mShapes;
+};
 
 void CharacterController::sub_7100F5EDD8(float value) {
     _fc = value;
@@ -280,6 +317,64 @@ void CharacterController::sub_7100F5EDBC(const sead::Vector3f& value) {
 
 void CharacterController::sub_7100F5EEE0(float value) {
     _220 = value;
+}
+
+void CharacterController::sub_7100F5EECC(f32 value) {
+    _104 = value;
+}
+
+void CharacterController::sub_7100F5EDE8(const sead::Vector3f& value) {
+    loadFromVec3(&_10->_30, value);
+}
+
+bool CharacterController::sub_7100F5F234(sead::Vector3f* out) const {
+    if (!_20->_40)
+        return false;
+    if (out)
+        storeToVec3(out, _20->_50);
+    return true;
+}
+
+bool CharacterController::sub_7100F62EC0(f32* out, int index) const {
+    auto& shape = _30->mShapes[index];
+    if (!shape._8)
+        return false;
+    *out = shape._18;
+    return true;
+}
+
+bool CharacterController::sub_7100F62E74(f32* out, int index) const {
+    auto& shape = _30->mShapes[index];
+    if (!shape._8 || !shape._10)
+        return false;
+    *out = shape._14;
+    return true;
+}
+
+bool CharacterController::sub_7100F62EFC(sead::Vector3f* out, int index) const {
+    auto& shape = _30->mShapes[index];
+    if (!shape._8 || !shape._12)
+        return false;
+    *out = shape._20;
+    return true;
+}
+
+RigidBodyAccessor* CharacterController::sub_7100F635C4() const {
+    return mRigidBody->getRigidBodyAccessor();
+}
+
+void CharacterController::sub_7100F63554(bool clear) {
+    if (clear)
+        mRigidBody->resetFlag1000000();
+    else
+        mRigidBody->setFlag1000000();
+}
+
+void CharacterController::sub_7100F636B0(bool clear) {
+    if (clear)
+        mRigidBody->resetFlag200();
+    else
+        mRigidBody->setFlag200();
 }
 
 void CharacterController::sub_7100F5EF08(bool on) {
