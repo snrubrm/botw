@@ -165,6 +165,13 @@ KSYS_CHECK_SIZE_NX150(Unk_71002eda38, 0x48);
 
 // Request passed to Weapon::sub_71002EDAEC (stored at Weapon+0xc20 under the lock at 0xbe0; flag at
 // 0xc4c). Passed down via PlayerOrEnemy / NPC (0x71005d79ac). Placeholder name and fields.
+// Placeholder name (0x71002ef75c): the object Weapon::_d38 points to (EquipedDeadlyBlowWeapon::handleMessage_ and
+// EquipedChemicalWeapon::calc_ call its method); its first member is the owner actor. Opaque so far.
+struct Unk_71002ef75c {
+    // 0x71002ef75c (declaration only)
+    void sub_71002EF75C();
+};
+
 struct Unk_71002edaec {
     Unk_71002edaec() = default;
     explicit Unk_71002edaec(s32 type) { _0 = type; }
@@ -224,7 +231,9 @@ public:
     /* 0xcf0 */ s32 _cf0 = 0;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
     /* 0xcf4 */ u8 _cf4[0xd09 - 0xcf4];  // TODO
     /* 0xd09 */ bool _d09;
-    /* 0xd0a */ u8 _d0a[0xd54 - 0xd0a];  // TODO
+    /* 0xd0a */ u8 _d0a[0xd38 - 0xd0a];  // TODO
+    /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;
+    /* 0xd40 */ u8 _d40[0xd54 - 0xd40];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
     /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
     /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
