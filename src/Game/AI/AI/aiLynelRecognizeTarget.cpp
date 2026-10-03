@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -53,6 +54,34 @@ void LynelRecognizeTarget::sub_710049708C() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("帰還", &pack);
+}
+
+void LynelRecognizeTarget::sub_7100496894() {
+    _108 = 0;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("気づき", &pack);
+}
+
+void LynelRecognizeTarget::sub_71004966C4() {
+    const f32 time = *mForceBattleStartTime_s;
+    _108 = 0;
+    _118 = time;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("警戒", &pack);
+}
+
+void LynelRecognizeTarget::sub_71004967AC() {
+    const f32 time = *mForceBattleStartTime_s;
+    _108 = 0;
+    _118 = time;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("観察", &pack);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKeeseNormal.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -151,5 +152,13 @@ void KeeseNormal::m50(Unk1* out, s32 idx) {
     }
 }
 
+void KeeseNormal::sub_7100453518(const ksys::act::BaseProcLink& target) {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EBE0(1.0f);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(target, "TargetActor", -1);
+    changeChild("連携", &pack);
+}
 
 }  // namespace uking::ai

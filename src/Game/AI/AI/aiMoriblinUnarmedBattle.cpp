@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMoriblinUnarmedBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -32,6 +34,15 @@ void MoriblinUnarmedBattle::loadParams_() {
     getStaticParam(&mAttackStartRotate_s, "AttackStartRotate");
     getStaticParam(&mPursuingAttackInterval_s, "PursuingAttackInterval");
     getStaticParam(&mPursuingAttackStartAng_s, "PursuingAttackStartAng");
+}
+
+void MoriblinUnarmedBattle::sub_71004ACE74() {
+    setDamageCallbackTiming(mActor, 4, &_90);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("攻撃", &pack);
 }
 
 }  // namespace uking::ai

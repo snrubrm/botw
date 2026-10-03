@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonMoveTagCont.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,13 @@ void DungeonMoveTagCont::loadParams_() {
     getMapUnitParam(&mMoveDis_m, "MoveDis");
     getMapUnitParam(&mReturnDisFromCurrentPos_m, "ReturnDisFromCurrentPos");
     getMapUnitParam(&mReturnSpeedFromCurrentPos_m, "ReturnSpeedFromCurrentPos");
+}
+
+void DungeonMoveTagCont::sub_7100375380(f32 dis, f32 speed) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(dis, "DynMoveDis", -1);
+    pack.addFloat(speed, "DynMoveSpeed", -1);
+    changeChild("戻る", &pack);
 }
 
 }  // namespace uking::ai

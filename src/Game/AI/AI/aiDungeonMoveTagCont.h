@@ -14,6 +14,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x7100375380 (placeholder name)
+    void sub_7100375380(f32 dis, f32 speed);
 
 protected:
     // map_unit_param at offset 0x38

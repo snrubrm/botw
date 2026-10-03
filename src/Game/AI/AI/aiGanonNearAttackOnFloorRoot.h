@@ -20,6 +20,12 @@ public:
     void loadParams_() override;
 
     void sub_71003EC980();
+    // 0x71003ecf34 (placeholder name)
+    void sub_71003ECF34();
+    // 0x71003ed028 (placeholder name)
+    void sub_71003ED028();
+    // 0x71003ed11c (placeholder name)
+    void sub_71003ED11C();
 
 protected:
     // static_param at offset 0x38

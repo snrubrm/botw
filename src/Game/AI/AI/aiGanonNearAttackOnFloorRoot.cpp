@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonNearAttackOnFloorRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -56,6 +57,33 @@ void GanonNearAttackOnFloorRoot::calc_() {
         if (auto* cc = mActor->getCharacterController())
             cc->sub_7100F5FB24(sead::Vector3f::zero);
     }
+}
+
+void GanonNearAttackOnFloorRoot::sub_71003ECF34() {
+    _58 = 1;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(false, "IsMoveSide", -1);
+    changeChild("大剣攻撃", &pack);
+}
+
+void GanonNearAttackOnFloorRoot::sub_71003ED028() {
+    _58 = 3;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(false, "IsMoveSide", -1);
+    changeChild("大剣横攻撃", &pack);
+}
+
+void GanonNearAttackOnFloorRoot::sub_71003ED11C() {
+    _58 = 2;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(false, "IsMoveSide", -1);
+    changeChild("小剣攻撃", &pack);
 }
 
 }  // namespace uking::ai

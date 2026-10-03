@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCalledEnemyMove.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -29,6 +31,19 @@ void CalledEnemyMove::loadParams_() {
     getStaticParam(&mLostDist_s, "LostDist");
     getStaticParam(&mWaitDist_s, "WaitDist");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void CalledEnemyMove::sub_7100340F4C() {
+    sead::Vector3f pos;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(mTargetActor_d, &accessor);
+        accessor.getActorMtx().getTranslation(pos);
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFriendCallAction.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -53,6 +54,25 @@ void FriendCallAction::sub_71003DD74C() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(target_pos, "TargetPos", -1);
     changeChild("呼ぶ", &params);
+}
+
+void FriendCallAction::sub_71003DDBBC() {
+    sead::Vector3f pos;
+    ksys::act::sub_7100EE67B0(&pos, mTargetActor_d);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待つ", &pack);
+}
+
+void FriendCallAction::sub_71003DDC94() {
+    sead::Vector3f pos;
+    ksys::act::sub_7100EE67B0(&pos, mTargetActor_d);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    changeChild("アクション", &pack);
 }
 
 }  // namespace uking::ai

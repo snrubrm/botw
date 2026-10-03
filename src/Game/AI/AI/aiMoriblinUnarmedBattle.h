@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
     void sub_71004AC4F8();
+    // 0x71004ace74 (placeholder name)
+    void sub_71004ACE74();
 
 protected:
     // static_param at offset 0x38

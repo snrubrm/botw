@@ -19,6 +19,16 @@ public:
     void sub_71003E8884();
 
     void sub_71003E9150();
+    // 0x71003e9420 (placeholder name)
+    void sub_71003E9420();
+    // 0x71003e9514 (placeholder name)
+    void sub_71003E9514();
+    // 0x71003e9608 (placeholder name)
+    void sub_71003E9608();
+    // 0x71003e96fc (placeholder name)
+    void sub_71003E96FC();
+    // 0x71003e904c (placeholder name)
+    void sub_71003E904C();
 
 protected:
     // static_param at offset 0x38

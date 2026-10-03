@@ -78,4 +78,22 @@ void MoriblinSpearBattle::sub_71004AB3E4() {
     changeChild("待機", &pack);
 }
 
+void MoriblinSpearBattle::sub_71004AAFF0() {
+    setDamageCallbackTiming(mActor, 4, &_90);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("強制小攻撃", &pack);
+}
+
+void MoriblinSpearBattle::sub_71004AB2F4() {
+    setDamageCallbackTiming(mActor, 4, &_90);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("中距離", &pack);
+}
+
 }  // namespace uking::ai

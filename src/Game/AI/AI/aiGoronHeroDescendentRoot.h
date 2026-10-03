@@ -23,6 +23,10 @@ public:
 
     // Called through the delegate _240.
     void sub_7100406E90();
+    // 0x7100409314 (placeholder name)
+    void sub_7100409314();
+    // 0x7100409824 (placeholder name)
+    void sub_7100409824();
 
 protected:
     // static_param at offset 0x38

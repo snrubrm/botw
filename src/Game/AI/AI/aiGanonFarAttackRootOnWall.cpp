@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonFarAttackRootOnWall.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -54,6 +55,52 @@ void GanonFarAttackRootOnWall::sub_71003E9150() {
                                 nullptr, true);
         }
     }
+}
+
+void GanonFarAttackRootOnWall::sub_71003E9420() {
+    _54 = 2;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mViewPos_d, "ViewPos", -1);
+    changeChild("槍投げ", &pack);
+}
+
+void GanonFarAttackRootOnWall::sub_71003E9514() {
+    _54 = 3;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mViewPos_d, "ViewPos", -1);
+    changeChild("火球", &pack);
+}
+
+void GanonFarAttackRootOnWall::sub_71003E9608() {
+    _54 = 4;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mViewPos_d, "ViewPos", -1);
+    changeChild("竜巻", &pack);
+}
+
+void GanonFarAttackRootOnWall::sub_71003E96FC() {
+    _54 = 6;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mViewPos_d, "ViewPos", -1);
+    changeChild("氷柱", &pack);
+}
+
+void GanonFarAttackRootOnWall::sub_71003E904C() {
+    _54 = 5;
+    ++_50;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mViewPos_d, "ViewPos", -1);
+    changeChild("落雷", &pack);
 }
 
 }  // namespace uking::ai

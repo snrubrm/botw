@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -30,6 +32,20 @@ void GoronHeroDescendentRoot::loadParams_() {
     getStaticParam(&mPlayerSeparateDist_s, "PlayerSeparateDist");
     getStaticParam(&mFollowModeFlagName_s, "FollowModeFlagName");
     getStaticParam(&mPlayerFollowOffset_s, "PlayerFollowOffset");
+}
+
+void GoronHeroDescendentRoot::sub_7100409314() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "TerrorOccurring", -1);
+    pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
+    changeChild("停止命令", &pack);
+}
+
+void GoronHeroDescendentRoot::sub_7100409824() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "TerrorOccurring", -1);
+    pack.addVec3(mActor->getMtx().getTranslation(), "TargetPos", -1);
+    changeChild("プレイヤー接近待機", &pack);
 }
 
 }  // namespace uking::ai

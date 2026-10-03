@@ -115,4 +115,12 @@ bool EnemyRangeKeepMove::sub_71003AD160() {
     return sub_710072CB78(actor, target, nullptr, radius, 3);
 }
 
+void EnemyRangeKeepMove::sub_71003AB624() {
+    m37();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘歩行", &pack);
+}
+
 }  // namespace uking::ai
