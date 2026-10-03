@@ -808,6 +808,80 @@ bool EnemyNormal::sub_71003A19AC() {
     return true;
 }
 
+// NON_MATCHING: the original iterates the entries with a packed {mask 0x40, index} 64-bit iterator
+// (bfi / lsr), keeps `a1` unmasked in a callee-saved register and masks it at each payload store; ours masks
+// once and spills. The logic (flag test, three payload stores, sender calls) is the same.
+void EnemyNormal::sub_710039F570(bool a1) {
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        return;
+
+    if (!_3ac.isOnBit(0)) {
+        if (auto* link = sub_71005D9050(mActor)) {
+            auto* actor = mActor;
+            const auto& pos = sub_71005D9330(actor);
+            {
+                sead::ScopedLock<sead::JobQueueLock> lock(&_130._18.mLock);
+                auto& data = _130._18.mData;
+                data._0 = *link;
+                data._10.acquire(actor, false);
+                data._20 = 0;
+                data._24 = 2;
+                data._28 = pos;
+                data._34 = a1;
+            }
+            sub_710039F938(true);
+        }
+    } else if (*mSpeadDist2_s > 0.0f) {
+        const u32 state = sub_71005D9744(mActor);
+        if (state <= 5 && ((1 << state) & 0x2c)) {
+            ksys::Timer::update(&_36c, -1.0f);
+            if (_36c < 0.0f) {
+                if (auto* link = sub_71005D9050(mActor)) {
+                    if (link->hasProc()) {
+                        auto* actor = mActor;
+                        _36c = 10.0f;
+                        const auto& pos = sub_71005D9330(actor);
+                        {
+                            sead::ScopedLock<sead::JobQueueLock> lock(&_130._18.mLock);
+                            auto& data = _130._18.mData;
+                            data._0 = *link;
+                            data._10.acquire(actor, false);
+                            data._20 = 0;
+                            data._24 = 2;
+                            data._28 = pos;
+                            data._34 = a1;
+                        }
+                        sub_710039F938(false);
+                    }
+                }
+            }
+        }
+    }
+
+    auto* unk = sub_71005D9D68(mActor);
+    if (!unk)
+        return;
+    for (s32 idx = 0; idx < 6; ++idx) {
+        auto& entry = unk->mEntries[idx];
+        if (!entry.link.hasProcInCalcState() || !(entry.flags & 0x40))
+            continue;
+        auto* actor = mActor;
+        const auto& link = sub_71005D94AC(actor);
+        const auto& pos = sub_71005D9330(actor);
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_130._18.mLock);
+            auto& data = _130._18.mData;
+            data._0 = link;
+            data._10.acquire(actor, false);
+            data._20 = 0;
+            data._24 = 2;
+            data._28 = pos;
+            data._34 = a1;
+        }
+        _130.sub_710070DCC0(&entry.link, true);
+    }
+}
+
 void EnemyNormal::sub_710039F938(bool a1) {
     const f32 dist = a1 ? *mSpreadDist_s : *mSpeadDist2_s;
     if (auto* awareness = mActor->getAwareness()) {
