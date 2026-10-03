@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiEnemyRecognizeTargetBase.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -46,6 +50,19 @@ bool EnemyRecognizeTargetBase::m35() {
 
 bool EnemyRecognizeTargetBase::handleMessage_(const ksys::Message& message) {
     return _c0.m2(message);
+}
+
+void EnemyRecognizeTargetBase::sub_71003B08C0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(sub_71005D94AC(mActor), "TargetActor", -1);
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("気づき", &pack);
+
+    if (ksys::act::isPlayerProfile(&sub_71005D94AC(mActor))) {
+        auto* actor = mActor;
+        if (sead::IsDerivedFrom<act::Enemy>(actor))
+            static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+    }
 }
 
 }  // namespace uking::ai
