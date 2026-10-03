@@ -203,6 +203,14 @@ bool EnemyBattle::sub_7100381E7C() {
     return player.x_13();
 }
 
+void EnemyBattle::sub_7100381E58(s32 time) {
+    if (time < 0)
+        return;
+    auto* enemy = static_cast<act::Enemy*>(mActor);
+    if (enemy)
+        enemy->_e68 = ksys::Timer(time, time);
+}
+
 void EnemyBattle::sub_7100381ED4() {
     auto* enemy = static_cast<act::Enemy*>(mActor);
     if (enemy)

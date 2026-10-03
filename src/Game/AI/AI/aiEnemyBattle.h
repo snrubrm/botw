@@ -29,6 +29,8 @@ public:
     virtual bool m42() { return !m41(); }
     virtual void m43(ksys::act::ai::InlineParamPack* params) {}
 
+    // 0x7100381e58: Enemy::_e68 = Timer(time, time) (nothing for a negative time).
+    void sub_7100381E58(s32 time);
     void sub_7100381ED4();
     // 0x7100381e7c: acc::PlayerBase::x_13() of the actor m35() points to.
     bool sub_7100381E7C();
