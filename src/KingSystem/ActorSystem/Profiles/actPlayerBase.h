@@ -219,7 +219,7 @@ public:
     /* 311 */ virtual void m311();
     /* 312 */ virtual gsys::BoneAccessKey m312(int idx);
     /* 313 */ void getActorDirect() override;
-    /* 314 */ void m314() override;
+    /* 314 */ void* m314() override;
     /* 315 */ void m315() override { m139(); }
     /* 316 */ f32 m316() override { return _1654; }
     /* 317 */ f32 m317() override;

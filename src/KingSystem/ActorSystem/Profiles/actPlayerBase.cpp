@@ -20,6 +20,28 @@
 
 namespace ksys::act {
 
+void PlayerLink::m379() {}
+
+void PlayerLink::m380() {}
+
+void PlayerLink::m381() {}
+
+Actor* PlayerLink::m382() {
+    return nullptr;
+}
+
+Unk_71024ef4e8* PlayerBase::getAttachedTargetActor2() {
+    return nullptr;
+}
+
+Unk_71024ef4e8* PlayerBase::getAttachedTargetActor() {
+    return nullptr;
+}
+
+void* PlayerBase::m314() {
+    return &_e60;
+}
+
 gsys::BoneAccessKey PlayerBase::m312(int idx) {
     return mModel->searchBone("Root");
 }
