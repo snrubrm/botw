@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -51,6 +52,25 @@ void WithoutWeaponArrow::enter_(ksys::act::ai::InlineParamPack* params) {
         body->setContactNone();
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
         body->enableContactLayer(ksys::phys::ContactLayer::SensorEnemy);
+}
+
+// NON_MATCHING: the original null-checks the message reference (cbz x1)
+bool WithoutWeaponArrow::handleMessage_(const ksys::Message& message) {
+    // Payload of message 0x800003a (no sender found; layout read from this function)
+    struct Payload {
+        sead::Vector3f pos;
+        s32 attr;
+    };
+
+    if (message.getBrokerId() != u32(-1) || message.getType() != 0x800003a)
+        return false;
+    if (!message.getUserData())
+        return false;
+    auto* payload = static_cast<Payload*>(message.getUserData());
+    _118 = payload->pos;
+    _13c = payload->attr;
+    _114 = true;
+    return true;
 }
 
 void WithoutWeaponArrow::leave_() {
