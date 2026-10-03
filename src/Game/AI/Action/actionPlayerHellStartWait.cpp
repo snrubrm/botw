@@ -2,6 +2,8 @@
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "Game/gameUnk_71008ba8d8.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::action {
 
@@ -10,7 +12,21 @@ PlayerHellStartWait::PlayerHellStartWait(const InitArg& arg) : PlayerAction(arg)
 PlayerHellStartWait::~PlayerHellStartWait() = default;
 
 void PlayerHellStartWait::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (static_cast<ksys::act::Player*>(mActor)->_cec.isOnBit(10)) {
+        static_cast<ksys::act::Player*>(mActor)->_d18 = 1;
+    } else {
+        const int type = mActor->getDamageMgr()->getField54();
+        if (type != 0x21 && !ksys::StageInfo::sIsRemainsFire) {
+            if (static_cast<ksys::act::Player*>(mActor)->_d18 != 3)
+                static_cast<ksys::act::Player*>(mActor)->_d18 = 0;
+        } else {
+            static_cast<ksys::act::Player*>(mActor)->_d18 = 2;
+        }
+    }
     PlayerAction::enter_(params);
+    if (static_cast<ksys::act::Player*>(mActor)->_d18 == 1)
+        static_cast<ksys::act::Player*>(mActor)->_cec.setBit(10);
+    static_cast<ksys::act::Player*>(mActor)->_c48.setBit(22);
 }
 
 void PlayerHellStartWait::leave_() {

@@ -313,6 +313,8 @@ public:
     bool isASItemBombReadyOrStart();
     bool sub_710088873C();
     bool sub_71008921A8();
+    // 0x710086d5b8 (declared only; unnamed in the CSV, 1.3 KB): called by PlayerHellNoFade::enter_.
+    void sub_710086D5B8();
     bool sub_7100892724();
     bool sub_7100892824();
     bool sub_71008923B0(int a1);

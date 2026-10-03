@@ -143,9 +143,11 @@ public:
     void* mDebugHeap;
     PlacementActors* mPlacementActors;
 
-    // NOTE (lane4 s22): this is not the VillagerMgr; initAndStartPlacementThread (0x71011e5944) stores
-    // the VillagerMgr at 0x218 (`mVillagerMgr` below). Nothing uses this member.
-    void* mVillagerManager;
+    // NOTE (lane4 s22): the pointer that used to be declared here (`mVillagerManager`) is not the VillagerMgr;
+    // initAndStartPlacementThread (0x71011e5944) stores the VillagerMgr at 0x218 (`mVillagerMgr` below).
+    // lane3 s19: the low half is an s32 read by PlayerHellNoFade::calc_ (`>= 11` => finished).
+    s32 _1f8;
+    u32 _1fc;
 
     PlacementMapMgr* mPlacementMapMgr;
     Placement18* mPlacement18;
