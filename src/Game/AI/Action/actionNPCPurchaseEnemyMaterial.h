@@ -15,6 +15,9 @@ public:
 
 protected:
     void calc_() override;
+    s32 _1c = 0;
+
 };
+KSYS_CHECK_SIZE_NX150(NPCPurchaseEnemyMaterial, 0x20);
 
 }  // namespace uking::action

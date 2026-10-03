@@ -5,7 +5,9 @@
 
 namespace uking::action {
 
-PlayerZoraRide::PlayerZoraRide(const InitArg& arg) : PlayerAction(arg) {}
+PlayerZoraRide::PlayerZoraRide(const InitArg& arg) : PlayerAction(arg) {
+    _44.reset(0.0f);
+}
 
 PlayerZoraRide::~PlayerZoraRide() = default;
 

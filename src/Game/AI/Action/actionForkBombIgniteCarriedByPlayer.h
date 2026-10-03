@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool _1c = false;
     void calc_() override;
 
     // static_param at offset 0x20

@@ -18,6 +18,7 @@ public:
 protected:
     void calc_() override;
 
+    bool _1c = true;
     // map_unit_param at offset 0x20
     const int* mWeather_m{};
     // map_unit_param at offset 0x28

@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -28,9 +29,7 @@ protected:
     // static_param at offset 0x38
     const float* mAimAngleAddApplySpeed_s{};
     bool _40 = false;
-    f32 _44 = 0.0f;
-    f32 _48 = 0.0f;
-    f32 _4c = -1.0f;
+    ksys::Timer _44;
 
 };
 KSYS_CHECK_SIZE_NX150(PlayerZoraRide, 0x50);
