@@ -59,9 +59,15 @@ public:
     // a3 -> _922, a5 -> _923) under _840; returns false if _925 is set. `a4` is an object of a class
     // whose RTTI is at 0x71025b1538 (Weapon::x_4 casts it; callers pass nullptr; the base ignores it).
     virtual bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
-    virtual void m176();
-    virtual void m177();
+    // 0x7100ef6304. Like m175 (the position goes to _910, the flags a3 -> _924, a4 -> _922, a6 -> _923), plus the
+    // second position `target` (_928) and _936 = true; `a5` is unused.
+    virtual bool m176(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4, void* a5,
+                      bool a6);
+    // 0x7100ef6464. Like m175 with the position zero and no flags, the second position `target` (_928) and
+    // _934 = true; `a2` is unused.
+    virtual bool m177(const sead::Vector3f& target, void* a2);
     virtual void m178();
+    // 0x7100ef669c: resets the links and sets _920 = 3 (drops the optional weapon).
     virtual void m179();
     virtual void m180();
     virtual void m181() {}
@@ -153,14 +159,20 @@ protected:
     BaseProcLink _890;
     sead::FixedSafeString<32> _8a0;
     sead::FixedSafeString<32> _8d8;
-    u8 _910[0x920 - 0x910];
+    sead::Vector3f _910;
+    s32 _91c;
     u8 _920;
     bool _921;
     bool _922;
     bool _923;
     u8 _924;
     bool _925;
-    u8 _926[0x938 - 0x926];
+    u8 _926[0x928 - 0x926];
+    sead::Vector3f _928;
+    bool _934;
+    u8 _935;
+    bool _936;
+    u8 _937;
     BaseProcLink _938;
     BaseProcLink _948;
     BaseProcLink _958;

@@ -13,6 +13,9 @@ class OptionalWeapon : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(OptionalWeapon, ksys::act::Actor)
 public:
     ~OptionalWeapon() override;
+
+    // 0x7100ef1adc (CSV OptionalWeaponMaybe::x; called when a WeaponBase drops its optional weapon).
+    void sub_7100EF1ADC();
 };
 
 }  // namespace uking::act

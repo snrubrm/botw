@@ -82,6 +82,49 @@ void ActorWeapons::x() {
     }
 }
 
+bool ActorWeapons::dropAllWeapons(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    for (int i = 0; i < 6; ++i) {
+        auto* actor = sead::DynamicCast<WeaponBase>(mWeapons[i].link.getProc(nullptr, nullptr));
+        if (actor && actor->isCalc()) {
+            actor->m175(pos, a2, a3, a4, a5);
+            mWeapons[i].link.reset();
+        }
+    }
+    return true;
+}
+
+bool ActorWeapons::dropAllWeaponsToTarget(const sead::Vector3f& target, const sead::Vector3f& pos,
+                                          bool a3, bool a4, void* a5, bool a6) {
+    for (int i = 0; i < 6; ++i) {
+        auto* actor = sead::DynamicCast<WeaponBase>(mWeapons[i].link.getProc(nullptr, nullptr));
+        if (actor && actor->isCalc()) {
+            actor->m176(target, pos, a3, a4, a5, a6);
+            mWeapons[i].link.reset();
+        }
+    }
+    return true;
+}
+
+// NON_MATCHING: the original recomputes the address of mWeapons[idx].link after the call (as in dropWeapon)
+bool ActorWeapons::dropWeaponM177(int idx, const sead::Vector3f& target, void* a2) {
+    auto* weapon = sead::DynamicCast<WeaponBase>(mWeapons[idx].link.getProc(nullptr, nullptr));
+    if (weapon && weapon->isCalc()) {
+        weapon->m177(target, a2);
+        mWeapons[idx].link.reset();
+    }
+    return true;
+}
+
+// NON_MATCHING: the original recomputes the address of mWeapons[idx].link after the call (as in dropWeapon)
+bool ActorWeapons::dropWeaponM179(int idx) {
+    auto* weapon = sead::DynamicCast<WeaponBase>(mWeapons[idx].link.getProc(nullptr, nullptr));
+    if (weapon && weapon->isCalc()) {
+        weapon->m179();
+        mWeapons[idx].link.reset();
+    }
+    return true;
+}
+
 bool ActorWeapons::sub_7100EFD1F8() {
     for (auto& weapon : mWeapons) {
         ActorConstDataAccess accessor;

@@ -50,6 +50,16 @@ public:
     void x();
     // 0x7100efcf10 (declared only): called by PlayerOrEnemy::m51.
     void sub_7100EFCF10(bool on);
+    // 0x7100efc3d4 (unnamed in the CSV; name is a guess): WeaponBase::m175 (the drop request) on every weapon that
+    // is in the calc state, forgetting the weapon; always true.
+    bool dropAllWeapons(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
+    // 0x7100efc4e0 (unnamed in the CSV; name is a guess): the same with WeaponBase::m176 (an extra target position).
+    bool dropAllWeaponsToTarget(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4,
+                                void* a5, bool a6);
+    // 0x7100efc5f4 / 0x7100efc6ec (unnamed in the CSV; names are guesses): the drop request of the weapon in slot
+    // `idx` (WeaponBase::m177 / m179); always true.
+    bool dropWeaponM177(int idx, const sead::Vector3f& target, void* a2);
+    bool dropWeaponM179(int idx);
     // 0x7100efd1f8 (unnamed in the CSV): whether any of the weapon actors reports true from Actor::m50
     // (through ActorConstDataAccess::sub_7100D0FEAC).
     bool sub_7100EFD1F8();

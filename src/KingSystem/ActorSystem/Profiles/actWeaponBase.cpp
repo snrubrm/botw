@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -11,6 +12,79 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
 
 namespace ksys::act {
+
+bool WeaponBase::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    const auto lock = sead::makeScopedLock(_840);
+    if (_925)
+        return false;
+    _880.reset();
+    _91c = -1;
+    _920 = 2;
+    _910.set(pos);
+    _922 = a3;
+    _923 = a5;
+    _924 = a2;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+    return true;
+}
+
+bool WeaponBase::m177(const sead::Vector3f& target, void* a2) {
+    const auto lock = sead::makeScopedLock(_840);
+    _880.reset();
+    _91c = -1;
+    _920 = 2;
+    _910.set(sead::Vector3f::zero);
+    _922 = false;
+    _923 = false;
+    _924 = 0;
+    _928.set(target);
+    _934 = true;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+    return true;
+}
+
+void WeaponBase::m179() {
+    const auto lock = sead::makeScopedLock(_840);
+    _880.reset();
+    _91c = -1;
+    _920 = 3;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_890.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+}
+
+bool WeaponBase::m176(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4, void* a5,
+                      bool a6) {
+    const auto lock = sead::makeScopedLock(_840);
+    if (_925)
+        return false;
+    _880.reset();
+    _91c = -1;
+    _920 = 2;
+    _910.set(pos);
+    _922 = a4;
+    _923 = a6;
+    _924 = a3;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+    _936 = true;
+    _928.set(target);
+    return true;
+}
+
 
 bool WeaponBase::areExtraActorsReady() const {
     if (m159().isEmpty() && m160().isEmpty())
