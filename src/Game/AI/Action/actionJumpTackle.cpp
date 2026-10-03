@@ -30,12 +30,12 @@ void JumpTackle::leave_() {
 }
 
 void JumpTackle::loadParams_() {
-    getStaticParam(&mMaxSpeed_s, "MaxSpeed");
-    getStaticParam(&mMinSpeed_s, "MinSpeed");
-    getStaticParam(&mJumpHeight_s, "JumpHeight");
-    getStaticParam(&mJumpHeightMaxOffset_s, "JumpHeightMaxOffset");
-    getStaticParam(&mIsFinishedAtPreLandFrame_s, "IsFinishedAtPreLandFrame");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getStaticParam(&mParams.mMinSpeed_s, "MinSpeed");
+    getStaticParam(&mParams.mJumpHeight_s, "JumpHeight");
+    getStaticParam(&mParams.mJumpHeightMaxOffset_s, "JumpHeightMaxOffset");
+    getStaticParam(&mParams.mIsFinishedAtPreLandFrame_s, "IsFinishedAtPreLandFrame");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void JumpTackle::calc_() {
@@ -88,7 +88,7 @@ bool JumpTackle::isFinished() const {
         return true;
     if (_90 && m34())
         return true;
-    if (*mIsFinishedAtPreLandFrame_s)
+    if (*mParams.mIsFinishedAtPreLandFrame_s)
         return sub_71005E1064(mActor);
     return false;
 }
