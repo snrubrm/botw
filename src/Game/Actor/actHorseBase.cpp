@@ -75,6 +75,26 @@ f32 HorseBase::sub_7100E6AD4C() {
     return _b10->m31();
 }
 
+HorseReins* HorseBase::getReinsA() {
+    return sead::DynamicCast<HorseReins>(_860.getProc(nullptr, nullptr));
+}
+
+HorseReins* HorseBase::getReinsB() {
+    return sead::DynamicCast<HorseReins>(_870.getProc(nullptr, nullptr));
+}
+
+HorseReins* HorseBase::getReinsC() {
+    return sead::DynamicCast<HorseReins>(_880.getProc(nullptr, nullptr));
+}
+
+HorseReins* HorseBase::getReinsB2() {
+    return sead::DynamicCast<HorseReins>(_870.getProc(nullptr));
+}
+
+HorseReins* HorseBase::getReinsC2() {
+    return sead::DynamicCast<HorseReins>(_880.getProc(nullptr));
+}
+
 void HorseBase::m114() {
     if (_b10)
         _b10->m9();

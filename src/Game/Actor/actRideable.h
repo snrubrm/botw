@@ -156,6 +156,9 @@ public:
         u8 _0[0x90];
     };
 
+    // Placeholder (callers convert through the stack like a SEAD_ENUM).
+    SEAD_ENUM(Rank, _0, _1, _2)
+
     static RideableBase* make(sead::Heap* heap);
 
     RideableBase();
@@ -167,6 +170,11 @@ public:
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();
+    // Placeholder names (declared only: no callers identified yet; lane4 s28).
+    // 0x7100e63900: sets bit 0x80 of _8 if bit 0x20 is set.
+    void sub_7100E63900();
+    // 0x7100e6314c: keeps the larger value for rank 1 or 2 (only the id for the larger value is stored).
+    void sub_7100E6314C(Rank rank, f32 value, u32 id);
 
     /*  4 */ virtual bool m4(ksys::act::Actor* actor, sead::Heap* heap);
     /*  5 */ virtual void m5();
@@ -189,7 +197,8 @@ public:
     /* 0x130 */ u64 _130 = 0;
     /* 0x138 */ f32 _138 = 0;
     /* 0x13c */ f32 _13c = 0;
-    /* 0x140 */ u64 _140 = 0;
+    /* 0x140 */ u32 _140 = 0;
+    /* 0x144 */ u32 _144 = 0;
     /* 0x148 */ sead::Vector3f _148 = sead::Vector3f::zero;
     /* 0x154 */ f32 _154 = 1.0;
     /* 0x158 */ sead::Vector3f _158 = sead::Vector3f::zero;

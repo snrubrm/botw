@@ -24,6 +24,7 @@ class RayCastForRequest;
 namespace uking::act {
 
 class Rideable;
+class HorseReins;
 
 // Placeholder name (vtable 0x71024eb548, 7 slots: empty inline dtor, D0, 5 more; ctor 0x7100e72034,
 // size 0x10). HorseBase::_b18; HorseBase::prepareInit_ registers it in the NavMeshCharacter (m45)
@@ -113,6 +114,14 @@ public:
     bool sub_7100E696D4() const;
     void sub_7100E6AD3C(f32 value);
     f32 sub_7100E6AD4C();
+
+    // The reins actors linked in _860 / _870 / _880 (placeholder names; 0x7100e6ad5c / adf8 / af34, the
+    // second pair 0x7100e6ae94 / afd0 passes no second argument to getProc). RideableHorse::m39 - m41.
+    HorseReins* getReinsA();
+    HorseReins* getReinsB();
+    HorseReins* getReinsC();
+    HorseReins* getReinsB2();
+    HorseReins* getReinsC2();
     bool sub_7100E6AF2C(ksys::act::BaseProc* proc) const;
     bool sub_7100E6B068(ksys::act::BaseProc* proc) const;
     void sub_7100E6BA08();

@@ -128,6 +128,18 @@ f32 RideableHorse::m28() {
     return value;
 }
 
+void* RideableHorse::m39() {
+    return static_cast<HorseBase*>(RideableBase::mActor)->getReinsB();
+}
+
+void* RideableHorse::m40() {
+    return static_cast<HorseBase*>(RideableBase::mActor)->getReinsA();
+}
+
+void* RideableHorse::m41() {
+    return static_cast<HorseBase*>(RideableBase::mActor)->getReinsC();
+}
+
 void RideableHorse::m29(f32 a) {
     _2a0 = a;
 }
