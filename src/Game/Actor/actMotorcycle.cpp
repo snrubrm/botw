@@ -50,6 +50,33 @@ static SpeedCurve7 sUnk_7102361220;
 
 // NON_MATCHING: everything matches except the shared cleanup block of the ray cast query (we merge the early-return
 // and the fall-through destructor calls behind a flag, the original keeps two copies)
+void Motorcycle::sub_710007C0B0(ksys::phys::RigidBody* body, f32 rate) {
+    sead::Vector3f parallel, perpendicular;
+    sead::Matrix34f mtx;
+    body->getTransform(&mtx);
+    sead::Vector3f axis;
+    mtx.getBase(axis, 2);
+    splitParallelPerpendicular(&parallel, &perpendicular, body->getAngularVelocity(), axis);
+    ksys::VFR::multiply(&parallel, rate);
+    body->setAngularVelocity(parallel + perpendicular);
+}
+
+// NON_MATCHING: operand order of the y addition (av.y + parallel.y in the original)
+void Motorcycle::sub_710007C1C4(ksys::phys::RigidBody* body, const sead::Matrix34f& target,
+                                f32 rate) {
+    sead::Vector3f angular_velocity;
+    body->computeAngularVelocity(&angular_velocity, target);
+    sead::Matrix34f mtx;
+    body->getTransform(&mtx);
+    sead::Vector3f axis;
+    mtx.getBase(axis, 2);
+    sead::Vector3f parallel;
+    innerProductTimesA3(&parallel, angular_velocity, axis);
+    parallel *= 1.0f - std::pow(std::pow(1.0f - rate, ksys::VFR::instance()->getDeltaFrame()),
+                                ksys::VFR::instance()->getDeltaFrame());
+    body->setAngularVelocity(parallel + body->getAngularVelocity());
+}
+
 // NON_MATCHING: only the scheduling of the translation copy (the original copies x, y, z with separate stores
 // interleaved with the impulse multiplications)
 void Motorcycle::sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b) {

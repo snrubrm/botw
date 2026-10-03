@@ -387,6 +387,10 @@ public:
     f32 sub_710007AB7C() const;
     // 0x710007c00c
     bool sub_710007C00C() const;
+    // 0x710007c0b0 / 0x710007c1c4 (placeholder names; do not use `this`): angular velocity damping of `body`
+    // around its z axis / correction towards the rotation `target`.
+    void sub_710007C0B0(ksys::phys::RigidBody* body, f32 rate);
+    void sub_710007C1C4(ksys::phys::RigidBody* body, const sead::Matrix34f& target, f32 rate);
     // 0x710007b694 (placeholder name; does not use `this`): applies a sideways point impulse
     // (wheel x axis cross forward axis, scaled by a * b) at the wheel body's position.
     void sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b);
