@@ -5,7 +5,10 @@
 
 namespace uking::ai {
 
-PlayerLadder::PlayerLadder(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+PlayerLadder::PlayerLadder(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    _3c = 0;
+    _40.reset(0);
+}
 
 PlayerLadder::~PlayerLadder() = default;
 

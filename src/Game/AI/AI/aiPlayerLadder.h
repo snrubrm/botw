@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -20,10 +21,13 @@ public:
     bool isFinished() const override;
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x18];
+    bool _38 = false;
+    bool _39 = false;
+    u32 _3c;
+    ksys::Timer _40;  // reset to 0 by the ctor
     // static_param at offset 0x50
     const float* mLadderToClimbTime_s{};
 };
+KSYS_CHECK_SIZE_NX150(PlayerLadder, 0x58);
 
 }  // namespace uking::ai
