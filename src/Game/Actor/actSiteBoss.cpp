@@ -1,5 +1,6 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
@@ -33,6 +34,40 @@ void SiteBoss::m63() {
     _1554 = 1000.0f;
     _1544 = 4;
     Enemy::m63();
+}
+
+// NON_MATCHING: same instructions, scheduled differently (the original computes `fire & 1` before the
+// select for water; the sum order of the four flags is not recoverable)
+s32 SiteBoss::getMaxLife() {
+    const u32 life = Enemy::getMaxLife();
+    const u32 half = life / 2;
+    const bool wind = ksys::gdt::getFlag_Die_PGanonWind(false);
+    const bool water = ksys::gdt::getFlag_Die_PGanonWater(false);
+    const bool fire = ksys::gdt::getFlag_Die_PGanonFire(false);
+    const bool electric = ksys::gdt::getFlag_Die_PGanonElectric(false);
+    s32 num_ganons;
+    if ((_1534 & ~3) == 4) {
+        num_ganons = 3;
+    } else if ((_1534 & ~3) == 8) {
+        num_ganons = 4;
+    } else {
+        num_ganons = 0;
+        if (wind)
+            ++num_ganons;
+        if (water)
+            ++num_ganons;
+        num_ganons += fire;
+        num_ganons += electric;
+    }
+    return life + num_ganons * half;
+}
+
+void SiteBoss::x_6(bool on) {
+    _1558.change(0x20, on);
+    if (auto* chemical = sub_71011D8A54("ShieldChemical")) {
+        chemical->sub_7100D90F60(!on);
+        chemical->sub_7100D91098(false);
+    }
 }
 
 void SiteBoss::m76(ksys::VFR::ScopedDeltaSetter* setter) {
