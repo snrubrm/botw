@@ -45,8 +45,8 @@ void WolfLinkFollowPlayerRoot::loadParams_() {
     getStaticParam(&mAnteriorDistanceSprint_s, "AnteriorDistanceSprint");
 }
 
-void WolfLinkFollowPlayerRoot::m35() {
-    HorseFollow::m35();
+f32 WolfLinkFollowPlayerRoot::m35() {
+    return HorseFollow::m35();
 }
 
 }  // namespace uking::ai

@@ -1,4 +1,11 @@
 #include "Game/AI/AI/aiHorseFollow.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actHorseStrings.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -12,6 +19,34 @@ bool HorseFollow::init_(sead::Heap* heap) {
 
 void HorseFollow::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void HorseFollow::calc_() {
+    if (_cc >= 0.0f) {
+        ksys::Timer::update(&_cc, 1.0f);
+        if (_cc >= *mSuccessEndDelays_s)
+            setFinished();
+        return;
+    }
+
+    const f32 dist = m35();
+    const f32 cry_dist = *mDistanceThresholdCry_s;
+    if (cry_dist > sead::Mathf::epsilon()) {
+        auto* as_list = mActor->getASList();
+        const f32 cry_dist_sq = cry_dist * cry_dist;
+        if (!(dist < cry_dist_sq) || !(cry_dist_sq <= _d0)) {
+            if (as_list->x_1(1, 0) == act::sUnk_71026031a0 && as_list->x_4(1, 0)) {
+                if (auto* rideable = mActor->m132())
+                    rideable->_18.sub_7100E78E00();
+                else
+                    as_list->sub_710115B01C(1, 0, true);
+            }
+        } else if (as_list->x_1(1, 0) != act::sUnk_71026031a0) {
+            as_list->startAnimationMaybe(-1.0f, -1.0f, act::sUnk_71026031a0, 1, 0, true);
+            ksys::eft::searchAndEmitSLink(mActor, "CryComing", false);
+        }
+        _d0 = dist;
+    }
 }
 
 void HorseFollow::leave_() {

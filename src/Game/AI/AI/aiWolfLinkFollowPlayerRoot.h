@@ -25,7 +25,7 @@ public:
 
     void m34(sead::Vector3f* out, const sead::Vector3f& pos, const sead::Vector3f& target_pos,
              const sead::Vector3f& target_velocity, const sead::Vector3f& up) override;
-    void m35() override;
+    f32 m35() override;
 
     // Not decompiled (0x7100604d24 / 0x7100605424): sample the player's matrix / update the side (_174).
     virtual void m39(bool x);
