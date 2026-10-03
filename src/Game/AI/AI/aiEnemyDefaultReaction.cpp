@@ -83,6 +83,156 @@ void EnemyDefaultReaction::m42(ksys::act::ai::InlineParamPack* params) {
     changeChild("死亡", params);
 }
 
+// NON_MATCHING: same decisions and calls as the original; the block layout / SafeString temporary
+// stack slots differ (the original keeps three temporaries and places the default arm of the switch
+// before cases 6/8/12/13/20/18).
+bool EnemyDefaultReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_type) {
+    auto* child = getCurrentChild();
+    if (isCurrentChild("凍結")) {
+        if (damage_mgr->getField54() == 23) {
+            m40(nullptr);
+            return true;
+        }
+        return false;
+    }
+
+    if (isCurrentChild("痺れ")) {
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (damage_type == 22) {
+            if (enemy)
+                enemy->m149(4);
+            m40(nullptr);
+            return true;
+        }
+        if (enemy && enemy->m151(3)) {
+            changeChild("凍結", nullptr);
+            return true;
+        }
+        return false;
+    }
+
+    if (isCurrentChild("ふっとび"))
+        return false;
+    if (isCurrentChild("崩れ落ち"))
+        return false;
+    if (isCurrentChild("突風"))
+        return false;
+
+    const bool is_just_guard = isCurrentChild("ジャストガード");
+    auto* actor = mActor;
+    if (is_just_guard) {
+        if (!sub_71005D6E28(actor))
+            return false;
+        sub_710038782C(nullptr);
+        return true;
+    }
+
+    if (auto* player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor)) {
+        if (player_or_enemy->m151(3)) {
+            changeChild("凍結", nullptr);
+            return true;
+        }
+        if (player_or_enemy->m151(4)) {
+            if (damage_type != 22) {
+                changeChild("痺れ", nullptr);
+                return true;
+            }
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+                enemy->m149(4);
+        }
+    }
+
+    switch (damage_mgr->getField54()) {
+    case 3:
+        if (isCurrentChild("小ダメージ") || isCurrentChild("ガード")) {
+            changeChild("凍結", nullptr);
+            return false;
+        }
+        return false;
+    case 4:
+        if (isCurrentChild("小ダメージ") || isCurrentChild("ガード")) {
+            changeChild("痺れ", nullptr);
+            return false;
+        }
+        return false;
+    case 6:
+        changeChild("弾かれ", nullptr);
+        return true;
+    case 7:
+    case 19:
+        changeChild("ショック", nullptr);
+        return true;
+    case 8:
+        changeChild("超ショック", nullptr);
+        return true;
+    case 9:
+    case 11:
+    case 14:
+        changeChild("ガードブレイク", nullptr);
+        return true;
+    case 10:
+    case 21:
+    case 22:
+    case 23:
+    case 27:
+        m40(nullptr);
+        return true;
+    case 12:
+        if (m38(damage_mgr)) {
+            changeChild("ガードブレイク", nullptr);
+            return true;
+        }
+        if (auto* attack = sub_7100739578(mActor))
+            _61 = attack->sub_71007A1F78(0x20);
+        {
+            const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
+            if (level && level->mIsJustGuard.ref()) {
+                if (--_58 <= 0)
+                    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000000);
+            }
+        }
+        changeChild("ガード", nullptr);
+        return true;
+    case 13:
+        sub_710038794C();
+        return true;
+    case 18:
+        if (isCurrentChild("小ダメージ") || isCurrentChild("ガード")) {
+            changeChild("炎上", nullptr);
+            return true;
+        }
+        if (isCurrentChild("炎上") && child->isChangeable()) {
+            changeChild("炎上", nullptr);
+            return true;
+        }
+        return false;
+    case 20:
+        m39(nullptr);
+        return true;
+    case 29:
+    case 30:
+    case 31:
+    case 34:
+        m42(nullptr);
+        return true;
+    default:
+        break;
+    }
+
+    if (damage_type < 6)
+        return false;
+    if (*mInComboSmallDamageNoCancel_s && damage_mgr->checkDamageFlags(15)) {
+        changeChild("小ダメージ", nullptr);
+        return true;
+    }
+    if (*mSmallDamageCancelTimes_s < 0 || _5c >= 1) {
+        --_5c;
+        changeChild("小ダメージ", nullptr);
+        return true;
+    }
+    return m36(damage_type);
+}
+
 // NON_MATCHING: the death-type range test (types 29-31 -> m42) compiles to `cmp #2; b.hi` instead of
 // the original's `cmp #3; b.hs`; everything else is identical.
 void EnemyDefaultReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool flag,
