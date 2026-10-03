@@ -14,6 +14,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
+#include "Game/gameHeroSoul.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace ksys::act {
@@ -599,6 +601,40 @@ bool Player::m230() {
 
 bool Player::x_35() {
     return m225() || m226();
+}
+
+bool Player::canUseDarukProtection() {
+    if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
+        return false;
+    if (gdt::getFlag_HeroSoulProhibition())
+        return false;
+    if (!hasDarukProtection())
+        return false;
+    return _1e00 <= sead::Mathf::epsilon();
+}
+
+bool Player::canUseUrbosaFury() {
+    if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
+        return false;
+    if (gdt::getFlag_HeroSoulProhibition())
+        return false;
+    if (!hasMiphaSoul())
+        return false;
+    return _1e0c <= sead::Mathf::epsilon();
+}
+
+// NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
+bool Player::canUseMiphaGrace() {
+    bool result = false;
+    if (!_c48.isOnBit(0)) {
+        if (!(StageInfo::sIsCDungeon | StageInfo::sIsAocField)) {
+            if (!gdt::getFlag_HeroSoulProhibition()) {
+                if (hasMiphaGraceCharges())
+                    result = _1e18 <= sead::Mathf::epsilon();
+            }
+        }
+    }
+    return result;
 }
 
 }  // namespace ksys::act

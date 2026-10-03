@@ -18,6 +18,13 @@ const char* PlayerOrEnemy::getEquippedItem() {
     return nullptr;
 }
 
+void PlayerOrEnemy::m150() {
+    if (auto* a = m159()) {
+        for (int i = 0; i < 12; ++i)
+            a->m13(i);
+    }
+}
+
 void PlayerOrEnemy::m149(int index) {
     if (auto* a = m159())
         a->m13(index);
