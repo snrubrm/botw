@@ -19,6 +19,33 @@ void EnemyFortressChat::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710038E110();
 }
 
+void EnemyFortressChat::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("呼びかけ")) {
+            if (child->isFailed()) {
+                setFailed();
+            } else {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addActor(_48, "TargetActor", -1);
+                changeChild("向き直り", &pack);
+            }
+        } else if (isCurrentChild("向き直り")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addActor(_48, "TargetActor", -1);
+            changeChild("会話", &pack);
+        } else {
+            if (*mNextPer_s < sead::GlobalRandom::instance()->getF32() * 100.0f)
+                sub_710038E110();
+            else
+                setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (!_48.hasProcInCalcState())
+            setFailed();
+    }
+}
+
 void EnemyFortressChat::sub_710038E110() {
     Unk_71025b1808* unit = nullptr;
     if (mRegistedActorUnit_a)
