@@ -19,6 +19,9 @@ public:
     void m42() override;
     bool m46(sead::Vector3f* out) override;
 
+    // 0x71004195b4 (placeholder name; declared only)
+    bool sub_71004195B4();
+
 protected:
     // static_param at offset 0x2d8
     const float* mExplosivesAvoidDist_s{};

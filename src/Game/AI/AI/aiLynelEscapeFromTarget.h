@@ -15,6 +15,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100490f58 (placeholder name; declared only): finds a position to escape to (writes `out`).
+    bool sub_7100490F58(sead::Vector3f* out);
+
 protected:
     // static_param at offset 0x38
     const int* mKeepTime_s{};

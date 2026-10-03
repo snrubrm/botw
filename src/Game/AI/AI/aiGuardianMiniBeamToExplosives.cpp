@@ -2,7 +2,9 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,15 @@ GuardianMiniBeamToExplosives::GuardianMiniBeamToExplosives(const InitArg& arg)
 GuardianMiniBeamToExplosives::~GuardianMiniBeamToExplosives() = default;
 
 void GuardianMiniBeamToExplosives::enter_(ksys::act::ai::InlineParamPack* params) {
-    GuardianMiniBeamAttack::enter_(params);
+    if (sub_71004195B4()) {
+        sead::Vector3f pos;
+        m46(&pos);
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(pos, "TargetPos", -1);
+        changeChild("後ずさり", &pack);
+    } else {
+        GuardianMiniBeamAttack::enter_(params);
+    }
 }
 
 // NON_MATCHING: in the second branch the original loads mActor after copying the position
@@ -46,6 +56,29 @@ void GuardianMiniBeamToExplosives::calc_() {
             }
         }
     }
+}
+
+// NON_MATCHING: register allocation only (ours keeps the actor's x / z in s9 / s8 and the differences in s12 / s11,
+// the original the other way round)
+bool GuardianMiniBeamToExplosives::sub_71004195B4() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    sead::Vector3f target;
+    if (!m46(&target))
+        return false;
+    const sead::Vector3f& pos = actor->getMtx().getTranslation();
+    sead::Vector3f dir{pos.x - target.x, 0.0f, pos.z - target.z};
+    dir.normalize();
+    sead::Vector3f probe;
+    probe.x = dir.x * 5.0f + pos.x;
+    probe.y = dir.y * 5.0f + pos.y;
+    probe.z = dir.z * 5.0f + pos.z;
+    const f32 dist =
+        sead::Mathf::sqrt((pos.x - target.x) * (pos.x - target.x) + (pos.z - target.z) * (pos.z - target.z));
+    if (!sub_710072F8E4(actor, probe, nullptr, 3.0f))
+        return false;
+    return dist <= *mExplosivesAvoidDist_s;
 }
 
 void GuardianMiniBeamToExplosives::loadParams_() {
