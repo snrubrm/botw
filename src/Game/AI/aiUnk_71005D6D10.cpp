@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
@@ -1135,4 +1136,17 @@ void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const se
     v.y = 0.0f;
     v.normalize();
     out->set(v);
+}
+
+bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, actor, "RegistedActorMessageBroadCastTag");
+    bool sent = false;
+    if (accessor.hasProc()) {
+        if (link)
+            accessor.linkAcquire(link);
+        sender->sub_710070DD78(accessor, true);
+        sent = true;
+    }
+    return sent;
 }

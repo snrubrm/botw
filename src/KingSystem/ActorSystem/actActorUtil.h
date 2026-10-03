@@ -221,6 +221,11 @@ bool isInSatoriMountainArea(const sead::Vector3f& pos);
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx);
 
+// 0x7100ee2260 (declaration only; CSV findLinkedActor, lane2 s21): acquires the actor that `actor`'s placement
+// link `link_name` points to into `accessor` (an empty accessor if there is none).
+void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
+                     const sead::SafeString& link_name);
+
 // 0x7100ee57fc (declaration only): sets the actor's position through its character controller or rigid
 // body (counterpart of sub_7100EE58C0).
 void sub_7100EE57FC(Actor* actor, const sead::Vector3f& pos);
