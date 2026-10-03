@@ -60,31 +60,34 @@ void GiantNavMoveTarget::changeToGoStraight() {
     changeChild("直進", &pack);
 }
 
-// NON_MATCHING: the stack slots of `point` and of the returned Unk_7100f7e9f0 are swapped (and the epilogue is
-// scheduled differently); the code is otherwise identical
+inline bool GiantNavMoveTarget::findNavPoint(ksys::phys::NavMeshCharacter* nav, sead::Vector3f* point) {
+    return nav->sub_7100F76078(point, *mTargetPos_d,
+                               sead::Mathf::clampMin(sub_71007320F0(mActor, *mWeaponIdx_s), 0.0f) +
+                                   *mReachTargetArea_s)
+        .sub_7100F7EB40();
+}
+
 void GiantNavMoveTarget::sub_71003F7DA8() {
     _80.reset(*mRepathTime_s);
 
     if (auto* nav = mActor->m45()) {
         sead::Vector3f point;
-        const bool found =
-            nav->sub_7100F76078(&point, *mTargetPos_d,
-                                sead::Mathf::clampMin(sub_71007320F0(mActor, *mWeaponIdx_s), 0.0f) +
-                                    *mReachTargetArea_s)
-                .sub_7100F7EB40();
+        const bool found = findNavPoint(nav, &point);
         auto* data = _78;
         if (found) {
-            if (data->_0)
+            if (data->_0) {
                 data->_0->sub_7100F75F8C(point);
-            data->_8 = 0;
+                data->_8 = 0;
+            }
             return;
         }
     }
 
     auto* data = _78;
-    if (data->_0)
+    if (data->_0) {
         data->_0->sub_7100F75F8C(*mTargetPos_d);
-    data->_8 = 0;
+        data->_8 = 0;
+    }
 }
 
 void GiantNavMoveTarget::leave_() {

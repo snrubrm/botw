@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}
+
 namespace uking::ai {
 
 class GiantNavMoveTarget : public ksys::act::ai::Ai {
@@ -27,6 +31,10 @@ public:
     void sub_71003F7DA8();
 
 protected:
+    // Inline-only in the original (name guess; evidence: sub_71003F7DA8 keeps the returned Unk_7100f7e9f0 above the
+    // caller's `point` on the stack).
+    bool findNavPoint(ksys::phys::NavMeshCharacter* nav, sead::Vector3f* point);
+
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
     // static_param at offset 0x40
