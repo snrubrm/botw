@@ -123,4 +123,17 @@ void EnemyRangeKeepMove::sub_71003AB624() {
     changeChild("戦闘歩行", &pack);
 }
 
+void EnemyRangeKeepMove::sub_71003ACD3C() {
+    m39();
+
+    s32 value = _cc;
+    if (_d0 != _cc)
+        value = sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
+    _c8 = value;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("強制後退", &pack);
+}
+
 }  // namespace uking::ai

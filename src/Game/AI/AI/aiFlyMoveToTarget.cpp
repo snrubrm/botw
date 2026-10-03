@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyMoveToTarget.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -33,6 +34,36 @@ void FlyMoveToTarget::loadParams_() {
     getStaticParam(&mOutDist_s, "OutDist");
     getStaticParam(&mOffsetHeight_s, "OffsetHeight");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: the original adds in the other operand order (fadd y, h)
+void FlyMoveToTarget::sub_71003D5108() {
+    const sead::Vector3f& target = *mTargetPos_d;
+    sead::Vector3f pos;
+    pos.x = target.x;
+    pos.y = target.y;
+    pos.z = target.z;
+    const f32 height = *mOffsetHeight_s;
+    pos.y += height;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("遠距離移動", &pack);
+}
+
+// NON_MATCHING: the original adds in the other operand order (fadd y, h)
+void FlyMoveToTarget::sub_71003D5204() {
+    const sead::Vector3f& target = *mTargetPos_d;
+    sead::Vector3f pos;
+    pos.x = target.x;
+    pos.y = target.y;
+    pos.z = target.z;
+    const f32 height = *mOffsetHeight_s;
+    pos.y += height;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("ナビメッシュ移動", &pack);
 }
 
 }  // namespace uking::ai
