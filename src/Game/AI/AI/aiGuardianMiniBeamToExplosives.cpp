@@ -25,8 +25,6 @@ void GuardianMiniBeamToExplosives::enter_(ksys::act::ai::InlineParamPack* params
     }
 }
 
-// NON_MATCHING: in the second branch the original loads mActor after copying the position
-// into the argument temporary; we load it first
 void GuardianMiniBeamToExplosives::calc_() {
     if (getCurrentChild()->isChangeable() &&
         sub_71005DEC08(mTargetActor_d, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
@@ -34,26 +32,26 @@ void GuardianMiniBeamToExplosives::calc_() {
         return;
     }
 
-    if (isCurrentChild("後ずさり")) {
+    const bool back_step = isCurrentChild("後ずさり");
+    sead::Vector3f pos;
+    if (back_step) {
         auto* child = getCurrentChild();
         if (child->isFinished() || child->isFailed()) {
             sub_710033EA88();
             changeToPrepareBattle();
             return;
         }
-        sead::Vector3f pos;
         m46(&pos);
-        const sead::Vector3f target(pos.x, pos.y, pos.z);
-        sub_71005DB1D8(mActor, target);
+        {
+            const sead::Vector3f target = pos;
+            sub_71005DB1D8(mActor, target);
+        }
         getCurrentChild()->setDynamicParam(pos, "TargetPos");
     } else {
         GuardianMiniBeamAttack::calc_();
-        if (isCurrentChild("戦闘攻撃")) {
-            sead::Vector3f pos;
-            if (m46(&pos)) {
-                sub_71005DB1D8(mActor, pos);
-                getCurrentChild()->setDynamicParam(pos, "TargetPos");
-            }
+        if (isCurrentChild("戦闘攻撃") && m46(&pos)) {
+            sub_71005DB1D8(mActor, pos);
+            getCurrentChild()->setDynamicParam(pos, "TargetPos");
         }
     }
 }
