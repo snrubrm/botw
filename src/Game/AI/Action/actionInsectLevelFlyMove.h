@@ -23,6 +23,7 @@ protected:
     const float* mReduceSpeedRateWithWind_s{};
     // static_param at offset 0x150
     const float* mWindVelocityLimit4Reduce_s{};
+    ksys::VFRValue _158;
 };
 
 }  // namespace uking::action
