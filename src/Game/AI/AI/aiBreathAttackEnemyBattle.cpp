@@ -37,6 +37,11 @@ void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710033E970();
 }
 
+void BreathAttackEnemyBattle::sub_710033EA88() {
+    if (auto* enemy = static_cast<act::Enemy*>(mActor))
+        enemy->startAttackInterval(*mAttackIntervalIntensity_s);
+}
+
 void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&m34(), &accessor);
