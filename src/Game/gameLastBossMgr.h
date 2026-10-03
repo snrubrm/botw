@@ -20,6 +20,9 @@ public:
 
     // 0x7100677ffc (CSV LastBossMgr::__auto1): stores `actor` in the link if it has none.
     void sub_7100677FFC(ksys::act::Actor* actor);
+    // 0x7100677f24 (unnamed in the CSV; declared only): releases the entry that holds `actor` (under the
+    // spin lock; Guardian's destructor).
+    void sub_7100677F24(ksys::act::Actor* actor);
     // 0x710067807c: resets the link if it is `actor`.
     void sub_710067807C(ksys::act::Actor* actor);
 

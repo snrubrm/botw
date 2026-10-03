@@ -1,10 +1,56 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <limits>
 #include <prim/seadBitFlag.h>
+#include "Game/AI/aiUnk_7102357d20.h"
+#include "Game/AI/aiUnk_7102357210.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+// (global namespace, like the other Unk_<vtable> helpers)
+// Placeholder name (vtable 0x710243c250, ctor 0x710066e07c, D2 0x710066e0ec). Guardian::_1908
+// (onPreDeleteStart_ forwards to 0x710066e15c on it).
+class Unk_710243c250 {
+public:
+    explicit Unk_710243c250(ksys::act::Actor* owner);
+    virtual ~Unk_710243c250();
+
+    // 0x710066e15c (declared only; unnamed in the CSV): registers this object with a manager's list
+    // (instance pointer at GOT 0x7102579100, member at +0xb90).
+    void sub_710066E15C();
+
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ void* _10 = nullptr;
+    /* 0x18 */ Unk_710243c250* _18 = this;
+    /* 0x20 */ void* _20 = nullptr;
+    /* 0x28 */ ksys::act::BaseProcLink _28;
+    /* 0x38 */ f32 _38 = std::numeric_limits<f32>::max();
+    /* 0x3c */ u32 _3c;
+    /* 0x40 */ s32 _40;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710243c250, 0x48);
+
 namespace uking::act {
+
+class Guardian;
+
+// Placeholder name (vtable 0x710235a078; inherits DamageCallback's RTTI). Guardian::_18c8.
+// TODO: incomplete (`call` is not decompiled).
+class Unk_710235a078 : public dmg::DamageCallback {
+public:
+    explicit Unk_710235a078(Guardian* guardian) : mGuardian(guardian) {}
+
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    /* 0x28 */ Guardian* mGuardian;
+    /* 0x30 */ f32 _30 = -std::numeric_limits<f32>::max();
+    /* 0x34 */ f32 _34 = -std::numeric_limits<f32>::max();
+    /* 0x38 */ f32 _38 = -std::numeric_limits<f32>::max();
+};
+KSYS_CHECK_SIZE_NX150(Unk_710235a078, 0x40);
 
 // Name from the CSV (Guardian::*). vtable 0x710235a560 (181 slots, no new virtuals), RTTI static
 // 0x71025af268 (parent: Enemy). ctor 0x7100032570 (CSV Guardian::ctor), factory 0x71000323fc:
@@ -55,8 +101,8 @@ public:
     bool sub_710003B4C8() const;
 
     /* 0x14c8 */ sead::BitFlag32 _14c8;  // flags
-    /* 0x14cc */ u16 _14cc = 0;
-    /* 0x14ce */ u8 _14ce;
+    /* 0x14cc */ sead::BitFlag16 _14cc;  // bit i: _1528[i] is not woken up (onWakeUpRequested_)
+    /* 0x14ce */ u8 _14ce = 0xff;
     // 0x14d0-0x14d7 and 0x14d8-0x14df are zeroed by two 64-bit stores in the ctor; _14d4 is written
     // alone by sub_710003B090 and _14d8 / _14dc by sub_7100035A90 (so they are 32-bit fields).
     /* 0x14d0 */ u32 _14d0 = 0;
@@ -68,15 +114,9 @@ public:
     /* 0x14f0 */ f32 _14f0 = 1.0f;  // +-1 (random sign, set by sub_7100035A90)
     /* 0x14f8 */ ksys::act::BaseProcLink _14f8;
     /* 0x1508 */ ksys::act::BaseProcLink _1508;
-    /* 0x1518 */ u32 _1518 = 0;
-    /* 0x1520 */ void* _1520 = nullptr;
-    /* 0x1528 */ u32 _1528 = 0;
-    /* 0x1530 */ void* _1530 = nullptr;
-    /* 0x1538 */ ksys::act::BaseProcLink _1538;
-    /* 0x1548 */ ksys::act::BaseProcLink _1548;
-    /* 0x1558 */ ksys::act::BaseProcLink _1558;
-    /* 0x1568 */ ksys::act::BaseProcLink _1568;
-    /* 0x1578 */ ksys::act::BaseProcLink _1578;
+    /* 0x1518 */ sead::Buffer<ksys::act::BaseProcLink> _1518;  // actors put to sleep / woken with it
+    /* 0x1528 */ sead::Buffer<ksys::act::BaseProcLink> _1528;
+    /* 0x1538 */ ksys::act::BaseProcLink _1538[5];
     /* 0x1588 */ void* _1588 = nullptr;
     /* 0x1590 */ void* _1590 = nullptr;
     /* 0x1598 */ void* _1598 = nullptr;
@@ -105,10 +145,28 @@ public:
     /* 0x15e0 */ void* _15e0 = nullptr;
     /* 0x15e8 */ u32 _15e8 = 0;
     /* 0x15f0 */ void* _15f0 = nullptr;
-    // seven gsys::BoneAccessKeyEx (0x15f8-0x1780), message senders (Unk_7102357d20 family) from
-    // 0x17c0, BaseProcLinks 0x17d8 / 0x1808 / 0x1818 / 0x1850 / 0x1880 / 0x1890, object 0x1908
-    // (onPreDeleteStart_ forwards to 0x710066e15c on it)
-    /* 0x15f8 */ u8 _15f8[0x1950 - 0x15f8];
+    /* 0x15f8 */ gsys::BoneAccessKeyEx _15f8;
+    /* 0x1630 */ gsys::BoneAccessKeyEx _1630;
+    /* 0x1668 */ gsys::BoneAccessKeyEx _1668;
+    /* 0x16a0 */ gsys::BoneAccessKeyEx _16a0;
+    /* 0x16d8 */ gsys::BoneAccessKeyEx _16d8;
+    /* 0x1710 */ gsys::BoneAccessKeyEx _1710;
+    /* 0x1748 */ gsys::BoneAccessKeyEx _1748;
+    /* 0x1780 */ void* _1780 = nullptr;
+    /* 0x1788 */ void* _1788 = nullptr;
+    /* 0x1790 */ void* _1790 = nullptr;
+    /* 0x1798 */ void* _1798 = nullptr;
+    /* 0x17a0 */ void* _17a0 = nullptr;
+    /* 0x17a8 */ void* _17a8 = nullptr;
+    /* 0x17b0 */ void* _17b0 = nullptr;
+    /* 0x17b8 */ u32 _17b8 = 0;
+    /* 0x17bc */ u32 _17bc;
+    /* 0x17c0 */ Unk_710235aba0 _17c0{this, 0x8000040};
+    /* 0x17f0 */ Unk_710235abc8 _17f0{this, 0x8000006};
+    /* 0x1848 */ Unk_7102450528 _1848;
+    /* 0x18c0 */ void* _18c0 = nullptr;
+    /* 0x18c8 */ Unk_710235a078 _18c8{this};
+    /* 0x1908 */ Unk_710243c250 _1908{this};
 };
 KSYS_CHECK_SIZE_NX150(Guardian, 0x1950);
 
