@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -53,6 +54,21 @@ void JumpMainRigidBody::enter_(ksys::act::ai::InlineParamPack* params) {
         _78 = false;
         _79 = false;
     }
+}
+
+void JumpMainRigidBody::sub_71001C4AC0() {
+    if (!mPostBoundReactionKeys_s.isEmpty()) {
+        const sead::SafeString keys = mPostBoundReactionKeys_s;
+        sead::FixedSafeString<64> key;
+        auto it = keys.tokenBegin(",");
+        const auto end = keys.tokenEnd(",");
+        while (end != it) {
+            it.getAndForward(&key);
+            if (!key.isEmpty())
+                ksys::eft::searchAndEmitSLink(mActor, key.cstr(), false);
+        }
+    }
+    _7b = true;
 }
 
 void JumpMainRigidBody::leave_() {
