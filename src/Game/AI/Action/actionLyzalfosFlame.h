@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xlink2/xlink2HandleSLink.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "Game/AI/Action/actionChemicalAttackBall.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -60,7 +60,7 @@ protected:
     f32 _1bc = 0.0f;
     f32 _1c0 = 0.0f;
     f32 _1c4 = -1.0f;
-    xlink2::HandleSLink _1c8;
+    xlink2::HandleELink _1c8;
     bool _1d8 = false;
     u8 _1d9[0x7];
 };
