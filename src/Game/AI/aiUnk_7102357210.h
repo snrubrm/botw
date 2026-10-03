@@ -47,9 +47,11 @@ public:
 
     bool sub_710070A674(const ksys::Message& message);
     void sub_710070AE18(ksys::act::Actor* actor);
+    // 0x710070aee4 (declared only): `b` defaults to `a`, then forwards to 0x710070aef4.
+    bool sub_710070AEE4(const ksys::Message& message, ksys::act::Actor* a, ksys::act::Actor* b);
 
     u32 _34;
-    bool _38;
+    u8 _38;
 };
 
 // vtable 0x710240bc70 (NPCMove; message type 0x1800003; D0 at 0x71004d4fa0)

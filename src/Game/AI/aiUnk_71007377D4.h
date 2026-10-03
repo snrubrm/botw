@@ -208,3 +208,11 @@ ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor);
 
 /// 0x710072d53c: the RigidBody name of the actor's GiantArmorSlot GParamList slot (0 - 3; empty string otherwise).
 const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);
+
+/// 0x710073b870 (CSV name, sic; lane1 s22, declared only): starts the get-item demo for the actor
+/// (emits the get-demo sound when `a2`); false when the actor is not in a state to start it.
+bool triggereGetItemDemoMaybe(ksys::act::Actor* actor, bool a2, bool a3);
+/// 0x710073ba0c / 0x710073ba74 (CSV names, declared only): whether the actor is an item that can / can
+/// not be picked up into the pouch.
+bool itemCanGetPouch(ksys::act::Actor* actor);
+bool itemCanNotGetPouch(ksys::act::Actor* actor);
