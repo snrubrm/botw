@@ -21,6 +21,11 @@ public:
 
     virtual ksys::map::Rail* m34();
 
+    // 0x710127fb74 (placeholder name): fetches the rail and sets `_160` to the point before the nearest one.
+    void sub_710127FB74();
+    // 0x710127ff2c (placeholder name): steps `_160` by `_164`, wrapping / reversing at the ends of the rail.
+    void sub_710127FF2C();
+
 protected:
     // static_param at offset 0x38
     sead::SafeString mTargetName_s{};
