@@ -2331,6 +2331,8 @@ target_sources(uking PRIVATE
   actionNotStopXLinkWithDemoVisibleOff.h
   actionNPCAnchorWait.cpp
   actionNPCAnchorWait.h
+  actionNPCArtistAnchorWait.cpp
+  actionNPCArtistAnchorWait.h
   actionNPCArmorProcessing.cpp
   actionNPCArmorProcessing.h
   actionNPCBuyHorse.cpp

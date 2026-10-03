@@ -1,26 +1,24 @@
 #pragma once
 
-#include "Game/AI/Action/actionFireWood.h"
+#include "Game/AI/Action/actionNPCAnchorWait.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
 
-class DynamicFireWood : public FireWood {
-    SEAD_RTTI_OVERRIDE(DynamicFireWood, FireWood)
+class NPCArtistAnchorWait : public NPCAnchorWait {
+    SEAD_RTTI_OVERRIDE(NPCArtistAnchorWait, NPCAnchorWait)
 public:
-    explicit DynamicFireWood(const InitArg& arg);
-    ~DynamicFireWood() override;
+    explicit NPCArtistAnchorWait(const InitArg& arg);
+    ~NPCArtistAnchorWait() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
-    bool _41 = false;
     void calc_() override;
-    bool m33() override;
+    const char* m32() override;
 };
 
 }  // namespace uking::action

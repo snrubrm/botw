@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBindActionForManyActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -34,6 +35,14 @@ void BindActionForManyActor::loadParams_() {
     BindAction::loadParams_();
     getDynamicParam(&mIsKeepParentActor_d, "IsKeepParentActor");
     getDynamicParam(&mParentActor_d, "ParentActor");
+}
+
+bool BindActionForManyActor::handleMessage_(const ksys::Message* message) {
+    if (message && message->getBrokerId() == u32(-1) && message->getType() == 0x3000003) {
+        m35();
+        return true;
+    }
+    return false;
 }
 
 void BindActionForManyActor::calc_() {

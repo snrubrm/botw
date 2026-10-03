@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionNPCAnchorWait.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -7,7 +10,8 @@ NPCAnchorWait::NPCAnchorWait(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 NPCAnchorWait::~NPCAnchorWait() = default;
 
 bool NPCAnchorWait::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _40 = sead::DynamicCast<uking::act::NPC>(mActor);
+    return true;
 }
 
 void NPCAnchorWait::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +19,9 @@ void NPCAnchorWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCAnchorWait::leave_() {
-    ksys::act::ai::Action::leave_();
+    _48 = false;
+    if (auto* navmesh = mActor->m45())
+        navmesh->sub_7100F76790();
 }
 
 void NPCAnchorWait::loadParams_() {
@@ -31,5 +37,6 @@ void NPCAnchorWait::calc_() {
 bool NPCAnchorWait::handleMessage_(const ksys::Message* message) {
     return false;
 }
+
 
 }  // namespace uking::action

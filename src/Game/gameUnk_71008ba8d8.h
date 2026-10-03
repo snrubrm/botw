@@ -29,6 +29,9 @@ namespace uking {
 // 0x71008badcc (CSV name; declared only, lane3 s15): the player's respawn event (PlayerHellStartWait::calc_).
 bool callPlayerRespawnEvent(ksys::act::Actor* player);
 
+// 0x71008bb56c (CSV callDemo007_1; lane3 s18): calls Demo007_1 for `proc` (FireWood, CookPotRoot).
+bool callDemo007_1(ksys::act::BaseProc* proc);
+
 // 0x71008bad74 (CSV name): calls Demo006_0 at the player's matrix.
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 

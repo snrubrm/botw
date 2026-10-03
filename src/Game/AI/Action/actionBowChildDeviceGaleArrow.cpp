@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBowChildDeviceGaleArrow.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
@@ -35,6 +36,20 @@ void BowChildDeviceGaleArrow::loadParams_() {
     getDynamicParam(&mID_d, "ID");
     getDynamicParam(&mXRotateAngle_d, "XRotateAngle");
     getDynamicParam(&mParentActor_d, "ParentActor");
+}
+
+bool BowChildDeviceGaleArrow::handleMessage_(const ksys::Message* message) {
+    if (!message || message->getBrokerId() != u32(-1))
+        return false;
+    if (message->getType() == 0x8000052) {
+        _60 = 1;
+        return true;
+    }
+    if (message->getType() == 0x8000051) {
+        _64 = true;
+        return true;
+    }
+    return false;
 }
 
 void BowChildDeviceGaleArrow::calc_() {

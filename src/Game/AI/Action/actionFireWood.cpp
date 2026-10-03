@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionFireWood.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -49,6 +51,18 @@ void FireWood::m32(bool burning) {
                 body->addToWorld();
         }
     }
+}
+
+bool FireWood::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x180001c && _30 && m33()) {
+        if (!uking::callDemo007_1(mActor))
+            return false;
+        _40 = true;
+        if (auto* damage_mgr = mActor->getDamageMgr())
+            damage_mgr->mField_34 = 1;
+        return true;
+    }
+    return FireWoodBase::handleMessage_(message);
 }
 
 void FireWood::calc_() {

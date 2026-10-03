@@ -1027,6 +1027,7 @@
 #include "Game/AI/Action/actionMultiVacuumRotScaleTimeByDist.h"
 #include "Game/AI/Action/actionMusicianSpotBgmTriggerAction.h"
 #include "Game/AI/Action/actionNPCAnchorWait.h"
+#include "Game/AI/Action/actionNPCArtistAnchorWait.h"
 #include "Game/AI/Action/actionNPCArmorProcessing.h"
 #include "Game/AI/Action/actionNPCBuyHorse.h"
 #include "Game/AI/Action/actionNPCBuyItem.h"
@@ -2340,7 +2341,7 @@ static Factory sActionFactories[] = {
     {0x54b2e245, Factory::make<action::GuardianStopWait>},
     {0x54dd0b3f, Factory::make<action::AscendingCurrent>},
     {0x54fab927, Factory::make<action::PlayerWaterFallJump>},
-    {0x5505dd87, Factory::make<ksys::act::ai::DummyAction>},
+    {0x5505dd87, Factory::make<action::NPCArtistAnchorWait>},
     {0x55186276, Factory::make<action::EnemyFortressChatSpeak>},
     {0x551d52c3, Factory::make<action::AirWallHorse>},
     {0x556d99a6, Factory::make<action::EventUnregisterFromDeathCounter>},

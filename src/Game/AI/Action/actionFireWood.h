@@ -15,11 +15,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     void calc_() override;
     void m32(bool burning) override;
-    virtual int m33();
+    virtual bool m33();
 
     // aitree_variable (via RootAi::getAITreeVariable2) at offset 0x38
     bool* mIsDrop_a{};

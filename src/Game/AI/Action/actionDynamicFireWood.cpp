@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionDynamicFireWood.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -24,6 +25,14 @@ void DynamicFireWood::loadParams_() {
     FireWood::loadParams_();
 }
 
+bool DynamicFireWood::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x80000be && !_40) {
+        _41 = true;
+        return true;
+    }
+    return FireWood::handleMessage_(message);
+}
+
 void DynamicFireWood::calc_() {
     FireWood::calc_();
     if (_41) {
@@ -33,9 +42,9 @@ void DynamicFireWood::calc_() {
     }
 }
 
-int DynamicFireWood::m33() {
+bool DynamicFireWood::m33() {
     if (_41)
-        return 0;
+        return false;
     return FireWood::m33();
 }
 

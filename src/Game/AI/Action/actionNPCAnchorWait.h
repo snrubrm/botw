@@ -1,6 +1,11 @@
 #pragma once
 
+#include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace uking::act {
+class NPC;
+}
 
 namespace uking::action {
 
@@ -18,6 +23,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual const char* m32() { return mASName_d.cstr(); }
 
     // dynamic_param at offset 0x20
     bool* mIsRainAnchor_d{};
@@ -25,6 +31,15 @@ protected:
     bool* mIsStartSameAS_d{};
     // dynamic_param at offset 0x30
     sead::SafeString mASName_d{};
+    uking::act::NPC* _40 = nullptr;
+    bool _48 = false;
+    // The user data of the message 0x3800005 NPCAnchorWait::calc_ sends (the actor's position, copied
+    // under the lock); placeholder name.
+    struct Unk_50 {
+        sead::CriticalSection mCS;
+        sead::Vector3f mPos;
+    } _50;
 };
+KSYS_CHECK_SIZE_NX150(NPCAnchorWait, 0xa0);
 
 }  // namespace uking::action

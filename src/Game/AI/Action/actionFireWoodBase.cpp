@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -42,6 +43,21 @@ void FireWoodBase::calc_() {
     const bool burning = chemical && chemical->_c0 == 2;
     if (burning != _30)
         m32(burning);
+}
+
+bool FireWoodBase::handleMessage_(const ksys::Message* message) {
+    auto* chemical = mActor->getChemicalStuff();
+    if (message->getType() == 0x800002b) {
+        chemical->sub_7100D90858(false, 2, false, true, false);
+        m32(true);
+        return true;
+    }
+    if (message->getType() == 0x800002c) {
+        chemical->sub_7100D90B78();
+        m32(false);
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::action
