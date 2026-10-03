@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     bool m42() override;
+    ksys::act::Unk_7100d78e50* m43(s32 idx, bool skip_own_target) override;
 
 protected:
     // map_unit_param at offset 0x340
