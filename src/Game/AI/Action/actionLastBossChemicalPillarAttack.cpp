@@ -22,10 +22,10 @@ void LastBossChemicalPillarAttack::leave_() {
 }
 
 void LastBossChemicalPillarAttack::loadParams_() {
-    getStaticParam(&mPillarNum_s, "PillarNum");
-    getStaticParam(&mAttackEndWait_s, "AttackEndWait");
-    getStaticParam(&mCreateInterval_s, "CreateInterval");
-    getStaticParam(&mPillarYOffset_s, "PillarYOffset");
+    getStaticParam(&mParams.mPillarNum_s, "PillarNum");
+    getStaticParam(&mParams.mAttackEndWait_s, "AttackEndWait");
+    getStaticParam(&mParams.mCreateInterval_s, "CreateInterval");
+    getStaticParam(&mParams.mPillarYOffset_s, "PillarYOffset");
 }
 
 void LastBossChemicalPillarAttack::calc_() {
