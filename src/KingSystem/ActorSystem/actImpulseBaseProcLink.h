@@ -26,6 +26,9 @@ public:
         /* 0x5c */ u16 _5c = 0;
     };
 
+    // 0x71011d8260 (declared only; placeholder name; ~1.1 KB): called by Actor::m35.
+    void sub_71011D8260();
+
     /* 0x00 */ BaseProcLink mLink;
     /* 0x10 */ Unk1 _10;
 };

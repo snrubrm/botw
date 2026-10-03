@@ -6,6 +6,7 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -898,6 +899,17 @@ void Actor::onAiEnter(const char* name, const char* context) {
     if (mXLink)
         mXLink->prepareAIChangeMaybe();
     mActorEditorNode.onAiEnter();
+}
+
+void Actor::m35() {
+    if (mImpulseBaseProcLink)
+        mImpulseBaseProcLink->sub_71011D8260();
+}
+
+Chemical* Actor::sub_71011D8A54(const sead::SafeString& name) {
+    if (!mChemical)
+        return nullptr;
+    return mChemical->sub_7100E381DC(name);
 }
 
 void* Actor::m40() {

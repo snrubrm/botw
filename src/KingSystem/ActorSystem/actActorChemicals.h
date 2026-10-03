@@ -41,6 +41,8 @@ public:
     Unk_71024e6428* sub_7100E3718C(int idx);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
+    // 0x7100e381dc (declared only; placeholder name): looks a Chemical up by name; Actor::sub_71011D8A54.
+    Chemical* sub_7100E381DC(const sead::SafeString& name);
 
     /* 0x08 */ sead::CriticalSection mCS;
     /* 0x48 */ bool _48 = false;
