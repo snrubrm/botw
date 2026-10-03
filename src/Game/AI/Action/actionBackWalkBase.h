@@ -25,24 +25,27 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mSpeed_s{};
-    // static_param at offset 0x28
-    const float* mRotSpd_s{};
-    // static_param at offset 0x30
-    const float* mRotAddRatio_s{};
-    // static_param at offset 0x38
-    const int* mTime_s{};
-    // static_param at offset 0x40
-    const float* mFinishDist_s{};
-    // static_param at offset 0x48
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x50
-    const float* mDecelRatio_s{};
-    // static_param at offset 0x58
-    const bool* mIsCliffCheck_s{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mSpeed_s{};
+        // static_param at offset 0x28
+        const float* mRotSpd_s{};
+        // static_param at offset 0x30
+        const float* mRotAddRatio_s{};
+        // static_param at offset 0x38
+        const int* mTime_s{};
+        // static_param at offset 0x40
+        const float* mFinishDist_s{};
+        // static_param at offset 0x48
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x50
+        const float* mDecelRatio_s{};
+        // static_param at offset 0x58
+        const bool* mIsCliffCheck_s{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ksys::VFRValue _68;
     sead::Matrix33f _74;
     ksys::Timer _98{0, 0};
