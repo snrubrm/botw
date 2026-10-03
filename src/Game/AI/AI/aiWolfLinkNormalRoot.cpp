@@ -581,7 +581,7 @@ void WolfLinkNormalRoot::sub_7100609DFC() {
     using Idx = act::WolfLink::Idx14f8;
     _70->sub_71002F2E78(Idx(Idx::_2));
     auto* nav = mActor->m45();
-    nav->inlineInvalidateTargets();
+    nav->inlineClearTargets();
     nav->inlineReset();
     _1b8 |= 1 << Flag1b8(Flag1b8::_0);
     _1b8 &= ~(1 << Flag1b8(Flag1b8::_2));
