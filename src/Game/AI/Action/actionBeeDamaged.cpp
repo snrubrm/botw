@@ -19,9 +19,9 @@ void BeeDamaged::leave_() {
 }
 
 void BeeDamaged::loadParams_() {
-    getStaticParam(&mTime_s, "Time");
-    getStaticParam(&mSubActorSpeed_s, "SubActorSpeed");
-    getStaticParam(&mAddYSpeed_s, "AddYSpeed");
+    getStaticParam(&mParams.mTime_s, "Time");
+    getStaticParam(&mParams.mSubActorSpeed_s, "SubActorSpeed");
+    getStaticParam(&mParams.mAddYSpeed_s, "AddYSpeed");
 }
 
 void BeeDamaged::calc_() {

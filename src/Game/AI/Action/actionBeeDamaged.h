@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -18,12 +20,20 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const int* mTime_s{};
-    // static_param at offset 0x28
-    const float* mSubActorSpeed_s{};
-    // static_param at offset 0x30
-    const float* mAddYSpeed_s{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mTime_s{};
+        // static_param at offset 0x28
+        const float* mSubActorSpeed_s{};
+        // static_param at offset 0x30
+        const float* mAddYSpeed_s{};
+    };
+    Params mParams;
+    u8 _38[0x24];
+    ksys::Timer mTimer;
+    sead::Vector3f mTargetPos;
+    u8 _74[4];
 };
+KSYS_CHECK_SIZE_NX150(BeeDamaged, 0x78);
 
 }  // namespace uking::action
