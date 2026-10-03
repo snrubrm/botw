@@ -13,8 +13,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x710042a774: picks the next roam point around the home position and starts the "移動" child.
+    void sub_710042A774(const sead::Vector3f& start_pos);
 
 protected:
     // static_param at offset 0x38

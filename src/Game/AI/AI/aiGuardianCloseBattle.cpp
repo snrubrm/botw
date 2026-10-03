@@ -12,6 +12,31 @@ bool GuardianCloseBattle::init_(sead::Heap* heap) {
 
 void GuardianCloseBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    if (!sub_710040DA6C()) {
+        setFailed();
+        return;
+    }
+    sub_710040E088(2);
+    changeChild("待機");
+}
+
+void GuardianCloseBattle::calc_() {
+    GuardianAI::calc_();
+    if (!sub_710040DA6C()) {
+        setFailed();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!sub_710040DF74()) {
+            isCurrentChild("ビーム攻撃") || isCurrentChild("掴み攻撃");
+            sub_710040E088(2);
+            changeChild("待機");
+        } else {
+            setFailed();
+        }
+    }
 }
 
 bool GuardianCloseBattle::isChangeable() const {
@@ -20,6 +45,7 @@ bool GuardianCloseBattle::isChangeable() const {
 
 void GuardianCloseBattle::leave_() {
     GuardianAI::leave_();
+    sub_710040E088(0);
 }
 
 void GuardianCloseBattle::loadParams_() {

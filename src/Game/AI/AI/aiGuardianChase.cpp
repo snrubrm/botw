@@ -12,6 +12,10 @@ bool GuardianChase::init_(sead::Heap* heap) {
 
 void GuardianChase::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    if (sub_710040DEE0())
+        changeChild("戦闘");
+    else
+        changeChild("移動");
 }
 
 void GuardianChase::leave_() {
