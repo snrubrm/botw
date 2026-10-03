@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "Game/AI/Action/actionForkAnimalASPlay.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,6 +22,20 @@ protected:
 
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
+    u64 _68 = 0;
+    f32 _70 = 0.0f;
+    u8 _74[0x4];
+    ksys::act::Actor* _78 = mActor;
+    s32 _80 = 0;
+    bool _84 = false;
+    u8 _85[0x63];
+    ksys::act::BoneHandle _e8;
+    u8 _190[0x24];
+    bool _1b4 = false;
+    u8 _1b5[0x3];
+    u64 _1b8 = 0;
+    u64 _1c0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(AnimalLegTurnAutoSpeed, 0x1c8);
 
 }  // namespace uking::action

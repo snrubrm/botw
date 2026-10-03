@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnimalMoveStraightTimed.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void AnimalMoveStraightTimed::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AnimalMoveStraightTimed::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* navmesh = mActor->m45())
+        navmesh->sub_7100F76314();
 }
 
 void AnimalMoveStraightTimed::loadParams_() {

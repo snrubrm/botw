@@ -19,25 +19,26 @@ protected:
     void calc_() override;
 
     // static_param at offset 0x20
-    const float* mJumpHeight_s{};
+    const float* mJumpHeight_s;
     // static_param at offset 0x28
-    const float* mJumpHeightAddByAngle_s{};
+    const float* mJumpHeightAddByAngle_s;
     // static_param at offset 0x30
-    const float* mJumpHeightAddBySpeed_s{};
+    const float* mJumpHeightAddBySpeed_s;
     // static_param at offset 0x38
-    const float* mJumpHeightMaxDecRateByWater_s{};
+    const float* mJumpHeightMaxDecRateByWater_s;
     // static_param at offset 0x40
-    const float* mIgnoreWaterHeight_s{};
+    const float* mIgnoreWaterHeight_s;
     // static_param at offset 0x48
-    const float* mEnergyJump_s{};
+    const float* mEnergyJump_s;
     // static_param at offset 0x50
-    const float* mEnergyDashJump_s{};
+    const float* mEnergyDashJump_s;
     // static_param at offset 0x58
-    const float* mEnergyUseDiam1_s{};
+    const float* mEnergyUseDiam1_s;
     // static_param at offset 0x60
-    const float* mEnergyUseDiam2_s{};
+    const float* mEnergyUseDiam2_s;
     // static_param at offset 0x68
-    const float* mEnergyUseDiam3_s{};
+    const float* mEnergyUseDiam3_s;
 };
+KSYS_CHECK_SIZE_NX150(PlayerJump, 0x70);
 
 }  // namespace uking::action

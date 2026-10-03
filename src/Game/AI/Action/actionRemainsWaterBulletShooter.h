@@ -34,6 +34,14 @@ protected:
     const sead::Vector3f* mOffsetYParam_s{};
     // aitree_variable at offset 0x58
     void* mRemainsWaterBattleInfo_a{};
+    ksys::act::Actor* _60 = mActor;
+    u64 _68 = 0;
+    s32 _70 = 0;
+    u8 _74[0x34];
+    s32 _a8 = 0;
+    bool _ac = true;
+    u8 _ad[0x3];
 };
+KSYS_CHECK_SIZE_NX150(RemainsWaterBulletShooter, 0xb0);
 
 }  // namespace uking::action

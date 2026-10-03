@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiGanonThrowActorRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
@@ -101,7 +103,15 @@ void GanonThrowActorRoot::calc_() {
 }
 
 void GanonThrowActorRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mIsWaitBulletDelete_s || mActor->getRootAi()->getNewChildIdx() == 0) {
+        if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+            if (!boss->_14f8._30.isOnBit(9))
+                m38();
+        }
+        if (*mIsSendDeleteMessageAtLeave_s)
+            m38();
+    }
+    sub_71005D74E8(mActor);
 }
 
 void GanonThrowActorRoot::loadParams_() {

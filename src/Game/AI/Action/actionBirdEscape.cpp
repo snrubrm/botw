@@ -15,23 +15,23 @@ void BirdEscape::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BirdEscape::leave_() {
-    ksys::act::ai::Action::leave_();
+    _88.resetMotionType(_88.sub_710072ACF8(mActor));
 }
 
 void BirdEscape::loadParams_() {
-    getStaticParam(&mMoveSpeedMax_s, "MoveSpeedMax");
-    getStaticParam(&mMoveSpeedMin_s, "MoveSpeedMin");
-    getStaticParam(&mTurnSpeed_s, "TurnSpeed");
-    getStaticParam(&mInterpolateFrameForMaxSpeed_s, "InterpolateFrameForMaxSpeed");
-    getStaticParam(&mTargetEscapeWidthMax_s, "TargetEscapeWidthMax");
-    getStaticParam(&mTargetEscapeWidthMin_s, "TargetEscapeWidthMin");
-    getStaticParam(&mTargetHeightMax_s, "TargetHeightMax");
-    getStaticParam(&mTargetHeightMin_s, "TargetHeightMin");
-    getStaticParam(&mTargetTurnAngle_s, "TargetTurnAngle");
-    getStaticParam(&mContinueEscapeDistanceXZ_s, "ContinueEscapeDistanceXZ");
-    getStaticParam(&mAdditionalWidth_s, "AdditionalWidth");
-    getStaticParam(&mTargetUpperAngle_s, "TargetUpperAngle");
-    getStaticParam(&mStartReduceHeightRate_s, "StartReduceHeightRate");
+    getStaticParam(&mParams.mMoveSpeedMax_s, "MoveSpeedMax");
+    getStaticParam(&mParams.mMoveSpeedMin_s, "MoveSpeedMin");
+    getStaticParam(&mParams.mTurnSpeed_s, "TurnSpeed");
+    getStaticParam(&mParams.mInterpolateFrameForMaxSpeed_s, "InterpolateFrameForMaxSpeed");
+    getStaticParam(&mParams.mTargetEscapeWidthMax_s, "TargetEscapeWidthMax");
+    getStaticParam(&mParams.mTargetEscapeWidthMin_s, "TargetEscapeWidthMin");
+    getStaticParam(&mParams.mTargetHeightMax_s, "TargetHeightMax");
+    getStaticParam(&mParams.mTargetHeightMin_s, "TargetHeightMin");
+    getStaticParam(&mParams.mTargetTurnAngle_s, "TargetTurnAngle");
+    getStaticParam(&mParams.mContinueEscapeDistanceXZ_s, "ContinueEscapeDistanceXZ");
+    getStaticParam(&mParams.mAdditionalWidth_s, "AdditionalWidth");
+    getStaticParam(&mParams.mTargetUpperAngle_s, "TargetUpperAngle");
+    getStaticParam(&mParams.mStartReduceHeightRate_s, "StartReduceHeightRate");
 }
 
 void BirdEscape::calc_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIncreaseNumDungeonClearSeal.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -25,7 +26,9 @@ void IncreaseNumDungeonClearSeal::loadParams_() {
 }
 
 void IncreaseNumDungeonClearSeal::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || ui::sub_7100A973E0())
+        return;
+    setFinished();
 }
 
 }  // namespace uking::action

@@ -22,6 +22,9 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
+    // 0x71006d8534 (lane1 s22; declaration only): `_220 ? *(s32*)(_220 + 0x10) : 0`. Placeholder name.
+    s32 sub_71006D8534() const;
+
     s32 _68;  // WolfLinkRoot::enter_
     u8 _6c[0x74 - 0x6c];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
@@ -29,7 +32,8 @@ public:
     s32 _8c;  // WeakPointRoot::m35
     u8 _90[0x210 - 0x90];
     // 0x210-0x22c: zeroed by the ctor (0x210 and 0x214 with one 8-byte store).
-    u32 _210;
+    u16 _210;
+    u16 _212;
     u16 _214;
     // Flags (ctor: 9). AI code tests bit 1 (`_216.isOn(2)`, ~15 functions).
     sead::BitFlag16 _216;

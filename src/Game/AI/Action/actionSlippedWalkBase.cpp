@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionSlippedWalkBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +14,21 @@ bool SlippedWalkBase::init_(sead::Heap* heap) {
 }
 
 void SlippedWalkBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    sead::Vector3f dir = actor->getVelocity();
+    const f32 speed = dir.normalize();
+    mFlags.set(Flag::Changeable);
+
+    if (auto* controller = actor->getCharacterController()) {
+        const f32 ang_speed = actor->getAngVelocity().length();
+        _a0 = ang_speed > *mRotSpd_s ? *mRotSpd_s : ang_speed;
+        sub_710073FA90(&_7c, actor);
+        _70.set(0.0f, 0.0f, 1.0f);
+        sub_710072C1B4(controller, dir);
+        sub_7100737708(controller, speed);
+    } else {
+        setFailed();
+    }
 }
 
 void SlippedWalkBase::leave_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiLastBossRoot.h"
+#include "Game/Actor/actLastBoss.h"
+#include "Game/gameLastBossMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +10,11 @@ LastBossRoot::LastBossRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 LastBossRoot::~LastBossRoot() = default;
 
 bool LastBossRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* mgr = LastBossMgr::instance())
+        mgr->sub_7100677FFC(mActor);
+    _b4 = false;
+    _b5 = false;
+    return true;
 }
 
 void LastBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -16,6 +23,13 @@ void LastBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 bool LastBossRoot::hasPreDeleteCb() {
     return true;
+}
+
+void LastBossRoot::onPreDelete() {
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        boss->sub_71002C5A14();
+        boss->sub_71002C5DB4();
+    }
 }
 
 void LastBossRoot::leave_() {

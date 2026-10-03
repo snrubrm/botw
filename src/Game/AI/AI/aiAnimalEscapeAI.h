@@ -19,7 +19,7 @@ public:
     void loadParams_() override;
 
     bool m34(const sead::Vector3f* pos) override;
-    virtual bool m36();
+    virtual void m36();
     virtual bool m37();
     virtual void m38(ksys::act::ai::InlineParamPack* params) {}
 

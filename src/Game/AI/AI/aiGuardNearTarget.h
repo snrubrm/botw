@@ -23,6 +23,8 @@ public:
     virtual bool m36(float distance);
     virtual void m37(bool enable);
     virtual bool m38() { return false; }
+    // 0x710044d00c (placeholder name)
+    void sub_710044D00C();
 
 protected:
     float sub_710044C9E8() const;

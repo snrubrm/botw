@@ -14,8 +14,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100491b64: changeChild("攻撃") / 0x7100491c50: changeChild("準備"), both with TargetPos and
+    // TargetVel.
+    void sub_7100491B64();
+    void sub_7100491C50();
 
 protected:
     // static_param at offset 0x38

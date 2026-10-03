@@ -12,6 +12,7 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool isFinished() const override;
     void loadParams_() override;
     bool isChangeable() const override;
 
@@ -19,23 +20,24 @@ protected:
     void calc_() override;
 
     // static_param at offset 0x20
-    const float* mSpeedF_s{};
+    const float* mSpeedF_s;
     // static_param at offset 0x28
-    const float* mHeight_s{};
+    const float* mHeight_s;
     // static_param at offset 0x30
-    const float* mFSpeedF_s{};
+    const float* mFSpeedF_s;
     // static_param at offset 0x38
-    const float* mFHeight_s{};
+    const float* mFHeight_s;
     // static_param at offset 0x40
-    const float* mUHeight_s{};
+    const float* mUHeight_s;
     // static_param at offset 0x48
-    const float* mNoDamageTime_s{};
+    const float* mNoDamageTime_s;
     // static_param at offset 0x50
-    const float* mJustAvoidTime_s{};
+    const float* mJustAvoidTime_s;
     // static_param at offset 0x58
-    const float* mForceSlowTime_s{};
+    const float* mForceSlowTime_s;
     // static_param at offset 0x60
-    const float* mMySlowStartFrame_s{};
+    const float* mMySlowStartFrame_s;
 };
+KSYS_CHECK_SIZE_NX150(PlayerSideStep, 0x68);
 
 }  // namespace uking::action

@@ -11,7 +11,19 @@ bool RotatedWait::init_(sead::Heap* heap) {
 }
 
 void RotatedWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    switch (*mRotAxis_m) {
+    case 0:
+        _38.set(sead::Vector3f::ex);
+        break;
+    case 1:
+        _38.set(sead::Vector3f::ey);
+        break;
+    case 2:
+        _38.set(sead::Vector3f::ez);
+        break;
+    }
+    mFlags.set(Flag::Changeable);
+    setFinished();
 }
 
 void RotatedWait::leave_() {

@@ -49,12 +49,6 @@ void GelEnemyReaction::calc_() {
     EnemyDefaultReaction::calc_();
 }
 
-void GelEnemyReaction::leave_() {
-    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor))
-        gel->_1678 &= ~1;
-    EnemyDefaultReaction::leave_();
-}
-
 bool GelEnemyReaction::m36(int damage_type) {
     switch (damage_type) {
     case -1:
@@ -68,6 +62,12 @@ bool GelEnemyReaction::m36(int damage_type) {
         changeChild("小ダメージ");
         return true;
     }
+}
+
+void GelEnemyReaction::leave_() {
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor))
+        gel->_1678 &= ~1;
+    EnemyDefaultReaction::leave_();
 }
 
 void GelEnemyReaction::loadParams_() {

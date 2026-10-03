@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkASTrgTurnGround.h"
+#include "Game/AI/aiUnk_7102384718.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,7 +20,12 @@ void ForkASTrgTurnGround::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkASTrgTurnGround::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->mFlags.reset(2);
+        controller->sub_7100F5EEB8(_98);
+    }
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_58._0))
+        unit->_8.sub_detach(mActor);
 }
 
 void ForkASTrgTurnGround::loadParams_() {

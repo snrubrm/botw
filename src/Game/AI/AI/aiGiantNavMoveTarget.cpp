@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGiantNavMoveTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -34,6 +36,55 @@ void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* nav = _78->_0)
         nav->sub_7100F7604C(nav->getRadiusMaybe());
     m34();
+}
+
+void GiantNavMoveTarget::sub_71003F78F4() {
+    changeChild("見まわす", nullptr);
+}
+
+void GiantNavMoveTarget::sub_71003F7C20() {
+    if (_78->_8 != -1) {
+        _78->_8 = -1;
+        if (auto* nav = _78->_0)
+            nav->inlineReset();
+    }
+
+    const f32 time = *mRepathTime_s;
+    _80.value = time;
+    _80.previous_value = time;
+    _80.rate = -1.0f;
+
+    const sead::Vector3f& target = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("直進", &pack);
+}
+
+// NON_MATCHING: the stack slots of `point` and of the returned Unk_7100f7e9f0 are swapped (and the epilogue is
+// scheduled differently); the code is otherwise identical
+void GiantNavMoveTarget::sub_71003F7DA8() {
+    _80.reset(*mRepathTime_s);
+
+    if (auto* nav = mActor->m45()) {
+        sead::Vector3f point;
+        const bool found =
+            nav->sub_7100F76078(&point, *mTargetPos_d,
+                                sead::Mathf::clampMin(sub_71007320F0(mActor, *mWeaponIdx_s), 0.0f) +
+                                    *mReachTargetArea_s)
+                .sub_7100F7EB40();
+        auto* data = _78;
+        if (found) {
+            if (data->_0)
+                data->_0->sub_7100F75F8C(point);
+            data->_8 = 0;
+            return;
+        }
+    }
+
+    auto* data = _78;
+    if (data->_0)
+        data->_0->sub_7100F75F8C(*mTargetPos_d);
+    data->_8 = 0;
 }
 
 void GiantNavMoveTarget::leave_() {

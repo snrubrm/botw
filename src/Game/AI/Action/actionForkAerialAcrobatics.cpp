@@ -26,12 +26,12 @@ void ForkAerialAcrobatics::leave_() {
 }
 
 void ForkAerialAcrobatics::loadParams_() {
-    getStaticParam(&mSpeedKeepRatio_s, "SpeedKeepRatio");
-    getStaticParam(&mRotSpeedKeepRatio_s, "RotSpeedKeepRatio");
-    getStaticParam(&mMinGravityScale_s, "MinGravityScale");
-    getStaticParam(&mGravityPer_s, "GravityPer");
-    getStaticParam(&mRetGravityPer_s, "RetGravityPer");
-    getStaticParam(&mIsStopGravitySpeed_s, "IsStopGravitySpeed");
+    getStaticParam(&mParams.mSpeedKeepRatio_s, "SpeedKeepRatio");
+    getStaticParam(&mParams.mRotSpeedKeepRatio_s, "RotSpeedKeepRatio");
+    getStaticParam(&mParams.mMinGravityScale_s, "MinGravityScale");
+    getStaticParam(&mParams.mGravityPer_s, "GravityPer");
+    getStaticParam(&mParams.mRetGravityPer_s, "RetGravityPer");
+    getStaticParam(&mParams.mIsStopGravitySpeed_s, "IsStopGravitySpeed");
 }
 
 void ForkAerialAcrobatics::calc_() {

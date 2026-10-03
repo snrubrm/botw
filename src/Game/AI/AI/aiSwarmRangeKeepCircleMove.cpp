@@ -38,11 +38,11 @@ void SwarmRangeKeepCircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("移動", &pack);
 }
 
-// NON_MATCHING: the original hoists the vtable loads above the isFinished/isFailed branches and
-// schedules the distance loads differently
+// NON_MATCHING: scheduling of the squared-distance loads (the vtable loads match with the `done` local)
 void SwarmRangeKeepCircleMove::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    const bool done = child->isFinished() || child->isFailed();
+    if (done) {
         if (child->isFinished()) {
             ksys::act::ai::InlineParamPack pack;
             pack.addVec3(_60, "TargetPos", -1);

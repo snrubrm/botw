@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,24 +19,33 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mAngleDir_s{};
-    // static_param at offset 0x28
-    const float* mJumpDist_s{};
-    // static_param at offset 0x30
-    const float* mJumpHeight_s{};
-    // static_param at offset 0x38
-    const float* mLimitSpeed_s{};
-    // static_param at offset 0x40
-    const float* mEndGrSpeed_s{};
-    // static_param at offset 0x48
-    const float* mJumpMinDist_s{};
-    // static_param at offset 0x50
-    const bool* mIsBasisByTarget_s{};
-    // static_param at offset 0x58
-    const bool* mOnGround_s{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mAngleDir_s{};
+        // static_param at offset 0x28
+        const float* mJumpDist_s{};
+        // static_param at offset 0x30
+        const float* mJumpHeight_s{};
+        // static_param at offset 0x38
+        const float* mLimitSpeed_s{};
+        // static_param at offset 0x40
+        const float* mEndGrSpeed_s{};
+        // static_param at offset 0x48
+        const float* mJumpMinDist_s{};
+        // static_param at offset 0x50
+        const bool* mIsBasisByTarget_s{};
+        // static_param at offset 0x58
+        const bool* mOnGround_s{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
+    sead::Vector3f _68;
+    ksys::VFRValue _74;
+    bool _80 = true;
+    bool _81 = false;
+    u8 _82[0x6];
 };
+KSYS_CHECK_SIZE_NX150(ForkJumpToTargetOnDownEnd, 0x88);
 
 }  // namespace uking::action

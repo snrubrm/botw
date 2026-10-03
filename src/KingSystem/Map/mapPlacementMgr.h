@@ -22,6 +22,12 @@ class VillagerMgr;
 namespace ksys::map {
 
 class Object;
+// Placeholder name (callback argument of the ClusteredRenderer query 0x71012497f8): a stack copy of
+// the cluster entry.
+struct Unk_71012497f8Entry {
+    u8 _0[0x80];
+    bool _80;
+};
 class Placement18;
 class PlacementActors;
 class PlacementMapMgr;
@@ -70,6 +76,9 @@ public:
     f32 getDispDistanceComplex(const Object* obj) const;
     bool objStuff(const Object* obj) const;
     void clusteredRendererRequestDraw();
+    // 0x71011eb40c: forwards to the ClusteredRenderer (+0x7b8, if any) with `callback` invoked for
+    // every cluster within `radius` of `pos`.
+    void sub_71011EB40C(const sead::Vector3f* pos, f32 radius, sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback);
     void updateTimeDivisionFlags(bool on);
 
     void threadFn(sead::Thread* thread, sead::MessageQueue::Element msg);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -32,6 +33,17 @@ protected:
     sead::SafeString mMessageId_d{};
     // dynamic_param at offset 0x58
     sead::SafeString mASName_d{};
+    u64 _68 = 0;
+    s32 _70 = 0;
+    sead::SafeString _78{};
+    sead::SafeString _88{};
+    sead::FixedSafeString<32> _98;
+    struct S {
+        u64 _0 = 0;
+        s32 _8 = 0;
+        u64 _10 = 0;
+    } _d0;
 };
+KSYS_CHECK_SIZE_NX150(NPCTalk, 0xe8);
 
 }  // namespace uking::action

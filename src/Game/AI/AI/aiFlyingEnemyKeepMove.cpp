@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFlyingEnemyKeepMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -49,6 +50,30 @@ void FlyingEnemyKeepMove::m35(sead::Vector3f* out, const sead::Vector3f& dir) {
 void FlyingEnemyKeepMove::m36(sead::Vector3f* out) {
     out->set(sub_71005D9330(mActor));
     out->y += *mBaseHeight_s;
+}
+
+bool FlyingEnemyKeepMove::sub_71003D2500() {
+    sead::Vector3f target;
+    m36(&target);
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    sead::Vector3f pos(mtx(0, 3), target.y, mtx(2, 3));
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("上昇", &pack);
+    return true;
+}
+
+bool FlyingEnemyKeepMove::sub_71003D25F8() {
+    sead::Vector3f target;
+    m36(&target);
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    sead::Vector3f pos(mtx(0, 3), target.y, mtx(2, 3));
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("下降", &pack);
+    return true;
 }
 
 }  // namespace uking::ai

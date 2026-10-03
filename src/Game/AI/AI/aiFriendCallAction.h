@@ -20,6 +20,10 @@ public:
     bool handleAck_(const ksys::MessageAck& ack) override;
 
     void sub_71003DD74C();
+    // 0x71003ddbbc (placeholder name)
+    void sub_71003DDBBC();
+    // 0x71003ddc94 (placeholder name)
+    void sub_71003DDC94();
 
 protected:
     // static_param at offset 0x38

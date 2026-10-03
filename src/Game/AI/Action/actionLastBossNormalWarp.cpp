@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLastBossNormalWarp.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -15,7 +18,22 @@ void LastBossNormalWarp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossNormalWarp::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!_b2) {
+        _b2 = true;
+        if (auto* cc = mActor->getCharacterController()) {
+            cc->sub_7100F60604();
+            if (auto* physics = mActor->getPhysics()) {
+                physics->sub_7100FBDFA4(physics->get178(0));
+                if (!*mIsKeepDisableDraw_d)
+                    physics->sub_7100FBAD74();
+            }
+        }
+    }
+    if (auto* cc = mActor->getCharacterController()) {
+        cc->sub_7100F63554(true);
+        cc->sub_7100F5E764(true);
+        cc->sub_7100F62CA8(true);
+    }
 }
 
 void LastBossNormalWarp::loadParams_() {

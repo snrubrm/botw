@@ -10,6 +10,8 @@ public:
     explicit NPCRegisterAndReceiveHorse(const InitArg& arg);
     ~NPCRegisterAndReceiveHorse() override;
 
+    bool oneShot_() override;
+
 protected:
 };
 

@@ -27,24 +27,27 @@ protected:
     // the header lacks)
     bool thrownStalfosPartsStuff() const;
 
-    // static_param at offset 0x20
-    const int* mReactionLevel_s{};
-    // static_param at offset 0x28
-    const bool* mIsForceOnly_s{};
-    // static_param at offset 0x30
-    const bool* mIsOnImpact_s{};
-    // static_param at offset 0x38
-    sead::SafeString mAS_s{};
-    // static_param at offset 0x48
-    sead::SafeString mThrownKey_s{};
-    // static_param at offset 0x58
-    const sead::Vector3f* mRotSpd_s{};
-    // dynamic_param at offset 0x60
-    float* mPower_d{};
-    // dynamic_param at offset 0x68
-    bool* mIsShootByPlayer_d{};
-    // dynamic_param at offset 0x70
-    sead::Vector3f* mTargetDir_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mReactionLevel_s{};
+        // static_param at offset 0x28
+        const bool* mIsForceOnly_s{};
+        // static_param at offset 0x30
+        const bool* mIsOnImpact_s{};
+        // static_param at offset 0x38
+        sead::SafeString mAS_s{};
+        // static_param at offset 0x48
+        sead::SafeString mThrownKey_s{};
+        // static_param at offset 0x58
+        const sead::Vector3f* mRotSpd_s{};
+        // dynamic_param at offset 0x60
+        float* mPower_d{};
+        // dynamic_param at offset 0x68
+        bool* mIsShootByPlayer_d{};
+        // dynamic_param at offset 0x70
+        sead::Vector3f* mTargetDir_d{};
+    };
+    Params mParams;
     Unk_7102451970 _78;
     s32 _a0 = -1;
     bool _a4 = false;
@@ -53,6 +56,7 @@ protected:
     bool _a7 = false;
     f32 _a8 = 0;  // linear damping of the main body before enter_
     f32 _ac = 0;  // angular damping of the main body before enter_
+
 };
 KSYS_CHECK_SIZE_NX150(Thrown, 0xb0);
 

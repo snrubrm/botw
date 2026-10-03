@@ -68,6 +68,12 @@ void EnemyNoticeSound::sub_71003A6298() {
     changeChild("気づき", &pack);
 }
 
+void EnemyNoticeSound::sub_71003A6568() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("行動", &pack);
+}
+
 void EnemyNoticeSound::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }

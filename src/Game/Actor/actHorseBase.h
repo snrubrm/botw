@@ -90,8 +90,8 @@ public:
     int getExtraHeapSize() override;
     int m109() override;
     void m114() override;
-    void m117() override;
-    void m118() override;
+    void m117(ksys::act::Unk117* arg) override;
+    void m118(bool on) override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
@@ -106,7 +106,7 @@ public:
     s32 x() const;
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
-    u8 sub_7100E68270() const;
+    bool sub_7100E68270() const;
     s32 sub_7100E68298() const;
     bool sub_7100E696D4() const;
     void sub_7100E6AD3C();

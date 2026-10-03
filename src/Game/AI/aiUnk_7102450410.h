@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <prim/seadBitFlag.h>
 #include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -28,8 +29,7 @@ public:
     ~Unk_7102450410() override;
 
     sead::Buffer<Entry> _8;
-    bool _18 = false;
-    bool _19 = false;
+    sead::BitFlag16 _18;  // bit 0: set by MiniGolemLifted::enter_, cleared by leave_
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450410, 0x20);
 

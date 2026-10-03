@@ -500,6 +500,8 @@ public:
     void setMotionFlag(MotionFlag flag);
     void setFlag200() { mFlags.set(Flag::_200); }
     void resetFlag200() { mFlags.reset(Flag::_200); }
+    // inline-only in the original (InstanceSet::sub_7100FBDD40); name is a guess
+    void changeFlag40(bool on) { mFlags.change(Flag::_40, on); }
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
 
@@ -591,11 +593,12 @@ public:
     void setUpdateRequestedFlag() { mFlags.set(Flag::UpdateRequested); }
     // Internal.
     void setFlag20() { mFlags.set(Flag::_20); }
+    // inline-only in the original (GelEnemy::m63); name is a guess
+    void setFlag1000000() { mFlags.set(Flag::_1000000); }
     // Set inline by AI code (ChuchuRoot::enter_: atomic or of 0x100000 on a body found by name).
     void setFlag100000() { mFlags.set(Flag::_100000); }
     // Cleared inline by AI code (WeaponRootAI::m34: atomic and of ~0x1000000; lane2 s20).
     void resetFlag1000000() { mFlags.reset(Flag::_1000000); }
-    void setFlag1000000() { mFlags.set(Flag::_1000000); }
     // Read / changed inline by AI code (RemainsWaterBulletAction::enter_: saves the bit, then sets it
     // from IgnroeWater with an atomic and+or).
     bool isFlag100000Set() const { return mFlags.isOn(Flag::_100000); }

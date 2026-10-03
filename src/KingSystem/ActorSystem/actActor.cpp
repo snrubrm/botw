@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include <mc/seadCoreInfo.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
@@ -17,6 +21,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -376,6 +381,53 @@ void Actor::setRevivalFlagForUsed(bool value) {
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
 }
 
+phys::RigidBody* Actor::getPhysicsMainBody() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (auto* body = controller->sub_7100F61A34())
+                return body;
+        }
+    }
+    return mMainBody;
+}
+
+phys::RigidBody* Actor::findPhysicsBodyByName(const char* group_name, const char* body_name) const {
+    if (!mPhysics)
+        return nullptr;
+    const phys::RigidBodySet* group = mPhysics->findBodyGroupByName(group_name);
+    if (!group)
+        return nullptr;
+    return group->findBodyByHavokName(body_name);
+}
+
+bool Actor::sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const {
+    if (!mModel)
+        return false;
+    const auto key = mModel->searchBone(bone_name);
+    if (!key.isValid() || !mModel)
+        return false;
+    mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(mtx, key.bone_index);
+    return true;
+}
+
+void Actor::fadeOutSleep(SleepWakeReason reason) {
+    if (isDeletedOrDeleting())
+        return;
+    if (mFadeOutSleepFlags.setBitOn(int(reason)))
+        onFadeOutSleep();
+    if (isSleep() || mStateFlags.isOn(StateFlags::RequestWakeUp))
+        sleep(reason);
+}
+
+void Actor::emitDeadUpLifeZeroAndSetRevival() {
+    emitSignal(map::MapLinkDefType::DeadUp, true);
+    emitSignal(map::MapLinkDefType::LifeZero, true);
+    if (mMapObject)
+        mMapObject->setFlags0(map::Object::Flag0::_100000);
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
+}
+
 void Actor::sub_71011D7E24() {
     auto* physics = mPhysics;
     if (!physics)
@@ -513,8 +565,8 @@ bool Actor::m55() {
     return false;
 }
 
-bool Actor::m56(sead::Vector3f* pos) {
-    return x_18(pos);
+void Actor::m56(sead::Vector3f* pos) {
+    x_18(pos);
 }
 
 bool Actor::m57() {
@@ -649,7 +701,7 @@ void Actor::m103() {}
 
 void Actor::m114() {}
 
-void Actor::m117() {}
+void Actor::m117(Unk117*) {}
 
 void Actor::m147() {}
 
@@ -740,6 +792,29 @@ void Actor::m145() {}
 
 bool Actor::m146() {
     return false;
+}
+
+void Actor::m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) {
+    sub_71011D8718(a1, a2, false, false, a4, -1, a3, a5);
+}
+
+void Actor::m41(sead::Matrix34f* mtx) {
+    getCharacterController()->physicsXXXGetMtx_1(mtx);
+}
+
+void Actor::m51(bool on) {
+    if (auto* chemical = getChemicalStuff())
+        chemical->sub_7100D90F60(on);
+}
+
+sead::Matrix34f Actor::m122() {
+    if (mModel)
+        return mModel->getMatrix();
+    return sead::Matrix34f::ident;
+}
+
+Actor* Actor::m141(const s32* index) {
+    return nullptr;
 }
 
 }  // namespace ksys::act

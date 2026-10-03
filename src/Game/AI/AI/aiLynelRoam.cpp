@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelRoam.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,19 @@ void LynelRoam::loadParams_() {
     getStaticParam(&mSpAttackServiceDist_s, "SpAttackServiceDist");
     getStaticParam(&mSpAttackServiceAngle_s, "SpAttackServiceAngle");
     getDynamicParam(&mCentralPos_d, "CentralPos");
+}
+
+void LynelRoam::sub_710049859C(const sead::Vector3f& pos) {
+    if (!isCurrentChild("移動")) {
+        const s32 min = *mMoveIntervalMin_s;
+        const s32 max = *mMoveIntervalMax_s;
+        const s32 time = sead::GlobalRandom::instance()->getS32Range(min, max);
+        _e0 = ksys::Timer(time, time);
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 }  // namespace uking::ai

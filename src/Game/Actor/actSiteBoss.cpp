@@ -1,9 +1,27 @@
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::act {
+
+namespace {
+void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return;
+    auto* enemy = static_cast<Enemy*>(actor);
+    for (auto* part : enemy->_1128.mList) {
+        if (auto* part_actor =
+                sead::DynamicCast<ksys::act::Actor>(part->mLink.getProc(nullptr, nullptr)))
+            part_actor->x_17(arg);
+    }
+}
+}  // namespace
+
+void SiteBoss::m117(ksys::act::Unk117* arg) {
+    forwardX17ToParts(this, arg);
+}
 
 // NON_MATCHING: member types incomplete
 SiteBoss::~SiteBoss() = default;
@@ -18,6 +36,40 @@ void SiteBoss::m63() {
     Enemy::m63();
 }
 
+// NON_MATCHING: same instructions, scheduled differently (the original computes `fire & 1` before the
+// select for water; the sum order of the four flags is not recoverable)
+s32 SiteBoss::getMaxLife() {
+    const u32 life = Enemy::getMaxLife();
+    const u32 half = life / 2;
+    const bool wind = ksys::gdt::getFlag_Die_PGanonWind(false);
+    const bool water = ksys::gdt::getFlag_Die_PGanonWater(false);
+    const bool fire = ksys::gdt::getFlag_Die_PGanonFire(false);
+    const bool electric = ksys::gdt::getFlag_Die_PGanonElectric(false);
+    s32 num_ganons;
+    if ((_1534 & ~3) == 4) {
+        num_ganons = 3;
+    } else if ((_1534 & ~3) == 8) {
+        num_ganons = 4;
+    } else {
+        num_ganons = 0;
+        if (wind)
+            ++num_ganons;
+        if (water)
+            ++num_ganons;
+        num_ganons += fire;
+        num_ganons += electric;
+    }
+    return life + num_ganons * half;
+}
+
+void SiteBoss::x_6(bool on) {
+    _1558.change(0x20, on);
+    if (auto* chemical = sub_71011D8A54("ShieldChemical")) {
+        chemical->sub_7100D90F60(!on);
+        chemical->sub_7100D91098(false);
+    }
+}
+
 void SiteBoss::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     Enemy::m76(setter);
 }
@@ -26,6 +78,12 @@ bool SiteBoss::isGuard() {
     if ((_14c8._30.getDirect() & 0x226) == 2 && !isSlowTimeMaybe())
         return true;
     return Enemy::isGuard();
+}
+
+bool SiteBoss::isGuardJust() {
+    if ((_14c8._30.getDirect() & 0x226) == 2 && mActorFlags2.isOn(ActorFlag2::_10000000))
+        return true;
+    return PlayerOrEnemy::isGuardJust();
 }
 
 void SiteBoss::x_1(bool a1, bool a2, bool skip_flag) {

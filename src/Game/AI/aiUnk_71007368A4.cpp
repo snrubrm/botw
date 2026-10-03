@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -10,6 +11,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Utils/StringUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 bool sub_71007368A4(ksys::act::BaseProcLink* link) {
     ksys::act::ActorConstDataAccess accessor;
@@ -68,6 +70,42 @@ bool sub_7100736D98(ksys::act::Actor* actor) {
     if (!dmg)
         return false;
     return dmg->getField54() == 2 || dmg->getField54() == 1 || dmg->getField54() == 5;
+}
+
+bool sub_7100739030(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    const s32 num = sub_71007A425C(actor);
+    for (s32 i = 0; i < num; ++i) {
+        if (sub_71007A40D0(actor, i)->_50 == link)
+            return true;
+    }
+    return false;
+}
+
+bool sub_7100739438(ksys::act::Actor* actor, sead::Vector3f* out) {
+    if (!out)
+        return false;
+    sead::Matrix34f mtx;
+    const bool ok = sub_7100739498(actor, &mtx);
+    out->set(mtx(0, 3), mtx(1, 3), mtx(2, 3));
+    return ok;
+}
+
+bool sub_7100739498(ksys::act::Actor* actor, sead::Matrix34f* out) {
+    if (!actor || !out)
+        return false;
+    auto* body = actor->getPhysicsMainBody();
+    if (!body)
+        return false;
+    body->getTransform(out);
+    return true;
+}
+
+ksys::phys::RigidBody* sub_71007394DC(ksys::act::Actor* actor) {
+    if (!actor)
+        return nullptr;
+    return actor->getPhysicsMainBody();
 }
 
 ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor) {

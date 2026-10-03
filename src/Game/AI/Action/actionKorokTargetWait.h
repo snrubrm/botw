@@ -23,7 +23,7 @@ protected:
     // dynamic_param at offset 0x28
     float* mDynStopTime_d{};
 
-    f32 mTime;
+    f32 mTime = 0.0f;
 };
 
 }  // namespace uking::action

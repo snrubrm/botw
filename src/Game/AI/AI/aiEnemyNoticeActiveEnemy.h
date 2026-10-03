@@ -13,11 +13,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     virtual void m34();
     void sub_71003A4B3C();
+    // 0x71003a4e30: changeChild("行動") with TargetPos and TargetActor.
+    void sub_71003A4E30();
 
 protected:
     // dynamic_param at offset 0x38
@@ -27,7 +30,7 @@ protected:
     f32 _48{};
     int _4c{};
     int _50{};
-    int _54{};
+    f32 _54{};
 };
 
 }  // namespace uking::ai

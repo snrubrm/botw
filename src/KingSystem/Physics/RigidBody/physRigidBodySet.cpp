@@ -67,7 +67,7 @@ RigidBody* RigidBodySet::findBodyByHavokName(const sead::SafeString& name) {
     return mRigidBodies[index];
 }
 
-const RigidBody* RigidBodySet::findBodyByHavokName(const sead::SafeString& name) const {
+RigidBody* RigidBodySet::findBodyByHavokName(const sead::SafeString& name) const {
     const int index = findBodyIndexByHavokName(name);
     if (index < 0)
         return nullptr;

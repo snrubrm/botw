@@ -12,6 +12,10 @@ ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
 }
 
+const sead::Matrix34f& Dragon::sub_710001014C() const {
+    return *_14c8.sub_71006FC514();
+}
+
 inline float sqXYZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
     sead::Vector3f diff = a;
     diff -= b;

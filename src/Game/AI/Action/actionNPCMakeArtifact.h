@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/gameNpcShopData.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,12 @@ public:
 
 protected:
     void calc_() override;
+
+    NpcShopData _20;
+    bool _40 = false;
+    bool _41 = false;
+    u8 _42[0x6];
 };
+KSYS_CHECK_SIZE_NX150(NPCMakeArtifact, 0x48);
 
 }  // namespace uking::action

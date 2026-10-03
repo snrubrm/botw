@@ -12,10 +12,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_710047F77C();
+    // 0x710047f8ac: changeChild("外側") with the leader position as TargetPos.
+    void sub_710047F8AC();
 
 protected:
     // static_param at offset 0x38

@@ -67,6 +67,9 @@ public:
 
     // 0x71003b5804 (not decompiled; MiniGolemRoot::calc_ calls it with false).
     bool sub_71003B5804(bool a1);
+    // 0x71003b5644: clears *mIsTrgChangeUnderWaterState_a and updates the awareness flag (bit 3 of
+    // _318) from IsInHyruleCastleArea.
+    void sub_71003B5644();
 
 protected:
     Unk_7100702370* _38{};

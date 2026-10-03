@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerLargeDamage.h"
+#include <cstring>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -7,7 +8,9 @@
 
 namespace uking::action {
 
-PlayerLargeDamage::PlayerLargeDamage(const InitArg& arg) : PlayerAction(arg) {}
+PlayerLargeDamage::PlayerLargeDamage(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mBaseInitSpeedNSword_s, 0, 0x138);
+}
 
 void PlayerLargeDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

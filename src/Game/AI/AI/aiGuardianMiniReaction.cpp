@@ -68,6 +68,16 @@ void GuardianMiniReaction::sub_7100420E7C() {
     changeChild("チャンス", &params);
 }
 
+bool GuardianMiniReaction::m36(int damage_type) {
+    if (isCurrentChild("チャンス") || isCurrentChild("ショック") || isCurrentChild("超ショック") ||
+        isCurrentChild("左手ショック") || isCurrentChild("左手超ショック") ||
+        isCurrentChild("後ろ手ショック") || isCurrentChild("後ろ手超ショック")) {
+        changeChild("小ダメージ");
+        return true;
+    }
+    return false;
+}
+
 void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m39(params);
 }

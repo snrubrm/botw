@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitWhileCreatingOwnedHorse.h"
+#include "Game/gameHorseMgr.h"
 
 namespace uking::action {
 
@@ -22,7 +23,15 @@ void WaitWhileCreatingOwnedHorse::leave_() {
 void WaitWhileCreatingOwnedHorse::loadParams_() {}
 
 void WaitWhileCreatingOwnedHorse::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* mgr = HorseMgr::instance();
+    if (!mgr) {
+        setFailed();
+        return;
+    }
+    if (mgr->sub_7100E86CF4())
+        return;
+    mgr->sub_7100E86D44();
+    setFinished();
 }
 
 }  // namespace uking::action

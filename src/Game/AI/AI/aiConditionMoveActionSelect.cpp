@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiConditionMoveActionSelect.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,26 @@ void ConditionMoveActionSelect::loadParams_() {
     getDynamicParam(&mDistanceKept_d, "DistanceKept");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+void ConditionMoveActionSelect::sub_71003561B4() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    if (mTargetActor_d)
+        pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    if (mDistanceKept_d)
+        pack.addFloat(*mDistanceKept_d, "DistanceKept", -1);
+    changeChild("条件成功", &pack);
+}
+
+void ConditionMoveActionSelect::sub_71003562D0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    if (mTargetActor_d)
+        pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    if (mDistanceKept_d)
+        pack.addFloat(*mDistanceKept_d, "DistanceKept", -1);
+    changeChild("条件失敗", &pack);
 }
 
 }  // namespace uking::ai

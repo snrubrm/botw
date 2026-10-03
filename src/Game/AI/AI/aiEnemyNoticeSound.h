@@ -21,6 +21,8 @@ public:
     virtual void m35();
 
     void sub_71003A6298();
+    // 0x71003a6568: like sub_71003A6298 with the child "行動".
+    void sub_71003A6568();
 
 protected:
     // dynamic_param at offset 0x38

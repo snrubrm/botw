@@ -14,8 +14,6 @@ bool CreateActorWithTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: scheduling of the `_f4` / `_f8` computation (the original loads `*CreateBasePosNum` first and
-// stores `_f8.previous_value` before the pair)
 void CreateActorWithTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _98 = ksys::Timer(30.0f, 30.0f);
     _a4 = ksys::Timer(*mCreateContinueTime_s, *mCreateContinueTime_s);
@@ -23,9 +21,12 @@ void CreateActorWithTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     for (auto& handle : _c0)
         handle.deleteProc();
     _f0 = 0;
-    _f4 = (*mCreateContinueTime_s + 2.0f) / (*mCreateBasePosNum_s + 1);
-    _f8 = ksys::Timer(_f4, _f4);
+    const f32 num_pos = *mCreateBasePosNum_s + 1;
+    const f32 interval = (*mCreateContinueTime_s + 2.0f) / num_pos;
+    _f4 = interval;
+    _f8 = ksys::Timer(interval, interval);
     mActor->getLodState()->mFlags10.setBit(6);
+
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(m35(), "TargetPos", -1);
     changeChild("子ノード", &pack);

@@ -19,8 +19,10 @@ void MotorcycleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 void MotorcycleRoot::leave_() {
     MotorcycleRootBase::leave_();
     auto* mgr = MotorcycleMgr::instance();
-    if (mgr && mgr->x(mActor))
-        mgr->_17b[1] = 0;
+    if (mgr) {
+        if (mgr->x(mActor))
+            mgr->_17c = 0;
+    }
     mgr->_17a = 1;
 }
 

@@ -2,6 +2,7 @@
 #include <cmath>
 #include <limits>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_7100742478.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -53,6 +54,15 @@ void AnimalRoam::calc_() {
     else
         m37();
     _a0 = 0;
+}
+
+bool AnimalRoam::m35() {
+    if (!AnimalRoamBase::m35())
+        return false;
+    if (!*mCheckLOS_s)
+        return true;
+    auto* nav = mActor->m45();
+    return sub_7100742588(nullptr, nav, &mActor->m45()->_194, 10.0f);
 }
 
 void AnimalRoam::leave_() {
@@ -167,6 +177,18 @@ bool AnimalRoam::m40(sead::Vector3f* pos) {
     pos->set(nav->_194);
     nav->_1e0.unlock();
     return true;
+}
+
+bool AnimalRoam::m39() {
+    if (isCurrentChild("待機") && m35()) {
+        if (!*mCheckValidStartPos_s)
+            return true;
+        if (auto* nav = mActor->m45()) {
+            const sead::Vector3f pos = mActor->getMtx().getTranslation();
+            return sub_7100742278(nav->_2a8 * nav->_2ac, nullptr, nav, &pos);
+        }
+    }
+    return false;
 }
 
 }  // namespace uking::ai

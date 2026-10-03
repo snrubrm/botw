@@ -20,10 +20,10 @@ void AnimalASPlayWithLegTurn::leave_() {
 
 void AnimalASPlayWithLegTurn::loadParams_() {
     ForkAnimalASPlay::loadParams_();
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mRotAccRatio_s, "RotAccRatio");
-    getStaticParam(&mRotRatio_s, "RotRatio");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mRotAccRatio_s, "RotAccRatio");
+    getStaticParam(&mParams.mRotRatio_s, "RotRatio");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void AnimalASPlayWithLegTurn::calc_() {

@@ -11,7 +11,7 @@ bool EquipDisplay::init_(sead::Heap* heap) {
 }
 
 void EquipDisplay::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = false;
 }
 
 void EquipDisplay::leave_() {

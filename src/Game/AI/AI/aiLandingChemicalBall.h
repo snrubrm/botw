@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::act {
+class Bullet;
+}
+
 namespace uking::ai {
 
 class LandingChemicalBall : public ksys::act::ai::Ai {
@@ -16,7 +20,12 @@ public:
     void loadParams_() override;
 
     bool sub_71004737B0();
+
 protected:
+    void calc_() override;
+    bool sub_7100473B2C();
+
+
     // static_param at offset 0x38
     const int* mAttackPower_s{};
     // static_param at offset 0x40
@@ -33,7 +42,7 @@ protected:
     const bool* mCheckColConInfo_s{};
     // static_param at offset 0x70
     sead::SafeString mExpandActorName_s{};
-    void* _80{};
+    ksys::act::Bullet* _80{};
 };
 
 }  // namespace uking::ai

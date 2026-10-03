@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+    s32 _1c = 0;
+    sead::FixedSafeString<32> _20;
 };
+KSYS_CHECK_SIZE_NX150(NPCEventWait, 0x58);
 
 }  // namespace uking::action

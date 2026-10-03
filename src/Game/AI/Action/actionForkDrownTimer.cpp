@@ -7,7 +7,11 @@ ForkDrownTimer::ForkDrownTimer(const InitArg& arg) : ksys::act::ai::Action(arg) 
 ForkDrownTimer::~ForkDrownTimer() = default;
 
 bool ForkDrownTimer::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    const s32 time = *mTime_s;
+    _40 = time;
+    _44 = time;
+    _38 = time;
+    return true;
 }
 
 void ForkDrownTimer::enter_(ksys::act::ai::InlineParamPack* params) {

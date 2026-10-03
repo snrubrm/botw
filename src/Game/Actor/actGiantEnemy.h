@@ -26,6 +26,8 @@ public:
     struct Unk1 {
         explicit Unk1(Actor* owner) : mOwner(owner) {}
         void sub_710002A94C(Actor* actor);
+        // 0x710002a828: forwards the request to the four linked actors (Actor::x_17).
+        void sub_710002A828(ksys::act::Unk117* arg);
 
         /* 0x00 */ Actor* mOwner;
         /* 0x08 */ ksys::act::BaseProcLink _8[4];  // iterated as an array
@@ -46,7 +48,7 @@ protected:
 public:
     void m44() override;
     void killWithDropsAndEffects(int a1) override;
-    bool m56(sead::Vector3f* pos) override;
+    void m56(sead::Vector3f* pos) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;
@@ -56,7 +58,7 @@ public:
     void m111(f32* a1, s32* a2) override;
     void m112(f32* a1, s32* a2) override;
     void m113(f32* a1, s32* a2) override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     void m119() override;
     void m145() override;
     bool m146() override;

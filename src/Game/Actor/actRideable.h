@@ -19,6 +19,7 @@ class Message;
 namespace act {
 class Actor;
 class BaseProc;
+struct Unk117;
 }  // namespace act
 }  // namespace ksys
 
@@ -77,6 +78,9 @@ public:
     void sub_7100E8BE10();
     // 0x7100e8bfd4: sets bit 8 of _8; true if it was clear.
     bool sub_7100E8BFD4();
+    // 0x7100e8b780: handles an Actor::x_17 request (vtable slot 117 of Enemy / HorseBase /
+    // Motorcycle): false (the request is consumed) when it names the event "Demo005_0".
+    bool sub_7100E8B780(ksys::act::Unk117* arg);
     // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
     // 0x7100e8bff4 (declared only).
     bool sub_7100E8BFF4();
@@ -114,6 +118,11 @@ public:
         // 0x7102603180; priority from 0x7100e7712c kept in _51, name in _40); `a2` sets / clears bit 9
         // of _52. Returns false only when the request is rejected. Not decompiled yet.
         bool sub_7100E76E74(const sead::SafeString& name, bool a2);
+        // 0x7100e76cec: the AS bank (_2e or 0) the animation requests use (0 if bit 1 of _52 is set).
+        int sub_7100E76CEC();
+        // 0x7100e787a0 / 0x7100e78e00: set bit 0x20 / 0x80 of _52.
+        void sub_7100E787A0();
+        void sub_7100E78E00();
 
         /* 0x00 */ ksys::as::ASList* _0 = nullptr;
         /* 0x08 */ u8 _8 = 0;
@@ -154,7 +163,7 @@ public:
 
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
-    void sub_7100E63224(u32 type, s32 gear);
+    void sub_7100E63224(u64 type, u64 gear);
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();

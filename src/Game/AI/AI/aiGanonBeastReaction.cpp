@@ -25,11 +25,12 @@ void GanonBeastReaction::enter_(ksys::act::ai::InlineParamPack* params) {
         mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
                             nullptr, false);
         changeChild("死亡");
-    } else if (sub_7100703BC8(mActor)) {
-        changeChild("形態変化ダメージ");
-    } else {
-        changeChild("弱点ヒット");
+        return;
     }
+    if (sub_7100703BC8(mActor))
+        changeChild("形態変化ダメージ");
+    else
+        changeChild("弱点ヒット");
 }
 
 void GanonBeastReaction::calc_() {
@@ -47,10 +48,11 @@ void GanonBeastReaction::calc_() {
             return;
         }
     }
+
     if (isCurrentChild("弱点ヒット")) {
-        if (auto* manager = sub_710072BA90(mActor)) {
-            const s32 damage = manager->getDamage();
-            if (damage >= 1) {
+        if (auto* damage_mgr = sub_710072BA90(mActor)) {
+            const s32 damage = damage_mgr->getDamage();
+            if (damage > 0) {
                 if (sub_7100703BC8(mActor))
                     changeChild("形態変化ダメージ");
                 else

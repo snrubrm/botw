@@ -4,7 +4,7 @@ namespace ksys::act {
 
 ModelBindInfo::ModelBindInfo() = default;
 
-bool ModelBindInfo::m5(Actor* actor) {
+bool ModelBindInfo::m5(BaseProc* proc) {
     return false;
 }
 

@@ -31,7 +31,6 @@ void LynelThreeBreathAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-// NON_MATCHING: the original loads IsCheckXZ before the positions (see the lane1 log, borderline)
 bool LynelThreeBreathAttack::isFinished() const {
     if (ksys::act::ai::Ai::isFinished())
         return true;
@@ -40,10 +39,11 @@ bool LynelThreeBreathAttack::isFinished() const {
     if (!child->isFinished() && !child->isFailed())
         return false;
 
+    const bool is_xz = *mIsCheckXZ_s;
     const sead::Vector3f& target = *mTargetPos_d;
     const sead::Matrix34f& mtx = mActor->getMtx();
     f32 dist;
-    if (*mIsCheckXZ_s)
+    if (is_xz)
         dist = sead::Vector2f(mtx(0, 3) - target.x, mtx(2, 3) - target.z).length();
     else
         dist = (mtx.getTranslation() - target).length();
@@ -57,7 +57,6 @@ bool LynelThreeBreathAttack::isFinished() const {
     return player.x_13();
 }
 
-// NON_MATCHING: as isFinished
 bool LynelThreeBreathAttack::isFailed() const {
     if (ksys::act::ai::Ai::isFailed())
         return true;
@@ -66,10 +65,11 @@ bool LynelThreeBreathAttack::isFailed() const {
     if (!child->isFinished() && !child->isFailed())
         return false;
 
+    const bool is_xz = *mIsCheckXZ_s;
     const sead::Vector3f& target = *mTargetPos_d;
     const sead::Matrix34f& mtx = mActor->getMtx();
     f32 dist;
-    if (*mIsCheckXZ_s)
+    if (is_xz)
         dist = sead::Vector2f(mtx(0, 3) - target.x, mtx(2, 3) - target.z).length();
     else
         dist = (mtx.getTranslation() - target).length();

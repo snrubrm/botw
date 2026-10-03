@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiFreezeInWaterSelect.h"
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"

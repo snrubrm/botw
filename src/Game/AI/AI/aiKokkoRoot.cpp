@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiKokkoRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -38,6 +43,36 @@ void KokkoRoot::m40() {
 void KokkoRoot::m41() {
     if (!isCurrentChild("怒り"))
         PreyRoot::m41();
+}
+
+void KokkoRoot::m43() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("怒り")) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->_d70.sub_71002DC32C();
+        _220 = 0;
+        ksys::act::enableAttClient(mActor, "Grab");
+        sub_71005047A8();
+    } else {
+        PreyRoot::m43();
+    }
+}
+
+void KokkoRoot::m46() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(1.0f, "Power", -1);
+    pack.addVec3(mActor->getMtx().getBase(2), "TargetDir", -1);
+    pack.addBool(false, "IsShootByPlayer", -1);
+    changeChild("落下", &pack);
+}
+
+void KokkoRoot::sub_7100457240() {
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    ksys::act::disableAttClient(mActor, "Grab");
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("怒り", &pack);
 }
 
 }  // namespace uking::ai

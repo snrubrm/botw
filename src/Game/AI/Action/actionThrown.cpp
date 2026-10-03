@@ -26,7 +26,7 @@ void Thrown::leave_() {
     auto* actor = mActor;
     actor->resetConnectedCalcParent(false);
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_40000000);
-    if (*mIsOnImpact_s)
+    if (*mParams.mIsOnImpact_s)
         sub_71005DC02C(actor);
 
     if (auto* chemical = actor->getChemicalStuff())
@@ -47,15 +47,15 @@ void Thrown::leave_() {
 }
 
 void Thrown::loadParams_() {
-    getStaticParam(&mReactionLevel_s, "ReactionLevel");
-    getStaticParam(&mIsForceOnly_s, "IsForceOnly");
-    getStaticParam(&mIsOnImpact_s, "IsOnImpact");
-    getStaticParam(&mAS_s, "AS");
-    getStaticParam(&mThrownKey_s, "ThrownKey");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getDynamicParam(&mPower_d, "Power");
-    getDynamicParam(&mIsShootByPlayer_d, "IsShootByPlayer");
-    getDynamicParam(&mTargetDir_d, "TargetDir");
+    getStaticParam(&mParams.mReactionLevel_s, "ReactionLevel");
+    getStaticParam(&mParams.mIsForceOnly_s, "IsForceOnly");
+    getStaticParam(&mParams.mIsOnImpact_s, "IsOnImpact");
+    getStaticParam(&mParams.mAS_s, "AS");
+    getStaticParam(&mParams.mThrownKey_s, "ThrownKey");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getDynamicParam(&mParams.mPower_d, "Power");
+    getDynamicParam(&mParams.mIsShootByPlayer_d, "IsShootByPlayer");
+    getDynamicParam(&mParams.mTargetDir_d, "TargetDir");
 }
 
 void Thrown::calc_() {
@@ -66,18 +66,18 @@ void Thrown::calc_() {
         if (_a6 && thrownStalfosPartsStuff()) {
             sub_7100738428(mActor, 0.5f);
         } else {
-            sead::Vector3f vel = *mTargetDir_d;
+            sead::Vector3f vel = *mParams.mTargetDir_d;
             auto* unk = actor->m100();
             if (unk && unk->_129) {
                 sub_71005DC8AC(actor, &vel);
             } else {
-                const f32 power = *mPower_d;
+                const f32 power = *mParams.mPower_d;
                 vel *= power / f32(ksys::act::sub_7100EDD218(actor));
             }
             ksys::act::sub_7100EE5980(actor, sead::Vector3f::zero);
             ksys::act::sub_7100EE5A14(actor, sead::Vector3f::zero);
 
-            sead::Vector3f ang_vel = *mRotSpd_s * (1.0f / 30.0f);
+            sead::Vector3f ang_vel = *mParams.mRotSpd_s * (1.0f / 30.0f);
             if (const auto* param = actor->getParam()) {
                 if (const auto* gparams = param->getRes().mGParamList) {
                     if (const auto* liftable = gparams->getLiftable()) {
@@ -101,10 +101,10 @@ void Thrown::calc_() {
 
 void Thrown::m32(ksys::act::Actor* actor, const sead::Vector3f& vel,
                  const sead::Vector3f& ang_vel) {
-    if (!mThrownKey_s.isEmpty()) {
+    if (!mParams.mThrownKey_s.isEmpty()) {
         auto* unk = mActor->m100();
         if (unk && !unk->_128)
-            xlinkSearchAndEmit(mActor, mThrownKey_s.cstr(), 1, nullptr);
+            xlinkSearchAndEmit(mActor, mParams.mThrownKey_s.cstr(), 1, nullptr);
     }
     ksys::act::sub_7100EE5980(actor, vel);
     ksys::act::sub_7100EE5A14(actor, ang_vel);

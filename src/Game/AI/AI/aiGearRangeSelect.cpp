@@ -12,20 +12,19 @@ bool GearRangeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original compares two SEAD_ENUM-like values (both go through a stack round trip);
-// RideableBase::S1::_9 / _b and the threshold are plain integers here
 void GearRangeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (auto* rideable = mActor->m132()) {
-        const auto& gear = rideable->_18;
-        if ((gear._b != 0 ? gear._b : gear._9) >= *mGearThreashold_s) {
-            changeChild("高速ギア", params);
-            return;
-        }
+    auto* rideable = mActor->m132();
+    if (rideable &&
+        Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b) >=
+            Gear(*mGearThreashold_s)) {
+        changeChild("高速ギア", params);
+    } else {
+        changeChild("低速ギア", params);
     }
-    changeChild("低速ギア", params);
 }
 
-// NON_MATCHING: same enum round trip as enter_
+// NON_MATCHING: stack slots of the two SEAD_ENUM temporaries (the original puts the gear value in the
+// slot shared with the SafeString temporaries and the threshold after them)
 void GearRangeSelect::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed() || !child->isChangeable())
@@ -33,16 +32,16 @@ void GearRangeSelect::calc_() {
     if (*mCheckOnce_s)
         return;
 
-    if (auto* rideable = mActor->m132()) {
-        const auto& gear = rideable->_18;
-        if ((gear._b != 0 ? gear._b : gear._9) >= *mGearThreashold_s) {
-            if (!isCurrentChild("高速ギア"))
-                changeChild("高速ギア");
-            return;
-        }
+    auto* rideable = mActor->m132();
+    if (rideable &&
+        Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b) >=
+            Gear(*mGearThreashold_s)) {
+        if (!isCurrentChild("高速ギア"))
+            changeChild("高速ギア");
+    } else {
+        if (!isCurrentChild("低速ギア"))
+            changeChild("低速ギア");
     }
-    if (!isCurrentChild("低速ギア"))
-        changeChild("低速ギア");
 }
 
 bool GearRangeSelect::isFinished() const {

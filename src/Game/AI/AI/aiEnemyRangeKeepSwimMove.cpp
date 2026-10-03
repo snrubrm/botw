@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyRangeKeepSwimMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,13 @@ void EnemyRangeKeepSwimMove::loadParams_() {
     getStaticParam(&mBaseDist_s, "BaseDist");
     getStaticParam(&mSpaceDist_s, "SpaceDist");
     getStaticParam(&mIsCheckCliff_s, "IsCheckCliff");
+}
+
+void EnemyRangeKeepSwimMove::sub_71003AE3C4(s8 dir) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addInt(dir, "RotDir", -1);
+    changeChild("横移動", &pack);
 }
 
 }  // namespace uking::ai

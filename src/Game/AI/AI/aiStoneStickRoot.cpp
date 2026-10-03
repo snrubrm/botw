@@ -2,6 +2,8 @@
 #include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -18,7 +20,24 @@ StoneStickRoot::~StoneStickRoot() {
 }
 
 bool StoneStickRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    ksys::phys::FixedCs::Param param;
+    param.body_a = actor->getMainBody();
+    _58 = ksys::phys::FixedCs::make(param, heap);
+    _60 = actor->findPhysicsBodyByName("BodyParts_00", "left_Stopper");
+    _68 = actor->findPhysicsBodyByName("BodyParts_00", "right_Stopper");
+    if (auto* physics = actor->getPhysics()) {
+        const s32 idx = physics->findContactPointInfo("Body");
+        if (idx < 0)
+            _70 = nullptr;
+        else
+            _70 = physics->getContactPointInfoAt(idx);
+        if (_70)
+            _70->setAllLayerMask2();
+    }
+    return true;
 }
 
 void StoneStickRoot::enter_(ksys::act::ai::InlineParamPack* params) {

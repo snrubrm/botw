@@ -31,4 +31,16 @@ struct Unk_7100e72ac0 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e72ac0, 0xc);
 
+// CSV (unnamed) ctor 0x71002c8e10 (update 0x71002c8e44), Motorcycle +0xe8c and MotorcycleStruct0 +0x178.
+// A rate pair like the two stick controllers above: `_4` is the first rate, `_8` the second one (both
+// at least 0.008) and `_0` is `_8` when `flag` is set and `-_4` otherwise. Placeholder name.
+struct Unk_71002c8e10 {
+    Unk_71002c8e10(f32 a, f32 b, bool flag);
+
+    f32 _0;
+    f32 _4;
+    f32 _8;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71002c8e10, 0xc);
+
 }  // namespace uking::act

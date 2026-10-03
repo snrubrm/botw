@@ -19,18 +19,21 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mSpeedKeepRatio_s{};
-    // static_param at offset 0x28
-    const float* mRotSpeedKeepRatio_s{};
-    // static_param at offset 0x30
-    const float* mMinGravityScale_s{};
-    // static_param at offset 0x38
-    const float* mGravityPer_s{};
-    // static_param at offset 0x40
-    const float* mRetGravityPer_s{};
-    // static_param at offset 0x48
-    const bool* mIsStopGravitySpeed_s{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mSpeedKeepRatio_s{};
+        // static_param at offset 0x28
+        const float* mRotSpeedKeepRatio_s{};
+        // static_param at offset 0x30
+        const float* mMinGravityScale_s{};
+        // static_param at offset 0x38
+        const float* mGravityPer_s{};
+        // static_param at offset 0x40
+        const float* mRetGravityPer_s{};
+        // static_param at offset 0x48
+        const bool* mIsStopGravitySpeed_s{};
+    };
+    Params mParams;
     ksys::VFRValue _50;
     f32 _5c = 0;
     bool _60 = false;

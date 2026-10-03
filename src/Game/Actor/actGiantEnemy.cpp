@@ -20,6 +20,11 @@ void GiantEnemy::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     Enemy::m76(setter);
 }
 
+void GiantEnemy::m117(ksys::act::Unk117* arg) {
+    Enemy::m117(arg);
+    _14c8.sub_710002A828(arg);
+}
+
 void GiantEnemy::m145() {}
 
 void GiantEnemy::m110(f32* a1, s32* a2) {

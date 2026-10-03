@@ -15,6 +15,7 @@ public:
     void loadParams_() override;
 
     void m37() override;
+    void m38() override;
 
 protected:
     // dynamic_param at offset 0xe8

@@ -20,20 +20,23 @@ protected:
     void calc_() override;
     const sead::Vector3f& m44() override;
 
-    // static_param at offset 0xd0
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0xd8
-    const float* mJustAvoidSideDist_s{};
-    // static_param at offset 0xe0
-    const float* mJustAvoidBackDist_s{};
-    // static_param at offset 0xe8
-    const float* mJustAvoidAngle_s{};
-    // static_param at offset 0xf0
-    const bool* mIsIgnoreSmallHit_s{};
-    // static_param at offset 0xf8
-    const float* mPosOffsetDist_s{};
-    // static_param at offset 0x100
-    const bool* mIsCheckNoChangeAS_s{};
+    struct Params {
+        // static_param at offset 0xd0
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0xd8
+        const float* mJustAvoidSideDist_s{};
+        // static_param at offset 0xe0
+        const float* mJustAvoidBackDist_s{};
+        // static_param at offset 0xe8
+        const float* mJustAvoidAngle_s{};
+        // static_param at offset 0xf0
+        const bool* mIsIgnoreSmallHit_s{};
+        // static_param at offset 0xf8
+        const float* mPosOffsetDist_s{};
+        // static_param at offset 0x100
+        const bool* mIsCheckNoChangeAS_s{};
+    };
+    Params mParams;
     Unk_7102451ba0 _108;
     sead::Vector3f _130 = {0, 0, 0};
 };

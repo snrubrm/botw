@@ -15,7 +15,6 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-
     bool m36(int damage_type) override;
 
 protected:

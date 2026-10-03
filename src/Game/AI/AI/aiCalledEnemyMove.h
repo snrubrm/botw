@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
     void sub_7100340C04();
+    // 0x7100340f4c (placeholder name)
+    void sub_7100340F4C();
+
 protected:
     // static_param at offset 0x38
     const float* mLostDist_s{};

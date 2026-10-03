@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
     void m37(const sead::Vector3f& pos) override;
+    // 0x710030f120 (placeholder name)
+    void sub_710030F120();
 
 protected:
     // static_param at offset 0x90

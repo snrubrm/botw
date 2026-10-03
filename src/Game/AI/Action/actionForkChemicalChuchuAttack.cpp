@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkChemicalChuchuAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 
 namespace uking::action {
@@ -9,7 +11,14 @@ ForkChemicalChuchuAttack::ForkChemicalChuchuAttack(const InitArg& arg)
 ForkChemicalChuchuAttack::~ForkChemicalChuchuAttack() = default;
 
 bool ForkChemicalChuchuAttack::init_(sead::Heap* heap) {
-    return ForkNoWeaponAttackAllTime::init_(heap);
+    if (!ForkNoWeaponAttackAllTime::init_(heap))
+        return false;
+    auto* actor = mActor;
+    auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Atk().cstr(), mAtkBodyName_s[0].cstr());
+    _d0 = sead::DynamicCast<ksys::phys::SphereRigidBody>(body);
+    if (_d0)
+        _dc = _d0->getRadius();
+    return true;
 }
 
 void ForkChemicalChuchuAttack::enter_(ksys::act::ai::InlineParamPack* params) {

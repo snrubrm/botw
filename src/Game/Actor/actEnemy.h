@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnk_7102357210.h"
@@ -78,7 +79,19 @@ public:
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ u32 _30 = 0;
     /* 0x38 */ ksys::act::BaseProcLink _38;
-    /* 0x48 */ void* _48 = nullptr;
+    // Placeholder (type unknown): an object with a scale (_2c, used while _10 is set) and flag bits
+    // (LynelHighJumpAttack scales its jump height with it and sets flag bit 4 when it changes it).
+    struct Unk48 {
+        SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
+
+        /* 0x00 */ u8 _0[0x10];
+        /* 0x10 */ void* _10;
+        /* 0x18 */ u8 _18[0x2c - 0x18];
+        /* 0x2c */ f32 _2c;
+        /* 0x30 */ u8 _30[0x58 - 0x30];
+        /* 0x58 */ u8 _58;  // flag bits (the original sets them with `_58 |= 1 << Flag`)
+    };
+    /* 0x48 */ Unk48* _48 = nullptr;
     // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
     // OnAnimalSupportNrmCalcFrontRay).
@@ -192,8 +205,8 @@ protected:
 public:
     s32 getMaxLife() override;
     Actor* m31() override;
-    void m36() override;
-    void m41() override;
+    void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
+    void m41(sead::Matrix34f* mtx) override;
     Actor* m48() override;
     bool m49() override;
     void killWithDropsAndEffects(int a1) override;
@@ -222,19 +235,19 @@ public:
     s32 m94() override { return _f40; }
     Unk_7100d3cd74* m101() override;
     void m114() override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     void m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
-    void m141() override;
+    Actor* m141(const s32* index) override;
     bool m146() override;
     Unk_71025ae680* m159() override { return _e78; }
     void m160() override;
     bool m162() override { return _e82 >> 9 & 1; }
-    void m164() override;
+    bool m164(s32 idx, ksys::act::Actor* weapon, bool a3, bool a4) override;
     void m165() override;
     bool isGuard() override;
     bool m169() override { return _e84.isOnBit(13); }
@@ -242,7 +255,10 @@ public:
     const char* getEquippedItem() override;
 
     // FIXME: figure out return types, parameters and names
-    virtual void m177();
+    // Equips `weapon` in slot `idx` (the original asks getWeapons() first).
+    virtual bool m177(s32 idx, ksys::act::Actor* weapon);
+    // 0x7100731cd8 (CSV Enemy::setDroppedWeaponFlag; declared only).
+    void setDroppedWeaponFlag();
     // Creates the object returned by DynamicActor slot 159 (_e78).
     virtual Unk_71025ae680* m178(sead::Heap* heap);
     virtual void m179();
@@ -275,7 +291,8 @@ public:
     /* 0xe68 */ ksys::Timer _e68;
     /* 0xe74 */ f32 _e74 = 0;  // written by NoticeTurn::leave_
     /* 0xe78 */ Unk_71025ae680* _e78 = nullptr;  // m159, created by m178
-    /* 0xe80 */ u16 _e80 = 0;
+    /* 0xe80 */ sead::BitFlag8 _e80;  // bit idx: weapon slot idx is equipped (m164 / m177)
+    /* 0xe81 */ sead::BitFlag8 _e81;
     /* 0xe82 */ u16 _e82 = 0;
     /* 0xe84 */ sead::BitFlag32 _e84;
     /* 0xe88 */ void* _e88 = nullptr;
@@ -313,6 +330,15 @@ public:
         s32 _8 = -1;
     };
     /* 0xf28 */ Unk_7100001aa4 _f28{this};
+
+    // inline-only in the original; name is a guess (lane1 s22). Evidence: `time = _f28.sub_7100001AA4(
+    // scale); _e68 = Timer(time, time)` is inlined, with the scale argument evaluated first, in
+    // EnemyBattle::sub_7100381ED4, AssassinFieldShooterBattleBase::enter_, MoriblinSpearBattle,
+    // EnemySkyArrowAttack::m35, RodEnemyFindPlayer::calc_, GanonBeastWait and others.
+    void startAttackInterval(f32 scale) {
+        const s32 time = _f28.sub_7100001AA4(scale);
+        _e68 = ksys::Timer(time, time);
+    }
     /* 0xf38 */ void* _f38 = nullptr;
     /* 0xf40 */ s32 _f40 = 0;
     /* 0xf44 */ s32 _f44 = -1;

@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
     
     Attention/actActorAttention.cpp
     Attention/actActorAttention.h
+    Attention/actAttentionSingleton.h
     Attention/actAttClient.cpp
     Attention/actAttClient.h
     Attention/actAttention.cpp
@@ -37,6 +38,8 @@ target_sources(uking PRIVATE
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerStamina.cpp
+    Profiles/actPlayerWeapons.cpp
     Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
@@ -81,6 +84,7 @@ target_sources(uking PRIVATE
     actActorSystem.h
     actActorTemplate.cpp
     actActorTemplate.h
+    actActorUnk117.h
     actActorUtil.cpp
     actActorUtil.h
     actActorWeapons.cpp

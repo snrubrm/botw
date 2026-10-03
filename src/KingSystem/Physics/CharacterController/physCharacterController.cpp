@@ -57,6 +57,65 @@ void CharacterController::disableContactLayer(ContactLayer layer) {
     mRigidBody->disableContactLayer(layer);
 }
 
+void CharacterController::sub_7100F5EC44() {
+    mFlags.reset(0x10000);
+    _298 = nullptr;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->removeFromWorld();
+    }
+    mRigidBody->removeFromWorld();
+}
+
+void CharacterController::sub_7100F60604() {
+    mRigidBody->setContactNone();
+    if (_250)
+        _250->invoke(this);
+}
+
+void CharacterController::sub_7100F62BC0(bool fixed) {
+    if (!fixed && (_114 & 2))
+        return;
+    mRigidBody->setFixed(Fixed(fixed), PreserveVelocities(false));
+    mFlags.change(4, fixed);
+}
+
+void CharacterController::sub_7100F62CA8(bool clear) {
+    mRigidBody->clearEntityMotionFlag4(clear);
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->clearEntityMotionFlag4(clear);
+    }
+}
+
+void CharacterController::sub_7100F62DD0(f32 scale) {
+    mRigidBody->setColImpulseScale(scale);
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->setColImpulseScale(scale);
+    }
+}
+
+void CharacterController::sub_7100F63604(CollisionInfo* info) {
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i)
+        _288[i]->setCollisionInfo(info);
+}
+
+CollisionInfo* CharacterController::sub_7100F6367C() const {
+    if (!(_114 & 0x2000))
+        return nullptr;
+    auto* body = _288[0];
+    if (!body)
+        return nullptr;
+    return body->getCollisionInfo();
+}
+
 void CharacterController::sub_7100F5E764(bool clear) {
     mRigidBody->clearEntityMotionFlag10(clear);
     if (!(_114 & 0x2000))
@@ -191,6 +250,13 @@ void CharacterController::physicsXXXGetMtx_1(sead::Matrix34f* mtx) const {
     (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(mtx);
 }
 
+// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped), as in
+// physicsXXXGetMtx_1
+void CharacterController::sub_7100F626E8(sead::Matrix34f* out) const {
+    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(out);
+    *out = *out * _a0;
+}
+
 void CharacterController::sub_7100F63700(bool clear) {
     if (clear)
         mFlags.reset(0x40);
@@ -200,6 +266,10 @@ void CharacterController::sub_7100F63700(bool clear) {
 
 bool CharacterController::sub_7100F5E954() const {
     return mRigidBody->isAddedToWorld();
+}
+
+void CharacterController::sub_7100F5EDB4(SystemGroupHandler* handler) {
+    mRigidBody->setSystemGroupHandler(handler);
 }
 
 void CharacterController::sub_7100F5EDBC(const sead::Vector3f& value) {

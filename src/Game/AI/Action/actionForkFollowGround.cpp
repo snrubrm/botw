@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFollowGround.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -19,15 +20,18 @@ void ForkFollowGround::leave_() {
 }
 
 void ForkFollowGround::loadParams_() {
-    getStaticParam(&mUpdateFrameCountAfterNoMove_s, "UpdateFrameCountAfterNoMove");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mBaseRotRatio_s, "BaseRotRatio");
-    getStaticParam(&mUpdateTargetUpDirMinAngle_s, "UpdateTargetUpDirMinAngle");
-    getStaticParam(&mUpdateTargetUpDirRatio_s, "UpdateTargetUpDirRatio");
+    getStaticParam(&mParams.mUpdateFrameCountAfterNoMove_s, "UpdateFrameCountAfterNoMove");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mBaseRotRatio_s, "BaseRotRatio");
+    getStaticParam(&mParams.mUpdateTargetUpDirMinAngle_s, "UpdateTargetUpDirMinAngle");
+    getStaticParam(&mParams.mUpdateTargetUpDirRatio_s, "UpdateTargetUpDirRatio");
 }
 
 void ForkFollowGround::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        m32(controller);
+    else
+        setFailed();
 }
 
 }  // namespace uking::action

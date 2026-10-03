@@ -20,7 +20,7 @@ public:
 
     Actor* m31() override;
     Actor* m48() override;
-    void m52() override;
+    bool m52(sead::Vector3f* out, Chemical* chemical) override;
     void initMaybe() override;
     void m73() override;
     void m76(VFR::ScopedDeltaSetter* setter) override;
@@ -91,6 +91,43 @@ public:
     bool isHoldByOwner(BaseProc* owner) const;
     bool isHold() const;
     bool isFittingOrShootingArrow() const;
+
+    // 0x7100006034 (placeholder name): the Bullet of the accessor if it is sleeping and `_bd0._0` holds
+    // `owner`, else null. Used by the setters below.
+    act::Bullet* getBulletOwnedByMaybe(BaseProc* owner) const;
+    // 0x71000057dc / 0x71000058d4: bits 1 / 8 of `_cf4` (false without a Bullet); 0x71000059cc: `_cc0`
+    // (1.0 without a Bullet).
+    bool sub_71000057DC() const;
+    bool sub_71000058D4() const;
+    f32 sub_71000059CC() const;
+    // 0x7100005ac8 - 0x7100005f60: set the AI tree variable named in the comment of the Bullet owned by
+    // `owner` (placeholder names).
+    void setIsUseAtCollision(bool value, BaseProc* owner);  // IsUseAtCollision
+    void setAttackPower(s32 value, BaseProc* owner);   // AttackPower
+    void setAttackAttr(s32 value, BaseProc* owner);   // AttackAttr
+    void setAttackType(s32 value, BaseProc* owner);   // AttackType
+    void setCutGrassType(s32 value, BaseProc* owner);   // CutGrassType
+    void setXLinkKey(const sead::SafeString& value, BaseProc* owner);  // XLinkKey
+    void setRange(f32 value, BaseProc* owner);   // Range
+    void setScaleTime(f32 value, BaseProc* owner);   // ScaleTime
+    void setAttackTarget(s32 value, BaseProc* owner);   // AttackTarget
+    void setAttackDirType(s32 value, BaseProc* owner);   // AttackDirType
+    void setGolemPartInitialIceMagic(bool value, BaseProc* owner);  // GolemPartInitialIceMagic
+    void setGolemPartInitialBurn(bool value, BaseProc* owner);  // GolemPartInitialBurn
+    // 0x7100005fd0 (declared only): starts xlink event 0x19 with `value` (after updating the model's xlink
+    // scale).
+    void startXLinkEvent19Maybe(u32 value, BaseProc* owner);
+    // 0x7100006144 / 0x71000061a8: read a map unit parameter of the Bullet owned by `owner`.
+    bool getMapUnitParamF32(f32* out, const sead::SafeString& key, BaseProc* owner);
+    bool getMapUnitParamVec3(sead::Vector3f* out, const sead::SafeString& key, BaseProc* owner);
+    // 0x7100006214: AI tree variable "IsReflectThrownBullet" (false without a Bullet).
+    bool isReflectThrownBullet() const;
+    // 0x710000634c / 0x710000638c: set `_b90` / `_ba0` of the Bullet owned by `owner`.
+    void sub_710000634C(BaseProc* proc, BaseProc* owner);
+    void sub_710000638C(BaseProc* proc, BaseProc* owner);
+    // 0x71000063cc: sets `_cf8`; 0x71000063f4: the gravity factor of the main body.
+    void sub_71000063CC(f32 value, BaseProc* owner);
+    void sub_71000063F4(f32 factor, BaseProc* owner);
 };
 
 }  // namespace acc

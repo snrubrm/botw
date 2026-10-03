@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseRideShootingEnemyBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
@@ -31,6 +33,30 @@ void HorseRideShootingEnemyBattle::loadParams_() {
     getStaticParam(&mTrackTimeRand_s, "TrackTimeRand");
     getStaticParam(&mSlowTime_s, "SlowTime");
     getStaticParam(&mSlowTimeRand_s, "SlowTimeRand");
+}
+
+void HorseRideShootingEnemyBattle::sub_7100443A58() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild(_f8, &pack);
+}
+
+void HorseRideShootingEnemyBattle::sub_7100443B28() {
+    _f4 = 0;
+    _f8 = mChildIdx;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("追跡指令", &pack);
+}
+
+void HorseRideShootingEnemyBattle::sub_7100443C04() {
+    _f8 = mChildIdx;
+    _f4 = 1;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("減速指令", &pack);
 }
 
 }  // namespace uking::ai

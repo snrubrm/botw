@@ -86,6 +86,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100504ed0 (lane1 s22): clears the disappear type and deletes the actor (same sequence as BirdEscape)
+    void sub_7100504ED0();
 
     // static_param at offset 0x38
     const int* mAfterEscapeForceEndState_s{};

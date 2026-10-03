@@ -11,11 +11,14 @@ public:
     ~LandHumEnemyFindBaitWeapon() override;
     bool isChangeable() const override;
 
+    void calc_() override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_71004604A8();
+
     // dynamic_param at offset 0x38
     ksys::act::BaseProcLink* mTargetWeapon_d{};
 };

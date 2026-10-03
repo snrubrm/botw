@@ -18,7 +18,9 @@ public:
     Unk_71024e6428();
     virtual ~Unk_71024e6428();
 
-    /* 0x008 */ u8 _8[0x40 - 0x8];
+    /* 0x008 */ u8 _8[0x30 - 0x8];
+    /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
+    /* 0x034 */ u8 _34[0x40 - 0x34];
     /* 0x040 */ Chemical mChemical;
     /* 0x278 */ u8 _278[0x2d8 - 0x278];
 };
@@ -35,6 +37,8 @@ public:
     virtual ~ActorChemicals();
 
     Chemical* getStuff(int idx);
+    // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.
+    Unk_71024e6428* sub_7100E3718C(int idx);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
 

@@ -25,6 +25,7 @@ public:
     bool m36() override;
     void m34() override;
     void m35() override;
+    void m38(int x, ksys::act::Unk_7100d78e50* entry) override;
 
 protected:
     // static_param at offset 0x60

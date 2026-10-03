@@ -13,6 +13,8 @@ void reportKorok(const sead::Vector3f& position);
 void reportDungeon(const sead::SafeString& name, const sead::SafeString& event);
 void reportQuestStep(const ksys::qst::Quest* quest, int step_index);
 void reportGetItem(const sead::Vector3f& pos, const sead::SafeString& item_name);
+// 0x7100a8885c (declaration only)
+void reportGanonQuestFinished();
 
 // TODO: More functions
 

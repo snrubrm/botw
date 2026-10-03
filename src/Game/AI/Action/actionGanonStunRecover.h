@@ -17,6 +17,10 @@ public:
 
 protected:
     void calc_() override;
+    bool _1c = false;
+    u8 _1d[0x3];
+
 };
+KSYS_CHECK_SIZE_NX150(GanonStunRecover, 0x20);
 
 }  // namespace uking::action

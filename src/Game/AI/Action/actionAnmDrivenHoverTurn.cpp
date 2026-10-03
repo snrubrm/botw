@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnmDrivenHoverTurn.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +18,8 @@ bool AnmDrivenHoverTurn::init_(sead::Heap* heap) {
 
 void AnmDrivenHoverTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     AnmDrivenHoverBase::enter_(params);
+    sub_710073FA90(&_78, mActor);
+    _9c = mActor->getAngVelocity().y;
 }
 
 void AnmDrivenHoverTurn::leave_() {
@@ -24,11 +28,11 @@ void AnmDrivenHoverTurn::leave_() {
 
 void AnmDrivenHoverTurn::loadParams_() {
     AnmDrivenHoverBase::loadParams_();
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mBaseRotRatio_s, "BaseRotRatio");
-    getStaticParam(&mRotAccRatio_s, "RotAccRatio");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mBaseRotRatio_s, "BaseRotRatio");
+    getStaticParam(&mParams.mRotAccRatio_s, "RotAccRatio");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void AnmDrivenHoverTurn::calc_() {

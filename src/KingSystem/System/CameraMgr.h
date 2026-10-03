@@ -14,12 +14,12 @@ namespace ksys {
 // 0x7100d8c4f8 (declaration only, free function): forwards `pos` to the look-at camera (0x7100d8afcc);
 // false without a camera. Placeholder name (CameraMgr::instance() is used).
 bool sub_7100D8C4F8(const sead::Vector3f& pos);
-// 0x7100d8c7fc (declaration only, free function): writes the negated look vector of the look-at camera
+// 0x7100d8c6ac (lane1 s22, placeholder name; CSV cam::getCameraPositionMaybe): writes the look-at
+// camera's position to `out` (zero without a camera); false without a camera.
+bool sub_7100D8C6AC(sead::Vector3f* out);
+// 0x7100d8c7fc (free function): writes the negated look vector of the look-at camera
 // to `out` (zero without a camera); false when `out` is null or there is no camera. Placeholder name.
 bool sub_7100D8C7FC(sead::Vector3f* out);
-// 0x7100d8c6ac (CSV cam::getCameraPositionMaybe; lane4 s23, free function, placeholder name): writes the position
-// of the look-at camera to `out` (zero without a camera); false without a camera.
-bool sub_7100D8C6AC(sead::Vector3f* out);
 
 // FIXME: incomplete
 class CameraMgr : public sead::hostio::Node {

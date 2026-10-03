@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -14,7 +16,25 @@ bool GolemNoticeWorry::init_(sead::Heap* heap) {
 }
 
 void GolemNoticeWorry::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    bool in_front;
+    {
+        sead::Vector3f forward;
+        sub_71000891C8(&forward, mActor);
+        sead::Vector3f to_target = *mTargetPos_d - mActor->getMtx().getTranslation();
+        to_target.y = 0;
+        to_target.normalize();
+        const f32 angle = *mTurnStartAngle_s;
+        in_front = to_target.dot(forward) >= sead::Mathf::cos(angle);
+    }
+    if (in_front) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("見まわす", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("回転", &pack);
+    }
 }
 
 // NON_MATCHING: stack slot sharing (the original puts the first two isCurrentChild temporaries in

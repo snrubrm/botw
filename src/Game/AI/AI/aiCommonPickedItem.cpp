@@ -41,6 +41,10 @@ void CommonPickedItem::loadParams_() {
     getAITreeVariable(&mGetNumLeft_a, "GetNumLeft");
 }
 
+void CommonPickedItem::sub_7100355A14() {
+    _88.x();
+}
+
 void CommonPickedItem::m35() {
     ksys::act::disableAllAttClients(mActor);
 }

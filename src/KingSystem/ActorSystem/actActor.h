@@ -10,6 +10,7 @@
 #include <thread/seadAtomic.h>
 #include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
+#include "KingSystem/ActorSystem/actActorUnk117.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -245,6 +246,8 @@ public:
     Unk_71024dc900* get548() const { return _548; }
     void* get1a0() const { return _1a0; }
     ActorBind* getModelBindInfo() const { return mModelBindInfo; }
+    // Bit 0 of mSpecialJobTypesMaskOverride (inline getter; name is a guess, KakarikoKokkoTimeline::enter_)
+    bool isSpecialJobTypesMaskOverride0() const { return mSpecialJobTypesMaskOverride.isOnBit(0); }
     ActorAttention* getAttention() const { return mAttention; }
     int getFadeOutDeleteType() const { return mFadeOutDeleteType; }
     ImpulseBaseProcLink* getImpulseBaseProcLink() const { return mImpulseBaseProcLink; }
@@ -287,6 +290,7 @@ public:
     phys::RigidBody* getPhysicsMainBody();
     phys::InstanceSet* getPhysics() const { return mPhysics; }
     const PhysicsConstraints& getConstraints() const { return mConstraints; }
+    PhysicsConstraints& getConstraints() { return mConstraints; }
     phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const { return mFieldBodyGroup; }
 
     // inline-only in the original; name is a guess (SwitchWheel::enter_ reads the field at +0x3d0 directly).
@@ -337,6 +341,8 @@ public:
     bool sub_71011DA808(const ActorConstDataAccess& accessor);
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
+    // Inline in the original (GolemPartRoot::enter_ reads the field directly).
+    ActorChemicals* getChemicalContainer() const { return mChemical; }
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.
     Chemical* sub_71011D8A34(int idx);
     // mChemical->sub_7100E37788(idx), if any.
@@ -376,13 +382,15 @@ public:
     virtual bool m33();
     virtual void m34(sead::Vector3f* pos, f32* value);
     virtual void m35();
-    virtual void m36();
+    // The original forwards to 0x71011d8718 (applies an impulse-like request to the main body).
+    virtual void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5);
     virtual f32 getGuardableAngle();
     // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
     virtual f32 m38();
     virtual bool m39();
     virtual void m40();
-    virtual void m41();
+    // Writes the transform of the character controller / main body of the actor.
+    virtual void m41(sead::Matrix34f* mtx);
     // Called by setMtx with the new matrix (Player::m42 forwards it).
     virtual void m42(const sead::Matrix34f& mtx);
     virtual void m43(bool on);
@@ -394,12 +402,15 @@ public:
     virtual Actor* m48();
     virtual bool m49();
     virtual bool m50();
-    virtual void m51();
-    virtual void m52();
+    // Forwards to the Chemical (getChemicalStuff).
+    virtual void m51(bool on);
+    // Writes the position of `chemical`'s owner (the actor position when it is the actor's own chemical).
+    virtual bool m52(sead::Vector3f* out, Chemical* chemical);
     virtual bool m53();
     virtual void killWithDropsAndEffects(int a1);
     virtual bool m55();
-    virtual bool m56(sead::Vector3f* pos);
+    // Writes the centre of mass (CSV: tail-calls the void Actor::x_18).
+    virtual void m56(sead::Vector3f* pos);
     virtual bool m57();
     virtual void onPreFadeOutDelete();
     virtual void onFadeOutSleep();
@@ -467,12 +478,14 @@ public:
     virtual void m114();
     virtual void m115();
     virtual void m116();
-    virtual void m117();
-    virtual void m118();
+    virtual void m117(Unk117* arg);
+    virtual void m118(bool on);
     virtual void m119();
-    virtual void m120();
-    virtual void m121();
-    virtual void m122();
+    // Starts the animation `name` in the AS list (-1 / -1 blend, not looping); always false.
+    virtual bool m120(const char* name);
+    virtual bool m121();
+    // The model matrix (identity without a model).
+    virtual sead::Matrix34f m122();
     virtual bool m123();
     virtual void onPlacementObjReset();
     virtual Unk_71025ae640* getAtk();
@@ -492,7 +505,7 @@ public:
     virtual bool m138();
     virtual f32 m139();
     virtual bool m140();
-    virtual void m141();
+    virtual Actor* m141(const s32* index);
     virtual bool m142();
     virtual void m143();
     virtual void m144();
@@ -526,6 +539,8 @@ public:
     map::ObjectLink* findPlacementLinkWithType(map::MapLinkDefType type) const;
     // 0x00000071011da7a0
     bool hasForbidAttentionLink() const;
+    // 0x7100ee2254 (CSV name, lane1 s22): forwards to hasForbidAttentionLink() (own copy in actActorUtil.cpp's TU).
+    bool hasForbidAttentionLink_0() const;
 
     bool checkLinkBasicSig() const;
     bool hasPlacementLinkForBasicSig() const;
@@ -551,8 +566,6 @@ public:
     bool checkFreezeSignal() const;
     bool hasPlacementLinkWithTypeFreeze() const;
     bool checkForbidAttentionSignal() const;
-    // 0x7100ee2254 (CSV Actor::hasForbidAttentionLink_0; a tail call of hasForbidAttentionLink)
-    bool hasForbidAttentionLink_0() const;
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
 
     void nullsub_4648();
@@ -563,6 +576,9 @@ public:
     void unlinkPlacementObj();
     void setFlag0x40();
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
+    // 0x71011dae64 (CSV Actor::x_22): sets the linear / angular velocity of the main body and of the
+    // character controller.
+    void x_22(const sead::Vector3f& vel, const sead::Vector3f& ang_vel);
     // 0x71011c7378 (CSV name): sets the matrix and the home matrix (relative to the field body
     // group, if any) and, if given, the scale.
     void setMatrix(const sead::Matrix34f& mtx, const sead::Vector3f* scale);
@@ -575,6 +591,22 @@ public:
 
     // 0x00000071011cf108
     bool x_18(sead::Vector3f* out) const;
+    // 0x71011d8718 (declared only; placeholder name): applies the impulse-like request of m36 to the main
+    // body (nothing for enemy profiles or without a main body).
+    void sub_71011D8718(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5,
+                        s32 a6, bool a7, bool a8);
+
+    // 0x71011d722c: handles a `Unk117` request (vtable slot 117) for this actor and forwards it to the
+    // connected calc child and parent (declared only).
+    void x_17(Unk117* arg);
+    // Wrappers that build a `Unk117` (kind 0 / 2 / 3, current core) and call x_17 (declared only).
+    // 0x71011c9880 (CSV Actor::x_15): kind 0, _10 = a1, _18 = a2 (the callers pass the event
+    // object at `[ctx + 0x20]` and a C string).
+    void x_15(void* a1, const char* a2);
+    // 0x71011c98f8: kind 2.
+    void sub_71011C98F8();
+    // 0x71011c9964: kind 3, _8 = other->_1a0.
+    void sub_71011C9964(Actor* other);
 
     sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
     const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }

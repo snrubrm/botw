@@ -21,6 +21,7 @@ public:
     bool m37() override;
 
 protected:
+    void calc_() override;
 };
 
 }  // namespace uking::ai

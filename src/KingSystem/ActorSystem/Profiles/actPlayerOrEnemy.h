@@ -29,7 +29,7 @@ public:
     f32 getGuardableAngle() override { return sead::Mathf::deg2rad(100.0f); }
     bool m49() override;
     bool m50() override;
-    void m51() override;
+    void m51(bool on) override;
     bool m55() override { return true; }
     void initMaybe() override;
     void calcMaybe() override;
@@ -38,7 +38,7 @@ public:
     bool m81(const Message& message) override;
     ActorWeapons* getWeapons() override { return &mWeapons; }
     void m116() override;
-    void m117() override;
+    void m117(Unk117* arg) override;
     void m147() override;
 
     void m149(int) override;
@@ -52,7 +52,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual bool m163(int idx);
-    virtual void m164();
+    virtual bool m164(s32 idx, Actor* weapon, bool a3, bool a4);
     virtual void m165();
     virtual bool isGuard();
     virtual bool isGuardJust();
@@ -74,6 +74,10 @@ public:
     // (Weapon::sub_71002EDA38 / sub_71002EDAEC). Placeholder names.
     void sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg);
     void sub_7100007D58(int idx, const uking::act::Unk_71002edaec& arg);
+    // 0x7100007a1c (declared only, lane1 s23; placeholder name): forwards to the actor's ActorWeapons
+    // (0xefc3d4: drops the weapons with the given velocity). LandHumEnemyFindBait::leave_ passes
+    // (Vector3f::zero, false, false, nullptr, false); `a4` is an object of unknown type.
+    void sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4, bool a5);
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};

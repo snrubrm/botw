@@ -4,6 +4,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actCamera.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::act {
 
@@ -194,5 +195,34 @@ bool Unk_710079a8e8::sub_710079C184(u32 mask) const {
     return _804.sub_710079AE50(mask);
 }
 
+
+void Unk_710079a8e8::sub_710079ADD8(f32 value) {
+    if (ksys::util::sub_71011F0F88(value) || value <= 0.0f)
+        return;
+    _15c = value;
+    _804.sub_710079AE20(0x2000);
+}
+
+void Unk_710079a8e8::sub_710079AE88(f32 value) {
+    if (ksys::util::sub_71011F0F88(value) || value <= 0.0f)
+        return;
+    _160 = value;
+    _804.sub_710079AE20(0x8000);
+}
+
+// NON_MATCHING: the original evaluates the destination of BaseProcLink::operator= before the source
+void Unk_710079a8e8::sub_710079BC98() {
+    _240 = _230;
+    _39c = _354;
+    _3cc = _384;
+    _3d8 = _390;
+    _804.sub_710079AE20(0x800);
+}
+
+void Unk_710079a8e8::sub_710079BED0(f32 value) {
+    if (ksys::util::sub_71011F0F88(value) || value < 0.0f)
+        return;
+    _7e0 = value;
+}
 
 }  // namespace uking::act

@@ -13,6 +13,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool isFinished() const override;
     void loadParams_() override;
 
 protected:
@@ -36,7 +37,8 @@ protected:
     const bool* mIsForceOnly_s{};
     // static_param at offset 0x60
     sead::SafeString mAS_s{};
-    u16 _70 = 1;
+    bool _70 = true;
+    bool _71 = false;
     bool _72 = false;
     u8 _73[0x1];
     f32 _74 = 0.0f;

@@ -1,9 +1,20 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include <basis/seadNew.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
+#include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physGroupFilter.h"
+#include "KingSystem/Physics/System/physParamSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Resource/Actor/resResourceRagdollConfigList.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::phys {
@@ -94,6 +105,35 @@ void InstanceSet::sub_7100FBA9BC() {
         mCharacterController->sub_7100F5EC30();
 }
 
+void InstanceSet::sub_7100FB835C() {
+    if (_178[0]) {
+        System::instance()->removeSystemGroupHandler(_178[0]);
+        _178[0] = nullptr;
+        _188[0] = nullptr;
+    }
+    if (_178[1]) {
+        System::instance()->removeSystemGroupHandler(_178[1]);
+        _178[1] = nullptr;
+        _188[1] = nullptr;
+    }
+}
+
+void InstanceSet::sub_7100FBAC4C(phys::ContactLayer layer) {
+    bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
+
+    for (auto& rb : mRigidBodySets) {
+        rb.enableContactLayer(layer);
+    }
+    if (sensor)
+        return;
+
+    if (mRagdollInstance != nullptr)
+        mRagdollInstance->enableContactLayer(layer);
+
+    if (mCharacterController != nullptr)
+        mCharacterController->enableContactLayer(layer);
+}
+
 void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
 
@@ -123,7 +163,23 @@ void InstanceSet::sub_7100FBAD74() {
     }
 }
 
-void* InstanceSet::sub_7100FBAEDC(s32 idx1, s32 idx2) const {
+// NON_MATCHING: the original constructs only the begin iterator (it compares its index with its
+// point count); begin() != end() also calls the out-of-line IsEnd constructor
+bool InstanceSet::sub_7100FBB4B4() const {
+    if (!mRagdollContactPointInfo)
+        return false;
+    if (mRagdollContactPointInfo->getNumContactPoints() == 0)
+        return false;
+    return mRagdollContactPointInfo->begin() != mRagdollContactPointInfo->end();
+}
+
+s32 InstanceSet::sub_7100FBE7F0(const sead::SafeString& name) const {
+    if (auto* param = mParamSet->character_controller)
+        return param->findFormIdx(name);
+    return -1;
+}
+
+RigidBody* InstanceSet::sub_7100FBAEDC(s32 idx1, s32 idx2) const {
     if (mRigidBodySets.size() <= idx1)
         return nullptr;
     return mRigidBodySets[idx1]->getRigidBody(idx2);
@@ -235,6 +291,148 @@ s32 InstanceSet::sub_7100FBDA2C(const sead::SafeString& name) const {
     }
 
     return -1;
+}
+
+void InstanceSet::sub_7100FBC838(s32 idx) {
+    idx = sead::Mathi::max(idx, 0);
+    if (idx >= _98.size())
+        idx = _98.size() - 1;
+    if (_112 != idx)
+        _98[idx]->reset();
+    _112 = idx;
+}
+
+void InstanceSet::sub_7100FBDC70(f32 scale) {
+    if (!mRagdollConfigList || !mRagdollInstance)
+        return;
+
+    const s32 num = sead::Mathi::min(mRagdollInstance->getRigidBodies_().size(),
+                                     mRagdollConfigList->getBodyParams().size());
+    for (s32 i = 0; i < num; ++i) {
+        if (auto* body = mRagdollInstance->getRigidBodies_()[i])
+            body->setFrictionScale(mRagdollConfigList->getBodyParams()[i].friction_scale.ref() *
+                                   scale);
+    }
+}
+
+void InstanceSet::sub_7100FBDD40(bool on) {
+    mFlags.change(Flag::_40000000, on);
+
+    const s32 num = mRagdollInstance->getRigidBodies_().size();
+    for (s32 i = 0; i < num; ++i) {
+        if (auto* body = mRagdollInstance->getRigidBodies_()[i]) {
+            body->changeFlag40(on);
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setAngularVelocity(sead::Vector3f::zero);
+        }
+    }
+}
+
+bool InstanceSet::sub_7100FBAF18(RigidBody* body) {
+    const s32 num_sets = mRigidBodySets.size();
+    for (s32 i = 0; i < num_sets; ++i) {
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num = mRigidBodySets(i)->getRigidBodies().size();
+        for (s32 j = 0; j < num; ++j) {
+            if (sub_7100FBAEDC(i, j) == body) {
+                sub_7100FBB00C(body, &set_param.rigid_bodies[j]);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void InstanceSet::sub_7100FBADDC() {
+    const s32 num_sets = mRigidBodySets.size();
+    for (s32 i = 0; i < num_sets; ++i) {
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num = mRigidBodySets(i)->getRigidBodies().size();
+        for (s32 j = 0; j < num; ++j) {
+            auto& param = set_param.rigid_bodies[j];
+            if (auto* body = sub_7100FBAEDC(i, j))
+                body->changeMotionType(param.getMotionType());
+        }
+    }
+
+    if (mRagdollInstance)
+        mRagdollInstance->changeWorldState(RagdollInstance::WorldState::NotAddedToWorld);
+}
+
+void InstanceSet::sub_7100FC0600(RigidBody* body) {
+    for (auto* node = mList.front(); node; node = mList.next(node)) {
+        if (node->mData == body) {
+            mList.erase(node);
+            delete node->mData;
+            delete node;
+            return;
+        }
+    }
+}
+
+SphereRigidBody* InstanceSet::sub_7100FC0300(SphereParam* param, sead::Heap* heap) {
+    auto* body = SphereRigidBody::make(param, heap);
+    if (body) {
+        if (param->groundhit_mask == 0)
+            body->setSystemGroupHandler(_188[body->isSensor()]);
+        body->setUserTag(mUserTag);
+        auto* node = new (heap, 8) sead::TListNode<RigidBody*>(body);
+        mList.pushBack(node);
+    }
+    return body;
+}
+
+// NON_MATCHING: the original null-checks the result of ParamSet::getRigidBodySet (a reference here)
+bool InstanceSet::sub_7100FBB18C(RigidBodySet* set) {
+    for (s32 i = 0; i < mRigidBodySets.size(); ++i) {
+        if (mRigidBodySets[i] != set)
+            continue;
+
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num = mRigidBodySets(i)->getRigidBodies().size();
+        for (s32 j = 0; j < num; ++j)
+            sub_7100FBB00C(sub_7100FBAEDC(i, j), &set_param.rigid_bodies[j]);
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: same loop shape difference as findBodyGroupByName (the index is incremented after
+// the end check)
+RigidBodySet* InstanceSet::findBodyByName(const sead::SafeString& name) const {
+    s32 idx = 0;
+    for (auto& set : mRigidBodySets) {
+        if (mRigidBodySets[idx] && name == set.getName())
+            break;
+        ++idx;
+    }
+    return mRigidBodySets[idx];
+}
+
+// NON_MATCHING: the tail after the two handler tests is laid out differently (we keep a flag in
+// w21 for `!handler`, the original re-tests the handler register)
+void InstanceSet::sub_7100FBDFA4(SystemGroupHandler* handler) {
+    for (auto& set : mRigidBodySets)
+        set.setSystemGroupHandler(handler);
+
+    for (auto* body : mList) {
+        if (!handler || handler->getLayerType() == body->getLayerType())
+            body->setSystemGroupHandler(handler);
+    }
+
+    if (!handler || handler->getLayerType() == ContactLayerType::Entity) {
+        if (mRagdollInstance)
+            mRagdollInstance->setSystemGroupHandler(handler);
+        if (mCharacterController)
+            mCharacterController->sub_7100F5EDB4(handler);
+    }
+
+    if (!handler) {
+        _188[0] = nullptr;
+        _188[1] = nullptr;
+    } else {
+        _188[static_cast<int>(handler->getLayerType())] = handler;
+    }
 }
 
 }  // namespace ksys::phys

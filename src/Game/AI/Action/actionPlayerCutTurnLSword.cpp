@@ -1,11 +1,14 @@
 #include "Game/AI/Action/actionPlayerCutTurnLSword.h"
+#include <cstring>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
-PlayerCutTurnLSword::PlayerCutTurnLSword(const InitArg& arg) : PlayerAction(arg) {}
+PlayerCutTurnLSword::PlayerCutTurnLSword(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mEnergyMove_s, 0, 0x70);
+}
 
 void PlayerCutTurnLSword::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

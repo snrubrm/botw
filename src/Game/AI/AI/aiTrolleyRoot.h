@@ -1,6 +1,8 @@
 #pragma once
 
+#include <prim/seadDelegate.h>
 #include "Game/AI/aiUnk_7102357210.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
@@ -27,6 +29,9 @@ protected:
     const float* mNearGoalDist_s{};
     // static_param at offset 0x40
     const float* mNearGoalLimitSpd_s{};
+    // 0x71005d0cb4 (not decompiled): the DynamicActor _a70 callback.
+    void sub_71005D0CB4(ksys::act::Unk_71006dc134* arg);
+
     // static_param at offset 0x48
     const float* mNearGoalReduceRate_s{};
     sead::Vector3f _50 = sead::Vector3f::zero;
@@ -35,9 +40,9 @@ protected:
     Unk_7102450558 _70;
     sead::Vector3f _c0 = sead::Vector3f::zero;
     ksys::phys::Constraint* _d0 = nullptr;
-    // sead::Delegate1<TrolleyRoot, ?*> (handler 0x71005d0cb4, invoke 0x71005d21f0; argument type
-    // unknown - same callback shape as StoneBall_BRoot's)
-    u8 _d8[0x20];
+    // Stored in DynamicActor::_a70 by init_ (handler 0x71005d0cb4, invoke 0x71005d21f0; same callback
+    // shape as StoneBall_BRoot's).
+    sead::Delegate1<TrolleyRoot, ksys::act::Unk_71006dc134*> _d8{this, &TrolleyRoot::sub_71005D0CB4};
 };
 KSYS_CHECK_SIZE_NX150(TrolleyRoot, 0xf8);
 

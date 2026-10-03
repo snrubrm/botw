@@ -10,6 +10,8 @@ public:
     explicit EventAutoSaveAction(const InitArg& arg);
     ~EventAutoSaveAction() override;
 
+    bool oneShot_() override;
+
 protected:
 };
 

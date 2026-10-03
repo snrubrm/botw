@@ -10,6 +10,8 @@ public:
     explicit NPCRegisterHorse(const InitArg& arg);
     ~NPCRegisterHorse() override;
 
+    bool oneShot_() override;
+
 protected:
 };
 

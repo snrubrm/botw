@@ -13,10 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_71003D38B4();
+    // 0x71003d3f7c: whether the character controller has a contact point with the Wood material.
+    bool sub_71003D3F7C();
 protected:
     // static_param at offset 0x38
     const float* mTerritoryRadius_s{};

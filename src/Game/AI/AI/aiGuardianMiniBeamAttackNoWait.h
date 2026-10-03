@@ -16,7 +16,6 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-
     bool m40() override;
 
 protected:

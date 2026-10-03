@@ -1,9 +1,12 @@
 #include "Game/AI/AI/aiFixableLiftable.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -19,8 +22,8 @@ void FixableLiftable::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleLiftable::enter_(params);
 }
 
-// NON_MATCHING: the original constructs the begin iterator once for an emptiness test (index vs the
-// point count) and again for the loop; the sub_71007A2604 / scale part matches
+// NON_MATCHING: the original loads the main body twice (once into the saved register, once for the
+// null test whose register is reused as the getMotionType argument); the iterator part matches
 void FixableLiftable::calc_() {
     SimpleLiftable::calc_();
     auto* actor = mActor;
@@ -34,8 +37,8 @@ void FixableLiftable::calc_() {
 
     bool touching_dynamic = false;
     if (auto* info = body->getContactPointInfo()) {
-        if (info->getNumContactPoints() != 0) {
-            for (auto it = info->begin(); it != info->end(); ++it) {
+        if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+            for (auto it = info->begin(), end = info->end(); it != end; ++it) {
                 auto* other = (*it)->body_b;
                 if (other && other->getMotionType() == ksys::phys::MotionType::Dynamic)
                     touching_dynamic = true;
@@ -44,7 +47,7 @@ void FixableLiftable::calc_() {
     }
 
     const f32 scale = actor->getScale().x;
-    if (sub_71007A2604(actor) || (touching_dynamic | (*mCancelFixedScale_s <= _d8 - scale)))
+    if (sub_71007A2604(actor) || (touching_dynamic | (_d8 - scale >= *mCancelFixedScale_s)))
         body->changeMotionType(ksys::phys::MotionType::Dynamic);
 }
 
@@ -71,6 +74,29 @@ void FixableLiftable::m34() {
 
 void FixableLiftable::m38() {
     _d8 = mActor->getScale().x;
+}
+
+bool FixableLiftable::handleMessage_(const ksys::Message& message) {
+    auto* actor = mActor;
+    bool is_fixed_hit = false;
+    if (message.getType() == 0x3000004) {
+        if (auto* damage_mgr = sub_710072BA90(actor))
+            is_fixed_hit = damage_mgr->sub_71006D8534() > 0;
+    }
+
+    const auto& type = message.getType();
+    if (is_fixed_hit || type == 0x3000014) {
+        if (auto* body = actor->getMainBody()) {
+            if (auto* main_body = mActor->getMainBody()) {
+                if (mActor->getMapObject() && *mIsFixedPlace_m &&
+                    main_body->getMotionType() != ksys::phys::MotionType::Dynamic) {
+                    body->changeMotionType(ksys::phys::MotionType::Dynamic);
+                }
+            }
+        }
+        return true;
+    }
+    return SimpleLiftable::handleMessage_(message);
 }
 
 }  // namespace uking::ai

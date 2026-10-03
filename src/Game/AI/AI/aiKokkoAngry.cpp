@@ -42,31 +42,18 @@ bool KokkoAngry::m36() {
     return false;
 }
 
-// NON_MATCHING: the original passes -1 as a full 32-bit value to sub_71002DCCBC (its parameter is
-// probably not u16) and keeps &_d70 in x20
+// NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
 void KokkoAngry::calc_() {
-    const ksys::act::BaseProcLink* target = &ksys::act::sUnk_71026505e0;
-    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        auto& targets = enemy->_d70;
-        target = targets.sub_71002DCCBC(0xffff) ? &ksys::act::sUnk_71026505e0 :
-                                                  &targets.mEntries[0].link;
-    }
-
-    if (target->hasProc())
+    if (getKokkoTargetLink(mActor)->hasProc())
         CreateActorWithTarget::calc_();
     else
         setFinished();
 }
 
-// NON_MATCHING: the original derives the entry link address from &_d70 (+8) (regalloc follows)
+// NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
 sead::Vector3f KokkoAngry::m35() {
     ksys::act::ActorConstDataAccess accessor;
-    ksys::act::BaseProcLink* link = &ksys::act::sUnk_71026505e0;
-    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        if (!enemy->_d70.sub_71002DCCBC(-1))
-            link = &enemy->_d70.mEntries[0].link;
-    }
-    if (ksys::act::acquireActor(link, &accessor))
+    if (ksys::act::acquireActor(getKokkoTargetLink(mActor), &accessor))
         return accessor.getActorMtx().getTranslation();
     const auto& mtx = mActor->getMtx();
     return mtx.getTranslation() + mtx.getBase(2);

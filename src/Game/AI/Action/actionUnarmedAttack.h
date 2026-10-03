@@ -24,26 +24,29 @@ protected:
     virtual float m33();
     virtual void m34();
 
-    // static_param at offset 0x20
-    const char* mASName_s{};
-    // static_param at offset 0x28
-    const char* mAtRigidBodyName_s{};
-    // static_param at offset 0x30
-    const float* mSpeed_s{};
-    // static_param at offset 0x38
-    const float* mRotAngle_s{};
-    // static_param at offset 0x40
-    const float* mSpeedStopRatio_s{};
-    // static_param at offset 0x48
-    const float* mRotSpeedStopRatio_s{};
-    // static_param at offset 0x50
-    const float* mJustAvoidCheckLength_s{};
-    // static_param at offset 0x58
-    const float* mJustAvoidCheckAngle_s{};
-    // static_param at offset 0x60
-    const bool* mIsIgnoreSmallHit_s{};
-    // dynamic_param at offset 0x68
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const char* mASName_s{};
+        // static_param at offset 0x28
+        const char* mAtRigidBodyName_s{};
+        // static_param at offset 0x30
+        const float* mSpeed_s{};
+        // static_param at offset 0x38
+        const float* mRotAngle_s{};
+        // static_param at offset 0x40
+        const float* mSpeedStopRatio_s{};
+        // static_param at offset 0x48
+        const float* mRotSpeedStopRatio_s{};
+        // static_param at offset 0x50
+        const float* mJustAvoidCheckLength_s{};
+        // static_param at offset 0x58
+        const float* mJustAvoidCheckAngle_s{};
+        // static_param at offset 0x60
+        const bool* mIsIgnoreSmallHit_s{};
+        // dynamic_param at offset 0x68
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_7102451ba0 _70;
     ksys::VFRValue _98{0.0f};
     ksys::VFRVec3f _a4;

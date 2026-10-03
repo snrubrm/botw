@@ -12,24 +12,24 @@ bool LynelRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
 }
 
-void LynelRoot::m37() {
-    if (mActor->getVelocity().y > 0.0f) {
-        if (auto* controller = mActor->getCharacterController()) {
-            sead::Vector3f velocity;
-            controller->sub_7100F5F598(&velocity);
-            velocity.y = 0.0f;
-            controller->sub_7100F5F6FC(velocity);
-        }
-    }
-    EnemyRoot::m37();
-}
-
 void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
 }
 
 void LynelRoot::leave_() {
     EnemyRoot::leave_();
+}
+
+void LynelRoot::m37() {
+    if (mActor->getVelocity().y > 0) {
+        if (auto* controller = mActor->getCharacterController()) {
+            sead::Vector3f vel;
+            controller->sub_7100F5F598(&vel);
+            vel.y = 0;
+            controller->sub_7100F5F6FC(vel);
+        }
+    }
+    EnemyRoot::m37();
 }
 
 void LynelRoot::loadParams_() {

@@ -23,12 +23,25 @@ public:
 
     void m44() override;
     bool m43() override;
+    bool m48() override;
+    bool m49() override;
+    bool m50() override;
+    bool m51() override;
+    bool m52() override;
     virtual s32 m53() { return *mWeaponIdx_s; }
 
     // 0x710046096c / 0x7100460ee8 / 0x7100461020 (not decompiled; used by enter_)
     bool sub_710046096C();
     void sub_7100460EE8();
     void sub_7100461020();
+    // 0x7100461b74: whether the player (while hanging or in the 21 state) is within the climb
+    // height range (ClimbVmin..ClimbVmax) and horizontal distance (ClimbHmax) of the actor.
+    bool sub_7100461B74();
+    // inline-only in the original; name is a guess (sub_7100460EE8, sub_7100461020 and m44 repeat it):
+    // the translation of the actor linked by _1c8.
+    void getChemTargetPos(sead::Vector3f* pos);
+    // 0x7100461c98: _1dc = 15, then the child "対象壁つかまり" with TargetPos = the enemy target position.
+    void sub_7100461C98();
 
 protected:
     // static_param at offset 0x140
@@ -64,7 +77,7 @@ protected:
     ksys::act::BaseProcLink _1b8;
     ksys::act::BaseProcLink _1c8;
     f32 _1d8 = 0;
-    u32 _1dc = 0;
+    f32 _1dc = 0;
     bool _1e0 = false;
     bool _1e1 = false;
 };

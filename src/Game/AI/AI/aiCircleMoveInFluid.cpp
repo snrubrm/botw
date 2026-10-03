@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiCircleMoveInFluid.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include <cmath>
@@ -17,7 +19,19 @@ bool CircleMoveInFluid::init_(sead::Heap* heap) {
 }
 
 void CircleMoveInFluid::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _c8 = 0;
+    m34();
+    sub_710034F850();
+    if (*mIsSetSystemDeleteDistance_s) {
+        f32 distance;
+        if (auto* object = mActor->getMapObject())
+            distance = ksys::map::PlacementMgr::instance()->getDeleteDistance(object);
+        else
+            distance = ksys::map::getActorTraverseDist(mActor->getName(), 1.0f) + 10.0f;
+        const f32 radius = *mRadiusX_s > *mRadiusZ_s ? *mRadiusX_s : *mRadiusZ_s;
+        const f32 rate = *mMaxRandRadiusRate_s;
+        mActor->setDeleteDistance(distance + radius * rate);
+    }
 }
 
 void CircleMoveInFluid::calc_() {

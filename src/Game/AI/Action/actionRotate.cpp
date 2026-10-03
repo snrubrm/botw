@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRotate.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,29 @@ bool Rotate::init_(sead::Heap* heap) {
 }
 
 void Rotate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    switch (*mRotAxis_m) {
+    case 0:
+        _40.set(sead::Vector3f::ex);
+        break;
+    case 1:
+        _40.set(sead::Vector3f::ey);
+        break;
+    case 2:
+        _40.set(sead::Vector3f::ez);
+        break;
+    }
+
+    const f32 angle = sead::Mathf::deg2rad(*mTiltAngle_m);
+    if (*mIsReturn_s) {
+        _58.set(sead::Vector3f::zero);
+        _4c = _58 + _40 * angle;
+    } else {
+        _4c.set(sead::Vector3f::zero);
+        _58 = _4c + _40 * angle;
+        actor->emitBasicSigOn();
+        actor->setRevivalFlagForUsed(true);
+    }
 }
 
 void Rotate::leave_() {

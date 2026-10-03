@@ -32,6 +32,9 @@ public:
     void sub_71006694B4(ksys::act::BaseProc* proc);
     void sub_710066956C(ksys::act::BaseProc* proc, bool join_system_group);
     void sub_71006695DC(ksys::act::BaseProc* proc);
+    // 0x7100669144 (lane1 s22; the CSV name is a mislabel): registers a gear ratio (updates the lcm
+    // kept at +0x10c8). Placeholder name.
+    void sub_7100669144(f32 gear_ratio);
     // 0x71006698b0: sets / clears bit 2 of the current entry's flags (+0x10a8, indexed by +0x28)
     // under the CriticalSection. Placeholder name.
     void sub_71006698B0(bool on);
@@ -58,7 +61,10 @@ public:
     // Two entries (current one: `_28`); bit 0 is read by DgnObj_DLC_CWRotDirSwitch::calc_ from the other
     // entry, bit 2 is set / cleared by sub_71006698B0.
     u32 _10a8[2];
-    u8 _10b0[0x1108 - 0x10b0];
+    u8 _10b0[0x10c0 - 0x10b0];
+    // Read by DgnObj_DLC_CogWheel_Physics_Ctr::sub_710035ED38 (> 0.6 enables its collision).
+    f32 _10c0;
+    u8 _10c4[0x1108 - 0x10c4];
 };
 KSYS_CHECK_SIZE_NX150(GearMgr, 0x1108);
 

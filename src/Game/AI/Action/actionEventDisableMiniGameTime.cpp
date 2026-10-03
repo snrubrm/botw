@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventDisableMiniGameTime.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameEventMgrMiniGame.h"
 
 namespace uking::action {
 
@@ -12,5 +14,14 @@ bool EventDisableMiniGameTime::init_(sead::Heap* heap) {
 }
 
 void EventDisableMiniGameTime::loadParams_() {}
+
+bool EventDisableMiniGameTime::oneShot_() {
+    auto* mini_game = EventMgrMiniGame::instance();
+    if (!mini_game)
+        return false;
+    mini_game->setMode(0);
+    ui::minigameScreenHideTimer();
+    return true;
+}
 
 }  // namespace uking::action

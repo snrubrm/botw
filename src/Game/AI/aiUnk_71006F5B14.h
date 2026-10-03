@@ -29,6 +29,9 @@ bool sub_71006F594C(Unk_71006F5DB0 element, ksys::act::Chemical* chemical);
 bool sub_71006F59C4(ksys::act::Actor* actor, int a2);
 // 0x71006f5d3c (declared only): starts the head-shot limp animation of `element` (actor's ASList).
 void sub_71006F5D3C(Unk_71006F5DB0 element, ksys::act::Actor* actor);
+// 0x71006f61f0 (lane1 s22, declared only): GelEnemy only (false for other actors): bit 2 of
+// GelEnemy::_1678.
+bool sub_71006F61F0(ksys::act::Actor* actor);
 // 0x71006f6144 (declared only).
 void sub_71006F6144(ksys::act::Actor* actor);
 // 0x71006f55d8 (lane2 s21): makes the actor's character controller leave hover mode (sets motion type _1

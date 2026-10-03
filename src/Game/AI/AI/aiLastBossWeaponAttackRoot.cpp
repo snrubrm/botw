@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossWeaponAttackRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -29,6 +30,15 @@ void LastBossWeaponAttackRoot::loadParams_() {
     getStaticParam(&mReappearanceDist_s, "ReappearanceDist");
     getStaticParam(&mReappearanceDistOffset_s, "ReappearanceDistOffset");
     getDynamicParam(&mIsAttackPatternFixed_d, "IsAttackPatternFixed");
+}
+
+void LastBossWeaponAttackRoot::sub_710047EFD4() {
+    if (auto* awareness = mActor->getAwareness())
+        awareness->sub_7100D7EBE0(1.0f);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(true, "IsResetEndTime", -1);
+    changeChild("待機", &pack);
 }
 
 }  // namespace uking::ai

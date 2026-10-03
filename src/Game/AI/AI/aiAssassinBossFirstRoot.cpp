@@ -46,6 +46,40 @@ void AssassinBossFirstRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71007A3910(mActor, "TgtBarrier");
 }
 
+void AssassinBossFirstRoot::calc_() {
+    AssassinBossRootBase::calc_();
+    if (isCurrentChild("撤退"))
+        return;
+
+    sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s));
+    if (_2b0._25)
+        _2b0._25 = false;
+
+    auto* actor = mActor;
+    if (actor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        if (!_2d8) {
+            sub_71007A3778(actor, "TgtBarrier");
+            _2d8 = true;
+        }
+    } else if (_2d8) {
+        sub_71007A3910(actor, "TgtBarrier");
+        _2d8 = false;
+    }
+
+    if (isCurrentChild("リアクション")) {
+        if (mActor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                   true)) {
+            setDamageCallbackTiming(mActor, 0, &_2b0);
+        } else {
+            sub_71005DA114(mActor, &_2b0);
+        }
+    } else {
+        setDamageCallbackTiming(mActor, 0, &_2b0);
+        if (_2b0._24)
+            m46();
+    }
+}
+
 void AssassinBossFirstRoot::leave_() {
     AssassinBossRootBase::leave_();
     _2d8 = false;

@@ -37,6 +37,11 @@ void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710033E970();
 }
 
+void BreathAttackEnemyBattle::sub_710033EA88() {
+    if (auto* enemy = static_cast<act::Enemy*>(mActor))
+        enemy->startAttackInterval(*mAttackIntervalIntensity_s);
+}
+
 void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
     if (time < 0)
         return;
@@ -51,7 +56,11 @@ void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
 }
 
 void BreathAttackEnemyBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _90.deleteProc();
+    if (*mIsDeleteBreath_s) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_a0.getProc(nullptr, nullptr)))
+            actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 void BreathAttackEnemyBattle::loadParams_() {

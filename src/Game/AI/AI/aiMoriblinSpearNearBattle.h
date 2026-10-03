@@ -10,10 +10,13 @@ public:
     explicit MoriblinSpearNearBattle(const InitArg& arg);
 
     bool isChangeable() const override;
+    bool isFinished() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x71004abc20 (placeholder name)
+    void sub_71004ABC20();
 
 protected:
     // static_param at offset 0x38

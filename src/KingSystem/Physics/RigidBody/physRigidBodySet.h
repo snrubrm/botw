@@ -41,7 +41,9 @@ public:
     bool hasActiveEntityBody() const;
 
     RigidBody* findBodyByHavokName(const sead::SafeString& name);
-    const RigidBody* findBodyByHavokName(const sead::SafeString& name) const;
+    // Returns a mutable pointer: Actor::findPhysicsBodyByName (const) calls this overload and returns
+    // RigidBody*.
+    RigidBody* findBodyByHavokName(const sead::SafeString& name) const;
     int findBodyIndexByHavokName(const sead::SafeString& name) const;
 
     void setUserTag(UserTag* tag);

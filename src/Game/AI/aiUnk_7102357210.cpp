@@ -7,8 +7,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
-Unk_7102450498::~Unk_7102450498() = default;
-
 bool Unk_7102450498::m2(const ksys::Message& message) {
     if (message.getType() != 0x8000021)
         return false;
@@ -743,20 +741,6 @@ bool Unk_7102358dc0::m2(const ksys::Message& message) {
         return false;
 
     auto* payload = static_cast<Unk_7102358dc0_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
-bool Unk_710235cec8::m2(const ksys::Message& message) {
-    if (message.getType() != 0x8000041)
-        return false;
-
-    auto* payload = static_cast<Unk_71023e7bc0_Payload*>(message.getUserData());
     if (!payload)
         return false;
 

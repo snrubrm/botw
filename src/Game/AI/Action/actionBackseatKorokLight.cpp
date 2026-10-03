@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBackseatKorokLight.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -11,7 +13,28 @@ bool BackseatKorokLight::init_(sead::Heap* heap) {
 }
 
 void BackseatKorokLight::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    if (!actor->isCalc()) {
+        const sead::Vector3f& pos = actor->getMtx().getTranslation();
+        const f32 x = pos.x;
+        const f32 z = pos.z;
+        const sead::Vector3f& player = getPlayerPosition();
+        const f32 dx = x - player.x;
+        const f32 dz = z - player.z;
+        const f32 dist_sq = dx * dx + dz * dz;
+        _a1 = dist_sq < *mDisappearDist_s * *mDisappearDist_s;
+        if (dist_sq > *mAppearDist_s * *mAppearDist_s) {
+            _a2 = true;
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        } else {
+            _a2 = false;
+        }
+    }
+    _a4 = mActor->getMtx().getTranslation();
+    if (_a0)
+        playAS(mGroundWaitASName_s.cstr(), false, 0, 0, -1.0f);
+    else
+        playAS(mFlyWaitASName_s.cstr(), false, 0, 0, -1.0f);
 }
 
 void BackseatKorokLight::leave_() {

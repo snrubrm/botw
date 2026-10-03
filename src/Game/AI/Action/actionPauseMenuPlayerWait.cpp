@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPauseMenuPlayerWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -21,7 +22,7 @@ void PauseMenuPlayerWait::leave_() {
 void PauseMenuPlayerWait::loadParams_() {}
 
 void PauseMenuPlayerWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    mActor->x_22(sead::Vector3f::zero, sead::Vector3f::zero);
 }
 
 }  // namespace uking::action

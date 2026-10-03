@@ -17,8 +17,7 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x8];
+    void* _20{};
     // dynamic_param at offset 0x28
     float* mWindDirX_d{};
     // dynamic_param at offset 0x30

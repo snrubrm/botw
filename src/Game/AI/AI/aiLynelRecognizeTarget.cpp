@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -44,6 +47,68 @@ void LynelRecognizeTarget::loadParams_() {
     getMapUnitParam(&mIsNearCreate_m, "IsNearCreate");
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
     getAITreeVariable(&mLynelAreaAlarmPoint_a, "LynelAreaAlarmPoint");
+}
+
+void LynelRecognizeTarget::sub_710049708C() {
+    sead::Vector3f pos;
+    mActor->getHomePos(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("帰還", &pack);
+}
+
+void LynelRecognizeTarget::sub_7100496894() {
+    _108 = 0;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("気づき", &pack);
+}
+
+void LynelRecognizeTarget::sub_71004966C4() {
+    const f32 time = *mForceBattleStartTime_s;
+    _108 = 0;
+    _118 = time;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("警戒", &pack);
+}
+
+void LynelRecognizeTarget::sub_71004967AC() {
+    const f32 time = *mForceBattleStartTime_s;
+    _108 = 0;
+    _118 = time;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("観察", &pack);
+}
+
+void LynelRecognizeTarget::sub_7100496D84() {
+    auto* actor = mActor;
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(actor), "TargetPos", -1);
+    changeChild("戦闘開始", &pack);
+
+    actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+}
+
+void LynelRecognizeTarget::sub_7100497164() {
+    auto* actor = mActor;
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(actor), "TargetPos", -1);
+    changeChild("強制戦闘開始", &pack);
+
+    actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_e84.setBit(1);
 }
 
 }  // namespace uking::ai

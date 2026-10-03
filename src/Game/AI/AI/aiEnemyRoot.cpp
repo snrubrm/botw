@@ -1,7 +1,12 @@
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
 
@@ -75,6 +80,36 @@ void EnemyRoot::m40() {
     changeChild("所持");
 }
 
+void EnemyRoot::m43() {
+    auto* actor = mActor;
+    if (isCurrentChild("騎乗") || isCurrentChild("リアクション") || isCurrentChild("近接湧出")) {
+        ksys::act::disableAttClient(actor, "SleepSilentKill");
+        ksys::act::disableAttClient(actor, "AwakeSilentKill");
+        return;
+    }
+
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor);
+    if (!enemy)
+        return;
+
+    if (enemy->_e84.isOnBit(8)) {
+        ksys::act::enableAttClient(actor, "SleepSilentKill");
+        ksys::act::disableAttClient(actor, "AwakeSilentKill");
+        return;
+    }
+
+    ksys::act::disableAttClient(actor, "SleepSilentKill");
+    auto& target = sub_71005D94AC(actor);
+    if (*mForceSealSilentKillCount_a > 0 ||
+        actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_1000000) ||
+        (target == ksys::act::PlayerInfo::getSomeProcLink() &&
+         (!enemyTeamStuff(mActor, &target) || enemy->_e84.isOnBit(1)))) {
+        ksys::act::disableAttClient(actor, "AwakeSilentKill");
+    } else {
+        ksys::act::enableAttClient(actor, "AwakeSilentKill");
+    }
+}
+
 void EnemyRoot::m42() {
     _1c8 = false;
     changeChild("奈落");
@@ -82,6 +117,20 @@ void EnemyRoot::m42() {
 
 bool EnemyRoot::m35() {
     return sub_71005D6E28(mActor);
+}
+
+void EnemyRoot::sub_71003B5644() {
+    *mIsTrgChangeUnderWaterState_a = false;
+    if (auto* awareness = mActor->getAwareness()) {
+        const u32 flags = awareness->_318;
+        const bool castle = ksys::gdt::getFlag_IsInHyruleCastleArea();
+        if (flags & 8) {
+            if (castle)
+                awareness->_318 &= ~8u;
+        } else if (!castle) {
+            awareness->_318 |= 8;
+        }
+    }
 }
 
 bool EnemyRoot::sub_71003B5804(bool a1) {

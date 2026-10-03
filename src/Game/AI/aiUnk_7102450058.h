@@ -46,6 +46,9 @@ public:
     explicit Unk_7102450298(ksys::act::Actor* actor);
     ~Unk_7102450298() override;
 
+    /// 0x71006f8ab4 (lane1 s22, name is a placeholder): true without a constraint, else whether the
+    /// constraint's low flag byte has bit 0 clear.
+    bool sub_71006F8AB4() const;
     // 0x7100f6d358 + store; false when the constraint could not be created.
     bool init(sead::Heap* heap);
 
@@ -70,8 +73,8 @@ public:
 
     bool m4(ksys::act::BaseProc* proc) override;
 
-    /* 0x28 */ const char* _28 = nullptr;
-    /* 0x30 */ const char* _30 = nullptr;
+    /* 0x28 */ const char* _28 = nullptr;  // name of the carried actor's node
+    /* 0x30 */ const char* _30 = nullptr;  // own node name
     /* 0x38 */ s64 _38 = -1;
     /* 0x40 */ sead::Matrix34f _40 = sead::Matrix34f::ident;
     /* 0x70 */ u32 _70 = 0;

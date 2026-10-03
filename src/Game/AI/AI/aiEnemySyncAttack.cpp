@@ -22,9 +22,8 @@ void EnemySyncAttack::leave_() {
     if (actor && actor->getModel()) {
         actor->getASList()->sub_710115B01C(*mAttackASSlot_s, 0, true);
         actor->getASList()->sub_710115C11C();
-        actor = mActor;
     }
-    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
         sub_71007A2D34(body);
 }
 

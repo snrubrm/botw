@@ -20,6 +20,20 @@ public:
 
     // Unnamed target record filled by m34.
     struct Unk {
+        Unk() = default;
+        Unk(const Unk& other) {
+            _0 = other._0;
+            _1c = other._1c;
+            _10 = other._10;
+        }
+        // Returns by value: the original's `_80 = _60` also builds (and destroys) a temporary copy.
+        Unk operator=(const Unk& other) {
+            _0 = other._0;
+            _1c = other._1c;
+            _10 = other._10;
+            return *this;
+        }
+
         ksys::act::BaseProcLink _0;
         sead::Vector3f _10;
         u8 _1c = 0;
@@ -30,6 +44,16 @@ public:
     virtual void m36();
 
     void sub_71003A7DD4();
+
+    // Placeholder names (lane1 s22).
+    // 0x71003a7a88: whether no awareness entry (nearer than NoTerrorDist) is the remembered target
+    // `_80`.
+    bool sub_71003A7A88();
+    // 0x71003a7b64: the position of the remembered target (`_60`, else `_80`); false without one.
+    bool sub_71003A7B64(sead::Vector3f* out);
+    // 0x71003a7c44: starts "眺める" towards the target position.
+    void sub_71003A7C44();
+
 protected:
     // static_param at offset 0x38
     const int* mWaitTime_s{};

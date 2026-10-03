@@ -47,6 +47,25 @@ void BreathEnemyRangeKeepMove::loadParams_() {
     getStaticParam(&mBreathMinTime_s, "BreathMinTime");
 }
 
+bool BreathEnemyRangeKeepMove::handleMessage_(const ksys::Message& message) {
+    if (message.getType() == 0x3000003 && sub_710034076C()) {
+        sub_7100340570();
+        _16c = true;
+    }
+    return false;
+}
+
+bool BreathEnemyRangeKeepMove::sub_710034076C() {
+    bool is_state_calc = false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());
+        ksys::act::ActorConstDataAccess acc;
+        ksys::act::acquireActor(&link, &acc);
+        is_state_calc = acc.isStateCalc();
+    }
+    return is_state_calc;
+}
+
 void BreathEnemyRangeKeepMove::sub_7100340570() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         auto& link = enemy->getActorPartsActor(mBreathName_s.cstr());

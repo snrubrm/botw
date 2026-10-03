@@ -186,6 +186,9 @@ public:
     virtual void forceCalcDrawSetup();
     virtual void setUpMaterialImpl(int, sead::Heap* heap);
 
+    // Getter for `_50` (unknown vector, tested for NaN by GelEnemy's per-frame checks).
+    sead::Vector3f* get50() const { return _50; }
+
 protected:
     sead::TypedBitFlag<Flag, u8> mFlags;
     s8 mUnkIndex;

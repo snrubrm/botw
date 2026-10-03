@@ -16,8 +16,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
     void m34() override;
     f32 m35() override;
+    ksys::map::Rail* m36() override;
     bool m40() override;
 
 protected:

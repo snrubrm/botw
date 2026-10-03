@@ -29,6 +29,9 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
     bool m68(Unk2* out, Unk1* info) override { return false; }
+    // 0x7100453518 (placeholder name)
+    void sub_7100453518(const ksys::act::BaseProcLink& target);
+
 protected:
     // static_param at offset 0x3d0
     const float* mRoamHeightFromGlowObj_s{};

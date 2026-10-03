@@ -1,8 +1,11 @@
 #include "Game/AI/Action/actionPlayerShieldRideMove.h"
+#include <cstring>
 
 namespace uking::action {
 
-PlayerShieldRideMove::PlayerShieldRideMove(const InitArg& arg) : PlayerAction(arg) {}
+PlayerShieldRideMove::PlayerShieldRideMove(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mMaxSpeed_s, 0, 0x48);
+}
 
 void PlayerShieldRideMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -39,6 +41,14 @@ void LynelBattle::loadParams_() {
     getStaticParam(&mBreathPartsKey1_s, "BreathPartsKey1");
     getStaticParam(&mBreathPartsKey2_s, "BreathPartsKey2");
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
+}
+
+void LynelBattle::sub_710048D8A0() {
+    ++_d8;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("近接戦闘", &pack);
 }
 
 }  // namespace uking::ai

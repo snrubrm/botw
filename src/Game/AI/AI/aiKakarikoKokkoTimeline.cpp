@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiKakarikoKokkoTimeline.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
+#include "Game/gameVillagerMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -45,6 +47,13 @@ void KakarikoKokkoTimeline::sub_7100450D14() {
 }
 
 void KakarikoKokkoTimeline::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_7100450D14();
+    if (!mActor->isSpecialJobTypesMaskOverride0()) {
+        if (auto* mgr = ksys::map::PlacementMgr::instance()) {
+            if (auto* villager_mgr = mgr->mVillagerMgr)
+                villager_mgr->x_6(mActor, true);
+        }
+    }
     AnimalTimelineAI::enter_(params);
 }
 

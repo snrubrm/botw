@@ -32,6 +32,7 @@ public:
     virtual bool m44();
 
     void sub_710033E970();
+    void sub_710033EA88();
     void sub_710033F27C(s32 time);
     // The position of the actor of m34().
     void sub_710033EDD0(sead::Vector3f* out);

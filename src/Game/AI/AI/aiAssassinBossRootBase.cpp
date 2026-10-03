@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -88,6 +90,99 @@ void AssassinBossRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     if (auto* controller = mActor->getCharacterController())
         controller->mFlags.set(0xc00);
+}
+
+void AssassinBossRootBase::calc_() {
+    sub_71003B5644();
+
+    if (isCurrentChild("撤退")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            if (_220._30) {
+                m47();
+                _1e8.x();
+                _258 = 10.0f;
+            } else {
+                xlinkSearchAndEmit(mActor, "Doron", 2, nullptr);
+                mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+            _220.x();
+        }
+        return;
+    }
+
+    if (_220._30) {
+        _1e8.x();
+        _220.x();
+    }
+
+    if (_1e8._30)
+        ksys::Timer::update(&_258, -1.0f);
+    else
+        _258 = 10.0f;
+
+    if (isCurrentChild("強制ワープ回避")) {
+        ksys::act::acc::PlayerBase player;
+        player.getPlayerFromPlayerInfo();
+        sead::Vector3f pos;
+        player.getActorMtx().getTranslation(pos);
+        getCurrentChild()->setDynamicParam(pos, "TargetPos");
+        if (_1c8) {
+            m42();
+            return;
+        }
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeChild("通常");
+        else
+            EnemyRoot::calc_();
+        return;
+    }
+
+    if (isCurrentChild("リアクション")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            changeChild("リアクション復帰");
+        else
+            EnemyRoot::calc_();
+        return;
+    }
+
+    const bool is_recovering = isCurrentChild("リアクション復帰");
+    auto* child = getCurrentChild();
+    if (is_recovering) {
+        if (child->isFinished() || child->isFailed()) {
+            m38();
+            return;
+        }
+        if (_258 <= 0) {
+            changeChild("撤退");
+            _1e8.x();
+            return;
+        }
+        if (m45())
+            m46();
+        return;
+    }
+
+    if (child->isChangeable() && _258 <= 0) {
+        changeChild("撤退");
+        _1e8.x();
+        return;
+    }
+    if (m45())
+        m46();
+    else
+        EnemyRoot::calc_();
+}
+
+void AssassinBossRootBase::sub_710031C2C8(s32 threshold) {
+    _260._24 = threshold;
+    setDamageCallbackTiming(mActor, 4, &_260);
+}
+
+void AssassinBossRootBase::sub_710031BB3C() {
+    sub_71005DA114(mActor, &_260);
 }
 
 void AssassinBossRootBase::leave_() {

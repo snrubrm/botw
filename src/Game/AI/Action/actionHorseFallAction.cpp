@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseFallAction.h"
+#include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -15,7 +16,16 @@ bool HorseFallAction::init_(sead::Heap* heap) {
 }
 
 void HorseFallAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* rideable = mActor->m132();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    rideable->_18.sub_7100E76E74(act::sUnk_71026031f0, false);
+    if (auto* horse = sead::DynamicCast<act::Rideable>(rideable)) {
+        horse->sub_7100E8BE10();
+        horse->Unk_7100e8b2b8::_8 = 0x200;
+    }
 }
 
 void HorseFallAction::leave_() {

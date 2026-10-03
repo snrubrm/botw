@@ -22,20 +22,23 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x28
-    const float* mRotSpd_s{};
-    // dynamic_param at offset 0x30
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0x38
-    const float* mAttackRatio_s{};
-    // static_param at offset 0x40
-    const float* mJustAvoidSideDist_s{};
-    // static_param at offset 0x48
-    const float* mJustAvoidBackDist_s{};
-    // static_param at offset 0x50
-    const float* mJustAvoidAngle_s{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x28
+        const float* mRotSpd_s{};
+        // dynamic_param at offset 0x30
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0x38
+        const float* mAttackRatio_s{};
+        // static_param at offset 0x40
+        const float* mJustAvoidSideDist_s{};
+        // static_param at offset 0x48
+        const float* mJustAvoidBackDist_s{};
+        // static_param at offset 0x50
+        const float* mJustAvoidAngle_s{};
+    };
+    Params mParams;
     Unk_7102451ba0 _58;
     ksys::VFRValue _80;
     sead::Matrix33f _8c;

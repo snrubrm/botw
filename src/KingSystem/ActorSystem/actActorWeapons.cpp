@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
@@ -33,6 +34,18 @@ void ActorWeapons::resetBaseProcLinkForActor(BaseProc* proc) {
     mWeapons[idx].link.reset();
 }
 
+// NON_MATCHING: the original recomputes the address of mWeapons[idx].link after the call (register
+// allocation: x26 holds the clamped index); ours keeps the address
+bool ActorWeapons::dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4,
+                              bool a5) {
+    auto* weapon = sead::DynamicCast<WeaponBase>(mWeapons[idx].link.getProc(nullptr, nullptr));
+    if (weapon && weapon->isCalc()) {
+        weapon->m175(pos, a2, a3, a4, a5);
+        mWeapons[idx].link.reset();
+    }
+    return true;
+}
+
 void ActorWeapons::sleep(BaseProc::SleepWakeReason reason) {
     for (auto& weapon : mWeapons) {
         ActorConstDataAccess accessor;
@@ -46,6 +59,32 @@ void ActorWeapons::wakeUp(BaseProc::SleepWakeReason reason) {
         ActorConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         accessor.wakeUp(reason);
+    }
+}
+
+// NON_MATCHING: the original keeps the first cast as a branch to a shared `x19 = null` block; ours
+// if-converts it to a csel
+void sub_7100EFA810(ActorConstDataAccess* accessor) {
+    BaseProc* proc = accessor->getProc();
+    Actor* actor = nullptr;
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        actor = static_cast<Actor*>(proc);
+    if (auto* weapon = sead::DynamicCast<WeaponBase>(actor))
+        weapon->m215();
+}
+
+void ActorWeapons::x() {
+    for (auto& weapon : mWeapons) {
+        ActorConstDataAccess accessor;
+        acquireActor(&weapon.link, &accessor);
+        sub_7100EFA810(&accessor);
+    }
+}
+
+void ActorWeapons::sub_7100EFD458(Unk117* arg) {
+    for (auto& weapon : mWeapons) {
+        if (auto* actor = sead::DynamicCast<WeaponBase>(weapon.link.getProc(nullptr, nullptr)))
+            actor->x_17(arg);
     }
 }
 

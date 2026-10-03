@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiDragonItemRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actDragon.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -17,6 +19,28 @@ bool DragonItemRoot::init_(sead::Heap* heap) {
 
 void DragonItemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ItemRoot::enter_(params);
+    auto* actor = mActor;
+    _128 = actor->getMainBody();
+    _130 = actor->getMtx().getTranslation();
+    _13c = 0;
+    _140 = 0;
+    _144 = 0;
+    _148 = *mFlyStartTime_s;
+    _14c.reset(0x2f);
+    _150 = 0;
+    _154 = 0;
+    if (!*mIsInitFromCarryBox_a) {
+        auto* parent = sead::DynamicCast<act::Dragon>(sead::DynamicCast<ksys::act::Actor>(
+            actor->getCreateArgBaseProcLink().getProc(nullptr, nullptr)));
+        if (parent) {
+            _14c.change(1, parent->_1e0c == 3);
+            if (!mActor->getModelBindInfo()) {
+                actor->setConnectedCalcParent(parent, false);
+                _14c.set(8);
+            }
+        }
+    }
+    mActor->get689() = true;
 }
 
 void DragonItemRoot::leave_() {

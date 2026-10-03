@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -14,6 +15,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
     void loadParams_() override;
 
 protected:
@@ -37,9 +39,13 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetFrontDir_d{};
-    u8 _78[0x30];
+    sead::Vector3f _78;
+    sead::Vector3f _84;
+    sead::Vector3f _90;
+    sead::Vector3f _9c;
     ksys::VFRValue _a8;
-    u8 _b4[0x34];
+    sead::Matrix34f _b4;
+    u32 _e4;
 };
 KSYS_CHECK_SIZE_NX150(FreeMoveByGuideBase, 0xe8);
 

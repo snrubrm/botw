@@ -13,6 +13,7 @@ public:
     explicit AddCarriedBase(const InitArg& arg);
     ~AddCarriedBase() override;
 
+    bool updateForPreDelete() override;
     bool hasUpdateForPreDeleteCb() override;
 
     bool init_(sead::Heap* heap) override;
@@ -21,6 +22,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71002f786c: whether the actor is further than FailDistance from its main body's position.
     virtual bool m34();
     virtual ksys::act::ActorBind* m35() = 0;
     virtual void m36() = 0;

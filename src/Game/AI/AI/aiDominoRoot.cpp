@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDominoRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -37,6 +38,13 @@ void DominoRoot::loadParams_() {
     getStaticParam(&mIsIgnoreWater_s, "IsIgnoreWater");
     getMapUnitParam(&mIsBreakable_m, "IsBreakable");
     getMapUnitParam(&mEnableToEmitSpEffect_m, "EnableToEmitSpEffect");
+}
+
+void DominoRoot::sub_7100366388(const sead::Vector3f& vel, const sead::Vector3f& ang_vel) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(vel, "DynVel", -1);
+    pack.addVec3(ang_vel, "DynAngVel", -1);
+    changeChild("倒れる", &pack);
 }
 
 }  // namespace uking::ai

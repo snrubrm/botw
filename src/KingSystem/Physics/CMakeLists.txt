@@ -161,6 +161,7 @@ target_sources(uking PRIVATE
     System/physMaterialTable.cpp
     System/physMaterialTable.h
     System/physNavMeshCharacter.cpp
+    System/physUnk_7100f7e9f0.cpp
     System/physNavMeshCharacter.h
     System/physParamSet.cpp
     System/physParamSet.h

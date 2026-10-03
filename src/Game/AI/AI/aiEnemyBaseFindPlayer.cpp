@@ -239,17 +239,14 @@ bool EnemyBaseFindPlayer::m43() {
     return sub_71005D9744(mActor) != 4;
 }
 
-// NON_MATCHING: the original evaluates the params before copying the translation (element-wise) and
-// the forward axis, as if through an inline helper taking the matrix (lane1 log, session 18)
 bool EnemyBaseFindPlayer::m35() {
     auto* actor = mActor;
     if (!actor)
         return false;
     const auto& target = sub_71005D9330(actor);
     const f32 max_dist = m34();
-    if (!sub_710072DEF0(target, max_dist, *mAttackVMin_s, *mAttackVMax_s,
-                        actor->getMtx().getTranslation(), actor->getMtx().getBase(2),
-                        sead::Mathf::pi(), sead::Mathf::maxNumber(), 0.8f)) {
+    if (!inlineIsTargetInReach(target, max_dist, *mAttackVMin_s, *mAttackVMax_s, actor->getMtx(),
+                               sead::Mathf::pi(), sead::Mathf::maxNumber(), 0.8f)) {
         return false;
     }
     return m36(true);

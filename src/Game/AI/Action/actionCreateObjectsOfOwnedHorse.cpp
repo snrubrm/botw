@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionCreateObjectsOfOwnedHorse.h"
+#include "Game/gameHorseMgr.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -12,11 +15,34 @@ bool CreateObjectsOfOwnedHorse::init_(sead::Heap* heap) {
 }
 
 void CreateObjectsOfOwnedHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* mgr = HorseMgr::instance();
+    if (!mgr || !mgr->mOwnedHorse.hasProc()) {
+        setFailed();
+        return;
+    }
+    bool created = false;
+    if (!mHorseManeActorName_d.isEmpty()) {
+        mgr->sub_7100E87340(mHorseManeActorName_d,
+                            ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+        created = true;
+    }
+    if (!mHorseReinsActorName_d.isEmpty()) {
+        mgr->sub_7100E87424(mHorseReinsActorName_d,
+                            ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+        created = true;
+    }
+    if (!mHorseSaddleActorName_d.isEmpty()) {
+        mgr->sub_7100E87508(mHorseSaddleActorName_d,
+                            ksys::act::ActorHeapUtil::instance()->getBaseProcHeap());
+        return;
+    }
+    if (!created)
+        setFailed();
 }
 
 void CreateObjectsOfOwnedHorse::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* mgr = HorseMgr::instance())
+        mgr->sub_7100E875EC();
 }
 
 void CreateObjectsOfOwnedHorse::loadParams_() {
@@ -26,7 +52,18 @@ void CreateObjectsOfOwnedHorse::loadParams_() {
 }
 
 void CreateObjectsOfOwnedHorse::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    auto* mgr = HorseMgr::instance();
+    if (!mgr) {
+        setFailed();
+        return;
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor))
+        setFailed();
+    else if (!act::sub_7100E6EAAC(accessor))
+        setFinished();
 }
 
 }  // namespace uking::action

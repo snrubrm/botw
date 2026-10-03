@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m34(ksys::act::ai::InlineParamPack* params) override;
     bool isFinished() const override;
     bool isFailed() const override;
     bool sub_710048FA58() const;

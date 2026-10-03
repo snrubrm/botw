@@ -19,25 +19,26 @@ protected:
     void calc_() override;
 
     // static_param at offset 0x20
-    const float* mParashawlInvalidTime_s{};
+    const float* mParashawlInvalidTime_s;
     // static_param at offset 0x28
-    const float* mFallSpAttackHeight_s{};
+    const float* mFallSpAttackHeight_s;
     // static_param at offset 0x30
-    const float* mFallSpAttackRadiusMin_s{};
+    const float* mFallSpAttackRadiusMin_s;
     // static_param at offset 0x38
-    const float* mFallSpAttackRadiusMax_s{};
+    const float* mFallSpAttackRadiusMax_s;
     // static_param at offset 0x40
-    const float* mFallSpAttackRadiusAdd_s{};
+    const float* mFallSpAttackRadiusAdd_s;
     // static_param at offset 0x48
-    const float* mFallSpAttackRadiusAddLSword_s{};
+    const float* mFallSpAttackRadiusAddLSword_s;
     // static_param at offset 0x50
-    const float* mFallSpLargeAttackRadius_s{};
+    const float* mFallSpLargeAttackRadius_s;
     // static_param at offset 0x58
-    const int* mRumbleType_s{};
+    const int* mRumbleType_s;
     // static_param at offset 0x60
-    const float* mRumblePowerMin_s{};
+    const float* mRumblePowerMin_s;
     // static_param at offset 0x68
-    const float* mRumblePowerMax_s{};
+    const float* mRumblePowerMax_s;
 };
+KSYS_CHECK_SIZE_NX150(PlayerCutFall, 0x70);
 
 }  // namespace uking::action

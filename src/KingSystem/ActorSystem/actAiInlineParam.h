@@ -11,7 +11,10 @@
 
 namespace ksys {
 
+namespace map {
 class Rail;
+}
+using map::Rail;
 
 namespace act {
 class Actor;

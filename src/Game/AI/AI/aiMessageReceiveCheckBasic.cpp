@@ -12,9 +12,13 @@ bool MessageReceiveCheckBasic::init_(sead::Heap* heap) {
 }
 
 void MessageReceiveCheckBasic::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71004A4D84();
+    mFlags.set(Flag::Changeable);
+}
+
+void MessageReceiveCheckBasic::sub_71004A4D84() {
     m36();
     changeChild("オフ");
-    mFlags.set(Flag::Changeable);
 }
 
 void MessageReceiveCheckBasic::calc_() {

@@ -82,4 +82,15 @@ bool GuardNearTarget::m36(float distance) {
     return *mBaseDist_s + *mGuardEndDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) < distance;
 }
 
+void GuardNearTarget::sub_710044D00C() {
+    if (m38()) {
+        m37(true);
+        _60._25 = false;
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("高速ガード開始", &pack);
+}
+
 }  // namespace uking::ai

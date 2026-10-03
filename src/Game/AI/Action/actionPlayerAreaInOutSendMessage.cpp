@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerAreaInOutSendMessage.h"
+#include <mc/seadJobQueue.h>
+#include "Game/gameSceneSubsys14.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
@@ -63,6 +65,26 @@ void PlayerAreaInOutSendMessage::calc_() {
 
 bool PlayerAreaInOutSendMessage::m34(const ksys::act::ActorConstDataAccess& accessor) {
     return !ksys::act::isPlayerProfile(accessor);
+}
+
+void PlayerAreaInOutSendMessage::m32(const ksys::act::ActorConstDataAccess& accessor) {
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_70._18.mLock);
+        _70._18._0 = true;
+    }
+    _70.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+}
+
+// NON_MATCHING: the original keeps &_70 (not `this`) in a callee-saved register across
+// isActorDeletedOrDeleting()
+void PlayerAreaInOutSendMessage::m33(const ksys::act::ActorConstDataAccess& accessor) {
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_70._18.mLock);
+        _70._18._0 = false;
+    }
+    if (isActorDeletedOrDeleting())
+        return;
+    _70.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
 }
 
 }  // namespace uking::action

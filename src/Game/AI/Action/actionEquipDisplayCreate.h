@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -38,6 +39,14 @@ protected:
     sead::SafeString mEquipStandNode_m{};
     // aitree_variable at offset 0xa0
     void* mEquipDisplayChild_a{};
+    s32 _a8 = 2;
+    u8 _ac[0x4];
+    ksys::act::BaseProcHandle _b0;
+    ksys::act::Actor* _c0 = mActor;
+    u64 _c8 = 0;
+    s32 _d0 = 0;
+    u8 _d4[0x4];
 };
+KSYS_CHECK_SIZE_NX150(EquipDisplayCreate, 0xd8);
 
 }  // namespace uking::action

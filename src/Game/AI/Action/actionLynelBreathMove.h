@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,20 +18,8 @@ public:
 
 protected:
     void calc_() override;
-    u8 _1c[0x84];
-    f32 _a0 = 10.0f;
-    s32 _a4 = 0;
-    s32 _a8 = 0;
-    f32 _ac = 1.0f;
-    f32 _b0 = 10.0f;
-    bool _b4 = false;
-    u8 _b5[0x3];
-    s32 _b8 = 2139095039;
-    s32 _bc = 2139095039;
-    s32 _c0 = 2139095039;
-    s32 _c4 = -8388609;
-    s32 _c8 = -8388609;
-    s32 _cc = -8388609;
+    sead::Vector3f _1c;
+    Unk_7100716408 _28;
     bool _d0 = true;
     u8 _d1[0x7];
 

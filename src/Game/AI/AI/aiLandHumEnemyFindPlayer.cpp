@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 namespace uking::ai {
 
@@ -32,19 +34,39 @@ void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
         sub_7100461020();
 }
 
-// NON_MATCHING: stack slot order of the accessor / matrix / position (the original keeps the accessor
-// at the top of the frame, then the matrix, then the position)
+void LandHumEnemyFindPlayer::getChemTargetPos(sead::Vector3f* pos) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_1c8, &accessor);
+    sead::Matrix34f mtx;
+    accessor.sub_7100D11188(&mtx);
+    pos->x = mtx.m[0][3];
+    pos->y = mtx.m[1][3];
+    pos->z = mtx.m[2][3];
+}
+
+void LandHumEnemyFindPlayer::sub_7100460EE8() {
+    sead::Vector3f pos;
+    getChemTargetPos(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addActor(_1c8, "TargetActor", -1);
+    changeChild("ケミカル仲間招来", &pack);
+}
+
+void LandHumEnemyFindPlayer::sub_7100461020() {
+    sead::Vector3f pos;
+    getChemTargetPos(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addActor(_1c8, "TargetActor", -1);
+    changeChild("武器ケミカル付与", &pack);
+}
+
 void LandHumEnemyFindPlayer::m44() {
     auto* child = getCurrentChild();
     if (isCurrentChild("ケミカル仲間招来") || isCurrentChild("武器ケミカル付与")) {
         sead::Vector3f pos;
-        {
-            ksys::act::ActorConstDataAccess accessor;
-            ksys::act::acquireActor(&_1c8, &accessor);
-            sead::Matrix34f mtx;
-            accessor.sub_7100D11188(&mtx);
-            pos.set(mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]);
-        }
+        getChemTargetPos(&pos);
         child->setDynamicParam(pos, "TargetPos");
     } else {
         EnemyBaseFindPlayer::m44();
@@ -80,6 +102,144 @@ bool LandHumEnemyFindPlayer::m43() {
     if (*mNearScaffoldDist_s > 0.0f && sub_71005D9744(mActor) == 3)
         return false;
     return EnemyBaseFindPlayer::m43();
+}
+
+// NON_MATCHING: the original ends with `if (dist <= Hmax) return true; return false;` as two
+// branches (one dtor call shared); ours folds the compare into a cset
+bool LandHumEnemyFindPlayer::sub_7100461B74() {
+    if (*mClimbHmax_s < 0)
+        return false;
+    auto& link = sub_71005D94AC(mActor);
+    if (!link.hasProc() || !ksys::act::isPlayerProfile(&link))
+        return false;
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&link, &player);
+    if (!player.m186() && !player.m187())
+        return false;
+    const sead::Vector3f diff =
+        player.getActorMtx().getTranslation() - mActor->getMtx().getTranslation();
+    if (diff.y < *mClimbVmin_s || diff.y > *mClimbVmax_s)
+        return false;
+    if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mClimbHmax_s)
+        return true;
+    return false;
+}
+
+void LandHumEnemyFindPlayer::sub_7100461C98() {
+    _1dc = 15.0f;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("対象壁つかまり", &pack);
+}
+
+// m48 / m49 / m50 / m52 have identical bodies in the original (m51 adds the m38 tail).
+bool LandHumEnemyFindPlayer::m48() {
+    if (!(*mNearScaffoldDist_s <= 0)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f target = sub_71005D9330(actor);
+            const sead::Vector3f diff = target - actor->getMtx().getTranslation();
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_7100461B74()) {
+        sub_7100461C98();
+        return true;
+    }
+    return false;
+}
+
+bool LandHumEnemyFindPlayer::m49() {
+    if (!(*mNearScaffoldDist_s <= 0)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f target = sub_71005D9330(actor);
+            const sead::Vector3f diff = target - actor->getMtx().getTranslation();
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_7100461B74()) {
+        sub_7100461C98();
+        return true;
+    }
+    return false;
+}
+
+bool LandHumEnemyFindPlayer::m50() {
+    if (!(*mNearScaffoldDist_s <= 0)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f target = sub_71005D9330(actor);
+            const sead::Vector3f diff = target - actor->getMtx().getTranslation();
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_7100461B74()) {
+        sub_7100461C98();
+        return true;
+    }
+    return false;
+}
+
+bool LandHumEnemyFindPlayer::m51() {
+    if (!(*mNearScaffoldDist_s <= 0)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f target = sub_71005D9330(actor);
+            const sead::Vector3f diff = target - actor->getMtx().getTranslation();
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_7100461B74()) {
+        sub_7100461C98();
+        return true;
+    }
+    if (m38()) {
+        sub_710037ECD0();
+        return true;
+    }
+    return false;
+}
+
+bool LandHumEnemyFindPlayer::m52() {
+    if (!(*mNearScaffoldDist_s <= 0)) {
+        auto* actor = mActor;
+        if (sub_71005D9744(actor) == 3) {
+            const sead::Vector3f target = sub_71005D9330(actor);
+            const sead::Vector3f diff = target - actor->getMtx().getTranslation();
+            if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) <= *mNearScaffoldDist_s) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+                changeChild("対象見張り台", &pack);
+                return true;
+            }
+        }
+    }
+    if (sub_7100461B74()) {
+        sub_7100461C98();
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

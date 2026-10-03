@@ -16,8 +16,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message& message) override;
 
     void sub_7100340570();
+    // 0x710034076c: whether the breath part actor (by BreathName) is in the calc state.
+    bool sub_710034076C();
 
     bool sub_710033FB98(sead::Heap* heap);
 protected:

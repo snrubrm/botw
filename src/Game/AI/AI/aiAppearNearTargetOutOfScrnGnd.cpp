@@ -29,6 +29,20 @@ void AppearNearTargetOutOfScrnGnd::loadParams_() {
     AppearNearTarget::loadParams_();
 }
 
+void AppearNearTargetOutOfScrnGnd::m34(sead::Vector3f* out) {
+    sead::Vector3f dir;
+    ksys::sub_7100D8C7FC(&dir);
+    dir.y = 0;
+    const f32 sq_length = dir.squaredLength();
+    if (sq_length <= sead::Mathf::epsilon() && sq_length >= -sead::Mathf::epsilon()) {
+        dir = sead::Vector3f::ez;
+    } else {
+        dir.negate();
+        dir.normalize();
+    }
+    *out = dir;
+}
+
 void AppearNearTargetOutOfScrnGnd::m35(sead::Vector3f* out) {
     cam::getCameraPositionMaybe(out);
 }

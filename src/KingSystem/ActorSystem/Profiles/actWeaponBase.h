@@ -66,6 +66,9 @@ public:
     virtual bool m182();
     virtual bool m183() { return false; }
     virtual bool m184() { return false; }
+    // Public accessors for the two fields Enemy::m141 reads directly (inline-only in the original).
+    u8 get920() const { return _920; }
+    bool get921() const { return _921; }
     virtual bool m185() { return _920 == 0; }
     virtual bool m186() { return _921; }
     virtual bool m187() { return _925; }

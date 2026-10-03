@@ -9,9 +9,8 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original zeroes 0xf0-0x198 with one memset; ours stores the first xlink handle
-// separately (memset from 0x110)
-Arrow::Arrow(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+Arrow::Arrow(const InitArg& arg)
+    : ksys::act::ai::Ai(arg), _f0(), _110(), _130(), _150(), _170(), _190() {}
 
 Arrow::~Arrow() {
     _f0.fadeXLink();
@@ -24,6 +23,11 @@ Arrow::~Arrow() {
 void Arrow::sub_7100463940() {
     if (_170.sub_7101241AD8(0))
         xlink::fade(_170.mELink, -1);
+}
+
+void Arrow::sub_71004682CC() {
+    if (_170.sub_7101241AD8(0))
+        xlink::kill(_170.mELink);
 }
 
 bool Arrow::init_(sead::Heap* heap) {
@@ -87,6 +91,11 @@ void Arrow::m37() {
     mActor->setFlag(ksys::act::Actor::ActorFlag::_2c, false);
     mActor->setFlag(ksys::act::Actor::ActorFlag::_20, true);
     changeChild("爆発");
+}
+
+void Arrow::m40(ksys::act::BaseProc* proc) {
+    sub_71004682CC();
+    proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
 bool Arrow::m38() {

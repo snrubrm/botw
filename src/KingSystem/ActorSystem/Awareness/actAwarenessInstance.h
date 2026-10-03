@@ -306,7 +306,9 @@ public:
     /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
     /* 0x304 */ u8 _304[0x308 - 0x304];
     /* 0x308 */ s32 _308;  // number of valid `_280` entries
-    /* 0x30c */ u8 _30c[0x328 - 0x30c];
+    /* 0x30c */ u8 _30c[0x318 - 0x30c];
+    /* 0x318 */ u32 _318;  // bit 3 follows !IsInHyruleCastleArea (EnemyRoot::sub_71003B5644)
+    /* 0x31c */ u8 _31c[0x328 - 0x31c];
     /* 0x328 */ u32 _328;  // WolfLinkRoot::enter_ (0x2000b8)
     /* 0x32c */ u8 _32c[0x334 - 0x32c];
     s8 _334;

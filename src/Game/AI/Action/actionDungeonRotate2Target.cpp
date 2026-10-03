@@ -7,7 +7,12 @@ DungeonRotate2Target::DungeonRotate2Target(const InitArg& arg) : DungeonRotateBa
 DungeonRotate2Target::~DungeonRotate2Target() = default;
 
 bool DungeonRotate2Target::init_(sead::Heap* heap) {
-    return DungeonRotateBase::init_(heap);
+    if (!DungeonRotateBase::init_(heap))
+        return false;
+    *mTargetRad_a = 0.0f;
+    *mTargetRadMax_a = 0.0f;
+    *mTargetRadMin_a = 0.0f;
+    return true;
 }
 
 void DungeonRotate2Target::enter_(ksys::act::ai::InlineParamPack* params) {

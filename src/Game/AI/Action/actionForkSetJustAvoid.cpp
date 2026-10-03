@@ -1,8 +1,11 @@
 #include "Game/AI/Action/actionForkSetJustAvoid.h"
+#include <cstring>
 
 namespace uking::action {
 
-ForkSetJustAvoid::ForkSetJustAvoid(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+ForkSetJustAvoid::ForkSetJustAvoid(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    std::memset(&mWeaponIdx_s, 0, 0x48);
+}
 
 ForkSetJustAvoid::~ForkSetJustAvoid() = default;
 

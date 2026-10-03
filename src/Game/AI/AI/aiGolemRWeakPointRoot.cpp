@@ -18,6 +18,20 @@ void GolemRWeakPointRoot::calc_() {
     GolemWeakPointRoot::calc_();
 }
 
+bool GolemRWeakPointRoot::handleMessage_(const ksys::Message& message) {
+    if (_220.m2(message))
+        return true;
+    return GolemWeakPointRoot::handleMessage_(message);
+}
+
+bool GolemRWeakPointRoot::m36() {
+    return true;
+}
+
+void GolemRWeakPointRoot::m37() {}
+
+void GolemRWeakPointRoot::m38(s32 idx, const sead::Matrix34f& mtx) {}
+
 void GolemRWeakPointRoot::leave_() {
     GolemWeakPointRoot::leave_();
 }

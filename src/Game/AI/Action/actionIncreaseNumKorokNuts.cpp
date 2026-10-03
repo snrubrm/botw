@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIncreaseNumKorokNuts.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -24,7 +25,9 @@ void IncreaseNumKorokNuts::loadParams_() {
 }
 
 void IncreaseNumKorokNuts::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed() || ui::sub_7100A96F6C())
+        return;
+    setFinished();
 }
 
 }  // namespace uking::action

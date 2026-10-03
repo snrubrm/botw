@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLastBossFlyWaitTurnToTarget.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,10 +15,14 @@ LastBossFlyWaitTurnToTarget::~LastBossFlyWaitTurnToTarget() {
 
 void LastBossFlyWaitTurnToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     LastBossFlyWait::enter_(params);
+    _ec.value = _ec.prev_value = mActor->getAngVelocity().length();
 }
 
 void LastBossFlyWaitTurnToTarget::leave_() {
     LastBossFlyWait::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    _f8 = false;
 }
 
 void LastBossFlyWaitTurnToTarget::loadParams_() {

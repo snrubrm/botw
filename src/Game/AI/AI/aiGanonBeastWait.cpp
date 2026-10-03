@@ -14,10 +14,8 @@ bool GanonBeastWait::init_(sead::Heap* heap) {
 }
 
 void GanonBeastWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (auto* enemy = static_cast<act::Enemy*>(mActor)) {
-        const s32 time = enemy->_f28.sub_7100001AA4(1.0f);
-        enemy->_e68 = ksys::Timer(time, time);
-    }
+    if (auto* enemy = static_cast<act::Enemy*>(mActor))
+        enemy->startAttackInterval(1.0f);
     _40 = *mIsWeakPointAppearMode_a;
     changeChild("待機");
 }
@@ -61,10 +59,8 @@ void GanonBeastWait::calc_() {
         }
     } else {
         if (isCurrentChild("レーザー発射") || isCurrentChild("復帰")) {
-            if (auto* enemy = static_cast<act::Enemy*>(mActor)) {
-                const s32 time = enemy->_f28.sub_7100001AA4(1.0f);
-                enemy->_e68 = ksys::Timer(time, time);
-            }
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->startAttackInterval(1.0f);
         }
         changeChild("待機");
     }

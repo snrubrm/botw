@@ -10,6 +10,8 @@ target_sources(uking PRIVATE
   gameAmiiboMgr.h
   gameGearMgr.cpp
   gameGearMgr.h
+  gameHorseMgr.cpp
+  gameHorseMgr.h
   gameItemUtils.cpp
   gameItemUtils.h
   gameLastBossMgr.cpp

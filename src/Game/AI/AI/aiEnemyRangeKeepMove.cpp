@@ -4,8 +4,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -67,16 +67,6 @@ void EnemyRangeKeepMove::sub_71003ABF50() {
     changeChild("戦闘待機", &pack);
 }
 
-bool EnemyRangeKeepMove::sub_71003AD160() {
-    auto* actor = mActor;
-    if (!actor)
-        return false;
-    auto* nav = actor->m45();
-    const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
-    const sead::Vector3f target = sub_71005D9330(actor);
-    return sub_710072CB78(actor, target, nullptr, radius, 3);
-}
-
 bool EnemyRangeKeepMove::sub_71003AD058() {
     if (!*mIsCheckBack_s)
         return false;
@@ -112,6 +102,48 @@ bool EnemyRangeKeepMove::m34() {
     diff.y = 0.0f;
     const f32 dist = diff.length();
     return dist > *mBaseDist_s + *mOutDist_s + sub_71007320F0(actor, m35());
+}
+
+bool EnemyRangeKeepMove::sub_71003AD160() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    f32 radius = 0;
+    if (auto* nav = actor->m45())
+        radius = nav->_2a8 * nav->_2ac;
+    const sead::Vector3f target = sub_71005D9330(actor);
+    return sub_710072CB78(actor, target, nullptr, radius, 3);
+}
+
+void EnemyRangeKeepMove::sub_71003AB624() {
+    m37();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘歩行", &pack);
+}
+
+void EnemyRangeKeepMove::sub_71003ACD3C() {
+    m39();
+
+    s32 value = _cc;
+    if (_d0 != _cc)
+        value = sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
+    _c8 = value;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("強制後退", &pack);
+}
+
+void EnemyRangeKeepMove::sub_71003ABE3C(s8 dir) {
+    sub_71003AB3FC();
+    m40();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addInt(dir, "RotDir", -1);
+    changeChild("横移動", &pack);
 }
 
 }  // namespace uking::ai

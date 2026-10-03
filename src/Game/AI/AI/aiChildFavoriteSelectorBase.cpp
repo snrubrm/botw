@@ -19,6 +19,22 @@ void ChildFavoriteSelectorBase::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("非成立", params);
 }
 
+void ChildFavoriteSelectorBase::calc_() {
+    if (!*mIsCheckEveryFrame_s)
+        return;
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild());
+    if (m34(child)) {
+        if (!isCurrentChild("成立"))
+            changeChild("成立");
+    } else {
+        if (!isCurrentChild("非成立"))
+            changeChild("非成立");
+    }
+}
+
 bool ChildFavoriteSelectorBase::isFinished() const {
     return getCurrentChild()->isFinished();
 }

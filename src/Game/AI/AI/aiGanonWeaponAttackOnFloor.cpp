@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGanonWeaponAttackOnFloor.h"
+#include "Game/Actor/actLastBoss.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -15,6 +17,30 @@ bool GanonWeaponAttackOnFloor::init_(sead::Heap* heap) {
 
 void GanonWeaponAttackOnFloor::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71003F1E0C();
+}
+
+void GanonWeaponAttackOnFloor::calc_() {
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    getCurrentChild()->setDynamicParam(*mTargetPos_d, "MoveDstPos");
+
+    if (!isCurrentChild("接近"))
+        return;
+
+    if (getCurrentChild()->isFinished()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("攻撃", &pack);
+    } else if (getCurrentChild()->isFailed()) {
+        setFailed();
+    } else if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        ksys::Timer::update(&_50, -1.0f);
+        if (boss->sub_71002C6210(90.0f)) {
+            if (boss->_1544 > 2 || _50 < 0) {
+                boss->_1544 = 0;
+                setFailed();
+            }
+        }
+    }
 }
 
 void GanonWeaponAttackOnFloor::leave_() {

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHorseRideChaseBattleAttackMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073D318.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 

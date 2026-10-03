@@ -22,22 +22,25 @@ protected:
     void calc_() override;
     virtual int m32();
 
-    // static_param at offset 0x20
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x28
-    const float* mCloseDist_s{};
-    // static_param at offset 0x30
-    const float* mSpeed_s{};
-    // static_param at offset 0x38
-    const float* mRotSpd_s{};
-    // static_param at offset 0x40
-    const float* mJustAvoidSideDist_s{};
-    // static_param at offset 0x48
-    const float* mJustAvoidBackDist_s{};
-    // static_param at offset 0x50
-    const float* mJustAvoidAngle_s{};
-    // dynamic_param at offset 0x58
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x28
+        const float* mCloseDist_s{};
+        // static_param at offset 0x30
+        const float* mSpeed_s{};
+        // static_param at offset 0x38
+        const float* mRotSpd_s{};
+        // static_param at offset 0x40
+        const float* mJustAvoidSideDist_s{};
+        // static_param at offset 0x48
+        const float* mJustAvoidBackDist_s{};
+        // static_param at offset 0x50
+        const float* mJustAvoidAngle_s{};
+        // dynamic_param at offset 0x58
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_7102451ba0 _60;
     ksys::VFRValue _88{0.0f};
     f32 _94 = 0;

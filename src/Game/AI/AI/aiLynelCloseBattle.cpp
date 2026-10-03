@@ -15,6 +15,16 @@ void LynelCloseBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     *mLynelAIFlags_a |= 0x800;
 }
 
+void LynelCloseBattle::m34(ksys::act::ai::InlineParamPack* params) {
+    if ((*mLynelAIFlags_a & 0x800) &&
+        !(*mBackAngleAction_s == 2 && sub_710048FA58() && !sub_7100381E7C())) {
+        EnemyBattle::m34(params);
+        return;
+    }
+    sub_7100381ED4();
+    m38();
+}
+
 void LynelCloseBattle::calc_() {
     EnemyBattle::calc_();
     auto* child = getCurrentChild();

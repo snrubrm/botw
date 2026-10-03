@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionAnimalMoveGuidedBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class Unk_7102372790;
+}
+
 namespace uking::action {
 
 class HorseMoveToSafePos : public AnimalMoveGuidedBase {
@@ -29,7 +33,7 @@ protected:
     const float* mResolvePenetrationSearchRadius_s{};
     // static_param at offset 0x98
     const bool* mSetEndIfCurrentFaceIsSafe_s{};
-    u64 _a0 = 0;
+    ksys::phys::Unk_7102372790* _a0{};
     bool _a8 = false;
     u8 _a9[0x7];
 

@@ -19,37 +19,38 @@ protected:
     void calc_() override;
 
     // static_param at offset 0x20
-    const float* mBaseInitSpeedNSword_s{};
+    const float* mBaseInitSpeedNSword_s;
     // static_param at offset 0x28
-    const float* mBaseInitSpeedLSword_s{};
+    const float* mBaseInitSpeedLSword_s;
     // static_param at offset 0x30
-    const float* mBaseInitSpeedSpear_s{};
+    const float* mBaseInitSpeedSpear_s;
     // static_param at offset 0x38
-    const float* mBaseInitSpeedOther_s{};
+    const float* mBaseInitSpeedOther_s;
     // static_param at offset 0x40
-    const float* mAddSpeedNSword_s{};
+    const float* mAddSpeedNSword_s;
     // static_param at offset 0x48
-    const float* mAddSpeedLSword_s{};
+    const float* mAddSpeedLSword_s;
     // static_param at offset 0x50
-    const float* mAddSpeedSpear_s{};
+    const float* mAddSpeedSpear_s;
     // static_param at offset 0x58
-    const float* mAddSpeedOther_s{};
+    const float* mAddSpeedOther_s;
     // static_param at offset 0x60
-    const float* mMaxSpeedNSword_s{};
+    const float* mMaxSpeedNSword_s;
     // static_param at offset 0x68
-    const float* mMaxSpeedLSword_s{};
+    const float* mMaxSpeedLSword_s;
     // static_param at offset 0x70
-    const float* mMaxSpeedSpear_s{};
+    const float* mMaxSpeedSpear_s;
     // static_param at offset 0x78
-    const float* mMaxSpeedOther_s{};
+    const float* mMaxSpeedOther_s;
     // static_param at offset 0x80
-    const float* mDecSpeedNSword_s{};
+    const float* mDecSpeedNSword_s;
     // static_param at offset 0x88
-    const float* mDecSpeedLSword_s{};
+    const float* mDecSpeedLSword_s;
     // static_param at offset 0x90
-    const float* mDecSpeedSpear_s{};
+    const float* mDecSpeedSpear_s;
     // static_param at offset 0x98
-    const float* mDecSpeedOther_s{};
+    const float* mDecSpeedOther_s;
 };
+KSYS_CHECK_SIZE_NX150(PlayerMiddleDamage, 0xa0);
 
 }  // namespace uking::action

@@ -41,4 +41,11 @@ void EnemyFindShootable::loadParams_() {
     getStaticParam(&mChaseItemSpeed_s, "ChaseItemSpeed");
 }
 
+void EnemyFindShootable::sub_710038DB48() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(*mTargetActor_d, "ShootItem", -1);
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("アクション", &pack);
+}
+
 }  // namespace uking::ai

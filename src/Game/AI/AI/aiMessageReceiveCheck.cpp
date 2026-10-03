@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMessageReceiveCheck.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -10,9 +12,17 @@ bool MessageReceiveCheck::init_(sead::Heap* heap) {
     return MessageReceiveCheckBasic::init_(heap);
 }
 
+// NON_MATCHING: register assignment (the original computes the lock address before `this + 0x80`)
 void MessageReceiveCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    MessageReceiveCheckBasic::enter_(params);
+    if (!handlePendingChildChange()) {
+        auto* actor = mActor;
+        _80._18.y(actor);
+        sub_71005E02E0(actor, &_80, nullptr);
+        sub_71004A4D84();
+    }
+    mFlags.set(Flag::Changeable);
 }
+
 
 void MessageReceiveCheck::calc_() {
     MessageReceiveCheckBasic::calc_();

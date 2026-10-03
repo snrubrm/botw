@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::phys::Constraint* _a0{};
 };
+KSYS_CHECK_SIZE_NX150(DgnObj_DLC_CW_WithEntityBody00, 0xa8);
 
 }  // namespace uking::ai

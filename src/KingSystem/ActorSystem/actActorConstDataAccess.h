@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -146,6 +147,8 @@ public:
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
     // (getChemicalStuff() if idx < 0).
     int sub_7100D131D0(int idx) const;
+    // 0x7100d1463c (lane1 s22): Actor::m140() (false if the proc is not an actor).
+    bool sub_7100D1463C() const;
     // 0x7100d13fd0 (CSV actorGetLife): *Actor::getLife(), 1 if the actor has no life value.
     s32 getLife() const;
     // 0x7100d14078: Actor::getMaxLife().
@@ -161,6 +164,9 @@ public:
     phys::SystemGroupHandler* x(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
+    // 0x7100d0fd54 (CSV act::acc::Actor::getAabb_0; lane1 s22, declared only): the actor's AABB
+    // (Actor::mAabb if it has a model, else a static default box).
+    const sead::BoundBox3f& sub_7100D0FD54() const;
 
     void setThisActorAsParent(BaseProc* child, bool delete_parent_on_delete);
     void setThisActorAsChild(BaseProc* parent, bool delete_child_on_delete);

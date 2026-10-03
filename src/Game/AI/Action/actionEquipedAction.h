@@ -16,6 +16,9 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    virtual ksys::act::Actor* m33();
+    virtual void m34();
+    virtual void m35();
 
     // dynamic_param at offset 0x20
     sead::SafeString mNodeName_d{};

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDragonFixPlacement.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actDragon.h"
 
 namespace uking::action {
 
@@ -16,6 +18,10 @@ void DragonFixPlacement::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void DragonFixPlacement::leave_() {
     NullASPlay::leave_();
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        dragon->_14c8._8b8 = 1.0f;
+        dragon->_14c8._930 &= ~0x40;
+    }
 }
 
 void DragonFixPlacement::loadParams_() {

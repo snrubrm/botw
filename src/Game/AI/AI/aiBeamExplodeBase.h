@@ -22,6 +22,8 @@ public:
     virtual void m34();
 
     void sub_710056CA00();
+    // 0x710056ca8c: removes `_50` from the world and stops it.
+    void sub_710056CA8C();
 protected:
     // static_param at offset 0x38
     const float* mMaxDistance_s{};

@@ -19,6 +19,10 @@ namespace xlink2 {
 class HandleSLink;
 }
 
+namespace uking {
+class NpcShopData;
+}
+
 namespace uking::ui {
 
 enum class EquipmentSlot;
@@ -105,6 +109,16 @@ void sub_7100A99FE8();
 void sub_7100A9A0A4(int value);
 void sub_7100A9A160();
 void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level);
+bool sub_7100A9BAEC(int state);
+bool sub_7100A9D0F4();
+bool sub_7100A9D118();
+bool sub_7100A9D140();
+void sub_7100A9D168(float x, float y, float z);
+bool sub_7100A9D1C0();
+bool sub_7100A9D1E8();
+int sub_7100A9D290();
+void sub_7100A9D1A0(const float* levels);
+void sub_7100A9D210(float x, float y);
 void sub_7100A9D748();
 void sub_7100A9EBB8(int menu_type);
 void sub_7100A9F038();
@@ -112,6 +126,68 @@ void sub_7100A9F048(int photo_no);
 void sub_7100A9F08C(const sead::SafeString& actor_name);
 void sub_7100A9F4C8();
 void sub_7100A9F4E0();
+
+// More facade functions of the UI wrapper TU (placeholder names; signatures from the AI action callers).
+void sub_7100A984C0();
+bool sub_7100A98498();
+void sub_7100A99104();
+void sub_7100A9ED74();
+void sub_7100A9F46C(bool a1);
+bool sub_7100A9F4AC();
+bool sub_7100A992CC(s32 text_type);
+bool sub_7100A993BC();
+void sub_7100A9F8B0();
+bool sub_7100A9F91C();
+void sub_7100A9C0FC(s32 cause);
+void sub_7100A98284(bool a1);
+void sub_7100A9853C();
+void sub_7100A98580();
+void sub_7100A9826C();
+void sub_7100A98394();
+bool sub_7100A983DC();
+void sub_7100A98408(const sead::SafeString& name);
+void sub_7100A94B08();
+void sub_7100A94B70(bool a1);
+void sub_7100A94D54();
+void sub_7100A9F0CC();
+bool sub_7100A9F104();
+bool sub_7100A9A938(bool a1);
+void sub_7100A9F138();
+void sub_7100A9F358();
+bool sub_7100A979BC();
+bool sub_7100A973E0();
+bool sub_7100A96F6C();
+bool sub_7100A9F134();
+void sub_7100A9F108();
+bool sub_7100A9F458();
+void sub_7100A9F410(s32 reaction_num);
+void sub_7100A9F27C(bool a1);
+bool sub_7100A9EBEC();
+bool sub_7100A9A3F8();
+bool sub_7100A94AC8();
+bool sub_7100A94E08();
+bool sub_7100A990BC();
+void sub_7100A9E5F8(s32 category);
+void sub_7100A9E584(s32 category);
+void sub_7100A9E6B0(s32 type);
+bool sub_7100A9E864();
+bool sub_7100A9F57C(s32* out_index, const sead::Vector3f& pos, f32 radius);
+void sub_7100A9A308(s32 index, bool is_player_close);
+void sub_7100A97550(s32 add_num);
+void sub_7100A970DC(s32 add_num);
+void sub_7100A97C6C(s32 add_num, s32 type);
+bool sub_7100A98514();
+bool sub_7100A9E7AC();
+bool sub_7100A9E91C();
+void sub_7100A98C80();
+void sub_7100A98D4C();
+void sub_7100A98E18();
+void sub_7100A98474(s32 rank);
+bool sub_7100A9844C();
+void sub_7100A98428(NpcShopData* shop_data);
+void openMinigameScreenForTimer(bool count_down);
+void minigameScreenHideTimer();
+void minigameScreenUpdateTimer(s64 time_ms);
 
 void minigameScreenMove();
 

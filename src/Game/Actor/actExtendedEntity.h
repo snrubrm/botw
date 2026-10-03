@@ -35,7 +35,7 @@ public:
     /* 0x4c */ f32 _4c = 0;
     /* 0x50 */ f32 _50 = 0;
     /* 0x54 */ f32 _54 = 0;
-    /* 0x58 */ sead::BitFlag8 _58;
+    /* 0x58 */ u8 _58 = 0;  // flag bits, modified with raw `|= 1 << int(Flag(...))` (HorseDie::leave_)
     /* 0x60 */ void* _60 = nullptr;
     /* 0x68 */ u32 _68 = 0;
 };

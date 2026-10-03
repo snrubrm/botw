@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiEnemyTargetInAreaSelect.h"
-#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include <cmath>
 
 namespace uking::ai {
 

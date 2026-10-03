@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDisableAutoSavePausing.h"
+#include "Game/gameSaveSystem.h"
 
 namespace uking::action {
 
@@ -11,5 +12,10 @@ bool DisableAutoSavePausing::init_(sead::Heap* heap) {
 }
 
 void DisableAutoSavePausing::loadParams_() {}
+
+bool DisableAutoSavePausing::oneShot_() {
+    SaveSystem::instance()->_1a50 &= ~4;
+    return true;
+}
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionClosePouchAddStockNum.h"
+#include "Game/UI/uiUI.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -21,7 +23,29 @@ void ClosePouchAddStockNum::leave_() {
 void ClosePouchAddStockNum::loadParams_() {}
 
 void ClosePouchAddStockNum::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_1c) {
+        auto* ui = ui::UI::instance();
+        if (ui && ui->sub_71010A5888())
+            ui->sub_71010A6B98(nullptr);
+        if (ui::isPauseMenuScreenNotClosed())
+            return;
+        if (ui && ui->sub_71010A5888())
+            return;
+        setFinished();
+    } else {
+        if (!ui::sub_7100A9E7AC()) {
+            setFailed();
+        } else {
+            _1c = ui::sub_7100A9E91C();
+            auto* ui = ui::UI::instance();
+            if (ui && ui->sub_71010A5888())
+                ui->sub_71010A6B98(nullptr);
+            return;
+        }
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action

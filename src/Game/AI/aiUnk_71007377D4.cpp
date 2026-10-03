@@ -2,8 +2,21 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/gameUnk_71024739d0.h"
+#include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -47,24 +60,50 @@ void sub_710073771C(ksys::phys::RigidBody* body, const sead::Vector3f& ang_vel) 
     ksys::act::sub_7100EE62B0(body, ang_vel);
 }
 
-// NON_MATCHING: the original copies the translation element-wise into a short-lived local (as an
-// out-param getTranslation(pos) inside an inline helper would); ours pairs the stores
 bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,
                     const sead::Matrix34f& mtx, f32 max_dist, f32 min_dy, f32 max_dy, f32 angle,
                     f32 angle_check_dist, f32 y_offset) {
     if (!actor)
         return false;
-    if (!sub_710072DEF0(target, max_dist, min_dy, max_dy, mtx.getTranslation(), mtx.getBase(2),
-                        angle, angle_check_dist, y_offset)) {
+    if (!inlineIsTargetInReach(target, max_dist, min_dy, max_dy, mtx, angle, angle_check_dist,
+                               y_offset)) {
         return false;
     }
     return sub_710072E154(actor, target, nullptr, -1);
+}
+
+bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,
+                    const sead::Vector3f& dir, f32 angle) {
+    sead::Vector3f to_target = target;
+    to_target -= pos;
+    to_target.y = 0;
+    to_target.normalize();
+    return to_target.dot(dir) >= sead::Mathf::cos(angle);
 }
 
 bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     s32 a4) {
     const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
     return sub_710072F28C(actor, from, target, nullptr, out_pos, a4, true, -1.0f, -1.0f, -1.0f);
+}
+
+bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, f32 extra, s32 a5) {
+    auto* nav = actor->m45();
+    const f32 tolerance = nav ? nav->getRadiusMaybe() + extra : extra;
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, tolerance, -1.0f, -1.0f);
+}
+
+bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3, f32 a4) {
+    const sead::Vector3f from = actor->getMtx().getTranslation();
+    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, a3, a4, -1.0f);
+}
+
+bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3) {
+    const sead::Vector3f from = actor->getMtx().getTranslation();
+    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, -1.0f, a3, -1.0f);
 }
 
 bool sub_710072F7AC(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
@@ -75,27 +114,20 @@ bool sub_710072F7AC(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos, s32 a5) {
     auto* nav = actor->m45();
-    const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
-    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, radius, -1.0f, -1.0f);
-}
-
-bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
-                    sead::Vector3f* out_pos, f32 extra, s32 a5) {
-    auto* nav = actor->m45();
-    const f32 tolerance = nav ? nav->getRadiusMaybe() + extra : extra;
+    const f32 tolerance = nav ? nav->_2a8 * nav->_2ac : 0.0f;
     return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, tolerance, -1.0f, -1.0f);
 }
 
-bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
-                    f32 a8) {
-    const sead::Vector3f from = actor->getMtx().getTranslation();
-    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, -1.0f, a8, -1.0f);
+bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9) {
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, false, a6, a7, a8);
 }
 
-bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
-                    f32 a3, f32 a4) {
-    const sead::Vector3f from = actor->getMtx().getTranslation();
-    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, a3, a4, -1.0f);
+void sub_710072DC9C(ksys::act::Actor* actor, f32 factor) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EEB8(factor);
+    else if (auto* body = actor->getMainBody())
+        body->setGravityFactor(factor);
 }
 
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3) {
@@ -113,6 +145,29 @@ bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
     sead::Vector3f end = pos;
     end += dir * distance;
     return uking::sub_710090DB04(pos, end, hit_position, nullptr, nullptr);
+}
+
+bool sub_710072E500(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
+                    sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    ksys::act::sub_7100EEAF28(&query);
+    query.setStartAndEnd(start, end);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (material_mask)
+        *material_mask = query.getMaterialMask();
+    return true;
 }
 
 bool sub_710072E5F8(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
@@ -147,6 +202,14 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
     if (!physics)
         return nullptr;
     return physics->get188(idx);
+}
+
+ksys::phys::SystemGroupHandler* sub_7100738C18(ksys::act::BaseProcLink* link, int idx) {
+    if (!link->hasProc())
+        return nullptr;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.x(idx);
 }
 
 bool sub_710072E830(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
@@ -279,6 +342,111 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
     if (dist <= max_dist)
         return sead::Mathf::abs(target.y - point.y) < max_height;
     return false;
+}
+
+void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor) {
+    sead::Vector3f dir;
+    actor->getMtx().getBase(dir, 2);
+    const sead::Vector3f up = getUpDir(actor);
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+    *out = dir;
+}
+
+void sub_7100010168(uking::act::Dragon* dragon, sead::Vector3f* out) {
+    sead::Vector3f dir = dragon->getMtx().getTranslation() - dragon->_1e10;
+    if (dir.x == 0 && dir.y == 0 && dir.z == 0)
+        dir = dragon->_1e28.getBase(0);
+    dir.normalize();
+    *out = dir;
+}
+
+bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle) {
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    forward.y = 0;
+    forward.normalize();
+    sead::Vector3f to_target = target;
+    to_target -= pos;
+    to_target.y = 0;
+    to_target.normalize();
+    return forward.dot(to_target) >= sead::Mathf::cos(angle);
+}
+
+ksys::act::Actor* sub_710073D318(ksys::act::Actor* actor) {
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return nullptr;
+    return sead::DynamicCast<ksys::act::Actor>(info->_18.getProc(nullptr, info->mActor));
+}
+
+const sead::Matrix34f& getPlayerPositionViaPlayerInfo() {
+    if (auto* info = ksys::act::PlayerInfo::instance()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+        return accessor.getActorMtx();
+    }
+    return sead::Matrix34f::ident;
+}
+
+bool sub_7100738E70(ksys::act::Actor* actor) {
+    if (auto* set = actor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+        if (set->getRigidBodies().size() != 0) {
+            if (auto* body = set->getRigidBodies()(0)) {
+                if (auto* info = body->getContactPointInfo()) {
+                    if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+                        for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+                            if ((*it)->body_b->getContactLayer() ==
+                                ksys::phys::ContactLayer::SensorPlayer) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool sub_7100738DF0(ksys::act::Actor* actor) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    const s32 num = sub_71007A425C(actor);
+    for (s32 i = 0; i < num; ++i) {
+        if (ksys::act::isPlayerProfile(&sub_71007A40D0(actor, i)->_50))
+            return true;
+    }
+    return false;
+}
+
+bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = pos;
+    if (auto* drop = sead::DynamicCast<ksys::act::DropData>(actor->getDropData())) {
+        drop->_c |= 0x80;
+        return true;
+    }
+    return false;
+}
+
+void sub_710073DE08(ksys::act::Actor* actor) {
+    actor->sub_71011D0228(0x10);
+    actor->sub_71011D0228(4);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+}
+
+void sub_710073DE44(ksys::act::Actor* actor) {
+    actor->sub_71011D0204(0x10);
+    actor->sub_71011D0204(4);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+}
+
+// NON_MATCHING: same instructions but the SafeString temporary is stored with two str instead of one stp (104 vs 100 bytes)
+bool sub_7100731000(ksys::act::Actor* actor, bool value) {
+    return actor->getRootAi()->getMapUnitParams().setAITreeVariable(
+        "IsPlayerPut", ksys::AIDefParamType::Bool, value);
 }
 
 ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor) {

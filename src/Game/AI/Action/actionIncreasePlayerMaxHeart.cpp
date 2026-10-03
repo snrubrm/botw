@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIncreasePlayerMaxHeart.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -24,7 +25,29 @@ void IncreasePlayerMaxHeart::loadParams_() {
 }
 
 void IncreasePlayerMaxHeart::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    switch (_30) {
+    case 0:
+        ui::sub_7100A94B70(true);
+        _30 = 1;
+        break;
+    case 1:
+        ui::sub_7100A94B08();
+        _30 = 2;
+        break;
+    case 2:
+        if (!ui::sub_7100A94AC8()) {
+            setFinished();
+            _30 = 3;
+        }
+        break;
+    case 3:
+        break;
+    default:
+        setFailed();
+        break;
+    }
 }
 
 }  // namespace uking::action

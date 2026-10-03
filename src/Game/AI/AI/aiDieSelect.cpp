@@ -15,20 +15,19 @@ bool DieSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: only the order of the two `-1` copies on the null-manager path (declaring a3 before a2 matches)
 void DieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
-    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
-    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
-    s32 a2 = -1;
+    // _1000000 | _2000000
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2(0x3000000));
     s32 a3 = -1;
+    s32 a2 = -1;
     bool a4 = false;
     bool a5 = false;
-    if (auto* manager = sub_710072BA90(actor)) {
-        a3 = manager->getField54();
-        a2 = manager->getField50();
-        a4 = manager->checkDamageFlags(1);
-        a5 = manager->checkDamageFlags(10);
+    if (auto* mgr = sub_710072BA90(actor)) {
+        a3 = mgr->getField54();
+        a2 = mgr->getField50();
+        a4 = mgr->checkDamageFlags(1);
+        a5 = mgr->checkDamageFlags(10);
     }
     m34(a2, a3, a4, a5);
 }
@@ -50,6 +49,10 @@ void DieSelect::calc_() {
         callDeleteAndCreateDropAndEmit(mActor, 0);
         setFinished();
     }
+}
+
+bool DieSelect::sub_7100361104(s32 a2, s32 a3) {
+    return a2 == 22 && a3 == 29;
 }
 
 // NON_MATCHING: the original computes the switch flag before the final getLife() call (with a
@@ -78,7 +81,7 @@ void DieSelect::m34(s32 a2, s32 a3, bool a4, bool a5) {
         changeChild("落下死");
         return;
     }
-    if (a2 == 22 && a3 == 29) {
+    if (sub_7100361104(a2, a3)) {
         changeChild("濡死");
         return;
     }

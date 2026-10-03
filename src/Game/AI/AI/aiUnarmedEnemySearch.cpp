@@ -38,6 +38,81 @@ void UnarmedEnemySearch::loadParams_() {
     getStaticParam(&mTurnStartAng_s, "TurnStartAng");
 }
 
+void UnarmedEnemySearch::sub_71004B5FB8() {
+    changeChild("見まわす");
+}
+
+int UnarmedEnemySearch::sub_71004B62E4() const {
+    if (!_50)
+        return -1;
+    return _50->_8;
+}
+
+bool UnarmedEnemySearch::sub_71004B62FC(sead::Vector3f* out) const {
+    if (_50 && _50->_0 && (_50->_8 | 2) == 3) {
+        auto* nav = _50->_0;
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        out->set(nav->_1a0);
+        return true;
+    }
+    return false;
+}
+
+bool UnarmedEnemySearch::sub_71004B6370(sead::Vector3f* out) const {
+    if (_50 && _50->_0 && _50->_8 != -1) {
+        auto* nav = _50->_0;
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        out->set(nav->_194);
+        return true;
+    }
+    return false;
+}
+
+void UnarmedEnemySearch::sub_71004B63E4() {
+    if (_50)
+        _50->_8 = -1;
+}
+
+f32 UnarmedEnemySearch::sub_71004B6BC0() const {
+    return *mReachTargetArea_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+}
+
+// NON_MATCHING: stack layout only (the original keeps `pos` / `dir` / the key temporary above the
+// 0xa10-byte param pack; ours puts the pack above them)
+void UnarmedEnemySearch::sub_71004B6544(const sead::Vector3f& target) {
+    if (_50)
+        _50->_8 = -1;
+    if (_50 && _50->_0)
+        _50->_0->inlineReset();
+    _58 = target;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_58, "TargetPos", -1);
+    if (!isCurrentChild("移動") && mActor) {
+        const auto& mtx = mActor->getMtx();
+        const sead::Vector3f dir = mtx.getBase(2);
+        const sead::Vector3f pos = mtx.getTranslation();
+        if (!sub_710072DCFC(_58, pos, dir, *mTurnStartAng_s)) {
+            changeChild("回転", &params);
+            return;
+        }
+    }
+    changeChild("直進", &params);
+}
+
+bool UnarmedEnemySearch::sub_71004B6744() const {
+    return isCurrentChild("移動");
+}
+
+bool UnarmedEnemySearch::sub_71004B6BF0() const {
+    return isCurrentChild("直進");
+}
+
+bool UnarmedEnemySearch::sub_71004B6C30() const {
+    if (isCurrentChild("直進"))
+        return true;
+    return isCurrentChild("移動");
+}
+
 bool UnarmedEnemySearch::m34() {
     auto* nav = mActor->m45();
     if (!nav)
@@ -142,59 +217,6 @@ bool UnarmedEnemySearch::m43(sead::Vector3f* out) {
     if (out)
         *out = pos;
     return true;
-}
-
-s32 UnarmedEnemySearch::getStateMaybe() const {
-    return _50 ? _50->_8 : -1;
-}
-
-void UnarmedEnemySearch::changeToLookAround() {
-    changeChild("見まわす");
-}
-
-// NON_MATCHING: the original copies the vector as one 8 + 4 byte block; Vector3f::operator= copies component-wise
-bool UnarmedEnemySearch::sub_71004B62FC(sead::Vector3f* out) {
-    if (_50 && _50->_0 && (_50->_8 | 2) == 3) {
-        auto* character = _50->_0;
-        auto lock = sead::makeScopedLock(character->_1e0);
-        *out = character->_1a0;
-        return true;
-    }
-    return false;
-}
-
-// NON_MATCHING: same 8 + 4 byte copy as sub_71004B62FC
-bool UnarmedEnemySearch::sub_71004B6370(sead::Vector3f* out) {
-    if (_50 && _50->_0 && _50->_8 != -1) {
-        auto* character = _50->_0;
-        auto lock = sead::makeScopedLock(character->_1e0);
-        *out = character->_194;
-        return true;
-    }
-    return false;
-}
-
-void UnarmedEnemySearch::resetStateMaybe() {
-    if (_50)
-        _50->_8 = -1;
-}
-
-bool UnarmedEnemySearch::isMove() const {
-    return isCurrentChild("移動");
-}
-
-bool UnarmedEnemySearch::isGoStraight() const {
-    return isCurrentChild("直進");
-}
-
-bool UnarmedEnemySearch::isGoStraightOrMove() const {
-    if (isCurrentChild("直進"))
-        return true;
-    return isCurrentChild("移動");
-}
-
-f32 UnarmedEnemySearch::getReachDistanceMaybe() const {
-    return *mReachTargetArea_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai

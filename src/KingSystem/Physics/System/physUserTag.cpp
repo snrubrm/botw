@@ -13,7 +13,7 @@ void UserTag::onImpulse(RigidBody* body_a, RigidBody* body_b, float impulse_a) {
 
 void UserTag::onBodyShapeChanged(RigidBody* body) {}
 
-void UserTag::m5() {}
+void UserTag::m5(Unk5*) {}
 
 void UserTag::m7(RigidBody* rigid_body, int a) {}
 

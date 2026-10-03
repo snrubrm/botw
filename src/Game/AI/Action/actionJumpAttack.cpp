@@ -16,19 +16,19 @@ void JumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void JumpAttack::leave_() {
-    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
+    sub_71005D79AC(mActor, *mParams.mWeaponIdx_s, act::Unk_71002edaec(1));
     sub_71005DA114(mActor, &_60);
 }
 
 void JumpAttack::loadParams_() {
-    getStaticParam(&mMaxSpeed_s, "MaxSpeed");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mJumpHeight_s, "JumpHeight");
-    getStaticParam(&mJustAvoidSideDist_s, "JustAvoidSideDist");
-    getStaticParam(&mJustAvoidBackDist_s, "JustAvoidBackDist");
-    getStaticParam(&mJustAvoidAngle_s, "JustAvoidAngle");
-    getStaticParam(&mIsForceGuardBreak_s, "IsForceGuardBreak");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mJumpHeight_s, "JumpHeight");
+    getStaticParam(&mParams.mJustAvoidSideDist_s, "JustAvoidSideDist");
+    getStaticParam(&mParams.mJustAvoidBackDist_s, "JustAvoidBackDist");
+    getStaticParam(&mParams.mJustAvoidAngle_s, "JustAvoidAngle");
+    getStaticParam(&mParams.mIsForceGuardBreak_s, "IsForceGuardBreak");
 }
 
 void JumpAttack::calc_() {

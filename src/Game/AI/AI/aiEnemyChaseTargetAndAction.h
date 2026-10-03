@@ -14,8 +14,13 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100384d50 (placeholder name): the target is within reach (ReachTargetArea + weapon range)
+    // or among the actor's sensed actors.
+    bool sub_7100384D50();
 
     void m37() override;
     void m38() override;

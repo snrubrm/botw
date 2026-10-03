@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionShiekSensorPlusDownloadDemo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -24,7 +25,14 @@ void ShiekSensorPlusDownloadDemo::loadParams_() {
 }
 
 void ShiekSensorPlusDownloadDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_28 == 1) {
+        if (ui::sub_7100A9A938(false))
+            setFinished();
+    }
+    if (_28 == 0) {
+        ui::sub_7100A9F27C(*mIsPlayerClose_d);
+        _28 = _28 + 1;
+    }
 }
 
 }  // namespace uking::action

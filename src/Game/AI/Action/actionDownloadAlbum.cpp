@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDownloadAlbum.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ bool DownloadAlbum::init_(sead::Heap* heap) {
 }
 
 void DownloadAlbum::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = 0;
+    ui::sub_7100A9ED74();
 }
 
 void DownloadAlbum::leave_() {
@@ -21,7 +23,14 @@ void DownloadAlbum::leave_() {
 void DownloadAlbum::loadParams_() {}
 
 void DownloadAlbum::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (ui::sub_7100A9F104())
+        setFinished();
+    if (_1c == 0) {
+        _1c = 1;
+    } else if (_1c == 1) {
+        ui::sub_7100A9F0CC();
+        _1c = _1c + 1;
+    }
 }
 
 }  // namespace uking::action

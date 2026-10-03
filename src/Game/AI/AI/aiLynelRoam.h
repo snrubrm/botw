@@ -15,6 +15,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710049859c (placeholder name)
+    void sub_710049859C(const sead::Vector3f& pos);
 
 protected:
     // static_param at offset 0x38

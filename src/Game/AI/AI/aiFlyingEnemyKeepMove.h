@@ -19,6 +19,10 @@ public:
     virtual void m34(sead::Vector3f* out) = 0;
     virtual void m35(sead::Vector3f* out, const sead::Vector3f& dir);
     virtual void m36(sead::Vector3f* out);
+    // 0x71003d2500 (placeholder name)
+    bool sub_71003D2500();
+    // 0x71003d25f8 (placeholder name)
+    bool sub_71003D25F8();
 
 protected:
     // static_param at offset 0x38

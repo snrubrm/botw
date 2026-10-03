@@ -4,6 +4,7 @@
 
 namespace ksys::phys {
 class Constraint;
+class ContactPointInfo;
 class RigidBody;
 }  // namespace ksys::phys
 
@@ -32,7 +33,7 @@ protected:
     ksys::phys::Constraint* _58 = nullptr;
     ksys::phys::RigidBody* _60 = nullptr;
     ksys::phys::RigidBody* _68 = nullptr;
-    void* _70 = nullptr;
+    ksys::phys::ContactPointInfo* _70 = nullptr;
     u32 _78 = 0;
 };
 KSYS_CHECK_SIZE_NX150(StoneStickRoot, 0x80);

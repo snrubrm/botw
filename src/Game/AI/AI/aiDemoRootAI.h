@@ -17,6 +17,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    void getCurrentName(sead::BufferedSafeString* name, ksys::act::ai::ActionBase* last) const override;
 
     void sub_7100D62598();
 protected:

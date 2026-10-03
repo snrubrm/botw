@@ -4,6 +4,39 @@
 
 namespace ksys::act {
 
+void AwarenessInstance::disable() {
+    if (auto* awareness = Awareness::instance()) {
+        awareness->mInstances.deregisterInstance(this);
+        _337 = false;
+    }
+
+    for (s32 i = 0; i < 4; ++i) {
+        if (auto* sensor = _260[i]) {
+            sensor->_8.clear();
+            sensor->_3c = 0;
+            _260[i]->_50 = false;
+        }
+    }
+}
+
+bool AwarenessInstance::enable() {
+    if (!((_260[0] && _260[0]->_50) || (_260[1] && _260[1]->_50) || (_260[2] && _260[2]->_50) ||
+          (_260[3] && _260[3]->_50) || _337)) {
+        auto* awareness = Awareness::instance();
+        if (!awareness)
+            return false;
+        if (!awareness->mInstances.registerInstance(this))
+            return false;
+        _337 = true;
+    }
+
+    for (auto* sensor : _260) {
+        if (sensor)
+            sensor->_50 = true;
+    }
+    return true;
+}
+
 void AwarenessInstance::sleep() {
     disable();
 }

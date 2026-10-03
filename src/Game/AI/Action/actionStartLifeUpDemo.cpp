@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStartLifeUpDemo.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -17,7 +18,14 @@ void StartLifeUpDemo::enter_(ksys::act::ai::InlineParamPack* params) {
 void StartLifeUpDemo::loadParams_() {}
 
 void StartLifeUpDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_1c) {
+        ui::sub_7100A94B08();
+        ui::sub_7100A94D54();
+        setFinished();
+    } else {
+        ui::sub_7100A94B70(true);
+        _1c = true;
+    }
 }
 
 }  // namespace uking::action

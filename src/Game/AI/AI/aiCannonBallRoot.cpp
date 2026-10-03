@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiCannonBallRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {

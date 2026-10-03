@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerGlide.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -10,7 +13,9 @@ void PlayerGlide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerGlide::leave_() {
-    PlayerAction::leave_();
+    mActor->getChemicalStuff()->_14c = 1.0f;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F60458();
 }
 
 void PlayerGlide::loadParams_() {

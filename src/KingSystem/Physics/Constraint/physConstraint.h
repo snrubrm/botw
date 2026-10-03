@@ -23,6 +23,8 @@ public:
 
     // Placeholder names. Requests are recorded in _52 (bit 0, 1, 2) and the constraint is queued
     // on the RigidBodyRequestMgr when the first one is made.
+    // 0x7100f6ace8: whether a bit 0 request is pending (_52 bit 0).
+    bool sub_7100F6ACE8() const;
     // 0x7100f69ff0: requests bit 0 (cancels a pending bit 1 request instead if there is one).
     void sub_7100F69FF0();
     // 0x7100f6a074: requests bit 1 if _50 bit 0 is set (cancels a pending bit 0 request instead).

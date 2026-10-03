@@ -15,12 +15,12 @@ void GrabAndShoot::leave_() {
 }
 
 void GrabAndShoot::loadParams_() {
-    getStaticParam(&mGrabIdx_s, "GrabIdx");
-    getStaticParam(&mShootSpeed_s, "ShootSpeed");
-    getStaticParam(&mShootAng_s, "ShootAng");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mBlurMax_s, "BlurMax");
+    getStaticParam(&mParams.mGrabIdx_s, "GrabIdx");
+    getStaticParam(&mParams.mShootSpeed_s, "ShootSpeed");
+    getStaticParam(&mParams.mShootAng_s, "ShootAng");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mBlurMax_s, "BlurMax");
 }
 
 void GrabAndShoot::calc_() {

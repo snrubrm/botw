@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 
@@ -11,6 +12,10 @@ class BaseProc;
 class BaseProcLink;
 class Unk_7100d8557c;
 }  // namespace ksys::act
+
+namespace ksys::phys {
+class RigidBody;
+}
 
 // Free functions of an unnamed AI utility translation unit (0x71007368a4 - 0x7100736e20; its
 // neighbours are hasAnimalTypeWolfOrBearTags and the dlc::isOneHitObliterator* helpers).
@@ -41,11 +46,22 @@ bool sub_7100736D98(ksys::act::Actor* actor);
 
 // Further functions of the AI utility code (same placeholder conventions).
 
+/// 0x7100739438 (lane1 s22): writes the translation of the actor's main physics body transform to
+/// `out` (false without an `out`, a main body or an actor; the translation is written regardless).
+bool sub_7100739438(ksys::act::Actor* actor, sead::Vector3f* out);
+/// 0x7100739498 (lane1 s22): the transform of the actor's main physics body; false without
+/// actor / `out` / main body.
+bool sub_7100739498(ksys::act::Actor* actor, sead::Matrix34f* out);
+/// 0x71007394dc (lane1 s22): the actor's main physics body (nullptr without an actor).
+ksys::phys::RigidBody* sub_71007394DC(ksys::act::Actor* actor);
 /// 0x71007398a8 (lane1 s21): the actor's BoneControl::_0 object (nullptr without a bone control).
 ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor);
 /// 0x7100739900 / 0x7100739918: call Unk_7100d8557c::sub_7100D85794 / sub_7100D857B0 on it, if any.
 void sub_7100739900(ksys::act::Actor* actor);
 void sub_7100739918(ksys::act::Actor* actor);
+/// 0x7100739030 (lane1 s22): the actor's sensed actors (sub_71007A4178 / A425C / A40D0) include
+/// `link`. Placeholder name; ~9 callers.
+bool sub_7100739030(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
 /// 0x7100739930: the linked actor's name is in the actor's EnemyRace EscapeAttackedActorType list.
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkAlwaysRotDownGr.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +13,21 @@ bool ForkAlwaysRotDownGr::init_(sead::Heap* heap) {
 }
 
 void ForkAlwaysRotDownGr::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* controller = mActor->getCharacterController();
+    _34.x = mActor->getMtx().m[1][2] < 0.0f ? 1.0f : -1.0f;
+    _34.y = _34.z = 0.0f;
+    if (controller) {
+        controller->mFlags.set(2);
+        controller->_240 = _34;
+    }
+    _40 = true;
+    _28.value = _28.prev_value = 0.0f;
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkAlwaysRotDownGr::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.reset(2);
 }
 
 void ForkAlwaysRotDownGr::loadParams_() {

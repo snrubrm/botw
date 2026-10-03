@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiGanonBattleOnWallRoot.h"
 #include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -13,7 +16,17 @@ bool GanonBattleOnWallRoot::init_(sead::Heap* heap) {
 }
 
 void GanonBattleOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        _48 = controller->_70;
+        _48.normalize();
+    }
+    _54 = 0;
+    _58 = 0;
+    auto* life = mActor->getLife();
+    _5c = life ? *life : 1;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void GanonBattleOnWallRoot::leave_() {

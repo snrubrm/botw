@@ -148,6 +148,10 @@ public:
         virtual void getPointPosition(sead::Vector3f* out, Point point) const;
         virtual sead::Vector3f getPointPosition(Point point) const;
 
+        // Inline-only in the original (emptiness test in sub_7100738E70, where
+        // the begin iterator is compared with its own point count); the name is a guess.
+        bool isEnd() const { return mIdx == mPointsNum; }
+
         const ContactPoint* getPoint() const { return mPoints[mIdx]; }
         const ContactPoint* operator*() const { return getPoint(); }
 

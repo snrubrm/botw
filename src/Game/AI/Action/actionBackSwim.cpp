@@ -23,7 +23,7 @@ void BackSwim::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!controller)
         return;
 
-    const f32 time = *mTime_s;
+    const f32 time = *mParams.mTime_s;
     _ec.set(-1.0f, 20.0f);
     _f4 = _ec;
     _e4 = {time, time};
@@ -54,15 +54,15 @@ void BackSwim::leave_() {
 
 void BackSwim::loadParams_() {
     WaterFloatBase::loadParams_();
-    getStaticParam(&mTime_s, "Time");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mRotAddRatio_s, "RotAddRatio");
-    getStaticParam(&mFinishDist_s, "FinishDist");
-    getStaticParam(&mDecelRatio_s, "DecelRatio");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mIsCheckCliff_s, "IsCheckCliff");
+    getStaticParam(&mParams.mTime_s, "Time");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mRotAddRatio_s, "RotAddRatio");
+    getStaticParam(&mParams.mFinishDist_s, "FinishDist");
+    getStaticParam(&mParams.mDecelRatio_s, "DecelRatio");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mIsCheckCliff_s, "IsCheckCliff");
 }
 
 void BackSwim::calc_() {

@@ -41,10 +41,12 @@ bool DrawnSwordBowSelect::isFailed() const {
     return mFlags.isOn(Flag::Failed) || (getCurrentChild()->isFailed() && !sub_7100373648());
 }
 
-// NON_MATCHING: the child vtable load is not hoisted above the isFinished/isFailed branches
+// NON_MATCHING: ours is shorter than the original (block structure of the weapon-state selection);
+// the child isFinished/isFailed vtable loads match with the `done` local
 void DrawnSwordBowSelect::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    const bool done = child->isFinished() || child->isFailed();
+    if (done) {
         if (child->isFailed()) {
             setFailed();
             return;

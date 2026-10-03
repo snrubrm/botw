@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -18,8 +20,9 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x28];
+    ksys::act::BaseProcLink _20;
+    ksys::act::BaseProcHandle _30;
+    bool _40 = false;
     // static_param at offset 0x48
     sead::SafeString mSwordEquipNode_s{};
     // static_param at offset 0x58

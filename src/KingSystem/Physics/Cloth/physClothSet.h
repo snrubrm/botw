@@ -17,6 +17,9 @@ public:
         /* 0x3c */ f32 _3c;  // set to 1.0 by SiteBossReaction::leave_
     };
 
+    // 0x7101218a90 (declared only): called by GelEnemy::m79.
+    void sub_7101218A90();
+
     /* 0x00 */ u8 _0[0x18];
     /* 0x18 */ sead::Buffer<Unk1> _18;
     /* 0x28 */ u8 _28[0x70 - 0x28];

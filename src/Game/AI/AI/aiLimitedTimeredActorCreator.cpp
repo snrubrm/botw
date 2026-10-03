@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiLimitedTimeredActorCreator.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 
@@ -81,6 +85,38 @@ void LimitedTimeredActorCreator::loadParams_() {
     getMapUnitParam(&mCreateLimit_m, "CreateLimit");
     getMapUnitParam(&mActorName_m, "ActorName");
     getAITreeVariable(&mGeneratedActorLink_a, "GeneratedActorLink");
+}
+
+void LimitedTimeredActorCreator::createOneActor() {
+    sead::SafeString name;
+    sead::Vector3f home_pos;
+    mActor->getHomePos(&home_pos);
+    if (!ksys::eco::getEcosystemActorName(&name, mActorName_m.isEmpty() ? mCreateActorName_s : mActorName_m,
+                                          home_pos)) {
+        return;
+    }
+
+    bool has_free_link = false;
+    for (int i = 0, n = _a0.size(); i < n; ++i) {
+        if (!_a0[i].mLink.hasProc()) {
+            has_free_link = true;
+            break;
+        }
+    }
+    if (!has_free_link)
+        return;
+
+    if (_90.isAllocatedOrFailed()) {
+        if (!_90.hasProcCreationFailed())
+            return;
+        _90.deleteProc();
+    }
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_90, &pack, nullptr,
+        1);
 }
 
 void LimitedTimeredActorCreator::sub_7100482EB0() {

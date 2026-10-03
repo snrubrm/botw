@@ -12,6 +12,10 @@ namespace uking {
 class Unk_710246d058;
 }
 
+namespace uking::act {
+class Weapon;
+}
+
 namespace ksys::act {
 
 namespace acc {
@@ -105,8 +109,8 @@ public:
     /* 236 */ virtual f32 getBoneAttackRate() { return 1.0f; }
     /* 237 */ bool m237() override;
     /* 238 */ bool m238() override;
-    /* 239 */ void m239() override;
-    /* 240 */ void m240() override;
+    /* 239 */ bool m239() override;
+    /* 240 */ bool m240() override;
     /* 241 */ virtual bool m241() { return true; }
     /* 242 */ virtual bool m242() { return false; }
     /* 243 */ virtual bool m243() { return false; }
@@ -139,10 +143,10 @@ public:
     /* 270 */ virtual bool m270() { return false; }
     /* 271 */ virtual s32 m271() { return _d24; }
     /* 272 */ void m272() override;
-    /* 273 */ void m273() override;
-    /* 274 */ void m274() override;
-    /* 275 */ void m275() override;
-    /* 276 */ void m276() override;
+    /* 273 */ uking::act::Weapon* m273() override { return nullptr; }
+    /* 274 */ uking::act::Weapon* m274() override { return nullptr; }
+    /* 275 */ uking::act::Weapon* m275() override { return nullptr; }
+    /* 276 */ Actor* m276(int idx) override { return nullptr; }
     /* 277 */ virtual void m277(ActorConstDataAccess* accessor, int idx) {}
     /* 278 */ virtual void m278();
     /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
@@ -316,8 +320,9 @@ public:
 
 protected:
     /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
-    /* 0xd18 */ s32 _d18;
 public:
+    // Public: written by PlayerDrown::leave_ / PlayerHellStartWait::enter_.
+    /* 0xd18 */ s32 _d18;
     /* 0xd1c */ u8 _d1c;  // 1-3 select the CutAfterJump turn angle (PlayerCutAfterJump::enter_)
 
 protected:
@@ -421,6 +426,8 @@ public:
     void setExtraLife(f32 life) const;
     void setMtx(const sead::Matrix34f& mtx) const;
     bool x_2() const;
+    // 0x710084e0bc (CSV x_23)
+    bool x_23() const;
     bool runeMgrCheckCanUseSquareBomb() const;  // CSV name (0x710084f3d4)
     bool getLastDamageAttacker(sead::BufferedSafeString* name) const;
     bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;

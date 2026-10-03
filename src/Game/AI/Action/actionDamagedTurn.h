@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,9 +28,8 @@ protected:
     const float* mPosReduceRatio_s{};
     // static_param at offset 0x38
     sead::SafeString mASName_s{};
-    u64 _48 = 0;
-    f32 _50 = 1.0f;
-    u8 _54[0x24];
+    sead::Vector3f _48{0.0f, 0.0f, 1.0f};
+    sead::Matrix33f _54;
 
 };
 KSYS_CHECK_SIZE_NX150(DamagedTurn, 0x78);

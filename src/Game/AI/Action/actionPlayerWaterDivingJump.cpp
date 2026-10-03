@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerWaterDivingJump.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -10,7 +12,8 @@ void PlayerWaterDivingJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerWaterDivingJump::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62C14(static_cast<ksys::act::Player*>(mActor)->_1800);
 }
 
 void PlayerWaterDivingJump::loadParams_() {

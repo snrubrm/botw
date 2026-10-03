@@ -60,7 +60,9 @@ public:
         // 0x71006fc514: the matrix at +0x20.
         const sead::Matrix34f* sub_71006FC514() const;
 
-        u8 _0[0x8b8];
+        u8 _0[0x20];
+        /* 0x20 */ sead::Matrix34f _20;
+        u8 _50[0x8b8 - 0x50];
         /* 0x8b8 */ f32 _8b8;  // Dragon + 0x1d80 (DragonPlayASForDemo: 0 on enter, 1 on leave)
         u8 _8bc[0x930 - 0x8bc];
         /* 0x930 */ u16 _930;  // flags (Dragon + 0x1df8)

@@ -21,10 +21,13 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x30
-    const sead::Vector3f* mAnimGrabPos_s{};
-    // dynamic_param at offset 0x38
-    ksys::act::BaseProcLink* mTargetActor_d{};
+    struct Params {
+        // static_param at offset 0x30
+        const sead::Vector3f* mAnimGrabPos_s{};
+        // dynamic_param at offset 0x38
+        ksys::act::BaseProcLink* mTargetActor_d{};
+    };
+    Params mParams;
     Unk_71023b1608 _40{mActor};
     Unk_71024505b8 _70;
 

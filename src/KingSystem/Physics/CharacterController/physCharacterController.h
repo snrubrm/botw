@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -18,6 +19,7 @@ class RigidBodyAccessor;
 class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
+class SystemGroupHandler;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
@@ -33,6 +35,10 @@ public:
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
+    // 0x7100f63604: sets the collision info of every body of _288 (if _114 has 0x2000).
+    void sub_7100F63604(CollisionInfo* info);
+    // 0x7100f6367c: the collision info of the first body of _288 (null without 0x2000 / a body).
+    CollisionInfo* sub_7100F6367C() const;
     // 0x7100f62bc0: setFixed on the main rigid body (unless it is already unfixed and `fixed` is false).
     void sub_7100F62BC0(bool fixed);
 
@@ -87,6 +93,8 @@ public:
     void sub_7100F62DD0(f32 scale);
     // 0x7100f62e5c: the main rigid body's collision impulse scale.
     f32 sub_7100F62E5C() const;
+    // 0x7100f5edb4 (unnamed in the CSV): mRigidBody->setSystemGroupHandler(handler).
+    void sub_7100F5EDB4(SystemGroupHandler* handler);
     void sub_7100F5EDBC(const sead::Vector3f& value);
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);
@@ -136,6 +144,36 @@ public:
     // 0x7100f62bb8: sub_7100F5F270(0).
     void sub_7100F62BB8();
 
+    // 0x7100f5e754: sets the byte at +0x50 of the sub-object at +0x48.
+    void sub_7100F5E754(bool value);
+    // 0x7100f5f060: copies `value` to _ec.
+    void sub_7100F5F060(const sead::Vector3f& value);
+    // 0x7100f5f128: bit 0 of _116.
+    bool sub_7100F5F128() const;
+    // 0x7100f60458: clears the u64 at +0x94 and the word at +0x9c.
+    void sub_7100F60458();
+    // 0x7100f6059c: resets the movement state (_144 = 1.0f; _148 / _15c / _160 / _168 / _210 = 0; clears
+    // most bits of _116).
+    void sub_7100F6059C();
+    // 0x7100f60e80: stores `value` (as 0 / 1) in the sub-objects at +0x50 (+0x38) and +0x48 (+0x94).
+    void sub_7100F60E80(bool value);
+    // 0x7100f62b78: _11c.
+    f32 sub_7100F62B78() const;
+    // 0x7100f62c14: RigidBody::setMaxImpulse on the main body and (if _114 has 0x2000) on every body of _288.
+    void sub_7100F62C14(f32 max_impulse);
+    // 0x7100f62ca0 / 0x7100f62dc8 / 0x7100f62e64 / 0x7100f62e6c: forwarders to the main rigid body
+    // (getMaxImpulse / isEntityMotionFlag10Off / setCenterOfMassInLocal / getCenterOfMassInLocal).
+    f32 sub_7100F62CA0() const;
+    bool sub_7100F62DC8() const;
+    void sub_7100F62E64(const sead::Vector3f& center);
+    void sub_7100F62E6C(sead::Vector3f* center) const;
+    // 0x7100f631e0: forwards `value` to the object at +0x40.
+    void sub_7100F631E0(bool value);
+    // 0x7100f6321c: sets / clears bit 0x200 of mFlags and updates the controller's friction-like values.
+    void sub_7100F6321C(bool value);
+    // 0x7100f63370: the byte at +0x6c of the object at +0x40.
+    bool sub_7100F63370() const;
+
     RigidBody* mRigidBody;
     u8 _10[0x60 - 0x10];
     f32 _60;
@@ -157,10 +195,19 @@ public:
     f32 _11c;
     u8 _120[0x150 - 0x120];
     s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
-    u8 _154[0x220 - 0x154];
+    u8 _154[0x210 - 0x154];
+    f32 _210;
+    u8 _214[0x220 - 0x214];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x288 - 0x228];
+    u8 _228[0x240 - 0x228];
+    sead::Vector3f _240;
+    u8 _24c[0x250 - 0x24c];
+    // Callbacks called with the controller by sub_7100F60604 (_250) and sub_7100F60500 (_258) (vtable
+    // slot 0 of the delegate).
+    sead::IDelegate1<CharacterController*>* _250;
+    sead::IDelegate1<CharacterController*>* _258;
+    u8 _260[0x288 - 0x260];
     sead::Buffer<RigidBody*> _288;
     RigidBody* _298;
 };

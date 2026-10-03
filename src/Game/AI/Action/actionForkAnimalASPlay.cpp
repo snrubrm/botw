@@ -54,8 +54,6 @@ void ForkAnimalASPlay::loadParams_() {
     getStaticParam(&mASKeyName_s, "ASKeyName");
 }
 
-// NON_MATCHING: the original passes both RideableBase::sub_7100E63224 arguments as 64-bit registers
-// (small by-value structs, probably SEAD_ENUM wrappers; the callee spills the second one)
 void ForkAnimalASPlay::calc_() {
     auto* as_list = mActor->getASList();
     if (!as_list) {
@@ -74,7 +72,7 @@ void ForkAnimalASPlay::calc_() {
         if (gear >= 0) {
             if (auto* rideable = mActor->m132()) {
                 const s32 type = *mSelectNextGearType_s;
-                rideable->sub_7100E63224(type >= 1 && type <= 5 ? type : 0, gear);
+                rideable->sub_7100E63224(type >= 1 && type <= 5 ? u32(type) : 0, u32(gear));
                 list->x_6(1, 0, 0.0f);
                 list->x_6(2, 0, 0.0f);
             }

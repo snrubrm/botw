@@ -34,6 +34,8 @@ public:
     void sub_71012A9EE8(Unk_7102372790* query);
     // 0x71012a9f68: pushes the query to the queue at +0x180; false if it is null or the queue is full.
     bool sub_71012A9F68(Unk_7102372790* query);
+    // 0x71012aa000 (declared only): sets query->_9 = 1.
+    void sub_71012AA000(Unk_7102372790* query);
 };
 
 // Name from the CSV (HavokAI::createInstance 0x7100f80b20, init 0x7100f80f38, ...). A polymorphic sead
@@ -65,12 +67,19 @@ public:
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).
     Unk_7100f7e9f0 sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
 
+    // 0x7100f88b1c (unnamed in the CSV; not decompiled): NavMeshCharacter::sub_7100F76078 forwards here.
+    Unk_7100f7e9f0 sub_7100F88B1C(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
+                                  f32 a3);
+
     // 0x7100f82bcc (CSV HavokAI::__auto2): registers a navmesh character: clears flag 2 / sets flag 1 of
     // its `_220`, stores this in its `_20` and queues it. Callers run it when `nav->_18` is null.
     void sub_7100F82BCC(NavMeshCharacter* nav);
 
     // 0x7100f82dd8 (not decompiled): counterpart of sub_7100F82BCC (called with the same guard).
     void sub_7100F82DD8(NavMeshCharacter* nav);
+
+    // 0x7100f83a94 (CSV HavokAI::__auto4): hands the query back to the pool (NavMeshCharacter::finalize).
+    void sub_7100F83A94(Unk_7102372790* query);
 
     // 0x7100f83a84 / 0x7100f83a8c (CSV names).
     void destroyQuery(Unk_7102372790* query);

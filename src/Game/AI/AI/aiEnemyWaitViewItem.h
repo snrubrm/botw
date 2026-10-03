@@ -25,6 +25,14 @@ public:
     virtual void m36();
 
     void sub_71003C3A2C(bool);
+    // 0x71003c3cb8 (placeholder name)
+    void sub_71003C3CB8();
+    // 0x71003c3dc4 (placeholder name)
+    void sub_71003C3DC4();
+    // 0x71003c3ed0 (placeholder name)
+    void sub_71003C3ED0();
+    // 0x71003c3fdc (placeholder name)
+    void sub_71003C3FDC();
 
 protected:
     // dynamic_param at offset 0x38

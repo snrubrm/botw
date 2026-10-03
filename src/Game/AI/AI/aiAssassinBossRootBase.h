@@ -48,6 +48,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
@@ -62,6 +63,12 @@ public:
                         s32 idx, sead::Heap* heap);
 
 protected:
+    // 0x710031c2c8: sets the life threshold of damage callback _260 and (re)registers it with
+    // timing 4.
+    void sub_710031C2C8(s32 threshold);
+    // 0x710031bb3c: unregisters damage callback _260.
+    void sub_710031BB3C();
+
     // static_param at offset 0x1d8
     const int* mRockBallDamage_s{};
     // static_param at offset 0x1e0

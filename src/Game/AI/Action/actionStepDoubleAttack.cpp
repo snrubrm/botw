@@ -24,19 +24,19 @@ void StepDoubleAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void StepDoubleAttack::leave_() {
-    sub_71005D79AC(mActor, *mWeaponIdx_s, act::Unk_71002edaec(1));
+    sub_71005D79AC(mActor, *mParams.mWeaponIdx_s, act::Unk_71002edaec(1));
     sub_71005DA114(mActor, &_60);
 }
 
 void StepDoubleAttack::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mCloseDist_s, "CloseDist");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mJustAvoidSideDist_s, "JustAvoidSideDist");
-    getStaticParam(&mJustAvoidBackDist_s, "JustAvoidBackDist");
-    getStaticParam(&mJustAvoidAngle_s, "JustAvoidAngle");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mCloseDist_s, "CloseDist");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mJustAvoidSideDist_s, "JustAvoidSideDist");
+    getStaticParam(&mParams.mJustAvoidBackDist_s, "JustAvoidBackDist");
+    getStaticParam(&mParams.mJustAvoidAngle_s, "JustAvoidAngle");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void StepDoubleAttack::calc_() {

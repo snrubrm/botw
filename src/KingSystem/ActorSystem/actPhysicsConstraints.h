@@ -22,6 +22,10 @@ public:
 
     s32 size() const { return mConstraints.size(); }
 
+    // 0x7100d40338 (lane1 s22): requests every constraint that is active or has a pending request to
+    // be switched off (Constraint::sub_7100F6A074); true if there was one. Placeholder name.
+    bool sub_7100D40338();
+
     // Iterated by AirOctaWoodBridge::calc_.
     sead::Buffer<phys::Constraint*> mConstraints;
 

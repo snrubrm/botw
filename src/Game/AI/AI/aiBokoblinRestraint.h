@@ -14,8 +14,20 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100332bf0 (placeholder name): spawns a "Rock_Weapon" (random scale 0.8 - 1.2) at the actor unless it
+    // has a connected calc child / an actor already, then changeChild("威嚇") with the target.
+    void sub_7100332BF0();
+    // 0x7100333040: true when the spawned actor is ready (then 0x71003332b4); respawns after a failure.
+    bool sub_7100333040();
+    // 0x71003332b4 (declared only).
+    void sub_71003332B4();
+    void spawnRock();
+    // 0x71003331a0 (declared only): whether the target is out of reach (restarts the lost timer while it is in reach).
+    bool sub_71003331A0();
 
 protected:
     // dynamic_param at offset 0x38

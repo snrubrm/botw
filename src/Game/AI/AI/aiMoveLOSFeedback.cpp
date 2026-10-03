@@ -29,4 +29,13 @@ void MoveLOSFeedback::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+void MoveLOSFeedback::sub_71004B0F44(const sead::Vector3f& hit_pos) {
+    if (!isCurrentChild("衝突")) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        pack.addVec3(hit_pos, "HitPos", -1);
+        changeChild("衝突", &pack);
+    }
+}
+
 }  // namespace uking::ai

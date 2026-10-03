@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionDamagedTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +15,16 @@ bool DamagedTurn::init_(sead::Heap* heap) {
 }
 
 void DamagedTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    if (!manager) {
+        setFailed();
+        return;
+    }
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    manager->m29(&_48);
+    _48 = -_48;
+    sub_710073FA90(&_54, mActor);
 }
 
 void DamagedTurn::leave_() {
@@ -26,7 +39,13 @@ void DamagedTurn::loadParams_() {
 }
 
 void DamagedTurn::calc_() {
-    ksys::act::ai::Action::calc_();
+    const sead::Vector3f up = getUpDir(mActor);
+    sub_710073FA94(&_54, mActor);
+    sub_710074006C(&_54, _48, up, true, *mRotRatio_s, *mRotSpeed_s, *mRotSpeed_s * 0.1f);
+    sub_7100740F1C(_54, mActor);
+    sub_7100738488(mActor, *mPosReduceRatio_s, -up);
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

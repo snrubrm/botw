@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDownloadRemainsMap.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool DownloadRemainsMap::init_(sead::Heap* heap) {
 }
 
 void DownloadRemainsMap::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ui::sub_7100A9F46C(*mIsPlayerClose_d);
 }
 
 void DownloadRemainsMap::leave_() {
@@ -23,7 +24,8 @@ void DownloadRemainsMap::loadParams_() {
 }
 
 void DownloadRemainsMap::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (ui::sub_7100A9F4AC())
+        setFinished();
 }
 
 }  // namespace uking::action

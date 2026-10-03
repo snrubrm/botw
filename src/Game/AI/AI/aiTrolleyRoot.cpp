@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiTrolleyRoot.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -13,7 +18,24 @@ TrolleyRoot::~TrolleyRoot() {
 }
 
 bool TrolleyRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (!actor)
+        return false;
+    auto* physics = actor->getPhysics();
+    actor->_a70 = &_d8;
+    if (!physics)
+        return false;
+    auto* main_body = actor->getMainBody();
+    if (!main_body)
+        return false;
+    auto* body = physics->findRigidBody("Barrier");
+    if (!body)
+        return false;
+    ksys::phys::FixedCs::Param param;
+    param.body_a = main_body;
+    param.body_b = body;
+    _d0 = ksys::phys::FixedCs::make(param, heap);
+    return true;
 }
 
 void TrolleyRoot::enter_(ksys::act::ai::InlineParamPack* params) {

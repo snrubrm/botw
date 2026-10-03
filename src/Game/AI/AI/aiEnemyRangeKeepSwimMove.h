@@ -15,6 +15,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x71003ae3c4 (placeholder name)
+    void sub_71003AE3C4(s8 dir);
 
 protected:
     // static_param at offset 0x38

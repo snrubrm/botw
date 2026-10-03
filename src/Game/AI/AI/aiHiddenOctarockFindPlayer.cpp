@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiHiddenOctarockFindPlayer.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -30,6 +33,25 @@ void HiddenOctarockFindPlayer::loadParams_() {
 
 bool HiddenOctarockFindPlayer::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("近づき");
+}
+
+void HiddenOctarockFindPlayer::sub_71004312D8() {
+    mActor->m93(4, 0.0f);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("気づき", &pack);
+}
+
+void HiddenOctarockFindPlayer::sub_7100430EE0() {
+    s32 value = _78;
+    if (_7c != _78)
+        value = sead::GlobalRandom::instance()->getS32Range(_78, _7c);
+    _74 = value;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("近づき", &pack);
 }
 
 }  // namespace uking::ai

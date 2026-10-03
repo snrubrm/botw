@@ -2,6 +2,8 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original sinks the three stores after the FixedSafeString (0xd0-0xe8) in front of
+// its final vtable store and loads the vtable after the terminator byte store
 NPCTalk::NPCTalk(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 NPCTalk::~NPCTalk() = default;

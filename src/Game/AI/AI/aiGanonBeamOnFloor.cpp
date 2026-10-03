@@ -24,6 +24,14 @@ void GanonBeamOnFloor::enter_(ksys::act::ai::InlineParamPack* params) {
     _2d5 = false;
 }
 
+bool GanonBeamOnFloor::m38() {
+    if (LastBossShootNormalArrowRoot::m38())
+        return true;
+    if (sub_71002C52DC(mActor, 0.5f))
+        return false;
+    return _a0 > 0;
+}
+
 void GanonBeamOnFloor::calc_() {
     LastBossShootNormalArrowRoot::calc_();
 
@@ -65,14 +73,6 @@ void GanonBeamOnFloor::loadParams_() {
     getStaticParam(&mTurnRate_s, "TurnRate");
     getStaticParam(&mWalkAS_s, "WalkAS");
     getStaticParam(&mTurnAS_s, "TurnAS");
-}
-
-bool GanonBeamOnFloor::m38() {
-    if (LastBossShootNormalArrowRoot::m38())
-        return true;
-    if (sub_71002C52DC(mActor, 0.5f))
-        return false;
-    return _a0 > 0;
 }
 
 }  // namespace uking::ai

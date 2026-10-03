@@ -12,15 +12,15 @@ BokoblinArrowBattle::BokoblinArrowBattle(const InitArg& arg) : ksys::act::ai::Ai
 
 BokoblinArrowBattle::~BokoblinArrowBattle() = default;
 
-// NON_MATCHING: the original loads both params before the GlobalRandom instance
 void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsUpdateNoticeState_s) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     }
     _114 = 0;
-    _118 = sead::GlobalRandom::instance()->getS32Range(*mBlindlyAttackMinNum_s,
-                                                       *mBlindlyAttackMaxNum_s + 1);
+    const s32 min_num = *mBlindlyAttackMinNum_s;
+    const s32 max_num = *mBlindlyAttackMaxNum_s;
+    _118 = sead::GlobalRandom::instance()->getS32Range(min_num, max_num + 1);
     _11c = *mTargetPos_d;
     _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
     sub_7100331088();
@@ -40,6 +40,24 @@ void BokoblinArrowBattle::sub_7100331088() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(target_pos, "TargetPos", -1);
     changeChild("待機", &pack);
+}
+
+void BokoblinArrowBattle::sub_71003318A8() {
+    sub_71005DA114(mActor, &_c8);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_11c, "TargetPos", -1);
+    changeChild("弓構え", &pack);
+}
+
+void BokoblinArrowBattle::sub_7100331980() {
+    setDamageCallbackTiming(mActor, 4, &_c8);
+    _fc.reset(*mLeaveTime_s);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("離脱", &pack);
 }
 
 bool BokoblinArrowBattle::isChangeable() const {

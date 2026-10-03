@@ -68,6 +68,8 @@ public:
     virtual s32 getField54() { return mField_54; }
     virtual bool checkDamageFlags(s32 bit) { return false; }
     virtual s32 getFlags2() { return mFlags2; }
+    // lane1 s22: AssassinBossRoot sets the low nibble of mField_64 (name is a guess).
+    void setField64LowNibble(u8 value) { mField_64 = (mField_64 & 0xf0) | value; }
     virtual void addDamageCallback(s32 eventId, DamageCallback* callback);
     virtual void removeDamageCallback(DamageCallback* callback);
     virtual f32 m13() { return 0.0f; }

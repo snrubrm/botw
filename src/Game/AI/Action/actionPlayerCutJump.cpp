@@ -1,11 +1,14 @@
 #include "Game/AI/Action/actionPlayerCutJump.h"
+#include <cstring>
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
-PlayerCutJump::PlayerCutJump(const InitArg& arg) : PlayerAction(arg) {}
+PlayerCutJump::PlayerCutJump(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mAttackRatioNSword_s, 0, 0xa8);
+}
 
 void PlayerCutJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

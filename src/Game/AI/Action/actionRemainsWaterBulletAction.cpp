@@ -32,7 +32,10 @@ void RemainsWaterBulletAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void RemainsWaterBulletAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getMainBody()) {
+        body->changeFlag100000(_78);
+        body->setGravityFactor(_7c);
+    }
 }
 
 void RemainsWaterBulletAction::loadParams_() {

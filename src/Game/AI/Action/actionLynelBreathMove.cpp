@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLynelBreathMove.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -23,7 +24,10 @@ void LynelBreathMove::leave_() {
 void LynelBreathMove::loadParams_() {}
 
 void LynelBreathMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    _28.sub_7100716408(pos);
+    ksys::act::sub_7100EE5980(mActor, _1c);
+    _d0 = false;
 }
 
 }  // namespace uking::action

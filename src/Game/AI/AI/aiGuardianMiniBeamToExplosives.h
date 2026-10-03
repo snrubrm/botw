@@ -11,6 +11,7 @@ public:
     explicit GuardianMiniBeamToExplosives(const InitArg& arg);
     ~GuardianMiniBeamToExplosives() override;
 
+    void calc_() override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 

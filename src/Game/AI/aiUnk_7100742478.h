@@ -18,3 +18,9 @@ class NavMeshCharacter;
 // as null by all callers.
 bool sub_7100742278(f32 radius, void* a2, ksys::phys::NavMeshCharacter* nav,
                     const sead::Vector3f* pos);
+
+// 0x7100742588 (lane1 s22, declared only): like sub_7100742278 (HavokAI navmesh query with `radius`
+// for `pos`, filled with the character's parameters); optionally writes the resulting position to
+// `out`. Placeholder name; `out` is passed as null by AnimalRoam::m35.
+bool sub_7100742588(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav, const sead::Vector3f* pos,
+                    f32 radius);

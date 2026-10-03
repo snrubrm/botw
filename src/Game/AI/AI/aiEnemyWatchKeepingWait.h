@@ -14,9 +14,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x71003c5ef4 (placeholder name)
+    void sub_71003C5EF4();
 
 protected:
-    u32 _38 = 0;
+    f32 _38 = 0;
     // static_param at offset 0x40
     const int* mIdleCheckMin_s{};
     // static_param at offset 0x48
@@ -31,7 +33,7 @@ protected:
     s32 _6c{};
     s32 _70{};
     bool _74{};
-    u32 _78 = 0;
+    f32 _78 = 0;
     bool _7c = true;
     bool _7d = false;
     bool _7e = false;

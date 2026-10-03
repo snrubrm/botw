@@ -13,6 +13,26 @@ void Horse::onPreDeleteStart_(PrepareArg& arg) {
     HorseBase::onPreDeleteStart_(arg);
 }
 
+// NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask), as in
+// HorseBase::sub_7100E6BE40
+void Horse::onEnterSleep_() {
+    HorseBase::onEnterSleep_();
+    if (_11a8.isOnBit(Flag(Flag::_0))) {
+        _d20.removeDamageCallback(&_1170);
+        _11a8.resetBit(Flag(Flag::_0));
+    }
+}
+
+// NON_MATCHING: the original calls m10 virtually (probably an inline member of Unk_71025ae680)
+void Horse::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    if (sub_7100E68270())
+        return;
+    if ((_1028._a & 3) == 0)
+        _1028.m10();
+    _1028._a &= ~0x24;
+    m149();
+}
+
 void Horse::m73() {
     _1028.m7();
 }

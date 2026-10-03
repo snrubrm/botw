@@ -19,7 +19,7 @@ protected:
     // dynamic_param at offset 0x20
     float* mTurnRange_d{};
 
-    float mValue;
+    float mValue = 0.0f;
 };
 
 }  // namespace uking::action

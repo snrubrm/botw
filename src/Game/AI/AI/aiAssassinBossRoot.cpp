@@ -2,6 +2,7 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -60,6 +61,69 @@ void AssassinBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _310._24 = false;
     if (auto* controller = mActor->getCharacterController())
         controller->sub_7100F63388(true, -1);
+}
+
+void AssassinBossRoot::sub_7100319AB4() {
+    auto& callback = _2c0;
+    const s32* life_ptr = mActor->getLife();
+    const s32 life = life_ptr ? *life_ptr : 1;
+    callback._27 = life < s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s);
+    setDamageCallbackTiming(mActor, 0, &callback);
+    setDamageCallbackTiming(mActor, 2, &_2e8);
+    if (auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+        mgr->setField64LowNibble(10);
+}
+
+void AssassinBossRoot::calc_() {
+    if (_310._25 || _2e8._24) {
+        _310._25 = false;
+        _2e8._24 = false;
+    }
+
+    const s32* life_ptr = mActor->getLife();
+    const s32 life = life_ptr ? *life_ptr : 1;
+    if (life < s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s)) {
+        setDamageCallbackTiming(mActor, 4, &_338);
+        sub_710031BB3C();
+    } else {
+        sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s));
+    }
+
+    if (isCurrentChild("奈落")) {
+        auto* child = getCurrentChild();
+        if (!child->isFinished() && !child->isFailed())
+            return;
+        if (auto* controller = mActor->getCharacterController())
+            controller->sub_7100F63388(true, -1);
+    }
+
+    AssassinBossRootBase::calc_();
+    if (isCurrentChild("撤退"))
+        return;
+
+    auto* actor = mActor;
+    bool b = false;
+    if (actor->getASList()->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+        b = true;
+        if (!_400) {
+            sub_71007A3778(actor, "TgtBarrier");
+            _400 = true;
+        }
+    } else if (_400) {
+        sub_71007A3910(actor, "TgtBarrier");
+        _400 = false;
+    }
+    _310._24 = b;
+
+    if (isCurrentChild("リアクション")) {
+        sub_71005DA114(mActor, &_2c0);
+        sub_71005DA114(mActor, &_2e8);
+        if (auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+            mgr->setField64LowNibble(0);
+    } else if (auto* controller = mActor->getCharacterController()) {
+        if (!isCurrentChild("奈落"))
+            controller->sub_7100F63388(true, -1);
+    }
 }
 
 void AssassinBossRoot::leave_() {

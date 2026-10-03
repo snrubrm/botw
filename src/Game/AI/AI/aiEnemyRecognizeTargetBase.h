@@ -22,6 +22,8 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+    // 0x71003b08c0 (placeholder name)
+    void sub_71003B08C0();
 
 protected:
     // static_param at offset 0x38

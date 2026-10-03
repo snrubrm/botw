@@ -33,10 +33,10 @@ void CliffCheckSelect::loadParams_() {
     getStaticParam(&mIsSelectFirstTime_s, "IsSelectFirstTime");
 }
 
-// NON_MATCHING: the original materialises the finished-or-failed result as a bool before re-fetching the child
 void CliffCheckSelect::calc_() {
     auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
+    const bool done = child->isFinished() || child->isFailed();
+    if (done) {
         if (getCurrentChild()->isFinished())
             setFinished();
         else

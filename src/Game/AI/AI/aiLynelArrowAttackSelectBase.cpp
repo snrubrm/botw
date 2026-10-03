@@ -25,6 +25,16 @@ void LynelArrowAttackSelectBase::enter_(ksys::act::ai::InlineParamPack* params) 
     changeChild("上空撃ち", params);
 }
 
+void LynelArrowAttackSelectBase::sub_710048B294(ksys::act::ai::InlineParamPack* params) {
+    *mLynelAIFlags_a |= 0x20;
+    changeChild("上空撃ち", params);
+}
+
+bool LynelArrowAttackSelectBase::sub_710048B2B8() {
+    const s32 state = sub_71005D9744(mActor);
+    return state == 2 || state == 3;
+}
+
 void LynelArrowAttackSelectBase::calc_() {}
 
 void LynelArrowAttackSelectBase::leave_() {
