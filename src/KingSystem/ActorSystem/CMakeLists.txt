@@ -130,6 +130,7 @@ target_sources(uking PRIVATE
     actBaseProcMgr.cpp
     actBaseProcMgr.h
     actBoneControl.cpp
+    actBoneControlUnk_7100d8557c.cpp
     actBoneControl.h
     actBoneHandle.cpp
     actBoneHandle.h

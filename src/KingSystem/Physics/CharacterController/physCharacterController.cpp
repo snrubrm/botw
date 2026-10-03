@@ -103,6 +103,10 @@ void CharacterController::sub_7100F636A8(f32 factor) {
     mRigidBody->setMagneMassScalingFactor(factor);
 }
 
+f32 CharacterController::sub_7100F62E5C() const {
+    return mRigidBody->getColImpulseScale();
+}
+
 bool CharacterController::sub_7100F636EC() const {
     return !mRigidBody->hasFlag(RigidBody::Flag::_200);
 }

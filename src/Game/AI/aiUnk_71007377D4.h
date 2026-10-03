@@ -9,6 +9,7 @@
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
+class Unk_7100d860d8;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -177,3 +178,7 @@ bool sub_710072EA18(const sead::Vector3f& from, const sead::Vector3f& to, int no
                     ksys::phys::MaterialMask* material_mask, f32 y_offset);
 /// 0x710072e804: group handler `idx` (0 / 1) of the actor's physics instance set (null without one).
 ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx);
+
+// 0x71007398c0 (CSV Actor::x_50): the actor's spine controller (BoneControl::_0->_10) or nullptr; the
+// same as Actor::sub_71011D8A10 but out of line in this TU.
+ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor);

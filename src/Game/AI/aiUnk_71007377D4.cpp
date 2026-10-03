@@ -4,6 +4,7 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -244,4 +245,14 @@ bool sub_710072EC90(const sead::Vector3f& pos, const sead::Vector3f& target, sea
     if (dist <= max_dist)
         return sead::Mathf::abs(target.y - point.y) < max_height;
     return false;
+}
+
+ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return nullptr;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return nullptr;
+    return &unk->_10;
 }

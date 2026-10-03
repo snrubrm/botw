@@ -75,6 +75,8 @@ public:
     void sub_7100F5E7F0(float value);
     // 0x7100f62dd0 (not decompiled): RigidBody::setColImpulseScale on the main body and the extra bodies.
     void sub_7100F62DD0(f32 scale);
+    // 0x7100f62e5c: the main rigid body's collision impulse scale.
+    f32 sub_7100F62E5C() const;
     void sub_7100F5EDBC(const sead::Vector3f& value);
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);
