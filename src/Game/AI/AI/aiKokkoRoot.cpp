@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiKokkoRoot.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -40,6 +42,19 @@ void KokkoRoot::m40() {
 void KokkoRoot::m41() {
     if (!isCurrentChild("怒り"))
         PreyRoot::m41();
+}
+
+void KokkoRoot::m43() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("怒り")) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->_d70.sub_71002DC32C();
+        _220 = 0;
+        ksys::act::enableAttClient(mActor, "Grab");
+        sub_71005047A8();
+    } else {
+        PreyRoot::m43();
+    }
 }
 
 void KokkoRoot::m46() {

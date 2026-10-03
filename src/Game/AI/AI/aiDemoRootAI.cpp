@@ -51,4 +51,20 @@ void DemoRootAI::leave_() {
 
 void DemoRootAI::loadParams_() {}
 
+void DemoRootAI::getCurrentName(sead::BufferedSafeString* name,
+                                ksys::act::ai::ActionBase* last) const {
+    name->appendWithFormat("/%s{", getName());
+    if (getCurrentChild())
+        getCurrentChild()->getCurrentName(name, last);
+    name->appendWithFormat(",");
+    if (this != last) {
+        for (auto* child : _38) {
+            if (child)
+                child->getCurrentName(name, last);
+            name->appendWithFormat(",");
+        }
+    }
+    name->appendWithFormat("}");
+}
+
 }  // namespace uking::ai
