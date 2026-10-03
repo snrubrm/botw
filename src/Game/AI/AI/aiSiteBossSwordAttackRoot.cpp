@@ -2,6 +2,8 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: the original loads the address of Vector3f::zero after the SafeString stores (into the
+// register it already used); ours loads it earlier into x10
 SiteBossSwordAttackRoot::SiteBossSwordAttackRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 SiteBossSwordAttackRoot::~SiteBossSwordAttackRoot() = default;
