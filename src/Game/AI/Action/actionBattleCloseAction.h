@@ -39,20 +39,23 @@ protected:
     virtual int m38(f32 x);
     virtual bool m39();
 
-    // static_param at offset 0x20
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x28
-    const float* mSpeed_s{};
-    // static_param at offset 0x30
-    const float* mRotSpd_s{};
-    // static_param at offset 0x38
-    const float* mFinRadius_s{};
-    // static_param at offset 0x40
-    const float* mFinRotate_s{};
-    // static_param at offset 0x48
-    const float* mBaseRotRatio_s{};
-    // dynamic_param at offset 0x50
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x28
+        const float* mSpeed_s{};
+        // static_param at offset 0x30
+        const float* mRotSpd_s{};
+        // static_param at offset 0x38
+        const float* mFinRadius_s{};
+        // static_param at offset 0x40
+        const float* mFinRotate_s{};
+        // static_param at offset 0x48
+        const float* mBaseRotRatio_s{};
+        // dynamic_param at offset 0x50
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Vector3f _58;
     sead::Matrix33f _64;
     float _88 = 0.0f;

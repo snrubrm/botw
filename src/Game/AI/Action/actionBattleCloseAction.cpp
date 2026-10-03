@@ -24,13 +24,13 @@ void BattleCloseAction::leave_() {
 }
 
 void BattleCloseAction::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinRadius_s, "FinRadius");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mBaseRotRatio_s, "BaseRotRatio");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinRadius_s, "FinRadius");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mBaseRotRatio_s, "BaseRotRatio");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void BattleCloseAction::calc_() {
@@ -46,7 +46,7 @@ bool BattleCloseAction::m34(ksys::act::Unk_7100d78e50* entry) {
 }
 
 f32 BattleCloseAction::m35() {
-    return *mSpeed_s;
+    return *mParams.mSpeed_s;
 }
 
 void BattleCloseAction::m36(const sead::Matrix34f& mtx) {

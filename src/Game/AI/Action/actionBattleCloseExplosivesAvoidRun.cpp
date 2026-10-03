@@ -44,7 +44,7 @@ void BattleCloseExplosivesAvoidRun::m32(sead::Vector3f* target_pos) {
         return;
 
     const sead::Vector3f pos = actor->getMtx().getTranslation();
-    sead::Vector3f to_target = *mTargetPos_d - pos;
+    sead::Vector3f to_target = *BattleCloseAction::mParams.mTargetPos_d - pos;
     to_target.normalize();
 
     sead::Vector3f up;
@@ -79,7 +79,7 @@ void BattleCloseExplosivesAvoidRun::m32(sead::Vector3f* target_pos) {
 
         sead::Vector3f from_entry = pos - entry_pos;
         from_entry.normalize();
-        sead::Vector3f target_from_entry = *mTargetPos_d - entry_pos;
+        sead::Vector3f target_from_entry = *BattleCloseAction::mParams.mTargetPos_d - entry_pos;
         target_from_entry.normalize();
         if (from_entry.dot(target_from_entry) > 0.0f) {
             in_danger = true;
@@ -102,19 +102,19 @@ void BattleCloseExplosivesAvoidRun::m32(sead::Vector3f* target_pos) {
 
         in_danger = true;
         *target_pos = side * 5.0f;
-        *target_pos *= *mSpeed_s;
+        *target_pos *= *BattleCloseAction::mParams.mSpeed_s;
         avoiding = true;
     }
 
     if (avoiding) {
         const f32 len = target_pos->length();
-        const f32 max_len = *mSpeed_s * 2.0f;
+        const f32 max_len = *BattleCloseAction::mParams.mSpeed_s * 2.0f;
         if (len > max_len) {
             const f32 cur_len = target_pos->length();
             if (cur_len > 0.0f)
                 *target_pos *= max_len / cur_len;
         }
-        *target_pos -= to_target * *mSpeed_s;
+        *target_pos -= to_target * *BattleCloseAction::mParams.mSpeed_s;
     }
 
     auto* mgr = mActor->getDamageMgr();
