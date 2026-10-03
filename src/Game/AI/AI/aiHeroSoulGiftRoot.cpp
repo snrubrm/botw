@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHeroSoulGiftRoot.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -27,6 +28,73 @@ void HeroSoulGiftRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("発動");
     else
         changeChild("待機");
+}
+
+// NON_MATCHING: register allocation (ours keeps the address of the player accessor in a callee-saved
+// register for the destructor call; the original recomputes it)
+bool HeroSoulGiftRoot::m34(sead::Matrix34f* mtx) {
+    if (*mUseInitMtxForBasePos_s && *mUseInitMtxForBaseRot_s) {
+        *mtx = _58;
+        return true;
+    }
+
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200)) {
+        *mtx = sead::Matrix34f::ident;
+        return true;
+    }
+
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (!player.hasProc())
+        return false;
+
+    if (*mUseInitMtxForBasePos_s) {
+        const sead::Vector3f t = _58.getTranslation();
+        *mtx = player.getActorMtx();
+        mtx->setTranslation(t);
+    } else {
+        const bool use_rot = *mUseInitMtxForBaseRot_s;
+        const auto& player_mtx = player.getActorMtx();
+        if (use_rot) {
+            const f32 x = player_mtx.m[0][3];
+            const f32 y = player_mtx.m[1][3];
+            const f32 z = player_mtx.m[2][3];
+            *mtx = _58;
+            mtx->m[0][3] = x;
+            mtx->m[1][3] = y;
+            mtx->m[2][3] = z;
+        } else {
+            *mtx = player_mtx;
+        }
+    }
+    return true;
+}
+
+void HeroSoulGiftRoot::calc_() {
+    {
+        sead::Matrix34f mtx;
+        if (m35(&mtx))
+            mActor->setMtx(mtx, false, true);
+    }
+
+    if (_88) {
+        m36();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (isCurrentChild("待機") && m37()) {
+        changeChild("発動");
+        return;
+    }
+
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("発動"))
+        sub_710042EEB4();
+    else if (isCurrentChild("退場"))
+        setFinished();
 }
 
 void HeroSoulGiftRoot::leave_() {
