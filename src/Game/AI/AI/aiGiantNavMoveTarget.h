@@ -19,6 +19,13 @@ public:
 
     virtual void m34();
 
+    // 0x71003f78f4 / 0x71003f7da8 (placeholder names): changeChild("見まわす"); and the repath: restarts the repath
+    // timer and asks the navigation for a reachable point near the target.
+    void sub_71003F78F4();
+    // 0x71003f7c20: resets the navigation state and the repath timer, then changeChild("%s") with the target.
+    void sub_71003F7C20();
+    void sub_71003F7DA8();
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
