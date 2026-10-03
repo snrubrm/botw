@@ -80,8 +80,10 @@ void PlayerLadderDownStart::calc_() {
                                        -(sUnk_7101e7c5d4 + sUnk_7101e7c5d8));
             static_cast<ksys::act::Player*>(mActor)->_1810.y += sUnk_7101e7c5d0 * -4.0f;
         } else {
-            const sead::Vector3f direction = to_target * (1.0f / length);
-            player->_181c += direction * step;
+            sead::Vector3f movement = to_target;
+            movement *= 1.0f / length;
+            movement *= step;
+            player->_181c += movement;
         }
     }
     static_cast<ksys::act::Player*>(mActor)->sub_7100892100(
