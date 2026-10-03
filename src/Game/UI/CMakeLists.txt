@@ -15,7 +15,9 @@ target_sources(uking PRIVATE
   uiScreenDtors2.cpp
   uiScreenDtors3.cpp
   uiScreenFacade.cpp
+  uiScreenConstSlots.cpp
   uiScreenNames.cpp
+  uiScreenVCallSlots.cpp
   uiScreenNullSlots.cpp
   uiScreenSlot4.cpp
   uiScreenHardMode.cpp

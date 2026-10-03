@@ -36,7 +36,7 @@ public:
     virtual const char* m15() const;  // returns the layout name (<Name>_00) in the leaf classes
     virtual void m16();
     virtual void m17();
-    virtual void m18();
+    virtual bool isPlayPartsInOut_() const;  // slot 18
     virtual void m19();
     virtual void m20();
     virtual void m21();

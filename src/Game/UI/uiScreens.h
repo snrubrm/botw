@@ -269,6 +269,9 @@ public:
 
 class ScreenMainScreen3D : public ScreenEx {
 public:
+    void m84() override;
+    s32 m141() override;
+    s32 m142() override;
     void m82() override;
     ~ScreenMainScreen3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen3D, ScreenEx)
@@ -316,6 +319,7 @@ public:
 
 class ScreenRupee : public ScreenEx {
 public:
+    s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenRupee() override;
@@ -330,6 +334,7 @@ public:
 
 class ScreenKologNum : public ScreenEx {
 public:
+    s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenKologNum() override;
@@ -348,6 +353,7 @@ public:
 
 class ScreenAkashNum : public ScreenEx {
 public:
+    s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenAkashNum() override;
@@ -366,6 +372,7 @@ public:
 
 class ScreenMamoNum : public ScreenEx {
 public:
+    s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenMamoNum() override;
@@ -446,6 +453,7 @@ public:
 
 class ScreenPauseMenu : public ScreenEx {
 public:
+    s32 m72() override;
     void m69() override;
     void m70() override;
     void m71() override;
@@ -483,6 +491,7 @@ public:
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
+    s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenDLCSinJuAkashiNum() override;
@@ -559,6 +568,7 @@ public:
 // destructor and the RTTI.
 class ScreenGamePadBG : public ScreenEx {
 public:
+    void m82() override;
     void m94() override;
     s32 m4() override;
     const char* m15() const override;
@@ -568,6 +578,7 @@ public:
 
 class ScreenWolfLinkHeartGauge : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     ScreenWolfLinkHeartGauge();
     ~ScreenWolfLinkHeartGauge() override;
     void* _3610{};
@@ -596,6 +607,7 @@ public:
 
 class ScreenDemoName : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     void m93() override;
     ScreenDemoName();
     ~ScreenDemoName() override;
@@ -605,6 +617,7 @@ public:
 
 class ScreenDemoNameEnemy : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     void m93() override;
     ScreenDemoNameEnemy();
     ~ScreenDemoNameEnemy() override;
@@ -630,12 +643,16 @@ public:
 
 class ScreenPauseMenuBG : public ScreenEx {
 public:
+    void m82() override;
+    void m83() override;
     ~ScreenPauseMenuBG() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuBG, ScreenEx)
 };
 
 class ScreenSeekPadMenuBG : public ScreenEx {
 public:
+    void m82() override;
+    void m83() override;
     const char* m15() const override;
     ~ScreenSeekPadMenuBG() override;
     SEAD_RTTI_OVERRIDE(ScreenSeekPadMenuBG, ScreenEx)
@@ -680,6 +697,7 @@ public:
 
 class ScreenSystemWindow00 : public ScreenEx {
 public:
+    s32 m81() override;
     void m82() override;
     void m96() override;
     void m97() override;
@@ -698,6 +716,7 @@ public:
 
 class ScreenPauseMenuEiketsu : public ScreenEx {
 public:
+    void m107() override;
     s32 m4() override;
     ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
@@ -706,6 +725,10 @@ public:
 
 class ScreenAppSystemWindow : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
+    s32 m81() override;
+    s32 m141() override;
+    s32 m142() override;
     s32 m4() override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
@@ -758,6 +781,7 @@ public:
 
 class ScreenSkip : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     s32 m4() override;
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
@@ -791,6 +815,7 @@ public:
 
 class ScreenAppMenuBtn : public ScreenEx {
 public:
+    s32 m81() override;
     void m94() override;
     void m98() override;
     s32 m4() override;
@@ -849,6 +874,8 @@ public:
 
 class ScreenTitle : public ScreenEx {
 public:
+    s32 m141() override;
+    s32 m142() override;
     void m96() override;
     s32 m4() override;
     ~ScreenTitle() override;
@@ -943,6 +970,7 @@ public:
 
 class ScreenOptionWindow : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     s32 m4() override;
     ~ScreenOptionWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
@@ -980,6 +1008,8 @@ public:
 
 class ScreenKeyBoradTextArea : public ScreenEx {
 public:
+    s32 m141() override;
+    s32 m142() override;
     void m93() override;
     void m94() override;
     void m96() override;
@@ -990,6 +1020,7 @@ public:
 
 class ScreenFadeStatus : public ScreenEx {
 public:
+    bool isPlayPartsInOut_() const override;
     ~ScreenFadeStatus() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeStatus, ScreenEx)
 };
