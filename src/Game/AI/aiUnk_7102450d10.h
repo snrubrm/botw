@@ -19,10 +19,13 @@ class Unk_7102450d10 : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(Unk_7102450d10, Unk_71025afb58)
 public:
     explicit Unk_7102450d10(ksys::act::Actor* actor);
+    ~Unk_7102450d10() override;
 
     // Re-evaluates the form from the actor's character controller (+0x224) and switches the
     // target bodies' contact layers (calls 0x7100714548 / 0x7100714918).
     void sub_7100714C9C();
+    // 0x7100714918 (declared only): called by OctarockRoot::enter_ (the other callee of sub_7100714C9C).
+    void sub_7100714918();
 
     // Compared with the character controller's value at +0x224 (index = form).
     /* 0x08 */ sead::SafeArray<int, 10> _8;

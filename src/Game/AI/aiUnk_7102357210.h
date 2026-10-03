@@ -703,7 +703,21 @@ public:
 // vtable 0x710240dd68 (message 0x8000042)
 class Unk_710240dd68 : public Unk_7102357210 {
 public:
-    bool m2(const ksys::Message& message) override;
+    // Defined inline: OctarockRoot::handleMessage_ inlines it (and the original emits the function in the
+    // OctarockRoot TU).
+    bool m2(const ksys::Message& message) override {
+        if (message.getType() != 0x8000042)
+            return false;
+
+        auto* payload = static_cast<Unk_710240dd68_Payload*>(message.getUserData());
+        if (!payload)
+            return false;
+
+        payload->x(&_38.mLink);
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
     void m3() override {}
 
     Unk_710240dd68_Payload _38;

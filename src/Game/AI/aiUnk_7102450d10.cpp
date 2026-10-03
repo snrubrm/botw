@@ -4,3 +4,5 @@ Unk_7102450d10::Unk_7102450d10(ksys::act::Actor* actor) : mActor(actor) {
     _30 = 0;
     _8.fill(0);
 }
+
+Unk_7102450d10::~Unk_7102450d10() = default;
