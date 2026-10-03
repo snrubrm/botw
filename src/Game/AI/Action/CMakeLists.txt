@@ -3558,6 +3558,7 @@ target_sources(uking PRIVATE
   actionSwitchElectricOn.cpp
   actionSwitchElectricOn.h
   actionSwitchPlayerEquipment.cpp
+  actionSwitchPlayerEquipmentHelpers.cpp
   actionSwitchPlayerEquipment.h
   actionSwitchStepSliderConstraint.cpp
   actionSwitchStepSliderConstraint.h

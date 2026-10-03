@@ -19,6 +19,14 @@ bool CapturedActFreeze::init_(sead::Heap* heap) {
 
 void CapturedActFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
     Freeze::enter_(params);
+    if (!mASKeyName_s.isEmpty())
+        playAS(mASKeyName_s.cstr(), true, 0, 0, -1.0f);
+    for (int i = 0; i < mActor->getASList()->getSlot0BankCount(); ++i)
+        mActor->getASList()->x_3(0, i, &ksys::as::ASList::Unk2::sub_71011631BC, 1.0f);
+    if (*mPauseDelayFrames_s < 0)
+        _90.reset(1.0f, 0.0f);
+    else
+        _90.reset(*mPauseDelayFrames_s);
 }
 
 void CapturedActFreeze::leave_() {

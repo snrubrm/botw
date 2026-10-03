@@ -4,6 +4,14 @@
 
 namespace uking::action {
 
+// 0x710028da58: switches the equipment slot named `name` (the name is a guess). In the original the
+// first argument register (x0) is not set by the callers and `name` is in x1: the function has an
+// unused leading parameter (an empty class passed by value; unknown type), which is not modelled.
+bool sub_710028DA58(const sead::SafeString& name);
+// 0x710028dbc8 (CSV: PauseMenuDataMgr::switchPlayerArmor): switches the armor piece `name` (same
+// unused leading parameter as sub_710028DA58).
+bool sub_710028DBC8(const sead::SafeString& name, bool needs_head_b);
+
 class SwitchPlayerEquipment : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(SwitchPlayerEquipment, ksys::act::ai::Action)
 public:
