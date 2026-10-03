@@ -285,6 +285,7 @@ public:
     phys::RigidBody* getPhysicsMainBody();
     phys::InstanceSet* getPhysics() const { return mPhysics; }
     const PhysicsConstraints& getConstraints() const { return mConstraints; }
+    PhysicsConstraints& getConstraints() { return mConstraints; }
     phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const { return mFieldBodyGroup; }
 
     // Inline-only in the original (SwitchWheel::enter_ reads the field at +0x3d0 directly); name is a guess.

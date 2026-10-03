@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiItemOnTree.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPhysicsConstraints.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -61,6 +64,18 @@ void ItemOnTree::m35() {
     ksys::act::enableAttClient(actor, mAttOnTree_s);
     ksys::act::disableAttClient(actor, mAttOnGround_s);
     changeChild("通常");
+}
+
+void ItemOnTree::m36() {
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        actor->getConstraints().sub_7100D40338();
+    }
+    sub_7100731000(actor, true);
+    ksys::act::disableAttClient(actor, mAttOnTree_s);
+    ksys::act::enableAttClient(actor, mAttOnGround_s);
+    changeChild("もげる");
 }
 
 }  // namespace uking::ai

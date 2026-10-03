@@ -5,6 +5,10 @@
 
 namespace ksys::phys {
 
+bool Constraint::sub_7100F6ACE8() const {
+    return _52 & 1;
+}
+
 void Constraint::sub_7100F69FF0() {
     auto lock = sead::makeScopedLock(mCS);
     if (_52 & 2) {

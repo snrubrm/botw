@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -392,4 +393,10 @@ void sub_710073DE44(ksys::act::Actor* actor) {
     actor->sub_71011D0204(0x10);
     actor->sub_71011D0204(4);
     actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+}
+
+// NON_MATCHING: same instructions but the SafeString temporary is stored with two str instead of one stp (104 vs 100 bytes)
+bool sub_7100731000(ksys::act::Actor* actor, bool value) {
+    return actor->getRootAi()->getMapUnitParams().setAITreeVariable(
+        "IsPlayerPut", ksys::AIDefParamType::Bool, value);
 }

@@ -262,3 +262,7 @@ void sub_710073DE08(ksys::act::Actor* actor);
 /// 0x710073de44: the opposite: sets stasis flags 0x10 and 0x4 (Actor 0x71011d0204) and clears
 /// ActorFlag2 0x10000. Placeholder name.
 void sub_710073DE44(ksys::act::Actor* actor);
+
+/// 0x7100731000 (lane1 s22): sets the map unit param "IsPlayerPut" (bool) of the actor's root AI;
+/// false if the actor has no such param. Placeholder name.
+bool sub_7100731000(ksys::act::Actor* actor, bool value);
