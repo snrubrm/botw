@@ -200,7 +200,7 @@ void Player::sub_7100877BD8() {
     if (speed == 0.0f)
         return;
     const u32 angle = sead::Mathf::atan2Idx(translation.x, translation.z);
-    _1c68 = (x_5().value + angle) & util::sUnk_7101EC6BA0;
+    _1c68.value = (x_5().value + angle) & util::sUnk_7101EC6BA0;
 }
 
 void Player::sub_71008697E4() {

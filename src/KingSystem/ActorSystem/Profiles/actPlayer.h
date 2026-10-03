@@ -96,7 +96,7 @@ public:
     /* 225 */ bool m225() override;
     /* 226 */ bool m226() override;
     /* 227 */ bool m227() override;
-    /* 228 */ void m228() override;
+    /* 228 */ void m228(bool a1) override;
     /* 229 */ void m229() override;
     /* 230 */ bool m230() override;
     /* 231 */ f32 m231() override;
@@ -261,6 +261,13 @@ public:
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
     // direction to move in; 0 for none).
     void sub_7100877F00(const sead::Vector3f& dir);
+    // Declared only (placeholder member functions of the player; all take the player as `this`):
+    void sub_710086800C(f32 a1);       // 0x710086800c
+    void sub_71008824AC(bool a1);      // 0x71008824ac
+    void sub_71008893B8(bool a1);      // 0x71008893b8
+    void sub_71008931C4();             // 0x71008931c4
+    void sub_71008B5B8();              // 0x71008b5b8
+    void x_37();                       // 0x71008efa0 (CSV Player::x_37)
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
@@ -340,10 +347,11 @@ public:
     /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
-    /* 0x1c68 */ u32 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
+    /* 0x1c68 */ Unk1 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
     /* 0x1c6c */ u8 _1c6c[0x1c70 - 0x1c6c];
     /* 0x1c70 */ u32 _1c70;  // an angle index (0x80000000 = reset by PlayerLadderDownStart::leave_)
-    /* 0x1c74 */ u8 _1c74[0x1c84 - 0x1c74];
+    /* 0x1c74 */ u32 _1c74;  // an angle index (PlayerLand::enter_)
+    /* 0x1c78 */ u8 _1c78[0x1c84 - 0x1c78];
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ u8 _1c88[0x1ca4 - 0x1c88];
     /* 0x1ca4 */ s32 _1ca4;
@@ -409,7 +417,9 @@ public:
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
-    /* 0x2104 */ u8 _2104[0x22a8 - 0x2104];
+    /* 0x2104 */ u8 _2104[0x211c - 0x2104];
+    /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
+    /* 0x2120 */ u8 _2120[0x22a8 - 0x2120];
     /* 0x22a8 */ sead::Vector3f _22a8;
     /* 0x22b4 */ u8 _22b4[0x22e8 - 0x22b4];
     /* 0x22e8 */ sead::Vector3f _22e8;

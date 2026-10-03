@@ -15,10 +15,8 @@ void PlayerSlideLand::enter_(ksys::act::ai::InlineParamPack* params) {
     player->_20bc.prev_value = player->_20bc.value;
 }
 
-// NON_MATCHING: the original loads mActor before the x_5() result
 void PlayerSlideLand::leave_() {
-    static_cast<ksys::act::Player*>(mActor)->_1c68 =
-        static_cast<ksys::act::Player*>(mActor)->x_5().value;
+    static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->x_5();
 }
 
 void PlayerSlideLand::calc_() {

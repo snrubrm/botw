@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerFall.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -76,7 +77,53 @@ void PlayerFall::loadParams_() {
 }
 
 void PlayerFall::calc_() {
-    PlayerAction::calc_();
+    if (static_cast<ksys::act::Player*>(mActor)->m194()) {
+        if (mActor->getASList()->x(84, nullptr, 1, 1, &ksys::as::ASList::Unk2::sub_71011637EC,
+                                   true) ||
+            mActor->getASList()->x_1(1, 1) != "ParaEquipOff") {
+            static_cast<ksys::act::Player*>(mActor)->_cec.reset(0x8000);
+            auto* proc = static_cast<ksys::act::Player*>(mActor)->_2c28.getProc(nullptr, nullptr);
+            if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc))
+                actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+    }
+
+    if (static_cast<ksys::act::Player*>(mActor)->_c44.isOnBit(21)) {
+        if (static_cast<ksys::act::Player*>(mActor)->_185c.value <= sead::Mathf::epsilon())
+            static_cast<ksys::act::Player*>(mActor)->m228(false);
+        else
+            static_cast<ksys::act::Player*>(mActor)->_185c.update();
+    }
+    static_cast<ksys::act::Player*>(mActor)->sub_71008931C4();
+    if (static_cast<ksys::act::Player*>(mActor)->_c44.isOnBit(8) &&
+        !static_cast<ksys::act::Player*>(mActor)->_d11) {
+        static_cast<ksys::act::Player*>(mActor)->x_37();
+    }
+    if (static_cast<ksys::act::Player*>(mActor)->_17f0 &&
+        !static_cast<ksys::act::Player*>(mActor)->_c44.isOnBit(21) &&
+        static_cast<ksys::act::Player*>(mActor)->_1d70.value <= sead::Mathf::epsilon() &&
+        !static_cast<ksys::act::Player*>(mActor)->_c50.isOnBit(19)) {
+        if (auto* controller = mActor->getCharacterController()) {
+            if (!(controller->_116 & 0x10))
+                static_cast<ksys::act::Player*>(mActor)->_1cb0 = 9;
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->_20bc.chase(0.0f, 0.001f);
+    if (static_cast<ksys::act::Player*>(mActor)->_1850.value <= sead::Mathf::epsilon())
+        static_cast<ksys::act::Player*>(mActor)->_cf4.reset(0x200000);
+    else
+        static_cast<ksys::act::Player*>(mActor)->_1850.update();
+    if (static_cast<ksys::act::Player*>(mActor)->_d11 && mActor->getConnectedCalcChild()) {
+        if (static_cast<ksys::act::Player*>(mActor)->_1770.y >
+            static_cast<ksys::act::Player*>(mActor)->_178c) {
+            static_cast<ksys::act::Player*>(mActor)->_1844.update();
+            if (static_cast<ksys::act::Player*>(mActor)->_1844.value <= sead::Mathf::epsilon())
+                static_cast<ksys::act::Player*>(mActor)->m228(false);
+        } else {
+            static_cast<ksys::act::Player*>(mActor)->_1844 = ksys::Timer(3.0f, 3.0f);
+        }
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerFall::isChangeable() const {

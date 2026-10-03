@@ -32,7 +32,7 @@ void PlayerCutHorseJump::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
     static_cast<ksys::act::Player*>(mActor)->_1834 = static_cast<ksys::act::Player*>(mActor)->x_5();
     player = static_cast<ksys::act::Player*>(mActor);
-    player->_1c68 = player->_1834.value;
+    player->_1c68.value = player->_1834.value;
     static_cast<ksys::act::Player*>(mActor)->_1cbf = 0;
     auto& timer = static_cast<ksys::act::Player*>(mActor)->_1844;
     timer = ksys::Timer(*mParashawlInvalidTime_s, *mParashawlInvalidTime_s);

@@ -148,6 +148,10 @@ struct Unk_7101EC6BAC {
     u32 value;
 };
 
+// 0x71011ee4b8 (declaration only): the signed value of an angle index (inline in the original, emitted
+// out of line).
+s32 sub_71011EE4B8(Unk_7101EC6BAC angle);
+
 extern const u32 sUnk_7101EC6BA0;
 extern const f32 sUnk_7101EC6BA4;
 extern const f32 sUnk_7101EC6BA8;

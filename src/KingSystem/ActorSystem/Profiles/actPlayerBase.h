@@ -94,7 +94,7 @@ public:
     /* 225 */ virtual bool m225() { return false; }
     /* 226 */ virtual bool m226() { return false; }
     /* 227 */ virtual bool m227() { return false; }
-    /* 228 */ virtual void m228();
+    /* 228 */ virtual void m228(bool a1);
     /* 229 */ virtual void m229() {}
     /* 230 */ virtual bool m230() { return false; }
     /* 231 */ virtual f32 m231() { return 1.0f; }
@@ -272,7 +272,11 @@ public:
 
 protected:
     /* 0xc58 */ sead::CriticalSection _c58;
+public:
+    // Public: PlayerLand::enter_ tests a bit without locking _c58.
     /* 0xc98 */ sead::BitFlag32 _c98;
+
+protected:
     /* 0xca0 */ sead::CriticalSection _ca0;
     /* 0xce0 */ sead::BitFlag32 _ce0;
     /* 0xce4 */ u8 _ce4[0xcec - 0xce4];
@@ -293,7 +297,11 @@ public:
 
 protected:
     /* 0xd00 */ u8 _d00[0xd11 - 0xd00];
+public:
+    // Public: read by PlayerLand::calc_.
     /* 0xd11 */ u8 _d11;
+
+protected:
     /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
     /* 0xd18 */ s32 _d18;
 public:
@@ -359,7 +367,13 @@ public:
     /* 0x1770 */ sead::Vector3f _1770;  // a position (Player::sub_7100892100, PlayerSuperJumpCharge)
 
 protected:
-    /* 0x177c */ u8 _177c[0x17a0 - 0x177c];
+    /* 0x177c */ u8 _177c[0x178c - 0x177c];
+public:
+    // Public: compared with _1770.y by PlayerFall::calc_.
+    /* 0x178c */ f32 _178c;
+
+protected:
+    /* 0x1790 */ u8 _1790[0x17a0 - 0x1790];
     /* 0x17a0 */ sead::Vector3f _17a0;
     /* 0x17ac */ u8 _17ac[0x17d0 - 0x17ac];
 public:

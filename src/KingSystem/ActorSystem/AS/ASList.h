@@ -118,6 +118,9 @@ public:
     // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after
     // `value` cannot be told from the binary; the other helpers take two ints first).
     bool x_6(int kind, int a2, f32 value);
+    // 0x710115efd0 (declaration only): stores `value` (clamped to 1 if `clamp`) in the table entry of
+    // `kind`; false if the kind is unused. The fourth parameter (w3) is unused (as in x_2).
+    bool sub_710115EFD0(int kind, bool clamp, bool a3, f32 value);
     // 0x710115aabc: looks up the AS define `name` (res::ASList::findASDefine) and returns its entry
     // (null if none); outputs the define's name and two values. Return type and outputs are
     // placeholders.
