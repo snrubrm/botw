@@ -59,6 +59,24 @@ sead::Vector3f SiteBossChemicalProjectile::m36() {
 
 void SiteBossChemicalProjectile::m37() {}
 
+void SiteBossChemicalProjectile::m38() {
+    auto* main_body = mActor->getMainBody();
+    if (!main_body)
+        return;
+
+    f32 scale = main_body->getScale();
+    if (!sead::Mathf::equalsEpsilon(scale, *mAtkRadiusMax_m)) {
+        sead::Mathf::chase(&scale, *mAtkRadiusMax_m, 1.0f / *mScaleTime_m);
+        main_body->setScale(scale);
+    }
+
+    auto* atk_body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody");
+    if (atk_body && !sead::Mathf::equalsEpsilon(atk_body->getScale(), *mAtkRadiusMax_m))
+        atk_body->setScale(scale);
+
+    mActor->setScale({scale, scale, scale});
+}
+
 bool SiteBossChemicalProjectile::m39() {
     return true;
 }

@@ -315,6 +315,7 @@ public:
 
     void updateShape();
     void setScale(float scale);
+    f32 getScale() const { return mScale; }
 
     void changeMotionType(MotionType motion_type);
     // 0x0000007100f9045c - calls a bunch of Havok world functions

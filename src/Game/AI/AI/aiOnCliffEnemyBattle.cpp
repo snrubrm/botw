@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiOnCliffEnemyBattle.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,14 @@ bool OnCliffEnemyBattle::init_(sead::Heap* heap) {
 }
 
 void OnCliffEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const int counter = *mLostCounter_s;
+    const int counter2 = counter * 1.1f;
+    _6c = sead::Mathi::min(counter, counter2);
+    _70 = sead::Mathi::max(counter, counter2);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D960C(mActor), "TargetPos", -1);
+    changeChild("追跡", &pack);
 }
 
 void OnCliffEnemyBattle::leave_() {

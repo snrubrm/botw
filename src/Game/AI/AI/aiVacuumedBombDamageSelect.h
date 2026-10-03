@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -21,7 +22,7 @@ public:
 
 protected:
     // aitree_variable at offset 0x38
-    void* mVacuumedExplodingBomb_a{};
+    Unk_7102370e70** mVacuumedExplodingBomb_a{};
 };
 
 }  // namespace uking::ai

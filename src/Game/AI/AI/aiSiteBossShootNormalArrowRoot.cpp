@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -89,6 +90,21 @@ bool SiteBossShootNormalArrowRoot::m34() {
 
 void SiteBossShootNormalArrowRoot::m35() {
     changeChild("子機発射");
+}
+
+// NON_MATCHING: the original reads sUnk_7102422198 from memory (ours folds the never-written static);
+// everything else is instruction-identical (an external-linkage global is loaded through the GOT)
+void SiteBossShootNormalArrowRoot::m36(bool a1, f32 a2) {
+    if (a1)
+        m39();
+    _170 = sUnk_7102422198;
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target;
+    m45(&target);
+    pack.addVec3(target, "TargetPos", -1);
+    _120 = ksys::Timer(a2, a2);
+    _12c = ksys::Timer(*mTrigEventAtHold_s, *mTrigEventAtHold_s);
+    changeChild("子機発射", &pack);
 }
 
 void SiteBossShootNormalArrowRoot::m39() {}

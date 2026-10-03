@@ -15,10 +15,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void resetTimer();
+
     // static_param at offset 0x38
     const int* mLostTimer_s{};
     // static_param at offset 0x40

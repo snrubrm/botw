@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiTemperatureRandSelect.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,18 @@ bool TemperatureRandSelect::init_(sead::Heap* heap) {
 }
 
 void TemperatureRandSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        const f32 diff = chemical->sub_7100D91958() - *mBaseTemperature_s;
+        f32 base = 0.0f;
+        if (diff < 0.0f ? *museBaseRatioTiming_s == -1 : (diff > 0.0f && *museBaseRatioTiming_s == 1))
+            base = *mBaseChangeRatio_s;
+        const f32 ratio = sead::Mathf::clamp(base + diff * *mTemperatureChangeRatio_s, 0.0f, 100.0f);
+        if (!(sead::GlobalRandom::instance()->getF32() * 100.0f < ratio)) {
+            changeChild("行動Ｂ", params);
+            return;
+        }
+    }
+    changeChild("行動Ａ", params);
 }
 
 void TemperatureRandSelect::calc_() {}

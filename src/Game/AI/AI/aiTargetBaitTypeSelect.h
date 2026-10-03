@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -23,7 +24,7 @@ protected:
     // FIXME: remove this
     u8 pad_0x38[0x8];
     // aitree_variable at offset 0x40
-    void* mTargetBaitActorLink_a{};
+    Unk_7102370e70** mTargetBaitActorLink_a{};
 };
 
 }  // namespace uking::ai

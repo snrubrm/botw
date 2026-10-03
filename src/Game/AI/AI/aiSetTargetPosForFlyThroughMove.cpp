@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSetTargetPosForFlyThroughMove.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,9 @@ bool SetTargetPosForFlyThroughMove::init_(sead::Heap* heap) {
 }
 
 void SetTargetPosForFlyThroughMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 void SetTargetPosForFlyThroughMove::leave_() {
