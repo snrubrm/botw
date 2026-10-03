@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actActor.h"
 
+namespace ksys::act {
+class DropData;
+}
+
 namespace uking::act {
 
 // Name from the CSV (MapConst::ctor 0x7100e8dde4, MapConst::m*; the namespace is a guess). A map object
@@ -47,6 +51,30 @@ public:
     void m63() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
+
+// Factory 0x7100dcfe0 (CSV MapConstActive::construct): new(0x868). RTTI static 0x71025b71e8. Not written yet:
+// prepareInit_ (creates the three members below), preDelete2_ (deletes them), m63 / m64 / m76 / m148.
+class MapConstActive : public MapConstActiveOrMergedDungeonParts {
+    SEAD_RTTI_OVERRIDE(MapConstActive, MapConstActiveOrMergedDungeonParts)
+public:
+    explicit MapConstActive(const CreateArg& arg);
+    ~MapConstActive() override;
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
+    ksys::act::Unk_71025ae640* getAtk() override;
+    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    ksys::act::Unk_71025ae620* getDropData() override;
+
+    // New virtual (vtable slot 148; the secondary vtable offsets of this class are 8 bytes larger than
+    // MapConst's): drops / forwards through the drop data.
+    virtual void m148();
+
+    /* 0x850 */ ksys::act::Unk_71025ae640* _850 = nullptr;  // ActorAtk
+    /* 0x858 */ uking::dmg::DamageManagerBase* _858 = nullptr;
+    /* 0x860 */ ksys::act::DropData* _860 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(MapConstActive, 0x868);
 
 // Shared base of MapConstPassive (CSV name; ctor 0x7100e8e4a4, RTTI static 0x71025b7228).
 class MapConstPassiveBase : public MapConst {
