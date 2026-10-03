@@ -153,6 +153,11 @@ ksys::act::Actor* Enemy::m48() {
     return DynamicActor::m48();
 }
 
+void Enemy::m70() {
+    if (auto* rideable = sead::DynamicCast<Rideable>(_1148._20))
+        rideable->Unk_7100e8b2b8::_10 &= ~0x38u;
+}
+
 Rideable* Enemy::getHorseOptionsMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
 }

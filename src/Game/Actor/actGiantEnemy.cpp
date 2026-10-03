@@ -1,4 +1,5 @@
 #include "Game/Actor/actGiantEnemy.h"
+#include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -72,6 +73,14 @@ void GiantEnemy::m113(f32* a1, s32* a2) {
         *a2 = 2;
     } else {
         Actor::m113(a1, a2);
+    }
+}
+
+void GiantEnemy::Unk1::sub_710002A828(ksys::act::Unk117* arg) {
+    for (auto& link : _8) {
+        if (auto* armor = sead::DynamicCast<GiantArmor>(
+                sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr))))
+            armor->x_17(arg);
     }
 }
 
