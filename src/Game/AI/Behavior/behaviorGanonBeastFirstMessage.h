@@ -16,8 +16,11 @@ public:
     void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // not decompiled yet (0x7100624204)
-    void m8() override;  // not decompiled yet (0x7100623ff4)
+    void m7() override;
+    void m8() override;
+
+    // 0x7100624048: opens the next message dialog (or finishes when three were shown).
+    void sub_7100624048();
 
     /* 0x28 */ const int* mCloseOption_s{};
     /* 0x30 */ const int* mDelayTimer_s{};
@@ -31,10 +34,8 @@ public:
     /* 0x90 */ int* mGanonBeastVoiceSequenceCount_a{};
     /* 0x98 */ void* mSimpleDialogUnit_a{};
     /* 0xa0 */ Unk_71000b0800<Unk_71025b2aa8> _a0;
-    /* 0xa8 */ u32 _a8 = 0;
-    /* 0xac */ u8 _ac = 0;
-    /* 0xad */ u8 _ad = 0;
-    /* 0xae */ u16 _ae = 0;
+    /* 0xa8 */ f32 _a8 = 0;  // timer
+    /* 0xac */ s32 _ac = 0;  // number of shown messages
     /* 0xb0 */ s32 _b0 = 0;
     /* 0xb4 */ bool _b4 = false;
 };

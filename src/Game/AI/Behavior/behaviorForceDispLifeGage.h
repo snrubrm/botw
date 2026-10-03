@@ -15,6 +15,10 @@ public:
     void m9() override;
     void loadParams() override;
 
+    // 0x71006232ec: whether the life gauge is forced for the actor (the player's target, or the damage
+    // manager's flags2 high half is 1).
+    bool sub_71006232EC();
+
     /* 0x28 */ const bool* mIsOnlyPlayer_s{};
 };
 KSYS_CHECK_SIZE_NX150(ForceDispLifeGage, 0x30);
