@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -124,27 +125,27 @@ public:
     /* 257 */ bool m257() override;
     /* 258 */ bool m258(f32* out) override;
     /* 261 */ bool m261(f32* out) override;
-    /* 263 */ Actor* getAttachedTargetActor2() override;
-    /* 264 */ Actor* getAttachedTargetActor() override;
+    /* 263 */ Unk_71024ef4e8* getAttachedTargetActor2() override;
+    /* 264 */ Unk_71024ef4e8* getAttachedTargetActor() override;
     /* 265 */ const sead::Vector3f* m265() override { return &_230c; }
     /* 267 */ void m267() override;
     /* 268 */ bool m268() override;
     /* 269 */ bool m269() override;
     /* 270 */ bool m270() override;
-    /* 272 */ void m272() override;
+    /* 272 */ void getArmorPartName(u8 idx, sead::BufferedSafeString* out) override;
     /* 273 */ uking::act::Weapon* m273() override;
     /* 274 */ uking::act::Weapon* m274() override;
     /* 275 */ uking::act::Weapon* m275() override;
     /* 276 */ Actor* m276(int idx) override;
     /* 277 */ void m277(ActorConstDataAccess* accessor, int idx) override;
-    /* 278 */ void m278() override;
+    /* 278 */ s32 m278(u8 idx) override;
     /* 279 */ s32 getArmorDyeStuff() override;
     /* 280 */ bool m280() override;
     /* 281 */ bool isEquipedDyedArmor() override;
     /* 282 */ void getArmorSeriesType(sead::BufferedSafeString* out) override;
     /* 283 */ void getEnemyTeam(sead::BufferedSafeString* out) override;
     /* 284 */ bool ArmorSeriesTypeStuff() override;
-    /* 285 */ void armorSeriesStuff() override;
+    /* 285 */ bool armorSeriesStuff(u8 idx, const sead::SafeString& series) override;
     /* 286 */ void getMaskType(sead::BufferedSafeString* out) override;
     /* 287 */ bool m287() override;
     /* 288 */ bool m288() override;
@@ -386,7 +387,7 @@ public:
     /* 0x185c */ ksys::Timer _185c;  // set to Timer(3, 3) by PlayerFall::enter_
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
-    /* 0x1870 */ Actor* _1870;  // the attached target actor
+    /* 0x1870 */ Unk_71024ef4e8* _1870;  // created by prepareInit_ (0x7100eb16a0); the attached-target object
     /* 0x1878 */ AITerror _1878{this};
     /* 0x1930 */ AITerror _1930{this};
     /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];

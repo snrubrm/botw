@@ -133,8 +133,8 @@ public:
     /* 260 */ virtual bool m260() { return false; }
     /* 261 */ virtual bool m261(f32* out) { return false; }
     /* 262 */ bool isGroundForEvent() override;
-    /* 263 */ Actor* getAttachedTargetActor2() override;
-    /* 264 */ Actor* getAttachedTargetActor() override;
+    /* 263 */ Unk_71024ef4e8* getAttachedTargetActor2() override;
+    /* 264 */ Unk_71024ef4e8* getAttachedTargetActor() override;
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
     /* 267 */ virtual void m267();
@@ -142,20 +142,20 @@ public:
     /* 269 */ virtual bool m269() { return false; }
     /* 270 */ virtual bool m270() { return false; }
     /* 271 */ virtual s32 m271() { return _d24; }
-    /* 272 */ void m272() override;
+    /* 272 */ void getArmorPartName(u8 idx, sead::BufferedSafeString* out) override {}
     /* 273 */ uking::act::Weapon* m273() override { return nullptr; }
     /* 274 */ uking::act::Weapon* m274() override { return nullptr; }
     /* 275 */ uking::act::Weapon* m275() override { return nullptr; }
     /* 276 */ Actor* m276(int idx) override { return nullptr; }
     /* 277 */ virtual void m277(ActorConstDataAccess* accessor, int idx) {}
-    /* 278 */ virtual void m278();
+    /* 278 */ virtual s32 m278(u8 idx) { return -1; }
     /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
     /* 280 */ virtual bool m280() { return false; }
     /* 281 */ virtual bool isEquipedDyedArmor() { return false; }
     /* 282 */ virtual void getArmorSeriesType(sead::BufferedSafeString* out) {}
     /* 283 */ virtual void getEnemyTeam(sead::BufferedSafeString* out) {}
     /* 284 */ virtual bool ArmorSeriesTypeStuff() { return false; }
-    /* 285 */ virtual void armorSeriesStuff();
+    /* 285 */ virtual bool armorSeriesStuff(u8 idx, const sead::SafeString& series) { return false; }
     /* 286 */ virtual void getMaskType(sead::BufferedSafeString* out) {}
     /* 287 */ virtual bool m287() { return false; }
     /* 288 */ virtual bool m288() { return false; }
@@ -436,6 +436,7 @@ public:
     bool setRestartBuf(const sead::Vector3f& pos, f32 angle) const;
     bool isRidingThisSandSeal(BaseProc* proc) const;
     bool getSandSealActor(ActorConstDataAccess* accessor) const;
+    bool getAttachedTargetActor(ActorConstDataAccess* accessor) const;
     bool reserveParashawlStart() const;
     const sead::Vector3f& getPosCopyMagnesis() const;
     const sead::Vector3f& getPosCopyMagnesis2() const;
@@ -443,6 +444,7 @@ public:
     void getArmorSeriesType(sead::BufferedSafeString* out) const;
     void getEnemyTeam(sead::BufferedSafeString* out) const;
     bool ArmorSeriesTypeStuff() const;
+    bool armorSeriesStuff(u8 idx, const sead::SafeString& series) const;
     bool isEquipedDyedArmor() const;
     s32 getArmorDyeStuff() const;
     bool m280() const;

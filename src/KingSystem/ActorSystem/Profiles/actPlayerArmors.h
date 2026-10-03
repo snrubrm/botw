@@ -16,6 +16,12 @@ struct Unk117;
 // to are declared (all placeholder names).
 class PlayerArmors {
 public:
+    // 0x7100e2edf8 (CSV x_3): Player::getArmorPartName (the name of the actor in part slot `idx`).
+    void sub_7100E2EDF8(s32 idx, sead::BufferedSafeString* out);
+    // 0x7100e2ed78 (CSV x_4): Player::m278 (-1 when slot `idx` > 2 or empty).
+    s32 sub_7100E2ED78(s32 idx);
+    // 0x7100e30c78 (unnamed): Player::armorSeriesStuff (series type of part `idx` == `series`).
+    bool sub_7100E30C78(s32 idx, const sead::SafeString& series);
     // 0x7100e2f61c (CSV x_0; out of line, returns `&_134`): the armor effect flags (bit 0: swim energy,
     // bit 7: bone attack, bit 8: climb jump energy, bit 9: drop rate bonus are active).
     sead::BitFlag16* sub_7100E2F61C();

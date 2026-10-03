@@ -16,6 +16,7 @@ namespace ksys::act {
 class Actor;
 class ActorLinkConstDataAccess;
 class PlayerBase;
+class Unk_71024ef4e8;
 
 // Interface implemented by the player actor (PlayerBase is-a PlayerLink at offset 0xc38;
 // see ksys::setPlayerLink). Its vtable has 83 slots and no destructor.
@@ -34,13 +35,13 @@ public:
     /*  5 */ virtual void m379();
     /*  6 */ virtual void m380();
     /*  7 */ virtual void m381();
-    /*  8 */ virtual void m272() = 0;
+    /*  8 */ virtual void getArmorPartName(u8 idx, sead::BufferedSafeString* out) = 0;
     /*  9 */ virtual uking::act::Weapon* m273() = 0;
     /* 10 */ virtual uking::act::Weapon* m274() = 0;
     /* 11 */ virtual uking::act::Weapon* m275() = 0;
     /* 12 */ virtual Actor* m276(int idx) = 0;
-    /* 13 */ virtual Actor* getAttachedTargetActor2() = 0;
-    /* 14 */ virtual Actor* getAttachedTargetActor() = 0;
+    /* 13 */ virtual Unk_71024ef4e8* getAttachedTargetActor2() = 0;
+    /* 14 */ virtual Unk_71024ef4e8* getAttachedTargetActor() = 0;
     /* 15 */ virtual Actor* m382();
     /* 16 */ virtual bool m378() { return false; }
     /* 17 */ virtual bool m17() { return false; }

@@ -235,11 +235,37 @@ void Player::getMaskType(sead::BufferedSafeString* out) {
     _23e0.sub_7100E313FC(0, out);
 }
 
-Actor* Player::getAttachedTargetActor2() {
+void Player::getArmorPartName(u8 idx, sead::BufferedSafeString* out) {
+    _23e0.sub_7100E2EDF8(idx, out);
+}
+
+s32 Player::m278(u8 idx) {
+    return _23e0.sub_7100E2ED78(idx);
+}
+
+bool Player::armorSeriesStuff(u8 idx, const sead::SafeString& series) {
+    return _23e0.sub_7100E30C78(idx, series);
+}
+
+void Player::m41(sead::Matrix34f* mtx) {
+    *mtx = _1870->mMtx;
+}
+
+void Player::m42(const sead::Matrix34f& mtx) {
+    _1870->sub_7100EB57F0(mtx);
+}
+
+bool Player::m47() {
+    if (_1870)
+        _1870->sub_7100EB2448();
+    return false;
+}
+
+Unk_71024ef4e8* Player::getAttachedTargetActor2() {
     return _1870;
 }
 
-Actor* Player::getAttachedTargetActor() {
+Unk_71024ef4e8* Player::getAttachedTargetActor() {
     return _1870;
 }
 

@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 
@@ -253,6 +254,23 @@ bool PlayerBase::getSandSealActor(ActorConstDataAccess* accessor) const {
     return false;
 }
 
+bool PlayerBase::getAttachedTargetActor(ActorConstDataAccess* accessor) const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return false;
+    debugLog(0, "getAttachedTargetActor");
+    if (!accessor)
+        return false;
+    auto* target = player->getAttachedTargetActor();
+    if (!target)
+        return false;
+    auto* info = target->mAttachInfo;
+    if (!info)
+        return false;
+    act::acquireActor(&info->mTargetLink, accessor);
+    return info->mTargetLink.hasProc();
+}
+
 bool PlayerBase::reserveParashawlStart() const {
     auto* player = getPlayerBase();
     if (!player)
@@ -298,6 +316,12 @@ void PlayerBase::getEnemyTeam(sead::BufferedSafeString* out) const {
 bool PlayerBase::ArmorSeriesTypeStuff() const {
     if (auto* player = getPlayerBase())
         return player->ArmorSeriesTypeStuff();
+    return false;
+}
+
+bool PlayerBase::armorSeriesStuff(u8 idx, const sead::SafeString& series) const {
+    if (auto* player = getPlayerBase())
+        return player->armorSeriesStuff(idx, series);
     return false;
 }
 
