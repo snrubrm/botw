@@ -40,6 +40,8 @@ target_sources(uking PRIVATE
   actLastBoss.h
   actMapConst.cpp
   actMapConst.h
+  actMapConstDerived.cpp
+  actMapConstPassive.cpp
   actMotorcycle.cpp
   actMotorcycle.h
   actMotorcycleStickControl.h

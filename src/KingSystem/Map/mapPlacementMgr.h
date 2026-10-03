@@ -67,6 +67,9 @@ public:
     bool someFlagCheck() const;
     bool isStaticCompoundReady(const sead::Vector3f& pos, bool x);
     void disableObjStaticCompound(Object* obj);
+    // 0x7100e9d3c-like twin at 0x71011e9d3c (placeholder name, declaration only; lane4 s28): the same checks
+    // as disableObjStaticCompound, then setStaticCompoundInstanceEnabled(obj, true).
+    void enableObjStaticCompound(Object* obj);
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);

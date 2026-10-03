@@ -31,4 +31,47 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(MapConst, 0x850);
 
+// Shared base of MapConstActive and MergedDungeonParts (CSV name; ctor 0x7100e8e260, RTTI static 0x71025b71f8):
+// keeps the static compound instance of the map object in sync with the actor's state.
+class MapConstActiveOrMergedDungeonParts : public MapConst {
+    SEAD_RTTI_OVERRIDE(MapConstActiveOrMergedDungeonParts, MapConst)
+public:
+    explicit MapConstActiveOrMergedDungeonParts(const CreateArg& arg);
+    ~MapConstActiveOrMergedDungeonParts() override = default;
+
+protected:
+    void onDeleteRequested_(DeleteReason reason) override;
+    bool canWakeUp_() override;
+
+public:
+    void m63() override;
+};
+KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
+
+// Shared base of MapConstPassive (CSV name; ctor 0x7100e8e4a4, RTTI static 0x71025b7228).
+class MapConstPassiveBase : public MapConst {
+    SEAD_RTTI_OVERRIDE(MapConstPassiveBase, MapConst)
+public:
+    explicit MapConstPassiveBase(const CreateArg& arg);
+    ~MapConstPassiveBase() override = default;
+
+protected:
+    void onDeleteRequested_(DeleteReason reason) override;
+
+public:
+    void m63() override;
+};
+KSYS_CHECK_SIZE_NX150(MapConstPassiveBase, 0x850);
+
+// Factory 0x7100dd8e4 (CSV MapConstPassive::construct): new(0x850). RTTI static 0x71025b7218.
+class MapConstPassive : public MapConstPassiveBase {
+    SEAD_RTTI_OVERRIDE(MapConstPassive, MapConstPassiveBase)
+public:
+    explicit MapConstPassive(const CreateArg& arg);
+    ~MapConstPassive() override;
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+};
+KSYS_CHECK_SIZE_NX150(MapConstPassive, 0x850);
+
 }  // namespace uking::act

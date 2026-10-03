@@ -81,6 +81,7 @@ public:
         HasTraversePos = 0x400,
         HasUniqueName = 0x800,
         IsCreateSharpWeapon = 0x1000,
+        _2000 = 0x2000,
         // TODO: rename this. This name is too long...
         IsTurnActorBowChargeAndHasBasicSigLink = 0x8000,
     };
