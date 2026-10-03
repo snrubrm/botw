@@ -35,6 +35,10 @@ protected:
     const float* mSlipSpeedDec_s{};
     // static_param at offset 0x58
     const float* mEffectContTime_s{};
+    u64 _60 = 0;
+    u32 _68 = 0;
+
 };
+KSYS_CHECK_SIZE_NX150(PlayerSlide, 0x70);
 
 }  // namespace uking::action

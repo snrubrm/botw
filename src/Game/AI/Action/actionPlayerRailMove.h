@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerGuidedMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
 
 namespace uking::action {
 
@@ -21,6 +22,9 @@ protected:
 
     // dynamic_param at offset 0x58
     sead::SafeString mRailName_d{};
+    Unk_71024f15c0 _68;
+
 };
+KSYS_CHECK_SIZE_NX150(PlayerRailMove, 0xc8);
 
 }  // namespace uking::action

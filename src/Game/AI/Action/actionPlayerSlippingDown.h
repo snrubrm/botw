@@ -34,6 +34,14 @@ protected:
     float* mInitAddRollImpulse_d{};
     // dynamic_param at offset 0x58
     bool* mIsAddImpulse_d{};
+    f32 _60 = 0.0f;
+    f32 _64 = 0.0f;
+    f32 _68 = 0.0f;
+    f32 _6c = 0.0f;
+    u32 _70 = 0;
+    bool _74 = false;
+
 };
+KSYS_CHECK_SIZE_NX150(PlayerSlippingDown, 0x78);
 
 }  // namespace uking::action
