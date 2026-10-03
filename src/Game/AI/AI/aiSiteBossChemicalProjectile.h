@@ -12,6 +12,18 @@ class RigidBody;
 
 namespace uking::ai {
 
+// Payload of the messages 0x800003a / 0x8000058 sent to SiteBoss projectiles (0x68 bytes; an array of
+// them lives in the unnamed sender class whose send function is at 0x710025f148, which fills
+// `_c`, `_18`, `_28` and the node name). Name and members are guesses from the readers.
+struct SiteBossProjectilePayload {
+    sead::Vector3f _0;
+    sead::Vector3f _c;
+    ksys::act::BaseProcLink _18;
+    f32 _28;
+    sead::FixedSafeString<32> mNodeName;
+};
+static_assert(sizeof(SiteBossProjectilePayload) == 0x68);
+
 class SiteBossChemicalProjectile : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(SiteBossChemicalProjectile, ksys::act::ai::Ai)
 public:
@@ -90,7 +102,9 @@ protected:
     bool _d9 = false;
     f32 _dc = 0.1f;
     ksys::VFRValue _e0;
-    u8 _ec[0x108 - 0xec];
+    u32 _ec;
+    sead::Vector3f _f0;
+    u8 _fc[0x108 - 0xfc];
     ksys::act::BaseProcLink _108;
     f32 _118 = 0;
     sead::FixedSafeString<32> _120;

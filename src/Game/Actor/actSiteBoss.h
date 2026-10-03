@@ -141,7 +141,9 @@ public:
         };
 
         /* 0x000 */ ksys::act::Actor* mOwner;
-        /* 0x008 */ u8 _8[0x1e0 - 0x8];
+        /* 0x008 */ u8 _8[0x9c - 0x8];
+        /* 0x09c */ u32 _9c;  // bit idx: bound actor idx (cleared by SiteBossChemicalProjectile)
+        /* 0x0a0 */ u8 _a0[0x1e0 - 0xa0];
         /* 0x1e0 */ sead::SafeArray<ksys::act::BaseProcLink, 20> _1e0;
         /* 0x320 */ u8 _320[0x360 - 0x320];
         /* 0x360 */ ksys::act::BaseProcLink _360;

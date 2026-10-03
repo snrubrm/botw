@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossFlameBall.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -76,6 +78,25 @@ void SiteBossFlameBall::calc_() {
 
 void SiteBossFlameBall::leave_() {
     SiteBossChemicalProjectile::leave_();
+}
+
+bool SiteBossFlameBall::handleMessage_(const ksys::Message* message) {
+    if (!message || message->getBrokerId() != u32(-1) || message->getType() != 0x8000058 ||
+        !message->getUserData()) {
+        return SiteBossChemicalProjectile::handleMessage_(message);
+    }
+    auto* payload = static_cast<SiteBossProjectilePayload*>(message->getUserData());
+    if (!getCurrentChild())
+        return SiteBossChemicalProjectile::handleMessage_(message);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addString(payload->mNodeName.cstr(), "NodeName", -1);
+    params.addVec3(m36(), "RotOffset", -1);
+    params.addVec3(m35(), "TransOffset", -1);
+    params.addBool(true, "IsKeepParentActor", -1);
+    params.acquireActor(nullptr, "ParentActor", -1);
+    changeChild("所持", &params);
+    return true;
 }
 
 void SiteBossFlameBall::loadParams_() {

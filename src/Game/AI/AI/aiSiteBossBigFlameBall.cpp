@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossBigFlameBall.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -24,6 +26,28 @@ void SiteBossBigFlameBall::calc_() {
 
 void SiteBossBigFlameBall::leave_() {
     SiteBossFlameBall::leave_();
+}
+
+bool SiteBossBigFlameBall::handleMessage_(const ksys::Message* message) {
+    if (!message || message->getBrokerId() != u32(-1) || message->getType() != 0x8000058 ||
+        !message->getUserData()) {
+        return SiteBossFlameBall::handleMessage_(message);
+    }
+    auto* payload = static_cast<SiteBossProjectilePayload*>(message->getUserData());
+    if (!getCurrentChild())
+        return SiteBossFlameBall::handleMessage_(message);
+
+    _200 = *mDestOffset1_s;
+    ksys::act::ai::InlineParamPack params;
+    params.addString(payload->mNodeName.cstr(), "NodeName", -1);
+    _20c = payload->_c;
+    _1f0 = 0.1f;
+    params.addVec3(payload->_c, "RotOffset", -1);
+    params.addVec3(_1f4, "TransOffset", -1);
+    params.addBool(true, "IsKeepParentActor", -1);
+    params.acquireActor(nullptr, "ParentActor", -1);
+    changeChild("所持", &params);
+    return true;
 }
 
 void SiteBossBigFlameBall::loadParams_() {

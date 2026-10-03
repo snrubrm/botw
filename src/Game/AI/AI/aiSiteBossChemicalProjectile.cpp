@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -26,6 +28,38 @@ void SiteBossChemicalProjectile::enter_(ksys::act::ai::InlineParamPack* params) 
 
 void SiteBossChemicalProjectile::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+bool SiteBossChemicalProjectile::handleMessage_(const ksys::Message* message) {
+    if (!message || message->getBrokerId() != u32(-1))
+        return false;
+
+    if (message->getType() == 0x800003a) {
+        if (!message->getUserData())
+            return false;
+        auto* payload = static_cast<SiteBossProjectilePayload*>(message->getUserData());
+        _f0 = payload->_0;
+        _108 = payload->_18;
+        _118 = payload->_28;
+        _d6 = true;
+        return true;
+    }
+    if (message->getType() == 0x800004d) {
+        auto* payload = static_cast<uking::act::SiteBoss::Unk_71002cf2ac::Payload*>(
+            message->getUserData());
+        if (payload->owner) {
+            _158.acquire(payload->owner, false);
+            if (auto* boss = sead::DynamicCast<uking::act::SiteBoss>(payload->owner))
+                boss->_1560._9c &= ~(1u << payload->idx);
+        }
+        _d8 = true;
+        return true;
+    }
+    if (message->getType() == 0x8000004) {
+        _d9 = true;
+        return true;
+    }
+    return false;
 }
 
 void SiteBossChemicalProjectile::loadParams_() {
