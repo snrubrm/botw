@@ -26,7 +26,15 @@ void PlayerPullSwordFirstFail::loadParams_() {
 }
 
 void PlayerPullSwordFirstFail::calc_() {
-    PlayerAction::calc_();
+    if (!(static_cast<ksys::act::Player*>(mActor)->_1844.value <= sead::Mathf::epsilon()))
+        static_cast<ksys::act::Player*>(mActor)->_1844.update();
+
+    if (mActor->getASList()->x_1(0, 0) == "Demo300_0-C02-Link-A-0") {
+        if (mActor->getASList()->x_4(0, 0))
+            setFailed();
+    } else if (static_cast<ksys::act::Player*>(mActor)->_1844.value <= sead::Mathf::epsilon()) {
+        mActor->getASList()->sub_710115BC28("Demo300_0-C02-Link-A-0", -1.0f);
+    }
 }
 
 bool PlayerPullSwordFirstFail::isChangeable() const {

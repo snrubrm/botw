@@ -16,7 +16,10 @@ class BaseProcLink;
 }  // namespace act
 
 struct AIDef;
+namespace map {
 class Rail;
+}
+using map::Rail;
 enum class AIDefInstParamKind;
 
 enum class AIDefParamType {
