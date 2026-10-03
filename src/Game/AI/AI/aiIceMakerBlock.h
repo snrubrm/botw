@@ -29,9 +29,14 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     void loadParams_() override;
 
     void sub_7100447C8C();
+    // 0x7100446da8 (placeholder name)
+    void sub_7100446DA8();
+    // 0x71004473a8 (placeholder name)
+    void sub_71004473A8();
 
 protected:
     Unk_71023fd228 _38;

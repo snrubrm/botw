@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710044b9f0 (placeholder name)
+    bool sub_710044B9F0();
+
 protected:
     // static_param at offset 0x38
     const float* mTerritoryArea_s{};

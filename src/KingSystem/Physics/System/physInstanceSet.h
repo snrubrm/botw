@@ -115,6 +115,9 @@ public:
     void sub_7100FBDC70(f32 scale);
     // 0x7100fbdd40 (declaration only).
     void sub_7100FBDD40(bool on);
+    // 0x7100fba010 (CSV ActorPhysics::x_1; declared only; IceMakerBlock): applies setFixed(fixed) to
+    // every rigid body set, listed body and the ragdoll and updates flag 0x40000 (name is a guess).
+    void sub_7100FBA010(bool fixed);
     // Read inline by Unk_71006ecc78::sub_71006ED9EC (currently selected ragdoll controller).
     s8 get112() const { return _112; }
     void sub_7100FBD284(const sead::Matrix34f& mtx);

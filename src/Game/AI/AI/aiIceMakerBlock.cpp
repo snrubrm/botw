@@ -2,7 +2,9 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
@@ -23,7 +25,49 @@ bool IceMakerBlock::init_(sead::Heap* heap) {
 }
 
 void IceMakerBlock::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    setDamageCallbackTiming(mActor, 4, &_38);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "NPCSensor"))
+        body->addToWorld();
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "PlayerSensor"))
+        body->addToWorld();
+    _14c = 20.0f;
+    _148 = 1.0f;
+    _144 = 1.0f;
+    _a4 = false;
+    _a5 = true;
+    _a6 = false;
+    sub_7100446DA8();
+}
+
+void IceMakerBlock::sub_71004473A8() {
+    _a4 = true;
+    if (auto* as_list = mActor->getASList())
+        as_list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100, 1.0f);
+    auto* body = mActor->getMainBody();
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBA010(false);
+    if (body) {
+        body->setGravityFactor(1.0f);
+        body->setFlag100000();
+        body->setAngularVelocity(sead::Vector3f::zero);
+        body->setLinearVelocity(sead::Vector3f::zero);
+    }
+    for (auto* rigid_body : _78) {
+        if (rigid_body)
+            rigid_body->removeFromWorld();
+    }
+}
+
+bool IceMakerBlock::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x80000b6)
+        mActor->sub_71011D0204(0x80);
+    else if (message->getType() == 0x80000b7)
+        mActor->sub_71011D0228(0x80);
+    else if (message->getType() == 0x8000004)
+        sub_71004473A8();
+    else
+        return false;
+    return true;
 }
 
 void IceMakerBlock::sub_7100447C8C() {

@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiHiddenOctarockFindPlayer.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -15,7 +17,30 @@ bool HiddenOctarockFindPlayer::init_(sead::Heap* heap) {
 }
 
 void HiddenOctarockFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    {
+        const s32 a = *mLostTimer_s;
+        const s32 b = static_cast<s32>(a * 1.1f);
+        _6c = sead::Mathi::min(a, b);
+        _70 = sead::Mathi::max(a, b);
+        s32 value = _6c;
+        if (_70 != _6c)
+            value = sead::GlobalRandom::instance()->getS32Range(_6c, _70);
+        _68 = value;
+    }
+    {
+        const s32 a = static_cast<s32>(*mNoticeDelayTime_s);
+        const s32 b = static_cast<s32>(*mNoticeDelayTime_s * 1.1f);
+        _78 = sead::Mathi::min(a, b);
+        _7c = sead::Mathi::max(a, b);
+        s32 value = _78;
+        if (_7c != _78)
+            value = sead::GlobalRandom::instance()->getS32Range(_78, _7c);
+        _74 = value;
+    }
+    if (sub_7100430DF0())
+        changeToApproaching();
+    else
+        changeChild("戦闘", nullptr);
 }
 
 void HiddenOctarockFindPlayer::leave_() {
@@ -33,6 +58,18 @@ void HiddenOctarockFindPlayer::loadParams_() {
 
 bool HiddenOctarockFindPlayer::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() && !isCurrentChild("近づき");
+}
+
+bool HiddenOctarockFindPlayer::sub_7100430DF0() {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const f32 weapon_dist = sub_71007320F0(mActor, static_cast<s32>(static_cast<f32>(*mWeaponIdx_s)));
+    const f32 dist = (sub_71005D9330(mActor) - pos).length();
+    if (dist >= weapon_dist + *mFarDist_s) {
+        sead::Vector3f actor_pos;
+        mActor->getMtx().getTranslation(actor_pos);
+        return !visibilityCheckMaybe(actor_pos, *mActorRadius_s);
+    }
+    return false;
 }
 
 void HiddenOctarockFindPlayer::changeToNotice() {

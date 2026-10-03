@@ -17,7 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    // 0x710042be9c (declared only, 504 bytes; placeholder name)
+    // 0x710042be9c (placeholder name)
     void sub_710042BE9C();
 
 protected:
