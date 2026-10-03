@@ -42,6 +42,24 @@ void BokoblinArrowBattle::sub_7100331088() {
     changeChild("待機", &pack);
 }
 
+void BokoblinArrowBattle::sub_71003318A8() {
+    sub_71005DA114(mActor, &_c8);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_11c, "TargetPos", -1);
+    changeChild("弓構え", &pack);
+}
+
+void BokoblinArrowBattle::sub_7100331980() {
+    setDamageCallbackTiming(mActor, 4, &_c8);
+    _fc.reset(*mLeaveTime_s);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("離脱", &pack);
+}
+
 bool BokoblinArrowBattle::isChangeable() const {
     return getCurrentChild()->isChangeable();
 }

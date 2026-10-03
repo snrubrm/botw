@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiBokoblinRoam.h"
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -40,6 +45,44 @@ void BokoblinRoam::loadParams_() {
     getDynamicParam(&mCentralPos_d, "CentralPos");
     getStaticParam(&mTurnCheckDist_s, "TurnCheckDist");
     getStaticParam(&mTurnCheckHeight_s, "TurnCheckHeight");
+}
+
+bool BokoblinRoam::sub_7100333E68() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    const sead::Matrix34f& player_mtx = accessor.getActorMtx();
+    const f32 target_x = player_mtx(0, 3);
+    const f32 target_z = player_mtx(2, 3);
+    const f32 pos_x = mActor->getMtx()(0, 3);
+    const f32 pos_z = mActor->getMtx()(2, 3);
+    sead::Vector3f dir(target_x - pos_x, 0.0f, target_z - pos_z);
+    const f32 dist = dir.normalize();
+    if (dist > *mSpAttackServiceDist_s)
+        return false;
+    dir.negate();
+    return dir.dot(mActor->getMtx().getBase(2)) >= sead::Mathf::cos(*mSpAttackServiceAngle_s);
+}
+
+void BokoblinRoam::sub_7100333F7C() {
+    const s32 min = *mFreeIntervalMin_s;
+    const s32 max = *mFreeIntervalMax_s;
+    _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));
+    changeChild("索敵", nullptr);
+}
+
+// NON_MATCHING: the two stores of the timer are not merged into one stp in the original
+void BokoblinRoam::sub_7100333FEC() {
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+    if (accessor.getSpAttackTarget().hasProcById(mActor)) {
+        const f32 time = *mNoSpAttackMoveTime_s;
+        if (_c4.value < time) {
+            _c4.value = time;
+            _c4.previous_value = time;
+        }
+    } else {
+        _c4.update();
+    }
 }
 
 bool BokoblinRoam::isChangeable() const {

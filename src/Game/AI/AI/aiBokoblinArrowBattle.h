@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
     void sub_7100331088();
+    void sub_71003318A8();
+    void sub_7100331980();
 
 protected:
     // static_param at offset 0x38

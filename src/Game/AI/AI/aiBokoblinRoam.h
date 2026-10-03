@@ -17,6 +17,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void loadParams_() override;
 
+    // 0x7100333e68 / 0x7100333f7c / 0x7100333fec (placeholder names)
+    bool sub_7100333E68();
+    void sub_7100333F7C();
+    void sub_7100333FEC();
+
 protected:
     // static_param at offset 0x38
     const int* mFreeIntervalMin_s{};
