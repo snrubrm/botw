@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,70 @@ bool EnemyChemTargetActionBase::init_(sead::Heap* heap) {
 }
 
 void EnemyChemTargetActionBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (m35()) {
+        if (m34()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            m36(&pack);
+            changeChild("アクション", &pack);
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("回転", &pack);
+        }
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("移動", &pack);
+    }
+}
+
+void EnemyChemTargetActionBase::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("アクション")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+        } else if (isCurrentChild("回転")) {
+            if (m35()) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                m36(&pack);
+                changeChild("アクション", &pack);
+            } else {
+                setFailed();
+            }
+        } else if (m34()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            m36(&pack);
+            changeChild("アクション", &pack);
+        } else {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("回転", &pack);
+        }
+        return;
+    }
+
+    if (child->isChangeable() && !isCurrentChild("アクション") && m35()) {
+        if (m34()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            m36(&pack);
+            changeChild("アクション", &pack);
+            return;
+        }
+        if (!isCurrentChild("回転")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("回転", &pack);
+            return;
+        }
+    }
+    child->setDynamicParam(*mTargetPos_d, "TargetPos");
 }
 
 void EnemyChemTargetActionBase::leave_() {
