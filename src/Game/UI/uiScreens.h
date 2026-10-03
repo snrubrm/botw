@@ -19,6 +19,12 @@ class ScreenBase : public eui::Screen {
 public:
     ~ScreenBase() override;
     SEAD_RTTI_OVERRIDE(ScreenBase, eui::Screen)
+
+    // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_): slot 32
+    f32 m32() override;
+
+    // non-virtual helper of ScreenBase::updateButton (slot 50 override in Screen)
+    void updateButton_();
 };
 
 // Screen's second and third bases (offsets 0x108 / 0x110: the RxOnly / TxOnly message handler interfaces,
@@ -106,6 +112,7 @@ public:
     u8 _294[0x300 - 0x294];
 
     void open(s32 option) override;
+    void m50() override;
     void m51() override;
     void m59() override;
 

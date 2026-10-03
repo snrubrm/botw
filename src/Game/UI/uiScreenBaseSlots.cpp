@@ -9,6 +9,12 @@ void Screen::m13() {}
 
 namespace uking::ui {
 
+// 0x71010ab24c (CSV Screen::updateButton)
+void Screen::m50() {
+    if (_292 & 4)
+        updateButton_();
+}
+
 // 0x71010ab25c (CSV Screen::updateControl)
 void Screen::m51() {
     if (_292 & 8)

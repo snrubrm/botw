@@ -5,6 +5,11 @@ namespace uking::ui {
 // 0x71010aa230 (CSV ScreenBase::dtorDelete)
 ScreenBase::~ScreenBase() = default;
 
+// 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
+f32 ScreenBase::m32() {
+    return eui::ScreenMgr::instance()->getAnimationStep();
+}
+
 // NON_MATCHING (Screen::~Screen, 0x71010aa54c, and ScreenEx::~ScreenEx, 0x7100a47910): the original destructors
 // destroy members that are not modelled yet. They are defaulted here so that the classes' vtables, and with
 // them the RTTI functions (which match), are emitted.

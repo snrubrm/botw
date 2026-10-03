@@ -52,7 +52,7 @@ public:
     virtual void m29();
     virtual void m30();
     virtual void m31();
-    virtual void m32();
+    virtual f32 m32();
     virtual void m33();
     virtual void m34();
     virtual void m35();
@@ -119,6 +119,7 @@ public:
     virtual ~ScreenMgr();
 
     Screen* getScreen(s32 id) { return mScreens[id]; }
+    f32 getAnimationStep() const { return mAnimationStep; }
 
     // 0x7100bec7e8
     void inactivateScreen(s32 id);
@@ -126,6 +127,9 @@ public:
 private:
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;
+    u8 _38[0xb20 - 0x38];
+    /* 0xb20 */ f32 mAnimationStep;
+    u8 _b24[0xb50 - 0xb24];
 };
 
 }  // namespace eui
