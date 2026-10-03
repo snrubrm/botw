@@ -55,7 +55,10 @@ Allowed, with evidence:
 - A call whose result is discarded, when that call really is in the target asm. Log it.
 - A cast, local or inline helper when natural code would contain it, or when matched human-written code (this repo,
   sead/agl, other Nintendo decomps) uses the same form in the same situation.
-- A named local for a value used more than once, or holding a getter's by-value result.
+- A named local for a value used more than once, or holding a getter's by-value result, or copied straight from a
+  parameter (`const T x = *mParam_s;`) even if used once.
+- An inline-only helper (the original has no out-of-line copy) when the same inlined sequence repeats in several
+  functions. Mark it `// inline-only in the original; name is a guess` with the evidence, and log it.
 - `{ ; }` as a destructor body where the original keeps the vtable store a defaulted dtor drops (precedent: upstream's
   `GameDataFlagSelector::~GameDataFlagSelector() { ; }`, commit 96101229). Comment it.
 
