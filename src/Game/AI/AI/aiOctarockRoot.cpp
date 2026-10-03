@@ -11,8 +11,6 @@ namespace uking::ai {
 
 OctarockRoot::OctarockRoot(const InitArg& arg) : OctarockRootBase(arg) {}
 
-// NON_MATCHING: the original computes `this + 0x290` (first BaseProcHandle) before the first deleteProc call
-// (address hoisting; same as NPCRunaway's destructor)
 OctarockRoot::~OctarockRoot() {
     if (auto* parts = mActor->m101()) {
         parts->sub_7100D3CFEC("Wig");
@@ -60,12 +58,10 @@ bool OctarockRoot::handleMessage_(const ksys::Message& message) {
 }
 
 void OctarockRoot::leave_() {
-    if (_290.isAllocatedOrFailed())
-        _290.deleteProc();
-    if (_2a0.isAllocatedOrFailed())
-        _2a0.deleteProc();
-    if (_2b0.isAllocatedOrFailed())
-        _2b0.deleteProc();
+    for (auto& handle : _290) {
+        if (handle.isAllocatedOrFailed())
+            handle.deleteProc();
+    }
     if (auto* parts = mActor->m101()) {
         auto& wig = parts->getActorPartsActor("Wig");
         if (wig.hasProc()) {

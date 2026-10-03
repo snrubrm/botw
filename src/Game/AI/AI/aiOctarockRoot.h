@@ -50,9 +50,7 @@ protected:
     void* mVacuumedExplodingBomb_a{};
     // aitree_variable at offset 0x288
     void* mOctarockFormChangeUnit_a{};
-    ksys::act::BaseProcHandle _290;
-    ksys::act::BaseProcHandle _2a0;
-    ksys::act::BaseProcHandle _2b0;
+    ksys::act::BaseProcHandle _290[3];
     u32 _2c0 = 1;
     Unk_710240dd68 _2c8;
     bool _318 = false;
