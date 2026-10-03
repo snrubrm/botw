@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <mc/seadCoreInfo.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
@@ -18,6 +21,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -375,6 +379,53 @@ bool Actor::isWaitRevivalForUsed() const {
 void Actor::setRevivalFlagForUsed(bool value) {
     if (mMapObject)
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
+}
+
+phys::RigidBody* Actor::getPhysicsMainBody() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (auto* body = controller->sub_7100F61A34())
+                return body;
+        }
+    }
+    return mMainBody;
+}
+
+phys::RigidBody* Actor::findPhysicsBodyByName(const char* group_name, const char* body_name) const {
+    if (!mPhysics)
+        return nullptr;
+    const phys::RigidBodySet* group = mPhysics->findBodyGroupByName(group_name);
+    if (!group)
+        return nullptr;
+    return group->findBodyByHavokName(body_name);
+}
+
+bool Actor::sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const {
+    if (!mModel)
+        return false;
+    const auto key = mModel->searchBone(bone_name);
+    if (!key.isValid() || !mModel)
+        return false;
+    mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(mtx, key.bone_index);
+    return true;
+}
+
+void Actor::fadeOutSleep(SleepWakeReason reason) {
+    if (isDeletedOrDeleting())
+        return;
+    if (mFadeOutSleepFlags.setBitOn(int(reason)))
+        onFadeOutSleep();
+    if (isSleep() || mStateFlags.isOn(StateFlags::RequestWakeUp))
+        sleep(reason);
+}
+
+void Actor::emitDeadUpLifeZeroAndSetRevival() {
+    emitSignal(map::MapLinkDefType::DeadUp, true);
+    emitSignal(map::MapLinkDefType::LifeZero, true);
+    if (mMapObject)
+        mMapObject->setFlags0(map::Object::Flag0::_100000);
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
 }
 
 void Actor::sub_71011D7E24() {

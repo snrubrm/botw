@@ -57,6 +57,65 @@ void CharacterController::disableContactLayer(ContactLayer layer) {
     mRigidBody->disableContactLayer(layer);
 }
 
+void CharacterController::sub_7100F5EC44() {
+    mFlags.reset(0x10000);
+    _298 = nullptr;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->removeFromWorld();
+    }
+    mRigidBody->removeFromWorld();
+}
+
+void CharacterController::sub_7100F60604() {
+    mRigidBody->setContactNone();
+    if (_250)
+        _250->invoke(this);
+}
+
+void CharacterController::sub_7100F62BC0(bool fixed) {
+    if (!fixed && (_114 & 2))
+        return;
+    mRigidBody->setFixed(Fixed(fixed), PreserveVelocities(false));
+    mFlags.change(4, fixed);
+}
+
+void CharacterController::sub_7100F62CA8(bool clear) {
+    mRigidBody->clearEntityMotionFlag4(clear);
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->clearEntityMotionFlag4(clear);
+    }
+}
+
+void CharacterController::sub_7100F62DD0(f32 scale) {
+    mRigidBody->setColImpulseScale(scale);
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i])
+            body->setColImpulseScale(scale);
+    }
+}
+
+void CharacterController::sub_7100F63604(CollisionInfo* info) {
+    if (!(_114 & 0x2000))
+        return;
+    for (int i = 0; i < _288.size(); ++i)
+        _288[i]->setCollisionInfo(info);
+}
+
+CollisionInfo* CharacterController::sub_7100F6367C() const {
+    if (!(_114 & 0x2000))
+        return nullptr;
+    auto* body = _288[0];
+    if (!body)
+        return nullptr;
+    return body->getCollisionInfo();
+}
+
 void CharacterController::sub_7100F5E764(bool clear) {
     mRigidBody->clearEntityMotionFlag10(clear);
     if (!(_114 & 0x2000))

@@ -218,6 +218,12 @@ bool sub_710072B7C4() {
     return accessor.x_40();
 }
 
+ksys::act::BaseProcLink& ksys::act::PlayerInfo::getSomeProcLink() {
+    if (auto* info = instance())
+        return info->getPlayerLink();
+    return getDummyBaseProcLink();
+}
+
 bool sub_710072B8E4() {
     return sub_710084D068();
 }

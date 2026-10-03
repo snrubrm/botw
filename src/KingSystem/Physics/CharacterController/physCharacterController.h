@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -33,6 +34,10 @@ public:
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
+    // 0x7100f63604: sets the collision info of every body of _288 (if _114 has 0x2000).
+    void sub_7100F63604(CollisionInfo* info);
+    // 0x7100f6367c: the collision info of the first body of _288 (null without 0x2000 / a body).
+    CollisionInfo* sub_7100F6367C() const;
     // 0x7100f62bc0: setFixed on the main rigid body (unless it is already unfixed and `fixed` is false).
     void sub_7100F62BC0(bool fixed);
 
@@ -156,7 +161,12 @@ public:
     u8 _120[0x220 - 0x120];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x288 - 0x228];
+    u8 _228[0x250 - 0x228];
+    // Callbacks called with the controller by sub_7100F60604 (_250) and sub_7100F60500 (_258) (vtable
+    // slot 0 of the delegate).
+    sead::IDelegate1<CharacterController*>* _250;
+    sead::IDelegate1<CharacterController*>* _258;
+    u8 _260[0x288 - 0x260];
     sead::Buffer<RigidBody*> _288;
     RigidBody* _298;
 };

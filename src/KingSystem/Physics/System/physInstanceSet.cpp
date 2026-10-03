@@ -2,8 +2,11 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physCharacterControllerParam.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physParamSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Resource/Actor/resResourceRagdollBlendWeight.h"
 
 namespace ksys::phys {
@@ -94,6 +97,35 @@ void InstanceSet::sub_7100FBA9BC() {
         mCharacterController->sub_7100F5EC30();
 }
 
+void InstanceSet::sub_7100FB835C() {
+    if (_178[0]) {
+        System::instance()->removeSystemGroupHandler(_178[0]);
+        _178[0] = nullptr;
+        _188[0] = nullptr;
+    }
+    if (_178[1]) {
+        System::instance()->removeSystemGroupHandler(_178[1]);
+        _178[1] = nullptr;
+        _188[1] = nullptr;
+    }
+}
+
+void InstanceSet::sub_7100FBAC4C(phys::ContactLayer layer) {
+    bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
+
+    for (auto& rb : mRigidBodySets) {
+        rb.enableContactLayer(layer);
+    }
+    if (sensor)
+        return;
+
+    if (mRagdollInstance != nullptr)
+        mRagdollInstance->enableContactLayer(layer);
+
+    if (mCharacterController != nullptr)
+        mCharacterController->enableContactLayer(layer);
+}
+
 void InstanceSet::sub_7100FBACE0(phys::ContactLayer layer) {
     bool sensor = phys::getContactLayerType(layer) != ContactLayerType::Entity;
 
@@ -121,6 +153,22 @@ void InstanceSet::sub_7100FBAD74() {
     if (mCharacterController != nullptr) {
         mCharacterController->sub_7100F60604();
     }
+}
+
+// NON_MATCHING: the original constructs only the begin iterator (it compares its index with its
+// point count); begin() != end() also calls the out-of-line IsEnd constructor
+bool InstanceSet::sub_7100FBB4B4() const {
+    if (!mRagdollContactPointInfo)
+        return false;
+    if (mRagdollContactPointInfo->getNumContactPoints() == 0)
+        return false;
+    return mRagdollContactPointInfo->begin() != mRagdollContactPointInfo->end();
+}
+
+s32 InstanceSet::sub_7100FBE7F0(const sead::SafeString& name) const {
+    if (auto* param = mParamSet->character_controller)
+        return param->findFormIdx(name);
+    return -1;
 }
 
 void* InstanceSet::sub_7100FBAEDC(s32 idx1, s32 idx2) const {

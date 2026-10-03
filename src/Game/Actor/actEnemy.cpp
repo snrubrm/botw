@@ -149,6 +149,13 @@ Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
 }
 
+Enemy::IsSpecialJobTypeResult Enemy::isSpecialJobType_(ksys::act::JobType type) {
+    const auto result = DynamicActor::isSpecialJobType_(type);
+    if (auto* rideable = getHorseOptionsMaybe())
+        return IsSpecialJobTypeResult(rideable->sub_7100E8BB4C(int(result)));
+    return result;
+}
+
 void Enemy::m117(ksys::act::Unk117* arg) {
     if (auto* rideable = getHorseOptionsMaybe()) {
         if (!rideable->sub_7100E8B780(arg))

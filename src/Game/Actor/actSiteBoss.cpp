@@ -45,6 +45,12 @@ bool SiteBoss::isGuard() {
     return Enemy::isGuard();
 }
 
+bool SiteBoss::isGuardJust() {
+    if ((_14c8._30.getDirect() & 0x226) == 2 && mActorFlags2.isOn(ActorFlag2::_10000000))
+        return true;
+    return PlayerOrEnemy::isGuardJust();
+}
+
 void SiteBoss::x_1(bool a1, bool a2, bool skip_flag) {
     if (a1)
         _1558.set(3);

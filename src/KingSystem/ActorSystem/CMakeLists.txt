@@ -37,6 +37,7 @@ target_sources(uking PRIVATE
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerStamina.cpp
     Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h

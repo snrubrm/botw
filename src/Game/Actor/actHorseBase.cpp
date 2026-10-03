@@ -37,6 +37,13 @@ int HorseBase::m109() {
     return _b70 >> 7 & 2 ^ 10;
 }
 
+HorseBase::IsSpecialJobTypeResult HorseBase::isSpecialJobType_(ksys::act::JobType type) {
+    const auto result = Actor::isSpecialJobType_(type);
+    if (_b10)
+        return IsSpecialJobTypeResult(_b10->sub_7100E8BB4C(int(result)));
+    return result;
+}
+
 bool HorseBase::canWakeUp_() {
     return Actor::canWakeUp_();
 }

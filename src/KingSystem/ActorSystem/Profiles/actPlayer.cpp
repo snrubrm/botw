@@ -46,6 +46,21 @@ bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& e
     return true;
 }
 
+bool Player::m269() {
+    return sub_7100888294();
+}
+
+bool Player::m243() {
+    return playerIsReloadingBow(this) || playerIsChargingBow(this);
+}
+
+void Player::sub_7100888278() {
+    if (_c40.isOnBit(4)) {
+        _c40.resetBit(4);
+        x_18(true);
+    }
+}
+
 void Player::m77(VFR::ScopedDeltaSetter* setter) {
     setter->set(0x42, 1);
 }

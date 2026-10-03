@@ -89,6 +89,18 @@ PlayerBase* PlayerBase::getPlayer() {
     return this;
 }
 
+bool PlayerBase::checkCanUseMotorcycle() {
+    if (m193())
+        return false;
+    return checkCanUseRuneCommon();
+}
+
+bool PlayerBase::checkCanUseAmiibo() {
+    if (m193())
+        return false;
+    return checkCanUseRuneCommon();
+}
+
 bool PlayerBase::x_51() {
     return _17d0->controllerCheckPressedMaybe(3);
 }
