@@ -240,6 +240,7 @@ struct ScreenId {
 
 class ScreenPauseMenuInfo : public ScreenEx {
 public:
+    ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
 
     void sub_7100A31BE0();
@@ -247,6 +248,7 @@ public:
 
 class ScreenMessageTipsRunTime : public ScreenEx {
 public:
+    ~ScreenMessageTipsRunTime() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
 
     void sub_7100A268AC(s32, s32);
@@ -254,6 +256,7 @@ public:
 
 class ScreenDoCommand : public ScreenEx {
 public:
+    ~ScreenDoCommand() override;
     SEAD_RTTI_OVERRIDE(ScreenDoCommand, ScreenEx)
 
     // 0x7100a0768c (CSV ScreenDoCommand::setCommand)
@@ -264,6 +267,7 @@ public:
 
 class ScreenMainScreen3D : public ScreenEx {
 public:
+    ~ScreenMainScreen3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen3D, ScreenEx)
 
     u8 _pad_3610[0x3f38 - 0x3610];
@@ -276,6 +280,7 @@ public:
 
 class ScreenMainScreen : public ScreenEx {
 public:
+    ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
     u8 _pad_3610[0x3704 - 0x3610];
@@ -305,6 +310,7 @@ public:
 
 class ScreenRupee : public ScreenEx {
 public:
+    ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
 
     void sub_7100A410D8(s32);
@@ -316,6 +322,7 @@ public:
 
 class ScreenKologNum : public ScreenEx {
 public:
+    ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
 
     u8 _pad_3610[0x3634 - 0x3610];
@@ -331,6 +338,7 @@ public:
 
 class ScreenAkashNum : public ScreenEx {
 public:
+    ~ScreenAkashNum() override;
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
 
     u8 _pad_3610[0x3634 - 0x3610];
@@ -346,6 +354,7 @@ public:
 
 class ScreenMamoNum : public ScreenEx {
 public:
+    ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
 
     void sub_7100A22A80(s32 a1);
@@ -363,6 +372,7 @@ public:
 
 class ScreenMainShortCut : public ScreenEx {
 public:
+    ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
 
     bool sub_7100A20DD0();
@@ -400,6 +410,7 @@ public:
 
 class ScreenAppMap : public ScreenEx {
 public:
+    ~ScreenAppMap() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMap, ScreenEx)
 
     void sub_71009EF488(const sead::Vector3f* a1, s32 a2);
@@ -413,6 +424,7 @@ public:
 
 class ScreenPauseMenu : public ScreenEx {
 public:
+    ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
 
     void sub_7100A34A04();
@@ -423,6 +435,7 @@ public:
 
 class ScreenAppTool : public ScreenEx {
 public:
+    ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
 
     bool sub_71009FD674();
@@ -430,6 +443,7 @@ public:
 
 class ScreenAppPictureBook : public ScreenEx {
 public:
+    ~ScreenAppPictureBook() override;
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
 
     void sub_71009F8510(s32);
@@ -437,6 +451,7 @@ public:
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
+    ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
 
     u8 _pad_3610[0x3638 - 0x3610];
@@ -752,6 +767,120 @@ public:
     ~ScreenDLCWindow() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     SEAD_RTTI_OVERRIDE(ScreenDLCWindow, ScreenEx)
+};
+
+class ScreenTitle : public ScreenEx {
+public:
+    ~ScreenTitle() override;
+    SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
+};
+
+class ScreenAppCamera : public ScreenEx {
+public:
+    ~ScreenAppCamera() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
+};
+
+class ScreenEnergyMeterDLC : public ScreenEx {
+public:
+    ~ScreenEnergyMeterDLC() override;
+    SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
+};
+
+class ScreenMessageGet : public ScreenEx {
+public:
+    ~ScreenMessageGet() override;
+    SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
+};
+
+class ScreenSousaGuide : public ScreenEx {
+public:
+    ~ScreenSousaGuide() override;
+    SEAD_RTTI_OVERRIDE(ScreenSousaGuide, ScreenEx)
+};
+
+class ScreenShopBtnList15 : public ScreenEx {
+public:
+    ~ScreenShopBtnList15() override;
+    SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
+};
+
+class ScreenShopInfo : public ScreenEx {
+public:
+    ~ScreenShopInfo() override;
+    SEAD_RTTI_OVERRIDE(ScreenShopInfo, ScreenEx)
+};
+
+class ScreenAppAlbum : public ScreenEx {
+public:
+    ~ScreenAppAlbum() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppAlbum, ScreenEx)
+};
+
+class ScreenAppMapDungeon : public ScreenEx {
+public:
+    ~ScreenAppMapDungeon() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppMapDungeon, ScreenEx)
+};
+
+class ScreenPickUp : public ScreenEx {
+public:
+    ~ScreenPickUp() override;
+    SEAD_RTTI_OVERRIDE(ScreenPickUp, ScreenEx)
+};
+
+class ScreenAppHome : public ScreenEx {
+public:
+    ~ScreenAppHome() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
+};
+
+class ScreenSaveTransferWindow : public ScreenEx {
+public:
+    ~ScreenSaveTransferWindow() override;
+    SEAD_RTTI_OVERRIDE(ScreenSaveTransferWindow, ScreenEx)
+};
+
+class ScreenOptionWindow : public ScreenEx {
+public:
+    ~ScreenOptionWindow() override;
+    SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
+};
+
+class ScreenSystemWindow01 : public ScreenEx {
+public:
+    ~ScreenSystemWindow01() override;
+    SEAD_RTTI_OVERRIDE(ScreenSystemWindow01, ScreenEx)
+};
+
+class ScreenPauseMenuRecipe : public ScreenEx {
+public:
+    ~ScreenPauseMenuRecipe() override;
+    SEAD_RTTI_OVERRIDE(ScreenPauseMenuRecipe, ScreenEx)
+};
+
+class ScreenStaffRoll : public ScreenEx {
+public:
+    ~ScreenStaffRoll() override;
+    SEAD_RTTI_OVERRIDE(ScreenStaffRoll, ScreenEx)
+};
+
+class ScreenStaffRollDLC : public ScreenEx {
+public:
+    ~ScreenStaffRollDLC() override;
+    SEAD_RTTI_OVERRIDE(ScreenStaffRollDLC, ScreenEx)
+};
+
+class ScreenKeyBoradTextArea : public ScreenEx {
+public:
+    ~ScreenKeyBoradTextArea() override;
+    SEAD_RTTI_OVERRIDE(ScreenKeyBoradTextArea, ScreenEx)
+};
+
+class ScreenFadeStatus : public ScreenEx {
+public:
+    ~ScreenFadeStatus() override;
+    SEAD_RTTI_OVERRIDE(ScreenFadeStatus, ScreenEx)
 };
 
 }  // namespace uking::ui
