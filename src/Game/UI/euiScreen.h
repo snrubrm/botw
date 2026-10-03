@@ -17,6 +17,7 @@ class UserInstanceSLink;
 
 namespace eui {
 
+class AnimButton;
 class BoxCursorNode;
 class ScreenMgr;
 
@@ -58,29 +59,29 @@ public:
     virtual void m20();
     virtual void m21();
     virtual void m22();
-    virtual void m23();
+    virtual void doAfterBuildLayout_(sead::Heap* heap);
     virtual void m24();
     virtual void m25();
     virtual void m26();
     virtual void m27();
     virtual void m28();
     virtual void doLoadResource_(sead::Heap* heap);
-    virtual void m30();
-    virtual void m31();
+    virtual void doInitialize_(sead::Heap* heap);
+    virtual void doUpdate_();
     virtual f32 m32();
     virtual void doDraw_(const DrawInfoEx::RenderBufferInfo* info);
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
+    virtual void doOpenStart_();
+    virtual void doOpenEnd_();
+    virtual void doCloseStart_();
+    virtual void doCloseEnd_();
+    virtual void doButtonOnStart_(AnimButton* button);
+    virtual void doButtonOnEnd_(AnimButton* button);
+    virtual void doButtonOffStart_(AnimButton* button);
+    virtual void doButtonOffEnd_(AnimButton* button);
+    virtual void doButtonDownStart_(AnimButton* button);
+    virtual void doButtonDownEnd_(AnimButton* button);
+    virtual void doButtonCancelStart_(AnimButton* button);
+    virtual void doButtonCancelEnd_(AnimButton* button);
     virtual void* getElinkSystem_() const;
     virtual void m47();
     virtual s32 getSlink2LocalPropertyNum_() const;

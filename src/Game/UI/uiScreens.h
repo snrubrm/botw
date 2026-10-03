@@ -113,6 +113,15 @@ public:
     u8 _294[0x300 - 0x294];
 
     void open(s32 option) override;
+
+    // Overrides of the eui::Screen callbacks (not decompiled yet; CSV Screen::doAfterBuildLayout etc.)
+    void doAfterBuildLayout_(sead::Heap* heap) override;
+    void doInitialize_(sead::Heap* heap) override;
+    void doUpdate_() override;
+    void doOpenStart_() override;
+    void doOpenEnd_() override;
+    void doCloseStart_() override;
+    void doCloseEnd_() override;
     void m50() override;
     void m51() override;
     void m59() override;
@@ -184,6 +193,16 @@ public:
     ScreenEx();
     ~ScreenEx() override;
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
+
+    // Overrides of the eui::Screen button callbacks (not decompiled yet; CSV ScreenEx::doButton*)
+    void doButtonOnStart_(eui::AnimButton* button) override;
+    void doButtonOnEnd_(eui::AnimButton* button) override;
+    void doButtonOffStart_(eui::AnimButton* button) override;
+    void doButtonOffEnd_(eui::AnimButton* button) override;
+    void doButtonDownStart_(eui::AnimButton* button) override;
+    void doButtonDownEnd_(eui::AnimButton* button) override;
+    void doButtonCancelStart_(eui::AnimButton* button) override;
+    void doButtonCancelEnd_(eui::AnimButton* button) override;
 
     // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
     u8 _300[0x3610 - 0x300];
