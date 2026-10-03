@@ -49,8 +49,4 @@ void RideableBase::S1::sub_7100E786F0(const sead::SafeString& name) {
     sub_7100E76260(name, 0, 0, 0, bank);
 }
 
-void RideableBase::S1::sub_7100E78E00() {
-    _52 |= 0x80;
-}
-
 }  // namespace uking::act

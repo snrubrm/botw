@@ -114,8 +114,6 @@ public:
         void sub_7100E770C4(bool force);
         // 0x7100e786f0: sub_7100E76260(name, 0, 0, 0, bank) with the bank picked from _2e.
         void sub_7100E786F0(const sead::SafeString& name);
-        // 0x7100e78e00: sets bit 7 of _52 (lane1 s23).
-        void sub_7100E78E00();
         // 0x7100e76e74: requests AS `name` (compared with two global SafeStrings at 0x7102603110 /
         // 0x7102603180; priority from 0x7100e7712c kept in _51, name in _40); `a2` sets / clears bit 9
         // of _52. Returns false only when the request is rejected. Not decompiled yet.
