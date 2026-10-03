@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m43(sead::Vector3f* out) override;
+    void m44() override;
+    void m45() override;
+
 protected:
     bool _6e8 = false;
 };

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiUnarmedEnemySearch.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -141,6 +142,59 @@ bool UnarmedEnemySearch::m43(sead::Vector3f* out) {
     if (out)
         *out = pos;
     return true;
+}
+
+s32 UnarmedEnemySearch::getStateMaybe() const {
+    return _50 ? _50->_8 : -1;
+}
+
+void UnarmedEnemySearch::changeToLookAround() {
+    changeChild("見まわす");
+}
+
+// NON_MATCHING: the original copies the vector as one 8 + 4 byte block; Vector3f::operator= copies component-wise
+bool UnarmedEnemySearch::sub_71004B62FC(sead::Vector3f* out) {
+    if (_50 && _50->_0 && (_50->_8 | 2) == 3) {
+        auto* character = _50->_0;
+        auto lock = sead::makeScopedLock(character->_1e0);
+        *out = character->_1a0;
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: same 8 + 4 byte copy as sub_71004B62FC
+bool UnarmedEnemySearch::sub_71004B6370(sead::Vector3f* out) {
+    if (_50 && _50->_0 && _50->_8 != -1) {
+        auto* character = _50->_0;
+        auto lock = sead::makeScopedLock(character->_1e0);
+        *out = character->_194;
+        return true;
+    }
+    return false;
+}
+
+void UnarmedEnemySearch::resetStateMaybe() {
+    if (_50)
+        _50->_8 = -1;
+}
+
+bool UnarmedEnemySearch::isMove() const {
+    return isCurrentChild("移動");
+}
+
+bool UnarmedEnemySearch::isGoStraight() const {
+    return isCurrentChild("直進");
+}
+
+bool UnarmedEnemySearch::isGoStraightOrMove() const {
+    if (isCurrentChild("直進"))
+        return true;
+    return isCurrentChild("移動");
+}
+
+f32 UnarmedEnemySearch::getReachDistanceMaybe() const {
+    return *mReachTargetArea_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai

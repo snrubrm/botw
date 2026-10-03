@@ -32,6 +32,22 @@ public:
     virtual void m42();
     virtual bool m43(sead::Vector3f* out);
 
+    // 0x71004b62e4 (the CSV name sead::ControllerMgr::getFramework is wrong: it is this 24-byte function; lane2 s21
+    // rename): the navigation state of the actor's character (-1 without one).
+    s32 getStateMaybe() const;
+    // 0x71004b5fb8
+    void changeToLookAround();
+    // 0x71004b62fc / 0x71004b6370: copy a vector of the character under its lock if it is in a suitable state.
+    bool sub_71004B62FC(sead::Vector3f* out);
+    bool sub_71004B6370(sead::Vector3f* out);
+    // 0x71004b6bc0: ReachTargetArea plus the weapon's reach.
+    f32 getReachDistanceMaybe() const;
+    // 0x71004b63e4 / 0x71004b6744 / 0x71004b6bf0 / 0x71004b6c30
+    void resetStateMaybe();
+    bool isMove() const;
+    bool isGoStraight() const;
+    bool isGoStraightOrMove() const;
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
