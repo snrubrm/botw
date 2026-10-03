@@ -45,6 +45,11 @@ public:
     void sub_7100026240();
     bool sub_7100028128();
 
+    // 0x71000269c8 / 0x7100026a38 (declared only): set / clear bit 8 of the flag word at +0x18 of every
+    // element (stride 0x40) of the physics sub-object's array at +0xd8 (the Gel's sensors).
+    void sub_71000269C8();
+    void sub_7100026A38();
+
     // inline-only in the original; name is a guess: the loop over the model units that tests the
     // unit's `_50` vector for NaN and calls nullsub_4649() (a discarded call that is in the asm). It
     // is repeated in calcMaybe, updatePositionMaybe, m74, m76 and twice in m79.

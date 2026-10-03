@@ -163,7 +163,7 @@ public:
 
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
-    void sub_7100E63224(u32 type, s32 gear);
+    void sub_7100E63224(u64 type, u64 gear);
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();

@@ -193,10 +193,14 @@ public:
     u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x220 - 0x120];
+    u8 _120[0x210 - 0x120];
+    f32 _210;
+    u8 _214[0x220 - 0x214];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x250 - 0x228];
+    u8 _228[0x240 - 0x228];
+    sead::Vector3f _240;
+    u8 _24c[0x250 - 0x24c];
     // Callbacks called with the controller by sub_7100F60604 (_250) and sub_7100F60500 (_258) (vtable
     // slot 0 of the delegate).
     sead::IDelegate1<CharacterController*>* _250;
