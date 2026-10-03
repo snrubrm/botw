@@ -69,4 +69,19 @@ void* ScreenEx::m143() {
     return nullptr;
 }
 
+// 0x7100a00584
+void Screen::m93() {}
+
+// 0x7100a03e18
+void Screen::m94() {}
+
+// 0x7100a00588
+void Screen::m98() {}
+
+// 0x71009d6c20
+void Screen::m99() {}
+
+// 0x71009f2eac
+void Screen::m100() {}
+
 }  // namespace uking::ui

@@ -36,7 +36,7 @@ public:
     ~Screen() override;
     SEAD_RTTI_BASE(Screen)
 
-    virtual s32 m4();
+    virtual s32 isEnableControl() const;
     // Slots 5 / 6 (CSV Screen::open / Screen::close); the argument is an open / close option
     // (-1 / -4 are passed to close by the facade functions).
     virtual void open(s32 option);

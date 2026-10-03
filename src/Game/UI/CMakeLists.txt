@@ -30,6 +30,7 @@ target_sources(uking PRIVATE
   uiScreenHardMode.cpp
   uiScreenLeafSlots.cpp
   uiScreenSlots.cpp
+  uiScreenOwnSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
   uiShopMgr.h

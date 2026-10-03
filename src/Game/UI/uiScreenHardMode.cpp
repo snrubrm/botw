@@ -112,7 +112,7 @@ void ScreenHardMode::m243() {}
 
 void ScreenHardMode::m244() {}
 
-s32 ScreenHardMode::m4() {
+s32 ScreenHardMode::isEnableControl() const {
     return 1;
 }
 

@@ -91,4 +91,9 @@ void Screen::doButtonCancelStart_(AnimButton*) {}
 // 0x7100beaeb8
 void Screen::doButtonCancelEnd_(AnimButton*) {}
 
+// 0x7100beaac8
+s32 Screen::isEnableControl() const {
+    return 0;
+}
+
 }  // namespace eui

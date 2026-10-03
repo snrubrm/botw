@@ -394,7 +394,7 @@ public:
 class ScreenMainScreen : public ScreenEx {
 public:
     void m88() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
@@ -412,9 +412,19 @@ public:
 
 class ScreenGameOver : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
 
     /* 0x3610 */ u8 _3610;
     u8 _pad_3611[3];
@@ -432,6 +442,24 @@ public:
     ~ScreenRupee() override;
     SEAD_RTTI_OVERRIDE(ScreenRupee, ScreenEx)
 
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
+
     void sub_7100A410D8(s32);
     void sub_7100A41558();
     bool sub_7100A41440();
@@ -446,6 +474,20 @@ public:
     void m71() override;
     ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
 
     u8 _pad_3610[0x3634 - 0x3610];
     /* 0x3634 */ s32 _3634;
@@ -466,6 +508,20 @@ public:
     ~ScreenAkashNum() override;
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
 
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+
     u8 _pad_3610[0x3634 - 0x3610];
     /* 0x3634 */ s32 _3634;
 
@@ -485,6 +541,20 @@ public:
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
 
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+
     void sub_7100A22A80(s32 a1);
 
     void sub_7100A22B98();
@@ -495,7 +565,7 @@ public:
     void m96() override;
     void m104() override;
     void m107() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
 
@@ -505,9 +575,27 @@ public:
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
 
     bool sub_7100A20DD0();
 };
@@ -551,10 +639,25 @@ struct ScreenAppMapWidget {
 class ScreenAppMap : public ScreenEx {
 public:
     void m92() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
+    s32 getSlink2LocalPropertyNum_() const override;
     ~ScreenAppMap() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMap, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
 
     void sub_71009EF488(const sead::Vector3f* a1, s32 a2);
     void sub_71009EF51C(s32 a1);
@@ -568,11 +671,9 @@ public:
     virtual void mainEnter();
     virtual void mainRun();
     virtual void mainLeave();
-    virtual s32 m157();
     virtual void subEnter();
     virtual void subRun();
     virtual void subLeave();
-    virtual s32 m161();
     virtual void demoEnter();
     virtual void demoRun();
     virtual void demoLeave();
@@ -590,9 +691,51 @@ public:
     void m70() override;
     void m71() override;
     void m96() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
+    virtual void m170();
+    virtual void m171();
+    virtual void m172();
+    virtual s32 m173();
+    virtual void m174();
+    virtual void m175();
+    virtual void m176();
+    virtual s32 m177();
+    virtual void m178();
+    virtual void m179();
+    virtual void m180();
+    virtual s32 m181();
+    virtual void m182();
+    virtual void m183();
+    virtual void m184();
+    virtual s32 m185();
+    virtual void m186();
+    virtual void m187();
+    virtual void m188();
+    virtual s32 m189();
+    virtual void m190();
+    virtual void m191();
+    virtual void m192();
+    virtual s32 m193();
 
     void sub_7100A34A04();
 
@@ -602,10 +745,28 @@ public:
 
 class ScreenAppTool : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
+
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
 
     bool sub_71009FD674();
 };
@@ -613,7 +774,7 @@ public:
 class ScreenAppPictureBook : public ScreenEx {
 public:
     void m106() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppPictureBook() override;
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
@@ -643,6 +804,20 @@ public:
     ~ScreenDLCSinJuAkashiNum() override;
     SEAD_RTTI_OVERRIDE(ScreenDLCSinJuAkashiNum, ScreenEx)
 
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+
     u8 _pad_3610[0x3638 - 0x3610];
     /* 0x3638 */ s32 _3638;
     u8 _pad_363c[0x3688 - 0x363c];
@@ -657,7 +832,7 @@ public:
     ~ScreenHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
-    s32 m4() override;
+    s32 isEnableControl() const override;
 
     // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)
     virtual void m154();
@@ -768,7 +943,7 @@ class ScreenGamePadBG : public ScreenEx {
 public:
     void m82() override;
     void m94() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenGamePadBG() override;
     SEAD_RTTI_OVERRIDE(ScreenGamePadBG, ScreenEx)
@@ -838,7 +1013,7 @@ public:
 
 class ScreenShopBtnList5 : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
     /* 0x3610 */ void* _3610{};
@@ -910,9 +1085,13 @@ public:
 
 class ScreenAmiiboWindow : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenAmiiboWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+
 };
 
 class ScreenSystemWindowNoBtn : public ScreenEx {
@@ -931,14 +1110,18 @@ public:
     void m96() override;
     void m97() override;
     void m101() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenSystemWindow00() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow00, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+
 };
 
 class ScreenPauseMenuMantan : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
 };
@@ -946,7 +1129,7 @@ public:
 class ScreenPauseMenuEiketsu : public ScreenEx {
 public:
     void m107() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
@@ -958,9 +1141,13 @@ public:
     s32 m81() override;
     s32 m141() override;
     s32 m142() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+
 };
 
 class ScreenHardModeTextDLC : public ScreenEx {
@@ -1006,7 +1193,7 @@ public:
 
 class ScreenMainHardMode : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenMainHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
@@ -1015,7 +1202,7 @@ public:
 class ScreenSkip : public ScreenEx {
 public:
     bool isPlayPartsInOut_() const override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
 };
@@ -1030,7 +1217,7 @@ public:
 
 class ScreenDemoStart : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ScreenDemoStart();
     ~ScreenDemoStart() override;
@@ -1051,7 +1238,7 @@ public:
     s32 m81() override;
     void m94() override;
     void m98() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ScreenAppMenuBtn();
     ~ScreenAppMenuBtn() override;
@@ -1073,7 +1260,7 @@ public:
 
 class ScreenShopBtnList20 : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenShopBtnList20() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
 };
@@ -1097,7 +1284,7 @@ public:
     void m106() override;
     void m107() override;
     void m138() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenControllerWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenControllerWindow, ScreenEx)
@@ -1105,7 +1292,7 @@ public:
 
 class ScreenDLCWindow : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenDLCWindow() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
@@ -1117,7 +1304,7 @@ public:
     s32 m141() override;
     s32 m142() override;
     void m96() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
 };
@@ -1125,7 +1312,7 @@ public:
 class ScreenAppCamera : public ScreenEx {
 public:
     void m127() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
@@ -1148,7 +1335,7 @@ public:
 
 class ScreenEnergyMeterDLC : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenEnergyMeterDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
@@ -1156,7 +1343,7 @@ public:
 
 class ScreenMessageGet : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenMessageGet() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
@@ -1170,7 +1357,7 @@ public:
 
 class ScreenShopBtnList15 : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
@@ -1185,16 +1372,42 @@ public:
 
 class ScreenAppAlbum : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppAlbum() override;
     SEAD_RTTI_OVERRIDE(ScreenAppAlbum, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
+    virtual void m170();
+    virtual void m171();
+    virtual void m172();
+    virtual s32 m173();
+    virtual void m174();
+    virtual void m175();
+    virtual void m176();
+    virtual s32 m177();
+
 };
 
 class ScreenAppMapDungeon : public ScreenEx {
 public:
     void m100() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppMapDungeon() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMapDungeon, ScreenEx)
@@ -1222,7 +1435,7 @@ public:
 
 class ScreenAppHome : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
@@ -1231,16 +1444,182 @@ public:
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
     void m98() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     const char* m15() const override;
     ~ScreenSaveTransferWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenSaveTransferWindow, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
+    virtual void m167();
+    virtual void m168();
+    virtual s32 m169();
+    virtual void m170();
+    virtual void m171();
+    virtual void m172();
+    virtual s32 m173();
+    virtual void m174();
+    virtual void m175();
+    virtual void m176();
+    virtual s32 m177();
+    virtual void m178();
+    virtual void m179();
+    virtual void m180();
+    virtual s32 m181();
+    virtual void m182();
+    virtual void m183();
+    virtual void m184();
+    virtual s32 m185();
+    virtual void m186();
+    virtual void m187();
+    virtual void m188();
+    virtual s32 m189();
+    virtual void m190();
+    virtual void m191();
+    virtual void m192();
+    virtual s32 m193();
+    virtual void m194();
+    virtual void m195();
+    virtual void m196();
+    virtual s32 m197();
+    virtual void m198();
+    virtual void m199();
+    virtual void m200();
+    virtual s32 m201();
+    virtual void m202();
+    virtual void m203();
+    virtual void m204();
+    virtual s32 m205();
+    virtual void m206();
+    virtual void m207();
+    virtual void m208();
+    virtual s32 m209();
+    virtual void m210();
+    virtual void m211();
+    virtual void m212();
+    virtual s32 m213();
+    virtual void m214();
+    virtual void m215();
+    virtual void m216();
+    virtual s32 m217();
+    virtual void m218();
+    virtual void m219();
+    virtual void m220();
+    virtual s32 m221();
+    virtual void m222();
+    virtual void m223();
+    virtual void m224();
+    virtual s32 m225();
+    virtual void m226();
+    virtual void m227();
+    virtual void m228();
+    virtual s32 m229();
+    virtual void m230();
+    virtual void m231();
+    virtual void m232();
+    virtual s32 m233();
+    virtual void m234();
+    virtual void m235();
+    virtual void m236();
+    virtual s32 m237();
+    virtual void m238();
+    virtual void m239();
+    virtual void m240();
+    virtual s32 m241();
+    virtual void m242();
+    virtual void m243();
+    virtual void m244();
+    virtual s32 m245();
+    virtual void m246();
+    virtual void m247();
+    virtual void m248();
+    virtual s32 m249();
+    virtual void m250();
+    virtual void m251();
+    virtual void m252();
+    virtual s32 m253();
+    virtual void m254();
+    virtual void m255();
+    virtual void m256();
+    virtual s32 m257();
+    virtual void m258();
+    virtual void m259();
+    virtual void m260();
+    virtual s32 m261();
+    virtual void m262();
+    virtual void m263();
+    virtual void m264();
+    virtual s32 m265();
+    virtual void m266();
+    virtual void m267();
+    virtual void m268();
+    virtual s32 m269();
+    virtual void m270();
+    virtual void m271();
+    virtual void m272();
+    virtual s32 m273();
+    virtual void m274();
+    virtual void m275();
+    virtual void m276();
+    virtual s32 m277();
+    virtual void m278();
+    virtual void m279();
+    virtual void m280();
+    virtual s32 m281();
+    virtual void m282();
+    virtual void m283();
+    virtual void m284();
+    virtual s32 m285();
+    virtual void m286();
+    virtual void m287();
+    virtual void m288();
+    virtual s32 m289();
+    virtual void m290();
+    virtual void m291();
+    virtual void m292();
+    virtual s32 m293();
+    virtual void m294();
+    virtual void m295();
+    virtual void m296();
+    virtual s32 m297();
+    virtual void m298();
+    virtual void m299();
+    virtual void m300();
+    virtual s32 m301();
+    virtual void m302();
+    virtual void m303();
+    virtual void m304();
+    virtual s32 m305();
+    virtual void m306();
+    virtual void m307();
+    virtual void m308();
+    virtual s32 m309();
+    virtual void m310();
+    virtual void m311();
+    virtual void m312();
+    virtual s32 m313();
+    virtual void m314();
+    virtual void m315();
+    virtual void m316();
+    virtual s32 m317();
+
 };
 
 class ScreenOptionWindow : public ScreenEx {
 public:
     bool isPlayPartsInOut_() const override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenOptionWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
 };
@@ -1250,14 +1629,17 @@ public:
     void m96() override;
     void m97() override;
     void m101() override;
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenSystemWindow01() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow01, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+
 };
 
 class ScreenPauseMenuRecipe : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenPauseMenuRecipe() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuRecipe, ScreenEx)
 };
@@ -1270,7 +1652,7 @@ public:
 
 class ScreenStaffRollDLC : public ScreenEx {
 public:
-    s32 m4() override;
+    s32 isEnableControl() const override;
     ~ScreenStaffRollDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRollDLC, ScreenEx)
 };
@@ -1285,6 +1667,9 @@ public:
     void m97() override;
     ~ScreenKeyBoradTextArea() override;
     SEAD_RTTI_OVERRIDE(ScreenKeyBoradTextArea, ScreenEx)
+    // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    virtual void m154();
+
 };
 
 class ScreenFadeStatus : public ScreenEx {
