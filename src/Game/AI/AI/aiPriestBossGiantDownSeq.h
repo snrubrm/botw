@@ -19,8 +19,11 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
     bool handleAck_(const ksys::MessageAck& ack) override;
+    void calc_() override;
 
 protected:
+    void sub_7100519264();
+
     // static_param at offset 0x40
     const bool* mRecoverIfAlreadyDown_s{};
     // static_param at offset 0x48
