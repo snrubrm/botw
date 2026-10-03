@@ -40,6 +40,8 @@ target_sources(uking PRIVATE
   aiUnk_71006F1DF0.cpp
   aiUnk_71007130BC.cpp
   aiUnk_71007130BC.h
+  aiUnk_710087CE34.cpp
+  aiUnk_710087CE34.h
   aiUnk_71006F1DF0.h
   aiUnk_710071edf8.cpp
   aiUnk_710071edf8.h
