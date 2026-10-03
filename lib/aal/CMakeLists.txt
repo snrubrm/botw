@@ -1,6 +1,8 @@
 project(aal CXX ASM)
 
 add_library(aal OBJECT
+  include/aal/aalFadeCurveType.h
+  include/aal/aalTimedFader.h
   src/dummy.cpp
 )
 
