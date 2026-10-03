@@ -7,7 +7,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling (the original stores the params before the callback members)
 StoneOctarockWait::StoneOctarockWait(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 StoneOctarockWait::~StoneOctarockWait() = default;
@@ -19,7 +18,7 @@ bool StoneOctarockWait::init_(sead::Heap* heap) {
 // NON_MATCHING: the original tests RootAi::_16e bit 1 inline (an inline-only ActionBase accessor?); ours calls the
 // out-of-line testRootAiFlag2
 void StoneOctarockWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    const s32 guard_end_time = *mGuardEndTime_s;
+    const s32 guard_end_time = *mParams.mGuardEndTime_s;
     _70 = guard_end_time;
     _74 = guard_end_time;
     _78 = guard_end_time;
@@ -30,7 +29,7 @@ void StoneOctarockWait::enter_(ksys::act::ai::InlineParamPack* params) {
             const auto* entries = &awareness->_260[2]->_8;
             if (entries->size() >= 1) {
                 auto* entry = ksys::act::sub_7100D78E30(entries, 0);
-                if (entry && entry->_a4 >= *mNoticeTerrorLevel_s) {
+                if (entry && entry->_a4 >= *mParams.mNoticeTerrorLevel_s) {
                     if (!_48.mDamageManager)
                         mActor->getDamageMgr()->addDamageCallback(4, &_48);
                     changeChild("高速ガード開始", params);
@@ -51,8 +50,8 @@ void StoneOctarockWait::leave_() {
 }
 
 void StoneOctarockWait::loadParams_() {
-    getStaticParam(&mGuardEndTime_s, "GuardEndTime");
-    getStaticParam(&mNoticeTerrorLevel_s, "NoticeTerrorLevel");
+    getStaticParam(&mParams.mGuardEndTime_s, "GuardEndTime");
+    getStaticParam(&mParams.mNoticeTerrorLevel_s, "NoticeTerrorLevel");
 }
 
 bool StoneOctarockWait::handleMessage_(const ksys::Message& message) {
