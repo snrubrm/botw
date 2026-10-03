@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSwimEnemyRoam.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -50,6 +51,29 @@ void SwimEnemyRoam::calc_() {
     sead::Vector3f target = _64;
     target.y = mActor->getMtx().m[1][3];
     sub_71005DB068(mActor, target);
+}
+
+// NON_MATCHING: register allocation only (home.x lands in s1 instead of s2 in the distance check)
+void SwimEnemyRoam::sub_71005B52EC() {
+    mActor->getMtx().getTranslation(_58);
+    _64 = _58;
+
+    sead::Vector3f dir;
+    mActor->getMtx().getBase(dir, 2);
+    dir.y = 0;
+    dir.normalize();
+    _58 += dir * *mRoamZRadius_s;
+
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    if (sead::Mathf::sqrt(ksys::util::sqXZDistance(_58, home)) > *mRoamZRadius_s) {
+        _58 = home + dir * *mRoamZRadius_s;
+        _64 = home;
+    }
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_58, "TargetPos", -1);
+    changeChild("徘徊準備", &params);
 }
 
 void SwimEnemyRoam::sub_71005B51E8() {

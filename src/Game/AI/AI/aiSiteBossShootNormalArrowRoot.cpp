@@ -3,7 +3,10 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -156,6 +159,32 @@ bool SiteBossShootNormalArrowRoot::m47() {
 
 bool SiteBossShootNormalArrowRoot::m48() {
     return _144 >= u32(*mArrowNum_s);
+}
+
+void SiteBossShootNormalArrowRoot::m52(s32 idx) {
+    if (mArrowName_s.isEmpty())
+        return;
+
+    s32 num_dead_blights = getNumberOfDeadBlights();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        const s32 kind = boss->_1534 & ~3;
+        if (kind == 4)
+            num_dead_blights = 3;
+        else if (kind == 8)
+            num_dead_blights = 4;
+    }
+
+    ksys::act::InstParamPack pack;
+    pack->add(*mAttackPower_s + *mAddAttackPower_s * num_dead_blights, "AttackPower");
+    pack->add(*mAtMinDamage_s, "AtMinDamage");
+    pack->add(*mReflectOffset_s, "PosOffset");
+    auto* arrow = ksys::act::ActorCreator::instance()->createActor(
+        mArrowName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (arrow) {
+        arrow->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+        m50(arrow, idx);
+    }
 }
 
 bool SiteBossShootNormalArrowRoot::sub_7100588164(bool a1) {

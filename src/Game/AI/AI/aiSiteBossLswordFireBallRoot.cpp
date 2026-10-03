@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiSiteBossLswordFireBallRoot.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -49,7 +52,26 @@ void SiteBossLswordFireBallRoot::enter_(ksys::act::ai::InlineParamPack* params) 
 }
 
 void SiteBossLswordFireBallRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_98 && !isActorGoingBackToRootAi())
+        return;
+
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss)
+        return;
+
+    for (s32 i = 0; i < 20; ++i)
+        boss->_1560.sub_710066CC64(i);
+
+    if (mThrowActorName_d.isEmpty())
+        return;
+
+    if (!boss->_1128.getActorPartsActor(mThrowActorName_d).hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&boss->_1128.getActorPartsActor(mThrowActorName_d), &accessor);
+    if (accessor.isStateCalc())
+        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
 void SiteBossLswordFireBallRoot::loadParams_() {
