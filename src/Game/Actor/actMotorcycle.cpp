@@ -132,9 +132,6 @@ ksys::act::BaseProc* Motorcycle::construct(const CreateArg& arg, sead::Heap* hea
     return new (heap, std::nothrow) Motorcycle(arg);
 }
 
-// NON_MATCHING (lib/aal, needs libwork): the original calls no destructor for the many aal::TimedFader
-// members; lib/aal declares `virtual ~TimedFader();` out of line, so we emit a call per member. With
-// `virtual ~TimedFader() = default;` in aalTimedFader.h this destructor, D0 and the four thunks match.
 Motorcycle::~Motorcycle() {
     if (_1648)
         ksys::util::safeDelete(_1648);

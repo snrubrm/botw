@@ -11,7 +11,7 @@ namespace aal {
 class TimedFader {
 public:
     TimedFader(f32 value, FadeCurveType curve_type, f32 max_value);
-    virtual ~TimedFader();
+    virtual ~TimedFader() = default;
 
     void setValueImmediate(f32 value);
     void calc();
