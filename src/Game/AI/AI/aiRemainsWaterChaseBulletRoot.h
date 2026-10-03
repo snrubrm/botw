@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
     void sub_710054AAD8();
+    void sub_710054AC5C();
 
 protected:
     bool _38 = false;
@@ -23,7 +24,8 @@ protected:
     bool _3a = false;
     bool _3b = false;
     bool _3c = false;
-    u8 _40[0x10];
+    sead::Vector3f _40;
+    u32 _4c;
     struct Params {
         // static_param at offset 0x50
         const int* mAtkMinDamage_s{};
