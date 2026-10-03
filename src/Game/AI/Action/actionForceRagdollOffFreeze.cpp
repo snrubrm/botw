@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForceRagdollOffFreeze.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +19,12 @@ bool ForceRagdollOffFreeze::init_(sead::Heap* heap) {
 
 void ForceRagdollOffFreeze::enter_(ksys::act::ai::InlineParamPack* params) {
     Freeze::enter_(params);
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->sub_71006DD92C(false);
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115F5C0(0.0f, 0, 0);
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_80._0))
+        unit->_8.mHandle._68 = sead::Matrix34f::ident;
 }
 
 void ForceRagdollOffFreeze::leave_() {
