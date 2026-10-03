@@ -14,10 +14,10 @@ public:
     void m9() override;
     void loadParams() override;
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // not decompiled yet (0x710062acd0)
+    void m7() override;
 
     /* 0x58 */ const float* mDistance_s{};
-    /* 0x60 */ void* _60 = nullptr;
+    /* 0x60 */ act::NPC* _60 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(LookAtOwnedHorse, 0x68);
 
