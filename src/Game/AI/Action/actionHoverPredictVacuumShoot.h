@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPredictVacuumShoot.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -19,6 +20,8 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+
+    /* 0x130 */ ksys::act::CCAccessor _130;
 };
 
 }  // namespace uking::action

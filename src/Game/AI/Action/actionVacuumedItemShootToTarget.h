@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionOnetimeStopASPlay.h"
+#include "Game/AI/aiUnk_710073EBD4.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,7 +19,9 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32();
 
+    /* 0x48 */ Unk_710073ebd4 _48{mActor};
     // static_param at offset 0xf0
     const bool* mIsReuseBullet_s{};
 };

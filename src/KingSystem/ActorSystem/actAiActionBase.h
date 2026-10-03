@@ -8,6 +8,7 @@
 #include "KingSystem/Utils/Types.h"
 
 class Unk_71025afc58;
+class Unk_710073ebd4;
 
 namespace ksys {
 struct AIDefSet;
@@ -56,6 +57,7 @@ class ActionBase {
     SEAD_RTTI_BASE(ActionBase)
     // Helper objects owned by actions forward their param lookups to the owner.
     friend class ::Unk_71025afc58;
+    friend class ::Unk_710073ebd4;
 
 public:
     struct InitArg {

@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionHoverPredictVacuumShoot.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,9 +14,14 @@ bool HoverPredictVacuumShoot::init_(sead::Heap* heap) {
 
 void HoverPredictVacuumShoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PredictVacuumShoot::enter_(params);
+    if (auto* cc = mActor->getCharacterController())
+        _130.changeMotionType(cc, ksys::act::MotionType::Hover);
+    else
+        setFailed();
 }
 
 void HoverPredictVacuumShoot::leave_() {
+    _130.resetMotionType(mActor->getCharacterController());
     PredictVacuumShoot::leave_();
 }
 

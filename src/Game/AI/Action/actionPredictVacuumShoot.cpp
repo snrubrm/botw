@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPredictVacuumShoot.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -7,11 +8,16 @@ PredictVacuumShoot::PredictVacuumShoot(const InitArg& arg) : ksys::act::ai::Acti
 PredictVacuumShoot::~PredictVacuumShoot() = default;
 
 bool PredictVacuumShoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    return _78.sub_710073ECC0();
 }
 
 void PredictVacuumShoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _78.sub_710073EF50(this);
+    sub_710073FA90(&_50, mActor);
+    _120 = false;
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _121 = false;
+    _78.mIsReuseBullet = *mIsReuseBullet_s;
 }
 
 void PredictVacuumShoot::leave_() {
@@ -24,8 +30,8 @@ void PredictVacuumShoot::loadParams_() {
     getStaticParam(&mRotSpd_s, "RotSpd");
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mIsReuseBullet_s, "IsReuseBullet");
-    // FIXME: CALL sub_710073ED20 @ 0x710073ed20
-    // FIXME: CALL sub_710073EEE4 @ 0x710073eee4
+    _78.sub_710073ED20(this);
+    _78.sub_710073EEE4(this);
 }
 
 void PredictVacuumShoot::calc_() {

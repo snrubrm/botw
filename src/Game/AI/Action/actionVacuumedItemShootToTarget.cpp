@@ -7,11 +7,15 @@ VacuumedItemShootToTarget::VacuumedItemShootToTarget(const InitArg& arg) : Oneti
 VacuumedItemShootToTarget::~VacuumedItemShootToTarget() = default;
 
 bool VacuumedItemShootToTarget::init_(sead::Heap* heap) {
-    return OnetimeStopASPlay::init_(heap);
+    return _48.sub_710073ECC0();
 }
 
 void VacuumedItemShootToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     OnetimeStopASPlay::enter_(params);
+    if (_48.sub_710073EF50(this))
+        _48.mIsReuseBullet = *mIsReuseBullet_s;
+    else
+        setFailed();
 }
 
 void VacuumedItemShootToTarget::leave_() {
@@ -20,12 +24,20 @@ void VacuumedItemShootToTarget::leave_() {
 
 void VacuumedItemShootToTarget::loadParams_() {
     OnetimeStopASPlay::loadParams_();
-    // FIXME: CALL sub_710073ED20 @ 0x710073ed20
+    _48.sub_710073ED20(this);
     getStaticParam(&mIsReuseBullet_s, "IsReuseBullet");
 }
 
 void VacuumedItemShootToTarget::calc_() {
-    OnetimeStopASPlay::calc_();
+    if (!isFinished() && !isFailed()) {
+        OnetimeStopASPlay::calc_();
+        if (_48.sub_710073FA54())
+            m32();
+    }
+}
+
+void VacuumedItemShootToTarget::m32() {
+    _48.sub_710073F040();
 }
 
 }  // namespace uking::action

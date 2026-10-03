@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_710073EBD4.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,8 +20,7 @@ protected:
     void calc_() override;
     virtual void m32();
 
-    // FIXME: remove this
-    u8 pad_0x20[0xa8];
+    /* 0x20 */ Unk_710073ebd4 _20{mActor};
     // static_param at offset 0xc8
     const bool* mIsReuseBullet_s{};
 };
