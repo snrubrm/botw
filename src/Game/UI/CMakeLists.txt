@@ -1,4 +1,7 @@
 target_sources(uking PRIVATE
+  euiButton.cpp
+  euiButton.h
+  euiMessageString.cpp
   euiMessageString.h
   euiScreen.cpp
   euiScreen.h

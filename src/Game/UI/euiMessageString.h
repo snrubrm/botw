@@ -9,6 +9,10 @@ namespace eui {
 class MessageString {
 public:
     MessageString();
+    // 0x7100be4fe8 (CSV _ZN3eui13MessageStringC1EiPKDs; the first argument is the string length)
+    MessageString(s32 length, const char16* string);
+    // 0x7100be50bc (CSV eui::MessageString::assign)
+    void assign(const MessageString& other);
 
 private:
     const char16* mString;  // null if the message was not found
