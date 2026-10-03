@@ -156,6 +156,25 @@ void sub_71007A2E04(Actor* actor) {
         sub_71007A2D34(set->getRigidBodies()[i]);
 }
 
+void sub_71007A302C(Actor* actor, const sead::SafeString& name,
+                    ksys::phys::SystemGroupHandler* handler) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* set = physics->findBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    auto* body = set->findBodyByHavokName(name);
+    if (!body)
+        return;
+    if (auto* sensor = sead::DynamicCast<ksys::act::AttackSensor>(body->getUserTag())) {
+        physics->sub_7100FBAF18(body);
+        body->setSystemGroupHandler(handler);
+        ++sensor->_44;
+        sensor->_49 = true;
+    }
+}
+
 void sub_71007A3258(ksys::phys::RigidBody* body, ksys::phys::SystemGroupHandler* handler) {
     if (body)
         body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit, handler);

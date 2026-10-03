@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/AI/aiNPCTravelBase.h"
 #include "Game/AI/aiLockedProcLink.h"
@@ -25,8 +26,13 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    // 0x71004e3b10: with the horse ride info's actor of _88 acquired: locks _110, links this actor,
+    // stores `value` and sends message 0x3800008 with _110 as its payload.
+    void sub_71004E3B10(f32 value, bool onProcessingThread);
+
     // static_param at offset 0x78
     const float* mWaitHorseReturnDist_s{};
     // static_param at offset 0x80
@@ -36,8 +42,9 @@ protected:
     u32 _c0 = 0;
     bool _c4 = false;
     bool _c5 = true;
-    u16 _c6 = 0;
-    u8 _c8[0x30];
+    bool _c6 = false;
+    bool _c7 = false;
+    sead::Matrix34f _c8;  // sent by the sheltering ShelterFromRain action (message 0x8000075)
     ksys::MesTransceiverId _f8;
     LockedProcLinkMaybe _110;
     sead::CriticalSection _168;

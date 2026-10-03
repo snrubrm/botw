@@ -48,6 +48,10 @@ void sub_71007A2EB0(ksys::phys::RigidBody* body, ksys::act::Actor* actor,
                     ksys::phys::SystemGroupHandler* handler);
 void sub_71007A2C30(ksys::act::Actor* actor, const sead::SafeString& name,
                     const sead::Matrix34f* mtx);
+// 0x71007a302c: body `name` of the "Atk" set: re-registered in the instance set with `handler` as
+// its system group handler and counted as an activation of its AttackSensor.
+void sub_71007A302C(ksys::act::Actor* actor, const sead::SafeString& name,
+                    ksys::phys::SystemGroupHandler* handler);
 void sub_71007A2C9C(ksys::act::Actor* actor);
 // Single bodies: removed from / added to the physics world when needed.
 void sub_71007A2D34(ksys::phys::RigidBody* body);  // remove

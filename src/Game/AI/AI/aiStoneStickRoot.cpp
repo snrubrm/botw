@@ -65,9 +65,8 @@ void StoneStickRoot::loadParams_() {
     getStaticParam(&mFixPoint_s, "FixPoint");
 }
 
-// NON_MATCHING: the original null-checks the message reference (`cbz x1`; see lane2 log s17)
 bool StoneStickRoot::handleMessage_(const ksys::Message* message) {
-    if (!_48)
+    if (!message || !_48)
         return false;
     auto* mgr = GearMgr::instance();
     if (!mgr)

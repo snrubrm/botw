@@ -163,9 +163,8 @@ bool SiteBossReflectArrowRoot::m48() {
     return SiteBossShootNormalArrowRoot::m48() | (_144 >= _500);
 }
 
-// NON_MATCHING: the original null-checks the message reference
 bool SiteBossReflectArrowRoot::handleMessage_(const ksys::Message* message) {
-    if (message->getBrokerId() != u32(-1) || message->getType() != 0x8000057)
+    if (!message || message->getBrokerId() != u32(-1) || message->getType() != 0x8000057)
         return false;
 
     if (!message->getUserData())

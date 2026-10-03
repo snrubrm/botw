@@ -54,7 +54,6 @@ void WithoutWeaponArrow::enter_(ksys::act::ai::InlineParamPack* params) {
         body->enableContactLayer(ksys::phys::ContactLayer::SensorEnemy);
 }
 
-// NON_MATCHING: the original null-checks the message reference (cbz x1)
 bool WithoutWeaponArrow::handleMessage_(const ksys::Message* message) {
     // Payload of message 0x800003a (no sender found; layout read from this function)
     struct Payload {
@@ -62,7 +61,7 @@ bool WithoutWeaponArrow::handleMessage_(const ksys::Message* message) {
         s32 attr;
     };
 
-    if (message->getBrokerId() != u32(-1) || message->getType() != 0x800003a)
+    if (!message || message->getBrokerId() != u32(-1) || message->getType() != 0x800003a)
         return false;
     if (!message->getUserData())
         return false;

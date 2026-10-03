@@ -78,9 +78,8 @@ void SiteBossSwordIronPileRoot::loadParams_() {
     getMapUnitParam(&mActorName_m, "ActorName");
 }
 
-// NON_MATCHING: the original null-checks the message reference (cbz x1)
 bool SiteBossSwordIronPileRoot::handleMessage_(const ksys::Message* message) {
-    if (message->getBrokerId() != u32(-1))
+    if (!message || message->getBrokerId() != u32(-1))
         return false;
     if (message->getType() == 0x8000004 || message->getType() == 0x3000007) {
         _80 = true;

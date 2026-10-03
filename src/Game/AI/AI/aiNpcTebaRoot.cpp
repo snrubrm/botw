@@ -105,9 +105,8 @@ void NpcTebaRoot::calc_() {
     _70.sub_7100721C48();
 }
 
-// NON_MATCHING: the original null-checks the message reference (`cbz x1`; see lane2 log s16)
 bool NpcTebaRoot::handleMessage_(const ksys::Message* message) {
-    if (message->getType() == 0x800000e) {
+    if (message && message->getType() == 0x800000e) {
         _50 = true;
         return true;
     }

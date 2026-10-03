@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -27,6 +28,41 @@ void SiteBossIceSplinterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void SiteBossIceSplinterRoot::leave_() {
     SiteBossChemicalProjectile::leave_();
+}
+
+// NON_MATCHING: same compares/calls; the original keeps the result in a callee-saved register and
+// shares one "enable contact layer" block between messages 0x3000004 / 0x80000b6 / 0x80000b7
+bool SiteBossIceSplinterRoot::handleMessage_(const ksys::Message* message) {
+    if (!message || message->getBrokerId() != u32(-1))
+        return SiteBossChemicalProjectile::handleMessage_(message);
+
+    if (message->getType() == 0x3000003) {
+        sub_71007A2D7C(mActor, "AtkBody");
+        sub_71007A3270(mActor, "AtkBody", nullptr);
+        if (auto* body = mActor->getMainBody())
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        return false;
+    }
+    if (message->getType() == 0x3000004) {
+        _229 = true;
+        sub_71007A2C30(mActor, "AtkBody", nullptr);
+        sub_71007A302C(mActor, "AtkBody", nullptr);
+    } else if (message->getType() == 0x8000004) {
+        _22a = true;
+        return true;
+    } else if (message->getType() == 0x800005c) {
+        _22b = true;
+        return true;
+    } else if (message->getType() == 0x80000b6) {
+        mActor->sub_71011D0204(0x80);
+    } else if (message->getType() == 0x80000b7) {
+        mActor->sub_71011D0228(0x80);
+    } else {
+        return SiteBossChemicalProjectile::handleMessage_(message);
+    }
+    if (auto* body = mActor->getMainBody())
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    return true;
 }
 
 void SiteBossIceSplinterRoot::loadParams_() {

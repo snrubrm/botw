@@ -14,6 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     void loadParams_() override;
 
     const sead::SafeString& m34() override;

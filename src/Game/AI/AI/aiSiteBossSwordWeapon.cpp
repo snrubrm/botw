@@ -28,15 +28,16 @@ void SiteBossSwordWeapon::loadParams_() {
     WeaponRootAI::loadParams_();
 }
 
-// NON_MATCHING: the original null-checks the message reference (`cbz x1`; see lane2 log s17)
 bool SiteBossSwordWeapon::handleMessage_(const ksys::Message* message) {
-    if (message->getType() == 0x8000059) {
-        _f0 = true;
-        return true;
-    }
-    if (message->getType() == 0x800005a) {
-        _f0 = false;
-        return true;
+    if (message) {
+        if (message->getType() == 0x8000059) {
+            _f0 = true;
+            return true;
+        }
+        if (message->getType() == 0x800005a) {
+            _f0 = false;
+            return true;
+        }
     }
     return ChemicalWeaponRoot::handleMessage_(message);
 }
