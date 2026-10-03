@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -37,9 +38,7 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x70
     ksys::act::BaseProcLink* mLeaderActor_d{};
-    f32 _78{};
-    f32 _7c{};
-    f32 _80 = -1.0f;
+    ksys::Timer _78{0, 0};
     f32 _84 = -1.0f;
     f32 _88 = -1.0f;
     f32 _8c = -1.0f;
