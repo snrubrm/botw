@@ -22,6 +22,11 @@ protected:
     const int* mTime_s{};
     // static_param at offset 0x28
     const float* mInWaterDepth_s{};
+    ksys::act::Actor* _30 = mActor;
+    f32 _38 = 0.0f;
+    u8 _3c[0x4];
+    u64 _40 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ForkDrownTimer, 0x48);
 
 }  // namespace uking::action
