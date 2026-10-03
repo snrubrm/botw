@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m36(int damage_type) override;
+
 protected:
     void calc_() override;
 };

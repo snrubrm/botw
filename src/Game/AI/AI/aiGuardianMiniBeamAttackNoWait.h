@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m40() override;
+
 protected:
     // static_param at offset 0x2d8
     const float* mAttackAngle_s{};

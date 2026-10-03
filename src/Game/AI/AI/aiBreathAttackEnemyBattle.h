@@ -33,6 +33,8 @@ public:
 
     void sub_710033E970();
     void sub_710033F27C(s32 time);
+    // The position of the actor of m34().
+    void sub_710033EDD0(sead::Vector3f* out);
 protected:
     // static_param at offset 0x38
     const int* mEnlargeTime_s{};

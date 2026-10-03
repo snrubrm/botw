@@ -55,6 +55,21 @@ void GelEnemyReaction::leave_() {
     EnemyDefaultReaction::leave_();
 }
 
+bool GelEnemyReaction::m36(int damage_type) {
+    switch (damage_type) {
+    case -1:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+        return false;
+    default:
+        changeChild("小ダメージ");
+        return true;
+    }
+}
+
 void GelEnemyReaction::loadParams_() {
     EnemyDefaultReaction::loadParams_();
 }

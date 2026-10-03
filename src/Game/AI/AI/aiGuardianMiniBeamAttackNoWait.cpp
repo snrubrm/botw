@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttackNoWait.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -29,6 +31,14 @@ void GuardianMiniBeamAttackNoWait::leave_() {
 void GuardianMiniBeamAttackNoWait::loadParams_() {
     GuardianMiniBeamAttack::loadParams_();
     getStaticParam(&mAttackAngle_s, "AttackAngle");
+}
+
+bool GuardianMiniBeamAttackNoWait::m40() {
+    sead::Vector3f pos;
+    sub_710033EDD0(&pos);
+    if (_2e0)
+        return false;
+    return sub_710072DDB8(pos, mActor->getMtx(), *mAttackAngle_s);
 }
 
 }  // namespace uking::ai

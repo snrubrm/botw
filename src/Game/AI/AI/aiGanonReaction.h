@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
 
     bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type) override;
-    bool m36() override;
+    bool m36(int damage_type) override;
     void m40(ksys::act::ai::InlineParamPack* params) override;
 
 protected:

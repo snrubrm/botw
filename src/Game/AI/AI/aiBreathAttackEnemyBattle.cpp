@@ -44,6 +44,12 @@ void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
         enemy->_e68 = ksys::Timer(time, time);
 }
 
+void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&m34(), &accessor);
+    accessor.getActorMtx().getTranslation(*out);
+}
+
 void BreathAttackEnemyBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }

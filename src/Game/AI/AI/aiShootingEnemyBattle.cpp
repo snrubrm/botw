@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiShootingEnemyBattle.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -82,6 +84,12 @@ void ShootingEnemyBattle::sub_7100569CA0() {
     params.addVec3(pos, "TargetPos", -1);
     changeChild("画面外攻撃", &params);
     ++_b0;
+}
+
+bool ShootingEnemyBattle::m44() {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    return !sub_7100D8C538(pos, 0.1f, *mOutScreenDist_s);
 }
 
 bool ShootingEnemyBattle::m40() {

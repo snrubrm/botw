@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyChemicalPowerSelect.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 
 namespace uking::ai {
 
@@ -19,7 +20,10 @@ bool EnemyChemicalPowerSelect::init_(sead::Heap* heap) {
 }
 
 void EnemyChemicalPowerSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71006F59C4(mActor, -1))
+        changeChild("ケミカル有効", params);
+    else
+        changeChild("ケミカル無効", params);
 }
 
 void EnemyChemicalPowerSelect::calc_() {}
