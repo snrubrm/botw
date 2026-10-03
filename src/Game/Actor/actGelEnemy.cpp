@@ -100,6 +100,24 @@ void GelEnemy::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     Enemy::m76(setter);
 }
 
+void GelEnemy::sub_71000269C8() {
+    if (auto* physics = getPhysics()) {
+        if (auto* cloth_set = physics->getClothSet()) {
+            for (int i = 0, n = cloth_set->_18.size(); i < n; ++i)
+                cloth_set->_18[i]._18 |= 8;
+        }
+    }
+}
+
+void GelEnemy::sub_7100026A38() {
+    if (auto* physics = getPhysics()) {
+        if (auto* cloth_set = physics->getClothSet()) {
+            for (int i = 0, n = cloth_set->_18.size(); i < n; ++i)
+                cloth_set->_18[i]._18 &= ~8u;
+        }
+    }
+}
+
 void GelEnemy::m79() {
     checkModelUnitsNaN();
     sub_7100026240();

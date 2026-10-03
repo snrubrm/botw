@@ -6,6 +6,10 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/System/Timer.h"
 
+namespace ksys::res {
+class GParamListObjectWolfLink;
+}
+
 namespace uking::act {
 
 // Name from the CSV (WolfLink::*); vtable 0x71023d2948 (181 slots, no new virtuals over Enemy).
@@ -59,7 +63,7 @@ public:
     /* 0x1618 */ u32 _1618;
     /* 0x1620 */ u8 _1620[0x1650 - 0x1620];  // two message listeners (base vtable 0x7102357d20)
     /* 0x1650 */ u8 _1650[0x1680 - 0x1650];
-    /* 0x1680 */ void* _1680;                 // parameter object (floats at 0x810/0x830)
+    /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680;  // the WolfLink GParam object
     /* 0x1688 */ u32 _1688;
     /* 0x168c */ s32 _168c;
     /* 0x1690 */ s32 _1690;

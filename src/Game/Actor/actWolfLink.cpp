@@ -1,6 +1,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 
 namespace uking::act {
 
@@ -25,6 +26,24 @@ void WolfLink::m156() {
     if (s32* life = getLife())
         *life = life_value;
     _168c = -1;
+}
+
+s32 WolfLink::getBaseAtkPower() {
+    auto* param = _1680;
+    const f32 base = param->mAttackBase.ref();
+    const f32 heart_mod = param->mAttackHeartMod.ref();
+    const u16 flags = _1698;
+    s32 power = base + heart_mod * (getMaxLife() / 4);
+    if (flags & 0x1000)
+        power *= _1680->mPowerUpFoodAttackMod.ref();
+    return power;
+}
+
+s32 WolfLink::sub_71002F4428() {
+    auto* param = _1680;
+    const f32 base = param->mDefenseBase.ref();
+    const f32 heart_mod = param->mDefenseHeartMod.ref();
+    return base + heart_mod * (getMaxLife() / 4);
 }
 
 void WolfLink::sub_71002F4B3C() {
