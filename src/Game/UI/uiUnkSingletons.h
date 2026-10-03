@@ -95,8 +95,62 @@ public:
     void sub_7100963C78(bool a1);
     bool sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius);
 
+    // Accessors (uiSubsys1.cpp). Placeholder names after the offsets of the fields they use.
+    bool is848Zero() const;
+    bool returnTrue() const;
+    bool is848EqualTo1() const;
+    u8 get38b8() const;
+    bool is128EqualTo6() const;
+    void set848(s32 value);
+    void set38c8();
+    void clear38c8();
+    void set3884(bool value);
+    s32 get38a8() const;
+    u8 get38ac() const;
+    void set38e4(s32 value);
+    s32 get38f8() const;
+    s32 get3900() const;
+    void set3904(bool value);
+    bool return0A() const;
+    bool return0B() const;
+    bool return0() const;
+    s32 get3820() const;
+    sead::Vector3f* getVec3834();
+    void resetVec3834();
+    u8 get3858() const;
+    bool is38b8And38b9Clear() const;
+
 private:
     static UiSubsys1* sInstance;
+
+    u8 _0[0x128];
+    /* 0x128 */ s32 _128;
+    u8 _12c[0x848 - 0x12c];
+    /* 0x848 */ s32 _848;
+    u8 _84c[0x3820 - 0x84c];
+    /* 0x3820 */ s32 _3820;
+    u8 _3824[0x3834 - 0x3824];
+    /* 0x3834 */ sead::Vector3f _3834;
+    u8 _3840[0x3858 - 0x3840];
+    /* 0x3858 */ u8 _3858;
+    u8 _3859[0x3884 - 0x3859];
+    /* 0x3884 */ bool _3884;
+    u8 _3885[0x38a8 - 0x3885];
+    /* 0x38a8 */ s32 _38a8;
+    /* 0x38ac */ u8 _38ac;
+    u8 _38ad[0x38b8 - 0x38ad];
+    /* 0x38b8 */ u8 _38b8;
+    /* 0x38b9 */ u8 _38b9;
+    u8 _38ba[0x38c8 - 0x38ba];
+    /* 0x38c8 */ u8 _38c8;
+    u8 _38c9[0x38e4 - 0x38c9];
+    /* 0x38e4 */ s32 _38e4;
+    u8 _38e8[0x38f8 - 0x38e8];
+    /* 0x38f8 */ s32 _38f8;
+    u8 _38fc[0x3900 - 0x38fc];
+    /* 0x3900 */ s32 _3900;
+    /* 0x3904 */ bool _3904;
+    u8 _3905[0x3920 - 0x3905];
 };
 
 }  // namespace uking::ui

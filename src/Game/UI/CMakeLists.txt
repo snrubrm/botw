@@ -15,6 +15,7 @@ target_sources(uking PRIVATE
   uiScreenDtors2.cpp
   uiScreenDtors3.cpp
   uiScreenFacade.cpp
+  uiScreenBaseSlots.cpp
   uiScreenConstSlots.cpp
   uiScreenNames.cpp
   uiScreenVCallSlots.cpp
@@ -26,6 +27,7 @@ target_sources(uking PRIVATE
   uiScreens.h
   uiShopFacade.cpp
   uiShopMgr.h
+  uiSubsys1.cpp
   uiUI.h
   uiUnkSingletons.h
   uiUtils.cpp

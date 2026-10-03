@@ -33,7 +33,17 @@ class Screen : public ScreenBase, public ScreenHandlerImpl {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
-    u8 _118[0x300 - 0x118];
+    u8 _118[0x270 - 0x118];
+    /* 0x270 */ s32 _270;
+    u8 _274[0x288 - 0x274];
+    /* 0x288 */ void* _288;
+    /* 0x290 */ u8 _290;
+    u8 _291;
+    /* 0x292 */ u16 _292;
+    u8 _294[0x300 - 0x294];
+
+    void m51() override;
+    void m59() override;
 
     // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot, 69-126). Only the trivial
     // ones have known signatures.

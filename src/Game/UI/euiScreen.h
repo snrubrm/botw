@@ -8,6 +8,8 @@
 
 namespace eui {
 
+class ScreenMgr;
+
 // The eui UI framework's screen base class (CSV: eui::Screen::*, mangled names). Only the parts that
 // are needed so far are declared: the RTTI root (vtable slots 2 / 3 are checkDerivedRuntimeTypeInfo /
 // getRuntimeTypeInfo) and the screen manager's screen table.
@@ -95,7 +97,14 @@ public:
     bool isClosed() const;
     bool isClosedOrClosing() const;
 
-    u8 _28[0x108 - 0x28];
+    // eui::Screen's non-virtual update helpers (called by the overrides in uking::ui::Screen)
+    void updateControl_();
+    void updateAnimator_();
+
+    /* 0x28 */ ScreenMgr* mMgr;
+    u8 _30[0xc0 - 0x30];
+    /* 0xc0 */ s32 mId;
+    u8 _c4[0x108 - 0xc4];
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 
@@ -110,6 +119,9 @@ public:
     virtual ~ScreenMgr();
 
     Screen* getScreen(s32 id) { return mScreens[id]; }
+
+    // 0x7100bec7e8
+    void inactivateScreen(s32 id);
 
 private:
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
