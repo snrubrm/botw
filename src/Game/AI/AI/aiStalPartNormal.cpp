@@ -6,7 +6,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the two param-zeroing stp stores are scheduled in the opposite order
 StalPartNormal::StalPartNormal(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 StalPartNormal::~StalPartNormal() = default;
@@ -29,10 +28,10 @@ void StalPartNormal::leave_() {
 }
 
 void StalPartNormal::loadParams_() {
-    getStaticParam(&mTerritoryArea_s, "TerritoryArea");
-    getStaticParam(&mCatchArea_s, "CatchArea");
-    getStaticParam(&mWaitTimer_s, "WaitTimer");
-    getStaticParam(&mTgtOffset_s, "TgtOffset");
+    getStaticParam(&mParams.mTerritoryArea_s, "TerritoryArea");
+    getStaticParam(&mParams.mCatchArea_s, "CatchArea");
+    getStaticParam(&mParams.mWaitTimer_s, "WaitTimer");
+    getStaticParam(&mParams.mTgtOffset_s, "TgtOffset");
 }
 
 bool StalPartNormal::handleMessage_(const ksys::Message& message) {
