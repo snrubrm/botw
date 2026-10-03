@@ -182,16 +182,7 @@ bool EnemyDefaultReaction::m34(dmg::DamageManagerBase* damage_mgr, int damage_ty
             changeChild("ガードブレイク", nullptr);
             return true;
         }
-        if (auto* attack = sub_7100739578(mActor))
-            _61 = attack->sub_71007A1F78(0x20);
-        {
-            const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
-            if (level && level->mIsJustGuard.ref()) {
-                if (--_58 <= 0)
-                    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000000);
-            }
-        }
-        changeChild("ガード", nullptr);
+        sub_7100387A9C(nullptr);
         return true;
     case 13:
         sub_710038794C();
@@ -299,16 +290,7 @@ void EnemyDefaultReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_ty
                 changeChild("ガードブレイク", nullptr);
                 return;
             }
-            if (auto* attack = sub_7100739578(mActor))
-                _61 = attack->sub_71007A1F78(0x20);
-            {
-                const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
-                if (level && level->mIsJustGuard.ref()) {
-                    if (--_58 <= 0)
-                        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000000);
-                }
-            }
-            changeChild("ガード", nullptr);
+            sub_7100387A9C(nullptr);
             return;
         case 13:
             sub_710038794C();
@@ -383,6 +365,17 @@ void EnemyDefaultReaction::sub_710038794C() {
     else
         params.addVec3(sead::Vector3f::zero, "TargetPos", -1);
     changeChild("ジャストガード", &params);
+}
+
+void EnemyDefaultReaction::sub_7100387A9C(ksys::act::ai::InlineParamPack* params) {
+    if (auto* attack = sub_7100739578(mActor))
+        _61 = attack->sub_71007A1F78(0x20);
+    const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
+    if (level && level->mIsJustGuard.ref()) {
+        if (--_58 <= 0)
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000000);
+    }
+    changeChild("ガード", params);
 }
 
 void EnemyDefaultReaction::sub_710038782C(ksys::act::ai::InlineParamPack* params) {
