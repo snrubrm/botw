@@ -40,10 +40,10 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void afterModelMatrixUpdate() override;
     void m108() override;
-    void m110() override;
-    void m111() override;
-    void m112() override;
-    void m113() override;
+    void m110(f32* a1, s32* a2) override;
+    void m111(f32* a1, s32* a2) override;
+    void m112(f32* a1, s32* a2) override;
+    void m113(f32* a1, s32* a2) override;
     void m115() override;
 
     // Placeholder names (non-virtual functions called by the Dragon AI).

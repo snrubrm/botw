@@ -52,10 +52,10 @@ public:
     void calcMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void m79() override;
-    void m110() override;
-    void m111() override;
-    void m112() override;
-    void m113() override;
+    void m110(f32* a1, s32* a2) override;
+    void m111(f32* a1, s32* a2) override;
+    void m112(f32* a1, s32* a2) override;
+    void m113(f32* a1, s32* a2) override;
     void m117() override;
     void m119() override;
     void m145() override;

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -320,6 +321,59 @@ void Actor::updateMtxFromPhysics() {
         mMtx = *mPhysicsMtx;
         mActorFlags.resetBit(ActorFlag::_2);
     }
+}
+
+void Actor::m110(f32* a1, s32* a2) {
+    *a1 = 0.2f;
+    *a2 = 0;
+}
+
+void Actor::m111(f32* a1, s32* a2) {
+    *a1 = 0.2f;
+    *a2 = 2;
+}
+
+void Actor::m112(f32* a1, s32* a2) {
+    *a1 = 0.01f;
+    *a2 = 1;
+}
+
+void Actor::m113(f32* a1, s32* a2) {
+    *a1 = 0.01f;
+    *a2 = 2;
+}
+
+f32 Actor::m38() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (auto* body = controller->sub_7100F61A34())
+                return body->getMass();
+        }
+    }
+    if (auto* body = mMainBody.load())
+        return body->getMass();
+    return 0.0f;
+}
+
+void Actor::m107() {
+    mSkipJobPushTimer = 2;
+    if (_598)
+        _598->sub_710125122C();
+}
+
+f32 Actor::m139() {
+    return _4f0 * mStartModelOpacity * _4e8;
+}
+
+bool Actor::isWaitRevivalForUsed() const {
+    if (!mMapObject)
+        return false;
+    return mMapObject->checkRevivalFlag(map::ActorData::Flag::RevivalForUsed);
+}
+
+void Actor::setRevivalFlagForUsed(bool value) {
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
 }
 
 void Actor::sub_71011D7E24() {

@@ -9,6 +9,10 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::phys {
 class Constraint;
 class RigidBody;
@@ -63,6 +67,28 @@ public:
     Entry mEntries[3];
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleUserTag, 0x60);
+
+// CSV MotorcycleStruct0 (ctor 0x710006bf34, size 0x1b0, at Motorcycle +0xbc8): the engine / steering
+// model of the motorcycle (speeds in the first 0x60 bytes, aal::TimedFader members at 0x70, 0x98, 0xd0,
+// 0x108, 0x150, 0x1ac ...). Only the fields used by the decompiled functions are declared; the
+// constructor is blocked (aal::TimedFader is not in lib/aal).
+struct MotorcycleStruct0 {
+    MotorcycleStruct0(ksys::act::Actor* actor);
+
+    // 0x710006c270: converts the energy cost rate on the first call and drains the global motorcycle
+    // energy; sets _19e when it is used up.
+    void sub_710006C270();
+
+    /* 0x000 */ u8 _0[4];
+    /* 0x004 */ f32 _4;
+    /* 0x008 */ u8 _8[0x48 - 8];
+    /* 0x048 */ f32 _48;
+    /* 0x04c */ u8 _4c[0x19e - 0x4c];
+    /* 0x19e */ bool _19e;
+    /* 0x19f */ u8 _19f[0x1a8 - 0x19f];
+    /* 0x1a8 */ ksys::act::Actor* _1a8;
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct0, 0x1b0);
 
 // Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710007027c, size 0x430, at Motorcycle +
 // 0x11b0): the model bones of the motorcycle (looked up by Motorcycle::searchModelHandles).
@@ -186,7 +212,9 @@ public:
     /* 0x0ba8 */ Unk_7100e72ac0 _ba8;  // left stick Y
     /* 0x0bb4 */ f32 _bb4;
     /* 0x0bb8 */ ksys::phys::RigidBody* _bb8;
-    /* 0x0bc0 */ u8 _bc0[0xdd0 - 0xbc0];  // incl. MotorcycleStruct0 at 0xbc8
+    /* 0x0bc0 */ u8 _bc0[8];
+    /* 0x0bc8 */ MotorcycleStruct0 _bc8;
+    /* 0x0d78 */ u8 _d78[0xdd0 - 0xd78];
     /* 0x0dd0 */ MotorcycleStruct2* _dd0;
     /* 0x0dd8 */ MotorcycleStruct2* _dd8;
     /* 0x0de0 */ u8 _de0[0xdf0 - 0xde0];

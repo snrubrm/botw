@@ -453,10 +453,10 @@ public:
     virtual void m107();
     virtual void m108();
     virtual int m109();
-    virtual void m110();
-    virtual void m111();
-    virtual void m112();
-    virtual void m113();
+    virtual void m110(f32* a1, s32* a2);
+    virtual void m111(f32* a1, s32* a2);
+    virtual void m112(f32* a1, s32* a2);
+    virtual void m113(f32* a1, s32* a2);
     virtual void m114();
     virtual void m115();
     virtual void m116();
@@ -483,7 +483,7 @@ public:
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();
     virtual bool m138();
-    virtual void m139();
+    virtual f32 m139();
     virtual bool m140();
     virtual void m141();
     virtual bool m142();

@@ -21,6 +21,8 @@ target_sources(uking PRIVATE
     Awareness/actUnk_71024dc858.cpp
 
 
+    LOD/actLODMgr.cpp
+    LOD/actLODMgr.h
     LOD/actLodState.cpp
     LOD/actLodState.h
 

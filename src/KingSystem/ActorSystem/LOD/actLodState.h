@@ -22,6 +22,19 @@ public:
              float x);
     virtual ~LodState();
 
+    // 0x71012511c8: whether the state was updated within the last 3 frames and flag bit 19 is set.
+    bool sub_71012511C8() const;
+    // 0x71012511fc: whether the state was updated within the last 3 frames.
+    bool sub_71012511FC() const;
+    // 0x7101251220: flag bit 28.
+    bool sub_7101251220() const;
+    // 0x710125122c: clears flag bit 6 and _60.
+    void sub_710125122C();
+    // 0x7101251240: sets the flag bits 0 - 4 (and bit 27 when _28 changes), clears bits 6 - 10, _28 = 1.
+    void sub_7101251240();
+    // 0x7101251280: sets _28 (flag bit 27 when it changed).
+    void sub_7101251280(float value);
+
 private:
     void initFlags();
 

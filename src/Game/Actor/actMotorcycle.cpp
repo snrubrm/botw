@@ -4,6 +4,11 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
 #include "Game/gameMaskController.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectMotorcycle.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -16,6 +21,23 @@
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::act {
+
+void MotorcycleStruct0::sub_710006C270() {
+    f32 rate = _4;
+    if (rate < 0.0f) {
+        rate = 1000.0f /
+               (_1a8->getParam()->getRes().mGParamList->getMotorcycle()->mFullEnergyLastSec.ref() *
+                30.0f);
+        _4 = rate;
+    }
+    if (_48 > 0.0f) {
+        auto* mgr = MotorcycleMgr::instance();
+        mgr->mEnergy -= rate * ksys::VFR::instance()->getDeltaFrame();
+        mgr->mEnergy = sead::Mathf::clampMin(mgr->mEnergy, 0.0f);
+    }
+    if (!(MotorcycleMgr::instance()->mEnergy > 0.0f))
+        _19e = true;
+}
 
 MotorcycleStruct1::MotorcycleStruct1() = default;
 MotorcycleStruct1::~MotorcycleStruct1() = default;
