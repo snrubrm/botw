@@ -39,7 +39,9 @@ struct MotorcycleStruct2 {
     /* 0x024 */ sead::Matrix34f _24;
     /* 0x054 */ u8 _54[0x5c - 0x54];
     /* 0x05c */ sead::Vector3f _5c;
-    /* 0x068 */ u8 _68[0x110 - 0x68];
+    /* 0x068 */ u8 _68[0x88 - 0x68];
+    /* 0x088 */ ksys::phys::ContactPointInfo* _88;  // the contacts of the wheel
+    u8 _90[0x110 - 0x90];
     /* 0x110 */ ksys::phys::Material _110;  // the material under the wheel
     /* 0x114 */ u8 _114[0x128 - 0x114];
     /* 0x128 */ u64 _128;
@@ -385,6 +387,15 @@ public:
     f32 sub_710007AB7C() const;
     // 0x710007c00c
     bool sub_710007C00C() const;
+    // 0x710007b694 (placeholder name; does not use `this`): applies a sideways point impulse
+    // (wheel x axis cross forward axis, scaled by a * b) at the wheel body's position.
+    void sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b);
+    // 0x710007b5c4 (placeholder name; does not use `this`): whether one of the contacts of the wheel is a body
+    // with the tag IsTurnOffTouchMotorcycle.
+    bool sub_710007B5C4(const MotorcycleStruct2* wheel);
+    // 0x710007aaa0 (placeholder name): while _f10 is 5 or 6, the angle in degrees between the rear wheel's y axis and
+    // the main body's z axis (0 otherwise).
+    f32 sub_710007AAA0();
     // 0x7100073524 (CSV Motorcycle::x_20): resets _ea8 / _eac / _eb0, then ray casts from the rear to the front
     // wheel (raised by 0.8 wheel radii) to see whether the ground is further away than 1.5 radii; sets _ea8 /
     // _eac from the wheel contacts.

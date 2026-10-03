@@ -50,6 +50,49 @@ static SpeedCurve7 sUnk_7102361220;
 
 // NON_MATCHING: everything matches except the shared cleanup block of the ray cast query (we merge the early-return
 // and the fall-through destructor calls behind a flag, the original keeps two copies)
+// NON_MATCHING: only the scheduling of the translation copy (the original copies x, y, z with separate stores
+// interleaved with the impulse multiplications)
+void Motorcycle::sub_710007B694(MotorcycleStruct2* wheel, f32 a, f32 b) {
+    sead::Matrix34f mtx;
+    wheel->_0->getTransform(&mtx);
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    sead::Vector3f direction;
+    direction.setCross(wheel->_24.getBase(0), forward);
+    direction.normalize();
+    sead::Vector3f unused;
+    unused.setCross(direction, wheel->_24.getBase(0));
+    unused.normalize();
+    sead::Vector3f point;
+    point = mtx.getTranslation();
+    const sead::Vector3f impulse = direction * (a * b);
+    wheel->_0->applyPointImpulse(impulse, point);
+}
+
+bool Motorcycle::sub_710007B5C4(const MotorcycleStruct2* wheel) {
+    if (auto* contacts = wheel->_88) {
+        for (const auto* point : *contacts) {
+            if (isTurnOffTouchMotorcycle(point->body_b))
+                return true;
+        }
+    }
+    return false;
+}
+
+f32 Motorcycle::sub_710007AAA0() {
+    if (u32(_f10 - 5) <= 1) {
+        const sead::Vector3f up = _dd8->_24.getBase(1);
+        sead::Vector3f forward;
+        const sead::Matrix34f mtx = _bb8->getTransform();
+        mtx.getBase(forward, 2);
+        const f32 dot = up.dot(forward);
+        sead::Vector3f cross;
+        cross.setCross(up, forward);
+        return std::atan2(cross.length(), dot) * (180.0f / sead::Mathf::pi());
+    }
+    return 0.0f;
+}
+
 void Motorcycle::x_20() {
     _eb0 = 0;
     _ea8 = 0;
