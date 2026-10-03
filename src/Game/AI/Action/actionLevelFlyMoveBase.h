@@ -1,7 +1,13 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "Game/AI/aiUnk_71000b0800.h"
+#include "Game/AI/aiUnk_71006F3CC4.h"
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -62,6 +68,16 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0xa0
     void* mRefPosVibrateChecker_a{};
+    /* 0xa8 */ ksys::VFRValue _a8;
+    /* 0xb4 */ ksys::VFRValue _b4;
+    /* 0xc0 */ sead::Vector3f _c0{0, 0, 0};
+    /* 0xcc */ sead::Vector3f _cc{0, 0, 0};
+    /* 0xd8 */ sead::Matrix33f _d8;
+    /* 0xfc */ ksys::VFRValue _fc;
+    /* 0x108 */ Unk_71000b0800<Unk_71025b0578> _108;
+    /* 0x110 */ ksys::act::CCAccessor _110;
+    /* 0x118 */ Unk_7102450038 _118{this};
 };
+KSYS_CHECK_SIZE_NX150(LevelFlyMoveBase, 0x138);
 
 }  // namespace uking::action

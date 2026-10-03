@@ -1,13 +1,16 @@
 #include "Game/AI/Action/actionLevelFlyMoveBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 LevelFlyMoveBase::LevelFlyMoveBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-LevelFlyMoveBase::~LevelFlyMoveBase() = default;
+LevelFlyMoveBase::~LevelFlyMoveBase() {
+    _108.release();
+}
 
 bool LevelFlyMoveBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    return _108.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void LevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +18,10 @@ void LevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LevelFlyMoveBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    _110.resetRigidBodyMotion(actor);
+    _110.resetMotionType(_110.sub_710072ACF8(actor));
+    _118.sub_71006F3DF4();
 }
 
 void LevelFlyMoveBase::loadParams_() {
@@ -35,7 +41,7 @@ void LevelFlyMoveBase::loadParams_() {
     getStaticParam(&mIsOverRise_s, "IsOverRise");
     getStaticParam(&mIsSlowDownNearGoal_s, "IsSlowDownNearGoal");
     getDynamicParam(&mTargetPos_d, "TargetPos");
-    // FIXME: CALL sub_71006F3DF8 @ 0x71006f3df8
+    _118.sub_71006F3DF8();
     getAITreeVariable(&mRefPosVibrateChecker_a, "RefPosVibrateChecker");
 }
 

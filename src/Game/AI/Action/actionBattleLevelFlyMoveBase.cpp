@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBattleLevelFlyMoveBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +17,9 @@ void BattleLevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BattleLevelFlyMoveBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    _cc.resetRigidBodyMotion(actor);
+    _cc.resetMotionType(_cc.sub_710072ACF8(actor));
 }
 
 void BattleLevelFlyMoveBase::loadParams_() {

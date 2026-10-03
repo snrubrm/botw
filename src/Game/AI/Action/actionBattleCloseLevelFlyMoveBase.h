@@ -1,6 +1,10 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "Game/AI/aiUnk_71006F3CC4.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/VFRValue.h"
 
 namespace uking::action {
 
@@ -38,6 +42,14 @@ protected:
     const float* mDownSpeed_s{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mTargetPos_d{};
+    /* 0x70 */ ksys::VFRValue _70;
+    /* 0x7c */ ksys::VFRValue _7c;
+    /* 0x88 */ sead::Matrix33f _88;
+    /* 0xac */ ksys::VFRValue _ac;
+    /* 0xb8 */ sead::Vector3f _b8;
+    /* 0xc4 */ ksys::act::CCAccessor _c4;
+    /* 0xd0 */ Unk_7102450038 _d0{this};
 };
+KSYS_CHECK_SIZE_NX150(BattleCloseLevelFlyMoveBase, 0xf0);
 
 }  // namespace uking::action

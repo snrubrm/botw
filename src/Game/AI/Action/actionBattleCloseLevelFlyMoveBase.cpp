@@ -1,7 +1,10 @@
 #include "Game/AI/Action/actionBattleCloseLevelFlyMoveBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
+// NON_MATCHING: ours keeps `this + 0x70` (first VFRValue) in a callee-saved register across the memset call; the
+// original recomputes it after the call (regalloc only).
 BattleCloseLevelFlyMoveBase::BattleCloseLevelFlyMoveBase(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
@@ -16,7 +19,10 @@ void BattleCloseLevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void BattleCloseLevelFlyMoveBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    _c4.resetRigidBodyMotion(actor);
+    _c4.resetMotionType(_c4.sub_710072ACF8(actor));
+    _d0.sub_71006F3DF4();
 }
 
 void BattleCloseLevelFlyMoveBase::loadParams_() {
@@ -30,7 +36,7 @@ void BattleCloseLevelFlyMoveBase::loadParams_() {
     getStaticParam(&mRiseSpeed_s, "RiseSpeed");
     getStaticParam(&mDownSpeed_s, "DownSpeed");
     getDynamicParam(&mTargetPos_d, "TargetPos");
-    // FIXME: CALL sub_71006F3DF8 @ 0x71006f3df8
+    _d0.sub_71006F3DF8();
 }
 
 void BattleCloseLevelFlyMoveBase::calc_() {
