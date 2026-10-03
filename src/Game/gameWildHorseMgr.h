@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadAtomic.h>
 
@@ -35,7 +36,7 @@ public:
 
     /* 0x20 */ sead::Atomic<s32> mBusy = 0;  // atomically set by the AI that may use the horse loop target (HorseLoopTargetAndWaitAI)
     /* 0x24 */ u32 mNumPending = 0;
-    /* 0x28 */ Slot mSlots[4];
+    /* 0x28 */ sead::SafeArray<Slot, 4> mSlots;  // indexed by Client::slot (the original clamps the index like SafeArray)
     /* 0x68 */ Client* mPending[32];
 };
 static_assert(sizeof(WildHorseMgr) == 0x168);

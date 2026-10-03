@@ -565,6 +565,17 @@ const sead::Vector3f& ActorConstDataAccess::getPreviousPos2() const {
     return actor->mPreviousPos2;
 }
 
+phys::NavMeshCharacter* ActorConstDataAccess::sub_7100D0F57C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    if (auto* info = actor->getPlayerRideInfo()) {
+        if (info->_28)
+            return info->_28;
+    }
+    return actor->m45();
+}
+
 // NON_MATCHING: the original does not tail-call the virtual function
 uking::act::Rideable* ActorConstDataAccess::getHorseOptions() const {
     auto* actor = getActor();

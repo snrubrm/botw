@@ -1,9 +1,13 @@
 #include "Game/AI/AI/aiHorseFollow.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actHorseBase.h"
 #include "Game/Actor/actHorseStrings.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -18,7 +22,37 @@ bool HorseFollow::init_(sead::Heap* heap) {
 }
 
 void HorseFollow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _d4 = -1;
+    _da.makeAllZero();
+    if (!*mIsAvoidNavMeshActor_s) {
+        if (auto* nav = mActor->m45()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(mTargetActor_d, &accessor);
+            if (auto* other = accessor.sub_7100D0F57C())
+                _d4 = nav->sub_7100F7D1CC(other);
+        }
+    }
+
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
+        if (*mCanIgnorePlayer_s) {
+            if (!horse->sub_7100E6BF00()) {
+                horse->sub_7100E6BEC0(true);
+                _da.setBit(Flag(Flag::_1));
+            }
+        }
+        if (horse->_b30 == *mTargetActor_d)
+            _da.setBit(Flag(Flag::_2));
+    }
+
+    if (getRuntimeTypeInfo() == HorseFollow::getRuntimeTypeInfoStatic()) {
+        m35();
+        if (!getCurrentChild())
+            changeChild("うろうろする", nullptr);
+    }
+
+    _c8 = 0.0f;
+    _cc = -1.0f;
+    _d0 = 1.0e8f;
 }
 
 void HorseFollow::calc_() {
@@ -49,8 +83,48 @@ void HorseFollow::calc_() {
     }
 }
 
+// NON_MATCHING: only the stack slots of the first two SEAD_ENUM temporaries are swapped (the original's `_0` test uses
+// the slot above the `_1` test's)
 void HorseFollow::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (*mDistanceThresholdCry_s > sead::Mathf::epsilon()) {
+        if (mActor->getASList()->x_1(1, 0) == act::sUnk_71026031a0) {
+            if (auto* rideable = mActor->m132())
+                rideable->_18.sub_7100E78E00();
+            else
+                mActor->getASList()->sub_710115B01C(1, 0, true);
+        }
+    }
+
+    if (!*mIsAvoidNavMeshActor_s) {
+        if (auto* nav = mActor->m45()) {
+            if (_d4 >= 0)
+                nav->sub_7100F7D308(_d4);
+        }
+    }
+
+    if (_da.isOnBit(Flag(Flag::_0))) {
+        if (auto* rideable = mActor->m132())
+            rideable->sub_7100E63224(0, 0);
+    }
+
+    if (_da.isOnBit(Flag(Flag::_1))) {
+        if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+            horse->sub_7100E6BEC0(false);
+    }
+
+    if (_da.isOnBit(Flag(Flag::_2))) {
+        if (auto* mgr = WildHorseMgr::instance()) {
+            if (_d8.slot >= 0) {
+                auto& slot = mgr->mSlots[_d8.slot];
+                if (slot.client == &_d8) {
+                    slot.client = nullptr;
+                    mgr->mSlots[_d8.slot].timer = 0;
+                } else {
+                    _d8.slot = -1;
+                }
+            }
+        }
+    }
 }
 
 void HorseFollow::loadParams_() {

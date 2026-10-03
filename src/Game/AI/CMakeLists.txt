@@ -13,6 +13,7 @@ target_sources(uking PRIVATE
   aiBehaviorFactories.h
   aiAwarenessFilters.cpp
   aiAwarenessFilters.h
+  aiFlagByte.h
   aiGuardianAimBeamState.cpp
   aiGuardianAimBeamState.h
   aiMessage3DText.cpp

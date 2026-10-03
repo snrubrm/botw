@@ -26,7 +26,7 @@ void EnemyCutRope::loadParams_() {
     getStaticParam(&mCutAngle_s, "CutAngle");
     getStaticParam(&mCutFlyAttack_s, "CutFlyAttack");
     getDynamicParam(&mTargetActor_d, "TargetActor");
-    // FIXME: CALL sub_71002A5BB0 @ 0x71002a5bb0
+    getDynamicParam(&mCommanderID_d, "CommanderID");
 }
 
 }  // namespace uking::ai

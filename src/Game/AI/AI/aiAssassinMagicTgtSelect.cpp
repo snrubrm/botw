@@ -30,24 +30,28 @@ void AssassinMagicTgtSelect::loadParams_() {
     getStaticParam(&mHeight_s, "Height");
 }
 
-// NON_MATCHING: block layout of the false paths (the original computes the result before the
-// accessor destructor and branches on it afterwards, as if through an inline helper)
+// NON_MATCHING: only the tail: the original keeps the call result as `and w19, w0, #1` and branches on w19 after
+// the accessor destructor (returning true / false through two blocks); ours returns `and w0, w19, #1`
 bool AssassinMagicTgtSelect::m34() {
-    if (auto* link = sub_71005D9050(mActor)) {
+    auto* link = sub_71005D9050(mActor);
+    if (!link)
+        return false;
+    bool result = false;
+    {
         ksys::act::ActorConstDataAccess accessor;
         ksys::act::acquireActor(link, &accessor);
-        if (accessor.isBgGroundHit())
-            return true;
-
-        sead::Vector3f pos;
-        accessor.getActorMtx().getTranslation(pos);
-        if (accessor.getVelocity().y <= 0.0f) {
-            const sead::Vector3f down = -sead::Vector3f::ey;
-            if (somePositionCalc(&pos, pos, down, *mHeight_s))
-                return true;
+        if (accessor.isBgGroundHit()) {
+            result = true;
+        } else {
+            sead::Vector3f pos;
+            accessor.getActorMtx().getTranslation(pos);
+            if (accessor.getVelocity().y <= 0.0f) {
+                const sead::Vector3f down = -sead::Vector3f::ey;
+                result = somePositionCalc(&pos, pos, down, *mHeight_s);
+            }
         }
     }
-    return false;
+    return result;
 }
 
 }  // namespace uking::ai

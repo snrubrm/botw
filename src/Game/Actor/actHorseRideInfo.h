@@ -13,6 +13,10 @@ class BaseProc;
 struct Unk117;
 }  // namespace ksys::act
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}  // namespace ksys::phys
+
 namespace uking::act {
 
 // Name from the CSV (HorseRideInfo::*, functions 0x7100e7be78-0x7100e7c684). vtable
@@ -46,7 +50,7 @@ public:
     /* 0x08 */ ksys::act::Actor* mActor;
     /* 0x10 */ void* _10 = nullptr;
     /* 0x18 */ ksys::act::BaseProcLink _18;
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ ksys::phys::NavMeshCharacter* _28 = nullptr;
     /* 0x30 */ u16 _30 = 0;  // flags
 };
 KSYS_CHECK_SIZE_NX150(HorseRideInfo, 0x38);

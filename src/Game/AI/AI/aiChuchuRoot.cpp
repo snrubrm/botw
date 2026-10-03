@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
@@ -61,8 +62,7 @@ void ChuchuRoot::loadParams_() {
     getStaticParam(&mClothStiffness20_s, "ClothStiffness20");
     getStaticParam(&mSubAS_s, "SubAS");
     getStaticParam(&mChemicalFieldKey_s, "ChemicalFieldKey");
-    // FIXME: CALL _ZNK4ksys3act2ai6RootAi18getAITreeVariable2EPPbRKN4sead14SafeStringBaseIcEE @
-    // 0x7100d66968
+    mActor->getRootAi()->getAITreeVariable2(&_218, "IsDrop");
 }
 
 void ChuchuRoot::m34(ksys::act::ai::InlineParamPack* params) {

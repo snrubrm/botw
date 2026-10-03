@@ -1,8 +1,8 @@
 #pragma once
 
-#include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include "Game/AI/AI/aiHorseLoopTarget.h"
+#include "Game/AI/aiFlagByte.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -37,7 +37,7 @@ protected:
     // static_param at offset 0x180
     const float* mMinWaitTime_s{};
     f32 _188 = 0.0f;
-    sead::BitFlag8 _18c;  // bit 0: this AI holds WildHorseMgr's busy flag
+    FlagByte<Flag> _18c;  // bit 0: this AI holds WildHorseMgr's busy flag
 };
 
 }  // namespace uking::ai

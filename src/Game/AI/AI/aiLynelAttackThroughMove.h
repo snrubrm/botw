@@ -20,6 +20,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710048bf14 (placeholder name): picks the through time in [_94, _98] and starts the child with the target.
+    void sub_710048BF14();
+
     struct Params {
         // static_param at offset 0x38
         const int* mSideOffsetDirType_s{};

@@ -18,7 +18,6 @@ bool HorseLoopTargetAndWaitAI::init_(sead::Heap* heap) {
     return HorseLoopTarget::init_(heap);
 }
 
-// NON_MATCHING: only the operand order of the BitFlag8 {and,or} differs (original: `flags op mask`, ours: `mask op flags`)
 void HorseLoopTargetAndWaitAI::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseLoopTarget::enter_(params);
     _18c.makeAllZero();
@@ -32,8 +31,6 @@ void HorseLoopTargetAndWaitAI::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100E5CA78(true);
 }
 
-// NON_MATCHING: the BitFlag8 {and,or} operand order (original: `flags op mask`, ours: `mask op flags`) and the stack slots of
-// the three SEAD_ENUM temporaries (the original's setBit temporary sits above the isOnBit one)
 void HorseLoopTargetAndWaitAI::calc_() {
     auto* child = getCurrentChild();
     const char* name = child->getName();
@@ -95,7 +92,6 @@ bool HorseLoopTargetAndWaitAI::handleMessage_(const ksys::Message* message) {
     return false;
 }
 
-// NON_MATCHING: only the operand order of the BitFlag8 {and,or} differs (original: `flags op mask`, ours: `mask op flags`)
 void HorseLoopTargetAndWaitAI::leave_() {
     if (_18c.isOnBit(Flag(Flag::_0))) {
         if (auto* mgr = WildHorseMgr::instance())

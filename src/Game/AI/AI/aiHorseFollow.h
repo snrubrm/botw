@@ -1,5 +1,8 @@
 #pragma once
 
+#include <prim/seadEnum.h>
+#include "Game/AI/aiFlagByte.h"
+#include "Game/gameWildHorseMgr.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -24,6 +27,11 @@ public:
     virtual const sead::Vector3f* m38() { return mSelfPositionOffsetLocal_s; }
 
 protected:
+    // Bit indices of _da (a SEAD_ENUM in the original: the index goes through a stack round trip); names and the
+    // number of values are guesses. 0: the rideable's gear was changed (reset in leave_), 1: the horse's flag
+    // (HorseBase::sub_7100E6BEC0) was set, 2: this follower holds a WildHorseMgr slot.
+    SEAD_ENUM(Flag, _0, _1, _2)
+
     // static_param at offset 0x38
     const float* mDistanceSuccessEnd_s{};
     // static_param at offset 0x40
@@ -64,9 +72,8 @@ protected:
     f32 _cc = 0;
     f32 _d0 = 0;
     int _d4 = -1;
-    u8 _d8 = 0xff;
-    s8 _d9 = -1;
-    bool _da = false;
+    WildHorseMgr::Client _d8 = {-1, -1};  // the client part registered in WildHorseMgr (slot = _d8.slot)
+    FlagByte<Flag> _da;                   // see Flag
 };
 KSYS_CHECK_SIZE_NX150(HorseFollow, 0xe0);
 

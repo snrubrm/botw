@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace uking::ai {
 
@@ -26,7 +27,8 @@ protected:
     const bool* mCutFlyAttack_s{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
-    void* _60{};
+    // dynamic_param at offset 0x60
+    ksys::MesTransceiverId* mCommanderID_d{};
     int _68 = 3;
 };
 
