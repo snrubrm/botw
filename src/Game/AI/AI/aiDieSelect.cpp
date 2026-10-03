@@ -51,6 +51,10 @@ void DieSelect::calc_() {
     }
 }
 
+bool DieSelect::sub_7100361104(s32 a2, s32 a3) {
+    return a2 == 22 && a3 == 29;
+}
+
 // NON_MATCHING: the original computes the switch flag before the final getLife() call (with a
 // range check + bit test); ours sinks it after the call
 void DieSelect::m34(s32 a2, s32 a3, bool a4, bool a5) {
@@ -77,7 +81,7 @@ void DieSelect::m34(s32 a2, s32 a3, bool a4, bool a5) {
         changeChild("落下死");
         return;
     }
-    if (a2 == 22 && a3 == 29) {
+    if (sub_7100361104(a2, a3)) {
         changeChild("濡死");
         return;
     }

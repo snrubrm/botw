@@ -4,6 +4,7 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -317,4 +318,13 @@ bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f3
     to_target.y = 0;
     to_target.normalize();
     return forward.dot(to_target) >= sead::Mathf::cos(angle);
+}
+
+bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& pos) {
+    *out = pos;
+    if (auto* drop = sead::DynamicCast<ksys::act::DropData>(actor->getDropData())) {
+        drop->_c |= 0x80;
+        return true;
+    }
+    return false;
 }

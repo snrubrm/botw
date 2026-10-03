@@ -18,8 +18,6 @@ public:
     void loadParams_() override;
     void m34(s32 a2, s32 a3, bool a4, bool a5) override;
     void m35() override;
-
-protected:
 };
 
 }  // namespace uking::ai

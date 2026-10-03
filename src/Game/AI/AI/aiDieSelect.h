@@ -20,6 +20,9 @@ public:
     virtual void m35() {}
 
 protected:
+    // 0x7100361104: a2 == 22 && a3 == 29 (damage source type / kind; wet death). Out-of-line in the
+    // original (KeeseDieSelect::m34 calls it) and inlined into DieSelect::m34.
+    bool sub_7100361104(s32 a2, s32 a3);
 };
 
 }  // namespace uking::ai

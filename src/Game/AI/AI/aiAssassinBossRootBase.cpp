@@ -90,6 +90,11 @@ void AssassinBossRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
         controller->mFlags.set(0xc00);
 }
 
+void AssassinBossRootBase::sub_710031C2C8(s32 threshold) {
+    _260._24 = threshold;
+    setDamageCallbackTiming(mActor, 4, &_260);
+}
+
 void AssassinBossRootBase::leave_() {
     EnemyRoot::leave_();
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))

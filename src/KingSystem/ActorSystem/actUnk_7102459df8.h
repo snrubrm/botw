@@ -67,7 +67,7 @@ public:
     struct Unk_7102459e88 {
         struct Unk1 {
             sead::Vector3f _0;  // copied as a ground position by ForkOnEnterSwapDropTableActorBase
-            u8 _c[0x18 - 0xc];
+            sead::Vector3f _c;  // dotted with the gravity (KeeseDieSelect::m34)
             BaseProcLink _18;  // compared with Actor::getCreateArgBaseProcLink() (isBgGroundHit)
             u8 _28[0x58 - 0x28];
         };
