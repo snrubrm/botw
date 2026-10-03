@@ -407,9 +407,13 @@ public:
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
     /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
     /* 0x17f2 */ bool _17f2;  // cleared by PlayerAtnWait::enter_
-    /* 0x17f3 */ u8 _17f3[0x1800 - 0x17f3];
+    /* 0x17f3 */ u8 _17f3[0x17f8 - 0x17f3];
+    /* 0x17f8 */ s32 _17f8;  // state copied from _1cb0 (PlayerDisplayWait::enter_)
+    /* 0x17fc */ u8 _17fc[0x1800 - 0x17fc];
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
-    /* 0x1804 */ u8 _1804[0x1810 - 0x1804];
+    /* 0x1804 */ f32 _1804;  // zeroed by PlayerGlide::enter_
+    /* 0x1808 */ f32 _1808;
+    /* 0x180c */ u8 _180c[0x1810 - 0x180c];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
     /* 0x1828 */ sead::Vector3f _1828;  // ladder start displacement (PlayerLadderUpStart::calc_)

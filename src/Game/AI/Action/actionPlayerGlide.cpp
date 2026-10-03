@@ -10,6 +10,18 @@ PlayerGlide::PlayerGlide(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerGlide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(15);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.setBit(25);
+    static_cast<ksys::act::Player*>(mActor)->_cec.setBit(1);
+    auto* chemical = mActor->getChemicalStuff();
+    chemical->_14c = *mWindScale_s;
+    sead::Vector3f dir{mActor->getVelocity().x, 0.0f, mActor->getVelocity().z};
+    dir.normalize();
+    static_cast<ksys::act::Player*>(mActor)->_181c.x = dir.x * static_cast<ksys::act::Player*>(mActor)->_20bc.value;
+    static_cast<ksys::act::Player*>(mActor)->_181c.z = dir.z * static_cast<ksys::act::Player*>(mActor)->_20bc.value;
+    static_cast<ksys::act::Player*>(mActor)->_1804 = 0;
+    static_cast<ksys::act::Player*>(mActor)->_1808 = 0;
+    static_cast<ksys::act::Player*>(mActor)->_20c8 = *mLv2GlideSpeedMax_s;
 }
 
 void PlayerGlide::leave_() {
