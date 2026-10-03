@@ -131,6 +131,11 @@ bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
 /// or |sub_7100F74FD8(...)| <= a constant. Placeholder name.
 bool sub_710072E368(ksys::act::Actor* actor);
 
+/// 0x710072dcfc (lane1 s22): whether the XZ direction from `pos` to `target` is within `angle` (radians)
+/// of `dir` (dot product of the normalised XZ direction with `dir` >= cos(angle)). Placeholder name.
+bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,
+                    const sead::Vector3f& dir, f32 angle);
+
 /// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);

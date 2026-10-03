@@ -49,6 +49,15 @@ bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,
     return sub_710072E154(actor, target, nullptr, -1);
 }
 
+bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,
+                    const sead::Vector3f& dir, f32 angle) {
+    sead::Vector3f to_target = target;
+    to_target -= pos;
+    to_target.y = 0;
+    to_target.normalize();
+    return to_target.dot(dir) >= sead::Mathf::cos(angle);
+}
+
 bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     s32 a4) {
     const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};

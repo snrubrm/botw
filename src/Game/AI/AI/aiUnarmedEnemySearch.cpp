@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -24,6 +25,61 @@ void UnarmedEnemySearch::enter_(ksys::act::ai::InlineParamPack* params) {
         m37();
     else
         changeChild("見まわす");
+}
+
+void UnarmedEnemySearch::calc_() {
+    if (isFinished())
+        return;
+    if (isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ジャンプ")) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("見まわす")) {
+            m42();
+            return;
+        }
+        if (isCurrentChild("回転")) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("直進") || isCurrentChild("移動")) {
+            if (!_50 || _50->_8 == -1) {
+                m39();
+                return;
+            }
+        }
+    }
+
+    if (isCurrentChild("直進") || isCurrentChild("移動")) {
+        if (getCurrentChild()->isChangeable()) {
+            if (isCurrentChild("移動") && _50 && _50->_8 == 3) {
+                m39();
+                return;
+            }
+            sead::Vector3f target;
+            if (m43(&target)) {
+                m35(target);
+                return;
+            }
+            if (_50 && _50->_8 == 2) {
+                changeChild("見まわす");
+                return;
+            }
+        }
+        m38();
+        return;
+    }
+
+    if (isCurrentChild("見まわす")) {
+        sead::Vector3f target;
+        if (m43(&target))
+            m35(target);
+    }
 }
 
 void UnarmedEnemySearch::leave_() {
@@ -74,6 +130,51 @@ void UnarmedEnemySearch::sub_71004B63E4() {
 
 f32 UnarmedEnemySearch::sub_71004B6BC0() const {
     return *mReachTargetArea_s + sub_71007320F0(mActor, *mWeaponIdx_s);
+}
+
+// NON_MATCHING: stack layout only (the original keeps `pos` / `dir` / the key temporary above the
+// 0xa10-byte param pack; ours puts the pack above them)
+void UnarmedEnemySearch::sub_71004B6544(const sead::Vector3f& target) {
+    if (_50)
+        _50->_8 = -1;
+    if (_50 && _50->_0)
+        _50->_0->inlineReset();
+    _58 = target;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_58, "TargetPos", -1);
+    if (!isCurrentChild("移動") && mActor) {
+        const auto& mtx = mActor->getMtx();
+        const sead::Vector3f dir = mtx.getBase(2);
+        const sead::Vector3f pos = mtx.getTranslation();
+        if (!sub_710072DCFC(_58, pos, dir, *mTurnStartAng_s)) {
+            changeChild("回転", &params);
+            return;
+        }
+    }
+    changeChild("直進", &params);
+}
+
+bool UnarmedEnemySearch::sub_71004B6744() const {
+    return isCurrentChild("移動");
+}
+
+bool UnarmedEnemySearch::sub_71004B6BF0() const {
+    return isCurrentChild("直進");
+}
+
+bool UnarmedEnemySearch::sub_71004B6C30() const {
+    if (isCurrentChild("直進"))
+        return true;
+    return isCurrentChild("移動");
+}
+
+void UnarmedEnemySearch::m35(const sead::Vector3f& target) {
+    if (_50)
+        _50->_8 = -1;
+    _58 = target;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_58, "TargetPos", -1);
+    changeChild("移動", &params);
 }
 
 bool UnarmedEnemySearch::m34() {

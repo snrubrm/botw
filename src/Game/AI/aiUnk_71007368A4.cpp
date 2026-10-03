@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -69,6 +70,17 @@ bool sub_7100736D98(ksys::act::Actor* actor) {
     if (!dmg)
         return false;
     return dmg->getField54() == 2 || dmg->getField54() == 1 || dmg->getField54() == 5;
+}
+
+bool sub_7100739030(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    const s32 num = sub_71007A425C(actor);
+    for (s32 i = 0; i < num; ++i) {
+        if (sub_71007A40D0(actor, i)->_50 == link)
+            return true;
+    }
+    return false;
 }
 
 bool sub_7100739438(ksys::act::Actor* actor, sead::Vector3f* out) {

@@ -12,8 +12,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x71003d95c8 (placeholder name): clears the target state and starts "発見" towards the target.
+    void sub_71003D95C8();
 
 protected:
 };

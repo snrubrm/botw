@@ -46,6 +46,15 @@ public:
     void sub_71004B63E4();
     // 0x71004b6bc0: ReachTargetArea plus the weapon range.
     f32 sub_71004B6BC0() const;
+    // 0x71004b6544: resets the search state and the navmesh character, remembers `target` in `_58`
+    // and starts the "直進" / "回転" child towards it. ~12 callers (m37 overrides).
+    void sub_71004B6544(const sead::Vector3f& target);
+    // 0x71004b6744: whether the current child is "移動".
+    bool sub_71004B6744() const;
+    // 0x71004b6bf0: whether the current child is "直進".
+    bool sub_71004B6BF0() const;
+    // 0x71004b6c30: whether the current child is "直進" or "移動". 13 callers.
+    bool sub_71004B6C30() const;
 
 protected:
     // static_param at offset 0x38

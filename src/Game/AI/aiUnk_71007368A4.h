@@ -55,6 +55,9 @@ ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor);
 /// 0x7100739900 / 0x7100739918: call Unk_7100d8557c::sub_7100D85794 / sub_7100D857B0 on it, if any.
 void sub_7100739900(ksys::act::Actor* actor);
 void sub_7100739918(ksys::act::Actor* actor);
+/// 0x7100739030 (lane1 s22): the actor's sensed actors (sub_71007A4178 / A425C / A40D0) include
+/// `link`. Placeholder name; ~9 callers.
+bool sub_7100739030(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
 /// 0x7100739930: the linked actor's name is in the actor's EnemyRace EscapeAttackedActorType list.
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the
