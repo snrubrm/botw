@@ -18,7 +18,7 @@ public:
     virtual const char* m14();
     virtual bool m15() { return true; }
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // not decompiled yet (0x710061d894)
+    void m7() override;
 
     /* 0x28 */ const bool* mIsNoSystemDelete_s{};
     /* 0x30 */ sead::SafeString mActorName_s{};
