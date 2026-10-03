@@ -16,18 +16,18 @@ bool TimeControlTagRoot::init_(sead::Heap* heap) {
 // before OR-ing IsNightB (tst/cset); ours ORs all eight then masks
 void TimeControlTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     const char* id;
-    if (*mIsDirectTime_m) {
-        if (*mStartTime_m == *mEndTime_m)
+    if (*mParams.mIsDirectTime_m) {
+        if (*mParams.mStartTime_m == *mParams.mEndTime_m)
             mActor->getMapObjIter().tryGetParamStringByKey(&id, "Id");
-        if (*mIsMorningA_m | *mIsMorningB_m | *mIsNoonA_m | *mIsNoonB_m | *mIsEveningA_m |
-            *mIsEveningB_m | *mIsNightA_m | *mIsNightB_m) {
+        if (*mParams.mIsMorningA_m | *mParams.mIsMorningB_m | *mParams.mIsNoonA_m | *mParams.mIsNoonB_m | *mParams.mIsEveningA_m |
+            *mParams.mIsEveningB_m | *mParams.mIsNightA_m | *mParams.mIsNightB_m) {
             mActor->getMapObjIter().tryGetParamStringByKey(&id, "Id");
         }
     } else {
-        if (*mStartTime_m != *mEndTime_m)
+        if (*mParams.mStartTime_m != *mParams.mEndTime_m)
             mActor->getMapObjIter().tryGetParamStringByKey(&id, "Id");
-        if (!(*mIsMorningA_m | *mIsMorningB_m | *mIsNoonA_m | *mIsNoonB_m | *mIsEveningA_m |
-              *mIsEveningB_m | *mIsNightA_m | *mIsNightB_m)) {
+        if (!(*mParams.mIsMorningA_m | *mParams.mIsMorningB_m | *mParams.mIsNoonA_m | *mParams.mIsNoonB_m | *mParams.mIsEveningA_m |
+              *mParams.mIsEveningB_m | *mParams.mIsNightA_m | *mParams.mIsNightB_m)) {
             mActor->getMapObjIter().tryGetParamStringByKey(&id, "Id");
         }
     }
@@ -52,9 +52,9 @@ void TimeControlTagRoot::calc_() {
 bool TimeControlTagRoot::sub_71005C9290() {
     auto* tm = ksys::world::Manager::instance()->getTimeMgr();
 
-    if (*mIsDirectTime_m) {
-        const int start = *mStartTime_m;
-        const int end = *mEndTime_m;
+    if (*mParams.mIsDirectTime_m) {
+        const int start = *mParams.mStartTime_m;
+        const int end = *mParams.mEndTime_m;
         const int hour = tm->getHour();
         if (start < end) {
             if (hour < start || hour > end)
@@ -64,31 +64,31 @@ bool TimeControlTagRoot::sub_71005C9290() {
         }
 
         const int minute = tm->getMinute();
-        const int end_minute = *mEndTimeMinute_m;
+        const int end_minute = *mParams.mEndTimeMinute_m;
         int ok = true;
         if (hour == start)
-            ok = minute >= *mStartTimeMinute_m;
+            ok = minute >= *mParams.mStartTimeMinute_m;
         if (end == hour)
             ok = minute < end_minute;
         return ok;
     }
 
     bool ret = false;
-    if (*mIsMorningA_m)
+    if (*mParams.mIsMorningA_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Morning_A;
-    if (*mIsMorningB_m)
+    if (*mParams.mIsMorningB_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Morning_B;
-    if (*mIsNoonA_m)
+    if (*mParams.mIsNoonA_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Noon_A;
-    if (*mIsNoonB_m)
+    if (*mParams.mIsNoonB_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Noon_B;
-    if (*mIsEveningA_m)
+    if (*mParams.mIsEveningA_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Evening_A;
-    if (*mIsEveningB_m)
+    if (*mParams.mIsEveningB_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Evening_B;
-    if (*mIsNightA_m)
+    if (*mParams.mIsNightA_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Night_A;
-    if (*mIsNightB_m)
+    if (*mParams.mIsNightB_m)
         ret |= tm->getTimeDivision() == ksys::world::TimeDivision::Night_B;
     return ret;
 }
@@ -98,19 +98,19 @@ void TimeControlTagRoot::leave_() {
 }
 
 void TimeControlTagRoot::loadParams_() {
-    getMapUnitParam(&mStartTime_m, "StartTime");
-    getMapUnitParam(&mEndTime_m, "EndTime");
-    getMapUnitParam(&mStartTimeMinute_m, "StartTimeMinute");
-    getMapUnitParam(&mEndTimeMinute_m, "EndTimeMinute");
-    getMapUnitParam(&mIsDirectTime_m, "IsDirectTime");
-    getMapUnitParam(&mIsMorningA_m, "IsMorningA");
-    getMapUnitParam(&mIsMorningB_m, "IsMorningB");
-    getMapUnitParam(&mIsNoonA_m, "IsNoonA");
-    getMapUnitParam(&mIsNoonB_m, "IsNoonB");
-    getMapUnitParam(&mIsEveningA_m, "IsEveningA");
-    getMapUnitParam(&mIsEveningB_m, "IsEveningB");
-    getMapUnitParam(&mIsNightA_m, "IsNightA");
-    getMapUnitParam(&mIsNightB_m, "IsNightB");
+    getMapUnitParam(&mParams.mStartTime_m, "StartTime");
+    getMapUnitParam(&mParams.mEndTime_m, "EndTime");
+    getMapUnitParam(&mParams.mStartTimeMinute_m, "StartTimeMinute");
+    getMapUnitParam(&mParams.mEndTimeMinute_m, "EndTimeMinute");
+    getMapUnitParam(&mParams.mIsDirectTime_m, "IsDirectTime");
+    getMapUnitParam(&mParams.mIsMorningA_m, "IsMorningA");
+    getMapUnitParam(&mParams.mIsMorningB_m, "IsMorningB");
+    getMapUnitParam(&mParams.mIsNoonA_m, "IsNoonA");
+    getMapUnitParam(&mParams.mIsNoonB_m, "IsNoonB");
+    getMapUnitParam(&mParams.mIsEveningA_m, "IsEveningA");
+    getMapUnitParam(&mParams.mIsEveningB_m, "IsEveningB");
+    getMapUnitParam(&mParams.mIsNightA_m, "IsNightA");
+    getMapUnitParam(&mParams.mIsNightB_m, "IsNightB");
 }
 
 }  // namespace uking::ai
