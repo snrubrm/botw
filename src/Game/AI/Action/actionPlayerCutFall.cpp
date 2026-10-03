@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -39,7 +42,16 @@ void PlayerCutFall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerCutFall::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_14c0 = 0;
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    sub_71005D79AC(player, player->playerWeapons_return0(), act::Unk_71002edaec(1));
+    if (static_cast<ksys::act::Player*>(mActor)->sub_7100888294()) {
+        auto* p = static_cast<ksys::act::Player*>(mActor);
+        if (p->_d30 == p->getEquipmentTypeName(1)) {
+            if (static_cast<ksys::act::Player*>(mActor)->_d24 == 0)
+                static_cast<ksys::act::Player*>(mActor)->x_7();
+        }
+    }
 }
 
 void PlayerCutFall::loadParams_() {

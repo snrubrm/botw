@@ -39,7 +39,6 @@ void PlayerDestinationTurn::calc_() {
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
-// NON_MATCHING: the original loads `_38` and the angle mask after the x_5() call (ours before it)
 void PlayerDestinationTurn::m33() {
     const bool turned = static_cast<ksys::act::Player*>(mActor)->sub_7100857014(-1.0f, &_38, -1, -1);
     const auto& name = mActor->getASList()->x_1(0, 0);
@@ -49,9 +48,8 @@ void PlayerDestinationTurn::m33() {
     } else if (name != "DemoTurn") {
         auto* as_list = static_cast<ksys::act::Player*>(mActor)->getASList();
         as_list->x_6(6, 0,
-                     ksys::util::sub_71011EE4B8(ksys::util::Unk_7101EC6BAC(
-                         ksys::util::sUnk_7101EC6BA0 &
-                         (_38.value - static_cast<ksys::act::Player*>(mActor)->x_5().value))) *
+                     ksys::util::sub_71011EE4B8(ksys::util::angleDiff(
+                         _38.value, static_cast<ksys::act::Player*>(mActor)->x_5())) *
                          ksys::util::sUnk_7101EC6BA4);
         static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("DemoTurn", true, -1.0f);
     }

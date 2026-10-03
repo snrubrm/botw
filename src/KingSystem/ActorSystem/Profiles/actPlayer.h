@@ -284,6 +284,17 @@ public:
     bool sub_7100859FC0(bool a1);
     // 0x7100868d7c (declared only): turns the player towards `dir` (XZ) with the given speed factor.
     void sub_7100868D7C(f32 speed, const sead::Vector3f* dir);
+    // 0x7100888294 (declared only): true when the player's _d30 equipment type is checked against type 1 (used
+    // by PlayerCutFall / PlayerSpAttack leave_ before x_7).
+    bool sub_7100888294();
+    // 0x7100888278: `if (_c40 & 0x10) { _c40 &= ~0x10; x_18(true); }` (declared only).
+    void sub_7100888278();
+    // 0x710088a854 (declared only): sets a flag byte at +0x30 of the object of vslot 0x310, clears _c40 bit 3,
+    // calls sub_7100888278() and a singleton method.
+    void sub_710088A854();
+    // 0x7100869814 (declared only): classifies the turn from angle `a` towards `b` (0-3; 2 = negative direction);
+    // the callers pass `mask & diff` and `mask & 0x20000000`.
+    u8 sub_7100869814(Unk1 a, Unk1 b);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
@@ -343,7 +354,8 @@ public:
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
     /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
-    /* 0x17f2 */ u8 _17f2[0x1800 - 0x17f2];
+    /* 0x17f2 */ bool _17f2;  // cleared by PlayerAtnWait::enter_
+    /* 0x17f3 */ u8 _17f3[0x1800 - 0x17f3];
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
     /* 0x1804 */ u8 _1804[0x1810 - 0x1804];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_

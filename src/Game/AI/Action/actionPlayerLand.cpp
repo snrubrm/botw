@@ -9,8 +9,6 @@ namespace uking::action {
 
 PlayerLand::PlayerLand(const InitArg& arg) : PlayerAction(arg) {}
 
-// NON_MATCHING: the stack slots of the x_5() result and of the angle index passed to sub_71011EE4B8 are
-// swapped (the original keeps the x_5() result in the lower slot and reads _1c74 after the call)
 void PlayerLand::enter_(ksys::act::ai::InlineParamPack* params) {
     const bool a = static_cast<ksys::act::Player*>(mActor)->m194();
     PlayerAction::enter_(params);
@@ -27,15 +25,16 @@ void PlayerLand::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getASList()->sub_710115EFD0(
         0, true, false, static_cast<ksys::act::Player*>(mActor)->get17d0()->getLeftStick().length());
 
-    auto* player = static_cast<ksys::act::Player*>(mActor);
-    if ((player->_c44.isOnBit(8) && !player->_d11) ||
-        ksys::act::playerIsReloadingOrChargingOrShootingBow(player)) {
-        player->getASList()->x_6(6, 0, 0.0f);
+    auto* current = static_cast<ksys::act::Player*>(mActor);
+    if ((current->_c44.isOnBit(8) && !current->_d11) ||
+        ksys::act::playerIsReloadingOrChargingOrShootingBow(current)) {
+        static_cast<ksys::act::Player*>(mActor)->getASList()->x_6(6, 0, 0.0f);
     } else {
+        auto* player = static_cast<ksys::act::Player*>(mActor);
         auto* as_list = player->getASList();
-        const u32 current = player->x_5().value;
-        const ksys::util::Unk_7101EC6BAC diff(ksys::util::sUnk_7101EC6BA0 & (player->_1c74 - current));
-        as_list->x_6(6, 0, ksys::util::sub_71011EE4B8(diff) * ksys::util::sUnk_7101EC6BA4);
+        as_list->x_6(6, 0,
+                     ksys::util::sub_71011EE4B8(ksys::util::angleDiff(player->_1c74, player->x_5())) *
+                         ksys::util::sUnk_7101EC6BA4);
     }
     mActor->getASList()->x_6(16, 0,
                              static_cast<ksys::act::Player*>(mActor)->_1770.y -

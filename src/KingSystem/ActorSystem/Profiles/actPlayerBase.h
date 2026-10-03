@@ -318,7 +318,12 @@ public:
 
 protected:
     /* 0xd1d */ u8 _d1d[0xd24 - 0xd1d];
+
+public:
+    // Public: read by PlayerCutFall / PlayerSpAttack leave_ (x_7 is called when it is 0).
     /* 0xd24 */ s32 _d24;
+
+protected:
     /* 0xd28 */ u8 _d28[0xd30 - 0xd28];
 
 public:

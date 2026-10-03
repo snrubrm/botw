@@ -153,6 +153,14 @@ struct Unk_7101EC6BAC {
 s32 sub_71011EE4B8(Unk_7101EC6BAC angle);
 
 extern const u32 sUnk_7101EC6BA0;
+
+/// inline-only in the original; name is a guess. Evidence: `mask & (target - current)` with `target` read after the
+/// call that produces `current` (a by-reference parameter) repeats in PlayerLadderToClimb::enter_,
+/// PlayerDestinationTurn::m33, PlayerGuidedMove::enter_, PlayerLand::enter_, PlayerSuperBlow::enter_, ...
+inline Unk_7101EC6BAC angleDiff(const u32& target, const Unk_7101EC6BAC& current) {
+    const u32 diff = target - current.value;
+    return Unk_7101EC6BAC(sUnk_7101EC6BA0 & diff);
+}
 extern const f32 sUnk_7101EC6BA4;
 extern const f32 sUnk_7101EC6BA8;
 extern const Unk_7101EC6BAC sUnk_7101EC6BAC;
