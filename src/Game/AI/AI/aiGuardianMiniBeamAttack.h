@@ -20,6 +20,11 @@ public:
 
     bool isChangeable() const override;
 
+    const sead::Vector3f* m35() override;
+    bool m38() override;
+    // New slot 46 (overridden by GuardianMiniBeamToExplosives): the position to aim at.
+    virtual bool m46(sead::Vector3f* out);
+
 protected:
     // static_param at offset 0x250
     sead::SafeString mHeadNodeName_s{};

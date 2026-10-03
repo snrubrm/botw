@@ -23,6 +23,27 @@ void GuardianMiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: the original tail-calls sub_71005D960C (it returns a pointer there; ours is declared
+// as returning a reference, which turns the tail call into bl + ret)
+const sead::Vector3f* GuardianMiniBeamAttack::m35() {
+    if (*mIsFinalBattle_s)
+        return &sub_71005D960C(mActor);
+    return &_2b8;
+}
+
+bool GuardianMiniBeamAttack::m38() {
+    if (*mAttackInterval_s >= 0)
+        return _2c4.value <= sead::Mathf::epsilon();
+    return BreathAttackEnemyBattle::m38();
+}
+
+bool GuardianMiniBeamAttack::m46(sead::Vector3f* out) {
+    if (!out)
+        return false;
+    *out = sub_71005D9330(mActor);
+    return true;
+}
+
 void GuardianMiniBeamAttack::leave_() {
     sub_71005DB498(mActor);
     MiniBeamAttack::leave_();

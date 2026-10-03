@@ -45,7 +45,11 @@ void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
 }
 
 void BreathAttackEnemyBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _90.deleteProc();
+    if (*mIsDeleteBreath_s) {
+        if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_a0.getProc(nullptr, nullptr)))
+            actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 void BreathAttackEnemyBattle::loadParams_() {

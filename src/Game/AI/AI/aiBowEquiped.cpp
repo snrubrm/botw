@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBowEquiped.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,12 @@ void BowEquiped::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BowEquiped::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_38.isAllocatedOrFailed())
+        _38.deleteProc();
+    if (auto* child = mActor->getConnectedCalcChild())
+        child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor))
+        weapon->_e50 &= ~0xc0;
 }
 
 bool BowEquiped::sub_710033788C() {

@@ -12,6 +12,16 @@ bool ChuchuNavMoveTarget::init_(sead::Heap* heap) {
 
 void ChuchuNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     NavMoveTarget::enter_(params);
+    const f32 half_time = *mWallHitTime_s * 0.5f;
+    if (half_time > 0)
+        _388._84 = half_time;
+    if (*mWallHitTime_s > 0)
+        _388._88 = *mWallHitTime_s;
+    _388._78 = _388._88;
+    _388._7c = 0;
+    _388._80 = 0;
+    _388._90.setUndef();
+    _388._8c = false;
 }
 
 void ChuchuNavMoveTarget::leave_() {

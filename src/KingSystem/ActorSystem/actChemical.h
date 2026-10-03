@@ -8,6 +8,14 @@
 
 namespace ksys::act {
 
+// Placeholder (lane1 s22): the object Chemical::_90 points to; only these two fields are read (ChmCheck).
+struct Unk_ChemicalData {
+    /* 0x00 */ u8 _0[0x12];
+    /* 0x12 */ u8 _12;
+    /* 0x13 */ u8 _13[0x7c - 0x13];
+    /* 0x7c */ f32 _7c;
+};
+
 // The object returned by Actor::getChemicalStuff() (Actor vtable slot 97): the chemistry state of
 // one actor element. Name from the existing forward declaration in actActor.h (placeholder).
 // ctor 0x7100d8e5ec, D1 0x7100d8e7c4, D0 0x7100d8e9b8, vtable 0x71024dd1e8 (getNodeClassType, D1,
@@ -67,7 +75,8 @@ public:
     /* 0x060 */ void* _60 = nullptr;  // chemical world object (methods 0x7100d9cb54, 0x7100d9a1c4, ...)
     /* 0x068 */ void* _68 = nullptr;
     // object with vtables 0x71024dd218 / 0x71024dd238 (D1 0x7100d8e968) and a 0x80-byte buffer
-    /* 0x070 */ u8 _70[0x98 - 0x70];
+    /* 0x070 */ u8 _70[0x90 - 0x70];
+    /* 0x090 */ Unk_ChemicalData* _90 = nullptr;  // read by ChmCheck (lane1 s22)
     /* 0x098 */ const char* _98;
     /* 0x0a0 */ u8 _a0 = 1;
     /* 0x0a1 */ u8 _a1 = 0;

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniBeamToExplosives.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -22,5 +24,16 @@ bool GuardianMiniBeamToExplosives::m39() {
 }
 
 void GuardianMiniBeamToExplosives::m42() {}
+
+bool GuardianMiniBeamToExplosives::m46(sead::Vector3f* out) {
+    if (!out)
+        return false;
+    if (!mTargetActor_d)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(*out);
+    return true;
+}
 
 }  // namespace uking::ai

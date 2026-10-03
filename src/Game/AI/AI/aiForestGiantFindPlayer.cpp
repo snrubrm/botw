@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiForestGiantFindPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -7,7 +8,10 @@ ForestGiantFindPlayer::ForestGiantFindPlayer(const InitArg& arg) : LargeEnemyFin
 ForestGiantFindPlayer::~ForestGiantFindPlayer() = default;
 
 bool ForestGiantFindPlayer::init_(sead::Heap* heap) {
-    return LargeEnemyFindPlayer::init_(heap);
+    if (!LargeEnemyFindPlayer::init_(heap))
+        return false;
+    sub_71005E2C58(mActor);
+    return true;
 }
 
 void ForestGiantFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {

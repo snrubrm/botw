@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiGanonReaction.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/Actor/actLastBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -20,6 +21,10 @@ void GanonReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GanonReaction::leave_() {
     EnemyDefaultReaction::leave_();
+    _63 = false;
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+        boss->_14f8._30.resetBit(7);
+    sub_7100739918(mActor);
 }
 
 void GanonReaction::loadParams_() {

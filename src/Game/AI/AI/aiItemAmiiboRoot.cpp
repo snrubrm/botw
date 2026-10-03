@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiItemAmiiboRoot.h"
+#include "Game/gameAmiiboMgr.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,11 @@ void ItemAmiiboRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ItemAmiiboRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (!isFinished() && !isFailed()) {
+        auto* mgr = AmiiboMgr::instance();
+        if (mgr->_2cc == 1)
+            mgr->_2cc = 3;
+    }
 }
 
 void ItemAmiiboRoot::loadParams_() {

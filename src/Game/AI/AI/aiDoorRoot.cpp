@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiDoorRoot.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,17 @@ bool DoorRoot::init_(sead::Heap* heap) {
 }
 
 void DoorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* awareness = mActor->getAwareness())
+        awareness->enable();
+    auto* actor = mActor;
+    if (*mIsOpenDoor_a) {
+        _e8 = ksys::Timer(*mCloseWaitFrame_s, *mCloseWaitFrame_s);
+        actor->getPhysics()->sub_7100FC012C(nullptr);
+    } else {
+        actor->getPhysics()->sub_7100FC01B0();
+        ksys::act::enableAttClient(actor, "Open");
+    }
+    changeChild("Wait");
 }
 
 void DoorRoot::leave_() {

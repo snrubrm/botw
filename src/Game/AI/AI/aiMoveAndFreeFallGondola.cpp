@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMoveAndFreeFallGondola.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -18,7 +20,24 @@ void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
     RailMove::enter_(params);
 }
 
+// NON_MATCHING: the original calls `_40.m3()` through the vtable (not devirtualized) and ours calls
+// Unk_71024f15c0::m3 directly (the call probably sits in an inline member of the rail follower)
+void MoveAndFreeFallGondola::calc_() {
+    RailMove::calc_();
+    if (!isCurrentChild("停止") && _40.m3()) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr));
+        _c0.sub_710070DC38(actor, false);
+        changeChild("停止");
+    }
+}
+
 void MoveAndFreeFallGondola::m34() {}
+
+ksys::map::Rail* MoveAndFreeFallGondola::m36() {
+    if (sub_7100EEF034(mActor, 0))
+        return RailMove::m36();
+    return _f0;
+}
 
 f32 MoveAndFreeFallGondola::m35() {
     return *mRailMoveSpeed_m;
