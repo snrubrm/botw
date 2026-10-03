@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::act {
+class Bullet;
+}
+
 namespace uking::ai {
 
 class LandingChemicalBall : public ksys::act::ai::Ai {
@@ -38,7 +42,7 @@ protected:
     const bool* mCheckColConInfo_s{};
     // static_param at offset 0x70
     sead::SafeString mExpandActorName_s{};
-    ksys::act::Actor* _80{};
+    ksys::act::Bullet* _80{};
 };
 
 }  // namespace uking::ai
