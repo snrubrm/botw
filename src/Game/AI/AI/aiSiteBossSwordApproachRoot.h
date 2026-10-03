@@ -52,7 +52,7 @@ protected:
     sead::Vector3f _90;  // AfterImage0Pos
     sead::Vector3f _9c;  // AfterImage1Pos
     sead::Vector3f _a8;  // MoveDstPos
-    u8 _b4[0xc0 - 0xb4];
+    sead::Vector3f _b4;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossSwordApproachRoot, 0xc0);
 
