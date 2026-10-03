@@ -14,7 +14,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_710039760C();
+    void changeToLift();
+    // 0x7100397db4 (placeholder name): the lift target position (the shoot item's previous position, else the
+    // actor's forward point).
+    sead::Vector3f sub_7100397DB4();
 
 protected:
     // static_param at offset 0x38
