@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710048cebc (placeholder name; declared only): finds the position to back step to (writes `out`).
+    bool sub_710048CEBC(sead::Vector3f* out);
+
 protected:
     // static_param at offset 0x38
     const float* mMoveDistMin_s{};
