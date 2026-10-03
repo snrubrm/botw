@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -44,6 +45,14 @@ void LynelRecognizeTarget::loadParams_() {
     getMapUnitParam(&mIsNearCreate_m, "IsNearCreate");
     getAITreeVariable(&mLynelAIFlags_a, "LynelAIFlags");
     getAITreeVariable(&mLynelAreaAlarmPoint_a, "LynelAreaAlarmPoint");
+}
+
+void LynelRecognizeTarget::sub_710049708C() {
+    sead::Vector3f pos;
+    mActor->getHomePos(&pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("帰還", &pack);
 }
 
 }  // namespace uking::ai

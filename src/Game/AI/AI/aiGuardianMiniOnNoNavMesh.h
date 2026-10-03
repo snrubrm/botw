@@ -15,14 +15,16 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710041e07c (placeholder name)
+    void sub_710041E07C();
 
 protected:
     // static_param at offset 0x38
     const int* mChangeToIceTimer_s{};
     ksys::act::BaseProcLink _40;
     ksys::Timer _50{0, 0};
-    bool _5c{};
-    bool _5d{};
+    // 0x5c / 0x5d: two flag bytes (the original sets bit 0 of the u16)
+    u16 _5c{};
 };
 
 }  // namespace uking::ai

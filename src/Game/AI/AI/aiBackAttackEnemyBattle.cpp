@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBackAttackEnemyBattle.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageCallback.h"
 
@@ -44,6 +45,13 @@ void BackAttackEnemyBattle::calc_() {
         sub_7100381ED4();
         m37();
     }
+}
+
+void BackAttackEnemyBattle::sub_710032611C() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("背面攻撃", &pack);
+    setDamageCallbackTiming(mActor, 4, &_98);
 }
 
 }  // namespace uking::ai

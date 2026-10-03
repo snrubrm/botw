@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyRangeKeepSwimMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 

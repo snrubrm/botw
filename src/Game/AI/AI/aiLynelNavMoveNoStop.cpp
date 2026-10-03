@@ -72,4 +72,16 @@ bool LynelNavMoveNoStop::m35() {
     return false;
 }
 
+void LynelNavMoveNoStop::sub_71004925C0() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("直進", &pack);
+}
+
+void LynelNavMoveNoStop::sub_7100492D10() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
+}
+
 }  // namespace uking::ai

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianMiniOnNoNavMesh.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,14 @@ void GuardianMiniOnNoNavMesh::leave_() {
 
 void GuardianMiniOnNoNavMesh::loadParams_() {
     getStaticParam(&mChangeToIceTimer_s, "ChangeToIceTimer");
+}
+
+void GuardianMiniOnNoNavMesh::sub_710041E07C() {
+    _5c |= 1;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("アイスメーカー上", &pack);
 }
 
 }  // namespace uking::ai

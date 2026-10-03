@@ -13,6 +13,7 @@ public:
     bool isChangeable() const override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
