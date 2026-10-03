@@ -199,6 +199,18 @@ bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
     return true;
 }
 
+bool sub_71005DA5AC(ksys::act::Actor* actor, int idx) {
+    if (idx < 0)
+        return false;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return false;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+    if (!weapon)
+        return false;
+    return weapon->sub_71002E9A50();
+}
+
 bool sub_71005DA114(ksys::act::Actor* actor, uking::dmg::DamageCallback* callback) {
     if (!callback->mDamageManager)
         return false;

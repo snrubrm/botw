@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x238
     const float* mChangeDistance_s{};
     // map_unit_param at offset 0x240

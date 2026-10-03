@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAssassinRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,15 @@ bool AssassinRoot::init_(sead::Heap* heap) {
 
 void AssassinRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     NPCRoot::enter_(params);
+}
+
+void AssassinRoot::calc_() {
+    NPCRoot::calc_();
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    if (auto* mgr = ksys::map::AutoPlacementMgr::instance()) {
+        if (mgr->isNonAutoPlacement(pos, true) && mgr->auto0(pos, 0))
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_1, ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 bool AssassinRoot::hasPreDeleteCb() {

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLandHumEnemyFindPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -10,7 +12,23 @@ LandHumEnemyFindPlayer::LandHumEnemyFindPlayer(const InitArg& arg) : EnemyBaseFi
 LandHumEnemyFindPlayer::~LandHumEnemyFindPlayer() = default;
 
 void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBaseFindPlayer::enter_(params);
+    _1e0 = false;
+    if (mActor->get68f().load() || sub_71005D91A0(mActor, *mNoBurnWaterDepth_s))
+        _1d8 = 1.0f;
+    else
+        _1d8 = 0.0f;
+    _1e1 = sub_71005DA5AC(mActor, m53());
+    if (!sub_710046096C()) {
+        EnemyBaseFindPlayer::enter_(params);
+        return;
+    }
+
+    const bool is_enemy = ksys::act::isEnemyProfile(&_1c8);
+    sub_710037E9A4();
+    if (is_enemy)
+        sub_7100460EE8();
+    else
+        sub_7100461020();
 }
 
 void LandHumEnemyFindPlayer::leave_() {

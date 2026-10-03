@@ -24,6 +24,11 @@ public:
     bool m43() override;
     virtual s32 m53() { return *mWeaponIdx_s; }
 
+    // 0x710046096c / 0x7100460ee8 / 0x7100461020 (not decompiled; used by enter_)
+    bool sub_710046096C();
+    void sub_7100460EE8();
+    void sub_7100461020();
+
 protected:
     // static_param at offset 0x140
     const int* mThrowWeaponPer_s{};

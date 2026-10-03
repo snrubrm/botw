@@ -47,6 +47,12 @@ ksys::act::BaseProcLink* sub_71005D9050(ksys::act::Actor* actor);
 ksys::act::BaseProcLink& sub_71005D94AC(ksys::act::Actor* actor);
 /// Whether the Enemy has a target (link has a proc).
 bool sub_71005D8F28(ksys::act::Actor* actor);
+/// 0x71005d91a0 (declared only; lane1 s21): checks the actor (an Enemy) against `value` (a depth /
+/// distance; LandHumEnemyFindPlayer::enter_ passes NoBurnWaterDepth).
+bool sub_71005D91A0(ksys::act::Actor* actor, f32 value);
+/// 0x71005da5ac (lane1 s21): whether the weapon in slot `idx` (0 - 5) of the actor's ActorWeapons is
+/// a Weapon whose chemical is in state 2 (Weapon::sub_71002E9A50); false otherwise.
+bool sub_71005DA5AC(ksys::act::Actor* actor, int idx);
 // 0x71005d8d4c (declared only): forwards to the object at Actor+0x548 (slot 8 -> slot 9 with
 // `value` and `a2`; if `a3`, also slot 10 with (true, true)). AlertNearbyEnemies: noise level.
 void sub_71005D8D4C(ksys::act::Actor* actor, f32 value, bool a2, bool a3);

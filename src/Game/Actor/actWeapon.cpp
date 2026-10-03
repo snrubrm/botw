@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -473,6 +474,11 @@ bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorCon
 }
 
 // NON_MATCHING: the two address computations for the BaseProcLink assignment are swapped
+bool Weapon::sub_71002E9A50() {
+    auto* chemical = getChemicalStuff();
+    return chemical && chemical->_c0 == 2;
+}
+
 void Weapon::sub_71002EDA38(const Unk_71002eda38& arg) {
     auto lock = sead::makeScopedLock(_ab8);
     _af8._0 = arg._0;

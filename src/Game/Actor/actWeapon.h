@@ -188,6 +188,8 @@ KSYS_CHECK_SIZE_NX150(Unk_71002edaec, 0x2c);
 class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
+    // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
+    bool sub_71002E9A50();
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
