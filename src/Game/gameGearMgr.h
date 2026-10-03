@@ -61,7 +61,10 @@ public:
     // Two entries (current one: `_28`); bit 0 is read by DgnObj_DLC_CWRotDirSwitch::calc_ from the other
     // entry, bit 2 is set / cleared by sub_71006698B0.
     u32 _10a8[2];
-    u8 _10b0[0x1108 - 0x10b0];
+    u8 _10b0[0x10c0 - 0x10b0];
+    // Read by DgnObj_DLC_CogWheel_Physics_Ctr::sub_710035ED38 (> 0.6 enables its collision).
+    f32 _10c0;
+    u8 _10c4[0x1108 - 0x10c4];
 };
 KSYS_CHECK_SIZE_NX150(GearMgr, 0x1108);
 
