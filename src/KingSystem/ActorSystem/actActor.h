@@ -131,6 +131,18 @@ struct ActorUniqueName {
 };
 KSYS_CHECK_SIZE_NX150(ActorUniqueName, 0x30);
 
+// Placeholder node of the singly linked list at Actor +0x5b0 (freed one by one by ~Actor).
+struct ActorUnk5b0Node {
+    void* _0;
+    ActorUnk5b0Node* mNext;
+};
+
+// 0x7102650684 (GOT 0x2581820; zeroed by the actor TU's static initializer): a global flag word that
+// switches parts of the actor system off. Bit 0: Actor::job1_1 skips x_10 / x_11 / x_12; bit 1: cleared by
+// NPCTalk / OpenMessageDialogBase (enter_ / calc_); bit 4: no dual heaps (initHeapsAndParams does not create
+// them, finalizeInit_ / ~Actor do not release them). Name is a guess.
+extern sead::BitFlag32 sActorDebugFlagsMaybe;
+
 class Actor : public BaseProc, public ActorMessageTransceiver::IHandler {
 public:
     enum class StasisFlag {
@@ -726,7 +738,7 @@ protected:
     /* 0x598 */ LodState* _598 = nullptr;  // created by Actor::makeField598 (0x710124b050)
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
     /* 0x5a8 */ phys::StaticCompoundRigidBodyGroup* mFieldBodyGroup = nullptr;
-    /* 0x5b0 */ void* _5b0 = nullptr;
+    /* 0x5b0 */ ActorUnk5b0Node* _5b0 = nullptr;
     /* 0x5b8 */ sead::Heap* mDualHeap = nullptr;   // TODO: rename
     /* 0x5c0 */ sead::Heap* mDualHeap2 = nullptr;  // TODO: rename
     /* 0x5c8 */ sead::Heap* mHeap = nullptr;       // TODO: rename

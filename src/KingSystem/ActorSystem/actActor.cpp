@@ -8,6 +8,8 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -48,7 +50,33 @@ Actor::Actor(const CreateArg& arg) : BaseProc(arg) {
 }
 
 Actor::~Actor() {
-    // FIXME
+    if (mCreator)
+        mCreator->eraseActor(this);
+    if (mPhysics) {
+        delete mPhysics;
+        mPhysics = nullptr;
+    }
+    if (mActorParam) {
+        ActorParamMgr::instance()->unloadParam(mActorParam);
+        mActorParam = nullptr;
+    }
+    while (_5b0) {
+        auto* node = _5b0;
+        _5b0 = node->mNext;
+        delete node;
+    }
+    if (mDualHeap2) {
+        mDualHeap2->destroy();
+        mDualHeap2 = nullptr;
+    }
+    if (!sActorDebugFlagsMaybe.isOnBit(4)) {
+        if (mDualHeap) {
+            mDualHeap->destroy();
+            mDualHeap = nullptr;
+        }
+    }
+    if (mMsgTransceiver.checkReceiverFlag())
+        mMsgTransceiver.isWaitingForAck();
 }
 
 bool Actor::sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
