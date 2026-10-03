@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEquipedDefaultWindWeapon.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,8 +31,30 @@ void EquipedDefaultWindWeapon::loadParams_() {
     getStaticParam(&mWindFlyingDistRate3_s, "WindFlyingDistRate3");
 }
 
+// NON_MATCHING: the original tests `(type | 2) == 2` first and `type != 2` afterwards; clang folds
+// them here and tests `type == 2` first
 void EquipedDefaultWindWeapon::calc_() {
     EquipedAction::calc_();
+
+    bool trigger = false;
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        if (weapon->_c4c) {
+            const s32 type = weapon->_c20._0;
+            if ((type | 2) == 2) {
+                if (type != 2 && !weapon->_d09)
+                    trigger = true;
+            }
+        }
+    }
+    if (!trigger) {
+        auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+        if (weapon && weapon->_af8._0 == 9)
+            trigger = true;
+    }
+    if (trigger) {
+        m36(true);
+        m37();
+    }
 }
 
 }  // namespace uking::action

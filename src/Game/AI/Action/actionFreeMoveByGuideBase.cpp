@@ -18,6 +18,21 @@ void FreeMoveByGuideBase::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
+bool FreeMoveByGuideBase::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!ksys::act::ai::Action::reenter_(other, true))
+        return false;
+    auto* prev = sead::DynamicCast<FreeMoveByGuideBase>(other);
+    if (!prev)
+        return false;
+    _78 = prev->_78;
+    _84 = prev->_84;
+    _90 = prev->_90;
+    _9c = prev->_9c;
+    _a8 = prev->_a8;
+    _b4 = prev->_b4;
+    return true;
+}
+
 void FreeMoveByGuideBase::loadParams_() {
     getStaticParam(&mRotateAngleMax_s, "RotateAngleMax");
     getStaticParam(&mMaxAngleAcc_s, "MaxAngleAcc");

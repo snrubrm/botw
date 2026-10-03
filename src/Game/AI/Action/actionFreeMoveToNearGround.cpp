@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionFreeMoveToNearGround.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -39,6 +42,22 @@ void FreeMoveToNearGround::calc_() {
 
 f32 FreeMoveToNearGround::m36() {
     return _f8;
+}
+
+void FreeMoveToNearGround::m37(f32 speed, ksys::phys::CharacterController* controller) {
+    FreeMoveToTarget::m37(speed, controller);
+    if (controller && *mReduceSpeedRateWithWind_s < 1.0f) {
+        if (auto* chemical = mActor->getChemicalStuff()) {
+            const f32 limit =
+                *mWindVelocityLimit4Reduce_s > 0.0f ? *mWindVelocityLimit4Reduce_s : 0.01f;
+            const sead::Vector3f& wind =
+                (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_e4;
+            const f32 rate = sead::Mathf::clamp(wind.length(), 0.0f, limit) / limit;
+            const f32 target = rate * (*mReduceSpeedRateWithWind_s - 1.0f) + 1.0f;
+            _ec.lerp(target, 0.22f);
+            controller->sub_7100F5E7F0(_34.value * _ec.value);
+        }
+    }
 }
 
 }  // namespace uking::action

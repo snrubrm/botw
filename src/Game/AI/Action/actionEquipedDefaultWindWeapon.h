@@ -15,6 +15,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m36(bool x);
+    virtual void m37();
 
     sead::Heap* _40{};
     // static_param at offset 0x48

@@ -217,7 +217,9 @@ public:
     /* 0xbe0 */ sead::CriticalSection _be0;
     /* 0xc20 */ Unk_71002edaec _c20;
     /* 0xc4c */ bool _c4c = false;
-    /* 0xc50 */ u8 _c50[0xd54 - 0xc50];  // TODO
+    /* 0xc4d */ u8 _c4d[0xd09 - 0xc4d];  // TODO
+    /* 0xd09 */ bool _d09;
+    /* 0xd0a */ u8 _d0a[0xd54 - 0xd0a];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
     /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
     /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
