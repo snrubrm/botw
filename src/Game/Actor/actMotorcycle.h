@@ -4,15 +4,34 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <thread/seadCriticalSection.h>
+#include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace ksys::phys {
+class Constraint;
 class RigidBody;
 }
 
 namespace uking::act {
 
 class Unk_7100e8b2b8;
+struct MotorcycleStruct0;
+
+// Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710006c824, size 0x1b0): a wheel of
+// the motorcycle (two instances, Motorcycle +0xdd0 and +0xdd8). Not decompiled yet.
+struct MotorcycleStruct2 {
+    /* 0x000 */ ksys::phys::RigidBody* _0;
+    /* 0x008 */ ksys::phys::RigidBody* _8;
+    /* 0x010 */ MotorcycleStruct0* _10;
+    /* 0x018 */ u8 _18[0x110 - 0x18];
+    /* 0x110 */ s32 _110;
+    /* 0x114 */ u8 _114[0x148 - 0x114];
+    /* 0x148 */ ksys::phys::Constraint* _148;
+    /* 0x150 */ ksys::phys::Constraint* _150;
+    /* 0x158 */ u8 _158[0x1b0 - 0x158];
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
 
 // Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710007027c, size 0x430, at Motorcycle +
 // 0x11b0): the model bones of the motorcycle (looked up by Motorcycle::searchModelHandles).
@@ -130,13 +149,14 @@ public:
     // Not declared yet: x_4 0x710007a708 (the main body transform's y axis), x_2 0x710007f894 (takes a
     // SEAD_ENUM: compares the s32 at +0x110 of _dd0 / _dd8), x_1 / x_9 / x_0 ... (see the CSV).
 
-    /* 0x0b90 */ u8 _b90[0xb9c - 0xb90];
-    /* 0x0b9c */ u8 _b9c[0xbb4 - 0xb9c];  // left stick X / Y (motorcycleStickControlStuff objects at 0xb9c / 0xba8)
+    /* 0x0b90 */ Unk_71002c8918 _b90;
+    /* 0x0b9c */ Unk_7100e72ac0 _b9c;  // left stick X
+    /* 0x0ba8 */ Unk_7100e72ac0 _ba8;  // left stick Y
     /* 0x0bb4 */ f32 _bb4;
     /* 0x0bb8 */ ksys::phys::RigidBody* _bb8;
     /* 0x0bc0 */ u8 _bc0[0xdd0 - 0xbc0];  // incl. MotorcycleStruct0 at 0xbc8
-    /* 0x0dd0 */ void* _dd0;
-    /* 0x0dd8 */ void* _dd8;
+    /* 0x0dd0 */ MotorcycleStruct2* _dd0;
+    /* 0x0dd8 */ MotorcycleStruct2* _dd8;
     /* 0x0de0 */ u8 _de0[0xdf0 - 0xde0];
     /* 0x0df0 */ u64 _df0;
     /* 0x0df8 */ u8 _df8[0xe00 - 0xdf8];
@@ -146,11 +166,17 @@ public:
     /* 0x0e40 */ f32 _e40;
     /* 0x0e44 */ u8 _e44[0xf10 - 0xe44];
     /* 0x0f10 */ s32 _f10;
-    /* 0x0f14 */ u8 _f14[0xf88 - 0xf14];
+    /* 0x0f14 */ u8 _f14[0xf70 - 0xf14];
+    /* 0x0f70 */ sead::Vector3f _f70;
+    /* 0x0f7c */ u8 _f7c[0xf80 - 0xf7c];
+    /* 0x0f80 */ bool _f80;
+    /* 0x0f81 */ u8 _f81[0xf88 - 0xf81];
     /* 0x0f88 */ sead::BitFlag64 _f88;
     /* 0x0f90 */ u8 _f90[0x10a4 - 0xf90];
     /* 0x10a4 */ s32 _10a4;
-    /* 0x10a8 */ u8 _10a8[0x112c - 0x10a8];
+    /* 0x10a8 */ u8 _10a8[0x10e8 - 0x10a8];
+    /* 0x10e8 */ sead::CriticalSection _10e8;
+    /* 0x1128 */ bool _1128;
     /* 0x112c */ f32 _112c;
     /* 0x1130 */ u8 _1130[0x11b0 - 0x1130];
     /* 0x11b0 */ MotorcycleStruct1 _11b0;

@@ -34,6 +34,7 @@ target_sources(uking PRIVATE
   actLastBoss.h
   actMotorcycle.cpp
   actMotorcycle.h
+  actMotorcycleStickControl.h
   actNPC.cpp
   actNPC.h
   actNPCBase.cpp
@@ -66,6 +67,8 @@ target_sources(uking PRIVATE
   actUnk_7100d3cd74.cpp
   actUnk_7100d3cd74.h
   actUnk_7100e7f25c.cpp
+  actUnk_71002c8918.cpp
+  actUnk_7100e72ac0.cpp
   actUnk_7100e8b2b8.cpp
   actUnk_71025ae680.h
   actWeapon.cpp

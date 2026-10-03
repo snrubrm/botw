@@ -1,5 +1,7 @@
 #include "Game/Actor/actMotorcycle.h"
 #include <basis/seadNew.h>
+#include <math/seadMathCalcCommon.h>
+#include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -90,6 +92,91 @@ void Motorcycle::x_11() {
 
 void Motorcycle::x_5() {
     _f88.set(0x800000);
+}
+
+void Motorcycle::setLeftStickX(f32 x) {
+    _b90.sub_71002C8918(x);
+    _b9c.motorcycleStickControlStuff(x);
+    _bb4 = x;
+}
+
+void Motorcycle::setLeftStickY(f32 y) {
+    _ba8.motorcycleStickControlStuff(y);
+}
+
+void Motorcycle::sub_7100077830() {
+    if (_f88.isOnBit(20))
+        return;
+    _f88.set(0x100000);
+    _bb8->changeMotionType(ksys::phys::MotionType::Fixed);
+    _dd0->_0->changeMotionType(ksys::phys::MotionType::Fixed);
+    _dd8->_0->changeMotionType(ksys::phys::MotionType::Fixed);
+}
+
+void Motorcycle::sub_7100072204() {
+    if (!_f88.isOnBit(20))
+        return;
+    _f88.reset(0x100000);
+    _bb8->changeMotionType(ksys::phys::MotionType::Dynamic);
+    _dd0->_0->changeMotionType(ksys::phys::MotionType::Dynamic);
+    _dd8->_0->changeMotionType(ksys::phys::MotionType::Dynamic);
+}
+
+void Motorcycle::sub_710007A798(const sead::Vector3f& direction) {
+    _f88.set(0x10000000);
+    _f70.x = direction.x;
+    _f70.y = direction.y;
+    _f70.z = direction.z;
+    if (_f70.y != 0.0f) {
+        _f70.y = 0.0f;
+        _f70.normalize();
+    }
+}
+
+f32 Motorcycle::sub_710007A4A8() const {
+    if (_f88.isOnAll(0x2000020000))
+        return 0.0f;
+    return _e4c;
+}
+
+bool Motorcycle::sub_710007A6E8() const {
+    return _f88.isOnBit(25) && _f88.isOn(0x300);
+}
+
+void Motorcycle::sub_710007A74C(f32 value) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_10e8);
+    _1128 = true;
+    _112c = value;
+}
+
+void Motorcycle::sub_710007A928() {
+    _f88.set(0x100000000000);
+    x_7();
+}
+
+void Motorcycle::sub_710007A938() {
+    _f88.reset(0x100000000000);
+    x_7();
+}
+
+f32 Motorcycle::sub_710007A958() const {
+    return sead::Mathf::clamp(_e74 / 42.5f, -1.0f, 1.0f) * 20.0f;
+}
+
+f32 Motorcycle::sub_710007A994() const {
+    return sead::Mathf::clamp(_e78 / -45.0f, -1.0f, 1.0f);
+}
+
+f32 Motorcycle::sub_710007ABA4() const {
+    if (_f10 == 1 || _f10 == 3)
+        return _ba8._8;
+    return 0.0f;
+}
+
+sead::Vector3f Motorcycle::sub_710007F868() const {
+    sead::Vector3f center;
+    _bb8->getCenterOfMassInWorld(&center);
+    return center;
 }
 
 void Motorcycle::setAccelMaybe(f32 accel) {
