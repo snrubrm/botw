@@ -54,9 +54,9 @@ void TrolleyRoot::loadParams_() {
     getStaticParam(&mNearGoalReduceRate_s, "NearGoalReduceRate");
 }
 
-bool TrolleyRoot::handleMessage_(const ksys::Message& message) {
+bool TrolleyRoot::handleMessage_(const ksys::Message* message) {
     if (!_70._30)
-        _70.m2(message);
+        _70.m2(*message);
     return false;
 }
 

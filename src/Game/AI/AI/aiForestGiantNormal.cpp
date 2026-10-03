@@ -33,12 +33,12 @@ void ForestGiantNormal::loadParams_() {
     getStaticParam(&mSleepingHearAwnRatio_s, "SleepingHearAwnRatio");
 }
 
-bool ForestGiantNormal::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000015) {
+bool ForestGiantNormal::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000015) {
         _3d8 = false;
         return false;
     }
-    if (message.getType() == 0x3000016) {
+    if (message->getType() == 0x3000016) {
         _3d8 = true;
         return false;
     }

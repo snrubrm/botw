@@ -39,11 +39,11 @@ void SwitchRightAndWrong::calc_() {
     SwitchAI::calc_();
 }
 
-bool SwitchRightAndWrong::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x800007f)
+bool SwitchRightAndWrong::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x800007f)
         _45 = true;
 
-    if (message.getType() == 0x8000080 && !isCurrentChild("オフ待機")) {
+    if (message->getType() == 0x8000080 && !isCurrentChild("オフ待機")) {
         _46 = true;
         return true;
     }

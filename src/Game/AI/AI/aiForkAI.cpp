@@ -101,31 +101,31 @@ bool ForkAI::isChangeable() const {
     return true;
 }
 
-bool ForkAI::handleMessage_(const ksys::Message& message) {
+bool ForkAI::handleMessage_(const ksys::Message* message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
     for (int i = 0; i < num_children - 1; ++i)
-        ok |= getChild(i)->handleMessage(message);
+        ok |= getChild(i)->handleMessage(*message);
 
     if (!ok)
         return false;
 
-    getChild(num_children - 1)->handleMessage(message);
+    getChild(num_children - 1)->handleMessage(*message);
     return true;
 }
 
-bool ForkAI::handleAck_(const ksys::MessageAck& message) {
+bool ForkAI::handleAck_(const ksys::MessageAck* message) {
     const int num_children = getNumChildren();
 
     bool ok = false;
     for (int i = 0; i < num_children - 1; ++i)
-        ok |= getChild(i)->handleAck(message);
+        ok |= getChild(i)->handleAck(*message);
 
     if (!ok)
         return false;
 
-    getChild(num_children - 1)->handleAck(message);
+    getChild(num_children - 1)->handleAck(*message);
     return true;
 }
 

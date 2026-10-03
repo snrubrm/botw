@@ -30,8 +30,8 @@ void WillBallOperated::loadParams_() {
     getStaticParam(&mParams.mIsAttackedTimeAffect_s, "IsAttackedTimeAffect");
 }
 
-bool WillBallOperated::handleMessage_(const ksys::Message& message) {
-    if (_78._30 || !_78.m2(message))
+bool WillBallOperated::handleMessage_(const ksys::Message* message) {
+    if (_78._30 || !_78.m2(*message))
         return false;
 
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);

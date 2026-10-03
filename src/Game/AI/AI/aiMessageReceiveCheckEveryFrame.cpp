@@ -34,8 +34,8 @@ bool MessageReceiveCheckEveryFrame::m35() {
     return !m34();
 }
 
-bool MessageReceiveCheckEveryFrame::handleMessage_(const ksys::Message& message) {
-    if (*mMsgType_s == 0 && message.getType() == 0x3000009) {
+bool MessageReceiveCheckEveryFrame::handleMessage_(const ksys::Message* message) {
+    if (*mMsgType_s == 0 && message->getType() == 0x3000009) {
         _38 = true;
         return true;
     }

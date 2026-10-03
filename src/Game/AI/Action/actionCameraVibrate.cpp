@@ -44,9 +44,9 @@ void CameraVibrate::calc_() {
 
 void CameraVibrate::m32() {}
 
-bool CameraVibrate::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x2000001)
-        _64 = *static_cast<const int*>(message.getUserData());
+bool CameraVibrate::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x2000001)
+        _64 = *static_cast<const int*>(message->getUserData());
     return true;
 }
 

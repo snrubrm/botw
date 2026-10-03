@@ -16,7 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual void m34(const sead::Vector3f& a1, bool a2, const char* child_name);
     virtual void m35();

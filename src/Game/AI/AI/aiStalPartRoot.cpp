@@ -40,8 +40,8 @@ void StalPartRoot::loadParams_() {
     getStaticParam(&mInvincibleTime_s, "InvincibleTime");
 }
 
-bool StalPartRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003)
+bool StalPartRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
         sub_71005A8A8C(false);
     return false;
 }

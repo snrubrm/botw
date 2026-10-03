@@ -42,8 +42,8 @@ void HiddenKorokRoot::leave_() {
         _82 = false;
 }
 
-bool HiddenKorokRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x1800010)
+bool HiddenKorokRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x1800010)
         return false;
 
     if (auto* schedule = mActor->getSchedule())

@@ -643,7 +643,7 @@ void WolfLinkNormalRoot::leave_() {
 }
 
 // NON_MATCHING: regalloc (w8/w9 swapped around the timer index computation)
-bool WolfLinkNormalRoot::handleMessage_(const ksys::Message& message) {
+bool WolfLinkNormalRoot::handleMessage_(const ksys::Message* message) {
     bool reset;
     switch (_1a8) {
     case 0:
@@ -660,22 +660,22 @@ bool WolfLinkNormalRoot::handleMessage_(const ksys::Message& message) {
         break;
     }
 
-    if (_88.m2(message)) {
+    if (_88.m2(*message)) {
         if (reset)
             _88.x();
         return true;
     }
-    if (_c8.m2(message)) {
+    if (_c8.m2(*message)) {
         if (reset)
             _c8.x();
         return true;
     }
-    if (_108.m2(message)) {
+    if (_108.m2(*message)) {
         if (reset)
             _108.x();
         return true;
     }
-    if (!_140.m2(message))
+    if (!_140.m2(*message))
         return false;
 
     if (reset) {

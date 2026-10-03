@@ -284,11 +284,11 @@ void PreyRoot::sub_7100504ED0() {
     mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
 }
 
-bool PreyRoot::handleMessage_(const ksys::Message& message) {
+bool PreyRoot::handleMessage_(const ksys::Message* message) {
     if (!isCurrentChild("所持")) {
         auto* actor = mActor;
         if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) && !_148._30 &&
-            _148.m2(message)) {
+            _148.m2(*message)) {
             _148.sub_710070B5A0(actor);
             return true;
         }

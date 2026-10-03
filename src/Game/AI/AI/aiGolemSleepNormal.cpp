@@ -39,10 +39,10 @@ void GolemSleepNormal::leave_() {
     sub_7100708FF0(mActor, 200.0f);
 }
 
-bool GolemSleepNormal::handleAck_(const ksys::MessageAck& ack) {
-    if (_a8.sub_710070E070(ack))
+bool GolemSleepNormal::handleAck_(const ksys::MessageAck* ack) {
+    if (_a8.sub_710070E070(*ack))
         return true;
-    return _90.sub_710070E070(ack);
+    return _90.sub_710070E070(*ack);
 }
 
 void GolemSleepNormal::m34() {

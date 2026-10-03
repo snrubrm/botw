@@ -18,8 +18,8 @@ public:
     bool isFailed() const override;
     bool isFinished() const override;
     bool isChangeable() const override;
-    bool handleMessage_(const ksys::Message& message) override;
-    bool handleAck_(const ksys::MessageAck& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* message) override;
     void getCurrentName(sead::BufferedSafeString* name, ActionBase* last) const override;
     void getNames(sead::BufferedSafeString* out) const override;
 };

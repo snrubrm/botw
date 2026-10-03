@@ -65,8 +65,8 @@ void GyroActivateTerminal::leave_() {
 
 void GyroActivateTerminal::loadParams_() {}
 
-bool GyroActivateTerminal::handleMessage_(const ksys::Message& message) {
-    if (isCurrentChild("待機") && _38.m2(message))
+bool GyroActivateTerminal::handleMessage_(const ksys::Message* message) {
+    if (isCurrentChild("待機") && _38.m2(*message))
         return true;
     return false;
 }

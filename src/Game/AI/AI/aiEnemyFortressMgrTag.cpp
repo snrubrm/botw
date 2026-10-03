@@ -70,15 +70,15 @@ void EnemyFortressMgrTag::loadParams_() {
     getAITreeVariable(&mRegistedActorUnit_a, "RegistedActorUnit");
 }
 
-bool EnemyFortressMgrTag::handleMessage_(const ksys::Message& message) {
-    const auto type = message.getType();
+bool EnemyFortressMgrTag::handleMessage_(const ksys::Message* message) {
+    const auto type = message->getType();
     if (type == 0x8000006 || type == 0x8000017 || type == 0x80000c0)
-        _50._8.sub_71006F0734(message.getType(), message.getUserData());
-    return _50._8.sub_71006F0448(message);
+        _50._8.sub_71006F0734(message->getType(), message->getUserData());
+    return _50._8.sub_71006F0448(*message);
 }
 
-bool EnemyFortressMgrTag::handleAck_(const ksys::MessageAck& ack) {
-    return _50._8.sub_71006F0604(ack);
+bool EnemyFortressMgrTag::handleAck_(const ksys::MessageAck* ack) {
+    return _50._8.sub_71006F0604(*ack);
 }
 
 }  // namespace uking::ai

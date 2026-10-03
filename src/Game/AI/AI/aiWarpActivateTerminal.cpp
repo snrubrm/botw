@@ -62,7 +62,7 @@ bool WarpActivateTerminal::sub_71005EABF4() {
 }
 
 // NON_MATCHING: the original turns the listener result into a branch (tbz/orr/mov) instead of `and #1`
-bool WarpActivateTerminal::handleMessage_(const ksys::Message& message) {
+bool WarpActivateTerminal::handleMessage_(const ksys::Message* message) {
     if (*mIsRejectMsgForRemains_s && sub_71005EABF4())
         return true;
 
@@ -76,7 +76,7 @@ bool WarpActivateTerminal::handleMessage_(const ksys::Message& message) {
             return false;
     }
 
-    return _68.sub_710070A674(message);
+    return _68.sub_710070A674(*message);
 }
 
 }  // namespace uking::ai

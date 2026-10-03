@@ -41,7 +41,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void m35(ksys::act::Actor* actor, ksys::act::Actor* ball) override;
     void m36(ksys::act::Actor* ball) override;

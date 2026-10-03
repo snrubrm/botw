@@ -58,8 +58,8 @@ void RemainsWaterBattleRoot::sub_7100545B8C() {
     }
 }
 
-bool RemainsWaterBattleRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x8000069)
+bool RemainsWaterBattleRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x8000069)
         return false;
 
     _b9 = true;

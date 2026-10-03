@@ -34,8 +34,8 @@ void WillBallRoot::loadParams_() {
 
 // NON_MATCHING: block layout only (the original shares one `return false` block between the early exits and
 // branches back to it; ours duplicates it)
-bool WillBallRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000007) {
+bool WillBallRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000007) {
         mActor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
         return true;
     }
@@ -45,7 +45,7 @@ bool WillBallRoot::handleMessage_(const ksys::Message& message) {
             return false;
         if (auto* grab = mActor->m128(); grab && grab->m2())
             return false;
-        if (!_90.m2(message))
+        if (!_90.m2(*message))
             return false;
         if (_90._38._48 == 2 || _90._38._48 == 3) {
             _90.x();
@@ -53,7 +53,7 @@ bool WillBallRoot::handleMessage_(const ksys::Message& message) {
         }
         return true;
     }
-    return _120.m2(message);
+    return _120.m2(*message);
 }
 
 }  // namespace uking::ai

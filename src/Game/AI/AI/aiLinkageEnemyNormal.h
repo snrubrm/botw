@@ -18,7 +18,7 @@ public:
     void m49(Unk1* out, s32 idx) override;
     void m50(Unk1* out, s32 idx) override;
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void sub_71004839A4(const ksys::act::BaseProcLink& link);
 

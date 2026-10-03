@@ -88,7 +88,7 @@ void WolfLinkRoot::leave_() {
 
 void WolfLinkRoot::loadParams_() {}
 
-bool WolfLinkRoot::handleMessage_(const ksys::Message& message) {
+bool WolfLinkRoot::handleMessage_(const ksys::Message* message) {
     return false;
 }
 

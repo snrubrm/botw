@@ -36,9 +36,9 @@ void NewMannequinRoot::calc_() {
     child->isChangeable();
 }
 
-bool NewMannequinRoot::handleMessage_(const ksys::Message& message) {
+bool NewMannequinRoot::handleMessage_(const ksys::Message* message) {
     if (isCurrentChild("装備あり"))
-        return handleItemPickedMessageMaybe(message, &_48, mActor, nullptr);
+        return handleItemPickedMessageMaybe(*message, &_48, mActor, nullptr);
     return false;
 }
 

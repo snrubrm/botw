@@ -26,7 +26,7 @@ public:
     void m48(sead::Vector3f* pos) override;
     void m49(Unk1* out, s32 idx) override;
     void m50(Unk1* out, s32 idx) override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool m68(Unk2* out, Unk1* info) override { return false; }
     // 0x7100453518 (placeholder name)

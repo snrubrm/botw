@@ -25,7 +25,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // 0x71004dc9b8 (not decompiled)
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
     // 0x71004dcba8 (not decompiled): forwards mActor to the unnamed 0x71007132e4.
     void onPreDelete() override;
 

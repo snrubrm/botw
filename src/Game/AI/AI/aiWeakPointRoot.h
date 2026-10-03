@@ -32,7 +32,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual s32 m34(dmg::DamageManagerBase* mgr);
     virtual s32 m35(dmg::DamageManagerBase* mgr);

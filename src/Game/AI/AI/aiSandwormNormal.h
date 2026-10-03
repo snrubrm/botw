@@ -16,7 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool m43() override;
     bool m44(const sead::Vector3f& pos) override;

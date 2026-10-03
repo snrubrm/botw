@@ -33,8 +33,8 @@ void GuardianMiniBlownOff::loadParams_() {
     getStaticParam(&mRotNeckSpeed_s, "RotNeckSpeed");
 }
 
-bool GuardianMiniBlownOff::handleMessage_(const ksys::Message& message) {
-    if (_50.m2(message) && _50._34._10) {
+bool GuardianMiniBlownOff::handleMessage_(const ksys::Message* message) {
+    if (_50.m2(*message) && _50._34._10) {
         setFinished();
         return true;
     }

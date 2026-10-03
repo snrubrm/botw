@@ -16,8 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
     void sub_71003DD74C();
     // 0x71003ddbbc (placeholder name)

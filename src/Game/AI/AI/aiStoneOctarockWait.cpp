@@ -54,8 +54,8 @@ void StoneOctarockWait::loadParams_() {
     getStaticParam(&mParams.mNoticeTerrorLevel_s, "NoticeTerrorLevel");
 }
 
-bool StoneOctarockWait::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 &&
+bool StoneOctarockWait::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 &&
         (isCurrentChild("ガード開始") || isCurrentChild("高速ガード開始"))) {
         _48._24 = false;
     }

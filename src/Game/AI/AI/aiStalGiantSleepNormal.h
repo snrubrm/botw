@@ -18,7 +18,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // Unnamed in the binary (0x71005a5464 / 0x71005a5e58): switch the actor into / out of the sleeping state.
     void sub_71005A5464();

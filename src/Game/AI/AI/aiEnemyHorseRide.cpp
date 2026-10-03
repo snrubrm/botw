@@ -26,8 +26,8 @@ void EnemyHorseRide::loadParams_() {
     getStaticParam(&mLowerBodyASSlot_s, "LowerBodyASSlot");
 }
 
-bool EnemyHorseRide::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003)
+bool EnemyHorseRide::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
         m34();
     return false;
 }

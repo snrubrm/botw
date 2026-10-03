@@ -23,7 +23,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool m4(ksys::act::BaseProc* proc) override;
     bool m5(ksys::act::BaseProc* proc) override;

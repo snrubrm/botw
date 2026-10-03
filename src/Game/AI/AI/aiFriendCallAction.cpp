@@ -30,16 +30,16 @@ void FriendCallAction::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-bool FriendCallAction::handleMessage_(const ksys::Message& message) {
-    _90.m2(message);
+bool FriendCallAction::handleMessage_(const ksys::Message* message) {
+    _90.m2(*message);
     if (*mTargetActor_d == _90._8)
         return true;
     _90.x();
     return false;
 }
 
-bool FriendCallAction::handleAck_(const ksys::MessageAck& ack) {
-    return _60.sub_710070E070(ack);
+bool FriendCallAction::handleAck_(const ksys::MessageAck* ack) {
+    return _60.sub_710070E070(*ack);
 }
 
 void FriendCallAction::sub_71003DD74C() {

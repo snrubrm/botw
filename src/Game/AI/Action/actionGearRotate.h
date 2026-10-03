@@ -23,7 +23,7 @@ public:
 
 protected:
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // static_param at offset 0x20
     const float* mStopCheckSpdRate_s{};

@@ -45,7 +45,7 @@ public:
     // inline: the CameraEventMovePos / CameraEventMovePosFlow destructors inline it.
     ~CameraEventMovePosBase() override = default;
 
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     void m43() override;

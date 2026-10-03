@@ -14,7 +14,7 @@ public:
     explicit CameraEventAnimBase(const InitArg& arg);
     ~CameraEventAnimBase() override = default;
 
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     bool m39() override { return false; }

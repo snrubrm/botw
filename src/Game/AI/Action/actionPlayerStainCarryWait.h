@@ -12,7 +12,7 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
     bool isChangeable() const override;
 
 protected:

@@ -37,10 +37,10 @@ void CameraRumbleLoop::loadParams_() {
 }
 
 // NON_MATCHING: the original null-checks &message (cbz) before getType()
-bool CameraRumbleLoop::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != ksys::MessageType(0x2000001))
+bool CameraRumbleLoop::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != ksys::MessageType(0x2000001))
         return false;
-    if (const auto* id = static_cast<const s32*>(message.getUserData()))
+    if (const auto* id = static_cast<const s32*>(message->getUserData()))
         *mCamVibId_a = *id;
     return true;
 }

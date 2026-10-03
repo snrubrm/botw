@@ -30,8 +30,8 @@ void DoChangeOneTime::leave_() {
 
 void DoChangeOneTime::loadParams_() {}
 
-bool DoChangeOneTime::handleMessage_(const ksys::Message& message) {
-    return _38.sub_710070A674(message);
+bool DoChangeOneTime::handleMessage_(const ksys::Message* message) {
+    return _38.sub_710070A674(*message);
 }
 
 void DoChangeOneTime::calc_() {

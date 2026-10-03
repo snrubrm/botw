@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     void handlePendingChildChange_() override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
     void sub_7100540FE4();
 

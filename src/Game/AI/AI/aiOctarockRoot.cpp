@@ -46,8 +46,8 @@ void OctarockRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 // NON_MATCHING: regalloc (the original recomputes `this + 0x300` for the link copy instead of keeping it in a register)
-bool OctarockRoot::handleMessage_(const ksys::Message& message) {
-    if (_2c8.m2(message)) {
+bool OctarockRoot::handleMessage_(const ksys::Message* message) {
+    if (_2c8.m2(*message)) {
         _368.mLink = _2c8._38.mLink;
         _2c8.x();
         _318 = true;

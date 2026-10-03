@@ -31,7 +31,7 @@ void EnemyFortressChatTurnBase::calc_() {
 
 void EnemyFortressChatTurnBase::m32() {}
 
-bool EnemyFortressChatTurnBase::handleMessage_(const ksys::Message& message) {
+bool EnemyFortressChatTurnBase::handleMessage_(const ksys::Message* message) {
     return false;
 }
 

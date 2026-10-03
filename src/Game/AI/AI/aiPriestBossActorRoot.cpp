@@ -26,7 +26,7 @@ void PriestBossActorRoot::loadParams_() {
     PriestBossMode::loadParams_();
 }
 
-bool PriestBossActorRoot::handleMessage_(const ksys::Message& message) {
+bool PriestBossActorRoot::handleMessage_(const ksys::Message* message) {
     return false;
 }
 

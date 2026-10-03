@@ -164,13 +164,13 @@ bool SiteBossReflectArrowRoot::m48() {
 }
 
 // NON_MATCHING: the original null-checks the message reference
-bool SiteBossReflectArrowRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getBrokerId() != u32(-1) || message.getType() != 0x8000057)
+bool SiteBossReflectArrowRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getBrokerId() != u32(-1) || message->getType() != 0x8000057)
         return false;
 
-    if (!message.getUserData())
+    if (!message->getUserData())
         return false;
-    const s32 idx = *static_cast<s32*>(message.getUserData());
+    const s32 idx = *static_cast<s32*>(message->getUserData());
     if (idx >= 0 && idx <= 20)
         _488[idx] = true;
     return true;

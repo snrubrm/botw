@@ -145,8 +145,8 @@ void DragonRoot::loadParams_() {
     getAITreeVariable(&mCreateRailName_a, "CreateRailName");
 }
 
-bool DragonRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000010) {
+bool DragonRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000010) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
         return true;
     }

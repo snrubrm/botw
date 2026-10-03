@@ -103,18 +103,18 @@ void RemainsFireDroneNormal::broadcastToLinkedActorMaybe() {
         _d0.sub_710070DD78(accessor, true);
 }
 
-bool RemainsFireDroneNormal::handleMessage_(const ksys::Message& message) {
+bool RemainsFireDroneNormal::handleMessage_(const ksys::Message* message) {
     if (isCurrentChild("警報")) {
-        if (_1d0.m2(message))
+        if (_1d0.m2(*message))
             return true;
-    } else if (_158.m2(message)) {
+    } else if (_158.m2(*message)) {
         return true;
     }
     return false;
 }
 
-bool RemainsFireDroneNormal::handleAck_(const ksys::MessageAck& ack) {
-    if (!_d0.sub_710070E070(ack))
+bool RemainsFireDroneNormal::handleAck_(const ksys::MessageAck* ack) {
+    if (!_d0.sub_710070E070(*ack))
         return false;
     if (_d0._14)
         _208 = true;

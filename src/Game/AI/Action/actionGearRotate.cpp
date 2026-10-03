@@ -72,8 +72,8 @@ void GearRotate::loadParams_() {
     getMapUnitParam(&mRotateSpeed_m, "RotateSpeed");
 }
 
-bool GearRotate::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003)
+bool GearRotate::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
         mActor->emitBasicSigOff();
     return false;
 }

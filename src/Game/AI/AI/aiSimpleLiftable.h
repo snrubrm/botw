@@ -13,7 +13,7 @@ public:
     ~SimpleLiftable() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
     void calc_() override;
 
     virtual void m34();

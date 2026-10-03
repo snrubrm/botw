@@ -41,9 +41,9 @@ void BeeSwarmNormal::loadParams_() {
     EnemyNormal::loadParams_();
 }
 
-bool BeeSwarmNormal::handleMessage_(const ksys::Message& message) {
+bool BeeSwarmNormal::handleMessage_(const ksys::Message* message) {
     const bool had_message = _3d8._30;
-    if (_3d8.m2(message)) {
+    if (_3d8.m2(*message)) {
         _450 = _3d8._38._2c;
         if (!had_message)
             sub_71005D8DE8(mActor, _3d8._38._0, nullptr, nullptr);

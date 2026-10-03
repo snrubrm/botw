@@ -35,8 +35,8 @@ void DgnObj_DLC_SliderBlock::calc_() {
 
 // NON_MATCHING: the original checks the message pointer for null (`cbz x1`); clang folds the check
 // on a reference.
-bool DgnObj_DLC_SliderBlock::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003) {
+bool DgnObj_DLC_SliderBlock::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003) {
         if (auto* body = mActor->getMainBody()) {
             body->setMaxLinearVelocity(1.0f);
             body->setMaxAngularVelocity(1.0f);

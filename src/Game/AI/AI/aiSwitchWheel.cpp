@@ -104,8 +104,8 @@ void SwitchWheel::loadParams_() {
     getMapUnitParam(&mRotAxis_m, "RotAxis");
 }
 
-bool SwitchWheel::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 && !isCurrentChild("待機")) {
+bool SwitchWheel::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 && !isCurrentChild("待機")) {
         changeChild("待機");
         return true;
     }

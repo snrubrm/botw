@@ -53,15 +53,15 @@ void DgnObj_DLC_CogWheel_Physics_Ctr::sub_710035ED38() {
 }
 
 // NON_MATCHING: the original null-checks the message reference (`cbz x1`).
-bool DgnObj_DLC_CogWheel_Physics_Ctr::handleMessage_(const ksys::Message& message) {
+bool DgnObj_DLC_CogWheel_Physics_Ctr::handleMessage_(const ksys::Message* message) {
     if (!GearMgr::instance())
         return false;
-    if (message.getType() == 0x3000003) {
+    if (message->getType() == 0x3000003) {
         if (!isCurrentChild("無効")) {
             mActor->emitBasicSigOff();
             changeChild("無効");
         }
-    } else if (message.getType() == 0x3000004) {
+    } else if (message->getType() == 0x3000004) {
         if (!isCurrentChild("atk有効")) {
             mActor->emitBasicSigOn();
             changeChild("atk有効");

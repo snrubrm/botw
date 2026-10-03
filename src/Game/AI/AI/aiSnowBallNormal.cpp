@@ -38,8 +38,8 @@ void SnowBallNormal::loadParams_() {
     getStaticParam(&mMinImpulseRatio_s, "MinImpulseRatio");
 }
 
-bool SnowBallNormal::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000009 && !isCurrentChild("壊れる")) {
+bool SnowBallNormal::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000009 && !isCurrentChild("壊れる")) {
         changeChild("壊れる");
         return true;
     }

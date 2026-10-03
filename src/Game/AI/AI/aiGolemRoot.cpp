@@ -38,15 +38,15 @@ void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     }
 }
 
-bool GolemRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 || message.getType() == 0x3000004) {
+bool GolemRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 || message->getType() == 0x3000004) {
         if (auto* parts = mActor->m101()) {
             auto& link = parts->getActorPartsActor("WeakPoint");
             if (link.hasProc()) {
                 ksys::act::ActorConstDataAccess accessor;
                 ksys::act::acquireActor(&link, &accessor);
                 mActor->sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
-                                                      message.getType(), nullptr, true);
+                                                      message->getType(), nullptr, true);
             }
         }
     }

@@ -30,10 +30,10 @@ void RememberMesOneActorEnemyRoot::leave_() {
     EnemyRoot::leave_();
 }
 
-bool RememberMesOneActorEnemyRoot::handleMessage_(const ksys::Message& message) {
+bool RememberMesOneActorEnemyRoot::handleMessage_(const ksys::Message* message) {
     if (EnemyRoot::handleMessage_(message))
         return true;
-    if (_1e8.m2(message)) {
+    if (_1e8.m2(*message)) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
             enemy->sub_7100D3D1E0(mRememberKey_s, _1e8._38.mLink);
         return true;

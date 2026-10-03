@@ -74,10 +74,10 @@ void AssassinMiddleAzitoNoMemberDemo::loadParams_() {
     getStaticParam(&mDelayTimeMax_s, "DelayTimeMax");
 }
 
-bool AssassinMiddleAzitoNoMemberDemo::handleMessage_(const ksys::Message& message) {
+bool AssassinMiddleAzitoNoMemberDemo::handleMessage_(const ksys::Message* message) {
     if (!isCurrentChild("待機") || _48._30)
         return false;
-    return _48.m2(message);
+    return _48.m2(*message);
 }
 
 void AssassinMiddleAzitoNoMemberDemo::sub_710031E040() {

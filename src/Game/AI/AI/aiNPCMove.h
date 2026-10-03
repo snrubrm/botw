@@ -18,8 +18,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
     // 0x71004d36a0: changes to the "振り返る" child (target rotation `rot`, the current position and the AS name
     // `_120[11]` when `_61` / `_62` is set, "Turn" otherwise).

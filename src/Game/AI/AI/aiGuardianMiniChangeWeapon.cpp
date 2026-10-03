@@ -51,8 +51,8 @@ bool GuardianMiniChangeWeapon::isFinished() const {
            (isCurrentChild("切替終了") && getCurrentChild()->isFinished());
 }
 
-bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message& message) {
-    if (_a8.m2(message) && _a8._34._10) {
+bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message* message) {
+    if (_a8.m2(*message) && _a8._34._10) {
         _a8.x();
         sub_710041AAD4();
         return true;

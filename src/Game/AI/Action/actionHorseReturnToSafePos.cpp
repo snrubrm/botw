@@ -39,8 +39,8 @@ void HorseReturnToSafePos::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-bool HorseReturnToSafePos::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x3000010)
+bool HorseReturnToSafePos::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x3000010)
         return false;
     _40 = 0;
     return true;

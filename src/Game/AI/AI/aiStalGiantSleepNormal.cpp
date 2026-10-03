@@ -107,10 +107,10 @@ bool StalGiantSleepNormal::isChangeable() const {
     return isCurrentChild("待機");
 }
 
-bool StalGiantSleepNormal::handleMessage_(const ksys::Message& message) {
+bool StalGiantSleepNormal::handleMessage_(const ksys::Message* message) {
     if (isCurrentChild("退散") || _60._30)
         return false;
-    return _60.m2(message);
+    return _60.m2(*message);
 }
 
 }  // namespace uking::ai

@@ -60,8 +60,8 @@ void HorseRideMoveTo::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-bool HorseRideMoveTo::handleMessage_(const ksys::Message& message) {
-    return _60.m2(message) || _98.m2(message);
+bool HorseRideMoveTo::handleMessage_(const ksys::Message* message) {
+    return _60.m2(*message) || _98.m2(*message);
 }
 
 }  // namespace uking::ai

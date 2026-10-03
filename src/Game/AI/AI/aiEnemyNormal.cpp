@@ -495,8 +495,8 @@ bool EnemyNormal::m45(const sead::Vector3f& target_pos, ksys::act::BaseProcLink&
 
 // NON_MATCHING: register allocation (the address of _308's link is kept in a callee-saved register
 // across the lock instead of being recomputed for sub_71002DC628)
-bool EnemyNormal::handleMessage_(const ksys::Message& message) {
-    if (_308.m2(message)) {
+bool EnemyNormal::handleMessage_(const ksys::Message* message) {
+    if (_308.m2(*message)) {
         if (auto* unk = sub_71005D9D68(mActor))
             unk->sub_71002DC628(_308._38.mLink, 0x40);
         _308.x();
@@ -506,7 +506,7 @@ bool EnemyNormal::handleMessage_(const ksys::Message& message) {
     if (_188._30 || m73())
         return false;
 
-    if (_188.m2(message)) {
+    if (_188.m2(*message)) {
         sead::Vector3f center;
         m48(&center);
         if (m45(_188._38.mData._28, _188._38.mData._0, false)) {
@@ -529,7 +529,7 @@ bool EnemyNormal::handleMessage_(const ksys::Message& message) {
         return !(_188._38.mData._34 & 2);
     }
 
-    if (!_200._30 && _200.m2(message)) {
+    if (!_200._30 && _200.m2(*message)) {
         if (_188._30)
             return true;
         _368 = sead::GlobalRandom::instance()->getF32Range(8.0f, 20.0f);
@@ -543,7 +543,7 @@ bool EnemyNormal::handleMessage_(const ksys::Message& message) {
     }
 
     if (mActor->getParam()->getRes().mGParamList->getEnemy()->mIsMindFriend.ref() && !_290._30 &&
-        _290.m2(message)) {
+        _290.m2(*message)) {
         if (_188._30)
             return true;
         if (_200._30)

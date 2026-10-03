@@ -47,11 +47,11 @@ void DoorRoot::loadParams_() {
     getAITreeVariable(&mIsOpenToInside_a, "IsOpenToInside");
 }
 
-bool DoorRoot::handleMessage_(const ksys::Message& message) {
+bool DoorRoot::handleMessage_(const ksys::Message* message) {
     if (_a8._30)
         return false;
     if (isCurrentChild("Wait") && !*mIsOpenDoor_a)
-        return _a8.m2(message);
+        return _a8.m2(*message);
     return false;
 }
 

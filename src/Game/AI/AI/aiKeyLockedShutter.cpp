@@ -48,9 +48,9 @@ void KeyLockedShutter::calc_() {
 
 void KeyLockedShutter::loadParams_() {}
 
-bool KeyLockedShutter::handleMessage_(const ksys::Message& message) {
+bool KeyLockedShutter::handleMessage_(const ksys::Message* message) {
     if (isCurrentChild("クローズ待機") &&
-        ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName()) >= 1 && _38.m2(message)) {
+        ksys::gdt::getSmallKeyNum(GameScene::getCurrentMapName()) >= 1 && _38.m2(*message)) {
         return true;
     }
     return false;

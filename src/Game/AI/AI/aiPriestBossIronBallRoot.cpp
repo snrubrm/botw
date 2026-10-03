@@ -79,8 +79,8 @@ void PriestBossIronBallRoot::loadParams_() {
 
 // NON_MATCHING: the Flag temporaries of the first two branches get their own stack slots, and mActor
 // is loaded after the payload lock (lane2 log: inline-helper forms)
-bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000007) {
+bool PriestBossIronBallRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000007) {
         _80.setBit(Flag(Flag::_8));
         if (mActor->getConnectedCalcChild())
             mActor->resetConnectedCalcChild(false);
@@ -94,7 +94,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         return true;
     }
 
-    if (message.getType() == 0x3000003) {
+    if (message->getType() == 0x3000003) {
         if (auto* body = mActor->getMainBody(); body && _268 > 0)
             body->setMass(_268 * 5.0f);
         m35();
@@ -106,7 +106,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         return true;
     }
 
-    if (message.getType() == 0x3000004) {
+    if (message->getType() == 0x3000004) {
         if (!_80.isOnBit(Flag(Flag::_0)) || mActor->getConnectedCalcChild()) {
             if (!_80.isOnBit(Flag(Flag::_6))) {
                 if (_80.isOnBit(Flag(Flag::_7))) {
@@ -139,7 +139,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         }
     }
 
-    if (_170.m2(message)) {
+    if (_170.m2(*message)) {
         switch (_170._38._0) {
         case 1:
             if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40))
@@ -160,7 +160,7 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
             return false;
         if (auto* unk = mActor->m128(); unk && unk->m2())
             return false;
-        if (!_90.m2(message))
+        if (!_90.m2(*message))
             return false;
         if ((_90._38._48 & ~1) != 2)
             return true;
@@ -168,9 +168,9 @@ bool PriestBossIronBallRoot::handleMessage_(const ksys::Message& message) {
         return false;
     }
 
-    if (_120.m2(message))
+    if (_120.m2(*message))
         return true;
-    if (_90.m2(message) && _90._38._48 == 0)
+    if (_90.m2(*message) && _90._38._48 == 0)
         return true;
     return false;
 }

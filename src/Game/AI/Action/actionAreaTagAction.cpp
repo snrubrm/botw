@@ -12,8 +12,8 @@ void AreaTagAction::calc_() {
     sub_7100E282AC();
 }
 
-bool AreaTagAction::handleMessage_(const ksys::Message& message) {
-    return sub_7100E289C0(&message);
+bool AreaTagAction::handleMessage_(const ksys::Message* message) {
+    return sub_7100E289C0(message);
 }
 
 }  // namespace uking::action

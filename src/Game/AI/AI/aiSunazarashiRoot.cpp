@@ -64,11 +64,11 @@ void SunazarashiRoot::loadParams_() {
     getAITreeVariable(&mSunazarashiReturnPos_a, "SunazarashiReturnPos");
 }
 
-bool SunazarashiRoot::handleMessage_(const ksys::Message& message) {
+bool SunazarashiRoot::handleMessage_(const ksys::Message* message) {
     if (!isCurrentChild("牽引")) {
         if (_238._30)
             return false;
-        if (_238.m2(message))
+        if (_238.m2(*message))
             return true;
     }
     return PreyRoot::handleMessage_(message);

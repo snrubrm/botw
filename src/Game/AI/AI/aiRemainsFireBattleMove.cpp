@@ -105,8 +105,8 @@ void RemainsFireBattleMove::sub_7100540FE4() {
 
 void RemainsFireBattleMove::loadParams_() {}
 
-bool RemainsFireBattleMove::handleAck_(const ksys::MessageAck& ack) {
-    if (!_50.sub_710070E070(ack))
+bool RemainsFireBattleMove::handleAck_(const ksys::MessageAck* ack) {
+    if (!_50.sub_710070E070(*ack))
         return false;
     if (_50._14)
         _80 = true;

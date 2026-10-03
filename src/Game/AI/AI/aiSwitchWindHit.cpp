@@ -31,8 +31,8 @@ void SwitchWindHit::loadParams_() {
     getStaticParam(&mWaitTime_s, "WaitTime");
 }
 
-bool SwitchWindHit::handleMessage_(const ksys::Message& message) {
-    if (!isCurrentChild("オフ待機") && message.getType() == 0x8000080) {
+bool SwitchWindHit::handleMessage_(const ksys::Message* message) {
+    if (!isCurrentChild("オフ待機") && message->getType() == 0x8000080) {
         _46 = true;
         return true;
     }

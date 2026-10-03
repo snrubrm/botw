@@ -170,9 +170,9 @@ void YunBoCannon::sendMatrixMessage(const sead::Matrix34f& mtx, u32 type, bool a
 }
 
 // NON_MATCHING: the shared `mStateFlags = mStateFlags & 0xff98` / store tail is merged differently (one extra strh)
-bool YunBoCannon::handleMessage_(const ksys::Message& message) {
+bool YunBoCannon::handleMessage_(const ksys::Message* message) {
     auto* actor = mActor;
-    switch (message.getType()) {
+    switch (message->getType()) {
     case 0x800005e:
         if (mStateFlags & 0x40) {
             mStateFlags |= 1;

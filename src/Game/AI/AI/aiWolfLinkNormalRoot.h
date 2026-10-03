@@ -45,7 +45,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     // The behaviour state (_1a8: current, _1ac: pending); 16 values, names unknown (no text in the

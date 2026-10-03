@@ -60,15 +60,15 @@ void PreyNormal::m9() {
     _180 = (root && root->getI() == 4) || *mIsLocatorCreate_m;
 }
 
-bool PreyNormal::handleMessage_(const ksys::Message& message) {
+bool PreyNormal::handleMessage_(const ksys::Message* message) {
     if (!_1f8._30 &&
         !mActor->getActorFlags2().isAnyOn({ksys::act::Actor::ActorFlag2::_2000000,
                                            ksys::act::Actor::ActorFlag2::_8000000}) &&
-        _1f8.m2(message)) {
+        _1f8.m2(*message)) {
         return true;
     }
     if (!_2c0._30 && !mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_8000000) &&
-        _2c0.m2(message)) {
+        _2c0.m2(*message)) {
         return true;
     }
     return false;

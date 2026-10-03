@@ -23,8 +23,8 @@ public:
     void loadParams_() override;
 
     void sub_710051C210();
-    bool handleMessage_(const ksys::Message& message) override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
 protected:
     // static_param at offset 0x40

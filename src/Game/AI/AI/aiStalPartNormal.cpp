@@ -34,9 +34,9 @@ void StalPartNormal::loadParams_() {
     getStaticParam(&mParams.mTgtOffset_s, "TgtOffset");
 }
 
-bool StalPartNormal::handleMessage_(const ksys::Message& message) {
+bool StalPartNormal::handleMessage_(const ksys::Message* message) {
     if (_e8 <= sead::Mathf::epsilon() && !_68._30 && !isCurrentChild("行動禁止") &&
-        _68.m2(message)) {
+        _68.m2(*message)) {
         if (_58 == _68._38.mLink)
             _68.x();
         return true;

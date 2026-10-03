@@ -68,8 +68,8 @@ void DragonItemRoot::loadParams_() {
     getAITreeVariable(&mIsInsideObserverArea_a, "IsInsideObserverArea");
 }
 
-bool DragonItemRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000009) {
+bool DragonItemRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000009) {
         *mIsInsideObserverArea_a = true;
         return true;
     }

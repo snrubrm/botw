@@ -27,8 +27,8 @@ void MiniGolemSleep::loadParams_() {
     getAITreeVariable(&mGolemChemicalController_a, "GolemChemicalController");
 }
 
-bool MiniGolemSleep::handleMessage_(const ksys::Message& message) {
-    return _68.m2(message);
+bool MiniGolemSleep::handleMessage_(const ksys::Message* message) {
+    return _68.m2(*message);
 }
 
 bool MiniGolemSleep::m36() {

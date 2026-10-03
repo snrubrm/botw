@@ -37,13 +37,13 @@ void ZoraHeroRelicBattleRidePlayer::loadParams_() {
     getAITreeVariable(&mZoraHeroShowMsgUnit_a, "ZoraHeroShowMsgUnit");
 }
 
-bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message& message) {
-    if (!_70._30 && _70.m2(message)) {
+bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message* message) {
+    if (!_70._30 && _70.m2(*message)) {
         sub_7100614194(_70._38.mLink);
         _70.x();
         return true;
     }
-    if (message.getType() == 0x800006a) {
+    if (message->getType() == 0x800006a) {
         _c0 = true;
         return true;
     }

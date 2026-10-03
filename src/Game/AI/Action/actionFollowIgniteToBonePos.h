@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     sead::Vector3f sub_710005B104();
 

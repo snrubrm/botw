@@ -31,20 +31,20 @@ void StalEnemyRoot::leave_() {
     sub_71005DA114(mActor, &_38);
 }
 
-bool StalEnemyRoot::handleMessage_(const ksys::Message& message) {
-    if (!isCurrentChild("所持") && _100.m2(message))
+bool StalEnemyRoot::handleMessage_(const ksys::Message* message) {
+    if (!isCurrentChild("所持") && _100.m2(*message))
         return true;
 
     auto* actor = mActor;
     if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) && !_150._30 &&
         ksys::act::isAttClientEnabled(actor, "Grab")) {
-        if (!isCurrentChild("所持") && !isCurrentChild("拾い合体") && _150.m2(message)) {
+        if (!isCurrentChild("所持") && !isCurrentChild("拾い合体") && _150.m2(*message)) {
             _150.sub_710070B5A0(actor);
             return true;
         }
     }
 
-    if (message.getType() == 0x3000007) {
+    if (message->getType() == 0x3000007) {
         _2e0 = true;
         return true;
     }

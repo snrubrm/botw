@@ -38,7 +38,7 @@ public:
     void loadParams_() override;
     void calc_() override;
     // 0x710031f404: not decompiled (calls the unnamed ksys::evt::Manager function 0x7100db0ca0).
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void m49(Unk1* out, s32 idx) override;
     s32 m52(s32 idx) override;

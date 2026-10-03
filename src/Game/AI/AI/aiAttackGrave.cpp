@@ -26,10 +26,10 @@ void AttackGrave::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("先行動", &pack);
 }
 
-bool AttackGrave::handleMessage_(const ksys::Message& message) {
-    if (_38.m2(message))
+bool AttackGrave::handleMessage_(const ksys::Message* message) {
+    if (_38.m2(*message))
         return true;
-    if (_70.m2(message)) {
+    if (_70.m2(*message)) {
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
         return true;
     }

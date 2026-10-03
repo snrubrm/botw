@@ -76,15 +76,15 @@ void FixableLiftable::m38() {
     _d8 = mActor->getScale().x;
 }
 
-bool FixableLiftable::handleMessage_(const ksys::Message& message) {
+bool FixableLiftable::handleMessage_(const ksys::Message* message) {
     auto* actor = mActor;
     bool is_fixed_hit = false;
-    if (message.getType() == 0x3000004) {
+    if (message->getType() == 0x3000004) {
         if (auto* damage_mgr = sub_710072BA90(actor))
             is_fixed_hit = damage_mgr->sub_71006D8534() > 0;
     }
 
-    const auto& type = message.getType();
+    const auto& type = message->getType();
     if (is_fixed_hit || type == 0x3000014) {
         if (auto* body = actor->getMainBody()) {
             if (auto* main_body = mActor->getMainBody()) {

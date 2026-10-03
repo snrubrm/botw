@@ -40,9 +40,9 @@ void SleepBedRoot::calc_() {
         child->isChangeable();
 }
 
-bool SleepBedRoot::handleMessage_(const ksys::Message& message) {
+bool SleepBedRoot::handleMessage_(const ksys::Message* message) {
     if (!_38._30 && isCurrentChild("Wait"))
-        return _38.m2(message);
+        return _38.m2(*message);
     return false;
 }
 

@@ -34,8 +34,8 @@ void MasterSwordBase100EnemyRoot::loadParams_() {
     getStaticParam(&mKillAttentionWaitFrame_s, "KillAttentionWaitFrame");
 }
 
-bool MasterSwordBase100EnemyRoot::handleMessage_(const ksys::Message& message) {
-    return _40.sub_710070A674(message);
+bool MasterSwordBase100EnemyRoot::handleMessage_(const ksys::Message* message) {
+    return _40.sub_710070A674(*message);
 }
 
 }  // namespace uking::ai

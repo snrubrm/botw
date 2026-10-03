@@ -23,8 +23,8 @@ public:
     void loadParams_() override;
     void m34() override;
     f32 m35() override;
-    bool handleMessage_(const ksys::Message& message) override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
     // Unnamed in the binary (0x71005420f4): changes to the "停止" child with the home position as stop target.
     void stopAtHomeMaybe();

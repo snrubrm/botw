@@ -32,8 +32,8 @@ void GambleTreasureBoxRoot::loadParams_() {
     getAITreeVariable(&mDropActorName_a, "DropActorName");
 }
 
-bool GambleTreasureBoxRoot::handleMessage_(const ksys::Message& message) {
-    if (isCurrentChild("クローズ待機") && _48.m2(message))
+bool GambleTreasureBoxRoot::handleMessage_(const ksys::Message* message) {
+    if (isCurrentChild("クローズ待機") && _48.m2(*message))
         return true;
     return false;
 }
