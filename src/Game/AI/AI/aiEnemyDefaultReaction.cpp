@@ -1,8 +1,10 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -74,6 +76,36 @@ void EnemyDefaultReaction::m42(ksys::act::ai::InlineParamPack* params) {
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
     sub_710073DE08(mActor);
     changeChild("死亡", params);
+}
+
+bool EnemyDefaultReaction::m45() {
+    auto* actor = mActor;
+    auto* damage_mgr = actor->getDamageMgr();
+    if (damage_mgr) {
+        const s32 field54 = damage_mgr->getField54();
+        switch (field54) {
+        case 0x1d:
+        case 0x1e:
+        case 0x1f:
+        case 0x20:
+        case 0x22:
+            return true;
+        default:
+            break;
+        }
+        if (auto* damage_mgr2 = sead::DynamicCast<dmg::DamageManager>(damage_mgr)) {
+            if (damage_mgr2->sub_71006D8534() > 0)
+                return false;
+        }
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+            if (enemy->_e84.isOnBit(0) && !damage_mgr->checkDamageFlags(8)) {
+                if (!sub_7100736BD8(field54) && field54 != 0x17)
+                    return false;
+            }
+        }
+    }
+    auto* life = actor->getLife();
+    return life && *life < 1;
 }
 
 void EnemyDefaultReaction::m43(ksys::act::ai::InlineParamPack* params) {

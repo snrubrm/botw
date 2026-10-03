@@ -22,6 +22,9 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
+    // 0x71006d8534 (lane1 s22; declaration only): `_220 ? *(s32*)(_220 + 0x10) : 0`. Placeholder name.
+    s32 sub_71006D8534() const;
+
     s32 _68;  // WolfLinkRoot::enter_
     u8 _6c[0x74 - 0x6c];
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
