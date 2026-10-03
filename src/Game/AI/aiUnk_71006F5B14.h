@@ -24,6 +24,10 @@ SEAD_ENUM(Unk_71006F5DB0, Normal, Fire, Electric, Ice)
 // 0x71006f5694: reads the element from the actor's chemical (declared only).
 Unk_71006F5DB0 sub_71006F5694(ksys::act::Actor* actor);
 // 0x71006f594c: whether `chemical` is active for `element` (declared only).
+// 0x71006f5940: `if (chemical) chemical->sub_7100D8F194()` (StalGiantSleepNormal helpers, StalPartRoot::calc_).
+void sub_71006F5940(ksys::act::Chemical* chemical);
+// 0x71006f5a80 (declaration only): `if (chemical) chemical->sub_7100D8F124(world::Manager::instance()->getElementHolderMaybe())`.
+void sub_71006F5A80(ksys::act::Chemical* chemical);
 bool sub_71006F594C(Unk_71006F5DB0 element, ksys::act::Chemical* chemical);
 // 0x71006f59c4 (declared only).
 bool sub_71006F59C4(ksys::act::Actor* actor, int a2);
