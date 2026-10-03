@@ -24,6 +24,10 @@ bool sub_710073697C(ksys::act::BaseProcLink* link, const sead::SafeString& name)
 bool sub_71007369D0(ksys::act::BaseProcLink* link, const sead::SafeString& name);
 /// The actor's previous position.
 sead::Vector3f sub_7100736A24(ksys::act::BaseProcLink* link);
+/// 0x7100736a84 (lane2 s20; declared only; PreyRoot::m43 calls it with the actor): looks up the actor's
+/// attention client "LockOnShort" and swaps the enabled state of it and "LockOn" depending on
+/// GameSceneSubsys::field168True().
+void sub_7100736A84(ksys::act::Actor* actor);
 /// `value` is one of 20, 21, 22, 23, 27, 30, 31.
 bool sub_7100736B68(int value);
 /// `value` is one of 20, 22, 23, 27, 30, 31.
