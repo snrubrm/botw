@@ -19,8 +19,8 @@ public:
     virtual const sead::SafeString* m14();
     virtual bool m15() { return false; }
     virtual void m16();
-    // 0x7100641eb8 (not decompiled): opens the dialog (UI request built from mstxtName / label /
-    // CloseOption / Type / Timer), sets `_84` and, with Once, `_85`.
+    // 0x7100641eb8: opens the dialog (request built from mstxtName / label / CloseOption / Type /
+    // Timer), sets `_84` and, with Once, `_85`.
     void sub_7100641EB8();
     bool m6(sead::Heap* heap) override;
     void m7() override;

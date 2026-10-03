@@ -16,6 +16,28 @@ void SimpleAtvUnitOpenSimpleDialog::m7() {
         ksys::Timer::update(&_80, -1.0f);
 }
 
+// NON_MATCHING: the original keeps the second cast's `unit ? unit + 8 : nullptr` as branches (ours
+// speculates the add and uses a csel); everything else is identical.
+void SimpleAtvUnitOpenSimpleDialog::sub_7100641EB8() {
+    if (!_78._0)
+        return;
+    auto* unit = sead::DynamicCast<Unk_71025b2aa8>(*_78._0);
+    if (!unit || unit->mRefCount < 1)
+        return;
+
+    Unk_71025b2aa8Data::Request request;
+    request._0 = &mmstxtName_s;
+    request._8 = m14();
+    request._10 = *mCloseOption_s;
+    request._14 = *mType_s;
+    request._18 = *mTimer_s;
+    _78.getData()->sub_7100721DE4(&request);
+
+    _84 = true;
+    if (*mOnce_s)
+        _85 = true;
+}
+
 void SimpleAtvUnitOpenSimpleDialog::m16() {
     _84 = false;
     f32 delay;
