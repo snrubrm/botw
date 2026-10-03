@@ -207,31 +207,47 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100d860d8, 0xd8);
 
-// Size 0x48. ctor 0x7100d83054.
+// Size 0x48. ctor 0x7100d83054. The second controller of the bone control (look-at / neck): like
+// Unk_7100d860d8 it owns an array of bone nodes (0x198 bytes each).
 class Unk_7100d83054 {
 public:
     explicit Unk_7100d83054(Actor* actor);
 
+    struct Node {
+        /* 0x000 */ u8 _0[0x28];
+        /* 0x028 */ BoneHandle _28;
+        /* 0x0d0 */ gsys::BoneAccessKeyEx _d0;
+        /* 0x108 */ gsys::BoneAccessKeyEx _108;
+        /* 0x140 */ u8 _140[0x188 - 0x140];
+        /* 0x188 */ f32 _188;
+        /* 0x18c */ f32 _18c;
+        /* 0x190 */ u8 _190[0x198 - 0x190];
+    };
+    KSYS_CHECK_SIZE_NX150(Node, 0x198);
+
     // Not decompiled (0x7100d83090 builds the controller; the others are called by Unk_7100d8557c).
     bool sub_7100D83090(res::BoneControl* res, sead::Heap* heap);
+    // 0x7100d838a8: unbinds the nodes' bone handles from the actor and frees the nodes.
     void sub_7100D838A8();
+    // 0x7100d839a8: resets the nodes' 0x188 / 0x18c values and clears the flags 0x3008.
     void sub_7100D839A8();
+    // 0x7100d852ec: sets 0x10 in _24 and resets the nodes (0x188 / 0x18c = 0, bone matrix = identity).
+    void sub_7100D852EC();
     void sub_7100D83A0C(const f32& weight);
     void sub_7100D84C2C(const f32& weight);
     void sub_7100D84E14();
 
     /* 0x00 */ Actor* mActor;
-    /* 0x08 */ sead::Vector3f _8;
-    /* 0x14 */ f32 _14;
-    /* 0x18 */ f32 _18;
-    /* 0x1c */ f32 _1c;
-    /* 0x20 */ f32 _20;
-    /* 0x24 */ u32 _24;
-    /* 0x28 */ f32 _28;
+    /* 0x08 */ sead::Vector3f _8 = sead::Vector3f::zero;
+    /* 0x14 */ f32 _14 = 0;
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ f32 _1c = 0;
+    /* 0x20 */ f32 _20 = 0;
+    /* 0x24 */ u32 _24 = 0;
+    /* 0x28 */ f32 _28 = 1.0f;
     /* 0x2c */ u32 _2c;  // not initialised by the ctor
-    /* 0x30 */ s32 _30;
-    /* 0x38 */ void* _38;
-    /* 0x40 */ s32 _40;
+    /* 0x30 */ sead::Buffer<Node> _30;
+    /* 0x40 */ u32 _40 = 0;  // number of active nodes
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100d83054, 0x48);
 
