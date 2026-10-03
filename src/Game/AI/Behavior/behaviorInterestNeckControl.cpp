@@ -1,5 +1,7 @@
 #include "Game/AI/Behavior/behaviorInterestNeckControl.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Map/mapObject.h"
@@ -24,6 +26,21 @@ bool InterestNeckControl::m6(sead::Heap* heap) {
     _50 = -1.0f;
     _54 = 0;
     return true;
+}
+
+// NON_MATCHING: the original zeroes the request in aligned 8 / 16 byte chunks from +0x10 (we start at +0xc); the
+// request layout is only partly known
+void InterestNeckControl::m8() {
+    _3c = 0;
+    if (_38 < 0) {
+        if (auto* awareness = mActor->getAwareness()) {
+            Unk_71023e26d8 request;
+            if (auto* sensor = awareness->_260[0]) {
+                if (sensor->m5(&request))
+                    _38 = request._c;
+            }
+        }
+    }
 }
 
 void InterestNeckControl::loadParams() {

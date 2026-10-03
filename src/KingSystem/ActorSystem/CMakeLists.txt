@@ -17,6 +17,7 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
+    Awareness/actAwarenessRequest.h
     Awareness/actUnk_71024dc858.cpp
 
 

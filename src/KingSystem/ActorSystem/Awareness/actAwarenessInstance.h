@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+class Unk_71023e2708;
+
 namespace ksys::act {
 
 class Actor;
@@ -29,8 +31,9 @@ public:
     // Slots 4-17 (base implementations 0x7100d7f71c-0x7100d7f750 and 0x7100d80038). Names and
     // signatures are placeholders except m16: 4-6, 12 and 14 are pure; the base m7 / m11 return true,
     // m10 returns 0, m8 / m9 / m13 are empty.
-    virtual void m4() = 0;
-    virtual void m5() = 0;
+    // The requests are Unk_71023e2708 objects (actAwarenessRequest.h; each sensor kind takes its own derived type).
+    virtual bool m4(Unk_71023e2708* request) = 0;
+    virtual bool m5(Unk_71023e2708* request) = 0;
     virtual void m6() = 0;
     virtual bool m7();
     virtual void m8();
