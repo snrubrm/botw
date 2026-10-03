@@ -49,7 +49,7 @@ void GuardianMini2ndBattle::calc_() {
     GuardianMiniBattle::calc_();
 }
 
-void GuardianMini2ndBattle::m44() {
+void GuardianMini2ndBattle::m44(ksys::act::ai::InlineParamPack* params) {
     _1c8 = 0;
     _1d0 = ksys::Timer(*mCounterStopTime_s, *mCounterStopTime_s);
     _1cc = false;

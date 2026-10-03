@@ -17,7 +17,7 @@ public:
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
 
-    void m44() override;
+    void m44(ksys::act::ai::InlineParamPack* params) override;
     bool m45() override;
 
 protected:

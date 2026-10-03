@@ -103,7 +103,35 @@ bool GuardianMiniBattle::isChangeable() const {
     return isCurrentChild("戦闘準備") || isCurrentChild("旋回移動");
 }
 
-void GuardianMiniBattle::m44() {}
+void GuardianMiniBattle::m44(ksys::act::ai::InlineParamPack* params) {}
+
+void GuardianMiniBattle::sub_7100413A38() {
+    auto* actor = mActor;
+    if (actor) {
+        if (actor->getModel() && actor->getASList()) {
+            actor->getASList()->sub_710115C11C();
+            actor->getASList()->sub_710115BED4(true);
+            actor = mActor;
+        }
+        if (actor) {
+            if (actor->getASList())
+                actor->getASList()->sub_710115B01C(*mASSlotRight_s, 0, true);
+            actor = mActor;
+        }
+        if (actor) {
+            if (actor->getASList())
+                actor->getASList()->sub_710115B01C(*mASSlotLeft_s, 0, true);
+            actor = mActor;
+        }
+        if (actor && actor->getASList())
+            actor->getASList()->sub_710115B01C(*mASSlotBack_s, 0, true);
+    }
+    *mDamagedCount_a = 0;
+    _1a0 = ksys::Timer(*mCounterStartTime_s, *mCounterStartTime_s);
+    ksys::act::ai::InlineParamPack params;
+    m44(&params);
+    changeChild("反撃", &params);
+}
 
 bool GuardianMiniBattle::m45() {
     if (!sub_71004282EC(mActor))
