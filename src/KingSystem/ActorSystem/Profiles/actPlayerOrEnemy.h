@@ -74,6 +74,10 @@ public:
     // (Weapon::sub_71002EDA38 / sub_71002EDAEC). Placeholder names.
     void sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg);
     void sub_7100007D58(int idx, const uking::act::Unk_71002edaec& arg);
+    // 0x7100007a1c (declared only, lane1 s23; placeholder name): forwards to the actor's ActorWeapons
+    // (0xefc3d4: drops the weapons with the given velocity). LandHumEnemyFindBait::leave_ passes
+    // (Vector3f::zero, false, false, nullptr, false); `a4` is an object of unknown type.
+    void sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4, bool a5);
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};

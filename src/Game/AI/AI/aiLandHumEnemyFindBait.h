@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x710045ed68: starts the "気づき" child towards the bait (TargetPos = its position, or zero).
+    void sub_710045ED68();
+
 protected:
     // static_param at offset 0x68
     const int* mRepathTime_s{};
