@@ -5,7 +5,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original stores _38 before and _5c after the vtable (see PreyLookAtTarget)
 TargetPosTracking::TargetPosTracking(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 TargetPosTracking::~TargetPosTracking() = default;
@@ -16,7 +15,7 @@ bool TargetPosTracking::init_(sead::Heap* heap) {
 
 void TargetPosTracking::enter_(ksys::act::ai::InlineParamPack* params) {
     _5c = false;
-    _50 = *mTargetPos_d;
+    _50 = *mParams.mTargetPos_d;
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(_50, "TargetPos", -1);
     changeChild("追跡行動", &pack);
@@ -25,18 +24,18 @@ void TargetPosTracking::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: the TargetPos pointer load is hoisted above the speed branch here; register
 // allocation of the difference vector
 void TargetPosTracking::calc_() {
-    if (*mIsStoppedByJustAvoid_s) {
+    if (*mParams.mIsStoppedByJustAvoid_s) {
         if (_5c)
             return;
         if (sub_710072B7C4())
             _5c = true;
     }
 
-    const f32 speed = *mTrackSpeed_s;
+    const f32 speed = *mParams.mTrackSpeed_s;
     if (speed < 0.0f) {
-        _50 = *mTargetPos_d;
+        _50 = *mParams.mTargetPos_d;
     } else {
-        const sead::Vector3f& target = *mTargetPos_d;
+        const sead::Vector3f& target = *mParams.mTargetPos_d;
         const f32 step = speed * ksys::VFR::instance()->getDeltaFrame();
         const sead::Vector3f diff = target - _50;
         const f32 len = diff.length();
@@ -53,9 +52,9 @@ void TargetPosTracking::leave_() {
 }
 
 void TargetPosTracking::loadParams_() {
-    getStaticParam(&mTrackSpeed_s, "TrackSpeed");
-    getStaticParam(&mIsStoppedByJustAvoid_s, "IsStoppedByJustAvoid");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mTrackSpeed_s, "TrackSpeed");
+    getStaticParam(&mParams.mIsStoppedByJustAvoid_s, "IsStoppedByJustAvoid");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 bool TargetPosTracking::isFailed() const {
