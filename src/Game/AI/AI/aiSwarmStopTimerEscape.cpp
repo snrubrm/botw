@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSwarmStopTimerEscape.h"
+#include "Game/AI/aiUnk_710072A80C.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,7 @@ bool SwarmStopTimerEscape::init_(sead::Heap* heap) {
 
 void SwarmStopTimerEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     SwarmEscapeDie::enter_(params);
+    sub_710072A80C(mActor, &_80, nullptr);
 }
 
 void SwarmStopTimerEscape::calc_() {
