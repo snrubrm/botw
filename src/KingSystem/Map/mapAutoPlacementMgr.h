@@ -24,6 +24,9 @@ public:
     bool sub_7100659E40(act::Actor* actor, const sead::SafeString& actor_name, int count,
                         bool is_box);
     void sub_7100659F94(act::Actor* actor);
+    // 0x7100659de0 (CSV AutoPlacementMgr::__auto3, declaration only): increments (`enable`) or decrements the
+    // atomic counter of kind `type` (0-6) at 0x171e4c; incrementing also stores 5 at 0x171e68 + type.
+    void sub_7100659DE0(int type, bool enable);
 
     // 0x0000007100654e44
     bool threadFn();

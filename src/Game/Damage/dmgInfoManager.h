@@ -37,6 +37,8 @@ public:
     f32 getMasterSwordSearchEvilDist() const { return mMasterSwordSearchEvilDist; }
     bool isMasterSwordDetectedEvil() const { return mMasterSwordDetectedEvil; }
     bool isMasterSwordDisableTrueForm() const { return mMasterSwordDisableTrueForm; }
+    // Written inline by ForceMasterSwordFakeMode / ResetMasterSwordForceState (name is a guess).
+    void setMasterSwordDisableTrueForm(bool value) { mMasterSwordDisableTrueForm = value; }
     bool isOneHitObliteratorActive() const { return mOneHitObliteratorActive; }
 
 private:
