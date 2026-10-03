@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChemicalElectricWaterBall.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void ChemicalElectricWaterBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChemicalElectricWaterBall::leave_() {
+    mActor->sub_71011DA834(&_c0);
     ChemicalAttackBall::leave_();
 }
 

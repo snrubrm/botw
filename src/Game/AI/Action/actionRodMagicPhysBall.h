@@ -28,7 +28,8 @@ protected:
     const float* mBgCheckHeight_s{};
     /* 0xd8 */ ksys::act::BaseProcLink _d8;
     /* 0xe8 */ Unk_710244ecf0 _e8;
-    /* 0x160 */ u16 _160 = 0;
+    /* 0x160 */ bool _160 = false;
+    bool _161 = false;
     struct Entry {
         void* _0 = nullptr;
         s32 _8 = 0;

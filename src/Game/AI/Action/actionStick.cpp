@@ -12,7 +12,11 @@ void Stick::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Stick::leave_() {
-    ActionEx::leave_();
+    auto* actor = mActor;
+    if (_160 == 3)
+        actor->sub_71011DA834(&_c0);
+    else
+        actor->sub_71011DA834(&_48);
 }
 
 void Stick::loadParams_() {

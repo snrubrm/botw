@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWindControl.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -14,7 +15,9 @@ void WindControl::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WindControl::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_20._8)
+        mActor->sub_71011DA868(&_20);
+    _118.destroy(false);
 }
 
 void WindControl::loadParams_() {

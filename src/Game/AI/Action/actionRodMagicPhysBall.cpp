@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRodMagicPhysBall.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,6 +12,8 @@ void RodMagicPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void RodMagicPhysBall::leave_() {
+    if (_160)
+        mActor->sub_71011DA834(&_e8);
     ChemicalPhysBall::leave_();
 }
 
