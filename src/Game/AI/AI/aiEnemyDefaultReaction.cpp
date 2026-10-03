@@ -9,6 +9,11 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 
 namespace uking::ai {
 
@@ -78,6 +83,105 @@ void EnemyDefaultReaction::m42(ksys::act::ai::InlineParamPack* params) {
     changeChild("死亡", params);
 }
 
+// NON_MATCHING: the death-type range test (types 29-31 -> m42) compiles to `cmp #2; b.hi` instead of
+// the original's `cmp #3; b.hs`; everything else is identical.
+void EnemyDefaultReaction::m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool flag,
+                               ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
+    bool check_death = true;
+    if (auto* player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor)) {
+        if (player_or_enemy->m151(3)) {
+            changeChild("凍結", params);
+            return;
+        }
+        if (player_or_enemy->m151(4)) {
+            if (damage_type != 22) {
+                changeChild("痺れ", params);
+                return;
+            }
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+                enemy->m149(4);
+            check_death = false;
+        }
+    }
+
+    if (check_death && u32(damage_type - 29) < 3) {
+        m42(params);
+        return;
+    }
+    if (flag) {
+        m41(params);
+        return;
+    }
+
+    {
+        switch (damage_type) {
+        case 3:
+            changeChild("凍結", params);
+            return;
+        case 4:
+            changeChild("痺れ", params);
+            return;
+        case 6:
+            changeChild("弾かれ", params);
+            return;
+        case 7:
+        case 19:
+            changeChild("ショック", params);
+            return;
+        case 8:
+            changeChild("超ショック", params);
+            return;
+        case 9:
+        case 11:
+        case 14:
+            changeChild("ガードブレイク", params);
+            return;
+        case 10:
+        case 21:
+        case 22:
+        case 23:
+        case 27:
+            m40(nullptr);
+            return;
+        case 12:
+            if (m38(damage_mgr)) {
+                changeChild("ガードブレイク", nullptr);
+                return;
+            }
+            if (auto* attack = sub_7100739578(mActor))
+                _61 = attack->sub_71007A1F78(0x20);
+            {
+                const auto* level = mActor->getParam()->getRes().mGParamList->getEnemyLevel();
+                if (level && level->mIsJustGuard.ref()) {
+                    if (--_58 <= 0)
+                        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000000);
+                }
+            }
+            changeChild("ガード", nullptr);
+            return;
+        case 13:
+            sub_710038794C();
+            return;
+        case 18:
+            changeChild("炎上", params);
+            return;
+        case 20:
+            m39(params);
+            return;
+        case 25:
+            changeChild("落下", params);
+            return;
+        case 26:
+            m43(params);
+            return;
+        default:
+            changeChild("小ダメージ", params);
+            return;
+        }
+    }
+}
+
 bool EnemyDefaultReaction::m45() {
     auto* actor = mActor;
     auto* damage_mgr = actor->getDamageMgr();
@@ -116,6 +220,19 @@ void EnemyDefaultReaction::m44() {
     _60 = true;
     _61 = false;
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
+}
+
+void EnemyDefaultReaction::sub_710038794C() {
+    const s32 min = *mJustGuardTimesMin_s;
+    const s32 max = *mJustGuardTimesMax_s;
+    _58 = sead::GlobalRandom::instance()->getS32Range(min, max + 1);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000000);
+    ksys::act::ai::InlineParamPack params;
+    if (sub_71005D8F28(mActor))
+        params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    else
+        params.addVec3(sead::Vector3f::zero, "TargetPos", -1);
+    changeChild("ジャストガード", &params);
 }
 
 void EnemyDefaultReaction::sub_710038782C(ksys::act::ai::InlineParamPack* params) {

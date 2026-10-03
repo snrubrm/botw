@@ -35,6 +35,8 @@ public:
     virtual bool m45();
 
     void sub_710038782C(ksys::act::ai::InlineParamPack* params);
+    // 0x710038794c (lane1 s22): starts the just-guard state (rolls _58, clears ActorFlag2 0x10000000).
+    void sub_710038794C();
 protected:
     // static_param at offset 0x38
     const int* mJustGuardTimesMin_s{};

@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 
 namespace ksys::act {
@@ -253,7 +254,7 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 /// 0x7100739578 (lane1 s22): the attack info the actor's attack sensor reports (a DynamicCast'ed
 /// object's +0x6c selects it; falls back to ActorAtk entry 0 when the actor has attack info), or
 /// null. Its first three floats are the attack position. Placeholder name.
-const ksys::act::Struct8Base* sub_7100739578(ksys::act::Actor* actor);
+const ksys::act::ActorAtk::Unk_710079e64c::Unk1* sub_7100739578(ksys::act::Actor* actor);
 
 /// 0x710073de08 (lane1 s22): clears stasis flags 0x10 and 0x4 (Actor 0x71011d0228) and sets
 /// ActorFlag2 0x10000. Placeholder name.
