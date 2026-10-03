@@ -7,6 +7,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::ai {
@@ -114,24 +115,12 @@ protected:
     // static_param at offset 0x1d8
     const int* mBreakPillarTime_s{};
 
-    /* 0x1e0 */ f32 _1e0{};
-    /* 0x1e4 */ f32 _1e4{};
-    /* 0x1e8 */ f32 _1e8 = -1.0f;
-    /* 0x1ec */ f32 _1ec = 0.0f;
-    /* 0x1f0 */ f32 _1f0 = 0.0f;
-    /* 0x1f4 */ f32 _1f4 = -1.0f;
-    /* 0x1f8 */ f32 _1f8 = 0.0f;
-    /* 0x1fc */ f32 _1fc = 0.0f;
-    /* 0x200 */ f32 _200 = -1.0f;
-    /* 0x204 */ f32 _204 = 0.0f;
-    /* 0x208 */ f32 _208 = 0.0f;
-    /* 0x20c */ f32 _20c = -1.0f;
-    /* 0x210 */ f32 _210 = 0.0f;
-    /* 0x214 */ f32 _214 = 0.0f;
-    /* 0x218 */ f32 _218 = -1.0f;
-    /* 0x21c */ f32 _21c = 0.0f;
-    /* 0x220 */ f32 _220 = 0.0f;
-    /* 0x224 */ f32 _224 = -1.0f;
+    /* 0x1e0 */ ksys::Timer _1e0{0.0f, 0.0f};
+    /* 0x1ec */ ksys::Timer _1ec{0.0f, 0.0f};
+    /* 0x1f8 */ ksys::Timer _1f8{0.0f, 0.0f};
+    /* 0x204 */ ksys::Timer _204{0.0f, 0.0f};
+    /* 0x210 */ ksys::Timer _210{0.0f, 0.0f};
+    /* 0x21c */ ksys::Timer _21c{0.0f, 0.0f};
     /* 0x228 */ u8 _228 = 0;
     /* 0x229 */ u8 _229 = 0;
     /* 0x22a */ bool _22a = false;

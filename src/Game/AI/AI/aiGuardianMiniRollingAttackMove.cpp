@@ -37,12 +37,12 @@ void GuardianMiniRollingAttackMove::enter_(ksys::act::ai::InlineParamPack* param
     _229 = 0;
     _228 = 0;
     _358 = false;
-    _204 = 0.0f;
-    _208 = 0.0f;
-    _20c = -1.0f;
-    _210 = 0.0f;
-    _214 = 0.0f;
-    _218 = -1.0f;
+    _204.value = 0.0f;
+    _204.previous_value = 0.0f;
+    _204.rate = -1.0f;
+    _210.value = 0.0f;
+    _210.previous_value = 0.0f;
+    _210.rate = -1.0f;
     if (auto* damage_mgr = mActor->getDamageMgr()) {
         if (!_2f8.mDamageManager)
             damage_mgr->addDamageCallback(1, &_2f8);
@@ -125,14 +125,13 @@ void GuardianMiniRollingAttackMove::sub_7100423D68() {
         }
         sub_7100424554();
     } else {
-        _210 = 5.0f;
-        _214 = 5.0f;
-        _218 = -1.0f;
+        _210.previous_value = _210.value = 5.0f;
+        _210.rate = -1.0f;
     }
 
     mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mAttackASName_s.cstr(), 1, 0, true);
-    _1e4 = _1e0 = *mRollingWaitTime_s;
-    _1e8 = -1.0f;
+    _1e0.previous_value = _1e0.value = *mRollingWaitTime_s;
+    _1e0.rate = -1.0f;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -143,16 +142,16 @@ void GuardianMiniRollingAttackMove::sub_7100423D68() {
 // the constant stores are scheduled differently
 void GuardianMiniRollingAttackMove::sub_7100423F0C() {
     setDamageCallbackTiming(mActor, 4, &_2d0);
-    _210 = 5.0f;
-    _200 = -1.0f;
-    _1fc = _1f8 = *mBackWalkRollingStartTime_s;
-    _214 = 5.0f;
-    _218 = -1.0f;
+    _210.value = 5.0f;
+    _1f8.rate = -1.0f;
+    _1f8.previous_value = _1f8.value = *mBackWalkRollingStartTime_s;
+    _210.previous_value = 5.0f;
+    _210.rate = -1.0f;
     _244 = 0.0f;
     _248 = sead::Mathf::abs(*mBackWalkRotSpeedRatio_s / 60.0f);
     mActor->getMtx().getTranslation(_22c);
-    _1f4 = -1.0f;
-    _1f0 = _1ec = *mBackWalkMinTime_s;
+    _1ec.rate = -1.0f;
+    _1ec.value = _1ec.previous_value = *mBackWalkMinTime_s;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -161,8 +160,8 @@ void GuardianMiniRollingAttackMove::sub_7100423F0C() {
 
 void GuardianMiniRollingAttackMove::sub_7100424080() {
     sub_71005DA114(mActor, &_2d0);
-    _1e4 = _1e0 = s32(f32(s32(_1ec)) + 30.0f);
-    _1e8 = -1.0f;
+    _1e0.previous_value = _1e0.value = s32(f32(s32(_1ec.value)) + 30.0f);
+    _1e0.rate = -1.0f;
 
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -170,7 +169,7 @@ void GuardianMiniRollingAttackMove::sub_7100424080() {
 }
 
 void GuardianMiniRollingAttackMove::sub_7100424554() {
-    if (*mAttackType_s == 0 && !(_204 <= sead::Mathf::epsilon()))
+    if (*mAttackType_s == 0 && !(_204.value <= sead::Mathf::epsilon()))
         return;
     auto* actor = mActor;
     if (!actor)
@@ -286,8 +285,8 @@ bool GuardianMiniRollingAttackMove::handleMessage_(const ksys::Message& message)
     }
 
     if (_229 < _228) {
-        _208 = _204 = *mRollingIntervalTime_s;
-        _20c = -1.0f;
+        _204.previous_value = _204.value = *mRollingIntervalTime_s;
+        _204.rate = -1.0f;
         sub_7100421B50();
     } else {
         sub_7100424F54();
@@ -330,8 +329,8 @@ void GuardianMiniRollingAttackMove::m37() {
             sub_7100424A3C();
         } else {
             const f32 time_f = time;
-            _224 = -1.0f;
-            _220 = _21c = time_f;
+            _21c.rate = -1.0f;
+            _21c.previous_value = _21c.value = time_f;
             sub_7100424554();
         }
     } else {
