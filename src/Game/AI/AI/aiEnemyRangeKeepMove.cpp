@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -101,6 +102,17 @@ bool EnemyRangeKeepMove::m34() {
     diff.y = 0.0f;
     const f32 dist = diff.length();
     return dist > *mBaseDist_s + *mOutDist_s + sub_71007320F0(actor, m35());
+}
+
+bool EnemyRangeKeepMove::sub_71003AD160() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    f32 radius = 0;
+    if (auto* nav = actor->m45())
+        radius = nav->_2a8 * nav->_2ac;
+    const sead::Vector3f target = sub_71005D9330(actor);
+    return sub_710072CB78(actor, target, nullptr, radius, 3);
 }
 
 }  // namespace uking::ai

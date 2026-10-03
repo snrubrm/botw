@@ -22,6 +22,8 @@ public:
     void sub_7100483350();
 
 protected:
+    void calc_() override;
+
     ksys::phys::RayCastForRequest* _38{};
     // map_unit_param at offset 0x40
     const int* mLineCheckType_m{};

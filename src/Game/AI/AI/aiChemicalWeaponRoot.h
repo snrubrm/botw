@@ -17,6 +17,8 @@ public:
     // 0x7100348fc8 / 0x71003491c0 (not decompiled yet; called by SiteBossSwordWeapon)
     bool m41() override;
     bool m42() override;
+    void m43() override;
+    void m44() override;
 
 protected:
     bool _e8 = false;

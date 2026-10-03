@@ -19,6 +19,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // inline-only in the original; name is a guess (enter_ twice, calc_): calls the demo and keeps
+    // the result in _98 (stored after the Metadata destructor).
+    void callDemo();
+
 protected:
     // static_param at offset 0x38
     const bool* mOnlyOne_s{};

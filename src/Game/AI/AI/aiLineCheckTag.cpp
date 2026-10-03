@@ -24,6 +24,26 @@ void LineCheckTag::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("オフ");
 }
 
+void LineCheckTag::calc_() {
+    mActor->m107();
+    if (!_38) {
+        _38 = ksys::phys::RayCastForRequest::allocRequest(nullptr, ksys::phys::GroundHit::HitAll);
+        return;
+    }
+    if (_38->isRequestQueued())
+        return;
+    if (_38->get70() == 1) {
+        if (_38->hasHit()) {
+            if (isCurrentChild("オフ"))
+                changeChild("オン");
+        } else if (isCurrentChild("オン")) {
+            changeChild("オフ");
+        }
+    }
+    sub_7100483350();
+    _38->submitRequest(ksys::phys::ContactLayerType::Entity);
+}
+
 void LineCheckTag::leave_() {
     ksys::act::ai::Ai::leave_();
 }

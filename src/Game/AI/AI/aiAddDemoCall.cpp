@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAddDemoCall.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include "KingSystem/Event/evtManager.h"
@@ -14,21 +16,43 @@ bool AddDemoCall::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-void AddDemoCall::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+void AddDemoCall::callDemo() {
+    bool called;
+    {
+        ksys::evt::Metadata metadata(mDemoName_s.cstr(), mEntryPoint_s.cstr(), "");
+        ksys::evt::CallArg arg;
+        arg.proc = mActor;
+        arg.metadata = &metadata;
+        called = ksys::evt::Manager::instance()->callEvent(arg);
+    }
+    _98 = called;
 }
 
-// NON_MATCHING: CallArg store order, and the original stores _98 after the Metadata destructor (as
-// if the call were in an inline helper)
+// NON_MATCHING: register allocation (the original keeps `this` in x20 and params in x19)
+void AddDemoCall::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (*mOnlyOne_s) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            if (!enemy->_e84.isOnBit(9)) {
+                enemy->_e84.setBit(9);
+                callDemo();
+                if (*mIsBroadCastOnlyOne_s) {
+                    _68.x(mActor);
+                    sub_71005E02E0(mActor, &_68, nullptr);
+                    _98 = true;
+                }
+            }
+        }
+    } else {
+        callDemo();
+        changeChild("行動", params);
+    }
+}
+
+// NON_MATCHING: the original masks the callEvent result (`and w8, w20, #1`) before the byte store
 void AddDemoCall::calc_() {
     if (_98)
         return;
-
-    ksys::evt::Metadata metadata(mDemoName_s.cstr(), mEntryPoint_s.cstr(), "");
-    ksys::evt::CallArg arg;
-    arg.metadata = &metadata;
-    arg.proc = mActor;
-    _98 = ksys::evt::Manager::instance()->callEvent(arg);
+    callDemo();
 }
 
 bool AddDemoCall::isFailed() const {
