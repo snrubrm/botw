@@ -11,6 +11,7 @@ class GuardianMiniReaction : public EnemyDefaultReaction {
 public:
     explicit GuardianMiniReaction(const InitArg& arg);
     ~GuardianMiniReaction() override;
+    bool m36(int damage_type) override;
     void m39(ksys::act::ai::InlineParamPack* params) override;
 
     bool init_(sead::Heap* heap) override;

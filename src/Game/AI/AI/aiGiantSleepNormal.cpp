@@ -45,6 +45,11 @@ void GiantSleepNormal::m35() {
     changeChild("待機", &params);
 }
 
+void GiantSleepNormal::m38(int x, ksys::act::Unk_7100d78e50* entry) {
+    _80 = entry->_88;
+    _98 = 1;
+}
+
 bool GiantSleepNormal::m36() {
     return _98 - 2 < 3;
 }

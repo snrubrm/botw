@@ -32,6 +32,21 @@ public:
     virtual void m42();
     virtual bool m43(sead::Vector3f* out);
 
+    // Small out-of-line helpers over `_50` (the Enemy's navmesh state: `_0` navmesh character, `_8`
+    // search state); names are placeholders (lane1 s22).
+    // 0x71004b5fb8: changeChild("見まわす").
+    void sub_71004B5FB8();
+    // 0x71004b62e4 (CSV sead::ControllerMgr::getFramework, misnamed): `_50->_8`, -1 without `_50`.
+    int sub_71004B62E4() const;
+    // 0x71004b62fc: if the state is 1 or 3: copies navmesh `_1a0` (under its lock) to `out`.
+    bool sub_71004B62FC(sead::Vector3f* out) const;
+    // 0x71004b6370: if the state is not -1: copies navmesh `_194` (under its lock) to `out`.
+    bool sub_71004B6370(sead::Vector3f* out) const;
+    // 0x71004b63e4: `_50->_8 = -1` (if `_50`).
+    void sub_71004B63E4();
+    // 0x71004b6bc0: ReachTargetArea plus the weapon range.
+    f32 sub_71004B6BC0() const;
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};

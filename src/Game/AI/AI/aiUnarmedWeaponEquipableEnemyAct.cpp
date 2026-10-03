@@ -26,6 +26,32 @@ void UnarmedWeaponEquipableEnemyAct::calc_() {
     }
 }
 
+bool UnarmedWeaponEquipableEnemyAct::m43(sead::Vector3f* out) {
+    if (sub_71004B62E4() == 1) {
+        sead::Vector3f target;
+        if (sub_71004B6370(&target)) {
+            sead::Vector3f pos;
+            if (sub_71004B62FC(&pos)) {
+                const f32 dx = target.x - pos.x;
+                const f32 dz = target.z - pos.z;
+                if (sead::Mathf::sqrt(dx * dx + dz * dz) >= sub_71004B6BC0())
+                    return false;
+            }
+        }
+    }
+    return UnarmedEnemySearch::m43(out);
+}
+
+void UnarmedWeaponEquipableEnemyAct::m44() {
+    if (!isCurrentChild("見まわす"))
+        sub_71004B5FB8();
+}
+
+void UnarmedWeaponEquipableEnemyAct::m45() {
+    sub_71004B5FB8();
+    _6e8 = true;
+}
+
 void UnarmedWeaponEquipableEnemyAct::leave_() {
     UnarmedEnemySearchWeapon::leave_();
 }

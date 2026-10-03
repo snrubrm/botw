@@ -24,7 +24,7 @@ void SiteBossReaction::loadParams_() {
     getStaticParam(&mIsChangeEffectiveDamage_s, "IsChangeEffectiveDamage");
 }
 
-bool SiteBossReaction::m36() {
+bool SiteBossReaction::m36(int damage_type) {
     if (_74++ >= 3) {
         if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
             boss->_1558.set(4);

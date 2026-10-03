@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    bool m36() override;
+    bool m36(int damage_type) override;
     bool m38(dmg::DamageManagerBase* damage_mgr) override { return false; }
 
 protected:

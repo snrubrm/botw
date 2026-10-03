@@ -23,7 +23,7 @@ public:
     virtual bool m34(dmg::DamageManagerBase* damage_mgr, int damage_type);
     virtual void m35(dmg::DamageManagerBase* damage_mgr, int damage_type, bool x,
                      ksys::act::ai::InlineParamPack* params);
-    virtual bool m36() { return false; }
+    virtual bool m36(int damage_type) { return false; }
     virtual bool m37();
     virtual bool m38(dmg::DamageManagerBase* damage_mgr);
     virtual void m39(ksys::act::ai::InlineParamPack* params);

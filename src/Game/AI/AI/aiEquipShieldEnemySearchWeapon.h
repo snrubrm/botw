@@ -14,8 +14,15 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void calc_() override;
+
+    void m44() override;
+    void m45() override;
 
 protected:
+    bool _6e8 = false;
 };
+
+KSYS_CHECK_SIZE_NX150(EquipShieldEnemySearchWeapon, 0x6f0);
 
 }  // namespace uking::ai

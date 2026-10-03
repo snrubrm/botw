@@ -512,6 +512,8 @@ public:
     map::ObjectLink* findPlacementLinkWithType(map::MapLinkDefType type) const;
     // 0x00000071011da7a0
     bool hasForbidAttentionLink() const;
+    // 0x7100ee2254 (CSV name, lane1 s22): forwards to hasForbidAttentionLink() (own copy in actActorUtil.cpp's TU).
+    bool hasForbidAttentionLink_0() const;
 
     bool checkLinkBasicSig() const;
     bool hasPlacementLinkForBasicSig() const;

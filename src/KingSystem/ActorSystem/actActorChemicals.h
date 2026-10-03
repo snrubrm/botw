@@ -35,6 +35,8 @@ public:
     virtual ~ActorChemicals();
 
     Chemical* getStuff(int idx);
+    // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.
+    Unk_71024e6428* sub_7100E3718C(int idx);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
 
