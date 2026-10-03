@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionAirOctaFloatBase.h"
+#include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +14,18 @@ bool AirOctaFloatBase::init_(sead::Heap* heap) {
 }
 
 void AirOctaFloatBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = sead::GlobalRandom::instance()->getF32() * sead::Mathf::pi();
+    _44 = 0.0f;
+    _1c0 &= ~1;
+    _70.setName("Neck");
+    _118.setName("Head_2");
+    mActor->boneHandleStuff(&_70, false);
+    mActor->boneHandleStuff(&_118, false);
 }
 
 void AirOctaFloatBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->sub_71011DA868(&_70);
+    mActor->sub_71011DA868(&_118);
 }
 
 void AirOctaFloatBase::loadParams_() {
