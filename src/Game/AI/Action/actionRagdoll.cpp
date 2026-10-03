@@ -2,14 +2,21 @@
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -111,8 +118,96 @@ void Ragdoll::loadParams_() {
     getAITreeVariable(&mCRBOffsetUnit_a, "CRBOffsetUnit");
 }
 
+// NON_MATCHING: the original computes the address of `_c8` / `_d4` before the branch and keeps it in a
+// callee-saved register (as if `if (cond) Timer::update(&t, -1); else t = random(min, max)` was an inline
+// function taking the timer pointer, called twice); ours recomputes the address per arm
 void Ragdoll::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    const auto& mtx = actor->getMtx();
+    _f0 = sead::Mathf::rad2deg(
+        std::atan2(mtx(1, 2), sead::Mathf::sqrt(mtx(0, 2) * mtx(0, 2) + mtx(2, 2) * mtx(2, 2))));
+    actor->getASList()->x_6(9, 0, _f0);
+
+    if (!m32()) {
+        setFailed();
+        return;
+    }
+
+    ksys::Timer::update(&_c0, -1.0f);
+    switch (_ec) {
+    case 0: {
+        if (*mForceFinishTime_s >= 0) {
+            if (_c4 > 0.0f) {
+                ksys::Timer::update(&_c4, -1.0f);
+            } else {
+                _f4 += 0.05f;
+                if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+                    if (dynamic_actor->_868)
+                        dynamic_actor->_868->sub_71006EE2E8(_f4);
+                }
+            }
+        }
+
+        auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor);
+        if (!dynamic_actor) {
+            setFailed();
+            return;
+        }
+
+        if (m36()) {
+            if (auto* controller = mActor->getCharacterController())
+                controller->sub_7100F5F6FC(sead::Vector3f::zero);
+            sub_7100226A30();
+            return;
+        }
+
+        sub_7100226B04();
+        if (actor->get68f()) {
+            ksys::Timer::update(&_c8, -1.0f);
+        } else {
+            _c8 = _cc == _d0 ? _cc : sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
+        }
+        if (m34()) {
+            ksys::Timer::update(&_d4, -1.0f);
+        } else {
+            _d4 = _d8 == _dc ? _d8 : sead::GlobalRandom::instance()->getS32Range(_d8, _dc);
+        }
+        auto* ragdoll = actor->getRagdollInstance();
+        if (!ragdoll || (ragdoll->getWorldState() == ksys::phys::RagdollInstance::WorldState(0) &&
+                         ragdoll->isFlag8Set())) {
+            _e0 = _e4 == _e8 ? _e4 : sead::GlobalRandom::instance()->getS32Range(_e4, _e8);
+        } else {
+            ksys::Timer::update(&_e0, -1.0f);
+        }
+
+        auto* unit = dynamic_actor->_868;
+        if (*mForceEndWaterDepth_s >= 0.0f && mActor->get68f()) {
+            sead::Vector3f from;
+            mActor->getMtx().getTranslation(from);
+            sead::Vector3f to = from;
+            to.y -= *mForceEndWaterDepth_s;
+            if (!sub_710072E928(from, to, nullptr, nullptr, nullptr, 0.0f)) {
+                setFinished();
+                return;
+            }
+        }
+
+        if (m35()) {
+            sub_7100226A30();
+        } else if (unit && *mIsCheckVibrate_s && unit->sub_71006EE1A4()) {
+            setFailed();
+        }
+        break;
+    }
+    case 1:
+        sub_7100226B04();
+        ksys::Timer::update(&_c0, -1.0f);
+        if (_c0 < 0.0f && (!*mIsWaitAS_s || isFinishedAS(0, 0)))
+            setFinished();
+        return;
+    default:
+        return;
+    }
 }
 
 // NON_MATCHING: the original re-reads pos.y from the stack after getAabbInWorld (ours keeps it in a callee-saved
@@ -269,6 +364,33 @@ bool Ragdoll::m36() {
     if (m37() >= 1 && _c0 < 0.0f)
         return true;
     return false;
+}
+
+void Ragdoll::m38() {
+    sub_7100227134();
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (actor->_868)
+            actor->_868->sub_71006ED484();
+    }
+    sub_7100227184();
+}
+
+void Ragdoll::sub_7100227184() {
+    if (!*mIsItemDrop_s)
+        return;
+    auto* actor = mActor;
+    sead::Vector3f velocity;
+    sub_7100227278(&velocity);
+    const s32* life = actor->getLife();
+    const s32 current_life = life ? *life : 1;
+    if (current_life > actor->getParam()->getRes().mGParamList->getEnemy()->mDropLife.ref())
+        playerOrEnemyDropAllWeapons(actor, velocity);
+    else
+        m33(velocity);
+}
+
+void Ragdoll::m33(const sead::Vector3f& velocity) {
+    sub_71005D8748(mActor, velocity, true, false, nullptr, false);
 }
 
 void Ragdoll::m39() {

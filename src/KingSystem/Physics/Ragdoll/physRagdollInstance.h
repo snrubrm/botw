@@ -137,6 +137,8 @@ public:
 
     static Config& getConfig();
     auto* getHavokRagdollInstance() const { return mRagdollInstance; }
+    // Additive public accessor for the private flag 0x8 (read directly by uking::action::Ragdoll::calc_).
+    bool isFlag8Set() const { return mFlags.isOn(Flag::_8); }
     auto& getRigidBodies_() { return mBoneRigidBodies; }
 
 private:

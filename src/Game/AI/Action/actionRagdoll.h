@@ -21,7 +21,7 @@ public:
 protected:
     void calc_() override;
     virtual bool m32();
-    virtual void m33();
+    virtual void m33(const sead::Vector3f& velocity);
     virtual bool m34();
     virtual bool m35();
     virtual bool m36();
@@ -36,6 +36,8 @@ protected:
     void sub_7100226A30();
     // 0x7100227134: resets the controller and switches it to the hover motion type without gravity.
     void sub_7100227134();
+    // 0x7100227184: drops the weapons (or the item) with the velocity of sub_7100227278 (inlined into m38).
+    void sub_7100227184();
     // 0x7100227278: the velocity of the dropped weapons (horizontal speed away from the actor, vertical speed).
     void sub_7100227278(sead::Vector3f* out);
     // 0x7100226b04: moves the root bone offset towards the down-back / down-front controller offset.

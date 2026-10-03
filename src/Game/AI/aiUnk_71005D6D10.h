@@ -63,6 +63,13 @@ void sub_71005D8E9C(ksys::act::Actor* actor);
 /// Sets the Enemy target (Unk_7100013308::sub_71002DBC8C).
 void sub_71005D8DE8(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link,
                     const sead::Matrix34f* mtx, const sead::Vector3f* pos);
+/// 0x71005d8994 (CSV playerOrEnemyDropAllWeapons; declared only, lane3 s15): drops all weapons of a
+/// PlayerOrEnemy (PlayerOrEnemy::dropAllWeapons, 0x78d4) with the given velocity; false for other actors.
+bool playerOrEnemyDropAllWeapons(ksys::act::Actor* actor, const sead::Vector3f& velocity);
+/// 0x71005d8748 (declared only, lane3 s15): dispatches on a PlayerOrEnemy / NPC cast to a weapon drop
+/// (0x7a1c / 0x22554); `a5` is an object of unknown type (RTTI vtable 0x7102376d50, see lane4 s16 log).
+bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, bool a3, bool a4, void* a5,
+                    bool a6);
 /// Enemy target position (Vector3f::zero if not an Enemy).
 const sead::Vector3f& sub_71005D9330(ksys::act::Actor* actor);
 /// Position of the target actor (getField44C_Vec3), zero if there is none.
