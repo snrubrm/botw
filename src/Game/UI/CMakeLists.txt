@@ -1,5 +1,6 @@
 target_sources(uking PRIVATE
   euiMessageString.h
+  euiScreen.cpp
   euiScreen.h
   uiFadeProgress.cpp
   uiFadeScreens.cpp

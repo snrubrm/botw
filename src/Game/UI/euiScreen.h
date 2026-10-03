@@ -3,12 +3,27 @@
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
 
+namespace sead {
+class Heap;
+}
+
+namespace xlink2 {
+class UserInstanceSLink;
+}
+
 namespace eui {
 
+class BoxCursorNode;
 class ScreenMgr;
+
+// (only the nested type is needed so far)
+struct DrawInfoEx {
+    struct RenderBufferInfo;
+};
 
 // The eui UI framework's screen base class (CSV: eui::Screen::*, mangled names). Only the parts that
 // are needed so far are declared: the RTTI root (vtable slots 2 / 3 are checkDerivedRuntimeTypeInfo /
@@ -27,19 +42,19 @@ public:
     virtual void close(s32 option);
     // Slots 7-68 (CSV eui::Screen::* names: adjstBoxCursor, createBoxCursorNode, initialize, update, draw, ...);
     // placeholders so that the vtable layout is right.
-    virtual void m7();
+    virtual void adjstBoxCursor(sead::BoundBox2<f32>* box, const BoxCursorNode* node) const;
     virtual void m8();
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    virtual void draw(const DrawInfoEx::RenderBufferInfo* info);
     virtual void m12();
     virtual void m13();
     virtual void m14();
     virtual const char* m15() const;  // returns the layout name (<Name>_00) in the leaf classes
-    virtual void m16();
-    virtual void m17();
+    virtual const char* getMessageName_() const;
+    virtual const char* getArchiveName_() const;
     virtual bool isPlayPartsInOut_() const;  // slot 18
-    virtual void m19();
+    virtual bool isDisallowHitLowerScreenOnButtonHit_() const;
     virtual void m20();
     virtual void m21();
     virtual void m22();
@@ -49,11 +64,11 @@ public:
     virtual void m26();
     virtual void m27();
     virtual void m28();
-    virtual void m29();
+    virtual void doLoadResource_(sead::Heap* heap);
     virtual void m30();
     virtual void m31();
     virtual f32 m32();
-    virtual void m33();
+    virtual void doDraw_(const DrawInfoEx::RenderBufferInfo* info);
     virtual void m34();
     virtual void m35();
     virtual void m36();
@@ -66,10 +81,10 @@ public:
     virtual void m43();
     virtual void m44();
     virtual void m45();
-    virtual void m46();
+    virtual void* getElinkSystem_() const;
     virtual void m47();
-    virtual void m48();
-    virtual void m49();
+    virtual s32 getSlink2LocalPropertyNum_() const;
+    virtual void setSlink2PropertyDefinition_(xlink2::UserInstanceSLink* link);
     virtual void m50();
     virtual void m51();
     virtual void m52();
@@ -78,7 +93,7 @@ public:
     virtual void m55();
     virtual void m56();
     virtual void m57();
-    virtual void m58();
+    virtual bool isForceGlbMtxDirty_() const;
     virtual void m59();
     virtual void m60();
     virtual void m61();

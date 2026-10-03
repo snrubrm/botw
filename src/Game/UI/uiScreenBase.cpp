@@ -10,6 +10,11 @@ f32 ScreenBase::m32() {
     return eui::ScreenMgr::instance()->getAnimationStep();
 }
 
+// 0x71010a9fc0 (CSV ScreenBase::getArchiveName_)
+const char* ScreenBase::getArchiveName_() const {
+    return "Common";
+}
+
 // NON_MATCHING (Screen::~Screen, 0x71010aa54c, and ScreenEx::~ScreenEx, 0x7100a47910): the original destructors
 // destroy members that are not modelled yet. They are defaulted here so that the classes' vtables, and with
 // them the RTTI functions (which match), are emitted.

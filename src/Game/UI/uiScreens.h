@@ -22,6 +22,7 @@ public:
 
     // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_): slot 32
     f32 m32() override;
+    const char* getArchiveName_() const override;
 
     // non-virtual helper of ScreenBase::updateButton (slot 50 override in Screen)
     void updateButton_();
