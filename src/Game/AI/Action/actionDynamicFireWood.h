@@ -19,6 +19,7 @@ public:
 protected:
     bool _41 = false;
     void calc_() override;
+    int m33() override;
 };
 
 }  // namespace uking::action
