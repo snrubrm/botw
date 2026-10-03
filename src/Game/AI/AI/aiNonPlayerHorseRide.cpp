@@ -20,4 +20,12 @@ void NonPlayerHorseRide::leave_() {
 
 void NonPlayerHorseRide::loadParams_() {}
 
+bool NonPlayerHorseRide::m35() {
+    return true;
+}
+
+void NonPlayerHorseRide::m36() {
+    changeChild("乗る");
+}
+
 }  // namespace uking::ai

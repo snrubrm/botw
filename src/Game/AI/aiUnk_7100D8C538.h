@@ -7,3 +7,9 @@
 // is none): a view test of `pos` with two float tolerances (used as `!sub_7100D8C538(pos, 0.1, dist)` by the
 // out-of-screen checks). Placeholder name.
 bool sub_7100D8C538(const sead::Vector3f& pos, f32 a2, f32 a3);
+
+namespace cam {
+// 0x7100d8c6ac (CSV name; declared only): writes the look-at camera's position (or the default position when
+// there is no camera) to `out`; returns whether a camera exists.
+bool getCameraPositionMaybe(sead::Vector3f* out);
+}  // namespace cam

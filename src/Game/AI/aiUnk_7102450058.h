@@ -56,8 +56,8 @@ public:
 
     bool m4(ksys::act::BaseProc* proc) override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ void* _30 = nullptr;
+    /* 0x28 */ const char* _28 = nullptr;
+    /* 0x30 */ const char* _30 = nullptr;
     /* 0x38 */ s64 _38 = -1;
     /* 0x40 */ sead::Matrix34f _40 = sead::Matrix34f::ident;
     /* 0x70 */ u32 _70 = 0;

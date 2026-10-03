@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAppearNearTargetOutOfScrnGnd.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
+#include "KingSystem/System/CameraMgr.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,14 @@ void AppearNearTargetOutOfScrnGnd::leave_() {
 
 void AppearNearTargetOutOfScrnGnd::loadParams_() {
     AppearNearTarget::loadParams_();
+}
+
+void AppearNearTargetOutOfScrnGnd::m35(sead::Vector3f* out) {
+    cam::getCameraPositionMaybe(out);
+}
+
+bool AppearNearTargetOutOfScrnGnd::m36(const sead::Vector3f& pos) {
+    return !ksys::sub_7100D8C4F8(pos);
 }
 
 }  // namespace uking::ai

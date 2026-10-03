@@ -16,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    ksys::act::ActorBind* m35() override;
+    void m36() override;
+    void m37(const sead::Matrix34f& mtx) override;
 
 protected:
     ksys::act::ModelBindInfo _c0;

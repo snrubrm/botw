@@ -47,4 +47,6 @@ void AssassinRoot::loadParams_() {
     getMapUnitParam(&mRideHorseName_m, "RideHorseName");
 }
 
+void AssassinRoot::m35() {}
+
 }  // namespace uking::ai
