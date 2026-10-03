@@ -5,7 +5,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -26,7 +26,7 @@ protected:
     s32 _1c = -1;
     f32 _20 = -1.0f;
     u32 _24 = 0;
-    xlink2::Handle* _28 = nullptr;
+    xlink2::HandleSLink* _28 = nullptr;
     sead::TickTime _30;
     bool _38 = false;
 };

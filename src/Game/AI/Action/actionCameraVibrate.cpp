@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionCameraVibrate.h"
-#include <xlink2/xlink2Handle.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -14,7 +16,7 @@ CameraVibrate::~CameraVibrate() {
 }
 
 bool CameraVibrate::init_(sead::Heap* heap) {
-    _68 = new (heap) xlink2::Handle;
+    _68 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -23,7 +25,8 @@ void CameraVibrate::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CameraVibrate::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_68->getEvent() && _68->getEvent()->getCreateId() == u32(_68->getCreateId()))
+        xlink::fade(*_68, -1);
 }
 
 void CameraVibrate::loadParams_() {

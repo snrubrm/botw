@@ -8,7 +8,7 @@ class StaticCompoundRigidBodyGroup;
 }
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -60,8 +60,8 @@ protected:
     ksys::phys::StaticCompoundRigidBodyGroup* _90 = nullptr;
     s32 _98 = -1;
     u32 _9c;
-    xlink2::Handle* _a0 = nullptr;
-    xlink2::Handle* _a8 = nullptr;
+    xlink2::HandleSLink* _a0 = nullptr;
+    xlink2::HandleSLink* _a8 = nullptr;
     u32 _b0 = 0;
     u8 _b4 = 0;
     bool _b5 = false;

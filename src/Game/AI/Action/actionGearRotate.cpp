@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionGearRotate.h"
-#include <xlink2/xlink2Handle.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
@@ -17,7 +19,7 @@ GearRotate::~GearRotate() {
 }
 
 bool GearRotate::init_(sead::Heap* heap) {
-    _70 = new (heap) xlink2::Handle;
+    _70 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -57,7 +59,8 @@ void GearRotate::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GearRotate::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_70)
+        xlink::fade(*_70, -1);
 }
 
 void GearRotate::loadParams_() {

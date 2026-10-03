@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEmitEffectLoopAction.h"
+#include "Game/AI/aiXlinkHandle.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void EmitEffectLoopAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EmitEffectLoopAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!*mNoFade_d)
+        xlink::fade(_d0, -1);
 }
 
 void EmitEffectLoopAction::loadParams_() {

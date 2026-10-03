@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionDungeonRotateGyro.h"
-#include <xlink2/xlink2Handle.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/AI/aiXlinkHandle.h"
 
 namespace uking::action {
 
@@ -13,7 +15,7 @@ DungeonRotateGyro::~DungeonRotateGyro() {
 }
 
 bool DungeonRotateGyro::init_(sead::Heap* heap) {
-    _108 = new (heap) xlink2::Handle;
+    _108 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -22,7 +24,8 @@ void DungeonRotateGyro::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DungeonRotateGyro::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_108)
+        xlink::fade(*_108, -1);
 }
 
 void DungeonRotateGyro::loadParams_() {

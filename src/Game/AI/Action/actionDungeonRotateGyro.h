@@ -9,7 +9,7 @@ class StaticCompoundRigidBodyGroup;
 }
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -44,7 +44,7 @@ protected:
     sead::Matrix33f _bc = sead::Matrix33f::ident;
     sead::Matrix33f _e0 = sead::Matrix33f::ident;
     f32 _104;
-    xlink2::Handle* _108 = nullptr;
+    xlink2::HandleSLink* _108 = nullptr;
     u8 _110[0x128 - 0x110];
     u32 _128 = 0;
 };

@@ -8,7 +8,12 @@ namespace uking::action {
 RandomMoveAction::RandomMoveAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 void RandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _34 = 1.0f;
+    if (auto* nav = mActor->m45()) {
+        mActor->getCharacterController();
+        nav->sub_7100F76790();
+        nav->inlineReset();
+    }
 }
 
 void RandomMoveAction::leave_() {

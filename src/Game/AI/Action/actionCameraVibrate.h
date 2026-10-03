@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -38,7 +38,7 @@ protected:
     const float* mCameraRange_m{};
     bool _60 = false;
     int _64 = -1;
-    xlink2::Handle* _68 = nullptr;
+    xlink2::HandleSLink* _68 = nullptr;
 };
 
 }  // namespace uking::action

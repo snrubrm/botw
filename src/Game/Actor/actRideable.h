@@ -265,4 +265,9 @@ void sub_7100E7F698(RideableBase* rideable, ksys::as::ASList* as_list,
 // Not decompiled yet.
 void sub_7100E7F6FC(ksys::as::ASList* as_list, ksys::phys::CharacterController* controller, f32 scale);
 
+// 0x7100e816e4: picks a random reachable destination for `actor` around the rider position `pos`
+// (HorseRandomMoveAction::enter_; the float parameters are its static params, not decompiled yet).
+bool sub_7100E816E4(f32 dir_range_rad, f32 radius_limit, f32 dir_random, f32 fwd_dist_coef,
+                    f32 reject_dist_ratio, ksys::act::Actor* actor, const sead::Vector3f& pos);
+
 }  // namespace uking::act

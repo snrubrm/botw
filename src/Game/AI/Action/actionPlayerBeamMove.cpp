@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerBeamMove.h"
+#include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -15,6 +16,7 @@ void PlayerBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PlayerBeamMove::leave_() {
     WindCutter::leave_();
+    xlink::fade(_c8, -1);
 }
 
 void PlayerBeamMove::loadParams_() {

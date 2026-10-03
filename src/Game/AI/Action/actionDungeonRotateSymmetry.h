@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -48,7 +48,7 @@ protected:
     bool _84 = false;
     bool _85 = false;
     bool _86 = false;
-    xlink2::Handle* _88 = nullptr;
+    xlink2::HandleSLink* _88 = nullptr;
     u32 _90 = 0;
 };
 KSYS_CHECK_SIZE_NX150(DungeonRotateSymmetry, 0x98);

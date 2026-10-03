@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionEnvSeEmitPointInsectPlayAction.h"
-#include <xlink2/xlink2Handle.h>
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/AI/aiXlinkHandle.h"
 
 namespace uking::action {
 
@@ -10,7 +12,7 @@ EnvSeEmitPointInsectPlayAction::EnvSeEmitPointInsectPlayAction(const InitArg& ar
 EnvSeEmitPointInsectPlayAction::~EnvSeEmitPointInsectPlayAction() = default;
 
 bool EnvSeEmitPointInsectPlayAction::init_(sead::Heap* heap) {
-    _28 = new (heap) xlink2::Handle;
+    _28 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -19,7 +21,8 @@ void EnvSeEmitPointInsectPlayAction::enter_(ksys::act::ai::InlineParamPack* para
 }
 
 void EnvSeEmitPointInsectPlayAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_28)
+        xlink::fade(*_28, -1);
 }
 
 void EnvSeEmitPointInsectPlayAction::loadParams_() {}

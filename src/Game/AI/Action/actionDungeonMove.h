@@ -8,7 +8,7 @@ class StaticCompoundRigidBodyGroup;
 }
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -50,7 +50,7 @@ protected:
     ksys::phys::StaticCompoundRigidBodyGroup* _80 = nullptr;
     s32 _88 = -1;
     bool _8c = false;
-    xlink2::Handle* _90 = nullptr;
+    xlink2::HandleSLink* _90 = nullptr;
 };
 
 KSYS_CHECK_SIZE_NX150(DungeonMove, 0x98);

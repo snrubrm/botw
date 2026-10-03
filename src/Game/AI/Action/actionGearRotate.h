@@ -5,7 +5,7 @@
 #include "KingSystem/System/VFRValue.h"
 
 namespace xlink2 {
-class Handle;
+class HandleSLink;
 }
 
 namespace uking::action {
@@ -41,7 +41,7 @@ protected:
     f32 _5c = 0;
     ksys::VFRValue _60;
     f32 _6c = 0;
-    xlink2::Handle* _70 = nullptr;
+    xlink2::HandleSLink* _70 = nullptr;
 };
 
 KSYS_CHECK_SIZE_NX150(GearRotate, 0x78);

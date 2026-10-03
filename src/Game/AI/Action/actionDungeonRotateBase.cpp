@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionDungeonRotateBase.h"
+#include <xlink2/xlink2Event.h>
+#include <xlink2/xlink2HandleSLink.h>
+#include "Game/AI/aiXlinkHandle.h"
 #include <math/seadMathCalcCommon.h>
-#include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -24,8 +26,8 @@ bool DungeonRotateBase::init_(sead::Heap* heap) {
         _98 = -1;
     _7c = *mInitDgnPriority_m;
     _84 = _88 = sead::Mathf::deg2rad(*mTiltAngularSpeed_m);
-    _a0 = new (heap) xlink2::Handle;
-    _a8 = new (heap) xlink2::Handle;
+    _a0 = new (heap) xlink2::HandleSLink;
+    _a8 = new (heap) xlink2::HandleSLink;
     return true;
 }
 
@@ -34,7 +36,10 @@ void DungeonRotateBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DungeonRotateBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_a0)
+        xlink::fade(*_a0, -1);
+    if (_a8)
+        xlink::fade(*_a8, -1);
 }
 
 void DungeonRotateBase::loadParams_() {
