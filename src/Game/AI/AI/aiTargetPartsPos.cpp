@@ -9,7 +9,11 @@ TargetPartsPos::TargetPartsPos(const InitArg& arg) : TargetPosAI(arg) {}
 TargetPartsPos::~TargetPartsPos() = default;
 
 bool TargetPartsPos::init_(sead::Heap* heap) {
-    return TargetPosAI::init_(heap);
+    if (!TargetPosAI::init_(heap))
+        return false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CED8(mPartsName_s, heap);
+    return true;
 }
 
 void TargetPartsPos::enter_(ksys::act::ai::InlineParamPack* params) {

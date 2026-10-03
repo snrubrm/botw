@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiRemainsWindBatteryRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -17,7 +20,18 @@ bool RemainsWindBatteryRoot::init_(sead::Heap* heap) {
 }
 
 void RemainsWindBatteryRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        if (actor->getConstraints().size() == 0)
+            body->changeMotionType(ksys::phys::MotionType::Fixed);
+    }
+    if (auto* awareness = actor->getAwareness())
+        awareness->enable();
+    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "MaterialDefault", 0, 1, true);
+    changeChild("待機");
+    _38 = 3;
+    _40 = false;
+    _3c = 0;
 }
 
 void RemainsWindBatteryRoot::leave_() {

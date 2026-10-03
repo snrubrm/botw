@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiLeadToTarget.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkLeadToTarget : public LeadToTarget {
@@ -17,7 +21,7 @@ public:
     void loadParams_() override;
 
 protected:
-    void* _98{};
+    act::WolfLink* _98{};
     bool _a0 = false;
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkLeadToTarget, 0xa8);

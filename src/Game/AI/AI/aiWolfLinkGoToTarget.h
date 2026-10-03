@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiHorseFollow.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class WolfLink;
+}
+
 namespace uking::ai {
 
 class WolfLinkGoToTarget : public HorseFollow {
@@ -17,7 +21,7 @@ public:
     void loadParams_() override;
 
 protected:
-    void* _e0{};
+    act::WolfLink* _e0{};
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkGoToTarget, 0xe8);
 

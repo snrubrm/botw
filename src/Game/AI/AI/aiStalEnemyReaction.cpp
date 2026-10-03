@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiStalEnemyReaction.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -12,6 +13,8 @@ bool StalEnemyReaction::init_(sead::Heap* heap) {
 }
 
 void StalEnemyReaction::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e84.set(2);
     EnemyDefaultReaction::enter_(params);
 }
 

@@ -98,7 +98,7 @@ public:
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;
     /* 0x028 */ ksys::act::BaseProcLink _28;
-    /* 0x038 */ u32 _38;
+    /* 0x038 */ Phase _38;
     /* 0x03c */ Phase _3c;
     /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
     /* 0x044 */ u8 _44[0x78 - 0x44];
