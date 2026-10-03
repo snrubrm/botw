@@ -89,6 +89,15 @@ void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vec
 /// component along its up direction removed, normalised. Placeholder name.
 void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor);
 
+namespace uking::act {
+class Dragon;
+}
+
+/// 0x7100010168 (out-of-line copy of an inline function, in the Dragon action TU; 6 Dragon AI callers):
+/// the normalised direction from the dragon's reference position (+0x1e10) to its position, or the
+/// X axis of its matrix at +0x1e28 if they coincide. Placeholder name.
+void sub_7100010168(uking::act::Dragon* dragon, sead::Vector3f* out);
+
 /// 0x710072fec4 (declared only): probes along `dir` from the actor (used by the cliff/edge checks of
 /// several enemy AIs); optionally outputs a position and a flag. Placeholder name; the position of
 /// the f32 argument among the integer arguments is unknown.
@@ -109,6 +118,13 @@ bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
                     f32 a3, f32 a4);
+/// 0x710072f8e4: sub_710072F28C from the actor's position to `target`, the tolerance `a3` in the second
+/// float slot. Placeholder name.
+bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3);
+/// 0x710072dc9c: sets the gravity factor of the actor's character controller, or of its main body
+/// without one. Placeholder name.
+void sub_710072DC9C(ksys::act::Actor* actor, f32 factor);
 /// 0x710072cb78 (declared only): sub_710072F28C from the actor's position (NaN) to `target` with the
 /// tolerance `a3` and the other two default (-1); a4 is passed as the integer argument 5. Placeholder
 /// name.

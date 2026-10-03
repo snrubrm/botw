@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonBeastSufferChanger.h"
+#include "Game/AI/aiUnk_710070284C.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,35 @@ bool GanonBeastSufferChanger::init_(sead::Heap* heap) {
 }
 
 void GanonBeastSufferChanger::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (*mIsWeakPointAppearMode_a) {
+        changeChild("弱点露出");
+        *mIsWeakPointAppearMode_a = true;
+    } else {
+        const s32 stage = sub_710070284C(mActor);
+        const s32* time_s;
+        switch (stage) {
+        case 0:
+            time_s = mWeakPoint1Time_s;
+            break;
+        case 1:
+            time_s = mWeakPoint2Time_s;
+            break;
+        case 2:
+            time_s = mWeakPoint3Time_s;
+            break;
+        default:
+            time_s = mWeakPoint4Time_s;
+            break;
+        }
+        const s32 time = *time_s;
+        _d5 = time >= 0;
+        _d0 = time;
+        if (time < 0)
+            changeChild("無敵モード");
+        else
+            changeChild("通常");
+        *mIsWeakPointAppearMode_a = false;
+    }
 }
 
 void GanonBeastSufferChanger::leave_() {

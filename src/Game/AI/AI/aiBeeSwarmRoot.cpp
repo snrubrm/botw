@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiBeeSwarmRoot.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actSwarm.h"
+#include "Game/Actor/actUnk_71025ae680.h"
 
 namespace uking::ai {
 
@@ -12,6 +17,11 @@ bool BeeSwarmRoot::init_(sead::Heap* heap) {
 
 void BeeSwarmRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SwarmRoot::enter_(params);
+    getActorAttackSensor(mActor)->_20 |= 8;
+    if (auto* actor = sead::DynamicCast<act::Swarm>(mActor)) {
+        if (auto* unit = sead::DynamicCast<uking::act::Unk_710244ff68>(actor->m159()))
+            unit->_28 |= 1;
+    }
 }
 
 void BeeSwarmRoot::calc_() {

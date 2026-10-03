@@ -50,7 +50,7 @@ protected:
     sead::SafeString mlabelName3_s{};
     // Holder of a ref-counted object stored in an AITree variable (see init_); type unknown.
     Unk_71000b0800<Unk_71025b2aa8> _c8;
-    u32 _d0{};
+    f32 _d0{};
     bool _d4{};
     bool _d5{};
 };

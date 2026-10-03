@@ -68,4 +68,16 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
 
+// Placeholder name (vtable 0x710244ff68; no out-of-line ctor: built inline by Swarm::m178, size
+// 0x68). The unit-controller object of the swarm actors (Swarm::_e78 / m159).
+// TODO: incomplete.
+class Unk_710244ff68 : public Unk_71025ae680 {
+    SEAD_RTTI_OVERRIDE(Unk_710244ff68, Unk_71025ae680)
+public:
+    /* 0x20 */ u8 _20[0x28 - 0x20];
+    /* 0x28 */ u8 _28;  // flags (BeeSwarmRoot::enter_ sets bit 0)
+    /* 0x29 */ u8 _29[0x68 - 0x29];
+};
+KSYS_CHECK_SIZE_NX150(Unk_710244ff68, 0x68);
+
 }  // namespace uking::act

@@ -9,3 +9,8 @@ int sub_710070284C(ksys::act::Actor* actor) {
         return sTable[value];
     return 0;
 }
+
+bool sub_71007028CC(ksys::act::Actor* actor) {
+    auto* life = actor->getLife();
+    return life && *life < 1;
+}

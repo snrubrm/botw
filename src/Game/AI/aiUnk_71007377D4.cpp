@@ -2,9 +2,12 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/gameUnk_71024739d0.h"
+#include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -69,6 +72,19 @@ bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
                     f32 a3, f32 a4) {
     const sead::Vector3f from = actor->getMtx().getTranslation();
     return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, a3, a4, -1.0f);
+}
+
+bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a3) {
+    const sead::Vector3f from = actor->getMtx().getTranslation();
+    return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, -1.0f, a3, -1.0f);
+}
+
+void sub_710072DC9C(ksys::act::Actor* actor, f32 factor) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EEB8(factor);
+    else if (auto* body = actor->getMainBody())
+        body->setGravityFactor(factor);
 }
 
 bool sub_710072E1B4(ksys::act::Actor* actor, bool include_3) {
@@ -259,6 +275,14 @@ void sub_71000891C8(sead::Vector3f* out, ksys::act::Actor* actor) {
     actor->getMtx().getBase(dir, 2);
     const sead::Vector3f up = getUpDir(actor);
     ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+    *out = dir;
+}
+
+void sub_7100010168(uking::act::Dragon* dragon, sead::Vector3f* out) {
+    sead::Vector3f dir = dragon->getMtx().getTranslation() - dragon->_1e10;
+    if (dir.x == 0 && dir.y == 0 && dir.z == 0)
+        dir = dragon->_1e28.getBase(0);
     dir.normalize();
     *out = dir;
 }
