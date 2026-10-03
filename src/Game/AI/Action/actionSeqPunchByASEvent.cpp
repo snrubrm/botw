@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionSeqPunchByASEvent.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::action {
 
@@ -35,6 +39,34 @@ void SeqPunchByASEvent::loadParams_() {
 void SeqPunchByASEvent::calc_() {
     ActionWithAS::calc_();
     _50.sub_7100720B28();
+}
+
+int SeqPunchByASEvent::m32() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref();
+}
+
+int SeqPunchByASEvent::m33() {
+    int flags;
+    switch (*mAttackIntensity_s) {
+    case 0:
+        flags = 0;
+        break;
+    case 1:
+        flags = 1;
+        break;
+    case 2:
+        flags = 2;
+        break;
+    case 3:
+        flags = 4;
+        break;
+    default:
+        flags = 0;
+        break;
+    }
+    if (*mIsHammer_s)
+        flags |= 0x1000;
+    return flags;
 }
 
 }  // namespace uking::action

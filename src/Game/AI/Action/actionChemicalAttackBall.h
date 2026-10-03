@@ -20,6 +20,7 @@ protected:
     void calc_() override;
     float m34() override;
     int m35() override;
+    int m36() override;
 
     // static_param at offset 0x80
     const bool* mIsUseMyRange_s{};

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionCloseClockTime.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/euiScreen.h"
 
 namespace uking::action {
 
@@ -11,5 +13,11 @@ bool CloseClockTime::init_(sead::Heap* heap) {
 }
 
 void CloseClockTime::loadParams_() {}
+
+bool CloseClockTime::oneShot_() {
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Time))
+        screen->close(-1);
+    return true;
+}
 
 }  // namespace uking::action

@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionChemicalElectricWaterBall.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::action {
 
@@ -31,6 +34,18 @@ void ChemicalElectricWaterBall::loadParams_() {
 
 void ChemicalElectricWaterBall::calc_() {
     ChemicalAttackBall::calc_();
+}
+
+int ChemicalElectricWaterBall::m36() {
+    return ChemicalAttackBall::m36() | 8;
+}
+
+int ChemicalElectricWaterBall::m37() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+}
+
+int ChemicalElectricWaterBall::m38() {
+    return mActor->getParam()->getRes().mGParamList->getAttack()->mPowerForPlayer.ref();
 }
 
 }  // namespace uking::action

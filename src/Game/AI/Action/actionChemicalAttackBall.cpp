@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChemicalAttackBall.h"
+#include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -52,6 +53,22 @@ float ChemicalAttackBall::m34() {
     if (*mIsUseMyRange_s)
         return mActor->getParam()->getRes().mGParamList->getAttack()->mRange.ref();
     return *mRange_m;
+}
+
+int ChemicalAttackBall::m36() {
+    int flags = 0;
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        if (chemical->_c0 == 2) {
+            flags = 0x200;
+        } else {
+            const u32 attribute = chemical->mMaterial->attribute.ref();
+            if (attribute & 0x8000)
+                flags = 0x400;
+            else if (((attribute & 0x108) == 0x108 && !(chemical->_be & 4)) || chemical->_1b8 > 0.0f)
+                flags = 0x800;
+        }
+    }
+    return flags | ChemicalAttack::m36();
 }
 
 }  // namespace uking::action

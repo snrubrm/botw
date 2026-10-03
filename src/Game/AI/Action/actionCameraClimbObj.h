@@ -12,6 +12,7 @@ public:
     ~CameraClimbObj() override;
 
 protected:
+    void m35() override;
     bool m32(sead::Heap* heap) override;
 };
 

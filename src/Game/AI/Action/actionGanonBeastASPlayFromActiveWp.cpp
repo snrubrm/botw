@@ -33,4 +33,8 @@ void GanonBeastASPlayFromActiveWp::calc_() {
     ForkASPlayBase::calc_();
 }
 
+const char* GanonBeastASPlayFromActiveWp::m32() {
+    return _68.cstr();
+}
+
 }  // namespace uking::action

@@ -11,6 +11,7 @@ public:
     ~MarkPositionFromGameData() override;
 
     bool init_(sead::Heap* heap) override;
+    bool oneShot_() override;
     void loadParams_() override;
 
 protected:

@@ -20,6 +20,9 @@ public:
 
 protected:
     void calc_() override;
+    int m36() override;
+    int m37() override;
+    int m38() override;
 
     // static_param at offset 0x90
     const int* mDeleteTime_s{};

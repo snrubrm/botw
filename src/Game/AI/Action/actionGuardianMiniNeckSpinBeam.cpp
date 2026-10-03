@@ -21,4 +21,11 @@ void GuardianMiniNeckSpinBeam::calc_() {
     NeckSpinBeam::calc_();
 }
 
+void GuardianMiniNeckSpinBeam::m33() {
+    const f32 speed = *mSpinSpeed_s;
+    if (speed <= sead::Mathf::epsilon() && speed >= -sead::Mathf::epsilon())
+        return;
+    NeckSpin::m33();
+}
+
 }  // namespace uking::action
