@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -123,7 +124,29 @@ bool SiteBossChemicalProjectile::m41() {
     return false;
 }
 
-void SiteBossChemicalProjectile::m43() {}
+void SiteBossChemicalProjectile::m42() {
+    sub_71003EB688();
+    auto* actor = mActor;
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody"))
+        body->setLinearVelocity(sead::Vector3f::zero);
+    if (auto* body = mActor->getMainBody())
+        body->setLinearVelocity(sead::Vector3f::zero);
+}
+
+void SiteBossChemicalProjectile::sub_71003EB688() {
+    ksys::act::ai::InlineParamPack params;
+    params.addBool(m55(), "IsPlayerAttack", -1);
+    params.addInt(*mAttackPower_m, "AttackPower", -1);
+    params.addInt(*mAtMinDamage_m, "AtMinDamage", -1);
+    if (_d5) {
+        changeChild("爆発", &params);
+    } else {
+        _d5 = true;
+        changeChild("反射後爆発", &params);
+    }
+}
+
+void SiteBossChemicalProjectile::m43(bool a) {}
 
 const sead::Vector3f& SiteBossChemicalProjectile::m45() {
     return _bc;

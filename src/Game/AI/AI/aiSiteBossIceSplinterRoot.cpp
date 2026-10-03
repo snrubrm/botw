@@ -1,11 +1,20 @@
 #include "Game/AI/AI/aiSiteBossIceSplinterRoot.h"
 #include <cmath>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -19,11 +28,35 @@ SiteBossIceSplinterRoot::~SiteBossIceSplinterRoot() {
 }
 
 bool SiteBossIceSplinterRoot::init_(sead::Heap* heap) {
-    return SiteBossChemicalProjectile::init_(heap);
+    if (!SiteBossChemicalProjectile::init_(heap))
+        return false;
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor))
+        actor->_a70 = &_270;
+    mActor->sub_71011D0204(0x40);
+    _244 = 0;
+    return true;
 }
 
 void SiteBossIceSplinterRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossChemicalProjectile::enter_(params);
+    _23c = 0;
+    _244 = 0;
+    _22c = false;
+    _228 = false;
+    _229 = false;
+    _22a = false;
+    _22b = false;
+    _240 = *mChaseAngleLimit_s;
+    mActor->sub_71011D0228(0x80);
+    if (auto* model = mActor->getModel())
+        model->getUnits().unsafeAt(0)->_1e |= 0x20;
+    if (auto* body = mActor->getMainBody())
+        body->setContactLayer(ksys::phys::ContactLayer::EntityNoHit);
+    _230 = sead::Mathf::pi();
+    _234 = sead::Mathf::pi();
+    _238 = 0.06f;
+    _254 = sead::Vector3f::ones;
+    _248 = m35();
 }
 
 void SiteBossIceSplinterRoot::leave_() {
@@ -133,6 +166,50 @@ bool SiteBossIceSplinterRoot::m56() {
     if (m55())
         return false;
     return !_228;
+}
+
+// NON_MATCHING: same calls / conditions; the original loads the DamageManager flags as a halfword
+// (`ldrh`, ours narrows `_216.isOn(2)` to `ldrb`), rematerialises the "ArrowHit" literal for each call
+// and orders the two fmul before the 0.3f store
+void SiteBossIceSplinterRoot::m43(bool a) {
+    auto* dmg = sub_710072BA90(mActor);
+    if (dmg && !mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+        const s32 field_54 = dmg->getField54();
+        const s32 field_50 = dmg->getField50();
+        if (field_54 == 0x22)
+            _22a = true;
+        else if (field_50 == 3)
+            ksys::eft::searchAndEmitELink(mActor, "ArrowHit");
+        ksys::eft::searchAndEmitSLink(mActor, "ArrowHit", false);
+
+        if (field_50 != 6 && dmg->_216.isOn(2)) {
+            ksys::act::ActorConstDataAccess accessor;
+            if (ksys::act::acquireActor(dmg->getAttacker(), &accessor) &&
+                accessor.hasTag(ksys::act::tags::CanBreakIceMakerBlock)) {
+                _22a = true;
+            }
+        }
+    }
+
+    if (_22b || _228)
+        return;
+
+    sead::Vector3f velocity{0.0f, 0.3f, 0.0f};
+    if (dmg && dmg->m32(&velocity)) {
+        velocity.normalize();
+        velocity.x *= 0.1f;
+        velocity.y = 0.3f;
+        velocity.z *= 0.1f;
+    }
+    _d7 = false;
+    m46(velocity);
+    m47(1.0f);
+    _260 = *mRotateSpeedAtHit_s;
+    if (auto* body = mActor->getMainBody())
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    _228 = true;
+    if (!a)
+        changeChild("発射");
 }
 
 void SiteBossIceSplinterRoot::m44() {

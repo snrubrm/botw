@@ -1,6 +1,8 @@
 #pragma once
 
+#include <prim/seadDelegate.h>
 #include "Game/AI/AI/aiSiteBossChemicalProjectile.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -25,6 +27,7 @@ public:
     u32 m51() override;
     bool m54() override;
     bool m56() override;
+    void m43(bool a) override;
     void m44() override;
     f32 m57() override;
 
@@ -70,15 +73,23 @@ protected:
     bool _22a = false;
     bool _22b = false;
     bool _22c = false;
-    u64 _230 = 0;
-    u64 _238 = 0;
+    f32 _230 = 0;
+    f32 _234 = 0;
+    f32 _238 = 0;
+    f32 _23c = 0;
     f32 _240 = 0;
     u32 _244 = 0;
-    u8 _248[0x270 - 0x248];
-    // sead::Delegate1<SiteBossIceSplinterRoot, ?*> (handler 0x7100577b18; argument: a struct with a
-    // Vector3f at +0 and a pointer at +0x18 to an object holding a BaseProcLink at +0xd8 -- the
-    // same unknown type as TrolleyRoot's / StoneBall_BRoot's delegate argument)
-    u8 _270[0x20];
+    sead::Vector3f _248;
+    sead::Vector3f _254;
+    sead::Vector3f _260;
+    u32 _26c;
+    // Handler 0x7100577b18 (1312 bytes, not decompiled yet): the argument has a Vector3f at +0 and a
+    // pointer at +0x18 to an object holding a BaseProcLink at +0xd8 (the same type as TrolleyRoot's /
+    // StoneBall_BRoot's delegate argument).
+    void sub_7100577B18(ksys::act::Unk_71006dc134* arg);
+
+    sead::Delegate1<SiteBossIceSplinterRoot, ksys::act::Unk_71006dc134*> _270{
+        this, &SiteBossIceSplinterRoot::sub_7100577B18};
 };
 KSYS_CHECK_SIZE_NX150(SiteBossIceSplinterRoot, 0x290);
 

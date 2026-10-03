@@ -46,7 +46,7 @@ public:
     virtual bool m40();
     virtual bool m41();
     virtual void m42();
-    virtual void m43();
+    virtual void m43(bool a);
     virtual void m44();
     virtual const sead::Vector3f& m45();
     virtual void m46(const sead::Vector3f& v);
@@ -61,6 +61,10 @@ public:
     virtual bool m55();
     virtual bool m56();
     virtual f32 m57();
+
+    // 0x71003eb688: changes to the explosion child, passing IsPlayerAttack (m55), AttackPower and
+    // AtMinDamage; the first call goes to the reflected explosion state. Placeholder name.
+    void sub_71003EB688();
 
 protected:
     // static_param at offset 0x38
