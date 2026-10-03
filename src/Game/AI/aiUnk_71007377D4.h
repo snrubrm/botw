@@ -105,6 +105,21 @@ bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// `out_pos`. Placeholder name.
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos);
+/// 0x710072f7ac (lane2 s21): sub_710072F28C from `from` to `to` with the tolerance `a7` (a5 as in
+/// sub_710072F28C). Placeholder name.
+bool sub_710072F7AC(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a7);
+/// 0x710072f7d0 (lane2 s21): sub_710072F28C from `from` to `to` with the actor's navmesh radius as the
+/// first tolerance. Placeholder name.
+bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5);
+/// 0x710072f854 (lane2 s21): like sub_710072F7D0 with `extra` added to the navmesh radius. Placeholder name.
+bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, f32 extra, s32 a5);
+/// 0x710072f8e4 (lane2 s21): sub_710072F28C from the actor's position to `target` with `a8` as the
+/// second tolerance. Placeholder name.
+bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
+                    f32 a8);
 /// 0x710072f944: sub_710072F28C from the actor's position to `target` with the given tolerances.
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
