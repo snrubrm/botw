@@ -81537,7 +81537,7 @@ Address,Quality,Size,Name
 0x0000007100efbd78,U,000576,ActorWeapons::equipWeapon
 0x0000007100efbfb8,U,000224,ActorStruct3::resetWeaponBaseProcLink
 0x0000007100efc098,U,000548,
-0x0000007100efc2bc,U,000280,ActorWeapons::dropWeapon
+0x0000007100efc2bc,m,000280,_ZN4ksys3act12ActorWeapons10dropWeaponEiRKN4sead7Vector3IfEEbbPvb
 0x0000007100efc3d4,U,000268,
 0x0000007100efc4e0,U,000276,
 0x0000007100efc5f4,U,000248,
