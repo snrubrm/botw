@@ -5,6 +5,7 @@
 #include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include <container/seadSafeArray.h>
+#include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 
 #include "KingSystem/Utils/Types.h"
@@ -60,7 +61,9 @@ public:
     bool _171e46;
     u8 _171e47;
     s32 _171e48;
-    u8 _171e4c[0x189e38 - 0x171e4c];
+    sead::SafeArray<sead::Atomic<s32>, 7> _171e4c;
+    sead::SafeArray<u8, 7> _171e68;
+    u8 _171e6f[0x189e38 - 0x171e6f];
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
 

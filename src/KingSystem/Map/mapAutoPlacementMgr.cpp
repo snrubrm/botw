@@ -20,4 +20,14 @@ bool AutoPlacementMgr::auto9() {
     return _171e48 > 0;
 }
 
+// NON_MATCHING: the original reads the counter once more (a discarded volatile load) after the decrement
+void AutoPlacementMgr::sub_7100659DE0(int type, bool enable) {
+    if (enable) {
+        ++_171e4c[type];
+        _171e68[type] = 5;
+    } else {
+        --_171e4c[type];
+    }
+}
+
 }  // namespace ksys::map

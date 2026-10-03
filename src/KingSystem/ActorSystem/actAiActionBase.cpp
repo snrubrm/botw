@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -82,6 +83,11 @@ bool ActionBase::isActorDeletedOrDeleting() const {
 
 bool ActionBase::isActorGoingBackToRootAi() const {
     return mActor->getRootAi()->mNewChildIdx == 0;
+}
+
+void ActionBase::sub_71011C24DC(u32 slot, u32 seq_bank) {
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115F444(slot, seq_bank, &as::ASList::Unk2::sub_710042BBEC);
 }
 
 void ActionBase::enter(InlineParamPack* params, const sead::SafeString& context) {

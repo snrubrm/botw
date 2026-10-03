@@ -887,3 +887,10 @@ f32 PlayerBase::x_44() const {
 }
 
 }  // namespace ksys::act::acc
+
+bool sub_710084D068() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    return info->getPlayerLink().hasProc();
+}

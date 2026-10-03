@@ -199,3 +199,25 @@ const sead::Vector3f& PlayerInfo::getPlayerM265() const {
 }
 
 }  // namespace ksys::act
+
+bool sub_710072B660() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return true;
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+    return accessor.x_25();
+}
+
+bool sub_710072B7C4() {
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+    return accessor.x_40();
+}
+
+bool sub_710072B8E4() {
+    return sub_710084D068();
+}

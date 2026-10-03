@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <prim/seadRuntimeTypeInfo.h>
+#include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -470,6 +471,53 @@ phys::SystemGroupHandler* ActorConstDataAccess::sub_7100D10448(s32 idx) const {
     if (!physics)
         return nullptr;
     return physics->get178(idx);
+}
+
+phys::SystemGroupHandler* ActorConstDataAccess::x(s32 idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return nullptr;
+    return physics->get188(idx);
+}
+
+bool ActorConstDataAccess::sub_7100D12E64() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return false;
+    return info->_30 & 1;
+}
+
+bool ActorConstDataAccess::sub_7100D0FEAC() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->m50();
+}
+
+bool ActorConstDataAccess::sub_7100D11188(sead::Matrix34f* out) const {
+    if (auto* actor = getActor()) {
+        if (auto* chemical = actor->getChemicalStuff()) {
+            chemical->sub_7100D9153C(out);
+            return true;
+        }
+    }
+    out->makeIdentity();
+    return false;
+}
+
+f32 ActorConstDataAccess::sub_7100D11254() const {
+    f32 value = 0.0f;
+    if (auto* actor = getActor()) {
+        if (auto* chemical = actor->getChemicalStuff())
+            value = chemical->_34;
+    }
+    return value;
 }
 
 void ActorConstDataAccess::getHomeMtx(sead::Matrix34f* mtx) const {

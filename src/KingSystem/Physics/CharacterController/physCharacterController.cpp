@@ -157,6 +157,15 @@ bool CharacterController::sub_7100F5F270(int idx) {
     return sub_7100F5F344(idx, force);
 }
 
+void CharacterController::sub_7100F5FBC8(sead::Vector3f* linear_velocity,
+                                         sead::Vector3f* angular_velocity,
+                                         const sead::Matrix34f& target) {
+    if (mFlags.isOn(0x10000))
+        _298->computeVelocities(linear_velocity, angular_velocity, target);
+    else
+        mRigidBody->computeVelocities(linear_velocity, angular_velocity, target);
+}
+
 // NON_MATCHING: body selection becomes a csel of the two field addresses (as in
 // physicsXXXGetMtx_1); the original branches on the flag byte
 void CharacterController::sub_7100F5FC8C(const sead::Matrix34f& mtx) {

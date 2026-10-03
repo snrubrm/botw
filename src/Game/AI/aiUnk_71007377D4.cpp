@@ -33,6 +33,11 @@ void sub_7100737714(ksys::phys::CharacterController* controller, const sead::Vec
     ksys::act::sub_7100EE6228(controller, ang_vel);
 }
 
+void sub_7100738DC8(ksys::act::Actor* actor) {
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBDFA4(physics->get178(0));
+}
+
 void sub_7100737718(ksys::phys::RigidBody* body, const sead::Vector3f& vel) {
     ksys::act::sub_7100EE6268(body, vel);
 }

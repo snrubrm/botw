@@ -254,6 +254,12 @@ bool RagdollInstance::removeFromWorldAndResetLinks() {
     return removed;
 }
 
+bool RagdollInstance::sub_7101221D24() const {
+    if (!mFlags.isOn(Flag::AddedToWorld))
+        return true;
+    return mFlags.isOn(Flag::_4) && mFlags.isOn(Flag::_2);
+}
+
 bool RagdollInstance::isAddingToWorld() const {
     return mBoneRigidBodies.size() > 0 && mBoneRigidBodies.back()->isAddingBodyToWorld();
 }
