@@ -68,6 +68,8 @@ target_sources(uking PRIVATE
   uiSubsys1.cpp
   uiUI.h
   uiUnkSingletons.h
+  uiUnkTiny.cpp
+  uiUnkTiny.h
   uiUtils.cpp
   uiWorldFacade.cpp
   uiUtils.h
