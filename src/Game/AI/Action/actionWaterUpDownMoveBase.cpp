@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaterUpDownMoveBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void WaterUpDownMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WaterUpDownMoveBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    _74.resetMotionType(mActor->getCharacterController());
 }
 
 void WaterUpDownMoveBase::loadParams_() {

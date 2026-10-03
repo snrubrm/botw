@@ -35,7 +35,8 @@ protected:
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
     u64 _60 = 0;
-    u64 _68 = 0;
+    f32 _68 = 0.0f;
+    f32 _6c = 0.0f;
     s32 _70 = 0;
     ksys::act::CCAccessor _74;
     Unk_7100700620 _7c;

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkDisableContactByPreAS.h"
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadFormatPrint.h>
 
 namespace uking::action {
@@ -36,6 +37,16 @@ void ForkDisableContactByPreAS::loadParams_() {
 
 void ForkDisableContactByPreAS::calc_() {
     ForkDisableContact::calc_();
+    mTimerActive = false;
+    mTimer.update();
+}
+
+bool ForkDisableContactByPreAS::m32() {
+    return mTimerActive;
+}
+
+bool ForkDisableContactByPreAS::m33() {
+    return !(mTimer.value <= sead::Mathf::epsilon());
 }
 
 }  // namespace uking::action
