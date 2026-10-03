@@ -1,5 +1,6 @@
 #pragma once
 
+#include <evfl/TimelineObj.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtEventResource.h"
@@ -40,16 +41,17 @@ public:
     SEAD_RTTI_BASE(EventFlow)
 
     virtual void m4();  // empty
+    // slot 5
     virtual f32 getFrameCount() const = 0;
     virtual s32 getEventFlowType() const = 0;  // 0 = flowchart, 1 = timeline, 2 / 3 = movie
     virtual void* m7();                        // returns nullptr
     virtual void m8();                         // empty
     virtual void printStatus();
-    virtual s32 m10();  // returns 0
+    virtual s32 m10();  // returns 0 (FlowFlowchart: isFinished; EventFlowTimeline: takes an argument)
     virtual void m11() = 0;
     virtual void m12() = 0;
-    virtual void m13() = 0;
-    virtual void m14() = 0;
+    virtual void m13() = 0;  // start
+    virtual bool m14() = 0;  // update
     virtual void m15() = 0;
     virtual void m16() = 0;
     virtual void m17() = 0;
@@ -68,7 +70,8 @@ public:
     bool isPlaying();
 
     u8 _8[0x10 - 0x8];
-    u8 _10[0x100 - 0x10];  // the flow's data (passed to EventResource::init*)
+    u8 _10[0x68 - 0x10];   // the flow's data (passed to EventResource::init*)
+    u8 _68[0x100 - 0x68];
     /* 0x100 */ EventFlowHandle* _100;
     /* 0x108 */ EventResource* _108;
     /* 0x110 */ void* _110;
@@ -88,6 +91,8 @@ public:
 
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
+    s32 m10() override;
+    void m15() override;
     void m16() override;
     void m17() override;
 
@@ -105,14 +110,17 @@ public:
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
     void* m7() override;
+    void m13() override;
+    bool m14() override;
     void m15() override;
     void m16() override;
     void m17() override;
 
     /* 0x620 */ s32 _620;
     u8 _624[4];
-    /* 0x628 */ void* _628;
-    u8 _630[0x638 - 0x630];
+    /* 0x628 */ evfl::TimelineObj* _628;
+    /* 0x630 */ s32 _630;
+    u8 _634[0x638 - 0x634];
     /* 0x638 */ void* _638;
 };
 

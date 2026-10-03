@@ -1,4 +1,6 @@
 #include "KingSystem/Event/evtEventFlow.h"
+#include <evfl/ResTimeline.h>
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
 
@@ -75,6 +77,52 @@ void EventFlowFlowchart::m16() {}
 
 // 0x7100dbb2e8
 void EventFlowFlowchart::m17() {}
+
+// 0x7100dbaca8 (CSV evt::EventFlowFlowchart::init2)
+void EventFlowFlowchart::m15() {
+    _108->initFlowchart(_10, _68);
+}
+
+// 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished)
+s32 EventFlowFlowchart::m10() {
+    const s32 state = _69c;
+    if (state == 0)
+        _340 &= ~0x2400ull;
+    return state == 0;
+}
+
+// 0x7100dbd370
+f32 EventFlowTimeline::getFrameCount() const {
+    if (!_628)
+        return 0.0f;
+    return _628->GetTime();
+}
+
+// 0x7100dbccd8 (CSV evt::EventFlowTimeline::start)
+void EventFlowTimeline::m13() {
+    _630 = 0;
+    _628->Start(0.0f);
+    if (_340 & 0x20000) {
+        _340 &= ~0x2400ull;
+    } else {
+        const bool forbid_skip = _108->mDemoInfo.isForbidSkip();
+        _340 &= ~0x2400ull;
+        if (!forbid_skip)
+            _340 |= 0x400;
+    }
+}
+
+// 0x7100dbd318 (CSV evt::EventFlowTimeline::update)
+// NON_MATCHING: same logic, but the original computes `(time >= duration) & !(flag & 8)` as tst / cset eq / and where
+// every source form gives `bic w0, w9, w8, lsr #3` (or a branch for `&&`); register numbers differ as well.
+bool EventFlowTimeline::m14() {
+    const f32 time = _628->GetTime();
+    const f32 duration = _628->GetTimeline()->duration;
+    if (time >= duration)
+        _340 &= ~0x2400ull;
+    const bool not_skipped = !(Manager::instance()->_1d2f4_bytes[0] & 8);
+    return (time >= duration) & not_skipped;
+}
 
 // 0x7100dbd7bc
 s32 EventFlowTimeline::getEventFlowType() const {

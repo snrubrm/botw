@@ -111,7 +111,10 @@ private:
 
 public:
     // Flag word; bit 0 is cleared by uking::action::PlayerHellStartWait::leave_.
-    u32 _1d2f4;
+    union {
+        u32 _1d2f4;
+        u8 _1d2f4_bytes[4];
+    };
     /* 0x1d2f8 */ s32 _1d2f8;
 };
 

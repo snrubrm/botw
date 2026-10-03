@@ -76150,7 +76150,7 @@ Address,Quality,Size,Name
 0x0000007100dba3ac,U,000128,
 0x0000007100dba42c,U,002048,evt::makeEventFlow
 0x0000007100dbac2c,U,000124,evt::makeEventFlowByName
-0x0000007100dbaca8,U,000020,evt::EventFlowFlowchart::init2
+0x0000007100dbaca8,O,000020,_ZN4ksys3evt18EventFlowFlowchart3m15Ev
 0x0000007100dbacbc,U,000056,evt::EventFlowFlowchart::dtor
 0x0000007100dbacf4,U,000064,evt::EventFlowFlowchart::dtorDelete
 0x0000007100dbad34,U,000148,evt::EventFlowFlowchart::init
@@ -76159,7 +76159,7 @@ Address,Quality,Size,Name
 0x0000007100dbaf08,U,000384,
 0x0000007100dbb088,U,000384,
 0x0000007100dbb208,U,000044,evt::EventFlowFlowchart::start
-0x0000007100dbb234,U,000036,evt::EventFlowFlowchart::isFinished
+0x0000007100dbb234,O,000036,_ZN4ksys3evt18EventFlowFlowchart3m10Ev
 0x0000007100dbb258,U,000140,evt::EventFlowFlowchart::calc
 0x0000007100dbb2e4,O,000004,_ZN4ksys3evt18EventFlowFlowchart3m16Ev
 0x0000007100dbb2e8,O,000004,_ZN4ksys3evt18EventFlowFlowchart3m17Ev
@@ -76194,12 +76194,12 @@ Address,Quality,Size,Name
 0x0000007100dbc90c,O,000016,_ZN4ksys3evt17EventFlowTimeline3m15Ev
 0x0000007100dbc91c,U,000544,evt::EventFlowTimeline::m11
 0x0000007100dbcb3c,U,000412,
-0x0000007100dbccd8,U,000104,evt::EventFlowTimeline::start
+0x0000007100dbccd8,O,000104,_ZN4ksys3evt17EventFlowTimeline3m13Ev
 0x0000007100dbcd40,U,001044,evt::EventFlowTimeline::m12
 0x0000007100dbd154,U,000096,
 0x0000007100dbd1b4,U,000356,
-0x0000007100dbd318,U,000088,evt::EventFlowTimeline::update
-0x0000007100dbd370,U,000024,evt::EventFlowTimeline::getFrameCount
+0x0000007100dbd318,m,000088,_ZN4ksys3evt17EventFlowTimeline3m14Ev
+0x0000007100dbd370,O,000024,_ZNK4ksys3evt17EventFlowTimeline13getFrameCountEv
 0x0000007100dbd388,U,000036,evt::EventFlowTimeline::m10
 0x0000007100dbd3ac,O,000004,_ZN4ksys3evt17EventFlowTimeline3m16Ev
 0x0000007100dbd3b0,O,000004,_ZN4ksys3evt17EventFlowTimeline3m17Ev

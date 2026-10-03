@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <evfl/EvflAllocator.h>
+#include "KingSystem/Event/evtDemoInfo.h"
 
 namespace sead {
 class Heap;
@@ -18,6 +19,9 @@ public:
     void initFlowchart(void* flow_data, void* flowchart_data);
     // 0x7100dc3698 (CSV unnamed): called by EventFlow::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
+
+    u8 _0[0x20];
+    /* 0x20 */ DemoInfo mDemoInfo;
 };
 
 void* eventFlowAlloc(size_t size, size_t alignment, void* userdata);
