@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiBokoblinRoam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -87,6 +88,40 @@ void BokoblinRoam::sub_7100333FEC() {
 
 bool BokoblinRoam::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() || isCurrentChild("索敵") || isCurrentChild("暇つぶし");
+}
+
+// NON_MATCHING: the original schedules the forward-axis loads before the translation loads (vector sum); same instructions otherwise
+void BokoblinRoam::sub_71003349E0() {
+    const s32 min = *mFreeIntervalMin_s;
+    const s32 max = *mFreeIntervalMax_s;
+    _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));
+    _dd = false;
+
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    const f32 fx = mtx(0, 2);
+    const f32 fy = mtx(1, 2);
+    const f32 fz = mtx(2, 2);
+    sead::Vector3f pos(mtx(0, 3) + fx, mtx(1, 3) + fy, mtx(2, 3) + fz);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("暇つぶし", &pack);
+}
+
+// NON_MATCHING: same as sub_71003349E0 (translation - forward)
+void BokoblinRoam::sub_71003344AC() {
+    const s32 min = *mFreeIntervalMin_s;
+    const s32 max = *mFreeIntervalMax_s;
+    _d0.reset(sead::GlobalRandom::instance()->getS32Range(min, max));
+    _dd = true;
+
+    ksys::act::ai::InlineParamPack pack;
+    const sead::Matrix34f& mtx = mActor->getMtx();
+    const f32 fx = mtx(0, 2);
+    const f32 fy = mtx(1, 2);
+    const f32 fz = mtx(2, 2);
+    sead::Vector3f pos(mtx(0, 3) - fx, mtx(1, 3) - fy, mtx(2, 3) - fz);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("回転", &pack);
 }
 
 }  // namespace uking::ai

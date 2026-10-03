@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiKokkoRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -63,6 +64,15 @@ void KokkoRoot::m46() {
     pack.addVec3(mActor->getMtx().getBase(2), "TargetDir", -1);
     pack.addBool(false, "IsShootByPlayer", -1);
     changeChild("落下", &pack);
+}
+
+void KokkoRoot::sub_7100457240() {
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    ksys::act::disableAttClient(mActor, "Grab");
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("怒り", &pack);
 }
 
 }  // namespace uking::ai
