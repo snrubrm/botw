@@ -287,12 +287,16 @@ void sub_7100010168(uking::act::Dragon* dragon, sead::Vector3f* out) {
     *out = dir;
 }
 
-// NON_MATCHING: the original keeps the forward direction in integer registers (w20 / w21) and loads
-// the translation before the first normalisation
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle) {
-    sead::Vector3f forward(mtx(0, 2), 0.0f, mtx(2, 2));
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    forward.y = 0;
     forward.normalize();
-    sead::Vector3f to_target(target.x - mtx(0, 3), 0.0f, target.z - mtx(2, 3));
+    sead::Vector3f to_target = target;
+    to_target -= pos;
+    to_target.y = 0;
     to_target.normalize();
     return forward.dot(to_target) >= sead::Mathf::cos(angle);
 }

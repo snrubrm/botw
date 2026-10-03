@@ -39,10 +39,11 @@ void LandHumEnemyFindPlayer::getChemTargetPos(sead::Vector3f* pos) {
     ksys::act::acquireActor(&_1c8, &accessor);
     sead::Matrix34f mtx;
     accessor.sub_7100D11188(&mtx);
-    pos->set(mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]);
+    pos->x = mtx.m[0][3];
+    pos->y = mtx.m[1][3];
+    pos->z = mtx.m[2][3];
 }
 
-// NON_MATCHING: the original stores the position as (x, y) pair + z, ours as x + (y, z) pair
 void LandHumEnemyFindPlayer::sub_7100460EE8() {
     sead::Vector3f pos;
     getChemTargetPos(&pos);
@@ -52,7 +53,6 @@ void LandHumEnemyFindPlayer::sub_7100460EE8() {
     changeChild("ケミカル仲間招来", &pack);
 }
 
-// NON_MATCHING: the original stores the position as (x, y) pair + z, ours as x + (y, z) pair
 void LandHumEnemyFindPlayer::sub_7100461020() {
     sead::Vector3f pos;
     getChemTargetPos(&pos);
