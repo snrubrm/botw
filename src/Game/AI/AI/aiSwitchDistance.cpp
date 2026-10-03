@@ -40,14 +40,13 @@ bool SwitchDistance::m34() {
     return (pos - target).length() <= *mOnDis_s;
 }
 
-// NON_MATCHING: `cbz` vs `tbz #0` on the combined child-state flag
 bool SwitchDistance::m35() {
     auto* child = getCurrentChild();
-    bool check = isCurrentChild("オフ");
+    int check = isCurrentChild("オフ");
     if (*mChangeSeq_s)
-        check = false;
+        check = 0;
     if (isCurrentChild("オフ待機") && child->isChangeable())
-        check = true;
+        check = 1;
     if (check) {
         sead::Vector3f pos;
         mActor->getMtx().getTranslation(pos);
@@ -60,14 +59,13 @@ bool SwitchDistance::m35() {
     return false;
 }
 
-// NON_MATCHING: `cbz` vs `tbz #0` on the combined child-state flag
 bool SwitchDistance::m36() {
     auto* child = getCurrentChild();
-    bool check = isCurrentChild("オン");
+    int check = isCurrentChild("オン");
     if (*mChangeSeq_s)
-        check = false;
+        check = 0;
     if (isCurrentChild("オン待機") && child->isChangeable())
-        check = true;
+        check = 1;
     if (check) {
         sead::Vector3f pos;
         mActor->getMtx().getTranslation(pos);
