@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiMoveAndFreeFallGondola.h"
 #include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -55,6 +56,15 @@ void MoveAndFreeFallGondola::loadParams_() {
     RailMove::loadParams_();
     getMapUnitParam(&mRailMoveSpeed_m, "RailMoveSpeed");
     getMapUnitParam(&mGondolaRailOffsetTime_m, "GondolaRailOffsetTime");
+}
+
+bool MoveAndFreeFallGondola::handleMessage_(const ksys::Message* message) {
+    const ksys::MessageType type = message->getType();
+    if (type == 0x3000003 || type == 0x3000004) {
+        if (!isCurrentChild("停止"))
+            sub_71004AF894(message);
+    }
+    return false;
 }
 
 }  // namespace uking::ai

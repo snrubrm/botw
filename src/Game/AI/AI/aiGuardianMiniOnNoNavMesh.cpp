@@ -9,7 +9,11 @@ GuardianMiniOnNoNavMesh::GuardianMiniOnNoNavMesh(const InitArg& arg) : ksys::act
 GuardianMiniOnNoNavMesh::~GuardianMiniOnNoNavMesh() = default;
 
 void GuardianMiniOnNoNavMesh::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _40.reset();
+    _5c = 0;
+    if (sub_710041DBE0())
+        _50.reset(*mChangeToIceTimer_s);
+    changeChild("ナビメッシュなし", params);
 }
 
 void GuardianMiniOnNoNavMesh::leave_() {

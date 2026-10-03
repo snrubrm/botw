@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
     // 0x710041e07c (placeholder name)
     void changeToOnIceMaker();
+    // 0x710041dbe0 (declared only, 696 bytes; placeholder name)
+    bool sub_710041DBE0();
 
 protected:
     // static_param at offset 0x38

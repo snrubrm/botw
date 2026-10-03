@@ -21,6 +21,11 @@ public:
     f32 m35() override;
     ksys::map::Rail* m36() override;
     bool m40() override;
+    bool handleMessage_(const ksys::Message* message) override;
+
+    // 0x71004af894 (declared only, 424 bytes; placeholder name): for the messages 0x3000003 / 0x3000004: if
+    // the message's sender is the linked actor `_b0` (and not this actor), forwards the message.
+    void sub_71004AF894(const ksys::Message* message);
 
 protected:
     // map_unit_param at offset 0xa0
