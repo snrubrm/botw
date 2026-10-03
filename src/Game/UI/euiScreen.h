@@ -13,6 +13,19 @@ class Screen {
 public:
     virtual ~Screen();
     SEAD_RTTI_BASE(Screen)
+
+    virtual void m4();
+    // Slots 5 / 6 (CSV Screen::open / Screen::close); the argument is an open / close option
+    // (-1 / -4 are passed to close by the facade functions).
+    virtual void open(s32 option);
+    virtual void close(s32 option);
+
+    // 0x7100be9768 / 0x7100be978c / 0x7100be934c / 0x7100be97c4 (CSV; the last two are named
+    // Screen::isClosed / isClosedOrClosing there)
+    bool isOpened() const;
+    bool isOpening() const;
+    bool isClosed() const;
+    bool isClosedOrClosing() const;
 };
 
 // The screen manager singleton (CSV: eui::ScreenMgr::*, sInstance 0x71025fcc68). The table of loaded

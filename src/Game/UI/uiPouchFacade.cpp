@@ -134,4 +134,12 @@ void sub_7100A9F4E0() {
         mgr->restorePouchForQuest();
 }
 
+// 0x7100a99278
+void recoverMasterSword(bool only_if_broken, bool show_message) {
+    if (auto* mgr = PauseMenuDataMgr::instance())
+        mgr->restoreMasterSword(only_if_broken);
+    if (show_message)
+        showInfoOverlayWithString(11, sead::SafeString::cEmptyString);
+}
+
 }  // namespace uking::ui

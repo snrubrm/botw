@@ -1,9 +1,15 @@
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/uiManager.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiUtils.h"
+#include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
+
+void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 
 // Free helpers called by the wrappers below (placeholder names, declared only).
 void sub_71009F8420(s32 a1);
@@ -270,4 +276,182 @@ void sub_7100A9FD8C() {}
 // 0x7100a9fd90
 void sub_7100A9FD90() {}
 
+// 0x7100a95918
+void showInfoOverlay(s32 type) {
+    showInfoOverlayWithString(type, sead::SafeString::cEmptyString);
+}
+
+// 0x7100a958dc (CSV ui::closeSkipScreen)
+void closeSkipScreen() {
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::Skip))
+        screen->close(-1);
+}
+
+// 0x7100a98170 (CSV ui::closeScreenLoadingWeapon)
+void closeScreenLoadingWeapon() {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    if (auto* screen = mgr->getScreen(ScreenId::LoadingWeapon))
+        screen->close(-1);
+}
+
+// 0x7100a9b248 (CSV ui::isOpenedMessageGet)
+bool isOpenedMessageGet() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageGet);
+    if (!screen)
+        return false;
+    return screen->isOpened();
+}
+
+// 0x7100a9b278
+bool sub_7100A9B278() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageGet);
+    if (!screen)
+        return true;
+    return screen->isClosed();
+}
+
+// 0x7100a9e660
+bool isPauseMenuScreenNotClosed() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenu);
+    if (!screen)
+        return false;
+    return !screen->isClosed();
+}
+
+// 0x7100a9f91c
+bool sub_7100A9F91C() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PlainScreen);
+    if (!screen)
+        return true;
+    return screen->isOpened();
+}
+
+// 0x7100a9e358
+bool closeFadeStatus() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::FadeStatus);
+    if (screen && screen->isOpened()) {
+        screen->close(-4);
+        return true;
+    }
+    return false;
+}
+
+// 0x7100a9e3c4
+void closeFadeStatusScreenImpl() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::FadeStatus);
+    if (screen && screen->isOpened())
+        screen->close(-4);
+}
+
+// 0x7100a9f52c
+void loadMapMainFieldLocationMubin() {
+    Manager::instance()->sub_7100A7F0D0();
+}
+
+// 0x7100a9f53c
+void findDungeonNameForPositionImpl(const void* a0, void* a1) {
+    Manager::instance()->sub_7100A7F2EC(a0, a1);
+}
+
+// 0x7100a9f55c
+void sub_7100A9F55C(const void* a0, void* a1) {
+    Manager::instance()->sub_7100A7F468(a0, a1);
+}
+
+// 0x7100a9f5d4
+void sub_7100A9F5D4() {
+    Manager::instance()->sub_7100A7C71C();
+}
+
+// 0x7100a9d2d0
+bool sub_7100A9D2D0(s32 idx) {
+    auto* manager = Manager::instance();
+    auto& slot = manager->_b0[idx - 24];
+    bool result = slot == idx;
+    slot = -1;
+    return result;
+}
+
+// 0x7100a9eb64
+// NON_MATCHING: the original fetches Manager::instance() before storing the state and keeps it for the call (a local
+// `auto* manager` used once; borderline form, not applied)
+void sub_7100A9EB64() {
+    Unk_71025d69f0::instance()->_2c = 1;
+    Manager::instance()->sub_7100A7C9AC();
+    Manager::instance()->_64c30 |= 1;
+}
+
+// 0x7100a9ebb8
+void sub_7100A9EBB8(s32 value) {
+    auto* manager = Manager::instance();
+    if (!manager)
+        return;
+    if (value <= 3)
+        Unk_71025d69f0::instance()->_2c = value;
+    manager->sub_7100A7C9AC();
+}
+
+// 0x7100a9a3f8
+bool sub_7100A9A3F8() {
+    auto* s = UiSubsys1::instance();
+    return !(s && s->sub_7100960DF8());
+}
+
+// 0x7100a9a49c
+void sub_7100A9A49C(const void* a0) {
+    if (auto* s = UiSubsys1::instance())
+        s->sub_71009645D0(a0);
+}
+
+// 0x7100a9a4bc
+bool sub_7100A9A4BC() {
+    if (auto* s = UiSubsys1::instance())
+        return s->sub_71009648A8() != nullptr;
+    return false;
+}
+
+// 0x7100a9a4e8
+bool sub_7100A9A4E8(s32 a0) {
+    if (auto* s = UiSubsys1::instance())
+        return s->sub_7100964A0C(a0);
+    return false;
+}
+
+// 0x7100a9a644
+void sub_7100A9A644(ksys::act::Actor* actor) {
+    if (auto* s = UiSubsys1::instance())
+        s->sub_7100963CE8(actor);
+}
+
+// 0x7100a9a664
+void sub_7100A9A664(const void* a0, s32* out) {
+    if (auto* s = UiSubsys1::instance())
+        s->sub_71009661DC(a0, out);
+    else
+        *out = -1;
+}
+
+// 0x7100a9a694
+void sub_7100A9A694(const void* a0) {
+    UiSubsys1::instance()->sub_7100963C8C(a0);
+}
+
+// 0x7100a9f57c
+bool sub_7100A9F57C(s32* out_index, const sead::Vector3f& pos, f32 radius) {
+    if (auto* s = UiSubsys1::instance())
+        return s->sub_710096310C(out_index, &pos, radius);
+    return false;
+}
+
 }  // namespace uking::ui
+
+namespace uking::ai {
+
+// 0x7100a9a6ac (declared in aiGoronHeroDescendentRoot.h; a UI function)
+void sub_7100A9A6AC(bool on) {
+    ui::UiSubsys1::instance()->sub_7100963C78(on);
+}
+
+}  // namespace uking::ai

@@ -36,6 +36,10 @@ public:
     void sub_7100A7A704(s32 a1);
     void sub_7100A7C904();
     void sub_7100A7DA38();
+    void sub_7100A7C71C();
+    void sub_7100A7F0D0();
+    void sub_7100A7F2EC(const void* a1, void* a2);
+    void sub_7100A7F468(const void* a1, void* a2);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
     void sub_7100A7F81C();

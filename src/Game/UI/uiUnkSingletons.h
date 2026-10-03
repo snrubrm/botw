@@ -4,6 +4,10 @@
 #include <container/seadSafeArray.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking::ui {
 
 // UI singletons whose classes are not identified yet. Placeholder names after the address of the
@@ -72,6 +76,26 @@ public:
 
 private:
     static Unk_71025d69f0* sInstance;
+};
+
+// Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
+// polymorphic with a singleton disposer at 0x8).
+class UiSubsys1 {
+public:
+    static UiSubsys1* instance() { return sInstance; }
+
+    bool sub_7100960DF8();
+    void sub_71009645D0(const void* a1);
+    void* sub_71009648A8();
+    bool sub_7100964A0C(s32 a1);
+    void sub_7100963CE8(ksys::act::Actor* actor);
+    void sub_71009661DC(const void* a1, s32* out);
+    void sub_7100963C8C(const void* a1);
+    void sub_7100963C78(bool a1);
+    bool sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius);
+
+private:
+    static UiSubsys1* sInstance;
 };
 
 }  // namespace uking::ui
