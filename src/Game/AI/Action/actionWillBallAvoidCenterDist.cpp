@@ -31,7 +31,8 @@ void WillBallAvoidCenterDist::loadParams_() {
 void WillBallAvoidCenterDist::calc_() {
     WillBallAction::calc_();
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    sead::Vector3f diff = *mCenterPos_d - pos;
+    const sead::Vector3f center = *mCenterPos_d;
+    sead::Vector3f diff = center - pos;
     diff.y = 0.0f;
     if (diff.length() > *mMaxDist_s)
         setFailed();

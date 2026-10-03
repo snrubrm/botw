@@ -40,7 +40,6 @@ void HornUse::loadParams_() {
     getStaticParam(&mNoticeMaskState_s, "NoticeMaskState");
 }
 
-// NON_MATCHING: the original stores the AITerror::x index temporary after converting the level
 void HornUse::calc_() {
     HornUseBase::calc_();
 
@@ -53,7 +52,8 @@ void HornUse::calc_() {
 
     if (auto* owner = mActor->get548()) {
         _f0.setRadius(*mSpreadDist_s);
-        _f0.x(2, 4, f32(*mTerrorLevel_s));
+        const int level = *mTerrorLevel_s;
+        _f0.x(2, 4, level);
         owner->sub_7100D783E4(&_f0);
     }
 

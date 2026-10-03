@@ -63,16 +63,19 @@ void sub_7100738D28(ksys::act::Actor* actor, ksys::act::Actor* other);
 /// rigid body's gravity factor).
 void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
 
-/// Inline-only in the original; names are guesses. The callers keep the result in the stack slot of the
-/// gravity vector (SmallDamageBackwardBase::calc_, KnockBackShock::enter_, ...), i.e. these are
-/// functions returning the vector by value.
+/// inline-only in the original; name is a guess. Evidence: the same sequence (sub_710072DC50 into a
+/// stack vector, returned by value) repeats in SmallDamageBackwardBase::calc_, KnockBackShock::enter_,
+/// FlyMoveBase::enter_, TargetCircle::enter_, ... and the callers keep the result in the stack slot
+/// of the gravity vector.
 inline sead::Vector3f getGravity(ksys::act::Actor* actor) {
     sead::Vector3f gravity;
     sub_710072DC50(&gravity, actor);
     return gravity;
 }
 
-/// The up direction for a gravity vector: the normalized negated vector (Y axis if it is null).
+/// inline-only in the original; name is a guess. The up direction for a gravity vector: the normalized
+/// negated vector (Y axis if it is null); the same sequence repeats in FlyMoveBase::enter_,
+/// AnmDrivenSpeedBackWalk::calc_ (3x), RandomJump::calc_, TargetCircle::enter_, ...
 inline sead::Vector3f getUpDir(const sead::Vector3f& gravity) {
     sead::Vector3f up = -gravity;
     if (up.normalize() < sead::Mathf::epsilon())

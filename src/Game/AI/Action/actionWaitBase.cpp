@@ -6,10 +6,11 @@ namespace uking::action {
 
 WaitBase::WaitBase(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-// NON_MATCHING: load scheduling around the GlobalRandom instance load
 void WaitBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithPosAngReduce::enter_(params);
-    const f32 time = *mTime_s + s32(sead::GlobalRandom::instance()->getU32(*mTimeRand_s));
+    const s32 base_time = *mTime_s;
+    const u32 rand_time = *mTimeRand_s;
+    const f32 time = base_time + s32(sead::GlobalRandom::instance()->getU32(rand_time));
     mTimer = ksys::Timer(time, time);
     mFlags.set(Flag::Changeable);
 }

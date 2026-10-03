@@ -12,10 +12,11 @@ bool TimeredHorseRideViewWait::init_(sead::Heap* heap) {
     return HorseRideViewWait::init_(heap);
 }
 
-// NON_MATCHING: the original loads both params before fetching the GlobalRandom instance
 void TimeredHorseRideViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRideViewWait::enter_(params);
-    _60 = *mTime_s + s32(sead::GlobalRandom::instance()->getU32(*mTimeRand_s));
+    const s32 time = *mTime_s;
+    const u32 rand = *mTimeRand_s;
+    _60 = time + s32(sead::GlobalRandom::instance()->getU32(rand));
 }
 
 void TimeredHorseRideViewWait::leave_() {

@@ -29,11 +29,12 @@ void StopASIgnite::loadParams_() {
     getAITreeVariable(&mGeneratedActorLink_a, "GeneratedActorLink");
 }
 
-// NON_MATCHING: the original loads the argument before the vtable (C++14 evaluation order)
 void StopASIgnite::calc_() {
     OnetimeStopASPlay::calc_();
-    if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
-        m32(*mIgniteHandle_d);
+    if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        auto* handle = *mIgniteHandle_d;
+        m32(handle);
+    }
 }
 
 const sead::Matrix34f& StopASIgnite::m33() {

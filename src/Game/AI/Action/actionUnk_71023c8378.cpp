@@ -7,11 +7,11 @@
 
 Unk_71023c8378::Unk_71023c8378(ksys::act::ai::ActionBase* owner) : Unk_71023c8418(owner) {}
 
-// NON_MATCHING: the original loads *mWeaponIdx_s before calling getWeapons()
 void Unk_71023c8378::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mOwner->getActor())) {
+        const int idx = *mWeaponIdx_s;
         auto* weapon = sead::DynamicCast<uking::act::Weapon>(
-            actor->getWeapons()->getEquippedWeapon(*mWeaponIdx_s));
+            actor->getWeapons()->getEquippedWeapon(idx));
         if (weapon) {
             mOwner->getActor()->getASList()->goLimpFromHeadShotMaybe(0x2c, weapon->getProfile(),
                                                                       0);
