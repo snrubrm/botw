@@ -42,6 +42,51 @@ void SiteBossRecognizeRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
     actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
 }
 
+// NON_MATCHING: the original computes the getU32 argument before loading the GlobalRandom instance (same as
+// enter_); everything else is instruction-identical
+void SiteBossRecognizeRootBase::calc_() {
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f target_pos;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        target_pos = link && link->hasProc() && ksys::act::isPlayerProfile(link) ?
+                         sub_71005D9330(actor) :
+                         getPlayerPosition();
+    }
+    child->setDynamicParam(target_pos, "TargetPos");
+
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("戦闘")) {
+        if (m36() || getCurrentChild()->isFailed())
+            m40();
+        else
+            siteBossStuff();
+    } else if (isCurrentChild("ワープ移動")) {
+        if (!child->isFinished() && !child->isFailed())
+            return;
+
+        if ((mActor->getMtx().getTranslation() - target_pos).length() >= *mForceWarpRetryDist_s) {
+            m40();
+        } else {
+            _64 = 0;
+            _60 = *mAttackNum_s + sead::GlobalRandom::instance()->getU32(*mAttackRandNum_s + 1);
+            siteBossStuff();
+        }
+    } else if (isCurrentChild("気付く")) {
+        if ((mActor->getMtx().getTranslation() - target_pos).length() >= *mWarpStartDist_s)
+            m40();
+        else
+            siteBossStuff();
+    }
+}
+
 void SiteBossRecognizeRootBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }
