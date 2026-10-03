@@ -26,6 +26,9 @@ public:
     void sub_7100714C9C();
     // 0x7100714918 (declared only): called by OctarockRoot::enter_ (the other callee of sub_7100714C9C).
     void sub_7100714918();
+    // 0x7100714ed4 (declared only): called by OctarockReaction::sub_71004ED6D4 with `false`; maps the character
+    // controller's value at +0x224 to a form index like sub_7100714C9C (switch over `_8` / `_30`).
+    void sub_7100714ED4(bool a1);
 
     // Compared with the character controller's value at +0x224 (index = form).
     /* 0x08 */ sead::SafeArray<int, 10> _8;
