@@ -12,6 +12,7 @@ namespace ksys::phys {
 
 class HavokAI;
 class Unk_7102372790;
+class Unk_7100f7e9f0Event;
 
 // Placeholder name (ctor 0x7100f7e9f0, dtor 0x7100f7eb14; 0x18 bytes): result returned by value
 // from NavMeshCharacter::sub_7100F76078.
@@ -24,7 +25,7 @@ public:
 
     /* 0x00 */ void* _0;
     /* 0x08 */ s32 _8;
-    /* 0x10 */ void* _10;
+    /* 0x10 */ Unk_7100f7e9f0Event* _10;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f7e9f0, 0x18);
 
