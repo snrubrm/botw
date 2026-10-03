@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::ai {
 
 class NPCTravel : public NPCTravelBase {
@@ -15,6 +19,7 @@ public:
     explicit NPCTravel(const InitArg& arg);
     ~NPCTravel() override;
     bool hasPreDeleteCb() override { return true; }
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -26,7 +31,8 @@ protected:
     const float* mWaitHorseReturnDist_s{};
     // static_param at offset 0x80
     const float* mGiveUpWaitHorseTime_s{};
-    u8 _88[0x38];
+    act::NPC* _88 = nullptr;
+    u8 _90[0x30];
     u32 _c0 = 0;
     bool _c4 = false;
     bool _c5 = true;
@@ -38,7 +44,8 @@ protected:
     u8 _1a8[0x10];
     u64 _1b8 = 0;
     u64 _1c0 = 0;
-    u8 _1c8[0x7e8];  // contains a large embedded object at 0x1f8 whose ctor is 0x7100eec734
+    u8 _1c8[0x30];
+    u8 _1f8[0x7b8];  // a large embedded object (ctor 0x7100eec734); NPC::_840 points to it
     bool _9b0 = false;
 };
 

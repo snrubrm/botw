@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::ai {
 
 class NPCHorseRide : public NonPlayerHorseRide {
@@ -13,6 +17,7 @@ public:
     explicit NPCHorseRide(const InitArg& arg);
     ~NPCHorseRide() override;
     bool hasPreDeleteCb() override { return true; }
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -29,7 +34,7 @@ protected:
     u8 _f8[8];
     u64 _100 = 0;
     u32 _108 = 0;
-    u64 _110 = 0;
+    act::NPC* _110 = nullptr;
     sead::Vector3f _118 = sead::Vector3f::zero;
     sead::Vector3f _124 = sead::Vector3f::zero;
     u64 _130 = 0;
