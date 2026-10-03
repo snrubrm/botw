@@ -4,11 +4,11 @@
 
 namespace uking::ai {
 
-class AddNoiseToTargetPos : public ksys::act::ai::Ai {
-    SEAD_RTTI_OVERRIDE(AddNoiseToTargetPos, ksys::act::ai::Ai)
+class addNoiseToTargetPos : public ksys::act::ai::Ai {
+    SEAD_RTTI_OVERRIDE(addNoiseToTargetPos, ksys::act::ai::Ai)
 public:
-    explicit AddNoiseToTargetPos(const InitArg& arg);
-    ~AddNoiseToTargetPos() override;
+    explicit addNoiseToTargetPos(const InitArg& arg);
+    ~addNoiseToTargetPos() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

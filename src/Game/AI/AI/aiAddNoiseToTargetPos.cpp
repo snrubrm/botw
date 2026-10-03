@@ -2,23 +2,23 @@
 
 namespace uking::ai {
 
-AddNoiseToTargetPos::AddNoiseToTargetPos(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+addNoiseToTargetPos::addNoiseToTargetPos(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-AddNoiseToTargetPos::~AddNoiseToTargetPos() = default;
+addNoiseToTargetPos::~addNoiseToTargetPos() = default;
 
-bool AddNoiseToTargetPos::init_(sead::Heap* heap) {
+bool addNoiseToTargetPos::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-void AddNoiseToTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
+void addNoiseToTargetPos::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
-void AddNoiseToTargetPos::leave_() {
+void addNoiseToTargetPos::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-void AddNoiseToTargetPos::loadParams_() {
+void addNoiseToTargetPos::loadParams_() {
     getStaticParam(&mRandYMin_s, "RandYMin");
     getStaticParam(&mRandYMax_s, "RandYMax");
     getStaticParam(&mRandLeftMax_s, "RandLeftMax");

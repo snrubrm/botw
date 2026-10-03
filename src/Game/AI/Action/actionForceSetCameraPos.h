@@ -4,11 +4,11 @@
 
 namespace uking::action {
 
-class ForceSetCameraPos : public ksys::act::ai::Action {
-    SEAD_RTTI_OVERRIDE(ForceSetCameraPos, ksys::act::ai::Action)
+class forceSetCameraPos : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(forceSetCameraPos, ksys::act::ai::Action)
 public:
-    explicit ForceSetCameraPos(const InitArg& arg);
-    ~ForceSetCameraPos() override;
+    explicit forceSetCameraPos(const InitArg& arg);
+    ~forceSetCameraPos() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -2,23 +2,23 @@
 
 namespace uking::action {
 
-InWaterSelForkASPlay::InWaterSelForkASPlay(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+inWaterSelForkASPlay::inWaterSelForkASPlay(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-InWaterSelForkASPlay::~InWaterSelForkASPlay() = default;
+inWaterSelForkASPlay::~inWaterSelForkASPlay() = default;
 
-bool InWaterSelForkASPlay::init_(sead::Heap* heap) {
+bool inWaterSelForkASPlay::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-void InWaterSelForkASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
+void inWaterSelForkASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
-void InWaterSelForkASPlay::leave_() {
+void inWaterSelForkASPlay::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
-void InWaterSelForkASPlay::loadParams_() {
+void inWaterSelForkASPlay::loadParams_() {
     getStaticParam(&mEndState_s, "EndState");
     getStaticParam(&mChangeableTiming_s, "ChangeableTiming");
     getStaticParam(&mSeqBank_s, "SeqBank");
@@ -28,7 +28,7 @@ void InWaterSelForkASPlay::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
-void InWaterSelForkASPlay::calc_() {
+void inWaterSelForkASPlay::calc_() {
     ksys::act::ai::Action::calc_();
 }
 

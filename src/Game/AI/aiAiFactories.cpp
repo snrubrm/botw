@@ -1484,7 +1484,7 @@ static Factory sAiFactories[] = {
     {0x3fa81757, Factory::make<ai::WizzrobeBlownOff>},
     {0x4049b43e, Factory::make<ai::GuardianMiniFindPlayer>},
     {0x40904306, Factory::make<ai::TargetHomeDir>},
-    {0x40ce48c4, Factory::make<ai::AddNoiseToTargetPos>},
+    {0x40ce48c4, Factory::make<ai::addNoiseToTargetPos>},
     {0x412f5e26, Factory::make<ai::IceEnemyFeintBattle>},
     {0x414e57b5, Factory::make<ai::SwimEnemyRoam>},
     {0x415b73f2, Factory::make<ai::SunAI>},

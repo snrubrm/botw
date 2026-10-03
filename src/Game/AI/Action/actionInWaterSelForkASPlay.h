@@ -4,11 +4,11 @@
 
 namespace uking::action {
 
-class InWaterSelForkASPlay : public ksys::act::ai::Action {
-    SEAD_RTTI_OVERRIDE(InWaterSelForkASPlay, ksys::act::ai::Action)
+class inWaterSelForkASPlay : public ksys::act::ai::Action {
+    SEAD_RTTI_OVERRIDE(inWaterSelForkASPlay, ksys::act::ai::Action)
 public:
-    explicit InWaterSelForkASPlay(const InitArg& arg);
-    ~InWaterSelForkASPlay() override;
+    explicit inWaterSelForkASPlay(const InitArg& arg);
+    ~inWaterSelForkASPlay() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
