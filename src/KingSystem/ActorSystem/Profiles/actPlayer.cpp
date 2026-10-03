@@ -657,4 +657,17 @@ bool Player::isNoShieldDamageFloor() {
     }
 }
 
+// NON_MATCHING: same operations, but the original interleaves the four flag read-modify-writes
+// differently (c40's store comes before c4c's, c48's last); no source order reproduces it
+void Player::sub_7100881104() {
+    _c44.reset(0x4001a);
+    _c40.reset(0x400000);
+    _c4c.reset(0x1000);
+    _c48.reset(0x800);
+    _1e9c = 0;
+    _1ea0 = 0;
+    _1ea4 = -1.0f;
+    _20b4 = 0;
+}
+
 }  // namespace ksys::act

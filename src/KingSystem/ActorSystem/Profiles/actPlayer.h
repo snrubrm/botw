@@ -446,7 +446,11 @@ public:
     /* 0x1e18 */ f32 _1e18;
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
-    /* 0x1e24 */ u8 _1e24[0x1ec0 - 0x1e24];
+    /* 0x1e24 */ u8 _1e24[0x1e9c - 0x1e24];
+    /* 0x1e9c */ f32 _1e9c;
+    /* 0x1ea0 */ f32 _1ea0;
+    /* 0x1ea4 */ f32 _1ea4;
+    /* 0x1ea8 */ u8 _1ea8[0x1ec0 - 0x1ea8];
     /* 0x1ec0 */ ksys::Timer _1ec0;  // set to Timer(4, 4) by PlayerTwiceJump::enter_
     /* 0x1ecc */ u8 _1ecc[0x1f84 - 0x1ecc];
     /* 0x1f84 */ s32 _1f84;
@@ -470,7 +474,9 @@ public:
     /* 0x2094 */ f32 _2094;
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
-    /* 0x20a0 */ u8 _20a0[0x20bc - 0x20a0];
+    /* 0x20a0 */ u8 _20a0[0x20b4 - 0x20a0];
+    /* 0x20b4 */ f32 _20b4;
+    /* 0x20b8 */ u8 _20b8[0x20bc - 0x20b8];
     /* 0x20bc */ ksys::VFRValue _20bc;  // PlayerSuperBlow::calc_ calls VFRValue::chase on it
     /* 0x20c8 */ f32 _20c8;  // initial guard-slip speed (PlayerGuardSlip::enter_)
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
