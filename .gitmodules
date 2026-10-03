@@ -8,8 +8,8 @@
 	branch = master
 [submodule "lib/sead"]
 	path = lib/sead
-	url = https://github.com/open-ead/sead
-	branch = master
+	url = https://github.com/snrubrm/sead
+	branch = botw
 [submodule "lib/NintendoSDK"]
 	path = lib/NintendoSDK
 	url = https://github.com/open-ead/nnheaders
@@ -28,5 +28,5 @@
 	branch = master
 [submodule "lib/xlink2"]
 	path = lib/xlink2
-	url = https://github.com/Nitr4m12/xlink2
-	branch = main
+	url = https://github.com/snrubrm/xlink2
+	branch = botw
