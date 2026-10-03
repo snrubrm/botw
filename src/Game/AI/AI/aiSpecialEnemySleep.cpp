@@ -10,15 +10,10 @@ SpecialEnemySleep::SpecialEnemySleep(const InitArg& arg) : ksys::act::ai::Ai(arg
 
 SpecialEnemySleep::~SpecialEnemySleep() = default;
 
-// NON_MATCHING: the original gives the first SafeString temporary its own stack slot (frame 0x60)
 bool SpecialEnemySleep::isChangeable() const {
-    if (isCurrentChild("起き上がる")) {
-        auto* child = getCurrentChild();
-        if (child->isFinished() || child->isFailed())
-            return true;
-    }
-    return (isCurrentChild("待機") || isCurrentChild("横になる")) &&
-           getCurrentChild()->isChangeable();
+    return (isCurrentChild("起き上がる") && getCurrentChild()->isFinishedOrFailed()) ||
+           ((isCurrentChild("待機") || isCurrentChild("横になる")) &&
+            getCurrentChild()->isChangeable());
 }
 
 bool SpecialEnemySleep::init_(sead::Heap* heap) {

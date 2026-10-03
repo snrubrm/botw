@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     f32 m34() override;
+    bool m36(bool b) override;
     bool m42(s32 x) override;
     bool m43() override;
 

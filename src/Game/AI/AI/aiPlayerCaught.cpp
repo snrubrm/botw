@@ -34,8 +34,35 @@ void PlayerCaught::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("掴まれる");
 }
 
+void PlayerCaught::calc_() {
+    if (handlePendingChildChange())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isChangeable()) {
+        if (isCurrentChild("掴まれる")) {
+            if (!mActor->getConnectedCalcParent())
+                setFailed();
+        }
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("掴まれる")) {
+            auto* actor = mActor;
+            auto* parent = actor->getConnectedCalcParent();
+            setFailed();
+            if (parent)
+                actor->resetConnectedCalcParent(false);
+        } else {
+            setFinished();
+        }
+    }
+}
+
 void PlayerCaught::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_7100738DC8(mActor);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
 }
 
 }  // namespace uking::ai

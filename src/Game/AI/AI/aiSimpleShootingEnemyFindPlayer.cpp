@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiSimpleShootingEnemyFindPlayer.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -33,6 +35,17 @@ void SimpleShootingEnemyFindPlayer::loadParams_() {
 
 f32 SimpleShootingEnemyFindPlayer::m34() {
     return *mShootBaseDist_s + sub_71007320F0(mActor, *mWeaponIdx_s) * *mShootDistRatio_s;
+}
+
+bool SimpleShootingEnemyFindPlayer::m36(bool b) {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    if (sub_710072F788(actor, pos, sub_71005D9330(actor), nullptr))
+        return true;
+    return m35();
 }
 
 // NON_MATCHING: the original tests x in {2, 3} as `(x | 1) != 3` (the base class: `(x & ~1) != 2`)

@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiTimelineAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 
 namespace uking::ai {
 
@@ -8,6 +9,13 @@ TimelineAI::TimelineAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 bool TimelineAI::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+const sead::SafeString& TimelineAI::m34() {
+    auto* schedule = mActor->getSchedule();
+    if (!schedule)
+        return sead::SafeString::cEmptyString;
+    return schedule->_68;
 }
 
 // NON_MATCHING: the original keeps &mActor->getName() in a register for both discarded cstr() calls,

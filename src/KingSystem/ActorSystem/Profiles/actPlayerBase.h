@@ -264,6 +264,8 @@ public:
     bool runeMgrCheckCanUseMagnesis();       // 0x84ccf8
     bool runeMgrCheckCanUseCryonis();        // 0x84cd14
     bool runeMgrCheckCanUseCamera();         // 0x84cd30
+    bool runeMgrCheckIsCameraSelected();     // 0x84cd4c
+    bool sub_710084A6B8();                   // 0x84a6b8 (RuneMgr flag bit 5; unnamed in the CSV)
 
 protected:
     friend class acc::PlayerBase;

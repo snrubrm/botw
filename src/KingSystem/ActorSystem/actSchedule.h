@@ -9,7 +9,9 @@ namespace ksys::act {
 // Actor::mSchedule (the actor's schedule; the CSV has no names for it). TODO: incomplete (size unknown).
 class Schedule {
 public:
-    /* 0x000 */ u8 _0[0x88];
+    /* 0x000 */ u8 _0[0x68];
+    /* 0x068 */ sead::SafeString _68;  // TimelineAI::m34 (the timeline's name; empty when the actor has no schedule)
+    /* 0x078 */ u8 _78[0x88 - 0x78];
     /* 0x088 */ sead::SafeString _88;  // current timeline key name (lane1 s21: KakarikoKokkoTimeline)
     /* 0x098 */ u8 _98[0x122 - 0x98];
     /* 0x122 */ bool _122;

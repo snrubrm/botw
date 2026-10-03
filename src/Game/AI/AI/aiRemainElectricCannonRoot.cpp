@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiRemainElectricCannonRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {
@@ -27,6 +30,21 @@ void RemainElectricCannonRoot::leave_() {
 void RemainElectricCannonRoot::loadParams_() {
     RemainElectricCannonRootBase::loadParams_();
     getStaticParam(&mSearchMaxDistLoiter_s, "SearchMaxDistLoiter");
+}
+
+// NON_MATCHING: the original loads the actor's y before the player's y (all else identical)
+bool RemainElectricCannonRoot::m35() {
+    bool x;
+    {
+        ksys::act::acc::PlayerBase player;
+        player.getPlayerFromPlayerInfo();
+        x = player.x_33();
+    }
+    if (x)
+        return false;
+    if (getPlayerPosition().y - mActor->getMtx().m[1][3] > 0.0f)
+        return false;
+    return RemainElectricCannonRootBase::m35();
 }
 
 f32 RemainElectricCannonRoot::m41() {

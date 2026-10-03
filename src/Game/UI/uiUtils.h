@@ -37,6 +37,9 @@ bool isMasterSwordItem(const PouchItem& item);
 int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
                eui::MessageString* out);
 
+// 0xa9bfa8 (CSV: return0; always false).
+bool return0();
+
 int getItemHitPointRecover(const sead::SafeString& name);
 
 void getWeaponStats(const PouchItem& item, WeaponStats* stats);
@@ -72,6 +75,7 @@ void sub_7100A94B40(bool display, bool display_ex, bool get_demo);
 void sub_7100A95B44(const sead::SafeString& item_name);
 bool sub_7100A96DDC(bool a1);
 bool sub_7100A97024();
+bool sub_7100A9C15C();
 bool sub_7100A97250(bool a1);
 bool sub_7100A97498();
 bool sub_7100A976C4(int a1, bool a2);

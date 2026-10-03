@@ -97,6 +97,10 @@ public:
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
     virtual bool isChangeable() const { return mFlags.isOn(Flag::Changeable); }
+    // inline-only in the original; name is a guess. Evidence: `child->isFinished() || child->isFailed()` on one
+    // cached child pointer inside a larger `&&` / `||` expression (SpecialEnemySleep::isChangeable keeps all three
+    // SafeString temporaries in distinct stack slots, WolfLinkNormalRoot helpers repeat it five times).
+    bool isFinishedOrFailed() const { return isFinished() || isFailed(); }
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
