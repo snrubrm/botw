@@ -35,6 +35,12 @@ bool PlayerBase::runeMgrCheckCanUseCamera() {
     return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(5, this);
 }
 
+bool PlayerBase::m239() {
+    if (_c50.isOnBit(17) || m202() || m292())
+        return false;
+    return _17d0->controllerCheckPressedMaybe(26);
+}
+
 bool PlayerBase::m237() {
     return _17d0->controllerCheckPressedMaybe(2);
 }

@@ -131,10 +131,10 @@ public:
     /* 269 */ bool m269() override;
     /* 270 */ bool m270() override;
     /* 272 */ void m272() override;
-    /* 273 */ void m273() override;
-    /* 274 */ void m274() override;
-    /* 275 */ void m275() override;
-    /* 276 */ void m276() override;
+    /* 273 */ uking::act::Weapon* m273() override;
+    /* 274 */ uking::act::Weapon* m274() override;
+    /* 275 */ uking::act::Weapon* m275() override;
+    /* 276 */ Actor* m276(int idx) override;
     /* 277 */ void m277(ActorConstDataAccess* accessor, int idx) override;
     /* 278 */ void m278() override;
     /* 279 */ s32 getArmorDyeStuff() override;
@@ -228,7 +228,7 @@ public:
     /* 379 */ void m379() override;
     /* 380 */ void m380() override;
     /* 381 */ void m381() override;
-    /* 382 */ void m382() override;
+    /* 382 */ Actor* m382() override;
     /* 383 */ bool m383() override { return _c50.isOnBit(18); }
     /* 384 */ int m384() override { return _1cd4; }
     /* 385 */ int m385() override { return _1cd8; }
@@ -401,7 +401,11 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1d70 - 0x1cdc];
+    /* 0x1cdc */ u8 _1cdc[0x1d34 - 0x1cdc];
+    /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
+    /* 0x1d38 */ f32 _1d38;
+    /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
+    /* 0x1d40 */ u8 _1d40[0x1d70 - 0x1d40];
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
     /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];
@@ -440,7 +444,8 @@ public:
     /* 0x2082 */ u8 _2082[0x2084 - 0x2082];
     /* 0x2084 */ f32 _2084;
     /* 0x2088 */ f32 _2088;
-    /* 0x208c */ u8 _208c[0x2094 - 0x208c];
+    /* 0x208c */ f32 _208c;  // getAtkMultiplier: base multiplier
+    /* 0x2090 */ f32 _2090;  // getAtkMultiplier: factor applied while the Master Sword is equipped
     /* 0x2094 */ f32 _2094;
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
@@ -458,7 +463,9 @@ public:
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
     /* 0x215c */ u8 _215c[0x22a8 - 0x215c];
     /* 0x22a8 */ sead::Vector3f _22a8;
-    /* 0x22b4 */ u8 _22b4[0x22e8 - 0x22b4];
+    /* 0x22b4 */ sead::Vector3f _22b4;
+    /* 0x22c0 */ sead::Vector3f _22c0;
+    /* 0x22cc */ u8 _22cc[0x22e8 - 0x22cc];
     /* 0x22e8 */ sead::Vector3f _22e8;
     /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
     /* 0x2300 */ u8 _2300[0x230c - 0x2300];
@@ -471,9 +478,11 @@ public:
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
     /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
-    /* 0x2c38 */ u8 _2c38[0x2c78 - 0x2c38];
+    /* 0x2c38 */ u8 _2c38[0x2c48 - 0x2c38];
+    /* 0x2c48 */ BaseProcLink _2c48;  // isRevivalFairyActive
+    /* 0x2c58 */ u8 _2c58[0x2c78 - 0x2c58];
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
-    /* 0x2c88 */ u8 _2c88[0x2c98 - 0x2c88];
+    /* 0x2c88 */ BaseProcLink _2c88;  // isZoraHeroActive
     /* 0x2c98 */ BaseProcLink _2c98;
     /* 0x2ca8 */ u8 _2ca8[0x2d64 - 0x2ca8];
     /* 0x2d64 */ bool _2d64;  // set by PlayerTurnAndLookToObjectNow::leave_

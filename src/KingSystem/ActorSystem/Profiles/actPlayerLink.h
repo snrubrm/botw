@@ -7,6 +7,10 @@ namespace ksys {
 class SeadController;
 }
 
+namespace uking::act {
+class Weapon;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -31,13 +35,13 @@ public:
     /*  6 */ virtual void m380();
     /*  7 */ virtual void m381();
     /*  8 */ virtual void m272() = 0;
-    /*  9 */ virtual void m273() = 0;
-    /* 10 */ virtual void m274() = 0;
-    /* 11 */ virtual void m275() = 0;
-    /* 12 */ virtual void m276() = 0;
+    /*  9 */ virtual uking::act::Weapon* m273() = 0;
+    /* 10 */ virtual uking::act::Weapon* m274() = 0;
+    /* 11 */ virtual uking::act::Weapon* m275() = 0;
+    /* 12 */ virtual Actor* m276(int idx) = 0;
     /* 13 */ virtual Actor* getAttachedTargetActor2() = 0;
     /* 14 */ virtual Actor* getAttachedTargetActor() = 0;
-    /* 15 */ virtual void m382();
+    /* 15 */ virtual Actor* m382();
     /* 16 */ virtual bool m378() { return false; }
     /* 17 */ virtual bool m17() { return false; }
     /* 18 */ virtual bool isRidingHorse() = 0;
@@ -61,8 +65,8 @@ public:
     /* 36 */ virtual f32 m360() { return 1.0f; }
     /* 37 */ virtual bool m237() = 0;
     /* 38 */ virtual bool m238() = 0;
-    /* 39 */ virtual void m239() = 0;
-    /* 40 */ virtual void m240() = 0;
+    /* 39 */ virtual bool m239() = 0;
+    /* 40 */ virtual bool m240() = 0;
     /* 41 */ virtual bool m292() = 0;
     /* 42 */ virtual bool m221() = 0;
     /* 43 */ virtual bool m222() = 0;
