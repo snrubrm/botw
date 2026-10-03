@@ -1,9 +1,12 @@
 #include "Game/AI/Action/actionPlayerJump.h"
+#include <cstring>
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
-PlayerJump::PlayerJump(const InitArg& arg) : PlayerAction(arg) {}
+PlayerJump::PlayerJump(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mJumpHeight_s, 0, 0x50);
+}
 
 void PlayerJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

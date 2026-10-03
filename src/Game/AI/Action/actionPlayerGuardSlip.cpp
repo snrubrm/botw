@@ -1,8 +1,11 @@
 #include "Game/AI/Action/actionPlayerGuardSlip.h"
+#include <cstring>
 
 namespace uking::action {
 
-PlayerGuardSlip::PlayerGuardSlip(const InitArg& arg) : PlayerAction(arg) {}
+PlayerGuardSlip::PlayerGuardSlip(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mBaseInitSpeedNSword_s, 0, 0x80);
+}
 
 void PlayerGuardSlip::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

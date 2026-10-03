@@ -19,83 +19,84 @@ protected:
     void calc_() override;
 
     // static_param at offset 0x20
-    const float* mBaseInitSpeedNSword_s{};
+    const float* mBaseInitSpeedNSword_s;
     // static_param at offset 0x28
-    const float* mBaseInitSpeedLSword_s{};
+    const float* mBaseInitSpeedLSword_s;
     // static_param at offset 0x30
-    const float* mBaseInitSpeedSpear_s{};
+    const float* mBaseInitSpeedSpear_s;
     // static_param at offset 0x38
-    const float* mBaseInitSpeedOther_s{};
+    const float* mBaseInitSpeedOther_s;
     // static_param at offset 0x40
-    const float* mAddSpeedNSword_s{};
+    const float* mAddSpeedNSword_s;
     // static_param at offset 0x48
-    const float* mAddSpeedLSword_s{};
+    const float* mAddSpeedLSword_s;
     // static_param at offset 0x50
-    const float* mAddSpeedSpear_s{};
+    const float* mAddSpeedSpear_s;
     // static_param at offset 0x58
-    const float* mAddSpeedOther_s{};
+    const float* mAddSpeedOther_s;
     // static_param at offset 0x60
-    const float* mMaxSpeedNSword_s{};
+    const float* mMaxSpeedNSword_s;
     // static_param at offset 0x68
-    const float* mMaxSpeedLSword_s{};
+    const float* mMaxSpeedLSword_s;
     // static_param at offset 0x70
-    const float* mMaxSpeedSpear_s{};
+    const float* mMaxSpeedSpear_s;
     // static_param at offset 0x78
-    const float* mMaxSpeedOther_s{};
+    const float* mMaxSpeedOther_s;
     // static_param at offset 0x80
-    const float* mJumpHeightNSword_s{};
+    const float* mJumpHeightNSword_s;
     // static_param at offset 0x88
-    const float* mJumpHeightLSword_s{};
+    const float* mJumpHeightLSword_s;
     // static_param at offset 0x90
-    const float* mJumpHeightSpear_s{};
+    const float* mJumpHeightSpear_s;
     // static_param at offset 0x98
-    const float* mJumpHeightOther_s{};
+    const float* mJumpHeightOther_s;
     // static_param at offset 0xa0
-    const float* mInitSpeedWind_s{};
+    const float* mInitSpeedWind_s;
     // static_param at offset 0xa8
-    const float* mJumpHeightWind_s{};
+    const float* mJumpHeightWind_s;
     // static_param at offset 0xb0
-    const float* mNoRagdollTime_s{};
+    const float* mNoRagdollTime_s;
     // static_param at offset 0xb8
-    const float* mInitSpeedToss_s{};
+    const float* mInitSpeedToss_s;
     // static_param at offset 0xc0
-    const float* mJumpHeightToss_s{};
+    const float* mJumpHeightToss_s;
     // static_param at offset 0xc8
-    const float* mAddLinearImpulse_s{};
+    const float* mAddLinearImpulse_s;
     // static_param at offset 0xd0
-    const float* mAddRollImpulse_s{};
+    const float* mAddRollImpulse_s;
     // static_param at offset 0xd8
-    const float* mInitSpeedHorse_s{};
+    const float* mInitSpeedHorse_s;
     // static_param at offset 0xe0
-    const float* mJumpHeightHorse_s{};
+    const float* mJumpHeightHorse_s;
     // static_param at offset 0xe8
-    const float* mAddLinearImpulseHorse_s{};
+    const float* mAddLinearImpulseHorse_s;
     // static_param at offset 0xf0
-    const float* mInitSpeedRynel_s{};
+    const float* mInitSpeedRynel_s;
     // static_param at offset 0xf8
-    const float* mJumpHeightRynel_s{};
+    const float* mJumpHeightRynel_s;
     // static_param at offset 0x100
-    const float* mAddLinearImpulseRynel_s{};
+    const float* mAddLinearImpulseRynel_s;
     // static_param at offset 0x108
-    const float* mAddRollImpulseRynel_s{};
+    const float* mAddRollImpulseRynel_s;
     // static_param at offset 0x110
-    const float* mInitSpeedSandworm_s{};
+    const float* mInitSpeedSandworm_s;
     // static_param at offset 0x118
-    const float* mJumpHeightSandworm_s{};
+    const float* mJumpHeightSandworm_s;
     // static_param at offset 0x120
-    const float* mAddLinearImpulseSandworm_s{};
+    const float* mAddLinearImpulseSandworm_s;
     // static_param at offset 0x128
-    const float* mInitSpeedShakeOff_s{};
+    const float* mInitSpeedShakeOff_s;
     // static_param at offset 0x130
-    const float* mJumpHeightShakeOff_s{};
+    const float* mJumpHeightShakeOff_s;
     // static_param at offset 0x138
-    const float* mAddLinearImpulseShakeOff_s{};
+    const float* mAddLinearImpulseShakeOff_s;
     // static_param at offset 0x140
-    const float* mInitSpeedWindRemain_s{};
+    const float* mInitSpeedWindRemain_s;
     // static_param at offset 0x148
-    const float* mJumpHeightWindRemain_s{};
+    const float* mJumpHeightWindRemain_s;
     // static_param at offset 0x150
-    const float* mAddLinearImpulseWindRemain_s{};
+    const float* mAddLinearImpulseWindRemain_s;
 };
+KSYS_CHECK_SIZE_NX150(PlayerLargeDamage, 0x158);
 
 }  // namespace uking::action

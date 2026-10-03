@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerCutFall.h"
+#include <cstring>
 #include "Game/Actor/actWeapon.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -10,7 +11,11 @@
 
 namespace uking::action {
 
-PlayerCutFall::PlayerCutFall(const InitArg& arg) : PlayerAction(arg) {}
+// The parameter pointers are cleared with an explicit memset in the constructor body (the original
+// tail-calls memset, which only a call from the source produces).
+PlayerCutFall::PlayerCutFall(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mParashawlInvalidTime_s, 0, 0x50);
+}
 
 void PlayerCutFall::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

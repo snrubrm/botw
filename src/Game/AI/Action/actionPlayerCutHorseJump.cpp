@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerCutHorseJump.h"
+#include <cstring>
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -7,7 +8,9 @@
 
 namespace uking::action {
 
-PlayerCutHorseJump::PlayerCutHorseJump(const InitArg& arg) : PlayerAction(arg) {}
+PlayerCutHorseJump::PlayerCutHorseJump(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mAttackRate_s, 0, 0x60);
+}
 
 void PlayerCutHorseJump::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

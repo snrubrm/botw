@@ -1,10 +1,13 @@
 #include "Game/AI/Action/actionPlayerDamage.h"
+#include <cstring>
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "Game/gameUnk_71008ba8d8.h"
 
 namespace uking::action {
 
-PlayerDamage::PlayerDamage(const InitArg& arg) : PlayerAction(arg) {}
+PlayerDamage::PlayerDamage(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mBaseInitSpeedNSword_s, 0, 0x80);
+}
 
 void PlayerDamage::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);

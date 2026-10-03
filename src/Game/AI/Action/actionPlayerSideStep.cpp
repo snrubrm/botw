@@ -1,8 +1,11 @@
 #include "Game/AI/Action/actionPlayerSideStep.h"
+#include <cstring>
 
 namespace uking::action {
 
-PlayerSideStep::PlayerSideStep(const InitArg& arg) : PlayerAction(arg) {}
+PlayerSideStep::PlayerSideStep(const InitArg& arg) : PlayerAction(arg) {
+    std::memset(&mSpeedF_s, 0, 0x48);
+}
 
 void PlayerSideStep::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
