@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   uiFadeProgress.cpp
   uiFadeProgress.h
   uiManager.h
+  uiMiscFacade.cpp
   uiManagerFacade.cpp
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
@@ -13,6 +14,7 @@ target_sources(uking PRIVATE
   uiShopFacade.cpp
   uiShopMgr.h
   uiUI.h
+  uiUnkSingletons.h
   uiUtils.cpp
   uiUtils.h
 )
