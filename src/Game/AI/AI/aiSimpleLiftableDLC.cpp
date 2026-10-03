@@ -1,10 +1,16 @@
 #include "Game/AI/AI/aiSimpleLiftableDLC.h"
+#include <gfx/seadColor.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+// 0x710005a4c8 (not in the CSV; placeholder name): a variadic debug-print stub (saves the argument
+// registers and returns): (name, position, color, format, ...).
+void sub_710005A4C8(const char* name, const sead::Vector3f* pos, const sead::Color4f* color,
+                    const char* format, ...);
 
 namespace uking::ai {
 
@@ -70,6 +76,27 @@ void SimpleLiftableDLC::sub_710056EA38() {
             body->changeMotionType(ksys::phys::MotionType::Dynamic);
     }
     changeChild("通常");
+}
+
+void SimpleLiftableDLC::sub_710056EC90() {
+    auto* actor = mActor;
+    const f32 scale = actor->getScale().x;
+    const f32 threshold = *mScaleToLiftUp_s;
+    if (scale <= threshold) {
+        if (!_d0) {
+            _d0 = true;
+            ksys::act::enableAttClient(actor, "Grab");
+        }
+    } else if (_d0) {
+        _d0 = false;
+        ksys::act::disableAttClient(actor, "Grab");
+    }
+
+    if (_d1) {
+        const sead::Vector3f pos = actor->getMtx().getTranslation();
+        sub_710005A4C8("", &pos, &sead::Color4f::cGreen, "%s%.2f/%.2f", _d0 ? "○" : "×", scale,
+                       threshold);
+    }
 }
 
 void SimpleLiftableDLC::calc_() {
