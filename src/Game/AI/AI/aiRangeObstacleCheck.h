@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -30,9 +31,9 @@ protected:
     const float* mHeightMax_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
-    u32 _60 = 0;
-    u32 _64 = 0;
-    u32 _68 = 0;
+    f32 _60 = 0;
+    s32 _64 = 0;
+    s32 _68 = 0;
 };
 KSYS_CHECK_SIZE_NX150(RangeObstacleCheck, 0x70);
 
