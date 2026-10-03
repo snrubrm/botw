@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDgnObj_DLC_CogWheel2.h"
+#include <gsys/gsysModel.h>
 #include "Game/gameGearMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -198,6 +199,32 @@ void DgnObj_DLC_CogWheel2::m37() {
 
 bool DgnObj_DLC_CogWheel2::m4(ksys::act::BaseProc* proc) {
     return false;
+}
+
+// NON_MATCHING: same code except the original materialises the `false` result at the top of the
+// function (before `mov x8, x1`) and has a single exit; we emit it in a separate failure block.
+// Moves the model to the projection of the main body's position on the home matrix's z axis.
+bool DgnObj_DLC_CogWheel2::m5(ksys::act::BaseProc* proc) {
+    bool result = false;
+    auto* actor = static_cast<ksys::act::Actor*>(proc);
+    if (actor) {
+        if (auto* body = actor->getMainBody()) {
+            if (auto* model = actor->getModel()) {
+                sead::Matrix34f mtx;
+                actor->getHomeMtx(&mtx);
+                const sead::Vector3f origin{mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]};
+                const sead::Vector3f axis{mtx.m[0][2], mtx.m[1][2], mtx.m[2][2]};
+                sead::Vector3f position;
+                body->getPosition(&position);
+                const sead::Vector3f projected = origin + axis * axis.dot(position - origin);
+                mtx.setTranslation(projected);
+                model->setMatrix(mtx);
+                model->updateWorldMatrix();
+                result = true;
+            }
+        }
+    }
+    return result;
 }
 
 }  // namespace uking::ai

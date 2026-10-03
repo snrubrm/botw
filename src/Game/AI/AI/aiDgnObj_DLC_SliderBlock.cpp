@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDgnObj_DLC_SliderBlock.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -47,6 +48,31 @@ bool DgnObj_DLC_SliderBlock::handleMessage_(const ksys::Message* message) {
 
 bool DgnObj_DLC_SliderBlock::m4(ksys::act::BaseProc* proc) {
     return false;
+}
+
+// Moves the model to the home matrix's translation shifted along its x axis by _60 (which is updated
+// from the main body's position unless the actor has ActorFlag2 _40 set).
+bool DgnObj_DLC_SliderBlock::m5(ksys::act::BaseProc* proc) {
+    auto* body = mActor->getMainBody();
+    auto* model = mActor->getModel();
+    if (!body || !model)
+        return false;
+
+    sead::Matrix34f mtx;
+    mActor->getHomeMtx(&mtx);
+    sead::Vector3f axis;
+    mtx.getBase(axis, 0);
+    sead::Vector3f origin;
+    mtx.getTranslation(origin);
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40)) {
+        sead::Vector3f position;
+        body->getPosition(&position);
+        _60 = axis.dot(position - origin);
+    }
+    mtx.setTranslation(origin + axis * _60);
+    model->setMatrix(mtx);
+    model->updateWorldMatrix();
+    return true;
 }
 
 bool DgnObj_DLC_SliderBlock::hasUpdateForPreDeleteCb() {

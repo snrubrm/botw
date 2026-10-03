@@ -49,6 +49,10 @@ public:
         mMatrix = matrix;
     }
 
+    // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
+    // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
+    void updateWorldMatrix();
+
     void setBoneLocalMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix,
                             const sead::Vector3f& scale);
     // 0x7100bf7bb4 (CSV name)

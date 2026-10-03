@@ -5,9 +5,10 @@ namespace uking::ai {
 
 HorseNotRidden::HorseNotRidden(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// NON_MATCHING: the original calls gdt::Manager::removeReinitCallback(_128) first when the slot is
-// connected (sead's Slot::mConnectedToDelegateEvent is private in our sead headers)
-HorseNotRidden::~HorseNotRidden() = default;
+HorseNotRidden::~HorseNotRidden() {
+    if (_128.isConnected())
+        ksys::gdt::Manager::instance()->removeReinitCallback(_128);
+}
 
 bool HorseNotRidden::init_(sead::Heap* heap) {
     auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
