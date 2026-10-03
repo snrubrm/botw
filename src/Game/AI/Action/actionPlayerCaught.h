@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/aiUnk_7102450058.h"
 
 namespace uking::action {
 
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+
+    Unk_710244ed58 _20;
 };
 
 }  // namespace uking::action

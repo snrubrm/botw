@@ -5,12 +5,14 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include <prim/seadSafeString.h>
 #include "KingSystem/Physics/System/physRayCast.h"
 
 namespace ksys::act {
 class Actor;
 class BaseProcLink;
 struct Struct8Base;
+class Unk_7100d860d8;
 }  // namespace ksys::act
 
 namespace ksys::phys {
@@ -69,16 +71,19 @@ bool sub_7100738E70(ksys::act::Actor* actor);
 /// rigid body's gravity factor).
 void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
 
-/// Inline-only in the original; names are guesses. The callers keep the result in the stack slot of the
-/// gravity vector (SmallDamageBackwardBase::calc_, KnockBackShock::enter_, ...), i.e. these are
-/// functions returning the vector by value.
+/// inline-only in the original; name is a guess. Evidence: the same sequence (sub_710072DC50 into a
+/// stack vector, returned by value) repeats in SmallDamageBackwardBase::calc_, KnockBackShock::enter_,
+/// FlyMoveBase::enter_, TargetCircle::enter_, ... and the callers keep the result in the stack slot
+/// of the gravity vector.
 inline sead::Vector3f getGravity(ksys::act::Actor* actor) {
     sead::Vector3f gravity;
     sub_710072DC50(&gravity, actor);
     return gravity;
 }
 
-/// The up direction for a gravity vector: the normalized negated vector (Y axis if it is null).
+/// inline-only in the original; name is a guess. The up direction for a gravity vector: the normalized
+/// negated vector (Y axis if it is null); the same sequence repeats in FlyMoveBase::enter_,
+/// AnmDrivenSpeedBackWalk::calc_ (3x), RandomJump::calc_, TargetCircle::enter_, ...
 inline sead::Vector3f getUpDir(const sead::Vector3f& gravity) {
     sead::Vector3f up = -gravity;
     if (up.normalize() < sead::Mathf::epsilon())
@@ -266,3 +271,9 @@ void sub_710073DE44(ksys::act::Actor* actor);
 /// 0x7100731000 (lane1 s22): sets the map unit param "IsPlayerPut" (bool) of the actor's root AI;
 /// false if the actor has no such param. Placeholder name.
 bool sub_7100731000(ksys::act::Actor* actor, bool value);
+// 0x71007398c0 (CSV Actor::x_50): the actor's spine controller (BoneControl::_0->_10) or nullptr; the
+// same as Actor::sub_71011D8A10 but out of line in this TU.
+ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor);
+
+/// 0x710072d53c: the RigidBody name of the actor's GiantArmorSlot GParamList slot (0 - 3; empty string otherwise).
+const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);

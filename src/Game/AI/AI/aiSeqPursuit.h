@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
     bool m34() const override;
+    bool m35() const override;
 
 protected:
     // static_param at offset 0x50

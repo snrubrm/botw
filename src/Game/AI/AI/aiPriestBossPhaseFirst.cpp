@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossPhaseFirst.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -36,6 +37,21 @@ void PriestBossPhaseFirst::m39() {
     ksys::act::ActorConstDataAccess accessor;
     if (sub_7100525B18(0, &accessor))
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+}
+
+bool PriestBossPhaseFirst::m37(f32* ratio) {
+    ksys::act::BaseProcLink link;
+    if (!sub_7100525BC0(0, &link))
+        return false;
+
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+    if (!actor || !actor->isAwakeMaybe())
+        return false;
+
+    auto* life = actor->getLife();
+    const f32 life_value = life ? f32(*life) : 1.0f;
+    *ratio = life_value / f32(actor->getMaxLife());
+    return true;
 }
 
 bool PriestBossPhaseFirst::m36() {

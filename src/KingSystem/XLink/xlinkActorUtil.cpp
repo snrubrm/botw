@@ -19,8 +19,6 @@ int sub_7101240FE8(ksys::act::Actor* actor) {
 
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void sub_71012410C8(ksys::xlink::XLink* xlink, const char* name, int kind,
                     Unk_71012419b4* handle) {
     if ((kind == 0 || kind == 2) && xlink->_48) {
@@ -38,8 +36,6 @@ void sub_71012410C8(ksys::xlink::XLink* xlink, const char* name, int kind,
 
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
                         Unk_71012419b4* handle) {
     if (!actor || !actor->getXLink())
@@ -47,8 +43,6 @@ void xlinkSearchAndEmit(ksys::act::Actor* actor, const char* name, int kind,
     sub_71012410C8(actor->getXLink(), name, kind, handle);
 }
 
-// NON_MATCHING: the discarded HandleELink / HandleSLink temporaries share one stack slot in our
-// build (the original keeps two)
 void flyingObjectEmitXlink(ksys::act::Actor* actor, const char* name, int kind,
                            Unk_71012419b4* handle) {
     auto* xlink = actor->getXLink();
@@ -101,4 +95,21 @@ void xlinkEventOn(ksys::act::Actor* actor, u32 idx, s32 value, bool force) {
         if (force || slink->isPropertyAssigned(idx))
             slink->setPropertyValue(idx, value);
     }
+}
+
+// NON_MATCHING: the original stores the ELink event's scale (1, 1, 1) with two `stp` pairs interleaved with the
+// position's z; ours merges the constants into one 64-bit store (HandleELink::setPosition, lib/xlink2)
+void Unk_71012419b4::sub_71012419B4(const sead::Vector3f& pos) {
+    mELink.setPosition(pos);
+    mSLink.setPosition(pos);
+}
+
+void Unk_71012419b4::sub_7101241A44(const sead::Matrix34f& mtx) {
+    mELink.setMatrix(mtx);
+    mSLink.setMatrix(mtx);
+}
+
+void Unk_71012419b4::fadeXLink() {
+    mELink.fade();
+    mSLink.fade();
 }

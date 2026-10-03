@@ -53,7 +53,7 @@ public:
     void initMaybe() override;
     void m73() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     bool isGuard() override;
     bool isGuardJust() override;
     Unk_71025ae680* m178(sead::Heap* heap) override;

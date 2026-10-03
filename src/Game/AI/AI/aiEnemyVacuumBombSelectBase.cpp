@@ -1,11 +1,16 @@
 #include "Game/AI/AI/aiEnemyVacuumBombSelectBase.h"
+#include <prim/seadFormatPrint.h>
 #include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
 EnemyVacuumBombSelectBase::EnemyVacuumBombSelectBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyVacuumBombSelectBase::~EnemyVacuumBombSelectBase() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+EnemyVacuumBombSelectBase::~EnemyVacuumBombSelectBase() {
+    ;
+}
 
 bool EnemyVacuumBombSelectBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
@@ -37,37 +42,11 @@ bool EnemyVacuumBombSelectBase::m34(ksys::act::BaseProcLink* link) {
 }
 
 void EnemyVacuumBombSelectBase::loadParams_() {
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 5; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "PartsKey%d", i) << sead::flush;
+        getStaticParam(&mPartsKey_s[i], key.cstr());
+    }
 }
 
 bool EnemyVacuumBombSelectBase::sub_71003C3198() {

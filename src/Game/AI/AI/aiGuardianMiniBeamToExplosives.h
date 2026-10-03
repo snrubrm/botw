@@ -16,8 +16,8 @@ public:
     void loadParams_() override;
 
     bool m39() override;
-    bool m46(sead::Vector3f* out) override;
     void m42() override;
+    bool m46(sead::Vector3f* out) override;
 
 protected:
     // static_param at offset 0x2d8

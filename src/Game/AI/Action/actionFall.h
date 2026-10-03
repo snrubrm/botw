@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -23,6 +24,10 @@ protected:
     const float* mInWaterDepth_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
+    ksys::VFRValue _38;
+    ksys::VFRVec3f _44;
+    u8 _68[0x10];
 };
+KSYS_CHECK_SIZE_NX150(Fall, 0x78);
 
 }  // namespace uking::action

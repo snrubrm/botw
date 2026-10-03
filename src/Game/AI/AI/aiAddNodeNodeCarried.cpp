@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiAddNodeNodeCarried.h"
 #include <math/seadQuat.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,10 @@ void AddNodeNodeCarried::loadParams_() {
     getStaticParam(&mNodeRotOffset_s, "NodeRotOffset");
 }
 
+ksys::act::ActorBind* AddNodeNodeCarried::m35() {
+    return &_c0;
+}
+
 void AddNodeNodeCarried::m37(const sead::Matrix34f& mtx) {
     sead::Vector3f axis = *mNodeRotOffset_s;
     const f32 angle = axis.normalize();
@@ -49,6 +54,10 @@ void AddNodeNodeCarried::m36() {
     sead::Matrix34f rot;
     rot.fromQuat(q);
     _c0._40 = rot;
+}
+
+bool AddNodeNodeCarried::m38() {
+    return false;
 }
 
 }  // namespace uking::ai

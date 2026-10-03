@@ -9,7 +9,8 @@ namespace uking::ai {
 
 namespace {
 using Idx14f8 = act::WolfLink::Idx14f8;
-// Inline-only in the original (by-value index parameter: the enum temporary gets lifetime markers).
+// inline-only in the original; name is a guess. Evidence: same by-value-index timer read as in
+// WolfLinkNormalRoot (10+ sites across its functions; the enum temporaries share one stack slot).
 f32 getTimerValue(act::WolfLink* wolf, Idx14f8 idx) {
     return wolf->_14f8[idx].value;
 }

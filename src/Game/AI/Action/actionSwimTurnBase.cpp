@@ -4,7 +4,11 @@ namespace uking::action {
 
 SwimTurnBase::SwimTurnBase(const InitArg& arg) : SwimRotateBase(arg) {}
 
-SwimTurnBase::~SwimTurnBase() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SwimTurnBase::~SwimTurnBase() {
+    ;
+}
 
 bool SwimTurnBase::init_(sead::Heap* heap) {
     return SwimRotateBase::init_(heap);

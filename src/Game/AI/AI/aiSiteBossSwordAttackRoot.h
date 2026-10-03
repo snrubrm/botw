@@ -60,6 +60,12 @@ protected:
     sead::SafeString mThrowActorName_s{};
     // dynamic_param at offset 0xf0
     bool* mIsCancelAttack_d{};
+    u32 _f8 = 0;
+    sead::Vector3f _fc = sead::Vector3f::zero;
+    bool _108 = false;
+    bool _109 = false;
+    u32 _10c = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordAttackRoot, 0x110);
 
 }  // namespace uking::ai

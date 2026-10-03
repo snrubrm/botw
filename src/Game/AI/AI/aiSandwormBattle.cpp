@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiSandwormBattle.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -50,31 +51,34 @@ void SandwormBattle::sub_7100557504() {
     sub_7100557744();
 }
 
-// NON_MATCHING: stack layout — the original places the accessor at the top of the frame (sharing its
-// slot with the "TargetPos" SafeString) and the position at the bottom
+void SandwormBattle::getTargetPos(sead::Vector3f* out) {
+    ksys::act::ActorConstDataAccess accessor;
+    auto* link = sub_71005D9050(mActor);
+    ksys::act::acquireActor(link ? link : &ksys::act::getDummyBaseProcLink(), &accessor);
+    accessor.getActorMtx().getTranslation(*out);
+}
+
+bool SandwormBattle::sub_710055785C() {
+    sead::Vector3f target;
+    getTargetPos(&target);
+    if (!sub_710072DDB8(target, mActor->getMtx(), *mAttackAngle_s))
+        return false;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    return sub_710072F788(mActor, pos, target, nullptr);
+}
+
 void SandwormBattle::sub_710055762C() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
-    {
-        ksys::act::ActorConstDataAccess accessor;
-        auto* link = sub_71005D9050(mActor);
-        ksys::act::acquireActor(link ? link : &ksys::act::getDummyBaseProcLink(), &accessor);
-        accessor.getActorMtx().getTranslation(pos);
-    }
+    getTargetPos(&pos);
     params.addVec3(pos, "TargetPos", -1);
     changeChild("戦闘攻撃", &params);
 }
 
-// NON_MATCHING: same stack layout difference as sub_710055762C
 void SandwormBattle::sub_7100557744() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
-    {
-        ksys::act::ActorConstDataAccess accessor;
-        auto* link = sub_71005D9050(mActor);
-        ksys::act::acquireActor(link ? link : &ksys::act::getDummyBaseProcLink(), &accessor);
-        accessor.getActorMtx().getTranslation(pos);
-    }
+    getTargetPos(&pos);
     params.addVec3(pos, "TargetPos", -1);
     changeChild("戦闘準備", &params);
 }
@@ -137,12 +141,7 @@ void SandwormBattle::calc_() {
     }
 
     sead::Vector3f pos;
-    {
-        ksys::act::ActorConstDataAccess accessor;
-        auto* link = sub_71005D9050(mActor);
-        ksys::act::acquireActor(link ? link : &ksys::act::getDummyBaseProcLink(), &accessor);
-        accessor.getActorMtx().getTranslation(pos);
-    }
+    getTargetPos(&pos);
     child->setDynamicParam(pos, "TargetPos");
     if (isCurrentChild("戦闘準備") && _70.mTimer.value <= sead::Mathf::epsilon())
         setFailed();

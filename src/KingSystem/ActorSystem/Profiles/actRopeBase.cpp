@@ -18,10 +18,10 @@ void RopeBase::m43(bool on) {
     }
 }
 
-bool RopeBase::shouldUnload() {
+bool RopeBase::shouldUnload(s32* a1) {
     if (!_95a && !mMapObject)
         return false;
-    return shouldUnloadBecauseOfDistance();
+    return shouldUnloadBecauseOfDistance(a1);
 }
 
 void RopeBase::updatePositionMaybe() {

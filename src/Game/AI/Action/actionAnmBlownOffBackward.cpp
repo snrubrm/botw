@@ -5,7 +5,11 @@ namespace uking::action {
 
 AnmBlownOffBackward::AnmBlownOffBackward(const InitArg& arg) : AnmBlownOff(arg) {}
 
-AnmBlownOffBackward::~AnmBlownOffBackward() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+AnmBlownOffBackward::~AnmBlownOffBackward() {
+    ;
+}
 
 bool AnmBlownOffBackward::init_(sead::Heap* heap) {
     return AnmBlownOff::init_(heap);

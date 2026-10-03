@@ -1,4 +1,10 @@
 #include "Game/AI/AI/aiTwnObjDlcFlightTrainingTarget.h"
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -12,7 +18,12 @@ bool TwnObjDlcFlightTrainingTarget::init_(sead::Heap* heap) {
 }
 
 void TwnObjDlcFlightTrainingTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("待機");
+    mActor->getModel()->x(true, 0);
+    sub_71007A3540(mActor);
+    mActor->emitBasicSigOff();
+    if (ksys::gdt::getFlag_BalladOfHeroRito_TargetEffect(false))
+        xlinkSearchAndEmit(mActor, "FlightTrainingTarget_Open", 2, nullptr);
 }
 
 void TwnObjDlcFlightTrainingTarget::leave_() {

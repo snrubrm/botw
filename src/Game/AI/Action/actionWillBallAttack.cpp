@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWillBallAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -16,6 +17,7 @@ void WillBallAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WillBallAttack::leave_() {
     WillBallAction::leave_();
+    sub_71005DC02C(mActor);
 }
 
 void WillBallAttack::loadParams_() {

@@ -1,4 +1,7 @@
 #include "Game/AI/Behavior/behaviorBeastGanonWPPrincessShout.h"
+#include <prim/seadBitUtil.h>
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71025b2d88.h"
 
 namespace uking::behavior {
 
@@ -40,6 +43,47 @@ void BeastGanonWPPrincessShout::loadParams() {
     getStaticParam(&mlabelName9_s, "labelName9");
     getStaticParam(&mlabelName10_s, "labelName10");
     getAITreeVariable(&mWeakPointActiveFlag_a, "WeakPointActiveFlag");
+}
+
+// NON_MATCHING: the block layout and the loops match; the original compares the active weak point count as
+// `cmp w0, #1; b.gt` (we get `cmp #2; b.ge`) and keeps `bic` + `and 0xffff` for the "all labels used" test (we get eor/and)
+void BeastGanonWPPrincessShout::m16() {
+    _88 = 0;
+    auto* weak_points = sead::DynamicCast<Unk_71025b2d88>(
+        *static_cast<Unk_71025afb58**>(mWeakPointActiveFlag_a));
+    s32 num_active = weak_points ? sead::BitFlagUtil::countOnBit(weak_points->mFlags) : 0;
+    if (num_active <= 1) {
+        u32 mask = 0;
+        for (u32 i = 0; i != u32(*mSingleIdx_s); ++i)
+            mask |= 1u << i;
+        if (u16(mask & ~_8c.getDirect()) == 0)
+            _8c.reset(mask);
+        u32 candidates = 1;
+        for (s32 i = 0; i < *mSingleIdx_s; ++i) {
+            if (_8c.isOffBit(i)) {
+                if (sead::GlobalRandom::instance()->getU32(candidates) == 0)
+                    _88 = i;
+                ++candidates;
+            }
+        }
+    } else {
+        u32 mask = 0;
+        for (u32 i = 0; i != u32(*mSingleIdx_s); ++i)
+            mask |= 1u << i;
+        mask = ~mask & 0x3ff;
+        if (u16(mask & ~_8c.getDirect()) == 0)
+            _8c.reset(mask);
+        u32 candidates = 1;
+        for (s32 i = *mSingleIdx_s; i < 10; ++i) {
+            if (_8c.isOffBit(i)) {
+                if (sead::GlobalRandom::instance()->getU32(candidates) == 0)
+                    _88 = i;
+                ++candidates;
+            }
+        }
+    }
+    _8c.setBit(_88);
+    SimpleAtvUnitOpenSimpleDialog::m16();
 }
 
 const sead::SafeString* BeastGanonWPPrincessShout::m14() {

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSeqAnimalAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007398C0.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,10 @@ void SeqAnimalAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SeqAnimalAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _54 = false;
+    sub_71005DB3EC(mActor);
+    if (auto* control = sub_71007398C0(mActor))
+        control->_9c = control->_98;
 }
 
 void SeqAnimalAttack::loadParams_() {
@@ -27,15 +33,14 @@ bool SeqAnimalAttack::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
 }
 
-// NON_MATCHING: scheduling of the SafeString argument setup before the shared isCurrentChild call
 bool SeqAnimalAttack::isFinished() const {
     if (ksys::act::ai::Ai::isFinished())
         return true;
     if (!getCurrentChild()->isFinished())
         return false;
-    if (*mIsUseAfterAttackState_s)
-        return isCurrentChild("攻撃ヒット後") || isCurrentChild("攻撃ハズレ後");
-    return isCurrentChild("攻撃");
+    if (!*mIsUseAfterAttackState_s)
+        return isCurrentChild("攻撃");
+    return isCurrentChild("攻撃ヒット後") || isCurrentChild("攻撃ハズレ後");
 }
 
 }  // namespace uking::ai

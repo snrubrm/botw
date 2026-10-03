@@ -19,9 +19,6 @@ void MagneGearRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("通常");
 }
 
-// NON_MATCHING: stack layout only (the original keeps the discarded HandleSLink temporary of
-// searchAndEmitSLink in its own slot, ours shares it with the SafeString temporary; same as
-// MagneStickRoot::calc_)
 void MagneGearRoot::calc_() {
     const bool grabbed = mActor->m128()->m2();
     auto* child = getCurrentChild();

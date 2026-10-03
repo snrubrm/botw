@@ -56,6 +56,18 @@ protected:
     bool* mIsKeepDisableDraw_d{};
     // dynamic_param at offset 0xa8
     sead::Vector3f* mTargetPos_d{};
+    bool _b0 = false;
+    bool _b1 = false;
+    bool _b2 = false;
+    u8 _b3[0x1];
+    f32 _b4 = 0.0f;
+    f32 _b8 = 0.0f;
+    u8 _bc[0x18];
+    f32 _d4 = 0.0f;
+    u64 _d8 = 0;
+    u8 _e0[0x10];
+    u64 _f0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(LastBossNormalWarp, 0xf8);
 
 }  // namespace uking::action

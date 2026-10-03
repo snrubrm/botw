@@ -18,9 +18,7 @@ public:
 
     /* 0x28 */ const int* mIntervalTime_s{};
     /* 0x30 */ sead::SafeString mDownCheckRagdollRbName_s{};
-    /* 0x40 */ sead::SafeString _40{};
-    /* 0x50 */ sead::SafeString _50{};
-    /* 0x60 */ sead::SafeString _60{};
+    /* 0x40 */ sead::SafeString mGroundCheckRagdollRbName_s[3]{};
     /* 0x70 */ bool _70 = false;
     /* 0x74 */ f32 _74 = 0.0f;
 };

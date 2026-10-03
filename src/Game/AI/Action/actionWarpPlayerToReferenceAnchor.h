@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    sead::Vector3f _1c = sead::Vector3f::zero;
 };
+KSYS_CHECK_SIZE_NX150(WarpPlayerToReferenceAnchor, 0x28);
 
 }  // namespace uking::action

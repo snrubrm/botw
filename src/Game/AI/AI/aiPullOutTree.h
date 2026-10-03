@@ -46,7 +46,8 @@ public:
 protected:
     void calc_() override;
 
-    // Inline-only in the original (name is a guess): the target actor's position.
+    // inline-only in the original; name is a guess. Evidence: the TargetPos accessor sequence repeats in
+    // enter_ and the child-change helpers: the target actor's position.
     void getTargetPos(sead::Vector3f* out) const;
 
     // Each of these changes the child (rotating / moving / waiting for the tree to be created /

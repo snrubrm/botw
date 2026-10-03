@@ -16,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool m40() override;
+    f32 m43() override;
 
 protected:
     // static_param at offset 0x80

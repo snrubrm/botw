@@ -16,22 +16,21 @@ bool CapturedActorReaction::init_(sead::Heap* heap) {
 
 void CapturedActorReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = true;
-    auto* damage_mgr = sub_710072BA90(mActor);
-    if (!damage_mgr) {
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager) {
         setFailed();
         return;
     }
-
-    if (damage_mgr->getField54() == 0x22) {
-        if (isCurrentChild("消滅"))
-            return;
-        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
-        changeChild("消滅");
-    } else if (damage_mgr->getField50() == 0x11) {
-        if (isCurrentChild("怨念"))
-            return;
-        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
-        changeChild("怨念");
+    if (manager->getField54() == 34) {
+        if (!isCurrentChild("消滅")) {
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+            changeChild("消滅");
+        }
+    } else if (manager->getField50() == 17) {
+        if (!isCurrentChild("怨念")) {
+            mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+            changeChild("怨念");
+        }
     } else {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
             enemy->_e84.setBit(3);

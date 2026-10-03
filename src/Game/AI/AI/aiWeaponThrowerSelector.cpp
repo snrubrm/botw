@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponThrowerSelector.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,11 @@ bool WeaponThrowerSelector::init_(sead::Heap* heap) {
 }
 
 void WeaponThrowerSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (weapon && (weapon->_e50 & 2) && weapon->_d68 == weapon->_d70)
+        changeChild("プレイヤが投げた", params);
+    else
+        changeChild("その他が投げた", params);
 }
 
 void WeaponThrowerSelector::calc_() {}

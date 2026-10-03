@@ -27,61 +27,6 @@ void UnarmedEnemySearch::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("見まわす");
 }
 
-void UnarmedEnemySearch::calc_() {
-    if (isFinished())
-        return;
-    if (isFailed())
-        return;
-
-    auto* child = getCurrentChild();
-    if (child->isFinished() || child->isFailed()) {
-        if (isCurrentChild("ジャンプ")) {
-            m37();
-            return;
-        }
-        if (isCurrentChild("見まわす")) {
-            m42();
-            return;
-        }
-        if (isCurrentChild("回転")) {
-            m37();
-            return;
-        }
-        if (isCurrentChild("直進") || isCurrentChild("移動")) {
-            if (!_50 || _50->_8 == -1) {
-                m39();
-                return;
-            }
-        }
-    }
-
-    if (isCurrentChild("直進") || isCurrentChild("移動")) {
-        if (getCurrentChild()->isChangeable()) {
-            if (isCurrentChild("移動") && _50 && _50->_8 == 3) {
-                m39();
-                return;
-            }
-            sead::Vector3f target;
-            if (m43(&target)) {
-                m35(target);
-                return;
-            }
-            if (_50 && _50->_8 == 2) {
-                changeChild("見まわす");
-                return;
-            }
-        }
-        m38();
-        return;
-    }
-
-    if (isCurrentChild("見まわす")) {
-        sead::Vector3f target;
-        if (m43(&target))
-            m35(target);
-    }
-}
-
 void UnarmedEnemySearch::leave_() {
     if (_50 && _50->_0)
         _50->_0->inlineReset();
@@ -168,15 +113,6 @@ bool UnarmedEnemySearch::sub_71004B6C30() const {
     return isCurrentChild("移動");
 }
 
-void UnarmedEnemySearch::m35(const sead::Vector3f& target) {
-    if (_50)
-        _50->_8 = -1;
-    _58 = target;
-    ksys::act::ai::InlineParamPack params;
-    params.addVec3(_58, "TargetPos", -1);
-    changeChild("移動", &params);
-}
-
 bool UnarmedEnemySearch::m34() {
     auto* nav = mActor->m45();
     if (!nav)
@@ -206,6 +142,81 @@ bool UnarmedEnemySearch::m40(const sead::ObjList<sead::Vector3f>& points, sead::
 
 void UnarmedEnemySearch::m42() {
     setFailed();
+}
+
+void UnarmedEnemySearch::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ジャンプ")) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("見まわす")) {
+            m42();
+            return;
+        }
+        if (isCurrentChild("回転")) {
+            m37();
+            return;
+        }
+        if (isCurrentChild("直進") || isCurrentChild("移動")) {
+            if (!_50 || _50->_8 == -1) {
+                m39();
+                return;
+            }
+        }
+    }
+
+    if (isCurrentChild("直進") || isCurrentChild("移動")) {
+        if (!getCurrentChild()->isChangeable()) {
+            m38();
+            return;
+        }
+        if (isCurrentChild("移動") && _50 && _50->_8 == 3) {
+            m39();
+            return;
+        }
+        sead::Vector3f target;
+        if (m43(&target)) {
+            m35(target);
+            return;
+        }
+        if (_50 && _50->_8 == 2) {
+            changeChild("見まわす");
+            return;
+        }
+        m38();
+    } else if (isCurrentChild("見まわす")) {
+        sead::Vector3f target;
+        if (m43(&target))
+            m35(target);
+    }
+}
+
+void UnarmedEnemySearch::m35(const sead::Vector3f& target) {
+    if (_50)
+        _50->_8 = -1;
+    _58 = target;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(_58, "TargetPos", -1);
+    changeChild("移動", &params);
+}
+
+bool UnarmedEnemySearch::m43(sead::Vector3f* out) {
+    if (!_50 || _50->_8 != 1)
+        return false;
+    auto* nav = mActor->m45();
+    if (!nav)
+        return false;
+    const sead::Vector3f pos = nav->_194;
+    if (pos.isNan())
+        return false;
+    if (out)
+        *out = pos;
+    return true;
 }
 
 }  // namespace uking::ai

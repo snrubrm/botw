@@ -6,7 +6,11 @@ namespace uking::action {
 
 ForkFlyToTargetDirect::ForkFlyToTargetDirect(const InitArg& arg) : FreeMovingAction(arg) {}
 
-ForkFlyToTargetDirect::~ForkFlyToTargetDirect() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkFlyToTargetDirect::~ForkFlyToTargetDirect() {
+    ;
+}
 
 bool ForkFlyToTargetDirect::init_(sead::Heap* heap) {
     return FreeMovingAction::init_(heap);

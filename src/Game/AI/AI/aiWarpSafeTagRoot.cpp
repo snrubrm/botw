@@ -8,7 +8,11 @@ WarpSafeTagRoot::WarpSafeTagRoot(const InitArg& arg) : ksys::act::ai::Ai(arg), _
     _38.prev_value = 0;
 }
 
-WarpSafeTagRoot::~WarpSafeTagRoot() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+WarpSafeTagRoot::~WarpSafeTagRoot() {
+    ;
+}
 
 bool WarpSafeTagRoot::init_(sead::Heap* heap) {
     _68 = false;

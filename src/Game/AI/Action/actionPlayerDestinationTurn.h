@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -27,7 +28,7 @@ protected:
     float* mDestPosY_d{};
     // dynamic_param at offset 0x30
     float* mDestPosZ_d{};
-    int _38 = 0;
+    ksys::util::Unk_7101EC6BAC _38{0};
 };
 
 }  // namespace uking::action

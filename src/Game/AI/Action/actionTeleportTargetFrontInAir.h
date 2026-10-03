@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionTeleportBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,10 +31,7 @@ protected:
     const float* mHeightOffset_s{};
     // static_param at offset 0x48
     const float* mTerritoryArea_s{};
-    int _50 = 1;
-    int _54 = 0;
-    u16 _58 = 256;
-    bool _5a = true;
+    TeleportBase::SavedState _50;
     int _5c = 0;
     float _60 = 0.0f;
     int _64 = 0;

@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void m33() override;
 };
 
 }  // namespace uking::action

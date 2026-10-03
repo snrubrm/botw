@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiPriestBossCircleFormationShoot.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/System/VFR.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -88,6 +91,24 @@ void PriestBossCircleFormationShoot::m43() {
         }
     }
     changeChild("待機");
+}
+
+// NON_MATCHING: stack layout only — the original puts the InlineParamPack at the lowest address and the
+// SafeString / Unk_71002eda38 temporaries above it (ours reversed); the Timer reset stores 0x88/0x8c with stp
+void PriestBossCircleFormationShoot::m39() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
+
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (unit) {
+        if (auto* root = mActor->getRootAi())
+            root->getMapUnitParams().setString(unit->_2b0, "ArrowName");
+    }
+
+    sub_71005D787C(mActor, 0, uking::act::Unk_71002eda38(2));
+    changeChild("攻撃", &params);
+    _88.reset(*mHomingAttackTime_s * f32(ksys::VFR::instance()->getFrameRate()));
 }
 
 }  // namespace uking::ai

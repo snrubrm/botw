@@ -65,6 +65,10 @@ public:
     void sub_7100DB1158(int idx);
     f32 sub_7100DB1174(int idx) const;
 
+    // 0x7100db19dc (CSV EventMgr::__auto4, placeholder name; lane4 s23): `_1d2c0 != nullptr ||
+    // _1d170 < 1`, i.e. no event is playing / being set up (GanonBeast "rain" update).
+    bool sub_7100DB19DC() const;
+
 private:
     friend class ksys::OverlayArenaSystemS1;
 
@@ -86,6 +90,9 @@ private:
     u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];
     EventFlowMgr* mEventFlowMgr;
     u8 pad_1d2e8[0x1d2f4 - 0x1d2e8];
+
+public:
+    // Flag word; bit 0 is cleared by uking::action::PlayerHellStartWait::leave_.
     u32 _1d2f4;
 };
 

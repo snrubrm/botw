@@ -11,11 +11,11 @@ void ShowRandomMessage3D::m7() {
     ShowMessage3D::m7();
 }
 
-// NON_MATCHING: the original loads *mRandomWidth_s before the random instance pointer
 void ShowRandomMessage3D::m14(sead::BufferedSafeString* out) {
     if (out) {
         out->clear();
-        const u32 random = sead::GlobalRandom::instance()->getU32(*mRandomWidth_s);
+        const u32 width = *mRandomWidth_s;
+        const u32 random = sead::GlobalRandom::instance()->getU32(width);
         out->format("%s_%02d", mLabelName_s.cstr(), random);
     }
 }

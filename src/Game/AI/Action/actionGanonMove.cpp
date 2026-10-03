@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionGanonMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "gsys/gsysModelAccessKey.h"
+#include "gsys/gsysModel.h"
 
 namespace uking::action {
 
@@ -7,7 +10,11 @@ GanonMove::GanonMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 GanonMove::~GanonMove() = default;
 
 bool GanonMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (auto* model = mActor->getModel())
+        _c8.search(model, "Head");
+    else
+        _c8.getKey().reset();
+    return true;
 }
 
 void GanonMove::enter_(ksys::act::ai::InlineParamPack* params) {

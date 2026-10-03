@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiViewWaitRiskAvoid.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -29,6 +30,17 @@ void ViewWaitRiskAvoid::loadParams_() {
     getStaticParam(&mFrontAngle_s, "FrontAngle");
     getStaticParam(&mSpaceAngle_s, "SpaceAngle");
     getStaticParam(&mSpaceDist_s, "SpaceDist");
+}
+
+void ViewWaitRiskAvoid::m40() {
+    _5c = false;
+    if (isCurrentChild("後ずさり回避")) {
+        getCurrentChild()->setDynamicParam(m34(), "TargetPos");
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(m34(), "TargetPos", -1);
+        changeChild("後ずさり回避", &pack);
+    }
 }
 
 bool ViewWaitRiskAvoid::m35() {

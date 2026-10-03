@@ -9,7 +9,11 @@ AddCarriedBase::AddCarriedBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 AddCarriedBase::~AddCarriedBase() = default;
 
 bool AddCarriedBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (*mIsUseConstraint_s) {
+        if (!_68.init(heap))
+            return false;
+    }
+    return true;
 }
 
 void AddCarriedBase::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -20,8 +24,16 @@ bool AddCarriedBase::updateForPreDelete() {
     return _68.sub_71006F8AB4();
 }
 
+bool AddCarriedBase::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
+void AddCarriedBase::leave_() {
+    ksys::act::ai::Ai::leave_();
+}
+
 bool AddCarriedBase::m34() {
-    if (*mFailDistance_s > 0) {
+    if (*mFailDistance_s > 0.0f) {
         sead::Matrix34f mtx;
         sub_7100739498(mActor, &mtx);
         const sead::Vector3f diff = mActor->getMtx().getTranslation() - mtx.getTranslation();
@@ -31,12 +43,8 @@ bool AddCarriedBase::m34() {
     return false;
 }
 
-bool AddCarriedBase::hasUpdateForPreDeleteCb() {
+bool AddCarriedBase::m38() {
     return true;
-}
-
-void AddCarriedBase::leave_() {
-    ksys::act::ai::Ai::leave_();
 }
 
 void AddCarriedBase::loadParams_() {

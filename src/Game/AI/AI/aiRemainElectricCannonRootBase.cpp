@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiRemainElectricCannonRootBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -51,6 +53,19 @@ void RemainElectricCannonRootBase::loadParams_() {
     getStaticParam(&mSearchMaxDist_s, "SearchMaxDist");
     getStaticParam(&mSearchMinDist_s, "SearchMinDist");
     getStaticParam(&mSearchDistMargin_s, "SearchDistMargin");
+}
+
+// NON_MATCHING: the original evaluates both range tests unconditionally (cset + and; the min distance
+// is loaded up front); `&&` gives a branch
+bool RemainElectricCannonRootBase::m35() {
+    const f32 dist = sead::Mathf::sqrt(
+        ksys::util::sqXZDistance(getPlayerPosition(), mActor->getMtx().getTranslation()));
+    f32 max_dist = m41();
+    if (isCurrentChild("攻撃"))
+        max_dist += *mSearchDistMargin_s;
+    const f32 min_dist = *mSearchMinDist_s;
+    _51 = dist <= max_dist && min_dist <= dist;
+    return _51;
 }
 
 void RemainElectricCannonRootBase::m36() {

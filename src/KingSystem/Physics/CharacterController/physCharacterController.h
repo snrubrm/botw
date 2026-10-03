@@ -4,6 +4,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -13,9 +14,12 @@ class MotionType;
 
 namespace ksys::phys {
 
+class RigidBodyAccessor;
+
 class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
+class SystemGroupHandler;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
@@ -31,6 +35,10 @@ public:
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
+    // 0x7100f63604: sets the collision info of every body of _288 (if _114 has 0x2000).
+    void sub_7100F63604(CollisionInfo* info);
+    // 0x7100f6367c: the collision info of the first body of _288 (null without 0x2000 / a body).
+    CollisionInfo* sub_7100F6367C() const;
     // 0x7100f62bc0: setFixed on the main rigid body (unless it is already unfixed and `fixed` is false).
     void sub_7100F62BC0(bool fixed);
 
@@ -38,6 +46,8 @@ public:
     // 0x7100f5f14c (declared only; lane1 s21; ~35 callers across lanes): a ground / contact test
     // (reads the controller's sub-objects at +0x10 / +0x20 / +0x28 / +0x40).
     bool sub_7100F5F14C() const;
+    // 0x7100f5f264 (declared only; lane2 s20): reads byte 0x69 of the sub-object at +0x40.
+    bool sub_7100F5F264() const;
     void sub_7100F5F458(act::MotionType type);
 
     bool sub_7100F636EC() const;
@@ -61,6 +71,10 @@ public:
     void sub_7100F62CA8(bool clear);
 
     void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
+    // 0x7100f635c4: the accessor of the controller's rigid body (declared only).
+    RigidBodyAccessor* sub_7100F635C4() const;
+    // 0x7100f626e8 (declared only): the transform of the active body combined with _a0.
+    void sub_7100F626E8(sead::Matrix34f* mtx) const;
     // 0x7100f62ec0 (declared only): outputs the half height (?) of the controller's shape `index`; false
     // if it has none.
     bool sub_7100F62EC0(f32* out, int index) const;
@@ -75,6 +89,10 @@ public:
     void sub_7100F5E7F0(float value);
     // 0x7100f62dd0 (not decompiled): RigidBody::setColImpulseScale on the main body and the extra bodies.
     void sub_7100F62DD0(f32 scale);
+    // 0x7100f62e5c: the main rigid body's collision impulse scale.
+    f32 sub_7100F62E5C() const;
+    // 0x7100f5edb4 (unnamed in the CSV): mRigidBody->setSystemGroupHandler(handler).
+    void sub_7100F5EDB4(SystemGroupHandler* handler);
     void sub_7100F5EDBC(const sead::Vector3f& value);
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);
@@ -84,6 +102,8 @@ public:
     void sub_7100F5EEB8(float value);
     // 0x7100f5eee0: sets _220.
     void sub_7100F5EEE0(float value);
+    // 0x7100f5f774 (declared only; called with (velocity, true, false) by sub_7100F5F6FC).
+    void sub_7100F5F774(const sead::Vector3f& velocity, bool a2, bool a3);
     float sub_7100F5EF00() const;
     void sub_7100F5EF08(bool on);
     bool sub_7100F5F234(sead::Vector3f* out) const;
@@ -141,9 +161,15 @@ public:
     u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x224 - 0x120];
+    u8 _120[0x220 - 0x120];
+    f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
-    u8 _228[0x288 - 0x228];
+    u8 _228[0x250 - 0x228];
+    // Callbacks called with the controller by sub_7100F60604 (_250) and sub_7100F60500 (_258) (vtable
+    // slot 0 of the delegate).
+    sead::IDelegate1<CharacterController*>* _250;
+    sead::IDelegate1<CharacterController*>* _258;
+    u8 _260[0x288 - 0x260];
     sead::Buffer<RigidBody*> _288;
     RigidBody* _298;
 };

@@ -2,6 +2,8 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 
@@ -49,6 +51,29 @@ void Arrow::loadParams_() {
     getStaticParam(&mStickTime_s, "StickTime");
     getStaticParam(&mGroundHitTime_s, "GroundHitTime");
     getStaticParam(&mKillFireTime_s, "KillFireTime");
+}
+
+void Arrow::spawnElectricWaterBall() {
+    if (_b9 || _1a8.isAllocatedOrFailed())
+        return;
+
+    auto* chemical = mActor->sub_71011D8A44(0);
+    if (!chemical)
+        return;
+
+    if (!(((chemical->mMaterial->attribute.ref() & 0x108) == 0x108 && !(chemical->_be & 4)) ||
+          chemical->_1b8 > 0.0f))
+        return;
+
+    ksys::act::InstParamPack pack;
+    pack->add(0, "AttackPower");
+    pack->add(1.0f, "ScaleTime");
+    pack->add(0.0f, "Range");
+    ksys::act::ActorCreator::addScale(pack, 1.0f);
+    pack->addResourceLane(2);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        "ElectricWaterBall", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_1a8, &pack,
+        nullptr, 2);
 }
 
 void Arrow::m37() {

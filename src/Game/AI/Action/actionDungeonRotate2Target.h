@@ -38,6 +38,13 @@ protected:
     float* mTargetRadMax_a{};
     // aitree_variable at offset 0x108
     float* mTargetRadMin_a{};
+    f32 _110 = 0.0f;
+    f32 _114 = 0.0f;
+    f32 _118 = 0.0f;
+    f32 _11c = 0.600000024f;
+    bool _120 = false;
+    u8 _121[0x7];
 };
+KSYS_CHECK_SIZE_NX150(DungeonRotate2Target, 0x128);
 
 }  // namespace uking::action

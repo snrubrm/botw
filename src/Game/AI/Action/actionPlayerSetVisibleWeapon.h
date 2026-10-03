@@ -2,6 +2,8 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -17,6 +19,7 @@ public:
 protected:
     // dynamic_param at offset 0x20
     bool* mSetVisible_d{};
+    ksys::MessageTransceiverTxOnly _28{mActor};
 };
 
 }  // namespace uking::action

@@ -32,7 +32,7 @@ void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     if (auto* nav = _78->_0)
-        nav->sub_7100F7604C(nav->_2a8 * nav->_2ac);
+        nav->sub_7100F7604C(nav->getRadiusMaybe());
     m34();
 }
 

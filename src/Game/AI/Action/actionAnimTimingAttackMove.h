@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,6 +31,12 @@ protected:
     sead::SafeString mRigidBodyName_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _60;
+    s32 _6c = 0;
+    u16 _70 = 256;
+    bool _72 = true;
+    u8 _73[0x5];
 };
+KSYS_CHECK_SIZE_NX150(AnimTimingAttackMove, 0x78);
 
 }  // namespace uking::action

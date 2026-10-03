@@ -26,6 +26,13 @@ protected:
     const sead::Vector3f* mFrontDir_s{};
     // static_param at offset 0x38
     const sead::Vector3f* mUpDir_s{};
+    u64 _40 = 0;
+    sead::Vector3f _48 = sead::Vector3f::zero;
+    f32 _54 = 0.0f;
+    sead::Vector3f _58 = sead::Vector3f::zero;
+    u8 _64[0x4];
+
 };
+KSYS_CHECK_SIZE_NX150(DirectToWindDirection, 0x68);
 
 }  // namespace uking::action

@@ -14,4 +14,9 @@ void LookAtObject::loadParams_() {
     LookAtObjectBase::loadParams_();
 }
 
+void LookAtObject::m33() {
+    LookAtObjectBase::m33();
+    --_30;
+}
+
 }  // namespace uking::action

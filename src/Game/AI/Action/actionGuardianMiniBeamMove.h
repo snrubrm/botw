@@ -20,6 +20,14 @@ protected:
 
     // static_param at offset 0x70
     const float* mReboundDeccel_s{};
+    u64 _78 = 0;
+    u64 _80 = 0;
+    u64 _88 = 0;
+    u64 _90 = 0;
+    s32 _98 = -1;
+    u8 _9c[0x4];
+
 };
+KSYS_CHECK_SIZE_NX150(GuardianMiniBeamMove, 0xa0);
 
 }  // namespace uking::action

@@ -14,10 +14,15 @@ bool KokkoAngry::init_(sead::Heap* heap) {
     return CreateActorWithTarget::init_(heap);
 }
 
-// NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
+// NON_MATCHING: the original derives the entry link address from &_d70 (+8) in x20 (same as calc_ / m35)
 void KokkoAngry::enter_(ksys::act::ai::InlineParamPack* params) {
     CreateActorWithTarget::enter_(params);
-    if (!getKokkoTargetLink(mActor)->hasProc())
+    const ksys::act::BaseProcLink* target = &ksys::act::sUnk_71026505e0;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->_d70.sub_71002DCCBC(-1))
+            target = &enemy->_d70.mEntries[0].link;
+    }
+    if (!target->hasProc())
         setFailed();
 }
 

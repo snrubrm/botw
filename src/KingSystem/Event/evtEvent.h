@@ -14,6 +14,7 @@ public:
     virtual ~Event();
 
     enum class Flag : u64 {
+        _100000000 = 0x100000000,  // read by PlayerEventStartWait::leave_
         _80000000000 = 0x80000000000,
     };
 

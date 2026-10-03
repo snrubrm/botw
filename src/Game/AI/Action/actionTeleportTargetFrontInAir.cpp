@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTeleportTargetFrontInAir.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +18,9 @@ void TeleportTargetFrontInAir::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TeleportTargetFrontInAir::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_710072BEC4(mActor, &_50, false);
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags26.reset(1);
 }
 
 void TeleportTargetFrontInAir::loadParams_() {

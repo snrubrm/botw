@@ -42,17 +42,17 @@ void BreathAttackEnemyBattle::sub_710033EA88() {
         enemy->startAttackInterval(*mAttackIntervalIntensity_s);
 }
 
-void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
-    ksys::act::ActorConstDataAccess accessor;
-    ksys::act::acquireActor(&m34(), &accessor);
-    accessor.getActorMtx().getTranslation(*out);
-}
-
 void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
     if (time < 0)
         return;
     if (auto* enemy = static_cast<act::Enemy*>(mActor))
         enemy->_e68 = ksys::Timer(time, time);
+}
+
+void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&m34(), &accessor);
+    accessor.getActorMtx().getTranslation(*out);
 }
 
 void BreathAttackEnemyBattle::leave_() {
@@ -140,6 +140,16 @@ void BreathAttackEnemyBattle::sub_710033E970() {
     }
     params.addVec3(pos, "TargetPos", -1);
     changeChild("戦闘準備", &params);
+}
+
+void BreathAttackEnemyBattle::m37() {
+    m41();
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(&_90, "IgniteHandle", ksys::AIDefParamType::BaseProcHandle, -1);
+    const sead::Vector3f target_pos = *m35();
+    pack.addVec3(target_pos, "TargetPos", -1);
+    _a0.acquire(sead::DynamicCast<ksys::act::Actor>(_90.getProc()), false);
+    changeChild("戦闘攻撃", &pack);
 }
 
 bool BreathAttackEnemyBattle::m38() {

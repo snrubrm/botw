@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossActorCloneRoot.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
 
@@ -26,6 +27,25 @@ void PriestBossActorCloneRoot::leave_() {
 void PriestBossActorCloneRoot::loadParams_() {
     PriestBossActorNormalRoot::loadParams_();
     getStaticParam(&mDisappearXLinkEventKey_s, "DisappearXLinkEventKey");
+}
+
+// NON_MATCHING: the return value of the last isFailed() test is folded into `!x` (mvn / and) where
+// the original branches to the shared `return false` / `return true` blocks
+bool PriestBossActorCloneRoot::m36() {
+    if (isCurrentChild("バナナモード")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            return false;
+        return true;
+    }
+
+    if (isChangeable() || isFinished() || isFailed()) {
+        if (!sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_8))
+            return false;
+        changeChild("バナナモード");
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

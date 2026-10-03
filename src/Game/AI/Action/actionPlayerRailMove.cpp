@@ -25,4 +25,9 @@ bool PlayerRailMove::isChangeable() const {
     return false;
 }
 
+bool PlayerRailMove::m33(sead::Vector3f* pos) {
+    pos->set(_68._30.sub_7100EEB370());
+    return true;
+}
+
 }  // namespace uking::action

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "KingSystem/Utils/Types.h"
@@ -60,13 +61,17 @@ public:
     f32 sub_7100D91A10(int a1, int a2) const;
     f32 sub_7100D91BE4(int a1, int a2) const;
     f32 sub_7100D945AC() const;
+    // 0x7100d9153c (declared only): forwards to the owner (_18) with the matrix to fill.
+    void sub_7100D9153C(sead::Matrix34f* out);
 
     /* 0x008 */ u8 _8 = 0;
     /* 0x00c */ u32 _c = 0;  // flags
     /* 0x010 */ int _10 = 0;
     /* 0x018 */ void* _18 = nullptr;  // owner (polymorphic; vtable slots 4, 5, 22, 23, 26, 32)
     /* 0x020 */ const chm::SystemConfig::Material* mMaterial = nullptr;
-    /* 0x028 */ u8 _28[0x40 - 0x28];
+    /* 0x028 */ u8 _28[0x34 - 0x28];
+    /* 0x034 */ f32 _34;
+    /* 0x038 */ u8 _38[0x40 - 0x38];
     /* 0x040 */ f32 _40;
     /* 0x044 */ u8 _44[0x50 - 0x44];
     /* 0x050 */ f32 _50;
@@ -88,8 +93,7 @@ public:
     /* 0x0b4 */ u8 _b4[0xb8 - 0xb4];
     /* 0x0b8 */ u8 _b8 = 0;  // flags
     /* 0x0b9 */ u8 _b9[0xbc - 0xb9]{};
-    /* 0x0bc */ u8 _bc = 0;
-    /* 0x0bd */ u8 _bd = 0;
+    /* 0x0bc */ u16 _bc = 0;  // flags (bit 3: Actor::m50, bit 13: SwitchWindHit::calc_)
     /* 0x0be */ u8 _be = 0;  // flags
     /* 0x0bf */ u8 _bf = 0;  // flags
     /* 0x0c0 */ u8 _c0 = 0;  // state (ActorConstDataAccess::sub_7100D131D0; callers test 1 / 2)

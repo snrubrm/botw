@@ -12,6 +12,10 @@ namespace uking {
 class Unk_710246d058;
 }
 
+namespace uking::act {
+class Weapon;
+}
+
 namespace ksys::act {
 
 namespace acc {
@@ -105,8 +109,8 @@ public:
     /* 236 */ virtual f32 getBoneAttackRate() { return 1.0f; }
     /* 237 */ bool m237() override;
     /* 238 */ bool m238() override;
-    /* 239 */ void m239() override;
-    /* 240 */ void m240() override;
+    /* 239 */ bool m239() override;
+    /* 240 */ bool m240() override;
     /* 241 */ virtual bool m241() { return true; }
     /* 242 */ virtual bool m242() { return false; }
     /* 243 */ virtual bool m243() { return false; }
@@ -139,10 +143,10 @@ public:
     /* 270 */ virtual bool m270() { return false; }
     /* 271 */ virtual s32 m271() { return _d24; }
     /* 272 */ void m272() override;
-    /* 273 */ void m273() override;
-    /* 274 */ void m274() override;
-    /* 275 */ void m275() override;
-    /* 276 */ void m276() override;
+    /* 273 */ uking::act::Weapon* m273() override { return nullptr; }
+    /* 274 */ uking::act::Weapon* m274() override { return nullptr; }
+    /* 275 */ uking::act::Weapon* m275() override { return nullptr; }
+    /* 276 */ Actor* m276(int idx) override { return nullptr; }
     /* 277 */ virtual void m277(ActorConstDataAccess* accessor, int idx) {}
     /* 278 */ virtual void m278();
     /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
@@ -178,11 +182,18 @@ public:
         _c98.set(0x40);
     }
 
-    // Inline-only in the original (m266 / m307 and SwitchPlayerEquipment::calc_ inline it with a
-    // constant); the name is a placeholder.
+    // inline-only in the original; name is a guess. Evidence: m266 / m307 and SwitchPlayerEquipment::calc_
+    // inline it with a constant.
     void setC98Locked(u32 bits) {
         const auto lock = sead::makeScopedLock(_c58);
         _c98.set(bits);
+    }
+    // inline-only in the original; name is a guess. Evidence: PlayerHell::calc_, PlayerHellNoFade::calc_,
+    // PlayerHellStartWait::calc_ and PlayerEventStartWait::calc_ (and acc::PlayerBase accessors) lock
+    // _ca0 around an update of _ce0.
+    void setCE0Locked(u32 bits) {
+        const auto lock = sead::makeScopedLock(_ca0);
+        _ce0.set(bits);
     }
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
@@ -257,6 +268,8 @@ public:
     bool runeMgrCheckCanUseMagnesis();       // 0x84ccf8
     bool runeMgrCheckCanUseCryonis();        // 0x84cd14
     bool runeMgrCheckCanUseCamera();         // 0x84cd30
+    bool runeMgrCheckIsCameraSelected();     // 0x84cd4c
+    bool sub_710084A6B8();                   // 0x84a6b8 (RuneMgr flag bit 5; unnamed in the CSV)
 
 protected:
     friend class acc::PlayerBase;
@@ -279,9 +292,11 @@ public:
 protected:
     /* 0xca0 */ sead::CriticalSection _ca0;
     /* 0xce0 */ sead::BitFlag32 _ce0;
-    /* 0xce4 */ u8 _ce4[0xcec - 0xce4];
+    /* 0xce4 */ u8 _ce4[4];
 
 public:
+    // Public: cleared by PlayerAction::enter_.
+    /* 0xce8 */ s32 _ce8;
     // Public: AI actions reset bits directly (PlayerGuardBreak::calc_).
     /* 0xcec */ sead::BitFlag32 _cec;
     // Public: AI actions set bits directly (PlayerStepAttack::enter_).
@@ -311,7 +326,12 @@ public:
 
 protected:
     /* 0xd1d */ u8 _d1d[0xd24 - 0xd1d];
+
+public:
+    // Public: read by PlayerCutFall / PlayerSpAttack leave_ (x_7 is called when it is 0).
     /* 0xd24 */ s32 _d24;
+
+protected:
     /* 0xd28 */ u8 _d28[0xd30 - 0xd28];
 
 public:
@@ -329,7 +349,9 @@ protected:
     /* 0xe60 */ u8 _e60[0xe88 - 0xe60];
     /* 0xe88 */ BaseProcLink _e88;
     /* 0xe98 */ BaseProcLink _e98;
+public:  // read by PlayerLookAtObject::m38
     /* 0xea8 */ BaseProcLink _ea8;
+protected:
     /* 0xeb8 */ u8 _eb8[0x1140 - 0xeb8];
     /* 0x1140 */ sead::CriticalSection _1140;
     /* 0x1180 */ u8 _1180[0x1198 - 0x1180];
@@ -393,6 +415,9 @@ namespace acc {
 class PlayerBase : public ActorConstDataAccess {
 public:
     bool getPlayerFromPlayerInfo();
+    // 0x710084d958 (declared only, CSV name `act::acc::PlayerBase::x_5`; lane2 s20: called by
+    // RemainsFireRoot::calc_)
+    bool x_5();
 
     void x_0(BaseProc* proc) const;
     void x_1(bool a, const sead::SafeString& name, BaseProc* proc) const;

@@ -211,6 +211,9 @@ public:
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 
+    // Inline (WarpTagRoot::enter_ copies it).
+    sead::Vector3f getPlayerPos() const { return mPlayerPos; }
+
     WeatherType sub_71010F337C(const sead::Vector3f& pos);
     bool auto7() const;
     void allowPaletteOverride();

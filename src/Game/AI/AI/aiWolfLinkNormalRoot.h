@@ -56,7 +56,7 @@ protected:
     // SEAD_ENUM round trip in the original); 5 values are a guess.
     SEAD_ENUM(WarpType, _0, _1, _2, _3, _4)
 
-    // Inline-only in the original (placeholder name): whether a change to `state` is entered directly
+    // inline-only in the original; name is a guess. Whether a change to `state` is entered directly
     // instead of going through the notice children first.
     bool entersDirectly(s32 state, s32 current) const {
         if (state == current || state == 6)
@@ -85,10 +85,12 @@ protected:
     SEAD_ENUM(Flag1b8, _0, _1, _2)
     SEAD_ENUM(Flag1b9, _0, _1, _2, _3, _4, _5)
 
-    // Inline-only in the original (placeholder name): _1a8 == state. The by-value State gives the
-    // enum temporaries lifetime markers and the comparison goes through the enum's int conversion.
+    // inline-only in the original; name is a guess. Evidence: `_1a8 == state` with a by-value State repeats
+    // in four WolfLinkNormalRoot functions; the by-value State gives the enum temporaries lifetime
+    // markers (shared stack slot) and the comparison goes through the enum's int conversion.
     bool isState(State state) const { return int(_1a8) == int(state); }
-    // Inline-only accessors (by-value enum parameters, as above).
+    // inline-only in the original; name is a guess (by-value enum parameters, as above; the flag test
+    // repeats in three WolfLinkNormalRoot functions).
     f32 get1bc(Idx1bc idx) const { return _1bc[idx]; }
     bool isFlag1b8(Flag1b8 flag) const {
         const u8 mask = 1 << flag;

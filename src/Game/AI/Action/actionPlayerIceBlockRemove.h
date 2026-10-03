@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -17,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::act::BaseProcHandle _20;
 };
 
 }  // namespace uking::action

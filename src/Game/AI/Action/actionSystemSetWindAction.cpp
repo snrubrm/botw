@@ -25,10 +25,11 @@ void SystemSetWindAction::loadParams_() {
     getDynamicParam(&mIsAutoWind_d, "IsAutoWind");
 }
 
-// NON_MATCHING: load order of the four param pointers (power is loaded first in the original)
 void SystemSetWindAction::calc_() {
-    if (auto* wm = ksys::world::Manager::instance())
-        wm->setManualWind(false, {*mWindDirX_d, *mWindDirY_d, *mWindDirZ_d}, *mWindPower_d);
+    if (auto* wm = ksys::world::Manager::instance()) {
+        const f32 power = *mWindPower_d;
+        wm->setManualWind(false, {*mWindDirX_d, *mWindDirY_d, *mWindDirZ_d}, power);
+    }
 }
 
 }  // namespace uking::action

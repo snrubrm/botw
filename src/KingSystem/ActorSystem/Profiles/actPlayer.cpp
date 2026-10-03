@@ -1,9 +1,17 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/E3Mgr.h"
+#include "Game/gameUnk_710246d058.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace ksys::act {
@@ -44,6 +52,135 @@ bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& e
     if (hit_normal)
         ray.getHitNormal(hit_normal);
     return true;
+}
+
+bool Player::m269() {
+    return sub_7100888294();
+}
+
+bool Player::m243() {
+    return playerIsReloadingBow(this) || playerIsChargingBow(this);
+}
+
+bool Player::sub_710086CA68() {
+    if (uking::E3Mgr::instance() && uking::E3Mgr::instance()->isRidDemo() &&
+        uking::E3Mgr::instance()->isRidDemoAnd28IsOne_())
+        return true;
+    return gdt::getFlag_IsGet_PlayerStole2(false);
+}
+
+void Player::updateMtxFromPhysics() {
+    if (!m359())
+        Actor::updateMtxFromPhysics();
+}
+
+bool Player::isDarukProtectionEnabled() {
+    return canUseDarukProtection() && _17d0->playerCheckController(13) && _cec.isOnBit(28);
+}
+
+uking::act::Weapon* Player::m273() {
+    const int idx = playerWeapons_return0();
+    return sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+}
+
+uking::act::Weapon* Player::m274() {
+    const int idx = playerWeapons_return1();
+    return sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+}
+
+uking::act::Weapon* Player::m275() {
+    const int idx = playerWeapons_return2();
+    return sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
+}
+
+Actor* Player::m276(int idx) {
+    return sead::DynamicCast<Actor>(_23e0.getPartsLink(idx).getProc(nullptr, nullptr));
+}
+
+void Player::m277(ActorConstDataAccess* accessor, int idx) {
+    acquireActor(&_23e0.getPartsLink(idx), accessor);
+}
+
+Actor* Player::m382() {
+    return sead::DynamicCast<Actor>(
+        PlayerInfo::instance()->getHorseLink().getProc(nullptr, nullptr));
+}
+
+f32 Player::getAtkMultiplier() {
+    f32 multiplier = _208c;
+    if (isMasterSwordEquipped_())
+        multiplier *= _2090;
+    return multiplier;
+}
+
+const sead::Vector3f* Player::getPosCopyMagnesis() {
+    auto lock = sead::makeScopedLock(_2208.mLock);
+    return &_2208.mPos;
+}
+
+const sead::Vector3f* Player::m244() {
+    auto lock = sead::makeScopedLock(_2258.mLock);
+    if (runeMgrCheckCanUseMagnesis() && !m179())
+        return &_22c0;
+    return &_2258.mPos;
+}
+
+const sead::Vector3f* Player::m245() {
+    auto lock = sead::makeScopedLock(_21b8.mLock);
+    if (runeMgrCheckCanUseMagnesis() && !m179())
+        return &_22b4;
+    return &_21b8.mPos;
+}
+
+bool Player::isRevivalFairyActive(ActorConstDataAccess* accessor) {
+    if (acquireActor(&_2c48, accessor) && accessor->isStateCalc())
+        return true;
+    return false;
+}
+
+bool Player::isZoraHeroActive(ActorConstDataAccess* accessor) {
+    if (acquireActor(&_2c88, accessor) && accessor->isStateCalc())
+        return true;
+    return false;
+}
+
+f32 Player::getNoDeathDamage() {
+    const auto* param = getParam()->getRes().mGParamList->getPlayer();
+    const s32 base = param->mNoDeathDamageBase.ref();
+    const s32 add = param->mNoDeathDamageAdd.ref();
+    return base + PlayerInfo::instance()->getMaxLifeFromPlayerActor() * add / 4;
+}
+
+bool Player::m373() {
+    return PlayerInfo::instance()->getStaminaCurrentMax() + _2000 <
+           getParam()->getRes().mGParamList->getPlayer()->mEnergyTiredValue.ref();
+}
+
+void Player::m372() {
+    if (_c44.isOnBit(20)) {
+        if (PlayerInfo::instance()->getStaminaCurrentMax() !=
+            PlayerInfo::instance()->getMaxStaminaFromPlayerActor())
+            return;
+    }
+    const f32 value = getParam()->getRes().mGParamList->getPlayer()->mEnergyAutoRecoverInvalidTime1.ref();
+    _1d34 = value;
+    _1d38 = value;
+    _1d3c = -1.0f;
+}
+
+bool Player::m183() {
+    return mASList->x_1(1, 1) == "HorseBowEndUpper";
+}
+
+bool Player::m182() {
+    return mASList->x_1(1, 1) == "WeaponThrow" || mASList->x_1(0, 0) == "WeaponThrow";
+}
+
+void Player::sub_7100888278() {
+    if (_c40.isOnBit(4)) {
+        _c40.resetBit(4);
+        x_18(true);
+    }
 }
 
 void Player::m77(VFR::ScopedDeltaSetter* setter) {
@@ -208,18 +345,6 @@ void Player::sub_71008697E4() {
     _20bc.prev_value = 0;
     if (auto* controller = getCharacterController())
         controller->sub_7100F5F6FC(sead::Vector3f::zero);
-}
-
-s32 Player::playerWeapons_return0() {
-    return 0;
-}
-
-s32 Player::playerWeapons_return1() {
-    return 1;
-}
-
-s32 Player::playerWeapons_return2() {
-    return 2;
 }
 
 // NON_MATCHING: load order / register allocation of the velocity components

@@ -188,10 +188,20 @@ KSYS_CHECK_SIZE_NX150(Unk_71002edaec, 0x2c);
 class Weapon : public ksys::act::WeaponBase {
     SEAD_RTTI_OVERRIDE(Weapon, ksys::act::WeaponBase)
 public:
+    // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
+    bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
+    // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
+    // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
+    void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
     bool sub_71002E9A50();
+    // 0x71002e38e8 (CSV Weapon::isTrueFormMasterSword; declared only; lane2 s20): a master sword (vslot 219) while
+    // the DamageInfoMgr says it is in its true form.
+    bool isTrueFormMasterSword();
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
+    // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
+    void sub_71002EDB3C(const s32& value);
     // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
     void bowGetArrowName(sead::BufferedSafeString* name);
 
@@ -209,7 +219,10 @@ public:
     /* 0xc4c */ bool _c4c = false;
     /* 0xc50 */ u8 _c50[0xd54 - 0xc50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
-    /* 0xd58 */ u8 _d58[0xe50 - 0xd58];  // TODO
+    /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
+    /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
+    /* 0xd70 */ void* _d70 = nullptr;
+    /* 0xd78 */ u8 _d78[0xe50 - 0xd78];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u8 _e52[0xf89 - 0xe52];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_

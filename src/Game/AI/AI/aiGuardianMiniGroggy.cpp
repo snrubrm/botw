@@ -6,8 +6,11 @@ namespace uking::ai {
 
 GuardianMiniGroggy::GuardianMiniGroggy(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
-GuardianMiniGroggy::~GuardianMiniGroggy() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+GuardianMiniGroggy::~GuardianMiniGroggy() {
+    ;
+}
 
 void GuardianMiniGroggy::enter_(ksys::act::ai::InlineParamPack* params) {
     _75 = false;

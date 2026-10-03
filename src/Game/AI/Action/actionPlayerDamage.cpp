@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerDamage.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/gameUnk_71008ba8d8.h"
 
 namespace uking::action {
 
@@ -35,7 +36,12 @@ void PlayerDamage::loadParams_() {
 }
 
 void PlayerDamage::calc_() {
-    PlayerAction::calc_();
+    if (!static_cast<ksys::act::Player*>(mActor)->stillAlive())
+        callPlayerGameOverDemo(mActor);
+    static_cast<ksys::act::Player*>(mActor)->_20bc.chase(0.0f,
+                                                         static_cast<ksys::act::Player*>(mActor)->_1800);
+    m32();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerDamage::isChangeable() const {

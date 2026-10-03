@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m36();
+
 protected:
     // aitree_variable at offset 0x40
     int* mEquipWeaponBufIndex_a{};

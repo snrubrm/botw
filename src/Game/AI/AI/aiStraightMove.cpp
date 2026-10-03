@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiStraightMove.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -50,6 +54,26 @@ void StraightMove::loadParams_() {
     getStaticParam(&mRetryAngleMax_s, "RetryAngleMax");
     getStaticParam(&mRetryAngleMin_s, "RetryAngleMin");
     getStaticParam(&mIsRetryMove_s, "IsRetryMove");
+}
+
+// NON_MATCHING: instruction-identical except the order of three argument-saving moves after the first
+// compare (mov v10 / v8 / x19 in the original)
+void StraightMove::sub_71005AC38C(f32 min_angle, f32 max_angle, f32 min_dist, f32 max_dist,
+                                  sead::Vector3f* out) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+
+    f32 angle = sead::GlobalRandom::instance()->getF32Range(
+        min_angle, sead::Mathf::max(min_angle, max_angle));
+    angle *= f32(s32(sead::GlobalRandom::instance()->getU32() & 2) - 1);
+    const f32 dist = sead::GlobalRandom::instance()->getF32Range(
+        min_dist, sead::Mathf::max(min_dist, max_dist));
+
+    sead::Vector3f dir = ksys::util::getCol(mActor->getMtx(), 2);
+    const sead::Vector3f up = getUpDir(mActor);
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    ksys::util::sub_71011EF010(&dir, angle);
+    dir.normalize();
+    *out = pos + dir * dist;
 }
 
 void StraightMove::m34(const sead::Vector3f& pos) {

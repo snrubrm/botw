@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <container/seadSafeArray.h>
 #include <math/seadMatrix.h>
@@ -9,6 +10,8 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
+
+class Unk_71023e2708;
 
 namespace ksys::act {
 
@@ -29,9 +32,10 @@ public:
     // Slots 4-17 (base implementations 0x7100d7f71c-0x7100d7f750 and 0x7100d80038). Names and
     // signatures are placeholders except m16: 4-6, 12 and 14 are pure; the base m7 / m11 return true,
     // m10 returns 0, m8 / m9 / m13 are empty.
-    virtual void m4() = 0;
-    virtual void m5() = 0;
-    virtual void m6() = 0;
+    // The requests are Unk_71023e2708 objects (actAwarenessRequest.h; each sensor kind takes its own derived type).
+    virtual bool m4(Unk_71023e2708* request) = 0;
+    virtual bool m5(Unk_71023e2708* request) = 0;
+    virtual bool m6(Unk_71023e2708* request) = 0;
     virtual bool m7();
     virtual void m8();
     virtual void m9();
@@ -201,6 +205,15 @@ public:
     // 0x7100d78028: the awareness entry at +0x18.
     Unk_71024dc978* m8() override;
 
+    // inline-only in the original; name is a guess. The same inlined update (`if (_48 < level)
+    // _48 = level; _44 |= is_target_npc`) appears in EmitInterest::m7, SpeedEmitInterest::m7 and
+    // PlayerEmitInterest::m7 (the latter calls it from both arms of the naked / clothed choice).
+    void emitInterest(s32 level, bool is_target_npc) {
+        if (_18._48 < level)
+            _18._48 = level;
+        _18._44 |= is_target_npc;
+    }
+
     // TODO: a second polymorphic base (only a virtual destructor; secondary vtable at
     // 0x71024dc958) sits here; not modelled yet.
     /* 0x10 */ u8 _10[0x18 - 0x10];
@@ -260,18 +273,40 @@ public:
     // 0x7100d7e9bc: activates sensor `idx` (registering the instance with Awareness if no sensor
     // was active); 0x7100d7eae4: clears and deactivates it (deregistering if none is left active).
     bool sub_7100D7E9BC(int idx);
+    // inline-only in the original; name is a guess (the same sequence is inlined twice into
+    // InterestNeckControl::m7): the awareness entry at position `i` of the sorted list, or null.
+    Unk_7100d78e50* getSortedEntry(s32 i) {
+        if (_308 > i) {
+            const SortedEntry entry = _280[i];
+            auto* sensor = _260[entry.sensor];
+            if (sensor->_8.size() > entry.entry)
+                return sub_7100D78E30(&sensor->_8, entry.entry);
+        }
+        return nullptr;
+    }
+    // 0x7100d7e74c (lane4 s23): sets the interest level of the sensor `_260[0]` (a request with `_c` = level, m4 then m6).
+    bool sub_7100D7E74C(f32 level);
     void sub_7100D7EAE4(int idx);
     // 0x7100d7e964: whether a sensor is active (else whether the instance is registered).
     bool sub_7100D7E964() const;
 
+    // Placeholder: element of `_280` (sensor index, index in that sensor's `_8`).
+    struct SortedEntry {
+        s32 sensor;
+        s32 entry;
+    };
+
     /* 0x008 */ sead::ObjArray<Unk_7100d78e50> _8;  // awareness entries (allocBuffer 0x7100d78d44)
     /* 0x028 */ u8 _28[0x260 - 0x28];
     sead::SafeArray<Unk_71024dce08*, 4> _260;
-    /* 0x280 */ u8 _280[0x2e8 - 0x280];
+    /* 0x280 */ sead::Buffer<SortedEntry> _280;  // the entries ordered by distance (placeholder name)
+    /* 0x290 */ u8 _290[0x2e8 - 0x290];
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
     /* 0x2f0 */ u8 _2f0[0x300 - 0x2f0];
     /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
-    /* 0x304 */ u8 _304[0x318 - 0x304];
+    /* 0x304 */ u8 _304[0x308 - 0x304];
+    /* 0x308 */ s32 _308;  // number of valid `_280` entries
+    /* 0x30c */ u8 _30c[0x318 - 0x30c];
     /* 0x318 */ u32 _318;  // bit 3 follows !IsInHyruleCastleArea (EnemyRoot::sub_71003B5644)
     /* 0x31c */ u8 _31c[0x328 - 0x31c];
     /* 0x328 */ u32 _328;  // WolfLinkRoot::enter_ (0x2000b8)

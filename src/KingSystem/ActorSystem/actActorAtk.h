@@ -23,6 +23,7 @@ namespace ksys::act {
 class Actor;
 class AttackSensor;
 class AttackSensor2;
+class AttackSensor2Listener;
 
 // CSV name (ctor 0x7a0460, resetFlags 0x7a0498, operator= 0x7a0b0c): the common 0x50-byte head of
 // the attack / contact info entries (ActorAtk::Struct7::AttackInfo, ActorAtk::Unk_710079e64c::Unk1,
@@ -167,6 +168,9 @@ public:
     // 0x710079e2c0 (CSV ActorAtk::x): entry `idx` of _48, or a static default entry.
     // Non-const result: callers acquire the actor through the entry's _e8 link.
     Unk_710079e64c::Unk1* sub_710079E2C0(int idx) const;
+    // 0x710079e344 / 0x710079e3b8: add (to the back of) / remove a listener to / from _70's list.
+    void sub_710079E344(AttackSensor2Listener* listener);
+    void sub_710079E3B8(AttackSensor2Listener* listener);
 
     /* 0x18 */ Struct7* _18 = nullptr;
     /* 0x20 */ sead::Buffer<u8> _20;

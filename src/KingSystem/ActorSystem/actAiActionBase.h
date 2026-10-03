@@ -97,6 +97,10 @@ public:
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
     virtual bool isChangeable() const { return mFlags.isOn(Flag::Changeable); }
+    // inline-only in the original; name is a guess. Evidence: `child->isFinished() || child->isFailed()` on one
+    // cached child pointer inside a larger `&&` / `||` expression (SpecialEnemySleep::isChangeable keeps all three
+    // SafeString temporaries in distinct stack slots, WolfLinkNormalRoot helpers repeat it five times).
+    bool isFinishedOrFailed() const { return isFinished() || isFailed(); }
 
     virtual bool hasPreDeleteCb() { return false; }
     virtual bool hasUpdateForPreDeleteCb() { return false; }
@@ -200,7 +204,7 @@ protected:
     void setRootAiFlag(RootAiFlag flag) const;
     void resetRootAiFlag(RootAiFlag flag) const;
     bool testRootAiFlag2(RootAiFlag2 flag) const;
-    // Inline-only in the original (no out-of-line copy; name is a guess; used by FirstSelect::enter_):
+    // inline-only in the original; name is a guess (no out-of-line copy; used by FirstSelect::enter_):
     // reads RootAi::_16c, which is private to ActionBase's friends.
     bool testRootAiFlag(RootAiFlag flag) const;
 

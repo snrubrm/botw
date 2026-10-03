@@ -3,6 +3,8 @@ target_sources(uking PRIVATE
   actCamera.h
   actCameraUtil.cpp
   actCameraUtil.h
+  actUnk_710243c250.cpp
+  actUnk_7100791b1c.cpp
   actUnk_7100799f60.cpp
   actUnk_710079a8e8.cpp
   actUnk_71009214b8.cpp
@@ -34,6 +36,7 @@ target_sources(uking PRIVATE
   actLastBoss.h
   actMotorcycle.cpp
   actMotorcycle.h
+  actMotorcycleStickControl.h
   actNPC.cpp
   actNPC.h
   actNPCBase.cpp
@@ -57,14 +60,18 @@ target_sources(uking PRIVATE
   actSiteBoss.h
   actUnk_71002cf2ac.cpp
   actSwarm.cpp
+  actSwarmUnit.cpp
   actSwarm.h
   actUnk_71002dccbc.h
   actUnk_71023cee88.cpp
+  actUnk_710000b710.cpp
   actUnk_7100701be4.cpp
   actUnk_7100701be4.h
   actUnk_7100d3cd74.cpp
   actUnk_7100d3cd74.h
   actUnk_7100e7f25c.cpp
+  actUnk_71002c8918.cpp
+  actUnk_7100e72ac0.cpp
   actUnk_7100e8b2b8.cpp
   actUnk_71025ae680.h
   actWeapon.cpp

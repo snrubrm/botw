@@ -18,11 +18,36 @@ bool PriestBossFormation::init_(sead::Heap* heap) {
 }
 
 void PriestBossFormation::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (unit) {
+        if (_40 != unit->sub_7100719FCC()) {
+            _44 = 0;
+            _40 = unit->sub_7100719FCC();
+        }
+    } else {
+        _44 = 0;
+    }
 }
 
+Unk_7102450fa8* PriestBossFormation::getUnit() {
+    return sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+}
+
+// NON_MATCHING: regalloc (the original materialises &_48 before the payload lock, as in m35)
 void PriestBossFormation::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F60604();
+
+    if (!getUnit())
+        return;
+    if (getUnit()->sub_7100719534(mActor) != 2 || _44 == 7)
+        return;
+
+    _48._18.y(5, mActor);
+    ksys::act::ActorConstDataAccess accessor;
+    if (getUnit()->sub_71007194CC(&accessor))
+        _48.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }
 
 void PriestBossFormation::loadParams_() {
@@ -75,6 +100,28 @@ void PriestBossFormation::m38(sead::Vector3f* out) {
     *out += {x, 0.0f, z};
 }
 
+bool PriestBossFormation::m36() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return false;
+
+    const bool is_current = isCurrentChild("分身消す");
+    const bool done = child->isFinished() || child->isFailed();
+
+    if (is_current) {
+        if (!done)
+            return child->isChangeable();
+        return true;
+    }
+    if (!done)
+        return false;
+    if (isCurrentChild("攻撃")) {
+        if (auto* controller = mActor->getCharacterController())
+            controller->sub_7100F60604();
+    }
+    return true;
+}
+
 void PriestBossFormation::m39() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
@@ -95,6 +142,47 @@ void PriestBossFormation::m43() {
 
 void PriestBossFormation::m44() {
     changeChild("分身消す");
+}
+
+void PriestBossFormation::m34(Unk_7102450fa8* unit) {
+    if (!unit)
+        return;
+
+    const s32 state = unit->sub_7100719FE4(unit->sub_7100719534(mActor));
+    if (state == _44)
+        return;
+    _44 = state;
+    switch (state) {
+    case 1:
+        m40();
+        break;
+    case 2:
+        m41();
+        break;
+    case 3:
+        m42();
+        break;
+    case 4:
+        m39();
+        break;
+    case 5:
+        m44();
+        break;
+    case 6:
+        m45();
+        break;
+    case 7:
+        setFinished();
+        break;
+    default:
+        break;
+    }
+}
+
+void PriestBossFormation::m45() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
+    changeChild("攻撃後", &params);
 }
 
 void PriestBossFormation::calc_() {

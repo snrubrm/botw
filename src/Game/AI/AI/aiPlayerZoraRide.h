@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,10 @@ public:
     void loadParams_() override;
 
 protected:
+    ksys::act::ModelBindInfo _38;
+    bool _d8 = false;
+    bool _d9 = false;
 };
+KSYS_CHECK_SIZE_NX150(PlayerZoraRide, 0xe0);
 
 }  // namespace uking::ai

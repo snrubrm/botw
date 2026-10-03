@@ -27,6 +27,12 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     // dynamic_param at offset 0x170
     sead::Vector3f* mHomingTargetPos_d{};
+    f32 _178 = 0.0f;
+    f32 _17c = 0.0f;
+    f32 _180 = 0.0f;
+    u8 _184[0x30]{};
+    s32 _1b4 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ArrowShootHoming, 0x1b8);
 
 }  // namespace uking::action

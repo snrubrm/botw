@@ -34,6 +34,14 @@ protected:
     // aitree_variable at offset 0x50
     void* mCRBOffsetUnit_a{};
     Unk_71000b0800<Unk_7102384718> _58;
+    u8 _60[0x30];
+    s32 _90 = 0;
+    bool _94 = false;
+    u8 _95[0x3];
+    f32 _98 = 1.0f;
+    sead::Vector3f _9c = sead::Vector3f::zero;
+
 };
+KSYS_CHECK_SIZE_NX150(ForkASTrgTurnGround, 0xa8);
 
 }  // namespace uking::action

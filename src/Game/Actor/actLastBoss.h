@@ -38,7 +38,7 @@ public:
     void initMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void m77(ksys::VFR::ScopedDeltaSetter* setter) override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     bool m140() override;
     bool isGuard() override;
     bool isGuardJust() override;

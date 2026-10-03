@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -30,7 +32,14 @@ void AtOnWait::loadParams_() {
 }
 
 void AtOnWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    auto* set = actor->getRigidBodyByName(sub_71007A24BC()->cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
+        if (auto* body = set->getRigidBodies()[i])
+            body->changePositionAndRotation(actor->getMtx(), sead::Mathf::epsilon());
+    }
 }
 
 }  // namespace uking::action

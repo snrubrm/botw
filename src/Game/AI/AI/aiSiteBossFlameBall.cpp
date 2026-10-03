@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -15,6 +18,60 @@ bool SiteBossFlameBall::init_(sead::Heap* heap) {
 
 void SiteBossFlameBall::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossChemicalProjectile::enter_(params);
+    _1c8 = false;
+    _1c9 = true;
+    _1c0 = *mCountOffset_s * f32(*mCount_m);
+    _1c4 = 10.0f;
+
+    auto* main_body = mActor->getMainBody();
+    auto* physics = mActor->getPhysics();
+    if (main_body && physics) {
+        main_body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityNoHit,
+                                             physics->get188(0));
+    }
+
+    auto* atk_body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody");
+    if (physics && atk_body) {
+        atk_body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit,
+                                            physics->get188(1));
+    }
+
+    auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "RigidBody_0");
+    if (physics && body) {
+        body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit,
+                                        physics->get188(1));
+    }
+}
+
+void SiteBossFlameBall::calc_() {
+    SiteBossChemicalProjectile::calc_();
+
+    if (isCurrentChild("発射") && _1c4 > 0.0f) {
+        ksys::Timer::update(&_1c4, -1.0f);
+        if (_1c4 <= 0.0f) {
+            auto* main_body = mActor->getMainBody();
+            auto* physics = mActor->getPhysics();
+            if (main_body && physics) {
+                main_body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityObject,
+                                                     physics->get188(0));
+                SiteBossChemicalProjectile::m53(main_body);
+            }
+
+            if (auto* atk_body =
+                    mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
+                atk_body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorAttackEnemy,
+                                                    physics->get188(1));
+                SiteBossChemicalProjectile::m52(atk_body);
+            }
+
+            auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "RigidBody_0");
+            if (physics && body) {
+                body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorEnemy,
+                                                physics->get188(1));
+            }
+        }
+    }
+    _1c9 = false;
 }
 
 void SiteBossFlameBall::leave_() {

@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiNPCRoot.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -9,7 +10,8 @@ NPCRoot::NPCRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 NPCRoot::~NPCRoot() = default;
 
 bool NPCRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _68 = sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NPCRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,3 +1,5 @@
+#include "KingSystem/World/worldSkyMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/AI/Action/actionEventCloudShadowOnOff.h"
 
 namespace uking::action {
@@ -11,7 +13,7 @@ bool EventCloudShadowOnOff::init_(sead::Heap* heap) {
 }
 
 void EventCloudShadowOnOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::world::Manager::instance()->getSkyMgr()->_3f9c = 1;
 }
 
 void EventCloudShadowOnOff::leave_() {
@@ -21,7 +23,7 @@ void EventCloudShadowOnOff::leave_() {
 void EventCloudShadowOnOff::loadParams_() {}
 
 void EventCloudShadowOnOff::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::world::Manager::instance()->getSkyMgr()->_3f9c = 1;
 }
 
 }  // namespace uking::action

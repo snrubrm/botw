@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -29,7 +30,8 @@ protected:
     /* 0x68 */ ksys::act::BaseProcLink _68;
     // 0x7100d772d4 is the element destructor (Unk_71024dc858's D1 at the element start).
     /* 0x78 */ sead::FixedObjList<ksys::act::Unk_7100d78e50, 8> _78;
-    /* 0x6a8 */ u8 _6a8[0x6b8 - 0x6a8];
+    /* 0x6a8 */ ksys::Timer _6a8{0, 0};
+    /* 0x6b4 */ u8 _6b4[4];
     // static_param at offset 0x6b8
     const int* mEquipItemSearchIdx_s{};
     // static_param at offset 0x6c0

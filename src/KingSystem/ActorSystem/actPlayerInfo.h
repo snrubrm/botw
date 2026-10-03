@@ -139,3 +139,7 @@ bool sub_710072B660();
 // 0x710072b8e4 (declared only): tail call to 0x710084d068 (whether PlayerInfo exists and its player
 // link (+0x68) has a proc). Placeholder name.
 bool sub_710072B8E4();
+
+// 0x710084d068 (placeholder name; defined in the acc::PlayerBase TU): whether PlayerInfo exists and its
+// player link has a proc.
+bool sub_710084D068();

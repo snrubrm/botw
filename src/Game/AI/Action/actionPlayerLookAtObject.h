@@ -13,8 +13,11 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
+    void m33() override;
+    bool oneShot_() override;
 
 protected:
+    void m38() override;
 };
 
 }  // namespace uking::action

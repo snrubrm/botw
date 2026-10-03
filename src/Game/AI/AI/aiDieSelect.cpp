@@ -1,8 +1,8 @@
 #include "Game/AI/AI/aiDieSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
-#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {

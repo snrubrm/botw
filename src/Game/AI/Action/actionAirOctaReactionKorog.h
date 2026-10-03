@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,10 @@ protected:
     const float* mSpeed_s{};
     // static_param at offset 0x30
     sead::SafeString mAS_s{};
+    sead::Vector3f _40 = sead::Vector3f::zero;
+    sead::Matrix33f _4c;
+
 };
+KSYS_CHECK_SIZE_NX150(AirOctaReactionKorog, 0x70);
 
 }  // namespace uking::action

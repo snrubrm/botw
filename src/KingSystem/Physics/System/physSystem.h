@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
@@ -55,6 +56,7 @@ public:
     RagdollInstanceMgr* getRagdollInstanceMgr() const { return mRagdollInstanceMgr; }
     SystemData* getSystemData() const { return mSystemData; }
     MaterialTable* getMaterialTable() const { return mMaterialTable; }
+    const sead::Vector3f& getField48() const { return _48; }
 
     bool isPaused() const;
 
@@ -141,7 +143,9 @@ public:
 
 private:
     sead::PtrArray<World> mWorlds;
-    u8 _38[0x60 - 0x38];
+    u8 _38[0x48 - 0x38];
+    sead::Vector3f _48;  // gravity?
+    u8 _54[0x60 - 0x54];
     bool mPaused;
     bool _61;
     bool _62;

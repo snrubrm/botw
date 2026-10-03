@@ -59,6 +59,16 @@ protected:
     const sead::Vector3f* mEmitActorSpeed_s{};
     // static_param at offset 0x160
     const sead::Vector3f* mEmitBoneRotateOffset_s{};
+    u64 _168 = 0;
+    u64 _170 = 0;
+    u16 _178 = 0;
+    bool _17a = false;
+    u8 _17b[0x35];
+    u64 _1b0 = 0;
+    u64 _1b8 = 0;
+    u64 _1c0 = 0;
+    u64 _1c8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(GanonAttackWithEmitChemical, 0x1d0);
 
 }  // namespace uking::action

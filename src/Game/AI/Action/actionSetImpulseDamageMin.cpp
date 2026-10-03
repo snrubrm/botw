@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetImpulseDamageMin.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -19,7 +20,7 @@ void SetImpulseDamageMin::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SetImpulseDamageMin::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71005DC02C(mActor);
 }
 
 void SetImpulseDamageMin::loadParams_() {

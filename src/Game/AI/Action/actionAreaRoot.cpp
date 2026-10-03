@@ -9,12 +9,12 @@ AreaRoot::AreaRoot(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 AreaRoot::~AreaRoot() = default;
 
-// NON_MATCHING: the original copies the translation as one 8+4-byte block
 bool AreaRoot::init_(sead::Heap* heap) {
     _9d.reset(2);
     if (auto* obj = ksys::act::findLinkReferenceObj(mActor, "ForceSetPosDirAutoSaveAnchor",
                                                     sead::SafeString::cEmptyString, nullptr)) {
-        _80 = obj->getTranslate();
+        const sead::Vector3f pos = obj->getTranslate();
+        _80 = pos;
         _8c = obj->getRotate();
         _9d.set(2);
     }

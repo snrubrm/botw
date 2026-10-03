@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionPlayerSlideLand.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -20,7 +22,14 @@ void PlayerSlideLand::leave_() {
 }
 
 void PlayerSlideLand::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->_20bc.chase(0.0f, 0.04f);
+    if (mActor->getASList()->x_4(0, 0)) {
+        static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->x_5();
+        setFinished();
+    } else if (mActor->getASList()->x(2, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_710116383C, true)) {
+        _1c = true;
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerSlideLand::isChangeable() const {

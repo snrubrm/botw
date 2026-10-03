@@ -30,4 +30,15 @@ void LastBossRandomHighWarp::calc_() {
     LastBossNormalWarp::calc_();
 }
 
+bool LastBossRandomHighWarp::m32() {
+    if (_118)
+        return false;
+    return *mIsWarpAtGround_s;
+}
+
+// NON_MATCHING: register choice of the two member addresses of the select (x9/x10 swapped)
+float LastBossRandomHighWarp::m33() {
+    return *(_118 == 0 ? mOffsetY_s : mHighOffsetY_s);
+}
+
 }  // namespace uking::action

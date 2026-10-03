@@ -36,9 +36,9 @@ protected:
     // is still net progress void* mAirOctaDataMgr_a
     AirOctaDataMgr** mAirOctaDataMgr_a{};
     float AirOctaY{};
-    float mElapsedTime;
-    u32 mUserData;
-    bool mIsEnded;
+    float mElapsedTime{};
+    u32 mUserData{};
+    bool mIsEnded{};
 };
 
 }  // namespace ai

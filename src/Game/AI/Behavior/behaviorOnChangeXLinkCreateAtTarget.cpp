@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorOnChangeXLinkCreateAtTarget.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::behavior {
 
@@ -28,6 +29,13 @@ void OnChangeXLinkCreateAtTarget::m8() {
 
 void OnChangeXLinkCreateAtTarget::m9() {
     OnChangeXLinkCreate::m9();
+}
+
+void OnChangeXLinkCreateAtTarget::m14() {
+    Unk_71012419b4 handle{};
+    xlinkSearchAndEmit(mActor, mKey_s.cstr(), 2, &handle);
+    handle.sub_7101241A44(sead::Matrix34f::ident);
+    handle.sub_71012419B4(_50);
 }
 
 void OnChangeXLinkCreateAtTarget::loadParams() {

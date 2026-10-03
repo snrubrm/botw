@@ -1,7 +1,9 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include <heap/seadExpHeap.h>
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -87,6 +89,12 @@ void ActorSystem::invokeRadarMgrInvoker() {
 void ActorSystem::invokeAutoPlacementMgrInvoker3() {
     if (_280)
         _280->invoke(0);
+}
+
+bool ActorSystem::getPlayer(ActorConstDataAccess* accessor) {
+    if (_c0)
+        return _c0->getActorViaAccessor(accessor);
+    return accessor->acquire(nullptr);
 }
 
 bool ActorSystem::a() {

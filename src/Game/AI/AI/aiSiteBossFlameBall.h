@@ -41,7 +41,8 @@ protected:
     const int* mCount_m{};
     // map_unit_param at offset 0x1b8
     const sead::Vector3f* mPosOffset_m{};
-    u64 _1c0 = 0;
+    f32 _1c0 = 0.0f;
+    f32 _1c4 = 0.0f;
     bool _1c8 = false;
     bool _1c9 = false;
 };

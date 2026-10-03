@@ -4,8 +4,11 @@ namespace uking::ai {
 
 CreateCarryActor::CreateCarryActor(const InitArg& arg) : CreateActor(arg) {}
 
-// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
-CreateCarryActor::~CreateCarryActor() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+CreateCarryActor::~CreateCarryActor() {
+    ;
+}
 
 bool CreateCarryActor::init_(sead::Heap* heap) {
     return CreateActor::init_(heap);

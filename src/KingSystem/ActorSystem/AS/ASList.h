@@ -25,6 +25,8 @@ public:
         // inline: their out-of-line copies are emitted in the callers' TUs
         bool sub_710002E82C() { return _18 != nullptr; }
         bool sub_7100023B58() { return _41 >> 3 & 1; }
+        // 0x710042bbec (declaration only; lane4 s23): sets bit 8 of the halfword at 0x40.
+        void sub_710042BBEC();
 
         // used with x_7
         bool sub_7101162F2C();
@@ -79,6 +81,12 @@ public:
         void sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // 0x7101164900: per-slot update from the model list (partial count of slot `idx`).
         void sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor);
+
+        // 0x7101165008 (declaration only; lane4 s23): partial bone `key` of the slot, `mode` 3 (the root) or 0,
+        // `a3` selects the variant of the two helpers 0x7100bff95c / 0x7100bff8e4.
+        void sub_7101165008(const gsys::BoneAccessKey& key, int mode, bool a3);
+        // 0x7101164e38 (declaration only): sets (true) / resets (false) the flag at 0x4d (or calls 0x7100bff4cc).
+        void sub_7101164E38(bool a1);
 
         u8 _0[0x20];
         sead::Buffer<Unk2> _20;
@@ -140,6 +148,14 @@ public:
     // 0x710115ce44 / 0x710115d0ac: push / pop a bone name (the first push saves _18 in _40).
     void sub_710115CE44(const sead::SafeString& bone_name);
     void sub_710115D0AC();
+    // 0x710115b140 (declaration only; lane4 s23): starts the animation `name` on the entry (slot, bank) of
+    // `slot2` / `bank2` (placeholder parameter names; GiantWeaponGrabAS passes (name, slot, 0, 0, 0)).
+    void sub_710115B140(const sead::SafeString& name, int slot, int slot2, int bank, int bank2);
+    // 0x710115f444 (declaration only): calls `fn` on the entry (slot, bank) (like x_3, without a value).
+    void sub_710115F444(int slot, int bank, void (Unk2::*fn)());
+    // 0x710115c9e0 (declaration only; lane4 s23): `slot`'s partial bone setup (ModelList::isParticalEnable(slot),
+    // then the slot's helper 0x7101164ff8).
+    void sub_710115C9E0(int slot);
     // 0x710115b01c: Unk2::sub_7101162254(a3) on the entry of `slot` / `bank` (false if none).
     bool sub_710115B01C(int slot, int bank, bool a3);
     // 0x710115c11c: clears bit 1 of _163 (returns whether it was set) and updates every slot.
@@ -161,8 +177,8 @@ public:
     // bits 0 / 0x19 / 6 answered by the owner (basic signal / remains signal / LodState flag 1).
     bool sub_710115ED5C(int a1, int bit);
 
-    // Inline-only in the original (loop bounds of CapturedActFreeze / CapturedActElectricParalyisis
-    // calc_ / leave_); the name is a placeholder: the number of banks of slot 0.
+    // inline-only in the original; name is a guess. Evidence: loop bounds of CapturedActFreeze /
+    // CapturedActElectricParalyisis calc_ / leave_: the number of banks of slot 0.
     s32 getSlot0BankCount() const { return mSlots.size() > 0 ? mSlots[0]._20.size() : 0; }
 
     Unk2* getEntry(int slot, int bank) {

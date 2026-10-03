@@ -18,6 +18,7 @@ public:
 protected:
     void calc_() override;
 
+    u64 _20 = 0;
     // static_param at offset 0x28
     const float* mLifeDecInterval1_s{};
     // static_param at offset 0x30
@@ -30,8 +31,12 @@ protected:
     const float* mLifeDecInterval5_s{};
     // static_param at offset 0x50
     const float* mInterruptInterval_s{};
+    u64 _58 = 0;
     // static_param at offset 0x60
     const int* mSuccessLife_s{};
+    bool _68 = false;
+
 };
+KSYS_CHECK_SIZE_NX150(PlayerPullSword, 0x70);
 
 }  // namespace uking::action

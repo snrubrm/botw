@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -25,6 +26,12 @@ protected:
     const float* mHitImpactForceLargeSwordS_s{};
     // static_param at offset 0x38
     const float* mHitImpactForceSpearS_s{};
+    u64 _40 = 0;
+    s32 _48 = 0;
+    ksys::VFRValue _4c;
+    ksys::VFRVec3f _58;
+    s32 _7c = 0;
 };
+KSYS_CHECK_SIZE_NX150(Stun, 0x80);
 
 }  // namespace uking::action

@@ -17,7 +17,7 @@ void SwitchTimeLag::enter_(ksys::act::ai::InlineParamPack* params) {
     _40 = 0.0f;
 }
 
-// NON_MATCHING: *mWaitTime_m is loaded before the VFR delta (original: after; see SwitchRightAndWrong::calc_)
+// NON_MATCHING: scheduling of the `_40 = 0.0f` store against the string address of changeChild("オフ")
 void SwitchTimeLag::calc_() {
     auto* actor = mActor;
     if (!actor->checkBasicSig()) {
@@ -30,7 +30,7 @@ void SwitchTimeLag::calc_() {
     }
 
     bool done;
-    if (sead::Mathf::chase(&_40, *mWaitTime_m, ksys::VFR::instance()->getDeltaFrame())) {
+    if (ksys::VFR::chase(&_40, *mWaitTime_m)) {
         done = true;
     } else {
         actor->m107();

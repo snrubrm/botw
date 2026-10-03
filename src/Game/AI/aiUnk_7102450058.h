@@ -13,6 +13,13 @@ namespace ksys::phys {
 class Constraint;
 }
 
+namespace sead {
+class Heap;
+}
+
+// 0x7100f6d358 (declared only; placeholder name): creates a physics constraint on `heap` (nullptr on failure).
+ksys::phys::Constraint* sub_7100F6D358(sead::Heap* heap);
+
 // Unnamed carried-actor helper objects embedded in the AddCarriedBase family. Layouts come from the
 // constructors (the classes have ~30 virtual / helper functions that are not decompiled).
 
@@ -42,6 +49,8 @@ public:
     /// 0x71006f8ab4 (lane1 s22, name is a placeholder): true without a constraint, else whether the
     /// constraint's low flag byte has bit 0 clear.
     bool sub_71006F8AB4() const;
+    // 0x7100f6d358 + store; false when the constraint could not be created.
+    bool init(sead::Heap* heap);
 
     ksys::phys::Constraint* _30 = nullptr;
     f32 _38 = 1.0f;
@@ -59,7 +68,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7102450298, 0x58);
 class Unk_710244ed58 : public ksys::act::ActorBind {
 public:
     Unk_710244ed58();
-    ~Unk_710244ed58() override;
+    // Inline in the original (embedded users' D1 / D0 inline it; no out-of-line copy).
+    ~Unk_710244ed58() override = default;
 
     bool m4(ksys::act::BaseProc* proc) override;
 

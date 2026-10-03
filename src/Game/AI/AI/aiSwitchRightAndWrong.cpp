@@ -33,10 +33,9 @@ void SwitchRightAndWrong::loadParams_() {
     getStaticParam(&mWaitTime_s, "WaitTime");
 }
 
-// NON_MATCHING: *mWaitTime_s is loaded before the VFR delta instead of after (see lane2 log, Borderline)
 void SwitchRightAndWrong::calc_() {
     _44 = false;
-    _44 = sead::Mathf::chase(&_40, *mWaitTime_s, ksys::VFR::instance()->getDeltaFrame());
+    _44 = ksys::VFR::chase(&_40, *mWaitTime_s);
     SwitchAI::calc_();
 }
 

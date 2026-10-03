@@ -17,17 +17,17 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
+    void m36() override;
+    void m38() override;
     bool m39() override;
 
 protected:
-    void* _c0;
-    u32 _c8;
-    u8 _cc[0xd4 - 0xcc];
-    u32 _d4;
-    void* _d8;
-    u32 _e0;
-    u8 _e4[0xec - 0xe4];
-    u32 _ec;
+    // Copies of the base's _90 / _9c / _a8 / _b4 vectors, taken once by m35 (guarded by _f0).
+    sead::Vector3f _c0;
+    sead::Vector3f _cc;
+    sead::Vector3f _d8;
+    sead::Vector3f _e4;
     bool _f0 = false;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossFastWarpAttack, 0xf8);

@@ -50,6 +50,16 @@ void ActorAtk::m5() {
         _48->sub_71007A124C();
 }
 
+void ActorAtk::sub_710079E344(AttackSensor2Listener* listener) {
+    if (auto* sensor = _70)
+        sensor->_20.pushBack(listener);
+}
+
+void ActorAtk::sub_710079E3B8(AttackSensor2Listener* listener) {
+    if (_70)
+        listener->erase();
+}
+
 bool ActorAtk::reset() {
     if (_18)
         _18->reset();

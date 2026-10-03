@@ -41,6 +41,12 @@ protected:
     const sead::Vector3f* mRotate_s{};
     // static_param at offset 0x98
     const sead::Vector3f* mPosition_s{};
+    f32 _a0 = 0.0f;
+    f32 _a4 = 0.0f;
+    u8 _a8[0x1]{};
+    bool _a9 = false;
+    u8 _aa[0x6];
 };
+KSYS_CHECK_SIZE_NX150(DragonFixPlacement, 0xb0);
 
 }  // namespace uking::action

@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m38() override;
+
 protected:
     // map_unit_param at offset 0x60
     const bool* mOnCliffTurn_m{};

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "Game/AI/Action/actionForkEmitExpandField.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -25,6 +26,8 @@ protected:
     const bool* mIsReuseActor_s{};
     // static_param at offset 0xa0
     const bool* mIsSetPartsLink_s{};
+    ksys::act::BaseProcLink _a8;
 };
+KSYS_CHECK_SIZE_NX150(ForkEmitExpandFieldWithCreate, 0xb8);
 
 }  // namespace uking::action

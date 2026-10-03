@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -21,6 +25,10 @@ void RemainsWaterBulletExplode::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void RemainsWaterBulletExplode::leave_() {
     Explode::leave_();
+    auto* actor = mActor;
+    if (auto* model = actor->getModel())
+        model->getUnits().unsafeAt(0)->_1e |= 0x20;
+    ksys::act::enableAllAttClients(actor);
 }
 
 void RemainsWaterBulletExplode::loadParams_() {

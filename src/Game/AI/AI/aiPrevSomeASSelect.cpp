@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPrevSomeASSelect.h"
+#include <prim/seadFormatPrint.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -36,37 +37,11 @@ void PrevSomeASSelect::leave_() {
 void PrevSomeASSelect::loadParams_() {
     getStaticParam(&mSeqBank_s, "SeqBank");
     getStaticParam(&mTargetBone_s, "TargetBone");
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 6; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "ASName%d", i) << sead::flush;
+        getStaticParam(&mASName_s[i], key);
+    }
 }
 
 }  // namespace uking::ai

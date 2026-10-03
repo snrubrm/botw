@@ -1,9 +1,12 @@
 #include "Game/AI/AI/aiSiteBossLswordRoot.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -42,6 +45,20 @@ void SiteBossLswordRoot::calc_() {
 
 void SiteBossLswordRoot::leave_() {
     SiteBossRoot::leave_();
+    if (!isActorGoingBackToRootAi())
+        return;
+
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        for (auto* part : enemy->_1128.mList) {
+            auto& link = part->mLink;
+            if (!link.hasProcInCalcState())
+                continue;
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.hasTag(0u))
+                accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+    }
 }
 
 void SiteBossLswordRoot::loadParams_() {

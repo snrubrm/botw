@@ -1,4 +1,5 @@
 #include "Game/Actor/actDragon.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include <basis/seadNew.h>
 #include <math/seadVector.h>
 #include <random/seadGlobalRandom.h>
@@ -9,6 +10,10 @@ namespace uking::act {
 
 ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
+}
+
+const sead::Matrix34f& Dragon::sub_710001014C() const {
+    return *_14c8.sub_71006FC514();
 }
 
 inline float sqXYZDistance(const sead::Vector3f& a, const sead::Vector3f& b) {
@@ -73,6 +78,46 @@ bool Dragon::getGameDataFlagGrudgeAlive(int idx) {
     if (_1e0c != 3)
         return false;
     return getGameDataFlag("GrudgeAlive", idx);
+}
+
+void Dragon::m110(f32* a1, s32* a2) {
+    // tag hash 0xa4c7ba34 (no name known)
+    if (ksys::act::hasTag(this, 0xA4C7BA34u)) {
+        *a1 = 0.4f;
+        *a2 = 0;
+    } else {
+        Actor::m110(a1, a2);
+    }
+}
+
+void Dragon::m111(f32* a1, s32* a2) {
+    // tag hash 0xa4c7ba34 (no name known)
+    if (ksys::act::hasTag(this, 0xA4C7BA34u)) {
+        *a1 = 0.4f;
+        *a2 = 2;
+    } else {
+        Actor::m111(a1, a2);
+    }
+}
+
+void Dragon::m112(f32* a1, s32* a2) {
+    // tag hash 0xa4c7ba34 (no name known)
+    if (ksys::act::hasTag(this, 0xA4C7BA34u)) {
+        *a1 = 0.4f;
+        *a2 = 0;
+    } else {
+        Actor::m112(a1, a2);
+    }
+}
+
+void Dragon::m113(f32* a1, s32* a2) {
+    // tag hash 0xa4c7ba34 (no name known)
+    if (ksys::act::hasTag(this, 0xA4C7BA34u)) {
+        *a1 = 0.4f;
+        *a2 = 2;
+    } else {
+        Actor::m113(a1, a2);
+    }
 }
 
 }  // namespace uking::act

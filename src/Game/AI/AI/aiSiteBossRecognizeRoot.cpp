@@ -14,6 +14,12 @@ bool SiteBossRecognizeRoot::init_(sead::Heap* heap) {
 }
 
 void SiteBossRecognizeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (boss && boss->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000) &&
+        boss->_1558.isOnBit(15)) {
+        m40();
+        return;
+    }
     SiteBossRecognizeRootBase::enter_(params);
 }
 

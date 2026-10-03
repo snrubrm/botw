@@ -5,8 +5,11 @@ namespace uking::ai {
 
 LastBossNormalWarpRoot::LastBossNormalWarpRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
-LastBossNormalWarpRoot::~LastBossNormalWarpRoot() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+LastBossNormalWarpRoot::~LastBossNormalWarpRoot() {
+    ;
+}
 
 bool LastBossNormalWarpRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

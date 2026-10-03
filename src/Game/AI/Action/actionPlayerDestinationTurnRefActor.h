@@ -2,6 +2,8 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -24,6 +26,10 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::SafeString mUniqName_d{};
+    ksys::util::Unk_7101EC6BAC _30{0};
+    ksys::act::BaseProcLink _38;
+    ksys::act::BaseProcLink _48;
+    int _58 = 0;
 };
 
 }  // namespace uking::action

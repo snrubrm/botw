@@ -61,16 +61,17 @@ public:
         mLayerMask2[int(type)].reset(mask);
     }
 
-    // Inline-only in the original (StoneStickRoot::init_ sets both words to -1); the name is a guess.
-    void setAllLayerMask2() {
-        for (int i = 0; i < NumContactLayerTypes; ++i)
-            mLayerMask2[i].makeAllOne();
-    }
-
     // TODO: rename
     bool isLayerInMask2(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);
         return mLayerMask2[int(type)].isOnBit(getContactLayerBaseRelativeValue(layer));
+    }
+
+    // Inline-only in the original (StopTimerObserver::enter_ stores -1 over both words with one 64-bit
+    // store; the name is a guess).
+    void setAllLayerMask2() {
+        for (int i = 0; i < NumContactLayerTypes; ++i)
+            mLayerMask2[i].setDirect(0xffffffff);
     }
 
     void setLayerMasks(const LayerMaskBuilder& builder) {

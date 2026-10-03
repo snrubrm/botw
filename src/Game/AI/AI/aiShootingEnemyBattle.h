@@ -19,6 +19,8 @@ public:
     void m38() override;
     bool m39() override;
     bool m40() override;
+    // 0x7100569f34 (not decompiled: calls unnamed 0x7100d8c538): `!sub_7100D8C538(translation, ..., *mOutScreenDist_s)`.
+    virtual bool m44();
 
     void sub_7100569CA0();
     void sub_7100569DC8(sead::Vector3f* out);

@@ -93,7 +93,6 @@ bool SwarmRangeKeepCircleMove::isFinished() const {
     return ksys::act::ai::Ai::isFinished();
 }
 
-// NON_MATCHING: scheduling (the target squares the distance before loading the two params)
 bool SwarmRangeKeepCircleMove::isFailed() const {
     if (ActionBase::isFailed())
         return true;
@@ -103,10 +102,8 @@ bool SwarmRangeKeepCircleMove::isFailed() const {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
     const auto& target_pos = sub_71005D9330(mActor);
-    const f32 dx = pos.x - target_pos.x;
-    const f32 dz = pos.z - target_pos.z;
-    const f32 dist = *mBaseDist_s + *mOutDist_s;
-    return dx * dx + dz * dz > dist * dist;
+    return ksys::util::sqXZDistance(pos, target_pos) >
+           sead::Mathf::square(*mOutDist_s + *mBaseDist_s);
 }
 
 void SwarmRangeKeepCircleMove::sub_71005B205C() {

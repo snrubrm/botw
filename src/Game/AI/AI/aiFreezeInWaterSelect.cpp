@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiFreezeInWaterSelect.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -17,15 +18,13 @@ void FreezeInWaterSelect::enter_(ksys::act::ai::InlineParamPack* params) {
 void FreezeInWaterSelect::calc_() {
     if (isCurrentChild("凍結解除")) {
         auto* child = getCurrentChild();
-        if (child->isFinished() || child->isFailed()) {
-            setFinished();
-            return;
+        if (!child->isFinished() && !child->isFailed()) {
+            _68.update();
+            if (!(_68.value <= sead::Mathf::epsilon()))
+                return;
+            if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor))
+                actor->m149(3);
         }
-        _68.update();
-        if (!(_68.value <= sead::Mathf::epsilon()))
-            return;
-        if (auto* actor = sead::DynamicCast<ksys::act::PlayerOrEnemy>(mActor))
-            actor->m149(3);
         setFinished();
         return;
     }
@@ -38,7 +37,7 @@ void FreezeInWaterSelect::calc_() {
         }
         if (depth > *mInWaterDepth_s) {
             *mIsKeepFreeze_a = true;
-            _68 = ksys::Timer(*mIceBreakTime_s, *mIceBreakTime_s);
+            _68.reset(*mIceBreakTime_s);
             changeChild("凍結解除");
             return;
         }

@@ -21,8 +21,8 @@ bool HorseRideDamagedSelector::init_(sead::Heap* heap) {
 }
 
 void HorseRideDamagedSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
-    if (mgr && mgr->checkDamageFlags(17))
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    if (manager && manager->checkDamageFlags(17))
         changeChild("騎乗", params);
     else
         changeChild("それ以外", params);

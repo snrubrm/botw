@@ -18,7 +18,7 @@ public:
     ~RopeBase() override;
 
     void m43(bool on) override;
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void updatePositionMaybe() override;
     int getExtraHeapSize() override;
 

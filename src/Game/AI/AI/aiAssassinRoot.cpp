@@ -6,8 +6,11 @@ namespace uking::ai {
 
 AssassinRoot::AssassinRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
-AssassinRoot::~AssassinRoot() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+AssassinRoot::~AssassinRoot() {
+    ;
+}
 
 bool AssassinRoot::init_(sead::Heap* heap) {
     return NPCRoot::init_(heap);
@@ -43,5 +46,7 @@ void AssassinRoot::loadParams_() {
     getMapUnitParam(&mEquipItem4_m, "EquipItem4");
     getMapUnitParam(&mRideHorseName_m, "RideHorseName");
 }
+
+void AssassinRoot::m35() {}
 
 }  // namespace uking::ai

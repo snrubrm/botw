@@ -21,8 +21,8 @@ bool FromPopPoolDamageSelect::init_(sead::Heap* heap) {
 }
 
 void FromPopPoolDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
-    if (mgr && mgr->getDamageType() == 9)
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    if (manager && manager->getDamageType() == 9)
         changeChild("ストップタイマー", params);
     else
         changeChild("非ストップタイマー", params);

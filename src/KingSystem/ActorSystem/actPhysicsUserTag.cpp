@@ -27,6 +27,10 @@ const sead::SafeString& PhysicsUserTag::getName() const {
     return mActor->getName();
 }
 
+void PhysicsUserTag::m7(phys::RigidBody* rigid_body, int a) {
+    mActor->nullsub_4649();
+}
+
 const sead::SafeString& PhysicsUserTag::getName(phys::RigidBody* rigid_body) const {
     return getName();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -23,7 +24,7 @@ protected:
     void sub_710052D98C();
 
     // aitree_variable at offset 0x68
-    void* mPriestBossMetaAIUnit_a{};
+    Unk_7102450fa8** mPriestBossMetaAIUnit_a{};
     bool _70{};
 };
 

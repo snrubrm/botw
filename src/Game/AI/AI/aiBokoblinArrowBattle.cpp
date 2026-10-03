@@ -26,23 +26,20 @@ void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100331088();
 }
 
-// NON_MATCHING: instruction scheduling / register numbering of the hold-interval selection (the
-// original loads _118 into w10 and computes &mHoldIntervalLast_s first)
+// NON_MATCHING: load/scheduling order only; the original loads *mHoldIntervalRand_s and the selected
+// hold interval before calling getF32 (the float math, timers and pack match)
 void BokoblinArrowBattle::sub_7100331088() {
     sub_71005DA114(mActor, &_c8);
+    const s32* hold_interval = _114 == _118 - 1 ? mHoldIntervalLast_s : mHoldInterval_s;
+    _f0.reset(s32(*hold_interval +
+                  *mHoldIntervalRand_s * sead::GlobalRandom::instance()->getF32() * -0.5f) +
+              *mHoldIntervalRand_s);
+    _108.reset(*mLeaveWaitTime_s);
 
-    const s32* hold_interval = _114 != _118 - 1 ? mHoldInterval_s : mHoldIntervalLast_s;
-    const f32 range = *mHoldIntervalRand_s;
-    const s32 interval = *hold_interval;
-    const f32 jitter = range * sead::GlobalRandom::instance()->getF32() * -0.5f;
-    const s32 time = s32(f32(interval) + jitter) + *mHoldIntervalRand_s;
-    _f0 = ksys::Timer(time, time);
-    _108 = ksys::Timer(*mLeaveWaitTime_s, *mLeaveWaitTime_s);
-
-    const sead::Vector3f target = *mTargetPos_d;
-    ksys::act::ai::InlineParamPack params;
-    params.addVec3(target, "TargetPos", -1);
-    changeChild("待機", &params);
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 bool BokoblinArrowBattle::isChangeable() const {

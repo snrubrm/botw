@@ -2,6 +2,8 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -21,6 +23,9 @@ protected:
     virtual void m33();
     virtual bool m34();
     virtual bool m35();
+
+    ksys::util::Unk_7101EC6BAC _20{0};
+    ksys::act::BaseProcLink _28;
 };
 
 }  // namespace uking::action

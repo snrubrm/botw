@@ -2,8 +2,11 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -81,6 +84,91 @@ void WeaponRootAI::sub_7100E21228() {
         }
     }
     changeChild("装備");
+}
+
+// NON_MATCHING: only the last lookup differs: the original builds the first "Body" SafeString before the
+// physics null check (frame 0x50 vs 0x40); every other instruction matches
+void WeaponRootAI::m34() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (weapon && weapon->m213())
+        return;
+    if (!_39)
+        return;
+    _39 = false;
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body")) {
+                physics->sub_7100FBAF18(body);
+                if (!body->isAddedToWorld()) {
+                    body->addToWorld();
+                    physics->sub_7100FC012C(nullptr);
+                }
+                body->setMaxAngularVelocity(_b0);
+                body->resetFlag1000000();
+            }
+        }
+        if (auto* set = physics->findBodyByName("Chemical")) {
+            if (auto* body = set->getRigidBodies()[0]) {
+                physics->sub_7100FBAF18(body);
+                if (!body->isAddedToWorld())
+                    body->addToWorld();
+            }
+        }
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body"))
+                body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        }
+    }
+}
+
+// NON_MATCHING: same as m34, the original builds the first "Body" SafeString before the physics null check
+void WeaponRootAI::m35() {
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor);
+    if (weapon && weapon->m213())
+        return;
+    if (_39)
+        return;
+    _39 = true;
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body")) {
+                body->setContactLayerAndGroundHit(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                                                  ksys::phys::GroundHit::HitAll);
+                if (!body->isAddedToWorld() || body->isRemovingBodyFromWorld()) {
+                    body->addToWorld();
+                    physics->sub_7100FC01B0();
+                }
+                body->setMaxAngularVelocity(6283.1855f);
+                body->setFlag1000000();
+            }
+        }
+        if (auto* set = physics->findBodyByName("Chemical")) {
+            if (auto* body = set->getRigidBodies()[0]) {
+                if (!body->isAddedToWorld())
+                    body->addToWorld();
+            }
+        }
+    }
+    if (auto* physics = mActor->getPhysics()) {
+        if (auto* set = physics->findBodyByName("Body")) {
+            if (auto* body = set->findBodyByHavokName("Body"))
+                body->changeMotionType(ksys::phys::MotionType::Keyframed);
+        }
+    }
+}
+
+bool WeaponRootAI::m41() {
+    if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor))
+        return weapon->m183();
+    return false;
+}
+
+bool WeaponRootAI::m42() {
+    if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor))
+        return !weapon->m183();
+    return true;
 }
 
 }  // namespace uking::ai

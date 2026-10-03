@@ -195,8 +195,8 @@ struct Unk_7102450978_Payload {
 
 // Message 0x80000d7 (sender Unk_71023dbd40)
 struct Unk_71023dbd40_Payload {
-    u32 _0 = 0;
-    u32 _4 = 0;
+    // _0 holds the xz direction of PriestBossGiantStageRotate (mode 0); _8 is the mode (0, 1, 2).
+    sead::Vector2f _0 = {0, 0};
     u32 _8 = 0;
     bool _c = false;
     sead::JobQueueLock mLock;

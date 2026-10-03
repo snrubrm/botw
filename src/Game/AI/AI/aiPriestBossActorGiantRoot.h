@@ -1,13 +1,19 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossActorRoot.h"
+#include "Game/AI/aiUnk_7102451120.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include <container/seadSafeArray.h>
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
 class PriestBossActorGiantRoot : public PriestBossActorRoot {
     SEAD_RTTI_OVERRIDE(PriestBossActorGiantRoot, PriestBossActorRoot)
 public:
+    // Attack indices (names unknown; 11 values: the clamp of the counter array).
+    SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)
+
     explicit PriestBossActorGiantRoot(const InitArg& arg);
     ~PriestBossActorGiantRoot() override;
 
@@ -29,6 +35,11 @@ public:
     virtual f32 m45();
 
 protected:
+    // inline-only in the original; name is a guess. Evidence: m40 / m41 / m42 / m44 repeat the same sequence
+    // for attacks 3 / 4 / 5 / 7 (frequency of the phase's attack, random factor, 0.9^count) and the by-value
+    // enum parameter gives the stack round trips seen in the asm.
+    f32 getWeight(Attack attack);
+
     // static_param at offset 0x40
     const float* mFreqIronBallAttack_s{};
     // static_param at offset 0x48
@@ -51,6 +62,14 @@ protected:
     sead::Vector3f* mDestinationPos_a{};
     // aitree_variable at offset 0x90
     sead::Vector3f* mFacePos_a{};
+    s32 _98 = 0;
+    s32 _9c = 2;
+    s32 _a0 = 0;
+    void* _a8 = nullptr;
+    // Per-phase counters (indexed by the phase, clamped to 10): the weights of m40-m44 decay as 0.9^count.
+    sead::SafeArray<u32, 11> _b0{};
+    ksys::Timer _dc{900.0f, 900.0f};
+    Unk_7102451120 _e8;
 };
 
 }  // namespace uking::ai

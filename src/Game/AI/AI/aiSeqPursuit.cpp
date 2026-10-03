@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiSeqPursuit.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -42,6 +46,17 @@ void SeqPursuit::loadParams_() {
 bool SeqPursuit::m34() const {
     auto* child = getCurrentChild();
     return (child->isFinished() || child->isFailed()) && isCurrentChild("先行動");
+}
+
+bool SeqPursuit::m35() const {
+    auto* child = getCurrentChild();
+    if ((!child->isChangeable() && (!*mIsEndPursuit_s || (!child->isFinished() && !child->isFailed()))) ||
+        !_79 || _78) {
+        return false;
+    }
+    const f32 dist = sead::Mathf::sqrt(
+        ksys::util::sqXZDistance(mActor->getMtx().getTranslation(), sub_71005D9330(mActor)));
+    return dist <= *mPursuitDist_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 }  // namespace uking::ai

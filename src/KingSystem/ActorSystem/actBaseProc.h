@@ -47,6 +47,7 @@ public:
         _17 = 0x17,
         _18 = 0x18,
         _19 = 0x19,
+        _1a = 0x1a,
     };
 
     enum class SleepWakeReason : u32 {
@@ -141,6 +142,11 @@ public:
     bool isInitialized() const { return mFlags.isOn(Flags::Initialized); }
     bool isDeleting() const { return mFlags.isOn(Flags::PreDeleteStarted); }
     bool isDeleteRequested() const { return mStateFlags.isOn(StateFlags::RequestDelete); }
+    // inline-only in the original; name is a guess: `mState != Sleep && !(mStateFlags & RequestSleep)`
+    // appears inlined in PriestBossPhaseFirst / PriestBossPhaseSecond::m37 and other callers.
+    bool isAwakeMaybe() const {
+        return mState != State::Sleep && !mStateFlags.isOn(StateFlags::RequestSleep);
+    }
 
 protected:
     friend class BaseProcLinkDataMgr;

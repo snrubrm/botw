@@ -19,7 +19,6 @@ void GuardianWait::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("レール移動");
         return;
     }
-
     sead::Vector3f home_pos;
     mActor->getHomePos(&home_pos);
     ksys::act::ai::InlineParamPack pack;

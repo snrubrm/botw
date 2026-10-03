@@ -20,6 +20,7 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+    bool m33() override;
     virtual f32 m40();
 
     // static_param at offset 0x90

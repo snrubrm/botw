@@ -100,6 +100,11 @@ public:
     void changeWorldState(WorldState state);
     WorldState getWorldState() const;
 
+    // inline-only in the original; name is a guess (Flag::_8 is unnamed). `mFlags` bit 8 (+0xc0) is
+    // tested outside the class by Ragdoll::calc_, StalEnemyDie::calc_ and 0x71006d0c38 (as a byte test
+    // after getWorldState() == 0).
+    bool isFlag8Set() const { return mFlags.isOn(Flag::_8); }
+
     void setExtraRigidBody(RigidBody* body, int bone_index);
     void setGravityFactor(float factor);
 

@@ -18,7 +18,7 @@ public:
         ~Entry();
 
         u8 _0[0xb0];
-        s32 _b0;  // GolemChemicalResetSelect::enter_ (== 4 -> "ケミカル復帰")
+        s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
         bool _b4;
         bool _b5;
         u8 _b6[2];

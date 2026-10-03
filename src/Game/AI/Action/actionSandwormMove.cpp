@@ -8,7 +8,9 @@ SandwormMove::SandwormMove(const InitArg& arg) : MoveWithAS(arg) {}
 SandwormMove::~SandwormMove() = default;
 
 bool SandwormMove::init_(sead::Heap* heap) {
-    return MoveWithAS::init_(heap);
+    if (!MoveWithAS::init_(heap))
+        return false;
+    return _128.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void SandwormMove::enter_(ksys::act::ai::InlineParamPack* params) {

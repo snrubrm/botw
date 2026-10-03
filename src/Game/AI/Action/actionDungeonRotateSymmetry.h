@@ -6,6 +6,10 @@ namespace xlink2 {
 class HandleSLink;
 }
 
+namespace ksys::phys {
+class StaticCompoundRigidBodyGroup;
+}
+
 namespace uking::action {
 
 class DungeonRotateSymmetry : public ksys::act::ai::Action {
@@ -21,6 +25,7 @@ public:
 
 protected:
     void calc_() override;
+    void m9() override;
 
     // map_unit_param at offset 0x20
     const int* mInitDgnPriority_m{};
@@ -42,8 +47,7 @@ protected:
     f32 _6c = 0;
     f32 _70 = 0;
     f32 _74 = 0;
-    f32 _78 = 0;
-    f32 _7c = 0;
+    ksys::phys::StaticCompoundRigidBodyGroup* _78 = nullptr;
     s32 _80 = -1;
     bool _84 = false;
     bool _85 = false;

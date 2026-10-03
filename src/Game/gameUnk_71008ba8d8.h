@@ -26,6 +26,9 @@ bool callEvent(act::BaseProc* proc, const sead::SafeString& event, const sead::S
 
 namespace uking {
 
+// 0x71008badcc (CSV name; declared only, lane3 s15): the player's respawn event (PlayerHellStartWait::calc_).
+bool callPlayerRespawnEvent(ksys::act::Actor* player);
+
 // 0x71008bad74 (CSV name): calls Demo006_0 at the player's matrix.
 bool callPlayerGameOverDemo(ksys::act::Actor* player);
 

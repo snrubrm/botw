@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 
 namespace uking::act {
@@ -63,8 +64,7 @@ public:
     virtual bool m36();
     virtual bool m37();
     virtual bool m38();
-    // Slots 39-47 (lane1 s22): declared so that KokkoRoot's overrides line up; signatures unknown.
-    virtual void m39();
+    virtual bool m39();
     virtual void m40();
     virtual void m41();
     virtual void m42();
@@ -72,7 +72,15 @@ public:
     virtual void m44();
     virtual void m45();
     virtual void m46();
-    virtual void m47();
+    // The body of m47 is a call of sub_71005047A8 (the original m47 is `b 0x5047a8`).
+    virtual void m47() { sub_71005047A8(); }
+    // Unnamed in the binary (0x71005047a8); changes to the "通常行動" child with the actor position.
+    void sub_71005047A8();
+    // Unnamed in the binary (0x71005044c8): sub_7100504BF0(), then changes to the "水中行動" child with the
+    // actor position.
+    void sub_71005044C8();
+    // Unnamed in the binary (0x7100504bf0): resets _1fc / _200 / _205.
+    void sub_7100504BF0();
 
 protected:
     void calc_() override;
@@ -114,7 +122,7 @@ protected:
     ksys::VFRValue _1a8;
     sead::Vector3f _1b4 = {0, 0, 0};
     Unk_710071edf8 _1c0{mActor};
-    sead::Vector3f _1f0 = {0, 0, 0};
+    ksys::Timer _1f0{0, 0, 0};
     f32 _1fc = std::numeric_limits<f32>::quiet_NaN();
     f32 _200 = 0;
     bool _204 = false;

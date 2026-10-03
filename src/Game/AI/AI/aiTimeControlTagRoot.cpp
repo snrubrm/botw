@@ -49,7 +49,6 @@ void TimeControlTagRoot::calc_() {
     }
 }
 
-// NON_MATCHING: *mEndTimeMinute_m is loaded unconditionally and the result normalised (cmp/cset)
 bool TimeControlTagRoot::sub_71005C9290() {
     auto* tm = ksys::world::Manager::instance()->getTimeMgr();
 
@@ -65,11 +64,12 @@ bool TimeControlTagRoot::sub_71005C9290() {
         }
 
         const int minute = tm->getMinute();
-        bool ok = true;
+        const int end_minute = *mEndTimeMinute_m;
+        int ok = true;
         if (hour == start)
             ok = minute >= *mStartTimeMinute_m;
-        if (hour == end)
-            ok = minute < *mEndTimeMinute_m;
+        if (end == hour)
+            ok = minute < end_minute;
         return ok;
     }
 

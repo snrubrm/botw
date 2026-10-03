@@ -5,7 +5,11 @@ namespace uking::action {
 WaterUpDownDrivenPreAttack::WaterUpDownDrivenPreAttack(const InitArg& arg)
     : WaterUpDownAnmDrivenMove(arg) {}
 
-WaterUpDownDrivenPreAttack::~WaterUpDownDrivenPreAttack() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+WaterUpDownDrivenPreAttack::~WaterUpDownDrivenPreAttack() {
+    ;
+}
 
 bool WaterUpDownDrivenPreAttack::init_(sead::Heap* heap) {
     return WaterUpDownAnmDrivenMove::init_(heap);

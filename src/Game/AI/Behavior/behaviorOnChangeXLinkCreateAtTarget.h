@@ -16,7 +16,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m14() override;  // TODO 0x7100630834
+    void m14() override;
     // 0x7100630570
     void sub_7100630570();
 

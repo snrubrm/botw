@@ -33,9 +33,7 @@ protected:
     const float* mRoamXRadius_s{};
     // static_param at offset 0x50
     const float* mRoamZRadius_s{};
-    u32 _58 = 0;
-    u32 _5c = 0;
-    u32 _60 = 0;
+    sead::Vector3f _58{0, 0, 0};
     sead::Vector3f _64{0, 0, 0};  // roam target position
     u32 _70 = 0;
     sead::Matrix34f _74;  // the actor matrix when roaming starts (not initialised by the ctor)

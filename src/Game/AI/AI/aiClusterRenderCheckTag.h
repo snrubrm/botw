@@ -25,5 +25,6 @@ protected:
     bool _58 = false;
     bool _59 = false;
 };
+KSYS_CHECK_SIZE_NX150(ClusterRenderCheckTag, 0x60);
 
 }  // namespace uking::ai

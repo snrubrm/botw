@@ -37,17 +37,23 @@ void ChildDeviceReflectArrow::m35() {
 bool ChildDeviceReflectArrow::m37(bool* broke_ice_block, bool* hit_player) {
     if (!hasAttackInfo(mActor))
         return false;
-    const s32 num = getNumAttackInfoMaybe(mActor);
+
     bool result = true;
+    const s32 num = getNumAttackInfoMaybe(mActor);
     for (s32 i = 0; i < num; ++i) {
         auto* info = getAttackInfo(mActor, i);
-        if (info && info->_50.hasProc()) {
-            ksys::act::ActorConstDataAccess accessor;
-            ksys::act::acquireActor(&info->_50, &accessor);
-            if (accessor.getName() == "Enemy_SiteBoss_Bow_ChildDevice") {
-                result = false;
-                *broke_ice_block = true;
-            }
+        if (!info)
+            continue;
+
+        auto* link = &info->_50;
+        if (!link->hasProc())
+            continue;
+
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.getName() == "Enemy_SiteBoss_Bow_ChildDevice") {
+            result = false;
+            *broke_ice_block = true;
         }
     }
     return result;

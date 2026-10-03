@@ -4,6 +4,10 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/AI/aiUnk_71025afb58.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 // Placeholder name (the out-of-line acquire is 0x71000b0800; the original's holder is a pointer to the
 // AI tree variable slot): a reference to a shared `T` created on first use.
 template <class T>
@@ -22,6 +26,27 @@ struct Unk_71000b0800 {
             ++checker->mRefCount;
         } else {
             auto* checker = new (heap, 8) T;
+            if (!checker)
+                return false;
+            checker->mRefCount = 1;
+            *var = checker;
+        }
+        _0 = var;
+        return true;
+    }
+
+    // Same, for objects that are constructed from the owning actor (Unk_71025be918: 0x7100625508).
+    bool acquire(sead::Heap* heap, Unk_71025afb58** var, ksys::act::Actor* actor) {
+        _0 = nullptr;
+        if (!var)
+            return false;
+        if (auto* obj = *var) {
+            auto* checker = sead::DynamicCast<T>(obj);
+            if (!checker)
+                return false;
+            ++checker->mRefCount;
+        } else {
+            auto* checker = new (heap, 8) T(actor);
             if (!checker)
                 return false;
             checker->mRefCount = 1;

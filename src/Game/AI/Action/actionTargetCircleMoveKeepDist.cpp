@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTargetCircleMoveKeepDist.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -11,7 +13,14 @@ bool TargetCircleMoveKeepDist::init_(sead::Heap* heap) {
 }
 
 void TargetCircleMoveKeepDist::enter_(ksys::act::ai::InlineParamPack* params) {
+    const sead::Vector3f& target = *mTargetPos_d;
+    const sead::Vector3f& pos = mActor->getMtx().getTranslation();
+    const f32 dx = target.x - pos.x;
+    const f32 dz = target.z - pos.z;
+    const f32 dist = sead::Mathf::sqrt(dx * dx + dz * dz);
+    _90 = sead::Mathf::max(*mRotDist_s, dist);
     TargetCircle::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void TargetCircleMoveKeepDist::leave_() {

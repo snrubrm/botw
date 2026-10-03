@@ -21,8 +21,20 @@ target_sources(uking PRIVATE
   aiQueryFactories.h
   aiUnk_71005D6D10.cpp
   aiUnk_71005D6D10.h
+  aiUnk_71002C52DC.cpp
+  aiUnk_71002C52DC.h
+  aiUnk_71025ba778.cpp
+  aiUnk_71025ba778.h
+  aiUnk_71025be918.cpp
+  aiUnk_71025be918.h
   aiUnk_7101e7c5d0.cpp
   aiUnk_7101e7c5d0.h
+  aiUnk_71007024d4.cpp
+  aiUnk_71023f18e8.cpp
+  aiUnk_71023f18e8.h
+  aiUnk_7100a921fc.cpp
+  aiUnk_71007024d4.h
+  aiUnk_7100710938.cpp
   aiUnk_7100711020.cpp
   aiUnk_7100711020.h
   aiUnk_710071edf8.cpp
@@ -40,6 +52,8 @@ target_sources(uking PRIVATE
   aiUnk_71007368A4.cpp
   aiUnk_71007368A4.h
   aiUnk_71007377D4.cpp
+  aiUnk_710071E0D8.cpp
+  aiUnk_710071E0D8.h
   aiUnk_710073fa90.cpp
   aiUnk_710073CDFC.cpp
   aiUnk_710073CDFC.h

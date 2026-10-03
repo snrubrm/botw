@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCReaction.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
@@ -12,7 +13,27 @@ NPCReaction::~NPCReaction() {
 }
 
 void NPCReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    switch (*mReactionId_d) {
+    case 0: {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mStaggerDir_d, "MoveDir", -1);
+        changeChild("よろける", &pack);
+        break;
+    }
+    case 1: {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addString(mGazeASName_d, "DynASName", -1);
+        changeChild("注視する", &pack);
+        break;
+    }
+    case 2: {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addString(mMessageId_d, "MessageId", -1);
+        pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+        changeChild("吹き出し", &pack);
+        break;
+    }
+    }
 }
 
 void NPCReaction::calc_() {

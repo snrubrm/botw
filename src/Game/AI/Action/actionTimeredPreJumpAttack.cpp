@@ -12,10 +12,11 @@ bool TimeredPreJumpAttack::init_(sead::Heap* heap) {
     return PreJumpAttack::init_(heap);
 }
 
-// NON_MATCHING: the original loads the two params before the GlobalRandom instance (scheduling)
 void TimeredPreJumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     PreJumpAttack::enter_(params);
-    _a8 = *mTime_s + s32(sead::GlobalRandom::instance()->getU32(*mTimeRand_s));
+    const s32 time = *mTime_s;
+    const u32 rand = *mTimeRand_s;
+    _a8 = time + s32(sead::GlobalRandom::instance()->getU32(rand));
     mFlags.set(Flag::Changeable);
 }
 

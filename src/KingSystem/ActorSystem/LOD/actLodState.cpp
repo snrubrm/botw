@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -327,6 +328,42 @@ void LodState::initFlags() {
     mFlags14.set(0x2000000);
     _60 = 0xFFFF;
     _64 = -3;
+}
+
+bool LodState::sub_71012511C8() const {
+    if (LODMgr::instance()->_21a0 - _64 > 2)
+        return false;
+    return mFlags8.isOnBit(19);
+}
+
+bool LodState::sub_71012511FC() const {
+    return LODMgr::instance()->_21a0 - _64 > 2;
+}
+
+bool LodState::sub_7101251220() const {
+    return mFlags8.isOnBit(28);
+}
+
+void LodState::sub_710125122C() {
+    mFlags8.reset(0x40);
+    _60 = 0;
+}
+
+// NON_MATCHING: the store to _28 is scheduled before the first store to the flags in the original
+void LodState::sub_7101251240() {
+    const float old = _28;
+    mFlags8.set(0x1f);
+    _28 = 1.0f;
+    if (old != 1.0f)
+        mFlags8.set(0x8000000);
+    mFlags8.reset(0x7c0);
+}
+
+void LodState::sub_7101251280(float value) {
+    const float old = _28;
+    _28 = value;
+    if (old != value)
+        mFlags8.set(0x8000000);
 }
 
 }  // namespace ksys::act

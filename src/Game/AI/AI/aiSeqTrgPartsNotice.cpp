@@ -56,6 +56,8 @@ void SeqTrgPartsNotice::leave_() {
     SeqTwoAction::leave_();
 }
 
+// NON_MATCHING: the original keeps `this + 0x50` (the second param pointer) in a callee-saved register
+// computed before the first getStaticParam call (extra x21 / x20 saves and a 0x40 frame)
 void SeqTrgPartsNotice::loadParams_() {
     SeqTwoAction::loadParams_();
     getStaticParam(&mPartsName_s, "PartsName");

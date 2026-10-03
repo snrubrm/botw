@@ -22,7 +22,9 @@ class WolfLinkWarp : public ksys::act::ai::Ai {
 public:
     // Bit indices of _c0 (names unknown).
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8)
-    // Inline-only in the original (by-value enum parameter: the enum temporary gets lifetime markers).
+    // inline-only in the original; name is a guess. Evidence: enter_ sets two bits back to back and
+    // their enum temporaries share the InlineParamPack's stack slot (by-value parameter -> lifetime
+    // markers); the WolfLinkNormalRoot flag setters (`_1b8 |= 1 << Flag`) have the same shape.
     void setFlag(Flag flag) { _c0 |= 1 << flag; }
 
     explicit WolfLinkWarp(const InitArg& arg);

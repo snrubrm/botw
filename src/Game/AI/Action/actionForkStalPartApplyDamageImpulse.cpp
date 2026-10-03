@@ -1,10 +1,16 @@
 #include "Game/AI/Action/actionForkStalPartApplyDamageImpulse.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 ForkStalPartApplyDamageImpulse::ForkStalPartApplyDamageImpulse(const InitArg& arg) : Fork(arg) {}
 
-ForkStalPartApplyDamageImpulse::~ForkStalPartApplyDamageImpulse() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkStalPartApplyDamageImpulse::~ForkStalPartApplyDamageImpulse() {
+    ;
+}
 
 bool ForkStalPartApplyDamageImpulse::init_(sead::Heap* heap) {
     return Fork::init_(heap);
@@ -12,6 +18,9 @@ bool ForkStalPartApplyDamageImpulse::init_(sead::Heap* heap) {
 
 void ForkStalPartApplyDamageImpulse::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    _a8 = false;
+    _ac.set(0.0f, 0.0f, 0.0f);
+    sub_710073FA90(&_c4, mActor);
 }
 
 void ForkStalPartApplyDamageImpulse::leave_() {

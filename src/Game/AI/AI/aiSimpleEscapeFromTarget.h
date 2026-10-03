@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void sub_710056CF84();
@@ -34,7 +35,7 @@ protected:
     const float* mSpaceDist_s{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
-    u32 _58 = 0;
+    f32 _58 = 0;
     s32 _5c = 0;
     s32 _60 = 0;
 };

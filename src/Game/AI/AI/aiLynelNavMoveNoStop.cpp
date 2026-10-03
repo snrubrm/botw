@@ -20,7 +20,7 @@ void LynelNavMoveNoStop::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* as_list = mActor->getASList())
         as_list->x_6(9, 0, 0.0f);
     if (auto* nav = mActor->m45())
-        nav->sub_7100F7604C(nav->_2a8 * nav->_2ac);
+        nav->sub_7100F7604C(nav->getRadiusMaybe());
     m34();
 }
 

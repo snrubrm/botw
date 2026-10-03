@@ -29,6 +29,11 @@ protected:
     const float* mResolvePenetrationSearchRadius_s{};
     // static_param at offset 0x98
     const bool* mSetEndIfCurrentFaceIsSafe_s{};
+    u64 _a0 = 0;
+    bool _a8 = false;
+    u8 _a9[0x7];
+
 };
+KSYS_CHECK_SIZE_NX150(HorseMoveToSafePos, 0xb0);
 
 }  // namespace uking::action

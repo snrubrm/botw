@@ -7,7 +7,9 @@ SandwormNavMove::SandwormNavMove(const InitArg& arg) : NavMeshMoveWithAS(arg) {}
 SandwormNavMove::~SandwormNavMove() = default;
 
 bool SandwormNavMove::init_(sead::Heap* heap) {
-    return NavMeshMoveWithAS::init_(heap);
+    if (!NavMeshMoveWithAS::init_(heap))
+        return false;
+    return _f0.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void SandwormNavMove::enter_(ksys::act::ai::InlineParamPack* params) {

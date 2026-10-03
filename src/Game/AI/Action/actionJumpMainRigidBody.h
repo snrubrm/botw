@@ -22,8 +22,7 @@ protected:
 
     // 0x71001c4494: the impulse direction (jump direction rotated to the actor or to the target).
     sead::Vector3f sub_71001C4494();
-    // 0x71001c4ac0 (declared only; needs sead::StringTokenizer, which lib/sead does not have yet):
-    // emits the PostBoundReactionKeys (comma separated) as slinks and sets _7b.
+    // 0x71001c4ac0: emits the PostBoundReactionKeys (comma separated) as slinks and sets _7b.
     void sub_71001C4AC0();
 
     // static_param at offset 0x20

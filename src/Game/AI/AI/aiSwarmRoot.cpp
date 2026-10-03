@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSwarmRoot.h"
+#include "Game/AI/aiUnk_71007292A0.h"
 #include "Game/Actor/actSwarm.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 
@@ -17,6 +18,7 @@ bool SwarmRoot::init_(sead::Heap* heap) {
 }
 
 void SwarmRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71007292A0(mActor, mASName_s, true, false, false, false);
     EnemyRoot::enter_(params);
 }
 

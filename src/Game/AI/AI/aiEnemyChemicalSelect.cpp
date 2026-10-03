@@ -6,8 +6,11 @@ namespace uking::ai {
 
 EnemyChemicalSelect::EnemyChemicalSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
-EnemyChemicalSelect::~EnemyChemicalSelect() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+EnemyChemicalSelect::~EnemyChemicalSelect() {
+    ;
+}
 
 bool EnemyChemicalSelect::init_(sead::Heap* heap) {
     if (mChmObjName_s.isEmpty())

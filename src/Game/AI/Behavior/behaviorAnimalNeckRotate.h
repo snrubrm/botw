@@ -14,7 +14,7 @@ public:
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x7100617618)
     void m8() override;  // not decompiled yet (0x7100617490)
-    void m9() override;  // not decompiled yet (0x7100617a04)
+    void m9() override;
 
     /* 0x28 */ const float* mLimitAngleLR_s{};
     /* 0x30 */ const float* mRotRate_s{};

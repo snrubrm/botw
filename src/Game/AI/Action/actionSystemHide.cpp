@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemHide.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -24,7 +25,16 @@ void SystemHide::loadParams_() {
 }
 
 void SystemHide::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (m32()) {
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        setFailed();
+    }
+}
+
+bool SystemHide::m32() {
+    return mActor->sub_7100EE1E94();
 }
 
 }  // namespace uking::action

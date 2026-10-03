@@ -24,6 +24,10 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mTargetPos_d{};
+    u64 _80 = 0;
+    f32 _88 = -1.0f;
+    u8 _8c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(SwimNoticeTurn, 0x90);
 
 }  // namespace uking::action

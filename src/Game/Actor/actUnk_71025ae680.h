@@ -33,9 +33,13 @@ public:
     virtual bool m8(const ksys::Message& message);
     virtual void m9();
     virtual void m10();
-    virtual void m11();
+    virtual void m11(bool enable);
     virtual void m12();
     virtual void m13(int index);  // DemoEnemyReset::enter_ calls it for 0..11
+
+    // 0x71006dfa04 (not decompiled): if `enable` changes bit 0 of `_a`, calls m13(0..11) first when enabling,
+    // then m11(enable), then updates the bit (behavior Invincible).
+    void sub_71006DFA04(bool enable);
 
     /* 0x08 */ sead::BitFlag16 _8;  // tested by DynamicActor slots 151 (bit) and 152 (mask)
     /* 0x0a */ u8 _a;

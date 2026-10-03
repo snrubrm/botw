@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
@@ -72,8 +73,15 @@ public:
     // 0x7100718360: allocates and constructs the object (ctor 0x7100717eec).
     static Unk_7102450fa8* sub_7100718360(sead::Heap* heap);
     bool sub_71007183A4(sead::Heap* heap, const Unk2& arg);
-    // Inline-only in the original (by-value enum parameter -> lifetime markers on the enum temporary).
+    // inline-only in the original; name is a guess. Evidence: PriestBossMetaAIRoot::calc_ tests the flag
+    // through a by-value enum parameter (the enum temporary shares the stack slot of `arg`: lifetime
+    // markers); only that one call site is known, the same shape appears in the other PriestBoss*
+    // flag tests (IronBallRoot::m41, BananaMode).
     bool isFlagOn(Flag flag) const { return _78.isOnBit(flag); }
+    // 0x7100719fe4: `_88 ? _88->vslot6(idx) : 3` (unnamed object at 0x88).
+    s32 sub_7100719FE4(s32 idx);
+    // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
+    s32 sub_7100719FCC() const;
     void sub_710071918C();
     // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.
     void sub_71007190CC(const ksys::MesTransceiverId& dest);
@@ -95,7 +103,7 @@ public:
     /* 0x008 */ sead::Buffer<Unk1> _8;
     /* 0x018 */ ksys::act::BaseProcLink _18;
     /* 0x028 */ ksys::act::BaseProcLink _28;
-    /* 0x038 */ u32 _38;
+    /* 0x038 */ Phase _38;
     /* 0x03c */ Phase _3c;
     /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
     /* 0x044 */ u8 _44[0x78 - 0x44];
@@ -106,7 +114,14 @@ public:
     /* 0x1b8 */ Unk_71024509a8 _1b8;
     /* 0x200 */ u8 _200[0x208 - 0x200];
     /* 0x208 */ Unk_7102450858 _208;
-    /* 0x248 */ u8 _248[0x258 - 0x248];
+    // Per-phase flags (PriestBossActorEnemyRoot::m52 reads `_248[_3c]._0`); 3 bytes per phase.
+    struct PhaseFlags {
+        bool _0;
+        bool _1;
+        bool _2;
+    };
+    /* 0x248 */ sead::SafeArray<PhaseFlags, 5> _248;
+    /* 0x257 */ u8 _257;
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
@@ -129,3 +144,6 @@ extern sead::Vector3f sUnk_71025c8cf8;
 // Global constant in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
 // radius, see Unk3::_c). Placeholder name.
 extern const f32 sUnk_7102450fa0;
+// Global in the unit's TU (0x7102450f80): the three arrow actors the Priest Boss fires (fire / ice /
+// electric); PriestBossPhase::m40 stores a random one into `_2b0`. Placeholder name.
+extern const sead::SafeArray<const char*, 3> sUnk_7102450f80;

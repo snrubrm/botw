@@ -3,6 +3,10 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -18,8 +22,20 @@ SiteBossShootNormalArrowRoot::SiteBossShootNormalArrowRoot(const InitArg& arg)
 
 SiteBossShootNormalArrowRoot::~SiteBossShootNormalArrowRoot() = default;
 
+// NON_MATCHING: the original's reset of _300's key stores bone_index (+0x332) before model_unit_index
+// (+0x330); gsys::BoneAccessKey::reset() (lib/gsys, not editable) stores them the other way round
 bool SiteBossShootNormalArrowRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* model = mActor->getModel()) {
+        _300.search(model, "Wrist_R");
+        _2c8.search(model, "Head");
+    } else {
+        _300.getKey().reset();
+        _2c8.getKey().reset();
+    }
+
+    for (u32 i = 0; i < *mArrowNum_s; ++i)
+        m52(i);
+    return true;
 }
 
 // NON_MATCHING: the original reads sUnk_7102422198 from memory (ours folds the never-written
@@ -91,6 +107,21 @@ void SiteBossShootNormalArrowRoot::m35() {
     changeChild("子機発射");
 }
 
+// NON_MATCHING: the original reads sUnk_7102422198 from memory (ours folds the never-written static);
+// everything else is instruction-identical (an external-linkage global is loaded through the GOT)
+void SiteBossShootNormalArrowRoot::m36(bool a1, f32 a2) {
+    if (a1)
+        m39();
+    _170 = sUnk_7102422198;
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target;
+    m45(&target);
+    pack.addVec3(target, "TargetPos", -1);
+    _120 = ksys::Timer(a2, a2);
+    _12c = ksys::Timer(*mTrigEventAtHold_s, *mTrigEventAtHold_s);
+    changeChild("子機発射", &pack);
+}
+
 void SiteBossShootNormalArrowRoot::m39() {}
 
 void SiteBossShootNormalArrowRoot::m40() {}
@@ -128,6 +159,32 @@ bool SiteBossShootNormalArrowRoot::m47() {
 
 bool SiteBossShootNormalArrowRoot::m48() {
     return _144 >= u32(*mArrowNum_s);
+}
+
+void SiteBossShootNormalArrowRoot::m52(s32 idx) {
+    if (mArrowName_s.isEmpty())
+        return;
+
+    s32 num_dead_blights = getNumberOfDeadBlights();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        const s32 kind = boss->_1534 & ~3;
+        if (kind == 4)
+            num_dead_blights = 3;
+        else if (kind == 8)
+            num_dead_blights = 4;
+    }
+
+    ksys::act::InstParamPack pack;
+    pack->add(*mAttackPower_s + *mAddAttackPower_s * num_dead_blights, "AttackPower");
+    pack->add(*mAtMinDamage_s, "AtMinDamage");
+    pack->add(*mReflectOffset_s, "PosOffset");
+    auto* arrow = ksys::act::ActorCreator::instance()->createActor(
+        mArrowName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (arrow) {
+        arrow->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+        m50(arrow, idx);
+    }
 }
 
 bool SiteBossShootNormalArrowRoot::sub_7100588164(bool a1) {

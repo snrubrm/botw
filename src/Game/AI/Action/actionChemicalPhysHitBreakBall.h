@@ -12,6 +12,7 @@ public:
     ~ChemicalPhysHitBreakBall() override;
 
 protected:
+    bool m33() override;
 };
 
 }  // namespace uking::action

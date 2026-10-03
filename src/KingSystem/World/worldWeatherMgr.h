@@ -69,7 +69,8 @@ public:
     sead::SafeArray<u8, 6> _284;
     u8 _28a[0x2dc - 0x28a];
     float _2dc;
-    u8 _2e0[0x318 - 0x2e0];
+    u8 _2e0[0x314 - 0x2e0];
+    int _314;
     float mTimeBlock;  // 0x318
     u32 mWeekDay;      // 0x31c
     int _320;

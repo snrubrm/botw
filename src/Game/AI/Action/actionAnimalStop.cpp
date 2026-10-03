@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnimalStop.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +14,14 @@ bool AnimalStop::init_(sead::Heap* heap) {
 
 void AnimalStop::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseWaitAction::enter_(params);
+    auto* asl = mActor->getASList();
+    auto* rideable = mActor->m132();
+    if (!asl || !rideable) {
+        setFailed();
+        return;
+    }
+    if (!(rideable->_18._52 & 2))
+        rideable->_18._52 |= 2;
 }
 
 void AnimalStop::leave_() {

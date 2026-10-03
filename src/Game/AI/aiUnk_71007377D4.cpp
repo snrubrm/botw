@@ -17,9 +17,13 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include <math/seadMathCalcCommon.h>
 
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
@@ -40,6 +44,11 @@ void sub_7100737710(ksys::phys::CharacterController* controller, const sead::Vec
 
 void sub_7100737714(ksys::phys::CharacterController* controller, const sead::Vector3f& ang_vel) {
     ksys::act::sub_7100EE6228(controller, ang_vel);
+}
+
+void sub_7100738DC8(ksys::act::Actor* actor) {
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBDFA4(physics->get178(0));
 }
 
 void sub_7100737718(ksys::phys::RigidBody* body, const sead::Vector3f& vel) {
@@ -399,4 +408,31 @@ void sub_710073DE44(ksys::act::Actor* actor) {
 bool sub_7100731000(ksys::act::Actor* actor, bool value) {
     return actor->getRootAi()->getMapUnitParams().setAITreeVariable(
         "IsPlayerPut", ksys::AIDefParamType::Bool, value);
+}
+
+ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return nullptr;
+    auto* unk = bone_control->_0;
+    if (!unk)
+        return nullptr;
+    return &unk->_10;
+}
+
+// NON_MATCHING: everything matches except the address computation: the original has one `add x0, x8, #0x78` where we get
+// `add x8, x8, #0x60; add x0, x8, #0x18` (the Parameter object, then its value; ref() and operator* tried)
+const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot) {
+    switch (slot) {
+    case 0:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot0RigidBody;
+    case 1:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot1RigidBody;
+    case 2:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot2RigidBody;
+    case 3:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot3RigidBody;
+    default:
+        return sead::SafeString::cEmptyString;
+    }
 }

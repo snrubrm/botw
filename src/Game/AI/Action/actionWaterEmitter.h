@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -32,6 +33,11 @@ protected:
     const sead::Vector3f* mOffset_s{};
     // static_param at offset 0x58
     const sead::Vector3f* mVelocityDir_s{};
+    u64 _60 = 0;
+    f32 _68 = 0.0f;
+    u8 _6c[0x4];
+    gsys::BoneAccessKeyEx _70;
 };
+KSYS_CHECK_SIZE_NX150(WaterEmitter, 0xa8);
 
 }  // namespace uking::action

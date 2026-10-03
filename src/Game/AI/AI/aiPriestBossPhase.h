@@ -11,7 +11,9 @@ namespace uking::ai {
 class PriestBossPhase : public PriestBossMeta {
     SEAD_RTTI_OVERRIDE(PriestBossPhase, PriestBossMeta)
 public:
-    SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
+    // The phase index (Unk_7102450fa8::Phase): enter_ stores m38() into the unit's `_3c` and uses it
+    // as the bit index of `_60`.
+    using Flag = Unk_7102450fa8::Phase;
 
     explicit PriestBossPhase(const InitArg& arg);
     ~PriestBossPhase() override;

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionFork.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -49,6 +52,12 @@ protected:
     const float* mBaseRotRatio_s{};
     // static_param at offset 0xa0
     const bool* mIsViewHitDir_s{};
+    bool _a8 = false;
+    u8 _a9[0x3];
+    sead::Vector3f _ac = sead::Vector3f::zero;
+    ksys::VFRValue _b8;
+    sead::Matrix33f _c4;
 };
+KSYS_CHECK_SIZE_NX150(ForkStalPartApplyDamageImpulse, 0xe8);
 
 }  // namespace uking::action

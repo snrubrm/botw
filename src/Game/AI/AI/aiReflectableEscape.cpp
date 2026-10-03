@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReflectableEscape.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -17,6 +18,22 @@ void ReflectableEscape::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(_58, "TargetPos", -1);
     changeChild("移動", &pack);
+}
+
+void ReflectableEscape::sub_710053C804(sead::Vector3f* out, const sead::Vector3f& target, f32 dist) {
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+
+    sead::Vector3f dir = pos - target;
+    dir.y = 0;
+    dir.normalize();
+    if (dir.x == 0 && dir.y == 0 && dir.z == 0) {
+        mActor->getMtx().getBase(dir, 2);
+        dir.normalize();
+        dir.negate();
+    }
+
+    const f32 length = (pos - target).length();
+    *out = pos + dir * (length > dist * 2 ? -dist : dist);
 }
 
 void ReflectableEscape::leave_() {

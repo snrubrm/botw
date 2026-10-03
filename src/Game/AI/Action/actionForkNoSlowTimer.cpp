@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkNoSlowTimer.h"
+#include "Game/AI/aiNoSlowTime.h"
 
 namespace uking::action {
 
@@ -24,6 +25,12 @@ void ForkNoSlowTimer::loadParams_() {
 
 void ForkNoSlowTimer::calc_() {
     ForkTimer::calc_();
+}
+
+// NON_MATCHING: the original keeps the default ratio 1.0f in d8 across the isSlowTimeMaybe() call (fmov s8, #1.0
+// before the call); ours materialises it after
+float ForkNoSlowTimer::m33() {
+    return getNoSlowTimeRatio();
 }
 
 }  // namespace uking::action

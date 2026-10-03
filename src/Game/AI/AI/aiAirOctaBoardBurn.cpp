@@ -16,7 +16,7 @@ bool AirOctaBoardBurn::init_(sead::Heap* heap) {
 }
 
 void AirOctaBoardBurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* mgr = sead::DynamicCast<AirOctaDataMgr>(*static_cast<Unk_71025afb58**>(mAirOctaDataMgr_a));
+    auto* mgr = sead::DynamicCast<AirOctaDataMgr>(*mAirOctaDataMgr_a);
     sead::Vector3f pos = sead::Vector3f::zero;
     ksys::act::ActorConstDataAccess accessor;
     if (mgr && ksys::act::acquireActor(&mgr->mBaseProcLink2, &accessor) && accessor.hasProc())

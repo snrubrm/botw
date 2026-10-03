@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiShutterFence.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +16,13 @@ bool ShutterFence::init_(sead::Heap* heap) {
 }
 
 void ShutterFence::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (!mASKeyName_Off_s.isEmpty())
+        changeAS(mASKeyName_Off_s.cstr(), false, 0, 0);
+    if (actor->checkBasicSig())
+        changeChild("プリオープン");
+    else
+        changeChild("クローズ待機");
 }
 
 void ShutterFence::leave_() {

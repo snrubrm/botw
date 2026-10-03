@@ -10,6 +10,7 @@
 #include <thread/seadAtomic.h>
 #include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
+#include "KingSystem/ActorSystem/actActorUnk117.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -244,11 +245,13 @@ public:
     AwarenessInstance* getAwareness() const { return mAwareness; }
     Unk_71024dc900* get548() const { return _548; }
     void* get1a0() const { return _1a0; }
+    ActorBind* getModelBindInfo() const { return mModelBindInfo; }
     ActorAttention* getAttention() const { return mAttention; }
     int getFadeOutDeleteType() const { return mFadeOutDeleteType; }
     ImpulseBaseProcLink* getImpulseBaseProcLink() const { return mImpulseBaseProcLink; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
+    mii::UMii* getUMii() const { return mUMii; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
@@ -288,10 +291,11 @@ public:
     PhysicsConstraints& getConstraints() { return mConstraints; }
     phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const { return mFieldBodyGroup; }
 
-    // Inline-only in the original (SwitchWheel::enter_ reads the field at +0x3d0 directly); name is a guess.
+    // inline-only in the original; name is a guess (SwitchWheel::enter_ reads the field at +0x3d0 directly).
     const sead::Matrix34f& getHomeMtxRaw() const { return mHomeMtx; }
     void getHomeMtx(sead::Matrix34f* mtx) const;
-    bool shouldUnloadBecauseOfDistance();
+    // 0x71011cd3a0: `a1` receives a reason code (10 or 19) when the actor is unloaded because of its distance (lane4 s23)
+    bool shouldUnloadBecauseOfDistance(s32* a1);
     void getHomePos(sead::Vector3f* pos) const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
@@ -319,12 +323,13 @@ public:
     void clearFadeInCreate();
     // CSV name (0x71011d6cbc; not decompiled): emits the effect for the m135()->_4 disappear type.
     void emitDisappearEffect();
+    // 0x7100ee1e94 (declaration only; placeholder name): queries the actor's `_570->_138` object with the
+    // current time type; SystemHide::m32 forwards to it.
+    bool sub_7100EE1E94();
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ActorBind* info);
-    // Inline in the original (DragonItemRoot::enter_ tests it).
-    ActorBind* getModelBindInfo() const { return mModelBindInfo; }
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
     // sub_71011DA824 by every caller) is unused.
     void sub_71011DA834(ActorBind* info);
@@ -359,6 +364,9 @@ public:
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
+    // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
+    // disables them, re-enabling them again when the schedule (_638) reports a flag.
+    void x_6();
 
     // vel, ang_vel and scale are optional (null-checked by the original).
     void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f* vel,
@@ -401,7 +409,7 @@ public:
     virtual void onFadeOutSleep();
     virtual void m60();
     virtual void m61();
-    virtual bool shouldUnload();
+    virtual bool shouldUnload(s32* a1);
     virtual void m63();
     virtual void initMaybe();
     // Called by onEnterCalc_ with the actor whose state is being taken over (Remains copies its
@@ -456,14 +464,14 @@ public:
     virtual void m107();
     virtual void m108();
     virtual int m109();
-    virtual void m110();
-    virtual void m111();
-    virtual void m112();
-    virtual void m113();
+    virtual void m110(f32* a1, s32* a2);
+    virtual void m111(f32* a1, s32* a2);
+    virtual void m112(f32* a1, s32* a2);
+    virtual void m113(f32* a1, s32* a2);
     virtual void m114();
     virtual void m115();
     virtual void m116();
-    virtual void m117();
+    virtual void m117(Unk117* arg);
     virtual void m118();
     virtual void m119();
     virtual void m120();
@@ -571,6 +579,18 @@ public:
 
     // 0x00000071011cf108
     bool x_18(sead::Vector3f* out) const;
+
+    // 0x71011d722c: handles a `Unk117` request (vtable slot 117) for this actor and forwards it to the
+    // connected calc child and parent (declared only).
+    void x_17(Unk117* arg);
+    // Wrappers that build a `Unk117` (kind 0 / 2 / 3, current core) and call x_17 (declared only).
+    // 0x71011c9880 (CSV Actor::x_15): kind 0, _10 = a1, _18 = a2 (the callers pass the event
+    // object at `[ctx + 0x20]` and a C string).
+    void x_15(void* a1, const char* a2);
+    // 0x71011c98f8: kind 2.
+    void sub_71011C98F8();
+    // 0x71011c9964: kind 3, _8 = other->_1a0.
+    void sub_71011C9964(Actor* other);
 
     sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
     const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }

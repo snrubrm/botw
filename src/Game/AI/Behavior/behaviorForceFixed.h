@@ -15,7 +15,12 @@ public:
     void m9() override;
     void loadParams() override;
 
-    /* 0x28 */ u32 _28 = 0;
+    // Saved state (m8) restored by m9: the character controller's flag bits 0x400 / 0x800 / 4 (_28 - _2a), or
+    // the main body's Fixed flag (_2b).
+    /* 0x28 */ bool _28 = false;
+    /* 0x29 */ bool _29 = false;
+    /* 0x2a */ bool _2a = false;
+    /* 0x2b */ bool _2b = false;
 };
 KSYS_CHECK_SIZE_NX150(ForceFixed, 0x30);
 

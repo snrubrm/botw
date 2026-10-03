@@ -16,11 +16,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-
-    Unk_710244ed58* m35() override { return &_c0; }
+    ksys::act::ActorBind* m35() override;
     void m36() override;
     void m37(const sead::Matrix34f& mtx) override;
-    bool m38() override { return false; }
+    bool m38() override;
 
 protected:
     Unk_710244ed58 _c0;

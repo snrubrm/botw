@@ -21,10 +21,9 @@ void PlayerBeetle::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("構え");
 }
 
-// NON_MATCHING: the original calls getEquipmentTypeName before loading mActor for _d30 (lane2 log)
 void PlayerBeetle::leave_() {
-    static_cast<ksys::act::Player*>(mActor)->_d30.copy(
-        static_cast<ksys::act::Player*>(mActor)->getEquipmentTypeName(0));
+    const auto& name = static_cast<ksys::act::Player*>(mActor)->getEquipmentTypeName(0);
+    static_cast<ksys::act::Player*>(mActor)->_d30.copy(name);
     static_cast<ksys::act::Player*>(mActor)->x_18(true);
 }
 

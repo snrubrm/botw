@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWaterEmitter.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "gsys/gsysModelAccessKey.h"
+#include "gsys/gsysModel.h"
 
 namespace uking::action {
 
@@ -11,7 +14,13 @@ bool WaterEmitter::init_(sead::Heap* heap) {
 }
 
 void WaterEmitter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mBindNodeName_s.isEmpty()) {
+        if (auto* model = mActor->getModel())
+            _70.search(model, mBindNodeName_s);
+    }
+    _68 = 1.0f;
+    _60 = 0;
+    mFlags.set(Flag::Changeable);
 }
 
 void WaterEmitter::leave_() {

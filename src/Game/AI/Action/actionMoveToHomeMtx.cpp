@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionMoveToHomeMtx.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
@@ -25,7 +28,19 @@ void MoveToHomeMtx::loadParams_() {
 }
 
 void MoveToHomeMtx::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        sead::Matrix34f mtx;
+        if (*mToHomeMtxLocal_s)
+            mtx = actor->getHomeMtxRaw();
+        else
+            actor->getHomeMtx(&mtx);
+        body->changePositionAndRotation(mtx, sead::Mathf::epsilon());
+    }
+    if (*mDisableModelDraw_s)
+        actor->setModelDrawEnabled(true);
+    if (*mSetEnd_s)
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -18,6 +18,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_7100322CA8(const char* name);
+
 protected:
     Unk_710235aba0 _238{mActor, 0x8000040};
     Unk_710235abc8 _268{mActor, 0x8000006};

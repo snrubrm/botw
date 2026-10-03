@@ -63,6 +63,13 @@ void sub_71005D8E9C(ksys::act::Actor* actor);
 /// Sets the Enemy target (Unk_7100013308::sub_71002DBC8C).
 void sub_71005D8DE8(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link,
                     const sead::Matrix34f* mtx, const sead::Vector3f* pos);
+/// 0x71005d8994 (CSV playerOrEnemyDropAllWeapons; declared only, lane3 s15): drops all weapons of a
+/// PlayerOrEnemy (PlayerOrEnemy::dropAllWeapons, 0x78d4) with the given velocity; false for other actors.
+bool playerOrEnemyDropAllWeapons(ksys::act::Actor* actor, const sead::Vector3f& velocity);
+/// 0x71005d8748 (declared only, lane3 s15): dispatches on a PlayerOrEnemy / NPC cast to a weapon drop
+/// (0x7a1c / 0x22554); `a5` is an object of unknown type (RTTI vtable 0x7102376d50, see lane4 s16 log).
+bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, bool a3, bool a4, void* a5,
+                    bool a6);
 /// Enemy target position (Vector3f::zero if not an Enemy).
 const sead::Vector3f& sub_71005D9330(ksys::act::Actor* actor);
 /// Position of the target actor (getField44C_Vec3), zero if there is none.
@@ -142,6 +149,12 @@ bool sub_71005DB904(ksys::act::Actor* actor, int idx);
 // ActorWeapons::mWeapons[idx]._10
 
 void sub_71005DB5C0(ksys::act::Actor* actor, int idx);
+// 0x71005dbc94 (declared only; lane4 s23): Thrown / WillBallAttack / SetImpulseDamageMin /
+// GanonBeastRoot::enter_ helper. If the actor's PhysicsUserTag (+0x528) is of a certain class (typeinfo
+// GOT 0x7102578f08): sets the character controller's flag (true), every rigid body of the Body group
+// to entity motion flag 8, and stores `a1` at +0x538, `a2` at +0x53c and the other flags as bits
+// 1 / 4 / 8 / 0x10 of the byte at +0x53d.
+void sub_71005DBC94(ksys::act::Actor* actor, s32 a1, bool a2, bool a3, bool a4, bool a5, bool a6);
 void sub_71005DB6D0(ksys::act::Actor* actor, int idx);
 bool sub_71005DB7E4(ksys::act::Actor* actor, int idx);
 
@@ -152,6 +165,9 @@ bool sub_71005D6D10();
 /// CSV name "Actor::callDeleteAndCreateDropAndEmit" (a free function in this file): calls
 /// Actor::killWithDropsAndEffects(a1) unless the actor is being deleted.
 void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1);
+/// 0x71005e2b28 (declaration only; placeholder name): maps `value` (OnEnterSwapDropTableActor's DieType) to the
+/// value stored in the actor's DropData `_4`.
+s32 sub_71005E2B28(s32 value);
 /// Sets bit 0 of a flag field (+0xc) in the actor's DropData (Actor vslot 134, RTTI 0x71025ae610),
 /// then callDeleteAndCreateDropAndEmit(actor, false).
 void sub_71005D6D48(ksys::act::Actor* actor);
@@ -274,6 +290,8 @@ bool sub_71005DAF0C(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int 
 void sub_71005E1B7C(ksys::act::Actor* actor, bool enable);
 /// Resets Enemy::_f4c.
 void sub_71005E21E8(ksys::act::Actor* actor);
+/// Sets the keyframed state of the ragdoll bone `bone_name` (if the actor has a ragdoll and the bone exists).
+void sub_71005E226C(ksys::act::Actor* actor, const sead::SafeString& bone_name, bool keyframed);
 /// Whether the Weapon equipped in slot `idx` (0-5) has Weapon::_d54 == 1.
 bool sub_71005DA9A8(ksys::act::Actor* actor, int idx);
 /// Adds the position of the actor PlayerInfo::getSomeProcLink() links to (or zero) to `params`.

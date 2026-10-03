@@ -15,6 +15,8 @@ public:
     void leave_() override;
 
 protected:
+    u8 _68[0x100];
 };
+KSYS_CHECK_SIZE_NX150(CarriedNoHit, 0x168);
 
 }  // namespace uking::action

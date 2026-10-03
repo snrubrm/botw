@@ -20,6 +20,10 @@ public:
     void sub_710055762C();
     void sub_7100557744();
     bool sub_710055785C();
+    // inline-only in the original; name is a guess. Evidence: the same accessor + link-or-dummy +
+    // getActorMtx().getTranslation() sequence is inlined in sub_710055762C / sub_7100557744 / calc_ /
+    // sub_710055785C of this class (callee allocas end up above the caller's).
+    void getTargetPos(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38

@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionSiteBossBowBlowOff.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -13,6 +17,20 @@ bool SiteBossBowBlowOff::init_(sead::Heap* heap) {
 
 void SiteBossBowBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossBlowOff::enter_(params);
+    if (auto* body = mActor->getMainBody()) {
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+    }
+    if (auto* cc = mActor->getCharacterController()) {
+        if (auto* physics = mActor->getPhysics()) {
+            auto* handler = physics->get188(0);
+            if (auto* body = cc->sub_7100F61A34())
+                body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityNoHit, handler);
+        }
+    }
+    playAS("DownWaitMaterial", false, 2, 0, -1.0f);
 }
 
 void SiteBossBowBlowOff::leave_() {

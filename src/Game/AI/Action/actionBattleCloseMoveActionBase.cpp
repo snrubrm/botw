@@ -1,12 +1,18 @@
 #include "Game/AI/Action/actionBattleCloseMoveActionBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "math/seadMathCalcCommon.h"
 
 namespace uking::action {
 
 BattleCloseMoveActionBase::BattleCloseMoveActionBase(const InitArg& arg) : BattleCloseAction(arg) {}
 
-BattleCloseMoveActionBase::~BattleCloseMoveActionBase() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+BattleCloseMoveActionBase::~BattleCloseMoveActionBase() {
+    ;
+}
 
 bool BattleCloseMoveActionBase::init_(sead::Heap* heap) {
     return BattleCloseAction::init_(heap);
@@ -14,6 +20,14 @@ bool BattleCloseMoveActionBase::init_(sead::Heap* heap) {
 
 void BattleCloseMoveActionBase::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseAction::enter_(params);
+    auto* actor = mActor;
+    const sead::Vector3f& vel = actor->getVelocity();
+    const f32 speed = sead::Mathf::sqrt(vel.x * vel.x + vel.z * vel.z);
+    _98.value = _98.prev_value = speed;
+    if (auto* cc = actor->getCharacterController()) {
+        cc->sub_7100F60AE0();
+        cc->sub_7100F5E7F0(_98.value * 30.0f);
+    }
 }
 
 void BattleCloseMoveActionBase::leave_() {

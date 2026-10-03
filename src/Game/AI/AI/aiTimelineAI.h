@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,14 @@ public:
     virtual void m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params);
 
 protected:
+    // inline-only in the original; name is a guess. enter_ and calc_ both contain this
+    // string + param pack + m36 + changeChild sequence twice.
+    void changeChildByName(const sead::SafeString& child) {
+        ksys::act::ai::InlineParamPack pack;
+        m36(child, &pack);
+        changeChild(child.cstr(), &pack);
+    }
+
     // static_param at offset 0x38
     const int* mIntervalToCheckSchedule_s{};
 };

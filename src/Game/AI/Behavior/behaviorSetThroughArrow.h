@@ -2,11 +2,11 @@
 
 #include "Game/AI/Behavior/behaviorSetDamageCallback.h"
 #include "Game/AI/aiUnkDamageCallbacks.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 
 namespace uking::behavior {
 
-// TODO: `_58` is an object with vtable 0x710243a0c8 (one virtual 0x710063eef4 with eight arguments) that
-// points to itself at +0x18; its type is not declared yet.
 class SetThroughArrow : public SetDamageCallback {
     SEAD_RTTI_OVERRIDE(SetThroughArrow, SetDamageCallback)
 public:
@@ -16,11 +16,18 @@ public:
     void m7() override;
     void loadParams() override;
     uking::dmg::DamageCallback* m14() override;
-    void m8() override;  // not decompiled yet (0x710063ec04)
-    void m9() override;  // not decompiled yet (0x710063ed80)
+    void m8() override;
+    void m9() override;
+
+    // vtable 0x710243a0c8 (virtual 0x710063eef4): the registered attack sensor listener lets arrows through.
+    class Listener : public ksys::act::AttackSensor2Listener {
+    public:
+        bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+                const ksys::act::Struct8Base* info) override;
+    };
 
     /* 0x30 */ Unk_71024518c8 _30;
-    /* 0x58 */ u8 _58[0x28];
+    /* 0x58 */ Listener _58;
 };
 KSYS_CHECK_SIZE_NX150(SetThroughArrow, 0x80);
 

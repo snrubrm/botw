@@ -1,4 +1,11 @@
 #include "Game/AI/Action/actionPlayerRideJump.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -18,8 +25,24 @@ void PlayerRideJump::loadParams_() {
     getStaticParam(&mRideJumpTime_s, "RideJumpTime");
 }
 
+void PlayerRideJump::sub_710080D120() {
+    sead::Vector3f velocity = sead::Vector3f::zero;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getHorseLink(), &accessor))
+        velocity = accessor.getVelocity();
+    const sead::Vector3f displacement = static_cast<ksys::act::Player*>(mActor)->_181c;
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5F6FC((velocity + displacement) * 30.0f);
+}
+
 void PlayerRideJump::calc_() {
-    PlayerAction::calc_();
+    sub_710080D120();
+    auto& timer = static_cast<ksys::act::Player*>(mActor)->_1844;
+    if (timer.value <= sead::Mathf::epsilon()) {
+        setFinished();
+        return;
+    }
+    timer.update();
 }
 
 bool PlayerRideJump::isChangeable() const {

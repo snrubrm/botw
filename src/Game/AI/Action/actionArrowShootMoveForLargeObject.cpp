@@ -42,8 +42,6 @@ f32 ArrowShootMoveForLargeObject::m41() {
     return *mRayCastDist_s;
 }
 
-// NON_MATCHING: the original keeps the MessageType temporary in its own stack slot (x29-0x14) instead of
-// sharing the ELink handle's slot (sp)
 void ArrowShootMoveForLargeObject::m36(bool* out, const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasTag(ksys::act::tags::IsIceMakerBlock)) {
         *out = false;

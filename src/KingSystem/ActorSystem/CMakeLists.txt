@@ -17,9 +17,12 @@ target_sources(uking PRIVATE
     Awareness/actAwarenessDefs.h
     Awareness/actAwarenessInstance.cpp
     Awareness/actAwarenessInstance.h
+    Awareness/actAwarenessRequest.h
     Awareness/actUnk_71024dc858.cpp
 
 
+    LOD/actLODMgr.cpp
+    LOD/actLODMgr.h
     LOD/actLodState.cpp
     LOD/actLodState.h
 
@@ -34,6 +37,8 @@ target_sources(uking PRIVATE
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerStamina.cpp
+    Profiles/actPlayerWeapons.cpp
     Profiles/actPlayerOrEnemy.h
     Profiles/actRopeBase.cpp
     Profiles/actRopeBase.h
@@ -78,6 +83,7 @@ target_sources(uking PRIVATE
     actActorSystem.h
     actActorTemplate.cpp
     actActorTemplate.h
+    actActorUnk117.h
     actActorUtil.cpp
     actActorUtil.h
     actActorWeapons.cpp
@@ -130,6 +136,9 @@ target_sources(uking PRIVATE
     actBaseProcMgr.cpp
     actBaseProcMgr.h
     actBoneControl.cpp
+    actBoneControlUnk_7100d8557c.cpp
+    actBoneControlUnk_7100d83054.cpp
+    actBoneControlUnk_7100d860d8.cpp
     actBoneControl.h
     actBoneHandle.cpp
     actBoneHandle.h

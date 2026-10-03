@@ -1,5 +1,5 @@
 #include "Game/AI/AI/aiKokkoAngryTargetSelect.h"
-#include "Game/AI/AI/aiKokkoAngry.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -21,9 +21,16 @@ bool KokkoAngryTargetSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: see getKokkoTargetLink (entry-0 address computed as enemy + 0xd78)
+// NON_MATCHING: the original derives the entry link address from &_d70 (+8) kept in x21 (same as
+// KokkoAngry::calc_ / m35)
 void KokkoAngryTargetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (ksys::act::isEnemyProfile(getKokkoTargetLink(mActor)))
+    ksys::act::BaseProcLink* target = &ksys::act::sUnk_71026505e0;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto& targets = enemy->_d70;
+        if (!targets.sub_71002DCCBC(-1))
+            target = &targets.mEntries[0].link;
+    }
+    if (ksys::act::isEnemyProfile(target))
         changeChild("敵", params);
     else
         changeChild("プレイヤー", params);

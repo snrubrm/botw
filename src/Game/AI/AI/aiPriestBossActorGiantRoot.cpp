@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossActorGiantRoot.h"
+#include <cmath>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -38,6 +40,33 @@ const char* PriestBossActorGiantRoot::m36() {
     return "第三段階";
 }
 
+// NON_MATCHING: the original's two uses of the by-value attack (the switch and the counter index) get
+// separate stack slots, in the opposite order (two inline helpers with by-value parameters: the
+// switch's slot above the index's); a single helper shares one slot
+f32 PriestBossActorGiantRoot::getWeight(Attack attack) {
+    f32 freq = 0.0f;
+    switch (attack) {
+    case Attack::_3:
+        freq = *mFreqIronBallAttack_s;
+        break;
+    case Attack::_4:
+        freq = *mFreqBigEarthReleaseAttack_s;
+        break;
+    case Attack::_5:
+        freq = *mFreqEyeBeamAttack_s;
+        break;
+    case Attack::_7:
+        freq = *mFreqStageRotation_s;
+        break;
+    default:
+        break;
+    }
+    f32 weight = 0.0f;
+    weight += freq * sead::GlobalRandom::instance()->getF32();
+    weight += std::pow(0.9f, f32(_b0[attack]));
+    return weight * 0.5f;
+}
+
 f32 PriestBossActorGiantRoot::m37() {
     return 0.0f;
 }
@@ -47,6 +76,20 @@ f32 PriestBossActorGiantRoot::m38() {
 }
 
 f32 PriestBossActorGiantRoot::m39() {
+    return 0.0f;
+}
+
+f32 PriestBossActorGiantRoot::m40() {
+    return getWeight(Attack::_3);
+}
+
+f32 PriestBossActorGiantRoot::m42() {
+    return getWeight(Attack::_5);
+}
+
+f32 PriestBossActorGiantRoot::m44() {
+    if (_dc.value <= sead::Mathf::epsilon() && _98 != 4)
+        return getWeight(Attack::_7);
     return 0.0f;
 }
 

@@ -32,7 +32,7 @@ public:
         *pos = _1f60;
         *value = 300.0f;
     }
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;
@@ -40,10 +40,10 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void afterModelMatrixUpdate() override;
     void m108() override;
-    void m110() override;
-    void m111() override;
-    void m112() override;
-    void m113() override;
+    void m110(f32* a1, s32* a2) override;
+    void m111(f32* a1, s32* a2) override;
+    void m112(f32* a1, s32* a2) override;
+    void m113(f32* a1, s32* a2) override;
     void m115() override;
 
     // Placeholder names (non-virtual functions called by the Dragon AI).
@@ -60,7 +60,9 @@ public:
         // 0x71006fc514: the matrix at +0x20.
         const sead::Matrix34f* sub_71006FC514() const;
 
-        u8 _0[0x8b8];
+        u8 _0[0x20];
+        /* 0x20 */ sead::Matrix34f _20;
+        u8 _50[0x8b8 - 0x50];
         /* 0x8b8 */ f32 _8b8;  // Dragon + 0x1d80 (DragonPlayASForDemo: 0 on enter, 1 on leave)
         u8 _8bc[0x930 - 0x8bc];
         /* 0x930 */ u16 _930;  // flags (Dragon + 0x1df8)

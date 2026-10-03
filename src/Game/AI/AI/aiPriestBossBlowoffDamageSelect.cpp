@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPriestBossBlowoffDamageSelect.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -16,7 +19,20 @@ bool PriestBossBlowoffDamageSelect::init_(sead::Heap* heap) {
 }
 
 void PriestBossBlowoffDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* base = mActor->getDamageMgr()) {
+        _38 = base->getField54();
+        _3c = base->getField50();
+        if (auto* mgr = sead::DynamicCast<uking::dmg::DamageManagerBase>(base)) {
+            auto* attacker = mgr->getAttacker();
+            if (attacker->hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(attacker, &accessor);
+                if (accessor.hasProc())
+                    _40 = accessor.getName();
+            }
+        }
+    }
+    changeChild("リアクション準備");
 }
 
 void PriestBossBlowoffDamageSelect::calc_() {

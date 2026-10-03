@@ -5,18 +5,22 @@ namespace uking::ai {
 
 SeqRandomRepeat::SeqRandomRepeat(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SeqRandomRepeat::~SeqRandomRepeat() = default;
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+SeqRandomRepeat::~SeqRandomRepeat() {
+    ;
+}
 
 bool SeqRandomRepeat::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
 void SeqRandomRepeat::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (*mMaxActionNum_s < 1)
+    if (*mMaxActionNum_s < 1) {
         _50 = 0;
-    else {
-        const s32 min_num = *mMinActionNum_s;
-        _50 = sead::GlobalRandom::instance()->getS32Range(min_num, *mMaxActionNum_s + 1);
+    } else {
+        const int min = *mMinActionNum_s;
+        _50 = sead::GlobalRandom::instance()->getS32Range(min, *mMaxActionNum_s + 1);
     }
     changeChild("行動", params);
 }

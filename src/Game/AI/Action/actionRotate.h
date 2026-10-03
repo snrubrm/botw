@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,11 @@ protected:
     const float* mTiltAngle_m{};
     // map_unit_param at offset 0x38
     const float* mTiltAngularSpeed_m{};
+    sead::Vector3f _40 = sead::Vector3f::ey;
+    sead::Vector3f _4c = sead::Vector3f::zero;
+    sead::Vector3f _58 = sead::Vector3f::zero;
+    u8 _64[0x4];
 };
+KSYS_CHECK_SIZE_NX150(Rotate, 0x68);
 
 }  // namespace uking::action

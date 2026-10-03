@@ -1,9 +1,83 @@
 #include "Game/Actor/actLastBoss.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::act {
 
+namespace {
+void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return;
+    auto* enemy = static_cast<Enemy*>(actor);
+    for (auto* part : enemy->_1128.mList) {
+        if (auto* part_actor =
+                sead::DynamicCast<ksys::act::Actor>(part->mLink.getProc(nullptr, nullptr)))
+            part_actor->x_17(arg);
+    }
+}
+}  // namespace
+
+void LastBoss::m117(ksys::act::Unk117* arg) {
+    forwardX17ToParts(this, arg);
+}
+
 // NON_MATCHING: member types incomplete
 LastBoss::~LastBoss() = default;
+
+void LastBoss::m63() {
+    Enemy::m63();
+    _14e4 = 0;
+    _14e8.makeAllZero();
+    const s32 max_life = getMaxLife();
+    s32* life = getLife();
+    *life = max_life - getNumberOfClearedRemains() * 1000;
+    _14f8._34 = 0;
+    _1530 = 0;
+    _1544 = 0;
+    _14f8._30.makeAllZero();
+    _14f0 = 1000.0f;
+}
+
+void LastBoss::x() {
+    if (_14e8.isOnBit(17))
+        return;
+    if (auto* life = getLife()) {
+        if (*life == 0)
+            return;
+    }
+    _14e8.setBit(17);
+    if (auto* as_list = mASList) {
+        if (as_list->x_1(1, 0) != "Barrier_On")
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_On", 1, 0, true);
+    }
+}
+
+void LastBoss::update() {
+    if (_14e8.isOnBit(17)) {
+        _14e8.resetBit(17);
+        auto* as_list = mASList;
+        if (!as_list)
+            return;
+        auto* life = getLife();
+        if (life && *life == 0)
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_Off_Damage_Last", 1, 0, true);
+        else if (isSlowTimeMaybe())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_Off_AtSlow", 1, 0, true);
+        else
+            as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_Off", 1, 0, true);
+    } else {
+        auto* as_list = mASList;
+        if (!as_list)
+            return;
+        if (as_list->x_1(1, 0) == "Barrier_Off" || as_list->x_1(1, 0) == "Barrier_Off_AtSlow") {
+            if (isSlowTimeMaybe())
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_Off_AtSlow", 1, 0, true);
+            else
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "Barrier_Off", 1, 0, true);
+        }
+    }
+}
 
 void LastBoss::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     setter->set(0x20, 0x10);

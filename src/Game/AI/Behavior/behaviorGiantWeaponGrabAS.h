@@ -1,7 +1,9 @@
 #pragma once
 
 #include <prim/seadSafeString.h>
+#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71025afb58.h"
+#include "Game/AI/aiUnk_71025be918.h"
 #include "KingSystem/ActorSystem/actAiBehavior.h"
 
 namespace uking::behavior {
@@ -13,9 +15,13 @@ public:
     ~GiantWeaponGrabAS() override;
     void m8() override;
     void loadParams() override;
-    bool m6(sead::Heap* heap) override;  // not decompiled yet (0x71006261a0)
-    void m7() override;  // not decompiled yet (0x7100626348)
-    void m9() override;  // not decompiled yet (0x71006268fc)
+    bool m6(sead::Heap* heap) override;
+    void m7() override;
+    void m9() override;
+
+    // 0x7100626590 / 0x7100626768 (lane4 s23): the weapon frame (`frame`) is set on the AS slots of both hands.
+    void sub_7100626590(f32 frame, bool use_b);
+    void sub_7100626768();
 
     /* 0x28 */ const int* mTargetBone_s{};
     /* 0x30 */ const int* mWeaponIdx_s{};
@@ -34,7 +40,7 @@ public:
     /* 0xd0 */ void* mGiantPartBoneUnit_a{};
     /* 0xd8 */ bool _d8 = false;
     /* 0xd9 */ bool _d9 = false;
-    /* 0xe0 */ Unk_71025afb58** _e0 = nullptr;
+    /* 0xe0 */ Unk_71000b0800<Unk_71025be918> _e0;
 };
 KSYS_CHECK_SIZE_NX150(GiantWeaponGrabAS, 0xe8);
 

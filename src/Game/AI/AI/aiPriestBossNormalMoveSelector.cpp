@@ -15,6 +15,15 @@ void PriestBossNormalMoveSelector::enter_(ksys::act::ai::InlineParamPack* params
     PriestBossMode::enter_(params);
 }
 
+void PriestBossNormalMoveSelector::calc_() {
+    PriestBossMode::calc_();
+    if (isFinished() || isFailed())
+        return;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed())
+        setFinished();
+}
+
 void PriestBossNormalMoveSelector::leave_() {
     PriestBossMode::leave_();
 }

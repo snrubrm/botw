@@ -38,7 +38,7 @@ public:
     bool m81(const Message& message) override;
     ActorWeapons* getWeapons() override { return &mWeapons; }
     void m116() override;
-    void m117() override;
+    void m117(Unk117* arg) override;
     void m147() override;
 
     void m149(int) override;

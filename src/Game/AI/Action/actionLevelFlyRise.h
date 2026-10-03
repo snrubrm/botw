@@ -1,5 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include "KingSystem/System/VFRValue.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -28,6 +31,16 @@ protected:
     const float* mRotRatio_s{};
     // static_param at offset 0x40
     sead::SafeString mASName_s{};
+    ksys::VFRValue _50;
+    sead::Matrix33f _5c;
+    sead::Vector3f _80;
+    f32 _8c = 0.0f;
+    f32 _90 = 0.0f;
+    f32 _94 = 0.0f;
+    f32 _98 = 0.0f;
+    ksys::act::CCAccessor _9c;
+    u8 _a4[0x4];
 };
+KSYS_CHECK_SIZE_NX150(LevelFlyRise, 0xa8);
 
 }  // namespace uking::action

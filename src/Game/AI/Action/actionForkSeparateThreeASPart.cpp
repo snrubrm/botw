@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionForkSeparateThreeASPart.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "gsys/gsysModelAccessKey.h"
+#include "gsys/gsysModel.h"
 
 namespace uking::action {
 
@@ -8,7 +11,17 @@ ForkSeparateThreeASPart::ForkSeparateThreeASPart(const InitArg& arg) : ksys::act
 ForkSeparateThreeASPart::~ForkSeparateThreeASPart() = default;
 
 bool ForkSeparateThreeASPart::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _88.getKey().bone_index = -1;
+    _88.getKey().model_unit_index = -1;
+    _c0.getKey().bone_index = -1;
+    _c0.getKey().model_unit_index = -1;
+    _50.getKey().reset();
+    if (auto* model = mActor->getModel()) {
+        _50.search(model, mRootNode_s);
+        _88.search(model, mSlot1StartNode_s);
+        _c0.search(model, mSlot2StartNode_s);
+    }
+    return true;
 }
 
 void ForkSeparateThreeASPart::enter_(ksys::act::ai::InlineParamPack* params) {

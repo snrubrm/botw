@@ -51,7 +51,7 @@ bool HorseRideEnemyFindPlayer::m39(const sead::Vector3f& pos, bool b) {
         if (auto* actor = sead::DynamicCast<ksys::act::Actor>(proc)) {
             f32 dist;
             if (auto* nav = actor->m45())
-                dist = nav->_2a8 * nav->_2ac;
+                dist = nav->getRadiusMaybe();
             else
                 dist = 0;
             sead::Vector3f out;

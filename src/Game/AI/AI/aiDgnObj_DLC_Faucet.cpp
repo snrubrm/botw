@@ -41,6 +41,9 @@ void DgnObj_DLC_Faucet::calc_() {
         sub_710036052C(nullptr);
 }
 
+// NON_MATCHING: only the frame (0x90 instead of 0x80): since lib/xlink2's Handle has a user-provided destructor, the
+// discarded HandleSLink returned by searchAndEmitSLink gets its own stack slot instead of sharing the one of the
+// Matrix34f / Vector3f temporaries (it matched while the destructor was trivial)
 void DgnObj_DLC_Faucet::sub_7100360230() {
     auto* body = mActor->getMainBody();
     if (!body)

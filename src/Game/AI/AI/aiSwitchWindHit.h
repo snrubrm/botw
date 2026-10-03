@@ -16,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+    void calc_() override;
 
     bool m35() override;
     bool m36() override;

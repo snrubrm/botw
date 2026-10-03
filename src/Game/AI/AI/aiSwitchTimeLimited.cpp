@@ -18,7 +18,8 @@ void SwitchTimeLimited::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("オフ");
 }
 
-// NON_MATCHING: the chase target is loaded before the VFR delta (see SwitchTimeLag::calc_)
+// NON_MATCHING: scheduling of the `_40 = 0.0f` store against the string address of changeChild (see
+// SwitchTimeLag::calc_)
 void SwitchTimeLimited::calc_() {
     auto* actor = mActor;
     const bool on = actor->checkBasicSig();
@@ -39,7 +40,7 @@ void SwitchTimeLimited::calc_() {
     }
 
     actor->m107();
-    if (sead::Mathf::chase(&_40, *mWaitTime_m, ksys::VFR::instance()->getDeltaFrame())) {
+    if (ksys::VFR::chase(&_40, *mWaitTime_m)) {
         _40 = 0.0f;
         changeChild("オフ");
     }

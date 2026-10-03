@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseEatCarriedItem.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,8 @@ void HorseEatCarriedItem::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseEatCarriedItem::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* rideable = mActor->getHorseOptionsMaybe())
+        rideable->_18.sub_7100E770C4(false);
 }
 
 void HorseEatCarriedItem::loadParams_() {

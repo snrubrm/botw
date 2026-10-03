@@ -2,7 +2,9 @@
 
 namespace uking::action {
 
-PlayerSlippingDown::PlayerSlippingDown(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+PlayerSlippingDown::PlayerSlippingDown(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    _68 = -1.0f;
+}
 
 PlayerSlippingDown::~PlayerSlippingDown() = default;
 

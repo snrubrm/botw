@@ -18,7 +18,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m35() {}
+    virtual void m35();
 
 protected:
     void calc_() override;

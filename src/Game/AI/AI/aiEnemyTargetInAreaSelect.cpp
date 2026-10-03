@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include <cmath>
 
 namespace uking::ai {
 
@@ -13,38 +14,6 @@ EnemyTargetInAreaSelect::~EnemyTargetInAreaSelect() = default;
 
 bool EnemyTargetInAreaSelect::init_(sead::Heap* heap) {
     return TargetInAreaSelect::init_(heap);
-}
-
-// NON_MATCHING: FP register numbering of the centre offset / mtx row loads, and the original ends
-// with fccmp + b.hi instead of two setcc; the arithmetic is identical
-bool EnemyTargetInAreaSelect::m34() {
-    bool in_area = false;
-    if (auto* link = sub_71005D9050(mActor)) {
-        ksys::act::ActorConstDataAccess accessor;
-        if (ksys::act::acquireActor(link, &accessor)) {
-            const sead::Matrix34f& target_mtx = accessor.getActorMtx();
-            sead::Vector3f center;
-            center.setMul(mActor->getMtx(), *mCentOffset_s);
-            const f32 target_y = target_mtx.m[1][3];
-
-            bool outside_xz = false;
-            if (*mLengthXZ_s > 0.0f) {
-                const f32 dx = target_mtx.m[0][3] - center.x;
-                const f32 dz = target_mtx.m[2][3] - center.z;
-                outside_xz = sead::Mathf::sqrt(dx * dx + dz * dz) >= *mLengthXZ_s;
-            }
-            if (!outside_xz) {
-                if (*mLengthMaxY_s <= *mLengthMinY_s) {
-                    in_area = true;
-                } else {
-                    const f32 dy = target_y - center.y;
-                    if (dy < *mLengthMaxY_s && dy > *mLengthMinY_s)
-                        in_area = true;
-                }
-            }
-        }
-    }
-    return in_area;
 }
 
 void EnemyTargetInAreaSelect::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -57,6 +26,38 @@ void EnemyTargetInAreaSelect::calc_() {
 
 void EnemyTargetInAreaSelect::leave_() {
     TargetInAreaSelect::leave_();
+}
+
+// NON_MATCHING: same loads / math; the original combines `dy < max && dy > min` with fccmp + branch and keeps
+// the Vector3f in s10 / s11 / s9 (register numbering) where we get cset + and
+bool EnemyTargetInAreaSelect::m34() {
+    auto* link = sub_71005D9050(mActor);
+    if (!link)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return false;
+    const auto& target_mtx = accessor.getActorMtx();
+    const auto& actor_mtx = mActor->getMtx();
+    const sead::Vector3f& offset = *mCentOffset_s;
+    const f32 y = actor_mtx(1, 3) + (offset.x * actor_mtx(1, 0) + offset.y * actor_mtx(1, 1) +
+                                     offset.z * actor_mtx(1, 2));
+    const f32 dy = target_mtx(1, 3) - y;
+    if (*mLengthXZ_s > 0) {
+        const f32 z = actor_mtx(2, 3) + (offset.x * actor_mtx(2, 0) + offset.y * actor_mtx(2, 1) +
+                                         offset.z * actor_mtx(2, 2));
+        const f32 x = actor_mtx(0, 3) + (offset.x * actor_mtx(0, 0) + offset.y * actor_mtx(0, 1) +
+                                         offset.z * actor_mtx(0, 2));
+        const f32 dz = target_mtx(2, 3) - z;
+        const f32 dx = target_mtx(0, 3) - x;
+        if (std::sqrt(dx * dx + dz * dz) >= *mLengthXZ_s)
+            return false;
+    }
+    if (!(*mLengthMaxY_s > *mLengthMinY_s))
+        return true;
+    if (dy < *mLengthMaxY_s && !(dy <= *mLengthMinY_s))
+        return true;
+    return false;
 }
 
 void EnemyTargetInAreaSelect::loadParams_() {

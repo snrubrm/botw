@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLynelBreathMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ LynelBreathMove::LynelBreathMove(const InitArg& arg) : ksys::act::ai::Action(arg
 LynelBreathMove::~LynelBreathMove() = default;
 
 bool LynelBreathMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+    return true;
 }
 
 void LynelBreathMove::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -20,7 +20,8 @@
 namespace uking::ai {
 
 namespace {
-// Inline-only in the original: NavMeshCharacter's state byte (+0x294) read under its lock.
+// inline-only in the original; name is a guess. Evidence: NavMeshCharacter's state byte (+0x294) is read
+// under its lock in several WolfLinkNormalRoot helpers (no out-of-line copy).
 u8 getNavState(ksys::phys::NavMeshCharacter* nav) {
     nav->_1e0.lock();
     const u8 state = nav->_294;
@@ -28,14 +29,11 @@ u8 getNavState(ksys::phys::NavMeshCharacter* nav) {
     return state;
 }
 
-// Inline-only in the original: the by-value index parameter gives the enum temporaries lifetime markers
+// inline-only in the original; name is a guess. Evidence: ten setTimerRate() sites across the
+// WolfLinkNormalRoot helpers; the by-value index parameter gives the enum temporaries lifetime markers
 // (they share one stack slot).
 void setTimerRate(act::WolfLink* wolf, act::WolfLink::Idx14f8 idx, f32 rate) {
     wolf->_14f8[idx].rate = rate;
-}
-
-bool isFinishedOrFailed(ksys::act::ai::ActionBase* child) {
-    return child->isFinished() || child->isFailed();
 }
 
 // Same for reading a timer's current value.
@@ -329,18 +327,18 @@ WolfLinkNormalRoot::State WolfLinkNormalRoot::sub_7100607140() {
     }
     if (get1bc(Idx1bc::_0) >= get1bc(Idx1bc::_2)) {
         if (!isState(State::_11) ||
-            (getCurrentChild() && isFinishedOrFailed(getCurrentChild()))) {
+            (getCurrentChild() && getCurrentChild()->isFinishedOrFailed())) {
             if (getTimerValue(_70, Idx(Idx::_1)) <= sead::Mathf::epsilon() && sub_71006094FC())
                 return State::_11;
         }
     }
     if (!isState(State::_10) ||
-        (getCurrentChild() && isFinishedOrFailed(getCurrentChild()))) {
+        (getCurrentChild() && getCurrentChild()->isFinishedOrFailed())) {
         if (_70->sub_71002F3234(_78->mBattleRange.ref(), 0x539, 1, 3))
             return State::_10;
     }
     if (!isState(State::_9) ||
-        (getCurrentChild() && isFinishedOrFailed(getCurrentChild()))) {
+        (getCurrentChild() && getCurrentChild()->isFinishedOrFailed())) {
         if (int(_1a8) != 10 && _70->sub_71002F3234(_78->mHuntRange.ref(), 0, 3, 3))
             return State::_9;
     }
@@ -356,7 +354,7 @@ WolfLinkNormalRoot::State WolfLinkNormalRoot::sub_7100607140() {
         if (isState(State::_4)) {
             if (!getCurrentChild())
                 return State::_4;
-            if (!isFinishedOrFailed(getCurrentChild()))
+            if (!getCurrentChild()->isFinishedOrFailed())
                 return State::_4;
         }
         if (_1b4 == 5)

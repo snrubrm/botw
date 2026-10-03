@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <limits>
 #include <math/seadVector.h>
+#include <gsys/gsysModelAccessKey.h>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
@@ -14,6 +17,8 @@ class GelEnemy : public Enemy {
     SEAD_RTTI_OVERRIDE(GelEnemy, Enemy)
 public:
     explicit GelEnemy(const CreateArg& arg);
+    // CSV GelEnemy::construct: the actor factory function.
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~GelEnemy() override;
 
 protected:
@@ -34,16 +39,33 @@ public:
 
     // BoneHandle (ctor 0x7100d3b3f0; the jump/pre-attack actions write its 0x68 / 0x78 / 0x88)
     /* 0x14c8 */ ksys::act::BoneHandle _14c8;
-    // three gsys::BoneAccessKeyEx
-    /* 0x1570 */ u8 _1570[0x1618 - 0x1570];
+    // Element of _1668 (0xb0 bytes; only the BoneAccessKeyEx at +0x68 has a destructor). Placeholder.
+    struct Unk1668 {
+        u8 _0[0x68];
+        gsys::BoneAccessKeyEx _68;
+        u8 _a0[0x10];
+    };
+    KSYS_CHECK_SIZE_NX150(Unk1668, 0xb0);
+
+    // Bones searched by initMaybe: the body root and the left / right eye (GelEnemy GParamList)
+    /* 0x1570 */ gsys::BoneAccessKeyEx _1570;
+    /* 0x15a8 */ gsys::BoneAccessKeyEx _15a8;
+    /* 0x15e0 */ gsys::BoneAccessKeyEx _15e0;
     /* 0x1618 */ void* _1618 = nullptr;
     /* 0x1620 */ sead::Vector3f _1620{1.0f, 1.0f, 0.0f};
     /* 0x162c */ sead::Vector3f _162c = sead::Vector3f::zero;
     /* 0x1638 */ sead::Vector3f _1638 = sead::Vector3f::zero;
-    /* 0x1644 */ f32 _1644[6];  // = NaN (quiet) by the ctor
-    /* 0x165c */ u64 _165c = 0;
-    /* 0x1664 */ u64 _1664 = 0;
-    /* 0x1670 */ void* _1670 = nullptr;
+    /* 0x1644 */ f32 _1644[6]{std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN()};
+    /* 0x165c */ f32 _165c = 0;
+    /* 0x1660 */ f32 _1660 = 0;
+    /* 0x1664 */ f32 _1664 = 0;
+    // Freed by preDelete2_ (the ctor zeroes it; nothing allocates it in this class)
+    /* 0x1668 */ sead::Buffer<Unk1668> _1668;
     /* 0x1678 */ u8 _1678 = 0;  // flags (~40 AI accesses)
 };
 KSYS_CHECK_SIZE_NX150(GelEnemy, 0x1680);

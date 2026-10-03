@@ -5,7 +5,8 @@ namespace uking::action {
 EquipedDefaultWindWeapon::EquipedDefaultWindWeapon(const InitArg& arg) : EquipedAction(arg) {}
 
 bool EquipedDefaultWindWeapon::init_(sead::Heap* heap) {
-    return EquipedAction::init_(heap);
+    _40 = heap;
+    return true;
 }
 
 void EquipedDefaultWindWeapon::loadParams_() {

@@ -4,7 +4,11 @@ namespace uking::action {
 
 FreeMoveToTargetWithBank::FreeMoveToTargetWithBank(const InitArg& arg) : FreeMoveToTarget(arg) {}
 
-FreeMoveToTargetWithBank::~FreeMoveToTargetWithBank() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+FreeMoveToTargetWithBank::~FreeMoveToTargetWithBank() {
+    ;
+}
 
 bool FreeMoveToTargetWithBank::init_(sead::Heap* heap) {
     return FreeMoveToTarget::init_(heap);

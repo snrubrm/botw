@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
     void m35() override;
+    void m36() override;
     void m37() override;
 
 protected:

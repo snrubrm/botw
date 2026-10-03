@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkClothOnOffASPlay.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -15,7 +18,10 @@ void ForkClothOnOffASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkClothOnOffASPlay::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* physics = mActor->getPhysics())
+        physics->getFlags().reset(ksys::phys::InstanceSet::Flag::_20000);
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags10.reset(2);
 }
 
 void ForkClothOnOffASPlay::loadParams_() {

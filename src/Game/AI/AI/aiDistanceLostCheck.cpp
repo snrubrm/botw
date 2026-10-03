@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiDistanceLostCheck.h"
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -13,8 +17,56 @@ bool DistanceLostCheck::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the original builds the request objects with other store groupings (the zero stores of `_10` ..
+// `_48` are merged as 8 / 16 byte stores in descending order); the layout of the requests is only partly known
 void DistanceLostCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58 = 0;
+    if (auto* awareness = mActor->getAwareness()) {
+        switch (*mAddAwarenessRangeType_s) {
+        case 1: {
+            Unk_71023e26d8 request;
+            if (auto* sensor = awareness->_260[0]) {
+                if (sensor->m4(&request))
+                    _58 = request._8;
+            }
+            break;
+        }
+        case 2: {
+            Unk_71023e2750 request;
+            if (auto* sensor = awareness->_260[1]) {
+                if (sensor->m4(&request))
+                    _58 = request._8;
+            }
+            break;
+        }
+        case 3: {
+            Unk_71023e2780 request;
+            if (auto* sensor = awareness->_260[3]) {
+                if (sensor->m4(&request))
+                    _58 = request._8;
+            }
+            break;
+        }
+        case 4: {
+            Unk_71023e26d8 request;
+            if (auto* sensor = awareness->_260[0]) {
+                if (sensor->m4(&request))
+                    _58 = request._20;
+            }
+            break;
+        }
+        }
+    }
+
+    const s32 range = *mLostTimer_s;
+    const s32 other = static_cast<s32>(range * 1.1f);
+    _60 = sead::Mathi::min(range, other);
+    _64 = sead::Mathi::max(range, other);
+    _5c = _60 == _64 ? _60 : sead::GlobalRandom::instance()->getS32Range(_60, _64);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("発見行動", &pack);
 }
 
 bool DistanceLostCheck::isFailed() const {

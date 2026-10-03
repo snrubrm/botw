@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,6 +21,8 @@ protected:
 
     // dynamic_param at offset 0x20
     int* mParaShawlType_d{};
+    ksys::act::BaseProcHandle _28;
 };
+KSYS_CHECK_SIZE_NX150(EventCreateParaShawlSetToPlayer, 0x38);
 
 }  // namespace uking::action

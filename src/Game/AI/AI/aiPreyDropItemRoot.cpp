@@ -50,4 +50,9 @@ void PreyDropItemRoot::loadParams_() {
     getStaticParam(&mInitialVelocity_s, "InitialVelocity");
 }
 
+void PreyDropItemRoot::m41() {
+    if (!isCurrentChild("強制消去"))
+        PreyRoot::m41();
+}
+
 }  // namespace uking::ai

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionSwimEnemyAnmBackBlownOffBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,6 +22,9 @@ protected:
 
     // static_param at offset 0x70
     const float* mRotSpeed_s{};
+    sead::Matrix33f _78;
+    sead::Vector3f _9c;
 };
+KSYS_CHECK_SIZE_NX150(SwimEnemyAnmBackBlownOff, 0xa8);
 
 }  // namespace uking::action

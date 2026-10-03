@@ -39,7 +39,7 @@ public:
     /*  42 */ void m42(const sead::Matrix34f& mtx) override;
     /*  47 */ bool m47() override;
     /*  50 */ bool m50() override;
-    /*  62 */ bool shouldUnload() override { return false; }
+    /*  62 */ bool shouldUnload(s32* a1) override { return false; }
     /*  63 */ void m63() override;
     /*  64 */ void initMaybe() override;
     /*  69 */ void calcMaybe() override;
@@ -61,7 +61,7 @@ public:
     /* 114 */ void m114() override;
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
-    /* 117 */ void m117() override;
+    /* 117 */ void m117(Unk117* arg) override;
     /* 119 */ void m119() override;
     /* 129 */ PlayerLink* m129() override;
     /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;
@@ -131,10 +131,10 @@ public:
     /* 269 */ bool m269() override;
     /* 270 */ bool m270() override;
     /* 272 */ void m272() override;
-    /* 273 */ void m273() override;
-    /* 274 */ void m274() override;
-    /* 275 */ void m275() override;
-    /* 276 */ void m276() override;
+    /* 273 */ uking::act::Weapon* m273() override;
+    /* 274 */ uking::act::Weapon* m274() override;
+    /* 275 */ uking::act::Weapon* m275() override;
+    /* 276 */ Actor* m276(int idx) override;
     /* 277 */ void m277(ActorConstDataAccess* accessor, int idx) override;
     /* 278 */ void m278() override;
     /* 279 */ s32 getArmorDyeStuff() override;
@@ -228,7 +228,7 @@ public:
     /* 379 */ void m379() override;
     /* 380 */ void m380() override;
     /* 381 */ void m381() override;
-    /* 382 */ void m382() override;
+    /* 382 */ Actor* m382() override;
     /* 383 */ bool m383() override { return _c50.isOnBit(18); }
     /* 384 */ int m384() override { return _1cd4; }
     /* 385 */ int m385() override { return _1cd8; }
@@ -267,8 +267,40 @@ public:
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
     void sub_71008B5B8();              // 0x71008b5b8
-    void x_37();
-    void sub_7100856A7C();             // 0x7100856a7c (declared only)                       // 0x71008efa0 (CSV Player::x_37)
+    void x_37();  // 0x71008efa0
+    void sub_7100856A7C();             // 0x7100856a7c (declared only)
+    // 0x710086fab0 (CSV nullsub_2601): empty.
+    void nullsub_2601();
+    // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
+    // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
+    // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by
+    // PlayerWarpEffectValueSetter.
+    void sub_710084BA90(f32 value);
+    // 0x710085ecf4 (declaration only; placeholder name): `if (auto* cc = getCharacterController())
+    // cc->sub_7100F5EECC(<constant>)`; called by PlayerAction::enter_ outside events.
+    void sub_710085ECF4();
+    bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
+    // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
+    // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).
+    bool sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BaseProcLink* link,
+                        const sead::Vector3f* pos2);
+    // 0x7100859fc0 (declared only; CSV ai::action::PlayerLookAtObject::x): sets _2d30 = a1 and, when a1 and
+    // _2d30 was not set, _2d34 = (the first resident link has a proc ? 4 : 0); resets _2d48 and copies the
+    // zero vector to _2d38 / _2d58. Always true.
+    bool sub_7100859FC0(bool a1);
+    // 0x7100868d7c (declared only): turns the player towards `dir` (XZ) with the given speed factor.
+    void sub_7100868D7C(f32 speed, const sead::Vector3f* dir);
+    // 0x7100888294 (declared only): true when the player's _d30 equipment type is checked against type 1 (used
+    // by PlayerCutFall / PlayerSpAttack leave_ before x_7).
+    bool sub_7100888294();
+    // 0x7100888278: `if (_c40 & 0x10) { _c40 &= ~0x10; x_18(true); }` (declared only).
+    void sub_7100888278();
+    // 0x710088a854 (declared only): sets a flag byte at +0x30 of the object of vslot 0x310, clears _c40 bit 3,
+    // calls sub_7100888278() and a singleton method.
+    void sub_710088A854();
+    // 0x7100869814 (declared only): classifies the turn from angle `a` towards `b` (0-3; 2 = negative direction);
+    // the callers pass `mask & diff` and `mask & 0x20000000`.
+    u8 sub_7100869814(Unk1 a, Unk1 b);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
@@ -286,6 +318,7 @@ public:
     void sub_7100881104();
     void x_34(f32 value, bool a2);                                      // 0x885bb4
     void decreaseStaminaForActionMaybe(f32 value);                      // 0x885bd0
+    f32 x_67();                                                         // 0x86cad4 (not decompiled)
     bool x_21();                                                        // 0x887a20
     bool isMasterSwordEquipped_();                                      // 0x86d024
     bool x_35();                                                        // 0x8886f4
@@ -328,7 +361,8 @@ public:
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
     /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
-    /* 0x17f2 */ u8 _17f2[0x1800 - 0x17f2];
+    /* 0x17f2 */ bool _17f2;  // cleared by PlayerAtnWait::enter_
+    /* 0x17f3 */ u8 _17f3[0x1800 - 0x17f3];
     /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
     /* 0x1804 */ u8 _1804[0x1810 - 0x1804];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
@@ -367,7 +401,11 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1d70 - 0x1cdc];
+    /* 0x1cdc */ u8 _1cdc[0x1d34 - 0x1cdc];
+    /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
+    /* 0x1d38 */ f32 _1d38;
+    /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
+    /* 0x1d40 */ u8 _1d40[0x1d70 - 0x1d40];
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
     /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];
@@ -406,7 +444,8 @@ public:
     /* 0x2082 */ u8 _2082[0x2084 - 0x2082];
     /* 0x2084 */ f32 _2084;
     /* 0x2088 */ f32 _2088;
-    /* 0x208c */ u8 _208c[0x2094 - 0x208c];
+    /* 0x208c */ f32 _208c;  // getAtkMultiplier: base multiplier
+    /* 0x2090 */ f32 _2090;  // getAtkMultiplier: factor applied while the Master Sword is equipped
     /* 0x2094 */ f32 _2094;
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
@@ -420,9 +459,23 @@ public:
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
     /* 0x2104 */ u8 _2104[0x211c - 0x2104];
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
-    /* 0x2120 */ u8 _2120[0x22a8 - 0x2120];
+    /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
+    /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
+    /* 0x215c */ u8 _215c[0x21b8 - 0x215c];
+    // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).
+    struct LockedPos {
+        sead::CriticalSection mLock;
+        sead::Vector3f mPos;
+        u32 _4c;
+    };
+    KSYS_CHECK_SIZE_NX150(LockedPos, 0x50);
+    /* 0x21b8 */ LockedPos _21b8;
+    /* 0x2208 */ LockedPos _2208;
+    /* 0x2258 */ LockedPos _2258;
     /* 0x22a8 */ sead::Vector3f _22a8;
-    /* 0x22b4 */ u8 _22b4[0x22e8 - 0x22b4];
+    /* 0x22b4 */ sead::Vector3f _22b4;
+    /* 0x22c0 */ sead::Vector3f _22c0;
+    /* 0x22cc */ u8 _22cc[0x22e8 - 0x22cc];
     /* 0x22e8 */ sead::Vector3f _22e8;
     /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
     /* 0x2300 */ u8 _2300[0x230c - 0x2300];
@@ -435,11 +488,15 @@ public:
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
     /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
-    /* 0x2c38 */ u8 _2c38[0x2c78 - 0x2c38];
+    /* 0x2c38 */ u8 _2c38[0x2c48 - 0x2c38];
+    /* 0x2c48 */ BaseProcLink _2c48;  // isRevivalFairyActive
+    /* 0x2c58 */ u8 _2c58[0x2c78 - 0x2c58];
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
-    /* 0x2c88 */ u8 _2c88[0x2c98 - 0x2c88];
+    /* 0x2c88 */ BaseProcLink _2c88;  // isZoraHeroActive
     /* 0x2c98 */ BaseProcLink _2c98;
-    /* 0x2ca8 */ u8 _2ca8[0x2ec0 - 0x2ca8];
+    /* 0x2ca8 */ u8 _2ca8[0x2d64 - 0x2ca8];
+    /* 0x2d64 */ bool _2d64;  // set by PlayerTurnAndLookToObjectNow::leave_
+    /* 0x2d65 */ u8 _2d65[0x2ec0 - 0x2d65];
 };
 KSYS_CHECK_SIZE_NX150(Player, 0x2ec0);
 

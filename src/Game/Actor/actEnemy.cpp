@@ -2,6 +2,16 @@
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 
 namespace uking::act {
 
@@ -145,6 +155,102 @@ RideableBase* Enemy::m132() {
 
 Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
+}
+
+Enemy::IsSpecialJobTypeResult Enemy::isSpecialJobType_(ksys::act::JobType type) {
+    const auto result = DynamicActor::isSpecialJobType_(type);
+    if (auto* rideable = getHorseOptionsMaybe())
+        return IsSpecialJobTypeResult(rideable->sub_7100E8BB4C(int(result)));
+    return result;
+}
+
+void Enemy::m117(ksys::act::Unk117* arg) {
+    if (auto* rideable = getHorseOptionsMaybe()) {
+        if (!rideable->sub_7100E8B780(arg))
+            return;
+    }
+    PlayerOrEnemy::m117(arg);
+}
+
+void Enemy::updateMtxFromPhysics() {
+    sead::Vector3f velocity;
+    sead::Matrix34f mtx;
+    auto* controller = getCharacterController();
+    if (controller && !_e84.isOnBit(11)) {
+        controller->sub_7100F5F598(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F635BC(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F626E8(&mtx);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body)
+            return;
+        body->getLinearVelocity(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        body->getAngularVelocity(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        body->getTransform(&mtx);
+    }
+    mMtx = mtx;
+    nullsub_4648();
+}
+
+s32 Enemy::getMaxLife() {
+    const auto* param = getParam()->getRes().mGParamList->getEnemy();
+    if (!param->mStatusChangeFlag.ref().isEmpty() &&
+        ksys::gdt::getBoolByKey(param->mStatusChangeFlag.ref(), false) &&
+        param->mChangeLife.ref() >= 0.0f)
+        return param->mChangeLife.ref();
+    return Actor::getMaxLife();
+}
+
+// NON_MATCHING: the two stack slots (reason / the Rideable mode enum) are assigned in the opposite order
+bool Enemy::shouldUnload(s32* a1) {
+    s32 reason = 0;
+    if (auto* rideable = getHorseOptionsMaybe()) {
+        const Unk_7100e8b2b8::Unk8 type = rideable->Unk_7100e8b2b8::_8 & 0xff;
+        if (int(type) != Unk_7100e8b2b8::Unk8::_0)
+            return false;
+    }
+
+    const bool unload = shouldUnloadBecauseOfDistance(&reason);
+    if (reason == 10 || reason == 11) {
+        if (_e84.isOn(0x40004))
+            return false;
+        if (mActorFlags2.isOn(ActorFlag2::_80000000))
+            return false;
+    }
+    *a1 = reason;
+    return unload;
+}
+
+// NON_MATCHING: register allocation / the original keeps `first_result | is_mini` in a register
+bool Enemy::isGuard() {
+    auto* as_list = mASList;
+    if (!as_list)
+        return false;
+
+    const bool is_mini = ksys::act::hasTag(this, ksys::act::tags::TeamGuardianMini);
+    if (as_list->x(14, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return true;
+    if (!is_mini)
+        return false;
+    if (as_list->x(14, nullptr, 1, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return true;
+    return as_list->x(14, nullptr, 2, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+void Enemy::onPreDeleteStart_(PrepareArg& arg) {
+    ksys::act::ActorConstDataAccess accessor1;
+    if (ksys::act::acquireActor(&_1148._38, &accessor1))
+        accessor1.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _1148._38.reset();
+
+    ksys::act::ActorConstDataAccess accessor2;
+    if (ksys::act::acquireActor(&_1100, &accessor2))
+        accessor2.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    _1100.reset();
 }
 
 }  // namespace uking::act

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSandwormRRoot.h"
+#include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -12,7 +15,12 @@ SandwormRRoot::SandwormRRoot(const InitArg& arg) : EnemyRoot(arg) {}
 SandwormRRoot::~SandwormRRoot() = default;
 
 bool SandwormRRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(mActor))
+        sandworm->_1650 = mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "Spine_1");
+    return true;
 }
 
 void SandwormRRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -107,8 +107,9 @@ float sub_71011EFAD8(const sead::Vector3f& vec, const sead::Vector3f& axis);
 
 
 // 0x71011f0260: builds a matrix whose Z axis is `front` and Y axis is `up` made perpendicular to it.
+// All callers (45) pass a fifth argument (false) that the body never reads.
 void sub_71011F0260(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
-                    const sead::Vector3f& pos);
+                    const sead::Vector3f& pos, bool unused);
 
 // 0x71011f0f88 / 0x71011f0fc8 / 0x71011f1040 / 0x71011f10f4: whether any component is NaN or infinite.
 bool sub_71011F0F88(const float& value);
@@ -153,6 +154,14 @@ struct Unk_7101EC6BAC {
 s32 sub_71011EE4B8(Unk_7101EC6BAC angle);
 
 extern const u32 sUnk_7101EC6BA0;
+
+/// inline-only in the original; name is a guess. Evidence: `mask & (target - current)` with `target` read after the
+/// call that produces `current` (a by-reference parameter) repeats in PlayerLadderToClimb::enter_,
+/// PlayerDestinationTurn::m33, PlayerGuidedMove::enter_, PlayerLand::enter_, PlayerSuperBlow::enter_, ...
+inline Unk_7101EC6BAC angleDiff(const u32& target, const Unk_7101EC6BAC& current) {
+    const u32 diff = target - current.value;
+    return Unk_7101EC6BAC(sUnk_7101EC6BA0 & diff);
+}
 extern const f32 sUnk_7101EC6BA4;
 extern const f32 sUnk_7101EC6BA8;
 extern const Unk_7101EC6BAC sUnk_7101EC6BAC;

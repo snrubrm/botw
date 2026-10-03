@@ -200,7 +200,7 @@ public:
     // 0x7100731064 (CSV name): counts a defeated giant / sandworm (GiantEnemy / Sandworm kills).
     void incrementGiantOrSandwormDefeatCount();
     bool m57() override;
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;
@@ -222,7 +222,7 @@ public:
     s32 m94() override { return _f40; }
     Unk_7100d3cd74* m101() override;
     void m114() override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     void m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
     Rideable* getHorseOptionsMaybe() override;
@@ -288,6 +288,11 @@ public:
     struct Unk_12d0 {
         // 0x7100710f04 (CSV nullsub_2335; declared only): empty.
         void sub_7100710F04();
+        // 0x7100710f08 (declared only; lane2 s20): `if (_0) { _8 = -1; _c = 0; }` (one 8-byte store).
+        void sub_7100710F08();
+        // 0x7100710f28 (declared only; lane2 s20): advances the state `_8` (0 -> 1 -> 2 -> 3) from the character's
+        // flags (_294 / _296, _220) under its critical section.
+        void sub_7100710F28();
 
         /* 0x00 */ ksys::phys::NavMeshCharacter* _0;
         /* 0x08 */ s32 _8 = -1;

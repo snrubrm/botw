@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerUpdateEquip.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
 
 namespace uking::action {
 
@@ -21,7 +22,13 @@ void PlayerUpdateEquip::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerUpdateEquip::leave_() {}
 
 void PlayerUpdateEquip::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (auto* mgr = act::CreatePlayerEquipActorMgr::instance()) {
+        if (mgr->areAllWeaponActorsReady()) {
+            static_cast<ksys::act::Player*>(mActor)->m362();
+            setFinished();
+        }
+    }
 }
 
 bool PlayerUpdateEquip::isChangeable() const {

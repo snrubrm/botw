@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionLevelFlyRise.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
 
@@ -11,11 +14,25 @@ bool LevelFlyRise::init_(sead::Heap* heap) {
 }
 
 void LevelFlyRise::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* cc = mActor->getCharacterController();
+    if (!cc)
+        return;
+    _9c.changeMotionType(cc, ksys::act::MotionType::Hover);
+    auto* actor = mActor;
+    _50.value = actor->getVelocity().y;
+    _50.prev_value = actor->getVelocity().y;
+    sub_710073FA90(&_5c, actor);
+    actor->getMtx().getTranslation(_80);
+    _8c = 8.0f;
+    _90 = 8.0f;
+    _94 = -1.0f;
+    _98 = _80.y;
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void LevelFlyRise::leave_() {
-    ksys::act::ai::Action::leave_();
+    _9c.resetMotionType(mActor->getCharacterController());
 }
 
 void LevelFlyRise::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWarpPlayerToReferenceAnchor.h"
+#include "Game/gameResetter.h"
 
 namespace uking::action {
 
@@ -22,7 +23,14 @@ void WarpPlayerToReferenceAnchor::leave_() {
 void WarpPlayerToReferenceAnchor::loadParams_() {}
 
 void WarpPlayerToReferenceAnchor::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (auto* resetter = Resetter::instance()) {
+        if (resetter->finishedReset())
+            setFinished();
+    } else {
+        setFailed();
+    }
 }
 
 }  // namespace uking::action

@@ -53,6 +53,8 @@ public:
     // 0x71006ee15c / 0x71006ee1a4
     bool sub_71006EE15C() const;
     bool sub_71006EE1A4() const;
+    // 0x71006ee280: `_c8` = the physics controller index of the rigid body set `name` (RagdollSmallDamageIdxChanger).
+    void sub_71006EE280(const sead::SafeString& name);
     // 0x71006ee2e8 / 0x71006ee2fc: friction scale of the actor's physics bodies (the latter 1.0).
     void sub_71006EE2E8(f32 scale);
     void sub_71006EE2FC();

@@ -1,5 +1,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include <mc/seadCoreInfo.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <thread/seadThread.h>
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -16,6 +21,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -293,6 +299,135 @@ bool Actor::sub_71011CEA90() const {
     return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
 }
 
+void Actor::updateMtxFromPhysics() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (controller->sub_7100F5E954()) {
+                controller->sub_7100F635C4()->getLinearVelocity(&mVelocity);
+                mVelocity = mVelocity * (1.0f / 30.0f);
+                controller->sub_7100F635C4()->getAngularVelocity(&mAngVelocity);
+                mAngVelocity = mAngVelocity * (1.0f / 30.0f);
+            }
+            controller->physicsXXXGetMtx_1(&mMtx);
+            return;
+        }
+    }
+
+    if (auto* body = mMainBody.load()) {
+        if (body->isAddedToWorld()) {
+            auto* accessor = body->getRigidBodyAccessor();
+            accessor->getLinearVelocity(&mVelocity);
+            mVelocity = mVelocity * (1.0f / 30.0f);
+            accessor->getAngularVelocity(&mAngVelocity);
+            mAngVelocity = mAngVelocity * (1.0f / 30.0f);
+        }
+        body->getTransform(&mMtx);
+    } else if (mPhysicsMtx && mActorFlags.isOnBit(ActorFlag::_2)) {
+        mMtx = *mPhysicsMtx;
+        mActorFlags.resetBit(ActorFlag::_2);
+    }
+}
+
+void Actor::m110(f32* a1, s32* a2) {
+    *a1 = 0.2f;
+    *a2 = 0;
+}
+
+void Actor::m111(f32* a1, s32* a2) {
+    *a1 = 0.2f;
+    *a2 = 2;
+}
+
+void Actor::m112(f32* a1, s32* a2) {
+    *a1 = 0.01f;
+    *a2 = 1;
+}
+
+void Actor::m113(f32* a1, s32* a2) {
+    *a1 = 0.01f;
+    *a2 = 2;
+}
+
+f32 Actor::m38() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (auto* body = controller->sub_7100F61A34())
+                return body->getMass();
+        }
+    }
+    if (auto* body = mMainBody.load())
+        return body->getMass();
+    return 0.0f;
+}
+
+void Actor::m107() {
+    mSkipJobPushTimer = 2;
+    if (_598)
+        _598->sub_710125122C();
+}
+
+f32 Actor::m139() {
+    return _4f0 * mStartModelOpacity * _4e8;
+}
+
+bool Actor::isWaitRevivalForUsed() const {
+    if (!mMapObject)
+        return false;
+    return mMapObject->checkRevivalFlag(map::ActorData::Flag::RevivalForUsed);
+}
+
+void Actor::setRevivalFlagForUsed(bool value) {
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
+}
+
+phys::RigidBody* Actor::getPhysicsMainBody() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (auto* body = controller->sub_7100F61A34())
+                return body;
+        }
+    }
+    return mMainBody;
+}
+
+phys::RigidBody* Actor::findPhysicsBodyByName(const char* group_name, const char* body_name) const {
+    if (!mPhysics)
+        return nullptr;
+    const phys::RigidBodySet* group = mPhysics->findBodyGroupByName(group_name);
+    if (!group)
+        return nullptr;
+    return group->findBodyByHavokName(body_name);
+}
+
+bool Actor::sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const {
+    if (!mModel)
+        return false;
+    const auto key = mModel->searchBone(bone_name);
+    if (!key.isValid() || !mModel)
+        return false;
+    mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(mtx, key.bone_index);
+    return true;
+}
+
+void Actor::fadeOutSleep(SleepWakeReason reason) {
+    if (isDeletedOrDeleting())
+        return;
+    if (mFadeOutSleepFlags.setBitOn(int(reason)))
+        onFadeOutSleep();
+    if (isSleep() || mStateFlags.isOn(StateFlags::RequestWakeUp))
+        sleep(reason);
+}
+
+void Actor::emitDeadUpLifeZeroAndSetRevival() {
+    emitSignal(map::MapLinkDefType::DeadUp, true);
+    emitSignal(map::MapLinkDefType::LifeZero, true);
+    if (mMapObject)
+        mMapObject->setFlags0(map::Object::Flag0::_100000);
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
+}
+
 void Actor::sub_71011D7E24() {
     auto* physics = mPhysics;
     if (!physics)
@@ -455,8 +590,8 @@ void Actor::m60() {}
 
 void Actor::m61() {}
 
-bool Actor::shouldUnload() {
-    return shouldUnloadBecauseOfDistance();
+bool Actor::shouldUnload(s32* a1) {
+    return shouldUnloadBecauseOfDistance(a1);
 }
 
 void Actor::m63() {}
@@ -566,7 +701,7 @@ void Actor::m103() {}
 
 void Actor::m114() {}
 
-void Actor::m117() {}
+void Actor::m117(Unk117*) {}
 
 void Actor::m147() {}
 

@@ -10,6 +10,9 @@
 
 namespace ksys::phys {
 
+class HavokAI;
+class Unk_7102372790;
+
 // Placeholder name (ctor 0x7100f7e9f0, dtor 0x7100f7eb14; 0x18 bytes): result returned by value
 // from NavMeshCharacter::sub_7100F76078.
 class Unk_7100f7e9f0 {
@@ -70,6 +73,11 @@ public:
         _1db = 0;
     }
 
+    // Inline-only in the original; name is a guess. Evidence: `nav ? nav->_2a8 * nav->_2ac : X` is repeated
+    // in AssassinNormal, NavMoveNearTarget, NavMoveTarget::m36/m37, HorseRideEnemyFindPlayer,
+    // GiantNavMoveTarget and LynelNavMoveNoStop (no out-of-line copy).
+    f32 getRadiusMaybe() const { return _2a8 * _2ac; }
+
     // Inline-only in the original (lane1 s21; name is a placeholder): sets the three vectors at
     // 0x194 / 0x1a0 / 0x1ac to NaN under _1e0 (seen after inlineReset() in AnimalRoamCheckWater,
     // HorseMoveToTargetAction::enter_ and others).
@@ -85,7 +93,7 @@ public:
 
     /* 0x008 */ u64 _8 = 0;
     /* 0x010 */ void* _10 = nullptr;
-    /* 0x018 */ void* _18 = nullptr;
+    /* 0x018 */ HavokAI* _18 = nullptr;
     /* 0x020 */ u8 _20[0x58 - 0x20];
     /* 0x058 */ void* _58 = nullptr;
     /* 0x060 */ void* _60 = nullptr;
@@ -123,7 +131,7 @@ public:
     /* 0x2cc */ f32 _2cc;
     /* 0x2d0 */ f32 _2d0;
     /* 0x2d4 */ u8 _2d4[0x2e0 - 0x2d4];
-    /* 0x2e0 */ void* _2e0;
+    /* 0x2e0 */ Unk_7102372790* _2e0;  // navmesh query (released through HavokAI::sub_7100F83A94)
 };
 
 }  // namespace ksys::phys

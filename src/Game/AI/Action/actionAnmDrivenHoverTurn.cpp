@@ -4,7 +4,11 @@ namespace uking::action {
 
 AnmDrivenHoverTurn::AnmDrivenHoverTurn(const InitArg& arg) : AnmDrivenHoverBase(arg) {}
 
-AnmDrivenHoverTurn::~AnmDrivenHoverTurn() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+AnmDrivenHoverTurn::~AnmDrivenHoverTurn() {
+    ;
+}
 
 bool AnmDrivenHoverTurn::init_(sead::Heap* heap) {
     return AnmDrivenHoverBase::init_(heap);

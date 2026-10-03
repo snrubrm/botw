@@ -20,6 +20,8 @@ void WillBallOperated::leave_() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
+// NON_MATCHING: the original computes the later params' `this + off` addresses before the first call
+// and keeps them in callee-saved registers (extra frame slot); same family as WeaponOnetimeUse
 void WillBallOperated::loadParams_() {
     getDynamicParam(&mWaitTime_d, "WaitTime");
     getDynamicParam(&mCommand_d, "Command");

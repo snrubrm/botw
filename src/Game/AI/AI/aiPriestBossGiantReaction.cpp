@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiPriestBossGiantReaction.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -14,6 +17,26 @@ bool PriestBossGiantReaction::init_(sead::Heap* heap) {
 void PriestBossGiantReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
     *mPriestBossUrbosasFuryEShock_a = false;
+}
+
+void PriestBossGiantReaction::calc_() {
+    EnemyDefaultReaction::calc_();
+
+    if (!_90) {
+        auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        if (manager) {
+            const s32 damage = manager->getDamage();
+            if (damage >= 1 && manager->checkDamageFlags(22))
+                _90 = true;
+        }
+    }
+
+    if (_90 && *mPriestBossUrbosasFuryEShock_a) {
+        if (!_70.sub_7101241B6C())
+            xlinkSearchAndEmit(mActor, "ElectricShock", 2, &_70);
+    } else if (_70.sub_7101241B6C()) {
+        _70.fadeXLink();
+    }
 }
 
 void PriestBossGiantReaction::leave_() {

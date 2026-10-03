@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
+    float m33() override;
 
     // static_param at offset 0xf8
     const int* mHighPosWarpRate_s{};
@@ -27,6 +29,10 @@ protected:
     const float* mHighOffsetY_s{};
     // static_param at offset 0x110
     const float* mLifeCondition_s{};
+    bool _118 = false;
+    u8 _119[0x3];
+    s32 _11c = 0;
 };
+KSYS_CHECK_SIZE_NX150(LastBossRandomHighWarp, 0x120);
 
 }  // namespace uking::action

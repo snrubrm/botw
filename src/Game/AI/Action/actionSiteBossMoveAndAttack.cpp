@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossMoveAndAttack.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +14,10 @@ bool SiteBossMoveAndAttack::init_(sead::Heap* heap) {
 
 void SiteBossMoveAndAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossMove::enter_(params);
+    if (auto* boss = sead::DynamicCast<uking::act::SiteBoss>(mActor)) {
+        if (!boss->_1560.sub_710066C074())
+            setFailed();
+    }
 }
 
 void SiteBossMoveAndAttack::leave_() {

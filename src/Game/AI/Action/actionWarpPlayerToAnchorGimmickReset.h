@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,12 @@ protected:
     sead::SafeString mAnchorName_m{};
     // map_unit_param at offset 0x38
     sead::SafeString mAnchorUniqueName_m{};
+    sead::Vector3f _48 = sead::Vector3f::zero;
+    bool _54 = false;
+    u8 _55[0x3];
+    f32 _58 = 0.0f;
+    u8 _5c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(WarpPlayerToAnchorGimmickReset, 0x60);
 
 }  // namespace uking::action

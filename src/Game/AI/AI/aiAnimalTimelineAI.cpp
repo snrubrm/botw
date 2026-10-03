@@ -42,4 +42,9 @@ void AnimalTimelineAI::loadParams_() {
     getAITreeVariable(&mDomesticAnimalRailName_a, "DomesticAnimalRailName");
 }
 
+void AnimalTimelineAI::m36(const sead::SafeString& name, ksys::act::ai::InlineParamPack* params) {
+    _48 = name;
+    static_cast<sead::BufferedSafeString*>(mDomesticAnimalRailName_a)->copy(name);
+}
+
 }  // namespace uking::ai

@@ -22,7 +22,7 @@ public:
 
     virtual bool m34();
     virtual void m35();
-    virtual void m36(bool a1);
+    virtual void m36(bool a1, f32 a2);
     virtual void m37();
     virtual void m38(bool a1, bool a2);
     virtual void m39();

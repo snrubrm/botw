@@ -12,14 +12,20 @@ target_sources(uking PRIVATE
   gameGearMgr.h
   gameItemUtils.cpp
   gameItemUtils.h
+  gameLastBossMgr.cpp
+  gameLastBossMgr.h
   gameMaskController.cpp
   gameMaskController.h
+  gameMotorcycleMgr.cpp
+  gameMotorcycleMgr.h
   gameResetter.cpp
   gameRuneMgr.cpp
   gameRuneMgr.h
   gameResetter.h
   gameResidentActorMgr.cpp
   gameResidentActorMgr.h
+  gameRumble.cpp
+  gameRumble.h
   gameUnk_71024739d0.cpp
   gameUnk_71024739d0.h
   gameUnk_710090d904.cpp

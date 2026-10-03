@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiSeqTwoAction.h"
+#include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -19,7 +20,7 @@ public:
 
 protected:
     // aitree_variable at offset 0x50
-    void* mAirOctaDataMgr_a{};
+    Unk_71025afb58** mAirOctaDataMgr_a{};
 };
 
 }  // namespace uking::ai

@@ -19,6 +19,7 @@ class Message;
 namespace act {
 class Actor;
 class BaseProc;
+struct Unk117;
 }  // namespace act
 }  // namespace ksys
 
@@ -65,6 +66,10 @@ public:
 
     ksys::act::Actor* sub_7100E8B644();
     ksys::act::Actor* sub_7100E8B6E0();
+    // 0x7100e8bb4c: called with the base class' result by the isSpecialJobType_ overrides of Enemy, HorseBase and
+    // Motorcycle (declaration only).
+    // (BaseProc::IsSpecialJobTypeResult is protected, so the values are passed as ints.)
+    int sub_7100E8BB4C(int result);
     // 0x7100e8bd6c: links `proc` in _20 (resets the link if null).
     void sub_7100E8BD6C(ksys::act::BaseProc* proc);
     // 0x7100e8bd80 / 0x7100e8be10: enable / disable the actor's "Ride", "Ride2" (the enable variant
@@ -73,6 +78,9 @@ public:
     void sub_7100E8BE10();
     // 0x7100e8bfd4: sets bit 8 of _8; true if it was clear.
     bool sub_7100E8BFD4();
+    // 0x7100e8b780: handles an Actor::x_17 request (vtable slot 117 of Enemy / HorseBase /
+    // Motorcycle): false (the request is consumed) when it names the event "Demo005_0".
+    bool sub_7100E8B780(ksys::act::Unk117* arg);
     // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
     // 0x7100e8bff4 (declared only).
     bool sub_7100E8BFF4();
@@ -151,6 +159,9 @@ public:
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
     void sub_7100E63224(u32 type, s32 gear);
+    // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
+    // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
+    void sub_7100E63424();
 
     /*  4 */ virtual bool m4(ksys::act::Actor* actor, sead::Heap* heap);
     /*  5 */ virtual void m5();

@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiViewWait.h"
+#include <cmath>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -7,6 +12,28 @@ namespace uking::ai {
 ViewWait::ViewWait(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 ViewWait::~ViewWait() = default;
+
+bool ViewWait::m38() {
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+
+    sead::Vector3f up;
+    if (auto* controller = mActor->getCharacterController())
+        up = getUpDir(controller->get70());
+    else
+        up = sead::Vector3f::ey;
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = m34();
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.y = 0;
+    if (sead::Mathf::equalsEpsilon(dir.normalize(), 0.0f))
+        return true;
+    return front.dot(dir) >= std::cos(*mTurnStartAngle_s);
+}
 
 void ViewWait::enter_(ksys::act::ai::InlineParamPack* params) {
     if (m38())

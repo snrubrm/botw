@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiZoraHeroRelicBattleRidePlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -17,6 +19,14 @@ void ZoraHeroRelicBattleRidePlayer::enter_(ksys::act::ai::InlineParamPack* param
     _60.reset();
     _40.reset();
     sub_71006138CC();
+}
+
+void ZoraHeroRelicBattleRidePlayer::sub_71006138CC() {
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    pos.setMul(mActor->getMtx(), sead::Vector3f{0.0f, 0.0f, 15.0f});
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 void ZoraHeroRelicBattleRidePlayer::leave_() {

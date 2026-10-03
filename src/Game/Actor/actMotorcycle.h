@@ -1,15 +1,135 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <thread/seadCriticalSection.h>
+#include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+
+namespace ksys::act {
+class Actor;
+}
 
 namespace ksys::phys {
+class Constraint;
 class RigidBody;
 }
 
 namespace uking::act {
 
 class Unk_7100e8b2b8;
+struct MotorcycleStruct0;
+
+// Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710006c824, size 0x1b0): a wheel of
+// the motorcycle (two instances, Motorcycle +0xdd0 and +0xdd8). Not decompiled yet.
+struct MotorcycleStruct2 {
+    /* 0x000 */ ksys::phys::RigidBody* _0;
+    /* 0x008 */ ksys::phys::RigidBody* _8;
+    /* 0x010 */ MotorcycleStruct0* _10;
+    /* 0x018 */ u8 _18[0x110 - 0x18];
+    /* 0x110 */ s32 _110;
+    /* 0x114 */ u8 _114[0x128 - 0x114];
+    /* 0x128 */ u64 _128;
+    /* 0x130 */ sead::Vector3f _130;
+    /* 0x13c */ u16 _13c;
+    /* 0x13e */ u8 _13e;
+    /* 0x13f */ u8 _13f;
+    /* 0x140 */ u8 _140;
+    /* 0x141 */ u8 _141[0x148 - 0x141];
+    /* 0x148 */ ksys::phys::Constraint* _148;
+    /* 0x150 */ ksys::phys::Constraint* _150;
+    /* 0x158 */ u8 _158[0x1b0 - 0x158];
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
+
+// CSV MotorcycleUserTag (no namespace in the CSV; vtable 0x71023612c0, RTTI parent PhysicsUserTag, size
+// 0x60). Created inline by Motorcycle::prepareInit_ with the main body and both wheels; it records the
+// biggest impulse each body received (and whether it was hit by a giant / golem).
+class MotorcycleUserTag : public ksys::act::PhysicsUserTag {
+    SEAD_RTTI_OVERRIDE(MotorcycleUserTag, ksys::act::PhysicsUserTag)
+public:
+    struct Entry {
+        s32 _0;
+        ksys::phys::RigidBody* body;
+        f32 impulse;
+        bool updated;
+        bool hit_by_giant_or_golem;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x18);
+
+    ~MotorcycleUserTag() override;
+    void onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::RigidBody* body_b,
+                   f32 impulse_a) override;
+
+    Entry mEntries[3];
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleUserTag, 0x60);
+
+// CSV MotorcycleStruct0 (ctor 0x710006bf34, size 0x1b0, at Motorcycle +0xbc8): the engine / steering
+// model of the motorcycle (speeds in the first 0x60 bytes, aal::TimedFader members at 0x70, 0x98, 0xd0,
+// 0x108, 0x150, 0x1ac ...). Only the fields used by the decompiled functions are declared; the
+// constructor is blocked (aal::TimedFader is not in lib/aal).
+struct MotorcycleStruct0 {
+    MotorcycleStruct0(ksys::act::Actor* actor);
+
+    // 0x710006c270: converts the energy cost rate on the first call and drains the global motorcycle
+    // energy; sets _19e when it is used up.
+    void sub_710006C270();
+
+    /* 0x000 */ u8 _0[4];
+    /* 0x004 */ f32 _4;
+    /* 0x008 */ u8 _8[0x48 - 8];
+    /* 0x048 */ f32 _48;
+    /* 0x04c */ u8 _4c[0x19e - 0x4c];
+    /* 0x19e */ bool _19e;
+    /* 0x19f */ u8 _19f[0x1a8 - 0x19f];
+    /* 0x1a8 */ ksys::act::Actor* _1a8;
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct0, 0x1b0);
+
+// Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710007027c, size 0x430, at Motorcycle +
+// 0x11b0): the model bones of the motorcycle (looked up by Motorcycle::searchModelHandles).
+struct MotorcycleStruct1 {
+    MotorcycleStruct1();
+    ~MotorcycleStruct1();
+
+    /* 0x000 */ gsys::BoneAccessKeyEx mWheel_F;
+    /* 0x038 */ gsys::BoneAccessKeyEx mWheel_R;
+    /* 0x070 */ gsys::BoneAccessKeyEx mSwingArm_F;
+    /* 0x0a8 */ gsys::BoneAccessKeyEx mSwingArm_R;
+    /* 0x0e0 */ gsys::BoneAccessKeyEx mSuspension_F;
+    /* 0x118 */ gsys::BoneAccessKeyEx mSuspension_R;
+    /* 0x150 */ gsys::BoneAccessKeyEx mHandle;
+    /* 0x188 */ gsys::BoneAccessKeyEx mBody_1;
+    /* 0x1c0 */ gsys::BoneAccessKeyEx mHead_A;
+    /* 0x1f8 */ gsys::BoneAccessKeyEx mSaddle_Root;
+    /* 0x230 */ gsys::BoneAccessKeyEx mSeat_Front;
+    /* 0x268 */ gsys::BoneAccessKeyEx mSeat_Rear;
+    /* 0x2a0 */ gsys::BoneAccessKeyEx mRearCowl_A;
+    /* 0x2d8 */ gsys::BoneAccessKeyEx mSeatArm_Front;
+    /* 0x310 */ gsys::BoneAccessKeyEx mSeatArm_Rear;
+    /* 0x348 */ f32 _348 = -42.0f;
+    /* 0x34c */ f32 _34c = 7.0f;
+    /* 0x350 */ u64 _350 = 0;
+    /* 0x358 */ u64 _358 = 0;
+    /* 0x360 */ u64 _360 = 0;
+    /* 0x368 */ u64 _368 = 0;
+    /* 0x370 */ u32 _370 = 0;
+    /* 0x374 */ f32 _374 = 1.0f;
+    /* 0x378 */ f32 _378 = 1.0f;
+    /* 0x37c */ f32 _37c = 1.0f;
+    /* 0x380 */ u32 _380 = 0;
+    /* 0x384 */ u8 _384 = 0;
+    /* 0x388 */ sead::Vector3f _388 = sead::Vector3f::zero;
+    /* 0x394 */ sead::Vector3f _394 = sead::Vector3f::zero;
+    /* 0x3a0 */ sead::Matrix34f _3a0 = sead::Matrix34f::ident;
+    /* 0x3d0 */ sead::Matrix34f _3d0 = sead::Matrix34f::ident;
+    /* 0x400 */ sead::Matrix34f _400 = sead::Matrix34f::ident;
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleStruct1, 0x430);
 
 // Name from the CSV (Motorcycle::*). vtable 0x7102361318 (GOT 0x7102361328; 165 slots: DynamicActor's
 // 163 + m163 / m164), RTTI static 0x71025af458 (parent: DynamicActor). ctor 0x710006fd9c (CSV
@@ -35,7 +155,7 @@ protected:
 public:
     void m44() override;
     ksys::phys::NavMeshCharacter* m45() override { return _1650; }
-    bool shouldUnload() override;
+    bool shouldUnload(s32* a1) override;
     void initMaybe() override;
     void calcMaybe() override;
     void m70() override;
@@ -46,7 +166,7 @@ public:
     void updateMtxFromPhysics() override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     void m88() override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override { return _1648; }
 
     // FIXME: figure out return types, parameters and names
@@ -68,34 +188,116 @@ public:
     void setAccelMaybe(f32 accel);
     // 0x710007a8d4
     void crashMaybe(bool crash);
+    // 0x71000711e0 (CSV Motorcycle::searchModelHandles): looks up the bones of _11b0.
+    void searchModelHandles();
+    // 0x710007b68c: the centre of mass of the main body (_bb8).
+    void x_1(sead::Vector3f* center) const;
+    // 0x710007a708: the y axis of the main body transform ((0, 1, 0) without a body).
+    sead::Vector3f x_4() const;
+    // 0x7100077830: switches the motion type of the main body and both wheels to Fixed (once).
+    void sub_7100077830();
+    // 0x7100071cb0: clears flag bit 24 and sets it again when a ray cast from the main body (starting
+    // 1.2 above it, 2 along its z axis) hits the ground or an object.
+    void sub_7100071CB0();
+    // 0x71000769b4: restores the inertia of the main body and both wheels (_eec / _ef8 / _f04) when it
+    // differs.
+    void sub_71000769B4();
+    // 0x7100072204: switches the motion type of the main body and both wheels back to Dynamic.
+    void sub_7100072204();
+    // 0x710007a798: stores a direction in _f70 (flattened to the XZ plane and normalized if it has a y
+    // component) and sets flag bit 28.
+    void sub_710007A798(const sead::Vector3f& direction);
+    // 0x710007a4a8: 0 while flag bits 17 and 37 are both set, _e4c otherwise.
+    f32 sub_710007A4A8() const;
+    // 0x710007a6e8: flag bit 25 while bit 8 or 9 is set.
+    bool sub_710007A6E8() const;
+    // 0x710007a74c: stores `value` in _112c and sets _1128 (under the _10e8 lock).
+    void sub_710007A74C(f32 value);
+    // 0x710007a928 / 0x710007a938: set / clear flag bit 44, then x_7().
+    void sub_710007A928();
+    void sub_710007A938();
+    // 0x710007f8f8 (declaration only; placeholder name): fades the bike sound out (aal::TimedFader at _1058),
+    // called by MotorcycleDisappear::enter_.
+    void sub_710007F8F8();
+    // 0x7100071998 (declaration only; placeholder name): called by MotorcycleAppear::enter_ after the warp
+    // effect starts.
+    void sub_7100071998();
+    // 0x710007a958 / 0x710007a994: _e74 / _e78 scaled into [-1, 1] (x 20 for the first).
+    f32 sub_710007A958() const;
+    f32 sub_710007A994() const;
+    // 0x710007aba4: the current left stick Y value (_ba8._8) when _f10 is 1 or 3.
+    f32 sub_710007ABA4() const;
+    // 0x710007f868: the centre of mass of the main body.
+    sead::Vector3f sub_710007F868() const;
+    // 0x7100077fdc: places both wheels relative to `mtx` (0.474 above and 1.41 in front of / 0.7762 behind
+    // the origin, mirrored) and resets their state.
+    void x_12(const sead::Matrix34f& mtx);
+    // 0x71000715d8 / 0x71000717b8 (not decompiled): both take two output vectors.
+    void sub_71000715D8(sead::Vector3f* a, sead::Vector3f* b);
+    void sub_71000717B8(sead::Vector3f* a, sead::Vector3f* b);
     // 0x7100070e48 (not decompiled)
     void x_7();
     // 0x710007a9c8 / 0x710007abc4 / 0x710007bf90 (not decompiled)
     // Not declared yet: x_4 0x710007a708 (the main body transform's y axis), x_2 0x710007f894 (takes a
     // SEAD_ENUM: compares the s32 at +0x110 of _dd0 / _dd8), x_1 / x_9 / x_0 ... (see the CSV).
 
-    /* 0x0b90 */ u8 _b90[0xb9c - 0xb90];
-    /* 0x0b9c */ u8 _b9c[0xbb4 - 0xb9c];  // left stick X / Y (motorcycleStickControlStuff objects at 0xb9c / 0xba8)
+    /* 0x0b90 */ Unk_71002c8918 _b90;
+    /* 0x0b9c */ Unk_7100e72ac0 _b9c;  // left stick X
+    /* 0x0ba8 */ Unk_7100e72ac0 _ba8;  // left stick Y
     /* 0x0bb4 */ f32 _bb4;
     /* 0x0bb8 */ ksys::phys::RigidBody* _bb8;
-    /* 0x0bc0 */ u8 _bc0[0xdd0 - 0xbc0];  // incl. MotorcycleStruct0 at 0xbc8
-    /* 0x0dd0 */ void* _dd0;
-    /* 0x0dd8 */ void* _dd8;
+    /* 0x0bc0 */ u8 _bc0[8];
+    /* 0x0bc8 */ MotorcycleStruct0 _bc8;
+    /* 0x0d78 */ u8 _d78[0xdd0 - 0xd78];
+    /* 0x0dd0 */ MotorcycleStruct2* _dd0;
+    /* 0x0dd8 */ MotorcycleStruct2* _dd8;
     /* 0x0de0 */ u8 _de0[0xdf0 - 0xde0];
     /* 0x0df0 */ u64 _df0;
     /* 0x0df8 */ u8 _df8[0xe00 - 0xdf8];
     /* 0x0e00 */ f32 _e00;
-    /* 0x0e04 */ u8 _e04[0xe3c - 0xe04];
+    /* 0x0e04 */ sead::Vector3f _e04;
+    /* 0x0e10 */ sead::Vector3f _e10;
+    /* 0x0e1c */ sead::Vector3f _e1c;
+    /* 0x0e28 */ sead::Vector3f _e28;
+    /* 0x0e34 */ u8 _e34[0xe3c - 0xe34];
     /* 0x0e3c */ f32 _e3c;  // acceleration (setAccelMaybe)
-    /* 0x0e40 */ u8 _e40[0xf10 - 0xe40];
+    /* 0x0e40 */ f32 _e40;
+    /* 0x0e44 */ u8 _e44[0xe4c - 0xe44];
+    /* 0x0e4c */ f32 _e4c;
+    /* 0x0e50 */ u8 _e50[0xe58 - 0xe50];
+    /* 0x0e58 */ f32 _e58;
+    /* 0x0e5c */ sead::Vector3f _e5c;
+    /* 0x0e68 */ u8 _e68[0xe6c - 0xe68];
+    /* 0x0e6c */ f32 _e6c;
+    /* 0x0e70 */ f32 _e70;
+    /* 0x0e74 */ f32 _e74;
+    /* 0x0e78 */ f32 _e78;
+    /* 0x0e7c */ u8 _e7c[0xec4 - 0xe7c];
+    /* 0x0ec4 */ s32 _ec4;
+    /* 0x0ec8 */ sead::Vector3f _ec8;
+    /* 0x0ed4 */ sead::Vector3f _ed4;
+    /* 0x0ee0 */ u8 _ee0[0xeec - 0xee0];
+    /* 0x0eec */ sead::Vector3f _eec;  // target inertia of the main body / the wheels
+    /* 0x0ef8 */ sead::Vector3f _ef8;
+    /* 0x0f04 */ sead::Vector3f _f04;
     /* 0x0f10 */ s32 _f10;
-    /* 0x0f14 */ u8 _f14[0xf88 - 0xf14];
+    /* 0x0f14 */ u8 _f14[0xf70 - 0xf14];
+    /* 0x0f70 */ sead::Vector3f _f70;
+    /* 0x0f7c */ u8 _f7c[0xf80 - 0xf7c];
+    /* 0x0f80 */ bool _f80;
+    /* 0x0f81 */ u8 _f81[0xf88 - 0xf81];
     /* 0x0f88 */ sead::BitFlag64 _f88;
     /* 0x0f90 */ u8 _f90[0x10a4 - 0xf90];
     /* 0x10a4 */ s32 _10a4;
-    /* 0x10a8 */ u8 _10a8[0x112c - 0x10a8];
+    /* 0x10a8 */ u8 _10a8[0x10e8 - 0x10a8];
+    /* 0x10e8 */ sead::CriticalSection _10e8;
+    /* 0x1128 */ bool _1128;
     /* 0x112c */ f32 _112c;
-    /* 0x1130 */ u8 _1130[0x1648 - 0x1130];
+    /* 0x1130 */ u8 _1130[0x11b0 - 0x1130];
+    /* 0x11b0 */ MotorcycleStruct1 _11b0;
+    /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];
+    /* 0x1608 */ sead::Vector3f _1608;
+    /* 0x1614 */ u8 _1614[0x1648 - 0x1614];
     /* 0x1648 */ Unk_7100e8b2b8* _1648;
     /* 0x1650 */ ksys::phys::NavMeshCharacter* _1650;
     /* 0x1658 */ u8 _1658[0x1670 - 0x1658];

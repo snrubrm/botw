@@ -35,7 +35,7 @@ protected:
     const bool* mIsUseStartAction_s{};
     Unk_71023dbd40 _58{mActor, 0x80000d7};
     Unk_71024509a8 _88;
-    void* _d0 = nullptr;
+    sead::Vector2f _d0{0, 0};
     Unk_7102409958 _d8{mActor, 0x80000da};
     Unk_7102413c08 _118{mActor, 0x80000de};
     sead::BitFlag8 _140;

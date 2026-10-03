@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionElectricCableEnergized.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,16 @@ bool ElectricCableEnergized::init_(sead::Heap* heap) {
 }
 
 void ElectricCableEnergized::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    if (!_20) {
+        _20 = actor->sub_71011D8A44(0);
+        if (!_20)
+            return;
+    }
+    if (!_28)
+        _28 = actor->sub_71011D8A44(1);
 }
 
 void ElectricCableEnergized::leave_() {

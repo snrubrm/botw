@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiVacuumedBombDamageSelect.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,14 @@ bool VacuumedBombDamageSelect::init_(sead::Heap* heap) {
 }
 
 void VacuumedBombDamageSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr());
+    auto* bomb = sead::DynamicCast<Unk_7102370e70>(*mVacuumedExplodingBomb_a);
+    if (manager && bomb && manager->getAttacker()->hasProc() &&
+        *manager->getAttacker() == bomb->mLink) {
+        changeChild("体内爆発", params);
+    } else {
+        changeChild("その他", params);
+    }
 }
 
 void VacuumedBombDamageSelect::calc_() {}

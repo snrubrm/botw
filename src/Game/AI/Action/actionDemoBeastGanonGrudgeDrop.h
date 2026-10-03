@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,11 @@ protected:
     sead::SafeString mASName_d{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mFallPoint1_d{};
+    ksys::act::BaseProcHandle _50;
+    f32 _60 = 0.0f;
+    bool _64 = false;
+    u8 _65[0x3];
 };
+KSYS_CHECK_SIZE_NX150(DemoBeastGanonGrudgeDrop, 0x68);
 
 }  // namespace uking::action

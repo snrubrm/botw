@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiSiteBossSpearThrow.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -13,7 +16,39 @@ SiteBossSpearThrow::~SiteBossSpearThrow() {
 }
 
 bool SiteBossSpearThrow::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->getActorPartsActor("Spear").hasProc())
+            return true;
+
+        enemy->sub_7100D3CED8("Spear", heap);
+
+        s32 num_dead_blights = getNumberOfDeadBlights();
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            const s32 kind = boss->_1534 & ~3;
+            if (kind == 4)
+                num_dead_blights = 3;
+            else if (kind == 8)
+                num_dead_blights = 4;
+        }
+
+        const s32 add_power = *mAddAttackPower_s * num_dead_blights;
+        const s32 attack_power = *mAttackPower_s + add_power;
+        const s32 min_damage = *mAtMnDamage_s + add_power;
+        ksys::act::InstParamPack pack;
+        pack->add(attack_power, "AttackPower");
+        pack->add(1.0f, "ScaleTime");
+        ksys::act::ActorCreator::addScale(pack, 1.0f);
+        pack->add(min_damage, "AtMinDamage");
+        auto* spear = ksys::act::ActorCreator::instance()->createActor(
+            mThrowActorName_s.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+            &pack, true, false);
+        if (spear) {
+            spear->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+            enemy->sub_7100D3D108("Spear", spear);
+            spear->clearFadeInCreate();
+        }
+    }
+    return true;
 }
 
 void SiteBossSpearThrow::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -16,6 +16,10 @@ public:
     void m9() override;
     void loadParams() override;
 
+    // inline-only in the original; names are guesses (the same sequences are inlined in m7, m8 and m9).
+    void sub_applyKey_();
+    void sub_restoreKey_();
+
     /* 0x28 */ const bool* mIsChinkCheck_s{};
     /* 0x30 */ sead::SafeString mKeyName_s{};
     /* 0x40 */ u32 _40 = 0xffffffffffffffff;

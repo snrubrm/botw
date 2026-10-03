@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71024f15c0.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Utils/Types.h"
@@ -29,7 +30,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
 
     /* 0x840 */ void* _840 = nullptr;
-    /* 0x848 */ u8 _848[0x8a8 - 0x848];  // object with ctor 0x7100eebaac (CSV Rail::ctor)
+    /* 0x848 */ Unk_71024f15c0 _848;  // ctor 0x7100eebaac (CSV Rail::ctor)
     /* 0x8a8 */ sead::SafeString _8a8;
     /* 0x8b8 */ u16 _8b8 = 0;
     /* 0x8c0 */ sead::FixedSafeString<64> _8c0;

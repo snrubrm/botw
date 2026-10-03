@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -23,6 +24,9 @@ protected:
     bool* mCreateSelf_d{};
     // dynamic_param at offset 0x28
     sead::SafeString mUniqueName_d{};
+    ksys::act::BaseProcHandle _38;
+
 };
+KSYS_CHECK_SIZE_NX150(PlayerWakeBoardReady, 0x48);
 
 }  // namespace uking::action

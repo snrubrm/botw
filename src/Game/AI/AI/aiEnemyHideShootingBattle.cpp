@@ -9,7 +9,8 @@ EnemyHideShootingBattle::~EnemyHideShootingBattle() = default;
 
 void EnemyHideShootingBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    pack.addVec3(target_pos, "TargetPos", -1);
     changeChild("隠れる", &pack);
 }
 

@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiSwarmBattle.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,18 @@ bool SwarmBattle::init_(sead::Heap* heap) {
 }
 
 void SwarmBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    _50 = 0;
+
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        const s32 interval = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
+        enemy->_e68 = ksys::Timer(interval, interval);
+    }
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("戦闘準備", &pack);
 }
 
 void SwarmBattle::leave_() {

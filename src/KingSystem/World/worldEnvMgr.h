@@ -262,10 +262,12 @@ private:
     sead::Color4f mCharMainLightScale;
     float _6b548;
     float _6b54c;
+public:  // written directly by uking::action::EventSet{PaletteType,YfogRatio,DiffuseAttenuate}
     float _6b550;
     float mEventYfogRatio;
     float _6b558;
     float mEventDiffuseAttenuateDiameter;
+private:
     float _6b560;
     float _6b564;
     float _6b568;
@@ -288,14 +290,18 @@ private:
     float mFogFar;
     float _6b5b0;
     float _6b5b4;
+public:  // written directly by uking::action::EventSet{PaletteType,YfogRatio,DiffuseAttenuate}
     int mPaletteSetOverride;
     int mPaletteSetOverrideTimer;
+private:
     int mPaletteSetForClimate;
     int mPaletteSetForClimateTimer;
+public:
     u32 _6b5c8;
     u32 _6b5cc;
     u32 _6b5d0;
     u32 _6b5d4;
+private:
     int mWarpMistTimer;
     u32 _6b5dc;
     u32 _6b5e0;
@@ -320,7 +326,9 @@ private:
     bool _6b60e;
     bool _6b60f;
     bool _6b610;
+public:  // written directly by uking::action::EventSetPaletteType
     bool mBlockPaletteSetOverride;
+private:
     u32 _6b614;
 };
 KSYS_CHECK_SIZE_NX150(EnvMgr, 0x6b618);

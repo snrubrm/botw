@@ -23,16 +23,15 @@ void PlayerEmitInterest::loadParams() {
     getStaticParam(&mIsTargetNPC_s, "IsTargetNPC");
 }
 
-// NON_MATCHING: the original reads IsTargetNPC in both branches, before updating the unit
 void PlayerEmitInterest::m7() {
     auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
     if (!player)
         return;
     auto* unit = mActor->get548();
-    const int level = player->_c44.isOnBit(6) ? *mLevelNaked_s : *mLevelBase_s;
-    if (unit->_18._48 < level)
-        unit->_18._48 = level;
-    unit->_18._44 |= *mIsTargetNPC_s;
+    if (player->_c44.isOnBit(6))
+        unit->emitInterest(*mLevelNaked_s, *mIsTargetNPC_s);
+    else
+        unit->emitInterest(*mLevelBase_s, *mIsTargetNPC_s);
 }
 
 }  // namespace uking::behavior

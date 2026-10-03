@@ -48,7 +48,8 @@ protected:
     u32 _a8 = 0;
     u32 _ac = 0;
     u32 _b0 = 0;
-    sead::Matrix34f _b4;
+    sead::Matrix33f _b4;
+    sead::Vector3f _d8;
     gsys::BoneAccessKeyEx _e8;
 };
 KSYS_CHECK_SIZE_NX150(SiteBossLswordFireBallRoot, 0x120);

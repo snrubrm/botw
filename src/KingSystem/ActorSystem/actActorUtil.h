@@ -221,6 +221,9 @@ bool isInSatoriMountainArea(const sead::Vector3f& pos);
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx);
 
+// 0x7100ee57fc (declaration only): sets the actor's position through its character controller or rigid
+// body (counterpart of sub_7100EE58C0).
+void sub_7100EE57FC(Actor* actor, const sead::Vector3f& pos);
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 // 0x7100ee5b18 (declaration only): sets the actor's translation (copy of its matrix with a new

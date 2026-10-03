@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseWaitEx.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,8 @@ bool HorseWaitEx::init_(sead::Heap* heap) {
 
 void HorseWaitEx::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseWaitAction::enter_(params);
+    _68 = 0;
+    mActor->getMtx().getTranslation(_70);
 }
 
 void HorseWaitEx::leave_() {

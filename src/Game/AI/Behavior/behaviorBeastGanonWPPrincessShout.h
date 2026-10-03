@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/Behavior/behaviorSimpleAtvUnitOpenSimpleDialog.h"
 
@@ -16,10 +17,10 @@ public:
     void m9() override;
     void loadParams() override;
     const sead::SafeString* m14() override;
-    void m16() override;  // not decompiled yet (0x710061a35c)
+    void m16() override;
 
     /* 0x88 */ u32 _88 = 0;
-    /* 0x8c */ u16 _8c = 0;
+    /* 0x8c */ sead::BitFlag16 _8c;
     /* 0x90 */ const int* mSingleIdx_s{};
     /* 0x98 */ sead::SafeString mlabelName2_s{};
     /* 0xa8 */ sead::SafeString mlabelName3_s{};

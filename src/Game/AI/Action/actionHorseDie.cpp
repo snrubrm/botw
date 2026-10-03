@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionHorseDie.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -26,6 +28,21 @@ void HorseDie::loadParams_() {
 
 void HorseDie::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool HorseDie::handleMessage_(const ksys::Message& message) {
+    if (message.getType() != ksys::MessageType(0x380001c))
+        return false;
+    auto* info = mActor->m135();
+    if (info) {
+        if (info->_0)
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+        else
+            mActor->deleteAndEmit(0);
+    } else {
+        mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+    }
+    return true;
 }
 
 }  // namespace uking::action

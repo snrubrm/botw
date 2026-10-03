@@ -11,9 +11,10 @@ bool WildHorseDefWanderAI::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original loads both params before the GlobalRandom instance
 void WildHorseDefWanderAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    _50 = sead::GlobalRandom::instance()->getF32Range(*mMinWaitTime_s, *mMaxWaitTime_s);
+    const f32 min = *mMinWaitTime_s;
+    const f32 max = *mMaxWaitTime_s;
+    _50 = sead::GlobalRandom::instance()->getF32Range(min, max);
     _56 = 0;
     changeChild("待機");
 }

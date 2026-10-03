@@ -29,6 +29,12 @@ DynamicActor::~DynamicActor() = default;
 
 void DynamicActor::onPreDeleteStart_(PrepareArg&) {}
 
+void DynamicActor::m156() {
+    const s32 max_life = getMaxLife();
+    if (s32* life = getLife())
+        *life = max_life;
+}
+
 int DynamicActor::getExtraHeapSize() {
     return hasTag(this, tags::TreasureBox) ? 0xa90 : 0;
 }

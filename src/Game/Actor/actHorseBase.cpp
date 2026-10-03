@@ -1,6 +1,7 @@
 #include "Game/Actor/actHorseBase.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
@@ -37,11 +38,18 @@ int HorseBase::m109() {
     return _b70 >> 7 & 2 ^ 10;
 }
 
+HorseBase::IsSpecialJobTypeResult HorseBase::isSpecialJobType_(ksys::act::JobType type) {
+    const auto result = Actor::isSpecialJobType_(type);
+    if (_b10)
+        return IsSpecialJobTypeResult(_b10->sub_7100E8BB4C(int(result)));
+    return result;
+}
+
 bool HorseBase::canWakeUp_() {
     return Actor::canWakeUp_();
 }
 
-u8 HorseBase::sub_7100E68270() const {
+bool HorseBase::sub_7100E68270() const {
     return getParam()->getRes().mGParamList->getHorse()->mIsDecoy.ref();
 }
 
@@ -131,6 +139,40 @@ RideableBase* HorseBase::m132() {
 
 Unk_7100e8b2b8* HorseBase::getMotorcyclePriorityStuffMaybe() {
     return _b10;
+}
+
+// NON_MATCHING: store scheduling of the accessor init (strb [sp+0x18] hoisted) in blocks 2-5
+void HorseBase::onPreDeleteStart_(PrepareArg& arg) {
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_840, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    _840.reset();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_850, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    _850.reset();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_860, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    _860.reset();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_870, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    _870.reset();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_880, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_1a);
+    }
+    _880.reset();
 }
 
 ksys::act::Actor* HorseBase::m31() {

@@ -22,6 +22,12 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0x30
     int* mIgnitionNum_d{};
+    bool _38 = false;
+    u8 _39[0x3];
+    s32 _3c[2]{};
+    s32 _44[2]{};
+    u8 _4c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossCreateIceSplinter, 0x50);
 
 }  // namespace uking::action

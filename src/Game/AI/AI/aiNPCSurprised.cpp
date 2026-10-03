@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiNPCSurprised.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -30,7 +31,8 @@ void NPCSurprised::calc_() {
 }
 
 void NPCSurprised::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_71005D7518(mActor, true);
+    mActor->x_6();
 }
 
 void NPCSurprised::loadParams_() {

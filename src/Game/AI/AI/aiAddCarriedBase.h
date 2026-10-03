@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/aiUnk_7102450058.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -25,8 +27,7 @@ public:
     virtual ksys::act::ActorBind* m35() = 0;
     virtual void m36() = 0;
     virtual void m37(const sead::Matrix34f& mtx) = 0;
-    // inline in the header (CSV AddCarriedBase::m38, emitted in AddCarried's TU)
-    virtual bool m38() { return true; }
+    virtual bool m38();
 
 protected:
     // static_param at offset 0x38

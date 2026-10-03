@@ -5,7 +5,11 @@ namespace uking::ai {
 
 ArrowStickAndPick::ArrowStickAndPick(const InitArg& arg) : CommonPickedItem(arg) {}
 
-ArrowStickAndPick::~ArrowStickAndPick() { ; }
+// The original keeps the vtable store that a defaulted destructor drops (same form as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+ArrowStickAndPick::~ArrowStickAndPick() {
+    ;
+}
 
 void ArrowStickAndPick::enter_(ksys::act::ai::InlineParamPack* params) {
     _110 = false;
