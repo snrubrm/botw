@@ -21,7 +21,7 @@ void SeqAnimalAttack::leave_() {
     _54 = false;
     sub_71005DB3EC(mActor);
     if (auto* control = sub_71007398C0(mActor))
-        control->_90[3] = control->_90[2];
+        control->_9c = control->_98;
 }
 
 void SeqAnimalAttack::loadParams_() {
