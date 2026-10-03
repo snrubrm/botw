@@ -1,6 +1,11 @@
 #include "Game/AI/AI/aiNPCHorseRide.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -26,6 +31,20 @@ void NPCHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCHorseRide::leave_() {
+    if (!mActor->get1a0()) {
+        auto* object = mActor->getMapObject();
+        if (!(object && object->getFlags0().isOn(ksys::map::Object::Flag0::_20000)) &&
+            !testRootAiFlag(ksys::act::ai::RootAiFlag::_5)) {
+            return;
+        }
+    }
+
+    if (mActor->getPlayerRideInfo()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&mActor->getPlayerRideInfo()->_18, &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x3800007),
+                            mActor, true);
+    }
     NonPlayerHorseRide::leave_();
 }
 
