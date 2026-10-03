@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionRailMoveBase.h"
+#include "Game/AI/aiUnk_71024f15c0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -21,6 +22,8 @@ protected:
 
     // dynamic_param at offset 0x58
     sead::SafeString mRailName_d{};
+    /* 0x68 */ Unk_71024f15c0 _68;
 };
+KSYS_CHECK_SIZE_NX150(RailMove, 0xc8);
 
 }  // namespace uking::action

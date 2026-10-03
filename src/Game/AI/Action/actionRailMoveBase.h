@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,8 +20,7 @@ protected:
     void calc_() override;
     virtual void m32();
 
-    // FIXME: remove this
-    u8 pad_0x20[0x8];
+    /* 0x1c */ sead::Vector3f _1c = sead::Vector3f::zero;
     // static_param at offset 0x28
     const float* mSpeed_s{};
     // dynamic_param at offset 0x30
