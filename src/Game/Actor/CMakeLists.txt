@@ -96,6 +96,8 @@ target_sources(uking PRIVATE
   actEditCamera.cpp
   actEditCamera.h
   actAnchor.cpp
+  actBeam.cpp
+  actBeamBase.cpp
   actAnchor.h
   actEnvSeEmitPoint.cpp
   actEnvSeEmitPoint.h
