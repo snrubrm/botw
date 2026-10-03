@@ -110,7 +110,7 @@ void Unk_7102413c08_Payload::sub_710070E270(Unk_7102413c08_Payload* out) {
     out->_8 = _8;
 }
 
-void Unk_7102413c08::sub_710070E2BC(const u32& a, s32 b) {
+void Unk_7102413c08::sub_710070E2BC(const Unk1& a, s32 b) {
     sead::ScopedLock<sead::JobQueueLock> lock(&_18.mLock);
     _18._4 = a;
     _18._8 = b;

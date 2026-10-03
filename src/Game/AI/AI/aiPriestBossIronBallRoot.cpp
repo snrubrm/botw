@@ -290,7 +290,6 @@ void PriestBossIronBallRoot::m43(s32 command, const sead::Vector3f& base_pos, s3
     changeChild("念受信", &params);
 }
 
-// NON_MATCHING: the u32 temporary for sub_710070E2BC gets another stack slot (x29-0x14 vs -0x18)
 void PriestBossIronBallRoot::sub_71005221EC(bool value) {
     auto* unit = sub_7100505BE4();
     if (!unit)

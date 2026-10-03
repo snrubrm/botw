@@ -367,7 +367,10 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return &_18; }
 
-    void sub_710070E2BC(const u32& a, s32 b);
+    // Placeholder enum: the by-reference argument of sub_710070E2BC (a SEAD_ENUM temporary gets the
+    // stack slot of the original's argument).
+    SEAD_ENUM(Unk1, _0, _1)
+    void sub_710070E2BC(const Unk1& a, s32 b);
 
     Unk_7102413c08_Payload _18;
 };
