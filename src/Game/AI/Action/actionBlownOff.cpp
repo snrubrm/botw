@@ -23,12 +23,12 @@ void BlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32* life_ptr = mActor->getLife();
     const f32 life = life_ptr ? *life_ptr : 1.0f;
     const s32 max_life = mActor->getMaxLife();
-    const f32 reflex_ratio = *mLifeReflexRatio_s;
+    const f32 reflex_ratio = *mParams.mLifeReflexRatio_s;
     s32 time = *mTime_s;
     if (reflex_ratio > 0.0f) {
         const f32 life_ratio = life / max_life;
         if (life_ratio < reflex_ratio)
-            time = time + (1.0f - life_ratio / reflex_ratio) * *mAddTime_s;
+            time = time + (1.0f - life_ratio / reflex_ratio) * *mParams.mAddTime_s;
     }
     _158 = time;
     setDamageCallbackTiming(mActor, 0, &_130);
@@ -40,9 +40,9 @@ void BlownOff::leave_() {
 }
 
 void BlownOff::loadParams_() {
-    getStaticParam(&mAddTime_s, "AddTime");
-    getStaticParam(&mLifeReflexRatio_s, "LifeReflexRatio");
-    getStaticParam(&mImpulseRatio_s, "ImpulseRatio");
+    getStaticParam(&mParams.mAddTime_s, "AddTime");
+    getStaticParam(&mParams.mLifeReflexRatio_s, "LifeReflexRatio");
+    getStaticParam(&mParams.mImpulseRatio_s, "ImpulseRatio");
     Ragdoll::loadParams_();
 }
 
