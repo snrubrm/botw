@@ -36,10 +36,6 @@ void FireWoodBase::loadParams_() {
     getMapUnitParam(&mInitBurnState_m, "InitBurnState");
 }
 
-void FireWoodBase::m32(bool burning) {
-    _30 = burning;
-}
-
 // NON_MATCHING: the original loads the m32 vtable slot before calling getChemicalStuff (spilled to the stack)
 void FireWoodBase::calc_() {
     auto* chemical = mActor->getChemicalStuff();

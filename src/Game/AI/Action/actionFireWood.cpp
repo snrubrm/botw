@@ -2,6 +2,8 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
@@ -25,6 +27,28 @@ void FireWood::leave_() {
 void FireWood::loadParams_() {
     FireWoodBase::loadParams_();
     mActor->getRootAi()->getAITreeVariable2(&mIsDrop_a, "IsDrop");
+}
+
+// NON_MATCHING: scheduling only (the original loads mActor and the SafeString vtable before the branch)
+void FireWood::m32(bool burning) {
+    FireWoodBase::m32(burning);
+    if (!burning) {
+        ksys::act::disableAttClient(mActor, "KillTime");
+        mActor->emitBasicSigOff();
+        if (*mIsDrop_a) {
+            auto* body = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "Cutting");
+            if (body)
+                body->removeFromWorld();
+        }
+    } else {
+        ksys::act::enableAttClient(mActor, "KillTime");
+        mActor->emitBasicSigOn();
+        if (*mIsDrop_a) {
+            auto* body = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "Cutting");
+            if (body)
+                body->addToWorld();
+        }
+    }
 }
 
 void FireWood::calc_() {

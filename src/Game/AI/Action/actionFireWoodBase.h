@@ -17,7 +17,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32(bool burning);
+    virtual void m32(bool burning) { _30 = burning; }
 
     // static_param at offset 0x20
     const bool* mChemicalRigidOn_s{};
