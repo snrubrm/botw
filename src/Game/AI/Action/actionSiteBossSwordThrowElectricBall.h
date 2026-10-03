@@ -21,10 +21,13 @@ protected:
     void calc_() override;
     void m35() override;
 
-    // static_param at offset 0xc8
-    const float* mMoveSpeed_s{};
-    // static_param at offset 0xd0
-    const sead::Vector3f* mMoveOffset_s{};
+    struct Params {
+        // static_param at offset 0xc8
+        const float* mMoveSpeed_s{};
+        // static_param at offset 0xd0
+        const sead::Vector3f* mMoveOffset_s{};
+    };
+    Params mParams;
     sead::Vector3f _d8;
     f32 _e4 = 0.0f;
     u8 _e8[0x28];

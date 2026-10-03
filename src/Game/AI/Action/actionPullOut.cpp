@@ -24,8 +24,8 @@ void PullOut::leave_() {
 
 void PullOut::loadParams_() {
     ActionWithPosAngReduce::loadParams_();
-    getStaticParam(&mAnimGrabPos_s, "AnimGrabPos");
-    getDynamicParam(&mTargetActor_d, "TargetActor");
+    getStaticParam(&mParams.mAnimGrabPos_s, "AnimGrabPos");
+    getDynamicParam(&mParams.mTargetActor_d, "TargetActor");
 }
 
 void PullOut::calc_() {
@@ -34,7 +34,7 @@ void PullOut::calc_() {
         sub_7100223964();
     if (sub_71005DD780(mActor, 0x45, nullptr, 0, 0)) {
         _40._18.sub_710070E3D8(mActor);
-        _40.sub_710070DCC0(mTargetActor_d, true);
+        _40.sub_710070DCC0(mParams.mTargetActor_d, true);
     }
 }
 

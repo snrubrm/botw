@@ -26,8 +26,8 @@ void SiteBossSwordThrowElectricBall::leave_() {
 
 void SiteBossSwordThrowElectricBall::loadParams_() {
     SiteBossThrowParts::loadParams_();
-    getStaticParam(&mMoveSpeed_s, "MoveSpeed");
-    getStaticParam(&mMoveOffset_s, "MoveOffset");
+    getStaticParam(&mParams.mMoveSpeed_s, "MoveSpeed");
+    getStaticParam(&mParams.mMoveOffset_s, "MoveOffset");
 }
 
 void SiteBossSwordThrowElectricBall::calc_() {
