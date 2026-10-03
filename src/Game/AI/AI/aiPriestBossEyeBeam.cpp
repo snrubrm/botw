@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossEyeBeam.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actBeamBase.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -12,6 +14,7 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -177,6 +180,36 @@ bool PriestBossEyeBeam::m39(const sead::Vector3f& start, const sead::Vector3f& e
     if (auto* body = mActor->findPhysicsBodyByName("Body", "Hat"))
         return query.shapeRayCast(body);
     return query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+}
+
+// NON_MATCHING: scheduling only (the original stores the copied x axis after loading the translation and
+// the y axis; ours stores it right after the load)
+bool PriestBossEyeBeam::m40(const sead::Matrix34f& mtx, const sead::Vector3f& pos, f32 max_angle_x,
+                            f32 max_angle_y) {
+    const sead::Vector3f axis_x = mtx.getBase(0);
+    const sead::Vector3f axis_y = mtx.getBase(1);
+    const sead::Vector3f trans = mtx.getTranslation();
+    const sead::Vector3f axis_z = mtx.getBase(2);
+
+    sead::Vector3f dir = pos - trans;
+    dir.normalize();
+
+    sead::Vector3f perp_x;
+    ksys::util::sub_71011EFA00(&perp_x, dir, axis_x);
+    perp_x.normalize();
+
+    sead::Vector3f perp_z;
+    ksys::util::sub_71011EFA00(&perp_z, dir, axis_z);
+    perp_z.normalize();
+
+    const f32 facing = std::atan2(axis_y.x, axis_y.z);
+    f32 diff_x = sead::Mathf::abs(facing - std::atan2(perp_x.x, perp_x.z));
+    f32 diff_z = sead::Mathf::abs(facing - std::atan2(perp_z.x, perp_z.z));
+    if (diff_x > sead::Mathf::pi())
+        diff_x -= sead::Mathf::pi();
+    if (diff_z > sead::Mathf::pi())
+        diff_z -= sead::Mathf::pi();
+    return sead::Mathf::rad2deg(diff_x) <= max_angle_x && sead::Mathf::rad2deg(diff_z) <= max_angle_y;
 }
 
 void PriestBossEyeBeam::m42(const sead::Vector3f& pos) {
