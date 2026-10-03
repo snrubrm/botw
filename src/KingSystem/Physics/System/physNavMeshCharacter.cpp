@@ -70,6 +70,30 @@ void NavMeshCharacter::sub_7100F7D350() {
     _d0 = 0;
 }
 
+void NavMeshCharacter::sub_7100F7D1B4(const NavMeshCharacter* other) {
+    _a8[0] = other->_8->_98;
+    _d0 = 1;
+}
+
+// NON_MATCHING: register allocation only (the original keeps the index in w8 and moves it to w0 in each
+// return block; ours keeps it in w0)
+s32 NavMeshCharacter::sub_7100F7D1CC(const NavMeshCharacter* other) {
+    s32 result = -1;
+    const s32 index = _d0.load();
+    if (index <= 9) {
+        _a8[index] = other->_8->_98;
+        if (_d0.compareExchange(index, index + 1))
+            result = index;
+    }
+    return result;
+}
+
+void NavMeshCharacter::sub_7100F7D298(s32 index, const NavMeshCharacter* other) {
+    if (index < 0 || _d0.load() <= index)
+        return;
+    _a8[index] = other->_8->_98;
+}
+
 void NavMeshCharacter::sub_7100F75F3C(u8 value) {
     auto lock = sead::makeScopedLock(_1e0);
     _1d9 = value;

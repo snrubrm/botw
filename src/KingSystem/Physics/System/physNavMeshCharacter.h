@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
+#include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -28,6 +29,12 @@ public:
     /* 0x10 */ Unk_7100f7e9f0Event* _10;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f7e9f0, 0x18);
+
+// Placeholder: the 0xe0-byte object at NavMeshCharacter::_8 (only the accessed field is modelled).
+struct NavMeshCharacterUnk8 {
+    /* 0x00 */ u8 _0[0x98];
+    /* 0x98 */ u32 _98;
+};
 
 // Placeholder: object at NavMeshCharacter::_10 + 0x78 (move parameters).
 struct NavMeshCharacterMoveParam {
@@ -75,6 +82,13 @@ public:
     void sub_7100F7D2C8();
     void sub_7100F7D308(s32 value);
     void sub_7100F7D350();
+    // 0x7100f7d1b4 / 0x7100f7d1cc / 0x7100f7d298 (lane4 s29): the list of agent ids (`other->_8->_98`) at _a8 /
+    // _d0 (HorseFollow: the rider's character): set the list to one entry, append an entry (returns its
+    // index, -1 when full or when another thread appended first), replace the entry at `index` (ignored
+    // when out of range).
+    void sub_7100F7D1B4(const NavMeshCharacter* other);
+    s32 sub_7100F7D1CC(const NavMeshCharacter* other);
+    void sub_7100F7D298(s32 index, const NavMeshCharacter* other);
 
     // Inline-only in the original (no out-of-line copy; inlined at ~45 call sites: enemy / animal /
     // horse AI actions and NavMeshCharacter's own TU); the name is a placeholder. Under _1e0: flags
@@ -111,14 +125,14 @@ public:
                  std::numeric_limits<f32>::quiet_NaN());
     }
 
-    /* 0x008 */ u64 _8 = 0;
+    /* 0x008 */ NavMeshCharacterUnk8* _8 = nullptr;  // heap object (0xe0 bytes) created by init
     /* 0x010 */ NavMeshCharacterUnk10* _10 = nullptr;
     /* 0x018 */ HavokAI* _18 = nullptr;
     /* 0x020 */ u8 _20[0x58 - 0x20];
     /* 0x058 */ void* _58 = nullptr;
     /* 0x060 */ void* _60 = nullptr;
     /* 0x068 */ sead::CriticalSection _68;
-    /* 0x0a8 */ u8 _a8[0xd0 - 0xa8];
+    /* 0x0a8 */ sead::SafeArray<u32, 10> _a8;  // BaseProc ids (up to 10 entries, count in _d0)
     /* 0x0d0 */ sead::Atomic<s32> _d0 = 0;
     /* 0x0d4 */ sead::Vector3f _d4;
     /* 0x0e0 */ u8 _e0[0x194 - 0xe0];

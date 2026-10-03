@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -558,6 +559,26 @@ uking::act::Unk_7100e8b2b8* ActorConstDataAccess::getHorseRideStuff() const {
     if (!actor)
         return nullptr;
     return actor->getMotorcyclePriorityStuffMaybe();
+}
+
+phys::NavMeshCharacter* ActorConstDataAccess::sub_7100D0F57C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    auto* info = actor->getPlayerRideInfo();
+    if (info && info->_28)
+        return static_cast<phys::NavMeshCharacter*>(info->_28);
+    return actor->m45();
+}
+
+u64 ActorConstDataAccess::sub_7100D1443C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* rideable = actor->m132();
+    if (!rideable)
+        return 0;
+    return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
 }
 
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching

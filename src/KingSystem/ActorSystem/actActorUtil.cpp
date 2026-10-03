@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "Game/AI/aiUnk_7100EE53C4.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include <container/seadSafeArray.h>
 #include <math/seadMathCalcCommon.h>
@@ -341,6 +343,29 @@ const sead::SafeString& getStr_CameraCheck() {
 
 const sead::SafeString& getStr_GeneralSensor() {
     return sStr_GeneralSensor;
+}
+
+void sub_7100EE5330(Actor* actor, const sead::SafeString& name) {
+    auto* set = actor->getRigidBodyByName(name.cstr());
+    if (!set)
+        return;
+    const int size = set->getRigidBodies().size();
+    for (int i = 0; i < size; ++i)
+        set->getRigidBodies()[i]->addToWorld();
+}
+
+void sub_7100EE53C4(Actor* actor) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EC30();
+    else if (auto* body = actor->getMainBody())
+        body->addToWorld();
+}
+
+void sub_7100EE5408(Actor* actor) {
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EC44();
+    else if (auto* body = actor->getMainBody())
+        body->removeFromWorld();
 }
 
 bool isCameraProfile(Actor* actor) {
