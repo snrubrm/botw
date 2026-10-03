@@ -5,7 +5,7 @@ namespace uking::ai {
 
 EnemyVacuumBombSelectBase::EnemyVacuumBombSelectBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyVacuumBombSelectBase::~EnemyVacuumBombSelectBase() = default;
+EnemyVacuumBombSelectBase::~EnemyVacuumBombSelectBase() { ; }
 
 bool EnemyVacuumBombSelectBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
