@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionRideHorse.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -15,7 +18,11 @@ void RideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void RideHorse::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F60604();
+    mActor->sub_71011DA834(&_90);
+    if (!isFinished())
+        sub_710023A4C8();
 }
 
 void RideHorse::loadParams_() {
@@ -28,6 +35,14 @@ void RideHorse::loadParams_() {
     getStaticParam(&mPredictedRidePosOffset_s, "PredictedRidePosOffset");
     getStaticParam(&mPreRideSklRootOffset_s, "PreRideSklRootOffset");
     getDynamicParam(&mTargetActor_d, "TargetActor");
+}
+
+bool RideHorse::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003) {
+        mActor->sub_71011DA834(&_90);
+        sub_710023A4C8();
+    }
+    return false;
 }
 
 void RideHorse::calc_() {
