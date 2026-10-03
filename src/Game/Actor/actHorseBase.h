@@ -91,7 +91,7 @@ public:
     int m109() override;
     void m114() override;
     void m117(ksys::act::Unk117* arg) override;
-    void m118() override;
+    void m118(bool on) override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -51,7 +52,7 @@ protected:
 
 public:
     Actor* m31() override;
-    void m36() override;
+    void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
     Actor* m48() override;
     bool m53() override;
     void m63() override;
@@ -108,7 +109,7 @@ public:
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
     /* 0xa68 */ u8 _a68 = 0;  // flags (byte accesses from AI/action code)
     /* 0xa69 */ u8 _a69 = 0;
-    /* 0xa70 */ void* _a70 = nullptr;
+    /* 0xa70 */ sead::IDelegate1<Unk_71006dc134*>* _a70 = nullptr;
     /* 0xa78 */ Unk3 _a78;  // m135
     /* 0xa80 */ BaseProcLink _a80;
     /* 0xa90 */ u8 _a90[0xb90 - 0xa90];

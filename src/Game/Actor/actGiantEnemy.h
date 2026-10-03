@@ -48,7 +48,7 @@ protected:
 public:
     void m44() override;
     void killWithDropsAndEffects(int a1) override;
-    bool m56(sead::Vector3f* pos) override;
+    void m56(sead::Vector3f* pos) override;
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;

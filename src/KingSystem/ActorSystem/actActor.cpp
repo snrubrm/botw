@@ -565,8 +565,8 @@ bool Actor::m55() {
     return false;
 }
 
-bool Actor::m56(sead::Vector3f* pos) {
-    return x_18(pos);
+void Actor::m56(sead::Vector3f* pos) {
+    x_18(pos);
 }
 
 bool Actor::m57() {
@@ -792,6 +792,29 @@ void Actor::m145() {}
 
 bool Actor::m146() {
     return false;
+}
+
+void Actor::m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) {
+    sub_71011D8718(a1, a2, false, false, a4, -1, a3, a5);
+}
+
+void Actor::m41(sead::Matrix34f* mtx) {
+    getCharacterController()->physicsXXXGetMtx_1(mtx);
+}
+
+void Actor::m51(bool on) {
+    if (auto* chemical = getChemicalStuff())
+        chemical->sub_7100D90F60(on);
+}
+
+sead::Matrix34f Actor::m122() {
+    if (mModel)
+        return mModel->getMatrix();
+    return sead::Matrix34f::ident;
+}
+
+Actor* Actor::m141(const s32* index) {
+    return nullptr;
 }
 
 }  // namespace ksys::act

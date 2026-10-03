@@ -27,8 +27,10 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual void m0();
-    virtual void equipWeapon();
-    virtual void m2();
+    // CSV ActorWeapons::equipWeapon (not decompiled): PlayerOrEnemy::m164 forwards its arguments here.
+    virtual bool equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4);
+    // Called by Enemy::m177 before it records the weapon.
+    virtual bool m2(s32 idx, Actor* weapon);
     virtual void m3();
 
     WeaponBase* getEquippedWeapon(int idx) const;
@@ -40,6 +42,8 @@ public:
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x7100efd344 (CSV ActorWeapons::x): calls WeaponBase::m215 on every weapon actor.
     void x();
+    // 0x7100efcf10 (declared only): called by PlayerOrEnemy::m51.
+    void sub_7100EFCF10(bool on);
     // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
     void sub_7100EFD458(Unk117* arg);
 

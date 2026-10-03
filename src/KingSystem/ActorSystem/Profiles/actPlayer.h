@@ -35,7 +35,7 @@ public:
     /*  20 */ void preDelete2_(const PreDeleteArg& arg) override;
     /*  30 */ s32 getMaxLife() override { return _1868; }
     /*  37 */ f32 getGuardableAngle() override;
-    /*  41 */ void m41() override;
+    /*  41 */ void m41(sead::Matrix34f* mtx) override;
     /*  42 */ void m42(const sead::Matrix34f& mtx) override;
     /*  47 */ bool m47() override;
     /*  50 */ bool m50() override;

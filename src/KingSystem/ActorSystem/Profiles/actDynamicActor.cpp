@@ -154,5 +154,15 @@ void Unk_71006e4478::sub_71006E4478(BaseProcLink* link, const sead::Matrix34f& m
     _5c = false;
 }
 
-}  // namespace ksys::act
+void DynamicActor::m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4,
+                       bool a5) {
+    if (_a70) {
+        Unk_71006dc134 request{a1, a2, nullptr, false, false};
+        _a70->invoke(&request);
+        sub_71011D8718(request._0, request._c, request._20, request._21, a4, -1, a3, a5);
+    } else {
+        sub_71011D8718(a1, a2, false, false, a4, -1, a3, a5);
+    }
+}
 
+}  // namespace ksys::act

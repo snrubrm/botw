@@ -192,8 +192,8 @@ protected:
 public:
     s32 getMaxLife() override;
     Actor* m31() override;
-    void m36() override;
-    void m41() override;
+    void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
+    void m41(sead::Matrix34f* mtx) override;
     Actor* m48() override;
     bool m49() override;
     void killWithDropsAndEffects(int a1) override;
@@ -229,12 +229,12 @@ public:
     RideableBase* m132() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
-    void m141() override;
+    Actor* m141(const s32* index) override;
     bool m146() override;
     Unk_71025ae680* m159() override { return _e78; }
     void m160() override;
     bool m162() override { return _e82 >> 9 & 1; }
-    void m164() override;
+    bool m164(s32 idx, ksys::act::Actor* weapon, bool a3, bool a4) override;
     void m165() override;
     bool isGuard() override;
     bool m169() override { return _e84.isOnBit(13); }
@@ -242,7 +242,10 @@ public:
     const char* getEquippedItem() override;
 
     // FIXME: figure out return types, parameters and names
-    virtual void m177();
+    // Equips `weapon` in slot `idx` (the original asks getWeapons() first).
+    virtual bool m177(s32 idx, ksys::act::Actor* weapon);
+    // 0x7100731cd8 (CSV Enemy::setDroppedWeaponFlag; declared only).
+    void setDroppedWeaponFlag();
     // Creates the object returned by DynamicActor slot 159 (_e78).
     virtual Unk_71025ae680* m178(sead::Heap* heap);
     virtual void m179();
@@ -275,7 +278,8 @@ public:
     /* 0xe68 */ ksys::Timer _e68;
     /* 0xe74 */ f32 _e74 = 0;  // written by NoticeTurn::leave_
     /* 0xe78 */ Unk_71025ae680* _e78 = nullptr;  // m159, created by m178
-    /* 0xe80 */ u16 _e80 = 0;
+    /* 0xe80 */ sead::BitFlag8 _e80;  // bit idx: weapon slot idx is equipped (m164 / m177)
+    /* 0xe81 */ sead::BitFlag8 _e81;
     /* 0xe82 */ u16 _e82 = 0;
     /* 0xe84 */ sead::BitFlag32 _e84;
     /* 0xe88 */ void* _e88 = nullptr;

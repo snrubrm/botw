@@ -20,7 +20,7 @@ public:
 
     Actor* m31() override;
     Actor* m48() override;
-    void m52() override;
+    bool m52(sead::Vector3f* out, Chemical* chemical) override;
     void initMaybe() override;
     void m73() override;
     void m76(VFR::ScopedDeltaSetter* setter) override;

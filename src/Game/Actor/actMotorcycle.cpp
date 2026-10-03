@@ -33,6 +33,20 @@ static const char* const sUnk_71023618c8[] = {
 static const f32 sUnk_7101e79334[] = {0.0f, 0.85f, 0.3f, 0.9f, 0.9f, 0.9f};
 static const f32 sUnk_7101e7931c[] = {0.0f, 0.3f, 0.0f, 0.3f, 0.5f, 0.4f};
 
+// inline-only in the original; name is a guess: the part of sub_710007DAB8 / sub_710007D034 that fades the
+// throttle sound layer in for the sound selected by _10a4 (unless it is 0 or 2).
+static inline void startThrottleFader(Motorcycle* motorcycle) {
+    switch (motorcycle->_10a4) {
+    case 0:
+    case 2:
+        break;
+    default:
+        motorcycle->_10c0.setValueImmediate(0.0f);
+        motorcycle->_10c0.moveTo(1.0f, sUnk_7101e7931c[motorcycle->_10a4]);
+        break;
+    }
+}
+
 // NON_MATCHING: the 24 leading floats (Unk0) are stored as paired `stp w, w` as in the original, but the
 // scheduler orders / register-allocates those constant stores differently; the 0x184-0x190 stores are
 // merged differently (the original merges `_184` with `_188` and stores `_18c` / `_190` singly)
@@ -746,10 +760,7 @@ void Motorcycle::sub_710007DAB8() {
             _10a4 = 0;
             return;
         }
-        if (_10a4 != 0 && _10a4 != 2) {
-            _10c0.setValueImmediate(0.0f);
-            _10c0.moveTo(1.0f, sUnk_7101e7931c[_10a4]);
-        }
+        startThrottleFader(this);
     }
     _10a4 = 0;
 }
@@ -783,6 +794,42 @@ bool Unk_71023618f8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
         }
     }
     return true;
+}
+
+// NON_MATCHING: the original evaluates `y_axis.dot(up)` before the cross product's length() (a local would
+// reproduce it) and loads `mtx(1, 2)` before the sqrt call and keeps it across it (d9)
+void Motorcycle::sub_710007D034() {
+    const f32 delta = getParam()
+                          ->getRes()
+                          .mGParamList->getMotorcycle()
+                          ->mWheelieLaunchRiseDegDelta.ref();
+    _df8 = delta;
+    _dfc = delta;
+    _df0 = 0;
+
+    const sead::Matrix34f& mtx = getMtx();
+    const sead::Vector3f x_axis{mtx(0, 0), mtx(1, 0), mtx(2, 0)};
+    const sead::Vector3f y_axis{mtx(0, 1), mtx(1, 1), mtx(2, 1)};
+    const sead::Vector3f side = x_axis.cross(sead::Vector3f::ey);
+    const sead::Vector3f up = side.cross(x_axis);
+    const f32 angle = sead::Mathf::atan2(y_axis.cross(up).length(), y_axis.dot(up));
+    _e00 = mtx(1, 2) > 0.0f ? angle * 57.29578f : -(angle * 57.29578f);
+
+    const f32 kmh = _e58 * 3.6f;
+    _d78._14 = 2.0f * sead::Mathf::asin(sead::Mathf::clamp(3025.0f / _d78._0, -1.0f, 1.0f)) /
+               sead::Mathf::pi();
+    _d78._20 = true;
+    _d78.sub_710006F97C(kmh, true);
+    _f10 = 5;
+    _d78._24 = false;
+    _e80 = 2.0f;
+    xlinkSearchAndEmit(this, "WheelieLaunch", 0, nullptr);
+    _10a4 = 4;
+    xlinkSearchAndEmit(this, "WheelieLaunchWind", 2, nullptr);
+    startThrottleFader(this);
+    _bc8._199 = true;
+    _e88 = getParam()->getRes().mGParamList->getMotorcycle()->mWheelieLastSecInMidAir.ref();
+    _f88.set(8);
 }
 
 }  // namespace uking::act

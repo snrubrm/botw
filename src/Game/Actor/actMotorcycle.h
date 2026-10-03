@@ -354,6 +354,8 @@ public:
     void x_7();
     // 0x7100072afc (CSV Motorcycle::x_18): drift / wheelie state (flag bits 14-17, 37).
     void x_18();
+    // 0x710007d034 (placeholder name): starts a wheelie launch.
+    void sub_710007D034();
     // 0x710007dab8 (placeholder name): fades the throttle sound handle (_10a8) and starts the sound
     // selected by _10a4 (1-5), then clears _10a4.
     void sub_710007DAB8();

@@ -22,6 +22,15 @@ bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }
 
+void PlayerOrEnemy::m51(bool on) {
+    Actor::m51(on);
+    getWeapons()->sub_7100EFCF10(on);
+}
+
+bool PlayerOrEnemy::m164(s32 idx, Actor* weapon, bool a3, bool a4) {
+    return getWeapons()->equipWeapon(idx, weapon, a3, a4);
+}
+
 void PlayerOrEnemy::m117(Unk117* arg) {
     mWeapons.sub_7100EFD458(arg);
 }

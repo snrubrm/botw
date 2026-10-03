@@ -29,7 +29,7 @@ public:
     f32 getGuardableAngle() override { return sead::Mathf::deg2rad(100.0f); }
     bool m49() override;
     bool m50() override;
-    void m51() override;
+    void m51(bool on) override;
     bool m55() override { return true; }
     void initMaybe() override;
     void calcMaybe() override;
@@ -52,7 +52,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual bool m163(int idx);
-    virtual void m164();
+    virtual bool m164(s32 idx, Actor* weapon, bool a3, bool a4);
     virtual void m165();
     virtual bool isGuard();
     virtual bool isGuardJust();

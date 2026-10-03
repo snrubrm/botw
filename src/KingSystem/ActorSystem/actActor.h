@@ -380,13 +380,15 @@ public:
     virtual bool m33();
     virtual void m34(sead::Vector3f* pos, f32* value);
     virtual void m35();
-    virtual void m36();
+    // The original forwards to 0x71011d8718 (applies an impulse-like request to the main body).
+    virtual void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5);
     virtual f32 getGuardableAngle();
     // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
     virtual f32 m38();
     virtual bool m39();
     virtual void m40();
-    virtual void m41();
+    // Writes the transform of the character controller / main body of the actor.
+    virtual void m41(sead::Matrix34f* mtx);
     // Called by setMtx with the new matrix (Player::m42 forwards it).
     virtual void m42(const sead::Matrix34f& mtx);
     virtual void m43(bool on);
@@ -398,12 +400,15 @@ public:
     virtual Actor* m48();
     virtual bool m49();
     virtual bool m50();
-    virtual void m51();
-    virtual void m52();
+    // Forwards to the Chemical (getChemicalStuff).
+    virtual void m51(bool on);
+    // Writes the position of `chemical`'s owner (the actor position when it is the actor's own chemical).
+    virtual bool m52(sead::Vector3f* out, Chemical* chemical);
     virtual bool m53();
     virtual void killWithDropsAndEffects(int a1);
     virtual bool m55();
-    virtual bool m56(sead::Vector3f* pos);
+    // Writes the centre of mass (CSV: tail-calls the void Actor::x_18).
+    virtual void m56(sead::Vector3f* pos);
     virtual bool m57();
     virtual void onPreFadeOutDelete();
     virtual void onFadeOutSleep();
@@ -472,11 +477,13 @@ public:
     virtual void m115();
     virtual void m116();
     virtual void m117(Unk117* arg);
-    virtual void m118();
+    virtual void m118(bool on);
     virtual void m119();
-    virtual void m120();
-    virtual void m121();
-    virtual void m122();
+    // Starts the animation `name` in the AS list (-1 / -1 blend, not looping); always false.
+    virtual bool m120(const char* name);
+    virtual bool m121();
+    // The model matrix (identity without a model).
+    virtual sead::Matrix34f m122();
     virtual bool m123();
     virtual void onPlacementObjReset();
     virtual Unk_71025ae640* getAtk();
@@ -496,7 +503,7 @@ public:
     virtual bool m138();
     virtual f32 m139();
     virtual bool m140();
-    virtual void m141();
+    virtual Actor* m141(const s32* index);
     virtual bool m142();
     virtual void m143();
     virtual void m144();
@@ -579,6 +586,10 @@ public:
 
     // 0x00000071011cf108
     bool x_18(sead::Vector3f* out) const;
+    // 0x71011d8718 (declared only; placeholder name): applies the impulse-like request of m36 to the main
+    // body (nothing for enemy profiles or without a main body).
+    void sub_71011D8718(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5,
+                        s32 a6, bool a7, bool a8);
 
     // 0x71011d722c: handles a `Unk117` request (vtable slot 117) for this actor and forwards it to the
     // connected calc child and parent (declared only).
