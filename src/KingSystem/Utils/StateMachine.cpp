@@ -43,7 +43,6 @@ void StateMachine::changeState(const StateBase* state) {
     mNextState = nullptr;
 }
 
-StateBase::~StateBase() = default;
 
 s32 StateBase::getId() const {
     return mId;

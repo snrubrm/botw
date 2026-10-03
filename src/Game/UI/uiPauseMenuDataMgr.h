@@ -334,6 +334,8 @@ public:
                          bool check_effect_type = false) const;
     int countItemsWithCategory(PouchCategory category) const;
     PouchCategory getCategoryForType(PouchItemType type) const;
+    // 0x710097c148 (CSV x_36)
+    PouchCategory getCategoryOfTabMaybe(s32 tab) const;
 
     void removeCookResult(const sead::SafeString& name = {}, s32 effect_type = 0x11,
                           bool check_effect = false);

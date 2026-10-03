@@ -10,7 +10,7 @@ namespace ksys {
 class StateBase {
 public:
     constexpr StateBase(s32 id, const char* name) : mId(id), mName(name) {}
-    virtual ~StateBase();
+    virtual ~StateBase() = default;
     virtual s32 getId() const;
     virtual const char* getName() const;
     virtual void enter(void* owner) const;
@@ -24,6 +24,41 @@ public:
     const char* mName;
 };
 KSYS_CHECK_SIZE_NX150(StateBase, 0x18);
+
+// A state whose enter / run / leave / exec4 callbacks are virtual member functions of the owner class T
+// (instantiated once per owner; the owners keep their static state objects in a TU-local initialiser).
+// The layout (vtable, id, name, four 16-byte member function pointers at 0x18 / 0x28 / 0x38 / 0x48, a
+// pointer to a parent state at 0x58; size 0x60) and the ten overridden virtual slots come from the
+// instantiations of the UI screens (e.g. ScreenRupee).
+template <typename T>
+class StateTemplate : public StateBase {
+public:
+    using Callback = void (T::*)();
+    using Callback4 = bool (T::*)(void*);
+
+    constexpr StateTemplate(s32 id, const char* name, Callback enter, Callback run, Callback leave,
+                            Callback4 exec4, const StateBase* parent)
+        : StateBase(id, name), mEnter(enter), mRun(run), mLeave(leave), mExec4(exec4),
+          mParent(parent) {}
+
+    s32 getId() const override {
+        if (mParent->mId != -1)
+            return mParent->getId();
+        return mId;
+    }
+    void enter(void* owner) const override { (static_cast<T*>(owner)->*mEnter)(); }
+    void run(void* owner) const override { (static_cast<T*>(owner)->*mRun)(); }
+    void leave(void* owner) const override { (static_cast<T*>(owner)->*mLeave)(); }
+    bool exec4(void* owner, void* arg) const override { return (static_cast<T*>(owner)->*mExec4)(arg); }
+    bool return0(void*, void*) const override { return false; }
+    void null(void*, void*) const override {}
+
+    Callback mEnter;
+    Callback mRun;
+    Callback mLeave;
+    Callback4 mExec4;
+    const StateBase* mParent;
+};
 
 // 0x710250bcd8 (id -1, no name): the state returned by StateMachine::getState when there is none.
 extern StateBase sUnk_710250bcd8;

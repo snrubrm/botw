@@ -1919,6 +1919,17 @@ PouchCategory PauseMenuDataMgr::getCategoryForType(PouchItemType type) const {
     }
 }
 
+// 0x710097c148
+PouchCategory PauseMenuDataMgr::getCategoryOfTabMaybe(s32 tab) const {
+    if (tab >= NumTabMax)
+        return PouchCategory::Invalid;
+    if (tab < 0)
+        return PouchCategory::Invalid;
+    if (mNumTabs < tab)
+        return PouchCategory::Invalid;
+    return getCategoryForType(mTabsType[tab]);
+}
+
 // NON_MATCHING: two harmless reorderings
 void PauseMenuDataMgr::removeCookResult(const sead::SafeString& name, s32 effect_type,
                                         bool check_effect) {
