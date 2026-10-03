@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionForkDisableContact.h"
 #include <prim/seadFormatPrint.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -7,8 +9,19 @@ ForkDisableContact::ForkDisableContact(const InitArg& arg) : ksys::act::ai::Acti
 
 ForkDisableContact::~ForkDisableContact() = default;
 
+// NON_MATCHING: loop-variable form only (the original walks a byte offset 0x20..0x70 over the names; ours a plain index)
 bool ForkDisableContact::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    for (int i = 0; i < 5; ++i) {
+        auto* body = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(),
+                                                   mRigidBodyName_s[i].cstr());
+        if (!body) {
+            body = mActor->findPhysicsBodyByName(ksys::act::getStr_EntitySensor().cstr(),
+                                                 mRigidBodyName_s[i].cstr());
+        }
+        mBodies[i].mBody = body;
+        mBodies[i].mIsEnabled = true;
+    }
+    return true;
 }
 
 void ForkDisableContact::enter_(ksys::act::ai::InlineParamPack* params) {
