@@ -7,7 +7,8 @@ RemoteBomb::RemoteBomb(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 RemoteBomb::~RemoteBomb() = default;
 
 bool RemoteBomb::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _198 = nullptr;
+    return true;
 }
 
 void RemoteBomb::enter_(ksys::act::ai::InlineParamPack* params) {

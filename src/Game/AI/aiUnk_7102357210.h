@@ -372,7 +372,9 @@ public:
 // vtable 0x7102450798 (message 0x8000004)
 class Unk_7102450798 : public Unk_7102357210 {
 public:
-    ~Unk_7102450798() override;
+    // Inlined into RemoteBomb's destructor; written as upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450798() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 };
@@ -388,11 +390,13 @@ public:
 // vtable 0x7102450b58 (message 0x800003c)
 class Unk_7102450b58 : public Unk_7102357210 {
 public:
-    ~Unk_7102450b58() override;
+    // Inlined into RemoteBomb's destructor; written as upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229).
+    ~Unk_7102450b58() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override {}
 
-    u64 _38;
+    u64 _38 = 0;
 };
 
 // vtable 0x7102450888 (message 0x80000d3)
