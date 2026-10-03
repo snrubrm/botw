@@ -76,6 +76,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100504ed0 (lane1 s22): clears the disappear type and deletes the actor (same sequence as BirdEscape)
+    void sub_7100504ED0();
 
     // static_param at offset 0x38
     const int* mAfterEscapeForceEndState_s{};
@@ -114,7 +116,7 @@ protected:
     Unk_710071edf8 _1c0{mActor};
     sead::Vector3f _1f0 = {0, 0, 0};
     f32 _1fc = std::numeric_limits<f32>::quiet_NaN();
-    u32 _200 = 0;
+    f32 _200 = 0;
     bool _204 = false;
     bool _205 = false;
 };

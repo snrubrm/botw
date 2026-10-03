@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDuckRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -20,6 +21,12 @@ void DuckRoot::leave_() {
 
 void DuckRoot::loadParams_() {
     PreyRoot::loadParams_();
+}
+
+void DuckRoot::calc_() {
+    if (_200 < -3.0f && m34())
+        sub_7100504ED0();
+    PreyRoot::calc_();
 }
 
 bool DuckRoot::m34() {

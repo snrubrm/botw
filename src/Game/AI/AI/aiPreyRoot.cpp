@@ -76,6 +76,12 @@ bool PreyRoot::m38() {
     return false;
 }
 
+void PreyRoot::sub_7100504ED0() {
+    if (auto* info = mActor->m135())
+        info->_4 = 0;
+    mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+}
+
 bool PreyRoot::handleMessage_(const ksys::Message& message) {
     if (!isCurrentChild("所持")) {
         auto* actor = mActor;
