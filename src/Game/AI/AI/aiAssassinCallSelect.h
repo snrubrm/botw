@@ -21,6 +21,9 @@ public:
     bool m35() override;
 
 protected:
+    // Inline-only in the original (name guess; shared by m34 and m35: the event-name temporaries sit above the caller's).
+    bool isChangeDemoActive();
+
     // static_param at offset 0x38
     sead::SafeString mChangeDemoName_s{};
     // static_param at offset 0x48

@@ -40,15 +40,17 @@ bool LastBossBeamAttackRoot::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: stack slot order of the target position vs the "TargetPos" SafeString and the placement of the
-// InlineParamPack's `count = 0` store relative to the sub_7100475B28 call; everything else matches
+inline void LastBossBeamAttackRoot::changeToAim(const sead::Vector3f& target_pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("照準", &pack);
+}
+
 void LastBossBeamAttackRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     {
-        ksys::act::ai::InlineParamPack pack;
         sead::Vector3f target_pos;
         sub_7100475B28(&target_pos);
-        pack.addVec3(target_pos, "TargetPos", -1);
-        changeChild("照準", &pack);
+        changeToAim(target_pos);
     }
 
     _c0.reset(*mWaitTime_s);

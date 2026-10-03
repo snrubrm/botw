@@ -31,6 +31,9 @@ public:
     void sub_7100475B28(sead::Vector3f* out);
 
 protected:
+    // Inline-only in the original (name guess; evidence: the param pack and name temporary sit above enter_'s target).
+    void changeToAim(const sead::Vector3f& target_pos);
+
     // static_param at offset 0x38
     const int* mAttackPowerForPlayer_s{};
     // static_param at offset 0x40

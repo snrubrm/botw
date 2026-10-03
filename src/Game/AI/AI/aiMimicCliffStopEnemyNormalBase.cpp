@@ -182,7 +182,13 @@ void MimicCliffStopEnemyNormalBase::sub_7100352B60() {
     _130._68 = rot;
 }
 
-// NON_MATCHING: stack layout (the original's parameter pack and name temporary lie above the filter)
+inline void MimicCliffStopEnemyNormalBase::changeToNotice() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("気づき", &params);
+}
+
+// NON_MATCHING: register allocation only (ours keeps `&filter` in a callee-saved register for the destructor call)
 bool MimicCliffStopEnemyNormalBase::sub_7100352D14() {
     auto* actor = mActor;
     auto* awareness = actor->getAwareness();
@@ -200,9 +206,7 @@ bool MimicCliffStopEnemyNormalBase::sub_7100352D14() {
         return false;
 
     sub_71005D8DE8(actor, entry->_0.mLink, &entry->_58, nullptr);
-    ksys::act::ai::InlineParamPack params;
-    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
-    changeChild("気づき", &params);
+    changeToNotice();
     return true;
 }
 

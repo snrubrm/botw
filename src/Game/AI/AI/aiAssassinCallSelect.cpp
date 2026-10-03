@@ -21,24 +21,26 @@ void AssassinCallSelect::calc_() {
     EnemyCalledAppear::calc_();
 }
 
+inline bool AssassinCallSelect::isChangeDemoActive() {
+    return ksys::evt::Manager::instance()->isActiveEventNameEqualTo(mChangeDemoName_s.cstr(),
+                                                                    mChangeDemoEPName_s.cstr());
+}
+
 void AssassinCallSelect::m34() {
-    if (ksys::evt::Manager::instance()->isActiveEventNameEqualTo(mChangeDemoName_s.cstr(),
-                                                                 mChangeDemoEPName_s.cstr())) {
+    if (isChangeDemoActive()) {
         changeChild("変身デモ");
     } else {
         EnemyCalledAppear::m34();
     }
 }
 
-// NON_MATCHING: stack slot order (the original's event-name temporaries come from an inline helper
-// shared with m34) and the boolean return is kept as branches
+// NON_MATCHING: stack slots of the SafeString temporaries (the original keeps the isCurrentChild name and the two
+// event-name temporaries in three separate slots) and the boolean return is masked with `and`
 bool AssassinCallSelect::m35() {
     if (!isCurrentChild("変身デモ"))
         return false;
-    if (ksys::evt::Manager::instance()->isActiveEventNameEqualTo(mChangeDemoName_s.cstr(),
-                                                                 mChangeDemoEPName_s.cstr())) {
+    if (isChangeDemoActive())
         return true;
-    }
     return false;
 }
 

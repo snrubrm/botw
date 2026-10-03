@@ -28,6 +28,9 @@ public:
     void sub_710035307C(sead::Vector3f* out, f32 offset);
 
 protected:
+    // Inline-only in the original (name guess; evidence: the param pack sits above sub_7100352D14's filter).
+    void changeToNotice();
+
     // static_param at offset 0x38
     const int* mNoticeSoundTime_s{};
     // static_param at offset 0x40
