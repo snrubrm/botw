@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiMiniBeamAttack.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/gameUnk_71024739d0.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -14,6 +17,51 @@ bool MiniBeamAttack::init_(sead::Heap* heap) {
 
 void MiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     BreathAttackEnemyBattle::enter_(params);
+}
+
+void MiniBeamAttack::calc_() {
+    BreathAttackEnemyBattle::calc_();
+    if (isCurrentChild("戦闘準備")) {
+        if (*mIsValidGuide_s)
+            sub_710042CFA4(sub_71005D960C(mActor));
+    } else if (isCurrentChild("戦闘攻撃")) {
+        const sead::Vector3f target = _220;
+        sub_71005DB1D8(mActor, target);
+        getCurrentChild()->setDynamicParam(_220, "TargetPos");
+    }
+}
+
+// NON_MATCHING: the original calls `worldRayCast()` through the vtable (ours devirtualizes the stack object) and
+// builds the start point's x / y as one 8-byte pair store
+void MiniBeamAttack::sub_710042CFA4(const sead::Vector3f& target) {
+    auto* model = mActor->getModel();
+    sead::Vector3f start;
+    bool found = false;
+    if (!mNodeName_s.isEmpty() && model) {
+        const auto key = model->searchBone(mNodeName_s);
+        if (key.isValid()) {
+            sead::Matrix34f mtx;
+            model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                &mtx, key.bone_index);
+            mtx.getTranslation(start);
+            found = true;
+        }
+    }
+    if (!found)
+        mActor->getMtx().getTranslation(start);
+
+    sead::Vector3f end = sead::Vector3f::ey * *mTargetOffsetY_s + target;
+    uking::Unk_71024739d0 query(ksys::phys::GroundHit::HitAll);
+    query.sub_710090D8A4();
+    query.setStart(start);
+    query.setEnd(end);
+    if (query.worldRayCast()) {
+        query.getHitPosition(&end);
+        end -= sead::Vector3f::ey * *mTargetOffsetY_s;
+        _100.update(end);
+    } else {
+        _100.update(target);
+    }
 }
 
 void MiniBeamAttack::leave_() {

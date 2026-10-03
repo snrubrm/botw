@@ -16,6 +16,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -25,6 +26,9 @@ public:
     void m41() override;
 
     virtual s32 m45();
+
+    // 0x710042cfa4 (placeholder name; declared only): updates the aim guide beam towards `target`.
+    void sub_710042CFA4(const sead::Vector3f& target);
 
 protected:
     // static_param at offset 0xb0
