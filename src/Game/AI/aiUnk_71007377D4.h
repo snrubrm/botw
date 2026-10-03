@@ -4,6 +4,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/Physics/System/physRayCast.h"
 
 namespace ksys::act {
@@ -182,3 +183,6 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 // 0x71007398c0 (CSV Actor::x_50): the actor's spine controller (BoneControl::_0->_10) or nullptr; the
 // same as Actor::sub_71011D8A10 but out of line in this TU.
 ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor);
+
+/// 0x710072d53c: the RigidBody name of the actor's GiantArmorSlot GParamList slot (0 - 3; empty string otherwise).
+const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);

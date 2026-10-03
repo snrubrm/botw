@@ -8,6 +8,9 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include <math/seadMathCalcCommon.h>
 
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
@@ -255,4 +258,21 @@ ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor) {
     if (!unk)
         return nullptr;
     return &unk->_10;
+}
+
+// NON_MATCHING: everything matches except the address computation: the original has one `add x0, x8, #0x78` where we get
+// `add x8, x8, #0x60; add x0, x8, #0x18` (the Parameter object, then its value; ref() and operator* tried)
+const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot) {
+    switch (slot) {
+    case 0:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot0RigidBody;
+    case 1:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot1RigidBody;
+    case 2:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot2RigidBody;
+    case 3:
+        return *actor->getParam()->getRes().mGParamList->getGiantArmorSlot()->mSlot3RigidBody;
+    default:
+        return sead::SafeString::cEmptyString;
+    }
 }

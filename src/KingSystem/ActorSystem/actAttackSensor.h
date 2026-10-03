@@ -8,6 +8,21 @@
 namespace ksys::act {
 
 class Actor;
+struct Struct8Base;
+
+// Placeholder name: abstract base of the objects kept in AttackSensor2::_20 (an object with a vtable
+// with one virtual and the TListNode base at +8 whose data points back to the object; SetThroughArrow and
+// SetThroughCloseWeapon embed one each and register it with ActorAtk::sub_710079E344). The virtual
+// takes seven arguments of which the known implementations only look at the last one (the flags at
+// +0x18 of the attack info: bit 3 for arrows, bits 0-2 for close weapons).
+class AttackSensor2Listener : public sead::TListNode<AttackSensor2Listener*> {
+public:
+    AttackSensor2Listener() : TListNode(this) {}
+
+    virtual bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+                    const Struct8Base* info) = 0;
+};
+KSYS_CHECK_SIZE_NX150(AttackSensor2Listener, 0x28);
 
 // CSV name (act::AttackSensor): the user tag of an actor's attack sensor bodies (ActorAtk::_40,
 // getActorAttackSensor). ctor 0x710079f2dc (ActorAtk TU), vtable 0x7102459f68 (overrides the RTTI
@@ -42,7 +57,6 @@ KSYS_CHECK_SIZE_NX150(AttackSensor, 0x50);
 
 // CSV name (act::AttackSensor2): user tag of the actor's "Tgt" bodies (ActorAtk::_70). ctor
 // 0x71007a21d4 (first function of the actActorSensorUtil TU), vtable 0x710245a050, size 0x40.
-// TODO: element type of _20 unknown.
 class AttackSensor2 : public PhysicsUserTag {
     SEAD_RTTI_OVERRIDE(AttackSensor2, PhysicsUserTag)
 public:
@@ -51,7 +65,7 @@ public:
 
     /* 0x18 */ u32 _18 = 0x1f01f;  // flags; 0x800 if the actor has a Chemical
     /* 0x1c */ u16 _1c = 0xffff;
-    /* 0x20 */ sead::TList<void*> _20;
+    /* 0x20 */ sead::TList<AttackSensor2Listener*> _20;
     /* 0x38 */ bool _38 = false;
 };
 KSYS_CHECK_SIZE_NX150(AttackSensor2, 0x40);

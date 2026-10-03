@@ -64,6 +64,16 @@ const sead::SafeString* sub_71007A2548() {
     return &ksys::act::getStr_GeneralSensor();
 }
 
+void sub_71007A439C(Actor* actor, ksys::act::AttackSensor2Listener* listener) {
+    if (auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk()))
+        atk->sub_710079E344(listener);
+}
+
+void sub_71007A4440(Actor* actor, ksys::act::AttackSensor2Listener* listener) {
+    if (auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk()))
+        atk->sub_710079E3B8(listener);
+}
+
 void sub_71007A397C(Actor* actor) {
     auto* set = actor->getRigidBodyByName(ksys::act::getStr_Tgt().cstr());
     if (!set)

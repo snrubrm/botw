@@ -4,6 +4,10 @@
 #include <math/seadVector.h>
 #include "Game/Actor/actEnemy.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::act {
 
 // Name from the CSV (Swarm::*): swarms of small enemies (bees, ...). vtable 0x71023d0530 (181 slots, no
@@ -20,6 +24,12 @@ public:
         /* 0x60 */ sead::Vector3f _60;
         u8 _6c[0x78 - 0x6c];
         /* 0x78 */ void* _78;  // returned by vtable slot 40 for unit `idx`
+    };
+
+    // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).
+    struct UnitBody {
+        u8 _0[0x20];
+        /* 0x20 */ ksys::phys::RigidBody* _20;
     };
 
     explicit Swarm(const CreateArg& arg);
@@ -59,8 +69,7 @@ public:
     /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
     /* 0x15e8 */ u32 _15e8 = 0;
     /* 0x15f0 */ void* _15f0 = nullptr;
-    /* 0x15f8 */ u32 _15f8 = 0;
-    /* 0x1600 */ void* _1600 = nullptr;
+    /* 0x15f8 */ sead::Buffer<UnitBody> _15f8;
     /* 0x1608 */ u8 _1608[0x1610 - 0x1608]{};
     /* 0x1610 */ s32 _1610 = 0;  // living unit count? (0 -> SwarmReaction deletes the actor)
     /* 0x1614 */ bool _1614 = false;
