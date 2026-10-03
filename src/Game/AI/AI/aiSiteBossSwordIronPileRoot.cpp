@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossSwordIronPileRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
@@ -75,6 +76,21 @@ void SiteBossSwordIronPileRoot::loadParams_() {
     getMapUnitParam(&mAttackPowerForPlayer_m, "AttackPowerForPlayer");
     getMapUnitParam(&mAtMinDamage_m, "AtMinDamage");
     getMapUnitParam(&mActorName_m, "ActorName");
+}
+
+// NON_MATCHING: the original null-checks the message reference (cbz x1)
+bool SiteBossSwordIronPileRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getBrokerId() != u32(-1))
+        return false;
+    if (message.getType() == 0x8000004 || message.getType() == 0x3000007) {
+        _80 = true;
+        return true;
+    }
+    if (message.getType() == 0x800005b) {
+        _81 = true;
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai
