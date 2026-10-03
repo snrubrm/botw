@@ -13,6 +13,7 @@ EventDisableContactIdle::~EventDisableContactIdle() {
     }
 }
 
+// NON_MATCHING: the original stores the two -1 subscribed-layer words with one `stp w9, w9`; ours merges them into a 64-bit store
 bool EventDisableContactIdle::init_(sead::Heap* heap) {
     mContactPointInfo =
         ksys::phys::ContactPointInfo::make(heap, 1, sead::SafeString::cEmptyString, 1, 0, 0);
@@ -24,6 +25,7 @@ bool EventDisableContactIdle::init_(sead::Heap* heap) {
     return false;
 }
 
+// NON_MATCHING: the original shifts by the layer without the SEAD_ENUM stack round trip (`and x8, x0, #0xffffffff; lsl`)
 bool EventDisableContactIdle::DisableContactCallback::invoke(
     ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
     const ksys::phys::ContactPointInfo::Event& event) {
