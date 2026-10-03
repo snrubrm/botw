@@ -1,4 +1,5 @@
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -12,6 +13,10 @@ namespace uking::act {
 Unk_7100e8b2b8::Unk_7100e8b2b8() = default;
 
 Unk_7100e8b2b8::~Unk_7100e8b2b8() = default;
+
+bool Unk_7100e8b2b8::m10(const ksys::Message& message) {
+    return message.getType() == 0x380001f;
+}
 
 ksys::act::Actor* Unk_7100e8b2b8::sub_7100E8B644() {
     return sead::DynamicCast<ksys::act::Actor>(_20.getProc(nullptr, nullptr));

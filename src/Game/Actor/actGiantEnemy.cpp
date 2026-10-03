@@ -1,10 +1,18 @@
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
 // NON_MATCHING: member types incomplete
 GiantEnemy::~GiantEnemy() = default;
+
+void GiantEnemy::m56(sead::Vector3f* pos) {
+    if (_1560 && _1560->isAddedToWorld())
+        _1560->getCenterOfMassInWorld(pos);
+    else
+        x_18(pos);
+}
 
 void GiantEnemy::killWithDropsAndEffects(int a1) {
     Enemy::killWithDropsAndEffects(a1);

@@ -6,6 +6,18 @@ s32 ActorAttention::getNumClients() const {
     return mClients.size();
 }
 
+AttClient* ActorAttention::getClientByIdx(s32 idx) {
+    if (mClients.isIndexValid(idx))
+        return &mClients(idx);
+    return nullptr;
+}
+
+const AttClient* ActorAttention::getClientByIdx(s32 idx) const {
+    if (mClients.isIndexValid(idx))
+        return &mClients(idx);
+    return nullptr;
+}
+
 const AttClient* ActorAttention::getClientByName(const sead::SafeString& name) const {
     s32 idx = -1;
     for (auto it = mClients.begin(), end = mClients.end(); it != end; ++it) {
