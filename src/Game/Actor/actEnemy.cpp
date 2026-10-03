@@ -26,6 +26,13 @@ Enemy::~Enemy() = default;
 
 void Enemy::Unk_12d0::sub_7100710F04() {}
 
+void Enemy::Unk_12d0::sub_7100710F08() {
+    if (_0) {
+        _8 = -1;
+        _c = 0;
+    }
+}
+
 bool Enemy::m57() {
     if (mActorFlags2.isOn(ActorFlag2::_40))
         return true;
