@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -56,10 +58,24 @@ void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::m39(params);
 }
 
+void GuardianMiniReaction::changeToChance() {
+    auto* actor = mActor;
+    if (actor->getModel() && actor->getASList()) {
+        actor->getASList()->sub_710115C11C();
+        actor->getASList()->sub_710115BED4(true);
+        actor = mActor;
+    }
+    actor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("チャンス", &params);
+}
+
 void GuardianMiniReaction::m40(ksys::act::ai::InlineParamPack* params) {
     if (*mGuardianMiniChanceTimeState_a == 1) {
         sub_71005D7014(mActor);
-        sub_7100420E7C();
+        changeToChance();
         *mGuardianMiniChanceTimeState_a = -1;
     } else {
         EnemyDefaultReaction::m40(params);

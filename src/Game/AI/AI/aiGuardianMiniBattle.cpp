@@ -1,6 +1,11 @@
 #include "Game/AI/AI/aiGuardianMiniBattle.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007091AC.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/AI/AI/aiGuardianMiniRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -153,6 +158,53 @@ void GuardianMiniBattle::changeToMoveTurning() {
     ksys::act::ai::InlineParamPack params;
     params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("旋回移動", &params);
+}
+
+bool GuardianMiniBattle::sub_7100415140(s32 idx) {
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return false;
+    auto* weapon = static_cast<uking::act::Enemy*>(actor)->getWeapons()->getEquippedWeapon(idx);
+    if (!sead::IsDerivedFrom<uking::act::Weapon>(weapon))
+        return false;
+    return static_cast<uking::act::Weapon*>(weapon)->_cf0 != 4;
+}
+
+// NON_MATCHING: same as GuardianMiniRangeKeepMove::m35 (the original reads `a` before the getWeapons() vcall
+// and returns through a pointer select; our frame differs)
+// Same slot selection as GuardianMiniRangeKeepMove::m35 (see there).
+s32 GuardianMiniBattle::sub_7100415EAC() {
+    s32 a;
+    s32 b;
+    s32 c = -1;
+    sub_71007091AC(mActor, &a, &b, &c);
+    auto* actor = mActor;
+    if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return a;
+    auto* weapon = static_cast<uking::act::Enemy*>(actor)->getWeapons()->getEquippedWeapon(a);
+    if (sead::IsDerivedFrom<uking::act::Weapon>(weapon) && weapon->getProfile() != "WeaponShield")
+        return a;
+    return b;
+}
+
+bool GuardianMiniBattle::m40() {
+    if (!mActor)
+        return false;
+
+    const s32 slot = sub_7100415EAC();
+    if (*mIsIgnoreArmCondition_s)
+        return EnemyBattle::m40();
+
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    const f32 x = actor->getMtx().m[0][3];
+    const f32 z = actor->getMtx().m[2][3];
+    const auto& target = sub_71005D9330(actor);
+    const sead::Vector2f diff(x - target.x, z - target.z);
+    if (diff.length() <= *mBaseDist_s + *mFarDist_s + sub_71007320F0(mActor, slot))
+        return EnemyBattle::m40();
+    return false;
 }
 
 }  // namespace uking::ai

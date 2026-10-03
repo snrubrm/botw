@@ -25,6 +25,9 @@ public:
     virtual bool m45();
 
     void sub_7100413A38();
+    bool sub_7100415140(s32 idx);
+    s32 sub_7100415EAC();
+    bool m40() override;
     void changeToMoveTurning();
 
 protected:

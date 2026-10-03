@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     // 0x7100375380 (placeholder name)
@@ -24,7 +25,7 @@ protected:
     const float* mReturnDisFromCurrentPos_m{};
     // map_unit_param at offset 0x48
     const float* mReturnSpeedFromCurrentPos_m{};
-    bool _50{};
+    s8 _50{};  // state: 0 / 1 / 2 (moving) / 3 (returning)
     bool _51{};
 };
 

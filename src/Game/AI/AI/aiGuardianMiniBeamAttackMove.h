@@ -22,7 +22,7 @@ public:
     void sub_7100418694();
     bool sub_710041889C();
     void sub_710041896C();
-    void sub_7100418D7C();
+    void requestCreateBeam();
 
 protected:
     // static_param at offset 0x38

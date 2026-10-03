@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiConditionMoveActionSelect.h"
+#include "Game/AI/aiUnk_7100742478.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -14,6 +16,34 @@ bool ConditionMoveActionSelect::init_(sead::Heap* heap) {
 void ConditionMoveActionSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     _58 = false;
     changeChild("条件成功", params);
+}
+
+void ConditionMoveActionSelect::calc_() {
+    bool reachable = true;
+    if (*mCheckLineReachable_s)
+        reachable = sub_7100742588(nullptr, mActor->m45(), mTargetPos_d, 10.0f);
+
+    if (!_58 && reachable && isCurrentChild("条件失敗")) {
+        changeToConditionSuccess();
+    } else if ((!reachable || _58) && isCurrentChild("条件成功")) {
+        changeToConditionFail();
+    } else {
+        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    }
+
+    auto* child = getCurrentChild();
+    if (child && (child->isFinished() || child->isFailed())) {
+        if (child->isFailed()) {
+            if (isCurrentChild("条件失敗")) {
+                setFailed();
+            } else {
+                _58 = true;
+                changeToConditionFail();
+            }
+        } else {
+            setFinished();
+        }
+    }
 }
 
 void ConditionMoveActionSelect::leave_() {

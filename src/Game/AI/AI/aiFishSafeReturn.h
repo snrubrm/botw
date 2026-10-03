@@ -16,7 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    void sub_71003CF5DC();
+    void changeToMove();
 
 protected:
     // static_param at offset 0x38

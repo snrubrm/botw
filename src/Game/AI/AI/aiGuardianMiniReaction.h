@@ -21,7 +21,7 @@ public:
 
     void m42(ksys::act::ai::InlineParamPack* params) override;
 
-    void sub_7100420E7C();
+    void changeToChance();
     void m40(ksys::act::ai::InlineParamPack* params) override;
 protected:
     // static_param at offset 0x68

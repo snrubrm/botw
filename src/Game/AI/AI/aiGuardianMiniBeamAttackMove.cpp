@@ -1,7 +1,15 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttackMove.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
 namespace uking::ai {
 
@@ -12,6 +20,28 @@ GuardianMiniBeamAttackMove::~GuardianMiniBeamAttackMove() = default;
 
 void GuardianMiniBeamAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
     changeToMove();
+}
+
+void GuardianMiniBeamAttackMove::requestCreateBeam() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    ksys::act::InstParamPack pack;
+    pack->addPosition(actor->getMtx().getTranslation());
+    pack->add(actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref(), "AttackPower");
+    pack->add(3.0f, "ScaleTime");
+    pack->add(actor->getParam()->getRes().mGParamList->getAttack()->mRange.ref(), "Range");
+    ksys::act::ActorCreator::addScale(pack, 1.0f);
+
+    sead::SafeString name;
+    if (auto* params = mActor->getParam()->getRes().mGParamList) {
+        if (auto* mini = params->getGuardianMini())
+            name = mini->mBeamName.ref();
+    }
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_88, &pack, nullptr,
+        1);
 }
 
 bool GuardianMiniBeamAttackMove::isChangeable() const {
@@ -35,7 +65,7 @@ void GuardianMiniBeamAttackMove::loadParams_() {
 void GuardianMiniBeamAttackMove::changeToMove() {
     _70 = ksys::Timer(*mMoveTime_s, *mMoveTime_s);
     _7c = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
-    sub_7100418D7C();
+    requestCreateBeam();
     _98 = sub_71005DB4DC(mActor);
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(*mTargetPos_d, "TargetPos", -1);
@@ -78,7 +108,7 @@ bool GuardianMiniBeamAttackMove::sub_710041889C() {
     }
 
     if (!_88.isAllocatedOrFailed()) {
-        sub_7100418D7C();
+        requestCreateBeam();
         _7c = ksys::Timer(*mAttackInterval_s, *mAttackInterval_s);
         return false;
     }
