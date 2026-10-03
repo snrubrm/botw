@@ -23,6 +23,8 @@ protected:
     const int* mMaxLengthTime_s{};
     // static_param at offset 0x188
     const bool* mIsStraight_s{};
+    /* 0x190 */ void* _190{};
+    /* 0x198 */ u32 _198 = 0;
 };
 
 }  // namespace uking::action

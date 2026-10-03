@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71006F3044.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,6 +31,8 @@ protected:
     const sead::Vector3f* mMuzzleOffset_s{};
     // static_param at offset 0x60
     const sead::Vector3f* mBeamDir_s{};
+    /* 0x68 */ Unk_71006f3044 _68{mActor};
+    bool _128 = false;
 };
 
 }  // namespace uking::action

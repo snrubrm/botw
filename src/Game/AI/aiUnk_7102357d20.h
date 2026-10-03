@@ -685,3 +685,17 @@ public:
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
 };
+
+// vtable 0x710244ffe8 (Unk_71006f3044 at +0x88); message 0x8000038 (no payload)
+class Unk_710244ffe8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+// vtable 0x7102450010 (Unk_71006f3044 at +0xa0); message 0x8000039 (no payload)
+class Unk_7102450010 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};

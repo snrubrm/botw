@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionNeckSpin.h"
+#include "Game/AI/aiUnk_71006F3044.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -9,7 +10,7 @@ class NeckSpinBeam : public NeckSpin {
     SEAD_RTTI_OVERRIDE(NeckSpinBeam, NeckSpin)
 public:
     explicit NeckSpinBeam(const InitArg& arg);
-    ~NeckSpinBeam() override;
+    ~NeckSpinBeam() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -33,6 +34,7 @@ protected:
     const sead::Vector3f* mBeamDirection_s{};
     // map_unit_param at offset 0xb0
     const float* mBeamRange_m{};
+    /* 0xb8 */ Unk_71006f3044 _b8{mActor};
 };
 
 }  // namespace uking::action

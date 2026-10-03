@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionStopASPlay.h"
+#include "Game/AI/aiUnk_71006F3044.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -37,6 +38,8 @@ protected:
     const sead::Vector3f* mBeamDirection_s{};
     // map_unit_param at offset 0xa0
     const float* mBeamRange_m{};
+    /* 0xa8 */ Unk_71006f3044 _a8{mActor};
+    bool _168 = false;
 };
 
 }  // namespace uking::action
