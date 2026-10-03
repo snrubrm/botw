@@ -392,7 +392,8 @@ public:
     /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];
     /* 0x19f0 */ sead::SafeArray<s32, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
-    /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
+    /* 0x1b48 */ u8 _1b48[0x1b6c - 0x1b48];
+    /* 0x1b6c */ sead::Matrix33f _1b6c;  // rotation around the x_5() angle (PlayerSwimMove::enter_)
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
     /* 0x1c68 */ Unk1 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
@@ -481,7 +482,8 @@ public:
     /* 0x20c8 */ f32 _20c8;  // initial guard-slip speed (PlayerGuardSlip::enter_)
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
     /* 0x20d0 */ f32 _20d0;
-    /* 0x20d4 */ u8 _20d4[0x20f0 - 0x20d4];
+    /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
+    /* 0x20d8 */ u8 _20d8[0x20f0 - 0x20d8];
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
