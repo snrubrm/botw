@@ -39,6 +39,8 @@ target_sources(uking PRIVATE
   actMotorcycle.cpp
   actMotorcycle.h
   actMotorcycleStickControl.h
+  actMotorcycleUtil.cpp
+  actMotorcycleUtil.h
   actNPC.cpp
   actNPC.h
   actNPCBase.cpp
