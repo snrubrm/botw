@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNPCClerkRoot.h"
+#include "Game/UI/uiShopMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -57,6 +58,10 @@ void NPCClerkRoot::calc_() {
 
 void NPCClerkRoot::leave_() {
     NPCRoot::leave_();
+    if (_240.mEventFlow && (isActorDeletedOrDeleting() || !isActorGoingBackToRootAi()))
+        _240.unloadEvent();
+    if (auto* mgr = ui::UiShopMgr::instance())
+        mgr->sub_7100985508();
 }
 
 void NPCClerkRoot::onPreDelete() {

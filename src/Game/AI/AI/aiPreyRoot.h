@@ -83,6 +83,8 @@ public:
     void sub_7100504BF0();
     // Unnamed in the binary (0x7100504a9c): sets / clears `mask` in the enemy's _e84 flags.
     void sub_7100504A9C(u32 mask, bool on);
+    // Unnamed in the binary (0x7100504ebc): whether any bit of `mask` is set in the enemy's _e84 flags.
+    bool sub_7100504EBC(u32 mask) const;
 
 protected:
     void calc_() override;

@@ -999,6 +999,10 @@ void* Actor::m119() {
     return nullptr;
 }
 
+as::ASList* Actor::sub_71011C9A88() const {
+    return mASList == &as::sNullASListMaybe ? nullptr : mASList;
+}
+
 bool Actor::m120(const char* name) {
     if (mASList != &as::sNullASListMaybe && mASList)
         mASList->startAnimationMaybe(-1.0f, -1.0f, sead::SafeString(name), 0, 0, true);

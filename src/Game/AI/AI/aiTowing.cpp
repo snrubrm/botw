@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiTowing.h"
+#include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -37,6 +39,29 @@ void Towing::enter_(ksys::act::ai::InlineParamPack* params) {
     _48.set(0, 0);
     m37();
     changeChild("通常");
+}
+
+void Towing::m37() {
+    auto* as_list = mActor->sub_71011C9A88();
+    if (!as_list)
+        return;
+
+    as_list->x_6(10, 0, _3c);
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+
+    const auto motion = controller->sub_7100F5F0E4();
+    f32 speed;
+    if (_74) {
+        speed = 0.0f;
+    } else if (motion != ksys::act::MotionType::_0) {
+        speed = _44 / (sead::Mathf::pi() / 60);
+    } else {
+        as_list->x_6(2, 0, _48.y);
+        speed = _48.x;
+    }
+    as_list->x_6(1, 0, speed);
 }
 
 void Towing::leave_() {
