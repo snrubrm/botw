@@ -184,6 +184,13 @@ public:
         const auto lock = sead::makeScopedLock(_c58);
         _c98.set(bits);
     }
+    // inline-only in the original; name is a guess. Evidence: PlayerHell::calc_, PlayerHellNoFade::calc_,
+    // PlayerHellStartWait::calc_ and PlayerEventStartWait::calc_ (and acc::PlayerBase accessors) lock
+    // _ca0 around an update of _ce0.
+    void setCE0Locked(u32 bits) {
+        const auto lock = sead::makeScopedLock(_ca0);
+        _ce0.set(bits);
+    }
     /* 308 */ void m308() override;
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}

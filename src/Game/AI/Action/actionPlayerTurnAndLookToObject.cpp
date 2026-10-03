@@ -34,8 +34,19 @@ void PlayerTurnAndLookToObject::loadParams_() {
     getDynamicParam(&mIsTurnToLookAtPos_d, "IsTurnToLookAtPos");
 }
 
+// NON_MATCHING: regalloc (this / controller registers swapped: x19 / x20)
 void PlayerTurnAndLookToObject::calc_() {
     PlayerLookAtObject::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (isFinished()) {
+        if (controller)
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else if (isFailed()) {
+        if (controller)
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else if (controller) {
+        m41(controller);
+    }
 }
 
 bool PlayerTurnAndLookToObject::isChangeable() const {

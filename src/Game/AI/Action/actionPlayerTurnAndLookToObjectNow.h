@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionPlayerLookAtObjectNow.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class PlayerTurnAndLookToObjectNow : public PlayerLookAtObjectNow {
@@ -19,7 +23,7 @@ public:
 protected:
     void calc_() override;
     virtual void m40();
-    virtual void m41();
+    virtual void m41(ksys::phys::CharacterController* controller);
 };
 
 }  // namespace uking::action

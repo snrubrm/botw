@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionPlayerGuardJust.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::action {
 
@@ -13,7 +15,14 @@ void PlayerGuardJust::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerGuardJust::leave_() {
-    PlayerAction::leave_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    sub_71005D79AC(player, player->playerWeapons_return1(), act::Unk_71002edaec(1));
+    static_cast<ksys::act::Player*>(mActor)->_c40.reset(0x20);
+    static_cast<ksys::act::Player*>(mActor)->_c40.reset(0x10000);
+    auto* p2 = static_cast<ksys::act::Player*>(mActor);
+    p2->_20bc.value = 0;
+    p2->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->_1d70 = ksys::Timer(0, 0);
 }
 
 void PlayerGuardJust::loadParams_() {

@@ -274,6 +274,10 @@ public:
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
+    // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
+    // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).
+    bool sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BaseProcLink* link,
+                        const sead::Vector3f* pos2);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {

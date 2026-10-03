@@ -33,8 +33,19 @@ void PlayerTurnAndLookToObjectNow::loadParams_() {
     PlayerLookAtObjectNow::loadParams_();
 }
 
+// NON_MATCHING: regalloc (this / controller registers swapped: x19 / x20)
 void PlayerTurnAndLookToObjectNow::calc_() {
     PlayerLookAtObjectNow::calc_();
+    auto* controller = mActor->getCharacterController();
+    if (isFinished()) {
+        if (controller)
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else if (isFailed()) {
+        if (controller)
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else if (controller) {
+        m41(controller);
+    }
 }
 
 }  // namespace uking::action

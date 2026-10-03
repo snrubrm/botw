@@ -140,6 +140,7 @@ class SystemGroupHandler;
 namespace uking::act {
 class Camera;
 class Unk_71009214b8;
+class Unk_710079a8e8;
 }  // namespace uking::act
 
 // Camera math helpers (TU 0x7100924be4-).
@@ -229,6 +230,8 @@ f32 sub_7100927230();
 f32 sub_710092738C(const sead::Vector3f& pos, const sead::Vector3f& target);
 
 // Camera access helpers (TU 0x710092da50-).
+// 0x710092da50 (declared only; a forwarder to 0x923e74): the camera state object (Camera::_860); callers do not check for null.
+uking::act::Unk_710079a8e8* sub_710092DA50();
 // 0x710092dab8 / 0x710092dad0: the camera manager's viewport (CameraMgr::sub_7100D8C4C8), null
 // without manager.
 const sead::Viewport* sub_710092DAB8();
