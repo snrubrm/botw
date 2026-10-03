@@ -16,11 +16,12 @@ void ChangeWindTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->m107();
 }
 
-// NON_MATCHING: instruction order (original loads the params before the world::Manager instance)
 void ChangeWindTagRoot::calc_() {
     if (mActor->checkBasicSig()) {
         mActor->m107();
-        ksys::world::Manager::instance()->changeWind(*mDirection_m, true, *mWindSpeed_m);
+        const int direction = *mDirection_m;
+        const float speed = *mWindSpeed_m;
+        ksys::world::Manager::instance()->changeWind(direction, true, speed);
     } else {
         ksys::world::Manager::instance()->resetManualWind();
     }

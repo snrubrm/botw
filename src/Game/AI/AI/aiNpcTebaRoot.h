@@ -20,6 +20,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // inline-only in the original; name is a guess. Evidence: the label formatting + random index +
+    // Message3DText::sub_7100721B1C sequence is inlined at four sites (enter_ and calc_ x3).
+    void showMsg(const sead::SafeString& name, s32 n);
+
     // static_param at offset 0x38
     const int* mShowMessageLockonMinInterval_s{};
     // static_param at offset 0x40

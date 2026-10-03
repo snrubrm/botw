@@ -144,6 +144,21 @@ bool sub_710072DEF0(const sead::Vector3f& target, f32 max_dist, f32 min_dy, f32 
                     const sead::Vector3f& pos, const sead::Vector3f& dir, f32 angle,
                     f32 angle_check_dist, f32 y_offset);
 
+/// sub_710072DEF0 from the translation / forward axis of `mtx` (copied into locals before the call,
+/// after the other arguments are evaluated).
+/// inline-only in the original; name is a guess. Evidence: the same sequence (params first, then the
+/// translation copied element-wise via an out-param and the forward axis) is inlined into
+/// sub_710072E0A0, EnemyBaseFindPlayer::m35 and FlyingEnemyFindPlayer::m35.
+inline bool inlineIsTargetInReach(const sead::Vector3f& target, f32 max_dist, f32 min_dy,
+                                  f32 max_dy, const sead::Matrix34f& mtx, f32 angle,
+                                  f32 angle_check_dist, f32 y_offset) {
+    sead::Vector3f pos;
+    mtx.getTranslation(pos);
+    const sead::Vector3f dir = mtx.getBase(2);
+    return sub_710072DEF0(target, max_dist, min_dy, max_dy, pos, dir, angle, angle_check_dist,
+                          y_offset);
+}
+
 /// 0x710072e0a0: sub_710072DEF0 from the translation / forward axis of `mtx`, then a reachability
 /// check (sub_710072E154) from the actor to `target`. False without an actor. Placeholder name.
 bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,

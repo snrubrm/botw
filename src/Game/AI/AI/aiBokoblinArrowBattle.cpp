@@ -11,15 +11,15 @@ BokoblinArrowBattle::BokoblinArrowBattle(const InitArg& arg) : ksys::act::ai::Ai
 
 BokoblinArrowBattle::~BokoblinArrowBattle() = default;
 
-// NON_MATCHING: the original loads both params before the GlobalRandom instance
 void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsUpdateNoticeState_s) {
         mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
         mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     }
     _114 = 0;
-    _118 = sead::GlobalRandom::instance()->getS32Range(*mBlindlyAttackMinNum_s,
-                                                       *mBlindlyAttackMaxNum_s + 1);
+    const s32 min_num = *mBlindlyAttackMinNum_s;
+    const s32 max_num = *mBlindlyAttackMaxNum_s;
+    _118 = sead::GlobalRandom::instance()->getS32Range(min_num, max_num + 1);
     _11c = *mTargetPos_d;
     _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
     sub_7100331088();

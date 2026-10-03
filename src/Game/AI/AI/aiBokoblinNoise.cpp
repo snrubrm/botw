@@ -42,7 +42,6 @@ bool BokoblinNoise::isChangeable() const {
     return child->isFinished() || child->isFailed();
 }
 
-// NON_MATCHING: scheduling (the original loads mMaxContinueNum_s before the GlobalRandom instance)
 void BokoblinNoise::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
@@ -57,7 +56,8 @@ void BokoblinNoise::calc_() {
                 changeChild("囃し立てる", &pack);
             }
         } else {
-            _50 = sead::GlobalRandom::instance()->getU32(*mMaxContinueNum_s) + 1;
+            const u32 max = *mMaxContinueNum_s;
+            _50 = sead::GlobalRandom::instance()->getU32(max) + 1;
             ksys::act::ai::InlineParamPack pack;
             pack.addVec3(*mTargetPos_d, "TargetPos", -1);
             changeChild("囃し立てる", &pack);

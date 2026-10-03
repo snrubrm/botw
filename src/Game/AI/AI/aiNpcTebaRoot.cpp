@@ -20,8 +20,13 @@ bool NpcTebaRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original builds the message label through an inline helper (name SafeString
-// constructed by the caller, random index drawn after the label's constructor); see lane1 log s19
+inline void NpcTebaRoot::showMsg(const sead::SafeString& name, s32 n) {
+    sead::FixedSafeString<64> label;
+    const u32 idx = n == 0 ? sead::GlobalRandom::instance()->getU32(5) : n - 1;
+    label.format("%s_%02d", name.cstr(), idx);
+    _70.sub_7100721B1C(5.0f, label);
+}
+
 void NpcTebaRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* client = mActor->getAttention()->getClientByName("Talk"))
         client->disable();
@@ -38,10 +43,7 @@ void NpcTebaRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     _70._c8 = false;
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
     _51 = (pos - getPlayerPosition()).length() < *mShowMessageDoDist_s;
-    const sead::SafeString name = "GoBattle";
-    sead::FixedSafeString<64> label;
-    label.format("%s_%02d", name.cstr(), sead::GlobalRandom::instance()->getU32(5));
-    _70.sub_7100721B1C(5.0f, label);
+    showMsg("GoBattle", 0);
     changeChild("飛行", nullptr);
 }
 
@@ -54,8 +56,7 @@ void NpcTebaRoot::leave_() {
     }
 }
 
-// NON_MATCHING: same label helper as enter_ (three call sites); also `_51` is read before the
-// distance's sqrt call
+// NON_MATCHING: the original loads `_51` before the distance's sqrt NaN check (see lane1 log s22)
 void NpcTebaRoot::calc_() {
     _54.update();
     const sead::Vector3f& player = getPlayerPosition();
@@ -91,24 +92,14 @@ void NpcTebaRoot::calc_() {
         if (!ui::UI::instance()->sub_71010A5B0C(mActor) &&
             _60.value <= sead::Mathf::epsilon()) {
             _60 = ksys::Timer(f32(*mShowMessageLockonMinInterval_s), f32(*mShowMessageLockonMinInterval_s));
-            const sead::SafeString name = "LockOn";
-            sead::FixedSafeString<64> label;
-            label.format("%s_%02d", name.cstr(), sead::GlobalRandom::instance()->getU32(5));
-            _70.sub_7100721B1C(5.0f, label);
+            showMsg("LockOn", 0);
         }
     } else {
         s32 value;
         if (getFlagInt(&value, "Wind_Relic_BreakBattery") && value <= 3) {
-            const sead::SafeString name = "BreakBattery";
-            sead::FixedSafeString<64> label;
-            label.format("%s_%02d", name.cstr(),
-                         value == 0 ? sead::GlobalRandom::instance()->getU32(5) : value - 1);
-            _70.sub_7100721B1C(5.0f, label);
+            showMsg("BreakBattery", value);
         } else if (entered_range && isCurrentChild("プレイヤーに接近")) {
-            const sead::SafeString name = "Do";
-            sead::FixedSafeString<64> label;
-            label.format("%s_%02d", name.cstr(), sead::GlobalRandom::instance()->getU32(5));
-            _70.sub_7100721B1C(5.0f, label);
+            showMsg("Do", 0);
         }
     }
     _70.sub_7100721C48();

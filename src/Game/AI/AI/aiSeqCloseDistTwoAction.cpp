@@ -27,11 +27,11 @@ bool SeqCloseDistTwoAction::m35() const {
     return false;
 }
 
-// NON_MATCHING: the original loads the target position before the actor translation
 void SeqCloseDistTwoAction::calc_() {
     if (auto* actor = mActor) {
+        const sead::Vector3f target = *mTargetPos_d;
         const f32 dist = sead::Mathf::sqrt(
-            ksys::util::sqXZDistance(*mTargetPos_d, actor->getMtx().getTranslation()));
+            ksys::util::sqXZDistance(target, actor->getMtx().getTranslation()));
         if (dist <= *mCloseDist_s + sub_71007320F0(actor, *mWeaponIdx_s))
             _68 = true;
     }

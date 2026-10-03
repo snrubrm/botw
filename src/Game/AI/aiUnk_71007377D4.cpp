@@ -37,15 +37,13 @@ void sub_710073771C(ksys::phys::RigidBody* body, const sead::Vector3f& ang_vel) 
     ksys::act::sub_7100EE62B0(body, ang_vel);
 }
 
-// NON_MATCHING: the original copies the translation element-wise into a short-lived local (as an
-// out-param getTranslation(pos) inside an inline helper would); ours pairs the stores
 bool sub_710072E0A0(ksys::act::Actor* actor, const sead::Vector3f& target,
                     const sead::Matrix34f& mtx, f32 max_dist, f32 min_dy, f32 max_dy, f32 angle,
                     f32 angle_check_dist, f32 y_offset) {
     if (!actor)
         return false;
-    if (!sub_710072DEF0(target, max_dist, min_dy, max_dy, mtx.getTranslation(), mtx.getBase(2),
-                        angle, angle_check_dist, y_offset)) {
+    if (!inlineIsTargetInReach(target, max_dist, min_dy, max_dy, mtx, angle, angle_check_dist,
+                               y_offset)) {
         return false;
     }
     return sub_710072E154(actor, target, nullptr, -1);
