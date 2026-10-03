@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m37() override;
+
 protected:
     // static_param at offset 0x1d8
     const bool* mIsDamageToEnemy_s{};

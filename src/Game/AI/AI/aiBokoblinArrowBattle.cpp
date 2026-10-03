@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBokoblinArrowBattle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
@@ -23,6 +24,25 @@ void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _11c = *mTargetPos_d;
     _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
     sub_7100331088();
+}
+
+// NON_MATCHING: instruction scheduling / register numbering of the hold-interval selection (the
+// original loads _118 into w10 and computes &mHoldIntervalLast_s first)
+void BokoblinArrowBattle::sub_7100331088() {
+    sub_71005DA114(mActor, &_c8);
+
+    const s32* hold_interval = _114 != _118 - 1 ? mHoldInterval_s : mHoldIntervalLast_s;
+    const f32 range = *mHoldIntervalRand_s;
+    const s32 interval = *hold_interval;
+    const f32 jitter = range * sead::GlobalRandom::instance()->getF32() * -0.5f;
+    const s32 time = s32(f32(interval) + jitter) + *mHoldIntervalRand_s;
+    _f0 = ksys::Timer(time, time);
+    _108 = ksys::Timer(*mLeaveWaitTime_s, *mLeaveWaitTime_s);
+
+    const sead::Vector3f target = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(target, "TargetPos", -1);
+    changeChild("待機", &params);
 }
 
 bool BokoblinArrowBattle::isChangeable() const {

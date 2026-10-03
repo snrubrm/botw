@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiForestGiantRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,6 +16,19 @@ bool ForestGiantRoot::init_(sead::Heap* heap) {
 
 void ForestGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);
+}
+
+void ForestGiantRoot::m37() {
+    bool is_sleep;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (enemy && enemy->_e84.isOnBit(8))
+        is_sleep = true;
+    else
+        is_sleep = sub_71005DD798(mActor, 19, nullptr, 0, 0);
+
+    ksys::act::ai::InlineParamPack params;
+    params.addBool(is_sleep, "IsSleep", -1);
+    changeChild("リアクション", &params);
 }
 
 void ForestGiantRoot::leave_() {
