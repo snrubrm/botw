@@ -31,3 +31,8 @@ bool sub_71006F59C4(ksys::act::Actor* actor, int a2);
 void sub_71006F5D3C(Unk_71006F5DB0 element, ksys::act::Actor* actor);
 // 0x71006f6144 (declared only).
 void sub_71006F6144(ksys::act::Actor* actor);
+// 0x71006f55d8 (lane2 s21): makes the actor's character controller leave hover mode (sets motion type _1
+// unless it already is).
+void sub_71006F55D8(ksys::act::Actor* actor);
+// 0x71006f566c (lane2 s21): whether the actor's character controller is in hover motion type.
+bool sub_71006F566C(ksys::act::Actor* actor);
