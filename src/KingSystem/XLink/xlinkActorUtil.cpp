@@ -102,3 +102,20 @@ void xlinkEventOn(ksys::act::Actor* actor, u32 idx, s32 value, bool force) {
             slink->setPropertyValue(idx, value);
     }
 }
+
+// NON_MATCHING: the original stores the ELink event's scale (1, 1, 1) with two `stp` pairs interleaved with the
+// position's z; ours merges the constants into one 64-bit store (HandleELink::setPosition, lib/xlink2)
+void Unk_71012419b4::sub_71012419B4(const sead::Vector3f& pos) {
+    mELink.setPosition(pos);
+    mSLink.setPosition(pos);
+}
+
+void Unk_71012419b4::sub_7101241A44(const sead::Matrix34f& mtx) {
+    mELink.setMatrix(mtx);
+    mSLink.setMatrix(mtx);
+}
+
+void Unk_71012419b4::fadeXLink() {
+    mELink.fade();
+    mSLink.fade();
+}
