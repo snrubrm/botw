@@ -38,6 +38,15 @@ protected:
     const bool* mIsUseAtCollision_m{};
     // map_unit_param at offset 0x68
     sead::SafeString mXLinkKey_m{};
+    f32 _78 = 0.0f;
+    f32 _7c = 1.0f;
+    u64 _80 = 0;
+    s32 _88 = 0;
+    u8 _8c[0x4];
+    u64 _90 = 0;
+    s32 _98 = 0;
+    u8 _9c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(ExpandChemicalField, 0xa0);
 
 }  // namespace uking::action

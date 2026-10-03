@@ -34,6 +34,13 @@ protected:
     sead::Vector3f* mAfterImage0Pos_d{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mAfterImage1Pos_d{};
+    f32 _60 = 0.0f;
+    u8 _64[0x4]{};
+    s32 _68 = 0;
+    u8 _6c[0x24];
+    bool _90 = false;
+    u8 _91[0x7];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordSlowMove, 0x98);
 
 }  // namespace uking::action

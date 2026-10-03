@@ -34,6 +34,15 @@ protected:
     float* mXRotateAngle_d{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mParentActor_d{};
+    s32 _60 = 0;
+    bool _64 = false;
+    u8 _65[0x3];
+    u64 _68 = 0;
+    u64 _70 = 0;
+    u64 _78 = 0;
+    s32 _80 = 0;
+    u8 _84[0x4];
 };
+KSYS_CHECK_SIZE_NX150(BowChildDeviceGaleArrow, 0x88);
 
 }  // namespace uking::action
