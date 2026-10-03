@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkFourFootActorLustGrass.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "gsys/gsysModel.h"
 
 namespace uking::action {
 
@@ -8,11 +10,24 @@ ForkFourFootActorLustGrass::ForkFourFootActorLustGrass(const InitArg& arg)
 ForkFourFootActorLustGrass::~ForkFourFootActorLustGrass() = default;
 
 bool ForkFourFootActorLustGrass::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (auto* model = mActor->getModel()) {
+        _b0[0].search(model, mNode1Name_s);
+        _b0[1].search(model, mNode2Name_s);
+        _b0[2].search(model, mNode3Name_s);
+        _b0[3].search(model, mNode4Name_s);
+    }
+    _190 = -1;
+    _198 = -1;
+    return true;
 }
 
 void ForkFourFootActorLustGrass::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _88._8._10 = *mMinRadius_s;
+    _88._8._14 = *mMinRadius_s;
+    _88._8._18 = *mMinRadius_s;
+    _88._8._1c = *mMinRadius_s;
+    _1a0 = false;
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkFourFootActorLustGrass::leave_() {
@@ -36,6 +51,11 @@ void ForkFourFootActorLustGrass::calc_() {
 }
 
 bool ForkFourFootActorLustGrass::hasUpdateForPreDeleteCb() {
+    return true;
+}
+
+bool ForkFourFootActorLustGrass::updateForPreDelete() {
+    _88._8.sub_71007444AC();
     return true;
 }
 

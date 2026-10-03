@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionRandomMoveAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class NPC;
+}
+
 namespace uking::action {
 
 class NPCEscape : public RandomMoveAction {
@@ -39,8 +43,14 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetVel_d{};
+    sead::Vector3f _90 = sead::Vector3f::zero;
+    sead::Vector3f _9c = sead::Vector3f::zero;
+    uking::act::NPC* _a8 = nullptr;
+    void* _b0 = nullptr;
+    s32 _b8 = 0;
     // map_unit_param at offset 0xc0
     const float* mTerritoryArea_m{};
 };
+KSYS_CHECK_SIZE_NX150(NPCEscape, 0xc8);
 
 }  // namespace uking::action

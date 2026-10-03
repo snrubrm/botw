@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventBind.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ EventBind::EventBind(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 EventBind::~EventBind() = default;
 
 bool EventBind::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    *static_cast<Unk_71025afb58**>(mEventBindUnit_a) = &_130;
+    return true;
 }
 
 void EventBind::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -15,7 +17,14 @@ void EventBind::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventBind::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (!*mIsContinueBind_d) {
+        if (auto* bind = _130._8) {
+            mActor->sub_71011DA834(bind);
+            _130._8 = nullptr;
+        } else {
+            mActor->sub_71011DA834(&_90);
+        }
+    }
 }
 
 void EventBind::loadParams_() {

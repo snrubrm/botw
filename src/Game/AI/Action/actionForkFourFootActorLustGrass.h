@@ -1,5 +1,7 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
+#include "Game/AI/aiUnk_71025afb58.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -15,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool hasUpdateForPreDeleteCb() override;
+    bool updateForPreDelete() override;
 
 protected:
     void calc_() override;
@@ -37,6 +40,36 @@ protected:
     sead::SafeString mNode4Name_s{};
     // static_param at offset 0x80
     const sead::Vector3f* mWorldOffset_s{};
+
+    // Local class of the object the "GanonBeastGrudgeMarkMgr" AI tree variable points to (embedded in
+    // the action; its vtable is only referenced by this action's constructor).
+    class Unit : public Unk_71025afb58 {
+        SEAD_RTTI_OVERRIDE(Unit, Unk_71025afb58)
+    public:
+        ~Unit() override = default;
+
+        struct Data {
+            // 0x71007444ac (declaration only; ForkFourFootActorLustGrass::updateForPreDelete).
+            void sub_71007444AC();
+
+            s32 _0 = 0;
+            void* _8 = nullptr;
+            f32 _10;
+            f32 _14;
+            f32 _18;
+            f32 _1c;
+        };
+        KSYS_CHECK_SIZE_NX150(Data, 0x20);
+
+        Data _8;
+    };
+
+    Unit _88;
+    gsys::BoneAccessKeyEx _b0[4];
+    s64 _190;
+    s64 _198;
+    bool _1a0 = false;
 };
+KSYS_CHECK_SIZE_NX150(ForkFourFootActorLustGrass, 0x1a8);
 
 }  // namespace uking::action
