@@ -18,6 +18,8 @@ void ReferenceNPCViewWithDynAS::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+// NON_MATCHING: the original computes the later params' `this + off` addresses before the first call
+// and keeps them in callee-saved registers (extra frame slot); same family as WeaponOnetimeUse
 void ReferenceNPCViewWithDynAS::loadParams_() {
     getDynamicParam(&mDynASKey_d, "DynASKey");
     getStaticParam(&mTurnStartAngle_s, "TurnStartAngle");

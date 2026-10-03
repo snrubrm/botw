@@ -144,3 +144,6 @@ extern sead::Vector3f sUnk_71025c8cf8;
 // Global constant in the unit's TU (0x7102450fa0, right before its vtable): 50.0 (the default arena
 // radius, see Unk3::_c). Placeholder name.
 extern const f32 sUnk_7102450fa0;
+// Global in the unit's TU (0x7102450f80): the three arrow actors the Priest Boss fires (fire / ice /
+// electric); PriestBossPhase::m40 stores a random one into `_2b0`. Placeholder name.
+extern const sead::SafeArray<const char*, 3> sUnk_7102450f80;

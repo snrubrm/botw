@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPriestBossPhaseSecond.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -57,6 +58,21 @@ void PriestBossPhaseSecond::m40() {
     if (sub_7100525A88()->_78.isOnBit(Unk_7102450fa8::Flag(Unk_7102450fa8::Flag::_0)))
         return;
     PriestBossPhase::m40();
+}
+
+bool PriestBossPhaseSecond::m37(f32* ratio) {
+    ksys::act::BaseProcLink link;
+    if (!sub_7100525BC0(2, &link))
+        return false;
+
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+    if (!actor || !actor->isAwakeMaybe())
+        return false;
+
+    auto* life = actor->getLife();
+    const f32 life_value = life ? f32(*life) : 1.0f;
+    *ratio = life_value / f32(actor->getMaxLife());
+    return true;
 }
 
 }  // namespace uking::ai

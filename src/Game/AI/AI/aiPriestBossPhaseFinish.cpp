@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiPriestBossPhaseFinish.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
@@ -32,6 +34,23 @@ void PriestBossPhaseFinish::calc_() {
     if (_90.value <= 5.0f && !_9c) {
         sub_7100529AB0();
         _9c = true;
+    }
+}
+
+void PriestBossPhaseFinish::sub_7100529AB0() {
+    ksys::act::BaseProcLink link;
+    if (!sub_7100525BC0(1, &link))
+        return;
+
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(link.getProc(nullptr, nullptr));
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (!enemy)
+        return;
+
+    for (auto it = enemy->_1128.mList.begin(); it != enemy->_1128.mList.end(); ++it) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&(*it)->mLink, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
 }
 

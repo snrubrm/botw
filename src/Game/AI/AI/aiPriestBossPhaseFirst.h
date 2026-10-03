@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
     bool m36() override;
+    bool m37(f32* ratio) override;
     Flag m38() override { return Flag::_0; }
     void m39() override;
 

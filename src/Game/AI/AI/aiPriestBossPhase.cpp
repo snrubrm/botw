@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPriestBossPhase.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_7102450fa8.h"
 
 namespace uking::ai {
 
@@ -36,6 +38,15 @@ void PriestBossPhase::loadParams_() {
     PriestBossMeta::loadParams_();
     getStaticParam(&mPercentLifeTransition_s, "PercentLifeTransition");
     getStaticParam(&mPercentLifePrevious_s, "PercentLifePrevious");
+}
+
+void PriestBossPhase::m40() {
+    _64.update();
+    if (_64.value <= sead::Mathf::epsilon()) {
+        _64.value = 30.0f;
+        _64.previous_value = 30.0f;
+        sub_7100525A88()->_2b0.copy(sUnk_7102450f80[sead::GlobalRandom::instance()->getU32(3)]);
+    }
 }
 
 bool PriestBossPhase::m36() {
