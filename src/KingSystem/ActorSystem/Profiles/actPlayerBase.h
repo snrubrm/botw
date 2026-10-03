@@ -296,8 +296,10 @@ public:
     /* 0xcfc */ sead::BitFlag32 _cfc;
 
 protected:
-    /* 0xd00 */ u8 _d00[0xd11 - 0xd00];
+    /* 0xd00 */ u8 _d00[0xd10 - 0xd00];
 public:
+    // Public: read by PlayerStepGuardJust::calc_.
+    /* 0xd10 */ u8 _d10;
     // Public: read by PlayerLand::calc_.
     /* 0xd11 */ u8 _d11;
 

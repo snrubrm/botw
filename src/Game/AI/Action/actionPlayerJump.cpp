@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,8 @@ void PlayerJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerJump::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x80000);
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x1000000);
 }
 
 void PlayerJump::loadParams_() {

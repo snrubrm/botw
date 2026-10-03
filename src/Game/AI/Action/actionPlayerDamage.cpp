@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerDamage.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,9 @@ void PlayerDamage::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerDamage::leave_() {
-    PlayerAction::leave_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
 }
 
 void PlayerDamage::loadParams_() {

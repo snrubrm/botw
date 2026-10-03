@@ -24,7 +24,10 @@ void PlayerStepGuardJust::loadParams_() {
 }
 
 void PlayerStepGuardJust::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_d10)
+        player->sub_7100856A7C();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerStepGuardJust::isChangeable() const {

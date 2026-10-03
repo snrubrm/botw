@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerHorseJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ void PlayerHorseJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerHorseJump::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x2);
 }
 
 void PlayerHorseJump::loadParams_() {

@@ -267,7 +267,8 @@ public:
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
     void sub_71008B5B8();              // 0x71008b5b8
-    void x_37();                       // 0x71008efa0 (CSV Player::x_37)
+    void x_37();
+    void sub_7100856A7C();             // 0x7100856a7c (declared only)                       // 0x71008efa0 (CSV Player::x_37)
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
