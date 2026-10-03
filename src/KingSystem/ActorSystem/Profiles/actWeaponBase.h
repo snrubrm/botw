@@ -41,8 +41,9 @@ public:
     virtual const sead::SafeString& m159() const;
     virtual const sead::SafeString& m160() const;
     virtual bool m161() { return _958.hasProc(); }
-    virtual void m162();
-    virtual void m163();
+    // The OptionalWeapon linked at +0x958 (two getProc variants: m162 passes the other-proc argument).
+    virtual Actor* m162();
+    virtual Actor* m163();
     virtual const sead::SafeString& m164();
     virtual void m165();
     virtual void m166();
