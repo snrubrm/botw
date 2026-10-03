@@ -1,8 +1,22 @@
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include <math/seadMathCalcCommon.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
+#include "KingSystem/Mii/miiUMii.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace ksys::act {
 
 BoneControl::BoneControl() = default;
+
+void BoneControl::sub_7100D82F50() {
+    if (_0) {
+        _0->sub_7100D8561C();
+        delete _0;
+        _0 = nullptr;
+    }
+}
 
 void BoneControl::sub_7100D82F94() {
     if (_0)
@@ -45,101 +59,5 @@ bool sub_7100D83014(sead::Vector3f* out, const BoneControl* bone_control) {
     return true;
 }
 
-bool Unk_7100d860d8::sub_7100D87BE4() const {
-    return _8c & 0x10;
-}
-
-void Unk_7100d860d8::sub_7100D89618(const f32& value) {
-    if (_a8 == 0.0f)
-        return;
-    const f32 ratio = -value / _a8;
-    for (s32 i = 0; i < _18.size(); ++i) {
-        _18[i]._104 = ratio * _18[i]._f4;
-        _18[i]._160 = ratio * _18[i]._158;
-    }
-}
-
-void Unk_7100d860d8::sub_7100D8969C(const f32& value) {
-    if (_ac == 0.0f)
-        return;
-    const f32 ratio = value / _ac;
-    for (s32 i = 0; i < _18.size(); ++i) {
-        _18[i]._108 = ratio * _18[i]._f8;
-        _18[i]._164 = ratio * _18[i]._15c;
-    }
-}
-
-void Unk_7100d860d8::sub_7100D8971C(const f32& value) {
-    if (_b0 == 0.0f)
-        return;
-    const f32 ratio = value / _b0;
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._10c = ratio * _18[i]._fc;
-}
-
-void Unk_7100d860d8::sub_7100D8977C(const f32& value) {
-    if (_b4 == 0.0f)
-        return;
-    const f32 ratio = -value / _b4;
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._110 = ratio * _18[i]._100;
-}
-
-void Unk_7100d860d8::sub_7100D8A9D0(const f32& value) {
-    if (!(value <= 0.0f) && !(value > 1.0f))
-        _9c = value;
-}
-
-void Unk_7100d860d8::sub_7100D8A9EC(const f32& value) {
-    if (!(value <= 0.0f) && !(value > 1.0f))
-        _a4 = value;
-}
-
-void Unk_7100d860d8::sub_7100D8AA08(const f32& value) {
-    const f32 ratio = value / _c8;
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._144 = ratio * _18[i]._13c;
-}
-
-void Unk_7100d860d8::sub_7100D8AA60(const f32& value) {
-    const f32 ratio = value / _cc;
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._148 = ratio * _18[i]._140;
-}
-
-void Unk_7100d860d8::sub_7100D8AAB8() {
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._144 = _18[i]._13c;
-}
-
-void Unk_7100d860d8::sub_7100D8AB00() {
-    for (s32 i = 0; i < _18.size(); ++i)
-        _18[i]._148 = _18[i]._140;
-}
-
-#define SUM_FIELD(NAME, FIELD)                                                                    \
-    f32 Unk_7100d860d8::NAME() const {                                                            \
-        f32 sum = 0;                                                                              \
-        for (s32 i = 0; i < _28; ++i)                                                             \
-            sum += _18[i].FIELD;                                                                  \
-        return sum;                                                                               \
-    }
-
-SUM_FIELD(sub_7100D8A25C, _104)
-SUM_FIELD(sub_7100D8A2EC, _108)
-SUM_FIELD(sub_7100D8A37C, _10c)
-SUM_FIELD(sub_7100D8A40C, _110)
-SUM_FIELD(sub_7100D8A49C, _124)
-SUM_FIELD(sub_7100D8A52C, _128)
-SUM_FIELD(sub_7100D8A5BC, _12c)
-SUM_FIELD(sub_7100D8A64C, _130)
-
-#undef SUM_FIELD
-
-f32 Unk_7100d860d8::sub_7100D8A7FC(const s32& idx) const {
-    if (idx < 0 || idx >= _18.size())
-        return 0;
-    return _18[idx]._138;
-}
 
 }  // namespace ksys::act

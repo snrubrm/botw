@@ -39,7 +39,11 @@ public:
         /* 0x000 */ BoneHandle _0;
         /* 0x0a8 */ gsys::BoneAccessKeyEx _a8;
         /* 0x0e0 */ bool _e0;
-        /* 0x0e1 */ u8 _e1[0xf4 - 0xe1];
+        /* 0x0e1 */ u8 _e1[0xe4 - 0xe1];
+        /* 0x0e4 */ f32 _e4;
+        /* 0x0e8 */ f32 _e8;
+        /* 0x0ec */ f32 _ec;
+        /* 0x0f0 */ f32 _f0;
         /* 0x0f4 */ f32 _f4;  // base L limit (negative)
         /* 0x0f8 */ f32 _f8;  // base R limit
         /* 0x0fc */ f32 _fc;  // base U limit
@@ -48,7 +52,10 @@ public:
         /* 0x108 */ f32 _108;  // current R limit
         /* 0x10c */ f32 _10c;  // current U limit
         /* 0x110 */ f32 _110;  // current D limit
-        /* 0x114 */ u8 _114[0x124 - 0x114];
+        /* 0x114 */ f32 _114;  // set B base values (L, R, U, D)
+        /* 0x118 */ f32 _118;
+        /* 0x11c */ f32 _11c;
+        /* 0x120 */ f32 _120;
         /* 0x124 */ f32 _124;
         /* 0x128 */ f32 _128;
         /* 0x12c */ f32 _12c;
@@ -64,7 +71,12 @@ public:
         /* 0x15c */ f32 _15c;
         /* 0x160 */ f32 _160;
         /* 0x164 */ f32 _164;
-        /* 0x168 */ u8 _168[0x180 - 0x168];
+        /* 0x168 */ f32 _168;
+        /* 0x16c */ f32 _16c;
+        /* 0x170 */ f32 _170;
+        /* 0x174 */ f32 _174;
+        /* 0x178 */ u32 _178;
+        /* 0x17c */ u8 _17c[0x180 - 0x17c];
     };
     KSYS_CHECK_SIZE_NX150(Node, 0x180);
 
@@ -96,18 +108,61 @@ public:
     f32 sub_7100D8A52C() const;
     f32 sub_7100D8A5BC() const;
     f32 sub_7100D8A64C() const;
+    // 0x7100d897e0 ... 0x7100d89be4: set the current limit of node `idx` (set A: L / R / U / D at
+    // 0x104 / 0x108 / 0x10c / 0x110, set B: 0x124 / 0x128 / 0x12c / 0x130) and keep the sums (_a8 - _c4)
+    // up to date; L and R also rescale a companion value (0x160 / 0x164 and 0x170 / 0x174).
+    void sub_7100D897E0(const f32& value, const s32& idx);
+    void sub_7100D89884(const f32& value, const s32& idx);
+    void sub_7100D89924(const f32& value, const s32& idx);
+    void sub_7100D899A0(const f32& value, const s32& idx);
+    void sub_7100D89A20(const f32& value, const s32& idx);
+    void sub_7100D89AC4(const f32& value, const s32& idx);
+    void sub_7100D89B68(const f32& value, const s32& idx);
+    void sub_7100D89BE4(const f32& value, const s32& idx);
+    // 0x7100d89c64 ... 0x7100d8a130: reset the limits of one side (or, for 0x7100d89e34 / 0x7100d8a130,
+    // of all four sides of a set) to the base values and recompute the sums.
+    void sub_7100D89C64();
+    void sub_7100D89CDC();
+    void sub_7100D89D54();
+    void sub_7100D89DC4();
+    void sub_7100D89E34();
+    void sub_7100D89F60();
+    void sub_7100D89FD8();
+    void sub_7100D8A050();
+    void sub_7100D8A0C0();
+    void sub_7100D8A130();
     // 0x7100d8a7fc: the 0x138 value of node `idx` (0 if out of range).
     f32 sub_7100D8A7FC(const s32& idx) const;
 
-    // 0x7100d86af0 / 86bd8 (called by Unk_7100d8557c::sub_7100D8561C / sub_7100D85644; not decompiled).
+    // 0x7100d86af0: unbinds the nodes' bone handles from the actor and frees the nodes.
     void sub_7100D86AF0();
+    // 0x7100d86bd8: resets the nodes' offsets and updates them (sub_7100D86D28), clears the flags 0x3008.
     void sub_7100D86BD8();
+    // 0x7100d86c90: the same without the flag change.
+    void sub_7100D86C90();
+    // 0x7100d86d28 (not decompiled, 1340 bytes): updates one node.
+    void sub_7100D86D28(Node* node);
+    // 0x7100d88c5c: updates all nodes (unless _d4 has 0x30 or _8c has 0x400).
+    void sub_7100D88C5C();
+    // 0x7100d88ce0: _d4 has both 2 and 4.
+    bool sub_7100D88CE0() const;
+    // 0x7100d89070: sets 0x10 in _d4 and, if `reset`, resets the nodes' offsets and bone matrices.
+    void sub_7100D89070(bool reset);
+    // 0x7100d89324: copies the target position _8 (if active).
+    void sub_7100D89324(sead::Vector3f* out) const;
+    // 0x7100d89550 / 0x7100d8958c: set the 0xec / 0xf0 value of node `idx` (if active and in range).
+    void sub_7100D89550(const f32& value, const s32& idx);
+    void sub_7100D8958C(const f32& value, const s32& idx);
+    // 0x7100d895c8: copies the 0xe4 value to 0xec in all nodes (if active).
+    void sub_7100D895C8();
     // 0x7100d86170 (not decompiled): builds the nodes from the res::BoneControl data.
     bool sub_7100D86170(res::BoneControl* res, sead::Heap* heap);
     // 0x7100d87bf0 / 0x7100d87264 (not decompiled): compute the controller's current weight.
     void sub_7100D87BF0(f32* weight);
     void sub_7100D87264(f32* weight);
 
+    // 0x7100d89260: the world matrix of the controlled head bone (or the last node's bone), if active.
+    void sub_7100D89260(sead::Matrix34f* out) const;
     // 0x7100d88ec8 (not decompiled): the actor's riding-related offset + _94.
     f32 sub_7100D88EC8() const;
     void sub_7100D88CF4(sead::Vector3f* out) const;
@@ -141,7 +196,7 @@ public:
     /* 0xac */ f32 _ac;
     /* 0xb0 */ f32 _b0;
     /* 0xb4 */ f32 _b4;
-    /* 0xb8 */ f32 _b8;
+    /* 0xb8 */ f32 _b8;  // sums of set B (L, R, U, D)
     /* 0xbc */ f32 _bc;
     /* 0xc0 */ f32 _c0;
     /* 0xc4 */ f32 _c4;

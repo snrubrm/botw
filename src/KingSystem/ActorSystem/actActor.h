@@ -248,6 +248,7 @@ public:
     ImpulseBaseProcLink* getImpulseBaseProcLink() const { return mImpulseBaseProcLink; }
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
+    mii::UMii* getUMii() const { return mUMii; }
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }

@@ -14,7 +14,7 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
-    void m15(sead::Vector3f* out) override;  // TODO 0x7100621b14
+    void m15(sead::Vector3f* out) override;
 
     /* 0x38 */ const float* mAngleXZ_s{};
 };
