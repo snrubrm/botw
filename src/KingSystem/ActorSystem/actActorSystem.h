@@ -13,6 +13,7 @@ namespace ksys::act {
 
 class Actor;
 class ActorConstDataAccess;
+class PlayerLink;
 
 // TODO: incomplete
 class ActorSystem {
@@ -53,7 +54,7 @@ private:
     DebugMessage mDebugMessage{"アクタ"};
     void* _b0 = nullptr;
     void* _b8 = nullptr;
-    void* _c0 = nullptr;
+    PlayerLink* _c0 = nullptr;  // the player (set by setPlayerLink)
     void* _c8 = nullptr;
     sead::Heap* mEmergencyHeap = nullptr;
     sead::Vector3f mPlayerPos = sead::Vector3f::zero;
