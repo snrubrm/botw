@@ -1,4 +1,5 @@
 #include "Game/AI/Behavior/behaviorGiantDownReaction.h"
+#include <prim/seadFormatPrint.h>
 
 namespace uking::behavior {
 
@@ -20,5 +21,15 @@ void GiantDownReaction::m8() {
 }
 
 void GiantDownReaction::m9() {}
+
+void GiantDownReaction::loadParams() {
+    getStaticParam(&mIntervalTime_s, "IntervalTime");
+    getStaticParam(&mDownCheckRagdollRbName_s, "DownCheckRagdollRbName");
+    sead::FixedSafeString<32> key;
+    for (u32 i = 0; i < 3; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "GroundCheckRagdollRbName%d", i) << sead::flush;
+        getStaticParam(&mGroundCheckRagdollRbName_s[i], key);
+    }
+}
 
 }  // namespace uking::behavior

@@ -16,8 +16,7 @@ public:
     void m8() override;
     void m9() override;
 
-    /* 0x28 */ sead::SafeString mRagdollBodyName0_s{};
-    /* 0x38 */ sead::SafeString mRagdollBodyName1_s{};
+    /* 0x28 */ sead::SafeString mRagdollBodyName_s[2]{};
 };
 KSYS_CHECK_SIZE_NX150(SetRagdollBodyForceKeyframed, 0x48);
 

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkASTrgWeaponDrop.h"
+#include <prim/seadFormatPrint.h>
 
 namespace uking::action {
 
@@ -19,27 +20,11 @@ void ForkASTrgWeaponDrop::leave_() {
 }
 
 void ForkASTrgWeaponDrop::loadParams_() {
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    sead::FixedSafeString<32> key;
+    for (u32 i = 1; i <= 4; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "WeaponIdx%d", i) << sead::flush;
+        getStaticParam(&mWeaponIdx_s[i - 1], key);
+    }
     getStaticParam(&mIsKeepRemind_s, "IsKeepRemind");
 }
 

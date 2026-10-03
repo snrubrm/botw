@@ -18,12 +18,9 @@ public:
 protected:
     void calc_() override;
 
+    const int* mWeaponIdx_s[4]{};
     // static_param at offset 0x40
     const bool* mIsKeepRemind_s{};
-    void* _28{};
-    void* _30{};
-    void* _38{};
-    void* _40{};
 };
 
 }  // namespace uking::action
