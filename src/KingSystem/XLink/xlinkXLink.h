@@ -37,6 +37,10 @@ public:
     // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
     // calls it with 1 while `_73` is 0.
     void setMask(int a1);
+    // 0x7101231500 (CSV ActorEffects::x_3; declared only): called by Actor::m75.
+    void sub_7101231500();
+    // 0x71012311e4 (CSV ActorEffects::prepareAIChangeMaybe; declared only): called by Actor::onAiEnter.
+    void prepareAIChangeMaybe();
 
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
