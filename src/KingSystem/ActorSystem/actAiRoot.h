@@ -48,6 +48,7 @@ public:
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }
     const ParamPack& getAiTreeParams() const { return mAiTreeParams; }
     u32 getI() const { return mI; }
+    s16 getAt() const { return mAt; }
     bool isActorDeletedOrDeleting() const;
     // Public through the root AI (SiteBossSpearRoot::leave_ calls it on `mActor->getRootAi()`; lane2 s20).
     using ActionBase::isActorGoingBackToRootAi;
@@ -105,7 +106,7 @@ private:
     Behavior* _138{};
     SomeStruct* _140{};
     u32 mI{};
-    u16 mAt{};
+    s16 mAt{};
     u8 _14e{};
     void* _150{};
     void* _158{};

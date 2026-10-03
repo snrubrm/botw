@@ -6,6 +6,12 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -53,6 +59,51 @@ void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&m34(), &accessor);
     accessor.getActorMtx().getTranslation(*out);
+}
+
+void BreathAttackEnemyBattle::calc_() {
+    m43();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘準備")) {
+            if (getCurrentChild()->isFailed())
+                setFailed();
+            else if (m39())
+                m37();
+        } else if (isCurrentChild("戦闘攻撃")) {
+            if (getCurrentChild()->isFailed()) {
+                setFailed();
+            } else if (*mIsEndAfterAttack_s) {
+                setFinished();
+            } else {
+                if (auto* enemy = static_cast<act::Enemy*>(mActor)) {
+                    const s32 time = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
+                    enemy->_e68 = ksys::Timer(time, time);
+                }
+                changeToPrepareBattle();
+            }
+            if (*mIsDeleteBreath_s) {
+                if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_a0.getProc(nullptr, nullptr)))
+                    actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            }
+        }
+        return;
+    }
+
+    if (getCurrentChild()->isChangeable() && isCurrentChild("戦闘準備")) {
+        if (!mActor) {
+            setFailed();
+            return;
+        }
+        if (m39()) {
+            m37();
+            return;
+        }
+    }
+
+    sead::Vector3f pos;
+    sub_710033EDD0(&pos);
+    getCurrentChild()->setDynamicParam(pos, "TargetPos");
 }
 
 void BreathAttackEnemyBattle::leave_() {
@@ -156,6 +207,22 @@ bool BreathAttackEnemyBattle::m38() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
         return enemy->_e68.value <= sead::Mathf::epsilon();
     return false;
+}
+
+void BreathAttackEnemyBattle::m42() {
+    auto* actor = mActor;
+    ksys::act::InstParamPack pack;
+    pack->addPosition(actor->getMtx().getTranslation());
+    pack->add(s32(actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref() *
+                  *mAttackRatio_s),
+              "AttackPower");
+    pack->add(f32(*mEnlargeTime_s), "ScaleTime");
+    pack->add(actor->getParam()->getRes().mGParamList->getAttack()->mRange.ref(), "Range");
+    ksys::act::ActorCreator::addScale(pack, *mBreathSize_s);
+    ksys::act::ActorCreator::setCreatePriorityState1(pack, mActor);
+    ksys::act::ActorCreator::instance()->requestCreateActor(
+        m36().cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_90, &pack, nullptr,
+        1);
 }
 
 }  // namespace uking::ai
