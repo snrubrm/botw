@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionChemicalPhysBall.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::action {
 
@@ -44,6 +46,16 @@ void ChemicalPhysBall::calc_() {
 }
 
 void ChemicalPhysBall::m32() {}
+
+bool ChemicalPhysBall::m33() {
+    if (hasAttackInfo(mActor))
+        return true;
+    if (_a4 > m34())
+        return true;
+    if (_b4)
+        return _a8.value <= sead::Mathf::epsilon();
+    return false;
+}
 
 f32 ChemicalPhysBall::m40() {
     return *mDeleteTime_s;

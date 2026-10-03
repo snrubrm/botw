@@ -41,8 +41,8 @@ protected:
     // static_param at offset 0x68
     const bool* mIsForceDead_s{};
 
-    void* _70;
-    void* _78;
+    sead::Vector3f _70;
+    u8 _7c[4];
 };
 
 }  // namespace uking::action

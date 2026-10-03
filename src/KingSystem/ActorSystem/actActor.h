@@ -319,6 +319,9 @@ public:
     void clearFadeInCreate();
     // CSV name (0x71011d6cbc; not decompiled): emits the effect for the m135()->_4 disappear type.
     void emitDisappearEffect();
+    // 0x7100ee1e94 (declaration only; placeholder name): queries the actor's `_570->_138` object with the
+    // current time type; SystemHide::m32 forwards to it.
+    bool sub_7100EE1E94();
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).

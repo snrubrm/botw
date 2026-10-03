@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventTalkEndAction.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -21,7 +22,17 @@ void EventTalkEndAction::leave_() {
 void EventTalkEndAction::loadParams_() {}
 
 void EventTalkEndAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* ui = ui::UI::instance();
+    if (isFinished() || isFailed())
+        return;
+    if (!ui->sub_71010A5888()) {
+        setFinished();
+        return;
+    }
+    if (!_1c) {
+        _1c = true;
+        ui->sub_71010A6B98(nullptr);
+    }
 }
 
 }  // namespace uking::action

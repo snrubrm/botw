@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/AI/Action/actionSiteBossShieldBashAttack.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/AI/aiUnk_710073fa90.h"
@@ -60,6 +61,17 @@ void SiteBossShieldBashAttack::m33() {
     }
     sub_71007A2B64(_48, nullptr);
     sub_71007A3258(_48, nullptr);
+}
+
+void SiteBossShieldBashAttack::m35() {
+    if (!_48)
+        return;
+    sub_71007A3258(_48, nullptr);
+    if (auto* chemical = mActor->sub_71011D8A54("ShieldChemical")) {
+        chemical->sub_7100D90D7C(true);
+        chemical->sub_7100D91098(false);
+        chemical->sub_7100D90AF4(false);
+    }
 }
 
 }  // namespace uking::action

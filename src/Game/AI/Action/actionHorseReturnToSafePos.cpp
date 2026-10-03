@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionHorseReturnToSafePos.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +14,15 @@ bool HorseReturnToSafePos::init_(sead::Heap* heap) {
 }
 
 void HorseReturnToSafePos::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mASName_s.isEmpty()) {
+        if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+            rideable->_18.sub_7100E76E74(mASName_s, false);
+            rideable->sub_7100E8BE10();
+            rideable->Unk_7100e8b2b8::_8 = 0x200;
+        }
+    }
+    _40 = -1.0f;
+    _44 = true;
 }
 
 void HorseReturnToSafePos::leave_() {

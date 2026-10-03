@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -11,6 +12,12 @@ ThrowWeapon::~ThrowWeapon() = default;
 
 void ThrowWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    m33();
+    _70 = *mTargetPos_d;
+    auto* link = sub_71005D9050(mActor);
+    if (link && link->hasProc())
+        _70.y = sub_71005D960C(mActor).y;
 }
 
 void ThrowWeapon::leave_() {

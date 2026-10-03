@@ -14,7 +14,14 @@ bool SiteBossSpearChangeWaterLevel::init_(sead::Heap* heap) {
 }
 
 void SiteBossSpearChangeWaterLevel::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    mActor->getMtx().getTranslation(_3c);
+    _48 = 240.0f;
+    _4c = 240.0f;
+    _50 = -1.0f;
+    if (auto* cc = mActor->getCharacterController())
+        cc->sub_7100F5FB24(sead::Vector3f::zero);
+    _38 = false;
 }
 
 void SiteBossSpearChangeWaterLevel::leave_() {

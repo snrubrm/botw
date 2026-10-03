@@ -65,7 +65,7 @@ void sub_71011F00EC(sead::Matrix34f* mtx, const sead::Vector3f& front, const sea
 }
 
 void sub_71011F0260(sead::Matrix34f* mtx, const sead::Vector3f& front, const sead::Vector3f& up,
-                    const sead::Vector3f& pos) {
+                    const sead::Vector3f& pos, bool unused) {
     sead::Vector3f x;
     x.setCross(up, front);
     x.normalize();

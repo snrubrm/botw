@@ -1,3 +1,6 @@
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "Game/AI/Action/actionForkDisableContactOnAtHitPlayer.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -26,6 +29,18 @@ void ForkDisableContactOnAtHitPlayer::loadParams_() {
 
 void ForkDisableContactOnAtHitPlayer::calc_() {
     ForkDisableContact::calc_();
+}
+
+bool ForkDisableContactOnAtHitPlayer::m32() {
+    if (hasAttackInfo(mActor)) {
+        const int num = getNumAttackInfoMaybe(mActor);
+        for (int i = 0; i < num; ++i) {
+            auto* info = getAttackInfo(mActor, i);
+            if (info && ksys::act::isPlayerProfile(&info->_50))
+                return true;
+        }
+    }
+    return false;
 }
 
 bool ForkDisableContactOnAtHitPlayer::m33() {

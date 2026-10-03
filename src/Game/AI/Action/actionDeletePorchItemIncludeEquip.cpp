@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionDeletePorchItemIncludeEquip.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
 
@@ -25,7 +28,17 @@ void DeletePorchItemIncludeEquip::loadParams_() {
 }
 
 void DeletePorchItemIncludeEquip::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!_38) {
+        setFailed();
+        return;
+    }
+    if (_39) {
+        if (!act::CreatePlayerEquipActorMgr::instance()->areAllWeaponActorsReady())
+            return;
+        if (auto* player = ksys::act::PlayerInfo::instance()->getPlayer())
+            player->setC98Locked(0x20);
+    }
+    setFinished();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSystemHideChase.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ bool SystemHideChase::init_(sead::Heap* heap) {
 
 void SystemHideChase::enter_(ksys::act::ai::InlineParamPack* params) {
     SystemHide::enter_(params);
+    ksys::act::sub_7100EE57FC(mActor, *mTargetPos_d);
 }
 
 void SystemHideChase::leave_() {
@@ -25,6 +27,7 @@ void SystemHideChase::loadParams_() {
 
 void SystemHideChase::calc_() {
     SystemHide::calc_();
+    ksys::act::sub_7100EE57FC(mActor, *mTargetPos_d);
 }
 
 }  // namespace uking::action
