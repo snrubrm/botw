@@ -11,7 +11,17 @@ bool ClusterRenderCheckTag::init_(sead::Heap* heap) {
 }
 
 void ClusterRenderCheckTag::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    changeChild("オフ");
+    _58 = false;
+    _38.bind(this, &ClusterRenderCheckTag::sub_710035404C);
+    mFlags.set(Flag::Changeable);
+}
+
+bool ClusterRenderCheckTag::sub_710035404C(ClusterInfo* cluster) {
+    if (cluster->_80)
+        return !_58;
+    _58 = true;
+    return false;
 }
 
 void ClusterRenderCheckTag::leave_() {
