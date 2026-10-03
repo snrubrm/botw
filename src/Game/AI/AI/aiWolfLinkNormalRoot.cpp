@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiWolfLinkNormalRoot.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiAwarenessFilters.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_7100742478.h"
@@ -599,7 +600,7 @@ void WolfLinkNormalRoot::calc_() {
     const f32 max_life = actor->getMaxLife();
     const f32 ratio = sead::Mathf::clamp(life, 0.0f, max_life) / max_life;
     _1bc[0] = sead::Mathf::clamp(sead::Mathf::pow(0.09f, ratio) - ratio * 0.09f, 0.0f, 1.0f);
-    _1bc[2] = sub_7100609954();
+    _1bc[2] = getUtilityDangerMaybe();
     sub_7100607D00();
     sub_7100608200();
 
@@ -701,6 +702,35 @@ void WolfLinkNormalRoot::loadParams_() {
     getStaticParam(&mHowlAtEnemyRange_s, "HowlAtEnemyRange");
     getStaticParam(&mUtilityWantsToHunt_s, "UtilityWantsToHunt");
     getStaticParam(&mWarpToPlayerDistance_s, "WarpToPlayerDistance");
+}
+
+// The danger level (0 .. 1) of the nearest alive enemy / wolf / bear in the awareness list, from the
+// UtilityDanger parameters.
+f32 WolfLinkNormalRoot::getUtilityDangerMaybe() {
+    f32 danger = 0.0f;
+    Unk_7102451830 filter;
+    const u32 count = _80->_8.size();
+    ksys::act::Unk_7100d78e50* nearest = nullptr;
+    for (u32 i = 0; i < count; ++i) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&_80->_8, &filter);
+        if (!entry)
+            break;
+        if (entry->_0.mLink.hasProc() && ksys::act::isAlive(&entry->_0.mLink)) {
+            if (!nearest || entry->_a8 < nearest->_a8)
+                nearest = entry;
+        }
+    }
+
+    if (nearest) {
+        const f32 dist = nearest->_a8;
+        const f32 min_dist = _78->mUtilityDangerDistMin.ref();
+        const f32 max_dist = _78->mUtilityDangerDistMax.ref();
+        const f32 constant = _78->mUtilityConstant.ref();
+        const f32 ratio = (sead::Mathf::clamp(dist, min_dist, max_dist) - min_dist) /
+                          (max_dist - min_dist);
+        danger = sead::Mathf::clamp(sead::Mathf::pow(constant, ratio) - constant * ratio, 0.0f, 1.0f);
+    }
+    return danger;
 }
 
 }  // namespace uking::ai

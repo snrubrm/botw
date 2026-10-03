@@ -125,7 +125,7 @@ protected:
     bool sub_7100609628();
     bool sub_7100609738();
     bool sub_710060980C();
-    f32 sub_7100609954();
+    f32 getUtilityDangerMaybe();
     bool sub_7100609AC0();
     void sub_7100609DFC();
 
