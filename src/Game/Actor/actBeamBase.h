@@ -19,6 +19,11 @@ namespace uking::act {
 class BeamBase : public ksys::act::DynamicActor {
     SEAD_RTTI_OVERRIDE(BeamBase, DynamicActor)
 public:
+    // 0x710000395c: called by PriestBossEyeBeam::sub_710051459C right after creating the beam: locks
+    // `_b90`, `_bd0` acquires `shooter`, `_be0` searches `bone` in the shooter's model, `_c18 = *offset`.
+    void sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString& bone,
+                        const sead::Vector3f* offset);
+
     /* 0xb90 */ sead::CriticalSection _b90;
     /* 0xbd0 */ ksys::act::BaseProcLink _bd0;
     /* 0xbe0 */ gsys::BoneAccessKeyEx _be0;
