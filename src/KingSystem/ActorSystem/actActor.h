@@ -246,6 +246,8 @@ public:
     Unk_71024dc900* get548() const { return _548; }
     void* get1a0() const { return _1a0; }
     ActorBind* getModelBindInfo() const { return mModelBindInfo; }
+    // Bit 0 of mSpecialJobTypesMaskOverride (inline getter; name is a guess, KakarikoKokkoTimeline::enter_)
+    bool isSpecialJobTypesMaskOverride0() const { return mSpecialJobTypesMaskOverride.isOnBit(0); }
     ActorAttention* getAttention() const { return mAttention; }
     int getFadeOutDeleteType() const { return mFadeOutDeleteType; }
     ImpulseBaseProcLink* getImpulseBaseProcLink() const { return mImpulseBaseProcLink; }
