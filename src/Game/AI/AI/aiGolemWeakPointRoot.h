@@ -4,6 +4,7 @@
 #include "Game/AI/AI/aiWeakPointRoot.h"
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -17,17 +18,12 @@ const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstData
 
 namespace uking::ai {
 
-// Placeholder name (vtable 0x71023f5bb0; one virtual, 0x7100403c0c: a physics contact listener that
-// GolemWeakPointRoot registers with its actor in enter_ and removes in leave_). Same shape as
-// Unk_71023dcc38 without the trailing flag.
-class Unk_71023f5bb0 {
+// Placeholder name (vtable 0x71023f5bb0; one virtual, 0x7100403c0c: an attack sensor listener that
+// GolemWeakPointRoot registers with its actor in enter_ and removes in leave_).
+class Unk_71023f5bb0 : public ksys::act::AttackSensor2Listener {
 public:
-    virtual void m0();
-
-    u64 _8 = 0;
-    u64 _10 = 0;
-    Unk_71023f5bb0* _18 = this;
-    u64 _20 = 0;
+    bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+            const ksys::act::Struct8Base* info) override;
 };
 
 class GolemWeakPointRoot : public WeakPointRoot {

@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiBokoblinRestraint.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -51,6 +53,27 @@ void BokoblinRestraint::calc_() {
     getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
     if (getCurrentChild()->isChangeable() && sub_71003331A0())
         setFailed();
+}
+
+bool BokoblinRestraint::sub_71003331A0() {
+    sead::Vector3f pos;
+    sead::Vector3f dir;
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->_230.getBase(dir, 2);
+        pos = awareness->_2c8;
+    } else {
+        mActor->getMtx().getTranslation(pos);
+        mActor->getMtx().getBase(dir, 2);
+    }
+
+    if (sub_710072DEF0(sub_71005D960C(mActor), *mParams.mLostRange_s, *mParams.mLostVMin_s,
+                       *mParams.mLostVMax_s, pos, dir, sead::Mathf::pi(), sead::Mathf::maxNumber(),
+                       0.0f)) {
+        _78.reset(*mParams.mLostTimer_s);
+    } else {
+        _78.update();
+    }
+    return _78.value <= sead::Mathf::epsilon();
 }
 
 void BokoblinRestraint::changeToThreaten() {

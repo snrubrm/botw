@@ -30,6 +30,13 @@ bool GolemWeakPointRoot::init_(sead::Heap* heap) {
 
 void GolemWeakPointRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     WeakPointRoot::enter_(params);
+    auto* actor = mActor;
+    _1e8 = actor->getMtx().m[0][3];
+    _1ec = actor->getMtx().m[1][3];
+    _1f0 = actor->getMtx().m[2][3];
+    sub_71007A439C(actor, &_1f8);
+    if (auto* proc = sead::DynamicCast<ksys::act::Actor>(_60.getProc(nullptr, mActor)))
+        mActor->sub_71011CCB1C(proc->m139());
 }
 
 bool GolemWeakPointRoot::handleMessage_(const ksys::Message* message) {
@@ -125,6 +132,7 @@ void GolemWeakPointRoot::m38(s32 idx, const sead::Matrix34f& mtx) {
 
 void GolemWeakPointRoot::leave_() {
     WeakPointRoot::leave_();
+    sub_71007A4440(mActor, &_1f8);
 }
 
 void GolemWeakPointRoot::loadParams_() {
