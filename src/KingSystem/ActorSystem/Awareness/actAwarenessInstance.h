@@ -201,6 +201,15 @@ public:
     // 0x7100d78028: the awareness entry at +0x18.
     Unk_71024dc978* m8() override;
 
+    // inline-only in the original; name is a guess. The same inlined update (`if (_48 < level)
+    // _48 = level; _44 |= is_target_npc`) appears in EmitInterest::m7, SpeedEmitInterest::m7 and
+    // PlayerEmitInterest::m7 (the latter calls it from both arms of the naked / clothed choice).
+    void emitInterest(s32 level, bool is_target_npc) {
+        if (_18._48 < level)
+            _18._48 = level;
+        _18._44 |= is_target_npc;
+    }
+
     // TODO: a second polymorphic base (only a virtual destructor; secondary vtable at
     // 0x71024dc958) sits here; not modelled yet.
     /* 0x10 */ u8 _10[0x18 - 0x10];

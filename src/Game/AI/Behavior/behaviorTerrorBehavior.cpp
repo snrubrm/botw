@@ -17,12 +17,12 @@ void TerrorBehavior::m7() {
         _a0._94 = mActor->getVelocity() * ratio;
 }
 
-// NON_MATCHING: the original converts *mLevel_s to float before building the layer mask
 void TerrorBehavior::m8() {
     auto* owner = mActor->get548();
     if (!owner)
         return;
     _a0.setRadius(*mRadius_s);
+    const f32 level = *mLevel_s;
     u32 flags = *mIsPlayerLayer_s;
     if (*mIsNpcLayer_s)
         flags |= 0x2;
@@ -46,7 +46,7 @@ void TerrorBehavior::m8() {
         flags |= 0x400;
     if (*mIsElectricLayer_s)
         flags |= 0x800;
-    _a0.x(2, flags, f32(*mLevel_s));
+    _a0.x(2, flags, level);
     owner->sub_7100D783E4(&_a0);
 }
 

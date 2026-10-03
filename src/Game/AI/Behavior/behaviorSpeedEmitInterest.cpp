@@ -22,15 +22,11 @@ void SpeedEmitInterest::loadParams() {
     getStaticParam(&mIsTargetNPC_s, "IsTargetNPC");
 }
 
-// NON_MATCHING: the original reads both params before updating the unit (borderline fix in the log)
 void SpeedEmitInterest::m7() {
     if (!(mActor->getVelocity().length() > *mSpeed_s))
         return;
     auto* unit = mActor->get548();
-    const int level = *mLevel_s;
-    if (unit->_18._48 < level)
-        unit->_18._48 = level;
-    unit->_18._44 |= *mIsTargetNPC_s;
+    unit->emitInterest(*mLevel_s, *mIsTargetNPC_s);
 }
 
 }  // namespace uking::behavior
