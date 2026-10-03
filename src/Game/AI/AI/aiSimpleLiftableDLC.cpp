@@ -1,7 +1,10 @@
 #include "Game/AI/AI/aiSimpleLiftableDLC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -37,6 +40,36 @@ inline void SimpleLiftableDLC::x() {
     ksys::act::disableAllAttClients(actor);
     _40.x();
     changeChild("所持");
+}
+
+void SimpleLiftableDLC::sub_710056EA38() {
+    auto* actor = mActor;
+    bool has_parent = false;
+    if (sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent())) {
+        if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000)) {
+            x();
+            return;
+        }
+        has_parent = true;
+    }
+
+    const u32 type = actor->getRootAi()->getI();
+    if (type == 2) {
+        changeChild("投擲生成");
+        return;
+    }
+
+    if (has_parent && type != 5 && sub_71005DC444(actor)) {
+        actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_40000000);
+        x();
+        return;
+    }
+
+    if (!actor->getMapObject()) {
+        if (auto* body = actor->getMainBody())
+            body->changeMotionType(ksys::phys::MotionType::Dynamic);
+    }
+    changeChild("通常");
 }
 
 void SimpleLiftableDLC::calc_() {

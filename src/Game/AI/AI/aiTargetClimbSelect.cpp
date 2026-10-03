@@ -29,6 +29,37 @@ void TargetClimbSelect::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("対象通常", params);
 }
 
+void TargetClimbSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !child->isChangeable())
+        return;
+
+    if (isCurrentChild("対象通常")) {
+        auto* link = sub_71005D9050(mActor);
+        if (!link || !ksys::act::isPlayerProfile(link))
+            return;
+
+        bool flag;
+        {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+            flag = player.m186();
+        }
+        if (flag)
+            changeChild("対象よじ登り");
+    } else if (isCurrentChild("対象よじ登り")) {
+        bool flag = false;
+        auto* link = sub_71005D9050(mActor);
+        if (link && ksys::act::isPlayerProfile(link)) {
+            ksys::act::acc::PlayerBase player;
+            ksys::act::acquireActor(&ksys::act::PlayerInfo::instance()->getPlayerLink(), &player);
+            flag = player.m186();
+        }
+        if (!flag)
+            changeChild("対象通常");
+    }
+}
+
 void TargetClimbSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }

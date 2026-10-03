@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiReflectableThrown.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -49,6 +50,49 @@ bool ReflectableThrown::isFailed() const {
 
 bool ReflectableThrown::isFinished() const {
     return getCurrentChild()->isFinished() && !sub_710053DA04(nullptr);
+}
+
+bool ReflectableThrown::sub_710053DA04(int* out) const {
+    if (!isCurrentChild("投擲"))
+        return false;
+
+    if (sub_71007A274C(mActor) && !sub_71007A4178(mActor, false)) {
+        if (*mIsReflectByArrow_s) {
+            if (out)
+                *out = 0;
+            return true;
+        }
+        auto* manager = mActor->getDamageMgr();
+        if (!manager)
+            return true;
+        if (manager->getField50() != 8 && manager->getField50() != 3)
+            return true;
+    }
+
+    auto* manager = mActor->getDamageMgr();
+    if (!manager)
+        return false;
+
+    if (manager->getField54() == 7 || manager->getField54() == 8) {
+        if (out)
+            *out = 2;
+        return true;
+    }
+
+    if (!*mIsReflectByGuard_s)
+        return false;
+
+    if (manager->getField50() == 8) {
+        if (out)
+            *out = 1;
+        return true;
+    }
+
+    if (manager->getField54() != 6)
+        return false;
+    if (out)
+        *out = 2;
+    return true;
 }
 
 void ReflectableThrown::m34() {

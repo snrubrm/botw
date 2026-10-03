@@ -1,7 +1,10 @@
 #include "Game/AI/AI/aiTargetAttackAttitudeTgtSelectBase.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -75,6 +78,27 @@ void TargetAttackAttitudeTgtSelectBase::sub_71005BB664(bool enable) {
         else
             enemy->_e84.reset(0x80);
     }
+}
+
+// NON_MATCHING: instruction-identical computation; the original shares one accessor destructor call
+// and returns through a separate flag (w19), ours duplicates the destructor per exit
+bool TargetAttackAttitudeTgtSelectBase::sub_71005BB85C() {
+    bool result = false;
+    if (auto* actor = mActor) {
+        auto* link = sub_71005D9050(actor);
+        if (link && ksys::act::isPlayerProfile(link)) {
+            ksys::act::acc::PlayerBase player;
+            player.getPlayerFromPlayerInfo();
+            if (player.m179() || player.x_29()) {
+                sead::Vector3f dir =
+                    player.getActorMtx().getTranslation() - actor->getMtx().getTranslation();
+                dir.y = 0.0f;
+                dir.normalize();
+                result = dir.dot(player.getActorMtx().getBase(2)) < -0.70710677f;
+            }
+        }
+    }
+    return result;
 }
 
 void TargetAttackAttitudeTgtSelectBase::loadParams_() {}
