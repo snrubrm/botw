@@ -309,7 +309,8 @@ public:
 
     /* 0x00 */ sead::Matrix33f _0;
     /* 0x24 */ sead::Matrix33f _24;
-    /* 0x48 */ u8 _48[0xd8 - 0x48];
+    /* 0x48 */ u8 _48[0xb4 - 0x48];
+    /* 0xb4 */ sead::Matrix33f _b4;
     /* 0xd8 */ u16 _d8;
     /* 0xda */ u8 _da;
 };

@@ -108,10 +108,10 @@ protected:
     // Elevation range (sub_7100924CDC of latMin / latMax).
     f32 _280{};
     f32 _284{};
-    u8 _288 = 0;
-    u8 _289 = 0;
+    u8 _288 = 2;
+    u8 _289 = 2;
     u8 _28a = 2;
-    u8 _28b = 2;
+    u8 _28b = 0;
 };
 KSYS_CHECK_SIZE_NX150(CameraAiming, 0x290);
 

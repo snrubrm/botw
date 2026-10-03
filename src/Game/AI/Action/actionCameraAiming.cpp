@@ -5,7 +5,6 @@
 
 namespace uking::action {
 
-// NON_MATCHING: the original initialises _288-_28b with one 32-bit store (outside the memset)
 CameraAiming::CameraAiming(const InitArg& arg) : CameraAction(arg) {}
 
 CameraAiming::~CameraAiming() = default;
