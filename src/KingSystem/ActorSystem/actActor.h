@@ -364,7 +364,8 @@ public:
     virtual void m35();
     virtual void m36();
     virtual f32 getGuardableAngle();
-    virtual void m38();
+    // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
+    virtual f32 m38();
     virtual bool m39();
     virtual void m40();
     virtual void m41();

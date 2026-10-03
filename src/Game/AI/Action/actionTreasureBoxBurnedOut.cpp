@@ -15,7 +15,7 @@ void TreasureBoxBurnedOut::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TreasureBoxBurnedOut::leave_() {
-    ksys::act::ai::Action::leave_();
+    _20.deleteProc();
 }
 
 void TreasureBoxBurnedOut::loadParams_() {

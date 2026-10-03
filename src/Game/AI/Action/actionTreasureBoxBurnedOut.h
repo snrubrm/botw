@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -18,14 +20,16 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x20];
+    ksys::act::BaseProcHandle _20;
+    ksys::act::BaseProcLink _30;
     // aitree_variable at offset 0x40
     bool* mIsOpenTreasureBox_a{};
     // aitree_variable at offset 0x48
     sead::SafeString* mDropActorName_a{};
     // aitree_variable at offset 0x50
     void* mSharpWeaponAddParam_a{};
+    // FIXME: 0x30-byte struct copied from a global in the constructor
+    u8 _58[0x30]{};
 };
 
 }  // namespace uking::action

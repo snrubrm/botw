@@ -270,6 +270,9 @@ public:
     // 0x710086ca68 (placeholder name; static, no arguments): true while the E3 demo's RidDemo state
     // is active, else the IsGet_PlayerStole2 flag.
     static bool sub_710086CA68();
+    // 0x7100881104 (declared only): clears _c40/_c44/_c48/_c4c bits (_c44 &= 0xfffbffe5, _c40 &= ~(1 << 22),
+    // _c4c &= ~(1 << 12), _c48 &= ~(1 << 11)) and resets _1e9c (u64), _1ea4 (-1.0f) and _20b4.
+    void sub_7100881104();
     void x_34(f32 value, bool a2);                                      // 0x885bb4
     void decreaseStaminaForActionMaybe(f32 value);                      // 0x885bd0
     bool x_21();                                                        // 0x887a20

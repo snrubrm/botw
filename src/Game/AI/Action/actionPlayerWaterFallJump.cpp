@@ -30,7 +30,7 @@ void PlayerWaterFallJump::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerWaterFallJump::leave_() {
-    PlayerAction::leave_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100881104();
 }
 
 void PlayerWaterFallJump::loadParams_() {

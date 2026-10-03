@@ -28,6 +28,9 @@ public:
 struct Unk_7100716408 {
     // 0x7100716408 (not decompiled): feeds a sample position.
     void sub_7100716408(const sead::Vector3f& pos);
+    // 0x71007169cc: whether the sampled positions have been collected (_8c) and the largest extent
+    // of their bounding box is below `threshold`.
+    bool sub_71007169CC(f32 threshold) const;
     // BackFlip::enter_ (value 15.0f)
     void reset(f32 value) {
         _88 = value;
