@@ -17,6 +17,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x7100303a90 (placeholder name; declared only)
+    void sub_7100303A90();
+
 protected:
     // static_param at offset 0x38
     const float* mCheckForwardDist_s{};

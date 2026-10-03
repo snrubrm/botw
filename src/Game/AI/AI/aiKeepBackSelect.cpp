@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiKeepBackSelect.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,6 +24,32 @@ void KeepBackSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     _b0 = keep_time;
     _a8 = keep_time;
     changeChild("角度内", params);
+}
+
+void KeepBackSelect::calc_() {
+    if (isCurrentChild("角度内")) {
+        f32* timer = &_a8;
+        if (sub_710045134C()) {
+            ksys::Timer::update(timer, -1.0f);
+        } else {
+            s32 value = _ac;
+            if (_b0 != _ac)
+                value = sead::GlobalRandom::instance()->getS32Range(_ac, _b0);
+            *timer = value;
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        s32 value = _ac;
+        if (_b0 != _ac)
+            value = sead::GlobalRandom::instance()->getS32Range(_ac, _b0);
+        _a8 = value;
+        changeChild("角度内", nullptr);
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("角度内") && _a8 <= 0.0f)
+            changeChild("角度外", nullptr);
+    }
 }
 
 void KeepBackSelect::leave_() {

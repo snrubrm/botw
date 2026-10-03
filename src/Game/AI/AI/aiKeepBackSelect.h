@@ -13,8 +13,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x710045134c (placeholder name; declared only): whether the target is inside the back angle.
+    bool sub_710045134C();
 
 protected:
     // static_param at offset 0x38
