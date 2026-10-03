@@ -11,7 +11,7 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(MotorcycleMgr)
 
-MotorcycleMgr::MotorcycleMgr() = default;
+MotorcycleMgr::MotorcycleMgr() : _148() {}
 
 // NON_MATCHING: register allocation / scheduling (the constant 1.0f and 1 swap registers; the
 // capsule parameter stores are scheduled differently)

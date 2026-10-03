@@ -79,7 +79,7 @@ public:
     /* 0x120 */ sead::Vector3f _120 = sead::Vector3f::zero;
     /* 0x12c */ sead::Vector3f _12c{0, 0, 0};
     /* 0x138 */ sead::Vector3f _138{0, 0, 0};
-    /* 0x148 */ Unk_71012419b4 _148{};
+    /* 0x148 */ Unk_71012419b4 _148;
     /* 0x168 */ xlink2::HandleSLink _168;
     /* 0x178 */ u8 _178 = 0;
     /* 0x179 */ u8 _179 = 0;

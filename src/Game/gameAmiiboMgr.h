@@ -106,8 +106,8 @@ public:
     /* 0x090 */ sead::Vector3f _90{0, 0, 0};
     /* 0x09c */ sead::Vector3f _9c;
     /* 0x0a8 */ s32 _a8 = 0;  // marker state: 0 none, 1 OK, 2 NG, 3 NG (too far)
-    /* 0x0b0 */ Unk_71012419b4 _b0{};
-    /* 0x0d0 */ Unk_71012419b4 _d0{};
+    /* 0x0b0 */ Unk_71012419b4 _b0;
+    /* 0x0d0 */ Unk_71012419b4 _d0;
     /* 0x0f0 */ sead::CriticalSection mCS;
     /* 0x130 */ s32 _130 = 0;
     // Bit 0: marker active, bit 2: listener registered, bit 3: amiibo read, bit 4 / 5: NFP checks,
