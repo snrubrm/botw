@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOnEnterSwapDropTableActor.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -26,6 +28,11 @@ void OnEnterSwapDropTableActor::loadParams_() {
 
 void OnEnterSwapDropTableActor::calc_() {
     ForkOnEnterSwapDropTableActor::calc_();
+    if (*mDieType_s >= 0) {
+        if (auto* info = mActor->m135())
+            info->_4 = sub_71005E2B28(*mDieType_s);
+    }
+    callDeleteAndCreateDropAndEmit(mActor, 0);
 }
 
 }  // namespace uking::action

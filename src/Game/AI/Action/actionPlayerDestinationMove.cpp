@@ -33,4 +33,9 @@ bool PlayerDestinationMove::isChangeable() const {
     return false;
 }
 
+bool PlayerDestinationMove::m33(sead::Vector3f* pos) {
+    pos->set(*mDestPosX_d, *mDestPosY_d, *mDestPosZ_d);
+    return true;
+}
+
 }  // namespace uking::action

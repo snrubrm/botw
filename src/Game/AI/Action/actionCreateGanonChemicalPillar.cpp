@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionCreateGanonChemicalPillar.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -29,7 +31,18 @@ void CreateGanonChemicalPillar::loadParams_() {
 }
 
 void CreateGanonChemicalPillar::calc_() {
-    ksys::act::ai::Action::calc_();
+    // NON_MATCHING: the original copies sead::Matrix34f::ident with scalar ldp/stp pairs and the locals are
+    // laid out differently; (ours uses 16-byte vector copies)
+    if (!_58.hasProc())
+        return;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    mtx.setTranslation(pos.x, pos.y + 1.0f, pos.z);
+    const sead::Vector3f scale{*mMaxScale_s, *mMaxScale_s, *mMaxScale_s};
+    accessor.setProperties(mtx, nullptr, nullptr, &scale, false, 0, -1);
+    mActor->sleep(ksys::act::BaseProc::SleepWakeReason(0));
 }
 
 }  // namespace uking::action

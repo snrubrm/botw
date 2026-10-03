@@ -25,4 +25,11 @@ bool PlayerRailMove::isChangeable() const {
     return false;
 }
 
+bool PlayerRailMove::m33(sead::Vector3f* pos) {
+    // NON_MATCHING: the original copies the 12 bytes as z then xy (a trivially copyable struct, not
+    // sead::Vector3f::operator=), so the out parameter type is probably a plain struct
+    *pos = _68._30.sub_7100EEB370();
+    return true;
+}
+
 }  // namespace uking::action

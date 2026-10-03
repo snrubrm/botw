@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerRideHorse.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include <limits>
 
 namespace uking::action {
 
@@ -11,7 +13,21 @@ bool PlayerRideHorse::init_(sead::Heap* heap) {
 }
 
 void PlayerRideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    // NON_MATCHING: the original stores _d4/_dc as unaligned 64-bit pairs and _d0/_e4 separately; ours merges
+    // _d0 with _d4 (and _d8 with _dc) into 32-bit pairs
+    mFlags.reset(Flag::Changeable);
+    _b0 = 0.0f;
+    _b4 = -std::numeric_limits<f32>::infinity();
+    _d4.set(15.0f, 0.0f);
+    _dc.set(std::numeric_limits<f32>::infinity(), 0.0f);
+    _b8 = 0.0f;
+    _c4 = 0.0f;
+    _104 = 0;
+    _d0 = 0.0f;
+    _e4 = 0.0f;
+    _e8 = mActor->getVelocity();
+    _f4 = mActor->getVelocity();
+    _100 = mActor->getVelocity().y;
 }
 
 void PlayerRideHorse::leave_() {

@@ -154,6 +154,9 @@ bool sub_71005D6D10();
 /// CSV name "Actor::callDeleteAndCreateDropAndEmit" (a free function in this file): calls
 /// Actor::killWithDropsAndEffects(a1) unless the actor is being deleted.
 void callDeleteAndCreateDropAndEmit(ksys::act::Actor* actor, int a1);
+/// 0x71005e2b28 (declaration only; placeholder name): maps `value` (OnEnterSwapDropTableActor's DieType) to the
+/// value stored in the actor's DropData `_4`.
+s32 sub_71005E2B28(s32 value);
 /// Sets bit 0 of a flag field (+0xc) in the actor's DropData (Actor vslot 134, RTTI 0x71025ae610),
 /// then callDeleteAndCreateDropAndEmit(actor, false).
 void sub_71005D6D48(ksys::act::Actor* actor);

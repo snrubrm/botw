@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionWaitForFrame.h"
+#include <controller/seadController.h>
+#include "Game/gameMaskController.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -26,7 +29,21 @@ void WaitForFrame::loadParams_() {
 }
 
 void WaitForFrame::calc_() {
-    ksys::act::ai::Action::calc_();
+    // NON_MATCHING: the original tests a mask at +8 of the object returned by MaskController::getController
+    // (not sead::Controller's pad hold bits at +0x114); the element type of its controller array is unknown
+    if (isFinished() || isFailed())
+        return;
+    ksys::Timer::update(&_30, -1.0f);
+    if (auto* mask_controller = MaskController::instance()) {
+        if (auto* controller = mask_controller->getController(MaskController::ControllerIdx::_2)) {
+            if (_34 && controller->isHold(_34))
+                _30 = 0.0f;
+        }
+    }
+    if (_30 <= 0.0f) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action

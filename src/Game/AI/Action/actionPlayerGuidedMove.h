@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual bool m33(sead::Vector3f* pos) { return false; }
 
     // static_param at offset 0x20
     const float* mDecSpdDist_s{};

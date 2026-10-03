@@ -54,6 +54,23 @@ protected:
     const float* mConstraintBreakThreshold_s{};
     // dynamic_param at offset 0xa8
     bool* mHasToPlayRidingOnAS_d{};
+    f32 _b0 = 0.0f;
+    f32 _b4 = 0.0f;
+    f32 _b8 = 0.0f;
+    f32 _bc = 0.075f;
+    f32 _c0 = 0.15f;
+    f32 _c4 = 0.0f;
+    f32 _c8 = 0.0f;
+    f32 _cc = 2.0f;
+    f32 _d0 = 0.0f;
+    sead::Vector2f _d4{0.0f, 0.0f};
+    sead::Vector2f _dc{0.0f, 0.0f};
+    f32 _e4 = 0.0f;
+    sead::Vector3f _e8 = sead::Vector3f::zero;
+    sead::Vector3f _f4 = sead::Vector3f::zero;
+    f32 _100 = 0.0f;
+    u16 _104 = 0;
 };
+KSYS_CHECK_SIZE_NX150(PlayerRideHorse, 0x108);
 
 }  // namespace uking::action

@@ -12,7 +12,9 @@ bool SiteBossCreateIceSplinter::init_(sead::Heap* heap) {
 }
 
 void SiteBossCreateIceSplinter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
+    _38 = false;
+    _44[1] = 0;
 }
 
 void SiteBossCreateIceSplinter::leave_() {
