@@ -34,6 +34,7 @@ target_sources(uking PRIVATE
     Profiles/actPlayer.cpp
     Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayer.h
+    Profiles/actPlayerArmors.cpp
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h

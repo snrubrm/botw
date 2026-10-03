@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -915,6 +916,18 @@ void Actor::setModelDrawEnabled(bool enabled) {
 
 void* Actor::m119() {
     return nullptr;
+}
+
+bool Actor::m120(const char* name) {
+    if (mASList != &as::sNullASListMaybe && mASList)
+        mASList->startAnimationMaybe(-1.0f, -1.0f, sead::SafeString(name), 0, 0, true);
+    return false;
+}
+
+bool Actor::m121() {
+    if (mASList == &as::sNullASListMaybe || !mASList)
+        return true;
+    return mASList->x_4(0, 0);
 }
 
 }  // namespace ksys::act

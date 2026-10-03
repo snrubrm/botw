@@ -560,4 +560,45 @@ void Player::sub_710085ECF4() {
         controller->sub_7100F5EECC(60.0f);
 }
 
+f32 Player::x_67() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(0))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompSwimEnergyRate.ref();
+    return 1.0f;
+}
+
+f32 Player::m231() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(9))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompPlusDropRate.ref();
+    return 1.0f;
+}
+
+f32 Player::getBoneAttackRate() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(7))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompBoneAttackRate.ref();
+    return 1.0f;
+}
+
+f32 Player::m364() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(8))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompClimbJumpEnergyRate.ref();
+    return 1.0f;
+}
+
+f32 Player::getGuardableAngle() {
+    if (isDarukProtectionEnabled())
+        return sead::Mathf::pi();
+    return sead::Mathf::deg2rad(getParam()->getRes().mGParamList->getPlayer()->mGuardableAngle.ref());
+}
+
+// NON_MATCHING: block layout (the original loads _1cec and epsilon before testing isRidingHorse() and keeps the
+// "return true" block last)
+bool Player::m230() {
+    return (isRidingHorse() && !(_1cec <= sead::Mathf::epsilon())) ||
+           !(_1cf8 <= sead::Mathf::epsilon());
+}
+
+bool Player::x_35() {
+    return m225() || m226();
+}
+
 }  // namespace ksys::act

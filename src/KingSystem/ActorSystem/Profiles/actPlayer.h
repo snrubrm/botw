@@ -414,7 +414,11 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1d34 - 0x1cdc];
+    /* 0x1cdc */ u8 _1cdc[0x1cec - 0x1cdc];
+    /* 0x1cec */ f32 _1cec;
+    /* 0x1cf0 */ u8 _1cf0[0x1cf8 - 0x1cf0];
+    /* 0x1cf8 */ f32 _1cf8;
+    /* 0x1cfc */ u8 _1cfc[0x1d34 - 0x1cfc];
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
