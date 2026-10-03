@@ -11,7 +11,8 @@ bool EnemyChangeWeapon::init_(sead::Heap* heap) {
 }
 
 void EnemyChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _74 = *mEquipWeaponBufIndex_a;
+    _78 = 1;
 }
 
 void EnemyChangeWeapon::leave_() {
