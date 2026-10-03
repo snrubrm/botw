@@ -43,7 +43,7 @@ void EquipShieldEnemySearchWeapon::m45() {
         UnarmedEnemySearchWeapon::m45();
     } else {
         _6e8 = true;
-        sub_71004B5FB8();
+        changeToLookAround();
     }
 }
 

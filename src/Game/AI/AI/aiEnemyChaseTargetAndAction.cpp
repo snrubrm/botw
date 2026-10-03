@@ -22,7 +22,7 @@ void EnemyChaseTargetAndAction::enter_(ksys::act::ai::InlineParamPack* params) {
 // acquire call, the original re-materialises it)
 void EnemyChaseTargetAndAction::calc_() {
     UnarmedEnemySearch::calc_();
-    if (sub_71004B6C30()) {
+    if (isGoStraightOrMove()) {
         sead::Vector3f pos;
         ksys::act::ActorConstDataAccess accessor;
         if (mTargetActor_d->hasProc()) {
@@ -53,7 +53,7 @@ bool EnemyChaseTargetAndAction::sub_7100384D50() {
     ksys::act::acquireActor(mTargetActor_d, &accessor);
     const auto& target_pos = accessor.getActorMtx().getTranslation();
     const auto& pos = mActor->getMtx().getTranslation();
-    if ((target_pos - pos).length() <= sub_71004B6BC0())
+    if ((target_pos - pos).length() <= getReachDistanceMaybe())
         return true;
     return sub_7100739030(mActor, *mTargetActor_d);
 }
