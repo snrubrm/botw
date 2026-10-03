@@ -37,20 +37,23 @@ protected:
     u32 _50 = 0;
     u32 _54 = 0;
     u32 _58 = 0;
-    // static_param at offset 0x60
-    const float* mSpeed_s{};
-    // static_param at offset 0x68
-    const float* mSpeedAddRate_s{};
-    // static_param at offset 0x70
-    const float* mAngleSpeed_s{};
-    // static_param at offset 0x78
-    const bool* mIsChangeable_s{};
-    // static_param at offset 0x80
-    const bool* mIsIgnoreSameAS_s{};
-    // static_param at offset 0x88
-    const bool* mAllowPitchRotation_s{};
-    // static_param at offset 0x90
-    sead::SafeString mASKeyName_s{};
+    struct Params {
+        // static_param at offset 0x60
+        const float* mSpeed_s{};
+        // static_param at offset 0x68
+        const float* mSpeedAddRate_s{};
+        // static_param at offset 0x70
+        const float* mAngleSpeed_s{};
+        // static_param at offset 0x78
+        const bool* mIsChangeable_s{};
+        // static_param at offset 0x80
+        const bool* mIsIgnoreSameAS_s{};
+        // static_param at offset 0x88
+        const bool* mAllowPitchRotation_s{};
+        // static_param at offset 0x90
+        sead::SafeString mASKeyName_s{};
+    };
+    Params mParams;
     ksys::act::MotionType _a0{};
 };
 

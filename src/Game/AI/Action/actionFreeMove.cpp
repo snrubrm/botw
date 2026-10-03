@@ -30,7 +30,7 @@ void FreeMove::enter_(ksys::act::ai::InlineParamPack* params) {
     _28 = {0, 0, 1};
 
     if (m32(controller))
-        playAS(mASKeyName_s.cstr(), *mIsIgnoreSameAS_s, 0, 0, -1.0f);
+        playAS(mParams.mASKeyName_s.cstr(), *mParams.mIsIgnoreSameAS_s, 0, 0, -1.0f);
     else
         setFailed();
     _40 = 0;
@@ -42,13 +42,13 @@ void FreeMove::leave_() {
 }
 
 void FreeMove::loadParams_() {
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mSpeedAddRate_s, "SpeedAddRate");
-    getStaticParam(&mAngleSpeed_s, "AngleSpeed");
-    getStaticParam(&mIsChangeable_s, "IsChangeable");
-    getStaticParam(&mIsIgnoreSameAS_s, "IsIgnoreSameAS");
-    getStaticParam(&mAllowPitchRotation_s, "AllowPitchRotation");
-    getStaticParam(&mASKeyName_s, "ASKeyName");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mSpeedAddRate_s, "SpeedAddRate");
+    getStaticParam(&mParams.mAngleSpeed_s, "AngleSpeed");
+    getStaticParam(&mParams.mIsChangeable_s, "IsChangeable");
+    getStaticParam(&mParams.mIsIgnoreSameAS_s, "IsIgnoreSameAS");
+    getStaticParam(&mParams.mAllowPitchRotation_s, "AllowPitchRotation");
+    getStaticParam(&mParams.mASKeyName_s, "ASKeyName");
 }
 
 void FreeMove::calc_() {
@@ -70,7 +70,7 @@ void FreeMove::calc_() {
 }
 
 bool FreeMove::isChangeable() const {
-    return *mIsChangeable_s;
+    return *mParams.mIsChangeable_s;
 }
 
 bool FreeMove::m32(ksys::phys::CharacterController* controller) {
@@ -92,12 +92,12 @@ bool FreeMove::m35() {
 }
 
 f32 FreeMove::m36() {
-    return *mSpeed_s;
+    return *mParams.mSpeed_s;
 }
 
 void FreeMove::m37(f32 speed, ksys::phys::CharacterController* controller) {
     const f32 target = speed * 30.0f;
-    _34.lerp(target, *mSpeedAddRate_s, target, 0.005f);
+    _34.lerp(target, *mParams.mSpeedAddRate_s, target, 0.005f);
     controller->sub_7100F5E7F0(_34.value);
 }
 
