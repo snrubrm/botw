@@ -24,11 +24,11 @@ void AnmDrivenHoverTurn::leave_() {
 
 void AnmDrivenHoverTurn::loadParams_() {
     AnmDrivenHoverBase::loadParams_();
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mBaseRotRatio_s, "BaseRotRatio");
-    getStaticParam(&mRotAccRatio_s, "RotAccRatio");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mBaseRotRatio_s, "BaseRotRatio");
+    getStaticParam(&mParams.mRotAccRatio_s, "RotAccRatio");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void AnmDrivenHoverTurn::calc_() {

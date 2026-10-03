@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,18 +19,27 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x28
-    const float* mCloseDist_s{};
-    // static_param at offset 0x30
-    const float* mSpeed_s{};
-    // static_param at offset 0x38
-    const float* mRotSpd_s{};
-    // static_param at offset 0x40
-    const float* mFinishDist_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x28
+        const float* mCloseDist_s{};
+        // static_param at offset 0x30
+        const float* mSpeed_s{};
+        // static_param at offset 0x38
+        const float* mRotSpd_s{};
+        // static_param at offset 0x40
+        const float* mFinishDist_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
+    ksys::VFRValue _50{0.0f};
+    s32 _5c = 0;
+    u8 _60[0x24];
+    f32 _84 = 0.0f;
+    u64 _88 = 0;
 };
+KSYS_CHECK_SIZE_NX150(ForkASTrgStepMove, 0x90);
 
 }  // namespace uking::action

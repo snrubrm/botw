@@ -19,12 +19,12 @@ void ForkASTrgStepMove::leave_() {
 }
 
 void ForkASTrgStepMove::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mCloseDist_s, "CloseDist");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinishDist_s, "FinishDist");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mCloseDist_s, "CloseDist");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinishDist_s, "FinishDist");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void ForkASTrgStepMove::calc_() {
