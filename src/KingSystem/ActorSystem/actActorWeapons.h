@@ -7,8 +7,12 @@
 namespace ksys::act {
 
 class Actor;
+class ActorConstDataAccess;
 class WeaponBase;
 struct Unk117;
+
+// 0x7100efa810 (unnamed in the CSV): calls WeaponBase::m215 on the weapon actor of `accessor`.
+void sub_7100EFA810(ActorConstDataAccess* accessor);
 
 namespace acc {
 class PlayerOrEnemy;
@@ -30,6 +34,8 @@ public:
     void resetBaseProcLinkForActor(BaseProc* proc);
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
+    // 0x7100efd344 (CSV ActorWeapons::x): calls WeaponBase::m215 on every weapon actor.
+    void x();
     // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
     void sub_7100EFD458(Unk117* arg);
 

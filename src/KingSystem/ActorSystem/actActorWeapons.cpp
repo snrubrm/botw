@@ -50,6 +50,25 @@ void ActorWeapons::wakeUp(BaseProc::SleepWakeReason reason) {
     }
 }
 
+// NON_MATCHING: the original keeps the first cast as a branch to a shared `x19 = null` block; ours
+// if-converts it to a csel
+void sub_7100EFA810(ActorConstDataAccess* accessor) {
+    BaseProc* proc = accessor->getProc();
+    Actor* actor = nullptr;
+    if (proc && sead::IsDerivedFrom<Actor>(proc))
+        actor = static_cast<Actor*>(proc);
+    if (auto* weapon = sead::DynamicCast<WeaponBase>(actor))
+        weapon->m215();
+}
+
+void ActorWeapons::x() {
+    for (auto& weapon : mWeapons) {
+        ActorConstDataAccess accessor;
+        acquireActor(&weapon.link, &accessor);
+        sub_7100EFA810(&accessor);
+    }
+}
+
 void ActorWeapons::sub_7100EFD458(Unk117* arg) {
     for (auto& weapon : mWeapons) {
         if (auto* actor = sead::DynamicCast<WeaponBase>(weapon.link.getProc(nullptr, nullptr)))
