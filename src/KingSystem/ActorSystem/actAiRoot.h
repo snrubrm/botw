@@ -19,6 +19,7 @@ public:
 };
 
 enum class RootAiFlag {
+    _0 = 0,
     _5 = 5,
     _7 = 7,
     _8 = 8,

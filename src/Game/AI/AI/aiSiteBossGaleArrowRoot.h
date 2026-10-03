@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool m37(bool* broke_ice_block, bool* hit_player) override;
 
 protected:
 };

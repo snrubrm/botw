@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiNPCTalkBalloon.h"
 #include "Game/Actor/actNPCBase.h"
 #include "Game/UI/uiUI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -22,6 +25,22 @@ void NPCTalkBalloon::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* npc = sead::DynamicCast<act::NPCBase>(mActor))
         _80 = npc->_c18;
     sub_71004E1684();
+}
+
+void NPCTalkBalloon::sub_71004E1684() {
+    sead::Vector3f dir = *mTargetPos_d - mActor->getMtx().getTranslation();
+    dir.y = 0.0f;
+    dir.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, sead::Vector3f::ez, dir, sead::Vector3f::ey);
+    const sead::Vector3f rot{0.0f, angle * axis.y, 0.0f};
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(rot, "TargetRot", -1);
+    changeChild("振り向く", &pack);
 }
 
 void NPCTalkBalloon::leave_() {

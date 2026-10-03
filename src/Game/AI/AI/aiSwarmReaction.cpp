@@ -3,6 +3,7 @@
 #include "Game/Actor/actSwarm.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,46 @@ void SwarmReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = true;
     *mActor->getLife() = mActor->getMaxLife();
     m35();
+}
+
+void SwarmReaction::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    if (_38) {
+        _38 = false;
+    } else if (m34()) {
+        *mActor->getLife() = mActor->getMaxLife();
+        m35();
+    }
+
+    auto* child = getCurrentChild();
+    if (!child->isFinished() && !child->isFailed())
+        return;
+
+    if (isCurrentChild("死亡") || isCurrentChild("ビタロック")) {
+        if (auto* unk = mActor->m135()) {
+            unk->_0 = 1;
+            unk->_4 = 0;
+        }
+        mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0,
+                         nullptr);
+        return;
+    }
+
+    auto* swarm = static_cast<act::Swarm*>(mActor);
+    if (swarm->_1610 == 0) {
+        swarm->deleteAndEmit(1);
+        return;
+    }
+
+    const s32 alive = swarm->_14c8.size() - swarm->_1610;
+    if (alive < mActor->getMaxLife()) {
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_0);
+        setFinished();
+    } else {
+        m36();
+    }
 }
 
 void SwarmReaction::leave_() {

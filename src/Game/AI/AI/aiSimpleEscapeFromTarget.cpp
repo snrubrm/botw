@@ -1,7 +1,10 @@
 #include "Game/AI/AI/aiSimpleEscapeFromTarget.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -16,6 +19,40 @@ bool SimpleEscapeFromTarget::init_(sead::Heap* heap) {
 void SimpleEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _5c = _60 = *mKeepTime_s;
     sub_710056CF84();
+}
+
+// NON_MATCHING: load order only (the original reads the target position's x / z before the actor's
+// translation; getTranslation() returns a by-value copy that is loaded first)
+void SimpleEscapeFromTarget::calc_() {
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+
+    f32& timer = _58;
+    if (ksys::util::sqXZDistance(*mTargetPos_d, mActor->getMtx().getTranslation()) >
+        sead::Mathf::square(*mSpaceDist_s)) {
+        ksys::Timer::update(&timer, -1.0f);
+    } else {
+        s32 time = _5c;
+        if (_60 != _5c)
+            time = sead::GlobalRandom::instance()->getS32Range(_5c, _60);
+        timer = time;
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (!(ksys::util::sqXZDistance(*mTargetPos_d, mActor->getMtx().getTranslation()) >
+              sead::Mathf::square(*mSpaceDist_s))) {
+            setFailed();
+            return;
+        }
+        m35(child->isFinished());
+    } else if (child->isChangeable() && timer <= 0.0f) {
+        m35(true);
+        return;
+    }
+    m37();
 }
 
 void SimpleEscapeFromTarget::leave_() {

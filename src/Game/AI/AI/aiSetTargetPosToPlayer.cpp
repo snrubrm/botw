@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiSetTargetPosToPlayer.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,33 @@ void SetTargetPosToPlayer::calc_() {
         if (sub_71005694B4(&pos))
             getCurrentChild()->setDynamicParam(pos, "TargetPos");
     }
+}
+
+// NON_MATCHING: scheduling / register allocation of the normalisation (the original computes the
+// x and z differences before player.y + height; ours keeps source order)
+bool SetTargetPosToPlayer::sub_71005694B4(sead::Vector3f* pos) {
+    if (_74 > *mMaxUpdateNum_s)
+        return false;
+
+    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    const sead::Vector3f& player_pos = getPlayerPosition();
+    sead::Vector3f target = player_pos;
+    target.y += *mHeightOffset_s;
+    sead::Vector3f dir = target - actor_pos;
+    dir.normalize();
+
+    sead::Vector3f result = target + dir * *mAddLength_s;
+    const f32 range = *mRandRange_s;
+    if (sead::GlobalRandom::instance()->getF32() < *mRandRate_s) {
+        result.x += sead::GlobalRandom::instance()->getF32Range(-range, range);
+        result.z += sead::GlobalRandom::instance()->getF32Range(-range, range);
+    }
+    *pos = result;
+
+    const f32 interval = *mUpdateTargetInterval_s + 0.5f;
+    _68 = ksys::Timer(interval, interval);
+    ++_74;
+    return true;
 }
 
 void SetTargetPosToPlayer::leave_() {
