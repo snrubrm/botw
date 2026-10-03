@@ -102,6 +102,8 @@ public:
     // findBodyGroupByName (the original has two copies; const-ness is a guess).
     RigidBodySet* findBodyByName(const sead::SafeString& name) const;
     s32 findContactPointInfo(const sead::SafeString& name) const;
+    // Inline in the original (StoneStickRoot::init_); null if `idx` is out of range.
+    ContactPointInfo* getContactPointInfoAt(s32 idx) const { return mContactPointInfo[idx]; }
     s32 findCollisionInfo(const sead::SafeString& name) const;
     // 0x7100fbc838 (declaration only): selects ragdoll controller `idx` (clamped; resets the previous
     // one, stored in _112).
