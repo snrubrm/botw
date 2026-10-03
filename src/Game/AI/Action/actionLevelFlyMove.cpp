@@ -10,6 +10,7 @@ bool LevelFlyMove::init_(sead::Heap* heap) {
 
 void LevelFlyMove::enter_(ksys::act::ai::InlineParamPack* params) {
     LevelFlyMoveBase::enter_(params);
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }
 
 void LevelFlyMove::leave_() {
