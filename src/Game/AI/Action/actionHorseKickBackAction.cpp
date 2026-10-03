@@ -13,8 +13,6 @@ bool HorseKickBackAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original ORs the old flags with the mask (`old | mask`) and sinks the byte store
-// below the call arguments (scheduling)
 void HorseKickBackAction::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* rideable = mActor->m132();
     if (!rideable) {
@@ -23,9 +21,14 @@ void HorseKickBackAction::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     mActor->getASList()->x_6(1, 0, 0.0f);
     mActor->getASList()->x_6(2, 0, 1.0f);
-    _38.set(sead::BitFlag8::makeMask(Bit(Bit::_0)));
-    const bool succeeded = rideable->_18.sub_7100E76E74(mASName_s, false);
-    _38.changeBit(Bit(Bit::_1), succeeded);
+    _38 |= 1 << int(Bit(Bit::_0));
+    const sead::SafeString& name = mASName_s;
+    const bool succeeded = rideable->_18.sub_7100E76E74(name, false);
+    const int mask = 1 << int(Bit(Bit::_1));
+    if (succeeded)
+        _38 |= mask;
+    else
+        _38 &= ~mask;
 }
 
 void HorseKickBackAction::leave_() {

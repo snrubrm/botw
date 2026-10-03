@@ -89,7 +89,7 @@ public:
         /* 0x18 */ u8 _18[0x2c - 0x18];
         /* 0x2c */ f32 _2c;
         /* 0x30 */ u8 _30[0x58 - 0x30];
-        /* 0x58 */ sead::BitFlag8 _58;
+        /* 0x58 */ u8 _58;  // flag bits (the original sets them with `_58 |= 1 << Flag`)
     };
     /* 0x48 */ Unk48* _48 = nullptr;
     // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear

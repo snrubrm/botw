@@ -26,7 +26,7 @@ protected:
     const int* mSucceedGear_s{};
     // static_param at offset 0x28
     sead::SafeString mASName_s{};
-    sead::BitFlag8 _38;
+    u8 _38 = 0;
 };
 
 }  // namespace uking::action

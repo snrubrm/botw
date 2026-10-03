@@ -13,11 +13,17 @@ bool LynelHighJumpAttack::init_(sead::Heap* heap) {
 }
 
 void LynelHighJumpAttack::enter_(ksys::act::ai::InlineParamPack* params) {
+    _a8 = 1.0f;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (auto* unit = enemy->_1148._48) {
+            _a8 = unit->_10 ? unit->_2c : 0.0f;
+            unit->_2c = 0.4f;
+            unit->_58 |= 1 << int(act::Unk_7102357908::Unk48::Flag(act::Unk_7102357908::Unk48::Flag::_4));
+        }
+    }
     JumpAttack::enter_(params);
 }
 
-// NON_MATCHING: the original ORs the old flag byte with the mask (`orr old, mask`); ours emits the
-// operands the other way round
 void LynelHighJumpAttack::leave_() {
     if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
         if (auto* unit = enemy->_1148._48) {
@@ -25,7 +31,7 @@ void LynelHighJumpAttack::leave_() {
             const f32 current = unit->_10 ? unit->_2c : 0.0f;
             if (scale != current) {
                 unit->_2c = scale;
-                unit->_58.setBit(act::Unk_7102357908::Unk48::Flag(act::Unk_7102357908::Unk48::Flag::_4));
+                unit->_58 |= 1 << int(act::Unk_7102357908::Unk48::Flag(act::Unk_7102357908::Unk48::Flag::_4));
             }
         }
     }
