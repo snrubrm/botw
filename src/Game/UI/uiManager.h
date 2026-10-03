@@ -14,6 +14,9 @@ class Manager {
     Manager();
 
 public:
+    // 0x7100a7b5d8 (CSV uiManager::createAndLoadScreenIfNeeded)
+    void createAndLoadScreenIfNeeded(s32 id);
+
     // inline-only in the original; name is a guess. The same test is inlined at the start of
     // 14 functions (the GanonBeast actor "rain" update 0x7100710938, GameSceneSubsys14::postCalc,
     // IceBlockMgr::__auto0, ...): state 1 - 4, flag bits 3 / 4 of the byte at 0x64c30 or the field at

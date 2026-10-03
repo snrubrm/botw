@@ -77,6 +77,10 @@ void showRuntimeTip(s32 type);
 // decompiled yet.
 void sub_7100A95F5C(s32 type);
 
+// 0x7100aa0a5c (CSV ui::createAndLoadScreenIfNeededImpl): forwards `id` to Manager::createAndLoadScreenIfNeeded
+// (the second parameter is unused; callers pass nullptr).
+void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
+
 // Facade functions of the 0x7100a94000-0x7100aa0000 UI wrapper TU called by AI actions (placeholder names; the
 // signatures come from the callers, none is decompiled yet).
 void sub_7100A94B40(bool display, bool display_ex, bool get_demo);
@@ -94,20 +98,20 @@ void sub_7100A98340();
 void sub_7100A98358();
 bool sub_7100A98558();
 void sub_7100A98598();
-void sub_7100A98AE4();
+bool sub_7100A98AE4();
 void sub_7100A98BB0();
 void sub_7100A98EE4();
 bool sub_7100A98FA8();
 void sub_7100A990EC();
-void sub_7100A99860();
+bool sub_7100A99860();
 void sub_7100A9991C(const sead::SafeString& counter_name);
-void sub_7100A99A08();
-void sub_7100A99BB0();
-void sub_7100A99D70();
+bool sub_7100A99A08();
+bool sub_7100A99BB0();
+bool sub_7100A99D70();
 bool sub_7100A99E2C();
-void sub_7100A99FE8();
-void sub_7100A9A0A4(int value);
-void sub_7100A9A160();
+bool sub_7100A99FE8();
+bool sub_7100A9A0A4(int value);
+bool sub_7100A9A160();
 void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level);
 bool sub_7100A9BAEC(int state);
 bool sub_7100A9D0F4();
@@ -151,7 +155,7 @@ void sub_7100A94B70(bool a1);
 void sub_7100A94D54();
 void sub_7100A9F0CC();
 bool sub_7100A9F104();
-bool sub_7100A9A938(bool a1);
+bool sub_7100A9A938(s32 a1);
 void sub_7100A9F138();
 void sub_7100A9F358();
 bool sub_7100A979BC();
@@ -179,14 +183,14 @@ void sub_7100A97C6C(s32 add_num, s32 type);
 bool sub_7100A98514();
 bool sub_7100A9E7AC();
 bool sub_7100A9E91C();
-void sub_7100A98C80();
-void sub_7100A98D4C();
-void sub_7100A98E18();
+bool sub_7100A98C80();
+bool sub_7100A98D4C();
+bool sub_7100A98E18();
 void sub_7100A98474(s32 rank);
 bool sub_7100A9844C();
 void sub_7100A98428(NpcShopData* shop_data);
 void openMinigameScreenForTimer(bool count_down);
-void minigameScreenHideTimer();
+bool minigameScreenHideTimer();
 void minigameScreenUpdateTimer(s64 time_ms);
 
 void minigameScreenMove();

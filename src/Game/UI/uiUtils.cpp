@@ -3,6 +3,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocHardModeManager.h"
 #include "Game/Damage/dmgInfoManager.h"
+#include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -10,6 +11,10 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::ui {
+
+void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap*) {
+    Manager::instance()->createAndLoadScreenIfNeeded(id);
+}
 
 bool isMasterSwordItem(const PouchItem& item) {
     return item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName());
