@@ -332,6 +332,8 @@ public:
     bool sub_71011DA808(const ActorConstDataAccess& accessor);
     // CSV name: the physics rigid body set called `name` (null without physics).
     phys::RigidBodySet* getRigidBodyByName(const char* name);
+    // Inline in the original (GolemPartRoot::enter_ reads the field directly).
+    ActorChemicals* getChemicalContainer() const { return mChemical; }
     // CSV Actor::x_4: mChemical->getStuff(idx), if any.
     Chemical* sub_71011D8A34(int idx);
     // mChemical->sub_7100E37788(idx), if any.

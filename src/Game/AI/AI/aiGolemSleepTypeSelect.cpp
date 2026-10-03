@@ -11,7 +11,16 @@ bool GolemSleepTypeSelect::init_(sead::Heap* heap) {
 }
 
 void GolemSleepTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mGolemSleepType_m == "SleepForward_A")
+        changeChild("仰向けA", params);
+    else if (mGolemSleepType_m == "SleepForward_B")
+        changeChild("仰向けB", params);
+    else if (mGolemSleepType_m == "SleepBack_A")
+        changeChild("うつ伏せA", params);
+    else if (mGolemSleepType_m == "SleepBack_B")
+        changeChild("うつ伏せB", params);
+    else
+        changeChild("仰向けA", params);
 }
 
 void GolemSleepTypeSelect::calc_() {}
