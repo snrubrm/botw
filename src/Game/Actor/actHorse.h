@@ -21,6 +21,8 @@ public:
     explicit Horse(const CreateArg& arg);
     ~Horse() override;
 
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
 protected:
     void onEnterSleep_() override;
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;

@@ -1,10 +1,15 @@
 #include "Game/Actor/actHorse.h"
+#include <basis/seadNew.h>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 
 namespace uking::act {
 
 Horse::Horse(const CreateArg& arg) : HorseBase(arg) {}
+
+ksys::act::BaseProc* Horse::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Horse(arg);
+}
 
 // NON_MATCHING: member types incomplete (DamageManager, Unk_710244dd20)
 Horse::~Horse() = default;
