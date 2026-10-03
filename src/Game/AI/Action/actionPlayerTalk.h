@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionPlayerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -19,6 +20,8 @@ public:
 
 protected:
     void calc_() override;
+
+    ksys::act::ModelBindInfo _20;
 
     // dynamic_param at offset 0xc0
     sead::SafeString mGreetingType_d{};

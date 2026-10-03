@@ -2,11 +2,19 @@
 
 #include <prim/seadSafeString.h>
 
+namespace ksys::act {
+class Actor;
+class BaseProcLink;
+}  // namespace ksys::act
+
 namespace ksys::evt {
 
 // Event helpers that go through evt::Manager::instance() (TU around 0x7100dc816c-0x7100dc8ca8, with
 // getActiveEventFlowPath). Placeholder names.
 
+// 0x7100dc85d4 (declared only; lane3 s15): the event manager's link for `actor` (EventMgr::
+// getBaseProcLinkForActorOrActiveLink) if it has a proc, else the dummy link.
+ksys::act::BaseProcLink& sub_7100DC85D4(ksys::act::Actor* actor);
 // 0x7100dc866c: Manager::hasActiveEvent() (false without a Manager).
 bool sub_7100DC866C();
 // 0x7100dc8684: Manager::isActiveEventNameEqualTo(event_name, entry_point) (false without a Manager).

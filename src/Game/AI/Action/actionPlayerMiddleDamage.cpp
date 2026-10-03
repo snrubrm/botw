@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerMiddleDamage.h"
+#include "Game/gameUnk_71008ba8d8.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -30,7 +32,12 @@ void PlayerMiddleDamage::loadParams_() {
 }
 
 void PlayerMiddleDamage::calc_() {
-    PlayerAction::calc_();
+    if (!static_cast<ksys::act::Player*>(mActor)->stillAlive())
+        callPlayerGameOverDemo(mActor);
+    static_cast<ksys::act::Player*>(mActor)->_20bc.chase(0.0f,
+                                                         static_cast<ksys::act::Player*>(mActor)->_1800);
+    m32();
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerMiddleDamage::isChangeable() const {

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerTurnAndLookToObject.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -20,7 +22,10 @@ void PlayerTurnAndLookToObject::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerTurnAndLookToObject::leave_() {
-    PlayerLookAtObject::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EDD8(1.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void PlayerTurnAndLookToObject::loadParams_() {

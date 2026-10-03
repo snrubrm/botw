@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerClimbRest.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -20,6 +21,10 @@ void PlayerClimbRest::loadParams_() {
 
 void PlayerClimbRest::calc_() {
     PlayerAction::calc_();
+}
+
+bool PlayerClimbRest::handleMessage_(const ksys::Message& message) {
+    return message.getType() == 0x7800005;
 }
 
 bool PlayerClimbRest::isChangeable() const {

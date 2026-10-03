@@ -267,8 +267,13 @@ public:
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
     void sub_71008B5B8();              // 0x71008b5b8
-    void x_37();
-    void sub_7100856A7C();             // 0x7100856a7c (declared only)                       // 0x71008efa0 (CSV Player::x_37)
+    void x_37();  // 0x71008efa0
+    void sub_7100856A7C();             // 0x7100856a7c (declared only)
+    // 0x710086fab0 (CSV nullsub_2601): empty.
+    void nullsub_2601();
+    // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
+    // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
+    bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {
@@ -439,7 +444,9 @@ public:
     /* 0x2c78 */ BaseProcLink _2c78;  // set up and woken by PlayerSuperJumpCharge::calc_
     /* 0x2c88 */ u8 _2c88[0x2c98 - 0x2c88];
     /* 0x2c98 */ BaseProcLink _2c98;
-    /* 0x2ca8 */ u8 _2ca8[0x2ec0 - 0x2ca8];
+    /* 0x2ca8 */ u8 _2ca8[0x2d64 - 0x2ca8];
+    /* 0x2d64 */ bool _2d64;  // set by PlayerTurnAndLookToObjectNow::leave_
+    /* 0x2d65 */ u8 _2d65[0x2ec0 - 0x2d65];
 };
 KSYS_CHECK_SIZE_NX150(Player, 0x2ec0);
 

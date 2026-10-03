@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerTalk.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void PlayerTalk::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerTalk::leave_() {
-    PlayerAction::leave_();
+    if (!static_cast<ksys::act::Player*>(mActor)->isRidingHorse())
+        static_cast<ksys::act::Player*>(mActor)->x_18(true);
+    if (static_cast<ksys::act::Player*>(mActor)->isRidingHorse())
+        static_cast<ksys::act::Player*>(mActor)->nullsub_2601();
 }
 
 void PlayerTalk::loadParams_() {

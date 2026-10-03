@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerStopInAir.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,7 +19,12 @@ void PlayerStopInAir::loadParams_() {
 }
 
 void PlayerStopInAir::calc_() {
-    PlayerAction::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_c98.isOnBit(23))
+        player->_1810 = sead::Vector3f::zero;
+    setFinished();
 }
 
 bool PlayerStopInAir::isChangeable() const {

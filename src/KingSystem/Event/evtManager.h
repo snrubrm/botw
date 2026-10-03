@@ -86,6 +86,9 @@ private:
     u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];
     EventFlowMgr* mEventFlowMgr;
     u8 pad_1d2e8[0x1d2f4 - 0x1d2e8];
+
+public:
+    // Flag word; bit 0 is cleared by uking::action::PlayerHellStartWait::leave_.
     u32 _1d2f4;
 };
 

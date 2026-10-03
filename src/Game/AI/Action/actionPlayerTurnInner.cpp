@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerTurnInner.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void PlayerTurnInner::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerTurnInner::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EDD8(1.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void PlayerTurnInner::loadParams_() {}
