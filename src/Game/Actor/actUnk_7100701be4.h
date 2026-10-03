@@ -32,6 +32,15 @@ public:
     void sub_7100701DD8();
     // Starts closing the eyes (mode 3; CloseEye).
     void sub_7100701DF0();
+    // inline-only in the original; name is a guess. The same inlined sequence (`this` = Enemy + 0xf60
+    // computed before the branch, tail call to sub_7100701D4C) ends EyeBlink::m9, CloseEye::m9 and
+    // DieEye::m9: remove the bone handles now, or flag the removal while `_178` is positive.
+    void removeOrDefer() {
+        if (_178 <= 0)
+            sub_7100701D4C();
+        else
+            _192 = true;
+    }
 
     /* 0x000 */ ksys::act::Actor* mActor;
     /* 0x008 */ ksys::act::BoneHandle _8;

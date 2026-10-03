@@ -26,15 +26,10 @@ void DieEye::m8() {
     }
 }
 
-// NON_MATCHING: the original computes &_f60 once before the branch and stores through it (+0x192)
 void DieEye::m9() {
     auto* actor = mActor;
-    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
-        if (enemy->_f60._178 <= 0)
-            enemy->_f60.sub_7100701D4C();
-        else
-            enemy->_f60._192 = true;
-    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(actor))
+        enemy->_f60.removeOrDefer();
 }
 
 void DieEye::loadParams() {
