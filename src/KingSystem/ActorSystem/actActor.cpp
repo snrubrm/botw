@@ -889,6 +889,17 @@ void Actor::m92(phys::RigidBody* body) {
     deleteLater(DeleteReason::_0);
 }
 
+void Actor::m75() {
+    if (mXLink)
+        mXLink->sub_7101231500();
+}
+
+void Actor::onAiEnter(const char* name, const char* context) {
+    if (mXLink)
+        mXLink->prepareAIChangeMaybe();
+    mActorEditorNode.onAiEnter();
+}
+
 void* Actor::m40() {
     return nullptr;
 }

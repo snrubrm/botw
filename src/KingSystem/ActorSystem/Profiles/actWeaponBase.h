@@ -87,6 +87,9 @@ public:
     virtual void m198();
     virtual void m199();
     virtual void m200();
+    // 0x7100ee6afc (CSV WeaponBase::x_0; declared only): called by m200 (clears actor flags 0x22 and
+    // updates the model).
+    void sub_7100EE6AFC();
     virtual void m201();
     virtual void m202(bool on) { _9f4.change(1, on); }
     virtual bool m203() { return _9f4.isOn(1); }
@@ -107,7 +110,7 @@ public:
     virtual bool m218() { return false; }
     virtual bool isMasterSword() { return false; }
     virtual void masterSwordReturnToForest() {}
-    virtual void m221();
+    virtual void* m221();
     virtual bool m222() { return false; }
     virtual bool m223();
     virtual void m224(sead::Vector3f* out) { *out = sead::Vector3f::ones; }

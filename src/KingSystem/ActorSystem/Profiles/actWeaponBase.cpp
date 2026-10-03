@@ -144,4 +144,15 @@ bool WeaponBase::m154() {
     return accessor.sub_7100D12E64();
 }
 
+void* WeaponBase::m221() {
+    return nullptr;
+}
+
+void WeaponBase::m200() {
+    sub_7100EE6AFC();
+    _938.reset();
+    _958.reset();
+    _920 = 0xff;
+}
+
 }  // namespace ksys::act
