@@ -15,6 +15,10 @@ namespace xlink2 {
 class HandleSLink;
 }
 
+namespace uking {
+class NpcShopData;
+}
+
 namespace uking::ui {
 
 enum class EquipmentSlot;
@@ -163,6 +167,18 @@ void sub_7100A9E6B0(s32 type);
 bool sub_7100A9E864();
 bool sub_7100A9F57C(s32* out_index, const sead::Vector3f& pos, f32 radius);
 void sub_7100A9A308(s32 index, bool is_player_close);
+void sub_7100A97550(s32 add_num);
+void sub_7100A970DC(s32 add_num);
+void sub_7100A97C6C(s32 add_num, s32 type);
+bool sub_7100A98514();
+bool sub_7100A9E7AC();
+bool sub_7100A9E91C();
+void sub_7100A98C80();
+void sub_7100A98D4C();
+void sub_7100A98E18();
+void sub_7100A98474(s32 rank);
+bool sub_7100A9844C();
+void sub_7100A98428(NpcShopData* shop_data);
 
 void minigameScreenMove();
 

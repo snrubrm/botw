@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/gameNpcShopData.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+
+    NpcShopData _20;
+    bool _40 = false;
+    bool _41 = false;
 };
 
 }  // namespace uking::action

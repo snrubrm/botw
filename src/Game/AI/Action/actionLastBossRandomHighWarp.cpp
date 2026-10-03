@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionLastBossRandomHighWarp.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -19,6 +23,13 @@ void LastBossRandomHighWarp::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LastBossRandomHighWarp::leave_() {
     LastBossNormalWarp::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        if (auto* body = controller->sub_7100F61A34()) {
+            if (auto* physics = mActor->getPhysics())
+                body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityHitOnlyGround,
+                                                physics->get188(0));
+        }
+    }
 }
 
 void LastBossRandomHighWarp::loadParams_() {

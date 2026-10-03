@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonMove.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "gsys/gsysModelAccessKey.h"
 #include "gsys/gsysModel.h"
@@ -22,7 +23,10 @@ void GanonMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GanonMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 void GanonMove::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBurnDamage.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::action {
 
@@ -25,6 +26,9 @@ void BurnDamage::loadParams_() {
 
 void BurnDamage::calc_() {
     TimeredASPlay::calc_();
+    if (mActor && static_cast<ksys::act::DynamicActor*>(mActor)->m151(2))
+        return;
+    setFinished();
 }
 
 }  // namespace uking::action
