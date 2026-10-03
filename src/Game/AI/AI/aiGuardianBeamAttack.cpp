@@ -2,13 +2,25 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store merging/scheduling (target pairs 0x68/0x6c and stores 0x70 alone)
 GuardianBeamAttack::GuardianBeamAttack(const InitArg& arg) : GuardianBeamAttackBase(arg) {}
 
-GuardianBeamAttack::~GuardianBeamAttack() = default;
+GuardianBeamAttack::~GuardianBeamAttack() {
+    if (_78) {
+        delete _78;
+        _78 = nullptr;
+    }
+}
+
+bool Unk_71023f6f80::m5(ksys::act::Actor* actor) {
+    _a0->sub_710040FC24(actor);
+    return false;
+}
 
 bool GuardianBeamAttack::init_(sead::Heap* heap) {
-    return GuardianBeamAttackBase::init_(heap);
+    if (!GuardianBeamAttackBase::init_(heap))
+        return false;
+    _78 = new (heap) Unk_71023f6f80(this);
+    return true;
 }
 
 void GuardianBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {

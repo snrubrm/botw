@@ -18,7 +18,7 @@ public:
     ~ModelBindInfo() override = default;
 
     bool m4(BaseProc* proc) override;
-    bool m5() override;
+    bool m5(Actor* actor) override;
     void m10(BaseProcLink* link) override { _30.getKey().reset(); }
 
     /* 0x28 */ const char* _28 = nullptr;  // bone name (m4 searches _30 with it)

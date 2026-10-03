@@ -19,7 +19,9 @@ public:
     virtual ~ActorBind() = default;
 
     virtual bool m4(BaseProc* proc) = 0;
-    virtual bool m5() { return false; }
+    // Takes the actor (evidence: GuardianBeamAttack's override forwards it untouched to a member function that
+    // uses it as an Actor*).
+    virtual bool m5(Actor* actor) { return false; }
     virtual bool m6(BaseProc* proc);
     virtual bool m7(BaseProc* proc);
     virtual bool m8(BaseProc* proc);
