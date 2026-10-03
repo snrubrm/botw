@@ -274,6 +274,8 @@ public:
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }
     const sead::Vector3f& getScale() const { return mScale; }
+    // Actor::_454 (read by ActorConstDataAccess::getField44C_Vec3 and sub_71005E0AAC).
+    const sead::Vector3f& get454() const { return _454; }
     const sead::BoundBox3f& getAabb() const { return mAabb; }
     // mScale and mStartModelOpacity are written inline (element-wise / single stores) by AI actions
     // (EquipedWeaponChild, PlayerStoleOpen, ChemicalAttack, ForkModelVisibleOff) and other classes.

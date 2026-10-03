@@ -1,5 +1,12 @@
 #include "Game/AI/AI/aiTimedGuardNearTarget.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71005E0AAC.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
@@ -42,6 +49,28 @@ void TimedGuardNearTarget::loadParams_() {
     getStaticParam(&mGuardEndTime_s, "GuardEndTime");
     getStaticParam(&mGuardStartAngle_s, "GuardStartAngle");
     getStaticParam(&mGuardEndAngle_s, "GuardEndAngle");
+}
+
+bool TimedGuardNearTarget::m35() {
+    bool result = false;
+    auto* target = sub_71005D9050(mActor);
+    if (target && ksys::act::isPlayerProfile(target) &&
+        sub_71005E0AAC(mActor, false, *mGuardStartAngle_s)) {
+        ksys::act::acc::PlayerBase player;
+        ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
+        result = player.m302();
+    }
+    return result;
+}
+
+bool TimedGuardNearTarget::m39(float distance) {
+    auto* target = sub_71005D9050(mActor);
+    const bool not_player = !target || !ksys::act::isPlayerProfile(target);
+    const bool guarding = GuardNearTarget::m36(distance);
+    bool result = not_player && guarding;
+    if (!not_player && guarding)
+        result = !sub_71005E0AAC(mActor, true, *mGuardEndAngle_s);
+    return result;
 }
 
 bool TimedGuardNearTarget::m36(float distance) {
