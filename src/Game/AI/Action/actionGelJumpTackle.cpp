@@ -17,6 +17,16 @@ bool GelJumpTackle::init_(sead::Heap* heap) {
 
 void GelJumpTackle::enter_(ksys::act::ai::InlineParamPack* params) {
     JumpTackle::enter_(params);
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
+        if (!*mIsEnableCloth_s)
+            gel->sub_71000269C8();
+        gel->_1678 |= 1;
+        gel->_14c8._68 = sead::Matrix34f::ident;
+        gel->_1620.x = 0.8f;
+        gel->_1620.y = 0.8f;
+    }
+    if (!mSubAS_s.isEmpty())
+        playAS(mSubAS_s.cstr(), false, 0, *mSubASSlot_s, -1.0f);
 }
 
 void GelJumpTackle::leave_() {

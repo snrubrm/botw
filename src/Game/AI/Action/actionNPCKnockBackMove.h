@@ -20,7 +20,8 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mMoveDir_d{};
-    u8 _38[0x10];
+    sead::Vector3f _38;
+    u8 _44[0x4];
 };
 KSYS_CHECK_SIZE_NX150(NPCKnockBackMove, 0x48);
 

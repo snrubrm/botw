@@ -40,9 +40,10 @@ protected:
         sead::Vector3f* mTargetPos_d{};
     };
     Params mParams;
-    u8 _68[0xc];
+    sead::Vector3f _68;
     ksys::VFRValue _74;
-    u16 _80 = 1;
+    bool _80 = true;
+    bool _81 = false;
     u8 _82[0x6];
 };
 KSYS_CHECK_SIZE_NX150(ForkJumpToTargetOnDownEnd, 0x88);

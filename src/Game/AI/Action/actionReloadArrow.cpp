@@ -10,8 +10,19 @@ ReloadArrow::ReloadArrow(const InitArg& arg) : ActionEx(arg) {}
 
 ReloadArrow::~ReloadArrow() = default;
 
+// NON_MATCHING: the original copies the angular speed through an integer register (stp w-pairs for the
+// VFRVec3f stores); we keep it in an FP register
 void ReloadArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    playAS("ArrowReload", false, 0, 0, -1.0f);
+    sub_71005D787C(mActor, *mParams.mWeaponIdx_s, act::Unk_71002eda38(3));
+
+    const f32 speed = mActor->getVelocity().length();
+    _40.value = speed;
+    _40.prev_value = speed;
+    const sead::Vector3f angular_velocity(0, mActor->getAngVelocity().y, 0);
+    _70 = angular_velocity.length();
+    _4c.value.set(angular_velocity);
+    _4c.prev_value.set(angular_velocity);
 }
 
 void ReloadArrow::leave_() {

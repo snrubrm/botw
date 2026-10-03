@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionForkJumpToTargetOnDownEnd.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -32,7 +36,21 @@ void ForkJumpToTargetOnDownEnd::loadParams_() {
 }
 
 void ForkJumpToTargetOnDownEnd::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_80) {
+        _80 = false;
+        return;
+    }
+
+    auto* actor = mActor;
+    if (auto* controller = actor->getCharacterController()) {
+        controller->sub_7100F5E7F0(_74.value * 30.0f);
+        sub_710072C1B4(controller, _68);
+    }
+
+    if (actor->getVelocity().y > *mParams.mEndGrSpeed_s)
+        _81 = true;
+    if ((_81 && actor->getVelocity().y <= *mParams.mEndGrSpeed_s) || isBgGroundHit(actor, false))
+        setFinished();
 }
 
 }  // namespace uking::action
