@@ -243,11 +243,12 @@ public:
     void x_19(f32 a1);                                                  // 0x855d40
     void x_24();                                                        // 0x855e24
     void x_25();                                                        // 0x8551fc
-    void x_53(int* a1);                                                 // 0x8679fc
     // A 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not trivially
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
     using Unk1 = util::Unk_7101EC6BAC;
     Unk1 x_5();                                                         // 0x85ed1c
+    // 0x8679fc: takes an angle index (the stack temporary is at sp+8: a struct in the original).
+    void x_53(const Unk1& angle);
     // 0x7100877bd8: stores the anim-driven speed (ASList::sub_710115D2D4) in _20bc / _20c0 and its
     // direction relative to x_5() in _1c68 (~18 player actions call it).
     void sub_7100877BD8();
@@ -266,6 +267,9 @@ public:
     }
     bool stillAlive();                                                  // 0x884510
     bool x_44();                                                        // 0x885090
+    // 0x710086ca68 (placeholder name; static, no arguments): true while the E3 demo's RidDemo state
+    // is active, else the IsGet_PlayerStole2 flag.
+    static bool sub_710086CA68();
     void x_34(f32 value, bool a2);                                      // 0x885bb4
     void decreaseStaminaForActionMaybe(f32 value);                      // 0x885bd0
     bool x_21();                                                        // 0x887a20
@@ -310,15 +314,17 @@ public:
 
     /* 0x17f0 */ u8 _17f0;  // cleared by PlayerDrown::enter_
     /* 0x17f1 */ bool _17f1;  // set by PlayerHorseGetOff::enter_
-    /* 0x17f2 */ u8 _17f2[0x1810 - 0x17f2];
+    /* 0x17f2 */ u8 _17f2[0x1800 - 0x17f2];
+    /* 0x1800 */ f32 _1800;  // copy of _1770.y (PlayerSuperJump::enter_)
+    /* 0x1804 */ u8 _1804[0x1810 - 0x1804];
     /* 0x1810 */ sead::Vector3f _1810;  // compared with _1770 by PlayerSuperJumpCharge::calc_
     /* 0x181c */ sead::Vector3f _181c;  // ladder climb displacement (PlayerLadderToClimb::calc_)
-    /* 0x1828 */ u8 _1828[0x1834 - 0x1828];
+    /* 0x1828 */ sead::Vector3f _1828;  // ladder start displacement (PlayerLadderUpStart::calc_)
     /* 0x1834 */ Unk1 _1834;  // x_5() angle index, copied to _1c68 (PlayerCutHorseJump::enter_)
     /* 0x1838 */ u8 _1838[0x1844 - 0x1838];
     /* 0x1844 */ ksys::Timer _1844;  // set to CleaningTime by PlayerCleaningAround::enter_
     /* 0x1850 */ ksys::Timer _1850;  // set to min(WaitTime, 5) by PlayerSkin::enter_
-    /* 0x185c */ u8 _185c[0x1868 - 0x185c];
+    /* 0x185c */ ksys::Timer _185c;  // set to Timer(3, 3) by PlayerFall::enter_
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ Actor* _1870;  // the attached target actor
@@ -329,7 +335,11 @@ public:
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
     /* 0x1c68 */ u32 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
-    /* 0x1c6c */ u8 _1c6c[0x1ca4 - 0x1c6c];
+    /* 0x1c6c */ u8 _1c6c[0x1c70 - 0x1c6c];
+    /* 0x1c70 */ u32 _1c70;  // an angle index (0x80000000 = reset by PlayerLadderDownStart::leave_)
+    /* 0x1c74 */ u8 _1c74[0x1c84 - 0x1c74];
+    /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
+    /* 0x1c88 */ u8 _1c88[0x1ca4 - 0x1c88];
     /* 0x1ca4 */ s32 _1ca4;
     /* 0x1ca8 */ u8 _1ca8[0x1cb0 - 0x1ca8];
     /* 0x1cb0 */ s32 _1cb0;  // a ui tip type (PlayerCutFall::enter_)
@@ -345,7 +355,9 @@ public:
     /* 0x1cdc */ u8 _1cdc[0x1d70 - 0x1cdc];
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
-    /* 0x1d7c */ u8 _1d7c[0x1de8 - 0x1d7c];
+    /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];
+    /* 0x1dd0 */ ksys::Timer _1dd0;  // set by PlayerFall::enter_
+    /* 0x1ddc */ u8 _1ddc[0x1de8 - 0x1ddc];
     // Reset with Timer(5, 5) by PlayerCutTurnLSword::leave_.
     /* 0x1de8 */ ksys::Timer _1de8;
     /* 0x1df4 */ f32 _1df4;
@@ -389,11 +401,14 @@ public:
     /* 0x20d0 */ f32 _20d0;
     /* 0x20d4 */ u8 _20d4[0x20f0 - 0x20d4];
     /* 0x20f0 */ f32 _20f0;
-    /* 0x20f4 */ u8 _20f4[0x22a8 - 0x20f4];
+    /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
+    /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
+    /* 0x2104 */ u8 _2104[0x22a8 - 0x2104];
     /* 0x22a8 */ sead::Vector3f _22a8;
     /* 0x22b4 */ u8 _22b4[0x22e8 - 0x22b4];
     /* 0x22e8 */ sead::Vector3f _22e8;
-    /* 0x22f4 */ u8 _22f4[0x230c - 0x22f4];
+    /* 0x22f4 */ sead::Vector3f _22f4;  // ladder related (PlayerLadderDownStart / PlayerLadderUpStart)
+    /* 0x2300 */ u8 _2300[0x230c - 0x2300];
     /* 0x230c */ sead::Vector3f _230c;
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
     /* 0x23e0 */ PlayerArmors _23e0;

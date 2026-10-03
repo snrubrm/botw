@@ -9,5 +9,7 @@ namespace uking {
 // Jump) and ai::PlayerLadder::calc_. The next constants (0x7101e7c5d4: 0.38f) belong to the same
 // group.
 extern const f32 sUnk_7101e7c5d0;
+extern const f32 sUnk_7101e7c5d4;  // 0.38f
+extern const f32 sUnk_7101e7c5d8;  // 0.2f
 
 }  // namespace uking

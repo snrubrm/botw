@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionPlayerLadderDownEnd.h"
+#include <cmath>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -26,7 +30,17 @@ void PlayerLadderDownEnd::leave_() {
 }
 
 void PlayerLadderDownEnd::calc_() {
-    PlayerAction::calc_();
+    const auto& mtx = static_cast<ksys::act::Player*>(mActor)->_1b18;
+    sead::Vector3f dir;
+    mtx.getBase(dir, 2);
+    dir.normalize();
+    const f32 angle = std::atan2(dir.x, dir.z);
+    sead::Vector3f move = mActor->getASList()->sub_710115D2D4();
+    ksys::util::sub_71011EF010(&move, angle);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_181c += move * ksys::VFR::instance()->getDeltaFrame();
+    player = static_cast<ksys::act::Player*>(mActor);
+    player->sub_7100892100(player->_181c);
 }
 
 bool PlayerLadderDownEnd::isChangeable() const {

@@ -287,8 +287,11 @@ public:
     // Public: AI actions set bits directly (PlayerCutHorseJump::enter_).
     /* 0xcf8 */ sead::BitFlag32 _cf8;
 
-protected:
+public:
+    // Public: AI actions reset bits directly (PlayerSuperJump::enter_).
     /* 0xcfc */ sead::BitFlag32 _cfc;
+
+protected:
     /* 0xd00 */ u8 _d00[0xd11 - 0xd00];
     /* 0xd11 */ u8 _d11;
     /* 0xd12 */ u8 _d12[0xd18 - 0xd12];

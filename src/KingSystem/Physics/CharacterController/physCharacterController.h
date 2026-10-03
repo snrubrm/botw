@@ -127,7 +127,8 @@ public:
     u8 _104[0x110 - 0x104];
     f32 _110;
     u16 _114;  // flags
-    u8 _116[0x118 - 0x116];
+    u8 _116;  // bit 2: read by PlayerFall::enter_ (the flag word at 0x114 may be a u32)
+    u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
     u8 _120[0x224 - 0x120];
