@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -25,6 +26,9 @@ protected:
     const int* mMoveAxis_m{};
     // map_unit_param at offset 0x38
     const float* mMoveDis_m{};
+    sead::Vector3f _40 = sead::Vector3f::ey;
+    u8 _4c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(ShutterOpenWait, 0x50);
 
 }  // namespace uking::action

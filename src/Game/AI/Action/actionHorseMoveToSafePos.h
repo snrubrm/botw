@@ -32,6 +32,7 @@ protected:
     u64 _a0 = 0;
     bool _a8 = false;
     u8 _a9[0x7];
+
 };
 KSYS_CHECK_SIZE_NX150(HorseMoveToSafePos, 0xb0);
 

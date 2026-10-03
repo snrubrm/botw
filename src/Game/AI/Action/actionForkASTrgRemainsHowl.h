@@ -30,6 +30,7 @@ protected:
     u64 _48 = 0;
     s32 _50 = 0;
     u8 _54[0x4];
+
 };
 KSYS_CHECK_SIZE_NX150(ForkASTrgRemainsHowl, 0x58);
 

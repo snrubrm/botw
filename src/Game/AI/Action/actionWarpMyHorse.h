@@ -22,6 +22,8 @@ protected:
     float* mPositionZ_d{};
     // dynamic_param at offset 0x38
     float* mDirection_d{};
+    u8 _40[0x30];
 };
+KSYS_CHECK_SIZE_NX150(WarpMyHorse, 0x70);
 
 }  // namespace uking::action

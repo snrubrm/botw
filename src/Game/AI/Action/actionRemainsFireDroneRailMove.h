@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,9 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // aitree_variable at offset 0x30
     float* mTargetSpeed_a{};
+    sead::Vector3f _38 = sead::Vector3f::ey;
+    f32 _44 = 0.0f;
 };
+KSYS_CHECK_SIZE_NX150(RemainsFireDroneRailMove, 0x48);
 
 }  // namespace uking::action

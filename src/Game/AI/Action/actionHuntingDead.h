@@ -26,6 +26,7 @@ protected:
     // static_param at offset 0x40
     const sead::Vector3f* mExtraOffset_s{};
     u8 _48[0x10];
+
 };
 KSYS_CHECK_SIZE_NX150(HuntingDead, 0x58);
 

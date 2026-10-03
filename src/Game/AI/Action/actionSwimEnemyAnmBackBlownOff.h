@@ -21,6 +21,8 @@ protected:
 
     // static_param at offset 0x70
     const float* mRotSpeed_s{};
+    u8 _78[0x30];
 };
+KSYS_CHECK_SIZE_NX150(SwimEnemyAnmBackBlownOff, 0xa8);
 
 }  // namespace uking::action

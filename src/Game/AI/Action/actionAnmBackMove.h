@@ -27,6 +27,7 @@ protected:
     u64 _40 = 0;
     s32 _48 = 0;
     f32 _4c = -1.0f;
+
 };
 KSYS_CHECK_SIZE_NX150(AnmBackMove, 0x50);
 

@@ -26,6 +26,7 @@ protected:
     u64 _90 = 0;
     s32 _98 = -1;
     u8 _9c[0x4];
+
 };
 KSYS_CHECK_SIZE_NX150(GuardianMiniBeamMove, 0xa0);
 

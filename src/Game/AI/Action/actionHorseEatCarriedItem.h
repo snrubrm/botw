@@ -32,6 +32,7 @@ protected:
     u8 _49[0x3];
     s32 _4c = 0;
     sead::SafeString _50{};
+
 };
 KSYS_CHECK_SIZE_NX150(HorseEatCarriedItem, 0x60);
 

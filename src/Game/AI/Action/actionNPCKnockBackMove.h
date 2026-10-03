@@ -20,6 +20,8 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x30
     sead::Vector3f* mMoveDir_d{};
+    u8 _38[0x10];
 };
+KSYS_CHECK_SIZE_NX150(NPCKnockBackMove, 0x48);
 
 }  // namespace uking::action

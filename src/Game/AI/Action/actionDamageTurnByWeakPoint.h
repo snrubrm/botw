@@ -28,6 +28,7 @@ protected:
     sead::SafeString mASName_s{};
     sead::Vector3f _48 = sead::Vector3f::zero;
     u8 _54[0x24];
+
 };
 KSYS_CHECK_SIZE_NX150(DamageTurnByWeakPoint, 0x78);
 

@@ -30,6 +30,7 @@ protected:
     s32 _4c = 0;
     u16 _50 = 0;
     u8 _52[0xe];
+
 };
 KSYS_CHECK_SIZE_NX150(DragonItemShootUp, 0x60);
 

@@ -26,6 +26,7 @@ protected:
     sead::SafeString mAS_s{};
     sead::Vector3f _40 = sead::Vector3f::zero;
     u8 _4c[0x24];
+
 };
 KSYS_CHECK_SIZE_NX150(AirOctaReactionKorog, 0x70);
 

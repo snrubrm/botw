@@ -24,6 +24,8 @@ protected:
     const bool* mIsStopWithoutReductionY_m{};
     // map_unit_param at offset 0x38
     sead::SafeString mSound_m{};
+    u64 _48 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SpotBgmTriggerAction, 0x50);
 
 }  // namespace uking::action

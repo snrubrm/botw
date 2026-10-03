@@ -24,6 +24,7 @@ protected:
     sead::SafeString mMessageId_d{};
     u16 _38 = 0;
     u8 _3a[0x6];
+
 };
 KSYS_CHECK_SIZE_NX150(EventOpenMessageTips, 0x40);
 

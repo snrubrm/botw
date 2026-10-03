@@ -50,6 +50,7 @@ protected:
     u16 _9c = 0;
     bool _9e = false;
     u8 _9f[0x1];
+
 };
 KSYS_CHECK_SIZE_NX150(IgnitedThrown, 0xa0);
 

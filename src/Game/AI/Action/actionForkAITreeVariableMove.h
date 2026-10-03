@@ -44,6 +44,14 @@ protected:
     sead::Vector3f* mDestinationPos_a{};
     // aitree_variable at offset 0x80
     sead::Vector3f* mFacePos_a{};
+    u64 _88 = 0;
+    s32 _90 = 0;
+    u8 _94[0x18]{};
+    s32 _ac = 0;
+    u8 _b0[0x1]{};
+    bool _b1 = false;
+    u8 _b2[0x6];
 };
+KSYS_CHECK_SIZE_NX150(ForkAITreeVariableMove, 0xb8);
 
 }  // namespace uking::action

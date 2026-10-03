@@ -19,6 +19,7 @@ protected:
     int* mCount_d{};
     s32 _30 = 0;
     s32 _34 = 1;
+
 };
 KSYS_CHECK_SIZE_NX150(ControllerRumble, 0x38);
 

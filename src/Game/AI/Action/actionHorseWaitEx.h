@@ -24,6 +24,7 @@ protected:
     u64 _68 = 0;
     sead::Vector3f _70 = sead::Vector3f::zero;
     u8 _7c[0x4];
+
 };
 KSYS_CHECK_SIZE_NX150(HorseWaitEx, 0x80);
 

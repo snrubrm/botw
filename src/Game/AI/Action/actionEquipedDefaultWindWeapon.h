@@ -48,6 +48,8 @@ protected:
     const float* mWindFlyingDistRate2_s{};
     // static_param at offset 0xc0
     const float* mWindFlyingDistRate3_s{};
+    u8 _c0[0x8]{};
 };
+KSYS_CHECK_SIZE_NX150(EquipedDefaultWindWeapon, 0xc8);
 
 }  // namespace uking::action

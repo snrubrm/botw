@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,9 @@ protected:
     float* mDynStopTime_d{};
     // dynamic_param at offset 0x28
     sead::Vector3f* mDynStopPos_d{};
+    f32 _30 = 0.0f;
+    sead::Vector3f _34 = sead::Vector3f::ey;
 };
+KSYS_CHECK_SIZE_NX150(RemainsFireDroneRailStop, 0x40);
 
 }  // namespace uking::action

@@ -40,6 +40,7 @@ protected:
     u8 _95[0x3];
     f32 _98 = 1.0f;
     sead::Vector3f _9c = sead::Vector3f::zero;
+
 };
 KSYS_CHECK_SIZE_NX150(ForkASTrgTurnGround, 0xa8);
 

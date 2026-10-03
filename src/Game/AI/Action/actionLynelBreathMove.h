@@ -33,6 +33,7 @@ protected:
     s32 _cc = -8388609;
     bool _d0 = true;
     u8 _d1[0x7];
+
 };
 KSYS_CHECK_SIZE_NX150(LynelBreathMove, 0xd8);
 

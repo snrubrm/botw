@@ -31,6 +31,7 @@ protected:
     f32 _54 = 0.0f;
     sead::Vector3f _58 = sead::Vector3f::zero;
     u8 _64[0x4];
+
 };
 KSYS_CHECK_SIZE_NX150(DirectToWindDirection, 0x68);
 

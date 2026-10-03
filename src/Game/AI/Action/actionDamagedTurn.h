@@ -29,6 +29,7 @@ protected:
     u64 _48 = 0;
     f32 _50 = 1.0f;
     u8 _54[0x24];
+
 };
 KSYS_CHECK_SIZE_NX150(DamagedTurn, 0x78);
 

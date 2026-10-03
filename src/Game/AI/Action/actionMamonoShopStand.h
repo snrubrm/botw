@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    sead::Vector3f _1c = sead::Vector3f::zero;
+    f32 _28 = 0.0f;
+    u8 _2c[0x4];
 };
+KSYS_CHECK_SIZE_NX150(MamonoShopStand, 0x30);
 
 }  // namespace uking::action
