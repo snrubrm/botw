@@ -393,4 +393,32 @@ bool Player::startPreparingForPreDelete_() {
     return result;
 }
 
+// NON_MATCHING: register allocation / load scheduling of the two dot products only
+bool Player::m258(f32* out) {
+    if (!_cec.isOnBit(7))
+        return false;
+    if (mASList->x_1(0, 0) == "ClimbEd")
+        return false;
+    if (mVelocity.length() < 0.01f)
+        return false;
+    const f32 x = _1b18(0, 0) * mVelocity.x + _1b18(1, 0) * mVelocity.y + _1b18(2, 0) * mVelocity.z;
+    const f32 y = _1b18(0, 1) * mVelocity.x + _1b18(1, 1) * mVelocity.y + _1b18(2, 1) * mVelocity.z;
+    *out = sead::Mathf::atan2(x, y);
+    return true;
+}
+
+bool Player::m261(f32* out) {
+    if (!_cf0.isOnBit(21))
+        return false;
+    if (mASList->x_1(0, 0) == "LadderUp") {
+        *out = 0.0f;
+        return true;
+    }
+    if (mASList->x_1(0, 0) == "LadderDown") {
+        *out = sead::Mathf::pi();
+        return true;
+    }
+    return false;
+}
+
 }  // namespace ksys::act

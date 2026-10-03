@@ -726,6 +726,19 @@ bool sub_71005DB904(ksys::act::Actor* actor, int idx) {
     return !weapons->mWeapons[idx]._10;
 }
 
+s32 sub_71005DBB60(ksys::act::Actor* actor, s32 idx) {
+    if (idx < 0)
+        return -1;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return -1;
+    auto* proc = weapons->mWeapons[idx].link.getProc(nullptr, nullptr);
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(proc);
+    if (auto* sword = sead::DynamicCast<uking::act::Weapon>(weapon))
+        return sword->_cf0;
+    return -1;
+}
+
 void sub_71005DC270(ksys::act::Actor* actor, const sead::Vector3f& pos) {
     if (auto* obj = actor->m100())
         obj->sub_7100E5007C(1, pos);

@@ -1,4 +1,5 @@
 #include "Game/Actor/actMotorcycle.h"
+#include "Game/Actor/actMotorcycleUtil.h"
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -995,6 +996,29 @@ void Motorcycle::m44() {
         }
         _1650->sub_7100F76380(pos, direction, velocity, direction);
     }
+}
+
+// NON_MATCHING: only the stack slot of the core-number temporary (it shares the slot of the transform in the
+// original)
+void Motorcycle::applyPitchDamping() {
+    sead::Vector3f damping;
+    const sead::Vector3f angular_velocity = _bb8->getAngularVelocity();
+    sead::Vector3f axis;
+    const sead::Matrix34f mtx = _bb8->getTransform();
+    mtx.getBase(axis, 0);
+    innerProductTimesA3(&damping, angular_velocity, axis);
+    damping *= -getParam()->getRes().mGParamList->getMotorcycle()->mPitchDampingCoefficient.ref();
+    damping *= ksys::VFR::instance()->getDeltaFrame();
+    addAngularVelocity(_bb8, damping.x, damping.y, damping.z);
+}
+
+// NON_MATCHING: operand order of the first fadd of the length and the store grouping of the velocity
+void Motorcycle::applyDragMaybe() {
+    sead::Vector3f velocity =
+        _bb8->getLinearVelocity() + sead::Vector3f(0.010255f, -0.666032f, 0.09355f);
+    const f32 factor = velocity.length() * -0.432f;
+    velocity *= factor * ksys::VFR::instance()->getDeltaFrame();
+    _bb8->applyLinearImpulse(velocity);
 }
 
 }  // namespace uking::act

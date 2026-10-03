@@ -78,6 +78,8 @@ public:
     // TODO: rename
     bool getAITreeVariable2(bool** value, const sead::SafeString& key) const;
 
+    // 0x7100d64ec8 (CSV RootAi::behaviorStuff): Behavior::x() of every behavior in the six update lists.
+    void behaviorStuff();
     void setBehavior(Behavior* behavior);
     void resetBehavior(Behavior* behavior);
 

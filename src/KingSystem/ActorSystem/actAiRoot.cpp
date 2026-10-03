@@ -153,6 +153,15 @@ bool RootAi::getAITreeVariable2(bool** value, const sead::SafeString& key) const
     return getAITreeVariable(value, key);
 }
 
+void RootAi::behaviorStuff() {
+    for (auto& list : mBehaviorsByStopAndCalcTiming) {
+        for (auto* head : list) {
+            for (auto* behavior = head; behavior; behavior = behavior->_18)
+                behavior->x();
+        }
+    }
+}
+
 const char* getDefaultAiName(s32 root_idx) {
     static constexpr const char* names[] = {"DemoRootAI", "Root"};
     if (root_idx >= 2)

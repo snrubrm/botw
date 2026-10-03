@@ -363,6 +363,11 @@ public:
     // 0x7100076018 (CSV Motorcycle::x_31): ray casts from both wheels towards the main body; counts how long
     // that hits something (_1640) and sets flag bit 35 after 30; returns whether it did.
     bool x_31();
+    // 0x710007257c (CSV Motorcycle::x_15): damps the angular velocity of the main body around its x axis
+    // (PitchDampingCoefficient).
+    void applyPitchDamping();
+    // 0x7100074d18 (CSV Motorcycle::x_26): applies a drag-like impulse to the main body (name is a guess).
+    void applyDragMaybe();
     // 0x710007f894 (CSV Motorcycle::x_2): whether a wheel's ground material is `material`.
     bool isAnyWheelOnMaterial(ksys::phys::Material material) const;
     // 0x710007626c (CSV Motorcycle::x_3): whether the constraint of a wheel is active.

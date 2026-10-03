@@ -122,8 +122,8 @@ public:
     /* 255 */ const sead::Vector3f* m255() override { return &_22e8; }
     /* 256 */ bool m256() override;
     /* 257 */ bool m257() override;
-    /* 258 */ void m258() override;
-    /* 261 */ void m261() override;
+    /* 258 */ bool m258(f32* out) override;
+    /* 261 */ bool m261(f32* out) override;
     /* 263 */ Actor* getAttachedTargetActor2() override;
     /* 264 */ Actor* getAttachedTargetActor() override;
     /* 265 */ const sead::Vector3f* m265() override { return &_230c; }

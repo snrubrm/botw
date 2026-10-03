@@ -128,10 +128,10 @@ public:
     /* 255 */ virtual const sead::Vector3f* m255() { return &sead::Vector3f::zero; }
     /* 256 */ virtual bool m256() { return false; }
     /* 257 */ virtual bool m257() { return false; }
-    /* 258 */ virtual void m258();
+    /* 258 */ virtual bool m258(f32* out) { return false; }
     /* 259 */ void m259() override { _c50.setBit(22); }
     /* 260 */ virtual bool m260() { return false; }
-    /* 261 */ virtual void m261();
+    /* 261 */ virtual bool m261(f32* out) { return false; }
     /* 262 */ bool isGroundForEvent() override;
     /* 263 */ Actor* getAttachedTargetActor2() override;
     /* 264 */ Actor* getAttachedTargetActor() override;

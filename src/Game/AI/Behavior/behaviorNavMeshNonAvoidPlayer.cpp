@@ -1,4 +1,6 @@
 #include "Game/AI/Behavior/behaviorNavMeshNonAvoidPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::behavior {
 
@@ -11,6 +13,11 @@ bool NavMeshNonAvoidPlayer::m6(sead::Heap* heap) {
 }
 
 void NavMeshNonAvoidPlayer::m7() {}
+
+void NavMeshNonAvoidPlayer::m9() {
+    if (auto* nav = mActor->m45())
+        nav->sub_7100F7D308(_28);
+}
 
 void NavMeshNonAvoidPlayer::loadParams() {
 
