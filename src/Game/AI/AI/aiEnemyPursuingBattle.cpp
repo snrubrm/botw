@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyPursuingBattle.h"
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -11,6 +12,28 @@ EnemyPursuingBattle::~EnemyPursuingBattle() = default;
 
 void EnemyPursuingBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyBattle::enter_(params);
+}
+
+void EnemyPursuingBattle::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("追撃ち攻撃")) {
+            sub_7100381ED4();
+            m37();
+            return;
+        }
+    }
+
+    if (getCurrentChild()->isChangeable()) {
+        if (isCurrentChild("戦闘準備") && sub_71003A9AE8()) {
+            changeToFollowUpAttack();
+            return;
+        }
+    }
+
+    EnemyBattle::calc_();
+    if (isCurrentChild("戦闘準備") && !(_a8.value <= sead::Mathf::epsilon()))
+        _a8.update();
 }
 
 void EnemyPursuingBattle::loadParams_() {

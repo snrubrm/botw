@@ -13,7 +13,10 @@ public:
     ~EnemyPursuingBattle() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
+    // 0x71003a9ae8 (placeholder name; declared only)
+    bool sub_71003A9AE8();
     // 0x71003a9d24 (placeholder name)
     void changeToFollowUpAttack();
 
