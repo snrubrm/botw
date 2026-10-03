@@ -6,6 +6,12 @@ const f32 sUnk_7102450fa0 = 50.0f;
 const sead::SafeArray<const char*, 3> sUnk_7102450f80 = {
     {"Priest_Boss_FireArrow", "Priest_Boss_IceArrow", "Priest_Boss_ElectricArrow"}};
 
+bool Unk_7102450fa8::sub_7100719978(s32 idx) const {
+    if (idx == 2 || u32(idx - 2) > 8)
+        return false;
+    return _80 >> idx & 1;
+}
+
 bool Unk_7102450fa8::sub_71007194CC(ksys::act::ActorConstDataAccess* accessor) {
     return ksys::act::acquireActor(&_18, accessor);
 }

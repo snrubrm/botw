@@ -80,6 +80,8 @@ public:
     bool isFlagOn(Flag flag) const { return _78.isOnBit(flag); }
     // 0x7100719fe4: `_88 ? _88->vslot6(idx) : 3` (unnamed object at 0x88).
     s32 sub_7100719FE4(s32 idx);
+    // 0x7100719978: `idx != 2 && idx - 2 <= 8 && (_80 >> idx & 1)`. Placeholder name.
+    bool sub_7100719978(s32 idx) const;
     // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
     s32 sub_7100719FCC() const;
     void sub_710071918C();
@@ -108,7 +110,9 @@ public:
     /* 0x040 */ f32 _40;  // compared with PriestBossActorNormalMode's SecondHalfLifePercent
     /* 0x044 */ u8 _44[0x78 - 0x44];
     /* 0x078 */ sead::BitFlag32 _78;
-    /* 0x07c */ u8 _7c[0xa0 - 0x7c];
+    /* 0x07c */ u8 _7c[0x80 - 0x7c];
+    /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
+    /* 0x084 */ u8 _84[0xa0 - 0x84];
     /* 0x0a0 */ u8 _a0[0x1a0 - 0xa0];  // sead::FixedObjArray<?, 9> (0x10-byte nodes) at 0xa0
     /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C
     /* 0x1b8 */ Unk_71024509a8 _1b8;

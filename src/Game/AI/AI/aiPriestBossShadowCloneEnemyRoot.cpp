@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiPriestBossShadowCloneEnemyRoot.h"
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 
 namespace uking::ai {
@@ -39,6 +41,30 @@ void PriestBossShadowCloneEnemyRoot::leave_() {
 
 void PriestBossShadowCloneEnemyRoot::loadParams_() {
     PriestBossActorEnemyRoot::loadParams_();
+}
+
+// NON_MATCHING: same as NPCHorseRideWait::leave_ (the original rematerialises &accessor for the destructor
+// instead of keeping it in a callee-saved register; regalloc only)
+void PriestBossShadowCloneEnemyRoot::sub_710052D6E8() {
+    auto* unit = sub_7100506A40();
+    if (!unit)
+        return;
+    if (!unit->sub_7100719978(unit->sub_7100719534(mActor)))
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    if (unit->sub_71007194CC(&accessor)) {
+        {
+            // inline-only in the original; the same sequence as setPayload() in PriestBossShadowCloneThrow
+            // (the actor is loaded before the lock)
+            auto* actor = mActor;
+            sead::ScopedLock<sead::JobQueueLock> lock(&_258._18.mLock);
+            _258._18._0 = 4;
+            _258._18._18 = false;
+            _258._18.mLink.acquire(actor, false);
+        }
+        _258.sub_710070DBB0(*accessor.getMessageTransceiverId(), false);
+    }
 }
 
 bool PriestBossShadowCloneEnemyRoot::m45() {
