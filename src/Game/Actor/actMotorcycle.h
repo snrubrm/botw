@@ -374,6 +374,11 @@ public:
     // 0x710007257c (CSV Motorcycle::x_15): damps the angular velocity of the main body around its x axis
     // (PitchDampingCoefficient).
     void applyPitchDamping();
+    // 0x710007c4d0 (CSV Motorcycle::x_35): torque that rights the main body when its x axis is tilted
+    // 15 - 165 degrees from the world up (name is a guess).
+    void x_35();
+    // 0x710007c750 (CSV Motorcycle::x_33): the same plus a term from the stick Y value (_ba8._8); name is a guess.
+    void x_33();
     // 0x7100074d18 (CSV Motorcycle::x_26): applies a drag-like impulse to the main body (name is a guess).
     void applyDragMaybe();
     // 0x710007f894 (CSV Motorcycle::x_2): whether a wheel's ground material is `material`.

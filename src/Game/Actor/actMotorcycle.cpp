@@ -45,6 +45,29 @@ struct SpeedCurve7 {
         curve.mInfo = {0, 4, 7, 2};
     }
 };
+// 0x7102361150 / 0x71023611a0: Hermite curves of the tilt correction torque (x_35 / x_33).
+struct SpeedCurve14A {
+    sead::hostio::Curve<f32> curve;
+    f32 floats[14];
+    SpeedCurve14A()
+        : floats{0.0f,          0.00402530516f, 0.2f,  0.802953124f, 1.05f, 0.533146977f, 1.2f,
+                 0.0110265100f, 1.2f,           0.0f,  1.2f,         0.0f,  0.0f,         -2.92857099f} {
+        curve.mFloats = floats;
+        curve.mInfo = {1, 4, 14, 14};
+    }
+};
+struct SpeedCurve14B {
+    sead::hostio::Curve<f32> curve;
+    f32 floats[14];
+    SpeedCurve14B()
+        : floats{1.0f, 0.0f, 1.0f, 0.0f, 0.4f, -1.27800405f, 0.0f,
+                 -0.00813030545f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f} {
+        curve.mFloats = floats;
+        curve.mInfo = {1, 4, 14, 14};
+    }
+};
+static SpeedCurve14A sUnk_7102361150;
+static SpeedCurve14B sUnk_71023611a0;
 static SpeedCurve5 sUnk_71023611f0;
 static SpeedCurve7 sUnk_7102361220;
 
@@ -1071,6 +1094,61 @@ void MotorcycleStruct3::sub_710006F97C(f32 speed, bool flag) {
 // NON_MATCHING: the compares of _10a4 against 0 / 2 / 4 are turned into a jump table here; the original
 // keeps the compare chain (== 4, then (x | 2) == 2) and also fades the handle without the second
 // validity test
+void Motorcycle::x_35() {
+    if (!_f88.isOnBit(0))
+        return;
+
+    sead::Vector3f right, up;
+    getMtx().getBase(right, 0);
+    getMtx().getBase(up, 1);
+    const sead::Vector3f world_up(0.0f, 1.0f, 0.0f);
+    if (angleBetweenVectors(right, world_up) * (180.0f / sead::Mathf::pi()) < 15.0f)
+        return;
+    if (angleBetweenVectors(right, world_up) * (180.0f / sead::Mathf::pi()) > 165.0f)
+        return;
+
+    sead::Vector3f side, tilt;
+    side.setCross(right, world_up);
+    tilt.setCross(side, right);
+    const f32 angle = angleBetweenVectors(up, tilt);
+    const f32 torque = sUnk_7102361150.curve.interpolateToF32(angle / sead::Mathf::pi()) *
+                       (2.0f / 3.0f) * ksys::VFR::instance()->getDeltaFrame();
+    const f32 scale = up.dot(side) > 0.0f ? -torque : torque;
+    addAngularVelocity(_bb8, right.x * scale, right.y * scale, right.z * scale);
+}
+
+// NON_MATCHING: register allocation only (the x axis / z axis components of the matrix swap registers)
+void Motorcycle::x_33() {
+    if (!_f88.isOnBit(0))
+        return;
+
+    sead::Vector3f right, up;
+    getMtx().getBase(right, 0);
+    getMtx().getBase(up, 1);
+    const f32 forward_y = getMtx().m[1][2];
+    const sead::Vector3f world_up(0.0f, 1.0f, 0.0f);
+    if (angleBetweenVectors(right, world_up) * (180.0f / sead::Mathf::pi()) < 15.0f)
+        return;
+    if (angleBetweenVectors(right, world_up) * (180.0f / sead::Mathf::pi()) > 165.0f)
+        return;
+
+    sead::Vector3f side, tilt;
+    side.setCross(right, world_up);
+    tilt.setCross(side, right);
+    const f32 angle = angleBetweenVectors(up, tilt);
+    const f32 torque = sUnk_7102361150.curve.interpolateToF32(angle / sead::Mathf::pi()) *
+                       (2.0f / 3.0f);
+    const f32 scale = up.dot(side) > 0.0f ? -(torque * ksys::VFR::instance()->getDeltaFrame()) :
+                                            torque * ksys::VFR::instance()->getDeltaFrame();
+    f32 extra = _ba8._8 * (1.0f / 3.0f) * ksys::VFR::instance()->getDeltaFrame();
+    if (forward_y * _ba8._8 < 0.0f)
+        extra *= sUnk_71023611a0.curve.interpolateToF32(angle / sead::Mathf::pi());
+    if (!_dd0->_13d && _dd8->_13d && _ba8._8 < 0.0f)
+        extra *= 0.25f;
+    addAngularVelocity(_bb8, right.x * scale + right.x * extra, right.y * scale + right.y * extra,
+                       right.z * scale + right.z * extra);
+}
+
 void Motorcycle::sub_710007DAB8() {
     if (_10a4 != 0) {
         if (_10a8.getEvent() && _10a8.getEvent()->getCreateId() == _10a8.getCreateId()) {

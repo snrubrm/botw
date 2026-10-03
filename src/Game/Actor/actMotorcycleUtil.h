@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <math/seadVector.h>
 
 namespace ksys::phys {
@@ -23,5 +24,14 @@ void addLinearVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z);
 void addAngularVelocity(ksys::phys::RigidBody* body, f32 x, f32 y, f32 z);
 // 0x71002c884c: whether the body belongs to an actor with the tag IsTurnOffTouchMotorcycle.
 bool isTurnOffTouchMotorcycle(ksys::phys::RigidBody* body);
+
+// inline-only in the original (the sqrt / atan2 pair appears twice in a row in Motorcycle::x_35 and
+// x_33); the name is a guess: the angle (in radians) between two vectors.
+inline f32 angleBetweenVectors(const sead::Vector3f& a, const sead::Vector3f& b) {
+    const f32 dot = a.dot(b);
+    sead::Vector3f cross;
+    cross.setCross(a, b);
+    return std::atan2(cross.length(), dot);
+}
 
 }  // namespace uking::act
