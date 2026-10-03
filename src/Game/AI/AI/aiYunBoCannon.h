@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36(ksys::act::Actor* ball) override;
+
 protected:
     // static_param at offset 0x130
     sead::SafeString mReturnAnchorName_s{};
