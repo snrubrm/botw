@@ -8,6 +8,16 @@ PlayerSwimDash::PlayerSwimDash(const InitArg& arg) : PlayerAction(arg) {}
 
 void PlayerSwimDash::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x400);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x800);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x10);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x80);
+    static_cast<ksys::act::Player*>(mActor)->_cf4.set(0x80000000);
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe("SwimDash", true, -1.0f);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->decreaseStaminaForActionMaybe(*mEnergyDash_s * player->x_67());
+    static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->_17f1 = false;
 }
 
 // NON_MATCHING: the original copies the velocity once more (element-wise self-copy of x/z after the call)

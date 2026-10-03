@@ -315,6 +315,7 @@ public:
     void sub_7100881104();
     void x_34(f32 value, bool a2);                                      // 0x885bb4
     void decreaseStaminaForActionMaybe(f32 value);                      // 0x885bd0
+    f32 x_67();                                                         // 0x86cad4 (not decompiled)
     bool x_21();                                                        // 0x887a20
     bool isMasterSwordEquipped_();                                      // 0x86d024
     bool x_35();                                                        // 0x8886f4

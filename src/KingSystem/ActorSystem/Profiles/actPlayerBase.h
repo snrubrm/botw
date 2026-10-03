@@ -341,7 +341,9 @@ protected:
     /* 0xe60 */ u8 _e60[0xe88 - 0xe60];
     /* 0xe88 */ BaseProcLink _e88;
     /* 0xe98 */ BaseProcLink _e98;
+public:  // read by PlayerLookAtObject::m38
     /* 0xea8 */ BaseProcLink _ea8;
+protected:
     /* 0xeb8 */ u8 _eb8[0x1140 - 0xeb8];
     /* 0x1140 */ sead::CriticalSection _1140;
     /* 0x1180 */ u8 _1180[0x1198 - 0x1180];

@@ -17,6 +17,7 @@ public:
     bool oneShot_() override;
 
 protected:
+    void m38() override;
 };
 
 }  // namespace uking::action

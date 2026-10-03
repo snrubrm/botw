@@ -42,6 +42,13 @@ bool PlayerLookAtObject::oneShot_() {
     return true;
 }
 
+void PlayerLookAtObject::m38() {
+    if (static_cast<ksys::act::Player*>(mActor)->_ea8.hasProc())
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(
+            _45, 1, &sead::Vector3f::zero, &static_cast<ksys::act::Player*>(mActor)->_ea8,
+            &sead::Vector3f::zero);
+}
+
 void PlayerLookAtObject::loadParams_() {
     LookAtObjectBase::loadParams_();
 }
