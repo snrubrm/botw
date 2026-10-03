@@ -26972,7 +26972,7 @@ Address,Quality,Size,Name
 0x000000710042a4b0,O,000004,_ZN5uking2ai12GuardianRoamD1Ev
 0x000000710042a4b4,O,000036,_ZN5uking2ai12GuardianRoamD0Ev
 0x000000710042a4d8,O,000004,_ZN5uking2ai12GuardianRoam5init_EPN4sead4HeapE
-0x000000710042a4dc,W,000316,_ZN5uking2ai12GuardianRoam6enter_EPN4ksys3act2ai15InlineParamPackE
+0x000000710042a4dc,O,000316,_ZN5uking2ai12GuardianRoam6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710042a618,U,000348,_ZN5uking2ai12GuardianRoam5calc_Ev
 0x000000710042a774,U,000532,
 0x000000710042a988,O,000004,_ZN5uking2ai12GuardianRoam6leave_Ev
@@ -29734,7 +29734,7 @@ Address,Quality,Size,Name
 0x00000071004b29ac,W,000080,_ZN5uking2ai19MoveRemainsElectric6leave_Ev
 0x00000071004b29fc,O,000192,_ZN5uking2ai19MoveRemainsElectric11loadParams_Ev
 0x00000071004b2abc,U,000448,uking::ai::MoveRemainsElectric::m39
-0x00000071004b2c7c,U,000080,uking::ai::MoveRemainsElectric::m40
+0x00000071004b2c7c,O,000080,_ZN5uking2ai19MoveRemainsElectric3m40Ev
 0x00000071004b2ccc,U,000112,uking::ai::MoveRemainsElectric::m43
 0x00000071004b2d3c,O,000008,_ZNK5uking2ai19MoveRemainsElectric27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071004b2d44,O,000092,_ZNK5uking2ai19MoveRemainsElectric18getRuntimeTypeInfoEv
@@ -46817,7 +46817,7 @@ Address,Quality,Size,Name
 0x000000710072fdb4,U,000272,
 0x000000710072fec4,U,001032,_Z14sub_710072FEC4PN4ksys3act5ActorERKN4sead7Vector3IfEEfPS5_bPb
 0x00000071007302cc,U,000112,
-0x000000710073033c,U,000180,
+0x000000710073033c,O,000180,_Z14sub_710073033CPN4ksys3act5ActorEPNS0_12BaseProcLinkEf
 0x00000071007303f0,U,000220,
 0x00000071007304cc,U,000448,
 0x000000710073068c,U,000180,

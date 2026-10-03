@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMoveRemainsElectric.h"
+#include "Game/AI/aiUnk_710073033C.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,13 @@ void MoveRemainsElectric::loadParams_() {
     getStaticParam(&mCannonOffset_s, "CannonOffset");
     getStaticParam(&mWeakPointOffset_s, "WeakPointOffset");
     getMapUnitParam(&mIsJoinRemainsBattle_m, "IsJoinRemainsBattle");
+}
+
+bool MoveRemainsElectric::m40() {
+    auto& player = ksys::act::PlayerInfo::getSomeProcLink();
+    if (!player.hasProc())
+        return false;
+    return !sub_710073033C(mActor, &player, *mReactiveRange_s);
 }
 
 }  // namespace uking::ai

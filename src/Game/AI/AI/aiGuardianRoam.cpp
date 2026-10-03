@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGuardianRoam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,20 @@ bool GuardianRoam::init_(sead::Heap* heap) {
 
 void GuardianRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     GuardianAI::enter_(params);
+    auto* guardian = sub_710040DA6C();
+    if (!guardian) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f home_pos;
+    guardian->getHomePos(&home_pos);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(home_pos, "DynTargetPos", -1);
+    pack.addVec3(mActor->getMtx().getTranslation(), "DynStartPos", -1);
+    changeChild("移動", &pack);
+    _48 = 0;
+    _4c = 0;
 }
 
 void GuardianRoam::leave_() {
