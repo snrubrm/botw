@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,13 @@ public:
     void loadParams_() override;
 
 protected:
+    // Inline-only in the original (name guess; evidence: the param pack sits above calc_'s `pos` on the stack).
+    void changeToChase() {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("追跡", &pack);
+    }
+
     // dynamic_param at offset 0x38
     sead::Vector3f* mTargetPos_d{};
     // static_param at offset 0x40

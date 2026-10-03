@@ -37,7 +37,6 @@ bool EnemyNotice::isFailed() const {
     return isCurrentChild("追跡") && getCurrentChild()->isFailed();
 }
 
-// NON_MATCHING: stack slot of pos (the target places it below the param pack)
 void EnemyNotice::calc_() {
     sead::Vector3f pos = *mTargetPos_d;
     sub_71005DB198(&pos, mActor);
@@ -46,9 +45,7 @@ void EnemyNotice::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("ターン")) {
-            ksys::act::ai::InlineParamPack pack;
-            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
-            changeChild("追跡", &pack);
+            changeToChase();
         } else if (isFailed()) {
             setFailed();
         } else {
