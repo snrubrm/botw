@@ -17,6 +17,10 @@ namespace ksys::act {
 class ActorConstDataAccess;
 }  // namespace ksys::act
 
+namespace ksys::map {
+class Rail;
+}  // namespace ksys::map
+
 namespace ksys::phys {
 class RayCastForRequest;
 }  // namespace ksys::phys
@@ -166,7 +170,7 @@ public:
     /* 0xb20 */ void* _b20 = nullptr;
     /* 0xb28 */ void* _b28 = nullptr;
     /* 0xb30 */ ksys::act::BaseProcLink _b30;
-    /* 0xb40 */ void* _b40 = nullptr;
+    /* 0xb40 */ ksys::map::Rail* _b40 = nullptr;  // the rail of the horse (HorseLoopTargetAndWaitAI::m34)
     /* 0xb48 */ void* _b48 = nullptr;
     /* 0xb50 */ ksys::MesTransceiverId _b50;
     /* 0xb68 */ void* _b68 = nullptr;

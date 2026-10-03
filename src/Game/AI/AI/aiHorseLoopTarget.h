@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadObjArray.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::map {
@@ -25,6 +26,8 @@ public:
     void sub_710127FB74();
     // 0x710127ff2c (placeholder name): steps `_160` by `_164`, wrapping / reversing at the ends of the rail.
     void sub_710127FF2C();
+    // 0x710127ffd8 (placeholder name): the translation of the rail point `_160`.
+    sead::Vector3f sub_710127FFD8();
 
 protected:
     // static_param at offset 0x38

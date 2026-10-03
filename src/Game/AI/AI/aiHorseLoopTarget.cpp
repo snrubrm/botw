@@ -118,4 +118,8 @@ void HorseLoopTarget::loadParams_() {
     getStaticParam(&mIsFlip_s, "IsFlip");
 }
 
+sead::Vector3f HorseLoopTarget::sub_710127FFD8() {
+    return _168->getPointTranslate(_160);
+}
+
 }  // namespace uking::ai
