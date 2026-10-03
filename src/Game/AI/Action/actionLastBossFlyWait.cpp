@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLastBossFlyWait.h"
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,7 +14,23 @@ bool LastBossFlyWait::init_(sead::Heap* heap) {
 }
 
 void LastBossFlyWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (*mIsResetEndTime_d || _84 <= 0.0f) {
+        _7c = *mTime_s;
+        _78 = _7c;
+        _80 = -1.0f;
+        const f32 range = *mEndTimeRandRange_s;
+        const f32 rand = sead::GlobalRandom::instance()->getF32();
+        const f32 end_time = *mEndTime_s + range * rand;
+        _8c = -1.0f;
+        _88 = end_time;
+        _84 = end_time;
+    }
+    _90 = mActor->getMtx().m[1][3] + *mBaseYOffset_s;
+    _94 = 0.5f;
+    _98 = 0;
+    playAS(mWaitAS_s.cstr(), true, 0, 0, -1.0f);
+    if (*mEndTime_s <= 0.0f)
+        setFinished();
 }
 
 void LastBossFlyWait::leave_() {

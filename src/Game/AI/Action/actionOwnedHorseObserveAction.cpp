@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionOwnedHorseObserveAction.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/gameHorseMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
@@ -28,9 +30,38 @@ void OwnedHorseObserveAction::loadParams_() {
     getMapUnitParam(&mSaveFlag_m, "SaveFlag");
 }
 
-// TODO: 0x7100e2416c uses the horse manager singleton (GOT 0x710257c190, not decompiled).
 void OwnedHorseObserveAction::calc_() {
-    AreaTagAction::calc_();
+    _58 = false;
+    bool update_flag = true;
+    u32 calc_tag = false;
+    if (auto* mgr = HorseMgr::instance()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&mgr->mOwnedHorse, &accessor)) {
+            if (accessor.isStateSleep()) {
+                ActorObserverBase::calc();
+                update_flag = false;
+            } else {
+                calc_tag = accessor.isStateCalc();
+            }
+        }
+    }
+    if (!update_flag)
+        return;
+
+    if (calc_tag)
+        AreaTagAction::calc_();
+    else
+        ActorObserverBase::calc();
+
+    if (_58) {
+        if (_59 != 1) {
+            ksys::gdt::Manager::instance()->setBool(true, mSaveFlag_m);
+            _59 = 1;
+        }
+    } else if (_59 != 0) {
+        ksys::gdt::Manager::instance()->setBool(false, mSaveFlag_m);
+        _59 = 0;
+    }
 }
 
 bool OwnedHorseObserveAction::m15(const ksys::act::ActorConstDataAccess& accessor) {
