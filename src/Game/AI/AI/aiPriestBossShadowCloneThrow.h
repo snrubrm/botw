@@ -21,9 +21,9 @@ public:
     // Signatures of the virtuals other than m37 are not known yet (declared for the vtable layout).
     virtual void m34();
     virtual void m35();
-    virtual void m36();
+    virtual bool m36();
     virtual bool m37();
-    virtual void m38(void* out, bool a2);
+    virtual void m38(sead::Vector3f* out, bool a2);
     virtual void m39();
 
 protected:
