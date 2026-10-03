@@ -13,6 +13,9 @@ class PriestBossActorGiantRoot : public PriestBossActorRoot {
 public:
     // Attack indices (names unknown; 11 values: the clamp of the counter array).
     SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)
+    // Movement state (names unknown): 2 = inactive, 7 = no face position update, 8 = also sets the child's
+    // TargetPos.
+    SEAD_ENUM(State, _0, _1, _2, _3, _4, _5, _6, _7, _8)
 
     explicit PriestBossActorGiantRoot(const InitArg& arg);
     ~PriestBossActorGiantRoot() override;
@@ -33,6 +36,9 @@ public:
     virtual f32 m43();
     virtual f32 m44();
     virtual f32 m45();
+    // Not decompiled (0x710050924c / 0x710050941c).
+    virtual void m46();
+    virtual void m47();
 
 protected:
     // inline-only in the original; name is a guess. Evidence: m40 / m41 / m42 / m44 repeat the same sequence
@@ -63,7 +69,7 @@ protected:
     // aitree_variable at offset 0x90
     sead::Vector3f* mFacePos_a{};
     s32 _98 = 0;
-    s32 _9c = 2;
+    State _9c = State::_2;
     s32 _a0 = 0;
     void* _a8 = nullptr;
     // Per-phase counters (indexed by the phase, clamped to 10): the weights of m40-m44 decay as 0.9^count.

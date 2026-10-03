@@ -20,6 +20,20 @@ void WeaponTrueFormSelect::enter_(ksys::act::ai::InlineParamPack* params) {
         changeChild("仮の姿");
 }
 
+void WeaponTrueFormSelect::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed() || !child->isChangeable())
+        return;
+
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (weapon && weapon->isTrueFormMasterSword()) {
+        if (!isCurrentChild("真の姿"))
+            changeChild("真の姿");
+    } else if (!isCurrentChild("仮の姿")) {
+        changeChild("仮の姿");
+    }
+}
+
 void WeaponTrueFormSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }
