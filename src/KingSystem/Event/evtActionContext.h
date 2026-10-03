@@ -2,6 +2,14 @@
 
 #include <basis/seadTypes.h>
 
+namespace evfl {
+struct ActionArg;
+}
+
+namespace ksys::act {
+class BaseProcLink;
+}
+
 namespace ksys::evt {
 
 // Per-action context of the event system (CSV evt::ActionContext; ctor 0x7100da7b1c). `mStatus` is a small
@@ -10,9 +18,10 @@ class ActionContext {
 public:
     // 0x7100da546c / 0x7100da5478 / 0x7100da5484 (CSV setStatus2 / setStatus1 / setStatus1_0; the last two are
     // identical)
-    void setStatus2();
-    void setStatus1();
-    void setStatus1_0();
+    // (the argument is passed by ActionBase::m4/m5/m6 and ignored; evfl::ActionArg is a guess)
+    void setStatus2(const evfl::ActionArg& arg);
+    void setStatus1(const evfl::ActionArg& arg);
+    void setStatus1_0(const evfl::ActionArg& arg);
     // 0x7100da56b8
     void reset();
     // 0x7100da5490 / 0x7100da54e0 / 0x7100da56c4 (CSV statusStuff / statusStuff_0 / statusStuff_1)
@@ -25,6 +34,8 @@ public:
     void statusStuff_2();
     // 0x7100da5680 (CSV x_1)
     void x_1();
+    // 0x7100da5360 (CSV x_3): declaration only (called with the actor's BaseProcLink)
+    void x_3(const act::BaseProcLink* link);
 
     /* 0x0 */ s32 mStatus;
     u8 _4[0xa50 - 4];

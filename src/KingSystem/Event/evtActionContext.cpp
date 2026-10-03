@@ -3,17 +3,17 @@
 namespace ksys::evt {
 
 // 0x7100da546c
-void ActionContext::setStatus2() {
+void ActionContext::setStatus2(const evfl::ActionArg&) {
     mStatus = 2;
 }
 
 // 0x7100da5478
-void ActionContext::setStatus1() {
+void ActionContext::setStatus1(const evfl::ActionArg&) {
     mStatus = 1;
 }
 
 // 0x7100da5484
-void ActionContext::setStatus1_0() {
+void ActionContext::setStatus1_0(const evfl::ActionArg&) {
     mStatus = 1;
 }
 

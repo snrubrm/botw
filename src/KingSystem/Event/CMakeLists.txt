@@ -1,6 +1,10 @@
 target_sources(uking PRIVATE
+  evtAction.cpp
+  evtAction.h
+  evtActionBase.cpp
   evtActionContext.cpp
   evtActionContext.h
+  evtActorBase.h
   evtActorBinding.cpp
   evtActorBinding.h
   evtActorBindings.cpp
