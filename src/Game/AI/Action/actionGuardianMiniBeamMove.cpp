@@ -5,8 +5,8 @@
 
 namespace uking::action {
 
-// NON_MATCHING: the original zero-fills the whole 0x20-byte xlink handle pair (libwork: the lib handles leave their padding uninitialised)
-GuardianMiniBeamMove::GuardianMiniBeamMove(const InitArg& arg) : BeamMove(arg) {}
+// `_78()`: value-initialisation zero-fills the whole 0x20-byte handle pair incl. padding (as WeaponRootAI's `_c8()`)
+GuardianMiniBeamMove::GuardianMiniBeamMove(const InitArg& arg) : BeamMove(arg), _78() {}
 
 GuardianMiniBeamMove::~GuardianMiniBeamMove() = default;
 

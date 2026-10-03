@@ -32,7 +32,15 @@ void TimeSpecControllerRumble::loadParams_() {
 }
 
 void TimeSpecControllerRumble::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mIsWait_d) {
+        if (*mSeconds_d > _38.diffToNow().toSeconds())
+            return;
+
+        if (auto* rumble = Rumble::instance())
+            rumble->sub_710089878C();
+    }
+
+    setFinished();
 }
 
 }  // namespace uking::action

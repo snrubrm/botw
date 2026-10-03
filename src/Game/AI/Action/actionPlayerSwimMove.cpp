@@ -6,7 +6,8 @@ namespace uking::action {
 
 PlayerSwimMove::PlayerSwimMove(const InitArg& arg) : PlayerAction(arg) {}
 
-// NON_MATCHING: last statement (rotation matrix `_1b6c.makeRIdx`) missing, see FIXME
+// NON_MATCHING: the `mActor` member address is kept in a register (pre-indexed load) instead of reloading from `this`,
+// and the sin/cos arithmetic of the inlined Matrix33f::makeRIdx is scheduled differently
 void PlayerSwimMove::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerAction::enter_(params);
     static_cast<ksys::act::Player*>(mActor)->_cec.set(0x400);
@@ -21,10 +22,7 @@ void PlayerSwimMove::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 
     player = static_cast<ksys::act::Player*>(mActor);
-    // FIXME: blocked on lib/sead (needs libwork): Matrix33CalcCommon<T>::makeRIdx declares `const T sinV[3]`
-    // without an initialiser, so it cannot be instantiated. With `T sinV[3]; T cosV[3];` this line compiles
-    // (instruction-for-instruction the same operations as the target, only scheduled differently):
-    // player->_1b6c.makeRIdx(0, player->x_5().value, 0);
+    player->_1b6c.makeRIdx(0, player->x_5().value, 0);
 }
 
 void PlayerSwimMove::leave_() {}

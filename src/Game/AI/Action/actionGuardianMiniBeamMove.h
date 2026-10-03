@@ -21,7 +21,7 @@ protected:
 
     // static_param at offset 0x70
     const float* mReboundDeccel_s{};
-    Unk_71012419b4 _78{};
+    Unk_71012419b4 _78;
     s32 _98 = -1;
     u8 _9c[0x4];
 
