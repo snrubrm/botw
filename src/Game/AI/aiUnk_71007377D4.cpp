@@ -475,3 +475,27 @@ const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot) {
         return sead::SafeString::cEmptyString;
     }
 }
+
+void sub_7100738C88(ksys::act::Actor* actor, ksys::act::Actor* other) {
+    if (!other)
+        return;
+    auto* other_physics = other->getPhysics();
+    if (!other_physics)
+        return;
+    auto* handler = other_physics->get188(0);
+    auto* physics = actor->getPhysics();
+    if (handler && physics)
+        physics->sub_7100FBDFA4(handler);
+}
+
+void sub_7100738D28(ksys::act::Actor* actor, ksys::act::Actor* other) {
+    if (!other)
+        return;
+    auto* other_physics = other->getPhysics();
+    if (!other_physics)
+        return;
+    auto* handler = other_physics->get188(1);
+    auto* physics = actor->getPhysics();
+    if (handler && physics)
+        physics->sub_7100FBDFA4(handler);
+}

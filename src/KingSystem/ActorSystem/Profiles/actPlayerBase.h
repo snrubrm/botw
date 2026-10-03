@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
@@ -199,13 +200,13 @@ public:
     /* 309 */ virtual void m309(f32) {}
     /* 310 */ virtual void m310(f32) {}
     /* 311 */ virtual void m311();
-    /* 312 */ virtual s32 m312(int idx);
+    /* 312 */ virtual gsys::BoneAccessKey m312(int idx);
     /* 313 */ void getActorDirect() override;
     /* 314 */ void m314() override;
     /* 315 */ void m315() override { m139(); }
     /* 316 */ f32 m316() override { return _1654; }
     /* 317 */ f32 m317() override;
-    /* 318 */ virtual void m318();
+    /* 318 */ virtual void m318(sead::Matrix34f* out) {}
     /* 319 */ f32 m319() override { return 1.0f; }
     /* 320 */ virtual f32 m320() { return 1.0f; }
     /* 321 */ virtual s32 m321() { return 0; }

@@ -31,7 +31,7 @@ public:
     virtual void m6();
     virtual void m7();
     virtual bool m8(const ksys::Message& message);
-    virtual void m9();
+    virtual bool m9();
     virtual void m10();
     virtual void m11(bool enable);
     virtual void m12();
@@ -68,9 +68,23 @@ public:
     /* 0x088 */ Unk_710235a0c0 _88;
     /* 0x0c0 */ u8 _c0[0x138 - 0xc0];
     /* 0x138 */ u8 _138;  // flags: 1 burn, 2 ice, 4 electric invalidated (behavior InvalidateCondition)
-    /* 0x139 */ u8 _139[0x140 - 0x139];
+    // (sizeof is 0x140 via tail padding: Player's derived object stores members at 0x13c.)
 };
 KSYS_CHECK_SIZE_NX150(Unk_710244dd20, 0x140);
+
+// Placeholder name (ctor 0x8502cc; own vtable, GOT 0x2592e28). The Unk_710244dd20 subclass embedded in
+// Player at 0x2550 (Player::m159). Size 0x150.
+// TODO: incomplete.
+class Unk_71008502cc : public Unk_710244dd20 {
+public:
+    explicit Unk_71008502cc(ksys::act::Actor* actor);
+
+    /* 0x13c */ u32 _13c;
+    /* 0x140 */ u32 _140;
+    /* 0x144 */ u32 _144;
+    /* 0x148 */ u32 _148;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71008502cc, 0x150);
 
 // Placeholder name (vtable 0x710244ff68; no out-of-line ctor: built inline by Swarm::m178, size
 // 0x68). The unit-controller object of the swarm actors (Swarm::_e78 / m159).

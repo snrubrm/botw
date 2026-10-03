@@ -304,10 +304,14 @@ public:
     };
 
     /* 0x008 */ sead::ObjArray<Unk_7100d78e50> _8;  // awareness entries (allocBuffer 0x7100d78d44)
-    /* 0x028 */ u8 _28[0x260 - 0x28];
+    /* 0x028 */ u8 _28[0x230 - 0x28];
+    /* 0x230 */ sead::Matrix34f _230;  // base matrix of the awareness (the forward axis is read by BokoblinRestraint)
     sead::SafeArray<Unk_71024dce08*, 4> _260;
     /* 0x280 */ sead::Buffer<SortedEntry> _280;  // the entries ordered by distance (placeholder name)
-    /* 0x290 */ u8 _290[0x2e8 - 0x290];
+    /* 0x290 */ u8 _290[0x2c8 - 0x290];
+    /* 0x2c8 */ sead::Vector3f _2c8;  // base position of the awareness
+    /* 0x2d4 */ sead::Vector3f _2d4;
+    /* 0x2e0 */ Actor* _2e0;  // the owner
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
     /* 0x2f0 */ u8 _2f0[4];
     /* 0x2f4 */ f32 _2f4;  // lower limit of _2f8

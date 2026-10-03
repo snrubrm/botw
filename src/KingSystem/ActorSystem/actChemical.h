@@ -104,7 +104,9 @@ public:
     /* 0x0c8 */ u8 _c8[0xd8 - 0xc8];
     /* 0x0d8 */ sead::Vector3f _d8;  // read by BalloonBase::m33 unless _c bit 24 is set
     /* 0x0e4 */ sead::Vector3f _e4;
-    /* 0x0f0 */ u8 _f0[0x14c - 0xf0];
+    /* 0x0f0 */ u8 _f0[0x10c - 0xf0];
+    /* 0x10c */ f32 _10c;  // Player::m353: > 0
+    /* 0x110 */ u8 _110[0x14c - 0x110];
     /* 0x14c */ f32 _14c;  // wind force scale (behavior SetWindForceScale)
     /* 0x150 */ u8 _150[0x170 - 0x150];
     /* 0x170 */ f32 _170;

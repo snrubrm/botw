@@ -176,6 +176,12 @@ Actor* DynamicActor::m31() {
     return Actor::m31();
 }
 
+bool DynamicActor::m53() {
+    if (auto* unit = m159())
+        return unit->m9();
+    return false;
+}
+
 void DynamicActor::m73() {
     if (auto* a = m159())
         a->m7();

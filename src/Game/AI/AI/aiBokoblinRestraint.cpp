@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -104,6 +106,26 @@ bool BokoblinRestraint::isChangeable() const {
         return true;
     auto* child = getCurrentChild();
     return child->isFinished() || child->isFailed();
+}
+
+bool BokoblinRestraint::sub_71003331A0() {
+    auto& timer = _78;
+    sead::Vector3f pos, dir;
+    if (auto* awareness = mActor->getAwareness()) {
+        awareness->_230.getBase(dir, 2);
+        pos = awareness->_2c8;
+    } else {
+        mActor->getMtx().getTranslation(pos);
+        mActor->getMtx().getBase(dir, 2);
+    }
+
+    if (sub_710072DEF0(sub_71005D960C(mActor), *mLostRange_s, *mLostVMin_s, *mLostVMax_s, pos, dir,
+                       sead::Mathf::pi(), std::numeric_limits<f32>::max(), 0.0f)) {
+        timer = ksys::Timer(*mLostTimer_s, *mLostTimer_s);
+    } else {
+        timer.update();
+    }
+    return timer.value <= sead::Mathf::epsilon();
 }
 
 }  // namespace uking::ai

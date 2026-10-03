@@ -1,6 +1,8 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actUnk_71025ae680.h"
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
@@ -23,6 +25,17 @@ namespace ksys::act {
 class Player : public PlayerBase {
     SEAD_RTTI_OVERRIDE(Player, PlayerBase)
 public:
+    // CSV Player::RideInfo (ctor 0x852aa0, vtable 0x710246ad80): a HorseRideInfo subclass with an
+    // intermediate base (vtable 0x710244eaa0) in between; embedded at +0x26b0. TODO: incomplete.
+    class RideInfo : public uking::act::HorseRideInfo {
+    public:
+        explicit RideInfo(Actor* actor);
+        ~RideInfo() override;
+
+        u8 _38[0x2f8 - 0x38];
+    };
+    KSYS_CHECK_SIZE_NX150(RideInfo, 0x2f8);
+
     explicit Player(const CreateArg& arg);
     // CSV Player::construct: the actor factory function.
     static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
@@ -93,7 +106,7 @@ public:
     /* 216 */ bool armorEffectHasWakeWindEffect() override { return _2081; }
     /* 217 */ bool m217() override;
     /* 218 */ bool m218() override;
-    /* 219 */ bool m219() override { return _2558.isOnBit(9); }
+    /* 219 */ bool m219() override { return _2550._8.isOnBit(9); }
     /* 224 */ bool m224() override { return _1f84 == 3 || _1f84 == 4; }
     /* 225 */ bool m225() override;
     /* 226 */ bool m226() override;
@@ -166,8 +179,8 @@ public:
     /* 309 */ void m309(f32) override;
     /* 310 */ void m310(f32) override;
     /* 311 */ void m311() override;
-    /* 312 */ s32 m312(int idx) override;
-    /* 318 */ void m318() override;
+    /* 312 */ gsys::BoneAccessKey m312(int idx) override;
+    /* 318 */ void m318(sead::Matrix34f* out) override;
     /* 319 */ f32 m319() override { return _2094; }
     /* 320 */ f32 m320() override { return getStatusEffectSpeed(); }
     /* 321 */ s32 m321() override { return _1ffc; }
@@ -391,7 +404,7 @@ public:
     /* 0x1878 */ AITerror _1878{this};
     /* 0x1930 */ AITerror _1930{this};
     /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];
-    /* 0x19f0 */ sead::SafeArray<s32, 0x4a> _19f0;
+    /* 0x19f0 */ sead::SafeArray<gsys::BoneAccessKey, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
     /* 0x1b48 */ u8 _1b48[0x1b6c - 0x1b48];
     /* 0x1b6c */ sead::Matrix33f _1b6c;  // rotation around the x_5() angle (PlayerSwimMove::enter_)
@@ -515,10 +528,10 @@ public:
     /* 0x230c */ sead::Vector3f _230c;
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
     /* 0x23e0 */ PlayerArmors _23e0;
-    /* 0x2550 */ u8 _2550[0x2558 - 0x2550];
-    /* 0x2558 */ sead::BitFlag16 _2558;  // bit 5 is tested by PlayerShock::calc_
-    /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
-    /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
+    /* 0x2550 */ uking::act::Unk_71008502cc _2550{this};  // m159; _2550._8 (BitFlag16): bit 5 is tested by PlayerShock::calc_
+    /* 0x26a0 */ BaseProcLink _26a0;
+    /* 0x26b0 */ RideInfo _26b0{this};  // getPlayerRideInfo
+    /* 0x29a8 */ u8 _29a8[0x2c28 - 0x29a8];
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
     /* 0x2c38 */ u8 _2c38[0x2c48 - 0x2c38];
     /* 0x2c48 */ BaseProcLink _2c48;  // isRevivalFairyActive

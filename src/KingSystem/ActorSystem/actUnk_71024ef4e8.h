@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadMatrix.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -40,7 +41,7 @@ public:
     /* 0x0b0 */ AttachInfo* mAttachInfo;
     u8 _b8[0xe0 - 0xb8];
     /* 0x0e0 */ sead::Matrix34f mMtx;
-        /* 0x110 */ u32 _110;  // flags
+        /* 0x110 */ sead::BitFlag32 _110;  // flags
     u8 _114[0x188 - 0x114];
     /* 0x188 */ sead::Matrix34f _188;
     /* 0x1b8 */ f32 _1b8;

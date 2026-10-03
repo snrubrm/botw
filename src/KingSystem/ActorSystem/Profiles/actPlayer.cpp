@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actWeapon.h"
@@ -261,6 +263,14 @@ bool Player::m47() {
     return false;
 }
 
+uking::act::HorseRideInfo* Player::getPlayerRideInfo() {
+    return &_26b0;
+}
+
+uking::act::Unk_71025ae680* Player::m159() {
+    return &_2550;
+}
+
 Unk_71024ef4e8* Player::getAttachedTargetActor2() {
     return _1870;
 }
@@ -269,8 +279,20 @@ Unk_71024ef4e8* Player::getAttachedTargetActor() {
     return _1870;
 }
 
-s32 Player::m312(int idx) {
+gsys::BoneAccessKey Player::m312(int idx) {
     return _19f0[idx];
+}
+
+// NON_MATCHING: the original loads mModel before the m312 call (we reload it after the call)
+void Player::m318(sead::Matrix34f* out) {
+    const auto key = m312(45);
+    mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(out, key.bone_index);
+}
+
+bool Player::m353() {
+    if (getChemicalStuff())
+        return getChemicalStuff()->_10c > 0.0f;
+    return false;
 }
 
 void Player::m323() {
@@ -509,11 +531,11 @@ void Player::m88() {
 }
 
 bool Player::m217() {
-    return _2558.isOn(0x108);
+    return _2550._8.isOn(0x108);
 }
 
 bool Player::m151(u16 bit) {
-    return _2558.isOnBit(bit);
+    return _2550._8.isOnBit(bit);
 }
 
 bool Player::m83() {

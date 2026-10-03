@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
@@ -14,6 +15,16 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 
 namespace ksys::act {
+
+gsys::BoneAccessKey PlayerBase::m312(int idx) {
+    return mModel->searchBone("Root");
+}
+
+bool PlayerBase::x_2() {
+    if (getAttachedTargetActor()->_110.isOnBit(6))
+        return true;
+    return getAttachedTargetActor()->_110.isOnBit(9);
+}
 
 bool PlayerBase::x_50() {
     return false;

@@ -21,7 +21,7 @@ void PlayerShock::calc_() {
     player->_20bc.value = 0;
     player->_20bc.prev_value = 0;
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
-    if (!static_cast<ksys::act::Player*>(mActor)->_2558.isOn(0x20))
+    if (!static_cast<ksys::act::Player*>(mActor)->_2550._8.isOn(0x20))
         setFinished();
 }
 
