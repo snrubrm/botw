@@ -202,21 +202,23 @@ void sub_7100EDC530(void* a1, void* a2) {
         sSub_7100EDC530Handler(a1, a2);
 }
 
-using SSub_7100EDC548HandlerFn = s32 (*)(void*);
+
+using SSub_7100EDC548HandlerFn = bool (*)(s32);
 SSub_7100EDC548HandlerFn sSub_7100EDC548Handler;
 
 // 0x7100edc548
-s32 sub_7100EDC548(void* a1) {
+bool sub_7100EDC548(s32 a1) {
     if (sSub_7100EDC548Handler)
         return sSub_7100EDC548Handler(a1);
     return 0;
 }
 
-using SSub_7100EDC564HandlerFn = s32 (*)(void*);
+
+using SSub_7100EDC564HandlerFn = bool (*)(s32);
 SSub_7100EDC564HandlerFn sSub_7100EDC564Handler;
 
 // 0x7100edc564
-s32 sub_7100EDC564(void* a1) {
+bool sub_7100EDC564(s32 a1) {
     if (sSub_7100EDC564Handler)
         return sSub_7100EDC564Handler(a1);
     return 0;
@@ -321,6 +323,54 @@ SSub_7100EDC6E8HandlerFn sSub_7100EDC6E8Handler;
 void sub_7100EDC6E8() {
     if (sSub_7100EDC6E8Handler)
         sSub_7100EDC6E8Handler();
+}
+
+
+using SSub_7100EDC580HandlerFn = bool (*)();
+SSub_7100EDC580HandlerFn sSub_7100EDC580Handler;
+
+// 0x7100edc580
+bool sub_7100EDC580() {
+    if (sSub_7100EDC580Handler)
+        return sSub_7100EDC580Handler();
+    return true;
+}
+
+using SSub_7100EDC5D4HandlerFn = bool (*)();
+SSub_7100EDC5D4HandlerFn sSub_7100EDC5D4Handler;
+
+// 0x7100edc5d4
+bool sub_7100EDC5D4() {
+    if (sSub_7100EDC5D4Handler)
+        return sSub_7100EDC5D4Handler();
+    return true;
+}
+
+using SSub_7100EDC59CHandlerFn = void (*)(bool);
+SSub_7100EDC59CHandlerFn sSub_7100EDC59CHandler;
+
+// 0x7100edc59c
+void sub_7100EDC59C(bool a1) {
+    if (sSub_7100EDC59CHandler)
+        sSub_7100EDC59CHandler(a1);
+}
+
+using SSub_7100EDC638HandlerFn = void (*)(bool);
+SSub_7100EDC638HandlerFn sSub_7100EDC638Handler;
+
+// 0x7100edc638
+void sub_7100EDC638(bool a1) {
+    if (sSub_7100EDC638Handler)
+        sSub_7100EDC638Handler(a1);
+}
+
+using SSub_7100EDC700HandlerFn = void (*)(bool);
+SSub_7100EDC700HandlerFn sSub_7100EDC700Handler;
+
+// 0x7100edc700
+void sub_7100EDC700(bool a1) {
+    if (sSub_7100EDC700Handler)
+        sSub_7100EDC700Handler(a1);
 }
 
 }  // namespace ksys::ui

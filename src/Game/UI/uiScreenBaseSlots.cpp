@@ -39,6 +39,86 @@ void Screen::m89() {
     mMgr->inactivateScreen(mId);
 }
 
+// 0x71010aada0 (CSV Screen::m117)
+void Screen::m117() {
+    m82();
+    for (auto& child : mChildren)
+        child.m43();
+}
+
+// 0x71010aadf0 (CSV Screen::m118)
+void Screen::m118() {
+    m83();
+    for (auto& child : mChildren)
+        child.m44();
+}
+
+// 0x71010aae40 (CSV Screen::m119)
+void Screen::m119() {
+    m84();
+    for (auto& child : mChildren)
+        child.m45();
+}
+
+// 0x71010aae90 (CSV Screen::m120)
+void Screen::m120() {
+    m85();
+    for (auto& child : mChildren)
+        child.m46();
+}
+
+// 0x71010aaf54 (CSV Screen::m122)
+void Screen::m122() {
+    m87();
+    for (auto& child : mChildren)
+        child.m48();
+}
+
+// 0x71010aafa4 (CSV Screen::m123)
+void Screen::m123() {
+    m88();
+    for (auto& child : mChildren)
+        child.m49();
+}
+
+// 0x71010aaff4 (CSV Screen::m124)
+void Screen::m124() {
+    m89();
+    for (auto& child : mChildren)
+        child.m50();
+}
+
+// 0x71010ab044 (CSV Screen::m125)
+void Screen::m125() {
+    m90();
+    for (auto& child : mChildren)
+        child.m51();
+}
+
+// 0x71010ab094 (CSV Screen::m126)
+void Screen::m126() {
+    m91();
+    for (auto& child : mChildren)
+        child.m52();
+}
+
+// 0x71010aaee0 (CSV Screen::m121)
+void Screen::m121() {
+    if (!ksys::ui::sub_7100EDC564(mId))
+        close(-4);
+    m86();
+    for (auto& child : mChildren)
+        child.m47();
+}
+
+// 0x71010ab0e4 (CSV Screen::open)
+void Screen::open(s32 option) {
+    _290 = 0;
+    if (ksys::ui::sub_7100EDC548(mId))
+        _292 &= ~0x20;
+    eui::Screen::open(option);
+}
+
 // 0x7100a82904 (CSV Screen::m114_null)
 void Screen::m114() {}
 

@@ -1,8 +1,10 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/euiScreen.h"
+#include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace uking::ui {
@@ -29,11 +31,72 @@ public:
     int handleMessage(const ksys::Message& message) override;
 };
 
+// Placeholder for the screen's child components (elements of Screen::mChildren at 0x250): only the vtable slots 43-52
+// that Screen::m117 - m126 call are known.
+class ScreenChild {
+public:
+    virtual void m0() = 0;
+    virtual void m1() = 0;
+    virtual void m2() = 0;
+    virtual void m3() = 0;
+    virtual void m4() = 0;
+    virtual void m5() = 0;
+    virtual void m6() = 0;
+    virtual void m7() = 0;
+    virtual void m8() = 0;
+    virtual void m9() = 0;
+    virtual void m10() = 0;
+    virtual void m11() = 0;
+    virtual void m12() = 0;
+    virtual void m13() = 0;
+    virtual void m14() = 0;
+    virtual void m15() = 0;
+    virtual void m16() = 0;
+    virtual void m17() = 0;
+    virtual void m18() = 0;
+    virtual void m19() = 0;
+    virtual void m20() = 0;
+    virtual void m21() = 0;
+    virtual void m22() = 0;
+    virtual void m23() = 0;
+    virtual void m24() = 0;
+    virtual void m25() = 0;
+    virtual void m26() = 0;
+    virtual void m27() = 0;
+    virtual void m28() = 0;
+    virtual void m29() = 0;
+    virtual void m30() = 0;
+    virtual void m31() = 0;
+    virtual void m32() = 0;
+    virtual void m33() = 0;
+    virtual void m34() = 0;
+    virtual void m35() = 0;
+    virtual void m36() = 0;
+    virtual void m37() = 0;
+    virtual void m38() = 0;
+    virtual void m39() = 0;
+    virtual void m40() = 0;
+    virtual void m41() = 0;
+    virtual void m42() = 0;
+    virtual void m43() = 0;
+    virtual void m44() = 0;
+    virtual void m45() = 0;
+    virtual void m46() = 0;
+    virtual void m47() = 0;
+    virtual void m48() = 0;
+    virtual void m49() = 0;
+    virtual void m50() = 0;
+    virtual void m51() = 0;
+    virtual void m52() = 0;
+};
+
 class Screen : public ScreenBase, public ScreenHandlerImpl {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
-    u8 _118[0x270 - 0x118];
+    u8 _118[0x250 - 0x118];
+    /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
+    u8 _260[0x270 - 0x260];
     /* 0x270 */ s32 _270;
     u8 _274[0x288 - 0x274];
     /* 0x288 */ void* _288;
@@ -42,6 +105,7 @@ public:
     /* 0x292 */ u16 _292;
     u8 _294[0x300 - 0x294];
 
+    void open(s32 option) override;
     void m51() override;
     void m59() override;
 

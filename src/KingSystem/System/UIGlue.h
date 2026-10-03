@@ -28,8 +28,8 @@ void sub_7100EDC4E8();
 void sub_7100EDC500();
 void sub_7100EDC518();
 void sub_7100EDC530(void* a1, void* a2);
-s32 sub_7100EDC548(void* a1);
-s32 sub_7100EDC564(void* a1);
+bool sub_7100EDC548(s32 a1);
+bool sub_7100EDC564(s32 a1);
 s32 sub_7100EDC5B8(void* a1, void* a2, void* a3);
 void sub_7100EDC5F0();
 void sub_7100EDC608(void* a1);
@@ -41,5 +41,11 @@ void sub_7100EDC6A0();
 void sub_7100EDC6B8();
 void sub_7100EDC6D0();
 void sub_7100EDC6E8();
+
+bool sub_7100EDC580();
+bool sub_7100EDC5D4();
+void sub_7100EDC59C(bool a1);
+void sub_7100EDC638(bool a1);
+void sub_7100EDC700(bool a1);
 
 }  // namespace ksys::ui
