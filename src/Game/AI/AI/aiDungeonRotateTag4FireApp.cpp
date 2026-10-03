@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTag4FireApp.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
@@ -14,6 +15,11 @@ bool DungeonRotateTag4FireApp::init_(sead::Heap* heap) {
 
 void DungeonRotateTag4FireApp::enter_(ksys::act::ai::InlineParamPack* params) {
     WholeDungeonRotateTag::enter_(params);
+    _48 = 0;
+    _40 = 0;
+    _44 = 0;
+    ui::sub_7100A9D210(sead::Mathf::deg2rad(*mTiltAngle_m), 0);
+    m44();
 }
 
 void DungeonRotateTag4FireApp::calc_() {
@@ -22,6 +28,18 @@ void DungeonRotateTag4FireApp::calc_() {
 
 void DungeonRotateTag4FireApp::leave_() {
     WholeDungeonRotateTag::leave_();
+}
+
+bool DungeonRotateTag4FireApp::m34() {
+    return ui::sub_7100A9BAEC(19);
+}
+
+bool DungeonRotateTag4FireApp::m35() {
+    return ui::sub_7100A9D1C0();
+}
+
+bool DungeonRotateTag4FireApp::m36() {
+    return ui::sub_7100A9D1E8();
 }
 
 bool DungeonRotateTag4FireApp::m37() {

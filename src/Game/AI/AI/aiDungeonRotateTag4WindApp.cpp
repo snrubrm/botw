@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDungeonRotateTag4WindApp.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ai {
@@ -14,6 +15,28 @@ bool DungeonRotateTag4WindApp::init_(sead::Heap* heap) {
 
 void DungeonRotateTag4WindApp::enter_(ksys::act::ai::InlineParamPack* params) {
     WholeDungeonRotateTag::enter_(params);
+    _48 = 0;
+    _40 = 0;
+    _44 = 0;
+    const f32 tilt = *mTiltAngle_m;
+    ui::sub_7100A9D168(sead::Mathf::deg2rad(tilt), 0, sead::Mathf::deg2rad(-tilt));
+    m44();
+}
+
+bool DungeonRotateTag4WindApp::m34() {
+    return ui::sub_7100A9BAEC(18);
+}
+
+bool DungeonRotateTag4WindApp::m35() {
+    return ui::sub_7100A9D0F4();
+}
+
+bool DungeonRotateTag4WindApp::m36() {
+    return ui::sub_7100A9D118();
+}
+
+bool DungeonRotateTag4WindApp::m37() {
+    return ui::sub_7100A9D140();
 }
 
 void DungeonRotateTag4WindApp::calc_() {
