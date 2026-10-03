@@ -6,6 +6,18 @@ namespace uking::ui {
 
 ScreenReadyGo::ScreenReadyGo() : ScreenEx() {}
 
+// 0x7100a0eb2c
+ScreenKologNum::ScreenKologNum() : ScreenEx() {}
+
+// 0x71009ceab0
+ScreenAkashNum::ScreenAkashNum() : ScreenEx() {}
+
+// 0x7100a22584
+ScreenMamoNum::ScreenMamoNum() : ScreenEx() {}
+
+// 0x7100a043c0
+ScreenDLCSinJuAkashiNum::ScreenDLCSinJuAkashiNum() : ScreenEx() {}
+
 ScreenGameTitle::ScreenGameTitle() : ScreenEx() {}
 
 ScreenDemoName::ScreenDemoName() : ScreenEx() {}

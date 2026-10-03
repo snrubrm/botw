@@ -1,9 +1,14 @@
 #include "Game/UI/uiUnkTiny.h"
 
+// The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
+// commit 96101229; the original D1 is `str vptr; ret`).
 namespace uking::ui {
 
 // 0x7100932f6c
 Unk_7102474b38::~Unk_7102474b38() = default;
+
+// 0x71009332f0
+Unk_7102474b78::Unk_7102474b78() = default;
 
 // 0x7100933314
 Unk_7102474b78::~Unk_7102474b78() = default;
@@ -124,5 +129,34 @@ Unk_710249c410::~Unk_710249c410() = default;
 
 // 0x71009ec6c8
 Unk_7102516880::~Unk_7102516880() = default;
+
+// 0x7100933140
+Unk_7102474b58::Unk_7102474b58(void* owner) : _8(owner) {}
+
+// 0x7100933184
+Unk_7102474b58::~Unk_7102474b58() { ; }
+
+// 0x7100959a84
+Unk_7102476a40::~Unk_7102476a40() { ; }
+
+// 0x7100959cfc
+Unk_7102476a60::~Unk_7102476a60() { ; }
+
+// 0x7100968020
+Unk_7102476b00::~Unk_7102476b00() { ; }
+
+// 0x7100988490
+Unk_71024774a8::~Unk_71024774a8() { ; }
+
+// 0x71009dfd4c
+Unk_71024810b8::~Unk_71024810b8() { ; }
+
+// 0x7100a8331c
+Unk_710249d300::~Unk_710249d300() { ; }
+
+// 0x7100937f5c
+Unk_7102474df8::~Unk_7102474df8() {
+    _10.freeBuffer();
+}
 
 }  // namespace uking::ui

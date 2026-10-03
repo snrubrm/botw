@@ -1,7 +1,12 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
+#include <prim/seadSafeString.h>
+
 // Placeholder classes whose only member is a virtual destructor (vtable = [D1, D0], D1 empty): the
 // original keeps them as members / locals of the screens. Named after their vtable (symbol start).
+
 namespace uking::ui {
 
 class Unk_7102474b38 {
@@ -9,9 +14,14 @@ public:
     virtual ~Unk_7102474b38();
 };
 
+// Member of the number-display screens (Kolog / Akash / Mamo / DLCSinJuAkashi: at 0x3638, Mamo also at 0x3678).
 class Unk_7102474b78 {
 public:
+    Unk_7102474b78();
     virtual ~Unk_7102474b78();
+
+    u8 _8[0x35 - 0x8]{};
+    u8 _35[8]{};
 };
 
 class Unk_7102474ba8 {
@@ -207,6 +217,61 @@ public:
 class Unk_7102516880 {
 public:
     virtual ~Unk_7102516880();
+};
+
+// With a user-provided (empty) destructor: the original D1 keeps the vtable store.
+class Unk_7102474b58 {
+public:
+    explicit Unk_7102474b58(void* owner);
+    virtual ~Unk_7102474b58();
+
+    void* _8;
+    sead::SafeString _10 = sead::SafeString::cEmptyString;
+    sead::SafeString _20 = sead::SafeString::cEmptyString;
+    sead::SafeString _30 = sead::SafeString::cEmptyString;
+    sead::SafeString _40 = sead::SafeString::cEmptyString;
+    u64 _50{};
+};
+
+class Unk_7102476a40 {
+public:
+    virtual ~Unk_7102476a40();
+};
+
+class Unk_7102476a60 {
+public:
+    virtual ~Unk_7102476a60();
+};
+
+class Unk_7102476b00 {
+public:
+    virtual ~Unk_7102476b00();
+};
+
+class Unk_71024774a8 {
+public:
+    virtual ~Unk_71024774a8();
+};
+
+class Unk_71024810b8 {
+public:
+    virtual ~Unk_71024810b8();
+};
+
+class Unk_710249d300 {
+public:
+    virtual ~Unk_710249d300();
+};
+
+// Opaque element type of the PtrArray members below.
+struct Unk_Elem;
+
+class Unk_7102474df8 {
+public:
+    virtual ~Unk_7102474df8();
+
+    u64 _8;
+    sead::PtrArray<Unk_Elem> _10;
 };
 
 }  // namespace uking::ui

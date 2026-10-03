@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
@@ -523,6 +524,7 @@ public:
 
 class ScreenKologNum : public ScreenEx {
 public:
+    ScreenKologNum();
     s32 m72() override;
     void m70() override;
     void m71() override;
@@ -543,8 +545,17 @@ public:
     virtual void m164();
     virtual s32 m165();
 
-    u8 _pad_3610[0x3634 - 0x3610];
-    /* 0x3634 */ s32 _3634;
+    /* 0x3610 */ u8 _3610{};
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    s32 _3624{};
+    s32 _3628{};
+    f32 _362c = 1.0f;
+    u8 _3630{};
+    /* 0x3634 */ s32 _3634 = -1;
+    Unk_7102474b78 _3638;
 
     void sub_7100A0EF5C(s32 a1);
 
@@ -556,6 +567,7 @@ public:
 
 class ScreenAkashNum : public ScreenEx {
 public:
+    ScreenAkashNum();
     s32 m72() override;
     void m70() override;
     void m71() override;
@@ -576,8 +588,17 @@ public:
     virtual void m164();
     virtual s32 m165();
 
-    u8 _pad_3610[0x3634 - 0x3610];
-    /* 0x3634 */ s32 _3634;
+    /* 0x3610 */ u8 _3610{};
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    s32 _3624{};
+    s32 _3628{};
+    f32 _362c = 1.0f;
+    u8 _3630{};
+    /* 0x3634 */ s32 _3634 = -1;
+    Unk_7102474b78 _3638;
 
     void sub_71009CEEE0(s32 a1);
 
@@ -589,12 +610,24 @@ public:
 
 class ScreenMamoNum : public ScreenEx {
 public:
+    ScreenMamoNum();
     s32 m72() override;
     void m70() override;
     void m71() override;
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
 
+    /* 0x3610 */ s32 _3610{};
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    s32 _3624{};
+    f32 _3628 = 1.0f;
+    u8 _362c{};
+    s32 _3630 = -1;
+    Unk_7102474b78 _3638;
+    Unk_7102474b58 _3678{this};
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
     virtual void m155();
@@ -852,6 +885,7 @@ public:
 
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
+    ScreenDLCSinJuAkashiNum();
     s32 m72() override;
     void m70() override;
     void m71() override;
@@ -872,10 +906,20 @@ public:
     virtual void m164();
     virtual s32 m165();
 
-    u8 _pad_3610[0x3638 - 0x3610];
-    /* 0x3638 */ s32 _3638;
-    u8 _pad_363c[0x3688 - 0x363c];
-    /* 0x3688 */ s32 _3688;
+    /* 0x3610 */ u8 _3610{};
+    s32 _3614{};
+    s32 _3618{};
+    s32 _361c{};
+    s32 _3620{};
+    s32 _3624{};
+    s32 _3628{};
+    s32 _362c{};
+    f32 _3630 = 1.0f;
+    u8 _3634{};
+    /* 0x3638 */ s32 _3638 = -1;
+    Unk_7102474b78 _3640;
+    u64 _3680{};
+    /* 0x3688 */ s32 _3688{};
 };
 
 // ScreenHardMode: only the trivial virtual slots of the 154-245 block (the per-state callbacks, four
