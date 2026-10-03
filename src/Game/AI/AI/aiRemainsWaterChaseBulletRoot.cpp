@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -30,13 +31,40 @@ void RemainsWaterChaseBulletRoot::leave_() {
     sub_710054AAD8();
 }
 
+bool RemainsWaterChaseBulletRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x80000b6) {
+        mActor->sub_71011D0204(0x80);
+        return true;
+    }
+    if (message->getType() == 0x80000b7) {
+        mActor->sub_71011D0228(0x80);
+        return true;
+    }
+    if (message->getType() == 0x8000004) {
+        _39 = true;
+        return true;
+    }
+    if (message->getType() == 0x800006b) {
+        _3a = true;
+        return true;
+    }
+    if (message->getType() == 0x3000003) {
+        if (auto* body = mActor->getMainBody())
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    } else if (message->getType() == 0x3000004) {
+        if (auto* body = mActor->getMainBody())
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+    }
+    return false;
+}
+
 void RemainsWaterChaseBulletRoot::loadParams_() {
-    getStaticParam(&mAtkMinDamage_s, "AtkMinDamage");
-    getStaticParam(&mCheckPower_s, "CheckPower");
-    getStaticParam(&mHighDamageAddSpd_s, "HighDamageAddSpd");
-    getStaticParam(&mLowDamageAddSpd_s, "LowDamageAddSpd");
-    getStaticParam(&mShootAddSpd_s, "ShootAddSpd");
-    getStaticParam(&mResetASName_s, "ResetASName");
+    getStaticParam(&mParams.mAtkMinDamage_s, "AtkMinDamage");
+    getStaticParam(&mParams.mCheckPower_s, "CheckPower");
+    getStaticParam(&mParams.mHighDamageAddSpd_s, "HighDamageAddSpd");
+    getStaticParam(&mParams.mLowDamageAddSpd_s, "LowDamageAddSpd");
+    getStaticParam(&mParams.mShootAddSpd_s, "ShootAddSpd");
+    getStaticParam(&mParams.mResetASName_s, "ResetASName");
 }
 
 void RemainsWaterChaseBulletRoot::sub_710054AAD8() {
