@@ -563,6 +563,13 @@ bool ActorConstDataAccess::sub_7100D11F10() const {
 
 }
 
+bool ActorConstDataAccess::sub_7100D1463C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->m140();
+}
+
 int ActorConstDataAccess::sub_7100D131D0(int idx) const {
     auto* actor = getActor();
     if (!actor)

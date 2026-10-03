@@ -33,6 +33,8 @@ public:
     // 0x7100381e7c: acc::PlayerBase::x_13() of the actor m35() points to.
     bool sub_7100381E7C();
     bool sub_7100382558();
+    // 0x7100381d68: Actor::m140() of the Enemy's `_e08` link target, else of the m35() target.
+    bool sub_7100381D68();
 
 protected:
     // static_param at offset 0x38

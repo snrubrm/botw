@@ -11,6 +11,7 @@ public:
     explicit IceEnemyFeintBattle(const InitArg& arg);
     ~IceEnemyFeintBattle() override;
 
+    void calc_() override;
     void loadParams_() override;
 
 protected:

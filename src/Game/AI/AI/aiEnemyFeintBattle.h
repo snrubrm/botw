@@ -13,6 +13,7 @@ public:
     bool isFailed() const override;
     bool isFinished() const override;
 
+    void calc_() override;
     void loadParams_() override;
 
 protected:

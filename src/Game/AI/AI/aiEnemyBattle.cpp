@@ -6,7 +6,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -40,6 +43,105 @@ bool EnemyBattle::sub_7100382558() {
     if (!ksys::act::isPlayerProfile(&m35()))
         return true;
     return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, time);
+}
+
+bool EnemyBattle::sub_7100381D68() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    bool result;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&enemy->_e08._0, &accessor);
+        if (accessor.sub_7100D1463C()) {
+            result = true;
+        } else {
+            ksys::act::acquireActor(&m35(), &accessor);
+            result = accessor.sub_7100D1463C();
+        }
+    }
+    return result;
+}
+
+void EnemyBattle::calc_() {
+    if (_88) {
+        if (sub_7100381D68()) {
+            const s32 time = sead::GlobalRandom::instance()->getU32(5) + 10;
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->_e68 = ksys::Timer(time, time);
+        } else {
+            _88 = false;
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("戦闘準備")) {
+            if (child->isFailed()) {
+                setFailed();
+                return;
+            }
+            if (*mIsCheckLineReachable_s) {
+                const sead::Vector3f target = sub_71005D9330(mActor);
+                auto* nav = mActor->m45();
+                const f32 tolerance = nav ? nav->_2a8 * nav->_2ac : 0.0f;
+                sead::Vector3f out;
+                if (!sub_710072F944(mActor, target, &out, tolerance, 3.0f)) {
+                    setFailed();
+                    return;
+                }
+            }
+            if (!m42()) {
+                bool x;
+                {
+                    ksys::act::acc::PlayerBase player;
+                    ksys::act::acquireActor(&m35(), &player);
+                    x = player.x_13();
+                }
+                if (!x) {
+                    m38();
+                    return;
+                }
+            }
+            m37();
+            return;
+        }
+        if (isCurrentChild("戦闘攻撃")) {
+            const bool failed = child->isFailed();
+            if (auto* enemy = static_cast<act::Enemy*>(mActor))
+                enemy->startAttackInterval(*mAttackIntervalIntensity_s);
+            if (failed) {
+                setFailed();
+                return;
+            }
+            if (*mIsCheckLineReachable_s) {
+                const sead::Vector3f target = sub_71005D9330(mActor);
+                auto* nav = mActor->m45();
+                const f32 tolerance = nav ? nav->_2a8 * nav->_2ac : 0.0f;
+                sead::Vector3f out;
+                if (!sub_710072F944(mActor, target, &out, tolerance, 3.0f)) {
+                    setFailed();
+                    return;
+                }
+            }
+            m37();
+        }
+        return;
+    }
+
+    if (child->isChangeable() && isCurrentChild("戦闘準備")) {
+        if (!mActor) {
+            setFailed();
+            return;
+        }
+        if (m41() && m39()) {
+            m38();
+            return;
+        }
+    }
+    sead::Vector3f pos;
+    m36(&pos);
+    child->setDynamicParam(pos, "TargetPos");
 }
 
 bool EnemyBattle::isChangeable() const {

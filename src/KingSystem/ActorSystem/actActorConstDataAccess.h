@@ -143,6 +143,8 @@ public:
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
     // (getChemicalStuff() if idx < 0).
     int sub_7100D131D0(int idx) const;
+    // 0x7100d1463c (lane1 s22): Actor::m140() (false if the proc is not an actor).
+    bool sub_7100D1463C() const;
     // 0x7100d13fd0 (CSV actorGetLife): *Actor::getLife(), 1 if the actor has no life value.
     s32 getLife() const;
     // 0x7100d14078: Actor::getMaxLife().
