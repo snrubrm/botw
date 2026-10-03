@@ -19,7 +19,6 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    // 0x71003e46f0 (not decompiled: calls the unnamed 0x71002c52dc).
     bool m38() override;
 
     // 0x71003e4208 (not decompiled): turns `_298` towards the target.

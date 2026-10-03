@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLastBossRoot.h"
+#include "Game/gameLastBossMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -7,7 +9,11 @@ LastBossRoot::LastBossRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 LastBossRoot::~LastBossRoot() = default;
 
 bool LastBossRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* mgr = LastBossMgr::instance())
+        mgr->sub_7100677FFC(mActor);
+    _b4 = false;
+    _b5 = false;
+    return true;
 }
 
 void LastBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {

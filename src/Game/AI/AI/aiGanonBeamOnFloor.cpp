@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGanonBeamOnFloor.h"
+#include "Game/AI/aiUnk_71002C52DC.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/Actor/actLastBoss.h"
@@ -21,6 +22,14 @@ void GanonBeamOnFloor::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     _2d4 = false;
     _2d5 = false;
+}
+
+bool GanonBeamOnFloor::m38() {
+    if (LastBossShootNormalArrowRoot::m38())
+        return true;
+    if (sub_71002C52DC(mActor, 0.5f))
+        return false;
+    return _a0 > 0;
 }
 
 void GanonBeamOnFloor::calc_() {

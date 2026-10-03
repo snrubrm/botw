@@ -60,7 +60,7 @@ protected:
     // dynamic_param at offset 0x98
     sead::Vector3f* mTargetPos_d{};
     // Zeroed by the ctor together with the members above.
-    u32 _a0{};  // number of arrows shot (m35 / m38)
+    s32 _a0{};  // number of arrows shot (m35 / m38)
     f32 _a4{};
     f32 _a8{};
     f32 _ac{};
