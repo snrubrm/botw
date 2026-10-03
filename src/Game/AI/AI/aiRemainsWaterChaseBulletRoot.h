@@ -17,8 +17,9 @@ public:
     void sub_710054AAD8();
 
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x18];
+    u32 _38 = 0;
+    bool _3c = false;
+    u8 _40[0x10];
     // static_param at offset 0x50
     const int* mAtkMinDamage_s{};
     // static_param at offset 0x58
@@ -32,5 +33,7 @@ protected:
     // static_param at offset 0x78
     sead::SafeString mResetASName_s{};
 };
+
+KSYS_CHECK_SIZE_NX150(RemainsWaterChaseBulletRoot, 0x88);
 
 }  // namespace uking::ai

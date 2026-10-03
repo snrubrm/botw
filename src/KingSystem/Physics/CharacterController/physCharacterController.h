@@ -43,6 +43,8 @@ public:
     // 0x7100f5f264 (declared only; lane2 s20): reads byte 0x69 of the sub-object at +0x40.
     bool sub_7100F5F264() const;
     void sub_7100F5F458(act::MotionType type);
+    // 0x7100f605c8: copies `value` to _ac / _bc / _cc.
+    void sub_7100F605C8(const sead::Vector3f& value);
 
     bool sub_7100F636EC() const;
     void sub_7100F636B0(bool clear);
