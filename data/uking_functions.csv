@@ -60539,8 +60539,8 @@ Address,Quality,Size,Name
 0x0000007100a49cc0,U,000216,ScreenEx::doButtonCancelStart
 0x0000007100a49d98,U,000216,ScreenEx::doButtonCancelEnd
 0x0000007100a49e70,U,001572,
-0x0000007100a4a494,U,000008,ScreenEx::rtti1
-0x0000007100a4a49c,U,000092,ScreenEx::rtti2
+0x0000007100a4a494,W,000008,_ZNK5uking2ui8ScreenEx27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
+0x0000007100a4a49c,O,000092,_ZNK5uking2ui8ScreenEx18getRuntimeTypeInfoEv
 0x0000007100a4a4f8,U,000208,
 0x0000007100a4a5c8,U,000208,_ZN3eui10AnimButton24GetRuntimeTypeInfoStaticEv
 0x0000007100a4a698,U,000312,
@@ -88975,9 +88975,9 @@ Address,Quality,Size,Name
 0x00000071010a9fc0,U,000012,_ZNK10ScreenBase15getArchiveName_Ev
 0x00000071010a9fcc,U,000608,_ZN10ScreenBase25doCreateResourceAccessor_EPN4sead4HeapE
 0x00000071010aa22c,U,000004,j__ZN3eui6Screen21createSoundLink2User_EPN4sead4HeapE
-0x00000071010aa230,U,000036,ScreenBase::dtorDelete
-0x00000071010aa254,U,000204,ScreenBase::checkDerivedRuntimeTypeInfo
-0x00000071010aa320,U,000092,ScreenBase::getRuntimeTypeInfo
+0x00000071010aa230,O,000036,_ZN5uking2ui10ScreenBaseD0Ev
+0x00000071010aa254,O,000204,_ZNK5uking2ui10ScreenBase27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
+0x00000071010aa320,O,000092,_ZNK5uking2ui10ScreenBase18getRuntimeTypeInfoEv
 0x00000071010aa37c,U,000052,
 0x00000071010aa3b0,U,000412,Screen::ctor
 0x00000071010aa54c,U,000320,Screen::dtor
@@ -89050,8 +89050,8 @@ Address,Quality,Size,Name
 0x00000071010abf8c,U,002108,ScreenEx::x
 0x00000071010ac7c8,U,000344,
 0x00000071010ac920,U,000380,
-0x00000071010aca9c,U,000288,Screen::rtti1
-0x00000071010acbbc,U,000092,Screen::rtti2
+0x00000071010aca9c,W,000288,_ZNK5uking2ui6Screen27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
+0x00000071010acbbc,O,000092,_ZNK5uking2ui6Screen18getRuntimeTypeInfoEv
 0x00000071010acc18,U,000004,j__ZdlPv_1183
 0x00000071010acc1c,U,000040,
 0x00000071010acc44,U,000024,
