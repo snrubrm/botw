@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelRecognizeTarget.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -82,6 +83,32 @@ void LynelRecognizeTarget::sub_71004967AC() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("観察", &pack);
+}
+
+void LynelRecognizeTarget::sub_7100496D84() {
+    auto* actor = mActor;
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(actor), "TargetPos", -1);
+    changeChild("戦闘開始", &pack);
+
+    actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_e84.setBit(1);
+}
+
+void LynelRecognizeTarget::sub_7100497164() {
+    auto* actor = mActor;
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(actor), "TargetPos", -1);
+    changeChild("強制戦闘開始", &pack);
+
+    actor = mActor;
+    if (sead::IsDerivedFrom<act::Enemy>(actor))
+        static_cast<act::Enemy*>(actor)->_e84.setBit(1);
 }
 
 }  // namespace uking::ai

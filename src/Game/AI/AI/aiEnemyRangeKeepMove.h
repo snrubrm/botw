@@ -37,6 +37,8 @@ public:
     void sub_71003AB624();
     // 0x71003acd3c (placeholder name)
     void sub_71003ACD3C();
+    // 0x71003abe3c (placeholder name)
+    void sub_71003ABE3C(s8 dir);
 
 protected:
     // aitree_variable at offset 0x38

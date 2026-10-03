@@ -22,6 +22,10 @@ public:
     void sub_71004966C4();
     // 0x71004967ac (placeholder name)
     void sub_71004967AC();
+    // 0x7100496d84 (placeholder name)
+    void sub_7100496D84();
+    // 0x7100497164 (placeholder name)
+    void sub_7100497164();
 
 protected:
     // static_param at offset 0x38

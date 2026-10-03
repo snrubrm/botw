@@ -31,4 +31,11 @@ void EnemyRangeKeepSwimMove::loadParams_() {
     getStaticParam(&mIsCheckCliff_s, "IsCheckCliff");
 }
 
+void EnemyRangeKeepSwimMove::sub_71003AE3C4(s8 dir) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addInt(dir, "RotDir", -1);
+    changeChild("横移動", &pack);
+}
+
 }  // namespace uking::ai

@@ -136,4 +136,14 @@ void EnemyRangeKeepMove::sub_71003ACD3C() {
     changeChild("強制後退", &pack);
 }
 
+void EnemyRangeKeepMove::sub_71003ABE3C(s8 dir) {
+    sub_71003AB3FC();
+    m40();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    pack.addInt(dir, "RotDir", -1);
+    changeChild("横移動", &pack);
+}
+
 }  // namespace uking::ai
