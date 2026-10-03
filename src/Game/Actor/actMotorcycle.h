@@ -33,7 +33,9 @@ struct MotorcycleStruct2 {
     /* 0x000 */ ksys::phys::RigidBody* _0;
     /* 0x008 */ ksys::phys::RigidBody* _8;
     /* 0x010 */ MotorcycleStruct0* _10;
-    /* 0x018 */ u8 _18[0x24 - 0x18];
+    /* 0x018 */ u8 _18[0x1c - 0x18];
+    /* 0x01c */ f32 _1c;  // the wheel radius
+    /* 0x020 */ u8 _20[0x24 - 0x20];
     /* 0x024 */ sead::Matrix34f _24;
     /* 0x054 */ u8 _54[0x5c - 0x54];
     /* 0x05c */ sead::Vector3f _5c;
@@ -383,6 +385,10 @@ public:
     f32 sub_710007AB7C() const;
     // 0x710007c00c
     bool sub_710007C00C() const;
+    // 0x7100073524 (CSV Motorcycle::x_20): resets _ea8 / _eac / _eb0, then ray casts from the rear to the front
+    // wheel (raised by 0.8 wheel radii) to see whether the ground is further away than 1.5 radii; sets _ea8 /
+    // _eac from the wheel contacts.
+    void x_20();
     // 0x7100072320 (CSV Motorcycle::velocityStuff): damps the horizontal velocity above 59 km/h (all three bodies),
     // then stores the speed (_e54), the signed speed along the body's z axis (_e58) and the direction _e5c.
     void velocityStuff();
@@ -441,9 +447,9 @@ public:
     /* 0x0e8c */ Unk_71002c8e10 _e8c{0.35f, 0.0f, false};
     /* 0x0e98 */ sead::Vector3f _e98 = sead::Vector3f::zero;
     /* 0x0ea4 */ f32 _ea4 = 0.0f;
-    /* 0x0ea8 */ f32 _ea8 = 0.0f;
-    /* 0x0eac */ f32 _eac = 0.0f;
-    /* 0x0eb0 */ f32 _eb0 = 0.0f;
+    /* 0x0ea8 */ s32 _ea8 = 0;
+    /* 0x0eac */ s32 _eac = 0;
+    /* 0x0eb0 */ s32 _eb0 = 0;
     /* 0x0eb4 */ f32 _eb4 = 0.0f;
     /* 0x0eb8 */ f32 _eb8 = 0.0f;
     /* 0x0ebc */ f32 _ebc = 0.033f;

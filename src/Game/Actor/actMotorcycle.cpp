@@ -48,6 +48,48 @@ struct SpeedCurve7 {
 static SpeedCurve5 sUnk_71023611f0;
 static SpeedCurve7 sUnk_7102361220;
 
+// NON_MATCHING: everything matches except the shared cleanup block of the ray cast query (we merge the early-return
+// and the fall-through destructor calls behind a flag, the original keeps two copies)
+void Motorcycle::x_20() {
+    _eb0 = 0;
+    _ea8 = 0;
+    _eac = 0;
+    const sead::Vector3f front_position = _dd0->_0->getPosition();
+    const sead::Vector3f rear_position = _dd8->_0->getPosition();
+
+    bool ground_far = true;
+    if (_dd8->_13d) {
+        if (!mPhysics)
+            return;
+        {
+            ksys::phys::RayCastBodyQuery query(mPhysics->get188(0), ksys::phys::GroundHit::HitAll);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+            query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+            query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+
+            const sead::Vector3f offset = sead::Vector3f::ey * -_dd8->_1c * 0.8f;
+            sead::Vector3f start = rear_position + offset;
+            sead::Vector3f end = front_position + offset;
+            query.setStartAndEnd(start, end);
+            if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+                return;
+            query.getHitPosition(&start);
+            ground_far = (start - rear_position).length() > _dd8->_1c * 1.5f;
+        }
+    }
+
+    if (front_position.y < rear_position.y)
+        return;
+    if (_dd0->_13d) {
+        if (u32(_f10 - 5) > 1 || !(_e00 / -35.0f > 0.0f) || _dd8->_13d)
+            _ea8 = 1;
+    }
+    if (_dd8->_13d && !ground_far)
+        _eac = 1;
+}
+
 void Motorcycle::velocityStuff() {
     const sead::Vector3f velocity = _bb8->getLinearVelocity();
     const sead::Vector3f flat_velocity(velocity.x, 0.0f, velocity.z);
