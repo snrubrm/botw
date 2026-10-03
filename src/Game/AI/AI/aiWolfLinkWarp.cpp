@@ -7,6 +7,14 @@
 
 namespace uking::ai {
 
+namespace {
+using Idx14f8 = act::WolfLink::Idx14f8;
+// Inline-only in the original (by-value index parameter: the enum temporary gets lifetime markers).
+f32 getTimerValue(act::WolfLink* wolf, Idx14f8 idx) {
+    return wolf->_14f8[idx].value;
+}
+}  // namespace
+
 WolfLinkWarp::WolfLinkWarp(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 WolfLinkWarp::~WolfLinkWarp() {
@@ -25,16 +33,13 @@ bool WolfLinkWarp::init_(sead::Heap* heap) {
     return _a8 != nullptr;
 }
 
-// NON_MATCHING: the original's enum temporaries share one stack slot with the InlineParamPack
-// (they have lifetime markers, as inlined by-value parameters would) and _a8 is loaded first
 void WolfLinkWarp::enter_(ksys::act::ai::InlineParamPack* params) {
     _8c = ksys::Timer(*mTransitFrames_s, *mTransitFrames_s);
     _98 = ksys::Timer(*mFramesUntilFail_s, *mFramesUntilFail_s);
-    _c0.makeAllZero();
-    _c0.setBit(Flag(Flag::_0));
-    using Idx = act::WolfLink::Idx14f8;
-    if (!(_a8->_14f8[Idx(Idx::_10)].value <= sead::Mathf::epsilon()))
-        _c0.setBit(Flag(Flag::_1));
+    _c0 = 0;
+    setFlag(Flag::_0);
+    if (!(getTimerValue(_a8, Idx14f8(Idx14f8::_10)) <= sead::Mathf::epsilon()))
+        setFlag(Flag::_1);
 
     ksys::act::ai::InlineParamPack pack;
     pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "LeaderActor", -1);
@@ -50,7 +55,7 @@ void WolfLinkWarp::leave_() {
         _b0->release();
         _b0 = nullptr;
     }
-    _c0.makeAllZero();
+    _c0 = 0;
     using Idx = act::WolfLink::Idx14f8;
     _a8->sub_71002F2E78(Idx::_10);
 }

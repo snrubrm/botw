@@ -48,13 +48,16 @@ bool PreyRoot::m35() {
     return m34() && !isCurrentChild("水中行動");
 }
 
-// NON_MATCHING: the original's SEAD_ENUM round trip uses the stack slot shared with the SafeString (sp+0, as for an
-// inlined by-value parameter); a named local gets its own slot at x29-4
+namespace {
+bool isNonZero(act::Unk_7100e8b2b8::Unk8 type) {
+    return int(type) != 0;
+}
+}  // namespace
+
 bool PreyRoot::m36() {
-    if (mActor->getHorseOptionsMaybe()) {
-        const act::Unk_7100e8b2b8::Unk8 type = mActor->getHorseOptionsMaybe()->Unk_7100e8b2b8::_8 & 0xff;
-        return int(type) != 0 && !isCurrentChild("騎乗中");
-    }
+    if (mActor->getHorseOptionsMaybe())
+        return isNonZero(mActor->getHorseOptionsMaybe()->Unk_7100e8b2b8::_8 & 0xff) &&
+               !isCurrentChild("騎乗中");
     return false;
 }
 

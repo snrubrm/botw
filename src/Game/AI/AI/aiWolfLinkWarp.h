@@ -22,6 +22,8 @@ class WolfLinkWarp : public ksys::act::ai::Ai {
 public:
     // Bit indices of _c0 (names unknown).
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8)
+    // Inline-only in the original (by-value enum parameter: the enum temporary gets lifetime markers).
+    void setFlag(Flag flag) { _c0 |= 1 << flag; }
 
     explicit WolfLinkWarp(const InitArg& arg);
     ~WolfLinkWarp() override;
@@ -58,7 +60,7 @@ protected:
     ksys::phys::RayCastForRequest* _b0{};
     // Navigation query (HavokAI::destroyQuery in leave_ / the destructor).
     ksys::phys::Unk_7102372790* _b8{};
-    sead::BitFlag16 _c0;
+    u16 _c0 = 0;
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkWarp, 0xc8);
 
