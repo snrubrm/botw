@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiChildDeviceReflectArrow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -10,7 +12,10 @@ namespace uking::ai {
 
 ChildDeviceReflectArrow::ChildDeviceReflectArrow(const InitArg& arg) : WithoutWeaponArrow(arg) {}
 
-ChildDeviceReflectArrow::~ChildDeviceReflectArrow() = default;
+ChildDeviceReflectArrow::~ChildDeviceReflectArrow() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FB835C();
+}
 
 void ChildDeviceReflectArrow::enter_(ksys::act::ai::InlineParamPack* params) {
     WithoutWeaponArrow::enter_(params);
