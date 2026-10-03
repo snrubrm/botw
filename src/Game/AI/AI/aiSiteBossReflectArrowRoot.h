@@ -44,7 +44,7 @@ protected:
     sead::SafeArray<bool, 20> _488;
     sead::SafeArray<bool, 20> _49c;
     sead::SafeArray<f32, 20> _4b0;
-    s32 _500 = 0;
+    u32 _500 = 0;
     s32 _504 = -1;
     s32 _508 = -1;
 };

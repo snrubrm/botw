@@ -19,6 +19,39 @@ bool SiteBossReflectArrowRoot::init_(sead::Heap* heap) {
 
 void SiteBossReflectArrowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossShootNormalArrowRoot::enter_(params);
+
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss) {
+        setFailed();
+        return;
+    }
+
+    _500 = 0;
+    for (s32 i = 0; i < 20; ++i) {
+        auto& link = boss->_1560._1e0[i];
+        if (link.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.isStateCalc()) {
+                ++_500;
+                _488[i] = false;
+                _49c[i] = false;
+                _4b0[i] = 0.0f;
+                continue;
+            }
+        }
+        _488[i] = true;
+        _49c[i] = false;
+        _4b0[i] = -1.0f;
+    }
+
+    if (_500 > 20)
+        _500 = 20;
+    else if (_500 == 0)
+        setFinished();
+
+    _504 = -1;
+    _508 = -1;
 }
 
 void SiteBossReflectArrowRoot::leave_() {
@@ -69,7 +102,7 @@ void SiteBossReflectArrowRoot::m46(sead::Vector3f* out) {
 }
 
 bool SiteBossReflectArrowRoot::m48() {
-    return SiteBossShootNormalArrowRoot::m48() | (_144 >= u32(_500));
+    return SiteBossShootNormalArrowRoot::m48() | (_144 >= _500);
 }
 
 // NON_MATCHING: the original null-checks the message reference

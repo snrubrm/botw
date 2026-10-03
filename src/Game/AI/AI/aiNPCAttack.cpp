@@ -1,5 +1,11 @@
 #include "Game/AI/AI/aiNPCAttack.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 namespace uking::ai {
 
@@ -13,7 +19,24 @@ bool NPCAttack::init_(sead::Heap* heap) {
 }
 
 void NPCAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (_98)
+        _98->_fe8 |= 0x800;
+
+    _90 = true;
+    _91 = false;
+
+    const int base_time = *mActionBaseTime_s;
+    const int sign = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    const int time = base_time + sign * s32(sead::GlobalRandom::instance()->getU32(*mActionTimePlay_s));
+    _a0 = ksys::Timer(time, time);
+    _b8 = ksys::Timer(*mEnemyChanceTime_s, *mEnemyChanceTime_s);
+    _ac = ksys::Timer(*mGuardModeTime_s, *mGuardModeTime_s);
+    _94 = mActor->getParam()->getRes().mGParamList->getNpc()->mTolerantCount.ref();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addBool(true, "TerrorOccurring", -1);
+    changeChild("待機", &pack);
 }
 
 void NPCAttack::leave_() {

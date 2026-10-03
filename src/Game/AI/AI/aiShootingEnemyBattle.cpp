@@ -21,6 +21,35 @@ void ShootingEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _b0 = 0;
 }
 
+// NON_MATCHING: the original reads _b4 before the sub_71005D93CC call; a `const bool done = _b4;` local
+// before the call matches (borderline, not applied)
+void ShootingEnemyBattle::calc_() {
+    if (!_b4 && !m44())
+        _b4 = true;
+
+    if (!isCurrentChild("画面外攻撃")) {
+        EnemyBattle::calc_();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFailed()) {
+            setFailed();
+        } else {
+            sub_7100381ED4();
+            m37();
+        }
+        return;
+    }
+
+    const sead::Vector3f& target = sub_71005D93CC(mActor);
+    if (_b4)
+        child->setDynamicParam(target, "TargetPos");
+    else
+        child->setDynamicParam(target + _b8, "TargetPos");
+}
+
 void ShootingEnemyBattle::leave_() {
     EnemyBattle::leave_();
 }

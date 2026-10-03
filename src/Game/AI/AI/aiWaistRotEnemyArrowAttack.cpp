@@ -40,6 +40,24 @@ void WaistRotEnemyArrowAttack::m35() {
     EnemyBaseArrowAttack::m35();
 }
 
+void WaistRotEnemyArrowAttack::m36() {
+    if (!isCurrentChild("攻撃")) {
+        EnemyBaseArrowAttack::m36();
+        return;
+    }
+
+    if (_64 > 0.0f) {
+        const f32 rate = 0.9f;
+        _58 *= rate;
+        _58.setScaleAdd(1.0f - rate, sub_71005D9548(mActor), _58);
+        sead::Vector3f pos;
+        pos.setScaleAdd(_64, _58, sub_71005D93CC(mActor));
+        getCurrentChild()->setDynamicParam(pos, "TargetPos");
+    } else {
+        getCurrentChild()->setDynamicParam(sub_71005D93CC(mActor), "TargetPos");
+    }
+}
+
 void WaistRotEnemyArrowAttack::m37() {}
 
 }  // namespace uking::ai
