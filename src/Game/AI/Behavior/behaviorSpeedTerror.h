@@ -13,7 +13,7 @@ public:
     bool m6(sead::Heap* heap) override;
     void m9() override;
     void loadParams() override;
-    void m7() override;  // not decompiled yet (0x7100642d14)
+    void m7() override;
     void m8() override;
 
     /* 0x28 */ ksys::act::AITerror _28{mActor};

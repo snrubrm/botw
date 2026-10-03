@@ -1,6 +1,7 @@
 #include "Game/AI/Behavior/behaviorSpeedTerror.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::behavior {
 
@@ -10,6 +11,58 @@ SpeedTerror::SpeedTerror(const InitArg& arg) : ksys::act::ai::Behavior(arg) {}
 bool SpeedTerror::m6(sead::Heap* heap) {
     _28.sub_7100D78564(heap);
     return true;
+}
+
+void SpeedTerror::m7() {
+    auto* actor = mActor;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+
+    sead::Vector3f velocity;
+    body->getLinearVelocity(&velocity);
+    const bool active = _28.sub_7100D78960();
+    const f32 speed = velocity.length();
+    if (active) {
+        if (speed <= *mRemoveSpTh_s * 30.0f) {
+            if (auto* owner = actor->get548())
+                owner->sub_7100D78444(&_28);
+        }
+    } else {
+        if (speed >= *mSpeedTh_s * 30.0f) {
+            auto* owner = actor->get548();
+            if (!owner)
+                return;
+            owner->sub_7100D783E4(&_28);
+            const f32 level = *mLevel_s;
+            u32 flags = *mIsPlayerLayer_s;
+            if (*mIsNpcLayer_s)
+                flags |= 0x2;
+            if (*mIsEnemyLayer_s)
+                flags |= 0x4;
+            if (*mIsGuardianLayer_s)
+                flags |= 0x8;
+            if (*mIsImpulseLayer_s)
+                flags |= 0x10;
+            if (*mIsFireLayer_s)
+                flags |= 0x20;
+            if (*mIsInsectLayer_s)
+                flags |= 0x40;
+            if (*mIsHorseLayer_s)
+                flags |= 0x80;
+            if (*mIsAnimalLayer_s)
+                flags |= 0x100;
+            if (*mIsWolfLinkLayer_s)
+                flags |= 0x200;
+            if (*mIsIceLayer_s)
+                flags |= 0x400;
+            if (*mIsElectricLayer_s)
+                flags |= 0x800;
+            auto* entry = &actor->get548()->_18;
+            entry->m9(2, level);
+            entry->_3c |= flags;
+        }
+    }
 }
 
 // NON_MATCHING: the original loads and converts *mLevel_s before building the layer mask (same as
