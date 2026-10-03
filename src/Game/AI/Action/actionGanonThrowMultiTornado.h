@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    ksys::act::BaseProcLink& m32(int idx) override;
+    const sead::Vector3f* m33(int idx) override;
 
     // static_param at offset 0x90
     const sead::Vector3f* mAppearOffset1_s{};

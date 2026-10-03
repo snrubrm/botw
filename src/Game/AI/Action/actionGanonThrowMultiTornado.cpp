@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGanonThrowMultiTornado.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -30,6 +31,22 @@ void GanonThrowMultiTornado::loadParams_() {
 
 void GanonThrowMultiTornado::calc_() {
     GanonThrowTornado::calc_();
+}
+
+// NON_MATCHING: same as GanonThrowTornado::m32 (inlined dummy link getter).
+ksys::act::BaseProcLink& GanonThrowMultiTornado::m32(int idx) {
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
+        if (idx == 0)
+            return GanonThrowTornado::m32(0);
+        return enemy->getActorPartsActor(mThrowPartsName1_d);
+    }
+    return ksys::act::getDummyBaseProcLink();
+}
+
+const sead::Vector3f* GanonThrowMultiTornado::m33(int idx) {
+    if (idx == 0)
+        return GanonThrowTornado::m33(0);
+    return mAppearOffset1_s;
 }
 
 }  // namespace uking::action

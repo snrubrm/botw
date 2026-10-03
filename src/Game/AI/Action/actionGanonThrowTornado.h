@@ -19,6 +19,11 @@ public:
 
 protected:
     void calc_() override;
+    // 0x710017d4ac / 0x710017d550; MultiTornado passes the throw index (0 = this class's parts name / offset).
+    virtual ksys::act::BaseProcLink& m32(int idx);
+    virtual const sead::Vector3f* m33(int idx);
+    // 0x710017cff8 (declared only, 872 B): throws tornado `idx`.
+    void sub_710017CFF8(int idx);
 
     // static_param at offset 0x20
     const float* mInitVelocity_s{};
