@@ -38,6 +38,28 @@ void DeadlyBlowWeaponRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         _100 = flow_mgr->loadSimple("Demo605_0", "Demo605_1");
 }
 
+bool DeadlyBlowWeaponRoot::isWeaponM213() const {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    return weapon && weapon->m213();
+}
+
+// NON_MATCHING: the original branches directly on the cast / m213() results of the repeated
+// `weapon && weapon->m213()` check; ours merges them into one bool (extra `eor`)
+bool DeadlyBlowWeaponRoot::m41() {
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    if (!isWeaponM213()) {
+        if (weapon && !_e8 && !weapon->m153() && weapon->m214() &&
+            (weapon->_c20._0 == 0 || weapon->_c20._0 == 2)) {
+            return true;
+        }
+    }
+    if (!isWeaponM213()) {
+        if (weapon && !_e8 && (weapon->_e50 & 2) && weapon->m214())
+            return true;
+    }
+    return false;
+}
+
 void DeadlyBlowWeaponRoot::calc_() {
     WeaponRootAI::calc_();
     sub_710035C57C();
