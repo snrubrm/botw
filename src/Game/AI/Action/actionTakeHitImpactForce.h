@@ -32,24 +32,27 @@ protected:
     virtual bool m36() { return true; }
     virtual bool m37() { return isFinishedAS(0, 0); }
 
-    // static_param at offset 0x20
-    const float* mVelReduce_s{};
-    // static_param at offset 0x28
-    const float* mHighSpeedY_s{};
-    // static_param at offset 0x30
-    const float* mVelReduceY_s{};
-    // static_param at offset 0x38
-    const float* mHitImpactForceSmallSwordS_s{};
-    // static_param at offset 0x40
-    const float* mHitImpactForceSmallSwordL_s{};
-    // static_param at offset 0x48
-    const float* mHitImpactForceLargeSwordS_s{};
-    // static_param at offset 0x50
-    const float* mHitImpactForceLargeSwordL_s{};
-    // static_param at offset 0x58
-    const float* mHitImpactForceSpearS_s{};
-    // static_param at offset 0x60
-    const float* mHitImpactForceSpearL_s{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mVelReduce_s{};
+        // static_param at offset 0x28
+        const float* mHighSpeedY_s{};
+        // static_param at offset 0x30
+        const float* mVelReduceY_s{};
+        // static_param at offset 0x38
+        const float* mHitImpactForceSmallSwordS_s{};
+        // static_param at offset 0x40
+        const float* mHitImpactForceSmallSwordL_s{};
+        // static_param at offset 0x48
+        const float* mHitImpactForceLargeSwordS_s{};
+        // static_param at offset 0x50
+        const float* mHitImpactForceLargeSwordL_s{};
+        // static_param at offset 0x58
+        const float* mHitImpactForceSpearS_s{};
+        // static_param at offset 0x60
+        const float* mHitImpactForceSpearL_s{};
+    };
+    Params mParams;
     ksys::VFRVec3f _68;
     f32 _8c = 0;
 };
