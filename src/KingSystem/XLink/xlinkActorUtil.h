@@ -66,5 +66,8 @@ xlink2::HandleSLink searchAndEmitSLink(act::Actor* actor, const char* name, bool
 /// 0x710105ddb8 (declaration only): searchAndEmit(name, handle) on the actor's SLink user instance (XLink::_50),
 /// unless `handle` is null or XLink::_cc bit 1 is set.
 void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* handle);
+/// 0x710105e030 (declaration only; lane2 s21): sets property `idx` of the actor's SLink user instance (XLink::_50);
+/// false if the actor has none.
+bool sub_710105E030(act::Actor* actor, u32 idx, s32 value);
 
 }  // namespace ksys::eft
