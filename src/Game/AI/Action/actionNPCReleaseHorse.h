@@ -10,6 +10,8 @@ public:
     explicit NPCReleaseHorse(const InitArg& arg);
     ~NPCReleaseHorse() override;
 
+    bool oneShot_() override;
+
 protected:
 };
 
