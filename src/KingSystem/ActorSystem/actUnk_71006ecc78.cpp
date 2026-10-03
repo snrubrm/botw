@@ -61,6 +61,11 @@ void Unk_71006ecc78::sub_71006EDCB8() {
     _c0 = 2;
 }
 
+void Unk_71006ecc78::sub_71006EE280(const sead::SafeString& name) {
+    if (auto* physics = mActor->getPhysics())
+        _c8 = physics->sub_7100FBDA2C(name);
+}
+
 // NON_MATCHING: the original loads the actor before _c8 (scheduling of the inlined sub_71006ED9EC)
 void Unk_71006ecc78::sub_71006EDD5C() {
     if (!sub_71006ED9EC())
