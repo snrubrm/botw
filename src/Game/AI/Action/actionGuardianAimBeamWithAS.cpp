@@ -49,7 +49,7 @@ void GuardianAimBeamWithAS::m32(const char* name) {
 }
 
 f32 GuardianAimBeamWithAS::m33() {
-    return *mFluctuationTime_s;
+    return *GuardianAimBeam::mParams.mFluctuationTime_s;
 }
 
 }  // namespace uking::action
