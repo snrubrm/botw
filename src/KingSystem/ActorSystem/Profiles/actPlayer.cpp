@@ -637,4 +637,24 @@ bool Player::canUseMiphaGrace() {
     return result;
 }
 
+bool Player::m352(sead::Vector3f* out) {
+    if (!_c48.isOnBit(15))
+        return false;
+    *out = _2184;
+    return true;
+}
+
+bool Player::isNoShieldDamageFloor() {
+    switch (_1ca8) {
+    case 1:
+    case 3:
+    case 9:
+    case 13:
+    case 22:
+        return true;
+    default:
+        return false;
+    }
+}
+
 }  // namespace ksys::act

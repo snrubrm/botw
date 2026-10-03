@@ -403,7 +403,8 @@ public:
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ u8 _1c88[0x1ca4 - 0x1c88];
     /* 0x1ca4 */ s32 _1ca4;
-    /* 0x1ca8 */ u8 _1ca8[0x1cb0 - 0x1ca8];
+    /* 0x1ca8 */ s32 _1ca8;
+    /* 0x1cac */ u8 _1cac[0x1cb0 - 0x1cac];
     /* 0x1cb0 */ s32 _1cb0;  // a ui tip type (PlayerCutFall::enter_)
     /* 0x1cb4 */ u8 _1cb4[0x1cbe - 0x1cb4];
     /* 0x1cbe */ u8 _1cbe;
@@ -482,7 +483,9 @@ public:
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
     /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
-    /* 0x215c */ u8 _215c[0x21b8 - 0x215c];
+    /* 0x215c */ u8 _215c[0x2184 - 0x215c];
+    /* 0x2184 */ sead::Vector3f _2184;
+    /* 0x2190 */ u8 _2190[0x21b8 - 0x2190];
     // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).
     struct LockedPos {
         sead::CriticalSection mLock;

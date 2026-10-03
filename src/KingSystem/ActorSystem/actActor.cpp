@@ -889,6 +889,14 @@ void Actor::m92(phys::RigidBody* body) {
     deleteLater(DeleteReason::_0);
 }
 
+void* Actor::m40() {
+    return nullptr;
+}
+
+void* Actor::m46() {
+    return nullptr;
+}
+
 void Actor::m143() {
     _7d8 = true;
     ActorEditorNode::ConnectArg arg{};

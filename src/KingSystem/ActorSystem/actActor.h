@@ -404,7 +404,7 @@ public:
     // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
     virtual f32 m38();
     virtual bool m39();
-    virtual void m40();
+    virtual void* m40();
     // Writes the transform of the character controller / main body of the actor.
     virtual void m41(sead::Matrix34f* mtx);
     // Called by setMtx with the new matrix (Player::m42 forwards it).
@@ -413,7 +413,7 @@ public:
     virtual void m44();
     // Returns mPhysics->mNavMeshCharacter (or null).
     virtual phys::NavMeshCharacter* m45();
-    virtual void m46();
+    virtual void* m46();
     virtual bool m47();
     virtual Actor* m48();
     virtual bool m49();
