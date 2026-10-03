@@ -4,7 +4,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the zero store of _94/_98 is scheduled differently
 LynelAttackThroughMove::LynelAttackThroughMove(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LynelAttackThroughMove::~LynelAttackThroughMove() = default;
@@ -27,14 +26,14 @@ void LynelAttackThroughMove::leave_() {
 }
 
 void LynelAttackThroughMove::loadParams_() {
-    getStaticParam(&mSideOffsetDirType_s, "SideOffsetDirType");
-    getStaticParam(&mCliffFailTime_s, "CliffFailTime");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mSideOffset_s, "SideOffset");
-    getStaticParam(&mThroughDist_s, "ThroughDist");
-    getStaticParam(&mAcceptableRadius_s, "AcceptableRadius");
-    getStaticParam(&mFrontAngle_s, "FrontAngle");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mSideOffsetDirType_s, "SideOffsetDirType");
+    getStaticParam(&mParams.mCliffFailTime_s, "CliffFailTime");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mSideOffset_s, "SideOffset");
+    getStaticParam(&mParams.mThroughDist_s, "ThroughDist");
+    getStaticParam(&mParams.mAcceptableRadius_s, "AcceptableRadius");
+    getStaticParam(&mParams.mFrontAngle_s, "FrontAngle");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 bool LynelAttackThroughMove::isFinished() const {

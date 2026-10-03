@@ -35,24 +35,27 @@ protected:
     // names and the number of values are guesses.
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7)
 
-    // static_param at offset 0x38
-    const int* mFramesRollKeepSecond_s{};
-    // static_param at offset 0x40
-    const int* mNumTimesRoll_s{};
-    // static_param at offset 0x48
-    const float* mTitleAngle_s{};
-    // static_param at offset 0x50
-    const float* mRollAngle_s{};
-    // static_param at offset 0x58
-    const float* mFramesRotate_s{};
-    // static_param at offset 0x60
-    const float* mFramesReset_s{};
-    // static_param at offset 0x68
-    const float* mFramesRoll_s{};
-    // static_param at offset 0x70
-    const float* mFramesDelayRoll_s{};
-    // static_param at offset 0x78
-    const float* mFramesRollKeepFirst_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mFramesRollKeepSecond_s{};
+        // static_param at offset 0x40
+        const int* mNumTimesRoll_s{};
+        // static_param at offset 0x48
+        const float* mTitleAngle_s{};
+        // static_param at offset 0x50
+        const float* mRollAngle_s{};
+        // static_param at offset 0x58
+        const float* mFramesRotate_s{};
+        // static_param at offset 0x60
+        const float* mFramesReset_s{};
+        // static_param at offset 0x68
+        const float* mFramesRoll_s{};
+        // static_param at offset 0x70
+        const float* mFramesDelayRoll_s{};
+        // static_param at offset 0x78
+        const float* mFramesRollKeepFirst_s{};
+    };
+    Params mParams;
     sead::Matrix34f _80 = sead::Matrix34f::ident;
     sead::Matrix34f _b0 = sead::Matrix34f::ident;
     sead::Matrix34f _e0 = sead::Matrix34f::ident;

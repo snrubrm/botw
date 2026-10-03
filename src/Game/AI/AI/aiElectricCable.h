@@ -27,8 +27,8 @@ public:
 protected:
     // map_unit_param at offset 0x38
     const bool* mIsDisplayOnUI_m{};
-    ksys::act::Chemical* _40{};
-    ksys::act::Chemical* _48{};
+    ksys::act::Chemical* _40;
+    ksys::act::Chemical* _48;
     ksys::map::Rail* _50{};
     sead::Vector3f _58 = sead::Vector3f::zero;
     sead::Vector3f _64 = sead::Vector3f::zero;

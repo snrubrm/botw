@@ -22,14 +22,14 @@ void CircleMoveInFluid::enter_(ksys::act::ai::InlineParamPack* params) {
     _c8 = 0;
     m34();
     sub_710034F850();
-    if (*mIsSetSystemDeleteDistance_s) {
+    if (*mParams.mIsSetSystemDeleteDistance_s) {
         f32 distance;
         if (auto* object = mActor->getMapObject())
             distance = ksys::map::PlacementMgr::instance()->getDeleteDistance(object);
         else
             distance = ksys::map::getActorTraverseDist(mActor->getName(), 1.0f) + 10.0f;
-        const f32 radius = *mRadiusX_s > *mRadiusZ_s ? *mRadiusX_s : *mRadiusZ_s;
-        const f32 rate = *mMaxRandRadiusRate_s;
+        const f32 radius = *mParams.mRadiusX_s > *mParams.mRadiusZ_s ? *mParams.mRadiusX_s : *mParams.mRadiusZ_s;
+        const f32 rate = *mParams.mMaxRandRadiusRate_s;
         mActor->setDeleteDistance(distance + radius * rate);
     }
 }
@@ -44,14 +44,14 @@ void CircleMoveInFluid::calc_() {
     if (!isCurrentChild("移動"))
         return;
 
-    if (*mChangeInterval_s >= 0.0f) {
+    if (*mParams.mChangeInterval_s >= 0.0f) {
         _d0.update();
         if (_d0.value <= sead::Mathf::epsilon()) {
-            const f32 range_y = *mRandRangeY_s;
+            const f32 range_y = *mParams.mRandRangeY_s;
             _c4 = sead::GlobalRandom::instance()->getF32Range(-range_y, range_y) +
-                  *mRandRangeYOffest_s;
-            const f32 interval = *mChangeInterval_s +
-                                 *mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
+                  *mParams.mRandRangeYOffest_s;
+            const f32 interval = *mParams.mChangeInterval_s +
+                                 *mParams.mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
             _d0 = ksys::Timer(interval, interval);
         }
     }
@@ -67,20 +67,20 @@ void CircleMoveInFluid::leave_() {
 }
 
 void CircleMoveInFluid::loadParams_() {
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRadiusX_s, "RadiusX");
-    getStaticParam(&mRadiusZ_s, "RadiusZ");
-    getStaticParam(&mMinRandRadiusRate_s, "MinRandRadiusRate");
-    getStaticParam(&mMaxRandRadiusRate_s, "MaxRandRadiusRate");
-    getStaticParam(&mAddAngleRateX_s, "AddAngleRateX");
-    getStaticParam(&mAddAngleRateZ_s, "AddAngleRateZ");
-    getStaticParam(&mRandRangeY_s, "RandRangeY");
-    getStaticParam(&mRandRangeYOffest_s, "RandRangeYOffest");
-    getStaticParam(&mLimitSpeedMoveY_s, "LimitSpeedMoveY");
-    getStaticParam(&mChangeInterval_s, "ChangeInterval");
-    getStaticParam(&mRandChangeInterval_s, "RandChangeInterval");
-    getStaticParam(&mReverseMoveRate_s, "ReverseMoveRate");
-    getStaticParam(&mIsSetSystemDeleteDistance_s, "IsSetSystemDeleteDistance");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRadiusX_s, "RadiusX");
+    getStaticParam(&mParams.mRadiusZ_s, "RadiusZ");
+    getStaticParam(&mParams.mMinRandRadiusRate_s, "MinRandRadiusRate");
+    getStaticParam(&mParams.mMaxRandRadiusRate_s, "MaxRandRadiusRate");
+    getStaticParam(&mParams.mAddAngleRateX_s, "AddAngleRateX");
+    getStaticParam(&mParams.mAddAngleRateZ_s, "AddAngleRateZ");
+    getStaticParam(&mParams.mRandRangeY_s, "RandRangeY");
+    getStaticParam(&mParams.mRandRangeYOffest_s, "RandRangeYOffest");
+    getStaticParam(&mParams.mLimitSpeedMoveY_s, "LimitSpeedMoveY");
+    getStaticParam(&mParams.mChangeInterval_s, "ChangeInterval");
+    getStaticParam(&mParams.mRandChangeInterval_s, "RandChangeInterval");
+    getStaticParam(&mParams.mReverseMoveRate_s, "ReverseMoveRate");
+    getStaticParam(&mParams.mIsSetSystemDeleteDistance_s, "IsSetSystemDeleteDistance");
 }
 
 void CircleMoveInFluid::m34() {
@@ -116,10 +116,10 @@ void CircleMoveInFluid::sub_710034F850() {
     sead::Vector3f dir(mtx(0, 2), 0.0f, mtx(2, 2));
     dir.normalize();
 
-    const f32 min_rate = sead::Mathf::clampMax(*mMinRandRadiusRate_s, *mMaxRandRadiusRate_s);
-    m35(*mRadiusX_s, *mRadiusZ_s,
-        sead::GlobalRandom::instance()->getF32Range(min_rate, *mMaxRandRadiusRate_s));
-    _cc = sead::GlobalRandom::instance()->getF32() < *mReverseMoveRate_s;
+    const f32 min_rate = sead::Mathf::clampMax(*mParams.mMinRandRadiusRate_s, *mParams.mMaxRandRadiusRate_s);
+    m35(*mParams.mRadiusX_s, *mParams.mRadiusZ_s,
+        sead::GlobalRandom::instance()->getF32Range(min_rate, *mParams.mMaxRandRadiusRate_s));
+    _cc = sead::GlobalRandom::instance()->getF32() < *mParams.mReverseMoveRate_s;
 
     f32 angle = std::atan2(dir.x, dir.z);
     const f32 offset = sead::GlobalRandom::instance()->getF32Range(0.0f, sead::Mathf::pi() / 3);
@@ -130,10 +130,10 @@ void CircleMoveInFluid::sub_710034F850() {
     _bc = angle;
     _c0 = angle;
 
-    const f32 range_y = *mRandRangeY_s;
-    _c4 = sead::GlobalRandom::instance()->getF32Range(-range_y, range_y) + *mRandRangeYOffest_s;
+    const f32 range_y = *mParams.mRandRangeY_s;
+    _c4 = sead::GlobalRandom::instance()->getF32Range(-range_y, range_y) + *mParams.mRandRangeYOffest_s;
     const f32 interval =
-        *mChangeInterval_s + *mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
+        *mParams.mChangeInterval_s + *mParams.mRandChangeInterval_s * sead::GlobalRandom::instance()->getF32();
     _d0 = ksys::Timer(interval, interval);
 
     m38();
@@ -145,8 +145,8 @@ void CircleMoveInFluid::sub_710034F850() {
 }
 
 void CircleMoveInFluid::m38() {
-    const f32 add_x = *mSpeed_s / _b4 * *mAddAngleRateX_s;
-    const f32 add_z = *mSpeed_s / _b8 * *mAddAngleRateZ_s;
+    const f32 add_x = *mParams.mSpeed_s / _b4 * *mParams.mAddAngleRateX_s;
+    const f32 add_z = *mParams.mSpeed_s / _b8 * *mParams.mAddAngleRateZ_s;
     _bc += (_cc ? -add_x : add_x) * ksys::VFR::instance()->getDeltaFrame();
     _c0 += (_cc ? -add_z : add_z) * ksys::VFR::instance()->getDeltaFrame();
 
@@ -162,7 +162,7 @@ void CircleMoveInFluid::m38() {
     if (abs_diff <= 0.01f) {
         _c8 = _c4;
     } else {
-        const f32 limit = *mLimitSpeedMoveY_s;
+        const f32 limit = *mParams.mLimitSpeedMoveY_s;
         f32 step;
         if (abs_diff * 0.16f > limit)
             step = diff < 0.0f ? -limit : limit;

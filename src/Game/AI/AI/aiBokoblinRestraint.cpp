@@ -9,7 +9,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling (the BaseProcHandle ctor argument setup)
 BokoblinRestraint::BokoblinRestraint(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 BokoblinRestraint::~BokoblinRestraint() = default;
@@ -19,7 +18,7 @@ void BokoblinRestraint::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
     sub_7100332BF0();
-    _78.reset(*mLostTimer_s);
+    _78.reset(*mParams.mLostTimer_s);
 }
 
 // inline-only in the original (the same sequence is inlined into sub_7100332BF0, sub_7100333040 and calc_);
@@ -34,7 +33,7 @@ inline void BokoblinRestraint::spawnRock() {
 }
 
 void BokoblinRestraint::calc_() {
-    const sead::Vector3f target = *mTargetPos_d;
+    const sead::Vector3f target = *mParams.mTargetPos_d;
     sub_71005DB1D8(mActor, target);
 
     if (getCurrentChild()->isFinishedOrFailed()) {
@@ -47,7 +46,7 @@ void BokoblinRestraint::calc_() {
         }
     }
 
-    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
     if (getCurrentChild()->isChangeable() && sub_71003331A0())
         setFailed();
 }
@@ -57,7 +56,7 @@ void BokoblinRestraint::sub_7100332BF0() {
         spawnRock();
 
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     changeChild("威嚇", &pack);
 }
 
@@ -65,7 +64,7 @@ void BokoblinRestraint::sub_71003332B4() {
     mActor->setConnectedCalcChild(_68.releaseAndWakeProc(), false);
 
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     changeChild("投石", &pack);
 }
 
@@ -92,12 +91,12 @@ void BokoblinRestraint::leave_() {
 }
 
 void BokoblinRestraint::loadParams_() {
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mBaseDist_s, "BaseDist");
-    getStaticParam(&mLostVMin_s, "LostVMin");
-    getStaticParam(&mLostVMax_s, "LostVMax");
-    getStaticParam(&mLostTimer_s, "LostTimer");
-    getStaticParam(&mLostRange_s, "LostRange");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mBaseDist_s, "BaseDist");
+    getStaticParam(&mParams.mLostVMin_s, "LostVMin");
+    getStaticParam(&mParams.mLostVMax_s, "LostVMax");
+    getStaticParam(&mParams.mLostTimer_s, "LostTimer");
+    getStaticParam(&mParams.mLostRange_s, "LostRange");
 }
 
 bool BokoblinRestraint::isChangeable() const {

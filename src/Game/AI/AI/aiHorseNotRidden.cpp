@@ -3,8 +3,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the address of _c0 is computed before the memset of the parameters (register
-// allocation)
 HorseNotRidden::HorseNotRidden(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 // NON_MATCHING: the original calls gdt::Manager::removeReinitCallback(_128) first when the slot is
@@ -34,23 +32,23 @@ void HorseNotRidden::leave_() {
 }
 
 void HorseNotRidden::loadParams_() {
-    getStaticParam(&mEscapeCountThreshold_s, "EscapeCountThreshold");
-    getStaticParam(&mNearHorseAssociationDistance_s, "NearHorseAssociationDistance");
-    getStaticParam(&mEscapeDelayFramesMin_s, "EscapeDelayFramesMin");
-    getStaticParam(&mEscapeDelayFramesMax_s, "EscapeDelayFramesMax");
-    getStaticParam(&mCallDelayFrames_s, "CallDelayFrames");
-    getStaticParam(&mAttackFrontDistance_s, "AttackFrontDistance");
-    getStaticParam(&mAttackFrontAngleCos_s, "AttackFrontAngleCos");
-    getStaticParam(&mAttackBackDistance_s, "AttackBackDistance");
-    getStaticParam(&mAttackBackAngleCos_s, "AttackBackAngleCos");
-    getStaticParam(&mAttackDefinitelyDistance_s, "AttackDefinitelyDistance");
-    getStaticParam(&mAttackIntervalFrames_s, "AttackIntervalFrames");
-    getStaticParam(&mMoveAttackCLOSDistanceByRadius_s, "MoveAttackCLOSDistanceByRadius");
-    getStaticParam(&mCarriedItemCosThresholdForEat_s, "CarriedItemCosThresholdForEat");
-    getStaticParam(&mStaggerVelocityThreshold_s, "StaggerVelocityThreshold");
-    getStaticParam(&mCarriedItemPosRTYOffset_s, "CarriedItemPosRTYOffset");
-    getStaticParam(&mCarriedItemPosRTYWidth_s, "CarriedItemPosRTYWidth");
-    getDynamicParam(&mChildSelectAtFirst_d, "ChildSelectAtFirst");
+    getStaticParam(&mParams.mEscapeCountThreshold_s, "EscapeCountThreshold");
+    getStaticParam(&mParams.mNearHorseAssociationDistance_s, "NearHorseAssociationDistance");
+    getStaticParam(&mParams.mEscapeDelayFramesMin_s, "EscapeDelayFramesMin");
+    getStaticParam(&mParams.mEscapeDelayFramesMax_s, "EscapeDelayFramesMax");
+    getStaticParam(&mParams.mCallDelayFrames_s, "CallDelayFrames");
+    getStaticParam(&mParams.mAttackFrontDistance_s, "AttackFrontDistance");
+    getStaticParam(&mParams.mAttackFrontAngleCos_s, "AttackFrontAngleCos");
+    getStaticParam(&mParams.mAttackBackDistance_s, "AttackBackDistance");
+    getStaticParam(&mParams.mAttackBackAngleCos_s, "AttackBackAngleCos");
+    getStaticParam(&mParams.mAttackDefinitelyDistance_s, "AttackDefinitelyDistance");
+    getStaticParam(&mParams.mAttackIntervalFrames_s, "AttackIntervalFrames");
+    getStaticParam(&mParams.mMoveAttackCLOSDistanceByRadius_s, "MoveAttackCLOSDistanceByRadius");
+    getStaticParam(&mParams.mCarriedItemCosThresholdForEat_s, "CarriedItemCosThresholdForEat");
+    getStaticParam(&mParams.mStaggerVelocityThreshold_s, "StaggerVelocityThreshold");
+    getStaticParam(&mParams.mCarriedItemPosRTYOffset_s, "CarriedItemPosRTYOffset");
+    getStaticParam(&mParams.mCarriedItemPosRTYWidth_s, "CarriedItemPosRTYWidth");
+    getDynamicParam(&mParams.mChildSelectAtFirst_d, "ChildSelectAtFirst");
 }
 
 }  // namespace uking::ai

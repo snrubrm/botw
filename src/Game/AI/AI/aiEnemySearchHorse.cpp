@@ -2,7 +2,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the two param zero stores (0x38/0x48) are emitted in the opposite order
 EnemySearchHorse::EnemySearchHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemySearchHorse::~EnemySearchHorse() = default;
@@ -12,7 +11,7 @@ bool EnemySearchHorse::init_(sead::Heap* heap) {
 }
 
 void EnemySearchHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    _100 = ksys::Timer(*mRepathTime_s, *mRepathTime_s);
+    _100 = ksys::Timer(*mParams.mRepathTime_s, *mParams.mRepathTime_s);
     if (sub_71003B9914())
         return;
     _58.reset();
@@ -24,10 +23,10 @@ void EnemySearchHorse::leave_() {
 }
 
 void EnemySearchHorse::loadParams_() {
-    getStaticParam(&mRepathTime_s, "RepathTime");
-    getStaticParam(&mSearchDist_s, "SearchDist");
-    getStaticParam(&mRideRadius_s, "RideRadius");
-    getStaticParam(&mNoWeaponRiding_s, "NoWeaponRiding");
+    getStaticParam(&mParams.mRepathTime_s, "RepathTime");
+    getStaticParam(&mParams.mSearchDist_s, "SearchDist");
+    getStaticParam(&mParams.mRideRadius_s, "RideRadius");
+    getStaticParam(&mParams.mNoWeaponRiding_s, "NoWeaponRiding");
 }
 
 bool EnemySearchHorse::isFailed() const {

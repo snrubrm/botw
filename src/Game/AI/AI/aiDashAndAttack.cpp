@@ -19,15 +19,15 @@ void DashAndAttack::leave_() {
 }
 
 void DashAndAttack::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mAttackFrame_s, "AttackFrame");
-    getStaticParam(&mOffsetLR_s, "OffsetLR");
-    getStaticParam(&mAttackRange_s, "AttackRange");
-    getStaticParam(&mTiredAngle_s, "TiredAngle");
-    getStaticParam(&mTargetSpeedClampMax_s, "TargetSpeedClampMax");
-    getStaticParam(&mIsAbleSkipNear_s, "IsAbleSkipNear");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getDynamicParam(&mTargetVel_d, "TargetVel");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mAttackFrame_s, "AttackFrame");
+    getStaticParam(&mParams.mOffsetLR_s, "OffsetLR");
+    getStaticParam(&mParams.mAttackRange_s, "AttackRange");
+    getStaticParam(&mParams.mTiredAngle_s, "TiredAngle");
+    getStaticParam(&mParams.mTargetSpeedClampMax_s, "TargetSpeedClampMax");
+    getStaticParam(&mParams.mIsAbleSkipNear_s, "IsAbleSkipNear");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getDynamicParam(&mParams.mTargetVel_d, "TargetVel");
 }
 
 }  // namespace uking::ai

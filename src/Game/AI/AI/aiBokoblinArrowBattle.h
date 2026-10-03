@@ -22,42 +22,45 @@ public:
     void sub_7100331980();
 
 protected:
-    // static_param at offset 0x38
-    const int* mHoldInterval_s{};
-    // static_param at offset 0x40
-    const int* mHoldIntervalLast_s{};
-    // static_param at offset 0x48
-    const int* mHoldIntervalRand_s{};
-    // static_param at offset 0x50
-    const float* mLeaveStartDist_s{};
-    // static_param at offset 0x58
-    const float* mLeaveEndDist_s{};
-    // static_param at offset 0x60
-    const int* mLeaveWaitTime_s{};
-    // static_param at offset 0x68
-    const int* mLeaveTime_s{};
-    // static_param at offset 0x70
-    const float* mBaseDist_s{};
-    // static_param at offset 0x78
-    const float* mOutDist_s{};
-    // static_param at offset 0x80
-    const float* mOutDistVMin_s{};
-    // static_param at offset 0x88
-    const float* mOutDistVMax_s{};
-    // static_param at offset 0x90
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x98
-    const int* mBlindlyAttackMinNum_s{};
-    // static_param at offset 0xa0
-    const int* mBlindlyAttackMaxNum_s{};
-    // dynamic_param at offset 0xa8
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0xb0
-    const float* mShootDistRatio_s{};
-    // static_param at offset 0xb8
-    const bool* mIsEndAfterAttack_s{};
-    // static_param at offset 0xc0
-    const bool* mIsUpdateNoticeState_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mHoldInterval_s{};
+        // static_param at offset 0x40
+        const int* mHoldIntervalLast_s{};
+        // static_param at offset 0x48
+        const int* mHoldIntervalRand_s{};
+        // static_param at offset 0x50
+        const float* mLeaveStartDist_s{};
+        // static_param at offset 0x58
+        const float* mLeaveEndDist_s{};
+        // static_param at offset 0x60
+        const int* mLeaveWaitTime_s{};
+        // static_param at offset 0x68
+        const int* mLeaveTime_s{};
+        // static_param at offset 0x70
+        const float* mBaseDist_s{};
+        // static_param at offset 0x78
+        const float* mOutDist_s{};
+        // static_param at offset 0x80
+        const float* mOutDistVMin_s{};
+        // static_param at offset 0x88
+        const float* mOutDistVMax_s{};
+        // static_param at offset 0x90
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x98
+        const int* mBlindlyAttackMinNum_s{};
+        // static_param at offset 0xa0
+        const int* mBlindlyAttackMaxNum_s{};
+        // dynamic_param at offset 0xa8
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0xb0
+        const float* mShootDistRatio_s{};
+        // static_param at offset 0xb8
+        const bool* mIsEndAfterAttack_s{};
+        // static_param at offset 0xc0
+        const bool* mIsUpdateNoticeState_s{};
+    };
+    Params mParams;
     Unk_7102451ba0 _c8;
     ksys::Timer _f0{0, 0};
     ksys::Timer _fc{0, 0};

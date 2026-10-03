@@ -41,7 +41,7 @@ void CircleMoveFlying::m34() {
 }
 
 void CircleMoveFlying::m35(f32 a2, f32 a3, f32 a4) {
-    const f32 height = *mRandRangeY_s + *mRandRangeYOffest_s;
+    const f32 height = *CircleMoveInFluid::mParams.mRandRangeY_s + *CircleMoveInFluid::mParams.mRandRangeYOffest_s;
     const f32 max = std::sqrt(height * height + 29.0f * 29.0f);
     _b4 = sead::Mathf::min(a2, max) * a4;
     _b8 = sead::Mathf::min(a3, max) * a4;

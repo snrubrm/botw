@@ -30,18 +30,21 @@ public:
     bool sub_71003331A0();
 
 protected:
-    // dynamic_param at offset 0x38
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0x40
-    const float* mBaseDist_s{};
-    // static_param at offset 0x48
-    const float* mLostVMin_s{};
-    // static_param at offset 0x50
-    const float* mLostVMax_s{};
-    // static_param at offset 0x58
-    const int* mLostTimer_s{};
-    // static_param at offset 0x60
-    const float* mLostRange_s{};
+    struct Params {
+        // dynamic_param at offset 0x38
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0x40
+        const float* mBaseDist_s{};
+        // static_param at offset 0x48
+        const float* mLostVMin_s{};
+        // static_param at offset 0x50
+        const float* mLostVMax_s{};
+        // static_param at offset 0x58
+        const int* mLostTimer_s{};
+        // static_param at offset 0x60
+        const float* mLostRange_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcHandle _68;
     ksys::Timer _78{0, 0};
     bool _84 = true;

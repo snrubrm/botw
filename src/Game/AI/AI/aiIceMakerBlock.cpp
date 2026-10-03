@@ -8,7 +8,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original merges the _a0-_a7 stores into one 8-byte store (ours: _a5-_a8)
 IceMakerBlock::IceMakerBlock(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 IceMakerBlock::~IceMakerBlock() {
@@ -61,9 +60,9 @@ void IceMakerBlock::leave_() {
 }
 
 void IceMakerBlock::loadParams_() {
-    getStaticParam(&mSubRigidStartOffset_s, "SubRigidStartOffset");
-    getStaticParam(&mSubRigidEndOffset_s, "SubRigidEndOffset");
-    getStaticParam(&mSubRigidExOffset_s, "SubRigidExOffset");
+    getStaticParam(&mParams.mSubRigidStartOffset_s, "SubRigidStartOffset");
+    getStaticParam(&mParams.mSubRigidEndOffset_s, "SubRigidEndOffset");
+    getStaticParam(&mParams.mSubRigidExOffset_s, "SubRigidExOffset");
 }
 
 }  // namespace uking::ai

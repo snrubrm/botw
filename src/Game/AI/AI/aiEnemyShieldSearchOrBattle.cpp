@@ -2,7 +2,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling (the BaseProcLink ctor argument setup)
 EnemyShieldSearchOrBattle::EnemyShieldSearchOrBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemyShieldSearchOrBattle::~EnemyShieldSearchOrBattle() = default;
@@ -20,13 +19,13 @@ void EnemyShieldSearchOrBattle::leave_() {
 }
 
 void EnemyShieldSearchOrBattle::loadParams_() {
-    getStaticParam(&mShieldIdx_s, "ShieldIdx");
-    getStaticParam(&mSearchShieldDist_s, "SearchShieldDist");
-    getStaticParam(&mNoShieldSearchDist_s, "NoShieldSearchDist");
-    getStaticParam(&mNoShieldTargetNearDist_s, "NoShieldTargetNearDist");
-    getStaticParam(&mShieldReachDist_s, "ShieldReachDist");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mNoShieldEquipWpIdx_s, "NoShieldEquipWpIdx");
+    getStaticParam(&mParams.mShieldIdx_s, "ShieldIdx");
+    getStaticParam(&mParams.mSearchShieldDist_s, "SearchShieldDist");
+    getStaticParam(&mParams.mNoShieldSearchDist_s, "NoShieldSearchDist");
+    getStaticParam(&mParams.mNoShieldTargetNearDist_s, "NoShieldTargetNearDist");
+    getStaticParam(&mParams.mShieldReachDist_s, "ShieldReachDist");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mNoShieldEquipWpIdx_s, "NoShieldEquipWpIdx");
 }
 
 }  // namespace uking::ai

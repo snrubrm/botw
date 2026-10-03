@@ -29,14 +29,17 @@ public:
     virtual void m36() {}
 
 protected:
-    // static_param at offset 0x38
-    const float* mCloseRadius_s{};
-    // static_param at offset 0x40
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x48
-    const bool* mIsIgnoreSmallHit_s{};
-    // dynamic_param at offset 0x50
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mCloseRadius_s{};
+        // static_param at offset 0x40
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x48
+        const bool* mIsIgnoreSmallHit_s{};
+        // dynamic_param at offset 0x50
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_7102451ba0 _58;
     bool _80 = false;
 };

@@ -35,12 +35,15 @@ public:
 
 protected:
     Unk_71023fd228 _38;
-    // static_param at offset 0x60
-    const float* mSubRigidStartOffset_s{};
-    // static_param at offset 0x68
-    const float* mSubRigidEndOffset_s{};
-    // static_param at offset 0x70
-    const float* mSubRigidExOffset_s{};
+    struct Params {
+        // static_param at offset 0x60
+        const float* mSubRigidStartOffset_s{};
+        // static_param at offset 0x68
+        const float* mSubRigidEndOffset_s{};
+        // static_param at offset 0x70
+        const float* mSubRigidExOffset_s{};
+    };
+    Params mParams;
     ksys::phys::RigidBody* _78[2];
     ksys::phys::RigidBody* _88;
     ksys::phys::RigidBody* _90;

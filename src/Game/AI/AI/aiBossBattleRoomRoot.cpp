@@ -3,7 +3,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: regalloc (ours keeps &_80 in a callee-saved register across the memset)
 BossBattleRoomRoot::BossBattleRoomRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 BossBattleRoomRoot::~BossBattleRoomRoot() = default;
@@ -28,7 +27,7 @@ void BossBattleRoomRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         _1e8->setContactAll();
         _1e8->disableContactLayer(ksys::phys::ContactLayer::EntityNPC);
         _1e8->setFlag200();
-        _19c.previous_value = _19c.value = *mFramesDelayRoll_s;
+        _19c.previous_value = _19c.value = *mParams.mFramesDelayRoll_s;
         _208 = true;
         _1b4.setBit(Flag(Flag::_5));
     }
@@ -56,15 +55,15 @@ void BossBattleRoomRoot::leave_() {
 }
 
 void BossBattleRoomRoot::loadParams_() {
-    getStaticParam(&mFramesRollKeepSecond_s, "FramesRollKeepSecond");
-    getStaticParam(&mNumTimesRoll_s, "NumTimesRoll");
-    getStaticParam(&mTitleAngle_s, "TitleAngle");
-    getStaticParam(&mRollAngle_s, "RollAngle");
-    getStaticParam(&mFramesRotate_s, "FramesRotate");
-    getStaticParam(&mFramesReset_s, "FramesReset");
-    getStaticParam(&mFramesRoll_s, "FramesRoll");
-    getStaticParam(&mFramesDelayRoll_s, "FramesDelayRoll");
-    getStaticParam(&mFramesRollKeepFirst_s, "FramesRollKeepFirst");
+    getStaticParam(&mParams.mFramesRollKeepSecond_s, "FramesRollKeepSecond");
+    getStaticParam(&mParams.mNumTimesRoll_s, "NumTimesRoll");
+    getStaticParam(&mParams.mTitleAngle_s, "TitleAngle");
+    getStaticParam(&mParams.mRollAngle_s, "RollAngle");
+    getStaticParam(&mParams.mFramesRotate_s, "FramesRotate");
+    getStaticParam(&mParams.mFramesReset_s, "FramesReset");
+    getStaticParam(&mParams.mFramesRoll_s, "FramesRoll");
+    getStaticParam(&mParams.mFramesDelayRoll_s, "FramesDelayRoll");
+    getStaticParam(&mParams.mFramesRollKeepFirst_s, "FramesRollKeepFirst");
 }
 
 }  // namespace uking::ai

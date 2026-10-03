@@ -28,34 +28,37 @@ public:
     void sub_710034F850();
 
 protected:
-    // static_param at offset 0x38
-    const float* mSpeed_s{};
-    // static_param at offset 0x40
-    const float* mRadiusX_s{};
-    // static_param at offset 0x48
-    const float* mRadiusZ_s{};
-    // static_param at offset 0x50
-    const float* mMinRandRadiusRate_s{};
-    // static_param at offset 0x58
-    const float* mMaxRandRadiusRate_s{};
-    // static_param at offset 0x60
-    const float* mAddAngleRateX_s{};
-    // static_param at offset 0x68
-    const float* mAddAngleRateZ_s{};
-    // static_param at offset 0x70
-    const float* mRandRangeY_s{};
-    // static_param at offset 0x78
-    const float* mRandRangeYOffest_s{};
-    // static_param at offset 0x80
-    const float* mLimitSpeedMoveY_s{};
-    // static_param at offset 0x88
-    const float* mChangeInterval_s{};
-    // static_param at offset 0x90
-    const float* mRandChangeInterval_s{};
-    // static_param at offset 0x98
-    const float* mReverseMoveRate_s{};
-    // static_param at offset 0xa0
-    const bool* mIsSetSystemDeleteDistance_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mSpeed_s{};
+        // static_param at offset 0x40
+        const float* mRadiusX_s{};
+        // static_param at offset 0x48
+        const float* mRadiusZ_s{};
+        // static_param at offset 0x50
+        const float* mMinRandRadiusRate_s{};
+        // static_param at offset 0x58
+        const float* mMaxRandRadiusRate_s{};
+        // static_param at offset 0x60
+        const float* mAddAngleRateX_s{};
+        // static_param at offset 0x68
+        const float* mAddAngleRateZ_s{};
+        // static_param at offset 0x70
+        const float* mRandRangeY_s{};
+        // static_param at offset 0x78
+        const float* mRandRangeYOffest_s{};
+        // static_param at offset 0x80
+        const float* mLimitSpeedMoveY_s{};
+        // static_param at offset 0x88
+        const float* mChangeInterval_s{};
+        // static_param at offset 0x90
+        const float* mRandChangeInterval_s{};
+        // static_param at offset 0x98
+        const float* mReverseMoveRate_s{};
+        // static_param at offset 0xa0
+        const bool* mIsSetSystemDeleteDistance_s{};
+    };
+    Params mParams;
     sead::Vector3f _a8;
     f32 _b4{};
     f32 _b8{};

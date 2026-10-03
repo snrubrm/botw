@@ -60,10 +60,13 @@ public:
     void sub_7100319AB4();
 
 protected:
-    // static_param at offset 0x2b0
-    const int* mIronBallNum_s{};
-    // static_param at offset 0x2b8
-    const int* mBattleAvoidNum_s{};
+    struct Params {
+        // static_param at offset 0x2b0
+        const int* mIronBallNum_s{};
+        // static_param at offset 0x2b8
+        const int* mBattleAvoidNum_s{};
+    };
+    Params mParams;
     Unk_71023d7bd0 _2c0;
     Unk_71023d7c08 _2e8;
     Unk_71023d7c40 _310;

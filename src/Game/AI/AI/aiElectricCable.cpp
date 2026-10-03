@@ -5,8 +5,10 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: zero stores to 0x38-0x50 are paired differently (stp 0x40/0x48 scheduled last)
-ElectricCable::ElectricCable(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+ElectricCable::ElectricCable(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    _40 = nullptr;
+    _48 = nullptr;
+}
 
 ElectricCable::~ElectricCable() = default;
 

@@ -10,11 +10,10 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: store scheduling (the original zeroes mBattleAvoidNum_s first)
 AssassinBossRoot::AssassinBossRoot(const InitArg& arg) : AssassinBossRootBase(arg) {}
 
 AssassinBossRoot::~AssassinBossRoot() {
-    if (!mIronBallNum_s)
+    if (!mParams.mIronBallNum_s)
         return;
 
     auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
@@ -22,7 +21,7 @@ AssassinBossRoot::~AssassinBossRoot() {
         return;
 
     sead::FixedSafeString<32> name;
-    for (int i = 0; i < *mIronBallNum_s; ++i) {
+    for (int i = 0; i < *mParams.mIronBallNum_s; ++i) {
         name.format("IronBall%d", i);
         auto& link = enemy->getActorPartsActor(name);
         if (link.hasProc()) {
@@ -46,7 +45,7 @@ bool AssassinBossRoot::init_(sead::Heap* heap) {
     if (!AssassinBossRootBase::init_(heap))
         return false;
 
-    for (int i = 0; i < *mIronBallNum_s; ++i)
+    for (int i = 0; i < *mParams.mIronBallNum_s; ++i)
         sub_710031BBC4("IronBall", "AssassinRockBall", i, heap);
     sub_710031BBC4("SpareBall", "AssassinIronBall", 0, heap);
     return true;
@@ -132,8 +131,8 @@ void AssassinBossRoot::leave_() {
 
 void AssassinBossRoot::loadParams_() {
     AssassinBossRootBase::loadParams_();
-    getStaticParam(&mIronBallNum_s, "IronBallNum");
-    getStaticParam(&mBattleAvoidNum_s, "BattleAvoidNum");
+    getStaticParam(&mParams.mIronBallNum_s, "IronBallNum");
+    getStaticParam(&mParams.mBattleAvoidNum_s, "BattleAvoidNum");
 }
 
 // NON_MATCHING: instruction scheduling of the final and

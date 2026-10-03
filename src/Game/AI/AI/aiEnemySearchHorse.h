@@ -23,14 +23,17 @@ public:
     bool sub_71003B9914();
 
 protected:
-    // static_param at offset 0x38
-    const int* mRepathTime_s{};
-    // static_param at offset 0x40
-    const float* mSearchDist_s{};
-    // static_param at offset 0x48
-    const float* mRideRadius_s{};
-    // static_param at offset 0x50
-    const bool* mNoWeaponRiding_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mRepathTime_s{};
+        // static_param at offset 0x40
+        const float* mSearchDist_s{};
+        // static_param at offset 0x48
+        const float* mRideRadius_s{};
+        // static_param at offset 0x50
+        const bool* mNoWeaponRiding_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _58;
     sead::FixedRingBuffer<ksys::act::BaseProcLink, 8> _68;
     ksys::Timer _100;

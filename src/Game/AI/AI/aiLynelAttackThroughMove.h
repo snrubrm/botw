@@ -20,22 +20,25 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x38
-    const int* mSideOffsetDirType_s{};
-    // static_param at offset 0x40
-    const int* mCliffFailTime_s{};
-    // static_param at offset 0x48
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x50
-    const float* mSideOffset_s{};
-    // static_param at offset 0x58
-    const float* mThroughDist_s{};
-    // static_param at offset 0x60
-    const float* mAcceptableRadius_s{};
-    // static_param at offset 0x68
-    const float* mFrontAngle_s{};
-    // dynamic_param at offset 0x70
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mSideOffsetDirType_s{};
+        // static_param at offset 0x40
+        const int* mCliffFailTime_s{};
+        // static_param at offset 0x48
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x50
+        const float* mSideOffset_s{};
+        // static_param at offset 0x58
+        const float* mThroughDist_s{};
+        // static_param at offset 0x60
+        const float* mAcceptableRadius_s{};
+        // static_param at offset 0x68
+        const float* mFrontAngle_s{};
+        // dynamic_param at offset 0x70
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Vector3f _78;
     sead::Vector3f _84;
     f32 _90 = 0;

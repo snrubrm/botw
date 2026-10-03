@@ -26,15 +26,15 @@ void FlyingEnemyKeepMove::leave_() {
 }
 
 void FlyingEnemyKeepMove::loadParams_() {
-    getStaticParam(&mLostDistance_s, "LostDistance");
-    getStaticParam(&mAngleRange_s, "AngleRange");
-    getStaticParam(&mSpaceDistance_s, "SpaceDistance");
-    getStaticParam(&mNearDist_s, "NearDist");
-    getStaticParam(&mFarDist_s, "FarDist");
-    getStaticParam(&mBaseDist_s, "BaseDist");
-    getStaticParam(&mBaseHeight_s, "BaseHeight");
-    getStaticParam(&mLowHeight_s, "LowHeight");
-    getStaticParam(&mHighHeight_s, "HighHeight");
+    getStaticParam(&mParams.mLostDistance_s, "LostDistance");
+    getStaticParam(&mParams.mAngleRange_s, "AngleRange");
+    getStaticParam(&mParams.mSpaceDistance_s, "SpaceDistance");
+    getStaticParam(&mParams.mNearDist_s, "NearDist");
+    getStaticParam(&mParams.mFarDist_s, "FarDist");
+    getStaticParam(&mParams.mBaseDist_s, "BaseDist");
+    getStaticParam(&mParams.mBaseHeight_s, "BaseHeight");
+    getStaticParam(&mParams.mLowHeight_s, "LowHeight");
+    getStaticParam(&mParams.mHighHeight_s, "HighHeight");
 }
 
 void FlyingEnemyKeepMove::m35(sead::Vector3f* out, const sead::Vector3f& dir) {
@@ -42,14 +42,14 @@ void FlyingEnemyKeepMove::m35(sead::Vector3f* out, const sead::Vector3f& dir) {
         return;
     const auto& mtx = sub_71005D96A8(mActor);
     sead::Vector3f offset = dir;
-    offset *= *mBaseDist_s;
-    offset.y += *mBaseHeight_s;
+    offset *= *mParams.mBaseDist_s;
+    offset.y += *mParams.mBaseHeight_s;
     out->setMul(mtx, offset);
 }
 
 void FlyingEnemyKeepMove::m36(sead::Vector3f* out) {
     out->set(sub_71005D9330(mActor));
-    out->y += *mBaseHeight_s;
+    out->y += *mParams.mBaseHeight_s;
 }
 
 bool FlyingEnemyKeepMove::sub_71003D2500() {
