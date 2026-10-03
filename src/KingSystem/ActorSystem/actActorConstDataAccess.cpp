@@ -636,6 +636,19 @@ int ActorConstDataAccess::sub_7100D131D0(int idx) const {
     return chemical->_c0;
 }
 
+bool ActorConstDataAccess::sub_7100D13448(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* chemicals = actor->mChemical;
+    if (!chemicals)
+        return false;
+    auto* chemical = chemicals->getStuff(idx < 0 ? 0 : idx);
+    if (chemical && chemical->_c0 == 2)
+        return true;
+    return false;
+}
+
 s32 ActorConstDataAccess::getLife() const {
     auto* actor = getActor();
     if (!actor)

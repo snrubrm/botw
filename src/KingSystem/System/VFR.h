@@ -75,6 +75,10 @@ public:
     f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
 
+    // lane1 s24 (AirOctaBurnReaction::calc_)
+    f32 getRawDeltaTime(u32 core) const { return *mRawDeltaTimes[core]; }
+    f32 getRawDeltaTime() const { return getRawDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
+
     f32 getIntervalRatio(u32 core) const { return *mIntervalRatios[core]; }
     f32 getIntervalRatio() const { return getIntervalRatio(sead::CoreInfo::getCurrentCoreId()); }
 
