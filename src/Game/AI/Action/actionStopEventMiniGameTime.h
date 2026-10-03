@@ -12,6 +12,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
+    bool oneShot_() override;
 
 protected:
 };

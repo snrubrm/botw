@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerDrown.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -26,7 +27,12 @@ void PlayerDrown::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerDrown::leave_() {
-    PlayerAction::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F6059C();
+        controller->sub_7100F5EEB8(1.0f);
+    }
+    static_cast<ksys::act::Player*>(mActor)->_c48.reset(0x400000);
+    static_cast<ksys::act::Player*>(mActor)->_d18 = -1;
 }
 
 void PlayerDrown::loadParams_() {}

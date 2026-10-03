@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventAutoSaveAtGameClear.h"
+#include "Game/gameSaveSystem.h"
 
 namespace uking::action {
 
@@ -26,7 +27,9 @@ void EventAutoSaveAtGameClear::loadParams_() {
 }
 
 void EventAutoSaveAtGameClear::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* save_system = SaveSystem::instance();
+    if (save_system && save_system->isFinishedSavingMaybe())
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -320,8 +320,9 @@ public:
 
 protected:
     /* 0xd12 */ u8 _d12[0xd18 - 0xd12];
-    /* 0xd18 */ s32 _d18;
 public:
+    // Public: written by PlayerDrown::leave_ / PlayerHellStartWait::enter_.
+    /* 0xd18 */ s32 _d18;
     /* 0xd1c */ u8 _d1c;  // 1-3 select the CutAfterJump turn angle (PlayerCutAfterJump::enter_)
 
 protected:

@@ -142,6 +142,38 @@ public:
     // 0x7100f62bb8: sub_7100F5F270(0).
     void sub_7100F62BB8();
 
+    // 0x7100f5e754: sets the byte at +0x50 of the sub-object at +0x48.
+    void sub_7100F5E754(bool value);
+    // 0x7100f5f060: copies `value` to _ec.
+    void sub_7100F5F060(const sead::Vector3f& value);
+    // 0x7100f5f128: bit 0 of _116.
+    bool sub_7100F5F128() const;
+    // 0x7100f60458: clears the u64 at +0x94 and the word at +0x9c.
+    void sub_7100F60458();
+    // 0x7100f6059c: resets the movement state (_144 = 1.0f; _148 / _15c / _160 / _168 / _210 = 0; clears
+    // most bits of _116).
+    void sub_7100F6059C();
+    // 0x7100f605c8: copies `value` to _ac / _bc / _cc.
+    void sub_7100F605C8(const sead::Vector3f& value);
+    // 0x7100f60e80: stores `value` (as 0 / 1) in the sub-objects at +0x50 (+0x38) and +0x48 (+0x94).
+    void sub_7100F60E80(bool value);
+    // 0x7100f62b78: _11c.
+    f32 sub_7100F62B78() const;
+    // 0x7100f62c14: RigidBody::setMaxImpulse on the main body and (if _114 has 0x2000) on every body of _288.
+    void sub_7100F62C14(f32 max_impulse);
+    // 0x7100f62ca0 / 0x7100f62dc8 / 0x7100f62e64 / 0x7100f62e6c: forwarders to the main rigid body
+    // (getMaxImpulse / isEntityMotionFlag10Off / setCenterOfMassInLocal / getCenterOfMassInLocal).
+    f32 sub_7100F62CA0() const;
+    bool sub_7100F62DC8() const;
+    void sub_7100F62E64(const sead::Vector3f& center);
+    void sub_7100F62E6C(sead::Vector3f* center) const;
+    // 0x7100f631e0: forwards `value` to the object at +0x40.
+    void sub_7100F631E0(bool value);
+    // 0x7100f6321c: sets / clears bit 0x200 of mFlags and updates the controller's friction-like values.
+    void sub_7100F6321C(bool value);
+    // 0x7100f63370: the byte at +0x6c of the object at +0x40.
+    bool sub_7100F63370() const;
+
     RigidBody* mRigidBody;
     u8 _10[0x60 - 0x10];
     f32 _60;

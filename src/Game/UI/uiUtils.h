@@ -179,6 +179,9 @@ void sub_7100A98E18();
 void sub_7100A98474(s32 rank);
 bool sub_7100A9844C();
 void sub_7100A98428(NpcShopData* shop_data);
+void openMinigameScreenForTimer(bool count_down);
+void minigameScreenHideTimer();
+void minigameScreenUpdateTimer(s64 time_ms);
 
 void minigameScreenMove();
 

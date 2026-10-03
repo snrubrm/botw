@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStopEventMiniGameTime.h"
+#include "Game/gameEventMgrMiniGame.h"
 
 namespace uking::action {
 
@@ -11,5 +12,10 @@ bool StopEventMiniGameTime::init_(sead::Heap* heap) {
 }
 
 void StopEventMiniGameTime::loadParams_() {}
+
+bool StopEventMiniGameTime::oneShot_() {
+    EventMgrMiniGame::instance()->setMode(2);
+    return true;
+}
 
 }  // namespace uking::action
