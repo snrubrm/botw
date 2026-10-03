@@ -6,6 +6,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPCBase.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
@@ -92,8 +93,7 @@ public:
     /* 0x0c78 */ ksys::act::ActorAtk _c78{this};  // getAtk
     /* 0x0cf8 */ ksys::act::Unk_7102459df8* _cf8 = nullptr;  // m126
     /* 0x0d00 */ ksys::act::ActorWeapons mWeapons{this};
-    // DamageManagerBase subclass (vtable 0x71023ceca0, ctor 0x71002c9024); getDamageMgr
-    /* 0x0da0 */ u8 _da0[0xe30 - 0xda0];
+    /* 0x0da0 */ uking::dmg::DamageMgrNPC _da0{this};  // getDamageMgr
     /* 0x0e30 */ ksys::act::Unk_71006e4478 _e30;
     /* 0x0e90 */ Unk_71002dccbc _e90{this};
     /* 0x0f28 */ Unk_71023cee88 _f28{this};  // getPlayerRideInfo

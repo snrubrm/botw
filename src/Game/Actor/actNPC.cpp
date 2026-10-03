@@ -13,6 +13,10 @@ ksys::act::BaseProc* NPC::construct(const CreateArg& arg, sead::Heap* heap) {
 // NON_MATCHING: member types are incomplete
 NPC::~NPC() = default;
 
+uking::dmg::DamageManagerBase* NPC::getDamageMgr() {
+    return &_da0;
+}
+
 void NPC::sub_71000225B0(int idx, const Unk_71002eda38& arg) {
     auto* weapon = sead::DynamicCast<Weapon>(getWeapons()->getEquippedWeapon(idx));
     if (weapon)
