@@ -242,12 +242,12 @@ void Actor::sub_71011CCB1C(f32 value) {
     }
 }
 
-void Actor::sub_71011DA824(ModelBindInfo* info) {
+void Actor::sub_71011DA824(ActorBind* info) {
     if (!mActorFlags.isOnBit(ActorFlag::_5))
         mModelBindInfo = info;
 }
 
-void Actor::sub_71011DA834(ModelBindInfo* info) {
+void Actor::sub_71011DA834(ActorBind* info) {
     if (!mActorFlags.isOnBit(ActorFlag::_5))
         mModelBindInfo = nullptr;
 }

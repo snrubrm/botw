@@ -278,6 +278,12 @@ public:
     // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).
     bool sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BaseProcLink* link,
                         const sead::Vector3f* pos2);
+    // 0x7100859fc0 (declared only; CSV ai::action::PlayerLookAtObject::x): sets _2d30 = a1 and, when a1 and
+    // _2d30 was not set, _2d34 = (the first resident link has a proc ? 4 : 0); resets _2d48 and copies the
+    // zero vector to _2d38 / _2d58. Always true.
+    bool sub_7100859FC0(bool a1);
+    // 0x7100868d7c (declared only): turns the player towards `dir` (XZ) with the given speed factor.
+    void sub_7100868D7C(f32 speed, const sead::Vector3f* dir);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {

@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerAtnMove.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -9,7 +12,10 @@ void PlayerAtnMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerAtnMove::leave_() {
-    PlayerAction::leave_();
+    if (mActor->getASList()->x_1(1, 1) == "MoveAttentionUpper")
+        static_cast<ksys::act::Player*>(mActor)->x_18(true);
+    if (mActor->getASList()->x_1(1, 1) == "MoveUnsteadyUpper")
+        static_cast<ksys::act::Player*>(mActor)->x_18(true);
 }
 
 void PlayerAtnMove::loadParams_() {}

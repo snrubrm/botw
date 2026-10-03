@@ -103,6 +103,7 @@ class DropData;
 class Unk_71025ae620;
 class ImpulseBaseProcLink;
 class LodState;
+class ActorBind;
 class ModelBindInfo;
 class PlayerArmors;
 class PlayerLink;
@@ -321,10 +322,10 @@ public:
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
-    void sub_71011DA824(ModelBindInfo* info);
+    void sub_71011DA824(ActorBind* info);
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
     // sub_71011DA824 by every caller) is unused.
-    void sub_71011DA834(ModelBindInfo* info);
+    void sub_71011DA834(ActorBind* info);
     // 0x71011da808 (declared only): forwards `accessor` to the map object's link data (0x7100d4ef30:
     // handles a Recreate link to the accessor's map object); false without a map object or link
     // data.
@@ -645,7 +646,7 @@ protected:
     /* 0x4b4 */ sead::Vector3f _4b4{0, 0, 0};
     /* 0x4c0 */ sead::Vector3f mEnterCalcPos{0, 0, 0};
 
-    /* 0x4d0 */ ModelBindInfo* mModelBindInfo = nullptr;
+    /* 0x4d0 */ ActorBind* mModelBindInfo = nullptr;  // any ActorBind (ModelBindInfo, Unk_710244ed58)
     /* 0x4d8 */ BoneHandleBase* _4d8 = nullptr;  // list of bone handles (actBoneHandle.h)
     /* 0x4e0 */ gsys::Model* mModel = nullptr;
     /* 0x4e8 */ float _4e8 = 1.0;

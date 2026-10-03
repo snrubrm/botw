@@ -18,7 +18,31 @@ bool PlayerTurnAndLookToObjectNow::init_(sead::Heap* heap) {
 }
 
 void PlayerTurnAndLookToObjectNow::enter_(ksys::act::ai::InlineParamPack* params) {
-    PlayerLookAtObjectNow::enter_(params);
+    LookAtObjectBase::enter_(params);
+    m33();
+    ksys::act::BaseProcLink link;
+    sead::Vector3f pos;
+    pos = sead::Vector3f::zero;
+    if (_30 == 0) {
+        if (!m34(&link, &pos, _48, _58)) {
+            _c8 = true;
+            _34 = 0;
+        }
+    }
+    if (link.hasProc())
+        m36(&link, sead::Vector3f::zero);
+    else
+        m36(nullptr, pos);
+    switch (_34) {
+    case 0:
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859FC0(_45);
+        break;
+    case 1:
+        static_cast<ksys::act::Player*>(mActor)->sub_7100859EDC(_45, 0, &sead::Vector3f::zero, nullptr,
+                                                               &sead::Vector3f::zero);
+        break;
+    }
+    m40();
 }
 
 void PlayerTurnAndLookToObjectNow::leave_() {
@@ -27,6 +51,16 @@ void PlayerTurnAndLookToObjectNow::leave_() {
         controller->sub_7100F5FB24(sead::Vector3f::zero);
     }
     static_cast<ksys::act::Player*>(mActor)->_2d64 = true;
+}
+
+void PlayerTurnAndLookToObjectNow::m41(ksys::phys::CharacterController* controller) {
+    static_cast<ksys::act::Player*>(mActor)->sub_7100868D7C(2.0f, &_38);
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    static_cast<ksys::act::Player*>(mActor)->switchToAnimSequenceMaybe(_d0.cstr(), true, 0.0f);
+    setFinished();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
 }
 
 void PlayerTurnAndLookToObjectNow::loadParams_() {

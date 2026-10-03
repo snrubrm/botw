@@ -44,6 +44,7 @@ protected:
     const float* mSwordSearchFrame_s{};
     // static_param at offset 0x80
     const float* mSwordSearchAngle_s{};
+    u32 _88 = 0;
 };
 
 }  // namespace uking::action

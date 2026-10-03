@@ -51,7 +51,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7102450298, 0x58);
 class Unk_710244ed58 : public ksys::act::ActorBind {
 public:
     Unk_710244ed58();
-    ~Unk_710244ed58() override;
+    // Inline in the original (embedded users' D1 / D0 inline it; no out-of-line copy).
+    ~Unk_710244ed58() override = default;
 
     bool m4(ksys::act::BaseProc* proc) override;
 

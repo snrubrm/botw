@@ -29,4 +29,15 @@ void LookAtObjectBase::loadParams_() {
 
 void LookAtObjectBase::calc_() {}
 
+void LookAtObjectBase::m33() {
+    _30 = *mObjectId_d;
+    _34 = *mFaceId_d;
+    _38.set(sead::Vector3f::zero);
+    _68.set(sead::Vector3f::zero);
+    _44 = false;
+    _45 = *mIsValid_d;
+    _48 = mActorName_d;
+    _58 = mUniqueName_d;
+}
+
 }  // namespace uking::action

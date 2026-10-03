@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPlayerCaught.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -11,7 +14,11 @@ void PlayerCaught::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerCaught::leave_() {
-    PlayerAction::leave_();
+    mActor->resetConnectedCalcParent(false);
+    mActor->sub_71011DA834(&_20);
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FC012C(nullptr);
+    static_cast<ksys::act::Player*>(mActor)->someFloatCalc(2.0f, sead::Vector3f(0.0f, 1.0f, 0.0f));
 }
 
 void PlayerCaught::calc_() {

@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionPlayerLargeDamage.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/gameUnk_71008ba8d8.h"
 
 namespace uking::action {
 
@@ -91,7 +94,16 @@ void PlayerLargeDamage::loadParams_() {
 }
 
 void PlayerLargeDamage::calc_() {
-    PlayerAction::calc_();
+    if (!static_cast<ksys::act::Player*>(mActor)->stillAlive())
+        callPlayerGameOverDemo(mActor);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (player->_1844.value <= sead::Mathf::epsilon()) {
+        if (mActor->getASList()->x(0x23, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+            setFinished();
+    } else {
+        player->_1844.update();
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerLargeDamage::isChangeable() const {
