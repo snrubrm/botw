@@ -7,7 +7,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: this+0x88 is kept in x20 across the memset instead of being recomputed
 PriestBossEyeBeam::PriestBossEyeBeam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PriestBossEyeBeam::~PriestBossEyeBeam() = default;
@@ -31,16 +30,16 @@ void PriestBossEyeBeam::leave_() {
 }
 
 void PriestBossEyeBeam::loadParams_() {
-    getStaticParam(&mAtMinDamage_s, "AtMinDamage");
-    getStaticParam(&mAttackPower_s, "AttackPower");
-    getStaticParam(&mAttackPowerForPlayer_s, "AttackPowerForPlayer");
-    getStaticParam(&mShotReviseAngleXU_s, "ShotReviseAngleXU");
-    getStaticParam(&mShotReviseAngleXD_s, "ShotReviseAngleXD");
-    getStaticParam(&mShotReviseAngleY_s, "ShotReviseAngleY");
-    getStaticParam(&mIsCreateGuardEffect_s, "IsCreateGuardEffect");
-    getStaticParam(&mIsChangeable_s, "IsChangeable");
-    getStaticParam(&mReflectOffset_s, "ReflectOffset");
-    getStaticParam(&mShotOffset_s, "ShotOffset");
+    getStaticParam(&mParams.mAtMinDamage_s, "AtMinDamage");
+    getStaticParam(&mParams.mAttackPower_s, "AttackPower");
+    getStaticParam(&mParams.mAttackPowerForPlayer_s, "AttackPowerForPlayer");
+    getStaticParam(&mParams.mShotReviseAngleXU_s, "ShotReviseAngleXU");
+    getStaticParam(&mParams.mShotReviseAngleXD_s, "ShotReviseAngleXD");
+    getStaticParam(&mParams.mShotReviseAngleY_s, "ShotReviseAngleY");
+    getStaticParam(&mParams.mIsCreateGuardEffect_s, "IsCreateGuardEffect");
+    getStaticParam(&mParams.mIsChangeable_s, "IsChangeable");
+    getStaticParam(&mParams.mReflectOffset_s, "ReflectOffset");
+    getStaticParam(&mParams.mShotOffset_s, "ShotOffset");
 }
 
 void PriestBossEyeBeam::m34() {
