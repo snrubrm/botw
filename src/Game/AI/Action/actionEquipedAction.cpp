@@ -5,11 +5,13 @@ namespace uking::action {
 EquipedAction::EquipedAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 void EquipedAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    m32();
+    m34();
 }
 
 void EquipedAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    m35();
 }
 
 void EquipedAction::loadParams_() {
