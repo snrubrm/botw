@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiWolfLinkFollowPlayerRoot.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWolfLink.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -47,6 +48,39 @@ void WolfLinkFollowPlayerRoot::loadParams_() {
 
 void WolfLinkFollowPlayerRoot::m35() {
     HorseFollow::m35();
+}
+
+void WolfLinkFollowPlayerRoot::m40() {
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(mTargetActor_d, &accessor))
+        return;
+
+    const sead::Vector3f pos = _100->getMtx().getTranslation();
+    sead::Matrix34f inv;
+    sead::Matrix34CalcCommon<f32>::inverse(inv, _144);
+    sead::Vector3f local;
+    local.setMul(inv, pos);
+
+    const auto& aabb = accessor.sub_7100D0FD54();
+    const f32 half_width = (aabb.getMax().x - aabb.getMin().x) * 0.5f + 0.1f;
+    switch (_174) {
+    case 0:
+        if (local.x > half_width)
+            _174 = 1;
+        else if (local.x < half_width)
+            _174 = 2;
+        break;
+    case 2:
+        if (local.x > half_width) {
+            _174 = 1;
+            break;
+        }
+        [[fallthrough]];
+    default:
+        if (local.x < half_width)
+            _174 = 2;
+        break;
+    }
 }
 
 }  // namespace uking::ai
