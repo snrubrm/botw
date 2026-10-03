@@ -429,7 +429,8 @@ public:
     /* 0x230c */ sead::Vector3f _230c;
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
     /* 0x23e0 */ PlayerArmors _23e0;
-    /* 0x2550 */ u8 _2550[0x2559 - 0x2550];
+    /* 0x2550 */ u8 _2550[0x2558 - 0x2550];
+    /* 0x2558 */ sead::BitFlag8 _2558;  // bit 5 is tested by PlayerShock::calc_
     /* 0x2559 */ u8 _2559;
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
     /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
