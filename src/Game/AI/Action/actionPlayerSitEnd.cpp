@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerSitEnd.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -20,7 +21,9 @@ void PlayerSitEnd::leave_() {
 }
 
 void PlayerSitEnd::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877F00(sead::Vector3f::zero);
+    if (mActor->getASList()->x_4(0, 0))
+        setFinished();
 }
 
 bool PlayerSitEnd::isChangeable() const {

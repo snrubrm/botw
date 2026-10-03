@@ -258,6 +258,9 @@ public:
     void sub_71008697E4();
     f32 getStatusEffectSpeed();                                         // 0x869a8c
     void actionCommon();                                                // 0x86aa94
+    // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
+    // direction to move in; 0 for none).
+    void sub_7100877F00(const sead::Vector3f& dir);
     bool isSurfingOnGround() const;                                     // 0x87f290
     // 0x7e70f4 (CSV): an inline function, emitted out of line in the PlayerDemoAirWait TU.
     bool isShootingBow() const {

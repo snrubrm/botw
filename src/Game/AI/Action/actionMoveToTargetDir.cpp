@@ -22,6 +22,8 @@ void MoveToTargetDir::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void MoveToTargetDir::leave_() {
     MoveToTargetBase::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
 }
 
 void MoveToTargetDir::loadParams_() {

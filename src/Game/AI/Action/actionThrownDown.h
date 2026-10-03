@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m38() override;
 
     // dynamic_param at offset 0x118
     sead::Vector3f* mSetupSpeed_d{};

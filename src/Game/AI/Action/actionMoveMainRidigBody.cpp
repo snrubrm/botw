@@ -9,11 +9,30 @@ MoveMainRidigBody::MoveMainRidigBody(const InitArg& arg) : ksys::act::ai::Action
 MoveMainRidigBody::~MoveMainRidigBody() = default;
 
 bool MoveMainRidigBody::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    return _68.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
 void MoveMainRidigBody::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (auto* body = mActor->getMainBody()) {
+        _60 = !body->hasFlag(ksys::phys::RigidBody::Flag::_2000000);
+        body->clearFlag2000000(false);
+    } else {
+        setFailed();
+    }
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_68._0)) {
+            if (*mVibrateMemoryStep_s > 0.0f)
+                checker->_84 = *mVibrateMemoryStep_s;
+            if (*mVibrateCheckFrame_s > 0.0f)
+                checker->_88 = *mVibrateCheckFrame_s;
+            checker->_78 = checker->_88;
+            checker->_7c = 0;
+            checker->_80 = 0;
+            checker->_90.setUndef();
+            checker->_8c = false;
+        }
+    }
 }
 
 void MoveMainRidigBody::leave_() {

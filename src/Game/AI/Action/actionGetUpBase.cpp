@@ -66,7 +66,12 @@ void GetUpBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GetUpBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138._0))
+        unit->_8.sub_detach(mActor);
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138._0))
+        unit->_8.mHandle._68 = sead::Matrix34f::ident;
+    if (_90._8)
+        mActor->sub_71011DA868(&_90);
 }
 
 void GetUpBase::loadParams_() {

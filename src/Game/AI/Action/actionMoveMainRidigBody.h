@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -37,8 +38,7 @@ protected:
     void* mRefPosVibrateChecker_a{};
     bool _60 = true;
     u8 _61[0x68 - 0x61];
-    int _68 = 0;
-    int _6c = 0;
+    Unk_71000b0800<Unk_71025b0578> _68;
 };
 
 }  // namespace uking::action

@@ -17,7 +17,12 @@ void PlayerShock::enter_(ksys::act::ai::InlineParamPack* params) {
 void PlayerShock::leave_() {}
 
 void PlayerShock::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (!static_cast<ksys::act::Player*>(mActor)->_2558.isOn(0x20))
+        setFinished();
 }
 
 bool PlayerShock::isChangeable() const {

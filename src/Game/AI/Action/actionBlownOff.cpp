@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBlownOff.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -44,7 +47,20 @@ void BlownOff::loadParams_() {
 }
 
 void BlownOff::calc_() {
-    Ragdoll::calc_();
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        if (actor->getCharacterController()) {
+            if (_15c) {
+                _15c = false;
+            } else if (auto* manager = sub_710072BA90(actor)) {
+                if (sub_7100736B94(manager->getField54())) {
+                    if (_ec == 1)
+                        _158 = sead::Mathf::min(f32(_158), f32(s32(_c0)));
+                    sub_7100226488();
+                }
+            }
+            Ragdoll::calc_();
+        }
+    }
 }
 
 bool BlownOff::isChangeable() const {
