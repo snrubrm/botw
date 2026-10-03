@@ -30,6 +30,8 @@ target_sources(uking PRIVATE
   actHorse.h
   actHorseBase.cpp
   actHorseBase.h
+  actHorseObject.cpp
+  actHorseObject.h
   actHorseRideInfo.cpp
   actHorseRideInfo.h
   actHorseStrings.cpp

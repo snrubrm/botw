@@ -1,5 +1,8 @@
 #pragma once
 
+#include <basis/seadTypes.h>
+#include <gfx/seadColor.h>
+
 namespace gsys {
 class Model;
 }
@@ -16,6 +19,11 @@ public:
     // 0x7100f1ed28 (declaration only; lane2 s21): calls the unnamed 0x7100f1ed8c with every element of the
     // model's list and `a2` (SunAI::enter_ passes false).
     void sub_7100F1ED28(gsys::Model* model, bool a2);
+    // 0x7100f1e2f4 (CSV: uk_damage_color_stuff; declaration only; lane4 s28): HorseReins::initMaybe
+    // passes a zeroed 16 byte value (a colour) by reference.
+    void sub_7100F1E2F4(gsys::Model* model, const sead::Color4f& color);
+    // 0x7100f1eaf8 (declaration only; lane4 s28): HorseReins::initMaybe passes 0.0.
+    void sub_7100F1EAF8(gsys::Model* model, f32 value);
 
 private:
     static Unk_710260af28* sInstance;
