@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionChuchuPreAttackBase.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/Actor/actGelEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -13,7 +16,21 @@ bool ChuchuPreAttackBase::init_(sead::Heap* heap) {
 }
 
 void ChuchuPreAttackBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _68 = 0;
+    sub_710073FA90(&_6c, actor);
+    const f32 speed = actor->getAngVelocity().length();
+    _b4.value = speed;
+    _b4.prev_value = speed;
+    if (auto* gel = sead::DynamicCast<act::GelEnemy>(actor)) {
+        sead::Matrix34f mtx;
+        mtx = gel->_14c8._68;
+        sub_710073FB74(&_90, mtx);
+        gel->_1678 |= 1;
+        gel->_1620.x = 0.8f;
+        gel->_1620.y = 0.8f;
+    }
 }
 
 void ChuchuPreAttackBase::leave_() {

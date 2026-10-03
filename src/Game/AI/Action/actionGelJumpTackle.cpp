@@ -32,15 +32,17 @@ void GelJumpTackle::loadParams_() {
     getStaticParam(&mLeaveSubAS_s, "LeaveSubAS");
 }
 
-// NON_MATCHING: the original copies the bone matrix with 128-bit loads and multiplies with scalar
-// lane extracts; the rotation (Matrix33 makeR + setMul) and the sin/cos sequence match
+// NON_MATCHING: the bone matrix copy now matches (declare then assign: `Matrix34f m; m = src;`);
+// remaining: isFailed/isFinished virtual slot (0x20 vs 0x28), a stack slot, and the scalar-lane
+// setMul scheduling
 void GelJumpTackle::calc_() {
     if (_90 && !isFailed() && !isFinished() && isBgGroundHit(mActor, false))
         ksys::eft::searchAndEmitSLink(mActor, "JumpAttackLand", false);
 
     if (*mBodyRotSpeed_s > sead::Mathf::epsilon() || *mBodyRotSpeed_s < -sead::Mathf::epsilon()) {
         if (auto* gel = sead::DynamicCast<act::GelEnemy>(mActor)) {
-            const sead::Matrix34f mtx = gel->_14c8._68;
+            sead::Matrix34f mtx;
+            mtx = gel->_14c8._68;
             sead::Vector3f rot = sead::Vector3f::zero;
             rot.x += *mBodyRotSpeed_s * ksys::VFR::instance()->getDeltaFrame();
             sead::Matrix33f rot_mtx;
