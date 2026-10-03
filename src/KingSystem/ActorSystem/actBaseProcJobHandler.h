@@ -43,6 +43,9 @@ public:
     void invoke() override { mDelegate.invoke(); }
     void invokeSpecial() override { mDelegateSpecial.invoke(); }
 
+    // Inline in the original (rebinds the function of the regular delegate; lane4 s29).
+    void bindInvoke(T* proc, void (T::*fn)()) { mDelegate.bind(proc, fn); }
+
 private:
     sead::Delegate<T> mDelegate;
     sead::Delegate<T> mDelegateSpecial;

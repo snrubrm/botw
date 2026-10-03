@@ -676,6 +676,12 @@ protected:
     void job2_2();
     void job4();
 
+    // Inline-only in the original (name is a guess): rebinds the Calc1 job's regular delegate to job1_2.
+    // Evidence: the same stores (`this`, &Actor::job1_2 and an adjustment of 0 into mJob1's delegate at
+    // 0x270) appear in the ctors of Anchor / EnvSeEmitPoint, SoundProxy::construct, DynamicActor::initMaybe,
+    // UserEdgeActor::m64 and AreaActor::init_m64 (and with the job handler 2 cleared in all but the last).
+    void bindCalc1ToJob1_2() { mJob1.bindInvoke(this, &Actor::job1_2); }
+
     /* 0x190 */ sead::Atomic<phys::RigidBody*> mMainBody = nullptr;
     /* 0x198 */ sead::Atomic<phys::RigidBody*> mTgtBody = nullptr;
     /* 0x1a0 */ void* _1a0 = nullptr;
