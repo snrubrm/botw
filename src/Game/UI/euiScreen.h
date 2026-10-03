@@ -33,7 +33,7 @@ public:
     virtual void m12();
     virtual void m13();
     virtual void m14();
-    virtual void m15();
+    virtual const char* m15() const;  // returns the layout name (<Name>_00) in the leaf classes
     virtual void m16();
     virtual void m17();
     virtual void m18();
