@@ -8,16 +8,7 @@ ForkASTrgTurnGround::~ForkASTrgTurnGround() = default;
 
 bool ForkASTrgTurnGround::init_(sead::Heap* heap) {
     _58.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_58._0)) {
-        if (!(unit->_b0 & 1)) {
-            unit->_8.setName("Skl_Root");
-            unit->_8._68 = sead::Matrix34f::ident;
-            unit->_b4 = 0;
-            unit->_b0 |= 1;
-        }
-    }
-    _58.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    _58.x();
+    setupCRBOffsetUnit(_58);
     return true;
 }
 

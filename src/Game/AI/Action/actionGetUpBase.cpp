@@ -16,16 +16,7 @@ GetUpBase::~GetUpBase() = default;
 
 bool GetUpBase::init_(sead::Heap* heap) {
     _138.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138._0)) {
-        if (!(unit->_b0 & 1)) {
-            unit->_8.setName("Skl_Root");
-            unit->_8._68 = sead::Matrix34f::ident;
-            unit->_b4 = 0;
-            unit->_b0 |= 1;
-        }
-    }
-    _138.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    _138.x();
+    setupCRBOffsetUnit(_138);
     return true;
 }
 
@@ -62,7 +53,7 @@ void GetUpBase::enter_(ksys::act::ai::InlineParamPack* params) {
             std::atan2(mtx(1, 2), std::sqrt(mtx(0, 2) * mtx(0, 2) + mtx(2, 2) * mtx(2, 2))));
         mActor->getASList()->x_6(9, 0, angle);
     }
-    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138.mSlot)) {
+    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_138._0)) {
         unit->_8.sub_attach(mActor);
     }
     sub_7100741034(&_44, mActor);

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_7102384718.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -32,7 +31,8 @@ protected:
     const float* mRotSpdMax_s{};
     // static_param at offset 0x40
     const bool* mIsUseCRBOffsetUnit_s{};
-    u8 _48[0x78 - 0x48];
+    sead::Vector3f _48;
+    sead::Matrix33f _54;
     Unk_71000b0800<Unk_7102384718> _78;
     bool _80{};
 };

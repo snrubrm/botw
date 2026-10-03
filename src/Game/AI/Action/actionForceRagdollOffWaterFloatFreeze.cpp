@@ -11,16 +11,7 @@ bool ForceRagdollOffWaterFloatFreeze::init_(sead::Heap* heap) {
     if (!WaterFloatFreeze::init_(heap))
         return false;
     _80.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_80._0)) {
-        if (!(unit->_b0 & 1)) {
-            unit->_8.setName("Skl_Root");
-            unit->_8._68 = sead::Matrix34f::ident;
-            unit->_b4 = 0;
-            unit->_b0 |= 1;
-        }
-    }
-    _80.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-    _80.x();
+    setupCRBOffsetUnit(_80);
     return true;
 }
 

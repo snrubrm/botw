@@ -12,23 +12,14 @@ ForkAlwaysForceGetUp::~ForkAlwaysForceGetUp() = default;
 bool ForkAlwaysForceGetUp::init_(sead::Heap* heap) {
     if (*mIsUseCRBOffsetUnit_s) {
         _78.acquire(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78._0)) {
-            if (!(unit->_b0 & 1)) {
-                unit->_8.setName("Skl_Root");
-                unit->_8._68 = sead::Matrix34f::ident;
-                unit->_b4 = 0;
-                unit->_b0 |= 1;
-            }
-        }
-        _78.sub_7100137A28(heap, static_cast<Unk_71025afb58**>(mCRBOffsetUnit_a));
-        _78.x();
+        setupCRBOffsetUnit(_78);
     }
     return true;
 }
 
 void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsUseCRBOffsetUnit_s) {
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78._0))
             unit->_8.sub_attach(mActor);
     }
     m32(&_48);
@@ -38,7 +29,7 @@ void ForkAlwaysForceGetUp::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ForkAlwaysForceGetUp::leave_() {
     if (*mIsUseCRBOffsetUnit_s) {
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78._0))
             unit->_8.sub_detach(mActor);
     }
 }
@@ -55,7 +46,7 @@ void ForkAlwaysForceGetUp::calc_() {
     if (_80) {
         sub_7100738AA8(mActor, 0.0f);
         if (*mIsUseCRBOffsetUnit_s) {
-            if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+            if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78._0))
                 unit->_8.mHandle._68 = sead::Matrix34f::ident;
         }
         return;
@@ -66,7 +57,7 @@ void ForkAlwaysForceGetUp::calc_() {
                          *mRotSpdMin_s);
     sub_7100740F1C(_54, mActor);
     if (*mIsUseCRBOffsetUnit_s) {
-        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78.mSlot))
+        if (auto* unit = sead::DynamicCast<Unk_7102384718>(*_78._0))
             sub_71007448C0(&unit->_8.mHandle, sead::Matrix34f::ident, *mRotRatio_s);
     }
 }
