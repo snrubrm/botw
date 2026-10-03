@@ -3,18 +3,59 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
+#include "Game/gameMaskController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Utils/SafeDelete.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::act {
 
 MotorcycleStruct1::MotorcycleStruct1() = default;
+MotorcycleStruct1::~MotorcycleStruct1() = default;
+
+MotorcycleUserTag::~MotorcycleUserTag() = default;
+
+void MotorcycleUserTag::onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::RigidBody* body_b,
+                                  f32 impulse_a) {
+    Entry* entry = nullptr;
+    for (auto& e : mEntries) {
+        if (e.body == body_a)
+            entry = &e;
+    }
+    if (!entry)
+        return;
+
+    if (impulse_a >= 100.0f) {
+        if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(body_b->getUserTag())) {
+            ksys::act::ActorConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            if (accessor.hasTag(ksys::act::tags::TeamForestGiant) ||
+                accessor.hasTag(ksys::act::tags::TeamGolem)) {
+                entry->hit_by_giant_or_golem = true;
+            }
+        }
+    }
+
+    entry->impulse = sead::Mathf::max(impulse_a, entry->impulse);
+    entry->updated = true;
+}
 
 ksys::act::BaseProc* Motorcycle::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Motorcycle(arg);
 }
 
-// NON_MATCHING: the members are placeholders (ctor and dtor not decompiled)
-Motorcycle::~Motorcycle() = default;
+Motorcycle::~Motorcycle() {
+    if (_1648)
+        ksys::util::safeDelete(_1648);
+    if (_1650)
+        ksys::util::safeDelete(_1650);
+}
 
 bool Motorcycle::shouldUnload(s32* a1) {
     s32 reason = 0;
@@ -104,6 +145,63 @@ void Motorcycle::setLeftStickY(f32 y) {
     _ba8.motorcycleStickControlStuff(y);
 }
 
+void Motorcycle::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    DynamicActor::m76(setter);
+    if (_1128) {
+        _1128 = false;
+        x_3(_112c);
+    }
+    if (sead::DynamicCast<ksys::act::Player>(getConnectedCalcChild()))
+        sub_71008BBDC8();
+    sub_7100071CB0();
+}
+
+void Motorcycle::updateMtxFromPhysics() {
+    sead::Vector3f velocity;
+    sead::Matrix34f mtx;
+    if (auto* controller = getCharacterController()) {
+        controller->sub_7100F5F598(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F635BC(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F626E8(&mtx);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body)
+            return;
+        body->getLinearVelocity(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        body->getAngularVelocity(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        body->getTransform(&mtx);
+    }
+    mMtx = mtx;
+    nullsub_4648();
+}
+
+void Motorcycle::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
+    Actor::setMtx(mtx, a2, a3);
+    x_12(mtx);
+
+    _bb8->setLinearVelocity(sead::Vector3f::zero);
+    _bb8->setAngularVelocity(sead::Vector3f::zero);
+    _dd0->_0->setLinearVelocity(sead::Vector3f::zero);
+    _dd0->_0->setAngularVelocity(sead::Vector3f::zero);
+    _dd8->_0->setLinearVelocity(sead::Vector3f::zero);
+    _dd8->_0->setAngularVelocity(sead::Vector3f::zero);
+
+    _11b0._388 = _dd0->_0->getPosition();
+    _11b0._394 = _dd8->_0->getPosition();
+    _1608.set(0.0f, 0.0f, 0.0f);
+
+    _e6c = mtx(1, 3);
+    _e70 = mtx(1, 3);
+    _ec4 = 10;
+    const sead::Vector3f translation = mtx.getTranslation();
+    _ed4 = translation;
+    _ec8 = translation;
+}
+
 void Motorcycle::sub_7100077830() {
     if (_f88.isOnBit(20))
         return;
@@ -111,6 +209,38 @@ void Motorcycle::sub_7100077830() {
     _bb8->changeMotionType(ksys::phys::MotionType::Fixed);
     _dd0->_0->changeMotionType(ksys::phys::MotionType::Fixed);
     _dd8->_0->changeMotionType(ksys::phys::MotionType::Fixed);
+}
+
+// NON_MATCHING: the three fadds of `start` have their operands swapped (`prod + pos` in the original)
+void Motorcycle::sub_7100071CB0() {
+    _f88.reset(0x1000000);
+    if (!mPhysics)
+        return;
+
+    ksys::phys::RayCastBodyQuery query(mPhysics->get188(0), ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+
+    sead::Vector3f up, forward;
+    const sead::Vector3f pos = _bb8->getPosition();
+    _bb8->getTransform().getBase(up, 1);
+    _bb8->getTransform().getBase(forward, 2);
+    const sead::Vector3f start = pos + up * 1.2f;
+    query.setStartAndDisplacementScaled(start, forward, 2.0f);
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        _f88.set(0x1000000);
+}
+
+void Motorcycle::sub_71000769B4() {
+    if ((_eec - _bb8->getInertiaLocal()).squaredLength() > 0.1f)
+        _bb8->setInertiaLocal(_eec);
+    if ((_ef8 - _dd0->_0->getInertiaLocal()).squaredLength() > 0.1f)
+        _dd0->_0->setInertiaLocal(_ef8);
+    if ((_f04 - _dd8->_0->getInertiaLocal()).squaredLength() > 0.1f)
+        _dd8->_0->setInertiaLocal(_f04);
 }
 
 void Motorcycle::sub_7100072204() {

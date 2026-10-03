@@ -51,4 +51,7 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(MaskController, 0x2c8);
 
+// 0x71008bbdc8 (declaration only; called by Motorcycle::m76 when its rider is the player).
+void sub_71008BBDC8();
+
 }  // namespace uking

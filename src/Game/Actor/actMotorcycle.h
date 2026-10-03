@@ -7,6 +7,7 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 
 namespace ksys::phys {
 class Constraint;
@@ -33,10 +34,34 @@ struct MotorcycleStruct2 {
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
 
+// CSV MotorcycleUserTag (no namespace in the CSV; vtable 0x71023612c0, RTTI parent PhysicsUserTag, size
+// 0x60). Created inline by Motorcycle::prepareInit_ with the main body and both wheels; it records the
+// biggest impulse each body received (and whether it was hit by a giant / golem).
+class MotorcycleUserTag : public ksys::act::PhysicsUserTag {
+    SEAD_RTTI_OVERRIDE(MotorcycleUserTag, ksys::act::PhysicsUserTag)
+public:
+    struct Entry {
+        s32 _0;
+        ksys::phys::RigidBody* body;
+        f32 impulse;
+        bool updated;
+        bool hit_by_giant_or_golem;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x18);
+
+    ~MotorcycleUserTag() override;
+    void onImpulse(ksys::phys::RigidBody* body_a, ksys::phys::RigidBody* body_b,
+                   f32 impulse_a) override;
+
+    Entry mEntries[3];
+};
+KSYS_CHECK_SIZE_NX150(MotorcycleUserTag, 0x60);
+
 // Placeholder name following the CSV's MotorcycleStruct0 (ctor 0x710007027c, size 0x430, at Motorcycle +
 // 0x11b0): the model bones of the motorcycle (looked up by Motorcycle::searchModelHandles).
 struct MotorcycleStruct1 {
     MotorcycleStruct1();
+    ~MotorcycleStruct1();
 
     /* 0x000 */ gsys::BoneAccessKeyEx mWheel_F;
     /* 0x038 */ gsys::BoneAccessKeyEx mWheel_R;
@@ -180,7 +205,9 @@ public:
     /* 0x112c */ f32 _112c;
     /* 0x1130 */ u8 _1130[0x11b0 - 0x1130];
     /* 0x11b0 */ MotorcycleStruct1 _11b0;
-    /* 0x15e0 */ u8 _15e0[0x1648 - 0x15e0];
+    /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];
+    /* 0x1608 */ sead::Vector3f _1608;
+    /* 0x1614 */ u8 _1614[0x1648 - 0x1614];
     /* 0x1648 */ Unk_7100e8b2b8* _1648;
     /* 0x1650 */ ksys::phys::NavMeshCharacter* _1650;
     /* 0x1658 */ u8 _1658[0x1670 - 0x1658];
