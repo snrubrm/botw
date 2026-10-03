@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
     bool m34() override;
+    void m35(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
     // static_param at offset 0x7c0

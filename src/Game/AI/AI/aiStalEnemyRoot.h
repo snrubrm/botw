@@ -44,7 +44,7 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
     virtual bool m34();
-    virtual void m35();
+    virtual void m35(ksys::act::ai::InlineParamPack* params);
     virtual bool m36();
 
 protected:

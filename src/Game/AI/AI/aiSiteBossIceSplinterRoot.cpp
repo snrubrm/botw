@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossIceSplinterRoot.h"
+#include <cmath>
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -75,6 +77,13 @@ bool SiteBossIceSplinterRoot::m56() {
     if (m55())
         return false;
     return !_228;
+}
+
+// NON_MATCHING: the original loads the mChaseAngleMin_s pointer before the powf call (x20 live across it)
+f32 SiteBossIceSplinterRoot::m57() {
+    _240 += (1.0f - std::pow(0.99f, ksys::VFR::instance()->getDeltaFrame())) *
+            (*mChaseAngleMin_s - _240);
+    return _240;
 }
 
 }  // namespace uking::ai

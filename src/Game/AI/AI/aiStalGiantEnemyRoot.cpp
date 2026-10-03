@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiStalGiantEnemyRoot.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -81,6 +83,13 @@ void StalGiantEnemyRoot::loadParams_() {
     // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
     // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
     // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+}
+
+void StalGiantEnemyRoot::m35(ksys::act::ai::InlineParamPack* params) {
+    bool is_sleep = false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        is_sleep = enemy->_e84.isOnBit(8);
+    params->addBool(is_sleep, "IsSleep", -1);
 }
 
 bool StalGiantEnemyRoot::m34() {

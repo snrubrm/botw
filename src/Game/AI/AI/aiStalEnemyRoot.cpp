@@ -73,7 +73,7 @@ bool StalEnemyRoot::m34() {
     return sub_71005D6E28(mActor);
 }
 
-void StalEnemyRoot::m35() {}
+void StalEnemyRoot::m35(ksys::act::ai::InlineParamPack* params) {}
 
 bool StalEnemyRoot::m36() {
     auto* child = getCurrentChild();

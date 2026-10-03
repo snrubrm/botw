@@ -23,6 +23,7 @@ public:
     u32 m51() override;
     bool m54() override;
     bool m56() override;
+    f32 m57() override;
 
 protected:
     // static_param at offset 0x180
@@ -68,7 +69,8 @@ protected:
     bool _22c = false;
     u64 _230 = 0;
     u64 _238 = 0;
-    u64 _240 = 0;
+    f32 _240 = 0;
+    u32 _244 = 0;
     u8 _248[0x270 - 0x248];
     // sead::Delegate1<SiteBossIceSplinterRoot, ?*> (handler 0x7100577b18; argument: a struct with a
     // Vector3f at +0 and a pointer at +0x18 to an object holding a BaseProcLink at +0xd8 -- the
