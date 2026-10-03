@@ -14,7 +14,16 @@ bool TeleportTargetFrontInAir::init_(sead::Heap* heap) {
 }
 
 void TeleportTargetFrontInAir::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    sub_710072BB70(actor, &_50, false, false);
+    if (auto* lod = actor->getLodState())
+        lod->mFlags26.set(1);
+    _5c = 0;
+    _60 = sead::Vector3f::zero;
+    if (!actor->getCharacterController() && !actor->getMainBody()) {
+        _5c = 4;
+        setFailed();
+    }
 }
 
 void TeleportTargetFrontInAir::leave_() {

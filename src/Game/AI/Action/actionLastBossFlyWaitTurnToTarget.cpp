@@ -15,6 +15,7 @@ LastBossFlyWaitTurnToTarget::~LastBossFlyWaitTurnToTarget() {
 
 void LastBossFlyWaitTurnToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     LastBossFlyWait::enter_(params);
+    _ec.value = _ec.prev_value = mActor->getAngVelocity().length();
 }
 
 void LastBossFlyWaitTurnToTarget::leave_() {

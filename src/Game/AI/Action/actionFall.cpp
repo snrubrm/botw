@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionFall.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
@@ -23,10 +26,36 @@ void Fall::loadParams_() {
 }
 
 void Fall::calc_() {
-    ActionEx::calc_();
+    _38 *= 0.992f;
+    _38.updateStats();
+    _44.lerp(sead::Vector3f::zero, 0.12f);
+    _44.updateStats();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5E7F0(_38.value * 30.0f);
+        controller->sub_7100F5FB24(_44.value * 30.0f);
+    }
 }
 
 bool Fall::isChangeable() const {
+    return false;
+}
+
+bool Fall::isFinished() const {
+    auto* actor = mActor;
+    if (isBgGroundHit(actor, false))
+        return true;
+    if (*mInWaterDepth_s >= 0.0f) {
+        f32 depth;
+        if (actor->getCharacterController()) {
+            depth = actor->getCharacterController()->_210;
+        } else if (actor->get68f()) {
+            const f32 y = actor->getMtx().m[1][3];
+            depth = actor->get6f0() - y;
+        } else {
+            depth = 0.0f;
+        }
+        return depth >= *mInWaterDepth_s;
+    }
     return false;
 }
 

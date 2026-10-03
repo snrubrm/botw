@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionTeleportBase.h"
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -33,9 +34,7 @@ protected:
     const float* mTerritoryArea_s{};
     TeleportBase::SavedState _50;
     int _5c = 0;
-    float _60 = 0.0f;
-    int _64 = 0;
-    float _68 = 0.0f;
+    sead::Vector3f _60{0, 0, 0};
     float _6c = 0.0f;
     int _70 = 0;
     int _74 = 0;

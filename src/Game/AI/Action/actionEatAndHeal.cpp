@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEatAndHeal.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/actWolfLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -17,6 +19,12 @@ bool EatAndHeal::init_(sead::Heap* heap) {
 
 void EatAndHeal::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalEatAction::enter_(params);
+    auto* target = mTargetActor_d;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(target, &accessor))
+        setFailed();
+    if (!ksys::act::hasTag(target, ksys::act::tags::CureItem))
+        setFailed();
 }
 
 void EatAndHeal::leave_() {

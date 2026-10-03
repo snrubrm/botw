@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBackStepToTargetPos.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -59,6 +60,11 @@ f32 BackStepToTargetPos::m42() {
         return y + height - _108.y;
     }
     return *mJumpHeight_s;
+}
+
+void BackStepToTargetPos::m33(sead::Vector3f* dir, const sead::Vector3f& up) {
+    ksys::util::sub_71011EFA00(dir, _108 - *mTargetPos_d, up);
+    dir->normalize();
 }
 
 }  // namespace uking::action

@@ -26,6 +26,7 @@ protected:
     // static_param at offset 0xa8
     sead::SafeString mASName_s{};
     ksys::act::CCAccessor _b8;
+    void m38() override;
 };
 
 }  // namespace uking::action

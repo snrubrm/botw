@@ -24,4 +24,16 @@ void SwimSmallDamage::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+void SwimSmallDamage::m38() {
+    f32 depth = 0.0f;
+    if (mActor->get68f()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        depth = mActor->get6f0() - y;
+    }
+    if (depth + *mFloatRadius_s >= *mInWaterDepth_s + *mFloatDepth_s)
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    else
+        SmallDamage::m38();
+}
+
 }  // namespace uking::action

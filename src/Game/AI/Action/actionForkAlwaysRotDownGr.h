@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -22,7 +23,7 @@ protected:
     // static_param at offset 0x20
     const float* mGroundRotAngle_s{};
     ksys::VFRValue _28;
-    u8 _34[0xc];
+    sead::Vector3f _34;
     bool _40 = true;
     u8 _41[0x7];
 };
