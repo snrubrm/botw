@@ -86,6 +86,7 @@ public:
 
     bool sub_7100960DF8();
     void sub_71009645D0(const void* a1);
+    void sub_710096372C(const void* a1);
     void* sub_71009648A8();
     bool sub_7100964A0C(s32 a1);
     void sub_7100963CE8(ksys::act::Actor* actor);

@@ -445,6 +445,48 @@ bool sub_7100A9F57C(s32* out_index, const sead::Vector3f& pos, f32 radius) {
     return false;
 }
 
+// 0x7100a9488c
+void sub_7100A9488C() {
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::HomeMenuCapture))
+        screen->close(-1);
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::HomeMenuCapture2))
+        screen->close(-1);
+}
+
+// 0x7100a980f8
+void sub_7100A980F8() {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* screen = mgr->getScreen(ScreenId::LoadingWeapon);
+    if (!screen)
+        return;
+    if (screen->isClosed() || screen->isClosedOrClosing())
+        screen->open(2);
+}
+
+// 0x7100a9a430
+void sub_7100A9A430(const void* a0) {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap);
+    if (!screen)
+        return;
+    if (screen->isClosed())
+        return;
+    if (auto* s = UiSubsys1::instance())
+        s->sub_710096372C(a0);
+}
+
+// 0x7100a9a508
+// NON_MATCHING: same instruction sequence, but the original keeps the result in w19 (`mov w19, 1` at the shared
+// true exit) while ours materialises a separate w8 constant and ands the result (the five-way ||)
+bool sub_7100A9A508() {
+    return (UiSubsys1::instance() && UiSubsys1::instance()->sub_7100964A0C(0)) ||
+           (UiSubsys1::instance() && UiSubsys1::instance()->sub_7100964A0C(1)) ||
+           (UiSubsys1::instance() && UiSubsys1::instance()->sub_7100964A0C(2)) ||
+           (UiSubsys1::instance() && UiSubsys1::instance()->sub_7100964A0C(3)) ||
+           (UiSubsys1::instance() && UiSubsys1::instance()->sub_7100964A0C(4));
+}
+
 }  // namespace uking::ui
 
 namespace uking::ai {
