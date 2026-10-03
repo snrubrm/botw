@@ -41,7 +41,12 @@ protected:
     sead::SafeString _f0{};
     sead::SafeString _100{};
     f32 _110 = -1.0f;
+    f32 _114;
+    s32 _118;
+    f32 _11c;
+    sead::Vector3f _120;
+    u32 _12c;
 };
-KSYS_CHECK_SIZE_NX150(NPCWander, 0x118);
+KSYS_CHECK_SIZE_NX150(NPCWander, 0x130);
 
 }  // namespace uking::ai
