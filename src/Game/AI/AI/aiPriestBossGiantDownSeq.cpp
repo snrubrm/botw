@@ -95,14 +95,14 @@ void PriestBossGiantDownSeq::calc_() {
     }
 }
 
-bool PriestBossGiantDownSeq::handleMessage_(const ksys::Message& message) {
-    if (!_b0._30 && _b0.m2(message))
+bool PriestBossGiantDownSeq::handleMessage_(const ksys::Message* message) {
+    if (!_b0._30 && _b0.m2(*message))
         return true;
     return false;
 }
 
-bool PriestBossGiantDownSeq::handleAck_(const ksys::MessageAck& ack) {
-    if (!_80.sub_710070E070(ack))
+bool PriestBossGiantDownSeq::handleAck_(const ksys::MessageAck* ack) {
+    if (!_80.sub_710070E070(*ack))
         return false;
     _105 = true;
     return true;

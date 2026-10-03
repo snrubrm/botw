@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionArmorBindNodeAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,8 @@ void ArmorBindNodeAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ArmorBindNodeAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* bind = m32())
+        mActor->sub_71011DA834(bind);
 }
 
 void ArmorBindNodeAction::loadParams_() {

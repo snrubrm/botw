@@ -55,12 +55,12 @@ void ReuseBulletPartsRoot::leave_() {
 
 void ReuseBulletPartsRoot::loadParams_() {}
 
-bool ReuseBulletPartsRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000007) {
+bool ReuseBulletPartsRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000007) {
         sub_7100551DAC();
         return true;
     }
-    if (_38.m2(message)) {
+    if (_38.m2(*message)) {
         _88 = true;
         return true;
     }

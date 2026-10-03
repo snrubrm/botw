@@ -21,6 +21,10 @@ class ContactPointInfo;
 class RigidBody;
 class SystemGroupHandler;
 
+struct CharacterControllerUnk10;
+struct CharacterControllerUnk20;
+struct CharacterControllerShapes;
+
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
 public:
@@ -49,6 +53,8 @@ public:
     // 0x7100f5f264 (declared only; lane2 s20): reads byte 0x69 of the sub-object at +0x40.
     bool sub_7100F5F264() const;
     void sub_7100F5F458(act::MotionType type);
+    // 0x7100f605c8: copies `value` to _ac / _bc / _cc.
+    void sub_7100F605C8(const sead::Vector3f& value);
 
     bool sub_7100F636EC() const;
     void sub_7100F636B0(bool clear);
@@ -116,6 +122,8 @@ public:
     void sub_7100F5FBC8(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
                         const sead::Matrix34f& target);
     void sub_7100F60500(const sead::Matrix34f& mtx);
+    // 0x7100f5eecc (declared only)
+    void sub_7100F5EECC(f32 value);
     // 0x7100f5e954: mRigidBody->isAddedToWorld().
     bool sub_7100F5E954() const;
     RigidBody* sub_7100F61A34() const;
@@ -153,8 +161,6 @@ public:
     // 0x7100f6059c: resets the movement state (_144 = 1.0f; _148 / _15c / _160 / _168 / _210 = 0; clears
     // most bits of _116).
     void sub_7100F6059C();
-    // 0x7100f605c8: copies `value` to _ac / _bc / _cc.
-    void sub_7100F605C8(const sead::Vector3f& value);
     // 0x7100f60e80: stores `value` (as 0 / 1) in the sub-objects at +0x50 (+0x38) and +0x48 (+0x94).
     void sub_7100F60E80(bool value);
     // 0x7100f62b78: _11c.
@@ -175,7 +181,12 @@ public:
     bool sub_7100F63370() const;
 
     RigidBody* mRigidBody;
-    u8 _10[0x60 - 0x10];
+    CharacterControllerUnk10* _10;
+    u8 _18[0x20 - 0x18];
+    CharacterControllerUnk20* _20;
+    u8 _28[0x30 - 0x28];
+    CharacterControllerShapes* _30;
+    u8 _38[0x60 - 0x38];
     f32 _60;
     sead::Vector3f _64;
     sead::Vector3f _70;
@@ -186,14 +197,17 @@ public:
     u8 _d0[0xfc - 0xd0];
     f32 _fc;
     f32 _100;
-    u8 _104[0x110 - 0x104];
+    f32 _104;
+    u8 _108[0x110 - 0x108];
     f32 _110;
     u16 _114;  // flags
     u8 _116;  // bit 2: read by PlayerFall::enter_ (the flag word at 0x114 may be a u32)
     u8 _117;
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x210 - 0x120];
+    u8 _120[0x150 - 0x120];
+    s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
+    u8 _154[0x210 - 0x154];
     f32 _210;
     u8 _214[0x220 - 0x214];
     f32 _220;

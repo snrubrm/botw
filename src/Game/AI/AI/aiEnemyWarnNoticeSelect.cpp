@@ -52,8 +52,8 @@ void EnemyWarnNoticeSelect::m34() {
     setFinished();
 }
 
-bool EnemyWarnNoticeSelect::handleMessage_(const ksys::Message& message) {
-    if (_b8.m2(message) && _b8._38.mData._0 == *mTargetActor_d && _b8._38.mData._24 == 2) {
+bool EnemyWarnNoticeSelect::handleMessage_(const ksys::Message* message) {
+    if (_b8.m2(*message) && _b8._38.mData._0 == *mTargetActor_d && _b8._38.mData._24 == 2) {
         _138 = true;
         return true;
     }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -18,9 +19,9 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x38: unknown polymorphic object (vtable 0x710240bc58) holding a BaseProcLink at +0x18
-    u8 _38[0x30];
-    ksys::Timer _68;
+    Unk_710240bc48 _38{mActor, 0x8000009};
+    ksys::Timer _68{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(NPCTravelBase, 0x78);
 
 }  // namespace uking::ai

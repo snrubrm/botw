@@ -8,7 +8,9 @@ static const sead::SafeString sUnk_710240AAB8 = "Hair_Root";
 
 NPCArtistRoot::NPCArtistRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-NPCArtistRoot::~NPCArtistRoot() = default;
+NPCArtistRoot::~NPCArtistRoot() {
+    mActor->sub_71011DA868(&_248);
+}
 
 // NON_MATCHING: the original loads sead::Vector3f::zero once, before the sin/cos calls; ours
 // reloads it after each call

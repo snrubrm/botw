@@ -46,8 +46,8 @@ void GuardianMiniFinalBattle::changeToMoveBattleSign() {
     changeChild("戦闘予兆移動", &pack);
 }
 
-bool GuardianMiniFinalBattle::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x8000043)
+bool GuardianMiniFinalBattle::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x8000043)
         ++_d4;
     return false;
 }

@@ -36,8 +36,8 @@ void InsectRoot::loadParams_() {
     getStaticParam(&mIsEscapeInWater_s, "IsEscapeInWater");
 }
 
-bool InsectRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x3000009 || _10c || isCurrentChild("死亡"))
+bool InsectRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x3000009 || _10c || isCurrentChild("死亡"))
         return false;
 
     if (isCurrentChild("逃走"))

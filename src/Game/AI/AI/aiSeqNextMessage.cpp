@@ -50,8 +50,8 @@ bool SeqNextMessage::m35() const {
     return getCurrentChild()->isChangeable() && _90 < 0.0f;
 }
 
-bool SeqNextMessage::handleMessage_(const ksys::Message& message) {
-    if (_58.m2(message)) {
+bool SeqNextMessage::handleMessage_(const ksys::Message* message) {
+    if (_58.m2(*message)) {
         if (isCurrentChild("先行動"))
             return true;
         _58.x();

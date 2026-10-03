@@ -19,7 +19,7 @@ public:
     void m37() override;
     void m49(Unk1* out, s32 idx) override;
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool m56(Unk2* out, Unk1* info) override;
     void m57(s32 type, Unk2* target) override;

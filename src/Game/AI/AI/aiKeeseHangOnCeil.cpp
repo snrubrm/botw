@@ -31,8 +31,8 @@ void KeeseHangOnCeil::leave_() {
 
 void KeeseHangOnCeil::loadParams_() {}
 
-bool KeeseHangOnCeil::handleMessage_(const ksys::Message& message) {
-    if (_90._30 || !_90.m2(message))
+bool KeeseHangOnCeil::handleMessage_(const ksys::Message* message) {
+    if (_90._30 || !_90.m2(*message))
         return false;
     _108 = sead::GlobalRandom::instance()->getF32() * 8.0f;
     return true;

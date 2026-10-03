@@ -114,8 +114,8 @@ protected:
     virtual bool reenter_(ActionBase* other, bool x);
     virtual void leave_() {}
     virtual void loadParams_() {}
-    virtual bool handleMessage_(const Message& message) { return false; }
-    virtual bool handleAck_(const MessageAck& message) { return false; }
+    virtual bool handleMessage_(const Message* message) { return false; }
+    virtual bool handleAck_(const MessageAck* message) { return false; }
 
 public:
     virtual bool updateForPreDelete() { return true; }

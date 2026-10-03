@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -30,6 +31,15 @@ protected:
     const float* mJumpHeight_s{};
     // static_param at offset 0x48
     sead::SafeString mASKey_s{};
+    u64 _58 = 0;
+    s32 _60 = 0;
+    sead::Vector3f _64;
+    sead::Vector3f _70;
+    ksys::Timer _7c;
+    bool _88 = false;
+    bool _89 = false;
+    bool _8a = false;
 };
+KSYS_CHECK_SIZE_NX150(JumpMove, 0x90);
 
 }  // namespace uking::action

@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
@@ -11,7 +12,10 @@ namespace uking::ai {
 
 TornadoRoot::TornadoRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-TornadoRoot::~TornadoRoot() = default;
+TornadoRoot::~TornadoRoot() {
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBDFA4(physics->get178(0));
+}
 
 bool TornadoRoot::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

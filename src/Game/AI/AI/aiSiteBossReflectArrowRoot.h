@@ -31,7 +31,7 @@ public:
     void m45(sead::Vector3f* out) override;
     void m46(sead::Vector3f* out) override;
     bool m48() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool sub_7100582C20(sead::Vector3f* out);
 

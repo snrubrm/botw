@@ -36,8 +36,8 @@ void HorseRideChargeAttack::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-bool HorseRideChargeAttack::handleMessage_(const ksys::Message& message) {
-    return _60.m2(message);
+bool HorseRideChargeAttack::handleMessage_(const ksys::Message* message) {
+    return _60.m2(*message);
 }
 
 }  // namespace uking::ai

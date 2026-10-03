@@ -22,7 +22,7 @@ bool PreyLookAtTarget::init_(sead::Heap* heap) {
 // original (cbz here)
 void PreyLookAtTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     const sead::Vector3f pos = mActor->getMtx().getTranslation();
-    _50 = *mTargetPos_d;
+    _50 = *mParams.mTargetPos_d;
 
     const bool hearing = mActor->getASList()->x_1(0, 0).startsWith("Hearing");
     if (!hearing) {
@@ -32,7 +32,7 @@ void PreyLookAtTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         sead::Vector3f front;
         mtx.getBase(front, 2);
         const f32 dist = dir.normalize();
-        const f32 limit = *mLimitAngle_s;
+        const f32 limit = *mParams.mLimitAngle_s;
         if (front.dot(dir) < std::cos(limit)) {
             const f32 angle = limit * (front.cross(dir).y >= 0.0f ? 1.0f : -1.0f);
             sead::Matrix34f rot;
@@ -66,7 +66,7 @@ void PreyLookAtTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreyLookAtTarget::calc_() {
-    if (*mIsUpdateViewPos_s)
+    if (*mParams.mIsUpdateViewPos_s)
         getCurrentChild()->setDynamicParam(_50, "TargetPos");
 
     auto* child = getCurrentChild();
@@ -98,9 +98,9 @@ void PreyLookAtTarget::leave_() {
 }
 
 void PreyLookAtTarget::loadParams_() {
-    getStaticParam(&mLimitAngle_s, "LimitAngle");
-    getStaticParam(&mIsUpdateViewPos_s, "IsUpdateViewPos");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mLimitAngle_s, "LimitAngle");
+    getStaticParam(&mParams.mIsUpdateViewPos_s, "IsUpdateViewPos");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 }  // namespace uking::ai

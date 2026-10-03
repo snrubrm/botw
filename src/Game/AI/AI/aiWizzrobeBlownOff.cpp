@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWizzrobeBlownOff.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -17,7 +19,8 @@ void WizzrobeBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WizzrobeBlownOff::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F605C8(sead::Vector3f::zero);
 }
 
 void WizzrobeBlownOff::loadParams_() {

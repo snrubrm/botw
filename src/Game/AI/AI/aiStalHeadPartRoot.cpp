@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiStalHeadPartRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
 
@@ -11,6 +13,12 @@ bool StalHeadPartRoot::init_(sead::Heap* heap) {
 }
 
 void StalHeadPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    if (mActor->sub_7100EE1E94() && !m35()) {
+        changeChild("朝が来た");
+        return;
+    }
+    if (auto* body = mActor->getMainBody())
+        body->clearFlag2000000(false);
     EnemyRoot::enter_(params);
 }
 

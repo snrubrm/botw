@@ -82,10 +82,10 @@ void LynelTackleMove::sub_710049BEC4() {
     }
 }
 
-bool LynelTackleMove::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003)
+bool LynelTackleMove::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
         sub_710049BEC4();
-    else if (message.getType() == 0x3000004)
+    else if (message->getType() == 0x3000004)
         sub_710049B8F0();
     return false;
 }

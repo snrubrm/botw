@@ -9,7 +9,7 @@ class EnemyFortressChatTurnBase : public ksys::act::ai::Action {
 public:
     explicit EnemyFortressChatTurnBase(const InitArg& arg);
     ~EnemyFortressChatTurnBase() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

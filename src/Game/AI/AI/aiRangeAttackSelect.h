@@ -20,14 +20,17 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x38
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x40
-    const float* mRangeDist_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0x50
-    const bool* mIsIgnoreSmallHit_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x40
+        const float* mRangeDist_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0x50
+        const bool* mIsIgnoreSmallHit_s{};
+    };
+    Params mParams;
     Unk_7102451ba0 _58;
 };
 KSYS_CHECK_SIZE_NX150(RangeAttackSelect, 0x80);

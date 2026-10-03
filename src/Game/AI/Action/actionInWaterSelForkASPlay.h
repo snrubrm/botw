@@ -32,6 +32,8 @@ protected:
     const bool* mIsIgnoreSame_s{};
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
+    f32 _60 = 0.0f;
 };
+KSYS_CHECK_SIZE_NX150(inWaterSelForkASPlay, 0x68);
 
 }  // namespace uking::action

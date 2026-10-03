@@ -242,7 +242,7 @@ Action* ActionBase::getCurrentAction() {
 
 bool ActionBase::handleMessage(const Message& message) {
     auto* action = this;
-    while (!action->handleMessage_(message)) {
+    while (!action->handleMessage_(&message)) {
         action = action->getCurrentChild();
         if (!action)
             return false;
@@ -252,7 +252,7 @@ bool ActionBase::handleMessage(const Message& message) {
 
 bool ActionBase::handleAck(const MessageAck& message) {
     auto* action = this;
-    while (!action->handleAck_(message)) {
+    while (!action->handleAck_(&message)) {
         action = action->getCurrentChild();
         if (!action)
             return false;

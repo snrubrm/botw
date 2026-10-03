@@ -367,7 +367,10 @@ public:
     using Unk_7102357d20::Unk_7102357d20;
     void* m2() override { return &_18; }
 
-    void sub_710070E2BC(const u32& a, s32 b);
+    // Placeholder enum: the by-reference argument of sub_710070E2BC (a SEAD_ENUM temporary gets the
+    // stack slot of the original's argument).
+    SEAD_ENUM(Unk1, _0, _1)
+    void sub_710070E2BC(const Unk1& a, s32 b);
 
     Unk_7102413c08_Payload _18;
 };
@@ -464,6 +467,16 @@ public:
 
     ksys::act::BaseProcLink _18;
     sead::JobQueueLock _28;
+};
+
+// vtable 0x710240bc48 (NPCTravelBase at +0x38, NPCMove at +0x2c0); message 0x8000009. D2 / D0 / m2 at
+// 0x71004cdc50 / 0x71004d4f64 / 0x71004d4f98 (lane2 s21).
+class Unk_710240bc48 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_710240bc48_Payload _18;
 };
 
 // --- lane1 session 7 senders ---

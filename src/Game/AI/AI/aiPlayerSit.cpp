@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiPlayerSit.h"
+#include "Game/AI/aiUnk_710087CE34.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -9,7 +13,13 @@ bool PlayerSit::init_(sead::Heap* heap) {
 }
 
 void PlayerSit::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    sub_710087CE34(mActor);
+    if (hasPendingChildChange())
+        changeChild(mPendingChildIdx);
+    else
+        changeChild("開始");
 }
 
 void PlayerSit::calc_() {
@@ -27,7 +37,9 @@ void PlayerSit::calc_() {
 }
 
 void PlayerSit::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sub_710087CE90(mActor);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
 }
 
 bool PlayerSit::isFinished() const {

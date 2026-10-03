@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiPreyNormal.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71006F1DF0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -59,15 +60,15 @@ void PreyNormal::m9() {
     _180 = (root && root->getI() == 4) || *mIsLocatorCreate_m;
 }
 
-bool PreyNormal::handleMessage_(const ksys::Message& message) {
+bool PreyNormal::handleMessage_(const ksys::Message* message) {
     if (!_1f8._30 &&
         !mActor->getActorFlags2().isAnyOn({ksys::act::Actor::ActorFlag2::_2000000,
                                            ksys::act::Actor::ActorFlag2::_8000000}) &&
-        _1f8.m2(message)) {
+        _1f8.m2(*message)) {
         return true;
     }
     if (!_2c0._30 && !mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_8000000) &&
-        _2c0.m2(message)) {
+        _2c0.m2(*message)) {
         return true;
     }
     return false;
@@ -115,6 +116,12 @@ bool PreyNormal::m36() {
     return _140.value <= sead::Mathf::epsilon();
 }
 
+bool PreyNormal::m39(const sead::Vector3f& pos) {
+    if (*mEnableNoEntryAreaCheck_m)
+        return sub_71006F1DF0(mActor, pos);
+    return false;
+}
+
 bool PreyNormal::m38() {
     if (auto* nav = mActor->m45()) {
         if ((nav->_2a4 & 0xffff) != 0x17) {
@@ -131,6 +138,17 @@ bool PreyNormal::m40() {
 
 bool PreyNormal::m41() {
     return sub_71004FCA60();
+}
+
+// NON_MATCHING: scheduling (the original computes the clamped index before the own-target link)
+ksys::act::Unk_7100d78e50* PreyNormal::sub_7100501B84(s32 idx, Unk_7102410738* filter) {
+    const auto& own_target = _d0 ? _d0->_c48._8 : ksys::act::sUnk_71026505e0;
+    while (_d8->_260[idx]) {
+        auto* entry = ksys::act::sub_7100D7EEE8(&_d8->_260[idx]->_8, filter);
+        if (!entry || !(entry->_0.mLink == own_target))
+            return entry;
+    }
+    return nullptr;
 }
 
 // NON_MATCHING: scheduling (the original computes the clamped index before the own-target link)

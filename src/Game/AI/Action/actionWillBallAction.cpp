@@ -23,16 +23,16 @@ void WillBallAction::leave_() {
 }
 
 void WillBallAction::loadParams_() {
-    getStaticParam(&mRotBaseRatio_s, "RotBaseRatio");
-    getStaticParam(&mMaxSpeed_s, "MaxSpeed");
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mReachRange_s, "ReachRange");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mTiredAngle_s, "TiredAngle");
-    getStaticParam(&mIsIgnoreLastSpRot_s, "IsIgnoreLastSpRot");
-    getStaticParam(&mIsAddAABBHeight_s, "IsAddAABBHeight");
-    getStaticParam(&mIsGround_s, "IsGround");
-    getStaticParam(&mAccel_s, "Accel");
+    getStaticParam(&mParams.mRotBaseRatio_s, "RotBaseRatio");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mReachRange_s, "ReachRange");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mTiredAngle_s, "TiredAngle");
+    getStaticParam(&mParams.mIsIgnoreLastSpRot_s, "IsIgnoreLastSpRot");
+    getStaticParam(&mParams.mIsAddAABBHeight_s, "IsAddAABBHeight");
+    getStaticParam(&mParams.mIsGround_s, "IsGround");
+    getStaticParam(&mParams.mAccel_s, "Accel");
 }
 
 void WillBallAction::calc_() {

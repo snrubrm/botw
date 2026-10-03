@@ -492,8 +492,6 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
         _38._8 = payload->_8;
         _38._18 = payload->_18;
         _38._28 = payload->_28;
-        _38._2c = payload->_2c;
-        _38._30 = payload->_30;
         _38._38 = payload->_38;
     }
     _8 = payload->_8;
@@ -809,21 +807,6 @@ bool Unk_7102404060::m2(const ksys::Message& message) {
     _18 = message.getSource();
     return true;
 }
-
-bool Unk_710240dd68::m2(const ksys::Message& message) {
-    if (message.getType() != 0x8000042)
-        return false;
-
-    auto* payload = static_cast<Unk_710240dd68_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
 
 bool Unk_710244e760::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000cc)

@@ -35,8 +35,8 @@ void LinkageEnemyNormal::calc_() {
     EnemyNormal::calc_();
 }
 
-bool LinkageEnemyNormal::handleMessage_(const ksys::Message& message) {
-    if (isChangeable() && _3d0.m2(message))
+bool LinkageEnemyNormal::handleMessage_(const ksys::Message* message) {
+    if (isChangeable() && _3d0.m2(*message))
         return true;
     return EnemyNormal::handleMessage_(message);
 }

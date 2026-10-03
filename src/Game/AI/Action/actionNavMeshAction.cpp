@@ -17,14 +17,14 @@ void NavMeshAction::leave_() {
 }
 
 void NavMeshAction::loadParams_() {
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mFinRadius_s, "FinRadius");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mAccRatio_s, "AccRatio");
-    getStaticParam(&mIsCheckCliff_s, "IsCheckCliff");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mFinRadius_s, "FinRadius");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mAccRatio_s, "AccRatio");
+    getStaticParam(&mParams.mIsCheckCliff_s, "IsCheckCliff");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void NavMeshAction::calc_() {
@@ -32,7 +32,7 @@ void NavMeshAction::calc_() {
 }
 
 sead::Vector3f* NavMeshAction::m35() {
-    return mTargetPos_d;
+    return mParams.mTargetPos_d;
 }
 
 void NavMeshAction::m36(ksys::phys::CharacterController* controller, f32 speed,

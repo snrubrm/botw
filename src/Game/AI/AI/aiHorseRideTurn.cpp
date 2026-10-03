@@ -28,8 +28,8 @@ void HorseRideTurn::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
-bool HorseRideTurn::handleMessage_(const ksys::Message& message) {
-    return _48.m2(message) || _80.m2(message);
+bool HorseRideTurn::handleMessage_(const ksys::Message* message) {
+    return _48.m2(*message) || _80.m2(*message);
 }
 
 }  // namespace uking::ai

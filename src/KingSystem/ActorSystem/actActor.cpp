@@ -6,8 +6,13 @@
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -48,7 +53,33 @@ Actor::Actor(const CreateArg& arg) : BaseProc(arg) {
 }
 
 Actor::~Actor() {
-    // FIXME
+    if (mCreator)
+        mCreator->eraseActor(this);
+    if (mPhysics) {
+        delete mPhysics;
+        mPhysics = nullptr;
+    }
+    if (mActorParam) {
+        ActorParamMgr::instance()->unloadParam(mActorParam);
+        mActorParam = nullptr;
+    }
+    while (_5b0) {
+        auto* node = _5b0;
+        _5b0 = node->mNext;
+        delete node;
+    }
+    if (mDualHeap2) {
+        mDualHeap2->destroy();
+        mDualHeap2 = nullptr;
+    }
+    if (!sActorDebugFlagsMaybe.isOnBit(4)) {
+        if (mDualHeap) {
+            mDualHeap->destroy();
+            mDualHeap = nullptr;
+        }
+    }
+    if (mMsgTransceiver.checkReceiverFlag())
+        mMsgTransceiver.isWaitingForAck();
 }
 
 bool Actor::sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
@@ -325,6 +356,37 @@ void Actor::updateMtxFromPhysics() {
     } else if (mPhysicsMtx && mActorFlags.isOnBit(ActorFlag::_2)) {
         mMtx = *mPhysicsMtx;
         mActorFlags.resetBit(ActorFlag::_2);
+    }
+}
+
+// NON_MATCHING: the main-body fallback tail (mMainBody, else the first rigid body of the physics
+// set) is jump-threaded for the no-physics path; the original keeps one shared test block.
+void Actor::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
+    if (a2) {
+        mMtx = mtx;
+        if (mModel)
+            mModel->setMatrix(mtx);
+    } else {
+        sub_71011C88C0(mtx);
+    }
+
+    auto* physics = mPhysics;
+    auto* controller = physics ? physics->getCharacterController() : nullptr;
+    if (controller) {
+        controller->sub_7100F60500(mtx);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body)
+            body = physics ? physics->sub_7100FBAEDC(0, 0) : nullptr;
+        if (body)
+            body->setTransform(mtx);
+    }
+
+    m42(mtx);
+
+    if (physics && a3) {
+        physics->setFlag2();
+        physics->clothVisibleStuff_0(-2);
     }
 }
 
@@ -815,6 +877,142 @@ sead::Matrix34f Actor::m122() {
 
 Actor* Actor::m141(const s32* index) {
     return nullptr;
+}
+
+// NON_MATCHING: the original keeps the default `_0 = 0` store of the request and stores `_0` again together
+// with the core number (the three Unk117 wrappers)
+void Actor::x_15(void* a1, const char* a2) {
+    Unk117 arg;
+    arg._0 = 0;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = nullptr;
+    arg._10 = a1;
+    arg._18 = a2;
+    x_17(&arg);
+}
+
+// NON_MATCHING: see x_15
+void Actor::sub_71011C98F8() {
+    Unk117 arg;
+    arg._0 = 2;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = nullptr;
+    arg._10 = nullptr;
+    arg._18 = nullptr;
+    x_17(&arg);
+}
+
+// NON_MATCHING: see x_15
+void Actor::sub_71011C9964(Actor* other) {
+    Unk117 arg;
+    arg._0 = 3;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = static_cast<Unk117::Kind3*>(other->_1a0);
+    arg._10 = nullptr;
+    arg._18 = nullptr;
+    x_17(&arg);
+}
+
+void Actor::m92(phys::RigidBody* body) {
+    if (getProfile() == "AirWall")
+        return;
+    if (getProfile() != "Bullet")
+        body->getPosition();
+    deleteLater(DeleteReason::_0);
+}
+
+void Actor::m75() {
+    if (mXLink)
+        mXLink->sub_7101231500();
+}
+
+void Actor::onAiEnter(const char* name, const char* context) {
+    if (mXLink)
+        mXLink->prepareAIChangeMaybe();
+    mActorEditorNode.onAiEnter();
+}
+
+void Actor::m35() {
+    if (mImpulseBaseProcLink)
+        mImpulseBaseProcLink->sub_71011D8260();
+}
+
+Chemical* Actor::sub_71011D8A54(const sead::SafeString& name) {
+    if (!mChemical)
+        return nullptr;
+    return mChemical->sub_7100E381DC(name);
+}
+
+void* Actor::m40() {
+    return nullptr;
+}
+
+void* Actor::m46() {
+    return nullptr;
+}
+
+void Actor::m143() {
+    _7d8 = true;
+    ActorEditorNode::ConnectArg arg{};
+    arg.actor_name = mName;
+    arg.actor_id = mId;
+    arg.root_ai = mRootAi;
+    mActorEditorNode.connect(arg);
+}
+
+void Actor::killWithDropsAndEffects(int a1) {
+    if (isDeletedOrDeleting())
+        return;
+    createDrops(1, 0);
+    if (!isDeletedOrDeleting() && !_687) {
+        if (deleteLater(DeleteReason::_0))
+            emitSignalsOrDisappearEffectForDelete(a1);
+    }
+}
+
+void Actor::sub_71011D0204(u32 flags) {
+    if (!mStasisFlags.isOn(StasisFlag(flags))) {
+        mStasisFlags.set(StasisFlag(flags));
+        mActorFlags2.set(ActorFlag2::_400000);
+    }
+}
+
+void Actor::sub_71011D0228(u32 flags) {
+    if (mStasisFlags.isOn(StasisFlag(flags))) {
+        mStasisFlags.reset(StasisFlag(flags));
+        mActorFlags2.set(ActorFlag2::_400000);
+    }
+}
+
+// NON_MATCHING: register allocation of the two candidate values of the xlink flag word
+void Actor::setModelDrawEnabled(bool enabled) {
+    mActorFlags2.change(ActorFlag2::_20, enabled);
+    if (mXLink) {
+        if (enabled)
+            mXLink->_cc.reset(0x80000);
+        else
+            mXLink->_cc.set(0x80000);
+    }
+}
+
+void* Actor::m119() {
+    return nullptr;
+}
+
+as::ASList* Actor::sub_71011C9A88() const {
+    return mASList == &as::sNullASListMaybe ? nullptr : mASList;
+}
+
+bool Actor::m120(const char* name) {
+    if (mASList != &as::sNullASListMaybe && mASList)
+        mASList->startAnimationMaybe(-1.0f, -1.0f, sead::SafeString(name), 0, 0, true);
+    return false;
+}
+
+bool Actor::m121() {
+    if (mASList == &as::sNullASListMaybe || !mASList)
+        return true;
+    return mASList->x_4(0, 0);
 }
 
 }  // namespace ksys::act

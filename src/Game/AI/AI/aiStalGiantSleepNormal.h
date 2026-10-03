@@ -2,6 +2,7 @@
 
 #include "Game/AI/aiUnk_7102357210.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -17,7 +18,11 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
+
+    // Unnamed in the binary (0x71005a5464 / 0x71005a5e58): switch the actor into / out of the sleeping state.
+    void sub_71005A5464();
+    void sub_71005A5E58();
 
 protected:
     // static_param at offset 0x38
@@ -33,8 +38,7 @@ protected:
     bool _b5 = false;
     bool _b6 = false;
     ksys::act::Actor* _b8 = mActor;
-    void* _c0 = nullptr;
-    u32 _c8 = 0;
+    ksys::Timer _c0;
 };
 KSYS_CHECK_SIZE_NX150(StalGiantSleepNormal, 0xd0);
 

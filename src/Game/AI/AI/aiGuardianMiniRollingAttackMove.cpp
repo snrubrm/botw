@@ -255,8 +255,8 @@ void GuardianMiniRollingAttackMove::leave_() {
     EnemyRangeKeepMove::leave_();
 }
 
-bool GuardianMiniRollingAttackMove::handleMessage_(const ksys::Message& message) {
-    if (!_258.m2(message) || !_258._34._10)
+bool GuardianMiniRollingAttackMove::handleMessage_(const ksys::Message* message) {
+    if (!_258.m2(*message) || !_258._34._10)
         return false;
 
     _258.x();

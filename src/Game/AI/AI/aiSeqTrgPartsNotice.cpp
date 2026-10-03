@@ -26,7 +26,7 @@ void SeqTrgPartsNotice::calc_() {
 
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
-        if (*mIsFinishByNoNoticeActionEnd_s) {
+        if (*mParams.mIsFinishByNoNoticeActionEnd_s) {
             if (child->isFinished())
                 setFinished();
             else
@@ -35,7 +35,7 @@ void SeqTrgPartsNotice::calc_() {
         }
     } else if (child->isChangeable() && isCurrentChild("先行動")) {
         if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-            auto& link = enemy->getActorPartsActor(mPartsName_s);
+            auto& link = enemy->getActorPartsActor(mParams.mPartsName_s);
             if (!link.hasProcInCalcState()) {
                 changeChild("後行動");
                 return;
@@ -56,12 +56,10 @@ void SeqTrgPartsNotice::leave_() {
     SeqTwoAction::leave_();
 }
 
-// NON_MATCHING: the original keeps `this + 0x50` (the second param pointer) in a callee-saved register
-// computed before the first getStaticParam call (extra x21 / x20 saves and a 0x40 frame)
 void SeqTrgPartsNotice::loadParams_() {
     SeqTwoAction::loadParams_();
-    getStaticParam(&mPartsName_s, "PartsName");
-    getStaticParam(&mIsFinishByNoNoticeActionEnd_s, "IsFinishByNoNoticeActionEnd");
+    getStaticParam(&mParams.mPartsName_s, "PartsName");
+    getStaticParam(&mParams.mIsFinishByNoNoticeActionEnd_s, "IsFinishByNoNoticeActionEnd");
 }
 
 }  // namespace uking::ai

@@ -24,7 +24,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleAck_(const ksys::MessageAck& ack) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
 
 protected:
     /* 0x40 */ Unk_7102411f48 _40{mActor, 0x80000d8};

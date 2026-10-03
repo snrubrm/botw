@@ -154,6 +154,17 @@ void PreyRoot::sub_71005047A8() {
     changeChild("通常行動", &pack);
 }
 
+void PreyRoot::sub_7100504A9C(u32 mask, bool on) {
+    if (on)
+        _188->_e84.set(mask);
+    else
+        _188->_e84.reset(mask);
+}
+
+bool PreyRoot::sub_7100504EBC(u32 mask) const {
+    return _188->_e84.isOn(mask);
+}
+
 // NON_MATCHING: the original writes _1fc and _200 with a single 64-bit store (as if they were one struct
 // assigned from a temporary); the ctor initialises them separately
 void PreyRoot::sub_7100504BF0() {
@@ -273,11 +284,11 @@ void PreyRoot::sub_7100504ED0() {
     mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
 }
 
-bool PreyRoot::handleMessage_(const ksys::Message& message) {
+bool PreyRoot::handleMessage_(const ksys::Message* message) {
     if (!isCurrentChild("所持")) {
         auto* actor = mActor;
         if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) && !_148._30 &&
-            _148.m2(message)) {
+            _148.m2(*message)) {
             _148.sub_710070B5A0(actor);
             return true;
         }

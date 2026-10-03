@@ -20,6 +20,7 @@
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -84,6 +85,13 @@ bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
                     s32 a4) {
     const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN()};
     return sub_710072F28C(actor, from, target, nullptr, out_pos, a4, true, -1.0f, -1.0f, -1.0f);
+}
+
+bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, f32 extra, s32 a5) {
+    auto* nav = actor->m45();
+    const f32 tolerance = nav ? nav->getRadiusMaybe() + extra : extra;
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, true, tolerance, -1.0f, -1.0f);
 }
 
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,

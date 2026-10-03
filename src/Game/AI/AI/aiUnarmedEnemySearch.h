@@ -35,26 +35,26 @@ public:
     // Small out-of-line helpers over `_50` (the Enemy's navmesh state: `_0` navmesh character, `_8`
     // search state); names are placeholders (lane1 s22).
     // 0x71004b5fb8: changeChild("見まわす").
-    void sub_71004B5FB8();
+    void changeToLookAround();
     // 0x71004b62e4 (CSV sead::ControllerMgr::getFramework, misnamed): `_50->_8`, -1 without `_50`.
-    int sub_71004B62E4() const;
+    int getStateMaybe() const;
     // 0x71004b62fc: if the state is 1 or 3: copies navmesh `_1a0` (under its lock) to `out`.
     bool sub_71004B62FC(sead::Vector3f* out) const;
     // 0x71004b6370: if the state is not -1: copies navmesh `_194` (under its lock) to `out`.
     bool sub_71004B6370(sead::Vector3f* out) const;
     // 0x71004b63e4: `_50->_8 = -1` (if `_50`).
-    void sub_71004B63E4();
+    void resetStateMaybe();
     // 0x71004b6bc0: ReachTargetArea plus the weapon range.
-    f32 sub_71004B6BC0() const;
+    f32 getReachDistanceMaybe() const;
     // 0x71004b6544: resets the search state and the navmesh character, remembers `target` in `_58`
     // and starts the "直進" / "回転" child towards it. ~12 callers (m37 overrides).
-    void sub_71004B6544(const sead::Vector3f& target);
+    void startMoveToTargetMaybe(const sead::Vector3f& target);
     // 0x71004b6744: whether the current child is "移動".
-    bool sub_71004B6744() const;
+    bool isMove() const;
     // 0x71004b6bf0: whether the current child is "直進".
-    bool sub_71004B6BF0() const;
+    bool isGoStraight() const;
     // 0x71004b6c30: whether the current child is "直進" or "移動". 13 callers.
-    bool sub_71004B6C30() const;
+    bool isGoStraightOrMove() const;
 
 protected:
     // static_param at offset 0x38

@@ -211,4 +211,8 @@ public:
     /* 0x163 */ u8 _163;
 };
 
+// 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
+// m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.
+extern ASList sNullASListMaybe;
+
 }  // namespace ksys::as

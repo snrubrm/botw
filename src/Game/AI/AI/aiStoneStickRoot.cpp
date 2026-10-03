@@ -66,18 +66,18 @@ void StoneStickRoot::loadParams_() {
 }
 
 // NON_MATCHING: the original null-checks the message reference (`cbz x1`; see lane2 log s17)
-bool StoneStickRoot::handleMessage_(const ksys::Message& message) {
+bool StoneStickRoot::handleMessage_(const ksys::Message* message) {
     if (!_48)
         return false;
     auto* mgr = GearMgr::instance();
     if (!mgr)
         return false;
 
-    if (message.getType() == 0x3000003) {
+    if (message->getType() == 0x3000003) {
         mgr->sub_71006698B0(true);
         return false;
     }
-    if (message.getType() == 0x3000004) {
+    if (message->getType() == 0x3000004) {
         mgr->sub_71006698B0(false);
         return true;
     }

@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiOctarockBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7100D8C538.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -65,6 +69,92 @@ void OctarockBattle::loadParams_() {
     getStaticParam(&mIsLostAttack_s, "IsLostAttack");
     getStaticParam(&mShootActorKey_s, "ShootActorKey");
     getStaticParam(&mVacuumPartsKey_s, "VacuumPartsKey");
+}
+
+// NON_MATCHING: stack layout only (the original puts the InlineParamPack at the lowest address, the position and the
+// SafeString / accessor slot above it; ours has the SafeString slot lowest)
+void OctarockBattle::m38() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!_b4 && _b0 < *mOutScreenAttackNum_s) {
+        sub_7100569DC8(&_b8);
+        const sead::Vector3f position = sub_71005D93CC(mActor) + _b8;
+        const sead::Vector3f& velocity = sub_71005D9548(mActor);
+        ksys::act::ai::InlineParamPack params;
+        params.addVec3(position, "TargetPos", -1);
+        params.addVec3(velocity, "TargetVel", -1);
+        const char* next = nullptr;
+        if (enemy->getActorPartsActor(mVacuumPartsKey_s).hasProc()) {
+            next = "画面外吐き出し攻撃";
+        } else {
+            auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
+            if (shoot_actor.hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&shoot_actor, &accessor);
+                if (accessor.isStateSleep())
+                    next = "画面外攻撃";
+            }
+        }
+        if (next) {
+            changeChild(next, &params);
+            ++_b0;
+        } else if (!isCurrentChild("戦闘準備")) {
+            m37();
+        }
+        return;
+    }
+
+    const sead::Vector3f& position = sub_71005D93CC(mActor);
+    const sead::Vector3f& velocity = sub_71005D9548(mActor);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(position, "TargetPos", -1);
+    params.addVec3(velocity, "TargetVel", -1);
+    const char* next = nullptr;
+    if (enemy->getActorPartsActor(mVacuumPartsKey_s).hasProc()) {
+        next = "吐き出し攻撃";
+    } else {
+        auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
+        if (shoot_actor.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&shoot_actor, &accessor);
+            if (accessor.isStateSleep())
+                next = "戦闘攻撃";
+        }
+    }
+    if (next)
+        changeChild(next, &params);
+    else if (!isCurrentChild("戦闘準備"))
+        m37();
+}
+
+bool OctarockBattle::m39() {
+    auto* actor = mActor;
+    auto* enemy = sead::DynamicCast<act::Enemy>(actor);
+    if (!enemy->getActorPartsActor(mVacuumPartsKey_s).hasProc()) {
+        auto& shoot_actor = enemy->getActorPartsActor(mShootActorKey_s);
+        if (!shoot_actor.hasProc())
+            return false;
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&shoot_actor, &accessor);
+        if (!accessor.isStateSleep())
+            return false;
+    }
+
+    if (!mActor->getConnectedCalcChild())
+        return false;
+
+    if (enemy->_c48._7c != 2 && enemy->_c48._7c != 5 && !*mIsLostAttack_s)
+        return false;
+
+    sead::Vector3f position;
+    mActor->getMtx().getTranslation(position);
+    if ((position - sub_71005D9330(mActor)).squaredLength() >=
+        *mAttackDistMin_s * *mAttackDistMin_s) {
+        if (!*mIsAttackOnlyOutScreen_s || !visibilityCheckMaybe(position, *mActorDisplayRadius_s)) {
+            if (m40())
+                return sub_7100382558();
+        }
+    }
+    return false;
 }
 
 bool OctarockBattle::m44() {

@@ -67,11 +67,11 @@ void AirOctaFlyUp::calc_() {
     }
 }
 
-bool AirOctaFlyUp::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x80000c8) {
+bool AirOctaFlyUp::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x80000c8) {
         return false;
     }
-    u32* user_data = static_cast<u32*>(message.getUserData());
+    u32* user_data = static_cast<u32*>(message->getUserData());
     auto* data_mgr = getDataMgr();
     if (!data_mgr) {
         return true;

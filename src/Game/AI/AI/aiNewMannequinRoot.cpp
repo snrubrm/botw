@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNewMannequinRoot.h"
+#include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
@@ -33,6 +34,12 @@ void NewMannequinRoot::calc_() {
     if (child->isFinished() || child->isFailed())
         return;
     child->isChangeable();
+}
+
+bool NewMannequinRoot::handleMessage_(const ksys::Message* message) {
+    if (isCurrentChild("装備あり"))
+        return handleItemPickedMessageMaybe(*message, &_48, mActor, nullptr);
+    return false;
 }
 
 void NewMannequinRoot::leave_() {

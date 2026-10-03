@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDynamicFireWood.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ bool DynamicFireWood::init_(sead::Heap* heap) {
 
 void DynamicFireWood::enter_(ksys::act::ai::InlineParamPack* params) {
     FireWood::enter_(params);
+    _41 = false;
 }
 
 void DynamicFireWood::leave_() {
@@ -24,6 +26,17 @@ void DynamicFireWood::loadParams_() {
 
 void DynamicFireWood::calc_() {
     FireWood::calc_();
+    if (_41) {
+        if (auto* info = mActor->m135())
+            info->_4 = 1;
+        mActor->killWithDropsAndEffects(0);
+    }
+}
+
+int DynamicFireWood::m33() {
+    if (_41)
+        return 0;
+    return FireWood::m33();
 }
 
 }  // namespace uking::action

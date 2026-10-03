@@ -23,6 +23,8 @@ protected:
     const float* mTurnSpeed_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    u8 _78[0x28];
 };
+KSYS_CHECK_SIZE_NX150(WaterUpDownDrivenPreAttack, 0xa0);
 
 }  // namespace uking::action

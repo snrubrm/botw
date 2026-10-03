@@ -53,15 +53,15 @@ void WindGenerator::m35() {
     changeChild("風制御");
 }
 
-bool WindGenerator::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003) {
+bool WindGenerator::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003) {
         if (isCurrentChild("待機"))
             return false;
         m34();
         return true;
     }
 
-    if (message.getType() == 0x3000004) {
+    if (message->getType() == 0x3000004) {
         if (mActor->hasPlacementLinkForBasicSig())
             return false;
         if (!isCurrentChild("待機"))

@@ -46,6 +46,12 @@ struct Unk_71023b1608_Payload {
     sead::JobQueueLock mLock;
 };
 
+// Message 0x8000009 (sender Unk_710240bc48; NPCTravelBase / NPCMove)
+struct Unk_710240bc48_Payload {
+    ksys::act::BaseProcLink mLink;
+    s32 _10 = 0;
+};
+
 // Message 0x8000006 (sender Unk_710235abc8)
 struct Unk_710235abc8_Payload {
     struct Data {
@@ -186,9 +192,7 @@ struct Unk_7102450978_Payload {
     u32 _0 = 0;
     ksys::act::BaseProcLink _8;
     ksys::act::BaseProcLink _18;
-    u32 _28;
-    u32 _2c;
-    u32 _30;
+    sead::Vector3f _28;
     sead::JobQueueLock mLock;
     u32 _38 = 0;
 };

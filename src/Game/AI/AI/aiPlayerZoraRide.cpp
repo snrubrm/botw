@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPlayerZoraRide.h"
+#include "Game/AI/aiUnk_710087CE34.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,10 @@ void PlayerZoraRide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerZoraRide::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_d8)
+        mActor->sub_71011DA834(&_38);
+    mActor->resetConnectedCalcParent(false);
+    sub_7100873264(mActor);
 }
 
 void PlayerZoraRide::loadParams_() {}

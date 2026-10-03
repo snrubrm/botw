@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Debug.h"
 
 namespace ksys::act {
@@ -38,6 +39,18 @@ const sead::Matrix34f& ActorLinkConstDataAccess::getActorMtx() {
     if (actor)
         return actor->getMtx();
     return sead::Matrix34f::ident;
+}
+
+bool ActorLinkConstDataAccess::sub_7100D11860(sead::Matrix34f* mtx) const {
+    if (auto* actor = getActor()) {
+        if (auto* body = actor->getMainBody()) {
+            body->getRigidBodyAccessor()->getTransform(mtx);
+            return true;
+        }
+    }
+    const Actor* actor = getActor();
+    *mtx = actor ? actor->getMtx() : sead::Matrix34f::ident;
+    return false;
 }
 
 bool acquireProc(ActorLinkConstDataAccess* accessor, BaseProc* proc, const sead::SafeString& from,

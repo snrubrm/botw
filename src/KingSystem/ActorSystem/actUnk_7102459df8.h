@@ -52,7 +52,7 @@ public:
     // vtable 0x7102459e60 (derived: 0x710245a0e0); 8 entries of 0x58 bytes at +0x8
     struct Unk_7102459e60 {
         struct Unk1 {
-            u8 _0[0xc];
+            sead::Vector3f _0;  // position (SunazarashiRoot::sub_71005AF91C)
             sead::Vector3f _c;  // dotted with the actor's front (BattleCloseAction::m39)
             u8 _18[0x58 - 0x18];
         };

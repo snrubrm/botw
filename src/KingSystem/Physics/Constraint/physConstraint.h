@@ -10,6 +10,14 @@ namespace ksys::phys {
 
 class RigidBody;
 
+// Placeholder (the object at Constraint +0x18; its +8 is read by the two helpers).
+struct ConstraintUnk18 {
+    // 0x7100f6c658
+    bool sub_7100F6C658() const;
+    // 0x7100f6c64c: stores `value` in the object at +8 (+0x44).
+    void sub_7100F6C64C(f32 value);
+};
+
 class Constraint {
     SEAD_RTTI_BASE(Constraint)
 
@@ -40,7 +48,7 @@ public:
 
     /* 0x08 */ hkpConstraintInstance* mConstraintInstance;
     /* 0x10 */ u32 _10;
-    /* 0x18 */ void* _18;
+    /* 0x18 */ ConstraintUnk18* _18;
     /* 0x20 */ void* _20;
     /* 0x28 */ void* _28;
     /* 0x30 */ RigidBody* _30;

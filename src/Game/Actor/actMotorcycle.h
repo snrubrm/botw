@@ -8,6 +8,7 @@
 #include <thread/seadCriticalSection.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
@@ -37,7 +38,7 @@ struct MotorcycleStruct2 {
     /* 0x054 */ u8 _54[0x5c - 0x54];
     /* 0x05c */ sead::Vector3f _5c;
     /* 0x068 */ u8 _68[0x110 - 0x68];
-    /* 0x110 */ s32 _110;
+    /* 0x110 */ ksys::phys::Material _110;  // the material under the wheel
     /* 0x114 */ u8 _114[0x128 - 0x114];
     /* 0x128 */ u64 _128;
     /* 0x130 */ sead::Vector3f _130;
@@ -359,6 +360,29 @@ public:
     // 0x710007dab8 (placeholder name): fades the throttle sound handle (_10a8) and starts the sound
     // selected by _10a4 (1-5), then clears _10a4.
     void sub_710007DAB8();
+    // 0x7100076018 (CSV Motorcycle::x_31): ray casts from both wheels towards the main body; counts how long
+    // that hits something (_1640) and sets flag bit 35 after 30; returns whether it did.
+    bool x_31();
+    // 0x710007257c (CSV Motorcycle::x_15): damps the angular velocity of the main body around its x axis
+    // (PitchDampingCoefficient).
+    void applyPitchDamping();
+    // 0x7100074d18 (CSV Motorcycle::x_26): applies a drag-like impulse to the main body (name is a guess).
+    void applyDragMaybe();
+    // 0x710007f894 (CSV Motorcycle::x_2): whether a wheel's ground material is `material`.
+    bool isAnyWheelOnMaterial(ksys::phys::Material material) const;
+    // 0x710007626c (CSV Motorcycle::x_3): whether the constraint of a wheel is active.
+    bool isWheelConstraintActiveMaybe() const;
+    // 0x71000778f8 (CSV Motorcycle::collisionStuff): whether `body` touches a body of the Player profile
+    // named "Cleaning" or of an actor of the profile "SweepCollision". Does not use `this`.
+    bool collisionStuff(ksys::phys::RigidBody* body);
+    // 0x7100077890 (CSV Motorcycle::x): deletes the actor when a body of it collides (MotorcycleMgr).
+    bool deleteIfColliding();
+    // 0x710007a478: whether the acceleration and the global energy are positive.
+    bool sub_710007A478() const;
+    // 0x710007ab7c
+    f32 sub_710007AB7C() const;
+    // 0x710007c00c
+    bool sub_710007C00C() const;
     // 0x7100072750 (CSV Motorcycle::x_17): the engine sound and acceleration; stores the value in
     // _bc8._0._48.
     void x_17();
@@ -507,7 +531,7 @@ public:
     /* 0x1628 */ Unk_71023618f8 _1628;
     /* 0x1630 */ Unk_71023618f8 _1630;
     /* 0x1638 */ Unk_71023618f8 _1638;
-    /* 0x1640 */ u32 _1640 = 0;
+    /* 0x1640 */ f32 _1640 = 0.0f;  // seconds (frames) the main body touched the ground (x_31)
     /* 0x1648 */ Unk_7100e8b2b8* _1648 = nullptr;
     /* 0x1650 */ ksys::phys::NavMeshCharacter* _1650 = nullptr;
     /* 0x1658 */ void* _1658 = nullptr;
@@ -515,5 +539,8 @@ public:
     /* 0x1668 */ void* _1668 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Motorcycle, 0x1670);
+
+// 0x710006c810: the global motorcycle energy (MotorcycleMgr::mEnergy).
+f32 getMotorcycleEnergy();
 
 }  // namespace uking::act

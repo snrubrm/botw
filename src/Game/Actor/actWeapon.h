@@ -190,6 +190,8 @@ class Weapon : public ksys::act::WeaponBase {
 public:
     // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
     bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
+    // 0x71002edc64 (CSV Weapon::x_6): `return hasAttackInfo(this)` (a tail call).
+    bool x_6();
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
     // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
@@ -201,7 +203,8 @@ public:
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
-    void sub_71002EDB3C(const s32& value);
+    SEAD_ENUM(Unk3, _0, _1, _2, _3)
+    void sub_71002EDB3C(const Unk3& value);
     // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
     void bowGetArrowName(sead::BufferedSafeString* name);
 
@@ -218,7 +221,7 @@ public:
     /* 0xc20 */ Unk_71002edaec _c20;
     /* 0xc4c */ bool _c4c = false;
     /* 0xc4d */ u8 _c4d[0xcf0 - 0xc4d];  // TODO
-    /* 0xcf0 */ s32 _cf0;  // GuardianMiniBattle::sub_7100415140 tests it against 4
+    /* 0xcf0 */ s32 _cf0 = 0;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
     /* 0xcf4 */ u8 _cf4[0xd09 - 0xcf4];  // TODO
     /* 0xd09 */ bool _d09;
     /* 0xd0a */ u8 _d0a[0xd54 - 0xd0a];  // TODO

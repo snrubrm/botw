@@ -20,20 +20,18 @@ void WillBallOperated::leave_() {
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
 }
 
-// NON_MATCHING: the original computes the later params' `this + off` addresses before the first call
-// and keeps them in callee-saved registers (extra frame slot); same family as WeaponOnetimeUse
 void WillBallOperated::loadParams_() {
-    getDynamicParam(&mWaitTime_d, "WaitTime");
-    getDynamicParam(&mCommand_d, "Command");
-    getDynamicParam(&mBasePos_d, "BasePos");
-    getDynamicParam(&mTargetActor_d, "TargetActor");
-    getStaticParam(&mWarpDist_s, "WarpDist");
-    getStaticParam(&mAttakedChangeDist_s, "AttakedChangeDist");
-    getStaticParam(&mIsAttackedTimeAffect_s, "IsAttackedTimeAffect");
+    getDynamicParam(&mParams.mWaitTime_d, "WaitTime");
+    getDynamicParam(&mParams.mCommand_d, "Command");
+    getDynamicParam(&mParams.mBasePos_d, "BasePos");
+    getDynamicParam(&mParams.mTargetActor_d, "TargetActor");
+    getStaticParam(&mParams.mWarpDist_s, "WarpDist");
+    getStaticParam(&mParams.mAttakedChangeDist_s, "AttakedChangeDist");
+    getStaticParam(&mParams.mIsAttackedTimeAffect_s, "IsAttackedTimeAffect");
 }
 
-bool WillBallOperated::handleMessage_(const ksys::Message& message) {
-    if (_78._30 || !_78.m2(message))
+bool WillBallOperated::handleMessage_(const ksys::Message* message) {
+    if (_78._30 || !_78.m2(*message))
         return false;
 
     mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);

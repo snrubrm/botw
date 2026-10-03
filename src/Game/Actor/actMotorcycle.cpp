@@ -1,4 +1,5 @@
 #include "Game/Actor/actMotorcycle.h"
+#include "Game/Actor/actMotorcycleUtil.h"
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
@@ -768,7 +769,7 @@ bool Unk_71023618f8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
         if (auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(user_tag)) {
             ksys::act::ActorConstDataAccess accessor;
             tag->acquireActor(&accessor);
-            if (accessor.hasTag(0x8548144du)) {
+            if (accessor.hasTag(ksys::act::tags::IsDisableContactMotorcycle)) {
                 *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
                 return false;
             }
@@ -827,6 +828,197 @@ void Motorcycle::sub_710007D034() {
     _bc8._199 = true;
     _e88 = getParam()->getRes().mGParamList->getMotorcycle()->mWheelieLastSecInMidAir.ref();
     _f88.set(8);
+}
+
+f32 getMotorcycleEnergy() {
+    return MotorcycleMgr::instance()->mEnergy;
+}
+
+// NON_MATCHING: everything matches except the block layout of the timer update / reset (the original
+// computes `&_1640` in both predecessors and falls from the reset block into the final compare)
+bool Motorcycle::x_31() {
+    if (mPhysics) {
+        bool hit;
+        {
+            ksys::phys::RayCastBodyQuery query(mPhysics->get188(0), ksys::phys::GroundHit::HitAll);
+            query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::DoNotCheck);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+            query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+            query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+            query.enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+
+            sead::Vector3f start;
+            sead::Vector3f end;
+            sead::Matrix34f mtx;
+            _bb8->getCenterOfMassInWorld(&end);
+            _bb8->getTransform(&mtx);
+            sead::Vector3f x, y;
+            mtx.getBase(x, 0);
+            mtx.getBase(y, 1);
+            end -= y * 0.1f;
+            x *= 0.05f;
+            y *= 0.3f;
+
+            _dd0->_0->getPosition(&start);
+            start += x + y;
+            query.setStartAndEnd(start, end);
+            query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+            if (query.hasHit()) {
+                hit = true;
+            } else {
+                _dd8->_0->getPosition(&start);
+                start += y - x;
+                query.setStartAndEnd(start, end);
+                query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+                hit = query.hasHit();
+            }
+        }
+        if (!hit)
+            _1640 = 0.0f;
+        else
+            ksys::Timer::update(&_1640, 1.0f);
+    } else {
+        _1640 = 0.0f;
+    }
+    if (_1640 > 30.0f) {
+        _f88.set(0x800000000);
+        return true;
+    }
+    return false;
+}
+
+bool Motorcycle::isAnyWheelOnMaterial(ksys::phys::Material material) const {
+    const ksys::phys::Material front = _dd0->_110;
+    if (int(front) == int(material))
+        return true;
+    const ksys::phys::Material rear = _dd8->_110;
+    return int(rear) == int(material);
+}
+
+bool Motorcycle::isWheelConstraintActiveMaybe() const {
+    if (_de0->_18 && (_de0->_50 & 1) && _de0->_18->sub_7100F6C658())
+        return true;
+    if (_de8->_18 && (_de8->_50 & 1) && _de8->_18->sub_7100F6C658())
+        return true;
+    return false;
+}
+
+// NON_MATCHING: only the stack slot of the second SafeString temporary (the "SweepCollision" literal is at
+// sp+0x18 in the original, sp+0x8 here)
+bool Motorcycle::collisionStuff(ksys::phys::RigidBody* body) {
+    if (auto* info = body->getContactPointInfo()) {
+        for (auto it = info->begin(), end = info->end(); it != end; ++it) {
+            auto* other = (*it)->body_b;
+            if (!other)
+                continue;
+            auto* tag = sead::DynamicCast<ksys::act::PhysicsUserTag>(other->getUserTag());
+            if (!tag)
+                continue;
+            ksys::act::ActorConstDataAccess accessor;
+            tag->acquireActor(&accessor);
+            if (other->getContactLayer() == ksys::phys::ContactLayer::EntityPlayer &&
+                accessor.isPlayerProfile() && other->getHkBodyName() == "Cleaning")
+                return true;
+            if (accessor.getProfile() == "SweepCollision")
+                return true;
+        }
+    }
+    return false;
+}
+
+bool Motorcycle::deleteIfColliding() {
+    if (!isDeleteRequested()) {
+        if (collisionStuff(_bb8) || collisionStuff(_dd0->_0) || collisionStuff(_dd8->_0)) {
+            deleteLater(DeleteReason::_0);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Motorcycle::sub_710007A478() const {
+    return _e3c > 0.0f && MotorcycleMgr::instance()->mEnergy > 0.0f;
+}
+
+f32 Motorcycle::sub_710007AB7C() const {
+    if (!_f88.isOnBit(17))
+        return 0.0f;
+    return (_f18.getValue() + _f40.getValue()) * 0.5f;
+}
+
+bool Motorcycle::sub_710007C00C() const {
+    if (!_d78._24)
+        return false;
+    if (sead::Mathf::abs(_e58) < 0.5f && _e3c > 0.1f && !_f88.isOnAll(0x2000020000) && _e4c > 0.9f &&
+        _dd0->_13d && _dd8->_13d)
+        return false;
+    return MotorcycleMgr::instance()->mEnergy > 0.0f;
+}
+
+void Motorcycle::m70() {
+    if (_f80) {
+        mActorFlags2.reset(ActorFlag2::_20);
+        if (!_f88.isOnBit(20)) {
+            _f88.set(0x100000);
+            _bb8->changeMotionType(ksys::phys::MotionType::Fixed);
+            _dd0->_0->changeMotionType(ksys::phys::MotionType::Fixed);
+            _dd8->_0->changeMotionType(ksys::phys::MotionType::Fixed);
+        }
+    }
+    _1648->_10 &= ~0x38u;
+    _de0->_18->sub_7100F6C64C(10000000.0f);
+    _de8->_18->sub_7100F6C64C(10000000.0f);
+    if ((_de0->_50 & 1) || (_de8->_50 & 1)) {
+        _de0->sub_7100F6A074();
+        _de8->sub_7100F6A074();
+        _f88.set(0x40000000000);
+    }
+    if (!isDeleteRequested()) {
+        if (collisionStuff(_bb8) || collisionStuff(_dd0->_0) || collisionStuff(_dd8->_0))
+            deleteLater(DeleteReason::_0);
+    }
+}
+
+void Motorcycle::m44() {
+    sead::Matrix34f mtx;
+    _bb8->getTransform(&mtx);
+    const sead::Vector3f pos = mtx.getTranslation();
+    sead::Vector3f velocity;
+    _bb8->getLinearVelocity(&velocity);
+    velocity.y = 0.0f;
+    if (!pos.isNan()) {
+        sead::Vector3f direction;
+        {
+            auto* nav = _1650;
+            auto lock = sead::makeScopedLock(nav->_1e0);
+            direction.set(nav->_248);
+        }
+        _1650->sub_7100F76380(pos, direction, velocity, direction);
+    }
+}
+
+// NON_MATCHING: only the stack slot of the core-number temporary (it shares the slot of the transform in the
+// original)
+void Motorcycle::applyPitchDamping() {
+    sead::Vector3f damping;
+    const sead::Vector3f angular_velocity = _bb8->getAngularVelocity();
+    sead::Vector3f axis;
+    const sead::Matrix34f mtx = _bb8->getTransform();
+    mtx.getBase(axis, 0);
+    innerProductTimesA3(&damping, angular_velocity, axis);
+    damping *= -getParam()->getRes().mGParamList->getMotorcycle()->mPitchDampingCoefficient.ref();
+    damping *= ksys::VFR::instance()->getDeltaFrame();
+    addAngularVelocity(_bb8, damping.x, damping.y, damping.z);
+}
+
+// NON_MATCHING: operand order of the first fadd of the length and the store grouping of the velocity
+void Motorcycle::applyDragMaybe() {
+    sead::Vector3f velocity =
+        _bb8->getLinearVelocity() + sead::Vector3f(0.010255f, -0.666032f, 0.09355f);
+    const f32 factor = velocity.length() * -0.432f;
+    velocity *= factor * ksys::VFR::instance()->getDeltaFrame();
+    _bb8->applyLinearImpulse(velocity);
 }
 
 }  // namespace uking::act

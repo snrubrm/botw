@@ -67,8 +67,8 @@ void SiteBossRoot::loadParams_() {
     getMapUnitParam(&mUniqueNameMessageLabel_m, "UniqueNameMessageLabel");
 }
 
-bool SiteBossRoot::handleMessage_(const ksys::Message& message) {
-    return message.getType() == 0x3000007;
+bool SiteBossRoot::handleMessage_(const ksys::Message* message) {
+    return message->getType() == 0x3000007;
 }
 
 }  // namespace uking::ai

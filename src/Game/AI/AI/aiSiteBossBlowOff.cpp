@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSiteBossBlowOff.h"
+#include "Game/Actor/actSiteBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,15 @@ bool SiteBossBlowOff::init_(sead::Heap* heap) {
 }
 
 void SiteBossBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::eft::sub_710105E030(mActor, 26, 1);
+    if (sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (*mIsPlayDamageAnm_d)
+            changeChild("大ダメージ");
+        else
+            changeChild("ふっとび");
+    } else {
+        setFailed();
+    }
 }
 
 void SiteBossBlowOff::calc_() {

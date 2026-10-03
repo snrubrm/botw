@@ -5,6 +5,7 @@ target_sources(uking PRIVATE
   uiManager.h
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
+  uiShopMgr.h
   uiUI.h
   uiUtils.cpp
   uiUtils.h

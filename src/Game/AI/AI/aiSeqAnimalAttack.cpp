@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiSeqAnimalAttack.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007398C0.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::ai {
@@ -14,7 +17,23 @@ bool SeqAnimalAttack::init_(sead::Heap* heap) {
 }
 
 void SeqAnimalAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _54 = false;
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->_c48._8.hasProc()) {
+            _48 = enemy->_c48._18;
+            {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(_48, "TargetPos", -1);
+                changeChild("攻撃前", &pack);
+            }
+            if (auto* control = sub_71007398C0(mActor)) {
+                const f32 value = 0.7f;
+                control->sub_7100D8A9D0(value);
+            }
+            return;
+        }
+    }
+    setFailed();
 }
 
 void SeqAnimalAttack::leave_() {

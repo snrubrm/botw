@@ -2,6 +2,8 @@
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::ai {
 
@@ -38,8 +40,29 @@ void WarpActivateTerminal::loadParams_() {
     getMapUnitParam(&mRemainsTerminalIndex_m, "RemainsTerminalIndex");
 }
 
+bool WarpActivateTerminal::sub_71005EABF4() {
+    if (!*mIsRejectMsgForRemains_s)
+        return false;
+    auto* actor = mActor;
+    if (!actor->hasForbidAttentionLink_0())
+        return false;
+    if (actor->checkForbidAttentionSignal())
+        return true;
+    if (!ksys::StageInfo::sIsRemainsElectric) {
+        if (ksys::gdt::getBoolByKey("RemainsElectric_Drum2Rotate0", false))
+            return true;
+    } else if (!ksys::StageInfo::sIsRemainsFire) {
+        if (ksys::gdt::getBoolByKey("RemainsFire_Rotate0", false))
+            return true;
+    } else if (!ksys::StageInfo::sIsRemainsWind) {
+        if (ksys::gdt::getBoolByKey("RemainsWind_RotHorizontal", false))
+            return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: the original turns the listener result into a branch (tbz/orr/mov) instead of `and #1`
-bool WarpActivateTerminal::handleMessage_(const ksys::Message& message) {
+bool WarpActivateTerminal::handleMessage_(const ksys::Message* message) {
     if (*mIsRejectMsgForRemains_s && sub_71005EABF4())
         return true;
 
@@ -53,7 +76,7 @@ bool WarpActivateTerminal::handleMessage_(const ksys::Message& message) {
             return false;
     }
 
-    return _68.sub_710070A674(message);
+    return _68.sub_710070A674(*message);
 }
 
 }  // namespace uking::ai

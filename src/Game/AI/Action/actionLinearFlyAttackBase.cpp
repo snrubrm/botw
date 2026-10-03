@@ -21,12 +21,12 @@ void LinearFlyAttackBase::leave_() {
 }
 
 void LinearFlyAttackBase::loadParams_() {
-    getStaticParam(&mTime_s, "Time");
-    getStaticParam(&mAttackSpeed_s, "AttackSpeed");
-    getStaticParam(&mAttackSlowDownRatio_s, "AttackSlowDownRatio");
-    getStaticParam(&mTargetHeightOffset_s, "TargetHeightOffset");
-    getStaticParam(&mThroughDist_s, "ThroughDist");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mTime_s, "Time");
+    getStaticParam(&mParams.mAttackSpeed_s, "AttackSpeed");
+    getStaticParam(&mParams.mAttackSlowDownRatio_s, "AttackSlowDownRatio");
+    getStaticParam(&mParams.mTargetHeightOffset_s, "TargetHeightOffset");
+    getStaticParam(&mParams.mThroughDist_s, "ThroughDist");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void LinearFlyAttackBase::calc_() {

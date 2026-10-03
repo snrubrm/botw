@@ -45,6 +45,12 @@ public:
     // lane1 s21: the nearest-enemies list / attack permission limiter (EnemyBattle and others).
     Unk_7100671794& get4f8() { return _4f8; }
 
+    // 0x7100674704 / 0x7100674730 (declaration only; lane2 s22, WeatherReactionCheck): whether it is raining /
+    // snowing (`!(byte[0x11e0] & 1) && wm::getWeatherMgr() && getWeatherMgr()->isRaining()` / bit 2 and
+    // isSnowing()). Placeholder names.
+    bool sub_7100674704() const;
+    bool sub_7100674730() const;
+
 private:
     /* 0x0028 */ u8 TEMP_8[0x4f8 - 0x28];
     /* 0x04f8 */ Unk_7100671794 _4f8;

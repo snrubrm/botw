@@ -20,10 +20,8 @@ public:
 protected:
     // static_param at offset 0x38
     const int* mEquipWeapon_s{};
-    ksys::act::BaseProcHandle _40;
-    ksys::act::BaseProcHandle _50;
-    ksys::act::BaseProcLink _60;
-    ksys::act::BaseProcLink _70;
+    ksys::act::BaseProcHandle _40[2];
+    ksys::act::BaseProcLink _60[2];
 };
 KSYS_CHECK_SIZE_NX150(SiteBossAttackRoot, 0x80);
 

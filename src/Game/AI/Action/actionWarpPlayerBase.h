@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,6 +21,12 @@ protected:
     virtual void m32();
     virtual bool m33();
     virtual int m34();
+
+    sead::Matrix34f _1c = sead::Matrix34f::ident;
+    sead::Vector3f _4c = sead::Vector3f::ones;
+    bool _58 = false;
+    bool _59 = false;
+    f32 _5c = 0.0f;
 };
 
 }  // namespace uking::action

@@ -33,9 +33,9 @@ void BossBattleRoomRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-bool BossBattleRoomRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x80000d7 && _140._30) {
-        auto* payload = static_cast<Unk_71023dbd40_Payload*>(message.getUserData());
+bool BossBattleRoomRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x80000d7 && _140._30) {
+        auto* payload = static_cast<Unk_71023dbd40_Payload*>(message->getUserData());
         const Command command(payload->_8);
         switch (command) {
         case Command::_1:
@@ -45,7 +45,7 @@ bool BossBattleRoomRoot::handleMessage_(const ksys::Message& message) {
             return false;
         }
     }
-    if (!_140._30 && _140.m2(message))
+    if (!_140._30 && _140.m2(*message))
         return true;
     return false;
 }

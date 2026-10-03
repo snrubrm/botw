@@ -12,6 +12,7 @@ namespace ksys::phys {
 
 class HavokAI;
 class Unk_7102372790;
+class Unk_7100f7e9f0Event;
 
 // Placeholder name (ctor 0x7100f7e9f0, dtor 0x7100f7eb14; 0x18 bytes): result returned by value
 // from NavMeshCharacter::sub_7100F76078.
@@ -24,9 +25,24 @@ public:
 
     /* 0x00 */ void* _0;
     /* 0x08 */ s32 _8;
-    /* 0x10 */ void* _10;
+    /* 0x10 */ Unk_7100f7e9f0Event* _10;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f7e9f0, 0x18);
+
+// Placeholder: object at NavMeshCharacter::_10 + 0x78 (move parameters).
+struct NavMeshCharacterMoveParam {
+    /* 0x00 */ u8 _0[0x18];
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ f32 _1c;
+};
+
+// Placeholder: object at NavMeshCharacter::_10 (only the accessed fields are modelled).
+struct NavMeshCharacterUnk10 {
+    /* 0x000 */ u8 _0[0x78];
+    /* 0x078 */ NavMeshCharacterMoveParam* _78;
+    /* 0x080 */ u8 _80[0x16c - 0x80];
+    /* 0x16c */ u32 _16c;
+};
 
 // Name from the CSV (phys::NavMeshCharacter::*, ctor 0x7100f752ac). Returned by Actor vtable slot 45
 // (InstanceSet::mNavMeshCharacter). Layout from the ctor and from the fields AI code accesses.
@@ -49,6 +65,10 @@ public:
     // 0x7100f76078: `out` is written by the query (lane1: an output parameter); `to` is checked for
     // NaN first (default result).
     Unk_7100f7e9f0 sub_7100F76078(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
+    // 0x7100f76380: pose update; stores the position (_254) and the three directions (_260 / _26c /
+    // _278) unless they contain NaN (the first and the last one are flattened to the XZ plane and normalized).
+    void sub_7100F76380(const sead::Vector3f& pos, const sead::Vector3f& dir_a,
+                        const sead::Vector3f& vec, const sead::Vector3f& dir_b);
     void sub_7100F76314();
     void sub_7100F76778();
     void sub_7100F76790();
@@ -92,7 +112,7 @@ public:
     }
 
     /* 0x008 */ u64 _8 = 0;
-    /* 0x010 */ void* _10 = nullptr;
+    /* 0x010 */ NavMeshCharacterUnk10* _10 = nullptr;
     /* 0x018 */ HavokAI* _18 = nullptr;
     /* 0x020 */ u8 _20[0x58 - 0x20];
     /* 0x058 */ void* _58 = nullptr;

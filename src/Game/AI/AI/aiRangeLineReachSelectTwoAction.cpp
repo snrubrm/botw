@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiRangeLineReachSelectTwoAction.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -25,6 +27,15 @@ void RangeLineReachSelectTwoAction::leave_() {
 
 void RangeLineReachSelectTwoAction::loadParams_() {
     RangeSelectTwoAction::loadParams_();
+}
+
+bool RangeLineReachSelectTwoAction::m36() {
+    if (RangeSelectTwoAction::m36())
+        return true;
+    auto* actor = mActor;
+    sead::Vector3f from;
+    actor->getMtx().getTranslation(from);
+    return !sub_710072F854(actor, from, *mTargetPos_d, nullptr, sub_7100539F84(), -1);
 }
 
 }  // namespace uking::ai

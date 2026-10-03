@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -8,6 +10,22 @@ namespace ksys::act {
 
 // NON_MATCHING: the non-virtual thunks (0x7100006964...) do not keep &_bd0._10 in a register
 Bullet::~Bullet() = default;
+
+Actor* Bullet::m31() {
+    if (auto* link = getParam()->getRes().mActorLink) {
+        if (link->hasTag(tags::Arrow)) {
+            if (auto* parent = sead::DynamicCast<Actor>(getConnectedCalcParent()))
+                return parent->m31();
+        }
+    }
+    return DynamicActor::m31();
+}
+
+Actor* Bullet::m48() {
+    if (_b90.hasProc())
+        return sead::DynamicCast<Actor>(_b90.getProc(nullptr, nullptr));
+    return DynamicActor::m48();
+}
 
 Actor* Bullet::m163() {
     if (!_ba0.hasProc())

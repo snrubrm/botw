@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::act {
+class ActorBind;
+}
+
 namespace uking::action {
 
 class ArmorBindNodeAction : public ksys::act::ai::Action {
@@ -16,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual ksys::act::ActorBind* m32();
 
     // dynamic_param at offset 0x20
     sead::SafeString mBoneName_d{};

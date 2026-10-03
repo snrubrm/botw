@@ -89,12 +89,12 @@ void SimpleLiftable::sub_710056E2B4() {
     changeChild("通常");
 }
 
-bool SimpleLiftable::handleMessage_(const ksys::Message& message) {
+bool SimpleLiftable::handleMessage_(const ksys::Message* message) {
     auto* actor = mActor;
     if (m36()) {
         if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _38._30)
             return false;
-        if (_38.m2(message)) {
+        if (_38.m2(*message)) {
             m37();
             _38.sub_710070B5A0(actor);
             return true;
@@ -107,22 +107,7 @@ bool SimpleLiftable::handleMessage_(const ksys::Message& message) {
     }
     if (actor->getConnectedCalcParent())
         return false;
-    return _78.m2(message);
+    return _78.m2(*message);
 }
 
 }  // namespace uking::ai
-
-// Defined in this TU in the original (inlined into SimpleLiftable::handleMessage_).
-bool Unk_71023da100::m2(const ksys::Message& message) {
-    if (message.getType() != 0x5800000)
-        return false;
-
-    auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}

@@ -26,7 +26,7 @@ void ShockDynamicWeapon::calc_() {
     Shock::calc_();
 }
 
-void ShockDynamicWeapon::m33() {}
+void ShockDynamicWeapon::m33(const sead::Vector3f* velocity) {}
 
 bool ShockDynamicWeapon::m32() {
     return mDropWeapon_d->hasProc();

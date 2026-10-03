@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
@@ -62,7 +63,7 @@ public:
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
     /* 117 */ void m117(Unk117* arg) override;
-    /* 119 */ void m119() override;
+    /* 119 */ void* m119() override;
     /* 129 */ PlayerLink* m129() override;
     /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;
     /* 145 */ void m145() override {}
@@ -91,7 +92,7 @@ public:
     /* 216 */ bool armorEffectHasWakeWindEffect() override { return _2081; }
     /* 217 */ bool m217() override;
     /* 218 */ bool m218() override;
-    /* 219 */ bool m219() override { return _2559 >> 1 & 1; }
+    /* 219 */ bool m219() override { return _2558.isOnBit(9); }
     /* 224 */ bool m224() override { return _1f84 == 3 || _1f84 == 4; }
     /* 225 */ bool m225() override;
     /* 226 */ bool m226() override;
@@ -121,8 +122,8 @@ public:
     /* 255 */ const sead::Vector3f* m255() override { return &_22e8; }
     /* 256 */ bool m256() override;
     /* 257 */ bool m257() override;
-    /* 258 */ void m258() override;
-    /* 261 */ void m261() override;
+    /* 258 */ bool m258(f32* out) override;
+    /* 261 */ bool m261(f32* out) override;
     /* 263 */ Actor* getAttachedTargetActor2() override;
     /* 264 */ Actor* getAttachedTargetActor() override;
     /* 265 */ const sead::Vector3f* m265() override { return &_230c; }
@@ -271,6 +272,16 @@ public:
     void sub_7100856A7C();             // 0x7100856a7c (declared only)
     // 0x710086fab0 (CSV nullsub_2601): empty.
     void nullsub_2601();
+    // Targets of the slot thunks m256 / m257 / m268 / m270 / m287 / m295 / m296 / m298 (declared only;
+    // placeholder names).
+    bool x_32();  // 0x88c1ec
+    bool sub_7100881EDC();
+    bool isASItemBombReadyOrStart();
+    bool sub_710088873C();
+    bool sub_71008921A8();
+    bool sub_7100892724();
+    bool sub_7100892824();
+    bool sub_71008923B0(int a1);
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
     // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by
@@ -376,10 +387,13 @@ public:
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ Actor* _1870;  // the attached target actor
-    /* 0x1878 */ u8 _1878[0x19f0 - 0x1878];
+    /* 0x1878 */ AITerror _1878{this};
+    /* 0x1930 */ AITerror _1930{this};
+    /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];
     /* 0x19f0 */ sead::SafeArray<s32, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
-    /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
+    /* 0x1b48 */ u8 _1b48[0x1b6c - 0x1b48];
+    /* 0x1b6c */ sead::Matrix33f _1b6c;  // rotation around the x_5() angle (PlayerSwimMove::enter_)
     /* 0x1b90 */ void* _1b90;
     /* 0x1b98 */ u8 _1b98[0x1c68 - 0x1b98];
     /* 0x1c68 */ Unk1 _1c68;  // angle index of the anim-driven movement (sub_7100877BD8)
@@ -390,7 +404,8 @@ public:
     /* 0x1c84 */ u32 _1c84;  // angle index (ladder direction)
     /* 0x1c88 */ u8 _1c88[0x1ca4 - 0x1c88];
     /* 0x1ca4 */ s32 _1ca4;
-    /* 0x1ca8 */ u8 _1ca8[0x1cb0 - 0x1ca8];
+    /* 0x1ca8 */ s32 _1ca8;
+    /* 0x1cac */ u8 _1cac[0x1cb0 - 0x1cac];
     /* 0x1cb0 */ s32 _1cb0;  // a ui tip type (PlayerCutFall::enter_)
     /* 0x1cb4 */ u8 _1cb4[0x1cbe - 0x1cb4];
     /* 0x1cbe */ u8 _1cbe;
@@ -401,11 +416,18 @@ public:
     /* 0x1cd0 */ s32 _1cd0;
     /* 0x1cd4 */ s32 _1cd4;
     /* 0x1cd8 */ s32 _1cd8;
-    /* 0x1cdc */ u8 _1cdc[0x1d34 - 0x1cdc];
+    /* 0x1cdc */ u8 _1cdc[0x1cec - 0x1cdc];
+    /* 0x1cec */ f32 _1cec;
+    /* 0x1cf0 */ u8 _1cf0[0x1cf8 - 0x1cf0];
+    /* 0x1cf8 */ f32 _1cf8;
+    /* 0x1cfc */ u8 _1cfc[0x1d34 - 0x1cfc];
     /* 0x1d34 */ f32 _1d34;  // set by m372 (EnergyAutoRecoverInvalidTime1)
     /* 0x1d38 */ f32 _1d38;
     /* 0x1d3c */ f32 _1d3c;  // set to -1 by m372
-    /* 0x1d40 */ u8 _1d40[0x1d70 - 0x1d40];
+    /* 0x1d40 */ u8 _1d40[0x1d64 - 0x1d40];
+    /* 0x1d64 */ f32 _1d64;  // reset by x_40 / x_16
+    /* 0x1d68 */ f32 _1d68;
+    /* 0x1d6c */ f32 _1d6c;  // set to 1 by x_40 / x_16
     // Reset with Timer(0, 0) by PlayerCutAfterJust::leave_.
     /* 0x1d70 */ ksys::Timer _1d70;
     /* 0x1d7c */ u8 _1d7c[0x1dd0 - 0x1d7c];
@@ -425,7 +447,11 @@ public:
     /* 0x1e18 */ f32 _1e18;
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
-    /* 0x1e24 */ u8 _1e24[0x1ec0 - 0x1e24];
+    /* 0x1e24 */ u8 _1e24[0x1e9c - 0x1e24];
+    /* 0x1e9c */ f32 _1e9c;
+    /* 0x1ea0 */ f32 _1ea0;
+    /* 0x1ea4 */ f32 _1ea4;
+    /* 0x1ea8 */ u8 _1ea8[0x1ec0 - 0x1ea8];
     /* 0x1ec0 */ ksys::Timer _1ec0;  // set to Timer(4, 4) by PlayerTwiceJump::enter_
     /* 0x1ecc */ u8 _1ecc[0x1f84 - 0x1ecc];
     /* 0x1f84 */ s32 _1f84;
@@ -449,12 +475,15 @@ public:
     /* 0x2094 */ f32 _2094;
     /* 0x2098 */ f32 _2098;  // set to 1 by PlayerSitWait::leave_
     /* 0x209c */ f32 _209c;  // PlayerSwimWait::isFinished: > 0.05
-    /* 0x20a0 */ u8 _20a0[0x20bc - 0x20a0];
+    /* 0x20a0 */ u8 _20a0[0x20b4 - 0x20a0];
+    /* 0x20b4 */ f32 _20b4;
+    /* 0x20b8 */ u8 _20b8[0x20bc - 0x20b8];
     /* 0x20bc */ ksys::VFRValue _20bc;  // PlayerSuperBlow::calc_ calls VFRValue::chase on it
     /* 0x20c8 */ f32 _20c8;  // initial guard-slip speed (PlayerGuardSlip::enter_)
     /* 0x20cc */ u8 _20cc[0x20d0 - 0x20cc];
     /* 0x20d0 */ f32 _20d0;
-    /* 0x20d4 */ u8 _20d4[0x20f0 - 0x20d4];
+    /* 0x20d4 */ f32 _20d4;  // water surface height (PlayerSwimJump)
+    /* 0x20d8 */ u8 _20d8[0x20f0 - 0x20d8];
     /* 0x20f0 */ f32 _20f0;
     /* 0x20f4 */ u8 _20f4[0x2100 - 0x20f4];
     /* 0x2100 */ f32 _2100;  // PlayerLadderUpEnd::enter_
@@ -462,7 +491,9 @@ public:
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
     /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
-    /* 0x215c */ u8 _215c[0x21b8 - 0x215c];
+    /* 0x215c */ u8 _215c[0x2184 - 0x215c];
+    /* 0x2184 */ sead::Vector3f _2184;
+    /* 0x2190 */ u8 _2190[0x21b8 - 0x2190];
     // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).
     struct LockedPos {
         sead::CriticalSection mLock;
@@ -484,8 +515,7 @@ public:
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
     /* 0x23e0 */ PlayerArmors _23e0;
     /* 0x2550 */ u8 _2550[0x2558 - 0x2550];
-    /* 0x2558 */ sead::BitFlag8 _2558;  // bit 5 is tested by PlayerShock::calc_
-    /* 0x2559 */ u8 _2559;
+    /* 0x2558 */ sead::BitFlag16 _2558;  // bit 5 is tested by PlayerShock::calc_
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
     /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall

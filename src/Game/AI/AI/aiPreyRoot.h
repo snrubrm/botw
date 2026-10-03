@@ -57,7 +57,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual bool m34();
     virtual bool m35();
@@ -81,6 +81,10 @@ public:
     void sub_71005044C8();
     // Unnamed in the binary (0x7100504bf0): resets _1fc / _200 / _205.
     void sub_7100504BF0();
+    // Unnamed in the binary (0x7100504a9c): sets / clears `mask` in the enemy's _e84 flags.
+    void sub_7100504A9C(u32 mask, bool on);
+    // Unnamed in the binary (0x7100504ebc): whether any bit of `mask` is set in the enemy's _e84 flags.
+    bool sub_7100504EBC(u32 mask) const;
 
 protected:
     void calc_() override;

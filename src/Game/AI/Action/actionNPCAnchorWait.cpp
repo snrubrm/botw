@@ -28,7 +28,7 @@ void NPCAnchorWait::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-bool NPCAnchorWait::handleMessage_(const ksys::Message& message) {
+bool NPCAnchorWait::handleMessage_(const ksys::Message* message) {
     return false;
 }
 

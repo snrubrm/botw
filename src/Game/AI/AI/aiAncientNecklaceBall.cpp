@@ -36,8 +36,8 @@ void AncientNecklaceBall::loadParams_() {
     getMapUnitParam(&mGiantNecklaceActiveSaveFlag_m, "GiantNecklaceActiveSaveFlag");
 }
 
-bool AncientNecklaceBall::handleMessage_(const ksys::Message& message) {
-    if (_170.m2(message))
+bool AncientNecklaceBall::handleMessage_(const ksys::Message* message) {
+    if (_170.m2(*message))
         return true;
     return AncientNecklaceBallBase::handleMessage_(message);
 }

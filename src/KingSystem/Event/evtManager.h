@@ -84,7 +84,12 @@ private:
     u8 pad_50[0x1d180 - 0x50];
     sead::Heap* mEventHeap;
     u8 pad_1d188[0x1d2b8 - 0x1d188];
+
+public:
+    // Tested by uking::action::FireWood::calc_ (null: no event is running?).
     void* _1d2b8;
+
+private:
     u8 pad_1d2c0[0x1d2d0 - 0x1d2c0];
     EventMgrStruct1* _1d2d0;
     u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];

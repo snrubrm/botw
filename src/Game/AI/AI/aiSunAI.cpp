@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSunAI.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 
 namespace uking::ai {
 
@@ -9,7 +11,9 @@ bool SunAI::init_(sead::Heap* heap) {
 }
 
 void SunAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    Unk_710260af28::instance()->sub_7100F1ECE8(mActor->getModel());
+    Unk_710260af28::instance()->sub_7100F1ED28(mActor->getModel(), false);
+    changeChild("通常");
 }
 
 void SunAI::calc_() {}

@@ -17,6 +17,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m34(f32 distance) override;
+
 protected:
     // static_param at offset 0x58
     const float* mDistFromWater_s{};

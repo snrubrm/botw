@@ -26,6 +26,13 @@ Enemy::~Enemy() = default;
 
 void Enemy::Unk_12d0::sub_7100710F04() {}
 
+void Enemy::Unk_12d0::sub_7100710F08() {
+    if (_0) {
+        _8 = -1;
+        _c = 0;
+    }
+}
+
 bool Enemy::m57() {
     if (mActorFlags2.isOn(ActorFlag2::_40))
         return true;
@@ -163,6 +170,10 @@ Enemy::IsSpecialJobTypeResult Enemy::isSpecialJobType_(ksys::act::JobType type) 
     if (auto* rideable = getHorseOptionsMaybe())
         return IsSpecialJobTypeResult(rideable->sub_7100E8BB4C(int(result)));
     return result;
+}
+
+void* Enemy::m119() {
+    return _12d8;
 }
 
 void Enemy::m117(ksys::act::Unk117* arg) {

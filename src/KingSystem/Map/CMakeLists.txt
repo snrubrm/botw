@@ -10,6 +10,7 @@ target_sources(uking PRIVATE
   mapDebug.h
   mapLazyTraverseList.cpp
   mapLazyTraverseList.h
+  mapMapProperties.cpp
   mapMapProperties.h
   mapMubinIter.cpp
   mapMubinIter.h
@@ -29,6 +30,7 @@ target_sources(uking PRIVATE
   mapPlacementMapMgr.cpp
   mapPlacementMapMgr.h
   mapPlacementMgr.cpp
+  mapPlacementObjs.cpp
   mapPlacementMgr.h
   mapPlacementTree.cpp
   mapPlacementTree.h

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionActionWithPosAngReduce.h"
+#include "Game/AI/Action/actionUnk_71023c8700.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -19,6 +20,8 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+
+    Unk_71023c8700 _30{this};
 };
 
 }  // namespace uking::action

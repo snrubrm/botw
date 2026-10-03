@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     Unk_71023c8678 _78{this};
 };

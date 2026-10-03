@@ -23,8 +23,8 @@ void PlayerClimbRest::calc_() {
     PlayerAction::calc_();
 }
 
-bool PlayerClimbRest::handleMessage_(const ksys::Message& message) {
-    return message.getType() == 0x7800005;
+bool PlayerClimbRest::handleMessage_(const ksys::Message* message) {
+    return message->getType() == 0x7800005;
 }
 
 bool PlayerClimbRest::isChangeable() const {

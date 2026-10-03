@@ -18,6 +18,18 @@ const char* PlayerOrEnemy::getEquippedItem() {
     return nullptr;
 }
 
+void PlayerOrEnemy::m150() {
+    if (auto* a = m159()) {
+        for (int i = 0; i < 12; ++i)
+            a->m13(i);
+    }
+}
+
+void PlayerOrEnemy::m149(int index) {
+    if (auto* a = m159())
+        a->m13(index);
+}
+
 bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }
@@ -129,6 +141,16 @@ bool PlayerOrEnemy::m152(u16 mask) {
     if (!obj)
         return false;
     return obj->_8.isOn(mask);
+}
+
+bool PlayerOrEnemy::m170() {
+    getWeapons();
+    for (int i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && weapon->x_6())
+            return true;
+    }
+    return false;
 }
 
 }  // namespace ksys::act

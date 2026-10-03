@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSwarmAreaDamaged.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
@@ -18,6 +19,8 @@ void SwarmAreaDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SwarmAreaDamaged::leave_() {
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->_14c = 1.0f;
     SwarmDamagedBase::leave_();
 }
 

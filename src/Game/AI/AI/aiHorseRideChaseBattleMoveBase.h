@@ -10,7 +10,7 @@ class HorseRideChaseBattleMoveBase : public ksys::act::ai::Ai {
 public:
     explicit HorseRideChaseBattleMoveBase(const InitArg& arg);
     ~HorseRideChaseBattleMoveBase() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

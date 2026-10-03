@@ -42,7 +42,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(InlineParamPack* params) override;
     void leave_() override;
-    bool handleMessage_(const Message& message) override;
+    bool handleMessage_(const Message* message) override;
     void calc() override;
 
     const ParamPack& getMapUnitParams() const { return mMapUnitParams; }
@@ -82,6 +82,8 @@ public:
     // TODO: rename
     bool getAITreeVariable2(bool** value, const sead::SafeString& key) const;
 
+    // 0x7100d64ec8 (CSV RootAi::behaviorStuff): Behavior::x() of every behavior in the six update lists.
+    void behaviorStuff();
     void setBehavior(Behavior* behavior);
     void resetBehavior(Behavior* behavior);
 

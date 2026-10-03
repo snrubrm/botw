@@ -26,6 +26,8 @@ void AnimalStop::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void AnimalStop::leave_() {
     HorseWaitAction::leave_();
+    if (auto* rideable = mActor->m132())
+        rideable->sub_7100E63424();
 }
 
 void AnimalStop::loadParams_() {

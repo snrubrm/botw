@@ -103,8 +103,8 @@ bool SandwormNormal::m44(const sead::Vector3f& pos) {
     return false;
 }
 
-bool SandwormNormal::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == ksys::MessageType(0x8000006))
+bool SandwormNormal::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == ksys::MessageType(0x8000006))
         return true;
     return SandwormNormalBase::handleMessage_(message);
 }

@@ -20,14 +20,14 @@ void GuardianAimBeam::leave_() {
 }
 
 void GuardianAimBeam::loadParams_() {
-    getStaticParam(&mTargetOffset_s, "TargetOffset");
-    getStaticParam(&mTargetOffsetY_s, "TargetOffsetY");
-    getStaticParam(&mFluctuationRange_s, "FluctuationRange");
-    getStaticParam(&mFluctuationTime_s, "FluctuationTime");
-    getStaticParam(&mFluctuationSpan_s, "FluctuationSpan");
-    getStaticParam(&mNodeName_s, "NodeName");
-    getStaticParam(&mNodeOffset_s, "NodeOffset");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mTargetOffset_s, "TargetOffset");
+    getStaticParam(&mParams.mTargetOffsetY_s, "TargetOffsetY");
+    getStaticParam(&mParams.mFluctuationRange_s, "FluctuationRange");
+    getStaticParam(&mParams.mFluctuationTime_s, "FluctuationTime");
+    getStaticParam(&mParams.mFluctuationSpan_s, "FluctuationSpan");
+    getStaticParam(&mParams.mNodeName_s, "NodeName");
+    getStaticParam(&mParams.mNodeOffset_s, "NodeOffset");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void GuardianAimBeam::calc_() {
@@ -36,13 +36,13 @@ void GuardianAimBeam::calc_() {
         setFinished();
         return;
     }
-    _68.update(*mTargetPos_d);
+    _68.update(*mParams.mTargetPos_d);
 }
 
 void GuardianAimBeam::m32(const char* name) {
     _68.init(mActor, "Target", "Laser", name, "BeamSightSearch", "BeamSightLocking",
-             "BeamSightLocked", *mFluctuationRange_s, *mFluctuationSpan_s, *mFluctuationTime_s,
-             *mTargetOffsetY_s, *mTargetPos_d, mNodeName_s, *mNodeOffset_s);
+             "BeamSightLocked", *mParams.mFluctuationRange_s, *mParams.mFluctuationSpan_s, *mParams.mFluctuationTime_s,
+             *mParams.mTargetOffsetY_s, *mParams.mTargetPos_d, mParams.mNodeName_s, *mParams.mNodeOffset_s);
     _68._f4 = m33();
 }
 

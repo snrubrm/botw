@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100700620.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 
 namespace uking::action {
 
@@ -32,6 +34,13 @@ protected:
     const float* mWaterFloatCycleTime_s{};
     // static_param at offset 0x50
     sead::SafeString mASName_s{};
+    u64 _60 = 0;
+    f32 _68 = 0.0f;
+    f32 _6c = 0.0f;
+    s32 _70 = 0;
+    ksys::act::CCAccessor _74;
+    Unk_7100700620 _7c;
 };
+KSYS_CHECK_SIZE_NX150(WaterUpDownMoveBase, 0x88);
 
 }  // namespace uking::action

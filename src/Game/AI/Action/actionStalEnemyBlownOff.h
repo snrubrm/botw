@@ -9,7 +9,7 @@ class StalEnemyBlownOff : public ksys::act::ai::Action {
 public:
     explicit StalEnemyBlownOff(const InitArg& arg);
     ~StalEnemyBlownOff() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;

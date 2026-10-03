@@ -22,7 +22,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     void onPreDelete() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual void m34(act::SiteBoss* boss);
     virtual bool m35(act::SiteBoss* boss);

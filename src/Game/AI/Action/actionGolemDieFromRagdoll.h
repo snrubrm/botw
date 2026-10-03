@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -30,6 +31,12 @@ protected:
     const float* mPosReduceRatio_s{};
     // static_param at offset 0x48
     const float* mRotReduceRatio_s{};
+    struct RagdollBody {
+        sead::SafeString mRagdollBodyName_s;
+        sead::SafeString mMaterialName_s;
+    };
+    // static_params at offset 0x50 (RagdollBodyName1-4, MaterialName1-4 interleaved)
+    RagdollBody mRagdollBodies_s[4];
     // static_param at offset 0xd0
     sead::SafeString mPosBaseRagdollRbName_s{};
     // static_param at offset 0xe0
@@ -38,6 +45,9 @@ protected:
     sead::SafeString mXLinkKey_s{};
     // static_param at offset 0x100
     sead::SafeString mImpulseXLinkKey_s{};
+    ksys::Timer mTimer;
+    s32 _11c = -1;
+    s32 _120 = 0;
 };
 
 }  // namespace uking::action

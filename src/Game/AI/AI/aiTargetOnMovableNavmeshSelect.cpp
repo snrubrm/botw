@@ -23,6 +23,23 @@ void TargetOnMovableNavmeshSelect::enter_(ksys::act::ai::InlineParamPack* params
         changeChild("ナビメッシュ外", params);
 }
 
+void TargetOnMovableNavmeshSelect::calc_() {
+    if (!getCurrentChild()->isChangeable())
+        return;
+
+    if (isCurrentChild("ナビメッシュ外")) {
+        ksys::act::acc::Actor accessor;
+        ksys::act::acquireActor(&sub_71005D94AC(mActor), &accessor);
+        if (accessor.navmeshStuff(*mCheckDist_s, *mOnStopCheckDist_s, mActor))
+            changeChild("ナビメッシュ内");
+    } else {
+        ksys::act::acc::Actor accessor;
+        ksys::act::acquireActor(&sub_71005D94AC(mActor), &accessor);
+        if (!accessor.navmeshStuff(*mCheckDist_s, *mOnStopCheckDist_s, mActor))
+            changeChild("ナビメッシュ外");
+    }
+}
+
 void TargetOnMovableNavmeshSelect::leave_() {
     ksys::act::ai::Ai::leave_();
 }

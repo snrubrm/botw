@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -33,6 +36,39 @@ bool PlayerBase::runeMgrCheckCanUseCryonis() {
 
 bool PlayerBase::runeMgrCheckCanUseCamera() {
     return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(5, this);
+}
+
+bool PlayerBase::runeMgrCheckIsCameraSelected() {
+    auto* mgr = uking::RuneMgr::instance();
+    if (mgr->_90 & 0x10)
+        return mgr->isSelectedRune(5);
+    return false;
+}
+
+void PlayerBase::m92(phys::RigidBody* body) {
+    sead::Vector3f position;
+    body->getPosition(&position);
+}
+
+f32 PlayerBase::m317() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->_19c;
+    return 0.0f;
+}
+
+bool PlayerBase::sub_710084A6B8() {
+    return (uking::RuneMgr::instance()->_90 >> 5) & 1;
+}
+
+bool PlayerBase::m202() {
+    if (_cf0.isOnBit(19))
+        return true;
+    return (uking::RuneMgr::instance()->_90 >> 5) & 1;
+}
+
+bool PlayerBase::isRidingHorse() {
+    auto* info = getPlayerRideInfo();
+    return info && (info->_30 & 1);
 }
 
 bool PlayerBase::m239() {
@@ -896,6 +932,12 @@ f32 PlayerBase::m231() const {
     if (auto* player = getPlayerBase())
         return player->m231();
     return 1.0f;
+}
+
+bool PlayerBase::runeMgrCheckCanUseSquareBomb() const {
+    if (auto* player = getPlayerBase())
+        return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(1, player);
+    return false;
 }
 
 f32 PlayerBase::x_44() const {

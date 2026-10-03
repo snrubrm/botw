@@ -112,7 +112,7 @@ void DgnObj_DLC_CogWheel2::calc_() {
 }
 
 // NON_MATCHING: the original null-checks the message pointer (`cbz x1`).
-bool DgnObj_DLC_CogWheel2::handleMessage_(const ksys::Message& message) {
+bool DgnObj_DLC_CogWheel2::handleMessage_(const ksys::Message* message) {
     auto* gear_mgr = GearMgr::instance();
     if (!gear_mgr)
         return false;
@@ -121,7 +121,7 @@ bool DgnObj_DLC_CogWheel2::handleMessage_(const ksys::Message& message) {
         return false;
 
     const bool registered = gear_mgr->sub_71006690B8(actor);
-    const auto type = message.getType();
+    const auto type = message->getType();
     if (registered) {
         if (type == 0x3000003) {
             gear_mgr->sub_71006698B0(true);

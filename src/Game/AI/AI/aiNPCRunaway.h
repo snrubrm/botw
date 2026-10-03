@@ -1,6 +1,12 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+#include <math/seadVector.h>
+#include <thread/seadCriticalSection.h>
+#include "Game/Actor/actNPC.h"
+#include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -34,6 +40,16 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x78
     sead::Vector3f* mTargetVel_d{};
+    act::NPC* _80{};
+    s32 _88 = 30;
+    bool _8c = false;
+    bool _8d = false;
+    // The six vectors at 0x90 are value-initialised together (one memset in the original).
+    sead::SafeArray<sead::Vector3f, 6> _90;
+    ksys::act::BaseProcLink _d8;
+    sead::SafeArray<ksys::act::BaseProcLink, 10> _e8;
+    LockedProcLinkMaybe _188;
 };
+KSYS_CHECK_SIZE_NX150(NPCRunaway, 0x1e0);
 
 }  // namespace uking::ai

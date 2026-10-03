@@ -18,8 +18,8 @@ void GolemRWeakPointRoot::calc_() {
     GolemWeakPointRoot::calc_();
 }
 
-bool GolemRWeakPointRoot::handleMessage_(const ksys::Message& message) {
-    if (_220.m2(message))
+bool GolemRWeakPointRoot::handleMessage_(const ksys::Message* message) {
+    if (_220.m2(*message))
         return true;
     return GolemWeakPointRoot::handleMessage_(message);
 }

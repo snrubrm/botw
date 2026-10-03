@@ -6,7 +6,12 @@ namespace uking::action {
 
 BattleHover::BattleHover(const InitArg& arg) : Hover(arg) {}
 
-BattleHover::~BattleHover() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops (Hover is inline-destructible:
+// BattleHover inlines it, including its SafeString member).
+BattleHover::~BattleHover() {
+    ;
+}
 
 bool BattleHover::init_(sead::Heap* heap) {
     return Hover::init_(heap);

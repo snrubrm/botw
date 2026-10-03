@@ -10,7 +10,7 @@ class Hover : public HoverBase {
     SEAD_RTTI_OVERRIDE(Hover, HoverBase)
 public:
     explicit Hover(const InitArg& arg);
-    ~Hover() override;
+    ~Hover() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

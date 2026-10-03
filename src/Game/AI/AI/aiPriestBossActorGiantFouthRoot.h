@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Game/AI/AI/aiPriestBossActorGiantRoot.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -18,6 +20,8 @@ public:
     void loadParams_() override;
 
     const char* m36() override;
+    Attack m46() override;
+    virtual bool m48();
 
 protected:
     // static_param at offset 0xf8
@@ -30,6 +34,9 @@ protected:
     const bool* mStompAlwaysChange_s{};
     // aitree_variable at offset 0x118
     void* mPriestBossMetaAIUnit_a{};
+    ksys::Timer _120{};
+    Unk_71023b1860 _130{mActor, 0x80000d5};
 };
+KSYS_CHECK_SIZE_NX150(PriestBossActorGiantFouthRoot, 0x168);
 
 }  // namespace uking::ai

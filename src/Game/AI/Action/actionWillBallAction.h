@@ -20,26 +20,29 @@ public:
 protected:
     void calc_() override;
 
-    // static_param at offset 0x20
-    const float* mMaxSpeed_s{};
-    // static_param at offset 0x28
-    const float* mRotSpeed_s{};
-    // static_param at offset 0x30
-    const float* mReachRange_s{};
-    // static_param at offset 0x38
-    const float* mTiredAngle_s{};
-    // static_param at offset 0x40
-    const float* mRotBaseRatio_s{};
-    // static_param at offset 0x48
-    const float* mAccel_s{};
-    // static_param at offset 0x50
-    const bool* mIsIgnoreLastSpRot_s{};
-    // static_param at offset 0x58
-    const bool* mIsAddAABBHeight_s{};
-    // static_param at offset 0x60
-    const bool* mIsGround_s{};
-    // dynamic_param at offset 0x68
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mMaxSpeed_s{};
+        // static_param at offset 0x28
+        const float* mRotSpeed_s{};
+        // static_param at offset 0x30
+        const float* mReachRange_s{};
+        // static_param at offset 0x38
+        const float* mTiredAngle_s{};
+        // static_param at offset 0x40
+        const float* mRotBaseRatio_s{};
+        // static_param at offset 0x48
+        const float* mAccel_s{};
+        // static_param at offset 0x50
+        const bool* mIsIgnoreLastSpRot_s{};
+        // static_param at offset 0x58
+        const bool* mIsAddAABBHeight_s{};
+        // static_param at offset 0x60
+        const bool* mIsGround_s{};
+        // dynamic_param at offset 0x68
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Vector3f _70;
     ksys::VFRValue _7c;
     f32 _88 = 1.0f;

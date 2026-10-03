@@ -23,12 +23,15 @@ public:
     virtual void m34();
 
 protected:
-    // static_param at offset 0x38
-    const float* mTrackSpeed_s{};
-    // static_param at offset 0x40
-    const bool* mIsStoppedByJustAvoid_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mTrackSpeed_s{};
+        // static_param at offset 0x40
+        const bool* mIsStoppedByJustAvoid_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Vector3f _50;
     bool _5c = false;
 };

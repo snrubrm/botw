@@ -221,11 +221,27 @@ bool isInSatoriMountainArea(const sead::Vector3f& pos);
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
                                   const sead::SafeString& a3, int* idx);
 
+// 0x7100ee2260 (declaration only; CSV findLinkedActor, lane2 s21): acquires the actor that `actor`'s placement
+// link `link_name` points to into `accessor` (an empty accessor if there is none).
+void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
+                     const sead::SafeString& link_name);
+
 // 0x7100ee57fc (declaration only): sets the actor's position through its character controller or rigid
 // body (counterpart of sub_7100EE58C0).
 void sub_7100EE57FC(Actor* actor, const sead::Vector3f& pos);
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
+
+// 0x7100ee3f08 (CSV act::setEnabledTalkAndLockOn; declaration only, lane2 s21): enables / disables the "Talk" and
+// "LockOn" attention clients of the actor.
+void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
+
+// 0x7100ee2850 (declaration only; lane2 s21, placeholder name; 1.7 KB, 4 callers: NPCClerkRoot enter_ / calc_,
+// 0x71001228dc): acquires the actor linked by the placement link of the actor into `accessor` (a 0x20-byte
+// accessor object); `a3` is whether the actor has the GroupingDisplayItem tag. The last two arguments are null in
+// NPCClerkRoot.
+bool sub_7100EE2850(Actor* actor, ActorLinkConstDataAccess* accessor, bool a3,
+                    ActorLinkConstDataAccess* a4, void* a5);
 // 0x7100ee5b18 (declaration only): sets the actor's translation (copy of its matrix with a new
 // translation passed to InstanceSet::setMtxAndScale).
 void sub_7100EE5B18(Actor* actor, const sead::Vector3f& pos);
@@ -235,6 +251,8 @@ void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel);
 // 0x7100ee5b84 (declaration only): gravity acting on the actor (character controller gravity, or
 // world gravity scaled by the main rigid body's gravity factor). sub_710072DC50 forwards to it.
 void sub_7100EE5B84(sead::Vector3f* gravity, Actor* actor);
+// 0x7100ee5330 (declaration only; lane3 s17): takes a name (FireWoodBase::enter_ passes getStr_Chemical()).
+void sub_7100EE5330(Actor* actor, const sead::SafeString& name);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
 void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
 // 0x7100edd218 (declaration only): the actor's Liftable ThrownMass, or 1 without Liftable params.

@@ -12,15 +12,15 @@ void TakeHitImpactForce::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TakeHitImpactForce::loadParams_() {
-    getStaticParam(&mHitImpactForceSmallSwordS_s, "HitImpactForceSmallSwordS");
-    getStaticParam(&mHitImpactForceSmallSwordL_s, "HitImpactForceSmallSwordL");
-    getStaticParam(&mHitImpactForceLargeSwordS_s, "HitImpactForceLargeSwordS");
-    getStaticParam(&mHitImpactForceLargeSwordL_s, "HitImpactForceLargeSwordL");
-    getStaticParam(&mHitImpactForceSpearS_s, "HitImpactForceSpearS");
-    getStaticParam(&mHitImpactForceSpearL_s, "HitImpactForceSpearL");
-    getStaticParam(&mVelReduce_s, "VelReduce");
-    getStaticParam(&mHighSpeedY_s, "HighSpeedY");
-    getStaticParam(&mVelReduceY_s, "VelReduceY");
+    getStaticParam(&mParams.mHitImpactForceSmallSwordS_s, "HitImpactForceSmallSwordS");
+    getStaticParam(&mParams.mHitImpactForceSmallSwordL_s, "HitImpactForceSmallSwordL");
+    getStaticParam(&mParams.mHitImpactForceLargeSwordS_s, "HitImpactForceLargeSwordS");
+    getStaticParam(&mParams.mHitImpactForceLargeSwordL_s, "HitImpactForceLargeSwordL");
+    getStaticParam(&mParams.mHitImpactForceSpearS_s, "HitImpactForceSpearS");
+    getStaticParam(&mParams.mHitImpactForceSpearL_s, "HitImpactForceSpearL");
+    getStaticParam(&mParams.mVelReduce_s, "VelReduce");
+    getStaticParam(&mParams.mHighSpeedY_s, "HighSpeedY");
+    getStaticParam(&mParams.mVelReduceY_s, "VelReduceY");
 }
 
 void TakeHitImpactForce::calc_() {

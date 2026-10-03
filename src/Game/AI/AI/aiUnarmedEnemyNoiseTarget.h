@@ -1,6 +1,10 @@
 #pragma once
 
+#include <container/seadObjList.h>
 #include "Game/AI/AI/aiUnarmedEnemySearch.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -40,6 +44,14 @@ protected:
     const float* mSearchWeaponTargetDist_s{};
     // dynamic_param at offset 0xc0
     sead::Vector3f* mTargetPos_d{};
+    f32 _c8 = 0;
+    f32 _cc = 0;
+    ksys::act::BaseProcLink _d0;
+    sead::Vector3f _e0{0, 0, 0};
+    ksys::act::BaseProcLink _f0;
+    sead::FixedObjList<ksys::act::Unk_7100d78e50, 8> _100;
+    ksys::Timer _730{0, 0};
 };
+KSYS_CHECK_SIZE_NX150(UnarmedEnemyNoiseTarget, 0x740);
 
 }  // namespace uking::ai

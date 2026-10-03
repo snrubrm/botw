@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -30,6 +31,8 @@ protected:
     const float* mPosReduceRatio_s{};
     // static_param at offset 0x48
     const float* mRotReduceRatio_s{};
+    sead::Matrix33f _50;
+    sead::Vector3f _74;
 };
 
 }  // namespace uking::action

@@ -21,8 +21,8 @@ void PlayerStainCarryWait::leave_() {
         mgr->removeGrabbedItems();
 }
 
-bool PlayerStainCarryWait::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x8000003) {
+bool PlayerStainCarryWait::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x8000003) {
         _1d = true;
         return true;
     }

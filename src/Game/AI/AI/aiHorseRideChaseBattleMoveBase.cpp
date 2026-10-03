@@ -31,8 +31,8 @@ void HorseRideChaseBattleMoveBase::loadParams_() {
     getStaticParam(&mOutDist_s, "OutDist");
 }
 
-bool HorseRideChaseBattleMoveBase::handleMessage_(const ksys::Message& message) {
-    if (!_58.m2(message))
+bool HorseRideChaseBattleMoveBase::handleMessage_(const ksys::Message* message) {
+    if (!_58.m2(*message))
         return false;
     setFailed();
     return true;

@@ -81,8 +81,8 @@ void AssassinMiddleRoot::loadParams_() {
     getStaticParam(&mMagicUsePartsName_s, "MagicUsePartsName");
 }
 
-bool AssassinMiddleRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 && !mMagicUsePartsName_s.isEmpty()) {
+bool AssassinMiddleRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 && !mMagicUsePartsName_s.isEmpty()) {
         auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
         if (enemy) {
             auto& link = enemy->getActorPartsActor(mMagicUsePartsName_s);

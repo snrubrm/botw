@@ -1,16 +1,36 @@
 #include "Game/AI/AI/aiPriestBossEyeBeam.h"
+#include <cmath>
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actBeamBase.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
-// NON_MATCHING: this+0x88 is kept in x20 across the memset instead of being recomputed
 PriestBossEyeBeam::PriestBossEyeBeam(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-PriestBossEyeBeam::~PriestBossEyeBeam() = default;
+PriestBossEyeBeam::~PriestBossEyeBeam() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (enemy->getActorPartsActor(_98).hasProcInCalcState()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&enemy->getActorPartsActor(_98), &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        }
+        enemy->sub_7100D3CFEC(_98);
+    }
+}
 
 bool PriestBossEyeBeam::init_(sead::Heap* heap) {
     _98 = m46();
@@ -23,24 +43,80 @@ bool PriestBossEyeBeam::init_(sead::Heap* heap) {
 }
 
 void PriestBossEyeBeam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71005D8DE8(mActor, ksys::act::PlayerInfo::getSomeProcLink(), nullptr, nullptr);
+    _ac.set(sead::Vector3f::zero);
+    m34();
+    if (*mParams.mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+    else
+        mFlags.reset(Flag::Changeable);
+    sub_71005D74E8(mActor);
+    sub_71005DB3EC(mActor);
+    if (mActor->getAttention() && mActor->getAttention()->getClientByName("LockOn"))
+        mActor->getAttention()->getClientByName("LockOn")->sub_7100D724FC(1);
+}
+
+void PriestBossEyeBeam::calc_() {
+    if (m35())
+        return;
+
+    sead::Vector3f pos;
+    m36(&pos);
+    if (!mActor->getCharacterController()) {
+        setFailed();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("照準")) {
+            m43();
+        } else if (isCurrentChild("チャージ")) {
+            m44(pos);
+        } else if (isCurrentChild("発射")) {
+            m38(pos);
+            m45();
+        } else if (isCurrentChild("待機")) {
+            m41();
+            setFinished();
+        }
+    } else {
+        const bool is_aiming = isCurrentChild("照準");
+        child = getCurrentChild();
+        if (is_aiming) {
+            child->setDynamicParam(pos, "AimTargetPos");
+            getCurrentChild()->setDynamicParam(getPlayerPosition(), "TargetPos");
+        } else {
+            child->setDynamicParam(pos, "TargetPos");
+        }
+    }
 }
 
 void PriestBossEyeBeam::leave_() {
-    ksys::act::ai::Ai::leave_();
+    sead::Vector3f pos;
+    m36(&pos);
+    m38(pos);
+    if (mActor->getAttention() && mActor->getAttention()->getClientByName("LockOn"))
+        mActor->getAttention()->getClientByName("LockOn")->sub_7100D7250C(1);
+    if (_88.hasProc() && ksys::act::isDemoNPCProfile(mActor)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_88, &accessor);
+        if (accessor.hasProc())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 void PriestBossEyeBeam::loadParams_() {
-    getStaticParam(&mAtMinDamage_s, "AtMinDamage");
-    getStaticParam(&mAttackPower_s, "AttackPower");
-    getStaticParam(&mAttackPowerForPlayer_s, "AttackPowerForPlayer");
-    getStaticParam(&mShotReviseAngleXU_s, "ShotReviseAngleXU");
-    getStaticParam(&mShotReviseAngleXD_s, "ShotReviseAngleXD");
-    getStaticParam(&mShotReviseAngleY_s, "ShotReviseAngleY");
-    getStaticParam(&mIsCreateGuardEffect_s, "IsCreateGuardEffect");
-    getStaticParam(&mIsChangeable_s, "IsChangeable");
-    getStaticParam(&mReflectOffset_s, "ReflectOffset");
-    getStaticParam(&mShotOffset_s, "ShotOffset");
+    getStaticParam(&mParams.mAtMinDamage_s, "AtMinDamage");
+    getStaticParam(&mParams.mAttackPower_s, "AttackPower");
+    getStaticParam(&mParams.mAttackPowerForPlayer_s, "AttackPowerForPlayer");
+    getStaticParam(&mParams.mShotReviseAngleXU_s, "ShotReviseAngleXU");
+    getStaticParam(&mParams.mShotReviseAngleXD_s, "ShotReviseAngleXD");
+    getStaticParam(&mParams.mShotReviseAngleY_s, "ShotReviseAngleY");
+    getStaticParam(&mParams.mIsCreateGuardEffect_s, "IsCreateGuardEffect");
+    getStaticParam(&mParams.mIsChangeable_s, "IsChangeable");
+    getStaticParam(&mParams.mReflectOffset_s, "ReflectOffset");
+    getStaticParam(&mParams.mShotOffset_s, "ShotOffset");
 }
 
 void PriestBossEyeBeam::m34() {
@@ -69,6 +145,139 @@ void PriestBossEyeBeam::m41() {
 
 void PriestBossEyeBeam::m38(const sead::Vector3f& pos) {
     sub_71005DB068(mActor, pos);
+}
+
+// NON_MATCHING: same instruction sequence and frame, but ours keeps the aim vector in s0-s4 where the original keeps it in
+// s8-s10 (stores `_ac.x/_ac.y` in the first branch and again in the common tail), and stores target.y before target.z
+void PriestBossEyeBeam::m36(sead::Vector3f* out) {
+    sead::Vector3f target = *out;
+    auto* actor = mActor;
+    if (!actor)
+        return;
+
+    auto* link = sub_71005D9050(actor);
+    const sead::Vector3f* player;
+    if (link && link->hasProc() && ksys::act::isPlayerProfile(link))
+        player = &sub_71005D9330(actor);
+    else
+        player = &getPlayerPosition();
+    target.x = player->x;
+    target.y = player->y + 1.0f;
+    target.z = player->z;
+
+    sead::Matrix34f bone_mtx = sead::Matrix34f::ident;
+    mActor->sub_71011D57F8(&bone_mtx, "Head");
+    const sead::Vector3f bone_pos = bone_mtx.getTranslation();
+
+    const bool in_angle = m40(bone_mtx, getPlayerPosition(), f32(*mParams.mShotReviseAngleY_s),
+                              f32(*mParams.mShotReviseAngleXU_s));
+    const bool blocked = m39(bone_pos, target);
+
+    sead::Matrix34f inv;
+    sead::Matrix34f mtx;
+    mtx = bone_mtx;
+    sead::Matrix34CalcCommon<f32>::inverse(inv, mtx);
+
+    sead::Vector3f aim;
+    if (!blocked && in_angle) {
+        _ac.setMul(inv, target);
+        aim = _ac;
+    } else {
+        const sead::Vector3f default_aim = sead::Vector3f::ey * 20.0f;
+        aim = default_aim;
+        bool keep = false;
+        if (_ac != sead::Vector3f::zero) {
+            sead::Vector3f candidate;
+            candidate.setMul(mtx, _ac);
+            if (!m39(bone_pos, candidate)) {
+                aim = _ac;
+                keep = true;
+            }
+        }
+        if (!keep)
+            _ac = default_aim;
+    }
+    out->setMul(mtx, aim);
+}
+
+void PriestBossEyeBeam::sub_710051459C() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy || sub_71005D6D10())
+        return;
+
+    if (enemy->getActorPartsActor(_98).hasProc())
+        return;
+
+    ksys::act::InstParamPack pack;
+    pack->add(*mParams.mAttackPower_s, "AttackPower");
+    pack->add(*mParams.mAtMinDamage_s, "AtMinDamage");
+    pack->add(*mParams.mAttackPowerForPlayer_s, "AttackPowerForPlayer");
+    pack->add(*mParams.mReflectOffset_s, "PosOffset");
+    auto* beam = ksys::act::ActorCreator::instance()->createActor(
+        "Priest_Boss_Beam", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+        false);
+    if (!beam)
+        return;
+
+    enemy->sub_7100D3D108(_98, beam);
+    _88.acquire(beam, false);
+    if (auto* beam_actor = sead::DynamicCast<act::BeamBase>(beam))
+        beam_actor->sub_710000395C(mActor, "Head", mParams.mShotOffset_s);
+}
+
+bool PriestBossEyeBeam::m39(const sead::Vector3f& start, const sead::Vector3f& end) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityNPC);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    if (auto* body = mActor->findPhysicsBodyByName("Body", "Hat"))
+        return query.shapeRayCast(body);
+    return query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+}
+
+// NON_MATCHING: scheduling only (the original stores the copied x axis after loading the translation and
+// the y axis; ours stores it right after the load)
+bool PriestBossEyeBeam::m40(const sead::Matrix34f& mtx, const sead::Vector3f& pos, f32 max_angle_x,
+                            f32 max_angle_y) {
+    const sead::Vector3f axis_x = mtx.getBase(0);
+    const sead::Vector3f axis_y = mtx.getBase(1);
+    const sead::Vector3f trans = mtx.getTranslation();
+    const sead::Vector3f axis_z = mtx.getBase(2);
+
+    sead::Vector3f dir = pos - trans;
+    dir.normalize();
+
+    sead::Vector3f perp_x;
+    ksys::util::sub_71011EFA00(&perp_x, dir, axis_x);
+    perp_x.normalize();
+
+    sead::Vector3f perp_z;
+    ksys::util::sub_71011EFA00(&perp_z, dir, axis_z);
+    perp_z.normalize();
+
+    const f32 facing = std::atan2(axis_y.x, axis_y.z);
+    f32 diff_x = sead::Mathf::abs(facing - std::atan2(perp_x.x, perp_x.z));
+    f32 diff_z = sead::Mathf::abs(facing - std::atan2(perp_z.x, perp_z.z));
+    if (diff_x > sead::Mathf::pi())
+        diff_x -= sead::Mathf::pi();
+    if (diff_z > sead::Mathf::pi())
+        diff_z -= sead::Mathf::pi();
+    return sead::Mathf::rad2deg(diff_x) <= max_angle_x && sead::Mathf::rad2deg(diff_z) <= max_angle_y;
+}
+
+void PriestBossEyeBeam::m42(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "AimTargetPos", -1);
+    pack.addVec3(getPlayerPosition(), "TargetPos", -1);
+    changeChild("照準", &pack);
+}
+
+void PriestBossEyeBeam::m44(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        pack.addActor(enemy->getActorPartsActor(_98), "IgniteActor", -1);
+    changeChild("発射", &pack);
 }
 
 }  // namespace uking::ai

@@ -17,7 +17,11 @@ bool EnvSeEmitPointInsectPlayAction::init_(sead::Heap* heap) {
 }
 
 void EnvSeEmitPointInsectPlayAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = -1;
+    _20 = -1.0f;
+    _24 = 0;
+    _30.setNow();
+    _38 = false;
 }
 
 void EnvSeEmitPointInsectPlayAction::leave_() {

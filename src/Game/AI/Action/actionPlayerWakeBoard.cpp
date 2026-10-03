@@ -15,8 +15,8 @@ void PlayerWakeBoard::leave_() {
 
 void PlayerWakeBoard::loadParams_() {}
 
-bool PlayerWakeBoard::handleMessage_(const ksys::Message& message) {
-    const auto type = message.getType();
+bool PlayerWakeBoard::handleMessage_(const ksys::Message* message) {
+    const auto type = message->getType();
     if (type == 0x8000025 || type == 0x8000026) {
         _1d = true;
         return true;

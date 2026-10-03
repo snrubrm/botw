@@ -33,8 +33,8 @@ struct BoneAccessKey {
     BoneAccessKey() { reset(); }
 
     void reset() {
-        model_unit_index = -1;
         bone_index = -1;
+        model_unit_index = -1;
     }
 
     bool isValid() const { return model_unit_index != -1 && bone_index != -1; }
@@ -50,6 +50,20 @@ struct BoneAccessKey {
 
     s16 model_unit_index{};
     s16 bone_index{};
+};
+
+struct MaterialAccessKey {
+    MaterialAccessKey() { reset(); }
+
+    void reset() {
+        material_index = -1;
+        model_unit_index = -1;
+    }
+
+    bool isValid() const { return model_unit_index != -1 && material_index != -1; }
+
+    s16 model_unit_index{};
+    s16 material_index{};
 };
 
 class BoneAccessKeyEx : public IModelAccesssHandle {
@@ -70,6 +84,23 @@ protected:
     void removeImpl_() override;
 
     BoneAccessKey mKey;
+};
+
+class MaterialAccessKeyEx : public IModelAccesssHandle {
+public:
+    MaterialAccessKeyEx();
+    ~MaterialAccessKeyEx() override;
+
+    bool isValid() const { return mKey.isValid(); }
+
+    MaterialAccessKey& getKey() { return mKey; }
+    const MaterialAccessKey& getKey() const { return mKey; }
+
+protected:
+    bool searchImpl_() override;
+    void removeImpl_() override;
+
+    MaterialAccessKey mKey;
 };
 
 }  // namespace gsys

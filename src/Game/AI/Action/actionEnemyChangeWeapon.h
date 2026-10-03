@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100D3D3A8.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,11 @@ protected:
     int* mEquipWeaponBufIndex_a{};
     // aitree_variable at offset 0x28
     void* mPriestBossMetaAIUnit_a{};
+    Unk_7100d3d3a8 _30;
+    Unk_7100d3d3a8 _50;
+    s32 _70 = -1;
+    s32 _74 = -1;
+    s32 _78 = 0;
 };
 
 }  // namespace uking::action

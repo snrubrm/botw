@@ -225,7 +225,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     bool m81(const ksys::Message& message) override;
     void updateMtxFromPhysics() override;
-    void m92() override;
+    void m92(ksys::phys::RigidBody* body) override;
     void m93(int a1, float a2) override {
         if (a1 >= _f44) {
             _f44 = a1;
@@ -236,7 +236,7 @@ public:
     Unk_7100d3cd74* m101() override;
     void m114() override;
     void m117(ksys::act::Unk117* arg) override;
-    void m119() override;
+    void* m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;

@@ -12,6 +12,7 @@ bool WaterUpDownMove::init_(sead::Heap* heap) {
 
 void WaterUpDownMove::enter_(ksys::act::ai::InlineParamPack* params) {
     WaterUpDownMoveBase::enter_(params);
+    _6c = *mStartDepth_s;
 }
 
 void WaterUpDownMove::leave_() {

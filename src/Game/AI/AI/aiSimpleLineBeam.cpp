@@ -34,14 +34,14 @@ void SimpleLineBeam::leave_() {
 
 void SimpleLineBeam::loadParams_() {}
 
-bool SimpleLineBeam::handleMessage_(const ksys::Message& message) {
-    if (_70.m2(message)) {
+bool SimpleLineBeam::handleMessage_(const ksys::Message* message) {
+    if (_70.m2(*message)) {
         _70.x();
         _a8.reset(2 | 4);
         _a8.set(4);
         return true;
     }
-    if (_38.m2(message)) {
+    if (_38.m2(*message)) {
         _38.x();
         _a8.reset(2 | 4);
         _a8.set(2);

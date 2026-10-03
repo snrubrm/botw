@@ -1,6 +1,12 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
+#include <math/seadVector.h>
+#include <thread/seadCriticalSection.h>
+#include "Game/Actor/actNPC.h"
+#include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::ai {
 
@@ -36,6 +42,14 @@ protected:
     sead::Vector3f* mTargetVel_d{};
     // map_unit_param at offset 0x80
     const float* mTerritoryArea_m{};
+    act::NPC* _88{};
+    u32 _90 = 0;
+    bool _94 = false;
+    sead::SafeArray<sead::Vector3f, 5> _98;
+    ksys::act::BaseProcLink _d8;
+    sead::SafeArray<ksys::act::BaseProcLink, 10> _e8;
+    LockedProcLinkMaybe _188;
 };
+KSYS_CHECK_SIZE_NX150(NPCConfrontEnemy, 0x1e0);
 
 }  // namespace uking::ai

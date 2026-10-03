@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
@@ -725,6 +726,19 @@ bool sub_71005DB904(ksys::act::Actor* actor, int idx) {
     return !weapons->mWeapons[idx]._10;
 }
 
+s32 sub_71005DBB60(ksys::act::Actor* actor, s32 idx) {
+    if (idx < 0)
+        return -1;
+    auto* weapons = actor->getWeapons();
+    if (idx > 5 || !weapons)
+        return -1;
+    auto* proc = weapons->mWeapons[idx].link.getProc(nullptr, nullptr);
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(proc);
+    if (auto* sword = sead::DynamicCast<uking::act::Weapon>(weapon))
+        return sword->_cf0;
+    return -1;
+}
+
 void sub_71005DC270(ksys::act::Actor* actor, const sead::Vector3f& pos) {
     if (auto* obj = actor->m100())
         obj->sub_7100E5007C(1, pos);
@@ -1135,4 +1149,17 @@ void sub_71005E0230(sead::Vector3f* out, const ksys::act::Actor* actor, const se
     v.y = 0.0f;
     v.normalize();
     out->set(v);
+}
+
+bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, actor, "RegistedActorMessageBroadCastTag");
+    bool sent = false;
+    if (accessor.hasProc()) {
+        if (link)
+            accessor.linkAcquire(link);
+        sender->sub_710070DD78(accessor, true);
+        sent = true;
+    }
+    return sent;
 }

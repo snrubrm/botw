@@ -112,8 +112,8 @@ void PullOutTree::loadParams_() {
     getDynamicParam(&mTargetActor_d, "TargetActor");
 }
 
-bool PullOutTree::handleMessage_(const ksys::Message& message) {
-    return !_78._30 && _78.m2(message);
+bool PullOutTree::handleMessage_(const ksys::Message* message) {
+    return !_78._30 && _78.m2(*message);
 }
 
 void PullOutTree::getTargetPos(sead::Vector3f* out) const {

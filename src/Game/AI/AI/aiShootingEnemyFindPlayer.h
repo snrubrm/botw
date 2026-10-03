@@ -20,20 +20,24 @@ public:
     void loadParams_() override;
 
     bool m45() override;
+    bool m46() override;
 
 protected:
-    // static_param at offset 0x150
-    const int* mReHideTime_s{};
-    // static_param at offset 0x158
-    const float* mExplosivesAvoidDist_s{};
-    // static_param at offset 0x160
-    const float* mExplosivesAvoidSpeed_s{};
-    // static_param at offset 0x168
-    const float* mExplosivesAvoidAng_s{};
-    // static_param at offset 0x170
-    const float* mHideStartDistMin_s{};
-    // static_param at offset 0x178
-    const float* mHideStartDistMax_s{};
+    struct Params {
+        // static_param at offset 0x150
+        const int* mReHideTime_s{};
+        // static_param at offset 0x158
+        const float* mExplosivesAvoidDist_s{};
+        // static_param at offset 0x160
+        const float* mExplosivesAvoidSpeed_s{};
+        // static_param at offset 0x168
+        const float* mExplosivesAvoidAng_s{};
+        // static_param at offset 0x170
+        const float* mHideStartDistMin_s{};
+        // static_param at offset 0x178
+        const float* mHideStartDistMax_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _180;
     ksys::Timer _190{0, 0};
 };

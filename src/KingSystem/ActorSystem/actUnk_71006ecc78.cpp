@@ -134,6 +134,10 @@ bool Unk_71006ecc78::sub_71006EE1A4() const {
     return _88 <= 0.0f;
 }
 
+void Unk_71006ecc78::sub_71006EE128(sead::Vector3f* out) const {
+    *out = _8->_c4;
+}
+
 void Unk_71006ecc78::sub_71006EE2E8(f32 scale) {
     if (auto* physics = mActor->getPhysics())
         physics->sub_7100FBDC70(scale);

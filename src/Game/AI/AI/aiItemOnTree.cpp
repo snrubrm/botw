@@ -39,10 +39,10 @@ void ItemOnTree::loadParams_() {
     getStaticParam(&mAttOnGround_s, "AttOnGround");
 }
 
-bool ItemOnTree::handleMessage_(const ksys::Message& message) {
-    if (isCurrentChild("通常") && message.getType() == 0x800001c) {
-        if (message.getUserData())
-            _a8 = *static_cast<const int*>(message.getUserData());
+bool ItemOnTree::handleMessage_(const ksys::Message* message) {
+    if (isCurrentChild("通常") && message->getType() == 0x800001c) {
+        if (message->getUserData())
+            _a8 = *static_cast<const int*>(message->getUserData());
         _b4 = true;
     }
     return false;

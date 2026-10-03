@@ -2,7 +2,9 @@
 
 namespace uking::ai {
 
-PlayerRideHorse::PlayerRideHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+PlayerRideHorse::PlayerRideHorse(const InitArg& arg) : ksys::act::ai::Ai(arg) {
+    _ac.rate = -1.0f;
+}
 
 PlayerRideHorse::~PlayerRideHorse() = default;
 
@@ -19,20 +21,20 @@ void PlayerRideHorse::leave_() {
 }
 
 void PlayerRideHorse::loadParams_() {
-    getStaticParam(&mDoForbidTime_s, "DoForbidTime");
-    getStaticParam(&mThrowPowerY_s, "ThrowPowerY");
-    getStaticParam(&mThrowPowerF_s, "ThrowPowerF");
-    getStaticParam(&mBackDismountSpeed_s, "BackDismountSpeed");
-    getStaticParam(&mWaistAngleApplyRateFoward_s, "WaistAngleApplyRateFoward");
-    getStaticParam(&mWaistAngleApplyRateBack_s, "WaistAngleApplyRateBack");
-    getStaticParam(&mMoveNoise_s, "MoveNoise");
-    getStaticParam(&mSwordAttackNoise_s, "SwordAttackNoise");
-    getStaticParam(&mAimAngleAddApplyAngle_s, "AimAngleAddApplyAngle");
-    getStaticParam(&mAimAngleAdd_s, "AimAngleAdd");
-    getStaticParam(&mAimAngleAddApplySpeed_s, "AimAngleAddApplySpeed");
-    getStaticParam(&mLowerAngleWaitTime_s, "LowerAngleWaitTime");
-    getDynamicParam(&mHasToPlayRidingOnAS_d, "HasToPlayRidingOnAS");
-    getStaticParam(&mLynelRodeoCutNum_s, "LynelRodeoCutNum");
+    getStaticParam(&mParams.mDoForbidTime_s, "DoForbidTime");
+    getStaticParam(&mParams.mThrowPowerY_s, "ThrowPowerY");
+    getStaticParam(&mParams.mThrowPowerF_s, "ThrowPowerF");
+    getStaticParam(&mParams.mBackDismountSpeed_s, "BackDismountSpeed");
+    getStaticParam(&mParams.mWaistAngleApplyRateFoward_s, "WaistAngleApplyRateFoward");
+    getStaticParam(&mParams.mWaistAngleApplyRateBack_s, "WaistAngleApplyRateBack");
+    getStaticParam(&mParams.mMoveNoise_s, "MoveNoise");
+    getStaticParam(&mParams.mSwordAttackNoise_s, "SwordAttackNoise");
+    getStaticParam(&mParams.mAimAngleAddApplyAngle_s, "AimAngleAddApplyAngle");
+    getStaticParam(&mParams.mAimAngleAdd_s, "AimAngleAdd");
+    getStaticParam(&mParams.mAimAngleAddApplySpeed_s, "AimAngleAddApplySpeed");
+    getStaticParam(&mParams.mLowerAngleWaitTime_s, "LowerAngleWaitTime");
+    getDynamicParam(&mParams.mHasToPlayRidingOnAS_d, "HasToPlayRidingOnAS");
+    getStaticParam(&mParams.mLynelRodeoCutNum_s, "LynelRodeoCutNum");
 }
 
 }  // namespace uking::ai

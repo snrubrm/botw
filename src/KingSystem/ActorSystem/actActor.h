@@ -131,6 +131,18 @@ struct ActorUniqueName {
 };
 KSYS_CHECK_SIZE_NX150(ActorUniqueName, 0x30);
 
+// Placeholder node of the singly linked list at Actor +0x5b0 (freed one by one by ~Actor).
+struct ActorUnk5b0Node {
+    void* _0;
+    ActorUnk5b0Node* mNext;
+};
+
+// 0x7102650684 (GOT 0x2581820; zeroed by the actor TU's static initializer): a global flag word that
+// switches parts of the actor system off. Bit 0: Actor::job1_1 skips x_10 / x_11 / x_12; bit 1: cleared by
+// NPCTalk / OpenMessageDialogBase (enter_ / calc_); bit 4: no dual heaps (initHeapsAndParams does not create
+// them, finalizeInit_ / ~Actor do not release them). Name is a guess.
+extern sead::BitFlag32 sActorDebugFlagsMaybe;
+
 class Actor : public BaseProc, public ActorMessageTransceiver::IHandler {
 public:
     enum class StasisFlag {
@@ -174,6 +186,7 @@ public:
         _8000 = 0x8000,
         _10000 = 0x10000,
         _20000 = 0x20000,
+        _400000 = 0x400000,
         _1000000 = 0x1000000,
         _2000000 = 0x2000000,
         Alive = 0x4000000,
@@ -240,6 +253,8 @@ public:
     map::Object* getMapObject() const { return mMapObject; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
     as::ASList* getASList() const { return mASList; }
+    // 0x71011c9a88: `mASList`, or null if it is the shared null list (sNullASListMaybe).
+    as::ASList* sub_71011C9A88() const;
     xlink::XLink* getXLink() const { return mXLink; }
     Schedule* getSchedule() const { return mSchedule; }
     AwarenessInstance* getAwareness() const { return mAwareness; }
@@ -321,6 +336,9 @@ public:
     // emitSignalsOrDisappearEffectForDelete(a1).
     // CSV name (0x71011cc45c).
     void emitSignalsOrDisappearEffectForDelete(int a1);
+    // 0x7100ee788c (CSV Actor::createDrops; declared only): `DropMgr::instance()->createDrops(this, 0)` (both
+    // parameters are ignored; killWithDropsAndEffects passes 1 / 0).
+    void createDrops(int a1, int a2);
     // CSV name.
     void clearFadeInCreate();
     // CSV name (0x71011d6cbc; not decompiled): emits the effect for the m135()->_4 disappear type.
@@ -388,7 +406,7 @@ public:
     // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
     virtual f32 m38();
     virtual bool m39();
-    virtual void m40();
+    virtual void* m40();
     // Writes the transform of the character controller / main body of the actor.
     virtual void m41(sead::Matrix34f* mtx);
     // Called by setMtx with the new matrix (Player::m42 forwards it).
@@ -397,7 +415,7 @@ public:
     virtual void m44();
     // Returns mPhysics->mNavMeshCharacter (or null).
     virtual phys::NavMeshCharacter* m45();
-    virtual void m46();
+    virtual void* m46();
     virtual bool m47();
     virtual Actor* m48();
     virtual bool m49();
@@ -450,7 +468,8 @@ public:
     virtual void m89();
     virtual void m90();
     virtual void m91();
-    virtual void m92();
+    // 0x71011d8128: the actor is at (or hit by) `body`: nothing for the profile "AirWall", else deleted.
+    virtual void m92(phys::RigidBody* body);
     virtual void m93(int a1, float a2);
     virtual s32 m94();
     virtual void m95();
@@ -480,7 +499,7 @@ public:
     virtual void m116();
     virtual void m117(Unk117* arg);
     virtual void m118(bool on);
-    virtual void m119();
+    virtual void* m119();
     // Starts the animation `name` in the AS list (-1 / -1 blend, not looping); always false.
     virtual bool m120(const char* name);
     virtual bool m121();
@@ -726,7 +745,7 @@ protected:
     /* 0x598 */ LodState* _598 = nullptr;  // created by Actor::makeField598 (0x710124b050)
     /* 0x5a0 */ BoneControl* mBoneControl = nullptr;
     /* 0x5a8 */ phys::StaticCompoundRigidBodyGroup* mFieldBodyGroup = nullptr;
-    /* 0x5b0 */ void* _5b0 = nullptr;
+    /* 0x5b0 */ ActorUnk5b0Node* _5b0 = nullptr;
     /* 0x5b8 */ sead::Heap* mDualHeap = nullptr;   // TODO: rename
     /* 0x5c0 */ sead::Heap* mDualHeap2 = nullptr;  // TODO: rename
     /* 0x5c8 */ sead::Heap* mHeap = nullptr;       // TODO: rename

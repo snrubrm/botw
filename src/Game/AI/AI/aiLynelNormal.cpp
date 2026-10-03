@@ -66,8 +66,8 @@ void LynelNormal::calc_() {
     _458 = 0;
 }
 
-bool LynelNormal::handleMessage_(const ksys::Message& message) {
-    if (_418.m2(message)) {
+bool LynelNormal::handleMessage_(const ksys::Message* message) {
+    if (_418.m2(*message)) {
         _458 = sead::Mathi::max(_458, _418._34._0);
         _45c = true;
         _418.x();

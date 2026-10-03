@@ -24,6 +24,9 @@ public:
     void disable();
     void setEnabled(bool enabled);
     bool isEnabled() const;
+    // 0x7100d724fc / 0x7100d7250c: `_54 |= flags` / `_54 &= ~flags` (PriestBossEyeBeam::enter_ / leave_ pass 1).
+    void sub_7100D724FC(u32 flags);
+    void sub_7100D7250C(u32 flags);
     void setCallback(void* callback);
     // 0x7100d72554: whether the client's checks pass for `proc` (NameBalloon: never; Appeal:
     // camera within 30 of the actor).

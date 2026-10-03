@@ -47,8 +47,8 @@ void HorseDie::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
-bool HorseDie::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != ksys::MessageType(0x380001c))
+bool HorseDie::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != ksys::MessageType(0x380001c))
         return false;
     auto* info = mActor->m135();
     if (info) {

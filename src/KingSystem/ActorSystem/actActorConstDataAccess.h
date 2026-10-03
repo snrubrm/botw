@@ -141,6 +141,9 @@ public:
     bool sub_7100D11188(sead::Matrix34f* out) const;
     // 0x7100d11254 (declared only): Chemical::_34 of the actor's chemical (0 if none).
     f32 sub_7100D11254() const;
+    // 0x7100d110e4 (declared only; lane2 s21): how far the actor's position is below its `_6f0` (0 unless
+    // the proc is an Actor with Actor::get68f() set).
+    f32 sub_7100D110E4() const;
     // 0x7100d131d0: Chemical::_c0 (a state; 0 if none) of the actor's chemical `idx`
     // (getChemicalStuff() if idx < 0).
     int sub_7100D131D0(int idx) const;

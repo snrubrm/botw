@@ -16,6 +16,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m36() override;
+
 protected:
     // static_param at offset 0x380
     const float* mJumpDist_s{};

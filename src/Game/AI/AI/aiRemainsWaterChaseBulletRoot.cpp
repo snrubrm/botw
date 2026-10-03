@@ -17,7 +17,9 @@ RemainsWaterChaseBulletRoot::~RemainsWaterChaseBulletRoot() {
 }
 
 bool RemainsWaterChaseBulletRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    mActor->sub_71011D0204(0x40);
+    _3c = false;
+    return true;
 }
 
 void RemainsWaterChaseBulletRoot::enter_(ksys::act::ai::InlineParamPack* params) {

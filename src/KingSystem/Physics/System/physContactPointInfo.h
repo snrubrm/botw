@@ -74,6 +74,13 @@ public:
             mLayerMask2[i].setDirect(0xffffffff);
     }
 
+    // Inline-only in the original (EventDisableContactIdle::init_ stores -1 over both subscribed words;
+    // the name is a guess).
+    void subscribeAllLayers() {
+        for (int i = 0; i < NumContactLayerTypes; ++i)
+            mSubscribedLayers[i].makeAllOne();
+    }
+
     void setLayerMasks(const LayerMaskBuilder& builder) {
         for (int i = 0; i < NumContactLayerTypes; ++i) {
             mSubscribedLayers[i] = builder.getMasks()[i].layers;

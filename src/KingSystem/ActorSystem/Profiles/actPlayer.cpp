@@ -8,10 +8,14 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/StageInfo.h"
+#include "Game/gameHeroSoul.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace ksys::act {
@@ -170,6 +174,22 @@ void Player::m372() {
 
 bool Player::m183() {
     return mASList->x_1(1, 1) == "HorseBowEndUpper";
+}
+
+bool Player::m225() {
+    return mASList->x_1(2, 0) == "WeaponEquipOn" || mASList->x_1(2, 0) == "WeaponEquipOff" ||
+           mASList->x_1(2, 0) == "WeaponEquipNG";
+}
+
+bool Player::m226() {
+    return mASList->x_1(2, 0) == "ItemEquipBoth" || mASList->x_1(2, 0) == "ItemEquipLeftOn" ||
+           mASList->x_1(2, 0) == "ItemEquipLeftOff" || mASList->x_1(2, 0) == "ItemEquipRight" ||
+           mASList->x_1(1, 1) == "ItemBombReady";
+}
+
+bool Player::m181() {
+    return mASList->x_1(1, 1) == "WeaponThrowCharge" || mASList->x_1(1, 1) == "WeaponThrow" ||
+           mASList->x_1(0, 0) == "WeaponThrow";
 }
 
 bool Player::m182() {
@@ -356,6 +376,298 @@ void Player::sub_7100892100(const sead::Vector3f& pos) {
     const sead::Vector3f velocity = (pos - _1770) * 30.0f * factor;
     controller->sub_7100F5F6FC(velocity);
     controller->sub_7100F5FC8C(_1b18);
+}
+
+f32 Player::m235() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->sub_7100D91958();
+    return 0.0f;
+}
+
+void Player::sub_710084BA90(f32 value) {
+    auto lock = sead::makeScopedLock(_1610);
+    _1650 = true;
+    _1654 = value;
+}
+
+bool Player::startPreparingForPreDelete_() {
+    bool result;
+    if (_1878.sub_7100D78960()) {
+        if (_548)
+            _548->sub_7100D78444(&_1878);
+        result = false;
+    } else if (_1930.sub_7100D78960()) {
+        if (_548)
+            _548->sub_7100D78444(&_1930);
+        result = false;
+    } else if ((_1878._8 && _1878._8->isAddedToWorld()) ||
+               (_1930._8 && _1930._8->isAddedToWorld())) {
+        result = false;
+    } else {
+        result = PlayerOrEnemy::startPreparingForPreDelete_();
+    }
+    if (auto* info = PlayerInfo::instance())
+        info->resetPlayer(this);
+    return result;
+}
+
+// NON_MATCHING: register allocation / load scheduling of the two dot products only
+bool Player::m258(f32* out) {
+    if (!_cec.isOnBit(7))
+        return false;
+    if (mASList->x_1(0, 0) == "ClimbEd")
+        return false;
+    if (mVelocity.length() < 0.01f)
+        return false;
+    const f32 x = _1b18(0, 0) * mVelocity.x + _1b18(1, 0) * mVelocity.y + _1b18(2, 0) * mVelocity.z;
+    const f32 y = _1b18(0, 1) * mVelocity.x + _1b18(1, 1) * mVelocity.y + _1b18(2, 1) * mVelocity.z;
+    *out = sead::Mathf::atan2(x, y);
+    return true;
+}
+
+bool Player::m261(f32* out) {
+    if (!_cf0.isOnBit(21))
+        return false;
+    if (mASList->x_1(0, 0) == "LadderUp") {
+        *out = 0.0f;
+        return true;
+    }
+    if (mASList->x_1(0, 0) == "LadderDown") {
+        *out = sead::Mathf::pi();
+        return true;
+    }
+    return false;
+}
+
+bool Player::isMasterSwordEquipped_() {
+    ActorConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (!link.hasProc())
+        return false;
+    acquireActor(&link, &accessor);
+    if (accessor.hasProc())
+        return accessor.getName() == "Weapon_Sword_070";
+    return false;
+}
+
+void Player::x_40() {
+    _1d6c = 1.0f;
+    _c40.reset(0x1200000);
+    _1d64 = 0.0f;
+    _1d68 = 0.0f;
+    _1f8c = 0;
+    _1f84 = 0;
+    if (_c44.isOnBit(8)) {
+        if (mASList->x_1(1, 1) != "WeaponThrow") {
+            _c44.resetBit(8);
+            x_18(true);
+        }
+    }
+}
+
+// NON_MATCHING: the inlined copy of x_40 has its stores scheduled differently (the original keeps the order of the
+// out-of-line x_40)
+void Player::x_16() {
+    _c40.resetBit(24);
+    if (x_17())
+        x_18(true);
+    x_40();
+    x_19(-1.0f);
+}
+
+void Player::nullsub_2601() {}
+
+void Player::m88() {
+    mPreviousPos = _17a0;
+}
+
+bool Player::m217() {
+    return _2558.isOn(0x108);
+}
+
+bool Player::m151(u16 bit) {
+    return _2558.isOnBit(bit);
+}
+
+bool Player::m83() {
+    return !m359();
+}
+
+bool Player::isGuardJust() {
+    if (_c40.isOnBit(5))
+        return true;
+    return isDarukProtectionEnabled();
+}
+
+bool Player::m374() {
+    auto* life = getLife();
+    return life && *life < 1;
+}
+
+bool Player::m328() {
+    if (auto* chemical = getChemicalStuff()) {
+        if ((chemical->_bc & 0x30) == 0x10)
+            return true;
+    }
+    return false;
+}
+
+bool Player::m376() {
+    if (auto* chemical = getChemicalStuff()) {
+        if (chemical->_b8 & 4)
+            return true;
+    }
+    return false;
+}
+
+void* Player::m119() {
+    return _1b90;
+}
+
+bool Player::m256() {
+    return x_32() || isASItemBombReadyOrStart();
+}
+
+bool Player::m257() {
+    return x_32();
+}
+
+bool Player::m268() {
+    return sub_71008921A8();
+}
+
+bool Player::m270() {
+    return sub_7100881EDC();
+}
+
+bool Player::m287() {
+    return sub_710088873C();
+}
+
+bool Player::m295() {
+    return sub_7100892724();
+}
+
+bool Player::m296() {
+    return sub_7100892824();
+}
+
+bool Player::m298(int a1) {
+    return sub_71008923B0(a1);
+}
+
+void Player::sub_710085ECF4() {
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F5EECC(60.0f);
+}
+
+f32 Player::x_67() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(0))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompSwimEnergyRate.ref();
+    return 1.0f;
+}
+
+f32 Player::m231() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(9))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompPlusDropRate.ref();
+    return 1.0f;
+}
+
+f32 Player::getBoneAttackRate() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(7))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompBoneAttackRate.ref();
+    return 1.0f;
+}
+
+f32 Player::m364() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(8))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompClimbJumpEnergyRate.ref();
+    return 1.0f;
+}
+
+f32 Player::getGuardableAngle() {
+    if (isDarukProtectionEnabled())
+        return sead::Mathf::pi();
+    return sead::Mathf::deg2rad(getParam()->getRes().mGParamList->getPlayer()->mGuardableAngle.ref());
+}
+
+// NON_MATCHING: block layout (the original loads _1cec and epsilon before testing isRidingHorse() and keeps the
+// "return true" block last)
+bool Player::m230() {
+    return (isRidingHorse() && !(_1cec <= sead::Mathf::epsilon())) ||
+           !(_1cf8 <= sead::Mathf::epsilon());
+}
+
+bool Player::x_35() {
+    return m225() || m226();
+}
+
+bool Player::canUseDarukProtection() {
+    if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
+        return false;
+    if (gdt::getFlag_HeroSoulProhibition())
+        return false;
+    if (!hasDarukProtection())
+        return false;
+    return _1e00 <= sead::Mathf::epsilon();
+}
+
+bool Player::canUseUrbosaFury() {
+    if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
+        return false;
+    if (gdt::getFlag_HeroSoulProhibition())
+        return false;
+    if (!hasMiphaSoul())
+        return false;
+    return _1e0c <= sead::Mathf::epsilon();
+}
+
+// NON_MATCHING: the original loads _c48 as a word (`ldr w8` + tbnz) after `mov w0, wzr`; we narrow it to a byte load
+bool Player::canUseMiphaGrace() {
+    bool result = false;
+    if (!_c48.isOnBit(0)) {
+        if (!(StageInfo::sIsCDungeon | StageInfo::sIsAocField)) {
+            if (!gdt::getFlag_HeroSoulProhibition()) {
+                if (hasMiphaGraceCharges())
+                    result = _1e18 <= sead::Mathf::epsilon();
+            }
+        }
+    }
+    return result;
+}
+
+bool Player::m352(sead::Vector3f* out) {
+    if (!_c48.isOnBit(15))
+        return false;
+    *out = _2184;
+    return true;
+}
+
+bool Player::isNoShieldDamageFloor() {
+    switch (_1ca8) {
+    case 1:
+    case 3:
+    case 9:
+    case 13:
+    case 22:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// NON_MATCHING: same operations, but the original interleaves the four flag read-modify-writes
+// differently (c40's store comes before c4c's, c48's last); no source order reproduces it
+void Player::sub_7100881104() {
+    _c44.reset(0x4001a);
+    _c40.reset(0x400000);
+    _c4c.reset(0x1000);
+    _c48.reset(0x800);
+    _1e9c = 0;
+    _1ea0 = 0;
+    _1ea4 = -1.0f;
+    _20b4 = 0;
 }
 
 }  // namespace ksys::act

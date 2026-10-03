@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionForkDisableContact.h"
+#include <prim/seadFormatPrint.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -6,8 +9,19 @@ ForkDisableContact::ForkDisableContact(const InitArg& arg) : ksys::act::ai::Acti
 
 ForkDisableContact::~ForkDisableContact() = default;
 
+// NON_MATCHING: loop-variable form only (the original walks a byte offset 0x20..0x70 over the names; ours a plain index)
 bool ForkDisableContact::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    for (int i = 0; i < 5; ++i) {
+        auto* body = mActor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(),
+                                                   mRigidBodyName_s[i].cstr());
+        if (!body) {
+            body = mActor->findPhysicsBodyByName(ksys::act::getStr_EntitySensor().cstr(),
+                                                 mRigidBodyName_s[i].cstr());
+        }
+        mBodies[i].mBody = body;
+        mBodies[i].mIsEnabled = true;
+    }
+    return true;
 }
 
 void ForkDisableContact::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -18,34 +32,14 @@ void ForkDisableContact::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
+// NON_MATCHING: regalloc only (the original computes &mRigidBodyName_s[0] before the first getStaticParam call)
 void ForkDisableContact::loadParams_() {
-    getStaticParam(&mRecoverDelayTimeMin_s, "RecoverDelayTimeMin");
-    // FIXME: CALL _ZNK4sead22BufferedSafeStringBaseIcE22assureTerminationImpl_Ev @ 0x7100b0ce00
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
-    // FIXME: CALL sub_7100B0C35C @ 0x7100b0c35c
-    // FIXME: CALL _ZN4sead14PrintFormatterlsEPKc @ 0x7100b0bfd8
-    // FIXME: CALL _ZN4sead14PrintFormatter20proceedToFormatMark_EPc @ 0x7100b0bde0
-    // FIXME: CALL _ZN4sead14PrintFormatter5flushEv @ 0x7100b0bd94
-    // FIXME: CALL sead__PrintFormatter__x @ 0x7100b0c528
+    getStaticParam(&mParams.mRecoverDelayTimeMin_s, "RecoverDelayTimeMin");
+    sead::FixedSafeString<64> key;
+    for (u32 i = 0; i < 5; i++) {
+        (sead::StringCutOffPrintFormatter(&key) << "RigidBodyName%d", i) << sead::flush;
+        getStaticParam(&mRigidBodyName_s[i], key);
+    }
 }
 
 void ForkDisableContact::calc_() {

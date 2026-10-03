@@ -1,5 +1,6 @@
 #pragma once
 
+#include <time/seadTickTime.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -24,6 +25,8 @@ protected:
     int* mSeconds_d{};
     // dynamic_param at offset 0x30
     bool* mIsWait_d{};
+    sead::TickTime _38;
 };
+KSYS_CHECK_SIZE_NX150(TimeSpecControllerRumble, 0x40);
 
 }  // namespace uking::action

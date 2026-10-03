@@ -62,8 +62,8 @@ void FollowIgniteToBonePos::calc_() {
     _c0.calc();
 }
 
-bool FollowIgniteToBonePos::handleMessage_(const ksys::Message& message) {
-    return _c0.handleMessage(message);
+bool FollowIgniteToBonePos::handleMessage_(const ksys::Message* message) {
+    return _c0.handleMessage(*message);
 }
 
 }  // namespace uking::action

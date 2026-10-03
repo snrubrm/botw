@@ -3,6 +3,9 @@
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
@@ -163,6 +166,30 @@ void DynamicActor::m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool 
     } else {
         sub_71011D8718(a1, a2, false, false, a4, -1, a3, a5);
     }
+}
+
+Actor* DynamicActor::m31() {
+    if (mActorFlags2.isOn(ActorFlag2::_40000000))
+        return sead::DynamicCast<Actor>(getConnectedCalcParent());
+    if (_a80.hasProc())
+        return sead::DynamicCast<Actor>(_a80.getProc(nullptr, nullptr));
+    return Actor::m31();
+}
+
+void DynamicActor::m73() {
+    if (auto* a = m159())
+        a->m7();
+    if (_a50)
+        _a50->m8();
+    if (auto* mgr = getDamageMgr()) {
+        if (mgr->getField54() == 0x22)
+            sendMessage(*mMsgTransceiver.getId(), MessageType(0x3000004), nullptr, true);
+    }
+}
+
+void DynamicActor::sub_71006DD908(sead::Vector3f* out) {
+    if (_868)
+        _868->sub_71006EE128(out);
 }
 
 }  // namespace ksys::act

@@ -47,8 +47,8 @@ void BreathEnemyRangeKeepMove::loadParams_() {
     getStaticParam(&mBreathMinTime_s, "BreathMinTime");
 }
 
-bool BreathEnemyRangeKeepMove::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 && sub_710034076C()) {
+bool BreathEnemyRangeKeepMove::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 && sub_710034076C()) {
         sub_7100340570();
         _16c = true;
     }

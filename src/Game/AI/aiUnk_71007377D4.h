@@ -139,6 +139,9 @@ bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 /// `out_pos`. Placeholder name.
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos);
+/// 0x710072f854 (lane2 s21): like sub_710072F7D0 with `extra` added to the navmesh radius. Placeholder name.
+bool sub_710072F854(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, f32 extra, s32 a5);
 /// 0x710072f944: sub_710072F28C from the actor's position to `target` with the given tolerances.
 /// Placeholder name.
 bool sub_710072F944(ksys::act::Actor* actor, const sead::Vector3f& target, sead::Vector3f* out_pos,
@@ -189,6 +192,9 @@ bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
 /// or |sub_7100F74FD8(...)| <= a constant. Placeholder name.
 bool sub_710072E368(ksys::act::Actor* actor);
 
+/// 0x710072e304 (declared only; lane2 s21): whether `pos` is on a navmesh face found within `radius` (queries
+/// HavokAI::sub_7100F87ED0 and the Unk_7100f7e9f0 result; false without a HavokAI instance). Placeholder name.
+bool sub_710072E304(const sead::Vector3f& pos, f32 radius);
 /// 0x710072dcfc (lane1 s22): whether the XZ direction from `pos` to `target` is within `angle` (radians)
 /// of `dir` (dot product of the normalised XZ direction with `dir` >= cos(angle)). Placeholder name.
 bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,
@@ -283,3 +289,8 @@ ksys::act::Unk_7100d860d8* sub_71007398C0(ksys::act::Actor* actor);
 
 /// 0x710072d53c: the RigidBody name of the actor's GiantArmorSlot GParamList slot (0 - 3; empty string otherwise).
 const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);
+
+/// 0x710073ba0c / 0x710073ba74 (CSV names, declared only): whether the actor is an item that can / can
+/// not be picked up into the pouch.
+bool itemCanGetPouch(ksys::act::Actor* actor);
+bool itemCanNotGetPouch(ksys::act::Actor* actor);

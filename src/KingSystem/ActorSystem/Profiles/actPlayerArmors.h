@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadSafeArray.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -15,6 +16,9 @@ struct Unk117;
 // to are declared (all placeholder names).
 class PlayerArmors {
 public:
+    // 0x7100e2f61c (CSV x_0; out of line, returns `&_134`): the armor effect flags (bit 0: swim energy,
+    // bit 7: bone attack, bit 8: climb jump energy, bit 9: drop rate bonus are active).
+    sead::BitFlag16* sub_7100E2F61C();
     // 0x7100e2f490 (CSV x_5): Player::m234.
     bool sub_7100E2F490();
     // 0x7100e2f000: Player::getArmorDyeStuff (a count).
@@ -34,7 +38,9 @@ public:
 private:
     u8 _0[0x10];
     sead::SafeArray<BaseProcLink, 6> _10;
-    u8 _70[0x170 - 0x70];
+    u8 _70[0x134 - 0x70];
+    sead::BitFlag16 _134;
+    u8 _136[0x170 - 0x136];
 };
 KSYS_CHECK_SIZE_NX150(PlayerArmors, 0x170);
 

@@ -4,8 +4,6 @@ namespace uking::action {
 
 TimeredASPlay::TimeredASPlay(const InitArg& arg) : WaitBase(arg) {}
 
-TimeredASPlay::~TimeredASPlay() = default;
-
 bool TimeredASPlay::init_(sead::Heap* heap) {
     return WaitBase::init_(heap);
 }

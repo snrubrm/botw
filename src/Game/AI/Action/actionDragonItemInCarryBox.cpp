@@ -30,8 +30,8 @@ void DragonItemInCarryBox::calc_() {
     mActor->get689() = true;
 }
 
-bool DragonItemInCarryBox::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x3000009)
+bool DragonItemInCarryBox::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x3000009)
         return false;
     *mIsInsideObserverArea_a = true;
     return true;

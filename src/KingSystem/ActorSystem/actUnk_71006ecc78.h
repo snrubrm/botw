@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Types.h"
@@ -14,7 +15,13 @@ class Heap;
 namespace ksys::act {
 
 class Actor;
-class Unk_7100e9d810;
+// Placeholder name (the ragdoll controller created by Unk_71006ecc78::sub_71006ECC78; size unknown):
+// only the vector at +0xc4 is modelled so far.
+class Unk_7100e9d810 {
+public:
+    /* 0x00 */ u8 _0[0xc4];
+    /* 0xc4 */ sead::Vector3f _c4;
+};
 
 // Placeholder name (functions at 0x71006ecc78-0x71006ee3e0; ctor inlined into DynamicActor::initField868
 // 0x71006dc5d4): the ragdoll handler of a DynamicActor (DynamicActor::_868, size 0xd8). Only the members
@@ -50,6 +57,8 @@ public:
     // 0x71006ee1f8 (declared only): feeds the position of the ragdoll bone `name` to the vibration check
     // embedded at +0x10.
     void sub_71006EE1F8(const sead::SafeString& name);
+    // 0x71006ee128: copies the vector at _8->_c4.
+    void sub_71006EE128(sead::Vector3f* out) const;
     // 0x71006ee15c / 0x71006ee1a4
     bool sub_71006EE15C() const;
     bool sub_71006EE1A4() const;

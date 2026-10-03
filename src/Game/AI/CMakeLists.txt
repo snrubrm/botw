@@ -37,6 +37,12 @@ target_sources(uking PRIVATE
   aiUnk_7100710938.cpp
   aiUnk_7100711020.cpp
   aiUnk_7100711020.h
+  aiUnk_71006F1DF0.cpp
+  aiUnk_71007130BC.cpp
+  aiUnk_71007130BC.h
+  aiUnk_710087CE34.cpp
+  aiUnk_710087CE34.h
+  aiUnk_71006F1DF0.h
   aiUnk_710071edf8.cpp
   aiUnk_710071edf8.h
   aiUnk_7100724C64.cpp
@@ -54,6 +60,12 @@ target_sources(uking PRIVATE
   aiUnk_71007377D4.cpp
   aiUnk_710071E0D8.cpp
   aiUnk_710071E0D8.h
+  aiUnk_71006F55D8.cpp
+  aiUnk_71005E0420.cpp
+  aiUnk_71005E0420.h
+  aiUnk_7100700620.cpp
+  aiUnk_710070F974.cpp
+  aiUnk_7100D3D3A8.cpp
   aiUnk_710073fa90.cpp
   aiUnk_710073CDFC.cpp
   aiUnk_710073CDFC.h

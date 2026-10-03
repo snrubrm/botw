@@ -36,7 +36,10 @@ void PreyDead::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreyDead::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F605C8(_9c);
+    if (auto* rideable = mActor->getHorseOptionsMaybe())
+        rideable->Unk_7100e8b2b8::_8.setBitOff(9);
 }
 
 void PreyDead::loadParams_() {

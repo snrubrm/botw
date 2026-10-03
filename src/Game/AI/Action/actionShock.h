@@ -18,7 +18,7 @@ protected:
     void calc_() override;
     bool isFinished() const override;
     virtual bool m32();
-    virtual void m33();
+    virtual void m33(const sead::Vector3f* velocity);
 
     // static_param at offset 0x20
     const int* mKnockBackTime_s{};

@@ -47,21 +47,21 @@ void WeakPointRoot::loadParams_() {
     getStaticParam(&mIsNoReaction_s, "IsNoReaction");
 }
 
-bool WeakPointRoot::handleMessage_(const ksys::Message& message) {
-    if (_a0.m2(message)) {
+bool WeakPointRoot::handleMessage_(const ksys::Message* message) {
+    if (_a0.m2(*message)) {
         _d8.x();
         return true;
     }
-    if (_d8.m2(message)) {
+    if (_d8.m2(*message)) {
         _a0.x();
         return true;
     }
-    if (_110.m2(message)) {
+    if (_110.m2(*message)) {
         sub_71007A36BC(mActor);
         _110.x();
         return true;
     }
-    if (_148.m2(message)) {
+    if (_148.m2(*message)) {
         sub_71007A3540(mActor);
         _148.x();
         return true;

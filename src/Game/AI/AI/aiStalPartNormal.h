@@ -17,17 +17,20 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
-    // static_param at offset 0x38
-    const float* mTerritoryArea_s{};
-    // static_param at offset 0x40
-    const float* mCatchArea_s{};
-    // static_param at offset 0x48
-    const float* mWaitTimer_s{};
-    // static_param at offset 0x50
-    const sead::Vector3f* mTgtOffset_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mTerritoryArea_s{};
+        // static_param at offset 0x40
+        const float* mCatchArea_s{};
+        // static_param at offset 0x48
+        const float* mWaitTimer_s{};
+        // static_param at offset 0x50
+        const sead::Vector3f* mTgtOffset_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _58;
     Unk_7102450558 _68;
     Unk_7102396ae0 _b8{mActor, 0x800001f};

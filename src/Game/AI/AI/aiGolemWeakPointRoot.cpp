@@ -32,8 +32,8 @@ void GolemWeakPointRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     WeakPointRoot::enter_(params);
 }
 
-bool GolemWeakPointRoot::handleMessage_(const ksys::Message& message) {
-    if (_1b0.m2(message))
+bool GolemWeakPointRoot::handleMessage_(const ksys::Message* message) {
+    if (_1b0.m2(*message))
         return true;
     return WeakPointRoot::handleMessage_(message);
 }

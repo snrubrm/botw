@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -479,6 +480,10 @@ bool Weapon::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5
     return WeaponBase::m175(pos, a2, a3, a4, a5);
 }
 
+bool Weapon::x_6() {
+    return hasAttackInfo(this);
+}
+
 bool Weapon::sub_71002E9A50() {
     auto* chemical = getChemicalStuff();
     return chemical && chemical->_c0 == 2;
@@ -505,7 +510,7 @@ void Weapon::sub_71002EDAEC(const Unk_71002edaec& arg) {
     _c4c = true;
 }
 
-void Weapon::sub_71002EDB3C(const s32& value) {
+void Weapon::sub_71002EDB3C(const Unk3& value) {
     auto lock = sead::makeScopedLock(_b48);
     _b88 = value;
     _b8c = true;

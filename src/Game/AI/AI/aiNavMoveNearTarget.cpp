@@ -16,7 +16,7 @@ bool NavMoveNearTarget::init_(sead::Heap* heap) {
 }
 
 void NavMoveNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    _390 = *mTargetPos_d;
+    _390 = *NavMoveTarget::mParams.mTargetPos_d;
     m35(nullptr);
     NavMoveTarget::enter_(params);
 }
@@ -32,11 +32,11 @@ void NavMoveNearTarget::m35(sead::Vector3f* out) {
     bool found;
     {
         ksys::phys::Unk_7100f7e9f0 result =
-            ksys::phys::HavokAI::instance()->sub_7100F87ED0(&pos, *mTargetPos_d, radius);
+            ksys::phys::HavokAI::instance()->sub_7100F87ED0(&pos, *NavMoveTarget::mParams.mTargetPos_d, radius);
         found = result.sub_7100F7EB40();
     }
 
-    const f32 dy = mTargetPos_d->y - pos.y;
+    const f32 dy = NavMoveTarget::mParams.mTargetPos_d->y - pos.y;
     if (*mTargetVMin_s <= dy && dy < *mTargetVMax_s && found) {
         _390 = pos;
         if (out)
@@ -60,8 +60,8 @@ bool NavMoveNearTarget::m38(f32* out) {
     auto* nav = mActor->m45();
     if (!nav)
         return false;
-    *out = sead::Mathf::max(sub_71007320F0(mActor, *mWeaponIdx_s), nav->getRadiusMaybe()) +
-           *mReachTargetArea_s;
+    *out = sead::Mathf::max(sub_71007320F0(mActor, *NavMoveTarget::mParams.mWeaponIdx_s), nav->getRadiusMaybe()) +
+           *NavMoveTarget::mParams.mReachTargetArea_s;
     return true;
 }
 

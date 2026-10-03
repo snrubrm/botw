@@ -48,7 +48,7 @@ public:
     void m37() override;
     void m38() override;
     void m40() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // 0x71004238f0 ("バックステップ" start), 0x7100423a1c (partial bones + attack AS), 0x7100423d68 /
     // 0x7100423f0c / 0x7100424080 (states "回転待機" / "回転後退" / "回転待機"), 0x7100424554 /

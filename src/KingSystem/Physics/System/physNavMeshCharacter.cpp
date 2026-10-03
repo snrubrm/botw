@@ -20,6 +20,18 @@ Unk_7100f7e9f0 NavMeshCharacter::sub_7100F76078(sead::Vector3f* out, const sead:
     return ai->sub_7100F88B1C(this, out, to, a3);
 }
 
+void NavMeshCharacter::sub_7100F7604C(f32 value) {
+    _10->_78->_1c = value;
+}
+
+void NavMeshCharacter::sub_7100F7605C(f32 value) {
+    _10->_78->_18 = value;
+}
+
+void NavMeshCharacter::sub_7100F7606C(u32 value) {
+    _10->_16c = value;
+}
+
 void NavMeshCharacter::sub_7100F76314() {
     _220 |= 0x20000;
     _220 &= ~0x2000u;

@@ -109,8 +109,8 @@ void HeroSoulGiftRoot::loadParams_() {
     getStaticParam(&mRotOffset_s, "RotOffset");
 }
 
-bool HeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x8000036) {
+bool HeroSoulGiftRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x8000036) {
         _88 = true;
         return true;
     }

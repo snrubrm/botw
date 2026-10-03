@@ -68,6 +68,8 @@ public:
     virtual void onPreDelete() {}
 
 protected:
+    friend class RootAi;
+
     res::AIProgram* getAIProg() const;
     auto& getDef() const;
     void updateState(Behavior** pending_list);

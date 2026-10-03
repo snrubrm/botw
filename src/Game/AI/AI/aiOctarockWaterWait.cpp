@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiOctarockWaterWait.h"
+#include "Game/AI/aiUnk_7102450d10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,11 @@ void OctarockWaterWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OctarockWaterWait::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* unit = sead::DynamicCast<Unk_7102450d10>(
+        *static_cast<Unk_71025afb58**>(mOctarockFormChangeUnit_a));
+    if (unit)
+        unit->sub_7100714918();
+    mActor->m93(0, 0.0f);
 }
 
 void OctarockWaterWait::loadParams_() {

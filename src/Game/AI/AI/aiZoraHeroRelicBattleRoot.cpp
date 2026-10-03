@@ -33,8 +33,8 @@ void ZoraHeroRelicBattleRoot::leave_() {
         body->removeFromWorld();
 }
 
-bool ZoraHeroRelicBattleRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x180001a && isCurrentChild("騎乗待ち")) {
+bool ZoraHeroRelicBattleRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x180001a && isCurrentChild("騎乗待ち")) {
         _41 = true;
         _48._8.sub_7100744200(3, false);
         return true;

@@ -22,13 +22,13 @@ void JumpTo::leave_() {
 }
 
 void JumpTo::loadParams_() {
-    getStaticParam(&mMaxSpeed_s, "MaxSpeed");
-    getStaticParam(&mJumpHeight_s, "JumpHeight");
-    getStaticParam(&mJumpGravity_s, "JumpGravity");
-    getStaticParam(&mPosReduceRatioOnGround_s, "PosReduceRatioOnGround");
-    getStaticParam(&mRotReduceRatioOnGround_s, "RotReduceRatioOnGround");
-    getStaticParam(&mInWaterDepth_s, "InWaterDepth");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mMaxSpeed_s, "MaxSpeed");
+    getStaticParam(&mParams.mJumpHeight_s, "JumpHeight");
+    getStaticParam(&mParams.mJumpGravity_s, "JumpGravity");
+    getStaticParam(&mParams.mPosReduceRatioOnGround_s, "PosReduceRatioOnGround");
+    getStaticParam(&mParams.mRotReduceRatioOnGround_s, "RotReduceRatioOnGround");
+    getStaticParam(&mParams.mInWaterDepth_s, "InWaterDepth");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void JumpTo::calc_() {
@@ -55,7 +55,7 @@ const sead::Vector3f& JumpTo::m44() {
 
 void JumpTo::m41() {
     if (auto* controller = mActor->getCharacterController())
-        sub_7100738660(controller, *mRotReduceRatioOnGround_s);
+        sub_7100738660(controller, *mParams.mRotReduceRatioOnGround_s);
 }
 
 void JumpTo::m38() {
@@ -67,7 +67,7 @@ void JumpTo::m38() {
 
 void JumpTo::m40() {
     if (auto* controller = mActor->getCharacterController()) {
-        _58 *= *mPosReduceRatioOnGround_s;
+        _58 *= *mParams.mPosReduceRatioOnGround_s;
         _58.updateStats();
         controller->sub_7100F5E7F0(_58.value * 30.0f);
         sub_710072C1B4(controller, _88);

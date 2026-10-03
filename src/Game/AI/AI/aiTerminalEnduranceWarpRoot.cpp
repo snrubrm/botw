@@ -53,8 +53,8 @@ void TerminalEnduranceWarpRoot::leave_() {
 
 void TerminalEnduranceWarpRoot::loadParams_() {}
 
-bool TerminalEnduranceWarpRoot::handleMessage_(const ksys::Message& message) {
-    return _38.sub_710070A674(message);
+bool TerminalEnduranceWarpRoot::handleMessage_(const ksys::Message* message) {
+    return _38.sub_710070A674(*message);
 }
 
 }  // namespace uking::ai

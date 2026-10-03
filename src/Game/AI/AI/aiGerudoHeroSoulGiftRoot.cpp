@@ -34,8 +34,8 @@ void GerudoHeroSoulGiftRoot::loadParams_() {
     getStaticParam(&mMaxLength_s, "MaxLength");
 }
 
-bool GerudoHeroSoulGiftRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == 0x8000028 && isCurrentChild("待機")) {
+bool GerudoHeroSoulGiftRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x8000028 && isCurrentChild("待機")) {
         _9c = true;
         return true;
     }

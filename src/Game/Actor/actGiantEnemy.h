@@ -5,6 +5,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace uking::act {
 
 // Placeholder name (vtable 0x710235a050; inherits DamageCallback's RTTI; D1 0x710002ab28, `call`
@@ -59,7 +63,7 @@ public:
     void m112(f32* a1, s32* a2) override;
     void m113(f32* a1, s32* a2) override;
     void m117(ksys::act::Unk117* arg) override;
-    void m119() override;
+    void* m119() override;
     void m145() override;
     bool m146() override;
     bool weaponDroppedByEnemy() override;
@@ -72,7 +76,7 @@ public:
     /* 0x1538 */ ksys::phys::MaterialMask _1538;
     /* 0x1550 */ u8 _1550 = 0;
     /* 0x1558 */ void* _1558 = nullptr;  // m119 calls its vtable slot 8
-    /* 0x1560 */ void* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs
+    /* 0x1560 */ ksys::phys::RigidBody* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs (m56)
     /* 0x1568 */ u8 _1568 = 0;  // written by several giant AIs
     // object with vtable 0x7102357908 (owner = this); m79 forwards to 0x71006cef08 on it
     /* 0x1570 */ u8 _1570[0x1588 - 0x1570];

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -34,6 +35,10 @@ protected:
     sead::SafeString mPosBaseRagdollName_s{};
     // static_param at offset 0x70
     sead::SafeString mEnableConstraintName_s{};
+    bool _80 = false;
+    ksys::Timer _84;
+    bool _90 = false;
 };
+KSYS_CHECK_SIZE_NX150(StalEnemyDie, 0x98);
 
 }  // namespace uking::action

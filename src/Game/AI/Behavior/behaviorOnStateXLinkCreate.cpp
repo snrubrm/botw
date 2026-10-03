@@ -28,6 +28,18 @@ void OnStateXLinkCreate::m9() {
     sub_7100631CAC();
 }
 
+void OnStateXLinkCreate::sub_7100631CAC() {
+    if (*mIsEndKill_s) {
+        _58.mELink.kill();
+        _58.mSLink.fade();
+    } else if (*mIsEndFade_s) {
+        _58.fadeXLink();
+    }
+
+    if (!mEndKey_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mEndKey_s.cstr(), 2, nullptr);
+}
+
 void OnStateXLinkCreate::loadParams() {
     getStaticParam(&mIsEndKill_s, "IsEndKill");
     getStaticParam(&mIsEndFade_s, "IsEndFade");

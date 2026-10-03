@@ -22,8 +22,6 @@ SiteBossShootNormalArrowRoot::SiteBossShootNormalArrowRoot(const InitArg& arg)
 
 SiteBossShootNormalArrowRoot::~SiteBossShootNormalArrowRoot() = default;
 
-// NON_MATCHING: the original's reset of _300's key stores bone_index (+0x332) before model_unit_index
-// (+0x330); gsys::BoneAccessKey::reset() (lib/gsys, not editable) stores them the other way round
 bool SiteBossShootNormalArrowRoot::init_(sead::Heap* heap) {
     if (auto* model = mActor->getModel()) {
         _300.search(model, "Wrist_R");

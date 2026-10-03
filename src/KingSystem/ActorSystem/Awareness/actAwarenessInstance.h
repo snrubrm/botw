@@ -43,7 +43,8 @@ public:
     virtual bool m11();
     virtual void m12() = 0;
     virtual void m13();
-    virtual void m14() = 0;
+    // 0x7100d7c494 multiplies its result with _4c (the interest level of the sensor).
+    virtual f32 m14() = 0;
     virtual void m15();
     // 0x7100d7f748 (base: null); 0x7100d81dc8 (vtable 0x71024dcea8): a flag byte at +0x68.
     // EnemyNormal::m41 clears bit 0 of it.
@@ -166,6 +167,10 @@ KSYS_CHECK_SIZE_NX150(Unk_7100d78e50, 0xb0);
 class AwarenessInstance;
 class AITerror;
 
+// 0x7102600a38 (GOT 0x259bc58): bit i (0-3) disables the sensor `AwarenessInstance::_260[i]` in
+// calcForEvent / sub_7100D7C494. Name is a guess (a debug switch: never set by the decompiled code).
+extern sead::BitFlag8 sAwarenessDisabledSensorsMaybe;
+
 // Placeholder name (vtable 0x71024dca28, RTTI functions 0x7100d78464 / 0x7100d784d4): abstract base
 // of Unk_71024dc900; keeps a list of AITerror objects (_8, linked through AITerror::_a8).
 // Slots 4-7 forward to the entry returned by m8 (0x7100d77fd8: `*m8()->m6()`; 0x7100d78530: entry
@@ -256,6 +261,7 @@ public:
     AwarenessInstance();
     virtual ~AwarenessInstance();
 
+    // 0x7100d7c59c: `_300 = 0; _304 = -1`, clears the entries of this instance and of the enabled sensors.
     void calcForEvent();
     void calc();
     void calc2();
@@ -263,6 +269,7 @@ public:
     void sleep();
     void disable();
     bool enable();
+    // 0x7100d7c494: _2f8 = max(the largest `sensor->m14() * sensor->_4c` (at least 0), _2f4).
     void sub_7100D7C494();
     void sub_7100D7EBE0(f32 value);
     void sub_7100D7EC14(int idx, f32 value);
@@ -302,9 +309,12 @@ public:
     /* 0x280 */ sead::Buffer<SortedEntry> _280;  // the entries ordered by distance (placeholder name)
     /* 0x290 */ u8 _290[0x2e8 - 0x290];
     /* 0x2e8 */ Unk_71024dccf8* _2e8;  // first registered filter
-    /* 0x2f0 */ u8 _2f0[0x300 - 0x2f0];
+    /* 0x2f0 */ u8 _2f0[4];
+    /* 0x2f4 */ f32 _2f4;  // lower limit of _2f8
+    /* 0x2f8 */ f32 _2f8;  // the largest interest level of the active sensors (sub_7100D7C494)
+    /* 0x2fc */ u8 _2fc[4];
     /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
-    /* 0x304 */ u8 _304[0x308 - 0x304];
+    /* 0x304 */ s32 _304;  // set to -1 by calcForEvent
     /* 0x308 */ s32 _308;  // number of valid `_280` entries
     /* 0x30c */ u8 _30c[0x318 - 0x30c];
     /* 0x318 */ u32 _318;  // bit 3 follows !IsInHyruleCastleArea (EnemyRoot::sub_71003B5644)

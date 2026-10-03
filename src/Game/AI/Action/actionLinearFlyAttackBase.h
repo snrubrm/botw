@@ -24,18 +24,21 @@ protected:
     virtual void m33(sead::Vector3f* dir);
     virtual f32 m34();
 
-    // static_param at offset 0x20
-    const int* mTime_s{};
-    // static_param at offset 0x28
-    const float* mAttackSpeed_s{};
-    // static_param at offset 0x30
-    const float* mAttackSlowDownRatio_s{};
-    // static_param at offset 0x38
-    const float* mTargetHeightOffset_s{};
-    // static_param at offset 0x40
-    const float* mThroughDist_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const int* mTime_s{};
+        // static_param at offset 0x28
+        const float* mAttackSpeed_s{};
+        // static_param at offset 0x30
+        const float* mAttackSlowDownRatio_s{};
+        // static_param at offset 0x38
+        const float* mTargetHeightOffset_s{};
+        // static_param at offset 0x40
+        const float* mThroughDist_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_7102451ba0 _50;
     sead::Matrix33f _78;
     f32 _9c = 0;

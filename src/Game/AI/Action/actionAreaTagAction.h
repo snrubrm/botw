@@ -12,7 +12,7 @@ public:
     ~AreaTagAction() override = default;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     void calc_() override;

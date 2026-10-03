@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiPriestBossActorGiantRoot.h"
 #include <cmath>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -14,6 +16,29 @@ bool PriestBossActorGiantRoot::init_(sead::Heap* heap) {
 
 void PriestBossActorGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorRoot::enter_(params);
+}
+
+// NON_MATCHING: the original copies `_9c` through a stack slot (str / ldr) for the first test only
+void PriestBossActorGiantRoot::calc_() {
+    PriestBossActorRoot::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+
+    const sead::Vector3f pos = sub_71005D9330(mActor);
+    _dc.update();
+    *mIsActive_a = _9c != State::_2;
+    if (_9c != State::_7) {
+        *mFacePos_a = pos;
+        if (_9c == State::_8)
+            child->setDynamicParam(pos, "TargetPos");
+    }
+    m47();
 }
 
 void PriestBossActorGiantRoot::leave_() {

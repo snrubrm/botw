@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionAnimalMoveGuidedBase.h"
+#include "Game/AI/aiUnk_710070F974.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -21,6 +22,8 @@ protected:
 
     // dynamic_param at offset 0x78
     sead::Vector3f* mTargetPos_d{};
+    Unk_710070f974 _80;
 };
+KSYS_CHECK_SIZE_NX150(LynelNavMeshMove, 0x98);
 
 }  // namespace uking::action

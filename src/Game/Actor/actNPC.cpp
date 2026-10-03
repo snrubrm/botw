@@ -83,6 +83,10 @@ void NPC::onPreDeleteStart_(PrepareArg& arg) {
     NPCBase::onPreDeleteStart_(arg);
 }
 
+void* NPC::m119() {
+    return _10e0;
+}
+
 void NPC::m117(ksys::act::Unk117* arg) {
     mWeapons.sub_7100EFD458(arg);
     if (_fe8 & 0x10000)

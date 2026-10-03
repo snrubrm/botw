@@ -342,7 +342,7 @@ void PriestBossIronBall::sub_710051F3FC() {
     }
 }
 
-// NON_MATCHING: stack slot of the u32 temporary (sp+0 in the original) and the accessor address
+// NON_MATCHING: the accessor address
 // kept in a register for the destructor
 void PriestBossIronBall::sub_710051F79C() {
     auto* unit =

@@ -16,17 +16,17 @@ NavMoveTarget::~NavMoveTarget() = default;
 // null) instead of select and the first one stores through the unchecked object pointer
 bool NavMoveTarget::init_(sead::Heap* heap) {
     sub_71005E2C58(mActor);
-    if (*mVibrateCheckTime_s >= 1) {
+    if (*mParams.mVibrateCheckTime_s >= 1) {
         if (!_310.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateCheckerForAI_a)))
             return false;
         _310.getData()->_84 = 3.0f;
-        if (*mVibrateCheckTime_s >= 1)
-            _310.getData()->_88 = *mVibrateCheckTime_s;
+        if (*mParams.mVibrateCheckTime_s >= 1)
+            _310.getData()->_88 = *mParams.mVibrateCheckTime_s;
     }
-    if (*mRotVibrateCheckTime_s >= 1) {
+    if (*mParams.mRotVibrateCheckTime_s >= 1) {
         if (!_318.acquire(heap, static_cast<Unk_71025afb58**>(mRefVelRotVibrateCheckerforAI_a)))
             return false;
-        _318.getData()->sub_710071F494(*mRotVibrateCheckTime_s, 3.0f);
+        _318.getData()->sub_710071F494(*mParams.mRotVibrateCheckTime_s, 3.0f);
     }
     return true;
 }
@@ -43,24 +43,23 @@ void NavMoveTarget::leave_() {
     }
 }
 
-// NON_MATCHING: the original computes this + 0x320 (WeaponIdx) before the first call
 void NavMoveTarget::loadParams_() {
-    getStaticParam(&mVibrateCheckTime_s, "VibrateCheckTime");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mReachTargetArea_s, "ReachTargetArea");
-    getStaticParam(&mRepathTime_s, "RepathTime");
-    getStaticParam(&mTooFarDist_s, "TooFarDist");
-    getStaticParam(&mUseCharacterRadius_s, "UseCharacterRadius");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mVibrateCheckTime_s, "VibrateCheckTime");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mReachTargetArea_s, "ReachTargetArea");
+    getStaticParam(&mParams.mRepathTime_s, "RepathTime");
+    getStaticParam(&mParams.mTooFarDist_s, "TooFarDist");
+    getStaticParam(&mParams.mUseCharacterRadius_s, "UseCharacterRadius");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
     getAITreeVariable(&mRefPosVibrateCheckerForAI_a, "RefPosVibrateCheckerForAI");
     getAITreeVariable(&mRefVelRotVibrateCheckerforAI_a, "RefVelRotVibrateCheckerforAI");
-    getStaticParam(&mIsLastLineReachCheck_s, "IsLastLineReachCheck");
-    getStaticParam(&mRotVibrateCheckTime_s, "RotVibrateCheckTime");
+    getStaticParam(&mParams.mIsLastLineReachCheck_s, "IsLastLineReachCheck");
+    getStaticParam(&mParams.mRotVibrateCheckTime_s, "RotVibrateCheckTime");
 }
 
 void NavMoveTarget::m35(sead::Vector3f* out) {
     if (out)
-        out->set(*mTargetPos_d);
+        out->set(*mParams.mTargetPos_d);
 }
 
 bool NavMoveTarget::m36() {

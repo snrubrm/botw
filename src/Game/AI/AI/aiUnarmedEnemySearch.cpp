@@ -38,11 +38,11 @@ void UnarmedEnemySearch::loadParams_() {
     getStaticParam(&mTurnStartAng_s, "TurnStartAng");
 }
 
-void UnarmedEnemySearch::sub_71004B5FB8() {
+void UnarmedEnemySearch::changeToLookAround() {
     changeChild("見まわす");
 }
 
-int UnarmedEnemySearch::sub_71004B62E4() const {
+int UnarmedEnemySearch::getStateMaybe() const {
     if (!_50)
         return -1;
     return _50->_8;
@@ -68,18 +68,18 @@ bool UnarmedEnemySearch::sub_71004B6370(sead::Vector3f* out) const {
     return false;
 }
 
-void UnarmedEnemySearch::sub_71004B63E4() {
+void UnarmedEnemySearch::resetStateMaybe() {
     if (_50)
         _50->_8 = -1;
 }
 
-f32 UnarmedEnemySearch::sub_71004B6BC0() const {
+f32 UnarmedEnemySearch::getReachDistanceMaybe() const {
     return *mReachTargetArea_s + sub_71007320F0(mActor, *mWeaponIdx_s);
 }
 
 // NON_MATCHING: stack layout only (the original keeps `pos` / `dir` / the key temporary above the
 // 0xa10-byte param pack; ours puts the pack above them)
-void UnarmedEnemySearch::sub_71004B6544(const sead::Vector3f& target) {
+void UnarmedEnemySearch::startMoveToTargetMaybe(const sead::Vector3f& target) {
     if (_50)
         _50->_8 = -1;
     if (_50 && _50->_0)
@@ -99,15 +99,15 @@ void UnarmedEnemySearch::sub_71004B6544(const sead::Vector3f& target) {
     changeChild("直進", &params);
 }
 
-bool UnarmedEnemySearch::sub_71004B6744() const {
+bool UnarmedEnemySearch::isMove() const {
     return isCurrentChild("移動");
 }
 
-bool UnarmedEnemySearch::sub_71004B6BF0() const {
+bool UnarmedEnemySearch::isGoStraight() const {
     return isCurrentChild("直進");
 }
 
-bool UnarmedEnemySearch::sub_71004B6C30() const {
+bool UnarmedEnemySearch::isGoStraightOrMove() const {
     if (isCurrentChild("直進"))
         return true;
     return isCurrentChild("移動");

@@ -61,7 +61,7 @@ void PriestBossActorEnemyRoot::loadParams_() {
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
 }
 
-bool PriestBossActorEnemyRoot::handleMessage_(const ksys::Message& message) {
+bool PriestBossActorEnemyRoot::handleMessage_(const ksys::Message* message) {
     EnemyRoot::handleMessage_(message);
     return false;
 }

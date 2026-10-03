@@ -34,10 +34,12 @@ target_sources(uking PRIVATE
     Profiles/actPlayer.cpp
     Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayer.h
+    Profiles/actPlayerArmors.cpp
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
     Profiles/actPlayerLink.h
     Profiles/actPlayerOrEnemy.cpp
+    Profiles/actPlayerOrEnemyAtk.cpp
     Profiles/actPlayerStamina.cpp
     Profiles/actPlayerWeapons.cpp
     Profiles/actPlayerOrEnemy.h
@@ -187,6 +189,7 @@ target_sources(uking PRIVATE
     actUnk_71006ecc78.cpp
     actUnk_71006ecc78.h
     actUnk_7102459df8.cpp
+    actUnk_710079fe9c.cpp
     actUnk_7102459df8.h
 
     actionDummyAction.cpp

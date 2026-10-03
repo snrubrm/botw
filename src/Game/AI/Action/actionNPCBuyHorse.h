@@ -18,6 +18,7 @@ public:
 protected:
     void calc_() override;
 
+    bool _1c = false;
     // FIXME: remove this
     u8 pad_0x20[0x30];
     // aitree_variable at offset 0x50

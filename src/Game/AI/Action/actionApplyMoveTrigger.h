@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100D3D3A8.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,8 @@ protected:
     const int* mForceType_m{};
     // map_unit_param at offset 0x38
     const float* mApplyForceValue_m{};
+    Unk_7100d3d3a8 _40;
+    bool _60 = false;
 };
 
 }  // namespace uking::action

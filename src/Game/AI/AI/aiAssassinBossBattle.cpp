@@ -18,7 +18,7 @@ void AssassinBossBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
-bool AssassinBossBattle::handleMessage_(const ksys::Message& message) {
+bool AssassinBossBattle::handleMessage_(const ksys::Message* message) {
     return false;
 }
 

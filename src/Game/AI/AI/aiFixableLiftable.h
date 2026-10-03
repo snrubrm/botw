@@ -19,7 +19,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     // Declaration only (0x71003d03fc): called by SnowBallNormal::handleMessage_.
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
 protected:
     // static_param at offset 0xc8

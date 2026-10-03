@@ -32,7 +32,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
     void m9() override;
 
     virtual bool m34();
@@ -40,13 +40,15 @@ public:
     virtual bool m36();
     virtual bool m37(ksys::act::BaseProcLink* link);
     virtual bool m38();
-    virtual bool m39();
+    virtual bool m39(const sead::Vector3f& pos);
     virtual bool m40();
     virtual bool m41();
     virtual bool m42() { return false; }
     virtual ksys::act::Unk_7100d78e50* m43(s32 idx, bool skip_own_target);
 
     bool sub_71004FCA60();
+    // The skip-own-target loop of m43 (RupeeRabbitNormal::m43 calls it; PreyNormal::m43 has it inlined).
+    ksys::act::Unk_7100d78e50* sub_7100501B84(s32 idx, Unk_7102410738* filter);
     bool sub_7100500A0C(const sead::Vector3f* pos);
 
 protected:

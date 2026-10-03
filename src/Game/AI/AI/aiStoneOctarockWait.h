@@ -15,14 +15,17 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
     bool isChangeable() const override;
 
 protected:
-    // static_param at offset 0x38
-    const int* mGuardEndTime_s{};
-    // static_param at offset 0x40
-    const int* mNoticeTerrorLevel_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mGuardEndTime_s{};
+        // static_param at offset 0x40
+        const int* mNoticeTerrorLevel_s{};
+    };
+    Params mParams;
     Unk_71024519a8 _48;
     float _70 = 0;
     int _74 = 0;

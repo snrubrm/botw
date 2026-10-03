@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // aitree_variable at offset 0x30
     bool* mIsInsideObserverArea_a{};

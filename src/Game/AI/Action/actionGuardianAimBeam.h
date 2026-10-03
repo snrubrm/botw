@@ -22,22 +22,25 @@ protected:
     virtual f32 m33();
 
 
-    // static_param at offset 0x20
-    const float* mTargetOffset_s{};
-    // static_param at offset 0x28
-    const float* mTargetOffsetY_s{};
-    // static_param at offset 0x30
-    const float* mFluctuationRange_s{};
-    // static_param at offset 0x38
-    const float* mFluctuationTime_s{};
-    // static_param at offset 0x40
-    const float* mFluctuationSpan_s{};
-    // static_param at offset 0x48
-    sead::SafeString mNodeName_s{};
-    // static_param at offset 0x58
-    const sead::Vector3f* mNodeOffset_s{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mTargetOffset_s{};
+        // static_param at offset 0x28
+        const float* mTargetOffsetY_s{};
+        // static_param at offset 0x30
+        const float* mFluctuationRange_s{};
+        // static_param at offset 0x38
+        const float* mFluctuationTime_s{};
+        // static_param at offset 0x40
+        const float* mFluctuationSpan_s{};
+        // static_param at offset 0x48
+        sead::SafeString mNodeName_s{};
+        // static_param at offset 0x58
+        const sead::Vector3f* mNodeOffset_s{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     ai::GuardianAimBeamState _68;
 };
 KSYS_CHECK_SIZE_NX150(GuardianAimBeam, 0x160);

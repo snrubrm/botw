@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaterUpDownAnmDrivenMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,7 +17,7 @@ void WaterUpDownAnmDrivenMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WaterUpDownAnmDrivenMove::leave_() {
-    ksys::act::ai::Action::leave_();
+    _54.resetMotionType(_54.sub_710072ACF8(mActor));
 }
 
 void WaterUpDownAnmDrivenMove::loadParams_() {

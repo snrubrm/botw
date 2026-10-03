@@ -10,7 +10,7 @@ public:
     explicit AssassinBossBattle(const InitArg& arg);
     ~AssassinBossBattle() override;
 
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

@@ -41,10 +41,10 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
-    bool handleMessage_(const ksys::Message& message) override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual bool m34();
-    virtual void m35();
+    virtual void m35(ksys::act::ai::InlineParamPack* params);
     virtual bool m36();
 
 protected:

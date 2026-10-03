@@ -202,12 +202,12 @@ void AssassinBossRootBase::leave_() {
         sub_71005DA114(mActor, &_288);
 }
 
-bool AssassinBossRootBase::handleMessage_(const ksys::Message& message) {
+bool AssassinBossRootBase::handleMessage_(const ksys::Message* message) {
     if (EnemyRoot::handleMessage_(message))
         return true;
-    if (_1e8.m2(message))
+    if (_1e8.m2(*message))
         return true;
-    return _220.m2(message);
+    return _220.m2(*message);
 }
 
 bool AssassinBossRootBase::m45() {

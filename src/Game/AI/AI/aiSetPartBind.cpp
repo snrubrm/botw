@@ -12,6 +12,27 @@ SetPartBind::~SetPartBind() {
     ;
 }
 
+// NON_MATCHING: stack slots of the two BoneAccessKey locals (the original keeps them 8-byte aligned at sp+0x18 /
+// sp+0; ours packs the 4-byte keys at sp+0x1c / sp+4); same as the BoneAccessKey temporaries of Unk_71025be918
+void SetPartBind::sub_7100567E78() {
+    auto* actor = mActor;
+    if (!actor || !actor->getModel() || !actor->getASList())
+        return;
+    auto* as_list = actor->getASList();
+    const auto base = actor->getModel()->searchBone(mBaseNodeName_s.cstr());
+    const auto partial = actor->getModel()->searchBone(mPartialNodeName_s.cstr());
+    if (!base.isValid() || !partial.isValid())
+        return;
+    as_list->sub_710115C9E0(0);
+    as_list->mSlots[0].sub_7101165008(base, 0, true);
+    as_list->mSlots[0].sub_7101165008(partial, 3, true);
+    as_list->mSlots[0].sub_7101164E38(false);
+    as_list->sub_710115C9E0(1);
+    as_list->mSlots[1].sub_7101165008(base, 3, true);
+    as_list->mSlots[1].sub_7101165008(partial, 0, true);
+    as_list->mSlots[1].sub_7101164E38(false);
+}
+
 void SetPartBind::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100567E78();
     changeChild("行動", params);

@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionSwimEnemyAnmBackBlownOffBase.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -34,7 +37,29 @@ void SwimEnemyAnmBackBlownOffBase::loadParams_() {
 }
 
 void SwimEnemyAnmBackBlownOffBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_68) {
+        _68 = false;
+        return;
+    }
+    m33();
+}
+
+void SwimEnemyAnmBackBlownOffBase::m32(sead::Vector3f* out) {
+    if (auto* manager = sub_710072BA90(mActor)) {
+        if (*mUseKnockbackDir_s)
+            manager->m30(out);
+        else
+            manager->m29(out);
+    } else {
+        out->set(sead::Vector3f::ez);
+    }
+}
+
+void SwimEnemyAnmBackBlownOffBase::m33() {
+    if (auto* controller = mActor->getCharacterController()) {
+        sub_7100737C0C(controller, *mPosReduceRatio_s, -sead::Vector3f::ey);
+        sub_7100738660(controller, *mRotReduceRatio_s);
+    }
 }
 
 }  // namespace uking::action

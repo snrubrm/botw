@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionTakeoffFromCeilLook.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -11,7 +16,19 @@ bool TakeoffFromCeilLook::init_(sead::Heap* heap) {
 }
 
 void TakeoffFromCeilLook::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_710073FA90(&_50, mActor);
+    playAS("WaitEnd", false, 0, 0, -1.0f);
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    actor->getMtx().getBase(_74, 2);
+    _74 = -_74;
+    ksys::util::sub_71011EFA00(&_74, _74, controller->get7c());
+    _74.normalize();
 }
 
 void TakeoffFromCeilLook::leave_() {

@@ -18,10 +18,13 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x50
-    const bool* mIsFinishByNoNoticeActionEnd_s{};
-    // static_param at offset 0x58
-    sead::SafeString mPartsName_s{};
+    struct Params {
+        // static_param at offset 0x50
+        const bool* mIsFinishByNoNoticeActionEnd_s{};
+        // static_param at offset 0x58
+        sead::SafeString mPartsName_s{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai

@@ -152,6 +152,57 @@ bool AwarenessInstance::sub_7100D7E9BC(int idx) {
     return true;
 }
 
+void AwarenessInstance::calcForEvent() {
+    _300 = 0;
+    _304 = -1;
+    _8.clear();
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(0)) {
+        if (auto* sensor = _260[0]) {
+            sensor->_8.clear();
+            sensor->_3c = 0;
+        }
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(1)) {
+        if (auto* sensor = _260[1]) {
+            sensor->_8.clear();
+            sensor->_3c = 0;
+        }
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(2)) {
+        if (auto* sensor = _260[2]) {
+            sensor->_8.clear();
+            sensor->_3c = 0;
+        }
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(3)) {
+        if (auto* sensor = _260[3]) {
+            sensor->_8.clear();
+            sensor->_3c = 0;
+        }
+    }
+}
+
+void AwarenessInstance::sub_7100D7C494() {
+    f32 level = 0.0f;
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(0)) {
+        if (auto* sensor = _260[0])
+            level = sead::Mathf::max(sensor->m14() * sensor->_4c, 0.0f);
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(1)) {
+        if (auto* sensor = _260[1])
+            level = sead::Mathf::max(sensor->m14() * sensor->_4c, level);
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(2)) {
+        if (auto* sensor = _260[2])
+            level = sead::Mathf::max(sensor->m14() * sensor->_4c, level);
+    }
+    if (!sAwarenessDisabledSensorsMaybe.isOnBit(3)) {
+        if (auto* sensor = _260[3])
+            level = sead::Mathf::max(sensor->m14() * sensor->_4c, level);
+    }
+    _2f8 = sead::Mathf::clampMin(level, _2f4);
+}
+
 void AwarenessInstance::sub_7100D7EAE4(int idx) {
     auto* sensor = _260[idx];
     if (!sensor)

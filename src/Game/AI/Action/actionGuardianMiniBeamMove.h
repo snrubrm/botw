@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionBeamMove.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -20,10 +21,7 @@ protected:
 
     // static_param at offset 0x70
     const float* mReboundDeccel_s{};
-    u64 _78 = 0;
-    u64 _80 = 0;
-    u64 _88 = 0;
-    u64 _90 = 0;
+    Unk_71012419b4 _78{};
     s32 _98 = -1;
     u8 _9c[0x4];
 

@@ -51,8 +51,8 @@ void KeeseNormal::loadParams_() {
     getMapUnitParam(&mIsCreateOnFace_m, "IsCreateOnFace");
 }
 
-bool KeeseNormal::handleMessage_(const ksys::Message& message) {
-    if (isChangeable() && _3e0.m2(message))
+bool KeeseNormal::handleMessage_(const ksys::Message* message) {
+    if (isChangeable() && _3e0.m2(*message))
         return !isCurrentChild("ぶらさがり");
     if (isCurrentChild("ぶらさがり"))
         return false;

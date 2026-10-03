@@ -10,7 +10,7 @@ BackWalkBase::BackWalkBase(const InitArg& arg) : ActionEx(arg) {}
 void BackWalkBase::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!mActor->getCharacterController())
         return;
-    const f32 time = *mTime_s;
+    const f32 time = *mParams.mTime_s;
     _98 = ksys::Timer(time, time);
     _a4 = ksys::Timer(20.0f, 20.0f);
     sub_7100741034(&_74, mActor);
@@ -25,15 +25,15 @@ void BackWalkBase::leave_() {
 }
 
 void BackWalkBase::loadParams_() {
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpd_s, "RotSpd");
-    getStaticParam(&mRotAddRatio_s, "RotAddRatio");
-    getStaticParam(&mTime_s, "Time");
-    getStaticParam(&mFinishDist_s, "FinishDist");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mDecelRatio_s, "DecelRatio");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mIsCliffCheck_s, "IsCliffCheck");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpd_s, "RotSpd");
+    getStaticParam(&mParams.mRotAddRatio_s, "RotAddRatio");
+    getStaticParam(&mParams.mTime_s, "Time");
+    getStaticParam(&mParams.mFinishDist_s, "FinishDist");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mDecelRatio_s, "DecelRatio");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mIsCliffCheck_s, "IsCliffCheck");
 }
 
 void BackWalkBase::calc_() {

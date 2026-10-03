@@ -129,13 +129,13 @@ void PriestBossMetaAIRoot::leave_() {
 
 // NON_MATCHING: the original has a discarded stack round trip of a zero (SEAD_ENUM?) value
 // before the payload stores (same in every writer of this payload: PriestBossGiantDownSeq, ...)
-bool PriestBossMetaAIRoot::handleMessage_(const ksys::Message& message) {
-    if (_138->m4(message))
+bool PriestBossMetaAIRoot::handleMessage_(const ksys::Message* message) {
+    if (_138->m4(*message))
         return true;
-    if (message.getType() != 0x80000d9)
+    if (message->getType() != 0x80000d9)
         return false;
 
-    _138->sub_71007190CC(message.getSource());
+    _138->sub_71007190CC(message->getSource());
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&_b8._18.mLock);
         _b8._18._c = false;

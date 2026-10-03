@@ -7,6 +7,10 @@ namespace uking::act {
 enum class CreateEquipmentSlot : u8;
 }
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace eui {
 class MessageString;
 }
@@ -80,6 +84,8 @@ void sub_7100A95B44(const sead::SafeString& item_name);
 bool sub_7100A96DDC(bool a1);
 bool sub_7100A97024();
 bool sub_7100A9C15C();
+// 0xa9a644 (lane2 s21; placeholder name): forwards the actor to the manager at GOT 0x7102 57be20 (null-checked); 1.1 KB callee 0x963ce8.
+void sub_7100A9A644(ksys::act::Actor* actor);
 bool sub_7100A97250(bool a1);
 bool sub_7100A97498();
 bool sub_7100A976C4(int a1, bool a2);

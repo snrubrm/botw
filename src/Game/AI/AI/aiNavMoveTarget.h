@@ -24,7 +24,7 @@ public:
     void loadParams_() override;
 
     // Inline in the original (emitted in ChuchuNavMoveTarget's TU, 0x710034d6a4).
-    virtual sead::Vector3f* m34() { return mTargetPos_d; }
+    virtual sead::Vector3f* m34() { return mParams.mTargetPos_d; }
     virtual void m35(sead::Vector3f* out);
     virtual bool m36();
     virtual bool m37();
@@ -42,24 +42,27 @@ protected:
     /* 0x308 */ u32 _308 = 0;
     /* 0x310 */ Unk_71000b0800<Unk_71025b0578> _310;
     /* 0x318 */ Unk_71000b0800<Unk_71025b7688> _318;
-    // static_param at offset 0x320
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x328
-    const float* mReachTargetArea_s{};
-    // static_param at offset 0x330
-    const float* mRepathTime_s{};
-    // static_param at offset 0x338
-    const float* mTooFarDist_s{};
-    // static_param at offset 0x340
-    const bool* mUseCharacterRadius_s{};
-    // static_param at offset 0x348
-    const int* mVibrateCheckTime_s{};
-    // static_param at offset 0x350
-    const int* mRotVibrateCheckTime_s{};
-    // static_param at offset 0x358
-    const bool* mIsLastLineReachCheck_s{};
-    // dynamic_param at offset 0x360
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x320
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x328
+        const float* mReachTargetArea_s{};
+        // static_param at offset 0x330
+        const float* mRepathTime_s{};
+        // static_param at offset 0x338
+        const float* mTooFarDist_s{};
+        // static_param at offset 0x340
+        const bool* mUseCharacterRadius_s{};
+        // static_param at offset 0x348
+        const int* mVibrateCheckTime_s{};
+        // static_param at offset 0x350
+        const int* mRotVibrateCheckTime_s{};
+        // static_param at offset 0x358
+        const bool* mIsLastLineReachCheck_s{};
+        // dynamic_param at offset 0x360
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     // Result of sub_71005E2BCC (init_): the enemy's navmesh move state.
     /* 0x368 */ uking::act::Enemy::Unk_12d0* _368{};
     /* 0x370 */ ksys::Timer _370{0, 0};

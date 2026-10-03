@@ -32,7 +32,8 @@ public:
     virtual bool isParentEqualToById(BaseProc* proc) { return _938.hasProcById(proc); }
     virtual bool isParentEqual(const BaseProcLink& link) { return _938 == link; }
     virtual bool m153() { return false; }
-    virtual void m154();
+    // 0x7100ef5e3c: the actor linked at +0x938 passes ActorConstDataAccess::sub_7100D12E64.
+    virtual bool m154();
     virtual bool m155() { return false; }
     virtual bool m156() { return false; }
     virtual bool isParentPlayer() { return false; }
@@ -40,8 +41,9 @@ public:
     virtual const sead::SafeString& m159() const;
     virtual const sead::SafeString& m160() const;
     virtual bool m161() { return _958.hasProc(); }
-    virtual void m162();
-    virtual void m163();
+    // The OptionalWeapon linked at +0x958 (two getProc variants: m162 passes the other-proc argument).
+    virtual Actor* m162();
+    virtual Actor* m163();
     virtual const sead::SafeString& m164();
     virtual void m165();
     virtual void m166();
@@ -85,6 +87,9 @@ public:
     virtual void m198();
     virtual void m199();
     virtual void m200();
+    // 0x7100ee6afc (CSV WeaponBase::x_0; declared only): called by m200 (clears actor flags 0x22 and
+    // updates the model).
+    void sub_7100EE6AFC();
     virtual void m201();
     virtual void m202(bool on) { _9f4.change(1, on); }
     virtual bool m203() { return _9f4.isOn(1); }
@@ -105,7 +110,7 @@ public:
     virtual bool m218() { return false; }
     virtual bool isMasterSword() { return false; }
     virtual void masterSwordReturnToForest() {}
-    virtual void m221();
+    virtual void* m221();
     virtual bool m222() { return false; }
     virtual bool m223();
     virtual void m224(sead::Vector3f* out) { *out = sead::Vector3f::ones; }

@@ -47,9 +47,17 @@ public:
 
     bool sub_710070A674(const ksys::Message& message);
     void sub_710070AE18(ksys::act::Actor* actor);
+    // 0x710070aee4 (declared only): `b` defaults to `a`, then forwards to 0x710070aef4.
+    bool sub_710070AEE4(const ksys::Message& message, ksys::act::Actor* a, ksys::act::Actor* b);
 
     u32 _34;
-    bool _38;
+    u8 _38;
+};
+
+// vtable 0x710240bc70 (NPCMove; message type 0x1800003; D0 at 0x71004d4fa0)
+class Unk_710240bc70 : public Unk_7102450648 {
+public:
+    explicit Unk_710240bc70(u32 type) : Unk_7102450648(type) {}
 };
 
 // vtable 0x7102450828
@@ -239,7 +247,21 @@ public:
 // vtable 0x71023da100 (SimpleLiftable family; functions in the BarrelBomb/SimpleLiftable TU)
 class Unk_71023da100 : public Unk_7102357210 {
 public:
-    bool m2(const ksys::Message& message) override;
+    // Inline in the original (its out-of-line copy is at 0x7100328ac0; SimpleLiftable / SimpleLiftableDLC
+    // inline it into their handleMessage_).
+    bool m2(const ksys::Message& message) override {
+        if (message.getType() != 0x5800000)
+            return false;
+
+        auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());
+        if (!payload)
+            return false;
+
+        payload->x(&_38.mLink);
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
     void m3() override {}
 
     Unk_71024512c0_Payload _38;
@@ -729,7 +751,21 @@ public:
 // vtable 0x710240dd68 (message 0x8000042)
 class Unk_710240dd68 : public Unk_7102357210 {
 public:
-    bool m2(const ksys::Message& message) override;
+    // Defined inline: OctarockRoot::handleMessage_ inlines it (and the original emits the function in the
+    // OctarockRoot TU).
+    bool m2(const ksys::Message& message) override {
+        if (message.getType() != 0x8000042)
+            return false;
+
+        auto* payload = static_cast<Unk_710240dd68_Payload*>(message.getUserData());
+        if (!payload)
+            return false;
+
+        payload->x(&_38.mLink);
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
     void m3() override {}
 
     Unk_710240dd68_Payload _38;

@@ -17,7 +17,6 @@ public:
     void m9() override;
     void loadParams() override;
     virtual bool m14() { return true; }
-    // 0x7100631cac (not decompiled: xlink2 handle internals)
     void sub_7100631CAC();
 
     /* 0x28 */ const bool* mIsEndKill_s{};

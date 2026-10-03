@@ -80,8 +80,8 @@ void CookPotRoot::loadParams_() {
 }
 
 // NON_MATCHING
-bool CookPotRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() == (u32)ksys::act::AttActionCode::Cook) {
+bool CookPotRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == (u32)ksys::act::AttActionCode::Cook) {
         // 着火: "ignition" or "on fire"
         // This is checking if the pot is lit.
         if (isCurrentChild("着火")) {
@@ -135,7 +135,7 @@ bool CookPotRoot::handleMessage_(const ksys::Message& message) {
         }
     }
 
-    if (message.getType() != (u32)ksys::act::AttActionCode::KillTime) {
+    if (message->getType() != (u32)ksys::act::AttActionCode::KillTime) {
         return false;
     }
 

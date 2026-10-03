@@ -24,18 +24,21 @@ protected:
     virtual void m33();
     virtual bool m34() const;
 
-    // static_param at offset 0x20
-    const float* mMaxSpeed_s{};
-    // static_param at offset 0x28
-    const float* mMinSpeed_s{};
-    // static_param at offset 0x30
-    const float* mJumpHeight_s{};
-    // static_param at offset 0x38
-    const float* mJumpHeightMaxOffset_s{};
-    // static_param at offset 0x40
-    const bool* mIsFinishedAtPreLandFrame_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x20
+        const float* mMaxSpeed_s{};
+        // static_param at offset 0x28
+        const float* mMinSpeed_s{};
+        // static_param at offset 0x30
+        const float* mJumpHeight_s{};
+        // static_param at offset 0x38
+        const float* mJumpHeightMaxOffset_s{};
+        // static_param at offset 0x40
+        const bool* mIsFinishedAtPreLandFrame_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     Unk_7102451ba0 _50;
     ksys::VFRValue _78;
     // unknown (not accessed by JumpTackle or its subclasses)

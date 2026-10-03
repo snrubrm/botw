@@ -71,10 +71,10 @@ void Move2HomePos::calc_() {
 }
 
 // NON_MATCHING: the original never sets the return register (w0 is whatever the last call returned)
-bool Move2HomePos::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != 0x2000001)
+bool Move2HomePos::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x2000001)
         return false;
-    _78 = *static_cast<const int*>(message.getUserData());
+    _78 = *static_cast<const int*>(message->getUserData());
     return true;
 }
 

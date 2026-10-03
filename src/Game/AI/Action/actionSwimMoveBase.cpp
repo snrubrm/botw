@@ -19,13 +19,13 @@ void SwimMoveBase::leave_() {
 
 void SwimMoveBase::loadParams_() {
     WaterFloatBase::loadParams_();
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotSpeed_s, "RotSpeed");
-    getStaticParam(&mFinRadius_s, "FinRadius");
-    getStaticParam(&mFinRotate_s, "FinRotate");
-    getStaticParam(&mBaseRotRatio_s, "BaseRotRatio");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotSpeed_s, "RotSpeed");
+    getStaticParam(&mParams.mFinRadius_s, "FinRadius");
+    getStaticParam(&mParams.mFinRotate_s, "FinRotate");
+    getStaticParam(&mParams.mBaseRotRatio_s, "BaseRotRatio");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void SwimMoveBase::calc_() {

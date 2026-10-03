@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionTimeSpecControllerRumble.h"
+#include "Game/gameRumble.h"
 
 namespace uking::action {
 
@@ -11,8 +12,13 @@ bool TimeSpecControllerRumble::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: scheduling only (the `3 + (pattern == 1)` constant is materialised before the compare)
 void TimeSpecControllerRumble::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* rumble = Rumble::instance()) {
+        const int pattern = *mPattern_s;
+        rumble->sub_710089813C(pattern == 2 ? 5 : 3 + (pattern == 1), *mSeconds_d);
+        _38.setNow();
+    }
 }
 
 void TimeSpecControllerRumble::leave_() {

@@ -14,7 +14,7 @@ public:
     explicit PriestBossEyeBeam(const InitArg& arg);
     ~PriestBossEyeBeam() override;
 
-    bool isChangeable() const override { return *mIsChangeable_s; }
+    bool isChangeable() const override { return *mParams.mIsChangeable_s; }
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
@@ -27,7 +27,7 @@ public:
     virtual void m37(sead::Vector3f* pos) { *pos = _ac; }
     virtual void m38(const sead::Vector3f& pos);
     virtual bool m39(const sead::Vector3f& start, const sead::Vector3f& end);
-    virtual void m40(const sead::Matrix34f& mtx, const sead::Vector3f& pos, f32 x, f32 y);
+    virtual bool m40(const sead::Matrix34f& mtx, const sead::Vector3f& pos, f32 x, f32 y);
     virtual void m41();
     virtual void m42(const sead::Vector3f& pos);
     virtual void m43() { changeChild("チャージ"); }
@@ -38,26 +38,29 @@ public:
     void sub_710051459C();
 
 protected:
-    // static_param at offset 0x38
-    const int* mAtMinDamage_s{};
-    // static_param at offset 0x40
-    const int* mAttackPower_s{};
-    // static_param at offset 0x48
-    const int* mAttackPowerForPlayer_s{};
-    // static_param at offset 0x50
-    const int* mShotReviseAngleXU_s{};
-    // static_param at offset 0x58
-    const int* mShotReviseAngleXD_s{};
-    // static_param at offset 0x60
-    const int* mShotReviseAngleY_s{};
-    // static_param at offset 0x68
-    const bool* mIsCreateGuardEffect_s{};
-    // static_param at offset 0x70
-    const bool* mIsChangeable_s{};
-    // static_param at offset 0x78
-    const sead::Vector3f* mReflectOffset_s{};
-    // static_param at offset 0x80
-    const sead::Vector3f* mShotOffset_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mAtMinDamage_s{};
+        // static_param at offset 0x40
+        const int* mAttackPower_s{};
+        // static_param at offset 0x48
+        const int* mAttackPowerForPlayer_s{};
+        // static_param at offset 0x50
+        const int* mShotReviseAngleXU_s{};
+        // static_param at offset 0x58
+        const int* mShotReviseAngleXD_s{};
+        // static_param at offset 0x60
+        const int* mShotReviseAngleY_s{};
+        // static_param at offset 0x68
+        const bool* mIsCreateGuardEffect_s{};
+        // static_param at offset 0x70
+        const bool* mIsChangeable_s{};
+        // static_param at offset 0x78
+        const sead::Vector3f* mReflectOffset_s{};
+        // static_param at offset 0x80
+        const sead::Vector3f* mShotOffset_s{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _88;
     sead::SafeString _98;
     bool _a8 = true;

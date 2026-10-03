@@ -80,15 +80,15 @@ void PriestBossGiantStageRotate::loadParams_() {
     getStaticParam(&mIsUseStartAction_s, "IsUseStartAction");
 }
 
-bool PriestBossGiantStageRotate::handleMessage_(const ksys::Message& message) {
-    if (!_88._30 && _88.m2(message))
+bool PriestBossGiantStageRotate::handleMessage_(const ksys::Message* message) {
+    if (!_88._30 && _88.m2(*message))
         return true;
     return false;
 }
 
 // NON_MATCHING: operand order of the orr in setBit (same as PriestBossIronBallRoot::m41)
-bool PriestBossGiantStageRotate::handleAck_(const ksys::MessageAck& ack) {
-    if (!_58.sub_710070E070(ack))
+bool PriestBossGiantStageRotate::handleAck_(const ksys::MessageAck* ack) {
+    if (!_58.sub_710070E070(*ack))
         return false;
     _140.setBit(Flag(Flag::_6));
     return true;

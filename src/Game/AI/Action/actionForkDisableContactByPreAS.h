@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionForkDisableContact.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -23,6 +24,10 @@ protected:
 
     // static_param at offset 0xd8
     const int* mDisableTime_s{};
+    // static_params at offset 0xe0 (PreASName0-4)
+    sead::SafeString mPreASName_s[5];
+    ksys::Timer mTimer;
+    bool mTimerActive = false;
 };
 
 }  // namespace uking::action

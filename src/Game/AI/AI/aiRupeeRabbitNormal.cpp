@@ -49,4 +49,18 @@ bool RupeeRabbitNormal::m42() {
     return false;
 }
 
+// NON_MATCHING: regalloc (the original keeps &filter in x19 and the result in x20, recomputing &filter in each branch)
+ksys::act::Unk_7100d78e50* RupeeRabbitNormal::m43(s32 idx, bool skip_own_target) {
+    if (!_d8)
+        return nullptr;
+
+    Unk_7102410738 filter;
+    if (skip_own_target)
+        return sub_7100501B84(idx, &filter);
+
+    if (!_d8->_260[idx])
+        return nullptr;
+    return ksys::act::sub_7100D7EEE8(&_d8->_260[idx]->_8, &filter);
+}
+
 }  // namespace uking::ai

@@ -33,8 +33,8 @@ void TreasureBoxRoot::loadParams_() {
     getMapUnitParam(&mEnableRevival_m, "EnableRevival");
 }
 
-bool TreasureBoxRoot::handleMessage_(const ksys::Message& message) {
-    if (message.getType() != ksys::MessageType(0x3000007))
+bool TreasureBoxRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != ksys::MessageType(0x3000007))
         return false;
 
     auto* actor = mActor;

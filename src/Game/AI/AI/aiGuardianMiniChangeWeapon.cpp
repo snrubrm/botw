@@ -72,8 +72,8 @@ void GuardianMiniChangeWeapon::sub_710041AAD4() {
         sub_710041AA18();
 }
 
-bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message& message) {
-    if (_a8.m2(message) && _a8._34._10) {
+bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message* message) {
+    if (_a8.m2(*message) && _a8._34._10) {
         _a8.x();
         sub_710041AAD4();
         return true;

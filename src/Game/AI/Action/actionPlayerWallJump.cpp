@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerWallJump.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -21,6 +22,13 @@ void PlayerWallJump::calc_() {
 
 bool PlayerWallJump::isChangeable() const {
     return true;
+}
+
+bool PlayerWallJump::isFinished() const {
+    if (static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround())
+        return true;
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    return player->_1770.y < player->_2158 - 0.5f;
 }
 
 }  // namespace uking::action

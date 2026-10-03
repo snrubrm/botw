@@ -21,7 +21,10 @@ public:
     /* 0x124 */ sead::Atomic<bool> _124;  // near trigger enabled (ChangeEnableNearTrigger behavior)
     /* 0x125 */ u8 _125[0x12b - 0x125];
     /* 0x12b */ u8 _12b;  // NPCTimeline::m36: IsPathRest is also set while this is 0
-    /* 0x12c */ u8 _12c[0x2f8 - 0x12c];
+    /* 0x12c */ u8 _12c[0x160 - 0x12c];
+    /* 0x160 */ sead::SafeString _160;  // DynAS name (NPCReturnAnchor: fine weather)
+    /* 0x170 */ sead::SafeString _170;  // DynAS name (NPCReturnAnchor: rain / snow / thunderstorm)
+    /* 0x180 */ u8 _180[0x2f8 - 0x180];
     /* 0x2f8 */ u32 _2f8;  // flags (bit 1 set by KakarikoKokkoTimeline::init_)
 };
 

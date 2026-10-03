@@ -18,7 +18,12 @@ public:
 
 protected:
     void calc_() override;
+    void m32(bool burning) override;
     virtual int m33();
+
+    // aitree_variable (via RootAi::getAITreeVariable2) at offset 0x38
+    bool* mIsDrop_a{};
+    bool _40 = false;
 };
 
 }  // namespace uking::action
