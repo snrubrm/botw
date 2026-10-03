@@ -9,8 +9,8 @@ namespace ksys::evt {
 // (the original stores the two bool bytes before `m_obj`, the lib's in-class initialisers give `m_obj`, then one
 // `strh`); matches with `ActionDoneHandler() { m_handled = false; m_is_flowchart = true; m_obj = nullptr; }` in the
 // lib, see the libwork log.
-ActionBase::ActionBase(const void* action_data, ActorBase* actor)
-    : mActor(actor), mActionData(action_data) {
+ActionBase::ActionBase(const evfl::ResAction* res, ActorBase* actor)
+    : mActor(actor), mRes(res) {
     for (auto& slot : mSlots)
         slot.context = nullptr;
 }

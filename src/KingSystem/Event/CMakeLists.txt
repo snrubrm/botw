@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   evtActionBase.cpp
   evtActionContext.cpp
   evtActionContext.h
+  evtActorBase.cpp
   evtActorBase.h
   evtActorBinding.cpp
   evtActorBinding.h
@@ -31,6 +32,8 @@ target_sources(uking PRIVATE
   evtMetadata.h
   evtOrderParam.cpp
   evtOrderParam.h
+  evtQuery.cpp
+  evtQuery.h
   evtResidentEvent.cpp
   evtResidentEvent.h
   evtResourceFlowchart.cpp

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <evfl/Action.h>
+#include <evfl/ResActor.h>
 #include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys::evt {
@@ -21,7 +22,7 @@ public:
 
     SEAD_RTTI_BASE(ActionBase)
 
-    ActionBase(const void* action_data, ActorBase* actor);
+    ActionBase(const evfl::ResAction* res, ActorBase* actor);
     virtual ~ActionBase();
 
     // 0x7100da69bc (CSV evt::ActionBase::m4): starts an action in `slot`, moving `handler` into it. Not decompiled.
@@ -35,10 +36,16 @@ public:
     // 0x7100da6d24 (CSV evt::ActionBase::play). Not decompiled.
     virtual void play() = 0;
 
+    const evfl::ResAction* getRes() const { return mRes; }
+
+    // 0x7100da70a8 (2.7 KB, declaration only): the evfl action handler, run on the Action behind
+    // `arg.action_user_data` (see ActorManager::actionHandler)
+    void sub_7100DA70A8(const evfl::ActionArg& arg, evfl::ActionDoneHandler& handler);
+
 protected:
     /* 0x008 */ ActorBase* mActor;
     /* 0x010 */ Slot mSlots[32];
-    /* 0x710 */ const void* mActionData;
+    /* 0x710 */ const evfl::ResAction* mRes;
     /* 0x718 */ s32 _718 = 0;
 };
 
@@ -47,7 +54,7 @@ class Action : public ActionBase {
 public:
     SEAD_RTTI_OVERRIDE(Action, ActionBase)
 
-    Action(const void* action_data, ActorBase* actor);
+    Action(const evfl::ResAction* res, ActorBase* actor);
     ~Action() override;
 
     // Not decompiled (0x71008a7278 / 0x71008a7758 / 0x71008a7784 / 0x71008a7788; m6 is a tail call to ActionBase::m6).
@@ -55,6 +62,9 @@ public:
     void m5(ActionContext* context, const evfl::ActionArg& arg) override = 0;
     void m6(ActionContext* context, const evfl::ActionArg& arg) override = 0;
     void m7() override = 0;
+
+    // 0x7100da7c44 (CSV evt::Action::x): true if no slot has a running context
+    bool x();
 
 private:
     /* 0x71c */ s32 _71c = 0;
