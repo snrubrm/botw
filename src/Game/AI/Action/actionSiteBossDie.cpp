@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSiteBossDie.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -25,7 +27,14 @@ void SiteBossDie::loadParams_() {
 }
 
 void SiteBossDie::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x(0x3b, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        _30 = ksys::eft::searchAndEmitELink(mActor, "WarpCharge");
+        m32();
+    }
+    if (isFinishedAS(0, 0)) {
+        _30.fade();
+        setFinished();
+    }
 }
 
 bool SiteBossDie::isFinished() const {
