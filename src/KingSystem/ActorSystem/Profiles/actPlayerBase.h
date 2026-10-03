@@ -44,12 +44,27 @@ public:
     void addExtraStamina(f32 x, f32 y);
     // 0x710084ae08 (CSV Player::setStaminaDelta): adds `delta` to the current core's stamina delta (_e7c).
     void setStaminaDelta(f32 delta);
+    // 0x710084ac00 / 0x710084ac68 / 0x710084ae78 (placeholder names): add `delta` / the player's maximum life / the
+    // maximum stamina to the current core's life delta (_e70) / life delta / stamina delta (_e7c).
+    void addLifeDelta(s32 delta);
+    void sub_710084AC68();
+    void sub_710084AE78();
+    // 0x710084aa0c (placeholder name): clears _1278, _1280 and _1290 under _1238.
+    void sub_710084AA0C();
     // 0x710084b62c / 0x710084b680 / 0x710084b6d4 / 0x710084b7c0 (CSV Player::setItemVel / setItemSwimVel; the
     // other two are placeholder names): store (f32(type), value) under _1140.
     void setItemVel(s32 type, f32 vel);
     void setItemSwimVel(s32 type, f32 vel);
     void sub_710084B6D4(s32 type, f32 vel);
     void sub_710084B7C0(s32 type, f32 value);
+    void sub_710084B810(s32 type, f32 value);
+    void sub_710084B860(s32 type, f32 value);
+    void sub_710084B8B0(s32 type, f32 value);
+    void sub_710084B900(s32 type, f32 value);
+    void sub_710084B950(s32 type, f32 value);
+    void sub_710084B9A0(s32 type, f32 value);
+    void sub_710084B9F0(s32 type, f32 value);
+    void sub_710084BA40(s32 type, f32 value);
     // 0x710084b5c4 (CSV Player::x_12): zeroes the item velocities (and the extra life / stamina unless
     // `keep_extra`) and the block at _11a8.
     void x_12(bool keep_extra);
@@ -365,7 +380,8 @@ protected:
     /* 0xe54 */ f32 _e54;
     /* 0xe58 */ f32 _e58;
     /* 0xe5c */ s32 _e5c;
-    /* 0xe60 */ u8 _e60[0xe7c - 0xe60];
+    /* 0xe60 */ u8 _e60[0xe70 - 0xe60];
+    /* 0xe70 */ sead::SafeArray<s32, 3> _e70;  // per core: life delta
     /* 0xe7c */ sead::SafeArray<f32, 3> _e7c;  // per core: stamina delta (setStaminaDelta)
     /* 0xe88 */ BaseProcLink _e88;
     /* 0xe98 */ BaseProcLink _e98;
@@ -384,9 +400,13 @@ protected:
     /* 0x119c */ f32 _119c;
     /* 0x11a0 */ f32 _11a0;
     /* 0x11a4 */ f32 _11a4;
-    /* 0x11a8 */ s32 _11a8;  // (sub_710084B7C0)
-    /* 0x11ac */ f32 _11ac;
-    /* 0x11b0 */ u8 _11b0[0x1238 - 0x11b0];
+    // Nine (type, value) pairs written by sub_710084B7C0 / B810 / ... / BA40 (one setter each) under _1140.
+    struct TypeValue {
+        s32 type;
+        f32 value;
+    };
+    /* 0x11a8 */ TypeValue _11a8[9];
+    /* 0x11f0 */ u8 _11f0[0x1238 - 0x11f0];
     /* 0x1238 */ sead::CriticalSection _1238;
     /* 0x1278 */ bool _1278;
     /* 0x1280 */ BaseProcLink _1280;

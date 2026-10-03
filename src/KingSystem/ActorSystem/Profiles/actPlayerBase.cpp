@@ -168,6 +168,30 @@ void PlayerBase::setStaminaDelta(f32 delta) {
     _e7c[sead::CoreInfo::getCurrentCoreId()] += delta;
 }
 
+void PlayerBase::addLifeDelta(s32 delta) {
+    _e70[sead::CoreInfo::getCurrentCoreId()] += delta;
+}
+
+void PlayerBase::sub_710084AC68() {
+    const f32 max_life = PlayerInfo::instance()->getMaxLifeFromPlayerActor();
+    auto& delta = _e70[sead::CoreInfo::getCurrentCoreId()];
+    delta = s32(max_life + f32(delta));
+}
+
+void PlayerBase::sub_710084AE78() {
+    const f32 max_stamina = PlayerInfo::instance()->getMaxStaminaFromPlayerActor();
+    _e7c[sead::CoreInfo::getCurrentCoreId()] += max_stamina;
+}
+
+// NON_MATCHING: the original inlines a longer BufferedSafeString clear (guard against the static empty string,
+// memset(top, 0, size > 0 ? 0 : size - 1), top[that index] = 0); lib/sead's clear() is one store (libwork)
+void PlayerBase::sub_710084AA0C() {
+    const auto lock = sead::makeScopedLock(_1238);
+    _1278 = false;
+    _1280.reset();
+    _1290.clear();
+}
+
 void PlayerBase::setItemVel(s32 type, f32 vel) {
     const auto lock = sead::makeScopedLock(_1140);
     _1180 = f32(type);
@@ -188,8 +212,56 @@ void PlayerBase::sub_710084B6D4(s32 type, f32 vel) {
 
 void PlayerBase::sub_710084B7C0(s32 type, f32 value) {
     const auto lock = sead::makeScopedLock(_1140);
-    _11a8 = type;
-    _11ac = value;
+    _11a8[0].type = type;
+    _11a8[0].value = value;
+}
+
+void PlayerBase::sub_710084B810(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[1].type = type;
+    _11a8[1].value = value;
+}
+
+void PlayerBase::sub_710084B860(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[2].type = type;
+    _11a8[2].value = value;
+}
+
+void PlayerBase::sub_710084B8B0(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[3].type = type;
+    _11a8[3].value = value;
+}
+
+void PlayerBase::sub_710084B900(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[4].type = type;
+    _11a8[4].value = value;
+}
+
+void PlayerBase::sub_710084B950(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[5].type = type;
+    _11a8[5].value = value;
+}
+
+void PlayerBase::sub_710084B9A0(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[6].type = type;
+    _11a8[6].value = value;
+}
+
+void PlayerBase::sub_710084B9F0(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[7].type = type;
+    _11a8[7].value = value;
+}
+
+void PlayerBase::sub_710084BA40(s32 type, f32 value) {
+    const auto lock = sead::makeScopedLock(_1140);
+    _11a8[8].type = type;
+    _11a8[8].value = value;
 }
 
 void PlayerBase::x_12(bool keep_extra) {
@@ -206,7 +278,7 @@ void PlayerBase::x_12(bool keep_extra) {
         _11a0 = 0;
         _11a4 = 0;
     }
-    memset(&_11a8, 0, 0x48);
+    memset(_11a8, 0, 0x48);
 }
 
 // NON_MATCHING: the original keeps the full word load of _c40 (ldr + tbz #14) where we narrow it to a byte load
