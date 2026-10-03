@@ -655,10 +655,23 @@ public:
     Unk_7102358dc0_Payload _38;
 };
 
-// vtable 0x710235cec8 (message 0x8000041)
+// vtable 0x710235cec8 (message 0x8000041). m2 is defined inline: the original inlines it into
+// Unk_71025b1808Data::sub_71006F0448 (its out-of-line copy is at 0x7100056be4).
 class Unk_710235cec8 : public Unk_7102357210 {
 public:
-    bool m2(const ksys::Message& message) override;
+    bool m2(const ksys::Message& message) override {
+        if (message.getType() != 0x8000041)
+            return false;
+
+        auto* payload = static_cast<Unk_71023e7bc0_Payload*>(message.getUserData());
+        if (!payload)
+            return false;
+
+        payload->x(&_38.mLink);
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
     void m3() override {}
 
     Unk_71023e7bc0_Payload _38;
