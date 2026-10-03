@@ -10,7 +10,15 @@ class Heap;
 namespace ksys::evt {
 
 // TODO
-class EventResource {};
+class EventResource {
+public:
+    // 0x7100dc28dc (CSV EventResource::initTimeline): `flow_data` is the EventFlow's data at +0x10.
+    void initTimeline(void* flow_data);
+    // 0x7100dc2b7c (CSV EventResource::initFlowchart)
+    void initFlowchart(void* flow_data, void* flowchart_data);
+    // 0x7100dc3698 (CSV unnamed): called by EventFlow::exitEventMaybe / x with the flow's resource.
+    void sub_7100DC3698();
+};
 
 void* eventFlowAlloc(size_t size, size_t alignment, void* userdata);
 void eventFlowFree(void* ptr, void* userdata);
