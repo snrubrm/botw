@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -102,6 +103,55 @@ sead::Vector3f* ChildDeviceReflectArrow::m52() {
 
 void ChildDeviceReflectArrow::m53(const sead::Vector3f& a1) {
     _174 = a1;
+}
+
+bool ChildDeviceReflectArrow::handleMessage_(const ksys::Message* message) {
+    // Payloads of messages 0x8000056 / 0x8000054 (no sender found; layouts read from this function)
+    struct ReflectPayload {
+        bool _0;
+        sead::Vector3f _4;
+        sead::Vector3f _10;
+        sead::Vector3f _1c;
+    };
+    struct CountPayload {
+        u8 _0[0x1c];
+        u32 _1c;
+    };
+
+    if (message && message->getBrokerId() == 0xffffffff) {
+        if (message->getType() == 0x8000056) {
+            if (message->getUserData()) {
+                if (!m46() && !_159) {
+                    auto* payload = static_cast<ReflectPayload*>(message->getUserData());
+                    m50(true);
+                    _168 = payload->_4;
+                    f32 value;
+                    bool reflected;
+                    if (payload->_0 && *mReflectCountMax_s > m51()) {
+                        m53(payload->_10);
+                        ++_15c;
+                        value = 0.3f;
+                        reflected = false;
+                    } else {
+                        m53(payload->_1c);
+                        value = 1.2f;
+                        reflected = true;
+                    }
+                    _164 = value;
+                    _15a = reflected;
+                }
+                return true;
+            }
+        }
+        if (message->getType() == 0x8000054) {
+            if (message->getUserData()) {
+                auto* payload = static_cast<CountPayload*>(message->getUserData());
+                _15c = ~(payload->_1c & 3) + *mReflectCountMax_s;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void ChildDeviceReflectArrow::calc_() {

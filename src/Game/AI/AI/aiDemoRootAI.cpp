@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageAck.h"
 
 namespace uking::ai {
 
@@ -57,6 +59,51 @@ void DemoRootAI::calc_() {
     }
     _4a = _48;
     _48 = 0;
+}
+
+// NON_MATCHING: the original keeps a separate `ldrh; orr` in each flag case (they are not sunk into one
+// shared `_48 |= value`); logic identical
+bool DemoRootAI::handleMessage_(const ksys::Message* message) {
+    if (!message)
+        return false;
+    const auto& type = message->getType();
+    if (message->getBrokerId() == 0xffffffff) {
+        switch (type) {
+        case 0x800006:
+        case 0x800007:
+        case 0x800008:
+            return true;
+        case 0x800010:
+            _48 |= 4;
+            break;
+        case 0x800011:
+            _48 |= 8;
+            break;
+        case 0x800012:
+            _48 |= 1;
+            break;
+        case 0x800013:
+            _48 |= 2;
+            break;
+        }
+    }
+    for (auto* child : _38) {
+        if (child && child->handleMessage(*message))
+            return true;
+    }
+    return false;
+}
+
+bool DemoRootAI::handleAck_(const ksys::MessageAck* ack) {
+    if (!ack)
+        return false;
+    if (ack->getType() == 0x80000c)
+        return true;
+    for (auto* child : _38) {
+        if (child && child->handleAck(*ack))
+            return true;
+    }
+    return false;
 }
 
 void DemoRootAI::leave_() {

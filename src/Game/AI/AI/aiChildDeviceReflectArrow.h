@@ -15,7 +15,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     void loadParams_() override;
-
+    bool handleMessage_(const ksys::Message* message) override;
 
     void m35() override;
     bool m37(bool* broke_ice_block, bool* hit_player) override;

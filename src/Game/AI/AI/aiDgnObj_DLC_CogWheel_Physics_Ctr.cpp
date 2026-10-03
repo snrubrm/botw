@@ -52,8 +52,9 @@ void DgnObj_DLC_CogWheel_Physics_Ctr::sub_710035ED38() {
     }
 }
 
-// NON_MATCHING: the original null-checks the message reference (`cbz x1`).
 bool DgnObj_DLC_CogWheel_Physics_Ctr::handleMessage_(const ksys::Message* message) {
+    if (!message)
+        return false;
     if (!GearMgr::instance())
         return false;
     if (message->getType() == 0x3000003) {

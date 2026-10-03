@@ -112,8 +112,9 @@ void DgnObj_DLC_CogWheel2::calc_() {
     sub_71012412E4(mActor, 3, average, false);
 }
 
-// NON_MATCHING: the original null-checks the message pointer (`cbz x1`).
 bool DgnObj_DLC_CogWheel2::handleMessage_(const ksys::Message* message) {
+    if (!message)
+        return false;
     auto* gear_mgr = GearMgr::instance();
     if (!gear_mgr)
         return false;
@@ -122,27 +123,26 @@ bool DgnObj_DLC_CogWheel2::handleMessage_(const ksys::Message* message) {
         return false;
 
     const bool registered = gear_mgr->sub_71006690B8(actor);
-    const auto type = message->getType();
     if (registered) {
-        if (type == 0x3000003) {
+        if (message->getType() == 0x3000003) {
             gear_mgr->sub_71006698B0(true);
-        } else if (type == 0x3000004) {
+        } else if (message->getType() == 0x3000004) {
             gear_mgr->sub_71006698B0(false);
             return true;
         } else {
             return false;
         }
     } else {
-        if (type == 0x3000003) {
+        if (message->getType() == 0x3000003) {
             m36();
-        } else if (type == 0x3000004) {
+        } else if (message->getType() == 0x3000004) {
             m37();
             return true;
         } else {
             return false;
         }
     }
-    sub_71012412E4(actor, 3, 0.0f, false);
+    sub_71012412E4(mActor, 3, 0.0f, false);
     return false;
 }
 

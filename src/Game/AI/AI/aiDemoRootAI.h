@@ -16,6 +16,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message* message) override;
+    bool handleAck_(const ksys::MessageAck* ack) override;
     void loadParams_() override;
     void getCurrentName(sead::BufferedSafeString* name, ksys::act::ai::ActionBase* last) const override;
 

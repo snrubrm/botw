@@ -2,6 +2,7 @@
 #include "Game/gameGearMgr.h"
 #include <algorithm>
 #include <math/seadBoundBox.h>
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -93,6 +94,40 @@ void MagneStickRoot::calc_() {
 void MagneStickRoot::leave_() {
     if (auto* gear_mgr = GearMgr::instance())
         gear_mgr->sub_71006694B4(mActor);
+}
+
+bool MagneStickRoot::handleMessage_(const ksys::Message* message) {
+    if (!message)
+        return false;
+    auto* gear_mgr = GearMgr::instance();
+    if (!gear_mgr)
+        return false;
+    if (!mActor)
+        return false;
+
+    if (gear_mgr->sub_71006690B8(mActor)) {
+        if (message->getType() == 0x3000003) {
+            gear_mgr->sub_71006698B0(true);
+            return false;
+        }
+        if (message->getType() == 0x3000004) {
+            gear_mgr->sub_71006698B0(false);
+            return true;
+        }
+        return false;
+    }
+
+    if (!isCurrentChild("はめ込まれた"))
+        return false;
+    if (message->getType() == 0x3000003) {
+        m36();
+        return false;
+    }
+    if (message->getType() == 0x3000004) {
+        m37();
+        return true;
+    }
+    return false;
 }
 
 void MagneStickRoot::loadParams_() {
