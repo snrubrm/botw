@@ -51,6 +51,27 @@ bool GuardianMiniChangeWeapon::isFinished() const {
            (isCurrentChild("切替終了") && getCurrentChild()->isFinished());
 }
 
+void GuardianMiniChangeWeapon::sub_710041AA18() {
+    auto* actor = mActor;
+    if (!actor)
+        return;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    as_list->startAnimationMaybe(-1.0f, -1.0f, as_list->x_1(0, 0).cstr(), 1, 0, true);
+    as_list->x_3(1, 0, &ksys::as::ASList::Unk2::sub_7101163298,
+                 as_list->x_5(0, 0, &ksys::as::ASList::Unk2::sub_71011632F8));
+}
+
+void GuardianMiniChangeWeapon::sub_710041AAD4() {
+    changeChild("切替終了");
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+    if (as_list->x_1(1, 0) != mDamageASName_s)
+        sub_710041AA18();
+}
+
 bool GuardianMiniChangeWeapon::handleMessage_(const ksys::Message& message) {
     if (_a8.m2(message) && _a8._34._10) {
         _a8.x();
