@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBreathAttackEnemyBattle.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
@@ -86,6 +88,16 @@ bool BreathAttackEnemyBattle::m40() {
     if (!m38())
         return false;
     return sub_710072DDB8(target_pos, mActor->getMtx(), *mAttackAngle_s);
+}
+
+bool BreathAttackEnemyBattle::m39() {
+    if (!m40() || !_90.isProcReady())
+        return false;
+    if (*mGlobalNoAtkTime_s < 0)
+        return true;
+    if (!ksys::act::isPlayerProfile(&m34()))
+        return true;
+    return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, *mGlobalNoAtkTime_s);
 }
 
 void BreathAttackEnemyBattle::m41() {}

@@ -1,8 +1,11 @@
 #include "Game/AI/AI/aiEnemyBattle.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -18,6 +21,24 @@ void EnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     _88 = testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1);
     m34(params);
+}
+
+bool EnemyBattle::m39() {
+    if (!m40())
+        return false;
+    return sub_7100382558();
+}
+
+bool EnemyBattle::sub_7100382558() {
+    const f32 base = *mGlobalNoAtkTime_s;
+    const s32 random = *mGlobalNoAtkTimeRnd_s;
+    const f32 extra = random >= 1 ? f32(sead::GlobalRandom::instance()->getS32Range(0, random)) : 0.0f;
+    const s32 time = base + extra;
+    if (time < 0)
+        return true;
+    if (!ksys::act::isPlayerProfile(&m35()))
+        return true;
+    return dmg::DamageInfoMgr::instance()->get4f8().sub_7100671A40(mActor, time);
 }
 
 bool EnemyBattle::isChangeable() const {

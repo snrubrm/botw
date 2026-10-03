@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadReadWriteLock.h>
+#include "Game/Damage/dmgUnk_7100671794.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Resource/resHandle.h"
 
@@ -41,8 +42,12 @@ public:
     void setMasterSwordDisableTrueForm(bool value) { mMasterSwordDisableTrueForm = value; }
     bool isOneHitObliteratorActive() const { return mOneHitObliteratorActive; }
 
+    // lane1 s21: the nearest-enemies list / attack permission limiter (EnemyBattle and others).
+    Unk_7100671794& get4f8() { return _4f8; }
+
 private:
-    /* 0x0028 */ u8 TEMP_8[0x5d0 - 0x28];
+    /* 0x0028 */ u8 TEMP_8[0x4f8 - 0x28];
+    /* 0x04f8 */ Unk_7100671794 _4f8;
     /* 0x05d0 */ ksys::res::Handle mReactionTable;
     /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;
     /* 0x0630 */ u8 TEMP_630[0xd00 - 0x630];

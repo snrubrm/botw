@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLandHumEnemyFindPlayer.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
@@ -14,6 +15,7 @@ void LandHumEnemyFindPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void LandHumEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
+    dmg::DamageInfoMgr::instance()->get4f8().sub_71006720C8(mActor);
 }
 
 // NON_MATCHING: the original keeps &mThrowWeaponPer_s in a callee-saved register from the start

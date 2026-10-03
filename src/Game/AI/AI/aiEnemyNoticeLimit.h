@@ -20,6 +20,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+
     // static_param at offset 0x38
     const int* mOverNum_s{};
 };
