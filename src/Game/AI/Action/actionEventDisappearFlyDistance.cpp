@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventDisappearFlyDistance.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -9,6 +10,11 @@ EventDisappearFlyDistance::~EventDisappearFlyDistance() = default;
 
 bool EventDisappearFlyDistance::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool EventDisappearFlyDistance::oneShot_() {
+    ui::sub_7100A99BB0();
+    return ksys::act::ai::Action::oneShot_();
 }
 
 void EventDisappearFlyDistance::loadParams_() {}

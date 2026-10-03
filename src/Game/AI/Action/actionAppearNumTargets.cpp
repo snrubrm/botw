@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAppearNumTargets.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -8,6 +9,11 @@ AppearNumTargets::~AppearNumTargets() = default;
 
 bool AppearNumTargets::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool AppearNumTargets::oneShot_() {
+    ui::sub_7100A9991C(mGameDataIntTargetCounter_d);
+    return ksys::act::ai::Action::oneShot_();
 }
 
 void AppearNumTargets::loadParams_() {

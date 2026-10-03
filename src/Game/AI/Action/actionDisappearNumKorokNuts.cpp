@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDisappearNumKorokNuts.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -8,6 +9,10 @@ DisappearNumKorokNuts::~DisappearNumKorokNuts() = default;
 
 bool DisappearNumKorokNuts::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
+}
+
+bool DisappearNumKorokNuts::oneShot_() {
+    return ui::sub_7100A97024();
 }
 
 void DisappearNumKorokNuts::loadParams_() {}
