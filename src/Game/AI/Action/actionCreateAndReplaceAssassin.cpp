@@ -25,7 +25,22 @@ void CreateAndReplaceAssassin::loadParams_() {
 }
 
 void CreateAndReplaceAssassin::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (!_28) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f pos = *mOffset_d;
+    pos.rotate(mActor->getMtx());
+    pos += mActor->getMtx().getTranslation();
+    sead::Matrix34f mtx = mActor->getMtx();
+    mtx.setTranslation(pos);
+    _28->setProperties(0, mtx, nullptr, nullptr, nullptr, false, 0, -1);
+    _30 = true;
+    mActor->deleteEx(ksys::act::Actor::DeleteType::_4, ksys::act::BaseProc::DeleteReason::_0);
+    setFinished();
 }
 
 bool CreateAndReplaceAssassin::hasPreDeleteCb() {

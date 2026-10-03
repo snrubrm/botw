@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionStopJump.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -28,8 +30,38 @@ void StopJump::loadParams_() {
     getStaticParam(&mLandingAS_s, "LandingAS");
 }
 
+// NON_MATCHING: the SafeString `this` register setup of the second playAS (`ldr x8, [x0, #0x48]!`)
 void StopJump::calc_() {
     ActionWithPosAngReduce::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    switch (_58) {
+    case 0:
+        if (isBgGroundHit(mActor, false)) {
+            if (auto* controller = mActor->getCharacterController()) {
+                controller->sub_7100F5EF08(true);
+                controller->sub_7100F62B70(*mJumpHeight_s);
+            }
+            playAS(mJumpLoopAS_s.cstr(), false, 0, 0, -1.0f);
+            _58 = 1;
+        }
+        break;
+    case 1:
+        if (isBgGroundHit(mActor, false) || sub_71005E1064(mActor)) {
+            if (mLandingAS_s.isEmpty()) {
+                setFinished();
+            } else {
+                playAS(mLandingAS_s.cstr(), false, 0, 0, -1.0f);
+                _58 = 2;
+            }
+        }
+        break;
+    case 2:
+        if (isFinishedAS(0, 0))
+            setFinished();
+        break;
+    }
 }
 
 bool StopJump::isFinished() const {
