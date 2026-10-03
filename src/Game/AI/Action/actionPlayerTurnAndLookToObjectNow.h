@@ -27,7 +27,7 @@ protected:
     virtual void m41(ksys::phys::CharacterController* controller);
 
     bool _c8 = false;
-    sead::FixedSafeString<64> _d0;
+    sead::FixedSafeString<64> _d0{""};
 };
 KSYS_CHECK_SIZE_NX150(PlayerTurnAndLookToObjectNow, 0x128);
 

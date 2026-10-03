@@ -23,6 +23,9 @@ protected:
     bool* mIsOneTimeEndKeep_d{};
     // dynamic_param at offset 0xb8
     bool* mNoErrorCheck_d{};
+
+    sead::FixedSafeString<64> _c0{""};
+    sead::SafeString _118{"HorseWait"};
 };
 
 }  // namespace uking::action

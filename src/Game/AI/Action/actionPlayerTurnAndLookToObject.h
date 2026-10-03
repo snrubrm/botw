@@ -33,7 +33,7 @@ protected:
     bool* mIsTurnToLookAtPos_d{};
     bool _d8 = false;
     bool _d9 = false;
-    sead::FixedSafeString<64> _e0;
+    sead::FixedSafeString<64> _e0{""};
 };
 KSYS_CHECK_SIZE_NX150(PlayerTurnAndLookToObject, 0x138);
 
