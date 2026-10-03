@@ -889,6 +889,15 @@ void Actor::m92(phys::RigidBody* body) {
     deleteLater(DeleteReason::_0);
 }
 
+void Actor::m143() {
+    _7d8 = true;
+    ActorEditorNode::ConnectArg arg{};
+    arg.actor_name = mName;
+    arg.actor_id = mId;
+    arg.root_ai = mRootAi;
+    mActorEditorNode.connect(arg);
+}
+
 void Actor::killWithDropsAndEffects(int a1) {
     if (isDeletedOrDeleting())
         return;
