@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionOctarockBulletLExplode.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace uking::action {
 
@@ -16,6 +20,8 @@ void OctarockBulletLExplode::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void OctarockBulletLExplode::leave_() {
     Explode::leave_();
+    if (auto* model = mActor->getModel())
+        model->getUnits().unsafeAt(0)->_1e |= 0x20;
 }
 
 void OctarockBulletLExplode::loadParams_() {

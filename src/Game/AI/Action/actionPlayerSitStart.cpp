@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionPlayerSitStart.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -16,7 +18,9 @@ void PlayerSitStart::leave_() {
 }
 
 void PlayerSitStart::calc_() {
-    PlayerAction::calc_();
+    static_cast<ksys::act::Player*>(mActor)->sub_7100877F00(sead::Vector3f::zero);
+    if (mActor->getASList()->x_4(0, 0))
+        setFinished();
 }
 
 bool PlayerSitStart::isChangeable() const {

@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionRemainsWaterChaseBulletFall.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -18,7 +19,8 @@ void RemainsWaterChaseBulletFall::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void RemainsWaterChaseBulletFall::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->getMainBody())
+        body->changeFlag100000(_4c);
 }
 
 void RemainsWaterChaseBulletFall::loadParams_() {

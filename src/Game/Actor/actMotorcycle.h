@@ -68,6 +68,16 @@ public:
     void setAccelMaybe(f32 accel);
     // 0x710007a8d4
     void crashMaybe(bool crash);
+    // 0x710007a938 / 0x7100071998 (declaration only; placeholder names): called by
+    // MotorcycleAppear::enter_ after the warp effect starts.
+    // 0x710007a928 (declaration only; placeholder name): called by MotorcycleDisappear::calc_ when the
+    // effect has finished.
+    void sub_710007A928();
+    void sub_710007A938();
+    // 0x710007f8f8 (declaration only; placeholder name): fades the bike sound out (aal::TimedFader at _1058),
+    // called by MotorcycleDisappear::enter_.
+    void sub_710007F8F8();
+    void sub_7100071998();
     // 0x7100070e48 (not decompiled)
     void x_7();
     // 0x710007a9c8 / 0x710007abc4 / 0x710007bf90 (not decompiled)
@@ -87,7 +97,8 @@ public:
     /* 0x0e00 */ f32 _e00;
     /* 0x0e04 */ u8 _e04[0xe3c - 0xe04];
     /* 0x0e3c */ f32 _e3c;  // acceleration (setAccelMaybe)
-    /* 0x0e40 */ u8 _e40[0xf10 - 0xe40];
+    /* 0x0e40 */ f32 _e40;
+    /* 0x0e44 */ u8 _e44[0xf10 - 0xe44];
     /* 0x0f10 */ s32 _f10;
     /* 0x0f14 */ u8 _f14[0xf88 - 0xf14];
     /* 0x0f88 */ sead::BitFlag64 _f88;

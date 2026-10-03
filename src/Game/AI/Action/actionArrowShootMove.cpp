@@ -2,13 +2,19 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 
 namespace uking::action {
 
 ArrowShootMove::ArrowShootMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 void ArrowShootMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor);
+    _148 = bullet ? (bullet->_cf4 >> 1) & 1 : 0;
+    sub_71000A2A64();
+    _140 = -1;
+    _14a = *mIsShootByPlayer_d;
 }
 
 void ArrowShootMove::leave_() {
