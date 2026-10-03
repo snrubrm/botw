@@ -18,23 +18,29 @@ const sead::SafeString& TimelineAI::m34() {
     return schedule->_68;
 }
 
-// NON_MATCHING: the original keeps &mActor->getName() in a register for both discarded cstr() calls,
-// and places the child name below the param pack on the stack
 void TimelineAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    mActor->getName().cstr();
-    mActor->getName().cstr();
+    const sead::SafeString& actorName = mActor->getName();
+    actorName.cstr();
+    actorName.cstr();
     const sead::SafeString& name = m34();
-    if (!name.isEmpty() && m35(name)) {
-        const sead::SafeString child = name.cstr();
-        ksys::act::ai::InlineParamPack pack;
-        m36(child, &pack);
-        changeChild(child.cstr(), &pack);
-    } else {
-        const sead::SafeString child = "Idle";
-        ksys::act::ai::InlineParamPack pack;
-        m36(child, &pack);
-        changeChild(child.cstr(), &pack);
-    }
+    if (!name.isEmpty() && m35(name))
+        changeChildByName(sead::SafeString(name.cstr()));
+    else
+        changeChildByName(sead::SafeString("Idle"));
+}
+
+void TimelineAI::calc_() {
+    const sead::SafeString& name = m34();
+    if (name.isEmpty())
+        return;
+    getCurrentChild();
+    if (isCurrentChild(name) || !m35(name))
+        return;
+
+    changeChildByName(sead::SafeString(name.cstr()));
+
+    if (!getCurrentChild() || getCurrentChild()->isFailed())
+        changeChildByName(sead::SafeString("Idle"));
 }
 
 void TimelineAI::leave_() {

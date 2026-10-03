@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -70,6 +71,40 @@ bool PreyNormal::handleMessage_(const ksys::Message& message) {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: register allocation only (the original keeps the result in x20 across the accessor
+// destructor with `this` still in x19; ours reuses x19 for the result)
+bool PreyNormal::m35() {
+    if (!*mIsSearchTarget_s)
+        return false;
+
+    if (*mIsPositiveAttacker_s) {
+        if (!isChangeable())
+            return false;
+    } else if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_8000000)) {
+        return false;
+    }
+
+    bool result = false;
+    ksys::act::acc::PlayerBase player;
+    if (player.getPlayerFromPlayerInfo()) {
+        sead::Vector3f diff =
+            mActor->getMtx().getTranslation() - player.getActorMtx().getTranslation();
+        diff.y = 0.0f;
+        if (diff.length() < 15.0f) {
+            _1a0.forcePushBack(player.m178() ? 1.0f : 0.0f);
+
+            f32 sum = 0.0f;
+            for (s32 i = 0; i < _1a0.size(); ++i) {
+                if (auto* value = _1a0.get(i))
+                    sum += *value;
+            }
+            if (sum > f32(_1a0.capacity()) * 0.9f)
+                result = true;
+        }
+    }
+    return result;
 }
 
 bool PreyNormal::m36() {
