@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    const sead::SafeString& m32(int idx) override;
+    void m33(sead::Vector3f* out, int idx) override;
 
     // static_param at offset 0xd0
     const int* mThrowNumAtSameTiming_s{};
@@ -37,6 +39,9 @@ protected:
     sead::SafeString mThrowPartsName7_d{};
     // dynamic_param at offset 0x148
     sead::SafeString mThrowPartsName8_d{};
+    s32 _158 = 0;
+    s32 _15c = 0;
+    bool _160 = false;
 };
 
 }  // namespace uking::action

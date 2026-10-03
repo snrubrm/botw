@@ -21,7 +21,13 @@ public:
 protected:
     void calc_() override;
     // inline in the original (emitted out of line in this TU); signature is a guess
-    virtual const sead::SafeString& m32() { return mThrowPartsName_d; }
+    virtual const sead::SafeString& m32(int idx);
+    // 0x710017c0fc: `out->set(0, *mBallAppearOffset_s, 0)`; MultiIce / MultiTornado pass `idx` through.
+    virtual void m33(sead::Vector3f* out, int idx);
+    // 0x710017bba0 (declared only, 576 B): throws ball `idx` (parts actor / bone matrix + setProperties).
+    void sub_710017BBA0(int idx);
+    // 0x710017be48 (declared only, 352 B).
+    void sub_710017BE48(int idx);
 
     // static_param at offset 0x20
     const float* mInitVelocity_s{};

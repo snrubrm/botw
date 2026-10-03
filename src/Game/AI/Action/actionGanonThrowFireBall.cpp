@@ -18,6 +18,16 @@ void GanonThrowFireBall::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
+const sead::SafeString& GanonThrowFireBall::m32(int idx) {
+    return mThrowPartsName_d;
+}
+
+void GanonThrowFireBall::m33(sead::Vector3f* out, int idx) {
+    out->x = 0.0f;
+    out->y = *mBallAppearOffset_s;
+    out->z = 0.0f;
+}
+
 void GanonThrowFireBall::loadParams_() {
     getStaticParam(&mInitVelocity_s, "InitVelocity");
     getStaticParam(&mFireBallScale_s, "FireBallScale");
