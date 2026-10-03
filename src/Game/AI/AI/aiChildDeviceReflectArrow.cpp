@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiChildDeviceReflectArrow.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/MathUtil.h"
 
@@ -30,6 +32,25 @@ void ChildDeviceReflectArrow::loadParams_() {
 
 void ChildDeviceReflectArrow::m35() {
     WithoutWeaponArrow::m35();
+}
+
+bool ChildDeviceReflectArrow::m37(bool* broke_ice_block, bool* hit_player) {
+    if (!hasAttackInfo(mActor))
+        return false;
+    const s32 num = getNumAttackInfoMaybe(mActor);
+    bool result = true;
+    for (s32 i = 0; i < num; ++i) {
+        auto* info = getAttackInfo(mActor, i);
+        if (info && info->_50.hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&info->_50, &accessor);
+            if (accessor.getName() == "Enemy_SiteBoss_Bow_ChildDevice") {
+                result = false;
+                *broke_ice_block = true;
+            }
+        }
+    }
+    return result;
 }
 
 f32 ChildDeviceReflectArrow::m42() {

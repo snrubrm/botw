@@ -18,6 +18,7 @@ public:
 
 
     void m35() override;
+    bool m37(bool* broke_ice_block, bool* hit_player) override;
     f32 m42() override;
     f32 m43() override;
     s32 m47() override;
