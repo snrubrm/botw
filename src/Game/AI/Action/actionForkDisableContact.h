@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -20,8 +22,18 @@ protected:
     virtual bool m32() = 0;
     virtual bool m33() = 0;
 
+    // static_params at offset 0x20 (RigidBodyName0-4)
+    sead::SafeString mRigidBodyName_s[5];
     // static_param at offset 0x70
     const int* mRecoverDelayTimeMin_s{};
+
+    // Rigid bodies looked up by name in init_ (RigidBodyName0-4)
+    struct Body {
+        ksys::phys::RigidBody* mBody{};
+        bool mIsEnabled = true;
+    };
+    Body mBodies[5];
+    ksys::Timer mRecoverTimer;
 };
 
 }  // namespace uking::action
