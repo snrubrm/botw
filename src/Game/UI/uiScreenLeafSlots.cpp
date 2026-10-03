@@ -1,7 +1,15 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUnkSingletons.h"
 
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
+
+// ScreenAppMap
+// 0x71009ea178 (CSV ScreenAppMap::m92)
+void ScreenAppMap::m92() {
+    if (auto* subsys = UiSubsys1::instance())
+        subsys->sub_710095B1BC();
+}
 
 // ScreenAppCamera
 // 0x71009d92e4

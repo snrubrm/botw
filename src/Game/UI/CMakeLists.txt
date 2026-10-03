@@ -5,6 +5,7 @@ target_sources(uking PRIVATE
   uiFadeScreens.cpp
   uiFadeProgress.h
   uiManager.h
+  uiMgrFacade2.cpp
   uiMiscFacade.cpp
   uiManagerFacade.cpp
   uiPauseMenuDataMgr.cpp

@@ -92,6 +92,7 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    void sub_710095B1BC();
     void sub_71009645D0(const void* a1);
     void sub_710096372C(const void* a1);
     void* sub_71009648A8();

@@ -46,6 +46,10 @@ public:
     void sub_7100A7F890();
     void sub_7100A7FBA4();
     void sub_7100A7FDAC();
+    void sub_7100A7B8CC(s32 a1);
+    void sub_7100A7B92C(s32 a1);
+    // 0x7100a7041c (CSV uiManager::loadStaticInfo, 5.8 KB; declaration only)
+    void loadStaticInfo(sead::Heap* heap);
 
     // inline-only in the original; name is a guess. The same test is inlined at the start of
     // 14 functions (the GanonBeast actor "rain" update 0x7100710938, GameSceneSubsys14::postCalc,

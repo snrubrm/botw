@@ -98,6 +98,9 @@ const sead::SafeString& sub_7100AA7D38(s32 index);
 // (the second parameter is unused; callers pass nullptr).
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
 
+// 0x7100a6d3dc (CSV ui::getHeap; declaration only)
+sead::Heap* getHeap();
+
 // Facade functions of the 0x7100a94000-0x7100aa0000 UI wrapper TU called by AI actions (placeholder names; the
 // signatures come from the callers, none is decompiled yet).
 void sub_7100A94B40(bool display, bool display_ex, bool get_demo);

@@ -517,6 +517,7 @@ public:
 
 class ScreenAppMap : public ScreenEx {
 public:
+    void m92() override;
     s32 m4() override;
     const char* m15() const override;
     ~ScreenAppMap() override;
