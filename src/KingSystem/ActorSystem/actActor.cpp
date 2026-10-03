@@ -887,4 +887,18 @@ void Actor::m92(phys::RigidBody* body) {
     deleteLater(DeleteReason::_0);
 }
 
+void Actor::sub_71011D0204(u32 flags) {
+    if (!mStasisFlags.isOn(StasisFlag(flags))) {
+        mStasisFlags.set(StasisFlag(flags));
+        mActorFlags2.set(ActorFlag2::_400000);
+    }
+}
+
+void Actor::sub_71011D0228(u32 flags) {
+    if (mStasisFlags.isOn(StasisFlag(flags))) {
+        mStasisFlags.reset(StasisFlag(flags));
+        mActorFlags2.set(ActorFlag2::_400000);
+    }
+}
+
 }  // namespace ksys::act

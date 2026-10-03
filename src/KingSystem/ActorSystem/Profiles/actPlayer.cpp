@@ -474,4 +474,28 @@ void Player::x_16() {
     x_19(-1.0f);
 }
 
+void Player::nullsub_2601() {}
+
+void Player::m88() {
+    mPreviousPos = _17a0;
+}
+
+bool Player::m217() {
+    return _2558.isOn(0x108);
+}
+
+bool Player::m151(u16 bit) {
+    return _2558.isOnBit(bit);
+}
+
+bool Player::m83() {
+    return !m359();
+}
+
+bool Player::isGuardJust() {
+    if (_c40.isOnBit(5))
+        return true;
+    return isDarukProtectionEnabled();
+}
+
 }  // namespace ksys::act

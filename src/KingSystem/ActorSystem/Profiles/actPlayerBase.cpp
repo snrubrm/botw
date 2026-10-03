@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnk_710246d058.h"
@@ -46,6 +47,21 @@ bool PlayerBase::runeMgrCheckIsCameraSelected() {
 void PlayerBase::m92(phys::RigidBody* body) {
     sead::Vector3f position;
     body->getPosition(&position);
+}
+
+bool PlayerBase::sub_710084A6B8() {
+    return (uking::RuneMgr::instance()->_90 >> 5) & 1;
+}
+
+bool PlayerBase::m202() {
+    if (_cf0.isOnBit(19))
+        return true;
+    return (uking::RuneMgr::instance()->_90 >> 5) & 1;
+}
+
+bool PlayerBase::isRidingHorse() {
+    auto* info = getPlayerRideInfo();
+    return info && (info->_30 & 1);
 }
 
 bool PlayerBase::m239() {

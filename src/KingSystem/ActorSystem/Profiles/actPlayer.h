@@ -92,7 +92,7 @@ public:
     /* 216 */ bool armorEffectHasWakeWindEffect() override { return _2081; }
     /* 217 */ bool m217() override;
     /* 218 */ bool m218() override;
-    /* 219 */ bool m219() override { return _2559 >> 1 & 1; }
+    /* 219 */ bool m219() override { return _2558.isOnBit(9); }
     /* 224 */ bool m224() override { return _1f84 == 3 || _1f84 == 4; }
     /* 225 */ bool m225() override;
     /* 226 */ bool m226() override;
@@ -490,8 +490,7 @@ public:
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
     /* 0x23e0 */ PlayerArmors _23e0;
     /* 0x2550 */ u8 _2550[0x2558 - 0x2550];
-    /* 0x2558 */ sead::BitFlag8 _2558;  // bit 5 is tested by PlayerShock::calc_
-    /* 0x2559 */ u8 _2559;
+    /* 0x2558 */ sead::BitFlag16 _2558;  // bit 5 is tested by PlayerShock::calc_
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];
     /* 0x26b0 */ u8 _26b0[0x2c28 - 0x26b0];  // ride info (CSV Player::RideInfo::*)
     /* 0x2c28 */ BaseProcLink _2c28;  // woken/put to sleep by PlayerSuperJump / PlayerLand / PlayerFall
