@@ -141,6 +141,9 @@ bool sub_71005E0384(ksys::act::Actor* actor);
 
 /// The actor in weapon slot `idx` if it is a uking::act::Weapon (nullptr otherwise).
 uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx);
+/// 0x71005d8a30 (lane3 s18, declaration only; placeholder name, PullOut::handleMessage_): hands `weapon` to the
+/// actor (the action depends on the actor's class: Enemy, NPC, ...).
+void sub_71005D8A30(ksys::act::Actor* actor, uking::act::Weapon* weapon, bool a3);
 /// Whether the weapon equipped in slot `idx` is a uking::act::Weapon with _d54 == 1 or 2.
 bool sub_71005D8514(ksys::act::Actor* actor, int idx);
 /// Whether none of the actor's weapon slots holds a uking::act::Weapon (false if it has no weapons).
