@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiArrowStickAndPick.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,16 @@ void ArrowStickAndPick::m37() {
         return;
     _110 = true;
     CommonPickedItem::m37();
+}
+
+void ArrowStickAndPick::m38() {
+    sub_7100355A14();
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mStickPos_d, "StickPos", -1);
+    params.addVec3(*mStickPosDiv_d, "StickPosDiv", -1);
+    params.addActor(*mStickActor_d, "StickActor", -1);
+    params.addString(mStickBodyName_d, "StickBodyName", -1);
+    changeChild("通常", &params);
 }
 
 }  // namespace uking::ai
