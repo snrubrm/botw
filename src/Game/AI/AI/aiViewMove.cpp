@@ -1,5 +1,10 @@
 #include "Game/AI/AI/aiViewMove.h"
+#include <cmath>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -72,6 +77,27 @@ bool ViewMove::isFailed() const {
 bool ViewMove::isFinished() const {
     return ksys::act::ai::Ai::isFinished() ||
            (isCurrentChild("移動") && getCurrentChild()->isFinished());
+}
+
+bool ViewMove::m37() {
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+
+    sead::Vector3f up;
+    if (auto* controller = mActor->getCharacterController())
+        up = getUpDir(controller->get70());
+    else
+        up = sead::Vector3f::ey;
+
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir = m34();
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.y = 0;
+    dir.normalize();
+    return front.dot(dir) >= std::cos(*mTurnStartAngle_s);
 }
 
 const sead::Vector3f& ViewMove::m34() {

@@ -508,7 +508,8 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
     return true;
 }
 
-// NON_MATCHING: the original copies _0.._8 as one 12-byte block (ldr x + ldr w)
+// NON_MATCHING: the original copies _0.._8 as one 12-byte block (ldr x + ldr w); ours copies the
+// Vector2f member-wise (sead::Vector2f::operator=) and _8 separately
 bool Unk_71024509a8::m2(const ksys::Message& message) {
     if (message.getType() != 0x80000d7)
         return false;
@@ -517,6 +518,7 @@ bool Unk_71024509a8::m2(const ksys::Message& message) {
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&payload->mLock);
         _34._0 = payload->_0;
+        _34._8 = payload->_8;
         _34._c = payload->_c;
     }
     _30 = true;

@@ -1,7 +1,12 @@
 #include "Game/AI/AI/aiRemainsWaterBulletController.h"
 #include "Game/AI/aiUnk_7102419cb0.h"
+#include <algorithm>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -187,6 +192,86 @@ void RemainsWaterBulletController::sub_71005478C8() {
             info->_3c = 0;
     }
     changeChild("射出前待機");
+}
+
+// NON_MATCHING: register allocation / block placement only (the original keeps &info->_8 in a register from
+// the cast on and orders the type == 1 / == 0 count selection the other way round)
+bool RemainsWaterBulletController::sub_7100548D8C(s32 type) {
+    if (!mRemainsWaterBattleInfo_a)
+        return false;
+    auto* info = sead::DynamicCast<Unk_7102419cb0>(
+        *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+    if (!info)
+        return false;
+
+    const s32 phase = sead::Mathi::clamp(_36c, 0, 3);
+    s32 count = type == 1 ? _e0[phase] : type == 0 ? _d0[phase] : 0;
+    count = std::min(5, count);
+    if (count < 1)
+        return false;
+
+    for (auto*& ptr : info->_8)
+        ptr = nullptr;
+
+    s32 n = 0;
+    if (type == 0) {
+        for (auto& bullet : _f0) {
+            if (bullet.mHandle.isAllocatedOrFailed() && bullet.mHandle.isProcReady()) {
+                info->_8[n++] = &bullet;
+                if (n == count)
+                    return true;
+            }
+        }
+    } else if (type == 1) {
+        for (auto& bullet : _1e0) {
+            if (bullet.mHandle.isAllocatedOrFailed() && bullet.mHandle.isProcReady()) {
+                info->_8[n++] = &bullet;
+                if (n == count)
+                    return true;
+            }
+        }
+    }
+
+    for (auto*& ptr : info->_8)
+        ptr = nullptr;
+    return false;
+}
+
+void RemainsWaterBulletController::sub_7100547FF4() {
+    ksys::act::InstParamPack pack;
+    pack->addPosition(mActor->getMtx().getTranslation());
+
+    if (!mChaseBulletActorName_s.isEmpty()) {
+        for (auto& bullet : _f0) {
+            if (bullet.mLink.mLink.hasProc())
+                continue;
+            if (bullet.mHandle.isAllocatedOrFailed() && bullet.mHandle.hasProcCreationFailed())
+                bullet.mHandle.deleteProcIfFailed();
+            if (bullet.mHandle.isAllocatedOrFailed())
+                continue;
+            bullet._28 = false;
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                mChaseBulletActorName_s.cstr(),
+                ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &bullet.mHandle, &pack,
+                nullptr, 2);
+        }
+    }
+
+    if (!mExplodeBulletActorName_s.isEmpty()) {
+        for (auto& bullet : _1e0) {
+            if (bullet.mLink.mLink.hasProc())
+                continue;
+            if (bullet.mHandle.isAllocatedOrFailed() && bullet.mHandle.hasProcCreationFailed())
+                bullet.mHandle.deleteProcIfFailed();
+            if (bullet.mHandle.isAllocatedOrFailed())
+                continue;
+            bullet._28 = false;
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                mExplodeBulletActorName_s.cstr(),
+                ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &bullet.mHandle, &pack,
+                nullptr, 2);
+        }
+    }
 }
 
 // NON_MATCHING: stack slot of the MessageType temporary (sp+4 in the original) and regalloc
