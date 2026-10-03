@@ -16,16 +16,18 @@ bool AddDemoCall::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// inline-only in the original (name is a guess); like callCookingDemo (0x71008bb1e0) the result is returned
+// after the metadata is destroyed.
+bool AddDemoCall::callDemoEvent() {
+    ksys::evt::Metadata metadata(mDemoName_s.cstr(), mEntryPoint_s.cstr(), "");
+    ksys::evt::CallArg arg;
+    arg.proc = mActor;
+    arg.metadata = &metadata;
+    return ksys::evt::Manager::instance()->callEvent(arg);
+}
+
 void AddDemoCall::callDemo() {
-    bool called;
-    {
-        ksys::evt::Metadata metadata(mDemoName_s.cstr(), mEntryPoint_s.cstr(), "");
-        ksys::evt::CallArg arg;
-        arg.proc = mActor;
-        arg.metadata = &metadata;
-        called = ksys::evt::Manager::instance()->callEvent(arg);
-    }
-    _98 = called;
+    _98 = callDemoEvent();
 }
 
 // NON_MATCHING: register allocation (the original keeps `this` in x20 and params in x19)
@@ -48,7 +50,6 @@ void AddDemoCall::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: the original masks the callEvent result (`and w8, w20, #1`) before the byte store
 void AddDemoCall::calc_() {
     if (_98)
         return;
