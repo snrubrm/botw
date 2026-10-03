@@ -11,7 +11,11 @@ bool GolemChemicalResetSelect::init_(sead::Heap* heap) {
 }
 
 void GolemChemicalResetSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* controller = sead::DynamicCast<Unk_7102450410>(*mGolemChemicalController_a);
+    if (controller && controller->_8.size() >= 1 && controller->_8(0)._b0 == 4)
+        changeChild("ケミカル復帰", params);
+    else
+        changeChild("通常", params);
 }
 
 void GolemChemicalResetSelect::leave_() {

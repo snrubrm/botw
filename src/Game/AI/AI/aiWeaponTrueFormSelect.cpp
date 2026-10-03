@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWeaponTrueFormSelect.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,11 @@ bool WeaponTrueFormSelect::init_(sead::Heap* heap) {
 }
 
 void WeaponTrueFormSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(mActor);
+    if (weapon && weapon->isTrueFormMasterSword())
+        changeChild("真の姿");
+    else
+        changeChild("仮の姿");
 }
 
 void WeaponTrueFormSelect::leave_() {

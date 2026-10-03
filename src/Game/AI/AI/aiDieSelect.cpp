@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiDieSelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -13,8 +15,22 @@ bool DieSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: only the order of the two `-1` copies on the null-manager path (declaring a3 before a2 matches)
 void DieSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    s32 a2 = -1;
+    s32 a3 = -1;
+    bool a4 = false;
+    bool a5 = false;
+    if (auto* manager = sub_710072BA90(actor)) {
+        a3 = manager->getField54();
+        a2 = manager->getField50();
+        a4 = manager->checkDamageFlags(1);
+        a5 = manager->checkDamageFlags(10);
+    }
+    m34(a2, a3, a4, a5);
 }
 
 bool DieSelect::isChangeable() const {

@@ -1,21 +1,10 @@
 #pragma once
 
 #include "Game/AI/AI/aiWeaponRootAI.h"
-#include "Game/AI/aiUnk_71025afb58.h"
-#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "Game/AI/aiUnk_7102407678.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
-
-// vtable 0x7102407678 (RTTI typeInfo static 0x71025b1988): object shared through the
-// MagicCreateUnit AI tree variable (MasterSwordRoot::_f8); placeholder name.
-class Unk_7102407678 : public Unk_71025afb58 {
-    SEAD_RTTI_OVERRIDE(Unk_7102407678, Unk_71025afb58)
-public:
-    ksys::act::BaseProcHandle _8;
-    ksys::act::BaseProcHandle _18[8];
-};
-KSYS_CHECK_SIZE_NX150(Unk_7102407678, 0x98);
 
 class MasterSwordRoot : public WeaponRootAI {
     SEAD_RTTI_OVERRIDE(MasterSwordRoot, WeaponRootAI)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102450410.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -20,7 +21,7 @@ public:
 
 protected:
     // aitree_variable at offset 0x38
-    void* mGolemChemicalController_a{};
+    Unk_7102450410** mGolemChemicalController_a{};
 };
 
 }  // namespace uking::ai

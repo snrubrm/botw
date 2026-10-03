@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTargetOnMovableNavmeshSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7100D123A0.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,7 +15,12 @@ bool TargetOnMovableNavmeshSelect::init_(sead::Heap* heap) {
 }
 
 void TargetOnMovableNavmeshSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::acc::Actor accessor;
+    ksys::act::acquireActor(&sub_71005D94AC(mActor), &accessor);
+    if (accessor.navmeshStuff(*mCheckDist_s, *mOnStopCheckDist_s, mActor))
+        changeChild("ナビメッシュ内", params);
+    else
+        changeChild("ナビメッシュ外", params);
 }
 
 void TargetOnMovableNavmeshSelect::leave_() {

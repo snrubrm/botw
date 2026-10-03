@@ -195,6 +195,9 @@ public:
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
     bool sub_71002E9A50();
+    // 0x71002e38e8 (CSV Weapon::isTrueFormMasterSword; declared only; lane2 s20): a master sword (vslot 219) while
+    // the DamageInfoMgr says it is in its true form.
+    bool isTrueFormMasterSword();
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
