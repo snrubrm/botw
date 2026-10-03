@@ -16,7 +16,7 @@ void UnarmedAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void UnarmedAttack::leave_() {
-    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtRigidBodyName_s))
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mParams.mAtRigidBodyName_s))
         sub_71007A2D34(body);
     sub_71005DA114(mActor, &_70);
 }
@@ -24,16 +24,16 @@ void UnarmedAttack::leave_() {
 void UnarmedAttack::loadParams_() {
     if (!mActor->getParam())
         return;
-    getStaticParam(&mASName_s, "ASName");
-    getStaticParam(&mAtRigidBodyName_s, "AtRigidBodyName");
-    getStaticParam(&mSpeed_s, "Speed");
-    getStaticParam(&mRotAngle_s, "RotAngle");
-    getStaticParam(&mSpeedStopRatio_s, "SpeedStopRatio");
-    getStaticParam(&mRotSpeedStopRatio_s, "RotSpeedStopRatio");
-    getStaticParam(&mJustAvoidCheckLength_s, "JustAvoidCheckLength");
-    getStaticParam(&mJustAvoidCheckAngle_s, "JustAvoidCheckAngle");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mIsIgnoreSmallHit_s, "IsIgnoreSmallHit");
+    getStaticParam(&mParams.mASName_s, "ASName");
+    getStaticParam(&mParams.mAtRigidBodyName_s, "AtRigidBodyName");
+    getStaticParam(&mParams.mSpeed_s, "Speed");
+    getStaticParam(&mParams.mRotAngle_s, "RotAngle");
+    getStaticParam(&mParams.mSpeedStopRatio_s, "SpeedStopRatio");
+    getStaticParam(&mParams.mRotSpeedStopRatio_s, "RotSpeedStopRatio");
+    getStaticParam(&mParams.mJustAvoidCheckLength_s, "JustAvoidCheckLength");
+    getStaticParam(&mParams.mJustAvoidCheckAngle_s, "JustAvoidCheckAngle");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mIsIgnoreSmallHit_s, "IsIgnoreSmallHit");
 }
 
 void UnarmedAttack::calc_() {
@@ -53,7 +53,7 @@ f32 UnarmedAttack::m33() {
 }
 
 void UnarmedAttack::m34() {
-    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mAtRigidBodyName_s)) {
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), mParams.mAtRigidBodyName_s)) {
         sub_71007A2B64(body, nullptr);
         sub_71007A3258(body, nullptr);
     }
