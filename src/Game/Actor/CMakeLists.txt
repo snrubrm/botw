@@ -88,6 +88,14 @@ target_sources(uking PRIVATE
   actUnk_71002c8e10.cpp
   actUnk_71002dccbc.cpp
   actUserEdgeActor.cpp
+  actActorReaction.cpp
+  actActorReaction.h
+  actHavokActiveObject.cpp
+  actHavokActiveObject.h
+  actSoundSystemActor.cpp
+  actSoundSystemActor.h
+  actSystem.cpp
+  actSystem.h
   actUserEdgeActor.h
   actUnk_7100e72ac0.cpp
   actUnk_7100e8b2b8.cpp
