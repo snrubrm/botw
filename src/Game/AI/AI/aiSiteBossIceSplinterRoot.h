@@ -17,12 +17,14 @@ public:
     void loadParams_() override;
 
     const sead::SafeString& m34() override;
+    sead::Vector3f m35() override;
     bool m39() override;
     bool m40() override;
     u32 m50() override;
     u32 m51() override;
     bool m54() override;
     bool m56() override;
+    void m44() override;
     f32 m57() override;
 
 protected:

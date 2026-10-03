@@ -33906,10 +33906,10 @@ Address,Quality,Size,Name
 0x0000007100578ba8,O,000004,_ZN5uking2ai23SiteBossIceSplinterRoot6leave_Ev
 0x0000007100578bac,O,000556,_ZN5uking2ai23SiteBossIceSplinterRoot11loadParams_Ev
 0x0000007100578dd8,O,000008,_ZN5uking2ai23SiteBossIceSplinterRoot3m34Ev
-0x0000007100578de0,U,000304,uking::ai::SiteBossIceSplinterRoot::m35
+0x0000007100578de0,O,000304,_ZN5uking2ai23SiteBossIceSplinterRoot3m35Ev
 0x0000007100578f10,U,000736,uking::ai::SiteBossIceSplinterRoot::m37
 0x00000071005791f0,U,000612,uking::ai::SiteBossIceSplinterRoot::m43
-0x0000007100579454,U,000320,uking::ai::SiteBossIceSplinterRoot::m44
+0x0000007100579454,O,000320,_ZN5uking2ai23SiteBossIceSplinterRoot3m44Ev
 0x0000007100579594,O,000008,_ZN5uking2ai23SiteBossIceSplinterRoot3m40Ev
 0x000000710057959c,U,000540,_ZN5uking2ai23SiteBossIceSplinterRoot14handleMessage_ERKN4ksys7MessageE
 0x00000071005797b8,m,000156,_ZN5uking2ai23SiteBossIceSplinterRoot3m57Ev

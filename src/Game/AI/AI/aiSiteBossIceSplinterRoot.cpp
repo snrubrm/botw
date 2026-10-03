@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiSiteBossIceSplinterRoot.h"
 #include <cmath>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
@@ -51,6 +55,22 @@ const sead::SafeString& SiteBossIceSplinterRoot::m34() {
     return mBindNodeName1_s;
 }
 
+sead::Vector3f SiteBossIceSplinterRoot::m35() {
+    sead::SafeArray<sead::Vector3f, 9> offsets;
+    offsets[0] = *mBindOffset0_s;
+    offsets[1] = *mBindOffset1_s;
+    offsets[2] = *mBindOffset2_s;
+    offsets[3] = *mBindOffset3_s;
+    offsets[4] = *mBindOffset4_s;
+    offsets[5] = *mBindOffset5_s;
+    offsets[6] = *mBindOffset6_s;
+    offsets[7] = *mBindOffset7_s;
+    offsets[8] = *mBindOffset8_s;
+    sead::Vector3f result = offsets[*mCount_m];
+    result.y -= 10.0f;
+    return result;
+}
+
 bool SiteBossIceSplinterRoot::m39() {
     return false;
 }
@@ -77,6 +97,24 @@ bool SiteBossIceSplinterRoot::m56() {
     if (m55())
         return false;
     return !_228;
+}
+
+void SiteBossIceSplinterRoot::m44() {
+    if (!(getAttackInfo(mActor, 0)->_18 & 0xa)) {
+        SiteBossChemicalProjectile::m44();
+        return;
+    }
+
+    auto* actor = mActor;
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
+        sead::Vector3f position;
+        body->getPosition(&position);
+        sead::Vector3f velocity = m45();
+        const f32 length = velocity.length();
+        velocity.set(-1.5f * length, 0.5f, -1.5f * length);
+        m46(velocity);
+        m49({0.0f, 0.4f, 0.4f});
+    }
 }
 
 // NON_MATCHING: the original loads the mChaseAngleMin_s pointer before the powf call (x20 live across it)
