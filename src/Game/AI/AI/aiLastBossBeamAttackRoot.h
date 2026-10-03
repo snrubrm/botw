@@ -26,6 +26,9 @@ public:
 
     // 0x710047555c (not decompiled; called by init_).
     void sub_710047555C();
+    // 0x7100475b28 (placeholder name): the point the beam aims at: the target's (or the player's) position
+    // raised by 1, pulled back by a ray cast from the model's bone / the actor.
+    void sub_7100475B28(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x38

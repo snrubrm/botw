@@ -61,6 +61,9 @@ public:
     // Placeholder names (CSV x_N where it had one); called by SiteBoss AI functions.
     void x_0();
     void x_1(bool a1, bool a2, bool skip_flag);
+    // 0x71002d20b8 (CSV SiteBoss::x_3; declared only; lane1 s25): called with no arguments by
+    // LastBossBeamAttackRoot::enter_.
+    void sub_71002D20B8();
     void x_5(bool on);
     void x_6(bool on);
     bool sub_71002D33D0(f32 value) const;
