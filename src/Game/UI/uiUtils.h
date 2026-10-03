@@ -84,6 +84,9 @@ void sub_7100A95F5C(s32 type);
 // 0x7100a9e358 (CSV closeFadeStatus): closes the fade status screen if it is open; returns whether it did.
 bool closeFadeStatus();
 
+// 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
+void sub_7100AA9728();
+
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
 

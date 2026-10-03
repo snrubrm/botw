@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/euiScreen.h"
+#include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace uking::ui {
 
@@ -18,35 +19,29 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenBase, eui::Screen)
 };
 
-// The two interface bases of Screen at 0x108 / 0x110 (vptr only; virtual destructors; unknown, placeholders).
-class ScreenInterface0x108 {
-public:
-    virtual ~ScreenInterface0x108();
-    virtual void i1();
-    virtual void i2();
-};
-class ScreenInterface0x110 {
-public:
-    virtual ~ScreenInterface0x110();
-    virtual void i1();
-};
-
-class Screen : public ScreenBase, public ScreenInterface0x108, public ScreenInterface0x110 {
+// Screen's second and third bases (offsets 0x108 / 0x110: the RxOnly / TxOnly message handler interfaces,
+// see the vtable at +0x508 / +0x530 of the leaf classes' vtables).
+class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
     u8 _118[0x300 - 0x118];
 
-    // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot). INCOMPLETE: only the
-    // trivial slots that are defined in uiScreenSlots.cpp are declared, so the vtable order is not yet
-    // usable (slots 73-79, 80, 81, 83-89, 93-94, 96-100, 111-126 are missing).
+    // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot, 69-126). Only the trivial
+    // ones have known signatures.
     virtual void m69();
     virtual void m70();
     virtual void m71();
     virtual s32 m72();
+    virtual void m73();
+    virtual void m74();
+    virtual void m75();
+    virtual void m76();
+    virtual void m77();
+    virtual void m78();
+    virtual void m79();
+    virtual void m80();
     virtual s32 m81();
-    virtual void m96();  // open(1)
-    virtual void m97();  // close(-1)
     virtual void m82();
     virtual void m83();
     virtual void m84();
@@ -54,10 +49,18 @@ public:
     virtual void m86();
     virtual void m87();
     virtual void m88();
+    virtual void m89();
     virtual void m90();
     virtual void m91();
     virtual void m92();
+    virtual void m93();
+    virtual void m94();
     virtual void m95();
+    virtual void m96();  // open(1)
+    virtual void m97();  // close(-1)
+    virtual void m98();
+    virtual void m99();
+    virtual void m100();
     virtual void m101();
     virtual void m102();
     virtual void m103();
@@ -68,14 +71,36 @@ public:
     virtual void m108();
     virtual void m109();
     virtual void m110();
+    virtual void m111();
+    virtual void m112();
+    virtual void m113();
+    virtual void m114();
+    virtual void m115();
+    virtual void m116();
+    virtual void m117();
+    virtual void m118();
+    virtual void m119();
+    virtual void m120();
+    virtual void m121();
+    virtual void m122();
+    virtual void m123();
+    virtual void m124();
+    virtual void m125();
+    virtual void m126();
 };
 
 class ScreenEx : public Screen {
 public:
+    ScreenEx();
     ~ScreenEx() override;
+    // NOTE: the original's ScreenEx overrides RxOnly::IHandler::handleMessage (0x7100a48728); not declared here
+    // (an override of the second base's virtual would add a primary vtable slot), so ScreenEx is abstract.
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
 
-    // New virtual slots of ScreenEx (127-153; INCOMPLETE, see Screen).
+    // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
+    u8 _300[0x3610 - 0x300];
+
+    // New virtual slots of ScreenEx (CSV ScreenEx::mNN, 127-153). Only the trivial ones have known signatures.
     virtual void m127();
     virtual void m128();
     virtual void m129();
@@ -93,10 +118,19 @@ public:
     virtual s32 m141();
     virtual s32 m142();
     virtual void* m143();
-
-    // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
-    u8 _300[0x3610 - 0x300];
+    virtual void m144();
+    virtual void m145();
+    virtual void m146();
+    virtual void m147();
+    virtual void m148();
+    virtual void m149();
+    virtual void m150();
+    virtual void m151();
+    virtual void m152();
+    virtual void m153();
 };
+
+KSYS_CHECK_SIZE_NX150(ScreenEx, 0x3610);
 
 // Screen ids: the jump table of ScreenFactory::create (0x7100a81f34), which is also the index into
 // eui::ScreenMgr's screen table.
@@ -336,6 +370,7 @@ public:
 
 class ScreenReadyGo : public ScreenEx {
 public:
+    ScreenReadyGo();
     ~ScreenReadyGo() override;
     SEAD_RTTI_OVERRIDE(ScreenReadyGo, ScreenEx)
 
@@ -478,7 +513,9 @@ public:
 
 class ScreenWolfLinkHeartGauge : public ScreenEx {
 public:
+    ScreenWolfLinkHeartGauge();
     ~ScreenWolfLinkHeartGauge() override;
+    void* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenWolfLinkHeartGauge, ScreenEx)
 };
 
@@ -496,24 +533,30 @@ public:
 
 class ScreenGameTitle : public ScreenEx {
 public:
+    ScreenGameTitle();
     ~ScreenGameTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenGameTitle, ScreenEx)
 };
 
 class ScreenDemoName : public ScreenEx {
 public:
+    ScreenDemoName();
     ~ScreenDemoName() override;
+    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     SEAD_RTTI_OVERRIDE(ScreenDemoName, ScreenEx)
 };
 
 class ScreenDemoNameEnemy : public ScreenEx {
 public:
+    ScreenDemoNameEnemy();
     ~ScreenDemoNameEnemy() override;
+    virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
     SEAD_RTTI_OVERRIDE(ScreenDemoNameEnemy, ScreenEx)
 };
 
 class ScreenShopBG : public ScreenEx {
 public:
+    ScreenShopBG();
     ~ScreenShopBG() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBG, ScreenEx)
 };
@@ -586,6 +629,7 @@ public:
 
 class ScreenPauseMenuEiketsu : public ScreenEx {
 public:
+    ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
 };
@@ -598,18 +642,21 @@ public:
 
 class ScreenHardModeTextDLC : public ScreenEx {
 public:
+    ScreenHardModeTextDLC();
     ~ScreenHardModeTextDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenHardModeTextDLC, ScreenEx)
 };
 
 class ScreenEnd : public ScreenEx {
 public:
+    ScreenEnd();
     ~ScreenEnd() override;
     SEAD_RTTI_OVERRIDE(ScreenEnd, ScreenEx)
 };
 
 class ScreenLastComplete : public ScreenEx {
 public:
+    ScreenLastComplete();
     ~ScreenLastComplete() override;
     SEAD_RTTI_OVERRIDE(ScreenLastComplete, ScreenEx)
 };
@@ -622,6 +669,7 @@ public:
 
 class ScreenLoadingWeapon : public ScreenEx {
 public:
+    ScreenLoadingWeapon();
     ~ScreenLoadingWeapon() override;
     SEAD_RTTI_OVERRIDE(ScreenLoadingWeapon, ScreenEx)
 };
@@ -640,18 +688,23 @@ public:
 
 class ScreenChangeController : public ScreenEx {
 public:
+    ScreenChangeController();
     ~ScreenChangeController() override;
+    void* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenChangeController, ScreenEx)
 };
 
 class ScreenDemoStart : public ScreenEx {
 public:
+    ScreenDemoStart();
     ~ScreenDemoStart() override;
+    void* _3610{};
     SEAD_RTTI_OVERRIDE(ScreenDemoStart, ScreenEx)
 };
 
 class ScreenBootUp : public ScreenEx {
 public:
+    ScreenBootUp();
     ~ScreenBootUp() override;
     SEAD_RTTI_OVERRIDE(ScreenBootUp, ScreenEx)
 };
