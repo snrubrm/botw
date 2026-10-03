@@ -7,23 +7,25 @@
 namespace uking::act {
 
 // NON_MATCHING: register allocation of the last product only
-void innerProductTimesA3(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b) {
+f32 innerProductTimesA3(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b) {
     const f32 dot = a.dot(b);
     out->x = b.x * dot;
     out->y = b.y * dot;
     out->z = dot * b.z;
+    return dot;
 }
 
 // NON_MATCHING: load / multiply scheduling only
-void perpendicularPart(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b) {
+f32 perpendicularPart(sead::Vector3f* out, const sead::Vector3f& a, const sead::Vector3f& b) {
     const f32 dot = a.dot(b);
     out->x = a.x - b.x * dot;
     out->y = a.y - b.y * dot;
     out->z = a.z - b.z * dot;
+    return dot;
 }
 
 // NON_MATCHING: register allocation / load scheduling only
-void splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpendicular,
+f32 splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpendicular,
                                 const sead::Vector3f& a, const sead::Vector3f& b) {
     *perpendicular = a;
     const f32 dot = a.dot(b);
@@ -33,6 +35,7 @@ void splitParallelPerpendicular(sead::Vector3f* parallel, sead::Vector3f* perpen
     perpendicular->x -= parallel->x;
     perpendicular->y -= parallel->y;
     perpendicular->z -= parallel->z;
+    return dot;
 }
 
 // NON_MATCHING: the original adds `x + velocity.x` (argument first), every source form gives `velocity.x + x`

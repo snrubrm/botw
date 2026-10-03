@@ -48,6 +48,36 @@ struct SpeedCurve7 {
 static SpeedCurve5 sUnk_71023611f0;
 static SpeedCurve7 sUnk_7102361220;
 
+void Motorcycle::velocityStuff() {
+    const sead::Vector3f velocity = _bb8->getLinearVelocity();
+    const sead::Vector3f flat_velocity(velocity.x, 0.0f, velocity.z);
+    const f32 speed = flat_velocity.length() * 3.6f;
+    if (speed > 59.0f) {
+        const sead::Vector3f impulse = -flat_velocity * ((speed + -59.0f) * 0.01f);
+        addLinearVelocity(_bb8, impulse.x, impulse.y, impulse.z);
+        addLinearVelocity(_dd0->_0, impulse.x, impulse.y, impulse.z);
+        addLinearVelocity(_dd8->_0, impulse.x, impulse.y, impulse.z);
+    }
+
+    _e54 = _bb8->getLinearVelocity().length() * 3.6;
+
+    sead::Vector3f projected;
+    const sead::Vector3f body_velocity = _bb8->getLinearVelocity();
+    sead::Vector3f forward;
+    const sead::Matrix34f mtx = _bb8->getTransform();
+    mtx.getBase(forward, 2);
+    _e58 = innerProductTimesA3(&projected, body_velocity, forward);
+    if (projected.dot(_bb8->getLinearVelocity()) < 0.0f)
+        _e58 = -_e58;
+
+    if (_dd8->_13d) {
+        _e5c = _dd8->_24.getBase(1);
+    } else {
+        _bb8->getLinearVelocity(&_e5c);
+        _e5c.normalize();
+    }
+}
+
 f32 Motorcycle::speedStuff() {
     const f32 stick = _bb4;
     f32 value;

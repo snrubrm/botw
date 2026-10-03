@@ -383,6 +383,9 @@ public:
     f32 sub_710007AB7C() const;
     // 0x710007c00c
     bool sub_710007C00C() const;
+    // 0x7100072320 (CSV Motorcycle::velocityStuff): damps the horizontal velocity above 59 km/h (all three bodies),
+    // then stores the speed (_e54), the signed speed along the body's z axis (_e58) and the direction _e5c.
+    void velocityStuff();
     // 0x7100072750 (CSV Motorcycle::x_17): the engine sound and acceleration; stores the value in
     // _bc8._0._48.
     void x_17();
