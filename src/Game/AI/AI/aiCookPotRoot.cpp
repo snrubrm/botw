@@ -5,7 +5,10 @@
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -52,7 +55,103 @@ bool CookPotRoot::init_(sead::Heap* heap) {
 }
 
 void CookPotRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* holder = static_cast<void**>(mCurrentCookResultHolder_a)) {
+        if (!*holder)
+            *holder = &_288;
+    }
+    if (mHasFinishedCookItem) {
+        _48 = false;
+        mHasFinishedCookItem = false;
+    }
+    auto* actor = mActor;
+    ksys::act::disableAttClient(actor, "Cook");
+    ksys::act::disableAttClient(actor, "KillTime");
+    auto* chemical = mActor->getChemicalStuff();
+    if (chemical && chemical->_c0 == 2) {
+        auto* lit_actor = mActor;
+        ksys::act::enableAttClient(lit_actor, "Cook");
+        ksys::act::enableAttClient(lit_actor, "KillTime");
+        lit_actor->emitBasicSigOn();
+        changeChild("着火");
+    } else {
+        auto* unlit_actor = mActor;
+        ksys::act::disableAttClient(unlit_actor, "Cook");
+        ksys::act::disableAttClient(unlit_actor, "KillTime");
+        unlit_actor->emitBasicSigOff();
+        changeChild("待機");
+    }
+    sub_71003584D4();
+}
+
+// NON_MATCHING: the original keeps the unmasked checkBasicSig() result for the `tbz` and the masked one for the
+// compare/store (`mov w20, w0; and w21, w20, #1`, as in init_); ours branches on the masked value
+void CookPotRoot::calc_() {
+    if (mHasFinishedCookItem)
+        return;
+    if (_48) {
+        mHasFinishedCookItem = callCookingDemo(mActor, &_288.mCookItem, &_288.mCookItem);
+        return;
+    }
+
+    if (_241) {
+        const bool signal = mActor->checkBasicSig();
+        if (signal != _240) {
+            if (auto* chemical = mActor->getChemicalStuff()) {
+                if (signal) {
+                    if (chemical->_c0 != 2)
+                        chemical->sub_7100D90858(false, 2, false, true, false);
+                } else if (chemical->_c0 == 2) {
+                    chemical->sub_7100D90B78();
+                }
+            }
+            _240 = signal;
+        }
+    }
+
+    // Discarded call (present in the target asm).
+    getCurrentChild();
+    auto* chemical = mActor->getChemicalStuff();
+    if (chemical && chemical->_c0 == 2) {
+        if (isCurrentChild("待機")) {
+            auto* actor = mActor;
+            ksys::act::enableAttClient(actor, "Cook");
+            ksys::act::enableAttClient(actor, "KillTime");
+            actor->emitBasicSigOn();
+            changeChild("着火");
+        }
+    } else {
+        if (isCurrentChild("着火")) {
+            auto* actor = mActor;
+            ksys::act::disableAttClient(actor, "Cook");
+            ksys::act::disableAttClient(actor, "KillTime");
+            actor->emitBasicSigOff();
+            changeChild("待機");
+        }
+    }
+    sub_71003584D4();
+}
+
+// NON_MATCHING: register allocation only (s1 / s2 for the player x load)
+void CookPotRoot::sub_71003584D4() {
+    const bool was_near = _242;
+    bool is_near = false;
+    if (isCurrentChild("着火")) {
+        const sead::Vector3f& player_pos = getPlayerPosition();
+        if (sead::Mathf::abs(mActor->getMtx().m[1][3] - player_pos.y) < 1.0f) {
+            const f32 dx = mActor->getMtx().m[0][3] - player_pos.x;
+            const f32 dz = mActor->getMtx().m[2][3] - player_pos.z;
+            is_near = sead::Mathf::sqrt(dx * dx + dz * dz) < 2.5f;
+        }
+    }
+    if (was_near != is_near) {
+        const bool new_state = !_242;
+        _242 = new_state;
+        {
+            sead::ScopedLock<sead::JobQueueLock> lock(&_248._18.mLock);
+            _248._18._0 = new_state;
+        }
+        _248.sub_710070DBB0(*GameSceneSubsys14::instance()->_180, true);
+    }
 }
 
 // NON_MATCHING: the original computes `&_248` for the sender call after the payload lock is released

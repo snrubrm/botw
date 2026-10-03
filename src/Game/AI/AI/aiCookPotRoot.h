@@ -6,6 +6,14 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace ksys::act {
+class Actor;
+}
+
+// 0x71008bb1e0 (CSV name; declared only, CSV renamed): calls the cooking demo event of `actor`. The two item
+// parameters are passed by CookPotRoot::calc_ but unused by the function.
+bool callCookingDemo(ksys::act::Actor* actor, const uking::CookItem* a, const uking::CookItem* b);
+
 namespace uking::ai {
 
 // vtable 0x71023e0418 (RTTI typeInfo static 0x71025b0f00): object shared through the
@@ -24,9 +32,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
+
+    // 0x71003584d4 (placeholder name): sets `_242` to whether the player is within 2.5 units of the pot while
+    // it is lit ("着火") and notifies `_248` when it changed.
+    void sub_71003584D4();
 
 protected:
     // map_unit_param at offset 0x38
