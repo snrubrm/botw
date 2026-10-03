@@ -18,6 +18,36 @@ void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
 }
 }  // namespace
 
+void LastBoss::sub_71002C5A14() {
+    if (_1548.mEventFlow)
+        _1548.unloadEvent();
+    if (_1718.mEventFlow)
+        _1718.unloadEvent();
+    if (_18e8.mEventFlow)
+        _18e8.unloadEvent();
+}
+
+void LastBoss::sub_71002C5DB4() {
+    if (_1ab8.mEventFlow)
+        _1ab8.unloadEvent();
+    if (_1c88.mEventFlow)
+        _1c88.unloadEvent();
+}
+
+void LastBoss::sub_71002C69CC() {
+    if (_14f8.mDamageManager)
+        return;
+    if (auto* damage_mgr = getDamageMgr())
+        damage_mgr->addDamageCallback(4, &_14f8);
+}
+
+void LastBoss::sub_71002C6A24() {
+    if (!_14f8.mDamageManager)
+        return;
+    if (auto* damage_mgr = getDamageMgr())
+        damage_mgr->removeDamageCallback(&_14f8);
+}
+
 void LastBoss::m117(ksys::act::Unk117* arg) {
     forwardX17ToParts(this, arg);
 }

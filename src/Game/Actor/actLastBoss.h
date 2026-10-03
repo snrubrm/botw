@@ -50,6 +50,14 @@ public:
     // 0x71002c5f18 (CSV LastBoss::x; declaration only): called by GanonShockRoot::leave_.
     void x();
     bool sub_71002C6210(f32 value) const;
+    // 0x71002c5a14 / 0x71002c5db4 (lane1 s23, placeholder names): unload the loaded resident events
+    // (_1548, _1718, _18e8 / _1ab8, _1c88).
+    void sub_71002C5A14();
+    void sub_71002C5DB4();
+    // 0x71002c69cc / 0x71002c6a24 (lane1 s23, placeholder names): register / unregister the damage callback
+    // `_14f8` with the actor's damage manager (timing 4).
+    void sub_71002C69CC();
+    void sub_71002C6A24();
 
     /* 0x14c8 */ void* _14c8 = nullptr;
     /* 0x14d0 */ u32 _14d0 = 0;

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossRoot.h"
+#include "Game/Actor/actLastBoss.h"
 #include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -22,6 +23,13 @@ void LastBossRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 bool LastBossRoot::hasPreDeleteCb() {
     return true;
+}
+
+void LastBossRoot::onPreDelete() {
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        boss->sub_71002C5A14();
+        boss->sub_71002C5DB4();
+    }
 }
 
 void LastBossRoot::leave_() {
