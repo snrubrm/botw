@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadDisposer.h>
+#include "Game/gameUnk_710243c330.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -11,13 +12,6 @@ class QueryContactPointInfo;
 }
 
 namespace uking {
-
-// Third base of IceBlockMgr: its secondary vtable (0x710243c330) only holds the two destructor
-// thunks; the base's own type is unknown (placeholder name).
-class Unk_710243c330 {
-public:
-    virtual ~Unk_710243c330();
-};
 
 // Name from the CSV (IceBlockMgr::createInstance 0x710066e984 = new(0x190) + inlined ctor, init,
 // x, x_0, x_1, x_2 = handleMessage returning 1; instance 0x71025c5d88). Not decompiled yet: the

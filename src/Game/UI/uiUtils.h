@@ -11,6 +11,10 @@ namespace eui {
 class MessageString;
 }
 
+namespace xlink2 {
+class HandleSLink;
+}
+
 namespace uking::ui {
 
 enum class EquipmentSlot;
@@ -54,6 +58,9 @@ void setShowFlyDistance(const sead::SafeString& distance);
 void setShowGolfCount(const sead::SafeString& counter_name);
 void setShowRaceResult(s32 result_type);
 void showInfoOverlay(s32 type);
+// 0x710105df2c (CSV ui::playSound): plays the UI sound `label` (forwards to UiSoundMgr::playSound);
+// `handle` receives the sound's handle and may be null. Declared only.
+void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
 void showRuntimeTip(s32 type);
 // 0x7100a95f5c: called by PlayerCutFall::enter_ with the player's current tip type (0x54). Not
 // decompiled yet.

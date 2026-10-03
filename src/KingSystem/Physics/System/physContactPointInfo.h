@@ -52,6 +52,15 @@ public:
             getContactLayerBaseRelativeValue(layer));
     }
 
+    // Inline-only in the original (AmiiboMgr::init sets five layers this way; the name is a guess):
+    // adds the layer to the subscribed mask and clears it from mask 2.
+    void subscribeLayer(ContactLayer layer) {
+        const u32 mask = makeContactLayerMask(layer);
+        const auto type = getContactLayerType(layer);
+        mSubscribedLayers[int(type)].set(mask);
+        mLayerMask2[int(type)].reset(mask);
+    }
+
     // TODO: rename
     bool isLayerInMask2(ContactLayer layer) const {
         const auto type = getContactLayerType(layer);

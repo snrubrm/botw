@@ -12,7 +12,9 @@ public:
     class IHandler {
     public:
         virtual ~IHandler() = default;
-        virtual void handleAck(const MessageAck& ack) = 0;
+        // Not pure: AmiiboMgr and IceBlockMgr (which only override handleMessage) both point their
+        // second vtable's slot at the same empty function (0x710064c188).
+        virtual void handleAck(const MessageAck& ack) {}
     };
 
     // Takes a pointer: owners pass their actor (`mActor`, whose IHandler base is at +0x188) with a
