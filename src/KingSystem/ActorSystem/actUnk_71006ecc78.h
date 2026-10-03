@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadBoundBox.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -18,6 +19,9 @@ class Unk_7100e9d810;
 // needed so far are named; the functions are the ones called by AI actions.
 class Unk_71006ecc78 {
 public:
+    // Inlined into DynamicActor::initField868 (0x71006dc5d4) and Horse's constructor (embedded at 0xf50).
+    explicit Unk_71006ecc78(Actor* actor) : mActor(actor) {}
+
     // 0x71006ecc78 (declaration only): creates `_8` in `heap` and applies the ragdoll gravity factor.
     bool sub_71006ECC78(sead::Heap* heap);
     // 0x71006ecd6c (declaration only): sets the contact layer of the actor's rigid bodies.
@@ -46,24 +50,23 @@ public:
     void sub_71006EE2FC();
 
     /* 0x00 */ Actor* mActor;
-    /* 0x08 */ Unk_7100e9d810* _8;
+    /* 0x08 */ Unk_7100e9d810* _8 = nullptr;
     /* 0x10 */ u8 _10[0x88 - 0x10];
-    /* 0x88 */ f32 _88;
-    /* 0x8c */ f32 _8c;
-    /* 0x90 */ f32 _90;
-    /* 0x94 */ f32 _94;
-    /* 0x98 */ f32 _98;
-    /* 0x9c */ u8 _9c;
-    /* 0xa0 */ f32 _a0[3];
-    /* 0xac */ f32 _ac[3];
-    /* 0xb8 */ f32 _b8;
-    /* 0xbc */ s32 _bc;
-    /* 0xc0 */ s32 _c0;
-    /* 0xc4 */ s32 _c4;
-    /* 0xc8 */ s32 _c8;
-    /* 0xcc */ s32 _cc;
-    /* 0xd0 */ u8 _d0;
-    /* 0xd1 */ bool _d1;
+    /* 0x88 */ f32 _88 = 10.0f;
+    /* 0x8c */ f32 _8c = 0.0f;
+    /* 0x90 */ f32 _90 = 0.0f;
+    /* 0x94 */ f32 _94 = 1.0f;
+    /* 0x98 */ f32 _98 = 10.0f;
+    /* 0x9c */ u8 _9c = 0;
+    /* 0xa0 */ sead::BoundBox3f _a0;
+    /* 0xb8 */ f32 _b8 = 0.0f;
+    /* 0xbc */ s32 _bc = 4;
+    /* 0xc0 */ s32 _c0 = -1;
+    /* 0xc4 */ s32 _c4 = 0;
+    /* 0xc8 */ s32 _c8 = -1;
+    /* 0xcc */ s32 _cc = -1;
+    /* 0xd0 */ u8 _d0 = 0;
+    /* 0xd1 */ bool _d1 = false;
     /* 0xd2 */ sead::BitFlag8 _d2;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71006ecc78, 0xd8);

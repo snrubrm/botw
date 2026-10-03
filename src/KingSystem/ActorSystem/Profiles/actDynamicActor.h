@@ -45,6 +45,9 @@ protected:
     void onPreDeleteStart_(PrepareArg&) override;
     void preDelete2_(const PreDeleteArg& arg) override;
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
+    // 0x71006dc5d4 (CSV DynamicActor::initField868): creates the ragdoll controller `_868` if the actor
+    // has a ragdoll instance.
+    bool initField868(sead::Heap* heap);
 
 public:
     Actor* m31() override;
