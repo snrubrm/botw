@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSwordThrowElectricBall.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 
 namespace uking::action {
@@ -40,6 +42,17 @@ void SiteBossSwordThrowElectricBall::enter_(ksys::act::ai::InlineParamPack* para
 
 void SiteBossSwordThrowElectricBall::leave_() {
     SiteBossThrowParts::leave_();
+    if (isActorGoingBackToRootAi()) {
+        auto* actor = mActor;
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {
+            for (auto& name : _110) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                if (accessor.hasProc() && accessor.isStateCalc())
+                    accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+    }
 }
 
 void SiteBossSwordThrowElectricBall::loadParams_() {
