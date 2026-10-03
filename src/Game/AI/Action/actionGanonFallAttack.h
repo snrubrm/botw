@@ -1,5 +1,7 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +24,12 @@ protected:
     const bool* mIsEmitShockWave_s{};
     // dynamic_param at offset 0x28
     sead::Vector3f* mTargetPos_d{};
+    u16 _30 = 0;
+    u8 _32[0xe];
+    ksys::VFRValue _40;
+    u8 _4c[0x24];
+    ksys::act::BaseProcHandle _70;
 };
+KSYS_CHECK_SIZE_NX150(GanonFallAttack, 0x80);
 
 }  // namespace uking::action

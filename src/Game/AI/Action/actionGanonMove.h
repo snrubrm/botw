@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -36,6 +37,12 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x68
     sead::Vector3f* mDstPos_d{};
+    f32 _70 = 0.0f;
+    u8 _74[0x48];
+    s32 _bc[2]{};
+    u8 _c4[0x4];
+    gsys::BoneAccessKeyEx _c8;
 };
+KSYS_CHECK_SIZE_NX150(GanonMove, 0x100);
 
 }  // namespace uking::action

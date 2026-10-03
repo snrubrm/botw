@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -22,6 +23,8 @@ protected:
     const int* mPickOutItemType_s{};
     // dynamic_param at offset 0x28
     bool* mIsUseCarryBox_d{};
+    ksys::act::BaseProcHandle _30;
 };
+KSYS_CHECK_SIZE_NX150(EventPickOutFromPorch, 0x40);
 
 }  // namespace uking::action

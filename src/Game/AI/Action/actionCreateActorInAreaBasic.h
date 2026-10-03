@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -39,6 +40,17 @@ protected:
     const sead::Vector3f* mCreateRandArea_s{};
     // static_param at offset 0x70
     const sead::Vector3f* mProhibitedCreateArea_s{};
+    ksys::act::BaseProcHandle _78;
+    ksys::act::BaseProcHandle _88;
+    ksys::act::BaseProcHandle _98;
+    u64 _a8 = 0;
+    u64 _b0 = 0;
+    u64 _b8 = 0;
+    u64 _c0 = 0;
+    u64 _c8 = 0;
+    u64 _d0 = 0;
+    u64 _d8 = 0;
 };
+KSYS_CHECK_SIZE_NX150(CreateActorInAreaBasic, 0xe0);
 
 }  // namespace uking::action

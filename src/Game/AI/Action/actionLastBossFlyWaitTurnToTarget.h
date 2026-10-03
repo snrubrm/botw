@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionLastBossFlyWait.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -24,6 +25,11 @@ protected:
     sead::SafeString mTurnASName_s{};
     // dynamic_param at offset 0xc0
     sead::Vector3f* mTargetPos_d{};
+    u8 _c8[0x24];
+    ksys::VFRValue _ec;
+    bool _f8 = false;
+    u8 _f9[0x7];
 };
+KSYS_CHECK_SIZE_NX150(LastBossFlyWaitTurnToTarget, 0x100);
 
 }  // namespace uking::action

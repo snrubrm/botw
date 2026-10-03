@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionDungeonRotateBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -21,6 +22,9 @@ protected:
 
     // map_unit_param at offset 0xc8
     const int* mDgnRotDir_m{};
+    ksys::VFRValue _d0;
+    u8 _dc[0x4];
 };
+KSYS_CHECK_SIZE_NX150(DungeonRotate, 0xe0);
 
 }  // namespace uking::action

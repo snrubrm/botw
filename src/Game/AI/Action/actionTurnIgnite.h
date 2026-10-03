@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionStopASIgnite.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -23,6 +24,11 @@ protected:
     const float* mRotSpd_s{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
+    ksys::VFRValue _90;
+    u8 _9c[0x24];
+    ksys::VFRValue _c0;
+    u8 _cc[0x4];
 };
+KSYS_CHECK_SIZE_NX150(TurnIgnite, 0xd0);
 
 }  // namespace uking::action

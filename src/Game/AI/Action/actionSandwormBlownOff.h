@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -34,6 +35,14 @@ protected:
     sead::SafeString mSmallDamageASName_s{};
     // static_param at offset 0x70
     sead::SafeString mDamageRigidName_s{};
+    gsys::BoneAccessKeyEx _80;
+    gsys::BoneAccessKeyEx _b8;
+    u64 _f0 = 0;
+    u64 _f8 = 0;
+    s32 _100 = 0;
+    bool _104 = true;
+    u8 _105[0x3];
 };
+KSYS_CHECK_SIZE_NX150(SandwormBlownOff, 0x108);
 
 }  // namespace uking::action
