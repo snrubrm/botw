@@ -44,7 +44,8 @@ bool SetTargetPosToPlayer::sub_71005694B4(sead::Vector3f* pos) {
     if (_74 > *mMaxUpdateNum_s)
         return false;
 
-    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    sead::Vector3f actor_pos;
+    mActor->getMtx().getTranslation(actor_pos);
     const sead::Vector3f& player_pos = getPlayerPosition();
     sead::Vector3f target = player_pos;
     target.y += *mHeightOffset_s;

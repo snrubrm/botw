@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiWithoutWeaponArrow.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -24,7 +26,31 @@ bool WithoutWeaponArrow::init_(sead::Heap* heap) {
 }
 
 void WithoutWeaponArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _13c = *mAtAttr_s;
+    if (mActor->getRootAi()->getI() == 2) {
+        m34(mActor->getVelocity(), false, "発射");
+    } else {
+        _114 = false;
+        _118 = sead::Vector3f::zero;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addString(mBindNodeName_s, "NodeName", -1);
+        pack.addVec3(*mRotOffset_s, "RotOffset", -1);
+        pack.addVec3(*mTransOffset_s, "TransOffset", -1);
+        changeChild("所持", &pack);
+    }
+
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent())) {
+        parent->getMtx().getTranslation(_124);
+        _116 = true;
+    } else {
+        _116 = false;
+    }
+    _115 = false;
+
+    if (auto* body = mActor->getMainBody())
+        body->setContactNone();
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+        body->enableContactLayer(ksys::phys::ContactLayer::SensorEnemy);
 }
 
 void WithoutWeaponArrow::leave_() {

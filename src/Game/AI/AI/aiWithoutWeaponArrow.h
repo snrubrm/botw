@@ -90,7 +90,8 @@ protected:
     bool _115 = false;
     bool _116 = false;
     sead::Vector3f _118;
-    u8 _124[0x13c - 0x124];
+    sead::Vector3f _124;
+    u8 _130[0x13c - 0x130];
     s32 _13c = 1;
 };
 KSYS_CHECK_SIZE_NX150(WithoutWeaponArrow, 0x140);

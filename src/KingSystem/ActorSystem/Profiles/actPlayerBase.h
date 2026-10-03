@@ -411,6 +411,9 @@ namespace acc {
 class PlayerBase : public ActorConstDataAccess {
 public:
     bool getPlayerFromPlayerInfo();
+    // 0x710084d958 (declared only, CSV name `act::acc::PlayerBase::x_5`; lane2 s20: called by
+    // RemainsFireRoot::calc_)
+    bool x_5();
 
     void x_0(BaseProc* proc) const;
     void x_1(bool a, const sead::SafeString& name, BaseProc* proc) const;

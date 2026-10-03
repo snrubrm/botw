@@ -13,12 +13,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    bool reenter_(ksys::act::ai::ActionBase* other, bool x) override;
+    void handlePendingChildChange_() override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
+    void m34() override;
+    void m35(bool x) override;
+    void m36() override;
 
 protected:
     // static_param at offset 0x50
@@ -26,7 +29,7 @@ protected:
     f32 _60;
     u32 _64;
     f32 _68;
-    u32 _6c = 0;
+    s32 _6c = 0;
 };
 KSYS_CHECK_SIZE_NX150(RemainsFireRoot, 0x70);
 
