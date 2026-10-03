@@ -4,6 +4,8 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttention.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/World/worldEnvMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -16,19 +18,36 @@ CookPotRoot::~CookPotRoot() {
     mCookIngredients.freeBuffer();
 }
 
-// NON_MATCHING
+// NON_MATCHING: one instruction (the original branches on the masked value `and w8, w0, #1` that it stores
+// to _241; we branch on w0 directly); everything else matches
 bool CookPotRoot::init_(sead::Heap* heap) {
     auto* ingredients =
-        new (heap, std::nothrow) sead::FixedSafeString<64>[CookingMgr::NumIngredientsMax];
+        new (heap, 8, std::nothrow) sead::FixedSafeString<64>[CookingMgr::NumIngredientsMax];
     mCookIngredients.setBuffer(CookingMgr::NumIngredientsMax, ingredients);
     if (!mCookIngredients.isBufferReady()) {
         return false;
     }
-    if (*mInitBurnState_m) {
-        // TODO
+    if (*mInitBurnState_m)
+        mActor->getRootAi()->setChemicalFlags3cMaybe(0x100000, true);
+
+    auto* actor = mActor;
+    _241 = actor->hasPlacementLinkForBasicSig();
+    if (_241) {
+        _240 = actor->checkBasicSig();
+        if (_240) {
+            if (auto* chemical = mActor->getChemicalStuff()) {
+                if (chemical->_c0 != 2)
+                    chemical->sub_7100D90858(false, 2, false, true, false);
+            }
+        }
+    } else {
+        _240 = false;
     }
-    mActor->getChemicalStuff();
-    _248._18._8._8.reset();
+
+    Unk_71023b0898_Payload::Data data;
+    data._8.acquire(mActor, false);
+    data._0 = 4;
+    _248._18.x(data);
     return true;
 }
 

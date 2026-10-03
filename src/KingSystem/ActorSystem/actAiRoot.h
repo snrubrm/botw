@@ -49,6 +49,9 @@ public:
     const ParamPack& getAiTreeParams() const { return mAiTreeParams; }
     u32 getI() const { return mI; }
     s16 getAt() const { return mAt; }
+    // 0x7100d66b94 (CSV RootAi::x_0; lane1 s24, name is a guess): sets (`on`) or clears the bits `mask` of the
+    // flag word at 0x3c of every Chemical of the actor.
+    void setChemicalFlags3cMaybe(u32 mask, bool on);
     bool isActorDeletedOrDeleting() const;
     // Public through the root AI (SiteBossSpearRoot::leave_ calls it on `mActor->getRootAi()`; lane2 s20).
     using ActionBase::isActorGoingBackToRootAi;
