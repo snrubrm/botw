@@ -131,24 +131,4 @@ bool BokoblinRestraint::isChangeable() const {
     return child->isFinished() || child->isFailed();
 }
 
-bool BokoblinRestraint::sub_71003331A0() {
-    auto& timer = _78;
-    sead::Vector3f pos, dir;
-    if (auto* awareness = mActor->getAwareness()) {
-        awareness->_230.getBase(dir, 2);
-        pos = awareness->_2c8;
-    } else {
-        mActor->getMtx().getTranslation(pos);
-        mActor->getMtx().getBase(dir, 2);
-    }
-
-    if (sub_710072DEF0(sub_71005D960C(mActor), *mParams.mLostRange_s, *mParams.mLostVMin_s, *mParams.mLostVMax_s, pos, dir,
-                       sead::Mathf::pi(), std::numeric_limits<f32>::max(), 0.0f)) {
-        timer = ksys::Timer(*mParams.mLostTimer_s, *mParams.mLostTimer_s);
-    } else {
-        timer.update();
-    }
-    return timer.value <= sead::Mathf::epsilon();
-}
-
 }  // namespace uking::ai
