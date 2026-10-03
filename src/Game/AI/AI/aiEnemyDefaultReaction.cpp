@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemyDefaultReaction.h"
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -61,6 +62,18 @@ void EnemyDefaultReaction::m40(ksys::act::ai::InlineParamPack* params) {
 
 void EnemyDefaultReaction::m41(ksys::act::ai::InlineParamPack* params) {
     changeChild("崩れ落ち", params);
+}
+
+void EnemyDefaultReaction::m42(ksys::act::ai::InlineParamPack* params) {
+    sub_710072BB28(mActor);
+    auto* actor = mActor;
+    sub_71005D7014(actor);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::Alive);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+    sub_710073DE08(mActor);
+    changeChild("死亡", params);
 }
 
 void EnemyDefaultReaction::m43(ksys::act::ai::InlineParamPack* params) {

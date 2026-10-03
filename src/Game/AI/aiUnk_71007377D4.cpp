@@ -381,3 +381,15 @@ bool sub_7100734270(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Ve
     }
     return false;
 }
+
+void sub_710073DE08(ksys::act::Actor* actor) {
+    actor->sub_71011D0228(0x10);
+    actor->sub_71011D0228(4);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+}
+
+void sub_710073DE44(ksys::act::Actor* actor) {
+    actor->sub_71011D0204(0x10);
+    actor->sub_71011D0204(4);
+    actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+}

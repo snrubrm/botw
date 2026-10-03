@@ -254,3 +254,10 @@ ksys::phys::SystemGroupHandler* sub_710072E804(ksys::act::Actor* actor, int idx)
 /// object's +0x6c selects it; falls back to ActorAtk entry 0 when the actor has attack info), or
 /// null. Its first three floats are the attack position. Placeholder name.
 const ksys::act::Struct8Base* sub_7100739578(ksys::act::Actor* actor);
+
+/// 0x710073de08 (lane1 s22): clears stasis flags 0x10 and 0x4 (Actor 0x71011d0228) and sets
+/// ActorFlag2 0x10000. Placeholder name.
+void sub_710073DE08(ksys::act::Actor* actor);
+/// 0x710073de44: the opposite: sets stasis flags 0x10 and 0x4 (Actor 0x71011d0204) and clears
+/// ActorFlag2 0x10000. Placeholder name.
+void sub_710073DE44(ksys::act::Actor* actor);
