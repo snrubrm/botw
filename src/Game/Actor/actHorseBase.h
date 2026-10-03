@@ -106,7 +106,7 @@ public:
     s32 x() const;
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
-    u8 sub_7100E68270() const;
+    bool sub_7100E68270() const;
     s32 sub_7100E68298() const;
     bool sub_7100E696D4() const;
     void sub_7100E6AD3C();

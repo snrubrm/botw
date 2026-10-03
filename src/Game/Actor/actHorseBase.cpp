@@ -48,7 +48,7 @@ bool HorseBase::canWakeUp_() {
     return Actor::canWakeUp_();
 }
 
-u8 HorseBase::sub_7100E68270() const {
+bool HorseBase::sub_7100E68270() const {
     return getParam()->getRes().mGParamList->getHorse()->mIsDecoy.ref();
 }
 
