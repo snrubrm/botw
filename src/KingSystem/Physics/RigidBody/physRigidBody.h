@@ -500,6 +500,8 @@ public:
     void setMotionFlag(MotionFlag flag);
     void setFlag200() { mFlags.set(Flag::_200); }
     void resetFlag200() { mFlags.reset(Flag::_200); }
+    // inline-only in the original (InstanceSet::sub_7100FBDD40); name is a guess
+    void changeFlag40(bool on) { mFlags.change(Flag::_40, on); }
 
     hkpRigidBody* getHkBody() const { return mHkBody; }
 

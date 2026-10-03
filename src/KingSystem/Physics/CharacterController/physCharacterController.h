@@ -19,6 +19,7 @@ class RigidBodyAccessor;
 class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
+class SystemGroupHandler;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
@@ -90,6 +91,8 @@ public:
     void sub_7100F62DD0(f32 scale);
     // 0x7100f62e5c: the main rigid body's collision impulse scale.
     f32 sub_7100F62E5C() const;
+    // 0x7100f5edb4 (unnamed in the CSV): mRigidBody->setSystemGroupHandler(handler).
+    void sub_7100F5EDB4(SystemGroupHandler* handler);
     void sub_7100F5EDBC(const sead::Vector3f& value);
     void sub_7100F5EDD8(float value);
     void sub_7100F5EDE0(float value);

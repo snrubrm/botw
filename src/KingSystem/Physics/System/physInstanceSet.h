@@ -33,6 +33,7 @@ class CollisionInfo;
 class ContactPointInfo;
 class NavMeshCharacter;
 class ParamSet;
+class RagdollController;
 class RagdollInstance;
 class RigidBodySet;
 class SphereParam;
@@ -55,6 +56,7 @@ public:
         Cloth2 = 1 << 23,
         Cloth3 = 1 << 24,
         InDemo = 1 << 25,
+        _40000000 = 1 << 30,
         _80000000 = 1u << 31,
     };
 
@@ -85,12 +87,12 @@ public:
     void sub_7100FBACE0(ContactLayer layer);
     void sub_7100FBAD74();
     void sub_7100FBADDC();
-    void* sub_7100FBAEDC(s32 rigidbody_idx, s32 ragdoll_idx) const;
+    RigidBody* sub_7100FBAEDC(s32 rigidbody_idx, s32 ragdoll_idx) const;
     // 0x7100fbaf18: called with one body of the actor (actActorSensorUtil sub_71007A3768/3778).
-    void sub_7100FBAF18(RigidBody* body);
+    bool sub_7100FBAF18(RigidBody* body);
     void sub_7100FBB00C(RigidBody* body, RigidBodyParam* param);
     // 0x7100fbb18c: called with the actor's "Tgt" body set (actActorSensorUtil sub_71007A3800).
-    void sub_7100FBB18C(RigidBodySet* set);
+    bool sub_7100FBB18C(RigidBodySet* set);
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
     // 0x7100fbb4b4: whether the ragdoll contact point info (_a8) has any contact (declaration only).
     bool sub_7100FBB4B4() const;
@@ -154,7 +156,7 @@ private:
     };
 
     sead::SafeString mName;
-    const ParamSet* mParamSet;
+    ParamSet* mParamSet;  // non-const: getRigidBodySet() is called on it (0x7100fbaf18)
     sead::TypedBitFlag<Flag> mFlags;
     u16 _24{};
     u16 _26{};
@@ -170,7 +172,7 @@ private:
     CharacterFormSet* mCharacterFormSet{};
 
     RagdollInstance* mRagdollInstance{};
-    sead::Buffer<void*> _98;
+    sead::Buffer<RagdollController*> _98;
     ContactPointInfo* mRagdollContactPointInfo{};
     res::Handle* mRagdollResHandle{};
     res::RagdollBlendWeight* mRagdollBlendWt;

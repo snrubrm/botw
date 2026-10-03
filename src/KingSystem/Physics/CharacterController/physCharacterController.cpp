@@ -250,6 +250,13 @@ void CharacterController::physicsXXXGetMtx_1(sead::Matrix34f* mtx) const {
     (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(mtx);
 }
 
+// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped), as in
+// physicsXXXGetMtx_1
+void CharacterController::sub_7100F626E8(sead::Matrix34f* out) const {
+    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(out);
+    *out = *out * _a0;
+}
+
 void CharacterController::sub_7100F63700(bool clear) {
     if (clear)
         mFlags.reset(0x40);
@@ -259,6 +266,10 @@ void CharacterController::sub_7100F63700(bool clear) {
 
 bool CharacterController::sub_7100F5E954() const {
     return mRigidBody->isAddedToWorld();
+}
+
+void CharacterController::sub_7100F5EDB4(SystemGroupHandler* handler) {
+    mRigidBody->setSystemGroupHandler(handler);
 }
 
 void CharacterController::sub_7100F5EDBC(const sead::Vector3f& value) {
