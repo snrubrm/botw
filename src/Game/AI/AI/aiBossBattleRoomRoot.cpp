@@ -5,10 +5,29 @@ namespace uking::ai {
 
 BossBattleRoomRoot::BossBattleRoomRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-BossBattleRoomRoot::~BossBattleRoomRoot() = default;
+BossBattleRoomRoot::~BossBattleRoomRoot() {
+    if (_1f0) {
+        _1f0->destroy();
+        _1f0 = nullptr;
+    }
+}
 
 bool BossBattleRoomRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (!_1f0) {
+        _1f0 = aal::ShapeCylinder::create("BossBattleRoom", heap);
+        if (_1f0) {
+            _1f0->setPosition(mActor->getMtx().getTranslation());
+            _1f0->mFlags.resetBit(aal::Shape::KeepPosition);
+            _1f0->mFlags.resetBit(aal::Shape::KeepRotation);
+            _1f0->setRadius(50.0f);
+            _1f0->setVector(sead::Vector3f::ey * -25.0f);
+        }
+    }
+    _208 = true;
+    _1e8 = mActor->findPhysicsBodyByName("BodyParts_00", "AirFloor");
+    if (_1e8)
+        _1e0 = mActor->getMainBody();
+    return true;
 }
 
 void BossBattleRoomRoot::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -51,7 +70,9 @@ bool BossBattleRoomRoot::handleMessage_(const ksys::Message* message) {
 }
 
 void BossBattleRoomRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _1f8.fade();
+    if (_1e8)
+        _1e8->removeFromWorld();
 }
 
 void BossBattleRoomRoot::loadParams_() {

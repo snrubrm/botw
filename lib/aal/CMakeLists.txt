@@ -2,6 +2,9 @@ project(aal CXX ASM)
 
 add_library(aal OBJECT
   include/aal/aalFadeCurveType.h
+  include/aal/aalIUnifiable.h
+  include/aal/aalNamedObj.h
+  include/aal/aalShape.h
   include/aal/aalTimedFader.h
   src/dummy.cpp
 )

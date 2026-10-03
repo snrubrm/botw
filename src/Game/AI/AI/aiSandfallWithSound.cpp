@@ -4,10 +4,21 @@ namespace uking::ai {
 
 SandfallWithSound::SandfallWithSound(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-SandfallWithSound::~SandfallWithSound() = default;
+SandfallWithSound::~SandfallWithSound() {
+    if (_38) {
+        _38->destroy();
+        _38 = nullptr;
+    }
+}
 
 bool SandfallWithSound::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _38 = aal::ShapeSegment::create("Sandfall", heap);
+    if (_38) {
+        _38->mFlags.resetBit(aal::Shape::KeepPosition);
+        _38->mFlags.resetBit(aal::Shape::KeepRotation);
+        sub_7100556370();
+    }
+    return true;
 }
 
 void SandfallWithSound::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalShape.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -21,10 +22,10 @@ public:
 
 protected:
     bool _38{};
-    // aal::ShapeCylinder*, aal::ShapeCylinder*, aal::ShapeSphere* (created in sub_7100445394)
-    void* _40{};
-    void* _48{};
-    void* _50{};
+    // created in sub_7100445394
+    aal::ShapeCylinder* _40{};
+    aal::ShapeCylinder* _48{};
+    aal::ShapeSphere* _50{};
     void* _58{};
     u32 _60{};
     void* _68{};

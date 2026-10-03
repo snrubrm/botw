@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include <aal/aalShape.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace ksys::act {
@@ -32,8 +33,7 @@ protected:
     ksys::map::Rail* _50{};
     sead::Vector3f _58 = sead::Vector3f::zero;
     sead::Vector3f _64 = sead::Vector3f::zero;
-    // aal::ShapeSegment* (created in init_ with aal::ShapeSegment::create)
-    void* _70{};
+    aal::ShapeSegment* _70{};
     bool _78 = false;
 };
 

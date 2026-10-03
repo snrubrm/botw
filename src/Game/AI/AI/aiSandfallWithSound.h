@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalShape.h>
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -23,8 +24,7 @@ protected:
     void sub_7100556370();
     void sub_710055646C();
 
-    // aal::ShapeSegment* (created in init_ with aal::ShapeSegment::create)
-    void* _38{};
+    aal::ShapeSegment* _38{};
     xlink2::HandleSLink _40;
     xlink2::HandleSLink _50;
     sead::Vector3f _60 = sead::Vector3f::zero;

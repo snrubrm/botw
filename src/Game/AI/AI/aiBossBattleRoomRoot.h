@@ -1,7 +1,9 @@
 #pragma once
 
 #include <math/seadMatrix.h>
+#include <aal/aalShape.h>
 #include <prim/seadBitFlag.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -74,12 +76,8 @@ protected:
     u32 _1d8 = 0;
     ksys::phys::RigidBody* _1e0 = nullptr;
     ksys::phys::RigidBody* _1e8 = nullptr;
-    // aal::Shape* (destroyed by the destructor; aal is not in the repo)
-    void* _1f0 = nullptr;
-    // xlink2 handle (event pointer + create id; leave_ fades the event)
-    void* _1f8 = nullptr;
-    u32 _200 = 0;
-    u32 _204;
+    aal::ShapeCylinder* _1f0 = nullptr;
+    xlink2::HandleSLink _1f8;
     bool _208 = true;
 };
 KSYS_CHECK_SIZE_NX150(BossBattleRoomRoot, 0x210);

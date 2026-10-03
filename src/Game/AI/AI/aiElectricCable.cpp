@@ -10,10 +10,18 @@ ElectricCable::ElectricCable(const InitArg& arg) : ksys::act::ai::Ai(arg) {
     _48 = nullptr;
 }
 
-ElectricCable::~ElectricCable() = default;
+ElectricCable::~ElectricCable() {
+    if (_70) {
+        _70->destroy();
+        _70 = nullptr;
+    }
+}
 
 bool ElectricCable::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _70 = aal::ShapeSegment::create("ElectricCable", heap);
+    _70->mFlags.resetBit(aal::Shape::KeepPosition);
+    _70->mFlags.resetBit(aal::Shape::KeepRotation);
+    return true;
 }
 
 void ElectricCable::enter_(ksys::act::ai::InlineParamPack* params) {
