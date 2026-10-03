@@ -492,6 +492,20 @@ public:
     ~ScreenAppPictureBook() override;
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
 
+    // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+
     void sub_71009F8510(s32);
 };
 
@@ -937,6 +951,21 @@ public:
     const char* m15() const override;
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
+
+    // state callbacks (slots 154-166, trivial ones defined in uiScreenLeafSlots.cpp)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
+    virtual void m166();
 };
 
 class ScreenEnergyMeterDLC : public ScreenEx {
@@ -991,6 +1020,20 @@ public:
     const char* m15() const override;
     ~ScreenAppMapDungeon() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMapDungeon, ScreenEx)
+
+    // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
+    virtual void m154();
+    virtual void m155();
+    virtual void m156();
+    virtual s32 m157();
+    virtual void m158();
+    virtual void m159();
+    virtual void m160();
+    virtual s32 m161();
+    virtual void m162();
+    virtual void m163();
+    virtual void m164();
+    virtual s32 m165();
 };
 
 class ScreenPickUp : public ScreenEx {

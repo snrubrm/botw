@@ -21,6 +21,7 @@ target_sources(uking PRIVATE
   uiScreenNullSlots.cpp
   uiScreenSlot4.cpp
   uiScreenHardMode.cpp
+  uiScreenLeafSlots.cpp
   uiScreenSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
