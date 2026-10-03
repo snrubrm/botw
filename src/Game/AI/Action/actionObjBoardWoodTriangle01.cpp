@@ -19,7 +19,8 @@ ObjBoardWoodTriangle01::ObjBoardWoodTriangle01(const InitArg& arg) : ksys::act::
 ObjBoardWoodTriangle01::~ObjBoardWoodTriangle01() = default;
 
 bool ObjBoardWoodTriangle01::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mActor->mDrawDistanceFlags.set(2);
+    return true;
 }
 
 void ObjBoardWoodTriangle01::enter_(ksys::act::ai::InlineParamPack* params) {
