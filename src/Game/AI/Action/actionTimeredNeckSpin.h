@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/System/VFRValue.h"
 #include "Game/AI/Action/actionNeckSpin.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -29,9 +30,7 @@ protected:
     };
     Params mParams;
     ksys::VFRValue _80;
-    f32 _8c = 0.0f;
-    f32 _90 = 0.0f;
-    f32 _94 = 0.0f;
+    ksys::Timer _8c;
 };
 KSYS_CHECK_SIZE_NX150(TimeredNeckSpin, 0x98);
 

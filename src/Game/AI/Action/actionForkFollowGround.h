@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class ForkFollowGround : public ksys::act::ai::Action {
@@ -17,6 +21,8 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::phys::CharacterController* controller);
+    virtual void m33(ksys::phys::CharacterController* controller);
 
     struct Params {
         // static_param at offset 0x20

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionAnmDrivenHoverBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -32,7 +33,7 @@ protected:
         sead::Vector3f* mTargetPos_d{};
     };
     Params mParams;
-    u8 _78[0x24];
+    sead::Matrix33f _78;
     f32 _9c = 0.0f;
 };
 KSYS_CHECK_SIZE_NX150(AnmDrivenHoverTurn, 0xa0);

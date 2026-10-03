@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgStepMove.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,13 @@ bool ForkASTrgStepMove::init_(sead::Heap* heap) {
 }
 
 void ForkASTrgStepMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _84 = mActor->getVelocity();
+    _84.y = 0;
+    const f32 speed = _84.normalize();
+    _50.value = speed;
+    _50.prev_value = speed;
+    _5c = -1.0f;
+    sub_710073FA90(&_60, mActor);
 }
 
 void ForkASTrgStepMove::leave_() {

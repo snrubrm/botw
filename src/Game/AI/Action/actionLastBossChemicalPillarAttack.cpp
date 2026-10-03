@@ -14,7 +14,16 @@ bool LastBossChemicalPillarAttack::init_(sead::Heap* heap) {
 }
 
 void LastBossChemicalPillarAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = 0;
+    const f32 interval = *mParams.mCreateInterval_s;
+    _50 = ksys::Timer(interval, interval);
+    playAS("Chemical_Attack", true, 0, 0, -1.0f);
+    _48 = -1;
+    _4c = false;
+    _4e = false;
+    _5c.rate = -1.0f;
+    _5c.value = 300.0f;
+    _5c.previous_value = 300.0f;
 }
 
 void LastBossChemicalPillarAttack::leave_() {

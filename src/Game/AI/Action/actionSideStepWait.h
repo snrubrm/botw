@@ -46,7 +46,8 @@ protected:
     ksys::VFRValue _78{0.0f};
     u8 _84[0x24];
     u64 _a8 = 0;
-    u64 _b0 = 0;
+    f32 _b0 = 0.0f;
+    f32 _b4 = 0.0f;
     f32 _b8 = 0.0f;
     u16 _bc = 255;
     u8 _be[0x2];

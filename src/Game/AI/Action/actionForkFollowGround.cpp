@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkFollowGround.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -27,7 +28,10 @@ void ForkFollowGround::loadParams_() {
 }
 
 void ForkFollowGround::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* controller = mActor->getCharacterController())
+        m32(controller);
+    else
+        setFailed();
 }
 
 }  // namespace uking::action

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -39,9 +40,8 @@ protected:
     bool _4d = false;
     bool _4e = false;
     u8 _4f[0x1];
-    u64 _50 = 0;
-    u64 _58 = 0;
-    u64 _60 = 0;
+    ksys::Timer _50;
+    ksys::Timer _5c;
     u8 _68[0x28];
 };
 KSYS_CHECK_SIZE_NX150(LastBossChemicalPillarAttack, 0x90);

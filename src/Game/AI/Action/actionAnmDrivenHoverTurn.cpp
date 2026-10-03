@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnmDrivenHoverTurn.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +18,8 @@ bool AnmDrivenHoverTurn::init_(sead::Heap* heap) {
 
 void AnmDrivenHoverTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     AnmDrivenHoverBase::enter_(params);
+    sub_710073FA90(&_78, mActor);
+    _9c = mActor->getAngVelocity().y;
 }
 
 void AnmDrivenHoverTurn::leave_() {

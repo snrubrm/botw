@@ -15,7 +15,7 @@ void BirdEscape::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BirdEscape::leave_() {
-    ksys::act::ai::Action::leave_();
+    _88.resetMotionType(_88.sub_710072ACF8(mActor));
 }
 
 void BirdEscape::loadParams_() {

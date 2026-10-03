@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/System/VFRValue.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -35,10 +36,9 @@ protected:
     };
     Params mParams;
     ksys::VFRValue _50{0.0f};
-    s32 _5c = 0;
-    u8 _60[0x24];
-    f32 _84 = 0.0f;
-    u64 _88 = 0;
+    f32 _5c = 0.0f;
+    sead::Matrix33f _60;
+    sead::Vector3f _84{0, 0, 0};
 };
 KSYS_CHECK_SIZE_NX150(ForkASTrgStepMove, 0x90);
 
