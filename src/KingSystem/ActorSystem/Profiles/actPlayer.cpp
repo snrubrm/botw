@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -43,6 +44,26 @@ bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& e
     if (hit_normal)
         ray.getHitNormal(hit_normal);
     return true;
+}
+
+bool Player::m50() {
+    return PlayerOrEnemy::m50();
+}
+
+bool Player::m180() {
+    return playerIsReloadingOrChargingOrShootingBow(this);
+}
+
+void Player::m366() {
+    uking::ui::showRuntimeTip(11);
+}
+
+void Player::showCannotGoAnyFarther() {
+    uking::ui::showInfoOverlay(41);
+}
+
+void Player::showCannotGoAnyFarther2() {
+    uking::ui::showInfoOverlay(46);
 }
 
 bool Player::isSurfingOnGround() const {
@@ -151,24 +172,6 @@ s32 Player::playerWeapons_return1() {
 
 s32 Player::playerWeapons_return2() {
     return 2;
-}
-
-bool playerIsReloadingBow(Player* player) {
-    return player->getASList()->x_1(1, 1) == "BowReload" ||
-           player->getASList()->x_1(1, 1) == "SquatBowReload" ||
-           player->getASList()->x_1(0, 0) == "WallBowReloadL" ||
-           player->getASList()->x_1(0, 0) == "WallBowReloadR";
-}
-
-bool playerIsChargingBow(Player* player) {
-    return player->getASList()->x_1(1, 1) == "BowCharge" ||
-           player->getASList()->x_1(1, 1) == "SquatBowCharge" ||
-           player->getASList()->x_1(0, 0) == "WallBowChargeL" ||
-           player->getASList()->x_1(0, 0) == "WallBowChargeR";
-}
-
-bool playerIsReloadingOrChargingOrShootingBow(Player* player) {
-    return playerIsReloadingBow(player) || playerIsChargingBow(player) || player->isShootingBow();
 }
 
 // NON_MATCHING: load order / register allocation of the velocity components

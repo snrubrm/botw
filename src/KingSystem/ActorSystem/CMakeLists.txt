@@ -28,6 +28,7 @@ target_sources(uking PRIVATE
     Profiles/actDynamicActor.cpp
     Profiles/actDynamicActor.h
     Profiles/actPlayer.cpp
+    Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayer.h
     Profiles/actPlayerBase.cpp
     Profiles/actPlayerBase.h
@@ -40,6 +41,7 @@ target_sources(uking PRIVATE
     Profiles/actWeaponBase.h
 
     actActor.cpp
+    actActorMaxHp.cpp
     actActor.h
     actImpulseBaseProcLink.h
     actActorAtk.cpp

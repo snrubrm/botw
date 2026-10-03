@@ -263,6 +263,10 @@ void Actor::actorPhysicsSetFlag2() {
         mPhysics->setFlag2();
 }
 
+s32 Actor::getMaxLife() {
+    return getMaxHp_();
+}
+
 phys::CharacterController* Actor::getCharacterController() {
     if (!mPhysics)
         return nullptr;
@@ -350,16 +354,6 @@ void Actor::setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel
 
 void Actor::resetMubinBymlIter() {
     mMapObjIter = map::MubinIter();
-}
-
-s32 Actor::getMaxHp_() {
-    const auto* gparamlist = mActorParam->getRes().mGParamList;
-    if (!gparamlist)
-        return 1;
-    const auto* general = gparamlist->getGeneral();
-    if (!general)
-        return 1;
-    return general->mLife.ref();
 }
 
 void Actor::m32() {

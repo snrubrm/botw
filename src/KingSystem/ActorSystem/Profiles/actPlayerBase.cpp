@@ -10,6 +10,11 @@
 
 namespace ksys::act {
 
+bool PlayerBase::x_50() {
+    return false;
+}
+
+
 // NON_MATCHING: most member types are still unknown (placeholders)
 PlayerBase::~PlayerBase() = default;
 
