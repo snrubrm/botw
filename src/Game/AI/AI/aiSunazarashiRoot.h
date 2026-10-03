@@ -24,7 +24,16 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message& message) override;
+    bool m39() override;
+    void m41() override;
+    void m42() override;
     void m43() override;
+    void m44() override;
+
+    // Unnamed in the binary (0x71005af91c): while towed ("牽引"), tracks the smallest angle between the
+    // controller's direction and the contacts; true when the clash speed is exceeded after the angle
+    // dropped under ClashAngle.
+    bool sub_71005AF91C();
 
 protected:
     // static_param at offset 0x208

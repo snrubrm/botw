@@ -154,6 +154,13 @@ void PreyRoot::sub_71005047A8() {
     changeChild("通常行動", &pack);
 }
 
+void PreyRoot::sub_7100504A9C(u32 mask, bool on) {
+    if (on)
+        _188->_e84.set(mask);
+    else
+        _188->_e84.reset(mask);
+}
+
 // NON_MATCHING: the original writes _1fc and _200 with a single 64-bit store (as if they were one struct
 // assigned from a temporary); the ctor initialises them separately
 void PreyRoot::sub_7100504BF0() {

@@ -81,6 +81,8 @@ public:
     void sub_71005044C8();
     // Unnamed in the binary (0x7100504bf0): resets _1fc / _200 / _205.
     void sub_7100504BF0();
+    // Unnamed in the binary (0x7100504a9c): sets / clears `mask` in the enemy's _e84 flags.
+    void sub_7100504A9C(u32 mask, bool on);
 
 protected:
     void calc_() override;
