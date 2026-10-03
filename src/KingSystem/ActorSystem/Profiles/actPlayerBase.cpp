@@ -911,6 +911,12 @@ f32 PlayerBase::m231() const {
     return 1.0f;
 }
 
+bool PlayerBase::runeMgrCheckCanUseSquareBomb() const {
+    if (auto* player = getPlayerBase())
+        return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(1, player);
+    return false;
+}
+
 f32 PlayerBase::x_44() const {
     if (auto* player = getPlayerBase())
         return player->_e54;

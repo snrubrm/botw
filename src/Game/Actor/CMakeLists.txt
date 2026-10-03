@@ -76,6 +76,7 @@ target_sources(uking PRIVATE
   actUnk_7100e7f25c.cpp
   actUnk_71002c8918.cpp
   actUnk_71002c8e10.cpp
+  actUnk_71002dccbc.cpp
   actUnk_7100e72ac0.cpp
   actUnk_7100e8b2b8.cpp
   actUnk_71025ae680.h

@@ -43,8 +43,8 @@ public:
     /* 0x100 */ s32 _100 = -1;
     /* 0x104 */ sead::Vector3f _104 = sead::Vector3f::zero;
     /* 0x110 */ sead::Vector3f _110 = sead::Vector3f::zero;
-    /* 0x11c */ u32 _11c = 0;
-    /* 0x120 */ u32 _120 = 0;
+    /* 0x11c */ f32 _11c = 0;
+    /* 0x120 */ f32 _120 = 0;
     /* 0x124 */ f32 _124 = 1.0;
     /* 0x128 */ bool _128 = false;
     /* 0x129 */ bool _129 = false;

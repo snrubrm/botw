@@ -10,6 +10,8 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/Physics/System/physRayCast.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -1078,6 +1080,44 @@ void sub_7100EEAE58(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityObject);
     cast->enableLayer(phys::ContactLayer::EntitySmallObject);
     cast->enableLayer(phys::ContactLayer::EntityRope);
+}
+
+void sub_7100EE5B84(sead::Vector3f* gravity, Actor* actor) {
+    f32 factor;
+    if (auto* controller = actor->getCharacterController()) {
+        *gravity = controller->get70();
+        factor = controller->get110();
+    } else {
+        *gravity = phys::System::instance()->getField48();
+        auto* body = actor->getMainBody();
+        if (!body)
+            return;
+        factor = body->getGravityFactor();
+    }
+    *gravity *= factor;
+}
+
+bool itemIsForSale(Actor* actor) {
+    if (auto* obj = actor->getMapObject()) {
+        auto* link_data = obj->getLinkData();
+        return link_data && link_data->findLinkWithType(map::MapLinkDefType::ForSale);
+    }
+    return false;
+}
+
+bool isAlive(BaseProcLink* link) {
+    ActorConstDataAccess accessor;
+    acquireActor(link, &accessor);
+    if (accessor.hasProc())
+        return accessor.getLife() > 0;
+    return false;
+}
+
+void sub_7100EE5B18(Actor* actor, const sead::Vector3f& pos) {
+    sead::Matrix34f mtx = actor->getMtx();
+    mtx.setTranslation(pos);
+    if (auto* physics = actor->getPhysics())
+        physics->setMtxAndScale(mtx, false, false, actor->getScale().x);
 }
 
 void sub_7100EEAECC(phys::RayCast* cast) {
