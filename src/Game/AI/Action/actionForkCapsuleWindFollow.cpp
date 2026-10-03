@@ -17,7 +17,7 @@ void ForkCapsuleWindFollow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkCapsuleWindFollow::leave_() {
-    ksys::act::ai::Action::leave_();
+    _40.destroy(false);
 }
 
 void ForkCapsuleWindFollow::loadParams_() {
