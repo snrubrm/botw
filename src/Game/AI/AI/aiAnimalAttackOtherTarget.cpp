@@ -6,6 +6,20 @@
 
 namespace uking::ai {
 
+namespace {
+// inline-only in the original; name is a guess. Evidence: enter_ and calc_ contain the same sequence and only
+// this form (separate `return true` / `return false` exits, so the accessor destructor is emitted on each
+// side of the test) reproduces their code.
+bool checkNpc(ksys::act::BaseProcLink* target) {
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(target, &accessor) && accessor.sub_7100022FD0())
+            return true;
+    }
+    return false;
+}
+}  // namespace
+
 AnimalAttackOtherTarget::AnimalAttackOtherTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 AnimalAttackOtherTarget::~AnimalAttackOtherTarget() = default;
@@ -14,17 +28,13 @@ bool AnimalAttackOtherTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original branches straight to two copies of the accessor destructor instead of
-// keeping the result in a register across one
 void AnimalAttackOtherTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _38 = false;
     if (sub_71005D94AC(mActor).hasProc()) {
         auto& target = sub_71005D94AC(mActor);
         bool invalid = false;
-        if (ksys::act::isNPCProfile(&target)) {
-            ksys::act::ActorConstDataAccess accessor;
-            invalid = ksys::act::acquireActor(&target, &accessor) && accessor.sub_7100022FD0();
-        }
+        if (ksys::act::isNPCProfile(&target))
+            invalid = checkNpc(&target);
         if (!invalid) {
             changeChild("戦闘行動");
             return;
@@ -34,9 +44,6 @@ void AnimalAttackOtherTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("待機");
 }
 
-// NON_MATCHING: same as enter_ (the original destroys the accessor separately on each side of the
-// sub_7100022FD0 test instead of keeping the result in a register across the destructor; an inline
-// helper with separate returns and an if-with-initializer did not change that)
 void AnimalAttackOtherTarget::calc_() {
     if (hasAttackInfo(mActor))
         _38 = true;
@@ -49,13 +56,7 @@ void AnimalAttackOtherTarget::calc_() {
     if (isChangeable()) {
         auto& target = sub_71005D94AC(mActor);
         if (ksys::act::isNPCProfile(&target)) {
-            bool ok = false;
-            {
-                ksys::act::ActorConstDataAccess accessor;
-                if (ksys::act::acquireActor(&target, &accessor) && accessor.sub_7100022FD0())
-                    ok = true;
-            }
-            if (ok && isCurrentChild("戦闘行動")) {
+            if (checkNpc(&target) && isCurrentChild("戦闘行動")) {
                 if (_38)
                     changeChild("攻撃後");
                 else
