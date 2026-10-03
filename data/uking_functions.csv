@@ -31187,9 +31187,9 @@ Address,Quality,Size,Name
 0x0000007100507d70,O,000004,_ZN5uking2ai29PriestBossActorGiantFouthRoot5calc_Ev
 0x0000007100507d74,O,000004,_ZN5uking2ai29PriestBossActorGiantFouthRoot6leave_Ev
 0x0000007100507d78,O,000192,_ZN5uking2ai29PriestBossActorGiantFouthRoot11loadParams_Ev
-0x0000007100507e38,U,000296,uking::ai::PriestBossActorGiantFouthRoot::m46
+0x0000007100507e38,m,000296,_ZN5uking2ai29PriestBossActorGiantFouthRoot3m46Ev
 0x0000007100507f60,U,000276,uking::ai::PriestBossActorGiantFouthRoot::m47
-0x0000007100508074,U,000348,uking::ai::PriestBossActorGiantFouthRoot::m48
+0x0000007100508074,m,000348,_ZN5uking2ai29PriestBossActorGiantFouthRoot3m48Ev
 0x00000071005081d0,O,000216,_ZNK5uking2ai29PriestBossActorGiantFouthRoot27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071005082a8,O,000092,_ZNK5uking2ai29PriestBossActorGiantFouthRoot18getRuntimeTypeInfoEv
 0x0000007100508304,O,000004,_ZN5uking2ai19PriestBossActorRoot3m35Ev
@@ -31210,7 +31210,7 @@ Address,Quality,Size,Name
 0x00000071005089ec,O,000008,_ZN5uking2ai24PriestBossActorGiantRoot3m45Ev
 0x00000071005089f4,U,000460,
 0x0000007100508bc0,U,001676,
-0x000000710050924c,U,000116,uking::ai::PriestBossActorGiantRoot::m46
+0x000000710050924c,U,000116,_ZN5uking2ai24PriestBossActorGiantRoot3m46Ev
 0x00000071005092c0,U,000348,
 0x000000710050941c,U,000448,uking::ai::PriestBossActorGiantRoot::m47
 0x00000071005095dc,W,001788,_ZN5uking2ai24PriestBossActorGiantRoot5init_EPN4sead4HeapE

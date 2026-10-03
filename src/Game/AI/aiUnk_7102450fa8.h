@@ -134,7 +134,8 @@ public:
     /* 0x3cd */ u8 _3cd[0x43c - 0x3cd];  // BaseProcLink at 0x3d0; sead::FixedRingBuffer<?, 6> at 0x3f0
     /* 0x43c */ f32 _43c;  // PriestBossIronBallRoot::m38: attack power (int-converted)
     /* 0x440 */ f32 _440;  // PriestBossIronBallRoot::m38(true): attack power
-    /* 0x444 */ u8 _444[0x448 - 0x444];
+    /* 0x444 */ bool _444;  // PriestBossActorGiantFouthRoot::m46 (cleared when read)
+    /* 0x445 */ u8 _445[0x448 - 0x445];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450fa8, 0x448);
 

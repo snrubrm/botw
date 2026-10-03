@@ -2,6 +2,7 @@
 
 #include "Game/AI/AI/aiPriestBossActorGiantRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,8 @@ public:
     void loadParams_() override;
 
     const char* m36() override;
+    Attack m46() override;
+    virtual bool m48();
 
 protected:
     // static_param at offset 0xf8
@@ -30,6 +33,7 @@ protected:
     const bool* mStompAlwaysChange_s{};
     // aitree_variable at offset 0x118
     void* mPriestBossMetaAIUnit_a{};
+    ksys::Timer _120{};
 };
 
 }  // namespace uking::ai

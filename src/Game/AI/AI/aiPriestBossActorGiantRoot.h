@@ -15,7 +15,7 @@ public:
     SEAD_ENUM(Attack, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)
     // Movement state (names unknown): 2 = inactive, 7 = no face position update, 8 = also sets the child's
     // TargetPos.
-    SEAD_ENUM(State, _0, _1, _2, _3, _4, _5, _6, _7, _8)
+    SEAD_ENUM(State, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)
 
     explicit PriestBossActorGiantRoot(const InitArg& arg);
     ~PriestBossActorGiantRoot() override;
@@ -36,8 +36,9 @@ public:
     virtual f32 m43();
     virtual f32 m44();
     virtual f32 m45();
-    // Not decompiled (0x710050924c / 0x710050941c).
-    virtual void m46();
+    // m46: the attack index of the child's last attack (0x710050924c; also counts it in `_b0`, not decompiled);
+    // m47 is not decompiled (0x710050941c).
+    virtual Attack m46();
     virtual void m47();
 
 protected:
