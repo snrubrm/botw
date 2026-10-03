@@ -7,8 +7,6 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
-Unk_7102450498::~Unk_7102450498() = default;
-
 bool Unk_7102450498::m2(const ksys::Message& message) {
     if (message.getType() != 0x8000021)
         return false;

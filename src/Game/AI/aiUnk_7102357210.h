@@ -271,7 +271,7 @@ public:
 // vtable 0x7102450498 (message 0x8000021)
 class Unk_7102450498 : public Unk_7102357210 {
 public:
-    ~Unk_7102450498() override;
+    ~Unk_7102450498() override { ; }
     bool m2(const ksys::Message& message) override;
     void m3() override;
 

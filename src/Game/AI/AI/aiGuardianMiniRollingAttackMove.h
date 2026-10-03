@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking::ai {
@@ -49,6 +50,7 @@ public:
     // 0x71004238f0 ("バックステップ" start), 0x7100423a1c (partial bones + attack AS), 0x7100423d68 /
     // 0x7100423f0c / 0x7100424080 (states "回転待機" / "回転後退" / "回転待機"), 0x7100424554 /
     // 0x7100424670 / 0x7100424a3c (weapon requests). Placeholder names.
+    void sub_71004219B8();
     void sub_71004238F0();
     void sub_7100423A1C();
     void sub_7100423D68();
@@ -57,6 +59,9 @@ public:
     void sub_7100424554();
     void sub_7100424670();
     void sub_7100424A3C();
+    // 0x7100424f54 (changeChild "回転終了") / 0x7100425040 (changeChild "チャンス").
+    void sub_7100424F54();
+    void sub_7100425040();
 
     // 0x7100421b50: sends the weapon request type 1 (default arguments) to the weapons 0 - 2 of the actor.
     void sub_7100421B50();
@@ -137,7 +142,7 @@ protected:
     /* 0x24c */ f32 _24c = 0.0f;
     /* 0x250 */ Unk_71023f83e8* _250{};
     /* 0x258 */ Unk_7102450498 _258;
-    /* 0x2a8 */ u64 _2a8[4]{};
+    /* 0x2a8 */ Unk_71012419b4 _2a8{};
     /* 0x2c8 */ u8 _2c8 = 0;
     /* 0x2c9 */ u8 _2c9 = 0;
     /* 0x2d0 */ Unk_7102451ba0 _2d0;
