@@ -1,5 +1,7 @@
 #pragma once
 
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -12,10 +14,26 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    // Inline-only in the original (enter_ and calc_ inline the same sequence); the name is a guess.
+    void resetDelay() {
+        _70 = _74 == _78 ? _74 : sead::GlobalRandom::instance()->getS32Range(_74, _78);
+        _7c = false;
+    }
+    // Inline-only in the original; the name is a guess. Returns true when the delay ran out.
+    bool updateDelay() {
+        f32* delay = &_70;
+        if (_7c)
+            ksys::Timer::update(delay, -1.0f);
+        else
+            _7c = true;
+        return *delay < 0;
+    }
+
     // static_param at offset 0x38
     const int* mDemoRetDelayMax_s{};
     // static_param at offset 0x40

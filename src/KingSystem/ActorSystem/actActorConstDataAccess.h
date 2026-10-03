@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -160,6 +161,9 @@ public:
     phys::SystemGroupHandler* x(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
+    // 0x7100d0fd54 (CSV act::acc::Actor::getAabb_0; lane1 s22, declared only): the actor's AABB
+    // (Actor::mAabb if it has a model, else a static default box).
+    const sead::BoundBox3f& sub_7100D0FD54() const;
 
     void setThisActorAsParent(BaseProc* child, bool delete_parent_on_delete);
     void setThisActorAsChild(BaseProc* parent, bool delete_child_on_delete);
