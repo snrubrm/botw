@@ -18,10 +18,24 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenBase, eui::Screen)
 };
 
-class Screen : public ScreenBase {
+// The two interface bases of Screen at 0x108 / 0x110 (vptr only; virtual destructors; unknown, placeholders).
+class ScreenInterface0x108 {
+public:
+    virtual ~ScreenInterface0x108();
+    virtual void i1();
+    virtual void i2();
+};
+class ScreenInterface0x110 {
+public:
+    virtual ~ScreenInterface0x110();
+    virtual void i1();
+};
+
+class Screen : public ScreenBase, public ScreenInterface0x108, public ScreenInterface0x110 {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
+    u8 _118[0x300 - 0x118];
 
     // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot). INCOMPLETE: only the
     // trivial slots that are defined in uiScreenSlots.cpp are declared, so the vtable order is not yet
@@ -80,8 +94,8 @@ public:
     virtual s32 m142();
     virtual void* m143();
 
-    // Placeholder for the real base-class data (the leaf classes' members start at 0x3610).
-    u8 _8[0x3610 - 8];
+    // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
+    u8 _300[0x3610 - 0x300];
 };
 
 // Screen ids: the jump table of ScreenFactory::create (0x7100a81f34), which is also the index into
@@ -244,6 +258,7 @@ public:
 
 class ScreenGameOver : public ScreenEx {
 public:
+    ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
 
     /* 0x3610 */ u8 _3610;
@@ -306,6 +321,7 @@ public:
 
 class ScreenShopHorse : public ScreenEx {
 public:
+    ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
 
     void sub_7100A4EBA0(s32);
@@ -320,6 +336,7 @@ public:
 
 class ScreenReadyGo : public ScreenEx {
 public:
+    ~ScreenReadyGo() override;
     SEAD_RTTI_OVERRIDE(ScreenReadyGo, ScreenEx)
 
     bool sub_7100A40BF8();
@@ -390,6 +407,265 @@ public:
     /* 0x3638 */ s32 _3638;
     u8 _pad_363c[0x3688 - 0x363c];
     /* 0x3688 */ s32 _3688;
+};
+
+// ScreenHardMode: only the trivial virtual slots of the 154-245 block (the per-state callbacks, four
+// slots per state; slot 4 overrides eui::Screen's) are declared. INCOMPLETE (see Screen).
+class ScreenHardMode : public ScreenEx {
+public:
+    SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
+
+    virtual void m156();
+    virtual void m160();
+    virtual void m164();
+    virtual void m168();
+    virtual void m172();
+    virtual void m176();
+    virtual void m180();
+    virtual void m184();
+    virtual void m188();
+    virtual void m192();
+    virtual void m196();
+    virtual void m200();
+    virtual void m204();
+    virtual void m208();
+    virtual void m211();
+    virtual void m212();
+    virtual void m216();
+    virtual void m220();
+    virtual void m224();
+    virtual void m228();
+    virtual void m232();
+    virtual void m235();
+    virtual void m236();
+    virtual void m240();
+    virtual void m242();
+    virtual void m243();
+    virtual void m244();
+    virtual s32 m4();
+    virtual s32 m157();
+    virtual s32 m161();
+    virtual s32 m165();
+    virtual s32 m169();
+    virtual s32 m173();
+    virtual s32 m177();
+    virtual s32 m181();
+    virtual s32 m185();
+    virtual s32 m189();
+    virtual s32 m193();
+    virtual s32 m197();
+    virtual s32 m201();
+    virtual s32 m205();
+    virtual s32 m209();
+    virtual s32 m213();
+    virtual s32 m217();
+    virtual s32 m221();
+    virtual s32 m225();
+    virtual s32 m229();
+    virtual s32 m233();
+    virtual s32 m237();
+    virtual s32 m241();
+    virtual s32 m245();
+};
+
+// Screens without members of their own that are modelled yet: only the (trivial, tail-calling)
+// destructor and the RTTI.
+class ScreenGamePadBG : public ScreenEx {
+public:
+    ~ScreenGamePadBG() override;
+    SEAD_RTTI_OVERRIDE(ScreenGamePadBG, ScreenEx)
+};
+
+class ScreenWolfLinkHeartGauge : public ScreenEx {
+public:
+    ~ScreenWolfLinkHeartGauge() override;
+    SEAD_RTTI_OVERRIDE(ScreenWolfLinkHeartGauge, ScreenEx)
+};
+
+class ScreenMainHorse : public ScreenEx {
+public:
+    ~ScreenMainHorse() override;
+    SEAD_RTTI_OVERRIDE(ScreenMainHorse, ScreenEx)
+};
+
+class ScreenKeyNum : public ScreenEx {
+public:
+    ~ScreenKeyNum() override;
+    SEAD_RTTI_OVERRIDE(ScreenKeyNum, ScreenEx)
+};
+
+class ScreenGameTitle : public ScreenEx {
+public:
+    ~ScreenGameTitle() override;
+    SEAD_RTTI_OVERRIDE(ScreenGameTitle, ScreenEx)
+};
+
+class ScreenDemoName : public ScreenEx {
+public:
+    ~ScreenDemoName() override;
+    SEAD_RTTI_OVERRIDE(ScreenDemoName, ScreenEx)
+};
+
+class ScreenDemoNameEnemy : public ScreenEx {
+public:
+    ~ScreenDemoNameEnemy() override;
+    SEAD_RTTI_OVERRIDE(ScreenDemoNameEnemy, ScreenEx)
+};
+
+class ScreenShopBG : public ScreenEx {
+public:
+    ~ScreenShopBG() override;
+    SEAD_RTTI_OVERRIDE(ScreenShopBG, ScreenEx)
+};
+
+class ScreenShopBtnList5 : public ScreenEx {
+public:
+    ~ScreenShopBtnList5() override;
+    SEAD_RTTI_OVERRIDE(ScreenShopBtnList5, ScreenEx)
+};
+
+class ScreenPauseMenuBG : public ScreenEx {
+public:
+    ~ScreenPauseMenuBG() override;
+    SEAD_RTTI_OVERRIDE(ScreenPauseMenuBG, ScreenEx)
+};
+
+class ScreenSeekPadMenuBG : public ScreenEx {
+public:
+    ~ScreenSeekPadMenuBG() override;
+    SEAD_RTTI_OVERRIDE(ScreenSeekPadMenuBG, ScreenEx)
+};
+
+class ScreenMainScreenMS : public ScreenEx {
+public:
+    ~ScreenMainScreenMS() override;
+    SEAD_RTTI_OVERRIDE(ScreenMainScreenMS, ScreenEx)
+};
+
+class ScreenMainScreenHeartIchigekiDLC : public ScreenEx {
+public:
+    ~ScreenMainScreenHeartIchigekiDLC() override;
+    SEAD_RTTI_OVERRIDE(ScreenMainScreenHeartIchigekiDLC, ScreenEx)
+};
+
+class ScreenAppSystemWindowNoBtn : public ScreenEx {
+public:
+    ~ScreenAppSystemWindowNoBtn() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppSystemWindowNoBtn, ScreenEx)
+};
+
+class ScreenMessageTipsPauseMenu : public ScreenEx {
+public:
+    ~ScreenMessageTipsPauseMenu() override;
+    SEAD_RTTI_OVERRIDE(ScreenMessageTipsPauseMenu, ScreenEx)
+};
+
+class ScreenAmiiboWindow : public ScreenEx {
+public:
+    ~ScreenAmiiboWindow() override;
+    SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
+};
+
+class ScreenSystemWindowNoBtn : public ScreenEx {
+public:
+    ~ScreenSystemWindowNoBtn() override;
+    SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)
+};
+
+class ScreenSystemWindow00 : public ScreenEx {
+public:
+    ~ScreenSystemWindow00() override;
+    SEAD_RTTI_OVERRIDE(ScreenSystemWindow00, ScreenEx)
+};
+
+class ScreenPauseMenuMantan : public ScreenEx {
+public:
+    ~ScreenPauseMenuMantan() override;
+    SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
+};
+
+class ScreenPauseMenuEiketsu : public ScreenEx {
+public:
+    ~ScreenPauseMenuEiketsu() override;
+    SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
+};
+
+class ScreenAppSystemWindow : public ScreenEx {
+public:
+    ~ScreenAppSystemWindow() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
+};
+
+class ScreenHardModeTextDLC : public ScreenEx {
+public:
+    ~ScreenHardModeTextDLC() override;
+    SEAD_RTTI_OVERRIDE(ScreenHardModeTextDLC, ScreenEx)
+};
+
+class ScreenEnd : public ScreenEx {
+public:
+    ~ScreenEnd() override;
+    SEAD_RTTI_OVERRIDE(ScreenEnd, ScreenEx)
+};
+
+class ScreenLastComplete : public ScreenEx {
+public:
+    ~ScreenLastComplete() override;
+    SEAD_RTTI_OVERRIDE(ScreenLastComplete, ScreenEx)
+};
+
+class ScreenOPtext : public ScreenEx {
+public:
+    ~ScreenOPtext() override;
+    SEAD_RTTI_OVERRIDE(ScreenOPtext, ScreenEx)
+};
+
+class ScreenLoadingWeapon : public ScreenEx {
+public:
+    ~ScreenLoadingWeapon() override;
+    SEAD_RTTI_OVERRIDE(ScreenLoadingWeapon, ScreenEx)
+};
+
+class ScreenMainHardMode : public ScreenEx {
+public:
+    ~ScreenMainHardMode() override;
+    SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
+};
+
+class ScreenSkip : public ScreenEx {
+public:
+    ~ScreenSkip() override;
+    SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
+};
+
+class ScreenChangeController : public ScreenEx {
+public:
+    ~ScreenChangeController() override;
+    SEAD_RTTI_OVERRIDE(ScreenChangeController, ScreenEx)
+};
+
+class ScreenDemoStart : public ScreenEx {
+public:
+    ~ScreenDemoStart() override;
+    SEAD_RTTI_OVERRIDE(ScreenDemoStart, ScreenEx)
+};
+
+class ScreenBootUp : public ScreenEx {
+public:
+    ~ScreenBootUp() override;
+    SEAD_RTTI_OVERRIDE(ScreenBootUp, ScreenEx)
+};
+
+class ScreenAppMenuBtn : public ScreenEx {
+public:
+    ~ScreenAppMenuBtn() override;
+    SEAD_RTTI_OVERRIDE(ScreenAppMenuBtn, ScreenEx)
+};
+
+class ScreenHomeMenuCapture : public ScreenEx {
+public:
+    ~ScreenHomeMenuCapture() override;
+    SEAD_RTTI_OVERRIDE(ScreenHomeMenuCapture, ScreenEx)
 };
 
 }  // namespace uking::ui

@@ -10,7 +10,9 @@ target_sources(uking PRIVATE
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
+  uiScreenDtors.cpp
   uiScreenFacade.cpp
+  uiScreenHardMode.cpp
   uiScreenSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
