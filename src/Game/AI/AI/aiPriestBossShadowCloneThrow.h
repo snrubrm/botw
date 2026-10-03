@@ -23,7 +23,7 @@ public:
     virtual void m35();
     virtual bool m36();
     virtual bool m37();
-    virtual void m38(sead::Vector3f* out, bool a2);
+    virtual void m38(sead::Vector3f* out, s32 which);
     virtual void m39();
 
 protected:
@@ -44,7 +44,7 @@ protected:
     ksys::Timer _80;
     s32 _8c = 0;
     u32 _90 = 0;
-    s32 _94[8];
+    sead::SafeArray<s32, 8> _94;
     sead::SafeArray<Unk_7102415df0, 8> _b8;
     Unk_71023b1860 _378{mActor, 0x80000d5};
     Unk_71023b1860 _3b0{mActor, 0x80000d5};

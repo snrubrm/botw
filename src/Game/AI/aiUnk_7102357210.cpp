@@ -494,8 +494,6 @@ bool Unk_7102450978::m2(const ksys::Message& message) {
         _38._8 = payload->_8;
         _38._18 = payload->_18;
         _38._28 = payload->_28;
-        _38._2c = payload->_2c;
-        _38._30 = payload->_30;
         _38._38 = payload->_38;
     }
     _8 = payload->_8;
