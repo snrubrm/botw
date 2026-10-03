@@ -63,6 +63,16 @@ public:
     virtual bool m36();
     virtual bool m37();
     virtual bool m38();
+    // Slots 39-47 (lane1 s22): declared so that KokkoRoot's overrides line up; signatures unknown.
+    virtual void m39();
+    virtual void m40();
+    virtual void m41();
+    virtual void m42();
+    virtual void m43();
+    virtual void m44();
+    virtual void m45();
+    virtual void m46();
+    virtual void m47();
 
 protected:
     void calc_() override;

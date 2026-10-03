@@ -30,6 +30,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m40() override;
+    void m41() override;
+    void m46() override;
+
 protected:
     // static_param at offset 0x208
     const int* mStartSpecialAttackCount_s{};

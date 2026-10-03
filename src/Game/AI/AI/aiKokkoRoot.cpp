@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiKokkoRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -28,6 +30,24 @@ void KokkoRoot::loadParams_() {
     PreyRoot::loadParams_();
     getStaticParam(&mStartSpecialAttackCount_s, "StartSpecialAttackCount");
     getStaticParam(&mAvoidCountActorName_s, "AvoidCountActorName");
+}
+
+void KokkoRoot::m40() {
+    if (!isCurrentChild("怒り"))
+        PreyRoot::m40();
+}
+
+void KokkoRoot::m41() {
+    if (!isCurrentChild("怒り"))
+        PreyRoot::m41();
+}
+
+void KokkoRoot::m46() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(1.0f, "Power", -1);
+    pack.addVec3(mActor->getMtx().getBase(2), "TargetDir", -1);
+    pack.addBool(false, "IsShootByPlayer", -1);
+    changeChild("落下", &pack);
 }
 
 }  // namespace uking::ai
