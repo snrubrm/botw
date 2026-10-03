@@ -12,7 +12,9 @@
 
 namespace gsys {
 
+struct BoneAccessKey;
 class IModelAccesssHandle;
+struct MaterialAccessKey;
 class ModelBone;
 class ModelUnit;
 
@@ -42,10 +44,17 @@ public:
     const sead::Matrix34f& getMatrix() const { return mMatrix; }
     const sead::Vector3f& getScale() const { return _88; }
 
+    void setMatrix(const sead::Matrix34f& matrix) {
+        _a0 |= 1;
+        mMatrix = matrix;
+    }
+
     void setBoneLocalMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix,
                             const sead::Vector3f& scale);
     // 0x7100bf7bb4 (CSV name)
     BoneAccessKey searchBone(const sead::SafeString& name) const;
+    // 0x7100bf82e8 (CSV name; declared only)
+    MaterialAccessKey searchMaterial(const sead::SafeString& name) const;
     // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
     // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
     void x(bool on, int bit);
@@ -63,7 +72,8 @@ private:
     sead::Matrix34f mMatrix = sead::Matrix34f::ident;
     sead::Vector3f _88 = sead::Vector3f::ones;
     sead::Vector3f _94 = sead::Vector3f::ones;
-    bool _a0 = true;
+    /// Flags. Bit 0 is set when the matrix is changed.
+    u8 _a0 = 1;
     bool _a1 = false;
     bool _a2 = true;
     bool _a3 = false;

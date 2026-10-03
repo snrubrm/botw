@@ -359,6 +359,37 @@ void Actor::updateMtxFromPhysics() {
     }
 }
 
+// NON_MATCHING: the main-body fallback tail (mMainBody, else the first rigid body of the physics
+// set) is jump-threaded for the no-physics path; the original keeps one shared test block.
+void Actor::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
+    if (a2) {
+        mMtx = mtx;
+        if (mModel)
+            mModel->setMatrix(mtx);
+    } else {
+        sub_71011C88C0(mtx);
+    }
+
+    auto* physics = mPhysics;
+    auto* controller = physics ? physics->getCharacterController() : nullptr;
+    if (controller) {
+        controller->sub_7100F60500(mtx);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body)
+            body = physics ? physics->sub_7100FBAEDC(0, 0) : nullptr;
+        if (body)
+            body->setTransform(mtx);
+    }
+
+    m42(mtx);
+
+    if (physics && a3) {
+        physics->setFlag2();
+        physics->clothVisibleStuff_0(-2);
+    }
+}
+
 void Actor::m110(f32* a1, s32* a2) {
     *a1 = 0.2f;
     *a2 = 0;

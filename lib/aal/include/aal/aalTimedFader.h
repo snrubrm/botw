@@ -18,6 +18,7 @@ public:
     void moveTo(f32 target, f32 time);
 
     f32 getValue() const { return mValue; }
+    f32 getNextValue() const { return mNextValue; }
     void setCurveType(FadeCurveType curve_type) { mCurveType = curve_type; }
 
 private:

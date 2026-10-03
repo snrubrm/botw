@@ -48,6 +48,8 @@ bool IModelAccesssHandle::search() {
     return searchImpl_();
 }
 
+// NON_MATCHING: the original stores the two key halves separately (bone_index first) ahead of the
+// vtable stores; ours merges them into one store at the end.
 BoneAccessKeyEx::BoneAccessKeyEx() = default;
 
 BoneAccessKeyEx::~BoneAccessKeyEx() {
@@ -55,6 +57,23 @@ BoneAccessKeyEx::~BoneAccessKeyEx() {
 }
 
 void BoneAccessKeyEx::removeImpl_() {
+    mKey.reset();
+}
+
+// NON_MATCHING: same as BoneAccessKeyEx::BoneAccessKeyEx() (the key halves are stored separately,
+// material_index first, ahead of the vtable stores).
+MaterialAccessKeyEx::MaterialAccessKeyEx() = default;
+
+MaterialAccessKeyEx::~MaterialAccessKeyEx() {
+    remove();
+}
+
+bool MaterialAccessKeyEx::searchImpl_() {
+    mKey = mModel->searchMaterial(mName);
+    return mKey.isValid();
+}
+
+void MaterialAccessKeyEx::removeImpl_() {
     mKey.reset();
 }
 
