@@ -119,9 +119,9 @@ bool BokoblinRestraint::sub_71003331A0() {
         mActor->getMtx().getBase(dir, 2);
     }
 
-    if (sub_710072DEF0(sub_71005D960C(mActor), *mLostRange_s, *mLostVMin_s, *mLostVMax_s, pos, dir,
+    if (sub_710072DEF0(sub_71005D960C(mActor), *mParams.mLostRange_s, *mParams.mLostVMin_s, *mParams.mLostVMax_s, pos, dir,
                        sead::Mathf::pi(), std::numeric_limits<f32>::max(), 0.0f)) {
-        timer = ksys::Timer(*mLostTimer_s, *mLostTimer_s);
+        timer = ksys::Timer(*mParams.mLostTimer_s, *mParams.mLostTimer_s);
     } else {
         timer.update();
     }
