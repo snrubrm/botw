@@ -11,19 +11,12 @@ bool LynelBackStepFromTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: stack layout only (the original keeps `pos` at sp+8 and the objects of both branches at the same
-// slots; ours places `pos` in the outer frame)
 void LynelBackStepFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f pos;
-    if (sub_710048CEBC(&pos)) {
-        ksys::act::ai::InlineParamPack pack;
-        pack.addVec3(pos, "TargetPos", -1);
-        changeChild("バックステップ", &pack);
-    } else {
-        ksys::act::ai::InlineParamPack pack;
-        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
-        changeChild("後退不能", &pack);
-    }
+    if (sub_710048CEBC(&pos))
+        changeToEscapeMove(pos);
+    else
+        changeToCannotEscape();
 }
 
 void LynelBackStepFromTarget::calc_() {}

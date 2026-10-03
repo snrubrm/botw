@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -22,6 +23,18 @@ public:
     bool sub_71003C9440(sead::Vector3f* out);
 
 protected:
+    // Inline-only in the original (name guesses; see LynelEscapeFromTarget).
+    void changeToEscapeMove(const sead::Vector3f& pos) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(pos, "TargetPos", -1);
+        changeChild("逃走", &pack);
+    }
+    void changeToCannotEscape() {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("待機", &pack);
+    }
+
     // static_param at offset 0x38
     const float* mEscapeRange_s{};
     // static_param at offset 0x40
