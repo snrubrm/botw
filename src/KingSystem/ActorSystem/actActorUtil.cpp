@@ -1037,6 +1037,10 @@ void sub_7100EEACE8(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityTree);
 }
 
+void sub_7100EEAF28(phys::RayCast* cast) {
+    cast->enableLayer(phys::ContactLayer::EntityWater);
+}
+
 void sub_7100EEAD38(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityGround);
     cast->enableLayer(phys::ContactLayer::EntityGroundRough);

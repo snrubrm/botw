@@ -244,6 +244,9 @@ bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
 /// 0x710072e5f8 / 0x710072e830 / 0x710072ea18: same with the layers of ksys::act::sub_7100EEAE58 /
 /// sub_7100EEAECC / sub_7100EEACE8 and a normal checking mode (ksys::phys::RayCast::
 /// NormalCheckingMode). Placeholder names.
+/// 0x710072e500 (lane1 s23): ray cast on the ground / tree / water layers (sub_7100EEACE8 + sub_7100EEAF28).
+bool sub_710072E500(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
+                    sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask, f32 y_offset);
 bool sub_710072E5F8(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                     ksys::phys::MaterialMask* material_mask, f32 y_offset);

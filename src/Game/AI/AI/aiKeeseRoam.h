@@ -12,8 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100453f6c: picks the next roam point around the central position (false if none is usable).
+    bool sub_7100453F6C(sead::Vector3f* out);
+    // 0x7100454410: tries `tries` times to pick a point and move there.
+    bool sub_7100454410(s32 tries);
 
 protected:
     // static_param at offset 0x38

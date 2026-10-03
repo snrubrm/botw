@@ -139,6 +139,29 @@ bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
     return uking::sub_710090DB04(pos, end, hit_position, nullptr, nullptr);
 }
 
+bool sub_710072E500(const sead::Vector3f& from, const sead::Vector3f& to, sead::Vector3f* hit_pos,
+                    sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    ksys::act::sub_7100EEAF28(&query);
+    query.setStartAndEnd(start, end);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (material_mask)
+        *material_mask = query.getMaterialMask();
+    return true;
+}
+
 bool sub_710072E5F8(const sead::Vector3f& from, const sead::Vector3f& to, int normal_checking_mode,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
                     ksys::phys::MaterialMask* material_mask, f32 y_offset) {

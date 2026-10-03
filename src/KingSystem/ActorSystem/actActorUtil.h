@@ -277,6 +277,8 @@ void sub_7100EEAD38(phys::RayCast* cast);
 void sub_7100EEAD7C(phys::RayCast* cast);
 void sub_7100EEADFC(phys::RayCast* cast);
 void sub_7100EEAE58(phys::RayCast* cast);
+// 0x7100eeaf28 (lane1 s23): enables the EntityWater layer (used by sub_710072E500 after sub_7100EEACE8).
+void sub_7100EEAF28(phys::RayCast* cast);
 void sub_7100EEAECC(phys::RayCast* cast);
 // 0x7100ee686c (CSV name): bool map unit parameter `name`, or `default_value` if it has none.
 bool actorAIGetBool(Actor* actor, const sead::SafeString& name, bool default_value);
