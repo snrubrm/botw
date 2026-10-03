@@ -136,6 +136,10 @@ bool somePositionCalc(sead::Vector3f* hit_position, const sead::Vector3f& pos,
 /// or |sub_7100F74FD8(...)| <= a constant. Placeholder name.
 bool sub_710072E368(ksys::act::Actor* actor);
 
+/// 0x710072e304 (declared only; lane2 s21): whether `pos` is on a navmesh face found within `radius` (queries
+/// HavokAI::sub_7100F87ED0 and the Unk_7100f7e9f0 result; false without a HavokAI instance). Placeholder name.
+bool sub_710072E304(const sead::Vector3f& pos, f32 radius);
+
 /// 0x710072ddb8: whether the direction from the translation of `mtx` to `target` is within `angle`
 /// (radians) of the matrix's forward axis, both projected onto the XZ plane. Placeholder name.
 bool sub_710072DDB8(const sead::Vector3f& target, const sead::Matrix34f& mtx, f32 angle);
