@@ -5,7 +5,11 @@ namespace uking::action {
 SwimEnemyAnmBackBlownOff::SwimEnemyAnmBackBlownOff(const InitArg& arg)
     : SwimEnemyAnmBackBlownOffBase(arg) {}
 
-SwimEnemyAnmBackBlownOff::~SwimEnemyAnmBackBlownOff() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SwimEnemyAnmBackBlownOff::~SwimEnemyAnmBackBlownOff() {
+    ;
+}
 
 bool SwimEnemyAnmBackBlownOff::init_(sead::Heap* heap) {
     return SwimEnemyAnmBackBlownOffBase::init_(heap);

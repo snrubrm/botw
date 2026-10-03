@@ -5,7 +5,11 @@ namespace uking::action {
 PlayerTurnAndLookToObject::PlayerTurnAndLookToObject(const InitArg& arg)
     : PlayerLookAtObject(arg) {}
 
-PlayerTurnAndLookToObject::~PlayerTurnAndLookToObject() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+PlayerTurnAndLookToObject::~PlayerTurnAndLookToObject() {
+    ;
+}
 
 bool PlayerTurnAndLookToObject::init_(sead::Heap* heap) {
     return PlayerLookAtObject::init_(heap);

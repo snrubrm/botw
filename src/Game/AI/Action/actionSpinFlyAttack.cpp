@@ -6,7 +6,11 @@ namespace uking::action {
 
 SpinFlyAttack::SpinFlyAttack(const InitArg& arg) : LinearFlyAttack(arg) {}
 
-SpinFlyAttack::~SpinFlyAttack() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+SpinFlyAttack::~SpinFlyAttack() {
+    ;
+}
 
 bool SpinFlyAttack::init_(sead::Heap* heap) {
     return LinearFlyAttack::init_(heap);

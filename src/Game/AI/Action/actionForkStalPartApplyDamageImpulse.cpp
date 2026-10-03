@@ -4,7 +4,11 @@ namespace uking::action {
 
 ForkStalPartApplyDamageImpulse::ForkStalPartApplyDamageImpulse(const InitArg& arg) : Fork(arg) {}
 
-ForkStalPartApplyDamageImpulse::~ForkStalPartApplyDamageImpulse() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+ForkStalPartApplyDamageImpulse::~ForkStalPartApplyDamageImpulse() {
+    ;
+}
 
 bool ForkStalPartApplyDamageImpulse::init_(sead::Heap* heap) {
     return Fork::init_(heap);

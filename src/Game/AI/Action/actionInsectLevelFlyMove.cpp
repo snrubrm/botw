@@ -4,7 +4,11 @@ namespace uking::action {
 
 InsectLevelFlyMove::InsectLevelFlyMove(const InitArg& arg) : LevelFlyMove(arg) {}
 
-InsectLevelFlyMove::~InsectLevelFlyMove() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+InsectLevelFlyMove::~InsectLevelFlyMove() {
+    ;
+}
 
 bool InsectLevelFlyMove::init_(sead::Heap* heap) {
     return LevelFlyMove::init_(heap);

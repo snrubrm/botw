@@ -6,7 +6,11 @@ namespace uking::action {
 
 TurnAndChargeAndShoot::TurnAndChargeAndShoot(const InitArg& arg) : ChargeAndShoot(arg) {}
 
-TurnAndChargeAndShoot::~TurnAndChargeAndShoot() = default;
+// Empty-statement body as in upstream's GameDataFlagSelector::~GameDataFlagSelector() (96101229):
+// the original keeps the vtable store that a defaulted destructor drops.
+TurnAndChargeAndShoot::~TurnAndChargeAndShoot() {
+    ;
+}
 
 bool TurnAndChargeAndShoot::init_(sead::Heap* heap) {
     return ChargeAndShoot::init_(heap);
