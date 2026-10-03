@@ -30,3 +30,9 @@ void sub_7100713564(ksys::act::Actor* actor, s32 count) {
     sead::FormatFixedSafeString<64> key("%s_AttackedState", name);
     manager->setS32(count < 0 ? 0 : s32(state), key);
 }
+
+namespace wm {
+bool callIsRainingOrSnowingOrThunderStorm(bool a1) {
+    return isRainingOrSnowingOrThunderStorm(a1);
+}
+}  // namespace wm
