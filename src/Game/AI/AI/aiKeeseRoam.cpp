@@ -16,16 +16,18 @@ bool KeeseRoam::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: stack slot of the target vector (the original puts it below the string temporary and the
-// param pack; declaring it first puts it above)
+inline void KeeseRoam::changeToMove(const sead::Vector3f& target) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("移動", &pack);
+}
+
 void KeeseRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     _70 = false;
     _74 = 8;
     sead::Vector3f target;
     if (sub_7100453F6C(&target)) {
-        ksys::act::ai::InlineParamPack pack;
-        pack.addVec3(target, "TargetPos", -1);
-        changeChild("移動", &pack);
+        changeToMove(target);
     } else {
         changeChild("待機");
     }
@@ -79,14 +81,11 @@ bool KeeseRoam::sub_7100453F6C(sead::Vector3f* out) {
     return true;
 }
 
-// NON_MATCHING: stack slot of the target vector (same as enter_)
 bool KeeseRoam::sub_7100454410(s32 tries) {
     for (s32 i = 0; i < tries; ++i) {
         sead::Vector3f target;
         if (sub_7100453F6C(&target)) {
-            ksys::act::ai::InlineParamPack pack;
-            pack.addVec3(target, "TargetPos", -1);
-            changeChild("移動", &pack);
+            changeToMove(target);
             return true;
         }
     }

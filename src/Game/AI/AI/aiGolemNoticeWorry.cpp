@@ -37,12 +37,20 @@ void GolemNoticeWorry::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: stack slot sharing (the original puts the first two isCurrentChild temporaries in
-// the InlineParamPack's slot, ours in the TargetPos string's)
+inline void GolemNoticeWorry::changeToLookAround() {
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("見まわす", &params);
+}
+
 void GolemNoticeWorry::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
-        if (isCurrentChild("回転") || !isCurrentChild("待機")) {
+        if (isCurrentChild("回転")) {
+            changeChild("待機");
+            return;
+        }
+        if (!isCurrentChild("待機")) {
             changeChild("待機");
             return;
         }
@@ -65,9 +73,7 @@ void GolemNoticeWorry::calc_() {
             }
         }
         if (found) {
-            ksys::act::ai::InlineParamPack params;
-            params.addVec3(*mTargetPos_d, "TargetPos", -1);
-            changeChild("見まわす", &params);
+            changeToLookAround();
             return;
         }
         setFinished();

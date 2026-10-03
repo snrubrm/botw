@@ -17,6 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // Inline-only in the original (name guess; evidence: calc_'s isCurrentChild temporaries share the param pack's slot).
+    void changeToLookAround();
+
     // static_param at offset 0x38
     const float* mTurnStartAngle_s{};
     // dynamic_param at offset 0x40

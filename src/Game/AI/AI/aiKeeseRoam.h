@@ -22,6 +22,9 @@ public:
     bool sub_7100454410(s32 tries);
 
 protected:
+    // Inline-only in the original (name guess; evidence: the param pack and name temporary sit above the caller's target).
+    void changeToMove(const sead::Vector3f& target);
+
     // static_param at offset 0x38
     const float* mMinOffsetY_s{};
     // static_param at offset 0x40
