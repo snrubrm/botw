@@ -2,6 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadBoundBox.h>
+#include <math/seadMatrix.h>
+#include <prim/seadSafeString.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -42,6 +44,12 @@ public:
     // 0x71006edfbc / 0x71006ee018: enables / disables the player contact layer of the ragdoll.
     void sub_71006EDFBC();
     void sub_71006EE018();
+    // 0x71006ede54 (declared only): the transform of the ragdoll's root bone `name` (or the one its
+    // controller follows) in world space.
+    void sub_71006EDE54(sead::Matrix34f* out, const sead::SafeString& name);
+    // 0x71006ee1f8 (declared only): feeds the position of the ragdoll bone `name` to the vibration check
+    // embedded at +0x10.
+    void sub_71006EE1F8(const sead::SafeString& name);
     // 0x71006ee15c / 0x71006ee1a4
     bool sub_71006EE15C() const;
     bool sub_71006EE1A4() const;

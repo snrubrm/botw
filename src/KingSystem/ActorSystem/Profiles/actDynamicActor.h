@@ -91,6 +91,8 @@ public:
 
     // 0x71006dd92c: forwards to the object at _868 (a different routine for true / false).
     void sub_71006DD92C(bool enable);
+    // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
+    void sub_71006DD908(sead::Vector3f* out);
 
 public:
     // Members are public: AI and action code read them directly.

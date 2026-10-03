@@ -20,7 +20,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    virtual bool m32();
     virtual void m33();
     virtual bool m34();
     virtual bool m35();
@@ -29,6 +29,17 @@ protected:
     virtual void m38();
     virtual void m39();
     virtual s32 m40();
+
+    // 0x7100226488: the part of enter_ that sets up the animation state and the timers.
+    void sub_7100226488();
+    // 0x7100226a30: the end of the ragdoll motion: plays the stable AS and starts the final timer.
+    void sub_7100226A30();
+    // 0x7100227134: resets the controller and switches it to the hover motion type without gravity.
+    void sub_7100227134();
+    // 0x7100227278: the velocity of the dropped weapons (horizontal speed away from the actor, vertical speed).
+    void sub_7100227278(sead::Vector3f* out);
+    // 0x7100226b04: moves the root bone offset towards the down-back / down-front controller offset.
+    void sub_7100226B04();
 
     // static_param at offset 0x20
     const int* mTime_s{};
@@ -64,11 +75,17 @@ protected:
     const sead::Vector3f* mDownBackCtrlOffset_s{};
     // static_param at offset 0xb8
     const sead::Vector3f* mDownFrontCtrlOffset_s{};
-    sead::Vector3f _c0{0, 0, 0};
-    sead::Vector3f _cc{0, 0, 0};
-    sead::Vector3f _d8{0, 0, 0};
-    u32 _e4 = 0;
-    u32 _e8 = 0;
+    f32 _c0 = 0;
+    f32 _c4 = 0;
+    f32 _c8 = 0;
+    s32 _cc = 0;
+    s32 _d0 = 0;
+    f32 _d4 = 0;
+    s32 _d8 = 0;
+    s32 _dc = 0;
+    f32 _e0 = 0;
+    s32 _e4 = 0;
+    s32 _e8 = 0;
     s32 _ec = -1;
     f32 _f0 = 0;
     f32 _f4 = 1.0f;

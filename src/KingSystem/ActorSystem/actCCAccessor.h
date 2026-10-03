@@ -31,7 +31,13 @@ public:
 
 private:
     MotionType mMotionType{};
+
+public:
+    // Which controller flags sub_710072AE20 saves / sub_710072AEEC restores (Ragdoll::enter_ sets it
+    // directly).
     sead::BitFlag8 _4;
+
+private:
     sead::BitFlag8 _5;
 };
 

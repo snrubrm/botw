@@ -25,6 +25,9 @@ public:
     void sub_7100F5EC30();
     void sub_7100F5EC44();
     void sub_7100F60604();
+    // 0x7100f60ae0 (declared only): resets the controller's velocity / movement state (reads sead::Vector3f
+    // statics and the Havok world gravity).
+    void sub_7100F60AE0();
     void enableContactLayer(ContactLayer);
     void disableContactLayer(ContactLayer);
     void sub_7100F605F0();
@@ -85,6 +88,10 @@ public:
     void sub_7100F5F6E0(sead::Vector3f* position) const;
     void sub_7100F5F6FC(const sead::Vector3f& velocity);
     void sub_7100F5FB24(const sead::Vector3f& angular_velocity);
+    // 0x7100f5fbc8 (declared only): RigidBody::computeVelocities of the controller's body (or of _298 when
+    // flag 0x11a bit 0 is set): the linear and angular velocity that bring it to `target`.
+    void sub_7100F5FBC8(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
+                        const sead::Matrix34f& target);
     void sub_7100F60500(const sead::Matrix34f& mtx);
     // 0x7100f5e954: mRigidBody->isAddedToWorld().
     bool sub_7100F5E954() const;

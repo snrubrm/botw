@@ -90,6 +90,9 @@ public:
 
     void playAS(const char* name, bool repeat, u32 slot, u32 seq_bank, f32 t);
     bool isFinishedAS(u32 slot, u32 seq_bank) const;
+    // 0x71011c24dc (declaration only; CSV name AI_ActionBase::x, only caller Ragdoll::sub_7100226A30):
+    // calls an ASList method of the actor's AS list (if any) with the slot / bank and a null callback.
+    void sub_71011C24DC(u32 slot, u32 seq_bank);
 
     virtual bool isFailed() const { return mFlags.isOn(Flag::Failed); }
     virtual bool isFinished() const { return mFlags.isOn(Flag::Finished); }
