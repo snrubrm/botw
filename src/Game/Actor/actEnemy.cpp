@@ -165,6 +165,10 @@ Enemy::IsSpecialJobTypeResult Enemy::isSpecialJobType_(ksys::act::JobType type) 
     return result;
 }
 
+void* Enemy::m119() {
+    return _12d8;
+}
+
 void Enemy::m117(ksys::act::Unk117* arg) {
     if (auto* rideable = getHorseOptionsMaybe()) {
         if (!rideable->sub_7100E8B780(arg))

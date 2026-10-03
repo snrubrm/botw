@@ -63,7 +63,7 @@ public:
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
     /* 117 */ void m117(Unk117* arg) override;
-    /* 119 */ void m119() override;
+    /* 119 */ void* m119() override;
     /* 129 */ PlayerLink* m129() override;
     /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;
     /* 145 */ void m145() override {}
@@ -272,6 +272,16 @@ public:
     void sub_7100856A7C();             // 0x7100856a7c (declared only)
     // 0x710086fab0 (CSV nullsub_2601): empty.
     void nullsub_2601();
+    // Targets of the slot thunks m256 / m257 / m268 / m270 / m287 / m295 / m296 / m298 (declared only;
+    // placeholder names).
+    bool x_32();  // 0x88c1ec
+    bool sub_7100881EDC();
+    bool isASItemBombReadyOrStart();
+    bool sub_710088873C();
+    bool sub_71008921A8();
+    bool sub_7100892724();
+    bool sub_7100892824();
+    bool sub_71008923B0(int a1);
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
     // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by

@@ -59,7 +59,7 @@ public:
     void m112(f32* a1, s32* a2) override;
     void m113(f32* a1, s32* a2) override;
     void m117(ksys::act::Unk117* arg) override;
-    void m119() override;
+    void* m119() override;
     void m145() override;
     bool m146() override;
     bool weaponDroppedByEnemy() override;

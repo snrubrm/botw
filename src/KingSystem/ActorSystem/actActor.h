@@ -494,7 +494,7 @@ public:
     virtual void m116();
     virtual void m117(Unk117* arg);
     virtual void m118(bool on);
-    virtual void m119();
+    virtual void* m119();
     // Starts the animation `name` in the AS list (-1 / -1 blend, not looping); always false.
     virtual bool m120(const char* name);
     virtual bool m121();

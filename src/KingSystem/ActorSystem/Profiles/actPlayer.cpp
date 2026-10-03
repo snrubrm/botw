@@ -498,4 +498,66 @@ bool Player::isGuardJust() {
     return isDarukProtectionEnabled();
 }
 
+bool Player::m374() {
+    auto* life = getLife();
+    return life && *life < 1;
+}
+
+bool Player::m328() {
+    if (auto* chemical = getChemicalStuff()) {
+        if ((chemical->_bc & 0x30) == 0x10)
+            return true;
+    }
+    return false;
+}
+
+bool Player::m376() {
+    if (auto* chemical = getChemicalStuff()) {
+        if (chemical->_b8 & 4)
+            return true;
+    }
+    return false;
+}
+
+void* Player::m119() {
+    return _1b90;
+}
+
+bool Player::m256() {
+    return x_32() || isASItemBombReadyOrStart();
+}
+
+bool Player::m257() {
+    return x_32();
+}
+
+bool Player::m268() {
+    return sub_71008921A8();
+}
+
+bool Player::m270() {
+    return sub_7100881EDC();
+}
+
+bool Player::m287() {
+    return sub_710088873C();
+}
+
+bool Player::m295() {
+    return sub_7100892724();
+}
+
+bool Player::m296() {
+    return sub_7100892824();
+}
+
+bool Player::m298(int a1) {
+    return sub_71008923B0(a1);
+}
+
+void Player::sub_710085ECF4() {
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F5EECC(60.0f);
+}
+
 }  // namespace ksys::act

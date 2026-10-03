@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -899,6 +900,21 @@ void Actor::sub_71011D0228(u32 flags) {
         mStasisFlags.reset(StasisFlag(flags));
         mActorFlags2.set(ActorFlag2::_400000);
     }
+}
+
+// NON_MATCHING: register allocation of the two candidate values of the xlink flag word
+void Actor::setModelDrawEnabled(bool enabled) {
+    mActorFlags2.change(ActorFlag2::_20, enabled);
+    if (mXLink) {
+        if (enabled)
+            mXLink->_cc.reset(0x80000);
+        else
+            mXLink->_cc.set(0x80000);
+    }
+}
+
+void* Actor::m119() {
+    return nullptr;
 }
 
 }  // namespace ksys::act

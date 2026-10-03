@@ -236,7 +236,7 @@ public:
     Unk_7100d3cd74* m101() override;
     void m114() override;
     void m117(ksys::act::Unk117* arg) override;
-    void m119() override;
+    void* m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;

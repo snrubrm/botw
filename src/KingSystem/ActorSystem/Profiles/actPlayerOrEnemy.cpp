@@ -18,6 +18,11 @@ const char* PlayerOrEnemy::getEquippedItem() {
     return nullptr;
 }
 
+void PlayerOrEnemy::m149(int index) {
+    if (auto* a = m159())
+        a->m13(index);
+}
+
 bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }

@@ -65,7 +65,7 @@ public:
     Unk_7100d3cd74* m101() override;
     void m114() override;
     void m117(ksys::act::Unk117* arg) override;
-    void m119() override;
+    void* m119() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     ksys::act::Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;

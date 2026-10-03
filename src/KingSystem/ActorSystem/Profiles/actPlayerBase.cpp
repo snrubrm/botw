@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnk_710246d058.h"
@@ -47,6 +48,12 @@ bool PlayerBase::runeMgrCheckIsCameraSelected() {
 void PlayerBase::m92(phys::RigidBody* body) {
     sead::Vector3f position;
     body->getPosition(&position);
+}
+
+f32 PlayerBase::m317() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->_19c;
+    return 0.0f;
 }
 
 bool PlayerBase::sub_710084A6B8() {

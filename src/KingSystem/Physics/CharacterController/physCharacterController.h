@@ -118,6 +118,8 @@ public:
     void sub_7100F5FBC8(sead::Vector3f* linear_velocity, sead::Vector3f* angular_velocity,
                         const sead::Matrix34f& target);
     void sub_7100F60500(const sead::Matrix34f& mtx);
+    // 0x7100f5eecc (declared only)
+    void sub_7100F5EECC(f32 value);
     // 0x7100f5e954: mRigidBody->isAddedToWorld().
     bool sub_7100F5E954() const;
     RigidBody* sub_7100F61A34() const;
