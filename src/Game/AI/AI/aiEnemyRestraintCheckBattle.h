@@ -17,6 +17,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003b1988 (placeholder name; declared only)
+    bool sub_71003B1988();
+    // 0x71003b2030 (placeholder name; declared only)
+    bool sub_71003B2030();
+
 protected:
     // static_param at offset 0x38
     const int* mCheckInterval_s{};
