@@ -9,6 +9,17 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::phys {
+class Constraint;
+}
+
+namespace sead {
+class Heap;
+}
+
+// 0x7100f6d358 (declared only; placeholder name): creates a physics constraint on `heap` (nullptr on failure).
+ksys::phys::Constraint* sub_7100F6D358(sead::Heap* heap);
+
 // Unnamed carried-actor helper objects embedded in the AddCarriedBase family. Layouts come from the
 // constructors (the classes have ~30 virtual / helper functions that are not decompiled).
 
@@ -35,7 +46,10 @@ public:
     explicit Unk_7102450298(ksys::act::Actor* actor);
     ~Unk_7102450298() override;
 
-    void* _30 = nullptr;
+    // 0x7100f6d358 + store; false when the constraint could not be created.
+    bool init(sead::Heap* heap);
+
+    ksys::phys::Constraint* _30 = nullptr;
     f32 _38 = 1.0f;
     f32 _3c = 1.0f;
     f32 _40 = 1.0f;

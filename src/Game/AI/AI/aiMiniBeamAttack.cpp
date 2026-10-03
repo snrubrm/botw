@@ -19,6 +19,10 @@ void MiniBeamAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void MiniBeamAttack::leave_() {
     BreathAttackEnemyBattle::leave_();
+    if (*mIsValidGuide_s)
+        _100.sub_71006F2D08();
+    _230.fadeXLink();
+    sub_71005DA114(mActor, &_1f8);
 }
 
 void MiniBeamAttack::loadParams_() {

@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyHorseRide.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -22,6 +23,12 @@ void EnemyHorseRide::loadParams_() {
     NonPlayerHorseRide::loadParams_();
     getStaticParam(&mUpperBodyASSlot_s, "UpperBodyASSlot");
     getStaticParam(&mLowerBodyASSlot_s, "LowerBodyASSlot");
+}
+
+void EnemyHorseRide::m34() {
+    if (mActor->isDelete())
+        return;
+    NonPlayerHorseRide::m34();
 }
 
 }  // namespace uking::ai

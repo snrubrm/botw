@@ -67,4 +67,10 @@ void OctarockBattle::loadParams_() {
     getStaticParam(&mVacuumPartsKey_s, "VacuumPartsKey");
 }
 
+bool OctarockBattle::m44() {
+    if (*mIsHideMode_s)
+        return true;
+    return ShootingEnemyBattle::m44();
+}
+
 }  // namespace uking::ai

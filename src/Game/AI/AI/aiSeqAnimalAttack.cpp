@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiSeqAnimalAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007398C0.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,10 @@ void SeqAnimalAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SeqAnimalAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    _54 = false;
+    sub_71005DB3EC(mActor);
+    if (auto* control = sub_71007398C0(mActor))
+        control->_90[3] = control->_90[2];
 }
 
 void SeqAnimalAttack::loadParams_() {

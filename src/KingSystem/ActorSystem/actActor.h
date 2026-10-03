@@ -356,6 +356,9 @@ public:
     bool deleteEx(DeleteType type, DeleteReason reason, bool* ok = nullptr);
     // 0x71011c9814 (CSV Actor::deleteAndEmit): deleteLater + emitSignalsOrDisappearEffectForDelete
     bool deleteAndEmit(s32 type);
+    // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
+    // disables them, re-enabling them again when the schedule (_638) reports a flag.
+    void x_6();
 
     // vel, ang_vel and scale are optional (null-checked by the original).
     void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f* vel,

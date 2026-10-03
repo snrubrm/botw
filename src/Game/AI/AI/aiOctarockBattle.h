@@ -16,6 +16,7 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool m44() override;
 
 protected:
     // static_param at offset 0xc8

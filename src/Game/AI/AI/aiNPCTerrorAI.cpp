@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 
 namespace uking::ai {
 
@@ -54,7 +55,9 @@ void NPCTerrorAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTerrorAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->x_6();
+    if (auto* schedule = mActor->getSchedule())
+        schedule->_124 = false;
 }
 
 void NPCTerrorAI::loadParams_() {

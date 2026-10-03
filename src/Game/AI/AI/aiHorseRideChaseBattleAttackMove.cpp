@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiHorseRideChaseBattleAttackMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710073D318.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -53,6 +54,18 @@ void HorseRideChaseBattleAttackMove::m35() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D93CC(mActor), "TargetPos", -1);
     changeChild("攻撃", &pack);
+}
+
+void HorseRideChaseBattleAttackMove::m34(int gear) {
+    auto* rider = sub_710073D318(mActor);
+    if (!rider)
+        return;
+    if (gear) {
+        _90._18 = gear;
+        _90.sub_710070DC38(rider, true);
+    } else {
+        _b0.sub_710070DC38(rider, true);
+    }
 }
 
 }  // namespace uking::ai

@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/AI/aiActorLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -19,7 +22,11 @@ protected:
     // static_param at offset 0x38
     const float* mAliveTime_s{};
     // aitree_variable at offset 0x40
-    void* mAttackTargetActorLink_a{};
+    Unk_7102370e70** mAttackTargetActorLink_a{};
+    Unk_7102370e70 _48;
+    ksys::Timer _60{};
+    f32 _6c = 0;
 };
+KSYS_CHECK_SIZE_NX150(SimpleKokkoRoot, 0x70);
 
 }  // namespace uking::ai

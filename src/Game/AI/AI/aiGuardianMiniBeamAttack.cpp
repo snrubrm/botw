@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiGuardianMiniBeamAttack.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 
 namespace uking::ai {
 
@@ -45,6 +49,43 @@ void GuardianMiniBeamAttack::loadParams_() {
     getStaticParam(&mIsChangeable_s, "IsChangeable");
     getStaticParam(&mIsFinalBattle_s, "IsFinalBattle");
     getStaticParam(&mInDirAngle_s, "InDirAngle");
+}
+
+// NON_MATCHING: the original tail-calls sub_71005D960C, so that function returns a pointer; our reference
+// declaration (shared with ~12 users) makes clang keep a frame (return attribute mismatch, see MiniBeamAttack::m35)
+const sead::Vector3f* GuardianMiniBeamAttack::m35() {
+    if (*mIsFinalBattle_s)
+        return &sub_71005D960C(mActor);
+    return &_2b8;
+}
+
+// NON_MATCHING: same loads and offsets; clang selects the two parameter addresses (csel) where the original
+// branches to two separate returns
+const sead::SafeString& GuardianMiniBeamAttack::m36() {
+    if (!mBreathName_s.isEmpty())
+        return mBreathName_s;
+    auto* params = mActor->getParam()->getRes().mGParamList;
+    if (!params)
+        return sead::SafeString::cEmptyString;
+    auto* mini = params->getGuardianMini();
+    if (!mini)
+        return sead::SafeString::cEmptyString;
+    if (*mIsFinalBattle_s)
+        return mini->mFinalBeamName.ref();
+    return mini->mBeamName.ref();
+}
+
+bool GuardianMiniBeamAttack::m38() {
+    if (*mAttackInterval_s < 0)
+        return BreathAttackEnemyBattle::m38();
+    return _2c4.value <= sead::Mathf::epsilon();
+}
+
+bool GuardianMiniBeamAttack::m46(sead::Vector3f* out) {
+    if (!out)
+        return false;
+    *out = sub_71005D9330(mActor);
+    return true;
 }
 
 }  // namespace uking::ai

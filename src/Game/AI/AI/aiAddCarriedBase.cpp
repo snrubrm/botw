@@ -9,7 +9,11 @@ AddCarriedBase::AddCarriedBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 AddCarriedBase::~AddCarriedBase() = default;
 
 bool AddCarriedBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (*mIsUseConstraint_s) {
+        if (!_68.init(heap))
+            return false;
+    }
+    return true;
 }
 
 void AddCarriedBase::enter_(ksys::act::ai::InlineParamPack* params) {

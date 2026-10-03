@@ -19,6 +19,10 @@ public:
     void loadParams_() override;
 
     bool isChangeable() const override;
+    const sead::Vector3f* m35() override;
+    const sead::SafeString& m36() override;
+    bool m38() override;
+    virtual bool m46(sead::Vector3f* out);
 
 protected:
     // static_param at offset 0x250
