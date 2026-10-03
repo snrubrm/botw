@@ -17,6 +17,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    ksys::act::ModelBindInfo* m35() override { return &_c0; }
+    void m36() override;
+    void m37(const sead::Matrix34f& mtx) override { _c0._68 = mtx; }
+
 protected:
     ksys::act::ModelBindInfo _c0;
 };

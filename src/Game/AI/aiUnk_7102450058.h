@@ -9,6 +9,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys::phys {
+class Constraint;
+}
+
 // Unnamed carried-actor helper objects embedded in the AddCarriedBase family. Layouts come from the
 // constructors (the classes have ~30 virtual / helper functions that are not decompiled).
 
@@ -35,7 +39,11 @@ public:
     explicit Unk_7102450298(ksys::act::Actor* actor);
     ~Unk_7102450298() override;
 
-    void* _30 = nullptr;
+    /// 0x71006f8ab4 (lane1 s22, name is a placeholder): true without a constraint, else whether the
+    /// constraint's low flag byte has bit 0 clear.
+    bool sub_71006F8AB4() const;
+
+    ksys::phys::Constraint* _30 = nullptr;
     f32 _38 = 1.0f;
     f32 _3c = 1.0f;
     f32 _40 = 1.0f;
@@ -55,8 +63,8 @@ public:
 
     bool m4(ksys::act::BaseProc* proc) override;
 
-    /* 0x28 */ void* _28 = nullptr;
-    /* 0x30 */ void* _30 = nullptr;
+    /* 0x28 */ const char* _28 = nullptr;  // name of the carried actor's node
+    /* 0x30 */ const char* _30 = nullptr;  // own node name
     /* 0x38 */ s64 _38 = -1;
     /* 0x40 */ sead::Matrix34f _40 = sead::Matrix34f::ident;
     /* 0x70 */ u32 _70 = 0;

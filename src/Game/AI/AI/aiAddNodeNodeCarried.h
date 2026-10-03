@@ -17,6 +17,11 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    Unk_710244ed58* m35() override { return &_c0; }
+    void m36() override;
+    void m37(const sead::Matrix34f& mtx) override;
+    bool m38() override { return false; }
+
 protected:
     Unk_710244ed58 _c0;
     // static_param at offset 0x138

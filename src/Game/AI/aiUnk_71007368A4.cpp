@@ -10,6 +10,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Utils/StringUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 bool sub_71007368A4(ksys::act::BaseProcLink* link) {
     ksys::act::ActorConstDataAccess accessor;
@@ -68,6 +69,31 @@ bool sub_7100736D98(ksys::act::Actor* actor) {
     if (!dmg)
         return false;
     return dmg->getField54() == 2 || dmg->getField54() == 1 || dmg->getField54() == 5;
+}
+
+bool sub_7100739438(ksys::act::Actor* actor, sead::Vector3f* out) {
+    if (!out)
+        return false;
+    sead::Matrix34f mtx;
+    const bool ok = sub_7100739498(actor, &mtx);
+    out->set(mtx(0, 3), mtx(1, 3), mtx(2, 3));
+    return ok;
+}
+
+bool sub_7100739498(ksys::act::Actor* actor, sead::Matrix34f* out) {
+    if (!actor || !out)
+        return false;
+    auto* body = actor->getPhysicsMainBody();
+    if (!body)
+        return false;
+    body->getTransform(out);
+    return true;
+}
+
+ksys::phys::RigidBody* sub_71007394DC(ksys::act::Actor* actor) {
+    if (!actor)
+        return nullptr;
+    return actor->getPhysicsMainBody();
 }
 
 ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor) {

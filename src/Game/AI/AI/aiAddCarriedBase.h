@@ -11,6 +11,7 @@ public:
     explicit AddCarriedBase(const InitArg& arg);
     ~AddCarriedBase() override;
 
+    bool updateForPreDelete() override;
     bool hasUpdateForPreDeleteCb() override;
 
     bool init_(sead::Heap* heap) override;
@@ -18,6 +19,14 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x71002f786c: whether the actor is further than FailDistance from its main body's position.
+    virtual bool m34();
+    virtual ksys::act::ActorBind* m35() = 0;
+    virtual void m36() = 0;
+    virtual void m37(const sead::Matrix34f& mtx) = 0;
+    // inline in the header (CSV AddCarriedBase::m38, emitted in AddCarried's TU)
+    virtual bool m38() { return true; }
 
 protected:
     // static_param at offset 0x38
