@@ -45,12 +45,15 @@ bool ItemOnTree::handleMessage_(const ksys::Message& message) {
     return false;
 }
 
-// NON_MATCHING: the original keeps two separate m36() tail calls (ours shares one block)
 void ItemOnTree::m34() {
-    if (mActor->getMapObject() && *mInitMotionStatus_m != 1)
-        m35();
-    else
+    if (mActor->getMapObject()) {
+        if (*mInitMotionStatus_m != 1)
+            m35();
+        else
+            m36();
+    } else {
         m36();
+    }
 }
 
 void ItemOnTree::m35() {

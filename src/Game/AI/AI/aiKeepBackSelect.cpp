@@ -7,10 +7,12 @@ KeepBackSelect::KeepBackSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 KeepBackSelect::~KeepBackSelect() = default;
 
-// NON_MATCHING: regalloc (this+0x70 computed into x8 before the name argument)
 bool KeepBackSelect::init_(sead::Heap* heap) {
-    if (!mNodeName_s.isEmpty())
-        _70.search(mActor->getModel(), mNodeName_s);
+    if (!mNodeName_s.isEmpty()) {
+        auto* model = mActor->getModel();
+        const sead::SafeString& name = mNodeName_s;
+        _70.search(model, name);
+    }
     return true;
 }
 

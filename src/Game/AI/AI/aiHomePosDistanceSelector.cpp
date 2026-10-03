@@ -24,14 +24,12 @@ bool HomePosDistanceSelector::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: load order of the actor position vs home position components
 void HomePosDistanceSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     sead::Vector3f home_pos;
     actor->getHomePos(&home_pos);
-    const f32 dx = home_pos.x - actor->getMtx().m[0][3];
-    const f32 dz = home_pos.z - actor->getMtx().m[2][3];
-    if (sead::Mathf::sqrt(dx * dx + dz * dz) < *mBoundaryDistance_s)
+    const sead::Vector3f diff = home_pos - actor->getMtx().getTranslation();
+    if (sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z) < *mBoundaryDistance_s)
         changeChild("レンジ内", params);
     else
         changeChild("レンジ外", params);

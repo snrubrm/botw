@@ -73,12 +73,11 @@ void EnemyDefaultReaction::m44() {
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
 }
 
-// NON_MATCHING: the original loads the two params before the GlobalRandom instance (same as
-// BokoblinArrowBattle::enter_)
 void EnemyDefaultReaction::sub_710038782C(ksys::act::ai::InlineParamPack* params) {
     if (_58 <= 0) {
-        _58 = sead::GlobalRandom::instance()->getS32Range(*mJustGuardTimesMin_s,
-                                                          *mJustGuardTimesMax_s + 1);
+        const s32 min = *mJustGuardTimesMin_s;
+        const s32 max = *mJustGuardTimesMax_s;
+        _58 = sead::GlobalRandom::instance()->getS32Range(min, max + 1);
     }
 
     auto* damage_mgr = sub_710072BA90(mActor);

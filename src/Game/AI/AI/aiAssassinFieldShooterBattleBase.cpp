@@ -21,12 +21,11 @@ bool AssassinFieldShooterBattleBase::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original loads *mIntervalIntensity_s before forming &enemy->_f28 (see lane1 log)
 void AssassinFieldShooterBattleBase::enter_(ksys::act::ai::InlineParamPack* params) {
     if (!testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) &&
         !testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) && mActor) {
-        const s32 time =
-            static_cast<act::Enemy*>(mActor)->_f28.sub_7100001AA4(*mIntervalIntensity_s);
+        const f32 intensity = *mIntervalIntensity_s;
+        const s32 time = static_cast<act::Enemy*>(mActor)->_f28.sub_7100001AA4(intensity);
         if (time >= 0) {
             if (auto* enemy = static_cast<act::Enemy*>(mActor))
                 enemy->_e68 = ksys::Timer(time, time);
