@@ -14,6 +14,12 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710037b08c (placeholder name)
+    void sub_710037B08C(f32 ang_vel, f32 ang_accel);
+    // 0x710037ae80 (placeholder name)
+    void sub_710037AE80(f32 ang_vel, f32 ang_accel);
+    // 0x710037af84 (placeholder name)
+    void sub_710037AF84(f32 ang_vel, f32 ang_accel);
 
 protected:
     // static_param at offset 0x38

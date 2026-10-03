@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyWaitViewItem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
@@ -55,5 +57,49 @@ void EnemyWaitViewItem::m34() {}
 void EnemyWaitViewItem::m35() {}
 
 void EnemyWaitViewItem::m36() {}
+
+void EnemyWaitViewItem::sub_71003C3CB8() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("団欒", &pack);
+}
+
+void EnemyWaitViewItem::sub_71003C3DC4() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("しょんぼり", &pack);
+}
+
+void EnemyWaitViewItem::sub_71003C3ED0() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("注視", &pack);
+}
+
+void EnemyWaitViewItem::sub_71003C3FDC() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    sead::Vector3f pos;
+    accessor.getActorMtx().getTranslation(pos);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("囃し立てる", &pack);
+}
 
 }  // namespace uking::ai

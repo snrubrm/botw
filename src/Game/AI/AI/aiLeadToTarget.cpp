@@ -50,4 +50,12 @@ void LeadToTarget::sub_710047FE18() {
     }
 }
 
+void LeadToTarget::sub_7100480428() {
+    if (!isCurrentChild("待機")) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addActor(*mLeaderActor_d, "LeaderActor", -1);
+        changeChild("待機", &pack);
+    }
+}
+
 }  // namespace uking::ai

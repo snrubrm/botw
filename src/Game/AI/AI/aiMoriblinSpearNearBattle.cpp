@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMoriblinSpearNearBattle.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -45,6 +46,14 @@ void MoriblinSpearNearBattle::loadParams_() {
     getStaticParam(&mNearDist_s, "NearDist");
     getStaticParam(&mWeaponIdx_s, "WeaponIdx");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void MoriblinSpearNearBattle::sub_71004ABC20() {
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    pack.addInt(100, "AttackPer", -1);
+    changeChild("バックステップ", &pack);
 }
 
 }  // namespace uking::ai

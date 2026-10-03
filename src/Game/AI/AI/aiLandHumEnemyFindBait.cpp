@@ -63,4 +63,15 @@ void LandHumEnemyFindBait::loadParams_() {
     getStaticParam(&mIsValidForceNeck_s, "IsValidForceNeck");
 }
 
+void LandHumEnemyFindBait::sub_710045F29C() {
+    s32 value = _b4;
+    if (_b8 != _b4)
+        value = sead::GlobalRandom::instance()->getS32Range(_b4, _b8);
+    _b0 = value;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_58, "TargetPos", -1);
+    changeChild("怒り", &pack);
+}
+
 }  // namespace uking::ai

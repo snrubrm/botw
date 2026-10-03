@@ -20,6 +20,8 @@ public:
 
     // 0x710045ed68: starts the "気づき" child towards the bait (TargetPos = its position, or zero).
     void sub_710045ED68();
+    // 0x710045f29c (placeholder name)
+    void sub_710045F29C();
 
 protected:
     // static_param at offset 0x68
