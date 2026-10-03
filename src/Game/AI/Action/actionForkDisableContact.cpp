@@ -21,7 +21,7 @@ void ForkDisableContact::leave_() {
 
 // NON_MATCHING: regalloc only (the original computes &mRigidBodyName_s[0] before the first getStaticParam call)
 void ForkDisableContact::loadParams_() {
-    getStaticParam(&mRecoverDelayTimeMin_s, "RecoverDelayTimeMin");
+    getStaticParam(&mParams.mRecoverDelayTimeMin_s, "RecoverDelayTimeMin");
     sead::FixedSafeString<64> key;
     for (u32 i = 0; i < 5; i++) {
         (sead::StringCutOffPrintFormatter(&key) << "RigidBodyName%d", i) << sead::flush;

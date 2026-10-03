@@ -24,8 +24,11 @@ protected:
 
     // static_params at offset 0x20 (RigidBodyName0-4)
     sead::SafeString mRigidBodyName_s[5];
-    // static_param at offset 0x70
-    const int* mRecoverDelayTimeMin_s{};
+    struct Params {
+        // static_param at offset 0x70
+        const int* mRecoverDelayTimeMin_s{};
+    };
+    Params mParams;
 
     // Rigid bodies looked up by name in init_ (RigidBodyName0-4)
     struct Body {
