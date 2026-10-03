@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m37() override;
     void m40(ksys::act::ai::InlineParamPack* params) override;
     void m41(ksys::act::ai::InlineParamPack* params) override { m40(params); }
     void m43(ksys::act::ai::InlineParamPack* params) override { changeChild("ふっとび", params); }

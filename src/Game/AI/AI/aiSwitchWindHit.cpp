@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiSwitchWindHit.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -35,6 +37,16 @@ bool SwitchWindHit::handleMessage_(const ksys::Message& message) {
         return true;
     }
     return false;
+}
+
+void SwitchWindHit::calc_() {
+    _44 = false;
+    _45 = false;
+    auto* actor = mActor;
+    _44 = ksys::VFR::chase(&_40, *mWaitTime_s);
+    if (auto* chemical = actor->getChemicalStuff())
+        _45 = chemical->_bc >> 13 & 1;
+    SwitchAI::calc_();
 }
 
 bool SwitchWindHit::m35() {

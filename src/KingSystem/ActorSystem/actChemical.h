@@ -84,8 +84,7 @@ public:
     /* 0x0b4 */ u8 _b4[0xb8 - 0xb4];
     /* 0x0b8 */ u8 _b8 = 0;  // flags
     /* 0x0b9 */ u8 _b9[0xbc - 0xb9]{};
-    /* 0x0bc */ u8 _bc = 0;
-    /* 0x0bd */ u8 _bd = 0;
+    /* 0x0bc */ u16 _bc = 0;  // flags (bit 3: Actor::m50, bit 13: SwitchWindHit::calc_)
     /* 0x0be */ u8 _be = 0;  // flags
     /* 0x0bf */ u8 _bf = 0;  // flags
     /* 0x0c0 */ u8 _c0 = 0;  // state (ActorConstDataAccess::sub_7100D131D0; callers test 1 / 2)

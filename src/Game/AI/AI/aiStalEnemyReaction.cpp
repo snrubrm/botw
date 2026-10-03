@@ -30,6 +30,20 @@ void StalEnemyReaction::loadParams_() {
     EnemyDefaultReaction::loadParams_();
 }
 
+// NON_MATCHING: the original keeps the first isCurrentChild result in a (dead) register and folds
+// `!isFinished && !isFailed` into a value before the life test; same control flow
+bool StalEnemyReaction::m37() {
+    if (isCurrentChild("ふっとび") || isCurrentChild("突風")) {
+        auto* child = getCurrentChild();
+        if (!child->isFinished() && !child->isFailed()) {
+            auto* life = mActor->getLife();
+            if (life && *life < 1)
+                return true;
+        }
+    }
+    return EnemyDefaultReaction::m37();
+}
+
 void StalEnemyReaction::m40(ksys::act::ai::InlineParamPack* params) {
     sub_71005D7014(mActor);
     changeChild("ふっとび", params);
