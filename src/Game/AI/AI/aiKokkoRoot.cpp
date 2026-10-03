@@ -30,4 +30,14 @@ void KokkoRoot::loadParams_() {
     getStaticParam(&mAvoidCountActorName_s, "AvoidCountActorName");
 }
 
+void KokkoRoot::m40() {
+    if (!isCurrentChild("怒り"))
+        PreyRoot::m40();
+}
+
+void KokkoRoot::m41() {
+    if (!isCurrentChild("怒り"))
+        PreyRoot::m41();
+}
+
 }  // namespace uking::ai

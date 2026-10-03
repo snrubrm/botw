@@ -20,4 +20,11 @@ void EquipShieldEnemySearchWeapon::loadParams_() {
     UnarmedEnemySearchWeapon::loadParams_();
 }
 
+void EquipShieldEnemySearchWeapon::m44() {
+    if (isCurrentChild("盾捨て"))
+        UnarmedEnemySearchWeapon::m44();
+    else
+        changeChild("盾捨て");
+}
+
 }  // namespace uking::ai

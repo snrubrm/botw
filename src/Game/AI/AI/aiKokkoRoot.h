@@ -29,6 +29,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    void m40() override;
+    void m41() override;
 
 protected:
     // static_param at offset 0x208

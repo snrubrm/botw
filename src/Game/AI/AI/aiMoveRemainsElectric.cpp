@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiMoveRemainsElectric.h"
 #include "Game/AI/aiUnk_710073033C.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
@@ -34,6 +36,14 @@ bool MoveRemainsElectric::m40() {
     if (!player.hasProc())
         return false;
     return !sub_710073033C(mActor, &player, *mReactiveRange_s);
+}
+
+f32 MoveRemainsElectric::m43() {
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->_14.isValid())
+            return as_list->sub_710115D2D4().length();
+    }
+    return RailMoveRemains::m43();
 }
 
 }  // namespace uking::ai

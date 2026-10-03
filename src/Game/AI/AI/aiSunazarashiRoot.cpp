@@ -69,4 +69,9 @@ bool SunazarashiRoot::handleMessage_(const ksys::Message& message) {
     return PreyRoot::handleMessage_(message);
 }
 
+void SunazarashiRoot::m43() {
+    if (!isCurrentChild("牽引"))
+        PreyRoot::m43();
+}
+
 }  // namespace uking::ai

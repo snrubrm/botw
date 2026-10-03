@@ -16,6 +16,7 @@ public:
 
     bool m39() override;
     void m42() override;
+    bool m46(sead::Vector3f* out) override;
 
 protected:
     // static_param at offset 0x2d8
