@@ -11,7 +11,9 @@ bool WizzrobeVisibleWalk::init_(sead::Heap* heap) {
 }
 
 void WizzrobeVisibleWalk::enter_(ksys::act::ai::InlineParamPack* params) {
+    _168 = ksys::Timer(*mFailMoveTimer_s, *mFailMoveTimer_s);
     LevelFlyMove::enter_(params);
+    _174 = -1.0f;
 }
 
 void WizzrobeVisibleWalk::leave_() {
@@ -27,7 +29,16 @@ void WizzrobeVisibleWalk::loadParams_() {
 }
 
 void WizzrobeVisibleWalk::calc_() {
-    LevelFlyMove::calc_();
+    if (!(_168.value <= sead::Mathf::epsilon()))
+        _168.update();
+    if (mFlags.isOn(static_cast<Flag>(3)) && *mAddTargetDist_s > 0.0f) {
+        sub_71001DA0D0();
+    } else {
+        LevelFlyMove::calc_();
+        if (!(mFlags.isOn(static_cast<Flag>(3)) && *mAddTargetDist_s > 0.0f))
+            return;
+    }
+    sub_71001DA1A4();
 }
 
 }  // namespace uking::action

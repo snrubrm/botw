@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionLevelFlyMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -28,6 +29,8 @@ protected:
     const bool* mIsCheckAnmSeqCancel_s{};
     // static_param at offset 0x160
     const bool* mIsNoBrake_s{};
+    ksys::Timer _168;
+    f32 _174 = -1.0f;
 };
 
 }  // namespace uking::action
