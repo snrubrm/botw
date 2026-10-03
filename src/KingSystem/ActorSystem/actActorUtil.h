@@ -227,6 +227,10 @@ void sub_7100EE57FC(Actor* actor, const sead::Vector3f& pos);
 // 0x7100ee58c0: sets the actor's matrix through its character controller or rigid body.
 void sub_7100EE58C0(Actor* actor, const sead::Matrix34f& mtx);
 
+// 0x7100ee3f08 (CSV act::setEnabledTalkAndLockOn; declaration only, lane2 s21): enables / disables the "Talk" and
+// "LockOn" attention clients of the actor.
+void setEnabledTalkAndLockOn(Actor* actor, bool enabled);
+
 // 0x7100ee2850 (declaration only; lane2 s21, placeholder name; 1.7 KB, 4 callers: NPCClerkRoot enter_ / calc_,
 // 0x71001228dc): acquires the actor linked by the placement link of the actor into `accessor` (a 0x20-byte
 // accessor object); `a3` is whether the actor has the GroupingDisplayItem tag. The last two arguments are null in
