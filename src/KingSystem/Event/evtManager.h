@@ -65,6 +65,10 @@ public:
     void sub_7100DB1158(int idx);
     f32 sub_7100DB1174(int idx) const;
 
+    // 0x7100db19dc (CSV EventMgr::__auto4, placeholder name; lane4 s23): `_1d2c0 != nullptr ||
+    // _1d170 < 1`, i.e. no event is playing / being set up (GanonBeast "rain" update).
+    bool sub_7100DB19DC() const;
+
 private:
     friend class ksys::OverlayArenaSystemS1;
 

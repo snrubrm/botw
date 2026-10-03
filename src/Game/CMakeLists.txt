@@ -12,6 +12,8 @@ target_sources(uking PRIVATE
   gameGearMgr.h
   gameItemUtils.cpp
   gameItemUtils.h
+  gameLastBossMgr.cpp
+  gameLastBossMgr.h
   gameMaskController.cpp
   gameMaskController.h
   gameResetter.cpp
