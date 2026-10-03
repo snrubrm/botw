@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/Action/actionChemicalAttackBall.h"
+#include "Game/AI/aiActorLink.h"
+#include "Game/AI/aiUnk_710244ECF0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -27,6 +29,12 @@ protected:
     const bool* mScaleKeep_s{};
     // aitree_variable at offset 0xa8
     void* mChemicalBulletBindActor_a{};
+    /* 0xb0 */ void* _b0 = nullptr;
+    /* 0xb8 */ f32 _b8 = -1.0f;
+    /* 0xbc */ bool _bc = false;
+    /* 0xc0 */ Unk_710244ecf0 _c0;
+    /* 0x138 */ Unk_7102370e70 _138;
+    /* 0x150 */ u16 _150 = 0;
 };
 
 }  // namespace uking::action

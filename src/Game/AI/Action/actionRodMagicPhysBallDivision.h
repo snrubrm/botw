@@ -27,6 +27,11 @@ protected:
     const float* mDivAngle_s{};
     // static_param at offset 0x1d0
     sead::SafeString mChildName_s{};
+    /* 0x1e0 */ ksys::act::BaseProcLink _1e0;
+    /* 0x1f0 */ ksys::act::BaseProcLink _1f0;
+    /* 0x200 */ ksys::act::BaseProcLink _200;
+    /* 0x210 */ sead::Vector3f _210;
 };
+KSYS_CHECK_SIZE_NX150(RodMagicPhysBallDivision, 0x220);
 
 }  // namespace uking::action

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionChemicalPhysBall.h"
+#include "Game/AI/aiUnk_710244ECF0.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -25,6 +26,16 @@ protected:
     const int* mChemicalType_s{};
     // static_param at offset 0xd0
     const float* mBgCheckHeight_s{};
+    /* 0xd8 */ ksys::act::BaseProcLink _d8;
+    /* 0xe8 */ Unk_710244ecf0 _e8;
+    /* 0x160 */ u16 _160 = 0;
+    struct Entry {
+        void* _0 = nullptr;
+        s32 _8 = 0;
+    };
+    /* 0x168 */ Entry _168[4];
+    /* 0x1a8 */ void* _1a8 = nullptr;
+    void* _1b0 = nullptr;
 };
 
 }  // namespace uking::action
