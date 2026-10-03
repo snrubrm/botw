@@ -15,7 +15,7 @@ class ModelBindInfo : public ActorBind {
     SEAD_RTTI_OVERRIDE(ModelBindInfo, ActorBind)
 public:
     ModelBindInfo();
-    ~ModelBindInfo() override;
+    ~ModelBindInfo() override = default;
 
     bool m4(BaseProc* proc) override;
     bool m5() override;
