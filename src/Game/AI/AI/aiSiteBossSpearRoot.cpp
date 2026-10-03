@@ -2,6 +2,13 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -19,6 +26,32 @@ void SiteBossSpearRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void SiteBossSpearRoot::leave_() {
     SiteBossRoot::leave_();
+    mActor->sub_71011DA868(&_318);
+    mActor->sub_71011DA868(&_270);
+    mActor->sub_71011DA868(&_1c8);
+    mActor->sub_71011DA868(&_120);
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "SensorSpine1")) {
+        if (body->isAddedToWorld())
+            body->removeFromWorld();
+    }
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "SensorSpine3")) {
+        if (body->isAddedToWorld())
+            body->removeFromWorld();
+    }
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "SensorHead")) {
+        if (body->isAddedToWorld())
+            body->removeFromWorld();
+    }
+    if (mActor->getRootAi()->isActorGoingBackToRootAi()) {
+        if (auto* physics = mActor->getPhysics()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+            if (accessor.hasProc()) {
+                if (auto* handler = accessor.x(0))
+                    physics->systemGroupHandlerStuff(handler, false);
+            }
+        }
+    }
 }
 
 void SiteBossSpearRoot::loadParams_() {

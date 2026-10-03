@@ -116,6 +116,9 @@ public:
     // 0x7100fbdfa4 (CSV ActorPhysics::x_5): sets `handler` as the system group handler of every
     // rigid body set, listed body, the ragdoll and the character controller.
     void sub_7100FBDFA4(SystemGroupHandler* handler);
+    // 0x7100fbe0a0 (CSV InstanceSet::systemGroupHandlerStuff; declared only; lane2 s20; SiteBossSpearRoot::leave_
+    // passes the player's handler and false).
+    void systemGroupHandlerStuff(SystemGroupHandler* handler, bool a2);
     void sub_7100FBC890(const sead::Matrix34f& mtx, bool a2, bool a3);
     s32 sub_7100FBDA2C(const sead::SafeString& name) const;
     // 0x7100fbe7f0: CharacterControllerParam::findFormIdx(name) of the param data's character

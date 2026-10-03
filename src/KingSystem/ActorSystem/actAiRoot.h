@@ -49,6 +49,8 @@ public:
     const ParamPack& getAiTreeParams() const { return mAiTreeParams; }
     u32 getI() const { return mI; }
     bool isActorDeletedOrDeleting() const;
+    // Public through the root AI (SiteBossSpearRoot::leave_ calls it on `mActor->getRootAi()`; lane2 s20).
+    using ActionBase::isActorGoingBackToRootAi;
 
     const Actions& getActions() const { return mActions; }
     const Ais& getAis() const { return mAis; }
