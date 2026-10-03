@@ -15,6 +15,24 @@ void RideableBase::S1::sub_7100E770C4(bool force) {
     }
 }
 
+int RideableBase::S1::sub_7100E76CEC() {
+    if (_52 & 2)
+        return 0;
+    if (_0->x_7(0, 0, &ksys::as::ASList::Unk2::sub_710002E82C))
+        return 0;
+    if (_0->x_7(0, _2e, &ksys::as::ASList::Unk2::sub_710002E82C))
+        return _2e;
+    return 0;
+}
+
+void RideableBase::S1::sub_7100E787A0() {
+    _52 |= 0x20;
+}
+
+void RideableBase::S1::sub_7100E78E00() {
+    _52 |= 0x80;
+}
+
 void RideableBase::S1::sub_7100E786F0(const sead::SafeString& name) {
     int bank;
     if (_9) {
