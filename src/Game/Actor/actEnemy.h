@@ -225,7 +225,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     bool m81(const ksys::Message& message) override;
     void updateMtxFromPhysics() override;
-    void m92() override;
+    void m92(ksys::phys::RigidBody* body) override;
     void m93(int a1, float a2) override {
         if (a1 >= _f44) {
             _f44 = a1;

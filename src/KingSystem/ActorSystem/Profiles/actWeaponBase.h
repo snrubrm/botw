@@ -32,7 +32,8 @@ public:
     virtual bool isParentEqualToById(BaseProc* proc) { return _938.hasProcById(proc); }
     virtual bool isParentEqual(const BaseProcLink& link) { return _938 == link; }
     virtual bool m153() { return false; }
-    virtual void m154();
+    // 0x7100ef5e3c: the actor linked at +0x938 passes ActorConstDataAccess::sub_7100D12E64.
+    virtual bool m154();
     virtual bool m155() { return false; }
     virtual bool m156() { return false; }
     virtual bool isParentPlayer() { return false; }

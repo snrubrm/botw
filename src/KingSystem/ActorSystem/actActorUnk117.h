@@ -30,7 +30,7 @@ struct Unk117 {
     };
 
     u32 _0 = 0;
-    sead::CoreId _4;
+    s32 _4;  // the current core number (volatile SEAD_ENUM -> int round trip in the wrappers)
     Kind3* _8;   // kind 3
     void* _10;  // kind 0
     const char* _18;  // kind 0

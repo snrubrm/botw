@@ -845,4 +845,46 @@ Actor* Actor::m141(const s32* index) {
     return nullptr;
 }
 
+// NON_MATCHING: the original keeps the default `_0 = 0` store of the request and stores `_0` again together
+// with the core number (the three Unk117 wrappers)
+void Actor::x_15(void* a1, const char* a2) {
+    Unk117 arg;
+    arg._0 = 0;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = nullptr;
+    arg._10 = a1;
+    arg._18 = a2;
+    x_17(&arg);
+}
+
+// NON_MATCHING: see x_15
+void Actor::sub_71011C98F8() {
+    Unk117 arg;
+    arg._0 = 2;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = nullptr;
+    arg._10 = nullptr;
+    arg._18 = nullptr;
+    x_17(&arg);
+}
+
+// NON_MATCHING: see x_15
+void Actor::sub_71011C9964(Actor* other) {
+    Unk117 arg;
+    arg._0 = 3;
+    arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._8 = static_cast<Unk117::Kind3*>(other->_1a0);
+    arg._10 = nullptr;
+    arg._18 = nullptr;
+    x_17(&arg);
+}
+
+void Actor::m92(phys::RigidBody* body) {
+    if (getProfile() == "AirWall")
+        return;
+    if (getProfile() != "Bullet")
+        body->getPosition();
+    deleteLater(DeleteReason::_0);
+}
+
 }  // namespace ksys::act

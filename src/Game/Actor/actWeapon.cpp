@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -477,6 +478,10 @@ bool WeaponModifierInfo::pickRandomYellowModifierActor(const ksys::act::ActorCon
 bool Weapon::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
     x_4(pos, false, false, a4, false);
     return WeaponBase::m175(pos, a2, a3, a4, a5);
+}
+
+bool Weapon::x_6() {
+    return hasAttackInfo(this);
 }
 
 bool Weapon::sub_71002E9A50() {

@@ -43,7 +43,7 @@ public:
     void addExtraStamina(f32 x, f32 y);
 
     // FIXME: takes a phys::RigidBody* (calls RigidBody::getPosition on it), like Actor::m92
-    void m92() override;
+    void m92(phys::RigidBody* body) override;
     bool m140() override { return _cf0.isOnBit(25) || m180(); }
 
     // FIXME: figure out return types, parameters and names
@@ -379,7 +379,10 @@ protected:
     /* 0x14c1 */ u8 _14c1[0x1530 - 0x14c1];
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ BaseProcLink _1570;
-    /* 0x1580 */ u8 _1580[0x1654 - 0x1580];
+    /* 0x1580 */ u8 _1580[0x1610 - 0x1580];
+    /* 0x1610 */ sead::CriticalSection _1610;
+    /* 0x1650 */ bool _1650;  // set under _1610 together with _1654 (Player::sub_710084BA90)
+    /* 0x1651 */ u8 _1651[3];
     /* 0x1654 */ f32 _1654;
     /* 0x1658 */ sead::CriticalSection _1658;
     /* 0x1698 */ bool _1698;

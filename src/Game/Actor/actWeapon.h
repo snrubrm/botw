@@ -190,6 +190,8 @@ class Weapon : public ksys::act::WeaponBase {
 public:
     // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
     bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
+    // 0x71002edc64 (CSV Weapon::x_6): `return hasAttackInfo(this)` (a tail call).
+    bool x_6();
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
     // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);

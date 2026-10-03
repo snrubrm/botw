@@ -8,6 +8,8 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
@@ -356,6 +358,39 @@ void Player::sub_7100892100(const sead::Vector3f& pos) {
     const sead::Vector3f velocity = (pos - _1770) * 30.0f * factor;
     controller->sub_7100F5F6FC(velocity);
     controller->sub_7100F5FC8C(_1b18);
+}
+
+f32 Player::m235() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->sub_7100D91958();
+    return 0.0f;
+}
+
+void Player::sub_710084BA90(f32 value) {
+    auto lock = sead::makeScopedLock(_1610);
+    _1650 = true;
+    _1654 = value;
+}
+
+bool Player::startPreparingForPreDelete_() {
+    bool result;
+    if (_1878.sub_7100D78960()) {
+        if (_548)
+            _548->sub_7100D78444(&_1878);
+        result = false;
+    } else if (_1930.sub_7100D78960()) {
+        if (_548)
+            _548->sub_7100D78444(&_1930);
+        result = false;
+    } else if ((_1878._8 && _1878._8->isAddedToWorld()) ||
+               (_1930._8 && _1930._8->isAddedToWorld())) {
+        result = false;
+    } else {
+        result = PlayerOrEnemy::startPreparingForPreDelete_();
+    }
+    if (auto* info = PlayerInfo::instance())
+        info->resetPlayer(this);
+    return result;
 }
 
 }  // namespace ksys::act

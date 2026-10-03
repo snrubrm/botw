@@ -462,7 +462,8 @@ public:
     virtual void m89();
     virtual void m90();
     virtual void m91();
-    virtual void m92();
+    // 0x71011d8128: the actor is at (or hit by) `body`: nothing for the profile "AirWall", else deleted.
+    virtual void m92(phys::RigidBody* body);
     virtual void m93(int a1, float a2);
     virtual s32 m94();
     virtual void m95();

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameUnk_710246d058.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
@@ -33,6 +34,18 @@ bool PlayerBase::runeMgrCheckCanUseCryonis() {
 
 bool PlayerBase::runeMgrCheckCanUseCamera() {
     return uking::RuneMgr::instance()->checkIsSelectedRuneAndCanUse(5, this);
+}
+
+bool PlayerBase::runeMgrCheckIsCameraSelected() {
+    auto* mgr = uking::RuneMgr::instance();
+    if (mgr->_90 & 0x10)
+        return mgr->isSelectedRune(5);
+    return false;
+}
+
+void PlayerBase::m92(phys::RigidBody* body) {
+    sead::Vector3f position;
+    body->getPosition(&position);
 }
 
 bool PlayerBase::m239() {

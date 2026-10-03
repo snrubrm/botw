@@ -131,4 +131,14 @@ bool PlayerOrEnemy::m152(u16 mask) {
     return obj->_8.isOn(mask);
 }
 
+bool PlayerOrEnemy::m170() {
+    getWeapons();
+    for (int i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && weapon->x_6())
+            return true;
+    }
+    return false;
+}
+
 }  // namespace ksys::act

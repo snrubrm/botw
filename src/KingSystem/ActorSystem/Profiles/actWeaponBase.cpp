@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -126,6 +127,12 @@ void WeaponBase::requestCreateWeaponActor(const char* actor, const sead::Matrix3
     params->addMatrix(matrix);
     ksys::act::ActorCreator::instance()->requestCreateActor(actor, heap, handle, &params, nullptr,
                                                             task_lane_id);
+}
+
+bool WeaponBase::m154() {
+    ActorConstDataAccess accessor;
+    acquireActor(&_938, &accessor);
+    return accessor.sub_7100D12E64();
 }
 
 }  // namespace ksys::act

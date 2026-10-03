@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
@@ -376,7 +377,9 @@ public:
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
     /* 0x1870 */ Actor* _1870;  // the attached target actor
-    /* 0x1878 */ u8 _1878[0x19f0 - 0x1878];
+    /* 0x1878 */ AITerror _1878{this};
+    /* 0x1930 */ AITerror _1930{this};
+    /* 0x19e8 */ u8 _19e8[0x19f0 - 0x19e8];
     /* 0x19f0 */ sead::SafeArray<s32, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
     /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
