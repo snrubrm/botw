@@ -33,6 +33,9 @@ protected:
     sead::Vector3f* mConnectRigidOffset_d{};
     // dynamic_param at offset 0x120
     ksys::act::BaseProcHandle** mRopeActorHandle_d{};
+    /* 0x128 */ void* _128 = nullptr;
+    /* 0x130 */ u32 _130 = 0;
 };
+KSYS_CHECK_SIZE_NX150(OctarockBalloonBase, 0x138);
 
 }  // namespace uking::action
