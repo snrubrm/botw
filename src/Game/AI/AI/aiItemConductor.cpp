@@ -2,8 +2,8 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original zeroes _38.._79 with one memset (xlink handles without padding)
-ItemConductor::ItemConductor(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+ItemConductor::ItemConductor(const InitArg& arg)
+    : ksys::act::ai::Ai(arg), _38(), _58(), _78() {}
 
 ItemConductor::~ItemConductor() {
     _38.fadeXLink();

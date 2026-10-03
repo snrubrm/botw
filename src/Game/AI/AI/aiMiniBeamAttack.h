@@ -46,7 +46,7 @@ protected:
     GuardianAimBeamState _100;
     Unk_7102451ba0 _1f8;
     sead::Vector3f _220{0, 0, 0};
-    Unk_71012419b4 _230{};
+    Unk_71012419b4 _230;
 };
 KSYS_CHECK_SIZE_NX150(MiniBeamAttack, 0x250);
 

@@ -9,9 +9,8 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: the original zeroes 0xf0-0x198 with one memset; ours stores the first xlink handle
-// separately (memset from 0x110)
-Arrow::Arrow(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
+Arrow::Arrow(const InitArg& arg)
+    : ksys::act::ai::Ai(arg), _f0(), _110(), _130(), _150(), _170(), _190() {}
 
 Arrow::~Arrow() {
     _f0.fadeXLink();

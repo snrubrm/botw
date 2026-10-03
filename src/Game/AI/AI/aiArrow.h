@@ -63,12 +63,12 @@ protected:
     u32 _e4 = 0;
     u32 _e8 = 0;
     bool _ec = false;
-    Unk_71012419b4 _f0{};
-    Unk_71012419b4 _110{};
-    Unk_71012419b4 _130{};
-    Unk_71012419b4 _150{};
-    Unk_71012419b4 _170{};
-    void* _190 = nullptr;
+    Unk_71012419b4 _f0;
+    Unk_71012419b4 _110;
+    Unk_71012419b4 _130;
+    Unk_71012419b4 _150;
+    Unk_71012419b4 _170;
+    void* _190;
     ksys::act::BaseProcLink _198;
     ksys::act::BaseProcHandle _1a8;
     Unk_71024013b8 _1b8{mActor, 0x80000bb};

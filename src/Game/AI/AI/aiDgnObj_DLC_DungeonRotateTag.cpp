@@ -10,7 +10,11 @@ DgnObj_DLC_DungeonRotateTag::DgnObj_DLC_DungeonRotateTag(const InitArg& arg)
 DgnObj_DLC_DungeonRotateTag::~DgnObj_DLC_DungeonRotateTag() = default;
 
 bool DgnObj_DLC_DungeonRotateTag::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    if (auto* mgr = GearMgr::instance())
+        mgr->sub_7100669144(*mGearRatio_m);
+    if (*mRegistFromBeginning_m)
+        m34();
+    return true;
 }
 
 void DgnObj_DLC_DungeonRotateTag::enter_(ksys::act::ai::InlineParamPack* params) {
