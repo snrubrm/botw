@@ -55,10 +55,15 @@ public:
     virtual void m166();
     virtual void m167();
     virtual void m168();
-    virtual void m169();
-    virtual void m170();
-    virtual void m171();
-    virtual void m172();
+    // 0x7100ef57dc: the shield-affect rotation offset of the weapon type (SmallSword / LargeSword / Spear, the grab
+    // variant of the spear when m155), zero when held by an unarmed owner or for the bow / shield types.
+    virtual void m169(sead::Vector3f* out);
+    // 0x7100ef598c: like m169 with mAffectTransOffsetShield (spear: mGrabAffectTransOffsetShield when m155).
+    virtual void m170(sead::Vector3f* out);
+    // 0x7100ef5b3c: like m169 with mAffectRotOffsetBow (no grab variant).
+    virtual void m171(sead::Vector3f* out);
+    // 0x7100ef5cbc: like m169 with mAffectTransOffsetBow (no grab variant).
+    virtual void m172(sead::Vector3f* out);
     virtual void m173();
     virtual void m174();
     // 0x7100ef61c4. Stores the position at _910 (+ _91c = -1, _920 = 2) and the three flags (a2 -> _924,
@@ -138,8 +143,10 @@ public:
     virtual bool isWeaponType4() const;
     virtual bool isWeaponType3() const;
     virtual bool isBoomerang() { return false; }
-    virtual void m237();
-    virtual void m238();
+    // 0x7100ef9514 / 0x7100ef9570: whether `actor` has a profile the owner can hold the weapon with (see
+    // sub_7100EFD700; m238: Player / PauseMenuPlayer) and the weapon has a name (m159 / m160).
+    virtual bool m237(Actor* actor);
+    virtual bool m238(Actor* actor);
     virtual bool m239() { return false; }
     virtual void m240() {}
     virtual void m241() {}

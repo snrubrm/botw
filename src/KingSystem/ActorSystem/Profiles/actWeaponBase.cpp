@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -28,6 +29,111 @@ void WeaponBase::m92(phys::RigidBody* body) {
     if (hasParentActor())
         return;
     Actor::m92(body);
+}
+
+void WeaponBase::m169(sead::Vector3f* out) {
+    if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isWeaponType4() || isWeaponType3()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mAffectRotOffsetShield.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mAffectRotOffsetShield.ref();
+    } else if (m233()) {
+        const bool grab = m155();
+        const auto* spear = getParam()->getRes().mGParamList->getSpear();
+        if (grab)
+            *out = spear->mGrabAffectRotOffsetShield.ref();
+        else
+            *out = spear->mAffectRotOffsetShield.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+void WeaponBase::m170(sead::Vector3f* out) {
+    if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isWeaponType4() || isWeaponType3()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mAffectTransOffsetShield.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mAffectTransOffsetShield.ref();
+    } else if (m233()) {
+        const bool grab = m155();
+        const auto* spear = getParam()->getRes().mGParamList->getSpear();
+        if (grab)
+            *out = spear->mGrabAffectTransOffsetShield.ref();
+        else
+            *out = spear->mAffectTransOffsetShield.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+void WeaponBase::m171(sead::Vector3f* out) {
+    if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isWeaponType4() || isWeaponType3()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mAffectRotOffsetBow.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mAffectRotOffsetBow.ref();
+    } else if (m233()) {
+        *out = getParam()->getRes().mGParamList->getSpear()->mAffectRotOffsetBow.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+void WeaponBase::m172(sead::Vector3f* out) {
+    if (getParentActor() && !m153() && (!sub_7100EFD700(getParentActor()) || m159().isEmpty())) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (isWeaponType4() || isWeaponType3()) {
+        *out = sead::Vector3f::zero;
+        return;
+    }
+    if (m231()) {
+        *out = getParam()->getRes().mGParamList->getSmallSword()->mAffectTransOffsetBow.ref();
+    } else if (m232()) {
+        *out = getParam()->getRes().mGParamList->getLargeSword()->mAffectTransOffsetBow.ref();
+    } else if (m233()) {
+        *out = getParam()->getRes().mGParamList->getSpear()->mAffectTransOffsetBow.ref();
+    } else {
+        *out = sead::Vector3f::zero;
+    }
+}
+
+bool WeaponBase::m237(Actor* actor) {
+    if (!sub_7100EFD700(actor))
+        return false;
+    return !m159().isEmpty();
+}
+
+bool WeaponBase::m238(Actor* actor) {
+    if (!actor)
+        return false;
+    // NON_MATCHING: the original keeps a dead SafeString("PauseMenuPlayer") object on the stack
+    if (actor->getProfile() == "Player" || actor->getProfile() == "PauseMenuPlayer")
+        return !m160().isEmpty();
+    return false;
 }
 
 bool WeaponBase::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
