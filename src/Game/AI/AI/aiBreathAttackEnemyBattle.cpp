@@ -142,15 +142,9 @@ const sead::SafeString& BreathAttackEnemyBattle::m36() {
     return mBreathName_s;
 }
 
-// NON_MATCHING: stack slots of target_pos / accessor swapped (the original's accessor sits above
-// target_pos, as if from an inline helper)
 bool BreathAttackEnemyBattle::m40() {
     sead::Vector3f target_pos;
-    {
-        ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&m34(), &accessor);
-        accessor.getActorMtx().getTranslation(target_pos);
-    }
+    sub_710033EDD0(&target_pos);
     if (!m38())
         return false;
     return sub_710072DDB8(target_pos, mActor->getMtx(), *mAttackAngle_s);
@@ -179,16 +173,10 @@ bool BreathAttackEnemyBattle::m44() {
     return _90.isProcReady();
 }
 
-// NON_MATCHING: stack layout (the original's accessor slot comes first, as if it came from an
-// inlined helper)
 void BreathAttackEnemyBattle::changeToPrepareBattle() {
     ksys::act::ai::InlineParamPack params;
     sead::Vector3f pos;
-    {
-        ksys::act::ActorConstDataAccess accessor;
-        ksys::act::acquireActor(&m34(), &accessor);
-        accessor.getActorMtx().getTranslation(pos);
-    }
+    sub_710033EDD0(&pos);
     params.addVec3(pos, "TargetPos", -1);
     changeChild("戦闘準備", &params);
 }
