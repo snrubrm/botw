@@ -187,6 +187,12 @@ bool PlacementMgr::objStuff(const Object* obj) const {
     return obj->getId() != _1e4;
 }
 
+void PlacementMgr::sub_71011EB40C(const sead::Vector3f* pos, f32 radius,
+                                  sead::IDelegate1R<Unk_71012497f8Entry*, bool>* callback) {
+    if (mClusteredRenderer)
+        mClusteredRenderer->sub_71012497F8(pos, radius, true, callback);
+}
+
 void PlacementMgr::clusteredRendererRequestDraw() {
     if (!mClusteredRenderer)
         return;
