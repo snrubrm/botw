@@ -16,7 +16,12 @@ public:
     void loadParams_() override;
 
     bool sub_71004737B0();
+
 protected:
+    void calc_() override;
+    bool sub_7100473B2C();
+
+
     // static_param at offset 0x38
     const int* mAttackPower_s{};
     // static_param at offset 0x40
@@ -33,7 +38,7 @@ protected:
     const bool* mCheckColConInfo_s{};
     // static_param at offset 0x70
     sead::SafeString mExpandActorName_s{};
-    void* _80{};
+    ksys::act::Actor* _80{};
 };
 
 }  // namespace uking::ai
