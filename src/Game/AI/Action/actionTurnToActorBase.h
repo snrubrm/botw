@@ -19,6 +19,8 @@ protected:
     void calc_() override;
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual void m32() {}
+
+    /* 0x1c */ bool _1c = false;
 };
 
 }  // namespace uking::action
