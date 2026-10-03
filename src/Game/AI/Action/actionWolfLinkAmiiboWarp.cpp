@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWolfLinkAmiiboWarp.h"
+#include "KingSystem/Utils/Thread/MessageAck.h"
 
 namespace uking::action {
 
@@ -24,6 +25,14 @@ void WolfLinkAmiiboWarp::loadParams_() {
 
 void WolfLinkAmiiboWarp::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool WolfLinkAmiiboWarp::handleAck_(const ksys::MessageAck* ack) {
+    if (ack->getType() == 0x80000a8) {
+        setFinished();
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::action

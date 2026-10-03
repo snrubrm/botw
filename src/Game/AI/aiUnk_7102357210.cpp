@@ -750,47 +750,8 @@ bool Unk_7102358dc0::m2(const ksys::Message& message) {
     return true;
 }
 
-bool Unk_71023799b0::m2(const ksys::Message& message) {
-    if (message.getType() != 0x80000a3)
-        return false;
-
-    auto* payload = static_cast<Unk_71023799b0_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
-bool Unk_7102379b00::m2(const ksys::Message& message) {
-    if (message.getType() != 0x800009f)
-        return false;
-
-    auto* payload = static_cast<Unk_7102379b00_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
-
-bool Unk_7102379b30::m2(const ksys::Message& message) {
-    if (message.getType() != 0x80000a0)
-        return false;
-
-    auto* payload = static_cast<Unk_7102379b30_Payload*>(message.getUserData());
-    if (!payload)
-        return false;
-
-    payload->x(&_38.mLink);
-    _30 = true;
-    _18 = message.getSource();
-    return true;
-}
+// Unk_71023799b0::m2 is defined in Action/actionEnemyFortressChatSpeak.cpp, Unk_7102379b00::m2 and
+// Unk_7102379b30::m2 in Action/actionEnemyFortressChatTalk.cpp (inlined there in the original).
 
 // Unk_71023d4c08::m2 is defined in aiAncientNecklaceBall.cpp (inlined there in the original).
 

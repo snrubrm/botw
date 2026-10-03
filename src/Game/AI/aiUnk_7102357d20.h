@@ -609,3 +609,79 @@ public:
 
     Unk_7102410070_Payload _18;
 };
+
+// The EnemyFortressChat action senders (lane3 s18): each carries a link to the owner actor,
+// acquired in the constructor under the payload lock (as Unk_71023eaef0). Their D2 / D0 / m2 are in
+// the action's own area (D2 64 B, D0 52 B, m2 8 B).
+
+// vtable 0x7102379988 (EnemyFortressChatSpeak at +0xf0); message 0x800009e
+class Unk_7102379988 : public Unk_7102357d20 {
+public:
+    Unk_7102379988(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        x(actor);
+    }
+    void* m2() override { return &_18; }
+
+    // Inline only (no out-of-line copy in the executable); placeholder name (as Unk_7102372510::x).
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28);
+        _18.acquire(proc, false);
+    }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};
+
+// vtable 0x7102379960 (EnemyFortressChatSpeak at +0x170); message 0x80000a2
+class Unk_7102379960 : public Unk_7102357d20 {
+public:
+    Unk_7102379960(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        x(actor);
+    }
+    void* m2() override { return &_18; }
+
+    // Inline only (no out-of-line copy in the executable); placeholder name (as Unk_7102372510::x).
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28);
+        _18.acquire(proc, false);
+    }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};
+
+// vtable 0x71023796e0 (EnemyFortressChatCall at +0xf0); message 0x800009c
+class Unk_71023796e0 : public Unk_7102357d20 {
+public:
+    Unk_71023796e0(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        x(actor);
+    }
+    void* m2() override { return &_18; }
+
+    // Inline only (no out-of-line copy in the executable); placeholder name (as Unk_7102372510::x).
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28);
+        _18.acquire(proc, false);
+    }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};
+
+// vtable 0x7102379c80 (EnemyFortressChatTurn at +0xd0); message 0x800009d
+class Unk_7102379c80 : public Unk_7102357d20 {
+public:
+    Unk_7102379c80(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        x(actor);
+    }
+    void* m2() override { return &_18; }
+
+    // Inline only (no out-of-line copy in the executable); placeholder name (as Unk_7102372510::x).
+    void x(ksys::act::BaseProc* proc) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28);
+        _18.acquire(proc, false);
+    }
+
+    ksys::act::BaseProcLink _18;
+    sead::JobQueueLock _28;
+};

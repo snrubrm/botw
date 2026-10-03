@@ -19,6 +19,8 @@ target_sources(uking PRIVATE
   aiMessage3DText.h
   aiQueryFactories.cpp
   aiQueryFactories.h
+  aiUnk_710001A69C.cpp
+  aiUnk_710001A69C.h
   aiUnk_71005D6D10.cpp
   aiUnk_71005D6D10.h
   aiUnk_71002C52DC.cpp

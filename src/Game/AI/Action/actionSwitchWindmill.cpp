@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSwitchWindmill.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -28,6 +30,12 @@ void SwitchWindmill::loadParams_() {
 
 void SwitchWindmill::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+bool SwitchWindmill::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003)
+        mActor->emitBasicSigOff();
+    return false;
 }
 
 }  // namespace uking::action
