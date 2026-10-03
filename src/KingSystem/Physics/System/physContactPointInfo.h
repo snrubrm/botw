@@ -67,6 +67,13 @@ public:
         return mLayerMask2[int(type)].isOnBit(getContactLayerBaseRelativeValue(layer));
     }
 
+    // Inline-only in the original (StopTimerObserver::enter_ stores -1 over both words with one 64-bit
+    // store; the name is a guess).
+    void setAllLayerMask2() {
+        for (int i = 0; i < NumContactLayerTypes; ++i)
+            mLayerMask2[i].setDirect(0xffffffff);
+    }
+
     void setLayerMasks(const LayerMaskBuilder& builder) {
         for (int i = 0; i < NumContactLayerTypes; ++i) {
             mSubscribedLayers[i] = builder.getMasks()[i].layers;

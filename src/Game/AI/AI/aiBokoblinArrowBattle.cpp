@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiBokoblinArrowBattle.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include <random/seadGlobalRandom.h>
@@ -23,6 +24,22 @@ void BokoblinArrowBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     _11c = *mTargetPos_d;
     _11c.y += sub_71005D960C(mActor).y - sub_71005D9330(mActor).y;
     sub_7100331088();
+}
+
+// NON_MATCHING: load/scheduling order only; the original loads *mHoldIntervalRand_s and the selected
+// hold interval before calling getF32 (the float math, timers and pack match)
+void BokoblinArrowBattle::sub_7100331088() {
+    sub_71005DA114(mActor, &_c8);
+    const s32* hold_interval = _114 == _118 - 1 ? mHoldIntervalLast_s : mHoldInterval_s;
+    _f0.reset(s32(*hold_interval +
+                  *mHoldIntervalRand_s * sead::GlobalRandom::instance()->getF32() * -0.5f) +
+              *mHoldIntervalRand_s);
+    _108.reset(*mLeaveWaitTime_s);
+
+    const sead::Vector3f target_pos = *mTargetPos_d;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target_pos, "TargetPos", -1);
+    changeChild("待機", &pack);
 }
 
 bool BokoblinArrowBattle::isChangeable() const {
