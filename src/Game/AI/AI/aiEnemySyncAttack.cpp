@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiEnemySyncAttack.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::ai {
 
@@ -17,7 +18,14 @@ void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EnemySyncAttack::leave_() {
-    ksys::act::ai::Ai::leave_();
+    auto* actor = mActor;
+    if (actor && actor->getModel()) {
+        actor->getASList()->sub_710115B01C(*mAttackASSlot_s, 0, true);
+        actor->getASList()->sub_710115C11C();
+        actor = mActor;
+    }
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkEnemyBody"))
+        sub_71007A2D34(body);
 }
 
 void EnemySyncAttack::loadParams_() {

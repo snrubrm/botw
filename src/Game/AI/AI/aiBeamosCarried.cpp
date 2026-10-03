@@ -7,7 +7,9 @@ BeamosCarried::BeamosCarried(const InitArg& arg) : AddCarried(arg) {}
 BeamosCarried::~BeamosCarried() = default;
 
 bool BeamosCarried::init_(sead::Heap* heap) {
-    return AddCarried::init_(heap);
+    if (!AddCarried::init_(heap))
+        return false;
+    return _168.acquire(heap, static_cast<Unk_71025afb58**>(mBeamActorLink_a));
 }
 
 void BeamosCarried::enter_(ksys::act::ai::InlineParamPack* params) {

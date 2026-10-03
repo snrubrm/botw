@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiPreyNormal.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71006F1DF0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -113,6 +114,12 @@ bool PreyNormal::m36() {
     if (_170.hasProc())
         _140.update();
     return _140.value <= sead::Mathf::epsilon();
+}
+
+bool PreyNormal::m39(const sead::Vector3f& pos) {
+    if (*mEnableNoEntryAreaCheck_m)
+        return sub_71006F1DF0(mActor, pos);
+    return false;
 }
 
 bool PreyNormal::m38() {

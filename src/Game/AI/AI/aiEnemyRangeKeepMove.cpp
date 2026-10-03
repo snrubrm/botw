@@ -5,6 +5,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -64,6 +65,16 @@ void EnemyRangeKeepMove::sub_71003ABF50() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("戦闘待機", &pack);
+}
+
+bool EnemyRangeKeepMove::sub_71003AD160() {
+    auto* actor = mActor;
+    if (!actor)
+        return false;
+    auto* nav = actor->m45();
+    const f32 radius = nav ? nav->getRadiusMaybe() : 0.0f;
+    const sead::Vector3f target = sub_71005D9330(actor);
+    return sub_710072CB78(actor, target, nullptr, radius, 3);
 }
 
 bool EnemyRangeKeepMove::sub_71003AD058() {

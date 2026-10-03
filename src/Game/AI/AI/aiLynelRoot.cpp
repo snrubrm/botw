@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLynelRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -8,6 +10,18 @@ LynelRoot::~LynelRoot() = default;
 
 bool LynelRoot::init_(sead::Heap* heap) {
     return EnemyRoot::init_(heap);
+}
+
+void LynelRoot::m37() {
+    if (mActor->getVelocity().y > 0.0f) {
+        if (auto* controller = mActor->getCharacterController()) {
+            sead::Vector3f velocity;
+            controller->sub_7100F5F598(&velocity);
+            velocity.y = 0.0f;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    }
+    EnemyRoot::m37();
 }
 
 void LynelRoot::enter_(ksys::act::ai::InlineParamPack* params) {

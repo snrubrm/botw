@@ -40,7 +40,7 @@ public:
     virtual bool m36();
     virtual bool m37(ksys::act::BaseProcLink* link);
     virtual bool m38();
-    virtual bool m39();
+    virtual bool m39(const sead::Vector3f& pos);
     virtual bool m40();
     virtual bool m41();
     virtual bool m42() { return false; }
