@@ -520,8 +520,12 @@ private:
     sead::SafeArray<GrabbedItemInfo, NumGrabbableItems> mGrabbedItems;
     PouchItem* mItem_444f0{};
     s32 _444f8 = -1;
+public:
+    // Accessed by the UI facade functions (uiPouchFacade.cpp).
     s32 _444fc{};
     s32 _44500 = -1;
+
+private:
     u32 _44504{};
     u32 _44508{};
     u32 _4450c{};
@@ -537,8 +541,11 @@ private:
     bool mCanSeeHealthBar = false;
     PouchItem mNewlyAddedItem;
 
+public:
     /// Indicates if a temporary inventory ("pouch for quest") is being used.
     bool mIsPouchForQuest = false;
+
+private:
 
     sead::SafeArray<PouchItem*, 4> mEquippedWeapons;
     PouchCategory mCategoryToSort = PouchCategory::Invalid;

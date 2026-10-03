@@ -2,6 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadSafeString.h>
+
+namespace uking {
+class NpcShopData;
+}
 
 namespace uking::ui {
 
@@ -10,11 +15,29 @@ namespace uking::ui {
 // what the AI classes use is declared.
 // TODO: incomplete.
 class UiShopMgr {
+    u8 _0[0x10];  // two vtable pointers (the class has two polymorphic bases) and padding
     SEAD_SINGLETON_DISPOSER(UiShopMgr)
     UiShopMgr();
     ~UiShopMgr();
 
 public:
+    // The shop state (set by UiShopMgr::sub_7100982A44 & co.; 3 = ..., 4 = ..., 5 = NPC shop data set,
+    // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
+    s32 _30;
+
+    // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
+    bool sub_71009816B0(s32 state, s32 a2);
+    void sub_71009821F0(s32 state);
+    void sub_7100982A44(s32 state, NpcShopData* shop_data);
+    void sub_7100982A60(s32 state, s32 value);
+    void sub_7100984988();
+    void sub_7100984BE8();
+    void sub_7100984CA0(const sead::SafeString& name);
+    void sub_7100984EE0();
+    void sub_7100984EF8();
+    void sub_71009852C0(bool value);
+    void sub_71009853F4();
+
     // 0x7100985508 (declaration only; NPCClerkRoot::leave_): `_140.reset()`.
     void sub_7100985508();
 };

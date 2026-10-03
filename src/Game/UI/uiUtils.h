@@ -77,6 +77,10 @@ void showRuntimeTip(s32 type);
 // decompiled yet.
 void sub_7100A95F5C(s32 type);
 
+// 0x7100aa7d38 (placeholder name): the name of hero soul `index` (-1: the empty string) from a UI-side
+// table of 16-byte SafeStrings.
+const sead::SafeString& sub_7100AA7D38(s32 index);
+
 // 0x7100aa0a5c (CSV ui::createAndLoadScreenIfNeededImpl): forwards `id` to Manager::createAndLoadScreenIfNeeded
 // (the second parameter is unused; callers pass nullptr).
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
@@ -132,7 +136,7 @@ void sub_7100A9F4C8();
 void sub_7100A9F4E0();
 
 // More facade functions of the UI wrapper TU (placeholder names; signatures from the AI action callers).
-void sub_7100A984C0();
+bool sub_7100A984C0();
 bool sub_7100A98498();
 void sub_7100A99104();
 void sub_7100A9ED74();
