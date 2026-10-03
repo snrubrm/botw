@@ -2,7 +2,9 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGelEnemy.h"
 
@@ -75,6 +77,39 @@ bool GelEnemy::m81(const ksys::Message& message) {
 bool GelEnemy::startPreparingForPreDelete_() {
     sub_71011DA868(&_14c8);
     return Enemy::startPreparingForPreDelete_();
+}
+
+void GelEnemy::calcMaybe() {
+    checkModelUnitsNaN();
+    Enemy::calcMaybe();
+}
+
+void GelEnemy::updatePositionMaybe() {
+    checkModelUnitsNaN();
+    Enemy::updatePositionMaybe();
+}
+
+void GelEnemy::m74() {
+    checkModelUnitsNaN();
+    Enemy::m74();
+}
+
+void GelEnemy::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    checkModelUnitsNaN();
+    sub_7100026B00();
+    Enemy::m76(setter);
+}
+
+void GelEnemy::m79() {
+    checkModelUnitsNaN();
+    sub_7100026240();
+    checkModelUnitsNaN();
+    if (sub_7100028128()) {
+        if (auto* physics = getPhysics()) {
+            if (auto* cloth_set = physics->getClothSet())
+                cloth_set->sub_7101218A90();
+        }
+    }
 }
 
 }  // namespace uking::act

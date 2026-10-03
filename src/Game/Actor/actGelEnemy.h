@@ -4,6 +4,8 @@
 #include <limits>
 #include <math/seadVector.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
@@ -36,6 +38,22 @@ public:
     void afterModelMatrixUpdate() override;
     void m79() override;
     bool m81(const ksys::Message& message) override;
+
+    // Non-virtual functions of the TU (declared only; placeholder names). 0x7100026b00 is called by
+    // m76; 0x7100026240 / 0x7100028128 by m79.
+    void sub_7100026B00();
+    void sub_7100026240();
+    bool sub_7100028128();
+
+    // inline-only in the original; name is a guess: the loop over the model units that tests the
+    // unit's `_50` vector for NaN and calls nullsub_4649() (a discarded call that is in the asm). It
+    // is repeated in calcMaybe, updatePositionMaybe, m74, m76 and twice in m79.
+    void checkModelUnitsNaN() {
+        for (int i = 0; i < mModel->getUnits().size(); ++i) {
+            if (mModel->getUnits()(i)->mModelUnit->get50()->isNan())
+                nullsub_4649();
+        }
+    }
 
     // BoneHandle (ctor 0x7100d3b3f0; the jump/pre-attack actions write its 0x68 / 0x78 / 0x88)
     /* 0x14c8 */ ksys::act::BoneHandle _14c8;
