@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtManager.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 
 namespace ksys::evt {
@@ -27,6 +28,26 @@ bool Manager::sub_7100DB0CA0(const Metadata& metadata, act::Actor* actor) {
 
 bool Manager::hasActiveEvent() const {
     return _1d2b8 != nullptr;
+}
+
+// 0x7100db199c
+void Manager::incrementAliveEventFlowCount() {
+    mAliveEventFlowCount = sead::Mathi::min(mAliveEventFlowCount + 1, 0x100);
+}
+
+// 0x7100db272c
+void Manager::setFlags1000() {
+    _1d2f4 |= 0x1000;
+}
+
+// 0x7100db24c0
+void Manager::initBeforeStageGen() {
+    _1d2f8 = 999;
+}
+
+// 0x7100db04d8
+void Manager::initBeforeStageGenB() {
+    _1d1b0 &= ~2u;
 }
 
 }  // namespace ksys::evt

@@ -42,6 +42,15 @@ public:
     Event* getActiveEvent() const;
     bool hasActiveEvent() const;
 
+    // 0x7100db199c (CSV EventMgr::incrementAliveEventFlowCount): saturates at 256.
+    void incrementAliveEventFlowCount();
+    // 0x7100db272c (CSV EventMgr::setFlags1000)
+    void setFlags1000();
+    // 0x7100db24c0 (CSV EventMgr::initBeforeStageGen)
+    void initBeforeStageGen();
+    // 0x7100db04d8 (CSV EventMgr::initBeforeStageGenB)
+    void initBeforeStageGenB();
+
     sead::Heap* getEventHeap() const { return mEventHeap; }
 
     bool callEvent(const Metadata& metadata, act::Actor* actor = nullptr, void* x = nullptr);
@@ -81,9 +90,13 @@ public:
     /* 0x48 */ const MesTransceiverId* _48;
 
 private:
-    u8 pad_50[0x1d180 - 0x50];
+    u8 pad_50[0x1d170 - 0x50];
+    /* 0x1d170 */ s32 mAliveEventFlowCount;
+    u8 pad_1d174[0x1d180 - 0x1d174];
     sead::Heap* mEventHeap;
-    u8 pad_1d188[0x1d2b8 - 0x1d188];
+    u8 pad_1d188[0x1d1b0 - 0x1d188];
+    /* 0x1d1b0 */ u32 _1d1b0;
+    u8 pad_1d1b4[0x1d2b8 - 0x1d1b4];
 
 public:
     // Tested by uking::action::FireWood::calc_ (null: no event is running?).
@@ -99,6 +112,7 @@ private:
 public:
     // Flag word; bit 0 is cleared by uking::action::PlayerHellStartWait::leave_.
     u32 _1d2f4;
+    /* 0x1d2f8 */ s32 _1d2f8;
 };
 
 }  // namespace ksys::evt
