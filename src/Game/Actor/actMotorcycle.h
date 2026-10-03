@@ -5,6 +5,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <random/seadGlobalRandom.h>
 #include <thread/seadCriticalSection.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -81,6 +82,29 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleUserTag, 0x60);
 
+// Placeholder name (MotorcycleStruct0 +0x178, no out-of-line constructor): the gear shifting of the
+// engine sound. The base ramps `_0` (see Unk_71002c8e10::sub_71002C8E44; the gears advance while it is
+// positive); `_c` is the current gear (1-6), `_18` the time spent in it and `_10` / `_14` random scales
+// for the duration of a gear and for the pitch (chosen again whenever the gears restart).
+struct Unk_710006ba9c : Unk_71002c8e10 {
+    Unk_710006ba9c() : Unk_71002c8e10(2.0f, 1.0f, false) {
+        _10 = sead::GlobalRandom::instance()->getF32Range(1.0f, 2.0f);
+        _14 = sead::GlobalRandom::instance()->getF32Range(0.7f, 1.0f);
+    }
+
+    // 0x710006ba9c: steps the ramp (flag: the engine is revving up) and advances the gears.
+    void sub_710006BA9C(bool flag);
+    // 0x710006bc7c (not decompiled): builds the debug text (Time / TimeRatio / Section / ValRatio / Val)
+    // and passes it on together with the position.
+    void sub_710006BC7C(const sead::Vector3f* pos);
+
+    /* 0x0c */ s32 _c = 1;
+    /* 0x10 */ f32 _10 = 1.0f;
+    /* 0x14 */ f32 _14 = 1.0f;
+    /* 0x18 */ f32 _18 = 0.0f;
+};
+KSYS_CHECK_SIZE_NX150(Unk_710006ba9c, 0x1c);
+
 // CSV MotorcycleStruct0 (ctor 0x710006bf34, size 0x1b0, at Motorcycle +0xbc8): the engine / steering
 // model of the motorcycle (speeds in the first 0x70 bytes, aal::TimedFader members at 0x70, 0x98, 0xd0,
 // 0x108 and 0x150, a stick-style controller at 0x178). Only the fields used by the decompiled
@@ -92,10 +116,13 @@ struct MotorcycleStruct0 {
     // energy; sets _19e when it is used up.
     void sub_710006C270();
 
+    // 0x710006c388 (name is a guess): computes the engine rpm from the speed (`flag`: accelerating)
+    // and feeds it to the pitch controller `_0._58`.
+    void updateEngineSoundMaybe(f32 speed, bool flag);
+
     // The speeds / forces; has no constructor of its own in the original (inlined into the one below).
     struct Unk0 {
         Unk0() {
-            _60 = {0.0f, 0.0065f};
             _68 = {1.0f, 0.0f};
         }
 
@@ -107,10 +134,8 @@ struct MotorcycleStruct0 {
         /* 0x014 */ f32 _14 = 65.0f;
         /* 0x018 */ f32 _18 = 1000.0f;
         /* 0x01c */ f32 _1c = 10000.0f;
-        /* 0x020 */ f32 _20 = 700.0f;
-        /* 0x024 */ f32 _24 = 1000.0f;
-        /* 0x028 */ f32 _28 = 500.0f;
-        /* 0x02c */ f32 _2c = 130.0f;
+        /* 0x020 */ sead::Vector2f _20{700.0f, 1000.0f};
+        /* 0x028 */ sead::Vector2f _28{500.0f, 130.0f};
         /* 0x030 */ f32 _30 = 7500.0f;
         /* 0x034 */ f32 _34 = 1000.0f;
         /* 0x038 */ f32 _38 = 1.0f / 30.0f;
@@ -121,40 +146,19 @@ struct MotorcycleStruct0 {
         /* 0x04c */ f32 _4c = 1500.0f;
         /* 0x050 */ f32 _50 = 300.0f;
         /* 0x054 */ f32 _54 = 0.0f;
-        /* 0x058 */ f32 _58 = 500.0f;
-        /* 0x05c */ f32 _5c = 130.0f;
-        /* 0x60 */ sead::Vector2f _60;
+        /* 0x058 */ Unk_71002c8b5c _58{{500.0f, 130.0f}, 0.0f};
+        /* 0x064 */ f32 _64 = 0.0065f;
         /* 0x68 */ sead::Vector2f _68;
     };
     KSYS_CHECK_SIZE_NX150(Unk0, 0x70);
 
     /* 0x000 */ Unk0 _0;
     /* 0x070 */ aal::TimedFader _70{1.0f, aal::FadeCurveType::Linear, 1.0f};
-    /* 0x098 */ aal::TimedFader _98{1.0f, aal::FadeCurveType::Linear, 1.0f};
-    /* 0x0c0 */ f32 _c0 = 0.0f;
-    /* 0x0c4 */ f32 _c4 = 1.0f;
-    /* 0x0c8 */ f32 _c8 = 1.0f;
-    /* 0x0cc */ u8 _cc[4];
-    /* 0x0d0 */ aal::TimedFader _d0{1.0f, aal::FadeCurveType::Linear, 1.0f};
-    /* 0x0f8 */ f32 _f8 = 0.0f;
-    /* 0x0fc */ f32 _fc = 1.0f;
-    /* 0x100 */ f32 _100 = 1.0f;
-    /* 0x104 */ u8 _104[4];
-    /* 0x108 */ aal::TimedFader _108{1.0f, aal::FadeCurveType::Linear, 1.0f};
-    /* 0x130 */ f32 _130 = 0.0f;
-    /* 0x134 */ f32 _134 = 1.0f;
-    /* 0x138 */ f32 _138 = 1.0f;
-    /* 0x13c */ f32 _13c = 0.0f;
-    /* 0x140 */ f32 _140 = 1.0f;
-    /* 0x144 */ f32 _144 = 1.0f;
-    /* 0x148 */ s32 _148 = 3;
-    /* 0x14c */ s32 _14c = 0;
+    /* 0x098 */ Unk_71002c8c58 _98;
+    /* 0x0d0 */ Unk_71002c8c58 _d0;
+    /* 0x108 */ Unk_71002c8cf8 _108;
     /* 0x150 */ aal::TimedFader _150{1.0f, aal::FadeCurveType::Linear, 1.0f};
-    /* 0x178 */ Unk_71002c8e10 _178{2.0f, 1.0f, false};
-    /* 0x184 */ s32 _184 = 1;
-    /* 0x188 */ f32 _188 = 1.0f;
-    /* 0x18c */ f32 _18c = 1.0f;
-    /* 0x190 */ f32 _190 = 0.0f;
+    /* 0x178 */ Unk_710006ba9c _178;
     /* 0x194 */ bool _194;
     /* 0x195 */ bool _195;
     /* 0x196 */ bool _196;
@@ -166,7 +170,7 @@ struct MotorcycleStruct0 {
     /* 0x19c */ bool _19c;
     /* 0x19d */ bool _19d;
     /* 0x19e */ bool _19e;
-    /* 0x1a0 */ u32 _1a0;
+    /* 0x1a0 */ f32 _1a0;
     /* 0x1a8 */ ksys::act::Actor* _1a8;
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleStruct0, 0x1b0);

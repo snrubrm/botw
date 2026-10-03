@@ -253,8 +253,6 @@ static inline void startThrottleFader(Motorcycle* motorcycle) {
 // scheduler orders / register-allocates those constant stores differently; the 0x184-0x190 stores are
 // merged differently (the original merges `_184` with `_188` and stores `_18c` / `_190` singly)
 MotorcycleStruct0::MotorcycleStruct0(ksys::act::Actor* actor) {
-    _188 = sead::GlobalRandom::instance()->getF32Range(1.0f, 2.0f);
-    _18c = sead::GlobalRandom::instance()->getF32Range(0.7f, 1.0f);
     _194 = false;
     _195 = false;
     _196 = false;
@@ -268,7 +266,7 @@ MotorcycleStruct0::MotorcycleStruct0(ksys::act::Actor* actor) {
     _19e = false;
     _1a0 = 0;
     _1a8 = actor;
-    _0._60.x = _0._18;
+    _0._58._8 = _0._18;
     _0._54 = 0.0f;
     _0._4 = -1.0f;
     _150.setCurveType(aal::FadeCurveType::Sqrt);
@@ -289,6 +287,147 @@ void MotorcycleStruct0::sub_710006C270() {
     }
     if (!(MotorcycleMgr::instance()->mEnergy > 0.0f))
         _19e = true;
+}
+
+namespace {
+
+// Time (in seconds, scaled by `_10`) at which the engine sound leaves gear 1 .. 6 (entry 0 is unused)
+// and the pitch of each gear (scaled by `_14`).
+const f32 sGearEndTimes[7] = {0.0f, 5.0833335f, 5.6666665f, 6.0f, 6.3333335f, 6.8333335f, 12.0f};
+const f32 sGearPitches[7] = {0.0f, 180.0f, 230.0f, 290.0f, 290.0f, 240.0f, 0.0f};
+
+}  // namespace
+
+// NON_MATCHING: the gear loop is strength-reduced to a pointer increment (the original indexes with
+// `w8, sxtw` and sign-extends the gear when it is loaded)
+void Unk_710006ba9c::sub_710006BA9C(bool flag) {
+    const f32 prev = _0;
+    sub_71002C8E44(flag);
+    if (_0 > 0.0f) {
+        if (!(prev > 0.0f)) {
+            _18 = 0.0f;
+            _c = 1;
+            _10 = sead::GlobalRandom::instance()->getF32Range(1.0f, 2.0f);
+            _14 = sead::GlobalRandom::instance()->getF32Range(0.7f, 1.0f);
+        }
+        _18 = ksys::VFR::instance()->getDeltaTime() + _18;
+        if (_18 >= sGearEndTimes[_c] * _10) {
+            if (_c == 6) {
+                _18 = 0.0f;
+                _c = 1;
+                _10 = sead::GlobalRandom::instance()->getF32Range(1.0f, 2.0f);
+                _14 = sead::GlobalRandom::instance()->getF32Range(0.7f, 1.0f);
+            } else {
+                while (_18 >= sGearEndTimes[_c] * _10) {
+                    if (_c++ == 6) {
+                        _18 = 0.0f;
+                        _c = 1;
+                        _10 = sead::GlobalRandom::instance()->getF32Range(1.0f, 2.0f);
+                        _14 = sead::GlobalRandom::instance()->getF32Range(0.7f, 1.0f);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// NON_MATCHING: the original keeps the pitch controller rates as two branches reached from several arms
+// (the arms whose rpm / flag are known jump straight to the 0x28 / 0x2c rates); we merge them into
+// selects. Also operand order / register allocation in the gear pitch interpolation.
+void MotorcycleStruct0::updateEngineSoundMaybe(f32 speed, bool flag) {
+    f32 rpm;
+    bool boost = false;
+    if (MotorcycleMgr::instance()->mEnergy > 0.0f) {
+        if (_1a0 > 0.0f) {
+            rpm = sead::Mathf::sin((_1a0 - 0.5f) * sead::Mathf::pi()) * 2000.0f + 6000.0f;
+            if (_1a0 < 1.0f)
+                rpm += sead::GlobalRandom::instance()->getF32Range(-50.0f, 50.0f);
+        } else if (_195) {
+            rpm = _0._30;
+        } else if (_19d) {
+            rpm = 11000.0f;
+            _19d = false;
+        } else if (flag) {
+            if (_197) {
+                rpm = _0._44;
+            } else {
+                f32 base = _0._1c * (speed * 3.6f / _0._14);
+                if (_196)
+                    base += _0._40;
+                rpm = sead::Mathf::clampMin(base, _0._18);
+            }
+        } else {
+            if (_0._48 > 0.0f) {
+                rpm = _0._1c + _0._34;
+                if (_0._58._8 > _0._1c - 50.0f) {
+                    if (!_19a)
+                        _d0.sub_71002C8CAC(-_0._34, _0._38, _0._3c);
+                    boost = true;
+                }
+            } else {
+                rpm = 0.0f;
+            }
+        }
+    } else {
+        rpm = std::max(_0._1c * (speed * 3.6f / _0._14), 0.0f);
+        if (rpm < 500.0f) {
+            rpm = 0.0f;
+        }
+    }
+
+    f32 up_rate, down_rate;
+    if (rpm > 1500.0f && flag) {
+        up_rate = _0._20.x;
+        down_rate = _0._20.y;
+    } else {
+        up_rate = _0._28.x;
+        down_rate = _0._28.y;
+    }
+    _0._58.mRates.x = up_rate;
+    _0._58.mRates.y = down_rate;
+    _19a = boost;
+
+    _178.sub_710006BA9C(!_198 && _1a0 <= 0.0f && rpm > 7000.0f);
+
+    if (_150.getValue() != _150.getNextValue()) {
+        _150.calc();
+        rpm += _150.getValue() * 1500.0f;
+        if (_150.getValue() == 1.0f && _150.getValue() == _150.getNextValue())
+            _150.moveTo(0.0f, 0.1f);
+    }
+
+    if (_19a) {
+        _d0.sub_71002C8C58();
+        _0._58.sub_71002C8B5C(rpm + _d0.mFader.getValue() * _d0._28);
+    } else if (_198 || _195) {
+        _108.sub_71002C8CF8();
+        _0._58.sub_71002C8B5C(rpm + _108.sub_71002C8DEC());
+        if (!std::isnan(_0._58._8) && !std::isnan(rpm))
+            _108.sub_71002C8DEC();
+    } else {
+        f32 gear_value;
+        if (_1a0 == 1.0f) {
+            _98.sub_71002C8C58();
+            gear_value = _98.mFader.getValue() * _98._28;
+        } else {
+            const f32 t1 = sGearEndTimes[_178._c - 1] * _178._10;
+            const f32 t2 = _178._10 * sGearEndTimes[_178._c];
+            const f32 p1 = sGearPitches[_178._c - 1] * _178._14;
+            const f32 p2 = _178._14 * sGearPitches[_178._c];
+            const f32 ratio = (_178._18 - t1) / (t2 - t1);
+            f32 pitch = p2 * ratio + p1 * (1.0f - ratio);
+            if (std::isnan(pitch))
+                pitch = 0.0f;
+            gear_value = pitch * sead::Mathf::clamp((rpm - 3000.0f) / 3000.0f, 0.0f, 1.0f);
+        }
+        _0._58.sub_71002C8B5C(rpm + gear_value);
+    }
+
+    if (_19b) {
+        sead::Vector3f pos = _1a8->getMtx().getTranslation() + sead::Vector3f::ey;
+        _178.sub_710006BC7C(&pos);
+    }
 }
 
 MotorcycleStruct1::MotorcycleStruct1() = default;
@@ -949,7 +1088,7 @@ void Motorcycle::sub_710007DAB8() {
             _10b8 = sUnk_7101e79334[_10a4];
         }
         if (_10a4 == 1) {
-            if (_bc8._0._60.x > 2000.0f) {
+            if (_bc8._0._58._8 > 2000.0f) {
                 _bc8._150.setValueImmediate(0.0f);
                 _bc8._150.moveTo(1.0f, 0.03f);
                 _10a4 = 0;
