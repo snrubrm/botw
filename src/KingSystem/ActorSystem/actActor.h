@@ -156,6 +156,7 @@ public:
         _36 = 0x36,
         _39 = 0x39,
         _3a = 0x3a,
+        _3f = 0x3f,
     };
 
     enum class ActorFlag2 : u32 {
@@ -417,7 +418,7 @@ public:
     virtual bool m83();
     virtual void updateMtxFromPhysics();
     virtual void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3);
-    virtual void m86();
+    virtual bool m86();
     virtual s32* getLife();
     virtual void m88();
     virtual void m89();

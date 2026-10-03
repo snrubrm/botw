@@ -10,7 +10,7 @@ public:
     explicit SwarmPatternBeeAttack(const InitArg& arg);
     ~SwarmPatternBeeAttack() override;
     bool m6(sead::Heap* heap) override;
-    void m7() override;  // TODO 0x7100643b68
+    void m7() override;
     void m8() override;
     void m9() override;
     void loadParams() override;

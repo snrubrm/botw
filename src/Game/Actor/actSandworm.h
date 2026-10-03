@@ -29,6 +29,8 @@ protected:
 
 public:
     void killWithDropsAndEffects(int a1) override;
+    // 0x71002cdb48 (CSV Sandworm::kill_; declared only).
+    void sub_71002CDB48();
     bool m56(sead::Vector3f* pos) override;
     void m63() override;
     void initMaybe() override;

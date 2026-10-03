@@ -55,7 +55,8 @@ public:
 
     /* 0x14c8 */ sead::Buffer<Unit*> _14c8;  // units
     // five 0x30-byte entries (first three pointers zeroed) at 0x14e0 + 0x30 * i
-    /* 0x14d8 */ u8 _14d8[0x15e8 - 0x14d8];
+    /* 0x14d8 */ u8 _14d8[0x15b8 - 0x14d8];
+    /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
     /* 0x15e8 */ u32 _15e8 = 0;
     /* 0x15f0 */ void* _15f0 = nullptr;
     /* 0x15f8 */ u32 _15f8 = 0;

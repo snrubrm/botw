@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -504,6 +505,20 @@ void Actor::m93(int a1, float a2) {}
 
 s32 Actor::m94() {
     return 0;
+}
+
+bool Actor::m86() {
+    if (mActorFlags2.isOn(ActorFlag2::_40))
+        return false;
+    if (mActorFlags.isOnBit(ActorFlag::_3f))
+        return mActorFlags2.isOn(ActorFlag2::_200);
+    return true;
+}
+
+Actor* Actor::m31() {
+    if (mActorFlags.isOnBit(ActorFlag::_5) && mModelBindInfo)
+        return mModelBindInfo->sub_7100D3C5E0(this);
+    return nullptr;
 }
 
 bool Actor::m49() {
