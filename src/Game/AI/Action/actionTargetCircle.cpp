@@ -14,18 +14,10 @@ bool TargetCircle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the normalised up vector is kept in registers and stored after the epsilon check (same as
-// RandomJump::calc_); stack slots differ
 void TargetCircle::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sead::Vector3f up = -gravity;
-    if (up.normalize() < sead::Mathf::epsilon())
-        up.set(sead::Vector3f::ey);
-
     sead::Vector3f velocity;
-    ksys::util::sub_71011EFA00(&velocity, actor->getVelocity(), up);
+    ksys::util::sub_71011EFA00(&velocity, actor->getVelocity(), getUpDir(actor));
     const f32 speed = velocity.length();
     _48.value = speed;
     _48.prev_value = speed;

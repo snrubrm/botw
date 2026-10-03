@@ -32,14 +32,11 @@ void DeleteInGround::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
-// NON_MATCHING: scheduling of the scaled gravity store
 void DeleteInGround::calc_() {
     if (isFinished() || isFailed())
         return;
     auto* actor = mActor;
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    gravity = gravity * (1.0f / 900.0f);
+    const sead::Vector3f gravity = getGravity(actor) * (1.0f / 900.0f);
     sub_7100738488(actor, 0.0f, gravity);
     sub_7100738AA8(actor, 0.0f);
     if (isFinishedAS(0, 0)) {

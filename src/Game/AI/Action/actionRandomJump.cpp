@@ -37,7 +37,7 @@ void RandomJump::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
-// NON_MATCHING: the original keeps the normalized up vector in registers and stores it after the epsilon check
+// NON_MATCHING: regalloc (this / controller registers swapped: x19 / x20)
 void RandomJump::calc_() {
     if (isFinished() || isFailed())
         return;
@@ -78,10 +78,7 @@ void RandomJump::calc_() {
     }
 
     sub_710073FA94(&_7c, actor);
-    sead::Vector3f up = -cc->get70();
-    if (up.normalize() < sead::Mathf::epsilon())
-        up.set(sead::Vector3f::ey);
-    sub_710074006C(&_7c, _a0, up, true, 0.5f, 2 * sead::Mathf::pi(), 0.0f);
+    sub_710074006C(&_7c, _a0, getUpDir(cc->get70()), true, 0.5f, 2 * sead::Mathf::pi(), 0.0f);
     sub_7100740E04(_7c, cc);
 }
 

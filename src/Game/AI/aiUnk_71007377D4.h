@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/Physics/System/physRayCast.h"
@@ -59,6 +60,28 @@ void sub_7100738D28(ksys::act::Actor* actor, ksys::act::Actor* other);
 /// Gravity acting on the actor (character controller gravity, or world gravity scaled by the main
 /// rigid body's gravity factor).
 void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
+
+/// Inline-only in the original; names are guesses. The callers keep the result in the stack slot of the
+/// gravity vector (SmallDamageBackwardBase::calc_, KnockBackShock::enter_, ...), i.e. these are
+/// functions returning the vector by value.
+inline sead::Vector3f getGravity(ksys::act::Actor* actor) {
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    return gravity;
+}
+
+/// The up direction for a gravity vector: the normalized negated vector (Y axis if it is null).
+inline sead::Vector3f getUpDir(const sead::Vector3f& gravity) {
+    sead::Vector3f up = -gravity;
+    if (up.normalize() < sead::Mathf::epsilon())
+        up.set(sead::Vector3f::ey);
+    return up;
+}
+
+/// The actor's up direction.
+inline sead::Vector3f getUpDir(ksys::act::Actor* actor) {
+    return getUpDir(getGravity(actor));
+}
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up);
 
 /// 0x710072fec4 (declared only): probes along `dir` from the actor (used by the cliff/edge checks of

@@ -18,8 +18,6 @@ bool KnockBackShock::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: stack layout (the original keeps the gravity / up / direction vectors in one stack slot and
-// the up vector in registers until it is passed by reference)
 void KnockBackShock::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     sead::Vector3f velocity = actor->getVelocity();
@@ -31,17 +29,9 @@ void KnockBackShock::enter_(ksys::act::ai::InlineParamPack* params) {
 
     sead::Vector3f dir = sead::Vector3f::zero;
     sub_71005E2318(&dir, actor, sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()));
-    velocity += dir * *mHitImpactForce_s;
+    velocity.setScaleAdd(*mHitImpactForce_s, dir, velocity);
 
-    sead::Vector3f up;
-    {
-        sead::Vector3f gravity;
-        sub_710072DC50(&gravity, actor);
-        up = -gravity;
-    }
-    if (up.normalize() < sead::Mathf::epsilon())
-        up.set(sead::Vector3f::ey);
-    ksys::util::sub_71011EFA00(&velocity, velocity, up);
+    ksys::util::sub_71011EFA00(&velocity, velocity, getUpDir(actor));
 
     sead::Vector3f axis = velocity;
     const f32 speed = axis.normalize();

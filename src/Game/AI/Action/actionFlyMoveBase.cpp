@@ -13,19 +13,12 @@ bool FlyMoveBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original computes the "up" vector (-gravity normalised, else ey) in registers and
-// stores it once, as if returned by value from an inline helper (the negation happens after the
-// sqrt); in-place normalisation keeps it in the stack slot. Everything else matches.
 void FlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (auto* cc = actor->getCharacterController())
         mCCAccessor.changeMotionType(cc, ksys::act::MotionType::Hover);
 
-    sead::Vector3f up;
-    sub_710072DC50(&up, mActor);
-    up = -up;
-    if (up.normalize() < sead::Mathf::epsilon())
-        up.set(sead::Vector3f::ey);
+    const sead::Vector3f up = getUpDir(mActor);
 
     const f32 speed = actor->getVelocity().length();
     _60.value = _60.prev_value = speed;

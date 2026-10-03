@@ -80,9 +80,7 @@ void ForkTurn::m33(sead::Vector3f* dir) {}
 // NON_MATCHING: the original copies the gravity vector to another stack temporary before the call
 void ForkTurn::m34(f32 ratio) {
     auto* actor = mActor;
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sub_7100738488(actor, ratio, gravity);
+    sub_7100738488(actor, ratio, getGravity(actor));
 }
 
 void ForkTurn::m35(sead::Vector3f* up) {

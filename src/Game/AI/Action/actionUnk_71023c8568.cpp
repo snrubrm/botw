@@ -81,18 +81,11 @@ void Unk_71023c8568::m14() {
     sub_7100738488(mOwner->getActor(), 0.1f, -sead::Vector3f::ey);
 }
 
-// NON_MATCHING: stack layout (the original reuses the gravity slot for the matrix)
 void Unk_71023c8568::m15(ksys::act::Actor* actor, f32 time) {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
 
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sead::Vector3f dir = -gravity;
-    if (dir.normalize() < sead::Mathf::epsilon())
-        dir.set(sead::Vector3f::ey);
-    sead::Vector3f up;
-    up.set(dir);
+    sead::Vector3f up = getUpDir(actor);
 
     sead::Vector3f to_target;
     m13(&to_target);
@@ -116,7 +109,7 @@ void Unk_71023c8568::m15(ksys::act::Actor* actor, f32 time) {
     }
 
     const f32 delta = ksys::VFR::instance()->getDeltaFrame();
-    _54 = 1.2f / time;
+    _54 = 0.9f / 0.75f / time;
     _38 = axis;
     sead::Matrix34f mtx;
     ksys::util::sub_71011F00EC(&mtx, to_target, up, pos, false);
@@ -127,7 +120,6 @@ void Unk_71023c8568::m15(ksys::act::Actor* actor, f32 time) {
     _50 = time;
 }
 
-// NON_MATCHING: stack layout (the original reuses the gravity slot for the matrix)
 void Unk_71023c8568::m16() {
     auto* actor = mOwner->getActor();
     if (*mIsJumpType_s) {
@@ -144,13 +136,7 @@ void Unk_71023c8568::m16() {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
 
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sead::Vector3f dir = -gravity;
-    if (dir.normalize() < sead::Mathf::epsilon())
-        dir.set(sead::Vector3f::ey);
-    sead::Vector3f up;
-    up.set(dir);
+    sead::Vector3f up = getUpDir(actor);
 
     sead::Vector3f to_target;
     m13(&to_target);

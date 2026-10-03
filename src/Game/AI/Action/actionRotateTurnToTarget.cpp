@@ -96,18 +96,11 @@ void RotateTurnToTarget::calc_() {
         setFinished();
 }
 
-// NON_MATCHING: stack layout (the original reuses the gravity slot for the matrix)
 void RotateTurnToTarget::m33(ksys::act::Actor* actor, f32 time) {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
 
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sead::Vector3f dir = -gravity;
-    if (dir.normalize() < sead::Mathf::epsilon())
-        dir.set(sead::Vector3f::ey);
-    sead::Vector3f up;
-    up.set(dir);
+    sead::Vector3f up = getUpDir(actor);
 
     sead::Vector3f to_target = *mTargetPos_d;
     to_target -= pos;
@@ -131,7 +124,7 @@ void RotateTurnToTarget::m33(ksys::act::Actor* actor, f32 time) {
 
     _70 = false;
     const f32 delta = ksys::VFR::instance()->getDeltaFrame();
-    _6c = 1.2f / time;
+    _6c = 0.9f / 0.75f / time;
     _50 = axis;
     sead::Matrix34f mtx;
     ksys::util::sub_71011F00EC(&mtx, to_target, up, pos, false);
@@ -142,7 +135,6 @@ void RotateTurnToTarget::m33(ksys::act::Actor* actor, f32 time) {
     _68 = time;
 }
 
-// NON_MATCHING: stack layout (the original reuses the gravity slot for the matrix)
 void RotateTurnToTarget::m34() {
     auto* actor = mActor;
     if (*mIsJumpType_s) {
@@ -159,13 +151,7 @@ void RotateTurnToTarget::m34() {
     sead::Vector3f pos;
     actor->getMtx().getTranslation(pos);
 
-    sead::Vector3f gravity;
-    sub_710072DC50(&gravity, actor);
-    sead::Vector3f dir = -gravity;
-    if (dir.normalize() < sead::Mathf::epsilon())
-        dir.set(sead::Vector3f::ey);
-    sead::Vector3f up;
-    up.set(dir);
+    sead::Vector3f up = getUpDir(actor);
 
     sead::Vector3f to_target = *mTargetPos_d;
     to_target -= pos;
