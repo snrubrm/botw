@@ -5,7 +5,6 @@
 
 namespace uking::ai {
 
-// NON_MATCHING: scheduling of the first two stores
 ShootingEnemyFindPlayer::ShootingEnemyFindPlayer(const InitArg& arg)
     : SimpleShootingEnemyFindPlayer(arg) {}
 
@@ -26,12 +25,12 @@ void ShootingEnemyFindPlayer::leave_() {
 
 void ShootingEnemyFindPlayer::loadParams_() {
     SimpleShootingEnemyFindPlayer::loadParams_();
-    getStaticParam(&mReHideTime_s, "ReHideTime");
-    getStaticParam(&mExplosivesAvoidDist_s, "ExplosivesAvoidDist");
-    getStaticParam(&mExplosivesAvoidSpeed_s, "ExplosivesAvoidSpeed");
-    getStaticParam(&mExplosivesAvoidAng_s, "ExplosivesAvoidAng");
-    getStaticParam(&mHideStartDistMin_s, "HideStartDistMin");
-    getStaticParam(&mHideStartDistMax_s, "HideStartDistMax");
+    getStaticParam(&mParams.mReHideTime_s, "ReHideTime");
+    getStaticParam(&mParams.mExplosivesAvoidDist_s, "ExplosivesAvoidDist");
+    getStaticParam(&mParams.mExplosivesAvoidSpeed_s, "ExplosivesAvoidSpeed");
+    getStaticParam(&mParams.mExplosivesAvoidAng_s, "ExplosivesAvoidAng");
+    getStaticParam(&mParams.mHideStartDistMin_s, "HideStartDistMin");
+    getStaticParam(&mParams.mHideStartDistMax_s, "HideStartDistMax");
 }
 
 bool ShootingEnemyFindPlayer::m45() {
