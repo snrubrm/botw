@@ -70,12 +70,10 @@ void GolemRootBase::m38() {
     EnemyRoot::m38();
 }
 
-// NON_MATCHING: the original tests _2f0._18 with tbnz (bit 0), as if read through an inline
-// accessor or a 1-bit field
 bool GolemRootBase::m35() {
     if (EnemyRoot::m35())
         return true;
-    if (!_2f0._18 && sub_71007090F4(&_2f0))
+    if (!_2f0._18.isOnBit(0) && sub_71007090F4(&_2f0))
         return true;
     return false;
 }

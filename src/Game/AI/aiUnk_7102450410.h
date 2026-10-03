@@ -19,7 +19,7 @@ public:
 
         u8 _0[0xb0];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4
-        bool _b4;
+        sead::BitFlag8 _b4;  // bit 0 tested by sub_71007090F4
         bool _b5;
         u8 _b6[2];
     };
