@@ -24,6 +24,35 @@ target_sources(uking PRIVATE
   uiScreenBaseSlots.cpp
   uiScreenConstSlots.cpp
   uiScreenNames.cpp
+  names/uiScreenName_MainScreen3D.cpp
+  names/uiScreenName_WolfLinkHeartGauge.cpp
+  names/uiScreenName_MainHorse.cpp
+  names/uiScreenName_KeyNum.cpp
+  names/uiScreenName_DemoName.cpp
+  names/uiScreenName_ShopBG.cpp
+  names/uiScreenName_ShopBtnList5.cpp
+  names/uiScreenName_ShopBtnList20.cpp
+  names/uiScreenName_ShopInfo.cpp
+  names/uiScreenName_Time.cpp
+  names/uiScreenName_PauseMenuBG.cpp
+  names/uiScreenName_MainScreenMS.cpp
+  names/uiScreenName_MainScreenHeartIchigekiDLC.cpp
+  names/uiScreenName_AppSystemWindowNoBtn.cpp
+  names/uiScreenName_MessageTipsPauseMenu.cpp
+  names/uiScreenName_AmiiboWindow.cpp
+  names/uiScreenName_SystemWindowNoBtn.cpp
+  names/uiScreenName_SystemWindow01.cpp
+  names/uiScreenName_SystemWindow00.cpp
+  names/uiScreenName_PauseMenuRecipe.cpp
+  names/uiScreenName_PauseMenuMantan.cpp
+  names/uiScreenName_PauseMenuEiketsu.cpp
+  names/uiScreenName_AppSystemWindow.cpp
+  names/uiScreenName_End.cpp
+  names/uiScreenName_KeyBoradTextArea.cpp
+  names/uiScreenName_OPtext.cpp
+  names/uiScreenName_LoadingWeapon.cpp
+  names/uiScreenName_Skip.cpp
+  names/uiScreenName_ChangeController.cpp
   uiScreenVCallSlots.cpp
   uiScreenNullSlots.cpp
   uiScreenSlot4.cpp
