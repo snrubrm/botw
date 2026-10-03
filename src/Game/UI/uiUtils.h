@@ -77,6 +77,9 @@ void recoverMasterSword(bool only_if_broken, bool show_message);
 // `handle` receives the sound's handle and may be null. Declared only.
 void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
 void showRuntimeTip(s32 type);
+// 0x7100a95924 (CSV ui::showInfoOverlayWithString): shows the info overlay of `type` with the extra text `text`.
+// Declared only.
+void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 // 0x7100a95f5c: called by PlayerCutFall::enter_ with the player's current tip type (0x54). Not
 // decompiled yet.
 void sub_7100A95F5C(s32 type);

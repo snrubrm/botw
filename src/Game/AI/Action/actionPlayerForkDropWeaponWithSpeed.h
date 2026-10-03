@@ -18,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+
+    bool _48 = false;
+    sead::FixedSafeString<64> _50{""};
 };
 
 }  // namespace uking::action

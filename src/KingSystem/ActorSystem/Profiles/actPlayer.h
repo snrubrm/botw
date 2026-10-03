@@ -394,6 +394,9 @@ public:
     s32 playerWeapons_return0();
     // 0x8883b0 / 0x881ff8 (CSV playerWeapons_return1 / _return2): weapon slot indices 1 / 2.
     s32 playerWeapons_return1();
+    // 0x71008859ec (declared only; unnamed in the CSV): an armor-dependent integer (base _2038 + _201c, +2 with the
+    // PlayerArmors flag 0x2, clamped to 3), read by PlayerForkDropWeaponWithSpeed::calc_.
+    s32 sub_71008859EC();
     s32 playerWeapons_return2();
     // 0x7100892100: sets the character controller velocity towards `pos` (from _1770, scaled by
     // 30 / _20f0) and its matrix to _1b18 (ladder actions).
