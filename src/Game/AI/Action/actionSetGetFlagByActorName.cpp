@@ -19,4 +19,10 @@ void SetGetFlagByActorName::loadParams_() {
     getDynamicParam(&mActorName_d, "ActorName");
 }
 
+const sead::SafeString& SetGetFlagByActorName::m32() {
+    return _30;
+}
+
+void SetGetFlagByActorName::m33() {}
+
 }  // namespace uking::action

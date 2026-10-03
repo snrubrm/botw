@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    const sead::SafeString& m32() override;
+    void m33() override;
     // dynamic_param at offset 0x20
     sead::SafeString mActorName_d{};
     sead::FixedSafeString<128> _30;

@@ -56,6 +56,14 @@ public:
     bool x_0(s32 idx);
     void auto4();
 
+    // Placeholder (type unknown): the object at +0x1020; EventAutoSaveAction calls its first virtual
+    // function with (true, false).
+    class Unk1020 {
+    public:
+        virtual bool m0(bool a1, bool a2) = 0;
+    };
+    Unk1020* get1020() const { return _1020; }
+
 private:
     struct Unk2 {
         u32 _0;
@@ -97,7 +105,9 @@ private:
     void* _f80;
     u8 _f88[0xf98 - 0xf88];
     gdt::TriggerParam* _f98;
-    u8 _fa0[0x103c - 0xfa0];
+    u8 _fa0[0x1020 - 0xfa0];
+    Unk1020* _1020;
+    u8 _1028[0x103c - 0x1028];
     s32 _103c;
     u8 _1040[0x11c8 - 0x1040];
     sead::ObjArray<Unk3> _11c8;

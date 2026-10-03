@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetGetFlag.h"
+#include "Game/gameItemUtils.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -16,6 +18,18 @@ bool SetGetFlag::init_(sead::Heap* heap) {
 
 void SetGetFlag::loadParams_() {
     SetGetFlagBase::loadParams_();
+}
+
+const sead::SafeString& SetGetFlag::m32() {
+    return _20;
+}
+
+void SetGetFlag::m33() {}
+
+bool SetGetFlag::oneShot_() {
+    if (!ksys::act::hasOneTagAtLeast(mActor, sub_710073BB1C()))
+        return false;
+    return SetGetFlagBase::oneShot_();
 }
 
 }  // namespace uking::action

@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadSafeString.h>
 
 namespace uking {
 
@@ -19,6 +20,8 @@ public:
     // 0x7100915764 (CSV SaveSystem::isFinishedSavingMaybe): ksys::SaveMgr is idle (+0x38 == 0) and
     // this->_3c == 0.
     bool isFinishedSavingMaybe() const;
+    // 0x71009167f8 (CSV SaveSystem::requestAutoSaveForGameClear; declaration only)
+    void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
 
     u8 _28[0x1a50 - 0x28];
     // bit 2 (4): auto saving paused (cleared by DisableAutoSavePausing); bit 11 (0x800) is tested by calc
