@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "Game/AI/Action/actionSiteBossThrowParts.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -24,6 +25,11 @@ protected:
     const float* mMoveSpeed_s{};
     // static_param at offset 0xd0
     const sead::Vector3f* mMoveOffset_s{};
+    sead::Vector3f _d8;
+    f32 _e4 = 0.0f;
+    u8 _e8[0x28];
+    sead::FixedSafeString<32> _110[3];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossSwordThrowElectricBall, 0x1b8);
 
 }  // namespace uking::action

@@ -1,6 +1,8 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -36,6 +38,17 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x78
     ksys::act::BaseProcLink* mTargetActor_d{};
+    bool _80 = false;
+    u8 _81[0x7];
+    u8 _88[0x18];
+    struct Entry {
+        ksys::act::BaseProcLink _0;
+        s32 _10 = 0;
+        sead::FixedSafeString<32> _18;
+        u8 _50[0x18];
+    };
+    Entry _a0[21];
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordThrowFireBall, 0x928);
 
 }  // namespace uking::action

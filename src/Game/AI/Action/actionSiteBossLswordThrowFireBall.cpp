@@ -2,6 +2,8 @@
 
 namespace uking::action {
 
+// NON_MATCHING: the original runs the 21-entry array loop with a byte-offset counter from `this`
+// (x21 += 0x68) instead of an element pointer
 SiteBossLswordThrowFireBall::SiteBossLswordThrowFireBall(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 

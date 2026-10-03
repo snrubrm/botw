@@ -1,5 +1,6 @@
 #pragma once
 
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -14,6 +15,8 @@ public:
     void leave_() override;
 
 protected:
+    sead::FixedSafeString<32> _20;
 };
+KSYS_CHECK_SIZE_NX150(DemoVisibleOff, 0x58);
 
 }  // namespace uking::action
