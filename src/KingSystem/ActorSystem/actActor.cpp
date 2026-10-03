@@ -889,6 +889,16 @@ void Actor::m92(phys::RigidBody* body) {
     deleteLater(DeleteReason::_0);
 }
 
+void Actor::killWithDropsAndEffects(int a1) {
+    if (isDeletedOrDeleting())
+        return;
+    createDrops(1, 0);
+    if (!isDeletedOrDeleting() && !_687) {
+        if (deleteLater(DeleteReason::_0))
+            emitSignalsOrDisappearEffectForDelete(a1);
+    }
+}
+
 void Actor::sub_71011D0204(u32 flags) {
     if (!mStasisFlags.isOn(StasisFlag(flags))) {
         mStasisFlags.set(StasisFlag(flags));
