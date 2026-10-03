@@ -13,8 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100318f5c: whether any of the iron ball part actors satisfies
+    // ActorConstDataAccess::sub_7100D13BB8.
+    bool sub_7100318F5C();
 
 protected:
 };

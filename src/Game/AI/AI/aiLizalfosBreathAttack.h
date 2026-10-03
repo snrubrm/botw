@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -11,8 +12,12 @@ public:
     ~LizalfosBreathAttack() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x7100484734: changeChild("疲れる") with the tired time derived from the elapsed attack time.
+    void sub_7100484734();
 
 protected:
     // static_param at offset 0x38
@@ -21,9 +26,7 @@ protected:
     const int* mMinTiredTime_s{};
     // static_param at offset 0x48
     const float* mTiredTimeRate_s{};
-    f32 _50{};
-    f32 _54{};
-    f32 _58 = 1.0f;
+    ksys::Timer _50{0, 0, 1.0f};
 };
 
 }  // namespace uking::ai
