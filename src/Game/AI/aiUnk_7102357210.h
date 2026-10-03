@@ -52,6 +52,12 @@ public:
     bool _38;
 };
 
+// vtable 0x710240bc70 (NPCMove; message type 0x1800003; D0 at 0x71004d4fa0)
+class Unk_710240bc70 : public Unk_7102450648 {
+public:
+    explicit Unk_710240bc70(u32 type) : Unk_7102450648(type) {}
+};
+
 // vtable 0x7102450828
 class Unk_7102450828 : public Unk_7102450648 {
 public:
