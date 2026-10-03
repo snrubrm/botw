@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ai {
 
@@ -82,6 +84,20 @@ void EnemyRoot::m42() {
 
 bool EnemyRoot::m35() {
     return sub_71005D6E28(mActor);
+}
+
+void EnemyRoot::sub_71003B5644() {
+    *mIsTrgChangeUnderWaterState_a = false;
+    if (auto* awareness = mActor->getAwareness()) {
+        const u32 flags = awareness->_318;
+        const bool castle = ksys::gdt::getFlag_IsInHyruleCastleArea();
+        if (flags & 8) {
+            if (castle)
+                awareness->_318 &= ~8u;
+        } else if (!castle) {
+            awareness->_318 |= 8;
+        }
+    }
 }
 
 bool EnemyRoot::sub_71003B5804(bool a1) {
