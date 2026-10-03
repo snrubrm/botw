@@ -68,10 +68,17 @@ review backlog are in `/home/snrub/botw-tools/research/decisions.md` and `REVIEW
 
 # Names
 
-Use names from the CSV, existing headers, aidef/status data (`data/*.yml`), strings in the binary, RTTI, or
-sead/agl/NintendoSDK headers. Don't invent descriptive names. For things that exist in the binary but have no known
-name, use the placeholder conventions: `mNN` (virtual slot), `sub_<ADDR>` (function), `_xx` (field at offset xx),
-`Unk_<vtable or ctor address>` (class), `sUnk_<address>` (global).
+Real names come first: names from the CSV's mangled symbols, existing headers, aidef/status data (`data/*.yml`),
+strings in the binary, RTTI, or sead/agl/NintendoSDK headers. Never replace one of those with a guess.
+
+Descriptive names are allowed (user decision 2026-10-03, as in other decomps) when you understand what the thing
+does from the code — what it reads and writes, its callers and callees, nearby strings. Follow the codebase's style
+(`mCamelCase` members, `camelCase` methods, `PascalCase` classes, `sCamelCase` globals). If you are unsure, add the
+upstream hedge suffix `Maybe` (`crashMaybe`, `getHorseOptionsMaybe`) or keep a placeholder: `mNN` (virtual slot),
+`sub_<ADDR>` (function), `_xx` (field at offset xx), `Unk_<vtable or ctor address>` (class), `sUnk_<address>` (global).
+
+Renaming something that already has a name elsewhere in the tree (a placeholder in a shared header, a CSV entry other
+code uses) is done only by the lane that owns that class, and is logged, so parallel lanes don't collide.
 
 # Code style
 
