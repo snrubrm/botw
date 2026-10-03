@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionUnk_7102451320.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -28,6 +29,10 @@ protected:
     sead::SafeString mRotBaseBoneName_s{};
     // dynamic_param at offset 0x48
     sead::Vector3f* mTargetPos_d{};
+    u8 _50[0x3c];
+    u32 _8c = 0;
+    Unk_7102451320 _90;
 };
+KSYS_CHECK_SIZE_NX150(GiantAttack, 0x128);
 
 }  // namespace uking::action

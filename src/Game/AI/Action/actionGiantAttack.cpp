@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGiantAttack.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +12,16 @@ bool GiantAttack::init_(sead::Heap* heap) {
 }
 
 void GiantAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mRotBaseBoneName_s.isEmpty())
+        return;
+    _90.setName(mRotBaseBoneName_s);
+    _90.sub_7100743414(0, true, 0);
 }
 
 void GiantAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (mRotBaseBoneName_s.isEmpty())
+        return;
+    mActor->sub_71011DA868(&_90);
 }
 
 void GiantAttack::loadParams_() {
