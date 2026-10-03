@@ -308,6 +308,15 @@ public:
         s32 _8 = -1;
     };
     /* 0xf28 */ Unk_7100001aa4 _f28{this};
+
+    // inline-only in the original; name is a guess (lane1 s22). Evidence: `time = _f28.sub_7100001AA4(
+    // scale); _e68 = Timer(time, time)` is inlined, with the scale argument evaluated first, in
+    // EnemyBattle::sub_7100381ED4, AssassinFieldShooterBattleBase::enter_, MoriblinSpearBattle,
+    // EnemySkyArrowAttack::m35, RodEnemyFindPlayer::calc_, GanonBeastWait and others.
+    void startAttackInterval(f32 scale) {
+        const s32 time = _f28.sub_7100001AA4(scale);
+        _e68 = ksys::Timer(time, time);
+    }
     /* 0xf38 */ void* _f38 = nullptr;
     /* 0xf40 */ s32 _f40 = 0;
     /* 0xf44 */ s32 _f44 = -1;

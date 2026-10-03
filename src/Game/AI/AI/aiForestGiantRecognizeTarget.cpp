@@ -65,4 +65,10 @@ void ForestGiantRecognizeTarget::calc_() {
         sub_71005DB1D8(mActor, sub_71005D9330(mActor));
 }
 
+void ForestGiantRecognizeTarget::leave_() {
+    sub_71005DB3EC(mActor);
+}
+
+void ForestGiantRecognizeTarget::loadParams_() {}
+
 }  // namespace uking::ai

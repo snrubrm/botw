@@ -68,10 +68,8 @@ void MoriblinSpearBattle::sub_71004AA888() {
 
 void MoriblinSpearBattle::sub_71004AB3E4() {
     sub_71005DA114(mActor, &_90);
-    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
-        const s32 time = enemy->_f28.sub_7100001AA4(*mAttackIntervalIntensity_s);
-        enemy->_e68 = ksys::Timer(time, time);
-    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->startAttackInterval(*mAttackIntervalIntensity_s);
     _80 = ksys::Timer(10, 10);
 
     sead::Vector3f pos = *mTargetPos_d;
