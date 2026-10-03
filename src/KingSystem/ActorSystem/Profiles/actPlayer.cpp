@@ -289,6 +289,21 @@ void Player::m318(sead::Matrix34f* out) {
     mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(out, key.bone_index);
 }
 
+f32 Player::x_39() {
+    sead::Vector3f dir;
+    _1b18.getBase(dir, 2);
+    dir.normalize();
+    return std::atan2(dir.x, dir.z) * (180.0f / sead::Mathf::pi());
+}
+
+bool Player::m218() {
+    if (auto* chemical = getChemicalStuff()) {
+        if ((chemical->_bc & 0x30) == 0x10 || (chemical->_b8 & 4))
+            return true;
+    }
+    return _2550._8.isOnBit(2) || _2550._8.isOnBit(10);
+}
+
 bool Player::m353() {
     if (getChemicalStuff())
         return getChemicalStuff()->_10c > 0.0f;
@@ -374,24 +389,7 @@ bool Player::sub_710087F4F8(const sead::Vector3f& start, const sead::Vector3f& e
 
 namespace ksys::act {
 
-// NON_MATCHING: operand order of the XZ length addition (z*z + x*x in the original)
-Player::Unk1 Player::x_5() {
-    sead::Vector3f dir;
-    _1b18.getBase(dir, 2);
-    dir.normalize();
-    if (sead::Vector2f(dir.x, dir.z).length() == 0.0f) {
-        _1b18.getBase(dir, 1);
-        dir.normalize();
-    }
-    return Unk1(sead::Mathf::atan2Idx(dir.x, dir.z));
-}
-
-}  // namespace ksys::act
-
-namespace ksys::act {
-
-// NON_MATCHING: x_5() gets inlined here (it is defined in this file; the original calls it), and the
-// original selects the stored speed with an integer csel
+// NON_MATCHING: the original selects the stored speed with an integer csel
 void Player::sub_7100877BD8() {
     const sead::Vector3f& translation = getASList()->sub_710115D2D4();
     f32 speed = translation.length();

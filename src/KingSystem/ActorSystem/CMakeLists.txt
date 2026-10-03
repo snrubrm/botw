@@ -33,6 +33,7 @@ target_sources(uking PRIVATE
     Profiles/actDynamicActor.h
     Profiles/actPlayer.cpp
     Profiles/actPlayerBowUtil.cpp
+    Profiles/actPlayerOutOfLine.cpp
     Profiles/actPlayer.h
     Profiles/actPlayerArmors.cpp
     Profiles/actPlayerBase.cpp
