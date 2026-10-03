@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace uking::act {
+class HorseBase;
+}
+
 namespace uking::ai {
 
 class HorseWanderAI : public ksys::act::ai::Ai {
@@ -16,6 +20,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // Inline-only in the original (name guess; evidence: enter_'s SafeString temporaries sit above the param pack).
+    void changeToFollowLeader(ksys::act::ai::InlineParamPack* pack, act::HorseBase* horse);
 };
 
 }  // namespace uking::ai

@@ -10,18 +10,22 @@ HorseWanderAI::HorseWanderAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 HorseWanderAI::~HorseWanderAI() = default;
 
-// NON_MATCHING: the original keeps the SafeString temporaries above the 0xa00-byte pack (frame offsets
-// differ by 0x10) and tests the rideable id before the horse null check without hoisting it
+// NON_MATCHING: the original tests the rideable id before the horse null check without hoisting it (the stack
+// layout matches since the leader parameters are in an inline helper)
+inline void HorseWanderAI::changeToFollowLeader(ksys::act::ai::InlineParamPack* pack, act::HorseBase* horse) {
+    pack->addActor(horse->_b30, "TargetActor", -1);
+    pack->addFloat(0.0f, "DistanceKept", -1);
+    changeChild("移動(リーダーあり)", pack);
+}
+
 void HorseWanderAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack pack;
     auto* actor = mActor;
     auto* horse = sead::DynamicCast<act::HorseBase>(actor);
     auto* rideable = actor->getHorseOptionsMaybe();
-    if ((!rideable || rideable->_c != 1) && horse) {
+    if (!(rideable && rideable->_c == 1) && horse) {
         if (horse->_b30.hasProc()) {
-            pack.addActor(horse->_b30, "TargetActor", -1);
-            pack.addFloat(0.0f, "DistanceKept", -1);
-            changeChild("移動(リーダーあり)", &pack);
+            changeToFollowLeader(&pack, horse);
             return;
         }
         if (horse->_b40) {
