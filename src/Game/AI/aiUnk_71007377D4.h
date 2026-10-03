@@ -6,6 +6,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include <prim/seadSafeString.h>
+
+namespace ksys::act {
+class AttackSensor;
+}
 #include "KingSystem/Physics/System/physRayCast.h"
 
 namespace ksys::act {
@@ -299,3 +303,13 @@ const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);
 /// not be picked up into the pouch.
 bool itemCanGetPouch(ksys::act::Actor* actor);
 bool itemCanNotGetPouch(ksys::act::Actor* actor);
+
+// 0x71007390b8 - 0x7100739168 (placeholder names; 16 bytes each): set the attack target mask (AttackSensor::_20) of the
+// sensor (null-safe); Bullet::m76 picks one by the owner's profile. (0x7100739118 - 0x7100739168 are the same with
+// a halfword at +0x1c: not written, AttackSensor::_1c is a u32.)
+void sub_71007390B8(ksys::act::AttackSensor* sensor);
+void sub_71007390C8(ksys::act::AttackSensor* sensor);
+void sub_71007390D8(ksys::act::AttackSensor* sensor);
+void sub_71007390E8(ksys::act::AttackSensor* sensor);
+void sub_71007390F8(ksys::act::AttackSensor* sensor);
+void sub_7100739108(ksys::act::AttackSensor* sensor);

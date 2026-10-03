@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -498,4 +499,35 @@ void sub_7100738D28(ksys::act::Actor* actor, ksys::act::Actor* other) {
     auto* physics = actor->getPhysics();
     if (handler && physics)
         physics->sub_7100FBDFA4(handler);
+}
+
+
+void sub_71007390B8(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0xfffd;
+}
+
+void sub_71007390C8(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0x15;
+}
+
+void sub_71007390D8(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0x8;
+}
+
+void sub_71007390E8(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0x5;
+}
+
+void sub_71007390F8(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0x1;
+}
+
+void sub_7100739108(ksys::act::AttackSensor* sensor) {
+    if (sensor)
+        sensor->_20 = 0xffff;
 }
