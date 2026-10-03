@@ -86,6 +86,10 @@ s32 SiteBoss::Unk_71002cf2ac::sub_710066C074() {
 }
 
 
+ksys::act::BaseProcLink* SiteBoss::Unk_71002cf2ac::sub_710066DE24(int idx) {
+    return &_3b0[idx];
+}
+
 void SiteBoss::Unk_71002cf2ac::sub_710066DB98(ksys::act::BaseProc* proc, int idx) {
     if (proc && !_360.hasProc()) {
         _360.acquire(proc, false);

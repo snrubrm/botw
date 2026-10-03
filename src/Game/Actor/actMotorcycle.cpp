@@ -10,6 +10,10 @@ ksys::act::BaseProc* Motorcycle::construct(const CreateArg& arg, sead::Heap* hea
 // NON_MATCHING: the members are placeholders (ctor and dtor not decompiled)
 Motorcycle::~Motorcycle() = default;
 
+void Motorcycle::onPreDeleteStart_(PrepareArg& arg) {
+    DynamicActor::onPreDeleteStart_(arg);
+}
+
 bool Motorcycle::x_6() const {
     return _f88.isOnBit(11);
 }

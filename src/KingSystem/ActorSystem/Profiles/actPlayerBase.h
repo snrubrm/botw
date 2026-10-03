@@ -103,8 +103,8 @@ public:
     /* 234 */ virtual bool m234() { return false; }
     /* 235 */ virtual f32 m235() { return 0.0f; }
     /* 236 */ virtual f32 getBoneAttackRate() { return 1.0f; }
-    /* 237 */ void m237() override;
-    /* 238 */ void m238() override;
+    /* 237 */ bool m237() override;
+    /* 238 */ bool m238() override;
     /* 239 */ void m239() override;
     /* 240 */ void m240() override;
     /* 241 */ virtual bool m241() { return true; }
@@ -129,8 +129,8 @@ public:
     /* 260 */ virtual bool m260() { return false; }
     /* 261 */ virtual void m261();
     /* 262 */ bool isGroundForEvent() override;
-    /* 263 */ void getAttachedTargetActor2() override;
-    /* 264 */ void getAttachedTargetActor() override;
+    /* 263 */ Actor* getAttachedTargetActor2() override;
+    /* 264 */ Actor* getAttachedTargetActor() override;
     /* 265 */ virtual const sead::Vector3f* m265() { return &sead::Vector3f::zero; }
     /* 266 */ virtual void m266(const sead::SafeString& slot, int frames);
     /* 267 */ virtual void m267();
@@ -145,7 +145,7 @@ public:
     /* 276 */ void m276() override;
     /* 277 */ virtual void m277(ActorConstDataAccess* accessor, int idx) {}
     /* 278 */ virtual void m278();
-    /* 279 */ virtual bool getArmorDyeStuff() { return false; }
+    /* 279 */ virtual s32 getArmorDyeStuff() { return 0; }
     /* 280 */ virtual bool m280() { return false; }
     /* 281 */ virtual bool isEquipedDyedArmor() { return false; }
     /* 282 */ virtual void getArmorSeriesType(sead::BufferedSafeString* out) {}
@@ -233,8 +233,8 @@ public:
     /* 354 */ virtual f32 getAtkMultiplier() { return 1.0f; }
     /* 355 */ bool getActorViaAccessor(ActorLinkConstDataAccess* accessor) override;
     /* 356 */ PlayerBase* getPlayer() override;
-    /* 357 */ virtual void m357();
-    /* 358 */ void m358() override;
+    /* 357 */ virtual sead::Vector3f* m357();
+    /* 358 */ SeadController* m358() override;
     /* 359 */ virtual bool m359() { return false; }
 
     // Non-virtual member functions defined in PlayerBase's TU (CSV names, prefix "Player::").
@@ -388,7 +388,7 @@ public:
     void getEnemyTeam(sead::BufferedSafeString* out) const;
     bool ArmorSeriesTypeStuff() const;
     bool isEquipedDyedArmor() const;
-    bool getArmorDyeStuff() const;
+    s32 getArmorDyeStuff() const;
     bool m280() const;
     bool x_14() const;
     bool m328() const;

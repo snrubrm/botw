@@ -63,6 +63,31 @@ void WeaponBase::m207() {
     setFlag(ActorFlag::_2c, true);
 }
 
+void WeaponBase::m208() {
+    _948.reset();
+}
+
+// The return types of these constant-false slots are guesses (bool).
+bool WeaponBase::m196() {
+    return false;
+}
+
+bool WeaponBase::m197() {
+    return false;
+}
+
+bool WeaponBase::m217() {
+    return false;
+}
+
+bool WeaponBase::m223() {
+    return false;
+}
+
+bool WeaponBase::m250() {
+    return false;
+}
+
 bool WeaponBase::isWeaponType0Or1Or2() const {
     return m231() || m232() || m233();
 }

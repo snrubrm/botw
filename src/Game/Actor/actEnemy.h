@@ -195,7 +195,7 @@ public:
     void m36() override;
     void m41() override;
     Actor* m48() override;
-    void m49() override;
+    bool m49() override;
     void killWithDropsAndEffects(int a1) override;
     bool m57() override;
     bool shouldUnload() override;
@@ -237,7 +237,7 @@ public:
     bool isGuard() override;
     bool m169() override { return _e84.isOnBit(13); }
     bool weaponDroppedByEnemy() override;
-    void getEquippedItem() override;
+    const char* getEquippedItem() override;
 
     // FIXME: figure out return types, parameters and names
     virtual void m177();

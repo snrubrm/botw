@@ -74,8 +74,8 @@ public:
     virtual bool m193() { return _923; }
     virtual bool m194() { return false; }
     virtual bool m195() { return false; }
-    virtual void m196();
-    virtual void m197();
+    virtual bool m196();
+    virtual bool m197();
     virtual void m198();
     virtual void m199();
     virtual void m200();
@@ -95,13 +95,13 @@ public:
     virtual bool m214() { return true; }
     virtual void m215() {}
     virtual bool m216() { return false; }
-    virtual void m217();
+    virtual bool m217();
     virtual bool m218() { return false; }
     virtual bool isMasterSword() { return false; }
     virtual void masterSwordReturnToForest() {}
     virtual void m221();
     virtual bool m222() { return false; }
-    virtual void m223();
+    virtual bool m223();
     virtual void m224(sead::Vector3f* out) { *out = sead::Vector3f::ones; }
     virtual bool m225() { return false; }
     virtual bool m226() { return false; }
@@ -128,7 +128,7 @@ public:
     virtual void m247();
     virtual void m248();
     virtual void m249();
-    virtual void m250();
+    virtual bool m250();
 
     static void requestCreateWeaponActor(const char* actor, const sead::Matrix34f& matrix,
                                          f32 scale, sead::Heap* heap,

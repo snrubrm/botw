@@ -29,7 +29,7 @@ public:
     void calcMaybe() override;
     bool m81(const ksys::Message& message) override;
     void m156() override;
-    void getBaseAtkPower() override;
+    s32 getBaseAtkPower() override;
 
     // Index type of _14f8 (19 values; no text in the executable, names unknown).
     SEAD_ENUM(Idx14f8, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16,

@@ -27,7 +27,7 @@ protected:
 
 public:
     f32 getGuardableAngle() override { return sead::Mathf::deg2rad(100.0f); }
-    void m49() override;
+    bool m49() override;
     bool m50() override;
     void m51() override;
     bool m55() override { return true; }
@@ -56,15 +56,19 @@ public:
     virtual void m165();
     virtual bool isGuard();
     virtual bool isGuardJust();
-    virtual void getBaseAtkPower();
+    virtual s32 getBaseAtkPower();
     virtual bool m169() { return false; }
     virtual bool m170();
     virtual void m171();
     virtual void m172();
     virtual bool m173();
     virtual bool weaponDroppedByEnemy() { return true; }
-    virtual void getEquippedItem();
+    // The equipped item's actor name (null without one).
+    virtual const char* getEquippedItem();
     virtual void m176();
+
+    // 0x710073632c (CSV name): enemy attack power (0 for non-enemies); the base getBaseAtkPower.
+    s32 getEnemyAtkPower();
 
     // Forward a request to the equipped weapon in slot `idx` if it is a uking::act::Weapon
     // (Weapon::sub_71002EDA38 / sub_71002EDAEC). Placeholder names.

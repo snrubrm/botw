@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/System/Timer.h"
@@ -55,14 +56,14 @@ public:
     /*  88 */ void m88() override;
     /*  89 */ void m89() override;
     /*  90 */ void m90() override;
-    /*  99 */ void getArmors() override;
+    /*  99 */ PlayerArmors* getArmors() override;
     /* 109 */ int m109() override { return 0x30; }
     /* 114 */ void m114() override;
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
     /* 117 */ void m117() override;
     /* 119 */ void m119() override;
-    /* 129 */ void m129() override;
+    /* 129 */ PlayerLink* m129() override;
     /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;
     /* 145 */ void m145() override {}
     /* 146 */ bool m146() override;
@@ -122,8 +123,8 @@ public:
     /* 257 */ bool m257() override;
     /* 258 */ void m258() override;
     /* 261 */ void m261() override;
-    /* 263 */ void getAttachedTargetActor2() override;
-    /* 264 */ void getAttachedTargetActor() override;
+    /* 263 */ Actor* getAttachedTargetActor2() override;
+    /* 264 */ Actor* getAttachedTargetActor() override;
     /* 265 */ const sead::Vector3f* m265() override { return &_230c; }
     /* 267 */ void m267() override;
     /* 268 */ bool m268() override;
@@ -136,7 +137,7 @@ public:
     /* 276 */ void m276() override;
     /* 277 */ void m277(ActorConstDataAccess* accessor, int idx) override;
     /* 278 */ void m278() override;
-    /* 279 */ bool getArmorDyeStuff() override;
+    /* 279 */ s32 getArmorDyeStuff() override;
     /* 280 */ bool m280() override;
     /* 281 */ bool isEquipedDyedArmor() override;
     /* 282 */ void getArmorSeriesType(sead::BufferedSafeString* out) override;
@@ -302,6 +303,8 @@ public:
     // 30 / _20f0) and its matrix to _1b18 (ladder actions).
     void sub_7100892100(const sead::Vector3f& pos);
     void x_40();                                                        // 0x8922cc
+    // 0x710088f57c (CSV name): syncs the status effect flags.
+    void syncStatusEffectFlags(bool a);
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18
 
@@ -318,8 +321,9 @@ public:
     /* 0x185c */ u8 _185c[0x1868 - 0x185c];
     /* 0x1868 */ s32 _1868;  // max life (PlayerInfo::setMaxLifeForPlayerActor)
     /* 0x186c */ f32 _186c;  // max stamina (PlayerInfo)
-    /* 0x1870 */ void* _1870;
-    /* 0x1878 */ u8 _1878[0x1b18 - 0x1878];
+    /* 0x1870 */ Actor* _1870;  // the attached target actor
+    /* 0x1878 */ u8 _1878[0x19f0 - 0x1878];
+    /* 0x19f0 */ sead::SafeArray<s32, 0x4a> _19f0;
     /* 0x1b18 */ sead::Matrix34f _1b18;
     /* 0x1b48 */ u8 _1b48[0x1b90 - 0x1b48];
     /* 0x1b90 */ void* _1b90;
@@ -392,7 +396,7 @@ public:
     /* 0x22f4 */ u8 _22f4[0x230c - 0x22f4];
     /* 0x230c */ sead::Vector3f _230c;
     /* 0x2318 */ u8 _2318[0x23e0 - 0x2318];
-    /* 0x23e0 */ u8 _23e0[0x2550 - 0x23e0];  // armors (CSV PlayerArmors::*; Actor::getArmors returns it)
+    /* 0x23e0 */ PlayerArmors _23e0;
     /* 0x2550 */ u8 _2550[0x2559 - 0x2550];
     /* 0x2559 */ u8 _2559;
     /* 0x255a */ u8 _255a[0x26b0 - 0x255a];

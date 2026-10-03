@@ -13,6 +13,8 @@ ksys::act::BaseProc* Enemy::construct(const CreateArg& arg, sead::Heap* heap) {
 // vtable store of the object at 0x1148
 Enemy::~Enemy() = default;
 
+void Enemy::Unk_12d0::sub_7100710F04() {}
+
 bool Enemy::m57() {
     if (mActorFlags2.isOn(ActorFlag2::_40))
         return true;

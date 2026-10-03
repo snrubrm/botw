@@ -104,6 +104,8 @@ class Unk_71025ae620;
 class ImpulseBaseProcLink;
 class LodState;
 class ModelBindInfo;
+class PlayerArmors;
+class PlayerLink;
 class Schedule;
 
 // FIXME: move this to a separate file and rename
@@ -374,7 +376,7 @@ public:
     virtual void m46();
     virtual bool m47();
     virtual Actor* m48();
-    virtual void m49();
+    virtual bool m49();
     virtual bool m50();
     virtual void m51();
     virtual void m52();
@@ -394,7 +396,7 @@ public:
     // rail follower and matrix). The name is a guess.
     virtual void updateLodStuff(Actor* other);
     virtual void m66();
-    virtual void m67();
+    virtual bool m67();
     virtual void m68();
     virtual void calcMaybe();
     virtual void m70();
@@ -428,7 +430,8 @@ public:
     virtual void m96(s32* a1, s32* a2);
     virtual Chemical* getChemicalStuff();
     virtual ActorWeapons* getWeapons();
-    virtual void getArmors();
+    // Null for non-players.
+    virtual PlayerArmors* getArmors();
     virtual Unk_7100e4e084* m100();
     virtual uking::act::Unk_7100d3cd74* m101();
     virtual int getExtraHeapSize();
@@ -460,7 +463,8 @@ public:
     virtual Unk_71025b08f8* m126();
     virtual uking::dmg::DamageManagerBase* getDamageMgr();
     virtual Unk_71006e45c4* m128();
-    virtual void m129();
+    // The PlayerLink part of a player actor (null for other actors).
+    virtual PlayerLink* m129();
     virtual uking::act::HorseRideInfo* getPlayerRideInfo();
     virtual uking::act::Rideable* getHorseOptionsMaybe();
     virtual uking::act::RideableBase* m132();

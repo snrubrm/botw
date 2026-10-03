@@ -3,8 +3,13 @@
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
 
+namespace ksys {
+class SeadController;
+}
+
 namespace ksys::act {
 
+class Actor;
 class ActorLinkConstDataAccess;
 class PlayerBase;
 
@@ -18,7 +23,7 @@ class PlayerBase;
 class PlayerLink {
 public:
     /*  0 */ virtual bool getActorViaAccessor(ActorLinkConstDataAccess* accessor) = 0;
-    /*  1 */ virtual void m358() = 0;
+    /*  1 */ virtual SeadController* m358() = 0;
     /*  2 */ virtual void m2() {}
     /*  3 */ virtual void m3() {}
     /*  4 */ virtual void m4() {}
@@ -30,8 +35,8 @@ public:
     /* 10 */ virtual void m274() = 0;
     /* 11 */ virtual void m275() = 0;
     /* 12 */ virtual void m276() = 0;
-    /* 13 */ virtual void getAttachedTargetActor2() = 0;
-    /* 14 */ virtual void getAttachedTargetActor() = 0;
+    /* 13 */ virtual Actor* getAttachedTargetActor2() = 0;
+    /* 14 */ virtual Actor* getAttachedTargetActor() = 0;
     /* 15 */ virtual void m382();
     /* 16 */ virtual bool m378() { return false; }
     /* 17 */ virtual bool m17() { return false; }
@@ -54,8 +59,8 @@ public:
     /* 34 */ virtual void m377() {}
     /* 35 */ virtual bool m383() { return false; }
     /* 36 */ virtual f32 m360() { return 1.0f; }
-    /* 37 */ virtual void m237() = 0;
-    /* 38 */ virtual void m238() = 0;
+    /* 37 */ virtual bool m237() = 0;
+    /* 38 */ virtual bool m238() = 0;
     /* 39 */ virtual void m239() = 0;
     /* 40 */ virtual void m240() = 0;
     /* 41 */ virtual bool m292() = 0;

@@ -30,6 +30,10 @@ f32 Unk_7102459708::sub_7100791E44(f32 t) const {
 
 namespace uking::act {
 
+bool sub_710079BE9C(int idx) {
+    return idx < 1;
+}
+
 Unk_710079a8e8::~Unk_710079a8e8() = default;
 
 void Camera::sub_71007953C8() {
@@ -49,6 +53,8 @@ void Camera::sub_71007929E0() {
     _13fd &= ~0x80;
     _860._7c0[!(_860._81a & 1)].reset();
 }
+
+void Camera::sub_7100799920() {}
 
 bool Camera::sub_7100794FD0() const {
     return _860._800.sub_710079C0CC(0x8000);

@@ -10,6 +10,14 @@ PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
 
 PlayerOrEnemy::~PlayerOrEnemy() = default;
 
+s32 PlayerOrEnemy::getBaseAtkPower() {
+    return getEnemyAtkPower();
+}
+
+const char* PlayerOrEnemy::getEquippedItem() {
+    return nullptr;
+}
+
 bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }

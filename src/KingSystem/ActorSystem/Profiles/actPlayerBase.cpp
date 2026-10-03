@@ -14,6 +14,22 @@ bool PlayerBase::x_50() {
     return false;
 }
 
+bool PlayerBase::m237() {
+    return _17d0->controllerCheckPressedMaybe(2);
+}
+
+bool PlayerBase::m238() {
+    return _17d0->playerCheckController(2);
+}
+
+sead::Vector3f* PlayerBase::m357() {
+    return &_1770;
+}
+
+SeadController* PlayerBase::m358() {
+    return _17d0;
+}
+
 
 // NON_MATCHING: most member types are still unknown (placeholders)
 PlayerBase::~PlayerBase() = default;
@@ -216,10 +232,10 @@ bool PlayerBase::isEquipedDyedArmor() const {
     return false;
 }
 
-bool PlayerBase::getArmorDyeStuff() const {
+s32 PlayerBase::getArmorDyeStuff() const {
     if (auto* player = getPlayerBase())
         return player->getArmorDyeStuff();
-    return false;
+    return 0;
 }
 
 bool PlayerBase::m280() const {

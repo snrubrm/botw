@@ -46,6 +46,54 @@ bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& e
     return true;
 }
 
+void Player::m77(VFR::ScopedDeltaSetter* setter) {
+    setter->set(0x42, 1);
+}
+
+PlayerLink* Player::m129() {
+    return this;
+}
+
+PlayerArmors* Player::getArmors() {
+    return &_23e0;
+}
+
+bool Player::m234() {
+    return _23e0.sub_7100E2F490();
+}
+
+s32 Player::getArmorDyeStuff() {
+    return _23e0.sub_7100E2F000();
+}
+
+bool Player::m280() {
+    return _23e0.sub_7100E2F18C();
+}
+
+bool Player::ArmorSeriesTypeStuff() {
+    return _23e0.sub_7100E30DA8();
+}
+
+void Player::getMaskType(sead::BufferedSafeString* out) {
+    _23e0.sub_7100E313FC(0, out);
+}
+
+Actor* Player::getAttachedTargetActor2() {
+    return _1870;
+}
+
+Actor* Player::getAttachedTargetActor() {
+    return _1870;
+}
+
+s32 Player::m312(int idx) {
+    return _19f0[idx];
+}
+
+void Player::m323() {
+    syncStatusEffectFlags(false);
+}
+
 bool Player::m50() {
     return PlayerOrEnemy::m50();
 }

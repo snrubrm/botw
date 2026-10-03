@@ -79,7 +79,7 @@ public:
     bool shouldUnload() override;
     void m63() override;
     void initMaybe() override;
-    void m67() override;
+    bool m67() override;
     void calcMaybe() override;
     void m70() override;
     void updatePositionMaybe() override;

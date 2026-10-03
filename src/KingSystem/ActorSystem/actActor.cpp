@@ -506,6 +506,22 @@ s32 Actor::m94() {
     return 0;
 }
 
+bool Actor::m49() {
+    return false;
+}
+
+bool Actor::m67() {
+    return true;
+}
+
+PlayerArmors* Actor::getArmors() {
+    return nullptr;
+}
+
+PlayerLink* Actor::m129() {
+    return nullptr;
+}
+
 void Actor::m96(s32* a1, s32* a2) {
     *a1 = -1;
     *a2 = 0;
