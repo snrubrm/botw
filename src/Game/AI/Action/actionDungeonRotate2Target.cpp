@@ -17,6 +17,12 @@ bool DungeonRotate2Target::init_(sead::Heap* heap) {
 
 void DungeonRotate2Target::enter_(ksys::act::ai::InlineParamPack* params) {
     DungeonRotateBase::enter_(params);
+    const f32 rad = *mDgnRotDir_s == 0 ? -*mTargetRad_a : *mTargetRad_a;
+    _110 = rad;
+    _114 = rad;
+    m34(*mRotSpAccel_s);
+    _118 = _80;
+    mFlags.set(Flag::Changeable);
 }
 
 void DungeonRotate2Target::leave_() {

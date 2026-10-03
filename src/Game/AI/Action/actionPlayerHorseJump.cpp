@@ -36,4 +36,11 @@ bool PlayerHorseJump::isChangeable() const {
     return true;
 }
 
+bool PlayerHorseJump::isFinished() const {
+    if (static_cast<ksys::act::Player*>(mActor)->isSurfingOnGround())
+        return true;
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    return player->_1770.y < player->_2158 - 0.5f;
+}
+
 }  // namespace uking::action
