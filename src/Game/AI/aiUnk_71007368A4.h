@@ -9,6 +9,7 @@ class Actor;
 class ActorConstDataAccess;
 class BaseProc;
 class BaseProcLink;
+class Unk_7100d8557c;
 }  // namespace ksys::act
 
 // Free functions of an unnamed AI utility translation unit (0x71007368a4 - 0x7100736e20; its
@@ -36,6 +37,11 @@ bool sub_7100736D98(ksys::act::Actor* actor);
 
 // Further functions of the AI utility code (same placeholder conventions).
 
+/// 0x71007398a8 (lane1 s21): the actor's BoneControl::_0 object (nullptr without a bone control).
+ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor);
+/// 0x7100739900 / 0x7100739918: call Unk_7100d8557c::sub_7100D85794 / sub_7100D857B0 on it, if any.
+void sub_7100739900(ksys::act::Actor* actor);
+void sub_7100739918(ksys::act::Actor* actor);
 /// 0x7100739930: the linked actor's name is in the actor's EnemyRace EscapeAttackedActorType list.
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 /// 0x71007399b4: the actor's EnemyRace parameters use target tags (IsUseTargetTag) and the

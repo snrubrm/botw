@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGolemRoot.h"
+#include "Game/Actor/actUnk_7100d3cd74.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -34,6 +36,21 @@ void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
         *a5 = -1;
         *a4 = -1;
     }
+}
+
+bool GolemRoot::handleMessage_(const ksys::Message& message) {
+    if (message.getType() == 0x3000003 || message.getType() == 0x3000004) {
+        if (auto* parts = mActor->m101()) {
+            auto& link = parts->getActorPartsActor("WeakPoint");
+            if (link.hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&link, &accessor);
+                mActor->sendMessageOnProcessingThread(*accessor.getMessageTransceiverId(),
+                                                      message.getType(), nullptr, true);
+            }
+        }
+    }
+    return GolemRootBase::handleMessage_(message);
 }
 
 GolemRoot::GolemRoot(const InitArg& arg) : GolemRootBase(arg) {}

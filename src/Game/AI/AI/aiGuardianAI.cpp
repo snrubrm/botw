@@ -22,4 +22,8 @@ void GuardianAI::leave_() {
 
 void GuardianAI::loadParams_() {}
 
+act::Guardian* GuardianAI::sub_710040DA6C() {
+    return sead::DynamicCast<act::Guardian>(mActor);
+}
+
 }  // namespace uking::ai

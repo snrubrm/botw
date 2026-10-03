@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Actor/actGuardian.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -15,6 +16,9 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+
+    // 0x710040da6c (lane1 s21): the actor as a Guardian (DynamicCast), or nullptr.
+    act::Guardian* sub_710040DA6C();
 
 protected:
 };

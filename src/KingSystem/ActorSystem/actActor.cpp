@@ -49,6 +49,11 @@ bool Actor::sendMessage(const MesTransceiverId& dest, const MessageType& type, v
     return mMsgTransceiver.sendMessage(dest, type, user_data, ack);
 }
 
+bool Actor::sendMessageOnProcessingThread(const MesTransceiverId& dest, const MessageType& type,
+                                          void* user_data, bool ack) {
+    return mMsgTransceiver.sendMessageOnProcessingThread(dest, type, user_data, ack);
+}
+
 bool Actor::sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data,
                         bool ack) {
     return mMsgTransceiver.sendMessage(broker, type, user_data, ack);

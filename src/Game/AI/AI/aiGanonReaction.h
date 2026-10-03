@@ -21,6 +21,8 @@ public:
     void m40(ksys::act::ai::InlineParamPack* params) override;
 
 protected:
+    void calc_() override;
+
     bool _63{};
 };
 

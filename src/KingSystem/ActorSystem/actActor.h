@@ -263,6 +263,9 @@ public:
     ActorMessageTransceiver& getMessageTransceiver() { return mMsgTransceiver; }
     bool sendMessage(const MesTransceiverId& dest, const MessageType& type, void* user_data,
                      bool ack);
+    // 0x71011daf28 (lane1 s21; unnamed in the CSV): the ProcessingThread variant of the above.
+    bool sendMessageOnProcessingThread(const MesTransceiverId& dest, const MessageType& type,
+                                       void* user_data, bool ack);
     // 0x71011daf34 (CSV Actor::sendMessage3)
     bool sendMessage(IMessageBroker& broker, const MessageType& type, void* user_data, bool ack);
 

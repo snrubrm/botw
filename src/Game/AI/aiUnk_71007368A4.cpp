@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEatTarget.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -67,6 +68,27 @@ bool sub_7100736D98(ksys::act::Actor* actor) {
     if (!dmg)
         return false;
     return dmg->getField54() == 2 || dmg->getField54() == 1 || dmg->getField54() == 5;
+}
+
+ksys::act::Unk_7100d8557c* sub_71007398A8(ksys::act::Actor* actor) {
+    auto* bone_control = actor->getBoneControl();
+    if (!bone_control)
+        return nullptr;
+    return bone_control->_0;
+}
+
+void sub_7100739900(ksys::act::Actor* actor) {
+    if (auto* bone_control = actor->getBoneControl()) {
+        if (auto* unk = bone_control->_0)
+            unk->sub_7100D85794();
+    }
+}
+
+void sub_7100739918(ksys::act::Actor* actor) {
+    if (auto* bone_control = actor->getBoneControl()) {
+        if (auto* unk = bone_control->_0)
+            unk->sub_7100D857B0();
+    }
 }
 
 bool sub_7100739930(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
