@@ -5,10 +5,6 @@
 namespace ksys::evt {
 
 // 0x7100da6748 (CSV evt::ActionBase::ctor)
-// NON_MATCHING: identical except for the store order inside the evfl::ActionDoneHandler default constructor
-// (the original stores the two bool bytes before `m_obj`, the lib's in-class initialisers give `m_obj`, then one
-// `strh`); matches with `ActionDoneHandler() { m_handled = false; m_is_flowchart = true; m_obj = nullptr; }` in the
-// lib, see the libwork log.
 ActionBase::ActionBase(const evfl::ResAction* res, ActorBase* actor)
     : mActor(actor), mRes(res) {
     for (auto& slot : mSlots)
