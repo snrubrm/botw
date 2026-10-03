@@ -507,6 +507,8 @@ public:
 
     UserTag* getUserTag() const { return mUserTag; }
     void setUserTag(UserTag* tag) { mUserTag = tag; }
+    // Used by Actor::updateMtxFromPhysics and CharacterController::sub_7100F635C4 (the accessor is at +0xa0).
+    RigidBodyAccessor* getRigidBodyAccessor() { return &mRigidBodyAccessor; }
 
     bool hasConstraintWithUserData();
     // 0x0000007100f94e80

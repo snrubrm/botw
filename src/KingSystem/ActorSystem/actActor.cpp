@@ -293,6 +293,35 @@ bool Actor::sub_71011CEA90() const {
     return ragdoll && ragdoll->getWorldState() == phys::RagdollInstance::WorldState::AddedToWorld;
 }
 
+void Actor::updateMtxFromPhysics() {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (controller->sub_7100F5E954()) {
+                controller->sub_7100F635C4()->getLinearVelocity(&mVelocity);
+                mVelocity = mVelocity * (1.0f / 30.0f);
+                controller->sub_7100F635C4()->getAngularVelocity(&mAngVelocity);
+                mAngVelocity = mAngVelocity * (1.0f / 30.0f);
+            }
+            controller->physicsXXXGetMtx_1(&mMtx);
+            return;
+        }
+    }
+
+    if (auto* body = mMainBody.load()) {
+        if (body->isAddedToWorld()) {
+            auto* accessor = body->getRigidBodyAccessor();
+            accessor->getLinearVelocity(&mVelocity);
+            mVelocity = mVelocity * (1.0f / 30.0f);
+            accessor->getAngularVelocity(&mAngVelocity);
+            mAngVelocity = mAngVelocity * (1.0f / 30.0f);
+        }
+        body->getTransform(&mMtx);
+    } else if (mPhysicsMtx && mActorFlags.isOnBit(ActorFlag::_2)) {
+        mMtx = *mPhysicsMtx;
+        mActorFlags.resetBit(ActorFlag::_2);
+    }
+}
+
 void Actor::sub_71011D7E24() {
     auto* physics = mPhysics;
     if (!physics)

@@ -13,6 +13,8 @@ class MotionType;
 
 namespace ksys::phys {
 
+class RigidBodyAccessor;
+
 class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
@@ -61,6 +63,8 @@ public:
     void sub_7100F62CA8(bool clear);
 
     void physicsXXXGetMtx_1(sead::Matrix34f* mtx) const;
+    // 0x7100f635c4: the accessor of the controller's rigid body (declared only).
+    RigidBodyAccessor* sub_7100F635C4() const;
     // 0x7100f626e8 (declared only): the transform of the active body combined with _a0.
     void sub_7100F626E8(sead::Matrix34f* mtx) const;
     // 0x7100f62ec0 (declared only): outputs the half height (?) of the controller's shape `index`; false

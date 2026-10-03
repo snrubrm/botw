@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/SafeDelete.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -200,6 +201,95 @@ void Motorcycle::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
     const sead::Vector3f translation = mtx.getTranslation();
     _ed4 = translation;
     _ec8 = translation;
+}
+
+// NON_MATCHING: the last branch keeps `body == nullptr` in a register (cset) across the call; we test the
+// pointer again
+void Motorcycle::x_12(const sead::Matrix34f& mtx) {
+    if (auto* wheel = _dd0) {
+        const sead::Vector3f pos = mtx.getTranslation() + mtx.getBase(0) * 0.0f +
+                                   mtx.getBase(1) * 0.474f + mtx.getBase(2) * 1.41f;
+        sead::Matrix34f wheel_mtx = mtx;
+        wheel_mtx.setTranslation(pos);
+        wheel->_0->setTransform(wheel_mtx);
+        wheel->_128 = 0;
+        wheel->_130.set(0.0f, 0.0f, 0.0f);
+        wheel->_13c = 0;
+        if (wheel->_148->_50 & 1)
+            wheel->_148->sub_7100F6A074();
+        if (wheel->_150->_50 & 1)
+            wheel->_150->sub_7100F6A074();
+    }
+    if (auto* wheel = _dd8) {
+        const sead::Vector3f pos = mtx.getTranslation() + mtx.getBase(0) * 0.0f +
+                                   mtx.getBase(1) * 0.474f - mtx.getBase(2) * 0.7762f;
+        sead::Matrix34f wheel_mtx = mtx;
+        wheel_mtx.setTranslation(pos);
+        wheel->_0->setTransform(wheel_mtx);
+        wheel->_128 = 0;
+        wheel->_130.set(0.0f, 0.0f, 0.0f);
+        wheel->_13c = 0;
+        if (wheel->_148->_50 & 1)
+            wheel->_148->sub_7100F6A074();
+        if (wheel->_150->_50 & 1)
+            wheel->_150->sub_7100F6A074();
+    }
+    sub_71000715D8(&_e04, &_e10);
+    sub_71000717B8(&_e1c, &_e28);
+    _f88.reset(0x80);
+}
+
+void Motorcycle::x_7() {
+    auto* body = _bb8;
+    const bool has_wheel0 = _dd0 && _dd0->_0;
+    const bool has_wheel1 = _dd8 && _dd8->_0;
+    if (body)
+        body->setContactNone();
+    if (has_wheel0) {
+        _dd0->_0->setContactNone();
+        _dd0->_0->enableContactLayer(ksys::phys::ContactLayer::EntityRope);
+        _dd0->_0->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    }
+    if (has_wheel1) {
+        _dd8->_0->setContactNone();
+        _dd8->_0->enableContactLayer(ksys::phys::ContactLayer::EntityRope);
+        _dd8->_0->enableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    }
+
+    if (_f88.isOnBit(44)) {
+        if (body)
+            _bb8->setContactAll();
+        if (has_wheel0)
+            _dd0->_0->setContactAll();
+        if (has_wheel1)
+            _dd8->_0->setContactAll();
+    } else if (_f88.isOnBit(22)) {
+        if (body)
+            _bb8->setContactAll();
+        if (has_wheel0)
+            _dd0->_0->setContactAll();
+        if (has_wheel1)
+            _dd8->_0->setContactAll();
+    } else if (_f88.isOnBit(26)) {
+        if (body) {
+            _bb8->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            _bb8->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+        if (has_wheel0) {
+            _dd0->_0->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            _dd0->_0->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+        if (has_wheel1) {
+            _dd8->_0->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            _dd8->_0->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+    } else {
+        const bool no_body = body == nullptr;
+        if (_f88.isOnBit(45) && !no_body)
+            _bb8->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+        if (_f88.isOnBit(46) && !no_body)
+            _bb8->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+    }
 }
 
 void Motorcycle::sub_7100077830() {

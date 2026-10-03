@@ -27,7 +27,14 @@ struct MotorcycleStruct2 {
     /* 0x010 */ MotorcycleStruct0* _10;
     /* 0x018 */ u8 _18[0x110 - 0x18];
     /* 0x110 */ s32 _110;
-    /* 0x114 */ u8 _114[0x148 - 0x114];
+    /* 0x114 */ u8 _114[0x128 - 0x114];
+    /* 0x128 */ u64 _128;
+    /* 0x130 */ sead::Vector3f _130;
+    /* 0x13c */ u16 _13c;
+    /* 0x13e */ u8 _13e;
+    /* 0x13f */ u8 _13f;
+    /* 0x140 */ u8 _140;
+    /* 0x141 */ u8 _141[0x148 - 0x141];
     /* 0x148 */ ksys::phys::Constraint* _148;
     /* 0x150 */ ksys::phys::Constraint* _150;
     /* 0x158 */ u8 _158[0x1b0 - 0x158];
@@ -186,7 +193,11 @@ public:
     /* 0x0df0 */ u64 _df0;
     /* 0x0df8 */ u8 _df8[0xe00 - 0xdf8];
     /* 0x0e00 */ f32 _e00;
-    /* 0x0e04 */ u8 _e04[0xe3c - 0xe04];
+    /* 0x0e04 */ sead::Vector3f _e04;
+    /* 0x0e10 */ sead::Vector3f _e10;
+    /* 0x0e1c */ sead::Vector3f _e1c;
+    /* 0x0e28 */ sead::Vector3f _e28;
+    /* 0x0e34 */ u8 _e34[0xe3c - 0xe34];
     /* 0x0e3c */ f32 _e3c;  // acceleration (setAccelMaybe)
     /* 0x0e40 */ f32 _e40;
     /* 0x0e44 */ u8 _e44[0xf10 - 0xe44];

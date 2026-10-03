@@ -2,6 +2,8 @@
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
@@ -145,6 +147,30 @@ RideableBase* Enemy::m132() {
 
 Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
+}
+
+void Enemy::updateMtxFromPhysics() {
+    sead::Vector3f velocity;
+    sead::Matrix34f mtx;
+    auto* controller = getCharacterController();
+    if (controller && !_e84.isOnBit(11)) {
+        controller->sub_7100F5F598(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F635BC(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        controller->sub_7100F626E8(&mtx);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body)
+            return;
+        body->getLinearVelocity(&velocity);
+        mVelocity = velocity * (1.0f / 30.0f);
+        body->getAngularVelocity(&velocity);
+        mAngVelocity = velocity * (1.0f / 30.0f);
+        body->getTransform(&mtx);
+    }
+    mMtx = mtx;
+    nullsub_4648();
 }
 
 }  // namespace uking::act
