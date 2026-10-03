@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
 namespace ksys::act {
@@ -79,6 +80,31 @@ void ActorWeapons::x() {
         acquireActor(&weapon.link, &accessor);
         sub_7100EFA810(&accessor);
     }
+}
+
+bool ActorWeapons::sub_7100EFD1F8() {
+    for (auto& weapon : mWeapons) {
+        ActorConstDataAccess accessor;
+        acquireActor(&weapon.link, &accessor);
+        if (accessor.sub_7100D0FEAC())
+            return true;
+    }
+    return false;
+}
+
+bool sub_7100EFD700(Actor* actor) {
+    if (!actor)
+        return false;
+    const auto& profile = actor->getProfile();
+    if (profile == "Player" || profile == "PauseMenuPlayer")
+        return true;
+    if (profile == "NPC" || profile == "ClerkNPC")
+        return !isNPCOffPodFromWeapon(actor);
+    return false;
+}
+
+bool sub_7100EFD8E4(Actor* actor) {
+    return actor && actor->getProfile() == "PauseMenuPlayer";
 }
 
 void ActorWeapons::sub_7100EFD458(Unk117* arg) {

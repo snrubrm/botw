@@ -32,6 +32,8 @@
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/Map/mapObject.h"
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -230,6 +232,24 @@ bool sub_71005DAFB0(ksys::act::Actor* actor) {
     if (!damage_mgr)
         return false;
     return damage_mgr->getField54() > 0;
+}
+
+void sub_71005D8D4C(ksys::act::Actor* actor, f32 value, int idx, bool a3) {
+    if (!actor)
+        return;
+    auto* unit = actor->get548();
+    if (!unit)
+        return;
+    unit->m8()->m9(idx, value);
+    if (a3)
+        unit->m8()->m10(true, true);
+}
+
+bool sub_71005D9F04(ksys::act::Actor* actor) {
+    auto* object = actor->getMapObject();
+    if (object && object->getRails_0() && *object->getRails_0())
+        return true;
+    return false;
 }
 
 // NON_MATCHING: the original loads _d4 before the _8c store (scheduling)

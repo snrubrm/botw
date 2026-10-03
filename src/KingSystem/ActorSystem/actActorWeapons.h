@@ -12,6 +12,12 @@ class ActorConstDataAccess;
 class WeaponBase;
 struct Unk117;
 
+// 0x7100efd700 (unnamed in the CSV): the Player / PauseMenuPlayer profiles, or an NPC / ClerkNPC profile
+// whose GParam does not say that it is off the pod from weapons. False for a null actor.
+bool sub_7100EFD700(Actor* actor);
+// 0x7100efd8e4 (unnamed in the CSV): whether the actor has the PauseMenuPlayer profile.
+bool sub_7100EFD8E4(Actor* actor);
+
 // 0x7100efa810 (unnamed in the CSV): calls WeaponBase::m215 on the weapon actor of `accessor`.
 void sub_7100EFA810(ActorConstDataAccess* accessor);
 
@@ -44,6 +50,9 @@ public:
     void x();
     // 0x7100efcf10 (declared only): called by PlayerOrEnemy::m51.
     void sub_7100EFCF10(bool on);
+    // 0x7100efd1f8 (unnamed in the CSV): whether any of the weapon actors reports true from Actor::m50
+    // (through ActorConstDataAccess::sub_7100D0FEAC).
+    bool sub_7100EFD1F8();
     // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
     void sub_7100EFD458(Unk117* arg);
 
