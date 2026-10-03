@@ -386,7 +386,12 @@ public:
     // 0x7100072750 (CSV Motorcycle::x_17): the engine sound and acceleration; stores the value in
     // _bc8._0._48.
     void x_17();
-    // 0x710007a9c8 / 0x710007abc4 / 0x710007bf90 (not decompiled)
+    // 0x710007a9c8 (CSV Motorcycle::speedStuff): the stick value scaled by a speed curve, divided by 45 and
+    // clamped to [-1, 1].
+    f32 speedStuff();
+    // 0x710007bf90 (CSV Motorcycle::speedStuff_1).
+    f32 speedStuff_1();
+    // 0x710007abc4 (not decompiled)
     // Not declared yet: x_4 0x710007a708 (the main body transform's y axis), x_2 0x710007f894 (takes a
     // SEAD_ENUM: compares the s32 at +0x110 of _dd0 / _dd8), x_1 / x_9 / x_0 ... (see the CSV).
 

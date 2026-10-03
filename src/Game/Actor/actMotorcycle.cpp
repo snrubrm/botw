@@ -1,6 +1,7 @@
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/Actor/actMotorcycleUtil.h"
 #include <basis/seadNew.h>
+#include <hostio/seadHostIOCurve.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
@@ -25,6 +26,43 @@
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::act {
+
+// 0x71023611f0 / 0x7102361220: constant-initialised speed curves (a Curve<f32> directly followed by its
+// float array; the compiler folds the constructors into static data). Placeholder names.
+struct SpeedCurve5 {
+    sead::hostio::Curve<f32> curve;
+    f32 floats[5];
+    SpeedCurve5() : floats{2.5f, 2.2f, 1.2f, 0.5f, 0.2f} {
+        curve.mFloats = floats;
+        curve.mInfo = {0, 4, 5, 5};
+    }
+};
+struct SpeedCurve7 {
+    sead::hostio::Curve<f32> curve;
+    f32 floats[7];
+    SpeedCurve7() : floats{9.95f, 49.1f, 0, 0, 0, 0, 0} {
+        curve.mFloats = floats;
+        curve.mInfo = {0, 4, 7, 2};
+    }
+};
+static SpeedCurve5 sUnk_71023611f0;
+static SpeedCurve7 sUnk_7102361220;
+
+f32 Motorcycle::speedStuff() {
+    const f32 stick = _bb4;
+    f32 value;
+    if (_f88.isOnAll(0x2800))
+        value = stick * -35.0f;
+    else
+        value = -(stick * sUnk_7102361220.curve.interpolateToF32(_e58 * 3.6f / 65.0f));
+    return sead::Mathf::clamp(value / 45.0f, -1.0f, 1.0f);
+}
+
+f32 Motorcycle::speedStuff_1() {
+    const f32 base = _b90._8;
+    const f32 speed = sUnk_71023611f0.curve.interpolateToF32(_e54 / 65.0f);
+    return std::sin(base * speed * -0.29670596f) * _e58 * 0.5f;
+}
 
 // 0x71023618c8
 static const char* const sUnk_71023618c8[] = {
