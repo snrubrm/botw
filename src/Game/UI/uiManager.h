@@ -32,6 +32,10 @@ public:
     void sub_7100A79968();
     void sub_7100A79ED4();
     void sub_7100A7A4C0();
+    void sub_7100A7A6E4(s32 a1);
+    void sub_7100A7A704(s32 a1);
+    void sub_7100A7C904();
+    void sub_7100A7DA38();
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
     void sub_7100A7F81C();

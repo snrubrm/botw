@@ -64,10 +64,10 @@ int getItemGeneralLife(const char* name);
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
 void addItemForDebug(const sead::SafeString& name, int value);
 
-void setShowCheckPoint(s32 icon_type, const sead::SafeString& counter_name);
-void setShowFlyDistance(const sead::SafeString& distance);
-void setShowGolfCount(const sead::SafeString& counter_name);
-void setShowRaceResult(s32 result_type);
+bool setShowCheckPoint(s32 icon_type, const sead::SafeString& counter_name);
+bool setShowFlyDistance(const sead::SafeString& distance);
+bool setShowGolfCount(const sead::SafeString& counter_name);
+bool setShowRaceResult(s32 result_type);
 void showInfoOverlay(s32 type);
 // 0x710105df2c (CSV ui::playSound): plays the UI sound `label` (forwards to UiSoundMgr::playSound);
 // `handle` receives the sound's handle and may be null. Declared only.
@@ -76,6 +76,9 @@ void showRuntimeTip(s32 type);
 // 0x7100a95f5c: called by PlayerCutFall::enter_ with the player's current tip type (0x54). Not
 // decompiled yet.
 void sub_7100A95F5C(s32 type);
+
+// 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
+bool sub_7100AA8F10();
 
 // 0x7100aa7d38 (placeholder name): the name of hero soul `index` (-1: the empty string) from a UI-side
 // table of 16-byte SafeStrings.
@@ -108,7 +111,7 @@ void sub_7100A98EE4();
 bool sub_7100A98FA8();
 void sub_7100A990EC();
 bool sub_7100A99860();
-void sub_7100A9991C(const sead::SafeString& counter_name);
+bool sub_7100A9991C(const sead::SafeString& counter_name);
 bool sub_7100A99A08();
 bool sub_7100A99BB0();
 bool sub_7100A99D70();
@@ -193,7 +196,7 @@ bool sub_7100A98E18();
 void sub_7100A98474(s32 rank);
 bool sub_7100A9844C();
 void sub_7100A98428(NpcShopData* shop_data);
-void openMinigameScreenForTimer(bool count_down);
+bool openMinigameScreenForTimer(bool count_down);
 bool minigameScreenHideTimer();
 void minigameScreenUpdateTimer(s64 time_ms);
 

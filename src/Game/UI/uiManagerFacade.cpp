@@ -334,6 +334,11 @@ void sub_7100A9E5E0() {
         manager->sub_7100A7C8D4();
 }
 
+// 0x7100aa8f10
+bool sub_7100AA8F10() {
+    return (Manager::instance()->_64c30_bytes[1] >> 4) & 1;
+}
+
 // 0x7100a9f5e4
 bool checkSomeFlagImpl() {
     if (auto* manager = Manager::instance())
