@@ -27,7 +27,7 @@ void BokoblinRestraint::enter_(ksys::act::ai::InlineParamPack* params) {
 inline void BokoblinRestraint::spawnRock() {
     ksys::act::InstParamPack pack;
     pack->addPosition(mActor->getMtx().getTranslation());
-    ksys::act::ActorCreator::addScale(pack, sead::GlobalRandom::instance()->getF32Range(0.8f, 1.2f));
+    ksys::act::ActorCreator::addScale(pack, sead::GlobalRandom::instance()->getF32() * 0.4f + 0.8f);
     ksys::act::ActorCreator::instance()->requestCreateActor(
         "Rock_Weapon", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_68, &pack, nullptr,
         1);
