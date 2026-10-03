@@ -24,7 +24,9 @@ eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
 class WeaponBase : public Actor {
     SEAD_RTTI_OVERRIDE(WeaponBase, Actor)
 public:
+    explicit WeaponBase(const CreateArg& arg);
     ~WeaponBase() override;
+    Actor* m31() override;
     bool m86() override;
     void m92(phys::RigidBody* body) override;
     bool m142() override { return false; }
@@ -172,31 +174,36 @@ protected:
     BaseProcLink _890;
     sead::FixedSafeString<32> _8a0;
     sead::FixedSafeString<32> _8d8;
-    sead::Vector3f _910;
-    s32 _91c;
-    u8 _920;
-    bool _921;
-    bool _922;
-    bool _923;
-    u8 _924;
-    bool _925;
+    sead::Vector3f _910{0, 0, 0};
+    s32 _91c = -1;
+    u8 _920 = 0xff;
+    bool _921 = false;
+    bool _922 = false;
+    bool _923 = false;
+    u8 _924 = 0;
+    bool _925 = false;
     u8 _926[0x928 - 0x926];
-    sead::Vector3f _928;
-    bool _934;
-    u8 _935;
-    bool _936;
+    sead::Vector3f _928{0, 0, 0};
+    bool _934 = false;
+    u8 _935 = 0;
+    bool _936 = false;
     u8 _937;
     BaseProcLink _938;
     BaseProcLink _948;
     BaseProcLink _958;
     sead::FixedSafeString<32> _968;
     sead::FixedSafeString<32> _9a0;
-    u8 _9d8[0x9f4 - 0x9d8];
+    u64 _9d8 = 0;
+    u64 _9e0 = 0;
+    u64 _9e8 = 0;
+    s32 _9f0 = -1;
     sead::BitFlag8 _9f4;
-    u8 _9f5[0xa00 - 0x9f5];
+    u8 _9f5[0x9f8 - 0x9f5];
+    s32 _9f8 = -1;
+    u8 _9fc[0xa00 - 0x9fc];
     ModelBindInfo _a00;
     BaseProcHandle mExtraActorHandle;
-    u8 _ab0;
+    u8 _ab0 = 0;
 };
 KSYS_CHECK_SIZE_NX150(WeaponBase, 0xab8);
 

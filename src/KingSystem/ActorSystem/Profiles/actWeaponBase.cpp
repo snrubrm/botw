@@ -14,8 +14,16 @@
 
 namespace ksys::act {
 
+WeaponBase::WeaponBase(const CreateArg& arg) : Actor(arg) {
+    _1c0 = 3;
+}
+
 // NON_MATCHING: D1 / D0 and their thunks: the original keeps &_840 and &_880 in callee-saved registers across the link resets (we recompute them)
 WeaponBase::~WeaponBase() = default;
+
+Actor* WeaponBase::m31() {
+    return getParentActor();
+}
 
 bool WeaponBase::m86() {
     ActorConstDataAccess accessor;

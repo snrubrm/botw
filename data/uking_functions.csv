@@ -19992,7 +19992,7 @@ Address,Quality,Size,Name
 0x00000071002f19e8,U,000036,Weapon::dtorDelete
 0x00000071002f1a0c,U,000008,Weapon::rtti1
 0x00000071002f1a14,U,000092,Weapon::rtti2
-0x00000071002f1a70,U,000012,WeaponBase::m31
+0x00000071002f1a70,O,000012,_ZN4ksys3act10WeaponBase3m31Ev
 0x00000071002f1a7c,U,000008,Weapon::getLife
 0x00000071002f1a84,U,000008,Weapon::getAtk
 0x00000071002f1a8c,U,000008,Weapon::m126
@@ -81380,7 +81380,7 @@ Address,Quality,Size,Name
 0x0000007100ef2808,U,000204,_ZN4ksys3act23getRandomWeaponModifierENS_3eco14WeaponModifierERKN4sead14SafeStringBaseIcEE
 0x0000007100ef28d4,U,000452,createWeaponND
 0x0000007100ef2a98,O,000300,_ZN4ksys3act10WeaponBase24requestCreateWeaponActorEPKcRKN4sead8Matrix34IfEEfPNS4_4HeapEPNS0_14BaseProcHandleEiPNS0_13InstParamPackEi
-0x0000007100ef2bc4,U,000408,WeaponBase::ctor
+0x0000007100ef2bc4,O,000408,_ZN4ksys3act10WeaponBaseC1ERKNS0_8BaseProc9CreateArgE
 0x0000007100ef2d5c,m,000180,_ZN4ksys3act10WeaponBaseD1Ev
 0x0000007100ef2e10,m,000180,_ZThn384_N4ksys3act10WeaponBaseD1Ev
 0x0000007100ef2ec4,m,000180,_ZThn392_N4ksys3act10WeaponBaseD1Ev
