@@ -461,7 +461,17 @@ public:
     /* 0x211c */ f32 _211c;  // cleared by PlayerLand::enter_
     /* 0x2120 */ u8 _2120[0x2158 - 0x2120];
     /* 0x2158 */ f32 _2158;  // copy of _1770.y (PlayerClimb::leave_)
-    /* 0x215c */ u8 _215c[0x22a8 - 0x215c];
+    /* 0x215c */ u8 _215c[0x21b8 - 0x215c];
+    // Three lock-guarded positions (m245 / getPosCopyMagnesis / m244 return a pointer to `mPos`).
+    struct LockedPos {
+        sead::CriticalSection mLock;
+        sead::Vector3f mPos;
+        u32 _4c;
+    };
+    KSYS_CHECK_SIZE_NX150(LockedPos, 0x50);
+    /* 0x21b8 */ LockedPos _21b8;
+    /* 0x2208 */ LockedPos _2208;
+    /* 0x2258 */ LockedPos _2258;
     /* 0x22a8 */ sead::Vector3f _22a8;
     /* 0x22b4 */ sead::Vector3f _22b4;
     /* 0x22c0 */ sead::Vector3f _22c0;

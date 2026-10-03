@@ -599,7 +599,6 @@ public:
     void setFlag100000() { mFlags.set(Flag::_100000); }
     // Cleared inline by AI code (WeaponRootAI::m34: atomic and of ~0x1000000; lane2 s20).
     void resetFlag1000000() { mFlags.reset(Flag::_1000000); }
-    void setFlag1000000() { mFlags.set(Flag::_1000000); }
     // Read / changed inline by AI code (RemainsWaterBulletAction::enter_: saves the bit, then sets it
     // from IgnroeWater with an atomic and+or).
     bool isFlag100000Set() const { return mFlags.isOn(Flag::_100000); }
