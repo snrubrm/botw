@@ -9,7 +9,8 @@ namespace uking::ai {
 AssassinBossFirstBattleMove::AssassinBossFirstBattleMove(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 
-AssassinBossFirstBattleMove::~AssassinBossFirstBattleMove() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AssassinBossFirstBattleMove::~AssassinBossFirstBattleMove() { ; }
 
 bool AssassinBossFirstBattleMove::init_(sead::Heap* heap) {
     sub_7100316D50();

@@ -8,7 +8,8 @@ namespace uking::ai {
 AssassinBossIronBallAttack::AssassinBossIronBallAttack(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 
-AssassinBossIronBallAttack::~AssassinBossIronBallAttack() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AssassinBossIronBallAttack::~AssassinBossIronBallAttack() { ; }
 
 bool AssassinBossIronBallAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

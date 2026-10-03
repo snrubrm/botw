@@ -7,7 +7,8 @@ namespace uking::ai {
 
 EnemySyncAttack::EnemySyncAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemySyncAttack::~EnemySyncAttack() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+EnemySyncAttack::~EnemySyncAttack() { ; }
 
 void EnemySyncAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);

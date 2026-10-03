@@ -5,7 +5,7 @@ namespace uking::ai {
 
 ArrowStickAndPick::ArrowStickAndPick(const InitArg& arg) : CommonPickedItem(arg) {}
 
-ArrowStickAndPick::~ArrowStickAndPick() = default;
+ArrowStickAndPick::~ArrowStickAndPick() { ; }
 
 void ArrowStickAndPick::enter_(ksys::act::ai::InlineParamPack* params) {
     _110 = false;

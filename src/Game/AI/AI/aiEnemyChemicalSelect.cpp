@@ -6,7 +6,8 @@ namespace uking::ai {
 
 EnemyChemicalSelect::EnemyChemicalSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyChemicalSelect::~EnemyChemicalSelect() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+EnemyChemicalSelect::~EnemyChemicalSelect() { ; }
 
 bool EnemyChemicalSelect::init_(sead::Heap* heap) {
     if (mChmObjName_s.isEmpty())

@@ -6,7 +6,8 @@ namespace uking::ai {
 
 GuardianMiniGroggy::GuardianMiniGroggy(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GuardianMiniGroggy::~GuardianMiniGroggy() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+GuardianMiniGroggy::~GuardianMiniGroggy() { ; }
 
 void GuardianMiniGroggy::enter_(ksys::act::ai::InlineParamPack* params) {
     _75 = false;

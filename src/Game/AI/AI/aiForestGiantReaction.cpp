@@ -4,7 +4,8 @@ namespace uking::ai {
 
 ForestGiantReaction::ForestGiantReaction(const InitArg& arg) : EnemyDefaultReaction(arg) {}
 
-ForestGiantReaction::~ForestGiantReaction() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+ForestGiantReaction::~ForestGiantReaction() { ; }
 
 bool ForestGiantReaction::init_(sead::Heap* heap) {
     return EnemyDefaultReaction::init_(heap);

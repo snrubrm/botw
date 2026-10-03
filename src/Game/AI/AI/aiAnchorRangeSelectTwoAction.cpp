@@ -7,7 +7,8 @@ namespace uking::ai {
 AnchorRangeSelectTwoAction::AnchorRangeSelectTwoAction(const InitArg& arg)
     : RangeSelectTwoAction(arg) {}
 
-AnchorRangeSelectTwoAction::~AnchorRangeSelectTwoAction() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AnchorRangeSelectTwoAction::~AnchorRangeSelectTwoAction() { ; }
 
 bool AnchorRangeSelectTwoAction::init_(sead::Heap* heap) {
     return RangeSelectTwoAction::init_(heap);

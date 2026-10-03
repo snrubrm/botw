@@ -7,7 +7,8 @@ namespace uking::ai {
 
 DragonItemRoot::DragonItemRoot(const InitArg& arg) : ItemRoot(arg) {}
 
-DragonItemRoot::~DragonItemRoot() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+DragonItemRoot::~DragonItemRoot() { ; }
 
 bool DragonItemRoot::init_(sead::Heap* heap) {
     return ItemRoot::init_(heap);

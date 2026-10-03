@@ -9,7 +9,8 @@ namespace uking::ai {
 
 InDemoSelect::InDemoSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-InDemoSelect::~InDemoSelect() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+InDemoSelect::~InDemoSelect() { ; }
 
 bool InDemoSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

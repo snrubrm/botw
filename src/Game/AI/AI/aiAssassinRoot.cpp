@@ -6,7 +6,8 @@ namespace uking::ai {
 
 AssassinRoot::AssassinRoot(const InitArg& arg) : NPCRoot(arg) {}
 
-AssassinRoot::~AssassinRoot() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AssassinRoot::~AssassinRoot() { ; }
 
 bool AssassinRoot::init_(sead::Heap* heap) {
     return NPCRoot::init_(heap);

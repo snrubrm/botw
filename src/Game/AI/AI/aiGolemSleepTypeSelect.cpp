@@ -4,7 +4,8 @@ namespace uking::ai {
 
 GolemSleepTypeSelect::GolemSleepTypeSelect(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-GolemSleepTypeSelect::~GolemSleepTypeSelect() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+GolemSleepTypeSelect::~GolemSleepTypeSelect() { ; }
 
 bool GolemSleepTypeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

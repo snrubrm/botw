@@ -7,7 +7,8 @@ namespace uking::ai {
 
 ChemicalEnemyRoot::ChemicalEnemyRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-ChemicalEnemyRoot::~ChemicalEnemyRoot() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+ChemicalEnemyRoot::~ChemicalEnemyRoot() { ; }
 
 void ChemicalEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyRoot::enter_(params);

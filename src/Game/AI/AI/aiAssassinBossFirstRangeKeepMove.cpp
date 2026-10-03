@@ -9,7 +9,8 @@ namespace uking::ai {
 AssassinBossFirstRangeKeepMove::AssassinBossFirstRangeKeepMove(const InitArg& arg)
     : EnemyRangeKeepMove(arg) {}
 
-AssassinBossFirstRangeKeepMove::~AssassinBossFirstRangeKeepMove() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AssassinBossFirstRangeKeepMove::~AssassinBossFirstRangeKeepMove() { ; }
 
 bool AssassinBossFirstRangeKeepMove::init_(sead::Heap* heap) {
     if (!EnemyRangeKeepMove::init_(heap))

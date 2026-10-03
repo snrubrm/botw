@@ -5,7 +5,8 @@ namespace uking::ai {
 EnemyVacuumWeaponTypeSelect::EnemyVacuumWeaponTypeSelect(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
 
-EnemyVacuumWeaponTypeSelect::~EnemyVacuumWeaponTypeSelect() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+EnemyVacuumWeaponTypeSelect::~EnemyVacuumWeaponTypeSelect() { ; }
 
 bool EnemyVacuumWeaponTypeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

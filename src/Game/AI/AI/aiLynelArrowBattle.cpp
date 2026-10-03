@@ -6,7 +6,8 @@ namespace uking::ai {
 
 LynelArrowBattle::LynelArrowBattle(const InitArg& arg) : EnemyBattle(arg) {}
 
-LynelArrowBattle::~LynelArrowBattle() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+LynelArrowBattle::~LynelArrowBattle() { ; }
 
 bool LynelArrowBattle::init_(sead::Heap* heap) {
     return EnemyBattle::init_(heap);

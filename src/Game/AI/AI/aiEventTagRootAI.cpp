@@ -9,7 +9,8 @@ EventTagRootAI::EventTagRootAI(const InitArg& arg) : ksys::act::ai::Ai(arg) {
     _40 = 0;
 }
 
-EventTagRootAI::~EventTagRootAI() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+EventTagRootAI::~EventTagRootAI() { ; }
 
 bool EventTagRootAI::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

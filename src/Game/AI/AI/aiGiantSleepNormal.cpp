@@ -10,7 +10,8 @@ namespace uking::ai {
 
 GiantSleepNormal::GiantSleepNormal(const InitArg& arg) : SpecialEnemySleep(arg) {}
 
-GiantSleepNormal::~GiantSleepNormal() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+GiantSleepNormal::~GiantSleepNormal() { ; }
 
 bool GiantSleepNormal::init_(sead::Heap* heap) {
     if (!SpecialEnemySleep::init_(heap))

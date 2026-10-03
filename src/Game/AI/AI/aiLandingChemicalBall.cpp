@@ -74,7 +74,12 @@ bool LandingChemicalBall::sub_71004737B0() {
 
 LandingChemicalBall::LandingChemicalBall(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-LandingChemicalBall::~LandingChemicalBall() = default;
+LandingChemicalBall::~LandingChemicalBall() {
+    if (_80) {
+        _80->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        _80 = nullptr;
+    }
+}
 
 bool LandingChemicalBall::init_(sead::Heap* heap) {
     if (!sub_71005D6D10() && !mExpandActorName_s.isEmpty() && !sub_71004737B0())

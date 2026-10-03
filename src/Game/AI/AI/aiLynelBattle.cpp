@@ -4,7 +4,8 @@ namespace uking::ai {
 
 LynelBattle::LynelBattle(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-LynelBattle::~LynelBattle() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+LynelBattle::~LynelBattle() { ; }
 
 bool LynelBattle::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

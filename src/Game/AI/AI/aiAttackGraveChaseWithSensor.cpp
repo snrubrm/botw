@@ -8,7 +8,8 @@ namespace uking::ai {
 AttackGraveChaseWithSensor::AttackGraveChaseWithSensor(const InitArg& arg)
     : AttackGraveChase(arg) {}
 
-AttackGraveChaseWithSensor::~AttackGraveChaseWithSensor() = default;
+// The SafeString member makes the original keep the vtable store (see AssassinCallSelect).
+AttackGraveChaseWithSensor::~AttackGraveChaseWithSensor() { ; }
 
 bool AttackGraveChaseWithSensor::init_(sead::Heap* heap) {
     if (!AttackGraveChase::init_(heap))
