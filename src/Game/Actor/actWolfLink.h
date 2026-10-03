@@ -41,6 +41,13 @@ public:
     // 0x71002f4428 (not decompiled): `s32(p->_850 + p->_870 * (getMaxLife-like virtual 0xf0 / 4))` from the
     // parameter object _1680.
     s32 sub_71002F4428();
+    // 0x71002f3234 / 0x71002f4b3c / 0x71002f493c / 0x71002f4a40 / 0x71002f4008 (not decompiled;
+    // placeholder names and guessed signatures, from WolfLinkNormalRoot's calls).
+    bool sub_71002F3234(f32 range, s32 a, s32 b, s32 c);
+    void sub_71002F4B3C();
+    void sub_71002F493C();
+    void sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b);
+    void sub_71002F4008(ksys::act::BaseProcLink* link, s32 a);
 
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)

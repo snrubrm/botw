@@ -8,3 +8,13 @@
 // world's HavokAI; on success writes the hit point to `out` and returns whether its vertical
 // offset is within a tolerance. Placeholder name; `a3` is passed through to 0x7100f74fd8.
 bool sub_7100742478(sead::Vector3f* out, const sead::Vector3f& pos, f32 height, s32 a3);
+
+namespace ksys::phys {
+class NavMeshCharacter;
+}
+
+// 0x7100742278 (declared only): navmesh query (HavokAI query for `a2`, then the character's
+// path-finder) whether `pos` can be reached by `nav` within `radius`. Placeholder name; `a2` is passed
+// as null by all callers.
+bool sub_7100742278(f32 radius, void* a2, ksys::phys::NavMeshCharacter* nav,
+                    const sead::Vector3f* pos);

@@ -21,6 +21,8 @@ class Actor;
 class ActorAttention {
 public:
     s32 getNumClients() const;
+    // 0x7100d73430 (the const-qualified twin is at 0x7100d7340c; not decompiled).
+    AttClient* getClientByIdx(s32 idx);
     // 0x7100d732c4 / 0x7100d7317c (two identical copies; which one is const is a guess).
     AttClient* getClientByName(const sead::SafeString& name);
     const AttClient* getClientByName(const sead::SafeString& name) const;
