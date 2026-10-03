@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiMotorcycleRoot.h"
+#include "Game/gameMotorcycleMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -16,6 +18,10 @@ void MotorcycleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void MotorcycleRoot::leave_() {
     MotorcycleRootBase::leave_();
+    auto* mgr = MotorcycleMgr::instance();
+    if (mgr && mgr->x(mActor))
+        mgr->_17b[1] = 0;
+    mgr->_17a = 1;
 }
 
 void MotorcycleRoot::loadParams_() {

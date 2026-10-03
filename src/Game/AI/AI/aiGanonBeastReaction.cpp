@@ -1,5 +1,11 @@
 #include "Game/AI/AI/aiGanonBeastReaction.h"
+#include "Game/AI/aiUnk_710070284C.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -12,7 +18,46 @@ bool GanonBeastReaction::init_(sead::Heap* heap) {
 }
 
 void GanonBeastReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_80000000);
+    if (sub_71007028CC(mActor)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
+                            nullptr, false);
+        changeChild("死亡");
+    } else if (sub_7100703BC8(mActor)) {
+        changeChild("形態変化ダメージ");
+    } else {
+        changeChild("弱点ヒット");
+    }
+}
+
+void GanonBeastReaction::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+    } else if (child->isChangeable()) {
+        auto* actor = mActor;
+        if (!isCurrentChild("死亡") && sub_71007028CC(actor)) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
+            mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c1),
+                                nullptr, false);
+            changeChild("死亡");
+            return;
+        }
+    }
+    if (isCurrentChild("弱点ヒット")) {
+        if (auto* manager = sub_710072BA90(mActor)) {
+            const s32 damage = manager->getDamage();
+            if (damage >= 1) {
+                if (sub_7100703BC8(mActor))
+                    changeChild("形態変化ダメージ");
+                else
+                    changeChild("弱点ヒット");
+            }
+        }
+    }
 }
 
 void GanonBeastReaction::leave_() {

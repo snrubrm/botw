@@ -201,7 +201,8 @@ public:
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
-    void sub_71002EDB3C(const s32& value);
+    SEAD_ENUM(Unk3, _0, _1, _2, _3)
+    void sub_71002EDB3C(const Unk3& value);
     // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
     void bowGetArrowName(sead::BufferedSafeString* name);
 

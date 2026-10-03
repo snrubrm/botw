@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiAssassinMiddleAzitoRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -30,6 +31,17 @@ bool AssassinMiddleAzitoRoot::init_(sead::Heap* heap) {
 
 void AssassinMiddleAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     AssassinNormal::enter_(params);
+    auto* actor = mActor;
+    if (auto* weapon = sub_71005D83E8(actor, 2)) {
+        weapon->sub_71002EDB3C(uking::act::Weapon::Unk3::_3);
+        if (auto* weapons = actor->getWeapons()) {
+            weapons->mWeapons[*mWeaponIdx_s]._10 = true;
+            weapons->mWeapons[2]._10 = false;
+        }
+    }
+    _490.x();
+    m76();
+    sub_710031E748("RegistedActorMessageBroadCastTag");
 }
 
 void AssassinMiddleAzitoRoot::leave_() {

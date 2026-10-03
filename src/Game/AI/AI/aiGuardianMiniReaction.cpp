@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -24,6 +26,17 @@ void GuardianMiniReaction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GuardianMiniReaction::leave_() {
     EnemyDefaultReaction::leave_();
+    auto* actor = mActor;
+    if (actor->getModel() && actor->getASList()) {
+        actor->getASList()->sub_710115C11C();
+        actor->getASList()->sub_710115BED4(false);
+        actor = mActor;
+    }
+    if (actor->getASList()) {
+        if (actor->getASList()->x_1(0, 0) == "ChanceWaitShader")
+            mActor->getASList()->sub_710115B140("WaitBattleShader", 0, 0, 1, 1);
+    }
+    _100.reset();
 }
 
 void GuardianMiniReaction::loadParams_() {
@@ -40,6 +53,19 @@ void GuardianMiniReaction::loadParams_() {
     getStaticParam(&mJustGuardNumForBreak_s, "JustGuardNumForBreak");
     getStaticParam(&mIsChangeWeapon_s, "IsChangeWeapon");
     getAITreeVariable(&mGuardianMiniChanceTimeState_a, "GuardianMiniChanceTimeState");
+}
+
+void GuardianMiniReaction::sub_7100420E7C() {
+    auto* actor = mActor;
+    if (actor->getModel() && actor->getASList()) {
+        actor->getASList()->sub_710115C11C();
+        actor->getASList()->sub_710115BED4(true);
+        actor = mActor;
+    }
+    actor->getASList()->sub_710115B140("ChanceWaitShader", 0, 0, 1, 1);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("チャンス", &params);
 }
 
 void GuardianMiniReaction::m39(ksys::act::ai::InlineParamPack* params) {
