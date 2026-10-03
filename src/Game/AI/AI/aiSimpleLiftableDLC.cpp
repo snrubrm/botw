@@ -89,4 +89,24 @@ void SimpleLiftableDLC::calc_() {
         changeChild("通常");
 }
 
+bool SimpleLiftableDLC::handleMessage_(const ksys::Message& message) {
+    auto* actor = mActor;
+    if (_d0 && isCurrentChild("通常")) {
+        if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _40._30)
+            return false;
+        if (_40.m2(message)) {
+            _40.sub_710070B5A0(actor);
+            return true;
+        }
+    }
+
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _40._30 ||
+        _80._30) {
+        return false;
+    }
+    if (actor->getConnectedCalcParent())
+        return false;
+    return _80.m2(message);
+}
+
 }  // namespace uking::ai

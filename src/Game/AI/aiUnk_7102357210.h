@@ -226,7 +226,21 @@ public:
 // vtable 0x71023da100 (SimpleLiftable family; functions in the BarrelBomb/SimpleLiftable TU)
 class Unk_71023da100 : public Unk_7102357210 {
 public:
-    bool m2(const ksys::Message& message) override;
+    // Inline in the original (its out-of-line copy is at 0x7100328ac0; SimpleLiftable / SimpleLiftableDLC
+    // inline it into their handleMessage_).
+    bool m2(const ksys::Message& message) override {
+        if (message.getType() != 0x5800000)
+            return false;
+
+        auto* payload = static_cast<Unk_71024512c0_Payload*>(message.getUserData());
+        if (!payload)
+            return false;
+
+        payload->x(&_38.mLink);
+        _30 = true;
+        _18 = message.getSource();
+        return true;
+    }
     void m3() override {}
 
     Unk_71024512c0_Payload _38;
