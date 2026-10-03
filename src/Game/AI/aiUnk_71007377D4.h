@@ -111,6 +111,10 @@ bool sub_710072FEC4(ksys::act::Actor* actor, const sead::Vector3f& dir, f32 dist
 bool sub_710072F28C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_normal, sead::Vector3f* out_pos, s32 a5, bool a6, f32 a7,
                     f32 a8, f32 a9);
+/// 0x710072fd0c (lane1 s22): sub_710072F28C without the normal output and with `a6 = false`; the fourth
+/// float is not forwarded. Placeholder name.
+bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9);
 /// 0x710072f788: sub_710072F28C from `from` to `to` with default tolerances; writes the position to
 /// `out_pos`. Placeholder name.
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,

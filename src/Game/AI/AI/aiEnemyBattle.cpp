@@ -5,6 +5,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -92,6 +93,12 @@ ksys::act::BaseProcLink& EnemyBattle::m35() {
     if (link != nullptr)
         return *link;
     return ksys::act::getDummyBaseProcLink();
+}
+
+bool EnemyBattle::sub_7100381E7C() {
+    ksys::act::acc::PlayerBase player;
+    ksys::act::acquireActor(&m35(), &player);
+    return player.x_13();
 }
 
 void EnemyBattle::sub_7100381ED4() {

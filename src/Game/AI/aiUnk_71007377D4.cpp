@@ -80,6 +80,11 @@ bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
     return sub_710072F28C(actor, from, target, nullptr, out_pos, -1, true, -1.0f, a3, -1.0f);
 }
 
+bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
+                    sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9) {
+    return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, false, a6, a7, a8);
+}
+
 void sub_710072DC9C(ksys::act::Actor* actor, f32 factor) {
     if (auto* controller = actor->getCharacterController())
         controller->sub_7100F5EEB8(factor);

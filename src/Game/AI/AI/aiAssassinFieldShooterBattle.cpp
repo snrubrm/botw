@@ -19,6 +19,10 @@ void AssassinFieldShooterBattle::leave_() {
     AssassinFieldShooterBattleBase::leave_();
 }
 
+bool AssassinFieldShooterBattle::m34() {
+    return sub_71003228DC() && isCurrentChild("待機");
+}
+
 void AssassinFieldShooterBattle::loadParams_() {
     AssassinFieldShooterBattleBase::loadParams_();
 }

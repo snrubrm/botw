@@ -32,6 +32,8 @@ public:
     virtual bool m44();
 
     void sub_710033E970();
+    // 0x710033edd0: translation of the target actor (the link returned by m34()).
+    void sub_710033EDD0(sead::Vector3f* out);
     void sub_710033F27C(s32 time);
 protected:
     // static_param at offset 0x38

@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiBeamExplode.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -31,6 +33,13 @@ void BeamExplode::leave_() {
 
 void BeamExplode::loadParams_() {
     BeamExplodeBase::loadParams_();
+}
+
+void BeamExplode::m34() {
+    sub_710056CA8C();
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D909A4();
+    m35();
 }
 
 void BeamExplode::m35() {

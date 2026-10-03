@@ -37,6 +37,12 @@ void BreathAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710033E970();
 }
 
+void BreathAttackEnemyBattle::sub_710033EDD0(sead::Vector3f* out) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&m34(), &accessor);
+    accessor.getActorMtx().getTranslation(*out);
+}
+
 void BreathAttackEnemyBattle::sub_710033F27C(s32 time) {
     if (time < 0)
         return;

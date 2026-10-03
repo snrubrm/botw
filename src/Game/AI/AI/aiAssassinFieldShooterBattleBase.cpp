@@ -39,6 +39,15 @@ void AssassinFieldShooterBattleBase::enter_(ksys::act::ai::InlineParamPack* para
     changeChild("待機", &pack);
 }
 
+bool AssassinFieldShooterBattleBase::sub_71003228DC() {
+    if (!sub_71005D8324(mActor, *mWeaponIdx_s))
+        return false;
+    auto* enemy = static_cast<act::Enemy*>(mActor);
+    if (!enemy)
+        return false;
+    return enemy->_e68.value <= sead::Mathf::epsilon();
+}
+
 void AssassinFieldShooterBattleBase::leave_() {
     ksys::act::ai::Ai::leave_();
 }

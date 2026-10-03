@@ -30,6 +30,8 @@ public:
     virtual void m43(ksys::act::ai::InlineParamPack* params) {}
 
     void sub_7100381ED4();
+    // 0x7100381e7c: acc::PlayerBase::x_13() of the actor m35() points to.
+    bool sub_7100381E7C();
     bool sub_7100382558();
 
 protected:

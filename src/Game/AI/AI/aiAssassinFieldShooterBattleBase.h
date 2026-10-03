@@ -15,6 +15,10 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71003228dc: whether the weapon `*mWeaponIdx_s` check passes and the enemy's attack-interval
+    // timer has run out.
+    bool sub_71003228DC();
+
 protected:
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};

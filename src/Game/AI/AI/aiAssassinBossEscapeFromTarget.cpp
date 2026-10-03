@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiAssassinBossEscapeFromTarget.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapObject.h"
@@ -73,6 +74,12 @@ void AssassinBossEscapeFromTarget::m37() {
         getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
     else
         SimpleEscapeFromTarget::m37();
+}
+
+bool AssassinBossEscapeFromTarget::m39(const sead::Vector3f& dir) {
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    return sub_710072FD0C(mActor, pos, dir, nullptr, -1, *mCheckDist_s, -1.0f, -1.0f, -1.0f);
 }
 
 }  // namespace uking::ai
