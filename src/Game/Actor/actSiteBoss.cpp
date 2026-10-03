@@ -5,6 +5,23 @@
 
 namespace uking::act {
 
+namespace {
+void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return;
+    auto* enemy = static_cast<Enemy*>(actor);
+    for (auto* part : enemy->_1128.mList) {
+        if (auto* part_actor =
+                sead::DynamicCast<ksys::act::Actor>(part->mLink.getProc(nullptr, nullptr)))
+            part_actor->x_17(arg);
+    }
+}
+}  // namespace
+
+void SiteBoss::m117(ksys::act::Unk117* arg) {
+    forwardX17ToParts(this, arg);
+}
+
 // NON_MATCHING: member types incomplete
 SiteBoss::~SiteBoss() = default;
 

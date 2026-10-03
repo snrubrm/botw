@@ -1,4 +1,5 @@
 #include "Game/Actor/actHorseRideInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::act {
@@ -37,6 +38,11 @@ void HorseRideInfo::sub_7100E7C350() {
     m8();
     _30 = 0;
     _18.reset();
+}
+
+void HorseRideInfo::sub_7100E7C4F8(ksys::act::Unk117* arg) {
+    if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
 }
 
 }  // namespace uking::act

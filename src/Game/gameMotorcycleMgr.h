@@ -13,6 +13,11 @@
 namespace ksys::act {
 class Actor;
 class BaseProc;
+struct Unk117;
+}
+
+namespace ksys::phys {
+class CapsuleRigidBody;
 }
 
 namespace uking {
@@ -52,6 +57,9 @@ public:
     bool sub_710067B6BC(sead::Matrix34f* mtx);
     // 0x710067afb0: sets actor flag 0x1c of the motorcycle actor.
     void sub_710067AFB0();
+    // 0x710067af08: Player::m117 forwards the Actor::x_17 request to the tracked motorcycle actor
+    // (declared only).
+    void sub_710067AF08(ksys::act::Unk117* arg);
     // 0x7100679a90: fades the xlink events of the motorcycle (the pair at +0x148).
     void effectFadeXLink();
 
@@ -63,7 +71,7 @@ public:
     /* 0xb8 */ u64 _b8 = 0;
     /* 0xc0 */ u64 _c0 = 0;
     /* 0xc8 */ f32 _c8 = 0;
-    /* 0xd0 */ void* _d0 = nullptr;
+    /* 0xd0 */ ksys::phys::CapsuleRigidBody* _d0 = nullptr;  // "MotorcycleShapeCast" (init)
     /* 0xd8 */ void* _d8 = nullptr;
     /* 0xe0 */ ksys::act::BaseProcHandle mProcHandle;
     /* 0xf0 */ sead::Matrix34f _f0 = sead::Matrix34f::ident;
@@ -72,7 +80,8 @@ public:
     /* 0x138 */ sead::Vector3f _138{0, 0, 0};
     /* 0x148 */ Unk_71012419b4 _148{};
     /* 0x168 */ xlink2::HandleELink _168;
-    /* 0x178 */ u16 _178 = 0;
+    /* 0x178 */ u8 _178 = 0;
+    /* 0x179 */ u8 _179 = 0;
     /* 0x17a */ u8 _17a = 1;
     /* 0x17b */ u8 _17b[3] = {};
     /* 0x17e */ u8 _17e = 0;

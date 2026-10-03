@@ -90,7 +90,7 @@ public:
     int getExtraHeapSize() override;
     int m109() override;
     void m114() override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     void m118() override;
     Rideable* getHorseOptionsMaybe() override;
     RideableBase* m132() override;

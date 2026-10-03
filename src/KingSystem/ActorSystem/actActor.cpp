@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include <mc/seadCoreInfo.h>
 #include <thread/seadThread.h>
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
@@ -649,7 +650,7 @@ void Actor::m103() {}
 
 void Actor::m114() {}
 
-void Actor::m117() {}
+void Actor::m117(Unk117*) {}
 
 void Actor::m147() {}
 

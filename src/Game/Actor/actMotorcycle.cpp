@@ -120,6 +120,11 @@ void Motorcycle::m88() {
     mPreviousPos += _e5c * (_e58 * 0.1f);
 }
 
+void Motorcycle::m117(ksys::act::Unk117* arg) {
+    if (!_1648->sub_7100E8B780(arg))
+        _f80 = true;
+}
+
 void Motorcycle::x_1(sead::Vector3f* center) const {
     _bb8->getCenterOfMassInWorld(center);
 }

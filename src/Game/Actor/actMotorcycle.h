@@ -166,7 +166,7 @@ public:
     void updateMtxFromPhysics() override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     void m88() override;
-    void m117() override;
+    void m117(ksys::act::Unk117* arg) override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override { return _1648; }
 
     // FIXME: figure out return types, parameters and names

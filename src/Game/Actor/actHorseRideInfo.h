@@ -9,6 +9,7 @@ namespace ksys::act {
 class Actor;
 class ActorConstDataAccess;
 class BaseProc;
+struct Unk117;
 }  // namespace ksys::act
 
 namespace uking::act {
@@ -38,6 +39,8 @@ public:
     bool sub_7100E7C054(ksys::act::BaseProcLink* link);
     void sub_7100E7C0EC();
     void sub_7100E7C380();
+    // 0x7100e7c4f8 (CSV Player::RideInfo::x_1): forwards the request to the ridden actor.
+    void sub_7100E7C4F8(ksys::act::Unk117* arg);
 
     /* 0x08 */ ksys::act::Actor* mActor;
     /* 0x10 */ void* _10 = nullptr;

@@ -10,6 +10,7 @@
 #include <thread/seadAtomic.h>
 #include <xlink2/xlink2Handle.h>
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
+#include "KingSystem/ActorSystem/actActorUnk117.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcJobHandler.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -463,7 +464,7 @@ public:
     virtual void m114();
     virtual void m115();
     virtual void m116();
-    virtual void m117();
+    virtual void m117(Unk117* arg);
     virtual void m118();
     virtual void m119();
     virtual void m120();
@@ -569,6 +570,18 @@ public:
 
     // 0x00000071011cf108
     bool x_18(sead::Vector3f* out) const;
+
+    // 0x71011d722c: handles a `Unk117` request (vtable slot 117) for this actor and forwards it to the
+    // connected calc child and parent (declared only).
+    void x_17(Unk117* arg);
+    // Wrappers that build a `Unk117` (kind 0 / 2 / 3, current core) and call x_17 (declared only).
+    // 0x71011c9880 (CSV Actor::x_15): kind 0, _10 = a1, _18 = a2 (the callers pass the event
+    // object at `[ctx + 0x20]` and a C string).
+    void x_15(void* a1, const char* a2);
+    // 0x71011c98f8: kind 2.
+    void sub_71011C98F8();
+    // 0x71011c9964: kind 3, _8 = other->_1a0.
+    void sub_71011C9964(Actor* other);
 
     sead::TypedBitFlag<ActorFlag2>& getActorFlags2() { return mActorFlags2; }
     const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }

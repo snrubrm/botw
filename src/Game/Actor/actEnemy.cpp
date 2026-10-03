@@ -149,6 +149,14 @@ Unk_7100e8b2b8* Enemy::getMotorcyclePriorityStuffMaybe() {
     return sead::DynamicCast<Rideable>(_1148._20);
 }
 
+void Enemy::m117(ksys::act::Unk117* arg) {
+    if (auto* rideable = getHorseOptionsMaybe()) {
+        if (!rideable->sub_7100E8B780(arg))
+            return;
+    }
+    PlayerOrEnemy::m117(arg);
+}
+
 void Enemy::updateMtxFromPhysics() {
     sead::Vector3f velocity;
     sead::Matrix34f mtx;

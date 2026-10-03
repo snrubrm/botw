@@ -81,6 +81,7 @@ target_sources(uking PRIVATE
     actActorSystem.h
     actActorTemplate.cpp
     actActorTemplate.h
+    actActorUnk117.h
     actActorUtil.cpp
     actActorUtil.h
     actActorWeapons.cpp

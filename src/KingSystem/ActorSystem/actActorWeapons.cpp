@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 
@@ -46,6 +47,13 @@ void ActorWeapons::wakeUp(BaseProc::SleepWakeReason reason) {
         ActorConstDataAccess accessor;
         acquireActor(&weapon.link, &accessor);
         accessor.wakeUp(reason);
+    }
+}
+
+void ActorWeapons::sub_7100EFD458(Unk117* arg) {
+    for (auto& weapon : mWeapons) {
+        if (auto* actor = sead::DynamicCast<WeaponBase>(weapon.link.getProc(nullptr, nullptr)))
+            actor->x_17(arg);
     }
 }
 

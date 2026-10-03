@@ -61,7 +61,7 @@ public:
     /* 114 */ void m114() override;
     /* 115 */ void m115() override;
     /* 116 */ void m116() override;
-    /* 117 */ void m117() override;
+    /* 117 */ void m117(Unk117* arg) override;
     /* 119 */ void m119() override;
     /* 129 */ PlayerLink* m129() override;
     /* 130 */ uking::act::HorseRideInfo* getPlayerRideInfo() override;

@@ -22,6 +22,10 @@ bool PlayerOrEnemy::startPreparingForPreDelete_() {
     return DynamicActor::startPreparingForPreDelete_();
 }
 
+void PlayerOrEnemy::m117(Unk117* arg) {
+    mWeapons.sub_7100EFD458(arg);
+}
+
 void PlayerOrEnemy::sub_7100007CA8(int idx, const uking::act::Unk_71002eda38& arg) {
     auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(idx));
     if (weapon)

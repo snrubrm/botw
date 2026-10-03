@@ -3,12 +3,35 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleShape.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
 
 namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(MotorcycleMgr)
 
 MotorcycleMgr::MotorcycleMgr() = default;
+
+// NON_MATCHING: register allocation / scheduling (the constant 1.0f and 1 swap registers; the
+// capsule parameter stores are scheduled differently)
+void MotorcycleMgr::init(sead::Heap* heap) {
+    mEnergyHandle = ksys::gdt::Manager::instance()->getF32Handle("Motorcycle_Energy");
+    ksys::gdt::Manager::instance()->addReinitCallback(mSlot);
+
+    _c8 = 0;
+    _17e = 0;
+    _178 = 0;
+    mEnergy = 1000.0f;
+
+    ksys::phys::CapsuleParam param;
+    param.contact_layer = ksys::phys::ContactLayer::EntityObject;
+    param.motion_type = ksys::phys::MotionType::Fixed;
+    param.vertex_a = {0.0f, 0.97f, -0.9f};
+    param.vertex_b = {0.0f, 0.97f, 1.0f};
+    param.radius = 0.97f;
+    param.name = "MotorcycleShapeCast";
+    _d0 = ksys::phys::CapsuleRigidBody::make(&param, heap);
+}
 
 void MotorcycleMgr::setMotorcycleEnergyIter(ksys::gdt::Manager::ReinitEvent*) {
     mEnergyHandle = ksys::gdt::Manager::instance()->getF32Handle("Motorcycle_Energy");

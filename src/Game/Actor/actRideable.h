@@ -19,6 +19,7 @@ class Message;
 namespace act {
 class Actor;
 class BaseProc;
+struct Unk117;
 }  // namespace act
 }  // namespace ksys
 
@@ -77,6 +78,9 @@ public:
     void sub_7100E8BE10();
     // 0x7100e8bfd4: sets bit 8 of _8; true if it was clear.
     bool sub_7100E8BFD4();
+    // 0x7100e8b780: handles an Actor::x_17 request (vtable slot 117 of Enemy / HorseBase /
+    // Motorcycle): false (the request is consumed) when it names the event "Demo005_0".
+    bool sub_7100E8B780(ksys::act::Unk117* arg);
     // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
     // 0x7100e8bff4 (declared only).
     bool sub_7100E8BFF4();

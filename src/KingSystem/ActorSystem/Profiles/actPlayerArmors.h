@@ -5,6 +5,8 @@
 
 namespace ksys::act {
 
+struct Unk117;
+
 // Placeholder name (CSV: PlayerArmors::x_3 / x_4 / x_5 and unnamed methods in the TU
 // 0x7100e2c1fc-0x7100e31570): the player's armor state, embedded in Player at +0x23e0 (0x170
 // bytes; Actor::getArmors returns it). Not decompiled: only the methods the Player slots forward
@@ -21,6 +23,8 @@ public:
     bool sub_7100E30DA8();
     // 0x7100e313fc: Player::getMaskType (the equipment slot `idx`; the player passes 0).
     void sub_7100E313FC(s32 idx, sead::BufferedSafeString* out);
+    // 0x7100e31b9c (CSV x_38): Player::m117 (declared only).
+    void sub_7100E31B9C(Unk117* arg);
 
 private:
     u8 _0[0x170];

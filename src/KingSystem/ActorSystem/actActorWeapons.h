@@ -8,6 +8,7 @@ namespace ksys::act {
 
 class Actor;
 class WeaponBase;
+struct Unk117;
 
 namespace acc {
 class PlayerOrEnemy;
@@ -29,6 +30,8 @@ public:
     void resetBaseProcLinkForActor(BaseProc* proc);
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
+    // 0x7100efd458: forwards the request to every weapon actor (Actor::x_17).
+    void sub_7100EFD458(Unk117* arg);
 
     // Accessed directly by AI helper functions (0x71005db5c0 - 0x71005db7e4)
 
