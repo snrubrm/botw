@@ -276,6 +276,9 @@ public:
     // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by
     // PlayerWarpEffectValueSetter.
     void sub_710084BA90(f32 value);
+    // 0x710085ecf4 (declaration only; placeholder name): `if (auto* cc = getCharacterController())
+    // cc->sub_7100F5EECC(<constant>)`; called by PlayerAction::enter_ outside events.
+    void sub_710085ECF4();
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
     // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).

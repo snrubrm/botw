@@ -15,7 +15,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    virtual bool m32();
 
     bool _1c = false;
 };
