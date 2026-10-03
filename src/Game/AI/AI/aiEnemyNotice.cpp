@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiEnemyNotice.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -7,7 +9,15 @@ namespace uking::ai {
 EnemyNotice::EnemyNotice(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 void EnemyNotice::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_710072DDB8(*mTargetPos_d, mActor->getMtx(), *mTurnStartAngle_s)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("追跡", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("ターン", &pack);
+    }
 }
 
 void EnemyNotice::leave_() {

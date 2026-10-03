@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiCapturedActorReaction.h"
 #include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -14,7 +15,28 @@ bool CapturedActorReaction::init_(sead::Heap* heap) {
 }
 
 void CapturedActorReaction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38 = true;
+    auto* damage_mgr = sub_710072BA90(mActor);
+    if (!damage_mgr) {
+        setFailed();
+        return;
+    }
+
+    if (damage_mgr->getField54() == 0x22) {
+        if (isCurrentChild("消滅"))
+            return;
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("消滅");
+    } else if (damage_mgr->getField50() == 0x11) {
+        if (isCurrentChild("怨念"))
+            return;
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::Alive);
+        changeChild("怨念");
+    } else {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->_e84.setBit(3);
+        changeChild("死亡");
+    }
 }
 
 void CapturedActorReaction::calc_() {

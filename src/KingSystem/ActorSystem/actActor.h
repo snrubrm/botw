@@ -321,6 +321,8 @@ public:
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
     void sub_71011DA824(ModelBindInfo* info);
+    // Inline in the original (DragonItemRoot::enter_ tests it).
+    ModelBindInfo* getModelBindInfo() const { return mModelBindInfo; }
     // Clears mModelBindInfo (ignored while ActorFlag::_5 is set). `info` (the object passed to
     // sub_71011DA824 by every caller) is unused.
     void sub_71011DA834(ModelBindInfo* info);

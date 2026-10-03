@@ -17,7 +17,12 @@ public:
 
     virtual void m34();
 
+    // 0x71004c0c38: the child "振り向く" with TargetPos and a zero TargetRot.
+    void sub_71004C0C38();
+
 protected:
+    void calc_() override;
+
     // static_param at offset 0x38
     const int* mDurationTime_s{};
     void* _40{};
