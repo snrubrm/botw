@@ -72,6 +72,9 @@ public:
     // MotorcycleAppear::enter_ after the warp effect starts.
     // 0x710007a928 (declaration only; placeholder name): called by MotorcycleDisappear::calc_ when the
     // effect has finished.
+    // 0x710007a74c (declaration only; placeholder name): called with the warp effect ratio by
+    // BikeWarpEffectValueSetter.
+    void sub_710007A74C(f32 value);
     void sub_710007A928();
     void sub_710007A938();
     // 0x710007f8f8 (declaration only; placeholder name): fades the bike sound out (aal::TimedFader at _1058),

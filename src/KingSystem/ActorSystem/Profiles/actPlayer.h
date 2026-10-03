@@ -273,6 +273,9 @@ public:
     void nullsub_2601();
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
+    // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by
+    // PlayerWarpEffectValueSetter.
+    void sub_710084BA90(f32 value);
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
     // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).

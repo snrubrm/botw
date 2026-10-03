@@ -14,15 +14,16 @@ bool DragonChemicalBall::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original copies the actor matrix to the stack before each setTransform call
 void DragonChemicalBall::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     if (auto* body = actor->getMainBody()) {
-        body->setTransform(actor->getMtx());
+        const sead::Matrix34f mtx = actor->getMtx();
+        body->setTransform(mtx);
         body->setGravityFactor(*mGravity_s);
     }
     if (auto* body = mActor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody")) {
-        body->setTransform(actor->getMtx());
+        const sead::Matrix34f mtx = actor->getMtx();
+        body->setTransform(mtx);
         body->setScale(*mHitScale_s);
         sub_71007A2B64(body, nullptr);
         sub_71007A2EB0(body, actor, nullptr);
