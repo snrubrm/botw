@@ -17,6 +17,7 @@ class GuardianMiniRollingAttackMove;
 // vtable 0x71023f92d8: damage callback without RTTI of its own (call 0x71004256a0, not decompiled yet).
 class Unk_71023f92d8 : public dmg::DamageCallback {
 public:
+    explicit Unk_71023f92d8(GuardianMiniRollingAttackMove* owner) : _28(owner) {}
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 
     GuardianMiniRollingAttackMove* _28{};
@@ -25,6 +26,7 @@ public:
 // vtable 0x71023f9310: damage callback without RTTI of its own (call 0x7100425c88, not decompiled yet).
 class Unk_71023f9310 : public dmg::DamageCallback {
 public:
+    explicit Unk_71023f9310(GuardianMiniRollingAttackMove* owner) : _28(owner) {}
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 
     GuardianMiniRollingAttackMove* _28{};
@@ -135,8 +137,8 @@ protected:
     /* 0x2c8 */ u8 _2c8 = 0;
     /* 0x2c9 */ u8 _2c9 = 0;
     /* 0x2d0 */ Unk_7102451ba0 _2d0;
-    /* 0x2f8 */ Unk_71023f92d8 _2f8;
-    /* 0x328 */ Unk_71023f9310 _328;
+    /* 0x2f8 */ Unk_71023f92d8 _2f8{this};
+    /* 0x328 */ Unk_71023f9310 _328{this};
     /* 0x358 */ bool _358 = false;
 };
 static_assert(sizeof(GuardianMiniRollingAttackMove) == 0x360, "");
