@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiWarpTagRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::ai {
 
@@ -16,7 +18,12 @@ bool WarpTagRoot::init_(sead::Heap* heap) {
 }
 
 void WarpTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _38.value = 0;
+    _38.prev_value = 0;
+    _78 = false;
+    _79 = false;
+    _68 = ksys::world::Manager::instance()->getPlayerPos();
+    mActor->m107();
 }
 
 void WarpTagRoot::leave_() {

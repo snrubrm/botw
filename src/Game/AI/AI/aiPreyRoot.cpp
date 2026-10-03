@@ -3,6 +3,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -27,7 +28,14 @@ void PreyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PreyRoot::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (!_188->_1148._48) {
+        if (auto* controller = mActor->getCharacterController())
+            controller->sub_7100F62DD0(1.0f);
+    }
+    sub_71005DA114(mActor, &_98);
+    sub_71005DA114(mActor, &_118);
+    sub_71005DA114(mActor, &_c8);
+    sub_71005DA114(mActor, &_f0);
 }
 
 void PreyRoot::loadParams_() {
