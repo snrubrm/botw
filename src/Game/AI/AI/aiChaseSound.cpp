@@ -19,12 +19,12 @@ void ChaseSound::leave_() {
 }
 
 void ChaseSound::loadParams_() {
-    getStaticParam(&mTargetUpdateIntervalMin_s, "TargetUpdateIntervalMin");
-    getStaticParam(&mTargetUpdateIntervalMax_s, "TargetUpdateIntervalMax");
-    getStaticParam(&mNearDist_s, "NearDist");
-    getStaticParam(&mTurnDir_s, "TurnDir");
-    getStaticParam(&mUseViewPointSimpleOffset_s, "UseViewPointSimpleOffset");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mTargetUpdateIntervalMin_s, "TargetUpdateIntervalMin");
+    getStaticParam(&mParams.mTargetUpdateIntervalMax_s, "TargetUpdateIntervalMax");
+    getStaticParam(&mParams.mNearDist_s, "NearDist");
+    getStaticParam(&mParams.mTurnDir_s, "TurnDir");
+    getStaticParam(&mParams.mUseViewPointSimpleOffset_s, "UseViewPointSimpleOffset");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 }  // namespace uking::ai

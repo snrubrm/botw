@@ -15,7 +15,7 @@ bool EnemyFindShootable::init_(sead::Heap* heap) {
 // NON_MATCHING: frame layout only (the original has the ActorConstDataAccess below the param pack)
 void EnemyFindShootable::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ActorConstDataAccess acc;
-    ksys::act::acquireActor(mTargetActor_d, &acc);
+    ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
     acc.getActorMtx().getTranslation(_68);
     _74 = acc.sub_7100D10E6C(30);
     mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
@@ -33,17 +33,17 @@ void EnemyFindShootable::leave_() {
 }
 
 void EnemyFindShootable::loadParams_() {
-    getDynamicParam(&mTargetActor_d, "TargetActor");
-    getStaticParam(&mAttOffset_s, "AttOffset");
-    getStaticParam(&mCanGrabHeavy_s, "CanGrabHeavy");
-    getStaticParam(&mGrabCheckRadius_s, "GrabCheckRadius");
-    getStaticParam(&mChaseItemDist_s, "ChaseItemDist");
-    getStaticParam(&mChaseItemSpeed_s, "ChaseItemSpeed");
+    getDynamicParam(&mParams.mTargetActor_d, "TargetActor");
+    getStaticParam(&mParams.mAttOffset_s, "AttOffset");
+    getStaticParam(&mParams.mCanGrabHeavy_s, "CanGrabHeavy");
+    getStaticParam(&mParams.mGrabCheckRadius_s, "GrabCheckRadius");
+    getStaticParam(&mParams.mChaseItemDist_s, "ChaseItemDist");
+    getStaticParam(&mParams.mChaseItemSpeed_s, "ChaseItemSpeed");
 }
 
 void EnemyFindShootable::sub_710038DB48() {
     ksys::act::ai::InlineParamPack pack;
-    pack.addActor(*mTargetActor_d, "ShootItem", -1);
+    pack.addActor(*mParams.mTargetActor_d, "ShootItem", -1);
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
     changeChild("アクション", &pack);
 }

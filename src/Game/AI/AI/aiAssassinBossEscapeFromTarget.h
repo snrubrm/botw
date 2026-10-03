@@ -32,10 +32,13 @@ public:
     void sub_7100315244();
 
 protected:
-    // static_param at offset 0x68
-    const float* mCheckDist_s{};
-    // static_param at offset 0x70
-    sead::SafeString mAnchorName_s{};
+    struct Params {
+        // static_param at offset 0x68
+        const float* mCheckDist_s{};
+        // static_param at offset 0x70
+        sead::SafeString mAnchorName_s{};
+    };
+    Params mParams;
     sead::Vector3f _80;
 };
 KSYS_CHECK_SIZE_NX150(AssassinBossEscapeFromTarget, 0x90);

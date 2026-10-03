@@ -85,7 +85,7 @@ void AssassinBossRootBase::enter_(ksys::act::ai::InlineParamPack* params) {
     _220.x();
     _258 = 10.0f;
     if (!_288.mDamageManager) {
-        _288._24 = *mRockBallDamage_s;
+        _288._24 = *mParams.mRockBallDamage_s;
         setDamageCallbackTiming(mActor, 2, &_288);
     }
     if (auto* controller = mActor->getCharacterController())
@@ -228,11 +228,10 @@ void AssassinBossRootBase::m47() {
     changeChild("呼ばれ");
 }
 
-// NON_MATCHING: the original computes &mRockBallDamage_s before the first getStaticParam call
 void AssassinBossRootBase::loadParams_() {
     EnemyRoot::loadParams_();
-    getStaticParam(&mChangeModeLifeRatio_s, "ChangeModeLifeRatio");
-    getStaticParam(&mRockBallDamage_s, "RockBallDamage");
+    getStaticParam(&mParams.mChangeModeLifeRatio_s, "ChangeModeLifeRatio");
+    getStaticParam(&mParams.mRockBallDamage_s, "RockBallDamage");
 }
 
 }  // namespace uking::ai

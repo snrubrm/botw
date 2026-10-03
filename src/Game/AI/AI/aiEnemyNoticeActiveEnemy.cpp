@@ -46,7 +46,7 @@ void EnemyNoticeActiveEnemy::calc_() {
     }
 
     ksys::act::ActorConstDataAccess acc;
-    ksys::act::acquireActor(mTargetActor_d, &acc);
+    ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
     acc.getActorMtx();
     f32* delay = &_48;
     if (acc.sub_7100D10E6C(25))
@@ -57,13 +57,13 @@ void EnemyNoticeActiveEnemy::calc_() {
     if (child->isChangeable() && *delay <= 0)
         setFailed();
     else
-        getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+        getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
 }
 
 void EnemyNoticeActiveEnemy::sub_71003A4E30() {
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
-    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    pack.addActor(*mParams.mTargetActor_d, "TargetActor", -1);
     changeChild("行動", &pack);
 }
 
@@ -72,14 +72,14 @@ void EnemyNoticeActiveEnemy::leave_() {
 }
 
 void EnemyNoticeActiveEnemy::loadParams_() {
-    getDynamicParam(&mTargetActor_d, "TargetActor");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
+    getDynamicParam(&mParams.mTargetActor_d, "TargetActor");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
 void EnemyNoticeActiveEnemy::sub_71003A4B3C() {
     ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
-    pack.addActor(*mTargetActor_d, "TargetActor", -1);
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    pack.addActor(*mParams.mTargetActor_d, "TargetActor", -1);
     changeChild("気づき", &pack);
 }
 
@@ -94,7 +94,7 @@ bool EnemyNoticeActiveEnemy::isFinished() const {
 void EnemyNoticeActiveEnemy::m34() {
     if (isCurrentChild("気づき")) {
         ksys::act::ActorConstDataAccess acc;
-        ksys::act::acquireActor(mTargetActor_d, &acc);
+        ksys::act::acquireActor(mParams.mTargetActor_d, &acc);
         sead::Vector3f pos;
         acc.getActorMtx().getTranslation(pos);
         sub_71005DB1D8(mActor, pos);

@@ -18,7 +18,7 @@ bool IAIAttack::init_(sead::Heap* heap) {
 void IAIAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     sead::Vector3f pos;
     sub_71004449A8(&pos);
-    if (*mIsAbleSkipNear_s && m36(pos))
+    if (*mParams.mIsAbleSkipNear_s && m36(pos))
         m35(pos);
     else
         m34(pos);
@@ -56,13 +56,13 @@ void IAIAttack::leave_() {
 }
 
 void IAIAttack::loadParams_() {
-    getStaticParam(&mOffsetLR_s, "OffsetLR");
-    getStaticParam(&mCloseDistLR_s, "CloseDistLR");
-    getStaticParam(&mClsoeDistFB_s, "ClsoeDistFB");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
-    getStaticParam(&mIsAbleSkipNear_s, "IsAbleSkipNear");
-    getStaticParam(&mTiredAngle_s, "TiredAngle");
+    getStaticParam(&mParams.mOffsetLR_s, "OffsetLR");
+    getStaticParam(&mParams.mCloseDistLR_s, "CloseDistLR");
+    getStaticParam(&mParams.mClsoeDistFB_s, "ClsoeDistFB");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mParams.mIsAbleSkipNear_s, "IsAbleSkipNear");
+    getStaticParam(&mParams.mTiredAngle_s, "TiredAngle");
 }
 
 void IAIAttack::m34(const sead::Vector3f& pos) {
@@ -79,17 +79,17 @@ void IAIAttack::m35(const sead::Vector3f& pos) {
 
 bool IAIAttack::m37() {
     const auto& mtx = mActor->getMtx();
-    sead::Vector3f dir = -(mtx.getTranslation() - *mTargetPos_d);
+    sead::Vector3f dir = -(mtx.getTranslation() - *mParams.mTargetPos_d);
     dir.normalize();
     const sead::Vector3f front = {mtx(0, 2), mtx(1, 2), mtx(2, 2)};
-    return !(dir.dot(front) >= sead::Mathf::cos(*mTiredAngle_s));
+    return !(dir.dot(front) >= sead::Mathf::cos(*mParams.mTiredAngle_s));
 }
 
 bool IAIAttack::m36(const sead::Vector3f& pos) {
     auto* actor = mActor;
     sead::Vector3f diff;
     actor->getMtx().getTranslation(diff);
-    diff -= *mTargetPos_d;
+    diff -= *mParams.mTargetPos_d;
     sead::Vector3f front;
     actor->getMtx().getBase(front, 2);
 
@@ -98,10 +98,10 @@ bool IAIAttack::m36(const sead::Vector3f& pos) {
     sead::Vector3f forward;
     ksys::util::sub_71011EFA54(&forward, diff, front);
 
-    const f32 range = sub_71007320F0(actor, *mWeaponIdx_s);
-    const f32 dist_lr = range + *mCloseDistLR_s;
+    const f32 range = sub_71007320F0(actor, *mParams.mWeaponIdx_s);
+    const f32 dist_lr = range + *mParams.mCloseDistLR_s;
     if (side.x * side.x + side.z * side.z < dist_lr * dist_lr) {
-        const f32 dist_fb = range + *mClsoeDistFB_s;
+        const f32 dist_fb = range + *mParams.mClsoeDistFB_s;
         return forward.x * forward.x + forward.z * forward.z < dist_fb * dist_fb;
     }
     return false;

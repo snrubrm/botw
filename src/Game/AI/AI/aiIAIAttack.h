@@ -26,20 +26,23 @@ public:
     void sub_71004449A8(sead::Vector3f* pos);
 
 protected:
-    // static_param at offset 0x38
-    const int* mWeaponIdx_s{};
-    // static_param at offset 0x40
-    const float* mOffsetLR_s{};
-    // static_param at offset 0x48
-    const float* mCloseDistLR_s{};
-    // static_param at offset 0x50
-    const float* mClsoeDistFB_s{};
-    // static_param at offset 0x58
-    const float* mTiredAngle_s{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0x68
-    const bool* mIsAbleSkipNear_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mWeaponIdx_s{};
+        // static_param at offset 0x40
+        const float* mOffsetLR_s{};
+        // static_param at offset 0x48
+        const float* mCloseDistLR_s{};
+        // static_param at offset 0x50
+        const float* mClsoeDistFB_s{};
+        // static_param at offset 0x58
+        const float* mTiredAngle_s{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0x68
+        const bool* mIsAbleSkipNear_s{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai

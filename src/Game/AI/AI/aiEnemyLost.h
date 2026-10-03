@@ -22,14 +22,17 @@ public:
     virtual void m34();
 
 protected:
-    // static_param at offset 0x38
-    const int* mRailCheckInterval_s{};
-    // dynamic_param at offset 0x40
-    sead::Vector3f* mTargetPos_d{};
-    // static_param at offset 0x48
-    const float* mForceReturnNoCameraRad_s{};
-    // static_param at offset 0x50
-    const bool* mSealForceReturn_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mRailCheckInterval_s{};
+        // dynamic_param at offset 0x40
+        sead::Vector3f* mTargetPos_d{};
+        // static_param at offset 0x48
+        const float* mForceReturnNoCameraRad_s{};
+        // static_param at offset 0x50
+        const bool* mSealForceReturn_s{};
+    };
+    Params mParams;
     f32 _58 = 0.0f;
 };
 KSYS_CHECK_SIZE_NX150(EnemyLost, 0x60);

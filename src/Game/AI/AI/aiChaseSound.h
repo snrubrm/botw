@@ -21,18 +21,21 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x38
-    const float* mNearDist_s{};
-    // static_param at offset 0x40
-    const float* mTurnDir_s{};
-    // static_param at offset 0x48
-    const int* mTargetUpdateIntervalMin_s{};
-    // static_param at offset 0x50
-    const int* mTargetUpdateIntervalMax_s{};
-    // static_param at offset 0x58
-    const bool* mUseViewPointSimpleOffset_s{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mNearDist_s{};
+        // static_param at offset 0x40
+        const float* mTurnDir_s{};
+        // static_param at offset 0x48
+        const int* mTargetUpdateIntervalMin_s{};
+        // static_param at offset 0x50
+        const int* mTargetUpdateIntervalMax_s{};
+        // static_param at offset 0x58
+        const bool* mUseViewPointSimpleOffset_s{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
     sead::Vector3f _68{0, 0, 0};
     u32 _74{};
     ksys::phys::RayCastForRequest* _78{};

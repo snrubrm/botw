@@ -17,14 +17,14 @@ void GuardianMiniTargetOnScalffold::leave_() {
 }
 
 void GuardianMiniTargetOnScalffold::loadParams_() {
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mFarDist_s, "FarDist");
-    getStaticParam(&mNearDist_s, "NearDist");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mFarDist_s, "FarDist");
+    getStaticParam(&mParams.mNearDist_s, "NearDist");
 }
 
 void GuardianMiniTargetOnScalffold::calc_() {
-    sub_71005DB1D8(mActor, *mTargetPos_d);
-    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    sub_71005DB1D8(mActor, *mParams.mTargetPos_d);
+    getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
     if (getCurrentChild()->isFinished())
         setFinished();
     else if (getCurrentChild()->isFailed())

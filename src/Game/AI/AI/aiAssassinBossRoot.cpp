@@ -66,7 +66,7 @@ void AssassinBossRoot::sub_7100319AB4() {
     auto& callback = _2c0;
     const s32* life_ptr = mActor->getLife();
     const s32 life = life_ptr ? *life_ptr : 1;
-    callback._27 = life < s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s);
+    callback._27 = life < s32(f32(mActor->getMaxLife()) * *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s);
     setDamageCallbackTiming(mActor, 0, &callback);
     setDamageCallbackTiming(mActor, 2, &_2e8);
     if (auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
@@ -81,11 +81,11 @@ void AssassinBossRoot::calc_() {
 
     const s32* life_ptr = mActor->getLife();
     const s32 life = life_ptr ? *life_ptr : 1;
-    if (life < s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s)) {
+    if (life < s32(f32(mActor->getMaxLife()) * *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s)) {
         setDamageCallbackTiming(mActor, 4, &_338);
         sub_710031BB3C();
     } else {
-        sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s));
+        sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s));
     }
 
     if (isCurrentChild("奈落")) {

@@ -51,7 +51,7 @@ void AssassinBossFirstRoot::calc_() {
     if (isCurrentChild("撤退"))
         return;
 
-    sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *mChangeModeLifeRatio_s));
+    sub_710031C2C8(s32(f32(mActor->getMaxLife()) * *AssassinBossRootBase::mParams.mChangeModeLifeRatio_s));
     if (_2b0._25)
         _2b0._25 = false;
 

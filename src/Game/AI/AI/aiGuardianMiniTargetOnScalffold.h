@@ -18,12 +18,15 @@ public:
     void sub_710042902C(bool);
 
 protected:
-    // static_param at offset 0x38
-    const float* mFarDist_s{};
-    // static_param at offset 0x40
-    const float* mNearDist_s{};
-    // dynamic_param at offset 0x48
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mFarDist_s{};
+        // static_param at offset 0x40
+        const float* mNearDist_s{};
+        // dynamic_param at offset 0x48
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai

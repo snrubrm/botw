@@ -33,8 +33,8 @@ void AssassinBossEscapeFromTarget::leave_() {
 
 void AssassinBossEscapeFromTarget::loadParams_() {
     SimpleEscapeFromTarget::loadParams_();
-    getStaticParam(&mAnchorName_s, "AnchorName");
-    getStaticParam(&mCheckDist_s, "CheckDist");
+    getStaticParam(&mParams.mAnchorName_s, "AnchorName");
+    getStaticParam(&mParams.mCheckDist_s, "CheckDist");
 }
 
 // NON_MATCHING: the original loop compares the index with a signed `<` and copies the position as
@@ -44,7 +44,7 @@ void AssassinBossEscapeFromTarget::sub_7100315244() {
         if (auto* links = obj->getLinkData()) {
             auto& objects = links->mObjects;
             for (auto it = objects.begin(), end = objects.end(); it != end; ++it) {
-                if (sead::SafeString((*it)->getUnitConfigName()) == mAnchorName_s) {
+                if (sead::SafeString((*it)->getUnitConfigName()) == mParams.mAnchorName_s) {
                     _80 = (*it)->getTranslate();
                     return;
                 }
@@ -79,7 +79,7 @@ void AssassinBossEscapeFromTarget::m37() {
 bool AssassinBossEscapeFromTarget::m39(const sead::Vector3f& dir) {
     sead::Vector3f pos;
     mActor->getMtx().getTranslation(pos);
-    return sub_710072FD0C(mActor, pos, dir, nullptr, -1, *mCheckDist_s, -1.0f, -1.0f, -1.0f);
+    return sub_710072FD0C(mActor, pos, dir, nullptr, -1, *mParams.mCheckDist_s, -1.0f, -1.0f, -1.0f);
 }
 
 }  // namespace uking::ai

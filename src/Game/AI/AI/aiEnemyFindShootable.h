@@ -17,18 +17,21 @@ public:
     void sub_710038DB48();
 
 protected:
-    // static_param at offset 0x38
-    const float* mGrabCheckRadius_s{};
-    // static_param at offset 0x40
-    const bool* mCanGrabHeavy_s{};
-    // static_param at offset 0x48
-    const sead::Vector3f* mAttOffset_s{};
-    // dynamic_param at offset 0x50
-    ksys::act::BaseProcLink* mTargetActor_d{};
-    // static_param at offset 0x58
-    const float* mChaseItemDist_s{};
-    // static_param at offset 0x60
-    const float* mChaseItemSpeed_s{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mGrabCheckRadius_s{};
+        // static_param at offset 0x40
+        const bool* mCanGrabHeavy_s{};
+        // static_param at offset 0x48
+        const sead::Vector3f* mAttOffset_s{};
+        // dynamic_param at offset 0x50
+        ksys::act::BaseProcLink* mTargetActor_d{};
+        // static_param at offset 0x58
+        const float* mChaseItemDist_s{};
+        // static_param at offset 0x60
+        const float* mChaseItemSpeed_s{};
+    };
+    Params mParams;
     sead::Vector3f _68;
     bool _74{};
 };

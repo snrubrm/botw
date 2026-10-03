@@ -35,10 +35,10 @@ void EnemyLost::leave_() {
 }
 
 void EnemyLost::loadParams_() {
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mRailCheckInterval_s, "RailCheckInterval");
-    getStaticParam(&mSealForceReturn_s, "SealForceReturn");
-    getStaticParam(&mForceReturnNoCameraRad_s, "ForceReturnNoCameraRad");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mRailCheckInterval_s, "RailCheckInterval");
+    getStaticParam(&mParams.mSealForceReturn_s, "SealForceReturn");
+    getStaticParam(&mParams.mForceReturnNoCameraRad_s, "ForceReturnNoCameraRad");
 }
 
 }  // namespace uking::ai

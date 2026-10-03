@@ -69,10 +69,13 @@ protected:
     // 0x710031bb3c: unregisters damage callback _260.
     void sub_710031BB3C();
 
-    // static_param at offset 0x1d8
-    const int* mRockBallDamage_s{};
-    // static_param at offset 0x1e0
-    const float* mChangeModeLifeRatio_s{};
+    struct Params {
+        // static_param at offset 0x1d8
+        const int* mRockBallDamage_s{};
+        // static_param at offset 0x1e0
+        const float* mChangeModeLifeRatio_s{};
+    };
+    Params mParams;
     Unk_71023d7eb0 _1e8;
     Unk_71023d7ee0 _220;
     f32 _258 = 0;
