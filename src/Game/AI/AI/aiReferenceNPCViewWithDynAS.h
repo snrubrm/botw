@@ -21,12 +21,15 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x38
-    const float* mTurnStartAngle_s{};
-    // static_param at offset 0x40
-    const bool* mCheckOnce_s{};
-    // dynamic_param at offset 0x48
-    sead::SafeString mDynASKey_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mTurnStartAngle_s{};
+        // static_param at offset 0x40
+        const bool* mCheckOnce_s{};
+        // dynamic_param at offset 0x48
+        sead::SafeString mDynASKey_d{};
+    };
+    Params mParams;
     ksys::act::BaseProcLink _58;
 };
 KSYS_CHECK_SIZE_NX150(ReferenceNPCViewWithDynAS, 0x68);

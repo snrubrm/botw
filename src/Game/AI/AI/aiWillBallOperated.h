@@ -18,20 +18,23 @@ public:
     bool handleMessage_(const ksys::Message& message) override;
 
 protected:
-    // static_param at offset 0x38
-    const float* mWarpDist_s{};
-    // static_param at offset 0x40
-    const float* mAttakedChangeDist_s{};
-    // static_param at offset 0x48
-    const bool* mIsAttackedTimeAffect_s{};
-    // dynamic_param at offset 0x50
-    int* mWaitTime_d{};
-    // dynamic_param at offset 0x58
-    int* mCommand_d{};
-    // dynamic_param at offset 0x60
-    sead::Vector3f* mBasePos_d{};
-    // dynamic_param at offset 0x68
-    ksys::act::BaseProcLink* mTargetActor_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const float* mWarpDist_s{};
+        // static_param at offset 0x40
+        const float* mAttakedChangeDist_s{};
+        // static_param at offset 0x48
+        const bool* mIsAttackedTimeAffect_s{};
+        // dynamic_param at offset 0x50
+        int* mWaitTime_d{};
+        // dynamic_param at offset 0x58
+        int* mCommand_d{};
+        // dynamic_param at offset 0x60
+        sead::Vector3f* mBasePos_d{};
+        // dynamic_param at offset 0x68
+        ksys::act::BaseProcLink* mTargetActor_d{};
+    };
+    Params mParams;
     f32 _70 = 0;
     Unk_7102450be8 _78;
 };

@@ -14,7 +14,7 @@ bool WeaponOnetimeUse::init_(sead::Heap* heap) {
 
 void WeaponOnetimeUse::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::InlineParamPack child_params;
-    child_params.addVec3(*mTargetPos_d, "TargetPos", -1);
+    child_params.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
     changeChild("抜刀", &child_params);
 }
 
@@ -23,28 +23,28 @@ void WeaponOnetimeUse::calc_() {
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("抜刀")) {
             ksys::act::ai::InlineParamPack params;
-            params.addVec3(*mTargetPos_d, "TargetPos", -1);
+            params.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
             changeChild("使用", &params);
         } else if (isCurrentChild("使用")) {
             ksys::act::ai::InlineParamPack params;
-            params.addVec3(*mTargetPos_d, "TargetPos", -1);
+            params.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
             changeChild("納刀", &params);
         } else {
             setFinished();
         }
     }
-    getCurrentChild()->setDynamicParam(*mTargetPos_d, "TargetPos");
+    getCurrentChild()->setDynamicParam(*mParams.mTargetPos_d, "TargetPos");
 }
 
 void WeaponOnetimeUse::leave_() {
-    sub_71005DB6D0(mActor, *mWeaponIdx_s);
+    sub_71005DB6D0(mActor, *mParams.mWeaponIdx_s);
 }
 
 // NON_MATCHING: the original's frame has an extra 8-byte slot at sp+0 (the key temporaries sit at sp+8)
 // and both param addresses (this+0x38 / this+0x40) are computed up front
 void WeaponOnetimeUse::loadParams_() {
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mWeaponIdx_s, "WeaponIdx");
 }
 
 }  // namespace uking::ai

@@ -13,9 +13,9 @@ bool TargetPosRotFromMyPos::init_(sead::Heap* heap) {
 }
 
 void TargetPosRotFromMyPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    mAngle = *mIsRandSign_s ?
-                 s32((sead::GlobalRandom::instance()->getU32() & 2) - 1) * *mAngle_s :
-                 *mAngle_s;
+    mAngle = *mParams.mIsRandSign_s ?
+                 s32((sead::GlobalRandom::instance()->getU32() & 2) - 1) * *mParams.mAngle_s :
+                 *mParams.mAngle_s;
     TargetPosAI::enter_(params);
 }
 
@@ -31,19 +31,19 @@ void TargetPosRotFromMyPos::leave_() {
 // and keeps them in callee-saved registers (extra frame slot); same family as WeaponOnetimeUse
 void TargetPosRotFromMyPos::loadParams_() {
     TargetPosAI::loadParams_();
-    getStaticParam(&mIsRandSign_s, "IsRandSign");
-    getStaticParam(&mAngle_s, "Angle");
-    getDynamicParam(&mTargetPos_d, "TargetPos");
-    getStaticParam(&mMinDist_s, "MinDist");
+    getStaticParam(&mParams.mIsRandSign_s, "IsRandSign");
+    getStaticParam(&mParams.mAngle_s, "Angle");
+    getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
+    getStaticParam(&mParams.mMinDist_s, "MinDist");
 }
 
 void TargetPosRotFromMyPos::m35(sead::Vector3f* pos) {
-    const sead::Vector3f target = *mTargetPos_d;
+    const sead::Vector3f target = *mParams.mTargetPos_d;
     const sead::Vector3f my_pos = mActor->getMtx().getTranslation();
     sead::Vector3f diff = target - my_pos;
 
     const f32 xz_dist = sead::Mathf::sqrt(diff.x * diff.x + diff.z * diff.z);
-    const f32 min_dist = *mMinDist_s;
+    const f32 min_dist = *mParams.mMinDist_s;
     if (xz_dist < min_dist) {
         const f32 len = sead::Vector3f(diff.x, 0.0f, diff.z).length();
         if (len > 0.0f) {

@@ -18,10 +18,13 @@ public:
     void loadParams_() override;
 
 protected:
-    // static_param at offset 0x38
-    const int* mWeaponIdx_s{};
-    // dynamic_param at offset 0x40
-    sead::Vector3f* mTargetPos_d{};
+    struct Params {
+        // static_param at offset 0x38
+        const int* mWeaponIdx_s{};
+        // dynamic_param at offset 0x40
+        sead::Vector3f* mTargetPos_d{};
+    };
+    Params mParams;
 };
 
 }  // namespace uking::ai
