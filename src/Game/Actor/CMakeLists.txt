@@ -88,6 +88,8 @@ target_sources(uking PRIVATE
   actUnk_71002c8e10.cpp
   actUnk_71002dccbc.cpp
   actUserEdgeActor.cpp
+  actMapDynamicPassive.cpp
+  actMapDynamicPassive.h
   actEditCamera.cpp
   actEditCamera.h
   actNoCalcActor.cpp
