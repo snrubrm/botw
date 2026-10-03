@@ -40,7 +40,6 @@ protected:
     Unk_7102451970 _130;
     int _158 = 0;
     bool _15c = true;
-    u8 _15d[0x3];
 };
 KSYS_CHECK_SIZE_NX150(BlownOff, 0x160);
 
