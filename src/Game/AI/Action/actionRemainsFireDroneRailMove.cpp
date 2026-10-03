@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainsFireDroneRailMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool RemainsFireDroneRailMove::init_(sead::Heap* heap) {
 }
 
 void RemainsFireDroneRailMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->getMtx().getBase(_38, 1);
+    mFlags.set(Flag::Changeable);
 }
 
 void RemainsFireDroneRailMove::leave_() {

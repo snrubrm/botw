@@ -29,7 +29,8 @@ protected:
     sead::Vector3f _40 = sead::Vector3f::zero;
     s32 _4c = 0;
     u16 _50 = 0;
-    u8 _52[0xe];
+    u8 _52[2];
+    sead::Vector3f _54;
 
 };
 KSYS_CHECK_SIZE_NX150(DragonItemShootUp, 0x60);

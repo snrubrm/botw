@@ -16,6 +16,7 @@ public:
 protected:
     void calc_() override;
 
+    sead::Heap* _40{};
     // static_param at offset 0x48
     const float* mWindRadius_s{};
     // static_param at offset 0x50
@@ -48,7 +49,6 @@ protected:
     const float* mWindFlyingDistRate2_s{};
     // static_param at offset 0xc0
     const float* mWindFlyingDistRate3_s{};
-    u8 _c0[0x8]{};
 };
 KSYS_CHECK_SIZE_NX150(EquipedDefaultWindWeapon, 0xc8);
 

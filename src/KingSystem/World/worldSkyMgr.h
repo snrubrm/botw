@@ -197,10 +197,12 @@ private:
     float _3f90;
     float _3f94;
     float _3f98;
+public:  // written directly by uking::action::EventCloudShadowOnOff / EventSetSkyPaletteType
     int _3f9c;
     int _3fa0;
     int _3fa4;
     int _3fa8;
+private:
     bool _3fac;
     bool _3fad;
     bool _3fae;

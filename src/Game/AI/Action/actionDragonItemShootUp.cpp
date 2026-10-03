@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionDragonItemShootUp.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ bool DragonItemShootUp::init_(sead::Heap* heap) {
 }
 
 void DragonItemShootUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    _50 = 0;
+    _40 = pos;
+    _4c = 0;
+    _54.set(0.0f, 0.0f, 0.0f);
 }
 
 void DragonItemShootUp::leave_() {

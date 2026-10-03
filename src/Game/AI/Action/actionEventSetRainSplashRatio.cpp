@@ -1,3 +1,5 @@
+#include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/AI/Action/actionEventSetRainSplashRatio.h"
 
 namespace uking::action {
@@ -23,7 +25,19 @@ void EventSetRainSplashRatio::loadParams_() {
 }
 
 void EventSetRainSplashRatio::calc_() {
-    ksys::act::ai::Action::calc_();
+    // NON_MATCHING: the original writes the WeatherMgr fields without the PtrArray bounds check that
+    // getXMgr() keeps (reads like an inline member function of the manager; not repeated elsewhere)
+    if (isFailed())
+        return;
+    if (auto* wm = ksys::world::Manager::instance()) {
+        auto* weather = wm->getWeatherMgr();
+        weather->_380 = 1;
+        weather->_314 = static_cast<int>(*mRainSplashRatio_d);
+        setFinished();
+        return;
+    }
+    setFailed();
+    mFlags.set(Flag::Changeable);
 }
 
 }  // namespace uking::action

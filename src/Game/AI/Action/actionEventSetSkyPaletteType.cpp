@@ -1,3 +1,5 @@
+#include "KingSystem/World/worldSkyMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/AI/Action/actionEventSetSkyPaletteType.h"
 
 namespace uking::action {
@@ -23,7 +25,12 @@ void EventSetSkyPaletteType::loadParams_() {
 }
 
 void EventSetSkyPaletteType::calc_() {
-    ksys::act::ai::Action::calc_();
+    // NON_MATCHING: the original writes the SkyMgr fields without the PtrArray bounds check that
+    // getXMgr() keeps (reads like an inline member function of the manager; not repeated elsewhere)
+    auto* sky = ksys::world::Manager::instance()->getSkyMgr();
+    sky->_3fa8 = 2;
+    sky->_3fa4 = *mSkyPalette_d;
+    setFinished();
 }
 
 }  // namespace uking::action

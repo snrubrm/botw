@@ -2,6 +2,7 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -28,7 +29,10 @@ void HorseFallAction::leave_() {
 void HorseFallAction::loadParams_() {}
 
 void HorseFallAction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* cc = mActor->getCharacterController()) {
+        if (cc->sub_7100F5F14C())
+            setFinished();
+    }
 }
 
 }  // namespace uking::action

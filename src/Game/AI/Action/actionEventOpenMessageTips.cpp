@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventOpenMessageTips.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -11,7 +12,9 @@ bool EventOpenMessageTips::init_(sead::Heap* heap) {
 }
 
 void EventOpenMessageTips::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _38 = 0;
+    if (auto* ui = ui::UI::instance())
+        ui->sub_71010A6B98(nullptr);
 }
 
 void EventOpenMessageTips::leave_() {

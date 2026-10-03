@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLandOnCeil.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 namespace uking::action {
 
@@ -7,7 +8,8 @@ LandOnCeil::LandOnCeil(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 LandOnCeil::~LandOnCeil() = default;
 
 bool LandOnCeil::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _80 = ksys::phys::System::instance()->getField48();
+    return true;
 }
 
 void LandOnCeil::enter_(ksys::act::ai::InlineParamPack* params) {

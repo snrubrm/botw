@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionRemainsWaterBulletRevive.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/Action/actionTeleportBase.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -21,6 +24,10 @@ void RemainsWaterBulletRevive::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void RemainsWaterBulletRevive::leave_() {
     RemainsWaterBulletWait::leave_();
+    auto* actor = mActor;
+    sub_710072BEC4(actor, nullptr, false);
+    if (auto* body = actor->getMainBody())
+        body->setContactNone();
 }
 
 void RemainsWaterBulletRevive::loadParams_() {

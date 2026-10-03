@@ -67,4 +67,10 @@ protected:
 
 KSYS_CHECK_SIZE_NX150(TeleportBase, 0x78);
 
+// 0x710072bb70 / 0x710072bec4 (declarations only): prepare the actor for / restore it after the
+// teleport (disable attention, character controller contact layers, ...); `state` saves the
+// character controller settings. The last parameter of the first one is unknown.
+void sub_710072BB70(ksys::act::Actor* actor, TeleportBase::SavedState* state, bool a3, bool a4);
+void sub_710072BEC4(ksys::act::Actor* actor, TeleportBase::SavedState* state, bool a3);
+
 }  // namespace uking::action

@@ -1,3 +1,5 @@
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "Game/AI/Action/actionEventSetDiffuseAttenuate.h"
 
 namespace uking::action {
@@ -24,7 +26,12 @@ void EventSetDiffuseAttenuate::loadParams_() {
 }
 
 void EventSetDiffuseAttenuate::calc_() {
-    ksys::act::ai::Action::calc_();
+    // NON_MATCHING: the original writes the EnvMgr fields without the PtrArray bounds check that
+    // getXMgr() keeps (reads like an inline member function of the manager; not repeated elsewhere)
+    auto* env = ksys::world::Manager::instance()->getEnvMgr();
+    env->_6b5d4 = 2;
+    env->mEventDiffuseAttenuateDiameter = *mdiameter_d;
+    setFinished();
 }
 
 }  // namespace uking::action

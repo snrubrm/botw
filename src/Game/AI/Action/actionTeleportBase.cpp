@@ -12,12 +12,6 @@
 
 namespace uking::action {
 
-// 0x710072bb70 / 0x710072bec4 (declarations only): prepare the actor for / restore it after the
-// teleport (disable attention, character controller contact layers, ...); `state` saves the
-// character controller settings. The last parameter of the first one is unknown.
-void sub_710072BB70(ksys::act::Actor* actor, TeleportBase::SavedState* state, bool a3, bool a4);
-void sub_710072BEC4(ksys::act::Actor* actor, TeleportBase::SavedState* state, bool a3);
-
 TeleportBase::TeleportBase(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 TeleportBase::~TeleportBase() = default;
