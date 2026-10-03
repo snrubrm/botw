@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossLswordTornadoEnd.h"
+#include "Game/Actor/actSiteBoss.h"
 
 namespace uking::action {
 
@@ -12,7 +13,12 @@ bool SiteBossLswordTornadoEnd::init_(sead::Heap* heap) {
 }
 
 void SiteBossLswordTornadoEnd::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.reset(Flag::Changeable);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->x_1(true, true, false);
+        playAS("Chemical_Loop", false, 3, 0, -1.0f);
+        act::SiteBoss::x_2(boss, mActor);
+    }
 }
 
 void SiteBossLswordTornadoEnd::leave_() {

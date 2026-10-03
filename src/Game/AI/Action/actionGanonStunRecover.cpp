@@ -12,7 +12,16 @@ bool GanonStunRecover::init_(sead::Heap* heap) {
 }
 
 void GanonStunRecover::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS("Down_End", false, 0, 0, -1.0f);
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor)) {
+        boss->stunEnd();
+        const auto* life = boss->getLife();
+        if (!life || *life != 0)
+            boss->_14e8.setBit(3);
+        else
+            setFinished();
+    }
+    _1c = false;
 }
 
 void GanonStunRecover::leave_() {

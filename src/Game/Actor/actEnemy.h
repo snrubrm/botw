@@ -7,6 +7,7 @@
 #include <math/seadVector.h>
 #include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnk_7102357210.h"
@@ -78,7 +79,19 @@ public:
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ u32 _30 = 0;
     /* 0x38 */ ksys::act::BaseProcLink _38;
-    /* 0x48 */ void* _48 = nullptr;
+    // Placeholder (type unknown): an object with a scale (_2c, used while _10 is set) and flag bits
+    // (LynelHighJumpAttack scales its jump height with it and sets flag bit 4 when it changes it).
+    struct Unk48 {
+        SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
+
+        /* 0x00 */ u8 _0[0x10];
+        /* 0x10 */ void* _10;
+        /* 0x18 */ u8 _18[0x2c - 0x18];
+        /* 0x2c */ f32 _2c;
+        /* 0x30 */ u8 _30[0x58 - 0x30];
+        /* 0x58 */ sead::BitFlag8 _58;
+    };
+    /* 0x48 */ Unk48* _48 = nullptr;
     // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
     // OnAnimalSupportNrmCalcFrontRay).
