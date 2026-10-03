@@ -1,6 +1,7 @@
 #pragma once
 
 namespace ksys::act {
+class Actor;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -16,3 +17,13 @@ bool sub_710073646C(ksys::act::BaseProcLink* link);
 /// 0x7100736414: whether the linked actor is an NPC of the "warrior" kind (ActorConstDataAccess::sub_7100022ED8;
 /// TargetNPCTypeSelector). Placeholder name.
 bool sub_7100736414(ksys::act::BaseProcLink* link);
+
+/// 0x7100736478 (CSV dlc::isPlayingOneHitObliteratorQuest; the namespace is a guess): the "Ballad of the Heroes"
+/// step 2 flag is set and step 3 is not.
+namespace dlc {
+bool isPlayingOneHitObliteratorQuest();
+}
+
+/// 0x710073681c (CSV name): whether both the actor and the link have the AnimalTypeWolf tag, or both have the
+/// AnimalTypeBear tag.
+bool hasAnimalTypeWolfOrBearTags(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);

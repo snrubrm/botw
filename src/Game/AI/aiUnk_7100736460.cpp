@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 bool sub_7100736414(ksys::act::BaseProcLink* link) {
     ksys::act::ActorConstDataAccess accessor;
@@ -15,4 +16,22 @@ bool sub_7100736460(ksys::act::BaseProcLink* link) {
 
 bool sub_710073646C(ksys::act::BaseProcLink* link) {
     return ksys::act::hasTag(link, ksys::act::tags::Explosive);
+}
+
+namespace dlc {
+bool isPlayingOneHitObliteratorQuest() {
+    return ksys::gdt::getFlag_BalladOfHeroes_Step02() && !ksys::gdt::getFlag_BalladOfHeroes_Step03();
+}
+}  // namespace dlc
+
+bool hasAnimalTypeWolfOrBearTags(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
+    if (ksys::act::hasTag(actor, ksys::act::tags::AnimalTypeWolf) &&
+        ksys::act::hasTag(link, ksys::act::tags::AnimalTypeWolf)) {
+        return true;
+    }
+    if (ksys::act::hasTag(actor, ksys::act::tags::AnimalTypeBear) &&
+        ksys::act::hasTag(link, ksys::act::tags::AnimalTypeBear)) {
+        return true;
+    }
+    return false;
 }

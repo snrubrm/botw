@@ -531,3 +531,70 @@ void sub_7100739108(ksys::act::AttackSensor* sensor) {
     if (sensor)
         sensor->_20 = 0xffff;
 }
+
+bool sub_7100732AFC(s32 damage_type) {
+    return u32(damage_type - 11) < 3;
+}
+
+bool sub_7100732B0C(s32 damage_type) {
+    return u32(damage_type - 9) < 2 || damage_type == 14;
+}
+
+bool sub_7100732AD0(s32 damage_type) {
+    switch (damage_type) {
+    case 15:
+    case 17:
+    case 21:
+    case 22:
+    case 23:
+    case 27:
+    case 30:
+    case 31:
+    case 34:
+        return true;
+    default:
+        return false;
+    }
+}
+
+void sub_7100738CB0(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
+    if (!link->hasProc())
+        return;
+    ksys::phys::SystemGroupHandler* handler;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        handler = accessor.x(0);
+    }
+    if (handler && actor->getPhysics())
+        actor->getPhysics()->sub_7100FBDFA4(handler);
+}
+
+void sub_7100738D50(ksys::act::Actor* actor, ksys::act::BaseProcLink* link) {
+    if (!link->hasProc())
+        return;
+    ksys::phys::SystemGroupHandler* handler;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        handler = accessor.x(1);
+    }
+    if (handler && actor->getPhysics())
+        actor->getPhysics()->sub_7100FBDFA4(handler);
+}
+
+void sub_7100738DDC(ksys::act::Actor* actor) {
+    if (auto* physics = actor->getPhysics())
+        physics->sub_7100FBDFA4(physics->get178(1));
+}
+
+bool sub_7100738FA8(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    const s32 num = sub_71007A425C(actor);
+    for (s32 i = 0; i < num; ++i) {
+        if (sub_71007A40D0(actor, i)->_50.hasProcById(proc))
+            return true;
+    }
+    return false;
+}

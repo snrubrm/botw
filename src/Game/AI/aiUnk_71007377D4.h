@@ -313,3 +313,18 @@ void sub_71007390D8(ksys::act::AttackSensor* sensor);
 void sub_71007390E8(ksys::act::AttackSensor* sensor);
 void sub_71007390F8(ksys::act::AttackSensor* sensor);
 void sub_7100739108(ksys::act::AttackSensor* sensor);
+
+/// 0x7100732afc / 0x7100732b0c / 0x7100732ad0 (placeholder names): classifications of the damage type
+/// (DamageManagerBase::getField54: 11 - 13 / 9, 10, 14 / 15, 17, 21 - 23, 27, 30, 31, 34).
+bool sub_7100732AFC(s32 damage_type);
+bool sub_7100732B0C(s32 damage_type);
+bool sub_7100732AD0(s32 damage_type);
+
+/// 0x7100738cb0 / 0x7100738d50 (placeholder names): adds the system group handler `idx` (0 / 1) of the actor in
+/// `link` to the actor's physics (InstanceSet::sub_7100FBDFA4); nothing without a linked actor.
+void sub_7100738CB0(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+void sub_7100738D50(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
+/// 0x7100738ddc (placeholder name): InstanceSet::sub_7100FBDFA4 with the actor's own second system group handler.
+void sub_7100738DDC(ksys::act::Actor* actor);
+/// 0x7100738fa8 (placeholder name): whether `proc` is the actor of one of the actor's sensor link entries.
+bool sub_7100738FA8(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
