@@ -6,6 +6,8 @@ namespace uking::ai {
 
 NPCTravelerRoot::NPCTravelerRoot(const InitArg& arg) : NPCRoot(arg) {}
 
+// NON_MATCHING: the original computes `this + 0x250` (the CriticalSection) before the vtable store and keeps it in
+// x20 (same address hoisting as NPCRunaway / NPCConfrontEnemy)
 NPCTravelerRoot::~NPCTravelerRoot() = default;
 
 bool NPCTravelerRoot::init_(sead::Heap* heap) {
