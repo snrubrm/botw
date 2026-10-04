@@ -17,6 +17,7 @@ bool ForkNoWeaponAttackAllTime::init_(sead::Heap* heap) {
 
 void ForkNoWeaponAttackAllTime::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkNoWeaponAttackBase::enter_(params);
+    sub_710015E4E8(mAtDirString_s);
 }
 
 void ForkNoWeaponAttackAllTime::leave_() {
