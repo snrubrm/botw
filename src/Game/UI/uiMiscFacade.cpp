@@ -446,7 +446,7 @@ void sub_7100A9A664(const void* a0, s32* out) {
 }
 
 // 0x7100a9a694
-void sub_7100A9A694(const void* a0) {
+void sub_7100A9A694(const UiSubsys1PinArg* a0) {
     UiSubsys1::instance()->sub_7100963C8C(a0);
 }
 

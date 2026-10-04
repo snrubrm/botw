@@ -123,8 +123,25 @@ struct UiSubsys1ListEntry {
 
 // Placeholder for the object UiSubsys1 keeps at 0x378 (byte 0x50 is set by sub_7100963C78).
 struct UiSubsys1Unk378 {
+    struct Entry {
+        sead::Vector2f pos;
+        s32 value;
+    };
+
     u8 _0[0x50];
     /* 0x50 */ bool _50;
+    u8 _51[0x54 - 0x51];
+    /* 0x54 */ sead::SafeArray<s32, 2> _54;
+    /* 0x5c */ sead::SafeArray<s32, 2> _5c;
+    /* 0x64 */ sead::SafeArray<Entry, 2> _64;
+};
+
+// The argument of UiSubsys1::sub_7100963C8C (placeholder; the facade passes it as `const void*`).
+struct UiSubsys1PinArg {
+    s32 index;
+    s32 value;
+    sead::Vector2f pos;
+    s32 value2;
 };
 
 // Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
@@ -172,7 +189,7 @@ public:
     bool sub_7100964A0C(s32 a1);
     void sub_7100963CE8(ksys::act::Actor* actor);
     void sub_71009661DC(const void* a1, s32* out);
-    void sub_7100963C8C(const void* a1);
+    void sub_7100963C8C(const UiSubsys1PinArg* arg);
     void sub_7100963C78(bool a1);
     bool sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius);
 
