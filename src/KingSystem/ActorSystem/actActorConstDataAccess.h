@@ -129,9 +129,6 @@ public:
     const sead::Vector3f& getField44C_Vec3() const;
     uking::act::Rideable* getHorseOptions() const;
     uking::act::Unk_7100e8b2b8* getHorseRideStuff() const;
-    // 0x7100d0f57c (lane4 s29; HorseFollow::enter_ / m35): the NavMeshCharacter of the actor: the ride info's
-    // `_28` (Actor slot 130) when set, else Actor slot 45.
-    phys::NavMeshCharacter* sub_7100D0F57C() const;
     // 0x7100d1443c (lane4 s29; HorseFollow::m35): `_18._b` of the actor's RideableBase (Actor slot 132),
     // or `_18._9` if it is 0; 0 without a RideableBase.
     u64 sub_7100D1443C() const;

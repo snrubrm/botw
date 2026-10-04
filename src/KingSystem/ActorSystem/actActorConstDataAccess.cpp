@@ -592,16 +592,6 @@ uking::act::Unk_7100e8b2b8* ActorConstDataAccess::getHorseRideStuff() const {
     return actor->getMotorcyclePriorityStuffMaybe();
 }
 
-phys::NavMeshCharacter* ActorConstDataAccess::sub_7100D0F57C() const {
-    auto* actor = getActor();
-    if (!actor)
-        return nullptr;
-    auto* info = actor->getPlayerRideInfo();
-    if (info && info->_28)
-        return static_cast<phys::NavMeshCharacter*>(info->_28);
-    return actor->m45();
-}
-
 u64 ActorConstDataAccess::sub_7100D1443C() const {
     auto* actor = getActor();
     if (!actor)
