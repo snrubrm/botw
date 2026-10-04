@@ -1,4 +1,5 @@
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseObject.h"
 #include "Game/Actor/actRideable.h"
@@ -308,6 +309,29 @@ void HorseBase::m117(ksys::act::Unk117* arg) {
         actor->x_17(arg);
     if (auto* actor = sead::DynamicCast<HorseReins>(_880.getProc(nullptr, nullptr)))
         actor->x_17(arg);
+}
+
+
+// NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
+bool HorseBase::sub_7100E6C094(bool on) {
+    if (on)
+        _b74 |= 0x4000;
+    else
+        _b74 &= ~0x4000;
+    if (auto* lod = getLodState())
+        lod->mFlags10.changeBit(6, ((_b74 >> 14) & 3) != 0);
+    return ((_b74 >> 14) & 3) != 0;
+}
+
+// NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
+bool HorseBase::sub_7100E6C0E0(bool on) {
+    if (on)
+        _b74 |= 0x8000;
+    else
+        _b74 &= ~0x8000;
+    if (auto* lod = getLodState())
+        lod->mFlags10.changeBit(6, ((_b74 >> 14) & 3) != 0);
+    return ((_b74 >> 14) & 3) != 0;
 }
 
 }  // namespace uking::act
