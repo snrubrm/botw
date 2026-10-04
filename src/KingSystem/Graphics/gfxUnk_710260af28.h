@@ -34,6 +34,8 @@ public:
     void sub_7100F1E1F8(gsys::Model* model);
     // 0x7100f1eaf8 (declaration only; lane4 s28): HorseReins::initMaybe passes 0.0.
     void sub_7100F1EAF8(gsys::Model* model, f32 value);
+    // 0x7100f1e8a4 (declaration only): scene661a58 passes the ingredient model and opacity value.
+    void sub_7100F1E8A4(gsys::Model* model, f32 value);
 
 private:
     static Unk_710260af28* sInstance;
