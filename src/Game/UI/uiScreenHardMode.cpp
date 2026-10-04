@@ -2,6 +2,29 @@
 
 namespace uking::ui {
 
+// 0x7100a0bb1c (CSV ScreenHardMode::m6)
+void ScreenHardMode::close(s32) {
+    if (_3721)
+        Screen::close(-1);
+}
+
+// 0x7100a0bd2c
+void ScreenHardMode::m98() {
+    setReservedBoxCursorNodeByButton(_3638);
+    mActiveCursorNode = nullptr;
+}
+
+// 0x7100a0bd54
+void ScreenHardMode::m99() {
+    mButtonGroup->_38 |= 2;
+}
+
+// 0x7100a0bfa8
+void ScreenHardMode::m107(eui::AnimButton* button) {
+    if (u32(button->mTag - 0x8e) <= 2)
+        _3721 = 1;
+}
+
 // 0x7100a0ce70
 void ScreenHardMode::m203() {
     switch (_3718) {

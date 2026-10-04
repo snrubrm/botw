@@ -18,4 +18,10 @@ bool ScreenPauseMenu::sub_7100A34A10() {
     return _3bb4 != 0;
 }
 
+// 0x7100a26db8
+void ScreenMessageTipsRunTime::m101() {
+    if (_3684 == -1)
+        _3660 = -1;
+}
+
 }  // namespace uking::ui

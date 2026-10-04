@@ -441,6 +441,8 @@ public:
     ~ScreenMessageTipsRunTime() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
 
+    void m101() override;
+
     /* 0x3610 */ u64 _3610{};
     sead::CriticalSection _3618;
     s32 _3658 = -1;
@@ -510,6 +512,7 @@ public:
 
 class ScreenMainScreen : public ScreenEx {
 public:
+    void m85() override;
     void m88() override;
     bool isEnableControl() const override;
     ~ScreenMainScreen() override;
@@ -517,7 +520,9 @@ public:
 
     u8 _pad_3610[0x3704 - 0x3610];
     /* 0x3704 */ s32 _3704;
-    u8 _pad_3708[0x3ca8 - 0x3708];
+    u8 _pad_3708[0x3aa8 - 0x3708];
+    /* 0x3aa8 */ u8 _3aa8;
+    u8 _pad_3aa9[0x3ca8 - 0x3aa9];
     /* 0x3ca8 */ eui::LayoutEx* _3ca8;
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
@@ -1070,6 +1075,10 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
     bool isEnableControl() const override;
+    void close(s32 option) override;
+    void m98() override;
+    void m99() override;
+    void m107(eui::AnimButton* button) override;
 
     // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)
     virtual void m154();
@@ -1172,8 +1181,8 @@ public:
     /* 0x3618 */ eui::Animator* _3618;
     /* 0x3620 */ eui::Animator* _3620;
     u8 _3628[0x3638 - 0x3628];
-    /* 0x3638 */ eui::ButtonBase* _3638;
-    /* 0x3640 */ eui::ButtonBase* _3640;
+    /* 0x3638 */ eui::AnimButton* _3638;
+    /* 0x3640 */ eui::AnimButton* _3640;
     u8 _3648[0x3700 - 0x3648];
     /* 0x3700 */ s32 _3700;
     /* 0x3704 */ s32 _3704;

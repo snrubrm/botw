@@ -75,6 +75,11 @@ void ScreenAppMapDungeon::m100() {}
 // 0x7100a19d74
 void ScreenMainScreen::m88() {}
 
+// 0x7100a19d68
+void ScreenMainScreen::m85() {
+    _3aa8 = 0;
+}
+
 // 0x7100a22320
 void ScreenMainShortCut::m96() {}
 
