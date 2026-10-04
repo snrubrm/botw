@@ -245,6 +245,25 @@ bool WeaponBase::m174() {
     return true;
 }
 
+// NON_MATCHING: the compiler copies the position components separately.
+bool WeaponBase::m178(const sead::Vector3f& pos) {
+    const auto lock = sead::makeScopedLock(_840);
+    _880.reset();
+    _91c = -1;
+    _920 = 2;
+    _910 = pos;
+    _922 = true;
+    _923 = false;
+    _924 = 0;
+    _935 = 1;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+    return true;
+}
+
 bool WeaponBase::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
     const auto lock = sead::makeScopedLock(_840);
     if (_925)

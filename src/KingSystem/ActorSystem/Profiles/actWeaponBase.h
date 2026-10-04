@@ -87,7 +87,7 @@ public:
     // 0x7100ef6464. Like m175 with the position zero and no flags, the second position `target` (_928) and
     // _934 = true; `a2` is unused.
     virtual bool m177(const sead::Vector3f& target, void* a2);
-    virtual void m178();
+    virtual bool m178(const sead::Vector3f& pos);
     // 0x7100ef669c: resets the links and sets _920 = 3 (drops the optional weapon).
     virtual void m179();
     virtual void m180();

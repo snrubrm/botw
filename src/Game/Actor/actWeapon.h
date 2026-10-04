@@ -255,6 +255,7 @@ public:
               bool a5, bool a6) override;
     bool m174() override;
     bool m177(const sead::Vector3f& target, void* a2) override;
+    bool m178(const sead::Vector3f& pos) override;
     bool m211() override;
     bool m212() override;
     bool m213() override;
@@ -266,8 +267,8 @@ public:
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).
     SEAD_ENUM(Unk3, _0, _1, _2, _3)
     void sub_71002EDB3C(const Unk3& value);
-    // 0x71002ee1f0 (not decompiled; CSV name Weapon::bowGetArrowName)
-    void bowGetArrowName(sead::BufferedSafeString* name);
+    // 0x71002ee1f0: bow resource arrow name, or the owning player/enemy arrow name.
+    bool bowGetArrowName(sead::BufferedSafeString* name);
 
     /* 0xab8 */ sead::CriticalSection _ab8;
     /* 0xaf8 */ Unk_71002eda38 _af8;

@@ -4,6 +4,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -104,6 +105,25 @@ bool Weapon::m177(const sead::Vector3f& target, void* a2) {
     if (auto* lod = getLodState())
         lod->mFlags26.set(1);
     return ksys::act::WeaponBase::m177(target, a2);
+}
+
+bool Weapon::m178(const sead::Vector3f& pos) {
+    if (auto* lod = getLodState())
+        lod->mFlags26.set(1);
+    return ksys::act::WeaponBase::m178(pos);
+}
+
+// NON_MATCHING: failed parent lookups use a separate return-false block.
+bool Weapon::bowGetArrowName(sead::BufferedSafeString* name) {
+    const auto* bow = getParam()->getRes().mGParamList->getBow();
+    if (!bow)
+        return false;
+    if (bow->mArrowName.ref().isEmpty()) {
+        auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor());
+        return parent && parent->m165(name);
+    }
+    name->copy(bow->mArrowName.ref());
+    return true;
 }
 
 bool Weapon::m211() {
