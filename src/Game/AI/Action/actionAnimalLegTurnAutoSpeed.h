@@ -18,11 +18,14 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710008fac0 (declared only): out of line in the original.
+    void sub_710008FAC0();
     void calc_() override;
 
     // dynamic_param at offset 0x60
     sead::Vector3f* mTargetPos_d{};
-    u64 _68 = 0;
+    f32 _68 = 0.0f;
+    f32 _6c = 0.0f;
     f32 _70 = 0.0f;
     u8 _74[0x4];
     ksys::act::Actor* _78 = mActor;
@@ -34,7 +37,8 @@ protected:
     bool _1b4 = false;
     u8 _1b5[0x3];
     u64 _1b8 = 0;
-    u64 _1c0 = 0;
+    u32 _1c0 = 0;
+    f32 _1c4 = 0.0f;
 };
 KSYS_CHECK_SIZE_NX150(AnimalLegTurnAutoSpeed, 0x1c8);
 

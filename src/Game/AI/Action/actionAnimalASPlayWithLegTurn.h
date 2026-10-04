@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710008dc24 (declared only): out of line in the original.
+    void sub_710008DC24();
     void calc_() override;
 
     struct Params {

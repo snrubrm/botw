@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -15,6 +17,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71001b4afc (declared only; defining it here makes clang inline it into enter_). Sets the
+    // controller motion type from the water depth (motion type compares go through stack slots in the
+    // original, like CCAccessor::changeMotionType; Actor::_68f is a sead::Atomic).
+    void sub_71001B4AFC(ksys::phys::CharacterController* controller);
     void calc_() override;
 
     // static_param at offset 0x20
@@ -25,7 +31,8 @@ protected:
     sead::SafeString mOffsetBoneName_s{};
     // static_param at offset 0x40
     const sead::Vector3f* mExtraOffset_s{};
-    u8 _48[0x10];
+    sead::Vector3f _48;
+    u8 _54[4];
 
 };
 KSYS_CHECK_SIZE_NX150(HuntingDead, 0x58);

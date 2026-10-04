@@ -11,6 +11,8 @@ bool AnimalASPlayWithLegTurn::init_(sead::Heap* heap) {
 }
 
 void AnimalASPlayWithLegTurn::enter_(ksys::act::ai::InlineParamPack* params) {
+    _198 = false;
+    sub_710008DC24();
     ForkAnimalASPlay::enter_(params);
 }
 

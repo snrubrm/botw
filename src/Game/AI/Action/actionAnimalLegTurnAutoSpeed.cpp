@@ -11,6 +11,12 @@ bool AnimalLegTurnAutoSpeed::init_(sead::Heap* heap) {
 }
 
 void AnimalLegTurnAutoSpeed::enter_(ksys::act::ai::InlineParamPack* params) {
+    _68 = 0.6f;
+    _6c = 0.6f;
+    _70 = 0.0f;
+    _1b4 = false;
+    _1c4 = 0.0f;
+    sub_710008FAC0();
     ForkAnimalASPlay::enter_(params);
 }
 
