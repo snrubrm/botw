@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPlayerMagnetSubject.h"
+#include "Game/gameSceneSubsysMisc.h"
 
 namespace uking::action {
 
@@ -21,6 +22,14 @@ void PlayerMagnetSubject::calc_() {
 }
 
 bool PlayerMagnetSubject::isChangeable() const {
+    return false;
+}
+
+bool PlayerMagnetSubject::isFailed() const {
+    if (auto* scene = GameSceneSubsys5::instance()) {
+        if (scene->sub_7100905B34())
+            return true;
+    }
     return false;
 }
 

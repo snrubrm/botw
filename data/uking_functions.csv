@@ -50741,7 +50741,7 @@ Address,Quality,Size,Name
 0x00000071007febd0,O,000132,_ZNK5uking6action20PlayerLookAtTheFront27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071007fec54,O,000092,_ZNK5uking6action20PlayerLookAtTheFront18getRuntimeTypeInfoEv
 0x00000071007fecb0,O,000052,_ZN5uking6action19PlayerMagnetSubjectC1ERKN4ksys3act2ai10ActionBase7InitArgE
-0x00000071007fece4,U,000052,_ZNK5uking6action19PlayerMagnetSubject8isFailedEv
+0x00000071007fece4,O,000052,_ZNK5uking6action19PlayerMagnetSubject8isFailedEv
 0x00000071007fed18,W,000248,_ZN5uking6action19PlayerMagnetSubject6enter_EPN4ksys3act2ai15InlineParamPackE
 0x00000071007fee10,U,001320,
 0x00000071007ff338,W,001224,_ZN5uking6action19PlayerMagnetSubject5calc_Ev
@@ -54490,7 +54490,7 @@ Address,Quality,Size,Name
 0x00000071009059fc,U,000288,
 0x0000007100905b1c,U,000012,
 0x0000007100905b28,U,000012,
-0x0000007100905b34,U,000024,
+0x0000007100905b34,U,000024,_ZNK16GameSceneSubsys514sub_7100905B34Ev
 0x0000007100905b4c,U,000160,
 0x0000007100905bec,U,000068,
 0x0000007100905c30,U,000008,

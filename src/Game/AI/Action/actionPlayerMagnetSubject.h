@@ -14,6 +14,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isChangeable() const override;
+    bool isFailed() const override;
 
 protected:
     void calc_() override;

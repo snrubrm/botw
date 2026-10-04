@@ -24,6 +24,8 @@ public:
     void init();
     // 0x71009059d4: _d8[_148]
     bool sub_71009059D4() const;
+    // 0x7100905b34: declaration only, query the selected bank flag.
+    bool sub_7100905B34() const;
     // 0x71009059ec: acquires the actor of the link at +0xa8 into `accessor` (if given).
     void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
     // 0x7100905c70: _fc[_144] = true
