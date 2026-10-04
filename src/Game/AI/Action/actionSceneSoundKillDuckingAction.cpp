@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSceneSoundKillDuckingAction.h"
 
+#include "KingSystem/Sound/sndMgr.h"
+
 namespace uking::action {
 
 SceneSoundKillDuckingAction::SceneSoundKillDuckingAction(const InitArg& arg)
@@ -13,6 +15,11 @@ bool SceneSoundKillDuckingAction::init_(sead::Heap* heap) {
 
 void SceneSoundKillDuckingAction::loadParams_() {
     getDynamicParam(&mDuckerType_d, "DuckerType");
+}
+
+bool SceneSoundKillDuckingAction::oneShot_() {
+    ksys::snd::SoundMgr::instance()->mDuckingMgr->sub_7101042DB4(mDuckerType_d, true);
+    return true;
 }
 
 }  // namespace uking::action

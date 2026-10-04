@@ -30,10 +30,10 @@ public:
     struct StartParam {
         sead::SafeString _0;
         sead::SafeString _10;
-        s32 _20 = 0;
-        s32 _24 = 0;
-        s32 _28 = 0;
-        s32 _2c = 0;
+        f32 _20;
+        f32 _24;
+        f32 _28;
+        f32 _2c;
     };
 
     // 0x710103cff4 (declared only)

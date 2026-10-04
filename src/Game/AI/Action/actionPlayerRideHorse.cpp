@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionPlayerRideHorse.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include <limits>
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
 
@@ -31,7 +32,11 @@ void PlayerRideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerRideHorse::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* info = mActor->getPlayerRideInfo()) {
+        info->_30 &= ~0xc;
+        if (auto* player_info = sead::DynamicCast<ksys::act::Player::RideInfo>(info))
+            player_info->_2ec = 0;
+    }
 }
 
 void PlayerRideHorse::loadParams_() {

@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionCustomDuckingEndAction.h"
 
+#include "KingSystem/Sound/sndMgr.h"
+
 namespace uking::action {
 
 CustomDuckingEndAction::CustomDuckingEndAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
@@ -11,5 +13,10 @@ bool CustomDuckingEndAction::init_(sead::Heap* heap) {
 }
 
 void CustomDuckingEndAction::loadParams_() {}
+
+bool CustomDuckingEndAction::oneShot_() {
+    ksys::snd::SoundMgr::instance()->_98->sub_710103D094();
+    return true;
+}
 
 }  // namespace uking::action

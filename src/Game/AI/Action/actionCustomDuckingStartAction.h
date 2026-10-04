@@ -14,6 +14,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool oneShot_() override;
     // dynamic_param at offset 0x20
     float* mVolume_d{};
     // dynamic_param at offset 0x28

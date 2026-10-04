@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionCustomDuckingStartAction.h"
 
+#include "KingSystem/Sound/sndMgr.h"
+
 namespace uking::action {
 
 CustomDuckingStartAction::CustomDuckingStartAction(const InitArg& arg)
@@ -18,6 +20,18 @@ void CustomDuckingStartAction::loadParams_() {
     getDynamicParam(&mStartDelaySec_d, "StartDelaySec");
     getDynamicParam(&mTargetGroups_d, "TargetGroups");
     getDynamicParam(&mExceptGroups_d, "ExceptGroups");
+}
+
+bool CustomDuckingStartAction::oneShot_() {
+    ksys::snd::Unk_710103b704::StartParam param;
+    param._0 = mTargetGroups_d;
+    param._10 = mExceptGroups_d;
+    param._20 = *mVolume_d;
+    param._24 = *mFadeOutSec_d;
+    param._28 = *mFadeInSec_d;
+    param._2c = *mStartDelaySec_d;
+    ksys::snd::SoundMgr::instance()->_98->sub_710103CFF4(param);
+    return true;
 }
 
 }  // namespace uking::action
