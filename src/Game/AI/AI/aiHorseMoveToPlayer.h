@@ -11,12 +11,16 @@ class HorseMoveToPlayer : public HorseFollow {
     SEAD_RTTI_OVERRIDE(HorseMoveToPlayer, HorseFollow)
 public:
     SEAD_ENUM(Flag, _0, _1, _2, _3)
+    // The state of the NavMeshCharacter (u8 at 0x294; a SEAD_ENUM in the original: calc_'s switch goes through a stack
+    // round trip). Names and the number of values are guesses.
+    SEAD_ENUM(NavState, _0, _1, _2, _3, _4, _5)
 
     explicit HorseMoveToPlayer(const InitArg& arg);
     ~HorseMoveToPlayer() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void m34(sead::Vector3f* out, const sead::Vector3f& pos, const sead::Vector3f& target_pos,

@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -56,6 +57,102 @@ void HorseMoveToPlayer::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* rideable = mActor->getHorseOptionsMaybe())
         rideable->_134 = 0;
     changeChild("うろうろする", nullptr);
+}
+
+// NON_MATCHING: only the final flag updates differ: the original stores `_f0` after each of the three changes and
+// selects `reset` when the tested bit is off (`csel ..., eq`; the last one with branches); ours drops the first store
+// and selects the other way round
+void HorseMoveToPlayer::calc_() {
+    auto* nav = mActor->m45();
+    if (!nav) {
+        setFailed();
+        return;
+    }
+
+    if (isCurrentChild("うろうろする")) {
+        nav->_1e0.lock();
+        const u8 value = nav->_294;
+        nav->_1e0.unlock();
+        switch (NavState(value)) {
+        case NavState::_0:
+            return;
+        case NavState::_3:
+            setFailed();
+            return;
+        case NavState::_1: {
+            sead::Vector3f dir;
+            const f32 len = nav->_23c.length();
+            if (len > 0.0f)
+                dir.setScale(nav->_23c, 1.0f / len);
+            if (len != 0.0f) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(dir, "TargetDirection", -1);
+                changeChild("旋回", &pack);
+            }
+            _f0.setBit(Flag(Flag::_1));
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    if (isCurrentChild("旋回")) {
+        auto* child = getCurrentChild();
+        if (!child->isFinished() && !child->isFailed())
+            return;
+    }
+
+    auto* rideable = mActor->getHorseOptionsMaybe();
+    if (isCurrentChild("追いかける(遠い)")) {
+        const sead::Vector2f pos{mActor->getMtx().m[0][3], mActor->getMtx().m[2][3]};
+        f32 dist_sq;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            if (ksys::act::acquireActor(mTargetActor_d, &accessor)) {
+                const auto& target = accessor.getActorMtx();
+                const sead::Vector2f diff = pos - sead::Vector2f{target.m[0][3], target.m[2][3]};
+                dist_sq = diff.x * diff.x + diff.y * diff.y;
+            } else {
+                dist_sq = -1.0f;
+            }
+        }
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            const sead::Vector3f diff = nav->_194 - nav->_1a0;
+            bool within = false;
+            if (dist_sq >= 0.0f)
+                within = dist_sq < *mDistanceSuccessEndIfInterrupted_s * *mDistanceSuccessEndIfInterrupted_s;
+            if (_f0.isOnBit(Flag(Flag::_3))) {
+                if (within)
+                    setFinished();
+                else
+                    setFailed();
+            } else if ((nav->_220 & 0x40000000) ||
+                       diff.squaredLength() >= *mDistanceSuccessEnd_s * *mDistanceSuccessEnd_s) {
+                if (within)
+                    setFinished();
+                else
+                    setFailed();
+            }
+        } else if (rideable) {
+            if (dist_sq < 0.0f || dist_sq >= *mDistanceResetGearInput_s * *mDistanceResetGearInput_s)
+                rideable->_134 = 0;
+        }
+    } else if (isCurrentChild("追いかける(近い)")) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        if (rideable) {
+            rideable->_130 = 0;
+            rideable->_134 = 2;
+        }
+    }
+
+    HorseFollow::calc_();
+
+    _f0.resetBit(Flag(Flag::_1));
+    _f0.changeBit(Flag(Flag::_3), _f0.isOnBit(Flag(Flag::_2)));
+    _f0.changeBit(Flag(Flag::_2), (nav->_220 & 0x10040000) != 0);
 }
 
 void HorseMoveToPlayer::leave_() {

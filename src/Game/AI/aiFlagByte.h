@@ -29,6 +29,10 @@ public:
         return (mBits & mask) != 0;
     }
 
+    void changeBit(Enum bit, bool on) {
+        const u8 mask = makeMask(bit);
+        mBits = on ? mBits | mask : mBits & ~mask;
+    }
     bool isOffBit(Enum bit) const { return !isOnBit(bit); }
 
 private:
