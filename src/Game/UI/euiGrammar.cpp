@@ -3,6 +3,47 @@
 
 namespace eui {
 
+// NON_MATCHING: character append remains an out-of-line SDK call and loop lowering differs.
+// 0x7100be3d48
+s32 Grammar::formatNumberWithDelimiter(sead::StringBuilder* out, u64 value) {
+    const bool grouped = sead::EnvUtil::getRegion() == sead::RegionID::US ||
+                         sead::EnvUtil::getRegion() == sead::RegionID::EU;
+    const bool first_group = sead::EnvUtil::getLanguage() == sead::LanguageID::en ||
+                             sead::EnvUtil::getRegionLanguage() == sead::RegionLanguageID::EUfr;
+    sead::FixedSafeString<24> number;
+    const s32 length = number.format("%lld", value);
+    s32 required = length;
+    if (grouped && length > 3) {
+        required += (length - 1) / 3;
+        if ((length - 1) % 3 == 0 && !first_group)
+            --required;
+    }
+    if (out->getBufferSize() <= required)
+        return -1;
+    out->clear();
+    if (length < 4 || !grouped) {
+        out->copy(number.cstr());
+        return length;
+    }
+    char delimiter;
+    if (sead::EnvUtil::getLanguage() == sead::LanguageID::en)
+        delimiter = ',';
+    else if (sead::EnvUtil::getLanguage() == sead::LanguageID::de ||
+             sead::EnvUtil::getLanguage() == sead::LanguageID::it ||
+             sead::EnvUtil::getLanguage() == sead::LanguageID::nl)
+        delimiter = '.';
+    else
+        delimiter = ' ';
+    const s32 end = number.calcLength() + 1;
+    for (s32 i = 0; i != end; ++i) {
+        out->append(number.at(i));
+        const s32 remaining = length - i;
+        if (remaining >= 2 && (remaining - 1) % 3 == 0 && (first_group || i != 0))
+            out->append(delimiter);
+    }
+    return required;
+}
+
 // 0x7100be39b8
 void Grammar::setWordAttrFromTag(WordAttr* attr, const sead::MessageSet<char16>::TagInfo& tag) {
     const u8* param = tag.getParam();
