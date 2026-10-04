@@ -52,6 +52,10 @@ public:
     // 0x7101256354: resets every entry.
     void resetAll();
 
+    // 0x71012561e8 (declared only; lane3 s22): binds the bone keys of `entries[index]` between the two actors (`flag` as in
+    // ActorBindEntry::set).
+    void sub_71012561E8(Actor* actor, Actor* other, s32 index, ActorBindEntry* entries, bool flag);
+
     // inline-only in the original; name is a guess: sead::Buffer::operator()-style bounds-clamped access
     // (an out-of-range index selects entry 0). Inlined in the leave_ of HorseReinsDefaultAction /
     // HorseSaddleDefaultAction (both loop over their constant entry count with it).
