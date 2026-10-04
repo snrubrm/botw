@@ -1,7 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
-#include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -47,7 +47,7 @@ public:
     /* 0x00 */ u32 _0;
     /* 0x04 */ sead::Atomic<s32> _4;
     /* 0x08 */ sead::Atomic<s32> mNumPrepareDelete;
-    /* 0x0c */ u8 _c[0x10 - 0xc];
+    /* 0x0c */ sead::Atomic<s32> _c;  // spawn lock (sub_7100D5119C)
     /* 0x10 */ sead::Atomic<s32> _10;
     /* 0x14 */ sead::Atomic<s32> _14;
     /* 0x18 */ u16 _18;
@@ -60,7 +60,7 @@ public:
     /* 0x20 */ u8 _20[0x28 - 0x20];
     /* 0x28 */ u32 _28;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
     /* 0x2c */ u8 _2c[0x38 - 0x2c];
-    /* 0x38 */ sead::Buffer<Object*> mObjects;
+    /* 0x38 */ sead::PtrArray<Object> mObjects;
 };
 
 }  // namespace ksys::map

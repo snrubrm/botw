@@ -446,14 +446,7 @@ bool ObjectLinkData::sub_7100D4F6A4(act::ActorLinkConstDataAccess& accessor, Map
 bool ObjectLinkData::sub_7100D4F9DC(Object* obj) {
     bool found = false;
     if (obj && mGenGroup) {
-        s32 idx = -1;
-        for (s32 i = 0; i < mGenGroup->mObjects.size(); ++i) {
-            if (mGenGroup->mObjects.getBufferPtr()[i] == obj) {
-                idx = i;
-                break;
-            }
-        }
-        found = idx != -1;
+        found = mGenGroup->mObjects.indexOf(obj) != -1;
     }
     return found;
 }

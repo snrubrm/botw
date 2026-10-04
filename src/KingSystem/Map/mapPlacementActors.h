@@ -143,6 +143,9 @@ public:
     Object* getStaticObj_2(s32 idx) const;
     bool sub_7100D524B4() const;
     void x_9();
+    // 0x0000007100d53788 (CSV name; declared only): spawns the actor of `obj` for the generation group `other`
+    // belongs to (parameter names are guesses).
+    bool spawnGenGroupActor(Object* obj, Object* other);
     void resetGroup(int group_idx);
     int getNumObjs(int group_idx) const;
     Object* getObj(int group_idx, int object_idx);

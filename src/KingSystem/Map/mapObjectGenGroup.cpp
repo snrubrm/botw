@@ -2,10 +2,24 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/System/SystemTimers.h"
 
 namespace ksys::map {
+
+// NON_MATCHING: the original addresses the PtrArray through `this` (no copy of `&mObjects` kept in a second
+// callee-saved register) and null-tests `this` before the final size check
+void GenGroup::sub_7100D50778(Object* obj) {
+    const s32 idx = mObjects.indexOf(obj);
+    if (idx < 0)
+        return;
+    mObjects.erase(idx);
+    if (mObjects.size() == 0) {
+        mObjects.freeBuffer();
+        delete this;
+    }
+}
 
 bool GenGroup::sub_7100D50E00() {
     if (_0)
@@ -42,19 +56,18 @@ void GenGroup::sub_7100D50E90(bool a1) {
         mInitState = _18 != 0;
 }
 
-// NON_MATCHING: the original counts the loop down in bytes (`size << 3`, minus 8 per element)
 bool GenGroup::sub_7100D51064() {
-    for (auto* obj : mObjects) {
-        if (obj->getProc() || !PlacementMgr::instance()->objStuff(obj))
+    auto* mgr = PlacementMgr::instance();
+    for (auto& obj : mObjects) {
+        if (obj.getProc() || !mgr->objStuff(&obj))
             return false;
     }
     return true;
 }
 
-// NON_MATCHING: the original counts the loop down in bytes (`size << 3`, minus 8 per element)
 bool GenGroup::sub_7100D51134() {
-    for (auto* obj : mObjects) {
-        auto* actor = obj->tryGetActor(false);
+    for (auto& obj : mObjects) {
+        auto* actor = obj.tryGetActor(false);
         if (!actor)
             continue;
         if (actor->get1a0())
@@ -67,13 +80,60 @@ bool GenGroup::sub_7100D51134() {
     return false;
 }
 
-// NON_MATCHING: the original counts the loop down in bytes (`size << 3`, minus 8 per element)
 bool GenGroup::x(const u16* id) {
-    for (auto* obj : mObjects) {
-        if (obj->getId() == *id)
+    for (auto& obj : mObjects) {
+        if (obj.getId() == *id)
             return false;
     }
     return true;
+}
+
+// NON_MATCHING: the original loads the 16-bit flags of the object (ldrh) instead of the low byte (ldrb)
+void GenGroup::sub_7100D5119C(Object* obj) {
+    if (mInitState == 2)
+        return;
+    if (_4 == mObjects.size())
+        return;
+
+    auto* actors = PlacementMgr::instance()->mPlacementActors;
+    if (!_c.compareExchange(0, 1))
+        return;
+
+    bool spawned = false;
+    for (auto& object : mObjects) {
+        if (!spawned && object.getFlags().isOn(Object::Flag::IsLinkTag))
+            break;
+        spawned |= actors->spawnGenGroupActor(&object, obj);
+    }
+    _c = 0;
+}
+
+void GenGroup::sub_7100D51250(bool a1, u32 a2) {
+    for (auto& obj : mObjects) {
+        if (a1)
+            obj.setFlags0(Object::Flag0(1u << a2));
+        else
+            obj.resetFlags0(Object::Flag0(1u << a2));
+    }
+}
+
+// NON_MATCHING: same code, different register allocation (x10 / x11 swapped)
+bool GenGroup::sub_7100D51330(const u32* a1) {
+    for (auto& obj : mObjects) {
+        if (obj.getActorData().mFlags.isOnBit(ActorData::Flag(*a1)))
+            return true;
+    }
+    return false;
+}
+
+bool GenGroup::sub_7100D51E6C() {
+    s32 count = 0;
+    for (auto it = mObjects.begin(), end = mObjects.end(); it != end; ++it) {
+        auto* actor = (*it).tryGetActor(false);
+        if (actor ? actor->isDeletedOrDeleting() : !(*it).getFlags().isOn(Object::Flag::IsLinkTag))
+            ++count;
+    }
+    return count == mObjects.size() - _18;
 }
 
 void GenGroup::sub_7100D510D0() {
