@@ -55,6 +55,8 @@ target_sources(uking PRIVATE
   uiMiscFacade.cpp
   uiManagerFacade.cpp
   uiManagerSmall.cpp
+  uiOnUiActorMgr.cpp
+  uiOnUiActorMgr.h
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
