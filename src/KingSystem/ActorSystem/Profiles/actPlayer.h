@@ -305,6 +305,8 @@ public:
     void sub_71008893B8(bool a1);      // 0x71008893b8
     void sub_71008931C4();             // 0x71008931c4
     void sub_71008B5B8();              // 0x71008b5b8
+    // 0x710086952c (declared only; lane3 s22): finds the body "..." of the physics set and passes its rigid body to InstanceSet 0xfbd918.
+    void sub_710086952C();
     void x_37();  // 0x71008efa0
     void sub_7100856A7C();             // 0x7100856a7c (declared only)
     // 0x710086fab0 (CSV nullsub_2601): empty.

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnmTimingBackWalk.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::action {
 
@@ -25,7 +27,15 @@ void AnmTimingBackWalk::loadParams_() {
 }
 
 void AnmTimingBackWalk::calc_() {
-    BackWalkWithAS::calc_();
+    if (sub_71005DD798(mActor, 0x2f, nullptr, 0, 0)) {
+        BackWalkWithAS::calc_();
+        return;
+    }
+    sub_71000B6D2C();
+    auto* actor = mActor;
+    const sead::Vector3f gravity = getGravity(actor) * 0.0011111111f;
+    sub_7100738488(actor, *mPosReduceRatio_s, gravity);
+    sub_7100738AA8(actor, *mAngReduceRatio_s);
 }
 
 }  // namespace uking::action

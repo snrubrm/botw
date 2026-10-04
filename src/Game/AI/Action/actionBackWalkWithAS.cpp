@@ -27,4 +27,9 @@ void BackWalkWithAS::calc_() {
         setFinished();
 }
 
+void BackWalkWithAS::sub_71000B6D2C() {
+    if (isFinishedAS(0, 0) && !mASName_s.isEmpty())
+        setFinished();
+}
+
 }  // namespace uking::action

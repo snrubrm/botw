@@ -16,6 +16,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71000b6d2c: finishes once the AS is finished (when an AS name is set).
+    void sub_71000B6D2C();
 
     // static_param at offset 0xc0
     sead::SafeString mASName_s{};
