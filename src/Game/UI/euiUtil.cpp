@@ -1,4 +1,8 @@
 #include <cstring>
+#include <gfx/seadCamera.h>
+#include <gfx/seadProjection.h>
+#include <nn/ui2d/DrawInfo.h>
+#include <nn/ui2d/Types.h>
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/ResExtUserData.h>
@@ -8,6 +12,19 @@
 #include "Game/UI/euiLayoutEx.h"
 
 namespace eui {
+
+// NON_MATCHING: matrix copies remain memcpy calls and the derived destructors are out of line.
+// 0x7100bee638
+void SetupDrawInfoOrtho(nn::ui2d::DrawInfo* info, const nn::ui2d::Size& size) {
+    sead::OrthoProjection projection(0.0f, 300.0f, size.height * 0.5f, size.height * -0.5f,
+                                    size.width * -0.5f, size.width * 0.5f);
+    sead::OrthoCamera camera(projection);
+    camera.updateViewMatrix();
+    nn::util::Matrix4x4fType matrix;
+    std::memcpy(&matrix, &projection.getDeviceProjectionMatrix(), sizeof(matrix));
+    info->SetProjMtx(matrix);
+    std::memcpy(&info->mViewMtx, &camera.getMatrix(), sizeof(info->mViewMtx));
+}
 
 // 0x7100befa74
 void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map) {

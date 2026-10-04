@@ -4,8 +4,10 @@
 #include <prim/seadEnum.h>
 
 namespace nn::ui2d {
+class DrawInfo;
 class Pane;
 class TextureInfo;
+struct Size;
 struct ResExtUserData;
 struct ResExtUserDataList;
 }  // namespace nn::ui2d
@@ -17,6 +19,9 @@ SEAD_ENUM(DrawTarget, _0, _1)
 
 // A direction of the box cursor routes (up / down / left / right in some order; names not known)
 SEAD_ENUM(Direction, _0, _1, _2, _3)
+
+// 0x7100bee638
+void SetupDrawInfoOrtho(nn::ui2d::DrawInfo*, const nn::ui2d::Size&);
 
 // 0x7100bed2bc: the angle (radians) of a box cursor route direction
 f32 GetRadAngleOfDirection(Direction direction);
