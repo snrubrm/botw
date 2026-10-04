@@ -45,6 +45,7 @@ target_sources(uking PRIVATE
   euiButton.h
   euiMessageString.cpp
   euiTextBoxEx.cpp
+  euiScalableFontTextBoxEx.cpp
   euiMessageString.h
   euiScreen.cpp
   euiDrawInfoEx.cpp
