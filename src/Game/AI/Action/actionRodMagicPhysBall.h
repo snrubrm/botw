@@ -36,8 +36,14 @@ protected:
         s32 _8 = 0;
     };
     /* 0x168 */ Entry _168[4];
-    /* 0x1a8 */ void* _1a8 = nullptr;
-    void* _1b0 = nullptr;
+    /* 0x1a8 */ struct Unk1a8 {
+        void* _0;
+        u32 _8;
+        bool _c;
+        u8 _d[3];
+    } _1a8{};
+    // 0x710023b234 (declared only): out of line in the original.
+    void sub_710023B234(Unk1a8* out);
 };
 
 }  // namespace uking::action

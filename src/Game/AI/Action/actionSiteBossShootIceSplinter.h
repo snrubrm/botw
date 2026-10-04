@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710026354c (declared only): out of line in the original.
+    void sub_710026354C(int idx);
     void calc_() override;
 
     // static_param at offset 0x20
@@ -30,6 +32,11 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     // dynamic_param at offset 0x58
     ksys::act::BaseProcLink* mTargetActor_d{};
+    bool _60 = false;
+    bool _61 = false;
+    bool _62 = false;
+    s32 _64 = 0;
+    // 0x68: a member with an out-of-line ctor (0x2631cc) whose type is not known yet
 };
 
 }  // namespace uking::action

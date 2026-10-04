@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71002b5e34 (declared only): out of line in the original.
+    void sub_71002B5E34(ksys::act::BaseProcHandle* handle);
     void calc_() override;
 
     // static_param at offset 0x88

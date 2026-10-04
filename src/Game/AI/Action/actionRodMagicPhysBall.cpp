@@ -9,6 +9,11 @@ RodMagicPhysBall::~RodMagicPhysBall() = default;
 
 void RodMagicPhysBall::enter_(ksys::act::ai::InlineParamPack* params) {
     ChemicalPhysBall::enter_(params);
+    _d8.reset();
+    _160 = false;
+    _161 = false;
+    _1a8._c = true;
+    sub_710023B234(&_1a8);
 }
 
 void RodMagicPhysBall::leave_() {

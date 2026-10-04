@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainElectricCannonBeamFire.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
@@ -13,7 +14,11 @@ bool RemainElectricCannonBeamFire::init_(sead::Heap* heap) {
 }
 
 void RemainElectricCannonBeamFire::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _48 = 5.0f;
+    const sead::Vector3f pos = *mTargetPos_d;
+    sub_710022AF50(pos, false);
+    _58 = 0;
+    sub_71007A44E4(mActor, true);
 }
 
 void RemainElectricCannonBeamFire::leave_() {

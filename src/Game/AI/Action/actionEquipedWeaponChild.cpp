@@ -8,6 +8,10 @@ EquipedWeaponChild::EquipedWeaponChild(const InitArg& arg) : BindAction(arg) {}
 
 void EquipedWeaponChild::enter_(ksys::act::ai::InlineParamPack* params) {
     BindAction::enter_(params);
+    _e0 = mActor->getScale();
+    sead::Vector3f scale;
+    sub_7100E14D6C(&scale);
+    mActor->setScale(scale);
 }
 
 void EquipedWeaponChild::leave_() {

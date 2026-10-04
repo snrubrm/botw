@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaterFloatIgniteToTarget.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -36,6 +38,8 @@ void WaterFloatIgniteToTarget::loadParams_() {
 
 void WaterFloatIgniteToTarget::calc_() {
     OneTimeWaterFloatStopASPlay::calc_();
+    if (mActor->getASList()->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+        sub_71002B5E34(*mIgniteHandle_d);
 }
 
 }  // namespace uking::action

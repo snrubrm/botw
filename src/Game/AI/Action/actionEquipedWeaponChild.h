@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100e14d6c (declared only): out of line in the original.
+    void sub_7100E14D6C(sead::Vector3f* scale);
     void m32() override;
     ksys::act::Actor* m33() override;
     // static_param at offset 0xd8

@@ -20,6 +20,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710022af50 (declared only): out of line in the original.
+    void sub_710022AF50(const sead::Vector3f& pos, bool a);
     void calc_() override;
 
     // static_param at offset 0x20
