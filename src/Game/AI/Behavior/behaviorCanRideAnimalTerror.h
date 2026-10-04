@@ -16,6 +16,8 @@ public:
     void loadParams() override;
     void m7() override;  // not decompiled yet (0x710061b920)
 
+    void sub_710061B944();
+
     /* 0x158 */ const int* mLevelForRiddenPlayer_s{};
     /* 0x160 */ ksys::Timer _160{};
     /* 0x16c */ bool _16c = false;

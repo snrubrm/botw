@@ -24,4 +24,12 @@ void PlayASWithBurnState::loadParams() {
     getStaticParam(&mOffToOnASName_s, "OffToOnASName");
 }
 
+void PlayASWithBurnState::m8() {
+    sub_7100632B48(sub_7100632CD8());
+}
+
+void PlayASWithBurnState::m7() {
+    sub_7100632B48(sub_7100632CD8());
+}
+
 }  // namespace uking::behavior

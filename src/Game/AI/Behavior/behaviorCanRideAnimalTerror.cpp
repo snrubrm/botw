@@ -24,4 +24,9 @@ void CanRideAnimalTerror::loadParams() {
     getStaticParam(&mLevelForRiddenPlayer_s, "LevelForRiddenPlayer");
 }
 
+void CanRideAnimalTerror::m7() {
+    TerrorBehavior::m7();
+    sub_710061B944();
+}
+
 }  // namespace uking::behavior

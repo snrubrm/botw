@@ -54,4 +54,11 @@ void XLink::resetELinkEvents() {
         _48->killAll();
 }
 
+void XLink::sub_7101231468(u32 property, f32 value, bool force) {
+    if (_48 && (force || _48->isPropertyAssigned(property)))
+        _48->setPropertyValue(property, value);
+    if (_50 && (force || _50->isPropertyAssigned(property)))
+        _50->setPropertyValue(property, value);
+}
+
 }  // namespace ksys::xlink

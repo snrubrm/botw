@@ -19,6 +19,8 @@ struct Unk_710123830c {
     // 0x7101236190-0x710123830c (not decompiled): 0x1236520 (FootstepReactionChanger::m8), 0x12370a8 (m9),
     // 0x12381a8 (FootstepChanger::m8).
     void sub_71012372EC();
+    void sub_7101236520(s32 reaction, s32 scale, s32 duration);
+    void sub_71012370A8();
 
     /* 0x00 */ u8 _0[0x1c];
     /* 0x1c */ sead::BitFlag16 _1c;
@@ -49,6 +51,7 @@ public:
     void prepareAIChangeMaybe(const char* name, const char* context);
     void sleepELink();
     void resetELinkEvents();
+    void sub_7101231468(u32 property, f32 value, bool force);
 
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;
