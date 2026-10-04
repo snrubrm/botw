@@ -33,6 +33,13 @@ public:
     void sub_71010C36A4(f32 a1, f32 a2, const sead::Matrix34f* mtx, sead::Heap* heap,
                         ksys::act::Actor* actor);
 
+    // 0x71010c38f4 (declared only; ExpandSensor::enter_ passes the actor's home matrix).
+    void sub_71010C38F4(const sead::Matrix34f* mtx);
+    // 0x71010c3a1c (declared only; ExpandSensor::enter_ passes the capsule radius).
+    void sub_71010C3A1C(f32 radius);
+    // 0x71010c3b18 (declared only; ExpandSensor::enter_ passes the capsule length `_d4`).
+    void sub_71010C3B18(f32 length);
+
     /* 0x08 */ void* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
     /* 0x18 */ u32 _18 = 0;

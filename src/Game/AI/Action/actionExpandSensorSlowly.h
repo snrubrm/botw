@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100059988 (declared only; called at the end of enter_).
+    void sub_7100059988();
     // 0x710005a348 (declared only): the body of leave_ is out of line in the original.
     void sub_710005A348();
     void calc_() override;
@@ -36,7 +38,9 @@ protected:
     /* 0xb8 */ sead::Vector3f _b8 = sead::Vector3f::zero;
     /* 0xc4 */ sead::Vector3f _c4 = sead::Vector3f::zero;
     /* 0xd0 */ sead::Vector3f _d0 = sead::Vector3f::zero;
-    /* 0xdc */ sead::Vector3f _dc{1, 1, 1};
+    /* 0xdc */ f32 _dc = 1.0f;
+    /* 0xe0 */ f32 _e0 = 1.0f;
+    /* 0xe4 */ f32 _e4 = 1.0f;
     /* 0xe8 */ bool _e8 = false;
     bool _e9 = false;
 };
