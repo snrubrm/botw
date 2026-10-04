@@ -105,6 +105,13 @@ public:
     void x();
     // 0x710065e4bc: releases the active entries into the free pool.
     void sub_710065E4BC(bool delete_actor);
+    // 0x710065e638: waits for all five entries to clear, then deletes the context actor.
+    bool sub_710065E638();
+    // 0x710065e788: chooses the active-scene, menu, or normal item transform.
+    bool sub_710065E788(sead::Matrix34f* matrix, s32 index);
+    bool sub_710065E88C(sead::Matrix34f* matrix, s32 index);
+    bool sub_710065DE90(sead::Matrix34f* matrix, s32 index);
+    bool sub_710065ECF8(sead::Matrix34f* matrix, s32 index);
     // 0x710065f044: number of entries in the carried-item array at +0x638.
     s32 sub_710065F044();
     // 0x710065f07c: number of active entries.

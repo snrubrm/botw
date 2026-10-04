@@ -66,6 +66,37 @@ void ActorContextStuff::sub_710065E4BC(bool delete_actor) {
     }
 }
 
+// NON_MATCHING: the last entry test is moved before the nested unlock, reducing the stack frame.
+bool ActorContextStuff::sub_710065E638() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    bool cleared = false;
+    {
+        // The original holds this same lock twice while checking the entries.
+        sead::ScopedLock<sead::CriticalSection> entries_lock(&_28);
+        for (auto& entry : _70) {
+            cleared = entry.sub_71006606E8();
+            if (!cleared)
+                break;
+        }
+    }
+    if (!cleared)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_708, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    return true;
+}
+
+bool ActorContextStuff::sub_710065E788(sead::Matrix34f* matrix, s32 index) {
+    if (auto* scene = GameSceneSubsys12::instance()) {
+        if (scene->_300.hasProc() && scene->_310 == this && scene->sub_7100664F30())
+            return sub_710065E88C(matrix, index);
+    }
+    if (_68 & 2)
+        return sub_710065DE90(matrix, index);
+    return sub_710065ECF8(matrix, index);
+}
+
 void ActorContextStuff::x_0() {
     for (auto& entry : _70)
         entry.sub_7100661988();
