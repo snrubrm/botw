@@ -87,7 +87,7 @@ bool ActionBase::isActorGoingBackToRootAi() const {
 
 void ActionBase::sub_71011C24DC(u32 slot, u32 seq_bank) {
     if (auto* as_list = mActor->getASList())
-        as_list->sub_710115F444(slot, seq_bank, &as::ASList::Unk2::sub_710042BBEC);
+        as_list->sub_710115F444(slot, seq_bank, &as::ASList::Unk2::sub_71011635C0);
 }
 
 void ActionBase::enter(InlineParamPack* params, const sead::SafeString& context) {

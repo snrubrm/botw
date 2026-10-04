@@ -52,6 +52,13 @@ public:
         // used with x_7
         bool sub_7101162F2C();
         bool sub_7101162FE8();
+        bool sub_7101162F7C(f32 value);
+        f32 sub_7101163354(bool a1);
+        void sub_71011635C0();
+        int sub_710116360C(f32* out);
+        int sub_710116367C();
+        void sub_71011637D8();
+        void sub_7101163AD4(f32 value, int key);
         bool sub_710116392C();
         bool sub_7101163940();
         bool sub_7101163950();
@@ -172,6 +179,8 @@ public:
     void sub_710115F228(f32 value);
     // 0x710115f2ec: changes the entry weight and updates the slot (declaration only).
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
+    bool sub_710115F0BC(int slot, int bank, f32 value);
+    void sub_710115F10C(int slot, int bank);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());

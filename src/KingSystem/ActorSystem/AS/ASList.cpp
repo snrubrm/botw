@@ -450,6 +450,17 @@ void ASList::sub_710115F158(ASList* other, int slot, int other_slot, int bank, i
     entry->sub_71011633C0(other_entry);
 }
 
+bool ASList::sub_710115F0BC(int slot, int bank, f32 value) {
+    if (auto* entry = getEntry(slot, bank))
+        return entry->sub_7101162F7C(value);
+    return false;
+}
+
+void ASList::sub_710115F10C(int slot, int bank) {
+    if (auto* entry = getEntry(slot, bank))
+        entry->sub_71011637D8();
+}
+
 void ASList::sub_710115F5C0(f32 value, int slot, int bank) {
     Unk2* entry = getEntry(slot, bank);
     if (!entry)
