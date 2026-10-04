@@ -22,6 +22,34 @@ LayoutEx* LayoutEx::m21(const char*, const nn::ui2d::Layout::PartsBuildDataSet&,
     return new (memory) LayoutEx(mScreen);
 }
 
+// 0x7100bdd988
+s32 LayoutEx::setMessageStringForEachId(const char* id, const MessageString& message,
+                                       bool adjust_size, void* user_data) {
+    const s32 count = setMessageStringForEachIdRecursive_(mPane, id, message, nullptr, -1, user_data);
+    if (count && adjust_size && (_90 & 1))
+        adjustPaneSizeToTextSizeRecursive_(mPane);
+    return count;
+}
+
+// 0x7100bddd64
+s32 LayoutEx::setMessageStringForEachIdWithPage(const char* id, const MessageString& message,
+                                               bool* has_next_page, u32 page, bool adjust_size,
+                                               void* user_data) {
+    const s32 count = setMessageStringForEachIdRecursive_(mPane, id, message, has_next_page, page, user_data);
+    if (count && adjust_size && (_90 & 1))
+        adjustPaneSizeToTextSizeRecursive_(mPane);
+    return count;
+}
+
+// 0x7100bddc70
+void LayoutEx::adjustPaneSizeToTextSizeRecursive_(nn::ui2d::Pane* pane) {
+    AdjustPaneSizeToTextSize(pane, this);
+    for (auto& child : pane->GetChildList()) {
+        if (!nn::font::DynamicCast<nn::ui2d::Parts>(&child))
+            adjustPaneSizeToTextSizeRecursive_(&child);
+    }
+}
+
 // 0x7100bdeffc
 nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* result,
                                            nn::gfx::Device* device, const char* name,

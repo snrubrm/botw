@@ -24,6 +24,10 @@ sead::Heap* GetNwAllocatorHeap();
 class Animator;
 class AnimatorSet;
 class Screen;
+class MessageString;
+class LayoutEx;
+
+void AdjustPaneSizeToTextSize(nn::ui2d::Pane*, LayoutEx*);
 
 // The eui layout (CSV eui::LayoutEx; derives from nn::ui2d::Layout, vtable 0x24c7d18 with 26 slots). Only the
 // fields and functions used so far are declared.
@@ -71,6 +75,13 @@ public:
     Animator* tryCreateAnimatorAuto(const char* name, bool b);
     Animator* tryCreateAnimatorAutoWithWarning(const char* name, bool b);
     AnimatorSet* createAnimatorSet(const char* const* names, u32 count, bool b);
+
+    s32 setMessageStringForEachId(const char*, const MessageString&, bool adjust_size, void*);
+    s32 setMessageStringForEachIdWithPage(const char*, const MessageString&, bool* has_next_page,
+                                         u32 page, bool adjust_size, void*);
+    s32 setMessageStringForEachIdRecursive_(nn::ui2d::Pane*, const char*, const MessageString&,
+                                           bool*, s32 page, void*);
+    void adjustPaneSizeToTextSizeRecursive_(nn::ui2d::Pane*);
 
     /* 0x60 */ Animator* mOpenAnimator = nullptr;
     /* 0x68 */ Animator* mCloseAnimator = nullptr;
