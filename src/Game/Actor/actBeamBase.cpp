@@ -6,7 +6,7 @@ namespace uking::act {
 // (the original keeps two separate word stores)
 BeamBase::BeamBase(const CreateArg& arg) : DynamicActor(arg) {
     _b90._40.reset();
-    _b90._50.getKey().reset();
+    _be0.getKey().reset();
 }
 
 // NON_MATCHING: the original computes &_b90 and &_b90._40 into callee-saved registers before the inlined

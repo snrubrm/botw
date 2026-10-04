@@ -97,7 +97,12 @@ target_sources(uking PRIVATE
   actMapDynamicPassive.h
   actEditCamera.cpp
   actEditCamera.h
+  actActorOption.cpp
+  actActorOption.h
   actAnchor.cpp
+  actGiantArmor.cpp
+  actItem.cpp
+  actItem.h
   actBeam.cpp
   actBeamBase.cpp
   actAnchor.h

@@ -15,8 +15,24 @@ namespace uking::act {
 class GiantArmor : public ksys::act::DynamicActor {
     SEAD_RTTI_OVERRIDE(GiantArmor, DynamicActor)
 public:
-    /* 0xb90 */ sead::CriticalSection _b90;
-    /* 0xbd0 */ ksys::act::BaseProcLink _bd0;
+    explicit GiantArmor(const CreateArg& arg);
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
+    bool shouldUnload(s32* a1) override { return false; }
+    void initMaybe() override;
+    Actor* m31() override;
+
+protected:
+    bool canWakeUp_() override;
+
+public:
+    // A critical section followed by a link (the dtor keeps &_b90 in a register across the link's reset).
+    struct Unk_b90 {
+        /* 0x00 */ sead::CriticalSection _0;
+        /* 0x40 */ ksys::act::BaseProcLink _40;
+    };
+    /* 0xb90 */ Unk_b90 _b90;
     /* 0xbe0 */ s32 _be0 = -1;
     /* 0xbe8 */ ksys::act::BaseProcLink _be8;
     /* 0xbf8 */ s32 _bf8 = -1;

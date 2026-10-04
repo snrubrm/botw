@@ -3,7 +3,10 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAirWall.h"
 
 namespace ksys::act {
 
@@ -55,6 +58,18 @@ void AirWall::m151() {
         point_info->subscribeLayer(phys::ContactLayer::EntityPlayer);
         point_info->subscribeLayer(phys::ContactLayer::EntityNPC);
     }
+}
+
+phys::ContactLayer AirWall::m152() {
+    if (auto* param = getParam()) {
+        if (auto* list = param->getRes().mGParamList) {
+            if (auto* air_wall = list->getAirWall()) {
+                if (air_wall->mLayer.ref() == "Ground")
+                    return phys::ContactLayer::EntityGround;
+            }
+        }
+    }
+    return phys::ContactLayer::EntityAirWall;
 }
 
 }  // namespace ksys::act

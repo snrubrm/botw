@@ -73,6 +73,7 @@ public:
     void preDelete2_(const PreDeleteArg& arg) override;
     void m149(phys::RigidBody* body) override;
     void m151() override;
+    phys::ContactLayer m152() override;
 
     /* 0x890 */ RigidBodyCallback* _890 = nullptr;
     /* 0x898 */ RigidBodyCallback* _898 = nullptr;
