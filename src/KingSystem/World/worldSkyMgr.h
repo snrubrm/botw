@@ -129,11 +129,17 @@ public:
     ~SkyMgr() override;
 
     void init_(sead::Heap* heap) override;
+    void calc_() override;
     void calcType2_() override;
     JobType getType() const override { return JobType::Sky; }
 
     void reset();
     void onTimeUpdate();
+    // 0x71010e2468 / 0x71010e2908: wind/cloud and sun-direction updates (declarations only).
+    void sub_71010E2468();
+    void sub_71010E2908();
+    // 0x71010e4ffc: updates cloud-shadow interpolation and palette timers.
+    void sub_71010E4FFC();
 
 private:
     friend class Manager;
@@ -204,7 +210,7 @@ public:  // written directly by uking::action::EventCloudShadowOnOff / EventSetS
     int _3fa8;
 private:
     bool _3fac;
-    bool _3fad;
+    u8 _3fad;  // cloud-shadow suppression counter (decremented at 0x71010e5034).
     bool _3fae;
     bool _3faf;
     bool _3fb0;

@@ -4,6 +4,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/System/VFR.h"
 
 namespace ksys::world {
 
@@ -402,6 +403,29 @@ void SkyMgr::onTimeUpdate() {
     _3f30 = 0;
     _3f34 = 0;
     _3fac = !(time >= 45.0f && time <= 330.0f);
+}
+
+void SkyMgr::calc_() {
+    sub_71010E2468();
+    sub_71010E2908();
+}
+
+void SkyMgr::calcType2_() {}
+
+void SkyMgr::sub_71010E4FFC() {
+    auto* mgr = Manager::instance();
+    f32 target = 1.0f;
+    if (_3fad != 0) {
+        --_3fad;
+        target = 0.0f;
+    }
+    VFR::lerp(&_3f50, target, 0.1f, 0.1f, 0.01f);
+    if (mgr->mTimer != 0)
+        _3f50 = target;
+    if (_3fa0 > 0)
+        --_3fa0;
+    if (_3fa8 > 0 && --_3fa8 == 0)
+        _3fa4 = 0;
 }
 
 }  // namespace ksys::world

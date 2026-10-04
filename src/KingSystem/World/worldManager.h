@@ -226,6 +226,7 @@ public:
     WeatherType someWeatherStuff_0(Climate climate);
 
 private:
+    friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
     friend class TempMgr;
     friend class WeatherMgr;
 
