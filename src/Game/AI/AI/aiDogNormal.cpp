@@ -9,8 +9,7 @@ DogNormal::DogNormal(const InitArg& arg) : DomesticNormal(arg) {}
 
 DogNormal::~DogNormal() = default;
 
-// NON_MATCHING: the original sets the flag through a SEAD_ENUM value that is kept in memory (stack
-// round trip, no constant folding; see m40) and copies the translation as 8+4 bytes in x, z order
+// NON_MATCHING: the original copies the translation as 8+4 bytes in x, z order
 bool DogNormal::init_(sead::Heap* heap) {
     if (!DomesticNormal::init_(heap))
         return false;
@@ -49,13 +48,10 @@ void DogNormal::leave_() {
     DomesticNormal::leave_();
 }
 
-// NON_MATCHING: the flag SEAD_ENUM value lives in an inline callee's parameter slot in the original
-// (stack slot above the SafeStrings, stored at the use) and the `and` has the operands swapped
 bool DogNormal::m40() {
     return (isCurrentChild("徘徊") || isCurrentChild("なつき")) && _464.isOffBit(Flag(Flag::_4));
 }
 
-// NON_MATCHING: same flag-enum stack slot / operand order as m40
 bool DogNormal::m41() {
     if (isCurrentChild("興味対象発見") && getCurrentChild()->isFinished()) {
         sub_7100364460();

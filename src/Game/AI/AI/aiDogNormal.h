@@ -2,7 +2,7 @@
 
 #include <limits>
 #include <math/seadVector.h>
-#include <prim/seadBitFlag.h>
+#include "Game/AI/aiFlagByte.h"
 #include <prim/seadEnum.h>
 #include "Game/AI/AI/aiDomesticNormal.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -75,7 +75,7 @@ protected:
     f32 _458 = std::numeric_limits<f32>::quiet_NaN();
     f32 _45c = 0;
     u32 _460 = 0;
-    sead::BitFlag16 _464;
+    FlagBits<Flag, u16> _464;
 };
 KSYS_CHECK_SIZE_NX150(DogNormal, 0x468);
 
