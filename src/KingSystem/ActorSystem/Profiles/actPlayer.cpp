@@ -609,7 +609,6 @@ s32 Player::m298(int a1) {
     return sub_71008923B0(a1);
 }
 
-// NON_MATCHING: sub_7100D14598 returns a 4-byte SEAD_ENUM in the original (the result goes through a stack slot)
 s32 Player::m291() {
     ActorConstDataAccess accessor;
     s32 result = 0;

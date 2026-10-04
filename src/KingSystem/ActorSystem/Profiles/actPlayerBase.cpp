@@ -127,14 +127,12 @@ bool PlayerBase::m240() {
     return _17d0->controllerCheckPressedMaybe(27);
 }
 
-// NON_MATCHING: ActorConstDataAccess::sub_7100D14598 returns a 4-byte SEAD_ENUM in the original (`cmp w0, #0xb`; ours
-// compares the 64-bit value)
 bool PlayerBase::x_48() {
     auto* info = getPlayerRideInfo();
     if (info && (info->_30 & 1)) {
         ActorConstDataAccess accessor;
         if (acquireActor(&info->_18, &accessor))
-            return accessor.sub_7100D14598() == 0xb;
+            return accessor.sub_7100D14598() == Unk_7100d14598::_11;
     }
     return false;
 }

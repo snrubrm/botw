@@ -1121,9 +1121,9 @@ u64 ActorConstDataAccess::sub_7100D144EC() const {
     return rideable->m23();
 }
 
-// NON_MATCHING: the original zero-extends the 32-bit result with `and x0, x0, #0xffffffff` (we emit `mov w0, w0`)
+// NON_MATCHING: the original zero-extends the callee's 32-bit result with `and x0, x0, #0xffffffff` (we emit `mov w0, w0`)
 // 0x7100d14598
-u64 ActorConstDataAccess::sub_7100D14598() const {
+Unk_7100d14598 ActorConstDataAccess::sub_7100D14598() const {
     auto* actor = getActor();
     if (!actor)
         return 1;

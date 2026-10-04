@@ -3,6 +3,7 @@
 #include <math/seadBoundBox.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProc.h"
@@ -52,6 +53,10 @@ class Actor;
 class Chemical;
 class Schedule;
 class Unk_71024dc978;
+
+// Placeholder enum (a 4-byte SEAD_ENUM in the original: the result of sub_7100D14598 goes through a stack
+// slot; it is the ridden animal type of the horse unit param, 11 is compared by PlayerBase::x_48).
+SEAD_ENUM(Unk_7100d14598, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15)
 
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
 public:
@@ -296,7 +301,7 @@ public:
     bool sub_7100D13E9C() const;
     bool sub_7100D13F38() const;
     u64 sub_7100D144EC() const;
-    u64 sub_7100D14598() const;
+    Unk_7100d14598 sub_7100D14598() const;
     bool sub_7100D11C5C(sead::Vector3f* out) const;
     bool sub_7100D152E4() const;
     void sub_7100D153A4(f32 value) const;
