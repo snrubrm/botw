@@ -17,6 +17,8 @@ public:
     void initTimeline(void* flow_data);
     // 0x7100dc2b7c (CSV EventResource::initFlowchart)
     void initFlowchart(void* flow_data, void* flowchart_data);
+    // 0x7100dc34f8 (CSV EventResource::load; not decompiled)
+    bool load(bool a1);
     // 0x7100dc3698 (CSV unnamed): called by EventFlow::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
 

@@ -26,6 +26,17 @@ struct TexMaterial {
     TexMapSlot* texMaps;
 };
 
+// Polymorphic texture info object embedded in UiTexSlots (vtable 0x2477bd8; it is what a material's texture map slot
+// points to while no texture is loaded). The class name and the virtual functions are not known.
+class UiTexInfo {
+public:
+    virtual ~UiTexInfo() = default;
+
+    u64 _8 = u64(-1);
+    u32 _10 = 0;
+};
+static_assert(sizeof(UiTexInfo) == 0x18);
+
 // Member of ShopBtnList15 / ShopInfo / AppTool / AppMap / MainShortCut / StaffRoll(DLC) (vtable 0x249ce30; the class
 // name is not known). Loads a texture resource per entry (the resource's texture is attached to the material's texture
 // map slot while it is loaded, a default texture info (`mTexInfo`) otherwise) and plays an optional animator.
@@ -41,7 +52,7 @@ public:
     };
     static_assert(sizeof(Entry) == 0x20);
 
-    // 0x7100a81208 (declared only: it initialises a polymorphic texture info object at 0x18)
+    // 0x7100a81208
     UiTexSlots();
     virtual ~UiTexSlots();
 
@@ -50,8 +61,8 @@ public:
 
 private:
     /* 0x08 */ sead::Buffer<Entry> mEntries;
-    /* 0x18 */ u8 mTexInfo[0x18];
-    /* 0x30 */ s32 mMode;
+    /* 0x18 */ UiTexInfo mTexInfo;
+    /* 0x30 */ s32 mMode = 0;
     /* 0x34 */ u8 _34[4];
     /* 0x38 */ sead::FixedSafeString<128> mPath;
 };

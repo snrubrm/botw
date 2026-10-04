@@ -4,6 +4,11 @@
 
 namespace uking::ui {
 
+// NON_MATCHING: all stores are the same; clang schedules them in a different order (the original stores the -1 of the
+// texture info first)
+// 0x7100a81208
+UiTexSlots::UiTexSlots() = default;
+
 // NON_MATCHING: same code, the original keeps the entry pointer of the second lookup in x8 (the register of the size)
 // where ours uses a fresh register (register allocation only; the destructor below shows the same difference)
 // 0x7100a813e0
@@ -12,7 +17,7 @@ void UiTexSlots::unload(s32 index) {
         animator->StopAtMin();
     Entry& entry = mEntries[index];
     if (entry.handle && entry.material)
-        entry.material->texMaps[entry.texMapIndex].textureInfo = mTexInfo;
+        entry.material->texMaps[entry.texMapIndex].textureInfo = &mTexInfo;
     if (mEntries[index].handle->requestedLoad())
         mEntries[index].handle->requestUnload2();
 }

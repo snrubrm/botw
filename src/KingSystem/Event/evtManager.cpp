@@ -1,10 +1,34 @@
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
 
 namespace ksys::evt {
+
+// 0x7100db0bac
+bool Manager::callEvent(const Metadata& metadata, act::Actor* actor, void* x) {
+    if (actor && actor->isDeletedOrDeleting())
+        return false;
+
+    CallArg arg;
+    arg._40 = x;
+    arg.proc = actor;
+    arg.metadata = &metadata;
+    return callEvent(arg);
+}
+
+// 0x7100db0c44
+bool Manager::callEvent(const CallArg& arg) {
+    s32 result = 0x1ff;
+    if (!doCallEvent(arg, &result))
+        return false;
+    if (result != 500)
+        _1d2f4 |= 0x100;
+    return true;
+}
 
 // 0x7100db28c4
 EventFlow* Manager::getActiveEvent() const {

@@ -2,6 +2,7 @@
 
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/Event/evtEventFlowMgr.h"
 
 namespace ksys {
 class OverlayArenaSystemS1;
@@ -19,18 +20,6 @@ class EventFlow;
 class EventMgrStruct1;
 struct CallArg;
 class Metadata;
-
-// Name from the CSV (EventFlowMgr::ctor 0x7100dbe0ac, load, loadSimple, unload, ...). Only what is
-// used so far is declared.
-class EventFlowMgr {
-public:
-    // 0x7100dbeb4c
-    EventFlow* loadSimple(const sead::SafeString& event_name, const sead::SafeString& entry_point);
-    // 0x7100dbf048
-    void unload(EventFlow* flow);
-    // 0x7100dc0024 (CSV EventFlowMgr::loadEventResourceForAllEventFlows; not decompiled)
-    bool loadEventResourceForAllEventFlows(bool a1);
-};
 
 // TODO
 class Manager {
@@ -66,6 +55,9 @@ public:
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
 
     void setNoDeleteCurrentActor(bool no_delete);
+
+    // 0x7100db07c4 (CSV EventMgr::doCallEvent; not decompiled): `*out_result` is 500 when the event was only queued (?)
+    bool doCallEvent(const CallArg& arg, s32* out_result);
 
     // 0x7100db0ca0: always false (placeholder name; AssassinMiddleAzitoRoot passes a Metadata and
     // its actor).
