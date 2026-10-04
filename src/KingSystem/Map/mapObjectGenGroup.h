@@ -36,6 +36,8 @@ public:
     bool sub_7100D51134();
     // 0x7100d513b0 (CSV x): whether none of the objects has the id `*id`.
     bool x(const u16* id);
+    // 0x7100d51e6c (declared only).
+    bool sub_7100D51E6C();
     void sub_7100D510D0();
     u8 sub_7100D510FC();
     void sub_7100D51250(bool a1, u32 a2);
@@ -54,7 +56,8 @@ public:
     /* 0x1c */ u8 _1c;
     /* 0x1d */ u8 _1d;  // a frame stamp (_28) is valid
     /* 0x1e */ u8 mHasCreateOrDeleteLinks;
-    /* 0x1f */ u8 _1f[0x28 - 0x1f];
+    /* 0x1f */ u8 _1f;
+    /* 0x20 */ u8 _20[0x28 - 0x20];
     /* 0x28 */ u32 _28;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
     /* 0x2c */ u8 _2c[0x38 - 0x2c];
     /* 0x38 */ sead::Buffer<Object*> mObjects;

@@ -425,6 +425,56 @@ bool ObjectLinkData::checkContainsObjWithName(const sead::SafeString& name, cons
     return false;
 }
 
+bool ObjectLinkData::sub_7100D4EF30(const act::ActorConstDataAccess& accessor) {
+    for (auto& link : mLinksOther.links) {
+        if (link.type == MapLinkDefType::Recreate && link.other_obj == accessor.getMapObject()) {
+            accessor.sub_7100D1525C();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ObjectLinkData::sub_7100D4F6A4(act::ActorLinkConstDataAccess& accessor, MapLinkDefType type) {
+    ObjectLink* link = findLinkWithType_0(type);
+    if (link && link->other_obj)
+        return link->other_obj->getActorWithAccessor(accessor);
+    return accessor.acquire(nullptr);
+}
+
+// NON_MATCHING: the original keeps `this` in x8 and the result in w0 from the start
+bool ObjectLinkData::sub_7100D4F9DC(Object* obj) {
+    bool found = false;
+    if (obj && mGenGroup) {
+        s32 idx = -1;
+        for (s32 i = 0; i < mGenGroup->mObjects.size(); ++i) {
+            if (mGenGroup->mObjects.getBufferPtr()[i] == obj) {
+                idx = i;
+                break;
+            }
+        }
+        found = idx != -1;
+    }
+    return found;
+}
+
+void ObjectLinkData::sub_7100D4FA90() {
+    if (mGenGroup)
+        mGenGroup->_1f = 1;
+}
+
+bool ObjectLinkData::sub_7100D4FB88() {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D51134();
+    return false;
+}
+
+bool ObjectLinkData::sub_7100D4FBF8() {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D51E6C();
+    return true;
+}
+
 void ObjectLinkData::setGenGroup(GenGroup* group) {
     if (mGenGroup == nullptr)
         mGenGroup = group;

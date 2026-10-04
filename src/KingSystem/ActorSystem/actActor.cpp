@@ -666,6 +666,14 @@ bool Actor::sub_71011D90B0() {
     return calc || flag6;
 }
 
+bool Actor::sub_71011DA808(const ActorConstDataAccess& accessor) {
+    if (mMapObject) {
+        if (auto* link_data = mMapObject->getLinkData())
+            return link_data->sub_7100D4EF30(accessor);
+    }
+    return false;
+}
+
 void Actor::emitDeadUpLifeZeroAndSetRevival() {
     emitSignal(map::MapLinkDefType::DeadUp, true);
     emitSignal(map::MapLinkDefType::LifeZero, true);

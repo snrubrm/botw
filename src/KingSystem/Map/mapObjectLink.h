@@ -7,6 +7,7 @@
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
 }  // namespace ksys::act
 
@@ -132,6 +133,16 @@ public:
     void setFlagOnAllObjs(bool a1, u32 a2);
     bool checkContainsObjWithActorFlag(const u32* a1);
     bool checkContainsObjWithName(const sead::SafeString& name, const u32* mode);
+    // 0x7100d4ef30: a Recreate link to the accessor's map object: sets Actor::_687 through the accessor.
+    bool sub_7100D4EF30(const act::ActorConstDataAccess& accessor);
+    // 0x7100d4f6a4: acquires the actor of the link of `type` (null accessor result without one).
+    bool sub_7100D4F6A4(act::ActorLinkConstDataAccess& accessor, MapLinkDefType type);
+    // 0x7100d4f9dc: whether `obj` is in the group's objects.
+    bool sub_7100D4F9DC(Object* obj);
+    // 0x7100d4fa90 / 0x7100d4fb88 / 0x7100d4fbf8: forwarders to GenGroup (_1f = 1 / sub_7100D51134 / sub_7100D51E6C).
+    void sub_7100D4FA90();
+    bool sub_7100D4FB88();
+    bool sub_7100D4FBF8();
 
     bool checkCreateOrDeleteLinkObjRevival() const {
         return checkDeleteLinkObjRevival() || checkCreateLinkObjRevival();
