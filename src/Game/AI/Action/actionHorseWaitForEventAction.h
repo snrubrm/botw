@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100e5ad10: resets the actor's AS lists (the body shared by enter_ and calc_).
+    void sub_7100E5AD10();
 
     // dynamic_param at offset 0x20
     bool* mIsAngryEnable_d{};
