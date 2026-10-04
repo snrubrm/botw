@@ -37,6 +37,9 @@ public:
     ActorChemicals();
     virtual ~ActorChemicals();
 
+    // 0x7100e39458: checks the current chemical elements (declaration only).
+    bool sub_7100E39458();
+
     Chemical* getStuff(int idx);
     // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.
     Unk_71024e6428* sub_7100E3718C(int idx);

@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include <basis/seadNew.h>
+#include <gsys/gsysModel.h>
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -14,6 +16,31 @@
 #include "Game/gameRoot38.h"
 
 namespace ksys::act {
+
+void DynamicActor::m76(VFR::ScopedDeltaSetter* setter) {
+    if (mActorFlags2.isOn(ActorFlag2::_200))
+        sub_7100EE9B68(this, setter);
+    if (auto* object = m159()) {
+        object->_a = mActorFlags2.isOn(ActorFlag2::_40) ? object->_a | 2 : object->_a & ~2;
+        object->m6();
+    }
+    if (auto* chemical = getChemicalStuff()) {
+        chemical->_c = (_a68 & 2) ? chemical->_c | 0x800000 : chemical->_c & ~0x800000;
+    }
+    _a68 &= ~2;
+    if (_a50)
+        _a50->m6();
+    if (auto* damage = sead::DynamicCast<uking::dmg::DamageManagerBase>(mDamageMgr))
+        damage->m43();
+    m160();
+    if (mChemical && mChemical->sub_7100E39458() && _a60)
+        _a60->_c |= 4;
+    if (hasTag(this, tags::RotMoveFollowPreCalc) && getModel()) {
+        sead::Matrix34f home;
+        getHomeMtx(&home);
+        getModel()->setMatrix(home);
+    }
+}
 
 BaseProc* DynamicActor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) DynamicActor(arg);
