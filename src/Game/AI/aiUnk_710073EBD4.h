@@ -8,6 +8,7 @@
 
 namespace ksys::act {
 class Actor;
+class BaseProcLink;
 namespace ai {
 class ActionBase;
 }  // namespace ai
@@ -16,6 +17,11 @@ class ActionBase;
 namespace uking::act {
 class Enemy;
 }
+
+// 0x710073e9a8 (declared only; lane3 s20): the parts link `name` of the DynamicCast<Enemy> of `actor`
+// (Enemy::getActorPartsActor), the dummy link if the actor is not an enemy. Free function in the TU before
+// Unk_710073ebd4.
+ksys::act::BaseProcLink& sub_710073E9A8(ksys::act::Actor* actor, const sead::SafeString& name);
 
 // Placeholder name = constructor address (0x710073ebd4; no real name known). Parameter / state object of
 // the "vacuum shoot" actions (an enemy shoots a vacuumed item at a target): embedded in

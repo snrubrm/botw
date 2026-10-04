@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPreductVacuumBurstShoot.h"
+#include "Game/AI/aiUnk_710073EBD4.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -16,6 +18,11 @@ bool PreductVacuumBurstShoot::init_(sead::Heap* heap) {
 }
 
 void PreductVacuumBurstShoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _160 = 0;
+    if (sub_710073E9A8(mActor, mPartsKey3_s).hasProc())
+        _164 = 3;
+    else
+        _164 = sub_710073E9A8(mActor, mPartsKey2_s).hasProc() ? 2 : 1;
     HoverPredictVacuumShoot::enter_(params);
 }
 

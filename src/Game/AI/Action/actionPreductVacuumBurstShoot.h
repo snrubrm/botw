@@ -25,6 +25,8 @@ protected:
     sead::SafeString mPartsKey2_s{};
     // static_param at offset 0x150
     sead::SafeString mPartsKey3_s{};
+    s32 _160 = 0;
+    s32 _164 = 0;
 };
 
 }  // namespace uking::action

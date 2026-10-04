@@ -11,7 +11,10 @@ bool ForkGanonBeastBeamShoot::init_(sead::Heap* heap) {
 }
 
 void ForkGanonBeastBeamShoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _128 = false;
+    _68.sub_71006F3BC4(mBeamDir_s);
+    _68._10 = *mMuzzleOffset_s;
 }
 
 void ForkGanonBeastBeamShoot::leave_() {

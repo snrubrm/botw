@@ -30,6 +30,9 @@ public:
     // 0x71006f3b84 / 0x71006f38a4 (declared only): act on the beam actor (the second one returns whether the
     // beam is registered).
     void sub_71006F3B84();
+    // 0x71006f3bc4 (declared only; lane3 s20): looks up the beam actor via sub_71006F3934 and passes `dir`
+    // to it.
+    void sub_71006F3BC4(const sead::Vector3f* dir);
     bool sub_71006F38A4(ksys::act::Actor* actor);
     // 0x71006f3a6c: empty.
     void sub_71006F3A6C();
