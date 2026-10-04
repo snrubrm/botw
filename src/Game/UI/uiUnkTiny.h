@@ -278,7 +278,9 @@ public:
     ~Unk_710249d300() override;
 
     u8 _c[4];
-    u64 _10 = 0x01007ef00011e000;  // packed small fields (the original stores them as one 64-bit constant)
+    // Small fields (meaning unknown; the original stores both initial values as one merged 64-bit constant).
+    u32 _10 = 0x11e000;
+    u32 _14 = 0x01007ef0;
     u16 _18 = 0;
     sead::FixedSafeString<16> _20 = sead::SafeString::cEmptyString;
     sead::FixedSafeString<16> _48 = sead::SafeString::cEmptyString;

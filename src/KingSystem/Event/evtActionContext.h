@@ -25,7 +25,8 @@ public:
     // 0x7100da56b8
     void reset();
     // 0x7100da5490 / 0x7100da54e0 / 0x7100da56c4 (CSV statusStuff / statusStuff_0 / statusStuff_1)
-    bool statusStuff();
+    // (the bool is passed by the callers -- 0 in ActionBase::m4 / play, 1 in x / Action::x_0 -- and ignored)
+    bool statusStuff(bool);
     bool statusStuff_0();
     void statusStuff_1();
     // 0x7100da5678 (CSV x_0)

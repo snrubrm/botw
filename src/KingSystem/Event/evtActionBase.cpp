@@ -22,6 +22,21 @@ void ActionBase::m5(ActionContext* context, const evfl::ActionArg& arg) {
     _718 = 0;
 }
 
+// 0x7100da6fe8
+void ActionBase::x() {
+    for (s64 i = 0; i < 32; ++i) {
+        Slot& slot = mSlots[i];
+        ActionContext* context = slot.context;
+        if (context && !(context->_af4 & 0x20)) {
+            if (context->statusStuff(true))
+                slot.handler.Invoke();
+            if (slot.context)
+                slot.context->reset();
+            slot.context = nullptr;
+        }
+    }
+}
+
 // 0x7100da7ed4 (CSV evt::ActionBase::m7_null)
 void ActionBase::m7() {}
 

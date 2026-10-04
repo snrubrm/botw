@@ -38,6 +38,9 @@ public:
 
     const evfl::ResAction* getRes() const { return mRes; }
 
+    // 0x7100da6fe8 (CSV evt::ActionBase::x): finishes every slot's action and releases its context
+    void x();
+
     // 0x7100da70a8 (2.7 KB, declaration only): the evfl action handler, run on the Action behind
     // `arg.action_user_data` (see ActorManager::actionHandler)
     void sub_7100DA70A8(const evfl::ActionArg& arg, evfl::ActionDoneHandler& handler);
@@ -65,6 +68,13 @@ public:
 
     // 0x7100da7c44 (CSV evt::Action::x): true if no slot has a running context
     bool x();
+    // 0x7100da7c8c: for every slot whose context passes statusStuff_0(): clears the slot's handler (called by
+    // ActorBase::m5). Not decompiled: needs the list-node erase + field reset of the handler (see log)
+    void sub_7100DA7C8C();
+    // 0x7100da7dc4: releases every slot context that is not flagged 0x20 (called from 0x7100dac578)
+    void sub_7100DA7DC4();
+    // 0x7100da7d1c (CSV evt::Action::x_0): finishes `slot`'s action and releases its context
+    void x_0(Slot* slot);
 
 private:
     /* 0x71c */ s32 _71c = 0;

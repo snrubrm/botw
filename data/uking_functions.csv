@@ -75869,7 +75869,7 @@ Address,Quality,Size,Name
 0x0000007100da546c,O,000012,_ZN4ksys3evt13ActionContext10setStatus2ERKN4evfl9ActionArgE
 0x0000007100da5478,O,000012,_ZN4ksys3evt13ActionContext10setStatus1ERKN4evfl9ActionArgE
 0x0000007100da5484,O,000012,_ZN4ksys3evt13ActionContext12setStatus1_0ERKN4evfl9ActionArgE
-0x0000007100da5490,O,000080,_ZN4ksys3evt13ActionContext11statusStuffEv
+0x0000007100da5490,O,000080,_ZN4ksys3evt13ActionContext11statusStuffEb
 0x0000007100da54e0,O,000072,_ZN4ksys3evt13ActionContext13statusStuff_0Ev
 0x0000007100da5528,U,000336,evt::ActionContext::init
 0x0000007100da5678,O,000008,_ZN4ksys3evt13ActionContext3x_0Ev
@@ -75929,13 +75929,13 @@ Address,Quality,Size,Name
 0x0000007100da6c58,O,000092,_ZN4ksys3evt10ActionBase2m5EPNS0_13ActionContextERKN4evfl9ActionArgE
 0x0000007100da6cb4,U,000112,evt::ActionBase::m6
 0x0000007100da6d24,U,000708,evt::ActionBase::play
-0x0000007100da6fe8,U,000192,evt::ActionBase::x
+0x0000007100da6fe8,O,000192,_ZN4ksys3evt10ActionBase1xEv
 0x0000007100da70a8,U,002676,_ZN4ksys3evt10ActionBase14sub_7100DA70A8ERKN4evfl9ActionArgERNS2_17ActionDoneHandlerE
 0x0000007100da7b1c,U,000296,evt::ActionContext::ctor
 0x0000007100da7c44,O,000072,_ZN4ksys3evt6Action1xEv
-0x0000007100da7c8c,U,000144,
-0x0000007100da7d1c,U,000168,evt::Action::x_0
-0x0000007100da7dc4,U,000068,
+0x0000007100da7c8c,W,000144,_ZN4ksys3evt6Action14sub_7100DA7C8CEv
+0x0000007100da7d1c,O,000168,_ZN4ksys3evt6Action3x_0EPNS0_10ActionBase4SlotE
+0x0000007100da7dc4,O,000068,_ZN4ksys3evt6Action14sub_7100DA7DC4Ev
 0x0000007100da7e08,O,000112,_ZNK4ksys3evt10ActionBase27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100da7e78,O,000092,_ZNK4ksys3evt10ActionBase18getRuntimeTypeInfoEv
 0x0000007100da7ed4,O,000004,_ZN4ksys3evt10ActionBase2m7Ev

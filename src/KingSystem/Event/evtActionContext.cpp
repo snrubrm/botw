@@ -51,7 +51,7 @@ void ActionContext::x_1() {
 }
 
 // 0x7100da5490
-bool ActionContext::statusStuff() {
+bool ActionContext::statusStuff(bool) {
     switch (mStatus) {
     case 2:
         mStatus = 1;

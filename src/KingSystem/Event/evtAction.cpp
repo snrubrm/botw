@@ -20,4 +20,26 @@ bool Action::x() {
     return true;
 }
 
+// 0x7100da7d1c
+void Action::x_0(Slot* slot) {
+    if (slot->context->statusStuff(true))
+        slot->handler.Invoke();
+    ActionContext* context = slot->context;
+    if (context && !(context->_af4 & 0x20)) {
+        context->reset();
+        slot->context = nullptr;
+    }
+}
+
+// 0x7100da7dc4
+void Action::sub_7100DA7DC4() {
+    for (s64 i = 0; i < 32; ++i) {
+        ActionContext* context = mSlots[i].context;
+        if (context && !(context->_af4 & 0x20)) {
+            context->reset();
+            mSlots[i].context = nullptr;
+        }
+    }
+}
+
 }  // namespace ksys::evt
