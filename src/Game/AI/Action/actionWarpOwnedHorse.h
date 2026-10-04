@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -13,6 +15,9 @@ public:
     void loadParams_() override;
 
 protected:
+    sead::Matrix34f _1c = sead::Matrix34f::ident;
+    ksys::act::BaseProcLink _50;
 };
+KSYS_CHECK_SIZE_NX150(WarpOwnedHorse, 0x60);
 
 }  // namespace uking::action
