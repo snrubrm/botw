@@ -5,6 +5,17 @@
 
 namespace uking::act {
 
+// Placeholder name (vtable 0x71024e8e18, ctor 0x7100e52280, D1 / D0 0x7100e5236c / 0x7100e52ef8): the bind set of
+// HorseManeGrabbedAction (embedded at +0x20), 12 entries (size 0x8d8).
+class Unk_71024e8e18 : public ksys::act::ActorBindSet {
+public:
+    Unk_71024e8e18();
+    ~Unk_71024e8e18() override;
+
+    /* 0x38 */ ksys::act::ActorBindEntry mStorage[12];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024e8e18, 0x8d8);
+
 // Placeholder name (vtable 0x71024e92c0, ctor 0x7100e56548, D1 / D0 0x7100e54e8c / 0x7100e550f8): an ActorBindSet
 // with inline storage for 20 entries (size 0xe98). Base of Unk_71024e9450.
 class Unk_71024e92c0 : public ksys::act::ActorBindSet {

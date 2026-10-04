@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Actor/actHorseBindSets.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,9 @@ public:
 
 protected:
     void calc_() override;
+
+    /* 0x20 */ act::Unk_71024e8e18 _20;
+    /* 0x8f8 */ u8 _8f8 = 0;  // bit 0: bound, bit 1: second bind, bit 2: animation synced
 };
 
 }  // namespace uking::action

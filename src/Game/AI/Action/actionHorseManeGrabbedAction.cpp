@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionHorseManeGrabbedAction.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +16,9 @@ void HorseManeGrabbedAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseManeGrabbedAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->sub_71011DA834(&_20);
+    for (s32 i = 0; i < 12; ++i)
+        _20.getEntry(i).reset();
 }
 
 void HorseManeGrabbedAction::loadParams_() {}
