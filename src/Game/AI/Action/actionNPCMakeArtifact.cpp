@@ -19,7 +19,9 @@ bool NPCMakeArtifact::init_(sead::Heap* heap) {
 }
 
 void NPCMakeArtifact::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _40 = _20.sub_710091CE98(mActor->getParam()->getRes().mShopData, "Ancient");
+    _41 = false;
+    ksys::gdt::setFlag_Shop_IsDecide(false, false);
 }
 
 void NPCMakeArtifact::leave_() {

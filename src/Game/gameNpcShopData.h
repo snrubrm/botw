@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 
 namespace sead {
 class Heap;
@@ -25,6 +26,8 @@ public:
     void sub_710091BA3C();
     // 0x710091b7c8: declared only; the resource is read without mutation.
     bool initFromBshopMaybe(const ksys::res::Shop* shop, sead::Heap* heap);
+    // 0x710091ce98: declared only; copies the selected resource table into owned shop strings.
+    bool sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeString& table_name);
 
     s32 _28 = 0;
     void* _30 = nullptr;
