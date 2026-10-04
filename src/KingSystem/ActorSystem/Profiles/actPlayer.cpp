@@ -724,4 +724,6 @@ bool Player::sub_7100887AC4() {
     return getASList()->x_1(1, 1) == "GrabThrow";
 }
 
+void Player::sub_710086FAAC() {}
+
 }  // namespace ksys::act

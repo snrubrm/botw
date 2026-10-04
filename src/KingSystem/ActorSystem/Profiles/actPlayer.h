@@ -309,6 +309,10 @@ public:
     void sub_710086952C();
     // 0x7100887ac4 (lane3 s22): whether the AS of slot 1 / bank 1 is "GrabThrow".
     bool sub_7100887AC4();
+    // 0x71008550e4 (declared only; lane3 s22; 280 B).
+    void sub_71008550E4();
+    // 0x710086faac: empty (the original keeps an out-of-line copy).
+    void sub_710086FAAC();
     // 0x710084ad5c (declared only; lane3 s22): adds `value` (scaled) to one of the three slots at +0xe7c (stamina recovery).
     void sub_710084AD5C(f32 value, bool a2);
     void x_37();  // 0x71008efa0
