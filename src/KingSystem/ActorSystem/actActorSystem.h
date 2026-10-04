@@ -9,6 +9,10 @@
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking {
+class Unk_710243c7c8;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -31,6 +35,8 @@ public:
     const sead::Vector3f& getPlayerPos() const { return mPlayerPos; }
     // The player (read inline by MotorcycleMgr::isProhibited).
     PlayerLink* getPlayerLink() const { return _c0; }
+    // inline-only in the original; name is a guess (Swarm::m81, Guardian::m81).
+    uking::Unk_710243c7c8* getStasisMessageSender() const { return _c8; }
 
     bool callAutoPlacementMgrPreCalcFn(void* userdata);
     void allocEmergencyHeap(sead::Heap* heap);
@@ -57,7 +63,7 @@ private:
     void* _b0 = nullptr;
     void* _b8 = nullptr;
     PlayerLink* _c0 = nullptr;  // the player (set by setPlayerLink)
-    void* _c8 = nullptr;
+    uking::Unk_710243c7c8* _c8 = nullptr;
     sead::Heap* mEmergencyHeap = nullptr;
     sead::Vector3f mPlayerPos = sead::Vector3f::zero;
     u32 _e4 = 0;

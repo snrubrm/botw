@@ -1,6 +1,8 @@
 #include "Game/Actor/actSwarm.h"
 #include <basis/seadNew.h>
 #include <math/seadMatrixCalcCommon.h>
+#include "Game/gameStasisMgr.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 
 namespace uking::act {
 
@@ -18,6 +20,24 @@ ksys::act::BaseProc* Swarm::construct(const CreateArg& arg, sead::Heap* heap) {
 void Swarm::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
     Actor::setMtx(mtx, a2, a3);
     sead::Matrix34CalcCommon<f32>::inverse(_15b8, mMtx);
+}
+
+bool Swarm::m81(const ksys::Message& message) {
+    if (message.getType() == ksys::MessageType(0x3000003)) {
+        Enemy::m81(message);
+        _1614 = true;
+        if (auto* sender = ksys::act::ActorSystem::instance()->getStasisMessageSender())
+            sender->sendMessage(this, ksys::MessageType(0x3000004), true);
+        return true;
+    }
+
+    const ksys::MessageType type = message.getType();
+    const bool handled = Enemy::m81(message);
+    if (type == ksys::MessageType(0x3000004)) {
+        clearFlag(ActorFlag::_9);
+        return true;
+    }
+    return handled;
 }
 
 }  // namespace uking::act
