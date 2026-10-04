@@ -36,7 +36,8 @@ public:
 
     // The "Tgt" rigid body of a swarm unit (0x28 bytes; placeholder; SetThroughArrow reads _20).
     struct UnitBody {
-        u8 _0[0x20];
+        u8 _0[0x18];
+        /* 0x18 */ Unit* _18;
         /* 0x20 */ ksys::phys::RigidBody* _20;
     };
 
@@ -91,8 +92,7 @@ public:
     /* 0x1588 */ u8 _1588[0x18];
     /* 0x15a0 */ Ptr3 _15a0;
     /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
-    /* 0x15e8 */ u32 _15e8 = 0;
-    /* 0x15f0 */ void* _15f0 = nullptr;
+    /* 0x15e8 */ sead::Buffer<UnitBody> _15e8;
     /* 0x15f8 */ sead::Buffer<UnitBody> _15f8;
     /* 0x1608 */ u8 _1608[0x1610 - 0x1608]{};
     /* 0x1610 */ s32 _1610 = 0;  // living unit count? (0 -> SwarmReaction deletes the actor)

@@ -180,6 +180,16 @@ void sub_71007A3258(ksys::phys::RigidBody* body, ksys::phys::SystemGroupHandler*
         body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit, handler);
 }
 
+void sub_71007A32E4(Actor* actor, ksys::phys::SystemGroupHandler* handler) {
+    auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());
+    if (!set)
+        return;
+    for (int i = 0, n = set->getRigidBodies().size(); i < n; ++i) {
+        if (auto* body = set->getRigidBodies()[i])
+            body->setContactLayerAndHandler(ksys::phys::ContactLayer::SensorNoHit, handler);
+    }
+}
+
 void sub_71007A3270(Actor* actor, const sead::SafeString& name,
                     ksys::phys::SystemGroupHandler* handler) {
     auto* set = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr());

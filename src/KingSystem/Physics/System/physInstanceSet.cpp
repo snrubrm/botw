@@ -1,6 +1,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include <basis/seadNew.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
@@ -322,6 +323,27 @@ s32 InstanceSet::findCollisionInfo(const sead::SafeString& name) const {
     return -1;
 }
 
+void InstanceSet::sub_7100FBD324(bool a1, bool a2) {
+    if (a1) {
+        if (a2 && (mFlags.getDirect() & 0x18000) == 0x8000 && mClothSet)
+            mClothSet->sub_7101218A90();
+        mFlags.setDirect(mFlags.getDirect() & ~0x18000u);
+    } else {
+        mFlags.set(Flag::_8000);
+        mFlags.change(Flag::_10000, a2);
+    }
+}
+
+void InstanceSet::sub_7100FBD3EC(bool on) {
+    if (mClothSet)
+        mClothSet->_70 = on ? (mClothSet->_70 | 0x8000) : (mClothSet->_70 & ~0x8000u);
+}
+
+void InstanceSet::sub_7100FBD410(const sead::Vector3f* vec) {
+    if (mClothSet)
+        mClothSet->_64 = *vec;
+}
+
 void InstanceSet::sub_7100FBD284(const sead::Matrix34f& mtx) {
     if (mFlags.isOff(Flag::_1))
         return;
@@ -429,6 +451,74 @@ bool InstanceSet::sub_7100FBAF18(RigidBody* body) {
         }
     }
     return false;
+}
+
+void InstanceSet::sub_7100FBA174() {
+    for (auto& set : mRigidBodySets)
+        set.triggerScheduledMotionTypeChange();
+
+    for (auto* body : mList)
+        body->triggerScheduledMotionTypeChange();
+
+    if (mCharacterController)
+        mCharacterController->sub_7100F5F670();
+}
+
+// NON_MATCHING: the original keeps `fixed | bit` unnormalised in w20 and truncates it at each use
+// (`and w1, w20, #1` / `tst w20, #1`); we normalise it up front
+void InstanceSet::sub_7100FBA010(bool fixed) {
+    fixed |= (_26 & 0x20) >> 5;
+    const bool fixed_ = fixed;
+    const bool preserve_velocities = mFlags.isOff(Flag::_800);
+
+    if (mCharacterController)
+        mCharacterController->sub_7100F609E4(Fixed(fixed_), PreserveVelocities(preserve_velocities));
+
+    for (auto& set : mRigidBodySets)
+        set.setFixed(Fixed(fixed_), PreserveVelocities(preserve_velocities));
+
+    for (auto* body : mList)
+        body->setFixed(Fixed(fixed_), PreserveVelocities(preserve_velocities));
+
+    if (mRagdollInstance)
+        mRagdollInstance->setFixed(Fixed(fixed_), PreserveVelocities(preserve_velocities));
+
+    mFlags.change(Flag::_40000, fixed_);
+}
+
+// NON_MATCHING: the original uses the bool argument as is (no `and w, w, #1` before the compares and
+// calls) and has a different register allocation
+void InstanceSet::systemGroupHandlerStuff(SystemGroupHandler* handler, bool a2) {
+    const auto layer_type = ContactLayerType(a2);
+    if (handler && handler->getLayerType() != layer_type)
+        return;
+
+    for (auto& set : mRigidBodySets)
+        set.setSystemGroupHandler(handler, layer_type);
+
+    for (auto* body : mList) {
+        if (body->getLayerType() == layer_type)
+            body->setSystemGroupHandler(handler);
+    }
+
+    if (layer_type == ContactLayerType::Entity) {
+        if (mRagdollInstance)
+            mRagdollInstance->setSystemGroupHandler(handler);
+        if (mCharacterController)
+            mCharacterController->sub_7100F5EDB4(handler);
+    }
+
+    _188[a2] = handler;
+}
+
+void InstanceSet::sub_7100FBB29C() {
+    const s32 num_sets = mRigidBodySets.size();
+    for (s32 i = 0; i < num_sets; ++i) {
+        auto& set_param = mParamSet->getRigidBodySet(i);
+        const s32 num = mRigidBodySets(i)->getRigidBodies().size();
+        for (s32 j = 0; j < num; ++j)
+            sub_7100FBB00C(sub_7100FBAEDC(i, j), &set_param.rigid_bodies[j]);
+    }
 }
 
 void InstanceSet::sub_7100FBADDC() {

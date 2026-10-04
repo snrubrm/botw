@@ -50,6 +50,9 @@ public:
         DisableDraw = 1 << 2,
         _10 = 1 << 4,
         _800 = 1 << 11,
+        _40000 = 1 << 18,
+        _8000 = 1 << 15,
+        _10000 = 1 << 16,
         _20000 = 1 << 17,
         _80000 = 1 << 19,
         _200000 = 1 << 21,
@@ -190,7 +193,8 @@ private:
     ParamSet* mParamSet;  // non-const: getRigidBodySet() is called on it (0x7100fbaf18)
     sead::TypedBitFlag<Flag> mFlags;
     u16 _24{};
-    u16 _26{};
+    u8 _26{};  // bit 5 is tested by sub_7100FBA010
+    u8 _27{};
     gsys::Model* mModel;
     f32 mScale;
     UserTag* mUserTag;

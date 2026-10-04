@@ -16,6 +16,9 @@ namespace ksys::phys {
 
 class RigidBodyAccessor;
 
+enum class Fixed : bool;
+enum class PreserveVelocities : bool;
+
 class CollisionInfo;
 class ContactPointInfo;
 class RigidBody;
@@ -57,6 +60,11 @@ public:
     // 0x7100f5f264 (declared only; lane2 s20): reads byte 0x69 of the sub-object at +0x40.
     bool sub_7100F5F264() const;
     void sub_7100F5F458(act::MotionType type);
+    // 0x7100f609e4 (unnamed in the CSV; declared only): setFixed on the main rigid body (and more).
+    void sub_7100F609E4(Fixed fixed, PreserveVelocities preserve_velocities);
+    // 0x7100f5f670 (unnamed in the CSV; declared only): applies the scheduled motion type change
+    // (flags 0x3c0 of _114, calls sub_7100F5F458) and clears them.
+    void sub_7100F5F670();
     // 0x7100f605c8: copies `value` to _ac / _bc / _cc.
     void sub_7100F605C8(const sead::Vector3f& value);
 
