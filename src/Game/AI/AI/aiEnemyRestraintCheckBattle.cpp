@@ -32,6 +32,42 @@ void EnemyRestraintCheckBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
+// NON_MATCHING: the original keeps the DynamicCast<Enemy> result as a `tst; csel` value that is tested after the
+// IsResetInterval load (ours branches on the isDerived result directly), loads the epsilon after the Timer value and
+// stores the Timer's value / previous value with two `str` (ours one `stp`)
+void EnemyRestraintCheckBattle::calc_() {
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("牽制")) {
+        const s32 interval = *mCheckInterval_s;
+        _70 = ksys::Timer(f32(interval), f32(interval));
+        const s32 rand_time = *mCheckRandTime_s;
+        _7c = ksys::Timer(f32(rand_time), f32(rand_time));
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("戦闘", &pack);
+        return;
+    }
+
+    if (getCurrentChild()->isChangeable() && isCurrentChild("戦闘")) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+            if (*mIsResetInterval_s) {
+                if (enemy->_e68.value <= sead::Mathf::epsilon()) {
+                    const s32 interval = *mCheckInterval_s;
+                    _70 = ksys::Timer(f32(interval), f32(interval));
+                }
+            }
+        }
+        if (sub_71003B1988()) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+            changeChild("牽制", &pack);
+            return;
+        }
+    }
+
+    getCurrentChild()->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+}
+
 void EnemyRestraintCheckBattle::leave_() {
     ksys::act::ai::Ai::leave_();
 }
