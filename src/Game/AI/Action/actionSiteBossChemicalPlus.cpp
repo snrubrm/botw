@@ -38,6 +38,13 @@ void SiteBossChemicalPlus::loadParams_() {
 
 void SiteBossChemicalPlus::calc_() {
     ActionWithPosAngReduce::calc_();
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD780(mActor, 81, &query, 0, 0)) {
+        _60 = true;
+        sub_7100257F80();
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

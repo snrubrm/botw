@@ -159,7 +159,7 @@ void sub_71005DB5C0(ksys::act::Actor* actor, int idx);
 // GOT 0x7102578f08): sets the character controller's flag (true), every rigid body of the Body group
 // to entity motion flag 8, and stores `a1` at +0x538, `a2` at +0x53c and the other flags as bits
 // 1 / 4 / 8 / 0x10 of the byte at +0x53d.
-void sub_71005DBC94(ksys::act::Actor* actor, s32 a1, bool a2, bool a3, bool a4, bool a5, bool a6);
+void sub_71005DBC94(ksys::act::Actor* actor, s32 a1, s32 a2, bool a3, bool a4, bool a5, bool a6);
 void sub_71005DB6D0(ksys::act::Actor* actor, int idx);
 bool sub_71005DB7E4(ksys::act::Actor* actor, int idx);
 

@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionAnimTimingAttackMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -12,7 +14,16 @@ bool AnimTimingAttackMove::init_(sead::Heap* heap) {
 }
 
 void AnimTimingAttackMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    sub_71007A2C30(mActor, mRigidBodyName_s, nullptr);
+    _70 = 0;
+    _71 = 0;
+    _72 = false;
+    if (auto* nav = mActor->m45()) {
+        const bool value = u16(nav->_2a4.load()) != 0x17;
+        _71 = value;
+        _72 = value;
+    }
 }
 
 void AnimTimingAttackMove::leave_() {

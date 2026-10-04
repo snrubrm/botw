@@ -33,7 +33,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _60;
     s32 _6c = 0;
-    u16 _70 = 256;
+    u8 _70 = 0;
+    u8 _71 = 1;
     bool _72 = true;
     u8 _73[0x5];
 };

@@ -12,6 +12,15 @@ bool NeckSpin::init_(sead::Heap* heap) {
 
 void NeckSpin::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASPlay::enter_(params);
+    auto* actor = mActor;
+    sead::Vector3f unused;
+    sub_71005DB4B8(&unused, actor);
+    const f32 speed = *mSpinSpeed_s / 30.0f;
+    _58.value = speed;
+    _58.prev_value = speed;
+    _64 = sub_71005DB4DC(actor);
+    m33();
+    mFlags.set(Flag::Changeable);
 }
 
 void NeckSpin::leave_() {

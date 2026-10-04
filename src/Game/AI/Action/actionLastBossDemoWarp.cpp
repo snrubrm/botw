@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionLastBossDemoWarp.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -15,7 +19,16 @@ void LastBossDemoWarp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LastBossDemoWarp::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    controller->sub_7100F5FB24(sead::Vector3f::zero);
+    if (auto* body = controller->sub_7100F61A34()) {
+        if (auto* physics = mActor->getPhysics())
+            body->setContactLayerAndHandler(ksys::phys::ContactLayer::EntityHitOnlyGround,
+                                            physics->get188(0));
+    }
 }
 
 void LastBossDemoWarp::loadParams_() {

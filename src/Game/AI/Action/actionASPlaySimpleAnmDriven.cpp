@@ -2,6 +2,7 @@
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -28,7 +29,15 @@ void ASPlaySimpleAnmDriven::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ASPlaySimpleAnmDriven::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+    }
+    if (*mResetTransBoneOnLeave_s) {
+        if (auto* as_list = actor->getASList())
+            as_list->sub_710115CD0C();
+    }
 }
 
 void ASPlaySimpleAnmDriven::loadParams_() {
