@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionEventSetCloudShadowMove.h"
 
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldSkyMgr.h"
+
 namespace uking::action {
 
 EventSetCloudShadowMove::EventSetCloudShadowMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
@@ -24,7 +27,7 @@ void EventSetCloudShadowMove::loadParams_() {
 }
 
 void EventSetCloudShadowMove::calc_() {
-    ksys::act::ai::Action::calc_();
+    ksys::world::Manager::instance()->getSkyMgr()->sub_71010E50BC(*msetSpeed_x_d, *msetSpeed_y_d);
 }
 
 }  // namespace uking::action

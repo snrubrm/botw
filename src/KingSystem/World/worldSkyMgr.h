@@ -140,6 +140,8 @@ public:
     void sub_71010E2908();
     // 0x71010e4ffc: updates cloud-shadow interpolation and palette timers.
     void sub_71010E4FFC();
+    // 0x71010e50bc: declaration-only cloud shadow motion update.
+    void sub_71010E50BC(f32 x, f32 y);
 
 private:
     friend class Manager;
