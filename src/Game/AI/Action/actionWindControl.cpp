@@ -39,4 +39,8 @@ bool WindControl::hasUpdateForPreDeleteCb() {
     return true;
 }
 
+bool WindControl::updateForPreDelete() {
+    return _118.sub_71010C4284();
+}
+
 }  // namespace uking::action

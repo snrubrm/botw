@@ -35,4 +35,8 @@ bool ForkCapsuleWindFollow::hasUpdateForPreDeleteCb() {
     return true;
 }
 
+bool ForkCapsuleWindFollow::updateForPreDelete() {
+    return _40.sub_71010C4284();
+}
+
 }  // namespace uking::action

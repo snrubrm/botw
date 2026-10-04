@@ -28,3 +28,7 @@ Unk_710250c3c8::~Unk_710250c3c8() {
         mShape = nullptr;
     }
 }
+
+bool Unk_710250c3c8::sub_71010C4284() const {
+    return !mBody || !mBody->isAddedToWorld();
+}

@@ -15,6 +15,7 @@ void BeamosStaticBeam::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BeamosStaticBeam::leave_() {
+    _a8.sub_71006F3B14(false);
     StopASPlay::leave_();
 }
 

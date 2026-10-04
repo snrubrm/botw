@@ -15,7 +15,10 @@ void ForkGanonBeastBeamShoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkGanonBeastBeamShoot::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_128) {
+        _128 = false;
+        _68.sub_71006F3B14(false);
+    }
 }
 
 void ForkGanonBeastBeamShoot::loadParams_() {

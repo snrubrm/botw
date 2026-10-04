@@ -46,6 +46,8 @@ public:
 
     // 0x71010c4008 (declared only; 516 B): releases the effect / body / event.
     void destroy(bool remove_links);
+    // 0x71010c4284: true if the body was removed from the world (or there is none). Placeholder name.
+    bool sub_71010C4284() const;
 
     /* 0x08 */ void* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;

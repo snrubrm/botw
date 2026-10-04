@@ -5,6 +5,7 @@
 #include "Game/AI/aiUnk_71000b0800.h"
 #include "Game/AI/aiUnk_71023da520.h"
 #include "Game/AI/aiUnk_7102357d20.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 
@@ -19,6 +20,14 @@ public:
     explicit Unk_71006f3044(ksys::act::Actor* actor);
     // 0x71006f3140 (declared only): deletes the beam actor, releases `_80`.
     ~Unk_71006f3044();
+
+    // 0x71006f3934 (m: the original loads the dummy link's address directly): the link to the beam actor
+    // (the shared "BeamActorLink" if it is alive, else the owner's BeamActor parts link).
+    ksys::act::BaseProcLink& sub_71006F3934();
+    // 0x71006f3a6c: empty.
+    void sub_71006F3A6C();
+    // 0x71006f3b14: registers (true) / unregisters (false) the beam actor with the `_a0` sender.
+    void sub_71006F3B14(bool on);
 
     /* 0x00 */ u32 _0 = 0;
     /* 0x04 */ u32 _4 = 0;

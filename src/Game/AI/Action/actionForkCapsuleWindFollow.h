@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool hasUpdateForPreDeleteCb() override;
+    bool updateForPreDelete() override;
 
 protected:
     void calc_() override;

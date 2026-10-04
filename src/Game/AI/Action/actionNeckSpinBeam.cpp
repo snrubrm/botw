@@ -14,6 +14,7 @@ void NeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NeckSpinBeam::leave_() {
+    _b8.sub_71006F3B14(false);
     NeckSpin::leave_();
 }
 
@@ -30,6 +31,7 @@ void NeckSpinBeam::loadParams_() {
 
 void NeckSpinBeam::calc_() {
     NeckSpin::calc_();
+    _b8.sub_71006F3A6C();
 }
 
 }  // namespace uking::action
