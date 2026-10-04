@@ -238,6 +238,10 @@ public:
     void sub_7100F631B8(bool value);
     // 0x7100f631cc: `_40->_10 == 1`.
     bool sub_7100F631CC() const;
+    // 0x7100f607cc (declared only; the original inlines RigidBody::setEntityMotionFlag100 for the main body and _298).
+    void sub_7100F607CC(bool on);
+    // 0x7100f62640: out = (0, sqrt(2 * |_70| * _110 * a), 0).
+    void sub_7100F62640(f32 a, sead::Vector3f* out);
     // 0x7100f63210 / 0x7100f6337c: the bytes at +0x70 / +0x6e of the object at +0x40.
     u8 sub_7100F63210() const;
     u8 sub_7100F6337C() const;

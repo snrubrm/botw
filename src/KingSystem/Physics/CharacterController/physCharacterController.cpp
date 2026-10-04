@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include <cmath>
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/physConversions.h"
@@ -130,6 +131,13 @@ u8 CharacterController::sub_7100F63210() const {
 
 u8 CharacterController::sub_7100F6337C() const {
     return _40->_6e;
+}
+
+void CharacterController::sub_7100F62640(f32 a, sead::Vector3f* out) {
+    const f32 speed = std::sqrt(_70.length() * _110 * 2 * a);
+    out->x = 0;
+    out->y = speed;
+    out->z = 0;
 }
 
 void CharacterController::sub_7100F5EEF0(f32 value) {
