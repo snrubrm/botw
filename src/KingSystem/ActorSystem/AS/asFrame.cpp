@@ -23,6 +23,24 @@ Context::Frame::~Frame() {
     mEntries.freeBuffer();
 }
 
+bool Context::Frame::sub_7101257F0C(const Sizes& sizes, sead::Heap* heap) {
+    const s32 num_records = sizes.mNumRecords > 1 ? sizes.mNumRecords : 1;
+    const s32 num_indices = sizes.mNumIndices > 1 ? sizes.mNumIndices : 1;
+    const s32 num_entries = sizes.mNumEntries > 1 ? sizes.mNumEntries : 1;
+    if (u32(num_records - 1) < 0xfe) {
+        if (!mRecords.tryAllocBuffer(num_records, heap))
+            return false;
+        if (num_indices >= 1) {
+            if (!mIndexMap.tryAllocBuffer(num_indices, heap))
+                return false;
+            mIndexMap.fill(0xff);
+            if (num_entries >= 1)
+                return mEntries.tryAllocBuffer(num_entries, heap);
+        }
+    }
+    return false;
+}
+
 void Context::Frame::finalize() {
     mRecords.freeBuffer();
     mIndexMap.freeBuffer();

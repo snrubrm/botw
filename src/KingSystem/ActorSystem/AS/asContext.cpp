@@ -86,6 +86,22 @@ void Context::sub_7101258D70(int index) {
     _d0->mIndexMap[index] = 0xff;
 }
 
+// NON_MATCHING: only the compare of the `_930` size (`cmp #0; b.le` in the original, `cmp #1; b.lt` here)
+bool Context::sub_7101258AC8(const Frame::Sizes& sizes, sead::Heap* heap) {
+    mList = sizes.mList;
+    if (!mFrames[0].sub_7101257F0C(sizes, heap) || !mFrames[1].sub_7101257F0C(sizes, heap) ||
+        !mFrames[2].sub_7101257F0C(sizes, heap)) {
+        return false;
+    }
+    if (sizes.mNum930 > 0) {
+        const s32 size = sizes.mNum930 > 0x20 ? 0x20 : sizes.mNum930;
+        if (!_930.tryAllocBuffer(size, heap))
+            return false;
+        _930.fill(0);
+    }
+    return true;
+}
+
 Context::~Context() {
     mFrames[0].finalize();
     mFrames[1].finalize();

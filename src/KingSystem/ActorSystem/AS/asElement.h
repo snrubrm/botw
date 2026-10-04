@@ -87,6 +87,7 @@ public:
     struct Frame;
 
     struct Record {
+        Record() { _3 = 0; }
         // 0x7101257df4: the element state block of the record (a shared empty block if it has none).
         ElementParams* sub_7101257DF4(Frame* frame, bool a2);
         // 0x7101257d90: releases the record's element state block and marks the record as free.
@@ -101,6 +102,17 @@ public:
     };
 
     struct Frame {
+        // Sizes of the buffers of a frame (a part of the AS resource).
+        struct Sizes {
+            ASList* mList;
+            u8 _8[0x10 - 0x8];
+            s32 mNumRecords;
+            s32 mNumIndices;
+            s32 mNumEntries;
+            s32 mNum930;
+        };
+        // 0x7101257f0c: allocates the three buffers (false if a size is out of range or on failure).
+        bool sub_7101257F0C(const Sizes& sizes, sead::Heap* heap);
         // 0x7101257e38 (out of line: the array allocation of ASList's frame buffer calls it).
         Frame();
         // 0x7101257e54: frees the buffers (the same as finalize()).
@@ -204,6 +216,8 @@ public:
     void sub_7101258D68(int element);
     // 0x7101258e38: starts the evaluation of a frame of the AS `as` (`frame`: a frame to use instead of the ring).
     void sub_7101258E38(f32 a0, const sead::SafeString& name, res::AS* as, Frame* frame, bool a4, bool a5);
+    // 0x7101258ac8: sets the list and allocates the three frames and the `_930` buffer.
+    bool sub_7101258AC8(const Frame::Sizes& sizes, sead::Heap* heap);
     // 0x7101258f4c: ends the evaluation of the frame (`a`: ...) and flips the event bank.
     void sub_7101258F4C(u32 a, u32 b);
 
