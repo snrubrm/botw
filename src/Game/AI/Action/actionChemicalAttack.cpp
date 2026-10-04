@@ -65,7 +65,9 @@ void ChemicalAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChemicalAttack::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    sub_71007A32E4(actor, nullptr);
+    sub_71007A2E04(actor);
 }
 
 void ChemicalAttack::loadParams_() {

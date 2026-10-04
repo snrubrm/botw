@@ -34,7 +34,11 @@ void DragonChemicalBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void DragonChemicalBall::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    sub_71007A32E4(actor, nullptr);
+    sub_71007A2E04(actor);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D91098(false);
 }
 
 void DragonChemicalBall::loadParams_() {

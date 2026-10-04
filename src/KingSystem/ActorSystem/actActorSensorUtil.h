@@ -63,6 +63,9 @@ void sub_71007A3900(ksys::phys::RigidBody* body);  // SensorQueryOnly
 // `handler` (3270); all "Atk" bodies: remove (2E04).
 void sub_71007A2D7C(ksys::act::Actor* actor, const sead::SafeString& name);
 void sub_71007A2E04(ksys::act::Actor* actor);
+// 0x71007a32e4 (declaration only; lane3 s20): all "Atk" bodies get contact layer 0x35 with `handler`
+// (setContactLayerAndHandler).
+void sub_71007A32E4(ksys::act::Actor* actor, ksys::phys::SystemGroupHandler* handler);
 void sub_71007A3270(ksys::act::Actor* actor, const sead::SafeString& name,
                     ksys::phys::SystemGroupHandler* handler);
 // The body `name` of the actor's "Tgt" set: add (34B8), remove (3634), SensorQueryOnly (3910);
