@@ -21,11 +21,19 @@ void GiantOneHandAttackWithLegTurn::leave_() {
 
 void GiantOneHandAttackWithLegTurn::loadParams_() {
     GiantOneHandActionWithLegTurn::loadParams_();
-    // FIXME: CALL sub_71007050F0 @ 0x71007050f0
+    _280.sub_71007050F0(this);
 }
 
 void GiantOneHandAttackWithLegTurn::calc_() {
     GiantOneHandActionWithLegTurn::calc_();
+}
+
+void GiantOneHandAttackWithLegTurn::m32(const sead::SafeString* name) {
+    _280.sub_7100705138(name);
+}
+
+void GiantOneHandAttackWithLegTurn::m33() {
+    _280.sub_7100705188();
 }
 
 }  // namespace uking::action

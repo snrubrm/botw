@@ -83,6 +83,12 @@ target_sources(uking PRIVATE
   aiUnk_7100700620.cpp
   aiUnk_710070E434.cpp
   aiUnk_710070E434.h
+  aiUnk_7100715960.cpp
+  aiUnk_7100715960.h
+  aiUnk_71007050e4.cpp
+  aiUnk_71007050e4.h
+  aiUnk_7100704914.cpp
+  aiUnk_7100704914.h
   aiUnk_7100709414.h
   aiUnk_710070F974.cpp
   aiUnk_7100D3D3A8.cpp

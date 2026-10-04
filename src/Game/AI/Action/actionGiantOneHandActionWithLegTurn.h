@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionGiantAttackWithAS.h"
+#include "Game/AI/aiUnk_7100715960.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -35,6 +36,8 @@ protected:
     const sead::Vector3f* mRotOffsetMax_s{};
     // static_param at offset 0x178
     const sead::Vector3f* mBaseTargetPos_s{};
+    /* 0x180 */ Unk_7100715960 _180{mActor};
 };
+KSYS_CHECK_SIZE_NX150(GiantOneHandActionWithLegTurn, 0x280);
 
 }  // namespace uking::action
