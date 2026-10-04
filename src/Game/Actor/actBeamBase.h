@@ -9,6 +9,11 @@
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
+namespace xlink2 {
+class Event;
+class EventSLink;
+}
+
 namespace ksys::phys {
 class CapsuleRigidBody;
 class RigidBody;
@@ -46,6 +51,9 @@ public:
     void sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString& bone,
                         const sead::Vector3f* offset);
 
+    // 0x7100002bf8: fades the beam effects and detaches the sound shape (declaration only).
+    void sub_7100002BF8();
+
     // A critical section followed by a link (the dtor keeps &_b90 and &_b90._40 in registers across the inlined
     // ~BoneAccessKeyEx call): the shooter that sub_7100003804 / sub_710000395C fill in together with _be0 / _c18.
     struct Unk_b90 {
@@ -58,10 +66,11 @@ public:
     /* 0xc24 */ f32 _c24 = std::numeric_limits<f32>::max();
     /* 0xc28 */ ksys::act::BaseProcLink _c28;
     /* 0xc38 */ ksys::act::BaseProcLink _c38;
-    /* 0xc48 */ sead::Vector3f _c48{0.0f, 0.0f, 0.0f};
+    /* 0xc48 */ xlink2::Event* _c48 = nullptr;
+    /* 0xc50 */ u32 _c50 = 0;
     /* 0xc54 */ u8 _c54[4];
-    /* 0xc58 */ sead::Vector2f _c58{0.0f, 0.0f};
-    /* 0xc60 */ f32 _c60 = 0;
+    /* 0xc58 */ xlink2::EventSLink* _c58 = nullptr;
+    /* 0xc60 */ u32 _c60 = 0;
     /* 0xc64 */ u8 _c64[4];
     /* 0xc68 */ sead::Vector3f _c68 = sead::Vector3f::zero;  // a position (the beam's target / hit point)
     /* 0xc78 */ u64 _c78 = 0;

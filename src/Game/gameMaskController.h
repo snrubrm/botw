@@ -42,16 +42,9 @@ public:
     // 0x71008bca40: the controller wrapper at +0x40 (a sead::MaskControllerWrapper subclass, not
     // declared yet; WaitForKeyInput / KeyInputCheck test its trigger mask). Declared only.
     sead::ControllerWrapperBase* sub_71008BCA40();
-    // 0x71008bcf44 (PlayerPullSword::enter_ calls it with (1, true)): marks controller `idx` in `_2c` and sets (`on`) /
-    // clears its bit in `_28`.
-    void sub_71008BCF44(ControllerIdx idx, bool on);
-    // 0x71008bcfa0 (declared only; PlayerPullSword::leave_ calls it with 1): clears the bit of `idx` in `_2c`, then
-    // sets / clears its bit in `_28` depending on a scan of the 8-byte records of `mControllers` (+4 word).
-    void sub_71008BCFA0(ControllerIdx idx);
 
 private:
-    u32 _28 = 0;
-    u32 _2c = 0;
+    u8 _28[8];
     sead::Buffer<sead::Controller*> mControllers;
     u8 _40[0x2c8 - 0x40];
 };

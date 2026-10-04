@@ -33,6 +33,8 @@ target_sources(uking PRIVATE
   gameResidentActorMgr.cpp
   gameResidentActorMgr.h
   gameRumble.cpp
+  gameRoot4.cpp
+  gameRoot4.h
   gameRoot38.cpp
   gameRoot38.h
   gameRumble.h
