@@ -31,6 +31,8 @@ target_sources(uking PRIVATE
   euiMessageMgr.cpp
   euiFontMgr.cpp
   euiNwAllocator.cpp
+  euiArcResourceMgr.cpp
+  euiArcResourceMgr.h
   euiLayoutEx.cpp
   euiAllocatorHeap.cpp
   euiLetterAnimControl.cpp
