@@ -308,4 +308,10 @@ public:
     u8 _8[0x20];
 };
 
+// Element of ScreenOptionWindow::_3698 (owned by the screen; `delete` destroys the member at 0x70).
+struct Unk_OptionWindowEntry {
+    u8 _0[0x70];
+    Unk_7102474dd0 _70;
+};
+
 }  // namespace uking::ui

@@ -40,7 +40,12 @@ ScreenMainShortCut::~ScreenMainShortCut() = default;
 ScreenPauseMenu::~ScreenPauseMenu() = default;
 ScreenPauseMenuInfo::~ScreenPauseMenuInfo() = default;
 ScreenSaveTransferWindow::~ScreenSaveTransferWindow() = default;
-ScreenOptionWindow::~ScreenOptionWindow() = default;
+// 0x7100a28cec
+ScreenOptionWindow::~ScreenOptionWindow() {
+    for (s32 i = 0, n = _3698.size(); i < n; ++i)
+        delete _3698.at(i);
+    _3698.freeBuffer();
+}
 ScreenSystemWindow01::~ScreenSystemWindow01() = default;
 // 0x7100a324a0
 ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
