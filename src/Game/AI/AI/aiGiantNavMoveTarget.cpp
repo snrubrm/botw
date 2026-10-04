@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
@@ -88,6 +89,39 @@ void GiantNavMoveTarget::sub_71003F7DA8() {
         data->_0->sub_7100F75F8C(*mTargetPos_d);
         data->_8 = 0;
     }
+}
+
+// NON_MATCHING: scheduling only (the original loads `mTargetPos_d` and sets up the pack's constants before the timer
+// stores; the switch case order -1 / 1 matches)
+bool GiantNavMoveTarget::sub_71003F8E3C() {
+    auto* actor = mActor;
+    auto* target_pos = mTargetPos_d;
+    if (sub_710072CB78(actor, *target_pos, nullptr,
+                       sead::Mathf::clampMin(sub_71007320F0(actor, *mWeaponIdx_s), 0.0f) +
+                           *mReachTargetArea_s,
+                       -1)) {
+        changeToGoStraight();
+        return true;
+    }
+
+    switch (_78->_8) {
+    case 1: {
+        const f32 time = *mRepathTime_s;
+        _80.value = time;
+        _80.previous_value = time;
+        _80.rate = -1.0f;
+
+        const sead::Vector3f target = *mTargetPos_d;
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("移動", &pack);
+        return true;
+    }
+    case -1:
+        sub_71003F7DA8();
+        break;
+    }
+    return false;
 }
 
 void GiantNavMoveTarget::leave_() {

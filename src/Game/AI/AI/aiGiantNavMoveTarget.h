@@ -18,6 +18,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -29,6 +30,9 @@ public:
     // 0x71003f7c20: resets the navigation state and the repath timer, then changeChild("%s") with the target.
     void changeToGoStraight();
     void sub_71003F7DA8();
+    // 0x71003f8e3c (placeholder name; called by GiantNavMoveWithFirstAction::calc_): checks whether the target is reachable
+    // (-> changeToGoStraight, true), restarts the path when there is none, or moves on to "移動".
+    bool sub_71003F8E3C();
 
 protected:
     // Inline-only in the original (name guess; evidence: sub_71003F7DA8 keeps the returned Unk_7100f7e9f0 above the
