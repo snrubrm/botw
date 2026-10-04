@@ -30,6 +30,7 @@ target_sources(uking PRIVATE
   euiSharcArchive.cpp
   euiMessageMgr.cpp
   euiFontMgr.cpp
+  euiNwAllocator.cpp
   euiLayoutEx.cpp
   euiLetterAnimControl.cpp
   euiLetterAnimControl.h
