@@ -114,6 +114,21 @@ public:
     void sub_7100F62B88(const sead::Vector3f& value);
     void sub_7100F62BA4(f32 value);    // _50->_18
     void sub_7100F5E938(bool on);      // mFlags 0x8000
+    // 0x7100f5e898: updates _114 bits 0x400 / 0x800 / 0x1000 from the current shape's _10 / _11 / _12.
+    void sub_7100F5E898();
+    // 0x7100f5e95c: multiplies _218 by the scale change and scales the main body (and _298).
+    void sub_7100F5E95C(f32 scale);
+    // 0x7100f5ecc4: removes every body of _288 and the main body from the world (false if one fails).
+    bool sub_7100F5ECC4();
+    // 0x7100f5ef30: sets the max linear velocity of the main body (and _10->_48) from `value`.
+    void sub_7100F5EF30(f32 value);
+    // 0x7100f60794: resetFrozenState() of the main body and _298.
+    void sub_7100F60794();
+    // 0x7100f60934 / 0x7100f62d3c: setEntityMotionFlag200 / 8 of the main body (and every body of _288 with 0x2000).
+    void sub_7100F60934(bool on);
+    void sub_7100F62D3C(bool on);
+    // 0x7100f603f8: adds `delta` to _94 (and sets 0x20 of _114 when it is not zero).
+    void sub_7100F603F8(const sead::Vector3f& delta);
     void sub_7100F631F4(bool on);      // mFlags 0x100
 
     // Unnamed accessors/setters (placeholder names; signatures from their bodies and callers)

@@ -8,6 +8,8 @@ namespace ksys::phys {
 struct CharacterControllerUnk10 {
     /* 0x00 */ u8 _0[0x30];
     /* 0x30 */ hkVector4f _30;
+    /* 0x40 */ u8 _40[8];
+    /* 0x48 */ f32 _48;
 };
 
 // Placeholder: object at CharacterController::_20.
@@ -221,6 +223,80 @@ void CharacterController::sub_7100F5E938(bool on) {
 
 void CharacterController::sub_7100F631F4(bool on) {
     mFlags.changeBit(8, on);
+}
+
+// NON_MATCHING: the original selects the three flag updates with csel and different register assignment
+void CharacterController::sub_7100F5E898() {
+    if (_30->mShapes[_224]._10)
+        _114 |= 0x400;
+    else
+        _114 &= ~0x400;
+    if (_30->mShapes[_224]._11)
+        _114 |= 0x800;
+    else
+        _114 &= ~0x800;
+    if (_30->mShapes[_224]._12)
+        _114 |= 0x1000;
+    else
+        _114 &= ~0x1000;
+}
+
+void CharacterController::sub_7100F5E95C(f32 scale) {
+    _218 *= scale / mRigidBody->getScale();
+    mRigidBody->setScale(scale);
+    mRigidBody->updateShape();
+    if (_298) {
+        _298->setScale(scale);
+        _298->updateShape();
+    }
+}
+
+bool CharacterController::sub_7100F5ECC4() {
+    for (int i = 0; i < _288.size(); ++i) {
+        if (auto* body = _288[i]) {
+            if (!body->removeFromWorldAndResetLinks())
+                return false;
+        }
+    }
+    return mRigidBody->removeFromWorldAndResetLinks();
+}
+
+void CharacterController::sub_7100F5EF30(f32 value) {
+    const f32 max_velocity = (value > 1.0f ? 5.0f : 1.0f) * value * 100.0f;
+    mRigidBody->setMaxLinearVelocity(max_velocity);
+    _10->_48 = max_velocity;
+}
+
+void CharacterController::sub_7100F60794() {
+    mRigidBody->resetFrozenState();
+    if (_298)
+        _298->resetFrozenState();
+}
+
+void CharacterController::sub_7100F60934(bool on) {
+    mRigidBody->setEntityMotionFlag200(on);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setEntityMotionFlag200(on);
+        }
+    }
+}
+
+void CharacterController::sub_7100F62D3C(bool on) {
+    mRigidBody->setEntityMotionFlag8(on);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setEntityMotionFlag8(on);
+        }
+    }
+}
+
+void CharacterController::sub_7100F603F8(const sead::Vector3f& delta) {
+    if (delta.x != 0 || delta.y != 0 || delta.z != 0)
+        _114 |= 0x20;
+    _94 += delta;
 }
 
 void CharacterController::sub_7100F5EDD8(float value) {
