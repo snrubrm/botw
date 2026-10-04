@@ -275,6 +275,37 @@ bool sub_7100A98AE4() {
     return true;
 }
 
+// 0x7100a9a21c
+void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level) {
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+    screen->sub_71009EF488(world_pos, scale_level);
+    Unk_71025d69f0::instance()->sub_710094D9F4(1, 1, 0, 0);
+}
+
+// 0x7100a9f358
+void sub_7100A9F358() {
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+    screen->sub_71009EF57C(1.0f, 1);
+}
+
+// 0x7100a9e91c
+bool sub_7100A9E91C() {
+    if (eui::ScreenMgr::instance()) {
+        auto* screen = sead::DynamicCast<ScreenPauseMenu>(eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenu));
+        if (screen && !screen->sub_7100A349F4())
+            return false;
+    }
+    if (auto* manager = Manager::instance()) {
+        manager->sub_7100A7C904();
+        return true;
+    }
+    return false;
+}
+
 // 0x7100a9a308
 void sub_7100A9A308(s32 index, bool a1) {
     if (u32(index) > 0xe)
