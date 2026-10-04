@@ -9,6 +9,11 @@ class ModelList;
 }
 
 namespace ksys::as {
+class Context;
+class Element;
+}  // namespace ksys::as
+
+namespace ksys::as {
 class ASList {
 public:
     // Placeholder: event query filled by the handlers passed to x() (0x7101259c78 copies a 0x20-byte AS
@@ -61,10 +66,10 @@ public:
         f32 sub_71011632F8();
         f32 sub_7101163564();
 
-        /* 0x00 */ void* _0;
+        /* 0x00 */ Context* _0;
         /* 0x08 */ u8 _8[0x10 - 0x8];
         /* 0x10 */ f32 _10;
-        /* 0x18 */ void* _18;
+        /* 0x18 */ Element* _18;
         /* 0x20 */ void* _20;
         /* 0x28 */ void* _28;
         /* 0x30 */ u8 _30[0x41 - 0x30];

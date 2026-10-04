@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <math/seadMathCalcCommon.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -34,6 +35,22 @@ public:
 
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
     Record* sub_7101258CD4(int index);
+
+    // 0x7101258cc0: the first element resource of the AS of the current frame (null if none).
+    res::ASResource* sub_7101258CC0();
+
+    /* 0x00 */ u8 _0[0xe0];
+    /* 0xe0 */ f32 _e0;
+};
+
+// Placeholder: per-element parameter block returned by Element::m25 (a range [_4, _8] and more floats).
+struct ElementParams {
+    u32 _0;
+    f32 _4;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    f32 _14;
 };
 
 // Placeholder: the state passed down the tree by the update virtuals (m10, ...): `weight` is scaled by the
@@ -51,6 +68,14 @@ public:
 
     // 0x71011653e8: the index of `resource` (this->m7() if there is none).
     int sub_71011653E8(const res::ASResource* resource);
+    // 0x710116554c: m11 followed by m37.
+    int sub_710116554C(Context* ctx, State* state, const res::ASResource* resource);
+    // 0x71011654e0: m37 followed by m14.
+    void sub_71011654E0(Context* ctx, void* a2, State* a3, const res::ASResource* resource);
+    // 0x7101165e60 / 0x7101165ebc (declaration only; used by SelectorBase::m35 / m36).
+    void sub_7101165E60(Context* ctx, const res::ASResource* resource);
+    void sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+                        int index, const res::ASResource* resource);
 
     virtual f32 m4();
     virtual void m5();
@@ -59,33 +84,36 @@ public:
     virtual bool m8();
     virtual bool m9();
     virtual bool m10(Context* ctx, State* state, const res::ASResource* resource) = 0;
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual f32 m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual bool m24();
-    virtual void* m25();
+    virtual void m11(Context* ctx, State* state, const res::ASResource* resource);
+    virtual void m12(Context* ctx, State* state, const res::ASResource* resource);
+    virtual void m13(Context* ctx, State* state, const res::ASResource* resource);
+    virtual void m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource);
+    virtual void m15(Context* ctx, State* state, const res::ASResource* resource);
+    virtual void m16(Context* ctx, const res::ASResource* resource, f32 value);
+    virtual void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
+                     f32 a6);
+    virtual f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource);
+    virtual void m19(Context* ctx, const res::ASResource* resource, f32 value);
+    virtual void m20(Context* ctx, const res::ASResource* resource, f32 value);
+    virtual void m21(Context* ctx, const res::ASResource* resource, f32 value);
+    virtual void m22(Context* ctx, const res::ASResource* resource);
+    virtual Element* m23(Context* ctx, const res::ASResource* resource);
+    virtual bool m24(Context* ctx, const res::ASResource* resource);
+    virtual const ElementParams* m25(Context* ctx, const res::ASResource* resource);
     virtual f32 m26(Context* ctx, const res::ASResource* resource);
-    virtual int m27();
-    virtual void m28();
-    virtual void m29();
-    virtual int m30();
-    virtual int m31();
-    virtual int m32();
-    virtual int m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name);
-    virtual int m37();
+    virtual bool m27(Context* ctx, const res::ASResource* resource);
+    virtual void m28(f32* a1, Context* ctx, const res::ASResource* resource);
+    virtual void m29(f32* a1, Context* ctx, const res::ASResource* resource);
+    virtual int m30(f32* a1, Context* ctx, const res::ASResource* resource);
+    virtual int m31(Context* ctx, const res::ASResource* resource);
+    virtual bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5,
+                     const res::ASResource* resource, f32 value);
+    virtual bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5);
+    virtual void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource);
+    virtual void m35(Context* ctx, const res::ASResource* resource);
+    virtual void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+                     const res::ASResource* resource);
+    virtual int m37(Context* ctx, State* state, const res::ASResource* resource);
 };
 
 class SelectorBase : public Element {
@@ -94,6 +122,33 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     SelectorBase();
     ~SelectorBase() override;
+
+    void m11(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m13(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) override;
+    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
+             f32 a6) override;
+    void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m22(Context* ctx, const res::ASResource* resource) override;
+    Element* m23(Context* ctx, const res::ASResource* resource) override;
+    bool m24(Context* ctx, const res::ASResource* resource) override;
+    const ElementParams* m25(Context* ctx, const res::ASResource* resource) override;
+    f32 m26(Context* ctx, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
+    void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m31(Context* ctx, const res::ASResource* resource) override;
+    bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
+    void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
+    void m35(Context* ctx, const res::ASResource* resource) override;
+    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+             const res::ASResource* resource) override;
 
     // 0x71013031fc: the resource of the child `index` (null if `resource` has no children).
     const res::ASResource* sub_71013031FC(const res::ASResource* resource, int index) const;
@@ -281,6 +336,33 @@ class SyncPlayContainer : public SelectorBase {
     SEAD_RTTI_OVERRIDE(SyncPlayContainer, SelectorBase)
 public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m11(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m13(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) override;
+    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
+             f32 a6) override;
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
+    void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m22(Context* ctx, const res::ASResource* resource) override;
+    bool m24(Context* ctx, const res::ASResource* resource) override;
+    f32 m26(Context* ctx, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
+    void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m31(Context* ctx, const res::ASResource* resource) override;
+    bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
+             f32 value) override;
+    bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
+    void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
+    void m35(Context* ctx, const res::ASResource* resource) override;
+    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+             const res::ASResource* resource) override;
     SyncPlayContainer();
 };
 

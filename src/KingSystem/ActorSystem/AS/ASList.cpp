@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -11,6 +12,112 @@ bool ASList::Unk2::sub_7101163AF4() {
     if ((_20 && !(_43 & 1)) || (_28 && !(_43 & 2)))
         return true;
     return false;
+}
+
+bool ASList::Unk2::sub_7101162F2C() {
+    Element* element = _18;
+    if (!element)
+        return false;
+    Context* context = _0;
+    const res::ASResource* resource = context->sub_7101258CC0();
+    return element->m27(context, resource);
+}
+
+void ASList::Unk2::sub_7101163044(f32 value) {
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m20(context, resource, value);
+    }
+}
+
+f32 ASList::Unk2::sub_71011630A4() {
+    f32 result = 0;
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (auto* params = element->m25(context, resource))
+            result = params->_10;
+    }
+    return result;
+}
+
+void ASList::Unk2::sub_7101163100(f32 value) {
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m19(context, resource, value);
+    }
+}
+
+f32 ASList::Unk2::sub_7101163160() {
+    f32 result = 0;
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (auto* params = element->m25(context, resource))
+            result = params->_c;
+    }
+    return result;
+}
+
+void ASList::Unk2::sub_71011631BC(f32 value) {
+    if (value < 0)
+        return;
+    _0->_e0 = value;
+}
+
+f32 ASList::Unk2::sub_71011631D0() {
+    return _0->_e0;
+}
+
+void ASList::Unk2::sub_71011631DC(f32 value) {
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m21(context, resource, value);
+    }
+}
+
+f32 ASList::Unk2::sub_710116323C() {
+    f32 result = 0;
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (auto* params = element->m25(context, resource))
+            result = params->_14;
+    }
+    return result;
+}
+
+void ASList::Unk2::sub_7101163298(f32 value) {
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m16(context, resource, value);
+    }
+}
+
+f32 ASList::Unk2::sub_71011632F8() {
+    f32 result = 0;
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (auto* params = element->m25(context, resource))
+            result = params->_4;
+    }
+    return result;
+}
+
+f32 ASList::Unk2::sub_7101163564() {
+    f32 result = 0;
+    if (Element* element = _18) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        if (auto* params = element->m25(context, resource))
+            result = params->_8;
+    }
+    return result;
 }
 
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
