@@ -770,10 +770,6 @@ bool Actor::m86() {
     return true;
 }
 
-bool Actor::sub_71011DB30C() const {
-    return _598 && _598->mFlags8.isOnBit(11);
-}
-
 bool Actor::sub_71011C7990() const {
     return !mSignals.isOnBit(13);
 }

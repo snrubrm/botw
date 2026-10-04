@@ -581,7 +581,6 @@ public:
     // 0x71011d7790: flag 0xa and not ActorFlag2 _8000; 0x71011db30c: bit 11 of the LOD state's mFlags8 (false
     // without a LOD state).
     bool sub_71011D7790() const;
-    bool sub_71011DB30C() const;
     // 0x71011d7168 / 0x71011d717c (CSV Actor::isWaitRevivalForDrop / setRevivalFlagForDrop; lane4 s29): the drop twins.
     bool isWaitRevivalForDrop() const;
     void setRevivalFlagForDrop(bool value);
