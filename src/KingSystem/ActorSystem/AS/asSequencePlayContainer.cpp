@@ -5,6 +5,102 @@ namespace ksys::as {
 
 SequencePlayContainer::SequencePlayContainer() {}
 
+// NON_MATCHING: the initial signed-byte index checks are combined by the compiler.
+bool SequencePlayContainer::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    if (record->_0 >= 0 && record->_0 != 0) {
+        Element* child = mChildren[record->_0];
+        const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+        child->sub_7101165E60(ctx, child_resource);
+    }
+    record->_0 = 0;
+    record->_1 = 0xff;
+    const s32 counter = state->_8;
+    int loops = 0;
+    while (true) {
+        Element* child = mChildren[record->_0];
+        const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+        if (child->sub_710116541C(ctx, state, child_resource))
+            return true;
+        const s32 index = record->_0;
+        int next = index + 1;
+        if (next == mChildren.size()) {
+            auto* sequence = sead::DynamicCast<const res::ASSequencePlayContainerResource>(resource);
+            if (!sequence || !sequence->getSequenceLoop())
+                break;
+            if (loops >= 3) {
+                ctx->sub_7101258ABC();
+                break;
+            }
+            next = 0;
+            ++loops;
+            ctx->_e8 = -1.0f;
+        } else {
+            ctx->_e8 = -1.0f;
+            if (index < -1)
+                return true;
+        }
+        Element* old_child = mChildren[record->_0];
+        const res::ASResource* old_resource = sub_71013031FC(resource, record->_0);
+        old_child->sub_7101165E60(ctx, old_resource);
+        record->_0 = next;
+        state->_8 = counter;
+    }
+    ctx->_e8 = -1.0f;
+    return true;
+}
+
+bool SequencePlayContainer::m10(Context* ctx, State* state, const res::ASResource* resource) {
+    const f32 value = state->_0;
+    const u32 result = sub_710125EBB0(ctx, state, resource);
+    state->_0 = value;
+    return result & 1;
+}
+
+// NON_MATCHING: two argument-preserving moves are scheduled in the opposite order.
+f32 SequencePlayContainer::m18(Context* ctx, bool a2, f32 value, f32 a4,
+                             const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    if (value < 0.0f)
+        return value;
+    {
+        PlayState state;
+        state._4 = false;
+        state._0 = -1.0f;
+        state._8 = ctx->sub_7101258D1C(sub_71011653E8(resource)) + 1;
+        auto* sequence = sead::DynamicCast<const res::ASSequencePlayContainerResource>(resource);
+        for (int i = 0; value >= 0.0f;) {
+            const int previous = record->_0;
+            if (i != previous) {
+                if (previous >= 0) {
+                    Element* child = mChildren[previous];
+                    const res::ASResource* child_resource = sub_71013031FC(resource, previous);
+                    child->sub_7101165E60(ctx, child_resource);
+                }
+                Element* child = mChildren[i];
+                const res::ASResource* child_resource = sub_71013031FC(resource, i);
+                child->sub_710116541C(ctx, &state, child_resource);
+                a2 = true;
+                record->_0 = i;
+            }
+            Element* child = mChildren[i];
+            const res::ASResource* child_resource = sub_71013031FC(resource, i);
+            value = child->m18(ctx, a2, value, a4, child_resource);
+            if (value < 0.0f || (!sequence->getSequenceLoop() && i == mChildren.size() - 1)) {
+                if (i != previous) {
+                    record->_0 = i;
+                    ctx->mFlags |= 0x20;
+                }
+                return value;
+            }
+            const bool last = i + 1 == mChildren.size();
+            i = last ? 0 : i + 1;
+            a2 |= last;
+        }
+    }
+    return value;
+}
+
 bool SequencePlayContainer::m27(Context* ctx, const res::ASResource* resource) {
     if (auto* sequence = sead::DynamicCast<const res::ASSequencePlayContainerResource>(resource)) {
         if (sequence->getSequenceLoop())
