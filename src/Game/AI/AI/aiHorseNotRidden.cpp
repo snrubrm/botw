@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiHorseNotRidden.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -30,6 +33,33 @@ void HorseNotRidden::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HorseNotRidden::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: the original switch is a jump table over 0x3800001..0x380001f (a fourth case we cannot see; ours is a
+// compare chain), it reads both actors' x / z before BaseProcLink::acquire (ours subtracts first), and copies the
+// 12-byte payload as z, then x/y (ours: three floats).
+bool HorseNotRidden::handleMessage_(const ksys::Message* message) {
+    switch (message->getType()) {
+    case 0x3800001: {
+        if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+            horse->sub_7100E6C094(true);
+        auto* target = static_cast<ksys::act::Actor*>(message->getUserData());
+        const sead::Vector2f diff{mActor->getMtx().m[0][3] - target->getMtx().m[0][3],
+                                  mActor->getMtx().m[2][3] - target->getMtx().m[2][3]};
+        _f8.acquire(target, false);
+        _f0 = *mParams.mCallDelayFrames_s + diff.length() / 11.0f;
+        return true;
+    }
+    case 0x3800010:
+        _10c = *static_cast<const sead::Vector3f*>(message->getUserData());
+        _108 = sead::GlobalRandom::instance()->getF32Range(*mParams.mEscapeDelayFramesMin_s,
+                                                           *mParams.mEscapeDelayFramesMax_s);
+        return true;
+    case 0x3800011:
+        return true;
+    default:
+        return false;
+    }
 }
 
 void HorseNotRidden::loadParams_() {

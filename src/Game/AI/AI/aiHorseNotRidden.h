@@ -19,6 +19,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // 0x7100438bc0 (gdt reinit callback; CSV name).
     void setAnimalMasterAppearanceFlagIdx(ksys::gdt::Manager::ReinitEvent* event);
@@ -62,9 +63,9 @@ protected:
     };
     Params mParams;
     Unk_710071edf8 _c0{mActor};
-    u32 _f0 = 0;
+    f32 _f0 = 0;
     ksys::act::BaseProcLink _f8;
-    u32 _108 = 0;
+    f32 _108 = 0;
     sead::Vector3f _10c = sead::Vector3f::zero;
     f32 _118 = 0;
     u32 _11c = 0;
