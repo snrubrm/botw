@@ -114,7 +114,8 @@ public:
     void setMtxAndScale(const sead::Matrix34f& mtx, bool a2, bool a3, f32 scale);
     // 0x7100fbb4b4: whether the ragdoll contact point info (_a8) has any contact (declaration only).
     bool sub_7100FBB4B4() const;
-    void* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
+    // 0x7100fbbaa0: find `a2` in the rigid body set named `a1` (null if absent).
+    RigidBody* findX(const sead::SafeString& a1, const sead::SafeString& a2) const;
     RigidBody* findRigidBody(const sead::SafeString& name) const;
     // 0x7100fbb7bc (CSV ActorPhysics::findBodyGroupByName): the rigid body set called `name`.
     RigidBodySet* findBodyGroupByName(const sead::SafeString& name);

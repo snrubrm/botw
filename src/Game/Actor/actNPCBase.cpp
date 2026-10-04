@@ -1,5 +1,8 @@
 #include "Game/Actor/actNPCBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
@@ -20,6 +23,16 @@ void NPCBase::calcMaybe() {}
 void NPCBase::updatePositionMaybe() {}
 
 void NPCBase::m66() {}
+
+void NPCBase::m63() {
+    getASList()->sub_710115BAF8("Root");
+    if (getPhysics()) {
+        if (auto* body = getPhysics()->findX("Tgt", "Body"))
+            body->addToWorld();
+        if (auto* body = getPhysics()->findX("Body", "Body"))
+            body->addToWorld();
+    }
+}
 
 void NPCBase::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     if (mActorFlags2.isOn(ActorFlag2::_200))
