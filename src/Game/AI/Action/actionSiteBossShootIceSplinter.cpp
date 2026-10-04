@@ -37,4 +37,12 @@ void SiteBossShootIceSplinter::calc_() {
     ksys::act::ai::Action::calc_();
 }
 
+bool SiteBossShootIceSplinter::isFinished() const {
+    if (!_60)
+        return false;
+    if (_61)
+        return false;
+    return ksys::act::ai::Action::isFinished() || isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
