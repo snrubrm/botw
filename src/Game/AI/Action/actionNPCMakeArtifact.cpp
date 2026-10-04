@@ -2,6 +2,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 
 namespace uking::action {
 
@@ -12,7 +14,8 @@ NPCMakeArtifact::~NPCMakeArtifact() {
 }
 
 bool NPCMakeArtifact::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _20.initFromBshopMaybe(mActor->getParam()->getRes().mShopData, heap);
+    return true;
 }
 
 void NPCMakeArtifact::enter_(ksys::act::ai::InlineParamPack* params) {
