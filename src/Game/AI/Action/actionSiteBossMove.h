@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    virtual sead::Vector3f* m32() { return mTargetPos_d; }
     void calc_() override;
 
     // static_param at offset 0x20

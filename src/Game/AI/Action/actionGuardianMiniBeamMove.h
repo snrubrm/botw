@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    int m43() override { return 1; }
     void calc_() override;
     f32 m37() override { return *mReboundDeccel_s; }
 

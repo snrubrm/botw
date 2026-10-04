@@ -12,6 +12,8 @@ public:
     ~CameraEventTalk() override;
 
 protected:
+    int m38() override { return 0; }
+    u32 m37() override { return 1; }
 };
 
 }  // namespace uking::action

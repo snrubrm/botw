@@ -32,7 +32,9 @@ public:
         phys::Constraint* mConstraint;
         u8 _10[0x50 - 0x10];
         /* 0x50 */ phys::RigidBody* mBody;
-        u8 _58[0x158 - 0x58];
+        u8 _58[0x140 - 0x58];
+        /* 0x140 */ sead::Vector3f _140;
+        u8 _14c[0x158 - 0x14c];
         BaseProcLink mTargetLink;
     };
 

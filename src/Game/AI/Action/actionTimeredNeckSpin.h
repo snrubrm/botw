@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
+    float m32() override { return _80.mean; }
     void calc_() override;
 
     struct Params {

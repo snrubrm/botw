@@ -12,6 +12,7 @@ public:
     ~CameraMagneCatch() override;
 
 protected:
+    bool m60(int idx) override { return u32(idx) < 3; }
 };
 
 }  // namespace uking::action
