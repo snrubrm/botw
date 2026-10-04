@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRegistedActorNumTwoSelectBase.h"
+#include "Game/AI/aiUnk_71025b1808.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,14 @@ bool RegistedActorNumTwoSelectBase::init_(sead::Heap* heap) {
 }
 
 void RegistedActorNumTwoSelectBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* unit = sead::DynamicCast<Unk_71025b1808>(
+        *static_cast<Unk_71025afb58**>(mRegistedActorUnit_a));
+    s32 count = 0;
+    if (unit) {
+        for (auto& entry : unit->_8.mEntries)
+            count += entry.link.hasProcInCalcState();
+    }
+    m34(count, params);
 }
 
 void RegistedActorNumTwoSelectBase::calc_() {}
