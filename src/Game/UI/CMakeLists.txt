@@ -1,5 +1,18 @@
 target_sources(uking PRIVATE
+  euiAnimButton.cpp
+  euiAnimator.h
   euiButton.cpp
+  euiCheckButton.cpp
+  euiCheckKeepButton.cpp
+  euiDecisionButton.cpp
+  euiDragButton.cpp
+  euiTwoTouchCheckKeepButton.cpp
+  euiNormalButton.cpp
+  euiSelectButton.cpp
+  euiButtonGroup.cpp
+  euiControlBase.cpp
+  euiControlBase.h
+  euiLayoutEx.h
   euiButton.h
   euiMessageString.cpp
   euiMessageString.h

@@ -6,6 +6,7 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
+#include "Game/UI/euiButton.h"
 
 namespace sead {
 class Heap;
@@ -19,6 +20,7 @@ namespace eui {
 
 class AnimButton;
 class BoxCursorNode;
+class ButtonGroup;
 class ScreenMgr;
 
 // (only the nested type is needed so far)
@@ -113,14 +115,23 @@ public:
     bool isClosed() const;
     bool isClosedOrClosing() const;
 
+    // 0x7100be9908
+    bool moveBoxCursorByButton(const AnimButton* button);
+    // 0x7100be9fa8 (the old / new button states are ButtonBase::State values)
+    void buttonStateChangeCallback(AnimButton* button, ButtonBase::State old_state, ButtonBase::State new_state);
+
     // eui::Screen's non-virtual update helpers (called by the overrides in uking::ui::Screen)
     void updateControl_();
     void updateAnimator_();
 
     /* 0x28 */ ScreenMgr* mMgr;
-    u8 _30[0xc0 - 0x30];
+    u8 _30[0x38 - 0x30];
+    /* 0x38 */ ButtonGroup* mButtonGroup;
+    u8 _40[0xc0 - 0x40];
     /* 0xc0 */ s32 mId;
-    u8 _c4[0x108 - 0xc4];
+    u8 _c4[0x104 - 0xc4];
+    /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
+    u8 _105[0x108 - 0x105];
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 
