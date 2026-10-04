@@ -88,6 +88,24 @@ bool sub_710072E154(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
     return sub_710072F28C(actor, from, target, nullptr, out_pos, a4, true, -1.0f, -1.0f, -1.0f);
 }
 
+void sub_7100738428(ksys::act::Actor* actor, f32 ratio) {
+    if (auto* controller = actor->getCharacterController())
+        sub_71007377D4(controller, ratio);
+    else if (auto* body = actor->getMainBody())
+        sub_71007379FC(body, ratio);
+}
+
+// The `dir` parameter is not used (the original always passes the negated Y axis).
+void sub_7100738488(ksys::act::Actor* actor, f32 ratio, const sead::Vector3f& dir) {
+    if (auto* controller = actor->getCharacterController()) {
+        const sead::Vector3f down = -sead::Vector3f::ey;
+        sub_7100737C0C(controller, ratio, down);
+    } else if (auto* body = actor->getMainBody()) {
+        const sead::Vector3f down = -sead::Vector3f::ey;
+        sub_7100738084(body, ratio, down);
+    }
+}
+
 bool sub_710072F788(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos) {
     return sub_710072F28C(actor, from, to, nullptr, out_pos, -1, true, -1.0f, -1.0f, -1.0f);
