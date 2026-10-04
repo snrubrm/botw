@@ -9,7 +9,8 @@ CreateAndReplaceAssassin::CreateAndReplaceAssassin(const InitArg& arg)
 CreateAndReplaceAssassin::~CreateAndReplaceAssassin() = default;
 
 bool CreateAndReplaceAssassin::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    sub_71000E2DC0();
+    return true;
 }
 
 void CreateAndReplaceAssassin::enter_(ksys::act::ai::InlineParamPack* params) {
