@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gfx/seadColor.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
@@ -183,7 +184,7 @@ public:
     /* 0xb88 */ u32 _b88 = 0;
     /* 0xb8c */ u32 _b8c = 0;
     /* 0xb90 */ u32 _b90 = 0;
-    /* 0xb94 */ u32 _b94 = 0;
+    /* 0xb94 */ sead::Color4u8 _b94{0, 0, 0, 0};
     /* 0xb98 */ u32 _b98 = 0;
     /* 0xb9c */ u32 _b9c = 0;
     /* 0xba0 */ sead::Vector3f _ba0 = sead::Vector3f::ez;

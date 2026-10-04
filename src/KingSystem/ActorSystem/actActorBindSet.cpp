@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActorBindSet.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
@@ -140,6 +142,29 @@ void ActorBindSet::m9(BaseProc* proc) {
             return;
         }
     }
+}
+
+// NON_MATCHING: register allocation (the original keeps the cursor index in the 64-bit register of its argument and
+// the limit / flag on the stack)
+ActorBindSet::Cursor ActorBindSet::bindAll(Actor* actor, Actor* other, Cursor cursor, bool flag) {
+    const s32 num_units = other->getModel()->getUnits().size();
+    const u32 limit = mCount;
+    for (s32 i = 0; i < num_units; ++i) {
+        auto* unit = other->getModel()->getUnits().unsafeAt(i)->mModelUnit;
+        const s32 num_bones = unit->getBoneNum();
+        for (s32 j = 0; j < num_bones; ++j) {
+            auto* entry = &cursor.entries[cursor.index];
+            if (entry->set(actor, unit->getBoneName(j), other, unit->getBoneName(j), &sead::Matrix34f::ident,
+                           flag)) {
+                ++cursor.index;
+                if (u32(cursor.index) == limit)
+                    return cursor;
+            } else {
+                cursor.entries[cursor.index].reset();
+            }
+        }
+    }
+    return cursor;
 }
 
 }  // namespace ksys::act

@@ -141,6 +141,11 @@ public:
     // Read inline by Unk_71006ecc78::sub_71006ED9EC (currently selected ragdoll controller).
     s8 get112() const { return _112; }
     void sub_7100FBD284(const sead::Matrix34f& mtx);
+    // 0x7100fbd324 / 0x7100fbd3ec / 0x7100fbd410 (declared only; lane4 s31, HorseObject::m69): cloth set helpers
+    // (flags 0x18000 of the set, flag 0x8000 and the wind vector of the ClothSet at +0xd8).
+    void sub_7100FBD324(bool a1, bool a2);
+    void sub_7100FBD3EC(bool on);
+    void sub_7100FBD410(const sead::Vector3f* vec);
     // 0x7100fbdfa4 (CSV ActorPhysics::x_5): sets `handler` as the system group handler of every
     // rigid body set, listed body, the ragdoll and the character controller.
     void sub_7100FBDFA4(SystemGroupHandler* handler);

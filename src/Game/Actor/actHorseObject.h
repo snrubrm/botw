@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gfx/seadColor.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorBindSet.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -43,12 +44,14 @@ public:
     Actor* m31() override;
     bool shouldUnload(s32* a1) override;
     void initMaybe() override;
+    void calcMaybe() override;
     void m70() override;
+    bool m81(const ksys::Message& message) override;
 
     /* 0x840 */ ksys::act::BaseProcLink _840;
     /* 0x850 */ Unk_71024ebb00 _850;
-    /* 0x1408 */ u32 _1408 = 0;
-    /* 0x140c */ u32 _140c = 0;
+    /* 0x1408 */ sead::Color4u8 _1408{0, 0, 0, 0};
+    /* 0x140c */ f32 _140c = 0;
     /* 0x1410 */ u8 _1410 = 0;  // bit 0: fade-in pending (cleared by initMaybe); bit 1 / 2: the horse's m139() value is
                               // applied (m70) with actor flag 0x20 reset / set
 };
