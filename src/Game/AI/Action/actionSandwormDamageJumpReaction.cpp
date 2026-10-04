@@ -46,6 +46,11 @@ void SandwormDamageJumpReaction::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// 0x710023fb98
+bool SandwormDamageJumpReaction::isFinished() const {
+    return ksys::act::ai::Action::isFinished() || sub_710023F818();
+}
+
 void SandwormDamageJumpReaction::calc_() {
     if (!isFinished() && sub_710023F818())
         setFinished();
