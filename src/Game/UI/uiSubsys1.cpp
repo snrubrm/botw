@@ -16,6 +16,29 @@ void UiSubsys1::sub_7100968AF8(s32 index) {
     _3830 = 0;
 }
 
+// NON_MATCHING: same loop; the original walks the list with the constant node offset 8, OffsetList reads its runtime offset
+// 0x71009512f8
+UiSubsys1ListEntry* UiSubsys1::findListEntry(void* key) {
+    if (!key)
+        return nullptr;
+    for (auto& entry : _280) {
+        if (entry._0 == key)
+            return &entry;
+    }
+    return nullptr;
+}
+
+// NON_MATCHING: same effect; the original erases the node with the constant offset 8
+// 0x7100951338
+bool UiSubsys1::freeListEntry(UiSubsys1ListEntry* entry) {
+    if (!entry)
+        return false;
+    _280.erase(entry);
+    entry->_0 = _298;
+    _298 = entry;
+    return true;
+}
+
 // 0x7100963c78
 void UiSubsys1::sub_7100963C78(bool a1) {
     if (_378)

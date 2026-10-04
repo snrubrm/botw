@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <container/seadSafeArray.h>
@@ -113,6 +114,13 @@ private:
     static Unk_71025d69f0* sInstance;
 };
 
+// Element of UiSubsys1's list at 0x280 (placeholder: the first word is compared with a key, the list node is at +8; erased
+// entries are chained through the first word on a free list at 0x298).
+struct UiSubsys1ListEntry {
+    void* _0;
+    sead::ListNode _8;
+};
+
 // Placeholder for the object UiSubsys1 keeps at 0x378 (byte 0x50 is set by sub_7100963C78).
 struct UiSubsys1Unk378 {
     u8 _0[0x50];
@@ -132,6 +140,9 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x71009512f8 / 0x7100951338 (CSV uiSubsys1::__auto41 / __auto42; placeholder names)
+    UiSubsys1ListEntry* findListEntry(void* key);
+    bool freeListEntry(UiSubsys1ListEntry* entry);
     // 0x7100963704 / 0x7100968af8 / 0x7100968bd8 (placeholder names; the last is declared only)
     void set128(s32 value);
     void sub_7100968AF8(s32 index);
@@ -185,7 +196,10 @@ private:
 
     u8 _0[0x128];
     /* 0x128 */ s32 _128;
-    u8 _12c[0x378 - 0x12c];
+    u8 _12c[0x280 - 0x12c];
+    /* 0x280 */ sead::OffsetList<UiSubsys1ListEntry> _280;
+    /* 0x298 */ UiSubsys1ListEntry* _298;
+    u8 _2a0[0x378 - 0x2a0];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x658 - 0x380];
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
