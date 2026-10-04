@@ -21,6 +21,40 @@ WeaponBase::WeaponBase(const CreateArg& arg) : Actor(arg) {
 // NON_MATCHING: D1 / D0 and their thunks: the original keeps &_840 and &_880 in callee-saved registers across the link resets (we recompute them)
 WeaponBase::~WeaponBase() = default;
 
+BaseProc::IsSpecialJobTypeResult WeaponBase::isSpecialJobType_(JobType type) {
+    if (_ab0)
+        return IsSpecialJobTypeResult::Yes;
+    return Actor::isSpecialJobType_(type);
+}
+
+bool WeaponBase::canWakeUp_() {
+    if (!Actor::canWakeUp_())
+        return false;
+    auto* parent = sead::DynamicCast<Actor>(_880.getProc(nullptr, nullptr));
+    if (parent && !parent->isCalc())
+        return false;
+    return true;
+}
+
+void WeaponBase::onSleepRequested_(SleepWakeReason reason) {
+    Actor::onSleepRequested_(reason);
+    if (_958.hasProc()) {
+        ActorConstDataAccess accessor;
+        acquireActor(&_958, &accessor);
+        accessor.sleep(reason);
+    }
+}
+
+void WeaponBase::onWakeUpRequested_(SleepWakeReason reason) {
+    Actor::onWakeUpRequested_(reason);
+    m215();
+    if (_958.hasProc()) {
+        ActorConstDataAccess accessor;
+        acquireActor(&_958, &accessor);
+        accessor.wakeUp(reason);
+    }
+}
+
 Actor* WeaponBase::m31() {
     return getParentActor();
 }

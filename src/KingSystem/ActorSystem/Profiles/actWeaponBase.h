@@ -168,6 +168,12 @@ public:
                                          ksys::act::InstParamPack* params, s32 task_lane_id);
 
 protected:
+    // lane4 s30: BaseProc / Actor overrides of the weapon (slots 22, 23, 12, 13).
+    IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
+    bool canWakeUp_() override;
+    void onSleepRequested_(SleepWakeReason reason) override;
+    void onWakeUpRequested_(SleepWakeReason reason) override;
+
     // TODO
     sead::CriticalSection _840;
     BaseProcLink _880;
