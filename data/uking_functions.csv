@@ -75826,7 +75826,7 @@ Address,Quality,Size,Name
 0x0000007100da2118,U,000084,
 0x0000007100da216c,U,000452,
 0x0000007100da2330,U,000148,
-0x0000007100da23c4,U,000068,evt::S6::ctor
+0x0000007100da23c4,U,000068,_ZN4ksys3evt13EventActorSetC1EPNS0_13EventFlowBaseE
 0x0000007100da2408,U,000264,_ZN4ksys3evt13EventActorSet11allocActorsEPNS0_17EventResourceDataEPN4sead4HeapEPNS0_9EventFlowE
 0x0000007100da2510,U,000128,
 0x0000007100da2590,U,000136,
@@ -76093,10 +76093,10 @@ Address,Quality,Size,Name
 0x0000007100db6658,U,000324,evt::EventFlowBase::dtor
 0x0000007100db679c,U,000036,evt::EventFlowBase::dtorDelete
 0x0000007100db67c0,O,000044,_ZNK4ksys3evt13EventFlowBase29isEventTypeNotMovieWithNoPathEv
-0x0000007100db67ec,U,000276,evt::EventFlowBase::initEventAndReport
-0x0000007100db6900,U,000464,evt::getCurrentEventForReport
+0x0000007100db67ec,O,000276,_ZN4ksys3evt13EventFlowBase18initEventAndReportEb
+0x0000007100db6900,U,000464,_ZN4ksys3evt24getCurrentEventForReportEv
 0x0000007100db6ad0,O,000076,_ZN4ksys3evt13EventFlowBase4calcEv
-0x0000007100db6b1c,U,000328,evt::EventFlowBase::acquireEventFlow
+0x0000007100db6b1c,O,000328,_ZN4ksys3evt13EventFlowBase16acquireEventFlowEv
 0x0000007100db6c64,O,000048,_ZNK4ksys3evt13EventFlowBase3x_3Ev
 0x0000007100db6c94,O,000104,_ZN4ksys3evt13EventFlowBase3x_1Ev
 0x0000007100db6cfc,O,000016,_ZN4ksys3evt13EventFlowBase14sub_7100DB6CFCEv
@@ -76227,7 +76227,7 @@ Address,Quality,Size,Name
 0x0000007100dbeb4c,O,000016,_ZN4ksys3evt12EventFlowMgr10loadSimpleERKN4sead14SafeStringBaseIcEES6_
 0x0000007100dbeb5c,U,001260,_ZN4ksys3evt12EventFlowMgr4loadERKN4sead14SafeStringBaseIcEES6_bbPv
 0x0000007100dbf048,O,000056,_ZN4ksys3evt12EventFlowMgr6unloadEPNS0_9EventFlowE
-0x0000007100dbf080,U,000564,EventFlowMgr::acquireEventFlow
+0x0000007100dbf080,U,000564,_ZN4ksys3evt12EventFlowMgr16acquireEventFlowERKN4sead14SafeStringBaseIcEES6_
 0x0000007100dbf2b4,U,000600,
 0x0000007100dbf50c,O,000124,_ZN4ksys3evt12EventFlowMgr14sub_7100DBF50CEv
 0x0000007100dbf588,O,000084,_ZNK4ksys3evt12EventFlowMgr21areAllEventFlowsReadyEv

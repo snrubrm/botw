@@ -76,6 +76,8 @@ public:
     // 0x7100dbeb5c (CSV EventFlowMgr::load; not decompiled)
     EventFlow* load(const sead::SafeString& event_name, const sead::SafeString& entry_point, bool a3, bool a4,
                     void* a5);
+    // 0x7100dbf080 (CSV EventFlowMgr::acquireEventFlow; not decompiled)
+    EventFlow* acquireEventFlow(const sead::SafeString& event_name, const sead::SafeString& entry_point);
     // 0x7100dbe73c (CSV EventFlowMgr::calc)
     void calc(bool a1);
     // 0x7100dbe85c (CSV EventFlowMgr::x_0; not decompiled)

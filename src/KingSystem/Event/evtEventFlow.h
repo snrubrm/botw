@@ -32,6 +32,8 @@ public:
     ActorBase* getActorByName(const sead::SafeString& name, const sead::SafeString& entry) const;
     // 0x7100da2e84 (CSV unnamed): same body as getActorByPointer (non-const copy; placeholder name)
     ActorBase* sub_7100DA2E84(act::BaseProc* proc);
+    // 0x7100da23c4 (CSV evt::S6::ctor)
+    explicit EventActorSet(EventFlowBase* flow);
     // 0x7100da2408 (CSV evt::S6::allocActors; not decompiled)
     void allocActors(EventResourceData* data, sead::Heap* heap, EventFlow* slot);
     // 0x7100da2618 (CSV unnamed; not decompiled)
@@ -68,11 +70,17 @@ public:
 struct EventFlowActorInfo {
     u8 _0[0x18];
     act::BaseProcLink mLink;
+    // A second link (read by EventFlowBase::acquireEventFlow)
+    act::BaseProcLink mLink2;
 };
 
 // The value of EventFlowBase::mType (names from the CSV function evt::EventFlowBase::isEventTypeNotMovieWithNoPath; the
 // other enumerators are guesses).
 SEAD_ENUM(EventFlowType, Flowchart, Timeline, Movie, MovieWithNoPath)
+
+// 0x7100db6900 (CSV evt::getCurrentEventForReport; not decompiled): "<event name>"-style text of the flow that is
+// being processed (sUnk_7102601530 / sUnk_7102601528), for the play reports.
+const char* getCurrentEventForReport();
 
 // 0x7102601528 (placeholder name): the flow whose handle is being updated (set by EventFlowBase::calc / the
 // constructor; read by the event status reporting, CSV evt::getCurrentEventForReport).
@@ -125,6 +133,11 @@ public:
     void sub_7100DB6CFC();
     // 0x7100db6ad0 (CSV evt::EventFlowBase::calc): updates the handle with this flow registered as the current one
     bool calc();
+    // 0x7100db6b1c (CSV evt::EventFlowBase::acquireEventFlow): takes a slot of the event flow manager that already
+    // holds the resource (or initialises the resource), then lets the actor know about the flow
+    void acquireEventFlow();
+    // 0x7100db67ec (CSV evt::EventFlowBase::initEventAndReport)
+    void initEventAndReport(bool a1);
     // 0x7100db7148 / 0x7100db718c (CSV evt::EventFlowBase::setupActors / initActors)
     void setupActors();
     void initActors();
@@ -150,12 +163,9 @@ public:
     bool sub_7100DB8BB8(bool a1);
 
     /* 0x08 */ sead::Heap* mHeap;
-    u8 _10[0x18 - 0x10];   // the flow's data (passed to EventResource::init*) starts here
-    /* 0x18 */ const char* mEventName;
-    u8 _20[0x68 - 0x20];
-    u8 _68[0x70 - 0x68];
-    /* 0x70 */ const char* mEntryPointName;
-    u8 _78[0x100 - 0x78];
+    // The flow's data (passed to EventResource::init*) starts here
+    /* 0x10 */ sead::FixedSafeString<64> mEventName;
+    /* 0x68 */ sead::FixedSafeString<128> mEntryPointName;
     /* 0x100 */ EventFlowHandle* _100;
     /* 0x108 */ EventResource* _108;
     /* 0x110 */ EventActorSet* _110;

@@ -1,7 +1,10 @@
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include <evfl/ResTimeline.h>
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/System/PlayReportMgr.h"
 
 s32 getSceneStatus();
 
@@ -167,6 +170,41 @@ void EventFlowBase::printStatus(sead::BufferedSafeString* out) {
         out->format("%s", _100->m7());
 }
 
+// 0x7100db67ec
+void EventFlowBase::initEventAndReport(bool a1) {
+    _340 &= ~0x40000000008ull;
+    if (a1)
+        _340 |= 0x40000000000ull;
+    _108 = new (mHeap, 8) EventResource(mHeap);
+    _110 = new (mHeap, 8) EventActorSet(this);
+    sUnk_7102601528 = this;
+    if (auto* report_mgr = PlayReportMgr::instance())
+        report_mgr->reportDebug("Event", getCurrentEventForReport());
+    _100->m4();
+    sUnk_7102601528 = nullptr;
+    if (_340 & 0x400000000000ull)
+        act::Awareness::instance()->setEventActive(true);
+    _340 |= 0x20000000000ull;
+}
+
+// 0x7100db6b1c
+void EventFlowBase::acquireEventFlow() {
+    EventFlow* slot = Manager::instance()->getEventFlowMgr()->acquireEventFlow(mEventName, mEntryPointName);
+    if (slot) {
+        delete _108;
+        _108 = slot->mResource;
+        mSlot = slot;
+    } else {
+        m15();
+    }
+    if (x_3()) {
+        auto* actor = sead::DynamicCast<act::Actor>(_118->mLink2.getProc(nullptr, nullptr));
+        if (actor)
+            actor->x_15(this, nullptr);
+    }
+    _340 |= 2;
+}
+
 // 0x7100db8a24
 bool EventFlowBase::isPlaying() {
     return _100->isPlaying();
@@ -190,7 +228,7 @@ void EventFlowFlowchart::m17() {}
 
 // 0x7100dbaca8 (CSV evt::EventFlowFlowchart::init2)
 void EventFlowFlowchart::m15() {
-    _108->initFlowchart(_10, _68);
+    _108->initFlowchart(&mEventName, &mEntryPointName);
 }
 
 // 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished)
@@ -246,7 +284,7 @@ void* EventFlowTimeline::m7() {
 
 // 0x7100dbc90c
 void EventFlowTimeline::m15() {
-    _108->initTimeline(_10);
+    _108->initTimeline(&mEventName);
 }
 
 // 0x7100dbd3ac
