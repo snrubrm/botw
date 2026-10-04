@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
 namespace ksys::act {
 
@@ -247,6 +248,21 @@ bool PlayerOrEnemy::m163(int idx) {
             return false;
     }
     return true;
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+void PlayerOrEnemy::preDelete2_(const PreDeleteArg& arg) {
+    if (_858) {
+        _858->m6();
+        delete _858;
+        _858 = nullptr;
+    }
+    sub_71006DC81C();
+    m158();
+    sub_71006DC864();
 }
 
 }  // namespace ksys::act

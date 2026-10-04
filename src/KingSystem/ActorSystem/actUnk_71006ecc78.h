@@ -33,6 +33,8 @@ public:
 
     // 0x71006ecc78 (declaration only): creates `_8` in `heap` and applies the ragdoll gravity factor.
     bool sub_71006ECC78(sead::Heap* heap);
+    // 0x71006ecd08 (declaration only): removes the ragdoll and releases its controller.
+    void sub_71006ECD08();
     // 0x71006ecd6c (declaration only): sets the contact layer of the actor's rigid bodies.
     void sub_71006ECD6C(bool a1);
 

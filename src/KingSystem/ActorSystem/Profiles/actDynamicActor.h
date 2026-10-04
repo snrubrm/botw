@@ -92,6 +92,9 @@ public:
 
     // 0x71006dd92c: forwards to the object at _868 (a different routine for true / false).
     void sub_71006DD92C(bool enable);
+    // 0x71006dc81c / 0x71006dc864: release the owned actor attack / ragdoll handlers.
+    void sub_71006DC81C();
+    void sub_71006DC864();
     // 0x71006dd908 (declared only): forwards to _868 (Unk_71006ecc78::sub_71006EE128(out)) if it exists.
     void sub_71006DD908(sead::Vector3f* out);
 

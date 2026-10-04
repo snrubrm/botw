@@ -245,3 +245,23 @@ void DynamicActor::sub_71006DD908(sead::Vector3f* out) {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+void DynamicActor::sub_71006DC81C() {
+    if (_850) {
+        _850->free();
+        delete _850;
+        _850 = nullptr;
+    }
+}
+
+void DynamicActor::sub_71006DC864() {
+    if (_868) {
+        _868->sub_71006ECD08();
+        delete _868;
+        _868 = nullptr;
+    }
+}
+
+}  // namespace ksys::act
