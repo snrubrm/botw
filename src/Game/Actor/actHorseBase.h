@@ -24,6 +24,7 @@ class Rail;
 
 namespace ksys::phys {
 class RayCastForRequest;
+class Constraint;
 }  // namespace ksys::phys
 
 namespace uking::act {
@@ -165,7 +166,7 @@ public:
     /* 0xa8c */ u32 _a8c = 0;
     /* 0xa90 */ sead::BitFlag8 _a90;
     /* 0xa98 */ ExtendedEntity _a98;
-    /* 0xb08 */ void* _b08 = nullptr;
+    /* 0xb08 */ ksys::phys::Constraint* _b08 = nullptr;
     /* 0xb10 */ Rideable* _b10 = nullptr;  // getHorseOptionsMaybe (RideableHorse, ctor 0x7100e7c688)
     /* 0xb18 */ Unk_71024eb548* _b18 = nullptr;
     /* 0xb20 */ void* _b20 = nullptr;

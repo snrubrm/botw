@@ -7,12 +7,45 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 
 namespace uking::act {
+
+void HorseBase::onEnterSleep_() {
+    Actor::onEnterSleep_();
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_840, &accessor))
+            accessor.sleep(SleepWakeReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_850, &accessor))
+            accessor.sleep(SleepWakeReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_860, &accessor))
+            accessor.sleep(SleepWakeReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_870, &accessor))
+            accessor.sleep(SleepWakeReason::_0);
+    }
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_880, &accessor))
+            accessor.sleep(SleepWakeReason::_0);
+    }
+    _a98.sub_7100E64E60();
+    if (_b08)
+        _b08->sub_7100F6A074();
+}
 
 HorseBase::HorseBase(const CreateArg& arg) : Actor(arg), _8d0() {
     _1c0 = 2;
