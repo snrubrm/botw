@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
+  seadInstantiations.cpp
   Thread/ActorMessageTransceiver.cpp
   Thread/ActorMessageTransceiver.h
   Thread/Event.cpp
