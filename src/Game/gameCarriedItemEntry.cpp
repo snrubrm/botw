@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 
 // NON_MATCHING: scalar initializer stores are scheduled/coalesced differently.
 Unk_710243be90::Unk_710243be90() = default;
@@ -23,6 +25,38 @@ Unk_710243be90::~Unk_710243be90() {
         delete _48;
         _48 = nullptr;
     }
+}
+
+// NON_MATCHING: sphere parameter initializer stores and the final flags update are scheduled differently.
+void Unk_710243be90::sub_710066074C(ActorContextStuff* context, s32 index, bool for_menu,
+                                  ksys::phys::SystemGroupHandler* handler, sead::Heap* heap) {
+    _118 = context;
+    ksys::phys::SphereParam param;
+    param.name = for_menu ? "InCarryBoxForMenu" : "InCarryBoxForGame";
+    param.center_of_mass.set(0.0f, 0.0f, 0.0f);
+    param.linear_damping = 1.0f;
+    param.angular_damping = 1.0f;
+    param.toi = false;
+    param.contact_layer = ksys::phys::ContactLayer::EntitySmallObject;
+    param.mass = 10.0f;
+    param.inertia.set(0.4f, 0.4f, 0.4f);
+    param.translate.set(0.0f, 0.0f, 0.0f);
+    param.radius = 0.1f;
+    param.common.material = ksys::phys::Material::Grass;
+    param.common.floor_code = ksys::phys::FloorCode::None;
+    param.common.wall_code = ksys::phys::WallCode::None;
+    param.no_hit_ground = true;
+    param.no_hit_water = true;
+    param.system_group_handler = handler;
+    _68 = index;
+    _48 = ksys::phys::SphereRigidBody::make(&param, heap);
+    _40 = new (heap, 8) sead::TListNode<ksys::phys::RigidBody*>(_48);
+    _50 = ksys::phys::ContactPointInfo::make(heap, 1, "CarryBoxItem", 1, 0, 0);
+    _48->setContactPointInfo(_50);
+    if (for_menu)
+        _28 |= 2;
+    else
+        _28 &= ~2;
 }
 
 void Unk_710243be90::sub_7100661988() {

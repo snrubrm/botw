@@ -109,6 +109,31 @@ bool ActorContextStuff::sub_710065F954() const {
     return false;
 }
 
+// NON_MATCHING: the compiler combines the progress clamp and exchanges the saved float registers.
+f32 ActorContextStuff::sub_710065FA28(ksys::act::BaseProc* proc, f32 time) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    const s32 count = _638.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (!_638.at(i)->sub_7100661538(proc))
+            continue;
+        const s32 index = _638.unsafeAt(i)->_68;
+        // 65fac8/65fad4 and65fb30/65fb38 retain the original nested lock/unlock pair.
+        sead::ScopedLock<sead::CriticalSection> entry_lock(&_28);
+        if (index < 0 || index >= _70.size())
+            return 0.0f;
+        const auto& entry = _70[index];
+        if (entry._74 <= 0.0f)
+            return entry._70 > time ? 0.0f : 1.0f;
+        const f32 progress = (time - entry._70) / entry._74;
+        if (progress < 0.0f)
+            return 0.0f;
+        if (progress > 1.0f)
+            return 1.0f;
+        return progress;
+    }
+    return 0.0f;
+}
+
 s32 ActorContextStuff::sub_710065F044() {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     return _638.size();
