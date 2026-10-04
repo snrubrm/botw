@@ -177,6 +177,30 @@ void Blender::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource,
     child2->m17(ctx, a2 & 1, a3 & 1, child2_resource, a5, a6);
 }
 
+// NON_MATCHING: same child-index sign extension difference as m34
+void Blender::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const int first = record->_0;
+    if (record->_1 == 0xff) {
+        Element* child = mChildren[first];
+        const res::ASResource* child_resource = sub_71013031FC(resource, first);
+        child->sub_71011654E0(ctx, a2, a3, child_resource);
+        return;
+    }
+    auto* state = static_cast<State*>(a2);
+    const f32 weight = state->weight;
+    state->weight = weight * (1 - record->_4);
+    Element* child = mChildren[first];
+    const res::ASResource* child_resource = sub_71013031FC(resource, first);
+    child->sub_71011654E0(ctx, a2, a3, child_resource);
+    const s8 second = record->_1;
+    state->weight = weight * record->_4;
+    Element* child2 = mChildren[second];
+    const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+    child2->sub_71011654E0(ctx, a2, a3, child2_resource);
+    state->weight = weight;
+}
+
 // NON_MATCHING: the original folds the sign extension of the child index into the addressing mode in the
 // two-child path (`w2, sxtw #3`) and keeps a separate `sxtw` in the single-child path; ours is the other way round
 void Blender::m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) {

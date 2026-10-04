@@ -563,6 +563,7 @@ public:
     void m11(Context* ctx, State* state, const res::ASResource* resource) override;
     // 0x71013167c8 (declaration only)
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) override;
     void m15(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
