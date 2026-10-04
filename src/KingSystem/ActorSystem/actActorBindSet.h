@@ -52,9 +52,15 @@ public:
     // 0x7101256354: resets every entry.
     void resetAll();
 
-    // 0x71012561e8 (declared only; lane3 s22): binds the bone keys of `entries[index]` between the two actors (`flag` as in
-    // ActorBindEntry::set).
-    void sub_71012561E8(Actor* actor, Actor* other, s32 index, ActorBindEntry* entries, bool flag);
+    // Placeholder name: the position in an entry array (an index and the array); returned by bindAll.
+    struct Cursor {
+        s32 index;
+        ActorBindEntry* entries;
+    };
+    // 0x71012561e8: binds every bone of every unit of `other`'s model (to the bone with the same name in
+    // `actor`'s model) to the entries starting at `cursor` (until the set's `mCount` entries are used);
+    // returns the cursor behind the last bound entry (placeholder name).
+    Cursor bindAll(Actor* actor, Actor* other, Cursor cursor, bool flag);
 
     // inline-only in the original; name is a guess: sead::Buffer::operator()-style bounds-clamped access
     // (an out-of-range index selects entry 0). Inlined in the leave_ of HorseReinsDefaultAction /

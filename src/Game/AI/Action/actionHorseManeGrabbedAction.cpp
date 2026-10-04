@@ -96,7 +96,7 @@ void HorseManeGrabbedAction::calc_() {
     if (horse && horse->getModel()) {
         if (!(_8f8 & 1)) {
             _20.getEntry(0).set(horse, "Root", reins, "", &sead::Matrix34f::ident, true);
-            _20.sub_71012561E8(horse, reins, _20.mCount < 2 ? _20.mCount : 2, _20.mEntries, true);
+            _20.bindAll(horse, reins, {s32(_20.mCount < 2 ? _20.mCount : 2), _20.mEntries}, true);
             _8f8 |= 1;
         }
     } else if (_8f8 & 1) {
