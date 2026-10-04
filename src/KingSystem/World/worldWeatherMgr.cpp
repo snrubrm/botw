@@ -203,4 +203,13 @@ bool WeatherMgr::isSnowing() {
     return false;
 }
 
+bool isGetPlayerStole2() {
+    bool value = false;
+    const auto handle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
+    if (handle == gdt::InvalidHandle)
+        return false;
+    gdt::Manager::instance()->getBool(handle, &value, true);
+    return value;
+}
+
 }  // namespace ksys::world

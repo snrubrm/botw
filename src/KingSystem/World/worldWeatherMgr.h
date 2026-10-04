@@ -98,4 +98,7 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
 
+// 0x71010eb430 (CSV wm::isGetPlayerStole2): the TimeMgr's "plateau done" flag.
+bool isGetPlayerStole2();
+
 }  // namespace ksys::world
