@@ -1129,10 +1129,23 @@ public:
     // 0x7100a0bb34 (CSV ScreenHardMode::x; declaration only)
     void x();
 
-    u8 _3610[0x3704 - 0x3610];
+    /* 0x3610 */ eui::Animator* _3610;
+    /* 0x3618 */ eui::Animator* _3618;
+    /* 0x3620 */ eui::Animator* _3620;
+    u8 _3628[0x3638 - 0x3628];
+    /* 0x3638 */ eui::ButtonBase* _3638;
+    /* 0x3640 */ eui::ButtonBase* _3640;
+    u8 _3648[0x3700 - 0x3648];
+    /* 0x3700 */ s32 _3700;
     /* 0x3704 */ s32 _3704;
-    u8 _3708[0x3718 - 0x3708];
+    u8 _3708[0x3710 - 0x3708];
+    /* 0x3710 */ const ksys::StateBase* _3710;
     /* 0x3718 */ s32 _3718;
+    u8 _371c[0x3721 - 0x371c];
+    /* 0x3721 */ u8 _3721;
+
+    // 0x7100a0bfc8 (CSV unnamed; placeholder name): selects the state's animation `index` (-1: none)
+    void sub_7100A0BFC8(s32 index);
 };
 
 // Screens without members of their own that are modelled yet: only the (trivial, tail-calling)

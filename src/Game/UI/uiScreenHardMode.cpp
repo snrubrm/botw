@@ -2,6 +2,60 @@
 
 namespace uking::ui {
 
+// 0x7100a0c888
+void ScreenHardMode::m170() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0c9fc
+void ScreenHardMode::m178() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0cd44
+void ScreenHardMode::m198() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0ceb0
+void ScreenHardMode::m206() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0d0f4
+void ScreenHardMode::m222() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0d1c0
+void ScreenHardMode::m226() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0d294
+void ScreenHardMode::m230() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(1);
+}
+
+// 0x7100a0d368
+void ScreenHardMode::m234() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(4);
+}
+
+// 0x7100a0d3a0
+void ScreenHardMode::m238() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(0);
+}
+
 // 0x7100a0c6f8 (CSV ScreenHardMode::m159)
 void ScreenHardMode::m159() {
     switch (_3718) {
