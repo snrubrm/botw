@@ -76023,7 +76023,7 @@ Address,Quality,Size,Name
 0x0000007100db11d4,U,000260,EventMgr::getStarterActor
 0x0000007100db12d8,U,000140,EventMgr::getBaseProcLinkForActorOrActiveLink
 0x0000007100db1364,O,000024,_ZNK4ksys3evt7Manager14hasActiveEventEv
-0x0000007100db137c,U,000076,EventMgr::__auto8
+0x0000007100db137c,O,000076,_ZNK4ksys3evt7Manager14sub_7100DB137CEv
 0x0000007100db13c8,U,001492,EventMgr::actorDebugStuff
 0x0000007100db199c,O,000036,_ZN4ksys3evt7Manager28incrementAliveEventFlowCountEv
 0x0000007100db19c0,U,000028,
@@ -76037,7 +76037,7 @@ Address,Quality,Size,Name
 0x0000007100db1c84,U,000140,
 0x0000007100db1d10,U,000564,EventMgr::init
 0x0000007100db1f44,U,000396,EventMgr::checkActiveContextEventName
-0x0000007100db20d0,U,000112,EventMgr::__auto11
+0x0000007100db20d0,W,000112,EventMgr::__auto11
 0x0000007100db2140,U,000236,EventMgr::__auto3
 0x0000007100db222c,O,000076,_ZN4ksys3evt7Manager14sub_7100DB222CEv
 0x0000007100db2278,U,000048,EventMgr::getBaseProcLinkFromActiveEvent

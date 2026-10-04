@@ -22,6 +22,8 @@ public:
 
     u8 _0[0x20];
     /* 0x20 */ DemoInfo mDemoInfo;
+    u8 _pad_after_demo[0x1b8 - 0x20 - sizeof(DemoInfo)];
+    /* 0x1b8 */ void* _1b8;
 };
 
 void* eventFlowAlloc(size_t size, size_t alignment, void* userdata);

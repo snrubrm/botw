@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
+#include "KingSystem/Event/evtEventResource.h"
 
 namespace ksys::evt {
 
@@ -24,6 +25,16 @@ bool Manager::checkEventCancel() const {
     if (!_1d2b8)
         return false;
     return (_1d2b8->getCurrentFlowUnchecked()->_340_bytes[1] >> 5) & 1;
+}
+
+// 0x7100db137c
+void* Manager::sub_7100DB137C() const {
+    if (!_1d2b8)
+        return nullptr;
+    auto* resource = _1d2b8->getCurrentFlowUnchecked()->_108;
+    if (!resource)
+        return nullptr;
+    return resource->_1b8;
 }
 
 // 0x7100db2804
