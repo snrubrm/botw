@@ -265,7 +265,7 @@ public:
 // Placeholder: the state passed down the tree by the update virtuals (m10, ...): `weight` is scaled by the
 // blenders on their way down.
 struct State {
-    s32 _0;
+    f32 _0;
     f32 weight;
     u8 _8[0x30 - 0x8];
     f32 _30;
@@ -390,6 +390,8 @@ public:
     Selector();
 
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
+    // 0x7101319c24 (declaration only)
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
              f32 value) override;
 
@@ -508,6 +510,7 @@ public:
     PreExclusionRandomSelector();
 
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
 };
 
 class SpeedSelector : public FloatSelector {

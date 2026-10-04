@@ -16,6 +16,20 @@ int AnmAsset::m7() {
     return _a >= 0 ? _a : 1;
 }
 
+bool AnmAsset::m10(Context* ctx, State* state, const res::ASResource* resource) {
+    ElementParams* params =
+        ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+    if (!(ctx->_920 & 8)) {
+        params->sub_7101302764(state->_0);
+    } else {
+        const f32 saved = params->_8;
+        params->sub_7101302764(state->_0);
+        params->_8 = saved;
+        params->sub_7101302940(nullptr);
+    }
+    return params->sub_7101302834();
+}
+
 bool AnmAsset::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     const int index = sub_71011653E8(resource);
     ctx->sub_7101258D68(index);

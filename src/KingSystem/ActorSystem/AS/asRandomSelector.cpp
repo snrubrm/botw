@@ -19,6 +19,12 @@ bool PreExclusionRandomSelector::m9(Context* ctx, PlayState* state,
     return result;
 }
 
+void PreExclusionRandomSelector::m12(Context* ctx, State* state, const res::ASResource* resource) {
+    Selector::m12(ctx, state, resource);
+    const int index = sub_71011653E8(resource);
+    ctx->sub_710125AAA0(index, ctx->sub_7101258CD4(index)->_0);
+}
+
 // NON_MATCHING: block layout (the original places the `a2 & 1` block directly after the test)
 f32 RandomSelector::m40(Context* ctx, u32 a2, const res::ASResource* resource) {
     ASList* list = ctx->mList;
