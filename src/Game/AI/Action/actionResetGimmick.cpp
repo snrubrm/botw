@@ -11,8 +11,11 @@ bool ResetGimmick::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: singleton load scheduling and signed argument register widths differ.
 void ResetGimmick::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const s32 option = *mSystemResetOption_d;
+    Resetter::instance()->startReset(0, option == 3 ? 0 : option, mAdditionalResetActor_d,
+                                    *mIsResetCamera_d, option == 3);
 }
 
 void ResetGimmick::leave_() {

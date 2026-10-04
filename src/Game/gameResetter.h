@@ -16,6 +16,9 @@ class Resetter {
     Resetter() = default;
 
 public:
+    // 0x71007d21b0: declaration only.
+    bool startReset(s32 state, s32 option, const sead::SafeString& additional_actor,
+                    bool reset_camera, bool a5);
     // 0x71007d2310: true unless a reset is in progress (_20 is set to 1 by startReset).
     bool finishedReset() const;
 
