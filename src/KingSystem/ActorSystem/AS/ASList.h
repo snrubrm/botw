@@ -146,9 +146,6 @@ public:
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
-    // 0x710115ec98 (declaration only; table lookup of `kind` when `fn` is null; PlayerTreeClimb::enter_ passes
-    // (6, nullptr, 0)).
-    f32 sub_710115EC98(int kind, f32 (Unk2::*fn)(), int a3);
     bool x_7(int slot, int bank, bool (Unk2::*fn)());
     // All 368 callers pass 0 in w2: the second int parameter is unused here (its position before or after
     // `value` cannot be told from the binary; the other helpers take two ints first).

@@ -302,8 +302,6 @@ public:
     void sub_7100D15038(Actor* other) const;
     // 0x7100d137c0: ActorChemicals::sub_7100E382C4(name) (-1 without chemicals).
     s32 sub_7100D137C0(const sead::SafeString& name) const;
-    // 0x7100d142e0: the rider's RideableBase `_18._b` (or `_18._9` when it is 0), 0 without one.
-    u64 sub_7100D142E0() const;
     f32 sub_7100D141B0() const;
     bool sub_7100D115E8(sead::Vector3f* out) const;
     bool sub_7100D117C0(phys::ContactLayer* out) const;
