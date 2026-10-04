@@ -1,7 +1,14 @@
 #include "Game/AI/Action/actionOctarockBalloonBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
+
+// out of line in the original (leave_ calls it): kept out of line here too
+[[gnu::noinline]] void OctarockBalloonBase::sub_71000B8928(f32 value) {
+    if (auto* body = mActor->getMainBody())
+        body->setGravityFactor(value);
+}
 
 OctarockBalloonBase::OctarockBalloonBase(const InitArg& arg) : BalloonBase(arg) {}
 

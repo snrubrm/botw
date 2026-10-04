@@ -12,6 +12,8 @@ public:
     explicit WizzrobeVisibleWalk(const InitArg& arg);
     ~WizzrobeVisibleWalk() override;
     bool isChangeable() const override;
+    bool isFinished() const override;
+    bool isFailed() const override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
@@ -20,6 +22,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33() override;
 
     // static_param at offset 0x148
     const float* mAddTargetDist_s{};

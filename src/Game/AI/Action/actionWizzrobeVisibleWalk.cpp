@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWizzrobeVisibleWalk.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -18,6 +20,38 @@ void WizzrobeVisibleWalk::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WizzrobeVisibleWalk::leave_() {
     LevelFlyMove::leave_();
+}
+
+bool WizzrobeVisibleWalk::isChangeable() const {
+    if (*mIsCheckAnmSeqCancel_s)
+        return sub_71005DD798(mActor, 2, nullptr, 0, 0);
+    return mFlags.isOn(Flag::Changeable);
+}
+
+// NON_MATCHING: same logic; the original ANDs the raw flag byte with `!cancel` (no masking of the Finished bit) and computes the
+// two conditions up front
+bool WizzrobeVisibleWalk::isFinished() const {
+    const bool cancel = *mIsCheckAnmSeqCancel_s;
+    const bool finished = mFlags.isOn(Flag::Finished);
+    if (cancel && finished)
+        return isChangeable();
+    return !cancel & finished;
+}
+
+bool WizzrobeVisibleWalk::isFailed() const {
+    if (!*mIsCheckAnmSeqCancel_s)
+        return mFlags.isOn(Flag::Failed);
+    if (mFlags.isOn(Flag::Failed))
+        return isChangeable();
+    if (*mFailMoveTimer_s > 0.0f && _168.value <= sead::Mathf::epsilon())
+        return isChangeable();
+    return false;
+}
+
+bool WizzrobeVisibleWalk::m33() {
+    if (*mAddTargetDist_s > 0.0f)
+        return false;
+    return LevelFlyMove::m33();
 }
 
 void WizzrobeVisibleWalk::loadParams_() {
