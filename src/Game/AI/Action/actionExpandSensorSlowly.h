@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710005a348 (declared only): the body of leave_ is out of line in the original.
+    void sub_710005A348();
     void calc_() override;
 
     // static_param at offset 0x20

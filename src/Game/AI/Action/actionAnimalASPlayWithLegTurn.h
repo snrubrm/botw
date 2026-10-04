@@ -1,8 +1,12 @@
 #pragma once
 
-#include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "Game/AI/aiUnk_710070E434.h"
 #include "Game/AI/Action/actionForkAnimalASPlay.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace ksys::phys {
+class CharacterController;
+}
 
 namespace uking::action {
 
@@ -20,6 +24,8 @@ public:
 protected:
     // 0x710008dc24 (declared only): out of line in the original.
     void sub_710008DC24();
+    // 0x710008df6c (declared only)
+    void sub_710008DF6C(ksys::phys::CharacterController* controller);
     void calc_() override;
 
     struct Params {
@@ -33,16 +39,12 @@ protected:
         sead::Vector3f* mTargetPos_d{};
     };
     Params mParams;
-    ksys::act::Actor* _80 = mActor;
-    s32 _88 = 0;
-    bool _8c = false;
-    u8 _8d[0x63];
-    ksys::act::BoneHandle _f0;
-    bool _198 = false;
+    Unk_710070e434 _80{mActor};
+    u8 _198 = 0;
     u8 _199[3];
     f32 _19c = 0.0f;
     f32 _1a0 = 0.0f;
-    u8 _1a4[0x24];
+    sead::Matrix33f _1a4;
 };
 KSYS_CHECK_SIZE_NX150(AnimalASPlayWithLegTurn, 0x1c8);
 

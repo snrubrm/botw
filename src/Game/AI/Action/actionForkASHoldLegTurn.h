@@ -1,6 +1,6 @@
 #pragma once
 
-#include "KingSystem/ActorSystem/actBoneHandle.h"
+#include "Game/AI/aiUnk_710070E434.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -35,12 +35,8 @@ protected:
     sead::SafeString mRotBaseBoneName_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
-    ksys::act::Actor* _60 = mActor;
-    s32 _68 = 0;
-    bool _6c = false;
-    u8 _6d[0x63];
-    ksys::act::BoneHandle _d0;
-    u8 _178[0x10];
+    Unk_710070e434 _60{mActor};
+    sead::Vector3f _178;
 };
 KSYS_CHECK_SIZE_NX150(ForkASHoldLegTurn, 0x188);
 

@@ -15,7 +15,7 @@ void ExpandSensor::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ExpandSensor::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_710012A680();
 }
 
 void ExpandSensor::loadParams_() {

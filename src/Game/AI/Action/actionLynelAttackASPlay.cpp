@@ -15,7 +15,7 @@ void LynelAttackASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LynelAttackASPlay::leave_() {
-    ksys::act::ai::Action::leave_();
+    _a8.sub_710070E4C0();
 }
 
 void LynelAttackASPlay::loadParams_() {

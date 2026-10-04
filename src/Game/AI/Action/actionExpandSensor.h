@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710012a680 (declared only): the body of leave_ is out of line in the original.
+    void sub_710012A680();
     void calc_() override;
 
     struct Params {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_710070E434.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -50,6 +51,12 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0xa0
     sead::Vector3f* mTargetPos_d{};
+    Unk_710070e434 _a8{mActor};
+    u8 _1c0 = 0;
+    f32 _1c4 = 0;
+    f32 _1c8 = 0;
+    f32 _1cc = 0;
 };
+KSYS_CHECK_SIZE_NX150(LynelAttackASPlay, 0x1d0);
 
 }  // namespace uking::action
