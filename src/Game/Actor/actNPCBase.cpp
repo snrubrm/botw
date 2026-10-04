@@ -4,7 +4,7 @@ namespace uking::act {
 
 // NON_MATCHING: the original destructor only resets the vtables and calls Actor::~Actor (no member
 // destructors)
-NPCBase::~NPCBase() = default;
+NPCBase::~NPCBase() { ; }  // see GameDataFlagSelector::~GameDataFlagSelector() in upstream (commit 96101229)
 
 bool NPCBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return true;

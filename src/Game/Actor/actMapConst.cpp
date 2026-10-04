@@ -10,7 +10,7 @@ MapConst::MapConst(const CreateArg& arg) : Actor(arg) {
 
 // NON_MATCHING: the original destructors (D1 / D0) keep the vtable pointer stores before the tail call to
 // ~Actor; we drop them (the destructor has no members to destroy).
-MapConst::~MapConst() = default;
+MapConst::~MapConst() { ; }  // see GameDataFlagSelector::~GameDataFlagSelector() in upstream (commit 96101229)
 
 bool MapConst::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return true;
