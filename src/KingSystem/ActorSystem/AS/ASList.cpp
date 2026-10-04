@@ -455,6 +455,20 @@ void ASList::sub_710115F1D8(int slot, int bank, f32 value) {
         entry->sub_7101161CF8(true, value);
 }
 
+bool ASList::sub_710115FBC8(int a1, Unk4* query,
+                            bool (Unk2::*fn)(Unk4*, int, bool), bool a4) {
+    const s32 num_slots = mSlots.size();
+    for (s32 i = 0; i < num_slots; ++i) {
+        auto& entries = mSlots[i]._20;
+        const s32 num_banks = entries.size();
+        for (s32 j = 0; j < num_banks; ++j) {
+            if ((entries[j].*fn)(query, a1, a4))
+                return true;
+        }
+    }
+    return false;
+}
+
 void ASList::x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value) {
     if (auto* entry = getEntry(slot, bank))
         (entry->*fn)(value);
