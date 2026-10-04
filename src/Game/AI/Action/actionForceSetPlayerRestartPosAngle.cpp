@@ -11,6 +11,11 @@ bool ForceSetPlayerRestartPosAngle::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+bool ForceSetPlayerRestartPosAngle::oneShot_() {
+    sub_7100138D68();
+    return true;
+}
+
 void ForceSetPlayerRestartPosAngle::loadParams_() {
     getDynamicParam(&mUniqueName_d, "UniqueName");
     getDynamicParam(&mAnchorName_d, "AnchorName");

@@ -318,3 +318,8 @@ bool sub_7100E816E4(f32 dir_range_rad, f32 radius_limit, f32 dir_random, f32 fwd
                     f32 reject_dist_ratio, ksys::act::Actor* actor, const sead::Vector3f& pos);
 
 }  // namespace uking::act
+
+// 0x7100e7f25c (declaration only): transfers the actor's AS bank to `list`.
+// The original source owner is unknown; keep a global placeholder instead of assigning a class.
+void sub_7100E7F25C(ksys::as::ASList* list, ksys::act::Actor* actor, s32 slot, s32 bank,
+                   s32 other_bank);

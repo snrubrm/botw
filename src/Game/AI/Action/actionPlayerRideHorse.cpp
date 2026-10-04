@@ -3,6 +3,7 @@
 #include <limits>
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actMotorcycle.h"
+#include "Game/Actor/actHorseStrings.h"
 #include "Game/gameRumble.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -22,6 +23,28 @@ namespace uking::action {
 // Original separate eight-byte tables, indexed by the steering flag at +0x105, bit 6.
 static const f32 sUnk_7101e78f24[2] = {-0.34f, -0.15f};
 static const f32 sUnk_7101e78f2c[2] = {1.2f, 0.8f};
+
+// Independently initialized seven-entry mapping table at 0x71025ccf68.
+struct Unk_71025ccf68 {
+    const sead::SafeString* state;
+    const char* name;
+    bool check_other_bank;
+};
+static const Unk_71025ccf68 sUnk_71025ccf68[7] = {
+    {&act::sUnk_7102603180, "Horse_Courbette", false},
+    {&act::sUnk_71026031b0, "Horse_Crash", false},
+    {&act::sUnk_7102603370[3], "Horse_Jump_Gear_3_S", true},
+    {&act::sUnk_71026033c0[3], "Horse_Jump_Gear_3", true},
+    {&act::sUnk_7102603370[4], "Horse_Jump_Gear_Top_S", true},
+    {&act::sUnk_71026033c0[4], "Horse_Jump_Gear_Top", true},
+    {&act::sUnk_7102603270, "Horse_Move_Slip", false},
+};
+// Two separate five-entry objects, independently destructed by the original initializer.
+static sead::SafeArray<sead::SafeString, 5> sUnk_71025cd168 = {{
+    "HorseWait", "HorseRun_Gear1", "HorseRun_Gear2", "HorseRun_Gear3", "HorseRun_Gear4"}};
+static sead::SafeArray<sead::SafeString, 5> sUnk_71025cd1b8 = {{
+    "Horse_Move_Gear_0_Go", "Horse_Move_Gear_1_Go", "Horse_Move_Gear_2_Go",
+    "Horse_Move_Gear_3_Go", "Horse_Move_Gear_Top_Go"}};
 
 PlayerRideHorse::PlayerRideHorse(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
@@ -298,6 +321,107 @@ void PlayerRideHorse::sub_710080A224() {
         else if ((accelerating && steering_started) ||
                  (play_landing && (front_landing == 1 || rear_landing == 1)))
             rumble->sub_7100897FE4(0, 1);
+    }
+}
+
+// NON_MATCHING: natural string comparisons, separate static arrays and slot branches differ.
+void PlayerRideHorse::sub_710080B670(ksys::as::ASList* list, act::HorseRideInfo* info,
+                                   ksys::act::Actor* actor, act::Rideable* rideable, s32 gear,
+                                   bool* soothe, bool* shift, bool a9, bool a10, bool a11,
+                                   bool a12, bool a13) {
+    sead::SafeString name;
+    const s32 bank = rideable->_18._9 ? rideable->_18._2e :
+                                         rideable->_18.sub_7100E76CEC();
+    const s8 other_bank = (rideable->_18._2c & 0xff) == 2 ?
+                             3 - rideable->_18._2e : -1;
+    const auto& current = actor->getASList()->x_1(0, bank);
+    const auto& other = other_bank >= 0 ? actor->getASList()->x_1(0, other_bank) :
+                                         sead::SafeString::cEmptyString;
+    s32 copy_bank = -1;
+    bool matched = false;
+    for (const auto& entry : sUnk_71025ccf68) {
+        if (current != *entry.state && (!entry.check_other_bank || other != *entry.state))
+            continue;
+        name = entry.name;
+        copy_bank = current == *entry.state ? bank : other_bank;
+        list->x_2(66, 19, (rideable->_18._52 >> 8) & 1, false);
+        matched = true;
+        break;
+    }
+    if (name.isEmpty()) {
+        if (a9 || !a10) {
+            if (!a9 || list->x_4(0, 0)) {
+                if (gear == 0 && a11) {
+                    name = "HorseRun_Back";
+                } else {
+                    name = sUnk_71025cd168[gear];
+                    ksys::as::ASList::Unk4 query;
+                    if (gear == 0 && actor->getASList()->x(
+                            46, &query, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true)) {
+                        list->goLimpFromHeadShotMaybe(47, query.name, 0);
+                        list->x_6(2, 0, query._14);
+                    } else {
+                        list->goLimpFromHeadShotMaybe(47, "Wait", 0);
+                    }
+                    copy_bank = bank;
+                }
+            }
+        } else {
+            const auto& state = actor->getASList()->x_1(0, 0);
+            if (state == act::sUnk_7102603160 || state == act::sUnk_7102603170)
+                name = "Horse_Move_Shift_Go";
+            else
+                name = sUnk_71025cd1b8[gear];
+            *shift = true;
+        }
+    }
+    const bool has_bank = list->x_7(1, 1, &ksys::as::ASList::Unk2::sub_710002E82C);
+    a13 = has_bank || a13;
+    const s32 slots = has_bank || (a12 && !a13) ? 1 : 2;
+    for (s32 slot = 0; slot < slots; ++slot) {
+        const sead::SafeString current_name = list->x_1(slot, 0);
+        if (current_name == "Horse_Move_Soothe") {
+            if (!a13 && !list->sub_710115F0BC(slot, 0, 0.0f))
+                continue;
+            if (slot != 0 && name.isEmpty()) {
+                const auto& source = list->x_1(0, 0);
+                const f32 frame = list->sub_710115F3F0(0, 0, false);
+                list->startAnimationMaybe(-1.0f, frame, source, slot, 0, true);
+                if (list->x_7(slot, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
+                    list->sub_710115F2EC(slot, 0, 0.0f);
+            }
+        }
+        if (!name.isEmpty() && name != current_name) {
+            if (name == "Horse_Courbette")
+                list->sub_710115EA64(rideable->_18._2f);
+            list->startAnimationMaybe(-1.0f, -1.0f, name.cstr(), slot, 0, true);
+            if (list->x_7(slot, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
+                list->sub_710115F2EC(slot, 0, 0.0f);
+        }
+        if (copy_bank >= 0)
+            sub_7100E7F25C(list, actor, slot, 0, copy_bank);
+    }
+    if (!has_bank) {
+        if (!a13 && a12 && list->x_1(1, 0) != "Horse_Move_Soothe") {
+            list->startAnimationMaybe(-1.0f, -1.0f, "Horse_Move_Soothe", 1, 0, true);
+            *soothe = true;
+        }
+    } else if (a13 && list->x_1(1, 0) == "Horse_Move_Soothe") {
+        const auto& source = list->x_1(0, 0);
+        const f32 frame = list->sub_710115F3F0(0, 0, false);
+        list->startAnimationMaybe(-1.0f, frame, source, 1, 0, true);
+        if (list->x_7(1, 1, &ksys::as::ASList::Unk2::sub_710002E82C))
+            list->sub_710115F2EC(1, 0, 0.0f);
+    }
+    if (info) {
+        if (matched)
+            info->_30 |= 4;
+        else
+            info->_30 &= ~4;
+        if (_104 == 1)
+            info->_30 &= ~8;
+        else
+            info->_30 |= 8;
     }
 }
 

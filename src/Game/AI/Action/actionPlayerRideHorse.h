@@ -8,6 +8,10 @@ class ASList;
 namespace ksys::act {
 class PlayerLink;
 }
+namespace uking::act {
+class HorseRideInfo;
+class Rideable;
+}
 
 namespace uking::action {
 
@@ -42,6 +46,10 @@ protected:
     void sub_710080A224();
     Unk_710080ae8c sub_710080AE8C(ksys::act::PlayerLink* player,
                                 const sead::Vector2f& input, s32 gear);
+    void sub_710080B670(ksys::as::ASList* list, act::HorseRideInfo* info,
+                       ksys::act::Actor* actor, act::Rideable* rideable, s32 gear,
+                       bool* soothe, bool* shift, bool a9, bool a10, bool a11,
+                       bool a12, bool a13);
     void sub_710080B208(ksys::as::ASList* list, f32 rate);
 
     // static_param at offset 0x20
