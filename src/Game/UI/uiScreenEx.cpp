@@ -243,6 +243,22 @@ void ScreenEx::doButtonCancelEnd_(eui::AnimButton* button) {
         mButtonEvents->push(button, 8);
 }
 
+// 0x7100a487a8
+void ScreenEx::m112(sead::Heap* heap) {
+    s32 num_buttons = 0;
+    for (eui::ListNode* node = mButtonGroup->mButtons.next; node != &mButtonGroup->mButtons; node = node->next)
+        ++num_buttons;
+    if (num_buttons <= 0)
+        return;
+
+    auto* queue = new (heap, 8) ButtonEventQueue;
+    if (queue) {
+        queue->init(heap, num_buttons * 2);
+        mControls.linkNext(&queue->_8);
+        mButtonEvents = queue;
+    }
+}
+
 // 0x7100a49704
 eui::UIController* ScreenEx::doCreateUIController_(sead::Heap* heap) {
     auto* controller = Screen::doCreateUIController_(heap);

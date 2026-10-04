@@ -266,7 +266,7 @@ s32 Screen::m111() {
 }
 
 // 0x7100a828fc (CSV Screen::m112_null)
-void Screen::m112() {}
+void Screen::m112(sead::Heap*) {}
 
 // 0x7100a82900 (CSV Screen::m113_null)
 void Screen::m113() {}

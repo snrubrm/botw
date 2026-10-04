@@ -9,6 +9,7 @@
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
+#include "Game/UI/uiButtonEventQueue.h"
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -257,7 +258,7 @@ public:
     virtual void m109(eui::AnimButton*);
     virtual void m110();
     virtual s32 m111();
-    virtual void m112();
+    virtual void m112(sead::Heap* heap);
     virtual void m113();
     virtual void m114();
     virtual void m115();
@@ -311,25 +312,6 @@ public:
     void sub_7100939F4C(eui::AnimButton* button);
 };
 
-// ScreenEx::mButtonEvents (0x368): a pool-backed queue of (button, event kind) records (0x7100932ea4 appends a
-// record; the kinds 1-8 are pushed by ScreenEx::doButton{OnStart, OnEnd, ..., CancelEnd}_). Layout: the first 0x28
-// bytes are not modelled.
-class ButtonEventQueue {
-public:
-    struct Record {
-        eui::AnimButton* button = nullptr;
-        s32 kind = 0;
-    };
-
-    // 0x7100932ea4
-    void push(eui::AnimButton* button, s32 kind);
-
-private:
-    u8 _0[0x28];
-    sead::PtrArray<Record> mRecords;
-    sead::FreeList mFreeRecords;
-};
-
 class ScreenEx : public Screen {
 public:
     ScreenEx();
@@ -346,6 +328,7 @@ public:
     void doButtonCancelStart_(eui::AnimButton* button) override;
     void doButtonCancelEnd_(eui::AnimButton* button) override;
 
+    void m112(sead::Heap* heap) override;
     eui::UIController* doCreateUIController_(sead::Heap* heap) override;
     void registerController_() override;
 
