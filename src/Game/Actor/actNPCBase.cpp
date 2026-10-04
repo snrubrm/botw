@@ -10,6 +10,10 @@
 
 namespace uking::act {
 
+NPCBase::NPCBase(const CreateArg& arg) : Actor(arg) {
+    _1c0 = 2;
+}
+
 // NON_MATCHING: the original destructor only resets the vtables and calls Actor::~Actor (no member
 // destructors)
 NPCBase::~NPCBase() { ; }  // see GameDataFlagSelector::~GameDataFlagSelector() in upstream (commit 96101229)

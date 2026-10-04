@@ -79884,7 +79884,7 @@ Address,Quality,Size,Name
 0x0000007100e93660,O,000204,_ZNK5uking8behavior14TerrorBehavior27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100e9372c,O,000092,_ZNK5uking8behavior14TerrorBehavior18getRuntimeTypeInfoEv
 0x0000007100e93788,U,000068,DemoNPC::construct
-0x0000007100e937cc,U,000524,NPCBase::ctor
+0x0000007100e937cc,O,000524,_ZN5uking3act7NPCBaseC2ERKN4ksys3act8BaseProc9CreateArgE
 0x0000007100e939d8,O,000032,_ZN5uking3act7NPCBaseD1Ev
 0x0000007100e939f8,U,000040,
 0x0000007100e93a20,U,000040,
