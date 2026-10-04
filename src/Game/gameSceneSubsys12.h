@@ -2,6 +2,10 @@
 
 #include <basis/seadTypes.h>
 #include <thread/seadAtomic.h>
+#include <thread/seadCriticalSection.h>
+#include <math/seadMatrix.h>
+#include "Game/gameActorContextStuff.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 // Placeholder declaration (lane3 s23; name from the CSV: createInstance 0x71006623f0, ctor 0x7100662478, ~70 unnamed
@@ -12,7 +16,37 @@ class GameSceneSubsys12 {
 public:
     static GameSceneSubsys12* instance() { return sInstance; }
 
-    u8 _0[0xa78];
+    // 0x7100662aec / 0x7100662b4c
+    void init(sead::Heap* heap);
+    bool x() const;
+    // 0x710066358c / 0x71006652c8
+    s32 sub_710066358C();
+    bool sub_71006652C8() const;
+    // 0x7100664d24 / 0x7100664d64
+    s32 sub_7100664D24();
+    s32 sub_7100664D64();
+    // 0x7100664f00 / 0x7100664f30 / 0x7100664f3c / 0x7100664f64
+    void sub_7100664F00(const sead::Matrix34f& matrix);
+    bool sub_7100664F30() const;
+    void sub_7100664F3C(const sead::Matrix34f& matrix);
+    void sub_7100664F64(const sead::Matrix34f& matrix);
+    // 0x7100665304
+    void sub_7100665304();
+
+    u8 _0[0x38];
+    sead::CriticalSection _38;
+    u8 _78[0xd0 - 0x78];
+    s32 _d0;
+    s32 _d4;
+    sead::Matrix34f _d8;
+    sead::Matrix34f _108;
+    sead::Matrix34f _138;
+    u8 _168[0x270 - 0x168];
+    f32 _270;
+    u8 _274[0x300 - 0x274];
+    ksys::act::BaseProcLink _300;
+    ActorContextStuff* _310;
+    ActorContextStuff _318;
     /* 0xa78 */ sead::Atomic<u32> _a78;
     u8 _a7c[0xc00 - 0xa7c];
 

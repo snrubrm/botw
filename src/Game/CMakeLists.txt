@@ -48,6 +48,8 @@ target_sources(uking PRIVATE
   gamePlayReport.cpp
   gamePlayReport.h
   gameScene.cpp
+  gameActorContextStuff.cpp
+  gameSceneSubsys12.cpp
   gameSceneSubsys14.cpp
   gameSceneSubsysMisc.cpp
   gameSceneSubsysMisc.h
