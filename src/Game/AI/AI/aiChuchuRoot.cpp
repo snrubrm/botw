@@ -1,6 +1,15 @@
 #include "Game/AI/AI/aiChuchuRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71006F5B14.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectChemicalType.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -15,10 +24,53 @@ namespace uking::ai {
 
 ChuchuRoot::ChuchuRoot(const InitArg& arg) : EnemyRoot(arg) {}
 
-ChuchuRoot::~ChuchuRoot() = default;
+ChuchuRoot::~ChuchuRoot() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100D3CFEC(mChemicalFieldKey_s);
+    if (_248)
+        dmg::DamageInfoMgr::instance()->getClothStiffnessMgr().sub_7100665A84(mActor);
+}
 
+// NON_MATCHING: only the instruction order before the last call (the original computes the ClothStiffnessMgr
+// address before loading the two stiffness values)
 bool ChuchuRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    auto* chemical_type = mActor->getParam()->getRes().mGParamList->getChemicalType();
+    const sead::SafeString& emit_actor =
+        chemical_type ? chemical_type->mEmitChemicalActor.ref() : sead::SafeString::cEmptyString;
+    if (enemy && !emit_actor.isEmpty()) {
+        if (!enemy->sub_7100D3CED8(mChemicalFieldKey_s, heap))
+            return false;
+
+        ksys::act::InstParamPack pack;
+        pack->addMatrix(enemy->getMtx());
+        ksys::act::ActorCreator::addScale(pack, 10.0f);
+        pack->add(static_cast<f32>(*mChemicalScaleTime_s), "ScaleTime");
+        pack->add(true, "IsReuseActor");
+        auto* proc = ksys::act::ActorCreator::instance()->createActor(
+            emit_actor.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &pack, true,
+            false);
+        if (!proc) {
+            if (!sub_71005D6D10())
+                return false;
+        } else {
+            if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(proc)) {
+                bullet->sub_710000497C(mActor);
+                bullet->sub_71000048BC(mActor);
+                bullet->_bd0._0.acquire(mActor, false);
+            }
+            enemy->sub_7100D3D108(mChemicalFieldKey_s, proc);
+        }
+    }
+
+    auto* actor = mActor;
+    sub_71006F5D3C(sub_71006F5694(actor), actor);
+    _248 = dmg::DamageInfoMgr::instance()->getClothStiffnessMgr().x(*mClothStiffness30_s,
+                                                                   *mClothStiffness20_s, mActor);
+    return true;
 }
 
 void ChuchuRoot::enter_(ksys::act::ai::InlineParamPack* params) {

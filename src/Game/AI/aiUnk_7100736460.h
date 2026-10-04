@@ -22,6 +22,9 @@ bool sub_7100736414(ksys::act::BaseProcLink* link);
 /// step 2 flag is set and step 3 is not.
 namespace dlc {
 bool isPlayingOneHitObliteratorQuest();
+/// 0x71006889d0 (CSV name; declared only; lane1 s28): the "Ballad of the Heroes" quest has been escaped (the
+/// parameter is probably a `require the player on the ground` flag).
+int hasEscapedOneHitObliteratorQuest(bool a1);
 }
 
 /// 0x710073681c (CSV name): whether both the actor and the link have the AnimalTypeWolf tag, or both have the

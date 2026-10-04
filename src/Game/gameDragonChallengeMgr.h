@@ -30,6 +30,8 @@ class DragonChallengeMgr {
 public:
     // 0x71006f9720 (declared only): walks a global list and stores a position in `_88`.
     void sub_71006F9720();
+    // 0x71006f99e8: increments the reference count. Returns the previous count (lane1, session 28).
+    s32 incrementRef();
     // 0x71006f9a00: decrements the reference count; fades the three xlink handles when it drops to 0. Returns the
     // previous count.
     s32 decrementRef();
@@ -53,6 +55,8 @@ public:
     bool isTimerStopped();
     // 0x71006fa138: starts the timer with `value`.
     void startTimer(f32 value);
+    // 0x71006f9938: sets the timer's rate to 0 (lane1, session 28; name is a guess).
+    void resetTimerRate();
     // 0x71006fa180: updates the timer; true once its value is at most epsilon.
     bool updateTimer();
 

@@ -170,6 +170,16 @@ KSYS_CHECK_SIZE_NX150(Unk_71002eda38, 0x48);
 struct Unk_71002ef75c {
     // 0x71002ef75c (declaration only)
     void sub_71002EF75C();
+
+    // 0x71002ef850 (declared only): `_14 -= (f32)max; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
+    void sub_71002EF850();
+    // 0x71002ef74c (declared only): the maximum charge: `(f32)(s32)_8->_2a8`.
+    f32 sub_71002EF74C();
+
+    // Layout from ChemicalWeaponRoot::calc_ / sub_7100348B18 (lane1 s28); everything else is unknown.
+    /* 0x00 */ u8 _0[0x14];
+    /* 0x14 */ f32 _14;
+    /* 0x18 */ u8 _18;  // flags (bit 3 starts the "ChemSwordChargeLoop" xlink)
 };
 
 struct Unk_71002edaec {

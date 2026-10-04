@@ -21,6 +21,15 @@ DragonChallengeMgr::DragonChallengeMgr() {
 // NON_MATCHING: the original reads mRefCount (a discarded volatile load) first
 DragonChallengeMgr::~DragonChallengeMgr() = default;
 
+s32 DragonChallengeMgr::incrementRef() {
+    return mRefCount.fetchAdd(1);
+}
+
+void DragonChallengeMgr::resetTimerRate() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mTimer.rate = 0;
+}
+
 s32 DragonChallengeMgr::decrementRef() {
     const s32 previous = mRefCount.fetchSub(1);
     if (previous == 1) {

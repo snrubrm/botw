@@ -416,6 +416,7 @@ target_sources(uking PRIVATE
   aiDragonElecRoot.cpp
   aiDragonElecRoot.h
   aiDragonFireRoot.cpp
+  aiDragonFireRootInit.cpp
   aiDragonFireRoot.h
   aiDragonIceRoot.cpp
   aiDragonIceRoot.h

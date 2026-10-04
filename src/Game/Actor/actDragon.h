@@ -6,6 +6,10 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actEnemy.h"
 
+namespace ksys::map {
+class Object;
+}
+
 namespace uking::act {
 
 // Name from the CSV (Dragon::*): the three dragons. vtable 0x7102356b28 (181 slots, no new
@@ -48,6 +52,9 @@ public:
 
     // Placeholder names (non-virtual functions called by the Dragon AI).
     bool sub_710000FDFC() const;
+    // 0x710000c440: the dragon's map object: Actor::mMapObject when _1f70 bit 28 is set, otherwise a lookup
+    // by dragon kind (_1e0c) (declared only; DragonFireRoot::sub_71003687B4).
+    ksys::map::Object* sub_710000C440() const;
     bool getGameDataFlagGrudgeAlive(int idx);  // CSV name
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)

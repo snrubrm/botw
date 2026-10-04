@@ -42,6 +42,8 @@ public:
     // Written inline by ForceMasterSwordFakeMode / ResetMasterSwordForceState (name is a guess).
     void setMasterSwordDisableTrueForm(bool value) { mMasterSwordDisableTrueForm = value; }
     bool isOneHitObliteratorActive() const { return mOneHitObliteratorActive; }
+    // Written inline by DeadlyBlowWeaponRoot::sub_710035C57C (lane1 s28; name is a guess).
+    void setOneHitObliteratorActive(bool value) { mOneHitObliteratorActive = value; }
 
     // lane1 s21: the nearest-enemies list / attack permission limiter (EnemyBattle and others).
     Unk_7100671794& get4f8() { return _4f8; }
