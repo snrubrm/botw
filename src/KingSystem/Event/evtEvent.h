@@ -1,29 +1,10 @@
 #pragma once
 
-#include <basis/seadTypes.h>
-#include <prim/seadSafeString.h>
-#include <prim/seadTypedBitFlag.h>
+#include "KingSystem/Event/evtEventFlow.h"
 
 namespace ksys::evt {
 
-class OrderParam;
-// TODO
-class Event {
-public:
-    Event();
-    virtual ~Event();
-
-    enum class Flag : u64 {
-        _100000000 = 0x100000000,  // read by PlayerEventStartWait::leave_
-        _80000000000 = 0x80000000000,
-    };
-
-    bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
-
-private:
-    u8 TEMP_0[0x338];
-    sead::TypedBitFlag<Flag> mFlags;
-};
-// sizeof() = 0x620
+// `Event` is the name used by the first decompiled users; it is the same object as EventFlow.
+using Event = EventFlow;
 
 }  // namespace ksys::evt

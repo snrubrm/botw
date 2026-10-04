@@ -10,6 +10,13 @@ namespace ksys::evt {
 
 class EventResource;
 
+// The per-event actor set (CSV evt::S6; `PtrArray<ActorBase>` at +8, state at +0x18) at EventFlow + 0x110.
+class EventActorSet {
+public:
+    u8 _0[0x30];
+    /* 0x30 */ bool mNoDeleteCurrentActor;
+};
+
 // Unknown object at EventFlow + 0x100 (polymorphic; slot 10 = isPlaying-like query).
 class EventFlowHandle {
 public:
@@ -40,6 +47,12 @@ public:
     virtual ~EventFlow();
     SEAD_RTTI_BASE(EventFlow)
 
+    enum class Flag : u64 {
+        _100000000 = 0x100000000,  // read by PlayerEventStartWait::leave_
+        _80000000000 = 0x80000000000,
+    };
+    bool hasFlag(Flag flag) const { return (_340 & u64(flag)) != 0; }
+
     virtual void m4();  // empty
     // slot 5
     virtual f32 getFrameCount() const = 0;
@@ -68,13 +81,19 @@ public:
     void exitEventMaybe();
     // 0x7100db8a24 (CSV evt::EventFlowBase::isPlaying)
     bool isPlaying();
+    // 0x7100db6cfc (CSV unnamed; called by Context::updateEventsStatus)
+    void sub_7100DB6CFC();
 
     u8 _8[0x10 - 0x8];
-    u8 _10[0x68 - 0x10];   // the flow's data (passed to EventResource::init*)
-    u8 _68[0x100 - 0x68];
+    u8 _10[0x18 - 0x10];   // the flow's data (passed to EventResource::init*) starts here
+    /* 0x18 */ const char* mEventName;
+    u8 _20[0x68 - 0x20];
+    u8 _68[0x70 - 0x68];
+    /* 0x70 */ const char* mEntryPointName;
+    u8 _78[0x100 - 0x78];
     /* 0x100 */ EventFlowHandle* _100;
     /* 0x108 */ EventResource* _108;
-    /* 0x110 */ void* _110;
+    /* 0x110 */ EventActorSet* _110;
     /* 0x118 */ EventFlowActorInfo* _118;
     u8 _120[0x340 - 0x120];
     union {

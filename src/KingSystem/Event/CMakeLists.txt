@@ -14,6 +14,8 @@ target_sources(uking PRIVATE
   evtActorManager.h
   evtBaseProcLinkForEvent.cpp
   evtBaseProcLinkForEvent.h
+  evtContext.cpp
+  evtContext.h
   evtDemoInfo.cpp
   evtDemoInfo.h
   evtEvent.cpp

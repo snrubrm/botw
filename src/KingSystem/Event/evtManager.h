@@ -14,7 +14,7 @@ class Actor;
 
 namespace ksys::evt {
 
-class Event;
+class Context;
 class EventFlow;
 class EventMgrStruct1;
 struct CallArg;
@@ -39,7 +39,11 @@ class Manager {
 public:
     void init(sead::Heap* heap);
 
-    Event* getActiveEvent() const;
+    EventFlow* getActiveEvent() const;
+    // 0x7100db222c (CSV EventMgr::__auto7): same body as getActiveEvent() const (placeholder name)
+    EventFlow* sub_7100DB222C();
+    // 0x7100db2440 (CSV EventMgr::checkEventCancel): flag bit 0x2000 of the active flow
+    bool checkEventCancel() const;
     bool hasActiveEvent() const;
 
     // 0x7100db199c (CSV EventMgr::incrementAliveEventFlowCount): saturates at 256.
@@ -100,7 +104,7 @@ private:
 
 public:
     // Tested by uking::action::FireWood::calc_ (null: no event is running?).
-    void* _1d2b8;
+    Context* _1d2b8;
 
 private:
     u8 pad_1d2c0[0x1d2d0 - 0x1d2c0];

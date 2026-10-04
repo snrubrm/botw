@@ -1,8 +1,36 @@
 #include "KingSystem/Event/evtManager.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 
 namespace ksys::evt {
+
+// 0x7100db28c4
+EventFlow* Manager::getActiveEvent() const {
+    if (!_1d2b8)
+        return nullptr;
+    return _1d2b8->getCurrentFlow();
+}
+
+// 0x7100db222c
+EventFlow* Manager::sub_7100DB222C() {
+    if (!_1d2b8)
+        return nullptr;
+    return _1d2b8->getCurrentFlow();
+}
+
+// 0x7100db2440
+bool Manager::checkEventCancel() const {
+    if (!_1d2b8)
+        return false;
+    return (_1d2b8->getCurrentFlowUnchecked()->_340_bytes[1] >> 5) & 1;
+}
+
+// 0x7100db2340
+void Manager::setNoDeleteCurrentActor(bool no_delete) {
+    if (_1d2b8)
+        _1d2b8->setNoDeleteCurrentActor(no_delete);
+}
 
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
