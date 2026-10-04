@@ -1,6 +1,29 @@
 #include "KingSystem/Event/evtActionContext.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace ksys::evt {
+
+// 0x7100da5360
+void ActionContext::x_3(act::BaseProcLink* link) {
+    if (!link->hasProc())
+        return;
+    act::ActorConstDataAccess accessor;
+    act::acquireActor(link, &accessor);
+    mStatus2 = 0;
+    Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(), MessageType(0x800006), this);
+}
+
+// 0x7100da53e4
+void ActionContext::sub_7100DA53E4(act::BaseProcLink* link) {
+    if (!link->hasProc())
+        return;
+    act::ActorConstDataAccess accessor;
+    act::acquireActor(link, &accessor);
+    mStatus2 = 1;
+    Manager::instance()->sub_7100DB0FB0(*accessor.getMessageTransceiverId(), MessageType(0x800008), this);
+}
 
 // 0x7100da546c
 void ActionContext::setStatus2(const evfl::ActionArg&) {

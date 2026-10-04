@@ -15,6 +15,8 @@ class Actor;
 
 namespace ksys {
 class Message;
+struct MesTransceiverId;
+enum MessageType : u32;
 }
 
 namespace ksys::evt {
@@ -101,6 +103,9 @@ public:
     // 0x7100db0ea0 (CSV EventMgr::callEvent_0): message handler: calls the event described by the
     // BaseProcLinkForEvent in the user data of the message types 0x800001 / 0x800002
     bool sub_7100DB0EA0(const Message* message);
+    // 0x7100db0fb0 (CSV EventMgr::__auto14; declared only): sends `type` with `user_data` to `dest` through the
+    // manager's message transceiver (at +0x38; on the processing thread if called from it)
+    bool sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data);
     // 0x7100db235c (CSV EventMgr::getEventEntryPointName): copies the active context's string at 0xb8 to `out`
     bool getEventEntryPointName(sead::BufferedSafeString* out) const;
     // 0x7100db11d4 (CSV EventMgr::getStarterActor): the actor behind getBaseProcLinkForActorOrActiveLink(proc)

@@ -36,10 +36,14 @@ public:
     // 0x7100da5680 (CSV x_1)
     void x_1();
     // 0x7100da5360 (CSV x_3): declaration only (called with the actor's BaseProcLink)
-    void x_3(const act::BaseProcLink* link);
+    void x_3(act::BaseProcLink* link);
+    // 0x7100da53e4 (CSV unnamed; placeholder name): like x_3 with status 1 / message 0x800008
+    void sub_7100DA53E4(act::BaseProcLink* link);
 
     /* 0x0 */ s32 mStatus;
-    u8 _4[0xa50 - 4];
+    u8 _4[0x4c - 4];
+    /* 0x4c */ s32 mStatus2;
+    u8 _50[0xa50 - 0x50];
     /* 0xa50 */ s32 _a50;
     u8 _a54[0xaf4 - 0xa54];
     /* 0xaf4 */ u16 _af4;
