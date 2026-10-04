@@ -28,6 +28,8 @@ public:
     EventFlow* loadSimple(const sead::SafeString& event_name, const sead::SafeString& entry_point);
     // 0x7100dbf048
     void unload(EventFlow* flow);
+    // 0x7100dc0024 (CSV EventFlowMgr::loadEventResourceForAllEventFlows; not decompiled)
+    bool loadEventResourceForAllEventFlows(bool a1);
 };
 
 // TODO
@@ -78,6 +80,10 @@ public:
     void sub_7100DB1158(int idx);
     f32 sub_7100DB1174(int idx) const;
 
+    // 0x7100db2804 / 0x7100db2884 (CSV EventMgr::__auto0 / __auto13; placeholder names)
+    bool sub_7100DB2804(bool a1);
+    void sub_7100DB2884();
+
     // 0x7100db19dc (CSV EventMgr::__auto4, placeholder name; lane4 s23): `_1d2c0 != nullptr ||
     // _1d170 < 1`, i.e. no event is playing / being set up (GanonBeast "rain" update).
     bool sub_7100DB19DC() const;
@@ -100,7 +106,8 @@ private:
     sead::Heap* mEventHeap;
     u8 pad_1d188[0x1d1b0 - 0x1d188];
     /* 0x1d1b0 */ u32 _1d1b0;
-    u8 pad_1d1b4[0x1d2b8 - 0x1d1b4];
+    u8 pad_1d1b4[0x1d1b8 - 0x1d1b4];
+    /* 0x1d1b8 */ Context* mContexts[32];
 
 public:
     // Tested by uking::action::FireWood::calc_ (null: no event is running?).

@@ -38,6 +38,25 @@ ActorBase* Context::getActorByName(const sead::SafeString& name, const sead::Saf
     return nullptr;
 }
 
+// 0x7100dba274
+void Context::sub_7100DBA274() {
+    for (s32 i = 0; i < mFlows.size(); ++i)
+        mFlows(i)->_340 |= 0x1000000000;
+}
+
+// 0x7100dba2ac
+void Context::sub_7100DBA2AC() {
+    getCurrentFlow()->x_8();
+}
+
+// 0x7100dba3ac
+bool Context::sub_7100DBA3AC(bool a1) {
+    bool result = true;
+    for (s32 i = 0; i < mFlows.size(); ++i)
+        result &= mFlows.at(i)->sub_7100DB8BB8(a1);
+    return result;
+}
+
 // 0x7100dba2e4
 void Context::setNoDeleteCurrentActor(bool no_delete) {
     if (auto* actors = getCurrentFlowUnchecked()->_110)

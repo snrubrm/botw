@@ -76051,8 +76051,8 @@ Address,Quality,Size,Name
 0x0000007100db26d0,U,000092,EventMgr::finishedLoadingResidentData
 0x0000007100db272c,O,000024,_ZN4ksys3evt7Manager12setFlags1000Ev
 0x0000007100db2744,U,000192,EventMgr::eventResidentMgrFinished
-0x0000007100db2804,U,000128,EventMgr::__auto0
-0x0000007100db2884,U,000064,EventMgr::__auto13
+0x0000007100db2804,O,000128,_ZN4ksys3evt7Manager14sub_7100DB2804Eb
+0x0000007100db2884,O,000064,_ZN4ksys3evt7Manager14sub_7100DB2884Ev
 0x0000007100db28c4,O,000076,_ZNK4ksys3evt7Manager14getActiveEventEv
 0x0000007100db2910,U,000396,_ZNK4ksys3evt7Manager24isActiveEventNameEqualToERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db2a9c,U,000128,EventMgr::x_3
@@ -76110,7 +76110,7 @@ Address,Quality,Size,Name
 0x0000007100db7640,U,000584,evt::EventFlowBase::play
 0x0000007100db7888,O,000016,_ZN4ksys3evt9EventFlow8setFlag4Ev
 0x0000007100db7898,U,000388,evt::EventFlowBase::x_6
-0x0000007100db7a1c,U,003604,evt::EventFlowBase::x_8
+0x0000007100db7a1c,U,003604,_ZN4ksys3evt9EventFlow3x_8Ev
 0x0000007100db8830,U,000356,
 0x0000007100db8994,U,000128,evt::EventFlowBase::x_5
 0x0000007100db8a14,U,000016,
@@ -76121,7 +76121,7 @@ Address,Quality,Size,Name
 0x0000007100db8b04,U,000100,evt::EventFlowBase::x_4
 0x0000007100db8b68,O,000028,_ZN4ksys3evt9EventFlow14exitEventMaybeEv
 0x0000007100db8b84,O,000052,_ZN4ksys3evt9EventFlow1xEb
-0x0000007100db8bb8,U,000024,
+0x0000007100db8bb8,U,000024,_ZN4ksys3evt9EventFlow14sub_7100DB8BB8Eb
 0x0000007100db8bd0,O,000112,_ZNK4ksys3evt9EventFlow27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100db8c40,O,000092,_ZNK4ksys3evt9EventFlow18getRuntimeTypeInfoEv
 0x0000007100db8c9c,O,000004,_ZN4ksys3evt9EventFlow2m4Ev
@@ -76142,12 +76142,12 @@ Address,Quality,Size,Name
 0x0000007100db9e38,O,000044,_ZN4ksys3evt7Context17getActorByPointerEPNS_3act8BaseProcE
 0x0000007100db9e64,O,000184,_ZN4ksys3evt7Context14getActorByNameERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db9f1c,U,000856,evt::Context::callDemoFromEventFlow
-0x0000007100dba274,U,000056,
-0x0000007100dba2ac,U,000056,
+0x0000007100dba274,O,000056,_ZN4ksys3evt7Context14sub_7100DBA274Ev
+0x0000007100dba2ac,O,000056,_ZN4ksys3evt7Context14sub_7100DBA2ACEv
 0x0000007100dba2e4,O,000048,_ZN4ksys3evt7Context23setNoDeleteCurrentActorEb
 0x0000007100dba314,W,000076,evt::Context::getEventName
 0x0000007100dba360,W,000076,evt::Context::getEntryPointName
-0x0000007100dba3ac,U,000128,
+0x0000007100dba3ac,O,000128,_ZN4ksys3evt7Context14sub_7100DBA3ACEb
 0x0000007100dba42c,U,002048,evt::makeEventFlow
 0x0000007100dbac2c,U,000124,evt::makeEventFlowByName
 0x0000007100dbaca8,O,000020,_ZN4ksys3evt18EventFlowFlowchart3m15Ev
@@ -76237,7 +76237,7 @@ Address,Quality,Size,Name
 0x0000007100dbfa00,U,000428,EventFlowMgr::x_4
 0x0000007100dbfbac,U,000748,
 0x0000007100dbfe98,U,000396,EventFlowMgr::x_5
-0x0000007100dc0024,U,000144,EventFlowMgr::loadEventResourceForAllEventFlows
+0x0000007100dc0024,U,000144,_ZN4ksys3evt12EventFlowMgr35loadEventResourceForAllEventFlowsEb
 0x0000007100dc00b4,U,000052,
 0x0000007100dc00e8,U,000260,EventFlow::ctor
 0x0000007100dc01ec,U,000544,EventFlow::initAndAllocResource

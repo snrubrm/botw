@@ -102,6 +102,10 @@ public:
     bool isPlaying();
     // 0x7100db6cfc (CSV unnamed; called by Context::updateEventsStatus)
     void sub_7100DB6CFC();
+    // 0x7100db7a1c (CSV evt::EventFlowBase::x_8, 3.6 KB; not decompiled): return type unknown
+    void x_8();
+    // 0x7100db8bb8 (CSV unnamed; not decompiled)
+    bool sub_7100DB8BB8(bool a1);
 
     u8 _8[0x10 - 0x8];
     u8 _10[0x18 - 0x10];   // the flow's data (passed to EventResource::init*) starts here

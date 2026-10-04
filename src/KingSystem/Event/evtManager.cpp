@@ -26,6 +26,25 @@ bool Manager::checkEventCancel() const {
     return (_1d2b8->getCurrentFlowUnchecked()->_340_bytes[1] >> 5) & 1;
 }
 
+// 0x7100db2804
+bool Manager::sub_7100DB2804(bool a1) {
+    bool result = true;
+    for (auto* context : mContexts) {
+        if (context)
+            result &= context->sub_7100DBA3AC(a1);
+    }
+    result &= mEventFlowMgr->loadEventResourceForAllEventFlows(a1);
+    return result;
+}
+
+// 0x7100db2884
+void Manager::sub_7100DB2884() {
+    for (auto* context : mContexts) {
+        if (context)
+            context->sub_7100DBA274();
+    }
+}
+
 // 0x7100db2340
 void Manager::setNoDeleteCurrentActor(bool no_delete) {
     if (_1d2b8)
