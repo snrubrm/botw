@@ -44,7 +44,7 @@ void HorseReinsDefaultAction::calc_() {
     if (horse && horse->getModel()) {
         if ((flags & 0x11) != 1) {
             _20.getEntry(0).set(horse, "Root", reins, "", &sead::Matrix34f::ident, true);
-            _20.sub_71012561E8(horse, reins, _20.mCount < 4 ? _20.mCount : 4, _20.mEntries, true);
+            _20.bindAll(horse, reins, {s32(_20.mCount < 4 ? _20.mCount : 4), _20.mEntries}, true);
             flags |= 1;
         }
     } else if (flags & 0x11) {
