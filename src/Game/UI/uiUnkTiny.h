@@ -264,11 +264,27 @@ public:
 };
 
 // Member of ScreenTitle (0x3688; 0xa0 bytes: three FixedSafeString<16> and other data; the 0x7100a82fbc ctor is not decompiled).
-class Unk_710249d300 {
+// Polymorphic base of Unk_710249d300 (its `_8` is stored before the derived class' members).
+class Unk_710249d300Base {
 public:
-    virtual ~Unk_710249d300();
+    virtual ~Unk_710249d300Base() = default;
 
-    u8 _8[0x98];
+    s32 _8 = 0;
+};
+
+class Unk_710249d300 : public Unk_710249d300Base {
+public:
+    Unk_710249d300();
+    ~Unk_710249d300() override;
+
+    u8 _c[4];
+    u64 _10 = 0x01007ef00011e000;  // packed small fields (the original stores them as one 64-bit constant)
+    u16 _18 = 0;
+    sead::FixedSafeString<16> _20 = sead::SafeString::cEmptyString;
+    sead::FixedSafeString<16> _48 = sead::SafeString::cEmptyString;
+    sead::FixedSafeString<16> _70 = sead::SafeString::cEmptyString;
+    u8 _98 = 0;
+    s32 _9c = 0;
 };
 
 // Opaque element type of the PtrArray members below.

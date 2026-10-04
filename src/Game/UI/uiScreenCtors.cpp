@@ -121,4 +121,16 @@ ScreenTime::ScreenTime() : ScreenEx() {}
 // 0x7100a0058c
 ScreenChallengeWin::ScreenChallengeWin() : ScreenEx() {}
 
+
+// 0x7100a693e4
+ScreenTitle::ScreenTitle() : ScreenEx() {
+    _3630 = 0;
+    _3628 = 0;
+    _3620 = 0;
+    _3618 = 0;
+    _3610 = 0;
+}
+
+
+
 }  // namespace uking::ui

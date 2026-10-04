@@ -1115,6 +1115,7 @@ public:
     const char* m15() const override;
     ~ScreenMainHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHorse, ScreenEx)
+
 };
 
 class ScreenKeyNum : public ScreenEx {
@@ -1555,6 +1556,7 @@ public:
 
 class ScreenTitle : public ScreenEx {
 public:
+    ScreenTitle();
     s32 m141() override;
     s32 m142() override;
     void m96() override;
@@ -1562,7 +1564,24 @@ public:
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
 
-    u8 _pad_3610[0x3688 - 0x3610];
+    /* 0x3610 */ u64 _3610;  // zeroed in the constructor body
+    u64 _3618;
+    u64 _3620;
+    u64 _3628;
+    u64 _3630;
+    /* 0x3638 */ s32 _3638 = 0;
+    s32 _363c = -1;
+    s32 _3640 = -1;
+    u8 _3644[4];
+    u64 _3648{};
+    u64 _3650{};
+    u64 _3658{};
+    u64 _3660{};
+    u64 _3668{};
+    u64 _3670{};
+    u64 _3678{};
+    s32 _3680 = -1;
+    u8 _3684[4];
     Unk_710249d300 _3688;
 };
 

@@ -151,6 +151,11 @@ Unk_71024774a8::~Unk_71024774a8() { ; }
 // 0x71009dfd4c
 Unk_71024810b8::~Unk_71024810b8() { ; }
 
+// NON_MATCHING: the original stores `_8` (the base class member) right after loading the vtable address, ours
+// schedules it after the 64-bit constant of `_10`
+// 0x7100a82fbc
+Unk_710249d300::Unk_710249d300() = default;
+
 // 0x7100a8331c
 Unk_710249d300::~Unk_710249d300() { ; }
 
