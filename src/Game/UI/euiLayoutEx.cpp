@@ -67,6 +67,19 @@ nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* r
     return layout;
 }
 
+// 0x7100bde29c
+void LayoutEx::sub_7100BDE29C(bool recursive) {
+    Animator* animator = _70;
+    if (animator) {
+        animator->nn::ui2d::AnimTransform::SetEnabled(false);
+        animator->mRate = 0;
+    }
+    if (recursive) {
+        for (auto& part : mPartsLayoutList)
+            static_cast<LayoutEx*>(part.layout)->sub_7100BDE29C(true);
+    }
+}
+
 // 0x7100bde308
 bool LayoutEx::isAnimOpenEnd(bool recursive) const {
     if (mOpenAnimator && mOpenAnimator->mFrame != mOpenAnimator->GetFrameSize())
