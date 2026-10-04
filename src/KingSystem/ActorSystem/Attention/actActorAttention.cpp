@@ -1,6 +1,12 @@
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/Resource/Actor/resResourceAttClient.h"
 
 namespace ksys::act {
+
+void ActorAttention::sub_7100D73454(sead::Vector3f* out) const {
+    if (mList)
+        mList->x(out, mActor, &_50);
+}
 
 s32 ActorAttention::getNumClients() const {
     return mClients.size();

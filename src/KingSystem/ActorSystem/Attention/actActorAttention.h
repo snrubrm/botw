@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <math/seadVector.h>
+#include <gsys/gsysModelAccessKey.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/Utils/Types.h"
@@ -33,10 +34,14 @@ public:
     bool disableClient(const sead::SafeString& name);
     void enableAllClients();
     void disableAllClients();
+    // 0x7100d73454: `mList->x(out, mActor, &_50)` (the position of the attention target; Actor::m88 stores it).
+    void sub_7100D73454(sead::Vector3f* out) const;
 
     /* 0x00 */ res::AttClientList* mList;
     /* 0x08 */ Actor* mActor;
     /* 0x10 */ sead::Buffer<AttClient> mClients;
+    u8 _20[0x50 - 0x20];
+    /* 0x50 */ gsys::BoneAccessKey _50;
 };
 
 }  // namespace ksys::act

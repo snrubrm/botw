@@ -19,6 +19,10 @@ struct CharacterControllerUnk40 {
     /* 0x6a */ bool _6a;
     /* 0x6b */ u8 _6b;
     /* 0x6c */ u8 _6c;
+    /* 0x6d */ u8 _6d;
+    /* 0x6e */ u8 _6e;
+    /* 0x6f */ u8 _6f;
+    /* 0x70 */ u8 _70;
 };
 
 }  // namespace ksys::phys

@@ -222,6 +222,26 @@ public:
     // 0x7100f63370: the byte at +0x6c of the object at +0x40.
     u8 sub_7100F63370() const;
 
+    // Unnamed small accessors (lane4 s32; placeholder names, bodies in the comments).
+    // 0x7100f5e850: `if (value > 0) _10->_88 = value`.
+    void sub_7100F5E850(f32 value);
+    // 0x7100f5ee08: `_10->_30` (xyz).
+    sead::Vector3f sub_7100F5EE08() const;
+    // 0x7100f5eed4: `_10->_70 = value`.
+    void sub_7100F5EED4(f32 value);
+    // 0x7100f60368 / 0x7100f60378: setMass on the main body (the second also stores _138 and divides by _130).
+    void sub_7100F60368(f32 mass);
+    void sub_7100F60378(f32 mass);
+    // 0x7100f63178: sets the flag at `_38 + 0x34` and copies the two vectors to `_38 + 0x38` / `_38 + 0x44`.
+    void sub_7100F63178(const sead::Vector3f& a, const sead::Vector3f& b);
+    // 0x7100f631b8: stores `value` in `_40->_10` and forwards it to `_40->sub_7100F6693C`.
+    void sub_7100F631B8(bool value);
+    // 0x7100f631cc: `_40->_10 == 1`.
+    bool sub_7100F631CC() const;
+    // 0x7100f63210 / 0x7100f6337c: the bytes at +0x70 / +0x6e of the object at +0x40.
+    u8 sub_7100F63210() const;
+    u8 sub_7100F6337C() const;
+
     RigidBody* mRigidBody;
     CharacterControllerUnk10* _10;
     u8 _18[0x20 - 0x18];

@@ -11,6 +11,10 @@ struct CharacterControllerUnk10 {
     /* 0x30 */ hkVector4f _30;
     /* 0x40 */ u8 _40[8];
     /* 0x48 */ f32 _48;
+    /* 0x4c */ u8 _4c[0x70 - 0x4c];
+    /* 0x70 */ f32 _70;
+    /* 0x74 */ u8 _74[0x88 - 0x74];
+    /* 0x88 */ f32 _88;
 };
 
 // Placeholder: object at CharacterController::_20.
@@ -46,7 +50,10 @@ struct CharacterControllerShapes {
 
 // Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
 struct CharacterControllerUnk38 {
-    /* 0x00 */ u8 _0[0x18];
+    /* 0x00 */ u8 _0[0x34];
+    /* 0x34 */ bool _34;
+    /* 0x38 */ sead::Vector3f _38;
+    /* 0x44 */ sead::Vector3f _44;
 };
 
 
@@ -75,6 +82,54 @@ void CharacterController::sub_7100F631E0(bool value) {
 
 f32 CharacterController::sub_7100F5EEE8() const {
     return _130;
+}
+
+void CharacterController::sub_7100F5E850(f32 value) {
+    if (value <= 0.0f)
+        return;
+    _10->_88 = value;
+}
+
+// NON_MATCHING: the original moves the z component into s2 before y
+sead::Vector3f CharacterController::sub_7100F5EE08() const {
+    return toVec3(_10->_30);
+}
+
+void CharacterController::sub_7100F5EED4(f32 value) {
+    _10->_70 = value;
+}
+
+void CharacterController::sub_7100F60368(f32 mass) {
+    mRigidBody->setMass(mass);
+}
+
+void CharacterController::sub_7100F60378(f32 mass) {
+    _138 = mass;
+    mRigidBody->setMass(mass / _130);
+}
+
+void CharacterController::sub_7100F63178(const sead::Vector3f& a, const sead::Vector3f& b) {
+    auto* unk = _38;
+    unk->_34 = true;
+    unk->_38 = a;
+    unk->_44 = b;
+}
+
+void CharacterController::sub_7100F631B8(bool value) {
+    _40->_10 = value;
+    _40->sub_7100F6693C(value);
+}
+
+bool CharacterController::sub_7100F631CC() const {
+    return _40->_10 == 1;
+}
+
+u8 CharacterController::sub_7100F63210() const {
+    return _40->_70;
+}
+
+u8 CharacterController::sub_7100F6337C() const {
+    return _40->_6e;
 }
 
 void CharacterController::sub_7100F5EEF0(f32 value) {

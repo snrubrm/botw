@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include <mc/seadCoreInfo.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
@@ -203,6 +204,15 @@ int Actor::handleMessage(const Message& message) {
         m107();
         return 1;
     }
+}
+
+void Actor::m88() {
+    if (mAttention) {
+        mAttention->sub_7100D73454(&mPreviousPos);
+        return;
+    }
+    if (!x_18(&mPreviousPos))
+        mMtx.getTranslation(mPreviousPos);
 }
 
 bool Actor::x_18(sead::Vector3f* out) const {
