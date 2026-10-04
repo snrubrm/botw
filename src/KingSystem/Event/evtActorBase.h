@@ -22,7 +22,7 @@ public:
 
     virtual ~ActorBase();
     virtual void m4() = 0;
-    virtual void m5() = 0;
+    virtual void m5(bool a1, bool a2) = 0;
     // 0x7100daaa10 (CSV evt::ActorBase::m6): state 0x15 -> 0x16, returns true
     virtual bool m6();
     virtual void m7() = 0;
@@ -50,6 +50,17 @@ public:
     /* 0x1b8 */ void* _1b8;
     /* 0x1c0 */ void* _1c0;
     /* 0x1c8 */ u32 mFlags;
+};
+
+// The 0x1d0-byte event-side actor (CSV evt::Actor). Only the non-virtual members used so far are declared; it is
+// abstract here like its base.
+class Actor : public ActorBase {
+public:
+    // 0x7100dab86c (CSV evt::Actor::x_0)
+    bool x_0();
+    // 0x7100dab548 / 0x7100dac578 (CSV unnamed; placeholder names)
+    void sub_7100DAB548();
+    void sub_7100DAC578();
 };
 
 }  // namespace ksys::evt

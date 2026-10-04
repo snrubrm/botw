@@ -16,6 +16,7 @@ class EventResource;
 class EventResourceData;
 class EventFlow;
 class ActorBase;
+class Actor;
 
 // The per-event actor set (CSV evt::S6) at EventFlowBase + 0x110.
 class EventActorSet {
@@ -41,13 +42,22 @@ public:
     // 0x7100da2774 / 0x7100da375c (CSV evt::S6::x_3 / x_2; not decompiled)
     bool x_3(bool a1, bool a2);
     void x_2();
+    // 0x7100da3624 (CSV evt::S6::x_4): whether every actor's x_0 is true
+    bool x_4();
+    // 0x7100da288c / 0x7100da3878 (CSV evt::S6::x_1 / x_0)
+    void x_1();
+    void x_0();
+    // 0x7100da2700 (CSV unnamed; placeholder name): calls every actor's slot 5 and sets the state to 2
+    void sub_7100DA2700(bool a1, bool a2);
 
-    /* 0x08 */ sead::PtrArray<ActorBase> mActors;
+    /* 0x08 */ sead::PtrArray<Actor> mActors;
     /* 0x18 */ s32 _18;
     u8 _1c[0x28 - 0x1c];
     /* 0x28 */ EventResource* mResource;
     /* 0x30 */ bool mNoDeleteCurrentActor;
-    u8 _31[0x58 - 0x31];
+    u8 _31[0x44 - 0x31];
+    /* 0x44 */ s32 _44;
+    u8 _48[0x58 - 0x48];
 };
 
 // Unknown object at EventFlowBase + 0x100 (polymorphic; slot 10 = isPlaying-like query).
