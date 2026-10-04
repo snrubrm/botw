@@ -183,3 +183,18 @@ void GameSceneSubsys12::sub_7100664F8C(s32 index, const sead::Matrix34f& matrix)
     entry->_78.setMul(rotation, entry_rotation);
     _d4 |= 1 << index;
 }
+
+// NON_MATCHING: identity matrix loads and the progress reset are scheduled differently.
+s32 GameSceneSubsys12::sub_7100664E0C(void* unused,
+                                       sead::Buffer<sead::FixedSafeString<64>>* names) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    const s32 count = _300.hasProc() && _310 ? _310->sub_710065F894(unused, names) : 0;
+    _a78.setBitOn(0);
+    _a78.setBitOff(2);
+    _d0 = 0.0f;
+    _d8 = sead::Matrix34f::ident;
+    _108 = sead::Matrix34f::ident;
+    _138 = sead::Matrix34f::ident;
+    _270 = 0.0f;
+    return count;
+}

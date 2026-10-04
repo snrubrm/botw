@@ -226,3 +226,15 @@ ksys::act::BaseProcLink* ActorContextStuff::sub_710065F80C(s32 index) {
         return &_638.at(index)->_30;
     return nullptr;
 }
+
+s32 ActorContextStuff::sub_710065F894(void*, sead::Buffer<sead::FixedSafeString<64>>* names) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    const s32 count = _638.size();
+    s32 copied = 0;
+    for (s32 i = 0; i < count; ++i) {
+        if (copied >= names->size())
+            break;
+        copied += _638.at(i)->sub_710066178C(&(*names)[copied]);
+    }
+    return copied;
+}

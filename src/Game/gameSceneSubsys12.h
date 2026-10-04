@@ -36,6 +36,8 @@ public:
     // 0x7100664d24 / 0x7100664d64
     s32 sub_7100664D24();
     s32 sub_7100664D64();
+    // 0x7100664e0c: starts carry processing and copies actor names.
+    s32 sub_7100664E0C(void* unused, sead::Buffer<sead::FixedSafeString<64>>* names);
     // 0x7100664f00 / 0x7100664f30 / 0x7100664f3c / 0x7100664f64
     void sub_7100664F00(const sead::Matrix34f& matrix);
     bool sub_7100664F30() const;

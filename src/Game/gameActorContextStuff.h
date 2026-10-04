@@ -3,6 +3,8 @@
 #include <basis/seadTypes.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <container/seadPtrArray.h>
+#include <container/seadBuffer.h>
+#include <prim/seadSafeString.h>
 #include <container/seadSafeArray.h>
 #include <container/seadTList.h>
 #include <math/seadMatrix.h>
@@ -126,6 +128,9 @@ public:
     bool sub_710065F954() const;
     // 0x710065f80c: the link of the carried actor at index, or null.
     ksys::act::BaseProcLink* sub_710065F80C(s32 index);
+    // 0x710065f894: copies active actor names into the fixed-string buffer.
+    // The second argument is unused in the binary; its original type is unresolved.
+    s32 sub_710065F894(void* unused, sead::Buffer<sead::FixedSafeString<64>>* names);
     // 0x710065f9ac
     void sub_710065F9AC();
     // 0x710065fa28: fade progress for the entry bound to proc.
