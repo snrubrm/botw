@@ -10,6 +10,7 @@ public:
     explicit EventRegisterToGetCounter(const InitArg& arg);
     ~EventRegisterToGetCounter() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
