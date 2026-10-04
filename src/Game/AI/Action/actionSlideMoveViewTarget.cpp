@@ -12,6 +12,8 @@ bool SlideMoveViewTarget::init_(sead::Heap* heap) {
 }
 
 void SlideMoveViewTarget::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_710026F368();
+    playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
     MoveBase::enter_(params);
 }
 

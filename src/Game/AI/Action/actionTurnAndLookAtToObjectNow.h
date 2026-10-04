@@ -3,6 +3,10 @@
 #include "Game/AI/Action/actionLookAtObject.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class TurnAndLookAtToObjectNow : public LookAtObject {
@@ -19,7 +23,7 @@ public:
 protected:
     void calc_() override;
     virtual void m40();
-    virtual void m41();
+    virtual void m41(ksys::phys::CharacterController* controller);
 
     // dynamic_param at offset 0xc8
     bool* mIsConfront_d{};

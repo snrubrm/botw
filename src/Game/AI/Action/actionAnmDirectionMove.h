@@ -30,7 +30,8 @@ protected:
     const bool* mUsereachableCheck_s{};
     // static_param at offset 0x48
     sead::SafeString mASName_s{};
-    u64 _58 = 0;
+    f32 _58 = 0.0f;
+    f32 _5c = 0.0f;
     f32 _60 = 0.0f;
     f32 _64 = 1.0f;
     f32 _68 = 1.0f;

@@ -10,8 +10,22 @@ bool AnmDirectionMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original keeps the two arms as branches (fmov constants joined by a phi) where ours selects with fcsel
 void AnmDirectionMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!mASName_s.isEmpty())
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
+    _68 = 1.0f;
+    if (*mDirection_s == 1) {
+        _5c = 1.0f;
+        _60 = 0.0f;
+        _64 = 0.0f;
+    } else {
+        _5c = 0.0f;
+        _60 = 0.0f;
+        _64 = 1.0f;
+    }
 }
 
 void AnmDirectionMove::leave_() {
