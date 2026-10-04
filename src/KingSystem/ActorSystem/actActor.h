@@ -152,6 +152,7 @@ public:
     };
 
     enum class ActorFlag {
+        _1 = 0x1,  // set by sub_71011DB138
         _2 = 0x2,  // set by sub_71011C88C0 (physics matrix written)
         _5 = 0x5,
         _6 = 0x6,
@@ -567,6 +568,18 @@ public:
     float get6f0() const { return _6f0; }
     // 0x71011ce204 (lane4 s29; name is a guess, twin of get6f0).
     void set6f0(float value);
+    // 0x71011cddcc (lane4 s30; placeholder name): the skip timer is 0 and the actor has neither `_1a0` nor a
+    // map object with flag 0x20000.
+    bool sub_71011CDDCC() const;
+    // 0x71011db138: sets ActorFlag::_1.
+    void sub_71011DB138();
+    // 0x71011dafb4: sets _6fc / _700.
+    void sub_71011DAFB4(int a, int b);
+    // 0x71011d89d4 (CSV name): the character controller's `_210` while its `_116` bit 2 is set, else -1.
+    f32 getDepthInWater() const;
+    // 0x71011cbe70 (CSV Actor::x_23; twin of fadeOutSleep): clears the fade-out sleep bit `reason`
+    // (calling m60 when it was set) and wakes the actor up.
+    void fadeOutWakeUp(SleepWakeReason reason);
 
     bool becomePreActor(DeleteType type, DeleteReason reason);
     void fadeOutSleep(SleepWakeReason reason);

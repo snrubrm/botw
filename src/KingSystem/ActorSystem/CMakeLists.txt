@@ -69,6 +69,8 @@ target_sources(uking PRIVATE
     actActorChemicals.h
     actActorBind.cpp
     actActorBind.h
+    actActorBindSet.cpp
+    actActorBindSet.h
     actActorConstDataAccess.cpp
     actActorConstDataAccess.h
     actActorCreator.cpp

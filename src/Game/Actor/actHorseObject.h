@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorBindSet.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::act {
@@ -16,10 +17,24 @@ namespace uking::act {
 // HorseObject (factory 0x7100e7a5b8: new(0x1418)) has a not yet modelled bind-list object (an
 // ActorBind-like with its own vtable, 0xbb8 bytes, ctor 0x7100e7a634) at +0x850, so its constructor,
 // destructors and the virtuals that use it (m64 / m69 / m70 / m81) are not written yet.
+// Placeholder name (vtable 0x71024ebb00, ctor 0x7100e7a634, D1 / D0 0x7100e7a748 / 0x7100e7b44c): HorseObject's bind set
+// with inline storage for 16 entries (size 0xbb8).
+class Unk_71024ebb00 : public ksys::act::ActorBindSet {
+public:
+    Unk_71024ebb00();
+    ~Unk_71024ebb00() override;
+
+    /* 0x38 */ ksys::act::ActorBindEntry mStorage[16];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024ebb00, 0xbb8);
+
 class HorseObject : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(HorseObject, ksys::act::Actor)
 public:
     explicit HorseObject(const CreateArg& arg);
+    ~HorseObject() override;
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
@@ -27,12 +42,15 @@ protected:
 public:
     Actor* m31() override;
     bool shouldUnload(s32* a1) override;
+    void initMaybe() override;
+    void m70() override;
 
     /* 0x840 */ ksys::act::BaseProcLink _840;
-    /* 0x850 */ u8 _850[0xbb8];  // bind-list object (see above)
+    /* 0x850 */ Unk_71024ebb00 _850;
     /* 0x1408 */ u32 _1408 = 0;
     /* 0x140c */ u32 _140c = 0;
-    /* 0x1410 */ bool _1410 = false;
+    /* 0x1410 */ u8 _1410 = 0;  // bit 0: fade-in pending (cleared by initMaybe); bit 1 / 2: the horse's m139() value is
+                              // applied (m70) with actor flag 0x20 reset / set
 };
 KSYS_CHECK_SIZE_NX150(HorseObject, 0x1418);
 

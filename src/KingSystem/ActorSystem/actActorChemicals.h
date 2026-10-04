@@ -44,6 +44,9 @@ public:
     Chemical* sub_7100E37788(int idx);
     // 0x7100e381dc (declared only; placeholder name): looks a Chemical up by name; Actor::sub_71011D8A54.
     Chemical* sub_7100E381DC(const sead::SafeString& name);
+    // 0x7100e382c4 (declared only; lane4 s30): the index of the chemical called `name` (-1 if none; the
+    // wrapper ActorConstDataAccess::sub_7100D137C0 returns it).
+    s32 sub_7100E382C4(const sead::SafeString& name);
 
     /* 0x08 */ sead::CriticalSection mCS;
     /* 0x48 */ bool _48 = false;

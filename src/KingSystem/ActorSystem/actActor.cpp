@@ -539,6 +539,50 @@ void Actor::fadeOutSleep(SleepWakeReason reason) {
         sleep(reason);
 }
 
+void Actor::decrementSkipJobPushTimer() {
+    if (mSkipJobPushTimer)
+        --mSkipJobPushTimer;
+}
+
+bool Actor::sub_71011CDDCC() const {
+    if (mSkipJobPushTimer)
+        return false;
+    if (_1a0)
+        return false;
+    if (mMapObject && mMapObject->getFlags0().isOn(map::Object::Flag0::_20000))
+        return false;
+    return true;
+}
+
+void Actor::sub_71011DB138() {
+    mActorFlags.setBit(ActorFlag::_1);
+}
+
+void Actor::sub_71011DAFB4(int a, int b) {
+    _6fc = a;
+    _700 = b;
+}
+
+f32 Actor::getDepthInWater() const {
+    f32 depth = -1.0f;
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            if (controller->_116 & 4)
+                depth = controller->_210;
+        }
+    }
+    return depth;
+}
+
+void Actor::fadeOutWakeUp(SleepWakeReason reason) {
+    if (!isDeletedOrDeleting()) {
+        if (mFadeOutSleepFlags.setBitOff(int(reason)))
+            m60();
+    }
+    if (!isAwakeMaybe())
+        wakeUp(reason);
+}
+
 void Actor::emitDeadUpLifeZeroAndSetRevival() {
     emitSignal(map::MapLinkDefType::DeadUp, true);
     emitSignal(map::MapLinkDefType::LifeZero, true);

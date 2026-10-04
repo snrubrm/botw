@@ -229,7 +229,8 @@ public:
     /* 0xc4c */ bool _c4c = false;
     /* 0xc4d */ u8 _c4d[0xcf0 - 0xc4d];  // TODO
     /* 0xcf0 */ s32 _cf0 = 0;  // flags (BitFlag32; the sign bit is tested by AI helpers); sub_71005DBB60 returns it
-    /* 0xcf4 */ u8 _cf4[0xd09 - 0xcf4];  // TODO
+    /* 0xcf4 */ u8 _cf4[0xd08 - 0xcf4];  // TODO
+    /* 0xd08 */ u8 _d08;  // read by ChemicalWeaponRoot / DeadlyBlowWeaponRoot::m42 (lane1 request)
     /* 0xd09 */ bool _d09;
     /* 0xd0a */ u8 _d0a[0xd38 - 0xd0a];  // TODO
     /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;

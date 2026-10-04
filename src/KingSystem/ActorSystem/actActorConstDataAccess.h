@@ -9,6 +9,17 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+namespace sead {
+template <typename T>
+class SafeStringBase;
+using SafeString = SafeStringBase<char>;
+}  // namespace sead
+const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstDataAccess& accessor,
+                                                 const sead::SafeString& table);
+
 namespace uking::act {
 class Rideable;
 class Unk_7100e8b2b8;
@@ -288,6 +299,11 @@ public:
     bool sub_7100D152E4() const;
     void sub_7100D153A4(f32 value) const;
     bool sub_7100D14250() const;
+    void sub_7100D15038(Actor* other) const;
+    // 0x7100d137c0: ActorChemicals::sub_7100E382C4(name) (-1 without chemicals).
+    s32 sub_7100D137C0(const sead::SafeString& name) const;
+    // 0x7100d142e0: the rider's RideableBase `_18._b` (or `_18._9` when it is 0), 0 without one.
+    u64 sub_7100D142E0() const;
     f32 sub_7100D141B0() const;
     bool sub_7100D115E8(sead::Vector3f* out) const;
     bool sub_7100D117C0(phys::ContactLayer* out) const;
@@ -306,6 +322,8 @@ public:
     void sub_7100D15198(const sead::Vector3f& a, const sead::Vector3f& b, f32 value) const;
 
 private:
+    friend const sead::SafeString& ::golemWeakPointGetOneDrop(const ActorConstDataAccess& accessor,
+                                                              const sead::SafeString& table);
     Actor* getActor() const;
 
     u8 _10 = 0;

@@ -8,6 +8,8 @@ add_subdirectory(UI)
 target_sources(uking PRIVATE
   gameAmiiboMgr.cpp
   gameAmiiboMgr.h
+  gameDragonChallengeMgr.cpp
+  gameDragonChallengeMgr.h
   gameGearMgr.cpp
   gameGearMgr.h
   gameHeroSoul.cpp

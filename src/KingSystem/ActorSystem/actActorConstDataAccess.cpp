@@ -15,6 +15,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -1345,4 +1346,59 @@ void ActorConstDataAccess::sub_7100D15198(const sead::Vector3f& a, const sead::V
     }
 }
 
+// 0x7100d15038: if `other` has `_1a0` or a map object with flag 0x20000, Actor::sub_71011C9964(other).
+void ActorConstDataAccess::sub_7100D15038(Actor* other) const {
+    auto* actor = getActor();
+    if (!actor)
+        return;
+    if (other->get1a0()) {
+        actor->sub_71011C9964(other);
+        return;
+    }
+    if (auto* obj = other->getMapObject()) {
+        if (obj->getFlags0().isOn(map::Object::Flag0::_20000))
+            actor->sub_71011C9964(other);
+    }
+}
+
+// 0x7100d137c0
+s32 ActorConstDataAccess::sub_7100D137C0(const sead::SafeString& name) const {
+    auto* actor = getActor();
+    if (!actor)
+        return -1;
+    auto* chemicals = actor->mChemical;
+    if (!chemicals)
+        return -1;
+    return chemicals->sub_7100E382C4(name);
+}
+
+// 0x7100d142e0
+u64 ActorConstDataAccess::sub_7100D142E0() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* info = actor->getPlayerRideInfo();
+    if (!info)
+        return 0;
+    ActorConstDataAccess rider;
+    ksys::act::acquireActor(&info->_18, &rider);
+    auto* rider_actor = rider.getActor();
+    if (!rider_actor)
+        return 0;
+    auto* rideable = rider_actor->m132();
+    if (!rideable)
+        return 0;
+    return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
+}
+
 }  // namespace ksys::act
+
+const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstDataAccess& accessor,
+                                                 const sead::SafeString& table) {
+    auto* actor = accessor.getActor();
+    if (actor) {
+        if (auto* drop = actor->getParam()->getRes().mDropTable)
+            return drop->getRandomDropFromTable(table);
+    }
+    return sead::SafeString::cEmptyString;
+}
