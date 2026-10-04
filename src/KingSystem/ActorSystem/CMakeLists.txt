@@ -1,6 +1,7 @@
 target_sources(uking PRIVATE
     AS/ASList.h
     AS/ASList.cpp
+    AS/ASListUnk1.cpp
     AS/ASListUnk2.cpp
     AS/asAngleBlender.cpp
     AS/asAnmAsset.cpp

@@ -98,9 +98,20 @@ public:
         // 0x7101164ff8 (declaration only): the slot's partial bone setup.
         void sub_7101164FF8();
 
+        // 0x71011650b8: bit `bit` of row `row` of the partial-bone mask (true if there is no mask).
+        bool sub_71011650B8(int row, int bit) const;
+
+        struct BitRow {
+            u32 words[32];
+        };
+
         u8 _0[0x20];
         sead::Buffer<Unk2> _20;
-        u8 _30[0x50 - 0x30];
+        void* _30;
+        sead::Buffer<BitRow> _38;
+        u8 _48[0x4d - 0x48];
+        bool _4d;
+        u8 _4e[0x50 - 0x4e];
     };
 
     // Placeholder: 8-byte parameter value; depending on the parameter kind it holds a value or a
