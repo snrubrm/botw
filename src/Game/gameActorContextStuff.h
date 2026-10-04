@@ -18,6 +18,7 @@ class Heap;
 namespace ksys::phys {
 class RigidBody;
 class ContactPointInfo;
+class SystemGroupHandler;
 }
 
 class ActorContextStuff;
@@ -27,8 +28,11 @@ class ActorContextStuff;
 // Address placeholder for the vtable header at 0x710243be90.
 class Unk_710243be90 : public ksys::act::ActorBind {
 public:
+    Unk_710243be90();
+    ~Unk_710243be90() override;
     // Vtable slot 4 is 0x7100661e64, not the abstract ActorBind slot.
     bool m4(ksys::act::BaseProc* proc) override;
+    bool m5(ksys::act::BaseProc* proc) override { return false; }
     bool sub_71006606E8();
     void sub_710066136C();
     void sub_71006613B0(bool delete_actor);
@@ -45,22 +49,35 @@ public:
     // 0x71006618ac: resets the entry's temporary rigid body.
     void sub_71006618AC();
     bool sub_7100661538(ksys::act::BaseProc* proc) const;
-    u32 _28;
+    u32 _28 = 0;
     u32 _2c;
     ksys::act::BaseProcLink _30;
     // init66074c allocates a TListNode with the temporary RigidBody* as its data.
-    sead::TListNode<ksys::phys::RigidBody*>* _40;
-    ksys::phys::RigidBody* _48;
-    ksys::phys::ContactPointInfo* _50;
-    ksys::phys::RigidBody* _58;
-    u8 _60[8];
-    s32 _68;
-    s32 _6c;
-    f32 _70;
-    f32 _74;
-    u8 _78[0x118 - 0x78];
-    ActorContextStuff* _118;
-    u8 _120[8];
+    sead::TListNode<ksys::phys::RigidBody*>* _40 = nullptr;
+    ksys::phys::RigidBody* _48 = nullptr;
+    ksys::phys::ContactPointInfo* _50 = nullptr;
+    ksys::phys::RigidBody* _58 = nullptr;
+    ksys::phys::ContactPointInfo* _60 = nullptr;
+    s32 _68 = -1;
+    s32 _6c = -1;
+    f32 _70 = 10.0f;
+    f32 _74 = 1.0f;
+    sead::Quatf _78 = sead::Quatf::unit;
+    sead::Vector3f _88{0.0f, 0.0f, 0.0f};
+    f32 _94 = 1.0f;
+    sead::Vector3f _98{0.0f, 0.0f, 0.0f};
+    u8 _a4[4];
+    sead::Vector3f _a8{0.0f, 0.0f, 0.0f};
+    u8 _b4[4];
+    f32 _b8 = 1.0f;
+    f32 _bc = 0.0f;
+    f32 _c0 = 1.0f;
+    f32 _c4 = 1.0f;
+    sead::Vector3f _c8 = sead::Vector3f::zero;
+    ksys::act::BaseProcLink _d8;
+    sead::Matrix34f _e8 = sead::Matrix34f::ident;
+    ActorContextStuff* _118 = nullptr;
+    u32 _120 = 0;
 };
 static_assert(sizeof(Unk_710243be90) == 0x128);
 

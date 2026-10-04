@@ -3,6 +3,27 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+
+// NON_MATCHING: scalar initializer stores are scheduled/coalesced differently.
+Unk_710243be90::Unk_710243be90() = default;
+
+Unk_710243be90::~Unk_710243be90() {
+    if (_50) {
+        if (_48)
+            _48->setContactPointInfo(nullptr);
+        ksys::phys::ContactPointInfo::free(_50);
+        _50 = nullptr;
+    }
+    if (_40) {
+        delete _40;
+        _40 = nullptr;
+    }
+    if (_48) {
+        delete _48;
+        _48 = nullptr;
+    }
+}
 
 void Unk_710243be90::sub_7100661988() {
     ksys::act::ActorConstDataAccess accessor;
