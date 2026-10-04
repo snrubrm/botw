@@ -141,7 +141,6 @@ public:
     s32 m4() override { return 3; }
     s32 m5() override { return 3; }
     const sead::SafeString& m8() override;
-    ~TitleStageArg() override = default;
     void setHeap(sead::Heap* heap) override { mHeap = heap; }
     s32 m7() override { return _18; }
     const sead::SafeString& m9() override { return sead::SafeString::cEmptyString; }
