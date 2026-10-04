@@ -1,7 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadBitFlag.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
 
@@ -41,6 +44,24 @@ public:
     u32 sub_7100D74880();
     // 0x7100d744b8 (CSV Attention::__auto12): sets the requested target link.
     void sub_7100D744B8(const BaseProcLink& link);
+    // 0x7100d7565c (CSV Attention::setPauseState): bit 0 of the flag byte at +0xe22.
+    void setPauseState(bool paused);
+
+    // lane4 s30: partial layout (the CSV's 8 target lists, one per AttType; list 1 = Lock is the current target).
+    struct TargetList {
+        /* 0x00 */ s32 mCount;
+        /* 0x08 */ void** mEntries;
+        /* 0x10 */ u8 _10[0x40];
+    };
+
+    /* 0x028 */ u8 _28[0x7a8 - 0x28];
+    /* 0x7a8 */ sead::SafeArray<TargetList, 8> mLists;
+    /* 0xa28 */ u8 _a28[0xd98 - 0xa28];
+    /* 0xd98 */ BaseProcLink mRequestedTarget;
+    /* 0xda8 */ u8 _da8[0xe20 - 0xda8];
+    /* 0xe20 */ bool mEnabled;
+    /* 0xe21 */ u8 mFlagsE21;
+    /* 0xe22 */ sead::BitFlag8 mFlagsE22;
 };
 
 }  // namespace ksys::act

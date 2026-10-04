@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
     
     Attention/actActorAttention.cpp
     Attention/actActorAttention.h
+    Attention/actAttentionSingleton.cpp
     Attention/actAttentionSingleton.h
     Attention/actAttClient.cpp
     Attention/actAttClient.h
