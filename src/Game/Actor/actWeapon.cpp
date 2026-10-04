@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -22,6 +23,22 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::act {
+
+f32 Weapon::m139() {
+    if ((isParentPlayer() || m142()) && _4f0 < 1.0f)
+        return _4f0;
+    return ksys::act::Actor::m139();
+}
+
+bool Weapon::m195() {
+    auto* parent = getParentActor();
+    return parent && ksys::act::hasTag(parent, 0xbcd4994c);
+}
+
+bool Weapon::x_0() {
+    return getParam()->getRes().mGParamList->getBow()->mIsLongRange.ref() ||
+           _f98.flags.isOn(WeaponModifier::AddZoomRapid);
+}
 
 bool Weapon::isThrowingBreakWeapon() {
     const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
