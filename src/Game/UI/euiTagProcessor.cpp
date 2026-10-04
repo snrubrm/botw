@@ -1,5 +1,7 @@
 #include "Game/UI/euiTagProcessor.h"
 #include <cstring>
+#include <nn/font/font_PrintContext.h>
+#include <nn/font/font_TextWriterBase.h>
 
 namespace eui {
 
@@ -16,6 +18,16 @@ TagProcessor::Operation TagProcessor::Process(u32 code, nn::font::PrintContext<u
 TagProcessor::Operation TagProcessor::CalculateRect(nn::font::Rectangle* rect,
                                                   nn::font::PrintContext<u16>* context, u32 code) {
     return m15(code, context, rect);
+}
+
+// 0x7100be5d00
+void TagProcessor::BeginCalculateRect(nn::font::PrintContext<u16>* context) {
+    _10 = _18 = context->writer->GetFont();
+    if (mNestingDepth == 0) {
+        mScaleX = context->scaleX;
+        mScaleY = context->scaleY;
+    }
+    ++mNestingDepth;
 }
 
 // 0x7100be5cf0

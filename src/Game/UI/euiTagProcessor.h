@@ -54,19 +54,22 @@ public:
     // 0x7100be6308: type 2, one u16 parameter
     static char16* setSizeTag(char16* out, u16 size);
 
-private:
+protected:
     /* 0x8 */ u32 _8 = 0xff;
     /* 0xc */ u32 _c = 0xff;
     /* 0x10 */ const nn::font::Font* _10 = nullptr;
     /* 0x18 */ const nn::font::Font* _18 = nullptr;
     /* 0x20 */ void* _20 = nullptr;
     /* 0x28 */ u32 _28 = 0;
-    /* 0x2c */ f32 _2c = 1.0f;
-    /* 0x30 */ f32 _30 = 1.0f;
+    /* 0x2c */ f32 mScaleX = 1.0f;
+    /* 0x30 */ f32 mScaleY = 1.0f;
     /* 0x34 */ u32 mNestingDepth = 0;
     /* 0x38 */ MessageMgr* mMessageMgr;
     /* 0x40 */ FontMgr* mFontMgr;
-    /* 0x48 */ u32 _48 = 0xffffff01;
+    /* 0x48 */ bool mRubyEnabled = true;
+    /* 0x49 */ u8 mAlpha = 0xff;
+    /* 0x4a */ u8 mTopAlpha = 0xff;
+    /* 0x4b */ u8 mBottomAlpha = 0xff;
 };
 KSYS_CHECK_SIZE_NX150(TagProcessor, 0x50);
 
