@@ -1,4 +1,8 @@
 target_sources(uking PRIVATE
+  actArmor.cpp
+  actArmorBase.cpp
+  actArmorBase.h
+  actUnk_71024e8738.cpp
   actCamera.cpp
   actCamera.h
   actCameraUtil.cpp

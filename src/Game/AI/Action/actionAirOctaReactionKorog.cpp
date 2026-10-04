@@ -3,6 +3,8 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -35,7 +37,31 @@ void AirOctaReactionKorog::loadParams_() {
 }
 
 void AirOctaReactionKorog::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_710089A78();
+    auto* chemical = mActor->sub_71011D8A44(0);
+    if (!chemical || !(chemical->_bc & 0x4000))
+        setFinished();
+    if (isFinishedAS(0, 0)) {
+        switch (*mEndState_s) {
+        case 2:
+            mFlags.set(Flag::Changeable);
+            break;
+        case 1:
+            setFinished();
+            break;
+        }
+    }
+}
+
+void AirOctaReactionKorog::sub_710089A78() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    sead::Vector3f impulse = -_40;
+    impulse.normalize();
+    impulse *= body->getMass();
+    impulse *= *mSpeed_s;
+    body->applyLinearImpulse(impulse);
 }
 
 }  // namespace uking::action

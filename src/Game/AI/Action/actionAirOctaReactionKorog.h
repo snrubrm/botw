@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_710089A78();
 
     // static_param at offset 0x20
     const int* mEndState_s{};

@@ -416,6 +416,9 @@ public:
     // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
     // disables them, re-enabling them again when the schedule (_638) reports a flag.
     void x_6();
+    // 0x7100ee6974 (CSV Actor::x_57; declared only; lane4 s31): makes the model follow `other` (ArmorBase::m148 passes
+    // the wearer): copies ActorFlag2 bits 0x20 / 0x1 and the model state; without `other` it clears them.
+    void x_57(Actor* other);
 
     // vel, ang_vel and scale are optional (null-checked by the original).
     void setProperties(int x, const sead::Matrix34f& mtx, const sead::Vector3f* vel,
@@ -716,6 +719,7 @@ protected:
     friend class ActorConstDataAccess;
     friend class ActorSystem;
     friend class ActorBind;  // sub_7100D3C5E0 reads _738 and mSpecialJobTypesMaskOverride
+    friend struct ActorBindEntry;  // writes mMtx / mScale
 
     struct Unk1 {
         Actor* actor;

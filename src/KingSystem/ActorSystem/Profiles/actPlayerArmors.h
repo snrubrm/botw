@@ -38,13 +38,23 @@ public:
     // 0x7100e31b9c (CSV x_38): Player::m117 (declared only).
     void sub_7100E31B9C(Unk117* arg);
 
+    // 0x7100e2f428 (CSV x_22): the upper armor (`_10[1]`) disables its own mantle (acc::Armor::getArmorUpperDisableSelfMantle;
+    // false without an upper armor).
+    bool sub_7100E2F428();
+    // 0x7100e2f358 (CSV x_24): the head armor (`_10[0]`) has a mantle (acc::Armor::sub_7100E2BF44; false without a head armor).
+    bool sub_7100E2F358();
+
+    // Inline in the original (uking::act::Armor::m148).
+    bool get133() const { return _133; }
+
     // Inline-only in the original (Player::m276 / m277); name is a guess.
     BaseProcLink& getPartsLink(int idx) { return _10[idx]; }
 
 private:
     u8 _0[0x10];
     sead::SafeArray<BaseProcLink, 6> _10;
-    u8 _70[0x134 - 0x70];
+    u8 _70[0x133 - 0x70];
+    u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
     u8 _136[0x170 - 0x136];
 };
