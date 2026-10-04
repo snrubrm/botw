@@ -2,6 +2,8 @@
 #include <driver/aglNVNMgr.h>
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
+#include <nn/gfx/gfx_Sampler.h>
+#include <nn/gfx/gfx_Texture.h>
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Types.h>
 #include <nn/ui2d/Material.h>
@@ -92,6 +94,27 @@ void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInf
         if (index < material->GetTexMapCount())
             material->GetTexMapArray()[index].ReplaceTextureInfo(&info);
     }
+}
+
+// 0x7100befa8c
+bool RegisterSlotForTexture(nn::gfx::DescriptorSlot* slot, const nn::gfx::TextureView& view,
+                            void*) {
+    slot->ToData()->value =
+        static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
+            ->registerTexture(static_cast<const NVNtexture*>(view.ToData()->pNvnTexture.ptr),
+                              static_cast<const NVNtextureView*>(view.ToData()->pNvnTextureView.ptr),
+                              "ui2d");
+    return true;
+}
+
+// 0x7100befad4
+bool RegisterSlotForSampler(nn::gfx::DescriptorSlot* slot, const nn::gfx::Sampler& sampler,
+                            void*) {
+    slot->ToData()->value =
+        static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
+            ->registerSampler(static_cast<const NVNsampler*>(sampler.ToData()->pNvnSampler.ptr),
+                              "ui2d");
+    return true;
 }
 
 // 0x7100befb18

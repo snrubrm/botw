@@ -34,7 +34,9 @@ void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInf
 // 0x7100bed250: the entry named `name` of an ext user data list (null list or no such entry: null)
 const nn::ui2d::ResExtUserData* FindExtUserDataFromList(const nn::ui2d::ResExtUserDataList* list, const char* name);
 
-// Descriptor callbacks release the registered backend slot; other callback inputs are unused.
+// Descriptor callbacks register and release the backend slot; user data is unused.
+bool RegisterSlotForTexture(nn::gfx::DescriptorSlot*, const nn::gfx::TextureView&, void*);
+bool RegisterSlotForSampler(nn::gfx::DescriptorSlot*, const nn::gfx::Sampler&, void*);
 void UnregisterSlotForTexture(nn::gfx::DescriptorSlot*, const nn::gfx::TextureView&, void*);
 void UnregisterSlotForSampler(nn::gfx::DescriptorSlot*, const nn::gfx::Sampler&, void*);
 
