@@ -1,6 +1,41 @@
+#include <prim/seadBitFlag.h>
 #include "Game/UI/uiUnkSingletons.h"
 
 namespace uking::ui {
+
+bool sub_7100A9C110(s32 value);
+
+// 0x7100960df8
+bool UiSubsys1::sub_7100960DF8() {
+    return _3860 != 0;
+}
+
+// 0x7100960dac
+bool UiSubsys1::sub_7100960DAC(s32 index) const {
+    u16 lowest = _3860 != 0 ? sead::BitFlagUtil::countContinuousOffBitFromRight(_3860) : 6;
+    return lowest == index;
+}
+
+// 0x710096101c
+void UiSubsys1::sub_710096101C() {
+    _38b9 = _38b8;
+    _38b8 = sub_7100A9C110(0);
+}
+
+// 0x7100961058
+void UiSubsys1::copy38b8To38b9() {
+    _38b9 = _38b8;
+}
+
+// 0x710096106c
+void UiSubsys1::set38b8() {
+    _38b8 = 1;
+}
+
+// 0x710096107c
+void UiSubsys1::clear38b8() {
+    _38b8 = 0;
+}
 
 // 0x71009502f8 (CSV uiSubsys1::__auto17)
 bool UiSubsys1::is848Zero() const {

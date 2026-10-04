@@ -2,6 +2,21 @@
 
 namespace uking::ui {
 
+// 0x7100945320 / 0x7100945344: the two gauge ranges (value, maximum, default limit); names are guesses
+void sub_7100945320(f32 value, f32 max) {
+    Manager* manager = Manager::instance();
+    manager->_50 = value;
+    manager->_54 = max;
+    manager->_58 = 3000.0f;
+}
+
+void sub_7100945344(f32 value, f32 max) {
+    Manager* manager = Manager::instance();
+    manager->_5c = value;
+    manager->_60 = max;
+    manager->_64 = 2000.0f;
+}
+
 // 0x7100a76420 (CSV nullsub_6139)
 void Manager::sub_7100A76420() {}
 

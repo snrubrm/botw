@@ -126,6 +126,13 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x7100960dac (CSV uiSubsys1::__auto39; placeholder name): `index` is the lowest set bit of `_3860` (6: none)
+    bool sub_7100960DAC(s32 index) const;
+    // 0x710096101c / 0x7100961058 / 0x710096106c / 0x710096107c (placeholder names)
+    void sub_710096101C();
+    void copy38b8To38b9();
+    void set38b8();
+    void clear38b8();
     void sub_710095B1BC();
     void set3885() { _3885 = true; }
     void sub_71009645D0(const void* a1);
@@ -178,7 +185,9 @@ private:
     /* 0x3834 */ sead::Vector3f _3834;
     u8 _3840[0x3858 - 0x3840];
     /* 0x3858 */ u8 _3858;
-    u8 _3859[0x3884 - 0x3859];
+    u8 _3859[0x3860 - 0x3859];
+    /* 0x3860 */ u16 _3860;
+    u8 _3862[0x3884 - 0x3862];
     /* 0x3884 */ bool _3884;
     /* 0x3885 */ bool _3885;
     u8 _3886[0x38a8 - 0x3886];
