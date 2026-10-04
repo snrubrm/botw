@@ -1,4 +1,5 @@
 #include "Game/Actor/actLastBoss.h"
+#include <basis/seadNew.h>
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -53,7 +54,15 @@ void LastBoss::m117(ksys::act::Unk117* arg) {
 }
 
 // NON_MATCHING: member types incomplete
+LastBoss::LastBoss(const CreateArg& arg) : Enemy(arg) {}
+
 LastBoss::~LastBoss() = default;
+
+// NON_MATCHING: store schedule only (the original zeroes _14e8 / _14ec with an 8-byte store plus a separate
+// word store, and keeps _14d0 / _14e4 / _14f0 separate)
+ksys::act::BaseProc* LastBoss::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) LastBoss(arg);
+}
 
 void LastBoss::m63() {
     Enemy::m63();

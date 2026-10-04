@@ -34,6 +34,8 @@ public:
     explicit LastBoss(const CreateArg& arg);
     ~LastBoss() override;
 
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
     void m63() override;
     void initMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;

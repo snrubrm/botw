@@ -100,6 +100,8 @@ target_sources(uking PRIVATE
   actActorOption.cpp
   actActorOption.h
   actAnchor.cpp
+  actCookResult.cpp
+  actCookResult.h
   actGiantArmor.cpp
   actItem.cpp
   actLineBeam.cpp
