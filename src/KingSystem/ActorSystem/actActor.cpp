@@ -1193,7 +1193,7 @@ void Actor::m75() {
 
 void Actor::onAiEnter(const char* name, const char* context) {
     if (mXLink)
-        mXLink->prepareAIChangeMaybe();
+        mXLink->prepareAIChangeMaybe(name, context);
     mActorEditorNode.onAiEnter();
 }
 

@@ -43,7 +43,9 @@ public:
     // 0x7101231500 (CSV ActorEffects::x_3; declared only): called by Actor::m75.
     void sub_7101231500();
     // 0x71012311e4 (CSV ActorEffects::prepareAIChangeMaybe; declared only): called by Actor::onAiEnter.
-    void prepareAIChangeMaybe();
+    void prepareAIChangeMaybe(const char* name, const char* context);
+    void sleepELink();
+    void resetELinkEvents();
 
     /* 0x00 */ u8 _0[0x48];
     /* 0x48 */ xlink2::UserInstanceELink* _48;

@@ -30,4 +30,16 @@ bool XLink::x_2() {
     return true;
 }
 
+void XLink::sleepELink() {
+    if (_48 && !_48->getBitFlag().isOnBit(1)) {
+        _48->postCalc();
+        _48->sleep();
+    }
+}
+
+void XLink::resetELinkEvents() {
+    if (_48)
+        _48->killAll();
+}
+
 }  // namespace ksys::xlink
