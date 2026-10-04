@@ -1,8 +1,52 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
 
 SkeltalAsset::~SkeltalAsset() {}
+
+bool SkeltalAsset::m10(Context* ctx, State* state, const res::ASResource* resource) {
+    if (_10 == -1 || _12 == -1)
+        return true;
+    const bool result = AnmAsset::m10(ctx, state, resource);
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    record->_4 = state->weight;
+    return result;
+}
+
+// NON_MATCHING: only the csel polarity of the null fallback (`csel x8, ones, vec, eq` in the original, `ne` here)
+void SkeltalAsset::m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) {
+    ctx->sub_7101258CD4(sub_71011653E8(resource));
+    auto* out = static_cast<sead::Vector3f*>(a1);
+    const sead::Vector3f* vec = _18 ? _18->_28 : nullptr;
+    if (!vec)
+        vec = &sead::Vector3f::ones;
+    *out += *vec * static_cast<State*>(a3)->weight;
+}
+
+f32 SkeltalAsset::m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) {
+    const f32 result = AnmAsset::m18(ctx, a2, a3, a4, resource);
+    if (result < 0.0f) {
+        ctx->sub_7101258CD4(sub_71011653E8(resource))->_4 = a4;
+        Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+        ElementParams* params = ctx->sub_7101258D4C(record, false);
+        const f32 duration = params->sub_710130296C(true);
+        record->_8 = duration > 0.0f ? params->_c / duration : 0.0f;
+    }
+    return result;
+}
+
+void SkeltalAsset::m28(f32* a1, Context* ctx, const res::ASResource* resource) {
+    if (auto* skeltal = sead::DynamicCast<const res::ASSkeltalAssetResource>(resource)) {
+        *a1 = sead::Mathf::clampMin(*a1, 0.0f);
+        *a1 += ctx->sub_7101258CD4(sub_71011653E8(resource))->_4 * skeltal->getMorph();
+    }
+}
+
+void SkeltalAsset::m29(f32* a1, Context* ctx, const res::ASResource* resource) {
+    if (auto* skeltal = sead::DynamicCast<const res::ASSkeltalAssetResource>(resource))
+        *a1 += ctx->sub_7101258CD4(sub_71011653E8(resource))->_4 * skeltal->getResetMorph();
+}
 
 void SkeltalAsset::m12(Context* ctx, State* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));

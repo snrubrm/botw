@@ -701,6 +701,8 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    // 0x1315cb0 (declaration only)
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
@@ -729,15 +731,27 @@ KSYS_CHECK_SIZE_NX150(GraphicsAsset, 0x18);
 class SkeltalAsset : public AnmAsset {
     SEAD_RTTI_OVERRIDE(SkeltalAsset, AnmAsset)
 public:
+    // Placeholder: the object at +0x18 (a partial-skeletal-animation source); its vector at +0x28 is added to
+    // the output of m34.
+    struct Unk18 {
+        u8 _0[0x28];
+        const sead::Vector3f* _28;
+    };
+
     ~SkeltalAsset() override;
 
+    bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
+    void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
     int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
 
     /* 0x10 */ s16 _10;
     /* 0x12 */ s16 _12;
-    /* 0x18 */ void* _18;
+    /* 0x18 */ Unk18* _18;
 };
 KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);
 
