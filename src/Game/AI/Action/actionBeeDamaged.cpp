@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBeeDamaged.h"
+#include "Game/Actor/actSwarm.h"
+#include "Game/AI/aiUnk_710072A944.h"
 
 namespace uking::action {
 
@@ -15,7 +17,9 @@ void BeeDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void BeeDamaged::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* swarm = sead::DynamicCast<act::Swarm>(mActor))
+        swarm->_162c = 0;
+    sub_710072ABB4(mActor);
 }
 
 void BeeDamaged::loadParams_() {

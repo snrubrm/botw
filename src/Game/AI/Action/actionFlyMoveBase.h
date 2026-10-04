@@ -24,6 +24,8 @@ protected:
     virtual void m32(sead::Vector3f* target);
     // Writes the normalised direction to the target position and its distance.
     virtual void m33(sead::Vector3f* dir, f32* dist);
+    // 0x7100134380 (declared only).
+    bool sub_7100134380();
     bool sub_710013443C();
 
     struct Params {

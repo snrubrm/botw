@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionSwarmFlyMove.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710028508c (declared only).
+    void sub_710028508C();
     void calc_() override;
 
     // static_param at offset 0x138
@@ -25,6 +28,10 @@ protected:
     const int* mApplyMaterialAnimNumPerFrame_s{};
     // static_param at offset 0x148
     const float* mApplyMaterialAnimDist_s{};
+    ksys::Timer _150;
+    bool _15c = false;
 };
+KSYS_CHECK_SIZE_NX150(SwarmFlyAttack, 0x160);
+
 
 }  // namespace uking::action
