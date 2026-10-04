@@ -29,6 +29,11 @@ public:
     /* 0x3c */ s32 _3c;
     u8 _40[0x49 - 0x40];
     /* 0x49 */ u8 _49;
+    u8 _4a[0x61 - 0x4a];
+    /* 0x61 */ u8 _61;  // bit 1: ?, bits 1 / 2 are rewritten by sub_710094BE14
+    u8 _62;
+    /* 0x63 */ u8 _63;  // four flags (bits 0 / 1 and 2 / 3: two pairs, see sub_710094B844)
+    u8 _64[0x78 - 0x64];
 
 private:
     static Unk_71025d6578* sInstance;
@@ -55,8 +60,37 @@ public:
     /* 0xb6c */ s32 _b6c;
     /* 0xb70 */ f32 _b70;
     /* 0xb74 */ s32 _b74;
-    u8 _b78[0xd54 - 0xb78];
+    u8 _b78[0xd38 - 0xb78];
+    /* 0xd38 */ u16 _d38;
+    /* 0xd3a */ u8 _d3a;
+    u8 _d3b;
+    /* 0xd3c */ s32 _d3c;
+    /* 0xd40 */ s32 _d40;
+    /* 0xd44 */ s32 _d44;
+    /* 0xd48 */ s32 _d48;
+    /* 0xd4c */ s32 _d4c;
+    /* 0xd50 */ s32 _d50;
     /* 0xd54 */ sead::SafeArray<s32, 3> _d54;
+    /* 0xd60 */ s32 _d60;
+    /* 0xd64 */ s32 _d64;
+    u8 _d68[0xd78 - 0xd68];
+    /* 0xd78 */ s32 _d78;
+    u8 _d7c[0xd80 - 0xd7c];
+    /* 0xd80 */ sead::SafeArray<f32, 10> _d80;
+    /* 0xda8 */ f32 _da8;
+    /* 0xdac */ bool _dac;
+
+    // 0x7100948ee4 / 0x7100948ef4 / 0x7100948f04 (placeholder names)
+    bool isD78Zero() const;
+    bool isD78One() const;
+    void setD78(s32 value);
+    // 0x7100948f18 / 0x7100948f30
+    f32 getD80(s32 index) const;
+    void clearD80();
+    // 0x7100948f50 / 0x7100948fb8 / 0x7100948fc0
+    f32 getDA8() const;
+    bool getDAC() const;
+    void setDAC(bool value);
 
 private:
     static Unk_71025d6550* sInstance;
