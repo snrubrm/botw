@@ -1,4 +1,5 @@
 #include "Game/gameScene.h"
+#include "Game/gameSceneStateMachine.h"
 #include "KingSystem/System/StageInfo.h"
 
 namespace uking {
@@ -15,6 +16,31 @@ bool GameScene::sIsInitialisingStage;
 GameScene* GameScene::sInstance2;
 GameScene* GameScene::sInstance3;
 bool GameScene::sFlag;
+
+const ksys::StateBase& StateMachineOwnerBinding::getState() const {
+    return *mState;
+}
+
+void StateMachineOwnerBinding::enter() {
+    mRunCount = 0;
+    mState->enter(mOwner);
+}
+
+void StateMachineOwnerBinding::run() {
+    mState->run(mOwner);
+    ++mRunCount;
+}
+
+void StateMachineOwnerBinding::leave() {
+    mState->leave(mOwner);
+    mState = nullptr;
+    mRunCount = 0;
+}
+
+ksys::StateMachine::Unk2* StateMachineOwnerBindingHolder::setState(const ksys::StateBase* state) {
+    mBinding.mState = state;
+    return &mBinding;
+}
 
 bool GameScene::getIsInitialisingStage() {
     return sIsInitialisingStage;

@@ -48,6 +48,7 @@ target_sources(uking PRIVATE
   gameSceneSubsysMisc.cpp
   gameSceneSubsysMisc.h
   gameScene.h
+  gameSceneStateMachine.h
   gameStageBinder.cpp
   gameStage.cpp
   gameStage.h

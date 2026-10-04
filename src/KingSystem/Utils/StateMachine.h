@@ -76,6 +76,10 @@ public:
         virtual void run() = 0;
         virtual void leave() = 0;
         virtual s32 getRunCount() const = 0;
+        // The state's exec4 / return0 / null with the bound owner (the implementation at 0x7b70f4 / 0x7b710c / 0x7b7124).
+        virtual bool reenter(void* arg) = 0;
+        virtual bool exec5(void* arg) = 0;
+        virtual void exec6(void* arg) = 0;
     };
 
     // Hands out the Unk2 for a state (owners embed an implementation holding one Unk2, CSV
