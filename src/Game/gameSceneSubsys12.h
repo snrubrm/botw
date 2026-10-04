@@ -65,7 +65,9 @@ public:
     sead::Matrix34f _d8;
     sead::Matrix34f _108;
     sead::Matrix34f _138;
-    u8 _168[0x270 - 0x168];
+    // ctor62478 initializes five matrices; cooking664f8c writes index stride0x30.
+    sead::SafeArray<sead::Matrix34f, 5> _168;
+    u8 _258[0x270 - 0x258];
     f32 _270;
     u8 _274[0x300 - 0x274];
     ksys::act::BaseProcLink _300;

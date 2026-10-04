@@ -155,3 +155,31 @@ void GameSceneSubsys12::sub_7100664C30(sead::Vector3f* out, s32 count, s32 index
         out->z = sUnk_710243c00c * _a98[row][index].z - sUnk_710243c018;
     }
 }
+
+// NON_MATCHING: matrix/vector store scheduling and quaternion temporary allocation differ.
+void GameSceneSubsys12::sub_7100664F8C(s32 index, const sead::Matrix34f& matrix) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    _168[index] = matrix;
+    const s32 count = sub_710066358C();
+    if (index >= count || (_d4 & (1 << index)) || !_300.hasProc() || !_310)
+        return;
+    if (index >= _310->_638.size())
+        return;
+    auto* entry = _310->_638.at(index);
+    if (!entry)
+        return;
+    sead::Matrix34f transform;
+    transform.setMul((entry->_28 & 8) ? _138 : _108, _168[index]);
+    transform.setMul(_d8, transform);
+    const sead::Vector3f position = transform.getTranslation();
+    sead::Quatf rotation;
+    transform.toQuat(rotation);
+    sead::Vector3f entry_position;
+    sead::Quatf entry_rotation;
+    entry->sub_71006620CC(&entry_position, &entry_rotation);
+    entry->_6c = index;
+    entry->_88 = position - entry_position;
+    rotation.inverse();
+    entry->_78.setMul(rotation, entry_rotation);
+    _d4 |= 1 << index;
+}
