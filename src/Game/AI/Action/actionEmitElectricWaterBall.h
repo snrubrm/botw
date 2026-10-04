@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_71001058D0();
 
     // static_param at offset 0x20
     sead::SafeString mActorName_s{};
