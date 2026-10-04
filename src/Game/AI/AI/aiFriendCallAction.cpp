@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiFriendCallAction.h"
+#include "Game/AI/aiUnk_71007320F0.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -16,6 +18,51 @@ bool FriendCallAction::init_(sead::Heap* heap) {
 void FriendCallAction::enter_(ksys::act::ai::InlineParamPack* params) {
     _90.x();
     changeToCallOut();
+}
+
+inline bool FriendCallAction::isTargetNear() {
+    sead::Vector3f diff;
+    ksys::act::sub_7100EE67B0(&diff, mTargetActor_d);
+    diff -= mActor->getMtx().getTranslation();
+    const sead::Vector2f diff_h(diff.x, diff.z);
+    return !(diff_h.length() > *mNearDistH_s + sub_71007320F0(mActor, *mWeaponIdx_s)) &&
+           *mNearDistVMin_s < diff.y && diff.y < *mNearDistVMax_s;
+}
+
+// NON_MATCHING: block layout only (the original places the `setFailed()` block of the "待つ" branch right after the
+// `changeToAction()` block and `setFinished()` just before the final setDynamicParam; ours puts it after `setFinished()`)
+void FriendCallAction::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("呼ぶ")) {
+            if (_60._14)
+                changeToAwait();
+            else
+                setFailed();
+            return;
+        }
+        if (isCurrentChild("待つ")) {
+            if (isTargetNear())
+                changeToAction();
+            else
+                setFailed();
+        } else {
+            setFinished();
+        }
+    } else if (child->isChangeable()) {
+        if (!isCurrentChild("呼ぶ") && (!mTargetActor_d->hasProc() || _90._30)) {
+            setFailed();
+            return;
+        }
+        if (isCurrentChild("待つ")) {
+            if (isTargetNear())
+                changeToAction();
+        }
+    }
+
+    sead::Vector3f pos;
+    ksys::act::sub_7100EE67B0(&pos, mTargetActor_d);
+    child->setDynamicParam(pos, "TargetPos");
 }
 
 void FriendCallAction::leave_() {

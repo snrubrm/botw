@@ -3,6 +3,10 @@
 #include "Game/AI/AI/aiSimpleWildlifeRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::phys {
+class RayCastForRequest;
+}
+
 namespace uking::ai {
 
 class FishRoot : public SimpleWildlifeRoot {
@@ -43,6 +47,10 @@ protected:
     const float* mIgnoreFoodAfterSuccessBase_s{};
     // static_param at offset 0x148
     const float* mIgnoreFoodAfterSuccessRand_s{};
+    // 0x150: BaseProcLink (ctor), 0x160 .. 0x1b4: vector / counters (not decompiled)
+    u8 _150[0x1b8 - 0x150];
+    ksys::phys::RayCastForRequest* _1b8{};
+    ksys::phys::RayCastForRequest* _1c0{};
 };
 
 }  // namespace uking::ai

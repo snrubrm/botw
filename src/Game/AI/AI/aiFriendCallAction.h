@@ -14,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -26,6 +27,9 @@ public:
     void changeToAction();
 
 protected:
+    // Inline-only (name is a guess; the same test is inlined twice in calc_).
+    inline bool isTargetNear();
+
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
     // static_param at offset 0x40

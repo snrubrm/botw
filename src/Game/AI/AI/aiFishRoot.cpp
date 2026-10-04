@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiFishRoot.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -17,6 +18,12 @@ void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void FishRoot::leave_() {
+    if (_1b8)
+        _1b8->release();
+    _1b8 = nullptr;
+    if (_1c0)
+        _1c0->release();
+    _1c0 = nullptr;
     SimpleWildlifeRoot::leave_();
 }
 
