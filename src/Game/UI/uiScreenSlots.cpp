@@ -47,16 +47,16 @@ void ScreenEx::m127() {}
 void ScreenEx::m128() {}
 void ScreenEx::m129() {}
 void ScreenEx::m130() {}
-void ScreenEx::m131() {}
-void ScreenEx::m132() {}
-void ScreenEx::m133() {}
-void ScreenEx::m134() {}
-void ScreenEx::m135() {}
-void ScreenEx::m136() {}
-void ScreenEx::m137() {}
-void ScreenEx::m138() {}
-void ScreenEx::m139() {}
-void ScreenEx::m140() {}
+void ScreenEx::m131(void*) {}
+void ScreenEx::m132(void*) {}
+void ScreenEx::m133(void*, void*) {}
+void ScreenEx::m134(void*, void*) {}
+void ScreenEx::m135(void*, void*) {}
+void ScreenEx::m136(void*, void*) {}
+void ScreenEx::m137(void*, void*) {}
+void ScreenEx::m138(void*, void*) {}
+void ScreenEx::m139(void*, void*) {}
+void ScreenEx::m140(void*, void*) {}
 s32 ScreenEx::m141() {
     return 0;
 }

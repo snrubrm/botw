@@ -7,7 +7,12 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
+class Controller;
 class CriticalSection;
+}
+
+namespace eui {
+class UIController;
 }
 
 namespace uking::ui {
@@ -44,6 +49,8 @@ public:
     void sub_7100A7C9AC();
     void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
     void sub_7100A7F81C();
+    // 0x7100a702e8 (CSV uiManager::x_1)
+    void sub_7100A702E8(eui::UIController* controller);
     // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
     bool sub_7100A7F918() const;
     bool sub_7100A7FDB4() const;
@@ -102,7 +109,9 @@ public:
 
     u8 _e8[0x649ec - 0xe8];
     /* 0x649ec */ sead::BitFlag8 _649ec;
-    u8 _649ed[0x64b0c - 0x649ed];
+    u8 _649ed[0x649f0 - 0x649ed];
+    /* 0x649f0 */ sead::Controller* _649f0;  // the controller the screens' UIControllers are registered with
+    u8 _649f8[0x64b0c - 0x649f8];
     /* 0x64b0c */ u32 _64b0c;
     /* 0x64b10 */ u32 _64b10;
     u8 _64b14[0x64c24 - 0x64b14];

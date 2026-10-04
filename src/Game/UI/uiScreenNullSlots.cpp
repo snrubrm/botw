@@ -111,7 +111,7 @@ void ScreenControllerWindow::m106(eui::AnimButton*) {}
 void ScreenControllerWindow::m107(eui::AnimButton*) {}
 
 // 0x7100a02e14
-void ScreenControllerWindow::m138() {}
+void ScreenControllerWindow::m138(void*, void*) {}
 
 // 0x7100a68b6c
 void ScreenSystemWindow01::m96() {}

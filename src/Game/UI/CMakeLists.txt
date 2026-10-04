@@ -100,6 +100,9 @@ target_sources(uking PRIVATE
   uiScreenMiniGame.cpp
   uiScreenSmall2.cpp
   uiScreenLeafSlots.cpp
+  uiButtonEventQueue.cpp
+  uiScreenEx.cpp
+  uiScreenButtonUnit.cpp
   uiScreenSlots.cpp
   uiScreenStates.cpp
   uiScreenOwnSlots.cpp

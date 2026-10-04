@@ -1,12 +1,14 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadFreeList.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiUIController.h"
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
@@ -49,12 +51,9 @@ public:
 // 105-slot vtable derive from it). Slots 43-52 etc. are the ones Screen::m117 - m126 call. The first slots belong to
 // eui::ControlBase in the original (0 / 4); slots 2 / 3 are the destructor. Most default implementations are empty or
 // forward to another slot of the same object (the argument types of the forwarded slots are unknown).
-class ScreenChild {
+class ScreenChild : public eui::ControlBase {
 public:
-    virtual const char* m0();
-    virtual void m1();
-    virtual ~ScreenChild();
-    virtual void m4();
+    NN_RUNTIME_TYPEINFO(eui::ControlBase)
     virtual void m5();
     virtual void m6();
     virtual void m7();
@@ -155,6 +154,15 @@ public:
     virtual void m102(void* a1, void* a2);
     virtual void m103(void* a1, void* a2);
     virtual void m104(void* a1, void* a2);
+};
+
+// The class between ScreenChild and the concrete child classes (guess: the name; the RTTI chain of the leaf classes
+// is ControlBase <- ScreenChild-sized class <- this one <- leaf, e.g. the static at 0x71009865a8; ScreenEx::m144 -
+// m153 cast their children to it before forwarding the child slots 95 - 104). Its GetRuntimeTypeInfoStatic is
+// the out-of-line function at 0x710096a9c4.
+class ScreenChildEx : public ScreenChild {
+public:
+    NN_RUNTIME_TYPEINFO(ScreenChild)
 };
 
 class Screen : public ScreenBase, public ScreenHandlerImpl {
@@ -264,13 +272,69 @@ public:
     virtual void m126();
 };
 
+// Class of the per-button units of a ScreenEx (elements of ScreenEx::mButtonUnits, one per eui::AnimButton; vtable
+// 0x7102474e38 with 23 slots and sead RTTI, base of many of the UI helper classes; only the button notification slots
+// 15-22 are known). The sub_ functions are out-of-line forwarders to the slots (0x7100939ef8 - 0x7100939f4c).
+class Unk_7102474e38 {
+public:
+    SEAD_RTTI_BASE(Unk_7102474e38)
+    virtual ~Unk_7102474e38();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15(eui::AnimButton* button);
+    virtual void m16(eui::AnimButton* button);
+    virtual void m17(eui::AnimButton* button);
+    virtual void m18(eui::AnimButton* button);
+    virtual void m19(eui::AnimButton* button);
+    virtual void m20(eui::AnimButton* button);
+    virtual void m21(eui::AnimButton* button);
+    virtual void m22(eui::AnimButton* button);
+
+    void sub_7100939EF8(eui::AnimButton* button);
+    void sub_7100939F04(eui::AnimButton* button);
+    void sub_7100939F10(eui::AnimButton* button);
+    void sub_7100939F1C(eui::AnimButton* button);
+    void sub_7100939F28(eui::AnimButton* button);
+    void sub_7100939F34(eui::AnimButton* button);
+    void sub_7100939F40(eui::AnimButton* button);
+    void sub_7100939F4C(eui::AnimButton* button);
+};
+
+// ScreenEx::mButtonEvents (0x368): a pool-backed queue of (button, event kind) records (0x7100932ea4 appends a
+// record; the kinds 1-8 are pushed by ScreenEx::doButton{OnStart, OnEnd, ..., CancelEnd}_). Layout: the first 0x28
+// bytes are not modelled.
+class ButtonEventQueue {
+public:
+    struct Record {
+        eui::AnimButton* button = nullptr;
+        s32 kind = 0;
+    };
+
+    // 0x7100932ea4
+    void push(eui::AnimButton* button, s32 kind);
+
+private:
+    u8 _0[0x28];
+    sead::PtrArray<Record> mRecords;
+    sead::FreeList mFreeRecords;
+};
+
 class ScreenEx : public Screen {
 public:
     ScreenEx();
     ~ScreenEx() override;
     SEAD_RTTI_OVERRIDE(ScreenEx, Screen)
 
-    // Overrides of the eui::Screen button callbacks (not decompiled yet; CSV ScreenEx::doButton*)
+    // Overrides of the eui::Screen button callbacks
     void doButtonOnStart_(eui::AnimButton* button) override;
     void doButtonOnEnd_(eui::AnimButton* button) override;
     void doButtonOffStart_(eui::AnimButton* button) override;
@@ -280,37 +344,49 @@ public:
     void doButtonCancelStart_(eui::AnimButton* button) override;
     void doButtonCancelEnd_(eui::AnimButton* button) override;
 
+    eui::UIController* doCreateUIController_(sead::Heap* heap) override;
+    void registerController_() override;
+
     // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
-    u8 _300[0x3610 - 0x300];
+    u8 _300[0x368 - 0x300];
+    /* 0x368 */ ButtonEventQueue* mButtonEvents;
+    u8 _370[0x3a8 - 0x370];
+    // The units and buttons are parallel arrays (the setBuffer calls of the constructor: 400 entries each, the
+    // storage follows the array header).
+    /* 0x3a8 */ sead::FixedPtrArray<Unk_7102474e38, 400> mButtonUnits;
+    /* 0x1038 */ sead::FixedPtrArray<eui::AnimButton, 400> mButtons;
+    u8 _1cc8[0x3610 - 0x1cc8];
 
     // New virtual slots of ScreenEx (CSV ScreenEx::mNN, 127-153). Only the trivial ones have known signatures.
     virtual void m127();
     virtual void m128();
     virtual void m129();
     virtual void m130();
-    virtual void m131();
-    virtual void m132();
-    virtual void m133();
-    virtual void m134();
-    virtual void m135();
-    virtual void m136();
-    virtual void m137();
-    virtual void m138();
-    virtual void m139();
-    virtual void m140();
+    virtual void m131(void* a1);
+    virtual void m132(void* a1);
+    virtual void m133(void* a1, void* a2);
+    virtual void m134(void* a1, void* a2);
+    virtual void m135(void* a1, void* a2);
+    virtual void m136(void* a1, void* a2);
+    virtual void m137(void* a1, void* a2);
+    virtual void m138(void* a1, void* a2);
+    virtual void m139(void* a1, void* a2);
+    virtual void m140(void* a1, void* a2);
     virtual s32 m141();
     virtual s32 m142();
     virtual void* m143();
-    virtual void m144();
-    virtual void m145();
-    virtual void m146();
-    virtual void m147();
-    virtual void m148();
-    virtual void m149();
-    virtual void m150();
-    virtual void m151();
-    virtual void m152();
-    virtual void m153();
+    // m144 - m153: call the hook m131 - m140 of the same argument(s), then forward the call to the slots 95 - 104
+    // of every child that is a ScreenChildEx
+    virtual void m144(void* a1);
+    virtual void m145(void* a1);
+    virtual void m146(void* a1, void* a2);
+    virtual void m147(void* a1, void* a2);
+    virtual void m148(void* a1, void* a2);
+    virtual void m149(void* a1, void* a2);
+    virtual void m150(void* a1, void* a2);
+    virtual void m151(void* a1, void* a2);
+    virtual void m152(void* a1, void* a2);
+    virtual void m153(void* a1, void* a2);
 };
 
 KSYS_CHECK_SIZE_NX150(ScreenEx, 0x3610);
@@ -1666,7 +1742,7 @@ public:
     void m101() override;
     void m106(eui::AnimButton*) override;
     void m107(eui::AnimButton*) override;
-    void m138() override;
+    void m138(void* a1, void* a2) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenControllerWindow() override;

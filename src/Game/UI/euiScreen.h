@@ -175,7 +175,9 @@ public:
     /* 0x28 */ ScreenMgr* mMgr;
     /* 0x30 */ LayoutEx* mLayout;
     /* 0x38 */ ButtonGroup* mButtonGroup;
-    u8 _40[0x78 - 0x40];
+    u8 _40[0x60 - 0x40];
+    /* 0x60 */ UIController* mUIController;
+    u8 _68[0x78 - 0x68];
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
     u8 _a0[0xb8 - 0xa0];
