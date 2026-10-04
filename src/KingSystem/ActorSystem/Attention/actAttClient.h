@@ -31,6 +31,8 @@ public:
     // 0x7100d72554: whether the client's checks pass for `proc` (NameBalloon: never; Appeal:
     // camera within 30 of the actor).
     bool sub_7100D72554(BaseProc* proc, const res::AttCheck_Unk1* arg, bool a3) const;
+    // 0x7100d72534: a value of the client's resource (`_8->_a0->_2b0`).
+    s32 sub_7100D72534() const;
 
 private:
     Actor* mActor = nullptr;

@@ -84,6 +84,8 @@ public:
 
     // 0x7100d64ec8 (CSV RootAi::behaviorStuff): Behavior::x() of every behavior in the six update lists.
     void behaviorStuff();
+    // 0x7100d66b48 (CSV RootAi::x): stores the two vectors and the value, sets RootAiFlag 9.
+    void sub_7100D66B48(const sead::Vector3f& a, const sead::Vector3f& b, f32 value);
     void setBehavior(Behavior* behavior);
     void resetBehavior(Behavior* behavior);
 
@@ -113,11 +115,10 @@ private:
     u32 mI{};
     s16 mAt{};
     u8 _14e{};
-    void* _150{};
-    void* _158{};
-    void* _160{};
-    // TODO: is this really an atomic?
-    sead::Atomic<f32> _168 = 1.0;
+    sead::Vector3f _150{0, 0, 0};
+    sead::Vector3f _15c{0, 0, 0};
+    // Written as a plain float by sub_7100D66B48.
+    f32 _168 = 1.0;
     // RootAiFlag
     sead::BitFlag16 _16c;
     // RootAiFlag2

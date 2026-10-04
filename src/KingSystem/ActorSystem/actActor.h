@@ -820,7 +820,7 @@ protected:
     /* 0x68a */ sead::Atomic<bool> _68a = false;
     /* 0x68b */ sead::Atomic<bool> mNoFadeInCreate = false;
     /* 0x68c */ sead::Atomic<bool> _68c = false;
-    /* 0x68d */ sead::Atomic<bool> _68d = false;
+    /* 0x68d */ u8 _68d = 0;  // set to 1-4 by ActorConstDataAccess::sub_7100D15570 / 155F8 / 15680 / 15708
     /* 0x68e */ sead::Atomic<bool> _68e = false;
     /* 0x68f */ sead::Atomic<bool> _68f = false;
     /* 0x690 */ bool _690 = false;

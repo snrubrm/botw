@@ -20,6 +20,7 @@ class ObjectLinkData;
 }  // namespace ksys::map
 
 namespace ksys::phys {
+class ContactLayer;
 class NavMeshCharacter;
 class SystemGroupHandler;
 }
@@ -39,6 +40,7 @@ namespace ksys::act {
 class Actor;
 class Chemical;
 class Schedule;
+class Unk_71024dc978;
 
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
 public:
@@ -261,6 +263,47 @@ public:
     f32 getHorseMoveRadius() const;
     f32 getHorseAvoidOffset() const;
     bool horseTargetedIsCircularMoveAlways() const;
+
+    // lane4 s30: wrappers written from the original's `getActor()` + forward shape (see the .cpp).
+    f32 sub_7100D0E39C() const;
+    bool sub_7100D0EAA4(s64 value) const;
+    Unk_71024dc978* sub_7100D0FDF8() const;
+    bool sub_7100D0FFDC(int idx) const;
+    bool sub_7100D10F0C() const;
+    bool sub_7100D12F08(int idx) const;
+    bool sub_7100D13290(int idx) const;
+    bool sub_7100D1336C(int idx) const;
+    u8 sub_7100D134F8(int idx) const;
+    f32 sub_7100D135A0(int idx) const;
+    bool sub_7100D13654(int idx) const;
+    bool sub_7100D1370C(int idx) const;
+    s32 sub_7100D13860() const;
+    bool sub_7100D13994(s32 idx) const;
+    s32 sub_7100D13A3C(s32 idx) const;
+    bool sub_7100D13E9C() const;
+    bool sub_7100D13F38() const;
+    u64 sub_7100D144EC() const;
+    u64 sub_7100D14598() const;
+    bool sub_7100D11C5C(sead::Vector3f* out) const;
+    bool sub_7100D152E4() const;
+    void sub_7100D153A4(f32 value) const;
+    bool sub_7100D14250() const;
+    f32 sub_7100D141B0() const;
+    bool sub_7100D115E8(sead::Vector3f* out) const;
+    bool sub_7100D117C0(phys::ContactLayer* out) const;
+    bool sub_7100D11FB0() const;
+    f32 sub_7100D14780() const;
+    bool sub_7100D14C80(sead::Vector3f* out) const;
+    bool sub_7100D14D40(const sead::Matrix34f& mtx) const;
+    bool sub_7100D13DBC() const;
+    s32 sub_7100D15CB8() const;
+    s32 sub_7100D15D84() const;
+    s32 sub_7100D15E50() const;
+    void sub_7100D15570() const;
+    void sub_7100D155F8() const;
+    void sub_7100D15680() const;
+    void sub_7100D15708() const;
+    void sub_7100D15198(const sead::Vector3f& a, const sead::Vector3f& b, f32 value) const;
 
 private:
     Actor* getActor() const;

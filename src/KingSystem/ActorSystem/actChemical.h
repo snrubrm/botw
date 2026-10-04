@@ -53,6 +53,8 @@ public:
     bool sub_7100D913A8() const;
     int sub_7100D914C0() const;
     bool sub_7100D91508() const;
+    // 0x7100d91360: `_1c8->_1a`, or byte 0x182 while _c0 is 2, else 0.
+    u8 sub_7100D91360() const;
     sead::Vector3f sub_7100D9155C() const;
     bool sub_7100D915A8() const;
     void sub_7100D91614(const Chemical& other);

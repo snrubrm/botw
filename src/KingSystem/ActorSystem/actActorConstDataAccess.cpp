@@ -8,6 +8,14 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -856,6 +864,485 @@ s32 ActorConstDataAccess::getMaxLife() const {
     if (!actor)
         return 0;
     return actor->getMaxLife();
+}
+
+// 0x7100d0e39c: the ModelList's attack target offset (0 if there is none).
+f32 ActorConstDataAccess::sub_7100D0E39C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* list = actor->getParam()->getRes().mModelList;
+    if (!list)
+        return 0;
+    return list->getAttention().mAttackTargetOffsetBack.ref();
+}
+
+// 0x7100d0eaa4: stores `value` in Actor::m135()'s Unk3::_4, then deletes the actor with type 4.
+bool ActorConstDataAccess::sub_7100D0EAA4(s64 value) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (auto* unk = actor->m135())
+        unk->_4 = value;
+    return actor->deleteEx(Actor::DeleteType::_4, BaseProc::DeleteReason::_0);
+}
+
+// 0x7100d0fdf8: Actor::_548's awareness entry (Unk_71024dca28::m8()).
+Unk_71024dc978* ActorConstDataAccess::sub_7100D0FDF8() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    if (actor->_548 && actor->_548->m8())
+        return actor->_548->m8();
+    return nullptr;
+}
+
+// 0x7100d0ffdc: flag bit 27 of the chemical `idx` (the actor's first chemical if idx < 0).
+bool ActorConstDataAccess::sub_7100D0FFDC(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    Chemical* chemical;
+    if (idx < 0) {
+        chemical = actor->getChemicalStuff();
+    } else {
+        auto* chemicals = actor->mChemical;
+        if (!chemicals)
+            return false;
+        chemical = chemicals->getStuff(idx);
+    }
+    if (!chemical)
+        return false;
+    return chemical->_c & 0x8000000;
+}
+
+// 0x7100d10f0c
+bool ActorConstDataAccess::sub_7100D10F0C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (actor->get1a0())
+        return true;
+    if (auto* obj = actor->getMapObject()) {
+        if (obj->getFlags0().isOn(map::Object::Flag0::_20000))
+            return true;
+    }
+    return false;
+}
+
+// 0x7100d12f08: Chemical::sub_7100D9108C() of the chemical `idx` (the actor's first chemical if idx < 0).
+bool ActorConstDataAccess::sub_7100D12F08(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    Chemical* chemical;
+    if (idx < 0) {
+        chemical = actor->getChemicalStuff();
+    } else {
+        auto* chemicals = actor->mChemical;
+        if (!chemicals)
+            return false;
+        chemical = chemicals->getStuff(idx);
+    }
+    if (!chemical)
+        return false;
+    return chemical->sub_7100D9108C();
+}
+
+// 0x7100d13290
+bool ActorConstDataAccess::sub_7100D13290(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    Chemical* chemical;
+    if (idx < 0) {
+        chemical = actor->getChemicalStuff();
+    } else {
+        auto* chemicals = actor->mChemical;
+        if (!chemicals)
+            return false;
+        chemical = chemicals->getStuff(idx);
+    }
+    if (!chemical)
+        return false;
+    if (!(chemical->mMaterial->attribute.ref() & 1))
+        return false;
+    return !(chemical->_be & 1);
+}
+
+// 0x7100d1336c
+bool ActorConstDataAccess::sub_7100D1336C(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    Chemical* chemical;
+    if (idx < 0) {
+        chemical = actor->getChemicalStuff();
+    } else {
+        auto* chemicals = actor->mChemical;
+        if (!chemicals)
+            return false;
+        chemical = chemicals->getStuff(idx);
+    }
+    if (!chemical)
+        return false;
+    if (!(chemical->mMaterial->attribute.ref() & 8))
+        return false;
+    return !(chemical->_be & 4);
+}
+
+// 0x7100d134f8
+u8 ActorConstDataAccess::sub_7100D134F8(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* chemicals = actor->mChemical;
+    if (!chemicals)
+        return 0;
+    auto* chemical = chemicals->getStuff(idx < 0 ? 0 : idx);
+    if (!chemical)
+        return 0;
+    return chemical->sub_7100D91360();
+}
+
+// 0x7100d135a0
+f32 ActorConstDataAccess::sub_7100D135A0(int idx) const {
+    f32 value = 0;
+    if (auto* actor = getActor()) {
+        if (auto* chemicals = actor->mChemical) {
+            if (auto* chemical = chemicals->getStuff(idx < 0 ? 0 : idx)) {
+                if (!(chemical->_c & 0x1000000))
+                    value = chemical->_190;
+            }
+        }
+    }
+    return value;
+}
+
+// 0x7100d13654
+bool ActorConstDataAccess::sub_7100D13654(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* chemicals = actor->mChemical;
+    if (!chemicals)
+        return false;
+    auto* chemical = chemicals->getStuff(idx < 0 ? 0 : idx);
+    if (chemical && chemical->_c0 == 2 && chemical->sub_7100D913A8())
+        return true;
+    return false;
+}
+
+// 0x7100d1370c
+bool ActorConstDataAccess::sub_7100D1370C(int idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* chemicals = actor->mChemical;
+    if (!chemicals)
+        return false;
+    auto* chemical = chemicals->getStuff(idx < 0 ? 0 : idx);
+    if (!chemical)
+        return false;
+    if (chemical->_bf & 2)
+        return false;
+    return chemical->mMaterial->attribute.ref() & 0x8000;
+}
+
+// 0x7100d13860: ActorAttention::getNumClients().
+s32 ActorConstDataAccess::sub_7100D13860() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* attention = actor->getAttention();
+    if (!attention)
+        return 0;
+    return attention->getNumClients();
+}
+
+// 0x7100d13994: AttClient::isEnabled() of the actor's attention client `idx`.
+bool ActorConstDataAccess::sub_7100D13994(s32 idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    const auto* attention = actor->getAttention();
+    if (!attention)
+        return false;
+    auto* client = attention->getClientByIdx(idx);
+    if (!client)
+        return false;
+    return client->isEnabled();
+}
+
+// 0x7100d13a3c: AttClient::sub_7100D72534() of the actor's attention client `idx` (8 without one).
+s32 ActorConstDataAccess::sub_7100D13A3C(s32 idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return 8;
+    const auto* attention = actor->getAttention();
+    if (!attention)
+        return 8;
+    auto* client = attention->getClientByIdx(idx);
+    if (!client)
+        return 8;
+    return client->sub_7100D72534();
+}
+
+// 0x7100d13e9c: Unk_71024dc858::_50 of Actor::_548's entry.
+bool ActorConstDataAccess::sub_7100D13E9C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (auto* unk = actor->get548())
+        return unk->_18._50;
+    return false;
+}
+
+// 0x7100d13f38: LodState flag bit 7.
+bool ActorConstDataAccess::sub_7100D13F38() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (auto* lod = actor->getLodState())
+        return lod->mFlags8.isOnBit(7);
+    return false;
+}
+
+// NON_MATCHING: the original zero-extends the 32-bit result with `and x0, x0, #0xffffffff` (we emit `mov w0, w0`)
+// 0x7100d144ec
+u64 ActorConstDataAccess::sub_7100D144EC() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* rideable = actor->getHorseOptionsMaybe();
+    if (!rideable)
+        return 0;
+    return rideable->m23();
+}
+
+// NON_MATCHING: the original zero-extends the 32-bit result with `and x0, x0, #0xffffffff` (we emit `mov w0, w0`)
+// 0x7100d14598
+u64 ActorConstDataAccess::sub_7100D14598() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 1;
+    auto* unk = actor->getMotorcyclePriorityStuffMaybe();
+    if (!unk)
+        return 1;
+    return unk->sub_7100E8C03C();
+}
+
+// 0x7100d11c5c
+bool ActorConstDataAccess::sub_7100D11C5C(sead::Vector3f* out) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* unk = actor->m128();
+    if (!unk)
+        return false;
+    unk->m10(out, nullptr);
+    return true;
+}
+
+// 0x7100d152e4
+bool ActorConstDataAccess::sub_7100D152E4() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (actor->isAwakeMaybe()) {
+        if (auto* unk = actor->m128()) {
+            unk->m11();
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x7100d153a4: Actor::x_3(value).
+void ActorConstDataAccess::sub_7100D153A4(f32 value) const {
+    if (auto* actor = getActor())
+        actor->x_3(value);
+}
+
+// 0x7100d14250: BaseProc flag 0x10 (DoNotDelete).
+bool ActorConstDataAccess::sub_7100D14250() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->isDoNotDeleteMaybe();
+}
+
+// 0x7100d141b0: RigidBody::getVolume() of the main body.
+f32 ActorConstDataAccess::sub_7100D141B0() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return 0;
+    return body->getVolume();
+}
+
+// 0x7100d115e8: the main body's center of mass in local space (zero without a body).
+bool ActorConstDataAccess::sub_7100D115E8(sead::Vector3f* out) const {
+    if (!out)
+        return false;
+    if (auto* actor = getActor()) {
+        if (auto* body = actor->getMainBody()) {
+            body->getCenterOfMassInLocal(out);
+            return true;
+        }
+    }
+    *out = sead::Vector3f::zero;
+    return false;
+}
+
+// 0x7100d117c0: the main body's contact layer.
+bool ActorConstDataAccess::sub_7100D117C0(phys::ContactLayer* out) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* body = actor->getMainBody();
+    if (!body)
+        return false;
+    *out = body->getContactLayer();
+    return true;
+}
+
+// 0x7100d11fb0
+bool ActorConstDataAccess::sub_7100D11FB0() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* unk = actor->getMotorcyclePriorityStuffMaybe();
+    if (!unk)
+        return false;
+    const uking::act::Unk_7100e8b2b8::Unk8 type = unk->_8 & 0xff;
+    return int(type) != uking::act::Unk_7100e8b2b8::Unk8::_0;
+}
+
+// NON_MATCHING: the original returns the select in s0 and the early -1 separately (we keep a phi in s8)
+// 0x7100d14780: CharacterController::sub_7100F62E74 for the current body (-1 without one).
+f32 ActorConstDataAccess::sub_7100D14780() const {
+    f32 result = -1.0f;
+    if (auto* actor = getActor()) {
+        if (auto* controller = actor->getCharacterController()) {
+            f32 value = 0;
+            if (controller->sub_7100F62E74(&value, controller->_224))
+                result = value;
+        }
+    }
+    return result;
+}
+
+// 0x7100d14c80: the actor's gravity (the physics system's default one without an actor).
+bool ActorConstDataAccess::sub_7100D14C80(sead::Vector3f* out) const {
+    auto* actor = getActor();
+    if (actor) {
+        sub_7100EE5B84(out, actor);
+        return true;
+    }
+    *out = phys::System::instance()->getField48();
+    return false;
+}
+
+// 0x7100d14d40: while the actor sleeps, moves it to `mtx`.
+bool ActorConstDataAccess::sub_7100D14D40(const sead::Matrix34f& mtx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (actor->isSleep()) {
+        actor->setMtx(mtx, true, true);
+        actor->nullsub_4648();
+        return true;
+    }
+    return false;
+}
+
+// 0x7100d13dbc: whether the character controller's current body is the physics group "Swimming".
+bool ActorConstDataAccess::sub_7100D13DBC() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* controller = actor->getCharacterController();
+    if (!controller)
+        return false;
+    s32 idx = -1;
+    if (auto* physics = actor->getPhysics())
+        idx = physics->sub_7100FBE7F0("Swimming");
+    if (idx >= 0 && controller->_224 == idx)
+        return true;
+    return false;
+}
+
+// 0x7100d15cb8 / 0x7100d15d84 / 0x7100d15e50: integer map unit parameters.
+s32 ActorConstDataAccess::sub_7100D15CB8() const {
+    auto* actor = getActor();
+    if (!actor)
+        return -1;
+    auto* ai = actor->getRootAi();
+    if (!ai)
+        return -1;
+    const s32* value;
+    if (!ai->getMapUnitParam(&value, "EquipStandSlot"))
+        return -1;
+    return *value;
+}
+
+s32 ActorConstDataAccess::sub_7100D15D84() const {
+    auto* actor = getActor();
+    if (!actor)
+        return -1;
+    auto* ai = actor->getRootAi();
+    if (!ai)
+        return -1;
+    const s32* value;
+    if (!ai->getMapUnitParam(&value, "ArmorDyeColor"))
+        return -1;
+    return *value;
+}
+
+s32 ActorConstDataAccess::sub_7100D15E50() const {
+    auto* actor = getActor();
+    if (!actor)
+        return -2;
+    auto* ai = actor->getRootAi();
+    if (!ai)
+        return -2;
+    const s32* value;
+    if (!ai->getMapUnitParam(&value, "ShopSellType"))
+        return -2;
+    return *value;
+}
+
+// 0x7100d15570 / 0x7100d155f8 / 0x7100d15680 / 0x7100d15708: Actor::_68d = 1 / 2 / 3 / 4.
+void ActorConstDataAccess::sub_7100D15570() const {
+    if (auto* actor = getActor())
+        actor->_68d = 1;
+}
+
+void ActorConstDataAccess::sub_7100D155F8() const {
+    if (auto* actor = getActor())
+        actor->_68d = 2;
+}
+
+void ActorConstDataAccess::sub_7100D15680() const {
+    if (auto* actor = getActor())
+        actor->_68d = 3;
+}
+
+void ActorConstDataAccess::sub_7100D15708() const {
+    if (auto* actor = getActor())
+        actor->_68d = 4;
+}
+
+// 0x7100d15198: sets the root AI's two vectors and value (RootAi::sub_7100D66B48).
+void ActorConstDataAccess::sub_7100D15198(const sead::Vector3f& a, const sead::Vector3f& b,
+                                          f32 value) const {
+    if (auto* actor = getActor()) {
+        if (auto* ai = actor->getRootAi())
+            ai->sub_7100D66B48(a, b, value);
+    }
 }
 
 }  // namespace ksys::act

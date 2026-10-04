@@ -17,6 +17,13 @@ void RootAi::setChemicalFlags3cMaybe(u32 mask, bool on) {
     }
 }
 
+void RootAi::sub_7100D66B48(const sead::Vector3f& a, const sead::Vector3f& b, f32 value) {
+    _16c.setBit(9);
+    _150 = a;
+    _15c = b;
+    _168 = value;
+}
+
 RootAi::RootAi(const InitArg& arg) : Ai(arg) {
     mBehaviorsByStopAndCalcTiming[0].fill({});
     mBehaviorsByStopAndCalcTiming[1].fill({});

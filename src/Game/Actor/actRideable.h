@@ -84,7 +84,7 @@ public:
     // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
     // 0x7100e8bff4 (declared only).
     bool sub_7100E8BFF4();
-    s32 sub_7100E8C03C() const;
+    u32 sub_7100E8C03C() const;
     // 0x7100e8c068: with Unk8 3, the previous position of the actor linked in _20.
     bool sub_7100E8C068(sead::Vector3f* pos);
 
@@ -235,7 +235,7 @@ public:
     /* 21 */ virtual s32 m21() { return 0; }
     /* 22 */ bool m22(Unk8 a1) override;
     // callers and overrides copy the result through the stack: probably a SEAD_ENUM
-    /* 23 */ virtual int m23();
+    /* 23 */ virtual u32 m23();
     /* 24 */ virtual void m24();
     /* 25 */ bool m25() override { return false; }
     /* 26 */ f32 m26() override { return 0.0f; }
