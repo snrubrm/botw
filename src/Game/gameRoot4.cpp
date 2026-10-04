@@ -4,6 +4,11 @@ namespace uking {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Root4)
 
+// NON_MATCHING: flag-mask test operand registers differ.
+bool Root4::checkFlag(FlagIdx idx) const {
+    return ((1u << idx) & _28) != 0;
+}
+
 // NON_MATCHING: the original retains additional SEAD_ENUM argument copies.
 void Root4::sub_71008BCF44(FlagIdx idx, bool on) {
     _2c |= 1u << idx;
