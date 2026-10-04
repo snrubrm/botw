@@ -13,8 +13,9 @@ void LeaveFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
-// NON_MATCHING: same operations; the original keeps `goal` in the stack slot shared with the InlineParamPack (ours
-// has a separate slot below it) and schedules the target / actor loads slightly differently
+// NON_MATCHING: only the register numbering / load schedule of the direction (the original loads the actor's x / z as
+// integers first, the y after the sqrt, and numbers x / z s11 / s10); stack slots match (the `goal` / pack share a slot
+// because the step-back test is evaluated in its own scope before the pack is built)
 void LeaveFromTarget::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
@@ -25,19 +26,23 @@ void LeaveFromTarget::calc_() {
                 setFinished();
                 return;
             }
+            bool can_step_back = false;
             if (mActor) {
                 sead::Vector3f actor_pos;
                 mActor->getMtx().getTranslation(actor_pos);
-                sead::Vector3f dir(actor_pos.x - mTargetPos_d->x, 0.0f, actor_pos.z - mTargetPos_d->z);
+                sead::Vector3f dir = actor_pos;
+                dir -= *mTargetPos_d;
+                dir.y = 0.0f;
                 dir.normalize();
                 sead::Vector3f goal = actor_pos;
                 goal += dir * *mLeaveDist_s;
-                if (sub_710072FAB0(mActor, goal, nullptr, -1, -1.0f, -1.0f)) {
-                    ksys::act::ai::InlineParamPack pack;
-                    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
-                    changeChild("後ずさり", &pack);
-                    return;
-                }
+                can_step_back = sub_710072FAB0(mActor, goal, nullptr, -1, -1.0f, -1.0f);
+            }
+            if (can_step_back) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+                changeChild("後ずさり", &pack);
+                return;
             }
         }
 
