@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100808F88();
+    void sub_71008093A0();
+    void sub_710080A224();
 
     // static_param at offset 0x20
     const int* mAccelerateInputDelayGear0_s{};
@@ -62,7 +65,7 @@ protected:
     f32 _c4 = 0.0f;
     f32 _c8 = 0.0f;
     f32 _cc = 2.0f;
-    f32 _d0 = 0.0f;
+    s32 _d0 = 0;
     sead::Vector2f _d4{0.0f, 0.0f};
     sead::Vector2f _dc{0.0f, 0.0f};
     f32 _e4 = 0.0f;

@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionPlayerRideHorse.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include <limits>
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -24,7 +25,7 @@ void PlayerRideHorse::enter_(ksys::act::ai::InlineParamPack* params) {
     _b8 = 0.0f;
     _c4 = 0.0f;
     _104 = 0;
-    _d0 = 0.0f;
+    _d0 = 0;
     _e4 = 0.0f;
     _e8 = mActor->getVelocity();
     _f4 = mActor->getVelocity();
@@ -61,7 +62,29 @@ void PlayerRideHorse::loadParams_() {
 }
 
 void PlayerRideHorse::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (++_d0 < 2)
+        return;
+    if (_d0 == 2)
+        sub_7100808F88();
+    auto* ride_actor = act::getRideActor(mActor);
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(mActor);
+    // The original queries the ride info here even though the result is unused.
+    mActor->getPlayerRideInfo();
+    if (!ride_actor) {
+        setFailed();
+        return;
+    }
+    if (!player)
+        return;
+    auto* ride_info = ride_actor->getMotorcyclePriorityStuffMaybe();
+    if (!ride_info) {
+        setFailed();
+        return;
+    }
+    if (ride_info->m17() && ride_actor->getName().findIndex("Bike") == -1)
+        sub_71008093A0();
+    else
+        sub_710080A224();
 }
 
 }  // namespace uking::action
