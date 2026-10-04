@@ -15195,7 +15195,7 @@ Address,Quality,Size,Name
 0x0000007100235b88,O,000020,_ZN5uking6action21RequestCreateHCIModelD1Ev
 0x0000007100235b9c,O,000052,_ZN5uking6action21RequestCreateHCIModelD0Ev
 0x0000007100235bd0,O,000008,_ZN5uking6action21RequestCreateHCIModel5init_EPN4sead4HeapE
-0x0000007100235bd8,U,000040,_ZN5uking6action21RequestCreateHCIModel8oneShot_Ev
+0x0000007100235bd8,O,000040,_ZN5uking6action21RequestCreateHCIModel8oneShot_Ev
 0x0000007100235c00,O,000004,_ZN5uking6action21RequestCreateHCIModel11loadParams_Ev
 0x0000007100235c04,O,000288,_ZNK5uking6action21RequestCreateHCIModel27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100235d24,O,000092,_ZNK5uking6action21RequestCreateHCIModel18getRuntimeTypeInfoEv
@@ -55917,7 +55917,7 @@ Address,Quality,Size,Name
 0x000000710094c810,U,000188,
 0x000000710094c8cc,U,001280,
 0x000000710094cdcc,U,000588,
-0x000000710094d018,U,000224,HorseColorInfoMgr::x
+0x000000710094d018,U,000224,_ZN17HorseColorInfoMgr14sub_710094D018Ev
 0x000000710094d0f8,U,000028,
 0x000000710094d114,U,000380,HorseColorInfoMgr::createModels
 0x000000710094d290,U,000080,
