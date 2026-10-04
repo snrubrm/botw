@@ -9,8 +9,57 @@ namespace uking {
 // not decompiled).
 static sead::SafeString sUnk_71025cc6a8;
 
+// 0x71025cc858 (.bss; the type is unknown): returned by the three string getters of ViewerStageArg.
+static sead::SafeString sUnk_71025cc858;
+
+const sead::SafeString& ViewerStageArg::sub_71007D4CAC() const {
+    return sUnk_71025cc858;
+}
+
+const sead::SafeString& ViewerStageArg::sub_71007D4CB8() const {
+    return sUnk_71025cc858;
+}
+
+const sead::SafeString& ViewerStageArg::sub_71007D4CC4() const {
+    return sUnk_71025cc858;
+}
+
 const sead::SafeString& TitleStageArg::m8() {
     return sUnk_71025cc6a8;
+}
+
+StartupSaveCheckStageArg::~StartupSaveCheckStageArg() {}
+
+s32 StartupSaveCheckStageArg::sub_71007D17E0() {
+    return 4;
+}
+
+void StartupSaveCheckStageArg::sub_71007D17F0(sead::Heap* heap) {
+    mHeap = heap;
+}
+
+s32 StartupSaveCheckStageArg::sub_71007D17F8() {
+    return _18;
+}
+
+const sead::SafeString& StartupSaveCheckStageArg::sub_71007D1800() {
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& StartupSaveCheckStageArg::sub_71007D180C() {
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& StartupSaveCheckStageArg::sub_71007D1818() {
+    return sead::SafeString::cEmptyString;
+}
+
+s32 StartupSaveCheckStageArg::sub_71007D1824() {
+    return -1;
+}
+
+bool StartupSaveCheckStageArg::sub_71007D182C() {
+    return _1c;
 }
 
 // 0x71025cb0e9: set while the title stage exists (its init stores true, its destructor false). Next to the

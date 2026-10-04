@@ -182,10 +182,11 @@ struct DungeonStageArg {
     bool _218;
 };
 
+// The arg of the StartupSaveCheckStageBinder (0x20 bytes): its (non-inlined) methods are in the StartupSaveCheckStage
+// TU (0x71007d17d8-0x71007d182c).
 struct StartupSaveCheckStageArg {
     // 0x71007d17d8 (out of line; empty)
     ~StartupSaveCheckStageArg();
-    // 0x71007d17e0 ... 0x71007d182c (declaration only)
     s32 sub_71007D17E0();
     void sub_71007D17F0(sead::Heap* heap);
     s32 sub_71007D17F8();
@@ -196,6 +197,10 @@ struct StartupSaveCheckStageArg {
     bool sub_71007D182C();
 
     const void* _0;
+    void* mEnvArchive;
+    sead::Heap* mHeap;
+    s32 _18;
+    bool _1c;
 };
 
 class TitleStageBinder : public StageBinder {
