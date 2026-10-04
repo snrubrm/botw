@@ -592,6 +592,60 @@ f32 ActorConstDataAccess::sub_7100D110E4() const {
     return depth;
 }
 
+bool ActorConstDataAccess::sub_7100D0F048() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->_4f8 > 0;
+}
+
+bool ActorConstDataAccess::sub_7100D0F180() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->mFadeOutDeleteType != 0;
+}
+
+bool ActorConstDataAccess::sub_7100D0FF48() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->_68f != 0;
+}
+
+xlink::XLink* ActorConstDataAccess::sub_7100D0F214() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    return actor->mXLink;
+}
+
+Schedule* ActorConstDataAccess::sub_7100D0F3D0() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    return actor->mSchedule;
+}
+
+f32 ActorConstDataAccess::sub_7100D10A08() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    return actor->_490;
+}
+
+f32 ActorConstDataAccess::sub_7100D12100() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 1;
+    return actor->mScale.x;
+}
+
+void ActorConstDataAccess::sub_7100D1525C() const {
+    if (auto* actor = getActor())
+        actor->_687 = true;
+}
+
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching
 const sead::Vector3f& ActorConstDataAccess::getField44C_Vec3() const {
     auto* actor = getActor();

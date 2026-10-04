@@ -30,9 +30,14 @@ class GParamList;
 class Shop;
 }  // namespace ksys::res
 
+namespace ksys::xlink {
+class XLink;
+}
+
 namespace ksys::act {
 
 class Actor;
+class Schedule;
 
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
 public:
@@ -189,6 +194,24 @@ public:
     u32 getBalloonHungActorBaseProcID() const;
 
     bool checkFlag25() const;
+
+    // lane4 s29: field accessors (false / null / 0 if not an actor). Placeholder names = addresses.
+    // 0x7100d0f048: Actor::_4f8 > 0.
+    bool sub_7100D0F048() const;
+    // 0x7100d0f180: Actor::mFadeOutDeleteType != 0.
+    bool sub_7100D0F180() const;
+    // 0x7100d0ff48: Actor::_68f (CSV act::acc::Actor::*).
+    bool sub_7100D0FF48() const;
+    // 0x7100d0f214 (CSV ActorAccessor::getField568): Actor::mXLink.
+    xlink::XLink* sub_7100D0F214() const;
+    // 0x7100d0f3d0 (CSV act::acc::Actor::getQuestLink): Actor::mSchedule.
+    Schedule* sub_7100D0F3D0() const;
+    // 0x7100d10a08 (CSV act::acc::getField488): Actor::_490.
+    f32 sub_7100D10A08() const;
+    // 0x7100d12100 (CSV act::actor::getScaleX): Actor::mScale.x.
+    f32 sub_7100D12100() const;
+    // 0x7100d1525c: Actor::_687 = true.
+    void sub_7100D1525C() const;
 
     // Defined in Profiles/actDynamicActor.cpp (the DynamicActor TU). sub_71006DE298 returns the bool
     // map unit parameter `name` (actorAIGetBool), sub_71006DE338 the AI tree variable
