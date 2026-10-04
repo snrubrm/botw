@@ -30,4 +30,9 @@ void SetTransBoneForAnimeDriven::m8() {
         as_list->sub_710115BAF8(mTransBoneName_s);
 }
 
+void SetTransBoneForAnimeDriven::m9() {
+    if (auto* list = mActor->getASList())
+        list->sub_710115CD0C();
+}
+
 }  // namespace uking::behavior

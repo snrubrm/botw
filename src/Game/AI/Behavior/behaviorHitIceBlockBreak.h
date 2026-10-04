@@ -19,6 +19,8 @@ public:
     void m8() override;
     void m9() override;
     void loadParams() override;
+    // Original out-of-line update helper; declaration only.
+    void sub_7100627F7C(ksys::phys::RigidBody* body);
 
     /* 0x28 */ sead::SafeString mRigidBodyName_s{};
     /* 0x38 */ ksys::phys::RigidBody* _38 = nullptr;

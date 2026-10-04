@@ -26,4 +26,9 @@ bool HitIceBlockBreak::m6(sead::Heap* heap) {
     return true;
 }
 
+void HitIceBlockBreak::m7() {
+    if (_38)
+        sub_7100627F7C(_38);
+}
+
 }  // namespace uking::behavior

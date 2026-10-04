@@ -19,4 +19,8 @@ void FadeLeaf::loadParams() {
     getStaticParam(&mAlphaSpeed_s, "AlphaSpeed");
 }
 
+void FadeLeaf::m7() {
+    sub_7100622AB0();
+}
+
 }  // namespace uking::behavior

@@ -55,4 +55,9 @@ void AnimalAttack::m9() {
     sub_71007A2D7C(mActor, mAtkRigidName_s);
 }
 
+void AnimalAttack::m7() {
+    if (*mIsUseASEventAtCollision_s)
+        sub_7100616E20();
+}
+
 }  // namespace uking::behavior

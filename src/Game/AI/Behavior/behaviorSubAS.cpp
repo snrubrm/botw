@@ -24,4 +24,12 @@ void SubAS::loadParams() {
     getStaticParam(&mLeaveASName_s, "LeaveASName");
 }
 
+void SubAS::m8() {
+    sub_7100643440(mEnterASName_s);
+}
+
+void SubAS::m9() {
+    sub_7100643440(mLeaveASName_s);
+}
+
 }  // namespace uking::behavior
