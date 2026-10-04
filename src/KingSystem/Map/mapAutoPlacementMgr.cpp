@@ -1,5 +1,6 @@
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include <prim/seadScopedLock.h>
+#include "Game/AI/aiUnk_7100736460.h"
 
 namespace ksys::map {
 
@@ -14,6 +15,19 @@ void AutoPlacementMgr::sub_7100659F94(act::Actor* actor) {
             break;
         }
     }
+}
+
+bool AutoPlacementMgr::auto0(const sead::Vector3f& pos, u32 placement_type) {
+    return _171ef0.x(pos, true, 1 << placement_type, placement_type == 0 ? &_189df8 : nullptr);
+}
+
+bool AutoPlacementMgr::isNonAutoPlacement(const sead::Vector3f& pos, bool a2) {
+    if (a2) {
+        dlc::isPlayingOneHitObliteratorQuest();
+        if (_171e68[6] > 0)
+            return true;
+    }
+    return _171ef0.x(pos, true, 0x40, nullptr);
 }
 
 bool AutoPlacementMgr::auto9() {

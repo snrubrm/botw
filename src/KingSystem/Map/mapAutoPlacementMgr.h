@@ -16,6 +16,17 @@ class Actor;
 
 namespace ksys::map {
 
+// Placeholder (CSV AutoPlacementInfo::ctor 0x7100e8c60c, x 0x7100e8ce54 (pos -> grid cell lookup), x_0): embedded in the
+// AutoPlacementMgr at 0x171ef0 (size is a guess: up to the next member at 0x189df8; not decompiled).
+class AutoPlacementInfo {
+public:
+    // 0x7100e8ce54 (declared only; 720 bytes): `a4` is the optional extra buffer (the mgr passes its member at
+    // 0x189df8 for placement type 0).
+    bool x(const sead::Vector3f& pos, bool a2, u32 type_mask, const void* a4);
+
+    u8 _0[0x189df8 - 0x171ef0];
+};
+
 class AutoPlacementMgr {
     SEAD_SINGLETON_DISPOSER(AutoPlacementMgr)
 public:
@@ -62,8 +73,10 @@ public:
     u8 _171e47;
     s32 _171e48;
     sead::SafeArray<sead::Atomic<s32>, 7> _171e4c;
-    sead::SafeArray<u8, 7> _171e68;
-    u8 _171e6f[0x189e38 - 0x171e6f];
+    sead::SafeArray<s8, 7> _171e68;
+    u8 _171e6f[0x171ef0 - 0x171e6f];
+    AutoPlacementInfo _171ef0;
+    u8 _189df8[0x189e38 - 0x189df8];
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementMgr, 0x189E38);
 
