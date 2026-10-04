@@ -20,6 +20,13 @@ struct ASList::Unk2::InitArg {
 
 static const char* const sUnk_710250FFE0[] = {"0Gear", "1Gear", "2Gear", "3Gear", "TopGear"};
 
+ASList::Unk2::~Unk2() {
+    if (_0) {
+        delete _0;
+        _0 = nullptr;
+    }
+}
+
 bool ASList::Unk2::sub_71011617A8(const InitArg& arg, sead::Heap* heap) {
     _42 = arg.index;
     _8 = arg.slot;

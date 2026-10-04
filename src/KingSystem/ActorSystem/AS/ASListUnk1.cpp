@@ -3,6 +3,11 @@
 
 namespace ksys::as {
 
+void ASList::Unk1::sub_7101164B24() {
+    for (auto& entry : _20)
+        entry.sub_710116173C();
+}
+
 bool ASList::Unk1::sub_71011653A4() const {
     return _4e[0] == 2;
 }

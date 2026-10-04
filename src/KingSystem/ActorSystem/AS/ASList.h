@@ -41,6 +41,7 @@ public:
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
+        ~Unk2();
         struct InitArg;
         bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
         // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
@@ -146,6 +147,7 @@ public:
         void sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // 0x7101164900: per-slot update from the model list (partial count of slot `idx`).
         void sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor);
+        void sub_7101164B24();
 
         // 0x7101165008 (declaration only; lane4 s23): partial bone `key` of the slot, `mode` 3 (the root) or 0,
         // `a3` selects the variant of the two helpers 0x7100bff95c / 0x7100bff8e4.
