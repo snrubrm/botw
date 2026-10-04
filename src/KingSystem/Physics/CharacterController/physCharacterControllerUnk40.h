@@ -15,7 +15,7 @@ struct CharacterControllerUnk40 {
     /* 0x14 */ u8 _14[0x50];
     /* 0x64 */ u32 _64;
     /* 0x68 */ u8 _68;
-    /* 0x69 */ u8 _69;
+    /* 0x69 */ bool _69;
     /* 0x6a */ bool _6a;
     /* 0x6b */ u8 _6b;
     /* 0x6c */ u8 _6c;

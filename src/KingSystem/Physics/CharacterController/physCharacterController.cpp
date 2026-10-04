@@ -192,7 +192,6 @@ bool CharacterController::sub_7100F5F128() const {
     return _116 & 1;
 }
 
-// NON_MATCHING: the original returns the byte without the bool conversion (but SimpleKokkoRoot::calc_ needs bool)
 bool CharacterController::sub_7100F5F264() const {
     return _40->_69;
 }
