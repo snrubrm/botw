@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBeamTailDelete.h"
+#include <xlink2/xlink2Event.h>
+#include "Game/Actor/actBeamBase.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ bool BeamTailDelete::init_(sead::Heap* heap) {
 }
 
 void BeamTailDelete::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* beam = sead::DynamicCast<uking::act::Beam>(mActor))
+        beam->sub_7100002BF8();
 }
 
 void BeamTailDelete::leave_() {
@@ -21,7 +24,11 @@ void BeamTailDelete::leave_() {
 void BeamTailDelete::loadParams_() {}
 
 void BeamTailDelete::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* beam = sead::DynamicCast<uking::act::Beam>(mActor)) {
+        if (beam->_c48 && beam->_c48->getCreateId() == beam->_c50)
+            return;
+    }
+    setFinished();
 }
 
 }  // namespace uking::action
