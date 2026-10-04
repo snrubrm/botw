@@ -4,11 +4,11 @@
 namespace eui {
 
 // 0x7100bdca98
-BoxCursorMgr::BoxCursorMgr() : mEnabledTargets(0) {}
+BoxCursorMgr::BoxCursorMgr() : mMode(0), mEnabledTargets(0) {}
 
 // 0x7100bdccfc
 void BoxCursorMgr::m4(s32 mode) {
-    _10 = mode;
+    mMode = mode;
 }
 
 // 0x7100bdcb1c

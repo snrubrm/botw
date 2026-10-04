@@ -2,6 +2,7 @@
 
 #include <container/seadListImpl.h>
 #include <container/seadSafeArray.h>
+#include <math/seadBoundBox.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -14,6 +15,9 @@ class Pane;
 }  // namespace nn::ui2d
 
 namespace eui {
+
+// 0x7100bed030
+void CalcPaneBoundBox(sead::BoundBox2f* box, const nn::ui2d::Pane& pane);
 
 class AnimButton;
 class BoxCursorControl;
@@ -97,10 +101,16 @@ public:
 
     BoxCursorMgr();
     virtual ~BoxCursorMgr() = default;
-    virtual void m4(s32 mode);  // 0x7100bdccfc: stores `_10`
+    // 0x7100bdccfc: stores the mode (values 3-6 move the cursor in the direction `mode - 3`)
+    SEAD_ENUM(Mode, _0, _1, _2, _3, _4, _5, _6)
+    virtual void m4(s32 mode);
     virtual void m5(BoxCursorNode* node);
     virtual void m6(DrawTarget target);
     virtual void update();
+
+    // inline-only in the original; name is a guess (the DrawTarget argument is spilled to the stack by the inlined
+    // by-value parameter, see BoxCursorControl::Update)
+    bool isTargetEnabled(DrawTarget target) const { return mEnabledTargets.isOnBit(target); }
 
     // 0x7100bdccc4 / 0x7100bdcdd0 / 0x7100bdcd80
     void setEnable(DrawTarget target, bool enable);
@@ -108,7 +118,7 @@ public:
     void eraseNodeLinks(const BoxCursorNode* node);
 
     /* 0x08 */ ScreenMgr* mScreenMgr = nullptr;
-    /* 0x10 */ s32 _10 = 0;
+    /* 0x10 */ Mode mMode;
     /* 0x14 */ sead::BitFlag8 mEnabledTargets;
     /* 0x18 */ sead::SafeArray<BoxCursorControl*, 2> mControls{};
 };

@@ -31,6 +31,58 @@ void BoxCursorControl::initialize(const nn::ui2d::ControlSrc& src, LayoutEx* lay
     mLayout->mScreen->_107 |= 4;
 }
 
+// NON_MATCHING: regalloc only (the original loads the box as ldp min.x/min.y -> w8/w11 and ldp max.x/max.y -> w10/w9)
+// 0x7100bdbe1c
+void BoxCursorControl::Update(f32 dt) {
+    Screen* screen = mLayout->mScreen;
+    const DrawTarget target = screen->getDrawTarget();
+    BoxCursorMgr* mgr = screen->mMgr->getBoxCursorMgr();
+    if (!mgr->isTargetEnabled(target))
+        return;
+
+    if (!mActiveNode || !mActiveNode->isMovable(target))
+        selectActiveNode_();
+
+    if (!mActiveNode) {
+        mActiveNode = nullptr;
+        screen->close(-1);
+        return;
+    }
+
+    if (mReservedActiveNode) {
+        if (mReservedActiveNode->isMovable(target)) {
+            BoxCursorNode* old_node = mActiveNode;
+            BoxCursorNode* node = mReservedActiveNode;
+            mActiveNode = node;
+            if (old_node && old_node != node)
+                old_node->mButton->InactivateByBoxCursor();
+            if (node) {
+                node->getPosition(&mPos);
+                node->mScreen->mActiveCursorNode = node;
+                if (old_node != node)
+                    node->mButton->ActivateByBoxCursor();
+            }
+        }
+        mReservedActiveNode = nullptr;
+    }
+
+    const BoxCursorMgr::Mode mode = mgr->mMode;
+    if (mode >= 3)
+        moveNode_(Direction(int(mode) - 3));
+
+    sead::BoundBox2f box;
+    CalcPaneBoundBox(&box, *mActiveNode->mButton->mBoxCursorPane);
+    mActiveNode->mScreen->adjstBoxCursor(&box, mActiveNode);
+
+    const sead::Vector2f min = box.getMin();
+    const sead::Vector2f max = box.getMax();
+    mTopLeft->SetPosition({min.x, max.y, 0});
+    mTopRight->SetPosition({max.x, max.y, 0});
+    mBottomLeft->SetPosition({min.x, min.y, 0});
+    mBottomRight->SetPosition({max.x, min.y, 0});
+    mActiveNode->getPosition(&mPos);
+}
+
 // 0x7100bdc1e8
 void BoxCursorControl::sub_7100BDC1E8(bool b) {
     BoxCursorNode* node = mActiveNode;
