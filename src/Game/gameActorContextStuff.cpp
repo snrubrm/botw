@@ -112,13 +112,19 @@ bool ActorContextStuff::sub_710065E710() {
 }
 
 bool ActorContextStuff::sub_710065E788(sead::Matrix34f* matrix, s32 index) {
-    if (auto* scene = GameSceneSubsys12::instance()) {
-        if (scene->_300.hasProc() && scene->_310 == this && scene->sub_7100664F30())
-            return sub_710065E88C(matrix, index);
-    }
+    if (sub_710065E834())
+        return sub_710065E88C(matrix, index);
     if (_68 & 2)
         return sub_710065DE90(matrix, index);
     return sub_710065ECF8(matrix, index);
+}
+
+bool ActorContextStuff::sub_710065E834() const {
+    if (auto* scene = GameSceneSubsys12::instance()) {
+        if (scene->_300.hasProc() && scene->_310 == this)
+            return scene->sub_7100664F30();
+    }
+    return false;
 }
 
 // NON_MATCHING: stack allocation and matrix arithmetic/store scheduling differ.

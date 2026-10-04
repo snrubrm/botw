@@ -118,6 +118,8 @@ public:
     bool sub_710065E710();
     // 0x710065e788: chooses the active-scene, menu, or normal item transform.
     bool sub_710065E788(sead::Matrix34f* matrix, s32 index);
+    // 0x710065e834: this is the active scene context and its transform is ready.
+    bool sub_710065E834() const;
     bool sub_710065E88C(sead::Matrix34f* matrix, s32 index);
     bool sub_710065DE90(sead::Matrix34f* matrix, s32 index);
     bool sub_710065ECF8(sead::Matrix34f* matrix, s32 index);
