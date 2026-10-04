@@ -317,7 +317,7 @@ bool WeaponBase::m197() {
     return false;
 }
 
-bool WeaponBase::m217() {
+bool WeaponBase::m217(sead::SafeString* out) {
     return false;
 }
 

@@ -19,6 +19,9 @@ protected:
     virtual ksys::act::Actor* m33();
     virtual void m34();
     virtual void m35();
+    // 0x7100e141f0 / 0x7100e144fc (out of line in the original): update the bind matrix / bind the weapon.
+    void sub_7100E141F0();
+    void sub_7100E144FC();
 
     // dynamic_param at offset 0x20
     sead::SafeString mNodeName_d{};

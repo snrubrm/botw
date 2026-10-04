@@ -12,6 +12,10 @@ namespace ksys::eco {
 enum class WeaponModifier;
 }
 
+namespace uking::action {
+class EquipedAction;
+}
+
 namespace ksys::act {
 
 class InstParamPack;
@@ -124,7 +128,8 @@ public:
     virtual bool m214() { return true; }
     virtual void m215() {}
     virtual bool m216() { return false; }
-    virtual bool m217();
+    // 0x7100efbab8: takes an out SafeString (EquipedAction::calc_ passes a default-constructed one).
+    virtual bool m217(sead::SafeString* out);
     virtual bool m218() { return false; }
     virtual bool isMasterSword() { return false; }
     virtual void masterSwordReturnToForest() {}
@@ -167,6 +172,9 @@ public:
                                          ksys::act::InstParamPack* params, s32 task_lane_id);
 
 protected:
+    // EquipedAction binds the weapon through `_a00` (lane3 s23).
+    friend class uking::action::EquipedAction;
+
     // lane4 s30: BaseProc / Actor overrides of the weapon (slots 22, 23, 12, 13).
     IsSpecialJobTypeResult isSpecialJobType_(JobType type) override;
     bool canWakeUp_() override;
