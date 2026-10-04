@@ -19,9 +19,8 @@ void PlacementObjs::resetGroup(int group_idx) {
     mGroups[group_idx].num_objs = 0;
 }
 
-// NON_MATCHING: the group address is formed differently (add x8, x19, x20, lsl #5 + mov in the original)
 void PlacementObjs::freeObjects() {
-    for (size_t group_idx = 0; group_idx < 10; ++group_idx) {
+    for (s32 group_idx = 0; group_idx < 10; ++group_idx) {
         auto& group = mGroups(group_idx);
         for (s32 i = 0; i < group.num_objs; ++i)
             group.objects[i].free();
