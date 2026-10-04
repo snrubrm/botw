@@ -19,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    // 0x71000e2dc0: declared only; creates the replacement actor.
+    // 0x71000e2dc0: creates the replacement actor.
     bool sub_71000E2DC0();
 
     // dynamic_param at offset 0x20
