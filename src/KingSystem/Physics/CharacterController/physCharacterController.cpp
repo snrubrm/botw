@@ -579,8 +579,8 @@ void CharacterController::sub_7100F5FBC8(sead::Vector3f* linear_velocity,
         mRigidBody->computeVelocities(linear_velocity, angular_velocity, target);
 }
 
-// NON_MATCHING: body selection becomes a csel of the two field addresses (as in
-// physicsXXXGetMtx_1); the original branches on the flag byte
+// NON_MATCHING: the body selection becomes a csel of the two field addresses (the original loads one of them in
+// each branch of a flag test)
 void CharacterController::sub_7100F5FC8C(const sead::Matrix34f& mtx) {
     sead::Vector3f linear_vel;
     sead::Vector3f angular_vel;
@@ -599,15 +599,12 @@ void CharacterController::sub_7100F5FC8C(const sead::Matrix34f& mtx) {
         _114 |= 0x20;
 }
 
-// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped)
 void CharacterController::physicsXXXGetMtx_1(sead::Matrix34f* mtx) const {
-    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(mtx);
+    (!mFlags.isOn(0x10000) ? mRigidBody : _298)->getTransform(mtx);
 }
 
-// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped), as in
-// physicsXXXGetMtx_1
 void CharacterController::sub_7100F626E8(sead::Matrix34f* out) const {
-    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getTransform(out);
+    (!mFlags.isOn(0x10000) ? mRigidBody : _298)->getTransform(out);
     *out = *out * _a0;
 }
 
@@ -703,10 +700,8 @@ void CharacterController::sub_7100F5EF08(bool on) {
     _114 |= 0x20;
 }
 
-// NON_MATCHING: the two field addresses are computed in the opposite order (csel operands swapped), as in
-// physicsXXXGetMtx_1
 void CharacterController::sub_7100F5F6E0(sead::Vector3f* position) const {
-    (mFlags.isOn(0x10000) ? _298 : mRigidBody)->getPosition(position);
+    (!mFlags.isOn(0x10000) ? mRigidBody : _298)->getPosition(position);
 }
 
 void CharacterController::sub_7100F5F6FC(const sead::Vector3f& velocity) {

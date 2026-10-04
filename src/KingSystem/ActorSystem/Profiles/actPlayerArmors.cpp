@@ -23,18 +23,16 @@ void PlayerArmors::sleep(BaseProc::SleepWakeReason reason) {
     }
 }
 
-// NON_MATCHING: the original keeps the SafeArray bounds clamp of `_10(i)` (the part count 3 / 6 is not known to be <= 6
-// there) and materialises the constants 6 / 3 in the other order
 void PlayerArmors::sub_7100E3170C(BaseProc::SleepWakeReason reason) {
     bool flag = false;
     s32 count = 3;
     if (auto* mgr = gdt::Manager::instance()) {
         gdt::getBoolByName(mgr, &flag, "IsGet_PortableUnit");
-        count = flag ? 6 : 3;
+        count = !flag ? 3 : 6;
     }
     for (int i = 0; i < count; ++i) {
         ActorConstDataAccess accessor;
-        if (acquireActor(&_10(i), &accessor))
+        if (acquireActor(&_10[i], &accessor))
             accessor.wakeUp(reason);
     }
 }
