@@ -97,6 +97,21 @@ bool Unk_710243be90::sub_7100661540(const ksys::act::BaseProcLink& link) const {
     return _30 == link;
 }
 
+bool Unk_710243be90::sub_7100661650(ksys::act::BaseProcLink* link) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::ActorConstDataAccess other;
+    return ksys::act::acquireActor(&_30, &accessor) && ksys::act::acquireActor(link, &other) &&
+           accessor.getName() == other.getName();
+}
+
+bool Unk_710243be90::sub_710066178C(sead::BufferedSafeString* out) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&_30, &accessor))
+        return false;
+    out->copy(accessor.getName());
+    return true;
+}
+
 void Unk_710243be90::sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const {
     if ((_118->_68 & 1) && _58)
         _58->getPositionAndRotation(position, rotation);

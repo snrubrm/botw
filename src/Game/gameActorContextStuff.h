@@ -45,6 +45,8 @@ public:
     void sub_710066074C(ActorContextStuff* context, s32 index, bool for_menu,
                       ksys::phys::SystemGroupHandler* handler, sead::Heap* heap);
     bool sub_7100661540(const ksys::act::BaseProcLink& link) const;
+    bool sub_7100661650(ksys::act::BaseProcLink* link);
+    bool sub_710066178C(sead::BufferedSafeString* out);
     void sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const;
     void sub_71006620F8(sead::Matrix34f* matrix) const;
     // 0x7100661058 / 0x7100661a58: carried actor detach/update (declarations only).

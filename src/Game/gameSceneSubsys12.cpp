@@ -34,6 +34,16 @@ Unk_710243be90* GameSceneSubsys12::sub_7100663278(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
+bool GameSceneSubsys12::sub_7100663364(sead::Matrix34f* out) {
+    if (!_300.hasProc())
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    // The original calls acquireActor but discards its result after the hasProc check.
+    ksys::act::acquireActor(&_300, &accessor);
+    *out = accessor.getActorMtx();
+    return true;
+}
+
 s32 GameSceneSubsys12::sub_710066358C() {
     sead::ScopedLock<sead::CriticalSection> lock(&_38);
     return _300.hasProc() && _310 ? _310->sub_710065F044() : 0;

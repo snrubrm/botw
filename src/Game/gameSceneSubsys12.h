@@ -25,6 +25,8 @@ public:
     void sub_7100662EF0(ksys::act::Actor* actor);
     // 0x7100663278: assigns a carried entry for proc.
     Unk_710243be90* sub_7100663278(ksys::act::BaseProc* proc);
+    // 0x7100663364: copies the carrier's actor matrix if it exists.
+    bool sub_7100663364(sead::Matrix34f* out);
     // 0x710066358c / 0x71006652c8
     s32 sub_710066358C();
     bool sub_71006652C8() const;
