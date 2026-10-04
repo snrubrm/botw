@@ -152,6 +152,9 @@ public:
     // 0x7100d0f57c (lane1 s26): the actor's ride info's NavMeshCharacter if it has one (HorseRideInfo::_28),
     // else the actor's own (Actor::m45()); null if the proc is not an actor. Name is a guess.
     phys::NavMeshCharacter* sub_7100D0F57C() const;
+    // 0x7100d142e0 (declared only; lane1 s26): int result read by EnemyTargetGearSelect::calc_ (the target's gear).
+    // Placeholder name.
+    u64 sub_7100D142E0() const;
     // 0x7100d11188 (declared only; lane1 s21): the actor's chemical matrix (Chemical 0x7100d9153c)
     // into `out` and true; `*out = Matrix34f::ident` and false without a chemical.
     bool sub_7100D11188(sead::Matrix34f* out) const;
