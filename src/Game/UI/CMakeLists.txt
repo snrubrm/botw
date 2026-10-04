@@ -26,6 +26,7 @@ target_sources(uking PRIVATE
   euiControlBase.h
   euiGrammar.cpp
   euiTagProcessor.cpp
+  euiTextSearcher.cpp
   euiMessageSet.cpp
   euiSharcArchive.cpp
   euiMessageMgr.cpp

@@ -1,7 +1,14 @@
 #include "Game/UI/euiArcResourceMgr.h"
 #include <filedevice/seadFileDeviceMgr.h>
+#include <new>
 
 namespace eui {
+
+// 0x71014085d0
+sead::DirectResource* ArcResourceMgr::OneTimeBinaryResourceFactory::newResource_(sead::Heap*, s32) {
+    mUsed = true;
+    return new (mStorage) sead::DirectResource;
+}
 
 // 0x7101407a14
 ArcResourceMgr::ArcResourceMgr() {

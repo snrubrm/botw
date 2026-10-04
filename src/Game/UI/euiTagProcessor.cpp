@@ -232,6 +232,39 @@ TagProcessor::Operation TagProcessor::m15(u32 code, nn::font::PrintContext<u16>*
     }
 }
 
+// 0x7100be6fa0
+// NON_MATCHING: tag traversal, span length conversion, and floating-point call scheduling differ.
+TagProcessor::Operation TagProcessor::m26(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    u16 count;
+    u16 width;
+    std::memcpy(&count, tag->getParam(), sizeof(count));
+    std::memcpy(&width, tag->getParam() + 2, sizeof(width));
+    const char16* end = next;
+    u32 characters = 0;
+    while (characters != count) {
+        if (*end == 0xe) {
+            end = reinterpret_cast<const char16*>(reinterpret_cast<const u8*>(end) + 8 + end[3]);
+        } else if (*end == 0xf) {
+            end += 3;
+        } else {
+            ++characters;
+            ++end;
+        }
+    }
+    nn::font::Rectangle rect{};
+    context->writer->CalculateStringRect(&rect, reinterpret_cast<const u16*>(next), end - next);
+    const f32 measured_width = rect.right - rect.left;
+    const f32 max_width = f32(width) / 256.0f * context->writer->GetFontWidth();
+    if (max_width < measured_width) {
+        context->writer->SetScale(max_width / measured_width * context->writer->GetScaleX(),
+                                  context->writer->GetScaleY());
+    }
+    context->str = reinterpret_cast<const u16*>(next);
+    return Operation_Default;
+}
+
 // 0x7100be70b8
 f32 TagProcessor::m27() const {
     return 0.4f;

@@ -3,6 +3,7 @@
 #include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <resource/seadResource.h>
 
 namespace nn::gfx {
 class ResShaderFile;
@@ -12,6 +13,20 @@ namespace eui {
 
 class ArcResourceMgr {
 public:
+    class OneTimeBinaryResourceFactory : public sead::DirectResourceFactoryBase {
+        SEAD_RTTI_OVERRIDE(OneTimeBinaryResourceFactory, sead::DirectResourceFactoryBase)
+    public:
+        OneTimeBinaryResourceFactory() = default;
+        ~OneTimeBinaryResourceFactory() override = default;
+        sead::DirectResource* newResource_(sead::Heap* heap, s32 alignment) override;
+
+    private:
+        // loadArchive leaves this placement-constructed resource in its raw storage; only the
+        // factory base is destroyed at scope exit (0x7101407e28).
+        /* 0x78 */ u8 mStorage[sizeof(sead::DirectResource)];
+        /* 0x98 */ bool mUsed = false;
+    };
+
     class ArcResource : public sead::IDisposer {
     public:
         ArcResource(ArcResourceMgr* mgr, const sead::SafeString& name, void* data);
@@ -39,5 +54,6 @@ protected:
 };
 static_assert(sizeof(ArcResourceMgr) == 0x20);
 static_assert(sizeof(ArcResourceMgr::ArcResource) == 0xa0);
+static_assert(sizeof(ArcResourceMgr::OneTimeBinaryResourceFactory) == 0xa0);
 
 }  // namespace eui
