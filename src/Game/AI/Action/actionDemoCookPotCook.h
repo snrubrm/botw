@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,15 @@ protected:
     bool* mIsSuccess_d{};
     // aitree_variable at offset 0x38
     void* mCurrentCookResultHolder_a{};
+    s32 _40 = 0;
+    gsys::BoneAccessKeyEx _48;
+    gsys::BoneAccessKeyEx _80;
+    gsys::BoneAccessKeyEx _b8;
+    gsys::BoneAccessKeyEx _f0[5];
+    s32 _208 = 0;
+    s32 _20c = 0;
+    bool _210 = false;
 };
+KSYS_CHECK_SIZE_NX150(DemoCookPotCook, 0x218);
 
 }  // namespace uking::action
