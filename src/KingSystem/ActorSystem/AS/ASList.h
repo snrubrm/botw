@@ -33,6 +33,8 @@ public:
         // 0x710042bbec (declaration only; lane4 s23): sets bit 8 of the halfword at 0x40.
         void sub_710042BBEC();
 
+        // 0x7101161cd8 (declaration only): the context's string (empty if there is no element).
+        const sead::SafeString* sub_7101161CD8();
         // used with x_7
         bool sub_7101162F2C();
         bool sub_7101162FE8();
@@ -72,7 +74,8 @@ public:
         /* 0x18 */ Element* _18;
         /* 0x20 */ void* _20;
         /* 0x28 */ void* _28;
-        /* 0x30 */ u8 _30[0x41 - 0x30];
+        /* 0x30 */ u8 _30[0x40 - 0x30];
+        /* 0x40 */ u8 _40;
         /* 0x41 */ u8 _41;
         /* 0x42 */ u8 _42;
         /* 0x43 */ u8 _43;
@@ -232,6 +235,10 @@ public:
     /* 0x133 */ u8 _133[0x163 - 0x133];
     /* 0x163 */ u8 _163;
 };
+
+// 0x7101259c78 (declaration only): finds the first event of `type` whose mask has a bit of `mask` in the
+// context's event ring; copies its name / values into `query` (if given).
+bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, int mask, ASList::Unk2* entry);
 
 // 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.

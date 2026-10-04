@@ -44,11 +44,12 @@ public:
     res::ASResource* sub_7101258CC0();
 
     /* 0x00 */ ASList* mList;
-    /* 0x08 */ u8 _8[0x10];
+    /* 0x08 */ sead::SafeString mUnk8;
     /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
     /* 0x28 */ u8 _28[0xe0 - 0x28];
     /* 0xe0 */ f32 _e0;
-    /* 0xe4 */ u8 _e4[0x921 - 0xe4];
+    /* 0xe4 */ u8 _e4[0x920 - 0xe4];
+    /* 0x920 */ u8 _920;
     /* 0x921 */ u8 _921;
 };
 
@@ -172,6 +173,9 @@ class Selector : public SelectorBase {
     SEAD_RTTI_OVERRIDE(Selector, SelectorBase)
 public:
     Selector();
+
+    bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
+             f32 value) override;
 
     virtual void m38();
     virtual int m39(Context* ctx, u32 a2, const res::ASResource* resource);

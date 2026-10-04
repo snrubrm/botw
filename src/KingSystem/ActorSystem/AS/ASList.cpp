@@ -120,6 +120,47 @@ f32 ASList::Unk2::sub_7101163564() {
     return result;
 }
 
+const sead::SafeString& ASList::x_1(u32 slot, u32 seq_bank) {
+    if (auto* entry = getEntry(slot, seq_bank))
+        return *entry->sub_7101161CD8();
+    return sead::SafeString::cEmptyString;
+}
+
+bool ASList::x_4(u32 slot, u32 seq_bank) {
+    auto* entry = getEntry(slot, seq_bank);
+    if (!entry)
+        return true;
+    return entry->_40 & 1;
+}
+
+bool ASList::Unk2::sub_71011637EC(Unk4* query, int a2, bool a3) {
+    if (a3 && _10 <= 0)
+        return false;
+    return sub_7101259C78(_0, query, a2, 1, this);
+}
+
+bool ASList::Unk2::sub_710116383C(Unk4* query, int a2, bool a3) {
+    if (a3 && _10 <= 0)
+        return false;
+    return sub_7101259C78(_0, query, a2, 2, this);
+}
+
+bool ASList::Unk2::sub_710116388C(Unk4* query, int a2, bool a3) {
+    if (a3 && _10 <= 0)
+        return false;
+    return sub_7101259C78(_0, query, a2, 4, this);
+}
+
+bool ASList::Unk2::sub_71011638DC(Unk4* query, int a2, bool a3) {
+    if (a3 && _10 <= 0)
+        return false;
+    return sub_7101259C78(_0, query, a2, 8, this);
+}
+
+bool ASList::Unk2::sub_7101163950() {
+    return _0->_921 & 1;
+}
+
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
     sead::SafeString out_name;
     bool a3 = false;

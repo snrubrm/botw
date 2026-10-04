@@ -225,8 +225,7 @@ bool SyncPlayContainer::m32(Context* ctx, void* a2, void* a3, void* a4, void* a5
     return false;
 }
 
-bool SyncPlayContainer::m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource,
-                            f32 a5) {
+bool SyncPlayContainer::m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) {
     int index = 0;
     for (Element* child : mChildren) {
         const res::ASResource* child_resource = sub_71013031FC(resource, index);
