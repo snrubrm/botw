@@ -11,6 +11,7 @@ bool TurnToEmptySpace::init_(sead::Heap* heap) {
 }
 
 void TurnToEmptySpace::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71002A29CC();
     TurnAndLookToObjNotAnimDriven::enter_(params);
 }
 
