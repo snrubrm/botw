@@ -6,7 +6,7 @@
 #include <resource/seadResource.h>
 
 namespace nn::gfx {
-class ResShaderFile;
+class ResTextureFile;
 }
 
 namespace eui {
@@ -36,7 +36,7 @@ public:
         /* 0x30 */ ArcResourceMgr* mMgr;
         /* 0x38 */ sead::FixedSafeString<64> mName;
         /* 0x90 */ u8* mData;
-        /* 0x98 */ nn::gfx::ResShaderFile* mShaderResource;
+        /* 0x98 */ nn::gfx::ResTextureFile* mTextureResource;
     };
 
     ArcResourceMgr();

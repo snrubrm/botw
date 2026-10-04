@@ -16,6 +16,7 @@
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMultiArcResourceAccessor.h"
+#include "Game/UI/euiArcResourceMgr.h"
 
 namespace eui {
 
@@ -27,6 +28,18 @@ const void* LayoutEx::GetAnimResourceData(const char* name) {
     if (auto* accessor = nn::font::DynamicCast<MultiArcResourceAccessor>(mResourceAccessor))
         return accessor->sub_7100BE022C(mName, name, nullptr);
     return nn::ui2d::Layout::GetAnimResourceData(name);
+}
+
+// 0x7100bdf150
+bool LayoutEx::attachPartsLayoutArchive_(const sead::SafeString& name) {
+    if (auto* accessor = nn::font::DynamicCast<MultiArcResourceAccessor>(mResourceAccessor)) {
+        auto* archive = accessor->mArcResourceMgr->findArcResource(name);
+        if (!archive)
+            return false;
+        if (!accessor->isArchiveAttached(archive->mData))
+            accessor->attachArchive(archive->mData, archive->mTextureResource);
+    }
+    return true;
 }
 
 // NON_MATCHING: the original snapshots mScreen before allocation; this natural body reads it at construction.
