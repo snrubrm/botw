@@ -5,6 +5,11 @@
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::phys {
+class Constraint;
+class RigidBody;
+}
+
 namespace uking::act {
 
 // Name from the CSV (ExtendedEntity::ctor 0x7100e63b5c, ExtendedEntity::init 0x7100e63ba4; empty
@@ -18,10 +23,11 @@ public:
 
     ExtendedEntity();
     ~ExtendedEntity();
+    void sub_7100E64E60();
 
     /* 0x00 */ void* _0 = nullptr;
-    /* 0x08 */ void* _8 = nullptr;
-    /* 0x10 */ void* _10 = nullptr;
+    /* 0x08 */ ksys::phys::RigidBody* _8 = nullptr;
+    /* 0x10 */ ksys::phys::Constraint* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ sead::Vector3f _20 = sead::Vector3f::zero;
     /* 0x2c */ f32 _2c = 0;
