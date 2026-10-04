@@ -545,6 +545,7 @@ class AngleSelector : public FloatSelector {
 public:
     AngleSelector();
 
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
     virtual f32 m41();
     virtual f32 m42();
 };
