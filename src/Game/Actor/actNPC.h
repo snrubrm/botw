@@ -76,9 +76,8 @@ public:
     HorseRideInfo* getPlayerRideInfo() override;
     bool m146() override;
 
-    // FIXME: figure out return types, parameters and names
-    // (m148 forwards (int, pointer, bool, bool) to ActorWeapons vtable slot 1)
-    virtual void m148();
+    // 0x710002249c: forwards the equip request to ActorWeapons vtable slot 1.
+    virtual bool m148(s32 idx, Actor* weapon, bool a3, bool a4);
     virtual void m149();
 
     // Same as PlayerOrEnemy::sub_7100007CA8 / sub_7100007D58 (forward a request to the equipped
