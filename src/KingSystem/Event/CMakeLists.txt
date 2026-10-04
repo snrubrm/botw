@@ -20,6 +20,7 @@ target_sources(uking PRIVATE
   evtDemoInfo.h
   evtEvent.cpp
   evtEvent.h
+  evtEventActorSet.cpp
   evtEventFlow.cpp
   evtEventFlow.h
   evtEventMgrStruct1.cpp

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <evfl/TimelineObj.h>
+#include <container/seadPtrArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtEventResource.h"
@@ -9,12 +10,25 @@
 namespace ksys::evt {
 
 class EventResource;
+class ActorBase;
 
-// The per-event actor set (CSV evt::S6; `PtrArray<ActorBase>` at +8, state at +0x18) at EventFlow + 0x110.
+// The per-event actor set (CSV evt::S6) at EventFlow + 0x110.
 class EventActorSet {
 public:
-    u8 _0[0x30];
+    virtual ~EventActorSet();
+
+    // 0x7100da283c (CSV evt::S6::callActorStuff): calls ActorBase::m8 of every actor
+    void callActorStuff();
+    // 0x7100da28e8 (CSV evt::S6::playActors)
+    void playActors();
+    // 0x7100da2c18 (CSV evt::S6::getActorByPointer): the actor whose proc link refers to `proc`
+    ActorBase* getActorByPointer(act::BaseProc* proc) const;
+
+    /* 0x08 */ sead::PtrArray<ActorBase> mActors;
+    /* 0x18 */ s32 _18;
+    u8 _1c[0x30 - 0x1c];
     /* 0x30 */ bool mNoDeleteCurrentActor;
+    u8 _31[0x58 - 0x31];
 };
 
 // Unknown object at EventFlow + 0x100 (polymorphic; slot 10 = isPlaying-like query).
