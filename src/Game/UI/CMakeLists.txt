@@ -1,6 +1,11 @@
 target_sources(uking PRIVATE
   euiAnimButton.cpp
   euiAnimator.cpp
+  euiBoxCursorControl.cpp
+  euiBoxCursorMgr.cpp
+  euiBoxCursorNode.cpp
+  euiBoxCursor.h
+  euiTypes.h
   euiAnimator.h
   euiButton.cpp
   euiCheckButton.cpp

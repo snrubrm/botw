@@ -6,7 +6,9 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
+#include <container/seadOffsetList.h>
 #include "Game/UI/euiButton.h"
+#include "Game/UI/euiTypes.h"
 
 namespace sead {
 class Heap;
@@ -21,6 +23,7 @@ namespace eui {
 class AnimButton;
 class Animator;
 class BoxCursorNode;
+class BoxCursorMgr;
 class ButtonGroup;
 class ScreenMgr;
 
@@ -116,6 +119,9 @@ public:
     bool isClosed() const;
     bool isClosedOrClosing() const;
 
+    // 0x7100be99d4
+    DrawTarget getDrawTarget() const;
+
     // 0x7100be9830 / 0x7100be9850 (placeholder names): link / unlink an animator in `mAnimators`
     void addAnimator(Animator* animator);
     void removeAnimator(Animator* animator);
@@ -134,11 +140,20 @@ public:
     /* 0x38 */ ButtonGroup* mButtonGroup;
     u8 _40[0x78 - 0x40];
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
-    u8 _88[0xc0 - 0x88];
+    /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
+    u8 _a0[0xc0 - 0xa0];
     /* 0xc0 */ s32 mId;
-    u8 _c4[0x104 - 0xc4];
+    u8 _c4[0xe0 - 0xc4];
+    /* 0xe0 */ BoxCursorNode* mActiveCursorNode;
+    u8 _e8[0xfc - 0xe8];
+    /* 0xfc */ u8 mDrawTarget;
+    /* 0xfd */ s8 _fd;
+    /* 0xfe */ u8 mState;
+    u8 _ff[0x104 - 0xff];
     /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
-    u8 _105[0x108 - 0x105];
+    u8 _105;
+    /* 0x106 */ u8 _106;
+    /* 0x107 */ u8 _107;  // bit 0: own initialize heap (setOwnInitializeHeap), bit 2: has a box cursor
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
 
@@ -154,14 +169,18 @@ public:
 
     Screen* getScreen(s32 id) { return mScreens[id]; }
     f32 getAnimationStep() const { return mAnimationStep; }
+    BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
 
     // 0x7100bec7e8
     void inactivateScreen(s32 id);
+    // 0x7100bec840
+    void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
 
 private:
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;
-    u8 _38[0xb20 - 0x38];
+    u8 _38[0xb18 - 0x38];
+    /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
     u8 _b24[0xb50 - 0xb24];
 };
