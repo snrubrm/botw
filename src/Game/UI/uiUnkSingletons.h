@@ -113,6 +113,12 @@ private:
     static Unk_71025d69f0* sInstance;
 };
 
+// Placeholder for the object UiSubsys1 keeps at 0x378 (byte 0x50 is set by sub_7100963C78).
+struct UiSubsys1Unk378 {
+    u8 _0[0x50];
+    /* 0x50 */ bool _50;
+};
+
 // Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
 // polymorphic with a singleton disposer at 0x8).
 // Element of UiSubsys1's table at 0x658 (placeholder; bit 4 of the byte at 0x3c is tested).
@@ -179,7 +185,9 @@ private:
 
     u8 _0[0x128];
     /* 0x128 */ s32 _128;
-    u8 _12c[0x658 - 0x12c];
+    u8 _12c[0x378 - 0x12c];
+    /* 0x378 */ UiSubsys1Unk378* _378;
+    u8 _380[0x658 - 0x380];
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;
     u8 _668[0x848 - 0x668];
     /* 0x848 */ s32 _848;

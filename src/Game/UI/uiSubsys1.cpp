@@ -16,6 +16,12 @@ void UiSubsys1::sub_7100968AF8(s32 index) {
     _3830 = 0;
 }
 
+// 0x7100963c78
+void UiSubsys1::sub_7100963C78(bool a1) {
+    if (_378)
+        _378->_50 = a1;
+}
+
 // 0x7100960df8
 bool UiSubsys1::sub_7100960DF8() {
     return _3860 != 0;
