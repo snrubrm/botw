@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadReadWriteLock.h>
+#include "Game/Damage/dmgClothStiffnessMgr.h"
 #include "Game/Damage/dmgUnk_7100671794.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Resource/resHandle.h"
@@ -44,6 +45,8 @@ public:
 
     // lane1 s21: the nearest-enemies list / attack permission limiter (EnemyBattle and others).
     Unk_7100671794& get4f8() { return _4f8; }
+    // lane4 s30 (lane1 request): the cloth stiffness resource cache at +0xe98 (ChuchuRoot).
+    ClothStiffnessMgr& getClothStiffnessMgr() { return mClothStiffnessMgr; }
 
     // 0x7100674704 / 0x7100674730 (declaration only; lane2 s22, WeatherReactionCheck): whether it is raining /
     // snowing (`!(byte[0x11e0] & 1) && wm::getWeatherMgr() && getWeatherMgr()->isRaining()` / bit 2 and
@@ -58,7 +61,9 @@ private:
     /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;
     /* 0x0630 */ u8 TEMP_630[0xd00 - 0x630];
     /* 0x0d00 */ sead::ReadWriteLock mLock;
-    /* 0x0db8 */ u8 TEMP_db8[0x11e4 - 0xdb8];
+    /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
+    /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
+    /* 0x11e0 */ u8 TEMP_11e0[0x11e4 - 0x11e0];
     /* 0x11e4 */ f32 mMasterSwordSearchEvilDist;
     /* 0x11e8 */ bool mMasterSwordDetectedEvil;
     /* 0x11e9 */ bool mMasterSwordDisableTrueForm;

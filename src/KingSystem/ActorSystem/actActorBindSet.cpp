@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actActorBindSet.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {
 
@@ -73,6 +74,71 @@ ActorBindSet::~ActorBindSet() {
 void ActorBindSet::resetAll() {
     for (u32 i = 0; i < mCount; ++i)
         mEntries[i].reset();
+}
+
+// NON_MATCHING: register allocation / loop shape of the entry walk
+bool ActorBindSet::m6(BaseProc* proc) {
+    Actor* previous = nullptr;
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry) {
+        auto* actor = sead::DynamicCast<Actor>(entry->mLink.getProc(nullptr, proc));
+        const bool same = actor == previous;
+        previous = actor;
+        if (same || !actor)
+            continue;
+        if (actor->getPhysics() && actor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::_8))
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: register allocation / loop shape of the entry walk
+bool ActorBindSet::m7(BaseProc* proc) {
+    Actor* previous = nullptr;
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry) {
+        auto* actor = sead::DynamicCast<Actor>(entry->mLink.getProc(nullptr, proc));
+        const bool same = actor == previous;
+        previous = actor;
+        if (same || !actor)
+            continue;
+        if (actor->getPhysics() &&
+            actor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::_10))
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: register allocation / loop shape of the entry walk
+bool ActorBindSet::m8(BaseProc* proc) {
+    Actor* previous = nullptr;
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry) {
+        auto* actor = sead::DynamicCast<Actor>(entry->mLink.getProc(nullptr, proc));
+        const bool same = actor == previous;
+        previous = actor;
+        if (same || !actor)
+            continue;
+        if (actor->getPhysics() &&
+            actor->getPhysics()->getFlags().isOn(phys::InstanceSet::Flag::DisableDraw))
+            return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: register allocation / loop shape of the entry walk
+void ActorBindSet::m9(BaseProc* proc) {
+    auto* own_physics = static_cast<Actor*>(proc)->getPhysics();
+    if (!own_physics)
+        return;
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry) {
+        auto* actor = sead::DynamicCast<Actor>(entry->mLink.getProc(nullptr, proc));
+        if (actor && actor->getPhysics()) {
+            own_physics->sub_7100FB9BAC(actor->getPhysics());
+            return;
+        }
+    }
 }
 
 }  // namespace ksys::act

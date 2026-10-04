@@ -3,6 +3,8 @@ target_sources(uking PRIVATE
     dmgDamageManagerBase.h
     dmgDamageManagerBase.cpp
     dmgDamageMgrNPC.h
+    dmgClothStiffnessMgr.cpp
+    dmgClothStiffnessMgr.h
     dmgInfoManager.cpp
     dmgInfoManager.h
     dmgStruct20.h

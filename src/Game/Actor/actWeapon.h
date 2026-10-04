@@ -181,7 +181,7 @@ struct Unk_71002edaec {
     /* 0x08 */ f32 _8 = 1.0;
     /* 0x0c */ f32 _c = 1.0;
     /* 0x10 */ s32 _10 = -1;
-    /* 0x14 */ bool _14 = false;
+    /* 0x14 */ u8 _14 = 0;  // flags (bit 3 is read by ChemicalWeaponRoot / DeadlyBlowWeaponRoot::m42: lane1 request)
     /* 0x18 */ s32 _18 = 1;
     /* 0x1c */ s32 _1c = 1;
     /* 0x20 */ s32 _20 = 0;

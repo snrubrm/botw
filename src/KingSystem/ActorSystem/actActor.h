@@ -577,6 +577,18 @@ public:
     void sub_71011DAFB4(int a, int b);
     // 0x71011d89d4 (CSV name): the character controller's `_210` while its `_116` bit 2 is set, else -1.
     f32 getDepthInWater() const;
+    // lane4 s30 (placeholder names, from the bodies):
+    // 0x71011c9710 (CSV Actor::updateVelocityStuff): reads the velocity / angular velocity of the character
+    // controller (or of the main body while it is in the world) into mVelocity / mAngVelocity, scaled by 1/30.
+    void updateVelocityStuff();
+    // 0x71011dae0c: true for an actor without a character controller / ragdoll whose main body is Fixed.
+    bool sub_71011DAE0C() const;
+    // 0x71011d55a8: pushes a node holding `a1` onto the list at _5b0 (false if the allocation failed).
+    bool sub_71011D55A8(void* a1, sead::Heap* heap);
+    // 0x71011c4ef4: frees the whole list at _5b0 (always true).
+    bool sub_71011C4EF4();
+    // 0x71011d90b0 (CSV x_36): with a linked parent actor (_738); see the body.
+    bool sub_71011D90B0();
     // 0x71011cbe70 (CSV Actor::x_23; twin of fadeOutSleep): clears the fade-out sleep bit `reason`
     // (calling m60 when it was set) and wakes the actor up.
     void fadeOutWakeUp(SleepWakeReason reason);

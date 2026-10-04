@@ -583,6 +583,89 @@ void Actor::fadeOutWakeUp(SleepWakeReason reason) {
         wakeUp(reason);
 }
 
+// NON_MATCHING: the original keeps the 1/30 constant in a callee-saved register across the calls
+void Actor::updateVelocityStuff() {
+    constexpr f32 k = 1.0f / 30.0f;
+    auto* controller = mPhysics ? mPhysics->getCharacterController() : nullptr;
+    if (controller) {
+        if (!controller->sub_7100F5E954())
+            return;
+        controller->sub_7100F5F598(&mVelocity);
+        mVelocity *= k;
+        controller->sub_7100F635BC(&mAngVelocity);
+    } else {
+        auto* body = mMainBody.load();
+        if (!body || !body->isAddedToWorld())
+            return;
+        body->getLinearVelocity(&mVelocity);
+        mVelocity *= k;
+        body->getAngularVelocity(&mAngVelocity);
+    }
+    mAngVelocity *= k;
+}
+
+void Actor::x_22(const sead::Vector3f& vel, const sead::Vector3f& ang_vel) {
+    if (auto* body = mMainBody.load()) {
+        body->setLinearVelocity(vel);
+        body->setAngularVelocity(ang_vel);
+    }
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            controller->sub_7100F5F6FC(vel);
+            controller->sub_7100F5FB24(ang_vel);
+        }
+    }
+}
+
+// NON_MATCHING: register / scheduling difference in the main body test
+bool Actor::sub_71011DAE0C() const {
+    if (mPhysics) {
+        if (mPhysics->getCharacterController())
+            return false;
+        if (mPhysics->getRagdollInstance())
+            return false;
+    }
+    if (!getMainBody())
+        return false;
+    return getMainBody()->getMotionType() == phys::MotionType::Fixed;
+}
+
+bool Actor::sub_71011D55A8(void* a1, sead::Heap* heap) {
+    auto* node = new (heap, 8) ActorUnk5b0Node;
+    if (!node)
+        return false;
+    node->_0 = a1;
+    node->mNext = _5b0;
+    _5b0 = node;
+    return true;
+}
+
+// NON_MATCHING: the original has a separate epilogue for the empty list
+bool Actor::sub_71011C4EF4() {
+    if (_5b0) {
+        do {
+            auto* node = _5b0;
+            _5b0 = node->mNext;
+            delete node;
+        } while (_5b0);
+    }
+    return true;
+}
+
+// NON_MATCHING: the original loads the flag word before the state and combines them with `orr`
+bool Actor::sub_71011D90B0() {
+    if (!_738.hasProc())
+        return true;
+    auto* parent = sead::DynamicCast<Actor>(_738.getProc(nullptr));
+    if (!parent)
+        return true;
+    const bool flag6 = mActorFlags.isOnBit(ActorFlag::_6);
+    const bool calc = parent->isCalc();
+    if (flag6 && !calc)
+        return parent->x00000071011ba9fc();
+    return calc || flag6;
+}
+
 void Actor::emitDeadUpLifeZeroAndSetRevival() {
     emitSignal(map::MapLinkDefType::DeadUp, true);
     emitSignal(map::MapLinkDefType::LifeZero, true);
