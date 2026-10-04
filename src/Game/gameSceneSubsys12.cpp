@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/System/Timer.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
 
@@ -214,4 +215,18 @@ void GameSceneSubsys12::sub_7100662B58(const char* name, sead::Heap* heap) {
     }
     if (_300.hasProc() && _310)
         _310->sub_710065DACC(name, heap);
+}
+
+void GameSceneSubsys12::sub_71006643EC() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (_a78.isBitOn(1))
+        return;
+    _a78.setBitOn(1);
+    if (_300.hasProc() && _310)
+        _310->sub_710065E440();
+    if (auto* pause = uking::ui::PauseMenuDataMgr::instance()) {
+        if (!pause->isNothingBeingGrabbed())
+            pause->unholdGrabbedItems();
+    }
+    _318.sub_710065E4BC(true);
 }

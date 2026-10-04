@@ -64,6 +64,13 @@ Unk_710243be90* ActorContextStuff::sub_710065E2B0(ksys::act::BaseProc* proc) {
     return nullptr;
 }
 
+void ActorContextStuff::sub_710065E440() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    const s32 count = _638.size();
+    for (s32 i = 0; i < count; ++i)
+        _638.at(i)->sub_710066136C();
+}
+
 void ActorContextStuff::sub_710065E4BC(bool delete_actor) {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     for (auto& handle : _6b8) {
@@ -256,21 +263,6 @@ s32 ActorContextStuff::sub_710065F894(void*, sead::Buffer<sead::FixedSafeString<
     return copied;
 }
 
-namespace {
-// Guessed inline-only helper name: the same locked reindex/empty-state sequence appears
-// in both removal paths of65f258 and65f544. There is no standalone function in the binary.
-inline void refreshEntryIndices(ActorContextStuff* context) {
-    sead::ScopedLock<sead::CriticalSection> lock(&context->_28);
-    const s32 count = context->_638.size();
-    for (s32 i = 0; i < count; ++i)
-        context->_638.unsafeAt(i)->_68 = i;
-    if (context->_638.size() < 1) {
-        if (auto* scene = GameSceneSubsys12::instance())
-            scene->sub_7100664484(6, context);
-    }
-}
-}
-
 // NON_MATCHING: the compiler shares removal/reindex code and chooses different loop indices.
 bool ActorContextStuff::sub_710065F258(ksys::act::BaseProcLink* link, bool immediately) {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
@@ -297,7 +289,14 @@ bool ActorContextStuff::sub_710065F258(ksys::act::BaseProcLink* link, bool immed
     _638.erase(found);
     entry->sub_7100661494(immediately);
     _670.pushBack(entry);
-    refreshEntryIndices(this);
+    {
+        sead::ScopedLock<sead::CriticalSection> reindex_lock(&_28);
+        refreshEntryIndices();
+        if (_638.size() < 1) {
+            if (auto* scene = GameSceneSubsys12::instance())
+                scene->sub_7100664484(6, this);
+        }
+    }
     --_6c;
     return true;
 }
@@ -327,7 +326,14 @@ bool ActorContextStuff::sub_710065F544(ksys::act::BaseProc* proc) {
     auto* entry = _638.at(found);
     _638.erase(found);
     _670.pushBack(entry);
-    refreshEntryIndices(this);
+    {
+        sead::ScopedLock<sead::CriticalSection> reindex_lock(&_28);
+        refreshEntryIndices();
+        if (_638.size() < 1) {
+            if (auto* scene = GameSceneSubsys12::instance())
+                scene->sub_7100664484(6, this);
+        }
+    }
     --_6c;
     return true;
 }

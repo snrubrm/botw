@@ -108,6 +108,8 @@ public:
     // 0x710065e3c0 / 0x710065e400: sleep/wake all five embedded entries.
     void x_0();
     void x();
+    // 0x710065e440: disables physics for the active entries.
+    void sub_710065E440();
     // 0x710065e4bc: releases the active entries into the free pool.
     void sub_710065E4BC(bool delete_actor);
     // 0x710065e638: waits for all five entries to clear, then deletes the context actor.
@@ -132,6 +134,13 @@ public:
     // 0x710065f258 / 65f544: remove the matching carried entry.
     bool sub_710065F258(ksys::act::BaseProcLink* link, bool immediately);
     bool sub_710065F544(ksys::act::BaseProc* proc);
+    // inline-only in the original; name is a guess. Both65f258/65f544 use
+    // this same index-rewrite sequence after either successful removal path.
+    void refreshEntryIndices() {
+        const s32 count = _638.size();
+        for (s32 i = 0; i < count; ++i)
+            _638.unsafeAt(i)->_68 = i;
+    }
     // 0x710065f80c: the link of the carried actor at index, or null.
     ksys::act::BaseProcLink* sub_710065F80C(s32 index);
     // 0x710065f894: copies active actor names into the fixed-string buffer.

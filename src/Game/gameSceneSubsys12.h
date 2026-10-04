@@ -11,8 +11,8 @@
 
 // Placeholder declaration (lane3 s23; name from the CSV: createInstance 0x71006623f0, ctor 0x7100662478, ~70 unnamed
 // users, e.g. Carried::calc_, CarryBox, DemoCookPotCook, Player::m76): the scene subsystem that handles carried
-// items. A sead singleton (disposer at +0x18, size 0xc00); only the instance pointer and the flag word that the
-// carry actions read are declared. Layout incomplete.
+// items. A sead singleton (disposer at+0x18, size0xc00); carried contexts, transform arrays,
+// locking and flags are recovered below. The singleton/base interfaces and remaining layout are incomplete.
 class GameSceneSubsys12 {
 public:
     static GameSceneSubsys12* instance() { return sInstance; }
@@ -49,6 +49,8 @@ public:
     void sub_7100664F8C(s32 index, const sead::Matrix34f& matrix);
     // 0x7100665304
     void sub_7100665304();
+    // 0x71006643ec: begins release of the active carried context and grabbed inventory items.
+    void sub_71006643EC();
     // 0x7100664484: handles the carried-context state transition (declaration only).
     void sub_7100664484(s32 state, ActorContextStuff* context);
     // 0x7100664acc: returns the carried actor's fade progress.
