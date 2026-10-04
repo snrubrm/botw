@@ -34,7 +34,7 @@ protected:
     int* mLynelNoticeAttackRepeatNum_a{};
     Unk_71024056a8 _418;
     s32 _458 = 0;
-    bool _45c = false;
+    u8 _45c = 0;
 };
 KSYS_CHECK_SIZE_NX150(LynelNormal, 0x460);
 

@@ -34,7 +34,7 @@ LynelNormal::~LynelNormal() = default;
 bool LynelNormal::init_(sead::Heap* heap) {
     if (!LandHumEnemyNormal::init_(heap))
         return false;
-    _45c = false;
+    _45c = 0;
     _458 = 0;
     return true;
 }
@@ -54,22 +54,18 @@ void LynelNormal::loadParams_() {
     getAITreeVariable(&mLynelNoticeAttackRepeatNum_a, "LynelNoticeAttackRepeatNum");
 }
 
-// NON_MATCHING: csel operand order (target selects the `&` value on _45c == 0)
 void LynelNormal::calc_() {
-    if (_45c)
-        *mLynelAIFlags_a |= 0x10;
-    else
-        *mLynelAIFlags_a &= ~0x10;
+    *mLynelAIFlags_a = _45c == 0 ? (*mLynelAIFlags_a & ~0x10) : (*mLynelAIFlags_a | 0x10);
     *mLynelAreaAlarmPoint_a = _458;
     LandHumEnemyNormal::calc_();
-    _45c = false;
+    _45c = 0;
     _458 = 0;
 }
 
 bool LynelNormal::handleMessage_(const ksys::Message* message) {
     if (_418.m2(*message)) {
         _458 = sead::Mathi::max(_458, _418._34._0);
-        _45c = true;
+        _45c = 1;
         _418.x();
         return true;
     }
