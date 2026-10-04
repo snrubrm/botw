@@ -17,6 +17,16 @@ void sub_7100945344(f32 value, f32 max) {
     manager->_64 = 2000.0f;
 }
 
+// 0x7100a7f918
+bool Manager::sub_7100A7F918() const {
+    return _651f8 > 0;
+}
+
+// 0x7100a7fdb4
+bool Manager::sub_7100A7FDB4() const {
+    return _65387 != 0;
+}
+
 // 0x7100a76420 (CSV nullsub_6139)
 void Manager::sub_7100A76420() {}
 

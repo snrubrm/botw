@@ -44,6 +44,9 @@ public:
     void sub_7100A7C9AC();
     void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
     void sub_7100A7F81C();
+    // 0x7100a7f918 / 0x7100a7fdb4 (CSV uiManager::__auto4 / __auto11; placeholder names)
+    bool sub_7100A7F918() const;
+    bool sub_7100A7FDB4() const;
     void sub_7100A7F890();
     void sub_7100A7FBA4();
     bool sub_7100A7FDAC();
@@ -123,11 +126,15 @@ public:
     u8 _650f4[0x65160 - 0x650f4];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x65218 - 0x6516c];
+    u8 _6516c[0x651f8 - 0x6516c];
+    /* 0x651f8 */ s32 _651f8;
+    u8 _651fc[0x65218 - 0x651fc];
     /* 0x65218 */ bool _65218;
     u8 _65219[0x652e8 - 0x65219];
     /* 0x652e8 */ u8 _652e8;
-    u8 _652e9[0x653b0 - 0x652e9];
+    u8 _652e9[0x65387 - 0x652e9];
+    /* 0x65387 */ u8 _65387;
+    u8 _65388[0x653b0 - 0x65388];
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x653b0);
 
