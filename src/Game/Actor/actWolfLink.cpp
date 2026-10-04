@@ -1,6 +1,7 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 
 namespace uking::act {
@@ -55,6 +56,23 @@ void WolfLink::sub_71002F4B3C() {
             _1698 &= ~8;
         }
     }
+}
+
+bool WolfLink::m81(const ksys::Message& message) {
+    if (Enemy::m81(message))
+        return true;
+    if (message.getType() == 0x80000a7) {
+        if (auto* mtx = static_cast<const sead::Matrix34f*>(message.getUserData())) {
+            setMtx(*mtx, true, true);
+            nullsub_4648();
+        }
+        return true;
+    }
+    if (message.getType() == 0x3000010) {
+        mActorFlags2.set(ActorFlag2::_20);
+        return true;
+    }
+    return false;
 }
 
 }  // namespace uking::act
