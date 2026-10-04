@@ -31,7 +31,7 @@ public:
     struct Record {
         s8 _0;
         u8 _1;
-        u8 _2;
+        s8 _2;
         u8 _3;
         f32 _4;
         f32 _8;
@@ -48,6 +48,8 @@ public:
     /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
     /* 0x28 */ u8 _28[0xe0 - 0x28];
     /* 0xe0 */ f32 _e0;
+    /* 0xe4 */ u8 _e4[0x921 - 0xe4];
+    /* 0x921 */ u8 _921;
 };
 
 // Placeholder: per-element parameter block returned by Element::m25 (a range [_4, _8] and more floats).
@@ -265,6 +267,8 @@ class RandomSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(RandomSelector, FloatSelector)
 public:
     RandomSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class PreExclusionRandomSelector : public RandomSelector {
@@ -450,6 +454,47 @@ class Asset : public Element {
 public:
     Asset();
 };
+
+// Placeholder: an animation asset. `_a` is the index of the resource (res::ASResource::getIndex()).
+class AnmAsset : public Asset {
+    SEAD_RTTI_OVERRIDE(AnmAsset, Asset)
+public:
+    f32 m4() override;
+    int m6() override;
+    int m7() override;
+    bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+
+    /* 0x08 */ u16 _8;
+    /* 0x0a */ s16 _a;
+    /* 0x0c */ f32 _c;
+};
+KSYS_CHECK_SIZE_NX150(AnmAsset, 0x10);
+
+class GraphicsAsset : public AnmAsset {
+    SEAD_RTTI_OVERRIDE(GraphicsAsset, AnmAsset)
+public:
+    bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    int m31(Context* ctx, const res::ASResource* resource) override;
+
+    /* 0x10 */ s16 _10;
+    /* 0x12 */ s16 _12;
+    /* 0x14 */ s32 _14;
+};
+KSYS_CHECK_SIZE_NX150(GraphicsAsset, 0x18);
+
+class SkeltalAsset : public AnmAsset {
+    SEAD_RTTI_OVERRIDE(SkeltalAsset, AnmAsset)
+public:
+    ~SkeltalAsset() override;
+
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
+
+    /* 0x10 */ s16 _10;
+    /* 0x12 */ s16 _12;
+    /* 0x18 */ void* _18;
+};
+KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);
 
 class ClearMatAnmAsset : public Asset {
     SEAD_RTTI_OVERRIDE(ClearMatAnmAsset, Asset)

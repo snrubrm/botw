@@ -189,6 +189,8 @@ public:
     f32 sub_710115F8A0();
     f32 sub_710115F98C();
     f32 sub_710115FA78();
+    // 0x710131d504 (in the RandomSelector TU): a random value in [0, 1) (ignores the list).
+    f32 sub_710131D504();
     // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
     const char* sub_710115ECF4(int kind, int a2);
     // 0x710115ee14 (declaration only): bit `bit` of the flags parameter (answered by the owner for bits 0 / 0x19 / 6).

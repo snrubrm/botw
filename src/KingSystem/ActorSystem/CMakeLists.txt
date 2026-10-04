@@ -2,6 +2,7 @@ target_sources(uking PRIVATE
     AS/ASList.h
     AS/ASList.cpp
     AS/asAngleBlender.cpp
+    AS/asAnmAsset.cpp
     AS/asAngleSelector.cpp
     AS/asAsset.cpp
     AS/asBlender.cpp
@@ -12,6 +13,7 @@ target_sources(uking PRIVATE
     AS/asElement.cpp
     AS/asEventFlagSelector.cpp
     AS/asFloatSelector.cpp
+    AS/asGraphicsAsset.cpp
     AS/asGroundNormalBlender.cpp
     AS/asGroundNormalSelector.cpp
     AS/asNodePosSelector.cpp
@@ -19,6 +21,7 @@ target_sources(uking PRIVATE
     AS/asRandomSelector.cpp
     AS/asSelector.cpp
     AS/asSelectorBase.cpp
+    AS/asSkeltalAsset.cpp
     AS/asSpeedBlender.cpp
     AS/asSpeedSelector.cpp
     AS/asStringSelector.cpp
