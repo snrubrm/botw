@@ -3,15 +3,13 @@
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <nn/font/font_ResFont.h>
 #include "Game/UI/euiSharcArchive.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace eui {
 
-// A font of the UI (0xa8 bytes; the element of FontMgr's font buffer; probably nn::font::ResFont, not modelled yet).
-class Font {
-    u8 _0[0xa8];
-};
+using Font = nn::font::Font;
 
 class ScalableFontMgr {
 public:
@@ -42,7 +40,8 @@ public:
 
 private:
     /* 0x28 */ SharcArchive mArchive;
-    /* 0x30 */ sead::Buffer<Font> mFonts;
+    // 0x7100be3420 constructs an array of ResFont objects, with the original 0xa8-byte stride.
+    /* 0x30 */ sead::Buffer<nn::font::ResFont> mFonts;
     /* 0x40 */ sead::Buffer<Font*> mFontsByMessageIndex;
     /* 0x50 */ Font* mRubyFont = nullptr;
     /* 0x58 */ ScalableFontMgr* mScalableFontMgr = nullptr;

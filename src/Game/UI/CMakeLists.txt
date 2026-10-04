@@ -134,6 +134,7 @@ target_sources(uking PRIVATE
   uiUnk_71025d6550.cpp
   uiUnk_71025d6578.cpp
   uiTagProcessor.cpp
+  uiUI.cpp
   uiTagProcessor.h
   uiTexSlots.cpp
   uiTexSlots.h

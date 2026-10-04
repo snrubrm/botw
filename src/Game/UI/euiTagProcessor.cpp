@@ -3,6 +3,7 @@
 #include <nn/font/font_PrintContext.h>
 #include <nn/font/font_TextWriterBase.h>
 #include "Game/UI/euiMessageMgr.h"
+#include "Game/UI/euiFontMgr.h"
 
 namespace eui {
 
@@ -123,6 +124,35 @@ TagProcessor::Operation TagProcessor::m20(const sead::MessageSet<char16>::TagInf
     std::memcpy(&size, tag->getParam(), sizeof(size));
     const f32 scale = f32(size) / 100.0f;
     context->writer->SetScale(mScaleX * scale, mScaleY * scale);
+    return Operation_Default;
+}
+
+// 0x7100be6bec
+TagProcessor::Operation TagProcessor::m19(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    u16 font_index;
+    std::memcpy(&font_index, tag->getParam(), sizeof(font_index));
+    context->writer->SetFont(font_index == 0xffff ? _10 : mFontMgr->getFontByMessageIndex(font_index));
+    _18 = context->writer->GetFont();
+    return Operation_Default;
+}
+
+// 0x7100be6d58
+TagProcessor::Operation TagProcessor::m23(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle* rect, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    if (rect == nullptr) {
+        mAlpha = tag->getParam()[0] ? tag->getParam()[1] : 255;
+        auto top = context->writer->GetTextColor(0);
+        auto bottom = context->writer->GetTextColor(1);
+        top.v[3] = mTopAlpha * mAlpha / 255;
+        bottom.v[3] = mBottomAlpha * mAlpha / 255;
+        context->writer->SetTextColor(top, bottom);
+        context->writer->SetAlpha(mAlpha);
+    }
     return Operation_Default;
 }
 

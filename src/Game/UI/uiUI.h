@@ -17,6 +17,9 @@ class UI {
     UI() = default;
 
 public:
+    // 0x71010a719c / 0x71010a71a8: scalar defaults queried by the game tag processor.
+    f32 sub_71010A719C() const;
+    f32 sub_71010A71A8() const;
     // 0x71010a5b0c (CSV unnamed): called by NpcTebaRoot::calc_ with its actor.
     bool sub_71010A5B0C(ksys::act::Actor* actor);
     // 0x71010a6ccc (CSV: UI::x_0)

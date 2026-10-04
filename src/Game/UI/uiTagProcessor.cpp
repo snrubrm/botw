@@ -1,4 +1,5 @@
 #include "Game/UI/uiTagProcessor.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::ui {
 
@@ -11,6 +12,16 @@ TagProcessor::TagProcessor(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr)
 // 0x71010b20a8
 f32 TagProcessor::m31() const {
     return _58;
+}
+
+// 0x71010afc24
+f32 TagProcessor::m27() const {
+    return UI::instance()->sub_71010A719C();
+}
+
+// 0x71010afc34
+f32 TagProcessor::m29() const {
+    return UI::instance()->sub_71010A71A8();
 }
 
 // 0x71010afc44

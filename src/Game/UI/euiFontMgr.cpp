@@ -9,7 +9,7 @@ Font* FontMgr::tryGetFont(const sead::SafeString& name) const {
     if (auto* archive = mArchive.getResource()) {
         const s32 index = archive->convertPathToEntryID(name);
         if (index >= 0)
-            return const_cast<Font*>(&mFonts[index]);
+            return const_cast<nn::font::ResFont*>(&mFonts[index]);
     }
     if (mScalableFontMgr)
         return mScalableFontMgr->getFont(name);
