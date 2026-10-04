@@ -5,6 +5,14 @@
 
 namespace uking {
 
+// 0x71025cc6a8 (.bss; the type is unknown: a string object that TitleStageArg::m8 hands out; its initialiser is
+// not decompiled).
+static sead::SafeString sUnk_71025cc6a8;
+
+const sead::SafeString& TitleStageArg::m8() {
+    return sUnk_71025cc6a8;
+}
+
 // 0x71025cb0e9: set while the title stage exists (its init stores true, its destructor false). Next to the
 // GameScene statics (0x71025cb0e0 / 0x71025cb0ea).
 bool sIsTitleStageActive;

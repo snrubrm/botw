@@ -133,16 +133,28 @@ static_assert(sizeof(OpenWorldStageArg) == 0x200);
 // The binders embed an "arg" object at 0x10 (a polymorphic class of the original whose virtuals live in the
 // stage's own TU; its fields are declared here directly). The binder virtuals read / write these fields.
 // Layout of the Title / Viewer one (0x20 bytes).
-struct TitleStageArg {
-    // 0x71007d3d40 (returns a global string; ignores `this`)
-    const sead::SafeString& getName() const;
+// The arg of the TitleStageBinder (embedded at 0x10 of the binder); its virtuals are inline except m8, whose
+// out-of-line copy (the key function, 0x71007d3d40) sits in the TitleStage TU together with the vtable.
+class TitleStageArg : public StageArg {
+    SEAD_RTTI_OVERRIDE(TitleStageArg, StageArg)
+public:
+    s32 m4() override { return 3; }
+    s32 m5() override { return 3; }
+    const sead::SafeString& m8() override;
+    ~TitleStageArg() override = default;
+    void setHeap(sead::Heap* heap) override { mHeap = heap; }
+    s32 m7() override { return _18; }
+    const sead::SafeString& m9() override { return sead::SafeString::cEmptyString; }
+    const sead::SafeString& m10() override { return sead::SafeString::cEmptyString; }
+    s32 m11() override { return -1; }
+    bool m12() override { return _1c; }
 
-    const void* _0;       // vtable of the original
-    void* mEnvArchive;    // GameScene::getEnvArchive()
-    sead::Heap* mHeap;
-    s32 _18;              // -99
-    bool _1c;
+    /* 0x08 */ void* mEnvArchive;  // GameScene::getEnvArchive()
+    /* 0x10 */ sead::Heap* mHeap;
+    /* 0x18 */ s32 _18;  // -99
+    /* 0x1c */ bool _1c;
 };
+static_assert(sizeof(TitleStageArg) == 0x20);
 
 struct ViewerStageArg {
     // 0x71007d4cac / b8 / c4 (declaration only)
@@ -195,7 +207,7 @@ public:
     void setHeap(sead::Heap* heap) override { _10.mHeap = heap; }
     s32 m6() override { return _10._18; }
     bool m7() override { return m6() != -99; }
-    const sead::SafeString& m8() override { return _10.getName(); }
+    const sead::SafeString& m8() override { return _10.m8(); }
     const sead::SafeString& m9() override { return sead::SafeString::cEmptyString; }
     const sead::SafeString& m10() override { return sead::SafeString::cEmptyString; }
     s32 m11() override { return -1; }
