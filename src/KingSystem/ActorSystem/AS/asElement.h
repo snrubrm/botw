@@ -756,6 +756,11 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 from,
+             f32 to) override;
+    // 0x7101315ad0: advances playback, returning the remaining time and writing start/wrap count.
+    f32 sub_7101315AD0(ElementParams* params, f32* start, s32* wraps, bool restart,
+                      const res::ASResource* resource, f32 time);
     // 0x7101314bcc (1.6 KB, not decompiled; declaration only): starts the element's animation for m9
     // (`weight` and `flag` are the first two fields of the PlayState). Placeholder signature.
     bool sub_7101314BCC(f32 weight, Context* ctx, bool flag, const res::ASResource* resource);

@@ -64,6 +64,45 @@ void AnmAsset::m16(Context* ctx, const res::ASResource* resource, f32 value) {
     params->sub_7101302940(nullptr);
 }
 
+// NON_MATCHING: argument move scheduling and the final conditional offset branch polarity.
+void AnmAsset::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 from,
+                   f32 to) {
+    ElementParams* params =
+        ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+    if ((params->_0 & 2) && !(params->_1c >= 0.0f)) {
+        if (from < 0.0f)
+            from = f32(int(-from)) + 1.0f + from;
+        if (from > 1.0f)
+            from -= int(from);
+        if (to < 0.0f)
+            to = f32(int(-to)) + 1.0f + to;
+        if (to > 1.0f)
+            to -= int(to);
+    }
+    params->sub_7101302A1C(params->sub_71013029E4(a3 & 1, from));
+    const f32 position = params->sub_71013029E4(a3 & 1, to);
+    params->_8 = position - ((a2 & 1) ? params->_c : 0.0f);
+    params->sub_7101302940(nullptr);
+}
+
+// NON_MATCHING: the two output locals occupy opposite stack slots.
+f32 AnmAsset::m18(Context* ctx, bool restart, f32 time, f32 a4,
+                  const res::ASResource* resource) {
+    if (_c == 0.0f) {
+        if (!resource)
+            return time;
+        auto* parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl));
+        if (!parser || parser->getEndFrame() <= 0.0f)
+            return time;
+    }
+    f32 start = 0.0f;
+    s32 wraps = 0;
+    ElementParams* params =
+        ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+    return sub_7101315AD0(params, &start, &wraps, restart, resource, time);
+}
+
 void AnmAsset::m19(Context* ctx, const res::ASResource* resource, f32 value) {
     ElementParams* params =
         ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
