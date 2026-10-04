@@ -18,6 +18,10 @@ public:
     void calc_() override;
     void loadParams_() override;
 
+    // 0x7100e4cabc / 0x7100e4cc00 (placeholder names; declared only)
+    void sub_7100E4CABC();
+    void sub_7100E4CC00();
+
 protected:
     // static_param at offset 0x38
     const int* mFinishChangeCount_s{};
