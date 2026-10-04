@@ -39,6 +39,8 @@ public:
     void sub_710066136C();
     void sub_71006613B0(bool delete_actor);
     void sub_7100661494(bool immediately);
+    // 0x7100660ad8: binds the actor's placement/physics to this entry.
+    void sub_7100660AD8(ksys::act::Actor* actor);
     bool sub_7100661540(const ksys::act::BaseProcLink& link) const;
     void sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const;
     void sub_71006620F8(sead::Matrix34f* matrix) const;
@@ -96,6 +98,8 @@ public:
     // 0x710065e3c0 / 0x710065e400: sleep/wake all five embedded entries.
     void x_0();
     void x();
+    // 0x710065e4bc: releases the active entries into the free pool.
+    void sub_710065E4BC(bool delete_actor);
     // 0x710065f044: number of entries in the carried-item array at +0x638.
     s32 sub_710065F044();
     // 0x710065f07c: number of active entries.

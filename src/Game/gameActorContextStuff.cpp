@@ -1,6 +1,10 @@
 #include "Game/gameActorContextStuff.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Event/evtManager.h"
 
 #include <prim/seadScopedLock.h>
 
@@ -13,6 +17,38 @@ ActorContextStuff::ActorContextStuff(ksys::act::BaseProc* proc)
 ActorContextStuff::~ActorContextStuff() {
     erase();
     ksys::phys::System::instance()->removeSystemGroupHandler(_6b0);
+}
+
+Unk_710243be90* ActorContextStuff::sub_710065E2B0(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    const s32 count = _638.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (_638.at(i)->sub_7100661538(proc)) {
+            _638.at(i)->sub_7100660AD8(static_cast<ksys::act::Actor*>(proc));
+            _638.unsafeAt(i)->_48->setSystemGroupHandler(_6a8);
+            return _638.at(i);
+        }
+    }
+    return nullptr;
+}
+
+void ActorContextStuff::sub_710065E4BC(bool delete_actor) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    for (auto& handle : _6b8) {
+        if (handle.isAllocatedOrFailed())
+            handle.deleteProc();
+    }
+    _6c = 0;
+    while (auto* entry = _638.popBack()) {
+        entry->sub_71006613B0(delete_actor);
+        _670.pushBack(entry);
+    }
+    auto* scene = GameSceneSubsys12::instance();
+    if ((scene && scene->_a78.isBitOn(1)) || ksys::evt::Manager::instance()->hasActiveEvent()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_708, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
 }
 
 void ActorContextStuff::x_0() {
