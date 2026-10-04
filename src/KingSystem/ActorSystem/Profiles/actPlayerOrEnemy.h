@@ -86,6 +86,8 @@ public:
     bool sub_710000759C();
     // Name from CSV 0x7100007084.
     void updateWeaponDamageCopyInfo();
+    // Name/signature from CSV 0x71000078d4 and its original argument/return use.
+    bool dropAllWeapons(const sead::Vector3f& pos);
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};

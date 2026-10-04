@@ -5,6 +5,8 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace ksys::act {
 
@@ -312,6 +314,27 @@ void PlayerOrEnemy::updateWeaponDamageCopyInfo() {
             return;
         }
     }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+// NON_MATCHING: compiler folds the result/tag condition into one branch; the original
+// retains an intermediate boolean and two tests before the same drop call.
+bool PlayerOrEnemy::dropAllWeapons(const sead::Vector3f& pos) {
+    getWeapons();
+    bool result = true;
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(
+            getWeapons()->mWeapons[i].link.getProc(nullptr, nullptr));
+        if (weapon) {
+            const bool isWatchmanEquip = hasTag(weapon, tags::WatchmanEquip);
+            result = result && (!isWatchmanEquip ||
+                                getWeapons()->dropWeapon(i, pos, false, false, nullptr, false));
+        }
+    }
+    return result;
 }
 
 }  // namespace ksys::act
