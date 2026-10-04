@@ -59,6 +59,7 @@ public:
     ModelAnimation* getAnimation() const { return mAnimation; }
 
     void setAutoAnimationFrameRate(f32 frame_rate);
+    void sub_7100BF8738();
 
     // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
     // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
