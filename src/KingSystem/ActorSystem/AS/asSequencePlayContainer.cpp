@@ -5,6 +5,28 @@ namespace ksys::as {
 
 SequencePlayContainer::SequencePlayContainer() {}
 
+// NON_MATCHING: cached child-buffer field addresses change register allocation and store scheduling.
+void SequencePlayContainer::sub_710125F94C(Context* ctx, const res::ASResource* resource,
+                                        f32 value, f32 duration) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    PlayState state;
+    state._0 = -1.0f;
+    state._4 = false;
+    state._8 = ctx->sub_7101258D1C(sub_71011653E8(resource)) + 1;
+    if (record->_0 >= 0) {
+        Element* child = mChildren[record->_0];
+        const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+        child->sub_7101165E60(ctx, child_resource);
+    }
+    const s8 next = record->_1;
+    record->_1 = 0xff;
+    record->_0 = next;
+    record->_3 &= ~2;
+    const res::ASResource* child_resource = sub_71013031FC(resource, next);
+    mChildren[next]->sub_710116541C(ctx, &state, child_resource);
+    mChildren[next]->sub_7101165CA8(ctx, true, child_resource, -1.0f, value, duration);
+}
+
 // NON_MATCHING: the initial signed-byte index checks are combined by the compiler.
 bool SequencePlayContainer::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));

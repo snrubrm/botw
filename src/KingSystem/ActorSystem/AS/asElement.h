@@ -767,6 +767,7 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     // 0x710125ebb0: advances the sequence (declaration only).
     u32 sub_710125EBB0(Context* ctx, State* state, const res::ASResource* resource);
+    void sub_710125F94C(Context* ctx, const res::ASResource* resource, f32 value, f32 duration);
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override {}
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override {}
