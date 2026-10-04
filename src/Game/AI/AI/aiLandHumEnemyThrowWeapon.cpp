@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiLandHumEnemyThrowWeapon.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
 namespace uking::ai {
 
 LandHumEnemyThrowWeapon::LandHumEnemyThrowWeapon(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -31,6 +35,16 @@ void LandHumEnemyThrowWeapon::loadParams_() {
     getStaticParam(&mThrowWeaponNearDist_s, "ThrowWeaponNearDist");
     getStaticParam(&mWaitTimeMax_s, "WaitTimeMax");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// NON_MATCHING: the original casts the held proc to act::Weapon twice (two guard-checked DynamicCast<Weapon> in a row)
+bool LandHumEnemyThrowWeapon::sub_710046CC20() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        auto* proc = enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr);
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(proc))
+            return weapon->isBoomerang();
+    }
+    return false;
 }
 
 }  // namespace uking::ai

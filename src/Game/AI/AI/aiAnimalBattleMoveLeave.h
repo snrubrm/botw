@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -25,9 +26,7 @@ protected:
     const float* mCheckForwardDist_s{};
     // dynamic_param at offset 0x40
     sead::Vector3f* mTargetPos_d{};
-    f32 _48 = 0;
-    f32 _4c = 0;
-    u32 _50 = 0;
+    ksys::Timer _48;
     sead::Vector3f _54;
     sead::Vector3f _60{0, 0, 0};
     s32 _6c = 0;
