@@ -50,6 +50,8 @@ public:
     // 0x7100664b3c / 0x7100664c30: carried-context scale and placement offset.
     f32 sub_7100664B3C(ActorContextStuff* context, f32 scale);
     void sub_7100664C30(sead::Vector3f* out, s32 count, s32 index);
+    // 0x7100664cc0: unscaled carried-item placement offset.
+    void sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index);
     // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
     void sub_7100665360();
 
@@ -68,7 +70,9 @@ public:
     ActorContextStuff* _310;
     ActorContextStuff _318;
     /* 0xa78 */ sead::Atomic<u32> _a78;
-    u8 _a7c[0xbc4 - 0xa7c];
+    u8 _a7c[0xa98 - 0xa7c];
+    // 664c30/664cc0 read five sets of five Vector3f offsets, stride0x3c.
+    sead::SafeArray<sead::SafeArray<sead::Vector3f, 5>, 5> _a98;
     sead::SafeArray<sead::Vector3f, 5> _bc4;
 
     // 0x71025c5a00

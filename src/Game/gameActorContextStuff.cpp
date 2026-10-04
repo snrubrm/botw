@@ -97,6 +97,40 @@ bool ActorContextStuff::sub_710065E788(sead::Matrix34f* matrix, s32 index) {
     return sub_710065ECF8(matrix, index);
 }
 
+// NON_MATCHING: stack allocation and matrix arithmetic/store scheduling differ.
+bool ActorContextStuff::sub_710065ECF8(sead::Matrix34f* matrix, s32 index) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    if (index >= _638.size())
+        return false;
+    auto* entry = _638.at(index);
+    if (!entry)
+        return false;
+    if (_68 & 1) {
+        entry->sub_71006620F8(matrix);
+    } else {
+        ksys::act::ActorConstDataAccess accessor;
+        // Both return values are discarded by the original before using the body matrix.
+        ksys::act::acquireActor(&_708, &accessor);
+        sead::Matrix34f body_matrix;
+        accessor.sub_7100D11860(&body_matrix);
+        sead::Vector3f position = body_matrix.getTranslation();
+        sead::Vector3f offset;
+        sead::Vector3f angles;
+        if (auto* scene = GameSceneSubsys12::instance()) {
+            const s32 count = sub_710065F044();
+            scene->sub_7100664C30(&offset, count, index);
+            sub_710065F12C(&angles, index);
+        }
+        offset.rotate(body_matrix);
+        position += offset;
+        sead::Matrix33f rotation;
+        rotation.makeR(angles);
+        sead::Matrix34CalcCommon<f32>::multiply(*matrix, body_matrix, rotation);
+        matrix->setTranslation(position);
+    }
+    return true;
+}
+
 void ActorContextStuff::x_0() {
     for (auto& entry : _70)
         entry.sub_7100661988();

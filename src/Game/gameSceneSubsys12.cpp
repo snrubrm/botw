@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/System/Timer.h"
 #include <prim/seadScopedLock.h>
+#include <math/seadMathCalcCommon.h>
 
 void GameSceneSubsys12::init(sead::Heap* heap) {
     _318.sub_710065D8E4(heap, true);
@@ -116,4 +117,12 @@ void GameSceneSubsys12::sub_7100665360() {
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&_300, &accessor))
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+}
+
+// NON_MATCHING: the original count clamp contains an int-float-int round trip, and copy stores differ.
+void GameSceneSubsys12::sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index) {
+    if (out) {
+        const s32 row = sead::Mathi::clamp(count - 1, 0, 4);
+        *out = _a98[row][index];
+    }
 }
