@@ -32,6 +32,11 @@ protected:
     virtual void m41(f32* a, sead::Vector3f* b) = 0;
     virtual f32 m42();
 
+    // 0x71000b3d5c / 0x71000b3f38 / 0x71000b4170 (out of line in the original; names are guesses)
+    void sub_71000B3D5C();
+    bool sub_71000B3F38();
+    void sub_71000B4170();
+
     // static_param at offset 0x20
     const float* mStopSpeedRatio_s{};
     // static_param at offset 0x28

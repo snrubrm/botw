@@ -23,11 +23,13 @@ protected:
     void m36() override;
     void m37() override;
     void m40() override;
+    // 0x71000b362c (out of line in the original; name is a guess): starts the just-avoid attack move.
+    void sub_71000B362C();
 
     ksys::VFRValue _c8{0.0f};
     Unk_7102451ba0 _d8;
     sead::Vector3f _100 = {0, 0, 0};
-    u32 _10c = 0;
+    f32 _10c = 0;
     // static_param at offset 0x110
     const int* mWeaponIdx_s{};
     // static_param at offset 0x118
