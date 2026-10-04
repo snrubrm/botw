@@ -4173,7 +4173,7 @@ Address,Quality,Size,Name
 0x00000071000c30c0,O,000020,_ZN5uking6action13BecomeSpeakerD1Ev
 0x00000071000c30d4,O,000052,_ZN5uking6action13BecomeSpeakerD0Ev
 0x00000071000c3108,O,000008,_ZN5uking6action13BecomeSpeaker5init_EPN4sead4HeapE
-0x00000071000c3110,U,000044,_ZN5uking6action13BecomeSpeaker8oneShot_Ev
+0x00000071000c3110,O,000044,_ZN5uking6action13BecomeSpeaker8oneShot_Ev
 0x00000071000c313c,O,000004,_ZN5uking6action13BecomeSpeaker11loadParams_Ev
 0x00000071000c3140,O,000288,_ZNK5uking6action13BecomeSpeaker27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000c3260,O,000092,_ZNK5uking6action13BecomeSpeaker18getRuntimeTypeInfoEv
@@ -53356,7 +53356,7 @@ Address,Quality,Size,Name
 0x00000071008abf28,U,000008,
 0x00000071008abf30,U,000008,
 0x00000071008abf38,U,000016,
-0x00000071008abf48,U,000304,evt::EventSystem::setSpeaker
+0x00000071008abf48,U,000304,_ZN4ksys3evt11EventSystem10setSpeakerEPNS_3act5ActorE
 0x00000071008ac078,U,000136,evt::EventSystem::x_2
 0x00000071008ac100,U,000024,evt::EventSystem::x_3
 0x00000071008ac118,U,000048,
