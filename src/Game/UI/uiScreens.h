@@ -7,6 +7,8 @@
 #include <thread/seadCriticalSection.h>
 #include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/uiArchiveHandle.h"
+#include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -711,6 +713,14 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
+    u8 _pad_3610[0x3638 - 0x3610];
+    nn::ui2d::ArchiveHandle _3638;
+    sead::PtrArray<Unk_Elem> _36f0;
+    u8 _pad_3700[0x3850 - 0x3700];
+    sead::Buffer<u8> _3850;  // element type not known
+    u8 _pad_3860[0x38d0 - 0x3860];
+    UiTexSlots _38d0;
+
     virtual void m154();
     virtual void m155();
     virtual void m156();
@@ -1647,6 +1657,8 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
+
+    UiTexSlots _3610;
 };
 
 class ScreenShopInfo : public ScreenEx {
@@ -1655,6 +1667,13 @@ public:
     void m96() override;
     ~ScreenShopInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenShopInfo, ScreenEx)
+
+    u8 _pad_3610[0x3658 - 0x3610];
+    sead::PtrArray<Unk_Elem> _3658;
+    u8 _pad_3668[0x3678 - 0x3668];
+    Unk_710247dc70 _3678;
+    u8 _pad_3680[0x3698 - 0x3680];
+    UiTexSlots _3698;
 };
 
 class ScreenAppAlbum : public ScreenEx {

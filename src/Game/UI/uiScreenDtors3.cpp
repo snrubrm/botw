@@ -21,8 +21,12 @@ ScreenDoCommand::~ScreenDoCommand() {
     _3648.freeBuffer();
 }
 ScreenSousaGuide::~ScreenSousaGuide() = default;
+// 0x7100a4ad84
 ScreenShopBtnList15::~ScreenShopBtnList15() = default;
-ScreenShopInfo::~ScreenShopInfo() = default;
+// 0x7100a517cc
+ScreenShopInfo::~ScreenShopInfo() {
+    _3658.freeBuffer();
+}
 ScreenRupee::~ScreenRupee() = default;
 ScreenKologNum::~ScreenKologNum() = default;
 ScreenAkashNum::~ScreenAkashNum() = default;
@@ -36,7 +40,11 @@ ScreenPickUp::~ScreenPickUp() = default;
 ScreenMessageTipsRunTime::~ScreenMessageTipsRunTime() = default;
 ScreenAppMap::~ScreenAppMap() = default;
 ScreenAppHome::~ScreenAppHome() = default;
-ScreenMainShortCut::~ScreenMainShortCut() = default;
+// 0x7100a1f0bc
+ScreenMainShortCut::~ScreenMainShortCut() {
+    _3850.freeBuffer();
+    _36f0.freeBuffer();
+}
 ScreenPauseMenu::~ScreenPauseMenu() = default;
 ScreenPauseMenuInfo::~ScreenPauseMenuInfo() = default;
 ScreenSaveTransferWindow::~ScreenSaveTransferWindow() = default;
