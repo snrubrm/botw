@@ -693,6 +693,20 @@ public:
     void* m2() override { return nullptr; }
 };
 
+// vtable 0x710236acc8 / 0x710236acf0 (BasicSignalBossAwakeSleep at +0x20 / +0x38); messages 0x800007d /
+// 0x800007e (no payload)
+class Unk_710236acc8 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
+class Unk_710236acf0 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return nullptr; }
+};
+
 // vtable 0x7102450010 (Unk_71006f3044 at +0xa0); message 0x8000039 (no payload)
 class Unk_7102450010 : public Unk_7102357d20 {
 public:
