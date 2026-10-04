@@ -64,6 +64,9 @@ void MessageMgr::setGradationColor(u32 index, sead::Color4u8 top, sead::Color4u8
     color.bottom = bottom;
 }
 
+// 0x7100be4988
+void MessageMgr::m0() {}
+
 // NON_MATCHING (D2 / D0): the original loads `mMgr` as the first statement (before the vtable store and the link
 // test); ours loads it inside the branch. A leading `MessageMgr* mgr = mMgr;` would match (a local used once only for
 // ordering: not applied).

@@ -126,6 +126,82 @@ TagProcessor::Operation TagProcessor::m20(const sead::MessageSet<char16>::TagInf
     return Operation_Default;
 }
 
+// 0x7100be6f14
+// NON_MATCHING: the original repeats tag classification tests in the traversal loop.
+TagProcessor::Operation TagProcessor::m25(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    u16 count;
+    std::memcpy(&count, tag->getParam(), sizeof(count));
+    s32 skipped = 0;
+    while (skipped < count && reinterpret_cast<const u16*>(next) < context->strEnd) {
+        if (*next == 0xe) {
+            next = reinterpret_cast<const char16*>(reinterpret_cast<const u8*>(next) + 8 + next[3]);
+        } else if (*next == 0xf) {
+            next += 3;
+        } else {
+            ++skipped;
+            ++next;
+        }
+    }
+    context->str = reinterpret_cast<const u16*>(next);
+    return Operation_Default;
+}
+
+// 0x7100be6554
+// NON_MATCHING: character narrowing and tag marker branch scheduling differ.
+TagProcessor::Operation TagProcessor::m15(u32 code, nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle* rect) {
+    const u16 character = code;
+    if ((character | 1) != 0xf) {
+        if (rect)
+            return nn::font::TagProcessorBase<u16>::CalculateRect(rect, context, character);
+        return nn::font::TagProcessorBase<u16>::Process(character, context);
+    }
+
+    const auto* tag = reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(context->str - 1);
+    const char16* next;
+    if (tag->marker == 0xf) {
+        next = reinterpret_cast<const char16*>(tag) + 3;
+    } else if (tag->marker == 0xe) {
+        next = reinterpret_cast<const char16*>(tag->getParam() + tag->paramSize);
+    } else {
+        mMessageMgr->m0();
+        return Operation_EndDraw;
+    }
+    if (reinterpret_cast<const u16*>(next) > context->strEnd) {
+        mMessageMgr->m0();
+        return Operation_EndDraw;
+    }
+
+    if (tag->group == 1)
+        return m16(tag, context, rect, next);
+    if (tag->group != 0)
+        return m17(tag, context, rect, next);
+    switch (tag->type) {
+    case 0:
+        return m18(tag, context, rect, next);
+    case 1:
+        return m19(tag, context, rect, next);
+    case 2:
+        return m20(tag, context, rect, next);
+    case 3:
+        return m21(tag, context, rect, next);
+    case 4:
+        return m22(tag, context, rect, next);
+    case 0x80:
+        return m23(tag, context, rect, next);
+    case 0x81:
+        return processPictFontProcessTag_(tag, context, rect, next);
+    case 0x82:
+        return m25(tag, context, rect, next);
+    case 0x83:
+        return m26(tag, context, rect, next);
+    default:
+        return Operation_Default;
+    }
+}
+
 // 0x7100be70b8
 f32 TagProcessor::m27() const {
     return 0.4f;
