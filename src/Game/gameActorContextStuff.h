@@ -41,6 +41,9 @@ public:
     void sub_7100661494(bool immediately);
     // 0x7100660ad8: binds the actor's placement/physics to this entry.
     void sub_7100660AD8(ksys::act::Actor* actor);
+    // 0x710066074c: creates the temporary carried-item physics objects.
+    void sub_710066074C(ActorContextStuff* context, s32 index, bool for_menu,
+                      ksys::phys::SystemGroupHandler* handler, sead::Heap* heap);
     bool sub_7100661540(const ksys::act::BaseProcLink& link) const;
     void sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const;
     void sub_71006620F8(sead::Matrix34f* matrix) const;

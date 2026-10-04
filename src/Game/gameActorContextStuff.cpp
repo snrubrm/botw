@@ -19,6 +19,21 @@ ActorContextStuff::~ActorContextStuff() {
     ksys::phys::System::instance()->removeSystemGroupHandler(_6b0);
 }
 
+// NON_MATCHING: the handler-index argument uses w2 rather than x2, and flag stores are scheduled differently.
+void ActorContextStuff::sub_710065D8E4(sead::Heap* heap, bool a2) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    _6a8 = ksys::phys::System::instance()->sub_71012168C8(ksys::phys::ContactLayerType::Entity, 0);
+    _6b0 = ksys::phys::System::instance()->addSystemGroupHandler(ksys::phys::ContactLayerType::Entity, 0);
+    for (s32 i = 0; i < _70.size(); ++i) {
+        _70[i].sub_710066074C(this, i, a2, _6a8, heap);
+        _670.pushBack(&_70[i]);
+    }
+    if (a2)
+        _68 |= 2;
+    else
+        _68 &= ~2;
+}
+
 Unk_710243be90* ActorContextStuff::sub_710065E2B0(ksys::act::BaseProc* proc) {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     const s32 count = _638.size();

@@ -107,6 +107,8 @@ public:
 
     // 0x000000710121686c
     SystemGroupHandler* addSystemGroupHandler(ContactLayerType layer_type, int free_list_idx = 0);
+    // 0x71012168c8: returns one of the existing system group handlers.
+    SystemGroupHandler* sub_71012168C8(ContactLayerType layer_type, int free_list_idx);
     // 0x0000007101215b68
     void removeSystemGroupHandler(SystemGroupHandler* handler);
 
