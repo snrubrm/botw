@@ -4,6 +4,7 @@
 #include <container/seadSafeArray.h>
 #include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadMatrix.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -278,6 +279,10 @@ struct PlayState {
     bool _4;
     s32 _8;
 };
+
+// 0x71011658c0 (declaration only): `out` = the blend of `a` and `b` by `weight` (slerp of the rotation part and the
+// translations through the unnamed 0x7101165950). `out` may alias `a`.
+void sub_71011658C0(f32 weight, sead::Matrix34f* out, const sead::Matrix34f* a, const sead::Matrix34f* b);
 
 class Element {
     SEAD_RTTI_BASE(Element)
@@ -570,6 +575,9 @@ public:
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m11(Context* ctx, State* state, const res::ASResource* resource) override;
+    bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
+             f32 value) override;
+    bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
     // 0x71013167c8 (declaration only)
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;

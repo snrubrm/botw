@@ -303,6 +303,59 @@ bool Blender::m9(Context* ctx, PlayState* state, const res::ASResource* resource
 
 // NON_MATCHING: only the order of two register copies (`mov w23, w2` before `mov v8, v0` at entry; the two
 // `orr` of the changed path swapped)
+// NON_MATCHING: callee-saved register numbers / argument copy order at entry (the float is copied after the
+// integer arguments in the original); the body is identical
+bool Blender::m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
+                  f32 value) {
+    s32 first, second;
+    const f32 weight = m39(&first, &second, ctx, resource);
+    Element* child = mChildren[first];
+    const res::ASResource* child_resource = sub_71013031FC(resource, first);
+    bool result = child->m32(ctx, a2, a3, a4, a5, child_resource, value);
+    if (second != -1) {
+        sead::Matrix34f other;
+        Element* second_child = mChildren[second];
+        const res::ASResource* second_resource = sub_71013031FC(resource, second);
+        const bool second_result =
+            second_child->m32(ctx, &other, a3, a4, a5, second_resource, value);
+        auto* out = static_cast<sead::Matrix34f*>(a2);
+        if (result & second_result) {
+            sub_71011658C0(weight, out, out, &other);
+        } else {
+            if (!second_result)
+                return result;
+            *out = other;
+        }
+        result = true;
+    }
+    return result;
+}
+
+// NON_MATCHING: callee-saved register numbers / argument copy order at entry (see m32); the body is identical
+bool Blender::m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    Element* child = mChildren[record->_0];
+    const u8 second = record->_1;
+    const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+    bool result = child->m33(ctx, a2, a3, child_resource, a5);
+    if (second != 0xff) {
+        sead::Matrix34f other;
+        Element* second_child = mChildren[static_cast<s8>(record->_1)];
+        const res::ASResource* second_resource = sub_71013031FC(resource, static_cast<s8>(record->_1));
+        const bool second_result = second_child->m33(ctx, &other, a3, second_resource, a5);
+        auto* out = static_cast<sead::Matrix34f*>(a2);
+        if (result & second_result) {
+            sub_71011658C0(record->_4, out, out, &other);
+        } else {
+            if (!second_result)
+                return result;
+            *out = other;
+        }
+        result = true;
+    }
+    return result;
+}
+
 f32 Blender::m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     const int key = sub_7101165408(resource);
