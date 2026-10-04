@@ -4,7 +4,14 @@
 #include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/System/VFR.h"
 
+// Declaration only; the original source namespace/owner of this byte query is unknown.
+bool sub_7100E9CF8C();
+
 namespace ksys::as {
+
+bool ASList::Unk2::sub_710116392C() {
+    return (_41 & 4) && sub_7100E9CF8C();
+}
 
 // NON_MATCHING: the nonpositive clamp and direct field cleanup differ from the indexed loop.
 void ASList::Unk2::sub_7101161D74() {
