@@ -71,6 +71,20 @@ void LayoutEx::setDrawTargetAnim(DrawTarget target) {
         static_cast<LayoutEx*>(part.layout)->setDrawTargetAnim(target);
 }
 
+// 0x7100bdd524
+AnimatorSet* LayoutEx::createAnimatorSet(const char* const* names, u32 count, bool enabled) {
+    void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(AnimatorSet) + count * sizeof(Animator*), 4);
+    if (!memory)
+        return nullptr;
+    auto* set = new (memory) AnimatorSet;
+    set->setBuffer(count, reinterpret_cast<Animator**>(set + 1));
+    for (u32 i = 0; i < count; ++i) {
+        if (names[i] && names[i][0])
+            set->setAnimator(i, tryCreateAnimatorAuto(names[i], i == 0 && enabled));
+    }
+    return set;
+}
+
 // 0x7100bdd41c
 Animator* LayoutEx::createAnimatorAuto(const char* name, bool b) {
     return tryCreateAnimatorAuto(name, b);
