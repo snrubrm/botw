@@ -167,19 +167,32 @@ KSYS_CHECK_SIZE_NX150(Unk_71002eda38, 0x48);
 // 0xc4c). Passed down via PlayerOrEnemy / NPC (0x71005d79ac). Placeholder name and fields.
 // Placeholder name (0x71002ef75c): the object Weapon::_d38 points to (EquipedDeadlyBlowWeapon::handleMessage_ and
 // EquipedChemicalWeapon::calc_ call its method); its first member is the owner actor. Opaque so far.
+class Weapon;
+
 struct Unk_71002ef75c {
-    // 0x71002ef75c (declaration only)
+    // Placeholder: the object at `_8` (only two s32 fields are known).
+    struct Unk1 {
+        u8 _0[0x2a8];
+        /* 0x2a8 */ s32 _2a8;  // charge decrement of sub_71002EF850 / the maximum charge
+        u8 _2ac[0x2c8 - 0x2ac];
+        /* 0x2c8 */ s32 _2c8;  // charge decrement of sub_71002EF75C (not charging)
+    };
+
+    // 0x71002ef75c: decreases the charge `_14` (by `_8->_2c8`, or while charging by the current maximum
+    // charge / 13 (or `_14`)) and sets the flag 1 of _18 when it reaches 0. Names are guesses.
     void sub_71002EF75C();
 
-    // 0x71002ef850 (declared only): `_14 -= (f32)max; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
+    // 0x71002ef850: `_14 -= (f32)_8->_2a8; if (_14 <= 0) { _18 |= 1; _14 = 0; }`.
     void sub_71002EF850();
-    // 0x71002ef74c (declared only): the maximum charge: `(f32)(s32)_8->_2a8`.
+    // 0x71002ef74c: the maximum charge: `(f32)_8->_2a8`.
     f32 sub_71002EF74C();
 
     // Layout from ChemicalWeaponRoot::calc_ / sub_7100348B18 (lane1 s28); everything else is unknown.
-    /* 0x00 */ u8 _0[0x14];
+    /* 0x00 */ Weapon* _0;  // owner
+    /* 0x08 */ Unk1* _8;
+    /* 0x10 */ u32 _10;
     /* 0x14 */ f32 _14;
-    /* 0x18 */ u8 _18;  // flags (bit 3 starts the "ChemSwordChargeLoop" xlink)
+    /* 0x18 */ u8 _18;  // flags (bit 0: charge used up; bit 3 starts the "ChemSwordChargeLoop" xlink)
 };
 
 struct Unk_71002edaec {

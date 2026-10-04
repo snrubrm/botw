@@ -169,7 +169,9 @@ public:
         S2();
         ~S2();
 
-        u8 _0[0x90];
+        u8 _0[0x88];
+        /* 0x88 */ u16 _88 = 0;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
+        u8 _8a[0x90 - 0x8a];
     };
 
     // Placeholder (callers convert through the stack like a SEAD_ENUM).

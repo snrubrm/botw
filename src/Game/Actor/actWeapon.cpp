@@ -17,6 +17,35 @@
 
 namespace uking::act {
 
+f32 Unk_71002ef75c::sub_71002EF74C() {
+    return _8->_2a8;
+}
+
+void Unk_71002ef75c::sub_71002EF850() {
+    _14 -= _8->_2a8;
+    if (_14 <= 0) {
+        _14 = 0;
+        _18 |= 1;
+    }
+}
+
+void Unk_71002ef75c::sub_71002EF75C() {
+    f32 decrease;
+    if (_0 && _0->m233() && (_0->_c20._14 & 8)) {
+        f32 max_charge = 0;
+        if (_0->_d38)
+            max_charge = s32(f32(_0->_d38->_8->_2a8)) / 13;
+        decrease = s32(_14 / max_charge) == 1 ? _14 : max_charge;
+    } else {
+        decrease = _8->_2c8;
+    }
+    _14 -= decrease;
+    if (_14 <= 0) {
+        _14 = 0;
+        _18 |= 1;
+    }
+}
+
 WeaponModifierInfo::WeaponModifierInfo(const ui::PouchItem& item) {
     fromItem(item);
 }
