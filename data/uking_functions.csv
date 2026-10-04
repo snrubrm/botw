@@ -74783,7 +74783,7 @@ Address,Quality,Size,Name
 0x0000007100d64f74,U,000120,ai::ActorAI::x_3
 0x0000007100d64fec,U,001824,ai::ActorAI::x_4
 0x0000007100d6570c,U,001440,ai::ActorAI::calc
-0x0000007100d65cac,U,000016,ai::RootAi::isChildIdx0
+0x0000007100d65cac,O,000016,_ZNK4ksys3act2ai6RootAi11isChildIdx0Ev
 0x0000007100d65cbc,U,000156,ai::ActorAI::x_0
 0x0000007100d65d58,O,000036,_ZNK4ksys3act2ai6RootAi24isActorDeletedOrDeletingEv
 0x0000007100d65d7c,U,000160,ai::ActorAI::enter
@@ -74808,10 +74808,10 @@ Address,Quality,Size,Name
 0x0000007100d669dc,O,000012,_ZN4ksys3act2ai20getDefaultActionNameEi
 0x0000007100d669e8,O,000096,_ZN4ksys3act2ai6RootAi11setBehaviorEPNS1_8BehaviorE
 0x0000007100d66a48,O,000096,_ZN4ksys3act2ai6RootAi13resetBehaviorEPNS1_8BehaviorE
-0x0000007100d66aa8,U,000076,ai::RootAi::onActorPreDelete1
+0x0000007100d66aa8,O,000076,_ZN4ksys3act2ai6RootAi17onActorPreDelete1Ev
 0x0000007100d66af4,U,000084,ai::ActorAI::cleanUp
 0x0000007100d66b48,O,000068,_ZN4ksys3act2ai6RootAi14sub_7100D66B48ERKN4sead7Vector3IfEES7_f
-0x0000007100d66b8c,U,000008,ai::RootAi::stubbedRet0
+0x0000007100d66b8c,O,000008,_ZNK4ksys3act2ai6RootAi11stubbedRet0Ev
 0x0000007100d66b94,O,000176,_ZN4ksys3act2ai6RootAi23setChemicalFlags3cMaybeEjb
 0x0000007100d66c44,O,000288,_ZNK4ksys3act2ai6RootAi27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007100d66d64,O,000092,_ZNK4ksys3act2ai6RootAi18getRuntimeTypeInfoEv

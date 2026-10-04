@@ -53,6 +53,9 @@ public:
     // flag word at 0x3c of every Chemical of the actor.
     void setChemicalFlags3cMaybe(u32 mask, bool on);
     bool isActorDeletedOrDeleting() const;
+    bool isChildIdx0() const;
+    void onActorPreDelete1();
+    bool stubbedRet0() const;
     // Public through the root AI (SiteBossSpearRoot::leave_ calls it on `mActor->getRootAi()`; lane2 s20).
     using ActionBase::isActorGoingBackToRootAi;
 

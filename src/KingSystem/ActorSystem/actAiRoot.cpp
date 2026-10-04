@@ -6,6 +6,24 @@
 
 namespace ksys::act::ai {
 
+bool RootAi::isChildIdx0() const {
+    return mChildIdx == 0;
+}
+
+void RootAi::onActorPreDelete1() {
+    if (_14e)
+        return;
+    mActions.onPreDelete();
+    mAis.onPreDelete();
+    mBehaviors.onPreDelete();
+    mQueries.onPreDelete();
+    _14e = 1;
+}
+
+bool RootAi::stubbedRet0() const {
+    return false;
+}
+
 void RootAi::setChemicalFlags3cMaybe(u32 mask, bool on) {
     auto* chemicals = mActor->getChemicalContainer();
     for (int i = 0; i < chemicals->_58.size() + chemicals->_80; ++i) {
