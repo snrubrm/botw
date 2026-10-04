@@ -14,7 +14,7 @@ DragButton::DragButton() {
 void DragButton::Build(const nn::ui2d::ControlSrc& src, LayoutEx* layout) {
     AnimButton::Build(src, layout);
     mFlags &= ~0x2000;
-    mPane = layout->mPane;
+    mPane = layout->GetPane();
 }
 
 // 0x7100bd8f3c

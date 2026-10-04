@@ -281,7 +281,7 @@ ButtonGroup* Screen::doCreateButtonGroup_(sead::Heap* heap) {
 
 // 0x7100beaf98
 nn::ui2d::Pane* Screen::findPane_(const char* name) {
-    return mLayout->mPane->FindPaneByName(name, true);
+    return mLayout->GetPane()->FindPaneByName(name, true);
 }
 
 // 0x7100beb608

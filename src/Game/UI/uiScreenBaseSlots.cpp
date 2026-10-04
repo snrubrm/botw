@@ -13,7 +13,7 @@ namespace uking::ui {
 
 // 0x71009cf8a4
 void Screen::m80(bool visible) {
-    mLayout->mPane->SetVisible(visible);
+    mLayout->GetPane()->SetVisible(visible);
 }
 
 

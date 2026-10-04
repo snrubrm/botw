@@ -1,11 +1,7 @@
 #include "Game/UI/euiNwAllocator.h"
 #include <heap/seadHeap.h>
 
-namespace nn::ui2d {
-// 0x710132b114 (CSV unnamed; placeholder name): logs and calls Layout::SetAllocator (library code; declared here until the
-// SDK header has it)
-void sub_710132B114(void* (*allocate)(size_t, size_t, void*), void (*free)(void*, void*), void* user_data);
-}  // namespace nn::ui2d
+#include <nn/ui2d/Layout.h>
 
 namespace eui {
 

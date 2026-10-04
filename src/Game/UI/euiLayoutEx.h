@@ -1,9 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
+#include <nn/ui2d/Layout.h>
 
 namespace nn::ui2d {
 class Pane;
+struct ResExtUserData;
 
 // Control description of a layout part (CSV nn::ui2d::ControlSrc; the SDK source is not available). Only the lookups
 // used by eui are declared.
@@ -12,7 +15,7 @@ public:
     // 0x7100ac05c0 / 0x7100ac0548 / 0x7100ac0634
     const char* FindFunctionalAnimName(const char* name) const;
     const char* FindFunctionalPaneName(const char* name) const;
-    const void* FindExtUserDataByName(const char* name) const;
+    const ResExtUserData* FindExtUserDataByName(const char* name) const;
 };
 }  // namespace nn::ui2d
 
@@ -31,11 +34,34 @@ class Screen;
 
 // The eui layout (CSV eui::LayoutEx; derives from nn::ui2d::Layout, vtable 0x24c7d18 with 26 slots). Only the
 // fields and functions used so far are declared.
-class LayoutEx {
+class LayoutEx : public nn::ui2d::Layout {
 public:
+    NN_RUNTIME_TYPEINFO(nn::ui2d::Layout)
+
+    using nn::ui2d::Layout::mName;
+
     // 0x7100bdd16c (not decompiled)
     explicit LayoutEx(Screen* screen);
-    virtual ~LayoutEx();
+    ~LayoutEx() override;
+
+    bool BuildImpl(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const void*,
+                   nn::ui2d::ResourceAccessor*, const nn::ui2d::BuildArgSet&,
+                   const nn::ui2d::Layout::PartsBuildDataSet*) override;
+    nn::ui2d::Pane* BuildPaneObj(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, u32,
+                               const void*, const void*, const nn::ui2d::BuildArgSet&) override;
+    bool BuildPartsLayout(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const char*,
+                          const nn::ui2d::Layout::PartsBuildDataSet&,
+                          const nn::ui2d::BuildArgSet&) override;
+    void CalculateImpl(nn::ui2d::DrawInfo&, bool) override;
+
+    // Own slots 20-25, from the original vtable; undecompiled signatures use placeholders.
+    virtual void m20(Animator* animator);
+    virtual LayoutEx* m21();
+    virtual void attachPartsLayoutArchive_(const sead::SafeString& name);
+    virtual void doInitializeDefalutAnimator_();
+    virtual nn::ui2d::Pane* m24(nn::ui2d::BuildResultInformation*, u32, const void*, const void*,
+                              const nn::ui2d::BuildArgSet&);
+    virtual void m25(nn::ui2d::Pane*, const nn::ui2d::BuildArgSet&);
 
     // 0x7100bde308 / 0x7100bde39c
     bool isAnimOpenEnd(bool b) const;
@@ -50,17 +76,15 @@ public:
     Animator* tryCreateAnimatorAutoWithWarning(const char* name, bool b);
     AnimatorSet* createAnimatorSet(const char* const* names, u32 count, bool b);
 
-    u8 _8[0x18 - 0x8];
-    /* 0x18 */ nn::ui2d::Pane* mPane;
-    u8 _20[0x30 - 0x20];
-    /* 0x30 */ const char* mName;
-    u8 _38[0x60 - 0x38];
-    /* 0x60 */ Animator* mOpenAnimator;
-    u8 _68[0x80 - 0x68];
+    /* 0x60 */ Animator* mOpenAnimator = nullptr;
+    /* 0x68 */ Animator* mCloseAnimator = nullptr;
+    /* 0x70 */ Animator* _70 = nullptr;
+    /* 0x78 */ Animator* _78 = nullptr;
     /* 0x80 */ Screen* mScreen;
-    u8 _88[0x91 - 0x88];
-    /* 0x91 */ u8 _91;
-    u8 _92[0x98 - 0x92];
+    /* 0x88 */ void* _88 = nullptr;
+    /* 0x90 */ u8 _90 = 0;
+    /* 0x91 */ u8 _91 = 2;  // animation state
+
 };
 static_assert(sizeof(LayoutEx) == 0x98);
 

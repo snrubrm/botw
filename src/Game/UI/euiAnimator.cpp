@@ -31,7 +31,7 @@ void Animator::SetupWithGroup(const nn::ui2d::AnimResource& res, LayoutEx* layou
 void Animator::SetupWithGroupAll(const nn::ui2d::AnimResource& res, LayoutEx* layout,
                                  nn::ui2d::GroupContainer* groups, bool enabled) {
     for (u32 i = 0, n = res.GetGroupCount(); i < n; ++i)
-        BindGroup(groups->FindGroupByName(res.GetGroupArray()[i].mName));
+        BindGroup(groups->FindGroupByName(res.GetGroupArray()[i].name));
     mName = res.GetTagName();
     mLayout = layout;
     SetEnabled(enabled);

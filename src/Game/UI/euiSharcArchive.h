@@ -14,17 +14,15 @@ namespace eui {
 class SharcArchive {
 public:
     // Iterates over the root directory of the archive (an ArchiveFileDevice for it).
-    class FileReader : public sead::ArchiveFileDevice {
+    class FileReader {
     public:
-        FileReader() : ArchiveFileDevice(nullptr) {}
-        ~FileReader() override;
+        FileReader() : mDevice(nullptr) {}
+        ~FileReader();
 
         // 0x7100beccec: reads the next directory entry into `mEntry` (false at the end)
         bool readNext();
 
-        void setArchive(sead::ArchiveRes* archive) { mArchive = archive; }
-        sead::ArchiveRes* getArchive() const { return mArchive; }
-
+        sead::ArchiveFileDevice mDevice;
         s32 mIndex = -1;
         sead::DirectoryHandle mDirectory;
         sead::DirectoryEntry mEntry;

@@ -30,7 +30,7 @@ void UniteButton::ForceSetChecked(bool checked) {
 
 // 0x7100bdb2dc
 void UniteButton::StartDrag(const sead::Vector2f& pos) {
-    nn::ui2d::Pane* pane = mLayout->mPane;
+    nn::ui2d::Pane* pane = mLayout->GetPane();
     mStartPos = pos;
     const auto& position = pane->GetPosition();
     mPanePos = {position.x, position.y};
@@ -43,7 +43,7 @@ void UniteButton::StartDrag(const sead::Vector2f& pos) {
 void UniteButton::UpdateDrag(const sead::Vector2f* pos) {
     if (!pos)
         return;
-    nn::ui2d::Pane* pane = mLayout->mPane;
+    nn::ui2d::Pane* pane = mLayout->GetPane();
     f32 x = mPanePos.x;
     if (mAllowX)
         x += pos->x - mStartPos.x;

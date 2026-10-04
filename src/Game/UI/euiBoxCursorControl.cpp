@@ -19,13 +19,13 @@ BoxCursorControl::~BoxCursorControl() {
 void BoxCursorControl::initialize(const nn::ui2d::ControlSrc& src, LayoutEx* layout) {
     mLayout = layout;
     const char* mTopLeft_name = src.FindFunctionalPaneName("TopLeft");
-    mTopLeft = layout->mPane->FindPaneByName(mTopLeft_name, true);
+    mTopLeft = layout->GetPane()->FindPaneByName(mTopLeft_name, true);
     const char* mTopRight_name = src.FindFunctionalPaneName("TopRight");
-    mTopRight = layout->mPane->FindPaneByName(mTopRight_name, true);
+    mTopRight = layout->GetPane()->FindPaneByName(mTopRight_name, true);
     const char* mBottomLeft_name = src.FindFunctionalPaneName("BottomLeft");
-    mBottomLeft = layout->mPane->FindPaneByName(mBottomLeft_name, true);
+    mBottomLeft = layout->GetPane()->FindPaneByName(mBottomLeft_name, true);
     const char* mBottomRight_name = src.FindFunctionalPaneName("BottomRight");
-    mBottomRight = layout->mPane->FindPaneByName(mBottomRight_name, true);
+    mBottomRight = layout->GetPane()->FindPaneByName(mBottomRight_name, true);
     Screen* screen = mLayout->mScreen;
     screen->mMgr->getBoxCursorMgr()->registerControl(screen->getDrawTarget(), this);
     mLayout->mScreen->_107 |= 4;

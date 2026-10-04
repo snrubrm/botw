@@ -2,7 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
-#include <nn/font/font_Util.h>
+#include <nn/ui2d/AnimTransform.h>
+#include <nn/ui2d/Group.h>
 #include "Game/UI/euiControlBase.h"
 
 namespace sead {
@@ -12,83 +13,6 @@ class Heap;
 namespace eui {
 
 class LayoutEx;
-
-// nn::ui2d::AnimTransform / AnimTransformBasic placeholders (the SDK sources are not in lib/NintendoSDK): only
-// the vtable layout (slots 3-20; slot 0 is the nn-style runtime type info, 1 / 2 the destructor) and the functions
-// called from eui are declared.
-}  // namespace eui
-
-namespace nn::ui2d {
-
-class Pane;
-class Material;
-class Group;
-class GroupContainer;
-class AnimResource;
-
-// One entry of an AnimResource's group array (0x24 bytes)
-struct ResAnimationGroupRef {
-    char mName[0x20];
-    u32 _20;
-};
-
-class AnimTransform {
-public:
-    NN_RUNTIME_TYPEINFO_BASE()
-    virtual ~AnimTransform();
-    virtual void UpdateFrame(f32 frame);
-    virtual void SetEnabled(bool enabled);
-
-    u16 GetFrameSize() const;
-    bool IsLoopData() const;
-    bool IsWaitData() const;
-
-    u8 _8[0x20 - 0x8];
-    /* 0x20 */ f32 mFrame;
-    u8 _24[0x40 - 0x24];
-};
-
-class AnimTransformBasic : public AnimTransform {
-public:
-    NN_RUNTIME_TYPEINFO(AnimTransform)
-    AnimTransformBasic();
-    ~AnimTransformBasic() override;
-
-    virtual void Animate();
-    virtual void AnimatePane(Pane* pane);
-    virtual void AnimateMaterial(Material* material);
-    virtual void SetResource0();
-    virtual void SetResource1();
-    virtual void BindPane(Pane* pane, bool recursive);
-    virtual void BindGroup(Group* group);
-    virtual void BindMaterial(Material* material);
-    virtual void ForceBindPane(Pane* pane, const Pane* src);
-    virtual void UnbindPane(const Pane* pane);
-    virtual void UnbindGroup(const Group* group);
-    virtual void UnbindMaterial(const Material* material);
-    virtual void UnbindAll();
-    virtual void AnimatePaneImpl();
-    virtual void AnimateMaterialImpl();
-    virtual void AnimateExtUserDataImpl();
-};
-
-// 0x7100ab5be4 / 0x7100ab5c00 / 0x7100ab5c18 (SDK; only the used getters)
-class AnimResource {
-public:
-    const char* GetTagName() const;
-    u16 GetGroupCount() const;
-    const ResAnimationGroupRef* GetGroupArray() const;
-};
-
-// 0x7100ab6570
-class GroupContainer {
-public:
-    Group* FindGroupByName(const char* name);
-};
-
-}  // namespace nn::ui2d
-
-namespace eui {
 
 // The eui animation player (CSV eui::Animator; 0x68 bytes, vtable 0x24c8d50 with 28 slots). Names of the fields are
 // guesses.

@@ -70,16 +70,16 @@ void AnimButton::Build(const nn::ui2d::ControlSrc& src, LayoutEx* layout) {
     }
 
     const char* hit_name = src.FindFunctionalPaneName("Hit");
-    mHitPane = layout->mPane->FindPaneByName(hit_name, true);
+    mHitPane = layout->GetPane()->FindPaneByName(hit_name, true);
 
     const char* cursor_name = src.FindFunctionalPaneName("Cursor");
-    if (cursor_name && *cursor_name && !layout->mPane->FindExtUserDataByName("BoxCursorOff")) {
-        mBoxCursorPane = layout->mPane->FindPaneByName(cursor_name, true);
+    if (cursor_name && *cursor_name && !layout->GetPane()->FindExtUserDataByName("BoxCursorOff")) {
+        mBoxCursorPane = layout->GetPane()->FindPaneByName(cursor_name, true);
         sead::Heap* heap = GetNwAllocatorHeap();
         layout->mScreen->createBoxCursorNode(heap)->initialize(this, layout->mScreen);
     }
 
-    mName = layout->mPane->GetParent() ? layout->mPane->GetName() : layout->mName;
+    mName = layout->GetPane()->GetParent() ? layout->GetPane()->GetName() : layout->mName;
 
     if (src.FindExtUserDataByName("RepeatOn"))
         mFlags |= 0x80;
@@ -105,14 +105,14 @@ void AnimButton::CloneImpl_(const AnimButton& other, LayoutEx* layout, sead::Hea
     }
 
     if (other.mHitPane)
-        mHitPane = layout->mPane->FindPaneByName(other.mHitPane->GetName(), true);
+        mHitPane = layout->GetPane()->FindPaneByName(other.mHitPane->GetName(), true);
 
     if (other.mBoxCursorPane) {
-        mBoxCursorPane = layout->mPane->FindPaneByName(other.mBoxCursorPane->GetName(), true);
+        mBoxCursorPane = layout->GetPane()->FindPaneByName(other.mBoxCursorPane->GetName(), true);
         layout->mScreen->createBoxCursorNode(heap)->initialize(this, layout->mScreen);
     }
 
-    mName = layout->mPane->GetParent() ? layout->mPane->GetName() : layout->mName;
+    mName = layout->GetPane()->GetParent() ? layout->GetPane()->GetName() : layout->mName;
 }
 
 // 0x7100bd6768

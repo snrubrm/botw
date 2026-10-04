@@ -35,22 +35,20 @@ void SharcArchive::initialize(sead::Heap* heap, void* data, u32 size) {
 // 0x7100becc34
 void SharcArchive::startFileReader(FileReader* reader) const {
     reader->mIndex = -1;
-    reader->setArchive(mArchive);
-    reader->tryOpenDirectory(&reader->mDirectory, "");
+    reader->mDevice.mArchive = mArchive;
+    reader->mDevice.tryOpenDirectory(&reader->mDirectory, "");
 }
 
-// NON_MATCHING: the original does not store FileReader's (nor ArchiveFileDevice's) vtable pointer: everything else is
-// identical (close the directory, DirectoryHandle's inlined destructor, tail call to ~FileDevice).
 // 0x7100becc8c
 SharcArchive::FileReader::~FileReader() {
-    if (mArchive)
-        tryCloseDirectory(&mDirectory);
+    if (mDevice.mArchive)
+        mDevice.tryCloseDirectory(&mDirectory);
 }
 
 // 0x7100beccec
 bool SharcArchive::FileReader::readNext() {
     u32 count = 0;
-    tryReadDirectory(&count, &mDirectory, &mEntry, 1);
+    mDevice.tryReadDirectory(&count, &mDirectory, &mEntry, 1);
     if (count != 1)
         return false;
     ++mIndex;
