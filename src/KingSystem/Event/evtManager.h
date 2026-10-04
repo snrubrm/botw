@@ -13,6 +13,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace ksys {
+class Message;
+}
+
 namespace ksys::evt {
 
 class Context;
@@ -94,6 +98,9 @@ public:
     // 0x7100db12d8 (CSV EventMgr::getBaseProcLinkForActorOrActiveLink): the link of the context that has an event
     // actor for `proc` (the active context's link if none has / `proc` is null)
     act::BaseProcLink* getBaseProcLinkForActorOrActiveLink(act::BaseProc* proc) const;
+    // 0x7100db0ea0 (CSV EventMgr::callEvent_0): message handler: calls the event described by the
+    // BaseProcLinkForEvent in the user data of the message types 0x800001 / 0x800002
+    bool sub_7100DB0EA0(const Message* message);
     // 0x7100db235c (CSV EventMgr::getEventEntryPointName): copies the active context's string at 0xb8 to `out`
     bool getEventEntryPointName(sead::BufferedSafeString* out) const;
     // 0x7100db11d4 (CSV EventMgr::getStarterActor): the actor behind getBaseProcLinkForActorOrActiveLink(proc)

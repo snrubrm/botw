@@ -3,6 +3,7 @@
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
@@ -161,6 +162,31 @@ act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* p
         }
     }
     return _1d2b8 ? &_1d2b8->mLink : nullptr;
+}
+
+// 0x7100db0ea0
+bool Manager::sub_7100DB0EA0(const Message* message) {
+    if (message) {
+        const u32 type = message->getType();
+        if (type - 0x800001 <= 1 && message->getUserData()) {
+            if (auto* link = static_cast<BaseProcLinkForEvent*>(message->getUserData())) {
+                auto* actor = link->acquireActor();
+                if (!actor || !actor->isDeletedOrDeleting()) {
+                    CallArg arg;
+                    arg._40 = nullptr;
+                    arg.proc = actor;
+                    arg.metadata = &link->mMetadata;
+                    s32 result = 0x1ff;
+                    if (doCallEvent(arg, &result)) {
+                        if (result != 500)
+                            _1d2f4 |= 0x100;
+                        link->reset();
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }
 
 // 0x7100db235c
