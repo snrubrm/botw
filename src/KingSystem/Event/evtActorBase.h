@@ -36,6 +36,8 @@ public:
 
     // 0x7100da9c2c (CSV evt::ActorBase::getActionByName): the action whose resource is `res`
     ActionBase* getActionByName(const evfl::ResAction* res) const;
+    // 0x7100da9c90 (CSV unnamed; placeholder name; declared only: the original searches `res` in two loops)
+    Query* getQueryByRes(const evfl::ResQuery* res) const;
 
     /* 0x008 */ act::BaseProcLink mLink;
     /* 0x018 */ act::BaseProcHandle mHandle;
