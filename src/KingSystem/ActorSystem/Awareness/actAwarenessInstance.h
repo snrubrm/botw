@@ -184,7 +184,8 @@ public:
     virtual ~Unk_71024dca28();
     virtual u16 m4();
     virtual void m5();
-    virtual void m6();
+    // The base forwards the actor argument to the awareness entry at slot12.
+    virtual void m6(Actor* actor);
     virtual void m7();
     virtual Unk_71024dc978* m8() = 0;
 
@@ -206,7 +207,9 @@ class Unk_71024dc900 : public Unk_71024dca28 {
 public:
     ~Unk_71024dc900() override;
     void m5() override;
-    void m6() override;
+    void m6(Actor* actor) override;
+    // 0x7100d77eac: original empty update hook, called by Actor::job1_2.
+    void sub_7100D77EAC(Actor* actor);
     // 0x7100d78028: the awareness entry at +0x18.
     Unk_71024dc978* m8() override;
 

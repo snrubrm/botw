@@ -34,6 +34,9 @@ public:
     // 0x71012302d0 (CSV ActorEffects::toggle; declaration only, lane2 s21): PriestBossAfterImageRoot::enter_
     // calls it with true.
     void toggle(bool a1);
+    // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
+    bool x_1();
+    bool x_2();
     // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
     // calls it with 1 while `_73` is 0.
     void setMask(int a1);

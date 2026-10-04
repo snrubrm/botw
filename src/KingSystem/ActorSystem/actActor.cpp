@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include <mc/seadCoreInfo.h>
 #include <gsys/gsysModelAccessKey.h>
@@ -1358,6 +1360,32 @@ Actor::IsSpecialJobTypeResult Actor::isSpecialJobType_(JobType type) {
         return IsSpecialJobTypeResult::Yes;
     }
     return BaseProc::isSpecialJobType_(type);
+}
+
+void Actor::job4() {
+    VFR::instance()->useBufferB();
+    xlinkAlwaysEffectStuff();
+    if (!_598 || !_598->mFlags8.isOnBit(12) || mXLink->x_1() || !mXLink->x_2()) {
+        m75();
+        mSpecialJobTypesMaskOverride.setBit(BaseProcMgr::getConstant4());
+    }
+    VFR::instance()->useBufferA();
+}
+
+void Actor::job1_2() {
+    if (_548) {
+        _548->m6(this);
+        _548->sub_7100D77EAC(this);
+    }
+    if (!mActorFlags2.isOn(ActorFlag2::_200)) {
+        mActorFlags2Prev = mActorFlags2;
+        if (getState() != State::Delete && !isDeleteRequested() &&
+            (!_598 || !_598->mFlags8.isOnBit(8)) && !(_4f8 > 0) &&
+            mSpecialJobTypesMaskOverride.isOnBit(BaseProcMgr::getConstant1())) {
+            m74();
+        }
+    }
+    m72();
 }
 
 }  // namespace ksys::act
