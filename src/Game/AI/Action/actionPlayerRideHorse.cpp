@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include <limits>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -59,6 +62,41 @@ void PlayerRideHorse::loadParams_() {
     getStaticParam(&mTurnStickXInputThreshold_s, "TurnStickXInputThreshold");
     getStaticParam(&mConstraintBreakThreshold_s, "ConstraintBreakThreshold");
     getDynamicParam(&mHasToPlayRidingOnAS_d, "HasToPlayRidingOnAS");
+}
+
+// NON_MATCHING: the natural slot buffer size getter is inlined; slot-loop scheduling differs.
+void PlayerRideHorse::sub_7100808F88() {
+    auto* ride_actor = act::getRideActor(mActor);
+    const sead::SafeString name = act::sub_7100E81260(mActor, ride_actor);
+    auto* list = mActor->getASList();
+    f32 speed = 0.0f;
+    if (ride_actor) {
+        const auto& velocity = ride_actor->getVelocity();
+        speed = sead::Vector2f(velocity.x, velocity.z).length();
+    }
+    list->x_6(10, 0, speed);
+    list = mActor->getASList();
+    f32 angle = 0.0f;
+    if (ride_actor)
+        angle = act::sub_7100E8134C(mActor, ride_actor);
+    list->x_6(9, 0, angle);
+    const s32 slot_count = mActor->getASList()->mSlots.size();
+    for (s64 slot = 0; slot < sead::Mathi::min(2, slot_count); ++slot) {
+        list = mActor->getASList();
+        if (slot >= list->mSlots.size())
+            continue;
+        const s32 bank_count = list->mSlots[slot]._20.size();
+        for (s32 bank = 0; bank < bank_count; ++bank) {
+            if (slot < 2 && (!*mHasToPlayRidingOnAS_d || bank == 0))
+                mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, name, slot, 0, true);
+            else
+                mActor->getASList()->sub_710115B01C(slot, bank, true);
+        }
+    }
+    if (*mHasToPlayRidingOnAS_d)
+        ksys::act::ActorSystem::instance()->getPlayerLink()->m308();
+    if (auto* info = sead::DynamicCast<ksys::act::Player::RideInfo>(mActor->getPlayerRideInfo()))
+        info->_2ec = *mConstraintBreakThreshold_s;
 }
 
 void PlayerRideHorse::calc_() {

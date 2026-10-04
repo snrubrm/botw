@@ -4,7 +4,10 @@
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include <gsys/gsysModelUnit.h>
 
 namespace {
 // Original pointer tables at 0x7102373988 and 0x71023739b0.
@@ -17,6 +20,61 @@ namespace uking::action {
 DemoCookPotCook::DemoCookPotCook(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 DemoCookPotCook::~DemoCookPotCook() = default;
+
+// NON_MATCHING: matrix temporary layout and vector/loop register allocation differ.
+void DemoCookPotCook::sub_71000E8D94() {
+    auto* scene = GameSceneSubsys12::instance();
+    auto* model = mActor->getModel();
+    if (!scene || !model)
+        return;
+    sead::Matrix34f matrix = mActor->getMtx();
+    sead::Matrix34f root_local = sead::Matrix34f::ident;
+    sead::Vector3f scale;
+    if (_48.isValid()) {
+        model->getUnits()(_48.getKey().model_unit_index)->mModelUnit->safeGetBoneWorldMatrix(
+            &matrix, _48.getKey().bone_index);
+        model->getUnits()(_48.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &root_local, &scale, _48.getKey().bone_index);
+    }
+    if (sub_710072B8E4()) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        sead::Vector3f front = getPlayerPosition() - position;
+        front.y = 0.0f;
+        front.normalize();
+        sead::Matrix34f facing = sead::Matrix34f::ident;
+        const sead::Matrix34f actor_matrix = mActor->getMtx();
+        sead::Matrix34f inverse;
+        inverse.setInverse(actor_matrix);
+        sead::Vector3f up = actor_matrix.getBase(1);
+        up.normalize();
+        ksys::util::sub_71011F00EC(&facing, front, up, position, false);
+        facing.setMul(inverse, facing);
+        matrix.setMul(matrix, facing);
+    }
+    scene->sub_7100664F00(matrix);
+    sead::Matrix34f local;
+    if (_80.isValid())
+        model->getUnits()(_80.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &local, &scale, _80.getKey().bone_index);
+    else
+        local = sead::Matrix34f::ident;
+    scene->sub_7100664F3C(local);
+    if (_b8.isValid())
+        model->getUnits()(_b8.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+            &local, &scale, _b8.getKey().bone_index);
+    else
+        local = sead::Matrix34f::ident;
+    scene->sub_7100664F64(local);
+    for (s64 index = 0; index < _208 + _20c; ++index) {
+        const auto& key = _f0[index].getKey();
+        if (key.isValid())
+            model->getUnits()(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(
+                &local, &scale, key.bone_index);
+        else
+            local = root_local;
+        scene->sub_7100664F8C(index, local);
+    }
+}
 
 bool DemoCookPotCook::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);

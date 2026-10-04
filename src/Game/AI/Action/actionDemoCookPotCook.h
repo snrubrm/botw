@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -18,7 +19,7 @@ public:
 
 protected:
     void calc_() override;
-    // Declaration only: updates the carried ingredients' bone transforms.
+    // Updates the carried ingredients' bone transforms.
     void sub_71000E8D94();
 
     // static_param at offset 0x20
@@ -33,7 +34,7 @@ protected:
     gsys::BoneAccessKeyEx _48;
     gsys::BoneAccessKeyEx _80;
     gsys::BoneAccessKeyEx _b8;
-    gsys::BoneAccessKeyEx _f0[5];
+    sead::SafeArray<gsys::BoneAccessKeyEx, 5> _f0;
     s32 _208 = 0;
     s32 _20c = 0;
     bool _210 = false;

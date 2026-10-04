@@ -53,7 +53,7 @@ public:
         /* 0x2d8 */ phys::Constraint* _2d8 = nullptr;
         /* 0x2e0 */ phys::RigidBody* _2e0 = nullptr;
         /* 0x2e8 */ u32 _2e8 = 0;
-        /* 0x2ec */ u32 _2ec = 0;
+        /* 0x2ec */ f32 _2ec = 0.0f;
         /* 0x2f0 */ bool _2f0 = false;
     };
     KSYS_CHECK_SIZE_NX150(RideInfo, 0x2f8);
