@@ -40,8 +40,8 @@ protected:
     sead::Vector3f _38 = sead::Vector3f::zero;
     bool _44 = false;
     bool _45 = false;
-    sead::SafeString _48{};
-    sead::SafeString _58{};
+    sead::SafeString _48{""};
+    sead::SafeString _58{""};
     sead::Vector3f _68 = sead::Vector3f::zero;
 
     // dynamic_param at offset 0x78

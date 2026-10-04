@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaitOnObj.h"
+#include <random/seadGlobalRandom.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
@@ -16,6 +18,10 @@ bool WaitOnObj::init_(sead::Heap* heap) {
 
 void WaitOnObj::enter_(ksys::act::ai::InlineParamPack* params) {
     WaitOnObjBase::enter_(params);
+    const f32 time = *mTime_s + *mTimeRand_s * sead::GlobalRandom::instance()->getF32();
+    _d8 = ksys::Timer(time, time);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    mFlags.set(Flag::Changeable);
 }
 
 void WaitOnObj::leave_() {
@@ -31,6 +37,13 @@ void WaitOnObj::loadParams_() {
 
 void WaitOnObj::calc_() {
     WaitOnObjBase::calc_();
+    if (*mTime_s <= 0)
+        return;
+    if (_d8.value <= sead::Mathf::epsilon()) {
+        setFinished();
+        return;
+    }
+    _d8.update();
 }
 
 }  // namespace uking::action

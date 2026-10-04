@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionWaitOnObjBase.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -25,6 +26,7 @@ protected:
     const int* mTimeRand_s{};
     // static_param at offset 0xc8
     sead::SafeString mASName_s{};
+    ksys::Timer _d8;
 };
 
 }  // namespace uking::action

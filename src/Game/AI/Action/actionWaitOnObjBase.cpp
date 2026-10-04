@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWaitOnObjBase.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,12 @@ void WaitOnObjBase::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WaitOnObjBase::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        _ac.resetMotionType(controller);
+        controller->sub_7100F5EE1C(_a0);
+        controller->sub_7100F5E754(true);
+        controller->sub_7100F5EDE8(sead::Vector3f::ey);
+    }
 }
 
 void WaitOnObjBase::loadParams_() {
