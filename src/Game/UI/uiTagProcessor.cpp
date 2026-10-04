@@ -8,4 +8,9 @@ TagProcessor::TagProcessor(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr)
     mRubyEnabled = false;
 }
 
+// 0x71010b20a8
+f32 TagProcessor::m31() const {
+    return _58;
+}
+
 }  // namespace uking::ui

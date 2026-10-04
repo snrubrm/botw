@@ -46,6 +46,45 @@ public:
                                   u32* text_length, u32* character_count, u32 capacity,
                                   const char16* text, u32 length, void* user_data);
     virtual Operation m15(u32 code, nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect);
+    virtual Operation m16(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m17(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m18(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m19(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m20(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m21(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m22(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m23(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation processPictFontProcessTag_(const sead::MessageSet<char16>::TagInfo* tag,
+                                               nn::font::PrintContext<u16>* context,
+                                               nn::font::Rectangle* rect, const char16* next);
+    virtual Operation m25(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual Operation m26(const sead::MessageSet<char16>::TagInfo* tag,
+                          nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect,
+                          const char16* next);
+    virtual f32 m27() const;
+    virtual f32 m28() const;
+    virtual f32 m29() const;
+    virtual f32 m30() const;
+    virtual f32 m31() const;
+    virtual void m32(char16* glyph, u16* font_index, u8 type);
 
     // 0x7100be6254: type 0x80, two parameter bytes (the first is the negated flag)
     static char16* setAlphaTag(char16* out, bool flag, u8 alpha);

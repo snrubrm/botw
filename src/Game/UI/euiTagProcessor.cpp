@@ -62,6 +62,61 @@ void TagProcessor::m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out
 void TagProcessor::m13(const sead::MessageSet<char16>::TagInfo*, char16*, u32*, u32*, u32,
                        const char16*, u32, void*) {}
 
+// 0x7100be66e8
+TagProcessor::Operation TagProcessor::m16(const sead::MessageSet<char16>::TagInfo*,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    return Operation_Default;
+}
+
+// 0x7100be66f4
+TagProcessor::Operation TagProcessor::m17(const sead::MessageSet<char16>::TagInfo*,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    return Operation_Default;
+}
+
+// 0x7100be6d4c
+TagProcessor::Operation TagProcessor::m22(const sead::MessageSet<char16>::TagInfo*,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    return Operation_NoCharSpace;
+}
+
+// 0x7100be70b8
+f32 TagProcessor::m27() const {
+    return 0.4f;
+}
+
+// 0x7100be70c4
+f32 TagProcessor::m28() const {
+    return 1.0f;
+}
+
+// 0x7100be70cc
+f32 TagProcessor::m29() const {
+    return 0.0f;
+}
+
+// 0x7100be70d4
+f32 TagProcessor::m30() const {
+    return 0.0f;
+}
+
+// 0x7100be70dc
+f32 TagProcessor::m31() const {
+    return 1.0f;
+}
+
+// 0x7100be70e4
+void TagProcessor::m32(char16* glyph, u16* font_index, u8) {
+    *glyph = 0;
+    *font_index = 0;
+}
+
 // 0x7100be63c4
 void TagProcessor::preProcessEuiTag_(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
                                     u32* text_length, u32* character_count, u32 capacity,
