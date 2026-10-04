@@ -1,4 +1,6 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiPartsEx.h"
+#include <nn/ui2d/ResExtUserData.h>
 #include "KingSystem/System/SeadController.h"
 
 namespace uking::ui {
@@ -14,6 +16,14 @@ f32 ScreenBase::getAnimationStep_() const {
 // 0x71010a9fc0 (CSV ScreenBase::getArchiveName_)
 const char* ScreenBase::getArchiveName_() const {
     return "Common";
+}
+
+// 0x71010a9b48
+const char* ScreenBase::replacePartsLayoutName(const char* name, eui::PartsEx* parts, eui::LayoutEx*) {
+    const auto* data = parts->FindExtUserDataByName("ReplacePartsForNN");
+    if (data && data->GetType() == nn::ui2d::ExtUserDataType_String)
+        return data->GetString();
+    return name;
 }
 
 // 0x71010a9eb8 (CSV ScreenBase::registerController_)

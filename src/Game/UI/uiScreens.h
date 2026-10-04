@@ -33,6 +33,7 @@ public:
     // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
     f32 getAnimationStep_() const override;
     const char* getArchiveName_() const override;
+    const char* replacePartsLayoutName(const char*, eui::PartsEx*, eui::LayoutEx*) override;
 
     // 0x71010a9da0 (CSV ScreenBase::updateButton_; the game's Screen overrides it again and forwards to this one)
     void updateButton_() override;
