@@ -25,7 +25,9 @@ protected:
     // 0x710029e918 / 0x710029ed3c / 0x710029ee04 (declared only; signatures from the callers).
     virtual bool m34(ksys::act::BaseProcLink* link, sead::Vector3f* pos, const sead::SafeString& name1,
                      const sead::SafeString& name2);
-    virtual bool m35(ksys::act::BaseProcLink* link, sead::Vector3f* pos, const sead::SafeString& name);
+    // Called through the same call site as m34 (with the same four arguments).
+    virtual bool m35(ksys::act::BaseProcLink* link, sead::Vector3f* pos, const sead::SafeString& name1,
+                     const sead::SafeString& name2);
     virtual void m36(const ksys::act::BaseProcLink* link, const sead::Vector3f& pos);
     virtual void m37() {}
     virtual void m38() {}
