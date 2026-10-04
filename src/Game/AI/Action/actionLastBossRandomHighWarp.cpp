@@ -18,6 +18,7 @@ bool LastBossRandomHighWarp::init_(sead::Heap* heap) {
 }
 
 void LastBossRandomHighWarp::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71001D7104(params);
     LastBossNormalWarp::enter_(params);
 }
 

@@ -35,6 +35,7 @@ void Mimic::loadParams_() {
 
 void Mimic::calc_() {
     ActionWithPosAngReduce::calc_();
+    sub_71001E669C();
 }
 
 }  // namespace uking::action

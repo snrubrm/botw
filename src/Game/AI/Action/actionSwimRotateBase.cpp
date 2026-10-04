@@ -34,6 +34,7 @@ void SwimRotateBase::loadParams_() {
 
 void SwimRotateBase::calc_() {
     WaterFloatBase::calc_();
+    sub_710028B750();
 }
 
 }  // namespace uking::action

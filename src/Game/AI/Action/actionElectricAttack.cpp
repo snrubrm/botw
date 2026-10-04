@@ -15,6 +15,7 @@ void ElectricAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ElectricAttack::leave_() {
+    sub_7100103830();
     TimeredASPlay::leave_();
 }
 

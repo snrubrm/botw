@@ -17,6 +17,7 @@ void PriestBossClonesSpawn::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PriestBossClonesSpawn::leave_() {
     PriestBossClonesSpawnForDemo::leave_();
+    sub_71002218D8();
 }
 
 void PriestBossClonesSpawn::loadParams_() {

@@ -11,11 +11,13 @@ bool SwarmChemicalDamaged::init_(sead::Heap* heap) {
 }
 
 void SwarmChemicalDamaged::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_7100283004(params);
     SwarmDamaged::enter_(params);
 }
 
 void SwarmChemicalDamaged::leave_() {
     SwarmDamaged::leave_();
+    sub_71002831E4();
 }
 
 void SwarmChemicalDamaged::loadParams_() {

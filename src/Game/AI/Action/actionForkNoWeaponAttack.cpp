@@ -15,6 +15,7 @@ void ForkNoWeaponAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkNoWeaponAttack::leave_() {
+    sub_710015E71C();
     ForkNoWeaponAttackBase::leave_();
 }
 

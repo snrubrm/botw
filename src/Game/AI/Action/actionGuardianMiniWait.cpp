@@ -23,7 +23,8 @@ void GuardianMiniWait::loadParams_() {
 }
 
 void GuardianMiniWait::calc_() {
-    Wait::calc_();
+    WaitBase::calc_();
+    sub_710019896C();
 }
 
 }  // namespace uking::action

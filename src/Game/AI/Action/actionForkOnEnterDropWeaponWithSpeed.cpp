@@ -13,6 +13,7 @@ bool ForkOnEnterDropWeaponWithSpeed::init_(sead::Heap* heap) {
 
 void ForkOnEnterDropWeaponWithSpeed::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkDropWeapon::enter_(params);
+    sub_710014CE28();
 }
 
 void ForkOnEnterDropWeaponWithSpeed::leave_() {

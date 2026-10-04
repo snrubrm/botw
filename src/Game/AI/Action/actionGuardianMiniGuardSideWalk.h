@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100196094 (declared only): out of line in the original.
+    void sub_7100196094();
     // static_param at offset 0x80
     const int* mASSlot_s{};
     // static_param at offset 0x88

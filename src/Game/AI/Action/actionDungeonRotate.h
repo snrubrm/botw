@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71000fd51c (declared only): out of line in the original.
+    void sub_71000FD51C();
     void calc_() override;
 
     // map_unit_param at offset 0xc8

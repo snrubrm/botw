@@ -13,6 +13,7 @@ GuardianMiniGuardBattleWalk::~GuardianMiniGuardBattleWalk() {
 
 void GuardianMiniGuardBattleWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     BattleCloseWalk::enter_(params);
+    sub_7100195260();
 }
 
 void GuardianMiniGuardBattleWalk::loadParams_() {

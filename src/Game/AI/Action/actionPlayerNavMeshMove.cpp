@@ -5,6 +5,7 @@ namespace uking::action {
 PlayerNavMeshMove::PlayerNavMeshMove(const InitArg& arg) : PlayerGuidedMove(arg) {}
 
 void PlayerNavMeshMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    sub_71007E8C34(params);
     PlayerGuidedMove::enter_(params);
 }
 

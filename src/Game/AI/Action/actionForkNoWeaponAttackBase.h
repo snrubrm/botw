@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710015e71c (declared only): out of line in the original (called by the leave_ of the subclasses).
+    void sub_710015E71C();
     void calc_() override;
     virtual int m32();
     virtual int m33();

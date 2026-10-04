@@ -8,6 +8,7 @@ GuardianMiniGuardSideWalk::~GuardianMiniGuardSideWalk() = default;
 
 void GuardianMiniGuardSideWalk::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetCircleWalk::enter_(params);
+    sub_7100196094();
 }
 
 void GuardianMiniGuardSideWalk::loadParams_() {

@@ -17,6 +17,7 @@ void DungeonRotate::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void DungeonRotate::leave_() {
     DungeonRotateBase::leave_();
+    sub_71000FD51C();
 }
 
 void DungeonRotate::loadParams_() {

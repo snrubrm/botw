@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100233fd0 (declared only): out of line in the original.
+    void sub_7100233FD0();
     void calc_() override;
     void m32() override;
 

@@ -8,6 +8,7 @@ GuardianMiniGuardTurn::~GuardianMiniGuardTurn() = default;
 
 void GuardianMiniGuardTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     Turn::enter_(params);
+    sub_71001966C4();
 }
 
 void GuardianMiniGuardTurn::loadParams_() {

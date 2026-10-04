@@ -12,6 +12,7 @@ void GuardianMiniFinalBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GuardianMiniFinalBeamMove::leave_() {
+    sub_7100194A58();
     GuardianBeamFire::leave_();
 }
 
@@ -21,6 +22,7 @@ void GuardianMiniFinalBeamMove::loadParams_() {
 
 void GuardianMiniFinalBeamMove::calc_() {
     GuardianBeamFire::calc_();
+    sub_7100194A58();
 }
 
 bool GuardianMiniFinalBeamMove::isFinished() const {

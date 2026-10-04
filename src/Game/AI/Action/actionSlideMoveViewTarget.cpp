@@ -25,6 +25,7 @@ void SlideMoveViewTarget::loadParams_() {
 }
 
 void SlideMoveViewTarget::calc_() {
+    sub_710026F368();
     MoveBase::calc_();
 }
 

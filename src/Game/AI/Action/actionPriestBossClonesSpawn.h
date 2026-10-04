@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71002218d8 (declared only): out of line in the original.
+    void sub_71002218D8();
     void calc_() override;
 
     // static_param at offset 0x88

@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71001d7104 (declared only): out of line in the original.
+    void sub_71001D7104(ksys::act::ai::InlineParamPack* params);
     void calc_() override;
     bool m32() override;
     float m33() override;

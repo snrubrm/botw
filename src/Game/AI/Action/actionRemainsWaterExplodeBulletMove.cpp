@@ -37,6 +37,7 @@ void RemainsWaterExplodeBulletMove::loadParams_() {
 }
 
 void RemainsWaterExplodeBulletMove::calc_() {
+    sub_7100233FD0();
     RemainsWaterBulletAction::calc_();
 }
 
