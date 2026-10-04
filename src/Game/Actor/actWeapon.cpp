@@ -22,6 +22,28 @@
 
 namespace uking::act {
 
+bool Weapon::isMasterSword() {
+    const auto* param = getParam()->getRes().mGParamList->getMasterSword();
+    return param && param->mIsMasterSword.ref();
+}
+
+bool Weapon::isBoomerang() {
+    const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsBoomerang.ref();
+}
+
+bool Weapon::isWeaponType0Or1Or2() const {
+    return m231() || m232() || m233();
+}
+
+bool Weapon::isWeaponType4() const {
+    return _cf0 == 4;
+}
+
+bool Weapon::isWeaponType3() const {
+    return _cf0 == 3;
+}
+
 bool Weapon::isTrueFormMasterSword() {
     if (isMasterSword()) {
         auto* manager = dmg::DamageInfoMgr::instance();
