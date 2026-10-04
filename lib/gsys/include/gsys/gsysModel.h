@@ -58,6 +58,8 @@ public:
     /// The material / skeletal animation set of the model (created by createAnimation), or null.
     ModelAnimation* getAnimation() const { return mAnimation; }
 
+    void setAutoAnimationFrameRate(f32 frame_rate);
+
     // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
     // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
     void updateWorldMatrix();
@@ -114,7 +116,8 @@ private:
     u8 _a6[0xac - 0xa6];
     /// Total bone count (the sum over the model units unless overridden; see 0x7100bf7b2c).
     s32 _ac;
-    u8 _b0[0xd0 - 0xb0];
+    f32 mAutoAnimationFrameRate;
+    u8 _b4[0xd0 - 0xb4];
     ModelAnimation* mAnimation;
     u8 _d8[0x140 - 0xd8];
     mutable sead::CriticalSection mCS;

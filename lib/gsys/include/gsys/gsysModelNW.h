@@ -13,6 +13,7 @@ class DrawContext;
 namespace gsys {
 
 class ModelAutoAnimation;
+class Model;
 class ModelDynamicEnvInfo;
 class ModelRenderUnitNW;
 
@@ -42,6 +43,8 @@ protected:
               nn::g3d::WorldMtxManip& world_mtx_manip) override;
 
 private:
+    friend class Model;
+
     u8 _168;
     nn::g3d::ModelObj mModelObj;
     u8 _200;
