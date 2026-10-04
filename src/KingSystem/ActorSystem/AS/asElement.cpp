@@ -59,6 +59,43 @@ void Element::sub_7101165E60(Context* ctx, const res::ASResource* resource) {
     ctx->sub_7101258D70(sub_71011653E8(resource));
 }
 
+// NON_MATCHING: clamp instruction selection and normalized-value scheduling change the live registers.
+void Element::sub_7101165CA8(Context* ctx, bool a1, const res::ASResource* resource, f32 value,
+                            f32 a2, f32 a3) {
+    const ElementParams* params = m25(ctx, resource);
+    if (!params)
+        return;
+    const f32 length = params->sub_710130296C(false);
+    if (!(length > 0.0f))
+        return;
+    const f32 previous = params->_8;
+    f32 remaining = 0.0f;
+    if (!a1) {
+        f32 start = params->_4;
+        if (start < previous && (params->_0 & 2) && !(params->_1c >= 0.0f))
+            start += params->_14;
+        remaining = start - previous;
+        if (remaining <= 0.0f)
+            remaining = 0.0f;
+        remaining /= length;
+    }
+    if (value >= 0.0f) {
+        value += ((params->_4 - params->_10) - params->_c * a2) / length;
+        if ((params->_0 & 2) && value < 0.0f && !(params->_1c >= 0.0f)) {
+            const f32 wrapped = value + f32(int(-value));
+            value = wrapped < 0.0f ? wrapped + 1.0f : wrapped;
+        }
+    } else {
+        value = params->_c * a3 / length;
+        value += params->sub_710130298C(false);
+        if (!(params->_0 & 2) || params->_1c >= 0.0f) {
+            if (value > 1.0f)
+                value = 1.0f;
+        }
+    }
+    m17(ctx, 0, 0, resource, value, a1 ? previous / length : value - remaining);
+}
+
 f32 Element::m4() {
     return 0;
 }

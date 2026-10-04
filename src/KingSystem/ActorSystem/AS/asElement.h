@@ -334,6 +334,8 @@ public:
     void sub_71011654E0(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource);
     // 0x7101165e60 / 0x7101165ebc: used by SelectorBase::m35 / m36.
     void sub_7101165E60(Context* ctx, const res::ASResource* resource);
+    void sub_7101165CA8(Context* ctx, bool a1, const res::ASResource* resource, f32 value,
+                       f32 a2, f32 a3);
     void sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
                         int index, const res::ASResource* resource);
 
