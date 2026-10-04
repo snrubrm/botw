@@ -138,6 +138,9 @@ public:
         Unk2* sub_7101165278(s32* index);
         // 0x710116532c: first element query returning a nonnegative index.
         Unk2* sub_710116532C(s32* index);
+        bool sub_71011653A4() const;
+        bool sub_71011653B4() const;
+        bool sub_71011653C4() const;
 
         struct BitRow {
             u32 words[32];
@@ -159,7 +162,7 @@ public:
         s32 _s32;
         u64* _u64_ptr;
         sead::SafeString* _str_ptr;
-        const sead::Vector3f* _vec3_ptr;
+        sead::Vector3f* _vec3_ptr;
     };
 
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
@@ -185,6 +188,9 @@ public:
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
+    void sub_710115F6F4(int key, int slot, int bank, f32 value);
+    bool sub_710115F024(const sead::Vector3f& value, int a2);
+    const sead::Vector3f& sub_710115F078();
     // 0x710115f3f0: queries normalized playback position (declaration only).
     f32 sub_710115F3F0(int slot, int bank, bool a1);
     // 0x710115ea64: copies one of five string parameter values (declaration only).

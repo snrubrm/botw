@@ -3,6 +3,18 @@
 
 namespace ksys::as {
 
+bool ASList::Unk1::sub_71011653A4() const {
+    return _4e[0] == 2;
+}
+
+bool ASList::Unk1::sub_71011653B4() const {
+    return _4e[0] == 1;
+}
+
+bool ASList::Unk1::sub_71011653C4() const {
+    return _4e[0] == 0;
+}
+
 // NON_MATCHING: selected entry/index updates use conditional selects instead of a branch.
 ASList::Unk2* ASList::Unk1::sub_7101165278(s32* index) {
     f32 value = 0.0f;

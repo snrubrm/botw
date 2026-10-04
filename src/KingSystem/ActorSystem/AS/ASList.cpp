@@ -461,6 +461,29 @@ void ASList::sub_710115F10C(int slot, int bank) {
         entry->sub_71011637D8();
 }
 
+void ASList::sub_710115F6F4(int key, int slot, int bank, f32 value) {
+    if (auto* entry = getEntry(slot, bank))
+        entry->sub_7101163AD4(value, key);
+}
+
+bool ASList::sub_710115F024(const sead::Vector3f& value, int a2) {
+    const s8 index = _f0[0x15];
+    if (index < 0)
+        return false;
+    sead::Vector3f* normal = _e0[index]._vec3_ptr;
+    if (!normal)
+        return false;
+    *normal = value;
+    return true;
+}
+
+// NON_MATCHING: equivalent final conditional-select polarity and operands differ.
+const sead::Vector3f& ASList::sub_710115F078() {
+    const s8 index = _f0[0x15];
+    const sead::Vector3f* normal = index >= 0 ? _e0[index]._vec3_ptr : nullptr;
+    return normal ? *normal : sead::Vector3f::ey;
+}
+
 void ASList::sub_710115F5C0(f32 value, int slot, int bank) {
     Unk2* entry = getEntry(slot, bank);
     if (!entry)
