@@ -12,8 +12,8 @@
 	branch = botw
 [submodule "lib/NintendoSDK"]
 	path = lib/NintendoSDK
-	url = https://github.com/open-ead/nnheaders
-	branch = master
+	url = https://github.com/snrubrm/nnheaders
+	branch = botw
 [submodule "lib/agl"]
 	path = lib/agl
 	url = https://github.com/open-ead/agl
