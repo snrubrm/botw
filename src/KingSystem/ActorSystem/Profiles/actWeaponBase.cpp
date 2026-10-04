@@ -206,6 +206,19 @@ bool WeaponBase::m238(Actor* actor) {
     return false;
 }
 
+bool WeaponBase::m174() {
+    const auto lock = sead::makeScopedLock(_840);
+    _880.reset();
+    _91c = -1;
+    _920 = 1;
+    if (_958.hasProc()) {
+        if (auto* weapon = sead::DynamicCast<uking::act::OptionalWeapon>(_890.getProc(nullptr, nullptr)))
+            weapon->sub_7100EF1ADC();
+        _890.reset();
+    }
+    return true;
+}
+
 bool WeaponBase::m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
     const auto lock = sead::makeScopedLock(_840);
     if (_925)

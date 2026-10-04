@@ -81,6 +81,15 @@ s32 Weapon::getMaxHp() {
     return (life + (_f98.flags.isOn(WeaponModifier::AddLife) ? _f98.value : 0)) * 100;
 }
 
+bool Weapon::m174() {
+    if (!ksys::act::WeaponBase::m174())
+        return false;
+    if (auto* lod = getLodState())
+        lod->mFlags26.set(1);
+    _f60.reset();
+    return true;
+}
+
 bool Weapon::m177(const sead::Vector3f& target, void* a2) {
     if (auto* lod = getLodState())
         lod->mFlags26.set(1);

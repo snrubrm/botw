@@ -74,7 +74,7 @@ public:
     // 0x7100ef5cbc: like m169 with mAffectTransOffsetBow (no grab variant).
     virtual void m172(sead::Vector3f* out);
     virtual void m173();
-    virtual void m174();
+    virtual bool m174();
     // 0x7100ef61c4. Stores the position at _910 (+ _91c = -1, _920 = 2) and the three flags (a2 -> _924,
     // a3 -> _922, a5 -> _923) under _840; returns false if _925 is set. `a4` is an object of a class
     // whose RTTI is at 0x71025b1538 (Weapon::x_4 casts it; callers pass nullptr; the base ignores it).
