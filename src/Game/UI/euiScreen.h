@@ -19,6 +19,7 @@ class UserInstanceSLink;
 namespace eui {
 
 class AnimButton;
+class Animator;
 class BoxCursorNode;
 class ButtonGroup;
 class ScreenMgr;
@@ -115,6 +116,10 @@ public:
     bool isClosed() const;
     bool isClosedOrClosing() const;
 
+    // 0x7100be9830 / 0x7100be9850 (placeholder names): link / unlink an animator in `mAnimators`
+    void addAnimator(Animator* animator);
+    void removeAnimator(Animator* animator);
+
     // 0x7100be9908
     bool moveBoxCursorByButton(const AnimButton* button);
     // 0x7100be9fa8 (the old / new button states are ButtonBase::State values)
@@ -127,7 +132,9 @@ public:
     /* 0x28 */ ScreenMgr* mMgr;
     u8 _30[0x38 - 0x30];
     /* 0x38 */ ButtonGroup* mButtonGroup;
-    u8 _40[0xc0 - 0x40];
+    u8 _40[0x78 - 0x40];
+    /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
+    u8 _88[0xc0 - 0x88];
     /* 0xc0 */ s32 mId;
     u8 _c4[0x104 - 0xc4];
     /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)

@@ -1,5 +1,6 @@
 target_sources(uking PRIVATE
   euiAnimButton.cpp
+  euiAnimator.cpp
   euiAnimator.h
   euiButton.cpp
   euiCheckButton.cpp

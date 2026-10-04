@@ -24,6 +24,24 @@ struct ListNode {
         next = first;
     }
 
+    // nn::util::IntrusiveListNode::LinkPrev(node): inserts `first` right before this node (push_back on a root)
+    void linkPrev(ListNode* first) {
+        ListNode* last = first->prev;
+        first->prev = prev;
+        last->next = this;
+        prev->next = first;
+        prev = last;
+    }
+    // nn::util::IntrusiveListNode::Unlink()
+    void unlink() {
+        ListNode* last = next;
+        ListNode* node = last->prev;
+        prev->next = last;
+        last->prev = prev;
+        node->next = this;
+        prev = node;
+    }
+
     ListNode* prev;
     ListNode* next;
 };

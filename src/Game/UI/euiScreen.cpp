@@ -1,3 +1,4 @@
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiScreen.h"
 
 namespace eui {
@@ -94,6 +95,17 @@ void Screen::doButtonCancelEnd_(AnimButton*) {}
 // 0x7100beaac8
 s32 Screen::isEnableControl() const {
     return 0;
+}
+
+// 0x7100be9830
+void Screen::addAnimator(Animator* animator) {
+    mAnimators.linkPrev(&animator->_40);
+}
+
+// 0x7100be9850
+void Screen::removeAnimator(Animator* animator) {
+    if (&animator->_40 != &mAnimators)
+        animator->_40.unlink();
 }
 
 }  // namespace eui

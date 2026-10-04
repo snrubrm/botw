@@ -26,6 +26,12 @@ class Group;
 class GroupContainer;
 class AnimResource;
 
+// One entry of an AnimResource's group array (0x24 bytes)
+struct ResAnimationGroupRef {
+    char mName[0x20];
+    u32 _20;
+};
+
 class AnimTransform {
 public:
     NN_RUNTIME_TYPEINFO_BASE()
@@ -66,6 +72,20 @@ public:
     virtual void AnimateExtUserDataImpl();
 };
 
+// 0x7100ab5be4 / 0x7100ab5c00 / 0x7100ab5c18 (SDK; only the used getters)
+class AnimResource {
+public:
+    const char* GetTagName() const;
+    u16 GetGroupCount() const;
+    const ResAnimationGroupRef* GetGroupArray() const;
+};
+
+// 0x7100ab6570
+class GroupContainer {
+public:
+    Group* FindGroupByName(const char* name);
+};
+
 }  // namespace nn::ui2d
 
 namespace eui {
@@ -84,19 +104,33 @@ public:
     void UpdateFrame(f32 frame) override;
     void SetEnabled(bool enabled) override;
 
-    virtual void Play(PlayType type, f32 frame);
-    virtual void PlayAuto(f32 frame);
-    virtual void PlayFromCurrent(PlayType type, f32 frame);
+    // Slots 21-27 (Play / PlayFromCurrent return the result of IsWaitData() when the speed is out of range)
+    virtual bool Play(PlayType type, f32 speed);
+    virtual bool PlayAuto(f32 speed);
+    virtual bool PlayFromCurrent(PlayType type, f32 speed);
     virtual void Stop(f32 frame);
     virtual void StopCurrent();
     virtual void StopAtMin();
     virtual void StopAtMax();
 
+    // 0x7100be743c / 0x7100be7484 / 0x7100be74e0
+    void SetupBasic(const nn::ui2d::AnimResource& res, LayoutEx* layout, bool enabled);
+    void SetupWithGroup(const nn::ui2d::AnimResource& res, LayoutEx* layout, nn::ui2d::Group* group,
+                        bool enabled);
+    void SetupWithGroupAll(const nn::ui2d::AnimResource& res, LayoutEx* layout,
+                           nn::ui2d::GroupContainer* groups, bool enabled);
+    // 0x7100be79fc (placeholder name): disables the animator and unlinks it from the screen's list
+    void Disable();
+    // 0x7100be782c (placeholder name)
+    bool PlayFromFrame(PlayType type, f32 start_frame, f32 speed);
+    // 0x7100be78bc (placeholder name): continues the other animator's playback
+    void ContinueFrom(const Animator& other);
+
     /* 0x40 */ ListNode _40;
     /* 0x50 */ f32 mRate = 0;
     /* 0x54 */ u16 _54 = 0;
-    /* 0x56 */ u8 mPlayType;
-    /* 0x57 */ u8 mFlags;  // 0x10: skip first frame, 0x20: sound link
+    /* 0x56 */ u8 mPlayType = 0;
+    /* 0x57 */ u8 mFlags = 0x20;  // 0x10: skip first frame, 0x20: sound link
     /* 0x58 */ LayoutEx* mLayout = nullptr;
     /* 0x60 */ const char* mName = nullptr;
 };
@@ -109,8 +143,14 @@ public:
     AnimatorSet(const AnimatorSet& other, LayoutEx* layout, sead::Heap* heap);
     virtual ~AnimatorSet() = default;
 
+    // 0x7100be7e40 / 0x7100be7f20
+    void allocBuffer(u32 count, sead::Heap* heap);
+    void setBuffer(u32 count, Animator** buffer);
+
     // 0x7100be7fdc: disables the current animator and selects `idx` (clamped to the buffer)
     Animator* select(u32 idx);
+    // 0x7100be7fb4
+    void setAnimator(u32 idx, Animator* animator);
     void SetSkipFirstFrameAll(bool skip);
     void SetSoundLinkAll(bool on);
 
