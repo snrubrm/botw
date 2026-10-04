@@ -4,6 +4,7 @@
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "Game/UI/euiControlBase.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/System/UIGlue.h"
@@ -1866,11 +1867,11 @@ public:
 
     /* 0x3610 */ u8 _3610[0x85]{};
     u8 _3695[3];
-    u64 _3698{};
-    u64 _36a0{};
-    u64 _36a8{};
-    u64 _36b0{};
-    u64 _36b8{};
+    eui::ControlBase* _3698{};
+    eui::ControlBase* _36a0{};
+    eui::ControlBase* _36a8{};
+    eui::ControlBase* _36b0{};
+    eui::ControlBase* _36b8{};
 };
 
 class ScreenStaffRoll : public ScreenEx {

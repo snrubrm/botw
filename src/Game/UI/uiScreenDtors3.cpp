@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/Utils/SafeDelete.h"
 
 // Screen<Name> destructors of classes whose members are not modelled yet. NON_MATCHING: the original
 // destructors destroy members (the bodies / thunks below do not match and are left unnamed in the CSV);
@@ -37,7 +38,29 @@ ScreenPauseMenuInfo::~ScreenPauseMenuInfo() = default;
 ScreenSaveTransferWindow::~ScreenSaveTransferWindow() = default;
 ScreenOptionWindow::~ScreenOptionWindow() = default;
 ScreenSystemWindow01::~ScreenSystemWindow01() = default;
-ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() = default;
+// 0x7100a324a0
+ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
+    if (_3698) {
+        delete _3698;
+        _3698 = nullptr;
+    }
+    if (_36a0) {
+        delete _36a0;
+        _36a0 = nullptr;
+    }
+    if (_36a8) {
+        delete _36a8;
+        _36a8 = nullptr;
+    }
+    if (_36b0) {
+        delete _36b0;
+        _36b0 = nullptr;
+    }
+    if (_36b8) {
+        delete _36b8;
+        _36b8 = nullptr;
+    }
+}
 ScreenStaffRoll::~ScreenStaffRoll() = default;
 ScreenStaffRollDLC::~ScreenStaffRollDLC() = default;
 ScreenDLCSinJuAkashiNum::~ScreenDLCSinJuAkashiNum() = default;
