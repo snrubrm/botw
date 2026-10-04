@@ -33,4 +33,28 @@ public:
     /* 0x08 */ StateMachineOwnerBinding mBinding;
 };
 
+// A state machine owner with its own Unk1 holder (CSV StateMachineWrapper, vtable 0x710245a820; the StateMachine at
+// +0x30 uses the Holder at +8). Method names are the CSV names.
+class StateMachineWrapper {
+public:
+    virtual ~StateMachineWrapper();
+    // Enters the pending state (if any).
+    virtual void replaceState();
+    // Enters the pending state without checking that there is one.
+    virtual void changeStateFast();
+    virtual void run();
+    virtual void leaveState();
+    virtual void enterState();
+    virtual void changeState(const ksys::StateBase* state);
+    virtual const ksys::StateBase* getState() const;
+    virtual const ksys::StateBase* getSubstate() const;
+    virtual s32 getRunCount() const;
+    virtual bool reenter(void* arg);
+    virtual bool exec5(void* arg);
+    virtual void exec6(void* arg);
+
+    /* 0x08 */ StateMachineOwnerBindingHolder mHolder;
+    /* 0x30 */ ksys::StateMachine mMachine;
+};
+
 }  // namespace uking

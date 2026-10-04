@@ -42,6 +42,75 @@ ksys::StateMachine::Unk2* StateMachineOwnerBindingHolder::setState(const ksys::S
     return &mBinding;
 }
 
+// NON_MATCHING: only instruction scheduling of the final tail call differs (the original puts `add x1` after the frame
+// restore). D0 (the deleting variant) matches.
+StateMachineWrapper::~StateMachineWrapper() {
+    mMachine._0->m3(&mMachine.mPrevious);
+    mMachine._0->m3(&mMachine.mCurrent);
+}
+
+void StateMachineWrapper::replaceState() {
+    if (mMachine.mNextState) {
+        mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
+        mMachine.mCurrent->enter();
+        mMachine.mNextState = nullptr;
+    }
+}
+
+// NON_MATCHING: the original calls setState() without loading an argument (x1 is left as it was on entry), so the
+// source passed an uninitialised value; passing mNextState adds `ldp x0, x1`.
+void StateMachineWrapper::changeStateFast() {
+    mMachine.mCurrent = mMachine._0->setState(mMachine.mNextState);
+    mMachine.mCurrent->enter();
+}
+
+void StateMachineWrapper::run() {
+    mMachine.run();
+}
+
+void StateMachineWrapper::leaveState() {
+    mMachine.sub_71010BFE64();
+}
+
+void StateMachineWrapper::enterState() {
+    mMachine.mCurrent->enter();
+}
+
+void StateMachineWrapper::changeState(const ksys::StateBase* state) {
+    mMachine.changeState(state);
+}
+
+const ksys::StateBase* StateMachineWrapper::getState() const {
+    return mMachine.getState();
+}
+
+const ksys::StateBase* StateMachineWrapper::getSubstate() const {
+    return mMachine.mPrevState;
+}
+
+s32 StateMachineWrapper::getRunCount() const {
+    return mMachine.mCurrent->getRunCount();
+}
+
+bool StateMachineWrapper::reenter(void* arg) {
+    if (!mMachine.mCurrent)
+        StateMachineWrapper::replaceState();
+    if (mMachine.mCurrent)
+        return mMachine.mCurrent->reenter(arg);
+    return false;
+}
+
+bool StateMachineWrapper::exec5(void* arg) {
+    if (mMachine.mCurrent)
+        return mMachine.mCurrent->exec5(arg);
+    return false;
+}
+
+void StateMachineWrapper::exec6(void* arg) {
+    if (mMachine.mCurrent)
+        mMachine.mCurrent->exec6(arg);
+}
+
 bool GameScene::getIsInitialisingStage() {
     return sIsInitialisingStage;
 }

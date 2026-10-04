@@ -3,6 +3,10 @@
 #include <basis/seadTypes.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace uking {
+class StateMachineWrapper;
+}
+
 namespace ksys {
 
 // CSV name. Vtable 0x710250bd00 (no RTTI). Static state descriptors are global objects whose names
@@ -99,6 +103,8 @@ public:
     void changeState(const StateBase* state);
 
 private:
+    friend class ::uking::StateMachineWrapper;
+
     Unk1* _0;
     const StateBase* mNextState = nullptr;
     Unk2* mCurrent = nullptr;
