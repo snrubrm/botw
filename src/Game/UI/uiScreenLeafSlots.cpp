@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUnkSingletons.h"
 
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
@@ -9,6 +10,18 @@ namespace uking::ui {
 void ScreenAppMap::m92(sead::Heap*) {
     if (auto* subsys = UiSubsys1::instance())
         subsys->sub_710095B1BC();
+}
+
+// 0x71009ec18c (CSV ScreenAppMap::m100)
+void ScreenAppMap::m100() {
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTipsPauseMenu))
+        screen->close(-1);
+}
+
+// 0x71009ec01c (CSV ScreenAppMap::demoLeave)
+void ScreenAppMap::demoLeave() {
+    UiSubsys1::instance()->sub_7100968844();
+    _3ad1 = 1;
 }
 
 // 0x71009eb49c (CSV ScreenAppMap::mainEnter)
@@ -40,7 +53,41 @@ s32 ScreenAppMap::demoReenter() {
     return 0;
 }
 
+// ScreenAppPictureBook
+// 0x71009faa9c
+void ScreenAppPictureBook::m156() {
+    if (_3658)
+        _3658->sub_710093F594(false);
+}
+
+// 0x71009faccc
+void ScreenAppPictureBook::m160() {
+    if (_3660)
+        _3660->sub_710093F594(false);
+}
+
+// 0x71009fa2f8
+void ScreenAppPictureBook::m100() {
+    if (_3658)
+        _3658->sub_710093F594(false);
+    if (_3660)
+        _3660->sub_710093F594(false);
+}
+
 // ScreenAppCamera
+// 0x71009db72c (CSV ScreenAppCamera::m99)
+void ScreenAppCamera::m99() {
+    mStateMachine.changeState(&sUnk_71025dcca0);
+    ksys::gdt::setFlag_IsOpenAppCamera(true, false);
+}
+
+// 0x71009d9a28
+void ScreenAppCamera::m163() {
+    if (_3610 && _3610->_104)
+        return;
+    mStateMachine.changeState(&sUnk_71025dcca0);
+}
+
 // 0x71009d92e4
 void ScreenAppCamera::m156() {}
 // 0x71009d98b4

@@ -859,6 +859,7 @@ struct ScreenAppMapWidget {
 class ScreenAppMap : public ScreenEx {
 public:
     void m92(sead::Heap*) override;
+    void m100() override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     s32 getSlink2LocalPropertyNum_() const override;
@@ -995,8 +996,15 @@ public:
     bool sub_71009FD674();
 };
 
+// Placeholder for the objects ScreenAppPictureBook keeps at 0x3658 / 0x3660.
+struct ScreenAppPictureBookUnk {
+    // 0x710093f594 (CSV unnamed; not decompiled)
+    void sub_710093F594(bool a1);
+};
+
 class ScreenAppPictureBook : public ScreenEx {
 public:
+    void m100() override;
     void m106(eui::AnimButton*) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
@@ -1004,6 +1012,10 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
 
     // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
+    u8 _pad_3610[0x3658 - 0x3610];
+    /* 0x3658 */ ScreenAppPictureBookUnk* _3658;
+    /* 0x3660 */ ScreenAppPictureBookUnk* _3660;
+
     virtual void m154();
     virtual void m155();
     virtual void m156();
@@ -1701,6 +1713,15 @@ public:
     Unk_710249d300 _3688;
 };
 
+// State object of ScreenAppCamera (a StateTemplate<ScreenAppCamera>, 0x71025dcca0).
+extern const ksys::StateBase sUnk_71025dcca0;
+
+// Placeholder for the object ScreenAppCamera keeps at 0x3610 (the int at 0x104 is tested).
+struct ScreenAppCameraUnk3610 {
+    u8 _0[0x104];
+    /* 0x104 */ s32 _104;
+};
+
 class ScreenAppCamera : public ScreenEx {
 public:
     void m127() override;
@@ -1708,6 +1729,10 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
+
+    /* 0x3610 */ ScreenAppCameraUnk3610* _3610;
+
+    void m99() override;
 
     // state callbacks (slots 154-166, trivial ones defined in uiScreenLeafSlots.cpp)
     virtual void m154();

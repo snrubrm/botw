@@ -182,6 +182,8 @@ public:
     void set38b8();
     void clear38b8();
     void sub_710095B1BC();
+    // 0x7100968844 (CSV unnamed; not decompiled; ScreenAppMap::demoLeave)
+    void sub_7100968844();
     void set3885() { _3885 = true; }
     void sub_71009645D0(const void* a1);
     void sub_710096372C(const void* a1);
