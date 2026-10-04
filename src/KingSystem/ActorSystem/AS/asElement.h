@@ -31,11 +31,36 @@ namespace ksys::as {
 
 class ASList;
 
+// Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
+// (bit 1 = running?), a range [_4, _8] and more floats.
+struct ElementParams {
+    // 0x7101302930 / 38 / 40 / 48: stubs that return true (called after the float setters).
+    bool sub_7101302930(void* a1);
+    bool sub_7101302938(void* a1);
+    bool sub_7101302940(void* a1);
+    bool sub_7101302948(void* a1);
+
+    u32 _0;
+    f32 _4;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    f32 _14;
+    f32 _18;
+    f32 _1c;
+};
+static_assert(sizeof(ElementParams) == 0x20);
+
 // Placeholder: the AS runtime state (x1 of most element virtuals). Per-element records are 12-byte entries
 // reached through the element index of the resource.
 class Context {
 public:
+    struct Frame;
+
     struct Record {
+        // 0x7101257df4: the element state block of the record (a shared empty block if it has none).
+        ElementParams* sub_7101257DF4(Frame* frame, bool a2);
+
         s8 _0;
         u8 _1;
         s8 _2;
@@ -46,13 +71,14 @@ public:
 
     struct Frame {
         sead::Buffer<Record> mRecords;
-        s32 _10;
-        u8 _14[0x20 - 0x14];
+        sead::Buffer<ElementParams> mEntries;
         sead::Buffer<u8> mIndexMap;  // element index -> record index
         res::AS* mAS;
     };
     static_assert(sizeof(Frame) == 0x38);
 
+    // 0x7101258d4c: the element state block of `record` in the current frame.
+    ElementParams* sub_7101258D4C(Record* record, bool a2);
     // 0x7101258d1c: the record index of the element `index` (0 in the 'record 0' mode).
     u8 sub_7101258D1C(int index);
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
@@ -91,15 +117,6 @@ public:
     /* 0x921 */ u8 _921;
 };
 
-// Placeholder: per-element parameter block returned by Element::m25 (a range [_4, _8] and more floats).
-struct ElementParams {
-    u32 _0;
-    f32 _4;
-    f32 _8;
-    f32 _c;
-    f32 _10;
-    f32 _14;
-};
 
 // Placeholder: the state passed down the tree by the update virtuals (m10, ...): `weight` is scaled by the
 // blenders on their way down.
@@ -522,6 +539,12 @@ public:
     int m6() override;
     int m7() override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m22(Context* ctx, const res::ASResource* resource) override;
+    const ElementParams* m25(Context* ctx, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
 
     /* 0x08 */ u16 _8;
     /* 0x0a */ s16 _a;

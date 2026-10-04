@@ -14,6 +14,10 @@ act::Actor* Context::sub_7101258ABC() {
     return mList->_d8;
 }
 
+ElementParams* Context::sub_7101258D4C(Record* record, bool a2) {
+    return record->sub_7101257DF4(_d0, a2);
+}
+
 u8 Context::sub_7101258D1C(int index) {
     if (_921 & 2)
         return 0;
@@ -54,7 +58,7 @@ int Context::sub_7101258E14() {
 }
 
 int Context::sub_7101258E20() {
-    return _d0->_10;
+    return _d0->mEntries.size();
 }
 
 gsys::Model* Context::sub_7101258E2C() {
