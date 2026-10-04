@@ -168,18 +168,56 @@ struct ViewerStageArg {
     s32 _18;
 };
 
-// Indoor / MainFieldDungeon arg: 0x218 bytes.
-struct DungeonStageArg {
-    const void* _0;
-    void* mEnvArchive;
-    sead::Heap* mHeap;
-    sead::FixedSafeString<0x20> _18;
-    sead::FixedSafeString<0x20> _50;
-    sead::FixedSafeString<0x20> _88;
+// The args of the Indoor / MainFieldDungeon binders (embedded at 0x10 of the binder; the layout is shared, the
+// two classes' virtuals are separate copies in the original).
+class IndoorStageArg : public StageArg {
+    SEAD_RTTI_OVERRIDE(IndoorStageArg, StageArg)
+public:
+    // (the first out-of-line virtual: the vtable and the RTTI functions are emitted with it)
+    s32 m4() override;
+    s32 m5() override { return 1; }
+    void setHeap(sead::Heap* heap) override { mHeap = heap; }
+    s32 m7() override { return _210; }
+    const sead::SafeString& m8() override { return _18; }
+    const sead::SafeString& m9() override { return _50; }
+    const sead::SafeString& m10() override { return _88; }
+    s32 m11() override { return _214; }
+    bool m12() override { return _218; }
+
+    /* 0x008 */ void* mEnvArchive;
+    /* 0x010 */ sead::Heap* mHeap;
+    /* 0x018 */ sead::FixedSafeString<0x20> _18;
+    /* 0x050 */ sead::FixedSafeString<0x20> _50;
+    /* 0x088 */ sead::FixedSafeString<0x20> _88;
     u8 _c0[0x210 - 0xc0];
-    s32 _210;
-    s32 _214;
-    bool _218;
+    /* 0x210 */ s32 _210;
+    /* 0x214 */ s32 _214;
+    /* 0x218 */ bool _218;
+};
+
+class MainFieldDungeonStageArg : public StageArg {
+    SEAD_RTTI_OVERRIDE(MainFieldDungeonStageArg, StageArg)
+public:
+    // (the first out-of-line virtual: the vtable and the RTTI functions are emitted with it)
+    s32 m4() override;
+    s32 m5() override { return 2; }
+    void setHeap(sead::Heap* heap) override { mHeap = heap; }
+    s32 m7() override { return _210; }
+    const sead::SafeString& m8() override { return _18; }
+    const sead::SafeString& m9() override { return _50; }
+    const sead::SafeString& m10() override { return _88; }
+    s32 m11() override { return _214; }
+    bool m12() override { return _218; }
+
+    /* 0x008 */ void* mEnvArchive;
+    /* 0x010 */ sead::Heap* mHeap;
+    /* 0x018 */ sead::FixedSafeString<0x20> _18;
+    /* 0x050 */ sead::FixedSafeString<0x20> _50;
+    /* 0x088 */ sead::FixedSafeString<0x20> _88;
+    u8 _c0[0x210 - 0xc0];
+    /* 0x210 */ s32 _210;
+    /* 0x214 */ s32 _214;
+    /* 0x218 */ bool _218;
 };
 
 // The arg of the StartupSaveCheckStageBinder (0x20 bytes): its (non-inlined) methods are in the StartupSaveCheckStage
@@ -283,7 +321,7 @@ public:
     bool m12() override { return _10._218; }
 
 private:
-    /* 0x10 */ DungeonStageArg _10;
+    /* 0x10 */ IndoorStageArg _10;
 };
 
 class MainFieldDungeonStageBinder : public StageBinder {
@@ -302,7 +340,7 @@ public:
     bool m12() override { return _10._218; }
 
 private:
-    /* 0x10 */ DungeonStageArg _10;
+    /* 0x10 */ MainFieldDungeonStageArg _10;
 };
 
 class StartupSaveCheckStageBinder : public StageBinder {

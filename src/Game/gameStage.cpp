@@ -28,6 +28,14 @@ const sead::SafeString& TitleStageArg::m8() {
     return sUnk_71025cc6a8;
 }
 
+s32 IndoorStageArg::m4() {
+    return 1;
+}
+
+s32 MainFieldDungeonStageArg::m4() {
+    return 2;
+}
+
 StartupSaveCheckStageArg::~StartupSaveCheckStageArg() {}
 
 s32 StartupSaveCheckStageArg::sub_71007D17E0() {
