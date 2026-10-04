@@ -48,7 +48,7 @@ void SiteBossSpearRoot::leave_() {
             ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
             if (accessor.hasProc()) {
                 if (auto* handler = accessor.x(0))
-                    physics->systemGroupHandlerStuff(handler, false);
+                    physics->systemGroupHandlerStuff(handler, ksys::phys::ContactLayerType::Entity);
             }
         }
     }

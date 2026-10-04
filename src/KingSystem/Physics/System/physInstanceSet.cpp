@@ -231,14 +231,12 @@ void InstanceSet::sub_7100FBAD74() {
     }
 }
 
-// NON_MATCHING: the original constructs only the begin iterator (it compares its index with its
-// point count); begin() != end() also calls the out-of-line IsEnd constructor
 bool InstanceSet::sub_7100FBB4B4() const {
     if (!mRagdollContactPointInfo)
         return false;
     if (mRagdollContactPointInfo->getNumContactPoints() == 0)
         return false;
-    return mRagdollContactPointInfo->begin() != mRagdollContactPointInfo->end();
+    return !mRagdollContactPointInfo->begin().isEnd();
 }
 
 s32 InstanceSet::sub_7100FBE7F0(const sead::SafeString& name) const {
@@ -281,8 +279,6 @@ RigidBody* InstanceSet::findRigidBody(const sead::SafeString& name) const {
     return nullptr;
 }
 
-// NON_MATCHING: loop shape (the original increments the index after the end check and re-checks
-// the sign of the found index)
 int InstanceSet::sub_7100FBB668(const sead::SafeString& name) const {
     s32 idx = 0;
     for (auto& set : mRigidBodySets) {
@@ -294,12 +290,9 @@ int InstanceSet::sub_7100FBB668(const sead::SafeString& name) const {
 }
 
 RigidBodySet* InstanceSet::findBodyGroupByName(const sead::SafeString& name) {
-    s32 idx = 0;
-    for (auto& set : mRigidBodySets) {
-        if (mRigidBodySets[idx] && name == set.getName())
-            break;
-        ++idx;
-    }
+    const s32 idx = sub_7100FBB668(name);
+    if (idx < 0)
+        return nullptr;
     return mRigidBodySets[idx];
 }
 
@@ -486,10 +479,7 @@ void InstanceSet::sub_7100FBA010(bool fixed) {
     mFlags.change(Flag::_40000, fixed_);
 }
 
-// NON_MATCHING: the original uses the bool argument as is (no `and w, w, #1` before the compares and
-// calls) and has a different register allocation
-void InstanceSet::systemGroupHandlerStuff(SystemGroupHandler* handler, bool a2) {
-    const auto layer_type = ContactLayerType(a2);
+void InstanceSet::systemGroupHandlerStuff(SystemGroupHandler* handler, ContactLayerType layer_type) {
     if (handler && handler->getLayerType() != layer_type)
         return;
 
@@ -508,7 +498,7 @@ void InstanceSet::systemGroupHandlerStuff(SystemGroupHandler* handler, bool a2) 
             mCharacterController->sub_7100F5EDB4(handler);
     }
 
-    _188[a2] = handler;
+    _188[static_cast<int>(layer_type)] = handler;
 }
 
 void InstanceSet::sub_7100FBB29C() {
@@ -575,15 +565,10 @@ bool InstanceSet::sub_7100FBB18C(RigidBodySet* set) {
     return false;
 }
 
-// NON_MATCHING: same loop shape difference as findBodyGroupByName (the index is incremented after
-// the end check)
 RigidBodySet* InstanceSet::findBodyByName(const sead::SafeString& name) const {
-    s32 idx = 0;
-    for (auto& set : mRigidBodySets) {
-        if (mRigidBodySets[idx] && name == set.getName())
-            break;
-        ++idx;
-    }
+    const s32 idx = sub_7100FBB668(name);
+    if (idx < 0)
+        return nullptr;
     return mRigidBodySets[idx];
 }
 
@@ -605,12 +590,14 @@ void InstanceSet::sub_7100FBDFA4(SystemGroupHandler* handler) {
             mCharacterController->sub_7100F5EDB4(handler);
     }
 
-    if (!handler) {
-        _188[0] = nullptr;
-        _188[1] = nullptr;
+    s32 idx;
+    if (handler) {
+        idx = static_cast<s32>(handler->getLayerType());
     } else {
-        _188[static_cast<int>(handler->getLayerType())] = handler;
+        _188[0] = nullptr;
+        idx = 1;
     }
+    _188[idx] = handler;
 }
 
 }  // namespace ksys::phys
