@@ -28,6 +28,18 @@ PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
 
 PlayerOrEnemy::~PlayerOrEnemy() = default;
 
+BaseProc::InitResult PlayerOrEnemy::init_() {
+    return weaponDroppedByEnemy() ? InitResult::Ok : InitResult::Failed;
+}
+
+void PlayerOrEnemy::onDeleteRequested_(DeleteReason reason) {
+    DynamicActor::onDeleteRequested_(reason);
+    if (sub_71011CBC28())
+        getWeapons()->sub_7100EFCD98(this);
+    else
+        getWeapons()->sub_7100EFCC20(DeleteReason::_0);
+}
+
 s32 PlayerOrEnemy::getBaseAtkPower() {
     return getEnemyAtkPower();
 }
