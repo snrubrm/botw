@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -672,6 +673,39 @@ bool Actor::sub_71011DA808(const ActorConstDataAccess& accessor) {
             return link_data->sub_7100D4EF30(accessor);
     }
     return false;
+}
+
+Actor* Actor::getPlacementLODActor(bool a1) {
+    if (mMapObject) {
+        if (auto* link_data = mMapObject->getLinkData()) {
+            map::ObjectLink* link;
+            if (a1)
+                link = link_data->findLinkWithType(map::MapLinkDefType::PlacementLOD);
+            else
+                link = link_data->mLinksToSelf.findLinkWithType(map::MapLinkDefType::PlacementLOD);
+            if (link)
+                return link->getObjectActor();
+        }
+    }
+    return nullptr;
+}
+
+s32 Actor::getFieldBodyGroupId() const {
+    s32 id = -1;
+    if (!mMapObjIter.tryGetParamIntByKey(&id, "FieldBodyGroup"))
+        id = -1;
+    return id;
+}
+
+// NON_MATCHING: the original starts with a discarded read of the map object's flag word (`ldr wzr, [x8]`)
+void Actor::resetPlacementObj() {
+    if (!mMapObject)
+        return;
+    mMapObject->resetFlags0(map::Object::Flag0::_800);
+    mMapObject = nullptr;
+    ActorSystem::instance()->registerActorThatLostPlacementObj(this);
+    mMapObjIter = map::MubinIter();
+    onPlacementObjReset();
 }
 
 void Actor::emitDeadUpLifeZeroAndSetRevival() {

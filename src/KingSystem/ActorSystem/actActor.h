@@ -659,6 +659,15 @@ public:
     // 0x71011d6c14 (CSV name): InstanceSet::setFlag2() if the actor has physics.
     void actorPhysicsSetFlag2();
     void unlinkPlacementObj();
+    // lane4 s30 (CSV Actor::getPlacementLODActor / getFieldBodyGroupId / resetPlacementObj):
+    // 0x71011ee3c5c: the actor of the PlacementLOD link of the map object (`a1`: through ObjectLinkData::findLinkWithType,
+    // else through the links pointing to the object).
+    Actor* getPlacementLODActor(bool a1);
+    // 0x7100ee690c: the map object's "FieldBodyGroup" int parameter (-1 if none).
+    s32 getFieldBodyGroupId() const;
+    // 0x71011d8db8: forgets the map object (clears Object flag 0x800), registers the actor as having lost it and
+    // calls onPlacementObjReset().
+    void resetPlacementObj();
     void setFlag0x40();
     void setVelocity(const sead::Vector3f* vel, const sead::Vector3f* ang_vel);
     // 0x71011dae64 (CSV Actor::x_22): sets the linear / angular velocity of the main body and of the
