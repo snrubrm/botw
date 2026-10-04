@@ -67,6 +67,9 @@ public:
     MessageSet* getLayoutMessageSet(const sead::SafeString& name);
     // 0x7100be496c
     void setGradationColor(u32 index, sead::Color4u8 top, sead::Color4u8 bottom);
+    // inline-only in the original; name is a guess. Tag preprocessing (0xbe6330) and ruby drawing
+    // (0xbe6700) both read this flag before the processor's own ruby-enable flag.
+    bool isRubyEnabled() const { return _50; }
 
 private:
     /* 0x28 */ sead::OffsetList<Archive> mArchives;

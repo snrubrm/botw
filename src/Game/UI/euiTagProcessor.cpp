@@ -2,6 +2,7 @@
 #include <cstring>
 #include <nn/font/font_PrintContext.h>
 #include <nn/font/font_TextWriterBase.h>
+#include "Game/UI/euiMessageMgr.h"
 
 namespace eui {
 
@@ -39,6 +40,27 @@ void TagProcessor::EndPrint(nn::font::PrintContext<u16>*) {
 void TagProcessor::EndCalculateRect(nn::font::PrintContext<u16>*) {
     --mNestingDepth;
 }
+
+// 0x7100be6330
+void TagProcessor::m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
+                       u32* text_length, u32* character_count, u32 capacity,
+                       const char16* text, u32 length, void*) {
+    if (tag->type != 0 || (mMessageMgr->isRubyEnabled() && mRubyEnabled)) {
+        if (*text_length + length < capacity) {
+            std::memcpy(out + *text_length, text, length * 2);
+            *text_length += length;
+            if (tag->type == 0) {
+                u16 character_bytes;
+                std::memcpy(&character_bytes, tag->getParam() + 2, sizeof(character_bytes));
+                *character_count += character_bytes / 2;
+            }
+        }
+    }
+}
+
+// 0x7100be6440
+void TagProcessor::m13(const sead::MessageSet<char16>::TagInfo*, char16*, u32*, u32*, u32,
+                       const char16*, u32, void*) {}
 
 // 0x7100be63c4
 void TagProcessor::preProcessEuiTag_(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
