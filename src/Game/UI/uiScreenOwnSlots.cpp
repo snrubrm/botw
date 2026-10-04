@@ -3,218 +3,266 @@
 // Trivial overrides of the leaf screens' own state-callback slots (154+).
 namespace uking::ui {
 
-// 0x7100a41874
-void ScreenRupee::m154() {}
+// 0x71009d6568
+void ScreenAppAlbum::m172() {}
 
-// 0x7100a41c8c
-s32 ScreenRupee::m157() { return 0; }
+// 0x71009d6c44
+s32 ScreenAppAlbum::m173() { return 0; }
 
-// 0x7100a41a68
-void ScreenRupee::m160() {}
+// 0x71009d6c4c
+s32 ScreenAppAlbum::m177() { return 0; }
 
-// 0x7100a41c94
-s32 ScreenRupee::m161() { return 0; }
+// 0x7100a3ee60
+s32 ScreenPauseMenu::m173() { return 0; }
 
-// 0x7100a41b28
-void ScreenRupee::m164() {}
+// 0x7100a3de48
+void ScreenPauseMenu::m176() {}
 
-// 0x7100a41c9c
-s32 ScreenRupee::m165() { return 0; }
+// 0x7100a3ee68
+s32 ScreenPauseMenu::m177() { return 0; }
 
-// 0x7100a41ca4
-s32 ScreenRupee::m169() { return 0; }
+// 0x7100a3ee70
+s32 ScreenPauseMenu::m181() { return 0; }
 
-// 0x7100a0f238
-void ScreenKologNum::m154() {}
+// 0x7100a3ee78
+s32 ScreenPauseMenu::m185() { return 0; }
 
-// 0x7100a0f600
-s32 ScreenKologNum::m157() { return 0; }
+// 0x7100a3ee80
+s32 ScreenPauseMenu::m189() { return 0; }
 
-// 0x7100a0f478
-void ScreenKologNum::m160() {}
+// 0x7100a3ec10
+void ScreenPauseMenu::m192() {}
 
-// 0x7100a0f608
-s32 ScreenKologNum::m161() { return 0; }
+// 0x7100a3ee88
+s32 ScreenPauseMenu::m193() { return 0; }
 
-// 0x7100a0f514
-void ScreenKologNum::m164() {}
+// 0x7100a438fc
+void ScreenSaveTransferWindow::m172() {}
 
-// 0x7100a0f610
-s32 ScreenKologNum::m165() { return 0; }
+// 0x7100a46554
+s32 ScreenSaveTransferWindow::m173() { return 0; }
 
-// 0x71009cf1bc
-void ScreenAkashNum::m154() {}
+// 0x7100a43920
+void ScreenSaveTransferWindow::m176() {}
 
-// 0x71009cf988
-s32 ScreenAkashNum::m157() { return 0; }
+// 0x7100a4655c
+s32 ScreenSaveTransferWindow::m177() { return 0; }
 
-// 0x71009cf3ec
-void ScreenAkashNum::m160() {}
+// 0x7100a43a0c
+void ScreenSaveTransferWindow::m180() {}
 
-// 0x71009cf990
-s32 ScreenAkashNum::m161() { return 0; }
+// 0x7100a46564
+s32 ScreenSaveTransferWindow::m181() { return 0; }
 
-// 0x71009cf490
-void ScreenAkashNum::m164() {}
+// 0x7100a43b60
+void ScreenSaveTransferWindow::m184() {}
 
-// 0x71009cf998
-s32 ScreenAkashNum::m165() { return 0; }
+// 0x7100a4656c
+s32 ScreenSaveTransferWindow::m185() { return 0; }
 
-// 0x7100a22d7c
-void ScreenMamoNum::m154() {}
+// 0x7100a43e14
+void ScreenSaveTransferWindow::m188() {}
 
-// 0x7100a22dcc
-void ScreenMamoNum::m156() {}
+// 0x7100a46574
+s32 ScreenSaveTransferWindow::m189() { return 0; }
 
-// 0x7100a230ac
-s32 ScreenMamoNum::m157() { return 0; }
+// 0x7100a44008
+void ScreenSaveTransferWindow::m192() {}
 
-// 0x7100a22f24
-void ScreenMamoNum::m160() {}
+// 0x7100a4657c
+s32 ScreenSaveTransferWindow::m193() { return 0; }
 
-// 0x7100a230b4
-s32 ScreenMamoNum::m161() { return 0; }
+// 0x7100a44088
+void ScreenSaveTransferWindow::m196() {}
 
-// 0x7100a22fc0
-void ScreenMamoNum::m164() {}
+// 0x7100a46584
+s32 ScreenSaveTransferWindow::m197() { return 0; }
 
-// 0x7100a230bc
-s32 ScreenMamoNum::m165() { return 0; }
+// 0x7100a44180
+void ScreenSaveTransferWindow::m200() {}
 
-// 0x71009ff6a4
-void ScreenAppTool::m154() {}
+// 0x7100a4658c
+s32 ScreenSaveTransferWindow::m201() { return 0; }
 
-// 0x71009ff6cc
-void ScreenAppTool::m156() {}
+// 0x7100a44298
+void ScreenSaveTransferWindow::m204() {}
 
-// 0x7100a00050
-s32 ScreenAppTool::m157() { return 0; }
+// 0x7100a46594
+s32 ScreenSaveTransferWindow::m205() { return 0; }
 
-// 0x71009ffad0
-void ScreenAppTool::m159() {}
+// 0x7100a44390
+void ScreenSaveTransferWindow::m208() {}
 
-// 0x7100a00058
-s32 ScreenAppTool::m161() { return 0; }
+// 0x7100a4659c
+s32 ScreenSaveTransferWindow::m209() { return 0; }
 
-// 0x71009ffdac
-void ScreenAppTool::m164() {}
+// 0x7100a44454
+void ScreenSaveTransferWindow::m212() {}
 
-// 0x7100a00060
-s32 ScreenAppTool::m165() { return 0; }
+// 0x7100a465a4
+s32 ScreenSaveTransferWindow::m213() { return 0; }
 
-// 0x7100a00068
-s32 ScreenAppTool::m169() { return 0; }
+// 0x7100a44540
+void ScreenSaveTransferWindow::m216() {}
 
-// 0x71009d6c24
-s32 ScreenAppAlbum::m157() { return 0; }
+// 0x7100a465ac
+s32 ScreenSaveTransferWindow::m217() { return 0; }
 
-// 0x71009d6c2c
-s32 ScreenAppAlbum::m161() { return 0; }
+// 0x7100a44620
+void ScreenSaveTransferWindow::m220() {}
 
-// 0x71009d6c34
-s32 ScreenAppAlbum::m165() { return 0; }
+// 0x7100a465b4
+s32 ScreenSaveTransferWindow::m221() { return 0; }
 
-// 0x71009d63d4
-void ScreenAppAlbum::m168() {}
+// 0x7100a4482c
+void ScreenSaveTransferWindow::m224() {}
 
-// 0x71009d6c3c
-s32 ScreenAppAlbum::m169() { return 0; }
+// 0x7100a465bc
+s32 ScreenSaveTransferWindow::m225() { return 0; }
 
-// 0x7100a21928
-void ScreenMainShortCut::m154() {}
+// 0x7100a44850
+void ScreenSaveTransferWindow::m228() {}
 
-// 0x7100a219c8
-void ScreenMainShortCut::m156() {}
+// 0x7100a465c4
+s32 ScreenSaveTransferWindow::m229() { return 0; }
 
-// 0x7100a22324
-s32 ScreenMainShortCut::m157() { return 0; }
+// 0x7100a44874
+void ScreenSaveTransferWindow::m232() {}
 
-// 0x7100a2232c
-s32 ScreenMainShortCut::m161() { return 0; }
+// 0x7100a465cc
+s32 ScreenSaveTransferWindow::m233() { return 0; }
 
-// 0x7100a22090
-void ScreenMainShortCut::m162() {}
+// 0x7100a44960
+void ScreenSaveTransferWindow::m236() {}
 
-// 0x7100a22120
-void ScreenMainShortCut::m164() {}
+// 0x7100a465d4
+s32 ScreenSaveTransferWindow::m237() { return 0; }
 
-// 0x7100a22334
-s32 ScreenMainShortCut::m165() { return 0; }
+// 0x7100a465dc
+s32 ScreenSaveTransferWindow::m241() { return 0; }
 
-// 0x7100a2233c
-s32 ScreenMainShortCut::m169() { return 0; }
+// 0x7100a44db4
+void ScreenSaveTransferWindow::m244() {}
 
-// 0x7100a3ee40
-s32 ScreenPauseMenu::m157() { return 0; }
+// 0x7100a465e4
+s32 ScreenSaveTransferWindow::m245() { return 0; }
 
-// 0x7100a3ee48
-s32 ScreenPauseMenu::m161() { return 0; }
+// 0x7100a44dd8
+void ScreenSaveTransferWindow::m248() {}
 
-// 0x7100a3ee50
-s32 ScreenPauseMenu::m165() { return 0; }
+// 0x7100a465ec
+s32 ScreenSaveTransferWindow::m249() { return 0; }
 
-// 0x7100a3ee58
-s32 ScreenPauseMenu::m169() { return 0; }
+// 0x7100a45058
+void ScreenSaveTransferWindow::m252() {}
 
-// 0x7100a0a9a4
-void ScreenGameOver::m155() {}
+// 0x7100a465f4
+s32 ScreenSaveTransferWindow::m253() { return 0; }
 
-// 0x7100a0ac40
-s32 ScreenGameOver::m157() { return 0; }
+// 0x7100a4507c
+void ScreenSaveTransferWindow::m256() {}
 
-// 0x7100a0ab54
-void ScreenGameOver::m160() {}
+// 0x7100a465fc
+s32 ScreenSaveTransferWindow::m257() { return 0; }
 
-// 0x7100a0ac48
-s32 ScreenGameOver::m161() { return 0; }
+// 0x7100a45168
+void ScreenSaveTransferWindow::m260() {}
 
-// 0x7100a4368c
-void ScreenSaveTransferWindow::m156() {}
+// 0x7100a46604
+s32 ScreenSaveTransferWindow::m261() { return 0; }
 
-// 0x7100a46534
-s32 ScreenSaveTransferWindow::m157() { return 0; }
+// 0x7100a45398
+void ScreenSaveTransferWindow::m264() {}
 
-// 0x7100a4376c
-void ScreenSaveTransferWindow::m160() {}
+// 0x7100a4660c
+s32 ScreenSaveTransferWindow::m265() { return 0; }
 
-// 0x7100a4653c
-s32 ScreenSaveTransferWindow::m161() { return 0; }
+// 0x7100a45680
+void ScreenSaveTransferWindow::m268() {}
 
-// 0x7100a438b4
-void ScreenSaveTransferWindow::m164() {}
+// 0x7100a46614
+s32 ScreenSaveTransferWindow::m269() { return 0; }
 
-// 0x7100a46544
-s32 ScreenSaveTransferWindow::m165() { return 0; }
+// 0x7100a4576c
+void ScreenSaveTransferWindow::m272() {}
 
-// 0x7100a438d8
-void ScreenSaveTransferWindow::m168() {}
+// 0x7100a4661c
+s32 ScreenSaveTransferWindow::m273() { return 0; }
 
-// 0x7100a4654c
-s32 ScreenSaveTransferWindow::m169() { return 0; }
+// 0x7100a45b4c
+void ScreenSaveTransferWindow::m276() {}
 
-// 0x71009d0c4c
-void ScreenAmiiboWindow::m155() {}
+// 0x7100a46624
+s32 ScreenSaveTransferWindow::m277() { return 0; }
 
-// 0x71009fc49c
-void ScreenAppSystemWindow::m155() {}
+// 0x7100a45bb4
+void ScreenSaveTransferWindow::m280() {}
 
-// 0x7100a04c38
-void ScreenDLCSinJuAkashiNum::m154() {}
+// 0x7100a4662c
+s32 ScreenSaveTransferWindow::m281() { return 0; }
 
-// 0x7100a05004
-s32 ScreenDLCSinJuAkashiNum::m157() { return 0; }
+// 0x7100a45d9c
+void ScreenSaveTransferWindow::m284() {}
 
-// 0x7100a04e58
-void ScreenDLCSinJuAkashiNum::m160() {}
+// 0x7100a46634
+s32 ScreenSaveTransferWindow::m285() { return 0; }
 
-// 0x7100a0500c
-s32 ScreenDLCSinJuAkashiNum::m161() { return 0; }
+// 0x7100a45e8c
+void ScreenSaveTransferWindow::m288() {}
 
-// 0x7100a04f18
-void ScreenDLCSinJuAkashiNum::m164() {}
+// 0x7100a4663c
+s32 ScreenSaveTransferWindow::m289() { return 0; }
 
-// 0x7100a05014
-s32 ScreenDLCSinJuAkashiNum::m165() { return 0; }
+// 0x7100a45fbc
+void ScreenSaveTransferWindow::m292() {}
+
+// 0x7100a46644
+s32 ScreenSaveTransferWindow::m293() { return 0; }
+
+// 0x7100a46000
+void ScreenSaveTransferWindow::m296() {}
+
+// 0x7100a4664c
+s32 ScreenSaveTransferWindow::m297() { return 0; }
+
+// 0x7100a46120
+void ScreenSaveTransferWindow::m300() {}
+
+// 0x7100a46654
+s32 ScreenSaveTransferWindow::m301() { return 0; }
+
+// 0x7100a46224
+void ScreenSaveTransferWindow::m304() {}
+
+// 0x7100a4665c
+s32 ScreenSaveTransferWindow::m305() { return 0; }
+
+// 0x7100a46228
+void ScreenSaveTransferWindow::m306() {}
+
+// 0x7100a4622c
+void ScreenSaveTransferWindow::m307() {}
+
+// 0x7100a46230
+void ScreenSaveTransferWindow::m308() {}
+
+// 0x7100a46664
+s32 ScreenSaveTransferWindow::m309() { return 0; }
+
+// 0x7100a46260
+void ScreenSaveTransferWindow::m311() {}
+
+// 0x7100a46264
+void ScreenSaveTransferWindow::m312() {}
+
+// 0x7100a4666c
+s32 ScreenSaveTransferWindow::m313() { return 0; }
+
+// 0x7100a46448
+void ScreenSaveTransferWindow::m316() {}
+
+// 0x7100a46674
+s32 ScreenSaveTransferWindow::m317() { return 0; }
 
 // 0x71009f28a8
 s32 ScreenAppMap::getSlink2LocalPropertyNum_() const {
