@@ -361,6 +361,8 @@ public:
     int getNextGrabbedItemIndex() const;
     bool canGrabAnotherItem() const;
     bool isNothingBeingGrabbed() const;
+    // 0x710097adfc
+    void unholdGrabbedItems();
 
     bool isHeroSoulEnabled(const sead::SafeString& name) const;
     bool hasRitoSoulPlus() const;
