@@ -208,3 +208,27 @@ bool PlayerOrEnemy::m170() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+bool PlayerOrEnemy::m171() {
+    getWeapons();
+    for (int i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && actorCheckIsGuard(weapon))
+            return true;
+    }
+    return false;
+}
+
+bool PlayerOrEnemy::m172() {
+    getWeapons();
+    for (int i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && actorCheckIsGuardJust(weapon))
+            return true;
+    }
+    return false;
+}
+
+}  // namespace ksys::act

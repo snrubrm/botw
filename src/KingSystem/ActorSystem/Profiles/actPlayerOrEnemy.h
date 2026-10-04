@@ -59,8 +59,8 @@ public:
     virtual s32 getBaseAtkPower();
     virtual bool m169() { return false; }
     virtual bool m170();
-    virtual void m171();
-    virtual void m172();
+    virtual bool m171();
+    virtual bool m172();
     virtual bool m173();
     virtual bool weaponDroppedByEnemy() { return true; }
     // The equipped item's actor name (null without one).

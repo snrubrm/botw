@@ -288,3 +288,7 @@ protected:
 KSYS_CHECK_SIZE_NX150(Weapon, 0x18);
 
 }  // namespace ksys::act::acc
+
+// 0x71002edc68 / 0x71002edca8 (CSV names): guard bits of the actor's attack info zero, if present.
+bool actorCheckIsGuard(ksys::act::Actor* actor);
+bool actorCheckIsGuardJust(ksys::act::Actor* actor);

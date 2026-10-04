@@ -575,3 +575,15 @@ bool Weapon::sub_71002F1228() const {
 }
 
 }  // namespace ksys::act::acc
+
+bool actorCheckIsGuard(ksys::act::Actor* actor) {
+    if (hasAttackInfo(actor))
+        return getAttackInfo(actor, 0)->_18 & 1;
+    return false;
+}
+
+bool actorCheckIsGuardJust(ksys::act::Actor* actor) {
+    if (hasAttackInfo(actor))
+        return getAttackInfo(actor, 0)->_18 & 2;
+    return false;
+}
