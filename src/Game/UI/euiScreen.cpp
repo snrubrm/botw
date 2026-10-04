@@ -5,8 +5,14 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiUIController.h"
+#include "Game/UI/euiTagProcessor.h"
 
 namespace eui {
+
+// 0x7100beacd8
+TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
+    return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
+}
 
 // 0x7100bea36c
 void Screen::updateControl_() {

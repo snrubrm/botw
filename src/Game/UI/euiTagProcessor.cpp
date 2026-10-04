@@ -2,6 +2,10 @@
 
 namespace eui {
 
+// 0x7100be5be4
+TagProcessor::TagProcessor(MessageMgr* message_mgr, FontMgr* font_mgr)
+    : mMessageMgr(message_mgr), mFontMgr(font_mgr) {}
+
 // 0x7100be6254
 char16* TagProcessor::setAlphaTag(char16* out, bool flag, u8 alpha) {
     out[0] = 0xe;
