@@ -17,6 +17,9 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100807630();
+    // Declared only: locates the sword-pull actor.
+    void sub_71008077FC();
 
     u64 _20 = 0;
     // static_param at offset 0x28
@@ -34,7 +37,7 @@ protected:
     u64 _58 = 0;
     // static_param at offset 0x60
     const int* mSuccessLife_s{};
-    u8 _68 = 0;
+    s8 _68 = 0;
 
 };
 KSYS_CHECK_SIZE_NX150(PlayerPullSword, 0x70);
