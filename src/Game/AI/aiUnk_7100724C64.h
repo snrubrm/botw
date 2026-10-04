@@ -27,6 +27,8 @@ class Unk_71024241a8;
 
 // The actor as an Enemy if it has the StalfosParts tag, else nullptr.
 uking::act::Enemy* sub_7100724D7C(ksys::act::Actor* actor);
+// 0x71007275c8 (declared only): takes the Enemy of sub_7100724D7C (ForkStalEnemyHeadShot / ForkStalPartBlownOff calc_).
+void sub_71007275C8(uking::act::Enemy* enemy);
 
 bool sub_7100724C80(ksys::act::Actor* actor, sead::Heap* heap, u32 part);
 bool sub_7100724E1C(ksys::act::Actor* actor, u32 part);

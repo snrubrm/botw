@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkStalEnemyHeadShot.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 
 namespace uking::action {
 
@@ -15,7 +17,12 @@ void ForkStalEnemyHeadShot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkStalEnemyHeadShot::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (_60 > 0) {
+        _60 = 0;
+        sub_71007275C8(sub_7100724D7C(actor));
+    }
+    sub_7100738DC8(actor);
 }
 
 void ForkStalEnemyHeadShot::loadParams_() {
@@ -29,7 +36,8 @@ void ForkStalEnemyHeadShot::loadParams_() {
 }
 
 void ForkStalEnemyHeadShot::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_60 > 0 && --_60 == 0)
+        sub_71007275C8(sub_7100724D7C(mActor));
 }
 
 }  // namespace uking::action

@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71024da0c (declared only): out of line in the original.
+    void sub_710024DA0C();
     void calc_() override;
     bool m32() override;
     void m33(const sead::Vector3f* velocity) override;

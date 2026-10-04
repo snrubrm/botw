@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71011a710 (declared only): out of line in the original.
+    bool sub_710011A710();
     void calc_() override;
 };
 

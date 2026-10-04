@@ -13,6 +13,8 @@ void ShockDynamicWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ShockDynamicWeapon::leave_() {
+    if (!_88)
+        sub_710024DA0C();
     Shock::leave_();
 }
 

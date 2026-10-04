@@ -15,6 +15,8 @@ void EventFadeOut::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventFadeOut::leave_() {
+    if (sub_710011A710())
+        return;
     EventFade::leave_();
 }
 

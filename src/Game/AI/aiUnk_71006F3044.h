@@ -24,6 +24,9 @@ public:
     // 0x71006f3934 (m: the original loads the dummy link's address directly): the link to the beam actor
     // (the shared "BeamActorLink" if it is alive, else the owner's BeamActor parts link).
     ksys::act::BaseProcLink& sub_71006F3934();
+    // 0x71006f3a70: moves the beam actor to the owner's position (unless it is already calculating) and
+    // registers (true) / unregisters (false) it with the `_88` sender.
+    void sub_71006F3A70(bool on);
     // 0x71006f3a6c: empty.
     void sub_71006F3A6C();
     // 0x71006f3b14: registers (true) / unregisters (false) the beam actor with the `_a0` sender.

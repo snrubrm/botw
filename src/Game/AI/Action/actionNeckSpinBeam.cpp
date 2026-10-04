@@ -11,6 +11,8 @@ bool NeckSpinBeam::init_(sead::Heap* heap) {
 
 void NeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     NeckSpin::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _b8.sub_71006F3A70(false);
 }
 
 void NeckSpinBeam::leave_() {

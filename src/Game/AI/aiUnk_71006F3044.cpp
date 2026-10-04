@@ -30,3 +30,14 @@ void Unk_71006f3044::sub_71006F3B14(bool on) {
     else
         _a0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
 }
+
+void Unk_71006f3044::sub_71006F3A70(bool on) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&sub_71006F3934(), &accessor);
+    if (!accessor.isStateCalc())
+        accessor.setProperties(mActor->getMtx(), nullptr, nullptr, nullptr, false, 0, -1);
+    if (on)
+        _88.sub_710070DE10(*accessor.getMessageTransceiverId(), true);
+    else
+        _88.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+}

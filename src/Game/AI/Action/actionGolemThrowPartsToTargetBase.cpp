@@ -19,7 +19,9 @@ void GolemThrowPartsToTargetBase::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void GolemThrowPartsToTargetBase::leave_() {
-    ActionWithAS::leave_();
+    sub_710018D8DC();
+    sub_71005DA114(mActor, &_f0);
+    ActionWithPosAngReduce::leave_();
 }
 
 void GolemThrowPartsToTargetBase::loadParams_() {

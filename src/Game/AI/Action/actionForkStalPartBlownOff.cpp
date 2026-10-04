@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkStalPartBlownOff.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_7100724C64.h"
 
 namespace uking::action {
 
@@ -15,7 +17,12 @@ void ForkStalPartBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkStalPartBlownOff::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* actor = mActor;
+    if (_50 > 0) {
+        _50 = 0;
+        sub_71007275C8(sub_7100724D7C(actor));
+    }
+    sub_7100738DC8(actor);
 }
 
 void ForkStalPartBlownOff::loadParams_() {
@@ -27,7 +34,8 @@ void ForkStalPartBlownOff::loadParams_() {
 }
 
 void ForkStalPartBlownOff::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (_50 > 0 && --_50 == 0)
+        sub_71007275C8(sub_7100724D7C(mActor));
 }
 
 }  // namespace uking::action
