@@ -13,6 +13,16 @@ ksys::act::BaseProc* NPC::construct(const CreateArg& arg, sead::Heap* heap) {
 // NON_MATCHING: member types are incomplete
 NPC::~NPC() = default;
 
+void NPC::m79() {
+    if (sub_7100020F44())
+        sub_7100021AB4();
+}
+
+void NPC::onDeleteRequested_(DeleteReason reason) {
+    Actor::onDeleteRequested_(reason);
+    getWeapons()->sub_7100EFCC20(DeleteReason(0));
+}
+
 uking::dmg::DamageManagerBase* NPC::getDamageMgr() {
     return &_da0;
 }

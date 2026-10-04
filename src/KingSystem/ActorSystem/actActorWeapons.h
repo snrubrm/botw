@@ -43,6 +43,8 @@ public:
     void resetBaseProcLinkForActor(BaseProc* proc);
     void sleep(BaseProc::SleepWakeReason reason);
     void wakeUp(BaseProc::SleepWakeReason reason);
+    // 0x7100efcc20 (declaration only): requests deletion of the six linked weapons with `reason`.
+    void sub_7100EFCC20(BaseProc::DeleteReason reason);
     // 0x7100efc2bc (CSV ActorWeapons::dropWeapon): drops the weapon in slot `idx` (WeaponBase::m175) and
     // forgets it.
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);

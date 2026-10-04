@@ -65,6 +65,9 @@ public:
     ksys::act::ActorWeapons* getWeapons() override { return &mWeapons; }
     Unk_7100d3cd74* m101() override;
     void m114() override;
+    // Declaration only: checks weapon state / forwards attachment work to the weapons.
+    bool sub_7100020F44();
+    void sub_7100021AB4();
     void m117(ksys::act::Unk117* arg) override;
     void* m119() override;
     ksys::act::Unk_71025ae640* getAtk() override;
