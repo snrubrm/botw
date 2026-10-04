@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEquipShieldEnemySearchWeapon.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -53,6 +55,13 @@ void EquipShieldEnemySearchWeapon::leave_() {
 
 void EquipShieldEnemySearchWeapon::loadParams_() {
     UnarmedEnemySearchWeapon::loadParams_();
+}
+
+bool EquipShieldEnemySearchWeapon::m46(ksys::act::BaseProcLink& target) {
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(target.getProc(nullptr, nullptr));
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(actor))
+        return weapon->m231();
+    return false;
 }
 
 }  // namespace uking::ai

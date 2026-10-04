@@ -540,6 +540,8 @@ class Blender : public SelectorBase {
 public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m11(Context* ctx, State* state, const res::ASResource* resource) override;
+    // 0x71013167c8 (declaration only)
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m15(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
@@ -566,6 +568,8 @@ class BoneBlender : public Blender {
 public:
     BoneBlender();
 
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
     f32 m39(s32* a1, s32* a2, void* a3, void* a4) override;
 };
 
@@ -658,6 +662,27 @@ public:
     void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
              const res::ASResource* resource) override;
     SyncPlayContainer();
+};
+
+// A container that plays its children one after the other (CSV: ASSequencePlayContainer).
+class SequencePlayContainer : public SelectorBase {
+    SEAD_RTTI_OVERRIDE(SequencePlayContainer, SelectorBase)
+public:
+    SequencePlayContainer();
+
+    // (the first out-of-line virtual: the vtable is emitted with it)
+    bool m24(Context* ctx, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
+    bool m9() override;
+    bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m16(Context* ctx, const res::ASResource* resource, f32 value) override {}
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
+    void m19(Context* ctx, const res::ASResource* resource, f32 value) override {}
+    void m20(Context* ctx, const res::ASResource* resource, f32 value) override {}
+    void m21(Context* ctx, const res::ASResource* resource, f32 value) override {}
+    void m22(Context* ctx, const res::ASResource* resource) override {}
+    bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
+             f32 value) override;
 };
 
 class Asset : public Element {

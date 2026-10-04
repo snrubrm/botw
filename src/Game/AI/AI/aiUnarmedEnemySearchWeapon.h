@@ -23,7 +23,7 @@ public:
     void m36() override {}
     virtual void m44();
     virtual void m45();
-    virtual bool m46() { return true; }
+    virtual bool m46(ksys::act::BaseProcLink& target) { return true; }
     void loadParams_() override;
 
 protected:

@@ -31,6 +31,7 @@ target_sources(uking PRIVATE
     AS/asSpeedBlender.cpp
     AS/asSpeedSelector.cpp
     AS/asStringSelector.cpp
+    AS/asSequencePlayContainer.cpp
     AS/asSyncPlayContainer.cpp
     AS/asTimeSelector.cpp
     AS/asWeatherSelector.cpp

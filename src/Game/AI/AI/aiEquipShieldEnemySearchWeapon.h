@@ -18,6 +18,7 @@ public:
 
     void m44() override;
     void m45() override;
+    bool m46(ksys::act::BaseProcLink& target) override;
 
 protected:
     bool _6e8 = false;

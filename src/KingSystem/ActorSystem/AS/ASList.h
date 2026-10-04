@@ -200,6 +200,8 @@ public:
     // 0x710115ec98: the float parameter `kind`, or `fn`'s result when given; `a4` is unused.
     f32 sub_710115EC98(int kind, f32 (ASList::*fn)(), int a4);
     // Fallback getters of the float parameters 0x13 / 0x14 / 0x15 / 0x16 / 0x1b (declaration only).
+    // 0x7101160ed4 (declaration only): the owner's model-side object gets a flag and a back pointer to this list.
+    void sub_7101160ED4();
     f32 sub_710115F740();
     f32 sub_710115F820();
     f32 sub_710115F8A0();
