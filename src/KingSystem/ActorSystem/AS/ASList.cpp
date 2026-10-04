@@ -11,6 +11,8 @@
 
 namespace ksys::as {
 
+static const char* const sUnk_710250FFE0[] = {"0Gear", "1Gear", "2Gear", "3Gear", "TopGear"};
+
 // NON_MATCHING: block layout (the original shares the "return true" block)
 bool ASList::Unk2::sub_7101163AF4() {
     if ((_20 && !(_43 & 1)) || (_28 && !(_43 & 2)))
@@ -402,6 +404,15 @@ f32 ASList::sub_710115F98C() {
     direction.normalize();
     return sead::Mathf::rad2deg(
         sead::Mathf::atan2(direction.z * normal.x - direction.x * normal.z, normal.y));
+}
+
+// NON_MATCHING: table selection and destination lookup are scheduled in a different order.
+bool ASList::sub_710115EA64(int kind) {
+    const s8 index = _f0[0x36];
+    if (index < 0)
+        return false;
+    _e0[index]._str_ptr->copy(sUnk_710250FFE0[u32(kind) > 4 ? 0 : kind]);
+    return true;
 }
 
 const char* ASList::sub_710115ECF4(int kind, int a2) {

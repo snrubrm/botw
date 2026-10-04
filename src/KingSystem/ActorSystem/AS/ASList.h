@@ -175,7 +175,7 @@ public:
         f32 _f32;
         s32 _s32;
         u64* _u64_ptr;
-        sead::SafeString* _str_ptr;
+        sead::BufferedSafeString* _str_ptr;
         sead::Vector3f* _vec3_ptr;
     };
 
@@ -208,7 +208,7 @@ public:
     const sead::Vector3f& sub_710115F078();
     // 0x710115f3f0: queries normalized playback position.
     f32 sub_710115F3F0(int slot, int bank, bool a1);
-    // 0x710115ea64: copies one of five string parameter values (declaration only).
+    // 0x710115ea64: copies one of five string parameter values.
     bool sub_710115EA64(int kind);
     bool sub_710115EECC(int kind, s32 value, int a3);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
