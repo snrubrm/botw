@@ -31,14 +31,14 @@ bool Manager::callEvent(const CallArg& arg) {
 }
 
 // 0x7100db28c4
-EventFlow* Manager::getActiveEvent() const {
+EventFlowBase* Manager::getActiveEvent() const {
     if (!_1d2b8)
         return nullptr;
     return _1d2b8->getCurrentFlow();
 }
 
 // 0x7100db222c
-EventFlow* Manager::sub_7100DB222C() {
+EventFlowBase* Manager::sub_7100DB222C() {
     if (!_1d2b8)
         return nullptr;
     return _1d2b8->getCurrentFlow();

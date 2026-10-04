@@ -13,13 +13,13 @@ namespace ksys::evt {
 // TODO
 class EventResource {
 public:
-    // 0x7100dc28dc (CSV EventResource::initTimeline): `flow_data` is the EventFlow's data at +0x10.
+    // 0x7100dc28dc (CSV EventResource::initTimeline): `flow_data` is the EventFlowBase's data at +0x10.
     void initTimeline(void* flow_data);
     // 0x7100dc2b7c (CSV EventResource::initFlowchart)
     void initFlowchart(void* flow_data, void* flowchart_data);
     // 0x7100dc34f8 (CSV EventResource::load; not decompiled)
     bool load(bool a1);
-    // 0x7100dc3698 (CSV unnamed): called by EventFlow::exitEventMaybe / x with the flow's resource.
+    // 0x7100dc3698 (CSV unnamed): called by EventFlowBase::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
 
     u8 _0[0x20];

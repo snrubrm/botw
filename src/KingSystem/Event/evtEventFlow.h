@@ -13,7 +13,7 @@ namespace ksys::evt {
 class EventResource;
 class ActorBase;
 
-// The per-event actor set (CSV evt::S6) at EventFlow + 0x110.
+// The per-event actor set (CSV evt::S6) at EventFlowBase + 0x110.
 class EventActorSet {
 public:
     virtual ~EventActorSet();
@@ -36,7 +36,7 @@ public:
     u8 _31[0x58 - 0x31];
 };
 
-// Unknown object at EventFlow + 0x100 (polymorphic; slot 10 = isPlaying-like query).
+// Unknown object at EventFlowBase + 0x100 (polymorphic; slot 10 = isPlaying-like query).
 class EventFlowHandle {
 public:
     virtual void m0() = 0;
@@ -52,19 +52,19 @@ public:
     virtual bool isPlaying() = 0;  // slot 10
 };
 
-// Unknown object at EventFlow + 0x118 (embeds the base proc link of the event's actor at +0x18).
+// Unknown object at EventFlowBase + 0x118 (embeds the base proc link of the event's actor at +0x18).
 struct EventFlowActorInfo {
     u8 _0[0x18];
     act::BaseProcLink mLink;
 };
 
 // An event flow instance (CSV: evt::EventFlowBase, the base of EventFlowFlowchart / EventFlowMovie /
-// EventFlowTimeline; EventFlowMgr::unload takes `EventFlow*`, which is the real class name). Abstract.
+// EventFlowTimeline; the CSV's `evt::EventFlow` is the EventFlowMgr slot class, see evtEventFlowMgr.h). Abstract.
 // Only the members used so far are declared; the vtable has 18 slots (0-17).
-class EventFlow {
+class EventFlowBase {
 public:
-    virtual ~EventFlow();
-    SEAD_RTTI_BASE(EventFlow)
+    virtual ~EventFlowBase();
+    SEAD_RTTI_BASE(EventFlowBase)
 
     enum class Flag : u64 {
         _100000000 = 0x100000000,  // read by PlayerEventStartWait::leave_
@@ -126,10 +126,10 @@ public:
     u8 _348[0x620 - 0x348];
 };
 
-class EventFlowFlowchart : public EventFlow {
+class EventFlowFlowchart : public EventFlowBase {
 public:
     ~EventFlowFlowchart() override;
-    SEAD_RTTI_OVERRIDE(EventFlowFlowchart, EventFlow)
+    SEAD_RTTI_OVERRIDE(EventFlowFlowchart, EventFlowBase)
 
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
@@ -144,10 +144,10 @@ public:
     /* 0x6b4 */ f32 _6b4;
 };
 
-class EventFlowTimeline : public EventFlow {
+class EventFlowTimeline : public EventFlowBase {
 public:
     ~EventFlowTimeline() override;
-    SEAD_RTTI_OVERRIDE(EventFlowTimeline, EventFlow)
+    SEAD_RTTI_OVERRIDE(EventFlowTimeline, EventFlowBase)
 
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
@@ -166,10 +166,10 @@ public:
     /* 0x638 */ void* _638;
 };
 
-class EventFlowMovie : public EventFlow {
+class EventFlowMovie : public EventFlowBase {
 public:
     ~EventFlowMovie() override;
-    SEAD_RTTI_OVERRIDE(EventFlowMovie, EventFlow)
+    SEAD_RTTI_OVERRIDE(EventFlowMovie, EventFlowBase)
 
     void m11() override;
     void m15() override;

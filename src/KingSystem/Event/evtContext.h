@@ -28,9 +28,9 @@ public:
     sead::SafeString getEntryPointName() const;
     // 0x7100dba274 (CSV unnamed): sets flag bit 0x1000000000 on every flow
     void sub_7100DBA274();
-    // 0x7100dba2ac (CSV unnamed): forwards to EventFlow::x_8 of the current flow
+    // 0x7100dba2ac (CSV unnamed): forwards to EventFlowBase::x_8 of the current flow
     void sub_7100DBA2AC();
-    // 0x7100dba3ac (CSV unnamed): ANDs EventFlow::sub_7100DB8BB8(a1) over all flows
+    // 0x7100dba3ac (CSV unnamed): ANDs EventFlowBase::sub_7100DB8BB8(a1) over all flows
     bool sub_7100DBA3AC(bool a1);
     // 0x7100db9e38 (CSV evt::Context::getActorByPointer)
     ActorBase* getActorByPointer(act::BaseProc* proc);
@@ -38,16 +38,16 @@ public:
     ActorBase* getActorByName(const sead::SafeString& name, const sead::SafeString& entry);
     // 0x7100dba2e4 (CSV evt::Context::setNoDeleteCurrentActor)
     void setNoDeleteCurrentActor(bool no_delete);
-    // 0x7100db9b40 (CSV evt::Context::x): forwards to EventFlow::x of the current flow and sets `_1f4`.
+    // 0x7100db9b40 (CSV evt::Context::x): forwards to EventFlowBase::x of the current flow and sets `_1f4`.
     void x(bool set);
 
     // inline-only in the original; names are guesses: the flows are read through the index stack both with
     // (PtrArray::at: null if out of range) and without a range check (PtrArray::operator()).
-    EventFlow* getCurrentFlow() const { return mFlows.at(mFlowStack[mStackTop]); }
-    EventFlow* getCurrentFlowUnchecked() const { return mFlows(mFlowStack[mStackTop]); }
+    EventFlowBase* getCurrentFlow() const { return mFlows.at(mFlowStack[mStackTop]); }
+    EventFlowBase* getCurrentFlowUnchecked() const { return mFlows(mFlowStack[mStackTop]); }
 
 private:
-    /* 0x08 */ sead::PtrArray<EventFlow> mFlows;
+    /* 0x08 */ sead::PtrArray<EventFlowBase> mFlows;
     u8 _18[0x1e8 - 0x18];
     /* 0x1e8 */ sead::SafeArray<s8, 8> mFlowStack;
     /* 0x1f0 */ s32 mStackTop;

@@ -3,12 +3,6 @@
 
 namespace uking::ui {
 
-// inline-only in the original; name is a guess: the state object that the open / close queries compare with (the call
-// through the reference is virtual in the original, a direct use of the object would be devirtualized)
-static const ksys::StateBase& getShownState() {
-    return sUnk_71025eed10;
-}
-
 // 0x7100a0ef5c
 void ScreenKologNum::sub_7100A0EF5C(s32 a1) {
     if (_3614 == 0)
@@ -39,10 +33,11 @@ void ScreenKologNum::sub_7100A0F098() {
 }
 
 // 0x7100a0efa4
+// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenKologNum::sub_7100A0EFA4() {
     if (_3634 != 0)
         return false;
-    if (_3610 || mStateMachine.getState()->getId() == getShownState().getId()) {
+    if (_3610 || mStateMachine.getState()->getId() == sUnk_71025eed10.getId()) {
         _3634 = 1;
         return false;
     }
@@ -51,10 +46,11 @@ bool ScreenKologNum::sub_7100A0EFA4() {
 }
 
 // 0x7100a0f038
+// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenKologNum::sub_7100A0F038() {
     if (_3610)
         return true;
-    return mStateMachine.getState()->getId() == getShownState().getId();
+    return mStateMachine.getState()->getId() == sUnk_71025eed10.getId();
 }
 
 }  // namespace uking::ui

@@ -18,7 +18,7 @@ bool EventFlowMgr::areAllEventFlowsReady() const {
 bool EventFlowMgr::loadEventResourceForAllEventFlows(bool a1) {
     bool ok = true;
     for (s32 i = 0; i < mSlots.size(); ++i) {
-        EventFlowSlot& slot = mSlots[i];
+        EventFlow& slot = mSlots[i];
         if (slot.mState != 0)
             ok &= slot.loadEventResource(a1);
     }

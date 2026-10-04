@@ -16,7 +16,7 @@ class Actor;
 namespace ksys::evt {
 
 class Context;
-class EventFlow;
+class EventFlowBase;
 class EventMgrStruct1;
 struct CallArg;
 class Metadata;
@@ -30,9 +30,9 @@ class Manager {
 public:
     void init(sead::Heap* heap);
 
-    EventFlow* getActiveEvent() const;
+    EventFlowBase* getActiveEvent() const;
     // 0x7100db222c (CSV EventMgr::__auto7): same body as getActiveEvent() const (placeholder name)
-    EventFlow* sub_7100DB222C();
+    EventFlowBase* sub_7100DB222C();
     // 0x7100db2440 (CSV EventMgr::checkEventCancel): flag bit 0x2000 of the active flow
     bool checkEventCancel() const;
     bool hasActiveEvent() const;

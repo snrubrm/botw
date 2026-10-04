@@ -162,11 +162,8 @@ public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
     u8 _118[0x160 - 0x118];
-    // The screen's state machine (the leaf classes' own virtual slots 154+ are the callbacks of its states). The
-    // union keeps the implicit constructor from requiring StateMachine's (the constructor is not decompiled).
-    union {
-        ksys::StateMachine mStateMachine;
-    };
+    // The screen's state machine (the leaf classes' own virtual slots 154+ are the callbacks of its states).
+    ksys::StateMachine mStateMachine;
     u8 _188[0x250 - 0x188];
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
     u8 _260[0x270 - 0x260];

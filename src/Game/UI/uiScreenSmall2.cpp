@@ -3,27 +3,18 @@
 
 namespace uking::ui {
 
-// inline-only in the original; names are guesses (see ScreenKologNum::getShownState)
-static const ksys::StateBase& getShortCutState0() {
-    return sUnk_71025ef170;
-}
-static const ksys::StateBase& getShortCutState1() {
-    return sUnk_71025ef290;
-}
-static const ksys::StateBase& getToolState() {
-    return sUnk_71025ec670;
-}
-
 // 0x7100a20dd0
+// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenMainShortCut::sub_7100A20DD0() {
-    if (mStateMachine.getState()->getId() == getShortCutState0().getId())
+    if (mStateMachine.getState()->getId() == sUnk_71025ef170.getId())
         return false;
-    return mStateMachine.getState()->getId() != getShortCutState1().getId();
+    return mStateMachine.getState()->getId() != sUnk_71025ef290.getId();
 }
 
 // 0x71009fd674
+// NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenAppTool::sub_71009FD674() {
-    return mStateMachine.getState()->getId() == getToolState().getId();
+    return mStateMachine.getState()->getId() == sUnk_71025ec670.getId();
 }
 
 // 0x7100a31be0

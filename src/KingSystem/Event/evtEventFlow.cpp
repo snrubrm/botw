@@ -5,60 +5,60 @@
 namespace ksys::evt {
 
 // NON_MATCHING (all four destructors below): the original destructors destroy members that are not modelled
-// yet (EventFlow::~EventFlow is 324 bytes). They are defaulted here so that the classes' vtables (and with them
+// yet (EventFlowBase::~EventFlowBase is 324 bytes). They are defaulted here so that the classes' vtables (and with them
 // the RTTI functions, which match) are emitted.
-EventFlow::~EventFlow() = default;
+EventFlowBase::~EventFlowBase() = default;
 EventFlowFlowchart::~EventFlowFlowchart() = default;
 EventFlowTimeline::~EventFlowTimeline() = default;
 EventFlowMovie::~EventFlowMovie() = default;
 
 // 0x7100db8c9c (CSV evt::EventFlowBase::m4_null)
-void EventFlow::m4() {}
+void EventFlowBase::m4() {}
 
 // 0x7100db8ca0 (CSV evt::EventFlowBase::m7)
-void* EventFlow::m7() {
+void* EventFlowBase::m7() {
     return nullptr;
 }
 
 // 0x7100db8ca8 (CSV evt::EventFlowBase::m8_null)
-void EventFlow::m8() {}
+void EventFlowBase::m8() {}
 
 // 0x7100db8cac (CSV evt::EventFlowBase::m10)
-s32 EventFlow::m10() {
+s32 EventFlowBase::m10() {
     return 0;
 }
 
 // 0x7100db627c
-act::BaseProcLink* EventFlow::getBaseProcLink() {
+act::BaseProcLink* EventFlowBase::getBaseProcLink() {
     return &_118->mLink;
 }
 
 // 0x7100db6288
-bool EventFlow::byte3FlagIsSet() const {
+bool EventFlowBase::byte3FlagIsSet() const {
     return _340_bytes[3] & 1;
 }
 
 // 0x7100db8b84
-void EventFlow::x(bool set) {
+void EventFlowBase::x(bool set) {
     _340 = set ? (_340 | 0xa0) : ((_340 & ~0xa0ull) | 0x20);
     if (_108)
         _108->sub_7100DC3698();
 }
 
 // 0x7100db8b68
-void EventFlow::exitEventMaybe() {
+void EventFlowBase::exitEventMaybe() {
     _340 |= 0x40;
     if (_108)
         _108->sub_7100DC3698();
 }
 
 // 0x7100db7888
-void EventFlow::setFlag4() {
+void EventFlowBase::setFlag4() {
     _340 |= 4;
 }
 
 // 0x7100db8a24
-bool EventFlow::isPlaying() {
+bool EventFlowBase::isPlaying() {
     return _100->isPlaying();
 }
 

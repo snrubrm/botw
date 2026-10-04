@@ -4,19 +4,19 @@
 namespace ksys::evt {
 
 // 0x7100dc1060
-void EventFlowSlot::setState4() {
+void EventFlow::setState4() {
     mState = 4;
     _c = 0;
 }
 
 // 0x7100dc106c
-void EventFlowSlot::setState3() {
+void EventFlow::setState3() {
     mState = 3;
     _c = 0;
 }
 
 // 0x7100dc1258
-bool EventFlowSlot::loadEventResource(bool a1) {
+bool EventFlow::loadEventResource(bool a1) {
     if (!mResource)
         return true;
     return mResource->load(a1);
