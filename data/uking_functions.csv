@@ -75841,7 +75841,7 @@ Address,Quality,Size,Name
 0x0000007100da2a28,U,000496,evt::S6::getActorByName_0
 0x0000007100da2c18,O,000124,_ZNK4ksys3evt13EventActorSet17getActorByPointerEPNS_3act8BaseProcE
 0x0000007100da2c94,U,000496,evt::S6::getActorByName
-0x0000007100da2e84,U,000124,
+0x0000007100da2e84,O,000124,_ZN4ksys3evt13EventActorSet14sub_7100DA2E84EPNS_3act8BaseProcE
 0x0000007100da2f00,U,000548,evt::S6::x
 0x0000007100da3124,U,000436,evt::S6::x_5
 0x0000007100da32d8,U,000528,
@@ -76139,8 +76139,8 @@ Address,Quality,Size,Name
 0x0000007100db9dbc,O,000056,_ZN4ksys3evt7Context18updateEventsStatusEv
 0x0000007100db9df4,O,000056,_ZN4ksys3evt7Context8setFlag4Ev
 0x0000007100db9e2c,O,000012,_ZN4ksys3evt7Context20setActorBeingDeletedEv
-0x0000007100db9e38,U,000044,evt::Context::getActorByPointer
-0x0000007100db9e64,U,000184,evt::Context::getActorByName
+0x0000007100db9e38,O,000044,_ZN4ksys3evt7Context17getActorByPointerEPNS_3act8BaseProcE
+0x0000007100db9e64,O,000184,_ZN4ksys3evt7Context14getActorByNameERKN4sead14SafeStringBaseIcEES6_
 0x0000007100db9f1c,U,000856,evt::Context::callDemoFromEventFlow
 0x0000007100dba274,U,000056,
 0x0000007100dba2ac,U,000056,

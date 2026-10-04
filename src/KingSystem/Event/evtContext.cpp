@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtContext.h"
+#include "KingSystem/Event/evtActorBase.h"
 
 namespace ksys::evt {
 
@@ -15,6 +16,26 @@ void Context::setFlag4() {
 // 0x7100db9dbc
 void Context::updateEventsStatus() {
     getCurrentFlow()->sub_7100DB6CFC();
+}
+
+// 0x7100db9e38
+ActorBase* Context::getActorByPointer(act::BaseProc* proc) {
+    auto* actors = getCurrentFlowUnchecked()->_110;
+    if (!actors)
+        return nullptr;
+    return actors->sub_7100DA2E84(proc);
+}
+
+// 0x7100db9e64
+ActorBase* Context::getActorByName(const sead::SafeString& name, const sead::SafeString& entry) {
+    auto* actors = getCurrentFlowUnchecked()->_110;
+    if (!actors)
+        return nullptr;
+    if (auto* actor = actors->getActorByName(name, entry))
+        return actor;
+    if (entry.isEmpty())
+        return actors->getActorByName(name, sead::SafeString("0"));
+    return nullptr;
 }
 
 // 0x7100dba2e4

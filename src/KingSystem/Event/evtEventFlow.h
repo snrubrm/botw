@@ -3,6 +3,7 @@
 #include <evfl/TimelineObj.h>
 #include <container/seadPtrArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Utils/Types.h"
@@ -23,6 +24,10 @@ public:
     void playActors();
     // 0x7100da2c18 (CSV evt::S6::getActorByPointer): the actor whose proc link refers to `proc`
     ActorBase* getActorByPointer(act::BaseProc* proc) const;
+    // 0x7100da2c94 (CSV evt::S6::getActorByName; not decompiled)
+    ActorBase* getActorByName(const sead::SafeString& name, const sead::SafeString& entry) const;
+    // 0x7100da2e84 (CSV unnamed): same body as getActorByPointer (non-const copy; placeholder name)
+    ActorBase* sub_7100DA2E84(act::BaseProc* proc);
 
     /* 0x08 */ sead::PtrArray<ActorBase> mActors;
     /* 0x18 */ s32 _18;

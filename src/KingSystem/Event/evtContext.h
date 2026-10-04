@@ -8,6 +8,8 @@
 
 namespace ksys::evt {
 
+class ActorBase;
+
 // The event manager's event context (CSV evt::Context; EventMgr + 0x1d2b8 is the active one): the event
 // flows that make up a running event (the main flow and the flows it starts) and a stack of indices of the
 // flow that is currently running. Only the members used so far are declared.
@@ -24,6 +26,10 @@ public:
     // 0x7100dba314 / 0x7100dba360 (CSV evt::Context::getEventName / getEntryPointName)
     sead::SafeString getEventName() const;
     sead::SafeString getEntryPointName() const;
+    // 0x7100db9e38 (CSV evt::Context::getActorByPointer)
+    ActorBase* getActorByPointer(act::BaseProc* proc);
+    // 0x7100db9e64 (CSV evt::Context::getActorByName)
+    ActorBase* getActorByName(const sead::SafeString& name, const sead::SafeString& entry);
     // 0x7100dba2e4 (CSV evt::Context::setNoDeleteCurrentActor)
     void setNoDeleteCurrentActor(bool no_delete);
     // 0x7100db9b40 (CSV evt::Context::x): forwards to EventFlow::x of the current flow and sets `_1f4`.
