@@ -222,6 +222,11 @@ public:
     f32 sub_7100D13128() const;
     // 0x7100d146d8: the DynamicActor's m100() object has `_100 == 2`.
     bool sub_7100D146D8() const;
+    // 0x7100d0efa4: bit `idx` of Actor::mSpecialJobTypesMaskOverride.
+    bool sub_7100D0EFA4(s32 idx) const;
+    // 0x7100d15448 / 0x7100d154dc: Actor::_720 += 1 / -= 1 (atomically).
+    void sub_7100D15448() const;
+    void sub_7100D154DC() const;
     // 0x7100d13c64 / 0x7100d13d10: Unk_71006e45c4::m9() / m16() of Actor::m128().
     bool sub_7100D13C64() const;
     bool sub_7100D13D10() const;

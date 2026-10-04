@@ -822,7 +822,7 @@ protected:
     /* 0x714 */ float mLodLoadDistanceMultiplier = 1.0;
     /* 0x718 */ float _718 = 0.0;
     /* 0x71c */ sead::BitFlag32 mSignals;
-    /* 0x720 */ sead::BitFlag32 _720;
+    /* 0x720 */ sead::Atomic<u32> _720 = 0;  // incremented / decremented by ActorConstDataAccess::sub_7100D15448 / 154DC
     /* 0x728 */ void* _728 = nullptr;
     /* 0x730 */ u16 _730 = 0;
 public:

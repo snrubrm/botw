@@ -692,6 +692,23 @@ bool ActorConstDataAccess::sub_7100D146D8() const {
     return obj->_100 == 2;
 }
 
+bool ActorConstDataAccess::sub_7100D0EFA4(s32 idx) const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->mSpecialJobTypesMaskOverride.isOnBit(idx);
+}
+
+void ActorConstDataAccess::sub_7100D15448() const {
+    if (auto* actor = getActor())
+        actor->_720.increment();
+}
+
+void ActorConstDataAccess::sub_7100D154DC() const {
+    if (auto* actor = getActor())
+        actor->_720.decrement();
+}
+
 bool ActorConstDataAccess::sub_7100D13C64() const {
     auto* actor = getActor();
     if (!actor)
