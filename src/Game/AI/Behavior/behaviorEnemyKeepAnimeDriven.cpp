@@ -38,4 +38,10 @@ void EnemyKeepAnimeDriven::m8() {
     }
 }
 
+void EnemyKeepAnimeDriven::m9() {
+    auto* as_list = mActor->getASList();
+    if (_38 && as_list)
+        as_list->sub_710115CD0C();
+}
+
 }  // namespace uking::behavior
