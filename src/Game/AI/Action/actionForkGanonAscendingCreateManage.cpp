@@ -43,7 +43,7 @@ bool ForkGanonAscendingCreateManage::updateForPreDelete() {
 }
 
 void ForkGanonAscendingCreateManage::calc_() {
-    ksys::act::ai::Action::calc_();
+    _38.sub_710074456C();
 }
 
 bool ForkGanonAscendingCreateManage::hasUpdateForPreDeleteCb() {
