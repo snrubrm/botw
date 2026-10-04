@@ -175,7 +175,8 @@ public:
     /* 0x28 */ ScreenMgr* mMgr;
     /* 0x30 */ LayoutEx* mLayout;
     /* 0x38 */ ButtonGroup* mButtonGroup;
-    u8 _40[0x60 - 0x40];
+    /* 0x40 */ ListNode mControls;  // the screen's controls (ControlBase::_8 nodes); updated by updateControl_
+    u8 _50[0x60 - 0x50];
     /* 0x60 */ UIController* mUIController;
     u8 _68[0x78 - 0x68];
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)

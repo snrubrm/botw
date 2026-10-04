@@ -35,6 +35,8 @@ public:
 
     // 0x71010a9da0 (CSV ScreenBase::updateButton_; the game's Screen overrides it again and forwards to this one)
     void updateButton_() override;
+    // 0x71010a9eb8
+    void registerController_() override;
 };
 
 // Screen's second and third bases (offsets 0x108 / 0x110: the RxOnly / TxOnly message handler interfaces,

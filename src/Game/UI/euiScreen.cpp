@@ -1,10 +1,50 @@
+#include <controller/seadControllerMgr.h>
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiUIController.h"
 
 namespace eui {
+
+// 0x7100bea36c
+void Screen::updateControl_() {
+    const f32 step = getAnimationStep_();
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next)
+        ControlBase::fromNode(node)->Update(step);
+}
+
+// NON_MATCHING: the original tests the controller count with a signed compare (`cmp w8, #2; b.lt`) where the
+// inlined PtrArray::at gives an unsigned one (`b.lo`); everything else is identical.
+// 0x7100bea518
+void Screen::registerController_() {
+    auto* mgr = sead::ControllerMgr::instance();
+    if (!isEnableControl())
+        return;
+
+    if (!_104) {
+        mUIController->registerWith(sead::ControllerMgr::instance()->getController(0), true);
+    } else {
+        sead::Controller* controller = mgr->getController(1);
+        if (!controller)
+            return;
+        mUIController->registerWith(controller, true);
+    }
+}
+
+// 0x7100beab00
+LayoutEx* Screen::doCreateLayout_(sead::Heap* heap) {
+    return new (heap, 8) LayoutEx(this);
+}
+
+// 0x7100bea5b4
+void Screen::unregisterController_() {
+    if (isEnableControl()) {
+        mUIController->unregister();
+        mUIController->setIdle();
+    }
+}
 
 // 0x71009cf574
 void Screen::countEffectLinkPane_(nn::ui2d::Pane* pane, u32* count) {

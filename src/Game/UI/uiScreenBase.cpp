@@ -1,4 +1,5 @@
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/System/SeadController.h"
 
 namespace uking::ui {
 
@@ -13,6 +14,12 @@ f32 ScreenBase::getAnimationStep_() const {
 // 0x71010a9fc0 (CSV ScreenBase::getArchiveName_)
 const char* ScreenBase::getArchiveName_() const {
     return "Common";
+}
+
+// 0x71010a9eb8 (CSV ScreenBase::registerController_)
+void ScreenBase::registerController_() {
+    if (isEnableControl())
+        mUIController->registerWith(ksys::SeadController::getInstance(), false);
 }
 
 // NON_MATCHING (Screen::~Screen, 0x71010aa54c, and ScreenEx::~ScreenEx, 0x7100a47910): the original destructors

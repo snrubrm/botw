@@ -33,6 +33,8 @@ class Screen;
 // fields and functions used so far are declared.
 class LayoutEx {
 public:
+    // 0x7100bdd16c (not decompiled)
+    explicit LayoutEx(Screen* screen);
     virtual ~LayoutEx();
 
     // 0x7100bde308 / 0x7100bde39c
@@ -58,6 +60,8 @@ public:
     /* 0x80 */ Screen* mScreen;
     u8 _88[0x91 - 0x88];
     /* 0x91 */ u8 _91;
+    u8 _92[0x98 - 0x92];
 };
+static_assert(sizeof(LayoutEx) == 0x98);
 
 }  // namespace eui
