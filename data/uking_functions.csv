@@ -5085,7 +5085,7 @@ Address,Quality,Size,Name
 0x00000071000e6e5c,O,000020,_ZN5uking6action24DeleteAllIceBlockForDemoD1Ev
 0x00000071000e6e70,O,000052,_ZN5uking6action24DeleteAllIceBlockForDemoD0Ev
 0x00000071000e6ea4,O,000008,_ZN5uking6action24DeleteAllIceBlockForDemo5init_EPN4sead4HeapE
-0x00000071000e6eac,U,000040,_ZN5uking6action24DeleteAllIceBlockForDemo8oneShot_Ev
+0x00000071000e6eac,O,000040,_ZN5uking6action24DeleteAllIceBlockForDemo8oneShot_Ev
 0x00000071000e6ed4,O,000004,_ZN5uking6action24DeleteAllIceBlockForDemo11loadParams_Ev
 0x00000071000e6ed8,O,000288,_ZNK5uking6action24DeleteAllIceBlockForDemo27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071000e6ff8,O,000092,_ZNK5uking6action24DeleteAllIceBlockForDemo18getRuntimeTypeInfoEv
@@ -40345,7 +40345,7 @@ Address,Quality,Size,Name
 0x000000710066f5ec,U,000228,IceBlockMgr::__auto1
 0x000000710066f6d0,U,000228,
 0x000000710066f7b4,U,000272,IceBlockMgr::__auto3
-0x000000710066f8c4,U,000312,
+0x000000710066f8c4,U,000312,_ZN5uking11IceBlockMgr14sub_710066F8C4Ev
 0x000000710066f9fc,U,000424,
 0x000000710066fba4,U,001112,
 0x000000710066fffc,U,000648,

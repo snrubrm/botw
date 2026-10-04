@@ -23,6 +23,9 @@ class IceBlockMgr : public ksys::ActorMessageTransceiver::IHandler, public Unk_7
     ~IceBlockMgr() override;
 
 public:
+    // 0x710066f8c4: declaration only; removes all linked ice blocks.
+    void sub_710066F8C4();
+
     /* 0x038 */ u8 _38[0x60 - 0x38];  // a sead::FixedPtrArray<?, 3>
     /* 0x060 */ ksys::act::BaseProcLink _60;
     /* 0x070 */ ksys::act::BaseProcLink _70;
