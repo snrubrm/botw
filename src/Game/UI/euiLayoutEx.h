@@ -32,6 +32,9 @@ public:
     bool isAnimOpenEnd(bool b) const;
     bool isAnimCloseEnd(bool b) const;
 
+    // 0x7100bde0b4 (not decompiled)
+    void startAnimCloseImpl_(bool a1, bool a2);
+
     // 0x7100bdd41c / 0x7100bdd424 / 0x7100bdd980 / 0x7100bdd524
     Animator* createAnimatorAuto(const char* name, bool b);
     Animator* tryCreateAnimatorAuto(const char* name, bool b);
@@ -46,6 +49,8 @@ public:
     /* 0x60 */ Animator* mOpenAnimator;
     u8 _68[0x80 - 0x68];
     /* 0x80 */ Screen* mScreen;
+    u8 _88[0x91 - 0x88];
+    /* 0x91 */ u8 _91;
 };
 
 }  // namespace eui

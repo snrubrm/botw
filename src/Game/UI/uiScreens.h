@@ -777,9 +777,10 @@ public:
     ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
 
-    u8 _pad_3610[0x3648 - 0x3610];
+    /* 0x3610 */ eui::LayoutEx* _3610[7];
     /* 0x3648 */ eui::Animator* _3648;
-    u8 _pad_3650[0x3660 - 0x3650];
+    /* 0x3650 */ u16 _3650;  // bit n: minigame layout n is open
+    u8 _pad_3652[0x3660 - 0x3652];
     /* 0x3660 */ u64 _3660;
     /* 0x3668 */ u8 _3668;
     u8 _pad_3669[0x36e0 - 0x3669];
@@ -794,6 +795,8 @@ public:
     void sub_7100A28418(s32 a1);
 
     bool sub_7100A275EC(s32, s32);
+    // 0x7100a2747c (CSV unnamed; declared only)
+    bool sub_7100A2747C(s32 index, bool a2);
     void sub_7100A28088();
     bool openMinigameScreen(s32, s32);
 };
