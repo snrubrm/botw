@@ -3,6 +3,8 @@
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
 #include <math/seadBoundBox.h>
+#include <message/seadMessageSet.h>
+#include <prim/seadDelegate.h>
 #include <nn/gfx/gfx_Sampler.h>
 #include <nn/gfx/gfx_Texture.h>
 #include <nn/ui2d/DrawInfo.h>
@@ -14,6 +16,7 @@
 #include "Game/UI/euiTypes.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageString.h"
 
 namespace eui {
 
@@ -130,6 +133,31 @@ void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInf
         nn::ui2d::Material* material = pane->GetMaterial(i);
         if (index < material->GetTexMapCount())
             material->GetTexMapArray()[index].ReplaceTextureInfo(&info);
+    }
+}
+
+// NON_MATCHING: initial guards, marker tests and tag-loop blocks are lowered differently.
+// 0x7100bef968
+void ProcessMessageAppTag(
+    const MessageString& message,
+    sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback) {
+    const char16* text = message.getString();
+    const s32 length = message.getLength();
+    if (!text || length < 1)
+        return;
+    for (s32 i = 0; i < length;) {
+        const char16* cursor = text + i;
+        if (*cursor != 0xe && *cursor != 0xf) {
+            ++i;
+            continue;
+        }
+        const auto* tag = reinterpret_cast<const sead::MessageSet<char16>::TagInfo*>(cursor);
+        const char16* next =
+            *cursor == 0xe ? reinterpret_cast<const char16*>(tag->getParam() + tag->paramSize)
+                          : cursor + 3;
+        if (tag->group >= 2)
+            callback->invoke(tag);
+        i = next - text;
     }
 }
 
