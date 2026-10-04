@@ -8,6 +8,20 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: the separate mode/float stores are not combined with the pointer as a 64-bit pair.
+void BoneBlendState::sub_7101257920(const res::ASSetting::BoneParams* params) {
+    _20 = 1;
+    _24 = 0.0f;
+    _28 = params;
+}
+
+void BoneBlendState::sub_710125792C() {
+    _20 = 0;
+    _24 = 0.0f;
+    _28 = nullptr;
+}
+
+
 f32 Context::sub_710125A9A8() {
     return VFR::instance()->getDeltaFrame() * _e0 * _e4 *
            *mList->_d8->getParam()->getRes().mASList->getCommon().rate_all;

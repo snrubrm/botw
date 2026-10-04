@@ -60,7 +60,7 @@ void SelectorBase::m13(Context* ctx, State* state, const res::ASResource* resour
     child->m13(ctx, state, child_resource);
 }
 
-void SelectorBase::m15(Context* ctx, State* state, const res::ASResource* resource) {
+void SelectorBase::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {
     const s8 index = ctx->sub_7101258CD4(sub_71011653E8(resource))->_0;
     if (index < 0)
         return;

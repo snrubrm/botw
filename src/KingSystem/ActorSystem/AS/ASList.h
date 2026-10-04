@@ -341,6 +341,23 @@ public:
     /* 0x163 */ u8 _163;
 };
 
+// Recovered prefix of the separate m15 bone-blend record. Its queued entries after 0x30 are
+// not modelled; do not construct this partial declaration or infer its full size.
+struct BoneBlendState {
+    void sub_7101257920(const res::ASSetting::BoneParams* params);
+    void sub_710125792C();
+
+    s32 _0;
+    f32 weight;
+    void* _8;  // The slot's partial-bone object (Unk1::_30); its type is not recovered.
+    ASList::Unk2* _10;
+    s32 _18;
+    bool _1c;
+    s32 _20;
+    f32 _24;
+    const res::ASSetting::BoneParams* _28;
+};
+
 // 0x7101259c78 (declaration only): finds the first event of `type` whose mask has a bit of `mask` in the
 // context's event ring; copies its name / values into `query` (if given).
 bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASList::Unk2* entry);

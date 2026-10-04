@@ -72,7 +72,7 @@ void SyncPlayContainer::m14(Context* ctx, void* a2, EventState* a3, const res::A
     }
 }
 
-void SyncPlayContainer::m15(Context* ctx, State* state, const res::ASResource* resource) {
+void SyncPlayContainer::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {
     int index = 0;
     for (Element* child : mChildren) {
         const res::ASResource* child_resource = sub_71013031FC(resource, index);

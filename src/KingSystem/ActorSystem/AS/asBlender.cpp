@@ -39,7 +39,7 @@ void Blender::m11(Context* ctx, EventState* state, const res::ASResource* resour
     child2->sub_710116554C(ctx, state, child2_resource);
 }
 
-void Blender::m15(Context* ctx, State* state, const res::ASResource* resource) {
+void Blender::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     Element* child = mChildren[record->_0];
     const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);

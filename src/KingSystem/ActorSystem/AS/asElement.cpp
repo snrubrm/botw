@@ -85,7 +85,7 @@ void Element::m11(Context* ctx, EventState* state, const res::ASResource* resour
 void Element::m12(Context* ctx, State* state, const res::ASResource* resource) {}
 void Element::m13(Context* ctx, State* state, const res::ASResource* resource) {}
 void Element::m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {}
-void Element::m15(Context* ctx, State* state, const res::ASResource* resource) {}
+void Element::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {}
 void Element::m16(Context* ctx, const res::ASResource* resource, f32 value) {}
 void Element::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
                   f32 a6) {}

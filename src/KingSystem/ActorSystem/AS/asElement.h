@@ -33,6 +33,7 @@ namespace ksys::as {
 class Element;
 
 class ASList;
+struct BoneBlendState;
 
 // Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
 // (bit 1 = running?), a range [_4, _8] and more floats.
@@ -347,7 +348,7 @@ public:
     virtual void m12(Context* ctx, State* state, const res::ASResource* resource);
     virtual void m13(Context* ctx, State* state, const res::ASResource* resource);
     virtual void m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource);
-    virtual void m15(Context* ctx, State* state, const res::ASResource* resource);
+    virtual void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource);
     virtual void m16(Context* ctx, const res::ASResource* resource, f32 value);
     virtual void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
                      f32 a6);
@@ -386,7 +387,7 @@ public:
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) override;
-    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
              f32 a6) override;
@@ -611,7 +612,7 @@ public:
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) override;
-    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
              f32 a6) override;
@@ -652,6 +653,7 @@ public:
     BoneBlender();
 
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     bool m27(Context* ctx, const res::ASResource* resource) override;
     f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) override;
 };
@@ -724,7 +726,7 @@ public:
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) override;
-    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
              f32 a6) override;
