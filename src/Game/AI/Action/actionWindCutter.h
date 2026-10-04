@@ -23,6 +23,7 @@ protected:
     int m36() override;
     int m37() override;
     int m35() override;
+    int m39() override;
 
     // static_param at offset 0x80
     const int* mLevelAtkMult_s{};

@@ -39,6 +39,12 @@ void WindCutter::calc_() {
     ChemicalAttack::calc_();
 }
 
+int WindCutter::m39() {
+    if (sead::DynamicCast<ksys::act::Bullet>(mActor))
+        return *mAttackDirType_m;
+    return ChemicalAttack::m39();
+}
+
 int WindCutter::m35() {
     return 1;
 }

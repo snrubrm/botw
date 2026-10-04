@@ -2,6 +2,12 @@
 
 namespace uking::action {
 
+void NpcSwimNavMove::m34() {
+    if (m35().isEmpty())
+        return;
+    playAS(m35().cstr(), true, 0, 0, -1.0f);
+}
+
 NpcSwimNavMove::NpcSwimNavMove(const InitArg& arg) : RandomMoveAction(arg) {}
 
 NpcSwimNavMove::~NpcSwimNavMove() = default;

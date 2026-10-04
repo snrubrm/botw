@@ -2,6 +2,12 @@
 
 namespace uking::action {
 
+void NpcSwimMove::m32() {
+    if (m33().isEmpty())
+        return;
+    playAS(m33().cstr(), true, 0, 0, -1.0f);
+}
+
 NpcSwimMove::NpcSwimMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 NpcSwimMove::~NpcSwimMove() = default;
