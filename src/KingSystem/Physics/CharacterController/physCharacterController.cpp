@@ -1,5 +1,6 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include <cmath>
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/physConversions.h"
@@ -194,6 +195,20 @@ bool CharacterController::sub_7100F5F128() const {
 
 bool CharacterController::sub_7100F5F264() const {
     return _40->_69;
+}
+
+void CharacterController::sub_7100F5F670() {
+    if (!(_114 & 0x3c0))
+        return;
+    if (_114 & 0x40)
+        sub_7100F5F458(act::MotionType::_0);
+    else if (_114 & 0x80)
+        sub_7100F5F458(act::MotionType::_1);
+    else if (_114 & 0x100)
+        sub_7100F5F458(act::MotionType::_2);
+    else if (_114 & 0x200)
+        sub_7100F5F458(act::MotionType::Hover);
+    _114 &= 0xfc3f;
 }
 
 void CharacterController::sub_7100F60458() {
