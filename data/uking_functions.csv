@@ -68135,7 +68135,7 @@ Address,Quality,Size,Name
 0x0000007100bddd64,O,000120,_ZN3eui8LayoutEx33setMessageStringForEachIdWithPageEPKcRKNS_13MessageStringEPbjbPv
 0x0000007100bddddc,O,000028,_ZN3eui8LayoutEx15findPartsLayoutEPKc
 0x0000007100bdddf8,U,000132,
-0x0000007100bdde7c,U,000568,
+0x0000007100bdde7c,m,000568,_ZN3eui8LayoutEx14sub_7100BDDE7CEbib
 0x0000007100bde0b4,m,000488,_ZN3eui8LayoutEx19startAnimCloseImpl_Ebb
 0x0000007100bde29c,O,000108,_ZN3eui8LayoutEx14sub_7100BDE29CEb
 0x0000007100bde308,O,000148,_ZNK3eui8LayoutEx13isAnimOpenEndEb

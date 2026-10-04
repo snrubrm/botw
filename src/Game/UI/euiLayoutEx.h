@@ -71,6 +71,7 @@ public:
     // 0x7100bde0b4
     void startAnimCloseImpl_(bool a1, bool a2);
     void sub_7100BDE29C(bool recursive);
+    void sub_7100BDDE7C(bool recursive, s32 mode, bool force);
 
     // 0x7100bdd41c / 0x7100bdd424 / 0x7100bdd980 / 0x7100bdd524
     Animator* createAnimatorAuto(const char* name, bool b);

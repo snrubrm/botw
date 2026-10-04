@@ -68,6 +68,50 @@ nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* r
     return layout;
 }
 
+// NON_MATCHING: waiting-animation branches and StringBuilder initialization are scheduled differently.
+// 0x7100bdde7c
+void LayoutEx::sub_7100BDDE7C(bool recursive, s32 mode, bool force) {
+    const bool reverse = mOpenAnimator && !mCloseAnimator && mOpenAnimator->mRate < 0;
+    if (recursive || force) {
+        if (mOpenAnimator) {
+            Animator* close = mCloseAnimator;
+            if (close) {
+                close->nn::ui2d::AnimTransform::SetEnabled(false);
+                close->mRate = 0;
+            }
+            if (mode == 1) {
+                mOpenAnimator->StopAtMax();
+                _91 = 2;
+            } else if (mode == 2) {
+                mOpenAnimator->StopAtMin();
+                _91 = 0;
+            } else {
+                if (reverse)
+                    mOpenAnimator->PlayFromCurrent(Animator::PlayType(0), 1.0f);
+                else
+                    mOpenAnimator->PlayAuto(1.0f);
+                if (mScreen && mScreen->_f0 && _88 && !_88->mPane->GetParent()) {
+                    sead::FixedStringBuilder<64> name;
+                    name.copy(mPane->GetName());
+                    name.append("_open", -1);
+                    mScreen->invokeSoundLink2Event_(name.cstr());
+                }
+                _91 = 1;
+            }
+        } else if (mCloseAnimator) {
+            mCloseAnimator->StopAtMin();
+        }
+    }
+    if (_70 && !reverse && (!mOpenAnimator || force || recursive)) {
+        if (_90 & 2)
+            _70->PlayRandom(Animator::PlayType(1), 1.0f);
+        else
+            _70->PlayAuto(1.0f);
+    }
+    for (auto& part : mPartsLayoutList)
+        static_cast<LayoutEx*>(part.layout)->sub_7100BDDE7C(recursive, mode, false);
+}
+
 // 0x7100bddddc
 LayoutEx* LayoutEx::findPartsLayout(const char* name) {
     nn::ui2d::Parts* parts = FindPartsPaneByName(name);
