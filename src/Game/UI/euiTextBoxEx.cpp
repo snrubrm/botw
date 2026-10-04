@@ -2,6 +2,8 @@
 #include <nn/ui2d/ResExtUserData.h>
 #include <prim/seadSafeString.h>
 #include <math/seadMathCalcCommon.h>
+#include <nn/font/font_TextWriterBase.h>
+#include <cfloat>
 
 namespace eui {
 
@@ -106,6 +108,39 @@ u16 TextBoxEx::SetString(const u16* string, u16, u16 length) {
 u16 TextBoxEx::setStringWithPage(const char16* string, u16 length, bool* has_next_page, u32 page,
                                bool flag, void* user_data) {
     return m41(string, length, has_next_page, page, flag, user_data);
+}
+
+// NON_MATCHING: temporary stack placement and final size-update scheduling differ.
+// 0x7100be2ba4
+void TextBoxEx::adjustText_(LayoutEx* layout) {
+    if (!mTextLength || !GetFont())
+        return;
+    f32 min_scale = 0.0f;
+    if (!getTextAdjustMinScale_(&min_scale))
+        return;
+    if (!layout && IsLocationAdjust()) {
+        const auto* data = FindExtUserDataByName("TextScaleOn");
+        nn::ui2d::Size size = GetFontSize();
+        if (data && data->GetCount() == 2)
+            size.width = GetFont()->GetWidth() * data->GetFloatArray()[1];
+        else
+            size.width = GetFont()->GetWidth() * (size.height / GetFont()->GetHeight());
+        SetFontSize(size);
+    }
+    f32 width = 0.0f;
+    if (mTextLength && GetFont()) {
+        nn::font::TextWriterBase<u16> writer;
+        SetupTextWriter(&writer);
+        writer.SetWidthLimit(FLT_MAX);
+        width = writer.CalculateStringWidth(mTextBuf, mTextLength);
+    }
+    if (width > GetSize().width) {
+        nn::ui2d::Size size = GetFontSize();
+        size.width *= sead::Mathf::max(GetSize().width / width, min_scale);
+        SetFontSize(size);
+        SetLocationAdjust(true);
+        SetGlobalMatrixDirty(true);
+    }
 }
 
 // 0x7100be2d58
