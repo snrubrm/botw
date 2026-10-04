@@ -25,6 +25,8 @@ target_sources(uking PRIVATE
   euiControlBase.cpp
   euiControlBase.h
   euiLayoutEx.cpp
+  euiLetterAnimControl.cpp
+  euiLetterAnimControl.h
   euiLayoutEx.h
   euiButton.h
   euiMessageString.cpp
