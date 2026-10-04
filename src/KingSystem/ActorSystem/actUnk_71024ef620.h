@@ -10,6 +10,10 @@ class CharacterController;
 class RigidBody;
 }  // namespace ksys::phys
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -32,6 +36,9 @@ public:
     void sub_7100EBB60C();
     // 0x7100ebb624: keeps only the vertical component of the body's linear velocity.
     void sub_7100EBB624();
+
+    // 0x7100eba9f0 (declared only): updates the surfing animation from the actor AS list.
+    void sub_7100EBA9F0(as::ASList* as_list, bool flag);
 
     /* 0x08 */ Actor* _8 = nullptr;
     /* 0x10 */ phys::RigidBody* _10;
