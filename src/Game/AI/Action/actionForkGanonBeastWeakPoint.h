@@ -18,7 +18,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    virtual void m32(s32 point, s32 target_slot);
 
     // static_param at offset 0x30
     const int* mTargetSlotIdx_s{};

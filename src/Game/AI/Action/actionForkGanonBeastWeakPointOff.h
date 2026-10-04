@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(s32 point, s32 target_slot) override;
     u8 _50[0x54 - 0x50];
     int _54 = 0;
 };
