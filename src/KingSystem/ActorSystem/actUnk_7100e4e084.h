@@ -32,6 +32,11 @@ public:
     bool sub_7100E502B8() const;
     void sub_7100E502EC(BaseProc* proc);
     bool sub_7100E50334(ActorConstDataAccess* accessor);
+    // Declared only (Carried::enter_): 0x7100e50450 (sets the carrier on the actor's `+0x6a8` object),
+    // 0x7100e4fce8 (rotates `_80` towards the matrix), 0x7100e4edb8.
+    void sub_7100E50450(Actor* carrier);
+    void sub_7100E4FCE8(f32 a, const sead::Matrix34f* mtx);
+    f32 sub_7100E4EDB8();
 
     /* 0x000 */ Actor* mActor;
     /* 0x008 */ sead::CriticalSection _8;

@@ -162,6 +162,8 @@ bool sub_710072F8E4(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
 /// 0x710072dc9c: sets the gravity factor of the actor's character controller, or of its main body
 /// without one. Placeholder name.
 void sub_710072DC9C(ksys::act::Actor* actor, f32 factor);
+/// 0x710072dc58 (declared only): the character controller's gravity factor (or the main body's, else 1.0).
+f32 sub_710072DC58(ksys::act::Actor* actor);
 /// 0x710072cb78 (declared only): sub_710072F28C from the actor's position (NaN) to `target` with the
 /// tolerance `a3` and the other two default (-1); a4 is passed as the integer argument 5. Placeholder
 /// name.

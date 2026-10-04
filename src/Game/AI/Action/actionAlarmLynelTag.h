@@ -18,6 +18,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710008b5a4 (declared only): JobQueueLock-guarded sender payload fill, then sends to the linked actors.
+    void sub_710008B5A4();
+
     // map_unit_param at offset 0x20
     const int* mAlarmPoint_m{};
 };

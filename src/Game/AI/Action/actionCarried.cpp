@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::action {
 
@@ -21,7 +24,51 @@ bool Carried::init_(sead::Heap* heap) {
 }
 
 void Carried::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    auto* carrier = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent());
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_4000);
+    _68 = 0;
+    if (*mIsOnBaseLink_s)
+        actor->emitBasicSigOn();
+    _110.x();
+    _110.x_0();
+    auto* bind = m34();
+    bind->x(sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent()));
+    m35();
+    bind->_18 = true;
+    if (auto* unit = actor->m100()) {
+        unit->sub_7100E50450(carrier);
+        unit->_124 = sub_710072DC58(actor);
+        sead::Matrix34f mtx;
+        if (m33(&mtx, &sub_71005DC5AC(actor))) {
+            const sead::Matrix34f converted = _110.x_1(mtx);
+            unit->sub_7100E4FCE8(60.0f * sead::Mathf::pi(), &converted);
+            _110.x_2(mtx);
+        } else {
+            unit->sub_7100E4FCE8(60.0f * sead::Mathf::pi(), &actor->getMtx());
+        }
+        const f32 a = unit->sub_7100E4EDB8();
+        if (getGParamList() && getGParamList()->getLiftable()) {
+            _110.x_3(a, f32(getGParamList()->getLiftable()->mLiftRotFrame.ref()));
+        }
+        m36(&sub_71005DC57C(actor));
+    }
+    actor->sub_71011DA824(bind);
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent())) {
+        sub_7100738C88(actor, parent);
+        sub_7100738D28(actor, parent);
+    }
+    actor->x_22(sead::Vector3f::zero, sead::Vector3f::zero);
+    if (*mIsCreateItem_s && actor->getMapObject()) {
+        _110.updateIsDroppedFlag();
+        actor->createDrops(0, 0);
+    }
+    _110.x_5();
+    _110.x_6();
+    if (!mHoldOnXLinkKey_s.isEmpty())
+        xlinkSearchAndEmit(mActor, mHoldOnXLinkKey_s.cstr(), 1, nullptr);
+    if (*mIsChangeable_s)
+        mFlags.set(Flag::Changeable);
 }
 
 void Carried::loadParams_() {

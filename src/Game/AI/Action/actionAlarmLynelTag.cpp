@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAlarmLynelTag.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -23,7 +24,10 @@ void AlarmLynelTag::loadParams_() {
 }
 
 void AlarmLynelTag::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->checkBasicSig()) {
+        sub_710008B5A4();
+        mActor->m107();
+    }
 }
 
 }  // namespace uking::action

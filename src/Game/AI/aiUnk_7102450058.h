@@ -33,6 +33,16 @@ public:
     // called directly (devirtualised) by Carried::leave_). The matrix / vector are passed by value.
     void x_10();
     void x_11();
+    // 0x71006f9460 / 0x71006f8ad4 (CSV CarriedData::x / x_0) / 0x71006f3e80 / 0x71006f4f78 / 0x71006f4128 /
+    // 0x71006f41f4 / 0x71006f536c / 0x71006f5484 (declared only; signatures from Carried::enter_).
+    void x();
+    void x_0();
+    sead::Matrix34f x_1(const sead::Matrix34f& mtx);
+    void x_2(sead::Matrix34f mtx);
+    void x_3(f32 a, f32 b);
+    void x_5();
+    void x_6();
+    void updateIsDroppedFlag();
     void x_12();
     void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
 
