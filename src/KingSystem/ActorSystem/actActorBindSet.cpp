@@ -77,9 +77,10 @@ bool ActorBindEntry::sub_7101255A0C(BaseProc* proc) {
     } else {
         auto* unit = actor->mModel->getUnits().unsafeAt(mKeyA.getKey().model_unit_index)->mModelUnit;
         if (mFlags & 4) {
-            const f32 inv_x = sead::Vector3f::ones.x / scale.x;
-            const f32 inv_y = sead::Vector3f::ones.y / scale.y;
-            const f32 inv_z = sead::Vector3f::ones.z / scale.z;
+            const sead::Vector3f ones = sead::Vector3f::ones;
+            const f32 inv_x = ones.x / scale.x;
+            const f32 inv_y = ones.y / scale.y;
+            const f32 inv_z = ones.z / scale.z;
             unit->getBoneWorldMatrix(&local, mKeyA.getKey().bone_index);
             local.scaleBases(inv_x, inv_y, inv_z);
         } else {
@@ -100,8 +101,6 @@ bool ActorBindEntry::sub_7101255A0C(BaseProc* proc) {
     return true;
 }
 
-// NON_MATCHING: instruction scheduling only: the loads of `Vector3f::ones` come before the unit lookup and the
-// divisions are spread differently around the loads of the unit and the bone index
 bool ActorBindEntry::sub_7101255D50(BaseProc* proc) {
     if (mFlags & 1)
         return false;
@@ -114,9 +113,10 @@ bool ActorBindEntry::sub_7101255D50(BaseProc* proc) {
     if (mFlags & 2) {
         local = actor->mMtx;
     } else {
-        const f32 inv_x = sead::Vector3f::ones.x / scale.x;
-        const f32 inv_y = sead::Vector3f::ones.y / scale.y;
-        const f32 inv_z = sead::Vector3f::ones.z / scale.z;
+        const sead::Vector3f ones = sead::Vector3f::ones;
+        const f32 inv_x = ones.x / scale.x;
+        const f32 inv_y = ones.y / scale.y;
+        const f32 inv_z = ones.z / scale.z;
         auto* unit = actor->mModel->getUnits().unsafeAt(mKeyA.getKey().model_unit_index)->mModelUnit;
         unit->getBoneWorldMatrix(&local, mKeyA.getKey().bone_index);
         local.scaleBases(inv_x, inv_y, inv_z);
