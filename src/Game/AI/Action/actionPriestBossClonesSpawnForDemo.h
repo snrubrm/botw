@@ -20,6 +20,7 @@ protected:
     bool sub_7100066884();
     void calc_() override;
     virtual int m32();
+    virtual f32 m33(f32 t);
 
     // dynamic_param at offset 0x20
     int* mDurationFrame_d{};

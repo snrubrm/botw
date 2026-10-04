@@ -16,6 +16,7 @@ public:
 
 protected:
     void calc_() override;
+    void m33(void* a, ksys::phys::NavMeshCharacter* nav) override;
 
     // static_param at offset 0x38
     const float* mRadiusLimit_s{};

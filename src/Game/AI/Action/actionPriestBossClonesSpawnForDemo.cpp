@@ -42,4 +42,13 @@ int PriestBossClonesSpawnForDemo::m32() {
     return 1;
 }
 
+f32 PriestBossClonesSpawnForDemo::m33(f32 t) {
+    t -= 1.0f;
+    return (t * t - 1.0f) + 1.0f;
+}
+
+bool PriestBossClonesSpawnForDemo::sub_7100066884() {
+    return _5c >= f32(*mDurationFrame_d);
+}
+
 }  // namespace uking::action

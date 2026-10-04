@@ -7,6 +7,10 @@ namespace uking::action {
 
 DefRandomMoveAction::DefRandomMoveAction(const InitArg& arg) : RandomMoveAction(arg) {}
 
+void DefRandomMoveAction::m33(void* a, ksys::phys::NavMeshCharacter* nav) {
+    RandomMoveAction::m33(a, nav);
+}
+
 void DefRandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     RandomMoveAction::enter_(params);
 }

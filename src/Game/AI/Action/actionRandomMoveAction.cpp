@@ -25,6 +25,10 @@ void RandomMoveAction::leave_() {
     }
 }
 
+void RandomMoveAction::m33(void*, ksys::phys::NavMeshCharacter* nav) {
+    nav->sub_7100F76790();
+}
+
 void RandomMoveAction::loadParams_() {
     getStaticParam(&mIsSuccessWhenGoalReached_s, "IsSuccessWhenGoalReached");
 }

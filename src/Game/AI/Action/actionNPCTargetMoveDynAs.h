@@ -14,6 +14,9 @@ public:
     void loadParams_() override;
 
 protected:
+    void m34() override;
+    sead::SafeString m35() override;
+
     // dynamic_param at offset 0x178
     sead::SafeString mDynASKeyName_d{};
 };

@@ -3,6 +3,10 @@
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}
+
 namespace uking::action {
 
 class RandomMoveAction : public ksys::act::ai::Action {
@@ -22,6 +26,8 @@ protected:
     void calc_() override;
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual bool m32() { return false; }
+    // The first parameter is unused; signature is a guess (0x7100d33e10).
+    virtual void m33(void*, ksys::phys::NavMeshCharacter* nav);
 
     // static_param at offset 0x20
     const bool* mIsSuccessWhenGoalReached_s{};

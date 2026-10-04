@@ -19,7 +19,7 @@ public:
 protected:
     void calc_() override;
     virtual void m34();
-    virtual void m35();
+    virtual sead::SafeString m35();
 
     // static_param at offset 0x38
     const int* mUpdateTargetPosInterval_s{};
@@ -41,6 +41,8 @@ protected:
     sead::SafeString mASKeyName_s{};
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
+    // 0x90-0x178: state (not yet decompiled; enter_/calc_ use it)
+    u8 _90[0xe8];
 };
 
 }  // namespace uking::action

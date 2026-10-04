@@ -36,4 +36,12 @@ void NPCTargetMove::calc_() {
     RandomMoveAction::calc_();
 }
 
+void NPCTargetMove::m34() {
+    playAS(mASKeyName_s.cstr(), true, 0, 0, -1.0f);
+}
+
+sead::SafeString NPCTargetMove::m35() {
+    return mASKeyName_s;
+}
+
 }  // namespace uking::action
