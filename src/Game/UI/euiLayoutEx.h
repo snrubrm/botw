@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <nn/ui2d/Layout.h>
+#include "Game/UI/euiTypes.h"
 
 namespace nn::ui2d {
 class Pane;
@@ -66,6 +67,8 @@ public:
     // 0x7100bde308 / 0x7100bde39c
     bool isAnimOpenEnd(bool b) const;
     bool isAnimCloseEnd(bool b) const;
+
+    void setDrawTargetAnim(DrawTarget target);
 
     // 0x7100bde0b4 (not decompiled)
     void startAnimCloseImpl_(bool a1, bool a2);

@@ -52,6 +52,25 @@ bool LayoutEx::isAnimCloseEnd(bool recursive) const {
     return true;
 }
 
+// 0x7100bde620
+bool LayoutEx::BuildImpl(nn::ui2d::BuildResultInformation* result, nn::gfx::Device* device,
+                         const void* data, nn::ui2d::ResourceAccessor* accessor,
+                         const nn::ui2d::BuildArgSet& args,
+                         const nn::ui2d::Layout::PartsBuildDataSet* parts) {
+    const bool built = nn::ui2d::Layout::BuildImpl(result, device, data, accessor, args, parts);
+    if (built)
+        doInitializeDefalutAnimator_();
+    return built;
+}
+
+// 0x7100bde458
+void LayoutEx::setDrawTargetAnim(DrawTarget target) {
+    if (_78)
+        _78->Stop(int(target));
+    for (auto& part : mPartsLayoutList)
+        static_cast<LayoutEx*>(part.layout)->setDrawTargetAnim(target);
+}
+
 // 0x7100bdd41c
 Animator* LayoutEx::createAnimatorAuto(const char* name, bool b) {
     return tryCreateAnimatorAuto(name, b);
