@@ -9,8 +9,15 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::action {
+namespace {
+const u32 sAttackTypes[] = {0x2000, 0x10, 0x8000, 0x800};
+}
+
 
 ForkNoWeaponAttackBase::ForkNoWeaponAttackBase(const InitArg& arg)
     : ForkAttackWithWeaponOrWithout(arg) {}
@@ -62,6 +69,37 @@ int ForkNoWeaponAttackBase::m33() {
     else
         power = std::max(static_cast<ksys::act::PlayerOrEnemy*>(actor)->getEnemyAtkPower(), 1);
     return s32(power * *mAttackPowerScale_s);
+}
+
+// NON_MATCHING: the checked unsigned type index is loaded before the sensor query.
+void ForkNoWeaponAttackBase::sub_710015E4E8(const sead::SafeString& direction) {
+    auto* actor = mActor;
+    if (mAtkBodyName_s[0].isEmpty()) {
+        if (auto* bodies = actor->getRigidBodyByName(ksys::act::getStr_Atk().cstr())) {
+            for (int i = 0; i < bodies->getRigidBodies().size(); ++i)
+                sub_71007A2B64(bodies->getRigidBody(i), nullptr);
+        }
+    } else {
+        sub_71007A2C30(actor, mAtkBodyName_s[0], nullptr);
+        if (!mAtkBodyName_s[1].isEmpty()) {
+            sub_71007A2C30(actor, mAtkBodyName_s[1], nullptr);
+            if (!mAtkBodyName_s[2].isEmpty())
+                sub_71007A2C30(actor, mAtkBodyName_s[2], nullptr);
+        }
+    }
+
+    u32 type = *mAttackType_s;
+    getActorAttackSensor(actor)->activateAttackSensor(
+        type < 4 ? sAttackTypes[type] : 0x2000, sub_7100146FA0(), m33(), m32(), 0.0f,
+        m34(), 1, sub_71007A3A8C(&direction), false, m35(), -1);
+
+    ksys::act::Chemical* chemical;
+    if (mChmName1_s.isEmpty())
+        chemical = mActor->getChemicalStuff();
+    else
+        chemical = mActor->sub_71011D8A54(mChmName1_s);
+    if (chemical)
+        chemical->_c |= 0x20;
 }
 
 // NON_MATCHING: probably the same loop shape as PunchAttack::calc_ (the original loads *cNullChar once up front)
