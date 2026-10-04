@@ -8,6 +8,21 @@ ArcResourceMgr::ArcResourceMgr() {
     mArchives.initOffset(offsetof(ArcResource, mNode));
 }
 
+// 0x7101407a40
+void ArcResourceMgr::loadArchivesInDirectory(sead::Heap* heap, const sead::SafeString& path) {
+    sead::FixedSafeString<256> path_no_drive;
+    sead::FileDevice* device = sead::FileDeviceMgr::instance()->findDeviceFromPath(path, &path_no_drive);
+    sead::DirectoryHandle handle;
+    if (device->tryOpenDirectory(&handle, path_no_drive)) {
+        sead::DirectoryEntry entry;
+        while (handle.read(&entry, 1)) {
+            if (!entry.is_directory)
+                loadArchive(heap, sead::FormatFixedSafeString<256>("%s/%s", path_no_drive.cstr(),
+                                                                 entry.name.cstr()));
+        }
+    }
+}
+
 // 0x7101407e4c
 u8* ArcResourceMgr::findArchiveData(const sead::SafeString& name) const {
     for (const auto& archive : mArchives) {
