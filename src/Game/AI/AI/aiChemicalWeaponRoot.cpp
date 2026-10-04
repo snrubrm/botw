@@ -22,6 +22,8 @@ void ChemicalWeaponRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     m44();
 }
 
+// NON_MATCHING: the original calls weapon->m214() before sub_71012412E4 and passes the raw byte `_e8` when it is
+// false; the natural `m214() || _e8` argument is evaluated after the call and adds cmp/cset
 void ChemicalWeaponRoot::sub_7100348B18() {
     auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
     if (!weapon)
@@ -70,9 +72,8 @@ void ChemicalWeaponRoot::sub_7100348B18() {
         as_list->sub_710115F1D8(0, 1, ratio);
     }
 
-    const s32 enabled = weapon->m214() ? 1 : _e8;
     sub_71012412E4(mActor, 27, ratio, false);
-    xlinkEventOn(mActor, 28, enabled, false);
+    xlinkEventOn(mActor, 28, weapon->m214() || _e8, false);
 }
 
 void ChemicalWeaponRoot::calc_() {

@@ -124,6 +124,8 @@ void DragonFireRoot::sub_7100368674() {
     }
 }
 
+// NON_MATCHING: the original's loop-internal `return` has no cleanup state machine (the SafeString temporary is
+// destroyed before the return); our natural form builds one (different size and prologue register use)
 ksys::act::Actor* DragonFireRoot::sub_71003687B4() {
     const sead::SafeString holder_name = "DragonFireEffectHolder";
     if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
@@ -137,8 +139,7 @@ ksys::act::Actor* DragonFireRoot::sub_71003687B4() {
                         auto* linked = objects(i);
                         if (!linked)
                             continue;
-                        const bool is_holder = holder_name == sead::SafeString(linked->getUnitConfigName());
-                        if (is_holder)
+                        if (holder_name == sead::SafeString(linked->getUnitConfigName()))
                             return linked->tryGetActor(false);
                     }
                 }
