@@ -47,6 +47,7 @@ public:
     void sub_710066074C(ActorContextStuff* context, s32 index, bool for_menu,
                       ksys::phys::SystemGroupHandler* handler, sead::Heap* heap);
     bool sub_7100661540(const ksys::act::BaseProcLink& link) const;
+    bool sub_7100661548(ksys::act::BaseProc* proc);
     bool sub_7100661650(ksys::act::BaseProcLink* link);
     bool sub_710066178C(sead::BufferedSafeString* out);
     void sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const;
@@ -128,6 +129,9 @@ public:
     // 0x710065f1f0 / 0x710065f954: active scene-context scale and carry flag.
     f32 sub_710065F1F0(f32 scale);
     bool sub_710065F954() const;
+    // 0x710065f258 / 65f544: remove the matching carried entry.
+    bool sub_710065F258(ksys::act::BaseProcLink* link, bool immediately);
+    bool sub_710065F544(ksys::act::BaseProc* proc);
     // 0x710065f80c: the link of the carried actor at index, or null.
     ksys::act::BaseProcLink* sub_710065F80C(s32 index);
     // 0x710065f894: copies active actor names into the fixed-string buffer.

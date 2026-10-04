@@ -131,6 +131,11 @@ bool Unk_710243be90::sub_7100661540(const ksys::act::BaseProcLink& link) const {
     return _30 == link;
 }
 
+bool Unk_710243be90::sub_7100661548(ksys::act::BaseProc* proc) {
+    ksys::act::ActorConstDataAccess accessor;
+    return ksys::act::acquireActor(&_30, &accessor) && accessor.getName() == proc->getName();
+}
+
 bool Unk_710243be90::sub_7100661650(ksys::act::BaseProcLink* link) {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::ActorConstDataAccess other;
