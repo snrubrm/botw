@@ -11,6 +11,7 @@
 namespace ksys::evt {
 
 class ActionBase;
+class Action;
 class Query;
 
 // The event-side actor (CSV evt::ActorBase; the 0x1d0-byte evt::Actor derives from it, ctor 0x7100da7ed8 takes an
@@ -42,7 +43,7 @@ public:
     /* 0x080 */ sead::FixedSafeString<64> mSubName;
     /* 0x0d8 */ s32 mState;
     /* 0x0dc */ u8 _dc[0xe8 - 0xdc];
-    /* 0x0e8 */ sead::PtrArray<ActionBase> mActions;
+    /* 0x0e8 */ sead::PtrArray<ActionBase> mActions;  // the elements are Action objects
     /* 0x0f8 */ sead::PtrArray<Query> mQueries;
     /* 0x108 */ u8 _108[0x1b4 - 0x108];
     /* 0x1b4 */ bool _1b4;
@@ -61,6 +62,8 @@ public:
     // 0x7100dab548 / 0x7100dac578 (CSV unnamed; placeholder names)
     void sub_7100DAB548();
     void sub_7100DAC578();
+    // 0x7100daa2e0 (CSV unnamed; placeholder name): the state is one of 9-20 / 27
+    bool sub_7100DAA2E0() const;
 };
 
 }  // namespace ksys::evt
