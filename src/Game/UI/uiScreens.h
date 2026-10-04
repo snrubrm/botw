@@ -38,6 +38,7 @@ public:
     void updateButton_() override;
     // 0x71010a9eb8
     void registerController_() override;
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 };
 
 // Base class of the screens' child components (elements of Screen::mChildren at 0x250; the 24 classes with a

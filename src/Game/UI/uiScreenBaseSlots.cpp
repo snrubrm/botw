@@ -1,6 +1,7 @@
 #include "Game/UI/uiScreens.h"
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiTagProcessor.h"
 
 namespace eui {
 
@@ -10,6 +11,11 @@ void Screen::m13() {}
 }  // namespace eui
 
 namespace uking::ui {
+
+// 0x71010a9f04
+eui::TagProcessor* ScreenBase::doCreateTagProcessor_(sead::Heap* heap) {
+    return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
+}
 
 // 0x71009cf8a4
 void Screen::m80(bool visible) {

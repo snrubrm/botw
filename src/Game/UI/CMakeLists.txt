@@ -133,6 +133,8 @@ target_sources(uking PRIVATE
   uiUnk_71025d69f0.cpp
   uiUnk_71025d6550.cpp
   uiUnk_71025d6578.cpp
+  uiTagProcessor.cpp
+  uiTagProcessor.h
   uiTexSlots.cpp
   uiTexSlots.h
   uiUnkTiny.cpp
