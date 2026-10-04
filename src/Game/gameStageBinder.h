@@ -8,13 +8,62 @@
 
 namespace uking {
 
+// Two empty polymorphic helper classes (RTTI base + virtual destructor) that every binder embeds (the Title /
+// Viewer binders at 0x30 / 0x38, the OpenWorld one at 0x210 / 0x218). Their out-of-line functions sit in the
+// binders' TU (0x71007bee20-0x71007befc4). Names: placeholders after their vtables.
+class Unk_710245abf0 {
+    SEAD_RTTI_BASE(Unk_710245abf0)
+public:
+    virtual ~Unk_710245abf0();
+};
+
+class Unk_710245ac20 {
+    SEAD_RTTI_BASE(Unk_710245ac20)
+public:
+    virtual ~Unk_710245ac20();
+
+    /* 0x08 */ bool _8;  // set by the stages' postInit
+};
+
+// Base of the "arg" classes (RTTI base only; its typeinfo is checked by OpenWorldStageArg's checkDerived...;
+// the name is a guess after OpenWorldStageArg). The virtuals are the binder interface of the arg: slots 4 / 5
+// return 0 in OpenWorldStageArg.
+class StageArg {
+    SEAD_RTTI_BASE(StageArg)
+public:
+    virtual ~StageArg() = default;
+
+    virtual s32 m4() = 0;
+    virtual s32 m5() = 0;
+    virtual void setHeap(sead::Heap* heap) = 0;
+    virtual s32 m7() = 0;
+    virtual const sead::SafeString& m8() = 0;
+    virtual const sead::SafeString& m9() = 0;
+    virtual const sead::SafeString& m10() = 0;
+    virtual s32 m11() = 0;
+    virtual bool m12() = 0;
+};
+
 // A stage (OpenWorldStage, IndoorStage, MainFieldDungeonStage, TitleStage, StartupSaveCheckStage, ViewerStage)
-// created from a binder by StageFactory::create (0x71007cbeac). Only its RTTI + virtual (deleting) destructor
-// are known (StageBinder's destructor deletes it through vtable slot 3).
+// created from a binder by StageFactory::create (0x71007cbeac), which calls init(binder arg) and then
+// postInit(binder helpers). Slot names after the CSV where it has some (init, postInit, preCalc, calc, postCalc,
+// unload, unloadOk, initForStageGen); the destructor is trivial (StageBinder's destructor deletes the stage through
+// slot 3).
 class Stage {
     SEAD_RTTI_BASE(Stage)
 public:
-    virtual ~Stage();
+    virtual ~Stage() = default;
+
+    virtual s32 getType() = 0;
+    virtual bool init(StageArg* arg) = 0;
+    virtual void postInit(Unk_710245ac20* a, Unk_710245abf0* b) = 0;
+    virtual void preCalc() = 0;
+    virtual void calc() = 0;
+    virtual void postCalc() = 0;
+    virtual void unload() = 0;
+    virtual bool unloadOk() = 0;
+    virtual void initForStageGen() = 0;
+    virtual void m13() = 0;
 };
 
 // Describes the stage to create (the type, the map type / name, ...) and owns the created stage. The 13 virtuals
@@ -49,40 +98,6 @@ public:
 
 protected:
     /* 0x08 */ Stage* mStage;
-};
-
-// Two empty polymorphic helper classes (RTTI base + virtual destructor) that every binder embeds (the Title /
-// Viewer binders at 0x30 / 0x38, the OpenWorld one at 0x210 / 0x218). Their out-of-line functions sit in the
-// binders' TU (0x71007bee20-0x71007befc4). Names: placeholders after their vtables.
-class Unk_710245abf0 {
-    SEAD_RTTI_BASE(Unk_710245abf0)
-public:
-    virtual ~Unk_710245abf0();
-};
-
-class Unk_710245ac20 {
-    SEAD_RTTI_BASE(Unk_710245ac20)
-public:
-    virtual ~Unk_710245ac20();
-};
-
-// Base of the "arg" classes (RTTI base only; its typeinfo is checked by OpenWorldStageArg's checkDerived...;
-// the name is a guess after OpenWorldStageArg). The virtuals are the binder interface of the arg: slots 4 / 5
-// return 0 in OpenWorldStageArg.
-class StageArg {
-    SEAD_RTTI_BASE(StageArg)
-public:
-    virtual ~StageArg() = default;
-
-    virtual s32 m4() = 0;
-    virtual s32 m5() = 0;
-    virtual void setHeap(sead::Heap* heap) = 0;
-    virtual s32 m7() = 0;
-    virtual const sead::SafeString& m8() = 0;
-    virtual const sead::SafeString& m9() = 0;
-    virtual const sead::SafeString& m10() = 0;
-    virtual s32 m11() = 0;
-    virtual bool m12() = 0;
 };
 
 // The arg of the OpenWorldStageBinder (embedded at 0x10 of the binder).
@@ -190,7 +205,6 @@ private:
     /* 0x10 */ TitleStageArg _10;
     /* 0x30 */ Unk_710245abf0 _30;
     /* 0x38 */ Unk_710245ac20 _38;
-    /* 0x40 */ bool _40;
 };
 
 class ViewerStageBinder : public StageBinder {
@@ -212,7 +226,6 @@ private:
     /* 0x10 */ ViewerStageArg _10;
     /* 0x30 */ Unk_710245abf0 _30;
     /* 0x38 */ Unk_710245ac20 _38;
-    /* 0x40 */ bool _40;
 };
 
 class OpenWorldStageBinder : public StageBinder {
@@ -234,7 +247,6 @@ private:
     /* 0x010 */ OpenWorldStageArg _10;
     /* 0x210 */ Unk_710245abf0 _210;
     /* 0x218 */ Unk_710245ac20 _218;
-    /* 0x220 */ bool _220;
 };
 static_assert(sizeof(OpenWorldStageBinder) == 0x228);
 
