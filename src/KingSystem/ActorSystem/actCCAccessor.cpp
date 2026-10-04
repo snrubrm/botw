@@ -22,26 +22,13 @@ bool CCAccessor::sub_710072AD1C(phys::CharacterController* cc) {
     return true;
 }
 
-// NON_MATCHING: the original passes/returns the motion type as a 4-byte struct (x0/x2, `mov w0, w0`)
-// and compares through stack slots - consistent with a SEAD_ENUM (volatile operator int); the enum's
-// value names are unknown
-bool CCAccessor::changeMotionType(phys::CharacterController* cc, MotionType motion_type) {
-    if (!cc)
-        return false;
-    mMotionType = cc->sub_7100F5F0E4();
-    if (cc->sub_7100F5F0E4() != motion_type)
-        cc->sub_7100F5F458(motion_type);
-    return true;
-}
-
-// NON_MATCHING: the original passes/returns the motion type as a 4-byte struct (x0/x2, `mov w0, w0`)
-// and compares through stack slots - consistent with a SEAD_ENUM (volatile operator int); the enum's
-// value names are unknown
 void CCAccessor::resetMotionType(phys::CharacterController* cc) {
     if (!cc)
         return;
-    if (cc->sub_7100F5F0E4() != mMotionType)
-        cc->sub_7100F5F458(mMotionType);
+    const MotionType motion_type = mMotionType;
+    const MotionType current = cc->sub_7100F5F0E4();
+    if (int(current) != int(motion_type))
+        cc->sub_7100F5F458(motion_type);
 }
 
 void CCAccessor::resetRigidBodyMotion(Actor* actor) {

@@ -232,7 +232,7 @@ bool hasStopTimerShortTag(Actor* actor) {
     return hasTag(actor, tags::StopTimerShort);
 }
 
-// NON_MATCHING: ???
+// NON_MATCHING: the original selects the element address (`csel x8, &arr[idx], &arr[0]`), we select the index
 const char* arrowTypeToString(ArrowType idx) {
     return sArrowTypes[u32(idx)];
 }
