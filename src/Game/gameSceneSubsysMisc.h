@@ -28,6 +28,8 @@ public:
     void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
     // 0x7100905c70: _fc[_144] = true
     void sub_7100905C70();
+    // 0x7100905c8c: declaration only, current selected bank force-off flag.
+    void sub_7100905C8C();
     // 0x7100905d28 / 0x7100905de0: bool setters
     void sub_7100905D28(bool value);
     void sub_7100905DE0(bool value);
