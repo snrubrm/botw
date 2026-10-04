@@ -65,6 +65,7 @@ struct DrawInfoEx : public nn::ui2d::DrawInfo {
     };
     static_assert(sizeof(RenderBufferInfo) == 0x28);
     ~DrawInfoEx() override = default;
+    void freeDynamicTexture();
 
     /* 0xf8 */ const RenderBufferInfo* _f8 = nullptr;
     /* 0x100 */ bool _100 = false;
@@ -203,7 +204,8 @@ public:
     /* 0x40 */ ListNode mControls;  // the screen's controls (ControlBase::_8 nodes); updated by updateControl_
     u8 _50[0x60 - 0x50];
     /* 0x60 */ UIController* mUIController;
-    u8 _68[0x78 - 0x68];
+    /* 0x68 */ DrawInfoEx* mDrawInfo;
+    /* 0x70 */ TagProcessor* mTagProcessor;
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
     u8 _a0[0xb8 - 0xa0];
@@ -216,7 +218,11 @@ public:
     /* 0xfc */ u8 mDrawTarget;
     /* 0xfd */ s8 _fd;
     /* 0xfe */ u8 mState;
-    u8 _ff[0x104 - 0xff];
+    /* 0xff */ u8 _ff;
+    /* 0x100 */ u8 _100;
+    /* 0x101 */ u8 _101;
+    /* 0x102 */ u8 _102;
+    /* 0x103 */ u8 _103;
     /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
     /* 0x105 */ u8 _105;
     /* 0x106 */ u8 _106;

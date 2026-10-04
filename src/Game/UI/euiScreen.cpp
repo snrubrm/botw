@@ -4,6 +4,8 @@
 #include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
+
+#include <common/aglDrawContext.h>
 #include "Game/UI/euiUIController.h"
 #include "Game/UI/euiTagProcessor.h"
 
@@ -74,6 +76,16 @@ void Screen::adjstBoxCursor(sead::BoundBox2<f32>*, const BoxCursorNode*) const {
 // 0x7100beaab4
 void Screen::draw(const DrawInfoEx::RenderBufferInfo* info) {
     doDraw_(info);
+}
+
+// 0x7100beae20
+void Screen::doDraw_(const DrawInfoEx::RenderBufferInfo* info) {
+    if (!_100 || _102 || !mState || _ff == 2)
+        return;
+    mDrawInfo->_f8 = info;
+    mLayout->Draw(*mDrawInfo, *info->mDrawContext->getCommandBuffer());
+    mDrawInfo->freeDynamicTexture();
+    mDrawInfo->_f8 = nullptr;
 }
 
 // 0x7100beaad8
