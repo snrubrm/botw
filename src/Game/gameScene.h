@@ -63,6 +63,20 @@ public:
     bool hasStageBinder() const;
     void setStageBinder(StageBinder* binder);
 
+    // 0x71007b5340 / 0x71007b5350: getters of the static flags below.
+    static bool getIsInitialisingStage();
+    // 0x71007b7d88 / 0x71007beb30 (CSV GameScene::setInstance2 / setInstance3): copy sInstance to the other two
+    // pointers.
+    static void setInstance2();
+    static void setInstance3();
+
+    // Placeholder names for the globals of the GameScene TU (addresses are in the names).
+    static GameScene* sInstance;                       // 0x71025cb0e0
+    static bool sIsInitialisingStage;                  // 0x71025cb0ea
+    static GameScene* sInstance2;                      // 0x71025cb720
+    static GameScene* sInstance3;                      // 0x71025cb898
+    static bool sFlag;                                 // 0x71025cb8ac
+
 private:
     static bool sIsOpenWorldDemo;
 
@@ -74,5 +88,17 @@ private:
     u8 _2b0[0x93c - 0x2b0];
     s32 _93c;
 };
+
+// Free functions of the GameScene TU (CSV names; the namespace is a guess).
+bool sceneStartEventReady();
+void setSceneStartEventReady();
+void setSceneStartEventNotReady();
+bool isTransitionFromFarActorDone();
+void setIsTransitionFromFarActorDone(bool value);
+bool getIsStageUnloaded();
+void setIsStageUnloaded(bool value);
+void gameSceneSetFlag(bool value);
+bool gameSceneGetFlag();
+bool isGameSceneInitialized();
 
 }  // namespace uking

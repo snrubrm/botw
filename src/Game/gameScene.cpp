@@ -3,7 +3,70 @@
 
 namespace uking {
 
+// Internal-linkage globals of the GameScene TU (0x728 / 0x72c / 0x730; the original addresses them
+// directly, not through the GOT).
+static bool sSceneStartEventReady;
+static bool sIsTransitionFromFarActorDone;
+static bool sIsStageUnloaded;
+
 bool GameScene::sIsOpenWorldDemo{};
+GameScene* GameScene::sInstance;
+bool GameScene::sIsInitialisingStage;
+GameScene* GameScene::sInstance2;
+GameScene* GameScene::sInstance3;
+bool GameScene::sFlag;
+
+bool GameScene::getIsInitialisingStage() {
+    return sIsInitialisingStage;
+}
+
+void GameScene::setInstance2() {
+    sInstance2 = sInstance;
+}
+
+void GameScene::setInstance3() {
+    sInstance3 = sInstance;
+}
+
+bool sceneStartEventReady() {
+    return sSceneStartEventReady;
+}
+
+void setSceneStartEventReady() {
+    sSceneStartEventReady = true;
+}
+
+void setSceneStartEventNotReady() {
+    sSceneStartEventReady = false;
+}
+
+bool isTransitionFromFarActorDone() {
+    return sIsTransitionFromFarActorDone;
+}
+
+void setIsTransitionFromFarActorDone(bool value) {
+    sIsTransitionFromFarActorDone = value;
+}
+
+bool getIsStageUnloaded() {
+    return sIsStageUnloaded;
+}
+
+void setIsStageUnloaded(bool value) {
+    sIsStageUnloaded = value;
+}
+
+void gameSceneSetFlag(bool value) {
+    GameScene::sFlag = value;
+}
+
+bool gameSceneGetFlag() {
+    return GameScene::sFlag;
+}
+
+bool isGameSceneInitialized() {
+    return GameScene::sInstance3 != nullptr;
+}
 
 const sead::SafeString& GameScene::getCurrentMapType() {
     return ksys::StageInfo::getCurrentMapType();
