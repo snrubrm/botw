@@ -11,12 +11,15 @@ public:
     explicit SideStepWait(const InitArg& arg);
     ~SideStepWait() override;
 
+    bool isChangeable() const override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     void calc_() override;
+    // 0x710025384c: applies a side-step jump.
+    void sub_710025384C(f32 distance, f32 height);
 
     struct Params {
         // static_param at offset 0x20
@@ -49,7 +52,8 @@ protected:
     f32 _b0 = 0.0f;
     f32 _b4 = 0.0f;
     f32 _b8 = 0.0f;
-    u16 _bc = 255;
+    s8 _bc = -1;
+    bool _bd = false;
     u8 _be[0x2];
 };
 KSYS_CHECK_SIZE_NX150(SideStepWait, 0xc0);
