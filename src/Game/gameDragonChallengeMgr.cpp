@@ -32,8 +32,7 @@ s32 DragonChallengeMgr::decrementRef() {
     return previous;
 }
 
-// NON_MATCHING: branch layout of the validity checks
-void DragonChallengeMgr::emitXLink(int idx) {
+void DragonChallengeMgr::emitXLink(u32 idx) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
     if (mActor && mProcLink.hasProc() && mRefCount.load() != 0) {
         const bool has_proc = mProcLink.hasProc();
@@ -46,8 +45,7 @@ void DragonChallengeMgr::emitXLink(int idx) {
     }
 }
 
-// NON_MATCHING: branch layout of the validity checks
-void DragonChallengeMgr::x_0(int idx) {
+void DragonChallengeMgr::x_0(u32 idx) {
     emitXLink(idx);
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
     if (mProcLink.hasProc() && mRefCount.load() != 0) {
@@ -64,35 +62,39 @@ void DragonChallengeMgr::setAllFlags(bool on) {
     mFlags = on ? 0xffffffff : 0;
 }
 
-void DragonChallengeMgr::setFlag(int idx) {
+void DragonChallengeMgr::setFlag(u32 idx) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    if (idx <= 4)
-        mFlags |= 1u << idx;
+    if (idx > 4)
+        return;
+    mFlags |= 1u << idx;
 }
 
-void DragonChallengeMgr::resetFlag(int idx) {
+void DragonChallengeMgr::resetFlag(u32 idx) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    if (idx <= 4)
-        mFlags &= ~(1u << idx);
+    if (idx > 4)
+        return;
+    mFlags &= ~(1u << idx);
 }
 
-// NON_MATCHING: register assignment (the out-of-range result is a separate block in the original)
-bool DragonChallengeMgr::isFlagSet(int idx) {
+// NON_MATCHING: register assignment (the original reuses the `this` register for the result)
+bool DragonChallengeMgr::isFlagSet(u32 idx) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    bool result = false;
-    if (idx <= 4)
-        result = mFlags & (1u << idx);
+    bool result;
+    if (idx > 4)
+        result = false;
+    else
+        result = (mFlags & (1u << idx)) != 0;
     return result;
 }
 
-void DragonChallengeMgr::setFlag(int idx, bool on) {
+void DragonChallengeMgr::setFlag(u32 idx, bool on) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    if (idx <= 4) {
-        if (on)
-            mFlags |= 1u << idx;
-        else
-            mFlags &= ~(1u << idx);
-    }
+    if (idx > 4)
+        return;
+    if (on)
+        mFlags |= 1u << idx;
+    else
+        mFlags &= ~(1u << idx);
 }
 
 bool DragonChallengeMgr::isTimerStopped() {

@@ -34,21 +34,21 @@ public:
     // previous count.
     s32 decrementRef();
     // 0x71006f9a70: emits the xlink event `idx` (0-2) on the actor if there is a reference and a valid actor.
-    void emitXLink(int idx);
+    void emitXLink(u32 idx);
     // 0x71006f9b68 (CSV x_0): emitXLink(idx), then moves the event to `_fc`.
-    void x_0(int idx);
+    void x_0(u32 idx);
     // 0x71006f9c00 (CSV x; declared only): fades (or kills) the events of handle `idx`.
-    void x(int idx, bool a2);
+    void x(u32 idx, bool a2);
     // 0x71006f9e20 (declared only).
     void sub_71006F9E20();
     // 0x71006f9fdc: sets all the flags to `on`.
     void setAllFlags(bool on);
     // 0x71006f9fe8 / 0x71006fa03c / 0x71006fa090: set / reset / test the flag `idx` (0-4).
-    void setFlag(int idx);
-    void resetFlag(int idx);
-    bool isFlagSet(int idx);
+    void setFlag(u32 idx);
+    void resetFlag(u32 idx);
+    bool isFlagSet(u32 idx);
     // 0x71006f9f74 (CSV x_3): sets or resets the flag `idx`.
-    void setFlag(int idx, bool on);
+    void setFlag(u32 idx, bool on);
     // 0x71006fa0f4: whether the timer is stopped (rate == -1).
     bool isTimerStopped();
     // 0x71006fa138: starts the timer with `value`.

@@ -64,6 +64,7 @@ ActorBindSet::ActorBindSet(int count, ActorBindEntry* entries) {
     mEntries = entries ? entries : nullptr;
 }
 
+// NON_MATCHING: the original stores the ActorBind vtable with a post-increment (`str x8, [x19], #8`)
 ActorBindSet::~ActorBindSet() {
     delete[] mEntries;
     mEntries = nullptr;

@@ -1393,6 +1393,7 @@ u64 ActorConstDataAccess::sub_7100D142E0() const {
 
 }  // namespace ksys::act
 
+// NON_MATCHING: the original does not tail-call getRandomDropFromTable
 const sead::SafeString& golemWeakPointGetOneDrop(const ksys::act::ActorConstDataAccess& accessor,
                                                  const sead::SafeString& table) {
     auto* actor = accessor.getActor();

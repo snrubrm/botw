@@ -18,10 +18,9 @@ ksys::act::BaseProc* HorseObject::construct(const CreateArg& arg, sead::Heap* he
 }
 
 void HorseObject::initMaybe() {
-    if (_1410 & 1) {
+    if (_1410 & 1)
         clearFadeInCreate();
-        _1410 = 0;
-    }
+    _1410 = 0;
     _850.resetAll();
     sub_71011DA824(&_850);
     _1408 = 0;
