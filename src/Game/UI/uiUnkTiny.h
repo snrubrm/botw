@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <prim/seadSafeString.h>
 
@@ -279,6 +280,32 @@ public:
 
     u64 _8;
     sead::PtrArray<Unk_Elem> _10;
+};
+
+// Element type of Unk_7102474bc8::_140: an inline empty destructor, so `delete[]` keeps the array cookie.
+struct Unk_Elem2 {
+    ~Unk_Elem2() {}
+};
+
+// Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
+class Unk_7102474bc8 {
+public:
+    virtual ~Unk_7102474bc8();
+
+    u8 _8[0x128];
+    sead::Buffer<u8> _130;
+    sead::Buffer<Unk_Elem2> _140;
+    u8 _150[8];
+};
+
+// Member of several screens (0x28 bytes, e.g. ScreenAppHome 0x38a0 ... 0x3918): virtual destructor and one more
+// virtual function (0x7100937e9c, not decompiled).
+class Unk_7102474dd0 {
+public:
+    virtual ~Unk_7102474dd0();
+    virtual void m2();
+
+    u8 _8[0x20];
 };
 
 }  // namespace uking::ui

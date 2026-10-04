@@ -159,4 +159,13 @@ Unk_7102474df8::~Unk_7102474df8() {
     _10.freeBuffer();
 }
 
+// 0x7100933938
+Unk_7102474bc8::~Unk_7102474bc8() {
+    _130.freeBuffer();
+    _140.freeBuffer();
+}
+
+// 0x7100937d9c
+Unk_7102474dd0::~Unk_7102474dd0() = default;
+
 }  // namespace uking::ui

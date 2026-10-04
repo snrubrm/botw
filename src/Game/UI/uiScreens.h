@@ -1582,6 +1582,9 @@ class ScreenSousaGuide : public ScreenEx {
 public:
     ~ScreenSousaGuide() override;
     SEAD_RTTI_OVERRIDE(ScreenSousaGuide, ScreenEx)
+
+    u8 _pad_3610[0x3618 - 0x3610];
+    Unk_7102474bc8 _3618;
 };
 
 class ScreenShopBtnList15 : public ScreenEx {
