@@ -48,7 +48,12 @@ public:
 
 private:
     /* 0x08 */ sead::PtrArray<EventFlowBase> mFlows;
-    u8 _18[0x1e8 - 0x18];
+    u8 _18[0x28 - 0x18];
+public:
+    /* 0x28 */ act::BaseProcLink mLink;
+
+private:
+    u8 _38[0x1e8 - 0x38];
     /* 0x1e8 */ sead::SafeArray<s8, 8> mFlowStack;
     /* 0x1f0 */ s32 mStackTop;
     /* 0x1f4 */ u8 _1f4;

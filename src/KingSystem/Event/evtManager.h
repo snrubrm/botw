@@ -83,6 +83,22 @@ public:
     // 0x7100db19dc (CSV EventMgr::__auto4, placeholder name; lane4 s23): `_1d2c0 != nullptr ||
     // _1d170 < 1`, i.e. no event is playing / being set up (GanonBeast "rain" update).
     bool sub_7100DB19DC() const;
+    // 0x7100db19c0 (CSV unnamed; placeholder name): decrements the alive event flow count (not below 0)
+    void sub_7100DB19C0();
+    // 0x7100db101c (CSV EventMgr::getActiveEventName): the names of the active context's current flow (either
+    // output may be null); false if there is no active context
+    bool getActiveEventName(const char** event_name, const char** entry_point_name) const;
+    // 0x7100db2278 (CSV EventMgr::getBaseProcLinkFromActiveEvent): the link of the active event's actor `name`
+    act::BaseProcLink* getBaseProcLinkFromActiveEvent(const sead::SafeString& name,
+                                                      const sead::SafeString& entry_point) const;
+    // 0x7100db12d8 (CSV EventMgr::getBaseProcLinkForActorOrActiveLink): the link of the context that has an event
+    // actor for `proc` (the active context's link if none has / `proc` is null)
+    act::BaseProcLink* getBaseProcLinkForActorOrActiveLink(act::BaseProc* proc) const;
+    // 0x7100db10b0 (CSV EventMgr::__auto10; placeholder name)
+    bool sub_7100DB10B0(const void* a1, act::BaseProc* proc, void** out_1b8, void** out_1c0) const;
+    // 0x7100db22a8 (CSV EventMgr::__auto5; placeholder name): the link of the active event's "Argument" actor
+    // (else of its "Current" actor)
+    act::BaseProcLink* sub_7100DB22A8() const;
 
 private:
     friend class ksys::OverlayArenaSystemS1;
@@ -110,7 +126,8 @@ public:
     Context* _1d2b8;
 
 private:
-    u8 pad_1d2c0[0x1d2d0 - 0x1d2c0];
+    /* 0x1d2c0 */ void* _1d2c0;
+    u8 pad_1d2c8[0x1d2d0 - 0x1d2c8];
     EventMgrStruct1* _1d2d0;
     u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];
     EventFlowMgr* mEventFlowMgr;

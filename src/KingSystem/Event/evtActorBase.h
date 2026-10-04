@@ -46,7 +46,9 @@ public:
     /* 0x0f8 */ sead::PtrArray<Query> mQueries;
     /* 0x108 */ u8 _108[0x1b4 - 0x108];
     /* 0x1b4 */ bool _1b4;
-    /* 0x1b5 */ u8 _1b5[0x1c8 - 0x1b5];
+    /* 0x1b5 */ u8 _1b5[0x1b8 - 0x1b5];
+    /* 0x1b8 */ void* _1b8;
+    /* 0x1c0 */ void* _1c0;
     /* 0x1c8 */ u32 mFlags;
 };
 

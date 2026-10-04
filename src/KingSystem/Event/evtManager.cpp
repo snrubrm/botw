@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
@@ -115,6 +116,86 @@ bool Manager::hasActiveEvent() const {
 // 0x7100db199c
 void Manager::incrementAliveEventFlowCount() {
     mAliveEventFlowCount = sead::Mathi::min(mAliveEventFlowCount + 1, 0x100);
+}
+
+// 0x7100db19c0
+void Manager::sub_7100DB19C0() {
+    mAliveEventFlowCount = sead::Mathi::max(mAliveEventFlowCount - 1, 0);
+}
+
+// 0x7100db19dc
+bool Manager::sub_7100DB19DC() const {
+    if (_1d2c0)
+        return true;
+    return mAliveEventFlowCount < 1;
+}
+
+// 0x7100db101c
+bool Manager::getActiveEventName(const char** event_name, const char** entry_point_name) const {
+    if (!_1d2b8)
+        return false;
+    if (event_name)
+        *event_name = _1d2b8->getEventName().cstr();
+    if (entry_point_name)
+        *entry_point_name = _1d2b8->getEntryPointName().cstr();
+    return true;
+}
+
+// 0x7100db2278
+act::BaseProcLink* Manager::getBaseProcLinkFromActiveEvent(const sead::SafeString& name,
+                                                           const sead::SafeString& entry_point) const {
+    if (!_1d2b8)
+        return nullptr;
+    auto* actor = _1d2b8->getActorByName(name, entry_point);
+    if (!actor)
+        return nullptr;
+    return &actor->mLink;
+}
+
+// 0x7100db12d8
+act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* proc) const {
+    if (proc) {
+        for (s32 i = 0; i < 32; ++i) {
+            if (mContexts[i] && mContexts[i]->getActorByPointer(proc))
+                return &mContexts[i]->mLink;
+        }
+    }
+    return _1d2b8 ? &_1d2b8->mLink : nullptr;
+}
+
+// 0x7100db10b0
+bool Manager::sub_7100DB10B0(const void*, act::BaseProc* proc, void** out_1b8, void** out_1c0) const {
+    for (s32 i = 0; i < 32; ++i) {
+        if (!mContexts[i])
+            continue;
+        if (auto* actor = mContexts[i]->getActorByPointer(proc)) {
+            if (out_1b8)
+                *out_1b8 = actor->_1b8;
+            if (out_1c0)
+                *out_1c0 = actor->_1c0;
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x7100db22a8
+act::BaseProcLink* Manager::sub_7100DB22A8() const {
+    {
+        const sead::SafeString name = "Argument";
+        if (_1d2b8) {
+            if (auto* actor = _1d2b8->getActorByName(name, sead::SafeString::cEmptyString))
+                return &actor->mLink;
+        }
+    }
+    const sead::SafeString name = "Current";
+    if (_1d2b8) {
+        auto* actor = _1d2b8->getActorByName(name, sead::SafeString::cEmptyString);
+        if (!actor)
+            return nullptr;
+        return &actor->mLink;
+    }
+    return nullptr;
 }
 
 // 0x7100db272c
