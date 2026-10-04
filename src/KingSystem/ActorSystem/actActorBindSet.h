@@ -52,6 +52,15 @@ public:
     // 0x7101256354: resets every entry.
     void resetAll();
 
+    // inline-only in the original; name is a guess: sead::Buffer::operator()-style bounds-clamped access
+    // (an out-of-range index selects entry 0). Inlined in the leave_ of HorseReinsDefaultAction /
+    // HorseSaddleDefaultAction (both loop over their constant entry count with it).
+    ActorBindEntry& getEntry(s32 idx) {
+        if (mCount <= u32(idx))
+            return mEntries[0];
+        return mEntries[idx];
+    }
+
     /* 0x28 */ u32 mCount;
     /* 0x30 */ ActorBindEntry* mEntries;
 };

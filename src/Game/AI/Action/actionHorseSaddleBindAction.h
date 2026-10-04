@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    const sead::Vector3f* m32() override;
+    const sead::Vector3f* m33() override;
 
     // dynamic_param at offset 0x1a40
     bool* mIsLeftBind_d{};

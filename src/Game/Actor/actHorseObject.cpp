@@ -51,7 +51,7 @@ void HorseObject::m70() {
 }
 
 ksys::act::Actor* HorseObject::m31() {
-    return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
+    return sead::DynamicCast<ksys::act::Actor>(_840.getProc(nullptr, nullptr));
 }
 
 bool HorseObject::shouldUnload(s32* a1) {
@@ -73,7 +73,7 @@ bool HorseReins::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
 }
 
 ksys::act::Actor* HorseReins::m31() {
-    return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
+    return sead::DynamicCast<ksys::act::Actor>(_840.getProc(nullptr, nullptr));
 }
 
 bool HorseReins::shouldUnload(s32* a1) {
@@ -83,18 +83,26 @@ bool HorseReins::shouldUnload(s32* a1) {
 }
 
 void HorseReins::initMaybe() {
-    if (_868 & 4)
+    if (_868.isOn(4))
         clearFadeInCreate();
     mActorFlags2.reset(ActorFlag2::_20);
-    _868 = 3;
+    _868.setDirect(3);
     _860 = 0;
     Unk_710260af28::instance()->sub_7100F1E2F4(mModel, sead::Color4f{0.0f, 0.0f, 0.0f, 0.0f});
     _864 = 0;
     Unk_710260af28::instance()->sub_7100F1EAF8(mModel, 0.0f);
 }
 
+ksys::act::Actor* HorseReins::sub_7100E7BA64() {
+    return sead::DynamicCast<ksys::act::Actor>(_840.getProc(nullptr, nullptr));
+}
+
+void HorseReins::sub_7100E7BC10(ksys::act::BaseProc* horse) {
+    _840.acquire(horse, false);
+}
+
 void HorseReins::updatePositionMaybe() {
-    if (_868 & 8)
+    if (_868.isOn(8))
         mActorFlags2.set(ActorFlag2::_20);
 }
 

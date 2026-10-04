@@ -72,11 +72,16 @@ public:
     void initMaybe() override;
     void updatePositionMaybe() override;
 
+    // 0x7100e7ba64 (declared only): `DynamicCast<Actor>(_840.getProc(nullptr, nullptr))`, the horse.
+    Actor* sub_7100E7BA64();
+    // 0x7100e7bc10 (declared only): `_840.acquire(horse, false)`.
+    void sub_7100E7BC10(ksys::act::BaseProc* horse);
+
     /* 0x840 */ ksys::act::BaseProcLink _840;
     /* 0x850 */ ksys::act::BaseProcLink _850;
     /* 0x860 */ u32 _860 = 0;
     /* 0x864 */ u32 _864 = 0;
-    /* 0x868 */ u8 _868 = 3;  // bit 2: fade-in pending, bit 3: set the actor flag 0x20 on update
+    /* 0x868 */ sead::BitFlag8 _868{3};  // bit 2: fade-in pending, bit 3: set the actor flag 0x20 on update
 };
 KSYS_CHECK_SIZE_NX150(HorseReins, 0x870);
 
