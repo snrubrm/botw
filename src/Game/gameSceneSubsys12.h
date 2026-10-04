@@ -37,11 +37,13 @@ public:
     void sub_7100664F64(const sead::Matrix34f& matrix);
     // 0x7100665304
     void sub_7100665304();
+    // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
+    void sub_7100665360();
 
     u8 _0[0x38];
     sead::CriticalSection _38;
     u8 _78[0xd0 - 0x78];
-    s32 _d0;
+    f32 _d0;
     s32 _d4;
     sead::Matrix34f _d8;
     sead::Matrix34f _108;
