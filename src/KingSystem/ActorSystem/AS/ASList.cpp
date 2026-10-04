@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <limits>
+#include <gsys/gsysModelNW.h>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -11,7 +12,30 @@
 
 namespace ksys::as {
 
+struct ASList::Unk2::InitArg {
+    Unk1* slot;
+    s32 index;
+    const Context::Frame::Sizes* sizes;
+};
+
 static const char* const sUnk_710250FFE0[] = {"0Gear", "1Gear", "2Gear", "3Gear", "TopGear"};
+
+bool ASList::Unk2::sub_71011617A8(const InitArg& arg, sead::Heap* heap) {
+    _42 = arg.index;
+    _8 = arg.slot;
+    _0 = new (heap) Context;
+    if (!_0)
+        return false;
+    return _0->sub_7101258AC8(*arg.sizes, heap);
+}
+
+void ASList::sub_7101160F10(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
+                          nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg) {
+    for (auto* entry : _c8) {
+        if (entry->sub_7101163998(arg, unit, index))
+            break;
+    }
+}
 
 void ASList::Unk2::sub_710116173C() {
     _10 = 1.0f;
@@ -430,6 +454,14 @@ bool ASList::sub_710115EA64(int kind) {
     if (index < 0)
         return false;
     _e0[index]._str_ptr->copy(sUnk_710250FFE0[u32(kind) > 4 ? 0 : kind]);
+    return true;
+}
+
+bool ASList::goLimpFromHeadShotMaybe(u32 kind, const sead::SafeString& value, u32 unused) {
+    const s8 index = _f0[kind];
+    if (index < 0)
+        return false;
+    _e0[index]._str_ptr->copy(sead::SafeString(value.cstr()));
     return true;
 }
 

@@ -3,10 +3,14 @@
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
 #include <container/seadSafeArray.h>
+#include <nn/g3d/ICalculateBlendWeightCallback.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Resource/resResourceASSetting.h"
 namespace ksys::res {
 class ModelList;
+}
+namespace gsys {
+class ModelNW;
 }
 
 namespace ksys::as {
@@ -17,6 +21,7 @@ class Element;
 namespace ksys::as {
 class ASList {
 public:
+    struct Unk1;
     // Placeholder: event query filled by the handlers passed to x() (0x7101259c78 copies a 0x20-byte AS
     // event entry: the name, then two 32-bit values). Callers pass nullptr when they only test for the event.
     struct Unk4 {
@@ -36,6 +41,11 @@ public:
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
+        struct InitArg;
+        bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
+        // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
+        bool sub_7101163998(nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg,
+                           gsys::ModelUnit* unit, s32 index);
         // inline: their out-of-line copies are emitted in the callers' TUs
         bool sub_710002E82C() { return _18 != nullptr; }
         bool sub_7100023B58() { return _41 >> 3 & 1; }
@@ -100,7 +110,7 @@ public:
         f32 sub_7101163564();
 
         /* 0x00 */ Context* _0;
-        /* 0x08 */ u8 _8[0x10 - 0x8];
+        /* 0x08 */ Unk1* _8;
         /* 0x10 */ f32 _10;
         /* 0x18 */ Element* _18;
         /* 0x20 */ void* _20;
@@ -183,6 +193,8 @@ public:
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
                              bool a7);
     bool goLimpFromHeadShotMaybe(u32 a1, const sead::SafeString& a2, u32 a3);  // x_8
+    void sub_7101160F10(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
+                      nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg);
     // All 141 callers pass a fourth argument in w4 (129 x 0, 12 x 1) that is unused here; its type (bool or
     // int) cannot be told from the binary.
     bool x_2(int a1, int bit, bool on, bool a4);
