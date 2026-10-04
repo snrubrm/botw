@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerBeamMove.h"
 #include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -27,6 +28,18 @@ bool PlayerBeamMove::m33() {
     if (WindCutter::m33())
         return true;
     return hasAttackInfo(mActor);
+}
+
+f32 PlayerBeamMove::m34() {
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        return bullet->_ca8;
+    return WindCutter::m34();
+}
+
+int PlayerBeamMove::m37() {
+    if (auto* bullet = sead::DynamicCast<ksys::act::Bullet>(mActor))
+        return bullet->_cac;
+    return WindCutter::m37();
 }
 
 }  // namespace uking::action

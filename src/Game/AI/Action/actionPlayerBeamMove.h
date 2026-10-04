@@ -18,6 +18,8 @@ public:
 
 protected:
     bool m33() override;
+    f32 m34() override;
+    int m37() override;
 
     xlink2::HandleSLink _c8;
 };

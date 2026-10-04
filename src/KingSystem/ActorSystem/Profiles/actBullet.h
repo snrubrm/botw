@@ -70,7 +70,9 @@ public:
     /* 0xc88 */ sead::Vector3f _c88 = sead::Vector3f::zero;
     /* 0xc94 */ sead::Vector3f _c94 = sead::Vector3f::zero;
     /* 0xca0 */ f32 _ca0 = -1.0;
-    /* 0xca8 */ u64 _ca8 = 0;
+    /* 0xca4 */ u32 _ca4;  // padding (not initialised)
+    /* 0xca8 */ f32 _ca8 = 0;  // PlayerBeamMove::m34
+    /* 0xcac */ f32 _cac = 0;  // PlayerBeamMove::m37 (as an int)
     /* 0xcb0 */ u64 _cb0 = 0;
     /* 0xcb8 */ u64 _cb8 = 0;
     /* 0xcc0 */ f32 _cc0 = 1.0;

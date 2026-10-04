@@ -21,6 +21,11 @@ public:
     // 0x71006f3140 (declared only): deletes the beam actor, releases `_80`.
     ~Unk_71006f3044();
 
+    // 0x71006f331c (declared only, 1.4 KB; the init_ of the three Beam actions): spawns the beam actor. `range` is the
+    // BeamRange (the map unit value if positive), `muzzle` / `dir` the MuzzleOffset / BeamDirection params.
+    void sub_71006F331C(sead::Heap* heap, const sead::SafeString& actor_name, const sead::SafeString& actor_key,
+                        const sead::SafeString& bone_name, f32 range, f32 b, const sead::Vector3f* muzzle,
+                        const sead::Vector3f* dir, s32 a);
     // 0x71006f3934 (m: the original loads the dummy link's address directly): the link to the beam actor
     // (the shared "BeamActorLink" if it is alive, else the owner's BeamActor parts link).
     ksys::act::BaseProcLink& sub_71006F3934();

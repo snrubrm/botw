@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
+    void m33() override;
 
     // map_unit_param at offset 0x20
     const bool* mNonAutoPlacementAnimal_m{};

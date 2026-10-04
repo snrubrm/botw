@@ -6,7 +6,12 @@ NeckSpinBeam::NeckSpinBeam(const InitArg& arg) : NeckSpin(arg) {}
 
 
 bool NeckSpinBeam::init_(sead::Heap* heap) {
-    return NeckSpin::init_(heap);
+    if (!NeckSpin::init_(heap))
+        return false;
+    _b8.sub_71006F331C(heap, m34(), m35(), mBeamBoneName_s,
+                       *mBeamRange_m > 0.0f ? *mBeamRange_m : *mBeamRange_s, 1.0f, mMuzzleOffset_s,
+                       mBeamDirection_s, m36());
+    return true;
 }
 
 void NeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {

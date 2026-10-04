@@ -7,7 +7,11 @@ ForkGanonBeastBeamShoot::ForkGanonBeastBeamShoot(const InitArg& arg) : ksys::act
 ForkGanonBeastBeamShoot::~ForkGanonBeastBeamShoot() = default;
 
 bool ForkGanonBeastBeamShoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    sead::Vector3f dir = *mBeamDir_s;
+    dir.normalize();
+    _68.sub_71006F331C(heap, mBeamActorName_s, mBeamActorKey_s, mBeamBoneName_s, *mBeamRange_s,
+                       250.0f, mMuzzleOffset_s, &dir, -1);
+    return true;
 }
 
 void ForkGanonBeastBeamShoot::enter_(ksys::act::ai::InlineParamPack* params) {

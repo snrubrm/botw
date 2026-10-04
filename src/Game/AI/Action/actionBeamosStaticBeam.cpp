@@ -8,8 +8,13 @@ BeamosStaticBeam::BeamosStaticBeam(const InitArg& arg) : StopASPlay(arg) {}
 
 BeamosStaticBeam::~BeamosStaticBeam() = default;
 
+// NON_MATCHING: same instructions, scheduled differently (the original computes this + 0xa8 / the name address before the
+// BeamRange select)
 bool BeamosStaticBeam::init_(sead::Heap* heap) {
-    return StopASPlay::init_(heap);
+    _a8.sub_71006F331C(heap, mBeamActorName_s, mBeamActorKey_s, mBeamBoneName_s,
+                       *mBeamRange_m > 0.0f ? *mBeamRange_m : *mBeamRange_s, 1.0f, mMuzzleOffset_s,
+                       mBeamDirection_s, -1);
+    return true;
 }
 
 void BeamosStaticBeam::enter_(ksys::act::ai::InlineParamPack* params) {
