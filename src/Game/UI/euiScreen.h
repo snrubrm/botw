@@ -13,6 +13,7 @@
 #include <container/seadSafeArray.h>
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiTypes.h"
+#include "Game/UI/euiDynamicCapturePane.h"
 
 namespace sead {
 class Heap;
@@ -69,7 +70,10 @@ struct DrawInfoEx : public nn::ui2d::DrawInfo {
 
     /* 0xf8 */ const RenderBufferInfo* _f8 = nullptr;
     /* 0x100 */ bool _100 = false;
-    /* 0x108 */ ListNode mDynamicTextures;
+    using DynamicTextureList = nn::util::IntrusiveList<
+        DynamicCapturePane, nn::util::IntrusiveListMemberNodeTraits<
+                                DynamicCapturePane, &DynamicCapturePane::mDynamicTextureNode>>;
+    /* 0x108 */ DynamicTextureList mDynamicTextures;
     /* 0x118 */ u8 _118[8];
 };
 static_assert(sizeof(DrawInfoEx) == 0x120);
