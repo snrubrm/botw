@@ -10,6 +10,7 @@ public:
     TagProcessor(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr);
     ~TagProcessor() override = default;
     const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
+    f32 m28() const override;
     f32 m31() const override;
 
 private:

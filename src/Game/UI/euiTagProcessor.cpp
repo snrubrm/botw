@@ -62,6 +62,34 @@ void TagProcessor::m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out
 void TagProcessor::m13(const sead::MessageSet<char16>::TagInfo*, char16*, u32*, u32*, u32,
                        const char16*, u32, void*) {}
 
+// 0x7100be6444
+// NON_MATCHING: tag output store scheduling and constant-store merging differ.
+void TagProcessor::m12(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
+                       u32* text_length, u32* character_count, u32 capacity,
+                       const char16*, u32, void*) {
+    if (*text_length + 11 < capacity) {
+        char16 glyph = 0;
+        u16 font_index = 0;
+        m32(&glyph, &font_index, tag->getParam()[0]);
+        if (glyph != 0) {
+            char16* position = out + *text_length;
+            position[0] = 0xe;
+            position[1] = 0;
+            position[2] = 0x81;
+            position[3] = 2;
+            position[4] = font_index;
+            position[5] = glyph;
+            position[6] = 0xe;
+            position[7] = 0;
+            position[8] = 0x81;
+            position[9] = 2;
+            position[10] = 0xffff;
+            *text_length += 11;
+            ++*character_count;
+        }
+    }
+}
+
 // 0x7100be66e8
 TagProcessor::Operation TagProcessor::m16(const sead::MessageSet<char16>::TagInfo*,
                                          nn::font::PrintContext<u16>* context,
@@ -84,6 +112,18 @@ TagProcessor::Operation TagProcessor::m22(const sead::MessageSet<char16>::TagInf
                                          nn::font::Rectangle*, const char16* next) {
     context->str = reinterpret_cast<const u16*>(next);
     return Operation_NoCharSpace;
+}
+
+// 0x7100be6c50
+TagProcessor::Operation TagProcessor::m20(const sead::MessageSet<char16>::TagInfo* tag,
+                                         nn::font::PrintContext<u16>* context,
+                                         nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    u16 size;
+    std::memcpy(&size, tag->getParam(), sizeof(size));
+    const f32 scale = f32(size) / 100.0f;
+    context->writer->SetScale(mScaleX * scale, mScaleY * scale);
+    return Operation_Default;
 }
 
 // 0x7100be70b8

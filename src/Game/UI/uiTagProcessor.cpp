@@ -13,4 +13,9 @@ f32 TagProcessor::m31() const {
     return _58;
 }
 
+// 0x71010afc44
+f32 TagProcessor::m28() const {
+    return 0.67f;
+}
+
 }  // namespace uking::ui
