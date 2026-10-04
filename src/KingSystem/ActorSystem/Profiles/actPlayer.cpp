@@ -766,4 +766,8 @@ bool Player::isEquipedDyedArmor() {
     return m278(0) > 0 || m278(1) >= 1 || m278(2) > 0;
 }
 
+f32 Player::getArmorChargeAttackAddLevel() {
+    return sub_7100885630(_2044);
+}
+
 }  // namespace ksys::act

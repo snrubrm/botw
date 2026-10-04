@@ -591,6 +591,7 @@ public:
     void sub_71011DAFB4(int a, int b);
     // 0x71011d89d4 (CSV name): the character controller's `_210` while its `_116` bit 2 is set, else -1.
     f32 getDepthInWater() const;
+    bool sub_710084CD70();
     // lane4 s30 (placeholder names, from the bodies):
     // 0x71011c9710 (CSV Actor::updateVelocityStuff): reads the velocity / angular velocity of the character
     // controller (or of the main body while it is in the world) into mVelocity / mAngVelocity, scaled by 1/30.

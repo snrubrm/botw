@@ -582,6 +582,12 @@ void Actor::sub_71011DAFB4(int a, int b) {
     _700 = b;
 }
 
+// NON_MATCHING: getCharacterController is inlined rather than called out of line.
+bool Actor::sub_710084CD70() {
+    auto* controller = getCharacterController();
+    return controller && (controller->_116 & 4);
+}
+
 f32 Actor::getDepthInWater() const {
     f32 depth = -1.0f;
     if (mPhysics) {

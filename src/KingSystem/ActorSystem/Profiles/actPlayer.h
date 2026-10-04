@@ -58,6 +58,9 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(RideInfo, 0x2f8);
 
+    f32 getArmorChargeAttackAddLevel();
+    f32 sub_7100885630(s32 level);
+
     explicit Player(const CreateArg& arg);
     // CSV Player::construct: the actor factory function.
     static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
@@ -526,7 +529,9 @@ public:
     /* 0x201c */ s32 _201c;  // sub_71008859EC
     /* 0x2020 */ u8 _2020[0x2038 - 0x2020];
     /* 0x2038 */ s32 _2038;  // sub_71008859EC
-    /* 0x203c */ u8 _203c[0x2074 - 0x203c];
+    /* 0x203c */ u8 _203c[0x2044 - 0x203c];
+    /* 0x2044 */ s32 _2044;  // armor charge-attack status index, passed to Ecosystem
+    /* 0x2048 */ u8 _2048[0x2074 - 0x2048];
     /* 0x2074 */ f32 _2074;
     /* 0x2078 */ u8 _2078[0x207e - 0x2078];
     /* 0x207e */ bool _207e;
