@@ -1,7 +1,9 @@
 #include "Game/Damage/dmgInfoManager.h"
+#include "Game/AI/aiUnk_71007130BC.h"
 #include "Game/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 
 namespace uking::dmg {
@@ -9,6 +11,22 @@ namespace uking::dmg {
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
 bool DamageInfoMgr::enableBoomerangRemoteBombs() {
+    return false;
+}
+
+bool DamageInfoMgr::sub_7100674704() const {
+    if (!(_11e0 & 1)) {
+        if (auto* weather = wm::getWeatherMgr())
+            return weather->isRaining();
+    }
+    return false;
+}
+
+bool DamageInfoMgr::sub_7100674730() const {
+    if (!(_11e0 & 2)) {
+        if (auto* weather = wm::getWeatherMgr())
+            return weather->isSnowing();
+    }
     return false;
 }
 

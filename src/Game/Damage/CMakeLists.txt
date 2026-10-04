@@ -1,5 +1,6 @@
 target_sources(uking PRIVATE
     dmgDamageCallback.h
+    dmgDamageManager.cpp
     dmgDamageManagerBase.h
     dmgDamageManagerBase.cpp
     dmgDamageMgrNPC.h
@@ -8,5 +9,6 @@ target_sources(uking PRIVATE
     dmgInfoManager.cpp
     dmgInfoManager.h
     dmgStruct20.h
+    dmgUnk_7100671794.cpp
     dmgStruct20.cpp
 )

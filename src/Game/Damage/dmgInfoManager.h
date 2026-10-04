@@ -65,7 +65,8 @@ private:
     /* 0x0d00 */ sead::ReadWriteLock mLock;
     /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
-    /* 0x11e0 */ u8 TEMP_11e0[0x11e4 - 0x11e0];
+    /* 0x11e0 */ u8 _11e0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
+    u8 TEMP_11e1[0x11e4 - 0x11e1];
     /* 0x11e4 */ f32 mMasterSwordSearchEvilDist;
     /* 0x11e8 */ bool mMasterSwordDetectedEvil;
     /* 0x11e9 */ bool mMasterSwordDisableTrueForm;

@@ -13,6 +13,12 @@ namespace uking::dmg {
 // CSV: DamageMgr (vtable 0x710244ddf8, 57 slots; ctor 0x71006d23e0). RTTI static 0x71025ae600.
 // TODO: incomplete. Size 0x230 (the ctor's last store is at 0x228; Horse embeds one at 0xd20
 // followed by a member at 0xf50).
+// Placeholder (the object at DamageManager::_220; only the field read by sub_71006D8534).
+struct DamageManagerUnk220 {
+    u8 _0[0x10];
+    s32 _10;
+};
+
 class DamageManager : public DamageManagerBase {
     SEAD_RTTI_OVERRIDE(DamageManager, DamageManagerBase)
 public:
@@ -22,7 +28,7 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
-    // 0x71006d8534 (lane1 s22; declaration only): `_220 ? *(s32*)(_220 + 0x10) : 0`. Placeholder name.
+    // 0x71006d8534 (lane1 s22): `_220 ? _220->_10 : 0`. Placeholder name.
     s32 sub_71006D8534() const;
 
     s32 _68;  // WolfLinkRoot::enter_
@@ -38,7 +44,7 @@ public:
     // Flags (ctor: 9). AI code tests bit 1 (`_216.isOn(2)`, ~15 functions).
     sead::BitFlag16 _216;
     u16 _218;
-    u64 _220;
+    DamageManagerUnk220* _220;
     u32 _228;
 };
 KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);

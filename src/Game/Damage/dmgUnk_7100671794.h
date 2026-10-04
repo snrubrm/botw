@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include <mc/seadJobQueue.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::act {
@@ -34,17 +36,17 @@ public:
     bool sub_7100671A74(Unk_7100671794_Entry* entry, s32 count);
     // 0x7100671ed8: whether `proc` is one of the 8 listed enemies.
     bool sub_7100671ED8(ksys::act::BaseProc* proc);
-    // 0x7100671f78: removes `proc` from the list.
-    void sub_7100671F78(ksys::act::BaseProc* proc);
+    // 0x7100671f78: removes `proc` from the list (true if it was listed).
+    bool sub_7100671F78(ksys::act::BaseProc* proc);
     // 0x71006720c8
     void sub_71006720C8(ksys::act::BaseProc* proc);
 
-    /* 0x00 */ Unk_7100671794_Entry mEntries[8];
+    /* 0x00 */ sead::SafeArray<Unk_7100671794_Entry, 8> mEntries;
     /* 0xc0 */ f32 _c0;
     /* 0xc4 */ s32 _c4;
     /* 0xc8 */ u32 _c8;
-    /* 0xcc */ u32 _cc;
-    /* 0xd0 */ u32 _d0;
+    /* 0xcc */ sead::JobQueueLock _cc;
+    /* 0xd0 */ sead::JobQueueLock _d0;
     /* 0xd4 */ u32 _d4;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100671794, 0xd8);
