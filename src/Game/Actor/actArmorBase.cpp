@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include <basis/seadNew.h>
@@ -48,6 +49,26 @@ ArmorBase::ArmorBase(const CreateArg& arg) : Actor(arg) {
 }
 
 ArmorBase::~ArmorBase() = default;
+
+// inline-only in the original; name is a guess (the same sequence reading the TriggerParamRef at Manager +0xbb0 / +0xbd0 and calling
+// TriggerParam::getBool2 is in ArmorBase::sub_7100E29B8C, Player::m63, PlayerArmors::sub_7100E3170C, ...: the buffer
+// is loaded after the SafeString temporary).
+static bool getBoolByName(ksys::gdt::Manager* mgr, bool* value, const sead::SafeString& name) {
+    auto& ref = mgr->getParam();
+    return ref.get().getBuffer0()->getBool2(value, name, ref.shouldCheckPermissions(), true);
+}
+
+bool ArmorBase::sub_7100E29B8C() {
+    bool attack = false;
+    bool bow = false;
+    bool shield = false;
+    if (auto* mgr = ksys::gdt::Manager::instance()) {
+        getBoolByName(mgr, &attack, "Guide_Attack");
+        getBoolByName(mgr, &bow, "Guide_Bow");
+        getBoolByName(mgr, &shield, "Guide_Shield");
+    }
+    return attack || bow || shield;
+}
 
 ksys::act::BaseProc::InitResult ArmorBase::init_() {
     if (getProfile() != "ArmorUpper" || sub_7100E29B8C() || mName != "Armor_Default_Upper") {

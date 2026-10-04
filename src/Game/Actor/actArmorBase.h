@@ -83,7 +83,7 @@ public:
     // state or a player profile ("PauseMenuPlayer" included) and an Actor (placeholder name).
     ksys::act::Actor* getOwner();
 
-    // 0x7100e29b8c (declared only): whether one of the gdt flags "Guide_Attack", "Guide_Bow" and "Guide_Shield" is set.
+    // 0x7100e29b8c: whether one of the gdt flags "Guide_Attack", "Guide_Bow" and "Guide_Shield" is set.
     static bool sub_7100E29B8C();
     // 0x7100e2bacc: sets the material animation frame `_858` (0 - 15) of the armor model (`_860`).
     void sub_7100E2BACC(const s32* frame);
@@ -118,8 +118,7 @@ public:
     // (m81 is declared first: it is the key function that makes the TU emit the vtable.)
     bool m81(const ksys::Message& message) override;
     void m148() override;
-    // 0x710000131c (declared only: needs the unnamed Root38 singleton (GOT 0x2578d00; Root38::testFlag 0x90c504)):
-    // true when ActorFlag2 0x200 is set and the Root38 flag 2 is on.
+    // 0x710000131c: true when ActorFlag2 0x200 is set and the Root38 flag 2 is on (same code as DynamicActor's).
     IsSpecialJobTypeResult isSpecialJobType_(ksys::act::JobType type) override;
 
     /* 0x9a8 */ f32 _9a8 = 0.0f;

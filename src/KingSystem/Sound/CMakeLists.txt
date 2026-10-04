@@ -9,4 +9,6 @@ target_sources(uking PRIVATE
   sndResource.h
   sndMgr.cpp
   sndMgr.h
+  sndUnk_7102502138.cpp
+  sndUnk_7102502138.h
 )

@@ -11,11 +11,18 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "Game/gameRoot38.h"
 
 namespace ksys::act {
 
 BaseProc* DynamicActor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) DynamicActor(arg);
+}
+
+BaseProc::IsSpecialJobTypeResult DynamicActor::isSpecialJobType_(JobType type) {
+    if (mActorFlags2.isOn(ActorFlag2::_200) && uking::Root38::instance()->testFlag(2))
+        return IsSpecialJobTypeResult::Yes;
+    return Actor::isSpecialJobType_(type);
 }
 
 bool DynamicActor::initField868(sead::Heap* heap) {

@@ -22,6 +22,9 @@ public:
     void updatePositionMaybe() override;
     int getExtraHeapSize() override;
 
+    // 0x7100ecde98 (declared only): cancels the constraints and removes the rigid bodies of the rope from the world.
+    void sub_7100ECDE98();
+
     // FIXME: figure out return types, parameters and names
     virtual void m148();
     virtual void m149();

@@ -15,6 +15,8 @@ class RigidBody;
 
 namespace ksys::act {
 
+class Unk_71024ef620;
+
 // Placeholder name (vtable 0x71024ef4e8, only a trivial virtual dtor; methods in 0x7100eb2394-0x7100eb5900;
 // created with `new(0x2b8)` by 0x7100eb16a0 (CSV ActorPhysics::x_8, called with the actor's phys::InstanceSet
 // and Model by Player::prepareInit_). Stored in Player::_1870 (the object behind Player's slots
@@ -82,7 +84,9 @@ public:
     /* 0x048 */ u32 _48;
     u8 _4c[0xb0 - 0x4c];
     /* 0x0b0 */ AttachInfo* mAttachInfo;
-    u8 _b8[0xe0 - 0xb8];
+    u8 _b8[8];
+    /* 0x0c0 */ Unk_71024ef620* _c0;
+    u8 _c8[0xe0 - 0xc8];
     /* 0x0e0 */ sead::Matrix34f mMtx;
         /* 0x110 */ sead::BitFlag32 _110;  // flags
     /* 0x114 */ sead::Vector3f _114;

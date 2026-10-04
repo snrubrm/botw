@@ -1,5 +1,6 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actArmorBase.h"
+#include "Game/gameRoot38.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -14,6 +15,12 @@ Armor::Armor(const CreateArg& arg) : ArmorBase(arg) {}
 
 ksys::act::BaseProc* Armor::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Armor(arg);
+}
+
+Armor::IsSpecialJobTypeResult Armor::isSpecialJobType_(ksys::act::JobType type) {
+    if (mActorFlags2.isOn(ActorFlag2::_200) && Root38::instance()->testFlag(2))
+        return IsSpecialJobTypeResult::Yes;
+    return Actor::isSpecialJobType_(type);
 }
 
 bool Armor::m81(const ksys::Message& message) {

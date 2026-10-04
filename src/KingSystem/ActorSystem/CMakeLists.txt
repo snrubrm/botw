@@ -240,6 +240,8 @@ target_sources(uking PRIVATE
     actUnk_71024ef4e8.cpp
     actUnk_71024ef4e8Attach.cpp
     actUnk_71024ef4e8.h
+    actUnk_71024ef620.cpp
+    actUnk_71024ef620.h
     actUnk_71006ecc78.cpp
     actUnk_71006ecc78.h
     actUnk_7102459df8.cpp
