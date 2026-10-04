@@ -156,6 +156,45 @@ TagProcessor::Operation TagProcessor::m23(const sead::MessageSet<char16>::TagInf
     return Operation_Default;
 }
 
+// NON_MATCHING: tag-index caching and floating-point call/load scheduling differ.
+// 0x7100be6dcc
+TagProcessor::Operation TagProcessor::processPictFontProcessTag_(
+    const sead::MessageSet<char16>::TagInfo* tag, nn::font::PrintContext<u16>* context,
+    nn::font::Rectangle*, const char16* next) {
+    context->str = reinterpret_cast<const u16*>(next);
+    u16 font_index;
+    std::memcpy(&font_index, tag->getParam(), sizeof(font_index));
+    if (font_index != 0xffff) {
+        mSavedScaleX = context->writer->GetScaleX();
+        mSavedScaleY = context->writer->GetScaleY();
+        const f32 italic_ratio = context->writer->GetItalicRatio();
+        mSavedItalicRatio = italic_ratio;
+        if (italic_ratio > 0) {
+            const f32 font_width = context->writer->GetFontWidth();
+            context->writer->SetCursorX(context->writer->GetCursorX() +
+                                         italic_ratio * font_width * 0.5f);
+        }
+        const f32 font_height = context->writer->GetFontHeight();
+        const nn::font::Font* font = mFontMgr->getFontByMessageIndex(font_index);
+        const f32 pict_font_height = font->GetHeight();
+        const f32 scale = font_height / pict_font_height * m31();
+        context->writer->SetFont(font);
+        context->writer->SetItalicRatio(0);
+        context->writer->SetScale(scale, scale);
+    } else {
+        context->writer->SetFont(_18);
+        context->writer->SetScale(mSavedScaleX, mSavedScaleY);
+        context->writer->SetItalicRatio(mSavedItalicRatio);
+        const f32 italic_ratio = mSavedItalicRatio;
+        if (italic_ratio > 0) {
+            const f32 font_width = context->writer->GetFontWidth();
+            context->writer->SetCursorX(context->writer->GetCursorX() +
+                                         italic_ratio * font_width * -0.5f);
+        }
+    }
+    return Operation_Default;
+}
+
 // 0x7100be6f14
 // NON_MATCHING: the original repeats tag classification tests in the traversal loop.
 TagProcessor::Operation TagProcessor::m25(const sead::MessageSet<char16>::TagInfo* tag,

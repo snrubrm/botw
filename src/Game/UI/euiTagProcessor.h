@@ -98,8 +98,9 @@ protected:
     /* 0xc */ u32 _c = 0xff;
     /* 0x10 */ const nn::font::Font* _10 = nullptr;
     /* 0x18 */ const nn::font::Font* _18 = nullptr;
-    /* 0x20 */ void* _20 = nullptr;
-    /* 0x28 */ u32 _28 = 0;
+    /* 0x20 */ f32 mSavedItalicRatio = 0.0f;
+    /* 0x24 */ f32 mSavedScaleX = 0.0f;
+    /* 0x28 */ f32 mSavedScaleY = 0.0f;
     /* 0x2c */ f32 mScaleX = 1.0f;
     /* 0x30 */ f32 mScaleY = 1.0f;
     /* 0x34 */ u32 mNestingDepth = 0;
