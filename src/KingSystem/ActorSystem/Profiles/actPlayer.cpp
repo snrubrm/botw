@@ -220,7 +220,7 @@ PlayerArmors* Player::getArmors() {
     return &_23e0;
 }
 
-bool Player::m234() {
+s32 Player::m234() {
     return _23e0.sub_7100E2F490();
 }
 
@@ -740,6 +740,11 @@ s32 Player::sub_71008859EC() {
     if (_23e0.sub_7100E2F61C()->isOnBit(1))
         value = base + 2.0f;
     return std::min(value, 3.0f);
+}
+
+// NON_MATCHING: the original returns the constant from a shared exit block (no result register)
+bool Player::isEquipedDyedArmor() {
+    return m278(0) > 0 || m278(1) >= 1 || m278(2) > 0;
 }
 
 }  // namespace ksys::act

@@ -22,6 +22,16 @@ void PlayerArmors::sleep(BaseProc::SleepWakeReason reason) {
     }
 }
 
+s32 PlayerArmors::sub_7100E2F490() {
+    s32 result = 0;
+    if (_10(1).hasProc()) {
+        acc::Armor accessor;
+        acquireActor(&_10(1), &accessor);
+        result = accessor.getArmorUpperUseMantleType();
+    }
+    return result;
+}
+
 bool PlayerArmors::sub_7100E2F428() {
     bool result = false;
     if (_10(1).hasProc()) {

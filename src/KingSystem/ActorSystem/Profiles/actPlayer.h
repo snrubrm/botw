@@ -137,7 +137,7 @@ public:
     /* 231 */ f32 m231() override;
     /* 232 */ f32 getAncientAttackRate() override;
     /* 233 */ f32 m233(int) override;
-    /* 234 */ bool m234() override;
+    /* 234 */ s32 m234() override;
     /* 235 */ f32 m235() override;
     /* 236 */ f32 getBoneAttackRate() override;
     /* 242 */ bool m242() override { return _c50.isOnBit(6); }

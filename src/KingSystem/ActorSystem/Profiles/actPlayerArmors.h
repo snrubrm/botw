@@ -27,7 +27,7 @@ public:
     // bit 7: bone attack, bit 8: climb jump energy, bit 9: drop rate bonus are active).
     sead::BitFlag16* sub_7100E2F61C();
     // 0x7100e2f490 (CSV x_5): Player::m234.
-    bool sub_7100E2F490();
+    s32 sub_7100E2F490();
     // 0x7100e2f000: Player::getArmorDyeStuff (a count).
     s32 sub_7100E2F000();
     // 0x7100e2f18c: Player::m280.

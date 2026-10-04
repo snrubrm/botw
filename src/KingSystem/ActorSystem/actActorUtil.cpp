@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_7100EE53C4.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include <container/seadSafeArray.h>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
@@ -1152,6 +1153,18 @@ void sub_7100EEAECC(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityGroundObject);
     cast->enableLayer(phys::ContactLayer::EntityTree);
     cast->enableLayer(phys::ContactLayer::EntityObject);
+}
+
+bool attentionStuff_0(Actor* actor) {
+    bool result = false;
+    if (actor) {
+        if (auto* attention = Attention::instance()) {
+            ActorConstDataAccess accessor;
+            if (attention->sub_7100D7482C(&accessor))
+                result = accessor.hasProc(actor);
+        }
+    }
+    return result;
 }
 
 }  // namespace ksys::act

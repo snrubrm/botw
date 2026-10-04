@@ -137,7 +137,7 @@ public:
     /* 231 */ virtual f32 m231() { return 1.0f; }
     /* 232 */ virtual f32 getAncientAttackRate() { return 1.0f; }
     /* 233 */ virtual f32 m233(int) { return 1.0f; }
-    /* 234 */ virtual bool m234() { return false; }
+    /* 234 */ virtual s32 m234() { return 0; }  // the upper armor's mantle type for the player
     /* 235 */ virtual f32 m235() { return 0.0f; }
     /* 236 */ virtual f32 getBoneAttackRate() { return 1.0f; }
     /* 237 */ bool m237() override;
