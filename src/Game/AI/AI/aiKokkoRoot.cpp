@@ -58,6 +58,13 @@ void KokkoRoot::m43() {
     }
 }
 
+void KokkoRoot::m44() {
+    if (sub_7100504EBC(0x40))
+        changeToAngry();
+    else
+        sub_71005047A8();
+}
+
 void KokkoRoot::m46() {
     ksys::act::ai::InlineParamPack pack;
     pack.addFloat(1.0f, "Power", -1);

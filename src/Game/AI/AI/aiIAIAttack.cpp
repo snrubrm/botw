@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/AI/aiUnk_71007320F0.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -13,6 +14,19 @@ IAIAttack::~IAIAttack() = default;
 
 bool IAIAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+void IAIAttack::sub_71004449A8(sead::Vector3f* pos) {
+    auto* actor = mActor;
+    sead::Vector3f v = *mParams.mTargetPos_d;
+    v -= actor->getMtx().getTranslation();
+    v.y = 0;
+    v.normalize();
+    v.set(-v.z, 0.0f, v.x);
+    v *= *mParams.mOffsetLR_s;
+    v += *mParams.mTargetPos_d;
+    if (sub_710072F788(actor, *mParams.mTargetPos_d, v, pos))
+        *pos = v;
 }
 
 void IAIAttack::enter_(ksys::act::ai::InlineParamPack* params) {

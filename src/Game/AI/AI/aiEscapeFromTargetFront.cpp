@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiEscapeFromTargetFront.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/System/CameraMgr.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -32,6 +34,25 @@ void EscapeFromTargetFront::loadParams_() {
     getStaticParam(&mMinTime_s, "MinTime");
     getStaticParam(&mFrontAngle_s, "FrontAngle");
     getStaticParam(&mUseCameraFrontByTargetPlayer_s, "UseCameraFrontByTargetPlayer");
+}
+
+// NON_MATCHING: the original evaluates `link != nullptr` and the flag together (`cmp x0, #0; ccmp w8, #0, #4, ne`,
+// the flag load before the null test); ours branches on the link first. Everything after matches in structure.
+void EscapeFromTargetFront::sub_71003C8338(sead::Vector3f* out) {
+    sead::Vector3f v;
+    auto* link = sub_71005D9050(mActor);
+    if (link && *mUseCameraFrontByTargetPlayer_s && ksys::act::isPlayerProfile(link)) {
+        ksys::sub_7100D8C7FC(&v);
+        v.y = 0;
+        v.normalize();
+    } else {
+        const auto& mtx = sub_71005D96A8(mActor);
+        v.x = mtx.m[0][2];
+        v.y = 0.0f;
+        v.z = mtx.m[2][2];
+        v.normalize();
+    }
+    *out = v;
 }
 
 // NON_MATCHING: the target keeps branches for the 1/-1/0 result (select here) and swaps d8/d9

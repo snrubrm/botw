@@ -32,6 +32,7 @@ public:
     void m40() override;
     void m41() override;
     void m43() override;
+    void m44() override;
     void m46() override;
     // 0x7100457240 (placeholder name)
     void changeToAngry();
