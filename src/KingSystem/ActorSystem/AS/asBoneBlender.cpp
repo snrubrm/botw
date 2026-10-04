@@ -17,9 +17,9 @@ bool BoneBlender::m27(Context* ctx, const res::ASResource* resource) {
     return child->m27(ctx, child_resource);
 }
 
-f32 BoneBlender::m39(s32* a1, s32* a2, void* a3, void* a4) {
-    *a1 = 0;
-    *a2 = mChildren.size() == 2 ? 1 : -1;
+f32 BoneBlender::m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) {
+    *first = 0;
+    *second = mChildren.size() == 2 ? 1 : -1;
     return 0.01f;
 }
 

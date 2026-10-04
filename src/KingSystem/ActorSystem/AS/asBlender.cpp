@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
 
@@ -159,6 +160,46 @@ void Blender::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeS
     Element* child2 = mChildren[second];
     const res::ASResource* child2_resource = sub_71013031FC(resource, second);
     child2->sub_7101165EBC(ctx, out, name, second, child2_resource);
+}
+
+bool Blender::sub_71013166C4(Context::Record* record, Context* ctx, PlayState* state,
+                             const res::ASResource* resource) {
+    Element* first = mChildren[record->_0];
+    if (!first->sub_710116541C(ctx, state, sub_71013031FC(resource, record->_0))) {
+        record->_2 = 2;
+        record->_4 = 1.0f;
+    }
+    const s8 second = record->_1;
+    if (second == -1) {
+        if (record->_2 == 2) {
+            record->_4 = 0.0f;
+            record->_2 = 0;
+            return false;
+        }
+        return true;
+    }
+    Element* second_child = mChildren[second];
+    if (!second_child->sub_710116541C(ctx, state, sub_71013031FC(resource, second))) {
+        record->_4 = 0.0f;
+        record->_2 = 1;
+    }
+    return true;
+}
+
+bool Blender::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+    const int key = sub_7101165408(resource);
+    ctx->sub_710125A1F0(m38(ctx, resource), key, this, blender_resource);
+    s32 first, second;
+    record->_4 = m39(&first, &second, ctx, resource);
+    const s8 old_second = record->_1;
+    if (record->_0 >= 0 && (record->_0 != first || (old_second != -1 && old_second != second)))
+        m35(ctx, resource);
+    record->_0 = first;
+    record->_1 = second;
+    record->_2 = 0;
+    return sub_71013166C4(record, ctx, state, blender_resource);
 }
 
 f32 Blender::m38(Context* ctx, const res::ASResource* resource) {

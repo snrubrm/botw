@@ -29,6 +29,8 @@ class Actor;
 
 namespace ksys::as {
 
+class Element;
+
 class ASList;
 
 // Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
@@ -143,6 +145,9 @@ public:
     int sub_7101258D1C(int index);
     // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
     void sub_710125AAA0(u32 index, s16 value);
+    // 0x710125a1f0 (declaration only): stores `value` as the pending value of `key` (once per update); the
+    // element and its resource are passed on to the unnamed 0x710125a248.
+    void sub_710125A1F0(f32 value, int key, Element* element, const res::ASResource* resource);
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
     Record* sub_7101258CD4(int index);
 
@@ -553,6 +558,7 @@ public:
 class Blender : public SelectorBase {
     SEAD_RTTI_OVERRIDE(Blender, SelectorBase)
 public:
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m11(Context* ctx, State* state, const res::ASResource* resource) override;
     // 0x71013167c8 (declaration only)
@@ -574,8 +580,13 @@ public:
              const res::ASResource* resource) override;
     Blender();
 
+    // 0x71013166c4: updates the (up to two) blended children of `record` (the first child's m9 finishing
+    // fades the record out, the second one's drops the second child).
+    bool sub_71013166C4(Context::Record* record, Context* ctx, PlayState* state,
+                        const res::ASResource* resource);
+
     virtual f32 m38(Context* ctx, const res::ASResource* resource);
-    virtual f32 m39(s32* a1, s32* a2, void* a3, void* a4);
+    virtual f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource);
 };
 
 class BoneBlender : public Blender {
@@ -585,7 +596,7 @@ public:
 
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     bool m27(Context* ctx, const res::ASResource* resource) override;
-    f32 m39(s32* a1, s32* a2, void* a3, void* a4) override;
+    f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) override;
 };
 
 class ZEx00ExposureBlender : public Blender {
