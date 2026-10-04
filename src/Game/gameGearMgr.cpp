@@ -6,6 +6,45 @@
 
 namespace uking {
 
+SEAD_SINGLETON_DISPOSER_IMPL(GearMgr)
+
+// NON_MATCHING: the original zeroes `_10a4` with a word store (and uses the whole word in its read-modify-write
+// helpers: the field is probably a 32-bit flag word that other translation units test through a byte load);
+// the entry loops are also register-allocated differently.
+GearMgr::GearMgr() {
+    clear_();
+}
+
+// NON_MATCHING: see the constructor (word store to `_10a4`, entry loop registers).
+GearMgr::~GearMgr() {
+    clear_();
+}
+
+void GearMgr::clear_() {
+    _28 = 0;
+    _2c = 0;
+    for (size_t i = 0; i < 0x80; ++i)
+        mEntries[i].reset();
+    _1030.reset();
+    _10a4 = 0;
+    _10c0 = 0;
+    _10c4 = 0;
+    _1050 = nullptr;
+    _10c8 = 1.0f;
+    _10cc = 0;
+    _10dc = 0;
+    _10dd = 0;
+    _10b8[0] = 1.0f;
+    _10b8[1] = 1.0f;
+    _10a8[0] = 0;
+    _10a8[1] = 0;
+    _10b0[0] = 0;
+    _10b0[1] = 0;
+    _10a0 = 0;
+    _1098 = 0;
+    _109c = 0;
+}
+
 bool GearMgr::sub_71006690B8(ksys::act::BaseProc* proc) {
     if (!proc)
         return false;

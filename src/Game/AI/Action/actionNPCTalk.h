@@ -3,6 +3,10 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::act {
+class NPC;
+}  // namespace uking::act
+
 namespace uking::action {
 
 class NPCTalk : public ksys::act::ai::Action {
@@ -41,7 +45,7 @@ protected:
     struct S {
         u64 _0 = 0;
         s32 _8 = 0;
-        u64 _10 = 0;
+        uking::act::NPC* _10 = nullptr;
     } _d0;
 };
 KSYS_CHECK_SIZE_NX150(NPCTalk, 0xe8);

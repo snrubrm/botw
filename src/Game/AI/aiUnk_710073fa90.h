@@ -23,8 +23,8 @@ class RigidBody;
 
 // Copies the rotation part of the actor's transform (character controller, else main rigid body,
 // else Actor::getMtx()) into `mtx`. 0x710073FA90 only forwards to 0x710073FA94.
-void sub_710073FA90(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
-void sub_710073FA94(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
+void sub_710073FA90(sead::Matrix33f* mtx, ksys::act::Actor* actor);
+void sub_710073FA94(sead::Matrix33f* mtx, ksys::act::Actor* actor);
 // Copies the rotation part of `transform` into `mtx`.
 void sub_710073FB74(sead::Matrix33f* mtx, const sead::Matrix34f& transform);
 // Rotates `mtx` towards `target` (or the rotation built from the given vectors); returns whether the
@@ -54,8 +54,8 @@ void sub_7100744A54(ksys::act::BoneHandle* handle, const sead::Vector3f& target,
 
 // --- Group B ---
 
-void sub_7100741034(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
-void sub_7100741038(sead::Matrix33f* mtx, const ksys::act::Actor* actor);
+void sub_7100741034(sead::Matrix33f* mtx, ksys::act::Actor* actor);
+void sub_7100741038(sead::Matrix33f* mtx, ksys::act::Actor* actor);
 void sub_7100741118(sead::Matrix33f* mtx, const sead::Matrix34f& transform);
 bool sub_710074149C(sead::Matrix33f* mtx, const sead::Matrix34f& target, f32 a, f32 b, f32 c);
 // 0x7100741628 (declaration only): rotates `mtx` towards the up direction `up` (the three floats are

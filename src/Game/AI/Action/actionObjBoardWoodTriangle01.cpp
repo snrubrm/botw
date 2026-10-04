@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionObjBoardWoodTriangle01.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -28,7 +30,8 @@ void ObjBoardWoodTriangle01::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ObjBoardWoodTriangle01::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* body = mActor->findPhysicsBodyByName(sub_71007A2548()->cstr(), "LodArea"))
+        body->removeFromWorld();
 }
 
 void ObjBoardWoodTriangle01::loadParams_() {}

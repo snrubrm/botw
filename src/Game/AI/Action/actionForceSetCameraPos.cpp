@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForceSetCameraPos.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -21,7 +23,9 @@ void forceSetCameraPos::leave_() {
 void forceSetCameraPos::loadParams_() {}
 
 void forceSetCameraPos::calc_() {
-    ksys::act::ai::Action::calc_();
+    sead::Matrix34f mtx;
+    mtx.setTranslation(ksys::world::Manager::instance()->getCameraPos());
+    mActor->setMtx(mtx, false, true);
 }
 
 }  // namespace uking::action

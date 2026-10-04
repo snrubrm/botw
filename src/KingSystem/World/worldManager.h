@@ -211,6 +211,9 @@ public:
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }
 
+    // Inline-only in the original (forceSetCameraPos::calc_ copies it); name is a guess.
+    sead::Vector3f getCameraPos() const { return mCameraPos; }
+
     // Inline (WarpTagRoot::enter_ copies it).
     sead::Vector3f getPlayerPos() const { return mPlayerPos; }
 

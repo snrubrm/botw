@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionNPCTalk.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -17,7 +20,11 @@ void NPCTalk::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTalk::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->getASList()->x_2(66, 14, false, false);
+    if (_d0._10) {
+        _d0._10->_fe8 &= ~0x8000;
+        _d0._10->_fe8 &= ~0x40000000;
+    }
 }
 
 void NPCTalk::loadParams_() {

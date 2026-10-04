@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSunMove.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +13,8 @@ bool SunMove::init_(sead::Heap* heap) {
 }
 
 void SunMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    Unk_710260af28::instance()->sub_7100F1ECE8(mActor->getModel());
+    Unk_710260af28::instance()->sub_7100F1ED28(mActor->getModel(), false);
 }
 
 void SunMove::leave_() {

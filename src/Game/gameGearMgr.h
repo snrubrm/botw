@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
+#include <prim/seadDelegate.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -57,16 +58,27 @@ public:
 
     // 0x71006690b8: true if `proc` is linked in one of the 0x80 actor links (under mCS).
     bool sub_71006690B8(ksys::act::BaseProc* proc);
+    // 0x7100668d44 (declared only): the per-frame update, run through the delegate `_10e0`.
+    void sub_7100668D44();
 
     // Index (0 / 1) of the current entry of `_10a8`.
-    s32 _28;
+    s32 _28 = 0;
     // Index (0 / 1) of the current entry of `_10b0` (sub_7100669B48).
-    s32 _2c;
+    s32 _2c = 0;
     struct Entry {
+        // The constructor / destructor reset the entry (ctor: BaseProcLink(), reset(), stores).
+        Entry() { reset(); }
+        ~Entry() { reset(); }
+        void reset() {
+            mLink.reset();
+            _10 = true;
+            _18 = nullptr;
+        }
+
         ksys::act::BaseProcLink mLink;
         // Whether the actor joined the system group (`join_system_group`).
-        bool _10 = true;
-        void* _18 = nullptr;
+        bool _10;
+        void* _18;
     };
     Entry mEntries[0x80];
     // A second entry (0x1030; sub_710066956C / sub_71006695DC).
@@ -92,15 +104,20 @@ public:
     // Least common multiple of the registered gear ratios (sub_7100669144).
     f32 _10c8;
     u32 _10cc;
-    u32 _10d0;
-    u32 _10d4;
-    f32 _10d8;
+    u32 _10d0 = 0;
+    u32 _10d4 = 0;
+    f32 _10d8 = 0;
     u8 _10dc;
     u8 _10dd;
     u8 _10de[0x10e0 - 0x10de];
-    u8 _10e0[0x1100 - 0x10e0];
-    f32 _1100;
-    u32 _1104;
+    sead::Delegate<GearMgr> _10e0{this, &GearMgr::sub_7100668D44};
+    f32 _1100 = 0.5f;
+    u32 _1104 = 0;
+
+private:
+    // The initial / final state (inline in the original: the constructor and destructor store the same
+    // values; name is a guess).
+    void clear_();
 };
 KSYS_CHECK_SIZE_NX150(GearMgr, 0x1108);
 

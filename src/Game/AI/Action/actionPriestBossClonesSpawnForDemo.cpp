@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionPriestBossClonesSpawnForDemo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -17,7 +20,10 @@ void PriestBossClonesSpawnForDemo::enter_(ksys::act::ai::InlineParamPack* params
 }
 
 void PriestBossClonesSpawnForDemo::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* physics = mActor->getPhysics();
+    physics->sub_7100FBDFA4(physics->get178(0));
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+    sub_71007A3800(mActor);
 }
 
 void PriestBossClonesSpawnForDemo::loadParams_() {
