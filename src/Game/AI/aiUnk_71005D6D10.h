@@ -335,6 +335,9 @@ void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
 void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
+/// 0x71005d7c94 (declared only; placeholder name): copies the first token of `in` into `out`
+/// (false if either is empty / null).
+bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in);
 
 // --- awareness / territory helpers used by EnemyNormal subclasses (lane1; declarations only) ---
 

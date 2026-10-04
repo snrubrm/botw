@@ -24,6 +24,18 @@ void EquipedWeaponChild::loadParams_() {
     getStaticParam(&mIsChangeScale_s, "IsChangeScale");
 }
 
+void EquipedWeaponChild::sub_7100E14D6C(sead::Vector3f* scale) {
+    if (*mIsChangeScale_s) {
+        auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(
+            sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent()));
+        if (weapon && weapon->isWeaponType3() && weapon->m142()) {
+            weapon->m224(scale);
+            return;
+        }
+    }
+    *scale = sead::Vector3f::ones;
+}
+
 void EquipedWeaponChild::m32() {}
 
 ksys::act::Actor* EquipedWeaponChild::m33() {

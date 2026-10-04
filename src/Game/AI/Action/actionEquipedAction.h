@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -22,6 +23,8 @@ protected:
     // 0x7100e141f0 / 0x7100e144fc (out of line in the original): update the bind matrix / bind the weapon.
     void sub_7100E141F0();
     void sub_7100E144FC();
+    // 0x7100e14604 (out of line in the original, also called by EquipedWithScale::enter_): the weapon's bind info.
+    ksys::act::ModelBindInfo* sub_7100E14604();
 
     // dynamic_param at offset 0x20
     sead::SafeString mNodeName_d{};

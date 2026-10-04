@@ -27,8 +27,7 @@ struct Unk_7100704914 {
     // 0x710070507c: the action's m33 (removes the sensors named in `_0` / `_10`).
     void sub_710070507C();
 
-    /* 0x00 */ sead::SafeString _0;
-    /* 0x10 */ sead::SafeString _10;
+    /* 0x00 */ sead::SafeString _0[2];
     /* 0x20 */ sead::SafeString _20;
     /* 0x30 */ ksys::act::Actor* _30;
     /* 0x38 */ bool _38 = false;

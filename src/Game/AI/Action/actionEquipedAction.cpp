@@ -43,6 +43,13 @@ void EquipedAction::calc_() {
 
 void EquipedAction::m32() {}
 
+ksys::act::ModelBindInfo* EquipedAction::sub_7100E14604() {
+    auto* actor = mActor;
+    return sead::IsDerivedFrom<ksys::act::WeaponBase>(actor) ?
+               &static_cast<ksys::act::WeaponBase*>(actor)->_a00 :
+               nullptr;
+}
+
 void EquipedAction::sub_7100E141F0() {
     if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor))
         weapon->_a00._68.makeRT(*mRotOffset_d * sead::Mathf::deg2rad(1), *mTransOffset_d);

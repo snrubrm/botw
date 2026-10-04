@@ -10,6 +10,8 @@
 class Unk_71025afc58;
 class Unk_710073ebd4;
 class Unk_7102450038;
+struct Unk_7100704914;
+struct Unk_71007050e4;
 
 namespace ksys {
 struct AIDefSet;
@@ -60,6 +62,8 @@ class ActionBase {
     friend class ::Unk_71025afc58;
     friend class ::Unk_710073ebd4;
     friend class ::Unk_7102450038;
+    friend struct ::Unk_7100704914;
+    friend struct ::Unk_71007050e4;
 
 public:
     struct InitArg {

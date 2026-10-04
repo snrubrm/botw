@@ -25,6 +25,10 @@ struct Unk_7100715960 {
     void sub_7100715B3C();
     // 0x7100715b4c (declared only): per-frame update towards `target`.
     void sub_7100715B4C(sead::Vector3f* target);
+    // 0x7100715c6c / 0x7100715e94 (declared only): `out` = the direction to the target in the bone's frame /
+    // the rotation (euler angles) that turns the bone towards it (first-pass guesses).
+    void sub_7100715C6C(sead::Vector3f* out, sead::Vector3f* target);
+    void sub_7100715E94(sead::Vector3f* out, const sead::Vector3f* dir);
     // 0x7100716264 (declared only): per-frame update without a target (argument: the time / speed constant).
     void sub_7100716264(f32 value);
 

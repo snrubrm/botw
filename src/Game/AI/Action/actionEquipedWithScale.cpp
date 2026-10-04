@@ -8,6 +8,8 @@ EquipedWithScale::~EquipedWithScale() = default;
 
 void EquipedWithScale::enter_(ksys::act::ai::InlineParamPack* params) {
     EquipedAction::enter_(params);
+    if (auto* bind = sub_7100E14604())
+        bind->_98 = 2;
 }
 
 }  // namespace uking::action
