@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -52,6 +53,37 @@ void DefWanderAI::calc_() {
             sub_7100E4CABC();
         }
     }
+}
+
+void DefWanderAI::sub_7100E4CABC() {
+    const int count = _78++;
+    if (*mFinishChangeCount_s >= 0 && count >= *mFinishChangeCount_s)
+        return;
+
+    f32 rate = *mChangeWaitRate_s;
+    if (isCurrentChild("待機"))
+        rate = rate / 5.0f;
+
+    if (sead::GlobalRandom::instance()->getF32() < rate) {
+        if (*mMaxWaitTime_s < 0.0f) {
+            _6c = ksys::Timer(-1.0f, -1.0f, 0.0f);
+        } else {
+            const f32 min = *mMinWaitTime_s;
+            const f32 range = sead::Mathf::clampMin(*mMaxWaitTime_s - min, 0.0f);
+            const f32 time = min + sead::GlobalRandom::instance()->getF32Range(0.0f, range) + 0.5f;
+            _6c = ksys::Timer(time, time);
+        }
+        changeChild("待機");
+    } else {
+        sub_7100E4CC00();
+    }
+}
+
+void DefWanderAI::sub_7100E4CC00() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_60, "BasePos", -1);
+    pack.addVec3(_60, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 bool DefWanderAI::isFinished() const {

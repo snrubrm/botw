@@ -21,8 +21,11 @@ public:
     void loadParams_() override;
 
     bool m34() override;
+    bool m35() override;
     bool m36() override;
     void m40() override;
+    void m41() override;
+    void m39() override;
 
 protected:
     // static_param at offset 0xf8
@@ -48,7 +51,11 @@ protected:
     // static_param at offset 0x148
     const float* mIgnoreFoodAfterSuccessRand_s{};
     // 0x150: BaseProcLink (ctor), 0x160 .. 0x1b4: vector / counters (not decompiled)
-    u8 _150[0x1b8 - 0x150];
+    u8 _150[0x184 - 0x150];
+    sead::Vector3f _184;
+    u8 _190[0x1b0 - 0x190];
+    s32 _1b0{};
+    u8 _1b4[0x1b8 - 0x1b4];
     ksys::phys::RayCastForRequest* _1b8{};
     ksys::phys::RayCastForRequest* _1c0{};
 };

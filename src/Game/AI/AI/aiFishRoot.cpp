@@ -2,6 +2,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::ai {
 
@@ -46,8 +48,45 @@ bool FishRoot::m34() {
     return SimpleWildlifeRoot::m34();
 }
 
+bool FishRoot::m35() {
+    if (SimpleWildlifeRoot::m35())
+        return true;
+    auto* chemical = mActor->sub_71011D8A34(0);
+    if (chemical && chemical->_1b8 > 0.0f)
+        return true;
+    auto* cc = mActor->getCharacterController();
+    if (cc && mActor->get68f().load()) {
+        if ((cc->_116 & 0x14) == 0x10)
+            return true;
+    }
+    return false;
+}
+
 bool FishRoot::m36() {
     return false;
+}
+
+void FishRoot::m39() {
+    if (_c4.value <= sead::Mathf::epsilon()) {
+        if (!isCurrentChild("初期配置帰還") && !isCurrentChild("ジャンプ") && sub_710034342C()) {
+            if (!isCurrentChild("帰還"))
+                mActor->getMtx().getTranslation(_184);
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(_b8, "TargetPos", -1);
+            changeChild("逃走", &pack);
+        }
+    }
+}
+
+void FishRoot::m41() {
+    if (!isCurrentChild("地上待機")) {
+        if (auto* controller = mActor->getCharacterController()) {
+            controller->sub_7100F60604();
+            controller->sub_7100F63700(true);
+        }
+        _1b0 = 0;
+        changeChild("地上待機");
+    }
 }
 
 void FishRoot::m40() {

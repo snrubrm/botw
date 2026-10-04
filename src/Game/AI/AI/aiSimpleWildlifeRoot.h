@@ -44,6 +44,8 @@ public:
     virtual void m44();
 
     void sub_7100343510();
+    // 0x710034342c (declaration only; a FishRoot::m39 guard)
+    bool sub_710034342C();
 
 protected:
     Unk_71023dcc38 _38{};
