@@ -70,8 +70,7 @@ void Unk_7100e8b2b8::sub_7100E8BE10() {
         client->disable();
 }
 
-// NON_MATCHING: ours gets a frame record (stp x29, x30; the first temporary at x29 - 4) although the function only tail
-// calls; the body (flag updates, type dispatch) is identical
+// NON_MATCHING: only the register of the shared `1` constant (w10 instead of w11) and its position differ
 void Unk_7100e8b2b8::m7() {
     const u32 mask4 = 1u << Flag10(Flag10::_4);
     const bool is_set = _10 & mask4;
@@ -81,8 +80,7 @@ void Unk_7100e8b2b8::m7() {
     else
         _10 &= ~mask;
     _10 &= 0xffffffe1;
-    const Unk8 type = _8 & 0xff;
-    switch (int(type)) {
+    switch (int(Unk8(_8 & 0xff))) {
     case Unk8::_1:
         xlinkEventOn(mActor, 0x1d, 1, false);
         break;

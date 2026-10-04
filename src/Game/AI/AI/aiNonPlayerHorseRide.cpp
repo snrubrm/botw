@@ -42,16 +42,14 @@ void NonPlayerHorseRide::m34() {
         actor->sub_71011DA834(&_38);
 }
 
-// NON_MATCHING: the original tail-calls setFinished / setFailed (the SEAD_ENUM `type` is dead before them); ours keeps
-// `type` alive across the calls (no tail call). A `bool has_rider` computed in an inner block fixes it.
 void NonPlayerHorseRide::calc_() {
     if (++_d8 < 2)
         return;
     auto* ride_actor = act::getRideActor(mActor);
     if (!ride_actor)
         return;
-    const act::Unk_7100e8b2b8::Unk8 type = ride_actor->getMotorcyclePriorityStuffMaybe()->_8 & 0xff;
-    if (int(type) == act::Unk_7100e8b2b8::Unk8::_0) {
+    if (int(act::Unk_7100e8b2b8::Unk8(ride_actor->getMotorcyclePriorityStuffMaybe()->_8 & 0xff)) ==
+        act::Unk_7100e8b2b8::Unk8::_0) {
         setFailed();
         return;
     }

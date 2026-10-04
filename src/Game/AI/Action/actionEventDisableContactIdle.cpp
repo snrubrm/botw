@@ -25,12 +25,12 @@ bool EventDisableContactIdle::init_(sead::Heap* heap) {
     return false;
 }
 
-// NON_MATCHING: the original shifts by the layer without the SEAD_ENUM stack round trip (`and x8, x0, #0xffffffff; lsl`)
+// NON_MATCHING: the original zero-extends the returned layer with `and x8, x0, #0xffffffff` (we use w8)
 bool EventDisableContactIdle::DisableContactCallback::invoke(
     ksys::phys::ContactPointInfo::ShouldDisableContact* disable,
     const ksys::phys::ContactPointInfo::Event& event) {
     if (event.body) {
-        const u32 layer = u32(event.body->getContactLayer());
+        const u32 layer = u32(event.body->getContactLayer().value());
         if ((1 << (layer & 0x1f)) & mLayerMask) {
             *disable = ksys::phys::ContactPointInfo::ShouldDisableContact::Yes;
             return false;
