@@ -110,7 +110,7 @@ public:
     /* 147 */ void m147() override;
     /* 148 */ f32 m148() override { return _20d0; }
     /* 151 */ bool m151(u16 bit) override;
-    /* 157 */ void m157() override;
+    /* 157 */ bool m157(sead::Heap* heap) override;
     /* 158 */ void m158() override;
     /* 159 */ uking::act::Unk_71025ae680* m159() override;
     /* 160 */ void m160() override;

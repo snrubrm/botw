@@ -183,3 +183,7 @@ public:
 KSYS_CHECK_SIZE_NX150(ActorAtk, 0x80);
 
 }  // namespace ksys::act
+
+// 0x710079dfc0 (CSV name; namespace unknown): tests the actor attack/target-body prerequisite.
+// Declaration only; the original helper returns bool.
+bool actorHasTgtBody(ksys::act::Actor* actor);

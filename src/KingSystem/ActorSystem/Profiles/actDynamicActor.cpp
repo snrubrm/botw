@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameRoot38.h"
 
 namespace ksys::act {
@@ -62,6 +63,23 @@ void DynamicActor::onSleepRequested_(SleepWakeReason reason) {
     Actor::onSleepRequested_(reason);
     if (_a50)
         _a50->sub_71006E4668();
+}
+
+bool DynamicActor::constructActorAtk(sead::Heap* heap) {
+    if (!actorHasTgtBody(this))
+        return true;
+    _850 = ActorAtk::makeForActor(this, heap);
+    return _850 != nullptr;
+}
+
+bool DynamicActor::initField858(sead::Heap* heap) {
+    if (!getCharacterController()) {
+        auto* body = getMainBody();
+        if (!body || !body->getContactPointInfo())
+            return true;
+    }
+    _858 = new (heap, 8) Unk_7102459df8(this);
+    return _858 != nullptr;
 }
 
 bool DynamicActor::initField868(sead::Heap* heap) {

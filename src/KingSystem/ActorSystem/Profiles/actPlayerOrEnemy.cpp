@@ -35,6 +35,17 @@ BaseProc::InitResult PlayerOrEnemy::init_() {
     return weaponDroppedByEnemy() ? InitResult::Ok : InitResult::Failed;
 }
 
+bool PlayerOrEnemy::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!constructActorAtk(heap))
+        return false;
+    initField868(heap);
+    if (!initField858(heap))
+        return false;
+    if (m126() && _858 && !_858->m4(heap, nullptr))
+        return false;
+    return m157(heap);
+}
+
 void PlayerOrEnemy::onDeleteRequested_(DeleteReason reason) {
     DynamicActor::onDeleteRequested_(reason);
     if (sub_71011CBC28())

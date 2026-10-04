@@ -49,6 +49,8 @@ protected:
     // 0x71006dc5d4 (CSV DynamicActor::initField868): creates the ragdoll controller `_868` if the actor
     // has a ragdoll instance.
     bool initField868(sead::Heap* heap);
+    bool constructActorAtk(sead::Heap* heap);
+    bool initField858(sead::Heap* heap);
 
 public:
     Actor* m31() override;
@@ -83,7 +85,8 @@ public:
     virtual bool m154() { return false; }
     virtual bool m155() { return false; }
     virtual void m156();
-    virtual void m157();
+    // Slot 157: initialize damage manager using the supplied heap (6DC8F0 / Player 85DD3C).
+    virtual bool m157(sead::Heap* heap);
     virtual void m158();
     virtual uking::act::Unk_71025ae680* m159() { return nullptr; }
     virtual void m160();

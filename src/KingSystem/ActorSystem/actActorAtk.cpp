@@ -2,6 +2,9 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace ksys::act {
 
@@ -134,3 +137,14 @@ void AttackSensor::activateAttackSensor(u32 a1, u32 a2, u32 a3, u32 a4, f32 a5, 
 }
 
 }  // namespace ksys::act
+
+bool actorHasTgtBody(ksys::act::Actor* actor) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return false;
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return true;
+    if (physics->findBodyGroupByName(*sub_71007A24BC()))
+        return true;
+    return physics->findBodyGroupByName(*sub_71007A24D0()) != nullptr;
+}
