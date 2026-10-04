@@ -14,6 +14,7 @@ public:
     f32 m28() const override;
     f32 m29() const override;
     f32 m31() const override;
+    void m32(char16* glyph, u16* font_index, u8 type) override;
 
 private:
     /* 0x50 */ void* _50 = nullptr;
