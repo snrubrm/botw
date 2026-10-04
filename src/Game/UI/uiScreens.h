@@ -841,6 +841,7 @@ public:
     /* 0x3610 */ ScreenAppMapWidget* _3610;
     u8 _3618[0x3ad1 - 0x3618];
     /* 0x3ad1 */ u8 _3ad1;
+    /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
 };
 
 class ScreenPauseMenu : public ScreenEx {

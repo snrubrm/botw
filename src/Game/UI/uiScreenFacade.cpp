@@ -275,6 +275,26 @@ bool sub_7100A98AE4() {
     return true;
 }
 
+// 0x7100a9a308
+void sub_7100A9A308(s32 index, bool a1) {
+    if (u32(index) > 0xe)
+        return;
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+    screen->sub_71009EF51C(index);
+    Unk_71025d69f0::instance()->sub_710094D9F4(1, 1, 0, a1);
+}
+
+// 0x7100a9f27c
+void sub_7100A9F27C(bool a1) {
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+    screen->sub_71009EF4EC(4, 1);
+    Unk_71025d69f0::instance()->sub_710094D9F4(1, 1, 0, a1);
+}
+
 // 0x7100a98bb0
 bool sub_7100A98BB0() {
     if (!eui::ScreenMgr::instance())

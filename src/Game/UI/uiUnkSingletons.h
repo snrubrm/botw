@@ -126,6 +126,10 @@ public:
     static UiSubsys1* instance() { return sInstance; }
 
     bool sub_7100960DF8();
+    // 0x7100963704 / 0x7100968af8 / 0x7100968bd8 (placeholder names; the last is declared only)
+    void set128(s32 value);
+    void sub_7100968AF8(s32 index);
+    bool sub_7100968BD8();
     // 0x7100960dac (CSV uiSubsys1::__auto39; placeholder name): `index` is the lowest set bit of `_3860` (6: none)
     bool sub_7100960DAC(s32 index) const;
     // 0x710096101c / 0x7100961058 / 0x710096106c / 0x710096107c (placeholder names)
@@ -181,7 +185,8 @@ private:
     /* 0x848 */ s32 _848;
     u8 _84c[0x3820 - 0x84c];
     /* 0x3820 */ s32 _3820;
-    u8 _3824[0x3834 - 0x3824];
+    u8 _3824[0x3830 - 0x3824];
+    /* 0x3830 */ s32 _3830;
     /* 0x3834 */ sead::Vector3f _3834;
     u8 _3840[0x3858 - 0x3840];
     /* 0x3858 */ u8 _3858;

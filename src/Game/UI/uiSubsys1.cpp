@@ -5,6 +5,17 @@ namespace uking::ui {
 
 bool sub_7100A9C110(s32 value);
 
+// 0x7100963704
+void UiSubsys1::set128(s32 value) {
+    _128 = value;
+}
+
+// 0x7100968af8: sets a bit of the 16-bit flag word at 0x3860
+void UiSubsys1::sub_7100968AF8(s32 index) {
+    _3860 |= 1 << u16(index);
+    _3830 = 0;
+}
+
 // 0x7100960df8
 bool UiSubsys1::sub_7100960DF8() {
     return _3860 != 0;
