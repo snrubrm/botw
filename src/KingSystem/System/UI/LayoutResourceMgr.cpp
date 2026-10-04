@@ -252,10 +252,9 @@ bool LayoutResourceMgr::loadArcResource(Archive& archive, const char* name) {
         auto* resource =
             sead::DynamicCast<sead::DirectResource>(archive.getHandle()->getResource());
         if (resource) {
-            auto* arc_resource = reinterpret_cast<ArcResource*>(archive.mResourceStorage);
-            arc_resource->init(mArcResourceMgr, name, resource->getRawData(), archive.mHandle);
-            archive.mResource = arc_resource;
-            mArcResourceMgr->addArchive(archive.getResource());
+            archive.mResource = new (archive.mResourceStorage)
+                ArcResource(mArcResourceMgr, name, resource->getRawData(), archive.mHandle);
+            mArcResourceMgr->addArchiveToList(archive.getResource());
         }
     }
     return true;
