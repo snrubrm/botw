@@ -117,6 +117,13 @@ f32 GameSceneSubsys12::sub_7100664ACC(ksys::act::BaseProc* proc) {
     return _300.hasProc() && _310 ? _310->sub_710065FA28(proc, _270) : 0.0f;
 }
 
+bool GameSceneSubsys12::sub_7100664A64(ksys::act::BaseProcLink* link, bool immediately) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (!_a78.isBitOn(0))
+        return _318.sub_710065F258(link, immediately);
+    return false;
+}
+
 void GameSceneSubsys12::sub_7100665360() {
     sead::ScopedLock<sead::CriticalSection> lock(&_38);
     _d4 = 0;

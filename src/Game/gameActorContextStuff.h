@@ -14,6 +14,7 @@
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace sead {
 class Heap;
@@ -77,10 +78,7 @@ public:
     sead::Quatf _78 = sead::Quatf::unit;
     sead::Vector3f _88{0.0f, 0.0f, 0.0f};
     f32 _94 = 1.0f;
-    sead::Vector3f _98{0.0f, 0.0f, 0.0f};
-    u8 _a4[4];
-    sead::Vector3f _a8{0.0f, 0.0f, 0.0f};
-    u8 _b4[4];
+    Unk_71012419b4 _98;
     f32 _b8 = 1.0f;
     f32 _bc = 0.0f;
     f32 _c0 = 1.0f;
@@ -89,7 +87,7 @@ public:
     ksys::act::BaseProcLink _d8;
     sead::Matrix34f _e8 = sead::Matrix34f::ident;
     ActorContextStuff* _118 = nullptr;
-    u32 _120 = 0;
+    f32 _120 = 0.0f;
 };
 static_assert(sizeof(Unk_710243be90) == 0x128);
 

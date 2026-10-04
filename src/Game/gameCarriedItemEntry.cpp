@@ -8,7 +8,7 @@
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
 
 // NON_MATCHING: scalar initializer stores are scheduled/coalesced differently.
-Unk_710243be90::Unk_710243be90() = default;
+Unk_710243be90::Unk_710243be90() : _98() {}
 
 Unk_710243be90::~Unk_710243be90() {
     if (_50) {

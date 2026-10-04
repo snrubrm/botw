@@ -53,6 +53,8 @@ public:
     void sub_71006643EC();
     // 0x7100664484: handles the carried-context state transition (declaration only).
     void sub_7100664484(s32 state, ActorContextStuff* context);
+    // 0x7100664a64: removes a matching entry from the embedded carried context.
+    bool sub_7100664A64(ksys::act::BaseProcLink* link, bool immediately);
     // 0x7100664acc: returns the carried actor's fade progress.
     f32 sub_7100664ACC(ksys::act::BaseProc* proc);
     // 0x7100664b3c / 0x7100664c30: carried-context scale and placement offset.
