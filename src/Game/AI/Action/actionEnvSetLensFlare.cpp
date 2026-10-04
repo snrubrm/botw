@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEnvSetLensFlare.h"
+#include "Game/gameGraphics.h"
 
 namespace uking::action {
 
@@ -9,7 +10,7 @@ bool EnvSetLensFlare::init_(sead::Heap* heap) {
 }
 
 void EnvSetLensFlare::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    Graphics::instance()->sub_7100F2DDF0(*mPresetIndex_d);
 }
 
 void EnvSetLensFlare::leave_() {

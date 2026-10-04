@@ -80556,7 +80556,7 @@ Address,Quality,Size,Name
 0x0000007100ed99d8,O,000240,_ZN4ksys3map18StagePreActorCache10getMapTypeEPN4sead22BufferedSafeStringBaseIcEE
 0x0000007100ed9ac8,O,000052,_ZN5uking6action15EnvSetLensFlareC1ERKN4ksys3act2ai10ActionBase7InitArgE
 0x0000007100ed9afc,O,000008,_ZN5uking6action15EnvSetLensFlare5init_EPN4sead4HeapE
-0x0000007100ed9b04,W,000028,_ZN5uking6action15EnvSetLensFlare6enter_EPN4ksys3act2ai15InlineParamPackE
+0x0000007100ed9b04,O,000028,_ZN5uking6action15EnvSetLensFlare6enter_EPN4ksys3act2ai15InlineParamPackE
 0x0000007100ed9b20,O,000004,_ZN5uking6action15EnvSetLensFlare5calc_Ev
 0x0000007100ed9b24,O,000004,_ZN5uking6action15EnvSetLensFlare6leave_Ev
 0x0000007100ed9b28,O,000108,_ZN5uking6action15EnvSetLensFlare11loadParams_Ev
@@ -82039,7 +82039,7 @@ Address,Quality,Size,Name
 0x0000007100f2dd98,U,000004,nullsub_4128
 0x0000007100f2dd9c,U,000004,nullsub_4129
 0x0000007100f2dda0,U,000080,
-0x0000007100f2ddf0,U,000116,Graphics::__auto5
+0x0000007100f2ddf0,U,000116,_ZN8Graphics14sub_7100F2DDF0Ei
 0x0000007100f2de64,U,000028,
 0x0000007100f2de80,U,000132,
 0x0000007100f2df04,U,000124,
