@@ -37,6 +37,7 @@ class XLink;
 namespace ksys::act {
 
 class Actor;
+class Chemical;
 class Schedule;
 
 class ActorConstDataAccess : public ActorLinkConstDataAccess {
@@ -212,6 +213,18 @@ public:
     f32 sub_7100D12100() const;
     // 0x7100d1525c: Actor::_687 = true.
     void sub_7100D1525C() const;
+    // 0x7100d11048 / 0x7100d14114 / 0x7100d14e0c: forward Actor::m57() / m38() / getChemicalStuff().
+    bool sub_7100D11048() const;
+    f32 sub_7100D14114() const;
+    Chemical* sub_7100D14E0C() const;
+    // 0x7100d13080 / 0x7100d13128: Chemical::_1b8 / _1bc of the actor's chemical (0 without).
+    f32 sub_7100D13080() const;
+    f32 sub_7100D13128() const;
+    // 0x7100d146d8: the DynamicActor's m100() object has `_100 == 2`.
+    bool sub_7100D146D8() const;
+    // 0x7100d13c64 / 0x7100d13d10: Unk_71006e45c4::m9() / m16() of Actor::m128().
+    bool sub_7100D13C64() const;
+    bool sub_7100D13D10() const;
 
     // Defined in Profiles/actDynamicActor.cpp (the DynamicActor TU). sub_71006DE298 returns the bool
     // map unit parameter `name` (actorAIGetBool), sub_71006DE338 the AI tree variable

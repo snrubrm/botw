@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapObject.h"
@@ -639,6 +640,74 @@ f32 ActorConstDataAccess::sub_7100D12100() const {
     if (!actor)
         return 1;
     return actor->mScale.x;
+}
+
+bool ActorConstDataAccess::sub_7100D11048() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    return actor->m57();
+}
+
+f32 ActorConstDataAccess::sub_7100D14114() const {
+    auto* actor = getActor();
+    if (!actor)
+        return 0;
+    return actor->m38();
+}
+
+// NON_MATCHING: the original does not tail-call the virtual function
+Chemical* ActorConstDataAccess::sub_7100D14E0C() const {
+    auto* actor = getActor();
+    if (!actor)
+        return nullptr;
+    return actor->getChemicalStuff();
+}
+
+f32 ActorConstDataAccess::sub_7100D13080() const {
+    f32 value = 0;
+    if (auto* actor = getActor()) {
+        if (auto* chemical = actor->getChemicalStuff())
+            value = chemical->_1b8;
+    }
+    return value;
+}
+
+f32 ActorConstDataAccess::sub_7100D13128() const {
+    f32 value = 0;
+    if (auto* actor = getActor()) {
+        if (auto* chemical = actor->getChemicalStuff())
+            value = chemical->_1bc;
+    }
+    return value;
+}
+
+bool ActorConstDataAccess::sub_7100D146D8() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    auto* obj = actor->m100();
+    if (!obj)
+        return false;
+    return obj->_100 == 2;
+}
+
+bool ActorConstDataAccess::sub_7100D13C64() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (auto* obj = actor->m128())
+        return obj->m9();
+    return false;
+}
+
+bool ActorConstDataAccess::sub_7100D13D10() const {
+    auto* actor = getActor();
+    if (!actor)
+        return false;
+    if (auto* obj = actor->m128())
+        return obj->m16();
+    return false;
 }
 
 void ActorConstDataAccess::sub_7100D1525C() const {
