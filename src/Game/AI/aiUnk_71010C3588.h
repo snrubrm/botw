@@ -12,6 +12,14 @@ namespace ksys::phys {
 class RigidBody;
 }
 
+namespace ksys::act {
+class Actor;
+}
+
+namespace sead {
+class Heap;
+}
+
 // Placeholder name = vtable address (0x710250c260; constructor 0x71010c3588, D1 0x71010c35e4, D0
 // 0x71010c3644). Sensor body helper embedded in ExpandSensor / ExpandSensorSlowly (+0x48 in the latter): owns
 // a rigid body (created by 0x71010c36a4, not decompiled) which the destructor removes from the world and
@@ -22,7 +30,8 @@ public:
     virtual ~Unk_710250c260();
 
     // 0x71010c36a4 (declared only): creates the sensor body.
-    void sub_71010C36A4(f32 a1, f32 a2, void* a3, void* a4);
+    void sub_71010C36A4(f32 a1, f32 a2, const sead::Matrix34f* mtx, sead::Heap* heap,
+                        ksys::act::Actor* actor);
 
     /* 0x08 */ void* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
@@ -46,6 +55,8 @@ public:
 
     // 0x71010c4008 (declared only; 516 B): releases the effect / body / event.
     void destroy(bool remove_links);
+    // 0x71010c42b4 (declared only; 488 B).
+    void sub_71010C42B4();
     // 0x71010c4284: true if the body was removed from the world (or there is none). Placeholder name.
     bool sub_71010C4284() const;
 

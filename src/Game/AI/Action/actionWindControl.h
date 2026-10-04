@@ -41,7 +41,7 @@ protected:
     const bool* mIsModelControlOnly_s{};
     // static_param at offset 0x100
     sead::SafeString mTargetNodeName_s{};
-    /* 0x110 */ u32 _110 = 0;
+    /* 0x110 */ f32 _110 = 0;
     /* 0x118 */ Unk_710250c3c8 _118;
     /* 0x1a0 */ f32 _1a0 = 0.1f;
     /* 0x1a4 */ f32 _1a4 = 1.0f;

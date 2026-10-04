@@ -7,11 +7,23 @@ WindControl::WindControl(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 
 bool WindControl::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _118.sub_71010C42B4();
+    if (mActor) {
+        if (mActor->getName() == "WindGeneratorLength")
+            _118._80 = true;
+    }
+    return true;
 }
 
 void WindControl::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _110 = actor->hasPlacementLinkForBasicSig() ? 0.0f : *mMaxRadSpeed_s;
+    if (!mTargetNodeName_s.isEmpty() && !_20._8) {
+        _20.setName(mTargetNodeName_s);
+        actor->boneHandleStuff(&_20, false);
+    }
+    _1a0 = 0.1f;
+    _1a4 = 1.0f;
 }
 
 void WindControl::leave_() {

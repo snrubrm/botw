@@ -9,7 +9,8 @@ ForkCapsuleWindFollow::~ForkCapsuleWindFollow() {
 }
 
 bool ForkCapsuleWindFollow::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _40.sub_71010C42B4();
+    return true;
 }
 
 void ForkCapsuleWindFollow::enter_(ksys::act::ai::InlineParamPack* params) {
