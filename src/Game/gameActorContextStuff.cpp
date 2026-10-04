@@ -1,7 +1,19 @@
 #include "Game/gameActorContextStuff.h"
 #include "Game/gameSceneSubsys12.h"
+#include "KingSystem/Physics/System/physSystem.h"
 
 #include <prim/seadScopedLock.h>
+
+ActorContextStuff::ActorContextStuff(ksys::act::BaseProc* proc)
+    : sead::TListNode<ActorContextStuff*>(this), _638(5, _648.getBufferPtr()),
+      _670(5, _680.getBufferPtr()) {
+    _708.acquire(proc, false);
+}
+
+ActorContextStuff::~ActorContextStuff() {
+    erase();
+    ksys::phys::System::instance()->removeSystemGroupHandler(_6b0);
+}
 
 void ActorContextStuff::x_0() {
     for (auto& entry : _70)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <gsys/gsysModelAccessKey.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <container/seadTList.h>
@@ -9,6 +10,7 @@
 #include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActorBind.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
@@ -81,9 +83,12 @@ public:
 };
 static_assert(sizeof(Unk_710243be90) == 0x128);
 
-// Name from the CSV. Carried-item context embedded in GameSceneSubsys12; layout incomplete.
-class ActorContextStuff {
+// Name from the CSV. The constructor65d6e8 has a TListNode<ActorContextStuff*> base at+8,
+// a virtual destructor (vtable header243be70), five entries and two backed pointer arrays.
+class ActorContextStuff : public sead::TListNode<ActorContextStuff*> {
 public:
+    explicit ActorContextStuff(ksys::act::BaseProc* proc);
+    virtual ~ActorContextStuff();
     // 0x710065d8e4
     void sub_710065D8E4(sead::Heap* heap, bool a2);
     // 0x710065e2b0: binds a matching entry to proc, or returns null.
@@ -108,13 +113,20 @@ public:
     // 0x710065fa28: fade progress for the entry bound to proc.
     f32 sub_710065FA28(ksys::act::BaseProc* proc, f32 time);
 
-    u8 _0[0x28];
     sead::CriticalSection _28;
-    u32 _68;
-    s32 _6c;
+    u32 _68 = 0;
+    s32 _6c = 0;
     // Constructor65d6e8 constructs five entries at70/198/2c0/3e8/510.
     sead::SafeArray<Unk_710243be90, 5> _70;
     sead::PtrArray<Unk_710243be90> _638;
-    u8 _648[0x760 - 0x648];
+    sead::SafeArray<Unk_710243be90*, 5> _648;
+    sead::PtrArray<Unk_710243be90> _670;
+    sead::SafeArray<Unk_710243be90*, 5> _680;
+    ksys::phys::SystemGroupHandler* _6a8;
+    ksys::phys::SystemGroupHandler* _6b0;
+    sead::SafeArray<ksys::act::BaseProcHandle, 5> _6b8;
+    ksys::act::BaseProcLink _708;
+    sead::Vector3f _718 = sead::Vector3f::zero;
+    gsys::BoneAccessKeyEx _728;
 };
 KSYS_CHECK_SIZE_NX150(ActorContextStuff, 0x760);
