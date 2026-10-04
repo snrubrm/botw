@@ -200,14 +200,17 @@ void CharacterController::sub_7100F60458() {
     _94.set(0, 0, 0);
 }
 
-// NON_MATCHING: store order / scheduling (the original stores the flag word last)
+// NON_MATCHING: store order / merging (the original keeps 4-byte stores for 0x144 / 0x148 / 0x15c, one stp for
+// 0x160-0x16f and stores the flag word last)
 void CharacterController::sub_7100F6059C() {
     _116 &= 0xe3e3;
     _148 = 0;
     _144 = 1.0f;
     _15c = 0;
     _160 = 0;
+    _164 = 0;
     _168 = 0;
+    _16c = 0;
     _210 = 0;
     _214 = 0;
 }
@@ -283,20 +286,12 @@ void CharacterController::sub_7100F631F4(bool on) {
     mFlags.changeBit(8, on);
 }
 
-// NON_MATCHING: the original selects the three flag updates with csel and different register assignment
+// NON_MATCHING: only the constants of the three `and`s (the original uses 32-bit logical immediates such as
+// 0xfffffbff, we materialise 0xfbff / 0xf7ff / 0xefff) and the register assignment differ
 void CharacterController::sub_7100F5E898() {
-    if (_30->mShapes[_224]._10)
-        _114 |= 0x400;
-    else
-        _114 &= ~0x400;
-    if (_30->mShapes[_224]._11)
-        _114 |= 0x800;
-    else
-        _114 &= ~0x800;
-    if (_30->mShapes[_224]._12)
-        _114 |= 0x1000;
-    else
-        _114 &= ~0x1000;
+    _114 = _30->mShapes[_224]._10 ? (_114 | 0x400) : (_114 & ~0x400);
+    _114 = _30->mShapes[_224]._11 ? (_114 | 0x800) : (_114 & ~0x800);
+    _114 = _30->mShapes[_224]._12 ? (_114 | 0x1000) : (_114 & ~0x1000);
 }
 
 void CharacterController::sub_7100F5E95C(f32 scale) {

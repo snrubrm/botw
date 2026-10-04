@@ -296,8 +296,10 @@ public:
     s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
     u8 _154[0x15c - 0x154];
     f32 _15c;
-    u64 _160;
-    u64 _168;
+    f32 _160;
+    f32 _164;
+    f32 _168;
+    f32 _16c;
     u8 _170[0x210 - 0x170];
     f32 _210;
     f32 _214;
