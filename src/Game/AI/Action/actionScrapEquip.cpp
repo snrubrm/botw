@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionScrapEquip.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -27,6 +30,13 @@ void ScrapEquip::loadParams_() {
 
 void ScrapEquip::calc_() {
     ActionWithAS::calc_();
+    auto* actor = mActor;
+    if (actor->getASList()->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        const f32 speed = -*mDropSpd_s;
+        const auto& mtx = actor->getMtx();
+        const sead::Vector3f velocity{mtx.m[0][2] * speed, mtx.m[1][2] * speed, mtx.m[2][2] * speed};
+        playerOrEnemyDropWeapon(actor, &velocity, *mWeaponIdx_s, false, false, nullptr, false);
+    }
 }
 
 }  // namespace uking::action

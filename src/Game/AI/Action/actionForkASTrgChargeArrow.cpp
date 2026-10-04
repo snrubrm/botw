@@ -28,7 +28,19 @@ void ForkASTrgChargeArrow::loadParams_() {
 }
 
 void ForkASTrgChargeArrow::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 55, nullptr, *mTargetBone_s, *mSeqBank_s)) {
+        _40 = 1;
+        switch (*mIsEndState_s) {
+        case 1:
+            mFlags.set(Flag::Changeable);
+            break;
+        case 2:
+            setFinished();
+            break;
+        }
+    }
+    if (_40 == 1)
+        sub_71005D787C(mActor, *mWeaponIdx_s, uking::act::Unk_71002eda38(4));
 }
 
 }  // namespace uking::action

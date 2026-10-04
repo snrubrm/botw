@@ -20,8 +20,9 @@ protected:
     void calc_() override;
 
     sead::Matrix34f _1c = sead::Matrix34f::ident;
-    s32 _4c = 0;
-    u16 _50 = 0;
+    f32 _4c = 0;
+    bool _50 = false;
+    bool _51 = false;
 };
 KSYS_CHECK_SIZE_NX150(NavMeshConnectAction, 0x58);
 
