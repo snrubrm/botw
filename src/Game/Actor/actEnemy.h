@@ -386,7 +386,7 @@ public:
     /* 0x13a8 */ ksys::act::BaseProcLink _13a8;
     /* 0x13b8 */ u8 _13b8 = 0;
     /* 0x13b9 */ u8 _13b9 = 0;
-    /* 0x13c0 */ void* _13c0 = nullptr;
+    /* 0x13c0 */ ksys::act::LifeRecoverInfo* _13c0 = nullptr;
     /* 0x13c8 */ Unk_71023579d8 _13c8;
     /* 0x1408 */ Unk_71023579a8 _1408;
     /* 0x1448 */ Unk_7102357978 _1448;

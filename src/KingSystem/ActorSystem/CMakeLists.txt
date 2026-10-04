@@ -216,6 +216,7 @@ target_sources(uking PRIVATE
     actInfoData.h
     actInstParamPack.cpp
     actInstParamPack.h
+    actLifeRecoveryInfo.cpp
     actLifeRecoveryInfo.h
     actModelBindInfo.cpp
     actModelBindInfo.h

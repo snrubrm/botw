@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
 #include "KingSystem/Utils/Types.h"
@@ -39,11 +40,14 @@ public:
 
     void printLifeRecoverInfo(u32 life, sead::FormatFixedSafeString<128>** Output);
 
+    // SEAD_ENUM in the original (stack round trip): bit index of the flag cleared by onApplyDamage_0.
+    SEAD_ENUM(Flag, _0, _1)
+
     f32 mCounter;
     f32 mField_4;
     u8 gap_8[16];  // Is this really a gap?
-    u32 mExtraHp1;
-    u32 mExtraHp2;
+    s32 mExtraHp1;
+    s32 mExtraHp2;
     u32 mMaxLife;
     f32 mRecoverFactor;
     s32 mField_28;

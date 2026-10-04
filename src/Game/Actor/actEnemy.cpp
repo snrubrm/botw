@@ -1,4 +1,5 @@
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
@@ -311,6 +312,17 @@ bool Enemy::m177(s32 idx, ksys::act::Actor* weapon) {
     _c38[idx].acquire(weapon, false);
     _e80.set(1 << idx);
     return true;
+}
+
+// NON_MATCHING: the original loads the flag byte after computing the bit mask (schedule only)
+ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
+    auto* info = _13c0;
+    if (!info)
+        return nullptr;
+    const ksys::act::LifeRecoverInfo::Flag flag(0);
+    if (info->mFlags & (1 << int(flag)))
+        return info;
+    return nullptr;
 }
 
 }  // namespace uking::act
