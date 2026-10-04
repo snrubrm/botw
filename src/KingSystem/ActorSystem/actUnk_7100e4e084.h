@@ -37,7 +37,8 @@ public:
     /* 0x008 */ sead::CriticalSection _8;
     /* 0x048 */ sead::FixedSafeString<32> _48;
     /* 0x080 */ sead::Matrix34f _80;
-    /* 0x0b0 */ u8 _b0[0xbc - 0xb0];
+    /* 0x0b0 */ u64 _b0;
+    /* 0x0b8 */ u32 _b8;
     /* 0x0bc */ u8 _bc = 0;
     /* 0x0c0 */ sead::CriticalSection _c0;
     /* 0x100 */ s32 _100 = -1;

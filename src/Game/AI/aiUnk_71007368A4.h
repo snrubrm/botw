@@ -52,6 +52,8 @@ bool sub_7100739438(ksys::act::Actor* actor, sead::Vector3f* out);
 /// 0x7100739498 (lane1 s22): the transform of the actor's main physics body; false without
 /// actor / `out` / main body.
 bool sub_7100739498(ksys::act::Actor* actor, sead::Matrix34f* out);
+// 0x7100739178 (declared only; 628 B): the world matrix of the bone `bone` of the actor's connected calc parent.
+bool sub_7100739178(ksys::act::Actor* actor, const sead::SafeString* bone, sead::Matrix34f* out);
 /// 0x71007394dc (lane1 s22): the actor's main physics body (nullptr without an actor).
 ksys::phys::RigidBody* sub_71007394DC(ksys::act::Actor* actor);
 /// 0x71007398a8 (lane1 s21): the actor's BoneControl::_0 object (nullptr without a bone control).

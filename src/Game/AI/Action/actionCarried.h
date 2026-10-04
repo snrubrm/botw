@@ -23,7 +23,7 @@ protected:
     void calc_() override;
     virtual bool m32();
     // 0x71000d4fb4 / 0x71000d5da4 / 0x71000d50d0 / 0x71000d5dac / 0x71000d5dc8 (m33 / m35 declared only).
-    virtual bool m33(sead::Matrix34f* out, const sead::Vector3f* a2);
+    virtual bool m33(sead::Matrix34f* out, const sead::SafeString* bone);
     virtual ksys::act::ModelBindInfo* m34() { return &_70; }
     virtual void m35();
     virtual void m36(const sead::Matrix34f* mtx) { _70._68 = *mtx; }

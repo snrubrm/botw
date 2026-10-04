@@ -29,6 +29,13 @@ public:
     explicit CarriedData(ksys::act::Actor* actor);
     virtual ~CarriedData();
 
+    // 0x71006f8f14 / 0x71006f8d58 / 0x71006f5450 / 0x71006f4804 (CSV CarriedData::x_10 .. x_13; declared only;
+    // called directly (devirtualised) by Carried::leave_). The matrix / vector are passed by value.
+    void x_10();
+    void x_11();
+    void x_12();
+    void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
+
     ksys::act::Actor* mActor;
     u32 _10 = 0;
     f32 _14 = sead::Mathf::pi() / 6;  // 0x3f060a92 (30 degrees)
