@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionUnk_7102451ba0.h"
 #include "Game/AI/Action/actionActionWithAS.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710022424c (declared only): out of line in the original.
+    void sub_710022424C(ksys::as::ASList::Unk4* query);
     void calc_() override;
 
     // static_param at offset 0x30

@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionPunchAttack.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <prim/seadStringBuilder.h>
 
@@ -47,8 +49,24 @@ void PunchAttack::loadParams_() {
     }
 }
 
+// NON_MATCHING: identical except the scheduler loads `*cNullChar` (w21) before the first name character
+// instead of after it
 void PunchAttack::calc_() {
     ActionWithAS::calc_();
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD66C(mActor, &query, 0, 0)) {
+        sub_710022424C(&query);
+    } else if (sub_71005DD74C(mActor, nullptr, 0, 0)) {
+        if (!mAtkBodyName_s[0].isEmpty()) {
+            auto* actor = mActor;
+            sub_71007A2D7C(actor, mAtkBodyName_s[0]);
+            if (!mAtkBodyName_s[1].isEmpty()) {
+                sub_71007A2D7C(actor, mAtkBodyName_s[1]);
+                if (!mAtkBodyName_s[2].isEmpty())
+                    sub_71007A2D7C(actor, mAtkBodyName_s[2]);
+            }
+        }
+    }
 }
 
 }  // namespace uking::action

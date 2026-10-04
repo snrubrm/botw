@@ -1,4 +1,11 @@
 #include "Game/AI/Action/actionForkASTrgAerialTurn.h"
+#include <algorithm>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -28,7 +35,50 @@ void ForkASTrgAerialTurn::loadParams_() {
 }
 
 void ForkASTrgAerialTurn::calc_() {
-    ksys::act::ai::Action::calc_();
+    const f32 ratio = *mPosStayRatio_s;
+    const f32 diff = ratio - 1.0f;
+    if (!(diff <= sead::Mathf::epsilon() && diff >= -sead::Mathf::epsilon()))
+        sub_7100738488(mActor, ratio, -sead::Vector3f::ey);
+    sub_71001400E8();
+}
+
+// NON_MATCHING: identical instructions; the allocator swaps x8/x9 (the loaded query._10 lands in w9, the
+// vtable pointer in x8) around the `ldp x?, x20, [x19]` before the m32 call
+void ForkASTrgAerialTurn::sub_71001400E8() {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return;
+
+    sead::Vector3f dir;
+    f32 speed;
+    sead::Vector3f ang_vel;
+    ksys::as::ASList::Unk4 query;
+    if (sub_71005DD5B0(mActor, 41, &query, 0, 0)) {
+        if (!*mIsOnASEventChangeable_s)
+            mFlags.reset(Flag::Changeable);
+        auto* actor = mActor;
+        _5c = query._10;
+        const f32 rate = std::max(query._10, 1.0f);
+        m32(&dir, &speed);
+        if (rate > 5.0f)
+            speed *= 1.05f;
+        speed /= rate;
+        ang_vel = dir * speed;
+        ksys::act::sub_7100EE5A14(actor, ang_vel);
+    } else if (as_list->x(41, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        ksys::Timer::update(&_5c, -1.0f);
+        if (*mIsOnASEventChangeable_s) {
+            sub_7100140390(true);
+            return;
+        }
+        sub_7100738AA8(mActor, 0.99f);
+    } else {
+        mFlags.set(Flag::Changeable);
+        const f32 ratio = *mRotStayRatio_s;
+        const f32 diff = ratio - 1.0f;
+        if (!(diff <= sead::Mathf::epsilon() && diff >= -sead::Mathf::epsilon()))
+            sub_7100738AA8(mActor, ratio);
+    }
 }
 
 }  // namespace uking::action
