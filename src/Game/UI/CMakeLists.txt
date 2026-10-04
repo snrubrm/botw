@@ -28,6 +28,7 @@ target_sources(uking PRIVATE
   euiMessageString.cpp
   euiMessageString.h
   euiScreen.cpp
+  euiScreenMgr.cpp
   euiScreen.h
   uiFadeProgress.cpp
   uiFadeScreens.cpp

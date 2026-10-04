@@ -147,7 +147,7 @@ bool Screen::isClosedOrClosing() const {
 void Screen::open(s32 option) {
     if (_fd <= option)
         _fd = option;
-    mMgr->sub_7100BEC808(mId);
+    mMgr->activateScreen(mId);
 }
 
 // 0x7100be973c

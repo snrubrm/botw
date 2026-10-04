@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
@@ -40,6 +41,7 @@ class ScreenMgr;
 class ScreenTargetMgr;
 class MessageMgr;
 class FontMgr;
+class ConstantBuffer;
 
 // (only the nested type is needed so far)
 struct DrawInfoEx {
@@ -138,6 +140,10 @@ public:
     f32 getOpenFrameSize() const;
     // 0x7100be9880
     void setOwnInitializeHeap(bool own);
+    bool isOwnInitializeHeap() const { return _107 & 1; }
+    sead::Heap* getInitializeHeap() const { return mInitializeHeap; }
+    s32 getId() const { return mId; }
+    bool hasFlag4() const { return _107 & 4; }
 
     // 0x7100be9830 / 0x7100be9850 (placeholder names): link / unlink an animator in `mAnimators`
     void addAnimator(Animator* animator);
@@ -172,7 +178,8 @@ public:
     u8 _40[0x78 - 0x40];
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
-    u8 _a0[0xc0 - 0xa0];
+    u8 _a0[0xb8 - 0xa0];
+    /* 0xb8 */ sead::Heap* mInitializeHeap;  // destroyed with the screen if it is owned (_107 bit 0)
     /* 0xc0 */ s32 mId;
     u8 _c4[0xd8 - 0xc4];
     /* 0xd8 */ BoxCursorNode* _d8;
@@ -219,25 +226,32 @@ public:
     u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
 
-    // 0x7100bec7e8 / 0x7100bec808
+    // 0x7100bec794 / 0x7100bec724 / 0x7100bec7e8 / 0x7100bec808
+    void resetScreenId(s32 id);
+    void unloadScreen(s32 id);
     void inactivateScreen(s32 id);
-    void sub_7100BEC808(s32 id);
+    void activateScreen(s32 id);
+    // 0x7100bec4c0 / 0x7100bec534 / 0x7100bec690
+    void update();
+    void updateScreenAll();
+    void draw(s8 target, const DrawInfoEx::RenderBufferInfo* info);
     // 0x7100bec840
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
 
 private:
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;
-    u8 _38[0x48 - 0x38];
+    /* 0x38 */ sead::Buffer<s8> mScreenTargets;  // draw target of each screen (-1: inactive)
     /* 0x48 */ ScreenTargetMgr* mTargetMgr;
-    u8 _50[0xb18 - 0x50];
+    u8 _50[0xb18 - 0x50];  // 0x50: nn::ui2d::GraphicsResource, 0xb08: unknown object, SharcArchive at 0xb28
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
     u8 _b24[0xb30 - 0xb24];
     /* 0xb30 */ MessageMgr* mMessageMgr;
     /* 0xb38 */ FontMgr* mFontMgr;
     /* 0xb40 */ sead::SafeArray<u8, 2> mTargetFlags;  // indexed by DrawTarget (read by Screen::sub_7100BE9F60)
-    u8 _b42[0xb50 - 0xb42];
+    u8 _b42[0xb48 - 0xb42];
+    /* 0xb48 */ ConstantBuffer* mConstantBuffer;
 };
 
 }  // namespace eui
