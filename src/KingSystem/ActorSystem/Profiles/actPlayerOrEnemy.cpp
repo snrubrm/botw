@@ -338,3 +338,21 @@ bool PlayerOrEnemy::dropAllWeapons(const sead::Vector3f& pos) {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+void PlayerOrEnemy::m76(VFR::ScopedDeltaSetter* setter) {
+    DynamicActor::m76(setter);
+    sub_7100009C5C();
+}
+
+void PlayerOrEnemy::sub_7100009C5C() {
+    getWeapons();
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && *weapon->getLife() <= 0)
+            getWeapons()->dropWeapon(i, sead::Vector3f::zero, false, false, nullptr, false);
+    }
+}
+
+}  // namespace ksys::act
