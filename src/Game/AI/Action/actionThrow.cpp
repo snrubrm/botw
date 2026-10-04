@@ -5,7 +5,7 @@ namespace uking::action {
 Throw::Throw(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
 bool Throw::init_(sead::Heap* heap) {
-    return ActionWithPosAngReduce::init_(heap);
+    return _30.init(heap);
 }
 
 void Throw::enter_(ksys::act::ai::InlineParamPack* params) {
