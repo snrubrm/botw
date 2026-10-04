@@ -3,6 +3,21 @@
 
 namespace ksys::as {
 
+void ASList::Unk1::sub_7101164EB8() {
+    Unk2* first = nullptr;
+    f32 highest = 0.0f;
+    for (auto& entry : _20) {
+        entry.sub_7101162318();
+        if (entry._18) {
+            if (!first)
+                first = &entry;
+            highest = entry._10 > highest ? entry._10 : highest;
+        }
+    }
+    if (highest < 1.0f && first)
+        first->_10 = 1.0f;
+}
+
 void ASList::Unk1::sub_7101164B24() {
     for (auto& entry : _20)
         entry.sub_710116173C();

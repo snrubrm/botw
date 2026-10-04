@@ -2,8 +2,28 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceASList.h"
+#include "KingSystem/System/VFR.h"
 
 namespace ksys::as {
+
+// NON_MATCHING: the nonpositive clamp and direct field cleanup differ from the indexed loop.
+void ASList::Unk2::sub_7101161D74() {
+    if (!(_3c > 0.0f))
+        return;
+    _38 -= _0->sub_710125A9A8();
+    f32 remaining = _38 * _3c;
+    if (remaining <= 0.0f)
+        remaining = 0.0f;
+    _30 = 1.0f - remaining;
+    sead::Mathf::chase(&_34, 1.0f, VFR::instance()->getDeltaFrame() * 0.34f);
+    if (_30 >= 1.0f) {
+        _3c = 0.0f;
+        _20 = nullptr;
+        _28 = nullptr;
+    } else if (_34 >= 1.0f) {
+        _28 = nullptr;
+    }
+}
 
 // NON_MATCHING: the two temporary log-system strings have different address/store scheduling.
 void ASList::Unk2::sub_7101161FDC() {

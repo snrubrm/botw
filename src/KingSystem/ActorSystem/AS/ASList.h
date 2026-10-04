@@ -60,6 +60,7 @@ public:
         void sub_71011627C4(State* state);
         void sub_7101161FDC();
         void sub_7101162318();
+        void sub_7101161D74();
         // 0x7101162e88: copies matching slot state and links the two entries.
         void sub_7101162E88(Unk2* other, bool a1);
         // 0x7101161ee0: applies the element's partial-bone value (declaration only).
@@ -162,6 +163,7 @@ public:
         // 0x7101164900: per-slot update from the model list (partial count of slot `idx`).
         void sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor);
         void sub_7101164B24();
+        void sub_7101164EB8();
 
         // 0x7101165008 (declaration only; lane4 s23): partial bone `key` of the slot, `mode` 3 (the root) or 0,
         // `a3` selects the variant of the two helpers 0x7100bff95c / 0x7100bff8e4.
@@ -186,7 +188,9 @@ public:
             u32 words[32];
         };
 
-        u8 _0[0x20];
+        u8 _0[0x14];
+        f32 _14;
+        u8 _18[0x20 - 0x18];
         sead::Buffer<Unk2> _20;
         void* _30;
         sead::Buffer<BitRow> _38;
