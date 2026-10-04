@@ -56,6 +56,12 @@ const ElementParams* Element::m25(Context* ctx, const res::ASResource* resource)
     return nullptr;
 }
 
+int Element::sub_7101165408(const res::ASResource* resource) {
+    if (resource)
+        return res::getASElementFactoryField18(resource);
+    return -1;
+}
+
 int Element::sub_71011653E8(const res::ASResource* resource) {
     if (resource)
         return resource->getIndex();

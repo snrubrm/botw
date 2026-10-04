@@ -225,6 +225,22 @@ bool ASList::x_2(int a1, int bit, bool on, bool a4) {
     return true;
 }
 
+int ASList::sub_710115EC5C(int kind, int a2) {
+    const s8 idx = _f0[kind];
+    if (idx < 0)
+        return 0;
+    return _e0[idx]._s32;
+}
+
+f32 ASList::sub_710115EC98(int kind, f32 (ASList::*fn)(), int a4) {
+    if (fn)
+        return (this->*fn)();
+    const s8 idx = _f0[kind];
+    if (idx < 0)
+        return 0;
+    return _e0[idx]._f32;
+}
+
 const char* ASList::sub_710115ECF4(int kind, int a2) {
     const s8 idx = _f0[kind];
     if (idx < 0)

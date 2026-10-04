@@ -102,6 +102,7 @@ public:
     // pointer (the destructor deletes some kinds).
     union Unk3 {
         f32 _f32;
+        s32 _s32;
         u64* _u64_ptr;
         sead::SafeString* _str_ptr;
     };
@@ -178,6 +179,16 @@ public:
     // 0x710115f158: Unk2::sub_71011633C0 on this list's entry (slot, bank) with `other`'s entry
     // (other_slot, other_bank).
     void sub_710115F158(ASList* other, int slot, int other_slot, int bank, int other_bank);
+    // 0x710115ec5c: the integer parameter `kind` (_e0[_f0[kind]]), 0 if unset; `a2` is unused.
+    int sub_710115EC5C(int kind, int a2);
+    // 0x710115ec98: the float parameter `kind`, or `fn`'s result when given; `a4` is unused.
+    f32 sub_710115EC98(int kind, f32 (ASList::*fn)(), int a4);
+    // Fallback getters of the float parameters 0x13 / 0x14 / 0x15 / 0x16 / 0x1b (declaration only).
+    f32 sub_710115F740();
+    f32 sub_710115F820();
+    f32 sub_710115F8A0();
+    f32 sub_710115F98C();
+    f32 sub_710115FA78();
     // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
     const char* sub_710115ECF4(int kind, int a2);
     // 0x710115ed5c: getter counterpart of x_2: bit `bit` of the flags parameter (_f0[0x42]), with

@@ -9,6 +9,8 @@
 
 namespace ksys::res {
 class ASResource;
+// 0x71012ed388: field 0x18 of the AS element factory table entry of the resource's type index (declaration only).
+int getASElementFactoryField18(const ASResource* resource);
 }
 
 // The runtime tree of the AS (animation sequence) system: one element per ASResource.
@@ -19,6 +21,8 @@ class ASResource;
 // Classes are only declared as far as they are decompiled: undeclared overrides keep the base's entry in
 // our vtable.
 namespace ksys::as {
+
+class ASList;
 
 // Placeholder: the AS runtime state (x1 of most element virtuals). Per-element records are 12-byte entries
 // reached through the element index of the resource.
@@ -39,7 +43,8 @@ public:
     // 0x7101258cc0: the first element resource of the AS of the current frame (null if none).
     res::ASResource* sub_7101258CC0();
 
-    /* 0x00 */ u8 _0[0xe0];
+    /* 0x00 */ ASList* mList;
+    /* 0x08 */ u8 _8[0xe0 - 0x8];
     /* 0xe0 */ f32 _e0;
 };
 
@@ -68,6 +73,8 @@ public:
 
     // 0x71011653e8: the index of `resource` (this->m7() if there is none).
     int sub_71011653E8(const res::ASResource* resource);
+    // 0x7101165408: the factory table field 0x18 of `resource` (-1 if there is none).
+    int sub_7101165408(const res::ASResource* resource);
     // 0x710116554c: m11 followed by m37.
     int sub_710116554C(Context* ctx, State* state, const res::ASResource* resource);
     // 0x71011654e0: m37 followed by m14.
@@ -161,6 +168,9 @@ class Selector : public SelectorBase {
     SEAD_RTTI_OVERRIDE(Selector, SelectorBase)
 public:
     Selector();
+
+    virtual void m38();
+    virtual int m39(Context* ctx, u32 a2, const res::ASResource* resource);
 };
 
 class BoolSelector : public Selector {
@@ -194,12 +204,16 @@ class FloatSelector : public Selector {
     SEAD_RTTI_OVERRIDE(FloatSelector, Selector)
 public:
     FloatSelector();
+
+    virtual f32 m40(Context* ctx, u32 a2, const res::ASResource* resource);
 };
 
 class StringSelector : public Selector {
     SEAD_RTTI_OVERRIDE(StringSelector, Selector)
 public:
     StringSelector();
+
+    virtual const char* m40(Context* ctx, const res::ASResource* resource);
 };
 
 class ZEx00ExposureSelector : public FloatSelector {
@@ -212,18 +226,25 @@ class GroundNormalSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(GroundNormalSelector, FloatSelector)
 public:
     GroundNormalSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class GroundNormalSideSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(GroundNormalSideSelector, FloatSelector)
 public:
     GroundNormalSideSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class AngleSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(AngleSelector, FloatSelector)
 public:
     AngleSelector();
+
+    virtual f32 m41();
+    virtual f32 m42();
 };
 
 class RandomSelector : public FloatSelector {
@@ -242,12 +263,16 @@ class SpeedSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(SpeedSelector, FloatSelector)
 public:
     SpeedSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class YSpeedSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(YSpeedSelector, FloatSelector)
 public:
     YSpeedSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class EventFlagSelector : public StringSelector {
@@ -281,13 +306,34 @@ class Blender : public SelectorBase {
     SEAD_RTTI_OVERRIDE(Blender, SelectorBase)
 public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m11(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m22(Context* ctx, const res::ASResource* resource) override;
+    f32 m26(Context* ctx, const res::ASResource* resource) override;
+    bool m27(Context* ctx, const res::ASResource* resource) override;
+    void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
+    int m31(Context* ctx, const res::ASResource* resource) override;
+    void m35(Context* ctx, const res::ASResource* resource) override;
+    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+             const res::ASResource* resource) override;
     Blender();
+
+    virtual f32 m38(Context* ctx, const res::ASResource* resource);
+    virtual f32 m39(s32* a1, s32* a2, void* a3, void* a4);
 };
 
 class BoneBlender : public Blender {
     SEAD_RTTI_OVERRIDE(BoneBlender, Blender)
 public:
     BoneBlender();
+
+    f32 m39(s32* a1, s32* a2, void* a3, void* a4) override;
 };
 
 class ZEx00ExposureBlender : public Blender {
@@ -300,36 +346,49 @@ class GroundNormalBlender : public Blender {
     SEAD_RTTI_OVERRIDE(GroundNormalBlender, Blender)
 public:
     GroundNormalBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class GroundNormalSideBlender : public Blender {
     SEAD_RTTI_OVERRIDE(GroundNormalSideBlender, Blender)
 public:
     GroundNormalSideBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class AngleBlender : public Blender {
     SEAD_RTTI_OVERRIDE(AngleBlender, Blender)
 public:
     AngleBlender();
+
+    virtual f32 m40();
+    virtual f32 m41();
 };
 
 class SpeedBlender : public Blender {
     SEAD_RTTI_OVERRIDE(SpeedBlender, Blender)
 public:
     SpeedBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class WindVelocityBlender : public Blender {
     SEAD_RTTI_OVERRIDE(WindVelocityBlender, Blender)
 public:
     WindVelocityBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class YSpeedBlender : public Blender {
     SEAD_RTTI_OVERRIDE(YSpeedBlender, Blender)
 public:
     YSpeedBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class SyncPlayContainer : public SelectorBase {
