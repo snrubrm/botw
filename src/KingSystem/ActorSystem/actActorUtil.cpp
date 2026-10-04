@@ -27,6 +27,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
@@ -353,6 +354,14 @@ void sub_7100EE5330(Actor* actor, const sead::SafeString& name) {
     const int size = set->getRigidBodies().size();
     for (int i = 0; i < size; ++i)
         set->getRigidBodies()[i]->addToWorld();
+}
+
+s32 sub_7100EDD218(Actor* actor) {
+    if (auto* gparams = actor->getParam()->getRes().mGParamList) {
+        if (auto* liftable = gparams->getLiftable())
+            return liftable->mThrownMass.ref();
+    }
+    return 1;
 }
 
 void sub_7100EE53C4(Actor* actor) {

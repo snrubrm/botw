@@ -15,6 +15,8 @@ target_sources(uking PRIVATE
   gameHeroSoul.cpp
   gameHeroSoul.h
   gameHorseMgr.cpp
+  gameFlagUtils.cpp
+  gameFlagUtils.h
   gameHorseMgr.h
   gameItemUtils.cpp
   gameItemUtils.h

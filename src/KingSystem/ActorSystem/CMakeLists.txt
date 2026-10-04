@@ -227,6 +227,7 @@ target_sources(uking PRIVATE
     actPhysicsUserTag.cpp
     actPhysicsUserTag.h
     actPlayerInfo.cpp
+    actPlayerPosition.cpp
     actPlayerInfo.h
     actPlayerInfoBase.cpp
     actPlayerInfoStub.cpp

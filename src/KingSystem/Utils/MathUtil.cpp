@@ -113,7 +113,7 @@ bool sub_71011F10F4(const sead::Matrix34f& mtx) {
     return false;
 }
 
-void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up) {
+void sub_71011EFE58(sead::Matrix33f* mtx, const sead::Vector3f& front, const sead::Vector3f& up, bool unused) {
     sead::Vector3f x;
     x.setCross(up, front);
     x.normalize();
