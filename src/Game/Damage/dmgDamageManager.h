@@ -50,3 +50,10 @@ public:
 KSYS_CHECK_SIZE_NX150(DamageManager, 0x230);
 
 }  // namespace uking::dmg
+
+// 0x71006d28ac: actor attack info or a non-dummy damage resource requires a damage manager.
+// Declaration only; namespace unknown.
+bool sub_71006D28AC(ksys::act::Actor* actor);
+// CSV name at 0x71006d28fc; declaration only, namespace unknown. Original allocates 0x230
+// and calls DamageManager's actual 0x71006d23e0 constructor, returning that object or null.
+uking::dmg::DamageManager* gameObjectInitField(ksys::act::Actor* actor, sead::Heap* heap);

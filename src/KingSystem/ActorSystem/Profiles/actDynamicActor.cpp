@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
@@ -63,6 +64,13 @@ void DynamicActor::onSleepRequested_(SleepWakeReason reason) {
     Actor::onSleepRequested_(reason);
     if (_a50)
         _a50->sub_71006E4668();
+}
+
+bool DynamicActor::m157(sead::Heap* heap) {
+    if (!sub_71006D28AC(this))
+        return true;
+    mDamageMgr = gameObjectInitField(this, heap);
+    return mDamageMgr != nullptr;
 }
 
 bool DynamicActor::constructActorAtk(sead::Heap* heap) {
