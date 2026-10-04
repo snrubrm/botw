@@ -428,4 +428,10 @@ void SkyMgr::sub_71010E4FFC() {
         _3fa4 = 0;
 }
 
+void SkyMgr::sub_71010E50BC(f32 x, f32 y) {
+    _3fa0 = 2;
+    _3f28.x = x;
+    _3f28.y = y;
+}
+
 }  // namespace ksys::world
