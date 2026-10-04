@@ -275,6 +275,14 @@ bool sub_7100A98AE4() {
     return true;
 }
 
+// 0x7100a94e08
+bool sub_7100A94E08() {
+    auto* screen = sead::DynamicCast<ScreenMainScreen3D>(eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen3D));
+    if (!screen)
+        return false;
+    return screen->_4010 || screen->_4140;
+}
+
 // 0x7100a9a21c
 void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level) {
     auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
