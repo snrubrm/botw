@@ -89846,7 +89846,7 @@ Address,Quality,Size,Name
 0x00000071010db53c,O,000064,_ZN4ksys5world6EnvMgr23activateForcedBloodMoonEv
 0x00000071010db57c,O,000036,_ZN4ksys5world6EnvMgr23setBloodMoonProhibitionEb
 0x00000071010db5a0,O,001116,_ZN4ksys5world6EnvMgr21updateForcedBloodMoonEv
-0x00000071010db9fc,U,000352,wm::SkyMgr::isFadeOrFadeDemoScreenOpened
+0x00000071010db9fc,U,000352,_ZNK4ksys5world6EnvMgr28isFadeOrFadeDemoScreenOpenedEv
 0x00000071010dbb5c,U,000792,wm::SkyMgr::updateBloodMoon
 0x00000071010dbe74,O,000964,_ZN4ksys5world6EnvMgr20updateBloodMoonFlagsEv
 0x00000071010dc238,O,000008,_ZNK4ksys5world6EnvMgr11returnFalseEv
@@ -89854,7 +89854,7 @@ Address,Quality,Size,Name
 0x00000071010dc278,O,000052,_ZNK4ksys5world6EnvMgr23isInYigaClanHideoutAreaEv
 0x00000071010dc2ac,O,000028,_ZNK4ksys5world6EnvMgr24getConcentrationDarknessEv
 0x00000071010dc2c8,O,000004,_ZN4ksys5world6EnvMgr13worldMgrCalc2Ev
-0x00000071010dc2cc,U,000508,wm::SkyMgr::x_8
+0x00000071010dc2cc,U,000508,_ZN4ksys5world6EnvMgr3x_8Ev
 0x00000071010dc4c8,O,000036,_ZNK4ksys5world6EnvMgr13getPaletteSetEv
 0x00000071010dc4ec,O,000164,_ZNK4ksys5world6EnvMgr18isWaterRelicRainOnENS0_7ClimateE
 0x00000071010dc590,O,000032,_ZN4ksys5world6EnvMgr18setPaletteSelSpeedEi
@@ -90177,7 +90177,7 @@ Address,Quality,Size,Name
 0x00000071010f6d70,O,000276,_ZN4ksys5world7Manager12calcManagersEPN4sead9WorkerMgrE
 0x00000071010f6e84,U,000504,WorldMgr::calc2
 0x00000071010f707c,U,000460,WorldMgr::x_10
-0x00000071010f7248,U,000212,WorldMgr::x_11
+0x00000071010f7248,O,000212,_ZN4ksys5world7Manager12updateTimersEv
 0x00000071010f731c,U,000816,WorldMgr::updateWindDirections
 0x00000071010f764c,U,000600,WorldMgr::calc3
 0x00000071010f78a4,U,000032,WorldMgr::chemicalObjFarStuff

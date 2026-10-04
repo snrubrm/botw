@@ -797,6 +797,17 @@ bool Manager::isGerudoDesertClimate() const {
     return true;
 }
 
+void Manager::updateTimers() {
+    getSkyMgr()->sub_71010E4FFC();
+    getEnvMgr()->x_8();
+    getWeatherMgr()->x_17();
+    ++_6c8;
+    if (getEnvMgr()->isFadeOrFadeDemoScreenOpened())
+        mTimer = 30;
+    if (hasCameraOrPlayerMoved(20.0f))
+        mTimer = 30;
+}
+
 bool Manager::hasCameraOrPlayerMoved(float distance_threshold) const {
     const auto camera_dist = (mCameraPos - mPrevCameraPos).length();
     const auto player_dist = (mPlayerPos - mPrevPlayerPos).length();

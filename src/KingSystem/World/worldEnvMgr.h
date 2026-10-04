@@ -175,6 +175,11 @@ public:
     EnvMgr();
     ~EnvMgr() override;
 
+    // 0x71010dc2cc: updates the environment override timers.
+    void x_8();
+    // 0x71010db9fc: checks the Fade and FadeDemo screens through the UI manager.
+    bool isFadeOrFadeDemoScreenOpened() const;
+
     JobType getType() const override { return JobType::Env; }
 
     void reset();
