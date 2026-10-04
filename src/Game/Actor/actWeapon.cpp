@@ -80,6 +80,11 @@ s32 Weapon::getMaxHp() {
     return (life + (_f98.flags.isOn(WeaponModifier::AddLife) ? _f98.value : 0)) * 100;
 }
 
+bool Weapon::m211() {
+    return isBgGroundHit(this, false) || isLandedMaybe(this, false) ||
+           sub_71007A4178(this, false);
+}
+
 bool Weapon::m212() {
     return isBgGroundHit(this, false);
 }
