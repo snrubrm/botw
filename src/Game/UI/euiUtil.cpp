@@ -2,6 +2,7 @@
 #include <driver/aglNVNMgr.h>
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
+#include <math/seadBoundBox.h>
 #include <nn/gfx/gfx_Sampler.h>
 #include <nn/gfx/gfx_Texture.h>
 #include <nn/ui2d/DrawInfo.h>
@@ -15,6 +16,42 @@
 #include "Game/UI/euiLayoutEx.h"
 
 namespace eui {
+
+// NON_MATCHING: base-position branches fold into conditional selects; load scheduling differs.
+// 0x7100bed030
+void CalcPaneBoundBox(sead::BoundBox2f* box, const nn::ui2d::Pane& pane) {
+    const auto& matrix = pane.GetMtx();
+    f32 width = pane.GetSize().width * matrix.m[0][0];
+    f32 height = pane.GetSize().height * matrix.m[1][1];
+    width = width > 0.0f ? width : -width;
+    height = height > 0.0f ? height : -height;
+    width *= 0.5f;
+    height *= 0.5f;
+    f32 x = matrix.m[0][3];
+    f32 y = matrix.m[1][3];
+    switch (pane.GetBasePositionH()) {
+    case nn::ui2d::HorizontalPosition_Left:
+        x += width;
+        break;
+    case nn::ui2d::HorizontalPosition_Right:
+        x -= width;
+        break;
+    default:
+        break;
+    }
+    switch (pane.GetBasePositionV()) {
+    case nn::ui2d::VerticalPosition_Top:
+        y -= height;
+        break;
+    case nn::ui2d::VerticalPosition_Bottom:
+        y += height;
+        break;
+    default:
+        break;
+    }
+    box->setMin({x - width, y - height});
+    box->setMax({x + width, y + height});
+}
 
 // NON_MATCHING: matrix copies remain memcpy calls and the derived destructors are out of line.
 // 0x7100bee638
