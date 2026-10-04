@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -17,6 +18,11 @@ public:
 
 protected:
     void calc_() override;
+
+    sead::Matrix34f _1c = sead::Matrix34f::ident;
+    s32 _4c = 0;
+    u16 _50 = 0;
 };
+KSYS_CHECK_SIZE_NX150(NavMeshConnectAction, 0x58);
 
 }  // namespace uking::action

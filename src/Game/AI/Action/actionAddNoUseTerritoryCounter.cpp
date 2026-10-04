@@ -1,14 +1,24 @@
 #include "Game/AI/Action/actionAddNoUseTerritoryCounter.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::action {
 
+// NON_MATCHING: x9 / x10 swapped (register allocation of the actor and -1 temporaries)
 AddNoUseTerritoryCounter::AddNoUseTerritoryCounter(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
 AddNoUseTerritoryCounter::~AddNoUseTerritoryCounter() = default;
 
 bool AddNoUseTerritoryCounter::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    *mIsUseTerritory_a = false;
+    const int counter = *mCounter_s;
+    _40._0 = 0;
+    const int scaled = counter * 1.1f;
+    _40._18 = sead::Mathi::min(counter, scaled);
+    _40._1c = sead::Mathi::max(counter, scaled);
+    if (*mCamDist_s > 0.0f)
+        _40._14 = *mCamDist_s;
+    return true;
 }
 
 void AddNoUseTerritoryCounter::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -27,7 +37,12 @@ void AddNoUseTerritoryCounter::loadParams_() {
 }
 
 void AddNoUseTerritoryCounter::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (*mIsUseTerritory_a) {
+        const f32 prev = _40._10;
+        _40.sub_7100709414();
+        if (!(prev < 0.0f) && _40._10 < 0.0f)
+            *mIsUseTerritory_a = false;
+    }
 }
 
 }  // namespace uking::action

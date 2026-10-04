@@ -32,6 +32,12 @@ protected:
     bool* mIsPartsActorTgOn_d{};
     // dynamic_param at offset 0x50
     sead::Vector3f* mTargetPos_d{};
+    u64 _58 = 0;
+    u32 _60 = 0;
+    u8 _64[0xa0 - 0x64];
+    u64 _a0;
+    bool _a8;
 };
+KSYS_CHECK_SIZE_NX150(LastBossRailWarpAction, 0xb0);
 
 }  // namespace uking::action

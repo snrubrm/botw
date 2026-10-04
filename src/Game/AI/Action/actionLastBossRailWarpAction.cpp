@@ -6,7 +6,11 @@
 
 namespace uking::action {
 
-LastBossRailWarpAction::LastBossRailWarpAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
+// NON_MATCHING: the original stores `_a8` / `_a0` after the memset of the params; clang hoists them above it
+LastBossRailWarpAction::LastBossRailWarpAction(const InitArg& arg) : ksys::act::ai::Action(arg) {
+    _a8 = false;
+    _a0 = 0;
+}
 
 LastBossRailWarpAction::~LastBossRailWarpAction() = default;
 

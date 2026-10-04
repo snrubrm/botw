@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7100709414.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,8 @@ protected:
     const float* mTerritoryArea_m{};
     // aitree_variable at offset 0x38
     bool* mIsUseTerritory_a{};
+    Unk_7100709414 _40{mActor};
 };
+KSYS_CHECK_SIZE_NX150(AddNoUseTerritoryCounter, 0x60);
 
 }  // namespace uking::action
