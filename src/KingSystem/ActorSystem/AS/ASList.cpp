@@ -554,6 +554,17 @@ void ASList::sub_710115F2EC(s32 slot, s32 bank, f32 value) {
         _163 &= ~1;
 }
 
+// NON_MATCHING: the BoneAccessKey output uses stack offset 0xc instead of 0x8.
+f32 ASList::sub_710115CAFC(const sead::SafeString& bone_name) {
+    const gsys::BoneAccessKey key = _8->searchBone(bone_name);
+    const s32 num_slots = mSlots.size();
+    for (s32 i = 0; i < num_slots; ++i) {
+        if (mSlots[i].sub_7101164C24(key))
+            return mSlots[i]._48;
+    }
+    return 0.0f;
+}
+
 bool ASList::sub_710115FBC8(int a1, Unk4* query,
                             bool (Unk2::*fn)(Unk4*, int, bool), bool a4) {
     const s32 num_slots = mSlots.size();

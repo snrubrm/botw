@@ -151,7 +151,8 @@ public:
         sead::Buffer<Unk2> _20;
         void* _30;
         sead::Buffer<BitRow> _38;
-        u8 _48[0x4d - 0x48];
+        f32 _48;
+        u8 _4c;
         bool _4d;
         u8 _4e[0x50 - 0x4e];
     };
@@ -187,6 +188,7 @@ public:
     void sub_710115F228(f32 value);
     // 0x710115f2ec: changes the entry weight and updates the slot.
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
+    f32 sub_710115CAFC(const sead::SafeString& bone_name);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
     void sub_710115F6F4(int key, int slot, int bank, f32 value);
