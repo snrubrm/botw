@@ -2,7 +2,10 @@
 #include <new>
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Pane.h>
+#include <nn/ui2d/BuildTypes.h>
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiPartsEx.h"
+#include "Game/UI/euiScreen.h"
 
 namespace eui {
 
@@ -11,11 +14,29 @@ LayoutEx::LayoutEx(Screen* screen) : mScreen(screen) {}
 
 // NON_MATCHING: the original snapshots mScreen before allocation; this natural body reads it at construction.
 // 0x7100bdf0f0
-LayoutEx* LayoutEx::m21() {
+LayoutEx* LayoutEx::m21(const char*, const nn::ui2d::Layout::PartsBuildDataSet&,
+                       const nn::ui2d::BuildArgSet&) {
     void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(LayoutEx), 4);
     if (!memory)
         return nullptr;
     return new (memory) LayoutEx(mScreen);
+}
+
+// 0x7100bdeffc
+nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* result,
+                                           nn::gfx::Device* device, const char* name,
+                                           const nn::ui2d::Layout::PartsBuildDataSet& parts,
+                                           const nn::ui2d::BuildArgSet& args) {
+    const auto* parent = static_cast<const LayoutEx*>(args.mParentLayout);
+    if (parent->mScreen)
+        name = parent->mScreen->replacePartsLayoutName(
+            name, static_cast<PartsEx*>(parts.mPartsPane), const_cast<LayoutEx*>(parent));
+    attachPartsLayoutArchive_(sead::SafeString(name));
+    const void* resource = GetLayoutResourceData(name);
+    LayoutEx* layout = m21(name, parts, args);
+    layout->_88 = this;
+    layout->BuildImpl(result, device, resource, mResourceAccessor, args, &parts);
+    return layout;
 }
 
 // 0x7100bde308

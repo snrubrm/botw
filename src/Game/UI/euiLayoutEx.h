@@ -49,8 +49,9 @@ public:
 
     // Own slots 20-25, from the original vtable; undecompiled signatures use placeholders.
     virtual void m20(Animator* animator);
-    virtual LayoutEx* m21();
-    virtual void attachPartsLayoutArchive_(const sead::SafeString& name);
+    virtual LayoutEx* m21(const char*, const nn::ui2d::Layout::PartsBuildDataSet&,
+                         const nn::ui2d::BuildArgSet&);
+    virtual bool attachPartsLayoutArchive_(const sead::SafeString& name);
     virtual void doInitializeDefalutAnimator_();
     virtual nn::ui2d::Pane* m24(nn::ui2d::BuildResultInformation*, u32, const void*, const void*,
                               const nn::ui2d::BuildArgSet&);
@@ -76,7 +77,7 @@ public:
     /* 0x70 */ Animator* _70 = nullptr;
     /* 0x78 */ Animator* _78 = nullptr;
     /* 0x80 */ Screen* mScreen;
-    /* 0x88 */ void* _88 = nullptr;
+    /* 0x88 */ LayoutEx* _88 = nullptr;
     /* 0x90 */ u8 _90 = 0;
     /* 0x91 */ u8 _91 = 2;  // animation state
 
