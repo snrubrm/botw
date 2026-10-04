@@ -34,6 +34,12 @@ public:
     // 0x71010a6b98 (CSV UI::__auto1): closes the message dialog if it belongs to `actor` (or if
     // `actor` is null).
     void sub_71010A6B98(ksys::act::Actor* actor);
+    // 0x71010a5c68 / 0x71010a5cfc / 0x71010a5db0 / 0x71010a5e64 (CSV unnamed, declared only): polled by
+    // the Open* dialog / title actions' calc_ (each returns true when its screen has finished).
+    bool sub_71010A5C68();
+    bool sub_71010A5CFC();
+    bool sub_71010A5DB0();
+    bool sub_71010A5E64();
     // 0x71010a6454 (CSV unnamed): called by Message3DText with its message set / message label.
     bool sub_71010A6454(const sead::SafeString& message_set, const sead::SafeString& label,
                         ksys::act::Actor* actor, f32 time, bool flag);

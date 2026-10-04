@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenDungeonMessage.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -23,7 +24,15 @@ void OpenDungeonMessage::loadParams_() {
 }
 
 void OpenDungeonMessage::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedOrFailed())
+        return;
+    auto* ui = ui::UI::instance();
+    if (!ui) {
+        setFailed();
+        return;
+    }
+    if (ui->sub_71010A5DB0())
+        setFinished();
 }
 
 }  // namespace uking::action

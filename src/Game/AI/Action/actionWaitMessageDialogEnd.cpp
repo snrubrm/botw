@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitMessageDialogEnd.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -21,7 +22,10 @@ void WaitMessageDialogEnd::leave_() {
 void WaitMessageDialogEnd::loadParams_() {}
 
 void WaitMessageDialogEnd::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* ui = ui::UI::instance()) {
+        if (ui->sub_71010A5888() && ui->sub_71010A5C68())
+            setFinished();
+    }
 }
 
 }  // namespace uking::action

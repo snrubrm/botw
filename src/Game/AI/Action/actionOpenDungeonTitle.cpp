@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenDungeonTitle.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -24,7 +25,15 @@ void OpenDungeonTitle::loadParams_() {
 }
 
 void OpenDungeonTitle::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinishedOrFailed())
+        return;
+    auto* ui = ui::UI::instance();
+    if (!ui) {
+        setFailed();
+        return;
+    }
+    if (ui->sub_71010A5CFC())
+        setFinished();
 }
 
 }  // namespace uking::action

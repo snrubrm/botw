@@ -274,6 +274,8 @@ public:
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
     void x_18(bool a1);                                                 // 0x855a6c
+    // 0x7100855bb4 (declared only; PlayerKokkoGlide::enter_ with "ParashawlGlide").
+    void sub_7100855BB4(const char* name, bool a2, f32 a3);
     // All 33 callers pass -1.0f in s0, which x_19 does not use.
     void x_19(f32 a1);                                                  // 0x855d40
     void x_24();                                                        // 0x855e24

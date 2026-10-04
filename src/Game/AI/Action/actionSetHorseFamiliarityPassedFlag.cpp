@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSetHorseFamiliarityPassedFlag.h"
+#include "Game/gameHorseMgr.h"
 
 namespace uking::action {
 
@@ -12,5 +13,11 @@ bool SetHorseFamiliarityPassedFlag::init_(sead::Heap* heap) {
 }
 
 void SetHorseFamiliarityPassedFlag::loadParams_() {}
+
+bool SetHorseFamiliarityPassedFlag::oneShot_() {
+    if (auto* horse_mgr = HorseMgr::instance())
+        return horse_mgr->sub_7100E87710();
+    return false;
+}
 
 }  // namespace uking::action

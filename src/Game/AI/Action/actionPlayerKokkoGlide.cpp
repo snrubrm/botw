@@ -7,12 +7,22 @@ namespace uking::action {
 
 PlayerKokkoGlide::PlayerKokkoGlide(const InitArg& arg) : PlayerGlide(arg) {}
 
+// NON_MATCHING: the original loads the mNoEnergyTime_s pointer before mActor, the value after it
 void PlayerKokkoGlide::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerGlide::enter_(params);
+    static_cast<ksys::act::Player*>(mActor)->_cec.set(0x10000);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x200);
+    static_cast<ksys::act::Player*>(mActor)->_cf0.set(0x4);
+    static_cast<ksys::act::Player*>(mActor)->sub_7100855BB4("ParashawlGlide", false, -1.0f);
+    static_cast<ksys::act::Player*>(mActor)->_1844 = ksys::Timer(*mNoEnergyTime_s, *mNoEnergyTime_s);
+    _98 = false;
+    static_cast<ksys::act::Player*>(mActor)->getAttachedTargetActor2()->sub_7100EB56B4(true);
 }
 
 void PlayerKokkoGlide::leave_() {
     PlayerGlide::leave_();
+    static_cast<ksys::act::Player*>(mActor)->x_19(-1.0f);
+    static_cast<ksys::act::Player*>(mActor)->getAttachedTargetActor2()->sub_7100EB56E8();
 }
 
 void PlayerKokkoGlide::loadParams_() {

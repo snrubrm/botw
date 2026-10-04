@@ -23,6 +23,8 @@ public:
     void auto0(act::Actor* actor);
     bool auto4(act::Actor* actor) const;
 
+    // 0x7100fd78b0 (declared only)
+    void sub_7100FD78B0(const sead::SafeString& quest_name);
     bool sub_7100FD78F8();
 
     bool sub_7100FD7B30(const sead::SafeString& quest_name, const sead::SafeString& step_name,

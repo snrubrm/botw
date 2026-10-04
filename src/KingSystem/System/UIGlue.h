@@ -9,6 +9,8 @@ void initRupeeCounter();
 bool isRupeeCounterActive();
 
 // Further handler wrappers (UIGlue.cpp)
+// 0x7100edc2e4 (declared only)
+bool sub_7100EDC2E4(bool a1);
 void sub_7100EDC334();
 s32 callCheckWeaponFreeSlotHandlerMaybe(void* a1, void* a2);
 void callIncreasePouchNum(void* a1, void* a2);

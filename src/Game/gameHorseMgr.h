@@ -51,6 +51,8 @@ public:
     void sub_7100E87508(const sead::SafeString& name, sead::Heap* heap);
     // 0x7100e875ec (declaration only; CreateObjectsOfOwnedHorse::leave_).
     void sub_7100E875EC();
+    // 0x7100e87710 (declaration only; SetHorseFamiliarityPassedFlag): sets a flag if the owned horse exists.
+    bool sub_7100E87710();
     // 0x7100e85bc0 (declaration only; NPCReceiveHorse).
     void sub_7100E85BC0();
 
