@@ -4,6 +4,7 @@
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -30,7 +31,8 @@ void getLifeRecoverParams(LifeRecoverParams* params, Actor* actor);
 // FIXME: incomplete
 class LifeRecoverInfo {
 public:
-    void init(const LifeRecoverParams* params);
+    LifeRecoverInfo();
+    bool init(const LifeRecoverParams* params);
 
     // Modifies extra Hp1 and Damage. (Regen?)
     bool onApplyDamage(s32& damage);
@@ -43,16 +45,16 @@ public:
     // SEAD_ENUM in the original (stack round trip): bit index of the flag cleared by onApplyDamage_0.
     SEAD_ENUM(Flag, _0, _1)
 
-    f32 mCounter;
-    f32 mField_4;
-    u8 gap_8[16];  // Is this really a gap?
-    s32 mExtraHp1;
-    s32 mExtraHp2;
-    u32 mMaxLife;
-    f32 mRecoverFactor;
-    s32 mField_28;
-    f32 mField_2C;
-    u8 mFlags;
+    // D68B5C updates both timers through Timer::update.
+    Timer mTimer;
+    Timer mTimer2;
+    s32 mExtraHp1 = 0;
+    s32 mExtraHp2 = 0;
+    s32 mMaxLife = 0;
+    f32 mRecoverFactor = 0;
+    f32 mField_28 = 0;
+    f32 mField_2C = 0;
+    u8 mFlags = 0;
     u8 mUnknown[7];  // Flags might just be two u32
 };
 KSYS_CHECK_SIZE_NX150(LifeRecoverInfo, 0x38);

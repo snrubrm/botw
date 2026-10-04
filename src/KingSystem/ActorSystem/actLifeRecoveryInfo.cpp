@@ -4,6 +4,27 @@
 
 namespace ksys::act {
 
+LifeRecoverInfo::LifeRecoverInfo() : mTimer(0, 0), mTimer2(0, 0) {}
+
+// NON_MATCHING: the parameter's enabled byte is loaded after the enum temporary is initialized.
+bool LifeRecoverInfo::init(const LifeRecoverParams* params) {
+    mExtraHp1 = sead::Mathf::min(f32(mExtraHp2), 0.0f);
+    mExtraHp2 = params->_0;
+    mMaxLife = params->_4;
+    mRecoverFactor = params->_8;
+    mField_28 = params->_c;
+    mField_2C = params->_10;
+    const Flag enabled(0);
+    if (params->_14)
+        mFlags |= 1 << int(enabled);
+    else
+        mFlags &= ~(1 << int(enabled));
+    mTimer.value = mTimer.previous_value = mField_28;
+    const Flag recovered(1);
+    mFlags &= ~(1 << int(recovered));
+    return true;
+}
+
 bool LifeRecoverInfo::onApplyDamage(s32& damage) {
     const s32 extra = mExtraHp1;
     const s32 value = damage;
@@ -16,8 +37,8 @@ bool LifeRecoverInfo::onApplyDamage(s32& damage) {
 }
 
 void LifeRecoverInfo::onApplyDamage_0() {
-    mCounter = mField_2C;
-    mField_4 = mField_2C;
+    mTimer.value = mField_2C;
+    mTimer.previous_value = mField_2C;
     const Flag flag(1);
     mFlags &= ~(1 << int(flag));
 }
