@@ -15,12 +15,37 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::act {
+
+bool Weapon::isThrowingBreakWeapon() {
+    const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
+    return param && param->mIsThrowingBreakWeapon.ref();
+}
+
+// NON_MATCHING: empty-name result branches and load scheduling differ.
+bool Weapon::bowHasArrowName() {
+    const auto* param = getParam()->getRes().mGParamList->getBow();
+    return param && !param->mArrowName.ref().isEmpty();
+}
+
+bool Weapon::hasCanPullGiantObjectTag() {
+    return getParam()->getRes().mActorLink->hasTag(0x2b533845);
+}
+
+// NON_MATCHING: the owned tag-query body is naturally inlined here.
+s32 Weapon::getMaxHp() {
+    const bool can_pull = hasCanPullGiantObjectTag();
+    const s32 life = ksys::act::Actor::getMaxLife();
+    if (can_pull)
+        return life;
+    return (life + (_f98.flags.isOn(WeaponModifier::AddLife) ? _f98.value : 0)) * 100;
+}
 
 bool Weapon::m212() {
     return isBgGroundHit(this, false);
