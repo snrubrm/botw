@@ -219,6 +219,9 @@ KSYS_CHECK_SIZE_NX150(RideableBase, 0x180);
 class Rideable : public RideableBase, public Unk_7100e8b2b8 {
     SEAD_RTTI_OVERRIDE(Rideable, RideableBase)
 public:
+    // SEAD_ENUM in the original (stack round trip): the gear of the rider's AS controller (`_18._b`, `_18._9` when 0).
+    SEAD_ENUM(Gear, _0, _1, _2, _3, _4, _5, _6, _7)
+
     Rideable();
     ~Rideable() override;
 
@@ -237,7 +240,7 @@ public:
     /* 21 */ virtual s32 m21() { return 0; }
     /* 22 */ bool m22(Unk8 a1) override;
     // callers and overrides copy the result through the stack: probably a SEAD_ENUM
-    /* 23 */ virtual u32 m23();
+    /* 23 */ virtual Gear m23();
     /* 24 */ virtual void m24();
     /* 25 */ bool m25() override { return false; }
     /* 26 */ f32 m26() override { return 0.0f; }

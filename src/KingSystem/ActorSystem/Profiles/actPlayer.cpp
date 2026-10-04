@@ -1,11 +1,14 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include <algorithm>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameUnk_710246d058.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -725,5 +728,18 @@ bool Player::sub_7100887AC4() {
 }
 
 void Player::sub_710086FAAC() {}
+bool Player::hasFairy() {
+    if (_c48.isOnBit(0) || dlc::isPlayingOneHitObliteratorQuest())
+        return false;
+    return uking::ui::PauseMenuDataMgr::instance()->hasItem("Animal_Insect_F");
+}
+
+s32 Player::sub_71008859EC() {
+    const f32 base = _2038 + _201c;
+    f32 value = base;
+    if (_23e0.sub_7100E2F61C()->isOnBit(1))
+        value = base + 2.0f;
+    return std::min(value, 3.0f);
+}
 
 }  // namespace ksys::act
