@@ -1,5 +1,6 @@
 #include "Game/UI/euiLayoutEx.h"
 #include <new>
+#include <devenv/seadEnvUtil.h>
 #include <prim/seadStringBuilder.h>
 #include <gfx/nin/seadGraphicsNvn.h>
 #include <nn/font/font_ScalableFont.h>
@@ -285,6 +286,57 @@ bool LayoutEx::BuildImpl(nn::ui2d::BuildResultInformation* result, nn::gfx::Devi
     if (built)
         doInitializeDefalutAnimator_();
     return built;
+}
+
+// 0x7100bdf260
+void LayoutEx::doInitializeDefalutAnimator_() {
+    if (GetAnimResourceData("In")) {
+        mOpenAnimator = tryCreateAnimatorAuto("In", mScreen != nullptr);
+        if (mOpenAnimator) {
+            mOpenAnimator->mFlags &= ~0x20;
+            _91 = 0;
+        }
+    }
+    if (GetAnimResourceData("Out")) {
+        mCloseAnimator = tryCreateAnimatorAuto("Out", false);
+        if (mCloseAnimator)
+            mCloseAnimator->mFlags &= ~0x20;
+    }
+    if (GetAnimResourceData("LoopRandom")) {
+        _70 = tryCreateAnimatorAuto("LoopRandom", false);
+        _90 |= 2;
+    } else if (GetAnimResourceData("Loop")) {
+        _70 = tryCreateAnimatorAuto("Loop", false);
+    }
+    if (_70)
+        _70->mFlags &= ~0x20;
+
+    if (GetAnimResourceData("TvDrc")) {
+        _78 = tryCreateAnimatorAuto("TvDrc", false);
+        if (_78) {
+            _78->mFlags &= ~0x20;
+            _78->Stop(mScreen ? int(mScreen->getDrawTarget()) : 0);
+        }
+    }
+    if (GetAnimResourceData("RegionType")) {
+        Animator* animator = tryCreateAnimatorAuto("RegionType", false);
+        if (animator) {
+            animator->mFlags &= ~0x20;
+            if (mScreen) {
+                animator->Stop(sead::EnvUtil::getRegion().getRelativeIndex());
+                animator->Animate();
+            }
+        }
+    } else if (GetAnimResourceData("RegionLanguageType")) {
+        Animator* animator = tryCreateAnimatorAuto("RegionLanguageType", false);
+        if (animator) {
+            animator->mFlags &= ~0x20;
+            if (mScreen) {
+                animator->Stop(sead::EnvUtil::getRegionLanguage().getRelativeIndex());
+                animator->Animate();
+            }
+        }
+    }
 }
 
 // 0x7100bde458
