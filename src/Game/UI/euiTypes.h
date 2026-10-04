@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <nn/gfx/gfx_DescriptorSlot.h>
+#include <nn/gfx/gfx_Types.h>
 #include <prim/seadEnum.h>
 
 namespace nn::ui2d {
@@ -31,5 +33,9 @@ void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInf
 
 // 0x7100bed250: the entry named `name` of an ext user data list (null list or no such entry: null)
 const nn::ui2d::ResExtUserData* FindExtUserDataFromList(const nn::ui2d::ResExtUserDataList* list, const char* name);
+
+// Descriptor callbacks release the registered backend slot; other callback inputs are unused.
+void UnregisterSlotForTexture(nn::gfx::DescriptorSlot*, const nn::gfx::TextureView&, void*);
+void UnregisterSlotForSampler(nn::gfx::DescriptorSlot*, const nn::gfx::Sampler&, void*);
 
 }  // namespace eui

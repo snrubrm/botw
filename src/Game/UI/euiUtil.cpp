@@ -1,4 +1,5 @@
 #include <cstring>
+#include <driver/aglNVNMgr.h>
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
 #include <nn/ui2d/DrawInfo.h>
@@ -91,6 +92,18 @@ void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInf
         if (index < material->GetTexMapCount())
             material->GetTexMapArray()[index].ReplaceTextureInfo(&info);
     }
+}
+
+// 0x7100befb18
+void UnregisterSlotForTexture(nn::gfx::DescriptorSlot* slot, const nn::gfx::TextureView&, void*) {
+    static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
+        ->releaseTexture(slot->ToData()->value);
+}
+
+// 0x7100befb30
+void UnregisterSlotForSampler(nn::gfx::DescriptorSlot* slot, const nn::gfx::Sampler&, void*) {
+    static_cast<agl::driver::NVNMgr*>(agl::driver::GraphicsDriverMgr::instance())
+        ->releaseSampler(slot->ToData()->value);
 }
 
 }  // namespace eui
