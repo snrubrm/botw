@@ -3,8 +3,34 @@
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/ResExtUserData.h>
 #include "Game/UI/euiTypes.h"
+#include "Game/UI/euiTextSearcher.h"
+#include "Game/UI/euiLayoutEx.h"
 
 namespace eui {
+
+// NON_MATCHING: the compiler inlines the hierarchy append helper into this wrapper.
+// 0x7100bef394
+void CreateLayoutItemUniqueName(sead::StringBuilder* out, const char* name, const LayoutEx* layout) {
+    out->clear();
+    AppendLayoutItemUniqueName(out, name, layout);
+}
+
+// NON_MATCHING: hierarchy-loop guards and the final append are lowered differently.
+// 0x7100bef3b0
+void AppendLayoutItemUniqueName(sead::StringBuilder* out, const char* name, const LayoutEx* layout) {
+    const LayoutEx* parents[5];
+    s32 count = 0;
+    while (layout && layout->_88 && count < 5) {
+        parents[count++] = layout;
+        layout = layout->_88;
+    }
+    while (count > 0) {
+        --count;
+        out->append(parents[count]->GetPane()->GetName(), -1);
+        out->append("-", -1);
+    }
+    out->append(name, -1);
+}
 
 // 0x7100bed2bc
 f32 GetRadAngleOfDirection(Direction direction) {

@@ -10,6 +10,7 @@ class MessageSet;
 class TagProcessor;
 
 void CreateLayoutItemUniqueName(sead::StringBuilder* out, const char* name, const LayoutEx* layout);
+void AppendLayoutItemUniqueName(sead::StringBuilder* out, const char* name, const LayoutEx* layout);
 // 0x7100bef498: resolves a layout-relative message label (placeholder name).
 void sub_7100BEF498(sead::StringBuilder* out, const char* name, const LayoutEx* layout);
 
