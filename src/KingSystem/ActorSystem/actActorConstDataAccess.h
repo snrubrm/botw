@@ -178,6 +178,10 @@ public:
     // 0x7100d103a0 (CSV act::acc::Actor::x): the physics instance set's handler _188[idx] (0 / 1).
     phys::SystemGroupHandler* x(s32 idx) const;
     void getHomeMtx(sead::Matrix34f* mtx) const;
+    // 0x7100d105a8 (CSV act::acc::Actor::getHomePos; lane4 s29): the raw home matrix (identity if not an actor).
+    void sub_7100D105A8(sead::Matrix34f* mtx) const;
+    // 0x7100d10bd4 (CSV act::acc::getField464_Vec3; lane4 s29): copies Actor::_46c (zero if not an actor) to `out`.
+    void sub_7100D10BD4(sead::Vector3f* out) const;
     bool getAabb(sead::Vector3f* min, sead::Vector3f* max) const;
     // 0x7100d0fd54 (CSV act::acc::Actor::getAabb_0; lane1 s22, declared only): the actor's AABB
     // (Actor::mAabb if it has a model, else a static default box).

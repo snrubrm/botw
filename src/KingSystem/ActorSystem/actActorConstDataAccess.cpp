@@ -531,6 +531,25 @@ void ActorConstDataAccess::getHomeMtx(sead::Matrix34f* mtx) const {
     actor->getHomeMtx(mtx);
 }
 
+void ActorConstDataAccess::sub_7100D105A8(sead::Matrix34f* mtx) const {
+    auto* actor = getActor();
+    if (!actor) {
+        mtx->makeIdentity();
+        return;
+    }
+    *mtx = actor->getHomeMtxRaw();
+}
+
+void ActorConstDataAccess::sub_7100D10BD4(sead::Vector3f* out) const {
+    if (!out)
+        return;
+    auto* actor = getActor();
+    if (actor)
+        *out = actor->_46c;
+    else
+        *out = sead::Vector3f::zero;
+}
+
 const sead::Vector3f& ActorConstDataAccess::getPreviousPos() const {
     auto* actor = getActor();
     if (!actor)
