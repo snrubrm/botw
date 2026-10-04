@@ -61,12 +61,26 @@ bool SelectButton::ProcessOff() {
 
 // 0x7100bda08c
 bool SelectButton::ProcessCancel() {
-    if (mState == kDown) {
+    switch (mState) {
+    case kOff:
+        return true;
+    case kStartOn:
+        return true;
+    case kStartOff:
+        return true;
+    case kOn:
+        return true;
+    case kStartDown:
+        return false;
+    case kDown:
         StartCancel();
         changeState(kCancel);
         return true;
+    case kCancel:
+        return true;
+    default:
+        return true;
     }
-    return mState != kStartDown;
 }
 
 // 0x7100bda078

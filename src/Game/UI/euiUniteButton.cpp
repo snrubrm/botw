@@ -41,9 +41,9 @@ void UniteButton::StartDrag(const sead::Vector2f& pos) {
 // 0x7100bdb374
 void UniteButton::FinishDrag(const sead::Vector2f* pos) {
     if (mFlags & 0x40)
-        requestOff();
+        Off();
     else
-        requestCancel();
+        Cancel();
     if (mDragAnim)
         mDragAnim->PlayFromCurrent(Animator::PlayType(0), -1.0f);
 }
@@ -92,11 +92,11 @@ bool UniteButton::UpdateDown() {
     return done;
 }
 
-// NON_MATCHING: the original tests `type == 5 || type == 3 || type == 2` as three compares (clang merges them into a
-// bit test here)
 // 0x7100bdb5ec
 void UniteButton::FinishDown() {
-    if (mType == 5 || mType == 3 || mType == 2)
+    if (mType == 5 || mType == 3)
+        changeState(kDown);
+    else if (mType == 2)
         changeState(kDown);
     else
         AnimButton::FinishDown();

@@ -12,8 +12,12 @@ target_sources(uking PRIVATE
   euiCheckKeepButton.cpp
   euiDecisionButton.cpp
   euiDragButton.cpp
+  euiTapButton.cpp
+  euiTraceGaugeControl.cpp
+  euiTraceGaugeControl.h
   euiTwoTouchCheckKeepButton.cpp
   euiUniteButton.cpp
+  euiHoverButton.cpp
   euiNormalButton.cpp
   euiSelectButton.cpp
   euiButtonGroup.cpp

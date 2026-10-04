@@ -61,23 +61,26 @@ void TwoTouchCheckKeepButton::BuildStateAnim(const nn::ui2d::ControlSrc& src, La
     mNormalAnimators = mAnimators;
 }
 
-// NON_MATCHING: the original tests the kOff state last (cbnz) instead of first (cbz)
 // 0x7100bdac00
 bool TwoTouchCheckKeepButton::ProcessCancel() {
     if (!(mFlags & 0x40) || !mUseTouch)
         return AnimButton::ProcessCancel();
     switch (mState) {
-    case kStartOn:
-    case kStartOff:
-    case kOn:
-    case kStartDown:
-    case kDown:
-        return false;
-    case kCancel:
-        return true;
     case kOff:
         StartCancel();
         changeState(kCancel);
+        return true;
+    case kStartOn:
+        return false;
+    case kStartOff:
+        return false;
+    case kOn:
+        return false;
+    case kStartDown:
+        return false;
+    case kDown:
+        return false;
+    case kCancel:
         return true;
     default:
         return true;

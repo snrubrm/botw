@@ -51,12 +51,13 @@ public:
 
     void Update(f32 dt) override;
 
-    // Slots 5-8 (0x7100bd71b4 / 0x7100bd7240 / 0x7100bd72cc / 0x7100bd7360): queue a request (if the button's flags
-    // allow it) and make sure the button is linked into its group's update list.
-    virtual void requestOn();
-    virtual void requestOff();
-    virtual void requestDown();
-    virtual void requestCancel();
+    // Slots 5-8 (0x7100bd71b4 / 0x7100bd7240 / 0x7100bd72cc / 0x7100bd7360; the name `Down` is known from the CSV's
+    // HoverButton::Down): queue a request (if the button's flags allow it) and make sure the button is linked into its
+    // group's update list.
+    virtual void On();
+    virtual void Off();
+    virtual void Down();
+    virtual void Cancel();
 
     virtual void ForceOff();
     virtual void ForceOn();
@@ -144,7 +145,7 @@ public:
     const char* getClassName() const override { return "AnimButton"; }
     NN_RUNTIME_TYPEINFO(ButtonBase)
 
-    void requestDown() override;
+    void Down() override;
     void ForceOff() override;
     void ForceOn() override;
     void ForceDown() override;
@@ -367,5 +368,33 @@ public:
     /* 0x8b */ bool mAllowY = true;
 };
 static_assert(sizeof(UniteButton) == 0x90);
+
+// A hover-only button (CSV eui::HoverButton; vtable 0x24c92d8; same size as AnimButton).
+class HoverButton : public AnimButton {
+public:
+    NN_RUNTIME_TYPEINFO(AnimButton)
+    const char* getClassName() const override { return "HoverButton"; }
+
+    // 0x7100befdc4 (not decompiled: needs the name of the pane, see the log)
+    void Initialize(sead::Heap* heap, nn::ui2d::Pane* pane, Animator* anim, LayoutEx* layout);
+
+    // Slot 7 (0x7100beff6c)
+    void Down() override;
+};
+static_assert(sizeof(HoverButton) == 0x68);
+
+// A button that only reacts to a tap (CSV eui::TapButton; vtable 0x24c9430; same size as AnimButton).
+class TapButton : public AnimButton {
+public:
+    NN_RUNTIME_TYPEINFO(AnimButton)
+    const char* getClassName() const override { return "TapButton"; }
+
+    void On() override;
+    void Off() override;
+    void ForceOff() override;
+    bool ProcessDown() override;
+    void FinishDown() override;
+};
+static_assert(sizeof(TapButton) == 0x68);
 
 }  // namespace eui

@@ -100,28 +100,28 @@ void ButtonBase::Update(f32) {
 }
 
 // 0x7100bd71b4
-void ButtonBase::requestOn() {
+void ButtonBase::On() {
     if ((mFlags & 0x11) != 0x11)
         return;
     pushRequest(kRequestOn);
 }
 
 // 0x7100bd7240
-void ButtonBase::requestOff() {
+void ButtonBase::Off() {
     if (!(mFlags & 2))
         return;
     pushRequest(kRequestOff);
 }
 
 // 0x7100bd72cc
-void ButtonBase::requestDown() {
+void ButtonBase::Down() {
     if ((mFlags & 0x14) != 0x14)
         return;
     pushRequest(kRequestDown);
 }
 
 // 0x7100bd7360
-void ButtonBase::requestCancel() {
+void ButtonBase::Cancel() {
     if (!(mFlags & 8))
         return;
     pushRequest(kRequestCancel);
@@ -210,37 +210,29 @@ bool ButtonBase::ProcessDown() {
     }
 }
 
-// NON_MATCHING: the original computes `mState != kStartDown` as a csel (cset in ours) in a block placed before the
-// kDown block
 // 0x7100bd798c
 bool ButtonBase::ProcessCancel() {
-    if (mState == kDown) {
+    switch (mState) {
+    case kOff:
+        return true;
+    case kStartOn:
+        return true;
+    case kStartOff:
+        return true;
+    case kOn:
+        return true;
+    case kStartDown:
+        return false;
+    case kDown:
         StartCancel();
         changeState(kCancel);
         return true;
+    case kCancel:
+        return true;
+    default:
+        return true;
     }
-    return mState != kStartDown;
 }
-
-// 0x7100bd79ec / 0x7100bd79f4 / 0x7100bd79fc / 0x7100bd7a04
-bool ButtonBase::UpdateOn() {
-    return true;
-}
-bool ButtonBase::UpdateOff() {
-    return true;
-}
-bool ButtonBase::UpdateDown() {
-    return true;
-}
-bool ButtonBase::UpdateCancel() {
-    return true;
-}
-
-// 0x7100bd7a0c / 0x7100bd7a10 / 0x7100bd7a14 / 0x7100bd7a18
-void ButtonBase::StartOn() {}
-void ButtonBase::StartOff() {}
-void ButtonBase::StartDown() {}
-void ButtonBase::StartCancel() {}
 
 // 0x7100bd7a1c
 void ButtonBase::FinishOn() {

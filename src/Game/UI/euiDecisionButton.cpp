@@ -8,23 +8,30 @@ DecisionButton::DecisionButton(const DecisionButton& other, LayoutEx* layout, se
     mFlags |= 0x20;
 }
 
-// NON_MATCHING: the original tests the kOff state last (cbnz) instead of first (cbz)
 // 0x7100bd8c98
 bool DecisionButton::ProcessOn() {
-    bool handled = true;
     switch (mState) {
     case kOff:
+        StartOn();
+        changeState(kStartOn);
+        return true;
+    case kStartOn:
+        return true;
     case kStartOff:
         StartOn();
         changeState(kStartOn);
-        break;
+        return true;
+    case kOn:
+        return true;
+    case kStartDown:
+        return true;
+    case kDown:
+        return true;
     case kCancel:
-        handled = false;
-        break;
+        return false;
     default:
-        break;
+        return true;
     }
-    return handled;
 }
 
 // 0x7100bd8d08

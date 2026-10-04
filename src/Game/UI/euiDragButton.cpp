@@ -27,9 +27,9 @@ void DragButton::StartDrag(const sead::Vector2f& pos) {
 // 0x7100bd8fb0
 void DragButton::FinishDrag(const sead::Vector2f* pos) {
     if (mFlags & 0x40)
-        requestOff();
+        Off();
     else
-        requestCancel();
+        Cancel();
 }
 
 // 0x7100bd8fcc

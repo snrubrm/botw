@@ -9,7 +9,7 @@ namespace eui {
 class LayoutEx;
 
 // Circular intrusive list node with the layout of nn::util::IntrusiveListNode. lib/NintendoSDK only declares
-// IntrusiveListImplementation::push_front (the original inlines it, e.g. in ButtonBase::requestOn), so the inline
+// IntrusiveListImplementation::push_front (the original inlines it, e.g. in ButtonBase::On), so the inline
 // pieces live here until the SDK header has them.
 struct ListNode {
     ListNode() : prev(this), next(this) {}

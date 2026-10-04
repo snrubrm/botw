@@ -12,8 +12,8 @@ AnimButton::AnimButton() {
 }
 
 // 0x7100bd6768
-void AnimButton::requestDown() {
-    ButtonBase::requestDown();
+void AnimButton::Down() {
+    ButtonBase::Down();
     mFlags &= ~0x4000;
 }
 
@@ -87,44 +87,60 @@ void AnimButton::FinishDown() {
     }
 }
 
-// NON_MATCHING: the original places the shared StartOn block before the other case blocks
 // 0x7100bd6cc8
 bool AnimButton::ProcessOn() {
-    bool handled = true;
     switch (mState) {
     case kOff:
+        StartOn();
+        changeState(kStartOn);
+        return true;
+    case kStartOn:
+        return true;
     case kStartOff:
         StartOn();
         changeState(kStartOn);
-        break;
+        return true;
+    case kOn:
+        return true;
     case kStartDown:
-    case kCancel:
-        handled = false;
-        break;
+        return false;
     case kDown:
-        if (!(mFlags & 0x40))
-            break;
-        StartOn();
-        changeState(kStartOn);
-        break;
+        if (mFlags & 0x40) {
+            StartOn();
+            changeState(kStartOn);
+        }
+        return true;
+    case kCancel:
+        return false;
     default:
-        break;
+        return true;
     }
-    return handled;
 }
 
 // 0x7100bd6d4c
 bool AnimButton::ProcessOff() {
-    if (mState == kStartDown)
+    switch (mState) {
+    case kOff:
+        return true;
+    case kStartOn:
+        StartOff();
+        changeState(kStartOff);
+        return true;
+    case kStartOff:
+        return true;
+    case kOn:
+        StartOff();
+        changeState(kStartOff);
+        return true;
+    case kStartDown:
         return (mFlags >> 6) & 1;
-    if (mState == kStartOn) {
-        StartOff();
-        changeState(kStartOff);
-    } else if (mState == kOn) {
-        StartOff();
-        changeState(kStartOff);
+    case kDown:
+        return true;
+    case kCancel:
+        return true;
+    default:
+        return true;
     }
-    return true;
 }
 
 // 0x7100bd6e64
@@ -163,10 +179,10 @@ bool AnimButton::DownOff(bool b) {
     }
     if (b && (mFlags & 0x40))
         mFlags = (mFlags & ~0x40) | 0x800;
-    requestDown();
+    Down();
     if (!(mFlags & 0x1000)) {
         if (!(screen && mBoxCursorPane && screen->moveBoxCursorByButton(this)))
-            requestOff();
+            Off();
     }
     return true;
 }
@@ -174,13 +190,13 @@ bool AnimButton::DownOff(bool b) {
 // 0x7100bd693c
 void AnimButton::ActivateByBoxCursor() {
     mFlags = (mFlags & ~0x1840) | 0x1000;
-    requestOn();
+    On();
 }
 
 // 0x7100bd695c
 void AnimButton::InactivateByBoxCursor() {
     mFlags &= ~0x1000;
-    requestOff();
+    Off();
     if (mLayout->mScreen->_104)
         mFlags |= 0x800;
 }

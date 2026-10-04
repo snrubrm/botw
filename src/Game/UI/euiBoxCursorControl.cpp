@@ -88,7 +88,7 @@ void BoxCursorControl::sub_7100BDC1E8(bool b) {
     BoxCursorNode* node = mActiveNode;
     if (node && node->isDecidable(mLayout->mScreen->getDrawTarget(), b)) {
         AnimButton* button = mActiveNode->mButton;
-        button->requestDown();
+        button->Down();
         button->mFlags = b ? (button->mFlags | 0x4000) : (button->mFlags & ~0x4000);
     }
 }
