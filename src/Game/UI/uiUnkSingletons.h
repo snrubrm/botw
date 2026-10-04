@@ -129,6 +129,16 @@ struct UiSubsys1Unk378 {
 
 // Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
 // polymorphic with a singleton disposer at 0x8).
+// Element of UiSubsys1's marker table at 0x310 (placeholder; position at 0x28 / 0x30, index at 0x44).
+struct UiSubsys1Marker {
+    u8 _0[0x28];
+    /* 0x28 */ f32 _28;
+    u8 _2c[4];
+    /* 0x30 */ f32 _30;
+    u8 _34[0x44 - 0x34];
+    /* 0x44 */ s32 _44;
+};
+
 // Element of UiSubsys1's table at 0x658 (placeholder; bit 4 of the byte at 0x3c is tested).
 struct UiSubsys1Entry {
     u8 _0[0x3c];
@@ -199,7 +209,9 @@ private:
     u8 _12c[0x280 - 0x12c];
     /* 0x280 */ sead::OffsetList<UiSubsys1ListEntry> _280;
     /* 0x298 */ UiSubsys1ListEntry* _298;
-    u8 _2a0[0x378 - 0x2a0];
+    u8 _2a0[0x310 - 0x2a0];
+    /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
+    u8 _320[0x378 - 0x320];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x658 - 0x380];
     /* 0x658 */ sead::PtrArray<UiSubsys1Entry> _658;

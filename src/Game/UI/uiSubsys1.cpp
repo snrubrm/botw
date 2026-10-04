@@ -1,9 +1,31 @@
+#include <limits>
 #include <prim/seadBitFlag.h>
 #include "Game/UI/uiUnkSingletons.h"
 
 namespace uking::ui {
 
 bool sub_7100A9C110(s32 value);
+
+// 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
+bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius) {
+    bool found = false;
+    f32 nearest = std::numeric_limits<f32>::max();
+    const f32 radius_sq = radius * radius;
+    for (auto& marker_ref : _310) {
+        auto* marker = &marker_ref;
+        const sead::Vector2f marker_pos(marker->_28, marker->_30);
+        const sead::Vector2f player_pos(pos->x, pos->z);
+        const f32 dx = marker_pos.x - player_pos.x;
+        const f32 dz = marker_pos.y - player_pos.y;
+        const f32 dist_sq = dx * dx + dz * dz;
+        if (dist_sq < radius_sq && dist_sq < nearest) {
+            *out_index = marker->_44;
+            nearest = dist_sq;
+            found = true;
+        }
+    }
+    return found;
+}
 
 // 0x7100963704
 void UiSubsys1::set128(s32 value) {
