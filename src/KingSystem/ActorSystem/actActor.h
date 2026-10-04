@@ -155,6 +155,8 @@ public:
         _2 = 0x2,  // set by sub_71011C88C0 (physics matrix written)
         _5 = 0x5,
         _6 = 0x6,
+        _8 = 0x8,
+        _a = 0xa,
         _18 = 0x18,
         _1c = 0x1c,
         _20 = 0x20,
@@ -318,6 +320,8 @@ public:
     // 0x71011cd3a0: `a1` receives a reason code (10 or 19) when the actor is unloaded because of its distance (lane4 s23)
     bool shouldUnloadBecauseOfDistance(s32* a1);
     void getHomePos(sead::Vector3f* pos) const;
+    // 0x71011cb480 (CSV name; lane4 s29): the home position is farther than sqrt(0.5) from the current one.
+    bool areMtxAndHomeMtxPosDesynced() const;
     void setModelDrawEnabled(bool enabled);
     const sead::Vector3f& getPreviousPos() const;
     const sead::Vector3f& getPreviousPos2() const { return mPreviousPos2; }
@@ -560,6 +564,15 @@ public:
     void emitDeadUpLifeZeroAndSetRevival();
     void setRevivalFlagForUsed(bool value);
     bool isWaitRevivalForUsed() const;
+    // lane4 s29 (placeholder names = addresses): 0x71011c5c4c: bit 1 of the map object's flags0 (false without map
+    // object); 0x71011c7a98: flag 8; 0x71011cbc28: flag 0xa or a fade-out delete type of 2.
+    bool sub_71011C5C4C() const;
+    bool sub_71011C7A98() const;
+    bool sub_71011CBC28() const;
+    // 0x71011d7790: flag 0xa and not ActorFlag2 _8000; 0x71011db30c: bit 11 of the LOD state's mFlags8 (false
+    // without a LOD state).
+    bool sub_71011D7790() const;
+    bool sub_71011DB30C() const;
     // 0x71011d7168 / 0x71011d717c (CSV Actor::isWaitRevivalForDrop / setRevivalFlagForDrop; lane4 s29): the drop twins.
     bool isWaitRevivalForDrop() const;
     void setRevivalFlagForDrop(bool value);

@@ -245,6 +245,21 @@ void Actor::getHomePos(sead::Vector3f* pos) const {
     }
 }
 
+bool Actor::areMtxAndHomeMtxPosDesynced() const {
+    sead::Vector3f home_pos;
+    if (mFieldBodyGroup) {
+        sead::Vector3f pos;
+        mHomeMtx.getTranslation(pos);
+        home_pos = phys::System::instance()->getStaticCompoundMgr()->getTransformedPos(
+            mFieldBodyGroup, pos);
+    } else {
+        mHomeMtx.getTranslation(home_pos);
+    }
+    sead::Vector3f pos;
+    mMtx.getTranslation(pos);
+    return (home_pos - pos).squaredLength() > 0.5f;
+}
+
 void Actor::boneHandleStuff(BoneHandleBase* handle, bool sorted) {
     if (mModel)
         handle->sub_7100D3BAAC(&_4d8, mModel, sorted);
@@ -441,6 +456,34 @@ bool Actor::isWaitRevivalForUsed() const {
 void Actor::setRevivalFlagForUsed(bool value) {
     if (mMapObject)
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
+}
+
+bool Actor::sub_71011C5C4C() const {
+    if (!mMapObject)
+        return false;
+    return mMapObject->getFlags0().isOn(map::Object::Flag0::_2);
+}
+
+bool Actor::sub_71011C7A98() const {
+    return checkFlag(ActorFlag::_8);
+}
+
+bool Actor::sub_71011CBC28() const {
+    if (checkFlag(ActorFlag::_a))
+        return true;
+    return mFadeOutDeleteType == 2;
+}
+
+bool Actor::sub_71011D7790() const {
+    if (!checkFlag(ActorFlag::_a))
+        return false;
+    return !mActorFlags2.isOn(ActorFlag2::_8000);
+}
+
+bool Actor::sub_71011DB30C() const {
+    if (!_598)
+        return false;
+    return _598->mFlags8.isOnBit(11);
 }
 
 bool Actor::isWaitRevivalForDrop() const {
