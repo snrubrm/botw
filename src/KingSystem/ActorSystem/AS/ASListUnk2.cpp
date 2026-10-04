@@ -3,6 +3,18 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: the two signed boundary checks run in the opposite order.
+void ASList::Unk2::sub_7101163960(s32 start, s32 middle, s32 end, s32 index,
+                                const res::ASSetting::BoneParams* params) {
+    if (start >= middle || middle >= end || !params)
+        return;
+    auto& range = mBoneWeightRanges[index];
+    range.start = start;
+    range.middle = middle;
+    range.end = end;
+    range.params = params;
+}
+
 void ASList::Unk2::sub_71011634C0(f32 value) {
     Element* element = _18;
     if (!element)

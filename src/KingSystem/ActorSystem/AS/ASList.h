@@ -4,6 +4,7 @@
 #include <gsys/gsysModel.h>
 #include <container/seadSafeArray.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Resource/resResourceASSetting.h"
 namespace ksys::res {
 class ModelList;
 }
@@ -59,6 +60,8 @@ public:
         int sub_710116367C();
         void sub_71011637D8();
         void sub_7101163AD4(f32 value, int key);
+        void sub_7101163960(s32 start, s32 middle, s32 end, s32 index,
+                           const res::ASSetting::BoneParams* params);
         bool sub_710116392C();
         bool sub_7101163940();
         bool sub_7101163950();
@@ -113,8 +116,17 @@ public:
         /* 0x43 */ u8 _43;
         /* 0x44 */ u8 _44[0x48 - 0x44];
         /* 0x48 */ Unk2* _48;
-        /* 0x50 */ u8 _50[0x98 - 0x50];
+        struct BoneWeightRange {
+            s16 start;
+            s16 middle;
+            s16 end;
+            const res::ASSetting::BoneParams* params;
+        };
+        static_assert(sizeof(BoneWeightRange) == 0x10);
+        /* 0x50 */ sead::SafeArray<BoneWeightRange, 3> mBoneWeightRanges;
+        /* 0x80 */ u8 _80[0x98 - 0x80];
     };
+    static_assert(sizeof(Unk2) == 0x98);
 
     // Placeholder: 0x50-byte slot.
     struct Unk1 {
