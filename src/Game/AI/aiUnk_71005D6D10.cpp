@@ -1,4 +1,5 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include <cmath>
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -1182,4 +1183,33 @@ bool sub_71005E02E0(ksys::act::Actor* actor, Unk_7102357d20* sender, ksys::act::
         sent = true;
     }
     return sent;
+}
+
+// NON_MATCHING: scheduling / register allocation only (same operations)
+bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* target,
+                    f32* out_time, f32 height, f32 gravity) {
+    if (!actor)
+        return false;
+    const f32 neg_height = 0.0f - height;
+    if (neg_height <= 1.1920929e-07f && neg_height >= -1.1920929e-07f)
+        return false;
+    const f32 neg_gravity = 0.0f - gravity;
+    if (neg_gravity <= 1.1920929e-07f && neg_gravity >= -1.1920929e-07f)
+        return false;
+
+    const sead::Matrix34f& mtx = actor->getMtx();
+    const f32 dx = target->x - mtx.m[0][3];
+    const f32 dz = target->z - mtx.m[2][3];
+    const f32 dy = target->y - mtx.m[1][3];
+    sead::Vector3f dir = {dx, 0.0f, dz};
+    const f32 dist = std::sqrt(dx * dx + dz * dz);
+    const f32 up_speed = std::sqrt(sead::Mathf::abs(2.0f * (height * gravity)));
+    const f32 fall = sead::Mathf::clampMin(height - dy, 0.0f);
+    const f32 time = -up_speed / gravity + std::sqrt(fall * -2.0f / gravity);
+    const f32 speed = dist / time;
+    dir.normalize();
+    *out = dir * speed;
+    if (out_time)
+        *out_time = time;
+    return true;
 }

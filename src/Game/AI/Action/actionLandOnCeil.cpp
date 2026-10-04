@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLandOnCeil.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace uking::action {
@@ -17,7 +19,12 @@ void LandOnCeil::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void LandOnCeil::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5EE1C(_80);
+        controller->sub_7100F5EEB8(_90);
+        controller->sub_7100F5E754(true);
+        controller->sub_7100F5EDE8(sead::Vector3f::ey);
+    }
 }
 
 void LandOnCeil::loadParams_() {

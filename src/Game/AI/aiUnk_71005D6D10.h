@@ -335,6 +335,11 @@ void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
 void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10);
+/// 0x71005df66c (placeholder name): launch velocity (horizontal part in `out`, y = 0) for a jump from the actor to
+/// `target` with the given apex `height` and `gravity`; `out_time` receives the flight time. False if the actor is
+/// null or height / gravity are ~0.
+bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* target,
+                    f32* out_time, f32 height, f32 gravity);
 /// 0x71005d7c94 (declared only; placeholder name): copies the first token of `in` into `out`
 /// (false if either is empty / null).
 bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in);

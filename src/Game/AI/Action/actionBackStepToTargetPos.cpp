@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBackStepToTargetPos.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -48,6 +49,15 @@ void BackStepToTargetPos::m36() {
 
 void BackStepToTargetPos::m37() {
     playAS(mEndAS_s.cstr(), true, 0, 0, -1.0f);
+}
+
+void BackStepToTargetPos::m41(f32* a, sead::Vector3f* b) {
+    f32 time = 0.0f;
+    const f32 gravity = *mJumpGravity_s / 900.0f;
+    sead::Vector3f velocity;
+    sub_71005DF66C(&velocity, mActor, mTargetPos_d, &time, m42(), gravity);
+    *a = velocity.normalize();
+    *b = velocity;
 }
 
 // NON_MATCHING: the original keeps a branch on the height comparison (we get fcsel)

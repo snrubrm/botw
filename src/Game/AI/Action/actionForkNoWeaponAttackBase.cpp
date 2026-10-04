@@ -3,7 +3,12 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include <algorithm>
 #include <prim/seadStringBuilder.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 
 namespace uking::action {
 
@@ -46,6 +51,37 @@ void ForkNoWeaponAttackBase::loadParams_() {
 
 void ForkNoWeaponAttackBase::calc_() {
     ForkAttackWithWeaponOrWithout::calc_();
+}
+
+// NON_MATCHING: the original loads mActor after the flag byte (hoisted out of both arms); ours loads it first
+int ForkNoWeaponAttackBase::m33() {
+    auto* actor = mActor;
+    s32 power;
+    if (*mIsUseAttackParam_s)
+        power = actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+    else
+        power = std::max(static_cast<ksys::act::PlayerOrEnemy*>(actor)->getEnemyAtkPower(), 1);
+    return s32(power * *mAttackPowerScale_s);
+}
+
+// NON_MATCHING: probably the same loop shape as PunchAttack::calc_ (the original loads *cNullChar once up front)
+void ForkNoWeaponAttackBase::sub_710015E71C() {
+    if (!mAtkBodyName_s[0].isEmpty()) {
+        auto* actor = mActor;
+        sub_71007A2D7C(actor, mAtkBodyName_s[0]);
+        if (!mAtkBodyName_s[1].isEmpty()) {
+            sub_71007A2D7C(actor, mAtkBodyName_s[1]);
+            if (!mAtkBodyName_s[2].isEmpty())
+                sub_71007A2D7C(actor, mAtkBodyName_s[2]);
+        }
+    }
+    ksys::act::Chemical* chemical;
+    if (mChmName1_s.isEmpty())
+        chemical = mActor->getChemicalStuff();
+    else
+        chemical = mActor->sub_71011D8A54(mChmName1_s);
+    if (chemical)
+        chemical->_c &= ~0x20u;
 }
 
 int ForkNoWeaponAttackBase::m35() {
