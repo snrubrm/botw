@@ -34,7 +34,7 @@ protected:
     u64 _58 = 0;
     // static_param at offset 0x60
     const int* mSuccessLife_s{};
-    bool _68 = false;
+    u8 _68 = 0;
 
 };
 KSYS_CHECK_SIZE_NX150(PlayerPullSword, 0x70);
