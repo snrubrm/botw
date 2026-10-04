@@ -125,7 +125,9 @@ public:
     /* 0xd0 */ Frame* _d0;  // the current frame
     /* 0xd8 */ Frame* _d8;  // overrides the ring when set
     /* 0xe0 */ f32 _e0;
-    /* 0xe4 */ u8 _e4[0xf4 - 0xe4];
+    /* 0xe4 */ u8 _e4[0xec - 0xe4];
+    /* 0xec */ f32 _ec;  // delta time
+    /* 0xf0 */ u8 _f0[0xf4 - 0xf0];
     /* 0xf4 */ u8 _f4;
     /* 0xf5 */ u8 _f5;
     /* 0xf6 */ u8 _f6[0x920 - 0xf6];
@@ -139,6 +141,8 @@ public:
 struct State {
     s32 _0;
     f32 weight;
+    u8 _8[0x30 - 0x8];
+    f32 _30;
 };
 
 class Element {
@@ -555,6 +559,8 @@ public:
     int m6() override;
     int m7() override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m13(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
@@ -585,6 +591,7 @@ class SkeltalAsset : public AnmAsset {
 public:
     ~SkeltalAsset() override;
 
+    void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
 

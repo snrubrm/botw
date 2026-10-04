@@ -14,6 +14,23 @@ int AnmAsset::m7() {
     return _a >= 0 ? _a : 1;
 }
 
+void AnmAsset::m13(Context* ctx, State* state, const res::ASResource* resource) {
+    const f32 delta_time = ctx->_ec;
+    if (delta_time > 0) {
+        ElementParams* params =
+            ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+        params->sub_7101302950(delta_time);
+    }
+}
+
+void AnmAsset::m16(Context* ctx, const res::ASResource* resource, f32 value) {
+    ElementParams* params =
+        ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
+    params->sub_7101302A1C(value);
+    params->_8 = params->_4 - params->_c;
+    params->sub_7101302940(nullptr);
+}
+
 void AnmAsset::m19(Context* ctx, const res::ASResource* resource, f32 value) {
     ElementParams* params =
         ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);
