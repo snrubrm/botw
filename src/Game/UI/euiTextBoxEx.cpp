@@ -1,11 +1,66 @@
 #include "Game/UI/euiTextBoxEx.h"
 #include <nn/ui2d/ResExtUserData.h>
 #include <prim/seadSafeString.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace eui {
 
 void ProcessMessageAppTag(const MessageString& message,
                           sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
+
+// NON_MATCHING: pane-width and virtual-call scheduling differ; short buffer arguments are narrowed.
+// 0x7100be24e0
+bool TextBoxEx::InitializeStringWithTextSearcherInfo(
+    nn::gfx::Device* device, const nn::ui2d::BuildArgSet&,
+    const nn::ui2d::TextSearcher::TextInfo& info) {
+    const bool animated = getLetterAnimSpeed_(nullptr);
+    u32 reserve_characters = 0;
+    u32 reserve_buffer = 0;
+    if (isTextChangeOn_()) {
+        const f32 available_height = GetSize().height - mFontSize.height;
+        reserve_characters = available_height < 0.0f ? 1 :
+            sead::Mathf::floor(available_height / (mFontSize.height + mLineSpace)) + 1;
+        f32 character_width = mFontSize.width * 0.4f;
+        f32 min_scale = 0.0f;
+        if (getTextAdjustMinScale_(&min_scale))
+            character_width *= min_scale;
+        const f32 available_width = GetSize().width - character_width;
+        reserve_characters *= available_width < 0.0f ? 1 :
+            sead::Mathf::floor(available_width / (character_width + mCharSpace)) + 1;
+        reserve_buffer = reserve_characters * 2 + (animated ? 10 : 0);
+    }
+    if (info.mText) {
+        sead::WFixedSafeString<2048> buffer;
+        u32 text_length = 0;
+        u32 character_count = 0;
+        m42(&buffer, &text_length, &character_count,
+            reinterpret_cast<const char16*>(info.mText), info.mTextLength, u32(-1), false, nullptr);
+        u32 min_buffer = text_length;
+        if (!text_length || !character_count) {
+            min_buffer = 1;
+            character_count = 1;
+        }
+        if (animated)
+            min_buffer += 10;
+        reserve_buffer = sead::Mathu::max(reserve_buffer, sead::Mathu::max(min_buffer, info.mBufferLength));
+        reserve_characters = sead::Mathu::max(reserve_characters, sead::Mathu::max(character_count, info.mBufferLength));
+        if (info._10 > 0) {
+            reserve_buffer = sead::Mathu::max(reserve_buffer, u32(info._10) * 2);
+            reserve_characters = sead::Mathu::max(reserve_characters, u32(info._10));
+        }
+        AllocateStringBuffer(device, reserve_buffer, reserve_characters);
+        nn::ui2d::TextBox::SetString(reinterpret_cast<const u16*>(buffer.cstr()), 0, text_length);
+        return true;
+    }
+    if (reserve_buffer) {
+        if (info._10 > 0) {
+            reserve_buffer = sead::Mathu::max(reserve_buffer, u32(info._10) * 2 + (animated ? 10 : 0));
+            reserve_characters = sead::Mathu::max(reserve_characters, u32(info._10));
+        }
+        AllocateStringBuffer(device, reserve_buffer, reserve_characters);
+    }
+    return false;
+}
 
 // 0x7100be2444
 u16 TextBoxEx::setStringNoPreproces(const char16* string, u16 length) {

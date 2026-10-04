@@ -3,6 +3,7 @@
 #include <nn/ui2d/TextBox.h>
 #include <message/seadMessageSet.h>
 #include <prim/seadDelegate.h>
+#include <prim/seadSafeString.h>
 #include "Game/UI/euiMessageString.h"
 
 namespace eui {
@@ -17,6 +18,8 @@ public:
     void InitializeString(nn::ui2d::BuildResultInformation*, nn::gfx::Device*,
                           const nn::ui2d::BuildArgSet&,
                           const nn::ui2d::TextBox::InitializeStringParam&) override;
+    bool InitializeStringWithTextSearcherInfo(nn::gfx::Device*, const nn::ui2d::BuildArgSet&,
+                                              const nn::ui2d::TextSearcher::TextInfo&) override;
     u16 SetString(const u16* string, u16 dst_index) override;
     u16 SetString(const u16* string, u16 dst_index, u16 length) override;
 
@@ -24,7 +27,8 @@ public:
     virtual u16 setStringNoPreproces(const char16* string, u16 length);
     virtual u16 m41(const char16* string, u16 length, bool* has_next_page, u32 page, bool flag,
                     void* user_data);
-    virtual s32 m42();
+    virtual s32 m42(sead::WBufferedSafeString* out, u32* text_length, u32* character_count,
+                    const char16* string, u32 length, u32 page, bool flag, void* user_data);
     virtual void adjustText_(LayoutEx* layout);
     virtual bool getTextAdjustMinScale_(f32* scale);
     virtual bool isWordwrapOn_();
