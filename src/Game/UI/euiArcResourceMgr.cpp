@@ -1,5 +1,6 @@
 #include "Game/UI/euiArcResourceMgr.h"
 #include <filedevice/seadFileDeviceMgr.h>
+#include <filedevice/seadPath.h>
 #include <new>
 
 namespace eui {
@@ -13,6 +14,31 @@ sead::DirectResource* ArcResourceMgr::OneTimeBinaryResourceFactory::newResource_
 // 0x7101407a14
 ArcResourceMgr::ArcResourceMgr() {
     mArchives.initOffset(offsetof(ArcResource, mNode));
+}
+
+// 0x7101407a38 / 0x7101407a3c
+ArcResourceMgr::~ArcResourceMgr() = default;
+
+// 0x7101407bf0
+void ArcResourceMgr::loadArchive(sead::Heap* heap, const sead::SafeString& path) {
+    sead::ResourceMgr::LoadArg arg;
+    OneTimeBinaryResourceFactory factory;
+    bool tried_decompression = false;
+    arg.path = path;
+    arg.instance_heap = heap;
+    arg.load_data_heap = heap;
+    arg.instance_alignment = 4;
+    arg.load_data_alignment = 0x1000;
+    arg.factory = &factory;
+    arg.has_tried_create_with_decomp = &tried_decompression;
+    auto* resource = sead::DynamicCast<sead::DirectResource>(
+        sead::ResourceMgr::instance()->tryLoad(arg, "", nullptr));
+    if (resource) {
+        sead::FixedSafeString<64> name;
+        sead::Path::getBaseFileName(&name, path);
+        auto* archive = new (heap, 8) ArcResource(this, name, resource->getRawData());
+        mArchives.pushBack(archive);
+    }
 }
 
 // 0x7101407a40

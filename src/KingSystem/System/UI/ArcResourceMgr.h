@@ -12,7 +12,7 @@ namespace ksys::ui {
 class ArcResourceMgr : public eui::ArcResourceMgr {
 public:
     ArcResourceMgr();
-    ~ArcResourceMgr() override;
+    ~ArcResourceMgr() override = default;
 
     void loadArchive(sead::Heap* heap, const sead::SafeString& path) override;
 };
