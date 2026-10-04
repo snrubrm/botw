@@ -903,4 +903,8 @@ void Manager::allowPaletteOverride() {
     getEnvMgr()->allowPaletteOverride();
 }
 
+void* Manager::getElementHolderMaybe() const {
+    return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
+}
+
 }  // namespace ksys::world

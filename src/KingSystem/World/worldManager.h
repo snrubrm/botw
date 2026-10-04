@@ -207,6 +207,8 @@ public:
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
     EnvMgr* getEnvMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
+    // 0x71010f7930: the chemical manager's element holder.
+    void* getElementHolderMaybe() const;
     ChemicalMgr* getChemicalMgr() const { return static_cast<ChemicalMgr*>(mMgrs[8]); }
 
     bool worldInfoLoaded() const { return mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded; }

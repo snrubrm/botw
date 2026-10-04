@@ -30,6 +30,8 @@ public:
 
     void sub_7100D8EAB4(int value);
     void sub_7100D8EEE0();
+    // 0x7100d8f124: associates a chemical world holder (same incomplete type as _60).
+    bool sub_7100D8F124(void* holder);
     void sub_7100D8F194();
     void sub_7100D907A8();
     void sub_7100D90858(bool a1, int a2, bool a3, bool a4, bool a5);

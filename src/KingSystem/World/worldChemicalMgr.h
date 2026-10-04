@@ -16,7 +16,9 @@ public:
     void unload2();
     bool x_4() const;
 
-    u8 _20[0xb10 - 0x20];
+    u8 _20[0xae8 - 0x20];
+    void* _ae8;  // chemical element holder (type incomplete), read by Manager::getElementHolderMaybe.
+    u8 _af0[0xb10 - 0xaf0];
     u8 _b10;
     u8 _b11[0xdc0 - 0xb11];
 };

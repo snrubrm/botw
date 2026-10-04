@@ -23,13 +23,13 @@ void ActorContextStuff::sub_710065F9AC() {
         _638.at(i)->sub_71006618AC();
 }
 
-void ActorContextStuff::Entry::sub_7100661988() {
+void Unk_710243be90::sub_7100661988() {
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateCalc())
         accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
 }
 
-void ActorContextStuff::Entry::sub_71006619DC() {
+void Unk_710243be90::sub_71006619DC() {
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateSleep())
         accessor.setProperties(0, accessor.getActorMtx(), nullptr, nullptr, nullptr, false, 3, -1);

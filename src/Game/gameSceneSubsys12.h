@@ -19,6 +19,8 @@ public:
     // 0x7100662aec / 0x7100662b4c
     void init(sead::Heap* heap);
     bool x() const;
+    // 0x7100663278: assigns a carried entry for proc (declaration only).
+    Unk_710243be90* sub_7100663278(ksys::act::BaseProc* proc);
     // 0x710066358c / 0x71006652c8
     s32 sub_710066358C();
     bool sub_71006652C8() const;
