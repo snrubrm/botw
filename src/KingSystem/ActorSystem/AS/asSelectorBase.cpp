@@ -33,7 +33,7 @@ bool SelectorBase::m10(Context* ctx, State* state, const res::ASResource* resour
 }
 
 
-void SelectorBase::m11(Context* ctx, State* state, const res::ASResource* resource) {
+void SelectorBase::m11(Context* ctx, EventState* state, const res::ASResource* resource) {
     const s8 index = ctx->sub_7101258CD4(sub_71011653E8(resource))->_0;
     if (index < 0)
         return;
@@ -69,7 +69,7 @@ void SelectorBase::m15(Context* ctx, State* state, const res::ASResource* resour
     child->m15(ctx, state, child_resource);
 }
 
-void SelectorBase::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
+void SelectorBase::m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {
     const s8 index = ctx->sub_7101258CD4(sub_71011653E8(resource))->_0;
     if (index < 0)
         return;

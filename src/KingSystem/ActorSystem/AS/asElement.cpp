@@ -27,10 +27,10 @@ bool Element::m9(Context* ctx, PlayState* state, const res::ASResource* resource
     return true;
 }
 
-void Element::m11(Context* ctx, State* state, const res::ASResource* resource) {}
+void Element::m11(Context* ctx, EventState* state, const res::ASResource* resource) {}
 void Element::m12(Context* ctx, State* state, const res::ASResource* resource) {}
 void Element::m13(Context* ctx, State* state, const res::ASResource* resource) {}
-void Element::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {}
+void Element::m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {}
 void Element::m15(Context* ctx, State* state, const res::ASResource* resource) {}
 void Element::m16(Context* ctx, const res::ASResource* resource, f32 value) {}
 void Element::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
@@ -114,16 +114,16 @@ void Element::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeS
     out->appendWithFormat("%s, ", name.cstr());
 }
 
-int Element::m37(Context* ctx, State* state, const res::ASResource* resource) {
+int Element::m37(Context* ctx, EventState* state, const res::ASResource* resource) {
     return 0;
 }
 
-int Element::sub_710116554C(Context* ctx, State* state, const res::ASResource* resource) {
+int Element::sub_710116554C(Context* ctx, EventState* state, const res::ASResource* resource) {
     m11(ctx, state, resource);
     return m37(ctx, state, resource);
 }
 
-void Element::sub_71011654E0(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
+void Element::sub_71011654E0(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {
     m37(ctx, a3, resource);
     m14(ctx, a2, a3, resource);
 }

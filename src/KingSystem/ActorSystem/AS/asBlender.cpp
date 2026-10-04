@@ -26,7 +26,7 @@ bool Blender::m10(Context* ctx, State* state, const res::ASResource* resource) {
     return result;
 }
 
-void Blender::m11(Context* ctx, State* state, const res::ASResource* resource) {
+void Blender::m11(Context* ctx, EventState* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     Element* child = mChildren[record->_0];
     const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
@@ -283,7 +283,7 @@ void Blender::m13(Context* ctx, State* state, const res::ASResource* resource) {
 }
 
 // NON_MATCHING: same child-index sign extension difference as m34
-void Blender::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
+void Blender::m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     const int first = record->_0;
     if (record->_1 == 0xff) {

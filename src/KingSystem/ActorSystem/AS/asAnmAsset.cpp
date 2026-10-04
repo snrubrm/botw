@@ -103,6 +103,63 @@ f32 AnmAsset::m18(Context* ctx, bool restart, f32 time, f32 a4,
     return sub_7101315AD0(params, &start, &wraps, restart, resource, time);
 }
 
+// 0x710125a978: converts a resource event frame to playback space (start argument unused).
+f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold);
+
+// NON_MATCHING: duration fallback and event-loop registers are allocated differently.
+int AnmAsset::m37(Context* ctx, EventState* state, const res::ASResource* resource) {
+    if (ctx->_f4 != ctx->_f5 || !state->_1)
+        return 0;
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    ElementParams* params = ctx->sub_7101258D4C(record, false);
+    const f32 start = params->_10;
+    const f32 end = params->_14;
+    const f32 position = params->_4;
+    const f32 weight = record->_4;
+    const res::ASTriggerEventsParser* triggers = nullptr;
+    const res::ASHoldEventsParser* holds = nullptr;
+    if (resource) {
+        triggers = sead::DynamicCast<const res::ASTriggerEventsParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::TriggerEvents));
+        holds = sead::DynamicCast<const res::ASHoldEventsParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::HoldEvents));
+    }
+    const u8 flags = record->_3;
+    record->_3 = flags & ~4u;
+    if (triggers) {
+        const auto& events = triggers->getEvents();
+        for (u32 i = 0; i < events.size(); ++i) {
+            const f32 frame = *events[i].frame;
+            if (frame < -1.5f) {
+                if (flags & 4)
+                    ctx->sub_7101259DE8(weight, events[i].type_index, *events[i].value);
+                continue;
+            }
+            const f32 event_position = sub_710125A978(frame, start, end, false);
+            if (params->sub_7101302878(event_position)) {
+                ctx->sub_7101259DE8(weight, events[i].type_index, *events[i].value);
+                if (events[i].type_index == 0x3a) {
+                    const f32 duration = params->sub_710130296C(false);
+                    ctx->_e8 = duration > 0.0f ? event_position / duration : -1.0f;
+                }
+            }
+        }
+    }
+    if (state->_0)
+        return 1;
+    if (holds) {
+        const auto& events = holds->getEvents();
+        for (u32 i = 0; i < events.size(); ++i) {
+            const f32 event_start = sub_710125A978(*events[i].start_frame, start, end, true);
+            const f32 event_end = sub_710125A978(*events[i].end_frame, start, end, true);
+            if (event_start <= position && position < event_end)
+                ctx->sub_7101259F94(event_end - position, weight, events[i].type_index,
+                                     *events[i].value);
+        }
+    }
+    return 3;
+}
+
 void AnmAsset::m19(Context* ctx, const res::ASResource* resource, f32 value) {
     ElementParams* params =
         ctx->sub_7101258D4C(ctx->sub_7101258CD4(sub_71011653E8(resource)), false);

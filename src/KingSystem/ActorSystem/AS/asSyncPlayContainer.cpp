@@ -32,7 +32,7 @@ bool SyncPlayContainer::m10(Context* ctx, State* state, const res::ASResource* r
     return result;
 }
 
-void SyncPlayContainer::m11(Context* ctx, State* state, const res::ASResource* resource) {
+void SyncPlayContainer::m11(Context* ctx, EventState* state, const res::ASResource* resource) {
     int index = 0;
     for (Element* child : mChildren) {
         const res::ASResource* child_resource = sub_71013031FC(resource, index);
@@ -59,7 +59,7 @@ void SyncPlayContainer::m13(Context* ctx, State* state, const res::ASResource* r
     }
 }
 
-void SyncPlayContainer::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
+void SyncPlayContainer::m14(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource) {
     int index = 0;
     for (Element* child : mChildren) {
         const res::ASResource* child_resource = sub_71013031FC(resource, index);
