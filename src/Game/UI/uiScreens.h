@@ -418,6 +418,11 @@ public:
     ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
 
+    u8 _pad_3610[0x3904 - 0x3610];
+    /* 0x3904 */ u8 _3904;
+    u8 _pad_3905[0x391c - 0x3905];
+    /* 0x391c */ u8 _391c;
+
     void sub_7100A31BE0();
 };
 
@@ -495,6 +500,8 @@ public:
 
     u8 _pad_3610[0x3704 - 0x3610];
     /* 0x3704 */ s32 _3704;
+    u8 _pad_3708[0x3ca8 - 0x3708];
+    /* 0x3ca8 */ eui::LayoutEx* _3ca8;
 
     bool sub_7100A1A1C4(s32 a1, bool a2);
     void sub_7100A1AB58(s32 a1);
@@ -726,6 +733,11 @@ public:
 
     void sub_7100A4EBA0(s32);
 };
+
+// State objects of ScreenMainShortCut (StateTemplate<...>; 0x71025ef170 / 0x71025ef290) and ScreenAppTool (0x71025ec670).
+extern const ksys::StateBase sUnk_71025ef170;
+extern const ksys::StateBase sUnk_71025ef290;
+extern const ksys::StateBase sUnk_71025ec670;
 
 class ScreenMainShortCut : public ScreenEx {
 public:
