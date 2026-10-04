@@ -2,6 +2,8 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/Utils/Types.h"
@@ -19,6 +21,8 @@ class RigidBody;
 // Address placeholder for the vtable header at 0x710243be90.
 class Unk_710243be90 : public ksys::act::ActorBind {
 public:
+    // Vtable slot 4 is 0x7100661e64, not the abstract ActorBind slot.
+    bool m4(ksys::act::BaseProc* proc) override;
     // 0x7100661058 / 0x7100661a58: carried actor detach/update (declarations only).
     void sub_7100661058(ksys::act::Actor* actor);
     void sub_7100661A58(ksys::act::Actor* actor);
@@ -33,7 +37,9 @@ public:
     ksys::act::BaseProcLink _30;
     void* _40;
     ksys::phys::RigidBody* _48;
-    u8 _50[0x70 - 0x50];
+    u8 _50[0x68 - 0x50];
+    s32 _68;
+    s32 _6c;
     f32 _70;
     f32 _74;
     u8 _78[0x128 - 0x78];
@@ -47,10 +53,19 @@ public:
     void sub_710065D8E4(sead::Heap* heap, bool a2);
     // 0x710065e2b0: binds a matching entry to proc, or returns null.
     Unk_710243be90* sub_710065E2B0(ksys::act::BaseProc* proc);
+    // 0x710065e3c0 / 0x710065e400: sleep/wake all five embedded entries.
+    void x_0();
+    void x();
     // 0x710065f044: number of entries in the carried-item array at +0x638.
     s32 sub_710065F044();
     // 0x710065f07c: number of active entries.
     s32 sub_710065F07C();
+    // 0x710065f12c / 0x710065f16c: random and arranged placement offsets.
+    void sub_710065F12C(sead::Vector3f* out, s32 index);
+    void sub_710065F16C(sead::Vector3f* out, s32 index);
+    // 0x710065f1f0 / 0x710065f954: active scene-context scale and carry flag.
+    f32 sub_710065F1F0(f32 scale);
+    bool sub_710065F954() const;
     // 0x710065f80c: the link of the carried actor at index, or null.
     ksys::act::BaseProcLink* sub_710065F80C(s32 index);
     // 0x710065f9ac
@@ -60,7 +75,9 @@ public:
 
     u8 _0[0x28];
     sead::CriticalSection _28;
-    u8 _68[0x638 - 0x68];
+    u64 _68;
+    // Constructor65d6e8 constructs five entries at70/198/2c0/3e8/510.
+    sead::SafeArray<Unk_710243be90, 5> _70;
     sead::PtrArray<Unk_710243be90> _638;
     u8 _648[0x760 - 0x648];
 };

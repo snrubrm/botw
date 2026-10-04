@@ -4,6 +4,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "Game/gameActorContextStuff.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -44,6 +45,9 @@ public:
     void sub_7100664484(s32 state, ActorContextStuff* context);
     // 0x7100664acc: returns the carried actor's fade progress.
     f32 sub_7100664ACC(ksys::act::BaseProc* proc);
+    // 0x7100664b3c / 0x7100664c30: carried-context scale and placement offset.
+    f32 sub_7100664B3C(ActorContextStuff* context, f32 scale);
+    void sub_7100664C30(sead::Vector3f* out, s32 count, s32 index);
     // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
     void sub_7100665360();
 
@@ -62,7 +66,8 @@ public:
     ActorContextStuff* _310;
     ActorContextStuff _318;
     /* 0xa78 */ sead::Atomic<u32> _a78;
-    u8 _a7c[0xc00 - 0xa7c];
+    u8 _a7c[0xbc4 - 0xa7c];
+    sead::SafeArray<sead::Vector3f, 5> _bc4;
 
     // 0x71025c5a00
     static GameSceneSubsys12* sInstance;
