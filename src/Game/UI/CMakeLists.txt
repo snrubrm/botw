@@ -8,6 +8,7 @@ target_sources(uking PRIVATE
   euiDecisionButton.cpp
   euiDragButton.cpp
   euiTwoTouchCheckKeepButton.cpp
+  euiUniteButton.cpp
   euiNormalButton.cpp
   euiSelectButton.cpp
   euiButtonGroup.cpp

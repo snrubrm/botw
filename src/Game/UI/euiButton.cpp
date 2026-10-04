@@ -222,6 +222,26 @@ bool ButtonBase::ProcessCancel() {
     return mState != kStartDown;
 }
 
+// 0x7100bd79ec / 0x7100bd79f4 / 0x7100bd79fc / 0x7100bd7a04
+bool ButtonBase::UpdateOn() {
+    return true;
+}
+bool ButtonBase::UpdateOff() {
+    return true;
+}
+bool ButtonBase::UpdateDown() {
+    return true;
+}
+bool ButtonBase::UpdateCancel() {
+    return true;
+}
+
+// 0x7100bd7a0c / 0x7100bd7a10 / 0x7100bd7a14 / 0x7100bd7a18
+void ButtonBase::StartOn() {}
+void ButtonBase::StartOff() {}
+void ButtonBase::StartDown() {}
+void ButtonBase::StartCancel() {}
+
 // 0x7100bd7a1c
 void ButtonBase::FinishOn() {
     changeState(kOn);

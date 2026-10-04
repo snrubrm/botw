@@ -71,14 +71,14 @@ public:
     virtual bool ProcessCancel();
 
     // Slots 17-20 / 21-24 / 25-28
-    virtual bool UpdateOn() { return true; }
-    virtual bool UpdateOff() { return true; }
-    virtual bool UpdateDown() { return true; }
-    virtual bool UpdateCancel() { return true; }
-    virtual void StartOn() {}
-    virtual void StartOff() {}
-    virtual void StartDown() {}
-    virtual void StartCancel() {}
+    virtual bool UpdateOn();
+    virtual bool UpdateOff();
+    virtual bool UpdateDown();
+    virtual bool UpdateCancel();
+    virtual void StartOn();
+    virtual void StartOff();
+    virtual void StartDown();
+    virtual void StartCancel();
     virtual void FinishOn();
     virtual void FinishOff();
     virtual void FinishDown();
@@ -324,5 +324,48 @@ public:
     /* 0x88 */ bool mUseTouch = false;
 };
 static_assert(sizeof(TwoTouchCheckKeepButton) == 0x90);
+
+// A button of a group of buttons (CSV eui::UniteButton; 0x90 bytes, vtable 0x24c7a88 with 42 slots). `mType` is the
+// value of the layout's "UniteButtonType" user data (0-5; its SEAD_ENUM text table is at 0x7100bdb868, the
+// enumerator names are not known).
+class UniteButton : public AnimButton {
+public:
+    NN_RUNTIME_TYPEINFO(AnimButton)
+    const char* getClassName() const override { return "UniteButton"; }
+
+    UniteButton();
+
+    bool ProcessOn() override;
+    void StartOn() override { AnimButton::StartOn(); }
+    bool ProcessOff() override;
+    bool ProcessCancel() override;
+    bool UpdateDown() override;
+    bool UpdateCancel() override;
+    void StartDown() override;
+    void StartCancel() override;
+    void FinishDown() override;
+    void FinishCancel() override;
+    void Build(const nn::ui2d::ControlSrc& src, LayoutEx* layout) override;
+    bool HitTest(const sead::Vector2f& pos) const override;
+    void StartDrag(const sead::Vector2f& pos) override;
+    void UpdateDrag(const sead::Vector2f* pos) override;
+    void FinishDrag(const sead::Vector2f* pos) override;
+    void BuildStateAnim(const nn::ui2d::ControlSrc& src, LayoutEx* layout) override;
+
+    // Slot 41 (0x7100bdb254; the CSV names it CheckKeepButton::Uncheck)
+    virtual void Uncheck();
+    // 0x7100bdb2b0
+    void ForceSetChecked(bool checked);
+
+    /* 0x68 */ Animator* mCheckAnim = nullptr;
+    /* 0x70 */ Animator* mDragAnim = nullptr;
+    /* 0x78 */ sead::Vector2f mStartPos = {0, 0};
+    /* 0x80 */ sead::Vector2f mPanePos = {0, 0};
+    /* 0x88 */ u8 mType = 4;
+    /* 0x89 */ bool mChecked = false;
+    /* 0x8a */ bool mAllowX = true;
+    /* 0x8b */ bool mAllowY = true;
+};
+static_assert(sizeof(UniteButton) == 0x90);
 
 }  // namespace eui
