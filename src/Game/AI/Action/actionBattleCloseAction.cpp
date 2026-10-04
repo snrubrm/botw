@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionBattleCloseAction.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -15,8 +16,16 @@ bool BattleCloseAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the timer stores merge as (value) + (previous, rate) in the original, (value, previous) + (rate) in ours
 void BattleCloseAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _58.x = 0.0f;
+    _58.y = 0.0f;
+    _58.z = 0.0f;
+    sub_7100741034(&_64, actor);
+    _88 = sead::Mathf::clampMax(actor->getAngVelocity().length(), *mParams.mRotSpd_s);
+    mFlags.set(Flag::Changeable);
+    _8c.reset(6.0f);
 }
 
 void BattleCloseAction::leave_() {

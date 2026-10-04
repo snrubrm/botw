@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionShockDynamicWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
@@ -26,6 +28,10 @@ void ShockDynamicWeapon::loadParams_() {
 
 void ShockDynamicWeapon::calc_() {
     Shock::calc_();
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->x(71, nullptr, *mASSlot_s, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+            sub_710024DA0C();
+    }
 }
 
 void ShockDynamicWeapon::m33(const sead::Vector3f* velocity) {}

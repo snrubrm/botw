@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMotorcycleWaitUntilFellOver.h"
+#include "Game/Actor/actMotorcycle.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -25,6 +27,10 @@ void MotorcycleWaitUntilFellOver::loadParams_() {
 
 void MotorcycleWaitUntilFellOver::calc_() {
     MotorcycleWait::calc_();
+    if (auto* motorcycle = sead::DynamicCast<uking::act::Motorcycle>(mActor)) {
+        if (motorcycle->sub_710007A6E8())
+            setFinished();
+    }
 }
 
 }  // namespace uking::action

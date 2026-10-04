@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkGanonBeastBeamShoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -38,7 +39,16 @@ void ForkGanonBeastBeamShoot::loadParams_() {
 }
 
 void ForkGanonBeastBeamShoot::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD7B0(mActor, nullptr, 0, 0)) {
+        if (!_128) {
+            _128 = true;
+            _68.sub_71006F3A70(false);
+        }
+    } else if (_128) {
+        _128 = false;
+        _68.sub_71006F3B14(false);
+    }
+    _68.sub_71006F3A6C();
 }
 
 }  // namespace uking::action

@@ -46,6 +46,14 @@ public:
     // value (stack store + reload) in the awareness filter 0x71007456fc, which treats 1 / 2 / 3 like
     // the TargetActorType names "Player" / "Enemy" / "NPC". m22 replaces it.
     SEAD_ENUM(Unk8, _0, _1, _2, _3)
+    // Placeholder (bits of _10; MotorcycleWait::calc_ converts bit 6 through the stack like a SEAD_ENUM).
+    SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6)
+    // inline-only in the original (name is a guess): MotorcycleWait::calc_ evaluates the enum argument (stack round
+    // trip) before the load of _10.
+    bool isFlag10On(Flag flag) const {
+        const u32 mask = 1u << int(flag);
+        return (_10.load() & mask) != 0;
+    }
 
     Unk_7100e8b2b8();
     virtual ~Unk_7100e8b2b8();

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMotorcycleWaitForEvent.h"
+#include "Game/Actor/actMotorcycle.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,11 +13,20 @@ bool MotorcycleWaitForEvent::init_(sead::Heap* heap) {
 }
 
 void MotorcycleWaitForEvent::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _1c = false;
+    if (auto* motorcycle = sead::DynamicCast<uking::act::Motorcycle>(mActor)) {
+        if (!motorcycle->_f88.isOnBit(20)) {
+            motorcycle->sub_7100077830();
+            _1c = true;
+        }
+    }
 }
 
 void MotorcycleWaitForEvent::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_1c) {
+        if (auto* motorcycle = sead::DynamicCast<uking::act::Motorcycle>(mActor))
+            motorcycle->sub_7100072204();
+    }
 }
 
 void MotorcycleWaitForEvent::loadParams_() {}
