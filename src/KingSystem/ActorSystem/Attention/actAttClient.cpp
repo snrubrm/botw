@@ -11,6 +11,14 @@ const sead::SafeString& AttClient::getName() const {
     return mClient->name.ref();
 }
 
+void AttClient::sub_7100D724FC(u32 flags) {
+    _54 |= flags;
+}
+
+void AttClient::sub_7100D7250C(u32 flags) {
+    _54 &= ~flags;
+}
+
 void AttClient::resetEnabled() {
     if (mClient)
         mEnabled = mClient->is_valid.ref();
