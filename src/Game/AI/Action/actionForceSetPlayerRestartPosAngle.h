@@ -15,7 +15,7 @@ public:
     bool oneShot_() override;
 
 protected:
-    // 0x7100138d68: out-of-line implementation; map search owner remains unresolved.
+    // 0x7100138d68: out-of-line implementation.
     void sub_7100138D68();
 
     // dynamic_param at offset 0x20
