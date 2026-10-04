@@ -105,6 +105,73 @@ void InstanceSet::sub_7100FBA9BC() {
         mCharacterController->sub_7100F5EC30();
 }
 
+void InstanceSet::sub_7100FB9D24() {
+    if (mCharacterController)
+        mCharacterController->sub_7100F60794();
+
+    for (auto& rb : mRigidBodySets) {
+        rb.resetFrozenState();
+    }
+
+    for (auto& body : mList) {
+        body->resetFrozenState();
+    }
+
+    if (mRagdollInstance)
+        mRagdollInstance->resetFrozenState();
+}
+
+void InstanceSet::sub_7100FB9E90(bool on) {
+    if (mCharacterController)
+        mCharacterController->sub_7100F60934(on);
+
+    for (auto& rb : mRigidBodySets) {
+        rb.setEntityMotionFlag200(on);
+    }
+
+    for (auto& body : mList) {
+        body->setEntityMotionFlag200(on);
+    }
+
+    if (mRagdollInstance)
+        mRagdollInstance->setEntityMotionFlag200(on);
+}
+
+void InstanceSet::sub_7100FBAA3C() {
+    for (auto& rb : mRigidBodySets) {
+        rb.removeFromWorld();
+    }
+
+    for (auto& body : mList) {
+        body->removeFromWorld();
+    }
+
+    if (mCharacterController)
+        mCharacterController->sub_7100F5EC44();
+
+    if (mRagdollInstance)
+        mRagdollInstance->removeFromWorld();
+}
+
+bool InstanceSet::sub_7100FBAAC8() {
+    bool ok = true;
+    for (auto& rb : mRigidBodySets) {
+        ok &= rb.removeFromWorldAndResetLinks();
+    }
+
+    for (auto& body : mList) {
+        ok &= body->removeFromWorldAndResetLinks();
+    }
+
+    if (mCharacterController)
+        ok &= mCharacterController->sub_7100F5ECC4();
+
+    if (mRagdollInstance)
+        ok &= mRagdollInstance->removeFromWorldAndResetLinks();
+
+    return ok;
+}
+
 void InstanceSet::sub_7100FB835C() {
     if (_178[0]) {
         System::instance()->removeSystemGroupHandler(_178[0]);
@@ -300,6 +367,27 @@ void InstanceSet::sub_7100FBC838(s32 idx) {
     if (_112 != idx)
         _98[idx]->reset();
     _112 = idx;
+}
+
+// NON_MATCHING: the original loads the controller index (_112) before the size and clamps with two csel
+void InstanceSet::sub_7100FBDB5C() {
+    s32 idx = _112 > _98.size() - 1 ? _98.size() - 1 : _112;
+    idx = _112 < 0 ? 0 : idx;
+    _98[idx]->reset();
+}
+
+bool InstanceSet::sub_7100FBDB90(s32 idx, f32 factor) {
+    if (idx < 0 || idx >= _98.size())
+        return false;
+    _98[idx]->setFactor(factor);
+    return true;
+}
+
+bool InstanceSet::sub_7100FBDBD8(s32 idx, s32 bone, f32 weight) {
+    if (idx < 0 || idx >= _98.size())
+        return false;
+    _98[idx]->setBoneWeight(bone, weight);
+    return true;
 }
 
 void InstanceSet::sub_7100FBDC70(f32 scale) {

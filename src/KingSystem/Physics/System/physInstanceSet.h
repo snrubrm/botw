@@ -84,6 +84,15 @@ public:
     void sub_7100FB9BAC(InstanceSet* other);
     u32 sub_7100FB9C2C() const;
     void sub_7100FBA9BC();
+    // lane4 s30: apply-to-everything helpers (rigid body sets, listed bodies, character controller, ragdoll).
+    // 0x7100fb9d24: resetFrozenState.
+    void sub_7100FB9D24();
+    // 0x7100fb9e90 (CSV ActorPhysics::calledIfStopTimerSmallMass): setEntityMotionFlag200.
+    void sub_7100FB9E90(bool on);
+    // 0x7100fbaa3c: removeFromWorld.
+    void sub_7100FBAA3C();
+    // 0x7100fbaac8: removeFromWorldAndResetLinks (true if all succeeded).
+    bool sub_7100FBAAC8();
     void sub_7100FBAC4C(ContactLayer layer);
     void sub_7100FBACE0(ContactLayer layer);
     void sub_7100FBAD74();
@@ -116,6 +125,12 @@ public:
     // 0x7100fbc838 (declaration only): selects ragdoll controller `idx` (clamped; resets the previous
     // one, stored in _112).
     void sub_7100FBC838(s32 idx);
+    // 0x7100fbdb5c: resets the currently selected ragdoll controller (_112, clamped).
+    void sub_7100FBDB5C();
+    // 0x7100fbdb90 / 0x7100fbdbd8: RagdollController::setFactor / setBoneWeight of controller `idx` (false if
+    // `idx` is out of range).
+    bool sub_7100FBDB90(s32 idx, f32 factor);
+    bool sub_7100FBDBD8(s32 idx, s32 bone, f32 weight);
     // 0x7100fbdc70 (declaration only): scales the friction of the bodies by the ragdoll config.
     void sub_7100FBDC70(f32 scale);
     // 0x7100fbdd40 (declaration only).
