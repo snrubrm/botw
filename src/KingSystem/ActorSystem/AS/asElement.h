@@ -535,6 +535,7 @@ public:
 
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class SpeedSelector : public FloatSelector {
