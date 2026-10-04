@@ -4,8 +4,6 @@ namespace uking::action {
 
 Throw::Throw(const InitArg& arg) : ActionWithPosAngReduce(arg) {}
 
-Throw::~Throw() = default;
-
 bool Throw::init_(sead::Heap* heap) {
     return ActionWithPosAngReduce::init_(heap);
 }

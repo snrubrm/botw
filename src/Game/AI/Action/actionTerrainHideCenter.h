@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100e179a4 (declared only): out of line in the original.
+    void sub_7100E179A4(bool a, bool b, bool c, bool d);
     void calc_() override;
 
     bool _1c = false;

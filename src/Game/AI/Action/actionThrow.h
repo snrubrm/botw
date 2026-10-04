@@ -10,7 +10,7 @@ class Throw : public ActionWithPosAngReduce {
     SEAD_RTTI_OVERRIDE(Throw, ActionWithPosAngReduce)
 public:
     explicit Throw(const InitArg& arg);
-    ~Throw() override;
+    ~Throw() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

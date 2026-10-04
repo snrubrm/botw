@@ -11,11 +11,11 @@ bool FootStepCalcOn::init_(sead::Heap* heap) {
 }
 
 void FootStepCalcOn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_7100DA1A0C(true);
 }
 
 void FootStepCalcOn::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_7100DA1A0C(false);
 }
 
 void FootStepCalcOn::loadParams_() {

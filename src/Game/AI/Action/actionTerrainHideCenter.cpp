@@ -16,7 +16,10 @@ void TerrainHideCenter::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TerrainHideCenter::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_1c) {
+        _1c = false;
+        sub_7100E179A4(true, true, true, true);
+    }
 }
 
 void TerrainHideCenter::loadParams_() {}

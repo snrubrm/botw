@@ -15,7 +15,7 @@ void ForkASTrgRemainsHowl::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkASTrgRemainsHowl::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_7100142EC4(false);
 }
 
 void ForkASTrgRemainsHowl::loadParams_() {

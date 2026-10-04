@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100da1a0c (declared only): out of line in the original.
+    void sub_7100DA1A0C(bool on);
     void calc_() override;
 
     // dynamic_param at offset 0x20
