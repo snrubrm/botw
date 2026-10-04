@@ -125,4 +125,47 @@ bool ElementParams::sub_71013028BC(bool loop, bool a2, f32 position, f32 rate, f
     return true;
 }
 
+// NON_MATCHING: the original copies the previous position (_4 -> _8) and the mirrored position through
+// integer registers (the fields are probably integer-typed copies); control flow and constants match
+void ElementParams::sub_7101302764(f32 dt) {
+    const u32 flags = _0;
+    _0 = flags & ~0x10u;
+    if (flags & 8) {
+        _0 = flags & ~0x18u;
+        return;
+    }
+
+    const f32 delta = _c * dt;
+    const f32 previous = _4;
+    f32 position = previous + delta;
+    _8 = previous;
+    const f32 length = _14;
+    _4 = position;
+    if (position >= length) {
+        if (flags & 2) {
+            f32 wrapped = 0;
+            if (length > 0) {
+                f32 whole = length;
+                if (!(position < length + length))
+                    whole = length * f32(s32(position / length));
+                wrapped = position - whole;
+            }
+            _4 = wrapped;
+            position = wrapped;
+        } else {
+            _4 = length;
+            position = length;
+        }
+    }
+
+    const f32 end = _1c;
+    if (end >= 0) {
+        _18 += delta;
+        if (_18 >= end)
+            _18 = end;
+    } else {
+        _18 = position;
+    }
+}
+
 }  // namespace ksys::as
