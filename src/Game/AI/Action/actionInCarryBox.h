@@ -2,6 +2,8 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_710243be90;
+
 namespace uking::action {
 
 class InCarryBox : public ksys::act::ai::Action {
@@ -15,13 +17,14 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool hasUpdateForPreDeleteCb() override;
+    bool updateForPreDelete() override;
 
 protected:
     void calc_() override;
 
     // aitree_variable at offset 0x20
     bool* mIsInitFromCarryBox_a{};
-    void* _28{};
+    Unk_710243be90* _28{};
 };
 
 }  // namespace uking::action
