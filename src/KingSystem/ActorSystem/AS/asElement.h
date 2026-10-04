@@ -656,6 +656,7 @@ class AngleBlender : public Blender {
     SEAD_RTTI_OVERRIDE(AngleBlender, Blender)
 public:
     AngleBlender();
+    f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) override;
 
     virtual f32 m40();
     virtual f32 m41();
