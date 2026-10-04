@@ -21,7 +21,7 @@ public:
     struct Unk4 {
         sead::SafeString name;
         f32 _10;
-        u32 _14;
+        f32 _14;
     };
 
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
@@ -251,7 +251,7 @@ public:
 
 // 0x7101259c78 (declaration only): finds the first event of `type` whose mask has a bit of `mask` in the
 // context's event ring; copies its name / values into `query` (if given).
-bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, int mask, ASList::Unk2* entry);
+bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASList::Unk2* entry);
 
 // 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.

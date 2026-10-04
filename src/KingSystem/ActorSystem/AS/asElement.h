@@ -34,6 +34,14 @@ class ASList;
 // Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
 // (bit 1 = running?), a range [_4, _8] and more floats.
 struct ElementParams {
+    // 0x7101302744 (out of line: the array allocation of Frame::mEntries and the static default call it).
+    ElementParams();
+    // (user-provided: the original's `delete[]` of a Frame's entry buffer reads an array cookie)
+    ~ElementParams() {}
+
+    // 0x7101302a70: like sub_7101302764, but advances from `position` by `dt` (the playback position is not read);
+    // returns the number of wraps.
+    s32 sub_7101302A70(f32 dt, f32 position);
     // 0x7101302930 / 38 / 40 / 48: stubs that return true (called after the float setters).
     bool sub_7101302930(void* a1);
     bool sub_7101302938(void* a1);
@@ -58,14 +66,14 @@ struct ElementParams {
     // 0x710130298c: progress ((current - _10) / duration), 0 if there is no duration.
     f32 sub_710130298C(bool a) const;
 
-    u32 _0;
-    f32 _4;
-    f32 _8;
-    f32 _c;
-    f32 _10;
-    f32 _14;
-    f32 _18;
-    f32 _1c;
+    u32 _0 = 0;
+    f32 _4 = 0;
+    f32 _8 = 0;
+    f32 _c = 1.0f;
+    f32 _10 = 0;
+    f32 _14 = 0;
+    f32 _18 = 0;
+    f32 _1c = -1.0f;
 };
 static_assert(sizeof(ElementParams) == 0x20);
 
@@ -73,11 +81,16 @@ static_assert(sizeof(ElementParams) == 0x20);
 // reached through the element index of the resource.
 class Context {
 public:
+    // 0x7101258a4c: frees the frames' and the event buffers (the destructor of the original; D2).
+    ~Context();
+
     struct Frame;
 
     struct Record {
         // 0x7101257df4: the element state block of the record (a shared empty block if it has none).
         ElementParams* sub_7101257DF4(Frame* frame, bool a2);
+        // 0x7101257d90: releases the record's element state block and marks the record as free.
+        void sub_7101257D90(Frame* frame);
 
         s8 _0;
         u8 _1;
@@ -88,10 +101,23 @@ public:
     };
 
     struct Frame {
+        // 0x7101257e38 (out of line: the array allocation of ASList's frame buffer calls it).
+        Frame();
+        // 0x7101257e54: frees the buffers (the same as finalize()).
+        ~Frame();
+        // 0x7101257eb0: frees the three buffers.
+        void finalize();
+        // 0x7101258398: releases every record and unmaps every element.
+        void sub_7101258398();
+        // 0x710125848c: maps element `element` to a free record, searching from `hint`.
+        void sub_710125848C(int element, int hint);
+        // 0x7101258570: gives the record of element `element` the first free element state block.
+        void sub_7101258570(int element);
+
         sead::Buffer<Record> mRecords;
         sead::Buffer<ElementParams> mEntries;
         sead::Buffer<u8> mIndexMap;  // element index -> record index
-        res::AS* mAS;
+        res::AS* mAS = nullptr;
     };
     static_assert(sizeof(Frame) == 0x38);
 
@@ -132,9 +158,72 @@ public:
     /* 0xf0 */ u8 _f0[0xf4 - 0xf0];
     /* 0xf4 */ u8 _f4;
     /* 0xf5 */ u8 _f5;
-    /* 0xf6 */ u8 _f6[0x920 - 0xf6];
-    /* 0x920 */ u8 _920;
-    /* 0x921 */ u8 _921;
+    /* 0xf6 */ s8 _f6;  // index of the current event bank
+    /* 0xf7 */ s8 mNumEvents2;
+    /* 0xf8 */ u8 _f8;
+    /* 0xf9 */ u8 _f9;
+    /* 0xfa */ u8 _fa;
+    u8 _fb[0x100 - 0xfb];
+
+    // The events queued while the frame is evaluated (two banks each, selected by `_f6`; each bank holds up to 16).
+    struct EventA {
+        f32 mDuration;
+        f32 _4;
+        sead::SafeString mName;
+        f32 _18;
+        u32 _1c;
+    };
+    struct EventB {
+        f32 mDuration;
+        f32 _4;
+        sead::SafeString mName;
+        s32 _18;
+        u32 _1c;
+    };
+    template <typename Event>
+    struct EventBank {
+        sead::SafeArray<Event, 16> mEvents;
+        s32 mCount;
+        u32 _204;
+    };
+    static_assert(sizeof(EventBank<EventA>) == 0x208);
+
+    // 0x7101259274 / 0x710125930c: queue an event on the current bank of the first / second kind (only while
+    // `_f4 == _f5`; the duration is at least 1).
+    void sub_7101259274(f32 a0, f32 duration, f32 a2, const sead::SafeString& name);
+    void sub_710125930C(f32 a0, f32 duration, const sead::SafeString& name, s32 a3);
+    // 0x7101259bd8: ends the expiring events of types 12 / 65 / 66 and promotes the finished ones.
+    void sub_7101259BD8();
+    // 0x71012590bc: expires the events (`a`: the first-bank variant).
+    void sub_71012590BC(bool a);
+    // 0x7101258d70: releases the record of element `index` and unmaps it.
+    void sub_7101258D70(int index);
+    // 0x7101258d60 / 0x7101258d68: Frame::sub_710125848C / sub_7101258570 on the current frame.
+    void sub_7101258D60(int element, int hint);
+    void sub_7101258D68(int element);
+    // 0x7101258f4c: ends the evaluation of the frame (`a`: ...) and flips the event bank.
+    void sub_7101258F4C(bool a, bool b);
+
+    /* 0x100 */ sead::SafeArray<EventBank<EventA>, 2> mBanksA;
+    /* 0x510 */ sead::SafeArray<EventBank<EventB>, 2> mBanksB;
+    /* 0x920 */ union {
+        u32 mFlags;
+        struct {
+            u8 _920;
+            u8 _921;
+        };
+    };
+    /* 0x924 */ u32 _924;
+    u8 _928[0x930 - 0x928];
+    /* 0x930 */ sead::Buffer<u32> _930;
+    struct Event2 {
+        u16 mType;
+        u16 mFlags;
+        sead::SafeString mName;
+        f32 _18;
+        f32 _1c;
+    };
+    /* 0x940 */ sead::SafeArray<Event2, 32> mEvents2;
 };
 
 

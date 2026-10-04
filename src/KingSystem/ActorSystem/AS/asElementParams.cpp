@@ -2,6 +2,35 @@
 
 namespace ksys::as {
 
+ElementParams::ElementParams() {}
+
+// NON_MATCHING: only the branch of the last test (`end < 0`: the original skips with `b.ge`, ours with `b.pl`)
+s32 ElementParams::sub_7101302A70(f32 dt, f32 position) {
+    f32 new_position = _c * dt + position;
+    const f32 end = _1c;
+    _18 = new_position;
+    s32 wraps;
+    if (end >= 0 && new_position >= end) {
+        _18 = end;
+        wraps = static_cast<s32>(end / _14);
+        new_position = end - _14 * f32(wraps);
+    } else if (new_position > _14) {
+        if (_0 & 2) {
+            wraps = static_cast<s32>(new_position / _14);
+            new_position -= _14 * f32(wraps);
+        } else {
+            wraps = 0;
+            new_position = _14;
+        }
+    } else {
+        wraps = 0;
+    }
+    _4 = new_position;
+    if (end < 0)
+        _18 = new_position;
+    return wraps;
+}
+
 bool ElementParams::sub_7101302930(void* a1) {
     return true;
 }

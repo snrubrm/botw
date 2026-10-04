@@ -4,6 +4,7 @@
 
 namespace ksys::as {
 
+
 res::ASResource* Context::sub_7101258CC0() {
     if (res::AS* as = _d0->mAS)
         return as->getFirstResource();
@@ -68,6 +69,86 @@ gsys::Model* Context::sub_7101258E2C() {
 void Context::sub_710125923C() {
     mUnk18 = sead::SafeString::cEmptyString;
     mUnk8 = sead::SafeString::cEmptyString;
+}
+
+
+void Context::sub_7101258D60(int element, int hint) {
+    _d0->sub_710125848C(element, hint);
+}
+
+void Context::sub_7101258D68(int element) {
+    _d0->sub_7101258570(element);
+}
+
+void Context::sub_7101258D70(int index) {
+    Record* record = sub_7101258CD4(index);
+    record->sub_7101257D90(_d0);
+    _d0->mIndexMap[index] = 0xff;
+}
+
+Context::~Context() {
+    mFrames[0].finalize();
+    mFrames[1].finalize();
+    mFrames[2].finalize();
+    _930.freeBuffer();
+}
+
+void Context::sub_7101259274(f32 a0, f32 duration, f32 a2, const sead::SafeString& name) {
+    if (_f4 == _f5) {
+        auto& bank = mBanksA[_f6];
+        if (bank.mCount < 16) {
+            auto& event = bank.mEvents[bank.mCount];
+            event.mDuration = sead::Mathf::clampMin(duration, 1.0f);
+            event._4 = a0;
+            event.mName = name;
+            ++bank.mCount;
+            event._18 = a2;
+        }
+    }
+}
+
+void Context::sub_710125930C(f32 a0, f32 duration, const sead::SafeString& name, s32 a3) {
+    if (_f4 == _f5) {
+        auto& bank = mBanksB[_f6];
+        if (bank.mCount < 16) {
+            auto& event = bank.mEvents[bank.mCount];
+            event.mDuration = sead::Mathf::clampMin(duration, 1.0f);
+            event._4 = a0;
+            event.mName = name;
+            ++bank.mCount;
+            event._18 = a3;
+        }
+    }
+}
+
+// 0x710250ff94 (GOT 0x25a2d80): a float constant of another TU (0.25f). Name is a guess.
+extern const f32 sUnk_710250ff94;
+
+// NON_MATCHING: only a zero-extension of the shift amount (`mov w15, w15`)
+void Context::sub_7101259BD8() {
+    for (s32 i = 0; i < mNumEvents2; ++i) {
+        auto& event = mEvents2[i];
+        const int type = event.mType - 12;
+        if (u32(type) < 0x37 && ((1ull << type) & 0x60000000000001ull) && event._1c < sUnk_710250ff94)
+            event.mFlags &= 0xffe8;
+        if ((event.mFlags & 0x18) == 8)
+            event.mFlags = (event.mFlags & 0xfff3) | 4;
+    }
+}
+
+bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASList::Unk2* entry) {
+    for (s32 i = 0; i < ctx->mNumEvents2; ++i) {
+        auto& event = ctx->mEvents2[i];
+        if (event.mType == type && (event.mFlags & mask)) {
+            if (query) {
+                query->name = event.mName;
+                query->_10 = event._18;
+                query->_14 = event._1c;
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 }  // namespace ksys::as
