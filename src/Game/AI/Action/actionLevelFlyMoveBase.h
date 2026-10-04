@@ -24,12 +24,16 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m32();
+    // Both test the horizontal distance to the target (m34); m32 also the vertical one.
+    virtual bool m32();
     virtual bool m33();
     // Writes the target position (raised by TargetHeightOffset) to `pos`.
     virtual void m34(sead::Vector3f* pos);
-    // 0x71001dacb4 (not decompiled yet).
-    virtual void m35(sead::Vector3f* dir, f32 speed);
+    // 0x71001dacb4: moves the speed value `speed` (the owner's `_a8`) towards the speed that fits the
+    // rotation from `from` to `to` (full speed, half speed when the rotation is large or the target is
+    // near, 0 on arrival), capped at `limit`. Signature is a guess from the registers.
+    virtual void m35(ksys::VFRValue* speed, const sead::Vector3f& from, const sead::Vector3f& to,
+                     f32 limit);
     // Inline (emitted out of line in another TU, 0x71001ba780 / 0x71001ba784).
     virtual void m36(sead::Vector3f* dir) {}
     virtual void m37(sead::Vector3f* dir) {}

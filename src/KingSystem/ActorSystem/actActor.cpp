@@ -770,6 +770,10 @@ bool Actor::m86() {
     return true;
 }
 
+bool Actor::sub_71011DB30C() const {
+    return _598 && _598->mFlags8.isOnBit(11);
+}
+
 Actor* Actor::m31() {
     if (mActorFlags.isOnBit(ActorFlag::_5) && mModelBindInfo)
         return mModelBindInfo->sub_7100D3C5E0(this);
