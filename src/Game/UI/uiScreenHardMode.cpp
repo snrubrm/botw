@@ -2,6 +2,74 @@
 
 namespace uking::ui {
 
+// 0x7100a0c660
+void ScreenHardMode::m155() {
+    switch (_3718) {
+    case 0x90:
+        _3708 = 3;
+        mStateMachine.changeState(&sUnk_71025ee750);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0c784
+void ScreenHardMode::m163() {
+    switch (_3718) {
+    case 0x90:
+        _3708 = 3;
+        mStateMachine.changeState(&sUnk_71025ee750);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0cb28
+void ScreenHardMode::m183() {
+    switch (_3718) {
+    case 0x90:
+        _3708 = 3;
+        mStateMachine.changeState(&sUnk_71025ee750);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0c844
+void ScreenHardMode::m167() {
+    switch (_3718) {
+    case 0x90:
+        mStateMachine.changeState(&sUnk_71025ee330);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0cd00
+void ScreenHardMode::m195() {
+    switch (_3718) {
+    case 0x90:
+        mStateMachine.changeState(&sUnk_71025ee5d0);
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
 // 0x7100a0c888
 void ScreenHardMode::m170() {
     _3710 = mStateMachine.getState();

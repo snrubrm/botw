@@ -1024,6 +1024,11 @@ public:
 
 // ScreenHardMode: only the trivial virtual slots of the 154-245 block (the per-state callbacks, four
 // slots per state; slot 4 overrides eui::Screen's) are declared. INCOMPLETE (see Screen).
+// State objects of ScreenHardMode (StateTemplate<ScreenHardMode>; names are placeholders after the addresses).
+extern const ksys::StateBase sUnk_71025ee750;
+extern const ksys::StateBase sUnk_71025ee330;
+extern const ksys::StateBase sUnk_71025ee5d0;
+
 class ScreenHardMode : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
@@ -1138,7 +1143,8 @@ public:
     u8 _3648[0x3700 - 0x3648];
     /* 0x3700 */ s32 _3700;
     /* 0x3704 */ s32 _3704;
-    u8 _3708[0x3710 - 0x3708];
+    /* 0x3708 */ s32 _3708;
+    u8 _370c[0x3710 - 0x370c];
     /* 0x3710 */ const ksys::StateBase* _3710;
     /* 0x3718 */ s32 _3718;
     u8 _371c[0x3721 - 0x371c];
