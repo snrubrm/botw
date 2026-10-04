@@ -16,7 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x710010dcac (declared only): out of line in the original.
+    // 0x710010dcac: out of line in the original.
     void sub_710010DCAC();
     void calc_() override;
 
