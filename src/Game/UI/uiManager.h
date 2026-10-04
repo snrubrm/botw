@@ -42,10 +42,11 @@ public:
     void sub_7100A7F468(const void* a1, void* a2);
     void sub_7100A7C8D4();
     void sub_7100A7C9AC();
+    void sub_7100AA8698();  // 0x7100aa8698 (CSV unnamed; called by sub_7100A7C8D4)
     void sub_7100A7F81C();
     void sub_7100A7F890();
     void sub_7100A7FBA4();
-    void sub_7100A7FDAC();
+    bool sub_7100A7FDAC();
     void sub_7100A7B8CC(s32 a1);
     void sub_7100A7B92C(s32 a1);
     // 0x7100a7041c (CSV uiManager::loadStaticInfo, 5.8 KB; declaration only)
@@ -97,9 +98,12 @@ public:
 
     u8 _e8[0x649ec - 0xe8];
     /* 0x649ec */ sead::BitFlag8 _649ec;
-    u8 _649ed[0x64c24 - 0x649ed];
+    u8 _649ed[0x64b0c - 0x649ed];
+    /* 0x64b0c */ u32 _64b0c;
+    /* 0x64b10 */ u32 _64b10;
+    u8 _64b14[0x64c24 - 0x64b14];
     /* 0x64c24 */ s32 _64c24;
-    /* 0x64c28 */ u8 _64c28[4];
+    /* 0x64c28 */ s32 _64c28;
     /* 0x64c2c */ s32 _64c2c;
 
     // The flag word at 0x64c30 (bit 3 / 4 = pause related, see isPausedMaybe; 0x20, 0x40, 0x80 set /
@@ -118,7 +122,9 @@ public:
     u8 _650f4[0x65160 - 0x650f4];
     /* 0x65160 */ u64 _65160;
     /* 0x65168 */ s32 _65168;
-    u8 _6516c[0x652e8 - 0x6516c];
+    u8 _6516c[0x65218 - 0x6516c];
+    /* 0x65218 */ bool _65218;
+    u8 _65219[0x652e8 - 0x65219];
     /* 0x652e8 */ u8 _652e8;
     u8 _652e9[0x653b0 - 0x652e9];
 };

@@ -24,12 +24,16 @@ public:
     // The shop state (set by UiShopMgr::sub_7100982A44 & co.; 3 = ..., 4 = ..., 5 = NPC shop data set,
     // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
     s32 _30;
+    u8 _34[0xd0 - 0x34];
+    NpcShopData* _d0;
+    u8 _d8[4];
+    s32 _dc;
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
     bool sub_71009816B0(s32 state, s32 a2);
     void sub_71009821F0(s32 state);
-    void sub_7100982A44(s32 state, NpcShopData* shop_data);
-    void sub_7100982A60(s32 state, s32 value);
+    bool sub_7100982A44(s32 state, NpcShopData* shop_data);
+    bool sub_7100982A60(s32 state, s32 value);
     void sub_7100984988();
     void sub_7100984BE8();
     void sub_7100984CA0(const sead::SafeString& name);

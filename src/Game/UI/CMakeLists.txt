@@ -12,6 +12,7 @@ target_sources(uking PRIVATE
   uiMgrFacade2.cpp
   uiMiscFacade.cpp
   uiManagerFacade.cpp
+  uiManagerSmall.cpp
   uiPauseMenuDataMgr.cpp
   uiPauseMenuDataMgr.h
   uiPouchFacade.cpp
@@ -64,6 +65,8 @@ target_sources(uking PRIVATE
   uiScreenOwnSlots.cpp
   uiScreens.h
   uiShopFacade.cpp
+  uiShopSmall.cpp
+  uiScreenSmall.cpp
   uiShopMgr.h
   uiSubsys1.cpp
   uiUI.h

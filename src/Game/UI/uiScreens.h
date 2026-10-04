@@ -442,7 +442,8 @@ public:
     /* 0x3610 */ u8 _3610[0x28]{};
     sead::PtrArray<Unk_Elem> _3638{};
     sead::PtrArray<Unk_Elem> _3648{};
-    s64 _3658 = -1;
+    s32 _3658 = -1;
+    s32 _365c = -1;
     s64 _3660 = -1;
 
     // 0x7100a0768c (CSV ScreenDoCommand::setCommand)
@@ -822,6 +823,9 @@ public:
     s32 isEnableControl() const override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
+
+    u8 _pad_3610[0x3bb4 - 0x3610];
+    /* 0x3bb4 */ s32 _3bb4;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
