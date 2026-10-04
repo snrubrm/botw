@@ -11,6 +11,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/Actor/actExtendedEntity.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
 #include "Game/Actor/actUnk_7100701be4.h"
@@ -81,16 +82,7 @@ public:
     /* 0x38 */ ksys::act::BaseProcLink _38;
     // Placeholder (type unknown): an object with a scale (_2c, used while _10 is set) and flag bits
     // (LynelHighJumpAttack scales its jump height with it and sets flag bit 4 when it changes it).
-    struct Unk48 {
-        SEAD_ENUM(Flag, _0, _1, _2, _3, _4)
-
-        /* 0x00 */ u8 _0[0x10];
-        /* 0x10 */ void* _10;
-        /* 0x18 */ u8 _18[0x2c - 0x18];
-        /* 0x2c */ f32 _2c;
-        /* 0x30 */ u8 _30[0x58 - 0x30];
-        /* 0x58 */ u8 _58;  // flag bits (the original sets them with `_58 |= 1 << Flag`)
-    };
+    using Unk48 = ExtendedEntity;
     /* 0x48 */ Unk48* _48 = nullptr;
     // Placeholder (type unknown): the animal support object; the AnimalSupport behaviors set / clear
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:

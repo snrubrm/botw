@@ -17,6 +17,18 @@
 
 namespace uking::act {
 
+void Enemy::onEnterSleep_() {
+    Actor::onEnterSleep_();
+    if (_1148._48)
+        _1148._48->sub_7100E64E60();
+    ksys::act::ActorConstDataAccess first;
+    if (ksys::act::acquireActor(&_1148._38, &first))
+        first.sleep(SleepWakeReason::_0);
+    ksys::act::ActorConstDataAccess second;
+    if (ksys::act::acquireActor(&_1100, &second))
+        second.sleep(SleepWakeReason::_0);
+}
+
 ksys::act::BaseProc* Enemy::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Enemy(arg);
 }
