@@ -187,9 +187,8 @@ public:
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
     // 0x7100beb570: the box cursor node whose button has the tag (null if none)
     BoxCursorNode* findBoxCursorNodeByTag(s32 tag);
-    // inline-only in the original; name is a guess. Evidence: the loop with its redundant null check after the match
-    // is repeated in moveBoxCursorByButton, moveBoxCursorByButton_ and setReservedBoxCursorNodeByButton.
-    inline BoxCursorNode* findBoxCursorNodeByButton(const AnimButton* button);
+    // 0x7100be9a04: name is a guess; the same lookup also appears inlined in cursor consumers.
+    BoxCursorNode* findBoxCursorNodeByButton(const AnimButton* button);
     // 0x7100beb518 / 0x7100beb520 / 0x7100beb5bc (placeholder names)
     void setReservedBoxCursorNode(BoxCursorNode* node);
     void setReservedBoxCursorNodeByTag(s32 tag);
@@ -197,6 +196,7 @@ public:
     // 0x7100beaf98 / 0x7100beb608 / 0x7100beb624 / 0x7100beb690 (non-virtual helpers; names from the CSV)
     nn::ui2d::Pane* findPane_(const char* name);
     LayoutEx* sub_7100BEAFB0(const char* name);
+    void x_2();
     ControlBase* findControlWithParentLayout_(const char* name, const LayoutEx* layout);
     ControlBase* findControlWithLayout_(const char* name, const LayoutEx* layout);
     void moveBoxCursor_(BoxCursorNode* node);

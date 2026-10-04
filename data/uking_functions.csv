@@ -68429,7 +68429,7 @@ Address,Quality,Size,Name
 0x0000007100be989c,O,000108,_ZN3eui6Screen32eraseBoxCursorNodeFromRouteNodesEPKNS_13BoxCursorNodeE
 0x0000007100be9908,O,000204,_ZN3eui6Screen21moveBoxCursorByButtonEPKNS_10AnimButtonE
 0x0000007100be99d4,O,000048,_ZNK3eui6Screen13getDrawTargetEv
-0x0000007100be9a04,U,000072,
+0x0000007100be9a04,O,000072,_ZN3eui6Screen25findBoxCursorNodeByButtonEPKNS_10AnimButtonE
 0x0000007100be9a4c,O,000004,_ZN3eui6Screen3m13Ev
 0x0000007100be9a50,U,000004,eui::Screen::x_0
 0x0000007100be9a54,U,000848,_ZN3eui6Screen6updateEv
@@ -68491,7 +68491,7 @@ Address,Quality,Size,Name
 0x0000007100beaecc,O,000008,_ZNK3eui6Screen26getSlink2LocalPropertyNum_Ev
 0x0000007100beaed4,O,000004,_ZN3eui6Screen28setSlink2PropertyDefinition_EPN6xlink217UserInstanceSLinkE
 0x0000007100beaed8,U,000180,eui::Screen::x_1
-0x0000007100beaf8c,U,000012,eui::Screen::x_2
+0x0000007100beaf8c,O,000012,_ZN3eui6Screen3x_2Ev
 0x0000007100beaf98,O,000024,_ZN3eui6Screen9findPane_EPKc
 0x0000007100beafb0,O,000008,_ZN3eui6Screen14sub_7100BEAFB0EPKc
 0x0000007100beafb8,U,000372,

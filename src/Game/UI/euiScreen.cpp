@@ -11,6 +11,11 @@
 
 namespace eui {
 
+// 0x7100beaf8c
+void Screen::x_2() {
+    _105 = 1;
+}
+
 // 0x7100beacd8
 TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
@@ -389,7 +394,8 @@ BoxCursorNode* Screen::findBoxCursorNodeByTag(s32 tag) {
     return nullptr;
 }
 
-inline BoxCursorNode* Screen::findBoxCursorNodeByButton(const AnimButton* button) {
+// 0x7100be9a04
+BoxCursorNode* Screen::findBoxCursorNodeByButton(const AnimButton* button) {
     for (BoxCursorNode& node : mBoxCursorNodes) {
         if (node.mButton == button)
             return &node;
