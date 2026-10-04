@@ -61,6 +61,8 @@ public:
     int m5() override { return callOnChildren_(&ASResource::m5); }
     int m6() override { return callOnChildren_(&ASResource::m6) + 1; }
 
+    const sead::Buffer<ASResource*>& getChildren() const { return mChildren; }
+
 protected:
     using MemberFunction = int (ASResource::*)();
 

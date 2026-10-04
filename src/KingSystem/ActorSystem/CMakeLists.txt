@@ -1,6 +1,36 @@
 target_sources(uking PRIVATE
     AS/ASList.h
     AS/ASList.cpp
+    AS/asAngleBlender.cpp
+    AS/asAngleSelector.cpp
+    AS/asAsset.cpp
+    AS/asBlender.cpp
+    AS/asBoneBlender.cpp
+    AS/asBoolSelector.cpp
+    AS/asClearMatAnmAsset.cpp
+    AS/asComboSelector.cpp
+    AS/asElement.cpp
+    AS/asEventFlagSelector.cpp
+    AS/asFloatSelector.cpp
+    AS/asGroundNormalBlender.cpp
+    AS/asGroundNormalSelector.cpp
+    AS/asNodePosSelector.cpp
+    AS/asPreASSelector.cpp
+    AS/asRandomSelector.cpp
+    AS/asSelector.cpp
+    AS/asSelectorBase.cpp
+    AS/asSpeedBlender.cpp
+    AS/asSpeedSelector.cpp
+    AS/asStringSelector.cpp
+    AS/asSyncPlayContainer.cpp
+    AS/asTimeSelector.cpp
+    AS/asWeatherSelector.cpp
+    AS/asWindVelocityBlender.cpp
+    AS/asYSpeedBlender.cpp
+    AS/asYSpeedSelector.cpp
+    AS/asZEx00ExposureBlender.cpp
+    AS/asZEx00ExposureSelector.cpp
+    AS/asElement.h
     
     Attention/actActorAttention.cpp
     Attention/actActorAttention.h
