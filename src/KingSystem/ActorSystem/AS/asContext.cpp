@@ -13,6 +13,54 @@ f32 Context::sub_710125A9A8() {
            *mList->_d8->getParam()->getRes().mASList->getCommon().rate_all;
 }
 
+// NON_MATCHING: the compiler saves the type before the weight instead of after it.
+void Context::sub_7101259DE8(f32 weight, int type, const sead::SafeString& value) {
+    if (u32(type) - 0x36 >= 0x22)
+        return;
+    for (s32 i = 0; i < mNumEvents2; ++i) {
+        auto& event = mEvents2[i];
+        if (event.mType == type && event.mName == value) {
+            event._1c += weight;
+            event.mName = value;
+            return;
+        }
+    }
+    if (mNumEvents2 >= mEvents2.size())
+        return;
+    auto& event = mEvents2[mNumEvents2];
+    event.mType = type;
+    event.mFlags = 1;
+    event.mName = value;
+    event._18 = 0.0f;
+    event._1c = weight;
+    ++mNumEvents2;
+}
+
+void Context::sub_7101259F94(f32 duration, f32 weight, int type,
+                           const sead::SafeString& value) {
+    if (u32(type) >= 0x36)
+        return;
+    for (s32 i = 0; i < mNumEvents2; ++i) {
+        auto& event = mEvents2[i];
+        if (event.mType == type && (event.mFlags & 8) && event.mName == value) {
+            event.mFlags |= 0x10;
+            event._18 = duration;
+            event._1c += weight;
+            event.mName = value;
+            return;
+        }
+    }
+    if (mNumEvents2 >= mEvents2.size())
+        return;
+    auto& event = mEvents2[mNumEvents2];
+    event.mType = type;
+    event.mFlags = 0x1a;
+    event.mName = value;
+    event._18 = duration;
+    event._1c = weight;
+    ++mNumEvents2;
+}
+
 // NON_MATCHING: compiler combines the range tests and return into conditional selects.
 f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold) {
     if (frame < 0.0f || (hold && end < frame))
