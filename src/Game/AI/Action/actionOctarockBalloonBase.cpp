@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOctarockBalloonBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -20,6 +21,10 @@ void OctarockBalloonBase::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void OctarockBalloonBase::leave_() {
     BalloonBase::leave_();
+    sub_71000B8928(1.0f);
+    auto* actor = mActor;
+    if (actor->getConnectedCalcChild())
+        actor->resetConnectedCalcChild(false);
 }
 
 void OctarockBalloonBase::loadParams_() {

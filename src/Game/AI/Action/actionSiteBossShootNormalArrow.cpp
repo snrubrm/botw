@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSiteBossShootNormalArrow.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -14,7 +15,10 @@ bool SiteBossShootNormalArrow::init_(sead::Heap* heap) {
 }
 
 void SiteBossShootNormalArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    if (!*mIsCheckASEvent_s)
+        sub_7100263C64();
+    sub_710073FA90(&_b0, mActor);
 }
 
 void SiteBossShootNormalArrow::leave_() {

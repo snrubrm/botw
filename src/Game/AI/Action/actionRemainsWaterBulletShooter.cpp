@@ -31,7 +31,10 @@ void RemainsWaterBulletShooter::loadParams_() {
 }
 
 void RemainsWaterBulletShooter::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    _60.sub_7100D3BCE4();
+    sub_71002311F0();
 }
 
 }  // namespace uking::action

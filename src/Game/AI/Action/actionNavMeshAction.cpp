@@ -28,7 +28,10 @@ void NavMeshAction::loadParams_() {
 }
 
 void NavMeshAction::calc_() {
-    ActionEx::calc_();
+    m32();
+    m33();
+    if (sub_71001F08E4())
+        setFinished();
 }
 
 sead::Vector3f* NavMeshAction::m35() {

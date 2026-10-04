@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100148eb0 (declared only): out of line in the original.
+    void sub_7100148EB0(f32 a, sead::Vector3f* out);
     void calc_() override;
 
     // static_param at offset 0x20

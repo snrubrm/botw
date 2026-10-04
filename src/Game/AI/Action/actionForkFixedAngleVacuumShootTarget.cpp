@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkFixedAngleVacuumShootTarget.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -35,7 +37,8 @@ void ForkFixedAngleVacuumShootTarget::loadParams_() {
 }
 
 void ForkFixedAngleVacuumShootTarget::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 71, nullptr, 0, 0))
+        sub_7100150D4C();
 }
 
 }  // namespace uking::action

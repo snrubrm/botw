@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGanonBeamIgnite.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -35,6 +37,8 @@ void GanonBeamIgnite::loadParams_() {
 
 void GanonBeamIgnite::calc_() {
     OnetimeStopASPlay::calc_();
+    if (sub_71005DD780(mActor, 71, nullptr, 0, 0))
+        sub_71001745F8();
 }
 
 }  // namespace uking::action

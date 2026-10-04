@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkBoneControlFrontGround.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -24,7 +26,11 @@ void ForkBoneControlFrontGround::loadParams_() {
 }
 
 void ForkBoneControlFrontGround::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD798(mActor, 44, nullptr, 0, 0)) {
+        sead::Vector3f v;
+        sub_7100148EB0(1.0f, &v);
+        sub_71005DB068(mActor, v);
+    }
 }
 
 }  // namespace uking::action

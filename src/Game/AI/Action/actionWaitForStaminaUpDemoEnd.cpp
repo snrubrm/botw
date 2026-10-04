@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitForStaminaUpDemoEnd.h"
+#include "Game/AI/aiUnk_710073BB28.h"
 
 namespace uking::action {
 
@@ -21,7 +22,12 @@ void WaitForStaminaUpDemoEnd::leave_() {
 void WaitForStaminaUpDemoEnd::loadParams_() {}
 
 void WaitForStaminaUpDemoEnd::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished())
+        return;
+    if (isFailed())
+        return;
+    if (sub_710073BB54())
+        setFinished();
 }
 
 }  // namespace uking::action

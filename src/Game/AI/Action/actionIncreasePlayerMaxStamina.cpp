@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIncreasePlayerMaxStamina.h"
+#include "Game/AI/aiUnk_710073BB28.h"
 
 namespace uking::action {
 
@@ -25,7 +26,12 @@ void IncreasePlayerMaxStamina::loadParams_() {
 }
 
 void IncreasePlayerMaxStamina::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished())
+        return;
+    if (isFailed())
+        return;
+    if (sub_710073BB54())
+        setFinished();
 }
 
 }  // namespace uking::action

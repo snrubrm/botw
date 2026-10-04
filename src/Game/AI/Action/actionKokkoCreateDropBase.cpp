@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionKokkoCreateDropBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,7 +12,11 @@ bool KokkoCreateDropBase::init_(sead::Heap* heap) {
 }
 
 void KokkoCreateDropBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (m32()) {
+        mActor->createDrops(1, 0);
+        mActor->sub_71011D49C8();
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void KokkoCreateDropBase::leave_() {

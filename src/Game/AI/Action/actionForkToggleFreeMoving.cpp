@@ -11,11 +11,26 @@ bool ForkToggleFreeMoving::init_(sead::Heap* heap) {
 }
 
 void ForkToggleFreeMoving::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    switch (*mEnterChoice_s) {
+    case 1:
+        sub_710005CA88(true);
+        break;
+    case 2:
+        sub_710005CA88(false);
+        break;
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkToggleFreeMoving::leave_() {
-    ksys::act::ai::Action::leave_();
+    switch (*mLeaveChoice_s) {
+    case 1:
+        sub_710005CA88(true);
+        break;
+    case 2:
+        sub_710005CA88(false);
+        break;
+    }
 }
 
 void ForkToggleFreeMoving::loadParams_() {

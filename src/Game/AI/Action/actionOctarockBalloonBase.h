@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0xb8928 (declared only): out of line in the original.
+    void sub_71000B8928(f32 value);
     void calc_() override;
     float m33() override;
     f32 m34(f32 current, f32 target, f32 step) override;

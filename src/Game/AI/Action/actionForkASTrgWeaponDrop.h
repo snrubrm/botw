@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100146880 (declared only): out of line in the original.
+    void sub_7100146880();
     void calc_() override;
 
     const int* mWeaponIdx_s[4]{};

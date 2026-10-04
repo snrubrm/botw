@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionPriestBossClonesSpawn.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -27,7 +28,13 @@ void PriestBossClonesSpawn::loadParams_() {
 }
 
 void PriestBossClonesSpawn::calc_() {
+    if (_d9 && _5c >= 1.0f) {
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+        _d9 = false;
+    }
     PriestBossClonesSpawnForDemo::calc_();
+    if (sub_7100066884())
+        sub_71002218D8();
 }
 
 }  // namespace uking::action

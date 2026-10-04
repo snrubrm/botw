@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDropWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -29,6 +31,8 @@ void DropWeapon::loadParams_() {
 
 void DropWeapon::calc_() {
     OnetimeStopASPlay::calc_();
+    if (sub_71005DD780(mActor, 70, nullptr, 0, 0))
+        sub_71000F8798();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionStartStaminaUpDemo.h"
+#include "Game/AI/aiUnk_710073BB28.h"
 
 namespace uking::action {
 
@@ -11,5 +12,10 @@ bool StartStaminaUpDemo::init_(sead::Heap* heap) {
 }
 
 void StartStaminaUpDemo::loadParams_() {}
+
+bool StartStaminaUpDemo::oneShot_() {
+    sub_710073BB28(true, false);
+    return true;
+}
 
 }  // namespace uking::action

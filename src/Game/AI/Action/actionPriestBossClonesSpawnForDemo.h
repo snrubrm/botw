@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100066884 (declared only): out of line in the original.
+    bool sub_7100066884();
     void calc_() override;
     virtual int m32();
 

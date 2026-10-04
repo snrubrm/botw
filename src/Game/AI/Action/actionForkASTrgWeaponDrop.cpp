@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionForkASTrgWeaponDrop.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include <prim/seadFormatPrint.h>
 
 namespace uking::action {
@@ -29,7 +31,8 @@ void ForkASTrgWeaponDrop::loadParams_() {
 }
 
 void ForkASTrgWeaponDrop::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (sub_71005DD780(mActor, 70, nullptr, 0, 0))
+        sub_7100146880();
 }
 
 }  // namespace uking::action
