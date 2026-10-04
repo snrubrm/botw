@@ -11,6 +11,10 @@ const sead::SafeString& AttClient::getName() const {
     return mClient->name.ref();
 }
 
+s32 AttClient::sub_7100D72534() const {
+    return int(mClient->client->getAttType());
+}
+
 void AttClient::sub_7100D724FC(u32 flags) {
     _54 |= flags;
 }
