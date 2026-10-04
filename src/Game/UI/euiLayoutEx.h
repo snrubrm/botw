@@ -68,6 +68,7 @@ public:
 
     void setDrawTargetAnim(DrawTarget target);
     LayoutEx* findPartsLayout(const char* name);
+    const void* GetAnimResourceData(const char* name);
     bool isScalableFontTextBox_(const nn::ui2d::ResTextBox*, const nn::ui2d::ResTextBox*,
                                 const nn::ui2d::BuildArgSet&);
 

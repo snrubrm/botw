@@ -15,11 +15,19 @@
 #include "Game/UI/euiFontMgr.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiTextSearcher.h"
+#include "Game/UI/euiMultiArcResourceAccessor.h"
 
 namespace eui {
 
 // 0x7100bdd16c
 LayoutEx::LayoutEx(Screen* screen) : mScreen(screen) {}
+
+// 0x7100bdd5dc
+const void* LayoutEx::GetAnimResourceData(const char* name) {
+    if (auto* accessor = nn::font::DynamicCast<MultiArcResourceAccessor>(mResourceAccessor))
+        return accessor->sub_7100BE022C(mName, name, nullptr);
+    return nn::ui2d::Layout::GetAnimResourceData(name);
+}
 
 // NON_MATCHING: the original snapshots mScreen before allocation; this natural body reads it at construction.
 // 0x7100bdf0f0
