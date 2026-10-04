@@ -94883,7 +94883,7 @@ Address,Quality,Size,Name
 0x0000007101260d5c,O,000288,_ZNK4ksys2as17SyncPlayContainer27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x0000007101260e7c,O,000092,_ZNK4ksys2as17SyncPlayContainer18getRuntimeTypeInfoEv
 0x0000007101260ed8,O,000036,_ZN4ksys2as17SyncPlayContainerD0Ev
-0x0000007101260efc,U,000008,as::SyncPlayContainer::m7
+0x0000007101260efc,O,000008,_ZN4ksys2as17SyncPlayContainer2m7Ev
 0x0000007101260f04,U,000188,as::IntSelector::ctor
 0x0000007101260fc0,U,000996,as::IntSelector::getValue
 0x00000071012613a4,O,000140,_ZN4ksys2as11IntSelector3m12EPNS0_7ContextEPNS0_5StateEPKNS_3res10ASResourceE

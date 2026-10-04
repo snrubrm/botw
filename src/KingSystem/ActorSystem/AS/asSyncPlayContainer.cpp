@@ -4,6 +4,10 @@ namespace ksys::as {
 
 SyncPlayContainer::SyncPlayContainer() {}
 
+int SyncPlayContainer::m7() {
+    return 0;
+}
+
 bool SyncPlayContainer::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     record->_0 = 0;

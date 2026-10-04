@@ -717,6 +717,7 @@ public:
 class SyncPlayContainer : public SelectorBase {
     SEAD_RTTI_OVERRIDE(SyncPlayContainer, SelectorBase)
 public:
+    int m7() override;
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m11(Context* ctx, EventState* state, const res::ASResource* resource) override;
