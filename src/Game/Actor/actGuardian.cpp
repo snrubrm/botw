@@ -105,4 +105,11 @@ ksys::phys::NavMeshCharacter* Guardian::m45() {
     return Actor::m45();
 }
 
+void Guardian::m44() {
+    if (_15b0)
+        _15b0->sub_7100042048();
+    else
+        Actor::m44();
+}
+
 }  // namespace uking::act

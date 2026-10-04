@@ -134,6 +134,9 @@ public:
     };
     /* 0x15a8 */ Unk15a8* _15a8 = nullptr;
     struct Unk1 {
+        // 0x7100042048: updates the navigation position (declaration only).
+        void sub_7100042048();
+
         u8 _0[0x30];
         ksys::phys::NavMeshCharacter* _30;  // m45
         u8 _38[0x50 - 0x38];
