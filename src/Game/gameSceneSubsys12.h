@@ -41,6 +41,8 @@ public:
     bool sub_7100664F30() const;
     void sub_7100664F3C(const sead::Matrix34f& matrix);
     void sub_7100664F64(const sead::Matrix34f& matrix);
+    // 0x7100664f8c: records the indexed cooking transform.
+    void sub_7100664F8C(s32 index, const sead::Matrix34f& matrix);
     // 0x7100665304
     void sub_7100665304();
     // 0x7100664484: handles the carried-context state transition (declaration only).

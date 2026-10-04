@@ -5,6 +5,15 @@
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
 
+// Initialized writable parameters present in the original scene TU. Names are address placeholders;
+// no larger parameter-object layout is assumed from the compiler's merged static block.
+static f32 sUnk_710243bfec = 0.73f;
+static f32 sUnk_710243bff0 = 1.25f;
+static f32 sUnk_710243c00c = 1.0f;
+static f32 sUnk_710243c010 = 0.0f;
+static f32 sUnk_710243c014 = 0.15f;
+static f32 sUnk_710243c018 = 0.3f;
+
 void GameSceneSubsys12::init(sead::Heap* heap) {
     _318.sub_710065D8E4(heap, true);
 }
@@ -124,5 +133,25 @@ void GameSceneSubsys12::sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index
     if (out) {
         const s32 row = sead::Mathi::clamp(count - 1, 0, 4);
         *out = _a98[row][index];
+    }
+}
+
+// NON_MATCHING: scene parameter statics are folded; original loads them from its merged static block.
+f32 GameSceneSubsys12::sub_7100664B3C(ActorContextStuff* context, f32 scale) {
+    if (_300.hasProc() && _310 == context && _a78.isBitOn(0)) {
+        const f32 doubled_scale = scale + scale;
+        const f32 limited_scale = sead::Mathf::min(sUnk_710243bfec, doubled_scale * sUnk_710243bff0);
+        return _d0 * (limited_scale / doubled_scale - 1.0f) + 1.0f;
+    }
+    return 1.0f;
+}
+
+// NON_MATCHING: integer clamp, folded scene parameters and store scheduling differ.
+void GameSceneSubsys12::sub_7100664C30(sead::Vector3f* out, s32 count, s32 index) {
+    if (out) {
+        const s32 row = sead::Mathi::clamp(count - 1, 0, 4);
+        out->x = sUnk_710243c00c * _a98[row][index].x - sUnk_710243c010;
+        out->y = sUnk_710243c00c * _a98[row][index].y - sUnk_710243c014;
+        out->z = sUnk_710243c00c * _a98[row][index].z - sUnk_710243c018;
     }
 }

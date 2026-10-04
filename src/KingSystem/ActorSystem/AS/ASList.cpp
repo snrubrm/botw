@@ -423,3 +423,7 @@ f32 ASList::sub_710115FA78() {
 }
 
 }  // namespace ksys::as
+
+// 0x710115f0b4 is the eight-byte size getter called on ASList's slot buffer.
+// Emit the existing template method naturally; callers remain free to inline it.
+template s32 sead::Buffer<ksys::as::ASList::Unk1>::size() const;
