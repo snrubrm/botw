@@ -10,6 +10,7 @@ public:
     explicit PowerupRune(const InitArg& arg);
     ~PowerupRune() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
