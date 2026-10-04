@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionPlayerDemoAccelerateHorse.h"
+#include "Game/AI/aiUnk_7100E81220.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -12,7 +16,13 @@ bool PlayerDemoAccelerateHorse::init_(sead::Heap* heap) {
 }
 
 void PlayerDemoAccelerateHorse::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mASName_s, 0, 0, true);
+    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, mASName_s, 1, 0, true);
+    ksys::act::ActorConstDataAccess accessor;
+    if (sub_7100E81220(mActor, &accessor)) {
+        if (!accessor.sub_7100D10F0C())
+            accessor.sub_7100D150E8(mActor);
+    }
 }
 
 void PlayerDemoAccelerateHorse::leave_() {

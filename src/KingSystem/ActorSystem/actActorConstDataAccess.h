@@ -281,6 +281,8 @@ public:
     Unk_71024dc978* sub_7100D0FDF8() const;
     bool sub_7100D0FFDC(int idx) const;
     bool sub_7100D10F0C() const;
+    // 0x7100d150e8 (declared only; lane3 s22; 176 B): acts on the accessed actor for `owner`.
+    void sub_7100D150E8(BaseProc* owner);
     bool sub_7100D12F08(int idx) const;
     bool sub_7100D13290(int idx) const;
     bool sub_7100D1336C(int idx) const;
