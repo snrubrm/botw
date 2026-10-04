@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "SystemWindowNoBtn_00";
 }
 
 // 0x7100a60494
-const char* ScreenSystemWindowNoBtn::m15() const {
+const char* ScreenSystemWindowNoBtn::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

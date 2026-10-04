@@ -6,7 +6,7 @@ namespace uking::ui {
 ScreenBase::~ScreenBase() = default;
 
 // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
-f32 ScreenBase::m32() {
+f32 ScreenBase::getAnimationStep_() const {
     return eui::ScreenMgr::instance()->getAnimationStep();
 }
 

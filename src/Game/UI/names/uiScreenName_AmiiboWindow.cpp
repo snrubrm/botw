@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "AmiiboWindow_00";
 }
 
 // 0x71009d0c50
-const char* ScreenAmiiboWindow::m15() const {
+const char* ScreenAmiiboWindow::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

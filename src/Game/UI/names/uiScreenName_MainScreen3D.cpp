@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "MainScreen3D_00";
 }
 
 // 0x7100a11d88
-const char* ScreenMainScreen3D::m15() const {
+const char* ScreenMainScreen3D::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

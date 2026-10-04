@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "KeyBoradTextArea_00";
 }
 
 // 0x7100a0e57c
-const char* ScreenKeyBoradTextArea::m15() const {
+const char* ScreenKeyBoradTextArea::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

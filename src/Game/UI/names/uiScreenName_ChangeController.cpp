@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "ChangeController_00";
 }
 
 // 0x7100a00e40
-const char* ScreenChangeController::m15() const {
+const char* ScreenChangeController::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

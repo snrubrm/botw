@@ -10,21 +10,21 @@ void Screen::m13() {}
 namespace uking::ui {
 
 // 0x71010ab24c (CSV Screen::updateButton)
-void Screen::m50() {
+void Screen::updateButton_() {
     if (_292 & 4)
-        updateButton_();
+        ScreenBase::updateButton_();
 }
 
 // 0x71010ab25c (CSV Screen::updateControl)
-void Screen::m51() {
+void Screen::updateControl_() {
     if (_292 & 8)
-        updateControl_();
+        eui::Screen::updateControl_();
 }
 
 // 0x71010ab26c (CSV Screen::updateAnimator)
-void Screen::m59() {
+void Screen::updateAnimator_() {
     if (_292 & 0x10)
-        updateAnimator_();
+        eui::Screen::updateAnimator_();
 }
 
 // 0x71010aacac (CSV Screen::m76)

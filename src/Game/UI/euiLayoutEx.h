@@ -28,6 +28,10 @@ class LayoutEx {
 public:
     virtual ~LayoutEx();
 
+    // 0x7100bde308 / 0x7100bde39c
+    bool isAnimOpenEnd(bool b) const;
+    bool isAnimCloseEnd(bool b) const;
+
     // 0x7100bdd41c / 0x7100bdd424 / 0x7100bdd980 / 0x7100bdd524
     Animator* createAnimatorAuto(const char* name, bool b);
     Animator* tryCreateAnimatorAuto(const char* name, bool b);
@@ -38,7 +42,9 @@ public:
     /* 0x18 */ nn::ui2d::Pane* mPane;
     u8 _20[0x30 - 0x20];
     /* 0x30 */ const char* mName;
-    u8 _38[0x80 - 0x38];
+    u8 _38[0x60 - 0x38];
+    /* 0x60 */ Animator* mOpenAnimator;
+    u8 _68[0x80 - 0x68];
     /* 0x80 */ Screen* mScreen;
 };
 

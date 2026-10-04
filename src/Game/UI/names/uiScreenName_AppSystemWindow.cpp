@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "AppSystemWindow_00";
 }
 
 // 0x71009fc4b8
-const char* ScreenAppSystemWindow::m15() const {
+const char* ScreenAppSystemWindow::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

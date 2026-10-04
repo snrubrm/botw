@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "OPtext_00";
 }
 
 // 0x7100a2870c
-const char* ScreenOPtext::m15() const {
+const char* ScreenOPtext::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

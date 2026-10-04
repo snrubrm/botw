@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "ShopBtnList5_00";
 }
 
 // 0x7100a4dac0
-const char* ScreenShopBtnList5::m15() const {
+const char* ScreenShopBtnList5::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

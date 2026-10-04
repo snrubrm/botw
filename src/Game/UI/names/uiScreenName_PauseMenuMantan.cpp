@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "PauseMenuMantan_00";
 }
 
 // 0x7100a321b4
-const char* ScreenPauseMenuMantan::m15() const {
+const char* ScreenPauseMenuMantan::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "KeyNum_00";
 }
 
 // 0x7100a0e7c8
-const char* ScreenKeyNum::m15() const {
+const char* ScreenKeyNum::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

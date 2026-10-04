@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "Time_00";
 }
 
 // 0x7100a68e84
-const char* ScreenTime::m15() const {
+const char* ScreenTime::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

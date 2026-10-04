@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "WolfLinkHeartGauge_00";
 }
 
 // 0x7100a6bc4c
-const char* ScreenWolfLinkHeartGauge::m15() const {
+const char* ScreenWolfLinkHeartGauge::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

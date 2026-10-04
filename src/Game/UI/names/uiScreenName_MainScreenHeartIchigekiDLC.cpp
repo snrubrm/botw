@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "MainScreenHeartIchigekiDLC_00";
 }
 
 // 0x7100a167f4
-const char* ScreenMainScreenHeartIchigekiDLC::m15() const {
+const char* ScreenMainScreenHeartIchigekiDLC::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 

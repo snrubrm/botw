@@ -6,6 +6,7 @@
 #include <math/seadBoundBox.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include <container/seadOffsetList.h>
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiTypes.h"
@@ -18,14 +19,24 @@ namespace xlink2 {
 class UserInstanceSLink;
 }
 
+namespace nn::ui2d {
+class Pane;
+class ResourceAccessor;
+}  // namespace nn::ui2d
+
 namespace eui {
 
 class AnimButton;
 class Animator;
+class PartsEx;
+class TagProcessor;
+class UIController;
+class LayoutEx;
 class BoxCursorNode;
 class BoxCursorMgr;
 class ButtonGroup;
 class ScreenMgr;
+class ScreenTargetMgr;
 
 // (only the nested type is needed so far)
 struct DrawInfoEx {
@@ -47,34 +58,33 @@ public:
     // (-1 / -4 are passed to close by the facade functions).
     virtual void open(s32 option);
     virtual void close(s32 option);
-    // Slots 7-68 (CSV eui::Screen::* names: adjstBoxCursor, createBoxCursorNode, initialize, update, draw, ...);
-    // placeholders so that the vtable layout is right.
+    // Slots 7-68 (names from the CSV; the return types of the factory functions and the boolean results are guesses)
     virtual void adjstBoxCursor(sead::BoundBox2<f32>* box, const BoxCursorNode* node) const;
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
+    virtual BoxCursorNode* createBoxCursorNode(sead::Heap* heap);
+    virtual void initialize(ScreenMgr* mgr, sead::Heap* heap, const char* name, s32 a, s8 b, bool c);
+    virtual void update();
     virtual void draw(const DrawInfoEx::RenderBufferInfo* info);
-    virtual void m12();
+    virtual const char* replacePartsLayoutName(const char* name, PartsEx* parts, LayoutEx* layout);
     virtual void m13();
     virtual void m14();
-    virtual const char* m15() const;  // returns the layout name (<Name>_00) in the leaf classes
+    virtual const char* getLayoutName_() const;  // returns the layout name (<Name>_00) in the leaf classes
     virtual const char* getMessageName_() const;
     virtual const char* getArchiveName_() const;
     virtual bool isPlayPartsInOut_() const;  // slot 18
     virtual bool isDisallowHitLowerScreenOnButtonHit_() const;
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
+    virtual LayoutEx* doCreateLayout_(sead::Heap* heap);
+    virtual DrawInfoEx* doCreateDrawInfoEx_(sead::Heap* heap);
+    virtual ButtonGroup* doCreateButtonGroup_(sead::Heap* heap);
     virtual void doAfterBuildLayout_(sead::Heap* heap);
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
+    virtual void doSetupDrawInfo_();
+    virtual UIController* doCreateUIController_(sead::Heap* heap);
+    virtual nn::ui2d::ResourceAccessor* doCreateResourceAccessor_(sead::Heap* heap);
+    virtual TagProcessor* doCreateTagProcessor_(sead::Heap* heap);
+    virtual void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor);
     virtual void doLoadResource_(sead::Heap* heap);
     virtual void doInitialize_(sead::Heap* heap);
     virtual void doUpdate_();
-    virtual f32 m32();
+    virtual f32 getAnimationStep_() const;
     virtual void doDraw_(const DrawInfoEx::RenderBufferInfo* info);
     virtual void doOpenStart_();
     virtual void doOpenEnd_();
@@ -89,28 +99,28 @@ public:
     virtual void doButtonCancelStart_(AnimButton* button);
     virtual void doButtonCancelEnd_(AnimButton* button);
     virtual void* getElinkSystem_() const;
-    virtual void m47();
+    virtual void* getSlink2ResourceList_(xlink2::UserInstanceSLink* link) const;
     virtual s32 getSlink2LocalPropertyNum_() const;
     virtual void setSlink2PropertyDefinition_(xlink2::UserInstanceSLink* link);
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
+    virtual void updateButton_();
+    virtual void updateControl_();
+    virtual void openStart_(s32 option);
+    virtual bool isOpenEnd_();
+    virtual void openEnd_();
+    virtual void closeStart_(s32 option);
+    virtual bool isCloseEnd_();
+    virtual void closeEnd_();
     virtual bool isForceGlbMtxDirty_() const;
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
+    virtual void updateAnimator_();
+    virtual void registerController_();
+    virtual void unregisterController_();
+    virtual void setupPaneAfterBuild_(nn::ui2d::Pane* pane, LayoutEx* layout, u32* count);
+    virtual void countEffectLinkPane_(nn::ui2d::Pane* pane, u32* count);
+    virtual void createEffectLinkUser_(sead::Heap* heap, u32 count);
+    virtual void createSoundLink2User_(sead::Heap* heap);
+    virtual void invokeSoundLink2Event_(const char* name);
+    virtual void invokeSoundLink2ButtonEvent_(AnimButton* button, const char* name);
+    virtual void invokeSoundLink2AnimPlayEvent(Animator* animator, const char* name);
 
     // 0x7100be9768 / 0x7100be978c / 0x7100be934c / 0x7100be97c4 (CSV; the last two are named
     // Screen::isClosed / isClosedOrClosing there)
@@ -121,6 +131,10 @@ public:
 
     // 0x7100be99d4
     DrawTarget getDrawTarget() const;
+    // 0x7100be9da4
+    f32 getOpenFrameSize() const;
+    // 0x7100be9880
+    void setOwnInitializeHeap(bool own);
 
     // 0x7100be9830 / 0x7100be9850 (placeholder names): link / unlink an animator in `mAnimators`
     void addAnimator(Animator* animator);
@@ -128,22 +142,24 @@ public:
 
     // 0x7100be9908
     bool moveBoxCursorByButton(const AnimButton* button);
+    // 0x7100beaf98 / 0x7100beb608 / 0x7100beb624 / 0x7100beb690 (non-virtual helpers; names from the CSV)
+    nn::ui2d::Pane* findPane_(const char* name);
+    void moveBoxCursor_(BoxCursorNode* node);
+    void moveBoxCursorByTag_(s32 tag);
+    void moveBoxCursorByButton_(const AnimButton* button);
     // 0x7100be9fa8 (the old / new button states are ButtonBase::State values)
     void buttonStateChangeCallback(AnimButton* button, ButtonBase::State old_state, ButtonBase::State new_state);
 
-    // eui::Screen's non-virtual update helpers (called by the overrides in uking::ui::Screen)
-    void updateControl_();
-    void updateAnimator_();
-
     /* 0x28 */ ScreenMgr* mMgr;
-    u8 _30[0x38 - 0x30];
+    /* 0x30 */ LayoutEx* mLayout;
     /* 0x38 */ ButtonGroup* mButtonGroup;
     u8 _40[0x78 - 0x40];
     /* 0x78 */ ListNode mAnimators;  // the animators that are playing (Animator::_40 nodes)
     /* 0x88 */ sead::OffsetList<BoxCursorNode> mBoxCursorNodes;  // offset 8 (BoxCursorNode::mNode)
     u8 _a0[0xc0 - 0xa0];
     /* 0xc0 */ s32 mId;
-    u8 _c4[0xe0 - 0xc4];
+    u8 _c4[0xd8 - 0xc4];
+    /* 0xd8 */ BoxCursorNode* _d8;
     /* 0xe0 */ BoxCursorNode* mActiveCursorNode;
     u8 _e8[0xfc - 0xe8];
     /* 0xfc */ u8 mDrawTarget;
@@ -151,11 +167,22 @@ public:
     /* 0xfe */ u8 mState;
     u8 _ff[0x104 - 0xff];
     /* 0x104 */ bool _104;  // read by AnimButton::Build / InactivateByBoxCursor (touch device?)
-    u8 _105;
+    /* 0x105 */ u8 _105;
     /* 0x106 */ u8 _106;
     /* 0x107 */ u8 _107;  // bit 0: own initialize heap (setOwnInitializeHeap), bit 2: has a box cursor
 };
 KSYS_CHECK_SIZE_NX150(Screen, 0x108);
+
+// Unknown object at ScreenMgr + 0x48; slot 5 maps a screen's draw target index to a DrawTarget.
+class ScreenTargetMgr {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual DrawTarget getDrawTarget(u8 index) const;
+};
 
 // The screen manager singleton (CSV: eui::ScreenMgr::*, sInstance 0x71025fcc68). The table of loaded
 // screens is a sead::Buffer (count at 0x28, pointer at 0x30) indexed by the screen id of
@@ -170,16 +197,20 @@ public:
     Screen* getScreen(s32 id) { return mScreens[id]; }
     f32 getAnimationStep() const { return mAnimationStep; }
     BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
+    ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
 
-    // 0x7100bec7e8
+    // 0x7100bec7e8 / 0x7100bec808
     void inactivateScreen(s32 id);
+    void sub_7100BEC808(s32 id);
     // 0x7100bec840
     void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
 
 private:
     // The singleton disposer is at 0x8 (CSV: createInstance 0x7100bec0a4, object size 0xb50).
     sead::Buffer<Screen*> mScreens;
-    u8 _38[0xb18 - 0x38];
+    u8 _38[0x48 - 0x38];
+    /* 0x48 */ ScreenTargetMgr* mTargetMgr;
+    u8 _50[0xb18 - 0x50];
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
     u8 _b24[0xb50 - 0xb24];

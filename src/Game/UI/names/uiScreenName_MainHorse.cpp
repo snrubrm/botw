@@ -8,7 +8,7 @@ sead::SafeString sLayoutName = "MainHorse_00";
 }
 
 // 0x7100a103c0
-const char* ScreenMainHorse::m15() const {
+const char* ScreenMainHorse::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 
