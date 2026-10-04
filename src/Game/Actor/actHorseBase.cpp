@@ -24,6 +24,20 @@ HorseBase::~HorseBase() {
         _a70->release();
 }
 
+// NON_MATCHING: the original tests `_b74` bit 1 with a byte load (ldrb), we load the halfword
+bool HorseBase::shouldUnload(s32* a1) {
+    if (_b10) {
+        if (_b10->sub_7100E8BFF4() || _b10->sub_7100E8C018())
+            return false;
+        const Unk_7100e8b2b8::Unk8 type = _b10->Unk_7100e8b2b8::_8 & 0xff;
+        if (int(type) != Unk_7100e8b2b8::Unk8::_0)
+            return false;
+        if (_b74 & 2)
+            return false;
+    }
+    return shouldUnloadBecauseOfDistance(a1);
+}
+
 s32 HorseBase::x() const {
     const auto* param = getParam();
     if (!param)

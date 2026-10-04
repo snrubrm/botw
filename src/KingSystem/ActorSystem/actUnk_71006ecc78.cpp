@@ -8,6 +8,13 @@
 
 namespace ksys::act {
 
+bool Unk_71006ecc78::sub_71006EDA58() {
+    auto* ragdoll = mActor->getRagdollInstance();
+    if (!ragdoll)
+        return true;
+    return ragdoll->removeFromWorldAndResetLinks();
+}
+
 void Unk_71006ecc78::sub_71006ED484() {
     auto* physics = mActor->getPhysics();
     if (!physics)

@@ -1,6 +1,8 @@
 target_sources(uking PRIVATE
     CharacterController/physCharacterController.cpp
     CharacterController/physCharacterController.h
+    CharacterController/physCharacterControllerUnk40.cpp
+    CharacterController/physCharacterControllerUnk40.h
 
     Cloth/physClothParam.cpp
     Cloth/physClothParam.h

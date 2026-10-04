@@ -30,6 +30,8 @@ public:
     // 0x7100e88e18 (CSV HorseMgr::isLinkedToActor) / 0x7100e88bcc (CSV HorseMgr::setRiddenHorseMaybe; declared
     // only; RideableHorse::m42 / m43 pass null).
     bool isLinkedToActor(ksys::act::Actor* actor);
+    // 0x7100e84ab8 (CSV HorseMgr::__auto2; declared only): whether the link at +0x20 (the owned horse) is `actor`.
+    bool sub_7100E84AB8(ksys::act::Actor* actor);
     void setRiddenHorseMaybe(ksys::act::Actor* actor);
     // 0x7100e85334 (CSV HorseMgr::__auto0): whether `link` is the owned horse's link.
     bool sub_7100E85334(const ksys::act::BaseProcLink& link) const;

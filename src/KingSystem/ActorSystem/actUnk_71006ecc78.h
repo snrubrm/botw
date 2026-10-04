@@ -38,6 +38,8 @@ public:
 
     // 0x71006ed484
     void sub_71006ED484();
+    // 0x71006eda58: removes the actor's ragdoll from the world (true without a ragdoll).
+    bool sub_71006EDA58();
     // 0x71006ed9ec: whether the ragdoll can be switched on (world state 0 and the controller selection
     // `_c8` / `_cc` is not already active).
     bool sub_71006ED9EC() const;

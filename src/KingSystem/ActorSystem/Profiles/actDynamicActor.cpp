@@ -25,6 +25,18 @@ BaseProc::IsSpecialJobTypeResult DynamicActor::isSpecialJobType_(JobType type) {
     return Actor::isSpecialJobType_(type);
 }
 
+void DynamicActor::onDeleteRequested_(DeleteReason reason) {
+    Actor::onDeleteRequested_(reason);
+    if (_a50)
+        _a50->sub_71006E4668();
+}
+
+void DynamicActor::onSleepRequested_(SleepWakeReason reason) {
+    Actor::onSleepRequested_(reason);
+    if (_a50)
+        _a50->sub_71006E4668();
+}
+
 bool DynamicActor::initField868(sead::Heap* heap) {
     if (!getRagdollInstance())
         return true;

@@ -10,10 +10,10 @@ Unk_71006e45c4::Unk_71006e45c4() {
 }
 
 Unk_71006e45c4::~Unk_71006e45c4() {
-    releaseFromScene();
+    sub_71006E4668();
 }
 
-void Unk_71006e45c4::releaseFromScene() {
+void Unk_71006e45c4::sub_71006E4668() {
     auto* subsys = GameSceneSubsys5::instance();
     if (!subsys)
         return;
@@ -40,11 +40,11 @@ void Unk_71006e45c4::m12() {
 }
 
 void Unk_71006e45c4::m13() {
-    releaseFromScene();
+    sub_71006E4668();
 }
 
 void Unk_71006e45c4::m14() {
-    releaseFromScene();
+    sub_71006E4668();
 }
 
 void Unk_71006e45c4::m3(bool enable) {

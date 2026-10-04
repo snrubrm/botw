@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/CharacterController/physCharacterControllerUnk40.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/physConversions.h"
 
@@ -48,16 +49,6 @@ struct CharacterControllerUnk38 {
     /* 0x00 */ u8 _0[0x18];
 };
 
-struct CharacterControllerUnk40 {
-    /* 0x00 */ u8 _0[0x10];
-    /* 0x10 */ s32 _10;
-    /* 0x14 */ u8 _14[0x50];
-    /* 0x64 */ u32 _64;
-    /* 0x68 */ u8 _68;
-    /* 0x69 */ u8 _69;
-    /* 0x6a */ u8 _6a[2];
-    /* 0x6c */ u8 _6c;
-};
 
 struct CharacterControllerUnk48 {
     /* 0x00 */ u8 _0[0x50];
@@ -76,6 +67,10 @@ struct CharacterControllerUnk50 {
 // NON_MATCHING: register assignment
 void CharacterController::sub_7100F5E754(bool value) {
     _48->_50 = value;
+}
+
+void CharacterController::sub_7100F631E0(bool value) {
+    _40->sub_7100F6693C(value);
 }
 
 f32 CharacterController::sub_7100F5EEE8() const {

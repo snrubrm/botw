@@ -1,4 +1,5 @@
 #include "Game/Actor/actRideable.h"
+#include "Game/gameHorseMgr.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -16,6 +17,18 @@ Unk_7100e8b2b8::~Unk_7100e8b2b8() = default;
 
 bool Unk_7100e8b2b8::m10(const ksys::Message& message) {
     return message.getType() == 0x380001f;
+}
+
+bool Unk_7100e8b2b8::sub_7100E8BFF4() {
+    if (auto* mgr = HorseMgr::instance())
+        return mgr->sub_7100E84AB8(mActor);
+    return false;
+}
+
+bool Unk_7100e8b2b8::sub_7100E8C018() {
+    if (auto* mgr = HorseMgr::instance())
+        return mgr->isLinkedToActor(mActor);
+    return false;
 }
 
 ksys::act::Actor* Unk_7100e8b2b8::sub_7100E8B644() {

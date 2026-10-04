@@ -92,8 +92,10 @@ public:
     // Motorcycle): false (the request is consumed) when it names the event "Demo005_0".
     bool sub_7100E8B780(ksys::act::Unk117* arg);
     // 0x7100e8c03c: the actor's HorseUnit RiddenAnimalType.
-    // 0x7100e8bff4 (declared only).
+    // 0x7100e8bff4: `HorseMgr::instance()` (null: false) `->sub_7100E84AB8(mActor)`.
     bool sub_7100E8BFF4();
+    // 0x7100e8c018: `HorseMgr::instance()` (null: false) `->isLinkedToActor(mActor)`.
+    bool sub_7100E8C018();
     u32 sub_7100E8C03C() const;
     // 0x7100e8c068: with Unk8 3, the previous position of the actor linked in _20.
     bool sub_7100E8C068(sead::Vector3f* pos);
