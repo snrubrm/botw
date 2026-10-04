@@ -36,8 +36,20 @@ void FreeMoveToNearGround::loadParams_() {
     getStaticParam(&mWindVelocityLimit4Reduce_s, "WindVelocityLimit4Reduce");
 }
 
+// NON_MATCHING: the original keeps &_e0 in a callee-saved register (x20) across the Timer::update() call
+// (same as AnmDrivenSpeedBackWalk::calc_); otherwise identical
 void FreeMoveToNearGround::calc_() {
     FreeMoveToTarget::calc_();
+    sead::Vector3f pos;
+    if (sub_710016D7C0(&pos)) {
+        _e0.update();
+        if (_e0.value <= sead::Mathf::epsilon())
+            setFailed();
+        else if (_e0.value < 30.0f)
+            _28 = pos;
+    } else {
+        _e0 = ksys::Timer(45.0f, 45.0f);
+    }
 }
 
 f32 FreeMoveToNearGround::m36() {

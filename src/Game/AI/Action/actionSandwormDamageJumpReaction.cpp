@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSandwormDamageJumpReaction.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/actSandworm.h"
@@ -46,7 +47,16 @@ void SandwormDamageJumpReaction::loadParams_() {
 }
 
 void SandwormDamageJumpReaction::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!isFinished() && sub_710023F818())
+        setFinished();
+    if (_68)
+        _68 = false;
+    auto* actor = mActor;
+    const sead::Vector3f gravity = getGravity(actor) * (1.0f / 900.0f);
+    if (auto* controller = actor->getCharacterController()) {
+        sub_7100737C0C(controller, *mReduceGravityRate_s, gravity);
+        sub_7100738660(controller, *mReduceRotRate_s);
+    }
 }
 
 }  // namespace uking::action

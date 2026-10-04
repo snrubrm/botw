@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710016d7c0 (declared only): out of line in the original.
+    bool sub_710016D7C0(sead::Vector3f* pos);
     void calc_() override;
     bool m32(ksys::phys::CharacterController* controller) override;
     f32 m36() override;
