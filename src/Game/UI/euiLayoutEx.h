@@ -3,21 +3,13 @@
 #include <basis/seadTypes.h>
 #include <prim/seadSafeString.h>
 #include <nn/ui2d/Layout.h>
+#include <nn/ui2d/ControlSrc.h>
 #include "Game/UI/euiTypes.h"
 
 namespace nn::ui2d {
 class Pane;
 struct ResExtUserData;
 
-// Control description of a layout part (CSV nn::ui2d::ControlSrc; the SDK source is not available). Only the lookups
-// used by eui are declared.
-class ControlSrc {
-public:
-    // 0x7100ac05c0 / 0x7100ac0548 / 0x7100ac0634
-    const char* FindFunctionalAnimName(const char* name) const;
-    const char* FindFunctionalPaneName(const char* name) const;
-    const ResExtUserData* FindExtUserDataByName(const char* name) const;
-};
 }  // namespace nn::ui2d
 
 namespace sead {
@@ -50,7 +42,7 @@ public:
                    const nn::ui2d::Layout::PartsBuildDataSet*) override;
     nn::ui2d::Pane* BuildPaneObj(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, u32,
                                const void*, const void*, const nn::ui2d::BuildArgSet&) override;
-    bool BuildPartsLayout(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const char*,
+    nn::ui2d::Layout* BuildPartsLayout(nn::ui2d::BuildResultInformation*, nn::gfx::Device*, const char*,
                           const nn::ui2d::Layout::PartsBuildDataSet&,
                           const nn::ui2d::BuildArgSet&) override;
     void CalculateImpl(nn::ui2d::DrawInfo&, bool) override;
