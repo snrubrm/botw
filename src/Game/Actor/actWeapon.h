@@ -257,6 +257,8 @@ public:
     bool m173(s32 index, ksys::act::Actor* actor, const char* name, const char* other_name,
               bool a5, bool a6) override;
     bool m174() override;
+    bool m176(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4, void* a5,
+              bool a6) override;
     bool m177(const sead::Vector3f& target, void* a2) override;
     bool m178(const sead::Vector3f& pos) override;
     bool m204() override;

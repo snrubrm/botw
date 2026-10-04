@@ -29,6 +29,12 @@ bool isActiveEventDemo000Or001Or002();
 
 namespace uking::act {
 
+bool Weapon::m176(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4,
+                  void* a5, bool a6) {
+    x_4(target, false, false, a5, false);
+    return WeaponBase::m176(target, pos, a3, a4, a5, a6);
+}
+
 bool Weapon::m137() {
     return m138();
 }
