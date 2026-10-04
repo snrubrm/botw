@@ -272,7 +272,7 @@ void SyncPlayContainer::m35(Context* ctx, const res::ASResource* resource) {
 }
 
 void SyncPlayContainer::m36(Context* ctx, sead::BufferedSafeString* out,
-                            const sead::SafeString& name, const res::ASResource* resource) {
+                            sead::BufferedSafeString& name, const res::ASResource* resource) {
     int index = 0;
     for (Element* child : mChildren) {
         const res::ASResource* child_resource = sub_71013031FC(resource, index);

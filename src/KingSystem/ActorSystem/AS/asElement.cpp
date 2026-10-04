@@ -163,7 +163,16 @@ bool Element::m33(Context* ctx, void* a2, void* a3, const res::ASResource* resou
 void Element::m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) {}
 void Element::m35(Context* ctx, const res::ASResource* resource) {}
 
-void Element::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+void Element::sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out,
+                             sead::BufferedSafeString& name, int index,
+                             const res::ASResource* resource) {
+    const int old_length = name.calcLength();
+    name.appendWithFormat("/%d", index);
+    m36(ctx, out, name, resource);
+    name.trim(old_length);
+}
+
+void Element::m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
                   const res::ASResource* resource) {
     out->appendWithFormat("%s, ", name.cstr());
 }

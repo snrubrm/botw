@@ -242,7 +242,7 @@ void SelectorBase::m34(void* a1, Context* ctx, void* a3, const res::ASResource* 
     child->m34(a1, ctx, a3, child_resource);
 }
 
-void SelectorBase::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name, const res::ASResource* resource) {
+void SelectorBase::m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name, const res::ASResource* resource) {
     const s8 index = ctx->sub_7101258CD4(sub_71011653E8(resource))->_0;
     if (index < 0)
         return;

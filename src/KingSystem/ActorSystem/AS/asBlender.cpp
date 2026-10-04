@@ -189,7 +189,7 @@ void Blender::m35(Context* ctx, const res::ASResource* resource) {
     child2->sub_7101165E60(ctx, child2_resource);
 }
 
-void Blender::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+void Blender::m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
                   const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     const s8 first = record->_0;

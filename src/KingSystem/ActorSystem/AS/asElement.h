@@ -333,7 +333,7 @@ public:
     void sub_71011654E0(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource);
     // 0x7101165e60 / 0x7101165ebc: used by SelectorBase::m35 / m36.
     void sub_7101165E60(Context* ctx, const res::ASResource* resource);
-    void sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+    void sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
                         int index, const res::ASResource* resource);
 
     virtual f32 m4();
@@ -370,7 +370,7 @@ public:
     virtual bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5);
     virtual void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource);
     virtual void m35(Context* ctx, const res::ASResource* resource);
-    virtual void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+    virtual void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
                      const res::ASResource* resource);
     virtual int m37(Context* ctx, EventState* state, const res::ASResource* resource);
 };
@@ -406,7 +406,7 @@ public:
     bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
     void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
     void m35(Context* ctx, const res::ASResource* resource) override;
-    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+    void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
              const res::ASResource* resource) override;
 
     // 0x71013031fc: the resource of the child `index` (null if `resource` has no children).
@@ -628,7 +628,7 @@ public:
     int m31(Context* ctx, const res::ASResource* resource) override;
     void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
     void m35(Context* ctx, const res::ASResource* resource) override;
-    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+    void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
              const res::ASResource* resource) override;
     Blender();
 
@@ -744,7 +744,7 @@ public:
     bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
     void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
     void m35(Context* ctx, const res::ASResource* resource) override;
-    void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
+    void m36(Context* ctx, sead::BufferedSafeString* out, sead::BufferedSafeString& name,
              const res::ASResource* resource) override;
     SyncPlayContainer();
 };
