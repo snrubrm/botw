@@ -84,6 +84,8 @@ public:
     bool releaseWeapon(int idx);
     // 0x710000759c (declaration only): weapon-state prerequisite checked by isGuard().
     bool sub_710000759C();
+    // Name from CSV 0x7100007084.
+    void updateWeaponDamageCopyInfo();
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};

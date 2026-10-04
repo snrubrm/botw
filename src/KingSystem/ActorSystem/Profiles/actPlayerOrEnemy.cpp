@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace ksys::act {
 
@@ -295,6 +296,21 @@ void PlayerOrEnemy::calcMaybe() {
             chemical->sub_7100D91158(true);
         else
             chemical->sub_7100D91158(false);
+    }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+void PlayerOrEnemy::updateWeaponDamageCopyInfo() {
+    getWeapons();
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && hasAttackInfo(weapon)) {
+            sub_71007A3F34(this, weapon);
+            return;
+        }
     }
 }
 
