@@ -14,6 +14,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100146fa0 (out of line in the original; name is a guess): the attack flags requested from the params.
+    u32 sub_7100146FA0() const;
+
     // static_param at offset 0x20
     const int* mAttackIntensity_s{};
     // static_param at offset 0x28

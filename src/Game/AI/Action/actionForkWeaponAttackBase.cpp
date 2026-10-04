@@ -40,6 +40,24 @@ void ForkWeaponAttackBase::calc_() {
     }
 }
 
+// NON_MATCHING: argument copies at entry are scheduled in another order (regalloc only)
+void ForkWeaponAttackBase::m32(int weapon_idx, const sead::SafeString& name, bool a3, f32 a4) {
+    auto* actor = mActor;
+    u32 flags = sub_7100146FA0();
+    if (a3) {
+        flags |= 0x40;
+        if (*mIsNoRod_s)
+            sub_71005D7F4C(actor, weapon_idx, flags, &name, nullptr, 1, a4, 1.0f);
+        else
+            sub_71005D7ADC(actor, weapon_idx, flags, &name, nullptr, 1, 1, 0, 1, a4, 1.0f);
+    } else {
+        if (*mIsNoRod_s)
+            sub_71005D7F4C(actor, weapon_idx, flags, &name, nullptr, 1, a4, 1.0f);
+        else
+            sub_71005D7ADC(actor, weapon_idx, flags, &name, nullptr, 1, 1, 0, 1, a4, 1.0f);
+    }
+}
+
 int ForkWeaponAttackBase::m36() {
     return 0;
 }
