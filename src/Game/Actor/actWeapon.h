@@ -251,6 +251,7 @@ public:
     bool isWeaponType0Or1Or2() const override;
     bool isWeaponType4() const override;
     bool isWeaponType3() const override;
+    bool m177(const sead::Vector3f& target, void* a2) override;
     bool m211() override;
     bool m212() override;
     bool m213() override;

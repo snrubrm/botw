@@ -4,6 +4,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -78,6 +79,12 @@ s32 Weapon::getMaxHp() {
     if (can_pull)
         return life;
     return (life + (_f98.flags.isOn(WeaponModifier::AddLife) ? _f98.value : 0)) * 100;
+}
+
+bool Weapon::m177(const sead::Vector3f& target, void* a2) {
+    if (auto* lod = getLodState())
+        lod->mFlags26.set(1);
+    return ksys::act::WeaponBase::m177(target, a2);
 }
 
 bool Weapon::m211() {
