@@ -203,6 +203,11 @@ bool Screen::isEnableControl() const {
     return 0;
 }
 
+// 0x7100beafb0
+LayoutEx* Screen::sub_7100BEAFB0(const char* name) {
+    return mLayout->findPartsLayout(name);
+}
+
 // 0x7100beb12c
 ControlBase* Screen::findControlWithParentLayout_(const char* name, const LayoutEx* layout) {
     const sead::SafeString search(name);

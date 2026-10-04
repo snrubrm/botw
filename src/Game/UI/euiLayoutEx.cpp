@@ -68,6 +68,12 @@ nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* r
     return layout;
 }
 
+// 0x7100bddddc
+LayoutEx* LayoutEx::findPartsLayout(const char* name) {
+    nn::ui2d::Parts* parts = FindPartsPaneByName(name);
+    return parts ? static_cast<LayoutEx*>(parts->mPartsLayoutLink.layout) : nullptr;
+}
+
 // NON_MATCHING: StringBuilder initialization and virtual-call argument loads are scheduled differently.
 // 0x7100bde0b4
 void LayoutEx::startAnimCloseImpl_(bool recursive, bool instant) {

@@ -66,6 +66,7 @@ public:
     bool isAnimCloseEnd(bool b) const;
 
     void setDrawTargetAnim(DrawTarget target);
+    LayoutEx* findPartsLayout(const char* name);
 
     // 0x7100bde0b4
     void startAnimCloseImpl_(bool a1, bool a2);
