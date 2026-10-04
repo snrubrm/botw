@@ -32,6 +32,7 @@ target_sources(uking PRIVATE
   euiFontMgr.cpp
   euiNwAllocator.cpp
   euiLayoutEx.cpp
+  euiAllocatorHeap.cpp
   euiLetterAnimControl.cpp
   euiLetterAnimControl.h
   euiLayoutEx.h
@@ -39,6 +40,7 @@ target_sources(uking PRIVATE
   euiMessageString.cpp
   euiMessageString.h
   euiScreen.cpp
+  euiUIController.cpp
   euiScreenMgr.cpp
   euiScreen.h
   uiFadeProgress.cpp

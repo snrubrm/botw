@@ -5,6 +5,7 @@
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadBoundBox.h>
+#include <nn/ui2d/DrawInfo.h>
 #include "KingSystem/Utils/Types.h"
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -43,10 +44,18 @@ class MessageMgr;
 class FontMgr;
 class ConstantBuffer;
 
-// (only the nested type is needed so far)
-struct DrawInfoEx {
+// Per-screen draw information; the base contains the layout matrices.
+struct DrawInfoEx : public nn::ui2d::DrawInfo {
+    NN_RUNTIME_TYPEINFO(nn::ui2d::DrawInfo)
     struct RenderBufferInfo;
+    ~DrawInfoEx() override = default;
+
+    /* 0xf8 */ void* _f8 = nullptr;
+    /* 0x100 */ bool _100 = false;
+    /* 0x108 */ ListNode mDynamicTextures;
+    /* 0x118 */ u8 _118[8];
 };
+static_assert(sizeof(DrawInfoEx) == 0x120);
 
 // The eui UI framework's screen base class (CSV: eui::Screen::*, mangled names). Only the parts that
 // are needed so far are declared: the RTTI root (vtable slots 2 / 3 are checkDerivedRuntimeTypeInfo /

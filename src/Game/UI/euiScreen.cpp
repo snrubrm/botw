@@ -38,6 +38,16 @@ LayoutEx* Screen::doCreateLayout_(sead::Heap* heap) {
     return new (heap, 8) LayoutEx(this);
 }
 
+// 0x7100beab38
+DrawInfoEx* Screen::doCreateDrawInfoEx_(sead::Heap* heap) {
+    return new (heap, 16) DrawInfoEx;
+}
+
+// 0x7100beac04
+UIController* Screen::doCreateUIController_(sead::Heap* heap) {
+    return new (heap, 8) UIController;
+}
+
 // 0x7100bea5b4
 void Screen::unregisterController_() {
     if (isEnableControl()) {

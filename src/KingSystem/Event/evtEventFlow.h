@@ -1,6 +1,7 @@
 #pragma once
 
 #include <evfl/Flowchart.h>
+#include <evfl/Param.h>
 #include <evfl/TimelineObj.h>
 #include <heap/seadHeap.h>
 #include <container/seadPtrArray.h>
@@ -186,7 +187,9 @@ public:
     /* 0x108 */ EventResource* _108;
     /* 0x110 */ EventActorSet* _110;
     /* 0x118 */ EventFlowActorInfo* _118;
-    u8 _120[0x208 - 0x120];
+    u8 _120[8];
+    /* 0x128 */ evfl::MetaDataPack mMetaData;
+    u8 _148[0x208 - 0x148];
     /* 0x208 */ EventFlowType mType;
     /* 0x20c */ f32 _20c;
     /* 0x210 */ EventFlow* mSlot;
@@ -209,6 +212,7 @@ public:
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
     void m12() override;
+    void m13() override;
     bool m14() override;
     void m15() override;
     void m16() override;

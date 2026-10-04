@@ -23,6 +23,7 @@ public:
         bool readNext();
 
         void setArchive(sead::ArchiveRes* archive) { mArchive = archive; }
+        sead::ArchiveRes* getArchive() const { return mArchive; }
 
         s32 mIndex = -1;
         sead::DirectoryHandle mDirectory;

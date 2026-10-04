@@ -246,6 +246,13 @@ void EventFlowFlowchart::m12() {
     _6b4 += _20c * VFR::instance()->getDeltaFrame();
 }
 
+// 0x7100dbb208
+void EventFlowFlowchart::m13() {
+    mContext.Start(&mMetaData);
+    _6b0 = 0;
+    _6b4 = 0.0f;
+}
+
 // 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished; vtable slot 14)
 bool EventFlowFlowchart::m14() {
     const s32 state = mContext.GetNumAllocatedNodes();

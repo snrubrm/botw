@@ -4,8 +4,6 @@
 
 namespace uking::ui {
 
-// NON_MATCHING: all stores are the same; clang schedules them in a different order (the original stores the -1 of the
-// texture info first)
 // 0x7100a81208
 UiTexSlots::UiTexSlots() = default;
 
@@ -17,7 +15,7 @@ void UiTexSlots::unload(s32 index) {
         animator->StopAtMin();
     Entry& entry = mEntries[index];
     if (entry.handle && entry.material)
-        entry.material->texMaps[entry.texMapIndex].textureInfo = &mTexInfo;
+        entry.material->GetTexMapArray()[entry.texMapIndex].ReplaceTextureInfo(&mTexInfo);
     if (mEntries[index].handle->requestedLoad())
         mEntries[index].handle->requestUnload2();
 }

@@ -73,6 +73,21 @@ MessageMgr::Archive::~Archive() {
         mMgr->mArchives.erase(this);
 }
 
+// NON_MATCHING: FileReader and DirectoryHandle constructors emit extra stores.
+// 0x7100be4a5c
+void MessageMgr::Archive::load(sead::Heap* heap, void* data, u32 size) {
+    mData = data;
+    mArchive.initialize(heap, data, size);
+    mMessageSets.tryAllocBuffer(mArchive.getResource()->getEntryNum(), heap, 8);
+    SharcArchive::FileReader reader;
+    mArchive.startFileReader(&reader);
+    while (reader.readNext()) {
+        if (reader.mEntry.name.findIndex(".msbt") >= 0)
+            mMessageSets[reader.mIndex].initialize(
+                const_cast<void*>(reader.getArchive()->getFileFast(reader.mIndex, nullptr)), heap);
+    }
+}
+
 // 0x7100be4c48
 void MessageMgr::Archive::unload() {
     for (auto& set : mMessageSets) {

@@ -1,4 +1,6 @@
 #include "Game/UI/uiScreens.h"
+#include <nn/ui2d/Pane.h>
+#include "Game/UI/euiLayoutEx.h"
 
 namespace eui {
 
@@ -8,6 +10,12 @@ void Screen::m13() {}
 }  // namespace eui
 
 namespace uking::ui {
+
+// 0x71009cf8a4
+void Screen::m80(bool visible) {
+    mLayout->mPane->SetVisible(visible);
+}
+
 
 // 0x71010ab24c (CSV Screen::updateButton)
 void Screen::updateButton_() {

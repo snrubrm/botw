@@ -226,7 +226,7 @@ public:
     virtual void m77();
     virtual void m78();
     virtual void m79();
-    virtual void m80();
+    virtual void m80(bool visible);
     virtual s32 m81();
     virtual void m82();
     virtual void m83();
