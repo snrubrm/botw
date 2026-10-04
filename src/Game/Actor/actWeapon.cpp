@@ -24,7 +24,30 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
+// 0x71008ba7d8: declaration only; original source namespace is unknown.
+bool isActiveEventDemo000Or001Or002();
+
 namespace uking::act {
+
+bool Weapon::m137() {
+    return m138();
+}
+
+bool Weapon::m138() {
+    return hasParentActor_() && _920 == 0xff && !_921;
+}
+
+bool Weapon::m142() {
+    return ksys::act::isEnemyProfile(&_938);
+}
+
+bool Weapon::m204() {
+    return isActiveEventDemo000Or001Or002();
+}
+
+bool Weapon::m216() {
+    return isWeaponType4() && isParentPlayer() && !m153();
+}
 
 bool Weapon::isParentPlayer() {
     return ksys::act::isPlayerProfile(&_938);

@@ -231,11 +231,14 @@ public:
     bool bowHasArrowName();
     bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
+    bool m137() override;
+    bool m138() override;
     f32 m139() override;
     bool m195() override;
     bool x_0();
     bool isParentPlayer() override;
     bool isParentNpc() override;
+    bool m142() override;
     bool m183() override;
     bool m184() override;
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
@@ -256,6 +259,8 @@ public:
     bool m174() override;
     bool m177(const sead::Vector3f& target, void* a2) override;
     bool m178(const sead::Vector3f& pos) override;
+    bool m204() override;
+    bool m216() override;
     bool m211() override;
     bool m212() override;
     bool m213() override;
