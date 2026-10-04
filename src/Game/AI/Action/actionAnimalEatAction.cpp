@@ -22,6 +22,7 @@ void AnimalEatAction::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
     }
     rideable->_130 = 0;
+    rideable->_134 = 0;
     mActor->getASList()->x_6(1, 0, 0.0f);
     mActor->getASList()->x_6(2, 0, 0.0f);
     rideable->_18.sub_7100E76E74(act::sUnk_71026032d0, false);

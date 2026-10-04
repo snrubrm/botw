@@ -170,7 +170,8 @@ public:
     /* 0x2b4 */ u8 _2b4[0x2cc - 0x2b4];
     /* 0x2cc */ f32 _2cc;
     /* 0x2d0 */ f32 _2d0;
-    /* 0x2d4 */ u8 _2d4[0x2e0 - 0x2d4];
+    /* 0x2d4 */ f32 _2d4;
+    /* 0x2d8 */ u8 _2d8[0x2e0 - 0x2d8];
     /* 0x2e0 */ Unk_7102372790* _2e0;  // navmesh query (released through HavokAI::sub_7100F83A94)
 };
 

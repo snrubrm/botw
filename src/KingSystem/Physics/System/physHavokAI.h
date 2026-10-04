@@ -29,6 +29,19 @@ public:
     /* 0x24 */ s32 _24;
 };
 
+// Name from the CSV (NavMeshLoadMgr::a 0x7100f8a3b8 ... 0x7100f8bf64; lane1 s26: placeholder, only what callers use is declared;
+// HavokAI::_48). The navmesh tile loader: tiles are requested by world position (x, z).
+class NavMeshLoadMgr {
+public:
+    // 0x7100f8aca4 (CSV NavMeshLoadMgr::x_1; declared only): whether the tile of `pos` is covered (false when the manager is
+    // disabled or has no tiles).
+    bool x_1(const sead::Vector3f* pos);
+    // 0x7100f8b334 (declared only; placeholder name): requests loading the tile of `pos`.
+    void sub_7100F8B334(const sead::Vector3f* pos);
+    // 0x7100f8b444 (CSV NavMeshLoadMgr::x_2; declared only): releases the requested tile.
+    void x_2();
+};
+
 // Name from the CSV (NavMeshQueryRequestPool::ctor 0x71012a8ffc, heap name
 // "NavMeshQueryRequestPool"). Owns the request heap and lock-free request queues.
 // TODO: incomplete.
@@ -91,7 +104,8 @@ public:
 
     u8 _28[0x40 - 0x28];
     NavMeshQueryRequestPool* _40;
-    u8 _48[0x178 - 0x48];
+    NavMeshLoadMgr* _48;
+    u8 _50[0x178 - 0x50];
 };
 KSYS_CHECK_SIZE_NX150(HavokAI, 0x178);
 

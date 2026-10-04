@@ -29,6 +29,8 @@ public:
         return (mBits & mask) != 0;
     }
 
+    bool isOffBit(Enum bit) const { return !isOnBit(bit); }
+
 private:
     u8 mBits = 0;
 };
