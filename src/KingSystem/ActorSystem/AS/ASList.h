@@ -181,6 +181,10 @@ public:
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
+    // 0x710115f3f0: queries normalized playback position (declaration only).
+    f32 sub_710115F3F0(int slot, int bank, bool a1);
+    // 0x710115ea64: copies one of five string parameter values (declaration only).
+    bool sub_710115EA64(int kind);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());

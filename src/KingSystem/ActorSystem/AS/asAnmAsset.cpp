@@ -85,6 +85,85 @@ void AnmAsset::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource
     params->sub_7101302940(nullptr);
 }
 
+void AnmAsset::sub_7101315328(f32* position, f32* start, f32* end,
+                           const res::ASResource* resource) {
+    const res::ASFrameCtrlParser* parser = nullptr;
+    if (resource) {
+        parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl));
+    }
+    if (parser) {
+        f32 first = parser->getStartFrame();
+        if (!(first >= 0.0f))
+            first = m4();
+        *position = first;
+        if (!_8) {
+            *start = first;
+            f32 last = parser->getEndFrame();
+            if (!(last >= 0.0f))
+                last = m4();
+            *end = last;
+            return;
+        }
+    } else {
+        *position = 0.0f;
+    }
+    *start = 0.0f;
+    *end = m4();
+}
+
+// NON_MATCHING: loop override branches appear in the opposite order.
+void AnmAsset::sub_710131586C(bool loop, const res::ASResource* resource) {
+    _9 = loop;
+    _8 = loop;
+    if (resource) {
+        if (const auto* parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+                resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl))) {
+            if (parser->getAnmLoop() == 2)
+                _8 = true;
+            else if (parser->getAnmLoop() == 1)
+                _8 = false;
+        }
+    }
+}
+
+// NON_MATCHING: the compiler inlines the frame-range helper and reallocates its outputs.
+f32 AnmAsset::sub_7101315AD0(ElementParams* params, f32* start, s32* wraps, bool restart,
+                           const res::ASResource* resource, f32 time) {
+    const res::ASFrameCtrlParser* parser = nullptr;
+    if (resource) {
+        parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+            resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl));
+    }
+    const bool loop = _8;
+    f32 position;
+    f32 first;
+    f32 last;
+    sub_7101315328(&position, &first, &last, resource);
+    if (restart) {
+        if (parser) {
+            params->sub_71013028BC(loop, parser->getReversePlay(), position, parser->getRate(),
+                                  first, last, parser->getLoopStopCount());
+        } else {
+            params->sub_71013028BC(loop, false, 0.0f, 1.0f, 0.0f, m4(), -1.0f);
+        }
+    }
+    *start = parser ? first : 0.0f;
+    *wraps = params->sub_7101302A70(time, *start);
+    if ((params->_0 & 2) && !(params->_1c >= 0.0f))
+        return -1.0f;
+    if (params->_c <= 0.0f)
+        return -1.0f;
+    f32 end = params->_1c;
+    const f32* begin = start;
+    if (!(end >= 0.0f)) {
+        end = params->_14;
+        begin = &params->_10;
+    }
+    const f32 duration = (end - *begin) / params->_c;
+    return duration > time ? -1.0f : time - duration;
+}
+
 // NON_MATCHING: the two output locals occupy opposite stack slots.
 f32 AnmAsset::m18(Context* ctx, bool restart, f32 time, f32 a4,
                   const res::ASResource* resource) {

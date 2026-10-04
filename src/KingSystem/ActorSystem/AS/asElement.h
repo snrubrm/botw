@@ -791,6 +791,10 @@ public:
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 from,
              f32 to) override;
+    // 0x7101315328: computes playback position and start/end frames.
+    void sub_7101315328(f32* position, f32* start, f32* end, const res::ASResource* resource);
+    // 0x710131586c: stores original loop mode and applies the resource override.
+    void sub_710131586C(bool loop, const res::ASResource* resource);
     // 0x7101315ad0: advances playback, returning the remaining time and writing start/wrap count.
     f32 sub_7101315AD0(ElementParams* params, f32* start, s32* wraps, bool restart,
                       const res::ASResource* resource, f32 time);
@@ -808,7 +812,8 @@ public:
 
     int m37(Context* ctx, EventState* state, const res::ASResource* resource) override;
 
-    /* 0x08 */ u16 _8;
+    /* 0x08 */ bool _8;
+    /* 0x09 */ bool _9;
     /* 0x0a */ s16 _a;
     /* 0x0c */ f32 _c;
 };
