@@ -44,7 +44,9 @@ public:
     res::ASResource* sub_7101258CC0();
 
     /* 0x00 */ ASList* mList;
-    /* 0x08 */ u8 _8[0xe0 - 0x8];
+    /* 0x08 */ u8 _8[0x10];
+    /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
+    /* 0x28 */ u8 _28[0xe0 - 0x28];
     /* 0xe0 */ f32 _e0;
 };
 
@@ -177,12 +179,16 @@ class BoolSelector : public Selector {
     SEAD_RTTI_OVERRIDE(BoolSelector, Selector)
 public:
     BoolSelector();
+
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class ComboSelector : public Selector {
     SEAD_RTTI_OVERRIDE(ComboSelector, Selector)
 public:
     ComboSelector();
+
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class NodePosSelector : public Selector {
@@ -205,6 +211,8 @@ class FloatSelector : public Selector {
 public:
     FloatSelector();
 
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
+
     virtual f32 m40(Context* ctx, u32 a2, const res::ASResource* resource);
 };
 
@@ -213,6 +221,10 @@ class StringSelector : public Selector {
 public:
     StringSelector();
 
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
+    // 0x710131d9f0: the string of the selected entry of the resource's string array (empty if none).
+    const sead::SafeString& sub_710131D9F0(Context* ctx, const res::ASResource* resource);
+
     virtual const char* m40(Context* ctx, const res::ASResource* resource);
 };
 
@@ -220,6 +232,8 @@ class ZEx00ExposureSelector : public FloatSelector {
     SEAD_RTTI_OVERRIDE(ZEx00ExposureSelector, FloatSelector)
 public:
     ZEx00ExposureSelector();
+
+    f32 m40(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
 
 class GroundNormalSelector : public FloatSelector {
@@ -279,6 +293,8 @@ class EventFlagSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(EventFlagSelector, StringSelector)
 public:
     EventFlagSelector();
+
+    const char* m40(Context* ctx, const res::ASResource* resource) override;
     ~EventFlagSelector() override;
 
     sead::Buffer<void*> _18;
@@ -288,6 +304,8 @@ class PreASSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(PreASSelector, StringSelector)
 public:
     PreASSelector();
+
+    const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
 
 class TimeSelector : public StringSelector {
@@ -340,6 +358,8 @@ class ZEx00ExposureBlender : public Blender {
     SEAD_RTTI_OVERRIDE(ZEx00ExposureBlender, Blender)
 public:
     ZEx00ExposureBlender();
+
+    f32 m38(Context* ctx, const res::ASResource* resource) override;
 };
 
 class GroundNormalBlender : public Blender {

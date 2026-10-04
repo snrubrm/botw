@@ -191,6 +191,8 @@ public:
     f32 sub_710115FA78();
     // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
     const char* sub_710115ECF4(int kind, int a2);
+    // 0x710115ee14 (declaration only): bit `bit` of the flags parameter (answered by the owner for bits 0 / 0x19 / 6).
+    bool sub_710115EE14(int bit);
     // 0x710115ed5c: getter counterpart of x_2: bit `bit` of the flags parameter (_f0[0x42]), with
     // bits 0 / 0x19 / 6 answered by the owner (basic signal / remains signal / LodState flag 1).
     bool sub_710115ED5C(int a1, int bit);

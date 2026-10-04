@@ -39,6 +39,7 @@ public:
     int findIntIndex(int value) const;
 
     agl::utl::ParameterList& getList() { return mList; }
+    const ASExtensions& getExtensions() const { return mExtensions; }
 
 protected:
     virtual bool doParse(const ParseArgs& args) { return true; }
