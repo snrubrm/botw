@@ -108,7 +108,7 @@ public:
     virtual void* m7();                        // returns nullptr
     virtual void m8();                         // empty
     virtual void printStatus(sead::BufferedSafeString* out);
-    virtual s32 m10();  // returns 0 (FlowFlowchart: isFinished; EventFlowTimeline: takes an argument)
+    virtual s32 m10();  // returns 0 (EventFlowTimeline overrides it with an argument)
     virtual void m11() = 0;
     virtual void m12() = 0;
     virtual void m13() = 0;  // start
@@ -172,7 +172,7 @@ public:
     /* 0x118 */ EventFlowActorInfo* _118;
     u8 _120[0x208 - 0x120];
     /* 0x208 */ EventFlowType mType;
-    u8 _20c[4];
+    /* 0x20c */ f32 _20c;
     /* 0x210 */ EventFlow* mSlot;
     u8 _218[0x2c8 - 0x218];
     /* 0x2c8 */ s32 _2c8;
@@ -192,14 +192,16 @@ public:
 
     f32 getFrameCount() const override;
     s32 getEventFlowType() const override;
-    s32 m10() override;
+    void m12() override;
+    bool m14() override;
     void m15() override;
     void m16() override;
     void m17() override;
 
     u8 _620[0x69c - 0x620];
     /* 0x69c */ s32 _69c;
-    u8 _6a0[0x6b4 - 0x6a0];
+    u8 _6a0[0x6b0 - 0x6a0];
+    /* 0x6b0 */ s32 _6b0;
     /* 0x6b4 */ f32 _6b4;
 };
 

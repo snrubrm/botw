@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/VFR.h"
 
 s32 getSceneStatus();
 
@@ -231,8 +232,14 @@ void EventFlowFlowchart::m15() {
     _108->initFlowchart(&mEventName, &mEntryPointName);
 }
 
-// 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished)
-s32 EventFlowFlowchart::m10() {
+// 0x7100dbb258 (CSV evt::EventFlowFlowchart::calc)
+void EventFlowFlowchart::m12() {
+    ++_6b0;
+    _6b4 += _20c * VFR::instance()->getDeltaFrame();
+}
+
+// 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished; vtable slot 14)
+bool EventFlowFlowchart::m14() {
     const s32 state = _69c;
     if (state == 0)
         _340 &= ~0x2400ull;

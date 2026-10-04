@@ -76159,8 +76159,8 @@ Address,Quality,Size,Name
 0x0000007100dbaf08,U,000384,
 0x0000007100dbb088,U,000384,
 0x0000007100dbb208,U,000044,evt::EventFlowFlowchart::start
-0x0000007100dbb234,O,000036,_ZN4ksys3evt18EventFlowFlowchart3m10Ev
-0x0000007100dbb258,U,000140,evt::EventFlowFlowchart::calc
+0x0000007100dbb234,O,000036,_ZN4ksys3evt18EventFlowFlowchart3m14Ev
+0x0000007100dbb258,O,000140,_ZN4ksys3evt18EventFlowFlowchart3m12Ev
 0x0000007100dbb2e4,O,000004,_ZN4ksys3evt18EventFlowFlowchart3m16Ev
 0x0000007100dbb2e8,O,000004,_ZN4ksys3evt18EventFlowFlowchart3m17Ev
 0x0000007100dbb2ec,O,000204,_ZNK4ksys3evt18EventFlowFlowchart27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
