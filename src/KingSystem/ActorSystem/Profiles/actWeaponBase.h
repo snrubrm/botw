@@ -31,6 +31,9 @@ public:
     explicit WeaponBase(const CreateArg& arg);
     ~WeaponBase() override;
     Actor* m31() override;
+    void calcMaybe() override;
+    void m70() override;
+    void updatePositionMaybe() override;
     bool m86() override;
     void m92(phys::RigidBody* body) override;
     bool m142() override { return false; }
@@ -112,6 +115,9 @@ public:
     virtual void m200();
     // 0x7100ee6afc (CSV WeaponBase::x_0): called by m200 (clears actor flags 0x21 and updates the model).
     void sub_7100EE6AFC();
+    // Original weapon update helpers at 0xef345c and 0xef3664.
+    void sub_7100EF345C();
+    void sub_7100EF3664();
     virtual void m201();
     virtual void m202(bool on) { _9f4.change(1, on); }
     virtual bool m203() { return _9f4.isOn(1); }

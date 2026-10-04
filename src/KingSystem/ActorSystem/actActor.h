@@ -587,6 +587,7 @@ public:
     bool sub_71011CDDCC() const;
     // 0x71011db138: sets ActorFlag::_1.
     void sub_71011DB138();
+    void sub_71011DB070();
     // 0x71011dafb4: sets _6fc / _700.
     void sub_71011DAFB4(int a, int b);
     // 0x71011d89d4 (CSV name): the character controller's `_210` while its `_116` bit 2 is set, else -1.

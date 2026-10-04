@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
@@ -57,6 +59,32 @@ void WeaponBase::onWakeUpRequested_(SleepWakeReason reason) {
 
 Actor* WeaponBase::m31() {
     return getParentActor();
+}
+
+void WeaponBase::calcMaybe() {
+    sub_7100EF345C();
+    if (hasParentActor())
+        sub_71011DB070();
+    else
+        sub_71011DB138();
+}
+
+void WeaponBase::m70() {
+    if (_ab0)
+        x_14(false);
+    sub_7100EF345C();
+    if (m188()) {
+        if (auto* chemical = sub_71011D8A44(0)) {
+            chemical->sub_7100D8EEE0();
+            getRootAi()->setChemicalFlags3cMaybe(1, false);
+        }
+        deleteLater(DeleteReason::_0);
+    }
+}
+
+void WeaponBase::updatePositionMaybe() {
+    _9f4.reset(8);
+    sub_7100EF3664();
 }
 
 bool WeaponBase::m86() {
