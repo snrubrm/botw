@@ -720,4 +720,8 @@ bool Player::sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b) {
     return sub_7100857014(speed, target, limit_a, limit_b);
 }
 
+bool Player::sub_7100887AC4() {
+    return getASList()->x_1(1, 1) == "GrabThrow";
+}
+
 }  // namespace ksys::act

@@ -307,6 +307,8 @@ public:
     void sub_71008B5B8();              // 0x71008b5b8
     // 0x710086952c (declared only; lane3 s22): finds the body "..." of the physics set and passes its rigid body to InstanceSet 0xfbd918.
     void sub_710086952C();
+    // 0x7100887ac4 (lane3 s22): whether the AS of slot 1 / bank 1 is "GrabThrow".
+    bool sub_7100887AC4();
     void x_37();  // 0x71008efa0
     void sub_7100856A7C();             // 0x7100856a7c (declared only)
     // 0x710086fab0 (CSV nullsub_2601): empty.

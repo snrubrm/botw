@@ -20,7 +20,9 @@ void PlayerGrabThrow::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerGrabThrow::leave_() {
-    PlayerAction::leave_();
+    if (static_cast<ksys::act::Player*>(mActor)->sub_7100887AC4())
+        static_cast<ksys::act::Player*>(mActor)->x_18(true);
+    static_cast<ksys::act::Player*>(mActor)->_c44.reset(0x100);
 }
 
 void PlayerGrabThrow::loadParams_() {
