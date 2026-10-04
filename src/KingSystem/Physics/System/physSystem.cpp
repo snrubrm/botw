@@ -1,4 +1,6 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/StaticCompound/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physWorld.h"
 #include <heap/seadHeap.h>
 #include <thread/seadThread.h>
@@ -31,6 +33,27 @@ SEAD_SINGLETON_DISPOSER_IMPL(System)
 
 bool System::isPaused() const {
     return mPaused;
+}
+
+void System::setPauseState(bool paused) {
+    mPaused = paused;
+}
+
+void System::initBeforeStageGen(sead::Heap* heap) {
+    mContactMgr->initContactPointPool(heap, mIsIndoorStage);
+}
+
+void System::waitForResourceCreation() {
+    if (mStaticCompoundMgr)
+        mStaticCompoundMgr->resetExtraTransformsAndApply();
+}
+
+void System::setRigidBodyDividedMeshShapeMgr(void* mgr) {
+    mRigidBodyDividedMeshShapeMgr = mgr;
+}
+
+void System::registerCollisionInfo(CollisionInfo* info) const {
+    mContactMgr->registerCollisionInfo(info);
 }
 
 void System::initSystemData(sead::Heap* heap) {

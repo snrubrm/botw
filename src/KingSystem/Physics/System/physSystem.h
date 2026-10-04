@@ -59,6 +59,16 @@ public:
     const sead::Vector3f& getField48() const { return _48; }
 
     bool isPaused() const;
+    // lane4 s30 (CSV PhysicsMemSys::setPauseState / initBeforeStageGen / waitForResourceCreation /
+    // setRigidBodyDividedMeshShapeMgr):
+    // 0x710121677c
+    void setPauseState(bool paused);
+    // 0x7101214aac: ContactMgr::initContactPointPool(heap, indoor stage flag at +0x268).
+    void initBeforeStageGen(sead::Heap* heap);
+    // 0x7101214b04: StaticCompoundMgr::resetExtraTransformsAndApply() if there is one.
+    void waitForResourceCreation();
+    // 0x7101216c58
+    void setRigidBodyDividedMeshShapeMgr(void* mgr);
 
     void initSystemData(sead::Heap* heap);
 
@@ -180,7 +190,9 @@ private:
     sead::Heap* mDebugHeap{};
     sead::Heap* mPhysicsTempDefaultHeap{};
     sead::Heap* mPhysicsTempLowHeap{};
-    u8 _1c8[0x480 - 0x1c8];
+    u8 _1c8[0x268 - 0x1c8];
+    IsIndoorStage mIsIndoorStage;
+    u8 _26c[0x480 - 0x26c];
 };
 KSYS_CHECK_SIZE_NX150(System, 0x480);
 
