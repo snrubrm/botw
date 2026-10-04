@@ -16,6 +16,35 @@ TagProcessor* Screen::doCreateTagProcessor_(sead::Heap* heap) {
     return new (heap, 8) TagProcessor(mMgr->getMessageMgr(), mMgr->getFontMgr());
 }
 
+// NON_MATCHING: native iterator copies and redundant end-node checks remain in different form.
+// 0x7100bea3d0
+void Screen::updateAnimator_() {
+    const f32 step = getAnimationStep_();
+    for (ListNode* node = mAnimators.next; node != &mAnimators;) {
+        Animator* animator = reinterpret_cast<Animator*>(reinterpret_cast<char*>(node) -
+                                                        offsetof(Animator, _40));
+        ListNode* next = node->next;
+        animator->Animate();
+        if (animator->mRate != 0 && animator->mEnabled) {
+            animator->UpdateFrame(step);
+        } else if (animator->mFlags & 2) {
+            removeAnimator(animator);
+            animator->mFlags &= 0xf0;
+        } else {
+            animator->nn::ui2d::AnimTransform::SetEnabled(false);
+            animator->mRate = 0;
+            animator->mLayout->m20(animator);
+            const u8 flags = animator->mFlags;
+            animator->mFlags = flags & 0xf0;
+            if (flags & 1)
+                animator->mFlags |= 2;
+            else
+                removeAnimator(animator);
+        }
+        node = next;
+    }
+}
+
 // 0x7100bea36c
 void Screen::updateControl_() {
     const f32 step = getAnimationStep_();
