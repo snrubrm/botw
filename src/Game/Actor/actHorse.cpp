@@ -3,6 +3,9 @@
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 
+// Declaration only; the original helper's source owner and namespace are unknown.
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
 namespace uking::act {
 
 Horse::Horse(const CreateArg& arg) : HorseBase(arg) {}
@@ -16,6 +19,17 @@ Horse::~Horse() = default;
 
 void Horse::onPreDeleteStart_(PrepareArg& arg) {
     HorseBase::onPreDeleteStart_(arg);
+}
+
+// NON_MATCHING: known embedded DamageManager calls are devirtualized.
+void Horse::preDelete2_(const PreDeleteArg& arg) {
+    HorseBase::preDelete2_(arg);
+    _c58.free();
+    _cd8.m6();
+    _f50.sub_71006ECD08();
+    sub_7100D2D424(&_d20);
+    _d20.preDelete1();
+    _d20.preDelete2();
 }
 
 // NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask), as in

@@ -23,6 +23,7 @@ class DamageManager : public DamageManagerBase {
     SEAD_RTTI_OVERRIDE(DamageManager, DamageManagerBase)
 public:
     explicit DamageManager(ksys::act::Actor* actor);
+    void preDelete1() override;
 
     // 0x71006d69f8 (not decompiled): the rigid body hit by the current damage (by damage kind
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
