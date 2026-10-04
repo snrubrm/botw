@@ -1,4 +1,11 @@
 #include "Game/AI/AI/aiHorseRiddenByNPC.h"
+#include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actHorseStrings.h"
+#include "Game/Actor/actRideable.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -12,6 +19,38 @@ bool HorseRiddenByNPC::init_(sead::Heap* heap) {
 
 void HorseRiddenByNPC::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseRiddenByNPCBase::enter_(params);
+}
+
+// NON_MATCHING: low-byte flag test uses a dynamic SEAD_ENUM bit index in the original.
+void HorseRiddenByNPC::calc_() {
+    HorseRiddenByNPCBase::calc_();
+    if (auto* damage = sead::DynamicCast<uking::dmg::DamageManager>(mActor->getDamageMgr())) {
+        if (damage->_216.isOn(2)) {
+            if (auto* rideable = mActor->m132()) {
+                if (*(rideable->_18._b == 0 ? &rideable->_18._9 : &rideable->_18._b)) {
+                    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f,
+                                                           uking::act::sUnk_7102603200, 1, 0, true);
+                } else {
+                    rideable->_18.sub_7100E76E74(uking::act::sUnk_7102603200, false);
+                }
+            }
+        }
+    }
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        if (mActor->getASList()->x_4(1, 0))
+            rideable->_18.sub_7100E78E00();
+        if (auto* horse = sead::DynamicCast<uking::act::HorseBase>(mActor)) {
+            bool on;
+            if (rideable->_a0._88 & 4) {
+                _68 = 120.0f;
+                on = true;
+            } else {
+                ksys::Timer::update(&_68, -1.0f);
+                on = _68 > 0.0f;
+            }
+            horse->sub_7100E6BEC0(on);
+        }
+    }
 }
 
 void HorseRiddenByNPC::leave_() {
