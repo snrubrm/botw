@@ -4,11 +4,13 @@
 #include <limits>
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
+#include "KingSystem/Physics/physMaterialMask.h"
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace ksys::phys {
+class CapsuleRigidBody;
 class RigidBody;
 }
 
@@ -92,5 +94,42 @@ public:
     /* 0xc90 */ ksys::phys::RigidBody* _c90 = nullptr;  // the "Atk" group's "AtkBody"
 };
 KSYS_CHECK_SIZE_NX150(Beam, 0xc98);
+
+}  // namespace uking::act
+
+namespace uking::act {
+
+// Name from the CSV (LineBeam::*; the namespace is a guess). Factory 0x7100c6db0: new(0xd58) + inlined ctor.
+// TODO: incomplete (m163 = 592 B not written).
+class LineBeam : public BeamBase {
+    SEAD_RTTI_OVERRIDE(LineBeam, BeamBase)
+public:
+    explicit LineBeam(const CreateArg& arg);
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
+    void m63() override;
+    void initMaybe() override;
+    void m165(sead::Vector3f* out) override;
+    void m166() override;
+
+    /* 0xc88 */ sead::CriticalSection _c88;
+    /* 0xcc8 */ sead::Vector3f _cc8 = sead::Vector3f::ez;
+    /* 0xcd8 */ u64 _cd8 = 0;
+    /* 0xce0 */ u32 _ce0 = 0;
+    /* 0xce8 */ u64 _ce8 = 0;
+    /* 0xcf0 */ u32 _cf0 = 0;
+    /* 0xcf8 */ ksys::phys::MaterialMask _cf8;
+    /* 0xd10 */ u32 _d10 = 0;
+    /* 0xd14 */ f32 _d14 = 50.0f;
+    /* 0xd18 */ s32 _d18 = -1;
+    /* 0xd1c */ sead::Vector3f _d1c;
+    /* 0xd28 */ ksys::phys::CapsuleRigidBody* _d28 = nullptr;
+    /* 0xd30 */ u8 _d30 = 0;
+    /* 0xd31 */ u8 _d31[0xd40 - 0xd31];
+    /* 0xd40 */ s32 _d40 = -1;
+    /* 0xd48 */ ksys::act::BaseProcLink _d48;
+};
+KSYS_CHECK_SIZE_NX150(LineBeam, 0xd58);
 
 }  // namespace uking::act

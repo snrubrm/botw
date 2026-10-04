@@ -102,6 +102,7 @@ target_sources(uking PRIVATE
   actAnchor.cpp
   actGiantArmor.cpp
   actItem.cpp
+  actLineBeam.cpp
   actItem.h
   actBeam.cpp
   actBeamBase.cpp

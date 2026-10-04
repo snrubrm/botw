@@ -20,7 +20,8 @@ public:
 
     /* 0x008 */ u8 _8[0x30 - 0x8];
     /* 0x030 */ u32 _30;  // flags (bit 9 set by ChemicalWeaponRoot::m44)
-    /* 0x034 */ u8 _34[0x40 - 0x34];
+    /* 0x034 */ u8 _34[0x3c - 0x34];
+    /* 0x03c */ u32 _3c;  // flags (RootAi::setChemicalFlags3cMaybe)
     /* 0x040 */ Chemical mChemical;
     /* 0x278 */ u8 _278[0x2d8 - 0x278];
 };

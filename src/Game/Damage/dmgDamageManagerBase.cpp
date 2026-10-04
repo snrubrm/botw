@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::dmg {
 
@@ -34,6 +35,10 @@ u32 DamageManagerBase::getDamage() {
 
 // NON_MATCHING: the original stores the two -1 values as a pair of words (stp w8, w8); ours merges
 // them into one 64-bit store
+bool DamageManagerBase::isSlowTime() {
+    return isSlowTimeMaybe();
+}
+
 void DamageManagerBase::resetStuff() {
     mField_40 = 0;
     mDamage = 0;

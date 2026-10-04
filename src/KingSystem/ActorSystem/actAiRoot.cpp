@@ -1,9 +1,21 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::act::ai {
+
+void RootAi::setChemicalFlags3cMaybe(u32 mask, bool on) {
+    auto* chemicals = mActor->getChemicalContainer();
+    for (int i = 0; i < chemicals->_58.size() + chemicals->_80; ++i) {
+        auto* element = chemicals->sub_7100E3718C(i);
+        if (on)
+            element->_3c |= mask;
+        else
+            element->_3c &= ~mask;
+    }
+}
 
 RootAi::RootAi(const InitArg& arg) : Ai(arg) {
     mBehaviorsByStopAndCalcTiming[0].fill({});

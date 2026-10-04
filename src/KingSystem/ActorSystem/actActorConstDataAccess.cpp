@@ -581,6 +581,17 @@ u64 ActorConstDataAccess::sub_7100D1443C() const {
     return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
 }
 
+f32 ActorConstDataAccess::sub_7100D110E4() const {
+    f32 depth = 0;
+    if (auto* actor = getActor()) {
+        if (actor->get68f().load()) {
+            const f32 y = actor->getMtx().m[1][3];
+            depth = actor->get6f0() - y;
+        }
+    }
+    return depth;
+}
+
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching
 const sead::Vector3f& ActorConstDataAccess::getField44C_Vec3() const {
     auto* actor = getActor();

@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -207,6 +208,19 @@ bool sub_710072B660() {
     ksys::act::acc::PlayerBase accessor;
     ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
     return accessor.x_25();
+}
+
+bool isSlowTimeMaybe() {
+    if (auto* vfr = ksys::VFR::instance()) {
+        if (vfr->getTimeSpeedMultiplierValue(0) < 1.0f)
+            return true;
+    }
+    auto* info = ksys::act::PlayerInfo::instance();
+    if (!info)
+        return false;
+    ksys::act::acc::PlayerBase accessor;
+    ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+    return accessor.isSlowStartInterval();
 }
 
 bool sub_710072B7C4() {
