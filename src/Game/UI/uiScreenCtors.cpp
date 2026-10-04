@@ -109,4 +109,8 @@ ScreenAmiiboWindow::ScreenAmiiboWindow() : ScreenEx() {}
 // 0x7100a32434
 ScreenPauseMenuRecipe::ScreenPauseMenuRecipe() : ScreenEx() {}
 
+
+// 0x7100a60808
+ScreenSystemWindow00::ScreenSystemWindow00() : ScreenEx() {}
+
 }  // namespace uking::ui

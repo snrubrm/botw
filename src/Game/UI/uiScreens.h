@@ -1287,6 +1287,7 @@ public:
 
 class ScreenSystemWindow00 : public ScreenEx {
 public:
+    ScreenSystemWindow00();
     const char* m15() const override;
     s32 m81() override;
     void m82() override;
@@ -1296,6 +1297,23 @@ public:
     s32 isEnableControl() const override;
     ~ScreenSystemWindow00() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow00, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    u64 _3618{};
+    u64 _3620{};
+    u64 _3628{};
+    u64 _3630{};
+    u8 _3638[0x36b0 - 0x3638];
+    /* 0x36b0 */ s32 _36b0 = 15;
+    s32 _36b4;
+    u64 _36b8{};
+    u8 _36c0{};
+    u8 _36c1{};
+    u8 _36c2{};
+    u8 _36c3;
+    s32 _36c4 = -1;
+    s32 _36c8 = -1;
+    s32 _36cc = 4;
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
     virtual void m155();
