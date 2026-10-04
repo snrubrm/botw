@@ -10,6 +10,10 @@ namespace sead {
 class Heap;
 }
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 // The context entries derive from ActorBind (ctor 0x7100660550). Partial declaration;
 // the entry's virtual overrides and the rest of its layout remain to be recovered.
 // Address placeholder for the vtable header at 0x710243be90.
@@ -23,10 +27,16 @@ public:
     void sub_71006619DC();
     // 0x71006618ac: resets the entry's temporary rigid body.
     void sub_71006618AC();
+    bool sub_7100661538(ksys::act::BaseProc* proc) const;
     u32 _28;
     u32 _2c;
     ksys::act::BaseProcLink _30;
-    u8 _40[0x128 - 0x40];
+    void* _40;
+    ksys::phys::RigidBody* _48;
+    u8 _50[0x70 - 0x50];
+    f32 _70;
+    f32 _74;
+    u8 _78[0x128 - 0x78];
 };
 static_assert(sizeof(Unk_710243be90) == 0x128);
 

@@ -1,7 +1,6 @@
 #include "Game/gameActorContextStuff.h"
 
 #include <prim/seadScopedLock.h>
-#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 s32 ActorContextStuff::sub_710065F044() {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     return _638.size();
@@ -23,21 +22,10 @@ void ActorContextStuff::sub_710065F9AC() {
         _638.at(i)->sub_71006618AC();
 }
 
-void Unk_710243be90::sub_7100661988() {
-    ksys::act::ActorConstDataAccess accessor;
-    if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateCalc())
-        accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
-}
-
-void Unk_710243be90::sub_71006619DC() {
-    ksys::act::ActorConstDataAccess accessor;
-    if (ksys::act::acquireActor(&_30, &accessor) && accessor.isStateSleep())
-        accessor.setProperties(0, accessor.getActorMtx(), nullptr, nullptr, nullptr, false, 3, -1);
-}
-
 ksys::act::BaseProcLink* ActorContextStuff::sub_710065F80C(s32 index) {
     sead::ScopedLock<sead::CriticalSection> lock(&_28);
     if (index >= 0 && index < sub_710065F044())
         return &_638.at(index)->_30;
     return nullptr;
 }
+
