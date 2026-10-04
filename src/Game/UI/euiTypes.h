@@ -6,6 +6,8 @@
 namespace nn::ui2d {
 class Pane;
 class TextureInfo;
+struct ResExtUserData;
+struct ResExtUserDataList;
 }  // namespace nn::ui2d
 
 namespace eui {
@@ -21,5 +23,8 @@ f32 GetRadAngleOfDirection(Direction direction);
 
 // 0x7100bed6bc: sets the texture info of texture map `index` in every material of the pane that has such a map
 void ApplyTextureInfoToMaterial(nn::ui2d::Pane* pane, const nn::ui2d::TextureInfo& info, s32 index);
+
+// 0x7100bed250: the entry named `name` of an ext user data list (null list or no such entry: null)
+const nn::ui2d::ResExtUserData* FindExtUserDataFromList(const nn::ui2d::ResExtUserDataList* list, const char* name);
 
 }  // namespace eui

@@ -1,5 +1,7 @@
+#include <cstring>
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
+#include <nn/ui2d/ResExtUserData.h>
 #include "Game/UI/euiTypes.h"
 
 namespace eui {
@@ -16,6 +18,18 @@ f32 GetRadAngleOfDirection(Direction direction) {
     default:
         return 0.0f;
     }
+}
+
+// 0x7100bed250
+const nn::ui2d::ResExtUserData* FindExtUserDataFromList(const nn::ui2d::ResExtUserDataList* list, const char* name) {
+    if (list) {
+        const nn::ui2d::ResExtUserData* data = list->GetArray();
+        for (u64 i = 0; i < list->GetCount(); i++, data++) {
+            if (std::strcmp(name, data->GetName()) == 0)
+                return data;
+        }
+    }
+    return nullptr;
 }
 
 // 0x7100bed6bc
