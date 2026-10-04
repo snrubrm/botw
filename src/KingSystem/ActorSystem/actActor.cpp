@@ -17,6 +17,7 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -1288,6 +1289,48 @@ void Actor::onWakeUpRequested_(SleepWakeReason reason) {
 void Actor::onJobPush1_(JobType type) {
     if (type == JobType(0))
         mActorFlags.changeBit(ActorFlag::_3f, evt::Manager::instance()->someWeirdHardcodedCheck_KorokOrGanonOrBowling(this));
+}
+
+bool Actor::shouldSkipJobPush_(JobType type) {
+    if (mActorFlags.isOnBit(ActorFlag::_18) || mStateFlags.isOn(StateFlags::RequestDelete))
+        return type != JobType(4);
+
+    bool no_job_push;
+    if (_1a0)
+        no_job_push = true;
+    else if (mMapObject && mMapObject->getFlags0().isOn(map::Object::Flag0::_20000))
+        no_job_push = true;
+    else
+        no_job_push = false;
+
+    if (type == JobType(0)) {
+        if (no_job_push || mActorFlags2.isOn(ActorFlag2::_100))
+            mActorFlags.resetBit(ActorFlag::_32);
+    }
+
+    if (mActiveActorListNode.isLinked() || no_job_push)
+        return false;
+    if (mSkipJobPushTimer)
+        return false;
+    return !mActorFlags2.isOn(ActorFlag2::_100);
+}
+
+Actor::IsSpecialJobTypeResult Actor::isSpecialJobType_(JobType type) {
+    if (mActorFlags2.isOn(ActorFlag2::_200)) {
+        if (BaseProcMgr::instance()->getMode() == BaseProcMgr::Mode(1))
+            return IsSpecialJobTypeResult::No;
+        return IsSpecialJobTypeResult(!ui::sub_7100EDC4A0());
+    }
+
+    if (type == JobType(BaseProcMgr::getConstant4()))
+        BaseProc::isSpecialJobType_(type);
+
+    if (mActorFlags.isOnBit(ActorFlag::_3f) && !mActorFlags.isOnBit(ActorFlag::_1c) &&
+        !(type == JobType(BaseProcMgr::getConstant1()) && !mActorFlags.isOnBit(ActorFlag::_1d)) &&
+        mSpecialJobTypesMaskOverride.isOnBit(int(type))) {
+        return IsSpecialJobTypeResult::Yes;
+    }
+    return BaseProc::isSpecialJobType_(type);
 }
 
 }  // namespace ksys::act

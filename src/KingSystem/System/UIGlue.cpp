@@ -139,13 +139,14 @@ void sub_7100EDC488() {
         sSub_7100EDC488Handler();
 }
 
-using SSub_7100EDC4A0HandlerFn = void (*)();
+using SSub_7100EDC4A0HandlerFn = bool (*)();
 SSub_7100EDC4A0HandlerFn sSub_7100EDC4A0Handler;
 
-// 0x7100edc4a0
-void sub_7100EDC4A0() {
+// 0x7100edc4a0 (lane4 s31: returns bool: Actor::isSpecialJobType_ negates it)
+bool sub_7100EDC4A0() {
     if (sSub_7100EDC4A0Handler)
-        sSub_7100EDC4A0Handler();
+        return sSub_7100EDC4A0Handler();
+    return false;
 }
 
 using SSub_7100EDC4B8HandlerFn = void (*)();
