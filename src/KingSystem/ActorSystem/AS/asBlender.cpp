@@ -301,6 +301,59 @@ bool Blender::m9(Context* ctx, PlayState* state, const res::ASResource* resource
     return sub_71013166C4(record, ctx, state, blender_resource);
 }
 
+// NON_MATCHING: only the order of two register copies (`mov w23, w2` before `mov v8, v0` at entry; the two
+// `orr` of the changed path swapped)
+f32 Blender::m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const int key = sub_7101165408(resource);
+    ctx->sub_710125A1A4(m38(ctx, resource), key);
+    s32 first, second;
+    f32 weight = m39(&first, &second, ctx, resource);
+    record->_4 = weight;
+    bool changed;
+    if (record->_0 == first && static_cast<s8>(record->_1) == second) {
+        changed = false;
+    } else {
+        m35(ctx, resource);
+        record->_0 = first;
+        record->_1 = second;
+        auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+        bool flag;
+        if (!blender_resource)
+            flag = true;
+        else if (!blender_resource->getNoSync())
+            flag = blender_resource->getTypeIndex() != 5;
+        else
+            flag = false;
+        PlayState state;
+        state._4 = flag;
+        state._0 = -1.0f;
+        state._8 = ctx->sub_7101258D1C(sub_71011653E8(resource)) + 1;
+        sub_71013166C4(record, ctx, &state, resource);
+        weight = record->_4;
+        a2 = true;
+        changed = true;
+    }
+    Element* child = mChildren[first];
+    const f32 first_a4 = (1 - weight) * a4;
+    const res::ASResource* child_resource = sub_71013031FC(resource, first);
+    const f32 result = child->m18(ctx, a2 & 1, a3, first_a4, child_resource);
+    if (result >= 0.0f)
+        return result;
+    if (second != -1) {
+        const f32 second_a4 = record->_4 * a4;
+        Element* child2 = mChildren[second];
+        const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+        child2->m18(ctx, a2 & 1, a3, second_a4, child2_resource);
+    }
+    if (changed) {
+        ctx->mFlags |= 4;
+        if (sub_71011654D8())
+            ctx->mFlags |= 0x40;
+    }
+    return -1.0f;
+}
+
 f32 Blender::m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) {
     *first = 0;
     *second = -1;

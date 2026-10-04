@@ -145,6 +145,8 @@ public:
     int sub_7101258D1C(int index);
     // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
     void sub_710125AAA0(u32 index, s16 value);
+    // 0x710125a1a4 (declaration only): sets the pending value of `key` (no check for an earlier one).
+    void sub_710125A1A4(f32 value, int key);
     // 0x710125a164 (declaration only): the pending value of `key` (0 if there is none).
     f32 sub_710125A164(u32 key);
     // 0x710125a1f0 (declaration only): stores `value` as the pending value of `key` (once per update); the
@@ -285,6 +287,8 @@ public:
 
     // 0x71011653e8: the index of `resource` (this->m7() if there is none).
     int sub_71011653E8(const res::ASResource* resource);
+    // 0x71011654d8: returns false.
+    static bool sub_71011654D8();
     // 0x710116541c: maps the element's record (`state->_8` + 1 becomes the record's index) and calls m9.
     bool sub_710116541C(Context* ctx, PlayState* state, const res::ASResource* resource);
     // 0x7101165408: the factory table field 0x18 of `resource` (-1 if there is none).
@@ -574,6 +578,7 @@ public:
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m22(Context* ctx, const res::ASResource* resource) override;
     f32 m26(Context* ctx, const res::ASResource* resource) override;
     bool m27(Context* ctx, const res::ASResource* resource) override;
