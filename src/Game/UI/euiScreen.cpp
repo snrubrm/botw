@@ -174,6 +174,28 @@ bool Screen::isEnableControl() const {
     return 0;
 }
 
+// 0x7100beb12c
+ControlBase* Screen::findControlWithParentLayout_(const char* name, const LayoutEx* layout) {
+    const sead::SafeString search(name);
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        ControlBase* control = ControlBase::fromNode(node);
+        if (search == sead::SafeString(control->mName) && control->mLayout->_88 == layout)
+            return control;
+    }
+    return nullptr;
+}
+
+// 0x7100beb3dc
+ControlBase* Screen::findControlWithLayout_(const char* name, const LayoutEx* layout) {
+    const sead::SafeString search(name);
+    for (ListNode* node = mControls.next; node != &mControls; node = node->next) {
+        ControlBase* control = ControlBase::fromNode(node);
+        if (search == sead::SafeString(control->mName) && control->mLayout == layout)
+            return control;
+    }
+    return nullptr;
+}
+
 // 0x7100be9830
 void Screen::addAnimator(Animator* animator) {
     mAnimators.linkPrev(&animator->_40);
