@@ -195,6 +195,7 @@ public:
     f32 sub_710115F3F0(int slot, int bank, bool a1);
     // 0x710115ea64: copies one of five string parameter values (declaration only).
     bool sub_710115EA64(int kind);
+    bool sub_710115EECC(int kind, s32 value, int a3);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());
@@ -263,7 +264,7 @@ public:
     f32 sub_710131D504();
     // 0x710115ecf4: the string parameter `kind` (_e0[_f0[kind]]), or "" if unset; `a2` is unused.
     const char* sub_710115ECF4(int kind, int a2);
-    // 0x710115ee14 (declaration only): bit `bit` of the flags parameter (answered by the owner for bits 0 / 0x19 / 6).
+    // 0x710115ee14: bit `bit` of the flags parameter (answered by the owner for bits 0 / 0x19 / 6).
     bool sub_710115EE14(int bit);
     // 0x710115ed5c: getter counterpart of x_2: bit `bit` of the flags parameter (_f0[0x42]), with
     // bits 0 / 0x19 / 6 answered by the owner (basic signal / remains signal / LodState flag 1).

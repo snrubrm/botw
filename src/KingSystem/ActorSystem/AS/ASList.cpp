@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include <limits>
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -433,6 +434,45 @@ bool ASList::sub_710115ED5C(int a1, int bit) {
         if (idx < 0)
             return false;
         const u64* bits = _e0[idx]._u64_ptr;
+        if (!bits)
+            return false;
+        return *bits & (1ul << bit);
+    }
+    }
+}
+
+bool ASList::sub_710115EECC(int kind, s32 value, int a3) {
+    if (value == std::numeric_limits<s32>::min())
+        return false;
+    const s8 index = _f0[kind];
+    if (index < 0)
+        return false;
+    _e0[index]._s32 = value;
+    return true;
+}
+
+// NON_MATCHING: switch lowering reorders the 0, 0x19 and 6 cases.
+bool ASList::sub_710115EE14(int bit) {
+    if (bit < 0)
+        return false;
+    switch (bit) {
+    case 0:
+        return _d8 && _d8->checkBasicSig();
+    case 0x19:
+        return _d8 && _d8->checkRemainsSignal();
+    case 6:
+        if (_d8) {
+            if (auto* lod = _d8->getLodState()) {
+                if (!lod->mFlags8.isOnBit(1))
+                    return true;
+            }
+        }
+        return false;
+    default: {
+        const s8 index = _f0[0x42];
+        if (index < 0)
+            return false;
+        const u64* bits = _e0[index]._u64_ptr;
         if (!bits)
             return false;
         return *bits & (1ul << bit);
