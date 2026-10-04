@@ -6,6 +6,9 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -123,6 +126,65 @@ void PlayerRideHorse::calc_() {
         sub_71008093A0();
     else
         sub_710080A224();
+}
+
+// NON_MATCHING: the original preserves more SafeString virtual calls and separates its name tests.
+void PlayerRideHorse::sub_710080B208(ksys::as::ASList* list, f32 rate) {
+    const f32 blend = rate > 1.0f ? 5.0f / rate : -1.0f;
+    sead::SafeString name = "JumpWaitHorseRide";
+    sead::SafeString current = list->x_1(0, 0);
+    if (rate > 0.0f) {
+        if (name != current) {
+            list->startAnimationMaybe(blend, -1.0f, name.cstr(), 0, 0, true);
+            current = name;
+        }
+        list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_71011631BC, rate);
+        current = list->x_1(1, 0);
+        if (name != current) {
+            list->startAnimationMaybe(blend, -1.0f, name.cstr(), 1, 0, true);
+            current = name;
+        }
+        list->x_3(1, 0, &ksys::as::ASList::Unk2::sub_71011631BC, rate);
+    } else {
+        if (name != current) {
+            list->startAnimationMaybe(blend, -1.0f, name.cstr(), 0, 0, true);
+            current = name;
+        }
+        current = list->x_1(1, 0);
+        if (name != current) {
+            list->startAnimationMaybe(blend, -1.0f, name.cstr(), 1, 0, true);
+            current = name;
+        }
+    }
+}
+
+// NON_MATCHING: the natural timer/result branches merge stores and arrange the return blocks differently.
+s32 sub_710080C324(f32* timer, bool grounded, sead::Vector3f* previous_velocity,
+                 const sead::Vector3f& velocity) {
+    s32 result = 0;
+    if (grounded) {
+        const f32 inverse_delta = 1.0f / ksys::VFR::instance()->getDeltaFrame();
+        const sead::Vector3f difference =
+            (velocity - *previous_velocity) * inverse_delta;
+        if (*timer != 0.0f && difference.squaredLength() > 2.25f) {
+            const f32 elapsed = sead::Mathf::abs(*timer);
+            if (elapsed > 20.0f)
+                result = 2;
+            else if (elapsed > 10.0f)
+                result = 1;
+            *timer = 0.0f;
+        } else if (*timer > 10.0f) {
+            *timer = -*timer;
+        } else {
+            *timer = 0.0f;
+        }
+    } else {
+        if (*timer < 0.0f)
+            *timer = 0.0f;
+        ksys::Timer::update(timer, 1.0f);
+    }
+    previous_velocity->set(velocity);
+    return result;
 }
 
 }  // namespace uking::action

@@ -30,6 +30,8 @@ public:
     bool sub_7100D74148(BaseProcLink* out);
     // 0x7100d74114 (CSV Attention::__auto7): whether there is a current target.
     bool sub_7100D74114() const;
+    // 0x7100d753b0: enabled-state query used by the ride input actions; declaration only.
+    bool sub_7100D753B0() const;
     // 0x7100d742e8 (CSV Attention::__auto10): whether the target list `list` is empty.
     bool sub_7100D742E8(s32 list) const;
     // 0x7100d7438c (CSV Attention::x_0): acquires entry `index` of the target list `list`.

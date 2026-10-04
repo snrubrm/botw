@@ -2,7 +2,14 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace uking::action {
+
+s32 sub_710080C324(f32* timer, bool grounded, sead::Vector3f* previous_velocity,
+                 const sead::Vector3f& velocity);
 
 class PlayerRideHorse : public ksys::act::ai::Action {
     SEAD_RTTI_OVERRIDE(PlayerRideHorse, ksys::act::ai::Action)
@@ -20,6 +27,7 @@ protected:
     void sub_7100808F88();
     void sub_71008093A0();
     void sub_710080A224();
+    void sub_710080B208(ksys::as::ASList* list, f32 rate);
 
     // static_param at offset 0x20
     const int* mAccelerateInputDelayGear0_s{};

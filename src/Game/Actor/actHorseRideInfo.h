@@ -17,6 +17,10 @@ namespace ksys::phys {
 class NavMeshCharacter;
 }  // namespace ksys::phys
 
+namespace ksys::as {
+class ASList;
+}
+
 namespace uking::act {
 
 // Name from the CSV (HorseRideInfo::*, functions 0x7100e7be78-0x7100e7c684). vtable
@@ -62,6 +66,7 @@ ksys::act::Actor* getRideActor(ksys::act::Actor* actor);
 // Original ride animation-name and relative-angle helpers; declarations only.
 sead::SafeString sub_7100E81260(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);
 f32 sub_7100E8134C(ksys::act::Actor* actor, ksys::act::Actor* ride_actor);
+bool sub_7100E813B0(ksys::as::ASList* list);
 
 // Placeholder name (vtable 0x71023cee88). The HorseRideInfo embedded in NPC at 0xf28; its
 // functions sit at 0x71002c9ffc-0x71002ca1d8.
