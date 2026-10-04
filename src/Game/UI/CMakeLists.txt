@@ -38,6 +38,7 @@ target_sources(uking PRIVATE
   euiPartsEx.cpp
   euiPictureEx.cpp
   euiWindowEx.cpp
+  euiCapturePane.cpp
   euiRootPane.cpp
   euiScissorPane.cpp
   euiAllocatorHeap.cpp
