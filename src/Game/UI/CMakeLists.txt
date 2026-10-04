@@ -51,6 +51,7 @@ target_sources(uking PRIVATE
   uiScreenChildStates.cpp
   uiScreenChildStates.h
   uiScreenBaseSlots.cpp
+  uiScreenAkashNum.cpp
   uiScreenConstSlots.cpp
   uiScreenNames.cpp
   names/uiScreenName_MainScreen3D.cpp
