@@ -162,6 +162,46 @@ void Blender::m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeS
     child2->sub_7101165EBC(ctx, out, name, second, child2_resource);
 }
 
+// NON_MATCHING: callee-saved register numbers / argument copy order at entry (the original copies the integer
+// arguments before the float ones; see SelectorBase::m17)
+void Blender::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5, f32 a6) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    Element* child = mChildren[record->_0];
+    const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+    child->m17(ctx, a2 & 1, a3 & 1, child_resource, a5, a6);
+    const s8 second = record->_1;
+    if (second == -1)
+        return;
+    Element* child2 = mChildren[second];
+    const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+    child2->m17(ctx, a2 & 1, a3 & 1, child2_resource, a5, a6);
+}
+
+// NON_MATCHING: the original folds the sign extension of the child index into the addressing mode in the
+// two-child path (`w2, sxtw #3`) and keeps a separate `sxtw` in the single-child path; ours is the other way round
+void Blender::m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const int first = record->_0;
+    if (record->_1 == 0xff) {
+        Element* child = mChildren[first];
+        const res::ASResource* child_resource = sub_71013031FC(resource, first);
+        child->m34(a1, ctx, a3, child_resource);
+        return;
+    }
+    auto* state = static_cast<State*>(a3);
+    const f32 weight = state->weight;
+    state->weight = weight * (1 - record->_4);
+    Element* child = mChildren[first];
+    const res::ASResource* child_resource = sub_71013031FC(resource, first);
+    child->m34(a1, ctx, a3, child_resource);
+    const s8 second = record->_1;
+    state->weight = weight * record->_4;
+    Element* child2 = mChildren[second];
+    const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+    child2->m34(a1, ctx, a3, child2_resource);
+    state->weight = weight;
+}
+
 bool Blender::sub_71013166C4(Context::Record* record, Context* ctx, PlayState* state,
                              const res::ASResource* resource) {
     Element* first = mChildren[record->_0];

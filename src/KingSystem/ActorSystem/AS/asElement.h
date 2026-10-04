@@ -565,6 +565,8 @@ public:
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m15(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    void m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource, f32 a5,
+             f32 a6) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m20(Context* ctx, const res::ASResource* resource, f32 value) override;
     void m21(Context* ctx, const res::ASResource* resource, f32 value) override;
@@ -575,6 +577,7 @@ public:
     void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
     int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
     int m31(Context* ctx, const res::ASResource* resource) override;
+    void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
     void m35(Context* ctx, const res::ASResource* resource) override;
     void m36(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
              const res::ASResource* resource) override;
