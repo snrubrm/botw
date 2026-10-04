@@ -4,6 +4,24 @@
 
 namespace ksys::act {
 
+f32 PlayerOrEnemy::m153() {
+    if (auto* object = sead::DynamicCast<uking::act::Unk_710244dd20>(m159()))
+        return object->sub_71006D1D48();
+    return 1.0f;
+}
+
+bool PlayerOrEnemy::m154() {
+    if (auto* object = sead::DynamicCast<uking::act::Unk_710244dd20>(m159()))
+        return object->sub_71006D1D7C();
+    return false;
+}
+
+bool PlayerOrEnemy::m155() {
+    if (auto* object = sead::DynamicCast<uking::act::Unk_710244dd20>(m159()))
+        return object->sub_71006D1DA0();
+    return false;
+}
+
 PlayerOrEnemy::PlayerOrEnemy(const CreateArg& arg) : DynamicActor(arg) {
     _1c0 = 2;
 }

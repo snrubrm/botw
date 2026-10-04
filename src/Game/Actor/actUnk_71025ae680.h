@@ -12,6 +12,10 @@ class Actor;
 }  // namespace act
 }  // namespace ksys
 
+namespace ksys::res {
+class DamageParam;
+}
+
 namespace uking::act {
 
 // Placeholder name (RTTI static 0x71025ae680; vtable 0x710244e820, 14 slots: RTTI, dtor, 10 more).
@@ -41,6 +45,9 @@ public:
     // then m11(enable), then updates the bit (behavior Invincible).
     void sub_71006DFA04(bool enable);
 
+    // 0x71006df5a4: resolves the actor damage resource.
+    ksys::res::DamageParam* sub_71006DF5A4();
+
     /* 0x08 */ sead::BitFlag16 _8;  // tested by DynamicActor slots 151 (bit) and 152 (mask)
     /* 0x0a */ u8 _a;
     /* 0x10 */ ksys::act::Actor* _10;
@@ -57,6 +64,11 @@ class Unk_710244dd20 : public Unk_71025ae680 {
     SEAD_RTTI_OVERRIDE(Unk_710244dd20, Unk_71025ae680)
 public:
     explicit Unk_710244dd20(ksys::act::Actor* actor);
+
+    // 0x71006d1d48 / 0x71006d1d7c / 0x71006d1da0: damage-resource ice/electric properties.
+    f32 sub_71006D1D48();
+    bool sub_71006D1D7C();
+    bool sub_71006D1DA0();
 
     void m7() override;
     bool m8(const ksys::Message& message) override;
