@@ -9,6 +9,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/GameData/gdtFlagHandle.h"
 
 namespace ksys::res {
 class AS;
@@ -589,10 +590,11 @@ class EventFlagSelector : public StringSelector {
 public:
     EventFlagSelector();
 
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
     const char* m40(Context* ctx, const res::ASResource* resource) override;
     ~EventFlagSelector() override;
 
-    sead::Buffer<void*> _18;
+    sead::Buffer<gdt::FlagHandle> _18;
 };
 
 class PreASSelector : public StringSelector {
