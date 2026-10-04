@@ -453,6 +453,13 @@ bool ActorConstDataAccess::getAabb(sead::Vector3f* min, sead::Vector3f* max) con
     return true;
 }
 
+const sead::BoundBox3f& ActorConstDataAccess::sub_7100D0FD54() const {
+    auto* actor = getActor();
+    if (actor && actor->getModel())
+        return actor->getAabb();
+    return sead::BoundBox3f::cUndefined;
+}
+
 bool ActorConstDataAccess::sub_7100D13AE4(const sead::SafeString& name, BaseProc* proc,
                                           const res::AttCheck_Unk1* arg, bool a4) const {
     auto* actor = getActor();
