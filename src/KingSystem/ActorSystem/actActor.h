@@ -552,12 +552,17 @@ public:
     sead::Atomic<bool>& get68f() { return _68f; }
     bool get690() const { return _690; }
     float get6f0() const { return _6f0; }
+    // 0x71011ce204 (lane4 s29; name is a guess, twin of get6f0).
+    void set6f0(float value);
 
     bool becomePreActor(DeleteType type, DeleteReason reason);
     void fadeOutSleep(SleepWakeReason reason);
     void emitDeadUpLifeZeroAndSetRevival();
     void setRevivalFlagForUsed(bool value);
     bool isWaitRevivalForUsed() const;
+    // 0x71011d7168 / 0x71011d717c (CSV Actor::isWaitRevivalForDrop / setRevivalFlagForDrop; lane4 s29): the drop twins.
+    bool isWaitRevivalForDrop() const;
+    void setRevivalFlagForDrop(bool value);
 
     void emitBasicSigOn();
     void emitBasicSigOff();

@@ -443,6 +443,21 @@ void Actor::setRevivalFlagForUsed(bool value) {
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForUsed, value);
 }
 
+bool Actor::isWaitRevivalForDrop() const {
+    if (!mMapObject)
+        return false;
+    return mMapObject->checkRevivalFlag(map::ActorData::Flag::RevivalForDrop);
+}
+
+void Actor::setRevivalFlagForDrop(bool value) {
+    if (mMapObject)
+        mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalForDrop, value);
+}
+
+void Actor::set6f0(float value) {
+    _6f0 = value;
+}
+
 phys::RigidBody* Actor::getPhysicsMainBody() {
     if (mPhysics) {
         if (auto* controller = mPhysics->getCharacterController()) {
