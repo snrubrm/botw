@@ -1,10 +1,17 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include "KingSystem/System/VFR.h"
 
 namespace ksys::as {
+
+f32 Context::sub_710125A9A8() {
+    return VFR::instance()->getDeltaFrame() * _e0 * _e4 *
+           *mList->_d8->getParam()->getRes().mASList->getCommon().rate_all;
+}
 
 // NON_MATCHING: compiler combines the range tests and return into conditional selects.
 f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold) {

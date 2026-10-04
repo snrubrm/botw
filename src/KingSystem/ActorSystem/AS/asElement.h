@@ -148,6 +148,8 @@ public:
     void sub_710125AAA0(u32 index, s16 value);
     // 0x710125aa38: returns the pending value for the index, or -1 if none is queued.
     s32 sub_710125AA38(u32 index);
+    // 0x710125a9a8: delta time scaled by context and the actor's common AS rate.
+    f32 sub_710125A9A8();
     // 0x710125a1a4: sets the pending value of `key` (no check for an earlier one).
     void sub_710125A1A4(f32 value, int key);
     // 0x710125a164: the pending value of `key` (0 if there is none).
