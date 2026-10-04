@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAtAndBodyOnWait.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -16,6 +17,8 @@ void AtAndBodyOnWait::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void AtAndBodyOnWait::leave_() {
     AtOnWait::leave_();
+    if (auto* body = sub_71000504E8(mBodyName_s))
+        body->removeFromWorld();
 }
 
 void AtAndBodyOnWait::loadParams_() {

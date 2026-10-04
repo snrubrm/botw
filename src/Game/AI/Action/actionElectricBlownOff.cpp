@@ -7,7 +7,7 @@ ElectricBlownOff::ElectricBlownOff(const InitArg& arg) : BlownOff(arg) {}
 ElectricBlownOff::~ElectricBlownOff() = default;
 
 bool ElectricBlownOff::init_(sead::Heap* heap) {
-    return BlownOff::init_(heap);
+    return BlownOff::init_(heap) && sub_7100103E00(heap);
 }
 
 void ElectricBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
@@ -16,6 +16,10 @@ void ElectricBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void ElectricBlownOff::leave_() {
     BlownOff::leave_();
+    if (!_1a8) {
+        _1a8 = true;
+        sub_710010451C();
+    }
 }
 
 void ElectricBlownOff::loadParams_() {

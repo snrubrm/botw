@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionIsMorphEndASPlay.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -16,6 +18,8 @@ void IsMorphEndASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void IsMorphEndASPlay::leave_() {
     OnetimeStopASPlay::leave_();
+    if (auto* as_list = mActor->getASList())
+        as_list->sub_710115CD0C();
 }
 
 void IsMorphEndASPlay::loadParams_() {

@@ -27,6 +27,10 @@ public:
     // 0x71006f3a70: moves the beam actor to the owner's position (unless it is already calculating) and
     // registers (true) / unregisters (false) it with the `_88` sender.
     void sub_71006F3A70(bool on);
+    // 0x71006f3b84 / 0x71006f38a4 (declared only): act on the beam actor (the second one returns whether the
+    // beam is registered).
+    void sub_71006F3B84();
+    bool sub_71006F38A4(ksys::act::Actor* actor);
     // 0x71006f3a6c: empty.
     void sub_71006F3A6C();
     // 0x71006f3b14: registers (true) / unregisters (false) the beam actor with the `_a0` sender.

@@ -23,6 +23,9 @@ void SiteBossChemicalPlus::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void SiteBossChemicalPlus::leave_() {
     ActionWithPosAngReduce::leave_();
+    if (!_60)
+        sub_7100257F80();
+    sub_71005DB434(mActor);
 }
 
 void SiteBossChemicalPlus::loadParams_() {

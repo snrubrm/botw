@@ -24,7 +24,10 @@ RodMagicPhysBallDivision::~RodMagicPhysBallDivision() {
 }
 
 bool RodMagicPhysBallDivision::init_(sead::Heap* heap) {
-    return RodMagicPhysBall::init_(heap);
+    if (!ChemicalPhysBall::init_(heap))
+        return false;
+    sub_710023C72C();
+    return true;
 }
 
 void RodMagicPhysBallDivision::enter_(ksys::act::ai::InlineParamPack* params) {

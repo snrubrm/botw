@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100103040 (declared only): out of line in the original.
+    bool sub_7100103040(sead::Heap* heap);
     // 0x7100103830 (declared only): out of line in the original.
     void sub_7100103830();
     void calc_() override;

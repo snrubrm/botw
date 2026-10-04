@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710028be2c (declared only): out of line in the original.
+    void sub_710028BE2C(bool a);
     // static_param at offset 0x90
     const float* mInWaterDepth_s{};
     // static_param at offset 0x98

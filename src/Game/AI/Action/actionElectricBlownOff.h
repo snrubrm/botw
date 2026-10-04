@@ -18,6 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710010451c (declared only): out of line in the original.
+    void sub_710010451C();
+    // 0x7100103e00 (declared only): out of line in the original.
+    bool sub_7100103E00(sead::Heap* heap);
     void calc_() override;
 
     // static_param at offset 0x160

@@ -166,6 +166,8 @@ public:
     // 0x710115bc28: looks up the define `name` (sub_710115AABC) and applies it with `value`
     // (placeholder; returns a slot index or 0). Not decompiled yet.
     s32 sub_710115BC28(const sead::SafeString& name, f32 value);
+    // 0x710115cd0c (declared only; placeholder name): IsMorphEndASPlay::leave_, SetTargetFrameMtx::leave_.
+    void sub_710115CD0C();
     // 0x710115f1d8: Unk2::sub_7101161CF8(true, value) on the entry of `slot` / `bank`.
     void sub_710115F1D8(int slot, int bank, f32 value);
     // 0x710115f158: Unk2::sub_71011633C0 on this list's entry (slot, bank) with `other`'s entry

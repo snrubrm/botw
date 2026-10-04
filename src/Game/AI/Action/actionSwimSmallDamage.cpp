@@ -13,7 +13,8 @@ void SwimSmallDamage::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SwimSmallDamage::leave_() {
-    SmallDamage::leave_();
+    _b8.resetMotionType(mActor->getCharacterController());
+    sub_710028BE2C(false);
 }
 
 void SwimSmallDamage::loadParams_() {

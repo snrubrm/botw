@@ -7,7 +7,7 @@ ElectricAttack::ElectricAttack(const InitArg& arg) : TimeredASPlay(arg) {}
 ElectricAttack::~ElectricAttack() = default;
 
 bool ElectricAttack::init_(sead::Heap* heap) {
-    return TimeredASPlay::init_(heap);
+    return TimeredASPlay::init_(heap) && sub_7100103040(heap);
 }
 
 void ElectricAttack::enter_(ksys::act::ai::InlineParamPack* params) {

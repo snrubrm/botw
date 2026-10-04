@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionBeamosStaticBeam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::action {
 
@@ -12,6 +14,9 @@ bool BeamosStaticBeam::init_(sead::Heap* heap) {
 
 void BeamosStaticBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     StopASPlay::enter_(params);
+    mFlags.set(Flag::Changeable);
+    _a8.sub_71006F3B84();
+    _a8.sub_71006F3A70(false);
 }
 
 void BeamosStaticBeam::leave_() {
@@ -34,6 +39,9 @@ void BeamosStaticBeam::loadParams_() {
 
 void BeamosStaticBeam::calc_() {
     StopASPlay::calc_();
+    if (mActor->getXLink()->_cc.isOnBit(14))
+        _a8.sub_71006F38A4(mActor);
+    _a8.sub_71006F3A6C();
 }
 
 }  // namespace uking::action

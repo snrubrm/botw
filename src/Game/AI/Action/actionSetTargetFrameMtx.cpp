@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSetTargetFrameMtx.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +17,10 @@ void SetTargetFrameMtx::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SetTargetFrameMtx::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mResetTransBoneOnLeave_s) {
+        if (auto* as_list = mActor->getASList())
+            as_list->sub_710115CD0C();
+    }
 }
 
 void SetTargetFrameMtx::loadParams_() {

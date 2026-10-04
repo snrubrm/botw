@@ -9,7 +9,9 @@ EscapeBackTurn::EscapeBackTurn(const InitArg& arg) : ActionEx(arg) {}
 EscapeBackTurn::~EscapeBackTurn() = default;
 
 void EscapeBackTurn::enter_(ksys::act::ai::InlineParamPack* params) {
-    ActionEx::enter_(params);
+    playAS("BackTurn", false, 0, 0, -1.0f);
+    _80 = 0;
+    sub_7100113950();
 }
 
 void EscapeBackTurn::leave_() {

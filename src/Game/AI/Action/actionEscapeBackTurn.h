@@ -19,6 +19,8 @@ public:
     bool isChangeable() const override;
 
 protected:
+    // 0x7100113950 (declared only): out of line in the original.
+    void sub_7100113950();
     void calc_() override;
 
     ksys::VFRValue _1c;

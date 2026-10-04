@@ -29,6 +29,8 @@ void SwarmFlyMove::loadParams_() {
 
 void SwarmFlyMove::calc_() {
     FlyMoveBase::calc_();
+    if (!sub_7100285AD8())
+        setFailed();
 }
 
 }  // namespace uking::action
