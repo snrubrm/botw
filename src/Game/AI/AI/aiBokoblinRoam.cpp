@@ -48,15 +48,15 @@ void BokoblinRoam::loadParams_() {
     getStaticParam(&mTurnCheckHeight_s, "TurnCheckHeight");
 }
 
+// NON_MATCHING: the original loads the player's x and z before the actor's x (ours interleaves the loads x, x, z, z
+// differently) and so numbers the registers differently; the load-order-only locals of earlier sessions were removed
 bool BokoblinRoam::sub_7100333E68() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &accessor);
     const sead::Matrix34f& player_mtx = accessor.getActorMtx();
-    const f32 target_x = player_mtx(0, 3);
-    const f32 target_z = player_mtx(2, 3);
-    const f32 pos_x = mActor->getMtx()(0, 3);
-    const f32 pos_z = mActor->getMtx()(2, 3);
-    sead::Vector3f dir(target_x - pos_x, 0.0f, target_z - pos_z);
+    const sead::Vector2f diff(player_mtx(0, 3) - mActor->getMtx()(0, 3),
+                              player_mtx(2, 3) - mActor->getMtx()(2, 3));
+    sead::Vector3f dir(diff.x, 0.0f, diff.y);
     const f32 dist = dir.normalize();
     if (dist > *mSpAttackServiceDist_s)
         return false;
@@ -90,7 +90,8 @@ bool BokoblinRoam::isChangeable() const {
     return ksys::act::ai::Ai::isChangeable() || isCurrentChild("索敵") || isCurrentChild("暇つぶし");
 }
 
-// NON_MATCHING: the original schedules the forward-axis loads before the translation loads (vector sum); same instructions otherwise
+// NON_MATCHING: the original loads the three forward-axis components before the translation (ours the other way
+// round); same instructions otherwise (session 26: the load-order-only locals were removed)
 void BokoblinRoam::changeToIdle() {
     const s32 min = *mFreeIntervalMin_s;
     const s32 max = *mFreeIntervalMax_s;
@@ -99,15 +100,12 @@ void BokoblinRoam::changeToIdle() {
 
     ksys::act::ai::InlineParamPack pack;
     const sead::Matrix34f& mtx = mActor->getMtx();
-    const f32 fx = mtx(0, 2);
-    const f32 fy = mtx(1, 2);
-    const f32 fz = mtx(2, 2);
-    sead::Vector3f pos(mtx(0, 3) + fx, mtx(1, 3) + fy, mtx(2, 3) + fz);
+    const sead::Vector3f pos = mtx.getTranslation() + mtx.getBase(2);
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("暇つぶし", &pack);
 }
 
-// NON_MATCHING: same as changeToIdle (translation - forward)
+// NON_MATCHING: same as changeToIdle (translation - forward; the original loads the forward axis first)
 void BokoblinRoam::changeToRotate() {
     const s32 min = *mFreeIntervalMin_s;
     const s32 max = *mFreeIntervalMax_s;
@@ -116,10 +114,7 @@ void BokoblinRoam::changeToRotate() {
 
     ksys::act::ai::InlineParamPack pack;
     const sead::Matrix34f& mtx = mActor->getMtx();
-    const f32 fx = mtx(0, 2);
-    const f32 fy = mtx(1, 2);
-    const f32 fz = mtx(2, 2);
-    sead::Vector3f pos(mtx(0, 3) - fx, mtx(1, 3) - fy, mtx(2, 3) - fz);
+    const sead::Vector3f pos = mtx.getTranslation() - mtx.getBase(2);
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("回転", &pack);
 }

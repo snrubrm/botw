@@ -21,12 +21,12 @@ void EnemyRoam::loadParams_() {
     getDynamicParam(&mCentralPos_d, "CentralPos");
 }
 
-// NON_MATCHING: load scheduling of translation + forward * 3 (the original loads the three forward components first); same instructions otherwise
+// NON_MATCHING: only the operand order of the three final fadds (the original adds `forward * 3` first, ours the translation first; load schedule and registers match)
 void EnemyRoam::changeToRoamSearch() {
     ksys::act::ai::InlineParamPack pack;
     const sead::Matrix34f& mtx = mActor->getMtx();
-    const sead::Vector3f dir = mtx.getBase(2);
-    sead::Vector3f pos(mtx(0, 3) + dir.x * 3.0f, mtx(1, 3) + dir.y * 3.0f, mtx(2, 3) + dir.z * 3.0f);
+    const sead::Vector3f trans = mtx.getTranslation();
+    const sead::Vector3f pos = mtx.getBase(2) * 3.0f + trans;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("徘徊探索", &pack);
 }
