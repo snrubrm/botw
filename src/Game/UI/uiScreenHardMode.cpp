@@ -2,6 +2,57 @@
 
 namespace uking::ui {
 
+// 0x7100a0ce70
+void ScreenHardMode::m203() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 3;
+        x();
+        break;
+    case 0x8f:
+        _3704 = 7;
+        close(-1);
+        break;
+    }
+}
+
+// 0x7100a0cf90
+void ScreenHardMode::m210() {
+    _3710 = mStateMachine.getState();
+    sub_7100A0BFC8(4);
+    _371c = 0;
+}
+
+// 0x7100a0cfd0
+void ScreenHardMode::m214() {
+    _3710 = mStateMachine.getState();
+    _3704 = _3708;
+    x();
+}
+
+// 0x7100a0d004
+void ScreenHardMode::m215() {
+    if (mState != 0 && mState != 3) {
+        if (_371c++ >= 59) {
+            _3704 = _3708;
+            x();
+        }
+    }
+}
+
+// 0x7100a0d0b0
+void ScreenHardMode::m219() {
+    switch (_3718) {
+    case 0x90:
+        _3704 = 5;
+        mStateMachine.changeState(&sUnk_71025ee930);
+        break;
+    case 0x8f:
+        mStateMachine.changeState(&sUnk_71025ee810);
+        break;
+    }
+}
+
 // 0x7100a0c660
 void ScreenHardMode::m155() {
     switch (_3718) {

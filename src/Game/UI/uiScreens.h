@@ -1028,6 +1028,8 @@ public:
 extern const ksys::StateBase sUnk_71025ee750;
 extern const ksys::StateBase sUnk_71025ee330;
 extern const ksys::StateBase sUnk_71025ee5d0;
+extern const ksys::StateBase sUnk_71025ee930;
+extern const ksys::StateBase sUnk_71025ee810;
 
 class ScreenHardMode : public ScreenEx {
 public:
@@ -1147,7 +1149,8 @@ public:
     u8 _370c[0x3710 - 0x370c];
     /* 0x3710 */ const ksys::StateBase* _3710;
     /* 0x3718 */ s32 _3718;
-    u8 _371c[0x3721 - 0x371c];
+    /* 0x371c */ s32 _371c;
+    u8 _3720;
     /* 0x3721 */ u8 _3721;
 
     // 0x7100a0bfc8 (CSV unnamed; placeholder name): selects the state's animation `index` (-1: none)
