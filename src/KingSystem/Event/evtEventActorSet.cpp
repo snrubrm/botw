@@ -3,6 +3,26 @@
 
 namespace ksys::evt {
 
+// 0x7100da2510 (D1) / 0x7100da2590 (D0)
+EventActorSet::~EventActorSet() {
+    for (s32 i = 0; i < mActors.size(); ++i)
+        delete mActors.at(i);
+    mActors.freeBuffer();
+}
+
+// 0x7100da2774
+bool EventActorSet::x_3(bool a1, bool a2) {
+    bool all = true;
+    for (s32 i = 0; i < mActors.size(); ++i)
+        all &= mActors(i)->m6();
+    if (!all)
+        return false;
+    for (s32 i = 0; i < mActors.size(); ++i)
+        mActors(i)->m7(a1, a2);
+    _18 = 3;
+    return true;
+}
+
 // 0x7100da283c
 void EventActorSet::callActorStuff() {
     for (s32 i = 0; i < mActors.size(); ++i)

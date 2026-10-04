@@ -25,7 +25,7 @@ public:
     virtual void m5(bool a1, bool a2) = 0;
     // 0x7100daaa10 (CSV evt::ActorBase::m6): state 0x15 -> 0x16, returns true
     virtual bool m6();
-    virtual void m7() = 0;
+    virtual void m7(bool a1, bool a2) = 0;
     virtual void m8() = 0;
     // 0x7100dab5f8 (CSV evt::ActorBase::play)
     virtual void play();
