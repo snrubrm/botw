@@ -67,7 +67,7 @@ public:
 
     void setDrawTargetAnim(DrawTarget target);
 
-    // 0x7100bde0b4 (not decompiled)
+    // 0x7100bde0b4
     void startAnimCloseImpl_(bool a1, bool a2);
     void sub_7100BDE29C(bool recursive);
 

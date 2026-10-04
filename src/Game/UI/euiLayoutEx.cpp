@@ -1,5 +1,6 @@
 #include "Game/UI/euiLayoutEx.h"
 #include <new>
+#include <prim/seadStringBuilder.h>
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/BuildTypes.h>
@@ -65,6 +66,54 @@ nn::ui2d::Layout* LayoutEx::BuildPartsLayout(nn::ui2d::BuildResultInformation* r
     layout->_88 = this;
     layout->BuildImpl(result, device, resource, mResourceAccessor, args, &parts);
     return layout;
+}
+
+// NON_MATCHING: StringBuilder initialization and virtual-call argument loads are scheduled differently.
+// 0x7100bde0b4
+void LayoutEx::startAnimCloseImpl_(bool recursive, bool instant) {
+    Animator* open = mOpenAnimator;
+    if (mCloseAnimator) {
+        if (open) {
+            open->nn::ui2d::AnimTransform::SetEnabled(false);
+            open->mRate = 0;
+        }
+        if (instant) {
+            mCloseAnimator->StopAtMax();
+            _91 = 0;
+        } else {
+            mCloseAnimator->PlayAuto(1.0f);
+            if (mScreen && mScreen->_f0 && _88 && !_88->mPane->GetParent()) {
+                sead::FixedStringBuilder<64> name;
+                name.copy(mPane->GetName());
+                name.append("_close", -1);
+                mScreen->invokeSoundLink2Event_(name.cstr());
+            }
+            _91 = 3;
+        }
+    } else if (open) {
+        if (instant) {
+            open->StopAtMin();
+            _91 = 0;
+        } else {
+            if (open->mRate > 0)
+                open->PlayFromCurrent(Animator::PlayType(0), -1.0f);
+            else
+                open->PlayAuto(-1.0f);
+            if (mScreen && mScreen->_f0 && _88 && !_88->mPane->GetParent()) {
+                sead::FixedStringBuilder<64> name;
+                name.copy(mPane->GetName());
+                name.append("_close", -1);
+                mScreen->invokeSoundLink2Event_(name.cstr());
+            }
+            _91 = 3;
+        }
+    } else {
+        sub_7100BDE29C(mPane->GetParent() != nullptr && !recursive);
+    }
+    if (recursive) {
+        for (auto& part : mPartsLayoutList)
+            static_cast<LayoutEx*>(part.layout)->startAnimCloseImpl_(true, instant);
+    }
 }
 
 // 0x7100bde29c

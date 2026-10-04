@@ -218,7 +218,9 @@ public:
     u8 _c4[0xd8 - 0xc4];
     /* 0xd8 */ BoxCursorNode* _d8;
     /* 0xe0 */ BoxCursorNode* mActiveCursorNode;
-    u8 _e8[0xfc - 0xe8];
+    u8 _e8[8];
+    /* 0xf0 */ void* _f0;  // Sound-user interface pointer; pointee type remains unresolved.
+    u8 _f8[4];
     /* 0xfc */ u8 mDrawTarget;
     /* 0xfd */ s8 _fd;
     /* 0xfe */ u8 mState;
