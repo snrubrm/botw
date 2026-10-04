@@ -1,0 +1,78 @@
+#pragma once
+
+#include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Types.h"
+
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
+// Placeholder declarations: only the small out-of-line members that are decompiled so far (the real classes are
+// polymorphic singletons; names from the CSV, no namespace; layouts incomplete).
+
+// GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
+class GameSceneSubsys5 {
+public:
+    // 0x7100905468
+    void init();
+    // 0x71009059d4: _d8[_148]
+    bool sub_71009059D4() const;
+    // 0x71009059ec: acquires the actor of the link at +0xa8 into `accessor` (if given).
+    void sub_71009059EC(ksys::act::ActorConstDataAccess* accessor);
+    // 0x7100905c70: _fc[_144] = true
+    void sub_7100905C70();
+    // 0x7100905d28 / 0x7100905de0: bool setters
+    void sub_7100905D28(bool value);
+    void sub_7100905DE0(bool value);
+
+    u8 _0[0x8c];
+    f32 _8c;
+    f32 _90;
+    u8 _94[0x9c - 0x94];
+    u32 _9c;
+    u8 _a0[0xa8 - 0xa0];
+    ksys::act::BaseProcLink _a8;
+    u8 _b8[0xd8 - 0xb8];
+    sead::SafeArray<bool, 2> _d8;
+    u8 _da[0xdc - 0xda];
+    u8 _dc[0xfc - 0xdc];
+    sead::SafeArray<bool, 2> _fc;
+    u8 _fe[0x144 - 0xfe];
+    s32 _144;
+    s32 _148;
+    u8 _14c[0x328 - 0x14c];
+    bool _328;
+    u8 _329[0x32f - 0x329];
+    bool _32f;
+    u8 _330;
+    bool _331;
+};
+
+// GameSceneSubsys13: CSV createInstance 0x71008a52e0, init 0x71008a53d8, setGameOverPosition 0x71008a53f0.
+class GameSceneSubsys13 {
+public:
+    // 0x71008a53d8 / 0x71008a53e4: identical copies.
+    void init();
+    void sub_71008A53E4();
+
+    u8 _0[0x34];
+    s32 _34;
+    s32 _38;
+};
+
+// GameSceneStatusMgr: CSV createInstance 0x71010bd158, registerStatus 0x71010bd280.
+class GameSceneStatusMgr {
+public:
+    // 0x71010bdce4 / 0x71010bdcf0 / 0x71010bdcfc: bool setters
+    void sub_71010BDCE4(bool value);
+    void sub_71010BDCF0(bool value);
+    void sub_71010BDCFC(bool value);
+
+    u8 _0[0x20];
+    bool _20;
+    u8 _21;
+    bool _22;
+    bool _23;
+};

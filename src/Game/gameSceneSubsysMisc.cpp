@@ -1,0 +1,51 @@
+#include "Game/gameSceneSubsysMisc.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+
+void GameSceneSubsys5::init() {
+    _9c = 1;
+    _8c = 0.5f;
+    _90 = 0.5f;
+}
+
+bool GameSceneSubsys5::sub_71009059D4() const {
+    return _d8[_148];
+}
+
+void GameSceneSubsys5::sub_71009059EC(ksys::act::ActorConstDataAccess* accessor) {
+    if (accessor)
+        ksys::act::acquireActor(&_a8, accessor);
+}
+
+void GameSceneSubsys5::sub_7100905C70() {
+    _fc[_144] = true;
+}
+
+void GameSceneSubsys5::sub_7100905D28(bool value) {
+    _328 = value;
+}
+
+void GameSceneSubsys5::sub_7100905DE0(bool value) {
+    _32f = value;
+}
+
+void GameSceneSubsys13::init() {
+    _34 = -1;
+    _38 = 0;
+}
+
+void GameSceneSubsys13::sub_71008A53E4() {
+    _34 = -1;
+    _38 = 0;
+}
+
+void GameSceneStatusMgr::sub_71010BDCE4(bool value) {
+    _20 = value;
+}
+
+void GameSceneStatusMgr::sub_71010BDCF0(bool value) {
+    _22 = value;
+}
+
+void GameSceneStatusMgr::sub_71010BDCFC(bool value) {
+    _23 = value;
+}
