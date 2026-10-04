@@ -16,6 +16,12 @@ const res::ASResource* SelectorBase::sub_71013031FC(const res::ASResource* resou
     return nullptr;
 }
 
+bool SelectorBase::sub_71013031B4(s32* out, Context* ctx, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    *out = record->_0;
+    return record->_0 >= 0;
+}
+
 bool SelectorBase::m10(Context* ctx, State* state, const res::ASResource* resource) {
     const s8 index = ctx->sub_7101258CD4(sub_71011653E8(resource))->_0;
     if (index < 0)

@@ -16,6 +16,7 @@ target_sources(uking PRIVATE
     AS/asEventFlagSelector.cpp
     AS/asFloatSelector.cpp
     AS/asGraphicsAsset.cpp
+    AS/asIntSelector.cpp
     AS/asGroundNormalBlender.cpp
     AS/asGroundNormalSelector.cpp
     AS/asNodePosSelector.cpp

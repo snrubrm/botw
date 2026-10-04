@@ -164,6 +164,8 @@ public:
 
     // 0x71013031fc: the resource of the child `index` (null if `resource` has no children).
     const res::ASResource* sub_71013031FC(const res::ASResource* resource, int index) const;
+    // 0x71013031b4: the selected child index of the element (`*out`), true if there is one.
+    bool sub_71013031B4(s32* out, Context* ctx, const res::ASResource* resource);
 
     sead::Buffer<Element*> mChildren;
 };
@@ -188,6 +190,17 @@ public:
 
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 };
+
+// Placeholder: selects the child whose value equals an integer parameter (ctor reads it from the owner).
+class IntSelector : public Selector {
+    SEAD_RTTI_OVERRIDE(IntSelector, Selector)
+public:
+    void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
+
+    /* 0x18 */ s32 _18;
+};
+KSYS_CHECK_SIZE_NX150(IntSelector, 0x20);
 
 class ComboSelector : public Selector {
     SEAD_RTTI_OVERRIDE(ComboSelector, Selector)
