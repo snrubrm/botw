@@ -16,6 +16,27 @@ bool SwimEnemyAnmBackBlownOffBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the owned queries are naturally inlined into the completion predicate.
+bool SwimEnemyAnmBackBlownOffBase::isFinished() const {
+    if (_68)
+        return false;
+    return sub_7100289410() || sub_7100289460();
+}
+
+// NON_MATCHING: the established Actor depth API remains an out-of-line call.
+bool SwimEnemyAnmBackBlownOffBase::sub_7100289410() const {
+    auto* actor = mActor;
+    return actor->getDepthInWater() >= *mInWaterDepth_s + *mFloatDepth_s &&
+           actor->getVelocity().y < 0.0f;
+}
+
+// NON_MATCHING: the controller predicate naturally becomes a tail call.
+bool SwimEnemyAnmBackBlownOffBase::sub_7100289460() const {
+    if (auto* controller = mActor->getCharacterController())
+        return controller->sub_7100F5F14C();
+    return false;
+}
+
 void SwimEnemyAnmBackBlownOffBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }

@@ -11,12 +11,15 @@ public:
     ~SwimEnemyAnmBackBlownOffBase() override;
 
     bool init_(sead::Heap* heap) override;
+    bool isFinished() const override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     void calc_() override;
+    bool sub_7100289410() const;
+    bool sub_7100289460() const;
     virtual void m32(sead::Vector3f* out);
     virtual void m33();
 
