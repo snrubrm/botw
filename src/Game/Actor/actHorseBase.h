@@ -176,7 +176,7 @@ public:
     /* 0xb50 */ ksys::MesTransceiverId _b50;
     /* 0xb68 */ void* _b68 = nullptr;
     /* 0xb70 */ sead::Atomic<u32> _b70 = 0;  // flags (m109)
-    /* 0xb74 */ u16 _b74 = 0;  // flags
+    /* 0xb74 */ sead::BitFlag16 _b74;  // flags
     /* 0xb78 */ s32 _b78 = -1;
     /* 0xb7c */ s32 _b7c = -1;
     /* 0xb80 */ s32 _b80 = 0;  // getLife

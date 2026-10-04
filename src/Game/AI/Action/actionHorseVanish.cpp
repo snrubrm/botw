@@ -23,7 +23,7 @@ void HorseVanish::loadParams_() {}
 
 void HorseVanish::calc_() {
     if (auto* horse = sead::DynamicCast<uking::act::HorseBase>(mActor))
-        horse->_b74 |= 0x20;
+        horse->_b74.set(0x20);
 }
 
 }  // namespace uking::action

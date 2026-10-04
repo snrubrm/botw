@@ -32,7 +32,7 @@ bool HorseBase::shouldUnload(s32* a1) {
         const Unk_7100e8b2b8::Unk8 type = _b10->Unk_7100e8b2b8::_8 & 0xff;
         if (int(type) != Unk_7100e8b2b8::Unk8::_0)
             return false;
-        if (_b74 & 2)
+        if (_b74.isOn(2))
             return false;
     }
     return shouldUnloadBecauseOfDistance(a1);
@@ -129,7 +129,7 @@ void HorseBase::sub_7100E6BA08() {
         return;
     controller->sub_7100F60500(_b10->_1c4);
     controller->sub_7100F5F6FC(sead::Vector3f::zero);
-    _b74 |= 0x100;
+    _b74.set(0x100);
 }
 
 // NON_MATCHING: operands of the `and` swapped (the original ANDs the loaded bits with the mask)
@@ -328,24 +328,20 @@ void HorseBase::m117(ksys::act::Unk117* arg) {
 
 // NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
 bool HorseBase::sub_7100E6C094(bool on) {
-    if (on)
-        _b74 |= 0x4000;
-    else
-        _b74 &= ~0x4000;
+    _b74.change(0x4000, on);
+    const bool lod_flag = ((_b74.getDirect() >> 14) & 3) != 0;
     if (auto* lod = getLodState())
-        lod->mFlags10.changeBit(6, ((_b74 >> 14) & 3) != 0);
-    return ((_b74 >> 14) & 3) != 0;
+        lod->mFlags10.changeBit(6, lod_flag);
+    return lod_flag;
 }
 
 // NON_MATCHING: orr/and/csel operand order differs for the _b74 flag update and LodState bit select
 bool HorseBase::sub_7100E6C0E0(bool on) {
-    if (on)
-        _b74 |= 0x8000;
-    else
-        _b74 &= ~0x8000;
+    _b74.change(0x8000, on);
+    const bool lod_flag = ((_b74.getDirect() >> 14) & 3) != 0;
     if (auto* lod = getLodState())
-        lod->mFlags10.changeBit(6, ((_b74 >> 14) & 3) != 0);
-    return ((_b74 >> 14) & 3) != 0;
+        lod->mFlags10.changeBit(6, lod_flag);
+    return lod_flag;
 }
 
 }  // namespace uking::act
