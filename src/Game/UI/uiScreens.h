@@ -1513,9 +1513,23 @@ public:
 
 class ScreenChallengeWin : public ScreenEx {
 public:
+    ScreenChallengeWin();
     const char* m15() const override;
     ~ScreenChallengeWin() override;
     SEAD_RTTI_OVERRIDE(ScreenChallengeWin, ScreenEx)
+
+    /* 0x3610 */ u64 _3610{};
+    /* 0x3618 */ sead::FixedSafeString<256> _3618;
+    /* 0x3730 */ sead::FixedSafeString<256> _3730;
+    /* 0x3848 */ u64 _3848{};
+    u64 _3850{};
+    f32 _3858 = 1.0f;
+    u8 _385c{};
+    u8 _385d[3];
+    u8 _3860{};
+    u8 _3861[7];
+    u64 _3868{};
+    u64 _3870{};
 };
 
 class ScreenControllerWindow : public ScreenEx {

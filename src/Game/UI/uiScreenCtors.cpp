@@ -117,4 +117,8 @@ ScreenSystemWindow00::ScreenSystemWindow00() : ScreenEx() {}
 // 0x7100a68c84
 ScreenTime::ScreenTime() : ScreenEx() {}
 
+
+// 0x7100a0058c
+ScreenChallengeWin::ScreenChallengeWin() : ScreenEx() {}
+
 }  // namespace uking::ui
