@@ -240,6 +240,11 @@ public:
     bool isWeaponType0Or1Or2() const override;
     bool isWeaponType4() const override;
     bool isWeaponType3() const override;
+    bool m212() override;
+    bool m213() override;
+    bool m231() const override;
+    bool m232() const override;
+    bool m233() const override;
     void sub_71002EDA38(const Unk_71002eda38& arg);
     void sub_71002EDAEC(const Unk_71002edaec& arg);
     // 0x71002edb3c: stores `value` to _b88 (under _b48) and sets _b8c (behavior WeaponChemicalReset).

@@ -22,6 +22,26 @@
 
 namespace uking::act {
 
+bool Weapon::m212() {
+    return isBgGroundHit(this, false);
+}
+
+bool Weapon::m213() {
+    return getActorFlags2().isOn(ActorFlag2::_200);
+}
+
+bool Weapon::m231() const {
+    return _cf0 == 0;
+}
+
+bool Weapon::m232() const {
+    return _cf0 == 1;
+}
+
+bool Weapon::m233() const {
+    return _cf0 == 2;
+}
+
 bool Weapon::isMasterSword() {
     const auto* param = getParam()->getRes().mGParamList->getMasterSword();
     return param && param->mIsMasterSword.ref();
