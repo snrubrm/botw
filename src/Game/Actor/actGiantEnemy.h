@@ -46,6 +46,10 @@ public:
         void sub_710002A94C(Actor* actor);
         // 0x710002a828: forwards the request to the four linked actors (Actor::x_17).
         void sub_710002A828(ksys::act::Unk117* arg);
+        // Declaration only: dispatches sleep / wake / delete to the four linked actors.
+        void sub_710002A544(ksys::act::BaseProc::SleepWakeReason reason);
+        void sub_710002A63C(ksys::act::BaseProc::SleepWakeReason reason);
+        void sub_710002A734();
 
         /* 0x00 */ Actor* mOwner;
         /* 0x08 */ ksys::act::BaseProcLink _8[4];  // iterated as an array

@@ -55,6 +55,21 @@ void GiantEnemy::preDelete2_(const PreDeleteArg& arg) {
     Enemy::preDelete2_(arg);
 }
 
+void GiantEnemy::onSleepRequested_(SleepWakeReason reason) {
+    DynamicActor::onSleepRequested_(reason);
+    _14c8.sub_710002A544(reason);
+}
+
+void GiantEnemy::onWakeUpRequested_(SleepWakeReason reason) {
+    Actor::onWakeUpRequested_(reason);
+    _14c8.sub_710002A63C(reason);
+}
+
+void GiantEnemy::onDeleteRequested_(DeleteReason reason) {
+    Enemy::onDeleteRequested_(reason);
+    _14c8.sub_710002A734();
+}
+
 void* GiantEnemy::m119() {
     if (_1558)
         return _1558->m8();
