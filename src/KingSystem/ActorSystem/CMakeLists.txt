@@ -12,6 +12,7 @@ target_sources(uking PRIVATE
     AS/asBoolSelector.cpp
     AS/asClearMatAnmAsset.cpp
     AS/asComboSelector.cpp
+    AS/asContext.cpp
     AS/asElement.cpp
     AS/asEventFlagSelector.cpp
     AS/asFloatSelector.cpp

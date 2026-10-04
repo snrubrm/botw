@@ -1,6 +1,8 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
+#include <gsys/gsysModel.h>
 #include <math/seadMathCalcCommon.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -33,11 +35,6 @@ class ASList;
 // reached through the element index of the resource.
 class Context {
 public:
-    struct Frame {
-        u8 _0[0x30];
-        res::AS* mAS;
-    };
-
     struct Record {
         s8 _0;
         u8 _1;
@@ -47,8 +44,32 @@ public:
         f32 _8;
     };
 
+    struct Frame {
+        sead::Buffer<Record> mRecords;
+        s32 _10;
+        u8 _14[0x20 - 0x14];
+        sead::Buffer<u8> mIndexMap;  // element index -> record index
+        res::AS* mAS;
+    };
+    static_assert(sizeof(Frame) == 0x38);
+
+    // 0x7101258d1c: the record index of the element `index` (0 in the 'record 0' mode).
+    u8 sub_7101258D1C(int index);
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
     Record* sub_7101258CD4(int index);
+
+    // 0x7101258c1c / c48 / c80: select the current frame (_f4) of the 3-frame ring.
+    void sub_7101258C1C();
+    void sub_7101258C48();
+    void sub_7101258C80();
+    // 0x7101258e08 / e14 / e20: sizes / fields of the current frame.
+    int sub_7101258E08();
+    int sub_7101258E14();
+    int sub_7101258E20();
+    // 0x7101258e2c: the list's model.
+    gsys::Model* sub_7101258E2C();
+    // 0x710125923c: clears both strings.
+    void sub_710125923C();
 
     // 0x7101258cc0: the first element resource of the AS of the current frame (null if none).
     res::ASResource* sub_7101258CC0();
@@ -58,11 +79,14 @@ public:
     /* 0x00 */ ASList* mList;
     /* 0x08 */ sead::SafeString mUnk8;
     /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
-    /* 0x28 */ u8 _28[0xd0 - 0x28];
-    /* 0xd0 */ Frame* _d0;  // points into a ring of 0x38-byte frames that start at 0x28
-    /* 0xd8 */ u8 _d8[0xe0 - 0xd8];
+    /* 0x28 */ sead::SafeArray<Frame, 3> mFrames;
+    /* 0xd0 */ Frame* _d0;  // the current frame
+    /* 0xd8 */ Frame* _d8;  // overrides the ring when set
     /* 0xe0 */ f32 _e0;
-    /* 0xe4 */ u8 _e4[0x920 - 0xe4];
+    /* 0xe4 */ u8 _e4[0xf4 - 0xe4];
+    /* 0xf4 */ u8 _f4;
+    /* 0xf5 */ u8 _f5;
+    /* 0xf6 */ u8 _f6[0x920 - 0xf6];
     /* 0x920 */ u8 _920;
     /* 0x921 */ u8 _921;
 };
