@@ -11,18 +11,15 @@ void MoriblinSpearNearBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
 }
 
-// NON_MATCHING: only the order of the stack slots (the original puts the SafeString temporaries of the second
-// isCurrentChild() / "TargetPos" below the InlineParamPack and the target copy above it; ours has them the other
-// way round); everything else is identical
+// NON_MATCHING: the original loads the target's x / z before the actor's translation (ours the other way round)
+// and orders the stack slots differently (the SafeString temporaries of the second isCurrentChild() below the
+// InlineParamPack and the target copy above it); the instructions are otherwise identical
 void MoriblinSpearNearBattle::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
         if (isCurrentChild("バックステップ") || isCurrentChild("大攻撃")) {
-            const f32 target_x = mTargetPos_d->x;
-            const f32 target_z = mTargetPos_d->z;
-            const f32 pos_x = mActor->getMtx()(0, 3);
-            const f32 pos_z = mActor->getMtx()(2, 3);
-            const sead::Vector3f diff(target_x - pos_x, 0.0f, target_z - pos_z);
+            sead::Vector3f diff = *mTargetPos_d - mActor->getMtx().getTranslation();
+            diff.y = 0;
             const f32 dist = diff.length();
             if (dist <= sub_71007320F0(mActor, *mWeaponIdx_s) + *mNearDist_s) {
                 const sead::Vector3f target_pos = *mTargetPos_d;
