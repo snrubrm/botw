@@ -17,6 +17,10 @@ public:
     // 0x7100be50bc (CSV eui::MessageString::assign)
     void assign(const MessageString& other);
 
+    // inline-only in the original; names are guesses: both TextBoxEx message setters read these fields.
+    const char16* getString() const { return mString; }
+    u32 getLength() const { return _8; }
+
 private:
     const char16* mString;  // null if the message was not found
     u32 _8;

@@ -38,6 +38,7 @@ target_sources(uking PRIVATE
   euiLayoutEx.h
   euiButton.h
   euiMessageString.cpp
+  euiTextBoxEx.cpp
   euiMessageString.h
   euiScreen.cpp
   euiUIController.cpp

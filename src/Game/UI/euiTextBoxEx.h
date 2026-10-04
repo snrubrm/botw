@@ -1,0 +1,41 @@
+#pragma once
+
+#include <nn/ui2d/TextBox.h>
+#include "Game/UI/euiMessageString.h"
+
+namespace eui {
+
+class LayoutEx;
+
+// The UI text pane. Its own virtual functions follow TextBox's 40 slots; it has no additional data.
+class TextBoxEx : public nn::ui2d::TextBox {
+public:
+    NN_RUNTIME_TYPEINFO(nn::ui2d::TextBox)
+
+    void InitializeString(nn::ui2d::BuildResultInformation*, nn::gfx::Device*,
+                          const nn::ui2d::BuildArgSet&,
+                          const nn::ui2d::TextBox::InitializeStringParam&) override;
+    u16 SetString(const u16* string, u16 dst_index) override;
+    u16 SetString(const u16* string, u16 dst_index, u16 length) override;
+
+    // Slots 40-47 (the two unnamed processing functions are not decompiled).
+    virtual u16 setStringNoPreproces(const char16* string, u16 length);
+    virtual u16 m41(const char16* string, u16 length, bool* has_next_page, u32 page, bool flag,
+                    void* user_data);
+    virtual s32 m42();
+    virtual void adjustText_(LayoutEx* layout);
+    virtual bool getTextAdjustMinScale_(f32* scale);
+    virtual bool isWordwrapOn_();
+    virtual bool isTextChangeOn_() const;
+    virtual bool getLetterAnimSpeed_(f32* speed);
+
+    // Convenience forms of the page-processing virtual.
+    u16 setMessageString(const MessageString& string, void* user_data);
+    u16 setMessageStringWithPage(const MessageString& string, bool* has_next_page, u32 page,
+                                 bool flag, void* user_data);
+    u16 setStringWithPage(const char16* string, u16 length, bool* has_next_page, u32 page,
+                         bool flag, void* user_data);
+};
+static_assert(sizeof(TextBoxEx) == 0x160);
+
+}  // namespace eui
