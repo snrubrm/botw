@@ -225,12 +225,14 @@ public:
     // 0x71002e4374: bit7 of _e50, or a type3 weapon with a connected calc child.
     bool sub_71002E4374();
     s32 getShieldGuardPower();
+    f32 getShieldSurfingFriction();
+    s32 getAttackPower();
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
     // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x71002e9a50 (lane1 s21): the chemical's state is 2 (false without a chemical).
     bool sub_71002E9A50();
-    // 0x71002e38e8 (CSV Weapon::isTrueFormMasterSword; declared only; lane2 s20): a master sword (vslot 219) while
+    // 0x71002e38ec (CSV Weapon::isTrueFormMasterSword): a master sword (vslot 219) while
     // the DamageInfoMgr says it is in its true form.
     bool isTrueFormMasterSword();
     void sub_71002EDA38(const Unk_71002eda38& arg);

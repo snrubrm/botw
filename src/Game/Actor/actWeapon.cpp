@@ -1,6 +1,7 @@
 #include "Game/Actor/actWeapon.h"
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -13,10 +14,46 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::act {
+
+bool Weapon::isTrueFormMasterSword() {
+    if (isMasterSword()) {
+        auto* manager = dmg::DamageInfoMgr::instance();
+        if (manager && manager->isTrueFormMasterSword())
+            return true;
+    }
+    return false;
+}
+
+f32 Weapon::getShieldSurfingFriction() {
+    f32 friction = getParam()->getRes().mGParamList->getShield()->mSurfingFriction.ref();
+    if (_f98.flags.isOn(WeaponModifier::AddSurfMaster))
+        friction *= _f98.value / 1000.0f;
+    return friction;
+}
+
+// NON_MATCHING: fallback branches and resource loads are merged differently.
+s32 Weapon::getAttackPower() {
+    s32 power;
+    if (isMasterSword()) {
+        power = isTrueFormMasterSword()
+                    ? getParam()->getRes().mGParamList->getMasterSword()->mTrueFormAttackPower.ref()
+                    : -1;
+        if (power <= 0) {
+            power = getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+            power += ksys::gdt::getFlag_MasterSword_Add_Power(false);
+        }
+    } else {
+        power = getParam()->getRes().mGParamList->getAttack()->mPower.ref();
+    }
+    return power + (_f98.flags.isOn(WeaponModifier::AddAtk) ? _f98.value : 0);
+}
 
 s32 Weapon::getShieldGuardPower() {
     const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
