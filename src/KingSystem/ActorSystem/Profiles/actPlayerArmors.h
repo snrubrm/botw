@@ -3,6 +3,7 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -38,6 +39,10 @@ public:
     // 0x7100e31b9c (CSV x_38): Player::m117 (declared only).
     void sub_7100E31B9C(Unk117* arg);
 
+    // 0x7100e31574 (lane4 s31): puts every worn part to sleep (ActorConstDataAccess::sleep for each linked actor).
+    void sleep(BaseProc::SleepWakeReason reason);
+    // 0x7100e3170c (declared only): wakes up the first 3 / 6 parts depending on a gdt flag.
+    void sub_7100E3170C(BaseProc::SleepWakeReason reason);
     // 0x7100e2f428 (CSV x_22): the upper armor (`_10[1]`) disables its own mantle (acc::Armor::getArmorUpperDisableSelfMantle;
     // false without an upper armor).
     bool sub_7100E2F428();

@@ -218,6 +218,7 @@ public:
     void decrementPendingDeletions() { mNumPendingDeletions.decrement(); }
 
     Status getStatus() const { return mStatus; }
+    Mode getMode() const { return mMode; }
     JobType getJobType() const { return mJobType; }
     u32 getNumJobTypes() const { return mJobLists.size(); }
     BaseProcJobLists& getJobLists(JobType type) { return mJobLists[u32(type)]; }

@@ -42,6 +42,9 @@ public:
     // 0x7100db2440 (CSV EventMgr::checkEventCancel): flag bit 0x2000 of the active flow
     bool checkEventCancel() const;
     bool hasActiveEvent() const;
+    // 0x7100db2b1c (CSV EventMgr::someWeirdHardcodedCheck_KorokOrGanonOrBowling; declared only; lane4 s31):
+    // Actor::onJobPush1_ sets / clears ActorFlag 0x3f with the result.
+    bool someWeirdHardcodedCheck_KorokOrGanonOrBowling(act::Actor* actor);
 
     // 0x7100db199c (CSV EventMgr::incrementAliveEventFlowCount): saturates at 256.
     void incrementAliveEventFlowCount();

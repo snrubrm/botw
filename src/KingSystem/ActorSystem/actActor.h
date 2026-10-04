@@ -418,6 +418,10 @@ public:
     // 0x7100ee3e44 (CSV Actor::x_6; declared only; lane2 s20): looks up two attention clients by name and
     // disables them, re-enabling them again when the schedule (_638) reports a flag.
     void x_6();
+    // 0x71011ccef0 (CSV Actor::checkDeleteDistanceAndDeleteIfNeeded; declared only; lane4 s31)
+    void checkDeleteDistanceAndDeleteIfNeeded();
+    // 0x71011cdcd0 (CSV Actor::attentionStuff; declared only; lane4 s31): called by job2_2.
+    void attentionStuff();
     // 0x7100ee6974 (CSV Actor::x_57; declared only; lane4 s31): makes the model follow `other` (ArmorBase::m148 passes
     // the wearer): copies ActorFlag2 bits 0x20 / 0x1 and the model state; without `other` it clears them.
     void x_57(Actor* other);

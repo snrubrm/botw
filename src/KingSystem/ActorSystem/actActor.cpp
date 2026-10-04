@@ -14,6 +14,10 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
@@ -1244,6 +1248,46 @@ bool Actor::m121() {
     if (mASList == &as::sNullASListMaybe || !mASList)
         return true;
     return mASList->x_4(0, 0);
+}
+
+void Actor::x_3(f32 value) {
+    if (_4f4 != value) {
+        _4f4 = value;
+        if (mModel)
+            Unk_710260af28::instance()->sub_7100F1E1F8(mModel);
+    }
+}
+
+void Actor::x_16() {
+    handleModelFadeInOutAndFadeDelete();
+    checkDeleteDistanceAndDeleteIfNeeded();
+}
+
+void Actor::job2_2() {
+    if (mActorFlags2.isOn(ActorFlag2::_200))
+        return;
+    if (BaseProcMgr::instance()->getMode() != BaseProcMgr::Mode::_0)
+        return;
+    attentionStuff();
+}
+
+void Actor::onSleepRequested_(SleepWakeReason reason) {
+    if (auto* weapons = getWeapons())
+        weapons->sleep(reason);
+    if (auto* armors = getArmors())
+        armors->sleep(reason);
+}
+
+void Actor::onWakeUpRequested_(SleepWakeReason reason) {
+    if (auto* weapons = getWeapons())
+        weapons->wakeUp(reason);
+    if (auto* armors = getArmors())
+        armors->sub_7100E3170C(reason);
+}
+
+void Actor::onJobPush1_(JobType type) {
+    if (type == JobType(0))
+        mActorFlags.changeBit(ActorFlag::_3f, evt::Manager::instance()->someWeirdHardcodedCheck_KorokOrGanonOrBowling(this));
 }
 
 }  // namespace ksys::act
