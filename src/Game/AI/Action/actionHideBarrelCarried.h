@@ -21,6 +21,9 @@ protected:
 
     // static_param at offset 0x168
     const float* mCutLength_s{};
+    sead::Vector3f _170{0, 0, 0};
+    sead::Vector3f _17c{0, 0, 0};
 };
+KSYS_CHECK_SIZE_NX150(HideBarrelCarried, 0x188);
 
 }  // namespace uking::action

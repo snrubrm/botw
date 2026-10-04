@@ -46,6 +46,9 @@ public:
     explicit Unk_7102450298(ksys::act::Actor* actor);
     ~Unk_7102450298() override;
 
+    // 0x71006f8a88 (CSV CarriedData::x_25): destroys the constraint.
+    void finalize();
+
     /// 0x71006f8ab4 (lane1 s22, name is a placeholder): true without a constraint, else whether the
     /// constraint's low flag byte has bit 0 clear.
     bool sub_71006F8AB4() const;
