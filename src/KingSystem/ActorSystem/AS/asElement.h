@@ -145,6 +145,8 @@ public:
     int sub_7101258D1C(int index);
     // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
     void sub_710125AAA0(u32 index, s16 value);
+    // 0x710125a164 (declaration only): the pending value of `key` (0 if there is none).
+    f32 sub_710125A164(u32 key);
     // 0x710125a1f0 (declaration only): stores `value` as the pending value of `key` (once per update); the
     // element and its resource are passed on to the unnamed 0x710125a248.
     void sub_710125A1F0(f32 value, int key, Element* element, const res::ASResource* resource);
@@ -591,6 +593,8 @@ public:
                         const res::ASResource* resource);
 
     virtual f32 m38(Context* ctx, const res::ASResource* resource);
+    // Picks the child (and the one it is blended with) whose range contains the element's input value; returns
+    // the blend weight of the second child.
     virtual f32 m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource);
 };
 

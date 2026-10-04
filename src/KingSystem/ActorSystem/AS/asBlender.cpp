@@ -1,6 +1,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
+#include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
 
 namespace ksys::as {
 
@@ -297,6 +299,45 @@ bool Blender::m9(Context* ctx, PlayState* state, const res::ASResource* resource
     record->_1 = second;
     record->_2 = 0;
     return sub_71013166C4(record, ctx, state, blender_resource);
+}
+
+f32 Blender::m39(s32* first, s32* second, Context* ctx, const res::ASResource* resource) {
+    *first = 0;
+    *second = -1;
+    auto* parser = sead::DynamicCast<const res::ASRangesParser>(
+        resource->getExtensions().getParser(res::ASParamParser::Type::Ranges));
+    if (parser) {
+        const f32 value = ctx->sub_710125A164(sub_7101165408(resource));
+        const auto& ranges = parser->getRanges();
+        for (u32 i = 0; i < ranges.size(); ++i) {
+            if (*ranges[i].start <= value && value < *ranges[i].end) {
+                f32 weight = 0.0f;
+                if (i < ranges.size() - 1u) {
+                    const u32 next = i + 1;
+                    if (*ranges[next].start <= value && value < *ranges[next].end) {
+                        const f32 lo = sead::Mathf::max(*ranges[i].start, *ranges[next].start);
+                        const f32 hi = sead::Mathf::min(*ranges[i].end, *ranges[next].end);
+                        if (hi - lo <= 0.0f) {
+                            *first = next;
+                            return 0.0f;
+                        }
+                        weight = (value - lo) / (hi - lo);
+                        if (weight < 0.01f)
+                            weight = 0.0f;
+                        else if (0.99f < weight)
+                            weight = 1.0f;
+                        *second = next;
+                    }
+                }
+                *first = i;
+                return weight;
+            }
+        }
+        if (*ranges.front().start > value)
+            return 0.0f;
+        *first = mChildren.size() - 1;
+    }
+    return 0.0f;
 }
 
 f32 Blender::m38(Context* ctx, const res::ASResource* resource) {
