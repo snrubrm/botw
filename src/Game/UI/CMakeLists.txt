@@ -14,6 +14,7 @@ target_sources(uking PRIVATE
   euiDragButton.cpp
   euiTapButton.cpp
   euiTraceGaugeControl.cpp
+  euiUtil.cpp
   euiTraceGaugeControl.h
   euiTwoTouchCheckKeepButton.cpp
   euiUniteButton.cpp
@@ -23,6 +24,7 @@ target_sources(uking PRIVATE
   euiButtonGroup.cpp
   euiControlBase.cpp
   euiControlBase.h
+  euiLayoutEx.cpp
   euiLayoutEx.h
   euiButton.h
   euiMessageString.cpp
