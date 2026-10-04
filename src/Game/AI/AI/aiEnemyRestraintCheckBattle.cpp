@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyRestraintCheckBattle.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -73,6 +74,32 @@ bool EnemyRestraintCheckBattle::sub_71003B1988() {
         value = f32(time);
     }
     return value <= sead::Mathf::epsilon();
+}
+
+// NON_MATCHING: the original loads the actor's y and the other vector components in a different order and ends the
+// vmax test with `b.le` to a `return true` block (ours: `cset ls`)
+bool EnemyRestraintCheckBattle::sub_71003B2030() {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    if (!sub_710072E1B4(enemy, false))
+        return false;
+
+    const sead::Vector3f target = sub_71005D9330(enemy);
+    if (!sub_710072DDB8(target, enemy->getMtx(), *mCheckAngle_s))
+        return false;
+
+    const auto& mtx = enemy->getMtx();
+    const f32 dy = target.y - mtx.m[1][3];
+    const f32 dx = target.x - mtx.m[0][3];
+    const f32 dz = target.z - mtx.m[2][3];
+    if (sead::Mathf::sqrt(dx * dx + dz * dz) > *mCheckDist_s)
+        return false;
+    if (dy < *mCheckVmin_s)
+        return false;
+    if (dy <= *mCheckVmax_s)
+        return true;
+    return false;
 }
 
 bool EnemyRestraintCheckBattle::isFinished() const {

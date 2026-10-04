@@ -23,8 +23,6 @@ void GearRangeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     }
 }
 
-// NON_MATCHING: stack slots of the two SEAD_ENUM temporaries (the original puts the gear value in the
-// slot shared with the SafeString temporaries and the threshold after them)
 void GearRangeSelect::calc_() {
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed() || !child->isChangeable())
@@ -33,9 +31,12 @@ void GearRangeSelect::calc_() {
         return;
 
     auto* rideable = mActor->m132();
-    if (rideable &&
-        Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b) >=
-            Gear(*mGearThreashold_s)) {
+    bool high = false;
+    if (rideable) {
+        const Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
+        high = gear >= Gear(*mGearThreashold_s);
+    }
+    if (high) {
         if (!isCurrentChild("高速ギア"))
             changeChild("高速ギア");
     } else {
