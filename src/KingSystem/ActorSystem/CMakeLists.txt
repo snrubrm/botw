@@ -78,6 +78,7 @@ target_sources(uking PRIVATE
     Profiles/actDynamicActor.cpp
     Profiles/actDynamicActor.h
     Profiles/actPlayer.cpp
+    Profiles/actPlayerSlotTargets.cpp
     Profiles/actPlayerBowUtil.cpp
     Profiles/actPlayerOutOfLine.cpp
     Profiles/actPlayer.h

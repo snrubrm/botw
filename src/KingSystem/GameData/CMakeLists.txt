@@ -10,6 +10,7 @@ target_sources(uking PRIVATE
   gdtFlagUtils.h
   gdtManager.cpp
   gdtManager.h
+  gdtManagerInline.h
   gdtSaveMgr.cpp
   gdtSaveMgr.h
   gdtSpecialFlagNames.cpp

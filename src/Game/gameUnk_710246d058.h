@@ -36,6 +36,13 @@ public:
     bool playerCheckController(int key) const;
     // 0x71008bd430 (CSV name): same with the trigger mask.
     bool controllerCheckPressedMaybe(int key) const;
+    // 0x71008bd344 / 0x71008bd354 (declared with placeholder names): the angle of the left / right stick,
+    // atan2(-x, y).
+    f32 sub_71008BD344() const;
+    f32 sub_71008BD354() const;
+    // 0x71008bd364 / 0x71008bd390: the length of the left / right stick.
+    f32 sub_71008BD364() const;
+    f32 sub_71008BD390() const;
 };
 
 }  // namespace uking

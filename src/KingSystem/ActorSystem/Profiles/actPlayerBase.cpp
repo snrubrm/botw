@@ -4,7 +4,9 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameUnk_710246d058.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -117,6 +119,30 @@ bool PlayerBase::m239() {
     if (_c50.isOnBit(17) || m202() || m292())
         return false;
     return _17d0->controllerCheckPressedMaybe(26);
+}
+
+bool PlayerBase::m240() {
+    if (m292() || _17d0->isHold(0xd0000) || m225())
+        return false;
+    return _17d0->controllerCheckPressedMaybe(27);
+}
+
+// NON_MATCHING: ActorConstDataAccess::sub_7100D14598 returns a 4-byte SEAD_ENUM in the original (`cmp w0, #0xb`; ours
+// compares the 64-bit value)
+bool PlayerBase::x_48() {
+    auto* info = getPlayerRideInfo();
+    if (info && (info->_30 & 1)) {
+        ActorConstDataAccess accessor;
+        if (acquireActor(&info->_18, &accessor))
+            return accessor.sub_7100D14598() == 0xb;
+    }
+    return false;
+}
+
+bool PlayerBase::checkCanUseMagnesis() {
+    if (GameSceneSubsys5::instance()->sub_71009059D4() || m193())
+        return false;
+    return checkCanUseRuneCommon();
 }
 
 bool PlayerBase::m237() {
@@ -1107,10 +1133,10 @@ s32 PlayerBase::m297() const {
     return 0;
 }
 
-bool PlayerBase::m298_271() const {
+s32 PlayerBase::m298_271() const {
     if (auto* player = getPlayerBase())
         return player->m298(player->m271());
-    return false;
+    return 0;
 }
 
 bool PlayerBase::x_41() const {

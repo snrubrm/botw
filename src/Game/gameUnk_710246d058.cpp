@@ -1,5 +1,6 @@
 #include "Game/gameUnk_710246d058.h"
 #include <container/seadBuffer.h>
+#include <cmath>
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking {
@@ -36,6 +37,22 @@ bool Unk_710246d058::controllerCheckPressedMaybe(int key) const {
                                                           1 << sead::Controller::cPadIdx_B;
     }
     return isTrig(mask);
+}
+
+f32 Unk_710246d058::sub_71008BD344() const {
+    return std::atan2(-getLeftStick().x, getLeftStick().y);
+}
+
+f32 Unk_710246d058::sub_71008BD354() const {
+    return std::atan2(-getRightStick().x, getRightStick().y);
+}
+
+f32 Unk_710246d058::sub_71008BD364() const {
+    return getLeftStick().length();
+}
+
+f32 Unk_710246d058::sub_71008BD390() const {
+    return getRightStick().length();
 }
 
 }  // namespace uking

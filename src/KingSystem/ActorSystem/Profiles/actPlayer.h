@@ -186,11 +186,11 @@ public:
     /* 288 */ bool m288() override;
     /* 289 */ bool m289() override;
     /* 290 */ bool m290() override;
-    /* 291 */ bool m291() override;
+    /* 291 */ s32 m291() override;
     /* 295 */ bool m295() override;
-    /* 296 */ bool m296() override;
+    /* 296 */ s32 m296() override;
     /* 297 */ s32 m297() override { return _1f8c; }
-    /* 298 */ bool m298(int) override;
+    /* 298 */ s32 m298(int) override;
     /* 300 */ f32 m300() override { return _2074; }
     /* 301 */ f32 m301() override;
     /* 302 */ bool m302() override { return _1f88 == 3; }
@@ -331,8 +331,8 @@ public:
     // 0x710086d5b8 (declared only; unnamed in the CSV, 1.3 KB): called by PlayerHellNoFade::enter_.
     void sub_710086D5B8();
     bool sub_7100892724();
-    bool sub_7100892824();
-    bool sub_71008923B0(int a1);
+    s32 sub_7100892824();
+    s32 sub_71008923B0(int a1);
     // 0x7100857014 (declared only): turns the player towards the angle index `*target` (speed -1: 0.5; the
     // two limits default to 0x20000000 / 0x200000 for -1); true when the turn is finished.
     // 0x71084ba90 (declaration only; placeholder name): called with the warp effect ratio by

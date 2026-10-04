@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -118,6 +119,21 @@ void PlayerInfo::saveLifeInfoForSwordPull() {
     auto* life = mPlayerActor->getLife();
     mLifeBeforeSwordPull = life ? static_cast<f32>(*life) : 1.0f;
     mExtraLifeBeforeSwordPull = mPlayerActor->m321();
+}
+
+void PlayerInfo::resetLifeToBeforeSwordPull() {
+    if (!mPlayerActor)
+        return;
+    auto* life = mPlayerActor->getLife();
+    const s32 current_life = life ? *life : 1;
+    if (current_life != mPlayerActor->getMaxLife())
+        uking::ui::sub_7100A94B08();
+    if (mExtraLifeBeforeSwordPull != 0.0f) {
+        mPlayerActor->setExtraLife(s32(mExtraLifeBeforeSwordPull), 0.0f);
+        mPlayerActor->m323();
+    }
+    if (mPlayerActor)
+        *mPlayerActor->getLife() = s32(mLifeBeforeSwordPull);
 }
 
 void PlayerInfo::recoverLife() {

@@ -15,6 +15,10 @@ class ActorConstDataAccess;
 // GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
 class GameSceneSubsys5 {
 public:
+    // The instance pointer (0x71025d1770, GOT 0x25793f8; the singleton machinery is not declared yet).
+    static GameSceneSubsys5* instance() { return sInstance; }
+    static GameSceneSubsys5* sInstance;
+
     // 0x7100905468
     void init();
     // 0x71009059d4: _d8[_148]

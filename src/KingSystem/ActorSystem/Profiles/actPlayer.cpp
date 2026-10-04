@@ -5,13 +5,16 @@
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_7100736460.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/E3Mgr.h"
+#include "Game/gameSceneSubsys14.h"
 #include "Game/gameUnk_710246d058.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
@@ -598,12 +601,29 @@ bool Player::m295() {
     return sub_7100892724();
 }
 
-bool Player::m296() {
+s32 Player::m296() {
     return sub_7100892824();
 }
 
-bool Player::m298(int a1) {
+s32 Player::m298(int a1) {
     return sub_71008923B0(a1);
+}
+
+// NON_MATCHING: sub_7100D14598 returns a 4-byte SEAD_ENUM in the original (the result goes through a stack slot)
+s32 Player::m291() {
+    ActorConstDataAccess accessor;
+    s32 result = 0;
+    if (acquireActor(&getPlayerRideInfo()->_18, &accessor))
+        result = s32(accessor.sub_7100D14598());
+    return result;
+}
+
+// NON_MATCHING: the original branches from each test straight to one shared "return true" block (we emit one
+// `orr w0, wzr, #1; b` per test and return the last bit with ubfx)
+bool Player::m365() {
+    return x_44() || _17d0->controllerCheckPressedMaybe(14) ||
+           GameSceneSubsys14::instance()->sub_7100904F04() ||
+           (!_17d0->playerCheckController(2) && _c44.isOnBit(25));
 }
 
 void Player::sub_710085ECF4() {

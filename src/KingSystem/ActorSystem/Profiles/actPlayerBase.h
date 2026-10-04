@@ -194,14 +194,14 @@ public:
     /* 288 */ virtual bool m288() { return false; }
     /* 289 */ virtual bool m289() { return false; }
     /* 290 */ virtual bool m290() { return false; }
-    /* 291 */ virtual bool m291() { return false; }
+    /* 291 */ virtual s32 m291() { return 0; }
     /* 292 */ bool m292() override { return _c40.isOnBit(31); }
     /* 293 */ virtual void m293();
     /* 294 */ virtual void m294();
     /* 295 */ virtual bool m295() { return false; }
-    /* 296 */ virtual bool m296() { return false; }
+    /* 296 */ virtual s32 m296() { return 0; }
     /* 297 */ virtual s32 m297() { return 0; }
-    /* 298 */ virtual bool m298(int) { return false; }
+    /* 298 */ virtual s32 m298(int) { return 0; }
     /* 299 */ bool m299() override { return _c44.isOnBit(2); }
     /* 300 */ virtual f32 m300() { return 1.0f; }
     /* 301 */ virtual f32 m301() { return 1.0f; }
@@ -591,7 +591,7 @@ public:
     bool x_39() const;
     bool x_40() const;
     s32 m297() const;
-    bool m298_271() const;
+    s32 m298_271() const;
     bool x_41() const;
     bool m304() const;
     f32 m305() const;
