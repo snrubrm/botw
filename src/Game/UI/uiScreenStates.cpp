@@ -1,4 +1,5 @@
 #include "KingSystem/Utils/StateMachine.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
 
 // The leaf screens keep their StateMachine states (static objects holding member function pointers to
@@ -16,3 +17,6 @@ template class ksys::StateTemplate<uking::ui::ScreenMainScreen>;
 template class ksys::StateTemplate<uking::ui::ScreenMamoNum>;
 template class ksys::StateTemplate<uking::ui::ScreenPauseMenuRecipe>;
 template class ksys::StateTemplate<uking::ui::ScreenRupee>;
+template class ksys::StateTemplate<uking::ui::Unk_710247af10>;
+template class ksys::StateTemplate<uking::ui::Unk_710247b428>;
+template class ksys::StateTemplate<uking::ui::Unk_710247e468>;

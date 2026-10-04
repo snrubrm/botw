@@ -23,6 +23,8 @@ target_sources(uking PRIVATE
   uiScreenFacade.cpp
   uiScreenBase.cpp
   uiScreenChild.cpp
+  uiScreenChildStates.cpp
+  uiScreenChildStates.h
   uiScreenBaseSlots.cpp
   uiScreenConstSlots.cpp
   uiScreenNames.cpp
