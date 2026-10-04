@@ -58,6 +58,46 @@ void Blender::m20(Context* ctx, const res::ASResource* resource, f32 value) {}
 void Blender::m21(Context* ctx, const res::ASResource* resource, f32 value) {}
 void Blender::m22(Context* ctx, const res::ASResource* resource) {}
 
+// NON_MATCHING: the compiler shares the first-child call and status update blocks.
+void Blender::sub_7101316BC0(Context* ctx, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+    record->_2 = 0;
+    const s8 second = record->_1;
+    const s8 first = record->_0;
+    if (second != -1) {
+        Element* child = mChildren[first];
+        const res::ASResource* child_resource = sub_71013031FC(resource, first);
+        const f32 first_value = child->m26(ctx, child_resource);
+        Element* child2 = mChildren[second];
+        const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+        const f32 second_value = child2->m26(ctx, child2_resource);
+        if (blender_resource && blender_resource->getTypeIndex() == 5) {
+            record->_8 = first_value;
+            if (second_value < 0.0f)
+                record->_2 = 3;
+        } else if (second_value <= 0.0f) {
+            record->_8 = first_value;
+            if (second_value < 0.0f) {
+                record->_4 = 0.0f;
+                record->_2 = 1;
+            }
+        } else if (first_value <= 0.0f) {
+            record->_8 = second_value;
+            if (first_value < 0.0f) {
+                record->_4 = 1.0f;
+                record->_2 = 2;
+            }
+        } else {
+            record->_8 = second_value * record->_4 + first_value * (1.0f - record->_4);
+        }
+    } else {
+        Element* child = mChildren[first];
+        const res::ASResource* child_resource = sub_71013031FC(resource, first);
+        record->_8 = child->m26(ctx, child_resource);
+    }
+}
+
 f32 Blender::m26(Context* ctx, const res::ASResource* resource) {
     return ctx->sub_7101258CD4(sub_71011653E8(resource))->_8;
 }
