@@ -14,7 +14,7 @@ public:
     void loadParams() override;
 
     /* 0x28 */ const int* mCameraStateNotify2Sound_s{};
-    /* 0x30 */ bool _30 = false;
+    /* 0x30 */ u8 _30 = 0;  // bounded state index (0..3), used by m8/m9's dispatch table
 };
 KSYS_CHECK_SIZE_NX150(CameraNotify2Sound, 0x38);
 
