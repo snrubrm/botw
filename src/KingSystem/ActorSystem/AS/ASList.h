@@ -206,7 +206,7 @@ public:
     void sub_710115F6F4(int key, int slot, int bank, f32 value);
     bool sub_710115F024(const sead::Vector3f& value, int a2);
     const sead::Vector3f& sub_710115F078();
-    // 0x710115f3f0: queries normalized playback position (declaration only).
+    // 0x710115f3f0: queries normalized playback position.
     f32 sub_710115F3F0(int slot, int bank, bool a1);
     // 0x710115ea64: copies one of five string parameter values (declaration only).
     bool sub_710115EA64(int kind);

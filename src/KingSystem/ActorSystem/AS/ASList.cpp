@@ -490,6 +490,12 @@ void ASList::sub_710115F158(ASList* other, int slot, int other_slot, int bank, i
     entry->sub_71011633C0(other_entry);
 }
 
+f32 ASList::sub_710115F3F0(int slot, int bank, bool a1) {
+    if (auto* entry = getEntry(slot, bank))
+        return entry->sub_7101163354(a1);
+    return 0.0f;
+}
+
 bool ASList::sub_710115F0BC(int slot, int bank, f32 value) {
     if (auto* entry = getEntry(slot, bank))
         return entry->sub_7101162F7C(value);
