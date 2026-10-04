@@ -572,6 +572,16 @@ RigidBodySet* InstanceSet::findBodyByName(const sead::SafeString& name) const {
     return mRigidBodySets[idx];
 }
 
+RigidBody* InstanceSet::findX(const sead::SafeString& a1, const sead::SafeString& a2) const {
+    const s32 idx = sub_7100FBB668(a1);
+    if (idx < 0)
+        return nullptr;
+    auto* set = mRigidBodySets[idx];
+    if (!set)
+        return nullptr;
+    return set->findBodyByHavokName(a2);
+}
+
 // NON_MATCHING: the tail after the two handler tests is laid out differently (we keep a flag in
 // w21 for `!handler`, the original re-tests the handler register)
 void InstanceSet::sub_7100FBDFA4(SystemGroupHandler* handler) {
