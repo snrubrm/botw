@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerSitWait.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameUnk_710246d058.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
@@ -29,7 +31,16 @@ void PlayerSitWait::loadParams_() {
 }
 
 void PlayerSitWait::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    player->_20bc.value = 0;
+    player->_20bc.prev_value = 0;
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    static_cast<ksys::act::Player*>(mActor)->_1cb0 = 0;
+    static_cast<ksys::act::Player*>(mActor)->sub_710084AD5C(*mEnergyAutoRecover_s, false);
+    if (static_cast<ksys::act::Player*>(mActor)->_17d0->controllerCheckPressedMaybe(14)) {
+        ui::sub_7100A95F5C(static_cast<ksys::act::Player*>(mActor)->_1cb0);
+        setFinished();
+    }
 }
 
 bool PlayerSitWait::isChangeable() const {
