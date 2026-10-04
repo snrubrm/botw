@@ -252,7 +252,7 @@ public:
     int handleMessage(const ksys::Message& message) override;
     virtual void m112(sead::Heap* heap);
     virtual void m113();
-    virtual void m114();
+    virtual void m114(sead::Heap* heap);
     virtual void m115();
     virtual void m116();
     virtual void m117();
@@ -304,6 +304,22 @@ public:
     void sub_7100939F4C(eui::AnimButton* button);
 };
 
+// ScreenEx's helper at+0x330. The constructor0x92fc8c and destructor0x92fcb4 prove
+// size0x38, heap+8, Screen*+0x10, config+0x18, buffer+0x20 and boolean+0x30.
+class Unk_71024746b0 {
+public:
+    Unk_71024746b0();
+    virtual ~Unk_71024746b0();
+
+    void setHeap(sead::Heap* heap);
+    void initialize(Screen* screen, eui::LayoutEx* layout, void* config);
+    void update();
+
+    /* 0x08 */ sead::Heap* mHeap;
+    u8 _10[0x38 - 0x10];
+};
+static_assert(sizeof(Unk_71024746b0) == 0x38);
+
 class ScreenEx : public Screen {
 public:
     ScreenEx();
@@ -322,11 +338,14 @@ public:
 
     int handleMessage(const ksys::Message& message) override;
     void m112(sead::Heap* heap) override;
+    void m114(sead::Heap* heap) override;
+    void m115() override;
     eui::UIController* doCreateUIController_(sead::Heap* heap) override;
     void registerController_() override;
 
     // Placeholder for the real data (0x300 ...; the leaf classes' members start at 0x3610).
-    u8 _300[0x368 - 0x300];
+    u8 _300[0x330 - 0x300];
+    /* 0x330 */ Unk_71024746b0 mButtonHelper;
     /* 0x368 */ ButtonEventQueue* mButtonEvents;
     u8 _370[0x3a8 - 0x370];
     // The units and buttons are parallel arrays (the setBuffer calls of the constructor: 400 entries each, the

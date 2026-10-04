@@ -280,7 +280,7 @@ void Screen::m112(sead::Heap*) {}
 void Screen::m113() {}
 
 // 0x7100a82904 (CSV Screen::m114_null)
-void Screen::m114() {}
+void Screen::m114(sead::Heap*) {}
 
 // 0x7100a82908 (CSV Screen::m115_null)
 void Screen::m115() {}

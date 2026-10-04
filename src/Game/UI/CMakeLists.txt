@@ -112,6 +112,7 @@ target_sources(uking PRIVATE
   uiScreenLeafSlots.cpp
   uiButtonEventQueue.cpp
   uiScreenEx.cpp
+  uiScreenButtonHelper.cpp
   uiScreenButtonUnit.cpp
   uiScreenSlots.cpp
   uiScreenStates.cpp

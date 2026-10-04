@@ -19,6 +19,17 @@ int ScreenEx::handleMessage(const ksys::Message& message) {
     }
 }
 
+// 0x7100a488d4
+void ScreenEx::m114(sead::Heap* heap) {
+    mButtonHelper.setHeap(heap);
+    mButtonHelper.initialize(this, mLayout, m143());
+}
+
+// 0x7100a48928
+void ScreenEx::m115() {
+    mButtonHelper.update();
+}
+
 // 0x7100a48c68
 void ScreenEx::m144(void* a1) {
     m131(a1);
