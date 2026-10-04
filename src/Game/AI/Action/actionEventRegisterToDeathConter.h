@@ -10,6 +10,7 @@ public:
     explicit EventRegisterToDeathConter(const InitArg& arg);
     ~EventRegisterToDeathConter() override;
 
+    bool oneShot_() override;
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
 
