@@ -16,8 +16,8 @@ bool LynelEscapeFromTarget::init_(sead::Heap* heap) {
 
 void LynelEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = *mKeepTime_s;
-    _60 = time;
-    _64 = _68 = time;
+    _60.value = time;
+    _60.min = _60.max = time;
     sead::Vector3f pos;
     if (sub_7100490F58(&pos))
         changeToEscapeMove(pos);
@@ -25,20 +25,13 @@ void LynelEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
         changeToCannotEscape();
 }
 
-// NON_MATCHING: the original materialises `this + 0x60` (the `_60` timer) once in a callee-saved register and uses
-// it for the update / store / test; ours addresses `_60` through `this` each time (all other differences are the
-// resulting register renaming)
 void LynelEscapeFromTarget::calc_() {
     const f32 dist = (mActor->getMtx().getTranslation() - *mTargetPos_d).length();
     const f32 space_min = *mSpaceDistMin_s;
-    if (dist > space_min) {
-        ksys::Timer::update(&_60, -1.0f);
-    } else {
-        s32 value = _64;
-        if (_64 != _68)
-            value = sead::GlobalRandom::instance()->getS32Range(_64, _68);
-        _60 = value;
-    }
+    if (dist > space_min)
+        _60.update();
+    else
+        _60.reset();
 
     auto* child = getCurrentChild();
     if (child->isFinished() || child->isFailed()) {
@@ -59,7 +52,7 @@ void LynelEscapeFromTarget::calc_() {
             }
         }
     } else if (child->isChangeable()) {
-        if (_60 <= 0.0f) {
+        if (_60.value <= 0.0f) {
             setFinished();
             return;
         }

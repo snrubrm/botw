@@ -14,6 +14,7 @@ target_sources(uking PRIVATE
   aiAwarenessFilters.cpp
   aiAwarenessFilters.h
   aiFlagByte.h
+  aiRandomTimer.h
   aiGuardianAimBeamState.cpp
   aiGuardianAimBeamState.h
   aiMessage3DText.cpp

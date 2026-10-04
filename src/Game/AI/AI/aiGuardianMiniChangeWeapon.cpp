@@ -24,6 +24,23 @@ void GuardianMiniChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("切替開始");
 }
 
+void GuardianMiniChangeWeapon::calc_() {
+    sub_710041A554();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("切替開始")) {
+            sub_710041A6DC();
+            return;
+        }
+    }
+
+    child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("切替終了"))
+            setFinished();
+    }
+}
+
 bool GuardianMiniChangeWeapon::isChangeable() const {
     return false;
 }

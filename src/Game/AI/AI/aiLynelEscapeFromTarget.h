@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiRandomTimer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -44,9 +45,7 @@ protected:
     const float* mMoveDistMin_s{};
     // dynamic_param at offset 0x58
     sead::Vector3f* mTargetPos_d{};
-    f32 _60{};
-    int _64{};
-    int _68{};
+    RandomTimer _60;
 };
 
 }  // namespace uking::ai
