@@ -43,6 +43,8 @@ public:
     explicit Swarm(const CreateArg& arg);
     ~Swarm() override;
 
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+
 protected:
     InitResult init_() override;
     bool startPreparingForPreDelete_() override;
@@ -72,8 +74,22 @@ public:
     // (`(int idx)` returning _14c8[idx]->_78, Actor declares `void m40()`).
 
     /* 0x14c8 */ sead::Buffer<Unit*> _14c8;  // units
-    // five 0x30-byte entries (first three pointers zeroed) at 0x14e0 + 0x30 * i
-    /* 0x14d8 */ u8 _14d8[0x15b8 - 0x14d8];
+    // five 0x30-byte entries (first three pointers zeroed) at 0x14e0 + 0x30 * i (the last one is cut off by _15b8)
+    struct Ptr3 {
+        void* _0 = nullptr;
+        void* _8 = nullptr;
+        void* _10 = nullptr;
+    };
+    /* 0x14d8 */ u64 _14d8 = 0;
+    /* 0x14e0 */ Ptr3 _14e0;
+    /* 0x14f8 */ u8 _14f8[0x18];
+    /* 0x1510 */ Ptr3 _1510;
+    /* 0x1528 */ u8 _1528[0x18];
+    /* 0x1540 */ Ptr3 _1540;
+    /* 0x1558 */ u8 _1558[0x18];
+    /* 0x1570 */ Ptr3 _1570;
+    /* 0x1588 */ u8 _1588[0x18];
+    /* 0x15a0 */ Ptr3 _15a0;
     /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
     /* 0x15e8 */ u32 _15e8 = 0;
     /* 0x15f0 */ void* _15f0 = nullptr;

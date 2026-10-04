@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <random/seadRandom.h>
@@ -21,6 +22,8 @@ class Sandworm : public Enemy {
 public:
     explicit Sandworm(const CreateArg& arg);
     ~Sandworm() override;
+
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
 protected:
     bool startPreparingForPreDelete_() override;
@@ -45,7 +48,7 @@ public:
     /* 0x14c8 */ s32 _14c8 = 2;
     /* 0x14cc */ s32 _14cc = 2;
     /* 0x14d0 */ void* _14d0 = nullptr;
-    /* 0x14d8 */ u8 _14d8[0x1510 - 0x14d8];  // gsys::BoneAccessKeyEx
+    /* 0x14d8 */ gsys::BoneAccessKeyEx _14d8;
     /* 0x1510 */ u32 _1510 = 0;
     /* 0x1518 */ void* _1518 = nullptr;
     /* 0x1520 */ u32 _1520 = 0;
@@ -59,20 +62,21 @@ public:
     /* 0x1580 */ f32 _1580 = 3.0;
     /* 0x1584 */ u8 _1584 = 0;
     /* 0x1588 */ void* _1588 = nullptr;
-    /* 0x1590 */ ksys::VFRValue _1590;
+    /* 0x1590 */ ksys::VFRValue _1590{0.0f};
     /* 0x159c */ f32 _159c = 0;
     /* 0x15a0 */ u32 _15a0 = 0;
     /* 0x15a4 */ u32 _15a4 = 0;
     /* 0x15a8 */ u32 _15a8 = 0;
     /* 0x15ac */ f32 _15ac = 0;  // sand offset speed (SandwormASPlay)
-    /* 0x15b0 */ f32 _15b0;      // target sand offset (SandwormASPlay)
+    /* 0x15b0 */ f32 _15b0 = 0;  // target sand offset (SandwormASPlay)
     /* 0x15b4 */ u32 _15b4;
-    /* 0x15b8 */ u8 _15b8[0x1628 - 0x15b8];  // two gsys::BoneAccessKeyEx
+    /* 0x15b8 */ gsys::BoneAccessKeyEx _15b8;
+    /* 0x15f0 */ gsys::BoneAccessKeyEx _15f0;
     /* 0x1628 */ sead::Random _1628;
     /* 0x1638 */ u8 _1638 = 0;
     /* 0x163c */ u32 _163c = 0;
     /* 0x1640 */ u32 _1640 = 0;
-    /* 0x1644 */ sead::Vector3f _1644;
+    /* 0x1644 */ sead::Vector3f _1644 = sead::Vector3f::zero;
     /* 0x1650 */ ksys::phys::RigidBody* _1650 = nullptr;  // m56
 };
 KSYS_CHECK_SIZE_NX150(Sandworm, 0x1658);

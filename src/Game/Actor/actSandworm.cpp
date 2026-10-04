@@ -1,10 +1,18 @@
 #include "Game/Actor/actSandworm.h"
+#include <basis/seadNew.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
 
-// NON_MATCHING: member types incomplete
+Sandworm::Sandworm(const CreateArg& arg) : Enemy(arg) {
+    _1c0 = 1;
+}
+
 Sandworm::~Sandworm() = default;
+
+ksys::act::BaseProc* Sandworm::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Sandworm(arg);
+}
 
 void Sandworm::killWithDropsAndEffects(int a1) {
     sub_71002CDB48();

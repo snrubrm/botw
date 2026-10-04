@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -7,6 +8,15 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
+
+Bullet::Bullet(const CreateArg& arg) : DynamicActor(arg) {
+    for (auto& v : _cc4)
+        v = {0, 0};
+}
+
+BaseProc* Bullet::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) Bullet(arg);
+}
 
 // NON_MATCHING: the non-virtual thunks (0x7100006964...) do not keep &_bd0._10 in a register
 Bullet::~Bullet() = default;

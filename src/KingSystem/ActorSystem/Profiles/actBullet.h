@@ -16,6 +16,7 @@ class Bullet : public DynamicActor {
     SEAD_RTTI_OVERRIDE(Bullet, DynamicActor)
 public:
     explicit Bullet(const CreateArg& arg);
+    static BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Bullet() override;
 
     Actor* m31() override;
@@ -73,7 +74,7 @@ public:
     /* 0xcb0 */ u64 _cb0 = 0;
     /* 0xcb8 */ u64 _cb8 = 0;
     /* 0xcc0 */ f32 _cc0 = 1.0;
-    /* 0xcc4 */ u8 _cc4[0xcf4 - 0xcc4]{};
+    /* 0xcc4 */ sead::Vector2f _cc4[6];
     /* 0xcf4 */ u16 _cf4 = 0;
     /* 0xcf8 */ f32 _cf8 = -1.0;
     /* 0xcfc */ f32 _cfc = 1.0;
