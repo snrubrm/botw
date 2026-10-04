@@ -822,6 +822,7 @@ KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);
 class ClearMatAnmAsset : public Asset {
     SEAD_RTTI_OVERRIDE(ClearMatAnmAsset, Asset)
 public:
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     ClearMatAnmAsset();
 };
