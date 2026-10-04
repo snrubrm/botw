@@ -156,6 +156,10 @@ public:
 
     Object* findPlacementLODLinkObject(const PlacementActors* unused) const;
     Object* findPlacementLODLinkObject() const;
+    // 0x7100d4c868 / 0x7100d4c890 (CSV getPlacementLODLinkObj_0 / getPlacementLODLinkObj; lane4 s30): the PlacementLOD
+    // link of mLinkData, found through ObjectLinkData::findLinkWithType / findLinkWithType_0.
+    Object* sub_7100D4C868() const;
+    Object* sub_7100D4C890() const;
 
     const char* getHashIdStringDebug() const;
     const char* getHashIdStringDebug_0() const;

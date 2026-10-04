@@ -328,6 +328,26 @@ Object* Object::findPlacementLODLinkObject(const PlacementActors*) const {
     return nullptr;
 }
 
+Object* Object::sub_7100D4C868() const {
+    if (!mLinkData)
+        return nullptr;
+
+    ObjectLink* result = mLinkData->findLinkWithType(MapLinkDefType::PlacementLOD);
+    if (result)
+        return result->other_obj;
+    return nullptr;
+}
+
+Object* Object::sub_7100D4C890() const {
+    if (!mLinkData)
+        return nullptr;
+
+    ObjectLink* result = mLinkData->findLinkWithType_0(MapLinkDefType::PlacementLOD);
+    if (result)
+        return result->other_obj;
+    return nullptr;
+}
+
 Object* Object::findPlacementLODLinkObject() const {
     if (!mLinkData)
         return nullptr;

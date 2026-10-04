@@ -108,6 +108,31 @@ public:
 
     void x_1(act::Actor* actor, Object* obj);
 
+    // lane4 s30: forwarders to mGenGroup (names from the CSV; the GenGroup callees are placeholders).
+    // 0x7100d4f7c8: allocates `mRails` (num + 1 pointers, the last one null).
+    bool allocRails(s32 num, sead::Heap* heap);
+    // 0x7100d4f8f8 (CSV x) / 0x7100d4f968 (x_8) / 0x7100d4f97c (x_3) / 0x7100d4f9b0 (x_7) / 0x7100d4fa3c (x_0)
+    void x();
+    bool x_8(bool a1);
+    void x_3(bool a1);
+    bool x_7(bool a1);
+    bool x_0();
+    // 0x7100d4f908 / 0x7100d4f928: mGenGroup's atomic counter at +8.
+    void incrementGenGroupNumPrepareDelete();
+    void decrementGenGroupNumPrepareDelete();
+    void deleteEachActorIfDeleteType2_0();
+    void deleteEachActorIfDeleteType2();
+    bool isGroupInitComplete() const;
+    void setNumExecLinkTagTo1();
+    bool hasCreateOrDeleteLinks() const;
+    bool isGenGroupInitState3() const;
+    // 0x7100d4faa4 / 0x7100d4fac0 (without a group: field_54).
+    void counterStuff();
+    u8 checkFrameCounter();
+    void setFlagOnAllObjs(bool a1, u32 a2);
+    bool checkContainsObjWithActorFlag(const u32* a1);
+    bool checkContainsObjWithName(const sead::SafeString& name, const u32* mode);
+
     bool checkCreateOrDeleteLinkObjRevival() const {
         return checkDeleteLinkObjRevival() || checkCreateLinkObjRevival();
     }

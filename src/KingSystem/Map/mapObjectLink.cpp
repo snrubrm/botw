@@ -316,6 +316,115 @@ void ObjectLinkData::sub_7100D4FB78(Object* obj) {
         mGenGroup->sub_7100D5119C(obj);
 }
 
+bool ObjectLinkData::allocRails(s32 num, sead::Heap* heap) {
+    mRails = new (heap, 8) Rail*[num + 1];
+    if (!mRails)
+        return false;
+    mRails[num] = nullptr;
+    return true;
+}
+
+void ObjectLinkData::x() {
+    if (mGenGroup)
+        mGenGroup->sub_7100D50E00();
+}
+
+bool ObjectLinkData::x_8(bool a1) {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D50E44(a1);
+    return false;
+}
+
+void ObjectLinkData::x_3(bool a1) {
+    if (mGenGroup)
+        mGenGroup->sub_7100D50E90(a1);
+}
+
+bool ObjectLinkData::x_7(bool a1) {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D50EF4(a1);
+    return true;
+}
+
+bool ObjectLinkData::x_0() {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D51064();
+    return true;
+}
+
+void ObjectLinkData::incrementGenGroupNumPrepareDelete() {
+    if (mGenGroup)
+        mGenGroup->mNumPrepareDelete.increment();
+}
+
+void ObjectLinkData::decrementGenGroupNumPrepareDelete() {
+    if (mGenGroup)
+        mGenGroup->mNumPrepareDelete.decrement();
+}
+
+void ObjectLinkData::deleteEachActorIfDeleteType2_0() {
+    if (mGenGroup)
+        mGenGroup->sub_7100D507F8();
+}
+
+void ObjectLinkData::deleteEachActorIfDeleteType2() {
+    if (mGenGroup)
+        mGenGroup->deleteEachActorIfDeleteType2();
+}
+
+bool ObjectLinkData::isGroupInitComplete() const {
+    if (mGenGroup)
+        return mGenGroup->mInitState == 2;
+    return true;
+}
+
+void ObjectLinkData::setNumExecLinkTagTo1() {
+    if (mGenGroup)
+        mGenGroup->mNumExecLinkTag = 1;
+}
+
+bool ObjectLinkData::hasCreateOrDeleteLinks() const {
+    if (mGenGroup)
+        return mGenGroup->mHasCreateOrDeleteLinks != 0;
+    return false;
+}
+
+bool ObjectLinkData::isGenGroupInitState3() const {
+    if (mGenGroup)
+        return mGenGroup->mInitState == 3;
+    return false;
+}
+
+void ObjectLinkData::counterStuff() {
+    if (mGenGroup)
+        mGenGroup->sub_7100D510D0();
+    else
+        field_54 = true;
+}
+
+u8 ObjectLinkData::checkFrameCounter() {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D510FC();
+    return field_54;
+}
+
+void ObjectLinkData::setFlagOnAllObjs(bool a1, u32 a2) {
+    if (mGenGroup)
+        mGenGroup->sub_7100D51250(a1, a2);
+}
+
+bool ObjectLinkData::checkContainsObjWithActorFlag(const u32* a1) {
+    if (mGenGroup)
+        return mGenGroup->sub_7100D51330(a1);
+    return false;
+}
+
+bool ObjectLinkData::checkContainsObjWithName(const sead::SafeString& name, const u32* mode) {
+    if (mGenGroup)
+        return mGenGroup->checkContainsObjWithName(name, mode);
+    return false;
+}
+
 void ObjectLinkData::setGenGroup(GenGroup* group) {
     if (mGenGroup == nullptr)
         mGenGroup = group;
