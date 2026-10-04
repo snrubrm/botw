@@ -33,7 +33,7 @@ void GiantAttack::loadParams_() {
 }
 
 void GiantAttack::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_71002A182C();
 }
 
 }  // namespace uking::action

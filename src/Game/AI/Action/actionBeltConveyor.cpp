@@ -30,7 +30,7 @@ void BeltConveyor::loadParams_() {
 }
 
 void BeltConveyor::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_71000C48C0();
 }
 
 }  // namespace uking::action

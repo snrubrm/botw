@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710020a5e4 (declared only): the body of leave_ is out of line in the original.
+    void sub_710020A5E4();
     void calc_() override;
 
     // dynamic_param at offset 0x20

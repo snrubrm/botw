@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710014b0f0 (declared only): the body of leave_ is out of line in the original.
+    void sub_710014B0F0();
     void calc_() override;
     virtual bool m32() = 0;
     virtual bool m33() = 0;

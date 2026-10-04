@@ -19,7 +19,7 @@ void ThrownSpear::loadParams_() {
 }
 
 void ThrownSpear::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100297FC0();
 }
 
 }  // namespace uking::action

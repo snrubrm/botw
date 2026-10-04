@@ -25,7 +25,7 @@ void PhysBodyPartLod::loadParams_() {
 }
 
 void PhysBodyPartLod::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_710021A344();
 }
 
 }  // namespace uking::action

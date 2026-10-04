@@ -29,7 +29,7 @@ void ForkDisableContact::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ForkDisableContact::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_710014B0F0();
 }
 
 // NON_MATCHING: regalloc only (the original computes &mRigidBodyName_s[0] before the first getStaticParam call)

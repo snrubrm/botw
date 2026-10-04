@@ -36,7 +36,7 @@ void WaterFloatBase::loadParams_() {
 }
 
 void WaterFloatBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_71002B50B4();
 }
 
 }  // namespace uking::action

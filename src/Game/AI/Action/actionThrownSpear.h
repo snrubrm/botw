@@ -15,6 +15,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100297fc0 (declared only): the body of calc_ is out of line in the original.
+    void sub_7100297FC0();
     void calc_() override;
 
     // static_param at offset 0x20

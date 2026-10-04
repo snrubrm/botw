@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71002a36bc (declared only): the body of enter_ is out of line in the original.
+    void sub_71002A36BC(ksys::act::ai::InlineParamPack* params);
     void calc_() override;
 
     // dynamic_param at offset 0x20

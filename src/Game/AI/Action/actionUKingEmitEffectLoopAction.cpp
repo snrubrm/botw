@@ -13,7 +13,7 @@ bool UKingEmitEffectLoopAction::init_(sead::Heap* heap) {
 }
 
 void UKingEmitEffectLoopAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_71002A36BC(params);
 }
 
 void UKingEmitEffectLoopAction::leave_() {

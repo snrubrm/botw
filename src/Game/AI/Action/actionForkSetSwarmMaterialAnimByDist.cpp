@@ -29,7 +29,7 @@ void ForkSetSwarmMaterialAnimByDist::loadParams_() {
 }
 
 void ForkSetSwarmMaterialAnimByDist::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100163718();
 }
 
 }  // namespace uking::action

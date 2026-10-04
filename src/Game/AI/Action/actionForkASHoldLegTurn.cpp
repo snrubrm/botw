@@ -29,7 +29,7 @@ void ForkASHoldLegTurn::loadParams_() {
 }
 
 void ForkASHoldLegTurn::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_710013EE00();
 }
 
 }  // namespace uking::action

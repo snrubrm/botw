@@ -11,7 +11,7 @@ void NPCTurnToObject::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCTurnToObject::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_710020A5E4();
 }
 
 void NPCTurnToObject::loadParams_() {
