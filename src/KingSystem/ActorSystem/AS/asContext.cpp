@@ -123,6 +123,32 @@ void Context::sub_710125A630() {
     }
 }
 
+// NON_MATCHING: compiler branches directly on the bool instead of testing its inverted bit.
+bool Context::sub_7101259990(bool a1) {
+    if (_f4 != _f5)
+        return false;
+    if (!(mFlags & 0x20) && !a1) {
+        if (!(mFlags & 4))
+            return false;
+    } else if (!(mFlags & 0x400)) {
+        return true;
+    }
+    const s32 previous_bank = _f6 ^ 1;
+    const s32 size = mBanksA[_f6].mCount;
+    for (s32 i = 0; i < size; ++i) {
+        const auto& current = mBanksA[_f6].mEvents[i];
+        const s32 previous_size = mBanksA[previous_bank].mCount;
+        for (s32 j = 0; j < previous_size; ++j) {
+            const auto& previous = mBanksA[previous_bank].mEvents[j];
+            if (current.mName == previous.mName &&
+                (current._18 > 0.25f || previous._18 > 0.25f)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 // NON_MATCHING: event duration/value copies use separate stores and different registers.
 bool Context::sub_710125A67C(const Context& other, bool reset_events) {
     if (!_d0->sub_71012580E0(*other._d0))

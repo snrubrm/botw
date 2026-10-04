@@ -169,6 +169,35 @@ bool ASList::Unk2::sub_7101163950() {
     return _0->_921 & 1;
 }
 
+void ASList::Unk2::sub_710042BBEC() {
+    mFlags |= 0x100;
+}
+
+void ASList::Unk2::sub_71011623DC(Unk2* other) {
+    if (!_18 || !other->_18)
+        return;
+    const auto* resource = _0->sub_7101258CC0();
+    if (resource == other->_0->sub_7101258CC0()) {
+        mFlags = other->mFlags;
+        _0->sub_710125A67C(*other->_0, true);
+    }
+}
+
+void ASList::Unk2::sub_7101162E88(Unk2* other, bool a1) {
+    if (!other || _18 != other->_18)
+        return;
+    mFlags = other->mFlags;
+    _0->sub_710125A67C(*other->_0, false);
+    if (_0->sub_7101259990(false))
+        sub_7101161EE0(-1.0f, _18, false);
+    if (a1)
+        other->_48 = this;
+    else
+        _48 = other;
+    if (Element::sub_71011654D8())
+        _0->mFlags |= 0x40;
+}
+
 // NON_MATCHING: compiler converts bit 7 to bool with a signed byte load and comparison.
 bool ASList::Unk2::sub_7101163940() {
     return _0->_920 >> 7;

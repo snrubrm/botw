@@ -30,8 +30,14 @@ public:
         // inline: their out-of-line copies are emitted in the callers' TUs
         bool sub_710002E82C() { return _18 != nullptr; }
         bool sub_7100023B58() { return _41 >> 3 & 1; }
-        // 0x710042bbec (declaration only; lane4 s23): sets bit 8 of the halfword at 0x40.
+        // 0x710042bbec: sets bit 8 of the halfword at 0x40.
         void sub_710042BBEC();
+        // 0x71011623dc: copies frame state when both slots use the same resource.
+        void sub_71011623DC(Unk2* other);
+        // 0x7101162e88: copies matching slot state and links the two entries.
+        void sub_7101162E88(Unk2* other, bool a1);
+        // 0x7101161ee0: applies the element's partial-bone value (declaration only).
+        void sub_7101161EE0(f32 value, Element* element, bool a1);
 
         // 0x7101161cd8 (declaration only): the context's string (empty if there is no element).
         const sead::SafeString* sub_7101161CD8();
@@ -75,11 +81,18 @@ public:
         /* 0x20 */ void* _20;
         /* 0x28 */ void* _28;
         /* 0x30 */ u8 _30[0x40 - 0x30];
-        /* 0x40 */ u8 _40;
-        /* 0x41 */ u8 _41;
+        /* 0x40 */ union {
+            u16 mFlags;
+            struct {
+                u8 _40;
+                u8 _41;
+            };
+        };
         /* 0x42 */ u8 _42;
         /* 0x43 */ u8 _43;
-        /* 0x44 */ u8 _44[0x98 - 0x44];
+        /* 0x44 */ u8 _44[0x48 - 0x44];
+        /* 0x48 */ Unk2* _48;
+        /* 0x50 */ u8 _50[0x98 - 0x50];
     };
 
     // Placeholder: 0x50-byte slot.
