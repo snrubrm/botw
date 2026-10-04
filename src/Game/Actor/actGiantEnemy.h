@@ -19,6 +19,20 @@ public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
 };
 
+// Placeholder name (the object at GiantEnemy::_1558, created by the unnamed factories 0x7100302d0 / 0x71002d99c; only
+// the virtual slots that GiantEnemy calls are declared: slot 2 / 3 / 5 / 8, slots 0 and 1 are the destructors).
+class Unk_71002d99c {
+public:
+    virtual ~Unk_71002d99c();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void* m8();
+};
+
 // Name from the CSV (GiantEnemy::*): Hinox / Stalnox / Talus / Molduga-sized enemies. vtable
 // 0x7102359a48 (181 slots, no new virtuals), RTTI static 0x71025af110 (parent: Enemy). Factory
 // 0x710002a150 (CSV GiantEnemy::construct, which inlines the ctor): new(0x1588).
@@ -75,7 +89,7 @@ public:
     /* 0x1510 */ Unk_710235a050 _1510;
     /* 0x1538 */ ksys::phys::MaterialMask _1538;
     /* 0x1550 */ u8 _1550 = 0;
-    /* 0x1558 */ void* _1558 = nullptr;  // m119 calls its vtable slot 8
+    /* 0x1558 */ Unk_71002d99c* _1558 = nullptr;
     /* 0x1560 */ ksys::phys::RigidBody* _1560 = nullptr;  // set by the ForestGiant / StalGiantEnemy / Golem root AIs (m56)
     /* 0x1568 */ u8 _1568 = 0;  // written by several giant AIs
     // object with vtable 0x7102357908 (owner = this); m79 forwards to 0x71006cef08 on it

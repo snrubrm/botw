@@ -34,6 +34,33 @@ void GiantEnemy::m117(ksys::act::Unk117* arg) {
     _14c8.sub_710002A828(arg);
 }
 
+void GiantEnemy::m63() {
+    if (_1558)
+        _1558->m2();
+    Enemy::m63();
+}
+
+bool GiantEnemy::m146() {
+    const bool result = Enemy::m146();
+    if (!_1568 && _1558)
+        _1558->m3();
+    return result;
+}
+
+void GiantEnemy::preDelete2_(const PreDeleteArg& arg) {
+    if (_1558) {
+        _1558->m5();
+        _1558 = nullptr;
+    }
+    Enemy::preDelete2_(arg);
+}
+
+void* GiantEnemy::m119() {
+    if (_1558)
+        return _1558->m8();
+    return nullptr;
+}
+
 void GiantEnemy::m145() {}
 
 void GiantEnemy::m110(f32* a1, s32* a2) {
