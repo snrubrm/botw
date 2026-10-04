@@ -1,6 +1,7 @@
 #include "Game/gameStage.h"
 #include "Game/gameScene.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldEnvMgr.h"
 
 namespace uking {
 
@@ -19,6 +20,10 @@ StartupSaveCheckStage::StartupSaveCheckStage() : mHeap(nullptr), mState(nullptr)
 
 StartupSaveCheckStage::~StartupSaveCheckStage() {
     mHeap->destroy();
+}
+
+void IndoorStage::initForStageGen() {
+    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
 }
 
 IndoorStage::~IndoorStage() {
@@ -77,6 +82,14 @@ void MainFieldDungeonStage::getMapType(sead::BufferedSafeString* out) {
 
 int MainFieldDungeonStage::m0() {
     return 2;
+}
+
+s32 ViewerStage::getType() {
+    return 5;
+}
+
+void ViewerStage::initForStageGen() {
+    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
 }
 
 }  // namespace uking

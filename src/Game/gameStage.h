@@ -7,6 +7,13 @@
 #include "KingSystem/Map/mapMapProperties.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 
+namespace ksys::world {
+class EnvMgr;
+// 0x71010d6094 (CSV wm::SkyMgr::initForStageGen; declaration only): called by the stages' initForStageGen with the
+// EnvMgr (null while the manager list is shorter than 7 entries).
+void sub_71010D6094(EnvMgr* mgr);
+}  // namespace ksys::world
+
 namespace uking {
 
 extern bool sIsTitleStageActive;
@@ -143,5 +150,31 @@ private:
     /* 0x170 */ u8 _170[0x290 - 0x170];
 };
 static_assert(sizeof(MainFieldDungeonStage) == 0x290);
+
+// Viewer stage (0x150 bytes): Stage + IHandler; two 0x90-byte `GameScene::sb` objects at +0x30 / +0xc0 (an
+// ObjArray-like helper with out-of-line ctor / init / dtor) are not modelled; its ctor, destructors, init, preCalc,
+// calc and unload are not decompiled.
+class ViewerStage : public Stage, public ksys::MessageTransceiverTxOnly::IHandler {
+    SEAD_RTTI_OVERRIDE(ViewerStage, Stage)
+public:
+    ViewerStage();
+
+    // (the first out-of-line virtual: the vtable and the RTTI functions are emitted with it)
+    s32 getType() override;
+    ~ViewerStage() override;
+    bool init(StageArg* arg) override;
+    void postInit(Unk_710245ac20* a, Unk_710245abf0* b) override { a->_8 = true; }
+    void preCalc() override;
+    void calc() override;
+    void postCalc() override {}
+    void unload() override;
+    bool unloadOk() override { return true; }
+    void initForStageGen() override;
+    void m13() override {}
+
+private:
+    /* 0x10 */ sead::Heap* mHeap;
+    u8 _18[0x150 - 0x18];
+};
 
 }  // namespace uking

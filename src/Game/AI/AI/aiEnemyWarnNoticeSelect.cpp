@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyWarnNoticeSelect.h"
+#include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -55,6 +56,45 @@ void EnemyWarnNoticeSelect::calc_() {
 
 bool EnemyWarnNoticeSelect::isFailed() const {
     return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+// NON_MATCHING: register allocation / block layout of the filter temporaries (the original rematerialises &filter
+// for the destructor call and shares the `return 2` block)
+int EnemyWarnNoticeSelect::sub_71003C4EA4() {
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000))
+        return 2;
+    auto* awareness = mActor->getAwareness();
+    if (!awareness)
+        return 0;
+
+    u32 level = 0;
+    if (*mIsSight_s) {
+        auto* target = mTargetActor_d;
+        Unk_7102451740 filter;
+        if (target)
+            filter._28 = *target;
+        auto* sensor = awareness->_260[0];
+        if (sensor) {
+            if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter))
+                level = entry->_a0;
+        }
+        if (level == 2)
+            return 2;
+    }
+    if (*mIsWorry_s) {
+        auto* target = mTargetActor_d;
+        Unk_7102451740 filter;
+        if (target)
+            filter._28 = *target;
+        auto* sensor = awareness->_260[3];
+        if (sensor) {
+            if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter)) {
+                if (u32(entry->_a0) > level)
+                    level = entry->_a0;
+            }
+        }
+    }
+    return level;
 }
 
 bool EnemyWarnNoticeSelect::isFinished() const {
