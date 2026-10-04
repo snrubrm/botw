@@ -37,6 +37,12 @@ ButtonBase* ButtonGroup::FindButtonByTag(s32 tag) {
     return nullptr;
 }
 
+// 0x7100bd83d8
+void ButtonGroup::sub_7100BD83D8() {
+    for (ListNode* node = mButtons.next; node != &mButtons; node = node->next)
+        static_cast<ButtonBase*>(ControlBase::fromNode(node))->ForceOff();
+}
+
 // 0x7100bd8118
 void ButtonGroup::SetTouchDevice(bool touch) {
     _38 = touch ? (_38 | 4) : (_38 & ~4);
