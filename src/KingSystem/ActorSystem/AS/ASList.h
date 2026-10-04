@@ -95,6 +95,8 @@ public:
         void sub_7101165008(const gsys::BoneAccessKey& key, int mode, bool a3);
         // 0x7101164e38 (declaration only): sets (true) / resets (false) the flag at 0x4d (or calls 0x7100bff4cc).
         void sub_7101164E38(bool a1);
+        // 0x7101164ff8 (declaration only): the slot's partial bone setup.
+        void sub_7101164FF8();
 
         u8 _0[0x20];
         sead::Buffer<Unk2> _20;

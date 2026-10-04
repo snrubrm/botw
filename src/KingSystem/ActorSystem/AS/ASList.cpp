@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -59,12 +60,6 @@ f32 ASList::Unk2::sub_7101163160() {
             result = params->_c;
     }
     return result;
-}
-
-void ASList::Unk2::sub_71011631BC(f32 value) {
-    if (value < 0)
-        return;
-    _0->_e0 = value;
 }
 
 f32 ASList::Unk2::sub_71011631D0() {
@@ -264,6 +259,31 @@ bool ASList::x_2(int a1, int bit, bool on, bool a4) {
     else
         *bits &= ~(1ul << bit);
     return true;
+}
+
+bool ASList::sub_710115EFD0(int kind, bool clamp, bool a3, f32 value) {
+    const s8 idx = _f0[kind];
+    if (idx < 0)
+        return false;
+    _e0[idx]._f32 = (clamp && value > 1) ? 1 : value;
+    return true;
+}
+
+void ASList::sub_710115F444(int slot, int bank, void (Unk2::*fn)()) {
+    if (auto* entry = getEntry(slot, bank))
+        (entry->*fn)();
+}
+
+void ASList::sub_710115F228(f32 value) {
+    for (int i = 0; i < mSlots.size(); ++i) {
+        for (int j = 0; j < mSlots[i]._20.size(); ++j)
+            mSlots[i]._20[j].sub_71011631BC(value);
+    }
+}
+
+void ASList::sub_710115C9E0(int slot) {
+    _d8->getParam()->getRes().mModelList->isParticalEnable(slot);
+    mSlots[slot].sub_7101164FF8();
 }
 
 int ASList::sub_710115EC5C(int kind, int a2) {
