@@ -198,3 +198,20 @@ s32 GameSceneSubsys12::sub_7100664E0C(void* unused,
     _270 = 0.0f;
     return count;
 }
+
+void GameSceneSubsys12::sub_7100662B58(const char* name, sead::Heap* heap) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (_a78.isBitOn(0))
+        return;
+    _a78.setBitOn(4);
+    if (!_300.hasProc()) {
+        _a78.setBitOff(3);
+        _a78.setBitOff(5);
+        if (auto* carrier = sub_7100662C4C()) {
+            _300.acquire(carrier, false);
+            sub_7100662EF0(carrier);
+        }
+    }
+    if (_300.hasProc() && _310)
+        _310->sub_710065DACC(name, heap);
+}

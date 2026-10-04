@@ -3,6 +3,8 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 
@@ -32,6 +34,21 @@ void ActorContextStuff::sub_710065D8E4(sead::Heap* heap, bool a2) {
         _68 |= 2;
     else
         _68 &= ~2;
+}
+
+// NON_MATCHING: the parameter pack and temporary string occupy different stack slots.
+void ActorContextStuff::sub_710065DACC(const char* name, sead::Heap* heap) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_28);
+    if (_6c >= _6b8.size())
+        return;
+    auto& handle = _6b8[_6c];
+    if (handle.isAllocatedOrFailed())
+        return;
+    ksys::act::InstParamPack params;
+    params->add(true, "IsPlayerPut");
+    params->add(3, "@I");
+    if (ksys::act::ActorCreator::instance()->requestCreateActor(name, heap, &handle, &params, nullptr, 2))
+        ++_6c;
 }
 
 Unk_710243be90* ActorContextStuff::sub_710065E2B0(ksys::act::BaseProc* proc) {

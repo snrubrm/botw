@@ -100,6 +100,8 @@ public:
     virtual ~ActorContextStuff();
     // 0x710065d8e4
     void sub_710065D8E4(sead::Heap* heap, bool a2);
+    // 0x710065dacc: requests an asynchronous carried actor in the next handle slot.
+    void sub_710065DACC(const char* name, sead::Heap* heap);
     // 0x710065e2b0: binds a matching entry to proc, or returns null.
     Unk_710243be90* sub_710065E2B0(ksys::act::BaseProc* proc);
     // 0x710065e3c0 / 0x710065e400: sleep/wake all five embedded entries.

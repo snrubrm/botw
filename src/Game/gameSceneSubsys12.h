@@ -20,6 +20,8 @@ public:
     // 0x7100662aec / 0x7100662b4c
     void init(sead::Heap* heap);
     bool x() const;
+    // 0x7100662b58: queues the named carried actor.
+    void sub_7100662B58(const char* name, sead::Heap* heap);
     // 0x7100662c4c / 0x7100662ef0: creates the carrier and sends its setup messages.
     ksys::act::Actor* sub_7100662C4C();
     void sub_7100662EF0(ksys::act::Actor* actor);
