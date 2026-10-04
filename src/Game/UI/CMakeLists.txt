@@ -88,6 +88,7 @@ target_sources(uking PRIVATE
   uiScreenVCallSlots.cpp
   uiScreenNullSlots.cpp
   uiScreenSlot4.cpp
+  uiScreenGameOverReadyGo.cpp
   uiScreenHardMode.cpp
   uiScreenLeafSlots.cpp
   uiScreenSlots.cpp

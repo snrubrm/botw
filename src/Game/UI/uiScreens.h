@@ -179,6 +179,7 @@ public:
     u8 _294[0x300 - 0x294];
 
     void open(s32 option) override;
+    void close(s32 option) override;
 
     // Overrides of the eui::Screen callbacks (not decompiled yet; CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;
