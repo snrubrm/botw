@@ -36,7 +36,15 @@ void ApplyHorizontalImpulse::loadParams_() {
 }
 
 void ApplyHorizontalImpulse::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    if (auto* body = actor->getMainBody()) {
+        if (body->getMotionType() != ksys::phys::MotionType::Fixed) {
+            if (actor->sub_71011C7990())
+                _4c = true;
+            else if (_4c)
+                body->changeMotionType(ksys::phys::MotionType::Fixed);
+        }
+    }
 }
 
 }  // namespace uking::action

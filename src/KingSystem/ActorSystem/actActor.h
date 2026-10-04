@@ -342,6 +342,8 @@ public:
     LodState* getLodState() const { return _598; }
     // 0x71011db30c (declared and defined here; placeholder name): `_598 && _598->mFlags8` bit 11.
     bool sub_71011DB30C() const;
+    // 0x71011c7990 (declared and defined here; placeholder name): signal bit 13 of mSignals is off.
+    bool sub_71011C7990() const;
     // CSV name. deleteLater(_0) unless the actor is (being) deleted or _687 is set; then
     // emitSignalsOrDisappearEffectForDelete(a1).
     // CSV name (0x71011cc45c).
