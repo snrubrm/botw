@@ -722,6 +722,8 @@ public:
     const sead::TypedBitFlag<ActorFlag2>& getActorFlags2() const { return mActorFlags2; }
 
     void onAiEnter(const char* name, const char* context);
+    void logForEditor(const sead::SafeString& system, const sead::SafeString& message) const;
+    bool isEditorNodeConnected() const;
 
     static constexpr size_t getCreatorListNodeOffset() {
         return offsetof(Actor, mCreatorActorListNode);

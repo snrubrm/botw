@@ -1197,6 +1197,14 @@ void Actor::m75() {
         mXLink->sub_7101231500();
 }
 
+void Actor::logForEditor(const sead::SafeString& system, const sead::SafeString& message) const {
+    mActorEditorNode.log(system, message);
+}
+
+bool Actor::isEditorNodeConnected() const {
+    return mActorEditorNode.isConnected();
+}
+
 void Actor::onAiEnter(const char* name, const char* context) {
     if (mXLink)
         mXLink->prepareAIChangeMaybe(name, context);
