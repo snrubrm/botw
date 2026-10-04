@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71000ee43c (declared only): out of line in the original.
+    void sub_71000EE43C();
     void calc_() override;
 
     // map_unit_param at offset 0xc8
@@ -25,6 +27,11 @@ protected:
     const bool* mIsClockWiseRotation_m{};
     // aitree_variable at offset 0xd8
     float* mRotationOffset_a{};
+    f32 _e0 = 0.0f;
+    f32 _e4 = 1.0f;
+    f32 _e8 = 0.0f;
 };
+
+KSYS_CHECK_SIZE_NX150(DgnObj_DLC_DungeonRotate, 0xf0);
 
 }  // namespace uking::action

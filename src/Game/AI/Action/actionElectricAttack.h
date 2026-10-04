@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionTimeredASPlay.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -17,6 +18,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100103684 (declared only): out of line in the original.
+    bool sub_7100103684();
+    // 0x71001034e0 (declared only): out of line in the original.
+    void sub_71001034E0();
     // 0x7100103040 (declared only): out of line in the original.
     bool sub_7100103040(sead::Heap* heap);
     // 0x7100103830 (declared only): out of line in the original.
@@ -35,6 +40,10 @@ protected:
     sead::SafeString mElectricActorName_s{};
     // static_param at offset 0x90
     sead::SafeString mElectricActorKey_s{};
+    u32 _a0 = 0;
+    ksys::Timer _a4{0.0f, 0.0f};
+    ksys::Timer _b0{0.0f, 0.0f};
+    bool _bc = false;
 };
 
 }  // namespace uking::action

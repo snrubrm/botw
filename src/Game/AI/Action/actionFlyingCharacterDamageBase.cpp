@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionFlyingCharacterDamageBase.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
@@ -20,6 +23,12 @@ bool FlyingCharacterDamageBase::init_(sead::Heap* heap) {
 
 void FlyingCharacterDamageBase::enter_(ksys::act::ai::InlineParamPack* params) {
     FlyingCharacterReaction::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Vector3f dir = sead::Vector3f::ez;
+        auto* mgr = sub_710072BA90(mActor);
+        sub_71005E2318(&dir, mActor, mgr);
+        sub_7100130868(controller, dir);
+    }
 }
 
 void FlyingCharacterDamageBase::leave_() {

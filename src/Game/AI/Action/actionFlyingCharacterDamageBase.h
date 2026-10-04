@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100130868 (declared only): out of line in the original.
+    void sub_7100130868(ksys::phys::CharacterController* controller, const sead::Vector3f& dir);
     void calc_() override;
     void m33() override;
     void m34(ksys::phys::CharacterController* controller) override;
