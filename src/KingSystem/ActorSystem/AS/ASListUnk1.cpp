@@ -59,6 +59,14 @@ bool ASList::Unk1::sub_71011650B8(int row, int bit) const {
     return _38[row].words[bit >> 5] & (1u << (bit & 0x1f));
 }
 
+bool ASList::Unk1::sub_7101164C24(const gsys::BoneAccessKey& key) const {
+    if (!key.isValid())
+        return false;
+    if (!_30)
+        return true;
+    return sub_71011650B8(key.model_unit_index, key.bone_index) && !_4d;
+}
+
 void ASList::Unk1::sub_7101164F3C(sead::Vector3f* a1, sead::Vector3f* a2,
                                   const gsys::BoneAccessKey* key) {
     if (!key->isValid())

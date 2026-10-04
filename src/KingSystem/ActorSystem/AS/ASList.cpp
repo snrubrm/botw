@@ -547,6 +547,13 @@ void ASList::sub_710115F1D8(int slot, int bank, f32 value) {
         entry->sub_7101161CF8(true, value);
 }
 
+void ASList::sub_710115F2EC(s32 slot, s32 bank, f32 value) {
+    if (auto* entry = getEntry(slot, bank))
+        entry->_10 = value;
+    if (mSlots[slot].sub_7101164C24(_14))
+        _163 &= ~1;
+}
+
 bool ASList::sub_710115FBC8(int a1, Unk4* query,
                             bool (Unk2::*fn)(Unk4*, int, bool), bool a4) {
     const s32 num_slots = mSlots.size();

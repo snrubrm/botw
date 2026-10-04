@@ -134,6 +134,7 @@ public:
 
         // 0x71011650b8: bit `bit` of row `row` of the partial-bone mask (true if there is no mask).
         bool sub_71011650B8(int row, int bit) const;
+        bool sub_7101164C24(const gsys::BoneAccessKey& key) const;
         // 0x7101165278: highest weighted element query; optional returned index.
         Unk2* sub_7101165278(s32* index);
         // 0x710116532c: first element query returning a nonnegative index.
@@ -184,7 +185,7 @@ public:
     void sub_710115F5C0(f32 value, int slot, int bank);
     // 0x710115f228 (declaration only; MiniGolemRoot::calc_ passes a 0..1 ratio).
     void sub_710115F228(f32 value);
-    // 0x710115f2ec: changes the entry weight and updates the slot (declaration only).
+    // 0x710115f2ec: changes the entry weight and updates the slot.
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
