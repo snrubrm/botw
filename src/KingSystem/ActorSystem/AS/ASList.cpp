@@ -169,6 +169,11 @@ bool ASList::Unk2::sub_7101163950() {
     return _0->_921 & 1;
 }
 
+// NON_MATCHING: compiler converts bit 7 to bool with a signed byte load and comparison.
+bool ASList::Unk2::sub_7101163940() {
+    return _0->_920 >> 7;
+}
+
 bool ASList::sub_710115AA68(const sead::SafeString& name) {
     sead::SafeString out_name;
     bool a3 = false;

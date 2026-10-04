@@ -1,6 +1,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
+#include "KingSystem/System/VFR.h"
 
 namespace ksys::as {
 
@@ -34,6 +36,49 @@ void Context::sub_710125A1F0(f32 value, int key, Element* element,
             _930[index] = value;
         }
         sub_710125A248(value, key, element, resource);
+    }
+}
+
+void Context::sub_710125A248(f32 value, u32 key, Element* element,
+                           const res::ASResource* resource) {
+    const s8 index = mList->_f0[key];
+    if (index < 0)
+        return;
+    const u32 mask = 1u << index;
+    if (_924 & mask)
+        return;
+    _924 |= mask;
+    f32* pending = &_930[index];
+    const auto* blender_resource = static_cast<const res::ASBlenderResource*>(resource);
+    if (!blender_resource || blender_resource->getInputLimit() < 0.0f) {
+        *pending = value;
+        return;
+    }
+    auto* blender = sead::DynamicCast<AngleBlender>(element);
+    if (!blender) {
+        sead::Mathf::chase(pending, value,
+                          blender_resource->getInputLimit() *
+                              VFR::instance()->getDeltaFrame());
+        return;
+    }
+    const f32 period = blender->m41() - blender->m40();
+    const f32 delta = value - *pending;
+    if (delta > blender->m41()) {
+        sead::Mathf::chase(pending, value - period,
+                          blender_resource->getInputLimit() *
+                              VFR::instance()->getDeltaFrame());
+        if (*pending < blender->m40())
+            *pending += period;
+    } else if (delta < blender->m40()) {
+        sead::Mathf::chase(pending, value + period,
+                          blender_resource->getInputLimit() *
+                              VFR::instance()->getDeltaFrame());
+        if (*pending > blender->m41())
+            *pending -= period;
+    } else {
+        sead::Mathf::chase(pending, value,
+                          blender_resource->getInputLimit() *
+                              VFR::instance()->getDeltaFrame());
     }
 }
 
