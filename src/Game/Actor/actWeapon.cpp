@@ -587,3 +587,13 @@ bool actorCheckIsGuardJust(ksys::act::Actor* actor) {
         return getAttackInfo(actor, 0)->_18 & 2;
     return false;
 }
+
+namespace uking::act {
+
+bool Weapon::sub_71002E4374() {
+    if (_e50 & 0x80)
+        return true;
+    return isWeaponType3() && getConnectedCalcChild();
+}
+
+}  // namespace uking::act

@@ -232,3 +232,21 @@ bool PlayerOrEnemy::m172() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+bool PlayerOrEnemy::m163(int idx) {
+    auto* weapons = getWeapons();
+    if (idx >= 0) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(weapons->getEquippedWeapon(idx));
+        return weapon && weapon->sub_71002E4374();
+    }
+    for (int i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && !weapon->sub_71002E4374())
+            return false;
+    }
+    return true;
+}
+
+}  // namespace ksys::act
