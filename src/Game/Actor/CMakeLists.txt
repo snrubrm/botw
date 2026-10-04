@@ -110,6 +110,7 @@ target_sources(uking PRIVATE
   actEnvSeEmitPoint.cpp
   actEnvSeEmitPoint.h
   actNoCalcActor.cpp
+  actOptionalWeapon.cpp
   actNoCalcActor.h
   actActorReaction.cpp
   actActorReaction.h
