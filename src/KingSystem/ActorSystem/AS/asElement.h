@@ -140,7 +140,9 @@ public:
     // 0x7101258d4c: the element state block of `record` in the current frame.
     ElementParams* sub_7101258D4C(Record* record, bool a2);
     // 0x7101258d1c: the record index of the element `index` (0 in the 'record 0' mode).
-    u8 sub_7101258D1C(int index);
+    int sub_7101258D1C(int index);
+    // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
+    void sub_710125AAA0(u32 index, s16 value);
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
     Record* sub_7101258CD4(int index);
 
@@ -260,6 +262,14 @@ struct State {
     f32 _30;
 };
 
+// Placeholder: the state of the m9 virtual (offset 0 / 4 / 8 are the only fields seen: a kind, a flag that
+// picks the record's state (1 / 5), and a counter that Element::sub_710116541C advances).
+struct PlayState {
+    f32 _0;
+    bool _4;
+    s32 _8;
+};
+
 class Element {
     SEAD_RTTI_BASE(Element)
 public:
@@ -268,6 +278,8 @@ public:
 
     // 0x71011653e8: the index of `resource` (this->m7() if there is none).
     int sub_71011653E8(const res::ASResource* resource);
+    // 0x710116541c: maps the element's record (`state->_8` + 1 becomes the record's index) and calls m9.
+    bool sub_710116541C(Context* ctx, PlayState* state, const res::ASResource* resource);
     // 0x7101165408: the factory table field 0x18 of `resource` (-1 if there is none).
     int sub_7101165408(const res::ASResource* resource);
     // 0x710116554c: m11 followed by m37.
@@ -284,7 +296,7 @@ public:
     virtual int m6();
     virtual int m7();
     virtual bool m8();
-    virtual bool m9();
+    virtual bool m9(Context* ctx, PlayState* state, const res::ASResource* resource);
     virtual bool m10(Context* ctx, State* state, const res::ASResource* resource) = 0;
     virtual void m11(Context* ctx, State* state, const res::ASResource* resource);
     virtual void m12(Context* ctx, State* state, const res::ASResource* resource);
@@ -366,10 +378,11 @@ class Selector : public SelectorBase {
 public:
     Selector();
 
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
              f32 value) override;
 
-    virtual void m38();
+    virtual void m38(Context* ctx, const res::ASResource* resource);
     virtual int m39(Context* ctx, u32 a2, const res::ASResource* resource);
 };
 
@@ -482,6 +495,8 @@ class PreExclusionRandomSelector : public RandomSelector {
     SEAD_RTTI_OVERRIDE(PreExclusionRandomSelector, RandomSelector)
 public:
     PreExclusionRandomSelector();
+
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
 };
 
 class SpeedSelector : public FloatSelector {
@@ -673,7 +688,7 @@ public:
     // (the first out-of-line virtual: the vtable is emitted with it)
     bool m24(Context* ctx, const res::ASResource* resource) override;
     bool m27(Context* ctx, const res::ASResource* resource) override;
-    bool m9() override;
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override {}
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
@@ -698,9 +713,13 @@ public:
     f32 m4() override;
     int m6() override;
     int m7() override;
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m16(Context* ctx, const res::ASResource* resource, f32 value) override;
+    // 0x7101314bcc (1.6 KB, not decompiled; declaration only): starts the element's animation for m9
+    // (`weight` and `flag` are the first two fields of the PlayState). Placeholder signature.
+    bool sub_7101314BCC(f32 weight, Context* ctx, bool flag, const res::ASResource* resource);
     // 0x1315cb0 (declaration only)
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m19(Context* ctx, const res::ASResource* resource, f32 value) override;
@@ -740,6 +759,7 @@ public:
 
     ~SkeltalAsset() override;
 
+    bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;

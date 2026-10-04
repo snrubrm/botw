@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
+#include "KingSystem/Resource/Actor/resResourceASResourceExtension.h"
 
 namespace ksys::as {
 
@@ -12,6 +14,23 @@ int AnmAsset::m6() {
 
 int AnmAsset::m7() {
     return _a >= 0 ? _a : 1;
+}
+
+bool AnmAsset::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    const int index = sub_71011653E8(resource);
+    ctx->sub_7101258D68(index);
+    ctx->sub_7101258CD4(index)->_2 = -1;
+    sub_7101314BCC(state->_0, ctx, state->_4, resource);
+    if (_c == 0.0f) {
+        if (resource) {
+            auto* parser = sead::DynamicCast<const res::ASFrameCtrlParser>(
+                resource->getExtensions().getParser(res::ASParamParser::Type::FrameCtrl));
+            if (parser && !(parser->getEndFrame() <= 0.0f))
+                return true;
+        }
+        return false;
+    }
+    return true;
 }
 
 void AnmAsset::m13(Context* ctx, State* state, const res::ASResource* resource) {

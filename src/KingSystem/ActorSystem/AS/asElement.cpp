@@ -23,7 +23,7 @@ bool Element::m8() {
     return true;
 }
 
-bool Element::m9() {
+bool Element::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     return true;
 }
 
@@ -66,6 +66,16 @@ int Element::sub_71011653E8(const res::ASResource* resource) {
     if (resource)
         return resource->getIndex();
     return m7();
+}
+
+bool Element::sub_710116541C(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    const int index = sub_71011653E8(resource);
+    ctx->sub_7101258D60(index, state->_8);
+    state->_8 = ctx->sub_7101258D1C(index) + 1;
+    Context::Record* record = ctx->sub_7101258CD4(index);
+    record->_3 = 1;
+    record->_3 = state->_4 ? 1 : 5;
+    return m9(ctx, state, resource);
 }
 
 f32 Element::m26(Context* ctx, const res::ASResource* resource) {

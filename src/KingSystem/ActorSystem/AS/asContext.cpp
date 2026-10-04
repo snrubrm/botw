@@ -19,7 +19,7 @@ ElementParams* Context::sub_7101258D4C(Record* record, bool a2) {
     return record->sub_7101257DF4(_d0, a2);
 }
 
-u8 Context::sub_7101258D1C(int index) {
+int Context::sub_7101258D1C(int index) {
     if (_921 & 2)
         return 0;
     return _d0->mIndexMap[index];

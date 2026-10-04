@@ -3,6 +3,19 @@
 
 namespace ksys::as {
 
+bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    const int index = sub_71011653E8(resource);
+    ctx->sub_7101258D68(index);
+    ctx->sub_7101258CD4(index)->_2 = -1;
+    if (sub_7101314BCC(state->_0, ctx, state->_4, resource))
+        ctx->mFlags |= 0x400;
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    ElementParams* params = ctx->sub_7101258D4C(record, false);
+    const f32 duration = params->sub_710130296C(true);
+    record->_8 = duration > 0.0f ? params->_c / duration : 0.0f;
+    return true;
+}
+
 SkeltalAsset::~SkeltalAsset() {}
 
 bool SkeltalAsset::m10(Context* ctx, State* state, const res::ASResource* resource) {
