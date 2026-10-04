@@ -1868,6 +1868,12 @@ class ScreenPickUp : public ScreenEx {
 public:
     ~ScreenPickUp() override;
     SEAD_RTTI_OVERRIDE(ScreenPickUp, ScreenEx)
+
+    // 0x7100a3f3f4 (CSV ScreenPickUp::setItemAndOpen): opens the screen (option 3); with `show` it also shows the item
+    // for 5 seconds (the argument type is a guess)
+    void setItemAndOpen(const sead::SafeString& item, bool show);
+    // 0x7100a3f450 (CSV unnamed; not decompiled)
+    void sub_7100A3F450(const sead::SafeString& item, f32 time);
 };
 
 class ScreenAppHome : public ScreenEx {
@@ -2065,6 +2071,9 @@ public:
     /* 0x3698 */ sead::PtrArray<Unk_OptionWindowEntry> _3698;
 };
 
+// 0x710249ad74 (placeholder name; a mode of the system window: 1 / 2 close the window without saving)
+extern s32 sUnk_710249ad74;
+
 class ScreenSystemWindow01 : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
@@ -2074,6 +2083,16 @@ public:
     bool isEnableControl() const override;
     ~ScreenSystemWindow01() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow01, ScreenEx)
+
+    void m100() override;
+    void m129() override;
+
+    u8 _pad_3610[0x4b5c - 0x3610];
+    /* 0x4b5c */ bool _4b5c;
+    u8 _pad_4b5d[0x4b60 - 0x4b5d];
+    /* 0x4b60 */ bool _4b60;
+    // 0x7100a6641c (CSV unnamed; not decompiled)
+    bool sub_7100A6641C();
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
 
