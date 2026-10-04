@@ -2,6 +2,8 @@
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace ksys::act {
 
@@ -263,6 +265,26 @@ void PlayerOrEnemy::preDelete2_(const PreDeleteArg& arg) {
     sub_71006DC81C();
     m158();
     sub_71006DC864();
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+bool PlayerOrEnemy::isGuard() {
+    if (!sub_710000759C() || !getASList())
+        return false;
+    return getASList()->sub_710115FBC8(14, nullptr, &as::ASList::Unk2::sub_71011638DC, true);
+}
+
+void PlayerOrEnemy::calcMaybe() {
+    DynamicActor::calcMaybe();
+    if (auto* chemical = getChemicalStuff()) {
+        if (isGuard())
+            chemical->sub_7100D91158(true);
+        else
+            chemical->sub_7100D91158(false);
+    }
 }
 
 }  // namespace ksys::act

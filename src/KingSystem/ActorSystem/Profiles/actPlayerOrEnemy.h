@@ -82,6 +82,8 @@ public:
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x7100007b20 (CSV Player::releaseWeapon): forwards to ActorWeapons::dropWeaponM179.
     bool releaseWeapon(int idx);
+    // 0x710000759c (declaration only): weapon-state prerequisite checked by isGuard().
+    bool sub_710000759C();
 
 protected:
     /* 0xb90 */ ActorWeapons mWeapons{this};
