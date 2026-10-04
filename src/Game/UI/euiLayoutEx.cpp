@@ -1,5 +1,7 @@
 #include "Game/UI/euiLayoutEx.h"
 #include <new>
+#include <nn/ui2d/DrawInfo.h>
+#include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
 
 namespace eui {
@@ -50,6 +52,17 @@ bool LayoutEx::isAnimCloseEnd(bool recursive) const {
         }
     }
     return true;
+}
+
+// 0x7100bde5a0
+void LayoutEx::CalculateImpl(nn::ui2d::DrawInfo& info, bool force) {
+    if (mPane) {
+        nn::ui2d::Pane::CalculateContext context;
+        context.Set(info, this);
+        info.mLayout = this;
+        mPane->Calculate(info, context, force);
+        info.mLayout = nullptr;
+    }
 }
 
 // 0x7100bde620
