@@ -3,6 +3,20 @@
 
 namespace ksys::evt {
 
+// 0x7100dc3368
+bool EventResource::areCameraAndModelAndXlinkReady() {
+    if (_148 && !_148->finishLoad())
+        return false;
+    if ((_1e0 & 0x20) && !_1d3)
+        return false;
+    if (!(_1e0 & 0x100) && _1b8) {
+        if (!_1b8->finishLoad(true))
+            return false;
+        _1e0 |= 0x100;
+    }
+    return true;
+}
+
 // 0x7100dc3698
 void EventResource::sub_7100DC3698() {
     _1e0 |= 0x10000;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 
 namespace evfl {
@@ -26,6 +27,8 @@ public:
 
     int isInitialized() const { return mInitialized; }
     int getNumBindings() const { return mBindings.size(); }
+    // inline-only in the original; name is a guess (EventActorSet::allocActors reads the array with the range check)
+    ActorBinding* getBinding(s32 index) const { return mBindings.at(index); }
 
 private:
     sead::PtrArray<ActorBinding> mBindings;

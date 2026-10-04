@@ -1,4 +1,5 @@
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtActorBindings.h"
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include <evfl/ResTimeline.h>
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
@@ -90,13 +91,13 @@ bool EventFlowBase::calc() {
 // 0x7100db7148
 void EventFlowBase::setupActors() {
     _110->mResource = _108;
-    _110->allocActors(_108->_18, mHeap, mSlot);
+    _110->allocActors(_108->mActorBindings, mHeap, mSlot);
     _340 |= 1;
 }
 
 // 0x7100db718c
 void EventFlowBase::initActors() {
-    _110->sub_7100DA2618(_108->_18);
+    _110->sub_7100DA2618(_108->mActorBindings);
 }
 
 // 0x7100db7540
@@ -141,7 +142,7 @@ s32 EventFlowBase::x_1() {
         return 1;
     if (!_108->processResourceLoad(false))
         return 0;
-    if ((_108->_1e0_bytes[1] & 0x10) || _108->_18->_8 == 0)
+    if ((_108->_1e0_bytes[1] & 0x10) || _108->mActorBindings->getNumBindings() == 0)
         return 2;
     _108->EventAddExtraModelRes_stuff(&_2e8);
     return 1;

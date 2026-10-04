@@ -1,7 +1,52 @@
 #include "KingSystem/Event/evtActorBase.h"
+#include "KingSystem/Event/evtActorBindings.h"
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
+
+// 0x7100da23c4
+EventActorSet::EventActorSet(EventFlowBase* flow)
+    : _18(0), mFlow(flow), mResource(nullptr), mNoDeleteCurrentActor(false), _38(nullptr), _40(0), _44(0) {
+    _50 = sead::Vector2f::zero;
+    _48 = sead::Vector2f::zero;
+}
+
+// 0x7100da2408
+void EventActorSet::allocActors(ActorBindings* bindings, sead::Heap* heap, EventFlow* slot) {
+    if (bindings->getNumBindings() >= 1) {
+        mActors.allocBuffer(bindings->getNumBindings(), heap, 8);
+        for (s32 i = 0; i < bindings->getNumBindings(); ++i) {
+            ActorBinding* binding = bindings->getBinding(i);
+            Actor* actor = Manager::instance()->getActorFactory()->makeActor(binding, this, heap);
+            actor->init(binding, slot);
+            mActors.pushBack(actor);
+        }
+    }
+    _18 = 0;
+}
+
+// NON_MATCHING: the original compares the last state (`== 6`) through a stack round trip (`str w8, [sp, #0xc]; ldr w8,
+// [sp, #0xc]`), the SEAD_ENUM by-value pattern: the state is probably a SEAD_ENUM there.
+// 0x7100da2618
+bool EventActorSet::sub_7100DA2618(ActorBindings* bindings) {
+    bool all_ready = true;
+    for (s32 i = 0; i < mActors.size(); ++i) {
+        Actor* actor = mActors(i);
+        if (actor->m4())
+            continue;
+        if (actor->mState == 0x1a) {
+            actor->init(bindings->getBinding(i), nullptr);
+            ++_40;
+        }
+        if (u32(actor->mState - 0x18) >= 3)
+            all_ready &= actor->mState == 6;
+    }
+    if (!all_ready)
+        return false;
+    _18 = 1;
+    return true;
+}
 
 // 0x7100da2510 (D1) / 0x7100da2590 (D0)
 EventActorSet::~EventActorSet() {

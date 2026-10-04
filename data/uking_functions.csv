@@ -75826,11 +75826,11 @@ Address,Quality,Size,Name
 0x0000007100da2118,U,000084,
 0x0000007100da216c,U,000452,
 0x0000007100da2330,U,000148,
-0x0000007100da23c4,U,000068,_ZN4ksys3evt13EventActorSetC1EPNS0_13EventFlowBaseE
-0x0000007100da2408,U,000264,_ZN4ksys3evt13EventActorSet11allocActorsEPNS0_17EventResourceDataEPN4sead4HeapEPNS0_9EventFlowE
+0x0000007100da23c4,O,000068,_ZN4ksys3evt13EventActorSetC1EPNS0_13EventFlowBaseE
+0x0000007100da2408,O,000264,_ZN4ksys3evt13EventActorSet11allocActorsEPNS0_13ActorBindingsEPN4sead4HeapEPNS0_9EventFlowE
 0x0000007100da2510,O,000128,_ZN4ksys3evt13EventActorSetD1Ev
 0x0000007100da2590,O,000136,_ZN4ksys3evt13EventActorSetD0Ev
-0x0000007100da2618,U,000232,_ZN4ksys3evt13EventActorSet14sub_7100DA2618EPNS0_17EventResourceDataE
+0x0000007100da2618,m,000232,_ZN4ksys3evt13EventActorSet14sub_7100DA2618EPNS0_13ActorBindingsE
 0x0000007100da2700,O,000116,_ZN4ksys3evt13EventActorSet14sub_7100DA2700Ebb
 0x0000007100da2774,O,000200,_ZN4ksys3evt13EventActorSet3x_3Ebb
 0x0000007100da283c,O,000080,_ZN4ksys3evt13EventActorSet14callActorStuffEv
@@ -75856,7 +75856,7 @@ Address,Quality,Size,Name
 0x0000007100da3d14,U,000160,CameraSystem::invoked
 0x0000007100da3db4,U,000296,
 0x0000007100da3edc,U,000036,
-0x0000007100da3f00,U,000224,CameraSystem::finishLoad
+0x0000007100da3f00,U,000224,_ZN4ksys3evt12CameraSystem10finishLoadEv
 0x0000007100da3fe0,U,001292,CameraSystem::init
 0x0000007100da44ec,U,000704,
 0x0000007100da47ac,U,001888,
@@ -75940,7 +75940,7 @@ Address,Quality,Size,Name
 0x0000007100da7e78,O,000092,_ZNK4ksys3evt10ActionBase18getRuntimeTypeInfoEv
 0x0000007100da7ed4,O,000004,_ZN4ksys3evt10ActionBase2m7Ev
 0x0000007100da7ed8,U,001000,evt::ActorBase::ctor
-0x0000007100da82c0,U,002584,evt::Actor::init
+0x0000007100da82c0,U,002584,_ZN4ksys3evt5Actor4initEPNS0_12ActorBindingEPNS0_9EventFlowE
 0x0000007100da8cd8,U,003800,evt::Actor::x
 0x0000007100da9bb0,O,000056,_ZN4ksys3evt9ActorBaseD1Ev
 0x0000007100da9be8,O,000068,_ZN4ksys3evt9ActorBaseD0Ev
@@ -76270,7 +76270,7 @@ Address,Quality,Size,Name
 0x0000007100dc2b7c,U,000468,EventResource::initFlowchart
 0x0000007100dc2d50,U,000356,EventResource::loadEventResources
 0x0000007100dc2eb4,U,001204,EventResource::finishLoad
-0x0000007100dc3368,U,000108,_ZN4ksys3evt13EventResource30areCameraAndModelAndXlinkReadyEv
+0x0000007100dc3368,O,000108,_ZN4ksys3evt13EventResource30areCameraAndModelAndXlinkReadyEv
 0x0000007100dc33d4,U,000292,_ZN4ksys3evt13EventResource19processResourceLoadEb
 0x0000007100dc34f8,U,000416,EventResource::load
 0x0000007100dc3698,O,000016,_ZN4ksys3evt13EventResource14sub_7100DC3698Ev
@@ -76350,7 +76350,7 @@ Address,Quality,Size,Name
 0x0000007100dc8db4,U,000272,
 0x0000007100dc8ec4,U,000036,
 0x0000007100dc8ee8,U,000800,EventXlinkInfo::init
-0x0000007100dc9208,U,000508,EventXlinkInfo::finishLoad
+0x0000007100dc9208,U,000508,_ZN4ksys3evt14EventXlinkInfo10finishLoadEb
 0x0000007100dc9404,U,000548,
 0x0000007100dc9628,U,000120,
 0x0000007100dc96a0,U,000224,_ZN4ksys3evt14EventXlinkInfo3x_1EPNS0_13EventFlowBaseE

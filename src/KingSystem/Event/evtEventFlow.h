@@ -14,7 +14,7 @@
 namespace ksys::evt {
 
 class EventResource;
-class EventResourceData;
+class ActorBindings;
 class EventFlow;
 class ActorBase;
 class Actor;
@@ -37,9 +37,9 @@ public:
     // 0x7100da23c4 (CSV evt::S6::ctor)
     explicit EventActorSet(EventFlowBase* flow);
     // 0x7100da2408 (CSV evt::S6::allocActors; not decompiled)
-    void allocActors(EventResourceData* data, sead::Heap* heap, EventFlow* slot);
+    void allocActors(ActorBindings* bindings, sead::Heap* heap, EventFlow* slot);
     // 0x7100da2618 (CSV unnamed; not decompiled)
-    void sub_7100DA2618(EventResourceData* data);
+    bool sub_7100DA2618(ActorBindings* bindings);
     // 0x7100da2774 / 0x7100da375c (CSV evt::S6::x_3 / x_2; not decompiled)
     bool x_3(bool a1, bool a2);
     void x_2();
@@ -53,12 +53,17 @@ public:
 
     /* 0x08 */ sead::PtrArray<Actor> mActors;
     /* 0x18 */ s32 _18;
-    u8 _1c[0x28 - 0x1c];
+    u8 _1c[0x20 - 0x1c];
+    /* 0x20 */ EventFlowBase* mFlow;
     /* 0x28 */ EventResource* mResource;
     /* 0x30 */ bool mNoDeleteCurrentActor;
-    u8 _31[0x44 - 0x31];
+    u8 _31[0x38 - 0x31];
+    /* 0x38 */ void* _38;
+    /* 0x40 */ s32 _40;  // number of actors that were initialised by sub_7100DA2618
     /* 0x44 */ s32 _44;
-    u8 _48[0x58 - 0x48];
+    /* 0x48 */ sead::Vector2f _48;
+    /* 0x50 */ sead::Vector2f _50;
+    u8 _58[0x58 - 0x58];
 };
 
 // Unknown object at EventFlowBase + 0x100 (polymorphic; slot 10 = isPlaying-like query).

@@ -22,6 +22,7 @@ enum MessageType : u32;
 
 namespace ksys::evt {
 
+class ActorFactory;
 class Context;
 class EventFlowBase;
 class EventMgrStruct1;
@@ -63,6 +64,8 @@ public:
     bool callEvent(const CallArg& arg);
 
     EventFlowMgr* getEventFlowMgr() const { return mEventFlowMgr; }
+    // inline-only in the original; name is a guess
+    ActorFactory* getActorFactory() const { return _1d2c8; }
 
     void setNoDeleteCurrentActor(bool no_delete);
 
@@ -146,7 +149,7 @@ public:
 
 private:
     /* 0x1d2c0 */ void* _1d2c0;
-    u8 pad_1d2c8[0x1d2d0 - 0x1d2c8];
+    /* 0x1d2c8 */ ActorFactory* _1d2c8;
     EventMgrStruct1* _1d2d0;
     u8 pad_1d2d8[0x1d2e0 - 0x1d2d8];
     EventFlowMgr* mEventFlowMgr;

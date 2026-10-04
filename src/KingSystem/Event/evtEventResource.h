@@ -12,13 +12,7 @@ class Heap;
 namespace ksys::evt {
 
 class EventFlowBase;
-
-// The resource data of a flow (only the field read by EventFlowBase::x_1 is declared).
-class EventResourceData {
-public:
-    u8 _0[8];
-    /* 0x08 */ s32 _8;
-};
+class ActorBindings;
 
 // Event xlink information (CSV EventXlinkInfo; vtable-less helper at EventResource + 0x1b8)
 class EventXlinkInfo {
@@ -26,6 +20,16 @@ public:
     // 0x7100dc96a0 / 0x7100dc9780 (CSV EventXlinkInfo::x_1 / x_0; not decompiled)
     void x_1(EventFlowBase* flow);
     void x_0();
+    // 0x7100dc9208 (CSV EventXlinkInfo::finishLoad; not decompiled)
+    bool finishLoad(bool a1);
+};
+
+// The event camera data of a resource (CSV CameraSystem; at EventResource + 0x148; ctor 0x7100da3b8c, init
+// 0x7100da3fe0, not decompiled).
+class CameraSystem {
+public:
+    // 0x7100da3f00: polls the loading of the camera resources; true once they are loaded
+    bool finishLoad();
 };
 
 // TODO
@@ -53,11 +57,15 @@ public:
 
     virtual ~EventResource();
     u8 _8[0x10];
-    /* 0x18 */ EventResourceData* _18;
+    /* 0x18 */ ActorBindings* mActorBindings;
     /* 0x20 */ DemoInfo mDemoInfo;
-    u8 _pad_after_demo[0x1b8 - 0x20 - sizeof(DemoInfo)];
+    u8 _pad_after_demo[0x148 - 0x20 - sizeof(DemoInfo)];
+    /* 0x148 */ CameraSystem* _148;
+    u8 _150[0x1b8 - 0x150];
     /* 0x1b8 */ EventXlinkInfo* _1b8;
-    u8 _1c0[0x1e0 - 0x1c0];
+    u8 _1c0[0x1d3 - 0x1c0];
+    /* 0x1d3 */ bool _1d3;
+    u8 _1d4[0x1e0 - 0x1d4];
     union {
         /* 0x1e0 */ u32 _1e0;
         u8 _1e0_bytes[4];
