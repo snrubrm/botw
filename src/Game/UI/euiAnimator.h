@@ -28,10 +28,10 @@ public:
     void UpdateFrame(f32 frame) override;
     void SetEnabled(bool enabled) override;
 
-    // Slots 21-27 (Play / PlayFromCurrent return the result of IsWaitData() when the speed is out of range)
-    virtual bool Play(PlayType type, f32 speed);
-    virtual bool PlayAuto(f32 speed);
-    virtual bool PlayFromCurrent(PlayType type, f32 speed);
+    // Slots 21-27.
+    virtual void Play(PlayType type, f32 speed);
+    virtual void PlayAuto(f32 speed);
+    virtual void PlayFromCurrent(PlayType type, f32 speed);
     virtual void Stop(f32 frame);
     virtual void StopCurrent();
     virtual void StopAtMin();
@@ -46,9 +46,9 @@ public:
     // 0x7100be79fc (placeholder name): disables the animator and unlinks it from the screen's list
     void Disable();
     // 0x7100be782c (placeholder name)
-    bool PlayFromFrame(PlayType type, f32 start_frame, f32 speed);
+    void PlayFromFrame(PlayType type, f32 start_frame, f32 speed);
     // 0x7100be7840: starts at a random frame
-    bool PlayRandom(PlayType type, f32 speed);
+    void PlayRandom(PlayType type, f32 speed);
     // 0x7100be78bc (placeholder name): continues the other animator's playback
     void ContinueFrom(const Animator& other);
 

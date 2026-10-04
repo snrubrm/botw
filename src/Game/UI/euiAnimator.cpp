@@ -37,22 +37,74 @@ void Animator::SetupWithGroupAll(const nn::ui2d::AnimResource& res, LayoutEx* la
     SetEnabled(enabled);
 }
 
+// NON_MATCHING: range/wait predicates and the starting-frame selection compile differently.
+// 0x7100be7588
+void Animator::Play(PlayType type, f32 speed) {
+    if (!(speed >= -f32(GetFrameSize())) || !(speed <= GetFrameSize())) {
+        const bool wait = IsWaitData();
+        if (type != 0 || !wait) {
+            IsWaitData();
+            return;
+        }
+    }
+    mPlayType = type;
+    mRate = speed;
+    mFlags &= 0xf0;
+    if (speed >= 0.0f) {
+        mFrame = (mFlags & 0x10) && GetFrameSize() != 0 ? speed : 0.0f;
+    } else {
+        if ((mFlags & 0x10) && GetFrameSize() != 0)
+            mFrame = GetFrameSize() + speed;
+        else
+            mFrame = GetFrameSize();
+    }
+    if (type == 0 && (mFlags & 0x20))
+        mLayout->mScreen->invokeSoundLink2AnimPlayEvent(this, "_play");
+    SetEnabled(true);
+}
+
 // 0x7100be76e0
-bool Animator::PlayAuto(f32 speed) {
-    return Play(PlayType(IsLoopData()), speed);
+void Animator::PlayAuto(f32 speed) {
+    Play(PlayType(IsLoopData()), speed);
+}
+
+// NON_MATCHING: range and wait predicates compile differently.
+// 0x7100be7734
+void Animator::PlayFromCurrent(PlayType type, f32 speed) {
+    if (!(speed >= -f32(GetFrameSize())) || !(speed <= GetFrameSize())) {
+        const bool wait = IsWaitData();
+        if (type != 0 || !wait) {
+            IsWaitData();
+            return;
+        }
+    }
+    mPlayType = type;
+    mRate = speed;
+    mFlags &= 0xf0;
+    if ((mFlags & 0x10) && GetFrameSize() != 0) {
+        if (speed >= 0.0f) {
+            if (mFrame < speed)
+                mFrame = speed;
+        } else {
+            const f32 last_frame = GetFrameSize() + speed;
+            if (mFrame > last_frame)
+                mFrame = last_frame;
+        }
+    }
+    SetEnabled(true);
 }
 
 // 0x7100be782c
-bool Animator::PlayFromFrame(PlayType type, f32 start_frame, f32 speed) {
+void Animator::PlayFromFrame(PlayType type, f32 start_frame, f32 speed) {
     mFrame = start_frame;
-    return PlayFromCurrent(type, speed);
+    PlayFromCurrent(type, speed);
 }
 
 // 0x7100be7840
-bool Animator::PlayRandom(PlayType type, f32 speed) {
+void Animator::PlayRandom(PlayType type, f32 speed) {
     const u16 frame_size = GetFrameSize();
     mFrame = sead::GlobalRandom::instance()->getU32(frame_size + 1u);
-    return PlayFromCurrent(type, speed);
+    PlayFromCurrent(type, speed);
 }
 
 // NON_MATCHING: the original copies mFrame as a 32-bit integer (ldr w / str w), so `other.mRate` is not reloaded
