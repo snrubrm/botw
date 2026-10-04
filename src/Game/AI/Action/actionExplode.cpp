@@ -27,7 +27,14 @@ void Explode::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void Explode::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_58)
+        sub_71007A2D34(_58);
+    if (*mIsDelete_s)
+        return;
+    if (auto* physics = mActor->getPhysics()) {
+        physics->sub_7100FBADDC();
+        physics->sub_7100FBB29C();
+    }
 }
 
 void Explode::loadParams_() {

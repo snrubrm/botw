@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemoveSensor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void RemoveSensor::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void RemoveSensor::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mAddSensorOnLeave_s)
+        ksys::act::sub_7100EE544C(mActor);
 }
 
 void RemoveSensor::loadParams_() {

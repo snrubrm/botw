@@ -88,6 +88,11 @@ public:
     void sub_7100FBACE0(ContactLayer layer);
     void sub_7100FBAD74();
     void sub_7100FBADDC();
+    // 0x7100fba174 (declared only; lane3 s20; TurnToActorBase::leave_): triggers the scheduled motion type changes.
+    void sub_7100FBA174();
+    // 0x7100fbb29c (declared only; lane3 s20; Explode::leave_): loops over the body sets and bodies calling
+    // sub_7100FBB00C.
+    void sub_7100FBB29C();
     RigidBody* sub_7100FBAEDC(s32 rigidbody_idx, s32 ragdoll_idx) const;
     // 0x7100fbaf18: called with one body of the actor (actActorSensorUtil sub_71007A3768/3778).
     bool sub_7100FBAF18(RigidBody* body);
