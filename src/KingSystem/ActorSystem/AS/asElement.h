@@ -39,6 +39,18 @@ struct ElementParams {
     bool sub_7101302938(void* a1);
     bool sub_7101302940(void* a1);
     bool sub_7101302948(void* a1);
+    // 0x7101302834 (flags bit 1 = running): finished test.
+    bool sub_7101302834() const;
+    // 0x7101302878: range test of `value` against [_4, _8] (the range may wrap).
+    bool sub_7101302878(f32 value) const;
+    // 0x71013029e4: linear interpolation between _10 and `_1c` (when `a` and set) or _14.
+    f32 sub_71013029E4(bool a, f32 t) const;
+    // 0x7101302950: _1c = _14 * value (if _1c is set).
+    void sub_7101302950(f32 value);
+    // 0x710130296c: duration from _10 to `_1c` (when `a` and set) or _14.
+    f32 sub_710130296C(bool a) const;
+    // 0x710130298c: progress ((current - _10) / duration), 0 if there is no duration.
+    f32 sub_710130298C(bool a) const;
 
     u32 _0;
     f32 _4;

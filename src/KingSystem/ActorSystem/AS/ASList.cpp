@@ -24,6 +24,17 @@ bool ASList::Unk2::sub_7101162F2C() {
     return element->m27(context, resource);
 }
 
+bool ASList::Unk2::sub_7101162FE8() {
+    Element* element = _18;
+    if (!element)
+        return false;
+    Context* context = _0;
+    const res::ASResource* resource = context->sub_7101258CC0();
+    if (auto* params = element->m25(context, resource))
+        return params->sub_7101302878(0);
+    return false;
+}
+
 void ASList::Unk2::sub_7101163044(f32 value) {
     if (Element* element = _18) {
         Context* context = _0;
