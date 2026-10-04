@@ -278,6 +278,8 @@ public:
     void loadFromGameData();
 
     bool cannotGetItem(const sead::SafeString& name, int n) const;
+    // 0x710097d79c: declaration only.
+    void dyeGoodsStuff();
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 

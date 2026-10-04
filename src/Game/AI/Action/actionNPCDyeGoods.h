@@ -9,6 +9,7 @@ class NPCDyeGoods : public ksys::act::ai::Action {
 public:
     explicit NPCDyeGoods(const InitArg& arg);
     ~NPCDyeGoods() override;
+    bool oneShot_() override;
 
 protected:
 };
