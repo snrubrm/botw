@@ -19,6 +19,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x7100822e7c (declared only): acquires or creates the wake board actor.
+    bool sub_7100822E7C();
 
     // dynamic_param at offset 0x20
     bool* mCreateSelf_d{};

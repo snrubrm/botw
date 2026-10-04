@@ -39,6 +39,8 @@ public:
 
     // 0x7100eba9f0 (declared only): updates the surfing animation from the actor AS list.
     void sub_7100EBA9F0(as::ASList* as_list, bool flag);
+    // 0x7100eba4c0 (declared only): starts the surfing body.
+    void sub_7100EBA4C0();
 
     /* 0x08 */ Actor* _8 = nullptr;
     /* 0x10 */ phys::RigidBody* _10;
