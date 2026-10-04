@@ -234,6 +234,10 @@ public:
     f32 m139() override;
     bool m195() override;
     bool x_0();
+    bool isParentPlayer() override;
+    bool isParentNpc() override;
+    bool m183() override;
+    bool m184() override;
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
     // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);

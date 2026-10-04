@@ -24,6 +24,22 @@
 
 namespace uking::act {
 
+bool Weapon::isParentPlayer() {
+    return ksys::act::isPlayerProfile(&_938);
+}
+
+bool Weapon::isParentNpc() {
+    return ksys::act::isNPCProfile(&_938);
+}
+
+bool Weapon::m183() {
+    return (_e50 & 8) != 0;
+}
+
+bool Weapon::m184() {
+    return _c20._0 == 1;
+}
+
 f32 Weapon::m139() {
     if ((isParentPlayer() || m142()) && _4f0 < 1.0f)
         return _4f0;
