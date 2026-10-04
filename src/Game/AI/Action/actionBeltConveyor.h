@@ -20,8 +20,10 @@ protected:
     void sub_71000C48C0();
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0x28];
+    sead::Vector3f _1c{0, 0, 0};
+    sead::Vector3f _28{0, 0, 0};
+    sead::Vector3f _34{0, 0, 0};
+    f32 _40 = 0;
     // static_param at offset 0x48
     const float* mASRate_s{};
     // static_param at offset 0x50

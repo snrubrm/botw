@@ -9,15 +9,23 @@ SwitchWindmill::SwitchWindmill(const InitArg& arg) : ksys::act::ai::Action(arg) 
 SwitchWindmill::~SwitchWindmill() = default;
 
 bool SwitchWindmill::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _130 = 0;
+    _134 = 0;
+    return true;
 }
 
 void SwitchWindmill::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _58.setName(mTargetNodeName_s);
+    if (auto* model = actor->getModel()) {
+        actor->boneHandleStuff(&_58, false);
+        _20.search(model, mTargetNodeName_s);
+    }
 }
 
 void SwitchWindmill::leave_() {
-    ksys::act::ai::Action::leave_();
+    mActor->sub_71011DA868(&_58);
+    _20.remove();
 }
 
 void SwitchWindmill::loadParams_() {

@@ -1,6 +1,8 @@
 #pragma once
 
+#include <gsys/gsysModelAccessKey.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 
 namespace uking::action {
 
@@ -19,8 +21,8 @@ public:
 protected:
     void calc_() override;
 
-    // FIXME: remove this
-    u8 pad_0x20[0xe0];
+    gsys::BoneAccessKeyEx _20;
+    ksys::act::BoneHandle _58;
     // static_param at offset 0x100
     const float* mSwRadTh_s{};
     // static_param at offset 0x108
@@ -31,6 +33,9 @@ protected:
     const float* mMaxRotSpeed_s{};
     // static_param at offset 0x120
     sead::SafeString mTargetNodeName_s{};
+    f32 _130 = 0;
+    f32 _134 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SwitchWindmill, 0x138);
 
 }  // namespace uking::action
