@@ -777,9 +777,14 @@ public:
     ~ScreenMiniGame() override;
     SEAD_RTTI_OVERRIDE(ScreenMiniGame, ScreenEx)
 
-    u8 _pad_3610[0x3660 - 0x3610];
+    u8 _pad_3610[0x3648 - 0x3610];
+    /* 0x3648 */ eui::Animator* _3648;
+    u8 _pad_3650[0x3660 - 0x3650];
     /* 0x3660 */ u64 _3660;
     /* 0x3668 */ u8 _3668;
+    u8 _pad_3669[0x36e0 - 0x3669];
+    /* 0x36e0 */ eui::Animator* _36e0;
+    /* 0x36e8 */ eui::Animator* _36e8;
 
     void sub_7100A280A4(const sead::SafeString& a1);
     void sub_7100A2813C(const sead::SafeString& a1);
