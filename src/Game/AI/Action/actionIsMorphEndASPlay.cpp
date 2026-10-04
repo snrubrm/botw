@@ -30,4 +30,12 @@ void IsMorphEndASPlay::calc_() {
     OnetimeStopASPlay::calc_();
 }
 
+bool IsMorphEndASPlay::isFinished() const {
+    auto* as_list = mActor->getASList();
+    if (!as_list)
+        return false;
+    return as_list->mSlots[0]._14 >= 1.0f || ksys::act::ai::Action::isFinished() ||
+           isFinishedAS(0, 0);
+}
+
 }  // namespace uking::action
