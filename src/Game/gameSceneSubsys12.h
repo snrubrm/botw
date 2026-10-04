@@ -22,6 +22,9 @@ public:
     // 0x710066358c / 0x71006652c8
     s32 sub_710066358C();
     bool sub_71006652C8() const;
+    // 0x7100664bc8 / 0x7100664dbc: carried actor links of active/embedded contexts.
+    ksys::act::BaseProcLink* sub_7100664BC8(s32 index);
+    ksys::act::BaseProcLink* sub_7100664DBC(s32 index);
     // 0x7100664d24 / 0x7100664d64
     s32 sub_7100664D24();
     s32 sub_7100664D64();

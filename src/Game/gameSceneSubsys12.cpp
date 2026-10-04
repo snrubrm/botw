@@ -54,3 +54,15 @@ void GameSceneSubsys12::sub_7100665304() {
     if (_300.hasProc() && _310)
         _310->sub_710065F9AC();
 }
+
+ksys::act::BaseProcLink* GameSceneSubsys12::sub_7100664BC8(s32 index) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (_300.hasProc() && _310)
+        return _310->sub_710065F80C(index);
+    return nullptr;
+}
+
+ksys::act::BaseProcLink* GameSceneSubsys12::sub_7100664DBC(s32 index) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    return _318.sub_710065F80C(index);
+}
