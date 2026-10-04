@@ -6,6 +6,10 @@ JumpMove::JumpMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
 JumpMove::~JumpMove() = default;
 
+bool JumpMove::isFinished() const {
+    return _8a;
+}
+
 bool JumpMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
