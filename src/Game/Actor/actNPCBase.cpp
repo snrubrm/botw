@@ -1,4 +1,5 @@
 #include "Game/Actor/actNPCBase.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::act {
 
@@ -19,5 +20,10 @@ void NPCBase::calcMaybe() {}
 void NPCBase::updatePositionMaybe() {}
 
 void NPCBase::m66() {}
+
+void NPCBase::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    if (mActorFlags2.isOn(ActorFlag2::_200))
+        ksys::act::sub_7100EE9B68(this, setter);
+}
 
 }  // namespace uking::act

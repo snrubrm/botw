@@ -2,7 +2,6 @@
 
 namespace uking::act {
 
-// NON_MATCHING: the original keeps separate word stores for _c80 / _c84.
 BeamBase::BeamBase(const CreateArg& arg) : DynamicActor(arg) {
     _b90._40.reset();
     _be0.getKey().reset();

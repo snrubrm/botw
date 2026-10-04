@@ -3,6 +3,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/System/VFR.h"
 
 namespace al {
 class ByamlIter;
@@ -36,6 +37,9 @@ class AttClient;
 class ActorConstDataAccess;
 class ActorLinkConstDataAccess;
 class BaseProcLink;
+
+// 0x7100ee9b68: applies the animation time rate for the actor update.
+void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter);
 
 enum class ArrowType {
     /// Wooden arrows.

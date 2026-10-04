@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include <gsys/gsysModel.h>
 #include "Game/AI/aiUnk_7100EE53C4.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -1174,6 +1175,14 @@ bool attentionStuff_0(Actor* actor) {
         }
     }
     return result;
+}
+
+void sub_7100EE9B68(Actor* actor, VFR::ScopedDeltaSetter* setter) {
+    if (actor && setter) {
+        setter->set(4, 0x41);
+        if (auto* model = actor->getModel())
+            model->setAutoAnimationFrameRate(setter->mTimeRate);
+    }
 }
 
 }  // namespace ksys::act
