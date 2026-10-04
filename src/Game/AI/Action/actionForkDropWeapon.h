@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710014ce28 (declared only): out of line in the original; called by the WithSpeed subclasses.
+    void sub_710014CE28();
     void calc_() override;
 
     // static_param at offset 0x20

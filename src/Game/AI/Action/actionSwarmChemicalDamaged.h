@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionSwarmDamaged.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actUnk_7100d3bc4c.h"
 
 namespace uking::action {
 
@@ -30,9 +31,7 @@ protected:
     bool _1d0 = false;
     s32 _1d4 = -1;
     s32 _1d8 = -1;
-    ksys::act::Actor* _1e0 = mActor;
-    u64 _1e8 = 0;
-    s32 _1f0 = 0;
+    ksys::act::Unk_7100d3bce4 _1e0{mActor};
 };
 
 }  // namespace uking::action

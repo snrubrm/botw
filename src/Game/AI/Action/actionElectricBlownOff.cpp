@@ -33,6 +33,14 @@ void ElectricBlownOff::loadParams_() {
 
 void ElectricBlownOff::calc_() {
     BlownOff::calc_();
+    if (_1a8)
+        return;
+    if (_19c.value <= sead::Mathf::epsilon()) {
+        _1a8 = 1;
+        sub_710010451C();
+    } else {
+        _19c.update();
+    }
 }
 
 }  // namespace uking::action

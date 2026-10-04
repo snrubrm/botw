@@ -27,6 +27,11 @@ void SwarmChemicalDamaged::loadParams_() {
 }
 
 void SwarmChemicalDamaged::calc_() {
+    if (!(_1e0.mTimer.value <= sead::Mathf::epsilon())) {
+        _1e0.sub_7100D3BCE4();
+        if (_1e0.mTimer.value <= sead::Mathf::epsilon())
+            sub_71002831E4();
+    }
     SwarmDamaged::calc_();
 }
 
