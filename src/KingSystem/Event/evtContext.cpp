@@ -44,6 +44,16 @@ void Context::sub_7100DBA274() {
         mFlows(i)->_340 |= 0x1000000000;
 }
 
+// 0x7100dba314
+sead::SafeString Context::getEventName() const {
+    return getCurrentFlow()->mEventName;
+}
+
+// 0x7100dba360
+sead::SafeString Context::getEntryPointName() const {
+    return getCurrentFlow()->mEntryPointName;
+}
+
 // 0x7100dba2ac
 void Context::sub_7100DBA2AC() {
     getCurrentFlow()->x_8();

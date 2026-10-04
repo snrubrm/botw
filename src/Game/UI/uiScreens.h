@@ -478,6 +478,13 @@ public:
     void sub_7100A0772C(s32);
 };
 
+// Placeholder for the object ScreenMainScreen3D keeps at 0x4090 (0xb0 bytes).
+struct ScreenMainScreen3DSub {
+    u8 _0[0xb0];
+    // 0x710094745c (CSV unnamed; not decompiled)
+    void sub_710094745C();
+};
+
 class ScreenMainScreen3D : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
@@ -492,7 +499,8 @@ public:
     /* 0x3f38 */ u8 _3f38;
     u8 _pad_3f39[0x4010 - 0x3f39];
     /* 0x4010 */ u64 _4010;
-    u8 _pad_4018[0x4140 - 0x4018];
+    u8 _pad_4018[0x4090 - 0x4018];
+    /* 0x4090 */ ScreenMainScreen3DSub _4090;
     /* 0x4140 */ u64 _4140;
 
     void sub_7100A115E4(s64);
@@ -791,6 +799,8 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenReadyGo, ScreenEx)
 
     bool sub_7100A40BF8();
+    // 0x7100a40b58 (CSV unnamed; not decompiled)
+    void sub_7100A40B58(s32 a1);
 };
 
 class ScreenMiniGame : public ScreenEx {

@@ -18,6 +18,28 @@ void showRuntimeTip(s32 a0) {
     screen->sub_7100A268AC(a0, 0);
 }
 
+// 0x7100a992cc
+bool sub_7100A992CC(s32 a0) {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    createAndLoadScreenIfNeededImpl(ScreenId::ReadyGo, nullptr);
+    auto* screen =
+        sead::DynamicCast<ScreenReadyGo>(eui::ScreenMgr::instance()->getScreen(ScreenId::ReadyGo));
+    if (!screen)
+        return false;
+    screen->open(1);
+    screen->sub_7100A40B58(a0);
+    return true;
+}
+
+// 0x7100a94d54
+void sub_7100A94D54() {
+    auto* screen = sead::DynamicCast<ScreenMainScreen3D>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen3D));
+    if (screen)
+        screen->_4090.sub_710094745C();
+}
+
 // 0x7100a95dc4
 void sub_7100A95DC4(s32 a0) {
     auto* mgr = eui::ScreenMgr::instance();
