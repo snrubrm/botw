@@ -13,6 +13,36 @@ f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold) {
     return frame;
 }
 
+void Context::sub_710125AAA0(u32 index, s16 value) {
+    if (_f4 != _f5)
+        return;
+    for (s32 i = 0; i < _f9; ++i) {
+        if (mPendingValues[i].index == index) {
+            mPendingValues[i].value = value;
+            return;
+        }
+    }
+    if (_f9 >= mPendingValues.size()) {
+        --_f9;
+        for (s32 i = 0; i < _f9; ++i)
+            mPendingValues[i] = mPendingValues[i + 1];
+    }
+    auto& pending = mPendingValues[_f9];
+    pending.index = index;
+    pending.value = value;
+    ++_f9;
+}
+
+s32 Context::sub_710125AA38(u32 index) {
+    if (_f4 != _f5)
+        return -1;
+    for (s32 i = 0; i < _f9; ++i) {
+        if (mPendingValues[i].index == index)
+            return mPendingValues[i].value;
+    }
+    return -1;
+}
+
 f32 Context::sub_710125A164(u32 key) {
     const s8 index = mList->_f0[key];
     return index >= 0 ? _930[index] : 0.0f;

@@ -144,8 +144,10 @@ public:
     ElementParams* sub_7101258D4C(Record* record, bool a2);
     // 0x7101258d1c: the record index of the element `index` (0 in the 'record 0' mode).
     int sub_7101258D1C(int index);
-    // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
+    // 0x710125aaa0: sets the value of the element's entry in the three pending (index, value) pairs.
     void sub_710125AAA0(u32 index, s16 value);
+    // 0x710125aa38: returns the pending value for the index, or -1 if none is queued.
+    s32 sub_710125AA38(u32 index);
     // 0x710125a1a4: sets the pending value of `key` (no check for an earlier one).
     void sub_710125A1A4(f32 value, int key);
     // 0x710125a164: the pending value of `key` (0 if there is none).
@@ -195,7 +197,7 @@ public:
     /* 0xf6 */ s8 _f6 = 0;  // index of the current event bank
     /* 0xf7 */ s8 mNumEvents2 = 0;
     /* 0xf8 */ u8 _f8 = 0;
-    /* 0xf9 */ u8 _f9 = 0;
+    /* 0xf9 */ s8 _f9 = 0;  // number of pending index/value pairs
     /* 0xfa */ u8 _fa = 0;
     u8 _fb[0x100 - 0xfb];
 
@@ -263,8 +265,11 @@ public:
         f32 _1c;
     };
     /* 0x940 */ sead::SafeArray<Event2, 32> mEvents2{};
-    /* 0xd40 */ u64 _d40 = 0;
-    /* 0xd48 */ u32 _d48 = 0;
+    struct PendingValue {
+        u16 index;
+        s16 value;
+    };
+    /* 0xd40 */ sead::SafeArray<PendingValue, 3> mPendingValues{};
 };
 
 
