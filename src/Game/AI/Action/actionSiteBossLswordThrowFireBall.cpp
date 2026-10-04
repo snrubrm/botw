@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSiteBossLswordThrowFireBall.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::action {
 
@@ -34,7 +36,12 @@ void SiteBossLswordThrowFireBall::loadParams_() {
 }
 
 void SiteBossLswordThrowFireBall::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (mActor->getASList()->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+        _80 = true;
+        sub_710025F368();
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

@@ -1,4 +1,6 @@
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/Action/actionRemainsWaterChaseBulletMove.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include <random/seadGlobalRandom.h>
 
 namespace uking::action {
@@ -58,6 +60,16 @@ void RemainsWaterChaseBulletMove::calc_() {
     _f0.sub_7100D3BCE4();
     if (_f0.mTimer.value <= sead::Mathf::epsilon())
         _114 = false;
+}
+
+void RemainsWaterChaseBulletMove::m32() {
+    if (auto* body = mActor->getMainBody()) {
+        if (body->isAddedToWorld()) {
+            sead::Vector3f velocity;
+            if (sub_710023357C(&velocity))
+                body->setLinearVelocity(velocity);
+        }
+    }
 }
 
 }  // namespace uking::action

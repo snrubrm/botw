@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionGolemRepairParts.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Damage/dmgDamageCallback.h"
 
 namespace uking::action {
@@ -15,6 +18,10 @@ bool GolemRepairParts::init_(sead::Heap* heap) {
 
 void GolemRepairParts::enter_(ksys::act::ai::InlineParamPack* params) {
     ActionWithAS::enter_(params);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    setDamageCallbackTiming(mActor, 4, &_118);
+    mFlags.reset(Flag::Changeable);
+    sub_710018CED4();
 }
 
 void GolemRepairParts::leave_() {
@@ -34,6 +41,12 @@ void GolemRepairParts::loadParams_() {
 
 void GolemRepairParts::calc_() {
     ActionWithAS::calc_();
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->x(69, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+            sub_710018D09C();
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action

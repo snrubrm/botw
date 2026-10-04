@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710010dcac (declared only): out of line in the original.
+    void sub_710010DCAC();
     void calc_() override;
 
     // map_unit_param at offset 0x20

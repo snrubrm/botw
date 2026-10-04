@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710023357c (declared only): out of line in the original.
+    bool sub_710023357C(sead::Vector3f* out);
     void calc_() override;
     void m32() override;
 
