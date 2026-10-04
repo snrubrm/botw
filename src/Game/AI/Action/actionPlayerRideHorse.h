@@ -5,8 +5,21 @@
 namespace ksys::as {
 class ASList;
 }
+namespace ksys::act {
+class PlayerLink;
+}
 
 namespace uking::action {
+
+// Known returned fields at 0..0xa from 0x710080ae8c and its horse caller; exact original
+// object extent is unknown. Natural aggregate return, without manual register packing.
+struct Unk_710080ae8c {
+    f32 _0;
+    f32 _4;
+    bool _8;
+    bool _9;
+    bool _a;
+};
 
 s32 sub_710080C324(f32* timer, bool grounded, sead::Vector3f* previous_velocity,
                  const sead::Vector3f& velocity);
@@ -27,6 +40,8 @@ protected:
     void sub_7100808F88();
     void sub_71008093A0();
     void sub_710080A224();
+    Unk_710080ae8c sub_710080AE8C(ksys::act::PlayerLink* player,
+                                const sead::Vector2f& input, s32 gear);
     void sub_710080B208(ksys::as::ASList* list, f32 rate);
 
     // static_param at offset 0x20
@@ -80,7 +95,8 @@ protected:
     sead::Vector3f _e8 = sead::Vector3f::zero;
     sead::Vector3f _f4 = sead::Vector3f::zero;
     f32 _100 = 0.0f;
-    u16 _104 = 0;
+    u8 _104 = 0;
+    u8 _105 = 0;
 };
 KSYS_CHECK_SIZE_NX150(PlayerRideHorse, 0x108);
 
