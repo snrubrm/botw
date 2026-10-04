@@ -23,6 +23,14 @@ public:
         f32 _10;
         f32 _14;
     };
+    static_assert(sizeof(Unk4) == 0x18);
+
+    // 0x7101259d04 and callers 0x7101160120 / 0x7101235830: a sixteen-entry event result.
+    struct EventQueryResults {
+        sead::SafeArray<Unk4, 16> events;
+        s32 count;
+    };
+    static_assert(sizeof(EventQueryResults) == 0x188);
 
     // Placeholder: 0x98-byte entry of a slot's bank buffer (the member functions passed to the
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
@@ -53,6 +61,10 @@ public:
         bool sub_710116383C(Unk4* query, int a2, bool a3);
         bool sub_710116388C(Unk4* query, int a2, bool a3);
         bool sub_71011638DC(Unk4* query, int a2, bool a3);
+        bool sub_7101163818(EventQueryResults* query, int type, bool a3);
+        bool sub_7101163868(EventQueryResults* query, int type, bool a3);
+        bool sub_71011638B8(EventQueryResults* query, int type, bool a3);
+        bool sub_7101163908(EventQueryResults* query, int type, bool a3);
         // 0x7101162254
         bool sub_7101162254(bool a1);
         // 0x7101161cf8 / 0x71011633c0: used by ASList::sub_710115F1D8 / sub_710115F158.
@@ -134,6 +146,7 @@ public:
         s32 _s32;
         u64* _u64_ptr;
         sead::SafeString* _str_ptr;
+        const sead::Vector3f* _vec3_ptr;
     };
 
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
@@ -267,6 +280,7 @@ public:
 // 0x7101259c78 (declaration only): finds the first event of `type` whose mask has a bit of `mask` in the
 // context's event ring; copies its name / values into `query` (if given).
 bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASList::Unk2* entry);
+bool sub_7101259D04(Context* ctx, ASList::EventQueryResults* query, u32 type, u16 mask);
 
 // 0x7102620bb0 (GOT 0x25a15c8): the ASList that Actor::mASList is compared with before use (Actor::m120 /
 // m121, job0_2, job2_1, ...): a placeholder / null list. Name is a guess.

@@ -431,6 +431,22 @@ bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASLis
     return false;
 }
 
+bool sub_7101259D04(Context* ctx, ASList::EventQueryResults* query, u32 type, u16 mask) {
+    query->count = 0;
+    for (s32 i = 0; i < ctx->mNumEvents2; ++i) {
+        const auto& event = ctx->mEvents2[i];
+        if (event.mType == type && (event.mFlags & mask) &&
+            query->count < query->events.size()) {
+            auto& result = query->events[query->count];
+            result.name = event.mName;
+            result._10 = event._18;
+            result._14 = event._1c;
+            ++query->count;
+        }
+    }
+    return query->count > 0;
+}
+
 
 // NON_MATCHING: register allocation / block order of the event removal (the original keeps &mEvents2[i] pointers in
 // different registers)

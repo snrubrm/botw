@@ -165,6 +165,30 @@ bool ASList::Unk2::sub_71011638DC(Unk4* query, int a2, bool a3) {
     return sub_7101259C78(_0, query, a2, 8, this);
 }
 
+bool ASList::Unk2::sub_7101163818(EventQueryResults* query, int type, bool a3) {
+    if (a3 && _10 <= 0.0f)
+        return false;
+    return sub_7101259D04(_0, query, type, 1);
+}
+
+bool ASList::Unk2::sub_7101163868(EventQueryResults* query, int type, bool a3) {
+    if (a3 && _10 <= 0.0f)
+        return false;
+    return sub_7101259D04(_0, query, type, 2);
+}
+
+bool ASList::Unk2::sub_71011638B8(EventQueryResults* query, int type, bool a3) {
+    if (a3 && _10 <= 0.0f)
+        return false;
+    return sub_7101259D04(_0, query, type, 4);
+}
+
+bool ASList::Unk2::sub_7101163908(EventQueryResults* query, int type, bool a3) {
+    if (a3 && _10 <= 0.0f)
+        return false;
+    return sub_7101259D04(_0, query, type, 8);
+}
+
 bool ASList::Unk2::sub_7101163950() {
     return _0->_921 & 1;
 }
@@ -231,6 +255,10 @@ void ASList::sub_710115BAF8(const sead::SafeString& bone_name) {
         _14.reset();
     else
         _14 = _8->searchBone(bone_name);
+}
+
+void ASList::sub_710115CD0C() {
+    sub_710115BAF8(sead::SafeString::cEmptyString);
 }
 
 void ASList::sub_710115CE44(const sead::SafeString& bone_name) {
@@ -347,6 +375,32 @@ f32 ASList::sub_710115EC98(int kind, f32 (ASList::*fn)(), int a4) {
     if (idx < 0)
         return 0;
     return _e0[idx]._f32;
+}
+
+// NON_MATCHING: normalized direction components remain in float registers instead of integer registers.
+f32 ASList::sub_710115F8A0() {
+    const ASList* list = _d8->getASList();
+    const s8 index = list->_f0[0x15];
+    const sead::Vector3f* normal_ptr = index >= 0 ? list->_e0[index]._vec3_ptr : nullptr;
+    const sead::Vector3f& normal = normal_ptr ? *normal_ptr : sead::Vector3f::ey;
+    const sead::Matrix34f& matrix = _d8->getMtx();
+    sead::Vector3f direction(matrix.m[0][2], 0.0f, matrix.m[2][2]);
+    direction.normalize();
+    return sead::Mathf::rad2deg(
+        sead::Mathf::atan2(normal.x * direction.x + direction.z * normal.z, normal.y));
+}
+
+// NON_MATCHING: normalized direction components remain in float registers instead of integer registers.
+f32 ASList::sub_710115F98C() {
+    const ASList* list = _d8->getASList();
+    const s8 index = list->_f0[0x15];
+    const sead::Vector3f* normal_ptr = index >= 0 ? list->_e0[index]._vec3_ptr : nullptr;
+    const sead::Vector3f& normal = normal_ptr ? *normal_ptr : sead::Vector3f::ey;
+    const sead::Matrix34f& matrix = _d8->getMtx();
+    sead::Vector3f direction(matrix.m[0][2], 0.0f, matrix.m[2][2]);
+    direction.normalize();
+    return sead::Mathf::rad2deg(
+        sead::Mathf::atan2(direction.z * normal.x - direction.x * normal.z, normal.y));
 }
 
 const char* ASList::sub_710115ECF4(int kind, int a2) {
