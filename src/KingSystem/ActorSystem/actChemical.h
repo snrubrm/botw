@@ -36,6 +36,8 @@ public:
     void sub_7100D909A4();
     void sub_7100D90A40();
     void sub_7100D90AF4(bool on);
+    // 0x7100d8f550 (CSV makeChmElementMaybe, 3.7 KB; declared only; lane4 s31): the argument is a bool / 0 (placeholder type).
+    void makeChmElementMaybe(bool a1);
     void sub_7100D90B78();
     void sub_7100D90C2C(bool on);
     void sub_7100D90CD8(bool on);

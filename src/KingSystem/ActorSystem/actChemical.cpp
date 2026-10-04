@@ -46,4 +46,25 @@ f32 Chemical::sub_7100D945AC() const {
     return _1b8 * _1b4;
 }
 
+void Chemical::sub_7100D90AF4(bool on) {
+    if (on)
+        _bf &= 0xfe;
+    else
+        _bf |= 1;
+    makeChmElementMaybe(false);
+}
+
+// NON_MATCHING: the original evaluates both flag tests with a conditional compare (ccmp), no early byte test
+bool Chemical::sub_7100D915A8() const {
+    if (_be & 8)
+        return true;
+    const u32 attribute = mMaterial->attribute.ref();
+    if ((attribute & 0x20008) == 8 && !(_be & 4)) {
+        if ((_c & 0x200) || (attribute & 0x800))
+            return false;
+        return mMaterial->electrical_resistivity.ref() < 1.0f;
+    }
+    return false;
+}
+
 }  // namespace ksys::act
