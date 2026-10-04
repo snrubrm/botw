@@ -115,7 +115,7 @@ public:
     /* 159 */ uking::act::Unk_71025ae680* m159() override;
     /* 160 */ void m160() override;
     /* 161 */ void m161() override;
-    /* 165 */ void m165() override;
+    /* 165 */ bool m165(sead::BufferedSafeString* out) override;
     /* 166 */ bool isGuard() override { return _c40.isOnBit(4); }
     /* 167 */ bool isGuardJust() override;
     /* 176 */ void m176() override;
@@ -609,3 +609,6 @@ bool playerIsChargingBow(Player* player);
 bool playerIsReloadingOrChargingOrShootingBow(Player* player);
 
 }  // namespace ksys::act
+
+// 0x7100a95270: equipped arrow name/count query; declaration only, namespace unknown.
+bool sub_7100A95270(sead::BufferedSafeString* out);

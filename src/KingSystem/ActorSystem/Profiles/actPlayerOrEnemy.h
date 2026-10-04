@@ -53,7 +53,7 @@ public:
     // FIXME: figure out return types, parameters and names
     virtual bool m163(int idx);
     virtual bool m164(s32 idx, Actor* weapon, bool a3, bool a4);
-    virtual void m165();
+    virtual bool m165(sead::BufferedSafeString* out);
     virtual bool isGuard();
     virtual bool isGuardJust();
     virtual s32 getBaseAtkPower();

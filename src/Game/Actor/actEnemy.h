@@ -240,7 +240,7 @@ public:
     void m160() override;
     bool m162() override { return _e82 >> 9 & 1; }
     bool m164(s32 idx, ksys::act::Actor* weapon, bool a3, bool a4) override;
-    void m165() override;
+    bool m165(sead::BufferedSafeString* out) override;
     bool isGuard() override;
     bool m169() override { return _e84.isOnBit(13); }
     bool weaponDroppedByEnemy() override;

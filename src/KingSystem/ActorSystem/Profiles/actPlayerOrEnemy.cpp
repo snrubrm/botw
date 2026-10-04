@@ -356,3 +356,11 @@ void PlayerOrEnemy::sub_7100009C5C() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+bool PlayerOrEnemy::m165(sead::BufferedSafeString* out) {
+    return false;
+}
+
+}  // namespace ksys::act

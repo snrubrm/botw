@@ -771,3 +771,14 @@ f32 Player::getArmorChargeAttackAddLevel() {
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+bool Player::m165(sead::BufferedSafeString* out) {
+    if (sub_7100A95270(out))
+        return true;
+    out->copy("Empty");
+    return false;
+}
+
+}  // namespace ksys::act

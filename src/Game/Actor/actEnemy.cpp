@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -335,6 +336,18 @@ ksys::act::LifeRecoverInfo* Enemy::getLifeRecoverInfo() {
     if (info->mFlags & (1 << int(flag)))
         return info;
     return nullptr;
+}
+
+}  // namespace uking::act
+
+namespace uking::act {
+
+bool Enemy::m165(sead::BufferedSafeString* out) {
+    sead::SafeString arrow_name;
+    if (!getRootAi()->getMapUnitParam(&arrow_name, "ArrowName"))
+        return false;
+    out->copy(arrow_name);
+    return true;
 }
 
 }  // namespace uking::act
