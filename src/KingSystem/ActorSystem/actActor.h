@@ -344,6 +344,9 @@ public:
     bool sub_71011DB30C() const;
     // 0x71011c7990 (declared and defined here; placeholder name): signal bit 13 of mSignals is off.
     bool sub_71011C7990() const;
+    // 0x71011c5630 (declared only; lane3 s20; BindActionUseParentPickInfo): applies this actor's state (_1b0,
+    // stasis flag bit 11) to `model` (no-op for null).
+    void sub_71011C5630(gsys::Model* model);
     // CSV name. deleteLater(_0) unless the actor is (being) deleted or _687 is set; then
     // emitSignalsOrDisappearEffectForDelete(a1).
     // CSV name (0x71011cc45c).

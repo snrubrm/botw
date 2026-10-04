@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionBindActionUseParentPickInfo.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,9 +14,12 @@ bool BindActionUseParentPickInfo::init_(sead::Heap* heap) {
 
 void BindActionUseParentPickInfo::enter_(ksys::act::ai::InlineParamPack* params) {
     BindActionForManyActor::enter_(params);
+    if (auto* parent = m33())
+        parent->sub_71011C5630(mActor->getModel());
 }
 
 void BindActionUseParentPickInfo::leave_() {
+    mActor->sub_71011C5630(mActor->getModel());
     BindActionForManyActor::leave_();
 }
 
