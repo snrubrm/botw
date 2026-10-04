@@ -4,11 +4,29 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Event/evtActorBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
 
 namespace ksys::evt {
+
+// NON_MATCHING: same calls (this string's assureTermination once, the argument's twice) but the original loads the
+// string pointer of the context's string between the first two virtual calls where ours loads it after them.
+// 0x7100db2910
+bool Manager::isActiveEventNameEqualTo(const sead::SafeString& event_name,
+                                       const sead::SafeString& entry_point) const {
+    if (auto* context = _1d2b8)
+        return context->_60 == event_name && context->_b8 == entry_point;
+    return false;
+}
+
+// 0x7100db0fb0
+bool Manager::sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data) {
+    if (MessageDispatcher::instance()->isProcessingOnCurrentThread())
+        return mTransceiver.sendMessageOnProcessingThread(dest, type, user_data, true);
+    return mTransceiver.sendMessage(dest, type, user_data, true);
+}
 
 // 0x7100db0bac
 bool Manager::callEvent(const Metadata& metadata, act::Actor* actor, void* x) {

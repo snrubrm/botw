@@ -32,7 +32,7 @@ void SleepBedRoot::calc_() {
     if (_38._30) {
         ksys::evt::Metadata metadata("Demo007_0");
         _78.initWithEvent(actor, &metadata);
-        actor->sendMessage(*ksys::evt::Manager::instance()->_48, ksys::MessageType(0x800002), &_78,
+        actor->sendMessage(*ksys::evt::Manager::instance()->mTransceiver.getId(), ksys::MessageType(0x800002), &_78,
                            true);
         _38.x();
     }

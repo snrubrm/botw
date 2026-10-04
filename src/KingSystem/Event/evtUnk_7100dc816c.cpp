@@ -1,7 +1,21 @@
 #include "KingSystem/Event/evtUnk_7100dc816c.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 
 namespace ksys::evt {
+
+// 0x7100dc85d4
+act::BaseProcLink& sub_7100DC85D4(act::Actor* actor) {
+    if (actor) {
+        if (auto* manager = Manager::instance()) {
+            if (auto* link = manager->getBaseProcLinkForActorOrActiveLink(actor)) {
+                if (link->hasProc())
+                    return *link;
+            }
+        }
+    }
+    return act::getDummyBaseProcLink();
+}
 
 bool sub_7100DC866C() {
     if (auto* manager = Manager::instance())

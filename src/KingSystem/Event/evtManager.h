@@ -3,6 +3,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Event/evtEventFlowMgr.h"
+#include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace ksys {
 class OverlayArenaSystemS1;
@@ -122,16 +123,15 @@ public:
 private:
     friend class ksys::OverlayArenaSystemS1;
 
-    u8 pad_28[0x48 - 0x28];
+    u8 pad_28[0x38 - 0x28];
 
 public:
-    // The message transceiver id of the event manager actor (placeholder name; read by
-    // SleepBedRoot::calc_ and ResidentEvent::sendMessageToEventMgrActor, which pass `*_48` as the
-    // destination of Actor::sendMessage).
-    /* 0x48 */ const MesTransceiverId* _48;
+    // The event manager actor's message transceiver (0x38 - 0x90; its id is read by SleepBedRoot::calc_ and
+    // ResidentEvent::sendMessageToEventMgrActor as the destination of Actor::sendMessage).
+    /* 0x38 */ ActorMessageTransceiver mTransceiver;
 
 private:
-    u8 pad_50[0x1d170 - 0x50];
+    u8 pad_90[0x1d170 - 0x90];
     /* 0x1d170 */ s32 mAliveEventFlowCount;
     u8 pad_1d174[0x1d180 - 0x1d174];
     sead::Heap* mEventHeap;

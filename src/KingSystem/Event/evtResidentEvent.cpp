@@ -55,7 +55,7 @@ bool ResidentEvent::sendMessageToEventMgrActor(act::Actor* actor) {
     auto* mgr = Manager::instance();
     if (!mgr)
         return false;
-    actor->sendMessage(*mgr->_48, MessageType(0x800002), this, true);
+    actor->sendMessage(*mgr->mTransceiver.getId(), MessageType(0x800002), this, true);
     return true;
 }
 

@@ -53,9 +53,10 @@ public:
     /* 0x28 */ act::BaseProcLink mLink;
 
 private:
-    u8 _38[0xb8 - 0x38];
+    u8 _38[0x60 - 0x38];
 
 public:
+    /* 0x60 */ sead::FixedSafeString<64> _60;  // (guess) the event name; compared by Manager::isActiveEventNameEqualTo
     /* 0xb8 */ sead::FixedSafeString<64> _b8;  // copied by Manager::getEventEntryPointName (size guessed)
 
 private:

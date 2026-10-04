@@ -47,6 +47,13 @@ bool EventFlowBase::byte3FlagIsSet() const {
     return _340_bytes[3] & 1;
 }
 
+// 0x7100db8bb8
+bool EventFlowBase::sub_7100DB8BB8(bool a1) {
+    if (!_108)
+        return true;
+    return _108->load(a1);
+}
+
 // 0x7100db8b84
 void EventFlowBase::x(bool set) {
     _340 = set ? (_340 | 0xa0) : ((_340 & ~0xa0ull) | 0x20);
