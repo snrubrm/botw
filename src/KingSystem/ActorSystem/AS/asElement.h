@@ -81,6 +81,8 @@ static_assert(sizeof(ElementParams) == 0x20);
 // reached through the element index of the resource.
 class Context {
 public:
+    // 0x7101258608
+    Context();
     // 0x7101258a4c: frees the frames' and the event buffers (the destructor of the original; D2).
     ~Context();
 
@@ -119,6 +121,8 @@ public:
         ~Frame();
         // 0x7101257eb0: frees the three buffers.
         void finalize();
+        // 0x71012580e0: copies the contents of `other` (false if the buffer sizes differ).
+        bool sub_71012580E0(const Frame& other);
         // 0x7101258398: releases every record and unmaps every element.
         void sub_7101258398();
         // 0x710125848c: maps element `element` to a free record, searching from `hint`.
@@ -158,24 +162,24 @@ public:
     // 0x7101258abc: the owner actor of the list.
     act::Actor* sub_7101258ABC();
 
-    /* 0x00 */ ASList* mList;
+    /* 0x00 */ ASList* mList = nullptr;
     /* 0x08 */ sead::SafeString mUnk8;
     /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
     /* 0x28 */ sead::SafeArray<Frame, 3> mFrames;
-    /* 0xd0 */ Frame* _d0;  // the current frame
-    /* 0xd8 */ Frame* _d8;  // overrides the ring when set
-    /* 0xe0 */ f32 _e0;
-    /* 0xe4 */ f32 _e4;
-    /* 0xe8 */ f32 _e8;
-    /* 0xec */ f32 _ec;  // delta time
-    /* 0xf0 */ f32 _f0;
-    /* 0xf4 */ u8 _f4;
-    /* 0xf5 */ u8 _f5;
-    /* 0xf6 */ s8 _f6;  // index of the current event bank
-    /* 0xf7 */ s8 mNumEvents2;
-    /* 0xf8 */ u8 _f8;
-    /* 0xf9 */ u8 _f9;
-    /* 0xfa */ u8 _fa;
+    /* 0xd0 */ Frame* _d0 = &mFrames[0];  // the current frame
+    /* 0xd8 */ Frame* _d8 = nullptr;  // overrides the ring when set
+    /* 0xe0 */ f32 _e0 = 1.0f;
+    /* 0xe4 */ f32 _e4 = 1.0f;
+    /* 0xe8 */ f32 _e8 = -1.0f;
+    /* 0xec */ f32 _ec = 0;  // delta time
+    /* 0xf0 */ f32 _f0 = -1.0f;
+    /* 0xf4 */ u8 _f4 = 0;
+    /* 0xf5 */ u8 _f5 = 0;
+    /* 0xf6 */ s8 _f6 = 0;  // index of the current event bank
+    /* 0xf7 */ s8 mNumEvents2 = 0;
+    /* 0xf8 */ u8 _f8 = 0;
+    /* 0xf9 */ u8 _f9 = 0;
+    /* 0xfa */ u8 _fa = 0;
     u8 _fb[0x100 - 0xfb];
 
     // The events queued while the frame is evaluated (two banks each, selected by `_f6`; each bank holds up to 16).
@@ -221,26 +225,29 @@ public:
     // 0x7101258f4c: ends the evaluation of the frame (`a`: ...) and flips the event bank.
     void sub_7101258F4C(u32 a, u32 b);
 
-    /* 0x100 */ sead::SafeArray<EventBank<EventA>, 2> mBanksA;
-    /* 0x510 */ sead::SafeArray<EventBank<EventB>, 2> mBanksB;
+    /* 0x100 */ sead::SafeArray<EventBank<EventA>, 2> mBanksA{};
+    /* 0x510 */ sead::SafeArray<EventBank<EventB>, 2> mBanksB{};
     /* 0x920 */ union {
-        u32 mFlags;
+        u32 mFlags = 0;
         struct {
             u8 _920;
             u8 _921;
         };
     };
-    /* 0x924 */ u32 _924;
-    u8 _928[0x930 - 0x928];
+    /* 0x924 */ u32 _924 = 0;
+    /* 0x928 */ u32 _928 = 0;
+    u8 _92c[0x930 - 0x92c];
     /* 0x930 */ sead::Buffer<u32> _930;
     struct Event2 {
         u16 mType;
-        u16 mFlags;
+        u16 mFlags = 0;
         sead::SafeString mName;
         f32 _18;
         f32 _1c;
     };
-    /* 0x940 */ sead::SafeArray<Event2, 32> mEvents2;
+    /* 0x940 */ sead::SafeArray<Event2, 32> mEvents2{};
+    /* 0xd40 */ u64 _d40 = 0;
+    /* 0xd48 */ u32 _d48 = 0;
 };
 
 

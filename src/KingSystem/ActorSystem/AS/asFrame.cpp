@@ -15,13 +15,39 @@ ElementParams* Context::Record::sub_7101257DF4(Frame* frame, bool a2) {
     return &frame->mEntries[index];
 }
 
-Context::Frame::Frame() {}
-
 Context::Frame::~Frame() {
     mRecords.freeBuffer();
     mIndexMap.freeBuffer();
     mEntries.freeBuffer();
 }
+
+template <typename T>
+static void copyBuffer(sead::Buffer<T>& dst, const sead::Buffer<T>& src) {
+    if (0 < src.size() && &dst != &src) {
+        const s32 n = sead::Mathi::min(dst.size(), src.size());
+        T* dst_ptr = dst.getBufferPtr();
+        const T* src_ptr = src.getBufferPtr();
+        for (s32 i = 0; i < n; ++i)
+            dst_ptr[i] = src_ptr[i];
+    }
+}
+
+// NON_MATCHING: the original loads the sizes into registers once (the three equal-size checks keep no Buffer
+// addresses alive) and selects the smaller *Buffer* by address before reading its size; ours keeps `&buffer + 0x20`
+// pre-indexed registers across the checks and selects the size value
+bool Context::Frame::sub_71012580E0(const Frame& other) {
+    if (other.mRecords.size() != mRecords.size() || other.mIndexMap.size() != mIndexMap.size() ||
+        other.mEntries.size() != mEntries.size()) {
+        return false;
+    }
+    copyBuffer(mRecords, other.mRecords);
+    copyBuffer(mIndexMap, other.mIndexMap);
+    copyBuffer(mEntries, other.mEntries);
+    mAS = other.mAS;
+    return true;
+}
+
+Context::Frame::Frame() {}
 
 bool Context::Frame::sub_7101257F0C(const Sizes& sizes, sead::Heap* heap) {
     const s32 num_records = sizes.mNumRecords > 1 ? sizes.mNumRecords : 1;

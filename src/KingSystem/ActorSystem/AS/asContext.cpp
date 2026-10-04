@@ -102,6 +102,15 @@ bool Context::sub_7101258AC8(const Frame::Sizes& sizes, sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: ours also stores `mEvents2[0].mFlags = 0` (the original stores the flags of events 1-31 only) and
+// emits the stores to 0xd40 / 0xd48 in the other order; everything else is identical
+Context::Context() : mFrames() {
+    for (s32 i = 0; i < 2; ++i) {
+        mBanksA[i].mCount = 0;
+        mBanksB[i].mCount = 0;
+    }
+}
+
 Context::~Context() {
     mFrames[0].finalize();
     mFrames[1].finalize();
