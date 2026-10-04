@@ -1,4 +1,12 @@
 #include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiTextSearcher.h"
+#include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/euiLetterAnimControl.h"
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <new>
+#include <nn/ui2d/BuildTypes.h>
 #include <nn/ui2d/ResExtUserData.h>
 #include <prim/seadSafeString.h>
 #include <math/seadMathCalcCommon.h>
@@ -9,6 +17,43 @@ namespace eui {
 
 void ProcessMessageAppTag(const MessageString& message,
                           sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
+
+// 0x7100be21b0
+TextBoxEx::TextBoxEx(const nn::ui2d::ResTextBox* resource,
+                     const nn::ui2d::ResTextBox* override_resource,
+                     const nn::ui2d::BuildArgSet& args,
+                     nn::ui2d::TextBox::InitializeStringParam* param)
+    : nn::ui2d::TextBox(nullptr, sead::GraphicsNvn::instance()->getNnDevice(), param,
+                       resource, override_resource, args) {
+    mBits._6 = false;
+    SetTagProcessor(static_cast<eui::TextSearcher*>(args.mTextSearcher)->getTagProcessor());
+    if (FindExtUserDataByName("LetterAnimOn"))
+        param->mBufferLength += 10;
+}
+
+// 0x7100be227c
+TextBoxEx::TextBoxEx(const TextBoxEx& other, LayoutEx* layout)
+    : nn::ui2d::TextBox(other, sead::GraphicsNvn::instance()->getNnDevice()) {
+    Screen* screen = layout->mScreen;
+    if (screen) {
+        if (const auto* data = FindExtUserDataByName("LetterAnimOn")) {
+            const f32 speed = data->GetFloatArray()[0];
+            void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(LetterAnimControl), 4);
+            auto* control = memory ? new (memory) LetterAnimControl : nullptr;
+            control->initialize(GetNwAllocatorHeap(), this, layout);
+            control->sub_7100BD9B68(speed);
+            screen->mControls.linkPrev(&control->_8);
+        }
+    }
+}
+
+// 0x7100be2350
+void TextBoxEx::InitializeString(nn::ui2d::BuildResultInformation* result, nn::gfx::Device* device,
+                                 const nn::ui2d::BuildArgSet& args,
+                                 const nn::ui2d::TextBox::InitializeStringParam& param) {
+    nn::ui2d::TextBox::InitializeString(result, device, args, param);
+    adjustText_(const_cast<LayoutEx*>(static_cast<const LayoutEx*>(args.mParentLayout)));
+}
 
 // NON_MATCHING: pane-width and virtual-call scheduling differ; short buffer arguments are narrowed.
 // 0x7100be24e0

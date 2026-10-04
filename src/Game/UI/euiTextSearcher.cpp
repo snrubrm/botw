@@ -6,8 +6,8 @@
 namespace eui {
 
 // 0x7100be729c
-TextSearcher::TextSearcher(MessageSet* messages, void* context)
-    : mMessages(messages), mContext(context) {}
+TextSearcher::TextSearcher(MessageSet* messages, TagProcessor* tag_processor)
+    : mMessages(messages), mTagProcessor(tag_processor) {}
 
 // 0x7100be72b4
 void TextSearcher::SearchText(TextInfo* out, const char* text_id,

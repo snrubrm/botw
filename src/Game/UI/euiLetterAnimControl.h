@@ -2,6 +2,10 @@
 
 #include "Game/UI/euiControlBase.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace eui {
 
 class TextBoxEx;
@@ -16,6 +20,7 @@ public:
     void Update(f32 dt) override;
 
     LetterAnimControl();
+    void initialize(sead::Heap*, TextBoxEx*, LayoutEx*);
 
     // 0x7100bd9b80
     void flushAllowWait();

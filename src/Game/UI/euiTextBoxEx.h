@@ -15,6 +15,10 @@ class TextBoxEx : public nn::ui2d::TextBox {
 public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::TextBox)
 
+    TextBoxEx(const nn::ui2d::ResTextBox*, const nn::ui2d::ResTextBox*,
+              const nn::ui2d::BuildArgSet&, nn::ui2d::TextBox::InitializeStringParam*);
+    TextBoxEx(const TextBoxEx&, LayoutEx*);
+
     void InitializeString(nn::ui2d::BuildResultInformation*, nn::gfx::Device*,
                           const nn::ui2d::BuildArgSet&,
                           const nn::ui2d::TextBox::InitializeStringParam&) override;
