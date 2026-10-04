@@ -94,6 +94,10 @@ public:
     // 0x7100db12d8 (CSV EventMgr::getBaseProcLinkForActorOrActiveLink): the link of the context that has an event
     // actor for `proc` (the active context's link if none has / `proc` is null)
     act::BaseProcLink* getBaseProcLinkForActorOrActiveLink(act::BaseProc* proc) const;
+    // 0x7100db235c (CSV EventMgr::getEventEntryPointName): copies the active context's string at 0xb8 to `out`
+    bool getEventEntryPointName(sead::BufferedSafeString* out) const;
+    // 0x7100db11d4 (CSV EventMgr::getStarterActor): the actor behind getBaseProcLinkForActorOrActiveLink(proc)
+    act::Actor* getStarterActor(act::BaseProc* proc) const;
     // 0x7100db10b0 (CSV EventMgr::__auto10; placeholder name)
     bool sub_7100DB10B0(const void* a1, act::BaseProc* proc, void** out_1b8, void** out_1c0) const;
     // 0x7100db22a8 (CSV EventMgr::__auto5; placeholder name): the link of the active event's "Argument" actor

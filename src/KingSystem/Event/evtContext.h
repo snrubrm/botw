@@ -53,7 +53,13 @@ public:
     /* 0x28 */ act::BaseProcLink mLink;
 
 private:
-    u8 _38[0x1e8 - 0x38];
+    u8 _38[0xb8 - 0x38];
+
+public:
+    /* 0xb8 */ sead::FixedSafeString<64> _b8;  // copied by Manager::getEventEntryPointName (size guessed)
+
+private:
+    u8 _110[0x1e8 - 0x110];
     /* 0x1e8 */ sead::SafeArray<s8, 8> mFlowStack;
     /* 0x1f0 */ s32 mStackTop;
     /* 0x1f4 */ u8 _1f4;

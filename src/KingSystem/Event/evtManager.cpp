@@ -163,6 +163,22 @@ act::BaseProcLink* Manager::getBaseProcLinkForActorOrActiveLink(act::BaseProc* p
     return _1d2b8 ? &_1d2b8->mLink : nullptr;
 }
 
+// 0x7100db235c
+bool Manager::getEventEntryPointName(sead::BufferedSafeString* out) const {
+    if (!_1d2b8)
+        return false;
+    out->copy(sead::SafeString(_1d2b8->_b8.cstr()));
+    return true;
+}
+
+// 0x7100db11d4
+act::Actor* Manager::getStarterActor(act::BaseProc* proc) const {
+    auto* link = getBaseProcLinkForActorOrActiveLink(proc);
+    if (!link)
+        return nullptr;
+    return sead::DynamicCast<act::Actor>(link->getProc(nullptr, nullptr));
+}
+
 // 0x7100db10b0
 bool Manager::sub_7100DB10B0(const void*, act::BaseProc* proc, void** out_1b8, void** out_1c0) const {
     for (s32 i = 0; i < 32; ++i) {
