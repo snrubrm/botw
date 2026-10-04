@@ -1503,9 +1503,12 @@ public:
 
 class ScreenTime : public ScreenEx {
 public:
+    ScreenTime();
     const char* m15() const override;
     ~ScreenTime() override;
     SEAD_RTTI_OVERRIDE(ScreenTime, ScreenEx)
+
+    /* 0x3610 */ sead::FixedSafeString<128> _3610;
 };
 
 class ScreenChallengeWin : public ScreenEx {

@@ -113,4 +113,8 @@ ScreenPauseMenuRecipe::ScreenPauseMenuRecipe() : ScreenEx() {}
 // 0x7100a60808
 ScreenSystemWindow00::ScreenSystemWindow00() : ScreenEx() {}
 
+
+// 0x7100a68c84
+ScreenTime::ScreenTime() : ScreenEx() {}
+
 }  // namespace uking::ui
