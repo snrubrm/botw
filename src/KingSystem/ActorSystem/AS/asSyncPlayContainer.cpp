@@ -4,6 +4,23 @@ namespace ksys::as {
 
 SyncPlayContainer::SyncPlayContainer() {}
 
+bool SyncPlayContainer::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    record->_0 = 0;
+    f32 longest = -1.0f;
+    for (int i = 0; i < mChildren.size(); ++i) {
+        const res::ASResource* child_resource = sub_71013031FC(resource, i);
+        mChildren[i]->sub_710116541C(ctx, state, child_resource);
+        const ElementParams* params = mChildren[i]->m25(ctx, child_resource);
+        const int duration = params ? int(params->sub_710130296C(true)) : 0;
+        if (longest < f32(duration)) {
+            record->_0 = i;
+            longest = f32(duration);
+        }
+    }
+    return true;
+}
+
 bool SyncPlayContainer::m10(Context* ctx, State* state, const res::ASResource* resource) {
     bool result = true;
     int index = 0;
