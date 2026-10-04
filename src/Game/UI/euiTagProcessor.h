@@ -21,6 +21,8 @@ public:
     TagProcessor(MessageMgr* message_mgr, FontMgr* font_mgr);
     ~TagProcessor() override = default;
     const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
+    void EndPrint(nn::font::PrintContext<u16>* context) override;
+    void EndCalculateRect(nn::font::PrintContext<u16>* context) override;
 
     // 0x7100be6254: type 0x80, two parameter bytes (the first is the negated flag)
     static char16* setAlphaTag(char16* out, bool flag, u8 alpha);
@@ -38,7 +40,7 @@ private:
     /* 0x28 */ u32 _28 = 0;
     /* 0x2c */ f32 _2c = 1.0f;
     /* 0x30 */ f32 _30 = 1.0f;
-    /* 0x34 */ u32 _34 = 0;
+    /* 0x34 */ u32 mNestingDepth = 0;
     /* 0x38 */ MessageMgr* mMessageMgr;
     /* 0x40 */ FontMgr* mFontMgr;
     /* 0x48 */ u32 _48 = 0xffffff01;
