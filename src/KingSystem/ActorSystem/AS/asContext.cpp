@@ -112,6 +112,73 @@ void Context::sub_710125A248(f32 value, u32 key, Element* element,
     }
 }
 
+void Context::sub_710125A630() {
+    if (!_928)
+        return;
+    const s32 size = _930.size();
+    for (s32 i = 0; i < size; ++i) {
+        const u32 mask = 1u << i;
+        if ((_928 & mask) && !(_924 & mask))
+            _928 &= ~mask;
+    }
+}
+
+// NON_MATCHING: event duration/value copies use separate stores and different registers.
+bool Context::sub_710125A67C(const Context& other, bool reset_events) {
+    if (!_d0->sub_71012580E0(*other._d0))
+        return false;
+    _f0 = other._f0;
+    _e0 = other._e0;
+    _e4 = other._e4;
+    _f6 = other._f6;
+    if (!reset_events) {
+        for (s32 bank = 0; bank < 2; ++bank) {
+            auto& dst = mBanksA[bank];
+            const auto& src = other.mBanksA[bank];
+            const s32 size = src.mCount;
+            dst.mCount = size;
+            for (s32 i = 0; i < size; ++i) {
+                auto& dst_event = dst.mEvents[i];
+                const auto& src_event = src.mEvents[i];
+                dst_event.mDuration = src_event.mDuration;
+                dst_event._4 = src_event._4;
+                dst_event.mName = src_event.mName;
+                dst_event._18 = src_event._18;
+            }
+        }
+        for (s32 bank = 0; bank < 2; ++bank) {
+            auto& dst = mBanksB[bank];
+            const auto& src = other.mBanksB[bank];
+            const s32 size = src.mCount;
+            dst.mCount = size;
+            for (s32 i = 0; i < size; ++i) {
+                auto& dst_event = dst.mEvents[i];
+                const auto& src_event = src.mEvents[i];
+                dst_event.mDuration = src_event.mDuration;
+                dst_event._4 = src_event._4;
+                dst_event.mName = src_event.mName;
+                dst_event._18 = src_event._18;
+            }
+        }
+    }
+    mFlags = other.mFlags;
+    _924 = other._924;
+    _928 = other._928;
+    const s32 size = _930.size();
+    for (s32 i = 0; i < size; ++i) {
+        if (_928 & (1u << i))
+            _930[i] = other._930[i];
+    }
+    if (reset_events) {
+        mNumEvents2 = 0;
+    } else {
+        mNumEvents2 = other.mNumEvents2;
+        for (s32 i = 0; i < mNumEvents2; ++i)
+            mEvents2[i] = other.mEvents2[i];
+    }
+    return true;
+}
+
 res::ASResource* Context::sub_7101258CC0() {
     if (res::AS* as = _d0->mAS)
         return as->getFirstResource();
@@ -210,7 +277,7 @@ bool Context::sub_7101258AC8(const Frame::Sizes& sizes, sead::Heap* heap) {
 }
 
 // NON_MATCHING: ours also stores `mEvents2[0].mFlags = 0` (the original stores the flags of events 1-31 only) and
-// emits the stores to 0xd40 / 0xd48 in the other order; everything else is identical
+// schedules zero initialization of the pending pairs differently; everything else is identical
 Context::Context() : mFrames() {
     for (s32 i = 0; i < 2; ++i) {
         mBanksA[i].mCount = 0;

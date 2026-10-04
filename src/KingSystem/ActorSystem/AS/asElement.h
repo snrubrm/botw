@@ -157,6 +157,10 @@ public:
     void sub_710125A1F0(f32 value, int key, Element* element, const res::ASResource* resource);
     // 0x710125a248: advances the input value of key, applying the resource input limit.
     void sub_710125A248(f32 value, u32 key, Element* element, const res::ASResource* resource);
+    // 0x710125a630: clears pending bits that were not applied during this update.
+    void sub_710125A630();
+    // 0x710125a67c: copies the active frame and state; reset_events omits the event banks.
+    bool sub_710125A67C(const Context& other, bool reset_events);
     // 0x7101259de8 / 0x7101259f94: queues trigger/hold events.
     void sub_7101259DE8(f32 weight, int type, const sead::SafeString& value);
     void sub_7101259F94(f32 duration, f32 weight, int type, const sead::SafeString& value);
