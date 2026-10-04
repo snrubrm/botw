@@ -153,9 +153,10 @@ public:
     /* 0xd0 */ Frame* _d0;  // the current frame
     /* 0xd8 */ Frame* _d8;  // overrides the ring when set
     /* 0xe0 */ f32 _e0;
-    /* 0xe4 */ u8 _e4[0xec - 0xe4];
+    /* 0xe4 */ f32 _e4;
+    /* 0xe8 */ f32 _e8;
     /* 0xec */ f32 _ec;  // delta time
-    /* 0xf0 */ u8 _f0[0xf4 - 0xf0];
+    /* 0xf0 */ f32 _f0;
     /* 0xf4 */ u8 _f4;
     /* 0xf5 */ u8 _f5;
     /* 0xf6 */ s8 _f6;  // index of the current event bank
@@ -201,8 +202,10 @@ public:
     // 0x7101258d60 / 0x7101258d68: Frame::sub_710125848C / sub_7101258570 on the current frame.
     void sub_7101258D60(int element, int hint);
     void sub_7101258D68(int element);
+    // 0x7101258e38: starts the evaluation of a frame of the AS `as` (`frame`: a frame to use instead of the ring).
+    void sub_7101258E38(f32 a0, const sead::SafeString& name, res::AS* as, Frame* frame, bool a4, bool a5);
     // 0x7101258f4c: ends the evaluation of the frame (`a`: ...) and flips the event bank.
-    void sub_7101258F4C(bool a, bool b);
+    void sub_7101258F4C(u32 a, u32 b);
 
     /* 0x100 */ sead::SafeArray<EventBank<EventA>, 2> mBanksA;
     /* 0x510 */ sead::SafeArray<EventBank<EventB>, 2> mBanksB;

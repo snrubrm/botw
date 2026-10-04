@@ -151,4 +151,109 @@ bool sub_7101259C78(Context* ctx, ASList::Unk4* query, int type, u16 mask, ASLis
     return false;
 }
 
+
+// NON_MATCHING: register allocation / block order of the event removal (the original keeps &mEvents2[i] pointers in
+// different registers)
+void Context::sub_71012590BC(bool a) {
+    auto remove = [this](s32 i, Event2& event) {
+        const s8 last_index = --mNumEvents2;
+        if (i != last_index) {
+            Event2& last = mEvents2[last_index];
+            event.mFlags = last.mFlags;
+            event.mType = last.mType;
+            event.mName = last.mName;
+            event._18 = last._18;
+            event._1c = last._1c;
+        }
+    };
+    if (mNumEvents2 < 1)
+        return;
+    if (!a) {
+        for (s32 i = mNumEvents2 - 1; i >= 0; --i) {
+            Event2& event = mEvents2[i];
+            const u16 flags = event.mFlags;
+            event._1c = 0;
+            event.mFlags = flags & 0xffe8;
+            if ((flags & 0xffe8) == 0)
+                remove(i, event);
+        }
+    } else {
+        for (s32 i = mNumEvents2 - 1; i >= 0; --i) {
+            Event2& event = mEvents2[i];
+            u16 flags = event.mFlags;
+            event._1c = 0;
+            if (flags & 2) {
+                flags &= 0xffe7;
+                event.mFlags = flags;
+            }
+            event.mFlags = flags & 0xffec;
+            if ((flags & 0xffec) == 0)
+                remove(i, event);
+        }
+    }
+}
+
+// NON_MATCHING: block layout of the `a5` / frame tests (same operations)
+void Context::sub_7101258E38(f32 a0, const sead::SafeString& name, res::AS* as, Frame* frame, bool a4,
+                             bool a5) {
+    if (!a5) {
+        mUnk18 = mUnk8;
+        _fa = _f9;
+    } else {
+        mNumEvents2 = _f8;
+        _f9 = _fa;
+    }
+    mUnk8 = name;
+    _e0 = 1.0f;
+    u8 index = _f5;
+    mFlags = 0;
+    _924 = 0;
+    _e4 = a0;
+    _d8 = frame;
+    _f0 = -1.0f;
+    _e8 = -1.0f;
+    if (a5) {
+        _f4 = index;
+    } else {
+        index = index + 1 == 3 ? 0 : index + 1;
+        _f5 = index;
+        _f4 = index;
+    }
+    if (!frame)
+        frame = &mFrames[index];
+    _d0 = frame;
+    frame->sub_7101258398();
+    _d0->mAS = as;
+    if (a4)
+        _f9 = 0;
+}
+
+// NON_MATCHING: register allocation (the original keeps `&mFlags` in a register)
+void Context::sub_7101258F4C(u32 a, u32 b) {
+    sub_71012590BC(a & 1);
+    if (!(a & 1)) {
+        const u32 old = mFlags;
+        mFlags = 0;
+        if (old & 0x40)
+            mFlags = 0x40;
+    } else {
+        _f8 = mNumEvents2;
+        const u32 had_40 = mFlags & 0x40;
+        mFlags = 0x80;
+        u32 flags = mFlags;
+        if (!(mUnk18 == mUnk8)) {
+            flags = mFlags | 0x100;
+            mFlags = flags;
+        }
+        if (had_40)
+            mFlags = flags | 0x40;
+    }
+    _924 = 0;
+    _ec = 0;
+    if (!(b & 1))
+        _f6 ^= 1;
+    mBanksA[_f6].mCount = 0;
+    mBanksB[_f6].mCount = 0;
+}
+
 }  // namespace ksys::as
