@@ -1,7 +1,26 @@
 #include "Game/UI/euiTextBoxEx.h"
 #include <nn/ui2d/ResExtUserData.h>
+#include <prim/seadSafeString.h>
 
 namespace eui {
+
+void ProcessMessageAppTag(const MessageString& message,
+                          sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
+
+// 0x7100be2444
+u16 TextBoxEx::setStringNoPreproces(const char16* string, u16 length) {
+    if (string)
+        return nn::ui2d::TextBox::SetString(reinterpret_cast<const u16*>(string), 0, length);
+    return nn::ui2d::TextBox::SetString(
+        reinterpret_cast<const u16*>(sead::WSafeString::cEmptyString.cstr()), 0, 0);
+}
+
+// 0x7100be24a0
+void TextBoxEx::processAppTag(sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback) {
+    MessageString message(mTextLength, reinterpret_cast<const char16*>(mTextBuf));
+    ProcessMessageAppTag(message, callback);
+}
+
 
 // 0x7100be2384
 u16 TextBoxEx::setMessageString(const MessageString& string, void* user_data) {

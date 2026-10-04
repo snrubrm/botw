@@ -1,6 +1,8 @@
 #pragma once
 
 #include <nn/ui2d/TextBox.h>
+#include <message/seadMessageSet.h>
+#include <prim/seadDelegate.h>
 #include "Game/UI/euiMessageString.h"
 
 namespace eui {
@@ -28,6 +30,8 @@ public:
     virtual bool isWordwrapOn_();
     virtual bool isTextChangeOn_() const;
     virtual bool getLetterAnimSpeed_(f32* speed);
+
+    void processAppTag(sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 
     // Convenience forms of the page-processing virtual.
     u16 setMessageString(const MessageString& string, void* user_data);
