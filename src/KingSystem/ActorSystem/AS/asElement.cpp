@@ -5,6 +5,15 @@ namespace ksys::as {
 
 Element::Element() {}
 
+bool Element::sub_71011654D8() {
+    return false;
+}
+
+void Element::sub_7101165E60(Context* ctx, const res::ASResource* resource) {
+    m35(ctx, resource);
+    ctx->sub_7101258D70(sub_71011653E8(resource));
+}
+
 f32 Element::m4() {
     return 0;
 }

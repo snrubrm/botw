@@ -4,6 +4,38 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: compiler combines the range tests and return into conditional selects.
+f32 sub_710125A978(f32 frame, f32 start, f32 end, bool hold) {
+    if (frame < 0.0f || (hold && end < frame))
+        return hold ? end + 0.01f : end;
+    return frame;
+}
+
+f32 Context::sub_710125A164(u32 key) {
+    const s8 index = mList->_f0[key];
+    return index >= 0 ? _930[index] : 0.0f;
+}
+
+void Context::sub_710125A1A4(f32 value, int key) {
+    const s8 index = mList->_f0[key];
+    if (index >= 0) {
+        _928 |= 1u << index;
+        _930[index] = value;
+    }
+}
+
+void Context::sub_710125A1F0(f32 value, int key, Element* element,
+                           const res::ASResource* resource) {
+    const s8 index = mList->_f0[key];
+    if (index >= 0) {
+        const u32 mask = 1u << index;
+        if (!(_928 & mask)) {
+            _928 |= mask;
+            _930[index] = value;
+        }
+        sub_710125A248(value, key, element, resource);
+    }
+}
 
 res::ASResource* Context::sub_7101258CC0() {
     if (res::AS* as = _d0->mAS)

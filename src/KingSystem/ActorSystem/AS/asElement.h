@@ -146,11 +146,11 @@ public:
     int sub_7101258D1C(int index);
     // 0x710125aaa0 (declaration only): sets the value of the element's entry in the ring of 3 pending (index, value) pairs.
     void sub_710125AAA0(u32 index, s16 value);
-    // 0x710125a1a4 (declaration only): sets the pending value of `key` (no check for an earlier one).
+    // 0x710125a1a4: sets the pending value of `key` (no check for an earlier one).
     void sub_710125A1A4(f32 value, int key);
-    // 0x710125a164 (declaration only): the pending value of `key` (0 if there is none).
+    // 0x710125a164: the pending value of `key` (0 if there is none).
     f32 sub_710125A164(u32 key);
-    // 0x710125a1f0 (declaration only): stores `value` as the pending value of `key` (once per update); the
+    // 0x710125a1f0: stores `value` as the pending value of `key` (once per update); the
     // element and its resource are passed on to the unnamed 0x710125a248.
     void sub_710125A1F0(f32 value, int key, Element* element, const res::ASResource* resource);
     // 0x710125a248: advances the input value of key, applying the resource input limit.
@@ -254,7 +254,7 @@ public:
     /* 0x924 */ u32 _924 = 0;
     /* 0x928 */ u32 _928 = 0;
     u8 _92c[0x930 - 0x92c];
-    /* 0x930 */ sead::Buffer<u32> _930;
+    /* 0x930 */ sead::Buffer<f32> _930;
     struct Event2 {
         u16 mType;
         u16 mFlags = 0;
@@ -316,7 +316,7 @@ public:
     int sub_710116554C(Context* ctx, EventState* state, const res::ASResource* resource);
     // 0x71011654e0: m37 followed by m14.
     void sub_71011654E0(Context* ctx, void* a2, EventState* a3, const res::ASResource* resource);
-    // 0x7101165e60 / 0x7101165ebc (declaration only; used by SelectorBase::m35 / m36).
+    // 0x7101165e60 / 0x7101165ebc: used by SelectorBase::m35 / m36.
     void sub_7101165E60(Context* ctx, const res::ASResource* resource);
     void sub_7101165EBC(Context* ctx, sead::BufferedSafeString* out, const sead::SafeString& name,
                         int index, const res::ASResource* resource);

@@ -5,7 +5,9 @@
 namespace ksys::as {
 
 // Original out-of-line blend threshold getter (0x71013180b4), shared constant 0.01f.
-f32 sub_71013180B4();
+f32 sub_71013180B4() {
+    return 0.01f;
+}
 
 AngleBlender::AngleBlender() {}
 
