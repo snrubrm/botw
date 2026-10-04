@@ -36,6 +36,7 @@ target_sources(uking PRIVATE
   euiArcResourceMgr.h
   euiLayoutEx.cpp
   euiPartsEx.cpp
+  euiScissorPane.cpp
   euiAllocatorHeap.cpp
   euiLetterAnimControl.cpp
   euiLetterAnimControl.h

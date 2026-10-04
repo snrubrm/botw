@@ -16,6 +16,13 @@
 
 namespace sead {
 class Heap;
+class FrameBuffer;
+class GraphicsContext;
+class Viewport;
+}
+
+namespace agl {
+class DrawContext;
 }
 
 namespace xlink2 {
@@ -47,10 +54,19 @@ class ConstantBuffer;
 // Per-screen draw information; the base contains the layout matrices.
 struct DrawInfoEx : public nn::ui2d::DrawInfo {
     NN_RUNTIME_TYPEINFO(nn::ui2d::DrawInfo)
-    struct RenderBufferInfo;
+    // The screen passes this record to DrawInfoEx and pane drawing; the
+    // original copies all five pointers when changing the scissor viewport.
+    struct RenderBufferInfo {
+        const sead::FrameBuffer* mFrameBuffer;
+        const sead::GraphicsContext* mGraphicsContext;
+        const sead::Viewport* mViewport;
+        const sead::Viewport* mScissor;
+        agl::DrawContext* mDrawContext;
+    };
+    static_assert(sizeof(RenderBufferInfo) == 0x28);
     ~DrawInfoEx() override = default;
 
-    /* 0xf8 */ void* _f8 = nullptr;
+    /* 0xf8 */ const RenderBufferInfo* _f8 = nullptr;
     /* 0x100 */ bool _100 = false;
     /* 0x108 */ ListNode mDynamicTextures;
     /* 0x118 */ u8 _118[8];
