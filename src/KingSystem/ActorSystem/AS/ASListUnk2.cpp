@@ -3,6 +3,23 @@
 
 namespace ksys::as {
 
+void ASList::Unk2::sub_71011634C0(f32 value) {
+    Element* element = _18;
+    if (!element)
+        return;
+    _0->_f0 = value;
+    Context* context = _0;
+    const res::ASResource* resource = context->sub_7101258CC0();
+    element->m18(context, false, value, 1.0f, resource);
+    EventState state;
+    state._0 = false;
+    state._1 = true;
+    state._2 = false;
+    context = _0;
+    resource = context->sub_7101258CC0();
+    element->sub_710116554C(context, &state, resource);
+}
+
 const sead::SafeString* ASList::Unk2::sub_7101161CD8() {
     if (!_18)
         return &sead::SafeString::cEmptyString;

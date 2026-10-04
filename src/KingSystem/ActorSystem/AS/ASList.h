@@ -70,6 +70,8 @@ public:
         // 0x7101161cf8 / 0x71011633c0: used by ASList::sub_710115F1D8 / sub_710115F158.
         void sub_7101161CF8(bool a1, f32 a2);
         void sub_71011633C0(Unk2* other);
+        // 0x71011634c0: updates the element position, then evaluates its event state.
+        void sub_71011634C0(f32 value);
         // used by Unk1::sub_7101164F3C
         void sub_7101162DE4(sead::Vector3f* a1, sead::Vector3f* a2, const gsys::BoneAccessKey* key);
         // used with x_3
@@ -164,11 +166,12 @@ public:
     // `query` is null in 356 of the 432 calls in the original.
     bool x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, int, bool), bool a6);
     void x_3(int slot, int bank, void (Unk2::*fn)(f32), f32 value);
-    // 0x710115f5c0 (declaration only; ForceRagdollOffFreeze::enter_ passes (0, 0, 0)): the slot / bank
-    // order of the integer parameters relative to `value` cannot be told from the binary.
+    // 0x710115f5c0: updates a slot/bank entry and all subsequent entries linked to it.
     void sub_710115F5C0(f32 value, int slot, int bank);
     // 0x710115f228 (declaration only; MiniGolemRoot::calc_ passes a 0..1 ratio).
     void sub_710115F228(f32 value);
+    // 0x710115f2ec: changes the entry weight and updates the slot (declaration only).
+    void sub_710115F2EC(s32 slot, s32 bank, f32 value);
     // 0x710115fbc8 (declaration only): like x() but over every slot / bank entry.
     bool sub_710115FBC8(int a1, Unk4* query, bool (Unk2::*fn)(Unk4*, int, bool), bool a4);
     f32 x_5(int slot, int bank, f32 (Unk2::*fn)());

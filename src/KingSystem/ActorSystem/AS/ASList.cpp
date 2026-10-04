@@ -450,6 +450,24 @@ void ASList::sub_710115F158(ASList* other, int slot, int other_slot, int bank, i
     entry->sub_71011633C0(other_entry);
 }
 
+void ASList::sub_710115F5C0(f32 value, int slot, int bank) {
+    Unk2* entry = getEntry(slot, bank);
+    if (!entry)
+        return;
+    entry->sub_71011634C0(value);
+    const s32 num_slots = mSlots.size();
+    ++bank;
+    for (; slot < num_slots; ++slot, bank = 0) {
+        auto& entries = mSlots[slot]._20;
+        const s32 num_banks = entries.size();
+        for (; bank < num_banks; ++bank) {
+            auto& other = entries[bank];
+            if (other._48 == entry)
+                other.sub_71011634C0(value);
+        }
+    }
+}
+
 void ASList::sub_710115F1D8(int slot, int bank, f32 value) {
     if (auto* entry = getEntry(slot, bank))
         entry->sub_7101161CF8(true, value);
