@@ -278,7 +278,8 @@ public:
     void sub_7100855BB4(const char* name, bool a2, f32 a3);
     // All 33 callers pass -1.0f in s0, which x_19 does not use.
     void x_19(f32 a1);                                                  // 0x855d40
-    void x_24();                                                        // 0x855e24
+    // All callers pass -1.0f in s0 (unused, like x_19).
+    void x_24(f32 a1);                                                  // 0x855e24
     void x_25();                                                        // 0x8551fc
     // A 4-byte angle index (sead::Mathf::atan2Idx result) returned through x8, so not trivially
     // copyable in the original; the same type as 0x710092dba4's result (ksys::util placeholder).
@@ -329,6 +330,8 @@ public:
     // cc->sub_7100F5EECC(<constant>)`; called by PlayerAction::enter_ outside events.
     void sub_710085ECF4();
     bool sub_7100857014(f32 speed, Unk1* target, int limit_a, int limit_b);
+    // 0x710086843c: forwards to sub_7100857014 (out of line in another TU in the original; ~7 Player actions).
+    bool sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b);
     // 0x7100859edc (declared only): sets the look-at / turn target state (_2d30 = a1, _2d34 = mode, _2d48 =
     // link; mode 1 with a link that can be acquired copies `*pos` / `*pos2` to _2d38 / _2d58 and returns true).
     bool sub_7100859EDC(bool a1, int mode, const sead::Vector3f* pos, BaseProcLink* link,

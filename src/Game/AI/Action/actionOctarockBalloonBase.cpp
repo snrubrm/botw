@@ -41,6 +41,12 @@ void OctarockBalloonBase::calc_() {
     BalloonBase::calc_();
 }
 
+// NON_MATCHING: the original loads and negates *mClampWindForceScale_s before calling BalloonBase::m33
+// (`const f32 low = -*p; const f32 value = BalloonBase::m33(); return clamp(value, low, *p);` matches)
+f32 OctarockBalloonBase::m33() {
+    return sead::Mathf::clamp(BalloonBase::m33(), -*mClampWindForceScale_s, *mClampWindForceScale_s);
+}
+
 f32 OctarockBalloonBase::m34(f32 current, f32 target, f32 step) {
     if (current < target) {
         const f32 value = current + step * 0.2f;

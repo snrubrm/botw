@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/AI/aiUnk_7101e7c5d0.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
@@ -35,7 +36,21 @@ void PlayerWallSlip::loadParams_() {
 }
 
 void PlayerWallSlip::calc_() {
-    PlayerAction::calc_();
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    const sead::Vector3f start = player->_1770;
+    sead::Vector3f end = player->_1770;
+    ksys::util::sub_71011EEEE0(&end, player->x_5().value,
+                               sUnk_7101e7c5c4 + static_cast<ksys::act::Player*>(mActor)->_20bc.value);
+    sead::Vector3f hit_pos;
+    sead::Vector3f hit_normal;
+    if (static_cast<ksys::act::Player*>(mActor)->sub_710087F360(start, end, &hit_pos, &hit_normal)) {
+        const u32 reversed = sead::Mathf::atan2Idx(hit_normal.x, hit_normal.z) ^ 0x80000000;
+        static_cast<ksys::act::Player*>(mActor)->_1834 =
+            ksys::util::Unk_7101EC6BAC(ksys::util::sUnk_7101EC6BA0 & reversed);
+    }
+    static_cast<ksys::act::Player*>(mActor)->_1c68 = static_cast<ksys::act::Player*>(mActor)->_1834;
+    static_cast<ksys::act::Player*>(mActor)->sub_710086843C(0.5f, &static_cast<ksys::act::Player*>(mActor)->_1834, 0x10000000, 0x4000000);
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
 }
 
 bool PlayerWallSlip::isChangeable() const {

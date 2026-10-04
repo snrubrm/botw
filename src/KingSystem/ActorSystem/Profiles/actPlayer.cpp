@@ -716,4 +716,8 @@ void Player::sub_7100881104() {
     _20b4 = 0;
 }
 
+bool Player::sub_710086843C(f32 speed, Unk1* target, int limit_a, int limit_b) {
+    return sub_7100857014(speed, target, limit_a, limit_b);
+}
+
 }  // namespace ksys::act
