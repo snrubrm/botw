@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionSwarmFlyAttack.h"
 #include "Game/Actor/actSwarm.h"
 #include "Game/AI/aiUnk_710072A944.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
 namespace uking::action {
 
@@ -13,7 +19,22 @@ bool SwarmFlyAttack::init_(sead::Heap* heap) {
 }
 
 void SwarmFlyAttack::enter_(ksys::act::ai::InlineParamPack* params) {
+    _118 = false;
     SwarmFlyMove::enter_(params);
+    auto* actor = mActor;
+    auto* swarm = sead::DynamicCast<act::Swarm>(actor);
+    if (!swarm) {
+        setFailed();
+        return;
+    }
+    sub_7100729EA8(swarm);
+    auto* sensor = getActorAttackSensor(actor);
+    const auto* attack = actor->getParam()->getRes().mGParamList->getAttack();
+    sensor->activateAttackSensor(0x2000, 0x4001, attack->mPower.ref(), attack->mImpulse.ref(), 0.0f,
+                                 0, 1, -1, false, 1, -1);
+    _150 = ksys::Timer(0.0f, 0.0f, 1.0f);
+    _15c = false;
+    sub_710028508C();
 }
 
 void SwarmFlyAttack::leave_() {
