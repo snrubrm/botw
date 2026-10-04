@@ -29,3 +29,63 @@ void Unk_710243be90::sub_71006618AC() {
 bool Unk_710243be90::sub_7100661538(ksys::act::BaseProc* proc) const {
     return _30.hasProcById(proc);
 }
+
+bool Unk_710243be90::sub_71006606E8() {
+    _40->erase();
+    return _48 && _48->removeFromWorldAndResetLinks() && !_30.hasProc();
+}
+
+void Unk_710243be90::sub_710066136C() {
+    _48->setGravityFactor(0.0f);
+    _48->setContactAll();
+    _48->removeFromWorld();
+    _28 |= 4;
+}
+
+void Unk_710243be90::sub_71006613B0(bool delete_actor) {
+    if (_28 & 1)
+        return;
+    _48->removeFromWorld();
+    _40->erase();
+    if (delete_actor) {
+        _28 |= 0x80;
+        _48->removeFromWorld();
+        _40->erase();
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_30, &accessor))
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        _28 |= 0x81;
+    }
+    _28 |= 1;
+}
+
+void Unk_710243be90::sub_7100661494(bool immediately) {
+    _48->removeFromWorld();
+    _40->erase();
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_30, &accessor)) {
+        if (immediately)
+            accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+        else
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    _28 |= 0x81;
+}
+
+bool Unk_710243be90::sub_7100661540(const ksys::act::BaseProcLink& link) const {
+    return _30 == link;
+}
+
+void Unk_710243be90::sub_71006620CC(sead::Vector3f* position, sead::Quatf* rotation) const {
+    if ((_118->_68 & 1) && _58)
+        _58->getPositionAndRotation(position, rotation);
+    else if (_48)
+        _48->getPositionAndRotation(position, rotation);
+}
+
+void Unk_710243be90::sub_71006620F8(sead::Matrix34f* matrix) const {
+    if ((_118->_68 & 1) && _58)
+        _58->getTransform(matrix);
+    else if (_48)
+        _48->getTransform(matrix);
+}
