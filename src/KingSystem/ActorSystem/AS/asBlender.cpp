@@ -177,6 +177,39 @@ void Blender::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource,
     child2->m17(ctx, a2 & 1, a3 & 1, child2_resource, a5, a6);
 }
 
+void Blender::m13(Context* ctx, State* state, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+    bool has_value;
+    if (!blender_resource)
+        has_value = false;
+    else if (!blender_resource->getNoSync())
+        has_value = blender_resource->getTypeIndex() == 5;
+    else
+        has_value = true;
+    const s8 first = record->_0;
+    const u32 flags = ctx->mFlags;
+    const bool reset = flags & 1;
+    const res::ASResource* child_resource = sub_71013031FC(resource, first);
+    if (reset) {
+        ctx->mFlags &= ~1u;
+        if (has_value)
+            state->_30 = mChildren[first]->m26(ctx, child_resource);
+        else
+            state->_30 = record->_8;
+    }
+    mChildren[first]->m13(ctx, state, child_resource);
+    const s8 second = record->_1;
+    if (second != -1) {
+        const res::ASResource* child2_resource = sub_71013031FC(resource, second);
+        if (has_value && reset)
+            state->_30 = mChildren[second]->m26(ctx, child2_resource);
+        mChildren[second]->m13(ctx, state, child2_resource);
+    }
+    if (reset)
+        state->_30 = -1.0f;
+}
+
 // NON_MATCHING: same child-index sign extension difference as m34
 void Blender::m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
