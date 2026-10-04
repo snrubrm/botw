@@ -20,6 +20,15 @@ bool Action::x() {
     return true;
 }
 
+// 0x7100da7c8c
+void Action::sub_7100DA7C8C() {
+    for (s64 i = 0; i < 32; ++i) {
+        ActionContext* context = mSlots[i].context;
+        if (context && !(context->_af4 & 0x20) && context->statusStuff_0())
+            mSlots[i].handler.Reset();
+    }
+}
+
 // 0x7100da7d1c
 void Action::x_0(Slot* slot) {
     if (slot->context->statusStuff(true))

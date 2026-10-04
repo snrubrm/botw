@@ -62,6 +62,11 @@ public:
     // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
     // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
     void x(bool on, int bit);
+    // 0x7100bf8c58 (CSV x_0) / 0x7100bf8cb8 (declared only): for each of the first min(mUnitPool.size(),
+    // mNumModels) pool entries, ModelUnit::enableRenderViewOption(option 0 / option 1, on, bit). Names are
+    // placeholders; the second one is the tail call of ksys::act::WeaponBase::sub_7100EE6AFC.
+    void sub_7100BF8C58(bool on, int bit);
+    void sub_7100BF8CB8(bool on, int bit);
 
     // For internal use.
     void add_(IModelAccesssHandle* handle) const;

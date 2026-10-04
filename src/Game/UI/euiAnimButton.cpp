@@ -1,5 +1,6 @@
 #include <nn/ui2d/Pane.h>
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiBoxCursor.h"
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
@@ -9,6 +10,109 @@ namespace eui {
 // 0x7100bd6340 (CSV eui::AnimButton::AnimButton)
 AnimButton::AnimButton() {
     mFlags |= 0x2000;
+}
+
+// NON_MATCHING: same arithmetic; the original keeps the centre in integer registers and selects the base position
+// offsets with branches (ours uses fcsel on float registers)
+// 0x7100bd6798
+bool AnimButton::HitTest(const sead::Vector2f& pos) const {
+    const nn::ui2d::Pane* pane = mHitPane;
+    if (!pane)
+        return false;
+
+    const auto& size = pane->GetSize();
+    const auto& mtx = pane->GetMtx();
+    const f32 width = size.width * mtx.m[0][0];
+    const f32 height = size.height * mtx.m[1][1];
+    const f32 half_width = (width > 0 ? width : -width) * 0.5f;
+    const f32 half_height = (height > 0 ? height : -height) * 0.5f;
+
+    f32 x = mtx.m[0][3];
+    f32 y = mtx.m[1][3];
+    const auto horizontal = pane->GetBasePositionH();
+    if (horizontal == nn::ui2d::HorizontalPosition_Right)
+        x = x - half_width;
+    else if (horizontal == nn::ui2d::HorizontalPosition_Left)
+        x = x + half_width;
+    const auto vertical = pane->GetBasePositionV();
+    if (vertical == nn::ui2d::VerticalPosition_Bottom)
+        y = y + half_height;
+    else if (vertical == nn::ui2d::VerticalPosition_Top)
+        y = y - half_height;
+
+    return x - half_width <= pos.x && pos.x <= half_width + x && y - half_height <= pos.y &&
+           pos.y <= half_height + y;
+}
+
+// NON_MATCHING: same code; the immediate of the first flags mask on the `screen` path is -0x841 in the original, ours is
+// narrowed to 0xf7bf
+// 0x7100bd6384
+void AnimButton::Build(const nn::ui2d::ControlSrc& src, LayoutEx* layout) {
+    mLayout = layout;
+    Screen* screen = layout->mScreen;
+    if (screen)
+        mFlags = screen->_104 ? (mFlags | 0x40) : (mFlags & ~0x840);
+    else
+        mFlags &= ~0x840;
+    mFlags &= ~0x800;
+
+    BuildStateAnim(src, layout);
+    mAnimators->SetSkipFirstFrameAll(true);
+    mAnimators->SetSoundLinkAll(false);
+
+    const char* disable_name = src.FindFunctionalAnimName("Disable");
+    if (!disable_name || !*disable_name)
+        disable_name = src.FindFunctionalAnimName("Invalid");
+    if (disable_name && *disable_name) {
+        mDisableAnim = layout->tryCreateAnimatorAutoWithWarning(disable_name, true);
+        if (mDisableAnim)
+            mDisableAnim->mFlags &= ~0x20;
+    }
+
+    const char* hit_name = src.FindFunctionalPaneName("Hit");
+    mHitPane = layout->mPane->FindPaneByName(hit_name, true);
+
+    const char* cursor_name = src.FindFunctionalPaneName("Cursor");
+    if (cursor_name && *cursor_name && !layout->mPane->FindExtUserDataByName("BoxCursorOff")) {
+        mBoxCursorPane = layout->mPane->FindPaneByName(cursor_name, true);
+        sead::Heap* heap = GetNwAllocatorHeap();
+        layout->mScreen->createBoxCursorNode(heap)->initialize(this, layout->mScreen);
+    }
+
+    mName = layout->mPane->GetParent() ? layout->mPane->GetName() : layout->mName;
+
+    if (src.FindExtUserDataByName("RepeatOn"))
+        mFlags |= 0x80;
+    if (src.FindExtUserDataByName("NoTrigTouchOn"))
+        mFlags |= 0x100;
+    if (src.FindExtUserDataByName("DownWithTouchOn"))
+        mFlags |= 0x200;
+}
+
+// 0x7100bd6f08
+void AnimButton::CloneImpl_(const AnimButton& other, LayoutEx* layout, sead::Heap* heap) {
+    mLayout = layout;
+    SetTouch(other.mFlags & 0x40);
+
+    mAnimators = new (heap) AnimatorSet(*other.mAnimators, layout, heap);
+    mAnimators->SetSkipFirstFrameAll(true);
+    mAnimators->SetSoundLinkAll(false);
+
+    if (other.mDisableAnim) {
+        mDisableAnim = layout->tryCreateAnimatorAutoWithWarning(other.mDisableAnim->mName, true);
+        if (mDisableAnim)
+            mDisableAnim->mFlags &= ~0x20;
+    }
+
+    if (other.mHitPane)
+        mHitPane = layout->mPane->FindPaneByName(other.mHitPane->GetName(), true);
+
+    if (other.mBoxCursorPane) {
+        mBoxCursorPane = layout->mPane->FindPaneByName(other.mBoxCursorPane->GetName(), true);
+        layout->mScreen->createBoxCursorNode(heap)->initialize(this, layout->mScreen);
+    }
+
+    mName = layout->mPane->GetParent() ? layout->mPane->GetName() : layout->mName;
 }
 
 // 0x7100bd6768

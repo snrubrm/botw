@@ -16,7 +16,14 @@ public:
 };
 }  // namespace nn::ui2d
 
+namespace sead {
+class Heap;
+}
+
 namespace eui {
+
+// 0x7100befa64
+sead::Heap* GetNwAllocatorHeap();
 
 class Animator;
 class AnimatorSet;

@@ -24,6 +24,19 @@ void DragButton::StartDrag(const sead::Vector2f& pos) {
     mPanePos = {position.x, position.y};
 }
 
+// 0x7100bd8f5c
+void DragButton::UpdateDrag(const sead::Vector2f* pos) {
+    if (!pos)
+        return;
+    f32 x = mPanePos.x;
+    if (mAllowX)
+        x += pos->x - mStartPos.x;
+    f32 y = mPanePos.y;
+    if (mAllowY)
+        y += pos->y - mStartPos.y;
+    mPane->SetPosition(nn::util::Float2{x, y});
+}
+
 // 0x7100bd8fb0
 void DragButton::FinishDrag(const sead::Vector2f* pos) {
     if (mFlags & 0x40)

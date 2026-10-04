@@ -69,7 +69,7 @@ public:
     // 0x7100da7c44 (CSV evt::Action::x): true if no slot has a running context
     bool x();
     // 0x7100da7c8c: for every slot whose context passes statusStuff_0(): clears the slot's handler (called by
-    // ActorBase::m5). Not decompiled: needs the list-node erase + field reset of the handler (see log)
+    // ActorBase::m5)
     void sub_7100DA7C8C();
     // 0x7100da7dc4: releases every slot context that is not flagged 0x20 (called from 0x7100dac578)
     void sub_7100DA7DC4();

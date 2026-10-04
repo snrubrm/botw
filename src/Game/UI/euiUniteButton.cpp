@@ -38,6 +38,21 @@ void UniteButton::StartDrag(const sead::Vector2f& pos) {
         mDragAnim->Play(Animator::PlayType(0), 1.0f);
 }
 
+// NON_MATCHING: same code; the original loads the pane pointer after the `mAllowX` byte, ours before it
+// 0x7100bdb31c
+void UniteButton::UpdateDrag(const sead::Vector2f* pos) {
+    if (!pos)
+        return;
+    nn::ui2d::Pane* pane = mLayout->mPane;
+    f32 x = mPanePos.x;
+    if (mAllowX)
+        x += pos->x - mStartPos.x;
+    f32 y = mPanePos.y;
+    if (mAllowY)
+        y += pos->y - mStartPos.y;
+    pane->SetPosition(nn::util::Float2{x, y});
+}
+
 // 0x7100bdb374
 void UniteButton::FinishDrag(const sead::Vector2f* pos) {
     if (mFlags & 0x40)
