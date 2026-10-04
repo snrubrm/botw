@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 
 namespace ksys::as {
@@ -387,6 +389,37 @@ bool ASList::x(int a1, Unk4* query, int slot, int bank, bool (Unk2::*fn)(Unk4*, 
     if (auto* entry = getEntry(slot, bank))
         return (entry->*fn)(query, a1, a6);
     return false;
+}
+
+// Fallback getters of the float parameters (the actor's speed components; the controller's velocity is stored per
+// frame (1/30 s) and is subtracted from / added to the actor's own velocity).
+f32 ASList::sub_710115F740() {
+    if (auto* cc = _d8->getCharacterController()) {
+        sead::Vector3f velocity = sead::Vector3f::zero;
+        if (cc->mFlags.isOn(0x100))
+            cc->sub_7100F6353C(&velocity);
+        const sead::Vector3f relative = _d8->getVelocity() - velocity * (1.0f / 30);
+        return sead::Mathf::sqrt(relative.x * relative.x + relative.z * relative.z);
+    }
+    return sead::Mathf::sqrt(_d8->getVelocity().x * _d8->getVelocity().x + _d8->getVelocity().z * _d8->getVelocity().z);
+}
+
+f32 ASList::sub_710115F820() {
+    if (auto* cc = _d8->getCharacterController()) {
+        sead::Vector3f velocity = sead::Vector3f::zero;
+        if (cc->mFlags.isOn(0x100))
+            cc->sub_7100F6353C(&velocity);
+        return (_d8->getVelocity() + velocity * (-1.0f / 30)).y;
+    }
+    return _d8->getVelocity().y;
+}
+
+f32 ASList::sub_710115FA78() {
+    auto* chemical = _d8->sub_71011D8A34(0);
+    if (!chemical)
+        return 0.0f;
+    const sead::Vector3f& vec = (chemical->_c & 0x1000000) ? sead::Vector3f::zero : chemical->_e4;
+    return sead::Mathf::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 }
 
 }  // namespace ksys::as

@@ -67,6 +67,8 @@ public:
     // 0x7100f63388 (not decompiled; AssassinBossRoot enter_/m42 pass (true / false, -1)).
     void sub_7100F63388(bool enable, s32 idx);
     bool sub_7100F63590() const;
+    // 0x7100f6353c: the controller's velocity (the first three floats of the vector at _20 + 0x60).
+    void sub_7100F6353C(sead::Vector3f* out) const;
     // 0x7100f635b4-0x7100f636a8: forwarders to the main rigid body.
     bool sub_7100F635B4() const;  // isAddingBodyToWorld
     void sub_7100F635BC(sead::Vector3f* velocity) const;  // getAngularVelocity

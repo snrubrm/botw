@@ -18,6 +18,7 @@ struct CharacterControllerUnk20 {
     /* 0x40 */ u32 _40;
     /* 0x44 */ u8 _44[0xc];
     /* 0x50 */ hkVector4f _50;
+    /* 0x60 */ hkVector4f _60;
 };
 
 // Placeholder: 0x30 byte entry of the controller's shape list (CharacterControllerShapes).
@@ -584,6 +585,10 @@ void CharacterController::sub_7100F5EECC(f32 value) {
 
 void CharacterController::sub_7100F5EDE8(const sead::Vector3f& value) {
     loadFromVec3(&_10->_30, value);
+}
+
+void CharacterController::sub_7100F6353C(sead::Vector3f* out) const {
+    storeToVec3(out, _20->_60);
 }
 
 bool CharacterController::sub_7100F5F234(sead::Vector3f* out) const {
