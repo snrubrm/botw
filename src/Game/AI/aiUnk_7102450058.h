@@ -11,6 +11,7 @@ class Actor;
 
 namespace ksys::phys {
 class Constraint;
+class RigidBody;
 }
 
 namespace sead {
@@ -43,6 +44,21 @@ public:
     void x_5();
     void x_6();
     void updateIsDroppedFlag();
+    // 0x71006f4548 / 4df8 / 53bc / 9194 (x_4 / x_7 / x_8 / x_9), 8f24 (x_15), 4f30 / 8cb0 (x_16 / x_17), 8e60 (x_18),
+    // 4440 (x_19), 8f90 / 8bd4 (x_20 / x_21), 8f40 (x_22), 908c (x_23); declared only (Carried::calc_).
+    void x_4();
+    void x_7();
+    void x_8();
+    void x_9();
+    bool x_15();
+    void x_16();
+    void x_17();
+    void x_18(ksys::act::Actor* actor);
+    void x_19();
+    void x_20();
+    void x_21();
+    void x_22(ksys::phys::RigidBody* body);
+    void x_23(ksys::act::Actor* actor);
     void x_12();
     void x_13(sead::Matrix34f mtx, bool a2, sead::Vector3f pos);
 
@@ -53,7 +69,7 @@ public:
     f32 _1c = -1.0f;
     void* _20 = nullptr;
     f32 _28 = 1.0f;
-    bool _2c = false;
+    u8 _2c = 0;  // flag bits (1 / 0x10 / 0x20 tested by Carried::calc_)
 };
 KSYS_CHECK_SIZE_NX150(CarriedData, 0x30);
 

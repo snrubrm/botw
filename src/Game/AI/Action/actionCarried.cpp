@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionCarried.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/gameSceneSubsys12.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/AI/aiUnk_7100739498.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
@@ -83,7 +85,97 @@ void Carried::loadParams_() {
 }
 
 void Carried::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    _110.x_4();
+    _110.x_7();
+    _110.x_8();
+    _110.x_9();
+    if (_110._2c & 1) {
+        ksys::act::sub_7100EE5980(actor, sead::Vector3f::zero);
+        if (!isFinished() && !isFailed()) {
+            ksys::act::sub_7100EE58C0(actor, actor->getMtx());
+            mActor->sub_71011DA834(m34());
+        }
+        if (_110.x_15())
+            _110.x_10();
+        setFinished();
+        return;
+    }
+
+    auto* unit = actor->m100();
+    auto* parent = sead::DynamicCast<ksys::act::Actor>(actor->getConnectedCalcParent());
+    if (unit) {
+        switch (_68) {
+        case 0:
+            _68 = 1;
+            break;
+        case 1:
+            _110.x_16();
+            m36(&sub_71005DC57C(actor));
+            if (!m37() || (_110._2c & 0x10)) {
+                if (sub_71005DC49C(actor)) {
+                    _68 = 2;
+                    if (*mIsUseConstraint_s) {
+                        m34()->_18 = false;
+                        if (parent) {
+                            parent->m38();
+                            _110.x_17();
+                            _110.x_18(parent);
+                        }
+                    }
+                    _110.x_19();
+                }
+            }
+            break;
+        case 2:
+        case 3:
+            if ((_110._2c & 0x18) != 0x10) {
+                _110.x_16();
+                m36(&sub_71005DC57C(actor));
+            }
+            break;
+        }
+    }
+
+    if (_68 == 2) {
+        if ((_110._2c & 0x20) && !m34()->_18) {
+            if (auto* subsys = GameSceneSubsys12::instance()) {
+                if (subsys->_a78.isBitOn(1)) {
+                    _110.x_10();
+                    m34()->_18 = true;
+                }
+            }
+        }
+        if (m32()) {
+            actor->resetConnectedCalcParent(false);
+            return;
+        }
+    }
+
+    if (_110.x_15()) {
+        _110.x_20();
+        ksys::phys::RigidBody* body = nullptr;
+        if (parent) {
+            _110.x_21();
+            body = sub_71007394DC(parent);
+        }
+        if (body)
+            _110.x_22(body);
+        else
+            _110.x_10();
+        _110.x_23(parent);
+    }
+
+    if (_68 != 3 && sub_71005DC520(actor)) {
+        _68 = 3;
+        _110.x_10();
+        _110.x_11();
+        m34()->_18 = true;
+        sub_710072DC9C(actor, 1.0f);
+    }
+
+    if ((_110._2c & 1) || sub_71005DC470(actor) || sub_71005DC4C8(actor) || sub_71005DC4F4(actor))
+        setFinished();
 }
 
 void Carried::leave_() {
