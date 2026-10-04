@@ -234,4 +234,82 @@ void Screen::moveBoxCursor_(BoxCursorNode* node) {
         mgr->m5(node);
 }
 
+// 0x7100be9800
+BoxCursorNode* Screen::createBoxCursorNode(sead::Heap* heap) {
+    return new (heap) BoxCursorNode;
+}
+
+// 0x7100be989c
+void Screen::eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node) {
+    for (BoxCursorNode& route_node : mBoxCursorNodes)
+        route_node.eraseNodeFromRouteNodes(node);
+}
+
+// 0x7100be9f60
+u8 Screen::sub_7100BE9F60() const {
+    return mMgr->getTargetFlag(mDrawTarget);
+}
+
+// 0x7100beb570
+BoxCursorNode* Screen::findBoxCursorNodeByTag(s32 tag) {
+    for (BoxCursorNode& node : mBoxCursorNodes) {
+        if (node.mButton->mTag == tag)
+            return &node;
+    }
+    return nullptr;
+}
+
+inline BoxCursorNode* Screen::findBoxCursorNodeByButton(const AnimButton* button) {
+    for (BoxCursorNode& node : mBoxCursorNodes) {
+        if (node.mButton == button)
+            return &node;
+    }
+    return nullptr;
+}
+
+// 0x7100beb518
+void Screen::setReservedBoxCursorNode(BoxCursorNode* node) {
+    _d8 = node;
+}
+
+// 0x7100beb520
+void Screen::setReservedBoxCursorNodeByTag(s32 tag) {
+    _d8 = findBoxCursorNodeByTag(tag);
+}
+
+// 0x7100beb5bc
+void Screen::setReservedBoxCursorNodeByButton(const AnimButton* button) {
+    _d8 = findBoxCursorNodeByButton(button);
+}
+
+// 0x7100be9908
+bool Screen::moveBoxCursorByButton(const AnimButton* button) {
+    BoxCursorMgr* mgr = mMgr->getBoxCursorMgr();
+    if (!mgr)
+        return false;
+    if (!mgr->isTargetEnabled(getDrawTarget()))
+        return false;
+    if (BoxCursorNode* node = findBoxCursorNodeByButton(button)) {
+        mgr->m5(node);
+        return true;
+    }
+    return false;
+}
+
+// 0x7100beb624
+void Screen::moveBoxCursorByTag_(s32 tag) {
+    if (BoxCursorNode* node = findBoxCursorNodeByTag(tag)) {
+        if (BoxCursorMgr* mgr = mMgr->getBoxCursorMgr())
+            mgr->m5(node);
+    }
+}
+
+// 0x7100beb690
+void Screen::moveBoxCursorByButton_(const AnimButton* button) {
+    if (BoxCursorNode* node = findBoxCursorNodeByButton(button)) {
+        if (BoxCursorMgr* mgr = mMgr->getBoxCursorMgr())
+            mgr->m5(node);
+    }
+}
+
 }  // namespace eui

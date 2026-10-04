@@ -8,6 +8,7 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include <container/seadOffsetList.h>
+#include <container/seadSafeArray.h>
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiTypes.h"
 
@@ -37,6 +38,8 @@ class BoxCursorMgr;
 class ButtonGroup;
 class ScreenMgr;
 class ScreenTargetMgr;
+class MessageMgr;
+class FontMgr;
 
 // (only the nested type is needed so far)
 struct DrawInfoEx {
@@ -142,6 +145,19 @@ public:
 
     // 0x7100be9908
     bool moveBoxCursorByButton(const AnimButton* button);
+    // 0x7100be9f60 (placeholder name)
+    u8 sub_7100BE9F60() const;
+    // 0x7100be989c
+    void eraseBoxCursorNodeFromRouteNodes(const BoxCursorNode* node);
+    // 0x7100beb570: the box cursor node whose button has the tag (null if none)
+    BoxCursorNode* findBoxCursorNodeByTag(s32 tag);
+    // inline-only in the original; name is a guess. Evidence: the loop with its redundant null check after the match
+    // is repeated in moveBoxCursorByButton, moveBoxCursorByButton_ and setReservedBoxCursorNodeByButton.
+    inline BoxCursorNode* findBoxCursorNodeByButton(const AnimButton* button);
+    // 0x7100beb518 / 0x7100beb520 / 0x7100beb5bc (placeholder names)
+    void setReservedBoxCursorNode(BoxCursorNode* node);
+    void setReservedBoxCursorNodeByTag(s32 tag);
+    void setReservedBoxCursorNodeByButton(const AnimButton* button);
     // 0x7100beaf98 / 0x7100beb608 / 0x7100beb624 / 0x7100beb690 (non-virtual helpers; names from the CSV)
     nn::ui2d::Pane* findPane_(const char* name);
     void moveBoxCursor_(BoxCursorNode* node);
@@ -197,6 +213,10 @@ public:
     Screen* getScreen(s32 id) { return mScreens[id]; }
     f32 getAnimationStep() const { return mAnimationStep; }
     BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
+    MessageMgr* getMessageMgr() const { return mMessageMgr; }
+    FontMgr* getFontMgr() const { return mFontMgr; }
+    // inline-only in the original; name is a guess (the draw target byte is loaded before the target manager)
+    u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
 
     // 0x7100bec7e8 / 0x7100bec808
@@ -213,7 +233,11 @@ private:
     u8 _50[0xb18 - 0x50];
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
-    u8 _b24[0xb50 - 0xb24];
+    u8 _b24[0xb30 - 0xb24];
+    /* 0xb30 */ MessageMgr* mMessageMgr;
+    /* 0xb38 */ FontMgr* mFontMgr;
+    /* 0xb40 */ sead::SafeArray<u8, 2> mTargetFlags;  // indexed by DrawTarget (read by Screen::sub_7100BE9F60)
+    u8 _b42[0xb50 - 0xb42];
 };
 
 }  // namespace eui
