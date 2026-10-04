@@ -268,8 +268,8 @@ void Screen::open(s32 option) {
     eui::Screen::open(option);
 }
 
-// 0x7100a828f4 (CSV Screen::m111)
-s32 Screen::m111() {
+// 0x7100a828f4 (primary slot111)
+int Screen::handleMessage(const ksys::Message&) {
     return 0;
 }
 

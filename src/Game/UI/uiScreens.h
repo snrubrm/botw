@@ -40,16 +40,6 @@ public:
     void registerController_() override;
 };
 
-// Screen's second and third bases (offsets 0x108 / 0x110: the RxOnly / TxOnly message handler interfaces,
-// see the vtable at +0x508 / +0x530 of the leaf classes' vtables).
-// Implements RxOnly::IHandler::handleMessage for all screens (the original's ScreenEx::handleMessage at
-// 0x7100a48728; declared in this intermediate class because an override declared in ScreenEx would add a slot
-// to ScreenEx's primary vtable).
-class ScreenHandlerImpl : public ksys::ActorMessageTransceiver::IHandler {
-public:
-    int handleMessage(const ksys::Message& message) override;
-};
-
 // Base class of the screens' child components (elements of Screen::mChildren at 0x250; the 24 classes with a
 // 105-slot vtable derive from it). Slots 43-52 etc. are the ones Screen::m117 - m126 call. The first slots belong to
 // eui::ControlBase in the original (0 / 4); slots 2 / 3 are the destructor. Most default implementations are empty or
@@ -168,7 +158,9 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChild)
 };
 
-class Screen : public ScreenBase, public ScreenHandlerImpl {
+// The secondary RxOnly/TxOnly handlers are at0x108/0x110. Screen introduces its
+// handleMessage override at primary slot111; ScreenEx overrides that same slot.
+class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
@@ -257,7 +249,7 @@ public:
     virtual void m108(eui::AnimButton*);
     virtual void m109(eui::AnimButton*);
     virtual void m110();
-    virtual s32 m111();
+    int handleMessage(const ksys::Message& message) override;
     virtual void m112(sead::Heap* heap);
     virtual void m113();
     virtual void m114();
@@ -328,6 +320,7 @@ public:
     void doButtonCancelStart_(eui::AnimButton* button) override;
     void doButtonCancelEnd_(eui::AnimButton* button) override;
 
+    int handleMessage(const ksys::Message& message) override;
     void m112(sead::Heap* heap) override;
     eui::UIController* doCreateUIController_(sead::Heap* heap) override;
     void registerController_() override;
@@ -357,8 +350,8 @@ public:
     virtual void m138(void* a1, void* a2);
     virtual void m139(void* a1, void* a2);
     virtual void m140(void* a1, void* a2);
-    virtual s32 m141();
-    virtual s32 m142();
+    virtual s32 m141(const ksys::Message& message);
+    virtual s32 m142(const ksys::Message& message);
     virtual void* m143();
     // m144 - m153: call the hook m131 - m140 of the same argument(s), then forward the call to the slots 95 - 104
     // of every child that is a ScreenChildEx
@@ -552,8 +545,8 @@ class ScreenMainScreen3D : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
     void m84() override;
-    s32 m141() override;
-    s32 m142() override;
+    s32 m141(const ksys::Message& message) override;
+    s32 m142(const ksys::Message& message) override;
     void m82() override;
     ~ScreenMainScreen3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen3D, ScreenEx)
@@ -1536,8 +1529,8 @@ public:
     const char* getLayoutName_() const override;
     bool isPlayPartsInOut_() const override;
     s32 m81() override;
-    s32 m141() override;
-    s32 m142() override;
+    s32 m141(const ksys::Message& message) override;
+    s32 m142(const ksys::Message& message) override;
     bool isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
@@ -1747,8 +1740,8 @@ public:
 class ScreenTitle : public ScreenEx {
 public:
     ScreenTitle();
-    s32 m141() override;
-    s32 m142() override;
+    s32 m141(const ksys::Message& message) override;
+    s32 m142(const ksys::Message& message) override;
     void m96() override;
     bool isEnableControl() const override;
     ~ScreenTitle() override;
@@ -2194,8 +2187,8 @@ class ScreenKeyBoradTextArea : public ScreenEx {
 public:
     ScreenKeyBoradTextArea();
     const char* getLayoutName_() const override;
-    s32 m141() override;
-    s32 m142() override;
+    s32 m141(const ksys::Message& message) override;
+    s32 m142(const ksys::Message& message) override;
     void m93() override;
     void m94() override;
     void m96() override;

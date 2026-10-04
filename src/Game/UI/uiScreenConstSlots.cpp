@@ -4,22 +4,22 @@
 namespace uking::ui {
 
 // 0x7100a6ba80
-s32 ScreenTitle::m141() {
+s32 ScreenTitle::m141(const ksys::Message&) {
     return 0;
 }
 
 // 0x7100a6ba88
-s32 ScreenTitle::m142() {
+s32 ScreenTitle::m142(const ksys::Message&) {
     return 0;
 }
 
 // 0x7100a1630c
-s32 ScreenMainScreen3D::m141() {
+s32 ScreenMainScreen3D::m141(const ksys::Message&) {
     return 0;
 }
 
 // 0x7100a16314
-s32 ScreenMainScreen3D::m142() {
+s32 ScreenMainScreen3D::m142(const ksys::Message&) {
     return 1;
 }
 
@@ -84,12 +84,12 @@ s32 ScreenAppSystemWindow::m81() {
 }
 
 // 0x71009fcc5c
-s32 ScreenAppSystemWindow::m141() {
+s32 ScreenAppSystemWindow::m141(const ksys::Message&) {
     return 0;
 }
 
 // 0x71009fcc64
-s32 ScreenAppSystemWindow::m142() {
+s32 ScreenAppSystemWindow::m142(const ksys::Message&) {
     return 0;
 }
 
@@ -99,12 +99,12 @@ s32 ScreenDLCSinJuAkashiNum::m72() {
 }
 
 // 0x7100a0e5fc
-s32 ScreenKeyBoradTextArea::m141() {
+s32 ScreenKeyBoradTextArea::m141(const ksys::Message&) {
     return 0;
 }
 
 // 0x7100a0e604
-s32 ScreenKeyBoradTextArea::m142() {
+s32 ScreenKeyBoradTextArea::m142(const ksys::Message&) {
     return 0;
 }
 

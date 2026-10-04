@@ -57,11 +57,11 @@ void ScreenEx::m137(void*, void*) {}
 void ScreenEx::m138(void*, void*) {}
 void ScreenEx::m139(void*, void*) {}
 void ScreenEx::m140(void*, void*) {}
-s32 ScreenEx::m141() {
+s32 ScreenEx::m141(const ksys::Message&) {
     return 0;
 }
 
-s32 ScreenEx::m142() {
+s32 ScreenEx::m142(const ksys::Message&) {
     return 0;
 }
 
