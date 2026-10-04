@@ -10,7 +10,11 @@ ScreenTitle::~ScreenTitle() = default;
 ScreenMainScreen3D::~ScreenMainScreen3D() = default;
 ScreenAppCamera::~ScreenAppCamera() = default;
 ScreenEnergyMeterDLC::~ScreenEnergyMeterDLC() = default;
-ScreenMessageGet::~ScreenMessageGet() = default;
+// 0x7100a23904
+ScreenMessageGet::~ScreenMessageGet() {
+    delete _3658;
+    _37d8.freeBuffer();
+}
 // 0x7100a07408
 ScreenDoCommand::~ScreenDoCommand() {
     _3638.freeBuffer();
@@ -65,6 +69,10 @@ ScreenStaffRoll::~ScreenStaffRoll() = default;
 ScreenStaffRollDLC::~ScreenStaffRollDLC() = default;
 ScreenDLCSinJuAkashiNum::~ScreenDLCSinJuAkashiNum() = default;
 ScreenKeyBoradTextArea::~ScreenKeyBoradTextArea() = default;
-ScreenFadeStatus::~ScreenFadeStatus() = default;
+// 0x7100a098d0
+ScreenFadeStatus::~ScreenFadeStatus() {
+    _3658.freeBuffer();
+    _3668.freeBuffer();
+}
 
 }  // namespace uking::ui

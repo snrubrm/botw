@@ -27,6 +27,8 @@ public:
 class Unk_7102474ba8 {
 public:
     virtual ~Unk_7102474ba8();
+
+    u8 _8[0x10];  // sizeof is 0x18 (array element of ScreenMessageGet::_37d8)
 };
 
 class Unk_7102474be8 {
@@ -147,6 +149,8 @@ public:
 class Unk_710247adc8 {
 public:
     virtual ~Unk_710247adc8();
+
+    u8 _8[0x38];  // sizeof is 0x40 (ScreenMessageGet::_3670 is an array of two)
 };
 
 class Unk_710247ae08 {
@@ -258,9 +262,12 @@ public:
     virtual ~Unk_71024810b8();
 };
 
+// Member of ScreenTitle (0x3688; 0xa0 bytes: three FixedSafeString<16> and other data; the 0x7100a82fbc ctor is not decompiled).
 class Unk_710249d300 {
 public:
     virtual ~Unk_710249d300();
+
+    u8 _8[0x98];
 };
 
 // Opaque element type of the PtrArray members below.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <container/seadPtrArray.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
@@ -1525,6 +1526,9 @@ public:
     s32 isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
+
+    u8 _pad_3610[0x3688 - 0x3610];
+    Unk_710249d300 _3688;
 };
 
 class ScreenAppCamera : public ScreenEx {
@@ -1565,6 +1569,13 @@ public:
     const char* m15() const override;
     ~ScreenMessageGet() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
+
+    u8 _pad_3610[0x3658 - 0x3610];
+    /* 0x3658 */ eui::ControlBase* _3658;
+    u8 _pad_3660[0x3670 - 0x3660];
+    Unk_710247adc8 _3670[2];
+    u8 _pad_36f0[0x37d8 - 0x36f0];
+    /* 0x37d8 */ sead::Buffer<Unk_7102474ba8> _37d8;
 };
 
 class ScreenSousaGuide : public ScreenEx {
@@ -1912,6 +1923,10 @@ public:
     bool isPlayPartsInOut_() const override;
     ~ScreenFadeStatus() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeStatus, ScreenEx)
+
+    u8 _pad_3610[0x3658 - 0x3610];
+    /* 0x3658 */ sead::Buffer<u8*> _3658;
+    /* 0x3668 */ sead::Buffer<u8*> _3668;
 };
 
 }  // namespace uking::ui
