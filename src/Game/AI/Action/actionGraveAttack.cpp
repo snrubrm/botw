@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionGraveAttack.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/System/Timer.h"
 
 namespace uking::action {
@@ -14,7 +15,13 @@ bool GraveAttack::init_(sead::Heap* heap) {
 }
 
 void GraveAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mActor->setScale({1.0f, 1.0f / *mTime_s, 1.0f});
+    _38 = *mTime_s;
+    getActorAttackSensor(mActor)->activateAttackSensor(0x2000, 0x400c, *mAttackPower_m, 1000, 0.0f,
+                                                       9999, 1, 5, false, 1, -1);
+    sub_71007A2C30(mActor, "AtkBody", nullptr);
+    sub_71007A302C(mActor, "AtkBody", nullptr);
+    _3c = 0;
 }
 
 void GraveAttack::leave_() {
