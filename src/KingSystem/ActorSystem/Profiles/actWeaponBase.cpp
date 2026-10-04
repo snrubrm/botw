@@ -206,6 +206,32 @@ bool WeaponBase::m238(Actor* actor) {
     return false;
 }
 
+bool WeaponBase::m173(s32 index, Actor* actor, const char* name, const char* other_name,
+                      bool a5, bool a6) {
+    const auto lock = sead::makeScopedLock(_840);
+    const bool both = a5 && a6;
+    if (!both) {
+        if (!_920 || _921)
+            return false;
+        if (!_9f4.isOn(4) && _938.hasProc())
+            return false;
+    }
+    _880.acquire(actor, false);
+    _91c = index;
+    if (a5) {
+        _921 = true;
+    } else {
+        _920 = 0;
+        if (a6)
+            _925 = true;
+    }
+    _8a0.copy(name);
+    _8d8.copy(other_name);
+    if (!m237(actor) || (_890.hasProc() || both))
+        m238(actor);
+    return true;
+}
+
 bool WeaponBase::m174() {
     const auto lock = sead::makeScopedLock(_840);
     _880.reset();

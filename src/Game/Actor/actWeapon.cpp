@@ -81,6 +81,16 @@ s32 Weapon::getMaxHp() {
     return (life + (_f98.flags.isOn(WeaponModifier::AddLife) ? _f98.value : 0)) * 100;
 }
 
+bool Weapon::m173(s32 index, ksys::act::Actor* actor, const char* name, const char* other_name,
+                  bool a5, bool a6) {
+    if (!ksys::act::WeaponBase::m173(index, actor, name, other_name, a5, a6))
+        return false;
+    if (auto* lod = getLodState())
+        lod->mFlags26.set(1);
+    _f60.reset();
+    return true;
+}
+
 bool Weapon::m174() {
     if (!ksys::act::WeaponBase::m174())
         return false;

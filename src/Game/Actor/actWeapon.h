@@ -251,6 +251,8 @@ public:
     bool isWeaponType0Or1Or2() const override;
     bool isWeaponType4() const override;
     bool isWeaponType3() const override;
+    bool m173(s32 index, ksys::act::Actor* actor, const char* name, const char* other_name,
+              bool a5, bool a6) override;
     bool m174() override;
     bool m177(const sead::Vector3f& target, void* a2) override;
     bool m211() override;
