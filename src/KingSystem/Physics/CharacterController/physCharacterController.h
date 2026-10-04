@@ -24,6 +24,10 @@ class SystemGroupHandler;
 struct CharacterControllerUnk10;
 struct CharacterControllerUnk20;
 struct CharacterControllerShapes;
+struct CharacterControllerUnk38;
+struct CharacterControllerUnk40;
+struct CharacterControllerUnk48;
+struct CharacterControllerUnk50;
 
 // TODO: incomplete (0x2a8 bytes; ctor 0x7100f5d8b8)
 class CharacterController {
@@ -90,6 +94,27 @@ public:
     const sead::Vector3f& get70() const { return _70; }
     const sead::Vector3f& get7c() const { return _7c; }
     f32 get110() const { return _110; }
+
+    // lane4 s30: unnamed accessors (placeholder names; signatures from their bodies).
+    f32 sub_7100F5EEE8() const;        // _130
+    void sub_7100F5EEF0(f32 value);    // _134
+    f32 sub_7100F5EEF8() const;        // _134
+    f32 sub_7100F60390() const;        // _138
+    f32 sub_7100F5EF88() const;        // the current shape's _14 (a second copy: 5EFB0), _18 (5EFD8 / 5F100), _1c (5F000)
+    f32 sub_7100F5EFB0() const;
+    f32 sub_7100F5EFD8() const;
+    f32 sub_7100F5F000() const;
+    f32 sub_7100F5F100() const;
+    const sead::Vector3f& sub_7100F5F028() const;  // the current shape's _20
+    f32 sub_7100F5F050() const;        // 0
+    f32 sub_7100F5F058() const;        // 1
+    u32 sub_7100F609D8() const;        // _40->_64
+    f32 sub_7100F62F58() const;        // _218
+    const sead::Vector3f& sub_7100F62B80() const;  // _120
+    void sub_7100F62B88(const sead::Vector3f& value);
+    void sub_7100F62BA4(f32 value);    // _50->_18
+    void sub_7100F5E938(bool on);      // mFlags 0x8000
+    void sub_7100F631F4(bool on);      // mFlags 0x100
 
     // Unnamed accessors/setters (placeholder names; signatures from their bodies and callers)
     void sub_7100F5E7F0(float value);
@@ -178,7 +203,7 @@ public:
     // 0x7100f6321c: sets / clears bit 0x200 of mFlags and updates the controller's friction-like values.
     void sub_7100F6321C(bool value);
     // 0x7100f63370: the byte at +0x6c of the object at +0x40.
-    bool sub_7100F63370() const;
+    u8 sub_7100F63370() const;
 
     RigidBody* mRigidBody;
     CharacterControllerUnk10* _10;
@@ -186,7 +211,11 @@ public:
     CharacterControllerUnk20* _20;
     u8 _28[0x30 - 0x28];
     CharacterControllerShapes* _30;
-    u8 _38[0x60 - 0x38];
+    CharacterControllerUnk38* _38;
+    CharacterControllerUnk40* _40;
+    CharacterControllerUnk48* _48;
+    CharacterControllerUnk50* _50;
+    u8 _58[0x60 - 0x58];
     f32 _60;
     sead::Vector3f _64;
     sead::Vector3f _70;
@@ -194,22 +223,37 @@ public:
     sead::Vector3f _88;  // zero in the ctor
     sead::Vector3f _94;  // zero in the ctor
     sead::Matrix34f _a0;  // ident in the ctor; PreyDead::enter_ reads its translation
-    u8 _d0[0xfc - 0xd0];
+    u8 _d0[0xec - 0xd0];
+    sead::Vector3f _ec;
+    u8 _f8[0xfc - 0xf8];
     f32 _fc;
     f32 _100;
     f32 _104;
     u8 _108[0x110 - 0x108];
     f32 _110;
     u16 _114;  // flags
-    u8 _116;  // bit 2: read by PlayerFall::enter_ (the flag word at 0x114 may be a u32)
-    u8 _117;
+    u16 _116;  // bit 2: read by PlayerFall::enter_
     sead::BitFlag32 mFlags;
     f32 _11c;
-    u8 _120[0x150 - 0x120];
+    sead::Vector3f _120;
+    u8 _12c[4];
+    f32 _130;
+    f32 _134;
+    f32 _138;
+    u8 _13c[0x144 - 0x13c];
+    f32 _144;
+    f32 _148;
+    u8 _14c[0x150 - 0x14c];
     s32 _150;  // saved / restored by PlayerWaterFall (zeroed while it is active; gravity-like)
-    u8 _154[0x210 - 0x154];
+    u8 _154[0x15c - 0x154];
+    f32 _15c;
+    u64 _160;
+    u64 _168;
+    u8 _170[0x210 - 0x170];
     f32 _210;
-    u8 _214[0x220 - 0x214];
+    f32 _214;
+    f32 _218;
+    u8 _21c[0x220 - 0x21c];
     f32 _220;
     s32 _224;  // index into _288 of the current body (_298)
     u8 _228[0x240 - 0x228];

@@ -28,7 +28,7 @@ struct CharacterControllerShape {
     /* 0x13 */ u8 _13;
     /* 0x14 */ f32 _14;
     /* 0x18 */ f32 _18;
-    /* 0x1c */ u8 _1c[4];
+    /* 0x1c */ f32 _1c;
     /* 0x20 */ sead::Vector3f _20;
     /* 0x2c */ u8 _2c[4];
 };
@@ -39,6 +39,189 @@ struct CharacterControllerShapes {
     /* 0x00 */ void* _0;
     /* 0x08 */ sead::Buffer<CharacterControllerShape> mShapes;
 };
+
+// Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
+struct CharacterControllerUnk38 {
+    /* 0x00 */ u8 _0[0x18];
+};
+
+struct CharacterControllerUnk40 {
+    /* 0x00 */ u8 _0[0x10];
+    /* 0x10 */ s32 _10;
+    /* 0x14 */ u8 _14[0x50];
+    /* 0x64 */ u32 _64;
+    /* 0x68 */ u8 _68;
+    /* 0x69 */ u8 _69;
+    /* 0x6a */ u8 _6a[2];
+    /* 0x6c */ u8 _6c;
+};
+
+struct CharacterControllerUnk48 {
+    /* 0x00 */ u8 _0[0x50];
+    /* 0x50 */ u8 _50;
+    /* 0x51 */ u8 _51[0x94 - 0x51];
+    /* 0x94 */ u32 _94;
+};
+
+struct CharacterControllerUnk50 {
+    /* 0x00 */ u8 _0[0x18];
+    /* 0x18 */ f32 _18;
+    /* 0x1c */ u8 _1c[0x38 - 0x1c];
+    /* 0x38 */ u32 _38;
+};
+
+// NON_MATCHING: register assignment
+void CharacterController::sub_7100F5E754(bool value) {
+    _48->_50 = value;
+}
+
+f32 CharacterController::sub_7100F5EEE8() const {
+    return _130;
+}
+
+void CharacterController::sub_7100F5EEF0(f32 value) {
+    _134 = value;
+}
+
+f32 CharacterController::sub_7100F5EEF8() const {
+    return _134;
+}
+
+f32 CharacterController::sub_7100F60390() const {
+    return _138;
+}
+
+f32 CharacterController::sub_7100F5EF88() const {
+    return _30->mShapes[_224]._14;
+}
+
+f32 CharacterController::sub_7100F5EFB0() const {
+    return _30->mShapes[_224]._14;
+}
+
+f32 CharacterController::sub_7100F5EFD8() const {
+    return _30->mShapes[_224]._18;
+}
+
+f32 CharacterController::sub_7100F5F000() const {
+    return _30->mShapes[_224]._1c;
+}
+
+f32 CharacterController::sub_7100F5F100() const {
+    return _30->mShapes[_224]._18;
+}
+
+const sead::Vector3f& CharacterController::sub_7100F5F028() const {
+    return _30->mShapes[_224]._20;
+}
+
+f32 CharacterController::sub_7100F5F050() const {
+    return 0;
+}
+
+f32 CharacterController::sub_7100F5F058() const {
+    return 1;
+}
+
+void CharacterController::sub_7100F5F060(const sead::Vector3f& value) {
+    _ec = value;
+}
+
+bool CharacterController::sub_7100F5F128() const {
+    return _116 & 1;
+}
+
+// NON_MATCHING: the original returns the byte without the bool conversion (but SimpleKokkoRoot::calc_ needs bool)
+bool CharacterController::sub_7100F5F264() const {
+    return _40->_69;
+}
+
+void CharacterController::sub_7100F60458() {
+    _94.set(0, 0, 0);
+}
+
+// NON_MATCHING: store order / scheduling (the original stores the flag word last)
+void CharacterController::sub_7100F6059C() {
+    _116 &= 0xe3e3;
+    _148 = 0;
+    _144 = 1.0f;
+    _15c = 0;
+    _160 = 0;
+    _168 = 0;
+    _210 = 0;
+    _214 = 0;
+}
+
+void CharacterController::sub_7100F605C8(const sead::Vector3f& value) {
+    _a0.setTranslation(value);
+}
+
+u32 CharacterController::sub_7100F609D8() const {
+    return _40->_64;
+}
+
+void CharacterController::sub_7100F60E80(bool value) {
+    _50->_38 = value;
+    _48->_94 = value;
+}
+
+f32 CharacterController::sub_7100F62B78() const {
+    return _11c;
+}
+
+const sead::Vector3f& CharacterController::sub_7100F62B80() const {
+    return _120;
+}
+
+void CharacterController::sub_7100F62B88(const sead::Vector3f& value) {
+    _120 = value;
+}
+
+void CharacterController::sub_7100F62BA4(f32 value) {
+    _50->_18 = value;
+}
+
+void CharacterController::sub_7100F62C14(f32 max_impulse) {
+    mRigidBody->setMaxImpulse(max_impulse);
+    if (_114 & 0x2000) {
+        for (int i = 0; i < _288.size(); ++i) {
+            if (auto* body = _288[i])
+                body->setMaxImpulse(max_impulse);
+        }
+    }
+}
+
+f32 CharacterController::sub_7100F62CA0() const {
+    return mRigidBody->getMaxImpulse();
+}
+
+bool CharacterController::sub_7100F62DC8() const {
+    return mRigidBody->isEntityMotionFlag10Off();
+}
+
+void CharacterController::sub_7100F62E64(const sead::Vector3f& center) {
+    mRigidBody->setCenterOfMassInLocal(center);
+}
+
+void CharacterController::sub_7100F62E6C(sead::Vector3f* center) const {
+    mRigidBody->getCenterOfMassInLocal(center);
+}
+
+f32 CharacterController::sub_7100F62F58() const {
+    return _218;
+}
+
+u8 CharacterController::sub_7100F63370() const {
+    return _40->_6c;
+}
+
+void CharacterController::sub_7100F5E938(bool on) {
+    mFlags.changeBit(15, on);
+}
+
+void CharacterController::sub_7100F631F4(bool on) {
+    mFlags.changeBit(8, on);
+}
 
 void CharacterController::sub_7100F5EDD8(float value) {
     _fc = value;
