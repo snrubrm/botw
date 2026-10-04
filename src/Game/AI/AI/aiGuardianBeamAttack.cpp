@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianBeamAttack.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -33,6 +34,16 @@ void GuardianBeamAttack::leave_() {
     mActor->sub_71011DA834(_78);
     _48.fade();
     _58.fade();
+}
+
+bool GuardianBeamAttack::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003) {
+        _48.fade();
+        _58.fade();
+        changeChild("待機");
+        return true;
+    }
+    return false;
 }
 
 void GuardianBeamAttack::loadParams_() {

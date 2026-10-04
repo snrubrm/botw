@@ -34,6 +34,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     // 0x710040fc24 (2.8 KB, not decompiled): called by Unk_71023f6f80::m5.
     void sub_710040FC24();
