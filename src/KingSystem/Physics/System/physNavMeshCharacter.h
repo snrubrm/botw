@@ -76,6 +76,9 @@ public:
     // _278) unless they contain NaN (the first and the last one are flattened to the XZ plane and normalized).
     void sub_7100F76380(const sead::Vector3f& pos, const sead::Vector3f& dir_a,
                         const sead::Vector3f& vec, const sead::Vector3f& dir_b);
+    // 0x7100f765e8 / 0x7100f76694 (declaration only): position request and flattened direction.
+    void sub_7100F765E8(const sead::Vector3f& pos);
+    void sub_7100F76694(const sead::Vector3f& direction);
     void sub_7100F76314();
     void sub_7100F76778();
     void sub_7100F76790();
