@@ -66,6 +66,49 @@ void Selector::m12(Context* ctx, State* state, const res::ASResource* resource) 
     SelectorBase::m12(ctx, state, resource);
 }
 
+// NON_MATCHING: register allocation (ours spills `a2` and compares the indices after the call; the original keeps
+// `a2` in a callee-saved register and materialises the `index == old` flag before the call)
+f32 Selector::m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) {
+    const u32 new_index = m39(ctx, 0, resource);
+    if (new_index == 0xffffffff)
+        return a3;
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const s8 old_index = record->_0;
+    const bool changed = old_index != new_index;
+    if (changed) {
+        if (old_index >= 0) {
+            Element* old_child = mChildren[old_index];
+            const res::ASResource* old_resource = sub_71013031FC(resource, old_index);
+            old_child->sub_7101165E60(ctx, old_resource);
+        }
+        auto* selector_resource = sead::DynamicCast<const res::ASSelectorResource>(resource);
+        PlayState play_state;
+        if (selector_resource)
+            play_state._4 = !selector_resource->getNoSync();
+        else
+            play_state._4 = false;
+        play_state._0 = -1.0f;
+        play_state._8 = ctx->sub_7101258D1C(sub_71011653E8(resource)) + 1;
+        Element* new_child = mChildren[new_index];
+        const res::ASResource* new_resource = sub_71013031FC(resource, new_index);
+        new_child->sub_710116541C(ctx, &play_state, new_resource);
+    }
+    Element* child = mChildren[new_index];
+    const res::ASResource* child_resource = sub_71013031FC(resource, new_index);
+    const f32 result = child->m18(ctx, changed | (a2 & 1), a3, a4, child_resource);
+    f32 ret = result;
+    if (result < 0.0f)
+        ret = -1.0f;
+    if (result < 0.0f && changed) {
+        ctx->mFlags |= 0x20;
+        if (sub_71011654D8())
+            ctx->mFlags |= 0x40;
+        record->_0 = new_index;
+        ret = -1.0f;
+    }
+    return ret;
+}
+
 bool Selector::m9(Context* ctx, PlayState* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     const int index = m39(ctx, 1, resource);

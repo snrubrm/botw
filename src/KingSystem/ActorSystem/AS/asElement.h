@@ -390,8 +390,8 @@ public:
     Selector();
 
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
-    // 0x7101319c24 (declaration only)
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
              f32 value) override;
 
