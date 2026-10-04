@@ -3,6 +3,30 @@
 
 namespace uking::ui {
 
+// inline-only in the original; name is a guess (see ScreenKologNum)
+static const ksys::StateBase& getShownState() {
+    return sUnk_71025dc090;
+}
+
+// 0x71009cef28
+bool ScreenAkashNum::sub_71009CEF28() {
+    if (_3634 != 0)
+        return false;
+    if (_3610 || mStateMachine.getState()->getId() == getShownState().getId()) {
+        _3634 = 1;
+        return false;
+    }
+    close(-1);
+    return true;
+}
+
+// 0x71009cefbc
+bool ScreenAkashNum::sub_71009CEFBC() {
+    if (_3610)
+        return true;
+    return mStateMachine.getState()->getId() == getShownState().getId();
+}
+
 // 0x71009ceee0
 void ScreenAkashNum::sub_71009CEEE0(s32 a1) {
     if (_3614 == 0)

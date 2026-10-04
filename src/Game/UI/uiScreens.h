@@ -11,6 +11,7 @@
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace uking::ui {
@@ -160,7 +161,13 @@ class Screen : public ScreenBase, public ScreenHandlerImpl {
 public:
     ~Screen() override;
     SEAD_RTTI_OVERRIDE(Screen, ScreenBase)
-    u8 _118[0x250 - 0x118];
+    u8 _118[0x160 - 0x118];
+    // The screen's state machine (the leaf classes' own virtual slots 154+ are the callbacks of its states). The
+    // union keeps the implicit constructor from requiring StateMachine's (the constructor is not decompiled).
+    union {
+        ksys::StateMachine mStateMachine;
+    };
+    u8 _188[0x250 - 0x188];
     /* 0x250 */ sead::PtrArray<ScreenChild> mChildren;
     u8 _260[0x270 - 0x260];
     /* 0x270 */ s32 _270;
@@ -568,6 +575,9 @@ public:
     void sub_7100A414A0();
 };
 
+// State object of the number screens (CSV: unnamed data; a StateTemplate<ScreenKologNum>, 0x71025eed10).
+extern const ksys::StateBase sUnk_71025eed10;
+
 class ScreenKologNum : public ScreenEx {
 public:
     ScreenKologNum();
@@ -610,6 +620,9 @@ public:
     bool sub_7100A0EFA4();
     void sub_7100A0F110(s32);
 };
+
+// State object of ScreenAkashNum (a StateTemplate<ScreenAkashNum>, 0x71025dc090).
+extern const ksys::StateBase sUnk_71025dc090;
 
 class ScreenAkashNum : public ScreenEx {
 public:
@@ -654,6 +667,10 @@ public:
     void sub_71009CF01C(s32);
 };
 
+// State objects of ScreenMamoNum (StateTemplate<ScreenMamoNum>, 0x71025ef578 / 0x71025ef518).
+extern const ksys::StateBase sUnk_71025ef578;
+extern const ksys::StateBase sUnk_71025ef518;
+
 class ScreenMamoNum : public ScreenEx {
 public:
     ScreenMamoNum();
@@ -690,7 +707,7 @@ public:
 
     void sub_7100A22A80(s32 a1);
 
-    void sub_7100A22B98();
+    bool sub_7100A22B98();
 };
 
 class ScreenShopHorse : public ScreenEx {
