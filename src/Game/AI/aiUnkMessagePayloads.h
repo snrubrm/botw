@@ -30,9 +30,17 @@ struct Unk_710237ecc0_Payload {
 // Message 0x8000021 (sender Unk_71023f83e8)
 struct Unk_71023f83e8_Payload {
     sead::Vector3f _0 = sead::Vector3f::zero;
-    u32 _c = 0;
+    f32 _c = 0;
     bool _10 = false;
     sead::JobQueueLock mLock;
+
+    // Inline-only (name is a guess; evidence: GuardianMiniBlownOff::sub_7100419D88 loads the sender once).
+    void set(const sead::Vector3f& dir, f32 c) {
+        sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
+        _0 = dir;
+        _c = c;
+        _10 = false;
+    }
 };
 
 // Message 0x800001b (sender Unk_71023b1608)

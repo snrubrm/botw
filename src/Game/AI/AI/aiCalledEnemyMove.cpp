@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCalledEnemyMove.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -18,6 +19,54 @@ void CalledEnemyMove::enter_(ksys::act::ai::InlineParamPack* params) {
         changeToApproach();
     else
         setFailed();
+}
+
+void CalledEnemyMove::calc_() {
+    if (!mTargetActor_d || !mTargetActor_d->hasProc()) {
+        setFailed();
+        return;
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("近づき")) {
+            if (child->isFinished())
+                changeToWait();
+            else
+                setFailed();
+        } else if (isCurrentChild("待機")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+        }
+    } else if (child->isChangeable()) {
+        sead::Vector2f target;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(mTargetActor_d, &accessor);
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            target.set(mtx(0, 3), mtx(2, 3));
+        }
+        const sead::Matrix34f& actor_mtx = mActor->getMtx();
+        const sead::Vector2f diff(actor_mtx(0, 3) - target.x, actor_mtx(2, 3) - target.y);
+        if (diff.length() > *mLostDist_s)
+            setFailed();
+    }
+
+    if (isCurrentChild("近づき")) {
+        sead::Vector3f pos;
+        sub_7100341058(&pos);
+        child->setDynamicParam(pos, "TargetPos");
+    } else if (isCurrentChild("待機")) {
+        sead::Vector3f pos;
+        {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(mTargetActor_d, &accessor);
+            accessor.getActorMtx().getTranslation(pos);
+        }
+        child->setDynamicParam(pos, "TargetPos");
+    }
 }
 
 void CalledEnemyMove::leave_() {

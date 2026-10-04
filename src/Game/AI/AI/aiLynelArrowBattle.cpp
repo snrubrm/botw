@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiLynelArrowBattle.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
@@ -49,6 +52,37 @@ bool LynelArrowBattle::m41() {
 void LynelArrowBattle::m38() {
     --_b8;
     EnemyBattle::m38();
+}
+
+// Whether the Lynel faces the target: the direction `mFrontDirFromBone_s` rotated by the world matrix of the bone
+// `mFrontCheckBoneName_s` (the actor's front if there is no such bone), flattened onto the XZ plane, must be
+// within `mAttackAngle_s` of the direction to the target.
+bool LynelArrowBattle::m40() {
+    sead::Vector3f front(0.0f, 0.0f, 0.0f);
+    if (!mFrontCheckBoneName_s.isEmpty()) {
+        auto* model = mActor->getModel();
+        const auto key = model->searchBone(mFrontCheckBoneName_s);
+        if (key.isValid()) {
+            sead::Matrix34f mtx;
+            model->getUnits()
+                .unsafeAt(key.model_unit_index)
+                ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+            front = *mFrontDirFromBone_s;
+            front.rotate(mtx);
+            front.y = 0.0f;
+            front.normalize();
+        }
+    }
+    if (front.x == 0.0f && front.y == 0.0f && front.z == 0.0f)
+        sub_71000891C8(&front, mActor);
+
+    sead::Vector3f target;
+    m36(&target);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f dir(target.x - pos.x, 0.0f, target.z - pos.z);
+    dir.normalize();
+    const f32 angle = *mAttackAngle_s;
+    return dir.dot(front) >= sead::Mathf::cos(angle);
 }
 
 bool LynelArrowBattle::isFinished() const {
