@@ -2,11 +2,19 @@
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/ResExtUserData.h>
+#include <nn/ui2d/TextureInfo.h>
 #include "Game/UI/euiTypes.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiLayoutEx.h"
 
 namespace eui {
+
+// 0x7100befa74
+void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map) {
+    const auto* info = map.GetTextureInfo();
+    out->InvalidateDescriptorSlot();
+    out->SetDescriptorSlot(info->GetDescriptorSlot());
+}
 
 // NON_MATCHING: the compiler inlines the hierarchy append helper into this wrapper.
 // 0x7100bef394
