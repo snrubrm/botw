@@ -24,6 +24,7 @@ target_sources(uking PRIVATE
   evtEventFlow.cpp
   evtEventFlow.h
   evtEventFlowMgr.cpp
+  evtEventFlowMovie.cpp
   evtEventFlowMgr.h
   evtEventFlowSlot.cpp
   evtEventMgrStruct1.cpp

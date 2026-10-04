@@ -1,8 +1,13 @@
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtEventFlowMgr.h"
 #include <evfl/ResTimeline.h>
 #include "KingSystem/Event/evtManager.h"
 
+s32 getSceneStatus();
+
 namespace ksys::evt {
+
+EventFlowBase* sUnk_7102601528;
 
 // NON_MATCHING (all four destructors below): the original destructors destroy members that are not modelled
 // yet (EventFlowBase::~EventFlowBase is 324 bytes). They are defaulted here so that the classes' vtables (and with them
@@ -55,6 +60,111 @@ void EventFlowBase::exitEventMaybe() {
 // 0x7100db7888
 void EventFlowBase::setFlag4() {
     _340 |= 4;
+}
+
+// 0x7100db6cfc
+void EventFlowBase::sub_7100DB6CFC() {
+    _100->m6();
+}
+
+// 0x7100db6ad0
+bool EventFlowBase::calc() {
+    sUnk_7102601528 = this;
+    const bool result = _100->m5();
+    sUnk_7102601528 = nullptr;
+    ++_2c8;
+    return result;
+}
+
+// 0x7100db7148
+void EventFlowBase::setupActors() {
+    _110->mResource = _108;
+    _110->allocActors(_108->_18, mHeap, mSlot);
+    _340 |= 1;
+}
+
+// 0x7100db718c
+void EventFlowBase::initActors() {
+    _110->sub_7100DA2618(_108->_18);
+}
+
+// 0x7100db7540
+bool EventFlowBase::x_0(bool a1, bool a2) {
+    if (!_110->x_3(a1, a2) || !_108->areCameraAndModelAndXlinkReady())
+        return false;
+    delete _110;
+    _110 = nullptr;
+    if (_108->_1e0_bytes[1] & 8) {
+        if (_108->_1b8)
+            _108->_1b8->x_0();
+        mSlot->setState3();
+        mSlot = nullptr;
+    } else {
+        delete _108;
+    }
+    _108 = nullptr;
+    return true;
+}
+
+// 0x7100db8abc
+void EventFlowBase::x_7() {
+    _2c8 = 0;
+    _340 |= 0x3000;
+    _110->x_2();
+    _340 &= ~0x2000001000ull;
+}
+
+// 0x7100db8994
+void EventFlowBase::x_5(EventFlowBase* other) {
+    _100->m9();
+    if ((other->getEventFlowType() == 0 && (other->_340_bytes[1] & 0x20)) ||
+        (other->getEventFlowType() != 0 && (other->_340_bytes[6] & 1)))
+        _340 |= 0x800000000000;
+    else
+        _340 &= ~0x800000000000ull;
+}
+
+// 0x7100db6c94
+s32 EventFlowBase::x_1() {
+    if (_108->_1e0_bytes[1] & 8)
+        return 1;
+    if (!_108->processResourceLoad(false))
+        return 0;
+    if ((_108->_1e0_bytes[1] & 0x10) || _108->_18->_8 == 0)
+        return 2;
+    _108->EventAddExtraModelRes_stuff(&_2e8);
+    return 1;
+}
+
+// 0x7100db67c0
+bool EventFlowBase::isEventTypeNotMovieWithNoPath() const {
+    return int(getType()) != EventFlowType::MovieWithNoPath && mType != EventFlowType::MovieWithNoPath;
+}
+
+// 0x7100db6c64
+bool EventFlowBase::x_3() const {
+    if (_340 & 0x200000000ull)
+        return int(getType()) != EventFlowType::MovieWithNoPath;
+    return (_340 >> 24) & 1;
+}
+
+// 0x7100db8b04
+bool EventFlowBase::x_4() const {
+    if (mType == EventFlowType::MovieWithNoPath)
+        return false;
+    if (_340_bytes[0] & 0x60)
+        return false;
+    if (getSceneStatus() == 4)
+        return false;
+    return !(_340_bytes[4] & 0x10);
+}
+
+// 0x7100db8a34
+void EventFlowBase::printStatus(sead::BufferedSafeString* out) {
+    if (_100->isPlaying())
+        out->format("%5.2f", getFrameCount());
+    else
+        out->format("%s", _100->m7());
 }
 
 // 0x7100db8a24

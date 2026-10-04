@@ -11,6 +11,23 @@ class Heap;
 }
 namespace ksys::evt {
 
+class EventFlowBase;
+
+// The resource data of a flow (only the field read by EventFlowBase::x_1 is declared).
+class EventResourceData {
+public:
+    u8 _0[8];
+    /* 0x08 */ s32 _8;
+};
+
+// Event xlink information (CSV EventXlinkInfo; vtable-less helper at EventResource + 0x1b8)
+class EventXlinkInfo {
+public:
+    // 0x7100dc96a0 / 0x7100dc9780 (CSV EventXlinkInfo::x_1 / x_0; not decompiled)
+    void x_1(EventFlowBase* flow);
+    void x_0();
+};
+
 // TODO
 class EventResource {
 public:
@@ -25,15 +42,26 @@ public:
     // 0x7100dc3698 (CSV unnamed): called by EventFlowBase::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
 
+    // 0x7100dc3368 / 0x7100dc33d4 / 0x7100dc421c (CSV EventResource::areCameraAndModelAndXlinkReady /
+    // processResourceLoad / EventAddExtraModelRes_stuff; not decompiled)
+    bool areCameraAndModelAndXlinkReady();
+    bool processResourceLoad(bool a1);
+    bool EventAddExtraModelRes_stuff(void* a1);
+
     // 0x71008b5ac4 (CSV EventResource::formatInitStatus; not decompiled)
     void formatInitStatus(sead::BufferedSafeString* out);
 
-    u8 _0[0x20];
+    virtual ~EventResource();
+    u8 _8[0x10];
+    /* 0x18 */ EventResourceData* _18;
     /* 0x20 */ DemoInfo mDemoInfo;
     u8 _pad_after_demo[0x1b8 - 0x20 - sizeof(DemoInfo)];
-    /* 0x1b8 */ void* _1b8;
+    /* 0x1b8 */ EventXlinkInfo* _1b8;
     u8 _1c0[0x1e0 - 0x1c0];
-    /* 0x1e0 */ u32 _1e0;
+    union {
+        /* 0x1e0 */ u32 _1e0;
+        u8 _1e0_bytes[4];
+    };
     u8 _1e4[0x208 - 0x1e4];
 };
 static_assert(sizeof(EventResource) == 0x208);
