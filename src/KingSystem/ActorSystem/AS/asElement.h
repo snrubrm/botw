@@ -486,11 +486,14 @@ public:
     // Placeholder: 0x98-byte entry that starts with the bone key.
     struct Unk1 {
         gsys::BoneAccessKeyEx _0;
-        u8 _38[0x98 - sizeof(gsys::BoneAccessKeyEx)];
+        u8 _38[0x90 - sizeof(gsys::BoneAccessKeyEx)];
+        f32 (*_90)(const sead::Vector3f&);
     };
 
     NodePosSelector();
     ~NodePosSelector() override;
+
+    int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 
     sead::Buffer<Unk1> _18;
 };

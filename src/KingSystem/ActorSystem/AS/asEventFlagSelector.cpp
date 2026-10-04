@@ -11,7 +11,7 @@ EventFlagSelector::~EventFlagSelector() {
     _18.freeBuffer();
 }
 
-// NON_MATCHING: fallback return uses w20 and joins the index-return path rather than the epilogue.
+// NON_MATCHING: the fallback result joins the loop-index return path rather than the epilogue.
 int EventFlagSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) {
     for (auto it = _18.begin(), end = _18.end(); it != end; ++it) {
         bool value = false;
