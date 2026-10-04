@@ -37,6 +37,9 @@ public:
     // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
     bool x_1();
     bool x_2();
+    void x_4(bool paused);
+    // 0x7101230fc8: pauses selected sound groups.
+    void sub_7101230FC8(bool paused, bool include_music);
     // 0x7101230dac (CSV ActorEffects::setMask; declaration only, lane2 s21): PriestBossAfterImageRoot::calc_
     // calls it with 1 while `_73` is 0.
     void setMask(int a1);

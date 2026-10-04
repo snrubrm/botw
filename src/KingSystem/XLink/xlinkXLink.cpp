@@ -30,6 +30,18 @@ bool XLink::x_2() {
     return true;
 }
 
+void XLink::x_4(bool paused) {
+    if (paused) {
+        if (!_cc.isOnBit(8)) {
+            sub_7101230FC8(true, true);
+            _cc.setBit(8);
+        }
+    } else if (_cc.isOnBit(8)) {
+        sub_7101230FC8(false, true);
+        _cc.resetBit(8);
+    }
+}
+
 void XLink::sleepELink() {
     if (_48 && !_48->getBitFlag().isOnBit(1)) {
         _48->postCalc();
