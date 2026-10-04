@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -16,6 +17,12 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::act {
+
+s32 Weapon::getShieldGuardPower() {
+    const auto* param = getParam()->getRes().mGParamList->getWeaponCommon();
+    return param->mGuardPower.ref() +
+           (_f98.flags.isOn(WeaponModifier::AddGuard) ? _f98.value : 0);
+}
 
 f32 Unk_71002ef75c::sub_71002EF74C() {
     return _8->_2a8;

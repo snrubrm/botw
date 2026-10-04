@@ -224,6 +224,7 @@ public:
     bool x_6();
     // 0x71002e4374: bit7 of _e50, or a type3 weapon with a connected calc child.
     bool sub_71002E4374();
+    s32 getShieldGuardPower();
     // 0x71002e5ff0 (CSV Weapon::x_4; not decompiled): resets the weapon's effects (damage colour etc.);
     // `a4` is DynamicCast to the class with RTTI 0x71025b1538 (copies the parent link and two flags).
     void x_4(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
@@ -268,6 +269,8 @@ public:
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u8 _e52[0xf89 - 0xe52];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
+    u8 _f8a[0xf98 - 0xf8a];
+    /* 0xf98 */ WeaponModifierInfo _f98;
 };
 
 }  // namespace uking::act

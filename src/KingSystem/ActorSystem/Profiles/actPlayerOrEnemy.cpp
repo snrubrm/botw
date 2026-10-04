@@ -1,14 +1,40 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 
 namespace ksys::act {
+
+void PlayerOrEnemy::m160() {
+    auto* damage_mgr = sead::DynamicCast<uking::dmg::DamageManager>(getDamageMgr());
+    if (!damage_mgr)
+        return;
+
+    getWeapons();
+    s32 guard_power = 0;
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(i));
+        if (weapon && weapon->_cf0 == 4) {
+            const s32 power = weapon->getShieldGuardPower();
+            if (guard_power <= power)
+                guard_power = power;
+        }
+    }
+    damage_mgr->_70 = guard_power;
+    damage_mgr->applyDamage(*getLife());
+    const s32 damage = damage_mgr->getDamage();
+    if (damage > 0) {
+        if (auto* drop_data = sead::DynamicCast<DropData>(getDropData()))
+            drop_data->sub_71006DA914(damage_mgr, true);
+    }
+}
 
 f32 PlayerOrEnemy::m153() {
     if (auto* object = sead::DynamicCast<uking::act::Unk_710244dd20>(m159()))

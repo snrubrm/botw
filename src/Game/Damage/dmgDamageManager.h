@@ -32,7 +32,8 @@ public:
     s32 sub_71006D8534() const;
 
     s32 _68;  // WolfLinkRoot::enter_
-    u8 _6c[0x74 - 0x6c];
+    u8 _6c[0x70 - 0x6c];
+    s32 _70;  // current shield guard power (PlayerOrEnemy::m160)
     s32 _74;  // Horse::loadReduceAncientEnemyDamageInfo
     u8 _78[0x8c - 0x78];
     s32 _8c;  // WeakPointRoot::m35
