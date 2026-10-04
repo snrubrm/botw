@@ -118,6 +118,53 @@ void Animator::Disable() {
         mLayout->mScreen->removeAnimator(this);
 }
 
+// NON_MATCHING: flag updates merge into register ORs and different shared blocks.
+// 0x7100be7a4c
+void Animator::UpdateFrame(f32 delta) {
+    mFlags &= 0xf0;
+    if (mRate == 0.0f)
+        return;
+    f32 frame = mFrame + mRate * delta;
+    if (mRate > 0.0f) {
+        if (frame >= GetFrameSize()) {
+            switch (mPlayType) {
+            case 0:
+                frame = GetFrameSize();
+                mRate = 0.0f;
+                mFlags |= 1;
+                break;
+            case 1:
+                frame -= GetFrameSize();
+                mFlags |= 4;
+                break;
+            case 2:
+                frame = GetFrameSize() - (frame - GetFrameSize());
+                mRate = -mRate;
+                mFlags |= 4;
+                break;
+            }
+        }
+    } else if (frame <= 0.0f) {
+        switch (mPlayType) {
+        case 0:
+            frame = 0.0f;
+            mRate = 0.0f;
+            mFlags |= 1;
+            break;
+        case 1:
+            frame += GetFrameSize();
+            mFlags |= 8;
+            break;
+        case 2:
+            frame = -frame;
+            mRate = -mRate;
+            mFlags |= 8;
+            break;
+        }
+    }
+    mFrame = frame;
+}
+
 // 0x7100be7c78
 AnimatorSet::AnimatorSet() = default;
 

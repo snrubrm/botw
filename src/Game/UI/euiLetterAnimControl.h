@@ -20,6 +20,7 @@ public:
     void Update(f32 dt) override;
 
     LetterAnimControl();
+    void reset();
     void initialize(sead::Heap*, TextBoxEx*, LayoutEx*);
 
     // 0x7100bd9b80

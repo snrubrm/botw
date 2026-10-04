@@ -1,4 +1,8 @@
 #include "Game/UI/euiLetterAnimControl.h"
+#include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/euiTagProcessor.h"
+#include <heap/seadHeap.h>
+#include <cstring>
 
 namespace eui {
 
@@ -9,6 +13,43 @@ const char* LetterAnimControl::getClassName() const {
 
 // 0x7100bd92d8
 LetterAnimControl::LetterAnimControl() = default;
+
+// 0x7100bd9330
+void LetterAnimControl::reset() {
+    _5e = 0;
+    _48 = 0;
+    _58 = 0;
+    _50 = 0;
+    _5f &= ~3;
+    _61 = 0;
+    char16* text = TagProcessor::setAlphaTag(_38, false, 0);
+    std::memcpy(text, _30, _5c * sizeof(char16));
+    mTextBox->setStringNoPreproces(_38, _5c + 5);
+}
+
+// NON_MATCHING: adjacent object-pointer assignments are paired differently.
+// 0x7100bd93a4
+void LetterAnimControl::initialize(sead::Heap* heap, TextBoxEx* text_box, LayoutEx* layout) {
+    if (text_box->GetStringBufferLength() < text_box->mTextLength + 10)
+        return;
+    mTextBox = text_box;
+    mName = text_box->GetName();
+    mLayout = layout;
+    _5a = text_box->GetStringBufferLength();
+    _5c = text_box->mTextLength;
+    _30 = static_cast<char16*>(heap->alloc(_5a * sizeof(char16), 8));
+    std::memcpy(_30, text_box->mTextBuf, _5c * sizeof(char16));
+    _38 = static_cast<char16*>(heap->alloc(_5a * sizeof(char16), 8));
+    _5e = 0;
+    _48 = 0;
+    _58 = 0;
+    _50 = 0;
+    _5f &= ~3;
+    _61 = 0;
+    char16* text = TagProcessor::setAlphaTag(_38, false, 0);
+    std::memcpy(text, _30, _5c * sizeof(char16));
+    mTextBox->setStringNoPreproces(_38, _5c + 5);
+}
 
 // 0x7100bd9b80
 void LetterAnimControl::flushAllowWait() {
