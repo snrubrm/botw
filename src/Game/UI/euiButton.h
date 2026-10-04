@@ -121,6 +121,8 @@ public:
 
     // 0x7100bd8378
     bool IsExistExcludingDown() const;
+    // 0x7100bd83d8 (CSV unnamed; called by Screen::doOpenStart; not decompiled)
+    void sub_7100BD83D8();
     // 0x7100bd817c / 0x7100bd8338 / 0x7100bd8118
     ButtonBase* FindDownButton();
     ButtonBase* FindButtonByTag(s32 tag);

@@ -96,7 +96,7 @@ void Screen::doButtonCancelStart_(AnimButton*) {}
 void Screen::doButtonCancelEnd_(AnimButton*) {}
 
 // 0x7100beaac8
-s32 Screen::isEnableControl() const {
+bool Screen::isEnableControl() const {
     return 0;
 }
 

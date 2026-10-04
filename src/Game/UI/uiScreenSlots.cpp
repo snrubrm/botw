@@ -15,17 +15,17 @@ void Screen::m87() {}
 void Screen::m88() {}
 void Screen::m90() {}
 void Screen::m91() {}
-void Screen::m92() {}
+void Screen::m92(sead::Heap*) {}
 void Screen::m95() {}
 void Screen::m101() {}
-void Screen::m102() {}
-void Screen::m103() {}
-void Screen::m104() {}
-void Screen::m105() {}
-void Screen::m106() {}
-void Screen::m107() {}
-void Screen::m108() {}
-void Screen::m109() {}
+void Screen::m102(eui::AnimButton*) {}
+void Screen::m103(eui::AnimButton*) {}
+void Screen::m104(eui::AnimButton*) {}
+void Screen::m105(eui::AnimButton*) {}
+void Screen::m106(eui::AnimButton*) {}
+void Screen::m107(eui::AnimButton*) {}
+void Screen::m108(eui::AnimButton*) {}
+void Screen::m109(eui::AnimButton*) {}
 void Screen::m110() {}
 s32 Screen::m72() {
     return 0;

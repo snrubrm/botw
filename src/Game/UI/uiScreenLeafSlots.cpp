@@ -6,7 +6,7 @@ namespace uking::ui {
 
 // ScreenAppMap
 // 0x71009ea178 (CSV ScreenAppMap::m92)
-void ScreenAppMap::m92() {
+void ScreenAppMap::m92(sead::Heap*) {
     if (auto* subsys = UiSubsys1::instance())
         subsys->sub_710095B1BC();
 }

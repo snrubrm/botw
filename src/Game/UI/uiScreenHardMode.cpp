@@ -285,7 +285,7 @@ void ScreenHardMode::m243() {}
 
 void ScreenHardMode::m244() {}
 
-s32 ScreenHardMode::isEnableControl() const {
+bool ScreenHardMode::isEnableControl() const {
     return 1;
 }
 

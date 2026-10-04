@@ -177,8 +177,11 @@ public:
 
     void open(s32 option) override;
     void close(s32 option) override;
+    void update() override;
+    // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff; not decompiled)
+    void doUpdate_WorldMgrStuff();
 
-    // Overrides of the eui::Screen callbacks (not decompiled yet; CSV Screen::doAfterBuildLayout etc.)
+    // Overrides of the eui::Screen callbacks (CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;
     void doInitialize_(sead::Heap* heap) override;
     void doUpdate_() override;
@@ -189,6 +192,15 @@ public:
     void updateButton_() override;
     void updateControl_() override;
     void updateAnimator_() override;
+    // The button callbacks call the Screen slots 102-109 and the children's slots 61-68 (ScreenEx overrides all of them).
+    void doButtonOnStart_(eui::AnimButton* button) override;
+    void doButtonOnEnd_(eui::AnimButton* button) override;
+    void doButtonOffStart_(eui::AnimButton* button) override;
+    void doButtonOffEnd_(eui::AnimButton* button) override;
+    void doButtonDownStart_(eui::AnimButton* button) override;
+    void doButtonDownEnd_(eui::AnimButton* button) override;
+    void doButtonCancelStart_(eui::AnimButton* button) override;
+    void doButtonCancelEnd_(eui::AnimButton* button) override;
 
     // New virtual slots of Screen (CSV Screen::mNN; the number is the vtable slot, 69-126). Only the trivial
     // ones have known signatures.
@@ -215,7 +227,7 @@ public:
     virtual void m89();
     virtual void m90();
     virtual void m91();
-    virtual void m92();
+    virtual void m92(sead::Heap*);
     virtual void m93();
     virtual void m94();
     virtual void m95();
@@ -225,14 +237,14 @@ public:
     virtual void m99();
     virtual void m100();
     virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
-    virtual void m105();
-    virtual void m106();
-    virtual void m107();
-    virtual void m108();
-    virtual void m109();
+    virtual void m102(eui::AnimButton*);
+    virtual void m103(eui::AnimButton*);
+    virtual void m104(eui::AnimButton*);
+    virtual void m105(eui::AnimButton*);
+    virtual void m106(eui::AnimButton*);
+    virtual void m107(eui::AnimButton*);
+    virtual void m108(eui::AnimButton*);
+    virtual void m109(eui::AnimButton*);
     virtual void m110();
     virtual s32 m111();
     virtual void m112();
@@ -491,7 +503,7 @@ public:
 class ScreenMainScreen : public ScreenEx {
 public:
     void m88() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
@@ -512,7 +524,7 @@ public:
 class ScreenGameOver : public ScreenEx {
 public:
     ScreenGameOver();
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
 
@@ -722,9 +734,9 @@ public:
 class ScreenShopHorse : public ScreenEx {
 public:
     void m96() override;
-    void m104() override;
-    void m107() override;
-    s32 isEnableControl() const override;
+    void m104(eui::AnimButton*) override;
+    void m107(eui::AnimButton*) override;
+    bool isEnableControl() const override;
     ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
 
@@ -739,7 +751,7 @@ extern const ksys::StateBase sUnk_71025ec670;
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
 
@@ -818,8 +830,8 @@ struct ScreenAppMapWidget {
 
 class ScreenAppMap : public ScreenEx {
 public:
-    void m92() override;
-    s32 isEnableControl() const override;
+    void m92(sead::Heap*) override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     s32 getSlink2LocalPropertyNum_() const override;
     ~ScreenAppMap() override;
@@ -872,7 +884,7 @@ public:
     void m70() override;
     void m71() override;
     void m96() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
 
@@ -929,7 +941,7 @@ public:
 
 class ScreenAppTool : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppTool() override;
     SEAD_RTTI_OVERRIDE(ScreenAppTool, ScreenEx)
@@ -957,8 +969,8 @@ public:
 
 class ScreenAppPictureBook : public ScreenEx {
 public:
-    void m106() override;
-    s32 isEnableControl() const override;
+    void m106(eui::AnimButton*) override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppPictureBook() override;
     SEAD_RTTI_OVERRIDE(ScreenAppPictureBook, ScreenEx)
@@ -1034,7 +1046,7 @@ public:
     ~ScreenHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
 
     // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)
     virtual void m154();
@@ -1161,7 +1173,7 @@ public:
     ScreenGamePadBG();
     void m82() override;
     void m94() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenGamePadBG() override;
     SEAD_RTTI_OVERRIDE(ScreenGamePadBG, ScreenEx)
@@ -1243,7 +1255,7 @@ public:
 class ScreenShopBtnList5 : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
     /* 0x3610 */ void* _3610{};
@@ -1334,7 +1346,7 @@ class ScreenAmiiboWindow : public ScreenEx {
 public:
     ScreenAmiiboWindow();
     const char* getLayoutName_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenAmiiboWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
 
@@ -1367,7 +1379,7 @@ public:
     void m96() override;
     void m97() override;
     void m101() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenSystemWindow00() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow00, ScreenEx)
 
@@ -1396,7 +1408,7 @@ public:
 class ScreenPauseMenuMantan : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
 
@@ -1405,8 +1417,8 @@ public:
 class ScreenPauseMenuEiketsu : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
-    void m107() override;
-    s32 isEnableControl() const override;
+    void m107(eui::AnimButton*) override;
+    bool isEnableControl() const override;
     ScreenPauseMenuEiketsu();
     ~ScreenPauseMenuEiketsu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuEiketsu, ScreenEx)
@@ -1420,7 +1432,7 @@ public:
     s32 m81() override;
     s32 m141() override;
     s32 m142() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
 
@@ -1486,7 +1498,7 @@ public:
 class ScreenMainHardMode : public ScreenEx {
 public:
     ScreenMainHardMode();
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenMainHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
@@ -1505,7 +1517,7 @@ public:
     ScreenSkip();
     const char* getLayoutName_() const override;
     bool isPlayPartsInOut_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenSkip() override;
     SEAD_RTTI_OVERRIDE(ScreenSkip, ScreenEx)
 
@@ -1525,7 +1537,7 @@ public:
 
 class ScreenDemoStart : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ScreenDemoStart();
     ~ScreenDemoStart() override;
@@ -1546,7 +1558,7 @@ public:
     s32 m81() override;
     void m94() override;
     void m98() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ScreenAppMenuBtn();
     ~ScreenAppMenuBtn() override;
@@ -1569,7 +1581,7 @@ public:
 class ScreenShopBtnList20 : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenShopBtnList20() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
 };
@@ -1608,10 +1620,10 @@ public:
 class ScreenControllerWindow : public ScreenEx {
 public:
     void m101() override;
-    void m106() override;
-    void m107() override;
+    void m106(eui::AnimButton*) override;
+    void m107(eui::AnimButton*) override;
     void m138() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenControllerWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenControllerWindow, ScreenEx)
@@ -1619,7 +1631,7 @@ public:
 
 class ScreenDLCWindow : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenDLCWindow() override;
     virtual void m154();  // placeholder: one extra virtual slot (vtable offsets +8)
@@ -1632,7 +1644,7 @@ public:
     s32 m141() override;
     s32 m142() override;
     void m96() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
 
@@ -1660,7 +1672,7 @@ public:
 class ScreenAppCamera : public ScreenEx {
 public:
     void m127() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppCamera() override;
     SEAD_RTTI_OVERRIDE(ScreenAppCamera, ScreenEx)
@@ -1683,7 +1695,7 @@ public:
 
 class ScreenEnergyMeterDLC : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenEnergyMeterDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenEnergyMeterDLC, ScreenEx)
@@ -1691,7 +1703,7 @@ public:
 
 class ScreenMessageGet : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenMessageGet() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
@@ -1715,7 +1727,7 @@ public:
 
 class ScreenShopBtnList15 : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
@@ -1740,7 +1752,7 @@ public:
 
 class ScreenAppAlbum : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppAlbum() override;
     SEAD_RTTI_OVERRIDE(ScreenAppAlbum, ScreenEx)
@@ -1775,7 +1787,7 @@ public:
 class ScreenAppMapDungeon : public ScreenEx {
 public:
     void m100() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppMapDungeon() override;
     SEAD_RTTI_OVERRIDE(ScreenAppMapDungeon, ScreenEx)
@@ -1803,7 +1815,7 @@ public:
 
 class ScreenAppHome : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
@@ -1812,7 +1824,7 @@ public:
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
     void m98() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenSaveTransferWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenSaveTransferWindow, ScreenEx)
@@ -1987,7 +1999,7 @@ public:
 class ScreenOptionWindow : public ScreenEx {
 public:
     bool isPlayPartsInOut_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenOptionWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenOptionWindow, ScreenEx)
 
@@ -2002,7 +2014,7 @@ public:
     void m96() override;
     void m97() override;
     void m101() override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenSystemWindow01() override;
     SEAD_RTTI_OVERRIDE(ScreenSystemWindow01, ScreenEx)
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
@@ -2014,7 +2026,7 @@ class ScreenPauseMenuRecipe : public ScreenEx {
 public:
     ScreenPauseMenuRecipe();
     const char* getLayoutName_() const override;
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenPauseMenuRecipe() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuRecipe, ScreenEx)
 
@@ -2035,7 +2047,7 @@ public:
 
 class ScreenStaffRollDLC : public ScreenEx {
 public:
-    s32 isEnableControl() const override;
+    bool isEnableControl() const override;
     ~ScreenStaffRollDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenStaffRollDLC, ScreenEx)
 };

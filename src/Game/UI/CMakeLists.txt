@@ -37,6 +37,7 @@ target_sources(uking PRIVATE
   uiFadeProgress.h
   uiManager.h
   uiMgrFacade2.cpp
+  uiAppStateGlobals.cpp
   uiMiscFacade.cpp
   uiManagerFacade.cpp
   uiManagerSmall.cpp

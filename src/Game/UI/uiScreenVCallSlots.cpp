@@ -34,7 +34,7 @@ void ScreenSeekPadMenuBG::m83() {
 }
 
 // 0x7100a2c2b0
-void ScreenPauseMenuEiketsu::m107() {
+void ScreenPauseMenuEiketsu::m107(eui::AnimButton*) {
     close(-1);
 }
 

@@ -117,6 +117,141 @@ void Screen::m121() {
         child.m47();
 }
 
+// 0x71010ab12c (CSV Screen::close)
+// NON_MATCHING: the original reads the state byte at 0xfe as a signed value and compares it with 3 through a stack
+// round trip (a SEAD_ENUM-like conversion); every other function reads it as an unsigned byte
+void Screen::close(s32 option) {
+    const bool v = ksys::ui::sub_7100EDC548(mId);
+    if (option != -3 && v) {
+        if (mState != 0) {
+            if (mState != 3)
+                _290 = 1;
+        } else if (!_290) {
+            _292 |= 0x20;
+        }
+    }
+    eui::Screen::close(option);
+}
+
+// 0x71010ab1ac (CSV Screen::update)
+void Screen::update() {
+    _291 = 0;
+    if (_292 & 1) {
+        eui::Screen::update();
+        m95();
+        for (auto& child : mChildren)
+            child.m56();
+        if (_290 && isClosed())
+            m124();
+    }
+}
+
+// 0x71010ab27c (CSV Screen::doAfterBuildLayout)
+void Screen::doAfterBuildLayout_(sead::Heap* heap) {
+    m92(heap);
+    for (auto& child : mChildren)
+        child.m53(heap);
+}
+
+// 0x71010ab5f8 (CSV Screen::doUpdate)
+void Screen::doUpdate_() {
+    if (_292 & 2) {
+        doUpdate_WorldMgrStuff();
+        m115();
+        m94();
+        for (auto& child : mChildren)
+            child.m55();
+    }
+}
+
+// 0x71010ab7a0 (CSV Screen::doOpenStart)
+void Screen::doOpenStart_() {
+    _291 |= 1;
+    mButtonGroup->sub_7100BD83D8();
+    if (isEnableControl())
+        ksys::ui::sub_7100EDC5F0();
+    m98();
+    for (auto& child : mChildren)
+        child.m57();
+}
+
+// 0x71010ab820 (CSV Screen::doOpenEnd)
+void Screen::doOpenEnd_() {
+    _291 |= 2;
+    m99();
+    for (auto& child : mChildren)
+        child.m58();
+}
+
+// 0x71010ab87c (CSV Screen::doCloseStart)
+void Screen::doCloseStart_() {
+    _291 |= 4;
+    if (isEnableControl())
+        ksys::ui::sub_7100EDC5F0();
+    m100();
+    for (auto& child : mChildren)
+        child.m59();
+}
+
+// 0x71010ab8f0 (CSV Screen::doCloseEnd)
+void Screen::doCloseEnd_() {
+    _291 |= 8;
+    m101();
+    for (auto& child : mChildren)
+        child.m60();
+    if (ksys::ui::sub_7100EDC548(mId))
+        mMgr->activateScreen(mId);
+}
+
+// 0x71010aba48 (CSV Screen::doButtonOnEnd)
+void Screen::doButtonOnEnd_(eui::AnimButton* button) {
+    m103(button);
+    for (auto& child : mChildren)
+        child.m62(button);
+}
+
+// 0x71010abb08 (CSV Screen::doButtonOffStart)
+void Screen::doButtonOffStart_(eui::AnimButton* button) {
+    m104(button);
+    for (auto& child : mChildren)
+        child.m63(button);
+}
+
+// 0x71010abbc8 (CSV Screen::doButtonOffEnd)
+void Screen::doButtonOffEnd_(eui::AnimButton* button) {
+    m105(button);
+    for (auto& child : mChildren)
+        child.m64(button);
+}
+
+// 0x71010abc88 (CSV Screen::doButtonDownStart)
+void Screen::doButtonDownStart_(eui::AnimButton* button) {
+    m106(button);
+    for (auto& child : mChildren)
+        child.m65(button);
+}
+
+// 0x71010abd48 (CSV Screen::doButtonDownEnd)
+void Screen::doButtonDownEnd_(eui::AnimButton* button) {
+    m107(button);
+    for (auto& child : mChildren)
+        child.m66(button);
+}
+
+// 0x71010abe08 (CSV Screen::doButtonCancelStart)
+void Screen::doButtonCancelStart_(eui::AnimButton* button) {
+    m108(button);
+    for (auto& child : mChildren)
+        child.m67(button);
+}
+
+// 0x71010abec8 (CSV Screen::doButtonCancelEnd)
+void Screen::doButtonCancelEnd_(eui::AnimButton* button) {
+    m109(button);
+    for (auto& child : mChildren)
+        child.m68(button);
+}
+
 // 0x71010ab0e4 (CSV Screen::open)
 void Screen::open(s32 option) {
     _290 = 0;

@@ -37,10 +37,10 @@ void ScreenShopInfo::m96() {}
 void ScreenShopHorse::m96() {}
 
 // 0x7100a50618
-void ScreenShopHorse::m104() {}
+void ScreenShopHorse::m104(eui::AnimButton*) {}
 
 // 0x7100a50644
-void ScreenShopHorse::m107() {}
+void ScreenShopHorse::m107(eui::AnimButton*) {}
 
 // 0x7100a4186c
 void ScreenRupee::m70() {}
@@ -67,7 +67,7 @@ void ScreenMamoNum::m70() {}
 void ScreenMamoNum::m71() {}
 
 // 0x71009fa688
-void ScreenAppPictureBook::m106() {}
+void ScreenAppPictureBook::m106(eui::AnimButton*) {}
 
 // 0x71009e4e7c
 void ScreenAppMapDungeon::m100() {}
@@ -100,10 +100,10 @@ void ScreenSaveTransferWindow::m98() {}
 void ScreenControllerWindow::m101() {}
 
 // 0x7100a02d14
-void ScreenControllerWindow::m106() {}
+void ScreenControllerWindow::m106(eui::AnimButton*) {}
 
 // 0x7100a02d18
-void ScreenControllerWindow::m107() {}
+void ScreenControllerWindow::m107(eui::AnimButton*) {}
 
 // 0x7100a02e14
 void ScreenControllerWindow::m138() {}
