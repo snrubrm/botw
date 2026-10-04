@@ -172,6 +172,9 @@ public:
     int sub_7100FBB668(const sead::SafeString& name) const;
     // Read inline by sub_71007A2EB0 (actActorSensorUtil; null if out of range).
     RigidBodySet* getRigidBodySet(int idx) const { return mRigidBodySets[idx]; }
+    // inline-only in the original; name is a guess. The size load at +0x40 repeats
+    // in PhysBodyPartLod::sub_710021A344 and InstanceSet::sub_7100FBB668.
+    s32 getNumRigidBodySets() const { return mRigidBodySets.size(); }
     ContactPointInfo* getContactPointInfo(int idx) const { return mContactPointInfo[idx]; }
     // 0x7100fc012c / 0x7100fc01b0 (declared only): for every listed body (0xb0-byte entries at
     // 0x108) that has no 0x98 entry: calls 0xf8305c with `heap` (or the global heap pointer at GOT
