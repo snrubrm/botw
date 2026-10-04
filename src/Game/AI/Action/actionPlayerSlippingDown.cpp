@@ -1,4 +1,9 @@
 #include "Game/AI/Action/actionPlayerSlippingDown.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -17,7 +22,16 @@ void PlayerSlippingDown::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerSlippingDown::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* player_link = mActor->m129();
+    if (player_link->m375() && !player_link->m204()) {
+        player_link->getAttachedTargetActor2()->sub_7100EB51E0();
+        auto* controller = mActor->getCharacterController();
+        controller->sub_7100F5F458(controller->sub_7100F5F234(nullptr) ? ksys::act::MotionType::_0 :
+                                                                         ksys::act::MotionType::_1);
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+    }
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F270(player_link->m384());
 }
 
 void PlayerSlippingDown::loadParams_() {

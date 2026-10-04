@@ -24,7 +24,7 @@ void Rideable::m24() {
     RideableBase::_8 &= ~0x400u;
 }
 
-void* Rideable::m40() {
+HorseReins* Rideable::m40() {
     return nullptr;
 }
 

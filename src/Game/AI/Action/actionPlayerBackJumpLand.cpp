@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionPlayerBackJumpLand.h"
+#include "Game/gameUnk_710246d058.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::action {
@@ -45,8 +47,43 @@ void PlayerBackJumpLand::leave_() {
     static_cast<ksys::act::Player*>(mActor)->_1d70 = ksys::Timer(0, 0);
 }
 
+// NON_MATCHING: identical instructions, but ours keeps `&mActor` (this + 8) in an extra callee-saved register (x20) from
+// the first load on (pre-indexed `ldr x0, [x20, #8]!`); the original reloads `[x19, #8]` everywhere.
 void PlayerBackJumpLand::calc_() {
-    PlayerAction::calc_();
+    if (static_cast<ksys::act::Player*>(mActor)->_c40.isOnBit(9)) {
+        static_cast<ksys::act::Player*>(mActor)->_1cb0 = 78;
+        ksys::act::Attention::instance()->sub_7100D744B8(
+            static_cast<ksys::act::Player*>(mActor)->get1280());
+    }
+    static_cast<ksys::act::Player*>(mActor)->sub_71008931C4();
+    if (static_cast<ksys::act::Player*>(mActor)->_c44.isOnBit(8) &&
+        !static_cast<ksys::act::Player*>(mActor)->_d11)
+        static_cast<ksys::act::Player*>(mActor)->x_37();
+    static_cast<ksys::act::Player*>(mActor)->sub_71008893B8(false);
+    if (static_cast<ksys::act::Player*>(mActor)->m179()) {
+        static_cast<ksys::act::Player*>(mActor)->sub_71008824AC(false);
+        if (ksys::act::playerIsReloadingOrChargingOrShootingBow(
+                static_cast<ksys::act::Player*>(mActor)))
+            static_cast<ksys::act::Player*>(mActor)->x_37();
+    }
+    static_cast<ksys::act::Player*>(mActor)->actionCommon();
+    if (static_cast<ksys::act::Player*>(mActor)->_17d0->controllerCheckPressedMaybe(2))
+        static_cast<ksys::act::Player*>(mActor)->_17f0 = 1;
+    if (static_cast<ksys::act::Player*>(mActor)->getASList()->x_4(0, 0)) {
+        setFinished();
+        return;
+    }
+    const bool landed = static_cast<ksys::act::Player*>(mActor)->getASList()->x(
+        2, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_710116383C, true);
+    auto* player = static_cast<ksys::act::Player*>(mActor);
+    if (landed) {
+        if (player->_c40.isOnBit(8) || player->_c40.isOnBit(9)) {
+            setFailed();
+            return;
+        }
+        _1c = true;
+    }
+    player->sub_71008B5B8();
 }
 
 bool PlayerBackJumpLand::isChangeable() const {

@@ -128,15 +128,15 @@ f32 RideableHorse::m28() {
     return value;
 }
 
-void* RideableHorse::m39() {
+HorseReins* RideableHorse::m39() {
     return static_cast<HorseBase*>(RideableBase::mActor)->getReinsB();
 }
 
-void* RideableHorse::m40() {
+HorseReins* RideableHorse::m40() {
     return static_cast<HorseBase*>(RideableBase::mActor)->getReinsA();
 }
 
-void* RideableHorse::m41() {
+HorseReins* RideableHorse::m41() {
     return static_cast<HorseBase*>(RideableBase::mActor)->getReinsC();
 }
 

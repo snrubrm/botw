@@ -1,7 +1,10 @@
 #include "Game/AI/Action/actionPlayerStainWait.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
 
@@ -23,7 +26,13 @@ void PlayerStainWait::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerStainWait::leave_() {
-    PlayerAction::leave_();
+    mActor->setMtx(_78, false, true);
+    ksys::act::ActorConstDataAccess accessor;
+    auto* armors = mActor->getArmors();
+    for (int i = 0; i < 3; ++i) {
+        ksys::act::acquireActor(&armors->getPartsLink(i), &accessor);
+        _28.sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000ba), nullptr, true);
+    }
 }
 
 void PlayerStainWait::calc_() {

@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionPlayerCalmHorseDown.h"
+#include "Game/Actor/actHorseObject.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -17,7 +21,14 @@ void PlayerCalmHorseDown::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void PlayerCalmHorseDown::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* ride_actor = act::getRideActor(mActor)) {
+        if (auto* rideable = ride_actor->getHorseOptionsMaybe()) {
+            if (auto* reins = rideable->m40()) {
+                reins->_850.acquire(nullptr, false);
+                reins->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+            }
+        }
+    }
 }
 
 void PlayerCalmHorseDown::loadParams_() {

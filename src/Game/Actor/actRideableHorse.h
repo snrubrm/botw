@@ -47,9 +47,9 @@ public:
     f32 m36() override;
     f32 m37() override;
     f32 m38() override;
-    void* m39() override;
-    void* m40() override;
-    void* m41() override;
+    HorseReins* m39() override;
+    HorseReins* m40() override;
+    HorseReins* m41() override;
 
     // A sead::Buffer of the 0x68-byte elements (m13 returns its address).
     struct Unk280 {

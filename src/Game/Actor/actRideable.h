@@ -33,6 +33,8 @@ class CharacterController;
 
 namespace uking::act {
 
+class HorseReins;
+
 // Placeholder name (ctor 0x7100e8b2b8, D1 0x7100e8b304, vtable 0x71024ec660, 17 slots, size 0x40;
 // CSV "Rideable::ProcLink::*"). Second base of Rideable (at +0x180) and the object returned by
 // Actor vtable slot 133 (Enemy: &rideable->base, Motorcycle: _1648). Virtuals that Rideable
@@ -251,9 +253,9 @@ public:
     /* 36 */ virtual f32 m36() { return 0.0f; }
     /* 37 */ virtual f32 m37() { return 0.0f; }
     /* 38 */ virtual f32 m38() { return 0.0f; }
-    /* 39 */ virtual void* m39() { return nullptr; }
-    /* 40 */ virtual void* m40();
-    /* 41 */ virtual void* m41() { return nullptr; }
+    /* 39 */ virtual HorseReins* m39() { return nullptr; }
+    /* 40 */ virtual HorseReins* m40();
+    /* 41 */ virtual HorseReins* m41() { return nullptr; }
     /* 42 */ void m42(int a1) override;
     /* 43 */ void m43() override {}
     /* 44 */ virtual bool m44();
