@@ -55,6 +55,10 @@ public:
         return (_10.load() & mask) != 0;
     }
 
+    // Placeholder enum: the bit indices of the flag word _10 (the original round-trips them through the stack like
+    // SEAD_ENUM values; 4, 5 and 7 are used so far).
+    SEAD_ENUM(Flag10, _0, _1, _2, _3, _4, _5, _6, _7)
+
     Unk_7100e8b2b8();
     virtual ~Unk_7100e8b2b8();
 

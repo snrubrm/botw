@@ -1,5 +1,6 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -67,6 +68,34 @@ void Unk_7100e8b2b8::sub_7100E8BE10() {
         client->disable();
     if (auto* client = attention->getClientByName("JumpRide"))
         client->disable();
+}
+
+// NON_MATCHING: ours gets a frame record (stp x29, x30; the first temporary at x29 - 4) although the function only tail
+// calls; the body (flag updates, type dispatch) is identical
+void Unk_7100e8b2b8::m7() {
+    const u32 mask4 = 1u << Flag10(Flag10::_4);
+    const bool is_set = _10 & mask4;
+    const u32 mask = 1u << Flag10(Flag10::_5);
+    if (is_set)
+        _10 |= mask;
+    else
+        _10 &= ~mask;
+    _10 &= 0xffffffe1;
+    const Unk8 type = _8 & 0xff;
+    switch (int(type)) {
+    case Unk8::_1:
+        xlinkEventOn(mActor, 0x1d, 1, false);
+        break;
+    case Unk8::_2:
+        xlinkEventOn(mActor, 0x1d, 2, false);
+        break;
+    case Unk8::_3:
+        xlinkEventOn(mActor, 0x1d, 3, false);
+        break;
+    default:
+        xlinkEventOn(mActor, 0x1d, 0, false);
+        break;
+    }
 }
 
 bool Unk_7100e8b2b8::sub_7100E8BFD4() {
