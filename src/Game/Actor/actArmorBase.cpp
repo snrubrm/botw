@@ -269,15 +269,15 @@ void ArmorBase::sub_7100E2BACC(const s32* frame) {
 namespace ksys::act::acc {
 
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 int Armor::getArmorDefenceAddLevel() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
         return 0;
     const auto* param = actor->getParam();
-    if (param->getActorName().isEmpty())
-        return ksys::act::getArmorDefenceAddLevel(InfoData::instance(), actor->getName().cstr());
+    if (param->getActorName().isEmpty()) {
+        const char* name = actor->getName().getStringTop();
+        return ksys::act::getArmorDefenceAddLevel(InfoData::instance(), name);
+    }
     return param->getRes().mGParamList->getArmor()->mDefenceAddLevel.ref();
 }
 
@@ -287,111 +287,110 @@ const sead::SafeString& Armor::getSeriesArmorSeriesType() const {
     return sead::SafeString::cEmptyString;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::getSeriesArmorEnableCompBonus() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getSeriesArmorEnableCompBonus(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getSeriesArmorEnableCompBonus(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getSeriesArmor()->mEnableCompBonus.ref();
     }
     return false;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::sub_7100E2BF44() const {
     int type = 0;
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            type = ksys::act::getArmorHeadMantleType(InfoData::instance(), actor->getName().cstr());
-        else
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            type = ksys::act::getArmorHeadMantleType(InfoData::instance(), name);
+        } else
             type = param->getRes().mGParamList->getArmorHead()->mMantleType.ref();
     }
     return type > 0;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 int Armor::getArmorHeadMantleType() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorHeadMantleType(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorHeadMantleType(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorHead()->mMantleType.ref();
     }
     return 0;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::getArmorUpperDisableSelfMantle() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorUpperDisableSelfMantle(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorUpperDisableSelfMantle(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorUpper()->mDisableSelfMantle.ref();
     }
     return false;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 int Armor::getArmorUpperUseMantleType() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorUpperUseMantleType(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorUpperUseMantleType(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorUpper()->mUseMantleType.ref();
     }
     return 0;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 const char* Armor::getArmorEffectEffectType() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorEffectEffectType(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorEffectEffectType(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorEffect()->mEffectType.ref().cstr();
     }
     return "";
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::getArmorEffectAncientPowUp() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorEffectAncientPowUp(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorEffectAncientPowUp(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorEffect()->mAncientPowUp.ref();
     }
     return false;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::getArmorEffectEnableClimbWaterfall() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorEffectEnableClimbWaterfall(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorEffectEnableClimbWaterfall(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorEffect()->mEnableClimbWaterfall.ref();
     }
     return false;
 }
 
-// NON_MATCHING: the original passes the actor name's string pointer to the InfoData lookup without the
-// SafeString::cstr() call (no vtable call)
 bool Armor::getArmorEffectEnableSpinAttack() const {
     if (auto* actor = static_cast<Actor*>(getProcIfActor(mProc))) {
         const auto* param = actor->getParam();
-        if (param->getActorName().isEmpty())
-            return ksys::act::getArmorEffectEnableSpinAttack(InfoData::instance(), actor->getName().cstr());
+        if (param->getActorName().isEmpty()) {
+            const char* name = actor->getName().getStringTop();
+            return ksys::act::getArmorEffectEnableSpinAttack(InfoData::instance(), name);
+        }
         return param->getRes().mGParamList->getArmorEffect()->mEnableSpinAttack.ref();
     }
     return false;
