@@ -101,6 +101,7 @@ target_sources(uking PRIVATE
   uiShopSmall.cpp
   uiScreenSmall.cpp
   uiShopMgr.h
+  uiShopMgrSmall.cpp
   uiSubsys1.cpp
   uiUI.h
   uiUnkSingletons.h

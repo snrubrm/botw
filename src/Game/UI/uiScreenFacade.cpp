@@ -275,6 +275,35 @@ bool sub_7100A98AE4() {
     return true;
 }
 
+// 0x7100a98bb0
+bool sub_7100A98BB0() {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    createAndLoadScreenIfNeededImpl(ScreenId::ShopHorse, nullptr);
+    auto* screen = sead::DynamicCast<ScreenShopHorse>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopHorse));
+    if (!screen)
+        return false;
+    screen->sub_7100A4EBA0(1);
+    return true;
+}
+
+// 0x7100a98ee4
+bool sub_7100A98EE4() {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    auto* screen = sead::DynamicCast<ScreenShopHorse>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopHorse));
+    if (!screen)
+        return false;
+    screen->close(-1);
+    return true;
+}
+
+// 0x7100a98fa8
+bool sub_7100A98FA8() {
+    auto* screen = sead::DynamicCast<ScreenShopHorse>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopHorse));
+    return screen && !screen->isClosed();
+}
+
 // 0x7100a98c80
 bool sub_7100A98C80() {
     if (!eui::ScreenMgr::instance())

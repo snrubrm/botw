@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking {
 class NpcShopData;
@@ -28,6 +29,11 @@ public:
     NpcShopData* _d0;
     u8 _d8[4];
     s32 _dc;
+    u8 _e0[0x140 - 0xe0];
+    // The union keeps UiShopMgr's constructor out of BaseProcLink's (the class is not decompiled).
+    union {
+        /* 0x140 */ ksys::act::BaseProcLink _140;
+    };
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
     bool sub_71009816B0(s32 state, s32 a2);

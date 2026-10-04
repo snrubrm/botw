@@ -206,6 +206,18 @@ void sellPictureBookUIEnd() {
     Unk_71025d69f0::instance()->sub_710094D9F4(3, 1, 0, 0);
 }
 
+// 0x7100a9f048
+void sub_7100A9F048(int photo_no) {
+    sub_71009D3FB0(2, photo_no, &sead::SafeString::cEmptyString);
+    Unk_71025d69f0::instance()->sub_710094D9F4(2, 1, 0, 0);
+}
+
+// 0x7100a9f0cc
+void sub_7100A9F0CC() {
+    sub_71009D3FB0(1, -1, &sead::SafeString::cEmptyString);
+    Unk_71025d69f0::instance()->sub_710094DCC4(2, 0);
+}
+
 // 0x7100a9f08c
 void sub_7100A9F08C(const sead::SafeString& name) {
     sub_71009D3FB0(3, -1, &name);
