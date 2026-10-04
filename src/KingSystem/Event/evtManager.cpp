@@ -8,11 +8,49 @@
 #include "KingSystem/Event/evtContext.h"
 #include "KingSystem/Event/evtEventMgrStruct1.h"
 #include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/Event/evtInfoData.h"
 
 namespace ksys::evt {
 
 // NON_MATCHING: same calls (this string's assureTermination once, the argument's twice) but the original loads the
 // string pointer of the context's string between the first two virtual calls where ours loads it after them.
+// 0x7100db05f4
+bool Manager::isEventStartableAir(const BaseProcLinkForEvent& link) {
+    const Metadata& metadata = link.mMetadata;
+    if (metadata.getFlags().getDirect() == 0x1f4)
+        return true;
+    if (metadata.isSkipIsStartableAirCheck())
+        return true;
+
+    al::ByamlIter iter;
+    if (!InfoData::instance()->getEntry(&iter, metadata.getEventName().cstr(),
+                                        metadata.getEntryPointName().cstr())) {
+        return true;
+    }
+
+    bool startable_air = false;
+    iter.tryGetBoolByKey(&startable_air, "is_startable_air");
+    if (startable_air)
+        return true;
+    if (_1d108 && !_1d108->m21())
+        return false;
+    return true;
+}
+
+// 0x7100db06ec
+bool Manager::sub_7100DB06EC(const BaseProcLinkForEvent& link) {
+    bool startable_air = false;
+    const Metadata& metadata = link.mMetadata;
+    if (metadata.getFlags().getDirect() != 0x1f4 && !metadata.isSkipIsStartableAirCheck()) {
+        al::ByamlIter iter;
+        if (InfoData::instance()->getEntry(&iter, metadata.getEventName().cstr(),
+                                           metadata.getEntryPointName().cstr())) {
+            iter.tryGetBoolByKey(&startable_air, "is_startable_air");
+        }
+    }
+    return startable_air;
+}
+
 // 0x7100db2910
 bool Manager::isActiveEventNameEqualTo(const sead::SafeString& event_name,
                                        const sead::SafeString& entry_point) const {

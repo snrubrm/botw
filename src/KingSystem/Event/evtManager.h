@@ -23,11 +23,39 @@ enum MessageType : u32;
 namespace ksys::evt {
 
 class ActorFactory;
+class BaseProcLinkForEvent;
 class Context;
 class EventFlowBase;
 class EventMgrStruct1;
 struct CallArg;
 class Metadata;
+
+// The object at evt::Manager + 0x1d108 (placeholder class; only slot 21 is known: whether an event may start in the air).
+class StartableAirChecker {
+public:
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
+    virtual void m10();
+    virtual void m11();
+    virtual void m12();
+    virtual void m13();
+    virtual void m14();
+    virtual void m15();
+    virtual void m16();
+    virtual void m17();
+    virtual void m18();
+    virtual void m19();
+    virtual void m20();
+    virtual bool m21();
+};
 
 // TODO
 class Manager {
@@ -113,6 +141,12 @@ public:
     // 0x7100db0fb0 (CSV EventMgr::__auto14; declared only): sends `type` with `user_data` to `dest` through the
     // manager's message transceiver (at +0x38; on the processing thread if called from it)
     bool sub_7100DB0FB0(const MesTransceiverId& dest, MessageType type, void* user_data);
+    // 0x7100db05f4 (CSV EventMgr::isEventStartableAir): true unless the event's info entry says "is_startable_air" is
+    // false and the (unknown) checker object at +0x1d108 reports that the player is not in the air
+    bool isEventStartableAir(const BaseProcLinkForEvent& link);
+    // 0x7100db06ec (CSV EventMgr::isEventStartableAir_0; placeholder name): the "is_startable_air" key of the event's
+    // info entry (false if there is none or the check is skipped)
+    bool sub_7100DB06EC(const BaseProcLinkForEvent& link);
     // 0x7100db235c (CSV EventMgr::getEventEntryPointName): copies the active context's string at 0xb8 to `out`
     bool getEventEntryPointName(sead::BufferedSafeString* out) const;
     // 0x7100db11d4 (CSV EventMgr::getStarterActor): the actor behind getBaseProcLinkForActorOrActiveLink(proc)
@@ -134,7 +168,9 @@ public:
     /* 0x38 */ ActorMessageTransceiver mTransceiver;
 
 private:
-    u8 pad_90[0x1d170 - 0x90];
+    u8 pad_90[0x1d108 - 0x90];
+    /* 0x1d108 */ StartableAirChecker* _1d108;
+    u8 pad_1d110[0x1d170 - 0x1d110];
     /* 0x1d170 */ s32 mAliveEventFlowCount;
     u8 pad_1d174[0x1d180 - 0x1d174];
     sead::Heap* mEventHeap;
