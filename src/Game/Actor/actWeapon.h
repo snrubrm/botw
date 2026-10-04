@@ -231,6 +231,10 @@ public:
     bool bowHasArrowName();
     bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
+    s32* getLife() override;
+    ksys::act::Unk_71025b08f8* m126() override;
+    uking::dmg::DamageManagerBase* getDamageMgr() override;
+    ksys::act::Unk_71006e45c4* m128() override;
     bool m137() override;
     bool m138() override;
     f32 m139() override;
@@ -296,12 +300,20 @@ public:
     /* 0xd09 */ bool _d09;
     /* 0xd0a */ u8 _d0a[0xd38 - 0xd0a];  // TODO
     /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;
-    /* 0xd40 */ u8 _d40[0xd54 - 0xd40];  // TODO
+    /* 0xd40 */ u8 _d40[0xd4c - 0xd40];  // TODO
+    // The signed life value returned by getLife; the original constructor initializes it to zero.
+    /* 0xd4c */ s32 mLife;
+    /* 0xd50 */ u8 _d50[0xd54 - 0xd50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
     /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
     /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
     /* 0xd70 */ void* _d70 = nullptr;
-    /* 0xd78 */ u8 _d78[0xe50 - 0xd78];  // TODO
+    /* 0xd78 */ u8 _d78[0xd90 - 0xd78];  // TODO
+    /* 0xd90 */ ksys::act::Unk_71006e45c4* _d90;
+    /* 0xd98 */ ksys::act::Unk_71025b08f8* _d98;
+    /* 0xda0 */ u8 _da0[0xe28 - 0xda0];  // TODO: contains the original ActorAtk subobject.
+    /* 0xe28 */ uking::dmg::DamageManagerBase* mDamageMgr;
+    /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u8 _e52[0xf60 - 0xe52];  // TODO
     /* 0xf60 */ ksys::act::BaseProcLink _f60;

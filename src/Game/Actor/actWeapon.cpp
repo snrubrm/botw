@@ -29,6 +29,22 @@ bool isActiveEventDemo000Or001Or002();
 
 namespace uking::act {
 
+s32* Weapon::getLife() {
+    return &mLife;
+}
+
+ksys::act::Unk_71025b08f8* Weapon::m126() {
+    return _d98;
+}
+
+uking::dmg::DamageManagerBase* Weapon::getDamageMgr() {
+    return mDamageMgr;
+}
+
+ksys::act::Unk_71006e45c4* Weapon::m128() {
+    return _d90;
+}
+
 bool Weapon::m176(const sead::Vector3f& target, const sead::Vector3f& pos, bool a3, bool a4,
                   void* a5, bool a6) {
     x_4(target, false, false, a5, false);
