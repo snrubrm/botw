@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+// Declaration-only native helpers; source namespaces are unknown.
+void sub_71007201FC(ksys::act::Actor* actor, const sead::SafeString& name);
+void sub_7100720330(ksys::act::Actor* actor);
+
 namespace uking::action {
 
 SandwormJumpTackle::SandwormJumpTackle(const InitArg& arg) : JumpTackle(arg) {}
@@ -31,6 +35,12 @@ void SandwormJumpTackle::loadParams_() {
 
 void SandwormJumpTackle::calc_() {
     JumpTackle::calc_();
+}
+
+void SandwormJumpTackle::m33() {
+    auto* actor = mActor;
+    sub_71007201FC(actor, mAtkColName_s);
+    sub_7100720330(actor);
 }
 
 bool SandwormJumpTackle::m34() const {
