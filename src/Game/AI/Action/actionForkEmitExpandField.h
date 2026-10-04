@@ -1,6 +1,8 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -17,6 +19,12 @@ public:
 
 protected:
     void calc_() override;
+    // The parts link named by `PartsKey` (the dummy link without a parts object).
+    virtual ksys::act::BaseProcLink& m32();
+    // 0x710014e780 (the body of the enter_ of ForkEmitExpandChemicalField / ForkEmitExpandFieldWithCreate and of
+    // ForkEmitChmField::calc_): sets the bullet parameters of the linked field actor and, when it sleeps, wakes it at
+    // `mtx`.
+    void sub_710014E780(const sead::Matrix34f* mtx);
 
     // static_param at offset 0x20
     const int* mAttackPower_s{};

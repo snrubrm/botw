@@ -19,7 +19,8 @@ public:
 
 protected:
     void calc_() override;
-    virtual void m33();
+    virtual bool m33();
+    virtual bool m34(sead::Matrix34f* mtx) = 0;
 
     // static_param at offset 0x90
     const int* mEmitIntervalTime_s{};

@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    ksys::act::BaseProcLink& m32() override;
 
     // static_param at offset 0x90
     const float* mScaleTime_s{};
