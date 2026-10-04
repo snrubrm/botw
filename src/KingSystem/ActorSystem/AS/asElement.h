@@ -461,7 +461,7 @@ class IntSelector : public Selector {
 public:
     IntSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
     static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
-    // 0x7101260fc0: declaration only.
+    // 0x7101260fc0: looks up the owner value in the resource's selector entries.
     static s32 getValue(act::Actor* actor, const res::ASResource* resource);
 
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;

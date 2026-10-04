@@ -936,8 +936,10 @@ protected:
     /* 0x828 */ mii::HylianInfo* mUMiiHylianInfo = nullptr;
 
     /* 0x830 */ float _830 = 1.0;
+public:
     /* 0x834 */ int _834 = 0;
     /* 0x838 */ int _838 = 0;
+protected:
 
 private:
     enum class HandleMessageResult {
