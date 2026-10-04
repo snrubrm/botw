@@ -82,4 +82,47 @@ f32 ElementParams::sub_71013029E4(bool a, f32 t) const {
     return _10 + (_14 - _10) * t;
 }
 
+void ElementParams::sub_7101302A1C(f32 position) {
+    const f32 length = _14;
+    _18 = position;
+    _4 = position;
+    if (length <= position) {
+        f32 result = length;
+        if (_0 & 2) {
+            if (length > 0) {
+                f32 wrapped = length;
+                if (!(length + length > position))
+                    wrapped = length * f32(s32(position / length));
+                result = position - wrapped;
+            } else {
+                result = 0;
+            }
+        }
+        _4 = result;
+    }
+}
+
+// NON_MATCHING: store scheduling (the original keeps an intermediate store of the flags and writes
+// _14 / _c / _1c after the flag computation; same operations)
+bool ElementParams::sub_71013028BC(bool loop, bool a2, f32 position, f32 rate, f32 start,
+                                   f32 length, f32 count) {
+    _4 = position;
+    _18 = position;
+    _8 = position - rate;
+    _10 = start;
+    if (loop)
+        _0 |= 2;
+    else
+        _0 &= ~2u;
+    if (a2)
+        _0 |= 4;
+    else
+        _0 &= ~4u;
+    _14 = length;
+    _c = rate;
+    _1c = count > 0 && loop ? length * count : -1.0f;
+    _0 = (_0 & ~0x18u) | 0x10;
+    return true;
+}
+
 }  // namespace ksys::as

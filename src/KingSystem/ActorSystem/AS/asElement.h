@@ -45,6 +45,10 @@ struct ElementParams {
     bool sub_7101302878(f32 value) const;
     // 0x71013029e4: linear interpolation between _10 and `_1c` (when `a` and set) or _14.
     f32 sub_71013029E4(bool a, f32 t) const;
+    // 0x71013028bc: starts the playback (flags bit 1 = loop, bit 2, bit 4 = started); always returns true.
+    bool sub_71013028BC(bool loop, bool a2, f32 position, f32 rate, f32 start, f32 length, f32 count);
+    // 0x7101302a1c: sets the playback position (wraps by the length _14 when looping).
+    void sub_7101302A1C(f32 position);
     // 0x7101302950: _1c = _14 * value (if _1c is set).
     void sub_7101302950(f32 value);
     // 0x710130296c: duration from _10 to `_1c` (when `a` and set) or _14.
