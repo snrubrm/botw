@@ -29,6 +29,7 @@ target_sources(uking PRIVATE
   euiMessageSet.cpp
   euiSharcArchive.cpp
   euiMessageMgr.cpp
+  euiFontMgr.cpp
   euiLayoutEx.cpp
   euiLetterAnimControl.cpp
   euiLetterAnimControl.h

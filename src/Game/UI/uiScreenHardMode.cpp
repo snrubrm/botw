@@ -19,6 +19,28 @@ void ScreenHardMode::m99() {
     mButtonGroup->_38 |= 2;
 }
 
+// 0x7100a0befc
+void ScreenHardMode::m106(eui::AnimButton* button) {
+    mButtonGroup->_38 &= ~2;
+    const s32 tag = button->mTag;
+    switch (tag) {
+    case 0x8f:
+        invokeSoundLink2Event_("mc_Cancel");
+        _3718 = 0x8f;
+        _3721 = 0;
+        [[fallthrough]];
+    case 0x8e:
+    case 0x90:
+        if (_3720)
+            invokeSoundLink2Event_("mc_GameStart");
+        else
+            invokeSoundLink2Event_("mc_Decide");
+        _3718 = tag;
+        _3721 = 0;
+        break;
+    }
+}
+
 // 0x7100a0bfa8
 void ScreenHardMode::m107(eui::AnimButton* button) {
     if (u32(button->mTag - 0x8e) <= 2)

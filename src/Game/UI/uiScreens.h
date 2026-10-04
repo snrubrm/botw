@@ -1166,6 +1166,7 @@ public:
     void close(s32 option) override;
     void m98() override;
     void m99() override;
+    void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
 
     // State callbacks (slots 154-245; the trivial ones are defined in uiScreenHardMode.cpp)

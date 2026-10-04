@@ -6,6 +6,12 @@
 
 namespace eui {
 
+// 0x71009cf574
+void Screen::countEffectLinkPane_(nn::ui2d::Pane* pane, u32* count) {
+    if (pane->FindExtUserDataByName("EffectLinkOn"))
+        ++*count;
+}
+
 // 0x7100be97fc
 void Screen::adjstBoxCursor(sead::BoundBox2<f32>*, const BoxCursorNode*) const {}
 
