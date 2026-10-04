@@ -8,6 +8,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::res {
+class AS;
 class ASResource;
 // 0x71012ed388: field 0x18 of the AS element factory table entry of the resource's type index (declaration only).
 int getASElementFactoryField18(const ASResource* resource);
@@ -20,6 +21,10 @@ int getASElementFactoryField18(const ASResource* resource);
 // container base `SelectorBase` (it is shared by Selector, Blender, SequencePlayContainer and SyncPlayContainer).
 // Classes are only declared as far as they are decompiled: undeclared overrides keep the base's entry in
 // our vtable.
+namespace ksys::act {
+class Actor;
+}
+
 namespace ksys::as {
 
 class ASList;
@@ -28,6 +33,11 @@ class ASList;
 // reached through the element index of the resource.
 class Context {
 public:
+    struct Frame {
+        u8 _0[0x30];
+        res::AS* mAS;
+    };
+
     struct Record {
         s8 _0;
         u8 _1;
@@ -42,11 +52,15 @@ public:
 
     // 0x7101258cc0: the first element resource of the AS of the current frame (null if none).
     res::ASResource* sub_7101258CC0();
+    // 0x7101258abc: the owner actor of the list.
+    act::Actor* sub_7101258ABC();
 
     /* 0x00 */ ASList* mList;
     /* 0x08 */ sead::SafeString mUnk8;
     /* 0x18 */ sead::SafeString mUnk18;  // PreASSelector::m40 returns its string
-    /* 0x28 */ u8 _28[0xe0 - 0x28];
+    /* 0x28 */ u8 _28[0xd0 - 0x28];
+    /* 0xd0 */ Frame* _d0;  // points into a ring of 0x38-byte frames that start at 0x28
+    /* 0xd8 */ u8 _d8[0xe0 - 0xd8];
     /* 0xe0 */ f32 _e0;
     /* 0xe4 */ u8 _e4[0x920 - 0xe4];
     /* 0x920 */ u8 _920;
@@ -333,12 +347,16 @@ class TimeSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(TimeSelector, StringSelector)
 public:
     TimeSelector();
+
+    const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
 
 class WeatherSelector : public StringSelector {
     SEAD_RTTI_OVERRIDE(WeatherSelector, StringSelector)
 public:
     WeatherSelector();
+
+    const char* m40(Context* ctx, const res::ASResource* resource) override;
 };
 
 class Blender : public SelectorBase {

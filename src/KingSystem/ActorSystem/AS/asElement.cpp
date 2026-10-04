@@ -1,7 +1,19 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
+
+res::ASResource* Context::sub_7101258CC0() {
+    if (res::AS* as = _d0->mAS)
+        return as->getFirstResource();
+    return nullptr;
+}
+
+act::Actor* Context::sub_7101258ABC() {
+    return mList->_d8;
+}
 
 Element::Element() {}
 
