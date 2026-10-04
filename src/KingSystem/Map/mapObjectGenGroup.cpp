@@ -56,6 +56,68 @@ void GenGroup::sub_7100D50E90(bool a1) {
         mInitState = _18 != 0;
 }
 
+bool GenGroup::sub_7100D50EF4(bool a1) {
+    auto* timers = SystemTimers::instance();
+    if (!timers)
+        return false;
+    if (mInitState == 3) {
+        if (a1 || !_1f || _14 != 0)
+            return false;
+        _1f = 0;
+        mInitState = _18 != 0;
+        return false;
+    }
+
+    const u32 frame = timers->mFrameCounter;
+    if (a1 ? frame == _24 : frame == _20)
+        return false;
+    if (mInitState == 2)
+        return true;
+    if (mInitState == 1) {
+        if (a1)
+            return true;
+        if (!mNumExecLinkTag || _10 + _14 != mObjects.size())
+            return false;
+    } else if (a1) {
+        if (_10 != _18)
+            return false;
+        _24 = frame;
+        mInitState = 1;
+        return false;
+    } else {
+        if (_18 || _14 != mObjects.size())
+            return false;
+    }
+    _20 = frame;
+    mInitState = 2;
+    return false;
+}
+
+bool GenGroup::checkContainsObjWithName(const sead::SafeString& name, const u32* mode) {
+    for (auto& object : mObjects) {
+        const sead::SafeString object_name(object.getUnitConfigName());
+        switch (*mode) {
+        case 0:
+            if (object_name == name)
+                return true;
+            break;
+        case 1:
+            if (object_name.include(name))
+                return true;
+            break;
+        case 2:
+            if (object_name.startsWith(name))
+                return true;
+            break;
+        case 3:
+            if (object_name.endsWith(name))
+                return true;
+            break;
+        }
+    }
+    return false;
+}
+
 bool GenGroup::sub_7100D51064() {
     auto* mgr = PlacementMgr::instance();
     for (auto& obj : mObjects) {

@@ -57,7 +57,8 @@ public:
     /* 0x1d */ u8 _1d;  // a frame stamp (_28) is valid
     /* 0x1e */ u8 mHasCreateOrDeleteLinks;
     /* 0x1f */ u8 _1f;
-    /* 0x20 */ u8 _20[0x28 - 0x20];
+    /* 0x20 */ u32 _20;
+    /* 0x24 */ u32 _24;
     /* 0x28 */ u32 _28;  // SystemTimers::mFrameCounter at the time of sub_7100D510D0
     /* 0x2c */ u8 _2c[0x38 - 0x2c];
     /* 0x38 */ sead::PtrArray<Object> mObjects;
