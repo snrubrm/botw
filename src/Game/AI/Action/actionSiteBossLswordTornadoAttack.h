@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "Game/AI/aiUnk_710073E688.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -28,6 +30,10 @@ protected:
     const float* mVacuumAngle_s{};
     // static_param at offset 0x40
     const float* mVacuumBaseWeight_s{};
+    /* 0x48 */ bool _48 = false;
+    /* 0x4c */ ksys::Timer _4c;
+    /* 0x58 */ Unk_710073e688 _58;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordTornadoAttack, 0x88);
 
 }  // namespace uking::action
