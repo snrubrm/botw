@@ -1,3 +1,4 @@
+#include <random/seadGlobalRandom.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
@@ -44,6 +45,13 @@ bool Animator::PlayAuto(f32 speed) {
 // 0x7100be782c
 bool Animator::PlayFromFrame(PlayType type, f32 start_frame, f32 speed) {
     mFrame = start_frame;
+    return PlayFromCurrent(type, speed);
+}
+
+// 0x7100be7840
+bool Animator::PlayRandom(PlayType type, f32 speed) {
+    const u16 frame_size = GetFrameSize();
+    mFrame = sead::GlobalRandom::instance()->getU32(frame_size + 1u);
     return PlayFromCurrent(type, speed);
 }
 

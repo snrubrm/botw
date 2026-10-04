@@ -123,6 +123,8 @@ public:
     void Disable();
     // 0x7100be782c (placeholder name)
     bool PlayFromFrame(PlayType type, f32 start_frame, f32 speed);
+    // 0x7100be7840: starts at a random frame
+    bool PlayRandom(PlayType type, f32 speed);
     // 0x7100be78bc (placeholder name): continues the other animator's playback
     void ContinueFrom(const Animator& other);
 
