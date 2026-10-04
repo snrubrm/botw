@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <nn/font/font_TagProcessorBase.h>
+#include <message/seadMessageSet.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace nn::font {
@@ -21,8 +22,30 @@ public:
     TagProcessor(MessageMgr* message_mgr, FontMgr* font_mgr);
     ~TagProcessor() override = default;
     const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
+    Operation Process(u32 code, nn::font::PrintContext<u16>* context) override;
+    Operation CalculateRect(nn::font::Rectangle* rect, nn::font::PrintContext<u16>* context,
+                            u32 code) override;
+    void BeginPrint(nn::font::PrintContext<u16>* context) override;
     void EndPrint(nn::font::PrintContext<u16>* context) override;
+    void BeginCalculateRect(nn::font::PrintContext<u16>* context) override;
     void EndCalculateRect(nn::font::PrintContext<u16>* context) override;
+
+    virtual s32 m9(char16* out, u32* text_length, u32* character_count, u32 capacity,
+                   const char16* text, u32 length, s32 page, u32 line_count,
+                   bool trim_newlines, void* user_data);
+    virtual void m10(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length,
+                     u32* character_count, u32 capacity, const char16* text, u32 length, void* user_data);
+    virtual void preProcessEuiTag_(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
+                                  u32* text_length, u32* character_count, u32 capacity,
+                                  const char16* text, u32 length, void* user_data);
+    virtual void m12(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length,
+                     u32* character_count, u32 capacity, const char16* text, u32 length, void* user_data);
+    virtual void m13(const sead::MessageSet<char16>::TagInfo* tag, char16* out, u32* text_length,
+                     u32* character_count, u32 capacity, const char16* text, u32 length, void* user_data);
+    virtual void preProcessAppTag_(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
+                                  u32* text_length, u32* character_count, u32 capacity,
+                                  const char16* text, u32 length, void* user_data);
+    virtual Operation m15(u32 code, nn::font::PrintContext<u16>* context, nn::font::Rectangle* rect);
 
     // 0x7100be6254: type 0x80, two parameter bytes (the first is the negated flag)
     static char16* setAlphaTag(char16* out, bool flag, u8 alpha);

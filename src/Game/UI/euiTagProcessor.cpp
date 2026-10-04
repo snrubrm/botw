@@ -1,10 +1,22 @@
 #include "Game/UI/euiTagProcessor.h"
+#include <cstring>
 
 namespace eui {
 
 // 0x7100be5be4
 TagProcessor::TagProcessor(MessageMgr* message_mgr, FontMgr* font_mgr)
     : mMessageMgr(message_mgr), mFontMgr(font_mgr) {}
+
+// 0x7100be5c48
+TagProcessor::Operation TagProcessor::Process(u32 code, nn::font::PrintContext<u16>* context) {
+    return m15(code, context, nullptr);
+}
+
+// 0x7100be5c58
+TagProcessor::Operation TagProcessor::CalculateRect(nn::font::Rectangle* rect,
+                                                  nn::font::PrintContext<u16>* context, u32 code) {
+    return m15(code, context, rect);
+}
 
 // 0x7100be5cf0
 void TagProcessor::EndPrint(nn::font::PrintContext<u16>*) {
@@ -14,6 +26,30 @@ void TagProcessor::EndPrint(nn::font::PrintContext<u16>*) {
 // 0x7100be5d30
 void TagProcessor::EndCalculateRect(nn::font::PrintContext<u16>*) {
     --mNestingDepth;
+}
+
+// 0x7100be63c4
+void TagProcessor::preProcessEuiTag_(const sead::MessageSet<char16>::TagInfo* tag, char16* out,
+                                    u32* text_length, u32* character_count, u32 capacity,
+                                    const char16* text, u32 length, void* user_data) {
+    if (tag->type == 7) {
+        m12(tag, out, text_length, character_count, capacity, text, length, user_data);
+        return;
+    }
+    if (*text_length + length < capacity) {
+        std::memcpy(out + *text_length, text, length * 2);
+        *text_length += length;
+    }
+}
+
+// 0x7100be6508
+void TagProcessor::preProcessAppTag_(const sead::MessageSet<char16>::TagInfo*, char16* out,
+                                    u32* text_length, u32*, u32 capacity,
+                                    const char16* text, u32 length, void*) {
+    if (*text_length + length < capacity) {
+        std::memcpy(out + *text_length, text, length * 2);
+        *text_length += length;
+    }
 }
 
 // 0x7100be6254
