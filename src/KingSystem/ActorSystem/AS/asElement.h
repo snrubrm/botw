@@ -307,7 +307,9 @@ struct PlayState {
     s32 _8;
 };
 
-// 0x71011658c0 (declaration only): `out` = the blend of `a` and `b` by `weight` (slerp of the rotation part and the
+// 0x7101165950: blends vector direction and length, with a linear fallback for small vectors/angles.
+void sub_7101165950(f32 weight, sead::Vector3f* out, const sead::Vector3f* a, const sead::Vector3f* b);
+// 0x71011658c0: `out` = the blend of `a` and `b` by `weight` (slerp of the rotation part and the
 // translations through the unnamed 0x7101165950). `out` may alias `a`.
 void sub_71011658C0(f32 weight, sead::Matrix34f* out, const sead::Matrix34f* a, const sead::Matrix34f* b);
 

@@ -1,7 +1,52 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include <math/seadQuat.h>
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
+
+void sub_7101165950(f32 weight, sead::Vector3f* out, const sead::Vector3f* a,
+                  const sead::Vector3f* b) {
+    if (weight < 0.01f) {
+        *out = *a;
+        return;
+    }
+    if (weight > 0.99f) {
+        *out = *b;
+        return;
+    }
+    const f32 length_a = a->length();
+    const f32 length_b = b->length();
+    if (length_a > 0.01f && length_b > 0.01f) {
+        sead::Vector3f axis;
+        axis.setCross(*a, *b);
+        const f32 axis_length = axis.normalize();
+        if (axis_length > 0.0001f) {
+            sead::Quatf rotation;
+            rotation.setAxisRadian(axis, sead::Mathf::atan2(axis_length, a->dot(*b)) * weight);
+            sead::Matrix34f matrix;
+            matrix.fromQuat(rotation);
+            out->setMul(matrix, *a);
+            const f32 length = out->length();
+            if (length > 0.0f)
+                *out *= ((1.0f - weight) * length_a + length_b * weight) / length;
+            return;
+        }
+    }
+    *out = (1.0f - weight) * *a + *b * weight;
+}
+
+// NON_MATCHING: the compiler saves the output pointer and weight in the opposite order.
+void sub_71011658C0(f32 weight, sead::Matrix34f* out, const sead::Matrix34f* a,
+                  const sead::Matrix34f* b) {
+    sead::Vector3f translation_a;
+    sead::Vector3f translation_b;
+    a->getTranslation(translation_a);
+    b->getTranslation(translation_b);
+    sead::Matrix34CalcCommon<f32>::slerpTo(*out, *a, *b, weight);
+    sead::Vector3f translation;
+    sub_7101165950(weight, &translation, &translation_a, &translation_b);
+    out->setTranslation(translation);
+}
 
 Element::Element() {}
 
