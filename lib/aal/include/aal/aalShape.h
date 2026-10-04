@@ -104,6 +104,29 @@ protected:
 };
 static_assert(sizeof(ShapeSegment) == 0x100, "aal::ShapeSegment size mismatch");
 
+/// A box (`getVector` is its size along each axis, all components non-negative; negative vectors are ignored).
+class ShapeCube : public Shape {
+    SEAD_RTTI_OVERRIDE(ShapeCube, Shape)
+public:
+    static ShapeCube* create(const sead::SafeString& name, sead::Heap* heap);
+
+    /// Same as setVector (0x7100b9b49c; the virtual one is 0x7100b9bb4c).
+    void setSize(const sead::Vector3f& size);
+
+    void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
+                       bool keep_position) override;
+    void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
+    void setVector(const sead::Vector3f& vector) override;
+    const sead::Vector3f& getVector() const override { return mVector; }
+
+protected:
+    void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
+                    f32 scale) const override;
+
+    sead::Vector3f mVector;
+};
+static_assert(sizeof(ShapeCube) == 0x100, "aal::ShapeCube size mismatch");
+
 /// A cylinder around the axis `getVector` (axis direction and length) with a radius.
 class ShapeCylinder : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeCylinder, Shape)

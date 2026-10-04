@@ -61,6 +61,80 @@ void ActorBindEntry::reset() {
 }
 
 // NON_MATCHING: the original stores the count / pointer before the vtable
+// NON_MATCHING: instruction scheduling only: the bone index of `mKeyA` is loaded before the branch on flag 4 (the
+// original loads it in each branch, after the virtual call target)
+bool ActorBindEntry::sub_7101255A0C(BaseProc* proc) {
+    if (!(mFlags & 1))
+        return false;
+    auto* actor = sead::DynamicCast<Actor>(mLink.getProc(nullptr, proc));
+    const bool valid = isValid(proc);
+    if (!actor || !valid)
+        return false;
+    sead::Matrix34f local;
+    sead::Vector3f scale = actor->mScale;
+    if (mFlags & 2) {
+        local = actor->mMtx;
+    } else {
+        auto* unit = actor->mModel->getUnits().unsafeAt(mKeyA.getKey().model_unit_index)->mModelUnit;
+        if (mFlags & 4) {
+            const f32 inv_x = sead::Vector3f::ones.x / scale.x;
+            const f32 inv_y = sead::Vector3f::ones.y / scale.y;
+            const f32 inv_z = sead::Vector3f::ones.z / scale.z;
+            unit->getBoneWorldMatrix(&local, mKeyA.getKey().bone_index);
+            local.scaleBases(inv_x, inv_y, inv_z);
+        } else {
+            unit->getBoneLocalMatrix(&local, &scale, mKeyA.getKey().bone_index);
+        }
+    }
+    local.setMul(local, mMtx);
+    auto* child = static_cast<Actor*>(proc);
+    if (!(mFlags & 4)) {
+        child->mModel->setBoneLocalMatrix(mKeyB.getKey(), local, scale);
+    } else {
+        child->mMtx = local;
+        child->nullsub_4648();
+        child->mScale = scale;
+        child->mModel->setMatrix(local);
+        child->mModel->setScale(scale);
+    }
+    return true;
+}
+
+// NON_MATCHING: instruction scheduling only: the loads of `Vector3f::ones` come before the unit lookup and the
+// divisions are spread differently around the loads of the unit and the bone index
+bool ActorBindEntry::sub_7101255D50(BaseProc* proc) {
+    if (mFlags & 1)
+        return false;
+    auto* actor = sead::DynamicCast<Actor>(mLink.getProc(nullptr, proc));
+    const bool valid = isValid(proc);
+    if (!actor || !valid)
+        return false;
+    sead::Matrix34f local;
+    const sead::Vector3f scale = actor->mScale;
+    if (mFlags & 2) {
+        local = actor->mMtx;
+    } else {
+        const f32 inv_x = sead::Vector3f::ones.x / scale.x;
+        const f32 inv_y = sead::Vector3f::ones.y / scale.y;
+        const f32 inv_z = sead::Vector3f::ones.z / scale.z;
+        auto* unit = actor->mModel->getUnits().unsafeAt(mKeyA.getKey().model_unit_index)->mModelUnit;
+        unit->getBoneWorldMatrix(&local, mKeyA.getKey().bone_index);
+        local.scaleBases(inv_x, inv_y, inv_z);
+    }
+    local.setMul(local, mMtx);
+    auto* child = static_cast<Actor*>(proc);
+    if (!(mFlags & 4)) {
+        child->mModel->setBoneWorldMatrix(mKeyB.getKey(), local);
+    } else {
+        child->mMtx = local;
+        child->nullsub_4648();
+        child->mScale = scale;
+        child->mModel->setMatrix(local);
+        child->mModel->setScale(scale);
+    }
+    return true;
+}
+
 ActorBindSet::ActorBindSet(int count, ActorBindEntry* entries) {
     mCount = (count > 0 && entries) ? count : 0;
     mEntries = entries ? entries : nullptr;

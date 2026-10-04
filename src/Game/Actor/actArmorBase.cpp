@@ -2,6 +2,7 @@
 #include "Game/Actor/actModelMaterialUtil.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelAnimation.h>
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -223,6 +224,30 @@ void ArmorBase::sub_7100E2A3EC() {
                     mActorFlags2.reset(ActorFlag2::_20);
             }
         }
+    }
+}
+
+void ArmorBase::sub_7100E2BACC(const s32* frame) {
+    if (!_860)
+        return;
+    if (u32(*frame) > 15)
+        return;
+    _858 = *frame;
+    auto* model = mModel;
+    if (!model)
+        return;
+    auto* animation = model->getAnimation();
+    if (!animation)
+        return;
+    auto& anms = animation->getMaterialAnms();
+    if (anms.size() >= 2) {
+        s32 last = anms.size() - 1;
+        if (anms[last].getKey().isValid())
+            animation->setMaterialAnmFrame(last, f32(_858));
+        last = anms.size() - 2;
+        if (anms[last].getKey().isValid())
+            animation->setMaterialAnmFrame(last, f32(_858));
+        model->applyAnimationTo(model, 2);
     }
 }
 

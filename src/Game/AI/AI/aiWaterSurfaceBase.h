@@ -1,5 +1,6 @@
 #pragma once
 
+#include <aal/aalShape.h>
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -25,8 +26,8 @@ protected:
 
     // map_unit_param at offset 0x38
     const float* mFlowSpeedFactor_m{};
-    // aal::ShapeCube* (created in init_ with aal::ShapeCube::create)
-    void* _40{};
+    // created in init_ with aal::ShapeCube::create
+    aal::ShapeCube* _40{};
     xlink2::HandleSLink _48;
     xlink2::HandleSLink _58;
     sead::Vector3f _68 = sead::Vector3f::zero;

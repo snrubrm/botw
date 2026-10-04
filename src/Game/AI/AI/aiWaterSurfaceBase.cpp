@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWaterSurfaceBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,16 @@ bool WaterSurfaceBase::init_(sead::Heap* heap) {
 
 void WaterSurfaceBase::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void WaterSurfaceBase::calc_() {
+    auto* actor = mActor;
+    if (!_48.isActive())
+        sub_71005ED41C();
+    if (_40) {
+        const sead::Vector3f pos = actor->getMtx().getTranslation();
+        _40->setPosition(pos);
+    }
 }
 
 void WaterSurfaceBase::leave_() {

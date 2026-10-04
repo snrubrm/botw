@@ -106,8 +106,7 @@ public:
     virtual void m198();
     virtual void m199();
     virtual void m200();
-    // 0x7100ee6afc (CSV WeaponBase::x_0; declared only): called by m200 (clears actor flags 0x22 and
-    // updates the model).
+    // 0x7100ee6afc (CSV WeaponBase::x_0): called by m200 (clears actor flags 0x21 and updates the model).
     void sub_7100EE6AFC();
     virtual void m201();
     virtual void m202(bool on) { _9f4.change(1, on); }

@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
@@ -700,6 +701,22 @@ s32 Actor::getFieldBodyGroupId() const {
     if (!mMapObjIter.tryGetParamIntByKey(&id, "FieldBodyGroup"))
         id = -1;
     return id;
+}
+
+// In the TU of the Actor functions around it (0x7100ee690c - 0x7100ee6974); defining it in actWeaponBase.cpp would
+// inline it into WeaponBase::m200.
+void WeaponBase::sub_7100EE6AFC() {
+    mActorFlags2.reset(ActorFlag2::_1);
+    mActorFlags2.reset(ActorFlag2::_20);
+    auto* model = mModel;
+    if (model) {
+        model->x(true, 0);
+        if (mModel) {
+            auto* unit = mModel->getUnits().unsafeAt(0)->mModelUnit;
+            if (unit && unit->isRenderViewOptionEnabled(0, gsys::ModelEnum::RenderViewOption(1), 0))
+                model->sub_7100BF8CB8(false, -1);
+        }
+    }
 }
 
 // NON_MATCHING: the original starts with a discarded read of the map object's flag word (`ldr wzr, [x8]`)

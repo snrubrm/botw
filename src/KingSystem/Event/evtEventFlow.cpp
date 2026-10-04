@@ -240,7 +240,7 @@ void EventFlowFlowchart::m12() {
 
 // 0x7100dbb234 (CSV evt::EventFlowFlowchart::isFinished; vtable slot 14)
 bool EventFlowFlowchart::m14() {
-    const s32 state = _69c;
+    const s32 state = mContext.GetNumAllocatedNodes();
     if (state == 0)
         _340 &= ~0x2400ull;
     return state == 0;

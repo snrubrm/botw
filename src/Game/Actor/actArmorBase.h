@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <gfx/seadColor.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
@@ -45,8 +46,7 @@ public:
     // 0x7100e4db7c: destroys `mPairs`.
     void sub_7100E4DB7C();
 
-    /* 0x28 */ u32 mCapacity = 0;
-    /* 0x30 */ Pair* mPairs = nullptr;
+    /* 0x28 */ sead::Buffer<Pair> mPairs;
     /* 0x38 */ s32 mNumPairs = 0;
     /* 0x3c */ u32 mState = 0;
     /* 0x40 */ u8 _40 = 0;
@@ -85,7 +85,7 @@ public:
 
     // 0x7100e29b8c (declared only): whether one of the gdt flags "Guide_Attack", "Guide_Bow" and "Guide_Shield" is set.
     static bool sub_7100E29B8C();
-    // 0x7100e2bacc (declared only): sets the material animation frame `_858` (0 - 15) of the armor model (`_860`).
+    // 0x7100e2bacc: sets the material animation frame `_858` (0 - 15) of the armor model (`_860`).
     void sub_7100E2BACC(const s32* frame);
     // 0x7100e29f3c / 0x7100e2a060 / 0x7100e2a3ec (placeholder names): per-profile updates of the armor model
     // (ArmorHead mantle animation, ArmorUpper "Mt_Mant" materials, ArmorExtra0 / 1 attention flag).

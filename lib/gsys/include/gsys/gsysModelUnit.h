@@ -186,6 +186,14 @@ public:
     virtual void forceCalcDrawSetup();
     virtual void setUpMaterialImpl(int, sead::Heap* heap);
 
+    // inline-only in the original; name is a guess: whether `option` is enabled for the shape `shape_idx` in the
+    // view `view_idx`. The option records `mViewOptions` (one per shape and view, shape-major) are read like in
+    // enableRenderViewOption() / resetRenderViewOption(): the base pointer is loaded before the virtual
+    // getViewNum() call. Used by WeaponBase::sub_7100EE6AFC (shape 0, option 1, view 0).
+    bool isRenderViewOptionEnabled(int shape_idx, ModelEnum::RenderViewOption option, int view_idx) const {
+        return (mViewOptions[shape_idx * getViewNum() + view_idx].flags & (1 << int(option))) != 0;
+    }
+
     // Getter for `_50` (unknown vector, tested for NaN by GelEnemy's per-frame checks).
     sead::Vector3f* get50() const { return _50; }
 
@@ -207,7 +215,13 @@ protected:
     sead::Vector3f _40;
     u32 _4c;
     sead::Vector3f* _50;
-    void* _58;
+    /// The per-shape / per-view render option records (0xc bytes each; `flags` holds one bit per RenderViewOption).
+    struct ViewOption {
+        u16 _0;
+        u16 flags;
+        u8 _4[8];
+    };
+    ViewOption* mViewOptions;
     void* _60;
     void* mMaterialInfo;
     void* _70;

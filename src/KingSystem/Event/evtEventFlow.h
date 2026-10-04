@@ -1,5 +1,6 @@
 #pragma once
 
+#include <evfl/Flowchart.h>
 #include <evfl/TimelineObj.h>
 #include <heap/seadHeap.h>
 #include <container/seadPtrArray.h>
@@ -208,12 +209,11 @@ public:
     void m16() override;
     void m17() override;
 
-    u8 _620[0x69c - 0x620];
-    /* 0x69c */ s32 _69c;
-    u8 _6a0[0x6b0 - 0x6a0];
+    /* 0x620 */ evfl::FlowchartContext mContext;
     /* 0x6b0 */ s32 _6b0;
     /* 0x6b4 */ f32 _6b4;
 };
+KSYS_CHECK_SIZE_NX150(EventFlowFlowchart, 0x6b8);
 
 class EventFlowTimeline : public EventFlowBase {
 public:

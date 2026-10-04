@@ -24,6 +24,13 @@ struct ActorBindEntry {
              const sead::Matrix34f* mtx, bool flag);
     // 0x71012558f4
     void reset();
+    // 0x7101255a0c / 0x7101255d50 (placeholder names): copy the pose of the linked actor (or of its bone `mKeyA`),
+    // multiplied by `mMtx`, to the bone `mKeyB` of `proc`'s model, or (flag 4: no `mKeyB`) to `proc` itself. The first
+    // one is used for entries with flag 1 (it sets the bone's local matrix and scale), the second one for entries
+    // without it (it sets the bone's world matrix). They return false for the other kind of entry or if the entry
+    // is not valid.
+    bool sub_7101255A0C(BaseProc* proc);
+    bool sub_7101255D50(BaseProc* proc);
 
     /* 0x00 */ BaseProcLink mLink;
     /* 0x10 */ gsys::BoneAccessKeyEx mKeyA;
