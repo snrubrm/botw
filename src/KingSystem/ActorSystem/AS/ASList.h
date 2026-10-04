@@ -58,6 +58,8 @@ public:
         // 0x71011623dc: copies frame state when both slots use the same resource.
         void sub_71011623DC(Unk2* other);
         void sub_71011627C4(State* state);
+        void sub_7101161FDC();
+        void sub_7101162318();
         // 0x7101162e88: copies matching slot state and links the two entries.
         void sub_7101162E88(Unk2* other, bool a1);
         // 0x7101161ee0: applies the element's partial-bone value (declaration only).

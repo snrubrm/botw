@@ -62,6 +62,17 @@ void ASList::Unk2::sub_710116173C() {
     _0->sub_710125923C();
 }
 
+// NON_MATCHING: the inlined reset swaps the flag-byte and linked-entry stores.
+void ASList::Unk2::sub_7101162318() {
+    if ((_40 & 4) && _18) {
+        sub_7101161EE0(-1.0f, _18, true);
+        sub_710116173C();
+        mFlags |= 8;
+        _0->_e0 = 1.0f;
+        sub_7101161FDC();
+    }
+}
+
 // NON_MATCHING: block layout (the original shares the "return true" block)
 bool ASList::Unk2::sub_7101163AF4() {
     if ((_20 && !(_43 & 1)) || (_28 && !(_43 & 2)))

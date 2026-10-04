@@ -1,7 +1,38 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 
 namespace ksys::as {
+
+// NON_MATCHING: the two temporary log-system strings have different address/store scheduling.
+void ASList::Unk2::sub_7101161FDC() {
+    if (!Element::sub_71011654D8())
+        return;
+    _0->mFlags &= ~0x40;
+    act::Actor* actor = _0->sub_7101258ABC();
+    if (!actor->isEditorNodeConnected())
+        return;
+    if (Element* element = _18) {
+        sead::FixedSafeString<256> output;
+        sead::FixedSafeString<128> path;
+        sead::FixedSafeString<1280> message;
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->sub_7101165EBC(context, &output, path, 0, resource);
+        const char* filename = actor->getParam()->getRes().mASList->getASFileName(_0->mUnk8);
+        if (!filename)
+            return;
+        message.format("[ASPath][FromPick][Actor:%s][File:%s][Slot:%d][ASPath:%s]",
+                       actor->getName().cstr(), filename, _42, output.cstr());
+        actor->logForEditor("ASEditor", message);
+    } else {
+        sead::FixedSafeString<256> message;
+        message.format("[ASPath][FromPick][Actor:%s][File:Dummy][Slot:%d][ASPath:/0]",
+                       actor->getName().cstr(), _42);
+        actor->logForEditor("ASEditor", message);
+    }
+}
 
 // NON_MATCHING: equivalent nonpositive clamp and swapped element/context registers.
 void ASList::Unk2::sub_71011627C4(State* state) {
