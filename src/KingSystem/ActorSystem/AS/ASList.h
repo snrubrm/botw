@@ -8,6 +8,7 @@
 #include "KingSystem/Resource/resResourceASSetting.h"
 namespace ksys::res {
 class ModelList;
+class ASResource;
 }
 namespace gsys {
 class ModelNW;
@@ -16,6 +17,7 @@ class ModelNW;
 namespace ksys::as {
 class Context;
 class Element;
+class SequencePlayContainer;
 }  // namespace ksys::as
 
 namespace ksys::as {
@@ -109,6 +111,8 @@ public:
         f32 sub_710116323C();
         f32 sub_71011632F8();
         f32 sub_7101163564();
+        void sub_7101163ADC(SequencePlayContainer* sequence, const res::ASResource* resource,
+                           f32 value, f32 duration);
 
         /* 0x00 */ Context* _0;
         /* 0x08 */ Unk1* _8;
@@ -136,7 +140,10 @@ public:
         };
         static_assert(sizeof(BoneWeightRange) == 0x10);
         /* 0x50 */ sead::SafeArray<BoneWeightRange, 3> mBoneWeightRanges;
-        /* 0x80 */ u8 _80[0x98 - 0x80];
+        /* 0x80 */ f32 _80;
+        /* 0x84 */ f32 _84;
+        /* 0x88 */ SequencePlayContainer* _88;
+        /* 0x90 */ const res::ASResource* _90;
     };
     static_assert(sizeof(Unk2) == 0x98);
 

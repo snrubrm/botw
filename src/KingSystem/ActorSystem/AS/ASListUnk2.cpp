@@ -3,6 +3,16 @@
 
 namespace ksys::as {
 
+void ASList::Unk2::sub_7101163ADC(SequencePlayContainer* sequence,
+                                const res::ASResource* resource, f32 value, f32 duration) {
+    if (!_88) {
+        _88 = sequence;
+        _90 = resource;
+        _80 = value;
+        _84 = duration;
+    }
+}
+
 // NON_MATCHING: the two signed boundary checks run in the opposite order.
 void ASList::Unk2::sub_7101163960(s32 start, s32 middle, s32 end, s32 index,
                                 const res::ASSetting::BoneParams* params) {
