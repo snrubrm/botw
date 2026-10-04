@@ -14,8 +14,10 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isChangeable() const override;
+    bool isFinished() const override;
 
 protected:
+    bool sub_71007D8358() const;
     void calc_() override;
 
     // static_param at offset 0x20

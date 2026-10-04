@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerBackJump.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -37,6 +38,20 @@ void PlayerBackJump::calc_() {
 
 bool PlayerBackJump::isChangeable() const {
     return true;
+}
+
+bool PlayerBackJump::isFinished() const {
+    if (!static_cast<const ksys::act::Player*>(mActor)->isSurfingOnGround())
+        return false;
+    return sub_71007D8358();
+}
+
+bool PlayerBackJump::sub_71007D8358() const {
+    if (mActor->getASList()->x_4(0, 0))
+        return true;
+    if (mActor->getASList()->x(2, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+        return true;
+    return mActor->getASList()->x_1(0, 0) != "BackJump";
 }
 
 }  // namespace uking::action
