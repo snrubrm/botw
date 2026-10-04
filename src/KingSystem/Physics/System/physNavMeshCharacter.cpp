@@ -4,6 +4,10 @@
 
 namespace ksys::phys {
 
+NavMeshCharacter::~NavMeshCharacter() {
+    finalize();
+}
+
 void NavMeshCharacter::sub_7100F75AB8() {
     if (_2e0) {
         HavokAI::instance()->sub_7100F83A94(_2e0);

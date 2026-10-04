@@ -7,6 +7,7 @@
 
 namespace ksys::act {
 class ActorConstDataAccess;
+class Unk_71006e45c4;
 }
 
 // Placeholder declarations: only the small out-of-line members that are decompiled so far (the real classes are
@@ -38,7 +39,8 @@ public:
     u32 _9c;
     u8 _a0[0xa8 - 0xa0];
     ksys::act::BaseProcLink _a8;
-    u8 _b8[0xd8 - 0xb8];
+    u8 _b8[0xc8 - 0xb8];
+    ksys::act::BaseProcLink _c8;
     sead::SafeArray<bool, 2> _d8;
     u8 _da[0xdc - 0xda];
     u8 _dc[0xfc - 0xdc];
@@ -46,7 +48,10 @@ public:
     u8 _fe[0x144 - 0xfe];
     s32 _144;
     s32 _148;
-    u8 _14c[0x328 - 0x14c];
+    u8 _14c[0x150 - 0x14c];
+    u8 _150[0x318 - 0x150];
+    ksys::act::Unk_71006e45c4* _318;
+    u8 _320[0x328 - 0x320];
     bool _328;
     u8 _329[0x32f - 0x329];
     bool _32f;

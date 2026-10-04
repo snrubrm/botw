@@ -37,6 +37,12 @@ public:
     /* 16 */ virtual bool m16();
     /* 17 */ virtual ~Unk_71006e45c4();
 
+    // 0x71006e4df0 (declared only; 628 bytes): `subsys->_318` (this object) is released with `subsys->_150` and `a`.
+    void sub_71006E4DF0(void* a, bool b);
+
+    // inline-only in the original; name is a guess (the same sequence is in the destructors and in m13 / m14).
+    void releaseFromScene();
+
     /* 0x08 */ Actor* mActor = nullptr;
     /* 0x10 */ sead::Atomic<u32> mFlags = 0;
 };
