@@ -19,7 +19,10 @@ public:
     // 0x7100662aec / 0x7100662b4c
     void init(sead::Heap* heap);
     bool x() const;
-    // 0x7100663278: assigns a carried entry for proc (declaration only).
+    // 0x7100662c4c / 0x7100662ef0: creates the carrier and sends its setup messages.
+    ksys::act::Actor* sub_7100662C4C();
+    void sub_7100662EF0(ksys::act::Actor* actor);
+    // 0x7100663278: assigns a carried entry for proc.
     Unk_710243be90* sub_7100663278(ksys::act::BaseProc* proc);
     // 0x710066358c / 0x71006652c8
     s32 sub_710066358C();
@@ -37,6 +40,10 @@ public:
     void sub_7100664F64(const sead::Matrix34f& matrix);
     // 0x7100665304
     void sub_7100665304();
+    // 0x7100664484: handles the carried-context state transition (declaration only).
+    void sub_7100664484(s32 state, ActorContextStuff* context);
+    // 0x7100664acc: returns the carried actor's fade progress.
+    f32 sub_7100664ACC(ksys::act::BaseProc* proc);
     // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
     void sub_7100665360();
 

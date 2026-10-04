@@ -1,4 +1,6 @@
 #include "Game/gameSceneSubsys12.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/System/Timer.h"
 #include <prim/seadScopedLock.h>
 
@@ -8,6 +10,28 @@ void GameSceneSubsys12::init(sead::Heap* heap) {
 
 bool GameSceneSubsys12::x() const {
     return _a78.isBitOn(0);
+}
+
+Unk_710243be90* GameSceneSubsys12::sub_7100663278(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    if (auto* entry = _318.sub_710065E2B0(proc))
+        return entry;
+
+    bool has_carrier = _300.hasProc() && _310;
+    if (!has_carrier) {
+        _a78.setBitOff(3);
+        if (auto* carrier = sub_7100662C4C()) {
+            _300.acquire(carrier, false);
+            sub_7100662EF0(carrier);
+        }
+        has_carrier = _300.hasProc() && _310;
+    }
+    if (has_carrier) {
+        if (auto* entry = _310->sub_710065E2B0(proc))
+            return entry;
+    }
+    proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    return nullptr;
 }
 
 s32 GameSceneSubsys12::sub_710066358C() {
@@ -65,4 +89,21 @@ ksys::act::BaseProcLink* GameSceneSubsys12::sub_7100664BC8(s32 index) {
 ksys::act::BaseProcLink* GameSceneSubsys12::sub_7100664DBC(s32 index) {
     sead::ScopedLock<sead::CriticalSection> lock(&_38);
     return _318.sub_710065F80C(index);
+}
+
+f32 GameSceneSubsys12::sub_7100664ACC(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    return _300.hasProc() && _310 ? _310->sub_710065FA28(proc, _270) : 0.0f;
+}
+
+void GameSceneSubsys12::sub_7100665360() {
+    sead::ScopedLock<sead::CriticalSection> lock(&_38);
+    _d4 = 0;
+    _a78.setBitOff(0);
+    _a78.setBitOff(2);
+    _270 = 0.0f;
+    sub_7100664484(4, _310);
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_300, &accessor))
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
