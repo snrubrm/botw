@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiEnemyWarnNoticeSelect.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
 
@@ -13,6 +15,42 @@ bool EnemyWarnNoticeSelect::init_(sead::Heap* heap) {
 
 void EnemyWarnNoticeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void EnemyWarnNoticeSelect::calc_() {
+    const int state = sub_71003C4EA4();
+    if (state) {
+        _a0.reset();
+        _ac.reset();
+    } else {
+        _a0.update();
+        _ac.update();
+    }
+    ksys::act::isPlayerProfile(mTargetActor_d);
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("警戒"))
+            m34();
+        else if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("警戒")) {
+            if (state == 2 || _138 || *mForceNotice_d || sub_71003C544C())
+                sub_71003C4CB4(false);
+            else if (_a0.value <= 0.0f && _130 > f32(*mWarnBlinkTime_s))
+                m34();
+        }
+    }
+
+    sead::Vector3f pos;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    accessor.getActorMtx().getTranslation(pos);
+    child->setDynamicParam(pos, "TargetPos");
+    sub_71003C56A8();
 }
 
 bool EnemyWarnNoticeSelect::isFailed() const {

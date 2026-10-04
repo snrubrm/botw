@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiRandomTimer.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -16,11 +17,17 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
     virtual void m34();
+    // 0x71003c4ea4 / 0x71003c4cb4 / 0x71003c544c / 0x71003c56a8 (placeholder names; declared only)
+    int sub_71003C4EA4();
+    void sub_71003C4CB4(bool a1);
+    bool sub_71003C544C();
+    void sub_71003C56A8();
 
 protected:
     // static_param at offset 0x38
@@ -49,12 +56,8 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     // aitree_variable at offset 0x98
     bool* mIsTrgChangeUnderWaterState_a{};
-    f32 _a0{};
-    s32 _a4{};
-    s32 _a8{};
-    f32 _ac{};
-    s32 _b0{};
-    s32 _b4{};
+    RandomTimer _a0;
+    RandomTimer _ac;
     Unk_7102450528 _b8;
     f32 _130 = 0;
     u32 _134 = 0;
