@@ -1,12 +1,20 @@
 #include "Game/UI/euiLayoutEx.h"
 #include <new>
 #include <prim/seadStringBuilder.h>
+#include <gfx/nin/seadGraphicsNvn.h>
+#include <nn/font/font_ScalableFont.h>
+#include <nn/ui2d/ResPane.h>
+#include <nn/ui2d/ResourceAccessor.h>
+#include <nn/util/util_BytePtr.h>
 #include <nn/ui2d/DrawInfo.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/BuildTypes.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
+#include "Game/UI/euiFontMgr.h"
+#include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiTextSearcher.h"
 
 namespace eui {
 
@@ -49,6 +57,27 @@ void LayoutEx::adjustPaneSizeToTextSizeRecursive_(nn::ui2d::Pane* pane) {
         if (!nn::font::DynamicCast<nn::ui2d::Parts>(&child))
             adjustPaneSizeToTextSizeRecursive_(&child);
     }
+}
+
+// NON_MATCHING: resource selection and RTTI boolean-return blocks differ naturally.
+// 0x7100bdeeac
+bool LayoutEx::isScalableFontTextBox_(const nn::ui2d::ResTextBox* resource,
+                                      const nn::ui2d::ResTextBox* replacement,
+                                      const nn::ui2d::BuildArgSet& args) {
+    if (!static_cast<TextSearcher*>(args.mTextSearcher)->getTagProcessor()->mFontMgr->getScalableFontMgr())
+        return false;
+    const nn::ui2d::BuildResSet* resources = args.mResources;
+    if (replacement && !(args.mTextOverrideFlags & 1)) {
+        resources = args.mOverrideResources;
+        resource = replacement;
+    }
+    const void* names = nn::util::ConstBytePtr(resources->mFontList, 0xc).Get();
+    const u32* offsets = nn::util::ConstBytePtr(names).Get<u32>();
+    const char* name = nn::util::ConstBytePtr(names, offsets[resource->mFontIndex]).Get<char>();
+    nn::font::Font* font = mResourceAccessor->AcquireFont(sead::GraphicsNvn::instance()->getNnDevice(), name);
+    if (!font)
+        return false;
+    return nn::font::DynamicCast<nn::font::ScalableFont>(font) != nullptr;
 }
 
 // 0x7100bdeffc

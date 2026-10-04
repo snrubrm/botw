@@ -9,6 +9,7 @@
 namespace nn::ui2d {
 class Pane;
 struct ResExtUserData;
+struct ResTextBox;
 
 }  // namespace nn::ui2d
 
@@ -67,6 +68,8 @@ public:
 
     void setDrawTargetAnim(DrawTarget target);
     LayoutEx* findPartsLayout(const char* name);
+    bool isScalableFontTextBox_(const nn::ui2d::ResTextBox*, const nn::ui2d::ResTextBox*,
+                                const nn::ui2d::BuildArgSet&);
 
     // 0x7100bde0b4
     void startAnimCloseImpl_(bool a1, bool a2);

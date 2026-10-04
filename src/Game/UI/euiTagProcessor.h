@@ -105,7 +105,11 @@ protected:
     /* 0x30 */ f32 mScaleY = 1.0f;
     /* 0x34 */ u32 mNestingDepth = 0;
     /* 0x38 */ MessageMgr* mMessageMgr;
+public:
+    // Original visibility is unknown; LayoutEx::isScalableFontTextBox_ reads this proved pointer.
     /* 0x40 */ FontMgr* mFontMgr;
+
+protected:
     /* 0x48 */ bool mRubyEnabled = true;
     /* 0x49 */ u8 mAlpha = 0xff;
     /* 0x4a */ u8 mTopAlpha = 0xff;
