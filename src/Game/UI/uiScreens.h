@@ -804,7 +804,20 @@ public:
     u8 _pad_3652[0x3660 - 0x3652];
     /* 0x3660 */ u64 _3660;
     /* 0x3668 */ u8 _3668;
-    u8 _pad_3669[0x36e0 - 0x3669];
+    u8 _pad_3669[0x366c - 0x3669];
+    // The mini game's counters: a game data key (`_36x0`, set by the sub_7100A280A4 family from the caller's key), the
+    // widget layout that shows the value and the last value read. Names / types are guesses from those functions.
+    /* 0x366c */ s32 _366c;
+    /* 0x3670 */ sead::SafeString _3670;
+    u8 _pad_3680[0x3688 - 0x3680];
+    /* 0x3688 */ eui::Animator* _3688;
+    /* 0x3690 */ s32 _3690;
+    /* 0x3698 */ sead::SafeString _3698;
+    /* 0x36a8 */ f32 _36a8;
+    /* 0x36b0 */ sead::SafeString _36b0;
+    /* 0x36c0 */ s32 _36c0;
+    /* 0x36c8 */ sead::SafeString _36c8;
+    u8 _pad_36d8[0x36e0 - 0x36d8];
     /* 0x36e0 */ eui::Animator* _36e0;
     /* 0x36e8 */ eui::Animator* _36e8;
 

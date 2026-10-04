@@ -3,6 +3,10 @@
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actWeapon.h"
 
+namespace eui {
+class LayoutEx;
+}
+
 namespace uking::act {
 enum class CreateEquipmentSlot : u8;
 }
@@ -100,6 +104,11 @@ const sead::SafeString& sub_7100AA7D38(s32 index);
 // 0x7100aa0a5c (CSV ui::createAndLoadScreenIfNeededImpl): forwards `id` to Manager::createAndLoadScreenIfNeeded
 // (the second parameter is unused; callers pass nullptr).
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
+
+// 0x7100aa25d4 (CSV ui::setWidgetString; declaration only): sets the text of the widget `widget_name` of `layout`.
+void setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const sead::SafeString& text);
+// 0x7100aa37ec (CSV ui::getDecimalSeparator; declaration only)
+const char* getDecimalSeparator(bool a1);
 
 // 0x7100a6d3dc (CSV ui::getHeap; declaration only)
 sead::Heap* getHeap();

@@ -2,8 +2,45 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
+
+// 0x7100a280a4
+// NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots
+void ScreenMiniGame::sub_7100A280A4(const sead::SafeString& key) {
+    _3670 = key;
+    eui::LayoutEx* layout = _3610[1];
+    const sead::SafeString name = "T_Num_00";
+    const s32 value = ksys::gdt::getS32ByKey(sead::SafeString(_3670), false);
+    sead::FormatFixedSafeString<32> text("%d", value);
+    setWidgetString(layout, name, text);
+    _366c = value;
+}
+
+// 0x7100a28318
+// NON_MATCHING: the original keeps the key temporary, the widget name and the text in separate stack slots
+void ScreenMiniGame::sub_7100A28318(const sead::SafeString& key) {
+    _36c8 = key;
+    eui::LayoutEx* layout = _3610[4];
+    const sead::SafeString name = "T_Num_00";
+    const s32 value = ksys::gdt::getS32ByKey(sead::SafeString(_36c8), false);
+    sead::FormatFixedSafeString<32> text("%d", value);
+    setWidgetString(layout, name, text);
+    _36c0 = value;
+}
+
+// 0x7100a28264
+void ScreenMiniGame::sub_7100A28264(const sead::SafeString& key) {
+    _36b0 = key;
+    const f32 value = ksys::gdt::getF32ByKey(_36b0, false);
+    const s32 integer = s32(value);
+    _36a8 = value;
+    const s32 fraction = s32((value - f32(integer)) * 10);
+    sead::FormatFixedSafeString<32> text("%d%s%1d", integer, getDecimalSeparator(false), fraction);
+    setWidgetString(_3610[3], "T_Num_00", text);
+}
 
 // 0x7100a2745c
 bool ScreenMiniGame::openMinigameScreen(s32 index, s32) {
