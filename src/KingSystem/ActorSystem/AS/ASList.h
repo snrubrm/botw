@@ -63,6 +63,7 @@ public:
         void sub_7101163960(s32 start, s32 middle, s32 end, s32 index,
                            const res::ASSetting::BoneParams* params);
         bool sub_710116392C();
+        void sub_710116173C();
         bool sub_7101163940();
         bool sub_7101163950();
         bool sub_7101163AF4();

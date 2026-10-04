@@ -13,6 +13,24 @@ namespace ksys::as {
 
 static const char* const sUnk_710250FFE0[] = {"0Gear", "1Gear", "2Gear", "3Gear", "TopGear"};
 
+void ASList::Unk2::sub_710116173C() {
+    _10 = 1.0f;
+    mFlags = 1;
+    _44[0] = 1;
+    _48 = nullptr;
+    for (auto& range : mBoneWeightRanges)
+        range.params = nullptr;
+    _18 = nullptr;
+    _20 = nullptr;
+    _28 = nullptr;
+    if (_0->_d8) {
+        _0->_d8 = nullptr;
+        _0->sub_7101258C1C();
+    }
+    _0->mNumEvents2 = 0;
+    _0->sub_710125923C();
+}
+
 // NON_MATCHING: block layout (the original shares the "return true" block)
 bool ASList::Unk2::sub_7101163AF4() {
     if ((_20 && !(_43 & 1)) || (_28 && !(_43 & 2)))
