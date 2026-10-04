@@ -319,6 +319,15 @@ void sub_71011658C0(f32 weight, sead::Matrix34f* out, const sead::Matrix34f* a, 
 class Element {
     SEAD_RTTI_BASE(Element)
 public:
+    // Recovered creation-record prefix; its list pointer and flags tail are not modelled.
+    // Do not construct this partial declaration or infer its full size.
+    struct CreateArg {
+        gsys::Model* model;
+        sead::Heap* heap;
+        res::AS* as;
+        act::Actor* actor;
+    };
+
     Element();
     virtual ~Element() = default;
 
@@ -450,6 +459,11 @@ public:
 class IntSelector : public Selector {
     SEAD_RTTI_OVERRIDE(IntSelector, Selector)
 public:
+    IntSelector(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    static Element* make(const CreateArg& arg, s32 value, const res::ASResource* resource);
+    // 0x7101260fc0: declaration only.
+    static s32 getValue(act::Actor* actor, const res::ASResource* resource);
+
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 

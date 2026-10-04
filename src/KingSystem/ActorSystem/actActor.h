@@ -279,6 +279,8 @@ public:
     BoneControl* getBoneControl() const { return mBoneControl; }
     gsys::Model* getModel() const { return mModel; }
     mii::UMii* getUMii() const { return mUMii; }
+    // 0x71011ca00c: Hylian-info integer query (declaration only).
+    s32 sub_71011CA00C() const;
 
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }

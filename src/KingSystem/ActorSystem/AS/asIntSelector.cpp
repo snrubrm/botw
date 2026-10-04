@@ -1,6 +1,18 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
+
+IntSelector::IntSelector(const CreateArg& arg, s32 value, const res::ASResource* resource)
+    : _18(-1) {
+    if (const auto* children = sead::DynamicCast<const res::ASResourceWithChildren>(resource))
+        _18 = getValue(arg.actor, children);
+}
+
+// NON_MATCHING: the compiler inlines the constructor into this factory.
+Element* IntSelector::make(const CreateArg& arg, s32 value, const res::ASResource* resource) {
+    return new (arg.heap, 8) IntSelector(arg, value, resource);
+}
 
 void IntSelector::m12(Context* ctx, State* state, const res::ASResource* resource) {
     s32 index;

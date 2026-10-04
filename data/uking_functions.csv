@@ -92602,7 +92602,7 @@ Address,Quality,Size,Name
 0x00000071011c9f5c,O,000096,_ZN4ksys3act5Actor4m120EPKc
 0x00000071011c9fbc,O,000044,_ZN4ksys3act5Actor4m121Ev
 0x00000071011c9fe8,O,000036,_ZN4ksys3act5Actor4m122Ev
-0x00000071011ca00c,U,000024,
+0x00000071011ca00c,U,000024,_ZNK4ksys3act5Actor14sub_71011CA00CEv
 0x00000071011ca024,U,002944,Actor::job_common_calcAI_andMore
 0x00000071011caba4,U,001048,
 0x00000071011cafbc,U,000980,
@@ -94884,8 +94884,8 @@ Address,Quality,Size,Name
 0x0000007101260e7c,O,000092,_ZNK4ksys2as17SyncPlayContainer18getRuntimeTypeInfoEv
 0x0000007101260ed8,O,000036,_ZN4ksys2as17SyncPlayContainerD0Ev
 0x0000007101260efc,O,000008,_ZN4ksys2as17SyncPlayContainer2m7Ev
-0x0000007101260f04,U,000188,as::IntSelector::ctor
-0x0000007101260fc0,U,000996,as::IntSelector::getValue
+0x0000007101260f04,O,000188,_ZN4ksys2as11IntSelectorC1ERKNS0_7Element9CreateArgEiPKNS_3res10ASResourceE
+0x0000007101260fc0,U,000996,_ZN4ksys2as11IntSelector8getValueEPNS_3act5ActorEPKNS_3res10ASResourceE
 0x00000071012613a4,O,000140,_ZN4ksys2as11IntSelector3m12EPNS0_7ContextEPNS0_5StateEPKNS_3res10ASResourceE
 0x0000007101261430,O,000008,_ZN4ksys2as11IntSelector3m39EPNS0_7ContextEjPKNS_3res10ASResourceE
 0x0000007101261438,O,000008,_ZNK4ksys2as11IntSelector27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -97159,7 +97159,7 @@ Address,Quality,Size,Name
 0x00000071012ef78c,U,000084,ASAngleBlender::make
 0x00000071012ef7e0,U,000084,ASAngleSelector::make
 0x00000071012ef834,U,000084,ASDungeonClearSelector::make
-0x00000071012ef888,U,000084,as::IntSelector::make
+0x00000071012ef888,M,000084,_ZN4ksys2as11IntSelector4makeERKNS0_7Element9CreateArgEiPKNS_3res10ASResourceE
 0x00000071012ef8dc,U,000084,ASEventFlagSelector::make
 0x00000071012ef930,U,000084,ASGroundNormalBlender::make
 0x00000071012ef984,U,000084,ASGroundNormalSelector::make
