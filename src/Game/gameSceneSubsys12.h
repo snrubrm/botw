@@ -64,6 +64,8 @@ public:
     void sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index);
     // 0x7100665360: releases the carried actor and resets carry flags (declaration only).
     void sub_7100665360();
+    // 0x710066551c: configured delay before restoring carried bodies' contact layer.
+    s32 sub_710066551C() const;
 
     u8 _0[0x38];
     sead::CriticalSection _38;

@@ -1,14 +1,95 @@
 #include "Game/gameActorContextStuff.h"
+#include "Game/gameSceneSubsys12.h"
 
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereShape.h"
+#include "KingSystem/System/VFR.h"
 
 // NON_MATCHING: scalar initializer stores are scheduled/coalesced differently.
 Unk_710243be90::Unk_710243be90() : _98() {}
+
+// NON_MATCHING: scalar scale operations and matrix temporaries are scheduled differently.
+void Unk_710243be90::sub_7100661A58(ksys::act::Actor* actor) {
+    auto* scene = GameSceneSubsys12::instance();
+    if (!scene || !_118)
+        return;
+
+    if (!(_28 & 0x40) && _118->sub_710065E834()) {
+        _28 |= 0x40;
+        if (_28 & 8)
+            xlinkSearchAndEmit(actor, "Cooking", 2, &_98);
+    } else if ((_28 & 0x40) && !_118->sub_710065E834()) {
+        _28 &= ~0x40;
+        if (_98.sub_7101241B6C())
+            _98.fadeXLink();
+    }
+
+    if (_118->_68 & 1) {
+        f32 scale = actor->getScale().x;
+        sead::Mathf::chase(&scale, _94, ksys::VFR::instance()->getDeltaFrame() * 0.05f);
+        if (actor->getScale().x != scale)
+            actor->setScale({scale, scale, scale});
+    } else if (!(_28 & 4)) {
+        const f32 scale = _118->sub_710065F1F0(_b8 * _c0) * _b8;
+        if (actor->getScale().x != scale) {
+            actor->setScale({scale, scale, scale});
+            _c4 = scale;
+        }
+    }
+
+    if (!actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_200)) {
+        if (scene->sub_7100664F30()) {
+            const f32 opacity = scene->sub_7100664ACC(actor);
+            if (_bc != opacity) {
+                Unk_710260af28::instance()->sub_7100F1E8A4(actor->getModel(), opacity);
+                _bc = opacity;
+            }
+        } else if ((_50->getNumContactPoints().load() && !_50->begin().isEnd()) ||
+                   ((_28 & 0x200) && (_118->_68 & 1) && !scene->_a78.isBitOn(3))) {
+            actor->setScale(sead::Vector3f::ones * _94);
+            scene->sub_7100664A64(&_30, false);
+            _118->sub_710065F544(actor);
+            sub_7100661058(actor);
+            if (!(_28 & 1)) {
+                _48->removeFromWorld();
+                _40->erase();
+                _28 |= 1;
+            }
+        }
+    }
+
+    if (!(_118->_68 & 1)) {
+        ksys::act::acc::PlayerBase player;
+        player.getPlayerFromPlayerInfo();
+        sead::Matrix34f matrix;
+        matrix = player.getActorMtx();
+        sead::Vector3f position = sead::Vector3f::zero;
+        if (_48)
+            _48->getPosition(&position);
+        matrix.m[1][3] = position.y;
+        if (auto* controller = actor->getCharacterController())
+            controller->sub_7100F60500(matrix);
+        else if (_58)
+            _58->setTransform(matrix);
+    } else {
+        const s32 delay = scene->sub_710066551C();
+        _120 += 1.0f;
+        if (f32(delay) < _120) {
+            if (_58)
+                _58->setContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+            if (_48)
+                _48->setContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+        }
+    }
+}
 
 Unk_710243be90::~Unk_710243be90() {
     if (_50) {
