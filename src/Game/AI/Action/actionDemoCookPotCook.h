@@ -18,6 +18,8 @@ public:
 
 protected:
     void calc_() override;
+    // Declaration only: updates the carried ingredients' bone transforms.
+    void sub_71000E8D94();
 
     // static_param at offset 0x20
     const int* mMaterialTargetBone_s{};
