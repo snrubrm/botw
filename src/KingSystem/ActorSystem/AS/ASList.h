@@ -18,6 +18,7 @@ namespace ksys::as {
 class Context;
 class Element;
 class SequencePlayContainer;
+struct State;
 }  // namespace ksys::as
 
 namespace ksys::as {
@@ -56,6 +57,7 @@ public:
         void sub_710042BBEC();
         // 0x71011623dc: copies frame state when both slots use the same resource.
         void sub_71011623DC(Unk2* other);
+        void sub_71011627C4(State* state);
         // 0x7101162e88: copies matching slot state and links the two entries.
         void sub_7101162E88(Unk2* other, bool a1);
         // 0x7101161ee0: applies the element's partial-bone value (declaration only).
@@ -118,9 +120,12 @@ public:
         /* 0x08 */ Unk1* _8;
         /* 0x10 */ f32 _10;
         /* 0x18 */ Element* _18;
-        /* 0x20 */ void* _20;
-        /* 0x28 */ void* _28;
-        /* 0x30 */ u8 _30[0x40 - 0x30];
+        /* 0x20 */ Element* _20;
+        /* 0x28 */ Element* _28;
+        /* 0x30 */ f32 _30;
+        /* 0x34 */ f32 _34;
+        /* 0x38 */ f32 _38;
+        /* 0x3c */ f32 _3c;
         /* 0x40 */ union {
             u16 mFlags;
             struct {

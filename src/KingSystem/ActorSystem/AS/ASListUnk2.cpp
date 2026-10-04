@@ -3,6 +3,46 @@
 
 namespace ksys::as {
 
+// NON_MATCHING: equivalent nonpositive clamp and swapped element/context registers.
+void ASList::Unk2::sub_71011627C4(State* state) {
+    _28 = _20;
+    _20 = _18;
+    _34 = _30;
+    _30 = 0.0f;
+    _43 = (_43 << 1) | 1;
+    if (state) {
+        Context::Frame* previous = _0->_d0;
+        _0->sub_7101258C80();
+        _0->_d0->sub_71012580E0(*previous);
+        _88->sub_710125F94C(_0, _90, _84, _80);
+        state->weight = 1.0f;
+        Context* context = _0;
+        Element* element = _18;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m12(context, state, resource);
+        context = _0;
+        element = _18;
+        resource = context->sub_7101258CC0();
+        element->m13(context, state, resource);
+        state->weight = 1.0f;
+        context = _0;
+        element = _18;
+        resource = context->sub_7101258CC0();
+        element->m10(context, state, resource);
+        _0->mFlags |= 0x10;
+    } else if (_48) {
+        _84 = _48->_84;
+        _80 = _48->_80;
+        _0->sub_7101258C80();
+        _0->sub_710125A924(*_48->_0);
+    }
+    _38 = _84 - _80;
+    if (_38 <= 0.0f)
+        _38 = 0.0f;
+    _3c = 1.0f / _84;
+    _30 = 1.0f - _38 * _3c;
+}
+
 void ASList::Unk2::sub_7101163ADC(SequencePlayContainer* sequence,
                                 const res::ASResource* resource, f32 value, f32 duration) {
     if (!_88) {

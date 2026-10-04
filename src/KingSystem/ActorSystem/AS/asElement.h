@@ -164,6 +164,8 @@ public:
     void sub_710125A630();
     // 0x710125a67c: copies the active frame and state; reset_events omits the event banks.
     bool sub_710125A67C(const Context& other, bool reset_events);
+    // 0x710125a924: copies the preceding ring frame from the other context.
+    bool sub_710125A924(const Context& other);
     // 0x7101259990: tests the active/previous event-bank overlap and update flags.
     bool sub_7101259990(bool a1);
     // 0x7101259de8 / 0x7101259f94: queues trigger/hold events.

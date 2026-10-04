@@ -8,6 +8,11 @@
 
 namespace ksys::as {
 
+bool Context::sub_710125A924(const Context& other) {
+    return mFrames[_f4 ? _f4 - 1 : 2].sub_71012580E0(
+        other.mFrames[other._f4 ? other._f4 - 1 : 2]);
+}
+
 // NON_MATCHING: the separate mode/float stores are not combined with the pointer as a 64-bit pair.
 void BoneBlendState::sub_7101257920(const res::ASSetting::BoneParams* params) {
     _20 = 1;
