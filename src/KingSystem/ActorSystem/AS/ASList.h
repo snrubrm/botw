@@ -134,6 +134,10 @@ public:
 
         // 0x71011650b8: bit `bit` of row `row` of the partial-bone mask (true if there is no mask).
         bool sub_71011650B8(int row, int bit) const;
+        // 0x7101165278: highest weighted element query; optional returned index.
+        Unk2* sub_7101165278(s32* index);
+        // 0x710116532c: first element query returning a nonnegative index.
+        Unk2* sub_710116532C(s32* index);
 
         struct BitRow {
             u32 words[32];
