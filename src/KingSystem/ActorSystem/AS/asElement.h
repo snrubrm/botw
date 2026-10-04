@@ -153,6 +153,8 @@ public:
     // 0x710125a1f0 (declaration only): stores `value` as the pending value of `key` (once per update); the
     // element and its resource are passed on to the unnamed 0x710125a248.
     void sub_710125A1F0(f32 value, int key, Element* element, const res::ASResource* resource);
+    // 0x710125a248: advances the input value of key, applying the resource input limit.
+    void sub_710125A248(f32 value, u32 key, Element* element, const res::ASResource* resource);
     // 0x7101258cd4: the record of the element `index` (record 0 if the context is not in the used state).
     Record* sub_7101258CD4(int index);
 
@@ -578,7 +580,6 @@ public:
     bool m32(Context* ctx, void* a2, void* a3, void* a4, void* a5, const res::ASResource* resource,
              f32 value) override;
     bool m33(Context* ctx, void* a2, void* a3, const res::ASResource* resource, f32 a5) override;
-    // 0x71013167c8 (declaration only)
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* a2, State* a3, const res::ASResource* resource) override;
@@ -607,6 +608,9 @@ public:
     // fades the record out, the second one's drops the second child).
     bool sub_71013166C4(Context::Record* record, Context* ctx, PlayState* state,
                         const res::ASResource* resource);
+
+    // 0x7101316bc0: updates the blended duration in the context record.
+    void sub_7101316BC0(Context* ctx, const res::ASResource* resource);
 
     virtual f32 m38(Context* ctx, const res::ASResource* resource);
     // Picks the child (and the one it is blended with) whose range contains the element's input value; returns

@@ -179,6 +179,76 @@ void Blender::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource* resource,
     child2->m17(ctx, a2 & 1, a3 & 1, child2_resource, a5, a6);
 }
 
+// NON_MATCHING: judge-once load and flag updates are scheduled differently; record branch order differs.
+void Blender::m12(Context* ctx, State* state, const res::ASResource* resource) {
+    Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+    if (!blender_resource)
+        return;
+    auto* sync_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
+    bool no_sync;
+    if (!sync_resource)
+        no_sync = false;
+    else if (!sync_resource->getNoSync())
+        no_sync = sync_resource->getTypeIndex() == 5;
+    else
+        no_sync = true;
+    if (!(ctx->mFlags & 1))
+        ctx->mFlags |= 1;
+    bool changed = false;
+    if (!blender_resource->getJudgeOnce()) {
+        const int key = sub_7101165408(resource);
+        ctx->sub_710125A248(m38(ctx, resource), key, this, resource);
+        if (!(ctx->mFlags & 2)) {
+            s32 first, second;
+            record->_4 = m39(&first, &second, ctx, resource);
+            if (first == record->_0 && second == static_cast<s8>(record->_1)) {
+                if (record->_2 == 2)
+                    record->_4 = 1.0f;
+                else if (record->_2 == 1)
+                    record->_4 = 0.0f;
+            } else {
+                ctx->mFlags |= 2;
+                f32 progress = 0.0f;
+                if (!no_sync && record->_0 >= 0) {
+                    Element* child = mChildren[record->_0];
+                    const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+                    if (const ElementParams* params = child->m25(ctx, child_resource))
+                        progress = params->sub_710130298C(true);
+                }
+                m35(ctx, resource);
+                record->_0 = first;
+                record->_1 = second;
+                PlayState play_state;
+                play_state._0 = progress;
+                play_state._4 = !no_sync;
+                play_state._8 = ctx->sub_7101258D1C(sub_71011653E8(resource)) + 1;
+                sub_71013166C4(record, ctx, &play_state, resource);
+                if (no_sync)
+                    ctx->_e8 = -1.0f;
+                ctx->mFlags |= 4;
+                changed = true;
+            }
+        }
+    }
+    const f32 weight = state->weight;
+    state->weight = weight * (1.0f - record->_4);
+    Element* child = mChildren[record->_0];
+    const res::ASResource* child_resource = sub_71013031FC(resource, record->_0);
+    child->m12(ctx, state, child_resource);
+    if (record->_1 != 0xff) {
+        state->weight = weight * record->_4;
+        Element* second_child = mChildren[static_cast<s8>(record->_1)];
+        const res::ASResource* second_resource =
+            sub_71013031FC(resource, static_cast<s8>(record->_1));
+        second_child->m12(ctx, state, second_resource);
+    }
+    state->weight = weight;
+    sub_7101316BC0(ctx, resource);
+    if (changed)
+        ctx->mFlags &= ~2u;
+}
+
 void Blender::m13(Context* ctx, State* state, const res::ASResource* resource) {
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
     auto* blender_resource = sead::DynamicCast<const res::ASBlenderResource>(resource);
