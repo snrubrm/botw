@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     void sub_71004F277C(bool flag);
     void sub_71004F296C();
     // map_unit_param at offset 0x38
