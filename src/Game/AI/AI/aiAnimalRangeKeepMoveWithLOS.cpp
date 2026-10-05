@@ -16,8 +16,29 @@ bool AnimalRangeKeepMoveWithLOS::init_(sead::Heap* heap) {
     return _a0 != nullptr;
 }
 
-void AnimalRangeKeepMoveWithLOS::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+// NON_MATCHING: State range branching and load scheduling differ.
+void AnimalRangeKeepMoveWithLOS::enter_(ksys::act::ai::InlineParamPack*) {
+    _7c = _80 = *mNoPathTimer_s;
+    _78 = f32(_7c);
+    _88 = _8c = *mFindPathBeginTimer_s;
+    _84 = f32(_88);
+    _ac = _a0->sub_71002F420C();
+    _90 = _a0->_c48._18;
+    _a8 = sead::Vector2f(_a0->_c48._18.x - _a0->getMtx().getTranslation().x,
+                         _a0->_c48._18.z - _a0->getMtx().getTranslation().z).squaredLength();
+    _ad = (_a0->_1698 & (1 << 13)) != 0;
+    if (_ad) {
+        sub_7100309768();
+    } else {
+        if (_ac) {
+            const u32 state = _a0->sub_71002F440C();
+            if (state >= 2 && state < 8 && state != 4) {
+                sub_7100309768();
+                return;
+            }
+        }
+        sub_7100309620();
+    }
 }
 
 bool AnimalRangeKeepMoveWithLOS::isChangeable() const {

@@ -46,6 +46,7 @@ public:
     // parameter object _1680.
     s32 sub_71002F4428();
     bool sub_71002F420C();
+    u32 sub_71002F440C();
     // 0x71002f3234 / 0x71002f4b3c / 0x71002f493c / 0x71002f4a40 / 0x71002f4008 (not decompiled;
     // placeholder names and guessed signatures, from WolfLinkNormalRoot's calls).
     bool sub_71002F3234(f32 range, s32 a, s32 b, s32 c);

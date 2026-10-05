@@ -25,6 +25,9 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_7100309620();
+    void sub_7100309768();
+
     bool sub_7100309A88();
     void sub_7100309BAC();
     void sub_7100309D40();
