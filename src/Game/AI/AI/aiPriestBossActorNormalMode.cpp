@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiPriestBossActorNormalMode.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,15 @@ void PriestBossActorNormalMode::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
 }
 
+// NON_MATCHING: the compiler combines the phase range checks into one comparison.
 void PriestBossActorNormalMode::leave_() {
+    if (sub_7100505BE4()) {
+        sub_7100505BE4();
+        if (_e4 >= 3 && _e4 <= 10)
+            dmg::DamageInfoMgr::instance()->get4f8().sub_7100671F78(mActor);
+    }
+    if (auto* unit = sub_7100505BE4())
+        unit->sub_7100719D5C(mActor);
     PriestBossMode::leave_();
 }
 

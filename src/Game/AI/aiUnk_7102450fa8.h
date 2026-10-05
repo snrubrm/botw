@@ -85,6 +85,7 @@ public:
     // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
     s32 sub_7100719FCC() const;
     void sub_710071918C();
+    void sub_7100719D5C(ksys::act::Actor* actor);
     // Sends message 0x80000d9 (payload = this) from the actor of _18 to `dest`.
     void sub_71007190CC(const ksys::MesTransceiverId& dest);
     void sub_710071964C(const Unk3& arg);
