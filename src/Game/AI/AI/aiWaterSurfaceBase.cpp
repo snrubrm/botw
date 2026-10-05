@@ -5,7 +5,12 @@ namespace uking::ai {
 
 WaterSurfaceBase::WaterSurfaceBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-WaterSurfaceBase::~WaterSurfaceBase() = default;
+WaterSurfaceBase::~WaterSurfaceBase() {
+    if (_40) {
+        _40->destroy();
+        _40 = nullptr;
+    }
+}
 
 bool WaterSurfaceBase::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
