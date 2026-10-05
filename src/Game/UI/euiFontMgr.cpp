@@ -1,7 +1,13 @@
 #include "Game/UI/euiFontMgr.h"
 #include <nn/font/font_TextureCache.h>
+#include <thread/seadThreadUtil.h>
 
 namespace eui {
+
+ScalableFontMgr::InitializeArg::InitializeArg()
+    : heap(nullptr), texture_cache_arg(nullptr), font_info(nullptr), num_fonts(0),
+      thread_priority(sead::ThreadUtil::ConvertPrioritySeadToPlatform(17)),
+      affinity(sead::CoreId::cMain) {}
 
 // 0x7100be5b98
 void ScalableFontMgr::UpdateTextureCacheThread::calc_(sead::MessageQueue::Element) {

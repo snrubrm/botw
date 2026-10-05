@@ -2,9 +2,11 @@
 
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <mc/seadCoreInfo.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadThread.h>
 #include <nn/font/font_ResFont.h>
+#include <nn/font/font_TextureCache.h>
 #include "Game/UI/euiSharcArchive.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -20,6 +22,18 @@ class FontMgr;
 
 class ScalableFontMgr {
 public:
+    struct FontInfo;
+    struct InitializeArg {
+        InitializeArg();
+
+        /* 0x00 */ sead::Heap* heap;
+        /* 0x08 */ const nn::font::TextureCache::InitializeArg* texture_cache_arg;
+        /* 0x10 */ const FontInfo* font_info;
+        /* 0x18 */ s32 num_fonts;
+        /* 0x1c */ s32 thread_priority;
+        /* 0x20 */ sead::CoreIdMask affinity;
+    };
+
     // Only the worker's update and borrowed cache pointer are recovered here.
     // Its construction and the manager's full layout remain undeclared.
     class UpdateTextureCacheThread : public sead::Thread {
