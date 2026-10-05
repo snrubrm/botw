@@ -6,6 +6,8 @@
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
 
+bool sub_7100AA8DD4();
+
 // 0x7100a0772c
 void ScreenDoCommand::sub_7100A0772C(s32 a1) {
     _365c = a1;
@@ -79,6 +81,18 @@ bool getRuntimeTipFlag(s32 index) {
     if (u32(index) > 22)
         return false;
     return ksys::gdt::getBoolByKey(sUnk_71025EFC08[index].flag, false);
+}
+
+// NON_MATCHING: the independent Buffer produces different global field offsets.
+void ScreenMessageTipsRunTime::sub_7100A268AC(s32 index, s32 force) {
+    _3618.lock();
+    if (u32(index) <= 22 && _3660 != index &&
+        !ksys::gdt::getBoolByKey(sUnk_71025EFC08[index].flag, false) &&
+        ((force & 1) || (!sub_7100AA8F10() && !sub_7100AA8DD4()))) {
+        _3658 = index;
+        _365c = force & 1;
+    }
+    _3618.unlock();
 }
 
 // 0x7100a26db8
