@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiAnimalPreAttack.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +14,20 @@ bool AnimalPreAttack::init_(sead::Heap* heap) {
 }
 
 void AnimalPreAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const s32 minimum = *mForceEndTime_s;
+    _5c = minimum;
+    _60 = minimum + 15;
+    _58 = f32(sead::GlobalRandom::instance()->getS32Range(minimum, minimum + 15));
+    if (!((mActor->getMtx().getTranslation() - *mTargetPos_d).length() >
+          *mKeepDistCheckLength_s) || sub_7100307B44()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("距離を取る", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("対象を向く", &pack);
+    }
 }
 
 void AnimalPreAttack::leave_() {

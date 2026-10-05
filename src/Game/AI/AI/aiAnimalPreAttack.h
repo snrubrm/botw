@@ -16,6 +16,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_7100307B44();
     // static_param at offset 0x38
     const int* mForceEndTime_s{};
     // static_param at offset 0x40
