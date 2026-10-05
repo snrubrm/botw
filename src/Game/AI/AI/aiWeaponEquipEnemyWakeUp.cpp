@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiWeaponEquipEnemyWakeUp.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
 
@@ -15,7 +18,11 @@ void WeaponEquipEnemyWakeUp::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WeaponEquipEnemyWakeUp::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_7100019C58(sead::DynamicCast<act::Weapon>(
+            enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr)));
+        enemy->sub_7100019C58(sub_71005D83E8(enemy, *mWeaponIdx_s));
+    }
 }
 
 void WeaponEquipEnemyWakeUp::loadParams_() {
