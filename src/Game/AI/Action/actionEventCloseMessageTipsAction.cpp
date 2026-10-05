@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventCloseMessageTipsAction.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -12,7 +13,13 @@ bool EventCloseMessageTipsAction::init_(sead::Heap* heap) {
 }
 
 void EventCloseMessageTipsAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* manager = ui::UI::instance()) {
+        manager->closeMessageTipsScreen();
+        setFinished();
+    } else {
+        setFailed();
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void EventCloseMessageTipsAction::leave_() {

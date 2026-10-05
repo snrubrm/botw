@@ -17,6 +17,8 @@ class UI {
     UI() = default;
 
 public:
+    // 0x71010a6e48: declared only; source owner inferred from the passed UI receiver.
+    void closeMessageTipsScreen();
     // 0x71010a5cac / 0x71010a6f04: get-item dialog query and close, declared only.
     bool sub_71010A5CAC();
     void sub_71010A6F04();
