@@ -12,10 +12,13 @@ public:
     ~GuardianMiniGroggy() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    bool sub_710041C850(s32* slot);
+
     // static_param at offset 0x38
     const int* mChanceTime_s{};
     // static_param at offset 0x40
