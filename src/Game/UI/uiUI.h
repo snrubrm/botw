@@ -19,7 +19,7 @@ class UI {
 public:
     // 0x71010a6e48: declared only; source owner inferred from the passed UI receiver.
     void closeMessageTipsScreen();
-    // 0x71010a5cac / 0x71010a6f04: get-item dialog query and close, declared only.
+    // 0x71010a5cac / 0x71010a6f04: get-item dialog query and close.
     bool sub_71010A5CAC();
     void sub_71010A6F04();
     // 0x71010a7118: declared only; updates the placed-item stock count and choice mode.
