@@ -126,7 +126,7 @@ public:
     /* 220 */ bool m220() override { return _c48.isOnBit(17); }
     /* 221 */ bool m221() override { return _c4c.isOnBit(12); }
     /* 222 */ bool m222() override { return _c4c.isOnBit(18); }
-    /* 223 */ void m223() override;
+    /* 223 */ bool m223(sead::Vector3f* out) override;
     /* 224 */ virtual bool m224() { return false; }
     /* 225 */ virtual bool m225() { return false; }
     /* 226 */ virtual bool m226() { return false; }

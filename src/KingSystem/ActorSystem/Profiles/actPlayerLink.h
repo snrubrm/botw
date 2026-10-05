@@ -71,7 +71,7 @@ public:
     /* 41 */ virtual bool m292() = 0;
     /* 42 */ virtual bool m221() = 0;
     /* 43 */ virtual bool m222() = 0;
-    /* 44 */ virtual void m223() = 0;
+    /* 44 */ virtual bool m223(sead::Vector3f* out) = 0;
     /* 45 */ virtual bool m299() = 0;
     /* 46 */ virtual bool m209() = 0;
     /* 47 */ virtual bool m210() = 0;

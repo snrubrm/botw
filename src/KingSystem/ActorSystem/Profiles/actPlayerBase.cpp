@@ -23,7 +23,17 @@
 
 bool eventMgrHasActiveEvent();
 
+// Declared only: Motorcycle queries through the actor accessor.
+bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71002C8330(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
+
 namespace ksys::act {
+
+bool PlayerBase::m223(sead::Vector3f* out) {
+    ActorConstDataAccess accessor;
+    return acquireActor(&PlayerInfo::instance()->getHorseLink(), &accessor) &&
+           sub_71002C802C(accessor) && sub_71002C8330(accessor, out);
+}
 
 bool PlayerBase::checkCanUseCamera() {
     if (m200() || _cec.isOnBit(31) || _cf0.isOn(0x02020000) || isRidingHorse() || m193() ||
