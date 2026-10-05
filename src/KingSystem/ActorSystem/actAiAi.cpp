@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -10,6 +11,15 @@
 #include "KingSystem/Resource/Actor/resResourceAIProgram.h"
 
 namespace ksys::act::ai {
+
+void Ai::changeAS(const char* as_name, bool b, int x, int y) {
+    auto* list = mActor->getASList();
+    if (!list)
+        return;
+    if (b && list->x_1(x, y) == as_name)
+        return;
+    list->startAnimationMaybe(-1.0f, -1.0f, as_name, x, y, true);
+}
 
 inline res::AIProgram* ActionBase::getAIProg() const {
     return mActor->getParam()->getRes().mAIProgram;
