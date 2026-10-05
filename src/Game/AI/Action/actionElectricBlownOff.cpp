@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionElectricBlownOff.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
 
 namespace uking::action {
 
@@ -10,8 +13,18 @@ bool ElectricBlownOff::init_(sead::Heap* heap) {
     return BlownOff::init_(heap) && sub_7100103E00(heap);
 }
 
+// NON_MATCHING: the byte reset and the timer's current/previous stores are scheduled differently.
 void ElectricBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
     BlownOff::enter_(params);
+    if (auto* manager = sub_710072BA90(mActor)) {
+        if (manager->checkDamageFlags(0)) {
+            _1a8 = 0;
+            _19c.reset(sead::Mathi::max(1, *mMaxKeepTimer_s));
+            sub_710010441C();
+            return;
+        }
+    }
+    _1a8 = 0xff;
 }
 
 void ElectricBlownOff::leave_() {

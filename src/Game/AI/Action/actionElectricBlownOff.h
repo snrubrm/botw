@@ -18,6 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_710010441C();
     // 0x710010451c (declared only): out of line in the original.
     void sub_710010451C();
     // 0x7100103e00 (declared only): out of line in the original.
