@@ -6,6 +6,7 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadAtomic.h>
 #include <container/seadSafeArray.h>
+#include <container/seadObjList.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -85,6 +86,9 @@ public:
     void sub_7100F7D2C8();
     void sub_7100F7D308(s32 value);
     void sub_7100F7D350();
+    // Declaration only.
+    void sub_7100394884(sead::ObjList<sead::Vector3f>::iterator begin,
+                        sead::ObjList<sead::Vector3f>::iterator end);
     // 0x7100f7d1b4 / 0x7100f7d1cc / 0x7100f7d298 (lane4 s29): the list of agent ids (`other->_8->_98`) at _a8 /
     // _d0 (HorseFollow: the rider's character): set the list to one entry, append an entry (returns its
     // index, -1 when full or when another thread appended first), replace the entry at `index` (ignored

@@ -140,6 +140,17 @@ bool UnarmedEnemySearch::m40(const sead::ObjList<sead::Vector3f>& points, sead::
     return false;
 }
 
+// NON_MATCHING: iterator argument setup is scheduled in a different order.
+void UnarmedEnemySearch::m41(const sead::ObjList<sead::Vector3f>& points) {
+    if (!mActor->m45())
+        return;
+    auto* state = _50;
+    if (state && state->_0) {
+        state->_0->sub_7100394884(points.begin(), points.end());
+        state->_8 = 0;
+    }
+}
+
 void UnarmedEnemySearch::m42() {
     setFailed();
 }
