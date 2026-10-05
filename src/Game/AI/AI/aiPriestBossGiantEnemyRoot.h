@@ -50,6 +50,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
@@ -64,6 +65,7 @@ public:
 
     // Bound to _2e8._40 by enter_.
     void sub_710051AD38(s32 x);
+    void sub_710051B0F8();
 
 protected:
     // static_param at offset 0x230

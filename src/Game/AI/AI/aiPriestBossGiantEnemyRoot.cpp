@@ -1,15 +1,23 @@
 #include "Game/AI/AI/aiPriestBossGiantEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710071edf8.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
-#include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 // Declaration only; the original source namespace is unknown.
 bool sub_710071E80C(ksys::act::Actor* actor, Unk_7102450fa8* unit);
+bool sub_710071EB88(ksys::act::Actor* actor);
 
 namespace uking::ai {
+
+static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
+static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
 // NON_MATCHING: the first stores (params, contact callbacks, sender) are scheduled differently
 PriestBossGiantEnemyRoot::PriestBossGiantEnemyRoot(const InitArg& arg)
@@ -26,6 +34,39 @@ bool PriestBossGiantEnemyRoot::init_(sead::Heap* heap) {
 
 void PriestBossGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorEnemyRoot::enter_(params);
+}
+
+// NON_MATCHING: separate string objects produce different offsets and load scheduling.
+void PriestBossGiantEnemyRoot::calc_() {
+    sub_710071EB3C(mActor);
+    if (auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor)) {
+        auto* handler = actor->_868;
+        if (_368._28 >= 0) {
+            if (handler) {
+                auto* instance = mActor->getPhysics();
+                if (actor->sub_71011CEA90()) {
+                    if (instance && instance->sub_7100FBDA2C(sUnk_7102413950) != handler->_c8)
+                        _368._28 = handler->_c8;
+                } else {
+                    handler->_c8 = _368._28;
+                    _368._28 = -1;
+                }
+            }
+        } else {
+            auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+            if (manager && manager->getField50() == 5) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(manager->m37(), &accessor);
+                if (accessor.hasProc() && accessor.getName() == sUnk_7102413930 && handler) {
+                    _368._28 = handler->_c8;
+                    handler->sub_71006EE280(sUnk_7102413950);
+                }
+            }
+        }
+    }
+    sub_710051B0F8();
+    PriestBossActorEnemyRoot::calc_();
+    *mPriestBossDownSideASPlaying_a = sub_710071EB88(mActor);
 }
 
 void PriestBossGiantEnemyRoot::leave_() {
