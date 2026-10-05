@@ -34,6 +34,7 @@ target_sources(uking PRIVATE
   euiFontMgr.cpp
   euiNwAllocator.cpp
   euiArcResourceMgr.cpp
+  euiMultiArcResourceAccessor.cpp
   euiArcResourceMgr.h
   euiLayoutEx.cpp
   euiPartsEx.cpp
