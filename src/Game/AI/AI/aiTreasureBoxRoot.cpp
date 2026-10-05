@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiTreasureBoxRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -29,6 +31,25 @@ void TreasureBoxRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         enter_init();
     else
         sub_71005CEA88();
+}
+
+void TreasureBoxRoot::enter_init() {
+    auto* actor = mActor;
+    auto* physics = actor->getPhysics();
+    if (physics) {
+        if (*mIsInGround_m)
+            physics->sub_7100FBADDC();
+        if (actor->getName().findIndex("Iron") != -1 ||
+            actor->getName().findIndex("Wood") != -1 ||
+            actor->getName().findIndex("Sandworm") != -1) {
+            if (auto* body = physics->findRigidBody("Cover"))
+                body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        }
+    }
+    _78 = true;
+    _79 = true;
+    sub_71005DD1CC(actor, true, 0.0f, 1.0f);
+    changeChild("地上", nullptr);
 }
 
 void TreasureBoxRoot::leave_() {
