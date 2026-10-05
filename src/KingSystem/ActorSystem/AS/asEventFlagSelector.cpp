@@ -11,6 +11,27 @@ EventFlagSelector::~EventFlagSelector() {
     _18.freeBuffer();
 }
 
+// NON_MATCHING: buffer-allocation branches and handle-loop register allocation differ.
+bool EventFlagSelector::m8(const InitArg& arg) {
+    if (!SelectorBase::m8(arg))
+        return false;
+    auto* parser = sead::DynamicCast<const res::ASStringArrayParser>(
+        arg.resource->getExtensions().getParser(res::ASParamParser::Type::StringArray));
+    if (!parser || parser->getValues().size() == 0)
+        return true;
+    int num_flags = parser->getValues().size();
+    if (res::ASResource::getDefaultStr() == *parser->getValues()[num_flags - 1].value)
+        --num_flags;
+    if (num_flags == 0)
+        return true;
+    if (!_18.tryAllocBuffer(num_flags, arg.createArg->heap, 8))
+        return false;
+    _18.fill(gdt::InvalidHandle);
+    for (int i = 0; i < num_flags; ++i)
+        _18[i] = gdt::Manager::instance()->getBoolHandle(*parser->getValues()[i].value);
+    return true;
+}
+
 // NON_MATCHING: the fallback result joins the loop-index return path rather than the epilogue.
 int EventFlagSelector::m39(Context* ctx, u32 a2, const res::ASResource* resource) {
     for (auto it = _18.begin(), end = _18.end(); it != end; ++it) {
