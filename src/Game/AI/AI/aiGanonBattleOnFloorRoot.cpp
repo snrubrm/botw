@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGanonBattleOnFloorRoot.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -12,8 +14,17 @@ bool GanonBattleOnFloorRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: boolean argument branch scheduling differs.
 void GanonBattleOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _50.previous_value = _50.value;
+    _50.rate = -1.0f;
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (boss && boss->_14e8.isOnBit(13)) {
+        sub_71003E1EE0(true);
+        boss->_14e8.resetBit(13);
+        return;
+    }
+    sub_71003E1EE0(testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) || *mIsNoWait_d);
 }
 
 void GanonBattleOnFloorRoot::leave_() {

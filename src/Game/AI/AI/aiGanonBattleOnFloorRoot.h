@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71003E1EE0(bool no_wait);
+
     // static_param at offset 0x38
     const float* mFarAttackDist_s{};
     // dynamic_param at offset 0x40
