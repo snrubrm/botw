@@ -1,5 +1,6 @@
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include <prim/seadSafeString.h>
@@ -8,6 +9,11 @@
 
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
+
+void increasePouchNumImpl(const sead::SafeString& name, s32 count) {
+    if (auto* mgr = PauseMenuDataMgr::instance())
+        mgr->increasePouchNum(name, count, nullptr, nullptr);
+}
 
 void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 
