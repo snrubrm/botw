@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
@@ -25,8 +26,47 @@ void WarpPlayerBase::leave_() {
 
 void WarpPlayerBase::loadParams_() {}
 
+// NON_MATCHING: natural control flow, temporary layout, and accessor scope merging differ.
 void WarpPlayerBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (!_58) {
+        _58 = true;
+        return;
+    }
+    if (!m33()) {
+        setFinished();
+        return;
+    }
+    const sead::Vector3f pos = _1c.getTranslation();
+    if (m34(pos)) {
+        if (auto* info = ksys::act::PlayerInfo::instance()) {
+            f32 remaining = 0.0f;
+            {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&info->getPlayerLink(), &accessor);
+                const auto& matrix = accessor.getActorMtx();
+                const f32 dx = pos.x - matrix.m[0][3];
+                const f32 dz = pos.z - matrix.m[2][3];
+                if (dx * dx + dz * dz < 1.0f) {
+                    const sead::Vector3f rotation = _1c.getRotation();
+                    if (_59) {
+                        m36(pos, rotation.y);
+                    } else {
+                        m35(pos, rotation.y);
+                        _59 = true;
+                        return;
+                    }
+                } else {
+                    ksys::Timer::update(&_5c, -1.0f);
+                    remaining = _5c;
+                }
+            }
+            if (remaining > 0.0f)
+                return;
+        }
+    }
+    setFinished();
 }
 
 void WarpPlayerBase::m32() {}
