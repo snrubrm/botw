@@ -21,6 +21,8 @@ public:
     virtual void m34();
 
 protected:
+    s32 sub_7100490308();
+
     // static_param at offset 0x38
     const float* mBasePosOffsetFront_s{};
     // static_param at offset 0x40

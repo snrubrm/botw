@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLynelDirSelect.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,24 @@ bool LynelDirSelect::init_(sead::Heap* heap) {
 }
 
 void LynelDirSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    switch (sub_7100490308()) {
+    case 0:
+        changeChild("前", &pack);
+        break;
+    case 1:
+        changeChild("後", &pack);
+        break;
+    case 2:
+        changeChild("左", &pack);
+        break;
+    case 3:
+        changeChild("右", &pack);
+        break;
+    default:
+        break;
+    }
 }
 
 bool LynelDirSelect::isFailed() const {
