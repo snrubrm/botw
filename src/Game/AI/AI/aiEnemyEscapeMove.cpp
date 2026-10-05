@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiEnemyEscapeMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -24,6 +25,11 @@ void EnemyEscapeMove::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-void EnemyEscapeMove::loadParams_() {}
+void EnemyEscapeMove::loadParams_() {
+    if (mActor->getParam()) {
+        getDynamicParam(&mTargetPos_d, "TargetPos");
+        getStaticParam(&mBehindCheckDist_s, "BehindCheckDist");
+    }
+}
 
 }  // namespace uking::ai

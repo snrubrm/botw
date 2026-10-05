@@ -17,6 +17,11 @@ public:
     void loadParams_() override;
 
 protected:
+    // dynamic_param at offset 0x38
+    sead::Vector3f* mTargetPos_d{};
+    // static_param at offset 0x40
+    const f32* mBehindCheckDist_s{};
+    // The remaining native tail is not modeled.
 };
 
 }  // namespace uking::ai
