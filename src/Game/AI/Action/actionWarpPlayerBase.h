@@ -20,7 +20,9 @@ protected:
     void calc_() override;
     virtual void m32();
     virtual bool m33();
-    virtual int m34();
+    virtual bool m34(const sead::Vector3f& pos);
+    virtual void m35(const sead::Vector3f& pos, f32 angle);
+    virtual void m36(const sead::Vector3f& pos, f32 angle);
 
     sead::Matrix34f _1c = sead::Matrix34f::ident;
     sead::Vector3f _4c = sead::Vector3f::ones;
