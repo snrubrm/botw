@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100230AFC(sead::Matrix34f* out) const;
     bool isFinished() const override;
 
     // static_param at offset 0xa8
