@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_71003E0DC4();
+
     // static_param at offset 0x38
     const float* mApproachTime_s{};
     // static_param at offset 0x40

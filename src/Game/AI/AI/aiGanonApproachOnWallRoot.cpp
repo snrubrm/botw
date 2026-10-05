@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGanonApproachOnWallRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,16 @@ bool GanonApproachOnWallRoot::init_(sead::Heap* heap) {
 }
 
 void GanonApproachOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _68 = 3;
+    if (sub_71003E0DC4())
+        setFinished();
+    _78.reset(*mApproachTime_s);
+    if (auto* controller = mActor->getCharacterController()) {
+        _6c = controller->get70();
+        const f32 length = _6c.length();
+        if (length > 0.0f)
+            _6c *= 1.0f / length;
+    }
 }
 
 void GanonApproachOnWallRoot::leave_() {
