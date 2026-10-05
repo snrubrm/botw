@@ -100,7 +100,7 @@ f32 Element::m4() {
     return 0;
 }
 
-void Element::m5() {}
+void Element::m5(act::Actor*, gsys::Model*, const sead::SafeString&, sead::Heap*, const res::AS*) {}
 
 int Element::m6() {
     return -1;

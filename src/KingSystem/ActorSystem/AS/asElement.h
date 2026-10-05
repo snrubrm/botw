@@ -3,6 +3,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelAnimation.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadMatrix.h>
 #include <gsys/gsysModelAccessKey.h>
@@ -352,7 +353,8 @@ public:
                         int index, const res::ASResource* resource);
 
     virtual f32 m4();
-    virtual void m5();
+    virtual void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
+                    sead::Heap* heap, const res::AS* as);
     virtual int m6();
     virtual int m7();
     virtual bool m8();
@@ -850,12 +852,13 @@ KSYS_CHECK_SIZE_NX150(AnmAsset, 0x10);
 class GraphicsAsset : public AnmAsset {
     SEAD_RTTI_OVERRIDE(GraphicsAsset, AnmAsset)
 public:
+    void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
+            sead::Heap* heap, const res::AS* as) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     int m31(Context* ctx, const res::ASResource* resource) override;
 
-    /* 0x10 */ s16 _10;
-    /* 0x12 */ s16 _12;
-    /* 0x14 */ s32 _14;
+    /* 0x10 */ gsys::AnimationAccessKey<gsys::MaterialAnmType> mKey;
+    /* 0x14 */ gsys::MaterialAnmType _14;
 };
 KSYS_CHECK_SIZE_NX150(GraphicsAsset, 0x18);
 
@@ -871,6 +874,8 @@ public:
 
     ~SkeltalAsset() override;
 
+    void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
+            sead::Heap* heap, const res::AS* as) override;
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
