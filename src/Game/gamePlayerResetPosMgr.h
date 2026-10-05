@@ -15,4 +15,5 @@ class PlayerResetPosMgr {
 public:
     void addResetPos(const sead::Vector3f& position, f32 yaw);
     void setResetPos(const sead::Vector3f& position, f32 yaw, ksys::act::Actor* actor);
+    void sub_71007A6620(ksys::act::Actor* actor);
 };

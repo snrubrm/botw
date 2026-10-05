@@ -24,8 +24,9 @@ void SetResetPos::enter_(ksys::act::ai::InlineParamPack* params) {
     PlayerResetPosMgr::instance()->setResetPos(position, yaw, actor);
 }
 
+// NON_MATCHING: singleton and actor argument loads are scheduled differently.
 void SetResetPos::leave_() {
-    ksys::act::ai::Action::leave_();
+    PlayerResetPosMgr::instance()->sub_71007A6620(mActor);
 }
 
 void SetResetPos::loadParams_() {}
