@@ -3,6 +3,14 @@
 
 namespace uking::ui {
 
+// 0x71010a6e48
+void UI::closeMessageTipsScreen() {
+    auto* screen = sead::DynamicCast<ScreenMessageTips>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTips));
+    if (screen)
+        screen->close(-1);
+}
+
 // 0x71010a5cac
 bool UI::sub_71010A5CAC() {
     auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageGet);

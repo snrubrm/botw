@@ -609,6 +609,14 @@ public:
     bool sub_7100A1E1E0();
 };
 
+// Only the MessageTips screen's nominal type is recovered here. Its owned
+// members and construction remain undeclared.
+class ScreenMessageTips : public Screen {
+public:
+    ~ScreenMessageTips() override;
+    SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
+};
+
 class ScreenGameOver : public ScreenEx {
 public:
     ScreenGameOver();
