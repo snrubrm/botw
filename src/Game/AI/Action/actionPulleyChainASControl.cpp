@@ -41,8 +41,18 @@ void PulleyChainASControl::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// NON_MATCHING: Parameter loads and vector evaluation scheduling differ.
 void PulleyChainASControl::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (auto* as_list = mActor->getASList()) {
+        const f32 length = as_list->x_5(*mTargetIdx_s, *mSeqBankIdx_s,
+                                      &ksys::as::ASList::Unk2::sub_710116323C);
+        as_list->x_3(*mTargetIdx_s, *mSeqBankIdx_s,
+                     &ksys::as::ASList::Unk2::sub_7101163298,
+                     sead::Mathf::clamp(
+                         length - (sead::Vector3f(_40, _44, _48) -
+                                   mActor->getMtx().getTranslation()).length(),
+                         0.0f, length));
+    }
 }
 
 }  // namespace uking::action
