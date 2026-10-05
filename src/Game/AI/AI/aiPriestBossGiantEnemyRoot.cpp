@@ -22,6 +22,56 @@ namespace uking::ai {
 static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
 static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
+// NON_MATCHING: the timer reset stores are merged before the delegate call.
+void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 >= 0) {
+        _24 = 0;
+        sub_710051A000(*a4);
+        switch (_24) {
+        case 1:
+            *a1 = 0;
+            break;
+        case 2:
+            *a1 = 0;
+            *a2 = 0;
+            *a3 = 0;
+            *a5 = -1;
+            *a4 = 0xffffffff;
+            break;
+        case 3:
+            if (_30.value <= sead::Mathf::epsilon()) {
+                _30.reset(_2c);
+            } else {
+                *a1 = 0;
+                *a2 = 0;
+                *a3 = 0;
+                *a5 = -1;
+                *a4 = 0xffffffff;
+            }
+            break;
+        case 4:
+            *a1 = 1;
+            break;
+        case 6:
+            if (_30.value <= sead::Mathf::epsilon()) {
+                _30.reset(_2c);
+                _40(*a1);
+            } else {
+                *a1 = 0;
+                *a2 = 0;
+                *a3 = 0;
+                *a5 = -1;
+                *a4 = 0xffffffff;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    if (!(_30.value <= sead::Mathf::epsilon()))
+        _30.update();
+}
+
 void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a5 >= 0) {
         _24 = 0;
