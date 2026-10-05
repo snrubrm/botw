@@ -16,8 +16,8 @@
 	branch = botw
 [submodule "lib/agl"]
 	path = lib/agl
-	url = https://github.com/open-ead/agl
-	branch = master
+	url = https://github.com/snrubrm/agl
+	branch = botw
 [submodule "lib/EventFlow"]
 	path = lib/EventFlow
 	url = https://github.com/snrubrm/EventFlow
