@@ -34,6 +34,7 @@ class ObjectLinkData;
 namespace ksys::phys {
 class ContactLayer;
 class NavMeshCharacter;
+class StaticCompoundRigidBodyGroup;
 class SystemGroupHandler;
 }
 
@@ -153,6 +154,7 @@ public:
     const sead::Vector3f& getField458_Vec3() const;
     const sead::Vector3f& getField470_Vec3() const;
     const sead::Vector3f& getField418() const;
+    phys::StaticCompoundRigidBodyGroup* const& getFieldBodyGroup() const;
     uking::act::Rideable* getHorseOptions() const;
     uking::act::Unk_7100e8b2b8* getHorseRideStuff() const;
     // 0x7100d1443c (lane4 s29; HorseFollow::m35): `_18._b` of the actor's RideableBase (Actor slot 132),

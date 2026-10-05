@@ -31,6 +31,10 @@
 
 namespace ksys::act {
 
+namespace {
+phys::StaticCompoundRigidBodyGroup* sNullFieldBodyGroup = nullptr;
+}  // namespace
+
 static BaseProc* getProcIfActor(BaseProc* proc) {
     if (proc && sead::IsDerivedFrom<Actor>(proc))
         return proc;
@@ -798,6 +802,12 @@ const sead::Vector3f& ActorConstDataAccess::getField458_Vec3() const {
 const sead::Vector3f& ActorConstDataAccess::getField470_Vec3() const {
     auto* actor = getActor();
     return actor ? actor->_478 : sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+phys::StaticCompoundRigidBodyGroup* const& ActorConstDataAccess::getFieldBodyGroup() const {
+    auto* actor = getActor();
+    return actor ? actor->getFieldBodyGroup() : sNullFieldBodyGroup;
 }
 
 // NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
