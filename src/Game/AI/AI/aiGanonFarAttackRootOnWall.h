@@ -13,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -31,6 +32,8 @@ public:
     void changeToLightning();
 
 protected:
+    bool sub_71003E8F1C();
+
     // static_param at offset 0x38
     const int* mPillarMax_s{};
     // dynamic_param at offset 0x40

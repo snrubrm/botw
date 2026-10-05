@@ -19,6 +19,33 @@ void GanonFarAttackRootOnWall::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71003E8884();
 }
 
+// NON_MATCHING: Target pointer selection and saved-register allocation differ.
+void GanonFarAttackRootOnWall::calc_() {
+    const bool wait = isCurrentChild("落雷後待機");
+    auto* child = getCurrentChild();
+    child->setDynamicParam(wait ? *mViewPos_d : *mTargetPos_d, "TargetPos");
+    if (sub_71003E8F1C() && getCurrentChild()) {
+        child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            if (isCurrentChild("落雷")) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(*mViewPos_d, "TargetPos", -1);
+                changeChild("落雷後待機", &pack);
+                return;
+            }
+            if (isCurrentChild("落雷後待機") && _50 <= 2) {
+                changeToLightning();
+                return;
+            }
+        }
+    }
+    if (getCurrentChild()) {
+        child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            setFinished();
+    }
+}
+
 void GanonFarAttackRootOnWall::leave_() {
     sub_71003E9150();
 }
