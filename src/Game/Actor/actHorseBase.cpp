@@ -51,6 +51,16 @@ HorseBase::HorseBase(const CreateArg& arg) : Actor(arg), _8d0() {
     _1c0 = 2;
 }
 
+// NON_MATCHING: empty-string termination and formatting-call scheduling.
+void HorseBase::m143() {
+    if (!_b10)
+        return;
+    Actor::m143();
+    sead::FormatFixedSafeString<256>("ORNode://U-King/NPC/%s/%s:パラメータ", getName().cstr(),
+                                   sead::SafeString::cEmptyString.cstr());
+    ++_c50;
+}
+
 // NON_MATCHING: the original releases _a70 from a member destructor (after ExtendedEntity's)
 HorseBase::~HorseBase() {
     if (_a70)
