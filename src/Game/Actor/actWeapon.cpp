@@ -172,6 +172,22 @@ bool Weapon::m226() {
     return player && player->m206();
 }
 
+bool Weapon::m155() {
+    if (!isParentPlayer())
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    if (!player || player->m203())
+        return false;
+    return player->_d11 != 0 || player->m194();
+}
+
+bool Weapon::m156() {
+    if (!isParentPlayer())
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    return player && (player->m199() || player->_cec.isOnBit(4));
+}
+
 void Weapon::m206(bool play_sound) {
     callGetDemoHandler(this, getName());
     ui::openPickUpScreen(this);

@@ -285,6 +285,8 @@ public:
     bool m226() override;
     void m206(bool play_sound) override;
     bool m153() override;
+    bool m155() override;
+    bool m156() override;
     ksys::act::ActorWeapons* getParentActorWeapons();
     s32 getEffectiveAttackPower(ksys::act::Actor* actor);
     bool m216() override;
