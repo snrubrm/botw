@@ -18,6 +18,20 @@ void NPC::m79() {
         sub_7100021AB4();
 }
 
+bool NPC::startPreparingForPreDelete_() {
+    if (!(_fe8 & 0x10000)) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_f70, &accessor))
+            accessor.deleteEx(DeleteReason::_0);
+    } else if (!_f28._18.isAccessingSpecifiedProcUnsafe(_f28.mActor)) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(
+            _f28._18.getProc(nullptr, _f28.mActor));
+        if (actor)
+            actor->deleteEx(DeleteType::_1, DeleteReason::_0, nullptr);
+    }
+    return Actor::startPreparingForPreDelete_();
+}
+
 void NPC::onDeleteRequested_(DeleteReason reason) {
     Actor::onDeleteRequested_(reason);
     getWeapons()->sub_7100EFCC20(DeleteReason(0));
