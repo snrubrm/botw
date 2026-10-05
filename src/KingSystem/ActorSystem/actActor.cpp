@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorParamMgr.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
@@ -785,6 +786,50 @@ void Actor::emitSignalsOrDisappearEffectForDelete(int reason) {
     EventMgr1::instance()->sub_7100E48D8C(getName());
     if (reason != 1)
         emitDisappearEffect();
+}
+
+void Actor::emitDisappearEffect() {
+    // NON_MATCHING: the switch omits the original redundant stack stores and loads of the type.
+    const auto* info = m135();
+    if (!info)
+        return;
+    switch (info->_4) {
+    case 1: {
+        if (!mXLink)
+            break;
+        Unk_71012419b4 handle;
+        xlinkSearchAndEmit(this, "Disappear", 2, &handle);
+        auto* event = static_cast<xlink2::EventELink*>(handle.mELink.getEvent());
+        if (event && event->getCreateId() == handle.mELink.getCreateId() &&
+            event->getMtxSetType() == 0) {
+            sead::Matrix34f scale;
+            scale.makeS(mScale);
+            handle.sub_7101241A44(mMtx * scale);
+        }
+        break;
+    }
+    case 2:
+        if (mXLink)
+            xlinkSearchAndEmit(this, "Disappear", 2, nullptr);
+        break;
+    case 4:
+        sub_71011D6E88(false);
+        break;
+    case 5:
+    case 6:
+    case 7:
+    case 13:
+        sub_71011D6E88(true);
+        break;
+    case 8:
+        xlinkSearchAndEmit(this, "AntiChemical_KillFire", 2, nullptr);
+        break;
+    case 9:
+        xlinkSearchAndEmit(this, "AntiChemical_KillIce", 2, nullptr);
+        break;
+    default:
+        break;
+    }
 }
 
 void Actor::sub_71011D7E24() {

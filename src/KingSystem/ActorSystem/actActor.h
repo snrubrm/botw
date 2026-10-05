@@ -372,7 +372,7 @@ public:
     void sub_71011D49C8();
     // CSV name.
     void clearFadeInCreate();
-    // CSV name (0x71011d6cbc; not decompiled): emits the effect for the m135()->_4 disappear type.
+    // CSV name (0x71011d6cbc): emits the effect for the m135()->_4 disappear type.
     void emitDisappearEffect();
     // 0x7100ee1e94 (declaration only; placeholder name): queries the actor's `_570->_138` object with the
     // current time type; SystemHide::m32 forwards to it.
@@ -759,6 +759,9 @@ protected:
     // Declaration only; original source name is unknown.
     void x_0(const Unk2* key, const sead::Vector3f& offset, bool use_offset,
              sead::Vector3f* out);
+
+    // 0x71011d6e88: declaration-only disappearance effect helper.
+    void sub_71011D6E88(bool flag);
 
     // FIXME: rename
     void job0_1();
