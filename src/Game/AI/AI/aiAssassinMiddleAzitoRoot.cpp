@@ -58,6 +58,30 @@ void AssassinMiddleAzitoRoot::leave_() {
         mActor->resetConnectedCalcChild(false);
 }
 
+// NON_MATCHING: SafeString member-address scheduling and register allocation differ.
+bool AssassinMiddleAzitoRoot::handleMessage_(const ksys::Message* message) {
+    if (EnemyNormal::handleMessage_(message) || message->getType() == 0x8000040)
+        return true;
+    if (!_490.m2(*message))
+        return false;
+    {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_490._8, &accessor);
+        auto* actor = mActor;
+        if (actor->getName() == accessor.getName()) {
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+                if (!enemy->_e84.isOn(0x200)) {
+                    const char* demo = mDemoName_s.cstr();
+                    ksys::evt::Metadata metadata(demo, mEntryPoint_s.cstr(), "");
+                    ksys::evt::Manager::instance()->sub_7100DB0CA0(metadata, mActor);
+                    enemy->_e84.set(0x200);
+                }
+            }
+        }
+    }
+    return true;
+}
+
 void AssassinMiddleAzitoRoot::loadParams_() {
     AssassinNormal::loadParams_();
     getStaticParam(&mEntryPoint_s, "EntryPoint");
