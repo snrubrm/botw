@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiWaterSurfaceBase.h"
+#include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
 
 namespace uking::ai {
 
@@ -12,8 +14,27 @@ WaterSurfaceBase::~WaterSurfaceBase() {
     }
 }
 
+// NON_MATCHING: virtual-call argument scheduling differs in the bounds fallback.
 bool WaterSurfaceBase::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _40 = aal::ShapeCube::create("WaterSurface", heap);
+    if (_40) {
+        _40->mFlags.resetBit(aal::Shape::Flag::KeepPosition);
+        _40->mFlags.resetBit(aal::Shape::Flag::KeepRotation);
+        _40->setPosition(mActor->getMtx().getTranslation());
+        if (auto* water = sead::DynamicCast<ksys::phys::BoxWaterRigidBody>(mActor->getMainBody())) {
+            sead::Vector3f size = water->getExtents();
+            size.y = 0.01f;
+            _40->setVector(size);
+        } else if (auto* body = mActor->getMainBody()) {
+            sead::BoundBox3f box;
+            body->getAabbInLocal(&box);
+            _40->setVector(sead::Vector3f(box.getSizeX(), 0.01f, box.getSizeZ()));
+        }
+        sead::Matrix34f rotation = mActor->getMtx();
+        rotation.setTranslation(sead::Vector3f::zero);
+        _40->setRotate(rotation);
+    }
+    return true;
 }
 
 void WaterSurfaceBase::enter_(ksys::act::ai::InlineParamPack* params) {
