@@ -9,6 +9,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -17,7 +18,26 @@ EnemyPursuingBattle::EnemyPursuingBattle(const InitArg& arg) : EnemyBattle(arg) 
 EnemyPursuingBattle::~EnemyPursuingBattle() = default;
 
 void EnemyPursuingBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBattle::enter_(params);
+    const auto& name = mActor->getName();
+    name.cstr();
+    name.cstr();
+    _a8.reset(0.0f);
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        EnemyBattle::enter_(params);
+        return;
+    }
+
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    sub_7100381ED4();
+    if (sub_71003A9AE8())
+        changeToFollowUpAttack();
+    else if (m40())
+        m38();
+    else
+        m37();
 }
 
 void EnemyPursuingBattle::calc_() {
