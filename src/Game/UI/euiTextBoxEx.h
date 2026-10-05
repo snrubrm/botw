@@ -50,4 +50,7 @@ public:
 };
 static_assert(sizeof(TextBoxEx) == 0x160);
 
+// 0x7100933580
+TextBoxEx* sub_7100933580(nn::ui2d::Pane* pane);
+
 }  // namespace eui

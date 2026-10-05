@@ -11,6 +11,8 @@
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/BuildTypes.h>
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiAlignPane.h"
+#include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiFontMgr.h"
@@ -69,6 +71,47 @@ s32 LayoutEx::setMessageStringForEachIdWithPage(const char* id, const MessageStr
     const s32 count = setMessageStringForEachIdRecursive_(mPane, id, message, has_next_page, page, user_data);
     if (count && adjust_size && (_90 & 1))
         adjustPaneSizeToTextSizeRecursive_(mPane);
+    return count;
+}
+
+// NON_MATCHING: the bounded identifier comparison tests its loop bound in a different order.
+// 0x7100bdda00
+s32 LayoutEx::setMessageStringForEachIdRecursive_(nn::ui2d::Pane* pane, const char* id,
+                                                 const MessageString& message, bool* has_next_page,
+                                                 s32 page, void* user_data) {
+    s32 count = 0;
+    auto* text_box = sub_7100933580(pane);
+    if (text_box && text_box->mTextId && text_box->mTextId[0] == '@') {
+        bool matches = true;
+        for (s32 i = 0; i < 24; ++i) {
+            if (id[i] != text_box->mTextId[i + 1]) {
+                matches = false;
+                break;
+            }
+            if (id[i] == '\0')
+                break;
+        }
+        if (matches) {
+            if (page < 0)
+                text_box->setMessageString(message, user_data);
+            else
+                text_box->setMessageStringWithPage(message, has_next_page, page, true, user_data);
+            count = 1;
+            if (mScreen && (mScreen->_107 & 0x20)) {
+                for (auto* parent = pane->GetParent(); parent; parent = parent->GetParent()) {
+                    if (auto* align = nn::font::DynamicCast<AlignPane>(parent)) {
+                        align->mNeedsAlignment = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    for (auto& child : pane->GetChildList()) {
+        if (!nn::font::DynamicCast<nn::ui2d::Parts>(&child))
+            count += setMessageStringForEachIdRecursive_(&child, id, message, has_next_page,
+                                                       page, user_data);
+    }
     return count;
 }
 
