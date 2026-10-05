@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiPriestBossActorCloneRoot.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
 
+// Source namespace and helper ownership are unknown; declaration only.
+void sub_710071EBA4(ksys::act::Actor* actor);
+
 namespace uking::ai {
 
 PriestBossActorCloneRoot::PriestBossActorCloneRoot(const InitArg& arg)
@@ -18,6 +21,12 @@ bool PriestBossActorCloneRoot::init_(sead::Heap* heap) {
 
 void PriestBossActorCloneRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorNormalRoot::enter_(params);
+}
+
+void PriestBossActorCloneRoot::calc_() {
+    PriestBossActorNormalRoot::calc_();
+    if (sub_7100505BE4() && sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_1))
+        sub_710071EBA4(mActor);
 }
 
 void PriestBossActorCloneRoot::leave_() {
