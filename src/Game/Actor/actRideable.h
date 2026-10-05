@@ -124,6 +124,8 @@ public:
     struct S1 {
         S1();
 
+        void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
+
         // 0x7100e76260: plays AS `name` (slot / bank arguments; placeholder signature).
         void sub_7100E76260(const sead::SafeString& name, int a2, int slot, int a4, int bank);
         // 0x7100e770c4: clears flag bits 0x600 (sets 0x10) and _40 unless 0x400 is set (or `force`).

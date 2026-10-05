@@ -15,6 +15,11 @@ RideableBase::RideableBase() = default;
 
 RideableBase::~RideableBase() = default;
 
+void RideableBase::m9() {
+    _18.sub_7100E74890((_8 & 4) != 0, (_8 & 2) != 0, _154, _164);
+    _8 |= 0x40;
+}
+
 // NON_MATCHING: flag-set and flag-clear operations are scheduled differently.
 void RideableBase::sub_7100E63424() {
     const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
