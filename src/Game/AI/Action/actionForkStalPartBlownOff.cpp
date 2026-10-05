@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionForkStalPartBlownOff.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_7100724C64.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -13,7 +14,11 @@ bool ForkStalPartBlownOff::init_(sead::Heap* heap) {
 }
 
 void ForkStalPartBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    const auto* life = actor->getLife();
+    if ((life ? f32(*life) : 1.0f) / f32(actor->getMaxLife()) <= *mLifeRate_s)
+        sub_7100166114();
+    mFlags.set(Flag::Changeable);
 }
 
 void ForkStalPartBlownOff::leave_() {

@@ -17,6 +17,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100166114();
 
     // static_param at offset 0x20
     const int* mShootParts_s{};
