@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
@@ -98,6 +99,26 @@ void* Weapon::m221() {
 
 bool Weapon::m227() {
     return (_e52 & 1) != 0;
+}
+
+bool Weapon::m218() {
+    return _f58;
+}
+
+bool Weapon::m225() {
+    return _fd8;
+}
+
+// NON_MATCHING: the invalid-slot result joins the shared return path earlier.
+bool Weapon::m153() {
+    if (m189())
+        return (_e50 & 4) != 0;
+    if (!getParentActor())
+        return false;
+    auto* weapons = getParentActorWeapons();
+    if (!weapons || _9f0 < 0 || _9f0 > 5)
+        return false;
+    return weapons->mWeapons[_9f0]._10;
 }
 
 bool Weapon::m216() {

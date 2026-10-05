@@ -273,6 +273,10 @@ public:
     void m215() override;
     void* m221() override;
     bool m227() override;
+    bool m218() override;
+    bool m225() override;
+    bool m153() override;
+    ksys::act::ActorWeapons* getParentActorWeapons();
     bool m216() override;
     bool m211() override;
     bool m212() override;
@@ -323,7 +327,9 @@ public:
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
     /* 0xe52 */ u16 _e52;
-    /* 0xe54 */ u8 _e54[0xf60 - 0xe54];  // TODO
+    /* 0xe54 */ u8 _e54[0xf58 - 0xe54];  // TODO
+    /* 0xf58 */ bool _f58;
+    /* 0xf59 */ u8 _f59[0xf60 - 0xf59];  // TODO
     /* 0xf60 */ ksys::act::BaseProcLink _f60;
     /* 0xf70 */ u8 _f70[0xf89 - 0xf70];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
@@ -336,7 +342,8 @@ public:
     /* 0xfc8 */ bool _fc8;
     /* 0xfc9 */ u8 _fc9[0xfd0 - 0xfc9];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
-    /* 0xfd8 */ u8 _fd8[0x1008 - 0xfd8];  // TODO
+    /* 0xfd8 */ bool _fd8;
+    /* 0xfd9 */ u8 _fd9[0x1008 - 0xfd9];  // TODO
     /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
 };
 
