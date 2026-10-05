@@ -612,6 +612,7 @@ public:
 class ScreenGameOver : public ScreenEx {
 public:
     ScreenGameOver();
+    void m101() override;
     bool isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
@@ -629,8 +630,8 @@ public:
     /* 0x3610 */ u8 _3610{};
     u8 _pad_3611[3];
     /* 0x3614 */ s32 _3614 = 7;
-    u64 _3618{};
-    u64 _3620{};
+    /* 0x3618 */ eui::Animator* _3618 = nullptr;
+    /* 0x3620 */ nn::ui2d::Pane* _3620 = nullptr;
 
     bool sub_7100A0A8D8();
     bool sub_7100A0A914();
