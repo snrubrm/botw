@@ -21,8 +21,13 @@ void DragonReleaseGrudgeForDemo::enter_(ksys::act::ai::InlineParamPack* params) 
     }
 }
 
+// NON_MATCHING: flag-mask and nested-state address registers are exchanged.
 void DragonReleaseGrudgeForDemo::leave_() {
     DragonPlayASForDemo::leave_();
+    if (auto* dragon = sead::DynamicCast<act::Dragon>(mActor)) {
+        dragon->_14c8._930 &= ~0x40;
+        dragon->_14c8.sub_71006FD830(-1.f, -1.f);
+    }
 }
 
 void DragonReleaseGrudgeForDemo::loadParams_() {
