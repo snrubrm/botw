@@ -42,6 +42,19 @@ bool isMasterSwordItem(const PouchItem& item) {
     return item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName());
 }
 
+// NON_MATCHING: the compiler reverses the special-value comparisons and their branches.
+bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out) {
+    if (power == 99999) {
+        *out = "1";
+        return true;
+    }
+    if (power == -111) {
+        *out = "∞";
+        return true;
+    }
+    return false;
+}
+
 int getItemHitPointRecover(const sead::SafeString& name) {
     auto* info = ksys::act::InfoData::instance();
     if (!info)

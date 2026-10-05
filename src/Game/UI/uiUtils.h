@@ -71,6 +71,7 @@ bool isMasterSwordActorName(const sead::SafeString& name);
 // Do not implement until the location is figured out
 bool isOneHitObliteratorActorName(const sead::SafeString& name);
 int getItemGeneralLife(const char* name);
+bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out);
 
 // TODO: move this to yet another translation unit (TBD but not the same one as the above)
 void addItemForDebug(const sead::SafeString& name, int value);
