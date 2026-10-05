@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyChaseShield.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -14,8 +16,29 @@ bool EnemyChaseShield::init_(sead::Heap* heap) {
     return true;
 }
 
-void EnemyChaseShield::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+void EnemyChaseShield::enter_(ksys::act::ai::InlineParamPack*) {
+    _58 = sub_71005E2BCC(mActor);
+    if (!_58) {
+        changeToRotate();
+        setFailed();
+        return;
+    }
+    if (_58->_0)
+        _58->_0->sub_7100F7604C(0.2f);
+    act::Weapon* weapon = nullptr;
+    if (mTargetWeapon_d) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(mTargetWeapon_d->getProc(nullptr, nullptr));
+        weapon = sead::DynamicCast<act::Weapon>(actor);
+    }
+    if (!weapon || weapon->hasParentActor()) {
+        changeToRotate();
+        sub_71003835C0();
+        return;
+    }
+    if (sub_7100383680())
+        changeToRotate();
+    else
+        sub_7100383768();
 }
 
 void EnemyChaseShield::loadParams_() {

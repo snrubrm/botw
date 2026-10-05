@@ -21,6 +21,10 @@ public:
     void changeToAcquire();
 
 protected:
+    void sub_71003835C0();
+    bool sub_7100383680();
+    void sub_7100383768();
+
     // dynamic_param at offset 0x38
     ksys::act::BaseProcLink* mTargetWeapon_d{};
     // static_param at offset 0x40
