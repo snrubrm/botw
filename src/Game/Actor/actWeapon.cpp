@@ -165,6 +165,13 @@ bool Weapon::m250(ksys::act::Actor* actor) {
     return bullet && (bullet->_cf4 & 0x10);
 }
 
+bool Weapon::m239() {
+    if (!isParentPlayer())
+        return false;
+    auto* parent = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    return parent && parent->m271() == 1 && parent->getWeapons()->mWeapons[0]._10;
+}
+
 bool Weapon::m218() {
     return _f58;
 }
