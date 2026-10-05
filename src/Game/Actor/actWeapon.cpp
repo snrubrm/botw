@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
@@ -26,6 +27,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 // 0x71008ba7d8: declaration only; original source namespace is unknown.
 bool isActiveEventDemo000Or001Or002();
@@ -99,6 +101,12 @@ void Weapon::m215() {
 
 void* Weapon::m221() {
     return _fd0;
+}
+
+void Weapon::masterSwordReturnToForest() {
+    uking::ui::showInfoOverlayWithString(33, sead::SafeString(getName().cstr()));
+    xlinkSearchAndEmit(this, "Return", 2, nullptr);
+    deleteLater(DeleteReason::_0);
 }
 
 // NON_MATCHING: the compiler combines the request-type tests differently.

@@ -273,6 +273,7 @@ public:
     void m215() override;
     void* m221() override;
     bool m222() override;
+    void masterSwordReturnToForest() override;
     bool m227() override;
     void m228(ksys::act::BaseProc* proc) override;
     void m229(ksys::act::BaseProc* proc) override;
