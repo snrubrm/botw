@@ -9,6 +9,7 @@
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actDropMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -34,6 +35,12 @@
 #include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
+
+void Actor::createDrops(int, int) {
+    if (auto* manager = DropMgr::instance())
+        manager->createDrops(this, false);
+}
+
 
 void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
                      const sead::SafeString& link_name) {

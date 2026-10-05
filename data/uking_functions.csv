@@ -73682,7 +73682,7 @@ Address,Quality,Size,Name
 0x0000007100d2bd18,U,000164,DropMgr::init
 0x0000007100d2bdbc,U,000068,DropMgr::__auto3
 0x0000007100d2be00,U,000160,DropMgr::__auto1
-0x0000007100d2bea0,U,000388,DropMgr::createDrops
+0x0000007100d2bea0,U,000388,_ZN4ksys3act7DropMgr11createDropsEPNS0_5ActorEb
 0x0000007100d2c024,U,000240,DropMgr::__auto2
 0x0000007100d2c114,U,000240,DropMgr::x
 0x0000007100d2c204,U,000872,DropMgr::createDropsWithTable
@@ -80934,7 +80934,7 @@ Address,Quality,Size,Name
 0x0000007100ee7828,U,000044,_ZN4ksys3act29getPlacementNameAndUniqueNameEPNS0_5ActorEPN4sead22BufferedSafeStringBaseIcEES6_
 0x0000007100ee7854,U,000044,
 0x0000007100ee7880,O,000012,_ZN4ksys3act19getDefaultDropActorEv
-0x0000007100ee788c,U,000036,_ZN4ksys3act5Actor11createDropsEii
+0x0000007100ee788c,O,000036,_ZN4ksys3act5Actor11createDropsEii
 0x0000007100ee78b0,O,001192,_ZN4ksys3eco21getEcosystemActorNameEPN4sead14SafeStringBaseIcEERKS3_RKNS1_7Vector3IfEE
 0x0000007100ee7d58,O,000344,_ZN4ksys3act17getRandomAreaItemEPN4sead14SafeStringBaseIcEERKNS_3eco12AreaItemTypeERKNS1_7Vector3IfEE
 0x0000007100ee7eb0,O,000056,_ZN4ksys3act22isInSatoriMountainAreaERKN4sead7Vector3IfEE
