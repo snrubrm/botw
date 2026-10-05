@@ -14,6 +14,7 @@ public:
     explicit MergedDungeonParts(const CreateArg& arg);
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+    void updatePositionMaybe() override;
 
     /* 0x850 */ sead::Matrix34f _850[17];
     /* 0xb80 */ s32 _b80[17];

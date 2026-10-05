@@ -10,8 +10,7 @@ namespace uking::act {
 
 // Name from the CSV (MapConst::ctor 0x7100e8dde4, MapConst::m*; the namespace is a guess). A map object
 // actor (RTTI static 0x71025b7208, vtable 0x71024ec790 (GOT value), size 0x850) that keeps its physics
-// at the placement transform. The factory is not identified yet. MapConst::m71 (0x7100e8e010) calls the
-// unnamed matrix comparison 0x7100700428 and is not written yet.
+// at the placement transform. The factory is not identified yet.
 class MapConst : public ksys::act::Actor {
     SEAD_RTTI_OVERRIDE(MapConst, ksys::act::Actor)
 public:
@@ -25,6 +24,7 @@ protected:
 public:
     void m63() override;
     void initMaybe() override;
+    void updatePositionMaybe() override;
 
     /* 0x83c */ s32 _83c = 0;
     /* 0x840 */ f32 _840 = 0;  // traverse distance of the actor
@@ -54,6 +54,7 @@ protected:
 public:
     void m63() override;
     void initMaybe() override;
+    void updatePositionMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
 
@@ -74,6 +75,7 @@ protected:
 public:
     void m63() override;
     void initMaybe() override;
+    void updatePositionMaybe() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     ksys::act::Unk_71025ae620* getDropData() override;
@@ -100,6 +102,7 @@ protected:
 
 public:
     void m63() override;
+    void updatePositionMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstPassiveBase, 0x850);
 
