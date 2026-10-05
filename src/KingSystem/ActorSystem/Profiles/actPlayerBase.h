@@ -38,6 +38,7 @@ public:
     // 0x7100848efc (CSV name; ~70 callers): the name of equipment type `type` (an entry of a table
     // of SafeStrings in the PlayerBase TU's static data; `this` is unused).
     const sead::SafeString& getEquipmentTypeName(u32 type) const;
+    s32 getX();
 
     // FIXME: name for x
     void setExtraLife(s32 extra_life, f32 x);

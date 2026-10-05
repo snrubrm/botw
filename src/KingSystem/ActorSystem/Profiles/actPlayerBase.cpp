@@ -29,6 +29,12 @@ bool sub_71002C8330(const ksys::act::ActorConstDataAccess& accessor, sead::Vecto
 
 namespace ksys::act {
 
+s32 PlayerBase::getX() {
+    if (auto* chemical = getChemicalStuff())
+        return chemical->_180;
+    return 0;
+}
+
 bool PlayerBase::m223(sead::Vector3f* out) {
     ActorConstDataAccess accessor;
     return acquireActor(&PlayerInfo::instance()->getHorseLink(), &accessor) &&
