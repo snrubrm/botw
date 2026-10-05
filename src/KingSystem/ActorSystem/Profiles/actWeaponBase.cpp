@@ -57,6 +57,18 @@ void WeaponBase::onWakeUpRequested_(SleepWakeReason reason) {
     }
 }
 
+void WeaponBase::onDeleteRequested_(DeleteReason reason) {
+    Actor::onDeleteRequested_(reason);
+    if (_958.hasProc()) {
+        ActorConstDataAccess accessor;
+        acquireActor(&_958, &accessor);
+        accessor.deleteLater(DeleteReason::_0);
+    }
+    auto* child = sead::DynamicCast<Actor>(getConnectedCalcChild());
+    if (child && !m250(child))
+        child->deleteLater(DeleteReason::_0);
+}
+
 Actor* WeaponBase::m31() {
     return getParentActor();
 }
