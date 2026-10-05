@@ -35,6 +35,12 @@ void SiteBossBowBlowOff::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void SiteBossBowBlowOff::leave_() {
     SiteBossBlowOff::leave_();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        boss->_1558.setBit(3);
+        boss->sub_71002CFD04(false);
+    }
+    if (auto* body = mActor->getMainBody())
+        body->setContactNone();
 }
 
 void SiteBossBowBlowOff::loadParams_() {
