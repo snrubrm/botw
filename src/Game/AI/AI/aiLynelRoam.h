@@ -19,6 +19,9 @@ public:
     void changeToMove(const sead::Vector3f& pos);
 
 protected:
+    bool sub_7100498398(sead::Vector3f* out);
+    bool sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direction);
+
     // static_param at offset 0x38
     const int* mFreeIntervalMin_s{};
     // static_param at offset 0x40

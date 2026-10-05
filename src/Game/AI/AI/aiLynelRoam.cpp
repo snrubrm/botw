@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiLynelRoam.h"
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -12,8 +13,24 @@ bool LynelRoam::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: timer load scheduling and vector stack placement differ.
 void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const s32 time = *mNoSpAttackMoveTime_s;
+    _b0 = time;
+    _b4 = _b8 = time;
+    _c8.reset(sead::GlobalRandom::instance()->getS32Range(*mFreeIntervalMin_s,
+                                                      *mFreeIntervalMax_s));
+    _bc.reset(*mNoMoveTime_s);
+    sead::Vector3f position;
+    if (!sub_7100498398(&position)) {
+        sead::Vector3f direction;
+        sub_71000891C8(&direction, mActor);
+        if (!sub_710049951C(&position, direction)) {
+            changeChild("待機");
+            return;
+        }
+    }
+    changeToMove(position);
 }
 
 void LynelRoam::leave_() {
