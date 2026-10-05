@@ -23,7 +23,12 @@ void NPCHorseRide::onPreDelete() {
 }
 
 bool NPCHorseRide::init_(sead::Heap* heap) {
-    return NonPlayerHorseRide::init_(heap);
+    if (!NonPlayerHorseRide::init_(heap))
+        return false;
+    _110 = sead::DynamicCast<act::NPC>(mActor);
+    *static_cast<Unk_71025afb58**>(mEventBindUnit_a) = &_270;
+    _270._8 = &_38;
+    return true;
 }
 
 void NPCHorseRide::enter_(ksys::act::ai::InlineParamPack* params) {

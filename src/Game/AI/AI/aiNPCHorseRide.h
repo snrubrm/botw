@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/AI/aiNonPlayerHorseRide.h"
+#include "Game/AI/Action/actionEventBind.h"
 #include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -48,7 +49,7 @@ protected:
     LockedProcLinkMaybe _210;
     // aitree_variable at offset 0x268
     void* mEventBindUnit_a{};
-    u8 _270[0x10];  // object with a vtable (0x710237b9b8, ActorLinkForEventBind-like) + a pointer
+    ActorLinkForEventBindMaybe _270;
 };
 KSYS_CHECK_SIZE_NX150(NPCHorseRide, 0x280);
 
