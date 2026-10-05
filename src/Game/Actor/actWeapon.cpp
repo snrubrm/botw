@@ -18,6 +18,7 @@
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
@@ -98,6 +99,17 @@ void Weapon::m215() {
 
 void* Weapon::m221() {
     return _fd0;
+}
+
+// NON_MATCHING: the compiler combines the request-type tests differently.
+bool Weapon::m222() {
+    if (_af8._0 == 6 || _af8._0 == 7)
+        return false;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
+    if (!actor)
+        return false;
+    const auto* actor_link = actor->getParam()->getRes().mActorLink;
+    return actor_link && actor_link->hasTag(0x19f6c13a);
 }
 
 bool Weapon::m227() {
