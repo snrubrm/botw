@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSimpleUniqueTalk.h"
+#include "Game/UI/uiUI.h"
+#include "KingSystem/Event/evtEventSystem.h"
 
 namespace uking::action {
 
@@ -11,7 +13,11 @@ bool SimpleUniqueTalk::init_(sead::Heap* heap) {
 }
 
 void SimpleUniqueTalk::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::evt::EventSystem::instance()->setSpeaker(mActor);
+    if (auto* ui = ui::UI::instance()) {
+        if (ui->sub_71010A5A54())
+            ui->x_0(false);
+    }
 }
 
 void SimpleUniqueTalk::leave_() {

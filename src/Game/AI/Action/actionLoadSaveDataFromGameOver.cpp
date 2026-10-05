@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionLoadSaveDataFromGameOver.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameScene.h"
 
 namespace uking::action {
 
@@ -12,7 +14,13 @@ bool LoadSaveDataFromGameOver::init_(sead::Heap* heap) {
 }
 
 void LoadSaveDataFromGameOver::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const s32 mode = ui::sub_7100A968B4();
+    if (mode >= 0 && mode <= 5) {
+        GameScene::resetStage(mode, false);
+    } else {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 void LoadSaveDataFromGameOver::leave_() {

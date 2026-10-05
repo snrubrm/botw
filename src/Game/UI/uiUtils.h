@@ -33,6 +33,7 @@ namespace uking::ui {
 s32 getScreenIdxByName(const char* name);
 void sub_7100A94AF0();
 bool sub_7100A96688();
+s32 sub_7100A968B4();
 
 enum class EquipmentSlot;
 enum class PouchItemType;

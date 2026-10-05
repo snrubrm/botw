@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaitForCloseFade.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -23,7 +24,13 @@ void WaitForCloseFade::loadParams_() {
 }
 
 void WaitForCloseFade::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (*mOrClosing_d &&
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade)->isClosedOrClosing())
+        setFinished();
+    if (eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade)->isClosed())
+        setFinished();
 }
 
 }  // namespace uking::action

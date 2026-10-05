@@ -17,6 +17,8 @@ class UI {
     UI() = default;
 
 public:
+    // 0x71010a5a54: source owner and nonconst spelling inferred from mutable UI callers.
+    bool sub_71010A5A54();
     // 0x71010a6e48: source owner inferred from the passed UI receiver.
     void closeMessageTipsScreen();
     // 0x71010a5cac / 0x71010a6f04: get-item dialog query and close.

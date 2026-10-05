@@ -52,6 +52,8 @@ public:
     virtual bool PatchErrorReenter();
 
     static bool isOpenWorldDemo() { return sIsOpenWorldDemo; }
+    // 0x71007aefac: source namespace and static spelling follow the CSV owner and callers.
+    static void resetStage(s32 mode, bool flag);
 
     /// Get the current map type (e.g. MainFieldDungeon)
     static const sead::SafeString& getCurrentMapType();
