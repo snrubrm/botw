@@ -233,6 +233,8 @@ public:
     void sub_710115F228(f32 value);
     // 0x710115f2ec: changes the entry weight and updates the slot.
     void sub_710115F2EC(s32 slot, s32 bank, f32 value);
+    // 0x710115ca28 (declaration only): called on the Swarm animation lists.
+    void sub_710115CA28();
     f32 sub_710115CAFC(const sead::SafeString& bone_name);
     bool sub_710115F0BC(int slot, int bank, f32 value);
     void sub_710115F10C(int slot, int bank);
