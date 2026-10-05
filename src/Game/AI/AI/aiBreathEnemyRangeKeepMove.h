@@ -14,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -24,6 +25,7 @@ public:
 
     bool sub_710033FB98(sead::Heap* heap);
 protected:
+    void sub_71003401FC();
     // static_param at offset 0x110
     const int* mEnlargeTime_s{};
     // static_param at offset 0x118

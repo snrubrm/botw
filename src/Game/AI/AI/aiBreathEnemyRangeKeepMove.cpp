@@ -1,10 +1,12 @@
 #include "Game/AI/AI/aiBreathEnemyRangeKeepMove.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 
@@ -33,6 +35,63 @@ void BreathEnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
 void BreathEnemyRangeKeepMove::leave_() {
     EnemyRangeKeepMove::leave_();
     sub_7100340570();
+}
+
+// NON_MATCHING: timer reset stores and minimum-time loads use a different order.
+void BreathEnemyRangeKeepMove::calc_() {
+    if (isCurrentChild("ブレス開始")) {
+        if (auto* as_list = mActor->getASList()) {
+            if (as_list->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+                sub_71003401FC();
+                return;
+            }
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("ブレス開始")) {
+        _160.reset(f32(*mLoopTime_s));
+        changeToBattleWait();
+        return;
+    }
+
+    auto* next_child = getCurrentChild();
+    if ((next_child->isFinished() || next_child->isFailed()) && isCurrentChild("ブレス終了")) {
+        setFinished();
+        return;
+    }
+
+    if (isCurrentChild("ブレス開始") || isCurrentChild("ブレス終了"))
+        return;
+
+    _160.update();
+    if (!mActor) {
+        EnemyRangeKeepMove::calc_();
+        return;
+    }
+    if (_16c) {
+        sub_7100340570();
+        _16c = false;
+        changeChild("ブレス終了");
+        return;
+    }
+
+    if (s32(f32(*mLoopTime_s) - _160.value) >= *mBreathMinTime_s) {
+        bool end = _160.value <= sead::Mathf::epsilon();
+        if (!end) {
+            const auto position = mActor->getMtx().getTranslation();
+            const auto& target = sub_71005D9330(mActor);
+            end = sead::Vector2f(position.x - target.x, position.z - target.z).length() >=
+                  *mBreathEndDist_s;
+        }
+        if (end) {
+            sub_7100340570();
+            _16c = false;
+            changeChild("ブレス終了");
+            return;
+        }
+    }
+    EnemyRangeKeepMove::calc_();
 }
 
 void BreathEnemyRangeKeepMove::loadParams_() {
