@@ -434,6 +434,7 @@ public:
     void x_40();                                                        // 0x8922cc
     // 0x710088f57c (CSV name): syncs the status effect flags.
     void syncStatusEffectFlags(bool a);
+    bool x_49();                                                        // 0x849424
     bool x_17();                                                        // 0x892bf0
     void x_16();                                                        // 0x892e18
 

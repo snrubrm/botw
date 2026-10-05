@@ -37,10 +37,24 @@ f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
 s32 sub_7100A95214();
 
+namespace uking::ui {
+bool sub_7100A991C0();
+}
+
 namespace ksys::act {
 
 s32 Player::m378() {
     return sub_7100A95214();
+}
+
+bool Player::x_49() {
+    if (uking::ui::sub_7100A991C0())
+        return false;
+    if (_17d0->isHold((1 << sead::Controller::cPadIdx_Up) |
+                     (1 << sead::Controller::cPadIdx_Left) |
+                     (1 << sead::Controller::cPadIdx_Right)))
+        return false;
+    return _17d0->controllerCheckPressedMaybe(28);
 }
 
 void Player::m158() {
