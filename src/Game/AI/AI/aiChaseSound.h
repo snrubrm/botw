@@ -17,10 +17,14 @@ public:
     ~ChaseSound() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    bool sub_7100345C2C();
+    void sub_7100346114();
+
     struct Params {
         // static_param at offset 0x38
         const float* mNearDist_s{};

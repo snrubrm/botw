@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiChaseSound.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
+
+bool sub_71005E2068(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -16,6 +19,38 @@ void ChaseSound::leave_() {
         _78->release();
         _78 = nullptr;
     }
+}
+
+// NON_MATCHING: Temporary string storage uses a larger stack frame.
+void ChaseSound::calc_() {
+    if (isCurrentChild("見まわし")) {
+        sub_71005DB3EC(mActor);
+    } else {
+        const sead::Vector3f target = _80;
+        if (*mParams.mUseViewPointSimpleOffset_s)
+            sub_71005DB1D8(mActor, target);
+        else
+            sub_71005DB068(mActor, target);
+    }
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("回転")) {
+            if (!sub_7100345C2C())
+                setFailed();
+        } else if (isCurrentChild("見まわし")) {
+            sub_7100345C2C();
+        } else if (getCurrentChild()->isFinished()) {
+            setFinished();
+        } else {
+            setFailed();
+        }
+    }
+    if (getCurrentChild()->isChangeable() && !isCurrentChild("回転") &&
+        !isCurrentChild("見まわし") && sub_71005E2068(mActor)) {
+        setFailed();
+    }
+    sub_7100346114();
+    getCurrentChild()->setDynamicParam(_80, "TargetPos");
 }
 
 void ChaseSound::loadParams_() {
