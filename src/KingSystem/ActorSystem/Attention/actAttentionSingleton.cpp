@@ -2,6 +2,10 @@
 
 namespace ksys::act {
 
+bool Attention::sub_7100D753B0() const {
+    return (mFlagsE22.isOn(2) || (mFlagsE21 & 8)) && !mEnabled;
+}
+
 bool Attention::sub_7100D74114() const {
     if (!mEnabled)
         return false;

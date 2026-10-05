@@ -19,6 +19,10 @@
 
 namespace ksys::act {
 
+void DynamicActor::m160() {
+    Actor::x_2();
+}
+
 void DynamicActor::m76(VFR::ScopedDeltaSetter* setter) {
     if (mActorFlags2.isOn(ActorFlag2::_200))
         sub_7100EE9B68(this, setter);
