@@ -18,6 +18,13 @@ bool FootstepChanger::m6(sead::Heap* heap) {
 
 void FootstepChanger::m7() {}
 
+void FootstepChanger::m8() {
+    if (auto* xlink = mActor->getXLink()) {
+        if (auto* footstep = xlink->_a0)
+            footstep->sub_71012381A8(mFootstepKey_s.cstr(), *mChangeDuration_s);
+    }
+}
+
 void FootstepChanger::m9() {
     if (auto* xlink = mActor->getXLink()) {
         if (auto* footstep = xlink->_a0)

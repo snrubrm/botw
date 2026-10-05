@@ -21,6 +21,7 @@ struct Unk_710123830c {
     void sub_71012372EC();
     void sub_7101236520(s32 reaction, s32 scale, s32 duration);
     void sub_71012370A8();
+    void sub_71012381A8(const char* key, s32 duration);
 
     /* 0x00 */ u8 _0[0x1c];
     /* 0x1c */ sead::BitFlag16 _1c;
