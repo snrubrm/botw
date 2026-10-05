@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventOpenGetDemo.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -15,7 +16,10 @@ void EventOpenGetDemo::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventOpenGetDemo::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* manager = ui::UI::instance()) {
+        if (manager->sub_71010A5CAC())
+            manager->sub_71010A6F04();
+    }
 }
 
 void EventOpenGetDemo::loadParams_() {

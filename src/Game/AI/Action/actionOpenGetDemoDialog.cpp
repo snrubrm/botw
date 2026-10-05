@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOpenGetDemoDialog.h"
+#include "Game/UI/uiUI.h"
 
 namespace uking::action {
 
@@ -15,7 +16,8 @@ void OpenGetDemoDialog::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void OpenGetDemoDialog::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (ui::UI::instance()->sub_71010A5CAC())
+        ui::UI::instance()->sub_71010A6F04();
 }
 
 void OpenGetDemoDialog::loadParams_() {
