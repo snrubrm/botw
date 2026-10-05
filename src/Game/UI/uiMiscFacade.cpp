@@ -314,6 +314,20 @@ void showInfoOverlay(s32 type) {
     showInfoOverlayWithString(type, sead::SafeString::cEmptyString);
 }
 
+// Declaration only.
+bool sub_7100A95808();
+
+void openSkipScreen(bool with_button) {
+    auto* manager = eui::ScreenMgr::instance();
+    if (!manager)
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenSkip>(manager->getScreen(ScreenId::Skip))) {
+        if (sub_7100A95808())
+            screen->m80(true);
+        screen->sub_7100A537F8(with_button);
+    }
+}
+
 // 0x7100a958dc (CSV ui::closeSkipScreen)
 void closeSkipScreen() {
     if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::Skip))

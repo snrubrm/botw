@@ -1667,6 +1667,8 @@ public:
 
 class ScreenSkip : public ScreenEx {
 public:
+    // Declaration only.
+    void sub_7100A537F8(bool with_button);
     ScreenSkip();
     const char* getLayoutName_() const override;
     bool isPlayPartsInOut_() const override;
