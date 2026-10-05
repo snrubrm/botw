@@ -16,6 +16,8 @@ public:
     // 0xb8-byte entries (one per controlled part).
     struct Entry {
         ~Entry();
+        // Declaration only; original source name and void return are inferred.
+        void sub_7100708B64();
 
         u8 _0[0xb0];
         s32 _b0;  // GolemChemicalResetSelect::enter_ tests entry 0 for 4

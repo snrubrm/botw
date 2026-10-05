@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiGolemSleepNormal.h"
 #include "Game/AI/aiUnk_7102357210.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_7102450410.h"
 #include "Game/Actor/actGiantEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -17,6 +19,17 @@ bool GolemSleepNormal::init_(sead::Heap* heap) {
 
 void GolemSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
     SpecialEnemySleep::enter_(params);
+}
+
+void GolemSleepNormal::calc_() {
+    SpecialEnemySleep::calc_();
+    if (sub_71005DD5B0(mActor, 42, nullptr, 0, 0)) {
+        if (auto* controller = sead::DynamicCast<Unk_7102450410>(
+                *static_cast<Unk_71025afb58**>(mGolemChemicalController_a))) {
+            for (auto& entry : controller->_8)
+                entry.sub_7100708B64();
+        }
+    }
 }
 
 void GolemSleepNormal::leave_() {
