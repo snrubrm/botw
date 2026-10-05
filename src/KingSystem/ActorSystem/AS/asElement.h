@@ -499,12 +499,13 @@ public:
 class NodePosSelector : public Selector {
     SEAD_RTTI_OVERRIDE(NodePosSelector, Selector)
 public:
-    // Placeholder: 0x98-byte entry that starts with the bone key.
+    // The initializer constructs the bone key and its fixed bone-name string before setting the callback.
     struct Unk1 {
         gsys::BoneAccessKeyEx _0;
-        u8 _38[0x90 - sizeof(gsys::BoneAccessKeyEx)];
+        sead::FixedSafeString<64> _38;
         f32 (*_90)(const sead::Vector3f&);
     };
+    KSYS_CHECK_SIZE_NX150(Unk1, 0x98);
 
     NodePosSelector();
     ~NodePosSelector() override;
