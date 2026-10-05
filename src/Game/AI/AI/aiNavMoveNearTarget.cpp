@@ -21,6 +21,19 @@ void NavMoveNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     NavMoveTarget::enter_(params);
 }
 
+void NavMoveNearTarget::calc_() {
+    if (isCurrentChild("直進"))
+        m35(nullptr);
+    if (getCurrentChild()->isFinished() && isCurrentChild("直進")) {
+        setFinished();
+    } else if (getCurrentChild()->isChangeable() &&
+               (isCurrentChild("直進") || isCurrentChild("移動")) && sub_71004B9388()) {
+        setFinished();
+    } else {
+        NavMoveTarget::calc_();
+    }
+}
+
 // NON_MATCHING: the original copies the vector into *out as one 8 + 4 byte block (ldr x / ldr w) while
 // `_390 = pos` stays member-wise; ours assigns *out member-wise too (sead::Vector3f::operator=)
 void NavMoveNearTarget::m35(sead::Vector3f* out) {

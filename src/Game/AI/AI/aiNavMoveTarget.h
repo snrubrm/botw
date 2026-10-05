@@ -31,6 +31,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_71004B9388();
 
     /* 0x38 */ void* _38{};
     // aitree_variable at offset 0x40
