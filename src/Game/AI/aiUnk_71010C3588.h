@@ -64,6 +64,8 @@ public:
     void destroy(bool remove_links);
     // 0x71010c42b4 (declared only; 488 B).
     void sub_71010C42B4();
+    // 0x71010c449c (declared only; WindControl passes its actor matrix).
+    void sub_71010C449C(f32 length, f32 radius, f32 speed, const sead::Matrix34f& mtx);
     // 0x71010c4284: true if the body was removed from the world (or there is none). Placeholder name.
     bool sub_71010C4284() const;
 
