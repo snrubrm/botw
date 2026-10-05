@@ -38,7 +38,18 @@
 
 extern ksys::DebugMessage sUnk_7102601328;
 
+void getNameAndUniqueName(const ksys::map::Object* object, sead::BufferedSafeString* name,
+                          sead::BufferedSafeString* unique_name);
+
 namespace ksys::act {
+
+void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
+                                   sead::BufferedSafeString* unique_name) {
+    name->clear();
+    unique_name->clear();
+    if (actor)
+        getNameAndUniqueName(actor->getMapObject(), name, unique_name);
+}
 
 int getSelectedChoiceIdx(int max_idx, const char* query_name) {
     auto* ui = uking::ui::UI::instance();

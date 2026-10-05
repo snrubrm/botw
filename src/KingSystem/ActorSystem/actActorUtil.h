@@ -292,7 +292,7 @@ void sub_7100EEAC50(ActorLinkConstDataAccess* accessor, phys::RigidBody* body);
 void sub_7100EE67B0(sead::Vector3f* pos, BaseProcLink* link);
 // 0x7100ee6818 (CSV name): AI tree variable `name` of the actor, or `default_value` if it has none.
 bool getBoolParam(Actor* actor, const sead::SafeString& name, bool default_value);
-// 0x7100ee7828 (CSV name; declared only): clears both strings, then fills them from the actor's
+// 0x7100ee7828 (CSV name): clears both strings, then fills them from the actor's
 // map placement object (no-op for a null actor).
 void getPlacementNameAndUniqueName(Actor* actor, sead::BufferedSafeString* name,
                                    sead::BufferedSafeString* unique_name);
