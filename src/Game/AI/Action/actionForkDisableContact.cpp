@@ -43,7 +43,15 @@ void ForkDisableContact::loadParams_() {
 }
 
 void ForkDisableContact::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (m32()) {
+        sub_710014AED0();
+        mRecoverTimer.reset(*mParams.mRecoverDelayTimeMin_s);
+    } else if (!m33()) {
+        if (mRecoverTimer.value <= sead::Mathf::epsilon())
+            sub_710014B018();
+        else
+            mRecoverTimer.update();
+    }
 }
 
 }  // namespace uking::action

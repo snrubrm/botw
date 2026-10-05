@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionAddNoUseTerritoryCounter.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 
 namespace uking::action {
 
@@ -22,7 +23,16 @@ bool AddNoUseTerritoryCounter::init_(sead::Heap* heap) {
 }
 
 void AddNoUseTerritoryCounter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (isRootAiParamINot5()) {
+        const int lower = _40._18;
+        const int upper = _40._1c;
+        _40._10 = lower == upper ? lower : sead::GlobalRandom::instance()->getS32Range(lower, upper);
+        if (_40._0 == 2)
+            _40._0 = 0;
+        if (*mTerritoryArea_m > 0)
+            *mIsUseTerritory_a = true;
+    }
+    mFlags.set(Flag::Changeable);
 }
 
 void AddNoUseTerritoryCounter::leave_() {
