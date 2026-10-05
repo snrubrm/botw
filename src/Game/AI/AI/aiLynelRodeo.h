@@ -12,10 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_7100499D48();
+    void sub_7100499E08();
+
     // aitree_variable at offset 0x38
     int* mLynelRodeoAttackHitNum_a{};
 };
