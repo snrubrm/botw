@@ -35,7 +35,17 @@ void EventVariableFadeIn::loadParams_() {
 }
 
 void EventVariableFadeIn::calc_() {
-    EventVariableFade::calc_();
+    if (*mClipIndex_d < 0)
+        return;
+    const f32 frame = ksys::evt::Manager::instance()->sub_7100DB1138(*mClipIndex_d);
+    ui::Screen* screen;
+    if (_40)
+        screen = sead::DynamicCast<ui::Fade>(
+            eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+    else
+        screen = sub_7100127B30();
+    if (frame >= 0.0f)
+        screen->m74(frame);
 }
 
 }  // namespace uking::action
