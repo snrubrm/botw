@@ -148,7 +148,7 @@ public:
     virtual bool m226() { return false; }
     virtual bool m227() { return false; }
     virtual void m228(BaseProc* proc) {}
-    virtual void m229() {}
+    virtual void m229(BaseProc* proc) {}
     virtual bool isWeaponType0Or1Or2() const;
     virtual bool m231() const;
     virtual bool m232() const;

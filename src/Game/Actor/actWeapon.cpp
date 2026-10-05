@@ -109,6 +109,12 @@ void Weapon::m228(ksys::act::BaseProc* proc) {
         _f73 = true;
 }
 
+void Weapon::m229(ksys::act::BaseProc* proc) {
+    updateLifeMaybe(proc);
+    if (const auto* life = getLife(); life && *life <= 0)
+        _e50 |= 0x200;
+}
+
 void Weapon::m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) {
     dropActorFromPorchCalculateMtx(matrix, actor);
 }

@@ -274,6 +274,8 @@ public:
     void* m221() override;
     bool m227() override;
     void m228(ksys::act::BaseProc* proc) override;
+    void m229(ksys::act::BaseProc* proc) override;
+    void updateLifeMaybe(ksys::act::BaseProc* proc);
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m218() override;
     bool m225() override;
