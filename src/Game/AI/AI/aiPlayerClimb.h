@@ -20,6 +20,8 @@ public:
     bool isFinished() const override;
 
 protected:
+    void sub_7100829AA0();
+
     // static_param at offset 0x38
     const float* mNoClimbTime_s{};
 };

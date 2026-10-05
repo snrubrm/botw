@@ -9,8 +9,18 @@ bool PlayerClimb::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the two animation-value stores reload the actor separately.
 void PlayerClimb::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    using Player = ksys::act::Player;
+    static_cast<Player*>(mActor)->_c40.reset(2);
+    static_cast<Player*>(mActor)->_c40.reset(0x400000);
+    static_cast<Player*>(mActor)->x_8(false, false);
+    static_cast<Player*>(mActor)->_20bc.value = 0.0f;
+    static_cast<Player*>(mActor)->_20bc.prev_value = 0.0f;
+    if (hasPendingChildChange())
+        changeChild(mPendingChildIdx, nullptr);
+    else
+        sub_7100829AA0();
 }
 
 void PlayerClimb::leave_() {
