@@ -1,4 +1,7 @@
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageString.h"
+#include <prim/seadStringUtil.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/DLC/aocHardModeManager.h"
@@ -11,6 +14,17 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking::ui {
+
+// 0x7100aa25d4
+s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
+                     const sead::SafeString& text) {
+    sead::WFixedSafeString<128> buffer;
+    sead::StringUtil::convertUtf8ToUtf16(buffer.getBuffer(), buffer.getBufferSize(), text.cstr(), -1);
+    eui::MessageString message(buffer.calcLength(), buffer.cstr());
+    if (layout)
+        return layout->setMessageStringForEachId(widget_name.cstr(), message, true, nullptr);
+    return 0;
+}
 
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap*) {
     Manager::instance()->createAndLoadScreenIfNeeded(id);

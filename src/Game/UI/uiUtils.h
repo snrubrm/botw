@@ -117,8 +117,8 @@ void sub_7100A96EB8();
 // 0x7100a9e458: declared only; delegates the signed count change to the pouch manager.
 void increasePouchNumImpl(const sead::SafeString& name, s32 count);
 
-// 0x7100aa25d4 (CSV ui::setWidgetString; declaration only): sets the text of the widget `widget_name` of `layout`.
-void setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const sead::SafeString& text);
+// 0x7100aa25d4: sets matching widgets and returns their count.
+s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const sead::SafeString& text);
 // 0x7100aa37ec (CSV ui::getDecimalSeparator; declaration only)
 const char* getDecimalSeparator(bool a1);
 
