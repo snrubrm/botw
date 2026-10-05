@@ -20,8 +20,17 @@ void PriestBossGiantDownSeq::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
 }
 
+// NON_MATCHING: the original retains an unused enum read between the lock and payload stores.
 void PriestBossGiantDownSeq::leave_() {
     PriestBossMode::leave_();
+    if (!_104 || _105 || !sub_7100505BE4())
+        return;
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_80._18.mLock);
+        _80._18._c = false;
+        _80._18._8 = 1;
+    }
+    _80.sub_710070DBB0(sub_7100505BE4()->_1a0, false);
 }
 
 void PriestBossGiantDownSeq::loadParams_() {
