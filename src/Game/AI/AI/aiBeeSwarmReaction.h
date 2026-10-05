@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_710032AF18();
+
     bool _38{};
 };
 
