@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -158,6 +159,13 @@ bool Weapon::m218() {
 
 bool Weapon::m225() {
     return _fd8;
+}
+
+bool Weapon::m226() {
+    if (!isParentPlayer())
+        return false;
+    auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
+    return player && player->m206();
 }
 
 // NON_MATCHING: the invalid-slot result joins the shared return path earlier.

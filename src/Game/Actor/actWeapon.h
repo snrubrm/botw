@@ -282,6 +282,7 @@ public:
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m218() override;
     bool m225() override;
+    bool m226() override;
     bool m153() override;
     ksys::act::ActorWeapons* getParentActorWeapons();
     bool m216() override;
