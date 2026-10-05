@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiEquipStand.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+
+// The original helper's source namespace is unknown.
+bool sub_7100700A78(s32 slot);
 
 namespace uking::ai {
 
@@ -17,8 +21,24 @@ bool EquipStand::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: display attention-key address lifetime and register allocation differ.
 void EquipStand::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    *static_cast<Unk_71025afb58**>(mEquipDisplayChild_a) = &_b0;
+    ksys::act::disableAllAttClients(mActor);
+    _a8 = false;
+    const bool occupied = sub_7100700A78(*mEquipStandSlot_m);
+    _a8 = false;
+    _38.x();
+    auto* actor = mActor;
+    ksys::act::disableAttClient(actor, mTakeOutAttKey_s);
+    if (occupied) {
+        ksys::act::disableAttClient(actor, mDisplayAttKey_s);
+        changeChild("飾り生成");
+    } else {
+        ksys::act::enableAttClient(actor, mDisplayAttKey_s);
+        changeChild("待機");
+    }
+    _38._34 = 0x1800020;
 }
 
 void EquipStand::leave_() {
