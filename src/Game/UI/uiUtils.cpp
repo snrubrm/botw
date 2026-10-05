@@ -12,6 +12,15 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventFlow.h"
+
+namespace dlc {
+bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
+}
+
 
 namespace uking::ui {
 
@@ -40,6 +49,13 @@ void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap*) {
 
 bool isMasterSwordItem(const PouchItem& item) {
     return item.getType() == PouchItemType::Sword && isMasterSwordActorName(item.getName());
+}
+
+bool shouldUseWeaponSword503() {
+    if (ksys::evt::Manager::instance() && ksys::evt::Manager::instance()->getActiveEvent() &&
+        ksys::evt::Manager::instance()->getActiveEvent()->mEventName == "Demo601_1")
+        return true;
+    return dlc::isOneHitObliteratorActor(ksys::act::PlayerInfo::instance()->getPlayer()->m273(), true);
 }
 
 // NON_MATCHING: the compiler reverses the special-value comparisons and their branches.
