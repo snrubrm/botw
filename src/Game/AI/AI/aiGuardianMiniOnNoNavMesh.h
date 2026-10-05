@@ -13,6 +13,7 @@ public:
     ~GuardianMiniOnNoNavMesh() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     // 0x710041e07c (placeholder name)
@@ -21,6 +22,8 @@ public:
     bool sub_710041DBE0();
 
 protected:
+    void sub_710041E15C();
+
     // static_param at offset 0x38
     const int* mChangeToIceTimer_s{};
     ksys::act::BaseProcLink _40;
