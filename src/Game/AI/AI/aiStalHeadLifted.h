@@ -13,10 +13,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_71005A66E8(const sead::Vector3f& direction, bool a1);
+
     // static_param at offset 0x98
     const float* mEscapeSpeed_s{};
     // static_param at offset 0xa0
