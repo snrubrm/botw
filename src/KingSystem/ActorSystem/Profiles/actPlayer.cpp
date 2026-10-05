@@ -7,6 +7,7 @@
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/E3Mgr.h"
 #include "Game/gameSceneSubsys14.h"
 #include "Game/gameUnk_710246d058.h"
@@ -26,7 +27,19 @@
 #include "Game/gameHeroSoul.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
 namespace ksys::act {
+
+void Player::m158() {
+    if (auto* manager = mDamageMgr) {
+        sub_7100D2D424(manager);
+        manager->preDelete1();
+        manager->preDelete2();
+        delete mDamageMgr;
+        mDamageMgr = nullptr;
+    }
+}
 
 BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Player(arg);
