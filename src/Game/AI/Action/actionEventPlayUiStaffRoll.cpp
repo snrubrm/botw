@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventPlayUiStaffRoll.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -15,7 +16,12 @@ void EventPlayUiStaffRoll::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventPlayUiStaffRoll::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mClipIndex_d < 0)
+        return;
+    auto* screen = sead::DynamicCast<ui::Screen>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::StaffRoll));
+    if (screen)
+        screen->m76();
 }
 
 void EventPlayUiStaffRoll::loadParams_() {
