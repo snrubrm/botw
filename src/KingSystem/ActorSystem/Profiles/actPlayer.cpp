@@ -725,6 +725,13 @@ void Player::updateStatusEffectAttackUp() {
     _208c = info.val._f32;
 }
 
+void Player::m69_x_1() {
+    if (PlayerInfo::instance()->getStaminaCurrentMax() == 0.0f && _2000 == 0.0f) {
+        _c44.setBit(20);
+        uking::ui::showRuntimeTip(4);
+    }
+}
+
 // NON_MATCHING: the original branches from each test straight to one shared "return true" block (we emit one
 // `orr w0, wzr, #1; b` per test and return the last bit with ubfx)
 bool Player::m365() {

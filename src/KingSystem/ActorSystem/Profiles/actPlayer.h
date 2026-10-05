@@ -306,6 +306,7 @@ public:
     void updateResistHotVal();
     void updateResistColdVal();
     void updateStatusEffectAttackUp();
+    void m69_x_1();
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
     // direction to move in; 0 for none).
