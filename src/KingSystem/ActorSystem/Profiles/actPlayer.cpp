@@ -17,6 +17,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -790,6 +791,14 @@ bool Player::isEquipedDyedArmor() {
 
 f32 Player::getArmorChargeAttackAddLevel() {
     return sub_7100885630(_2044);
+}
+
+// NON_MATCHING: uses the established sensor functions directly instead of the original forwarding wrappers.
+bool Player::m303() {
+    if (!sub_71007A2604(this))
+        return false;
+    auto* info = sub_71007A255C(this, 0);
+    return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
 }
 
 }  // namespace ksys::act
