@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionFixedMagneStick.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/Constraint/physFixedCs.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -7,10 +8,27 @@ namespace uking::action {
 
 FixedMagneStick::FixedMagneStick(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-FixedMagneStick::~FixedMagneStick() = default;
+FixedMagneStick::~FixedMagneStick() {
+    if (_38) {
+        ksys::phys::Constraint::destroy(_38);
+        _38 = nullptr;
+    }
+}
 
 bool FixedMagneStick::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    m32(heap);
+    return true;
+}
+
+void FixedMagneStick::m32(sead::Heap* heap) {
+    if (!mActor)
+        return;
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+    ksys::phys::FixedCs::Param param;
+    param.body_a = body;
+    _38 = ksys::phys::FixedCs::make(param, heap);
 }
 
 void FixedMagneStick::enter_(ksys::act::ai::InlineParamPack* params) {

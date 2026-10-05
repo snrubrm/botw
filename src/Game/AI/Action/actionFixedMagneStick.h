@@ -6,6 +6,10 @@ namespace ksys::phys {
 class Constraint;
 }
 
+namespace ksys::act {
+class ActorConstDataAccess;
+}
+
 namespace uking::action {
 
 class FixedMagneStick : public ksys::act::ai::Action {
@@ -21,6 +25,10 @@ public:
 
 protected:
     void calc_() override;
+
+    virtual void m32(sead::Heap* heap);
+    virtual bool m33();
+    virtual void m34(ksys::act::ActorConstDataAccess& accessor, f32 distance);
 
     // map_unit_param at offset 0x20
     const float* mGrabbedMagneReleaseTime_m{};
