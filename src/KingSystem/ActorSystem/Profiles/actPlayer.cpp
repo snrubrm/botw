@@ -827,6 +827,21 @@ bool Player::m303() {
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
 }
 
+// NON_MATCHING: the first bone-key address is formed after the slot-buffer loads.
+void Player::x_25() {
+    _c40.setBit(7);
+    auto* list = mASList;
+    list->sub_710115C9E0(1);
+    list->mSlots[1].sub_7101165008(_19f0[0], 3, true);
+    list->mSlots[1].sub_7101164E38(false);
+    list = mASList;
+    list->sub_710115C9E0(2);
+    list->mSlots[2].sub_7101165008(_19f0[0], 3, true);
+    list->mSlots[2].sub_7101165008(_19f0[2], 0, true);
+    list->mSlots[2].sub_7101165008(_19f0[50], 3, true);
+    list->mSlots[2].sub_7101164E38(false);
+}
+
 void Player::x_19(f32) {
     if (!mASList->x_7(0, 1, &as::ASList::Unk2::sub_710002E82C))
         return;
