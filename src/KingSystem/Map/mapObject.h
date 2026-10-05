@@ -215,6 +215,7 @@ public:
     const MubinIter& getMubinIter() const { return mMubinIter; }
     act::BaseProc* getProc() const { return mProc; }
     ObjectLinkData* getLinkData() const { return mLinkData; }
+    bool getForSaleLink();
 
     gdt::FlagHandle getRevivalGameDataFlagHash() const { return mRevivalGameDataFlagHash; }
     u32 getHashId() const { return mHashId; }

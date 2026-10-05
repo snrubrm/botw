@@ -282,6 +282,7 @@ public:
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m250(ksys::act::Actor* actor) override;
     bool m239() override;
+    void invokedEmitBlinkEffect();
     bool m218() override;
     bool m225() override;
     bool m226() override;

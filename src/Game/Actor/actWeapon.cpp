@@ -21,6 +21,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -44,6 +45,9 @@ void dropActorFromPorchCalculateMtx(sead::Matrix34f* matrix, ksys::act::Actor* a
 // Source ownership is unknown; declarations only.
 void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name);
 bool emitActorGetDemoSound(const sead::SafeString& name);
+
+// Source ownership is unknown; declaration only.
+void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
 
@@ -170,6 +174,13 @@ bool Weapon::m239() {
         return false;
     auto* parent = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
     return parent && parent->m271() == 1 && parent->getWeapons()->mWeapons[0]._10;
+}
+
+void Weapon::invokedEmitBlinkEffect() {
+    ksys::act::ActorConstDataAccess accessor(this);
+    auto* object = getMapObject();
+    if (!object || !object->getForSaleLink())
+        emitItemKirakira_Plus(accessor.getPreviousPos2(), true);
 }
 
 bool Weapon::m218() {
