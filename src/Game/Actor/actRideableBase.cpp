@@ -1,5 +1,9 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAnimalUnit.h"
 
 namespace uking::act {
 
@@ -10,6 +14,17 @@ RideableBase* RideableBase::make(sead::Heap* heap) {
 RideableBase::RideableBase() = default;
 
 RideableBase::~RideableBase() = default;
+
+// NON_MATCHING: flag-set and flag-clear operations are scheduled differently.
+void RideableBase::sub_7100E63424() {
+    const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
+    if (animal) {
+        if (animal->mIsSetWaitASAtGear0.ref())
+            _18._52 |= 2;
+        else
+            _18._52 &= ~2;
+    }
+}
 
 void RideableBase::sub_7100E63900() {
     if (_8 & 0x20)
