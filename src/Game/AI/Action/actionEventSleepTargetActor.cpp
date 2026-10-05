@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventSleepTargetActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -13,6 +15,17 @@ bool EventSleepTargetActor::init_(sead::Heap* heap) {
 void EventSleepTargetActor::loadParams_() {
     getDynamicParam(&mActorName_d, "ActorName");
     getDynamicParam(&mInstanceName_d, "InstanceName");
+}
+
+bool EventSleepTargetActor::oneShot_() {
+    ksys::act::ActorConstDataAccess accessor;
+    if (auto* link = ksys::evt::Manager::instance()->getBaseProcLinkFromActiveEvent(
+            mActorName_d, mInstanceName_d)) {
+        ksys::act::acquireActor(link, &accessor);
+        if (accessor.hasProc())
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
+    return true;
 }
 
 }  // namespace uking::action

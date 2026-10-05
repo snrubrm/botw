@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForceOpenMainScreen.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -11,5 +12,13 @@ bool ForceOpenMainScreen::init_(sead::Heap* heap) {
 }
 
 void ForceOpenMainScreen::loadParams_() {}
+
+bool ForceOpenMainScreen::oneShot_() {
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ui::ScreenId::MainScreen)) {
+        if (!screen->isOpening() && !screen->isOpened())
+            screen->open(1);
+    }
+    return true;
+}
 
 }  // namespace uking::action
