@@ -19990,8 +19990,8 @@ Address,Quality,Size,Name
 0x00000071002f1844,U,000144,
 0x00000071002f18d4,U,000276,Weapon::dtor
 0x00000071002f19e8,U,000036,Weapon::dtorDelete
-0x00000071002f1a0c,U,000008,Weapon::rtti1
-0x00000071002f1a14,U,000092,Weapon::rtti2
+0x00000071002f1a0c,O,000008,_ZNK5uking3act6Weapon27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
+0x00000071002f1a14,O,000092,_ZNK5uking3act6Weapon18getRuntimeTypeInfoEv
 0x00000071002f1a70,O,000012,_ZN4ksys3act10WeaponBase3m31Ev
 0x00000071002f1a7c,O,000008,_ZN5uking3act6Weapon7getLifeEv
 0x00000071002f1a84,U,000008,Weapon::getAtk
@@ -20036,7 +20036,7 @@ Address,Quality,Size,Name
 0x00000071002f1d68,O,000512,_ZNK5uking3act20WeaponModifierRanges17getRandomModifierEv
 0x00000071002f1f68,O,000204,_ZNK4ksys4phys12CapsuleParam27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002f2034,O,000092,_ZNK4ksys4phys12CapsuleParam18getRuntimeTypeInfoEv
-0x00000071002f2090,U,000372,
+0x00000071002f2090,O,000372,_ZN5uking3act6Weapon33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071002f2204,U,000048,
 0x00000071002f2234,U,000092,
 0x00000071002f2290,O,000008,_ZNK4sead9IDelegate9isNoDummyEv
