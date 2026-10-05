@@ -7,6 +7,7 @@
 namespace gsys {
 
 enum class MaterialAnmType;
+enum class SkeletalAnmType;
 
 /// Identifies one animation of a ModelAnimation: the animation type and the index within that type
 /// (passed by value as one 32-bit word, type in the low half).
