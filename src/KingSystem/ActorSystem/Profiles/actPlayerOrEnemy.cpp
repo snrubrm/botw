@@ -346,6 +346,18 @@ void PlayerOrEnemy::updateWeaponDamageCopyInfo() {
 
 namespace ksys::act {
 
+// NON_MATCHING: the tag result returns directly instead of passing through a shared loop result.
+bool PlayerOrEnemy::m173() {
+    getWeapons();
+    for (s32 i = 0; i < 6; ++i) {
+        auto* weapon = sead::DynamicCast<WeaponBase>(
+            getWeapons()->mWeapons[i].link.getProc(nullptr, nullptr));
+        if (weapon && hasTag(weapon, tags::WatchmanEquip))
+            return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: compiler folds the result/tag condition into one branch; the original
 // retains an intermediate boolean and two tests before the same drop call.
 bool PlayerOrEnemy::dropAllWeapons(const sead::Vector3f& pos) {
