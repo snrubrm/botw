@@ -1,7 +1,9 @@
 #include "Game/AI/Behavior/behaviorAddRigidBodyToWorld.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 
 namespace uking::behavior {
 
@@ -18,6 +20,22 @@ bool AddRigidBodyToWorld::m6(sead::Heap* heap) {
 }
 
 void AddRigidBodyToWorld::m7() {}
+
+void AddRigidBodyToWorld::m8() {
+    _40 = false;
+    auto* physics = mActor->getPhysics();
+    if (!physics)
+        return;
+    auto* set = physics->findBodyByName(mRigidBodySetName_s);
+    if (!set) {
+        mActor->getParam()->getRes().mActorLink->getUsers().getAIProgram();
+        return;
+    }
+    set->addToWorld();
+    if (*mEnableNavMeshCut_s)
+        physics->sub_7100FC012C(nullptr);
+    _40 = true;
+}
 
 void AddRigidBodyToWorld::m9() {
     if (!_40)
