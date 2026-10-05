@@ -57,6 +57,8 @@ public:
     bool preloadDropsMaybe(Actor* actor) override;
     void resetPreloadActorsMaybe(Actor* actor) override;
     void initFromActor(Actor* actor) override;
+    // 0x71006db324 (declaration only; informal CSV name).
+    void init(Actor* actor, const sead::SafeString& drop_actor);
     void getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
                   const sead::Vector3f& pos) override;
     ~DropData() override;

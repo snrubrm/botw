@@ -2,11 +2,27 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorPreLoadMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: The compiler devirtualizes SafeString assignment and arranges stack locals differently.
+void DropData::initFromActor(Actor* actor) {
+    sead::SafeString drop_actor;
+    const sead::SafeString key = "DropActor";
+    auto* root_ai = actor->getRootAi();
+    if (!root_ai || !root_ai->getMapUnitParam(&drop_actor, key)) {
+        const char* value = nullptr;
+        if (actor->getMapObjIter().tryGetParamStringByKey(&value, key))
+            drop_actor = value;
+        else
+            drop_actor = sead::SafeString::cEmptyString;
+    }
+    init(actor, drop_actor);
+}
 
 // NON_MATCHING: the original keeps the null check of GlobalParameter::instance() (ours drops it)
 bool DropData::getDropVelocity(const sead::SafeString& name, sead::Vector3f* velocity,
