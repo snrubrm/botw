@@ -41,6 +41,10 @@ namespace uking::ui {
 bool sub_7100A991C0();
 }
 
+ksys::act::ActorAtk::Struct7::AttackInfo* getAttackInfo0(ksys::act::Actor* actor) {
+    return getAttackInfo(actor, 0);
+}
+
 namespace ksys::act {
 
 s32 Player::m378() {
