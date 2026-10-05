@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 // Declaration only; the original source namespace of this actor cleanup helper is unknown.
 void sub_71007132E4(ksys::act::Actor* actor);
@@ -43,6 +45,21 @@ void NPCRoot::m34() {
     changeChild("Timeline");
     _201 = false;
     mActor->getASList()->x_2(66, 35, false, false);
+}
+
+bool NPCRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != ksys::MessageType(0x08000034))
+        return false;
+    if (_68) {
+        if (isCurrentChild("Timeline") || isCurrentChild("Rest")) {
+            sead::FixedSafeString<64> name;
+            mActor->getRootAi()->getCurrentName(&name, nullptr);
+            _68->_a70.copy(name);
+        }
+        setRootAiFlag(ksys::act::ai::RootAiFlag::_5);
+    }
+    changeChild("EventStartWait", nullptr);
+    return true;
 }
 
 }  // namespace uking::ai
