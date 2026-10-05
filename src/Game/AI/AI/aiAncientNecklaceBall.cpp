@@ -28,7 +28,16 @@ void AncientNecklaceBall::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void AncientNecklaceBall::leave_() {
+    if (isCurrentChild("吊るす")) {
+        if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+            weapon->m175(sead::Vector3f::zero, false, false, nullptr, false);
+            weapon->m199();
+            sub_7100301D90(true);
+        }
+    }
     AncientNecklaceBallBase::leave_();
+    if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
+        ksys::gdt::setBoolByKey(false, mGiantNecklaceActiveSaveFlag_m);
 }
 
 void AncientNecklaceBall::loadParams_() {
