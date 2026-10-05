@@ -3,6 +3,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -58,6 +59,12 @@ void NPCHorseRide::loadParams_() {
     getStaticParam(&mGearResetPathNum_s, "GearResetPathNum");
     getStaticParam(&mPlayerNearDistance_s, "PlayerNearDistance");
     getAITreeVariable(&mEventBindUnit_a, "EventBindUnit");
+}
+
+void NPCHorseRide::m36() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addFloat(_100, "GearSpeed", -1);
+    changeChild("乗る", &pack);
 }
 
 }  // namespace uking::ai

@@ -25,6 +25,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m36() override;
+
 protected:
     // static_param at offset 0xe0
     const int* mGearLevel_s{};
@@ -33,7 +35,8 @@ protected:
     // static_param at offset 0xf0
     const float* mPlayerNearDistance_s{};
     u8 _f8[8];
-    u64 _100 = 0;
+    s32 _100 = 0;
+    s32 _104 = 0;
     u32 _108 = 0;
     act::NPC* _110 = nullptr;
     sead::Vector3f _118 = sead::Vector3f::zero;
