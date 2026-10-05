@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDamageTurnByWeakPoint.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 
@@ -13,7 +15,10 @@ bool DamageTurnByWeakPoint::init_(sead::Heap* heap) {
 }
 
 void DamageTurnByWeakPoint::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e08._10.getTranslation(_48);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.f);
+    sub_710073FA90(&_54, mActor);
 }
 
 void DamageTurnByWeakPoint::leave_() {
