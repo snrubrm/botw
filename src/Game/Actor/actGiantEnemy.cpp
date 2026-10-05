@@ -54,6 +54,14 @@ bool GiantEnemy::m146() {
     return result;
 }
 
+bool GiantEnemy::startPreparingForPreDelete_() {
+    if (!Enemy::startPreparingForPreDelete_())
+        return false;
+    if (auto* damage = getDamageMgr())
+        damage->removeDamageCallback(&_1510);
+    return true;
+}
+
 void GiantEnemy::preDelete2_(const PreDeleteArg& arg) {
     if (_1558) {
         _1558->m5();
