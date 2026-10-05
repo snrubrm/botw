@@ -21,6 +21,10 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
+    bool sub_71005BCCE0();
+    void sub_71005BCF48();
+
     // static_param at offset 0x38
     const float* mSearchDist_s{};
     ksys::act::BaseProcLink _40;

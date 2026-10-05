@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiTargetBeatGetDrop.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+
+ksys::act::BaseProcLink* sub_71005E0F68(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -13,6 +16,28 @@ bool TargetBeatGetDrop::init_(sead::Heap* heap) {
 void TargetBeatGetDrop::enter_(ksys::act::ai::InlineParamPack* params) {
     TargetBeatCheck::enter_(params);
     _6c = false;
+}
+
+void TargetBeatGetDrop::calc_() {
+    if (isCurrentChild("未撃破")) {
+        _60 = sub_71005D9330(mActor);
+        TargetBeatCheck::calc_();
+        return;
+    }
+    if (!_6c)
+        _6c = sub_71005E0F68(mActor)->hasProcInCalcState();
+    sub_71005BCCE0();
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (_50.hasProcInCalcState())
+            sub_71005BCF48();
+        else if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else {
+        child->isChangeable();
+    }
 }
 
 void TargetBeatGetDrop::leave_() {
