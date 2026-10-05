@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiRailMoveRemainsBGCamera.h"
+#include "Game/AI/aiUnk_71002CA6AC.h"
+#include "Game/gameScene.h"
+
+s32 getMainFieldDungeonType(const sead::SafeString& map_name);
+ksys::map::Rail* sub_71002CA808(s32 id);
 
 namespace uking::ai {
 
@@ -15,6 +20,9 @@ bool RailMoveRemainsBGCamera::init_(sead::Heap* heap) {
 }
 
 void RailMoveRemainsBGCamera::enter_(ksys::act::ai::InlineParamPack* params) {
+    const s32 id = getMainFieldDungeonType(GameScene::getCurrentMapName());
+    auto* actor = mActor;
+    sub_71002CA954(actor, id, sub_71002CA808(id), *mIsAllowRotAxisX_s);
     RailMoveRemains::enter_(params);
 }
 
