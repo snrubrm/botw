@@ -128,6 +128,11 @@ void SiteBossShootNormalArrowRoot::m41() {}
 
 void SiteBossShootNormalArrowRoot::m42() {}
 
+void SiteBossShootNormalArrowRoot::m50(ksys::act::BaseProc* proc, s32 idx) {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->_1560.sub_710066DABC(proc, idx);
+}
+
 const sead::Vector3f& SiteBossShootNormalArrowRoot::m51() {
     return sUnk_7102421fd0;
 }
