@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPointWindTagRoot.h"
+#include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,8 @@ bool PointWindTagRoot::init_(sead::Heap* heap) {
 }
 
 void PointWindTagRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* area = sead::DynamicCast<ksys::act::Area>(mActor))
+        area->m107();
 }
 
 void PointWindTagRoot::leave_() {
