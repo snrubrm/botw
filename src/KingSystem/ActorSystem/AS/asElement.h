@@ -34,6 +34,12 @@ namespace ksys::as {
 
 class Element;
 
+// ASList-owned linked element list; source name inferred. Only the buffer prefix is modelled.
+// This partial declaration must not be constructed or used to infer the original allocation size.
+struct ElementList {
+    sead::Buffer<Element*> elements;
+};
+
 class ASList;
 struct BoneBlendState;
 
@@ -330,6 +336,13 @@ public:
         act::Actor* actor;
     };
 
+    struct InitArg {
+        const CreateArg* createArg;
+        const res::ASResource* resource;
+        ElementList* list;
+        sead::SafeArray<s16, 512>* indexMap;
+    };
+
     Element();
     virtual ~Element() = default;
 
@@ -357,7 +370,7 @@ public:
                     sead::Heap* heap, const res::AS* as);
     virtual int m6();
     virtual int m7();
-    virtual bool m8();
+    virtual bool m8(const InitArg& arg);
     virtual bool m9(Context* ctx, PlayState* state, const res::ASResource* resource);
     virtual bool m10(Context* ctx, State* state, const res::ASResource* resource) = 0;
     virtual void m11(Context* ctx, EventState* state, const res::ASResource* resource);
@@ -395,6 +408,7 @@ public:
 class SelectorBase : public Element {
     SEAD_RTTI_OVERRIDE(SelectorBase, Element)
 public:
+    bool m8(const InitArg& arg) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     SelectorBase();
     ~SelectorBase() override;
@@ -495,6 +509,7 @@ public:
     NodePosSelector();
     ~NodePosSelector() override;
 
+    bool m8(const InitArg& arg) override;
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
 
     sead::Buffer<Unk1> _18;
@@ -595,6 +610,7 @@ class EventFlagSelector : public StringSelector {
 public:
     EventFlagSelector();
 
+    bool m8(const InitArg& arg) override;
     int m39(Context* ctx, u32 a2, const res::ASResource* resource) override;
     const char* m40(Context* ctx, const res::ASResource* resource) override;
     ~EventFlagSelector() override;
@@ -876,6 +892,7 @@ public:
 
     void m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
             sead::Heap* heap, const res::AS* as) override;
+    bool m8(const InitArg& arg) override;
     bool m9(Context* ctx, PlayState* state, const res::ASResource* resource) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;

@@ -110,7 +110,7 @@ int Element::m7() {
     return 0;
 }
 
-bool Element::m8() {
+bool Element::m8(const InitArg&) {
     return true;
 }
 

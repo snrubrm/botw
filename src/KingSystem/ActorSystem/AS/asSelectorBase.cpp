@@ -9,6 +9,37 @@ SelectorBase::~SelectorBase() {
     mChildren.freeBuffer();
 }
 
+// NON_MATCHING: allocation branches and buffer-copy loops use different scheduling and join points.
+bool SelectorBase::m8(const InitArg& arg) {
+    if (arg.createArg->as) {
+        auto* resource = sead::DynamicCast<const res::ASResourceWithChildren>(arg.resource);
+        if (!resource || resource->getChildren().size() < 1)
+            return true;
+        if (!mChildren.tryAllocBuffer(resource->getChildren().size(), arg.createArg->heap, 8))
+            return false;
+        mChildren.fill(nullptr);
+        const int num_children = mChildren.size();
+        for (int i = 0; i < num_children; ++i) {
+            auto* child = resource->getChildren()[i];
+            if (!child)
+                return false;
+            const s16 index = (*arg.indexMap)[child->getIndex()];
+            if (index >= 0)
+                mChildren[i] = arg.list->elements[index];
+        }
+    } else {
+        const int num_elements = arg.list->elements.size();
+        if (num_elements < 2)
+            return true;
+        const int num_children = num_elements - 1;
+        if (!mChildren.tryAllocBuffer(num_children, arg.createArg->heap, 8))
+            return false;
+        for (int i = 0; i < num_children; ++i)
+            mChildren[i] = arg.list->elements[i + 1];
+    }
+    return true;
+}
+
 const res::ASResource* SelectorBase::sub_71013031FC(const res::ASResource* resource,
                                                     int index) const {
     if (auto* parent = sead::DynamicCast<const res::ASResourceWithChildren>(resource))
