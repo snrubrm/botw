@@ -552,6 +552,12 @@ phys::RigidBody* Actor::findPhysicsBodyByName(const char* group_name, const char
     return group->findBodyByHavokName(body_name);
 }
 
+bool Actor::x_20(phys::RigidBody* body) const {
+    if (!body || !mPhysics)
+        return false;
+    return mPhysics->sub_7100FBE184(body);
+}
+
 bool Actor::sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const {
     if (!mModel)
         return false;

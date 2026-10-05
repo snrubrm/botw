@@ -681,6 +681,7 @@ public:
     bool hasPlacementLinkWithTypeFreeze() const;
     bool checkForbidAttentionSignal() const;
     phys::RigidBody* findPhysicsBodyByName(const char* group_name, const char* body_name) const;
+    bool x_20(phys::RigidBody* body) const;
 
     void nullsub_4648();
     // 0x71011c88c0: copies `mtx` to mPhysicsMtx (if any) and sets ActorFlag::_2.
