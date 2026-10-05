@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionIchigekiHeartUiClose.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -11,5 +12,13 @@ bool IchigekiHeartUiClose::init_(sead::Heap* heap) {
 }
 
 void IchigekiHeartUiClose::loadParams_() {}
+
+bool IchigekiHeartUiClose::oneShot_() {
+    auto* screen = sead::DynamicCast<ui::ScreenMainScreenHeartIchigekiDLC>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::MainScreenHeartIchigekiDLC));
+    if (screen)
+        screen->close(-1);
+    return true;
+}
 
 }  // namespace uking::action
