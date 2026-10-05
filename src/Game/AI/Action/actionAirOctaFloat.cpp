@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAirOctaFloat.h"
+#include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -23,8 +24,15 @@ bool AirOctaFloat::init_(sead::Heap* heap) {
     return AirOctaFloatBase::init_(heap);
 }
 
+// NON_MATCHING: vector address scheduling and zero-vector copy stores differ.
 void AirOctaFloat::enter_(ksys::act::ai::InlineParamPack* params) {
     AirOctaFloatBase::enter_(params);
+    if (auto* manager = sub_7100088DA8()) {
+        if (manager->mBaseProcLink2.hasProc())
+            _1c4.set(0.005f, 1.7f, 0.005f);
+        else
+            _1c4 = sead::Vector3f::zero;
+    }
 }
 
 void AirOctaFloat::leave_() {

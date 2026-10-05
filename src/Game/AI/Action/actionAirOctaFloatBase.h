@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 
+namespace uking {
+class AirOctaDataMgr;
+}
+
 namespace uking::action {
 
 class AirOctaFloatBase : public ksys::act::ai::Action {
@@ -20,6 +24,7 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    AirOctaDataMgr* sub_7100088DA8();
 
     // static_param at offset 0x20
     const float* mAmplitude_s{};
