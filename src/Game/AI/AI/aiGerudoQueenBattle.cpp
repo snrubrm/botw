@@ -27,4 +27,46 @@ void GerudoQueenBattle::loadParams_() {
     getStaticParam(&mRetireFrame_s, "RetireFrame");
 }
 
+bool GerudoQueenBattle::handleMessage_(const ksys::Message* message) {
+    const auto type = message->getType();
+    switch (type) {
+    case ksys::MessageType(0x08000085):
+    case ksys::MessageType(0x08000086):
+    case ksys::MessageType(0x08000087):
+    case ksys::MessageType(0x08000088):
+    case ksys::MessageType(0x08000089):
+    case ksys::MessageType(0x0800008a):
+    case ksys::MessageType(0x0800008b):
+    case ksys::MessageType(0x0800008c):
+        _fc = type;
+        _f8 = true;
+        return true;
+    case ksys::MessageType(0x0800008d):
+        if (_80)
+            _80->sub_7100EBB624();
+        break;
+    case ksys::MessageType(0x0800008e):
+        if (_80)
+            _80->_60.set(0x10);
+        break;
+    case ksys::MessageType(0x0800008f):
+        if (_80)
+            _80->sub_7100EBB60C();
+        break;
+    case ksys::MessageType(0x08000090):
+        if (_88)
+            _88 = false;
+        if (_89) {
+            _80->sub_7100EBB518();
+            _89 = false;
+        }
+        if (_60.hasProc())
+            _60.reset();
+        break;
+    default:
+        break;
+    }
+    return false;
+}
+
 }  // namespace uking::ai
