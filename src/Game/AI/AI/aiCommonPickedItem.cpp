@@ -44,6 +44,50 @@ void CommonPickedItem::leave_() {
     ksys::act::disableAllAttClients(mActor);
 }
 
+void CommonPickedItem::calc_() {
+    auto* actor = mActor;
+    _88.sub_710070AE18(actor);
+    if (!_88._30 && isCurrentChild("通常")) {
+        auto* child = getCurrentChild();
+        if (child) {
+            if (child->isFinished()) {
+                setFinished();
+                return;
+            }
+            if (child->isFailed()) {
+                setFailed();
+                return;
+            }
+        }
+    }
+    if (sub_710072B8E8(actor))
+        m35();
+    if (_c8 > 0) {
+        m37();
+        if (ksys::act::attentionStuff_0(actor) || isCurrentChild("通常")) {
+            if (_88._30 && !_88._39 && !_88._3a) {
+                if (_88._38 == 1) {
+                    auto* current_actor = mActor;
+                    _88.x();
+                    if (--_c8 <= 0)
+                        ksys::act::disableAttClient(current_actor, "NoticeDo");
+                    changeChild("サブボタン");
+                } else {
+                    sub_7100355818();
+                }
+            }
+        } else {
+            m38();
+        }
+    } else if (getCurrentChild()->isChangeable() || getCurrentChild()->isFinished()) {
+        if (!isCurrentChild("消滅")) {
+            _88.x();
+            ksys::act::disableAllAttClients(mActor);
+            changeChild("消滅");
+        }
+    }
+}
+
 void CommonPickedItem::loadParams_() {
     getStaticParam(&mCanGetOnBurning_s, "CanGetOnBurning");
     getStaticParam(&mIsControlNoticeDo_s, "IsControlNoticeDo");

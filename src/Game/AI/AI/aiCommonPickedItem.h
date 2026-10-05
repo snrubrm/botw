@@ -27,6 +27,8 @@ public:
     virtual void m38();
 
 protected:
+    void sub_7100355818();
+
     // 0x7100355a14 (lane1 s22): out-of-line copy of `_88.x()` (called by ArrowStickAndPick::m38).
     void sub_7100355A14();
 
