@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionDungeonMoveAlwaysVibrateCam.h"
+#include "KingSystem/ActorSystem/actActor.h"
+
+void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, bool start,
+                    ksys::map::Object* object);
 
 namespace uking::action {
 
@@ -15,6 +19,13 @@ void DungeonMoveAlwaysVibrateCam::enter_(ksys::act::ai::InlineParamPack* params)
 }
 
 void DungeonMoveAlwaysVibrateCam::leave_() {
+    if (!isFinished()) {
+        auto* actor = mActor;
+        auto* object = sub_71000F9C9C();
+        if (!*mIsSilentOnSuccess_s || !actor->checkGimmickSuccessSignal())
+            sub_71005DDC98(actor, *mCameraPattern_m, *mCameraPower_m, *mCameraRange_m, false,
+                          object);
+    }
     DungeonMove::leave_();
 }
 

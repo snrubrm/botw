@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include <math/seadVector.h>
 
+namespace ksys::map {
+class Object;
+}
+
 namespace ksys::phys {
 class StaticCompoundRigidBodyGroup;
 }
@@ -27,6 +31,7 @@ public:
 
 protected:
     void calc_() override;
+    ksys::map::Object* sub_71000F9C9C();
 
     // static_param at offset 0x20
     const float* mAccel_s{};
