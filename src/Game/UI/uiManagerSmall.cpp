@@ -1,6 +1,14 @@
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
+
+// UI heap storage; the name is a placeholder.
+sead::Heap* sUnk_71025f59d0;
+
+sead::Heap* getHeap() {
+    return sUnk_71025f59d0;
+}
 
 // 0x7100945320 / 0x7100945344: the two gauge ranges (value, maximum, default limit); names are guesses
 void sub_7100945320(f32 value, f32 max) {
