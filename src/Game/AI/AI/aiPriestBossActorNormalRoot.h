@@ -22,6 +22,8 @@ public:
     virtual bool m36();
 
 protected:
+    void sub_710050DC18(bool from_sync);
+
     // aitree_variable at offset 0x40
     int* mEquipWeaponBufIndex_a{};
     Unk_7102411950 _48{mActor, 0x80000db};

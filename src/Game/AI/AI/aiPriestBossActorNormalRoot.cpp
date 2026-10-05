@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPriestBossActorNormalRoot.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -17,6 +18,35 @@ bool PriestBossActorNormalRoot::init_(sead::Heap* heap) {
 
 void PriestBossActorNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorRoot::enter_(params);
+}
+
+// NON_MATCHING: temporary string storage and the sync-mode branch layout differ.
+void PriestBossActorNormalRoot::calc_() {
+    PriestBossActorRoot::calc_();
+    if (!sub_7100505BE4()) {
+        if (!isCurrentChild("通常モード")) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addBool(false, "FromSyncMode", -1);
+            changeChild("通常モード", &pack);
+        }
+        return;
+    }
+    if (m36())
+        return;
+    if (isCurrentChild("攻撃変更の間")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            sub_710050DC18(true);
+        return;
+    }
+    if (sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_0) &&
+        !isCurrentChild("シンクロモード")) {
+        changeChild("攻撃変更の間");
+        return;
+    }
+    if (!sub_7100505BE4()->isFlagOn(Unk_7102450fa8::Flag::_0) &&
+        !isCurrentChild("通常モード"))
+        changeChild("攻撃変更の間");
 }
 
 void PriestBossActorNormalRoot::leave_() {
