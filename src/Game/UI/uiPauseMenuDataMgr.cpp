@@ -1920,6 +1920,7 @@ PouchCategory PauseMenuDataMgr::getCategoryForType(PouchItemType type) const {
 }
 
 // 0x710097c148
+// NON_MATCHING: the compiler combines the tab bounds and removes the redundant SafeArray check.
 PouchCategory PauseMenuDataMgr::getCategoryOfTabMaybe(s32 tab) const {
     if (tab >= NumTabMax)
         return PouchCategory::Invalid;
