@@ -22,6 +22,8 @@ public:
     void sub_7100398A34(ksys::act::ai::InlineParamPack* params);
 
 protected:
+    void sub_7100398DD4();
+
     // map_unit_param at offset 0x38
     const bool* mIsMimicry_m{};
     // aitree_variable at offset 0x40

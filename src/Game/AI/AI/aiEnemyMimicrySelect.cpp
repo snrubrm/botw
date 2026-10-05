@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiEnemyMimicrySelect.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
@@ -28,7 +30,17 @@ bool EnemyMimicrySelect::isChangeable() const {
 }
 
 void EnemyMimicrySelect::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (isCurrentChild("擬態"))
+        *mIsStartResetMimicry_a = true;
+    sub_71005DD34C(mActor, true);
+    sub_71005DD2E8(mActor);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->m151(3))
+            enemy->_e84.reset(0x10000);
+    }
+    sub_7100398DD4();
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62BB8();
 }
 
 void EnemyMimicrySelect::calc_() {
