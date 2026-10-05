@@ -18,6 +18,8 @@ public:
 protected:
     void calc_() override;
 
+    void sub_7100223114();
+
     // static_param at offset 0x20
     const int* mTargetIdx_s{};
     // static_param at offset 0x28

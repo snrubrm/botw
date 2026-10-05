@@ -9,7 +9,8 @@ PulleyChainASControl::PulleyChainASControl(const InitArg& arg) : ksys::act::ai::
 PulleyChainASControl::~PulleyChainASControl() = default;
 
 bool PulleyChainASControl::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    sub_7100223114();
+    return true;
 }
 
 void PulleyChainASControl::enter_(ksys::act::ai::InlineParamPack* params) {
