@@ -25,6 +25,9 @@ protected:
     void calc_() override;
     virtual void m32();
     AirOctaDataMgr* sub_7100088DA8();
+    bool sub_7100088400();
+    void sub_71000885B0();
+    void sub_71000886B8();
 
     // static_param at offset 0x20
     const float* mAmplitude_s{};

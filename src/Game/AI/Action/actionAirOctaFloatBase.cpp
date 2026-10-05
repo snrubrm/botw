@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -36,7 +37,11 @@ void AirOctaFloatBase::loadParams_() {
 }
 
 void AirOctaFloatBase::calc_() {
-    ksys::act::ai::Action::calc_();
+    m32();
+    sub_7100088400();
+    sub_71000885B0();
+    sub_71000886B8();
+    _40 += ksys::VFR::instance()->getDeltaTime();
 }
 
 }  // namespace uking::action
