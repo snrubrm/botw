@@ -17,6 +17,11 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_71003BA99C();
+    bool sub_71003BAA9C(ksys::act::BaseProcLink* link);
+    bool sub_71003BADD8();
+    void sub_71003BAC8C();
+
     struct Params {
         // static_param at offset 0x1e8
         const int* mShieldIdx_s{};
