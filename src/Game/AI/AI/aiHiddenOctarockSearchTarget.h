@@ -12,10 +12,12 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    bool sub_7100432B0C(sead::Vector3f* out);
     // static_param at offset 0x38
     const float* mNoticeTerrorLevel_s{};
     // static_param at offset 0x40
