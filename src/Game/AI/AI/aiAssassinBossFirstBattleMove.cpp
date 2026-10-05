@@ -3,6 +3,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -22,8 +23,21 @@ bool AssassinBossFirstBattleMove::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: target-coordinate loads and horizontal-distance arithmetic scheduling differ.
 void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const sead::Vector3f target = sub_71005D9330(mActor);
+    sead::Vector3f direction = mActor->getMtx().getTranslation() - target;
+    direction.y = 0.0f;
+    direction.normalize();
+    const f32 check_dist = *mCheckTargetDist_s;
+    if (!(sead::Vector2f(_6c.x - (target.x + direction.x * check_dist),
+                        _6c.z - (target.z + direction.z * check_dist)).length() >= *mDistXZ_s)) {
+        sub_710031704C();
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("直線接近可能", &pack);
 }
 
 bool AssassinBossFirstBattleMove::isChangeable() const {

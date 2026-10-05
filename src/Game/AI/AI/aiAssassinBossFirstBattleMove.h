@@ -20,6 +20,9 @@ public:
 
     void sub_7100316D50();
 protected:
+    // 0x710031704c: declaration-only movement transition.
+    void sub_710031704C();
+
     // static_param at offset 0x38
     const float* mDistXZ_s{};
     // static_param at offset 0x40
