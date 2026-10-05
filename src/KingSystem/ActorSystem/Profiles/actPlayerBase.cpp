@@ -44,6 +44,11 @@ const sead::SafeString& PlayerBase::getEquipmentTypeName(u32 type) const {
     return sEquipmentTypeNames[type];
 }
 
+// NON_MATCHING: The original addresses this entry through a larger merged global.
+bool PlayerBase::m179() {
+    return _d30 == sEquipmentTypeNames[3];
+}
+
 void PlayerLink::m379() {}
 
 void PlayerLink::m380() {}
