@@ -827,6 +827,12 @@ bool Player::m303() {
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
 }
 
+f32 Player::m248() {
+    if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(2)))
+        return weapon->sub_71002ED434();
+    return 0.0f;
+}
+
 f32 Player::m301() {
     ActorConstDataAccess accessor;
     auto& link = getWeapons()->mWeapons[2].link;
