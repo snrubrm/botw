@@ -303,6 +303,9 @@ public:
     f32 getStatusEffectMovingSpeed(s32 level);
     f32 getStatusEffectSwimingSpeed(s32 level);
     f32 getStatusEffectClimbingSpeed(s32 level);
+    void updateResistHotVal();
+    void updateResistColdVal();
+    void updateStatusEffectAttackUp();
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
     // direction to move in; 0 for none).
@@ -528,11 +531,19 @@ public:
     /* 0x1fc0 */ u8 _1fc0[0x1ffc - 0x1fc0];
     /* 0x1ffc */ s32 _1ffc;
     /* 0x2000 */ f32 _2000;
-    /* 0x2004 */ u8 _2004[0x201c - 0x2004];
+    /* 0x2004 */ s32 _2004;
+    /* 0x2008 */ u8 _2008[0x200c - 0x2008];
+    /* 0x200c */ s32 _200c;
+    /* 0x2010 */ s32 _2010;
+    /* 0x2014 */ u8 _2014[0x201c - 0x2014];
     /* 0x201c */ s32 _201c;  // sub_71008859EC
-    /* 0x2020 */ u8 _2020[0x2038 - 0x2020];
+    /* 0x2020 */ u8 _2020[0x2028 - 0x2020];
+    /* 0x2028 */ s32 _2028;
+    /* 0x202c */ s32 _202c;
+    /* 0x2030 */ u8 _2030[0x2038 - 0x2030];
     /* 0x2038 */ s32 _2038;  // sub_71008859EC
-    /* 0x203c */ u8 _203c[0x2044 - 0x203c];
+    /* 0x203c */ u8 _203c[0x2040 - 0x203c];
+    /* 0x2040 */ s32 _2040;
     /* 0x2044 */ s32 _2044;  // armor charge-attack status index, passed to Ecosystem
     /* 0x2048 */ u8 _2048[0x2074 - 0x2048];
     /* 0x2074 */ f32 _2074;

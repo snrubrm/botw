@@ -701,6 +701,30 @@ f32 Player::getStatusEffectClimbingSpeed(s32 level) {
     return info.val._f32;
 }
 
+// NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
+// order also differs from the original.
+void Player::updateResistHotVal() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistHot, _200c + _2028, &info);
+    _2084 = info.val._f32;
+}
+
+// NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
+// order also differs from the original.
+void Player::updateResistColdVal() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistCold, _2010 + _202c, &info);
+    _2088 = info.val._f32;
+}
+
+// NON_MATCHING: the singleton load is scheduled before the status-level member reads, whose load
+// order also differs from the original.
+void Player::updateStatusEffectAttackUp() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_AttackUp, _2004 + _2040, &info);
+    _208c = info.val._f32;
+}
+
 // NON_MATCHING: the original branches from each test straight to one shared "return true" block (we emit one
 // `orr w0, wzr, #1; b` per test and return the last bit with ubfx)
 bool Player::m365() {
