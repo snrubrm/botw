@@ -16,6 +16,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
+#include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
 
@@ -24,6 +26,16 @@ void Enemy::killWithDropsAndEffects(int a1) {
         reporter->reportDebug("KillEnemy", sead::SafeString(getName().cstr()));
     incrementDefeatedCount();
     Actor::killWithDropsAndEffects(a1);
+}
+
+void Enemy::m92(ksys::phys::RigidBody* body) {
+    if (ksys::world::Manager::instance()->isAocField() && getLife()) {
+        if (auto* life = getLife())
+            *life = 0;
+        emitSignal(ksys::map::MapLinkDefType::LifeZero, true);
+        emitSignal(ksys::map::MapLinkDefType::DeadUp, true);
+    }
+    Actor::m92(body);
 }
 
 void Enemy::onEnterSleep_() {
