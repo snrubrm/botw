@@ -299,6 +299,10 @@ void Screen::setOwnInitializeHeap(bool own) {
 }
 
 // 0x7100be99d4
+s32 Screen::getViewerType() const {
+    return 0;
+}
+
 DrawTarget Screen::getDrawTarget() const {
     return mMgr->getTargetMgr()->getDrawTarget(mDrawTarget);
 }

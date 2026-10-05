@@ -168,6 +168,8 @@ public:
 
     // 0x7100be99d4
     DrawTarget getDrawTarget() const;
+    // 0x7100be97f4
+    s32 getViewerType() const;
     // 0x7100be9da4
     f32 getOpenFrameSize() const;
     // 0x7100be9880
