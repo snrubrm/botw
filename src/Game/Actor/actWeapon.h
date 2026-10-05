@@ -273,6 +273,7 @@ public:
     void m215() override;
     void* m221() override;
     bool m227() override;
+    void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m218() override;
     bool m225() override;
     bool m153() override;

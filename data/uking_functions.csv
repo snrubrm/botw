@@ -19877,7 +19877,7 @@ Address,Quality,Size,Name
 0x00000071002eacac,U,000436,Weapon::m246_getSquatPlayerHoldRotAddOffset
 0x00000071002eae60,U,000260,Weapon::m247
 0x00000071002eaf64,U,000260,Weapon::m248
-0x00000071002eb068,U,000012,Weapon::m249
+0x00000071002eb068,O,000012,_ZN5uking3act6Weapon4m249EPN4sead8Matrix34IfEEPN4ksys3act5ActorE
 0x00000071002eb074,U,000224,Weapon::m239
 0x00000071002eb154,U,000076,Weapon::m229
 0x00000071002eb1a0,U,000960,Weapon::updateLifeMaybe
@@ -46984,7 +46984,7 @@ Address,Quality,Size,Name
 0x000000710073bd0c,U,000040,_ZN5uking19removeFromInventoryERKN4sead14SafeStringBaseIcEE
 0x000000710073bd34,U,000032,masterSwordBroken
 0x000000710073bd54,U,000412,_Z29aiActionEventPickOutFromPorchPN4ksys3act14BaseProcHandleE
-0x000000710073bef0,U,001732,dropActorFromPorchCalculateMtx
+0x000000710073bef0,U,001732,_Z30dropActorFromPorchCalculateMtxPN4sead8Matrix34IfEEPN4ksys3act5ActorE
 0x000000710073c5b4,U,000732,_ZN5uking25spawnDroppedInventoryItemEPKcPN4sead4HeapEiNS_14SleepAfterInitEPKNS_3act18WeaponModifierInfoENS_16SpawnViaCarryBoxEff
 0x000000710073c890,U,000292,
 0x000000710073c9b4,U,000600,createActorPickOutFromPorch
@@ -81528,7 +81528,7 @@ Address,Quality,Size,Name
 0x0000007100efbb58,O,000004,_ZN4ksys3act10WeaponBase4m246Ev
 0x0000007100efbb5c,O,000004,_ZN4ksys3act10WeaponBase4m247Ev
 0x0000007100efbb60,O,000004,_ZN4ksys3act10WeaponBase4m248Ev
-0x0000007100efbb64,O,000004,_ZN4ksys3act10WeaponBase4m249Ev
+0x0000007100efbb64,O,000004,_ZN4ksys3act10WeaponBase4m249EPN4sead8Matrix34IfEEPNS0_5ActorE
 0x0000007100efbb68,O,000008,_ZN4ksys3act10WeaponBase4m250Ev
 0x0000007100efbb70,O,000124,_ZN4ksys3act12ActorWeaponsC1EPNS0_5ActorE
 0x0000007100efbbec,O,000088,_ZN4ksys3act12ActorWeaponsD1Ev

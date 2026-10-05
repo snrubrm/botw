@@ -32,6 +32,9 @@ bool isActiveEventDemo000Or001Or002();
 // Source ownership is unknown; declaration only.
 void weaponBroken(ksys::act::Actor* actor);
 
+// Source ownership is unknown; declaration only.
+void dropActorFromPorchCalculateMtx(sead::Matrix34f* matrix, ksys::act::Actor* actor);
+
 namespace uking::act {
 
 void Weapon::m181() {
@@ -99,6 +102,10 @@ void* Weapon::m221() {
 
 bool Weapon::m227() {
     return (_e52 & 1) != 0;
+}
+
+void Weapon::m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) {
+    dropActorFromPorchCalculateMtx(matrix, actor);
 }
 
 bool Weapon::m218() {

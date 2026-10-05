@@ -170,7 +170,7 @@ public:
     virtual void m246() {}
     virtual void m247() {}
     virtual void m248() {}
-    virtual void m249() {}
+    virtual void m249(sead::Matrix34f* matrix, Actor* actor) {}
     virtual bool m250();
 
     static void requestCreateWeaponActor(const char* actor, const sead::Matrix34f& matrix,
