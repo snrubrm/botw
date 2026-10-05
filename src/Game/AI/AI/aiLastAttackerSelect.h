@@ -22,6 +22,8 @@ public:
     virtual bool m34();
 
 protected:
+    void sub_7100474A28();
+    void sub_7100474B94();
 };
 
 }  // namespace uking::ai

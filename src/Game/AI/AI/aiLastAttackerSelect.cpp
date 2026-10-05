@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiLastAttackerSelect.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -19,7 +21,15 @@ bool LastAttackerSelect::init_(sead::Heap* heap) {
 }
 
 void LastAttackerSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* target = sub_71005D9050(mActor);
+    if (target && target->hasProc()) {
+        auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+        if (enemy && enemy->_e08._0 == *target) {
+            sub_7100474A28();
+            return;
+        }
+    }
+    sub_7100474B94();
 }
 
 void LastAttackerSelect::calc_() {}
