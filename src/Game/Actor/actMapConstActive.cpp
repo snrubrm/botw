@@ -4,7 +4,10 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::act {
 
@@ -44,6 +47,12 @@ void MapConstActive::m63() {
     sub_71007394E8(this);
     sub_7100739108(getActorAttackSensor(this));
     sub_7100739168(sub_71007A2844(this));
+}
+
+void MapConstActive::initMaybe() {
+    MapConstActiveOrMergedDungeonParts::initMaybe();
+    if (ksys::act::hasTag(this, ksys::act::tags::XLinkEventOnAtInit))
+        xlinkEventOn(this, 25, 1, false);
 }
 
 uking::dmg::DamageManagerBase* MapConstActive::getDamageMgr() {

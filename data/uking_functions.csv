@@ -19691,7 +19691,7 @@ Address,Quality,Size,Name
 0x00000071002dd168,U,000004,j_j_nullsub_4002
 0x00000071002dd16c,U,000180,MapConstActive::m20
 0x00000071002dd220,O,000060,_ZN5uking3act14MapConstActive3m63Ev
-0x00000071002dd25c,U,000080,MapConstActive::m64
+0x00000071002dd25c,O,000080,_ZN5uking3act14MapConstActive9initMaybeEv
 0x00000071002dd2ac,U,000004,j_j_nullsub_4005
 0x00000071002dd2b0,U,000004,j_j_MapConst::m71
 0x00000071002dd2b4,U,000596,MapConstActive::m76
@@ -79719,7 +79719,7 @@ Address,Quality,Size,Name
 0x0000007100e8df88,U,000004,nullsub_4002
 0x0000007100e8df8c,U,000004,nullsub_4003
 0x0000007100e8df90,O,000120,_ZN5uking3act8MapConst3m63Ev
-0x0000007100e8e008,U,000004,nullsub_4004
+0x0000007100e8e008,U,000004,_ZN5uking3act8MapConst9initMaybeEv
 0x0000007100e8e00c,U,000004,nullsub_4005
 0x0000007100e8e010,U,000212,MapConst::m71
 0x0000007100e8e0e4,O,000288,_ZNK5uking3act8MapConst27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -79730,7 +79730,7 @@ Address,Quality,Size,Name
 0x0000007100e8e2a4,U,000004,j_nullsub_4003
 0x0000007100e8e2a8,O,000064,_ZN5uking3act34MapConstActiveOrMergedDungeonParts18onDeleteRequested_EN4ksys3act8BaseProc12DeleteReasonE
 0x0000007100e8e2e8,O,000092,_ZN5uking3act34MapConstActiveOrMergedDungeonParts3m63Ev
-0x0000007100e8e344,U,000004,j_nullsub_4004
+0x0000007100e8e344,U,000004,_ZN5uking3act34MapConstActiveOrMergedDungeonParts9initMaybeEv
 0x0000007100e8e348,U,000004,j_nullsub_4005
 0x0000007100e8e34c,U,000004,j_MapConst::m71
 0x0000007100e8e350,O,000108,_ZN5uking3act34MapConstActiveOrMergedDungeonParts10canWakeUp_Ev

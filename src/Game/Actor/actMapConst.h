@@ -23,6 +23,7 @@ protected:
 
 public:
     void m63() override;
+    void initMaybe() override;
 
     /* 0x83c */ s32 _83c = 0;
     /* 0x840 */ f32 _840 = 0;  // traverse distance of the actor
@@ -50,11 +51,12 @@ protected:
 
 public:
     void m63() override;
+    void initMaybe() override;
 };
 KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
 
-// Factory 0x7100dcfe0 (CSV MapConstActive::construct): new(0x868). RTTI static 0x71025b71e8. Not written yet:
-// prepareInit_ (creates the three members below), preDelete2_ (deletes them), m63 / m64 / m76 / m148.
+// Factory 0x7100dcfe0 (CSV MapConstActive::construct): new(0x868). RTTI static 0x71025b71e8.
+// preDelete2_ (deletes the three members below) and m76 are not written yet.
 class MapConstActive : public MapConstActiveOrMergedDungeonParts {
     SEAD_RTTI_OVERRIDE(MapConstActive, MapConstActiveOrMergedDungeonParts)
 public:
@@ -68,6 +70,7 @@ protected:
 
 public:
     void m63() override;
+    void initMaybe() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     ksys::act::Unk_71025ae620* getDropData() override;
