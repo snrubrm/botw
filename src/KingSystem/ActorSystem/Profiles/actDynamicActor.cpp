@@ -17,7 +17,25 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "Game/gameRoot38.h"
 
+// Source ownership is unknown; declaration only.
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
 namespace ksys::act {
+
+void DynamicActor::m158() {
+    if (auto* manager = mDamageMgr) {
+        sub_7100D2D424(manager);
+        manager->preDelete1();
+        manager->preDelete2();
+        delete mDamageMgr;
+        mDamageMgr = nullptr;
+    }
+}
+
+bool DynamicActor::initDropData(sead::Heap* heap) {
+    _a60 = makeDropData(heap);
+    return true;
+}
 
 void DynamicActor::m160() {
     Actor::x_2();

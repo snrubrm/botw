@@ -564,6 +564,7 @@ public:
     virtual uking::act::RideableBase* m132();
     virtual uking::act::Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe();
     virtual Unk_71025ae620* getDropData();
+    DropData* makeDropData(sead::Heap* heap);
     virtual Unk3* m135();
     virtual LifeRecoverInfo* getLifeRecoverInfo();
     virtual bool m137();

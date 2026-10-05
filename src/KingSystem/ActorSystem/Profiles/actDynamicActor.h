@@ -51,6 +51,7 @@ protected:
     bool initField868(sead::Heap* heap);
     bool constructActorAtk(sead::Heap* heap);
     bool initField858(sead::Heap* heap);
+    bool initDropData(sead::Heap* heap);
 
 public:
     Actor* m31() override;
