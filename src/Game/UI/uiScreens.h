@@ -622,6 +622,7 @@ class Fade : public Screen {
 public:
     ~Fade() override;
     SEAD_RTTI_OVERRIDE(Fade, Screen)
+    void sub_71010A0EE8(f32 progress);
 };
 
 class ScreenFadeDemo : public Screen {

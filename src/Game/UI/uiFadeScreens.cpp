@@ -5,6 +5,15 @@
 // group evt::S7::*; none of them uses `this`.
 namespace uking::ui {
 
+void applyScreenFade(float progress) {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* screen = sead::DynamicCast<Fade>(mgr->getScreen(ScreenId::Fade));
+    if (screen)
+        screen->sub_71010A0EE8(progress);
+}
+
 // 0x71008ae96c (CSV evt::S7::isFadeDemoScreenOpened)
 bool isFadeDemoScreenOpened() {
     return eui::ScreenMgr::instance()->getScreen(ScreenId::FadeDemo)->isOpened();
