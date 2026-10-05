@@ -967,6 +967,11 @@ void Player::x_25() {
     list->mSlots[2].sub_7101164E38(false);
 }
 
+void Player::x_26(const char* animation, f32 value) {
+    mASList->startAnimationMaybe(value, -1.0f, animation, 2, 0, true);
+    mASList->sub_710115F2EC(2, 0, 1.0f);
+}
+
 void Player::x_0(const char* animation) {
     mASList->startAnimationMaybe(-1.0f, -1.0f, animation, 4, 0, true);
     mASList->sub_710115F2EC(4, 0, 1.0f);

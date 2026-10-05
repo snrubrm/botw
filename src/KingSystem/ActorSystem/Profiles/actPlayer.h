@@ -276,6 +276,7 @@ public:
 
     // Non-virtual member functions (CSV names; placeholder names x_NN are the CSV's).
     void x_0(const char* animation);  // 0x856950
+    void x_26(const char* animation, f32 value);  // 0x855dc0
     // Parameter names are unknown; the order of float vs. integer parameters is a guess.
     void switchToAnimSequenceMaybe(const char* name, bool a2, f32 a3);  // 0x855608
     void x_23(const char* name, bool a2, f32 a3);                       // 0x85588c
