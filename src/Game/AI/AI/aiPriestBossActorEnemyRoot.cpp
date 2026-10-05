@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "Game/AI/aiUnk_710071edf8.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
@@ -88,6 +89,18 @@ void PriestBossActorEnemyRoot::m48() {
         return;
     if (auto* lod = mActor->getLodState())
         sub_710071EDD0(mActor, lod->mFlags8.isOn(2));
+}
+
+void PriestBossActorEnemyRoot::m49() {
+    if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20)) {
+        ksys::act::disableAttClient(mActor, "LockOn");
+    } else if (!sub_7100506A40() ||
+               !sub_7100506A40()->isFlagOn(Unk_7102450fa8::Flag::_12) ||
+               ksys::act::attentionStuff(mActor)) {
+        ksys::act::enableAttClient(mActor, "LockOn");
+    } else {
+        ksys::act::disableAttClient(mActor, "LockOn");
+    }
 }
 
 }  // namespace uking::ai

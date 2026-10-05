@@ -298,11 +298,12 @@ void Screen::setOwnInitializeHeap(bool own) {
     _107 = own ? (_107 | 1) : (_107 & ~1);
 }
 
-// 0x7100be99d4
+// 0x7100be97f4
 s32 Screen::getViewerType() const {
     return 0;
 }
 
+// 0x7100be99d4
 DrawTarget Screen::getDrawTarget() const {
     return mMgr->getTargetMgr()->getDrawTarget(mDrawTarget);
 }
