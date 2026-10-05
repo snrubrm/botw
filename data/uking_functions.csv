@@ -5691,7 +5691,7 @@ Address,Quality,Size,Name
 0x00000071000f92c4,O,000036,_ZN5uking6action17DunegonRotateWaitD0Ev
 0x00000071000f92e8,O,000004,_ZN5uking6action17DunegonRotateWait5init_EPN4sead4HeapE
 0x00000071000f92ec,O,000044,_ZN5uking6action17DunegonRotateWait6enter_EPN4ksys3act2ai15InlineParamPackE
-0x00000071000f9318,W,000048,_ZN5uking6action17DunegonRotateWait5calc_Ev
+0x00000071000f9318,O,000048,_ZN5uking6action17DunegonRotateWait5calc_Ev
 0x00000071000f9348,O,000004,_ZN5uking6action17DunegonRotateWait6leave_Ev
 0x00000071000f934c,O,000004,_ZN5uking6action17DunegonRotateWait11loadParams_Ev
 0x00000071000f9350,O,000008,_ZNK5uking6action17DunegonRotateWait27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -36249,7 +36249,7 @@ Address,Quality,Size,Name
 0x00000071005dda94,U,000080,
 0x00000071005ddae4,U,000436,
 0x00000071005ddc98,U,000500,
-0x00000071005dde8c,U,000244,
+0x00000071005dde8c,U,000244,_Z14sub_71005DDE8CPN4ksys3act5ActorEPKN4sead7Vector3IfEEi
 0x00000071005ddf80,U,001048,
 0x00000071005de398,U,000420,
 0x00000071005de53c,U,000696,
