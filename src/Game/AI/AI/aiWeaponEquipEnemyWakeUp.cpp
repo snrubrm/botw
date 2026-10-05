@@ -14,7 +14,11 @@ bool WeaponEquipEnemyWakeUp::init_(sead::Heap* heap) {
 }
 
 void WeaponEquipEnemyWakeUp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_71000198E4(sead::DynamicCast<act::Weapon>(
+            enemy->_c38[*mWeaponIdx_s].getProc(nullptr, nullptr)));
+    }
+    changeChild("起きる", nullptr);
 }
 
 void WeaponEquipEnemyWakeUp::leave_() {
