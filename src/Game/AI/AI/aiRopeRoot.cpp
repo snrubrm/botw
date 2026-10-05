@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRopeRoot.h"
+#include "Game/Actor/actRope.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,9 @@ bool RopeRoot::init_(sead::Heap* heap) {
 }
 
 void RopeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58 = sead::DynamicCast<act::Rope>(mActor);
+    _48.acquire(_58, false);
+    changeChild("通常", nullptr);
 }
 
 void RopeRoot::leave_() {
