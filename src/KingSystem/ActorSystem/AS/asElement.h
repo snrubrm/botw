@@ -904,8 +904,7 @@ public:
     int m30(f32* a1, Context* ctx, const res::ASResource* resource) override;
     void m34(void* a1, Context* ctx, void* a3, const res::ASResource* resource) override;
 
-    /* 0x10 */ s16 _10;
-    /* 0x12 */ s16 _12;
+    /* 0x10 */ gsys::AnimationAccessKey<gsys::SkeletalAnmType> mKey;
     /* 0x18 */ Unk18* _18;
 };
 KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);

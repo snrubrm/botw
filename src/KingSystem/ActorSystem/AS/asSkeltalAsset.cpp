@@ -19,7 +19,7 @@ bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* res
 SkeltalAsset::~SkeltalAsset() {}
 
 bool SkeltalAsset::m10(Context* ctx, State* state, const res::ASResource* resource) {
-    if (_10 == -1 || _12 == -1)
+    if (!mKey.isValid())
         return true;
     const bool result = AnmAsset::m10(ctx, state, resource);
     Context::Record* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
