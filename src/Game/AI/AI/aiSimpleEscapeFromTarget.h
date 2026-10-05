@@ -16,6 +16,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     void sub_710056CF84();
+    bool sub_710056D24C();
 
     virtual bool m34();
     virtual void m35(bool finished);

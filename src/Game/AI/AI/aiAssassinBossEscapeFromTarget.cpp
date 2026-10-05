@@ -23,6 +23,34 @@ void AssassinBossEscapeFromTarget::enter_(ksys::act::ai::InlineParamPack* params
     SimpleEscapeFromTarget::enter_(params);
 }
 
+void AssassinBossEscapeFromTarget::calc_() {
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("後退移動完了")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+        } else if (sub_710056D24C()) {
+            if (isCurrentChild("後退不能移動")) {
+                setFinished();
+                return;
+            }
+        } else if (isCurrentChild("後退不能移動")) {
+            sub_710056CF84();
+            return;
+        }
+    } else {
+        child->isChangeable();
+    }
+    if (!isCurrentChild("後退移動完了"))
+        SimpleEscapeFromTarget::calc_();
+}
+
 bool AssassinBossEscapeFromTarget::isChangeable() const {
     return false;
 }
