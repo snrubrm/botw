@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionBackWalkEx.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -12,6 +15,13 @@ bool BackWalkEx::init_(sead::Heap* heap) {
 
 void BackWalkEx::enter_(ksys::act::ai::InlineParamPack* params) {
     BackWalkBase::enter_(params);
+    const f32 speed = mActor->getVelocity().length();
+    _b0.value = speed;
+    _b0.prev_value = speed;
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F5E7F0(sead::Vector3f(speed, speed, speed).length() * 30.0f);
+        sub_710072C1B4(controller, -mActor->getMtx().getBase(2));
+    }
 }
 
 void BackWalkEx::leave_() {
