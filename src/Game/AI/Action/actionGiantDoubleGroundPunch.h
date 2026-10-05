@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_710018823C();
 
     // static_param "RotOffset%d" at offset 0xd0
     const float* mRotOffset_s[3]{};

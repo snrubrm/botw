@@ -1,6 +1,7 @@
 #include <prim/seadFormatPrint.h>
 #include "Game/AI/Action/actionGiantDoubleGroundPunch.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
@@ -45,6 +46,8 @@ void GiantDoubleGroundPunch::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GiantDoubleGroundPunch::leave_() {
+    sub_710018823C();
+    sub_71005DB3EC(mActor);
     ForkSeqNoWeaponAttack::leave_();
 }
 
