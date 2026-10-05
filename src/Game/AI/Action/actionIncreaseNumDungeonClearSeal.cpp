@@ -13,7 +13,13 @@ bool IncreaseNumDungeonClearSeal::init_(sead::Heap* heap) {
 }
 
 void IncreaseNumDungeonClearSeal::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (ui::checkWeaponFreeSlotImpl(mActorName_s, *mValue_d)) {
+        ui::sub_7100A9732C();
+        ui::increasePouchNumImpl(mActorName_s, *mValue_d);
+    } else {
+        ui::sub_7100A9E4A0(mActorName_s);
+        setFailed();
+    }
 }
 
 void IncreaseNumDungeonClearSeal::leave_() {
