@@ -2,6 +2,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 
@@ -17,6 +18,14 @@ bool FishRoot::init_(sead::Heap* heap) {
 
 void FishRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SimpleWildlifeRoot::enter_(params);
+}
+
+void FishRoot::calc_() {
+    sub_71003CC878();
+    SimpleWildlifeRoot::calc_();
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    _1a4 = (position - getPlayerPosition()).squaredLength();
+    sub_71003CCA34();
 }
 
 void FishRoot::leave_() {
