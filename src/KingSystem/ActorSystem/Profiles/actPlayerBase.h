@@ -466,6 +466,7 @@ namespace acc {
 class PlayerBase : public ActorConstDataAccess {
 public:
     bool getPlayerFromPlayerInfo();
+    bool isMainWeaponHitEnemy() const;
     // 0x710084d958 (declared only, CSV name `act::acc::PlayerBase::x_5`; lane2 s20: called by
     // RemainsFireRoot::calc_)
     bool x_5();

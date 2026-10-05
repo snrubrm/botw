@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -356,6 +357,18 @@ bool PlayerBase::getActorViaAccessor(ActorLinkConstDataAccess* accessor) {
 }  // namespace ksys::act
 
 namespace ksys::act::acc {
+
+bool PlayerBase::isMainWeaponHitEnemy() const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return false;
+    debugLog(2, "isMainWeaponHitEnemy");
+    Weapon weapon;
+    auto& link = player->getWeapons()->mWeapons[0].link;
+    if (link.hasProc())
+        act::acquireActor(&link, &weapon);
+    return weapon.isHitEnemy();
+}
 
 bool PlayerBase::getPlayerFromPlayerInfo() {
     auto* info = PlayerInfo::instance();
