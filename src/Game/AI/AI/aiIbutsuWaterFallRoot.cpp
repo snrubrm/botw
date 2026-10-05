@@ -63,6 +63,22 @@ void IbutsuWaterFallRoot::leave_() {
     sub_7100445AA0();
 }
 
+void IbutsuWaterFallRoot::calc_() {
+    auto* actor = mActor;
+    sub_710044584C();
+    if (isCurrentChild("停止中"))
+        actor->m107();
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("停止中")) {
+        changeChild("完全停止");
+        _38 = false;
+    } else if (isCurrentChild("通常") && actor->checkBasicSig()) {
+        mActor->m107();
+        changeChild("停止中");
+        _38 = true;
+    }
+}
+
 void IbutsuWaterFallRoot::loadParams_() {}
 
 }  // namespace uking::ai
