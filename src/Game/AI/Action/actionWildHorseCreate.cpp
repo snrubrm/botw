@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionWildHorseCreate.h"
+#include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking::action {
 
@@ -11,7 +13,11 @@ bool WildHorseCreate::init_(sead::Heap* heap) {
 }
 
 void WildHorseCreate::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* manager = ksys::map::PlacementMgr::instance();
+    if (manager && manager->mPlacementActors) {
+        const f32 distance = ksys::map::getActorTraverseDist("GameRomHorse01", 1.0f);
+        _58 = distance * distance;
+    }
 }
 
 void WildHorseCreate::leave_() {
