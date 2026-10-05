@@ -12,6 +12,8 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
 #include "KingSystem/Utils/StringUtil.h"
 
 namespace uking::ai {
@@ -44,8 +46,16 @@ void AssassinMiddleAzitoRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_710031E748("RegistedActorMessageBroadCastTag");
 }
 
+// NON_MATCHING: SafeString member-address scheduling and saved-register allocation differ.
 void AssassinMiddleAzitoRoot::leave_() {
     AssassinNormal::leave_();
+    if (!m76()) {
+        const char* demo = mDemoName_s.cstr();
+        ksys::evt::Metadata metadata(demo, mEntryPoint_s.cstr(), "");
+        ksys::evt::Manager::instance()->sub_7100DB0CA0(metadata, mActor);
+    }
+    if (sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild()))
+        mActor->resetConnectedCalcChild(false);
 }
 
 void AssassinMiddleAzitoRoot::loadParams_() {
