@@ -21,6 +21,8 @@ public:
     void changeToBackAttack();
 
 protected:
+    bool sub_7100325F84();
+
     // static_param at offset 0x90
     const float* mBackAttackAngle_s{};
     Unk_7102451ba0 _98;

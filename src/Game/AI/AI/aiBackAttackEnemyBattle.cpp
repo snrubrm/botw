@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::ai {
 
@@ -14,7 +15,18 @@ bool BackAttackEnemyBattle::init_(sead::Heap* heap) {
 }
 
 void BackAttackEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params) {
-    EnemyBattle::enter_(params);
+    if (!sead::DynamicCast<act::Enemy>(mActor)) {
+        setFailed();
+        return;
+    }
+
+    if (sub_7100325F84()) {
+        mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+        mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+        changeToBackAttack();
+    } else {
+        EnemyBattle::enter_(params);
+    }
 }
 
 void BackAttackEnemyBattle::leave_() {
