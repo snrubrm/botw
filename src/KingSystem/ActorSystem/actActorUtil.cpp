@@ -1165,6 +1165,18 @@ void sub_7100EEAECC(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityObject);
 }
 
+void setEnabledTalkAndLockOn(Actor* actor, bool enabled) {
+    if (!actor || !actor->getAttention())
+        return;
+    auto* talk = actor->getAttention()->getClientByName("Talk");
+    auto* lock_on = actor->getAttention()->getClientByName("LockOn");
+    if (!talk)
+        return;
+    talk->setEnabled(enabled);
+    if (lock_on)
+        lock_on->setEnabled(enabled);
+}
+
 bool attentionStuff_0(Actor* actor) {
     bool result = false;
     if (actor) {
