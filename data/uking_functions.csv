@@ -79628,7 +79628,7 @@ Address,Quality,Size,Name
 0x0000007100e8883c,U,000460,
 0x0000007100e88a08,U,000452,
 0x0000007100e88bcc,U,000588,_ZN5uking8HorseMgr19setRiddenHorseMaybeEPN4ksys3act5ActorE
-0x0000007100e88e18,U,000044,_ZN5uking8HorseMgr15isLinkedToActorEPN4ksys3act5ActorE
+0x0000007100e88e18,m,000044,_ZN5uking8HorseMgr15isLinkedToActorEPN4ksys3act5ActorE
 0x0000007100e88e44,U,000152,
 0x0000007100e88edc,U,000356,HorseMgr::isAmiiboUsed
 0x0000007100e89040,U,000656,HorseMgr::isUnregisteredHorseAmiibo
