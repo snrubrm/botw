@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionMoveByAnimeDrivenToTarget.h"
+#include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -35,8 +39,47 @@ void MoveByAnimeDrivenToTarget::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: The natural vector operations produce different instruction scheduling and frame layout.
 void MoveByAnimeDrivenToTarget::calc_() {
-    MoveByAnimeDriven::calc_();
+    auto* actor = mActor;
+    auto* as_list = actor->getASList();
+    if (!as_list)
+        return;
+    const auto position = actor->getMtx().getTranslation();
+    auto* controller = actor->getCharacterController();
+    auto* body = actor->getMainBody();
+    sead::Vector3f direction;
+    if (controller) {
+        act::sub_7100E7F318(as_list, controller, 1.0f);
+        if (auto* nav = actor->m45()) {
+            _68.sub_7100001050(as_list, nav, controller, *mAnimRotateMax_s);
+            return;
+        }
+        direction = *mTargetPos_d - position;
+    } else {
+        if (!body)
+            return;
+        sead::Quatf rotation;
+        body->getRotation(&rotation);
+        sead::Vector3f linear = as_list->sub_710115D2D4();
+        sead::Vector3f angular = as_list->sub_710115D3B8();
+        linear.rotate(rotation);
+        linear *= 30.0f;
+        angular *= 30.0f;
+        body->setLinearVelocity(linear + sead::Vector3f(0.0f, (mTargetPos_d->y - position.y) * 30.0f,
+                                                      0.0f));
+        body->setAngularVelocity(angular);
+        direction = *mTargetPos_d - position;
+        const f32 speed = sead::Vector2f(linear.x, linear.z).length();
+        const f32 distance = direction.length();
+        if (distance > 0.0f)
+            direction *= speed / distance;
+        ksys::as::ASList::Unk4 query;
+        if (as_list->sub_710115FBC8(24, &query, &ksys::as::ASList::Unk2::sub_71011638DC, true))
+            return;
+    }
+    const auto forward = actor->getMtx().getBase(2);
+    _68.sub_71000010E0(as_list, direction, forward, *mAnimRotateMax_s);
 }
 
 }  // namespace uking::action
