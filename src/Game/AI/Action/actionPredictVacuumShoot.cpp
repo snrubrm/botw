@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionPredictVacuumShoot.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+
+void sub_710072DC54(sead::Vector3f* out, ksys::act::Actor* actor);
 
 namespace uking::action {
 
@@ -36,6 +39,12 @@ void PredictVacuumShoot::loadParams_() {
 
 void PredictVacuumShoot::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void PredictVacuumShoot::m32() {
+    sead::Vector3f dir;
+    sub_710072DC54(&dir, mActor);
+    sub_7100738488(mActor, *mPosReduceRatio_s, dir);
 }
 
 }  // namespace uking::action
