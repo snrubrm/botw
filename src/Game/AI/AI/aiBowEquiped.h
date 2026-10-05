@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace uking::ai {
 
@@ -18,6 +19,7 @@ public:
     void leave_() override;
 
 protected:
+    void sub_7100337E2C(ksys::phys::ContactLayer first, ksys::phys::ContactLayer second);
     // 0x710033788c (not decompiled): checks the actor (DynamicCast) and its state (_af8 == 2 / 3).
     bool sub_710033788C();
 

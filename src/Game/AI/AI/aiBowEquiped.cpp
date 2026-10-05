@@ -12,7 +12,17 @@ bool BowEquiped::isChangeable() const {
 }
 
 void BowEquiped::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->getConnectedCalcChild()) {
+        sub_7100337E2C(ksys::phys::ContactLayer::EntityHitOnlyWater,
+                       ksys::phys::ContactLayer::SensorChemical);
+        _48 = false;
+        changeChild("射撃");
+    } else {
+        _48 = false;
+        changeChild("装備");
+    }
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    _49 = weapon && weapon->m153();
 }
 
 void BowEquiped::leave_() {
