@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -36,9 +37,7 @@ protected:
     const bool* mUseDesiredMoveDir_s{};
     // static_param at offset 0x60
     const bool* mIsAutoGearDownEnabled_s{};
-    f32 _68 = 0.0f;
-    u8 _6c[0x4]{};
-    f32 _70 = -1.0f;
+    ksys::Timer _68{0, 0};
     u8 _74[0x4];
 };
 KSYS_CHECK_SIZE_NX150(AnimalMoveStraightTimed, 0x78);

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAnimalMoveStraightTimed.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -12,8 +14,15 @@ bool AnimalMoveStraightTimed::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: gear argument setup and random range load order differ.
 void AnimalMoveStraightTimed::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _68.reset(*mFramesUntilFinish_s);
+    if (auto* rideable = mActor->m132()) {
+        const s32 gear = sead::GlobalRandom::instance()->getS32Range(*mMinUseGear_s, *mMaxUseGear_s);
+        rideable->sub_7100E63224(*mUseGearType_s, gear);
+    } else {
+        setFailed();
+    }
 }
 
 void AnimalMoveStraightTimed::leave_() {
