@@ -21,9 +21,14 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
+    bool sub_7100309A88();
+    void sub_7100309BAC();
+    void sub_7100309D40();
+
     // static_param at offset 0x38
     const int* mFindPathBeginTimer_s{};
     // static_param at offset 0x40

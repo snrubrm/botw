@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiAnimalRangeKeepMoveWithLOS.h"
 #include "Game/Actor/actWolfLink.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -23,6 +26,33 @@ bool AnimalRangeKeepMoveWithLOS::isChangeable() const {
 
 void AnimalRangeKeepMoveWithLOS::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: load scheduling and timer-address register reuse differ.
+void AnimalRangeKeepMoveWithLOS::calc_() {
+    auto* child = getCurrentChild();
+    if (!child)
+        return;
+    _90 = sub_71005D9330(mActor);
+    child->setDynamicParam(_90, "TargetPos");
+    _ac = _a0->sub_71002F420C();
+    _a8 = sead::Vector2f(_a0->_c48._18.x - _a0->getMtx().getTranslation().x,
+                        _a0->_c48._18.z - _a0->getMtx().getTranslation().z).squaredLength();
+    _ad = (_a0->_1698 & 0x2000) != 0;
+    if (_ac || !(_84 <= 0.0f))
+        _78 = _7c == _80 ? _7c : sead::GlobalRandom::instance()->getS32Range(_7c, _80);
+    else
+        ksys::Timer::update(&_78, -1.0f);
+    if (_ac || _ad)
+        _84 = _88 == _8c ? _88 : sead::GlobalRandom::instance()->getS32Range(_88, _8c);
+    else
+        ksys::Timer::update(&_84, -1.0f);
+    if (sub_7100309A88()) {
+        if (child->isFinished() || child->isFailed())
+            sub_7100309BAC();
+        else
+            sub_7100309D40();
+    }
 }
 
 void AnimalRangeKeepMoveWithLOS::loadParams_() {
