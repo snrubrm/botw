@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionThrownSpear.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -11,7 +14,10 @@ void ThrownSpear::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ThrownSpear::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        if (auto* body = static_cast<ksys::phys::RigidBody*>(weapon->m221()))
+            body->setAngularVelocity(sead::Vector3f::zero);
+    }
 }
 
 void ThrownSpear::loadParams_() {
