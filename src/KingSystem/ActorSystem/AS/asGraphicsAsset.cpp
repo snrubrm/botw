@@ -1,3 +1,4 @@
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
@@ -29,6 +30,20 @@ bool GraphicsAsset::m10(Context* ctx, State* state, const res::ASResource* resou
     if (!mKey.isValid())
         return true;
     return AnmAsset::m10(ctx, state, resource);
+}
+
+// NON_MATCHING: the filename address is computed after the virtual duration call.
+void GraphicsAsset::m14(Context* ctx, void* state, EventState*, const res::ASResource* resource) {
+    if (!mKey.isValid())
+        return;
+
+    const auto* asset = sead::DynamicCast<const res::ASAssetResource>(resource);
+    if (!asset || !static_cast<MotionState*>(state)->_34)
+        return;
+
+    auto* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const f32 frame = ctx->sub_7101258D4C(record, false)->_4;
+    ctx->sub_710125930C(frame, m4(), asset->getFileName(), asset->getTypeIndex());
 }
 
 int GraphicsAsset::m31(Context* ctx, const res::ASResource* resource) {

@@ -373,6 +373,21 @@ public:
     /* 0x163 */ u8 _163;
 };
 
+// Separate motion record passed to m14. Source names for the record and accumulated weight at offset 8 are inferred.
+// Repeated producers (0x7101162de4 / 0x7101161824) supply this same index/weight/bone request.
+struct MotionState {
+    f32 _0;
+    f32 weight;
+    f32 _8;
+    sead::Vector3f _c;
+    sead::Vector3f _18;
+    gsys::BoneAccessKey _24;
+    ASList::Unk2* _28;
+    f32 _30;
+    bool _34;
+};
+static_assert(sizeof(MotionState) == 0x38);
+
 // Recovered prefix of the separate m15 bone-blend record. Its queued entries after 0x30 are
 // not modelled; do not construct this partial declaration or infer its full size.
 struct BoneBlendState {
