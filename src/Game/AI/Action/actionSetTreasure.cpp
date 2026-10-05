@@ -15,4 +15,9 @@ void SetTreasure::loadParams_() {
     getAITreeVariable(&mDropActorName_a, "DropActorName");
 }
 
+bool SetTreasure::oneShot_() {
+    static_cast<sead::BufferedSafeString*>(mDropActorName_a)->copy(mActorName_d);
+    return true;
+}
+
 }  // namespace uking::action
