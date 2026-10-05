@@ -153,6 +153,23 @@ void ActorBindSet::resetAll() {
         mEntries[i].reset();
 }
 
+// NON_MATCHING: loop counter width and entry-walk scheduling.
+bool ActorBindSet::m4(BaseProc* proc) {
+    bool changed = false;
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry)
+        changed |= entry->sub_7101255A0C(proc);
+    return changed;
+}
+
+// NON_MATCHING: loop counter width and entry-walk scheduling.
+bool ActorBindSet::m5(BaseProc* proc) {
+    auto* entry = mEntries;
+    for (u32 n = mCount; n != 0; --n, ++entry)
+        entry->sub_7101255D50(proc);
+    return false;
+}
+
 // NON_MATCHING: register allocation / loop shape of the entry walk
 bool ActorBindSet::m6(BaseProc* proc) {
     Actor* previous = nullptr;
