@@ -20,7 +20,28 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/World/worldManager.h"
 
+bool sub_71002F0924(const ksys::act::ActorConstDataAccess& accessor);
+
 namespace uking::act {
+
+// NON_MATCHING: Existing atomic bool conversion and accessor stack placement differ.
+void Enemy::onDeleteRequested_(DeleteReason reason) {
+    PlayerOrEnemy::onDeleteRequested_(reason);
+    if (!sub_71011CBC28() && !_540)
+        return;
+    getWeapons();
+    for (s32 i = 0; i < 6; ++i) {
+        ksys::act::acc::Weapon weapon;
+        if (!(_e82 & 0x80)) {
+            ksys::act::ActorConstDataAccess candidate;
+            ksys::act::acquireActor(&_c38[i], &candidate);
+            if (!sub_71002F0924(candidate))
+                weapon.acquireActor(candidate);
+        }
+        if (!weapon.sub_71002EF980() && weapon.hasProc())
+            weapon.deleteEx(reason);
+    }
+}
 
 void Enemy::incrementDefeatedCount() {
     if (!this)
