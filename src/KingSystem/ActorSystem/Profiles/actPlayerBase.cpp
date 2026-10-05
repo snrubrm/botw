@@ -25,6 +25,15 @@ bool eventMgrHasActiveEvent();
 
 namespace ksys::act {
 
+bool PlayerBase::checkCanUseCamera() {
+    if (m200() || _cec.isOnBit(31) || _cf0.isOn(0x02020000) || isRidingHorse() || m193() ||
+        m188() || m186() || m187() || _cec.isOnBit(19) || m194() || _cf0.isOnBit(23) ||
+        eventMgrHasActiveEvent() || m226() || _cf4.isOnBit(2) || _c44.isOnBit(21) ||
+        _cec.isOnBit(5))
+        return false;
+    return !m199() || !_c50.isOnBit(9);
+}
+
 namespace {
 const sead::SafeString sEquipmentTypeNames[8] = {
     "None", "Sword", "Shield", "Bow", "Bomb", "Item_Magnetglove", "ShiekahStone", "Unequip"};
