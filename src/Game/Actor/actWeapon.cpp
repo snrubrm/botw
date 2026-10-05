@@ -28,7 +28,15 @@
 // 0x71008ba7d8: declaration only; original source namespace is unknown.
 bool isActiveEventDemo000Or001Or002();
 
+// Source ownership is unknown; declaration only.
+void weaponBroken(ksys::act::Actor* actor);
+
 namespace uking::act {
+
+void Weapon::m181() {
+    weaponBroken(this);
+    _fc8 = true;
+}
 
 ksys::act::Unk_71025ae620* Weapon::getDropData() {
     return mDropData;

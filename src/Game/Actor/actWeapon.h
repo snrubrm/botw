@@ -267,6 +267,7 @@ public:
               bool a6) override;
     bool m177(const sead::Vector3f& target, void* a2) override;
     bool m178(const sead::Vector3f& pos) override;
+    void m181() override;
     bool m204() override;
     bool m205() override;
     void m215() override;
@@ -331,7 +332,9 @@ public:
     /* 0xf98 */ WeaponModifierInfo _f98;
     /* 0xfa0 */ u8 _fa0[0xfb0 - 0xfa0];  // TODO
     /* 0xfb0 */ s32 _fb0;
-    /* 0xfb4 */ u8 _fb4[0xfd0 - 0xfb4];  // TODO
+    /* 0xfb4 */ u8 _fb4[0xfc8 - 0xfb4];  // TODO
+    /* 0xfc8 */ bool _fc8;
+    /* 0xfc9 */ u8 _fc9[0xfd0 - 0xfc9];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
     /* 0xfd8 */ u8 _fd8[0x1008 - 0xfd8];  // TODO
     /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
