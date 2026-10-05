@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPreyRoot.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_71007368A4.h"
@@ -6,6 +7,7 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Actor/actRideable.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -17,6 +19,26 @@ namespace uking::ai {
 PreyRoot::PreyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 PreyRoot::~PreyRoot() = default;
+
+void PreyRoot::calc_() {
+    auto* actor = mActor;
+    if (!actor->getLodState()->mFlags8.isOn(0x800))
+        m40();
+    if (auto* rideable = mActor->getHorseOptionsMaybe()) {
+        if (actor->isDeletedOrDeleting() || actor->getFadeOutDeleteType())
+            rideable->Unk_7100e8b2b8::_8.store(0x200);
+    }
+    sub_71005035A8();
+    sub_7100503864();
+    m41();
+    m43();
+    sub_7100503A78();
+    _1b4.update();
+    if (_1b4.value <= sead::Mathf::epsilon() && !ksys::act::attentionStuff(actor)) {
+        sub_7100736A84(actor);
+        _1b4.reset(30.0f);
+    }
+}
 
 bool PreyRoot::init_(sead::Heap* heap) {
     _188 = sead::DynamicCast<act::Enemy>(mActor);

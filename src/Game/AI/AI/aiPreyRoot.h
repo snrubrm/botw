@@ -88,6 +88,9 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71005035A8();
+    void sub_7100503864();
+    void sub_7100503A78();
     // 0x7100504ed0 (lane1 s22): clears the disappear type and deletes the actor (same sequence as BirdEscape)
     void sub_7100504ED0();
 
@@ -124,7 +127,7 @@ protected:
     sead::Vector3f _190 = {0, 0, 0};
     sead::Vector3f _19c = {0, 0, 0};
     ksys::VFRValue _1a8;
-    sead::Vector3f _1b4 = {0, 0, 0};
+    ksys::Timer _1b4{0, 0, 0};
     Unk_710071edf8 _1c0{mActor};
     ksys::Timer _1f0{0, 0, 0};
     f32 _1fc = std::numeric_limits<f32>::quiet_NaN();
