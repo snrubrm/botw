@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGiantArmorAsWeakPoint.h"
+#include "Game/Actor/actGiantArmor.h"
 
 namespace uking::ai {
 
@@ -19,6 +20,8 @@ void GiantArmorAsWeakPoint::calc_() {
 }
 
 void GiantArmorAsWeakPoint::leave_() {
+    if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor))
+        armor->_c10 = nullptr;
     GiantArmorRoot::leave_();
 }
 
