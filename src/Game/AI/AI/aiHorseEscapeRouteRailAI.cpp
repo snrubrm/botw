@@ -22,6 +22,25 @@ void HorseEscapeRouteRailAI::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+// NON_MATCHING: the embedded rail traversal call is devirtualized.
+void HorseEscapeRouteRailAI::calc_() {
+    auto* child = getCurrentChild();
+    child->getName();
+    if (child->isFailed()) {
+        setFailed();
+        return;
+    }
+    if (child->isFinished()) {
+        ++_c0;
+        if (_c0 >= *mCount_s) {
+            setFinished();
+            return;
+        }
+        _50.m4(*mUpdatePosDistance_s, nullptr, nullptr);
+        sub_7100E5BE9C(false);
+    }
+}
+
 void HorseEscapeRouteRailAI::loadParams_() {
     getStaticParam(&mCount_s, "Count");
     getStaticParam(&mUpdatePosDistance_s, "UpdatePosDistance");

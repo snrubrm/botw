@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -11,9 +12,9 @@ class Unk_71024f15f8 {
 public:
     Unk_71024f15f8();
     virtual ~Unk_71024f15f8() = default;
-    // Slots 2-n (0x7100eebfbc, ...) are not declared; this keeps the key function (and the vtable)
-    // out of line.
     virtual void m2();
+    virtual bool m3();
+    virtual void m4(f32 distance, const sead::Vector3f* direction, u32* flags);
 
     void* _8 = nullptr;
     void* _10 = nullptr;
