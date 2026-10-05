@@ -31,6 +31,7 @@
 void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
 bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
+f32 sub_71002F034C(const ksys::act::ActorConstDataAccess& accessor);
 s32 sub_7100A95214();
 
 namespace ksys::act {
@@ -824,6 +825,20 @@ bool Player::m303() {
         return false;
     auto* info = sub_71007A255C(this, 0);
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
+}
+
+f32 Player::m301() {
+    ActorConstDataAccess accessor;
+    auto& link = getWeapons()->mWeapons[2].link;
+    if (link.hasProc())
+        acquireActor(&link, &accessor);
+    if (isSlowTime()) {
+        f32 rate = 1.0f;
+        if (isSlowTime() && _cf4.isOnBit(17))
+            rate = getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+        return rate * sub_71002F034C(accessor);
+    }
+    return sub_71002F034C(accessor);
 }
 
 bool Player::m304() {
