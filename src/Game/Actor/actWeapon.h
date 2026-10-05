@@ -266,6 +266,10 @@ public:
     bool m177(const sead::Vector3f& target, void* a2) override;
     bool m178(const sead::Vector3f& pos) override;
     bool m204() override;
+    bool m205() override;
+    void m215() override;
+    void* m221() override;
+    bool m227() override;
     bool m216() override;
     bool m211() override;
     bool m212() override;
@@ -315,12 +319,17 @@ public:
     /* 0xe28 */ uking::dmg::DamageManagerBase* mDamageMgr;
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
-    /* 0xe52 */ u8 _e52[0xf60 - 0xe52];  // TODO
+    /* 0xe52 */ u16 _e52;
+    /* 0xe54 */ u8 _e54[0xf60 - 0xe54];  // TODO
     /* 0xf60 */ ksys::act::BaseProcLink _f60;
     /* 0xf70 */ u8 _f70[0xf89 - 0xf70];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
     u8 _f8a[0xf98 - 0xf8a];
     /* 0xf98 */ WeaponModifierInfo _f98;
+    /* 0xfa0 */ u8 _fa0[0xfb0 - 0xfa0];  // TODO
+    /* 0xfb0 */ s32 _fb0;
+    /* 0xfb4 */ u8 _fb4[0xfd0 - 0xfb4];  // TODO
+    /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
 };
 
 }  // namespace uking::act

@@ -4,6 +4,7 @@
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -65,6 +66,22 @@ bool Weapon::m142() {
 
 bool Weapon::m204() {
     return isActiveEventDemo000Or001Or002();
+}
+
+bool Weapon::m205() {
+    return _d90 && _d90->m2();
+}
+
+void Weapon::m215() {
+    _fb0 = 1;
+}
+
+void* Weapon::m221() {
+    return _fd0;
+}
+
+bool Weapon::m227() {
+    return (_e52 & 1) != 0;
 }
 
 bool Weapon::m216() {
