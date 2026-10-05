@@ -141,6 +141,14 @@ HorseReins* HorseBase::getReinsC2() {
     return sead::DynamicCast<HorseReins>(_880.getProc(nullptr));
 }
 
+void HorseBase::m70() {
+    if (_b70 & 0x80)
+        mActorFlags2.reset(ActorFlag2::_20);
+    sub_7100E693B8();
+    if (_b10)
+        _b10->Unk_7100e8b2b8::_10 &= ~0x38u;
+}
+
 void HorseBase::m114() {
     if (_b10)
         _b10->m9();

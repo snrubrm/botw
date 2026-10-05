@@ -117,6 +117,7 @@ public:
     // The horse's Nature GParam as a placeholder SEAD_ENUM (RideableHorse converts it through the stack).
     SEAD_ENUM(Nature, _0, _1, _2)
     Nature sub_7100E68298() const;
+    void sub_7100E693B8();
     bool sub_7100E696D4() const;
     void sub_7100E6AD3C(f32 value);
     f32 sub_7100E6AD4C();
