@@ -28,6 +28,8 @@ public:
     };
 
 protected:
+    void sub_7100368FCC(bool enabled);
+
     Unk2 _260;
     // static_param at offset 0x270
     const int* mGrudgeBulletMaxNum_s{};

@@ -23,6 +23,13 @@ bool DragonIceRoot::init_(sead::Heap* heap) {
 
 void DragonIceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     DragonRoot::enter_(params);
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (dragon && dragon->_1e0c == 3) {
+        if (isRootAiParamINot5())
+            sub_7100368FCC(true);
+        if (dragon->sub_710000FDFC())
+            dragon->sub_710000E500("Color_Grudge");
+    }
 }
 
 void DragonIceRoot::leave_() {
