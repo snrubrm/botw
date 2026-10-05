@@ -41,6 +41,45 @@ void SimpleWildlifeRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+void SimpleWildlifeRoot::calc_() {
+    _c4.update();
+    _d0.update();
+    _38._28 = !(_d0.value <= sead::Mathf::epsilon());
+    if (isCurrentChild("死亡"))
+        return;
+
+    if (m35()) {
+        m40();
+        return;
+    }
+
+    if (isChangeable()) {
+        if (m34()) {
+            m39();
+            return;
+        }
+        if (!*mIsPlayerPut_m && !*mIsDrop_a && !*mIsCreateDead_m && mActor->sub_7100EE1E94()) {
+            _e8.update();
+            auto* actor = mActor;
+            if (auto* lod = actor->getLodState())
+                _e8.value += lod->_40 * _e8.rate;
+            if (_e8.value <= sead::Mathf::epsilon())
+                actor->deleteEx(ksys::act::Actor::DeleteType::_1,
+                                ksys::act::BaseProc::DeleteReason::_0, nullptr);
+        }
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("ロケーターわき出し")) {
+            m38();
+        } else if (isCurrentChild("逃走") && m36()) {
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_1,
+                            ksys::act::BaseProc::DeleteReason::_0, nullptr);
+        }
+    }
+}
+
 void SimpleWildlifeRoot::loadParams_() {
     getStaticParam(&mInvalidTgtTimerVal_s, "InvalidTgtTimerVal");
     getStaticParam(&mInvalidEscapeTimerVal_s, "InvalidEscapeTimerVal");
