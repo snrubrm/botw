@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionAirOctaFloat.h"
 #include "Game/AI/AI/AirOcta/AirOctaDataMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::action {
@@ -55,6 +58,26 @@ bool AirOctaFloat::handleMessage_(const ksys::Message* message) {
 }
 
 void AirOctaFloat::calc_() {
+    if (_1f8 <= 0.0f) {
+        if (auto* manager = sub_7100088DA8()) {
+            const auto position = mActor->getMtx().getTranslation();
+            const f32 x = position.x - manager->vec_F8.x;
+            const f32 z = position.z - manager->vec_F8.z;
+            if (x * x + z * z >= 0.1f * 0.1f)
+                manager->sub_71002FB340(position.x, position.z);
+        }
+    } else {
+        _1f8 -= ksys::VFR::instance()->getDeltaTime();
+        auto* manager = sub_7100088DA8();
+        auto* body = mActor->getMainBody();
+        if (manager && body) {
+            const auto position = mActor->getMtx().getTranslation();
+            const auto velocity = body->getLinearVelocity();
+            sead::Vector3f impulse = (manager->vec_F8 - (position + velocity)) * 30.0f;
+            impulse *= ksys::VFR::instance()->getDeltaFrame();
+            body->applyLinearImpulse(impulse);
+        }
+    }
     AirOctaFloatBase::calc_();
 }
 

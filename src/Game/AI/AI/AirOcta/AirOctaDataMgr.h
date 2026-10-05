@@ -18,6 +18,7 @@ public:
     // 0x71002fb1a8 (placeholder name; message 0x80000c8 type 1): passes `a1` to the helper 0x71002fb1d8 on
     // unk_28 and sets mFlags bit 2.
     void sub_71002FB1A8(u64 a1);
+    void sub_71002FB340(f32 x, f32 z);
 
     struct MessageData {
         u32 unk_00;
