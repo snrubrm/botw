@@ -37,6 +37,9 @@ public:
     void sub_7100E21228();
 
 protected:
+    void sub_7100E1FC5C();
+    void sub_7100E20C2C();
+
     bool _38 = false;
     bool _39 = false;
     u32 _3c = 1;

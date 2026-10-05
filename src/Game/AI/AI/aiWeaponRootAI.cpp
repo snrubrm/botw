@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiWeaponRootAI.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -22,6 +23,19 @@ bool WeaponRootAI::init_(sead::Heap* heap) {
 
 void WeaponRootAI::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void WeaponRootAI::calc_() {
+    if (_c4) {
+        if (auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(mActor)) {
+            weapon->masterSwordReturnToForest();
+            return;
+        }
+    }
+    if (auto* awareness = mActor->get548())
+        awareness->m8()->m9(1, 0.0f);
+    sub_7100E1FC5C();
+    sub_7100E20C2C();
 }
 
 void WeaponRootAI::leave_() {
