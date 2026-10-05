@@ -5,8 +5,13 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Debug.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace ksys::act {
+
+namespace {
+MesTransceiverId sDefaultMesTransceiverId;
+}
 
 ActorLinkConstDataAccess::~ActorLinkConstDataAccess() {
     if (mAcquired && mProc)
@@ -32,6 +37,14 @@ const Actor* ActorLinkConstDataAccess::getActor() const {
     if (!mProc)
         return nullptr;
     return sead::DynamicCast<Actor>(mProc);
+}
+
+const MesTransceiverId* ActorLinkConstDataAccess::getMessageTransceiverId() const {
+    // NON_MATCHING: the local default object's address uses ADRP/ADD instead of a GOT load.
+    const auto* actor = getActor();
+    if (!actor || actor->checkFlag(Actor::ActorFlag::_2e))
+        return &sDefaultMesTransceiverId;
+    return actor->getMesTransceiverId();
 }
 
 const sead::Matrix34f& ActorLinkConstDataAccess::getActorMtx() {
