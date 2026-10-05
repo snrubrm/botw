@@ -21,6 +21,7 @@ public:
 
     const char* m36() override;
     Attack m46() override;
+    void m47() override;
     virtual bool m48();
 
 protected:

@@ -66,6 +66,33 @@ PriestBossActorGiantRoot::Attack PriestBossActorGiantFouthRoot::m46() {
     return Attack::_1;
 }
 
+// NON_MATCHING: enum conversions use stack temporaries and state/reset operations are scheduled differently.
+void PriestBossActorGiantFouthRoot::m47() {
+    auto* child = getCurrentChild();
+    if (m34()) {
+        if (_9c != State::_9) {
+            child->setFinished();
+            sub_71005089F4(State::_9);
+        }
+        return;
+    }
+
+    if (_9c == State::_9) {
+        sub_71005089F4(State::_1);
+        _a0 = m46();
+    }
+
+    if (m48()) {
+        _a0 = 10;
+        sub_71005089F4(State(_a0));
+        _a0 = m46();
+    } else if (child->isFinished() || child->isFailed()) {
+        _120.reset(*mStompInAreaTimer_s);
+        sub_71005089F4(State(_a0));
+        _a0 = m46();
+    }
+}
+
 // NON_MATCHING: `always_change` is computed with `cset` / `and` instead of branches, and the timer value is re-read
 // from `this + 0x120` instead of through the pointer used for update()
 bool PriestBossActorGiantFouthRoot::m48() {
