@@ -9,8 +9,26 @@ LeaveFromTarget::LeaveFromTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LeaveFromTarget::~LeaveFromTarget() = default;
 
+// NON_MATCHING: Position loads, goal stores and floating-point register allocation differ.
 void LeaveFromTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    bool can_step_back = false;
+    if (mActor) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        sead::Vector3f direction(position.x - mTargetPos_d->x, 0.0f,
+                                 position.z - mTargetPos_d->z);
+        direction.normalize();
+        const sead::Vector3f goal = position + direction * *mLeaveDist_s;
+        can_step_back = sub_710072FAB0(mActor, goal, nullptr, -1, -1.0f, -1.0f);
+    }
+    if (can_step_back) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("後ずさり", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("逃走", &pack);
+    }
 }
 
 // NON_MATCHING: only the register numbering / load schedule of the direction (the original loads the actor's x / z as
