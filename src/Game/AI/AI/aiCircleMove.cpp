@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiCircleMove.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
@@ -33,6 +34,58 @@ void CircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
         }
     } else {
         sub_710034E90C(false);
+    }
+}
+
+// NON_MATCHING: Virtual-table loads and shared margin branches differ from the original.
+void CircleMove::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFinished())
+            sub_710034E90C(false);
+        else
+            setFailed();
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("近づき")) {
+            sead::Vector3f offset;
+            m34(&offset);
+            offset = mActor->getMtx().getTranslation() - offset;
+            const f32 distance = sead::Vector2f(offset.x, offset.z).length();
+            const f32 difference = distance - m37();
+            if (difference < 0.0f || !(sead::Mathf::abs(difference) > *mRadiusMargin_s)) {
+                sub_710034E90C(false);
+                return;
+            }
+        } else if (isCurrentChild("遠ざかり")) {
+            sead::Vector3f offset;
+            m34(&offset);
+            offset = mActor->getMtx().getTranslation() - offset;
+            const f32 distance = sead::Vector2f(offset.x, offset.z).length();
+            const f32 difference = distance - m37();
+            if (!(difference < 0.0f && sead::Mathf::abs(difference) > *mRadiusMargin_s)) {
+                sub_710034E90C(false);
+                return;
+            }
+        }
+    }
+    if (isCurrentChild("移動")) {
+        const f32 speed = *mSpeed_s;
+        const f32 radius = m37();
+        _58 += _5c * (speed / radius) * ksys::VFR::instance()->getDeltaFrame();
+        _58 -= sead::Mathf::floor(_58 * (1.0f / sead::Mathf::pi2())) * sead::Mathf::pi2();
+        const f32 angle = _58 >= sead::Mathf::pi2() ? 0.0f : _58;
+        _58 = angle;
+        sead::Vector3f target;
+        m38(&target, angle, m37());
+        m36(target);
+    } else if (isCurrentChild("近づき")) {
+        sead::Vector3f target;
+        m34(&target);
+        child->setDynamicParam(target, "TargetPos");
+    } else if (isCurrentChild("遠ざかり")) {
+        sead::Vector3f target;
+        sub_710034EEB0(&target);
+        child->setDynamicParam(target, "TargetPos");
     }
 }
 

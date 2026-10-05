@@ -25,6 +25,7 @@ public:
 
 protected:
     void sub_710034E838();
+    void sub_710034EEB0(sead::Vector3f* out);
 
     // Declaration only; native w1 bit 0 gates direction selection.
     void sub_710034E90C(bool keep_direction);
