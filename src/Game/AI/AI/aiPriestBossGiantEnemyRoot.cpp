@@ -22,6 +22,20 @@ namespace uking::ai {
 static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
 static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
+void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 >= 0) {
+        _24 = 0;
+        sub_710051A6B8();
+        if (_24 == 1) {
+            *a1 = 0;
+            *a2 = 0;
+            *a3 = 0;
+            *a5 = -1;
+            *a4 = 0xffffffff;
+        }
+    }
+}
+
 // NON_MATCHING: the first stores (params, contact callbacks, sender) are scheduled differently
 PriestBossGiantEnemyRoot::PriestBossGiantEnemyRoot(const InitArg& arg)
     : PriestBossActorEnemyRoot(arg) {}

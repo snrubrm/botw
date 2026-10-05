@@ -35,6 +35,7 @@ KSYS_CHECK_SIZE_NX150(Unk_71024137d0, 0x80);
 class Unk_7102413808 : public dmg::DamageCallback {
 public:
     void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void sub_710051A6B8();
 
     s32 _24 = 1;
     s32 _28 = 0;
