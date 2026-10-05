@@ -28,7 +28,6 @@ bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 ra
 }
 
 // 0x7100963c8c
-// NON_MATCHING: same instructions; the constant 12 of the entry stride is materialised earlier (register allocation)
 void UiSubsys1::sub_7100963C8C(const UiSubsys1PinArg* arg) {
     auto* unk = _378;
     if (!unk)
@@ -36,7 +35,6 @@ void UiSubsys1::sub_7100963C8C(const UiSubsys1PinArg* arg) {
     unk->_54[arg->index] = arg->index;
     unk->_5c[arg->index] = arg->value;
     auto& entry = unk->_64[arg->index];
-    entry.value = arg->value2;
     entry.pos.set(arg->pos);
 }
 

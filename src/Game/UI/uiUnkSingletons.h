@@ -124,8 +124,7 @@ struct UiSubsys1ListEntry {
 // Placeholder for the object UiSubsys1 keeps at 0x378 (byte 0x50 is set by sub_7100963C78).
 struct UiSubsys1Unk378 {
     struct Entry {
-        sead::Vector2f pos;
-        s32 value;
+        sead::Vector3f pos;
     };
 
     u8 _0[0x50];
@@ -136,12 +135,11 @@ struct UiSubsys1Unk378 {
     /* 0x64 */ sead::SafeArray<Entry, 2> _64;
 };
 
-// The argument of UiSubsys1::sub_7100963C8C (placeholder; the facade passes it as `const void*`).
+// The index and display value select a pin; producers supply an actor's world position.
 struct UiSubsys1PinArg {
     s32 index;
     s32 value;
-    sead::Vector2f pos;
-    s32 value2;
+    sead::Vector3f pos;
 };
 
 // Instance pointer 0x71025d6aa8 (CSV uiSubsys1, createInstance 0x710095a4bc, size 0x3920,
