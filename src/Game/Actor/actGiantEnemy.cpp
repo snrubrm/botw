@@ -1,6 +1,7 @@
 #include "Game/Actor/actGiantEnemy.h"
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
@@ -115,6 +116,33 @@ void GiantEnemy::m113(f32* a1, s32* a2) {
         *a2 = 2;
     } else {
         Actor::m113(a1, a2);
+    }
+}
+
+void GiantEnemy::Unk1::sub_710002A544(ksys::act::BaseProc::SleepWakeReason reason) {
+    for (auto& link : _8) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.hasProc())
+            accessor.sleep(reason);
+    }
+}
+
+void GiantEnemy::Unk1::sub_710002A63C(ksys::act::BaseProc::SleepWakeReason reason) {
+    for (auto& link : _8) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.hasProc())
+            accessor.wakeUp(reason);
+    }
+}
+
+void GiantEnemy::Unk1::sub_710002A734() {
+    for (auto& link : _8) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&link, &accessor);
+        if (accessor.hasProc())
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     }
 }
 
