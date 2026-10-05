@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventSetCloudShadowPos.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -11,7 +12,7 @@ bool EventSetCloudShadowPos::init_(sead::Heap* heap) {
 }
 
 void EventSetCloudShadowPos::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::world::Manager::instance()->getSkyMgr()->sub_71010E50B0(*msetPos_x_d, *msetPos_y_d);
 }
 
 void EventSetCloudShadowPos::leave_() {

@@ -141,6 +141,8 @@ public:
     // 0x71010e4ffc: updates cloud-shadow interpolation and palette timers.
     void sub_71010E4FFC();
     // 0x71010e50bc: declaration-only cloud shadow motion update.
+    // 0x71010e50b0: declared only; writes the existing cloud-shadow position vector.
+    void sub_71010E50B0(f32 x, f32 y);
     void sub_71010E50BC(f32 x, f32 y);
 
 private:
