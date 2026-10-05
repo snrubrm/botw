@@ -165,7 +165,8 @@ private:
     sead::SafeArray<CloudPat, NumCloudPats> mCloudPat0;
     sead::SafeArray<CloudPat, NumCloudPats> mCloudPat2;
     sead::SafeArray<CloudSpd, NumCloudPats> mCloudSpd;
-    u8 _3e00[8];
+    s32 _3e00;
+    f32 _3e04;
     agl::utl::Parameter<float> mSunSlope;
     agl::utl::Parameter<float> mSunMoonDispDist;
     agl::utl::Parameter<float> mSunScale;
@@ -192,8 +193,8 @@ private:
     float _3f54;
     float _3f58;
     float _3f5c;
-    int _3f60;
-    int _3f64;
+    f32 _3f60;
+    f32 _3f64;
     float _3f68;
     float _3f6c;
     float _3f70;

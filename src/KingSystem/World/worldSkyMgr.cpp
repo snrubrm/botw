@@ -2,6 +2,7 @@
 #include <cmath>
 #include <math/seadMathNumbers.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/gameGraphics.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
 #include "KingSystem/System/VFR.h"
@@ -397,6 +398,72 @@ SkyMgr::SkyMgr() {
 SkyMgr::~SkyMgr() = default;
 
 void SkyMgr::init_(sead::Heap* heap) {}
+
+// NON_MATCHING: adjacent constant stores are merged and scheduled differently.
+void SkyMgr::reset() {
+    auto* mgr = Manager::instance();
+    const f32 time = mgr->getTimeMgr()->getTimeForSkyEnv();
+    _68 = 0;
+    _3fac = false;
+    _3fae = false;
+    _3f38 = 0.0065f;
+    _3f30 = 0;
+    _3f34 = 0;
+    _3fad = 0;
+    _3f50 = 1.0f;
+    _3f98 = 0.0f;
+    _3f54 = 0.001f;
+
+    const StageType stage = mgr->getStageType();
+    if (stage == StageType::OpenWorld || stage == StageType::OpenWorldTest ||
+        stage == StageType::MainFieldDungeon) {
+        if (time >= 45.0f && time <= 330.0f) {
+            Graphics::instance()->sub_7100F2DDF0(0);
+        } else {
+            Graphics::instance()->sub_7100F2DDF0(-1);
+            _3fac = true;
+        }
+    } else {
+        Graphics::instance()->sub_7100F2DDF0(-1);
+    }
+
+    mPrCloud[0]._128 = sead::GlobalRandom::instance()->getF32() * 2.0f - 1.0f;
+    mPrCloud[1]._128 = sead::GlobalRandom::instance()->getF32() * 2.0f - 1.0f;
+    mPrCloud[2]._128 = sead::GlobalRandom::instance()->getF32() * 2.0f - 1.0f;
+    _3f08 = {0.572061f, -0.707107f, -0.415627f};
+    _3f58 = -1.0f;
+    _3f5c = -1.0f;
+    _3ef0 = {0.0f, 1.0f, 0.0f};
+    _3efc = {0.0f, 1.0f, 0.0f};
+    _3f9c = 0;
+    _3fa0 = 0;
+    _3f20.x = sead::GlobalRandom::instance()->getF32();
+    _3f20.y = sead::GlobalRandom::instance()->getF32();
+    _3f28 = {0.0f, 0.0f};
+    _3fa4 = 0;
+    _3fa8 = 0;
+    _3ed8 = {0.0f, 1.0f, 0.0f};
+    _3ee4 = {1.0f, 0.0f, 0.0f};
+    _3f60 = 0.0f;
+    _3f64 = 0.0f;
+    _3f68 = 1.0f;
+    _3f6c = 1.0f;
+    _3faf = false;
+    _3fb0 = true;
+    _3fb1 = false;
+    _3e00 = -1;
+    _3f78 = 0.4f;
+    _3f7c = 0.8f;
+    _3f84 = 0.8f;
+    _3f88 = 0.8f;
+    _3e04 = 0.0f;
+    _3f70 = 1.0f;
+    _3f74 = 0.0f;
+    _3f80 = 1.0f;
+    _3f8c = 1.0f;
+    _3f90 = 0.0f;
+    _3f94 = 1.0f;
+}
 
 void SkyMgr::onTimeUpdate() {
     const f32 time = Manager::instance()->getTimeMgr()->getTimeForSkyEnv();
