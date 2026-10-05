@@ -1,9 +1,18 @@
 #include "Game/AI/AI/aiEscapeFromTargetFront.h"
+#include <cmath>
+#include "Game/Actor/actCameraUtil.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+
+namespace ksys {
+// Source namespace inferred from the CameraMgr helper family; declarations only.
+f32 sub_7100D8C888();
+f32 sub_7100D8C8FC();
+}
 
 namespace uking::ai {
 
@@ -23,6 +32,43 @@ void EscapeFromTargetFront::enter_(ksys::act::ai::InlineParamPack* params) {
     pack.addVec3(target_pos, "TargetPos", -1);
     pack.addInt(dir, "RotDir", -1);
     changeChild("回転移動", &pack);
+}
+
+// NON_MATCHING: Actor position loads precede the target getter, and finish paths share an epilogue.
+void EscapeFromTargetFront::calc_() {
+    ksys::Timer::update(&_58, 1.0f);
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        setFinished();
+        return;
+    }
+    if (child->isChangeable()) {
+        if (_58 >= f32(*mMaxTime_s)) {
+            setFinished();
+            return;
+        }
+        if (_58 >= f32(*mMinTime_s)) {
+            sead::Vector3f front;
+            sub_71003C8338(&front);
+            sead::Vector3f direction = mActor->getMtx().getTranslation() - sub_71005D9330(mActor);
+            direction.y = 0;
+            direction.normalize();
+            auto* link = sub_71005D9050(mActor);
+            f32 angle;
+            if (link && *mUseCameraFrontByTargetPlayer_s && ksys::act::isPlayerProfile(link)) {
+                const f32 fovy = ksys::sub_7100D8C888();
+                angle = sub_7100924C08(fovy, ksys::sub_7100D8C8FC()) * 0.5f;
+            } else {
+                angle = *mFrontAngle_s;
+            }
+            if (!(direction.dot(front) >= std::cos(angle))) {
+                setFinished();
+                return;
+            }
+        }
+    }
+    child = getCurrentChild();
+    child->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
 }
 
 void EscapeFromTargetFront::leave_() {
