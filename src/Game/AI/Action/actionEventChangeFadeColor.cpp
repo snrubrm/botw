@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventChangeFadeColor.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -11,7 +12,13 @@ bool EventChangeFadeColor::init_(sead::Heap* heap) {
 }
 
 void EventChangeFadeColor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* screen = sead::DynamicCast<ui::Fade>(
+            eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade))) {
+        if (*mColor_d)
+            setFailed();
+        else
+            screen->x(true);
+    }
 }
 
 void EventChangeFadeColor::leave_() {
