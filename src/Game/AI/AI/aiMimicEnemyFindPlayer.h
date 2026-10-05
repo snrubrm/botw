@@ -15,10 +15,13 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
     bool m35() override;
 
 protected:
+    void sub_71004A70B4();
+
     // static_param at offset 0x140
     const float* mPlayerForceFindDist_s{};
     // aitree_variable at offset 0x148

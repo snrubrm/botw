@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiMimicEnemyFindPlayer.h"
+#include <random/seadGlobalRandom.h>
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 
@@ -22,6 +25,45 @@ bool MimicEnemyFindPlayer::isChangeable() const {
 void MimicEnemyFindPlayer::leave_() {
     EnemyBaseFindPlayer::leave_();
     sub_71005DB3EC(mActor);
+}
+
+void MimicEnemyFindPlayer::calc_() {
+    const sead::Vector3f position = sub_71005D960C(mActor);
+    sub_71005DB068(mActor, position);
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("戦闘")) {
+        setFinished();
+        return;
+    }
+    if (getCurrentChild()->isChangeable() && isCurrentChild("気づき")) {
+        if (!sub_71005D8F28(mActor)) {
+            setFailed();
+            return;
+        }
+        if (m35()) {
+            m40();
+            *mIsStartResetMimicry_a = true;
+            sub_71005DD34C(mActor, true);
+            sub_71005DD2E8(mActor);
+            if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+                enemy->_e84.reset(0x10000);
+            if (auto* controller = mActor->getCharacterController())
+                controller->sub_7100F62BB8();
+            sub_71004A70B4();
+            return;
+        }
+        if (m43())
+            _108.sub_7100D3BC4C(-1.0f);
+        else
+            _108.mValue = _118 == _11c ? _118 :
+                sead::GlobalRandom::instance()->getS32Range(_118, _11c);
+        if (_108.mValue <= 0.0f) {
+            setFailed();
+            return;
+        }
+    }
+    auto* current = getCurrentChild();
+    current->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
 }
 
 void MimicEnemyFindPlayer::loadParams_() {
