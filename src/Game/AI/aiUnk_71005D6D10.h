@@ -150,6 +150,8 @@ bool sub_71005D8514(ksys::act::Actor* actor, int idx);
 bool sub_71005D8B60(ksys::act::Actor* actor);
 /// Whether slot `idx` has an equipped weapon and ActorWeapons::mWeapons[idx]._10 is not set.
 bool sub_71005DB904(ksys::act::Actor* actor, int idx);
+// Returns the first weapon slot containing type 4, or -1.
+s32 sub_71005DB96C(ksys::act::Actor* actor);
 
 // ActorWeapons::mWeapons[idx]._10
 

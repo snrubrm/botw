@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSwarmEscapeDie.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/CameraMgr.h"
 
 namespace uking::ai {
 
@@ -10,8 +12,13 @@ bool SwarmEscapeDie::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the position copy combines stores and schedules its component loads differently.
 void SwarmEscapeDie::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    if (ksys::sub_7100D8C4F8(pos))
+        sub_71005B1464();
+    else
+        sub_71005B15F8();
 }
 
 void SwarmEscapeDie::leave_() {

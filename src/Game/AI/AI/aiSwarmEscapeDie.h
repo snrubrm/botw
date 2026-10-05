@@ -18,6 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void sub_71005B1464();
+    void sub_71005B15F8();
+
 protected:
     // static_param at offset 0x38
     const int* mTime_s{};

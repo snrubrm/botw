@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiNormalHumanEquipableShield.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -12,7 +13,12 @@ bool NormalHumanEquipableShield::init_(sead::Heap* heap) {
 }
 
 void NormalHumanEquipableShield::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    if (sub_71005D8B60(actor) || sub_71005DB96C(actor) >= 0 ||
+        sub_71005DBB60(actor, *mWeaponIdx_s) != 0)
+        changeChild("盾装備不能", params);
+    else
+        changeChild("盾装備可能", params);
 }
 
 void NormalHumanEquipableShield::leave_() {
