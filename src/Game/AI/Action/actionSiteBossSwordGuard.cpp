@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSiteBossSwordGuard.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -18,7 +20,12 @@ void SiteBossSwordGuard::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SiteBossSwordGuard::leave_() {
-    Guard::leave_();
+    sead::DynamicCast<act::SiteBoss>(mActor);
+    if (auto* chemical = mActor->sub_71011D8A54("ShieldChemical")) {
+        chemical->sub_7100D90D7C(true);
+        chemical->sub_7100D91098(false);
+        chemical->sub_7100D90AF4(false);
+    }
 }
 
 void SiteBossSwordGuard::loadParams_() {
