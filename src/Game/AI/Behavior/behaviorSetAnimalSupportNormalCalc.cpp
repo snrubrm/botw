@@ -14,6 +14,19 @@ bool SetAnimalSupportNormalCalc::m6(sead::Heap* heap) {
 
 void SetAnimalSupportNormalCalc::m7() {}
 
+// NON_MATCHING: aggregate initialization omits overwritten defaults and copies vectors together.
+void SetAnimalSupportNormalCalc::m8() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (auto* support = enemy->_1148._50) {
+            act::Unk_7102357908::Unk50::CalcArg arg{
+                *mPosteriorLimbOffset_s, *mRayCastLength_s,
+                *mPriorLimbOffset_s, *mPriorRayCastLength_s, true};
+            support->sub_71006F0800(arg);
+            support->_28 |= 1;
+        }
+    }
+}
+
 void SetAnimalSupportNormalCalc::m9() {
     auto* actor = mActor;
     if (auto* enemy = sead::DynamicCast<act::Enemy>(actor)) {

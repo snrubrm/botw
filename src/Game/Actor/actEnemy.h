@@ -88,6 +88,15 @@ public:
     // bits of the flags byte at +0x28 (bit 0: SetAnimalSupportNormalCalc, bit 1:
     // OnAnimalSupportNrmCalcFrontRay).
     struct Unk50 {
+        struct CalcArg {
+            sead::Vector3f posterior_limb_offset;
+            f32 ray_cast_length;
+            sead::Vector3f prior_limb_offset;
+            f32 prior_ray_cast_length;
+            bool enabled;
+        };
+        bool sub_71006F0800(const CalcArg& arg);
+
         /* 0x00 */ u8 _0[0x28];
         /* 0x28 */ u8 _28;
     };
