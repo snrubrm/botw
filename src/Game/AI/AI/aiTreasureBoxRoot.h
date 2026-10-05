@@ -17,6 +17,11 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    // Declaration only; name retained from the original symbol map.
+    void enter_init();
+    // Declaration only.
+    void sub_71005CEA88();
+
     // static_param at offset 0x38
     const float* mInGroundOffsetY_s{};
     // static_param at offset 0x40

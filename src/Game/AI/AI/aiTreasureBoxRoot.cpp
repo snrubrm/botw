@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiTreasureBoxRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -14,8 +16,19 @@ bool TreasureBoxRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the ground-state condition is combined with the captured query results.
 void TreasureBoxRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    auto* map = actor->getMapObject();
+    const bool linked = actor->checkLinkBasicSig();
+    const bool used = actor->isWaitRevivalForUsed();
+    const bool revival = map && map->checkRevivalFlag(ksys::map::ActorData::Flag::RevivalEnable);
+    if (auto* body = actor->getMainBody())
+        body->getMotionType();
+    if (!*mIsInGround_m || linked || used || revival || _79)
+        enter_init();
+    else
+        sub_71005CEA88();
 }
 
 void TreasureBoxRoot::leave_() {
