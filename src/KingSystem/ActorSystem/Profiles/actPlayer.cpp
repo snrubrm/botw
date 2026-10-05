@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actMotorcycle.h"
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
@@ -650,6 +651,16 @@ s32 Player::m289() {
     if (!rideable)
         return 0;
     return int(rideable->m23());
+}
+
+bool Player::m290() {
+    auto* info = getPlayerRideInfo();
+    Actor* actor = nullptr;
+    if (!info->_18.isAccessingSpecifiedProcUnsafe(info->mActor))
+        actor = sead::DynamicCast<Actor>(info->_18.getProc(nullptr, info->mActor));
+    if (auto* motorcycle = sead::DynamicCast<uking::act::Motorcycle>(actor))
+        return motorcycle->sub_710007A478();
+    return m288() > 0;
 }
 
 bool Player::m295() {
