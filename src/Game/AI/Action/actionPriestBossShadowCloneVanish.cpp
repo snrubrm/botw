@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionPriestBossShadowCloneVanish.h"
 
+// Source namespace unknown; shared by the actor and screen consumers.
+void sub_710071EBA4(ksys::act::Actor* actor);
+
 namespace uking::action {
 
 PriestBossShadowCloneVanish::PriestBossShadowCloneVanish(const InitArg& arg)
@@ -29,6 +32,13 @@ void PriestBossShadowCloneVanish::loadParams_() {
 
 void PriestBossShadowCloneVanish::calc_() {
     PriestBossWarpOrVanish::calc_();
+    if (isFinished() || isFailed())
+        return;
+    _30.update();
+    if (_30.value <= sead::Mathf::epsilon()) {
+        sub_710071EBA4(mActor);
+        setFinished();
+    }
 }
 
 }  // namespace uking::action

@@ -25,7 +25,21 @@ void EnemyChangeWeapon::loadParams_() {
 }
 
 void EnemyChangeWeapon::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!isFinished() && !isFailed()) {
+        switch (_78) {
+        case 1:
+            sub_71001066EC();
+            break;
+        case 2:
+            sub_71001068DC();
+            break;
+        case 3:
+            sub_7100106AF8();
+            break;
+        }
+    }
+    sub_7100106D24(_70);
+    sub_7100106D24(_74);
 }
 
 }  // namespace uking::action

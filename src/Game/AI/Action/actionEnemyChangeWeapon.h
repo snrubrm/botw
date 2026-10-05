@@ -18,6 +18,10 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71001066EC();
+    void sub_71001068DC();
+    void sub_7100106AF8();
+    void sub_7100106D24(s32 index);
 
     // aitree_variable at offset 0x20
     int* mEquipWeaponBufIndex_a{};
