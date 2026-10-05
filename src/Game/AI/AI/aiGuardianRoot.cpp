@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGuardianRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -17,6 +18,29 @@ void GuardianRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void GuardianRoot::leave_() {
     GuardianAI::leave_();
+}
+
+// NON_MATCHING: the two flag updates merge into a shared OR operation.
+bool GuardianRoot::handleMessage_(const ksys::Message* message) {
+    auto* guardian = sub_710040DA6C();
+    if (!message || !guardian)
+        return true;
+    if (_50.sub_710070AFFC(message, guardian))
+        return true;
+    if (message->getType() == 0x800004b) {
+        _48 |= 1;
+    } else if (message->getType() == 0x800004c) {
+        _48 |= 2;
+    } else if (message->getType() == 0x3000003) {
+        auto* life = guardian->getLife();
+        if (life && *life < 1)
+            return true;
+        changeChild("待機", nullptr);
+        sub_710040DDB0(0);
+        sub_710040DE48(false);
+        return false;
+    }
+    return true;
 }
 
 void GuardianRoot::loadParams_() {

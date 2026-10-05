@@ -15,6 +15,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    bool handleMessage_(const ksys::Message* message) override;
     void loadParams_() override;
     // 0x710042b8b4 (placeholder name)
     void changeToReactToSight();

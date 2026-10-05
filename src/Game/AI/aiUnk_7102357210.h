@@ -152,6 +152,7 @@ public:
 // vtable 0x71023f9b08 (GuardianRoot; m2 always returns false)
 class Unk_71023f9b08 : public Unk_7102357210 {
 public:
+    bool sub_710070AFFC(const ksys::Message* message, ksys::act::Actor* actor);
     bool m2(const ksys::Message& message) override { return false; }
 };
 
