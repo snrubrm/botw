@@ -1,6 +1,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiMessageString.h"
+#include "Game/UI/euiMessageMgr.h"
 #include <devenv/seadEnvUtil.h>
 #include <prim/seadStringUtil.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
@@ -26,6 +27,27 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
 s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
+
+static eui::MessageString sUnk_71025F6930(2, u"");
+static eui::MessageString sUnk_71025F6940(2, u"");
+static eui::MessageString sUnk_71025F6950(2, u"");
+
+int getMessage(const sead::SafeString& message_set, const sead::SafeString& label,
+               eui::MessageString* out) {
+    auto* set = eui::MessageMgr::instance()->getMessageSet(message_set);
+    if (!set) {
+        out->assign(sUnk_71025F6940);
+        return 1;
+    }
+    out->assign(set->tryFindMessage(label.cstr()));
+    if (!out->getString()) {
+        out->assign(sUnk_71025F6930);
+        return 2;
+    }
+    if (*out->getString() == sead::SafeStringBase<char16>::cNullChar)
+        out->assign(sUnk_71025F6950);
+    return 0;
+}
 
 void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
     ksys::snd::SoundMgr::instance()->mUiSoundMgr->playSound(label, handle);
