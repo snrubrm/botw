@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionEnemyChangeWeapon.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 
 namespace uking::action {
 
@@ -15,8 +18,14 @@ void EnemyChangeWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     _78 = 1;
 }
 
+// NON_MATCHING: the runtime cast keeps a null check and actor-link loads are scheduled later.
 void EnemyChangeWeapon::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy->getWeapons()->getEquippedWeapon(0) && _74 != -1) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&enemy->_c38[_74], &accessor))
+            accessor.sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    }
 }
 
 void EnemyChangeWeapon::loadParams_() {
