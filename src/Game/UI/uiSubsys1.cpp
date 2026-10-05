@@ -38,6 +38,13 @@ void UiSubsys1::sub_7100963C8C(const UiSubsys1PinArg* arg) {
     entry.pos.set(arg->pos);
 }
 
+// 0x71009644e8
+UiSubsys1Entry* UiSubsys1::sub_71009644E8(s32 index) {
+    if (index < 0 || index >= _658.size())
+        return nullptr;
+    return _658[index];
+}
+
 // 0x7100963704
 void UiSubsys1::set128(s32 value) {
     _128 = value;

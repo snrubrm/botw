@@ -185,7 +185,7 @@ public:
     // 0x7100968844 (CSV unnamed; not decompiled; ScreenAppMap::demoLeave)
     void sub_7100968844();
     void set3885() { _3885 = true; }
-    // 0x71009644e8 (declared only; lane3 s22): entry `index` of the table at 0x658 (null if out of range).
+    // 0x71009644e8: entry `index` of the table at 0x658 (null if out of range).
     UiSubsys1Entry* sub_71009644E8(s32 index);
     void sub_71009645D0(const void* a1);
     void sub_710096372C(const void* a1);
