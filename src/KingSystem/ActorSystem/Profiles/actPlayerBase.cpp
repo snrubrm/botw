@@ -21,6 +21,8 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectPlayer.h"
 
+bool eventMgrHasActiveEvent();
+
 namespace ksys::act {
 
 namespace {
@@ -367,6 +369,26 @@ bool PlayerBase::getActorViaAccessor(ActorLinkConstDataAccess* accessor) {
 }  // namespace ksys::act
 
 namespace ksys::act::acc {
+
+bool PlayerBase::x_3() const {
+    if (!getPlayerBase())
+        return false;
+    if (!eventMgrHasActiveEvent())
+        return false;
+    auto* info = ksys::act::PlayerInfo::instance();
+    info->setStaminaCurrentMax(info->getMaxStaminaFromPlayerActor());
+    return true;
+}
+
+bool PlayerBase::x_4() const {
+    if (!getPlayerBase())
+        return false;
+    if (!eventMgrHasActiveEvent())
+        return false;
+    auto* info = ksys::act::PlayerInfo::instance();
+    info->setLifeForPlayerActor(info->getMaxLifeFromPlayerActor());
+    return true;
+}
 
 bool PlayerBase::isMainWeaponHitEnemy() const {
     auto* player = getPlayerBase();
