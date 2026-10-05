@@ -17,6 +17,8 @@ class UI {
     UI() = default;
 
 public:
+    // 0x71010a7118: declared only; updates the placed-item stock count and choice mode.
+    void setPlacedItemStockNum(bool choice_mode, s32 stock);
     // 0x71010a719c / 0x71010a71a8: scalar defaults queried by the game tag processor.
     f32 sub_71010A719C() const;
     f32 sub_71010A71A8() const;
