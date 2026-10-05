@@ -18,6 +18,7 @@ public:
     explicit NPCTravelerRoot(const InitArg& arg);
     ~NPCTravelerRoot() override;
     bool hasPreDeleteCb() override { return true; }
+    void onPreDelete() override;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

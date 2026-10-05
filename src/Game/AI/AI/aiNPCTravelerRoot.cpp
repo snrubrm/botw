@@ -2,11 +2,21 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
+// Source namespace and return spelling are inferred from the lifecycle callers.
+void sub_71007136BC(ksys::act::Actor* actor);
+void sub_7100713780(ksys::act::Actor* actor, bool value);
+
 namespace uking::ai {
 
 NPCTravelerRoot::NPCTravelerRoot(const InitArg& arg) : NPCRoot(arg) {}
 
 NPCTravelerRoot::~NPCTravelerRoot() = default;
+
+void NPCTravelerRoot::onPreDelete() {
+    sub_71007136BC(mActor);
+    sub_7100713780(mActor, false);
+    NPCRoot::onPreDelete();
+}
 
 bool NPCTravelerRoot::init_(sead::Heap* heap) {
     if (!NPCRoot::init_(heap))
