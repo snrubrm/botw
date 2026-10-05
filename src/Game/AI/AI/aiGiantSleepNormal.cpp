@@ -1,10 +1,14 @@
 #include "Game/AI/AI/aiGiantSleepNormal.h"
 #include "Game/Actor/actGiantEnemy.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+
+bool sub_7100739D74(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 
 namespace uking::ai {
 
@@ -36,6 +40,24 @@ void GiantSleepNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GiantSleepNormal::leave_() {
+    if (auto* controller = mActor->getCharacterController())
+        controller->mFlags.reset(0xc00);
+    if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor)) {
+        giant->_1568 = false;
+        giant->_a68 |= 1;
+    }
+    if (!sub_71005D8F28(mActor)) {
+        auto* manager = sead::DynamicCast<dmg::DamageManager>(mActor->getDamageMgr());
+        if (manager && manager->getField54() != -1) {
+            auto* actor = mActor;
+            if (sub_7100739D74(actor, manager->getAttacker())) {
+                auto* current_actor = mActor;
+                sub_71005D8DE8(current_actor, *manager->getAttacker(), nullptr, nullptr);
+                mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+                mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+            }
+        }
+    }
     SpecialEnemySleep::leave_();
 }
 
