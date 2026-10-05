@@ -282,6 +282,9 @@ public:
     // 0x71011ca00c: Hylian-info integer query (declaration only).
     s32 sub_71011CA00C() const;
 
+    // 0x71011c8b04: updates the actor transform (declaration only).
+    void sub_71011C8B04(const sead::Matrix34f& mtx);
+
     const sead::Matrix34f& getMtx() const { return mMtx; }
     const sead::Vector3f& getVelocity() const { return mVelocity; }
     const sead::Vector3f& getAngVelocity() const { return mAngVelocity; }

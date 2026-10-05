@@ -4,6 +4,8 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -69,6 +71,21 @@ bool AppearNearTarget::isFinished() const {
     if (isCurrentChild("湧出"))
         return getCurrentChild()->isFinished();
     return false;
+}
+
+void AppearNearTarget::m37(const sead::Vector3f& pos) {
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20000);
+    sead::Matrix34f mtx;
+    m38(&mtx, pos);
+    ksys::act::sub_7100EE58C0(mActor, mtx);
+    mActor->sub_71011C8B04(mtx);
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+    changeChild("湧出", &params);
+    if (auto* physics = mActor->getPhysics())
+        physics->setMtxAndScale(mtx, false, false, mActor->getScale().x);
+    ksys::act::sub_7100EE5980(mActor, sead::Vector3f::zero);
+    ksys::act::sub_7100EE5A14(mActor, sead::Vector3f::zero);
 }
 
 void AppearNearTarget::m38(sead::Matrix34f* mtx, const sead::Vector3f& pos) {
