@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionEventVariableFadeIn.h"
+#include "Game/UI/uiScreens.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -15,7 +17,17 @@ void EventVariableFadeIn::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventVariableFadeIn::leave_() {
-    EventVariableFade::leave_();
+    if (*mClipIndex_d < 0)
+        return;
+    ksys::evt::Manager::instance()->sub_7100DB1158(*mClipIndex_d);
+    ui::Screen* screen;
+    if (_40)
+        screen = sead::DynamicCast<ui::Fade>(
+            eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+    else
+        screen = sub_7100127B30();
+    screen->m76();
+    screen->close(-4);
 }
 
 void EventVariableFadeIn::loadParams_() {
