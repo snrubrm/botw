@@ -9,6 +9,10 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
+// Source namespace and helper ownership are unknown; declarations only.
+bool sub_71002D1F2C(uking::act::SiteBoss* boss);
+void sub_71002D36C8(uking::act::Enemy* enemy, const sead::SafeString& part_name);
+
 namespace uking::ai {
 
 SiteBossLswordRoot::SiteBossLswordRoot(const InitArg& arg) : SiteBossRoot(arg) {}
@@ -76,6 +80,14 @@ void SiteBossLswordRoot::loadParams_() {
     getStaticParam(&mBigFireBallMoveSpeed1_s, "BigFireBallMoveSpeed1");
     getStaticParam(&mBigFireBallPosOffset_s, "BigFireBallPosOffset");
     getStaticParam(&mBigFireBallRotOffset_s, "BigFireBallRotOffset");
+}
+
+void SiteBossLswordRoot::m34(act::SiteBoss* boss) {
+    SiteBossRoot::m34(boss);
+    if (boss && sub_71002D1F2C(boss)) {
+        sub_71002D36C8(boss, "WearFlame");
+        act::SiteBoss::sub_71002D3498(boss, mActor);
+    }
 }
 
 // NON_MATCHING: the original tests the range as `type - 9 > 5` (cmp #5; b.hi), the switch gives
