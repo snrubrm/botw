@@ -617,6 +617,19 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
 };
 
+// Only the nominal types are recovered; owned members and construction remain undeclared.
+class Fade : public Screen {
+public:
+    ~Fade() override;
+    SEAD_RTTI_OVERRIDE(Fade, Screen)
+};
+
+class ScreenFadeDemo : public Screen {
+public:
+    ~ScreenFadeDemo() override;
+    SEAD_RTTI_OVERRIDE(ScreenFadeDemo, Screen)
+};
+
 class ScreenGameOver : public ScreenEx {
 public:
     ScreenGameOver();
