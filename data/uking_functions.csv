@@ -888,7 +888,7 @@ Address,Quality,Size,Name
 0x000000710002adc4,U,000008,
 0x000000710002adcc,U,000008,
 0x000000710002add4,O,000036,_ZN5uking3act10GiantEnemy23killWithDropsAndEffectsEi
-0x000000710002adf8,U,000080,GiantEnemy::setNecklaceFlag
+0x000000710002adf8,O,000080,_ZN5uking3act10GiantEnemy15setNecklaceFlagEi
 0x000000710002ae48,U,000944,_ZN5uking3act10GiantEnemy5init_Ev
 0x000000710002b1f8,U,000140,_ZN5uking3act10GiantEnemy12prepareInit_EPN4sead4HeapERN4ksys3act8BaseProc10PrepareArgE
 0x000000710002b284,O,000064,_ZN5uking3act10GiantEnemy11preDelete2_ERKN4ksys3act8BaseProc12PreDeleteArgE
@@ -46830,7 +46830,7 @@ Address,Quality,Size,Name
 0x00000071007313cc,U,000340,Enemy::isDefeated
 0x0000007100731520,U,000344,Enemy::isMonsterShopActivated
 0x0000007100731678,U,000224,Enemy::incrementDefeatedCount
-0x0000007100731758,U,000368,Enemy::setNecklaceFlag
+0x0000007100731758,U,000368,_ZN5uking3act5Enemy15setNecklaceFlagEi
 0x00000071007318c8,U,000360,Enemy::checkNecklaceFlag
 0x0000007100731a30,U,000320,
 0x0000007100731b70,U,000360,

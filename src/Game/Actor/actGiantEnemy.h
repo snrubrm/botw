@@ -75,6 +75,7 @@ public:
     void initMaybe() override;
     void calcMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
+    void setNecklaceFlag(s32 index);
     void m79() override;
     void m110(f32* a1, s32* a2) override;
     void m111(f32* a1, s32* a2) override;

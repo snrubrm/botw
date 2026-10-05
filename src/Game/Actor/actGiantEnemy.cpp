@@ -2,6 +2,7 @@
 #include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::act {
@@ -23,6 +24,11 @@ void GiantEnemy::killWithDropsAndEffects(int a1) {
 
 void GiantEnemy::calcMaybe() {
     Enemy::calcMaybe();
+}
+
+void GiantEnemy::setNecklaceFlag(s32 index) {
+    if (index >= 2 && ksys::act::hasTag(this, ksys::act::tags::UseNecklaceSaveFlag))
+        Enemy::setNecklaceFlag(index);
 }
 
 void GiantEnemy::m76(ksys::VFR::ScopedDeltaSetter* setter) {

@@ -253,6 +253,8 @@ public:
     void setDroppedWeaponFlag();
     // Creates the object returned by DynamicActor slot 159 (_e78).
     virtual Unk_71025ae680* m178(sead::Heap* heap);
+    void setNecklaceFlag(s32 index);
+
     virtual void m179();
     virtual void m180() {}
 
