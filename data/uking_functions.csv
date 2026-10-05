@@ -48053,8 +48053,8 @@ Address,Quality,Size,Name
 0x0000007100775b90,U,000008,_ZN5uking6action16CameraMagneCatch3m43Ev
 0x0000007100775b98,U,000116,uking::action::CameraMagneCatch::m51
 0x0000007100775c0c,U,000396,uking::action::CameraMagneCatch::m52
-0x0000007100775d98,U,000004,_ZN5uking6action16CameraMagneCatch3m44Ev
-0x0000007100775d9c,U,000004,_ZN5uking6action16CameraMagneCatch3m45Ev
+0x0000007100775d98,O,000004,_ZN5uking6action16CameraMagneCatch3m44Ev
+0x0000007100775d9c,O,000004,_ZN5uking6action16CameraMagneCatch3m45Ev
 0x0000007100775da0,U,000484,uking::action::CameraMagneCatch::m46
 0x0000007100775f84,U,000428,
 0x0000007100776130,U,000204,uking::action::CameraMagneCatch::m59

@@ -12,6 +12,8 @@ public:
     ~CameraMagneCatch() override;
 
 protected:
+    float m44() override;
+    float m45() override;
     bool m60(int idx) override { return u32(idx) < 3; }
 };
 
