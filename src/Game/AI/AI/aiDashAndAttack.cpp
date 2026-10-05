@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiDashAndAttack.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -10,8 +11,19 @@ bool DashAndAttack::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: Target vector and parameter-pack stack placement differs.
 void DashAndAttack::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sead::Vector3f target;
+    sub_710035B9E0(&target);
+    if (*mParams.mIsAbleSkipNear_s && sub_710035BB34()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("斬り付け", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(target, "TargetPos", -1);
+        changeChild("駆け寄り", &pack);
+    }
 }
 
 void DashAndAttack::leave_() {

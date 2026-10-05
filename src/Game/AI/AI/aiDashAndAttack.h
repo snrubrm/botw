@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_710035B9E0(sead::Vector3f* target);
+    bool sub_710035BB34();
+
     struct Params {
         // static_param at offset 0x38
         const int* mWeaponIdx_s{};
