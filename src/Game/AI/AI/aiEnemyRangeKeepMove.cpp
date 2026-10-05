@@ -17,8 +17,43 @@ bool EnemyRangeKeepMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: parameter-load and horizontal-distance arithmetic scheduling differ.
 void EnemyRangeKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _10d = false;
+    const s32 leave_min = *mLeaveTimerMin_s;
+    _d8 = _dc = leave_min;
+    _d4 = leave_min;
+    const s32 back_min = *mBackTimeMin_s;
+    const s32 back_max = *mBackTimeMax_s;
+    _cc = sead::Mathi::min(back_min, back_max);
+    _d0 = sead::Mathi::max(back_min, back_max);
+    _e4 = 10;
+    _e8 = 30;
+    _c8 = _cc == _d0 ? _cc : sead::GlobalRandom::instance()->getS32Range(_cc, _d0);
+    _e0 = _e4 == _e8 ? _e4 : sead::GlobalRandom::instance()->getS32Range(_e4, _e8);
+    sub_71003AB3FC();
+    auto* actor = mActor;
+    _10c = false;
+    sead::Vector3f diff = sub_71005D9330(actor) - actor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 distance = diff.length();
+    const f32 base = *mBaseDist_s;
+    const f32 far = *mFarDist_s;
+    if (distance > base + far + sub_71007320F0(actor, m35())) {
+        changeToBattleWalk();
+    } else if (sub_71003AB704()) {
+        changeToBattleBackAway();
+    } else {
+        const s8 direction = sub_71003AB9B0();
+        if (direction == 0) {
+            changeToBattleWait();
+        } else if (direction == -5) {
+            _10d = true;
+            changeToBattleBackAway();
+        } else {
+            changeToMoveSideways(direction);
+        }
+    }
 }
 
 bool EnemyRangeKeepMove::isChangeable() const {

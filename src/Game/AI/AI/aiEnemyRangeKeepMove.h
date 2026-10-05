@@ -41,6 +41,10 @@ public:
     void changeToMoveSideways(s8 dir);
 
 protected:
+    // 0x71003ab704 / 0x71003ab9b0: declaration-only movement queries.
+    bool sub_71003AB704();
+    s8 sub_71003AB9B0();
+
     // aitree_variable at offset 0x38
     void* mRefPosVibrateCheckerForAI_a{};
     // aitree_variable at offset 0x40
