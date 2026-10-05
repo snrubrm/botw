@@ -29,6 +29,24 @@ void SiteBossSwordRoot::leave_() {
     SiteBossRoot::leave_();
 }
 
+void SiteBossSwordRoot::calc_() {
+    SiteBossRoot::calc_();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->_1558.isOn(0x30))
+            boss->sub_71002D23F0();
+        else if (boss->_1558.isOn(2))
+            boss->sub_71002D2420();
+        if (!boss->_14c8._30.isOn(4))
+            boss->sub_71002D2390();
+        else
+            boss->sub_71002D22B8();
+        if (!boss->_1558.isOn(0x10)) {
+            boss->x_5(false);
+            boss->x_6(false);
+        }
+    }
+}
+
 void SiteBossSwordRoot::loadParams_() {
     SiteBossRoot::loadParams_();
 }

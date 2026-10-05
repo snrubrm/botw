@@ -41,6 +41,11 @@ KSYS_CHECK_SIZE_NX150(Unk_71023d04f8, 0x38);
 class SiteBoss : public Enemy {
     SEAD_RTTI_OVERRIDE(SiteBoss, Enemy)
 public:
+    void sub_71002D23F0();
+    void sub_71002D2420();
+    void sub_71002D2390();
+    void sub_71002D22B8();
+
     explicit SiteBoss(const CreateArg& arg);
     ~SiteBoss() override;
 
