@@ -15,6 +15,14 @@
 
 namespace uking::ui {
 
+// 0x7100aa256c
+s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
+                    const eui::MessageString& message) {
+    if (layout)
+        return layout->setMessageStringForEachId(widget_name.cstr(), message, true, nullptr);
+    return 0;
+}
+
 // 0x7100aa25d4
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
                      const sead::SafeString& text) {
