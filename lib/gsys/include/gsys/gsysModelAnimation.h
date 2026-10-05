@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadSafeString.h>
 #include <container/seadBuffer.h>
 
 namespace gsys {
@@ -33,6 +34,12 @@ public:
 
     /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
     void setMaterialAnmFrame(int slot, f32 frame);
+
+    AnimationAccessKey<MaterialAnmType> searchMaterialAnmKey(
+        MaterialAnmType type, const sead::SafeString& name) const;
+    // The original named interface returns a signed integer, converted to float by GraphicsAsset.
+    s32 isMaterialAnmLooped(AnimationAccessKey<MaterialAnmType> key) const;
+    bool sub_7100BFF158(AnimationAccessKey<MaterialAnmType> key) const;
 
     sead::Buffer<MaterialAnm>& getMaterialAnms() { return mMaterialAnms; }
     const sead::Buffer<MaterialAnm>& getMaterialAnms() const { return mMaterialAnms; }
