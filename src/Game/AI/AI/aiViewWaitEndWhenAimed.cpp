@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiViewWaitEndWhenAimed.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+// Declaration only; the original source namespace is unknown and input constness is inferred.
+bool sub_71005E0CB0(bool* out, ksys::act::Actor* actor, const gsys::BoneAccessKeyEx* key,
+                    bool mode, f32 angle, f32 range);
+
 namespace uking::ai {
 
 ViewWaitEndWhenAimed::ViewWaitEndWhenAimed(const InitArg& arg) : TimeredViewWait(arg) {}
@@ -20,6 +24,20 @@ bool ViewWaitEndWhenAimed::init_(sead::Heap* heap) {
 
 void ViewWaitEndWhenAimed::enter_(ksys::act::ai::InlineParamPack* params) {
     TimeredViewWait::enter_(params);
+}
+
+void ViewWaitEndWhenAimed::calc_() {
+    bool direction = false;
+    if (sub_71005E0CB0(&direction, mActor, &_a0, true, *mAimedAngle_s, *mBowRange_s)) {
+        const int end_time = *mEndTime_s;
+        if (end_time <= 0) {
+            setFinished();
+            return;
+        }
+        if (_70 >= end_time)
+            _70 = end_time;
+    }
+    TimeredViewWait::calc_();
 }
 
 void ViewWaitEndWhenAimed::leave_() {
