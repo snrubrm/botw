@@ -13,6 +13,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // Declaration only.
+    void sub_7100E1A544();
 };
 
 }  // namespace uking::ai
