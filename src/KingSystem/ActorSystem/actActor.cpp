@@ -770,6 +770,30 @@ void Actor::emitDeadUpLifeZeroAndSetRevival() {
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
 }
 
+void Actor::attentionStuff() {
+    auto* attention = mAttention;
+    if (!attention)
+        return;
+    attention->sub_7100D738EC();
+    if (_689)
+        return;
+    if (mMapObject && mMapObject->getLinkData() &&
+        mMapObject->getLinkData()->mLinksToSelf.checkLink(map::MapLinkDefType::Freeze, false))
+        return;
+    if (_598 && _598->mFlags8.isOnBit(10))
+        return;
+    if (!mActorFlags2.isOn(ActorFlag2::_40)) {
+        attention->sub_7100D73924();
+        return;
+    }
+    const s32 num_clients = attention->getNumClients();
+    for (s32 i = 0; i < num_clients; ++i) {
+        auto* client = attention->getClientByIdx(i);
+        if (client->sub_7100D72534() == 2 || client->sub_7100D72534() == 1)
+            client->sub_7100D721C0();
+    }
+}
+
 void Actor::emitSignalsOrDisappearEffectForDelete(int reason) {
     emitSignal(map::MapLinkDefType::DeadUp, true);
     emitSignal(map::MapLinkDefType::LifeZero, true);

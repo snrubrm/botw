@@ -74958,7 +74958,7 @@ Address,Quality,Size,Name
 0x0000007100d72144,U,000032,
 0x0000007100d72164,O,000020,_ZN4ksys3act9AttClient12resetEnabledEv
 0x0000007100d72178,U,000072,AttClient::x_3
-0x0000007100d721c0,U,000352,AttClient::x_4
+0x0000007100d721c0,U,000352,_ZN4ksys3act9AttClient14sub_7100D721C0Ev
 0x0000007100d72320,U,000060,AttClient::x_2
 0x0000007100d7235c,U,000008,AwarenessStuffHandler::setCallback
 0x0000007100d72364,U,000016,
@@ -74997,8 +74997,8 @@ Address,Quality,Size,Name
 0x0000007100d73728,O,000340,_ZN4ksys3act14ActorAttention13disableClientERKN4sead14SafeStringBaseIcEE
 0x0000007100d7387c,O,000056,_ZN4ksys3act14ActorAttention16enableAllClientsEv
 0x0000007100d738b4,O,000056,_ZN4ksys3act14ActorAttention17disableAllClientsEv
-0x0000007100d738ec,U,000056,ActorAttention::x
-0x0000007100d73924,U,000056,
+0x0000007100d738ec,U,000056,_ZN4ksys3act14ActorAttention14sub_7100D738ECEv
+0x0000007100d73924,U,000056,_ZN4ksys3act14ActorAttention14sub_7100D73924Ev
 0x0000007100d7395c,U,000056,ActorAttention::x_0
 0x0000007100d73994,U,000056,ActorAttention::resetEnabled
 0x0000007100d739cc,U,000004,nullsub_3794
@@ -92637,7 +92637,7 @@ Address,Quality,Size,Name
 0x00000071011cd3a0,U,001804,_ZN4ksys3act5Actor29shouldUnloadBecauseOfDistanceEPi
 0x00000071011cdaac,U,000512,Actor::handleAttentionChange
 0x00000071011cdcac,O,000036,_ZNK4ksys3act5Actor11checkSignalENS_3map14MapLinkDefTypeE
-0x00000071011cdcd0,U,000232,_ZN4ksys3act5Actor14attentionStuffEv
+0x00000071011cdcd0,O,000232,_ZN4ksys3act5Actor14attentionStuffEv
 0x00000071011cddb8,O,000020,_ZN4ksys3act5Actor25decrementSkipJobPushTimerEv
 0x00000071011cddcc,U,000056,
 0x00000071011cde04,O,000196,_ZN4ksys3act5Actor18shouldSkipJobPush_ENS0_7JobTypeE

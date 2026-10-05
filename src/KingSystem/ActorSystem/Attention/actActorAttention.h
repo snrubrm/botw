@@ -34,6 +34,9 @@ public:
     bool disableClient(const sead::SafeString& name);
     void enableAllClients();
     void disableAllClients();
+    // 0x7100d738ec / 0x7100d73924: declaration-only operations on the clients.
+    void sub_7100D738EC();
+    void sub_7100D73924();
     // 0x7100d73454: `mList->x(out, mActor, &_50)` (the position of the attention target; Actor::m88 stores it).
     void sub_7100D73454(sead::Vector3f* out) const;
 
