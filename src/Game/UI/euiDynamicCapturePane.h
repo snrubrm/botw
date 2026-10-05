@@ -11,6 +11,8 @@ namespace eui {
 class DynamicCapturePane : public nn::ui2d::Pane {
 public:
     void freeDynamicTexture();
+    void applyTextureInfoToMaterialForCalculate(nn::ui2d::Pane* pane,
+                                               const nn::ui2d::Size& size, s32 texture_index);
 
     /* 0xe0 */ nn::util::IntrusiveListNode mDynamicTextureNode;
 };

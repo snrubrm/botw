@@ -39,6 +39,7 @@ target_sources(uking PRIVATE
   euiLayoutEx.cpp
   euiPartsEx.cpp
   euiPictureEx.cpp
+  euiDynamicCaptureUsePictureEx.cpp
   euiMassDrawPane.cpp
   euiWindowEx.cpp
   euiCapturePane.cpp
