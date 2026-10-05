@@ -32,6 +32,8 @@ public:
     void sub_7100EF1ADC();
     // Declaration only.
     bool sub_7100EF1B90();
+    bool sub_7100EF1B70();
+    bool sub_7100EF1308();
 
     Actor* m31() override;
     void updatePositionMaybe() override;
