@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiGerudoQueenBattle.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,10 @@ void GerudoQueenBattle::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void GerudoQueenBattle::leave_() {
-    ksys::act::ai::Ai::leave_();
+    mActor->emitBasicSigOff();
+    _40.fade();
+    _80->sub_7100EBB518();
+    mActor->resetConnectedCalcChild(false);
 }
 
 void GerudoQueenBattle::loadParams_() {

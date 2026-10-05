@@ -2,9 +2,14 @@
 
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
+
+namespace ksys::act {
+class Unk_71024ef620;
+}
 
 namespace uking::ai {
 
@@ -22,12 +27,11 @@ public:
 protected:
     // static_param at offset 0x38
     const float* mRetireFrame_s{};
-    void* _40{};
-    u32 _48 = 0;
+    xlink2::HandleELink _40;
     ksys::act::BaseProcLink _50;
     ksys::act::BaseProcLink _60;
     ksys::act::BaseProcLink _70;
-    u64 _80 = 0;
+    ksys::act::Unk_71024ef620* _80 = nullptr;
     bool _88 = false;
     bool _89 = false;
     sead::Matrix34f _8c = sead::Matrix34f::ident;
