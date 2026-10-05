@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -17,6 +18,13 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 
 namespace uking::act {
+
+void Enemy::killWithDropsAndEffects(int a1) {
+    if (auto* reporter = ksys::PlayReportMgr::instance())
+        reporter->reportDebug("KillEnemy", sead::SafeString(getName().cstr()));
+    incrementDefeatedCount();
+    Actor::killWithDropsAndEffects(a1);
+}
 
 void Enemy::onEnterSleep_() {
     Actor::onEnterSleep_();

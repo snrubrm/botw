@@ -202,6 +202,8 @@ public:
     Actor* m48() override;
     bool m49() override;
     void killWithDropsAndEffects(int a1) override;
+    // Declaration only; ownership follows the current Enemy label and caller.
+    void incrementDefeatedCount();
     // 0x7100731064 (CSV name): counts a defeated giant / sandworm (GiantEnemy / Sandworm kills).
     void incrementGiantOrSandwormDefeatCount();
     bool m57() override;
