@@ -112,6 +112,8 @@ void sellPictureBookDemo(s32 value);
 bool checkWeaponFreeSlotImpl(const sead::SafeString& name, s32 count);
 int sub_7100A9E4A0(const sead::SafeString& name);
 void sub_7100A9732C();
+// Existing UI facade definition at 0x7100a96eb8.
+void sub_7100A96EB8();
 // 0x7100a9e458: declared only; delegates the signed count change to the pouch manager.
 void increasePouchNumImpl(const sead::SafeString& name, s32 count);
 
