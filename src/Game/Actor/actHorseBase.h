@@ -113,6 +113,7 @@ public:
     s32 x() const;
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
+    void sub_7100E6C464(s32 id);
     bool sub_7100E68270() const;
     // The horse's Nature GParam as a placeholder SEAD_ENUM (RideableHorse converts it through the stack).
     SEAD_ENUM(Nature, _0, _1, _2)

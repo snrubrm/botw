@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseGoToEatAI.h"
+#include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -28,7 +30,10 @@ void HorseGoToEatAI::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseGoToEatAI::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor))
+        horse->sub_7100E6C464(_4c);
+    if (auto* rideable = mActor->getHorseOptionsMaybe())
+        rideable->_18.sub_7100E770C4(false);
 }
 
 void HorseGoToEatAI::loadParams_() {
