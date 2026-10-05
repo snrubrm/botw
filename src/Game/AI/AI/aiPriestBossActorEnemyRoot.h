@@ -35,6 +35,8 @@ public:
     Unk_7102450fa8* sub_7100506A40();
 
 protected:
+    void sub_7100506DB0();
+
     // static_param at offset 0x1d8
     const bool* mIsReactionOnDead_s{};
     // aitree_variable at offset 0x1e0

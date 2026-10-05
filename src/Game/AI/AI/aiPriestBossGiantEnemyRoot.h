@@ -56,6 +56,7 @@ public:
     bool m46() override;
     bool m47() override;
     void m49() override;
+    bool m51() override;
     bool m52() override;
     bool m53() override;
 

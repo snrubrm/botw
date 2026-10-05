@@ -31158,7 +31158,7 @@ Address,Quality,Size,Name
 0x0000007100506a40,O,000144,_ZN5uking2ai24PriestBossActorEnemyRoot14sub_7100506A40Ev
 0x0000007100506ad0,U,000340,_ZN5uking2ai24PriestBossActorEnemyRoot3m50Ev
 0x0000007100506c24,U,000396,uking::ai::PriestBossActorEnemyRoot::m34
-0x0000007100506db0,U,000296,
+0x0000007100506db0,U,000296,_ZN5uking2ai24PriestBossActorEnemyRoot14sub_7100506DB0Ev
 0x0000007100506ed8,U,000220,uking::ai::PriestBossActorEnemyRoot::m35
 0x0000007100506fb4,O,000196,_ZN5uking2ai24PriestBossActorEnemyRoot3m51Ev
 0x0000007100507078,O,000292,_ZN5uking2ai24PriestBossActorEnemyRoot3m52Ev
@@ -31607,7 +31607,7 @@ Address,Quality,Size,Name
 0x000000710051a640,U,000120,_ZN5uking2ai14Unk_71024138084callEPiS2_PjS3_S2_m
 0x000000710051a6b8,U,000400,
 0x000000710051a848,U,000304,_ZN5uking2ai24PriestBossGiantEnemyRoot14handleMessage_EPKN4ksys7MessageE
-0x000000710051a978,U,000180,uking::ai::PriestBossGiantEnemyRoot::m51
+0x000000710051a978,O,000180,_ZN5uking2ai24PriestBossGiantEnemyRoot3m51Ev
 0x000000710051aa2c,O,000116,_ZN5uking2ai24PriestBossGiantEnemyRoot3m53Ev
 0x000000710051aaa0,O,000124,_ZN5uking2ai24PriestBossGiantEnemyRoot3m45Ev
 0x000000710051ab1c,O,000052,_ZN5uking2ai24PriestBossGiantEnemyRoot3m46Ev

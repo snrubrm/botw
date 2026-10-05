@@ -76,6 +76,16 @@ bool PriestBossGiantEnemyRoot::m52() {
     return PriestBossActorEnemyRoot::m52();
 }
 
+bool PriestBossGiantEnemyRoot::m51() {
+    if (sub_7100506A40() && !isCurrentChild("フェイズ開始") && !m45() &&
+        _1e8 != int(sub_7100506A40()->_3c)) {
+        sub_7100506DB0();
+        changeChild("フェイズ開始", nullptr);
+        return true;
+    }
+    return PriestBossActorEnemyRoot::m51();
+}
+
 bool PriestBossGiantEnemyRoot::m53() {
     if (!_1c8 && sub_7100506A40() && sub_7100506A40()->_3c == Unk_7102450fa8::Phase::_3 &&
         !m52()) {
