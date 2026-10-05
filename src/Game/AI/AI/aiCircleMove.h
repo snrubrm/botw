@@ -24,6 +24,8 @@ public:
     virtual void m38(sead::Vector3f* out, f32 angle, f32 radius);
 
 protected:
+    void sub_710034E838();
+
     // Declaration only; native w1 bit 0 gates direction selection.
     void sub_710034E90C(bool keep_direction);
 
