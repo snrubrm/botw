@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventSetDirectionalLightYang.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace uking::action {
 
@@ -24,7 +25,14 @@ void EventSetDirectionalLightYang::loadParams_() {
 }
 
 void EventSetDirectionalLightYang::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFailed())
+        return;
+    if (auto* manager = ksys::world::Manager::instance()) {
+        manager->setDirectionalLightYang(*mangleY_d);
+    } else {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+    }
 }
 
 }  // namespace uking::action
