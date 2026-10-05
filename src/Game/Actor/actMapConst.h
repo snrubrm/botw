@@ -44,6 +44,7 @@ public:
     ~MapConstActiveOrMergedDungeonParts() override = default;
 
 protected:
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void onDeleteRequested_(DeleteReason reason) override;
     bool canWakeUp_() override;
 
@@ -62,6 +63,10 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+protected:
+    bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+
+public:
     void m63() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;

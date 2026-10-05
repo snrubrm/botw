@@ -1,6 +1,7 @@
 #include "Game/Actor/actMapConst.h"
 #include <basis/seadNew.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
@@ -15,6 +16,23 @@ MapConstActive::~MapConstActive() = default;
 
 ksys::act::BaseProc* MapConstActive::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) MapConstActive(arg);
+}
+
+bool MapConstActive::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!MapConstActiveOrMergedDungeonParts::prepareInit_(heap, arg))
+        return false;
+    if (actorHasTgtBody(this)) {
+        _850 = ksys::act::ActorAtk::makeForActor(this, heap);
+        if (!_850)
+            return false;
+    }
+    if (sub_71006D28AC(this)) {
+        _858 = gameObjectInitField(this, heap);
+        if (!_858)
+            return false;
+    }
+    _860 = makeDropData(heap);
+    return true;
 }
 
 ksys::act::Unk_71025ae640* MapConstActive::getAtk() {
