@@ -214,7 +214,7 @@ public:
     virtual void m71();
     virtual s32 m72();
     virtual void m73();
-    virtual void m74();
+    virtual void m74(f32 progress);
     virtual void m75();
     virtual void m76();
     virtual void m77();
@@ -622,6 +622,7 @@ class Fade : public Screen {
 public:
     ~Fade() override;
     SEAD_RTTI_OVERRIDE(Fade, Screen)
+    void m74(f32 progress) override;
     void sub_71010A0EE8(f32 progress);
 };
 
@@ -629,6 +630,7 @@ class ScreenFadeDemo : public Screen {
 public:
     ~ScreenFadeDemo() override;
     SEAD_RTTI_OVERRIDE(ScreenFadeDemo, Screen)
+    void m74(f32 progress) override;
 };
 
 class ScreenGameOver : public ScreenEx {
