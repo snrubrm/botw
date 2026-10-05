@@ -59,6 +59,12 @@ bool PriestBossGiantEnemyRoot::m47() {
     return false;
 }
 
+bool PriestBossGiantEnemyRoot::m46() {
+    if (sub_7100506A40())
+        (void)int(sub_7100506A40()->_3c);
+    return false;
+}
+
 void PriestBossGiantEnemyRoot::m49() {
     if (mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20))
         ksys::act::disableAttClient(mActor, "LockOn");

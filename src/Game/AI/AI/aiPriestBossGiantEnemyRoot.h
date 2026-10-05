@@ -53,6 +53,7 @@ public:
     void loadParams_() override;
 
     bool m45() override;
+    bool m46() override;
     bool m47() override;
     void m49() override;
     bool m52() override;
