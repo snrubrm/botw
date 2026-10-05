@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -11,7 +12,25 @@ EnemyPursuingAttackCheck::EnemyPursuingAttackCheck(const InitArg& arg) : ksys::a
 EnemyPursuingAttackCheck::~EnemyPursuingAttackCheck() = default;
 
 void EnemyPursuingAttackCheck::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _58.reset(0.0f);
+    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("通常戦闘", &pack);
+        return;
+    }
+
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    if (sub_71003A90D8()) {
+        changeToFollowUpAttack();
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("通常戦闘", &pack);
+    }
 }
 
 // NON_MATCHING: only the SafeString vtable address: the original computes `vtable + 0x10` once (x21) after the
