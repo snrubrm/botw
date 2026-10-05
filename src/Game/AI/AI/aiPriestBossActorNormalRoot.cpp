@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiPriestBossActorNormalRoot.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -16,8 +19,21 @@ bool PriestBossActorNormalRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: getter arguments are evaluated in a different order and enum bit-index temporaries are absent.
 void PriestBossActorNormalRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorRoot::enter_(params);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->_c48.sub_71002DBC8C(ksys::act::PlayerInfo::getSomeProcLink(),
+                                  &player.getActorMtx(), &player.getPreviousPos());
+        enemy->_c48._7c = 5;
+    }
+    if (!_80.isOn(1)) {
+        *mEquipWeaponBufIndex_a = -1;
+        _80.set(1);
+    }
+    sub_710050DC18(false);
 }
 
 // NON_MATCHING: temporary string storage and the sync-mode branch layout differ.
