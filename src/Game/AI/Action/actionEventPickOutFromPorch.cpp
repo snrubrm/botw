@@ -1,5 +1,8 @@
 #include "Game/AI/Action/actionEventPickOutFromPorch.h"
 
+// Existing CSV utility name; source namespace is unknown.
+bool aiActionEventPickOutFromPorch(ksys::act::BaseProcHandle* handle);
+
 namespace uking::action {
 
 EventPickOutFromPorch::EventPickOutFromPorch(const InitArg& arg) : ksys::act::ai::Action(arg) {}
@@ -24,7 +27,17 @@ void EventPickOutFromPorch::loadParams_() {
 }
 
 void EventPickOutFromPorch::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    if (_30.hasProcCreationFailed()) {
+        setFailed();
+        _30.deleteProcIfFailed();
+    } else if (_30.isProcReady()) {
+        if (aiActionEventPickOutFromPorch(&_30))
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 }  // namespace uking::action

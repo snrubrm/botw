@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionAtAndBodyOnWait.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
@@ -13,6 +14,11 @@ bool AtAndBodyOnWait::init_(sead::Heap* heap) {
 
 void AtAndBodyOnWait::enter_(ksys::act::ai::InlineParamPack* params) {
     AtOnWait::enter_(params);
+    if (auto* body = sub_71000504E8(mBodyName_s)) {
+        if (!body->isAddedToWorld())
+            body->setTransform(mActor->getMtx());
+        body->addToWorld();
+    }
 }
 
 void AtAndBodyOnWait::leave_() {

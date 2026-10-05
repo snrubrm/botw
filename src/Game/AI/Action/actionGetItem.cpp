@@ -1,5 +1,15 @@
 #include "Game/AI/Action/actionGetItem.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+// Existing get-demo utility interface; source namespace is unknown.
+void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name);
 
 namespace uking::action {
 
@@ -10,7 +20,19 @@ bool GetItem::init_(sead::Heap* heap) {
 }
 
 void GetItem::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    u32* handle = nullptr;
+    if (actor->getRootAi()->getAITreeVariable(&handle,
+                                           ksys::act::getStr_AtvKeyActorSaveDataIndex()) && handle) {
+        ksys::gdt::Manager::instance()->setBool(true, ksys::gdt::FlagHandle(*handle));
+        ui::uiManagerUpdateIsDungeon();
+    }
+    if (auto* body = actor->getMainBody())
+        body->removeFromWorld();
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F5EC44();
+    callGetDemoHandler(actor, actor->getName());
+    ui::openPickUpScreen(actor);
 }
 
 void GetItem::leave_() {

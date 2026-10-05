@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSellPictureBookUIDemo.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiUtils.h"
 
@@ -29,7 +30,17 @@ void SellPictureBookUIDemo::loadParams_() {
 }
 
 void SellPictureBookUIDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_7100738488(mActor, 0.f, -sead::Vector3f::ey);
+    sub_7100738AA8(mActor, 0.f);
+    if (isFinished() || isFailed())
+        return;
+    if (_28 == 1) {
+        ui::sellPictureBookUIEnd();
+    } else if (_28 != 0 && ui::sellPictureBookUIEnd2()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    }
+    ++_28;
 }
 
 }  // namespace uking::action
