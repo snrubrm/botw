@@ -2,6 +2,7 @@
 
 #include <nn/ui2d/ResourceAccessor.h>
 #include <nn/ui2d/ArcExtractor.h>
+#include <nn/ui2d/ShaderContainer.h>
 #include <nn/util/util_IntrusiveList.h>
 
 namespace nn::gfx {
@@ -19,6 +20,8 @@ class MultiArcResourceAccessor : public nn::ui2d::ResourceAccessor {
 public:
     NN_RUNTIME_TYPEINFO(nn::ui2d::ResourceAccessor)
 
+    ~MultiArcResourceAccessor() override;
+
     struct ArchiveLink {
         explicit ArchiveLink(void* data) : extractor(data), textures(nullptr) {}
 
@@ -32,10 +35,13 @@ public:
 
     bool isArchiveAttached(void* data);
     void attachArchive(void* data, nn::gfx::ResTextureFile* textures);
+    nn::ui2d::ShaderInfo* AcquireShader(nn::gfx::Device* device, const char* name) override;
+    bool LoadShader(nn::ui2d::ShaderInfo* shader, nn::gfx::Device* device,
+                    const char* name) override;
 
     /* 0x08 */ const ArcResourceMgr* mArcResourceMgr;
     /* 0x10 */ const FontMgr* mFontMgr;
-    /* 0x18 */ u8 _18[0x10];
+    /* 0x18 */ nn::ui2d::ShaderContainer mShaders;
     using ArchiveList = nn::util::IntrusiveList<
         ArchiveLink, nn::util::IntrusiveListMemberNodeTraits<ArchiveLink, &ArchiveLink::node>>;
     /* 0x28 */ ArchiveList mArchives;

@@ -4,6 +4,17 @@
 
 namespace eui {
 
+nn::ui2d::ShaderInfo* MultiArcResourceAccessor::AcquireShader(nn::gfx::Device* device,
+                                                           const char* name) {
+    auto* shader = mShaders.FindShaderByName(name);
+    if (!shader) {
+        shader = mShaders.RegisterShader(name, false);
+        if (shader)
+            LoadShader(shader, device, name);
+    }
+    return shader;
+}
+
 bool MultiArcResourceAccessor::isArchiveAttached(void* data) {
     for (auto& archive : mArchives) {
         if (archive.extractor.mArchive == data)
