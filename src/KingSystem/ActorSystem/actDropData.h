@@ -33,8 +33,8 @@ public:
     /*  6 */ virtual bool getDropVelocity(const sead::SafeString& name, sead::Vector3f* velocity,
                                          f32* random) = 0;
     /*  7 */ virtual bool getDropAngVelFromBomb(f32* ang_velocity, f32* random) = 0;
-    /*  8 */ virtual void preloadDropsMaybe(Actor* actor) = 0;
-    /*  9 */ virtual void resetPreloadActorsMaybe() = 0;
+    /*  8 */ virtual bool preloadDropsMaybe(Actor* actor) = 0;
+    /*  9 */ virtual void resetPreloadActorsMaybe(Actor* actor) = 0;
     /* 10 */ virtual void initFromActor(Actor* actor) = 0;
     /* 11 */ virtual void getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
                                    const sead::Vector3f& pos) = 0;
@@ -54,8 +54,8 @@ public:
     bool getDropVelocity(const sead::SafeString& name, sead::Vector3f* velocity,
                          f32* random) override;
     bool getDropAngVelFromBomb(f32* ang_velocity, f32* random) override;
-    void preloadDropsMaybe(Actor* actor) override;
-    void resetPreloadActorsMaybe() override;
+    bool preloadDropsMaybe(Actor* actor) override;
+    void resetPreloadActorsMaybe(Actor* actor) override;
     void initFromActor(Actor* actor) override;
     void getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
                   const sead::Vector3f& pos) override;

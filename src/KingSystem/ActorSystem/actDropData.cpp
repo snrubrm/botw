@@ -1,4 +1,6 @@
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorPreLoadMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -75,5 +77,31 @@ bool DropData::m5() {
 }
 
 DropData::~DropData() = default;
+
+// NON_MATCHING: the existing getHomePos definition is inlined into this caller.
+bool DropData::preloadDropsMaybe(Actor* actor) {
+    if (!(_c & 0x100))
+        return false;
+
+    auto* mgr = ActorPreLoadMgr::instance();
+    auto* entry = mgr->x(actor);
+    if (!entry)
+        return false;
+
+    sead::Vector3f home_pos;
+    actor->getHomePos(&home_pos);
+    for (s32 table = 0; table < 7; ++table) {
+        for (s32 i = 0; i < 16; ++i) {
+            if (_10[table][i]._0 < 1)
+                break;
+            mgr->preloadActorMaybe(entry, _10[table][i]._8);
+        }
+    }
+    return true;
+}
+
+void DropData::resetPreloadActorsMaybe(Actor* actor) {
+    ActorPreLoadMgr::instance()->sub_7100D58F28(actor);
+}
 
 }  // namespace ksys::act
