@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiMoveAroundTarget.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 
 namespace uking::ai {
 
@@ -27,6 +28,22 @@ void MoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _94 = sead::Mathi::max(base, end);
     _8c = _90 == _94 ? _90 : sead::GlobalRandom::instance()->getS32Range(_90, _94);
     sub_71004B004C();
+}
+
+void MoveAroundTarget::calc_() {
+    sead::Vector3f target;
+    if (!(_68.value <= sead::Mathf::epsilon()) &&
+        sub_710072E154(mActor, _74, nullptr, -1)) {
+        target = _74;
+        _68.update();
+        mFlags.reset(Flag::Changeable);
+    } else {
+        target = sub_71004B0238();
+        mFlags.set(Flag::Changeable);
+        if (_80.value > *mEndRange_s * 0.95f)
+            _80.update();
+    }
+    getCurrentChild()->setDynamicParam(target, "TargetPos");
 }
 
 void MoveAroundTarget::leave_() {
