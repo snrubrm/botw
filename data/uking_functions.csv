@@ -46829,7 +46829,7 @@ Address,Quality,Size,Name
 0x0000007100731064,U,000872,_ZN5uking3act5Enemy35incrementGiantOrSandwormDefeatCountEv
 0x00000071007313cc,U,000340,Enemy::isDefeated
 0x0000007100731520,U,000344,Enemy::isMonsterShopActivated
-0x0000007100731678,U,000224,_ZN5uking3act5Enemy22incrementDefeatedCountEv
+0x0000007100731678,O,000224,_ZN5uking3act5Enemy22incrementDefeatedCountEv
 0x0000007100731758,U,000368,_ZN5uking3act5Enemy15setNecklaceFlagEi
 0x00000071007318c8,U,000360,Enemy::checkNecklaceFlag
 0x0000007100731a30,U,000320,

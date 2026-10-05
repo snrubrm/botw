@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -20,6 +21,20 @@
 #include "KingSystem/World/worldManager.h"
 
 namespace uking::act {
+
+void Enemy::incrementDefeatedCount() {
+    if (!this)
+        return;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager || ksys::act::hasTag(this, ksys::act::tags::NotCountDefeatedNum))
+        return;
+    sead::SafeString name = getName();
+    ksys::act::getSameGroupActorName(&name, this);
+    sead::FormatFixedSafeString<128> key("Defeated_%s_Num", name.cstr());
+    s32 count = 0;
+    if (manager->getParam().get().getS32(&count, key) && count <= 9)
+        manager->incrementS32(1, key);
+}
 
 void Enemy::killWithDropsAndEffects(int a1) {
     if (auto* reporter = ksys::PlayReportMgr::instance())
