@@ -32,4 +32,10 @@ void SwimTurnBase::calc_() {
     SwimRotateBase::calc_();
 }
 
+// NON_MATCHING: the vector assignment naturally emits three scalar copies.
+void SwimTurnBase::m32(sead::Vector3f* out) {
+    if (out)
+        *out = *mTargetPos_d;
+}
+
 }  // namespace uking::action
