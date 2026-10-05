@@ -23155,7 +23155,7 @@ Address,Quality,Size,Name
 0x00000071003764b0,O,000048,_ZN5uking2ai18DungeonResetPosTagC1ERKN4ksys3act2ai10ActionBase7InitArgE
 0x00000071003764e0,O,000004,_ZN5uking2ai18DungeonResetPosTagD1Ev
 0x00000071003764e4,O,000036,_ZN5uking2ai18DungeonResetPosTagD0Ev
-0x0000007100376508,W,000128,_ZN5uking2ai18DungeonResetPosTag5init_EPN4sead4HeapE
+0x0000007100376508,m,000128,_ZN5uking2ai18DungeonResetPosTag5init_EPN4sead4HeapE
 0x0000007100376588,O,000016,_ZN5uking2ai18DungeonResetPosTag6enter_EPN4ksys3act2ai15InlineParamPackE
 0x0000007100376598,O,000172,_ZN5uking2ai18DungeonResetPosTag5calc_Ev
 0x0000007100376644,O,000004,_ZN5uking2ai18DungeonResetPosTag6leave_Ev
@@ -48887,7 +48887,7 @@ Address,Quality,Size,Name
 0x00000071007a5d68,U,000252,resetSmallKeyFlags
 0x00000071007a5e64,U,001644,PlayerResetPosMgr::calc
 0x00000071007a64d0,U,000092,PlayerResetPosMgr::callCameraM151IfStatus4
-0x00000071007a652c,U,000132,PlayerResetPosMgr::addResetPos
+0x00000071007a652c,U,000132,_ZN17PlayerResetPosMgr11addResetPosERKN4sead7Vector3IfEEf
 0x00000071007a65b0,U,000112,PlayerResetPosMgr::setResetPos
 0x00000071007a6620,U,000072,
 0x00000071007a6668,U,000064,PlayerResetPosMgr::clearResetPos
