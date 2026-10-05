@@ -21,6 +21,7 @@ public:
 protected:
     // 0x710018d8dc (declared only): out of line in the original.
     void sub_710018D8DC();
+    void sub_710018D998();
     void calc_() override;
 
     // static_param at offset 0x30

@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionGolemThrowPartsToTargetBase.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -38,6 +40,13 @@ void GolemThrowPartsToTargetBase::loadParams_() {
 
 void GolemThrowPartsToTargetBase::calc_() {
     ActionWithAS::calc_();
+    sub_710018D8DC();
+    if (auto* as_list = mActor->getASList()) {
+        if (as_list->x(71, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true))
+            sub_710018D998();
+    }
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
