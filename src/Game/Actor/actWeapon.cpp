@@ -28,6 +28,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectMasterSword.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMiniWeapon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
@@ -181,6 +182,21 @@ void Weapon::invokedEmitBlinkEffect() {
     auto* object = getMapObject();
     if (!object || !object->getForSaleLink())
         emitItemKirakira_Plus(accessor.getPreviousPos2(), true);
+}
+
+bool Weapon::m197(sead::SafeString* out) {
+    if (!out)
+        return false;
+    auto* parent = getParentActor();
+    if (parent && ksys::act::hasTag(parent, 0xBCD4994C)) {
+        auto* resource = getParam()->getRes().mGParamList->getGuardianMiniWeapon();
+        if (resource) {
+            *out = resource->mBindMyNodeName.ref();
+            return !out->isEmpty();
+        }
+    }
+    *out = sead::SafeString::cEmptyString;
+    return false;
 }
 
 bool Weapon::m218() {

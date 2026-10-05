@@ -283,6 +283,7 @@ public:
     bool m250(ksys::act::Actor* actor) override;
     bool m239() override;
     void invokedEmitBlinkEffect();
+    bool m197(sead::SafeString* out) override;
     bool m218() override;
     bool m225() override;
     bool m226() override;

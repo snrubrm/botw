@@ -414,12 +414,12 @@ void WeaponBase::m208() {
     _948.reset();
 }
 
-// The return types of these constant-false slots are guesses (bool).
+// The return type of this constant-false slot is a guess (bool).
 bool WeaponBase::m196() {
     return false;
 }
 
-bool WeaponBase::m197() {
+bool WeaponBase::m197(sead::SafeString* out) {
     return false;
 }
 

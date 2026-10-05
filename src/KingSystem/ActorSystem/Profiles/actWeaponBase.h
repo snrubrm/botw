@@ -111,7 +111,7 @@ public:
     virtual bool m194() { return false; }
     virtual bool m195() { return false; }
     virtual bool m196();
-    virtual bool m197();
+    virtual bool m197(sead::SafeString* out);
     virtual void m198();
     virtual void m199();
     virtual void m200();
