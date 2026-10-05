@@ -8,6 +8,92 @@ namespace uking::ui {
 
 bool sub_7100AA8DD4();
 
+struct CommandInfo {
+    s32 command;
+    s32 state;
+    sead::SafeString animation;
+};
+
+static CommandInfo sUnk_71025ED5B8[] = {
+    {66, 2, ""},
+    {68, 16, ""},
+    {17, 1, ""},
+    {38, 10, "mc_DoDefault"},
+    {22, 6, ""},
+    {21, 7, ""},
+    {26, 6, ""},
+    {27, 8, ""},
+    {28, 24, ""},
+    {29, 25, ""},
+    {16, 3, "mc_DoDefault"},
+    {36, 9, ""},
+    {18, 4, "mc_DoDefault"},
+    {39, 11, "mc_DoDefault"},
+    {11, 12, ""},
+    {9, 0, ""},
+    {42, 11, "mc_DoDefault"},
+    {43, 11, "mc_DoDefault"},
+    {25, 8, ""},
+    {44, 13, "mc_DoDefault"},
+    {45, 14, ""},
+    {47, 15, "mc_DoDefault"},
+    {48, 15, ""},
+    {49, 17, ""},
+    {50, 17, ""},
+    {51, 4, "mc_DoDefault"},
+    {52, 18, "mc_DoDefault"},
+    {78, 19, ""},
+    {56, 20, "mc_DoDefault"},
+    {53, 22, ""},
+    {54, 22, ""},
+    {55, 22, ""},
+    {41, 23, "mc_DoDefault"},
+    {57, 24, ""},
+    {58, 25, "mc_DoDefault"},
+    {14, 26, ""},
+    {40, 27, "mc_DoDefault"},
+    {79, 28, ""},
+    {80, 29, ""},
+    {81, 30, ""},
+    {82, 31, ""},
+    {15, 32, ""},
+    {60, 33, ""},
+    {59, 34, ""},
+    {83, 35, ""},
+    {61, 36, "mc_DoDefault"},
+    {62, 37, ""},
+    {63, 38, ""},
+    {24, 39, ""},
+    {23, 40, ""},
+    {30, 40, ""},
+    {19, 41, "mc_DoDefault"},
+    {46, 42, ""},
+    {84, 43, ""},
+    {64, 44, "mc_DoDefault"},
+    {65, 45, ""},
+    {85, 46, ""},
+    {86, 47, "mc_DoDefault"},
+};
+static sead::Buffer<CommandInfo> sUnk_71025ED468(sUnk_71025ED5B8);
+
+// NON_MATCHING: independent Buffer offsets and table iteration differ.
+bool ScreenDoCommand::setCommand(s32 command) {
+    if (sub_7100AA8F10() && command != 14)
+        return false;
+    if (_3658 != -1)
+        return false;
+    for (const auto& entry : sUnk_71025ED468) {
+        if (entry.command == command) {
+            if (entry.state == -1)
+                return false;
+            _3658 = entry.state;
+            return true;
+        }
+    }
+    return false;
+}
+
+
 // 0x7100a0772c
 void ScreenDoCommand::sub_7100A0772C(s32 a1) {
     _365c = a1;
