@@ -3113,4 +3113,24 @@ void PauseMenuDataMgr::unholdGrabbedItems() {
         subsystem->sub_7100664484(7, nullptr);
 }
 
+void PauseMenuDataMgr::dyeGoodsStuff() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    const s32 color = ksys::gdt::getFlag_ColorChange_MaterialIndex(false);
+    if (color < 0 || color > LastDyeColorIndex)
+        return;
+    const auto& items = getItems();
+    if (auto* manager = uking::act::CreatePlayerEquipActorMgr::instance()) {
+        for (auto& item : items) {
+            if (item.isEquipped() && ksys::act::InfoData::instance()->hasTag(
+                                        item.getName().cstr(), ksys::act::tags::ArmorDye)) {
+                item.mValue = color;
+                manager->requestCreateArmor(item.getName(), color, sead::SafeString::cEmptyString);
+            }
+        }
+    }
+    updateInventoryInfo(items);
+    updateListHeads();
+    saveToGameData(items);
+}
+
 }  // namespace uking::ui
