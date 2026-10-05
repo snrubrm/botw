@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actNPC.h"
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/Damage/dmgInfoManager.h"
@@ -285,6 +286,14 @@ bool Weapon::isParentPlayer() {
 
 bool Weapon::isParentNpc() {
     return ksys::act::isNPCProfile(&_938);
+}
+
+ksys::act::ActorWeapons* Weapon::getParentActorWeapons() {
+    if (auto* parent = sead::DynamicCast<ksys::act::PlayerOrEnemy>(getParentActor()))
+        return parent->getWeapons();
+    if (auto* parent = sead::DynamicCast<NPC>(getParentActor()))
+        return parent->getWeapons();
+    return nullptr;
 }
 
 bool Weapon::m183() {
