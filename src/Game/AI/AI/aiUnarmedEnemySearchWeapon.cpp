@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiUnarmedEnemySearchWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 
 namespace uking::ai {
 
@@ -33,6 +36,10 @@ void UnarmedEnemySearchWeapon::m35(const sead::Vector3f& target) {
 
 void UnarmedEnemySearchWeapon::leave_() {
     UnarmedEnemySearch::leave_();
+    sub_71005DB3EC(mActor);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->sub_7100019C58(sub_71005D83E8(enemy, *mEquipItemSearchIdx_s));
+    _78.clear();
 }
 
 void UnarmedEnemySearchWeapon::loadParams_() {

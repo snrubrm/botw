@@ -194,6 +194,8 @@ public:
     ~Enemy() override;
     // 0x7100018a9c: declaration-only start timer update for this Enemy and its linked weapons.
     void sub_7100018A9C(f32 time);
+    void sub_7100019C58(ksys::act::Actor* actor);
+    void sub_7100019D38(const ksys::act::BaseProcLink& link);
 
 protected:
     InitResult init_() override;
