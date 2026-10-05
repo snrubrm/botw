@@ -377,7 +377,7 @@ public:
     NN_RUNTIME_TYPEINFO(AnimButton)
     const char* getClassName() const override { return "HoverButton"; }
 
-    // 0x7100befdc4 (not decompiled: needs the name of the pane, see the log)
+    // 0x7100befdc4
     void Initialize(sead::Heap* heap, nn::ui2d::Pane* pane, Animator* anim, LayoutEx* layout);
 
     // Slot 7 (0x7100beff6c)
