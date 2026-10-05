@@ -3,6 +3,13 @@
 
 namespace uking::ui {
 
+void UI::x_0(bool flag) {
+    auto* screen = sead::DynamicCast<ScreenMessage3D>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
+    if (screen)
+        screen->sub_71010AE7C0(flag);
+}
+
 // 0x71010a6e48
 void UI::closeMessageTipsScreen() {
     auto* screen = sead::DynamicCast<ScreenMessageTips>(

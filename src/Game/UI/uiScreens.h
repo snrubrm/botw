@@ -618,12 +618,20 @@ public:
 };
 
 // Only the nominal types are recovered; owned members and construction remain undeclared.
+class ScreenMessage3D : public Screen {
+public:
+    ~ScreenMessage3D() override;
+    SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
+    void sub_71010AE7C0(bool flag);
+};
+
 class Fade : public Screen {
 public:
     ~Fade() override;
     SEAD_RTTI_OVERRIDE(Fade, Screen)
     void m74(f32 progress) override;
     void sub_71010A0EE8(f32 progress);
+    void x(bool flag);
 };
 
 class ScreenFadeDemo : public Screen {
