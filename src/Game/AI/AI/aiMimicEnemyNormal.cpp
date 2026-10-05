@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiMimicEnemyNormal.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -28,6 +29,44 @@ void MimicEnemyNormal::loadParams_() {
 bool MimicEnemyNormal::isFinished() const {
     return ActionBase::isFinished() ||
            (isCurrentChild("プレイヤー発見") && getCurrentChild()->isFinished());
+}
+
+void MimicEnemyNormal::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("プレイヤー発見")) {
+            if (getCurrentChild()->isFailed()) {
+                sub_71005D8E9C(mActor);
+                m37();
+            } else {
+                setFinished();
+            }
+            return;
+        }
+        if (isCurrentChild("待機")) {
+            if (!sub_710039FFA8(false))
+                m37();
+            return;
+        }
+        if (isCurrentChild("擬態解除") || isCurrentChild("不審者発見")) {
+            setFinished();
+            return;
+        }
+    }
+    if (getCurrentChild()->isChangeable()) {
+        if (isCurrentChild("待機")) {
+            if (sub_710039FFA8(false) || sub_71004A7894() || sub_71004A7BB4())
+                return;
+        }
+        if (!isCurrentChild("擬態解除") && sub_71004A7D18()) {
+            sub_71004A7DDC();
+            return;
+        }
+    }
+    if (isCurrentChild("プレイヤー発見") && sub_71005D8F28(mActor)) {
+        auto* current = getCurrentChild();
+        current->setDynamicParam(sub_71005D9330(mActor), "TargetPos");
+    }
 }
 
 }  // namespace uking::ai

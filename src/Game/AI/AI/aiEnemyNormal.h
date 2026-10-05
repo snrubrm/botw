@@ -141,6 +141,7 @@ public:
     void sub_71003A3D0C(s32 type, Unk2* target);
     // 0x710039ef24: tries the attack candidates of m49 (mode 0) / m50 (mode 1).
     bool sub_710039EF24(s32 mode);
+    bool sub_710039FFA8(bool a1);
     // 0x710039f570 (not decompiled: iterates Enemy::_d70 entries with an inline iterator).
     void sub_710039F570(bool a1);
     // 0x710039eb7c / 0x710039ec4c / 0x710039ed94: per-frame updates called by calc_.
