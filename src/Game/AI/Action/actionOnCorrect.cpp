@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionOnCorrect.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::action {
 
@@ -12,6 +13,7 @@ bool OnCorrect::init_(sead::Heap* heap) {
 
 void OnCorrect::enter_(ksys::act::ai::InlineParamPack* params) {
     On::enter_(params);
+    ksys::act::sub_7100EE3CAC(mActor, 0x0800007F, nullptr);
 }
 
 void OnCorrect::leave_() {

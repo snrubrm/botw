@@ -261,6 +261,7 @@ void sub_7100EE5B84(sead::Vector3f* gravity, Actor* actor);
 void sub_7100EE5330(Actor* actor, const sead::SafeString& name);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
 void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
+void sub_7100EE3CAC(Actor* actor, s32 message, void* user_data);
 // 0x7100ee544c (declaration only; lane3 s20; RemoveSensor::leave_): adds the rigid bodies of the named body set
 // (getStr_* name) back to the world, then continues at 0x7100ee54e8.
 void sub_7100EE544C(Actor* actor);
