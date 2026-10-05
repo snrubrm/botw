@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiCommonPickedItem.h"
+#include "Game/AI/aiUnk_71005E0420.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+
+// Declaration only; the original global source namespace is unknown.
+bool sub_710072B8E8(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -13,6 +17,15 @@ CommonPickedItem::~CommonPickedItem() {
 
 bool CommonPickedItem::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
+}
+
+bool CommonPickedItem::handleMessage_(const ksys::Message* message) {
+    if (!isCurrentChild("通常"))
+        return false;
+    auto* actor = mActor;
+    if (sub_710072B8E8(actor))
+        return true;
+    return handleItemPickedMessageMaybe(*message, &_88, actor, nullptr);
 }
 
 void CommonPickedItem::enter_(ksys::act::ai::InlineParamPack* params) {
