@@ -1,6 +1,11 @@
 #include "Game/AI/AI/aiSiteBossApproachRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
+
+// Source namespace and reference spelling are inferred from the known caller interfaces.
+bool sub_71002D2B5C(bool* side, ksys::act::Actor* actor, const gsys::BoneAccessKeyEx& key,
+                  f32 angle, f32 scale);
 
 namespace uking::ai {
 
@@ -43,6 +48,14 @@ void SiteBossApproachRoot::loadParams_() {
     getStaticParam(&mDoAttack_s, "DoAttack");
     getDynamicParam(&mIsMoveSide_d, "IsMoveSide");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+bool SiteBossApproachRoot::m34() {
+    auto* boss = sead::DynamicCast<act::SiteBoss>(mActor);
+    if (!boss || !boss->sub_71002D33D0(90.0f))
+        return false;
+    bool side = false;
+    return sub_71002D2B5C(&side, mActor, _1f8, 0.34906584f, 1.2f);
 }
 
 }  // namespace uking::ai

@@ -24,6 +24,8 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual bool m34();
+
 protected:
     // static_param at offset 0x38
     const float* mCheckWallDist_s{};
