@@ -216,6 +216,10 @@ bool Player::m226() {
            mASList->x_1(1, 1) == "ItemBombReady";
 }
 
+bool Player::isASItemBombReadyOrStart() {
+    return mASList->x_1(1, 1) == "ItemBombReady" || mASList->x_1(1, 1) == "ItemBombStart";
+}
+
 bool Player::m181() {
     return mASList->x_1(1, 1) == "WeaponThrowCharge" || mASList->x_1(1, 1) == "WeaponThrow" ||
            mASList->x_1(0, 0) == "WeaponThrow";
