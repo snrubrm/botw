@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiWaterSurfaceBase.h"
 #include <math/seadBoundBox.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
 
@@ -37,8 +38,17 @@ bool WaterSurfaceBase::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the home translation copy groups stores and changes cleanup scheduling.
 void WaterSurfaceBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    sub_71005ED41C();
+    if (auto* list = actor->getASList()) {
+        list->startAnimationMaybe(-1.0f, -1.0f, "Flow", 0, 0, true);
+        list->x_3(0, 0, &ksys::as::ASList::Unk2::sub_7101163100, *mFlowSpeedFactor_m);
+    }
+    if (auto* water = sead::DynamicCast<ksys::phys::BoxWaterRigidBody>(actor->getMainBody()))
+        water->_d8 = *mFlowSpeedFactor_m;
+    _68 = actor->getHomeMtxRaw().getTranslation();
 }
 
 void WaterSurfaceBase::calc_() {

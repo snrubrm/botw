@@ -35,7 +35,9 @@ protected:
                           const sead::Vector3f& contact_point) override;
 
     BoxWaterShape* mShape;
-    u32 _d8{};
+
+public:
+    f32 _d8{};
 };
 
 }  // namespace ksys::phys
