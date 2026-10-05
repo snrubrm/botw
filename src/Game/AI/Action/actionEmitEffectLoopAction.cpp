@@ -12,7 +12,7 @@ bool EmitEffectLoopAction::init_(sead::Heap* heap) {
 }
 
 void EmitEffectLoopAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    doStuff();
 }
 
 void EmitEffectLoopAction::leave_() {

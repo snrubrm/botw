@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
 
+    void doStuff();
+
     // dynamic_param at offset 0x20
     float* mScale_d{};
     // dynamic_param at offset 0x28
