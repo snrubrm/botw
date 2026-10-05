@@ -602,11 +602,13 @@ private:
                        unwrapHandle<Write, false>(handle, fn);
     }
 
+public:
     void onChangedByDebug() {
         setBool(true, "IsChangedByDebug");
         mBitFlags.set(BitFlag::_800);
     }
 
+private:
     void loadGameData(const sead::SafeString& path);
     void loadShopGameDataInfo(const sead::SafeString& path);
     void unloadResources();

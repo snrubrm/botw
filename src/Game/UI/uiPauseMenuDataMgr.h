@@ -509,9 +509,11 @@ private:
     void deleteItem_(const sead::OffsetList<PouchItem>& list, PouchItem* item,
                      const sead::SafeString& name);
 
+public:
     void addNonDefaultItem(const sead::SafeString& name, int value,
                            const act::WeaponModifierInfo* modifier = nullptr);
 
+private:
     bool hasFreeSpaceForItem(const Lists& lists, const sead::SafeString& name, int n = 1) const;
 
     /// @param num_cleared_beasts The number of divine beasts that have been done.

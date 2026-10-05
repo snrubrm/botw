@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
@@ -407,6 +408,35 @@ bool createEquipmentFromItem(const ui::PouchItem* item, const sead::SafeString& 
     }
 
     return false;
+}
+
+// NON_MATCHING: equipment countdown loops keep additional bounds comparisons.
+void addItemForDebug(const sead::SafeString& name, int value) {
+    if (name.isEmpty())
+        return;
+    auto* pouch = PauseMenuDataMgr::instance();
+    const auto type = PauseMenuDataMgr::getType(name, nullptr);
+    if (type == PouchItemType::Arrow) {
+        while (value > 0) {
+            pouch->addNonDefaultItem(name, 1, nullptr);
+            --value;
+        }
+    } else if (type <= PouchItemType::Shield) {
+        while (value > 0) {
+            pouch->addNonDefaultItem(
+                name, ksys::act::getGeneralLife(ksys::act::InfoData::instance(), name.cstr()),
+                nullptr);
+            --value;
+        }
+    } else if (type <= PouchItemType::ArmorLower) {
+        while (value > 0) {
+            pouch->addNonDefaultItem(name, -1, nullptr);
+            --value;
+        }
+    } else {
+        pouch->addNonDefaultItem(name, value, nullptr);
+    }
+    ksys::gdt::Manager::instance()->onChangedByDebug();
 }
 
 }  // namespace uking::ui
