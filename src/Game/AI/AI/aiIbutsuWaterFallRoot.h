@@ -21,6 +21,8 @@ public:
     void sub_7100445AA0();
 
 protected:
+    void sub_7100445510();
+
     bool _38{};
     // created in sub_7100445394
     aal::ShapeCylinder* _40{};

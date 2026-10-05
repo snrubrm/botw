@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiIbutsuWaterFallRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
 
@@ -45,7 +47,16 @@ bool IbutsuWaterFallRoot::sub_7100445394(sead::Heap* heap) {
 }
 
 void IbutsuWaterFallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (mActor->checkBasicSig()) {
+        changeChild("完全停止");
+        _38 = false;
+    } else {
+        changeChild("通常");
+        _38 = true;
+    }
+    if (auto* xlink = mActor->getXLink())
+        xlink->_cc.setBit(9);
+    sub_7100445510();
 }
 
 void IbutsuWaterFallRoot::leave_() {
