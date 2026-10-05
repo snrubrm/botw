@@ -411,7 +411,7 @@ bool WeaponBase::m223() {
     return false;
 }
 
-bool WeaponBase::m250() {
+bool WeaponBase::m250(Actor* actor) {
     return false;
 }
 

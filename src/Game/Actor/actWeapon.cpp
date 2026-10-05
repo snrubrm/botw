@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -155,6 +156,13 @@ void Weapon::m229(ksys::act::BaseProc* proc) {
 
 void Weapon::m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) {
     dropActorFromPorchCalculateMtx(matrix, actor);
+}
+
+bool Weapon::m250(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* bullet = sead::DynamicCast<ksys::act::Bullet>(actor);
+    return bullet && (bullet->_cf4 & 0x10);
 }
 
 bool Weapon::m218() {

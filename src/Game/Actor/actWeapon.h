@@ -280,6 +280,7 @@ public:
     void m229(ksys::act::BaseProc* proc) override;
     void updateLifeMaybe(ksys::act::BaseProc* proc);
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
+    bool m250(ksys::act::Actor* actor) override;
     bool m218() override;
     bool m225() override;
     bool m226() override;
