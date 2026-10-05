@@ -801,6 +801,27 @@ void Manager::setDirectionalLight(float angle_x, float angle_y) {
     mDirectionalLightTimer = 1;
 }
 
+void Manager::setDirectionalLightYang(float value) {
+    const auto y_rad = sead::Mathf::deg2rad(value);
+    {
+        const auto& direction = getSkyMgr()->_3ef0;
+        const auto x_rad = std::atan2(direction.y,
+                                     sead::Vector2f(direction.x, direction.z).length());
+        mDirectionalLightVecA.x = std::cos(x_rad) * std::sin(y_rad);
+        mDirectionalLightVecA.y = std::sin(x_rad);
+        mDirectionalLightVecA.z = std::cos(x_rad) * std::cos(y_rad);
+    }
+    {
+        const auto& direction = getSkyMgr()->_3efc;
+        const auto x_rad = std::atan2(direction.y,
+                                     sead::Vector2f(direction.x, direction.z).length());
+        mDirectionalLightVecB.x = std::cos(x_rad) * std::sin(y_rad);
+        mDirectionalLightVecB.y = std::sin(x_rad);
+        mDirectionalLightVecB.z = std::cos(x_rad) * std::cos(y_rad);
+    }
+    mDirectionalLightTimer = 1;
+}
+
 bool Manager::isGerudoDesertClimate() const {
     if (mCurrentClimate != Climate::GerudoDesertClimate &&
         mCurrentClimate != Climate::GerudoDesertClimateLv2) {
