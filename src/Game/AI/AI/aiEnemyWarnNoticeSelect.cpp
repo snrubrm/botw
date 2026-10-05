@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemyWarnNoticeSelect.h"
+#include <algorithm>
+#include <random/seadGlobalRandom.h>
+#include "Game/DLC/aocHardModeManager.h"
 #include "Game/AI/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -14,8 +17,45 @@ bool EnemyWarnNoticeSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: Initial flag stores and enum temporaries differ; the compiler removes the range minimum.
 void EnemyWarnNoticeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _138 = false;
+    _139 = true;
+    _134 = 0;
+    const f32 notice_time = f32(*mWarnNoticeTime_s);
+    const f32 notice_random = f32(*mWarnNoticeTimeRnd_s);
+    f32 duration = notice_time + notice_random * sead::GlobalRandom::instance()->getF32();
+    if (auto* manager = aoc::HardModeManager::instance()) {
+        if (manager->checkFlag(aoc::HardModeManager::Flag::EnableHardMode) &&
+            manager->isHardModeChangeOn(
+                aoc::HardModeManager::HardModeChange::EnableShorterEnemyNotice)) {
+            manager->modifyEnemyNoticeDuration(&duration);
+        }
+    }
+    _130 = duration;
+    const s32 lost_counter = *mLostCounter_s;
+    const s32 maximum = lost_counter + sead::GlobalRandom::instance()->getS32Range(0, 10);
+    _a0.min = std::min(lost_counter, maximum);
+    _a0.max = maximum;
+    _ac.min = 3;
+    _ac.max = 3;
+    if (*mIsTrgChangeUnderWaterState_a) {
+        sub_71003C4CB4(false);
+        return;
+    }
+    auto* actor = mActor;
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_2000000)) {
+        sub_71003C4CB4(false);
+        return;
+    }
+    if (*mForceNotice_d || sub_71003C4EA4() == 2) {
+        sub_71003C4CB4(true);
+        return;
+    }
+    if (ksys::act::isPlayerProfile(mTargetActor_d))
+        actor->m93(2, 0.0f);
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+    sub_71003C5028();
 }
 
 void EnemyWarnNoticeSelect::calc_() {

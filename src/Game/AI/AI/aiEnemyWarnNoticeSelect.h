@@ -30,6 +30,7 @@ public:
     void sub_71003C56A8();
 
 protected:
+    void sub_71003C5028();
     void sub_71003C5B04(sead::Vector3f* position);
     bool sub_71003C5418(s32 condition);
 
