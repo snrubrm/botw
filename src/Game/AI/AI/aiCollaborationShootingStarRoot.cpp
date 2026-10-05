@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiCollaborationShootingStarRoot.h"
+#include <codec/seadHashCRC32.h>
 
 namespace uking::ai {
 
@@ -25,9 +26,9 @@ void CollaborationShootingStarRoot::leave_() {
 
 void CollaborationShootingStarRoot::loadParams_() {
     getAITreeVariable(&mCollaboShootingStarId_a, "CollaboShootingStarId");
-    // FIXME: CALL _ZN4sead14SafeStringBaseIcEaSERKS1_ @ 0x7100b0caa0
-    // FIXME: CALL _ZNK4sead14SafeStringBaseIcE22assureTerminationImpl_Ev @ 0x89
-    // FIXME: CALL _ZN4sead9HashCRC3214calcStringHashEPKc @ 0x7100b2170c
+    const sead::SafeString id = mCollaboShootingStarId_a->cstr();
+    _48 = id;
+    _40 = sead::HashCRC32::calcStringHash(id.cstr());
 }
 
 }  // namespace uking::ai
