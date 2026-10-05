@@ -33,6 +33,43 @@ void BalloonPlantNormal::leave_() {
         _50.deleteProc();
 }
 
+// NON_MATCHING: vector reset copies and neighboring stores are scheduled differently.
+void BalloonPlantNormal::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("準備待機")) {
+            _c4 = false;
+            _b8 = sead::Vector3f::zero;
+            _60.clear();
+            _c8 = 0;
+            mActor->resetConnectedCalcChild(false);
+            changeChild("失敗");
+        } else {
+            setFinished();
+        }
+    } else if (isCurrentChild("準備待機") && _50.isProcReady()) {
+        if (_c4) {
+            if (sub_7100327B54()) {
+                sub_7100327C24();
+                _c4 = false;
+                _b8 = sead::Vector3f::zero;
+                _60.clear();
+                _c8 = 0;
+            } else {
+                _c4 = false;
+                _b8 = sead::Vector3f::zero;
+                _60.clear();
+                _c8 = 0;
+                sub_7100327D48();
+            }
+        } else {
+            sub_7100327D48();
+        }
+    }
+}
+
 void BalloonPlantNormal::loadParams_() {
     getStaticParam(&mRopeLength_s, "RopeLength");
     getStaticParam(&mRopeActorName_s, "RopeActorName");

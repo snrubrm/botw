@@ -15,12 +15,17 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
     void sub_710032782C();
 
 protected:
+    bool sub_7100327B54();
+    void sub_7100327C24();
+    void sub_7100327D48();
+
     // static_param at offset 0x38
     const float* mRopeLength_s{};
     // static_param at offset 0x40
