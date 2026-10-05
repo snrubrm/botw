@@ -264,6 +264,7 @@ void sub_7100EE5A14(Actor* actor, const sead::Vector3f& ang_vel);
 // 0x7100ee544c (declaration only; lane3 s20; RemoveSensor::leave_): adds the rigid bodies of the named body set
 // (getStr_* name) back to the world, then continues at 0x7100ee54e8.
 void sub_7100EE544C(Actor* actor);
+void sub_7100EE5624(Actor* actor);
 // 0x7100edd218 (declaration only): the actor's Liftable ThrownMass, or 1 without Liftable params.
 s32 sub_7100EDD218(Actor* actor);
 
