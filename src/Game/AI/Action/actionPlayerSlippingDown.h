@@ -10,6 +10,7 @@ public:
     explicit PlayerSlippingDown(const InitArg& arg);
     ~PlayerSlippingDown() override;
 
+    bool isChangeable() const override;
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
@@ -38,7 +39,7 @@ protected:
     f32 _64 = 0.0f;
     f32 _68 = 0.0f;
     f32 _6c = 0.0f;
-    u32 _70 = 0;
+    f32 _70 = 0.0f;
     bool _74 = false;
 
 };

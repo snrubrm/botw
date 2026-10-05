@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -12,6 +13,13 @@ PlayerSlippingDown::PlayerSlippingDown(const InitArg& arg) : ksys::act::ai::Acti
 }
 
 PlayerSlippingDown::~PlayerSlippingDown() = default;
+
+// NON_MATCHING: selection and load scheduling for the two timer/threshold pairs differs.
+bool PlayerSlippingDown::isChangeable() const {
+    const bool grounded = mActor->getPhysics()->sub_7100FBB4B4();
+    return (grounded ? _6c : _70) >=
+           *(grounded ? mChangeableInterval_s : mChangeableIntervalInAir_s);
+}
 
 bool PlayerSlippingDown::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
