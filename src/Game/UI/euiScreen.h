@@ -14,6 +14,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiTypes.h"
 #include "Game/UI/euiDynamicCapturePane.h"
+#include "Game/UI/euiSharcArchive.h"
 
 namespace sead {
 class Heap;
@@ -266,6 +267,7 @@ public:
     BoxCursorMgr* getBoxCursorMgr() const { return mBoxCursorMgr; }
     MessageMgr* getMessageMgr() const { return mMessageMgr; }
     FontMgr* getFontMgr() const { return mFontMgr; }
+    const void* getMultiFilterParameterData(const sead::SafeString& path) const;
     // inline-only in the original; name is a guess (the draw target byte is loaded before the target manager)
     u8 getTargetFlag(u8 target_index) { return mTargetFlags[mTargetMgr->getDrawTarget(target_index)]; }
     ScreenTargetMgr* getTargetMgr() const { return mTargetMgr; }
@@ -290,7 +292,8 @@ private:
     u8 _50[0xb18 - 0x50];  // 0x50: nn::ui2d::GraphicsResource, 0xb08: unknown object, SharcArchive at 0xb28
     /* 0xb18 */ BoxCursorMgr* mBoxCursorMgr;
     /* 0xb20 */ f32 mAnimationStep;
-    u8 _b24[0xb30 - 0xb24];
+    u8 _b24[4];
+    /* 0xb28 */ SharcArchive mMultiFilterArchive;
     /* 0xb30 */ MessageMgr* mMessageMgr;
     /* 0xb38 */ FontMgr* mFontMgr;
     /* 0xb40 */ sead::SafeArray<u8, 2> mTargetFlags;  // indexed by DrawTarget (read by Screen::sub_7100BE9F60)

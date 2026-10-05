@@ -5,6 +5,13 @@
 
 namespace eui {
 
+// 0x7100bec7cc
+const void* ScreenMgr::getMultiFilterParameterData(const sead::SafeString& path) const {
+    if (auto* archive = mMultiFilterArchive.getResource())
+        return archive->getFile(path);
+    return nullptr;
+}
+
 // 0x7100bec794
 void ScreenMgr::resetScreenId(s32 id) {
     mScreenTargets[id] = -1;
