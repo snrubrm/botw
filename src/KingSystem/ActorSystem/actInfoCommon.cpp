@@ -373,6 +373,10 @@ int getArmorUpperUseMantleType(const al::ByamlIter& iter) {
     return InfoData::getIntByKey(iter, "armorUpperUseMantleType");
 }
 
+bool getSeriesArmorEnableCompBonus(InfoData* data, const char* actor) {
+    return data->getBool(actor, "seriesArmorEnableCompBonus");
+}
+
 const char* getSeriesArmorSeriesType(InfoData* data, const char* actor) {
     return data->getString(actor, "seriesArmorSeriesType");
 }

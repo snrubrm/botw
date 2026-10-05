@@ -63,6 +63,7 @@ PROPERTIES: List[Tuple[str, str, str, Any]] = [
     ("ArmorUpper", "DisableSelfMantle", "bool"),
     ("ArmorUpper", "UseMantleType", "int"),
 
+    ("SeriesArmor", "EnableCompBonus", "bool"),
     ("SeriesArmor", "SeriesType", "const char*"),
 
     ("Item", "SellingPrice", "int", -1),
@@ -131,12 +132,18 @@ PROPERTIES: List[Tuple[str, str, str, Any]] = [
 ]
 
 
+ACTOR_ONLY_PROPERTIES = {("SeriesArmor", "EnableCompBonus")}
+
+
 def generate_declarations(props: list) -> str:
     lines = []
     for prop in props:
         assert len(prop) == 3 or len(prop) == 4
         section, name, type_, *_ = prop
         lines.append(f"{type_} get{section}{name}(InfoData* data, const char* actor);")
+        if (section, name) in ACTOR_ONLY_PROPERTIES:
+            lines.append("")
+            continue
         lines.append(f"{type_} get{section}{name}(const al::ByamlIter& iter);")
         lines.append("")
     return "\n".join(lines)
@@ -165,6 +172,8 @@ def generate_definitions(props: list) -> str:
             lines.append(f"    return data->{_getters[type_]}(actor, \"{key}\");")
             lines.append(f"}}")
             lines.append("")
+            if (section, name) in ACTOR_ONLY_PROPERTIES:
+                continue
             lines.append(f"{type_} get{section}{name}(const al::ByamlIter& iter) {{")
             lines.append(f"    return InfoData::{_getters[type_]}ByKey(iter, \"{key}\");")
             lines.append(f"}}")
@@ -178,6 +187,8 @@ def generate_definitions(props: list) -> str:
             lines.append(f"    return data->{_getters[type_]}(actor, \"{key}\", {default_str});")
             lines.append(f"}}")
             lines.append("")
+            if (section, name) in ACTOR_ONLY_PROPERTIES:
+                continue
             lines.append(f"{type_} get{section}{name}(const al::ByamlIter& iter) {{")
             lines.append(f"    return InfoData::{_getters[type_]}ByKey(iter, \"{key}\", {str(default_str)});")
             lines.append(f"}}")

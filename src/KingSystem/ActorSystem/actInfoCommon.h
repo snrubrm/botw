@@ -148,7 +148,8 @@ bool getArmorUpperDisableSelfMantle(const al::ByamlIter& iter);
 int getArmorUpperUseMantleType(InfoData* data, const char* actor);
 int getArmorUpperUseMantleType(const al::ByamlIter& iter);
 
-bool getSeriesArmorEnableCompBonus(InfoData* data, const char* actor);  // 0x7100d2db54 (lane4 s31; declared only)
+bool getSeriesArmorEnableCompBonus(InfoData* data, const char* actor);
+
 const char* getSeriesArmorSeriesType(InfoData* data, const char* actor);
 const char* getSeriesArmorSeriesType(const al::ByamlIter& iter);
 
