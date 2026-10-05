@@ -21,6 +21,19 @@ void NormalHumanEquipableShield::enter_(ksys::act::ai::InlineParamPack* params) 
         changeChild("盾装備可能", params);
 }
 
+void NormalHumanEquipableShield::calc_() {
+    if (!getCurrentChild()->isChangeable())
+        return;
+    auto* actor = mActor;
+    if (sub_71005D8B60(actor) || sub_71005DB96C(actor) >= 0 ||
+        sub_71005DBB60(actor, *mWeaponIdx_s) != 0) {
+        if (!isCurrentChild("盾装備不能"))
+            changeChild("盾装備不能");
+    } else if (!isCurrentChild("盾装備可能")) {
+        changeChild("盾装備可能");
+    }
+}
+
 void NormalHumanEquipableShield::leave_() {
     ksys::act::ai::Ai::leave_();
 }
