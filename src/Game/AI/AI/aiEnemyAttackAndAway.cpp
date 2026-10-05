@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyAttackAndAway.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -9,8 +11,34 @@ EnemyAttackAndAway::EnemyAttackAndAway(const InitArg& arg) : ksys::act::ai::Ai(a
 
 EnemyAttackAndAway::~EnemyAttackAndAway() = default;
 
+// NON_MATCHING: Vector load/store scheduling and normalization operand order differ.
 void EnemyAttackAndAway::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    bool can_leave = false;
+    if (sub_7100736D98(mActor) || testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        if ((sead::Vector2f(mActor->getMtx()(0, 3), mActor->getMtx()(2, 3)) -
+             sead::Vector2f(mTargetPos_d->x, mTargetPos_d->z)).length() <= *mAwayStartDist_s) {
+            can_leave = true;
+            if (mActor) {
+                sead::Vector3f direction = mActor->getMtx().getTranslation();
+                direction -= *mTargetPos_d;
+                direction.y = 0.0f;
+                direction.normalize();
+                can_leave = !sub_710072FEC4(mActor, direction, *mCheckCliffDist_s, nullptr,
+                                           false, nullptr);
+            }
+        }
+    }
+    if (can_leave) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("戦闘離脱", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+        changeChild("戦闘攻撃", &pack);
+    }
 }
 
 // NON_MATCHING: same operations as isFinished() (see there): load / subtract scheduling of the XZ distance and the
