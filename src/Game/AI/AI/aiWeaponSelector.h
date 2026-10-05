@@ -19,6 +19,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71005F13D4(ksys::act::ai::InlineParamPack* params);
 };
 
 }  // namespace uking::ai

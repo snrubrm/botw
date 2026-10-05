@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiWeaponSelector.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::ai {
 
@@ -9,7 +10,15 @@ bool WeaponSelector::init_(sead::Heap* heap) {
 }
 
 void WeaponSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_71005DBB60(mActor, 0) != -1) {
+        sub_71005F13D4(params);
+        return;
+    }
+    auto* actor = mActor;
+    if (sub_71005DB904(actor, sub_71005DB96C(actor)))
+        sub_71005F13D4(params);
+    else
+        changeChild("素手", params);
 }
 
 void WeaponSelector::leave_() {
