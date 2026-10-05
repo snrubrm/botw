@@ -1,5 +1,6 @@
 #include "Game/AI/Behavior/behaviorNavMeshNonAvoidPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::behavior {
@@ -13,6 +14,15 @@ bool NavMeshNonAvoidPlayer::m6(sead::Heap* heap) {
 }
 
 void NavMeshNonAvoidPlayer::m7() {}
+
+void NavMeshNonAvoidPlayer::m8() {
+    if (auto* nav = mActor->m45()) {
+        ksys::act::acc::PlayerBase accessor;
+        accessor.getPlayerFromPlayerInfo();
+        if (auto* other = accessor.sub_7100D0F57C())
+            _28 = nav->sub_7100F7D1CC(other);
+    }
+}
 
 void NavMeshNonAvoidPlayer::m9() {
     if (auto* nav = mActor->m45())

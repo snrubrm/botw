@@ -82,12 +82,6 @@ public:
     void sub_7100F76314();
     void sub_7100F76778();
     void sub_7100F76790();
-    // 0x7100f7d1b4 / 0x7100f7d1cc (declared only; lane1 s26; placeholder names): store the id (`other->_8->+0x98`) of
-    // `other` in the first slot of _a8 and set the count _d0 to 1 / append it at index _d0 (returns the index, -1 if
-    // the list (10 entries) is full or the atomic count changed); callers: LynelAttackThroughMove::enter_,
-    // HorseFollow::enter_, EnemyHorseRide::enter_ (with ActorConstDataAccess::sub_7100D0F57C()).
-    void sub_7100F7D1B4(NavMeshCharacter* other);
-    s32 sub_7100F7D1CC(NavMeshCharacter* other);
     void sub_7100F7D2C8();
     void sub_7100F7D308(s32 value);
     void sub_7100F7D350();
