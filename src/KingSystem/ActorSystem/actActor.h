@@ -99,6 +99,7 @@ class Unk_71024dc900;
 class BaseProcLink;
 class BoneControl;
 class Unk_7100d860d8;
+class Unk_7100d8557c;
 class BoneHandleBase;
 class Chemical;
 class DropData;
@@ -412,6 +413,7 @@ public:
     Chemical* sub_71011D8A54(const sead::SafeString& name);
     // The spine controller of the bone control (BoneControl::_0->_10), if any.
     Unk_7100d860d8* sub_71011D8A10();
+    Unk_7100d8557c* sub_71011D89F8();
     // 0x71011d57f8: the world matrix of the model bone `bone_name` (false without a model or bone).
     bool sub_71011D57F8(sead::Matrix34f* mtx, const sead::SafeString& bone_name) const;
 
