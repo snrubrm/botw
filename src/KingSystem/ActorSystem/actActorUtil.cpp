@@ -1,6 +1,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include <gsys/gsysModel.h>
 #include "Game/AI/aiUnk_7100EE53C4.h"
+#include "Game/UI/uiUI.h"
+#include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -34,7 +36,21 @@
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "KingSystem/World/worldManager.h"
 
+extern ksys::DebugMessage sUnk_7102601328;
+
 namespace ksys::act {
+
+int getSelectedChoiceIdx(int max_idx, const char* query_name) {
+    auto* ui = uking::ui::UI::instance();
+    if (!ui)
+        return -1;
+    const s32 selected = ui->sub_71010A70E4();
+    if (selected >= 0 && selected < max_idx)
+        return selected;
+    sUnk_7102601328.log("クエリ[%s]: 選択された番号 (%d) が不正です。", query_name, selected);
+    return -1;
+}
+
 
 void Actor::createDrops(int, int) {
     if (auto* manager = DropMgr::instance())

@@ -24,6 +24,8 @@ public:
     // 0x71010a5cac / 0x71010a6f04: get-item dialog query and close.
     bool sub_71010A5CAC();
     void sub_71010A6F04();
+    // 0x71010a70e4: selected choice index (declaration only; source nonconst inferred).
+    s32 sub_71010A70E4();
     // 0x71010a7118: declared only; updates the placed-item stock count and choice mode.
     void setPlacedItemStockNum(bool choice_mode, s32 stock);
     // 0x71010a719c / 0x71010a71a8: scalar defaults queried by the game tag processor.
