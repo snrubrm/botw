@@ -20,6 +20,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -669,6 +670,24 @@ s32 Player::m291() {
     if (acquireActor(&getPlayerRideInfo()->_18, &accessor))
         result = s32(accessor.sub_7100D14598());
     return result;
+}
+
+f32 Player::getStatusEffectMovingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_MovingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectSwimingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_SwimingSpeed, level, &info);
+    return info.val._f32;
+}
+
+f32 Player::getStatusEffectClimbingSpeed(s32 level) {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ClimbingSpeed, level, &info);
+    return info.val._f32;
 }
 
 // NON_MATCHING: the original branches from each test straight to one shared "return true" block (we emit one

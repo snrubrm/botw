@@ -300,6 +300,9 @@ public:
     // 0x71008697e4: clears _20bc / _20c0 and the character controller velocity.
     void sub_71008697E4();
     f32 getStatusEffectSpeed();                                         // 0x869a8c
+    f32 getStatusEffectMovingSpeed(s32 level);
+    f32 getStatusEffectSwimingSpeed(s32 level);
+    f32 getStatusEffectClimbingSpeed(s32 level);
     void actionCommon();                                                // 0x86aa94
     // 0x7100877f00 (declared only): anim-driven movement helper used by PlayerSitEnd::calc_ (takes the
     // direction to move in; 0 for none).
