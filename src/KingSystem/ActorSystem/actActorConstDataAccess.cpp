@@ -776,6 +776,36 @@ const sead::Vector3f& ActorConstDataAccess::getField44C_Vec3() const {
     return actor->_454;
 }
 
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+const sead::Vector3f& ActorConstDataAccess::getField440_Vec3() const {
+    auto* actor = getActor();
+    return actor ? actor->_448 : sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+const sead::Vector3f& ActorConstDataAccess::getField484_Vec3() const {
+    auto* actor = getActor();
+    return actor ? actor->mPreviousPos3 : sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+const sead::Vector3f& ActorConstDataAccess::getField458_Vec3() const {
+    auto* actor = getActor();
+    return actor ? actor->_460 : sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+const sead::Vector3f& ActorConstDataAccess::getField470_Vec3() const {
+    auto* actor = getActor();
+    return actor ? actor->_478 : sead::Vector3f::zero;
+}
+
+// NON_MATCHING: the actor-null and failed-type paths are merged by the compiler.
+const sead::Vector3f& ActorConstDataAccess::getField418() const {
+    auto* actor = getActor();
+    return actor ? actor->mScale : sead::Vector3f::ones;
+}
+
 // NON_MATCHING: the original selects between the two addresses (csel) instead of branching
 const sead::Vector3f& ActorConstDataAccess::getVelocity() const {
     auto* actor = getActor();

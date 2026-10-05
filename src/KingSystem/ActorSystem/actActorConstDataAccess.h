@@ -145,6 +145,11 @@ public:
     const sead::Vector3f& getPreviousPos2() const;
     // CSV name; returns Actor::_454
     const sead::Vector3f& getField44C_Vec3() const;
+    const sead::Vector3f& getField440_Vec3() const;
+    const sead::Vector3f& getField484_Vec3() const;
+    const sead::Vector3f& getField458_Vec3() const;
+    const sead::Vector3f& getField470_Vec3() const;
+    const sead::Vector3f& getField418() const;
     uking::act::Rideable* getHorseOptions() const;
     uking::act::Unk_7100e8b2b8* getHorseRideStuff() const;
     // 0x7100d1443c (lane4 s29; HorseFollow::m35): `_18._b` of the actor's RideableBase (Actor slot 132),
