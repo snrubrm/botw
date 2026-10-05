@@ -312,6 +312,10 @@ const sead::SafeString& getDefaultDropActor() {
     return sDefaultDropActor;
 }
 
+const sead::SafeString& getStr_AtvKeyActorSaveDataIndex() {
+    return sStr_AtvKeyActorSaveDataIndex;
+}
+
 const sead::SafeString& getStr_Atk() {
     return sStr_Atk;
 }
