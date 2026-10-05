@@ -124,6 +124,8 @@ public:
     struct S1 {
         S1();
 
+        void sub_7100E747E8(ksys::as::ASList* list);
+
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
         // 0x7100e76260: plays AS `name` (slot / bank arguments; placeholder signature).
@@ -183,6 +185,8 @@ public:
 
     RideableBase();
     virtual ~RideableBase();
+
+    bool getSomethingFromAnimalUnitSpeed();
 
     // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
     // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.

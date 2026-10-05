@@ -15,6 +15,15 @@ RideableBase::RideableBase() = default;
 
 RideableBase::~RideableBase() = default;
 
+bool RideableBase::m4(ksys::act::Actor* actor, sead::Heap* heap) {
+    mActor = actor;
+    _18.sub_7100E747E8(actor->getASList());
+    _170 = 0;
+    _178 = 0;
+    getSomethingFromAnimalUnitSpeed();
+    return true;
+}
+
 void RideableBase::m9() {
     _18.sub_7100E74890((_8 & 4) != 0, (_8 & 2) != 0, _154, _164);
     _8 |= 0x40;
