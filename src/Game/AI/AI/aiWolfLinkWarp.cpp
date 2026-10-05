@@ -61,6 +61,37 @@ void WolfLinkWarp::leave_() {
     _a8->sub_71002F2E78(Idx::_10);
 }
 
+void WolfLinkWarp::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    if (isCurrentChild("ワープ前")) {
+        if (*mWarpType_d != 4) {
+            if (cannotUseWolfLinkAmiibo()) {
+                setFailed();
+                return;
+            }
+            _98.update();
+            if (_98.value <= sead::Mathf::epsilon()) {
+                setFailed();
+                return;
+            }
+        }
+        sub_710060DDFC();
+    } else if (isCurrentChild("ワープ開始")) {
+        x();
+    } else if (isCurrentChild("ワープ")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed()) {
+            mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_20);
+            changeChild("ワープ後", nullptr);
+        }
+    } else if (isCurrentChild("ワープ後")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed())
+            setFinished();
+    }
+}
+
 void WolfLinkWarp::loadParams_() {
     getStaticParam(&mNumCalcPerFrame_s, "NumCalcPerFrame");
     getStaticParam(&mFramesUntilFail_s, "FramesUntilFail");
