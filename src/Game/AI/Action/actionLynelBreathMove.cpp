@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionLynelBreathMove.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::action {
 
@@ -14,7 +15,16 @@ bool LynelBreathMove::init_(sead::Heap* heap) {
 }
 
 void LynelBreathMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000);
+    _1c = mActor->getVelocity();
+    if (auto* body = mActor->getMainBody()) {
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        body->setGravityFactor(0.0f);
+        body->setFrictionScale(0.0f);
+    }
+    _28.reset(_28._88);
+    _d0 = true;
 }
 
 void LynelBreathMove::leave_() {
