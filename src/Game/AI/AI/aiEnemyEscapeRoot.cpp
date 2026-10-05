@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemyEscapeRoot.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -8,8 +10,23 @@ EnemyEscapeRoot::EnemyEscapeRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 EnemyEscapeRoot::~EnemyEscapeRoot() = default;
 
+// NON_MATCHING: Matrix and target loads are scheduled differently around normalization.
 void EnemyEscapeRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_7100736D98(mActor) || testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) ||
+        testRootAiFlag2(ksys::act::ai::RootAiFlag2::_4)) {
+        sead::Vector3f direction = *mTargetPos_d - mActor->getMtx().getTranslation();
+        direction.y = 0.0f;
+        const sead::Vector3f front = mActor->getMtx().getBase(2);
+        direction.normalize();
+        if (!(front.dot(direction) > 0.0f)) {
+            const sead::Vector3f target = *mTargetPos_d;
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(target, "TargetPos", -1);
+            changeChild("逃走", &pack);
+            return;
+        }
+    }
+    sub_710038B1C4();
 }
 
 bool EnemyEscapeRoot::isChangeable() const {

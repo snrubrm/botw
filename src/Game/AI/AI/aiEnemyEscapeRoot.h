@@ -16,6 +16,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_710038B1C4();
+
     // dynamic_param at offset 0x38 (only loaded when the actor has an ActorParam)
     sead::Vector3f* mTargetPos_d{};
 };
