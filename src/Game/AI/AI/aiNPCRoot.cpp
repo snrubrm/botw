@@ -3,6 +3,9 @@
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+// Declaration only; the original source namespace of this actor cleanup helper is unknown.
+void sub_71007132E4(ksys::act::Actor* actor);
+
 namespace uking::ai {
 
 NPCRoot::NPCRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -20,6 +23,10 @@ void NPCRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void NPCRoot::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void NPCRoot::onPreDelete() {
+    sub_71007132E4(mActor);
 }
 
 void NPCRoot::loadParams_() {
