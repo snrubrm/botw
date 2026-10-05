@@ -12091,7 +12091,7 @@ Address,Quality,Size,Name
 0x00000071001c70e0,U,000272,_ZN5uking6action6JumpTo3m39Ev
 0x00000071001c71f0,O,000124,_ZN5uking6action6JumpTo3m40Ev
 0x00000071001c726c,O,000060,_ZN5uking6action6JumpTo3m41Ev
-0x00000071001c72a8,U,000068,
+0x00000071001c72a8,m,000068,_ZNK5uking6action6JumpTo14sub_71001C72A8Ev
 0x00000071001c72ec,U,000244,
 0x00000071001c73e0,U,000328,_ZN5uking6action6JumpTo3m42Ev
 0x00000071001c7528,O,000288,_ZNK5uking6action6JumpTo27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -12112,7 +12112,7 @@ Address,Quality,Size,Name
 0x00000071001c7a1c,O,000064,_ZN5uking6action21JumpToTargetFromWater3m33Ev
 0x00000071001c7a5c,O,000064,_ZN5uking6action21JumpToTargetFromWater3m34Ev
 0x00000071001c7a9c,U,000280,uking::action::JumpToTargetFromWater::m42
-0x00000071001c7bb4,U,000060,uking::action::JumpToTargetFromWater::m43
+0x00000071001c7bb4,O,000060,_ZN5uking6action21JumpToTargetFromWater3m43Ev
 0x00000071001c7bf0,O,000008,_ZNK5uking6action21JumpToTargetFromWater27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x00000071001c7bf8,O,000092,_ZNK5uking6action21JumpToTargetFromWater18getRuntimeTypeInfoEv
 0x00000071001c7c54,O,000372,_ZN5uking6action21JumpToTargetFromWater33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -45851,7 +45851,7 @@ Address,Quality,Size,Name
 0x00000071006f5450,U,000052,_ZN11CarriedData4x_12Ev
 0x00000071006f5484,U,000100,_ZN11CarriedData19updateIsDroppedFlagEv
 0x00000071006f54e8,U,000004,nullsub_2304
-0x00000071006f54ec,U,000076,
+0x00000071006f54ec,U,000076,_Z14sub_71006F54ECPN4ksys4phys19CharacterControllerE
 0x00000071006f5538,U,000076,
 0x00000071006f5584,U,000084,
 0x00000071006f55d8,O,000084,_Z14sub_71006F55D8PN4ksys3act5ActorE

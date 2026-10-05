@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionJumpToTargetFromWater.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
+// Source owner and namespace are unknown.
+void sub_71006F54EC(ksys::phys::CharacterController* controller);
+
 namespace uking::action {
 
 JumpToTargetFromWater::JumpToTargetFromWater(const InitArg& arg) : JumpTo(arg) {}
@@ -45,6 +48,13 @@ void JumpToTargetFromWater::m33() {
 
 void JumpToTargetFromWater::m34() {
     playAS(mLandAS_s.cstr(), false, 0, 0, -1.0f);
+}
+
+void JumpToTargetFromWater::m43() {
+    if (sub_71001C72A8()) {
+        if (auto* controller = mActor->getCharacterController())
+            sub_71006F54EC(controller);
+    }
 }
 
 }  // namespace uking::action

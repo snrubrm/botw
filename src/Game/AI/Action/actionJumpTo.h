@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    bool sub_71001C72A8() const;
     virtual void m32() = 0;
     virtual void m33() = 0;
     virtual void m34() = 0;

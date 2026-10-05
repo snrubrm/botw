@@ -74,4 +74,13 @@ void JumpTo::m40() {
     }
 }
 
+// NON_MATCHING: natural surface-height and matrix-Y load order differs.
+bool JumpTo::sub_71001C72A8() const {
+    const f32 threshold = *mParams.mInWaterDepth_s;
+    if (!(threshold >= 0.0f))
+        return false;
+    const f32 depth = mActor->get68f() ? mActor->get6f0() - mActor->getMtx().m[1][3] : 0.0f;
+    return depth >= threshold;
+}
+
 }  // namespace uking::action
