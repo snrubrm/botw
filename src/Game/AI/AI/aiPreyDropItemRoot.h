@@ -17,6 +17,7 @@ public:
     void leave_() override;
     void loadParams_() override;
     void m41() override;
+    void m45() override;
 
     void sub_71004FAE28();
 

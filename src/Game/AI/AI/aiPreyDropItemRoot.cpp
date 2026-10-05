@@ -55,4 +55,16 @@ void PreyDropItemRoot::m41() {
         PreyRoot::m41();
 }
 
+void PreyDropItemRoot::m45() {
+    if (_22c && _230 < *mMaxDropCount_s) {
+        mActor->createDrops(1, 0);
+        ++_230;
+        if (_230 < *mMaxDropCount_s)
+            sub_71004FAE28();
+    }
+    if (auto* object = mActor->getMapObject())
+        object->setRevivalFlagValueIf(ksys::map::ActorData::Flag::RevivalEnable, true);
+    PreyRoot::m45();
+}
+
 }  // namespace uking::ai
