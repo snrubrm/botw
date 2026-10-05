@@ -14,11 +14,15 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     bool m36() override;
 
 protected:
+    void sub_71004BA408(sead::Vector3f* out, f32 distance);
+    bool sub_71004BA1F8(const sead::Vector3f& position);
+
     // static_param at offset 0x380
     const float* mJumpDist_s{};
     // static_param at offset 0x388
