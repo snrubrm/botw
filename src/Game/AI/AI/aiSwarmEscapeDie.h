@@ -20,6 +20,7 @@ public:
 
     void sub_71005B1464();
     void sub_71005B15F8();
+    void sub_71005B19F8();
 
 protected:
     // static_param at offset 0x38
