@@ -40,7 +40,9 @@ void SiteBossBlowOff::calc_() {
 }
 
 void SiteBossBlowOff::leave_() {
-    ksys::act::ai::Ai::leave_();
+    ksys::eft::sub_710105E030(mActor, 26, 0);
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->sub_71002D28BC();
 }
 
 void SiteBossBlowOff::loadParams_() {

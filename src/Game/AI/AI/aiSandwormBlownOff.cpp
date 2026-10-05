@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSandwormBlownOff.h"
+#include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -15,7 +17,8 @@ void SandwormBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SandwormBlownOff::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (auto* worm = sead::DynamicCast<act::Sandworm>(mActor))
+        worm->sub_71002CDAE4(false);
 }
 
 void SandwormBlownOff::loadParams_() {
