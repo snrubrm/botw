@@ -18,6 +18,20 @@ void addNoiseToTargetPos::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
+void addNoiseToTargetPos::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else if (*mIsUpdateEveryFrame_s) {
+        sead::Vector3f target;
+        sub_71002F8D1C(&target, *mTargetPos_d, _78);
+        child->setDynamicParam(target, "TargetPos");
+    }
+}
+
 void addNoiseToTargetPos::loadParams_() {
     getStaticParam(&mRandYMin_s, "RandYMin");
     getStaticParam(&mRandYMax_s, "RandYMax");

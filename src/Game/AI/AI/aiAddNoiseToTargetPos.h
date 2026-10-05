@@ -12,10 +12,13 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
+    void sub_71002F8D1C(sead::Vector3f* result, const sead::Vector3f& target,
+                      const sead::Vector3f& noise);
     // static_param at offset 0x38
     const float* mRandYMin_s{};
     // static_param at offset 0x40
@@ -32,6 +35,7 @@ protected:
     const bool* mIsUpdateEveryFrame_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
+    sead::Vector3f _78;
 };
 
 }  // namespace uking::ai
