@@ -131,6 +131,16 @@ void LandHumEnemyFindPlayer::changeToGrabTargetWall() {
     changeChild("対象壁つかまり", &pack);
 }
 
+void LandHumEnemyFindPlayer::m40() {
+    if (sub_7100462A28()) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("武器投げ", &pack);
+    } else {
+        EnemyBaseFindPlayer::m40();
+    }
+}
+
 // m48 / m49 / m50 / m52 have identical bodies in the original (m51 adds the m38 tail).
 bool LandHumEnemyFindPlayer::m48() {
     if (!(*mParams.mNearScaffoldDist_s <= 0)) {

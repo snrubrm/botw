@@ -18,7 +18,6 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    // 0x7100462930 (not decompiled yet)
     void m40() override;
 
     void m44() override;
@@ -44,6 +43,8 @@ public:
     void changeToGrabTargetWall();
 
 protected:
+    bool sub_7100462A28();
+
     struct Params {
         // static_param at offset 0x140
         const int* mThrowWeaponPer_s{};
