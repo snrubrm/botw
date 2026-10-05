@@ -12,6 +12,17 @@ bool MoveByAnimeDrivenToTarget::init_(sead::Heap* heap) {
 
 void MoveByAnimeDrivenToTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveByAnimeDriven::enter_(params);
+    _68.sub_710000102C(0.0f);
+}
+
+bool MoveByAnimeDrivenToTarget::reenter_(ksys::act::ai::ActionBase* other, bool x) {
+    if (!MoveByAnimeDriven::reenter_(other, true))
+        return false;
+    auto* action = sead::DynamicCast<MoveByAnimeDrivenToTarget>(other);
+    if (!action)
+        return false;
+    _68.sub_710000103C(action->_68);
+    return true;
 }
 
 void MoveByAnimeDrivenToTarget::leave_() {
