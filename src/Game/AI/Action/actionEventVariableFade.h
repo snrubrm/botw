@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::ui {
+class ScreenFadeDemo;
+}
+
 namespace uking::action {
 
 class EventVariableFade : public ksys::act::ai::Action {
@@ -17,6 +21,7 @@ public:
 
 protected:
     void calc_() override;
+    ui::ScreenFadeDemo* sub_7100127B30();
 
     // dynamic_param at offset 0x20
     int* mClipIndex_d{};
