@@ -67,6 +67,7 @@ struct DrawInfoEx : public nn::ui2d::DrawInfo {
     static_assert(sizeof(RenderBufferInfo) == 0x28);
     ~DrawInfoEx() override = default;
     void freeDynamicTexture();
+    static void applyRenderBufferInfo(const RenderBufferInfo* info);
 
     /* 0xf8 */ const RenderBufferInfo* _f8 = nullptr;
     /* 0x100 */ bool _100 = false;
