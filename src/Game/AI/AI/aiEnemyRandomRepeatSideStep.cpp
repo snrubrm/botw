@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiEnemyRandomRepeatSideStep.h"
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -9,8 +10,29 @@ EnemyRandomRepeatSideStep::EnemyRandomRepeatSideStep(const InitArg& arg) : ksys:
 
 EnemyRandomRepeatSideStep::~EnemyRandomRepeatSideStep() = default;
 
+// NON_MATCHING: the output position and parameter pack have different stack placement.
 void EnemyRandomRepeatSideStep::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _7c.reset(5.0f);
+    const s32 max = *mMaxRepeatNum_s;
+    if (max >= 1) {
+        const s32 min = *mMinRepeatNum_s;
+        if (max > min)
+            _78 = sead::GlobalRandom::instance()->getS32Range(min, max + 1);
+        else
+            _78 = 0;
+    } else {
+        _78 = 0;
+    }
+
+    sead::Vector3f pos;
+    if (_78 > 0 && sub_71003AA3E0(&pos)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(pos, "TargetPos", -1);
+        changeChild("サイドステップ", &pack);
+    } else {
+        changeChild("待機");
+        setFailed();
+    }
 }
 
 // NON_MATCHING: only the stack slot order (the original has `pos` at the bottom, then the "TargetPos" SafeString,
