@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiGanonBattleRoot.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -11,7 +15,18 @@ bool GanonBattleRoot::init_(sead::Heap* heap) {
 }
 
 void GanonBattleRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sead::DynamicCast<act::LastBoss>(mActor)) {
+        auto* actor = mActor;
+        if (actor) {
+            auto* target = sub_71005D9050(actor);
+            if (target && target->hasProc() && ksys::act::isPlayerProfile(target))
+                sub_71005D9330(actor);
+            else
+                getPlayerPosition();
+        }
+    }
+    sub_71003E3644();
+    _38 = false;
 }
 
 void GanonBattleRoot::leave_() {
