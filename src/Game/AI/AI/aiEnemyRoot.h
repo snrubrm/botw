@@ -11,6 +11,8 @@ public:
     Unk_7100700834();
     ~Unk_7100700834();
 
+    bool sub_7100700844(const ksys::Message* message);
+
     u32 _0;
     u32 _4;
     bool _8;

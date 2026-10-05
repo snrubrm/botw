@@ -5,6 +5,8 @@
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -38,6 +40,20 @@ void EnemyLifted::leave_() {
 }
 
 void EnemyLifted::m34() {}
+
+bool EnemyLifted::handleMessage_(const ksys::Message* message) {
+    if (message->getType() != 0x8000002)
+        return false;
+    auto* parent = sead::DynamicCast<ksys::act::PlayerBase>(mActor->getConnectedCalcParent());
+    auto* actor = mActor;
+    actor->resetConnectedCalcParent(false);
+    if (isCurrentChild("所持")) {
+        if (auto* physics = actor->getPhysics())
+            physics->getFlags().set(ksys::phys::InstanceSet::Flag::_800);
+        sub_7100396E8C(sead::Vector3f::zero, parent != nullptr);
+    }
+    return true;
+}
 
 void EnemyLifted::loadParams_() {}
 

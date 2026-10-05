@@ -7,8 +7,43 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Utils/Thread/Message.h"
+
+bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* fortress_tag);
 
 namespace uking::ai {
+
+// NON_MATCHING: load scheduling and register allocation in the home-position distance calculation.
+bool EnemyRoot::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x3000003) {
+        sead::Vector3f home;
+        mActor->getHomePos(&home);
+        if (sead::Vector2f(home.x - mActor->getMtx().m[0][3],
+                          home.z - mActor->getMtx().m[2][3]).length() < *mSpreadDist_s) {
+            auto* actor = mActor;
+            sub_71005E19F8(actor, &_198, mFortressTag_s.cstr());
+        }
+        return false;
+    }
+    if (message->getType() == 0x80000ca) {
+        _1cc.sub_7100700844(message);
+        return false;
+    }
+    if (m44()) {
+        auto* actor = mActor;
+        if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000000) || _e8._30)
+            return false;
+        if (_e8.m2(*message)) {
+            _e8.sub_710070B5A0(actor);
+            return true;
+        }
+    }
+    if (!*mIgnoreHell_s && message->getType() == 0x3000007) {
+        _1c8 = true;
+        return true;
+    }
+    return false;
+}
 
 // NON_MATCHING: instruction scheduling / register allocation around the second sender (_198)
 EnemyRoot::EnemyRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}

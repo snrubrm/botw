@@ -18,10 +18,13 @@ public:
     void leave_() override;
     void loadParams_() override;
     bool isFinished() const override;
+    bool handleMessage_(const ksys::Message* message) override;
 
     virtual void m34();
 
 protected:
+    void sub_7100396E8C(const sead::Vector3f& direction, bool player_parent);
+
     sead::Vector3f _38{0, 0, 0};
     Unk_7102451bd8 _48;
 };
