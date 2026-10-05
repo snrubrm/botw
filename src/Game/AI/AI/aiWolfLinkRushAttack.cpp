@@ -4,6 +4,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
+bool sub_7100742738(sead::Vector3f* out, uking::act::WolfLink* wolf, f32 value);
+
 namespace uking::ai {
 
 WolfLinkRushAttack::WolfLinkRushAttack(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -35,6 +37,33 @@ void WolfLinkRushAttack::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WolfLinkRushAttack::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void WolfLinkRushAttack::calc_() {
+    if (isFinished() || isFailed())
+        return;
+
+    if (*mCheckSafeGround_s && !isCurrentChild("失敗") &&
+        !sub_7100742738(nullptr, _58, -1.0f)) {
+        changeChild("失敗", nullptr);
+        return;
+    }
+
+    if (!(_60.value <= sead::Mathf::epsilon())) {
+        sub_710060C1E4(false);
+        getCurrentChild()->setDynamicParam(_6c, "TargetPos");
+        _60.update();
+    }
+
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (!isCurrentChild("失敗") && getCurrentChild()->isFinished())
+            setFinished();
+        else
+            setFailed();
+    } else {
+        child->isChangeable();
+    }
 }
 
 void WolfLinkRushAttack::loadParams_() {
