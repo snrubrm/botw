@@ -17,6 +17,7 @@ public:
 protected:
     void calc_() override;
     void m33() override;
+    bool sub_7100197BE4(sead::Vector3f* direction);
     int m36() override { return *mMaxLengthTime_s; }
 
     // static_param at offset 0x178
@@ -25,8 +26,11 @@ protected:
     const int* mMaxLengthTime_s{};
     // static_param at offset 0x188
     const bool* mIsStraight_s{};
-    /* 0x190 */ void* _190{};
-    /* 0x198 */ u32 _198 = 0;
+    f32 _190 = 0;
+    f32 _194 = 0;
+    f32 _198 = 0;
+    sead::Vector3f _19c;
 };
+KSYS_CHECK_SIZE_NX150(GuardianMiniNeckSpinBeam, 0x1a8);
 
 }  // namespace uking::action

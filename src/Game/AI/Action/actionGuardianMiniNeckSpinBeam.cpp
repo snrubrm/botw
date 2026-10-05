@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionGuardianMiniNeckSpinBeam.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 
 namespace uking::action {
 
@@ -8,6 +9,15 @@ GuardianMiniNeckSpinBeam::~GuardianMiniNeckSpinBeam() = default;
 
 void GuardianMiniNeckSpinBeam::enter_(ksys::act::ai::InlineParamPack* params) {
     NeckSpinBeam::enter_(params);
+    _190 = 0;
+    _194 = sead::Mathf::pi2();
+    _194 *= *mSpinNum_s;
+    _198 = sub_71005DB4DC(mActor);
+    sead::Vector3f direction;
+    if (sub_7100197BE4(&direction)) {
+        _b8.sub_71006F3BC4(&direction);
+        _19c = direction;
+    }
 }
 
 void GuardianMiniNeckSpinBeam::loadParams_() {
@@ -19,6 +29,16 @@ void GuardianMiniNeckSpinBeam::loadParams_() {
 
 void GuardianMiniNeckSpinBeam::calc_() {
     NeckSpinBeam::calc_();
+    sead::Vector3f direction;
+    if (sub_7100197BE4(&direction)) {
+        _b8.sub_71006F3BC4(&direction);
+        _19c = direction;
+    }
+    _190 += sead::Mathf::abs(m32());
+    if (_190 >= _194) {
+        sub_71005DB44C(mActor, _198, 0.f);
+        setFinished();
+    }
 }
 
 void GuardianMiniNeckSpinBeam::m33() {
