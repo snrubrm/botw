@@ -35,6 +35,8 @@ public:
 
     bool isArchiveAttached(void* data);
     void attachArchive(void* data, nn::gfx::ResTextureFile* textures);
+    bool LoadTexture(nn::ui2d::ResourceTextureInfo* texture, nn::gfx::Device* device,
+                     const char* name) override;
     nn::ui2d::ShaderInfo* AcquireShader(nn::gfx::Device* device, const char* name) override;
     bool LoadShader(nn::ui2d::ShaderInfo* shader, nn::gfx::Device* device,
                     const char* name) override;

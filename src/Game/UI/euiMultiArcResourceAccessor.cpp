@@ -1,10 +1,25 @@
 #include "Game/UI/euiMultiArcResourceAccessor.h"
 #include <cstdio>
+#include <nn/gfx/gfx_ResTexture.h>
 #include <nn/ui2d/Layout.h>
 #include <nn/ui2d/Util.h>
 #include <new>
 
 namespace eui {
+
+bool MultiArcResourceAccessor::LoadTexture(nn::ui2d::ResourceTextureInfo* texture,
+                                         nn::gfx::Device* device, const char* name) {
+    for (auto& archive : mArchives) {
+        if (!archive.textures)
+            continue;
+        auto& container = archive.textures->ToData().textureContainerData;
+        const int index = container.pTextureDic.Get()->FindIndex(nn::util::string_view(name));
+        if (index != nn::util::ResDic::Npos)
+            return nn::ui2d::LoadTexture(texture, device,
+                                       container.pTexturePtrArray.Get()[index].Get());
+    }
+    return false;
+}
 
 nn::ui2d::ShaderInfo* MultiArcResourceAccessor::AcquireShader(nn::gfx::Device* device,
                                                            const char* name) {
