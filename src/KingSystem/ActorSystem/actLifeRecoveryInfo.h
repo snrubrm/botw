@@ -7,6 +7,10 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class Message;
+}
+
 namespace ksys::act {
 
 class Actor;
@@ -33,6 +37,9 @@ class LifeRecoverInfo {
 public:
     LifeRecoverInfo();
     bool init(const LifeRecoverParams* params);
+
+    // Declaration only: applies the recovery parameters in the message payload.
+    bool sub_7100D68E54(const ksys::Message* message);
 
     // Modifies extra Hp1 and Damage. (Regen?)
     bool onApplyDamage(s32& damage);

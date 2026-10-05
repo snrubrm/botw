@@ -4,6 +4,7 @@
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 
 // Declaration only; the original source namespace is unknown.
 bool sub_710071E80C(ksys::act::Actor* actor, Unk_7102450fa8* unit);
@@ -43,6 +44,31 @@ void PriestBossGiantEnemyRoot::loadParams_() {
 
 bool PriestBossGiantEnemyRoot::m35() {
     return sub_710071E80C(mActor, sub_7100506A40());
+}
+
+// NON_MATCHING: the range checks are folded and the bit index remains a plain integer.
+bool PriestBossGiantEnemyRoot::handleMessage_(const ksys::Message* message) {
+    PriestBossActorEnemyRoot::handleMessage_(message);
+    if (mActor->getLifeRecoverInfo() && message->getType() == ksys::MessageType(0x80000dd)) {
+        mActor->getLifeRecoverInfo()->sub_7100D68E54(message);
+        return true;
+    }
+    if (!_2a8.m2(*message))
+        return false;
+    const s32 index = _2a8._34._8;
+    if (index < 0) {
+        _2e8._28 = 0;
+    } else {
+        const u32 enabled = _2a8._34._4;
+        if (_2e8._60() && index >= 11 && index <= 29 && index != 19) {
+            const u32 mask = 1u << (index - 11);
+            if (enabled)
+                _2e8._28 |= mask;
+            else
+                _2e8._28 &= ~mask;
+        }
+    }
+    return true;
 }
 
 bool PriestBossGiantEnemyRoot::m45() {
