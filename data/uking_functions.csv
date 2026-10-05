@@ -97937,10 +97937,10 @@ Address,Quality,Size,Name
 0x000000710131a530,O,000036,_ZN4ksys2as12BoolSelectorD0Ev
 0x000000710131a554,O,000372,_ZN4ksys2as12BoolSelector33checkDerivedRuntimeTypeInfoStaticEPKN4sead15RuntimeTypeInfo9InterfaceE
 0x000000710131a6c8,U,000180,ASDungeonClearSelector::ctor
-0x000000710131a77c,U,000128,as::DungeonClearSelector::dtor
-0x000000710131a7fc,U,000136,as::DungeonClearSelector::dtorDelete
-0x000000710131a884,U,000188,as::DungeonClearSelector::m39
-0x000000710131a940,U,000240,
+0x000000710131a77c,U,000128,_ZN4ksys2as20DungeonClearSelectorD1Ev
+0x000000710131a7fc,U,000136,_ZN4ksys2as20DungeonClearSelectorD0Ev
+0x000000710131a884,m,000188,_ZN4ksys2as20DungeonClearSelector3m39EPNS0_7ContextEjPKNS_3res10ASResourceE
+0x000000710131a940,U,000240,_ZN4ksys2as20DungeonClearSelector14sub_710131A940EPNS0_7ContextEPKNS_3res10ASResourceE
 0x000000710131aa30,U,000008,as::DungeonClearSelector::rtti1
 0x000000710131aa38,U,000092,as::DungeonClearSelector::rtti2
 0x000000710131aa94,U,000372,

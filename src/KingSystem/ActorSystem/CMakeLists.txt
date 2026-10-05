@@ -11,6 +11,7 @@ target_sources(uking PRIVATE
     AS/asBoneBlender.cpp
     AS/asBoolSelector.cpp
     AS/asClearMatAnmAsset.cpp
+    AS/asDungeonClearSelector.cpp
     AS/asComboSelector.cpp
     AS/asContext.cpp
     AS/asFrame.cpp
