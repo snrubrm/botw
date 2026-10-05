@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiMasterSwordBase100EnemyRoot.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::ai {
 
@@ -23,6 +24,44 @@ void MasterSwordBase100EnemyRoot::enter_(ksys::act::ai::InlineParamPack* params)
         _40.x();
         ksys::gdt::setFlag_100enemy_KillMasterSwordBaseAttention(false);
         changeChild("待機");
+    }
+}
+
+// NON_MATCHING: The listener member address uses a writeback load instead of a separate add.
+void MasterSwordBase100EnemyRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (!isCurrentChild("起動") && (child->isChangeable() || child->isFinished())) {
+        if (isCurrentChild("アテンションなし待機")) {
+            if (_80 >= *mKillAttentionWaitFrame_s) {
+                ksys::act::enableAllAttClients(mActor);
+                _40.x();
+                ksys::gdt::setFlag_100enemy_KillMasterSwordBaseAttention(false);
+                changeChild("待機", nullptr);
+            } else {
+                _80 += ksys::VFR::instance()->getDeltaTime() * 30.0f;
+            }
+        } else if (isCurrentChild("待機")) {
+            if (ksys::gdt::getFlag_100enemy_KillMasterSwordBaseAttention()) {
+                ksys::act::disableAllAttClients(mActor);
+                _80 = 0;
+                changeChild("アテンションなし待機", nullptr);
+            } else if (_40._30) {
+                ksys::act::disableAllAttClients(mActor);
+                _40.x();
+                changeChild("起動", nullptr);
+            }
+        }
+    } else if (isCurrentChild("起動")) {
+        if (ksys::gdt::getFlag_100enemy_KillMasterSwordBaseAttention()) {
+            ksys::act::disableAllAttClients(mActor);
+            _80 = 0;
+            changeChild("アテンションなし待機", nullptr);
+        } else {
+            ksys::act::enableAllAttClients(mActor);
+            _40.x();
+            ksys::gdt::setFlag_100enemy_KillMasterSwordBaseAttention(false);
+            changeChild("待機", nullptr);
+        }
     }
 }
 
