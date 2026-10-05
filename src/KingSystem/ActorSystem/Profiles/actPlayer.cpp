@@ -827,6 +827,14 @@ bool Player::m303() {
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
 }
 
+void Player::x_19(f32) {
+    if (!mASList->x_7(0, 1, &as::ASList::Unk2::sub_710002E82C))
+        return;
+    mASList->sub_710115B01C(0, 1, true);
+    mASList->sub_710115F2EC(0, 0, 1.0f);
+    mASList->sub_710115F2EC(0, 1, 0.0f);
+}
+
 f32 Player::m248() {
     if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(2)))
         return weapon->sub_71002ED434();
