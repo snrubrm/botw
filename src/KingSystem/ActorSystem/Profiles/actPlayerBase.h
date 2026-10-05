@@ -191,8 +191,8 @@ public:
     /* 285 */ virtual bool armorSeriesStuff(u8 idx, const sead::SafeString& series) { return false; }
     /* 286 */ virtual void getMaskType(sead::BufferedSafeString* out) {}
     /* 287 */ virtual bool m287() { return false; }
-    /* 288 */ virtual bool m288() { return false; }
-    /* 289 */ virtual bool m289() { return false; }
+    /* 288 */ virtual s32 m288() { return 0; }
+    /* 289 */ virtual s32 m289() { return 0; }
     /* 290 */ virtual bool m290() { return false; }
     /* 291 */ virtual s32 m291() { return 0; }
     /* 292 */ bool m292() override { return _c40.isOnBit(31); }

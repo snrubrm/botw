@@ -6,6 +6,7 @@
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/AI/aiUnk_7100736460.h"
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "Game/E3Mgr.h"
@@ -621,6 +622,33 @@ bool Player::m270() {
 
 bool Player::m287() {
     return sub_710088873C();
+}
+
+s32 Player::m288() {
+    auto* info = getPlayerRideInfo();
+    if (info->_18.isAccessingSpecifiedProcUnsafe(info->mActor))
+        return 0;
+    auto* actor = sead::DynamicCast<Actor>(info->_18.getProc(nullptr, info->mActor));
+    if (!actor)
+        return 0;
+    auto* rideable = actor->getHorseOptionsMaybe();
+    if (!rideable)
+        return 0;
+    return int(uking::act::Rideable::Gear(rideable->_18._b == 0 ? rideable->_18._9 :
+                                                             rideable->_18._b));
+}
+
+s32 Player::m289() {
+    auto* info = getPlayerRideInfo();
+    if (info->_18.isAccessingSpecifiedProcUnsafe(info->mActor))
+        return 0;
+    auto* actor = sead::DynamicCast<Actor>(info->_18.getProc(nullptr, info->mActor));
+    if (!actor)
+        return 0;
+    auto* rideable = actor->getHorseOptionsMaybe();
+    if (!rideable)
+        return 0;
+    return int(rideable->m23());
 }
 
 bool Player::m295() {

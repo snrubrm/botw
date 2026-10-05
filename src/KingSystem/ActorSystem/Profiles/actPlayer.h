@@ -186,8 +186,8 @@ public:
     /* 285 */ bool armorSeriesStuff(u8 idx, const sead::SafeString& series) override;
     /* 286 */ void getMaskType(sead::BufferedSafeString* out) override;
     /* 287 */ bool m287() override;
-    /* 288 */ bool m288() override;
-    /* 289 */ bool m289() override;
+    /* 288 */ s32 m288() override;
+    /* 289 */ s32 m289() override;
     /* 290 */ bool m290() override;
     /* 291 */ s32 m291() override;
     /* 295 */ bool m295() override;
