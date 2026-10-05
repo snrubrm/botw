@@ -406,6 +406,10 @@ f32 Unk_71002ef75c::sub_71002EF74C() {
     return _8->_2a8;
 }
 
+const sead::Vector3f* Weapon::getAttackPosMaybe() const {
+    return &_af8._8;
+}
+
 bool Weapon::m214() {
     auto* state = _d38;
     if (!state)

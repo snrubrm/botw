@@ -304,6 +304,7 @@ public:
     void sub_71002EDB3C(const Unk3& value);
     // 0x71002ee1f0: bow resource arrow name, or the owning player/enemy arrow name.
     bool bowGetArrowName(sead::BufferedSafeString* name);
+    const sead::Vector3f* getAttackPosMaybe() const;
 
     /* 0xab8 */ sead::CriticalSection _ab8;
     /* 0xaf8 */ Unk_71002eda38 _af8;
