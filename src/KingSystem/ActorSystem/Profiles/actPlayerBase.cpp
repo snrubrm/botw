@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
@@ -28,6 +29,11 @@ bool sub_71002C802C(const ksys::act::ActorConstDataAccess& accessor);
 bool sub_71002C8330(const ksys::act::ActorConstDataAccess& accessor, sead::Vector3f* out);
 
 namespace ksys::act {
+
+void PlayerBase::x_1(bool on) {
+    if (_548)
+        _548->_18._50 = on;
+}
 
 s32 PlayerBase::getX() {
     if (auto* chemical = getChemicalStuff())

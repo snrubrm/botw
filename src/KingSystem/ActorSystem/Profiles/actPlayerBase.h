@@ -39,6 +39,7 @@ public:
     // of SafeStrings in the PlayerBase TU's static data; `this` is unused).
     const sead::SafeString& getEquipmentTypeName(u32 type) const;
     s32 getX();
+    void x_1(bool on);
 
     // FIXME: name for x
     void setExtraLife(s32 extra_life, f32 x);
