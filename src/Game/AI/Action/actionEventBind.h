@@ -34,6 +34,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual ksys::act::BaseProcLink* m32();
 
     // aitree_variable at offset 0x20
     void* mEventBindUnit_a{};

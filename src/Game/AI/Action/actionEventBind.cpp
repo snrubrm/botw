@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionEventBind.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::action {
 
@@ -43,6 +44,12 @@ void EventBind::loadParams_() {
 
 void EventBind::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+ksys::act::BaseProcLink* EventBind::m32() {
+    if (auto* manager = ksys::evt::Manager::instance())
+        return manager->getBaseProcLinkFromActiveEvent(mActorName_d, mUniqueName_d);
+    return nullptr;
 }
 
 }  // namespace uking::action
