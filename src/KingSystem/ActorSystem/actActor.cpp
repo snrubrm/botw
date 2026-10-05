@@ -926,6 +926,33 @@ bool Actor::shouldClearStateFlag4000_() {
 
 void Actor::preDelete1_() {}
 
+// NON_MATCHING: the compiler merges the flag-test exits and keeps the retained link in a different register.
+void Actor::unlinkPlacementObj() {
+    if (!mMapObject)
+        return;
+    if (auto* link = mMapObject->getLinkData()) {
+        if (mActorFlags.isOnBit(ActorFlag::_e)) {
+            mActorFlags.resetBit(ActorFlag::_e);
+            link->incrementGenGroupNumPrepareDelete();
+            link = mMapObject->getLinkData();
+        }
+        if (link) {
+            if (mActorFlags.isOnBit(ActorFlag::_f)) {
+                mActorFlags.resetBit(ActorFlag::_f);
+                link->x_3(false);
+                link = mMapObject->getLinkData();
+            }
+            if (link && mActorFlags.isOnBit(ActorFlag::_10)) {
+                mActorFlags.resetBit(ActorFlag::_10);
+                link->sub_7100D4F884();
+            }
+        }
+    }
+    mMapObject->unlinkProc(mActorFlags.isOnBit(ActorFlag::_14) ||
+                          mActorFlags.isOnBit(ActorFlag::_36));
+    mMapObject = nullptr;
+}
+
 // In the original vtable this function is in the prepareForPreDelete_ slot (7); the startPreparingForPreDelete_
 // slot (8) holds a different (bool) function (0x71011c828c).
 Actor::PreDeletePrepareResult Actor::prepareForPreDelete_() {
