@@ -9,14 +9,14 @@ class ActorBind;
 }
 
 // Name from the CSV (ActorLinkForEventBindMaybe::rtti1): the object the "EventBindUnit" AI tree variable points to
-// (EventBind embeds it at +0x130; its vtable is also stored by NPCHorseRide's constructor). `_8` is the ActorBind
+// (EventBind embeds it at +0x130; its vtable is also stored by NPCHorseRide's constructor). `_8` is the ModelBindInfo
 // that was bound last (EventBind::leave_ unbinds it).
 class ActorLinkForEventBindMaybe : public Unk_71025afb58 {
     SEAD_RTTI_OVERRIDE(ActorLinkForEventBindMaybe, Unk_71025afb58)
 public:
     ~ActorLinkForEventBindMaybe() override = default;
 
-    ksys::act::ActorBind* _8 = nullptr;
+    ksys::act::ModelBindInfo* _8 = nullptr;
 };
 
 namespace uking::action {
