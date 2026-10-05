@@ -15,6 +15,10 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_710044EC60();
+    void sub_710044ED64();
+    void sub_710044EF44();
+
     Unk_71012419b4 _38;
     Unk_71012419b4 _58;
     bool _78 = false;

@@ -12,7 +12,11 @@ ItemConductor::~ItemConductor() {
 }
 
 void ItemConductor::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (sub_710044EC60())
+        sub_710044ED64();
+    else
+        sub_710044EF44();
+    _78 = false;
 }
 
 void ItemConductor::loadParams_() {}
