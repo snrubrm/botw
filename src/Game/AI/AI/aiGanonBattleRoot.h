@@ -12,11 +12,14 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
 protected:
     void sub_71003E3644();
+    void sub_71003E3A3C(const sead::Vector3f& position);
+    void sub_71003E3BA0(const sead::Vector3f& position);
 
     bool _38{};
 };
