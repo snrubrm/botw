@@ -12,12 +12,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     // 0x71003c5ef4 (placeholder name)
     void changeToWait();
 
 protected:
+    void sub_71003C5F34();
+
     f32 _38 = 0;
     // static_param at offset 0x40
     const int* mIdleCheckMin_s{};
