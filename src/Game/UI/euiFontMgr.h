@@ -3,12 +3,14 @@
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
+#include <thread/seadThread.h>
 #include <nn/font/font_ResFont.h>
 #include "Game/UI/euiSharcArchive.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace nn::font {
 class ScalableFont;
+class TextureCache;
 }
 
 namespace eui {
@@ -18,6 +20,19 @@ class FontMgr;
 
 class ScalableFontMgr {
 public:
+    // Only the worker's update and borrowed cache pointer are recovered here.
+    // Its construction and the manager's full layout remain undeclared.
+    class UpdateTextureCacheThread : public sead::Thread {
+    public:
+        ~UpdateTextureCacheThread() override;
+
+        /* 0x100 */ nn::font::TextureCache* mTextureCache;
+        /* 0x108 */ bool mUpdatePending;
+
+    protected:
+        void calc_(sead::MessageQueue::Element message) override;
+    };
+
     // 0x7100be5684: the font of the scalable font set for `name` (null if there is none)
     Font* getFont(const sead::SafeString& name);
     // 0x7100be55a8 (no CSV name): per-frame update of the texture cache (called from ScreenMgr::update)

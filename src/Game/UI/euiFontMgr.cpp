@@ -1,6 +1,13 @@
 #include "Game/UI/euiFontMgr.h"
+#include <nn/font/font_TextureCache.h>
 
 namespace eui {
+
+// 0x7100be5b98
+void ScalableFontMgr::UpdateTextureCacheThread::calc_(sead::MessageQueue::Element) {
+    mTextureCache->UpdateTextureCache();
+    mUpdatePending = false;
+}
 
 SEAD_SINGLETON_DISPOSER_IMPL(FontMgr)
 
