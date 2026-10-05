@@ -102,6 +102,9 @@ public:
     bool checkCreateLinkObjRevival() const;
     bool checkDeleteLinkObjRevival() const;
 
+    // 0x7100d4efa4: object with the given name among mObjects (declaration only).
+    Object* sub_7100D4EFA4(const sead::SafeString& name);
+
     ObjectLink* findLinkWithType(MapLinkDefType t);
     ObjectLink* findLinkWithType_0(MapLinkDefType t);
 

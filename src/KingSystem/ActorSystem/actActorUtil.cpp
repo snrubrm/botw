@@ -35,6 +35,22 @@
 
 namespace ksys::act {
 
+void findLinkedActor(ActorLinkConstDataAccess* accessor, Actor* actor,
+                     const sead::SafeString& link_name) {
+    if (actor) {
+        if (auto* map = actor->getMapObject()) {
+            if (auto* links = map->getLinkData()) {
+                if (auto* object = links->sub_7100D4EFA4(link_name)) {
+                    object->getActorWithAccessor(*accessor);
+                    return;
+                }
+            }
+        }
+    }
+    accessor->acquire(nullptr);
+}
+
+
 namespace {
 
 ActorConstDataAccess getAccessor(BaseProcLink* link) {
