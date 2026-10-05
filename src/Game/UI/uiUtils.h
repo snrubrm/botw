@@ -113,6 +113,8 @@ void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
 
 // Existing UI facade definition at 0x7100a9ef44.
 void sellPictureBookDemo(s32 value);
+void sellPictureBookUIEnd();
+bool sellPictureBookUIEnd2();
 
 // Existing UI facade definitions at 0x7100a9e42c, 0x7100a9e4a0 and 0x7100a9732c.
 bool checkWeaponFreeSlotImpl(const sead::SafeString& name, s32 count);

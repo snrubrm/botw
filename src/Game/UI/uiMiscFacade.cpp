@@ -247,8 +247,8 @@ void sub_7100A9ED74() {
 }
 
 // 0x7100a9f034
-void sellPictureBookUIEnd2() {
-    sub_71009F8450();
+bool sellPictureBookUIEnd2() {
+    return sub_71009F8450();
 }
 
 // 0x7100a9f104
