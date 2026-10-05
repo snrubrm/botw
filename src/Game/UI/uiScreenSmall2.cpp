@@ -3,6 +3,13 @@
 
 namespace uking::ui {
 
+// 0x7100a41558
+void ScreenRupee::sub_7100A41558() {
+    _3610 = true;
+    if (mState == 0 || mState == 3)
+        sub_7100A410D8(1);
+}
+
 // 0x7100a20dd0
 // NON_MATCHING: the original calls StateBase::getId() through the vtable; clang devirtualizes the call on the static state object
 bool ScreenMainShortCut::sub_7100A20DD0() {
