@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionOkAutoPlacementEnemyDeadlyQuest.h"
+#include "Game/AI/aiUnk_7100736460.h"
+#include "KingSystem/Map/mapAutoPlacementMgr.h"
 
 namespace uking::action {
 
@@ -12,5 +14,13 @@ bool OkAutoPlacementEnemyDeadlyQuest::init_(sead::Heap* heap) {
 }
 
 void OkAutoPlacementEnemyDeadlyQuest::loadParams_() {}
+
+bool OkAutoPlacementEnemyDeadlyQuest::oneShot_() {
+    if (auto* manager = ksys::map::AutoPlacementMgr::instance()) {
+        if (dlc::isPlayingOneHitObliteratorQuest() || manager->_171e68[0] > 0)
+            manager->sub_7100659DE0(0, false);
+    }
+    return true;
+}
 
 }  // namespace uking::action
