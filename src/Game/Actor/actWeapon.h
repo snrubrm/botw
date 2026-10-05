@@ -232,6 +232,8 @@ public:
     bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
     s32* getLife() override;
+    ksys::act::Unk_71025ae620* getDropData() override;
+    ksys::act::Actor::Unk3* m135() override;
     ksys::act::Unk_71025b08f8* m126() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     ksys::act::Unk_71006e45c4* m128() override;
@@ -324,12 +326,15 @@ public:
     /* 0xf60 */ ksys::act::BaseProcLink _f60;
     /* 0xf70 */ u8 _f70[0xf89 - 0xf70];  // TODO
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
-    u8 _f8a[0xf98 - 0xf8a];
+    u8 _f8a[0xf90 - 0xf8a];
+    /* 0xf90 */ ksys::act::Unk_71025ae620* mDropData;
     /* 0xf98 */ WeaponModifierInfo _f98;
     /* 0xfa0 */ u8 _fa0[0xfb0 - 0xfa0];  // TODO
     /* 0xfb0 */ s32 _fb0;
     /* 0xfb4 */ u8 _fb4[0xfd0 - 0xfb4];  // TODO
     /* 0xfd0 */ ksys::phys::RigidBody* _fd0;
+    /* 0xfd8 */ u8 _fd8[0x1008 - 0xfd8];  // TODO
+    /* 0x1008 */ ksys::act::Actor::Unk3 _1008;
 };
 
 }  // namespace uking::act

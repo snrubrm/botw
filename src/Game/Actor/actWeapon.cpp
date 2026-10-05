@@ -30,6 +30,14 @@ bool isActiveEventDemo000Or001Or002();
 
 namespace uking::act {
 
+ksys::act::Unk_71025ae620* Weapon::getDropData() {
+    return mDropData;
+}
+
+ksys::act::Actor::Unk3* Weapon::m135() {
+    return &_1008;
+}
+
 s32* Weapon::getLife() {
     return &mLife;
 }
