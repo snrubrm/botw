@@ -36,6 +36,8 @@ public:
     void sub_7100F1EAF8(gsys::Model* model, f32 value);
     // 0x7100f1e8a4 (declaration only): scene661a58 passes the ingredient model and opacity value.
     void sub_7100F1E8A4(gsys::Model* model, f32 value);
+    // 0x7100f1ebf0 (declaration only): ItemRoot::enter_ passes the actor's model.
+    void sub_7100F1EBF0(gsys::Model* model);
 
 private:
     static Unk_710260af28* sInstance;

@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiItemRoot.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
@@ -21,7 +23,23 @@ bool ItemRoot::init_(sead::Heap* heap) {
 }
 
 void ItemRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    auto* body = actor->getMainBody();
+    if (!actor->getMapObject() || actor->hasPlacementLinkWithTypeFreeze()) {
+        if (actor->getModel())
+            Unk_710260af28::instance()->sub_7100F1EBF0(actor->getModel());
+    } else if (body && *mInitMotionStatus_m == 0) {
+        body->changeMotionType(ksys::phys::MotionType::Fixed);
+    }
+    if (body && actor->getConstraints().size() > 0) {
+        body->changeMotionType(ksys::phys::MotionType::Dynamic);
+        if (ksys::act::hasTag(actor, 0xf9c66decu) || ksys::act::hasTag(actor, 0xf321a28cu)) {
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityGround);
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        }
+    }
+    _48 = false;
+    m34();
 }
 
 // NON_MATCHING: the contact-layer comparison omits the original temporary stack copy.
