@@ -16,6 +16,16 @@ void initRupeeCounter() {
         sInitRupeeCounterHandler();
 }
 
+using SIsRupeeCounterActiveHandlerFn = bool (*)();
+SIsRupeeCounterActiveHandlerFn sIsRupeeCounterActiveHandler;
+
+// 0x7100edc31c
+bool isRupeeCounterActive() {
+    if (sIsRupeeCounterActiveHandler)
+        return sIsRupeeCounterActiveHandler();
+    return false;
+}
+
 using SSub_7100EDC334HandlerFn = void (*)();
 SSub_7100EDC334HandlerFn sSub_7100EDC334Handler;
 

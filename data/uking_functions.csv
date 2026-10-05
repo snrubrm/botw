@@ -80666,7 +80666,7 @@ Address,Quality,Size,Name
 0x0000007100edc2c8,U,000028,
 0x0000007100edc2e4,U,000032,_ZN4ksys2ui14sub_7100EDC2E4Eb
 0x0000007100edc304,O,000024,_ZN4ksys2ui16initRupeeCounterEv
-0x0000007100edc31c,U,000024,_ZN4ksys2ui20isRupeeCounterActiveEv
+0x0000007100edc31c,O,000024,_ZN4ksys2ui20isRupeeCounterActiveEv
 0x0000007100edc334,O,000024,_ZN4ksys2ui14sub_7100EDC334Ev
 0x0000007100edc34c,O,000028,_ZN4ksys2ui35callCheckWeaponFreeSlotHandlerMaybeEPvS1_
 0x0000007100edc368,O,000024,_ZN4ksys2ui20callIncreasePouchNumEPvS1_
