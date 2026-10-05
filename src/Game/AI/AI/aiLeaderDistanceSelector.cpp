@@ -61,8 +61,14 @@ void LeaderDistanceSelector::leave_() {
 }
 
 void LeaderDistanceSelector::loadParams_() {
-    getStaticParam(&mBoundaryDistance_s, "BoundaryDistance");
-    getStaticParam(&mOverlapDistance_s, "OverlapDistance");
+    if (getStaticParam(&mBoundaryDistance_s, "BoundaryDistance")) {
+        const auto distance = *mBoundaryDistance_s;
+        _50 = distance * distance;
+    }
+    if (getStaticParam(&mOverlapDistance_s, "OverlapDistance")) {
+        const auto distance = *mOverlapDistance_s;
+        _54 = distance * distance;
+    }
     getDynamicParam(&mLeaderActor_d, "LeaderActor");
 }
 
