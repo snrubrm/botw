@@ -20,6 +20,7 @@ public:
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
 
 public:
     void m63() override;
@@ -46,6 +47,7 @@ public:
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
     void onDeleteRequested_(DeleteReason reason) override;
     bool canWakeUp_() override;
 
@@ -56,7 +58,7 @@ public:
 KSYS_CHECK_SIZE_NX150(MapConstActiveOrMergedDungeonParts, 0x850);
 
 // Factory 0x7100dcfe0 (CSV MapConstActive::construct): new(0x868). RTTI static 0x71025b71e8.
-// preDelete2_ (deletes the three members below) and m76 are not written yet.
+// m76 is not written yet.
 class MapConstActive : public MapConstActiveOrMergedDungeonParts {
     SEAD_RTTI_OVERRIDE(MapConstActive, MapConstActiveOrMergedDungeonParts)
 public:
@@ -67,6 +69,7 @@ public:
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
+    void preDelete2_(const PreDeleteArg& arg) override;
 
 public:
     void m63() override;

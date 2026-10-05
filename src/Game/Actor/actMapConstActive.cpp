@@ -9,6 +9,9 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
+// Source ownership is unknown; declaration only.
+void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+
 namespace uking::act {
 
 MapConstActive::MapConstActive(const CreateArg& arg) : MapConstActiveOrMergedDungeonParts(arg) {
@@ -36,6 +39,26 @@ bool MapConstActive::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     }
     _860 = makeDropData(heap);
     return true;
+}
+
+void MapConstActive::preDelete2_(const PreDeleteArg& arg) {
+    if (_850) {
+        _850->free();
+        delete _850;
+        _850 = nullptr;
+    }
+    if (auto* manager = _858) {
+        sub_7100D2D424(manager);
+        manager->preDelete1();
+        manager->preDelete2();
+        delete _858;
+        _858 = nullptr;
+    }
+    if (_860) {
+        ksys::act::DropData::sub_71006DB89C(_860);
+        _860 = nullptr;
+    }
+    MapConstActiveOrMergedDungeonParts::preDelete2_(arg);
 }
 
 ksys::act::Unk_71025ae640* MapConstActive::getAtk() {
