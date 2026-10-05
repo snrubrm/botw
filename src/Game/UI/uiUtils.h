@@ -29,6 +29,10 @@ class NpcShopData;
 
 namespace uking::ui {
 
+// 0x71010ad724: source namespace inferred from the screen-name lookup's UI consumers.
+s32 getScreenIdxByName(const char* name);
+void sub_7100A94AF0();
+
 enum class EquipmentSlot;
 enum class PouchItemType;
 class PouchItem;
