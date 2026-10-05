@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Ecosystem/ecoLevelSensor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -14,7 +18,25 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSmallSword.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSpear.h"
 
+bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool a1);
+
 namespace ksys::act {
+
+eco::WeaponModifier getRandomWeaponModifier(eco::WeaponModifier modifier,
+                                          const sead::SafeString& actor_name) {
+    auto* data = InfoData::instance();
+    if (!data)
+        return eco::WeaponModifier::None;
+    const f32 percent = getWeaponCommonSharpWeaponPer(data, actor_name.cstr());
+    if (modifier != eco::WeaponModifier::RandomBlue)
+        return modifier;
+    if (percent <= 0.0f)
+        return eco::WeaponModifier::None;
+    if (sead::GlobalRandom::instance()->getF32() * 100.0f > percent)
+        return eco::WeaponModifier::None;
+    return checkIsGetSameGroupActorName(actor_name, true) ? eco::WeaponModifier::Blue :
+                                                        eco::WeaponModifier::None;
+}
 
 WeaponBase::WeaponBase(const CreateArg& arg) : Actor(arg) {
     _1c0 = 3;
