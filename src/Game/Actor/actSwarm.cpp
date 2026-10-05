@@ -3,6 +3,7 @@
 #include <math/seadMatrixCalcCommon.h>
 #include "Game/gameStasisMgr.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 
 namespace uking::act {
 
@@ -15,6 +16,18 @@ Swarm::~Swarm() = default;
 // the zeroing of _14d8 .. _14f0
 ksys::act::BaseProc* Swarm::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Swarm(arg);
+}
+
+void Swarm::m68() {
+    if (_14d8)
+        _14d8->sub_710115CA28();
+    if (_14e0)
+        _14e0->sub_710115CA28();
+    if (_14e8)
+        _14e8->sub_710115CA28();
+    if (_14f0)
+        _14f0->sub_710115CA28();
+    Actor::m68();
 }
 
 void Swarm::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {

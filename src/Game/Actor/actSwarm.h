@@ -75,14 +75,16 @@ public:
     // (`(int idx)` returning _14c8[idx]->_78, Actor declares `void m40()`).
 
     /* 0x14c8 */ sead::Buffer<Unit*> _14c8;  // units
-    // five 0x30-byte entries (first three pointers zeroed) at 0x14e0 + 0x30 * i (the last one is cut off by _15b8)
+    // The remaining groups of three pointers are not typed.
     struct Ptr3 {
         void* _0 = nullptr;
         void* _8 = nullptr;
         void* _10 = nullptr;
     };
-    /* 0x14d8 */ u64 _14d8 = 0;
-    /* 0x14e0 */ Ptr3 _14e0;
+    /* 0x14d8 */ ksys::as::ASList* _14d8 = nullptr;
+    /* 0x14e0 */ ksys::as::ASList* _14e0 = nullptr;
+    /* 0x14e8 */ ksys::as::ASList* _14e8 = nullptr;
+    /* 0x14f0 */ ksys::as::ASList* _14f0 = nullptr;
     /* 0x14f8 */ u8 _14f8[0x18];
     /* 0x1510 */ Ptr3 _1510;
     /* 0x1528 */ u8 _1528[0x18];
