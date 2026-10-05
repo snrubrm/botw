@@ -46,6 +46,8 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    void sub_71002D47D4(const sead::SafeString& name);
+
 protected:
     InitResult init_() override;
     bool startPreparingForPreDelete_() override;

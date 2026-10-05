@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAddSwarmMove.h"
+#include "Game/Actor/actSwarm.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
@@ -15,8 +17,32 @@ bool AddSwarmMove::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the compiler combines the fixed random-timer bounds into a wider store.
 void AddSwarmMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    _78 = false;
+    auto* swarm = sead::DynamicCast<act::Swarm>(mActor);
+    if (!swarm || *mSubAccRateMin_s > *mSubAccRateMax_s) {
+        setFailed();
+        return;
+    }
+
+    _88 = sead::Vector3f::zero;
+    _94.value = 5.0f;
+    _94.min = 5;
+    _94.max = 5;
+    for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            const f32 min = *mSubAccRateMin_s;
+            const f32 max = *mSubAccRateMax_s;
+            unit->_5c = sead::GlobalRandom::instance()->getF32Range(min, max);
+        }
+    }
+    _7c = ksys::Timer(0.0f, 0.0f, 1.0f);
+    swarm->sub_71002D47D4(mAnimName_s);
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+    changeChild("移動", &pack);
 }
 
 // NON_MATCHING: only the first four instructions: the original loads `mActor` (first argument), then stores the
