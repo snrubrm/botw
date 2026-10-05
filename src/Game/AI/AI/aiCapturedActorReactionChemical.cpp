@@ -14,7 +14,21 @@ bool CapturedActorReactionChemical::init_(sead::Heap* heap) {
 }
 
 void CapturedActorReactionChemical::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+    if (actor && actor->m151(3)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addBool(false, "IsEnableThrowOffAttack", -1);
+        changeChild("凍結", &pack);
+    } else {
+        actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
+        if (actor && actor->m151(4)) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addBool(false, "IsEnableThrowOffAttack", -1);
+            changeChild("感電", &pack);
+        } else {
+            changeChild("通常", nullptr);
+        }
+    }
 }
 
 void CapturedActorReactionChemical::leave_() {
