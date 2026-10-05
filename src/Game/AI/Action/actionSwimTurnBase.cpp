@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionSwimTurnBase.h"
+#include <cmath>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -28,8 +32,23 @@ void SwimTurnBase::loadParams_() {
     getDynamicParam(&mTargetPos_d, "TargetPos");
 }
 
+// NON_MATCHING: natural vector temporaries and register scheduling differ.
 void SwimTurnBase::calc_() {
     SwimRotateBase::calc_();
+    auto* actor = mActor;
+    const sead::Vector3f up = getUpDir(getGravity(actor) * (1.0f / 900.0f));
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    sead::Vector3f target;
+    m32(&target);
+    target -= position;
+    ksys::util::sub_71011EFA00(&target, target, up);
+    target.normalize();
+    sead::Vector3f facing;
+    actor->getMtx().getBase(facing, 0);
+    ksys::util::sub_71011EFA00(&facing, facing, up);
+    facing.normalize();
+    if (!(facing.dot(target) < std::cos(*mFinRotate_s)))
+        setFinished();
 }
 
 // NON_MATCHING: the vector assignment naturally emits three scalar copies.
