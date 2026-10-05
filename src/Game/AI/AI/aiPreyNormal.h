@@ -50,6 +50,7 @@ public:
     // The skip-own-target loop of m43 (RupeeRabbitNormal::m43 calls it; PreyNormal::m43 has it inlined).
     ksys::act::Unk_7100d78e50* sub_7100501B84(s32 idx, Unk_7102410738* filter);
     bool sub_7100500A0C(const sead::Vector3f* pos);
+    void sub_7100500B50(bool, bool, bool);
 
 protected:
     // static_param at offset 0x38

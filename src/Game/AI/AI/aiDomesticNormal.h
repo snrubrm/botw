@@ -21,6 +21,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     // Slot 44 (PreyNormal ends at m43): true in the escape / notice / look / interest / target
@@ -28,6 +29,10 @@ public:
     virtual bool m44();
 
 protected:
+    bool sub_7100364F7C();
+    void sub_71003653B0();
+    bool sub_710036550C(f32* angle);
+
     // static_param at offset 0x340
     const int* mWaitFramesAfterRunMax_s{};
     // static_param at offset 0x348
