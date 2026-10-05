@@ -7,6 +7,10 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/System/Timer.h"
 
+// Declaration only; the original source namespace and raw selector type are inferred.
+bool sub_7100E804E4(sead::Vector3f* out, ksys::act::Actor* actor,
+                    ksys::act::Unk_7100d78e50* entry, s32 kind);
+
 namespace uking::ai {
 
 HorseRiddenByNPC::HorseRiddenByNPC(const InitArg& arg) : HorseRiddenByNPCBase(arg) {}
@@ -51,6 +55,11 @@ void HorseRiddenByNPC::calc_() {
             horse->sub_7100E6BEC0(on);
         }
     }
+}
+
+bool HorseRiddenByNPC::m35(ksys::act::Unk_7100d78e50* entry, s32 idx) {
+    sead::Vector3f position;
+    return !sub_7100E804E4(&position, mActor, entry, idx);
 }
 
 void HorseRiddenByNPC::leave_() {

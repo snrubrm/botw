@@ -22,7 +22,7 @@ public:
 
     // 0x710043cb38 (4.5 KB, not decompiled).
     void m34(u32 kind, const sead::Vector3f& pos, ksys::act::BaseProcLink* link) override;
-    // 0x710043dcdc (not decompiled: calls the unnamed 0x7100e804e4).
+    // Whether an awareness entry of sensor idx is ignored.
     bool m35(ksys::act::Unk_7100d78e50* entry, s32 idx) override;
 
 protected:
