@@ -105,6 +105,9 @@ const sead::SafeString& sub_7100AA7D38(s32 index);
 // (the second parameter is unused; callers pass nullptr).
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
 
+// Existing UI facade definition at 0x7100a9ef44.
+void sellPictureBookDemo(s32 value);
+
 // 0x7100aa25d4 (CSV ui::setWidgetString; declaration only): sets the text of the widget `widget_name` of `layout`.
 void setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, const sead::SafeString& text);
 // 0x7100aa37ec (CSV ui::getDecimalSeparator; declaration only)

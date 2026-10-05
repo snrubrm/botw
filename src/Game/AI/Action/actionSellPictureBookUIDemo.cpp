@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSellPictureBookUIDemo.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::action {
 
@@ -11,7 +13,11 @@ bool SellPictureBookUIDemo::init_(sead::Heap* heap) {
 }
 
 void SellPictureBookUIDemo::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (mSellPicturePack_d) {
+        ui::createAndLoadScreenIfNeededImpl(ui::ScreenId::AppPictureBook, nullptr);
+        ui::sellPictureBookDemo(*mSellPicturePack_d);
+    }
+    _28 = 0;
 }
 
 void SellPictureBookUIDemo::leave_() {
