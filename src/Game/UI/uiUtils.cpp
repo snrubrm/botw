@@ -17,6 +17,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace dlc {
 bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
@@ -25,6 +26,10 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
 s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
+
+void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle) {
+    ksys::snd::SoundMgr::instance()->mUiSoundMgr->playSound(label, handle);
+}
 
 // NON_MATCHING: enum comparisons, static initialization and the result branches are scheduled differently.
 const char* getDecimalSeparator(bool a1) {

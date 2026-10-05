@@ -87,7 +87,7 @@ void showInfoOverlayWithString(s32 type, const sead::SafeString& text);
 // 0x7100a99278 (CSV recoverMasterSword)
 void recoverMasterSword(bool only_if_broken, bool show_message);
 // 0x710105df2c (CSV ui::playSound): plays the UI sound `label` (forwards to UiSoundMgr::playSound);
-// `handle` receives the sound's handle and may be null. Declared only.
+// `handle` receives the sound's handle and may be null.
 void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
 void showRuntimeTip(s32 type);
 // 0x7100a95924 (CSV ui::showInfoOverlayWithString): shows the info overlay of `type` with the extra text `text`.

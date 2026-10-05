@@ -4,7 +4,17 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 
+namespace xlink2 {
+class HandleSLink;
+}
+
 namespace ksys::snd {
+
+// Only the interface needed by the UI sound wrapper is recovered.
+class UiSoundMgr {
+public:
+    bool playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
+};
 
 // Name from the CSV (snd::DuckingMgr::startDucking 0x7101042078; ctor 0x710103e404, init 0x710103e58c).
 // SoundMgr::_80. A buffer (size at +8, data at +0x10) of 50 duckers (0xd0 bytes each: aal::GroupDucker at +0x68,
@@ -77,7 +87,9 @@ struct SoundMgr {
     virtual ~SoundMgr();
 
 public:
-    u8 _28[0x58 - 0x28];
+    u8 _28[0x40 - 0x28];
+    /* 0x40 */ UiSoundMgr* mUiSoundMgr;
+    u8 _48[0x58 - 0x48];
     ListenerPoser* _58;
     u8 _60[0x80 - 0x60];
     /* 0x80 */ DuckingMgr* mDuckingMgr;
