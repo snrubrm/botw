@@ -74,8 +74,7 @@ protected:
     bool* mPriestBossDownSideASPlaying_a{};
     // aitree_variable at offset 0x240
     void* mPriestBossMetaAIUnit_a{};
-    Unk_7102451120 _248;
-    Unk_7102451148 _258;
+    Unk_71007214A0 _248;
     Unk_7102409958 _268{0x80000da};
     Unk_71024509d8 _2a8;
     Unk_71024137d0 _2e8;

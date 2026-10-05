@@ -4,6 +4,9 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actLifeRecoveryInfo.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
@@ -34,6 +37,20 @@ bool PriestBossGiantEnemyRoot::init_(sead::Heap* heap) {
 
 void PriestBossGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorEnemyRoot::enter_(params);
+    if (!_2e8.mDamageManager)
+        mActor->getDamageMgr()->addDamageCallback(0, &_2e8);
+    if (!_368.mDamageManager)
+        mActor->getDamageMgr()->addDamageCallback(2, &_368);
+    if (mInvalidateIronBallDamageFrame_s)
+        _2e8._2c = *mInvalidateIronBallDamageFrame_s;
+    _2e8._40.bind(this, &PriestBossGiantEnemyRoot::sub_710051AD38);
+    _2e8._60.bind(this, &PriestBossGiantEnemyRoot::sub_7100506A40);
+    sub_71007214A0(&_248, mActor, "DyanmicBody", "Body", sead::SafeString::cEmptyString,
+                   sead::Mathf::infinity());
+    if (auto* lod = mActor->getLodState())
+        lod->mFlags10.set(2);
+    getActorAttackSensor(mActor)->_20 |= 8;
+    _368._28 = -1;
 }
 
 // NON_MATCHING: separate string objects produce different offsets and load scheduling.

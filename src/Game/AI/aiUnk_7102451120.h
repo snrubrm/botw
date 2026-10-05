@@ -34,6 +34,17 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102451148, 0x10);
 
+// Paired contact callbacks used by the giant enemy AIs. Placeholder name follows the helper.
+struct Unk_71007214A0 {
+    Unk_7102451120 _0;
+    Unk_7102451148 _10;
+};
+
+// Declaration only; the original source namespace is unknown.
+void sub_71007214A0(Unk_71007214A0* callbacks, ksys::act::Actor* actor,
+                   const sead::SafeString& dynamic_name, const sead::SafeString& body_name,
+                   const sead::SafeString& extra_name, f32 max_mass);
+
 // Free helpers in the same TU.
 // 0x7100720140: sets Enemy::_e90 = 1 if the actor is an Enemy.
 void sub_7100720140(ksys::act::Actor* actor);
