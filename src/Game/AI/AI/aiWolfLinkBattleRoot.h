@@ -17,9 +17,15 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
+    bool sub_7100601F84();
+    bool sub_7100602654();
+    bool sub_7100602CCC();
+    bool sub_7100602E40();
+
     // static_param at offset 0x38
     const float* mAttackIntiationRange_s{};
     // static_param at offset 0x40
