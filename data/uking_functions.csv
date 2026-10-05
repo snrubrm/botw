@@ -52594,7 +52594,7 @@ Address,Quality,Size,Name
 0x000000710086f248,O,000016,_ZN4ksys3act6Player16armorSeriesStuffEhRKN4sead14SafeStringBaseIcEE
 0x000000710086f258,O,000024,_ZN4ksys3act6Player11getMaskTypeEPN4sead22BufferedSafeStringBaseIcEE
 0x000000710086f270,O,000092,_ZN4ksys3act6Player4m231Ev
-0x000000710086f2cc,U,000148,_ZN4ksys3act6Player20getAncientAttackRateEv
+0x000000710086f2cc,m,000148,_ZN4ksys3act6Player20getAncientAttackRateEv
 0x000000710086f360,O,000092,_ZN4ksys3act6Player17getBoneAttackRateEv
 0x000000710086f3bc,U,000484,_ZN4ksys3act6Player4m233Ei
 0x000000710086f5a0,O,000168,_ZN4ksys3act6Player4m382Ev
@@ -78144,7 +78144,7 @@ Address,Quality,Size,Name
 0x0000007100e300b4,U,000272,PlayerArmors::x_19
 0x0000007100e301c4,U,000272,PlayerArmors::x_20
 0x0000007100e302d4,U,000272,PlayerArmors::x_10
-0x0000007100e303e4,U,000240,PlayerArmors::hasAncientPowUpEffect
+0x0000007100e303e4,U,000240,_ZN4ksys3act12PlayerArmors21hasAncientPowUpEffectEv
 0x0000007100e304d4,U,000240,PlayerArmors::x_8
 0x0000007100e305c4,U,000240,PlayerArmors::x_7
 0x0000007100e306b4,U,000272,PlayerArmors::x_6

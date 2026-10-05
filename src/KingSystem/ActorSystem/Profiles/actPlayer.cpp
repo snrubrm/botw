@@ -661,6 +661,15 @@ f32 Player::getBoneAttackRate() {
     return 1.0f;
 }
 
+// NON_MATCHING: parameter-object value addressing is scheduled differently.
+f32 Player::getAncientAttackRate() {
+    if (_23e0.sub_7100E2F61C()->isOnBit(10))
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorCompAncientAttackRate.ref();
+    if (_23e0.hasAncientPowUpEffect())
+        return getParam()->getRes().mGParamList->getPlayer()->mArmorAncientAttackRate.ref();
+    return 1.0f;
+}
+
 f32 Player::m364() {
     if (_23e0.sub_7100E2F61C()->isOnBit(8))
         return getParam()->getRes().mGParamList->getPlayer()->mArmorCompClimbJumpEnergyRate.ref();
