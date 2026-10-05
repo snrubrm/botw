@@ -371,4 +371,29 @@ Animator* LayoutEx::tryCreateAnimatorAutoWithWarning(const char* name, bool b) {
     return tryCreateAnimatorAuto(name, b);
 }
 
+// 0x7100bdd424
+Animator* LayoutEx::tryCreateAnimatorAuto(const char* name, bool enabled) {
+    const void* resource = GetAnimResourceData(name);
+    if (!resource)
+        return nullptr;
+    nn::ui2d::AnimResource animation;
+    animation.Set(resource);
+    if (!animation.GetGroupCount())
+        return nullptr;
+
+    Animator* animator = nullptr;
+    const auto* block = animation.GetAnimationBlock();
+    if (block) {
+        auto* device = sead::GraphicsNvn::instance()->getNnDevice();
+        void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(Animator), 4);
+        if (memory) {
+            animator = new (memory) Animator;
+            mAnimTransformList.push_back(*animator);
+            animator->SetResource(device, mResourceAccessor, block);
+        }
+    }
+    animator->SetupWithGroupAll(animation, this, _20, enabled);
+    return animator;
+}
+
 }  // namespace eui

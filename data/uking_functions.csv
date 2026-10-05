@@ -68122,7 +68122,7 @@ Address,Quality,Size,Name
 0x0000007100bdd1b4,U,000348,
 0x0000007100bdd310,U,000268,
 0x0000007100bdd41c,O,000008,_ZN3eui8LayoutEx18createAnimatorAutoEPKcb
-0x0000007100bdd424,U,000256,_ZN3eui8LayoutEx21tryCreateAnimatorAutoEPKcb
+0x0000007100bdd424,O,000256,_ZN3eui8LayoutEx21tryCreateAnimatorAutoEPKcb
 0x0000007100bdd524,O,000184,_ZN3eui8LayoutEx17createAnimatorSetEPKPKcjb
 0x0000007100bdd5dc,O,000252,_ZN3eui8LayoutEx19GetAnimResourceDataEPKc
 0x0000007100bdd6d8,U,000228,
