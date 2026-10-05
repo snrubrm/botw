@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiEnemyWatchKeepingWait.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
 
@@ -13,8 +15,36 @@ bool EnemyWatchKeepingWait::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: Angle registers and the signed absolute-value sequence differ from the original.
 void EnemyWatchKeepingWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* actor = mActor;
+    _7e = false;
+    sead::Matrix34f home;
+    actor->getHomeMtx(&home);
+    const sead::Vector3f front = actor->getMtx().getBase(2);
+    const sead::Vector3f home_front = home.getBase(2);
+    const s32 minimum = *mIdleCheckMin_s;
+    const s32 maximum = *mIdleCheckMax_s;
+    const s32 interval = sead::GlobalRandom::instance()->getS32Range(minimum, maximum);
+    const s32 idle_percentage = *mIdlePer_s;
+    _74 = false;
+    _6c = interval;
+    _70 = s32(f32(idle_percentage));
+    _68 = f32(interval);
+    const f32 angle = ksys::util::sub_71011EF0CC(
+        std::atan2(front.x, front.z) - std::atan2(home_front.x, home_front.z));
+    if (!(*mRotAngle_m <= 0.0f) && !(*mWaitTime_m <= 0.0f)) {
+        const s8 turns = s8(angle / *mRotAngle_m);
+        _7c = sead::MathCalcCommon<s8>::sign(turns);
+        _7d = sead::MathCalcCommon<s8>::abs(turns);
+        changeToWait();
+    } else if (sead::Mathf::abs(angle) < sead::Mathf::deg2rad(3.0f)) {
+        _7c = 1;
+        _7d = 0;
+        changeToWait();
+    } else {
+        sub_71003C5F34();
+    }
 }
 
 // NON_MATCHING: The timer reload uses the member address instead of the retained pointer.

@@ -37,8 +37,8 @@ protected:
     s32 _70{};
     bool _74{};
     f32 _78 = 0;
-    bool _7c = true;
-    bool _7d = false;
+    s8 _7c = 1;
+    s8 _7d = 0;
     bool _7e = false;
 };
 
