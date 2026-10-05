@@ -32,17 +32,20 @@ public:
     void sub_7100EF1ADC();
 
     Actor* m31() override;
+    void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
 
     void sub_7100EF0A44();
+    void sub_7100EF0D44();
+    void sub_7100EF0FAC();
+    void sub_7100EF10BC();
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     IsSpecialJobTypeResult isSpecialJobType_(ksys::act::JobType type) override;
 
 public:
-    /* 0x83c */ u8 _83c = 0;
-    /* 0x83d */ u8 _83d = 0;
+    /* 0x83c */ u16 _83c = 0;
     /* 0x83e */ u8 _83e = 0;
     /* 0x840 */ ksys::act::BaseProcLink _840;
     /* 0x850 */ ksys::act::BaseProcLink _850;

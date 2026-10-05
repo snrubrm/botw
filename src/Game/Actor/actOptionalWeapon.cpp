@@ -7,7 +7,6 @@ namespace uking::act {
 // terminator store)
 OptionalWeapon::OptionalWeapon(const CreateArg& arg) : Actor(arg) {
     _83c = 0;
-    _83d = 0;
 }
 
 ksys::act::BaseProc* OptionalWeapon::construct(const CreateArg& arg, sead::Heap* heap) {
@@ -16,6 +15,13 @@ ksys::act::BaseProc* OptionalWeapon::construct(const CreateArg& arg, sead::Heap*
 
 ksys::act::Actor* OptionalWeapon::m31() {
     return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
+}
+
+void OptionalWeapon::updatePositionMaybe() {
+    _83c &= ~1;
+    sub_7100EF0D44();
+    sub_7100EF0FAC();
+    sub_7100EF10BC();
 }
 
 void OptionalWeapon::m76(ksys::VFR::ScopedDeltaSetter* setter) {
