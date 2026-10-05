@@ -24,6 +24,8 @@ public:
     virtual bool m37() { return true; }
 
 protected:
+    void sub_710042EF94();
+
     // 0x710042eeb4: sleeps the actor if ActorFlag2::_20 is set, otherwise changes to 退場.
     void sub_710042EEB4();
 

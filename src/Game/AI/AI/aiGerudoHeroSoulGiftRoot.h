@@ -14,6 +14,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
@@ -21,9 +22,11 @@ public:
     bool m37() override { return _9c; }
 
 protected:
+    void sub_71003F3154();
+
     // static_param at offset 0x90
     const float* mMaxLength_s{};
-    u32 _98 = 10;
+    s32 _98 = 10;
     bool _9c = false;
     bool _9d = false;
     Unk_71023f31f8 _a0{mActor, 0x800009b};
