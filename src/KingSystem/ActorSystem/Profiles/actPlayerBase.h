@@ -509,8 +509,9 @@ public:
     bool m212() const;
     bool m190() const;
     bool x_20() const;
-    // 0x710084de94 (CSV name; declared only).
+    // 0x710084de94 (CSV name).
     bool x_21() const;
+    f32 getBowSlowRateDiam() const;
     bool x_22() const;
     f32 getStopTimerReloadTime() const;
     f32 getStopTimerBlowAngle() const;

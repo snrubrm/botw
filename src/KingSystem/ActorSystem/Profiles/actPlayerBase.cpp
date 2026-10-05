@@ -793,6 +793,21 @@ bool PlayerBase::slowTimeStuff() const {
     return !player->_c4c.isOnBit(15);
 }
 
+f32 PlayerBase::getBowSlowRateDiam() const {
+    auto* player = getPlayerBase();
+    if (!player)
+        return 1.0f;
+    if (VFR::instance()->getTimeSpeedMultiplierValue(0) < 1.0f && player->_cf4.isOnBit(17))
+        return player->getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref();
+    return 1.0f;
+}
+
+bool PlayerBase::x_21() const {
+    if (!getPlayerBase())
+        return false;
+    return (uking::RuneMgr::instance()->_90 & 0x20) != 0;
+}
+
 bool PlayerBase::isInWater() const {
     auto* player = getPlayerBase();
     if (!player)
