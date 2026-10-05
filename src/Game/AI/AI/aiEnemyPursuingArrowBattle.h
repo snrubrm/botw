@@ -12,6 +12,7 @@ public:
     ~EnemyPursuingArrowBattle() override;
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
     // 0x71003a8a44 (placeholder name)
     void changeToFollowUp();
