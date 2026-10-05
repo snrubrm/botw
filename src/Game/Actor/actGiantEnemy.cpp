@@ -54,6 +54,12 @@ bool GiantEnemy::m146() {
     return result;
 }
 
+void GiantEnemy::initMaybe() {
+    Enemy::initMaybe();
+    if (!_1510.mDamageManager)
+        getDamageMgr()->addDamageCallback(0, &_1510);
+}
+
 bool GiantEnemy::startPreparingForPreDelete_() {
     if (!Enemy::startPreparingForPreDelete_())
         return false;
