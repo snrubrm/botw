@@ -31,6 +31,9 @@ public:
 
 protected:
     void calc_() override;
+    void sub_71004B7C68();
+    void sub_71004B7E90();
+    void sub_71004B7F80();
     bool sub_71004B9388();
 
     /* 0x38 */ void* _38{};

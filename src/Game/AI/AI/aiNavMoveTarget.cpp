@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
@@ -31,8 +32,29 @@ bool NavMoveTarget::init_(sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the radius parameter load is moved into the non-null movement branch.
 void NavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    sub_71004B7C68();
+    auto* actor = mActor;
+    auto* nav = actor->m45();
+    if (nav) {
+        _368 = sub_71005E2BCC(actor);
+        if (_368) {
+            auto* current_nav = mActor->m45();
+            if (current_nav && (current_nav->_2a4.load() & 0xffff) != 23) {
+                _50.clear();
+                if (!nav->_18)
+                    ksys::phys::HavokAI::instance()->sub_7100F82BCC(nav);
+                const bool use_character_radius = *mParams.mUseCharacterRadius_s;
+                auto* movement = _368->_0;
+                if (movement)
+                    movement->sub_7100F7604C(use_character_radius ? movement->getRadiusMaybe() : 0.2f);
+                sub_71004B7F80();
+                return;
+            }
+        }
+    }
+    sub_71004B7E90();
 }
 
 void NavMoveTarget::leave_() {
