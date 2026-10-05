@@ -5,6 +5,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
+// Declaration only; the original source namespace is unknown.
+bool sub_710071E80C(ksys::act::Actor* actor, Unk_7102450fa8* unit);
+
 namespace uking::ai {
 
 // NON_MATCHING: the first stores (params, contact callbacks, sender) are scheduled differently
@@ -36,6 +39,10 @@ void PriestBossGiantEnemyRoot::loadParams_() {
     getStaticParam(&mInvalidateIronBallDamageFrame_s, "InvalidateIronBallDamageFrame");
     getAITreeVariable(&mPriestBossDownSideASPlaying_a, "PriestBossDownSideASPlaying");
     getAITreeVariable(&mPriestBossMetaAIUnit_a, "PriestBossMetaAIUnit");
+}
+
+bool PriestBossGiantEnemyRoot::m35() {
+    return sub_710071E80C(mActor, sub_7100506A40());
 }
 
 bool PriestBossGiantEnemyRoot::m45() {

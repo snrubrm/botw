@@ -52,6 +52,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    bool m35() override;
     bool m45() override;
     bool m46() override;
     bool m47() override;
