@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventPlayUiOPTextAction.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void EventPlayUiOPTextAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventPlayUiOPTextAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    _30->m76();
 }
 
 void EventPlayUiOPTextAction::loadParams_() {

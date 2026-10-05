@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::ui {
+class Screen;
+}
+
 namespace uking::action {
 
 class EventPlayUiOPTextAction : public ksys::act::ai::Action {
@@ -22,7 +26,7 @@ protected:
     int* mClipIndex_d{};
     // dynamic_param at offset 0x28
     int* mTextType_d{};
-    void* _30{};
+    ui::Screen* _30{};
 };
 
 }  // namespace uking::action

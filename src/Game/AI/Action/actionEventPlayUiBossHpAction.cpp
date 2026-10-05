@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventPlayUiBossHpAction.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -15,7 +16,7 @@ void EventPlayUiBossHpAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void EventPlayUiBossHpAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    _28->m76();
 }
 
 void EventPlayUiBossHpAction::loadParams_() {
