@@ -133,7 +133,7 @@ s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name, 
 // 0x7100aa256c: the existing message-string overload.
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
                     const eui::MessageString& message);
-// 0x7100aa37ec (CSV ui::getDecimalSeparator; declaration only)
+// 0x7100aa37ec
 const char* getDecimalSeparator(bool a1);
 
 // 0x7100a6d3dc (CSV ui::getHeap; declaration only)

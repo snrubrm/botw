@@ -1,6 +1,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiMessageString.h"
+#include <devenv/seadEnvUtil.h>
 #include <prim/seadStringUtil.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
@@ -24,6 +25,22 @@ bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
 s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
+
+// NON_MATCHING: enum comparisons, static initialization and the result branches are scheduled differently.
+const char* getDecimalSeparator(bool a1) {
+    const auto language = sead::EnvUtil::getRegionLanguage();
+    static sead::RegionLanguageID sUnk_71025F6B40[] = {
+        sead::RegionLanguageID::JPja, sead::RegionLanguageID::USen,
+        sead::RegionLanguageID::USes, sead::RegionLanguageID::EUen,
+        sead::RegionLanguageID::EUnl, sead::RegionLanguageID::KRko,
+        sead::RegionLanguageID::CNzh, sead::RegionLanguageID::TWzh,
+    };
+    for (const auto& entry : sUnk_71025F6B40) {
+        if (language == entry)
+            return a1 || language != sead::RegionLanguageID::EUnl ? "." : ",";
+    }
+    return ",";
+}
 
 // 0x7100aa256c
 s32 setWidgetString(eui::LayoutEx* layout, const sead::SafeString& widget_name,
