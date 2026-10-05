@@ -126,6 +126,19 @@ void AssassinBossRoot::calc_() {
 }
 
 void AssassinBossRoot::leave_() {
+    if (_2c0.mDamageManager) {
+        sub_71005DA114(mActor, &_2c0);
+        sub_71005DA114(mActor, &_2e8);
+        if (auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr()))
+            manager->setField64LowNibble(0);
+    }
+    sub_71005DA114(mActor, &_310);
+    sub_71007A3910(mActor, "TgtBarrier");
+    _400 = false;
+    _310._24 = false;
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F63388(false, -1);
+    sub_71005DA114(mActor, &_338);
     AssassinBossRootBase::leave_();
 }
 
