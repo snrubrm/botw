@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossBowRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
@@ -16,6 +17,40 @@ bool SiteBossBowRoot::init_(sead::Heap* heap) {
 
 void SiteBossBowRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossRoot::enter_(params);
+}
+
+void SiteBossBowRoot::calc_() {
+    SiteBossRoot::calc_();
+    if (getCurrentChild() && isCurrentChild("出現デモ待ち")) {
+        _124 = true;
+        sub_71002C65C8(mActor, true, true);
+        return;
+    }
+    if (_120 == 0) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            boss->_1560.sub_710066D708(0);
+            boss->_1560.sub_710066D708(1);
+            boss->_1560.sub_710066D708(2);
+            boss->_1560.sub_710066D708(3);
+            boss->_1560.sub_710066C13C(nullptr, 0);
+            boss->_1560.sub_710066C13C(nullptr, 1);
+            boss->_1560.sub_710066C13C(nullptr, 2);
+            boss->_1560.sub_710066C13C(nullptr, 3);
+            if (!boss->_1558.isOn(0x100))
+                boss->_1558.set(0x20000);
+        }
+        _120 = 1;
+    } else if (_120 == 1) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            boss->_1560.sub_710066C13C(nullptr, 0);
+            boss->_1560.sub_710066C13C(nullptr, 1);
+            boss->_1560.sub_710066C13C(nullptr, 2);
+            boss->_1560.sub_710066C13C(nullptr, 3);
+            if (!boss->_1558.isOn(0x100))
+                boss->_1558.set(0x20000);
+        }
+        _120 = 2;
+    }
 }
 
 void SiteBossBowRoot::leave_() {
