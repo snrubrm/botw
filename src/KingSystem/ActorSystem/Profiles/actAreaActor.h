@@ -42,6 +42,8 @@ public:
 
     // 0x7100e2677c: `_88a = 0`.
     void sub_7100E2677C();
+    bool sub_7100E26A80();
+    void sub_7100E26A28(bool enable);
 
     /* 0x840 */ phys::RigidBody* _840 = nullptr;
     /* 0x848 */ phys::CollisionInfo* _848 = nullptr;
