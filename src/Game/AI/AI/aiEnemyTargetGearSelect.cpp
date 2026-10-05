@@ -14,8 +14,19 @@ bool EnemyTargetGearSelect::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
+// NON_MATCHING: the signed threshold comparison has reversed operands and branch polarity.
 void EnemyTargetGearSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    u64 value = 0;
+    if (auto* link = sub_71005D9050(mActor)) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        value = accessor.sub_7100D142E0();
+    }
+    const Gear gear(value);
+    if (gear < *mGearThreashold_s)
+        changeChild("対象低速ギア", params);
+    else
+        changeChild("対象高速ギア", params);
 }
 
 // NON_MATCHING: only the operand order of the final compare (the original loads the gear first and compares
