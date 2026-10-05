@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::act {
 
@@ -51,6 +52,11 @@ void RideableHorse::m43() {
                 mgr->setRiddenHorseMaybe(nullptr);
         }
     }
+}
+
+bool RideableHorse::m10(const ksys::Message& message) {
+    message.getType();
+    return Rideable::m10(message);
 }
 
 f32 RideableHorse::m12() {

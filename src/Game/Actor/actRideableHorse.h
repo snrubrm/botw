@@ -26,6 +26,7 @@ public:
     void m42(s32 a) override;
     void m43() override;
 
+    bool m10(const ksys::Message& message) override;
     f32 m12() override;
     void* m13() override;
     f32 m14() override;
