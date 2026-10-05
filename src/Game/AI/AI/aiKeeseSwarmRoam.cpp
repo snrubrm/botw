@@ -17,6 +17,16 @@ void KeeseSwarmRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     CircleMove::enter_(params);
 }
 
+void KeeseSwarmRoam::calc_() {
+    if (isCurrentChild("移動") && getCurrentChild()->isFailed()) {
+        sub_7100454C9C(_58);
+        _5c = -_5c;
+        sub_710034E90C(true);
+    } else {
+        CircleMove::calc_();
+    }
+}
+
 void KeeseSwarmRoam::leave_() {
     CircleMove::leave_();
 }

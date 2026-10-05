@@ -15,11 +15,15 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void m34(sead::Vector3f* out) override;
 
 protected:
+    // Declaration only; the original method name and void return are inferred.
+    void sub_7100454C9C(f32 angle);
+
     // dynamic_param at offset 0x60
     sead::Vector3f* mCentralPos_d{};
     sead::SafeArray<f32, 10> _68{};
