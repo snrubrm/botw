@@ -6,6 +6,11 @@
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/MathUtil.h"
 
+// Declaration only; original source namespace is unknown.
+bool sub_710072F99C(ksys::act::Actor* actor, const sead::Vector3f& from,
+                    const sead::Vector3f& to, sead::Vector3f* out_pos, s32 kind,
+                    f32 tolerance, f32 unused);
+
 namespace uking::ai {
 
 SimpleEscapeFromTarget::SimpleEscapeFromTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -104,6 +109,16 @@ void SimpleEscapeFromTarget::m38(sead::Vector3f* dir, s32 idx) {
     sead::Matrix33f rot;
     rot.makeR({0, angle, 0});
     dir->setRotated(rot, *dir);
+}
+
+// NON_MATCHING: the position copy and query arguments are scheduled differently.
+bool SimpleEscapeFromTarget::m39(const sead::Vector3f& dir) {
+    auto* actor = mActor;
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    sead::Vector3f target = dir;
+    target *= *mSpaceDist_s;
+    target += position;
+    return sub_710072F99C(actor, position, target, nullptr, -1, -1.0f, -1.0f);
 }
 
 bool SimpleEscapeFromTarget::sub_710056D354(sead::Vector3f* out) {
