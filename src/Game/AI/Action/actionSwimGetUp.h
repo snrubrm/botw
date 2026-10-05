@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_7100289858();
 
     // static_param at offset 0x160
     const float* mInWaterDepth_s{};

@@ -26,6 +26,8 @@ void GuardianMiniLineBeam::loadParams_() {
 
 void GuardianMiniLineBeam::calc_() {
     SimpleLineBeam::calc_();
+    sub_7100197468();
+    sub_7100197660();
 }
 
 void GuardianMiniLineBeam::m32() {

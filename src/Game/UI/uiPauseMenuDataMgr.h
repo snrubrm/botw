@@ -325,6 +325,9 @@ public:
 
     bool checkAddOrRemoveItem(const sead::SafeString& name, int count,
                               bool include_equipped_items) const;
+    // 0x7100972b90: output parameter name inferred from equipped-item updates.
+    void increasePouchNum(const sead::SafeString& name, s32 count, bool* equipped_items_changed,
+                          const act::WeaponModifierInfo* modifier);
     int getFreeSlotCount() const;
 
     int calculateEnemyMaterialMamo() const;

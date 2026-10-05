@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionDeletePorchItemIncludeEquip.h"
 #include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 
@@ -15,7 +16,20 @@ bool DeletePorchItemIncludeEquip::init_(sead::Heap* heap) {
 }
 
 void DeletePorchItemIncludeEquip::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _38 = false;
+    const s32 requested_count = *mDeleteNum_d;
+    if (requested_count == 0) {
+        _38 = true;
+        return;
+    }
+    if (auto* manager = ui::PauseMenuDataMgr::instance()) {
+        const s32 count = requested_count > 0 ? -requested_count : requested_count;
+        if (manager->checkAddOrRemoveItem(mPorchItemName_d, count, true)) {
+            _38 = true;
+            _39 = true;
+            manager->increasePouchNum(mPorchItemName_d, count, &_39, nullptr);
+        }
+    }
 }
 
 void DeletePorchItemIncludeEquip::leave_() {

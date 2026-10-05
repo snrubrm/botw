@@ -19,6 +19,8 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+    void sub_7100197468();
+    void sub_7100197660();
 
     // static_param at offset 0x50
     const int* mIceBlockBreakTime_s{};
