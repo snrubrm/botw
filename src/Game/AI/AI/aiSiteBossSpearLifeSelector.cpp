@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossSpearLifeSelector.h"
+#include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/Actor/actSiteBoss.h"
 
 namespace uking::ai {
 
@@ -12,7 +14,21 @@ bool SiteBossSpearLifeSelector::init_(sead::Heap* heap) {
 }
 
 void SiteBossSpearLifeSelector::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (_48 == 0) {
+        if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+            if (boss->_1558.isOn(0x100)) {
+                if (checkHpRate(mActor, *mPatternChangeLife3_s))
+                    _48 = 3;
+                else if (checkHpRate(mActor, *mPatternChangeLife2_s))
+                    _48 = 2;
+                else
+                    _48 = 1;
+                if (auto* current_boss = sead::DynamicCast<act::SiteBoss>(mActor))
+                    current_boss->_1558.reset(0xc);
+            }
+        }
+    }
+    sub_710058C948();
 }
 
 void SiteBossSpearLifeSelector::leave_() {

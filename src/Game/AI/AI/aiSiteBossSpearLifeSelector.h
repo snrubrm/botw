@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    void sub_710058C948();
 
     // static_param at offset 0x38
     const float* mPatternChangeLife2_s{};
