@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xlink2/xlink2Handle.h>
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
@@ -15,9 +15,13 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
 protected:
+    void sub_7100457BB4();
+    void sub_7100457EB8(const sead::Matrix34f& matrix, const sead::Vector3f& position);
+
     // map_unit_param at offset 0x38
     const float* mEffectDispSize_m{};
     // map_unit_param at offset 0x40
@@ -31,10 +35,8 @@ protected:
     u8 pad_0x71[0x7];
     bool _78{};
     bool _79{};
-    xlink2::Handle _80;
-    xlink2::Handle _90;
-    xlink2::Handle _a0;
-    xlink2::Handle _b0;
+    Unk_71012419b4 _80;
+    Unk_71012419b4 _a0;
 };
 
 }  // namespace uking::ai
