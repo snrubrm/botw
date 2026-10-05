@@ -12,6 +12,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
 #include "Game/gameScene.h"
+#include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
@@ -3094,6 +3095,22 @@ void PauseMenuDataMgr::grabbedItemStuff(PouchItem* item) {
         updateInventoryInfo(getItems());
         saveToGameData(getItems());
     }
+}
+
+// NON_MATCHING: the five-record cleanup loop remains rolled rather than fully unrolled.
+void PauseMenuDataMgr::unholdGrabbedItems() {
+    const auto lock = sead::makeScopedLock(mCritSection);
+    for (auto& entry : mGrabbedItems) {
+        if (entry.item && ksys::act::InfoData::instance()->hasTag(
+                              entry.item->getName().cstr(), ksys::act::tags::CanStack)) {
+            ++entry.item->mValue;
+        }
+        entry.item = nullptr;
+        entry._8 = false;
+        entry._9 = false;
+    }
+    if (auto* subsystem = GameSceneSubsys12::instance())
+        subsystem->sub_7100664484(7, nullptr);
 }
 
 }  // namespace uking::ui
