@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_7100576744(s32 index);
+
     // static_param at offset 0xf8
     const int* mArrowRainAttackPower_s{};
     // static_param at offset 0x100
