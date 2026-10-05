@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    void sub_71000A6F24();
+    void sub_71000A7354();
+
     // static_param at offset 0x20
     const float* mWindSpeed_s{};
 };

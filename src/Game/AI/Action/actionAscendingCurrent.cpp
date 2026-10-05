@@ -23,7 +23,8 @@ void AscendingCurrent::loadParams_() {
 }
 
 void AscendingCurrent::calc_() {
-    ksys::act::ai::Action::calc_();
+    sub_71000A6F24();
+    sub_71000A7354();
 }
 
 bool AscendingCurrent::hasUpdateForPreDeleteCb() {
