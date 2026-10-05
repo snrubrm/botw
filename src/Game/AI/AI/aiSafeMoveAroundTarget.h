@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -16,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71005553EC();
+
     // static_param at offset 0x38
     const int* mForceTurnTimeBase_s{};
     // static_param at offset 0x40
@@ -46,17 +49,10 @@ protected:
     f32 _a4;
     f32 _a8;
     f32 _ac;
-    f32 _b0 = 0;
-    u32 _b4 = 0;
-    u32 _b8 = 0;
-    f32 _bc = 0;
-    f32 _c0 = 0;
-    u32 _c4 = 0;
-    f32 _c8 = 0;
-    f32 _cc = 0;
-    void* _d0 = nullptr;
-    f32 _d8 = 0;
-    u32 _dc = 0;
+    ksys::Timer _b0;
+    ksys::Timer _bc;
+    ksys::Timer _c8;
+    ksys::Timer _d4;
 };
 KSYS_CHECK_SIZE_NX150(SafeMoveAroundTarget, 0xe0);
 

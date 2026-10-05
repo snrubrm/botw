@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSafeMoveAroundTarget.h"
+#include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
 
@@ -11,7 +12,16 @@ bool SafeMoveAroundTarget::init_(sead::Heap* heap) {
 }
 
 void SafeMoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    // NON_MATCHING: timer stores and random endpoint conversions are scheduled differently.
+    _b0.reset(*mStartRange_s, *mChangeRangeRate_s);
+    _bc.reset(-1.0f);
+    _c8.reset(-1.0f);
+    _d4.reset(-1.0f);
+    const s32 base = *mForceTurnTimeBase_s;
+    const s32 end = base + *mForceTurnTimeRand_s;
+    _c8.value = _c8.previous_value =
+        sead::GlobalRandom::instance()->getF32Range(f32(base), f32(end));
+    sub_71005553EC();
 }
 
 void SafeMoveAroundTarget::leave_() {
