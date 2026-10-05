@@ -21,6 +21,7 @@ namespace dlc {
 bool isOneHitObliteratorActor(ksys::act::Actor* actor, bool require_active);
 }
 
+s32 getWeaponTypeId(const sead::SafeString& profile);
 
 namespace uking::ui {
 
@@ -69,6 +70,23 @@ bool formatSpecialAttackPower(s32 power, sead::BufferedSafeString* out) {
         return true;
     }
     return false;
+}
+
+int getItemGeneralLife(const char* name) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return 0;
+
+    al::ByamlIter iter;
+    if (!info->getActorIter(&iter, name, false))
+        return 0;
+
+    s32 life = ksys::act::getGeneralLife(iter);
+    const char* profile = "Dummy";
+    if (iter.tryGetStringByKey(&profile, "profile") && getWeaponTypeId(profile) != -1 &&
+        !info->hasTag(iter, 0x2B533845))
+        life *= act::WeaponModifierInfo::getLifeMultiplier();
+    return life;
 }
 
 int getItemHitPointRecover(const sead::SafeString& name) {

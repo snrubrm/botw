@@ -19884,7 +19884,7 @@ Address,Quality,Size,Name
 0x00000071002eb560,U,000272,Weapon::m84
 0x00000071002eb670,U,000312,Weapon::x_3
 0x00000071002eb7a8,U,000640,Weapon::m252_break
-0x00000071002eba28,U,000272,getWeaponTypeId
+0x00000071002eba28,U,000272,_Z15getWeaponTypeIdRKN4sead14SafeStringBaseIcEE
 0x00000071002ebb38,U,001280,Weapon::doAttackMaybe_inner0
 0x00000071002ec038,U,000488,Weapon::doAttackMaybe_inner0_0
 0x00000071002ec220,U,001988,
@@ -46966,7 +46966,7 @@ Address,Quality,Size,Name
 0x000000710073a6d0,U,000920,
 0x000000710073aa68,U,000124,_Z18setItemDataToPouchRKN4sead14SafeStringBaseIcEEPKN5uking3act18WeaponModifierInfoE
 0x000000710073aae4,U,000380,handleGetHeartOrStaminaContainer
-0x000000710073ac60,U,000216,_ZN5uking2ui18getItemGeneralLifeEPKc
+0x000000710073ac60,O,000216,_ZN5uking2ui18getItemGeneralLifeEPKc
 0x000000710073ad38,U,001384,initGetItemDemoEvent
 0x000000710073b2a0,U,001300,callGetAnotherItemDemo
 0x000000710073b7b4,U,000188,_Z22getDemoGetAnotherActorPN4ksys3act5ActorERKN4sead14SafeStringBaseIcEEbbPN5uking3act18WeaponModifierInfoE
