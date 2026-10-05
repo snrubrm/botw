@@ -751,6 +751,10 @@ protected:
         s16 _2 = -1;
     };
 
+    // Declaration only; original source name is unknown.
+    void x_0(const Unk2* key, const sead::Vector3f& offset, bool use_offset,
+             sead::Vector3f* out);
+
     // FIXME: rename
     void job0_1();
     void job0_2();

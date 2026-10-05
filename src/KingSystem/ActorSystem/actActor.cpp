@@ -25,6 +25,7 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/Actor/resResourceModelList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -43,6 +44,16 @@
 #include "KingSystem/Physics/System/physSystem.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: the conditional offset reference avoids a temporary vector copy.
+void Actor::m89() {
+    res::ModelList::AttentionInfo attention_info;
+    const bool has_attention =
+        mActorParam && mActorParam->getRes().mModelList &&
+        mActorParam->getRes().mModelList->getAttentionInfo(&attention_info);
+    x_0(&_498, has_attention ? attention_info.look_at_offset : sead::Vector3f::zero,
+        has_attention, &mPreviousPos2);
+}
 
 namespace {
 BaseProcLink sDummyBaseProcLink;
