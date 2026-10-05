@@ -694,6 +694,20 @@ bool Player::x_35() {
     return m225() || m226();
 }
 
+bool Player::canUseRevaliGale() {
+    if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
+        return false;
+    if (gdt::getFlag_HeroSoulProhibition())
+        return false;
+    if (playerIsReloadingOrChargingOrShootingBow(this))
+        return false;
+    if (_c44.isOnBit(8) && !_d11)
+        return false;
+    if (!hasRitoSoul())
+        return false;
+    return _1df4 <= sead::Mathf::epsilon();
+}
+
 bool Player::canUseDarukProtection() {
     if (StageInfo::sIsCDungeon | StageInfo::sIsAocField)
         return false;
