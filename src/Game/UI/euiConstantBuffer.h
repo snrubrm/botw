@@ -1,5 +1,6 @@
 #pragma once
 
+#include <basis/seadTypes.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace eui {

@@ -52,6 +52,7 @@ target_sources(uking PRIVATE
   euiMessageString.h
   euiScreen.cpp
   euiDrawInfoEx.cpp
+  euiConstantBuffer.cpp
   euiUIController.cpp
   euiScreenMgr.cpp
   euiScreen.h
