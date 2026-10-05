@@ -1030,6 +1030,28 @@ inline uking::act::Weapon* Weapon::getWeapon() const {
     return sead::DynamicCast<uking::act::Weapon>(actor);
 }
 
+bool Weapon::isShield() const {
+    auto* weapon = getWeapon();
+    return weapon && weapon->_cf0 == 4;
+}
+
+s32 Weapon::getAttackPower() const {
+    auto* weapon = getWeapon();
+    return weapon ? weapon->getAttackPower() : 0;
+}
+
+bool Weapon::isHitEnemy() const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor || !hasAttackInfo(actor))
+        return false;
+    const s32 count = getNumAttackInfoMaybe(actor);
+    for (s32 i = 0; i < count; ++i) {
+        if (ksys::act::isEnemyProfile(&getAttackInfo(actor, i)->_50))
+            return true;
+    }
+    return false;
+}
+
 bool Weapon::sub_71002EF980() const {
     auto* weapon = getWeapon();
     if (!weapon)

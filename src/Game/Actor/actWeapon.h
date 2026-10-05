@@ -379,6 +379,9 @@ class Weapon : public ActorConstDataAccess {
 public:
     // 0x71002ef980: Weapon::hasParentActor() (false if not a weapon)
     bool sub_71002EF980() const;
+    bool isShield() const;
+    s32 getAttackPower() const;
+    bool isHitEnemy() const;
     // 0x71002f1228: Actor::checkForbidAttentionSignal() (false if not a weapon)
     bool sub_71002F1228() const;
 
