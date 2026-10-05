@@ -42,6 +42,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual Actor* getParentActor();
+    Actor* m48() override;
     virtual bool hasParentActor_() { return _938.hasProc(); }
     virtual bool hasParentActor() { return hasParentActor_(); }
     virtual bool isParentEqualToById(BaseProc* proc) { return _938.hasProcById(proc); }

@@ -73,6 +73,14 @@ Actor* WeaponBase::m31() {
     return getParentActor();
 }
 
+Actor* WeaponBase::m48() {
+    if (hasParentActor_())
+        return getParentActor();
+    if (_948.hasProc())
+        return sead::DynamicCast<Actor>(_948.getProc(nullptr, nullptr));
+    return nullptr;
+}
+
 void WeaponBase::calcMaybe() {
     sub_7100EF345C();
     if (hasParentActor())
