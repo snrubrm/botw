@@ -223,7 +223,7 @@ public:
     bool auto7() const;
     void allowPaletteOverride();
     // 0x00000071010f2f3c
-    WeatherType someWeatherStuff_0(Climate climate);
+    WeatherType someWeatherStuff_0(Climate climate) const;
 
 private:
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).

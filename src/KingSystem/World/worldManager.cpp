@@ -120,6 +120,18 @@ WeatherType Manager::sub_71010F337C(const sead::Vector3f& pos) {
     return someWeatherStuff_0(getClimate(pos));
 }
 
+bool Manager::isRaining(const sead::Vector3f& pos) const {
+    switch (someWeatherStuff_0(getClimate(pos))) {
+    case WeatherType::Rain:
+    case WeatherType::HeavyRain:
+    case WeatherType::ThunderRain:
+    case WeatherType::BlueskyRain:
+        return true;
+    default:
+        return false;
+    }
+}
+
 Climate Manager::getCurrentClimate() const {
     return mCurrentClimate;
 }
