@@ -28,6 +28,7 @@ public:
     void loadParams_() override;
 
 protected:
+    bool sub_71003B6888();
     void sub_71003B8780();
     /* 0x68 */ ksys::act::BaseProcLink _68;
     // 0x7100d772d4 is the element destructor (Unk_71024dc858's D1 at the element start).

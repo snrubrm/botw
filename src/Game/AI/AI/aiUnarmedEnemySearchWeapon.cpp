@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -12,6 +13,37 @@ UnarmedEnemySearchWeapon::~UnarmedEnemySearchWeapon() = default;
 void UnarmedEnemySearchWeapon::enter_(ksys::act::ai::InlineParamPack* params) {
     _78.clear();
     UnarmedEnemySearch::enter_(params);
+}
+
+// NON_MATCHING: target argument materialization changes the stack frame and call scheduling.
+void UnarmedEnemySearchWeapon::calc_() {
+    UnarmedEnemySearch::calc_();
+    if (isGoStraightOrMove()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (_68.hasProcInCalcState()) {
+            ksys::act::acquireActor(&_68, &accessor);
+            sub_71005DB068(mActor, accessor.getActorMtx().getTranslation());
+        } else {
+            sub_71005DB068(mActor, sub_71005D9330(mActor));
+        }
+    } else {
+        sub_71005DB3EC(mActor);
+    }
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("武器拾い")) {
+            if (getCurrentChild()->isFinished())
+                m45();
+            else if (!sub_71003B6888())
+                m44();
+        } else if (!isGoStraightOrMove()) {
+            if (!getCurrentChild()->isFinished() || !sub_71003B6888())
+                m44();
+        }
+    } else if (getCurrentChild()->isChangeable() && isCurrentChild("武器拾い待ち")) {
+        if (!sub_71003B6888())
+            m44();
+    }
 }
 
 bool UnarmedEnemySearchWeapon::m34() {
