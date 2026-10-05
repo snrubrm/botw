@@ -78144,7 +78144,7 @@ Address,Quality,Size,Name
 0x0000007100e300b4,U,000272,PlayerArmors::x_19
 0x0000007100e301c4,U,000272,PlayerArmors::x_20
 0x0000007100e302d4,U,000272,PlayerArmors::x_10
-0x0000007100e303e4,U,000240,_ZN4ksys3act12PlayerArmors21hasAncientPowUpEffectEv
+0x0000007100e303e4,O,000240,_ZN4ksys3act12PlayerArmors21hasAncientPowUpEffectEv
 0x0000007100e304d4,U,000240,PlayerArmors::x_8
 0x0000007100e305c4,U,000240,PlayerArmors::x_7
 0x0000007100e306b4,U,000272,PlayerArmors::x_6

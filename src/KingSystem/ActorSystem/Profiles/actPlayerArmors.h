@@ -26,7 +26,7 @@ public:
     // 0x7100e2f61c (CSV x_0; out of line, returns `&_134`): the armor effect flags (bit 0: swim energy,
     // bit 7: bone attack, bit 8: climb jump energy, bit 9: drop rate bonus are active).
     sead::BitFlag16* sub_7100E2F61C();
-    // 0x7100e303e4 (declared only).
+    // 0x7100e303e4.
     bool hasAncientPowUpEffect();
     // 0x7100e2f490 (CSV x_5): Player::m234.
     s32 sub_7100E2F490();

@@ -6,6 +6,18 @@
 
 namespace ksys::act {
 
+bool PlayerArmors::hasAncientPowUpEffect() {
+    for (s32 i = 0; i < 3; ++i) {
+        if (_10(i).hasProc()) {
+            acc::Armor accessor;
+            acquireActor(&_10(i), &accessor);
+            if (accessor.getArmorEffectAncientPowUp())
+                return true;
+        }
+    }
+    return false;
+}
+
 void PlayerArmors::sub_7100E31B9C(Unk117* arg) {
     for (int i = 0; i < 6; ++i) {
         if (auto* actor = sead::DynamicCast<Actor>(_10(i).getProc(nullptr, nullptr)))
