@@ -46,6 +46,7 @@ protected:
     // for attacks 3 / 4 / 5 / 7 (frequency of the phase's attack, random factor, 0.9^count) and the by-value
     // enum parameter gives the stack round trips seen in the asm.
     f32 getWeight(Attack attack);
+    void sub_71005089F4(State state);
 
     // static_param at offset 0x40
     const float* mFreqIronBallAttack_s{};
