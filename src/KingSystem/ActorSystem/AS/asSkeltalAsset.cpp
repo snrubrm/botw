@@ -19,6 +19,25 @@ bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* res
 
 SkeltalAsset::~SkeltalAsset() {}
 
+// NON_MATCHING: the filename address is computed after the virtual duration call.
+void SkeltalAsset::m14(Context* ctx, void* state, EventState*, const res::ASResource* resource) {
+    if (!mKey.isValid())
+        return;
+
+    auto* motion = static_cast<MotionState*>(state);
+    auto* initial_record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    initial_record->_4 = motion->weight;
+    sub_710125CB88(ctx, motion, resource);
+
+    const auto* asset = sead::DynamicCast<const res::ASSkeltalAssetResource>(resource);
+    if (!asset || !motion->_34)
+        return;
+
+    auto* record = ctx->sub_7101258CD4(sub_71011653E8(resource));
+    const f32 frame = ctx->sub_7101258D4C(record, false)->_4;
+    ctx->sub_7101259274(frame, m4(), motion->weight, asset->getFileName());
+}
+
 // NON_MATCHING: the second key-half load uses a different base register.
 void SkeltalAsset::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {
     if (!ctx->sub_7101258E2C()->getAnimation() || !mKey.isValid())

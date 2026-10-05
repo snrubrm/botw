@@ -42,6 +42,7 @@ struct ElementList {
 
 class ASList;
 struct BoneBlendState;
+struct MotionState;
 
 // Placeholder: per-element state block (a Frame entry; returned by Element::m25): flags in `_0`
 // (bit 1 = running?), a range [_4, _8] and more floats.
@@ -902,6 +903,8 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m14(Context* ctx, void* state, EventState* events, const res::ASResource* resource) override;
+    void sub_710125CB88(Context* ctx, MotionState* state, const res::ASResource* resource);
     void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
