@@ -5,6 +5,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -118,6 +119,18 @@ bool Weapon::m222() {
         return false;
     const auto* actor_link = actor->getParam()->getRes().mActorLink;
     return actor_link && actor_link->hasTag(0x19f6c13a);
+}
+
+bool Weapon::m194() {
+    if (m188())
+        return true;
+    if (!isParentPlayer())
+        return false;
+    auto* parent = getParentActor();
+    if (!parent)
+        return false;
+    auto* as = parent->getASList();
+    return as && as->x(63, nullptr, 2, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true);
 }
 
 bool Weapon::m227() {
