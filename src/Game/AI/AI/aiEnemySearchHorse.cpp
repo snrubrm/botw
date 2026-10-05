@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiEnemySearchHorse.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
@@ -20,6 +22,42 @@ void EnemySearchHorse::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void EnemySearchHorse::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void EnemySearchHorse::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("馬到達")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                sub_71003B9624();
+        } else if (isCurrentChild("馬未発見")) {
+            if (child->isFinished())
+                setFinished();
+            else
+                setFailed();
+        } else if (isCurrentChild("怒り")) {
+            _58.reset();
+            changeChild("馬未発見", nullptr);
+        } else if (isCurrentChild("直進")) {
+            sub_71003B977C();
+        }
+    } else if (child->isChangeable()) {
+        if (isCurrentChild("馬未発見")) {
+            sub_71003B9914();
+        } else if (!*mParams.mNoWeaponRiding_s && sub_71005D8B60(mActor)) {
+            _58.reset();
+            changeChild("馬未発見", nullptr);
+        } else if (isCurrentChild("直進")) {
+            sub_71003B9A48();
+        }
+    }
+    if (isCurrentChild("怒り") && _110.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_110, &accessor);
+        child->setDynamicParam(accessor.getActorMtx().getTranslation(), "TargetPos");
+    }
 }
 
 void EnemySearchHorse::loadParams_() {

@@ -18,11 +18,16 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     bool sub_71003B9914();
 
 protected:
+    void sub_71003B9624();
+    void sub_71003B977C();
+    void sub_71003B9A48();
+
     struct Params {
         // static_param at offset 0x38
         const int* mRepathTime_s{};
