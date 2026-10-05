@@ -29,6 +29,8 @@ class Scene {
 class System {
 public:
     static System* instance();
+    void sub_710111F518(int level, int type);
+    void sub_7101112A74();
     void allocateApertureMapsCollectorImage(sead::Heap* heap);
     void loadScene();
 };

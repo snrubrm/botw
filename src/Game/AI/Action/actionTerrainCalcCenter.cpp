@@ -1,4 +1,7 @@
 #include "Game/AI/Action/actionTerrainCalcCenter.h"
+#include "KingSystem/Terrain/teraSystem.h"
+
+void setInitBeforeStageGenDone(bool done);
 
 namespace uking::action {
 
@@ -17,7 +20,12 @@ void TerrainCalcCenter::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void TerrainCalcCenter::leave_() {
-    ksys::act::ai::Action::leave_();
+    if ((_40 & 3) != 1)
+        return;
+    ksys::tera::System::instance()->sub_710111F518(9, 9);
+    ksys::tera::System::instance()->sub_7101112A74();
+    setInitBeforeStageGenDone(true);
+    _40 |= 2;
 }
 
 void TerrainCalcCenter::loadParams_() {
