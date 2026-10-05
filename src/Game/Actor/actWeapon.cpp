@@ -406,6 +406,24 @@ f32 Unk_71002ef75c::sub_71002EF74C() {
     return _8->_2a8;
 }
 
+bool Weapon::m214() {
+    auto* state = _d38;
+    if (!state)
+        return true;
+    if (state->_18 & 1)
+        return false;
+    const f32 charge = state->_14;
+    if (state->_0 && state->_0->m233() && (state->_0->_c20._14 & 8)) {
+        f32 threshold = 0.0f;
+        if (state->_0->_d38)
+            threshold = s32(f32(state->_0->_d38->_8->_2a8)) / 13;
+        if (s32(state->_14 / threshold) == 1)
+            threshold = state->_14;
+        return charge >= threshold;
+    }
+    return charge >= f32(state->_8->_2c8);
+}
+
 void Unk_71002ef75c::sub_71002EF850() {
     _14 -= _8->_2a8;
     if (_14 <= 0) {
