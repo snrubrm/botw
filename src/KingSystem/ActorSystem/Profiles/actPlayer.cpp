@@ -29,6 +29,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
+bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
+f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
 
 namespace ksys::act {
 
@@ -813,6 +815,30 @@ bool Player::m303() {
         return false;
     auto* info = sub_71007A255C(this, 0);
     return info && info->sub_71007A1F78(0x40) && _cf0.isOnBit(1);
+}
+
+bool Player::m304() {
+    ActorConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (!link.hasProc())
+        return false;
+    acquireActor(&link, &accessor);
+    if (accessor.hasProc())
+        return sub_71002EFEC0(accessor);
+    return false;
+}
+
+f32 Player::m305() {
+    ActorConstDataAccess accessor;
+    const s32 slot = playerWeapons_return0();
+    auto& link = getWeapons()->mWeapons[slot].link;
+    if (!link.hasProc())
+        return 0.0f;
+    acquireActor(&link, &accessor);
+    if (accessor.hasProc())
+        return sub_71002F000C(accessor);
+    return 0.0f;
 }
 
 }  // namespace ksys::act
