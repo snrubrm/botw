@@ -17,7 +17,9 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     void sub_71005553EC();
+    sead::Vector3f sub_71005556F0();
 
     // static_param at offset 0x38
     const int* mForceTurnTimeBase_s{};
@@ -46,9 +48,7 @@ protected:
     // dynamic_param at offset 0x98
     sead::Vector3f* mTargetPos_d{};
     u32 _a0 = 0;
-    f32 _a4;
-    f32 _a8;
-    f32 _ac;
+    sead::Vector3f _a4;
     ksys::Timer _b0;
     ksys::Timer _bc;
     ksys::Timer _c8;

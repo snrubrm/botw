@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSafeMoveAroundTarget.h"
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 
 namespace uking::ai {
@@ -26,6 +27,42 @@ void SafeMoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void SafeMoveAroundTarget::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: random endpoint conversions and timer/vector stores are scheduled differently.
+void SafeMoveAroundTarget::calc_() {
+    if (isFinished() || isFailed())
+        return;
+    _bc.update();
+    if (!(_c8.value <= sead::Mathf::epsilon())) {
+        _c8.update();
+        if (_c8.value <= sead::Mathf::epsilon()) {
+            const s32 base = *mForceTurnStopTimeBase_s;
+            const s32 end = base + *mForceTurnStopTimeRand_s;
+            _d4.value = _d4.previous_value =
+                sead::GlobalRandom::instance()->getF32Range(f32(base), f32(end));
+        }
+    }
+    if (!(_d4.value <= sead::Mathf::epsilon())) {
+        _d4.update();
+        if (_d4.value <= sead::Mathf::epsilon()) {
+            const s32 base = *mForceTurnTimeBase_s;
+            const s32 end = base + *mForceTurnTimeRand_s;
+            _c8.value = _c8.previous_value =
+                sead::GlobalRandom::instance()->getF32Range(f32(base), f32(end));
+        }
+    }
+    if (_b0.value > *mEndRange_s * 0.95f)
+        _b0.update();
+    if (_bc.value <= sead::Mathf::epsilon()) {
+        _a4 = sub_71005556F0();
+        if (_a4.x == 0.0f && _a4.y == 0.0f && _a4.z == 0.0f) {
+            setFailed();
+            return;
+        }
+        getCurrentChild()->setDynamicParam(_a4, "TargetPos");
+        _bc.value = _bc.previous_value = f32(*mUpdateTargetPosTime_s);
+    }
 }
 
 void SafeMoveAroundTarget::loadParams_() {
