@@ -36,6 +36,7 @@ public:
     // 0x71012302d0 (CSV ActorEffects::toggle; declaration only, lane2 s21): PriestBossAfterImageRoot::enter_
     // calls it with true.
     void toggle(bool a1);
+    void sleep(s32 reason);
     // 0x7101232e88 / 0x7101232f2c: actor-job effect activity queries.
     bool x_1();
     bool x_2();

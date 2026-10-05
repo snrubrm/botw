@@ -384,6 +384,7 @@ public:
     void handleModelFadeInOutAndFadeDelete();
     // CSV Actor::x_2 (0x7100732fc0, 928 bytes; declaration only, lane4 s28): called first by MapConstActive::m148.
     void x_2();
+    bool x_8(bool a1);
     // CSV Actor::x_9: sets _4f0 (and _68e when it changes).
     void sub_71011CCB1C(f32 value);
     // Sets mModelBindInfo (ignored while ActorFlag::_5 is set).
