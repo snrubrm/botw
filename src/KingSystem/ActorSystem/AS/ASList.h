@@ -210,6 +210,22 @@ public:
         sead::Vector3f* _vec3_ptr;
     };
 
+    // 0x710115b070 / 0x710115b140 construct this transient request for 0x710115ae2c.
+    struct AnimationRequest {
+        void* define;
+        sead::SafeString name;
+        s32 slot;
+        s32 bank;
+        bool lookupFlag;
+        bool force;
+        void* resource;
+        f32 value;
+        f32 value2;
+    };
+    static_assert(sizeof(AnimationRequest) == 0x38);
+
+    // 0x710115ae2c (declaration only): applies a resolved animation request.
+    void sub_710115AE2C(const AnimationRequest& request);
     void startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int a5, int a6,
                              bool a7);
     bool goLimpFromHeadShotMaybe(u32 a1, const sead::SafeString& a2, u32 a3);  // x_8

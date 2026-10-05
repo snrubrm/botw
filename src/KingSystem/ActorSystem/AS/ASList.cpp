@@ -12,6 +12,23 @@
 
 namespace ksys::as {
 
+void ASList::startAnimationMaybe(f32 a2, f32 a3, const sead::SafeString& animation, int slot,
+                               int bank, bool force) {
+    if (!_d8 || mSlots.size() <= slot || mSlots[slot]._20.size() <= bank)
+        return;
+
+    AnimationRequest request;
+    request.define = sub_710115AABC(animation, &request.name, &request.lookupFlag,
+                                   &request.resource, false);
+    request.slot = slot;
+    request.bank = bank;
+    request.value = a2;
+    request.value2 = a3;
+    request.force = force;
+    if (request.define)
+        sub_710115AE2C(request);
+}
+
 struct ASList::Unk2::InitArg {
     Unk1* slot;
     s32 index;
