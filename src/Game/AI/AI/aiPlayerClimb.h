@@ -14,6 +14,7 @@ public:
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void calc_() override;
     void loadParams_() override;
 
     bool isFailed() const override;
@@ -21,6 +22,9 @@ public:
 
 protected:
     void sub_7100829AA0();
+    void sub_7100829E68();
+    bool sub_7100829F70();
+    bool sub_710082A058();
 
     // static_param at offset 0x38
     const float* mNoClimbTime_s{};

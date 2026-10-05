@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiPlayerClimb.h"
+#include "Game/gameUnk_710246d058.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 
 namespace uking::ai {
@@ -52,6 +54,37 @@ bool PlayerClimb::isFinished() const {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: string and angle temporaries use different stack slots and store ordering.
+void PlayerClimb::calc_() {
+    using Player = ksys::act::Player;
+    sub_7100829E68();
+    if (handlePendingChildChange())
+        return;
+    sub_7100829F70();
+    if (isCurrentChild("壁登り")) {
+        if (sub_710082A058())
+            return;
+        if (static_cast<Player*>(mActor)->get17d0()->controllerCheckPressedMaybe(32))
+            static_cast<Player*>(mActor)->sub_71008921A8();
+    }
+    auto* child = getCurrentChild();
+    if ((child->isFinished() || child->isFailed()) && isCurrentChild("武器ペグ")) {
+        sub_7100829AA0();
+        return;
+    }
+    if (static_cast<Player*>(mActor)->get17d0()->playerCheckController(2)) {
+        auto* player = static_cast<Player*>(mActor);
+        if (player->_209c > 0.05f &&
+            player->sub_7100869814(
+                ksys::util::angleDiff(player->_1c74, player->x_5()),
+                ksys::util::Unk_7101EC6BAC(ksys::util::sUnk_7101EC6BA0 & 0x20000000)) == 1) {
+            static_cast<Player*>(mActor)->_c44.set(0x2000000);
+            return;
+        }
+    }
+    static_cast<Player*>(mActor)->_c44.reset(0x2000000);
 }
 
 }  // namespace uking::ai
