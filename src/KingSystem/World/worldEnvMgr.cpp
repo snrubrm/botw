@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldEnvMgr.h"
+#include "Game/UI/uiScreens.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/VFR.h"
@@ -569,6 +570,21 @@ float EnvMgr::getBloodMoonProgress() const {
 
 void EnvMgr::allowPaletteOverride() {
     mBlockPaletteSetOverride = false;
+}
+
+// NON_MATCHING: boolean accumulation and branch scheduling differ.
+bool EnvMgr::isFadeOrFadeDemoScreenOpened() const {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return false;
+
+    bool opened = false;
+    if (auto* fade = sead::DynamicCast<uking::ui::Fade>(mgr->getScreen(uking::ui::ScreenId::Fade)))
+        opened = fade->isOpened();
+    if (auto* demo = sead::DynamicCast<uking::ui::ScreenFadeDemo>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::FadeDemo)))
+        opened |= demo->isOpened();
+    return opened;
 }
 
 }  // namespace ksys::world
