@@ -26,6 +26,11 @@ void UnarmedEnemySearchWeapon::m45() {
     setFinished();
 }
 
+void UnarmedEnemySearchWeapon::m35(const sead::Vector3f& target) {
+    sub_71003B8780();
+    UnarmedEnemySearch::m35(target);
+}
+
 void UnarmedEnemySearchWeapon::leave_() {
     UnarmedEnemySearch::leave_();
 }

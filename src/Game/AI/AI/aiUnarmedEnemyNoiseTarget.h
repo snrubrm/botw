@@ -17,9 +17,11 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    void m35(const sead::Vector3f& target) override;
     void loadParams_() override;
 
 protected:
+    void sub_71005D4C28();
     // static_param at offset 0x68
     const int* mLostTime_s{};
     // static_param at offset 0x70

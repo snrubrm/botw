@@ -16,6 +16,11 @@ void UnarmedEnemyNoiseTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     UnarmedEnemySearch::enter_(params);
 }
 
+void UnarmedEnemyNoiseTarget::m35(const sead::Vector3f& target) {
+    sub_71005D4C28();
+    UnarmedEnemySearch::m35(target);
+}
+
 void UnarmedEnemyNoiseTarget::leave_() {
     UnarmedEnemySearch::leave_();
 }

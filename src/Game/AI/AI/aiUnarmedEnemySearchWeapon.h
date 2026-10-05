@@ -18,6 +18,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void calc_() override;
     void leave_() override;
+    void m35(const sead::Vector3f& target) override;
 
     bool m34() override;
     void m36() override {}
@@ -27,6 +28,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71003B8780();
     /* 0x68 */ ksys::act::BaseProcLink _68;
     // 0x7100d772d4 is the element destructor (Unk_71024dc858's D1 at the element start).
     /* 0x78 */ sead::FixedObjList<ksys::act::Unk_7100d78e50, 8> _78;
