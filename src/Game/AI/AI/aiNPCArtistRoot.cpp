@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiNPCArtistRoot.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiRoot.h"
 
 namespace uking::ai {
 
@@ -29,6 +30,13 @@ void NPCArtistRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void NPCArtistRoot::leave_() {
+    if (mActor->getRootAi()->getNewChildIdx() != 0) {
+        if (auto* child = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcChild())) {
+            mActor->resetConnectedCalcChild(false);
+            child->deleteEx(ksys::act::Actor::DeleteType::_1,
+                            ksys::act::BaseProc::DeleteReason::_0, nullptr);
+        }
+    }
     NPCRoot::leave_();
 }
 
