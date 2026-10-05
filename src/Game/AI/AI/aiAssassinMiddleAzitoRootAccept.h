@@ -17,7 +17,6 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
-    // 0x710031ff00: not decompiled (calls the unnamed ksys::evt::Manager function 0x7100db0ca0).
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
