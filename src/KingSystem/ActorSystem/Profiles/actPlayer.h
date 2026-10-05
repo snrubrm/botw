@@ -264,7 +264,7 @@ public:
     /* 375 */ bool m375() override { return stillAlive(); }
     /* 376 */ bool m376() override;
     /* 377 */ void m377() override;
-    /* 378 */ bool m378() override;
+    /* 378 */ s32 m378() override;
     /* 379 */ void m379() override;
     /* 380 */ void m380() override;
     /* 381 */ void m381() override;

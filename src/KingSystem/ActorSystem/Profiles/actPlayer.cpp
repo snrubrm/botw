@@ -31,8 +31,13 @@
 void sub_7100D2D424(uking::dmg::DamageManagerBase* manager);
 bool sub_71002EFEC0(const ksys::act::ActorConstDataAccess& accessor);
 f32 sub_71002F000C(const ksys::act::ActorConstDataAccess& accessor);
+s32 sub_7100A95214();
 
 namespace ksys::act {
+
+s32 Player::m378() {
+    return sub_7100A95214();
+}
 
 void Player::m158() {
     if (auto* manager = mDamageMgr) {

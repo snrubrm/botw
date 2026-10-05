@@ -43,7 +43,7 @@ public:
     /* 13 */ virtual Unk_71024ef4e8* getAttachedTargetActor2() = 0;
     /* 14 */ virtual Unk_71024ef4e8* getAttachedTargetActor() = 0;
     /* 15 */ virtual Actor* m382();
-    /* 16 */ virtual bool m378() { return false; }
+    /* 16 */ virtual s32 m378() { return 0; }
     /* 17 */ virtual bool m17() { return false; }
     /* 18 */ virtual bool isRidingHorse() = 0;
     /* 19 */ virtual bool m178() = 0;
