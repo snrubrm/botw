@@ -30,6 +30,21 @@ void Swarm::m68() {
     Actor::m68();
 }
 
+void Swarm::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    Enemy::m76(setter);
+    if (mActorFlags2.isOn(ActorFlag2::_1) || mActorFlags2.isOn(ActorFlag2::_40) ||
+        !mSpecialJobTypesMaskOverride.isOnBit(0))
+        return;
+    if (_14d8)
+        _14d8->sub_710115C53C();
+    if (_14e0)
+        _14e0->sub_710115C53C();
+    if (_14e8)
+        _14e8->sub_710115C53C();
+    if (_14f0)
+        _14f0->sub_710115C53C();
+}
+
 void Swarm::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
     Actor::setMtx(mtx, a2, a3);
     sead::Matrix34CalcCommon<f32>::inverse(_15b8, mMtx);
