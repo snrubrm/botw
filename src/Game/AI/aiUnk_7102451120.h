@@ -40,3 +40,7 @@ void sub_7100720140(ksys::act::Actor* actor);
 // 0x7100720a70: forwards the actor to a method (0x710065d5d4) of the object at +0x450 of a singleton
 // (GOT 0x7102579100).
 void sub_7100720A70(ksys::act::Actor* actor);
+
+// Source namespace is inferred from the existing Sandworm helper interface.
+void sub_7100720254(ksys::act::Actor* actor);
+void sub_71007208EC(ksys::act::Actor* actor);
