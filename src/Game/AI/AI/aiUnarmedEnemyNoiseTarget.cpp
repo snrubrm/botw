@@ -1,5 +1,8 @@
 #include "Game/AI/AI/aiUnarmedEnemyNoiseTarget.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -23,6 +26,12 @@ void UnarmedEnemyNoiseTarget::m35(const sead::Vector3f& target) {
 
 void UnarmedEnemyNoiseTarget::leave_() {
     UnarmedEnemySearch::leave_();
+    sub_71005DB3EC(mActor);
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        enemy->sub_7100019C58(sub_71005D83E8(enemy, *mWeaponIdx_s));
+        enemy->sub_7100019D38(_d0);
+    }
+    _100.clear();
 }
 
 void UnarmedEnemyNoiseTarget::loadParams_() {
