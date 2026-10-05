@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    void sub_71004F277C(bool flag);
+    void sub_71004F296C();
     // map_unit_param at offset 0x38
     const bool* mOnCliff_m{};
     // aitree_variable at offset 0x40
