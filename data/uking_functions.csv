@@ -19881,7 +19881,7 @@ Address,Quality,Size,Name
 0x00000071002eb074,O,000224,_ZN5uking3act6Weapon4m239Ev
 0x00000071002eb154,O,000076,_ZN5uking3act6Weapon4m229EPN4ksys3act8BaseProcE
 0x00000071002eb1a0,U,000960,_ZN5uking3act6Weapon15updateLifeMaybeEPN4ksys3act8BaseProcE
-0x00000071002eb560,U,000272,Weapon::m84
+0x00000071002eb560,m,000272,_ZN5uking3act6Weapon20updateMtxFromPhysicsEv
 0x00000071002eb670,U,000312,Weapon::x_3
 0x00000071002eb7a8,U,000640,Weapon::m252_break
 0x00000071002eba28,U,000272,_Z15getWeaponTypeIdRKN4sead14SafeStringBaseIcEE
