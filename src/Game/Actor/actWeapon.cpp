@@ -104,6 +104,11 @@ bool Weapon::m227() {
     return (_e52 & 1) != 0;
 }
 
+void Weapon::m228(ksys::act::BaseProc* proc) {
+    if (_938.hasProcById(proc))
+        _f73 = true;
+}
+
 void Weapon::m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) {
     dropActorFromPorchCalculateMtx(matrix, actor);
 }

@@ -273,6 +273,7 @@ public:
     void m215() override;
     void* m221() override;
     bool m227() override;
+    void m228(ksys::act::BaseProc* proc) override;
     void m249(sead::Matrix34f* matrix, ksys::act::Actor* actor) override;
     bool m218() override;
     bool m225() override;
@@ -332,7 +333,9 @@ public:
     /* 0xf58 */ bool _f58;
     /* 0xf59 */ u8 _f59[0xf60 - 0xf59];  // TODO
     /* 0xf60 */ ksys::act::BaseProcLink _f60;
-    /* 0xf70 */ u8 _f70[0xf89 - 0xf70];  // TODO
+    /* 0xf70 */ u8 _f70[3];
+    /* 0xf73 */ bool _f73 = false;
+    /* 0xf74 */ u8 _f74[0xf89 - 0xf74];
     /* 0xf89 */ bool _f89;  // cleared by ASWeaponRoot::enter_, set by its leave_
     u8 _f8a[0xf90 - 0xf8a];
     /* 0xf90 */ ksys::act::Unk_71025ae620* mDropData;
