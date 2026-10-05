@@ -5,10 +5,25 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
 
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
+
+// NON_MATCHING: the success and failure return values use a smaller frame and different join paths.
+bool openPickUpScreen(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* manager = eui::ScreenMgr::instance();
+    if (!manager)
+        return false;
+    if (auto* screen = sead::DynamicCast<ScreenPickUp>(manager->getScreen(ScreenId::PickUp))) {
+        screen->setItemAndOpen(actor->getName(), true);
+        return true;
+    }
+    return false;
+}
 
 void increasePouchNumImpl(const sead::SafeString& name, s32 count) {
     if (auto* mgr = PauseMenuDataMgr::instance())
