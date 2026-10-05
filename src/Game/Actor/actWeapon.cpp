@@ -40,6 +40,10 @@ void weaponBroken(ksys::act::Actor* actor);
 // Source ownership is unknown; declaration only.
 void dropActorFromPorchCalculateMtx(sead::Matrix34f* matrix, ksys::act::Actor* actor);
 
+// Source ownership is unknown; declarations only.
+void callGetDemoHandler(ksys::act::Actor* actor, const sead::SafeString& name);
+bool emitActorGetDemoSound(const sead::SafeString& name);
+
 namespace uking::act {
 
 void Weapon::m181() {
@@ -166,6 +170,18 @@ bool Weapon::m226() {
         return false;
     auto* player = sead::DynamicCast<ksys::act::PlayerBase>(getParentActor());
     return player && player->m206();
+}
+
+void Weapon::m206(bool play_sound) {
+    callGetDemoHandler(this, getName());
+    ui::openPickUpScreen(this);
+    if (play_sound)
+        emitActorGetDemoSound(getName());
+    m182();
+    emitDeadUpLifeZeroAndSetRevival();
+    unlinkPlacementObj();
+    resetMubinBymlIter();
+    ksys::act::disableAllAttClients(this);
 }
 
 // NON_MATCHING: the invalid-slot result joins the shared return path earlier.

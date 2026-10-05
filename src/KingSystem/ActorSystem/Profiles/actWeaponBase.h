@@ -124,7 +124,7 @@ public:
     virtual bool m203() { return _9f4.isOn(1); }
     virtual bool m204() { return false; }
     virtual bool m205() { return false; }
-    virtual void m206() {}
+    virtual void m206(bool play_sound) {}
     virtual void m207();
     virtual void m208();
     virtual void m209() {}

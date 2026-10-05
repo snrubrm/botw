@@ -283,6 +283,7 @@ public:
     bool m218() override;
     bool m225() override;
     bool m226() override;
+    void m206(bool play_sound) override;
     bool m153() override;
     ksys::act::ActorWeapons* getParentActorWeapons();
     bool m216() override;
