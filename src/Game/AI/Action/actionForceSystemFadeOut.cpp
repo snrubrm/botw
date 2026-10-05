@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForceSystemFadeOut.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -11,7 +12,17 @@ bool ForceSystemFadeOut::init_(sead::Heap* heap) {
 }
 
 void ForceSystemFadeOut::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* screen = sead::DynamicCast<ui::Fade>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+    if (!screen)
+        return;
+    if (screen->isOpened() || screen->isOpening()) {
+        screen->close(-1);
+        _1c = true;
+    } else {
+        _1c = false;
+        setFinished();
+    }
 }
 
 void ForceSystemFadeOut::leave_() {
@@ -21,7 +32,14 @@ void ForceSystemFadeOut::leave_() {
 void ForceSystemFadeOut::loadParams_() {}
 
 void ForceSystemFadeOut::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!_1c) {
+        setFinished();
+        return;
+    }
+    auto* screen = sead::DynamicCast<ui::Fade>(
+        eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade));
+    if (screen && screen->isClosed())
+        setFinished();
 }
 
 }  // namespace uking::action
