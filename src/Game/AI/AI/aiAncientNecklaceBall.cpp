@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiAncientNecklaceBall.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -40,6 +42,17 @@ bool AncientNecklaceBall::handleMessage_(const ksys::Message* message) {
     if (_170.m2(*message))
         return true;
     return AncientNecklaceBallBase::handleMessage_(message);
+}
+
+// NON_MATCHING: message receiver address scheduling differs.
+void AncientNecklaceBall::m37() {
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        weapon->m175(sead::Vector3f::zero, false, false, nullptr, false);
+        weapon->m199();
+    }
+    if (auto* bind = mActor->getModelBindInfo())
+        _140.sub_710070DE98(bind->sub_7100D3C5E0(mActor), true);
+    sub_7100301D90(true);
 }
 
 bool AncientNecklaceBall::m36() {
