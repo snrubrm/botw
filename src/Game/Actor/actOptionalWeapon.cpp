@@ -18,6 +18,10 @@ ksys::act::Actor* OptionalWeapon::m31() {
     return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
 }
 
+void OptionalWeapon::m76(ksys::VFR::ScopedDeltaSetter* setter) {
+    sub_7100EF0A44();
+}
+
 bool OptionalWeapon::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return true;
 }

@@ -32,6 +32,9 @@ public:
     void sub_7100EF1ADC();
 
     Actor* m31() override;
+    void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
+
+    void sub_7100EF0A44();
 
 protected:
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
