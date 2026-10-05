@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace uking::ui {
+class Screen;
+}
+
 namespace uking::action {
 
 class EventFade : public ksys::act::ai::Action {
@@ -17,6 +21,7 @@ public:
 
 protected:
     void calc_() override;
+    ui::Screen* sub_7100119888();
 
     // dynamic_param at offset 0x20
     int* mFrame_d{};

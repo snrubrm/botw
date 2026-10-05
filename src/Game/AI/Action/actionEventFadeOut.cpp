@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventFadeOut.h"
+#include "Game/UI/uiScreens.h"
 
 namespace uking::action {
 
@@ -11,7 +12,15 @@ bool EventFadeOut::init_(sead::Heap* heap) {
 }
 
 void EventFadeOut::enter_(ksys::act::ai::InlineParamPack* params) {
-    EventFade::enter_(params);
+    if (sub_710011A710()) {
+        setFinished();
+        mFlags.set(Flag::Changeable);
+    } else {
+        EventFade::enter_(params);
+        auto* screen = sub_7100119888();
+        if (!screen->isOpened() && !screen->isOpening())
+            screen->open(1);
+    }
 }
 
 void EventFadeOut::leave_() {

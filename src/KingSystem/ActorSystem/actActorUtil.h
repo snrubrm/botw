@@ -193,6 +193,8 @@ const sead::SafeString& getDefaultDropActor();
 
 // 0x7100ee52c4-0x7100ee5324 (CSV names getStr_Atk / _Tgt / _Body / _Chemical; the rest named after
 // their strings): rigid body / sensor group names.
+// Source namespace inferred from the actor utility implementation.
+const sead::SafeString& getStr_AtvKeyActorSaveDataIndex();
 const sead::SafeString& getStr_Atk();
 const sead::SafeString& getStr_Tgt();
 const sead::SafeString& getStr_Body();
