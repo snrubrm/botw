@@ -23,6 +23,16 @@
 
 namespace ksys::act {
 
+namespace {
+const sead::SafeString sEquipmentTypeNames[8] = {
+    "None", "Sword", "Shield", "Bow", "Bomb", "Item_Magnetglove", "ShiekahStone", "Unequip"};
+}  // namespace
+
+// NON_MATCHING: Compiler folds table addressing into fewer instructions.
+const sead::SafeString& PlayerBase::getEquipmentTypeName(u32 type) const {
+    return sEquipmentTypeNames[type];
+}
+
 void PlayerLink::m379() {}
 
 void PlayerLink::m380() {}
