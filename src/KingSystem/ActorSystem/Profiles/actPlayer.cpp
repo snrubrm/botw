@@ -835,6 +835,16 @@ void Player::x_19(f32) {
     mASList->sub_710115F2EC(0, 1, 0.0f);
 }
 
+// NON_MATCHING: the final callback setup and resource float load are scheduled differently.
+void Player::x_24(f32) {
+    if (!mASList->x_7(2, 0, &as::ASList::Unk2::sub_710002E82C))
+        return;
+    mASList->sub_710115B01C(2, 0, true);
+    if (_d30 == getEquipmentTypeName(3) && _c40.isOnBit(13))
+        mASList->x_3(2, 0, &as::ASList::Unk2::sub_71011631BC,
+                    getParam()->getRes().mGParamList->getPlayer()->mBowSlowRateDiam.ref());
+}
+
 f32 Player::m248() {
     if (auto* weapon = sead::DynamicCast<uking::act::Weapon>(getWeapons()->getEquippedWeapon(2)))
         return weapon->sub_71002ED434();
