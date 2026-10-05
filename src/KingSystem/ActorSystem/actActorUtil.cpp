@@ -1177,6 +1177,18 @@ void setEnabledTalkAndLockOn(Actor* actor, bool enabled) {
         lock_on->setEnabled(enabled);
 }
 
+bool attentionStuff(Actor* actor) {
+    bool result = false;
+    if (actor) {
+        if (auto* attention = Attention::instance()) {
+            ActorConstDataAccess accessor;
+            if (attention->x(&accessor))
+                result = accessor.hasProc(actor);
+        }
+    }
+    return result;
+}
+
 bool attentionStuff_0(Actor* actor) {
     bool result = false;
     if (actor) {
