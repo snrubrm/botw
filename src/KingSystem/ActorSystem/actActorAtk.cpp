@@ -8,6 +8,17 @@
 
 namespace ksys::act {
 
+namespace {
+ActorAtk::Struct7::AttackInfo sDefaultAttackInfo;
+}  // namespace
+
+// NON_MATCHING: Compiler separates fallback paths and default-record addressing.
+ActorAtk::Struct7::AttackInfo* ActorAtk::getAttackInfo(int idx) const {
+    if (_18 && idx < _18->mNumAttackInfo)
+        return &_18->mAttackInfos[idx];
+    return &sDefaultAttackInfo;
+}
+
 ActorAtk::ActorAtk(Actor* actor) : Unk_71025ae640(actor) {}
 
 ActorAtk* ActorAtk::makeForActor(Actor* actor, sead::Heap* heap) {
