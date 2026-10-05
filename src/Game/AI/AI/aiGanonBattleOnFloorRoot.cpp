@@ -27,6 +27,29 @@ void GanonBattleOnFloorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71003E1EE0(testRootAiFlag2(ksys::act::ai::RootAiFlag2::_0) || *mIsNoWait_d);
 }
 
+void GanonBattleOnFloorRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (!child) {
+        setFailed();
+        return;
+    }
+    child->setDynamicParam(*mTargetPos_d, "TargetPos");
+    _50.update();
+    if (_50.value <= sead::Mathf::epsilon()) {
+        _50.reset(900.0f, 0.0f);
+        if (auto* boss = sead::DynamicCast<act::LastBoss>(mActor))
+            boss->_14e4 = 2;
+    }
+    if (child->isFinished() || child->isFailed()) {
+        if (child->isFailed())
+            _5c = false;
+        if (isCurrentChild("待機") || _50.value <= sead::Mathf::epsilon())
+            setFinished();
+        else
+            sub_71003E1EE0(false);
+    }
+}
+
 void GanonBattleOnFloorRoot::leave_() {
     ksys::act::ai::Ai::leave_();
 }
