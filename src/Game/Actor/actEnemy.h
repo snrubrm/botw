@@ -192,6 +192,8 @@ public:
     // CSV Enemy::construct: the actor factory function.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~Enemy() override;
+    // 0x7100018a9c: declaration-only start timer update for this Enemy and its linked weapons.
+    void sub_7100018A9C(f32 time);
 
 protected:
     InitResult init_() override;

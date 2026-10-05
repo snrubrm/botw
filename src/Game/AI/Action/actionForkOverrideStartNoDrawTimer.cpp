@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkOverrideStartNoDrawTimer.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
@@ -12,7 +13,11 @@ bool ForkOverrideStartNoDrawTimer::init_(sead::Heap* heap) {
 }
 
 void ForkOverrideStartNoDrawTimer::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    if (isRootAiParamINot5()) {
+        if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+            enemy->sub_7100018A9C(*mTime_s);
+    }
 }
 
 void ForkOverrideStartNoDrawTimer::leave_() {
