@@ -144,6 +144,8 @@ public:
     bool sub_7100D4F9DC(Object* obj);
     // 0x7100d4fa90 / 0x7100d4fb88 / 0x7100d4fbf8: forwarders to GenGroup (_1f = 1 / sub_7100D51134 / sub_7100D51E6C).
     void sub_7100D4FA90();
+    // 0x7100d4fad8: declaration-only operation on the other links.
+    void sub_7100D4FAD8();
     bool sub_7100D4FB88();
     bool sub_7100D4FBF8();
 

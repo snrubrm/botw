@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/gameEventMgr1.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -766,6 +767,24 @@ void Actor::emitDeadUpLifeZeroAndSetRevival() {
         mMapObject->setFlags0(map::Object::Flag0::_100000);
     if (mMapObject)
         mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
+}
+
+void Actor::emitSignalsOrDisappearEffectForDelete(int reason) {
+    emitSignal(map::MapLinkDefType::DeadUp, true);
+    emitSignal(map::MapLinkDefType::LifeZero, true);
+    if (mMapObject) {
+        mMapObject->setFlags0(map::Object::Flag0::_100000);
+        if (mMapObject) {
+            mMapObject->setRevivalFlagValueIf(map::ActorData::Flag::RevivalEnable, true);
+            if (mMapObject && mMapObject->getLinkData())
+                mMapObject->getLinkData()->sub_7100D4FAD8();
+        }
+    }
+    if (reason == 2)
+        return;
+    EventMgr1::instance()->sub_7100E48D8C(getName());
+    if (reason != 1)
+        emitDisappearEffect();
 }
 
 void Actor::sub_71011D7E24() {

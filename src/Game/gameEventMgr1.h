@@ -20,4 +20,7 @@ public:
     // 0x7100e48c44 / 0x7100e4908c: declaration-only counter unregister operations.
     void sub_7100E48C44(const sead::SafeString& name);
     void sub_7100E4908C(const sead::SafeString& name);
+
+    // 0x7100e48d8c: declaration-only operation on records for this actor name.
+    void sub_7100E48D8C(const sead::SafeString& name);
 };
