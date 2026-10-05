@@ -11,6 +11,9 @@ public:
 
     ~AlignPane() override;
 
+    void Calculate(nn::ui2d::DrawInfo&, nn::ui2d::Pane::CalculateContext&, bool) override;
+    void doAlign_();
+
     /* 0xe0 */ u8 mAlignmentMode;
     /* 0xe1 */ bool mNeedsAlignment;
     /* 0xe2 */ bool mExtendEdge;
