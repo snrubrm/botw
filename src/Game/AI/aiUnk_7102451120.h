@@ -44,3 +44,5 @@ void sub_7100720A70(ksys::act::Actor* actor);
 // Source namespace is inferred from the existing Sandworm helper interface.
 void sub_7100720254(ksys::act::Actor* actor);
 void sub_71007208EC(ksys::act::Actor* actor);
+void sub_710072022C(ksys::act::Actor* actor);
+void sub_7100720814(ksys::act::Actor* actor, s32 mode);

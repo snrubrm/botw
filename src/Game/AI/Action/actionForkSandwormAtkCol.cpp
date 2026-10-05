@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 
 void sub_7100720330(ksys::act::Actor* actor);
+void sub_710072027C(ksys::act::Actor* actor, bool use_toss, u32 min_damage);
 
 namespace uking::action {
 
@@ -14,8 +15,14 @@ bool ForkSandwormAtkCol::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: max selects the minimum damage without the original duplicated bool branches.
 void ForkSandwormAtkCol::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    mFlags.set(Flag::Changeable);
+    auto* actor = mActor;
+    sub_710072022C(actor);
+    sub_710072027C(actor, *mIsUseTossAt_s, sead::Mathi::max(1, *mMinDamage_s));
+    if (*mIsColNoHitPlayer_s)
+        sub_7100720814(actor, 0);
 }
 
 void ForkSandwormAtkCol::leave_() {
