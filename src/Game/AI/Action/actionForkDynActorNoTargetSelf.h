@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m32() override;
 
     // dynamic_param at offset 0x30
     ksys::act::BaseProcLink* mTargetActor_d{};
