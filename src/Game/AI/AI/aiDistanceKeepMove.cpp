@@ -15,7 +15,23 @@ bool DistanceKeepMove::init_(sead::Heap* heap) {
     return WaitNearTarget::init_(heap);
 }
 
+// NON_MATCHING: Direction and parameter-pack storage are separate; normalization addition order differs.
 void DistanceKeepMove::enter_(ksys::act::ai::InlineParamPack* params) {
+    const f32 distance = sub_71005E9138();
+    const f32 base_distance = *mBaseDist_s;
+    const f32 back_offset = *mStartBackDistOffset_s;
+    if (base_distance + back_offset + sub_71007320F0(mActor, *mWeaponIdx_s) >= distance) {
+        auto* actor = mActor;
+        sead::Vector3f direction = actor->getMtx().getTranslation();
+        direction -= sub_71005D9330(actor);
+        direction.normalize();
+        if (!sub_710072FEC4(actor, direction, 3.0f, nullptr, false, nullptr)) {
+            ksys::act::ai::InlineParamPack pack;
+            pack.addVec3(*mTargetPos_d, "TargetPos", -1);
+            changeChild("後退", &pack);
+            return;
+        }
+    }
     WaitNearTarget::enter_(params);
 }
 
