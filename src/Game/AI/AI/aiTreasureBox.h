@@ -29,6 +29,8 @@ public:
     void loadParams_() override;
 
 protected:
+    bool handleMessage_(const ksys::Message* message) override;
+
     // map_unit_param at offset 0x38
     const int* mSharpWeaponJudgeType_m{};
     // map_unit_param at offset 0x40

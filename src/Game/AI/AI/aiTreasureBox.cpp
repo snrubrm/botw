@@ -1,4 +1,9 @@
 #include "Game/AI/AI/aiTreasureBox.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+
+bool sub_710072B8E8(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -22,6 +27,24 @@ void TreasureBox::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void TreasureBox::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: the contact checks and listener result join the return paths differently.
+bool TreasureBox::handleMessage_(const ksys::Message* message) {
+    if (!isCurrentChild("クローズ待機"))
+        return false;
+    auto* actor = mActor;
+    if (sub_710072B8E8(actor))
+        return true;
+    auto* body = actor->getMainBody();
+    if (body && body->getMotionType() == ksys::phys::MotionType::Dynamic) {
+        auto* info = body->getContactPointInfo();
+        if (body->isActive() && info &&
+            (info->getNumContactPoints().load() == 0 || info->begin().isEnd())) {
+            return true;
+        }
+    }
+    return _80.m2(*message);
 }
 
 void TreasureBox::loadParams_() {
