@@ -17,6 +17,12 @@ public:
 protected:
     void calc_() override;
 
+    bool sub_71001C20C0();
+    bool sub_71001C21C0();
+    void sub_71001C256C();
+    void sub_71001C27A8();
+    void sub_71001C2A08();
+
     // dynamic_param at offset 0x20
     float* mRotOffsetX_d{};
     // dynamic_param at offset 0x28
