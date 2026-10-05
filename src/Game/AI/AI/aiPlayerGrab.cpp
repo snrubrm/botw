@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPlayerGrab.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "Game/gameUnk_710246d058.h"
 
 namespace uking::ai {
 
@@ -14,6 +17,37 @@ void PlayerGrab::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void PlayerGrab::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void PlayerGrab::calc_() {
+    if (handlePendingChildChange())
+        return;
+    static_cast<ksys::act::Player*>(mActor)->sub_710086B834();
+    if (static_cast<ksys::act::Player*>(mActor)->_1cb0 != -1 &&
+        static_cast<ksys::act::Player*>(mActor)->get17d0()->controllerCheckPressedMaybe(0)) {
+        const s32 type = static_cast<ksys::act::Player*>(mActor)->_1cb0;
+        if (type >= 22 && type <= 25) {
+            ui::sub_7100A95F5C(type);
+            static_cast<ksys::act::Player*>(mActor)->sub_710086BCF8();
+        }
+    }
+    if (isCurrentChild("置き") &&
+        static_cast<ksys::act::Player*>(mActor)->get17d0()->controllerCheckPressedMaybe(17))
+        _38 = true;
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("準備")) {
+            if (!getCurrentChild()->isFailed())
+                changeChild("持上げ", nullptr);
+        } else if (isCurrentChild("置き")) {
+            if (_38)
+                changeChild("しゃがみ", nullptr);
+            else if (_39)
+                changeChild("風の加護ジャンプ溜め", nullptr);
+            else
+                changeChild("立ち上がり", nullptr);
+        }
+    }
 }
 
 void PlayerGrab::loadParams_() {}
