@@ -10,11 +10,14 @@ public:
     explicit EnemyRoam(const InitArg& arg);
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void loadParams_() override;
     // 0x71003b2b00 (placeholder name)
     void changeToRoamSearch();
 
 protected:
+    bool sub_71003B2C0C(sead::Vector3f* position);
+
     // static_param at offset 0x38
     const int* mSearchPer_s{};
     // static_param at offset 0x40
