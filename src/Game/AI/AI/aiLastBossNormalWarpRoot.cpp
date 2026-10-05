@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiLastBossNormalWarpRoot.h"
+#include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -16,7 +17,9 @@ bool LastBossNormalWarpRoot::init_(sead::Heap* heap) {
 }
 
 void LastBossNormalWarpRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    m34();
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))
+        boss->sub_71002D3944();
 }
 
 bool LastBossNormalWarpRoot::isChangeable() const {

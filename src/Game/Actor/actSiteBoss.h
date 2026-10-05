@@ -69,6 +69,7 @@ public:
     bool sub_71002D33D0(f32 value) const;
     void sub_71002D1B18(bool on);
     void sub_71002D38EC(const sead::SafeString& name);
+    void sub_71002D3944();
 
     // Called with a possibly null boss: iterate / query the actor parts (Enemy::_1128).
     // x_2 / sub_71002D3498 take the DynamicCast<Enemy> result of their callers.
