@@ -1,5 +1,7 @@
 #include "Game/Actor/actBeamBase.h"
 #include <prim/seadScopedLock.h>
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::act {
 
@@ -11,6 +13,29 @@ BeamBase::BeamBase(const CreateArg& arg) : DynamicActor(arg) {
 // NON_MATCHING: the original computes &_b90 and &_b90._40 into callee-saved registers before the inlined
 // ~BoneAccessKeyEx call; we recompute them after it
 BeamBase::~BeamBase() = default;
+
+void BeamBase::initMaybe() {
+    DynamicActor::initMaybe();
+    sub_71000029CC();
+    if (auto* physics = getPhysics()) {
+        if (_c28.hasProc()) {
+            physics->sub_7100FBDFA4(sub_7100738C18(&_c28, 0));
+            physics->sub_7100FBDFA4(sub_7100738C18(&_c28, 1));
+        } else {
+            physics->sub_7100FBDFA4(nullptr);
+        }
+    }
+}
+
+// NON_MATCHING: the pose, position and target snapshot use separate stack storage.
+void BeamBase::m163() {
+    sead::Matrix34f pose;
+    if (sub_7100003494(&pose))
+        pose.getTranslation(_c68);
+    sead::Vector3f position;
+    m165(&position);
+    reflectMaybe(position, sead::Vector3f(_c68));
+}
 
 void BeamBase::sub_7100003804(ksys::act::Actor* shooter, const sead::SafeString& bone) {
     auto lock = sead::makeScopedLock(_b90._0);

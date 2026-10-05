@@ -51,6 +51,10 @@ public:
     void sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString& bone,
                         const sead::Vector3f* offset);
 
+    bool sub_7100003494(sead::Matrix34f* out);
+    void reflectMaybe(const sead::Vector3f& start, const sead::Vector3f& target);
+    void sub_71000029CC();
+
     // 0x7100002bf8: fades the beam effects and detaches the sound shape (declaration only).
     void sub_7100002BF8();
 
