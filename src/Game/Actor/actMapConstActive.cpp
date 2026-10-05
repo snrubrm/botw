@@ -1,6 +1,8 @@
 #include "Game/Actor/actMapConst.h"
 #include <basis/seadNew.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 
 namespace uking::act {
@@ -17,6 +19,13 @@ ksys::act::BaseProc* MapConstActive::construct(const CreateArg& arg, sead::Heap*
 
 ksys::act::Unk_71025ae640* MapConstActive::getAtk() {
     return _850;
+}
+
+void MapConstActive::m63() {
+    MapConstActiveOrMergedDungeonParts::m63();
+    sub_71007394E8(this);
+    sub_7100739108(getActorAttackSensor(this));
+    sub_7100739168(sub_71007A2844(this));
 }
 
 uking::dmg::DamageManagerBase* MapConstActive::getDamageMgr() {

@@ -62,6 +62,7 @@ public:
 
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
+    void m63() override;
     ksys::act::Unk_71025ae640* getAtk() override;
     uking::dmg::DamageManagerBase* getDamageMgr() override;
     ksys::act::Unk_71025ae620* getDropData() override;

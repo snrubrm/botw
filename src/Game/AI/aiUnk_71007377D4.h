@@ -306,15 +306,18 @@ const sead::SafeString& sub_710072D53C(ksys::act::Actor* actor, u32 slot);
 bool itemCanGetPouch(ksys::act::Actor* actor);
 bool itemCanNotGetPouch(ksys::act::Actor* actor);
 
-// 0x71007390b8 - 0x7100739168 (placeholder names; 16 bytes each): set the attack target mask (AttackSensor::_20) of the
-// sensor (null-safe); Bullet::m76 picks one by the owner's profile. (0x7100739118 - 0x7100739168 are the same with
-// a halfword at +0x1c: not written, AttackSensor::_1c is a u32.)
+// 0x71007390b8 - 0x7100739108 (placeholder names; 16 bytes each): set the attack target mask (AttackSensor::_20) of the
+// sensor (null-safe); Bullet::m76 picks one by the owner's profile.
 void sub_71007390B8(ksys::act::AttackSensor* sensor);
 void sub_71007390C8(ksys::act::AttackSensor* sensor);
 void sub_71007390D8(ksys::act::AttackSensor* sensor);
 void sub_71007390E8(ksys::act::AttackSensor* sensor);
 void sub_71007390F8(ksys::act::AttackSensor* sensor);
 void sub_7100739108(ksys::act::AttackSensor* sensor);
+// Declared only: sets the target sensor's halfword mask (AttackSensor2::_1c).
+void sub_7100739168(ksys::act::AttackSensor2* sensor);
+// Declared only: sets up the actor's target and chemical physics bodies.
+void sub_71007394E8(ksys::act::Actor* actor);
 
 /// 0x7100732afc / 0x7100732b0c / 0x7100732ad0 (placeholder names): classifications of the damage type
 /// (DamageManagerBase::getField54: 11 - 13 / 9, 10, 14 / 15, 17, 21 - 23, 27, 30, 31, 34).

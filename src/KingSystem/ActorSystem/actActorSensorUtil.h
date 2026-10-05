@@ -9,6 +9,7 @@
 namespace ksys::act {
 class Actor;
 class AttackSensor;
+class AttackSensor2;
 class AttackSensor2Listener;
 }  // namespace ksys::act
 
@@ -101,6 +102,8 @@ bool hasAttackInfo(ksys::act::Actor* actor);
 s32 getNumAttackInfoMaybe(ksys::act::Actor* actor);
 // 0x71007a2acc (CSV): ActorAtk::_40.
 ksys::act::AttackSensor* getActorAttackSensor(ksys::act::Actor* actor);
+// Declared only: the actor's target sensor (ActorAtk::_70).
+ksys::act::AttackSensor2* sub_71007A2844(ksys::act::Actor* actor);
 // 0x71007a439c / 0x71007a4440: ActorAtk::sub_710079E344 / sub_710079E3B8 (behaviors SetThroughArrow / SetThroughCloseWeapon).
 void sub_71007A439C(ksys::act::Actor* actor, ksys::act::AttackSensor2Listener* listener);
 void sub_71007A4440(ksys::act::Actor* actor, ksys::act::AttackSensor2Listener* listener);
