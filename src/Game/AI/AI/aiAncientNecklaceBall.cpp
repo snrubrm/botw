@@ -1,5 +1,9 @@
 #include "Game/AI/AI/aiAncientNecklaceBall.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -38,6 +42,50 @@ void AncientNecklaceBall::leave_() {
     AncientNecklaceBallBase::leave_();
     if (!mGiantNecklaceActiveSaveFlag_m.isEmpty())
         ksys::gdt::setBoolByKey(false, mGiantNecklaceActiveSaveFlag_m);
+}
+
+void AncientNecklaceBall::calc_() {
+    if (isCurrentChild("吊るす")) {
+        auto* child = getCurrentChild();
+        if (child->isFinished() || child->isFailed() || _170._30) {
+            if (_170._38.mLink.hasProc()) {
+                ksys::act::ActorConstDataAccess accessor;
+                ksys::act::acquireActor(&_170._38.mLink, &accessor);
+                sead::Vector3f position;
+                accessor.getMtxPos(&position);
+                sead::Vector3f from;
+                mActor->getMtx().getTranslation(from);
+                sead::Vector3f hit;
+                if (sub_710072EB10(from, position, ksys::phys::RayCast::NormalCheckingMode::_1,
+                                  mActor, &hit, nullptr, nullptr, 0.0f)) {
+                    _120.reset(3.0f);
+                    sub_7100301D90(false);
+                    auto* actor = mActor;
+                    if (auto* physics = actor->getPhysics()) {
+                        sead::Matrix34f matrix = actor->getMtx();
+                        matrix.setTranslation(position);
+                        physics->setMtxAndScale(matrix, false, false, actor->getScale().x);
+                    }
+                } else {
+                    sub_7100301D90(true);
+                }
+            } else {
+                sub_7100301D90(true);
+            }
+            _170.x();
+            SimpleLiftable::sub_710056E2B4();
+            return;
+        }
+    }
+    AncientNecklaceBallBase::calc_();
+    _120.update();
+    if (_120.value <= sead::Mathf::epsilon()) {
+        _120.reset(1.0f, 0.0f);
+        if (auto* physics = mActor->getPhysics()) {
+            physics->sub_7100FBDFA4(physics->get178(0));
+            physics->sub_7100FBDFA4(physics->get178(1));
+        }
+    }
 }
 
 void AncientNecklaceBall::loadParams_() {

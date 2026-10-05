@@ -65,6 +65,9 @@ public:
 
     bool acquireActor(const ActorLinkConstDataAccess& other);
 
+    // 0x7100d114a4 (declaration only): main-body center of mass, or matrix translation.
+    bool getMtxPos(sead::Vector3f* out) const;
+
     bool hasProc() const { return ActorLinkConstDataAccess::hasProc(); }
 
     /// Checks whether the acquired BaseProc is `proc`.
