@@ -1,7 +1,11 @@
 #include "Game/AI/AI/aiPriestBossActorNormalMode.h"
 #include "Game/AI/aiUnk_7102450fa8.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+
+// Declaration only; the original source namespace is unknown.
+s32 sub_710071E288(ksys::act::Actor* actor);
 
 namespace uking::ai {
 
@@ -13,8 +17,17 @@ bool PriestBossActorNormalMode::init_(sead::Heap* heap) {
     return PriestBossMode::init_(heap);
 }
 
+// NON_MATCHING: the two vector copies use different load and store scheduling.
 void PriestBossActorNormalMode::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossMode::enter_(params);
+    _d8 = 0;
+    *mEquipWeaponBufIndex_a = sub_710071E288(mActor);
+    const auto& target = sub_71005D9330(mActor);
+    _c0 = target;
+    _cc = target;
+    _b4.value = *mFramesRestrictEarthRelease_s;
+    _b4.previous_value = *mFramesRestrictEarthRelease_s;
+    sub_710050BB0C();
 }
 
 // NON_MATCHING: the compiler combines the phase range checks into one comparison.

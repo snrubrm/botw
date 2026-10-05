@@ -32,6 +32,8 @@ public:
     virtual f32 m46();
 
 protected:
+    void sub_710050BB0C();
+
     // static_param at offset 0x40
     const int* mApproachWarpRate_s{};
     // static_param at offset 0x48
@@ -62,7 +64,8 @@ protected:
     bool* mReturnFromBananaMode_a{};
     s32 _b0 = 4;
     ksys::Timer _b4{0, 0};
-    u8 _c0[0x18];  // two Vector3f (not initialised by the ctor)
+    sead::Vector3f _c0;
+    sead::Vector3f _cc;
     u64 _d8 = 0;
     u32 _e0 = 0;
     s32 _e4 = -1;
