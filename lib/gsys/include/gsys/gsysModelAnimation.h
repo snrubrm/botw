@@ -36,6 +36,10 @@ public:
     /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
     void setMaterialAnmFrame(int slot, f32 frame);
 
+    void setMaterialAnmByKey(int slot, AnimationAccessKey<MaterialAnmType> key, f32 frame);
+    sead::SafeString sub_7100BFDF8C(int slot) const;
+    sead::SafeString sub_7100BFDC84(AnimationAccessKey<MaterialAnmType> key) const;
+
     AnimationAccessKey<MaterialAnmType> searchMaterialAnmKey(
         MaterialAnmType type, const sead::SafeString& name) const;
     // The original named interface returns a signed integer, converted to float by GraphicsAsset.
