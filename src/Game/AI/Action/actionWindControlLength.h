@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    f32 m32(f32 length) override;
 
     // map_unit_param at offset 0x1a8
     const float* mWindLength_m{};

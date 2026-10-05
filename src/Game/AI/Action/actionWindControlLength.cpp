@@ -27,4 +27,9 @@ void WindControlLength::calc_() {
     WindControl::calc_();
 }
 
+f32 WindControlLength::m32(f32 length) {
+    const f32 max_length = *mWindLength_m + *mWindLength_m;
+    return max_length > length ? length : max_length;
+}
+
 }  // namespace uking::action

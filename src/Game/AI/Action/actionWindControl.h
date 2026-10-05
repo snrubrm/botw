@@ -21,8 +21,7 @@ public:
 
 protected:
     void calc_() override;
-    // inline in the original (emitted out of line in this TU); signature is a guess
-    virtual void m32() {}
+    virtual f32 m32(f32 length) { return length; }
 
     /* 0x20 */ ksys::act::BoneHandle _20;
     // static_param at offset 0xc8
