@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
@@ -17,6 +18,17 @@ bool SkeltalAsset::m9(Context* ctx, PlayState* state, const res::ASResource* res
 }
 
 SkeltalAsset::~SkeltalAsset() {}
+
+// NON_MATCHING: the second key-half load uses a different base register.
+void SkeltalAsset::m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) {
+    if (!ctx->sub_7101258E2C()->getAnimation() || !mKey.isValid())
+        return;
+    const bool partial = _18 ? _18->_25 : false;
+    const f32 frame = sub_7101315930(ctx, resource);
+    state->sub_7101257884(&mKey, ctx->sub_7101258CD4(sub_71011653E8(resource)), partial, frame);
+    if (state->_10)
+        state->_10->mFlags |= 0x10;
+}
 
 bool SkeltalAsset::m10(Context* ctx, State* state, const res::ASResource* resource) {
     if (!mKey.isValid())

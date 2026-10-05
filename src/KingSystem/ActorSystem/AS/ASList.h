@@ -4,6 +4,7 @@
 #include <gsys/gsysModel.h>
 #include <container/seadSafeArray.h>
 #include <nn/g3d/ICalculateBlendWeightCallback.h>
+#include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Resource/resResourceASSetting.h"
 namespace ksys::res {
@@ -375,6 +376,9 @@ public:
 // Recovered prefix of the separate m15 bone-blend record. Its queued entries after 0x30 are
 // not modelled; do not construct this partial declaration or infer its full size.
 struct BoneBlendState {
+    // 0x7101257884 (declaration only): queues a skeletal-animation blend request.
+    void sub_7101257884(const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key,
+                      Context::Record* record, bool partial, f32 frame);
     void sub_7101257920(const res::ASSetting::BoneParams* params);
     void sub_710125792C();
 

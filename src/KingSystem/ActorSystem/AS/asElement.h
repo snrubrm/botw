@@ -842,6 +842,8 @@ public:
     void sub_7101315328(f32* position, f32* start, f32* end, const res::ASResource* resource);
     // 0x710131586c: stores original loop mode and applies the resource override.
     void sub_710131586C(bool loop, const res::ASResource* resource);
+    // 0x7101315930 (declaration only): obtains the current animation frame.
+    f32 sub_7101315930(Context* ctx, const res::ASResource* resource);
     // 0x7101315ad0: advances playback, returning the remaining time and writing start/wrap count.
     f32 sub_7101315AD0(ElementParams* params, f32* start, s32* wraps, bool restart,
                       const res::ASResource* resource, f32 time);
@@ -885,7 +887,8 @@ public:
     // Placeholder: the object at +0x18 (a partial-skeletal-animation source); its vector at +0x28 is added to
     // the output of m34.
     struct Unk18 {
-        u8 _0[0x28];
+        u8 _0[0x25];
+        bool _25;
         const sead::Vector3f* _28;
     };
 
@@ -898,6 +901,7 @@ public:
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m13(Context* ctx, State* state, const res::ASResource* resource) override;
     void m12(Context* ctx, State* state, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     f32 m18(Context* ctx, bool a2, f32 a3, f32 a4, const res::ASResource* resource) override;
     void m28(f32* a1, Context* ctx, const res::ASResource* resource) override;
     void m29(f32* a1, Context* ctx, const res::ASResource* resource) override;
