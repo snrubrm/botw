@@ -14,11 +14,16 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    bool sub_7100366D0C();
+    void sub_7100366B9C(const ksys::act::BaseProcLink& link, const sead::SafeString& as_name);
+    void sub_7100366ED0(const ksys::act::BaseProcLink& link, const sead::SafeString& as_name);
+
     // static_param at offset 0x38
     const float* mCloseWaitFrame_s{};
     // static_param at offset 0x40
