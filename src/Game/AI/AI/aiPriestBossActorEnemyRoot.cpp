@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -100,6 +101,20 @@ void PriestBossActorEnemyRoot::m49() {
         ksys::act::enableAttClient(mActor, "LockOn");
     } else {
         ksys::act::disableAttClient(mActor, "LockOn");
+    }
+}
+
+// NON_MATCHING: direct bit operations omit the original enum conversion and temporary storage.
+void PriestBossActorEnemyRoot::m50() {
+    auto* as_list = mActor->getASList();
+    if (!as_list->x_1(0, 0).isEmpty() &&
+        as_list->sub_710115AD68(as_list->x_1(0, 0))) {
+        _228 |= 0x8;
+        as_list->sub_710115F4A0(false, 1, 0, &ksys::as::ASList::Unk2::sub_7100507A64);
+    } else if (_228 & 0x8) {
+        _228 &= ~0x8u;
+        as_list->sub_710115F4A0(true, 1, 0, &ksys::as::ASList::Unk2::sub_7100507A64);
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "VeilMatAnime", 1, 0, true);
     }
 }
 

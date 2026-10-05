@@ -46,6 +46,8 @@ public:
     // x/x_3/x_5/x_7 helpers below live at 0x71011612e8-0x7101163b24).
     struct Unk2 {
         ~Unk2();
+        // 0x7100507a64 (declaration only): sets the byte flag at 0x44.
+        void sub_7100507A64(bool value);
         struct InitArg;
         bool sub_71011617A8(const InitArg& arg, sead::Heap* heap);
         // 0x7101163998 (declaration only): modifies the actual SDK blend-weight callback argument.
@@ -237,6 +239,8 @@ public:
     bool x_2(int a1, int bit, bool on, bool a4);
     // 0x000000710115c458
     const sead::SafeString& x_1(u32 slot, u32 seq_bank);
+    // 0x710115ad68 (declaration only): queries the resolved animation resource flag.
+    bool sub_710115AD68(const sead::SafeString& name);
     // 0x000000710115c4d4
     bool x_4(u32 slot, u32 seq_bank);
 
@@ -297,6 +301,8 @@ public:
     void sub_710115B140(const sead::SafeString& name, int slot, int slot2, int bank, int bank2);
     // 0x710115f444 (declaration only): calls `fn` on the entry (slot, bank) (like x_3, without a value).
     void sub_710115F444(int slot, int bank, void (Unk2::*fn)());
+    // 0x710115f4a0 (declaration only): dispatches the bool setter for an entry.
+    void sub_710115F4A0(bool value, s32 slot, s32 bank, void (Unk2::*fn)(bool));
     // 0x710115c9e0 (declaration only; lane4 s23): `slot`'s partial bone setup (ModelList::isParticalEnable(slot),
     // then the slot's helper 0x7101164ff8).
     void sub_710115C9E0(int slot);
