@@ -54,6 +54,9 @@ public:
     // 0x7100d8f550 (CSV makeChmElementMaybe, 3.7 KB; declared only; lane4 s31): the argument is a bool / 0 (placeholder type).
     void makeChmElementMaybe(bool a1);
     void sub_7100D90B78();
+    // 0x7100d91898 (lane4 s47; placeholder name): whether the chemical may be ignited / melted now (needs _c3 >= 30
+    // and no pending charge) and the owner agrees (owner slot 36).
+    bool sub_7100D91898() const;
     void sub_7100D90C2C(bool on);
     void sub_7100D90CD8(bool on);
     void sub_7100D90D7C(bool on);
@@ -157,7 +160,9 @@ public:
     /* 0x1c0 */ u8 _1c0[0x1c8 - 0x1c0];
     /* 0x1c8 */ void* _1c8;
     /* 0x1d0 */ void* _1d0;
-    /* 0x1d8 */ u8 _1d8[0x238 - 0x1d8];
+    /* 0x1d8 */ u8 _1d8[0x1e8 - 0x1d8];
+    /* 0x1e8 */ void* _1e8;
+    /* 0x1f0 */ u8 _1f0[0x238 - 0x1f0];
 
     // The debug-watch global (0x7102600e50, not in the symbol list before lane4 s47): the chemical the debug UI watches.
     static Unk_ChemicalWatch* sUnk_7102600e50;

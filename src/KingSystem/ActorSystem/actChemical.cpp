@@ -85,6 +85,23 @@ void Chemical::sub_7100D91978(f32 value) {
     }
 }
 
+// NON_MATCHING: the original calls the owner's slot 36 and tests bit 0 of the result (no tail call; the result is a
+// merged w8 phi)
+bool Chemical::sub_7100D91898() const {
+    if (_c3 < 30)
+        return false;
+    const u32 attribute = mMaterial->attribute.ref();
+    if ((attribute & 0x1) && !(_be & 0x1) && (_b8 & 0x4))
+        return false;
+    if (_1b8 > 0.0f)
+        return false;
+    if (_1e8)
+        return false;
+    if (_c0 != 0 && (_c0 != 2 || (attribute & 0x2)))
+        return false;
+    return !_18 || _18->m36();
+}
+
 void Chemical::sub_7100D90C2C(bool on) {
     notifyWatch_();
     if (on) {

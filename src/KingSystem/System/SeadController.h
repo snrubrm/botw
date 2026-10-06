@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadTreeNode.h>
 #include <controller/seadController.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -18,8 +19,28 @@ public:
     static SeadController* getInstance();
     static void setInstance(SeadController* controller);
 
+    // Unnamed accessors (lane4 s47; placeholder names): the flag word at +0x188 and the values at +0x190 / 0x194 / 0x1a4.
+    u32 sub_7100D9D874() const;
+    void sub_7100D9D8C0(bool on);   // flag 0x80
+    void sub_7100D9D8DC(u32 value);  // _190
+    void sub_7100D9DAC8(u32 value);  // _194
+    void sub_7100D9DAD8();           // clears flag 0x1
+    void sub_7100D9DAE8();           // clears flag 0x2
+    void sub_7100D9DB04(bool on);   // flag 0x10
+    void sub_7100D9DF60();           // clears flag 0x20
+    // 0x7100d9daf8: appends the tree node of `child` (+0x1a8) to this controller's.
+    void sub_7100D9DAF8(SeadController* child);
+
 private:
-    u8 _178[0x1f0 - 0x178];
+    u8 _178[0x188 - 0x178];
+    u32 _188;
+    u8 _18c[4];
+    u32 _190;
+    u32 _194;
+    u8 _198[0x1a4 - 0x198];
+    u32 _1a4;
+    sead::TTreeNode<SeadController*> mTreeNode;
+    u8 _1d0[0x1f0 - 0x1d0];
 };
 KSYS_CHECK_SIZE_NX150(SeadController, 0x1f0);
 
