@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionAreaActorObserve.h"
+#include "Game/Actor/actAreaManagement.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
@@ -32,6 +34,19 @@ void AreaActorObserve::loadParams_() {
 }
 
 void AreaActorObserve::m32() {}
+
+void AreaActorObserve::m5() {
+    bool on;
+    auto* area = sead::DynamicCast<act::AreaManagement>(mActor);
+    if (area && area->_843)
+        on = *mCount_m <= _34;
+    else
+        on = *mDefaultBasicSignal_m;
+    if (on)
+        mActor->emitBasicSigOn();
+    else
+        mActor->emitBasicSigOff();
+}
 
 bool AreaActorObserve::m15(const ksys::act::ActorConstDataAccess& accessor) {
     if (!accessor.hasProc())

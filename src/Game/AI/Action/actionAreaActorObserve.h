@@ -18,7 +18,7 @@ protected:
     virtual void m32();
     void m2() override { _34 = 0; }
     bool m15(const ksys::act::ActorConstDataAccess& accessor) override;
-    // 0x7100e23070 (declared only): emits the basic signal; needs the AreaManagement actor class.
+    // 0x7100e23070: emits the basic signal (on when the AreaManagement actor reports the count reached).
     void m5() override;
     sead::Buffer<Payload>* m6() override { return &_50; }
     // Whether `accessor` is one of the observed actors.

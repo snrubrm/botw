@@ -3,7 +3,7 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::act {
-class ActorBind;
+class ModelBindInfo;
 }
 
 namespace uking::action {
@@ -20,7 +20,7 @@ public:
 
 protected:
     void calc_() override;
-    virtual ksys::act::ActorBind* m32();
+    virtual ksys::act::ModelBindInfo* m32();
 
     // dynamic_param at offset 0x20
     sead::SafeString mBoneName_d{};

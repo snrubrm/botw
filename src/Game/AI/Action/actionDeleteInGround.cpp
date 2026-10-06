@@ -1,6 +1,8 @@
 #include "Game/AI/Action/actionDeleteInGround.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Actor/actRideable.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -15,8 +17,27 @@ bool DeleteInGround::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: the original hoists the load of mActor above the isEmpty() branch (shared by both arms)
 void DeleteInGround::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    sub_710073DE08(mActor);
+    if (auto* mgr = mActor->getDamageMgr())
+        mgr->mField_34 = 1;
+    sub_71007A397C(mActor);
+    if (mASName_s.isEmpty()) {
+        mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        setFinished();
+    } else if (auto* rideable = mActor->m132()) {
+        rideable->_18.sub_7100E786F0(mASName_s);
+    } else {
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    }
+    if (auto* controller = mActor->getCharacterController()) {
+        const sead::Vector3f down = -sead::Vector3f::ey;
+        sub_7100737C0C(controller, 0.0f, down);
+    }
+    sub_710072BB28(mActor);
+    if (auto* unit = mActor->get548())
+        unit->_18._50 = 1;
 }
 
 void DeleteInGround::leave_() {

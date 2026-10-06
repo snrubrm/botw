@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionGiantSleep.h"
 #include "Game/Actor/actRideable.h"
+#include "Game/AI/aiUnk_71007320F0.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::action {
 
@@ -18,9 +24,43 @@ bool GiantSleep::init_(sead::Heap* heap) {
 
 void GiantSleep::enter_(ksys::act::ai::InlineParamPack* params) {
     Sleep::enter_(params);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62BB0();
+    if (!mRidableRigidBodyName_s.isEmpty()) {
+        auto* actor = mActor;
+        auto* physics = actor->getPhysics();
+        auto* set = actor->getRigidBodyByName(sub_71007A24E4()->cstr());
+        if (physics && set) {
+            for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+                if (auto* body = set->getRigidBody(i)) {
+                    body->changeNoCharStandingOnFlag(false);
+                    body->setContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+                }
+            }
+        }
+    }
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A250C()->cstr()))
+        set->removeFromWorld();
 }
 
 void GiantSleep::leave_() {
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F62BB8();
+    if (!mRidableRigidBodyName_s.isEmpty()) {
+        auto* actor = mActor;
+        auto* physics = actor->getPhysics();
+        auto* set = actor->getRigidBodyByName(sub_71007A24E4()->cstr());
+        if (physics && set) {
+            for (s32 i = 0; i < set->getRigidBodies().size(); ++i) {
+                if (auto* body = set->getRigidBody(i)) {
+                    physics->sub_7100FBAF18(body);
+                    body->changeNoCharStandingOnFlag(true);
+                }
+            }
+        }
+    }
+    if (auto* set = mActor->getRigidBodyByName(sub_71007A250C()->cstr()))
+        set->addToWorld();
     Sleep::leave_();
 }
 
