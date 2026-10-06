@@ -22,8 +22,6 @@ void HorseEscapeRouteRailAI::leave_() {
     ksys::act::ai::Ai::leave_();
 }
 
-// NON_MATCHING: only the load order: the original loads `*mUpdatePosDistance_s` before the vtable of `_50` (the call
-// is `(&_50)->m4(...)`; `_50.m4(...)` would be devirtualized).
 void HorseEscapeRouteRailAI::calc_() {
     auto* child = getCurrentChild();
     child->getName();
@@ -37,7 +35,7 @@ void HorseEscapeRouteRailAI::calc_() {
             setFinished();
             return;
         }
-        (&_50)->m4(*mUpdatePosDistance_s, nullptr, nullptr);
+        _50.x(*mUpdatePosDistance_s);
         sub_7100E5BE9C(false);
     }
 }

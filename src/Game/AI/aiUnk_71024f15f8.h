@@ -15,6 +15,8 @@ public:
     virtual void m2();
     virtual bool m3();
     virtual void m4(f32 distance, const sead::Vector3f* direction, u32* flags);
+    // Inline only (like Unk_71024f15c0::x); placeholder name.
+    void x(f32 distance) { m4(distance, nullptr, nullptr); }
 
     void* _8 = nullptr;
     void* _10 = nullptr;
