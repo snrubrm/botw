@@ -233,6 +233,119 @@ bool UiSubsys1::return0D() const {
     return false;
 }
 
+// 0x7100968d5c
+bool UiSubsys1::has3864Bit0() const {
+    return _3864 & 1;
+}
+
+// 0x7100968d68
+void UiSubsys1::clear3864() {
+    _3864 = 0;
+}
+
+// 0x7100968d70
+u8 UiSubsys1::get88() const {
+    return _88;
+}
+
+// 0x7100968d78
+void UiSubsys1::clear88() {
+    _88 = 0;
+}
+
+// 0x7100966ce4
+sead::Vector2f* UiSubsys1::getVec3868() {
+    return &_3868;
+}
+
+// 0x7100966d90
+sead::Vector2f* UiSubsys1::getVec3870() {
+    return &_3870;
+}
+
+// 0x7100966db0
+sead::Vector2f* UiSubsys1::getVec3878() {
+    return &_3878;
+}
+
+// 0x7100966d9c
+void UiSubsys1::set880(const sead::Vector2f& value) {
+    _880.x = value.x;
+    _880.y = value.y;
+}
+
+// 0x7100966dbc
+void UiSubsys1::set3878(const sead::Vector2f& value) {
+    _3878.x = value.x;
+    _3878.y = value.y;
+}
+
+// 0x7100966cd4
+bool UiSubsys1::isLessOrEqual3880(f32 value) const {
+    return _3880 <= value;
+}
+
+// 0x7100966dd0
+bool UiSubsys1::is3888Equal(s32 value) const {
+    return _3888 == value;
+}
+
+// 0x7100966d00
+bool UiSubsys1::get3884() const {
+    return _3884;
+}
+
+// 0x7100966330
+u8 UiSubsys1::get38c8() const {
+    return _38c8;
+}
+
+// 0x7100966e9c
+u8 UiSubsys1::get38d8() const {
+    return _38d8;
+}
+
+// 0x7100967478
+u8 UiSubsys1::get38d9() const {
+    return _38d9;
+}
+
+// 0x710096633c
+void UiSubsys1::copy38c8To38c9() {
+    _38c9 = _38c8;
+}
+
+// 0x7100967484
+void UiSubsys1::copy38d8To38d9() {
+    _38d9 = _38d8;
+}
+
+// 0x7100966e14
+void UiSubsys1::update388c() {
+    _388c.update();
+}
+
+// 0x7100966e64
+bool UiSubsys1::sub_7100966E64() const {
+    if (_38b8)
+        return false;
+    return _38b9 != 0;
+}
+
+// 0x7100967498
+bool UiSubsys1::sub_7100967498() const {
+    if (!_38ac)
+        return false;
+    return _38ad == 0;
+}
+
+// 0x71009674c0
+bool UiSubsys1::sub_71009674C0() const {
+    if (_38ac)
+        return false;
+    return _38ad != 0;
+}
+
 // 0x7100966300
 void UiSubsys1::start388c() {
     _388c.init(0.2f);

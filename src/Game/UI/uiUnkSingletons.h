@@ -253,6 +253,30 @@ public:
     bool return0C() const;
     // 0x7100966300 / 0x7100966e20 (placeholder names)
     void start388c();
+    // 0x7100968d5c / 0x7100968d68 / 0x7100968d70 / 0x7100968d78 / 0x7100966ce4 / 0x7100966d90 / 0x7100966db0 / 0x7100966d9c /
+    // 0x7100966dbc / 0x7100966cd4 / 0x7100966dd0 / 0x7100966d00 / 0x7100966330 / 0x7100966e9c / 0x7100967478 / 0x710096633c /
+    // 0x7100967484 / 0x7100966e14 / 0x7100966e64 / 0x7100967498 / 0x71009674c0 (placeholder names)
+    bool has3864Bit0() const;
+    void clear3864();
+    u8 get88() const;
+    void clear88();
+    sead::Vector2f* getVec3868();
+    sead::Vector2f* getVec3870();
+    sead::Vector2f* getVec3878();
+    void set880(const sead::Vector2f& value);
+    void set3878(const sead::Vector2f& value);
+    bool isLessOrEqual3880(f32 value) const;
+    bool is3888Equal(s32 value) const;
+    bool get3884() const;
+    u8 get38c8() const;
+    u8 get38d8() const;
+    u8 get38d9() const;
+    void copy38c8To38c9();
+    void copy38d8To38d9();
+    void update388c();
+    bool sub_7100966E64() const;
+    bool sub_7100967498() const;
+    bool sub_71009674C0() const;
     bool checkEnded388c();
     bool return0D() const;
     bool return0B() const;
@@ -287,7 +311,9 @@ private:
 
     u8 _0[0x29];
     /* 0x29 */ u8 _29;
-    u8 _2a[0x128 - 0x2a];
+    u8 _2a[0x88 - 0x2a];
+    /* 0x88 */ u8 _88;
+    u8 _89[0x128 - 0x89];
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
     u8 _12d[0x280 - 0x12d];
@@ -313,7 +339,9 @@ private:
     /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
     u8 _800[0x848 - 0x800];
     /* 0x848 */ s32 _848;
-    u8 _84c[0x898 - 0x84c];
+    u8 _84c[0x880 - 0x84c];
+    /* 0x880 */ sead::Vector2f _880;
+    u8 _888[0x898 - 0x888];
     /* 0x898 */ s32 _898;
     u8 _89c[0x3820 - 0x89c];
     /* 0x3820 */ s32 _3820;
@@ -324,7 +352,12 @@ private:
     /* 0x3858 */ u8 _3858;
     u8 _3859[0x3860 - 0x3859];
     /* 0x3860 */ u16 _3860;
-    u8 _3862[0x3884 - 0x3862];
+    u8 _3862[0x3864 - 0x3862];
+    /* 0x3864 */ u32 _3864;
+    /* 0x3868 */ sead::Vector2f _3868;
+    /* 0x3870 */ sead::Vector2f _3870;
+    /* 0x3878 */ sead::Vector2f _3878;
+    /* 0x3880 */ f32 _3880;
     /* 0x3884 */ bool _3884;
     /* 0x3885 */ bool _3885;
     u8 _3886[0x3888 - 0x3886];
@@ -333,12 +366,17 @@ private:
     /* 0x38a4 */ s32 _38a4;
     /* 0x38a8 */ s32 _38a8;
     /* 0x38ac */ u8 _38ac;
-    u8 _38ad[0x38b8 - 0x38ad];
+    /* 0x38ad */ u8 _38ad;
+    u8 _38ae[0x38b8 - 0x38ae];
     /* 0x38b8 */ u8 _38b8;
     /* 0x38b9 */ u8 _38b9;
     u8 _38ba[0x38c8 - 0x38ba];
     /* 0x38c8 */ u8 _38c8;
-    u8 _38c9[0x38e0 - 0x38c9];
+    /* 0x38c9 */ u8 _38c9;
+    u8 _38ca[0x38d8 - 0x38ca];
+    /* 0x38d8 */ u8 _38d8;
+    /* 0x38d9 */ u8 _38d9;
+    u8 _38da[0x38e0 - 0x38da];
     /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
     /* 0x38e8 */ s32 _38e8;
