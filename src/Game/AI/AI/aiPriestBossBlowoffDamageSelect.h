@@ -17,6 +17,7 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100510a94: grounded stagger without a damage manager, else knocked down on the ground / while floating
     void sub_7100510A94();
 
     int _38 = -1;
