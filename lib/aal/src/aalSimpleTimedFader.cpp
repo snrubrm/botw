@@ -7,8 +7,9 @@
 namespace aal {
 
 // 0x7100b7c910
-SimpleTimedFader::SimpleTimedFader(f32 value)
-    : mValue(value), mNextValue(value), mTarget(value), mStep(0.0f) {}
+SimpleTimedFader::SimpleTimedFader(f32 value) {
+    setValueImmediate(value);
+}
 
 // 0x7100b7c934
 void SimpleTimedFader::setValueImmediate(f32 value) {
@@ -41,27 +42,27 @@ void SimpleTimedFader::calc() {
 
 // 0x7100b7c9b8
 void SimpleTimedFader::moveTo(f32 target, f32 time) {
-    if (time < 0.0f)
-        return;
-    mTarget = target;
-    if (time == 0.0f || mValue == target) {
-        setValueImmediate(target);
-    } else {
-        mStep = (target - mValue) / time;
-        calcNextValue_();
+    if (time >= 0.0f) {
+        mTarget = target;
+        if (time != 0.0f && mValue != target) {
+            mStep = (target - mValue) / time;
+            calcNextValue_();
+        } else {
+            setValueImmediate(target);
+        }
     }
 }
 
 // 0x7100b7ca4c
 void SimpleTimedFader::moveToTargetByStep(f32 target, f32 step) {
-    if (step < 0.0f)
-        return;
-    mTarget = target;
-    if (step == 0.0f || mValue == target) {
-        setValueImmediate(target);
-    } else {
-        mStep = target - mValue > 0.0f ? step : -step;
-        calcNextValue_();
+    if (step >= 0.0f) {
+        mTarget = target;
+        if (step != 0.0f && mValue != target) {
+            mStep = target - mValue > 0.0f ? step : -step;
+            calcNextValue_();
+        } else {
+            setValueImmediate(target);
+        }
     }
 }
 
