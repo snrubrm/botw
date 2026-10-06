@@ -54,6 +54,7 @@ target_sources(uking PRIVATE
   gameUnk_71008be174.h
   gamePlayerResetPosMgr.cpp
   gameUnkRttiClasses.cpp
+  gameWolfLinkMgr.cpp
   gameUnkRttiClasses.h
   gamePlayReport.cpp
   gamePlayReport.h

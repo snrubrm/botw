@@ -9,6 +9,22 @@ namespace uking::act {
 MapConstActiveOrMergedDungeonParts::MapConstActiveOrMergedDungeonParts(const CreateArg& arg)
     : MapConst(arg) {}
 
+bool MapConstActiveOrMergedDungeonParts::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    return MapConst::prepareInit_(heap, arg);
+}
+
+void MapConstActiveOrMergedDungeonParts::preDelete2_(const PreDeleteArg& arg) {
+    MapConst::preDelete2_(arg);
+}
+
+void MapConstActiveOrMergedDungeonParts::initMaybe() {
+    MapConst::initMaybe();
+}
+
+void MapConstActiveOrMergedDungeonParts::updatePositionMaybe() {
+    MapConst::updatePositionMaybe();
+}
+
 void MapConstActiveOrMergedDungeonParts::onDeleteRequested_(DeleteReason reason) {
     Actor::onDeleteRequested_(reason);
     if (mMapObject)
@@ -28,24 +44,6 @@ bool MapConstActiveOrMergedDungeonParts::canWakeUp_() {
 }
 
 void MapConstActiveOrMergedDungeonParts::m63() {
-    MapConst::m63();
-    if (mMapObject) {
-        if (!mMapObject->getFlags().isOn(ksys::map::Object::Flag::_2000))
-            ksys::map::PlacementMgr::instance()->enableObjStaticCompound(mMapObject);
-        else if (mPhysics)
-            mPhysics->sub_7100FBA9BC();
-    }
-}
-
-MapConstPassiveBase::MapConstPassiveBase(const CreateArg& arg) : MapConst(arg) {}
-
-void MapConstPassiveBase::onDeleteRequested_(DeleteReason reason) {
-    Actor::onDeleteRequested_(reason);
-    if (mMapObject)
-        ksys::map::PlacementMgr::instance()->disableObjStaticCompound(mMapObject);
-}
-
-void MapConstPassiveBase::m63() {
     MapConst::m63();
     if (mMapObject) {
         if (!mMapObject->getFlags().isOn(ksys::map::Object::Flag::_2000))

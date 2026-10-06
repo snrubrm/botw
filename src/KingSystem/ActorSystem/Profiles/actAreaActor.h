@@ -51,8 +51,13 @@ public:
     void sub_7100E26860(phys::MaterialMask* mask);
     void sub_7100E268F8(phys::MaterialMask* mask);
     void sub_7100E26990(phys::MaterialMask* mask);
+    // 0x7100e26a80: whether characters can stand on the body (`!NoCharStandingOn`; false without a body).
     bool sub_7100E26A80();
+    // 0x7100e26a28: sets / clears NoCharStandingOn of the body.
     void sub_7100E26A28(bool enable);
+    // 0x7100e26aa4 (CSV AreaActor::getColBody; declared only, 404 B): `_840`, or for map object areas (_888 == 4)
+    // the "Col" body of the first linked actor.
+    phys::RigidBody* getColBody();
 
     /* 0x840 */ phys::RigidBody* _840 = nullptr;
     /* 0x848 */ phys::CollisionInfo* _848 = nullptr;

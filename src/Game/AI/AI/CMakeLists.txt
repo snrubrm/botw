@@ -612,6 +612,7 @@ target_sources(uking PRIVATE
   aiEnemyRoamViewItem.h
   aiEnemyRoot.cpp
   aiEnemyRoot.h
+  aiEnemyRootHelpers.cpp
   aiEnemySearchHorse.cpp
   aiEnemySearchHorse.h
   aiEnemySearchShieldItemFindPlayer.cpp

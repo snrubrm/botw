@@ -78,6 +78,10 @@ void MapConstActive::initMaybe() {
         xlinkEventOn(this, 25, 1, false);
 }
 
+void MapConstActive::updatePositionMaybe() {
+    MapConstActiveOrMergedDungeonParts::updatePositionMaybe();
+}
+
 uking::dmg::DamageManagerBase* MapConstActive::getDamageMgr() {
     return _858;
 }

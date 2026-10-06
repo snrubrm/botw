@@ -13,9 +13,15 @@ public:
 
     bool sub_7100700844(const ksys::Message* message);
 
+    // The payload of message 0x80000ca (type 1: a positive float, 2: no value), as read by sub_7100700844.
+    struct Payload {
+        f32 mValue;
+        s8 mType;
+    };
+
     u32 _0;
-    u32 _4;
-    bool _8;
+    f32 _4;
+    u8 _8;  // 0: nothing, 1: _4 is set, 2: set by payload type 2
 };
 
 // Unnamed 0x18-byte fall-height helper that EnemyRoot::init_ allocates (when FallHeight >= 0) and

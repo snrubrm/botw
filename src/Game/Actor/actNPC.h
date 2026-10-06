@@ -38,6 +38,8 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     // 0x7100712444 (CSV NPC::isZora; declared only, takes any Actor; tail-calls 0x7100ee89cc).
     static bool isZora(ksys::act::Actor* actor);
+    // 0x7100ee89cc (CSV NPC::isZora_; lane4 s49): whether the actor's UMii has the Zora race (false for null / no UMii).
+    static bool isZora_(ksys::act::Actor* actor);
     ~NPC() override;
 
 protected:

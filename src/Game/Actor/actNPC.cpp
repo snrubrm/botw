@@ -6,6 +6,10 @@
 
 namespace uking::act {
 
+bool NPC::isZora(ksys::act::Actor* actor) {
+    return isZora_(actor);
+}
+
 ksys::act::BaseProc* NPC::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) NPC(arg);
 }

@@ -20,6 +20,10 @@ bool MapConst::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return true;
 }
 
+void MapConst::preDelete2_(const PreDeleteArg& arg) {}
+
+void MapConst::initMaybe() {}
+
 void MapConst::m63() {
     _83c = getMaxLife();
     _844 = true;

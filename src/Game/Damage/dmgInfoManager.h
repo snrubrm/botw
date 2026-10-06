@@ -10,6 +10,10 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Resource/resHandle.h"
 
+namespace ksys::act {
+class Actor;
+}
+
 namespace uking::dmg {
 
 // FIXME: incomplete
@@ -44,6 +48,23 @@ public:
 
     bool isTrueFormMasterSword() const;
 
+    // Placeholders (lane4 s49): the lock-protected actor lists embedded at +0x28 (lock at +0x41c, size 0x428) and +0x450
+    // (lock at +0xa0, size 0xa8). Methods declared only (names after their addresses).
+    struct Unk28 {
+        // 0x710065ce14 (BattleTensionUp::m8) / 0x710065cf08 (BattleTensionUp::m9)
+        void sub_710065CE14(ksys::act::Actor* actor);
+        void sub_710065CF08(ksys::act::Actor* actor);
+        u8 _0[0x428];
+    };
+    struct Unk450 {
+        // 0x710065d5d4 (BossBgm::m9, sub_7100720A70) / 0x710065d428
+        void sub_710065D5D4(ksys::act::Actor* actor);
+        void sub_710065D428(ksys::act::Actor* actor, const s32& value);
+        u8 _0[0xa8];
+    };
+    Unk28& get28() { return _28; }
+    Unk450& get450() { return _450; }
+
     sead::Buffer<DamageItem>& getDamagesArray() { return mDamagesArray; }
     const sead::Buffer<DamageItem>& getDamagesArray() const { return mDamagesArray; }
     f32 getMasterSwordSearchEvilDist() const { return mMasterSwordSearchEvilDist; }
@@ -67,7 +88,8 @@ public:
     bool sub_7100674730() const;
 
 private:
-    /* 0x0028 */ u8 TEMP_8[0x4f8 - 0x28];
+    /* 0x0028 */ Unk28 _28;
+    /* 0x0450 */ Unk450 _450;
     /* 0x04f8 */ Unk_7100671794 _4f8;
     /* 0x05d0 */ ksys::res::Handle mReactionTable;
     /* 0x0620 */ sead::Buffer<DamageItem> mDamagesArray;

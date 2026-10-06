@@ -55,6 +55,8 @@ void sub_71007A2C30(ksys::act::Actor* actor, const sead::SafeString& name,
 void sub_71007A302C(ksys::act::Actor* actor, const sead::SafeString& name,
                     ksys::phys::SystemGroupHandler* handler);
 void sub_71007A2C9C(ksys::act::Actor* actor);
+// 0x71007a3140 (lane4 s49; declaration only): all "Atk" bodies get `handler` (counterpart of sub_71007A2C9C).
+void sub_71007A3140(ksys::act::Actor* actor, ksys::phys::SystemGroupHandler* handler);
 // Single bodies: removed from / added to the physics world when needed.
 void sub_71007A2D34(ksys::phys::RigidBody* body);  // remove
 void sub_71007A3470(ksys::phys::RigidBody* body);  // add

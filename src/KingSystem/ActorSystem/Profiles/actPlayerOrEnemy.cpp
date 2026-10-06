@@ -126,6 +126,10 @@ void PlayerOrEnemy::m117(Unk117* arg) {
     mWeapons.sub_7100EFD458(arg);
 }
 
+void PlayerOrEnemy::sub_7100007844(s32 idx) {
+    getWeapons()->resetWeaponBaseProcLink(idx);
+}
+
 bool PlayerOrEnemy::isGuardJust() {
     return isGuard() && mActorFlags2.isOn(ActorFlag2::_10000000);
 }

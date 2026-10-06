@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
@@ -51,6 +52,20 @@ void sub_7100720140(ksys::act::Actor* actor);
 // 0x7100720a70: forwards the actor to a method (0x710065d5d4) of the object at +0x450 of a singleton
 // (GOT 0x7102579100).
 void sub_7100720A70(ksys::act::Actor* actor);
+
+// lane4 s49 (declaration-only native helpers of the same TU; source namespaces unknown): 0x710072009c
+// (`sub_71005D8DE8(actor, PlayerInfo::instance()->getPlayerLink(), nullptr, nullptr)`), 0x71007200b8 (`Enemy::_e90 = 4`, like
+// sub_7100720140 which sets 1), 0x71007201c8 / 0x71007201fc (the "Atk" body `name`: activate / deactivate), 0x710072022c
+// / 0x7100720254 (all "Atk" bodies), 0x7100720330 (clears bits 3 / 4 of the attack sensor's _20), 0x71007209e8 /
+// 0x7100720a00 / 0x7100720a18 (xlinkSearchAndEmit(actor, "BombEat" / "InsideBomb" / "BombNotEat", 2, arg)).
+void sub_710072009C(ksys::act::Actor* actor);
+void sub_71007200B8(ksys::act::Actor* actor);
+// 0x7100720354 (name-based classification: "All" -> 0, "Tail" -> 1, else 2), 0x7100720454 (enables contacts of the
+// "Body" set bodies with NPCs / the player), 0x7100720510 (772 B, declared only).
+s32 sub_7100720354(const sead::SafeString& name);
+void sub_7100720454(ksys::act::Actor* actor);
+void sub_7100720510(ksys::act::Actor* actor, const sead::SafeString& names);
+void sub_7100720A00(ksys::act::Actor* actor, Unk_71012419b4* arg);
 
 // Source namespace is inferred from the existing Sandworm helper interface.
 void sub_7100720254(ksys::act::Actor* actor);

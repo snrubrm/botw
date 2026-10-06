@@ -50,6 +50,7 @@ target_sources(uking PRIVATE
   actMapConst.h
   actMapConstActive.cpp
   actMapConstDerived.cpp
+  actMapConstPassiveBase.cpp
   actMergedDungeonParts.cpp
   actMergedDungeonParts.h
   actMapConstPassive.cpp

@@ -78,6 +78,16 @@ void AreaActor::sub_7100E2677C() {
     _88a = 0;
 }
 
+bool AreaActor::sub_7100E26A80() {
+    auto* body = getColBody();
+    return body && !body->hasFlag(phys::RigidBody::Flag::NoCharStandingOn);
+}
+
+void AreaActor::sub_7100E26A28(bool enable) {
+    if (auto* body = getColBody())
+        body->changeNoCharStandingOnFlag(!enable);
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act::acc {

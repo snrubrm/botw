@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
 namespace uking {
@@ -25,9 +26,11 @@ public:
     bool sub_710068367C();
     bool sub_7100683698();
 
-    u8 _28[0x54 - 0x28];
+    /* 0x28 */ ksys::act::BaseProcLink _28;  // the Wolf Link actor (sub_710068367C / sub_7100683698)
+    u8 _38[0x54 - 0x38];
     /* 0x54 */ sead::Vector3f _54;  // warp destination (WolfLinkAmiiboWarp::enter_)
-    u8 _60[0x68 - 0x60];
+    /* 0x60 */ s32 _60;  // 1: a Wolf Link is registered / spawned
+    u8 _64[0x68 - 0x64];
     /* 0x68 */ ksys::MesTransceiverId _68;
 };
 

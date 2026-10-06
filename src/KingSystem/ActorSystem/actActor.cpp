@@ -409,6 +409,10 @@ void Actor::sub_71011DA834(ActorBind* info) {
         mModelBindInfo = nullptr;
 }
 
+Unk_7100d8557c* Actor::sub_71011D89F8() {
+    return mBoneControl ? mBoneControl->_0 : nullptr;
+}
+
 Unk_7100d860d8* Actor::sub_71011D8A10() {
     if (!mBoneControl)
         return nullptr;

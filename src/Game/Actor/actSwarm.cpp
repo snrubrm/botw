@@ -68,4 +68,6 @@ bool Swarm::m81(const ksys::Message& message) {
     return handled;
 }
 
+void Swarm::sub_71002D47D4(const sead::SafeString& name) {}
+
 }  // namespace uking::act

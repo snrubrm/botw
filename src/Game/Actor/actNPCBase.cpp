@@ -1,4 +1,6 @@
 #include "Game/Actor/actNPCBase.h"
+#include "Game/Actor/actNPC.h"
+#include "KingSystem/Mii/miiUMii.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -9,6 +11,11 @@
 #include <gsys/gsysModel.h>
 
 namespace uking::act {
+
+bool NPC::isZora_(ksys::act::Actor* actor) {
+    return actor && actor->getUMii() &&
+           *actor->getUMii()->getBody().race == ksys::mii::UMii::Body::Race_Zora;
+}
 
 NPCBase::NPCBase(const CreateArg& arg) : Actor(arg) {
     _1c0 = 2;
