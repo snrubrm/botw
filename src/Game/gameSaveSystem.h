@@ -24,6 +24,8 @@ public:
     void requestAutoSaveForGameClear(const sead::SafeString& game_clear_flag);
     // 0x71009146f8 (CSV SaveSystem::setRetryData; declaration only)
     bool setRetryData();
+    // 0x71009145f8 (CSV SaveSystem::loadOptionsStart; declaration only; 256 bytes)
+    void sub_71009145F8();
 
     u8 _28[0x30 - 0x28];
     s32 _30;

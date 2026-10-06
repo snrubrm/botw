@@ -3,6 +3,8 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/gameSaveSystem.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiShopMgr.h"
@@ -581,6 +583,78 @@ void ScreenSaveTransferWindow::m159() {
         mStateMachine.changeState(&sUnk_71025f2d80);
         break;
     }
+}
+
+// 0x71009d0ee4
+void ScreenAmiiboWindow::m98() {
+    _3610 = 4;
+    x_2();
+    registerController_();
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x71009d0f2c
+void ScreenAmiiboWindow::m99() {
+    if (_3689) {
+        if (_3668)
+            _3668->DownOff(false);
+    } else if (_3688) {
+        if (_3660)
+            _3660->DownOff(false);
+    } else {
+        mButtonGroup->_38 |= 2;
+    }
+}
+
+// 0x71009d0f78
+void ScreenAmiiboWindow::m100() {
+    if (_368a && (ksys::gdt::getFlag_AmiiboItemOnOff(false) & 1) != _368b)
+        SaveSystem::instance()->sub_71009145F8();
+}
+
+// 0x71009d0fd4
+void ScreenAmiiboWindow::m101() {
+    _3614 = 3;
+    _368a = 0;
+    _3668 = nullptr;
+    _3660 = nullptr;
+    sub_7100AA8784();
+}
+
+// 0x71009d0ff0
+void ScreenAmiiboWindow::m106(eui::AnimButton* button) {
+    if (_3658 == button) {
+        if (_3678)
+            _3678->PlayAuto(1.0f);
+        if (_3650)
+            _3650->setFlag10(false);
+        if (_3658)
+            _3658->setFlag10(false);
+        _3688 = 0;
+        _3689 = 0;
+    } else {
+        mButtonGroup->_38 &= ~2;
+    }
+}
+
+// 0x71009d107c
+void ScreenAmiiboWindow::m107(eui::AnimButton* button) {
+    if (_3640 == button || _3648 == button) {
+        _3610 = 2;
+    } else if (_3650 == button) {
+        _3610 = 1;
+    } else if (_3658 == button) {
+        switch (_3614) {
+        case 1:
+            ksys::gdt::setFlag_AmiiboItemOnOff(true);
+            break;
+        case 2:
+            ksys::gdt::setFlag_AmiiboItemOnOff(false);
+            break;
+        }
+    }
+    if (_3658 != button)
+        close(-1);
 }
 
 }  // namespace uking::ui

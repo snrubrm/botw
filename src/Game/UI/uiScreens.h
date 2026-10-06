@@ -1893,9 +1893,28 @@ public:
     ~ScreenAmiiboWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAmiiboWindow, ScreenEx)
 
+    void m98() override;
+    void m99() override;
+    void m100() override;
+    void m101() override;
+    void m106(eui::AnimButton* button) override;
+    void m107(eui::AnimButton* button) override;
     /* 0x3610 */ s32 _3610 = 4;
     s32 _3614 = 3;
-    u8 _3618[0x74]{};
+    u8 _3618[0x28]{};
+    /* 0x3640 */ eui::AnimButton* _3640{};
+    eui::AnimButton* _3648{};
+    eui::AnimButton* _3650{};
+    eui::AnimButton* _3658{};
+    eui::AnimButton* _3660{};
+    eui::AnimButton* _3668{};
+    u8 _3670[8]{};
+    /* 0x3678 */ eui::Animator* _3678{};
+    u8 _3680[8]{};
+    /* 0x3688 */ u8 _3688{};
+    u8 _3689{};
+    u8 _368a{};
+    u8 _368b{};
     u8 _368c[4];
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     virtual void m154();
@@ -2737,5 +2756,8 @@ void sub_7100AA1CB8(nn::ui2d::Material* material, u8 alpha);
 
 // 0x7100949d18 (declared only): the heart gauge value of `count` quarter hearts
 f32 sub_7100949D18(s32 count);
+
+// 0x7100aa8784 (declared only)
+void sub_7100AA8784();
 
 }  // namespace uking::ui
