@@ -11,6 +11,36 @@
 // UI wrapper functions around unidentified UI singletons (the 0x7100a94000 TU).
 namespace uking::ui {
 
+// 0x7100aa8dd4
+bool sub_7100AA8DD4() {
+    if (!uiManagerInitialised())
+        return false;
+    return Manager::instance()->isPausedMaybe();
+}
+
+// 0x7100a9baec
+bool sub_7100A9BAEC(s32 state) {
+    auto* manager = Manager::instance();
+    bool result = manager->_c4 == state;
+    switch (state) {
+    case 18:
+    case 19:
+    case 23:
+    case 27:
+        manager->_c4 = -1;
+        break;
+    case 0: {
+        if (manager->_c4 != state)
+            return false;
+        auto* screen_mgr = eui::ScreenMgr::instance();
+        if (!screen_mgr)
+            return true;
+        return screen_mgr->getTargetFlag(2) != 0;
+    }
+    }
+    return result;
+}
+
 // 0x7366d4
 bool isOneHitObliteratorActorName(const sead::SafeString& name) {
     if (name.isEmpty())
