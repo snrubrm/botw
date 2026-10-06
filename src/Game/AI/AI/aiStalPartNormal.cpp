@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiStalPartNormal.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -42,6 +44,40 @@ bool StalPartNormal::handleMessage_(const ksys::Message* message) {
         return true;
     }
     return false;
+}
+
+// NON_MATCHING: register allocation of the Matrix34 * Vector3 product only (the ldp pairs of the matrix columns come out swapped)
+// 0x71005a7854
+void StalPartNormal::sub_71005A7854() {
+    ksys::act::ai::InlineParamPack pack;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
+    changeChild("気づき", &pack);
+}
+
+// NON_MATCHING: register allocation of the Matrix34 * Vector3 product only (the ldp pairs of the matrix columns come out swapped)
+// 0x71005a815c
+void StalPartNormal::sub_71005A815C() {
+    if (isCurrentChild("待機")) {
+        sub_71005A7854();
+        return;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
+    changeChild("移動", &pack);
+}
+
+// NON_MATCHING: register allocation of the Matrix34 * Vector3 product only (the ldp pairs of the matrix columns come out swapped)
+// 0x71005a82f8
+void StalPartNormal::sub_71005A82F8() {
+    ksys::act::ai::InlineParamPack pack;
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(&_58, &accessor);
+    pack.addVec3(accessor.getActorMtx() * *mParams.mTgtOffset_s, "TargetPos", -1);
+    changeChild("ジャンプ", &pack);
 }
 
 }  // namespace uking::ai

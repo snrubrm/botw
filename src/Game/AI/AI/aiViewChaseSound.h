@@ -16,6 +16,12 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005e4268: casts a ray down from the target position, then changes to the "直線追跡" child
+    void sub_71005E4268();
+    // 0x71005e4150: casts a ray down from the target position, then changes to the "追跡" child
+    void sub_71005E4150();
+    // 0x71005e39e8: casts a ray down from the target position, then changes to the "回転" child
+    void sub_71005E39E8();
     // static_param at offset 0x38
     const float* mTurnDir_s{};
     // dynamic_param at offset 0x40

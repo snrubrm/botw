@@ -7,6 +7,7 @@
 #include "Game/AI/aiLockedProcLink.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::ai {
 
@@ -22,6 +23,16 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004df1d0: starts the "立ち上がる" child (timer _90[4] = StandingTime * 30)
+    void sub_71004DF1D0();
+    // 0x71004df0b0: starts the "気絶前振り向き" child (timer _90[5] = 600)
+    void sub_71004DF0B0(const sead::Vector3f& pos);
+    // 0x71004dec8c: starts the "お礼" child (timer _90[2] = 5)
+    void sub_71004DEC8C();
+    // 0x71004dea74: starts the "逃走" child
+    void sub_71004DEA74();
+    // 0x71004dd700: starts the "待機" child (timer _90[1] = 300)
+    void sub_71004DD700();
     // static_param at offset 0x38
     const float* mReleaseDistance_s{};
     // static_param at offset 0x40
@@ -44,8 +55,8 @@ protected:
     s32 _88 = 30;
     bool _8c = false;
     bool _8d = false;
-    // The six vectors at 0x90 are value-initialised together (one memset in the original).
-    sead::SafeArray<sead::Vector3f, 6> _90;
+    // Six timers (the functions of the "escape" states use the entries 1 / 2 / 4 / 5); zeroed together by one memset.
+    ksys::Timer _90[6];
     ksys::act::BaseProcLink _d8;
     sead::SafeArray<ksys::act::BaseProcLink, 10> _e8;
     LockedProcLinkMaybe _188;

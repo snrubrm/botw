@@ -20,6 +20,12 @@ public:
     bool handleMessage_(const ksys::Message* message) override;
 
 protected:
+    // 0x71005a82f8: changes to the "ジャンプ" child at the offset position of the linked actor
+    void sub_71005A82F8();
+    // 0x71005a815c: "気づき" while "待機", else the "移動" child at the offset position
+    void sub_71005A815C();
+    // 0x71005a7854: changes to the "気づき" child at the offset position of the linked actor
+    void sub_71005A7854();
     struct Params {
         // static_param at offset 0x38
         const float* mTerritoryArea_s{};
