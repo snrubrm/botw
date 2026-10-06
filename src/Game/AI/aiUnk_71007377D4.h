@@ -337,3 +337,14 @@ void sub_7100738D50(ksys::act::Actor* actor, ksys::act::BaseProcLink* link);
 void sub_7100738DDC(ksys::act::Actor* actor);
 /// 0x7100738fa8 (placeholder name): whether `proc` is the actor of one of the actor's sensor link entries.
 bool sub_7100738FA8(ksys::act::Actor* actor, ksys::act::BaseProc* proc);
+
+/// inline-only in the original (name is a guess): the direction opposite to `velocity`, `ey` when the velocity is
+/// (nearly) zero. Repeated in LevelFlyMoveBase::enter_, BattleLevelFlyMoveBase::enter_ and
+/// BattleCloseLevelFlyMoveBase::enter_ (returned by value into the argument slot of ksys::util::sub_71011EFAA4's call;
+/// written in place in the caller the direction lives in a stack slot instead of registers).
+inline sead::Vector3f getReverseDirOrUp(const sead::Vector3f& velocity) {
+    sead::Vector3f dir = -velocity;
+    if (dir.normalize() < sead::Mathf::epsilon())
+        dir = sead::Vector3f::ey;
+    return dir;
+}

@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionLevelFlyMoveBase.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
@@ -17,8 +18,6 @@ bool LevelFlyMoveBase::init_(sead::Heap* heap) {
     return _108.acquire(heap, static_cast<Unk_71025afb58**>(mRefPosVibrateChecker_a));
 }
 
-// NON_MATCHING: the original keeps `dir` in registers until after the `< epsilon` select (one store before the
-// sub_71011EFAA4 call); ours keeps it in a stack slot (extra stores, integer-register copy of `ey`)
 void LevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     auto* controller = actor->getCharacterController();
@@ -31,9 +30,7 @@ void LevelFlyMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     if (m32())
         setFinished();
 
-    sead::Vector3f dir = -controller->get70();
-    if (dir.normalize() < sead::Mathf::epsilon())
-        dir = sead::Vector3f::ey;
+    const sead::Vector3f dir = getReverseDirOrUp(controller->get70());
     const f32 speed = sead::Vector2f(actor->getVelocity().x, actor->getVelocity().z).length();
     _a8.value = _a8.prev_value = speed;
     _b4.value = actor->getVelocity().y;
