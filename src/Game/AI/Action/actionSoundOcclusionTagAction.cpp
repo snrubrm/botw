@@ -4,7 +4,9 @@ namespace uking::action {
 
 SoundOcclusionTagAction::SoundOcclusionTagAction(const InitArg& arg) : AreaTagAction(arg) {}
 
-SoundOcclusionTagAction::~SoundOcclusionTagAction() = default;
+SoundOcclusionTagAction::~SoundOcclusionTagAction() {
+    _38.freeBuffer();
+}
 
 bool SoundOcclusionTagAction::init_(sead::Heap* heap) {
     return AreaTagAction::init_(heap);

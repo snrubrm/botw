@@ -5,18 +5,30 @@ namespace uking::action {
 FrontierSpotBgmTriggerAction::FrontierSpotBgmTriggerAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}
 
-FrontierSpotBgmTriggerAction::~FrontierSpotBgmTriggerAction() = default;
+FrontierSpotBgmTriggerAction::~FrontierSpotBgmTriggerAction() {
+    if (_60) {
+        _60->_8.sub_710101D9A4();
+        delete _60;
+        _60 = nullptr;
+    }
+}
 
 bool FrontierSpotBgmTriggerAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
 void FrontierSpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (_60) {
+        if (auto* mgr = sub_710FFD7CC())
+            mgr->sub_710FFBBE4(_60);
+    }
 }
 
 void FrontierSpotBgmTriggerAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_60) {
+        if (auto* mgr = sub_710FFD7CC())
+            mgr->sub_710FFBCA0(_60);
+    }
 }
 
 void FrontierSpotBgmTriggerAction::loadParams_() {

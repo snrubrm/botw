@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/Action/actionSpotBgmTriggerAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -28,7 +29,7 @@ protected:
     sead::SafeString mSound_m{};
     // map_unit_param at offset 0x50
     sead::SafeString mShape_m{};
-    void* _60{};
+    Unk_SpotBgmInstance* _60{};
 };
 
 }  // namespace uking::action

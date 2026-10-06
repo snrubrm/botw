@@ -4,18 +4,30 @@ namespace uking::action {
 
 SpotBgmTriggerAction::SpotBgmTriggerAction(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SpotBgmTriggerAction::~SpotBgmTriggerAction() = default;
+SpotBgmTriggerAction::~SpotBgmTriggerAction() {
+    if (_48) {
+        _48->_8.sub_710101D9A4();
+        delete _48;
+        _48 = nullptr;
+    }
+}
 
 bool SpotBgmTriggerAction::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
 void SpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (_48) {
+        if (auto* mgr = sub_710FFD7CC())
+            mgr->sub_710FFBBE4(_48);
+    }
 }
 
 void SpotBgmTriggerAction::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_48) {
+        if (auto* mgr = sub_710FFD7CC())
+            mgr->sub_710FFBCA0(_48);
+    }
 }
 
 void SpotBgmTriggerAction::loadParams_() {

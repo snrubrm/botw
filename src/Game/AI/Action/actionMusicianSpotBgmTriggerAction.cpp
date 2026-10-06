@@ -13,6 +13,8 @@ bool MusicianSpotBgmTriggerAction::init_(sead::Heap* heap) {
 
 void MusicianSpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
     SpotBgmTriggerAction::enter_(params);
+    if (_48)
+        _48->_368 |= 0x400;
 }
 
 void MusicianSpotBgmTriggerAction::leave_() {
