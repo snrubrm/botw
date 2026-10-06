@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actRopeBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -122,6 +123,32 @@ void BalloonBase::calc_() {
 
 f32 BalloonBase::m34(f32 current, f32 target, f32 step) {
     return target;
+}
+
+// NON_MATCHING: same as leave_ (the accessor address is kept in an extra saved register).
+void BalloonBase::sub_71000B8054() {
+    if (_20.hasProc()) {
+        ksys::act::acc::RopeBase accessor;
+        ksys::act::acquireActor(&_20, &accessor);
+        accessor.requestCutOffHungPoint(1);
+    }
+    if (_b8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_b8, &accessor)) {
+            mActor->sendMessage(*accessor.getMessageTransceiverId(),
+                                ksys::MessageType(0x80000bd), nullptr, false);
+        }
+    }
+    _b8.reset();
+    if (mBalloonHungActorBaseProcID_a)
+        *mBalloonHungActorBaseProcID_a = -1;
+}
+
+bool BalloonBase::sub_71000B89DC() const {
+    const f32 limit = _b5 ? *mRemainsHeightLimit_s : *mHeightLimit_s;
+    if (!(limit > 0.0f))
+        return false;
+    return mActor->getMtx().m[1][3] >= limit;
 }
 
 }  // namespace uking::action

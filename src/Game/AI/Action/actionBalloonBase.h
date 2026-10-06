@@ -25,6 +25,14 @@ protected:
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual void m35() {}
 
+    // Placeholder names (out-of-line copies of helpers that leave_ / calc_ inline).
+    // 0x71000b8054: cuts the rope hung from the balloon, tells the hung actor it is released and clears
+    // the hung actor id.
+    void sub_71000B8054();
+    // 0x71000b7f94: messages 0x3000011 to the rope actor unless the actor is held or its LOD flag is set.
+    void sub_71000B7F94();
+    // 0x71000b89dc: whether the actor is at or above the (remains) height limit.
+    bool sub_71000B89DC() const;
     ksys::act::BaseProcLink _20;
     // static_param at offset 0x30
     const float* mUpLimitSpeed_s{};
