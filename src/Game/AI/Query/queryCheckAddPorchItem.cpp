@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckAddPorchItem.h"
 #include <evfl/Query.h>
+#include "Game/UI/uiUtils.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckAddPorchItem::CheckAddPorchItem(const InitArg& arg) : ksys::act::ai::Query(
 
 CheckAddPorchItem::~CheckAddPorchItem() = default;
 
-// FIXME: implement
 int CheckAddPorchItem::doQuery() {
-    return -1;
+    return ui::checkWeaponFreeSlotImpl(mPorchItemName, *mCount);
 }
 
 void CheckAddPorchItem::loadParams(const evfl::QueryArg& arg) {
