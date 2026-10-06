@@ -30,4 +30,12 @@ void WarpPlayerToDestination::calc_() {
     WarpPlayerBase::calc_();
 }
 
+void WarpPlayerToDestination::m32() {
+    const sead::Vector3f translation(*mDestinationX_d, *mDestinationY_d, *mDestinationZ_d);
+    const sead::Vector3f rotation(0, sead::Mathf::deg2rad(*mDirectionY_d), 0);
+    sead::Matrix34f mtx;
+    mtx.makeSRT(_4c, rotation, translation);
+    _1c = mtx;
+}
+
 }  // namespace uking::action

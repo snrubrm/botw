@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
 
     // dynamic_param at offset 0x60
     float* mDestinationX_d{};
