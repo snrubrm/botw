@@ -275,6 +275,8 @@ public:
     void copy38d8To38d9();
     void update388c();
     bool sub_7100966E64() const;
+    // 0x7100966de8 (placeholder name): the group of the s32 `value` (0-5 and 11-13: 5, 6-10: 4, else -1)
+    s32 sub_7100966DE8(s32 value) const;
     bool sub_7100967498() const;
     bool sub_71009674C0() const;
     bool checkEnded388c();

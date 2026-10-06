@@ -332,6 +332,17 @@ bool UiSubsys1::sub_7100966E64() const {
     return _38b9 != 0;
 }
 
+// 0x7100966de8
+s32 UiSubsys1::sub_7100966DE8(s32 value) const {
+    if (value >= 0 && value <= 5)
+        return 5;
+    if (value >= 6 && value <= 10)
+        return 4;
+    if (value >= 11 && value <= 13)
+        return 5;
+    return -1;
+}
+
 // 0x7100967498
 bool UiSubsys1::sub_7100967498() const {
     if (!_38ac)
