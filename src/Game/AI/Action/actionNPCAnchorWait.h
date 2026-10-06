@@ -24,6 +24,8 @@ public:
 protected:
     void calc_() override;
     virtual const char* m32() { return mASName_d.cstr(); }
+    // 0x71001f3ae8 (placeholder name): once the NPC's horse has the flag, tells it where the NPC stands.
+    void sub_71001F3AE8();
 
     // dynamic_param at offset 0x20
     bool* mIsRainAnchor_d{};

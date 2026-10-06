@@ -21,6 +21,8 @@ protected:
     void calc_() override;
     s32 m32(RandomMovePoints* points) override;
     virtual void m34();
+    // 0x7100201974 (placeholder name): sets _128 to the vertical speed that keeps the actor floating.
+    void sub_7100201974();
     // inline in the original (emitted out of line in this TU); signature is a guess
     virtual const sead::SafeString& m35() { return mASName_s; }
 
@@ -55,7 +57,9 @@ protected:
     // dynamic_param at offset 0xb0
     sead::Vector3f* mTargetPos_d{};
     // Constants / pointers set by the ctor (not decompiled yet).
-    u8 _b8[0x130 - 0xb8];
+    u8 _b8[0x128 - 0xb8];
+    f32 _128;
+    u8 _12c[0x130 - 0x12c];
     ksys::act::CCAccessor _130;
 };
 

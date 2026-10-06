@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionNpcSwimMove.h"
 #include "Game/Actor/actNPC.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+
+// Name and signature are inferred from the call sites (also used by SwimGetUp and others).
+void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 floatDepth, f32 inWaterDepth,
+                    f32 floatRadius, f32 floatCycleTime, f32 changeDepthSpeed);
 
 namespace uking::action {
 
@@ -44,6 +50,29 @@ void NpcSwimMove::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
     getStaticParam(&mAddCalcStickX_s, "AddCalcStickX");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void NpcSwimMove::sub_71002001A4() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        _110 = 0.0f;
+        return;
+    }
+    f32 speed;
+    {
+        sead::Vector3f velocity;
+        controller->sub_7100F5F598(&velocity);
+        speed = velocity.y / 30.0f;
+    }
+    f32 out = speed;
+    f32 depth = 0.0f;
+    if (mActor->get68f().load()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        depth = mActor->get6f0() - y;
+    }
+    sub_71005DF820(&out, speed, depth, *mFloatDepth_s, *mInWaterDepth_s,
+                   *mFloatRadius_s, *mFloatCycleTime_s, *mChangeDepthSpeed_s);
+    _110 = out * 30.0f;
 }
 
 void NpcSwimMove::calc_() {

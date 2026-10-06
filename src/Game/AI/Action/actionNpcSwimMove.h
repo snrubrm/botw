@@ -53,7 +53,12 @@ protected:
     ksys::act::CCAccessor _98;
     // Pairs of constants / pointers set by the ctor (default values of the dynamic state); not
     // decompiled yet.
-    u8 _a0[0x118 - 0xa0];
+    u8 _a0[0x110 - 0xa0];
+    f32 _110;
+    u8 _114[0x118 - 0x114];
+
+    // 0x71002001a4 (placeholder name): sets _110 to the vertical speed that keeps the actor floating.
+    void sub_71002001A4();
 };
 
 KSYS_CHECK_SIZE_NX150(NpcSwimMove, 0x118);
