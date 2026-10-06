@@ -32,9 +32,9 @@ public:
     /*  2 */ virtual void m2() {}
     /*  3 */ virtual void m3() {}
     /*  4 */ virtual void m4() {}
-    /*  5 */ virtual void m379();
-    /*  6 */ virtual void m380();
-    /*  7 */ virtual void m381();
+    /*  5 */ virtual void m379(sead::BufferedSafeString* out);
+    /*  6 */ virtual void m380(sead::BufferedSafeString* out);
+    /*  7 */ virtual void m381(sead::BufferedSafeString* out);
     /*  8 */ virtual void getArmorPartName(u8 idx, sead::BufferedSafeString* out) = 0;
     /*  9 */ virtual uking::act::Weapon* m273() = 0;
     /* 10 */ virtual uking::act::Weapon* m274() = 0;

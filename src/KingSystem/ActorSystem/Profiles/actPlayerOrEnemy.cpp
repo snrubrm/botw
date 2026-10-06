@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "Game/Actor/actUnk_71025ae680.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -11,6 +12,11 @@
 #include "KingSystem/ActorSystem/actDropData.h"
 
 namespace ksys::act {
+
+uking::act::Weapon* PlayerOrEnemy::getWeaponActor(s32 idx) {
+    auto* proc = getWeapons()->mWeapons[idx].link.getProc(nullptr, nullptr);
+    return sead::DynamicCast<uking::act::Weapon>(sead::DynamicCast<WeaponBase>(proc));
+}
 
 void PlayerOrEnemy::m160() {
     auto* damage_mgr = sead::DynamicCast<uking::dmg::DamageManager>(getDamageMgr());

@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::act {
+class Weapon;
 struct Unk_71002eda38;
 struct Unk_71002edaec;
 }  // namespace uking::act
@@ -17,6 +18,10 @@ class PlayerOrEnemy : public DynamicActor {
 public:
     explicit PlayerOrEnemy(const CreateArg& arg);
     ~PlayerOrEnemy() override;
+
+    // 0x71007b2724 (CSV Player::getWeapon; lane4 s45, name is a guess): the Weapon actor linked in slot `idx` (the
+    // weapons object comes from the virtual getWeapons()).
+    uking::act::Weapon* getWeaponActor(s32 idx);
 
 protected:
     InitResult init_() override;

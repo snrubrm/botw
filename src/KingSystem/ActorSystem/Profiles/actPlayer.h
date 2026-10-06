@@ -265,9 +265,9 @@ public:
     /* 376 */ bool m376() override;
     /* 377 */ void m377() override;
     /* 378 */ s32 m378() override;
-    /* 379 */ void m379() override;
-    /* 380 */ void m380() override;
-    /* 381 */ void m381() override;
+    /* 379 */ void m379(sead::BufferedSafeString* out) override;
+    /* 380 */ void m380(sead::BufferedSafeString* out) override;
+    /* 381 */ void m381(sead::BufferedSafeString* out) override;
     /* 382 */ Actor* m382() override;
     /* 383 */ bool m383() override { return _c50.isOnBit(18); }
     /* 384 */ int m384() override { return _1cd4; }

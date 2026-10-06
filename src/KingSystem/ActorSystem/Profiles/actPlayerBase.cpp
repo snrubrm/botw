@@ -72,11 +72,11 @@ bool PlayerBase::m179() {
     return _d30 == sEquipmentTypeNames[3];
 }
 
-void PlayerLink::m379() {}
+void PlayerLink::m379(sead::BufferedSafeString* out) {}
 
-void PlayerLink::m380() {}
+void PlayerLink::m380(sead::BufferedSafeString* out) {}
 
-void PlayerLink::m381() {}
+void PlayerLink::m381(sead::BufferedSafeString* out) {}
 
 Actor* PlayerLink::m382() {
     return nullptr;

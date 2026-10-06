@@ -79,6 +79,28 @@ BaseProc* Player::construct(const CreateArg& arg, sead::Heap* heap) {
 // NON_MATCHING: members are not declared yet
 Player::~Player() = default;
 
+// The names of the weapons held in the right hand / left hand / bow slots (the default ones without a weapon).
+void Player::m379(sead::BufferedSafeString* out) {
+    if (auto* weapon = getWeaponActor(playerWeapons_return0()))
+        out->copy(weapon->getName());
+    else
+        out->copy("Weapon_Default_Right");
+}
+
+void Player::m380(sead::BufferedSafeString* out) {
+    if (auto* weapon = getWeaponActor(playerWeapons_return1()))
+        out->copy(weapon->getName());
+    else
+        out->copy("Weapon_Default_Left");
+}
+
+void Player::m381(sead::BufferedSafeString* out) {
+    if (auto* weapon = getWeaponActor(playerWeapons_return2()))
+        out->copy(weapon->getName());
+    else
+        out->copy("Weapon_Default_Bow");
+}
+
 bool Player::sub_710087F168(const sead::Vector3f& start, const sead::Vector3f& end,
                             phys::WallCode wall, sead::Vector3f* hit_pos,
                             sead::Vector3f* hit_normal) {
