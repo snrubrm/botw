@@ -81,6 +81,18 @@ public:
     Unk_710235aba0_Payload _18;
 };
 
+// vtable 0x71023c5480 (TeachPlayerInAreaForRefActor::_48): sends a BaseProcLink (message 0x80000b8; same payload
+// layout as Unk_710235aba0). Its out-of-line copies sit in actionTeachPlayerInAreaForRefActor's TU.
+class Unk_71023c5480 : public Unk_7102357d20 {
+public:
+    Unk_71023c5480(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        _18.y(actor);
+    }
+    void* m2() override { return &_18; }
+
+    Unk_710235aba0_Payload _18;
+};
+
 // vtable 0x71023cd530 (WolfLinkAmiiboWarp::_28): sends message 0x80000a8 (a u32; payload in aiUnkMessagePayloads.h).
 class Unk_71023cd530 : public Unk_7102357d20 {
 public:

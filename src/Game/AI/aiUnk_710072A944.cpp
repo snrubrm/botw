@@ -18,3 +18,10 @@ void sub_7100729F34(uking::act::Swarm* swarm) {
     for (s32 i = 0, n = swarm->_15e8.size(); i < n; ++i)
         sub_71007A2D34(swarm->_15e8[i]._20);
 }
+
+void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 frame) {
+    for (s32 i = 0, n = swarm->_14c8.size(); i < n; ++i) {
+        if (auto* unit = swarm->_14c8[i])
+            unit->sub_71002DA3A0(frame, name);
+    }
+}
