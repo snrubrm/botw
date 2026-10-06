@@ -3,6 +3,8 @@ project(aal CXX ASM)
 add_library(aal OBJECT
   include/aal/aalAssetInfo.h
   include/aal/aalFadeCurveType.h
+  include/aal/aalFxDelayParamSetter.h
+  include/aal/aalFxParamSetter.h
   include/aal/aalGroup.h
   include/aal/aalGroupLimiter.h
   include/aal/aalGroupMgr.h
@@ -18,6 +20,8 @@ add_library(aal OBJECT
   include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
+  src/aalFxDelayParamSetter.cpp
+  src/aalFxParamSetter.cpp
   src/aalGroup.cpp
   src/aalGroupLimiter.cpp
   src/aalSpatialCalculator.cpp
