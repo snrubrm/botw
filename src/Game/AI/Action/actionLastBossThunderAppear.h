@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -28,9 +29,7 @@ protected:
     const int* mAttackPower_m{};
     // map_unit_param at offset 0x40
     const int* mAttackPowerForPlayer_m{};
-    float _48 = 0.0f;
-    int _4c = 0;
-    int _50 = 0;
+    ksys::Timer _48;
 };
 
 }  // namespace uking::action

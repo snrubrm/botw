@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionLastBossPreNormalWarp.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -25,8 +29,29 @@ bool LastBossPreNormalWarp::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: store merging only (ours merges _64 / _68 into one stp, the original keeps them as separate stores
+// around the _6c / _6e byte stores and the actor flag load)
 void LastBossPreNormalWarp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _50 = ksys::Timer(*mPreWarpWaitTime_s, *mPreWarpWaitTime_s);
+    auto* controller = mActor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    const ksys::act::MotionType motion_type = controller->sub_7100F5F0E4();
+    if (int(motion_type) != int(ksys::act::MotionType::Hover))
+        controller->sub_7100F5F458(ksys::act::MotionType::Hover);
+    playAS("Wait", true, 0, 0, -1.0f);
+    auto* actor = mActor;
+    _68 = 30.0f;
+    _6c = false;
+    _6e = false;
+    _64 = -1.0f;
+    _6d = actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_20);
+    _5c = 30.0f;
+    _60 = 30.0f;
+    if (auto* boss = sead::DynamicCast<act::LastBoss>(actor))
+        boss->_14c8 = ksys::eft::searchAndEmitELink(boss, "WarpCharge");
 }
 
 void LastBossPreNormalWarp::leave_() {

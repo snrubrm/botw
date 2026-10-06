@@ -2,6 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -44,12 +45,8 @@ protected:
     sead::SafeString mWaitAS_s{};
     // dynamic_param at offset 0x70
     bool* mIsResetEndTime_d{};
-    float _78 = 0.0f;
-    float _7c = 0.0f;
-    float _80 = 0.0f;
-    float _84 = 0.0f;
-    float _88 = 0.0f;
-    float _8c = 0.0f;
+    ksys::Timer _78;
+    ksys::Timer _84;
     float _90 = 0.0f;
     float _94 = 0.0f;
     int _98 = 0;

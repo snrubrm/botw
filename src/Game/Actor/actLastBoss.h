@@ -3,6 +3,7 @@
 #include <prim/seadBitFlag.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/Event/evtResidentEvent.h"
 
 namespace uking::act {
@@ -61,9 +62,8 @@ public:
     void sub_71002C69CC();
     void sub_71002C6A24();
 
-    /* 0x14c8 */ void* _14c8 = nullptr;
-    /* 0x14d0 */ u32 _14d0 = 0;
-    /* 0x14d4 */ u32 _14d4;  // 0x14d4-0x14e4 not initialised by the ctor
+    // The "WarpCharge" effect handle (LastBossPreNormalWarp::enter_). 0x14d4-0x14e4 are not initialised by the ctor.
+    /* 0x14c8 */ xlink2::HandleELink _14c8;
     /* 0x14d8 */ u64 _14d8;
     /* 0x14e0 */ u32 _14e0;
     /* 0x14e4 */ u32 _14e4 = 0;

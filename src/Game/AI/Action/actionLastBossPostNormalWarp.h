@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -42,12 +43,8 @@ protected:
     sead::Vector3f* mTargetPos_d{};
     bool _70 = false;
     float _74 = 30.0f;
-    float _78 = 0.0f;
-    float _7c = 0.0f;
-    int _80 = 0;
-    float _84 = 0.0f;
-    int _88 = 0;
-    int _8c = 0;
+    ksys::Timer _78;
+    ksys::Timer _84;
     u8 _90[0xb8 - 0x90];
 };
 

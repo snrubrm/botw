@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionGanonStunRecover.h"
 #include "Game/Actor/actLastBoss.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -34,7 +36,30 @@ void GanonStunRecover::leave_() {
 void GanonStunRecover::loadParams_() {}
 
 void GanonStunRecover::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!mActor->getCharacterController()) {
+        setFailed();
+        return;
+    }
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (!boss) {
+        setFailed();
+        return;
+    }
+    const auto* life = mActor->getLife();
+    if (!life || *life != 0) {
+        if (boss->_14e8.isOnBit(1)) {
+            if (_1c)
+                playAS("DownWaitMaterial", false, 1, 0, -1.0f);
+            _1c = isFinishedAS(1, 0);
+        }
+        if (!isFinishedAS(0, 0))
+            return;
+        setRootAiFlag(ksys::act::ai::RootAiFlag(0));
+        boss->_14f8._30.resetBit(4);
+        boss->_14e8.resetBit(3);
+        playAS("Wait_Battle_Material", false, 1, 0, -1.0f);
+    }
+    setFinished();
 }
 
 }  // namespace uking::action

@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionLastBossFlyWait.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -14,16 +18,12 @@ bool LastBossFlyWait::init_(sead::Heap* heap) {
 }
 
 void LastBossFlyWait::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (*mIsResetEndTime_d || _84 <= 0.0f) {
-        _7c = *mTime_s;
-        _78 = _7c;
-        _80 = -1.0f;
+    if (*mIsResetEndTime_d || _84.value <= 0.0f) {
+        _78.reset(*mTime_s);
         const f32 range = *mEndTimeRandRange_s;
         const f32 rand = sead::GlobalRandom::instance()->getF32();
         const f32 end_time = *mEndTime_s + range * rand;
-        _8c = -1.0f;
-        _88 = end_time;
-        _84 = end_time;
+        _84.reset(end_time);
     }
     _90 = mActor->getMtx().m[1][3] + *mBaseYOffset_s;
     _94 = 0.5f;
@@ -54,7 +54,33 @@ void LastBossFlyWait::loadParams_() {
 }
 
 void LastBossFlyWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    _78.update();
+    if (_78.value <= sead::Mathf::epsilon()) {
+        _78 = ksys::Timer(*mTime_s, *mTime_s);
+        _94 = -_94;
+    }
+    if (auto* controller = mActor->getCharacterController()) {
+        sead::Matrix34f mtx;
+        m32(&mtx);
+        controller->sub_7100F5F938(mtx);
+    }
+    if (*mIsChemicalOff_s) {
+        ksys::as::ASList::Unk4 query;
+        if (sub_71005DD780(mActor, 0x3b, &query, 0, 0))
+            m34();
+    }
+    if (auto* manager = sub_710072BA90(mActor)) {
+        if (s32(manager->getDamage()) >= 1) {
+            const s32 count = _98++;
+            if (*mDamageCounter_s >= 1 && *mDamageCounter_s <= count)
+                setFinished();
+        }
+    }
+    if (*mEndTime_s >= 0.0f) {
+        _84.update();
+        if (_84.value <= sead::Mathf::epsilon())
+            setFinished();
+    }
 }
 
 bool LastBossFlyWait::isChangeable() const {
