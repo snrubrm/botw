@@ -7,6 +7,7 @@
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 
@@ -35,6 +36,16 @@ public:
     // Placeholder (bits of _228; callers convert through the stack like a SEAD_ENUM). _0: the game data
     // handles are initialised; _9 / _10: set by sub_7100E8612C (a horse was found / none).
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10)
+
+    // Placeholder SEAD_ENUM (the HorseUnit RiddenAnimalType: 1 default, 3-9 seen; the queries convert it through the
+    // stack and the original keeps it in an 8-aligned slot, which a plain s32 does not reproduce).
+    SEAD_ENUM(RiddenAnimalType, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
+
+    // Inline-only in the original (names are guesses): a by-value Flag parameter reproduces the shared stack slot of
+    // the temporaries and the ldr/str round trip; `(1 << flag) | bits` (mask first) gives the original's operand order
+    // for the orr (sub_7100E86D44 matches), isOnBit still has the `and` operands swapped.
+    bool isFlagOn(Flag flag) const { return _228.isOnBit(flag); }
+    void setFlagOn(Flag flag) { _228.setDirect((1 << flag) | _228.getDirect()); }
 
     // One horse record of the game data (the Horse_* flags are arrays of 5: the owned horses; the DeadHorse_*
     // flags the dead ones). Names of the fields are guesses from the flag names the readers use
@@ -77,7 +88,7 @@ public:
     bool isSelectedHorseFamiliarityChecked();
     // 0x7100e8612c (name is a guess): finds the selected / owned horse and returns its RiddenAnimalType in
     // `type` (1 if there is none); returns the selected index (-1 if none).
-    s32 sub_7100E8612C(s32* type);
+    s32 sub_7100E8612C(RiddenAnimalType* type);
 
     // 0x7100e88e18 (CSV HorseMgr::isLinkedToActor) / 0x7100e88bcc (CSV HorseMgr::setRiddenHorseMaybe; declared
     // only; RideableHorse::m42 / m43 pass null).
@@ -97,14 +108,19 @@ public:
     // 0x7100e86cf4 / 0x7100e86d44 (declaration only; WaitWhileCreatingOwnedHorse): whether the horse
     // is still being created / marks it done.
     bool sub_7100E86CF4();
-    void sub_7100E86D44();
+    bool sub_7100E86D44();
     // 0x7100e87340 / 0x7100e87424 / 0x7100e87508 (declarations only; CreateObjectsOfOwnedHorse::enter_):
     // create the mane / reins / saddle actor with the given name.
-    void sub_7100E87340(const sead::SafeString& name, sead::Heap* heap);
-    void sub_7100E87424(const sead::SafeString& name, sead::Heap* heap);
-    void sub_7100E87508(const sead::SafeString& name, sead::Heap* heap);
+    // Return whether the owned horse exists (they then make it ready: sub_7100E6E98C(on = true) + the name setter).
+    bool sub_7100E87340(const sead::SafeString& name, sead::Heap* heap);
+    bool sub_7100E87424(const sead::SafeString& name, sead::Heap* heap);
+    bool sub_7100E87508(const sead::SafeString& name, sead::Heap* heap);
+    // 0x7100e873bc / 0x7100e874a0 / 0x7100e87584: the same with sub_7100E6E98C(on = false) and no result.
+    void sub_7100E873BC(const sead::SafeString& name, sead::Heap* heap);
+    void sub_7100E874A0(const sead::SafeString& name, sead::Heap* heap);
+    void sub_7100E87584(const sead::SafeString& name, sead::Heap* heap);
     // 0x7100e875ec (declaration only; CreateObjectsOfOwnedHorse::leave_).
-    void sub_7100E875EC();
+    bool sub_7100E875EC();
     // 0x7100e87710 (declaration only; SetHorseFamiliarityPassedFlag): sets a flag if the owned horse exists.
     bool sub_7100E87710();
     // 0x7100e85bc0 (declaration only; NPCReceiveHorse).
@@ -114,7 +130,9 @@ public:
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)
     u8 _40[0x20];
     /* 0x60 */ ksys::act::BaseProcLink _60;  // RideHorseForEventAction::calc_
-    u8 _70[0xd0 - 0x70];
+    u8 _70[0x80 - 0x70];
+    /* 0x80 */ ksys::act::BaseProcHandle _80;  // the owned horse being created (WaitWhileCreatingOwnedHorse)
+    u8 _90[0xd0 - 0x90];
     /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
     u8 _d4[0x19c - 0xd4];
     /* 0x19c */ ksys::gdt::FlagHandle _19c;  // Horse_Familiarity

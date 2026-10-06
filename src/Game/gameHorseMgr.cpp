@@ -14,6 +14,11 @@ bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);
 }
 
+// NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
+bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
+    return actor && mOwnedHorse.hasProcById(actor);
+}
+
 bool HorseMgr::sub_7100E85334(const ksys::act::BaseProcLink& link) const {
     return mOwnedHorse == link;
 }
@@ -28,10 +33,10 @@ static bool isValid(const HorseMgr::HorseData& data) {
 }
 
 // NON_MATCHING: the original lays out the loop blocks differently (the early exits of the validity checks come
-// after the success path) and uses the other operand order for the isOnBit mask.
+// after the success path) and has the flags first in the isOnBit `and`.
 s32 HorseMgr::getNumRegisteredHorses() {
     s32 count = 5;
-    if (_228.isOnBit(Flag(Flag::_0))) {
+    if (isFlagOn(Flag::_0)) {
         count = 0;
         auto lock = sead::makeScopedLock(_230);
         for (s32 i = 0; i != 5; ++i) {
@@ -56,10 +61,9 @@ s32 HorseMgr::getNumRegisteredHorses() {
     return count;
 }
 
-// NON_MATCHING: stack layout only (the original keeps the horse record at sp+8 and shares the Flag temporary's slot
-// with it) and the isOnBit mask operand order.
+// NON_MATCHING: only the operand order of the `and` on the flags differs.
 s32 HorseMgr::getNumDeadHorsesRegistered() {
-    if (!_228.isOnBit(Flag(Flag::_0)))
+    if (!isFlagOn(Flag::_0))
         return 5;
     s32 count = 0;
     for (s32 i = 0; i != 5; ++i) {
@@ -88,13 +92,14 @@ bool HorseMgr::isSelectedHorseFamiliarityChecked() {
     return result;
 }
 
-// NON_MATCHING: stack layout only (the original shares one slot for the Flag temporaries, ours uses three).
-s32 HorseMgr::sub_7100E8612C(s32* type) {
+// NON_MATCHING: only the operand order of the and / orr on the flags differs (the original has the flags first) and the
+// placement of the final `*type = ...` store.
+s32 HorseMgr::sub_7100E8612C(RiddenAnimalType* type) {
     _228.resetBit(9);
     _228.resetBit(10);
     ksys::act::ActorConstDataAccess accessor;
     if (ksys::act::acquireActor(&mOwnedHorse, &accessor) && _d0 >= 0) {
-        *type = act::sub_7100E6ECC4(accessor);
+        *type = RiddenAnimalType(act::sub_7100E6ECC4(accessor));
         return _d0;
     }
     sead::SafeArray<HorseData, 5> data;
@@ -102,19 +107,107 @@ s32 HorseMgr::sub_7100E8612C(s32* type) {
     if (sub_7100E86340(data.getBufferPtr(), &found)) {
         const s32 index = found;
         _d0 = index;
-        if (_228.isOnBit(Flag(Flag::_0)))
+        if (isFlagOn(Flag::_0))
             ksys::gdt::Manager::instance()->setS32(index, _1a0);
-        _228.setBit(Flag(Flag::_9));
-        *type = ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
-                                                        data[index].actorName);
+        setFlagOn(Flag::_9);
+        *type = RiddenAnimalType(ksys::act::getHorseUnitRiddenAnimalType(
+            ksys::act::InfoData::instance(), data[index].actorName));
     } else {
         if (_d0 >= 0)
             _d0 = -1;
-        _228.setBit(Flag(Flag::_10));
-        *type = 1;
+        setFlagOn(Flag::_10);
+        *type = RiddenAnimalType::_1;
         return -1;
     }
     return _d0;
+}
+
+bool HorseMgr::sub_7100E86CF4() {
+    return _80.isAllocatedOrFailed() && !_80.isProcReady() && !_80.hasProcCreationFailed();
+}
+
+bool HorseMgr::sub_7100E86D44() {
+    if (_80.isAllocatedOrFailed()) {
+        setFlagOn(Flag::_8);
+        return true;
+    }
+    return false;
+}
+
+bool HorseMgr::sub_7100E87710() {
+    if (mOwnedHorse.hasProc()) {
+        setFlagOn(Flag::_3);
+        return true;
+    }
+    return false;
+}
+
+bool HorseMgr::sub_7100E875EC() {
+    bool result = false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, false);
+        setFlagOn(Flag::_2);
+        result = true;
+    }
+    return result;
+}
+
+bool HorseMgr::sub_7100E87340(const sead::SafeString& name, sead::Heap* heap) {
+    bool result = false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, true);
+        result = true;
+        act::sub_7100E6E140(accessor, name, heap);
+    }
+    return result;
+}
+
+bool HorseMgr::sub_7100E87424(const sead::SafeString& name, sead::Heap* heap) {
+    bool result = false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, true);
+        result = true;
+        act::sub_7100E6E404(accessor, name, heap);
+    }
+    return result;
+}
+
+bool HorseMgr::sub_7100E87508(const sead::SafeString& name, sead::Heap* heap) {
+    bool result = false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, true);
+        result = true;
+        act::sub_7100E6E6C8(accessor, name, heap);
+    }
+    return result;
+}
+
+void HorseMgr::sub_7100E873BC(const sead::SafeString& name, sead::Heap* heap) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, false);
+        act::sub_7100E6E140(accessor, name, heap);
+    }
+}
+
+void HorseMgr::sub_7100E874A0(const sead::SafeString& name, sead::Heap* heap) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, false);
+        act::sub_7100E6E404(accessor, name, heap);
+    }
+}
+
+void HorseMgr::sub_7100E87584(const sead::SafeString& name, sead::Heap* heap) {
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        act::sub_7100E6E98C(accessor, false);
+        act::sub_7100E6E6C8(accessor, name, heap);
+    }
 }
 
 }  // namespace uking

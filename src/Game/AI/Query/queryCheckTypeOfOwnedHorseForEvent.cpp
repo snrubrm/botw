@@ -13,9 +13,9 @@ CheckTypeOfOwnedHorseForEvent::~CheckTypeOfOwnedHorseForEvent() = default;
 int CheckTypeOfOwnedHorseForEvent::doQuery() {
     auto* mgr = HorseMgr::instance();
     if (mgr) {
-        s32 type = 0;
+        HorseMgr::RiddenAnimalType type;
         mgr->sub_7100E8612C(&type);
-        return type == 6;
+        return type == HorseMgr::RiddenAnimalType::_6;
     }
     return 0;
 }
