@@ -4,7 +4,13 @@
 #include <hostio/seadHostIONode.h>
 #include "aal/aalNamedObj.h"
 
+namespace sead {
+class Heap;
+}
+
 namespace aal {
+
+enum class InteriorType : u32;
 
 /// The speaker layout of the room a listener is in (the subclasses are the speaker setups).
 /// TODO: incomplete.
@@ -13,6 +19,9 @@ public:
     virtual bool hasCenter() const = 0;
     virtual bool hasLFE() const = 0;
     virtual bool hasRear() const = 0;
+
+    /// Creates the interior of the speaker setup `type` (0x7100b856ec, declared only).
+    static Interior* create(InteriorType type, sead::Heap* heap);
 
     /// Ignores sizes that are not positive.
     void setInteriorSize(f32 size);
