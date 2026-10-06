@@ -17,6 +17,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71002502e8 (lane5 s5; placeholder name): whether the actor is in front of the look-at camera and inside the screen.
+    bool sub_71002502E8();
 
     // static_param at offset 0x20
     const float* mInitialVelocityMax_s{};

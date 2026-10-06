@@ -16075,7 +16075,7 @@ Address,Quality,Size,Name
 0x000000710024fa68,O,000008,_ZN5uking6action19ShootingStartFlying5init_EPN4sead4HeapE
 0x000000710024fa70,W,000588,_ZN5uking6action19ShootingStartFlying6enter_EPN4ksys3act2ai15InlineParamPackE
 0x000000710024fcbc,W,001580,_ZN5uking6action19ShootingStartFlying5calc_Ev
-0x00000071002502e8,U,000356,
+0x00000071002502e8,m,000356,_ZN5uking6action19ShootingStartFlying14sub_71002502E8Ev
 0x000000710025044c,O,000004,_ZN5uking6action19ShootingStartFlying6leave_Ev
 0x0000007100250450,O,000212,_ZN5uking6action19ShootingStartFlying11loadParams_Ev
 0x0000007100250524,O,000288,_ZNK5uking6action19ShootingStartFlying27checkDerivedRuntimeTypeInfoEPKN4sead15RuntimeTypeInfo9InterfaceE
@@ -75439,7 +75439,7 @@ Address,Quality,Size,Name
 0x0000007100d8acd8,U,000232,
 0x0000007100d8adc0,U,000236,
 0x0000007100d8aeac,U,000036,
-0x0000007100d8aed0,U,000136,
+0x0000007100d8aed0,U,000136,_Z14sub_7100D8AED0PN4sead12LookAtCameraEPNS_21PerspectiveProjectionE
 0x0000007100d8af58,U,000116,cam::updateMatrix
 0x0000007100d8afcc,U,000180,
 0x0000007100d8b080,U,000184,
