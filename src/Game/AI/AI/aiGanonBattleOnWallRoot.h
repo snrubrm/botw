@@ -22,6 +22,8 @@ public:
     void changeToWait();
     // 0x71003e3288 (placeholder name)
     void changeToLongRangeAttack();
+    // 0x71003e2fb4 (placeholder name): waits while the "FireBall" part actor is alive, else long range attack.
+    void changeToWaitOrLongRangeAttack();
 
 protected:
     // static_param at offset 0x38

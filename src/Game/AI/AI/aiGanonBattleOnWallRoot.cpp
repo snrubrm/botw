@@ -29,6 +29,14 @@ void GanonBattleOnWallRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("移動", &pack);
 }
 
+void GanonBattleOnWallRoot::changeToWaitOrLongRangeAttack() {
+    auto* boss = sead::DynamicCast<act::LastBoss>(mActor);
+    if (boss && boss->getActorPartsActor("FireBall").hasProcInCalcState())
+        changeToWait();
+    else
+        changeToLongRangeAttack();
+}
+
 void GanonBattleOnWallRoot::changeToWait() {
     sead::Vector3f pos;
     sub_71002C64A0(&pos, mActor);

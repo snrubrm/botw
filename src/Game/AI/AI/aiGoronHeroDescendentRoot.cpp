@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiGoronHeroDescendentRoot.h"
+#include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -21,7 +22,8 @@ GoronHeroDescendentRoot::~GoronHeroDescendentRoot() {
 }
 
 bool GoronHeroDescendentRoot::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    mActor->getModel()->getBounding(&_f0);
+    return true;
 }
 
 void GoronHeroDescendentRoot::enter_(ksys::act::ai::InlineParamPack* params) {

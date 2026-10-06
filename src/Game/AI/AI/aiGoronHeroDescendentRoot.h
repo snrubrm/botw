@@ -5,6 +5,7 @@
 #include <prim/seadDelegate.h>
 #include "Game/AI/aiUnk_7102357210.h"
 #include "Game/AI/aiUnk_7102357d20.h"
+#include <math/seadBoundSphere.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 
@@ -64,8 +65,7 @@ protected:
     bool _8c = false;
     sead::Matrix34f _90;
     sead::Matrix34f _c0;
-    sead::Vector3f _f0 = sead::Vector3f::zero;
-    f32 _fc = 0;
+    sead::BoundSphere3f _f0;
     u32 _100 = 0x8000000;
     f32 _104 = 0;
     f32 _108 = 0;
