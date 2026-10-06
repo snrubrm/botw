@@ -18,6 +18,8 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    virtual bool m33();
+    virtual bool m34();
 
     // static_param at offset 0x30
     const int* mGrabIdx_s{};

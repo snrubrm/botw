@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    void doSendMessage() override;
 
     // static_param at offset 0x28
     const int* mMsgType_s{};

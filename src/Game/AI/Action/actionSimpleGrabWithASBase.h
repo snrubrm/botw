@@ -12,6 +12,7 @@ public:
     ~SimpleGrabWithASBase() override;
 
     void loadParams_() override;
+    bool m34() override;
 
 protected:
 };

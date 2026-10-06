@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionTackleMove.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -11,7 +15,18 @@ bool TackleMove::init_(sead::Heap* heap) {
 }
 
 void TackleMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    auto* controller = actor->getCharacterController();
+    if (!controller) {
+        setFailed();
+        return;
+    }
+    sead::Vector3f front;
+    actor->getMtx().getBase(front, 2);
+    front.normalize();
+    sub_710072C1B4(controller, front);
+    sub_710073FA90(&_64, actor);
+    _58 = ksys::Timer(0.0f, 0.0f, 1.0f);
 }
 
 void TackleMove::leave_() {

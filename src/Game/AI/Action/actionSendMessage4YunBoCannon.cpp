@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionSendMessage4YunBoCannon.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::action {
 
@@ -25,6 +27,34 @@ void SendMessage4YunBoCannon::loadParams_() {
 
 void SendMessage4YunBoCannon::calc_() {
     SendMessage::calc_();
+}
+
+void SendMessage4YunBoCannon::doSendMessage() {
+    auto* actor = mActor;
+    ksys::act::ActorConstDataAccess accessor;
+    switch (*mMsgType_s) {
+    case 0:
+        if (actor->getCreateArgBaseProcLink().hasProc()) {
+            ksys::act::acquireActor(&actor->getCreateArgBaseProcLink(), &accessor);
+            actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000067),
+                               nullptr, true);
+        }
+        break;
+    case 1:
+        if (actor->getCreateArgBaseProcLink().hasProc()) {
+            ksys::act::acquireActor(&actor->getCreateArgBaseProcLink(), &accessor);
+            actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000066),
+                               nullptr, true);
+        }
+        break;
+    case 2:
+        if (actor->getCreateArgBaseProcLink().hasProc()) {
+            ksys::act::acquireActor(&actor->getCreateArgBaseProcLink(), &accessor);
+            actor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000068),
+                               nullptr, true);
+        }
+        break;
+    }
 }
 
 }  // namespace uking::action

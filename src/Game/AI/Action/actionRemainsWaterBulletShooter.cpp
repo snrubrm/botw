@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionRemainsWaterBulletShooter.h"
+#include "Game/AI/aiUnk_7102419cb0.h"
 
 namespace uking::action {
 
@@ -12,7 +13,27 @@ bool RemainsWaterBulletShooter::init_(sead::Heap* heap) {
 }
 
 void RemainsWaterBulletShooter::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _60.mTimer.reset(0.0f);
+    mFlags.set(Flag::Changeable);
+    _a8 = 0;
+    if (mRemainsWaterBattleInfo_a) {
+        if (auto* info = sead::DynamicCast<Unk_7102419cb0>(
+                *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a))) {
+            int count = 0;
+            for (auto* ptr : info->_8) {
+                if (ptr)
+                    ++count;
+            }
+            _ac = count & 1;
+            if (!count)
+                setFailed();
+            sub_71002311F0();
+            return;
+        }
+    }
+    _ac = false;
+    setFailed();
+    sub_71002311F0();
 }
 
 void RemainsWaterBulletShooter::leave_() {
