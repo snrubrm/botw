@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -12,6 +13,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void loadParams_() override;
+    bool oneShot_() override;
 
 protected:
     // dynamic_param at offset 0x20
@@ -22,7 +24,7 @@ protected:
     float* mPositionZ_d{};
     // dynamic_param at offset 0x38
     float* mDirection_d{};
-    u8 _40[0x30];
+    sead::Matrix34f _40;
 };
 KSYS_CHECK_SIZE_NX150(WarpMyHorse, 0x70);
 

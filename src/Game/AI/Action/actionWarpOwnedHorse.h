@@ -13,6 +13,7 @@ public:
     ~WarpOwnedHorse() override;
 
     void loadParams_() override;
+    bool oneShot_() override;
 
 protected:
     sead::Matrix34f _1c = sead::Matrix34f::ident;
