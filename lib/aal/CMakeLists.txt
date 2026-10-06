@@ -66,6 +66,7 @@ add_library(aal OBJECT
   src/aalSoundController.cpp
   src/aalSoundParam.cpp
   src/aalSystem.cpp
+  src/aalTimedFader.cpp
   src/aalSoundSource.cpp
   src/aalSpatialPlayingParam.cpp
   src/aalSpatialSetting.cpp

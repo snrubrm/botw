@@ -22,6 +22,9 @@ public:
     void setCurveType(FadeCurveType curve_type) { mCurveType = curve_type; }
 
 private:
+    /// Inline-only helper: converts a value to the curved domain (the inverse of the curve function).
+    f32 toCurvedDomain_(f32 value) const;
+
     f32 mValue;
     f32 mNextValue;
     f32 mCurvedValue;
