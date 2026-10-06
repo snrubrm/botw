@@ -32,6 +32,18 @@ protected:
     const float* mAxisYAngle_s{};
     // aitree_variable at offset 0x70
     void* mMagicCreateUnit_a{};
+    f32 _78 = 0.0f;
+    f32 _7c = 0.0f;
+    f32 _80 = 0.0f;
+    f32 _84 = -1.0f;
+    void* _88{};
+    f32 _90 = -1.0f;
+    s32 _94 = 0;
+    u16 _98 = 0;
+    s32 _9c = 0;
+    s32 _a0 = 0;
+    u32 _a4 = 1;
 };
+KSYS_CHECK_SIZE_NX150(EquipedRod, 0xa8);
 
 }  // namespace uking::action
