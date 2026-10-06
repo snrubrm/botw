@@ -40,6 +40,10 @@ public:
 
     // 0x71010a9d9c (CSV ScreenBase::doInitialize_)
     void doInitialize_(sead::Heap* heap) override;
+    // 0x71010a9f70 (CSV ScreenBase::doSetupDrawInfo_): perspective instead of Screen's orthographic projection
+    void doSetupDrawInfo_() override;
+    // 0x71010a9f58
+    void* getSlink2ResourceList_(xlink2::UserInstanceSLink* link) const override;
     // 0x71010a9f44 (CSV ScreenBase::getAnimationStep_)
     f32 getAnimationStep_() const override;
     const char* getArchiveName_() const override;

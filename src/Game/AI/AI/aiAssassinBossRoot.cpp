@@ -3,6 +3,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadSafeString.h>
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -12,6 +13,47 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
+
+// 0x710031a970
+void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 <= 0)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    if (!manager)
+        return;
+    if (_24 && manager->getField50() == 4) {
+        *a1 = 0;
+        *a5 = 0xc;
+        return;
+    }
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(manager->getAttacker(), &accessor);
+    if (accessor.getName() == "AssassinIronBall") {
+        *a5 = 0x16;
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(
+            reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+        if (info)
+            info->mFlags |= 2;
+    } else if (accessor.getName() == "Explode") {
+        *a1 = 0;
+        *a5 = -1;
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(
+            reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+        if (info)
+            info->mFlags = 0;
+        return;
+    }
+    if (manager->checkDamageFlags(1))
+        return;
+    if (const auto* attack = sub_7100739578(mDamageManager->mActor)) {
+        auto* body = attack->_c0;
+        if (body == manager->mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgtBarrier")) {
+            *a1 = 0;
+            *a5 = 0xc;
+            _25 = true;
+        }
+    }
+}
 
 // NON_MATCHING: register allocation (the original keeps the cast result in two registers, one of them null when the cast fails)
 // 0x710031a6fc

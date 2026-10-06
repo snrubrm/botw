@@ -69,6 +69,22 @@ void SetupDrawInfoOrtho(nn::ui2d::DrawInfo* info, const nn::ui2d::Size& size) {
     std::memcpy(&info->mViewMtx, &camera.getMatrix(), sizeof(info->mViewMtx));
 }
 
+// NON_MATCHING: matrix copies remain memcpy calls and the frame is larger (as SetupDrawInfoOrtho)
+// 0x7100bee700
+void SetupDrawInfoPerspective(f32 fov, nn::ui2d::DrawInfo* info, const nn::ui2d::Size& size) {
+    const f32 half_width = size.width * 0.5f;
+    const f32 half_height = size.height * 0.5f;
+    const f32 distance = half_height / std::tan(fov * 0.5f);
+    sead::PerspectiveProjection projection(1.0f, 10000.0f, fov, half_width / half_height);
+    const sead::Vector3f position(0.0f, 0.0f, distance);
+    sead::LookAtCamera camera(position, sead::Vector3f::zero, sead::Vector3f::ey);
+    camera.updateViewMatrix();
+    nn::util::Matrix4x4fType matrix;
+    std::memcpy(&matrix, &projection.getDeviceProjectionMatrix(), sizeof(matrix));
+    info->SetProjMtx(matrix);
+    std::memcpy(&info->mViewMtx, &camera.getMatrix(), sizeof(info->mViewMtx));
+}
+
 // 0x7100befa74
 void SetTextureInfoFromTexMap(nn::ui2d::TextureInfo* out, const nn::ui2d::TexMap& map) {
     const auto* info = map.GetTextureInfo();

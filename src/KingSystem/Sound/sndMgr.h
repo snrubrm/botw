@@ -110,6 +110,13 @@ public:
     u8 _84[0xe0 - 0x84];
 };
 
+// Placeholder name (SoundMgr::_60): `_28` is the address of the xlink2 SLink resource list the UI screens
+// (uking::ui::ScreenBase::getSlink2ResourceList_) hand to their sound link users.
+struct Unk_SoundMgr60 {
+    u8 _0[0x28];
+    u8 mSlinkResources[8];
+};
+
 // FIXME: incomplete
 struct SoundMgr {
     SEAD_SINGLETON_DISPOSER(SoundMgr)
@@ -123,7 +130,8 @@ public:
     /* 0x48 */ Unk_SoundMgr48* _48;
     u8 _50[0x58 - 0x50];
     ListenerPoser* _58;
-    u8 _60[0x80 - 0x60];
+    /* 0x60 */ Unk_SoundMgr60* _60;
+    u8 _68[0x80 - 0x68];
     /* 0x80 */ DuckingMgr* mDuckingMgr;
     u8 _88[8];
     /* 0x90 */ Unk_710104e5b4* _90;

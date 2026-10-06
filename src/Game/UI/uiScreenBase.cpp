@@ -1,6 +1,9 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiConstantBuffer.h"
+#include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiPartsEx.h"
 #include <nn/ui2d/ResExtUserData.h>
+#include "KingSystem/Sound/sndMgr.h"
 #include "KingSystem/System/SeadController.h"
 
 namespace uking::ui {
@@ -11,6 +14,19 @@ ScreenBase::ScreenBase() = default;
 // 0x71010a9d9c
 void ScreenBase::doInitialize_(sead::Heap* heap) {
     eui::Screen::doInitialize_(heap);
+}
+
+// 0x71010a9f58
+void* ScreenBase::getSlink2ResourceList_(xlink2::UserInstanceSLink*) const {
+    return ksys::snd::SoundMgr::instance()->_60->mSlinkResources;
+}
+
+// NON_MATCHING: only the register assignment of the first two loads differs (mMgr / mDrawInfo), as in eui::Screen::doSetupDrawInfo_
+// 0x71010a9f70 (CSV ScreenBase::doSetupDrawInfo_)
+void ScreenBase::doSetupDrawInfo_() {
+    mDrawInfo->mGraphicsResource = mMgr->getGraphicsResource();
+    eui::SetupDrawInfoPerspective(0.6981317f, mDrawInfo, mLayout->GetLayoutSize());
+    mMgr->getConstantBuffer()->setupDrawInfo(mDrawInfo);
 }
 
 // 0x71010aa230 (CSV ScreenBase::dtorDelete)

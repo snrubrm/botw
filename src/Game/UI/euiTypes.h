@@ -25,6 +25,10 @@ SEAD_ENUM(Direction, _0, _1, _2, _3)
 // 0x7100bee638
 void SetupDrawInfoOrtho(nn::ui2d::DrawInfo*, const nn::ui2d::Size&);
 
+// 0x7100bee700: perspective projection with the field of view `fov` (radians) that shows `size` at distance
+// (height / 2) / tan(fov / 2)
+void SetupDrawInfoPerspective(f32 fov, nn::ui2d::DrawInfo*, const nn::ui2d::Size&);
+
 // 0x7100bed2bc: the angle (radians) of a box cursor route direction
 f32 GetRadAngleOfDirection(Direction direction);
 
