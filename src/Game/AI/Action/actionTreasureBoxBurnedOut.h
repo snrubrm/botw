@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710029bfdc (CSV AI_Action_TreasureBoxBurnedOut::spawnDropActor; declared only).
+    void spawnDropActor();
     void calc_() override;
 
     ksys::act::BaseProcHandle _20;
