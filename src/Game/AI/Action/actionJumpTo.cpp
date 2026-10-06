@@ -43,8 +43,9 @@ void JumpTo::enter_(ksys::act::ai::InlineParamPack* params) {
     _58.prev_value = speed;
     sub_710073FA90(&_64, mActor);
     _98 = 0;
-    _88.set(mParams.mTargetPos_d->x - mActor->getMtx().m[0][3], 0.0f,
-            mParams.mTargetPos_d->z - mActor->getMtx().m[2][3]);
+    const sead::Vector3f& target = *mParams.mTargetPos_d;
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    _88.set(target.x - pos.x, 0.0f, target.z - pos.z);
     if (auto* controller = mActor->getCharacterController()) {
         const sead::Vector3f up = getUpDir(controller->get70());
         ksys::util::sub_71011EFA00(&_88, _88, up);
@@ -70,9 +71,8 @@ void JumpTo::loadParams_() {
     getDynamicParam(&mParams.mTargetPos_d, "TargetPos");
 }
 
-// NON_MATCHING: sub_71001C72A8 is inlined here and keeps its known load-order difference (matrix Y vs
-// surface height); the original also keeps the water-depth result in a register (`cset`) used by two
-// separate branches, ours branches on the compare directly.
+// NON_MATCHING: only the test of the water-depth bool in the controller branch (`tbz w8, #0` in the original,
+// `cbz w8` in ours).
 void JumpTo::calc_() {
     switch (_98) {
     case 0:
@@ -96,14 +96,16 @@ void JumpTo::calc_() {
         if (!isBgGroundHit(mActor, false)) {
             auto* controller = mActor->getCharacterController();
             const bool in_water = sub_71001C72A8();
-            if (!in_water)
-                return;
             f32 velocity_y;
             if (controller) {
+                if (!in_water)
+                    return;
                 sead::Vector3f velocity;
                 controller->sub_7100F5F598(&velocity);
                 velocity_y = velocity.y;
             } else {
+                if (!in_water)
+                    return;
                 velocity_y = mActor->getVelocity().y;
             }
             if (!(velocity_y < 0.0f))
@@ -177,12 +179,15 @@ void JumpTo::m40() {
     }
 }
 
-// NON_MATCHING: natural surface-height and matrix-Y load order differs.
 bool JumpTo::sub_71001C72A8() const {
     const f32 threshold = *mParams.mInWaterDepth_s;
     if (!(threshold >= 0.0f))
         return false;
-    const f32 depth = mActor->get68f() ? mActor->get6f0() - mActor->getMtx().m[1][3] : 0.0f;
+    f32 depth = 0.0f;
+    if (mActor->get68f()) {
+        const f32 y = mActor->getMtx().m[1][3];
+        depth = mActor->get6f0() - y;
+    }
     return depth >= threshold;
 }
 

@@ -25,15 +25,22 @@ void ForkMoveDistanceCheckByDistance::loadParams_() {
     getStaticParam(&mIsCheckOnlyXZ_s, "IsCheckOnlyXZ");
 }
 
-// NON_MATCHING: original branches on mIsCheckOnlyXZ_s (x*x vs x*x + y*y), we get an fcsel on y
+// NON_MATCHING: same structure as ForkEndByDistance::calc_ (branch on IsCheckOnlyXZ, no fcsel); the original loads the
+// actor Z translation with an integer load and allocates x9 / x10 for the actor / flag pointers.
 void ForkMoveDistanceCheckByDistance::calc_() {
     Fork::calc_();
-    sead::Vector3f pos;
-    mActor->getMtx().getTranslation(pos);
-    sead::Vector3f diff = _38 - pos;
-    if (*mIsCheckOnlyXZ_s)
-        diff.y = 0.0f;
-    if (diff.length() >= m32())
+    const sead::Vector3f pos = mActor->getMtx().getTranslation();
+    const bool only_xz = *mIsCheckOnlyXZ_s;
+    const f32 dx = _38.x - pos.x;
+    const f32 dz = _38.z - pos.z;
+    f32 sum;
+    if (only_xz) {
+        sum = dx * dx;
+    } else {
+        const f32 dy = _38.y - pos.y;
+        sum = dx * dx + dy * dy;
+    }
+    if (sead::Mathf::sqrt(dz * dz + sum) >= m32())
         setEndState();
 }
 
