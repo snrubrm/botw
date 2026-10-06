@@ -15,6 +15,10 @@ namespace ksys::res {
 class DamageParam;
 }  // namespace ksys::res
 
+namespace ksys::phys {
+class RigidBody;
+}  // namespace ksys::phys
+
 namespace ksys::act {
 class Actor;
 class ActorParam;
@@ -116,7 +120,8 @@ public:
     // FIXME: incomplete. Same as getAttacker, but return different Actor ProcLink I assume.
     virtual ksys::act::BaseProcLink* m37();
 
-    virtual s32 m38() { return 0; }
+    // lane2 s42: takes a rigid body (the Sandworm damage callback calls it with the actor's "Body" body).
+    virtual bool m38(ksys::phys::RigidBody* body) { return false; }
 
     // FIXME: Incomplete. Call isSlowTimeMaybe
     virtual bool isSlowTime();
