@@ -19,6 +19,9 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71001c3964 (placeholder name): whether the actor stands on the ground (flag, BG ground hit, or two
+    // short ray casts down from its position).
+    bool sub_71001C3964();
     virtual void m32(f32 a, f32 b);
     virtual f32 m33();
 
