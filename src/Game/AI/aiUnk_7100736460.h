@@ -2,6 +2,7 @@
 
 namespace ksys::act {
 class Actor;
+class ActorConstDataAccess;
 class BaseProcLink;
 }  // namespace ksys::act
 
@@ -25,6 +26,8 @@ bool isPlayingOneHitObliteratorQuest();
 /// 0x71006889d0 (CSV name; declared only; lane1 s28): the "Ballad of the Heroes" quest has been escaped (the
 /// parameter is probably a `require the player on the ground` flag).
 int hasEscapedOneHitObliteratorQuest(bool a1);
+/// 0x7100736604 (CSV name; declared only; lane3 s36): DamageManager::sub_71006D8DE8 passes `true`.
+bool isOneHitObliteratorActorAccessor(const ksys::act::ActorConstDataAccess& accessor, bool a2);
 }
 
 /// 0x710073681c (CSV name): whether both the actor and the link have the AnimalTypeWolf tag, or both have the

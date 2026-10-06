@@ -15,6 +15,9 @@ public:
 
 protected:
     void calc_() override;
+
+    // 0x710010e614: a player's weapon (not m214) with an unused charge record and a normal request type.
+    bool sub_710010E614();
 };
 
 }  // namespace uking::action

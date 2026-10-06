@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -113,6 +114,25 @@ void FlyingCharacterDamageBase::m37(ksys::phys::CharacterController* controller)
     }
     sub_7100737C0C(controller, *mPosReduceRatioOnGround_s, -sead::Vector3f::ey);
     FlyingCharacterReaction::m37(controller);
+}
+
+// NON_MATCHING: the original keeps three separate branches (one sub_7100736B68 call each) where ours selects
+// the parameter address with csel.
+f32 FlyingCharacterDamageBase::sub_7100130AA4() {
+    auto* manager = sub_710072BA90(mActor);
+    if (!manager)
+        return *mHitImpactForceSmallSwordS_s;
+    const s32 kind = manager->getField54();
+    const s32 size = manager->getField50();
+    const f32* const* param;
+    if (size == 1) {
+        param = sub_7100736B68(kind) ? &mHitImpactForceSpearL_s : &mHitImpactForceSpearS_s;
+    } else if (size != 2) {
+        param = sub_7100736B68(kind) ? &mHitImpactForceSmallSwordL_s : &mHitImpactForceSmallSwordS_s;
+    } else {
+        param = sub_7100736B68(kind) ? &mHitImpactForceSpearL_s : &mHitImpactForceSpearS_s;
+    }
+    return **param * manager->sub_71006D8DE8();
 }
 
 }  // namespace uking::action

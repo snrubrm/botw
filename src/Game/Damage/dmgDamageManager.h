@@ -29,6 +29,10 @@ public:
     // _5c: 2 / 6 via sub_71007A255C, 4 via the actor's +0x708 object), or null.
     ksys::phys::RigidBody* sub_71006D69F8();
 
+    // 0x71006d8de8 (lane3 s36; declared only): the damage factor (1.0; 2.0 if the attacker's weapon is a
+    // Pikohan / one-hit obliterator). Placeholder name.
+    f32 sub_71006D8DE8();
+
     // 0x71006d8534 (lane1 s22): `_220 ? _220->_10 : 0`. Placeholder name.
     s32 sub_71006D8534() const;
 

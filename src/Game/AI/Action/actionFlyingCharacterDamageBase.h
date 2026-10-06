@@ -19,6 +19,9 @@ public:
 protected:
     // 0x7100130868 (declared only): out of line in the original.
     void sub_7100130868(ksys::phys::CharacterController* controller, const sead::Vector3f& dir);
+    // 0x7100130aa4: the HitImpactForce parameter for the current damage (sword / spear kind, small / large
+    // damage kind) times the damage manager's factor (without a manager: SmallSwordS).
+    f32 sub_7100130AA4();
     void calc_() override;
     void m33() override;
     void m34(ksys::phys::CharacterController* controller) override;

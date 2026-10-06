@@ -18,6 +18,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100144cb4: the point 100 units along FrontDirOfBaseBone from the base bone (the actor's matrix if
+    // there is no such bone), in world space.
+    void sub_7100144CB4(sead::Vector3f* out);
+
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
     // static_param at offset 0x28
