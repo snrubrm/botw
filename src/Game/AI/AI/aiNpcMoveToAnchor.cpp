@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiNpcMoveToAnchor.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::ai {
@@ -34,6 +36,56 @@ void NpcMoveToAnchor::enter_(ksys::act::ai::InlineParamPack* params) {
     pack.addVec3(_78, "TargetPos", -1);
     pack.addString(mASKeyName_d.isEmpty() ? "Walk" : mASKeyName_d.getStringTop(), "DynASKeyName", -1);
     changeChild("移動", &pack);
+}
+
+void NpcMoveToAnchor::calc_() {
+    if (isFinishedOrFailed()) {
+        sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
+        sub_7100738AA8(mActor, 0.0f);
+        return;
+    }
+
+    if (isCurrentChild("移動")) {
+        if (getCurrentChild()->isFinished()) {
+            if (*mIsAlignmentAnchor_d) {
+                ksys::act::ai::InlineParamPack pack;
+                pack.addVec3(_78, "TargetPos", -1);
+                changeChild("アンカー接近", &pack);
+                return;
+            }
+            if (*mIsTurnToAnchorDir_d) {
+                ksys::act::ai::InlineParamPack pack;
+                const sead::Matrix34f& mtx = mActor->getMtx();
+                pack.addVec3({mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]}, "TargetPos", -1);
+                pack.addVec3(_84, "TargetRot", -1);
+                changeChild("振り向く", &pack);
+                return;
+            }
+            setFinished();
+            return;
+        }
+    } else if (isCurrentChild("振り向く")) {
+        if (getCurrentChild()->isFinished())
+            setFinished();
+        return;
+    } else if (isCurrentChild("アンカー接近")) {
+        if (getCurrentChild()->isFinished()) {
+            if (*mIsTurnToAnchorDir_d) {
+                ksys::act::ai::InlineParamPack pack;
+                const sead::Matrix34f& mtx = mActor->getMtx();
+                pack.addVec3({mtx.m[0][3], mtx.m[1][3], mtx.m[2][3]}, "TargetPos", -1);
+                pack.addVec3(_84, "TargetRot", -1);
+                changeChild("振り向く", &pack);
+            } else {
+                setFinished();
+            }
+        }
+    } else {
+        return;
+    }
+
+    if (getCurrentChild()->isFailed())
+        setFailed();
 }
 
 void NpcMoveToAnchor::leave_() {
