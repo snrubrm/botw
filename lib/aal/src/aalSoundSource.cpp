@@ -1,4 +1,5 @@
 #include "aal/aalSoundSource.h"
+#include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalGroup.h"
 #include "aal/aalSoundSourceUnifier.h"
@@ -119,14 +120,17 @@ void SoundSource::kill() {
     reset();
 }
 
-// 0x7100b777dc: NON_MATCHING (the load of mUnifierSource is scheduled before the frame pointer setup)
-void SoundSource::stopForce() {
+inline void SoundSource::freeUnifierSource_() {
     if (mUnifierSource) {
         if (auto* unifier = SystemAccessor::getSoundSourceUnifier()) {
             unifier->freeSource(mUnifierSource, -1.0f);
             mUnifierSource = nullptr;
         }
     }
+}
+
+/// Stops the sound immediately and finishes the source.
+inline void SoundSource::finishNow_() {
     mPriority = 0.0f;
     mPlayingStateController->stopForce();
     if (mEmitter) {
@@ -135,6 +139,37 @@ void SoundSource::stopForce() {
         mEmitter = nullptr;
     }
     mState = 7;
+}
+
+// 0x7100b777dc: NON_MATCHING (the load of mUnifierSource is scheduled before the frame pointer setup)
+void SoundSource::stopForce() {
+    freeUnifierSource_();
+    finishNow_();
+}
+
+// 0x7100b772cc
+void SoundSource::execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d) {
+    if (mPlayingStateController->execOnDestroyWaveAsset(a, b, c, d))
+        finishNow_();
+}
+
+// 0x7100b7900c
+void SoundSource::execOnFianlizeSoundSourceUnifierSource() {
+    if (mUnifierSource) {
+        finishNow_();
+        mUnifierSource = nullptr;
+    }
+}
+
+// 0x7100b77f94
+bool SoundSource::setReleaseTime(f32 release_time) {
+    if (mState <= 2) {
+        if (release_time < 0.0f && mSoundGroup)
+            release_time = mSoundGroup->getReleaseTime();
+        mPlayingStateController->setReleaseTime(sead::Mathf::clampMin(release_time, 0.0f));
+        return true;
+    }
+    return false;
 }
 
 // 0x7100b778b8: NON_MATCHING (same scheduling difference as stopForce)

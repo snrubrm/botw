@@ -107,6 +107,8 @@ public:
     void preCalc();
     void calc();
     void unvirtualize();
+    /// 0x7100ba028c (declared only): returns whether the wave asset was in use by this sound.
+    bool execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
     /// 0x7100b9fd14 / 0x7100ba025c: a negative release time is ignored / the sample position of the sound
     /// (-1 if there is none).
     void setReleaseTime(f32 release_time);

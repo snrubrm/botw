@@ -92,6 +92,7 @@ public:
     void calcActiveSoundLimit() override;
 
     void setReleaseTime(f32 release_time);
+    f32 getReleaseTime() const { return mReleaseTime; }
     /// 0x7100b826f8 (declared only): removes the sound source from the playing sounds of the group.
     void removeSound(SoundSource* sound_source);
 

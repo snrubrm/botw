@@ -92,8 +92,12 @@ public:
     void detachSoundGroup();
     bool prepare(bool prepare);
     void setInteriorNum(s32 interior_num);
-    /// Inline-only helper of pause().
+    /// Inline-only helpers.
     void pauseImpl_(bool pause, f32 fade_time);
+    void freeUnifierSource_();
+    void finishNow_();
+    void execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
+    void execOnFianlizeSoundSourceUnifierSource();
     s32 getChannelNum(s32 track) const;
     bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
     bool isAttachedSound() const;
