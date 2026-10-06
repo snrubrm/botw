@@ -3,6 +3,10 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
+bool sub_71006DE574(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71006DE3D8(const ksys::act::ActorConstDataAccess& accessor);
+bool sub_71006DE4A4(const ksys::act::ActorConstDataAccess& accessor);
+
 namespace uking::ai {
 
 EnemyWaitViewItem::EnemyWaitViewItem(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
@@ -57,6 +61,26 @@ void EnemyWaitViewItem::m34() {}
 void EnemyWaitViewItem::m35() {}
 
 void EnemyWaitViewItem::m36() {}
+
+// Picks the child from the EnemyShown params of the target (noise: cheer, happy: gather, sit: dejected,
+// else watch); unless `force` is set, the current child is kept.
+void EnemyWaitViewItem::sub_71003C3A2C(bool force) {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    if (sub_71006DE574(accessor)) {
+        if (force || !isCurrentChild("囃し立てる"))
+            changeToCheer();
+    } else if (sub_71006DE3D8(accessor)) {
+        if (force || !isCurrentChild("団欒"))
+            changeToGather();
+    } else if (sub_71006DE4A4(accessor)) {
+        if (force || !isCurrentChild("しょんぼり"))
+            changeToDejected();
+    } else {
+        if (force || !isCurrentChild("注視"))
+            changeToWatch();
+    }
+}
 
 void EnemyWaitViewItem::changeToGather() {
     ksys::act::ActorConstDataAccess accessor;
