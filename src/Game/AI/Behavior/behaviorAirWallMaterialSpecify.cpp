@@ -15,7 +15,7 @@ void AirWallMaterialSpecify::m8() {
         wall->sub_7100E245C0(&_28);
 }
 
-void AirWallMaterialSpecify::sub_7100616964(ksys::phys::RigidBody* body) {
+void AirWallMaterialSpecify::sub_7100616964() {
     if (auto* wall = sead::DynamicCast<ksys::act::AirWall>(mActor)) {
         ksys::phys::MaterialMask mask(ksys::phys::Material::Barrier, "DungeonAirWall",
                                       ksys::phys::FloorCode::None,

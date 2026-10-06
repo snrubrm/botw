@@ -1,6 +1,7 @@
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -26,9 +27,18 @@ void AirWall::sub_7100E245B8(RigidBodyCallback* callback) {
     sub_7100E2677C();
 }
 
-void AirWall::sub_7100E245C0(RigidBodyCallback* callback) {
+void AirWall::sub_7100E245C0(sead::IDelegate* callback) {
     _898 = callback;
     sub_7100E2677C();
+}
+
+void AirWall::m150() {
+    if (_898) {
+        _898->invoke();
+        return;
+    }
+    phys::MaterialMask mask(0x21u);
+    sub_7100E26784(&mask);
 }
 
 void AirWall::m149(phys::RigidBody* body) {

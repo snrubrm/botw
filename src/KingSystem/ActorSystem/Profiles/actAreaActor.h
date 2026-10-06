@@ -73,7 +73,8 @@ public:
 
     // 0x7100e245b8 / 0x7100e245c0: set _890 / _898 and update the rigid bodies (sub_7100E2677C).
     void sub_7100E245B8(RigidBodyCallback* callback);
-    void sub_7100E245C0(RigidBodyCallback* callback);
+    void sub_7100E245C0(sead::IDelegate* callback);
+    void m150() override;
 
     void preDelete2_(const PreDeleteArg& arg) override;
     void m149(phys::RigidBody* body) override;
@@ -81,7 +82,7 @@ public:
     phys::ContactLayer m152() override;
 
     /* 0x890 */ RigidBodyCallback* _890 = nullptr;
-    /* 0x898 */ RigidBodyCallback* _898 = nullptr;
+    /* 0x898 */ sead::IDelegate* _898 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(AirWall, 0x8a0);
 

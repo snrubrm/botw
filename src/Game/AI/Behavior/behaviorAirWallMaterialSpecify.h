@@ -15,9 +15,9 @@ public:
     explicit AirWallMaterialSpecify(const InitArg& arg);
     void m8() override;
     // 0x7100616964
-    void sub_7100616964(ksys::phys::RigidBody* body);
+    void sub_7100616964();
 
-    /* 0x28 */ sead::Delegate1<AirWallMaterialSpecify, ksys::phys::RigidBody*> _28{this, &AirWallMaterialSpecify::sub_7100616964};
+    /* 0x28 */ sead::Delegate<AirWallMaterialSpecify> _28{this, &AirWallMaterialSpecify::sub_7100616964};
     /* 0x48 */ u32 _48;
     /* 0x4c */ u32 _4c;
     /* 0x50 */ u64 _50;

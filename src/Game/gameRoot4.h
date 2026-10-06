@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadEnum.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -10,12 +11,12 @@ namespace uking {
 
 // Name from the CSV. createInstance (0x71008bccd4) allocates 0x40 bytes and
 // installs sInstance at 0x71025d16c0. This is separate from MaskController.
-class Root4 {
+class Root4 : public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(Root4)
-    Root4();
+    Root4() = default;
 
 public:
-    virtual ~Root4();
+    virtual ~Root4() = default;
 
     // SEAD_ENUM copies/conversions are visible in the flag helpers. Names are unknown.
     SEAD_ENUM(FlagIdx, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9)
