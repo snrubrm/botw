@@ -18,6 +18,16 @@ void ScreenAppMap::m100() {
         screen->close(-1);
 }
 
+// 0x71009ebbfc (CSV ScreenAppMap::demoEnter)
+void ScreenAppMap::demoEnter() {
+    _3c00->StopAtMin();
+    _3c08->StopAtMin();
+    _3ad1 = 0;
+    _3610->_b33a = 0;
+    UiSubsys1::instance()->clear38c8();
+    _3610->_b350 = 0;
+}
+
 // 0x71009ec01c (CSV ScreenAppMap::demoLeave)
 void ScreenAppMap::demoLeave() {
     UiSubsys1::instance()->sub_7100968844();

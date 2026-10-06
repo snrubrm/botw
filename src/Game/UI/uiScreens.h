@@ -1340,6 +1340,8 @@ struct ScreenAppMapWidget {
     bool sub_71009A9438();
     u8 _0[0xb33a];
     /* 0xb33a */ u8 _b33a;
+    u8 _b33b[0xb350 - 0xb33b];
+    /* 0xb350 */ s32 _b350;
 };
 
 class ScreenAppMap : public ScreenEx {
@@ -1394,6 +1396,9 @@ public:
     u8 _3618[0x3ad1 - 0x3618];
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
+    u8 _3ad3[0x3c00 - 0x3ad3];
+    /* 0x3c00 */ eui::Animator* _3c00;
+    /* 0x3c08 */ eui::Animator* _3c08;
 };
 
 class ScreenPauseMenu : public ScreenEx {
