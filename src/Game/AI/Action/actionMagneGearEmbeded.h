@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class Constraint;
+}
+
 namespace uking::action {
 
 class MagneGearEmbeded : public ksys::act::ai::Action {
@@ -17,11 +21,11 @@ public:
 
 protected:
     void calc_() override;
-    void* _20{};
-    void* _28{};
-    void* _30{};
-    void* _38{};
-    void* _40{};
+    ksys::phys::Constraint* _20{};
+    ksys::phys::Constraint* _28{};
+    ksys::phys::Constraint* _30{};
+    ksys::phys::Constraint* _38{};
+    ksys::phys::Constraint* _40{};
     void* _48{};
 };
 

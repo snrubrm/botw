@@ -1,11 +1,28 @@
 #include "Game/AI/Action/actionGanonAttackWithEmitChemical.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/actEnemy.h"
 
 namespace uking::action {
 
 GanonAttackWithEmitChemical::GanonAttackWithEmitChemical(const InitArg& arg)
     : GanonWeaponNearAttack(arg) {}
 
-GanonAttackWithEmitChemical::~GanonAttackWithEmitChemical() = default;
+GanonAttackWithEmitChemical::~GanonAttackWithEmitChemical() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (mEmitNum_s) {
+            for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
+                const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+                if (enemy->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+                enemy->sub_7100D3CFEC(name);
+            }
+        }
+    }
+}
 
 bool GanonAttackWithEmitChemical::init_(sead::Heap* heap) {
     return GanonWeaponNearAttack::init_(heap);

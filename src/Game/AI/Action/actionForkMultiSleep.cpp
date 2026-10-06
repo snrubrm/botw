@@ -1,10 +1,20 @@
 #include "Game/AI/Action/actionForkMultiSleep.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
 ForkMultiSleep::ForkMultiSleep(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-ForkMultiSleep::~ForkMultiSleep() = default;
+ForkMultiSleep::~ForkMultiSleep() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        sead::FixedSafeString<32> key;
+        for (s32 i = 0; i < *mNum_s; ++i) {
+            key.format("%s%d", mPartsBaseName_s.cstr(), i);
+            enemy->sub_7100D3CFEC(key);
+        }
+    }
+}
 
 bool ForkMultiSleep::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
