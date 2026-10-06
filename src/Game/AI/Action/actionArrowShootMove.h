@@ -44,6 +44,13 @@ protected:
     bool sub_71000A331C();
     // 0x71000a2a64 (declared only): re-initialises the shot (called by ForLargeObject::calc_ when IsReInitShoot).
     void sub_71000A2A64();
+    // 0x71000a3400: finds the attack body (AtkPlayerBody / AtkEnemyBody) into _138, moves it to the main body's
+    // transform and activates the attack sensor (sub_71000A5604).
+    void sub_71000A3400();
+    // 0x71000a5604 (called by 0x71000a3400): copies the AtAttr / AtPoint / AtRange / AtImpulse / AtImpact
+    // params into _a0.. and activates the actor's attack sensor (attribute 4 for a chemical body unless
+    // _148).
+    void sub_71000A5604();
 
     // dynamic_param at offset 0x20
     bool* mIsShootByPlayer_d{};

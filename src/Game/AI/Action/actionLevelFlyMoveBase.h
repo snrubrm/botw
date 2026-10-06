@@ -42,6 +42,9 @@ protected:
     // this class' TU (the CSV had them under LevelFlyMove). WizzrobeVisibleWalk::calc_ calls them too.
     void sub_71001DA0D0();
     void sub_71001DA1A4();
+    // 0x71001da7e4: moves the vertical speed `value` towards RiseSpeed (`rate` >= 0) or -DownSpeed, capped
+    // at `limit` (unless IsOverRise), and plays AS slot 10 with it.
+    void sub_71001DA7E4(f32 rate, f32 limit, ksys::VFRValue* value);
 
     // static_param at offset 0x20
     const float* mXZSpeed_s{};

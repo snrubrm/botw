@@ -4,6 +4,7 @@
 #include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -162,6 +163,22 @@ void LevelFlyMoveBase::m35(ksys::VFRValue* speed, const sead::Vector3f& from,
     speed->chase(target, step);
     speed->setToMin(limit);
     speed->updateStats();
+}
+
+// NON_MATCHING: the negated chase target is stored before the `* 0.1f` step is computed (scheduling only).
+void LevelFlyMoveBase::sub_71001DA7E4(f32 rate, f32 limit, ksys::VFRValue* value) {
+    if (rate >= 0.0f) {
+        value->chase(*mRiseSpeed_s, *mRiseSpeed_s * 0.1f);
+        if (!*mIsOverRise_s)
+            value->setToMin(limit);
+    } else {
+        const f32 down_speed = *mDownSpeed_s;
+        value->chase(-down_speed, down_speed * 0.1f);
+        if (!*mIsOverRise_s)
+            value->setToMax(-limit);
+    }
+    value->updateStats();
+    mActor->getASList()->x_6(10, 0, value->value);
 }
 
 void LevelFlyMoveBase::m34(sead::Vector3f* pos) {

@@ -1,5 +1,9 @@
 #include "Game/AI/Action/actionArrowShootMove.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
@@ -78,5 +82,48 @@ f32 ArrowShootMove::m41() {
 }
 
 void ArrowShootMove::m42() {}
+
+// NON_MATCHING: stack layout of the SafeString temporaries / matrix and the order of the two null tests.
+void ArrowShootMove::sub_71000A3400() {
+    ksys::phys::RigidBody* atk_body;
+    if (auto* set = mActor->getPhysics()->findBodyByName(sead::SafeString(*sub_71007A24BC()))) {
+        if (*mIsShootByPlayer_d)
+            atk_body = set->getRigidBody(set->findBodyIndexByHavokName("AtkPlayerBody"));
+        else
+            atk_body = set->getRigidBody(set->findBodyIndexByHavokName("AtkEnemyBody"));
+        _138 = atk_body;
+    } else {
+        atk_body = _138;
+    }
+    if (auto* main_body = mActor->getMainBody()) {
+        if (atk_body) {
+            sead::Matrix34f mtx;
+            main_body->getTransform(&mtx);
+            _138->setTransform(mtx);
+            sub_71007A2B64(_138, nullptr);
+            sub_71007A2EB0(_138, mActor, nullptr);
+            _138->setContactNone();
+            sub_71000A5604();
+        }
+    }
+}
+
+void ArrowShootMove::sub_71000A5604() {
+    if (!mActor)
+        return;
+    if (!mActor->getPhysics()->findBodyByName(*sub_71007A24BC()))
+        return;
+    _a0 = *mAtAttr_d;
+    _a4 = *mAtPoint_d;
+    _ac = *mAtImpulse_d;
+    _b0 = *mAtImpact_d;
+    const s32 min_damage = *mAtMinDamage_d;
+    auto* chemical = mActor->getChemicalStuff();
+    if (chemical && (chemical->mMaterial->attribute.ref() & 0x10) && !_148)
+        _a0 = 4;
+    getActorAttackSensor(mActor)->activateAttackSensor(8, _a0 | 0x80, s32(_a4), s32(_ac), 0.0f,
+                                                       s32(_b0), 1, -1, false, min_damage, -1);
+    _a8 = *mAtRange_d;
+}
 
 }  // namespace uking::action
