@@ -37,6 +37,8 @@ public:
     void sub_7100446DA8();
     // 0x71004473a8 (placeholder name)
     void sub_71004473A8();
+    // 0x7100447f20 (placeholder name): reads `_148` from the AS event 0x2f and eases `_144` towards it.
+    void sub_7100447F20();
 
 protected:
     Unk_71023fd228 _38;

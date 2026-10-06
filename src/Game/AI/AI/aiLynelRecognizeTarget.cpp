@@ -2,6 +2,8 @@
 #include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
@@ -9,6 +11,17 @@ namespace uking::ai {
 LynelRecognizeTarget::LynelRecognizeTarget(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 LynelRecognizeTarget::~LynelRecognizeTarget() = default;
+
+bool LynelRecognizeTarget::sub_7100497BE8(ksys::act::acc::PlayerOrEnemy* actor) {
+    const s32 num_slots = actor->getNumWeaponSlots();
+    for (s32 i = 0; i < num_slots; ++i) {
+        ksys::act::ActorConstDataAccess weapon;
+        actor->getWeapon(&weapon, i);
+        if (weapon.hasProc() && sub_71002F0258(weapon) != 4 && !actor->sub_7100009AA8(i))
+            return true;
+    }
+    return false;
+}
 
 bool LynelRecognizeTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);

@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
     void sub_71003F6CF0();
+    // 0x71003f73d8 (placeholder name): paths to the closest nav mesh point of the target position.
+    void sub_71003F73D8();
 protected:
     ksys::Timer _38;
 };

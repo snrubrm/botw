@@ -16,6 +16,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x710048a190 (placeholder name): emits "Leaf", then drops the loot at the force-set drop position and
+    // deletes the actor.
+    void sub_710048A190();
 
 protected:
     // FIXME: remove this

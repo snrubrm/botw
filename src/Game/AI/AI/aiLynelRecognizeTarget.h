@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::act::acc {
+class PlayerOrEnemy;
+}
+
 namespace uking::ai {
 
 class LynelRecognizeTarget : public ksys::act::ai::Ai {
@@ -26,6 +30,8 @@ public:
     void changeToStartBattle();
     // 0x7100497164 (placeholder name)
     void changeToForceStartBattle();
+    // 0x7100497be8 (placeholder name): `actor` has a weapon (not of type 4) for which PlayerOrEnemy::sub_7100009AA8 is false.
+    bool sub_7100497BE8(ksys::act::acc::PlayerOrEnemy* actor);
 
 protected:
     // static_param at offset 0x38

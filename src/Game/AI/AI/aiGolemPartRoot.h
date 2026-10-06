@@ -16,8 +16,13 @@ public:
     void calc_() override;
     void leave_() override;
     void loadParams_() override;
+    bool m34() override;
 
 protected:
+    // 0x71003fdcf8 (placeholder name): if the linked part (_c8) is asleep, wakes it up at `pos` (resets its matrix to
+    // the identity with that translation).
+    void sub_71003FDCF8(const sead::Vector3f* pos);
+
     // static_param at offset 0x90
     const float* mChemFieldScale_s{};
     // static_param at offset 0x98

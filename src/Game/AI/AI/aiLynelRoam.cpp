@@ -2,7 +2,10 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::ai {
@@ -58,7 +61,58 @@ bool LynelRoam::sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direct
     return false;
 }
 
-// NON_MATCHING: timer load scheduling and vector stack placement differ.
+bool LynelRoam::sub_7100498C00() {
+    ksys::act::ActorConstDataAccess player;
+    ksys::act::acquireActor(&ksys::act::PlayerInfo::getSomeProcLink(), &player);
+    const auto& mtx = player.getActorMtx();
+    const sead::Vector3f player_pos(mtx.m[0][3], 0.0f, mtx.m[2][3]);
+    const sead::Vector3f actor_pos(mActor->getMtx().m[0][3], 0.0f, mActor->getMtx().m[2][3]);
+    sead::Vector3f direction = player_pos - actor_pos;
+    const f32 distance = direction.normalize();
+    bool result;
+    if (distance > *mSpAttackServiceDist_s) {
+        result = false;
+    } else {
+        sead::Vector3f forward;
+        mActor->getMtx().getBase(forward, 2);
+        result = (-direction).dot(forward) >= std::cos(*mSpAttackServiceAngle_s);
+    }
+    return result;
+}
+
+// NON_MATCHING: stack layout only (the original puts `position` below the shared direction / parameter pack slot).
+void LynelRoam::sub_7100498D14() {
+    sead::Vector3f position;
+    if (!sub_7100498398(&position)) {
+        sead::Vector3f direction;
+        sub_71000891C8(&direction, mActor);
+        const f32 sign = f32(s32(sead::GlobalRandom::instance()->getU32() & 2) - 1);
+        ksys::util::sub_71011EF010(&direction, sign * sead::Mathf::deg2rad(40));
+        position = mActor->getMtx().getTranslation() + direction;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(position, "TargetPos", -1);
+    changeChild("回転", &pack);
+}
+
+bool LynelRoam::sub_7100498E54() {
+    sead::Vector3f direction;
+    sead::Vector3f opposite;
+    sead::Vector3f position;
+    if (!sub_7100498398(&position)) {
+        sub_71000891C8(&direction, mActor);
+        if (!sub_710049951C(&position, direction)) {
+            sub_71000891C8(&direction, mActor);
+            opposite = -direction;
+            if (!sub_710049951C(&position, opposite))
+                return false;
+        }
+    }
+    changeToMove(position);
+    return true;
+}
+
+// NON_MATCHING: timer load scheduling differs.
 void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     const s32 time = *mNoSpAttackMoveTime_s;
     _b0 = time;
@@ -66,9 +120,9 @@ void LynelRoam::enter_(ksys::act::ai::InlineParamPack* params) {
     _c8.reset(sead::GlobalRandom::instance()->getS32Range(*mFreeIntervalMin_s,
                                                       *mFreeIntervalMax_s));
     _bc.reset(*mNoMoveTime_s);
+    sead::Vector3f direction;
     sead::Vector3f position;
     if (!sub_7100498398(&position)) {
-        sead::Vector3f direction;
         sub_71000891C8(&direction, mActor);
         if (!sub_710049951C(&position, direction)) {
             changeChild("待機");

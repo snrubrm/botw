@@ -8,11 +8,28 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include <prim/seadStringUtil.h>
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the original branches `if (_148 > _144) lerp(...); else if (_148 < _144) lerp(...);` (identical calls,
+// NaN-safe), ours folds the test into `!=`.
+void IceMakerBlock::sub_7100447F20() {
+    if (auto* as_list = mActor->getASList()) {
+        ksys::as::ASList::Unk4 query;
+        f32 value;
+        if (as_list->x(0x2f, &query, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true) &&
+            sead::StringUtil::tryParseF32(&value, query.name)) {
+            _148 = value;
+        }
+    }
+    if (_148 != _144)
+        ksys::VFR::lerp(&_144, _148, 0.5f, 2.0f, 0.1f);
+}
 
 IceMakerBlock::IceMakerBlock(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

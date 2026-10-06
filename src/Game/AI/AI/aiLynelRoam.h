@@ -18,6 +18,16 @@ public:
     // 0x710049859c (placeholder name)
     void changeToMove(const sead::Vector3f& pos);
 
+    // 0x7100498c00 (placeholder name): the player is within SpAttackServiceDist and the angle in front of the Lynel.
+    bool sub_7100498C00();
+    // 0x7100498e54 (placeholder name): picks a position to roam to (forward, then the other directions) and
+    // starts moving there.
+    bool sub_7100498E54();
+    // 0x7100498d14 / 0x7100498ef8 (placeholder names): turn towards a new position (the first one looks for
+    // a position, the other turns around the central position).
+    void sub_7100498D14();
+    void sub_7100498EF8();
+
 protected:
     bool sub_7100498398(sead::Vector3f* out);
     bool sub_710049951C(sead::Vector3f* out, const sead::Vector3f& direction);

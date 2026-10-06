@@ -1,7 +1,9 @@
 #include "Game/AI/AI/aiGolemPartRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
@@ -59,6 +61,39 @@ void GolemPartRoot::enter_(ksys::act::ai::InlineParamPack* params) {
         if (!mActiveAS_s.isEmpty())
             changeAS(mActiveAS_s.cstr(), false, 0, 0);
         xlinkEventOn(mActor, 26, 1, false);
+    }
+}
+
+bool GolemPartRoot::m34() {
+    auto* actor = mActor;
+    if (!isLandedMaybe(actor, false) && !isBgGroundHit(actor, false))
+        return false;
+    for (s32 i = 0, n = sub_71007A49F0(actor); i < n; ++i) {
+        if (auto* entry = sub_71007A4948(actor, i)) {
+            if (sub_71006F59C4(mActor, -1))
+                sub_71003FDCF8(&entry->_0);
+            return true;
+        }
+    }
+    for (s32 i = 0, n = sub_71007A47C4(actor); i < n; ++i) {
+        if (auto* entry = sub_71007A471C(actor, i)) {
+            if (sub_71006F59C4(mActor, -1))
+                sub_71003FDCF8(&entry->_0);
+            return true;
+        }
+    }
+    return true;
+}
+
+void GolemPartRoot::sub_71003FDCF8(const sead::Vector3f* pos) {
+    if (_c8.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_c8, &accessor);
+        if (accessor.hasProc() && accessor.isStateSleep()) {
+            sead::Matrix34f mtx = sead::Matrix34f::ident;
+            mtx.setTranslation(*pos);
+            accessor.setProperties(mtx, nullptr, nullptr, nullptr, false, 0, -1);
+        }
     }
 }
 
