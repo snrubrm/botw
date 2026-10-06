@@ -20,6 +20,10 @@ protected:
     void calc_() override;
     bool m34(sead::Matrix34f* mtx) override;
 
+    // 0x710014dfb0: the actor's matrix with the translation moved to the point below the weapon's
+    // emission point (ray cast one unit up / down).
+    void sub_710014DFB0(sead::Matrix34f* mtx);
+
     // static_param at offset 0xa8
     const int* mWeaponIdx_s{};
     // static_param at offset 0xb0
