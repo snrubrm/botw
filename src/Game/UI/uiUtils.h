@@ -196,6 +196,10 @@ bool sub_7100AA8948();
 // 0x7100aa88a4 (placeholder name): see the definition.
 bool sub_7100AA88A4(bool* out);
 
+// 0x7100a9f610 / 0x7100a9f74c (placeholder names): x_2() of the SeekPadMenuBG and PauseMenuBG screens (both orders).
+void sub_7100A9F610();
+void sub_7100A9F74C();
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

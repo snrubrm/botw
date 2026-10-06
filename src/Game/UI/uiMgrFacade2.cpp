@@ -400,4 +400,28 @@ bool sub_7100AA88A4(bool* out) {
     return true;
 }
 
+// 0x7100a9f610 / 0x7100a9f74c (placeholder names): call x_2() of the pause menu / seek pad menu background screens
+// (SeekPadMenuBG first / PauseMenuBG first)
+void sub_7100A9F610() {
+    if (!eui::ScreenMgr::instance())
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenSeekPadMenuBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SeekPadMenuBG)))
+        screen->x_2();
+    if (auto* screen = sead::DynamicCast<ScreenPauseMenuBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuBG)))
+        screen->x_2();
+}
+
+void sub_7100A9F74C() {
+    if (!eui::ScreenMgr::instance())
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenPauseMenuBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuBG)))
+        screen->x_2();
+    if (auto* screen = sead::DynamicCast<ScreenSeekPadMenuBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SeekPadMenuBG)))
+        screen->x_2();
+}
+
 }  // namespace uking::ui
