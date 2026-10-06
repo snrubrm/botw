@@ -20,6 +20,10 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x7100574c2c: tells the linked actor (message 0x8000057, payload _50), clears the main body flag 0x1000000 and changes to the "自然消滅" child
+    void sub_7100574C2C();
+    // 0x71005749a4: tells the linked actor (message 0x8000057, payload _50), clears the main body flag 0x1000000 and changes to the "破壊" child
+    void sub_71005749A4();
     // static_param at offset 0x38
     const float* mXRotateSpeed_s{};
     // static_param at offset 0x40

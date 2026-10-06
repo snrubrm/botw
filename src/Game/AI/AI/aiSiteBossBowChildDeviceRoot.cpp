@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiSiteBossBowChildDeviceRoot.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -147,6 +149,30 @@ void SiteBossBowChildDeviceRoot::loadParams_() {
     getStaticParam(&mXRotateSpeed_s, "XRotateSpeed");
     getStaticParam(&mSlowRate_s, "SlowRate");
     getMapUnitParam(&mCount_m, "Count");
+}
+
+// 0x71005749a4
+void SiteBossBowChildDeviceRoot::sub_71005749A4() {
+    if (_70.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_70, &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000057), &_50, true);
+    }
+    if (auto* body = mActor->getMainBody())
+        body->resetFlag1000000();
+    changeChild("破壊", nullptr);
+}
+
+// 0x7100574c2c
+void SiteBossBowChildDeviceRoot::sub_7100574C2C() {
+    if (_70.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_70, &accessor);
+        mActor->sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x8000057), &_50, true);
+    }
+    if (auto* body = mActor->getMainBody())
+        body->resetFlag1000000();
+    changeChild("自然消滅", nullptr);
 }
 
 }  // namespace uking::ai

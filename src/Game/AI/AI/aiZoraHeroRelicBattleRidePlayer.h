@@ -22,6 +22,8 @@ public:
     void sub_7100614194(const ksys::act::BaseProcLink& link);
 
 protected:
+    // 0x7100613ff0: unless the relic chance time flag is set: mode 1 of the message unit; then the "周回" child
+    void sub_7100613FF0();
     // aitree_variable at offset 0x38
     void* mZoraHeroShowMsgUnit_a{};
     ksys::act::BaseProcLink _40;

@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiZoraHeroRelicBattleRidePlayer.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/AI/aiUnk_7102433970.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -48,6 +52,17 @@ bool ZoraHeroRelicBattleRidePlayer::handleMessage_(const ksys::Message* message)
         return true;
     }
     return false;
+}
+
+// 0x7100613ff0
+void ZoraHeroRelicBattleRidePlayer::sub_7100613FF0() {
+    if (!ksys::gdt::getFlag_Water_Relic_ChanceTime(false)) {
+        if (auto** unit = static_cast<Unk_71025afb58**>(mZoraHeroShowMsgUnit_a)) {
+            if (auto* msg_unit = sead::DynamicCast<Unk_7102433970>(*unit))
+                msg_unit->_8.sub_7100744200(1, false);
+        }
+    }
+    changeChild("周回", nullptr);
 }
 
 }  // namespace uking::ai
