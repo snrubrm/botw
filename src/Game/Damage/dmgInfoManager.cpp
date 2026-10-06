@@ -14,6 +14,30 @@ bool DamageInfoMgr::enableBoomerangRemoteBombs() {
     return false;
 }
 
+bool DamageInfoMgr::sub_7100674764() {
+    return false;
+}
+
+bool DamageInfoMgr::sub_710067476C() {
+    return false;
+}
+
+s8 DamageInfoMgr::sub_7100674774() {
+    return 7;
+}
+
+f32 DamageInfoMgr::sub_7100674788() {
+    return 1.0f;
+}
+
+f32 DamageInfoMgr::sub_7100674790() {
+    return 0.3f;
+}
+
+bool DamageInfoMgr::sub_710067479C() {
+    return false;
+}
+
 bool DamageInfoMgr::sub_7100674704() const {
     if (!(_11e0 & 1)) {
         if (auto* weather = wm::getWeatherMgr())

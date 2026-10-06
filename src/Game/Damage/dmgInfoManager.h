@@ -28,6 +28,13 @@ public:
 
     /// Boomerang remote bombs are a scrapped feature.
     static bool enableBoomerangRemoteBombs();
+    // Constant results (placeholder names, lane4 s45): false, false, 7 (as s8), 1.0, 0.3, false.
+    static bool sub_7100674764();
+    static bool sub_710067476C();
+    static s8 sub_7100674774();
+    static f32 sub_7100674788();
+    static f32 sub_7100674790();
+    static bool sub_710067479C();
     static int getShieldRideBaseFrame();
     static int getShieldRideHitBaseDamage();
     static f32 getCriticalAttackRatio();
