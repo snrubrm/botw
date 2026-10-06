@@ -33,7 +33,17 @@ void WeaponTrueFormEftCtrl::loadParams_() {
 }
 
 void WeaponTrueFormEftCtrl::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* weapon = sead::DynamicCast<act::Weapon>(mActor);
+    const bool is_true_form = weapon && weapon->m153();
+    const bool active = _40.sub_7101241B6C();
+    if (is_true_form) {
+        if (active) {
+            _40.mELink.kill();
+            _40.mSLink.fade();
+        }
+    } else if (!active) {
+        xlinkSearchAndEmit(mActor, mTrueFormKey_s.cstr(), 2, &_40);
+    }
 }
 
 }  // namespace uking::action
