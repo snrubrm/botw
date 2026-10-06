@@ -18,6 +18,8 @@ public:
     // 0x71003bbf0c (placeholder name): picks up the shield (the target weapon `_70`).
     void changeToPickUpShield();
 
+    bool sub_71003BBD1C(ksys::act::BaseProcLink* out);
+
 protected:
     struct Params {
         // static_param at offset 0x38

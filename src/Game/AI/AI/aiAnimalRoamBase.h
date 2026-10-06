@@ -19,6 +19,8 @@ public:
     virtual bool m34(const sead::Vector3f* pos);
     virtual bool m35();
 
+    bool sub_710030B070(const sead::Vector3f& pos);
+
 protected:
     // static_param at offset 0x38
     const float* mSearchNextPathRadius_s{};

@@ -1,8 +1,15 @@
 #include "Game/AI/AI/aiAnimalRoamBase.h"
+#include "Game/AI/aiUnk_71006F1DF0.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
+
+bool AnimalRoamBase::sub_710030B070(const sead::Vector3f& pos) {
+    if (*mEnableNoEntryAreaCheck_m)
+        return sub_71006F1DF0(mActor, pos);
+    return false;
+}
 
 AnimalRoamBase::AnimalRoamBase(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
