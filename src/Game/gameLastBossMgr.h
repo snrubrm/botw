@@ -25,6 +25,8 @@ public:
     void sub_7100677F24(ksys::act::Actor* actor);
     // 0x710067807c: resets the link if it is `actor`.
     void sub_710067807C(ksys::act::Actor* actor);
+    // lane1 s39: the registered actor link (read by GerudoHeroSoulGiftRoot::sub_71003F3154).
+    ksys::act::BaseProcLink* getActorLink() { return &mActorLink; }
 
 private:
     static LastBossMgr* sInstance;

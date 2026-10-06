@@ -2,9 +2,36 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/AI/aiAwarenessFilters.h"
+#include "Game/gameLastBossMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
+
+void GerudoHeroSoulGiftRoot::sub_71003F3154() {
+    auto* awareness = mActor->getAwareness();
+    ksys::act::ActorConstDataAccess accessor;
+    if (awareness) {
+        const sead::Vector3f position = mActor->getMtx().getTranslation();
+        Unk_7102451448 filter;
+        while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+            if (ksys::act::acquireActor(&entry->_0.mLink, &accessor) &&
+                !accessor.sub_7100D13E9C()) {
+                if ((position - accessor.getActorMtx().getTranslation()).length() <=
+                    *mMaxLength_s) {
+                    _a0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+                    _b8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+                }
+            }
+        }
+        awareness->disable();
+    }
+    if (auto* manager = LastBossMgr::instance()) {
+        if (ksys::act::acquireActor(manager->getActorLink(), &accessor))
+            _a0.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+    }
+}
 
 GerudoHeroSoulGiftRoot::GerudoHeroSoulGiftRoot(const InitArg& arg) : HeroSoulGiftRoot(arg) {}
 
