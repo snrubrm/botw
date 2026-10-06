@@ -98,6 +98,10 @@ protected:
     void aggregateDuckingVolumeFromDucker_(f32 volume);
     void calcDuckingVolume_();
 
+public:
+    static constexpr s32 getGroupListNodeOffset() { return 0x168; }
+
+protected:
     sead::TTreeNode<Group*>& treeNode() { return *this; }
     const sead::TTreeNode<Group*>& treeNode() const { return *this; }
 
@@ -127,16 +131,21 @@ protected:
     s32 _15c;
     s32 mNumSounds;
     u8 _164[4];
-    void* _168;
-    void* _170;
+    /// The node in the group list of the GroupMgr.
+    sead::ListNode mGroupListNode;
 };
 static_assert(sizeof(Group) == 0x178, "aal::Group size mismatch");
 
 /// A leaf of the sound group tree: owns the playing sound sources of the group.
 class SoundGroup : public Group {
+    SEAD_RTTI_OVERRIDE(SoundGroup, Group)
 public:
     SoundGroup();
     ~SoundGroup() override;
+
+    void stopAllSound(f32 fade_time) override;
+    void pauseAllSound(bool pause, f32 fade_time) override;
+    void pauseAllSound(sead::BitFlag8 flags, bool pause, f32 fade_time) override;
 
     void initialize(const sead::SafeString& name, sead::Heap* heap) override;
     void finalize() override;

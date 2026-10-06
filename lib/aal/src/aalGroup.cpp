@@ -11,7 +11,7 @@ namespace aal {
 Group::Group()
     : sead::TTreeNode<Group*>(this), mInitialized(false), mDucker(nullptr), _98(nullptr), mAggregatedParam(nullptr),
       mParamBuffer(nullptr), mDuckingVolume(1.0f), mDuckingVolumeFloor(0.0f), mDuckingMode(1),
-      _13c(0), mHasDefaultParam(true), mLimiter(nullptr), _168(nullptr), _170(nullptr) {
+      _13c(0), mHasDefaultParam(true), mLimiter(nullptr) {
     mDuckingCount = 0;
     _154 = 0;
     _158 = 0;
