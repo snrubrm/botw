@@ -35,6 +35,7 @@ add_library(aal OBJECT
   src/aalNamedObj.cpp
   src/aalShape.cpp
   src/aalSimpleTimedFader.cpp
+  src/aalPlayingStateController.cpp
   src/aalSoundController.cpp
   src/aalSoundParam.cpp
   src/aalSystem.cpp

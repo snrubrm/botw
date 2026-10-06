@@ -115,7 +115,7 @@ public:
     void setVirtualizeMode(VirtualizeMode mode);
 
     SoundController* mSoundController = nullptr;
-    u32 mState = 0;
+    s32 mState = 0;
     /// Written by setVirtualizeMode; 0 means the sound can not be virtualized (SoundSource::canVirtualize). The
     /// names of the modes are not known (1 is the default, 2 restarts the sound when it is unvirtualized).
     VirtualizeMode mVirtualizeMode = static_cast<VirtualizeMode>(1);
