@@ -49,6 +49,10 @@ public:
     bool isSlowTime() override;
     bool m40(s32* out) override;
     bool m41() override;
+    // Slots 36 / 37 (CSV DamageMgr::m36 / m37): the attacker links of the attack info the damage kind refers to
+    // (`_d8` / `_e8`; kind 3: the first attack info's `_50`; kind 4 / 11: the actor's impulse link) or the dummy link.
+    ksys::act::BaseProcLink* getAttacker() override;
+    ksys::act::BaseProcLink* m37() override;
     // The new virtual slots 50-56 (placeholders; m52 / m53 are constants).
     virtual void m50();
     virtual void m51();

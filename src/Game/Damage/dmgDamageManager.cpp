@@ -1,7 +1,9 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "Game/Actor/actWeapon.h"
 #include "Game/AI/aiUnk_7100736460.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actImpulseBaseProcLink.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 
 namespace uking::dmg {
@@ -83,6 +85,71 @@ bool DamageManager::m40(s32* out) {
 }
 
 // NON_MATCHING: the original sets up its stack frame at the top (no shrink wrapping around the call)
+// NON_MATCHING: the original ends the failure paths with a tail call of getDummyBaseProcLink() (the call is not a tail
+// call in ours: its result joins the other returns)
+ksys::act::BaseProcLink* DamageManager::getAttacker() {
+    switch (getDamageType()) {
+    case 2:
+    case 10:
+        if (_6c < 0)
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::sub_71007A255C(mActor, _6c))
+            return &info->_d8;
+        return &ksys::act::getDummyBaseProcLink();
+    case 3:
+        if (!::hasAttackInfo(mActor))
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::getAttackInfo(mActor, 0))
+            return &info->_50;
+        return &ksys::act::getDummyBaseProcLink();
+    case 4:
+    case 11:
+        if (auto* link = mActor->getImpulseBaseProcLink())
+            return &link->mLink;
+        return &ksys::act::getDummyBaseProcLink();
+    case 6:
+        if (!_216.isOn(0x100) || _88 < 0)
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::sub_71007A255C(mActor, _88))
+            return &info->_d8;
+        return &ksys::act::getDummyBaseProcLink();
+    default:
+        return &ksys::act::getDummyBaseProcLink();
+    }
+}
+
+// NON_MATCHING: same tail call difference as getAttacker
+ksys::act::BaseProcLink* DamageManager::m37() {
+    switch (getDamageType()) {
+    case 2:
+    case 10:
+        if (_6c < 0)
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::sub_71007A255C(mActor, _6c))
+            return &info->_e8;
+        return &ksys::act::getDummyBaseProcLink();
+    case 3:
+        if (!::hasAttackInfo(mActor))
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::getAttackInfo(mActor, 0))
+            return &info->_50;
+        return &ksys::act::getDummyBaseProcLink();
+    case 4:
+    case 11:
+        if (auto* link = mActor->getImpulseBaseProcLink())
+            return &link->mLink;
+        return &ksys::act::getDummyBaseProcLink();
+    case 6:
+        if (!_216.isOn(0x100) || _88 < 0)
+            return &ksys::act::getDummyBaseProcLink();
+        if (auto* info = ::sub_71007A255C(mActor, _88))
+            return &info->_e8;
+        return &ksys::act::getDummyBaseProcLink();
+    default:
+        return &ksys::act::getDummyBaseProcLink();
+    }
+}
+
 bool DamageManager::m41() {
     if (auto* info = getAttackInfo_())
         return info->_fc & 1;
