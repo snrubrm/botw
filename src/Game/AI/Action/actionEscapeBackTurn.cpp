@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionEscapeBackTurn.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
@@ -27,6 +29,20 @@ void EscapeBackTurn::calc_() {
 
 bool EscapeBackTurn::isChangeable() const {
     return false;
+}
+
+void EscapeBackTurn::sub_7100113950() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    const sead::Vector3f up = getUpDir(controller->get70());
+    sead::Vector3f velocity;
+    velocity.set(mActor->getVelocity());
+    ksys::util::sub_71011EFA00(&velocity, velocity, up);
+    const f32 length = velocity.normalize();
+    _1c.value = length;
+    _1c.prev_value = length;
+    sub_710072C1B4(controller, velocity);
 }
 
 }  // namespace uking::action

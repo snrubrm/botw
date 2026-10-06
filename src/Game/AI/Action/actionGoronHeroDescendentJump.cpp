@@ -1,6 +1,7 @@
 #include "Game/AI/Action/actionGoronHeroDescendentJump.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
 
@@ -77,6 +78,17 @@ f32 GoronHeroDescendentJump::m35(const sead::Vector3f* from, const sead::Vector3
     const f32 dy = to->y - from->y;
     const f32 height = *mMaxHeight_s;
     return height > dy ? height : dy + 5.0f;
+}
+
+bool GoronHeroDescendentJump::sub_710018E9A8(f32 dist) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.setStartAndDisplacementScaled(mActor->getMtx().getTranslation(), -sead::Vector3f::ey,
+                                        dist);
+    return query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
 }  // namespace uking::action

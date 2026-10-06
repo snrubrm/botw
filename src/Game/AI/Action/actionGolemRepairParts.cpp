@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionGolemRepairParts.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -47,6 +49,27 @@ void GolemRepairParts::calc_() {
     }
     if (isFinishedAS(0, 0))
         setFinished();
+}
+
+// NON_MATCHING: regalloc only (the original keeps &_e8 in the register freed by the Enemy pointer and
+// &_1128 in a new one).
+void GolemRepairParts::sub_710018CED4() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        {
+            auto& link = enemy->_1128.getActorPartsActor(_60._0);
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.hasProc() && accessor.isStateCalc())
+                _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+        }
+        {
+            auto& link = enemy->_1128.getActorPartsActor(_a0._0);
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&link, &accessor);
+            if (accessor.hasProc() && accessor.isStateCalc())
+                _e8.sub_710070DBB0(*accessor.getMessageTransceiverId(), true);
+        }
+    }
 }
 
 }  // namespace uking::action
