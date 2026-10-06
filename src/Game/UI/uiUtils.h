@@ -187,6 +187,15 @@ s32 sub_7100AA92AC(s32 from, s32 to);
 // SiteBossRoot).
 void sub_7100A9B5B0();
 
+// 0x7100a9d664 (placeholder name): resets the rune timers and calls slot 126 of every Screen.
+void sub_7100A9D664();
+
+// 0x7100aa8948 (placeholder name): whether a button of the pause menu screen is held down.
+bool sub_7100AA8948();
+
+// 0x7100aa88a4 (placeholder name): see the definition.
+bool sub_7100AA88A4(bool* out);
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

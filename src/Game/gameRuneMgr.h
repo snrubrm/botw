@@ -56,6 +56,9 @@ public:
     // `player` is null).
     bool checkCanUseRune(s32 rune, ksys::act::PlayerBase* player);
 
+    // 0x71006757b8 (CSV __auto0; declared only, lane2 s46): sets the duration (1e-4) of the two UiTimers at 0x3c8 / 0x3e0.
+    void sub_71006757B8();
+
     // 0x710067525c (CSV __auto6): byte flag at 0x250.
     bool sub_710067525C() const;
 

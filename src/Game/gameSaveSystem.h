@@ -6,6 +6,15 @@
 
 namespace uking {
 
+// Placeholder name (lane2 s46): the 0x308-byte save slot data of SaveSystem (only two flag bytes are read).
+struct SaveSlotData {
+    u8 _0[0x300];
+    /* 0x300 */ u8 _300;
+    u8 _301;
+    /* 0x302 */ u8 _302;
+    u8 _303[0x308 - 0x303];
+};
+
 // Placeholder declaration (name from the CSV: SaveSystem::createInstance 0x710090ee60, ctor
 // 0x710090eee8, calc 0x7100910e5c, init, invokedAutoSave, isFinishedSavingMaybe, ...; instance
 // pointer at 0x71025d2028; namespace is a guess). The game-level save controller that drives
@@ -30,6 +39,12 @@ public:
     bool setRetryData();
     // 0x71009145f8 (CSV SaveSystem::loadOptionsStart; declaration only; 256 bytes)
     void sub_71009145F8();
+
+    // 0x7100914ce4 (CSV __auto3), 0x71009154a8, 0x7100914dc8 (declared only; lane2 s46): the SaveMgr is idle and no save
+    // is pending / the number of slots / the slot `index`.
+    bool sub_7100914CE4() const;
+    s32 sub_71009154A8(s32 a);
+    SaveSlotData* sub_7100914DC8(s32 index, bool a);
 
     u8 _28[0x30 - 0x28];
     s32 _30;

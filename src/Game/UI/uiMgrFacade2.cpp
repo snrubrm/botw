@@ -17,6 +17,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/System/VFR.h"
 #include <nn/ui2d/Pane.h>
@@ -360,6 +361,43 @@ void sub_7100A9F410(s32 value) {
 void sub_7100A9B5B0() {
     sead::IsDerivedFrom<ScreenAppMapDungeon>(
         eui::ScreenMgr::instance()->getScreen(ScreenId::AppMapDungeon));
+}
+
+// 0x7100a9d664 (placeholder name): resets the rune timers and calls slot 126 of every Screen
+void sub_7100A9D664() {
+    RuneMgr::instance()->sub_71006757B8();
+    for (s32 id = 0; id < 99; ++id) {
+        if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(id)))
+            screen->m126();
+    }
+}
+
+// 0x7100aa8948 (placeholder name): whether a button of the pause menu is held down (the pause menu must have a target)
+bool sub_7100AA8948() {
+    auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenu));
+    if (screen && eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0)
+        return screen->mButtonGroup->FindDownButton() != nullptr;
+    return false;
+}
+
+// 0x7100aa88a4 (placeholder name): true while the save system is idle; `*out` is set when a slot has both flags
+bool sub_7100AA88A4(bool* out) {
+    if (!out)
+        return false;
+    auto* save = SaveSystem::instance();
+    if (!save)
+        return false;
+    if (!save->sub_7100914CE4())
+        return false;
+    const s32 count = save->sub_71009154A8(0);
+    for (s32 i = 0; i < count; ++i) {
+        auto* slot = save->sub_7100914DC8(i, false);
+        if (slot->_300 && slot->_302) {
+            *out = true;
+            return true;
+        }
+    }
+    return true;
 }
 
 }  // namespace uking::ui
