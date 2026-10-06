@@ -39,6 +39,48 @@ struct SceneParams {
 };
 KSYS_VISIBILITY_HIDDEN SceneParams sUnk_710243bfd0;
 
+SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys12)
+
+// NON_MATCHING: the original merges the two (0.1, 1.0) / (0.1, 0.32) pairs into 64-bit stores, loads
+// the identity matrix into q registers in a different order and schedules the store block differently;
+// the member values and the amount of work are identical.
+GameSceneSubsys12::GameSceneSubsys12() : _27c(sUnk_710243bfd0._0) {
+    _d8.makeIdentity();
+    _108.makeIdentity();
+    _138.makeIdentity();
+    for (auto& matrix : _168)
+        matrix.makeIdentity();
+
+    // Offsets of the carried items for 1 to 5 items.
+    _a98[0][0].set(0.0f, 0.056f, 0.29f);
+    _a98[1][0].set(-0.1f, 0.05f, 0.32f);
+    _a98[1][1].set(0.1f, 0.05f, 0.34f);
+    _a98[2][0].set(-0.1f, 0.03f, 0.37f);
+    _a98[2][1].set(0.1f, 0.03f, 0.37f);
+    _a98[2][2].set(0.0f, 0.1f, 0.3f);
+    _a98[3][0].set(-0.1f, 0.02f, 0.37f);
+    _a98[3][1].set(0.1f, 0.02f, 0.37f);
+    _a98[3][2].set(-0.08f, 0.1f, 0.3f);
+    _a98[3][3].set(0.07f, 0.1f, 0.35f);
+    _a98[4][0].set(-0.1f, 0.0f, 0.36f);
+    _a98[4][1].set(0.1f, -0.02f, 0.34f);
+    _a98[4][2].set(-0.08f, 0.1f, 0.23f);
+    _a98[4][3].set(0.0f, 0.14f, 0.35f);
+    _a98[4][4].set(0.08f, 0.12f, 0.29f);
+
+    for (auto& v : _bc4) {
+        v.x = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+        v.y = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+        v.z = sead::GlobalRandom::instance()->getF32Range(-1.0f, 1.0f);
+    }
+}
+
+GameSceneSubsys12::~GameSceneSubsys12() = default;
+
+int GameSceneSubsys12::handleMessage(const ksys::Message& message) {
+    return 1;
+}
+
 void GameSceneSubsys12::init(sead::Heap* heap) {
     _318.sub_710065D8E4(heap, true);
 }
