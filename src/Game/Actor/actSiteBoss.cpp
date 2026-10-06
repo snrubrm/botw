@@ -187,6 +187,11 @@ int getNumberOfDeadBlights() {
     return count;
 }
 
+// 0x71002d1f2c (lane1 s43): always false.
+bool sub_71002D1F2C(uking::act::SiteBoss* boss) {
+    return false;
+}
+
 int getNumberOfClearedRemains() {
     int count = 0;
     if (ksys::gdt::getFlag_Clear_RemainsWind())

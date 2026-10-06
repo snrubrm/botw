@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
@@ -161,6 +162,22 @@ bool sub_710072F7D0(ksys::act::Actor* actor, const sead::Vector3f& from, const s
 bool sub_710072FD0C(ksys::act::Actor* actor, const sead::Vector3f& from, const sead::Vector3f& to,
                     sead::Vector3f* out_pos, s32 a5, f32 a6, f32 a7, f32 a8, f32 a9) {
     return sub_710072F28C(actor, from, to, nullptr, out_pos, a5, false, a6, a7, a8);
+}
+
+bool sub_710072B8E8(ksys::act::Actor* actor) {
+    bool result = false;
+    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(actor->getDamageMgr()))
+        result = manager->getField54() > 27;
+    if (auto* chemicals = actor->getChemicalContainer()) {
+        if (chemicals->_58.size() + chemicals->_80 >= 0)
+            result |= chemicals->sub_7100E39458();
+    }
+    if (!(actor->getProfile() == "CapturedActor") || actor->getDropData()) {
+        auto* life = actor->getLife();
+        result |= life && *life < 1;
+    }
+    result |= actor->getFadeOutDeleteType() != 0;
+    return result;
 }
 
 void sub_710072DC9C(ksys::act::Actor* actor, f32 factor) {

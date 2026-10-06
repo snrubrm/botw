@@ -38,6 +38,7 @@
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -239,6 +240,58 @@ bool setDamageCallbackTiming(ksys::act::Actor* actor, s32 timing,
         return false;
     mgr->addDamageCallback(timing, callback);
     return true;
+}
+
+// NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
+// registers x21 (count) / x22 (found) / x23 (pointer)
+bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag) {
+    if (sead::SafeString(tag).isEmpty())
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    auto* links = object->getLinkData();
+    if (!links)
+        return false;
+    auto objects = links->mObjects;
+    bool found = false;
+    for (s32 i = 0; i < objects.size(); ++i) {
+        if (!objects[i])
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        objects[i]->getActorWithAccessor(accessor);
+        if (accessor.getProc() && accessor.hasTag(tag)) {
+            found = true;
+            sender->sub_710070DD78(accessor, true);
+        }
+    }
+    return found;
+}
+
+// NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
+// registers x21 (count) / x22 (found) / x23 (pointer)
+bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag) {
+    if (sead::SafeString(tag).isEmpty())
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    auto* links = object->getLinkData();
+    if (!links)
+        return false;
+    auto objects = links->mObjects;
+    bool found = false;
+    for (s32 i = 0; i < objects.size(); ++i) {
+        if (!objects[i])
+            continue;
+        ksys::act::ActorConstDataAccess accessor;
+        objects[i]->getActorWithAccessor(accessor);
+        if (accessor.getProc() && accessor.hasTag(tag)) {
+            found = true;
+            sender->sub_710070DFD8(accessor, true);
+        }
+    }
+    return found;
 }
 
 bool sub_71005DA434(ksys::act::Actor* actor, int idx) {

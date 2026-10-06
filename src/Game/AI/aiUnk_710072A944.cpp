@@ -2,6 +2,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/actSwarm.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
     for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
@@ -23,5 +24,14 @@ void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 
     for (s32 i = 0, n = swarm->_14c8.size(); i < n; ++i) {
         if (auto* unit = swarm->_14c8[i])
             unit->sub_71002DA3A0(frame, name);
+    }
+}
+
+void sub_710072ABB4(ksys::act::Actor* actor) {
+    if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor)) {
+        for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
+            if (auto* body = swarm->_15f8[i]._20)
+                body->addToWorld();
+        }
     }
 }

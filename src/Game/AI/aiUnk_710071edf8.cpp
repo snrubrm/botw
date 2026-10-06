@@ -11,6 +11,21 @@ bool sub_710071E208() {
     return manager && manager->hasActiveEvent() && manager->isActiveEventNameEqualTo("Demo648_0", "");
 }
 
+bool sub_710071EB88(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    return sub_71005DD798(actor, 0x13, nullptr, 0, 0);
+}
+
+bool sub_710071EDAC(ksys::act::Actor* actor) {
+    if (!actor)
+        return false;
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return false;
+    return !physics->getFlags().isOn(ksys::phys::InstanceSet::Flag::_80000);
+}
+
 void sub_710071EB3C(ksys::act::Actor* actor) {
     if (!actor)
         return;

@@ -29,5 +29,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710071edf8, 0x30);
 bool sub_710071E208();
 // Sets or clears flag 0x80000 of the actor's phys::InstanceSet (clears it when a2 is true).
 void sub_710071EDD0(ksys::act::Actor* actor, bool a2);
+// 0x710071eb88 (lane1 s43): sub_71005DD798(actor, 0x13, nullptr, 0, 0) (false without an actor).
+bool sub_710071EB88(ksys::act::Actor* actor);
+// 0x710071edac (lane1 s43): the actor has physics and bit 0x80000 of its flags is clear.
+bool sub_710071EDAC(ksys::act::Actor* actor);
 // Calls sub_71005DB068(actor, sub_71005D960C(actor)) for a non-null actor.
 void sub_710071EB3C(ksys::act::Actor* actor);
