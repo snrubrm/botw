@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
@@ -19,7 +21,20 @@ ForkOnEnterSwapDropTableActorBase::~ForkOnEnterSwapDropTableActorBase() {
 }
 
 bool ForkOnEnterSwapDropTableActorBase::init_(sead::Heap* heap) {
-    return Fork::init_(heap);
+    if (!Fork::init_(heap))
+        return false;
+
+    sead::FixedSafeString<64> actor_name;
+    if (m32(&actor_name) && !actor_name.isEmpty()) {
+        auto* actor = ksys::act::ActorCreator::instance()->createActor(
+            actor_name.cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr,
+            true, false);
+        if (actor)
+            _38.acquire(actor, false);
+        else
+            _38.reset();
+    }
+    return true;
 }
 
 void ForkOnEnterSwapDropTableActorBase::enter_(ksys::act::ai::InlineParamPack* params) {
