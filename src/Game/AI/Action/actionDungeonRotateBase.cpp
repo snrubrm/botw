@@ -4,6 +4,7 @@
 #include "Game/AI/aiXlinkHandle.h"
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
 
 namespace uking::action {
 
@@ -70,16 +71,23 @@ float DungeonRotateBase::m32() {
     return _88;
 }
 
-// NON_MATCHING: the original loads mActor before _88 (scheduling)
 void DungeonRotateBase::m33() {
+    auto* actor = mActor;
     f32 speed = _88;
-    if (mActor->checkVelocityControlSignal())
+    if (actor->checkVelocityControlSignal())
         speed *= *mVelocityControlRate_m;
     _84 = speed;
 }
 
 void DungeonRotateBase::m34(f32 x) {
     _8c = sead::Mathf::abs(x);
+}
+
+void DungeonRotateBase::m35() {
+    f32 target = _88;
+    if (mActor->checkVelocityControlSignal())
+        target *= *mVelocityControlRate_m;
+    ksys::VFR::chase(&_84, target, _8c);
 }
 
 }  // namespace uking::action

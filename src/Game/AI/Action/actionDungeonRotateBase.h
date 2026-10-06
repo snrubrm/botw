@@ -30,6 +30,7 @@ protected:
     virtual float m32();
     virtual void m33();
     virtual void m34(f32 x);
+    virtual void m35();
 
     // static_param at offset 0x20
     const int* mRotateAxisIndex_s{};

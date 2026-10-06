@@ -5779,9 +5779,9 @@ Address,Quality,Size,Name
 0x00000071000fc5e8,W,000964,_ZN5uking6action17DungeonRotateBase5calc_Ev
 0x00000071000fc9ac,O,000400,_ZN5uking6action17DungeonRotateBase6leave_Ev
 0x00000071000fcb3c,O,000028,_ZN5uking6action17DungeonRotateBase3m32Ev
-0x00000071000fcb58,m,000068,_ZN5uking6action17DungeonRotateBase3m33Ev
+0x00000071000fcb58,O,000068,_ZN5uking6action17DungeonRotateBase3m33Ev
 0x00000071000fcb9c,O,000020,_ZN5uking6action17DungeonRotateBase3m34Ef
-0x00000071000fcbb0,U,000244,uking::action::DungeonRotateBase::m35
+0x00000071000fcbb0,O,000244,_ZN5uking6action17DungeonRotateBase3m35Ev
 0x00000071000fcca4,U,000656,
 0x00000071000fcf34,U,000756,
 0x00000071000fd228,U,000756,
