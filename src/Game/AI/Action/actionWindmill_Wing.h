@@ -21,6 +21,10 @@ protected:
     virtual void m33();
     virtual void m34(f32 a1);
 
+    // 0x71002bda28 (placeholder name): the animation speed for the current wind speed (the min speed without
+    // wind manager or below the min wind power, the max speed above the max wind power).
+    f32 sub_71002BDA28();
+
     // static_param at offset 0x20
     const float* mStartFrameRange_s{};
     // static_param at offset 0x28
