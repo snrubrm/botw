@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionSandwormMove.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,6 +17,26 @@ bool SandwormMove::init_(sead::Heap* heap) {
 
 void SandwormMove::enter_(ksys::act::ai::InlineParamPack* params) {
     MoveWithAS::enter_(params);
+    auto* actor = mActor;
+    if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor)) {
+        sandworm->_15b0 = *mTargetSandOffset_s;
+        sandworm->_1638 = true;
+        sandworm->_15ac = *mSandOffsetSpeed_s;
+        sandworm->_1638 = true;
+    }
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_128._0)) {
+            if (*mVibrateMemoryStep_s > 0.0f)
+                checker->_84 = *mVibrateMemoryStep_s;
+            if (*mVibrateCheckFrame_s > 0.0f)
+                checker->_88 = *mVibrateCheckFrame_s;
+            checker->_78 = checker->_88;
+            checker->_7c = 0;
+            checker->_80 = 0;
+            checker->_90.setUndef();
+            checker->_8c = false;
+        }
+    }
 }
 
 void SandwormMove::leave_() {
@@ -33,7 +55,22 @@ void SandwormMove::loadParams_() {
 }
 
 void SandwormMove::calc_() {
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_128._0))
+            checker->sub_7100716408(mActor->getMtx().getTranslation());
+    }
+
     MoveWithAS::calc_();
+    if (isFinished() || isFailed())
+        return;
+
+    if (*mVibrateMemoryStep_s > 0.0f && *mVibrateCheckFrame_s > 0.0f) {
+        if (auto* checker = sead::DynamicCast<Unk_71025b0578>(*_128._0)) {
+            if (checker->_78 <= 0.0f ||
+                (*mVibrateStopCheck_s > 0.0f && checker->sub_71007169CC(*mVibrateStopCheck_s)))
+                setFailed();
+        }
+    }
 }
 
 bool SandwormMove::isChangeable() const {

@@ -1,7 +1,12 @@
 #include "Game/AI/Action/actionSandwormASPlay.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actSandworm.h"
+#include "Game/AI/aiUnk_7102451120.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+
+// Declaration-only native helper; source namespace unknown (also declared in actionSandwormJumpTackle.cpp).
+void sub_7100720330(ksys::act::Actor* actor);
 
 namespace uking::action {
 
@@ -38,6 +43,24 @@ void SandwormASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SandwormASPlay::leave_() {
+    auto* actor = mActor;
+    if (*mIsUseAtEvent_s) {
+        sub_7100720254(actor);
+        sub_7100720330(actor);
+        sub_71007208EC(actor);
+    }
+    if (*mChangeOffsetDelay_s >= 1 && !(_90.value <= sead::Mathf::epsilon())) {
+        if (auto* sandworm = sead::DynamicCast<act::Sandworm>(actor)) {
+            sandworm->_15b0 = *mTargetSandOffset_s;
+            sandworm->_1638 = true;
+            sandworm->_15ac = *mSandOffsetSpeed_s;
+            sandworm->_1638 = true;
+        }
+    }
+    if (!mTransBoneName_s.isEmpty()) {
+        if (auto* as_list = actor->getASList())
+            as_list->sub_710115CD0C();
+    }
     ActionWithPosAngReduce::leave_();
 }
 
