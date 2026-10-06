@@ -15,7 +15,11 @@ bool WaterUpDownAnmDrivenMove::init_(sead::Heap* heap) {
 }
 
 void WaterUpDownAnmDrivenMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    _54.changeMotionType(_54.sub_710072ACF8(mActor), ksys::act::MotionType::Hover);
+    playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+    _5c._0 = -1.0f;
+    _5c._4 = 0.5f;
+    _5c.sub_7100700634(mActor);
 }
 
 f32 WaterUpDownAnmDrivenMove::sub_71002B7EEC() {
