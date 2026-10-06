@@ -22,6 +22,10 @@
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
+namespace ksys {
+class SeadController;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -211,6 +215,8 @@ public:
     s32 sub_71010AA868(s32 group) const;
     void sub_71010AA8D0();
     void sub_71010AA910();
+    // 0x71010aa9d0 (placeholder name; 107 callers): `DynamicCast<ksys::SeadController>(mUIController->getController())`
+    ksys::SeadController* sub_71010AA9D0();
 
     // Overrides of the eui::Screen callbacks (CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;

@@ -13,6 +13,7 @@ namespace ksys {
 // passed in a 64-bit register (SEAD_ENUM-like, stored at 0x19c) and gets the sead::ControllerMgr
 // from a global; the members (a sead::TreeNode at 0x1a8, ...) are not declared yet.
 class SeadController : public sead::Controller {
+    SEAD_RTTI_OVERRIDE(SeadController, sead::Controller)
 public:
     // 0x71011f931c / 0x71011f9328 (CSV SeadController::getInstance / setInstance; the instance pointer is a file-local
     // global at 0x7102652558)

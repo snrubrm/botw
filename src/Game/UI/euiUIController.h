@@ -9,6 +9,8 @@ class UIController : public sead::MaskControllerWrapper {
     SEAD_RTTI_OVERRIDE(UIController, sead::MaskControllerWrapper)
 public:
     UIController();
+
+    sead::Controller* getController() const { return mController; }
 };
 
 static_assert(sizeof(UIController) == 0x218);

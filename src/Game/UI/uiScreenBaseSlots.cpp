@@ -3,6 +3,7 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiTagProcessor.h"
+#include "KingSystem/System/SeadController.h"
 
 namespace eui {
 
@@ -350,6 +351,13 @@ void Screen::sub_71010AA910() {
     const u32 flags = mButtonGroup->_38;
     mButtonGroup->_38 = (_292 & 0x80) ? (flags | 2) : (flags & ~2);
     _292 &= ~0x180;
+}
+
+// 0x71010aa9d0
+ksys::SeadController* Screen::sub_71010AA9D0() {
+    if (!mUIController)
+        return nullptr;
+    return sead::DynamicCast<ksys::SeadController>(mUIController->getController());
 }
 
 }  // namespace uking::ui
