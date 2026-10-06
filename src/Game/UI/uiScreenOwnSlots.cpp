@@ -482,6 +482,15 @@ void ScreenPauseMenu::m160() {
     mButtonGroup->_38 |= 2;
 }
 
+// 0x7100a3db00
+void ScreenPauseMenu::m171() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuEiketsu);
+    if (screen && screen->isClosedOrClosing()) {
+        sub_7100A392D8();
+        mStateMachine.changeState(&sUnk_71025f0cf0);
+    }
+}
+
 // 0x7100a3d80c
 void ScreenPauseMenu::m164() {
     mButtonGroup->_38 |= 2;

@@ -1417,6 +1417,9 @@ public:
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
 };
 
+// State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
+extern const ksys::StateBase sUnk_71025f0cf0;
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     s32 m72() override;
@@ -1430,6 +1433,8 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m107(eui::AnimButton* button) override;
+    // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
+    void sub_7100A392D8();
     u8 _pad_3610[0x3618 - 0x3610];
     /* 0x3618 */ s32 _3618;
     u8 _pad_361c[0x3bb4 - 0x361c];
