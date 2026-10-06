@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actWeapon.h"
 
@@ -9,6 +10,10 @@ class LayoutEx;
 
 namespace uking::act {
 enum class CreateEquipmentSlot : u8;
+}
+
+namespace uking::ui {
+class ScreenChildEx;
 }
 
 namespace ksys::act {
@@ -76,6 +81,16 @@ int getBowActorInfoAddValue(const sead::SafeString& name);
 
 int getWeaponInventoryLife(const sead::SafeString& name);
 bool isMasterSwordActorName(const sead::SafeString& name);
+// 0x7100aa7a50: the guard power (`is_shield`) or the attack power of the actor `name` (0 without actor info).
+int sub_7100AA7A50(const sead::SafeString& name, bool is_shield);
+// 0x7100aa7ac8: the weapon's power from getWeaponStats, multiplied by the bow's add value (at least 1) for bows.
+int sub_7100AA7AC8(const PouchItem& item);
+// 0x7100aa7b1c: kind 3: the shield guard power, otherwise the attack power (multiplied by the bow's add value for kind 1).
+int sub_7100AA7B1C(const ksys::act::acc::Weapon& weapon, int kind);
+// 0x7100aa7bac: the arrow type of the equipped bow, copied to `out` if given; false if there is none.
+bool sub_7100AA7BAC(sead::BufferedSafeString* out);
+// 0x7100a951b0 (uiPouchFacade.cpp)
+bool sub_7100A951B0();
 
 // TODO: move these to another translation unit (TBD)
 // Do not implement until the location is figured out
@@ -142,6 +157,21 @@ const sead::SafeString& sub_7100AA7D38(s32 index);
 // 0x7100aa0a5c (CSV ui::createAndLoadScreenIfNeededImpl): forwards `id` to Manager::createAndLoadScreenIfNeeded
 // (the second parameter is unused; callers pass nullptr).
 void createAndLoadScreenIfNeededImpl(s32 id, sead::Heap* heap);
+
+// 0x7100aa0748 (CSV ui::createAndLoadScreen): loads the screen `id` unless it is loaded already; mode -1 loads it with
+// a heap of its own (a frame heap below `heap`, or the UI heap).
+bool createAndLoadScreen(s32 id, s8 target, bool a3, sead::Heap* heap, s32 mode);
+// 0x7100aa08cc (CSV ui::unloadScreen)
+bool unloadScreen(s32 id);
+// 0x7100aa09d8
+bool sub_7100AA09D8(s32 id);
+// 0x7100aa0b6c / 0x7100aa0bb0 (uiMgrFacade2.cpp; placeholder names)
+f32 sub_7100AA0B6C(f32 degrees);
+void sub_7100AA0BB0(sead::Vector2f* vec, f32 degrees);
+// 0x7100aa0c04
+void sub_7100AA0C04(sead::Vector3f* pos);
+// 0x7100aa0aa4 (CSV ui::getScreenWidgetMaybe): the widget `group` (index 0) of the screen `id` (null if not loaded).
+ScreenChildEx* getScreenWidgetMaybe(s32 id, s32 group);
 
 // Existing UI facade definition at 0x7100a9ef44.
 void sellPictureBookDemo(s32 value);

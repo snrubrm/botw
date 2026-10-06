@@ -20,6 +20,18 @@ int getPorchNumImpl(const sead::SafeString& name) {
     return 0;
 }
 
+// 0x7100a951b0 (placeholder name): whether the equipped bow has an arrow type or any arrows.
+bool sub_7100A951B0() {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return false;
+    if (sub_7100AA7BAC(nullptr))
+        return true;
+    int count = 0;
+    mgr->getEquippedArrowType(nullptr, &count);
+    return count > 0;
+}
+
 // 0x7100a9b180
 bool sub_7100A9B180() {
     if (auto* mgr = PauseMenuDataMgr::instance())
@@ -179,3 +191,33 @@ bool sub_7100A82E28(s32 value) {
 }
 
 }  // namespace uking::ui
+
+// 0x7100a95214 (global namespace in the CSV): the number of arrows of the equipped bow (999 for a bow with an arrow type
+// of its own).
+s32 sub_7100A95214() {
+    auto* mgr = uking::ui::PauseMenuDataMgr::instance();
+    if (!mgr)
+        return 0;
+    if (uking::ui::sub_7100AA7BAC(nullptr))
+        return 999;
+    int count = 0;
+    mgr->getEquippedArrowType(nullptr, &count);
+    return count;
+}
+
+// 0x7100a95270 (global namespace in the CSV): the equipped arrow's name (cleared if there are none) for `out`; whether
+// there are arrows.
+bool sub_7100A95270(sead::BufferedSafeString* out) {
+    auto* mgr = uking::ui::PauseMenuDataMgr::instance();
+    if (!mgr)
+        return false;
+    if (uking::ui::sub_7100AA7BAC(out))
+        return true;
+    int count = 0;
+    if (mgr->getEquippedArrowType(out, &count)) {
+        if (count > 0)
+            return true;
+        out->clear();
+    }
+    return false;
+}

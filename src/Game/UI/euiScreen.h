@@ -20,6 +20,7 @@
 
 namespace sead {
 class Heap;
+class FrameHeap;
 class FrameBuffer;
 class GraphicsContext;
 class Viewport;
@@ -285,7 +286,8 @@ public:
     virtual void m0();
     virtual void m1();
     virtual void m2();
-    virtual void m3();
+    // 0x18: the name of screen `id` (the name of the screen's frame heap, see uking::ui::createAndLoadScreen)
+    virtual const char* m3(s32 id);
     virtual void m4();
     virtual DrawTarget getDrawTarget(u8 index) const;
 };
@@ -319,6 +321,8 @@ public:
     // 0x7100bec794 / 0x7100bec724 / 0x7100bec7e8 / 0x7100bec808
     void resetScreenId(s32 id);
     void unloadScreen(s32 id);
+    // 0x7100bec88c (declared only)
+    void loadScreenImpl_(sead::Heap* heap, s32 id, s8 target, bool a4, sead::FrameHeap* frame_heap);
     void inactivateScreen(s32 id);
     void activateScreen(s32 id);
     // 0x7100bec4c0 / 0x7100bec534 / 0x7100bec690

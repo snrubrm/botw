@@ -3,6 +3,7 @@
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMessageMgr.h"
 #include <devenv/seadEnvUtil.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadStringUtil.h>
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Actor/actWeapon.h"
@@ -348,6 +349,67 @@ int getWeaponInventoryLife(const sead::SafeString& name) {
         return 0;
     const int life = ksys::act::getGeneralLife(info, name.cstr());
     return act::WeaponModifierInfo::getLifeMultiplier() * life;
+}
+
+// 0x7100aa7a50
+int sub_7100AA7A50(const sead::SafeString& name, bool is_shield) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return 0;
+    if (is_shield)
+        return ksys::act::getWeaponCommonGuardPower(info, name.cstr());
+    return ksys::act::getAttackPower(info, name.cstr());
+}
+
+// 0x7100aa7ac8
+int sub_7100AA7AC8(const PouchItem& item) {
+    WeaponStats stats;
+    getWeaponStats(item, &stats);
+    int power = stats.power;
+    if (item.getType() == PouchItemType::Bow)
+        power *= sead::Mathi::max(stats.bow_add_value, 1);
+    return power;
+}
+
+// 0x7100aa7b1c
+int sub_7100AA7B1C(const ksys::act::acc::Weapon& weapon, int kind) {
+    if (kind == 3)
+        return sub_71002F0CB4(weapon);
+
+    int power = weapon.getAttackPower();
+    if (kind == 1) {
+        int value;
+        auto* modifier = sub_71002F05D8(weapon);
+        if (modifier && modifier->flags.isOn(act::WeaponModifier::AddSpreadFire))
+            value = modifier->value;
+        else
+            value = getBowActorInfoAddValue(weapon.getName());
+        power *= sead::Mathi::max(value, 1);
+    }
+    return power;
+}
+
+// NON_MATCHING: the original peels the first iteration of the inlined calcLength loop (it knows the first character is
+// not NUL from the isEmpty check); ours re-tests it
+// 0x7100aa7bac
+bool sub_7100AA7BAC(sead::BufferedSafeString* out) {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return false;
+    auto* name = mgr->getEquippedItemName(PouchItemType::Bow);
+    if (!name)
+        return false;
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return false;
+    const char* arrow_name = ksys::act::getBowArrowName(info, name->cstr());
+    if (!arrow_name)
+        return false;
+    if (sead::SafeString(arrow_name).isEmpty())
+        return false;
+    if (out)
+        out->copy(arrow_name);
+    return true;
 }
 
 bool isMasterSwordActorName(const sead::SafeString& name) {

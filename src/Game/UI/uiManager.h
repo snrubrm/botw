@@ -96,7 +96,9 @@ public:
     /* 0x8c */ sead::Vector3f _8c;
     /* 0x98 */ sead::Vector2f _98;
     /* 0xa0 */ f32 _a0;
-    u8 _a4[0xb0 - 0xa4];
+    /* 0xa4 */ s32 _a4;
+    /* 0xa8 */ s32 _a8;
+    /* 0xac */ f32 _ac;
     /* 0xb0 */ sead::SafeArray<s32, 5> _b0;
     /* 0xc4 */ s32 _c4;
     /* 0xc8 */ s32 _c8;

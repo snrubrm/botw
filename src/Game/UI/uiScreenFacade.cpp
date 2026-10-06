@@ -701,6 +701,20 @@ bool sub_7100A955E0() {
     return screen->sub_7100A1A1C4(6, true);
 }
 
+// 0x7100a956c0 (placeholder name)
+void sub_7100A956C0(s32 a, s32 b, f32 c) {
+    if (b < 1 || (c <= 1e-5f && c >= -1e-5f)) {
+        auto* mgr = Manager::instance();
+        if (mgr->_a4 != a || !(mgr->_ac > 0.0f))
+            return;
+    }
+    auto* mgr = Manager::instance();
+    mgr->_a4 = a;
+    mgr->_a8 = b;
+    mgr->_ac = c;
+    mgr->sub_7100A7A704(4);
+}
+
 // 0x7100a95924
 void showInfoOverlayWithString(s32 type, const sead::SafeString& text) {
     if (sub_7100AA8F10())

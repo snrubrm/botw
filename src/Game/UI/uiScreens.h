@@ -180,6 +180,10 @@ public:
     NN_RUNTIME_TYPEINFO(ScreenChild)
 };
 
+
+// 0x71009de2b8 (uiPaneCasts.cpp)
+ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
+
 // The secondary RxOnly/TxOnly handlers are at0x108/0x110. Screen introduces its
 // handleMessage override at primary slot111; ScreenEx overrides that same slot.
 class Screen : public ScreenBase, public ksys::ActorMessageTransceiver::IHandler {
