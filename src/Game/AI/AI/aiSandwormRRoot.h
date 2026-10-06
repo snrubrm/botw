@@ -17,7 +17,7 @@ class Unk_710241c878 : public dmg::DamageCallback {
 public:
     explicit Unk_710241c878(SandwormRRoot* owner) : mOwner(owner) {}
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     SandwormRRoot* mOwner;
 };
@@ -34,7 +34,7 @@ public:
     void leave_() override;
     void loadParams_() override;
 
-    virtual void m45(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6,
+    virtual void m45(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6,
                      dmg::DamageManager* damage_mgr);
 
 protected:

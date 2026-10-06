@@ -17,7 +17,7 @@ namespace uking::ai {
 // attacker link from DamageManagerBase slot 37, which is still declared as `s64 m37()`). Placeholder.
 class Unk_71023fd228 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 class IceMakerBlock : public ksys::act::ai::Ai {

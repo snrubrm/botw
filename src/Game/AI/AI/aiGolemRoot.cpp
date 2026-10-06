@@ -45,7 +45,8 @@ bool Unk_71003ffbf0::sub_71003FFD3C() {
     return false;
 }
 
-void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a4 != 4 || *a5 == -1)
         return;
 

@@ -26,7 +26,8 @@ static const sead::SafeString sUnk_7102413930 = "Priest_Boss_IronBall";
 static const sead::SafeString sUnk_7102413950 = "ironball_attack";
 
 // NON_MATCHING: the timer reset stores are merged before the delegate call.
-void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a5 >= 0) {
         _24 = 0;
         sub_710051A000(*a4);
@@ -75,7 +76,8 @@ void Unk_71024137d0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
         _30.update();
 }
 
-void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_7102413808::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a5 >= 0) {
         _24 = 0;
         sub_710051A6B8();

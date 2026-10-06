@@ -15,7 +15,8 @@
 namespace uking::ai {
 
 // 0x710031a970
-void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
     auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
@@ -30,15 +31,13 @@ void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     ksys::act::acquireActor(manager->getAttacker(), &accessor);
     if (accessor.getName() == "AssassinIronBall") {
         *a5 = 0x16;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(
-            reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags |= 2;
     } else if (accessor.getName() == "Explode") {
         *a1 = 0;
         *a5 = -1;
-        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(
-            reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6);
         if (info)
             info->mFlags = 0;
         return;
@@ -57,7 +56,8 @@ void Unk_71023d7c40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 
 // NON_MATCHING: register allocation (the original keeps the cast result in two registers, one of them null when the cast fails)
 // 0x710031a6fc
-void Unk_71023d7bd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023d7bd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a1 <= 0)
         return;
     auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
@@ -268,7 +268,8 @@ void AssassinBossRoot::m47() {
 
 // NON_MATCHING: same instructions, but the original loads the matrix terms (0x3a0 / 0x3b0) before the attack
 // direction and the third one between the multiplies.
-void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 
@@ -302,7 +303,8 @@ void Unk_71023d7c08::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
 }
 
 // Keeps the actor's life above zero: damage that would be lethal is reduced to life - 1.
-void Unk_71023d7c78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023d7c78::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 

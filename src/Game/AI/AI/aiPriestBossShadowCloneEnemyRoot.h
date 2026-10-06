@@ -11,7 +11,7 @@ namespace uking::ai {
 // D0 0x710052d7d8). PriestBossShadowCloneEnemyRoot::_230.
 class Unk_7102415ae8 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102415ae8, 0x28);
 

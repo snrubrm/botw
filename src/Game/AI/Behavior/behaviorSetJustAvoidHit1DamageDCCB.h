@@ -9,7 +9,8 @@ namespace uking::behavior {
 class Unk_7102439a60 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102439a60, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 class SetJustAvoidHit1DamageDCCB : public SetDamageCallback {

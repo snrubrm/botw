@@ -17,7 +17,7 @@ class Unk_710241b460 : public dmg::DamageCallback {
 public:
     explicit Unk_710241b460(gsys::Model* model) : _28(model) {}
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     gsys::Model* _28;
     gsys::BoneAccessKeyEx _30;

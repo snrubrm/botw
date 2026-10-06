@@ -16,7 +16,7 @@ namespace uking::ai {
 // vtable 0x7102424170: damage callback embedded in StalEnemyRoot (no RTTI of its own).
 class Unk_7102424170 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
 };

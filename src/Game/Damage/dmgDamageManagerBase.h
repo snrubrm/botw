@@ -23,6 +23,7 @@ class ActorParam;
 namespace uking::dmg {
 
 class DamageCallback;
+class DamageCallbackInfo;
 
 // FIXME: Unknown base. This base seems to handle callbacks and messaging, so maybe a shared base?
 // The RTTI root of the damage managers: the original vtables start with checkDerivedRuntimeTypeInfo /
@@ -141,7 +142,8 @@ public:
 
     void clearCallbacks();
     void resetStuff();
-    void callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6);
+    void callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                             DamageCallbackInfo* a6);
     s64 calcMaybe();
 
     // Read inline by the damage callback 0x710074a584 (compares it with 9).

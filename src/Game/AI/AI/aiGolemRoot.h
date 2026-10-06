@@ -12,7 +12,7 @@ namespace uking::ai {
 class Unk_71023f5460 : public dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71023f5460, dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     f32 _24;
 };

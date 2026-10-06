@@ -18,14 +18,16 @@ class Actor;
 class Unk_71024518c8 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024518c8, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451938
 class Unk_7102451938 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451938, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     s32 _24 = 1;
 };
@@ -34,7 +36,8 @@ public:
 class Unk_7102451970 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451970, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x71024519a8 (functions at 0x71007484c8..0x7100748768; `call` reads its last argument as a
@@ -43,7 +46,8 @@ public:
 class Unk_71024519a8 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024519a8, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = true;
     bool _25 = true;
@@ -53,7 +57,8 @@ public:
 class Unk_71024519e0 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024519e0, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451a18
@@ -62,7 +67,8 @@ class Unk_7102451a18 : public uking::dmg::DamageCallback {
 public:
     explicit Unk_7102451a18(ksys::act::Actor* actor) : mActor(actor) {}
 
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* mActor;
 };
@@ -72,21 +78,24 @@ public:
 class Unk_7102451a50 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451a50, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451a88
 class Unk_7102451a88 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451a88, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451ac0
 class Unk_7102451ac0 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451ac0, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     u32 _24 = 0;
 };
@@ -95,21 +104,24 @@ public:
 class Unk_7102451bd8 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451bd8, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451c10
 class Unk_7102451c10 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451c10, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451c98
 class Unk_7102451c98 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451c98, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451cd0 (SetNoWeakHitReactionDCCallBack behavior): caps the reaction level (*a5) at 2
@@ -117,7 +129,8 @@ public:
 class Unk_7102451cd0 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451cd0, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451d08 (PillarCrack): writes the life of `_28` to *a1 when the damage type *a4 is
@@ -125,7 +138,8 @@ public:
 class Unk_7102451d08 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451d08, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* _28 = nullptr;
     u32 _30 = 0;
@@ -136,7 +150,8 @@ public:
 class Unk_7102451d78 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451d78, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     s32 _24 = 0;
 };
@@ -146,7 +161,8 @@ public:
 class Unk_71024500d8 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024500d8, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451ba0 (BackAttackEnemyBattle and ~30 actions). `call` needs ASList::x / isSlowTimeMaybe and an
@@ -154,7 +170,8 @@ public:
 class Unk_7102451ba0 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451ba0, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
 };
@@ -164,14 +181,16 @@ public:
 class Unk_7102451858 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451858, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102451890 (SetAcceptOnlyBombDCCallback behavior).
 class Unk_7102451890 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451890, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     // IsThroughEffectiveDamage / IsThroughDieAttribute (written by the behavior's m8).
     bool _24 = false;
@@ -183,7 +202,8 @@ public:
 class Unk_7102451b30 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451b30, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     sead::BitFlag8 _24;
 };
@@ -193,7 +213,8 @@ public:
 class Unk_7102451d40 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451d40, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     s32 _24 = -1;
     s32 _28 = -1;
@@ -203,7 +224,8 @@ public:
 class Unk_7102451b68 : public uking::dmg::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451b68, uking::dmg::DamageCallback)
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     sead::BitFlag8 _24;
 };

@@ -7,7 +7,8 @@
 
 namespace uking::ai {
 
-void Unk_71023e3a40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023e3a40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (*a1 < 1)
         return;
 

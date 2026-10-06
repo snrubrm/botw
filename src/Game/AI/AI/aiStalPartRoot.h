@@ -10,7 +10,7 @@ namespace uking::ai {
 // embedded twice in StalPartRoot. Cancels positive damage unless the damage type (*a4) is 3.
 class Unk_7102424d70 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 class StalPartRoot : public ksys::act::ai::Ai {

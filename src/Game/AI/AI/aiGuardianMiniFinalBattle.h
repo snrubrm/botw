@@ -16,7 +16,8 @@ class GuardianMiniFinalBattle;
 class Unk_71023f86d8 : public uking::dmg::DamageCallback {
 public:
     explicit Unk_71023f86d8(uking::ai::GuardianMiniFinalBattle* owner) : mOwner(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     uking::ai::GuardianMiniFinalBattle* mOwner;
 };
@@ -25,7 +26,8 @@ public:
 class Unk_71023f8710 : public uking::dmg::DamageCallback {
 public:
     explicit Unk_71023f8710(uking::ai::GuardianMiniFinalBattle* owner) : mOwner(owner) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override;
 
     uking::ai::GuardianMiniFinalBattle* mOwner;
 };

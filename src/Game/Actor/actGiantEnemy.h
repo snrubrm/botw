@@ -16,7 +16,7 @@ namespace uking::act {
 class Unk_710235a050 : public dmg::DamageCallback {
 public:
     ~Unk_710235a050() override;
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 // Placeholder name (the object at GiantEnemy::_1558, created by the unnamed factories 0x7100302d0 / 0x71002d99c; only

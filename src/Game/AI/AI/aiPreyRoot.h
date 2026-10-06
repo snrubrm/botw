@@ -21,7 +21,7 @@ namespace uking::ai {
 class Unk_7102410b48 : public dmg::DamageCallback {
 public:
     explicit Unk_7102410b48(ksys::act::Actor* actor) : mActor(actor) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* mActor;
 };
@@ -29,20 +29,20 @@ public:
 // vtable 0x7102410b80
 class Unk_7102410b80 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102410bb8
 class Unk_7102410bb8 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x7102410b10
 class Unk_7102410b10 : public dmg::DamageCallback {
 public:
     explicit Unk_7102410b10(ksys::act::Actor* actor) : mActor(actor) {}
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     ksys::act::Actor* mActor;
 };

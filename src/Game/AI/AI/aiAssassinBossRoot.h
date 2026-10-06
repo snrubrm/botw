@@ -10,7 +10,7 @@ namespace uking::ai {
 // 0x710031a6fc..0x710031b050); `call` is declared only. Placeholder names = vtables.
 class Unk_71023d7bd0 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
     bool _25 = false;
@@ -20,14 +20,14 @@ public:
 
 class Unk_71023d7c08 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
 };
 
 class Unk_71023d7c40 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     bool _24 = false;
     bool _25 = false;
@@ -35,7 +35,7 @@ public:
 
 class Unk_71023d7c78 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 };
 
 class AssassinBossRoot : public AssassinBossRootBase {

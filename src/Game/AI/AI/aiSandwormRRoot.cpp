@@ -5,7 +5,8 @@
 
 namespace uking::ai {
 
-void Unk_710241c878::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_710241c878::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          dmg::DamageCallbackInfo* a6) {
     if (auto* damage_mgr = sead::DynamicCast<dmg::DamageManager>(mDamageManager))
         mOwner->m45(a1, a2, a3, a4, a5, a6, damage_mgr);
 }

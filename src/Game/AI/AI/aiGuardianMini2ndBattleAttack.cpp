@@ -130,7 +130,7 @@ void GuardianMini2ndBattleAttack::loadParams_() {
 }
 
 void GuardianMini2ndBattleAttack::Unk_71023f78a8::call(s32* a1, s32* a2, u32* a3, u32* a4,
-                                                       s32* a5, u64 a6) {
+                                                       s32* a5, dmg::DamageCallbackInfo* a6) {
     if (mOwner && (mOwner->isCurrentChild("戦闘攻撃") || mOwner->isCurrentChild("戦闘攻撃終了"))) {
         if (*a5 >= 0x14 && *a5 <= 0x16)
             *mOwner->mGuardianMiniChanceTimeState_a = 1;
@@ -146,7 +146,7 @@ void GuardianMini2ndBattleAttack::Unk_71023f78a8::call(s32* a1, s32* a2, u32* a3
 }
 
 void GuardianMini2ndBattleAttack::Unk_71023f78e0::call(s32* a1, s32* a2, u32* a3, u32* a4,
-                                                       s32* a5, u64 a6) {
+                                                       s32* a5, dmg::DamageCallbackInfo* a6) {
     if (mOwner && (mOwner->isCurrentChild("戦闘攻撃") || mOwner->isCurrentChild("戦闘攻撃終了")))
         return;
 

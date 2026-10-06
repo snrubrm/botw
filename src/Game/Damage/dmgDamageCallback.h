@@ -11,7 +11,7 @@ class DamageManagerBase;
 // The object the damage manager builds on the stack and passes to the damage callbacks as their last
 // argument (vtable 0x710244e090, RTTI static 0x71025af120; DamageMgr::m22 / m22_x_0 / m55 construct it
 // with `mFlags` = the manager's field 0x8c and store `mFlags` back after the callbacks ran). Placeholder
-// name (its RTTI parent, typeinfo static 0x71025af130, has no other user). The callbacks still declare the argument as `u64 a6`: they cast it back to this type.
+// name (its RTTI parent, typeinfo static 0x71025af130, has no other user).
 class DamageCallbackInfoBase {
     SEAD_RTTI_BASE(DamageCallbackInfoBase)
 };
@@ -30,7 +30,7 @@ public:
         if (mDamageManager)
             mDamageManager->removeDamageCallback(this);
     }
-    virtual void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) = 0;
+    virtual void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, DamageCallbackInfo* a6) = 0;
 
     DamageCallback* mPrev{};
     DamageCallback* mNext{};

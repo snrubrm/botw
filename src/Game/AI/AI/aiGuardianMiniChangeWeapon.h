@@ -9,7 +9,8 @@
 // GuardianMiniChangeWeapon translation unit. Placeholder name.
 class Unk_71023f8530 : public uking::dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override {
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::dmg::DamageCallbackInfo* a6) override {
         if (*a5 != -1)
             *a5 = 1;
     }

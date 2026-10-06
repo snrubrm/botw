@@ -113,7 +113,8 @@ bool GuardianMiniFinalBattle::handleMessage_(const ksys::Message* message) {
 
 }  // namespace uking::ai
 
-void Unk_71023f86d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023f86d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
     if (*a5 == -1)
         return;
 
@@ -125,7 +126,8 @@ void Unk_71023f86d8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
         *a5 = 2;
 }
 
-void Unk_71023f8710::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023f8710::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
     if (*a4 < 9 || *a4 > 11)
         return;
 

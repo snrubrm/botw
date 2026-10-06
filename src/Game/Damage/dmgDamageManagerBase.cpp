@@ -65,7 +65,7 @@ void DamageManagerBase::clearCallbacks() {
 }
 
 void DamageManagerBase::callDamageCallbacks(s32 event_id, s32* a1, s32* a2, u32* a3, u32* a4,
-                                            s32* a5, u64 a6) {
+                                            s32* a5, DamageCallbackInfo* a6) {
     if (!mCallbacks.isBufferReady())
         return;
     for (auto* callback = mCallbacks[event_id]; callback; callback = callback->mNext)

@@ -5,7 +5,8 @@
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
-void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+void Unk_71023fd380::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::dmg::DamageCallbackInfo* a6) {
     if (!_38) {
         *a1 = 0;
         return;

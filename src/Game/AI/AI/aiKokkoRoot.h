@@ -13,7 +13,7 @@ namespace uking::ai {
 // as an object of an unknown RTTI class (like Unk_71024519a8), so it is declared only.
 class Unk_71023fff70 : public dmg::DamageCallback {
 public:
-    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) override;
 
     sead::FixedSafeString<64> _28;
     bool _80 = false;
