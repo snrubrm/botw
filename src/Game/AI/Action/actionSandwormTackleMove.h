@@ -11,6 +11,8 @@ namespace uking::action {
 // declared only).
 struct Unk_SandwormTackleTarget {
     ~Unk_SandwormTackleTarget();
+    // 0x710073e5e0 (declared only; 168 B): whether `ack` answers this target's message.
+    bool sub_710073E5E0(const ksys::MessageAck* ack);
 
     u8 _0[0x38];
     ksys::act::BaseProcLink _38;
