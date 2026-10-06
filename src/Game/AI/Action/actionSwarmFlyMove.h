@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Game/AI/Action/actionFlyMoveBase.h"
+#include "Game/AI/aiRandomTimer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -38,11 +40,12 @@ protected:
     sead::SafeString mMaterialAnimName_s{};
     sead::Vector3f _f0;
     sead::Vector3f _fc;
-    sead::Vector3f _108{0, 0, 0};
-    f32 _114 = 0.0f;
+    f32 _108 = 0.0f;
+    ksys::Timer _10c{0, 0, 0};
     bool _118 = true;
     sead::Vector3f _11c{0, 0, 0};
-    sead::Vector3f _128{0, 0, 0};
+    ai::RandomTimer _128;
+    u8 _134[4];
 };
 KSYS_CHECK_SIZE_NX150(SwarmFlyMove, 0x138);
 
