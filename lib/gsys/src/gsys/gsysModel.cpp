@@ -1,10 +1,13 @@
 #include "gsys/gsysModel.h"
 #include "gsys/gsysModelSceneEnv.h"
+#include "gsys/gsysModelAccessKey.h"
 #include "gsys/gsysModelAnimation.h"
 #include "gsys/gsysModelAutoAnimation.h"
 #include "gsys/gsysModelNW.h"
 #include <math/seadMathCalcCommon.h>
 #include "gsys/gsysModelUnit.h"
+#include <prim/seadScopedLock.h>
+#include "gsys/gsysModelScene.h"
 
 namespace gsys {
 
@@ -51,6 +54,44 @@ void Model::setTotalBoneNum(int num, bool override) {
     _ac = num;
 }
 
+// 0x7100bf7bb4
+BoneAccessKey Model::searchBone(const sead::SafeString& name) const {
+    BoneAccessKey key;
+    int i = 0;
+    for (auto& info : mUnitAccess) {
+        const int bone_index = info.mModelUnit->searchBoneIndex(name);
+        if (bone_index != -1) {
+            key.model_unit_index = i;
+            key.bone_index = bone_index;
+            return key;
+        }
+        ++i;
+    }
+    return key;
+}
+
+// 0x7100bf7c30
+void Model::setBoneLocalMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix,
+                               const sead::Vector3f& scale) {
+    mUnitAccess(key.model_unit_index)->mModelUnit->setBoneLocalMatrix(matrix, scale, key.bone_index);
+}
+
+// 0x7100bf7c5c
+void Model::setBoneLocalRTMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix) {
+    mUnitAccess(key.model_unit_index)->mModelUnit->setBoneLocalRTMatrix(matrix, key.bone_index);
+}
+
+// 0x7100bf7c84
+void Model::setBoneWorldMatrix(const BoneAccessKey& key, const sead::Matrix34f& matrix) {
+    mUnitAccess(key.model_unit_index)->mModelUnit->setBoneWorldMatrix(matrix, key.bone_index);
+}
+
+// 0x7100bf7cac
+void Model::clearBoneLocalMatrix() const {
+    for (auto& info : mUnitAccess)
+        info.mModelUnit->clearBoneLocalMatrix();
+}
+
 // 0x7100bf7cf0
 void Model::x(bool on, int bit) {
     for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it) {
@@ -74,6 +115,78 @@ bool Model::isVisibilityBitOn(int bit) const {
 void Model::setVisibilityMask(u16 mask) {
     for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it)
         it->mModelUnit->mVisibilityMask.setDirect(mask);
+}
+
+// 0x7100bf82e8
+MaterialAccessKey Model::searchMaterial(const sead::SafeString& name) const {
+    MaterialAccessKey key;
+    int i = 0;
+    for (auto& info : mUnitAccess) {
+        const int material_index = info.mModelUnit->searchMaterialIndex(name);
+        if (material_index != -1) {
+            key.model_unit_index = i;
+            key.material_index = material_index;
+            return key;
+        }
+        ++i;
+    }
+    return key;
+}
+
+// 0x7100bf8364
+void Model::setMaterialVisibleAll(bool visible) {
+    for (auto& info : mUnitAccess)
+        info.mModelUnit->setMaterialVisibleAll(visible);
+}
+
+// 0x7100bf99b0
+void Model::requestUpdate(u32 flags) {
+    _a3 = flags;
+    _a1 |= 4;
+}
+
+// 0x7100bf95bc
+void Model::updateBounding() {
+    for (auto& info : _48)
+        info.mModelUnit->calcBounding();
+}
+
+// 0x7100bf6d94
+void Model::bind(ModelScene* scene) {
+    if (mScene && mScene != scene)
+        mScene->unbind_(this);
+    mScene = scene;
+    if (scene) {
+        scene->bind_(this);
+        for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it)
+            it->mModelUnit->bind(mScene);
+    }
+}
+
+// 0x7100bf6e20
+void Model::clearModelAccesssHandle() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    for (auto it = mHandleList.robustBegin(); it != mHandleList.robustEnd(); ++it)
+        it->remove();
+}
+
+// 0x7100bf76d0
+void Model::updateModelAccesssHandle_() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    for (auto& handle : mHandleList)
+        handle.search();
+}
+
+// 0x7100bf7748
+void Model::add_(IModelAccesssHandle* handle) const {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mHandleList.pushBack(handle);
+}
+
+// 0x7100bf779c
+void Model::remove_(IModelAccesssHandle* handle) const {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mHandleList.erase(handle);
 }
 
 // 0x7100bf8b54
@@ -143,6 +256,22 @@ void Model::destroyAnimation_() {
         ModelAnimation::destroy(mAnimation);
         mAnimation = nullptr;
     }
+}
+
+// 0x7100bf9bd8
+bool Model::hasRigObj(int unit_idx, IModelRigObj* obj) const {
+    return mUnitAccess.unsafeAt(unit_idx)->mRigObjs.indexOf(obj) != -1;
+}
+
+// 0x7100bf9c08
+void Model::pushBack(int unit_idx, IModelRigObj* obj) {
+    mUnitAccess.at(unit_idx)->mRigObjs.pushBack(obj);
+}
+
+// 0x7100bf9c58
+bool Model::erase(int unit_idx, IModelRigObj* obj) {
+    mUnitAccess.at(unit_idx)->mRigObjs.erase(obj);
+    return true;
 }
 
 void Model::getBounding(sead::BoundSphere3f* bounding) const {

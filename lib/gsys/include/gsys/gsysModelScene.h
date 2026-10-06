@@ -10,8 +10,14 @@ namespace gsys {
 // allocates it, runs the constructor 0x7100c0f7b8 and then the initialization 0x7100c0d9fc).
 // TODO: incomplete. Only what game code reads and writes is modeled; the bases (a polymorphic base at +0x0, a
 // sead::IDisposer at +0xe0 and a polymorphic base at +0x100) and the other members are not.
+class Model;
+
 class ModelScene {
 public:
+    // 0x7100c0ff48 / 0x7100c0ffe4 (CSV names; declared only): attach / detach a model.
+    void bind_(Model* model);
+    void unbind_(Model* model);
+
     u8 _0[0x130];
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor

@@ -17,9 +17,11 @@ namespace gsys {
 
 struct BoneAccessKey;
 class IModelAccesssHandle;
+class IModelRigObj;
 struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
+class ModelScene;
 class ModelUnit;
 
 class ModelInfo {
@@ -30,10 +32,9 @@ public:
     u32 _18;
     s16 mAccessIndex;
     u8 _1e;
-    void* _20;
-    void* _28;
-    u32 _30;
-    u32 _34;
+    /// The rig objects attached to this model unit (0x7100bf9c08 / 0x7100bf9c58); the list offset is set by the
+    /// creator.
+    sead::OffsetList<IModelRigObj> mRigObjs;
 };
 
 // TODO
@@ -120,6 +121,24 @@ public:
     BoneAccessKey searchBone(const sead::SafeString& name) const;
     // 0x7100bf82e8 (CSV name; declared only)
     MaterialAccessKey searchMaterial(const sead::SafeString& name) const;
+    // 0x7100bf7cac (CSV name): calls ModelUnit::clearBoneLocalMatrix on every model unit.
+    void clearBoneLocalMatrix() const;
+    // 0x7100bf8364 (CSV name): ModelUnit::setMaterialVisibleAll on every model unit.
+    void setMaterialVisibleAll(bool visible);
+    // 0x7100bf9c08 / 0x7100bf9c58 (CSV names): attach / detach a rig object of the model unit `unit_idx`.
+    void pushBack(int unit_idx, IModelRigObj* obj);
+    bool erase(int unit_idx, IModelRigObj* obj);
+    // 0x7100bf9bd8 (name is a guess): whether the rig object is attached to the model unit.
+    bool hasRigObj(int unit_idx, IModelRigObj* obj) const;
+    // 0x7100bf99b0 (CSV name): `_a1` bit 2 requests an update, `_a3` keeps the argument.
+    void requestUpdate(u32 flags);
+    // 0x7100bf95bc (CSV name): ModelUnit::calcBounding of the units in `_48`.
+    void updateBounding();
+    // 0x7100bf6d94 (CSV name): binds the model (and its used units) to a scene, unbinding it from the old one.
+    void bind(ModelScene* scene);
+    // 0x7100bf6e20 / 0x7100bf76d0 (CSV names): remove / search every registered access handle.
+    void clearModelAccesssHandle();
+    void updateModelAccesssHandle_();
     // 0x7100bf7cf0 (CSV name; declared only): sets (`on`) or clears bit `bit` of the u16 flags at
     // +0xc of the model unit of each of the first min(mUnitPool.size(), mNumModels) pool entries.
     void x(bool on, int bit);
@@ -154,9 +173,9 @@ private:
     sead::Vector3f _94 = sead::Vector3f::ones;
     /// Flags. Bit 0 is set when the matrix is changed.
     u8 _a0 = 1;
-    bool _a1 = false;
-    bool _a2 = true;
-    bool _a3 = false;
+    u8 _a1 = 0;
+    u8 _a2 = 1;
+    u8 _a3 = 0;
     u16 mNumModels = 0;
     u8 _a6[0xac - 0xa6];
     /// Total bone count (the sum over the model units unless overridden; see 0x7100bf7b2c).
@@ -169,9 +188,12 @@ private:
     /// If set, getBounding returns this instead of gathering the unit bounds. The name is a guess.
     const sead::BoundSphere3f* mBoundingOverrideMaybe;
     ModelAnimation* mAnimation;
-    u8 _d8[0x140 - 0xd8];
+    u8 _d8[0xf0 - 0xd8];
+    /// The scene the model is bound to (bind()).
+    ModelScene* mScene;
+    u8 _f8[0x140 - 0xf8];
     mutable sead::CriticalSection mCS;
-    sead::OffsetList<IModelAccesssHandle> mHandleList;
+    mutable sead::OffsetList<IModelAccesssHandle> mHandleList;
     sead::FixedSafeString<256> mName{"名称未設定"};
     u8 _2b0[0x2b8 - 0x2b0];
 };
