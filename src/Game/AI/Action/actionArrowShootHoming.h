@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionArrowShootMove.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -30,11 +31,16 @@ protected:
     ksys::act::BaseProcLink* mTargetActor_d{};
     // dynamic_param at offset 0x170
     sead::Vector3f* mHomingTargetPos_d{};
-    f32 _178 = 0.0f;
-    f32 _17c = 0.0f;
-    f32 _180 = 0.0f;
-    u8 _184[0x30]{};
-    s32 _1b4 = 0;
+    // Value-initialised: the original constructor zeroes 0x150..0x1b8 with a single memset, including
+    // the matrix (see TIPS "P p = P()").
+    struct Tail {
+        f32 _178;
+        f32 _17c;
+        f32 _180;
+        sead::Matrix34f _184;
+        s32 _1b4;
+    };
+    Tail mTail = Tail();
 };
 KSYS_CHECK_SIZE_NX150(ArrowShootHoming, 0x1b8);
 

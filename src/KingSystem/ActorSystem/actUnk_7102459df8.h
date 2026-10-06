@@ -15,9 +15,14 @@ namespace sead {
 class Heap;
 }  // namespace sead
 
+namespace ksys::phys {
+class RigidBody;
+}  // namespace ksys::phys
+
 namespace ksys::act {
 
 class Actor;
+class ActorConstDataAccess;
 
 // Placeholder (RTTI static 0x71025ca5f8): the optional argument of Unk_71025b08f8::m4 (checked with
 // a DynamicCast; its member at +0x8 is compared with 1).
@@ -97,8 +102,10 @@ public:
         sead::SafeArray<Unk1, 8> mEntries;
         s16 mNum;
         u8 _582;
+        // callback set by BeltConveyor::enter_ (0x71000c4560, the third argument is unused there),
         // cleared by BeltConveyor::leave_
-        void* _588;
+        using Callback = void (*)(Actor*, const ActorConstDataAccess*, void*, phys::RigidBody*);
+        Callback _588;
     };
 
     explicit Unk_7102459df8(Actor* actor) : Unk_71025b08f8(actor) {}

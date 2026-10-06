@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionArrowShootHoming.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -11,6 +12,20 @@ ArrowShootHoming::~ArrowShootHoming() = default;
 
 void ArrowShootHoming::enter_(ksys::act::ai::InlineParamPack* params) {
     ArrowShootMove::enter_(params);
+    mTail._178 = _e4.x;
+    mTail._17c = _e4.y;
+    mTail._180 = _e4.z;
+    mTail._1b4 = 0;
+    if (mTargetActor_d->hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(mTargetActor_d, &accessor);
+        const sead::Matrix34f target_mtx = accessor.getActorMtx();
+        sead::Matrix34f inverse;
+        inverse.setInverse(target_mtx);
+        sead::Matrix34f mtx = mActor->getMtx();
+        mtx.setTranslation(*mHomingTargetPos_d);
+        mTail._184.setMul(inverse, mtx);
+    }
 }
 
 void ArrowShootHoming::loadParams_() {

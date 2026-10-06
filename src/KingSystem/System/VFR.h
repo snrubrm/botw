@@ -72,6 +72,10 @@ public:
     f32 getDeltaFrame(u32 core) const { return *mDeltaFrames[core]; }
     f32 getDeltaFrame() const { return getDeltaFrame(sead::CoreInfo::getCurrentCoreId()); }
 
+    // lane3 s39 (BeltConveyor)
+    f32 getRawDeltaFrame(u32 core) const { return *mRawDeltaFrames[core]; }
+    f32 getRawDeltaFrame() const { return getRawDeltaFrame(sead::CoreInfo::getCurrentCoreId()); }
+
     f32 getDeltaTime(u32 core) const { return *mDeltaTimes[core]; }
     f32 getDeltaTime() const { return getDeltaTime(sead::CoreInfo::getCurrentCoreId()); }
 

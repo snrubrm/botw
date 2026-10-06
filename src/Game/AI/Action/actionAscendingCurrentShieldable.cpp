@@ -2,8 +2,14 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Sound/sndMgr.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 AscendingCurrentShieldable::AscendingCurrentShieldable(const InitArg& arg)
     : AscendingCurrent(arg) {}

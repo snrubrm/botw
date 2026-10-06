@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
@@ -29,7 +30,7 @@ protected:
         const float* mAddYSpeed_s{};
     };
     Params mParams;
-    u8 _38[0x24];
+    sead::Matrix33f _38;
     ksys::Timer mTimer;
     sead::Vector3f mTargetPos;
     u8 _74[4];

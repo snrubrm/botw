@@ -1,6 +1,12 @@
 #include "Game/AI/Action/actionDgnObj_DLC_DungeonRotate.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace uking::action {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 DgnObj_DLC_DungeonRotate::DgnObj_DLC_DungeonRotate(const InitArg& arg) : DungeonRotateBase(arg) {}
 

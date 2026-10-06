@@ -5,6 +5,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 
 namespace uking::action {
@@ -25,7 +26,33 @@ bool BeamMove::init_(sead::Heap* heap) {
 }
 
 void BeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    m40();
+    _68 = 0;
+    _69 = 0;
+    _6a = false;
+    _6b = false;
+    _6c = 0;
+    const sead::Matrix34f mtx = mActor->getMtx();
+    _50->setTransform(mtx);
+    _58->setTransform(mtx);
+    const sead::Vector3f velocity = _40 * _4c;
+    _50->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    _50->setGravityFactor(0);
+    _58->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    if (_60) {
+        _60->setTransform(mtx);
+        _60->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    }
+    if (getActorAttackSensor(mActor)) {
+        getActorAttackSensor(mActor)->activateAttackSensor(
+            0x1000, m43(), m41(),
+            mActor->getParam()->getRes().mGParamList->getAttack()->mImpulseLarge.ref(), 0.0f,
+            mActor->getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref(),
+            *mShieldDamage_s, -1, false, *mAtMinDamage_s, m42());
+    }
+    if (auto* info = _50->getContactPointInfo())
+        info->subscribeLayer(ksys::phys::ContactLayer::EntityNPC);
+    mFlags.reset(Flag::Changeable);
 }
 
 void BeamMove::sub_71000C1258() {
