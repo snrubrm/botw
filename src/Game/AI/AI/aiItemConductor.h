@@ -18,6 +18,11 @@ protected:
     bool sub_710044EC60();
     void sub_710044ED64();
     void sub_710044EF44();
+    // 0x710044f2dc / 0x710044f408 / 0x710044f514 (placeholder names): gives the current child the armor's bind offsets
+    // / the owner (a player) answers PlayerBase::m287 / one of the rune items is selected.
+    void sub_710044F2DC();
+    bool sub_710044F408();
+    bool sub_710044F514();
 
     Unk_71012419b4 _38;
     Unk_71012419b4 _58;

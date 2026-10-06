@@ -22,6 +22,8 @@ protected:
     void sub_7100337E2C(ksys::phys::ContactLayer first, ksys::phys::ContactLayer second);
     // 0x710033788c (not decompiled): checks the actor (DynamicCast) and its state (_af8 == 2 / 3).
     bool sub_710033788C();
+    // 0x71003377b8 (placeholder name): emits the "UnEquip" (m153 turned true) / "Equip" (turned false) xlink events.
+    void sub_71003377B8();
 
     ksys::act::BaseProcHandle _38;
     bool _48{};

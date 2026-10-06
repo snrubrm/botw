@@ -27,6 +27,10 @@ public:
     void changeToStopCommand();
     // 0x7100409824 (placeholder name)
     void changeToWaitForPlayerApproach();
+    // 0x71004090d4 (placeholder name): the current child is one of the cannon jump states.
+    bool sub_71004090D4();
+    // 0x71004095e4 (placeholder name): the current child is one of the follow / stop states.
+    bool sub_71004095E4();
 
 protected:
     // static_param at offset 0x38

@@ -49,6 +49,8 @@ public:
     void sub_710041B3D4();
     // 0x710041b978 (placeholder name): resets the three guard AS slots.
     void sub_710041B978();
+    // 0x710041ba0c (placeholder name): starts the "FlashShader" AS and the final mode colour AS.
+    void sub_710041BA0C();
     void m38() override;
 
 protected:

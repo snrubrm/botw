@@ -1,7 +1,27 @@
 #include "Game/AI/AI/aiBossBattleRoomRoot.h"
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
+#include <container/seadPtrArray.h>
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the original keeps the loop index as a 32-bit value (`sxtw` at the access, `cbz` on the count) instead of
+// a widened 64-bit induction variable.
+void BossBattleRoomRoot::sub_7100336B84(xlink2::HandleSLink* handle) {
+    if (handle && handle->isActive()) {
+        sead::FixedPtrArray<aal::Handle, 8> handles;
+        if (handle->isActive()) {
+            const s32 count = static_cast<xlink2::EventSLink*>(handle->getEvent())->getSoundHandle(&handles);
+            for (s32 i = 0; i < count; ++i) {
+                if (auto* source = handles[i]->getSoundSource()) {
+                    if (source->mState <= 2)
+                        source->mSpatialSetting.setShape(_1f0);
+                }
+            }
+        }
+    }
+}
 
 BossBattleRoomRoot::BossBattleRoomRoot(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

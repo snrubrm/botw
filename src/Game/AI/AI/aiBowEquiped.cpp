@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -51,6 +52,19 @@ void BowEquiped::leave_() {
         child->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
     if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor))
         weapon->_e50 &= ~0xc0;
+}
+
+void BowEquiped::sub_71003377B8() {
+    if (auto* weapon = sead::DynamicCast<act::Weapon>(mActor)) {
+        const bool equipped = weapon->m153();
+        if (equipped) {
+            if (!_49)
+                xlinkSearchAndEmit(mActor, "UnEquip", 2, nullptr);
+        } else if (_49) {
+            xlinkSearchAndEmit(mActor, "Equip", 2, nullptr);
+        }
+        _49 = equipped;
+    }
 }
 
 bool BowEquiped::sub_710033788C() {

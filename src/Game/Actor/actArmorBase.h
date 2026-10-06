@@ -82,6 +82,11 @@ public:
     // 0x7100e2ac20: the actor linked in `_840` (the player / the actor wearing the armor), if it is in the calc
     // state or a player profile ("PauseMenuPlayer" included) and an Actor (placeholder name).
     ksys::act::Actor* getOwner();
+    // 0x7100e2b948 / 0x7100e2b094 / 0x7100e2b3d0 (lane1 s41, declaration only; placeholder names): whether the armor is
+    // bound to its owner; the bind position offset / rotation offset (ItemConductor's "PosOffset" / "RotOffsetXyz").
+    bool sub_7100E2B948();
+    void sub_7100E2B094(sead::Vector3f* out);
+    void sub_7100E2B3D0(sead::Vector3f* out);
 
     // 0x7100e29b8c: whether one of the gdt flags "Guide_Attack", "Guide_Bow" and "Guide_Shield" is set.
     static bool sub_7100E29B8C();

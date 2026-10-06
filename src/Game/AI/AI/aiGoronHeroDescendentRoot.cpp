@@ -34,6 +34,22 @@ void GoronHeroDescendentRoot::loadParams_() {
     getStaticParam(&mPlayerFollowOffset_s, "PlayerFollowOffset");
 }
 
+bool GoronHeroDescendentRoot::sub_71004090D4() {
+    if (isCurrentChild("ジャンプ準備") || isCurrentChild("ジャンプ") || isCurrentChild("砲台内") ||
+        isCurrentChild("着地") || isCurrentChild("帰還")) {
+        return true;
+    }
+    return false;
+}
+
+bool GoronHeroDescendentRoot::sub_71004095E4() {
+    if (isCurrentChild("プレイヤー追従") || isCurrentChild("プレイヤー接近待機") ||
+        isCurrentChild("停止命令") || isCurrentChild("減速") || isCurrentChild("待機")) {
+        return true;
+    }
+    return false;
+}
+
 void GoronHeroDescendentRoot::changeToStopCommand() {
     ksys::act::ai::InlineParamPack pack;
     pack.addBool(false, "TerrorOccurring", -1);

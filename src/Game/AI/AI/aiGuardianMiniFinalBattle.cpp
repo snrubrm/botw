@@ -3,6 +3,9 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
@@ -11,6 +14,18 @@ namespace uking::ai {
 GuardianMiniFinalBattle::GuardianMiniFinalBattle(const InitArg& arg) : EnemyBattle(arg) {}
 
 GuardianMiniFinalBattle::~GuardianMiniFinalBattle() = default;
+
+void GuardianMiniFinalBattle::sub_710041BA0C() {
+    if (auto* as_list = mActor->getASList()) {
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "FlashShader", 0, 1, true);
+        if (auto* mini = mActor->getParam()->getRes().mGParamList->getGuardianMini()) {
+            if (mini->mColorType.ref())
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "FinalModeGrudgeColor", 0, 2, true);
+            else
+                as_list->startAnimationMaybe(-1.0f, -1.0f, "FinalModeColor", 0, 2, true);
+        }
+    }
+}
 
 void GuardianMiniFinalBattle::enter_(ksys::act::ai::InlineParamPack* params) {
     if (*mIsPreAttackMove_s)

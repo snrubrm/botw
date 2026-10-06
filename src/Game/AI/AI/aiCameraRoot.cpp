@@ -1,11 +1,37 @@
 #include "Game/AI/AI/aiCameraRoot.h"
 #include "Game/Actor/actCameraUtil.h"
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::ai {
 
 CameraRoot::CameraRoot(const InitArg& arg) : CameraAI(arg) {}
 
 CameraRoot::~CameraRoot() = default;
+
+// NON_MATCHING: the original loads `_5a` before the stick compare (shared by the clear path), ours reloads it per path.
+void CameraRoot::sub_710079016C() {
+    ksys::act::ActorConstDataAccess player;
+    sub_7100926A50(&player);
+    if (player.hasProc() && static_cast<ksys::act::acc::PlayerBase&>(player).isRidingHorse()) {
+        auto* attention = ksys::act::Attention::instance();
+        if (!(attention && attention->sub_7100D74114())) {
+            sead::Vector2f stick = sead::Vector2f::zero;
+            sub_7100924F08(&stick);
+            if (stick.x == 0 && stick.y == 0) {
+                if (!(_5a & 8)) {
+                    if (sub_7100927110())
+                        _5a |= 8;
+                    return;
+                }
+                if (sub_71009271B0())
+                    return;
+            }
+        }
+    }
+    _5a &= ~8;
+}
 
 bool CameraRoot::m34(sead::Heap* heap) {
     mFlags.set(Flag::Changeable);

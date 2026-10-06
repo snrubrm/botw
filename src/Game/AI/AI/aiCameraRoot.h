@@ -16,6 +16,9 @@ public:
     void m38() override;
 
     void sub_710078F434();
+    // 0x710079016c (placeholder name): while the player rides a horse without an attention target, tracks (flag 8
+    // of `_5a`) whether the stick is idle.
+    void sub_710079016C();
 
 protected:
     // 0x48..0x54: not initialised and not used by the decompiled functions
@@ -25,7 +28,7 @@ protected:
     f32 _54 = 0.0f;
     u8 _58 = 0x25;
     u8 _59 = 0x25;
-    bool _5a = false;
+    u8 _5a = 0;  // flags (bit 3: the stick was idle, see sub_710079016C)
     bool _5b = false;
 };
 

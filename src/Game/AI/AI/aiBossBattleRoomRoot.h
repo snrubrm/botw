@@ -27,6 +27,9 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x7100336b84 (placeholder name): gives the sound sources of the handle's event (before playback starts) the
+    // room shape `_1f0`.
+    void sub_7100336B84(xlink2::HandleSLink* handle);
 
 protected:
     // The command of the 0x80000d7 message payload (a SEAD_ENUM in the original: the value goes through
