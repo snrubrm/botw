@@ -1,6 +1,12 @@
 #include "Game/AI/AI/aiSandwormAttackMove.h"
 #include <math/seadVector.h>
+#include <math/seadMathCalcCommon.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -74,6 +80,49 @@ void SandwormAttackMove::sub_71005570C4() {
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(pos, "TargetPos", -1);
     changeChild("離脱", &pack);
+}
+
+// NON_MATCHING: one fadd operand order: the original sums the flattened direction's squared length as
+// z*z + (x*x + y*y), ours as (x*x + y*y) + z*z; everything else is identical
+// 0x71005569cc
+void Unk_710241b460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+    if (*a4 != 4)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+    if (!manager)
+        return;
+    auto* attacker = manager->m37();
+    if (!attacker->hasProc())
+        return;
+
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(attacker, &accessor);
+    const sead::Matrix34f& attacker_mtx = accessor.getActorMtx();
+    f32 attacker_x = attacker_mtx.m[0][3];
+    f32 attacker_z = attacker_mtx.m[2][3];
+
+    f32 origin_x, origin_z;
+    if (_30.isValid()) {
+        const auto& key = _30.getKey();
+        sead::Matrix34f bone_mtx;
+        _28->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+            &bone_mtx, key.bone_index);
+        origin_x = bone_mtx.m[0][3];
+        origin_z = bone_mtx.m[2][3];
+    } else {
+        origin_x = _28->getMatrix().m[0][3];
+        origin_z = _28->getMatrix().m[2][3];
+    }
+    sead::Vector3f dir(attacker_x - origin_x, 0, attacker_z - origin_z);
+    dir.normalize();
+    sead::Vector3f front;
+    _28->getMatrix().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    if (dir.dot(front) >= std::cos(_68)) {
+        *a1 = s32(f32(*a1) * 3.0f);
+        *a5 = 19;
+    }
 }
 
 }  // namespace uking::ai
