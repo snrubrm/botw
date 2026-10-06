@@ -6,6 +6,8 @@
 struct Unk_SpotBgmHandle {
     // 0x710101d9a4
     void sub_710101D9A4();
+    // 0x710101d970 (declared only; 52 B)
+    void sub_710101D970();
 
     u8 _0[8];
 };
@@ -13,7 +15,14 @@ struct Unk_SpotBgmHandle {
 // The spot BGM instance a SpotBgmTriggerAction creates in init_ (size 0x3c0; its deleting destructor is vtable slot 1).
 class Unk_SpotBgmInstance {
 public:
+    // 0x7101023050 (declared only; 532 B)
+    explicit Unk_SpotBgmInstance(bool a);
+    // 0x71010242f0 (declared only): SpotBgmTriggerAction::init_ calls it for a box area with
+    // IsStopWithoutReductionY.
+    void sub_71010242F0();
     virtual ~Unk_SpotBgmInstance();
+    // 0x71010233cc (declared only; 1500 B): `name` is the sound name parameter; `a3` is 1 for a box area, 0 otherwise.
+    void sub_71010233CC(sead::Heap* heap, const sead::SafeString* name, u64 a3, ksys::act::Actor* actor);
 
     Unk_SpotBgmHandle _8;
     u8 _10[0x368 - 0x10];
@@ -30,6 +39,10 @@ struct Unk_SpotBgmMgr {
 
 // 0x710ffd7cc (172 B; declared only): SoundMgr::_30->_48, or null.
 Unk_SpotBgmMgr* sub_710FFD7CC();
+
+namespace ksys::act {
+class Actor;
+}
 
 namespace uking::action {
 

@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFrontierSpotBgmTriggerAction.h"
+#include <xlink2/xlink2SystemSLink.h>
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -14,7 +16,15 @@ FrontierSpotBgmTriggerAction::~FrontierSpotBgmTriggerAction() {
 }
 
 bool FrontierSpotBgmTriggerAction::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    if (xlink2::SystemSLink::instance()->isCallEnabled()) {
+        _60 = new (heap, 8) Unk_SpotBgmInstance(true);
+        if (!_60)
+            return false;
+        _60->_368 |= 0x1000;
+        _60->sub_71010233CC(heap, &mSound_m, 0, mActor);
+        _60->_8.sub_710101D970();
+    }
+    return true;
 }
 
 void FrontierSpotBgmTriggerAction::enter_(ksys::act::ai::InlineParamPack* params) {
