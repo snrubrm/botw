@@ -158,6 +158,7 @@ target_sources(uking PRIVATE
   uiTagProcessor.cpp
   uiUI.cpp
   uiTagProcessor.h
+  uiPaneCasts.cpp
   uiTexSlots.cpp
   uiTexSlots.h
   uiUnkTiny.cpp

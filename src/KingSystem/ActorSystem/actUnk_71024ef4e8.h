@@ -32,9 +32,13 @@ public:
 
         u8 _0[8];
         phys::Constraint* mConstraint;
-        u8 _10[0x50 - 0x10];
+        u8 _10[0x48 - 0x10];
+        /* 0x48 */ u8 _48;  // bit 1: _c0 is valid (read inline by Unk_71003ffbf0::sub_71003FFD3C)
+        u8 _49[0x50 - 0x49];
         /* 0x50 */ phys::RigidBody* mBody;
-        u8 _58[0x140 - 0x58];
+        u8 _58[0xc0 - 0x58];
+        /* 0xc0 */ phys::RigidBody* _c0;
+        u8 _c8[0x140 - 0xc8];
         /* 0x140 */ sead::Vector3f _140;
         u8 _14c[0x158 - 0x14c];
         BaseProcLink mTargetLink;

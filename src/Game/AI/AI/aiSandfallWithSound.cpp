@@ -1,4 +1,10 @@
 #include "Game/AI/AI/aiSandfallWithSound.h"
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ai {
 
@@ -28,6 +34,40 @@ void SandfallWithSound::enter_(ksys::act::ai::InlineParamPack* params) {
 void SandfallWithSound::calc_() {
     sub_7100556370();
     sub_710055646C();
+}
+
+// 0x710055646c
+void SandfallWithSound::sub_710055646C() {
+    auto* actor = mActor;
+    if (!_40.isActive()) {
+        _40 = ksys::eft::searchAndEmitSLink(actor, "Sandfall", false);
+        if (_40.isActive())
+            _40.getEvent()->resetFlagBit(1);
+    }
+    if (_40.isActive()) {
+        if (auto* executor =
+                static_cast<xlink2::EventSLink*>(_40.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (source->mState <= 2 && _38)
+                    source->mSpatialSetting.setShape(_38);
+    }
+    if (!_50.isActive())
+        _50 = ksys::eft::searchAndEmitSLink(actor, "Basin", false);
+    if (_50.isActive())
+        _50.setPosition(_60);
+}
+
+// 0x71005565d8
+void SandfallWithSound::sub_71005565D8() {
+    if (_40.isActive()) {
+        if (auto* executor =
+                static_cast<xlink2::EventSLink*>(_40.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+        _40.fade();
+        _50.fade();
+    }
 }
 
 void SandfallWithSound::leave_() {

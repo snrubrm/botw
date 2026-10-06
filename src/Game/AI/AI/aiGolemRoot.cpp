@@ -6,9 +6,44 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: the original keeps the bounds check of the outer rigid body set lookup (and reloads the
+// set table pointer in the loop); the compiler folds it away
+// 0x71003ffd3c
+bool Unk_71003ffbf0::sub_71003FFD3C() {
+    auto* actor = _0;
+    auto* link = sub_71005D9050(actor);
+    if (link && ksys::act::isPlayerProfile(link)) {
+        auto* info = ksys::act::ActorSystem::instance()->getPlayerLink()->getAttachedTargetActor2()
+                         ->mAttachInfo;
+        if (info->_48 & 2) {
+            auto* body = info->_c0;
+            if (body) {
+                if (auto* physics = actor->getPhysics()) {
+                    const s32 count = physics->getNumRigidBodySets();
+                    for (s32 i = 0; i < count; ++i) {
+                        auto* set = physics->getRigidBodySet(i);
+                        const s32 body_count = set->getRigidBodies().size();
+                        for (s32 j = 0; j < body_count; ++j) {
+                            if (set->getRigidBody(j) == body)
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
 
 void Unk_71023f5460::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
     if (*a4 != 4 || *a5 == -1)
