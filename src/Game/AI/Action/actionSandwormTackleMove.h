@@ -31,6 +31,8 @@ struct Unk_SandwormTackleMoveList {
     void sub_71F858();  // deletes all targets (called from the owners' destructors)
     void sub_71FEFC();
     bool sub_71FF70(const ksys::MessageAck* ack);
+    // 0x71feb4: whether a target is in state 1 (`_58 == 1`).
+    bool sub_71FEB4() const;
 
     ksys::act::Actor* mActor;
     sead::FixedPtrArray<Unk_SandwormTackleTarget, 2> mTargets;

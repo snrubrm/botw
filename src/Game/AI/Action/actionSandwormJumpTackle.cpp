@@ -12,6 +12,9 @@ void sub_71007201C8(ksys::act::Actor* actor, const sead::SafeString& name);
 void sub_71007201FC(ksys::act::Actor* actor, const sead::SafeString& name);
 void sub_710072027C(ksys::act::Actor* actor, bool a1, u32 a2);
 void sub_7100720330(ksys::act::Actor* actor);
+// 0x71007209e8 / 0x7100720a18: xlinkSearchAndEmit(actor, "BombEat" / "BombNotEat", 2, arg).
+void sub_71007209E8(ksys::act::Actor* actor, Unk_71012419b4* arg);
+void sub_7100720A18(ksys::act::Actor* actor, Unk_71012419b4* arg);
 
 namespace uking::action {
 
@@ -84,6 +87,28 @@ bool SandwormJumpTackle::m34() const {
     auto* controller = mActor->getCharacterController();
     if (controller && controller->sub_7100F5F0E4() == ksys::act::MotionType::_0)
         return true;
+    return false;
+}
+
+}  // namespace uking::action
+
+namespace uking::action {
+
+bool SandwormJumpTackle::handleAck_(const ksys::MessageAck* ack) {
+    for (s32 i = 0, n = _c0.mTargets.size(); i < n; ++i) {
+        if (_c0.mTargets.at(i)->sub_710073E5E0(ack)) {
+            if (_f4) {
+                if (_c0.mTargets(i)->_58 == 2) {
+                    _f4 = false;
+                    sub_71007209E8(mActor, &_138);
+                } else if (!_c0.sub_71FEB4()) {
+                    _f4 = false;
+                    sub_7100720A18(mActor, &_138);
+                }
+            }
+            return true;
+        }
+    }
     return false;
 }
 
