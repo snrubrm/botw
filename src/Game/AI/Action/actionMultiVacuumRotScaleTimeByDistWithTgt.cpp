@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionMultiVacuumRotScaleTimeByDistWithTgt.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -17,6 +19,8 @@ bool MultiVacuumRotScaleTimeByDistWithTgt::init_(sead::Heap* heap) {
 
 void MultiVacuumRotScaleTimeByDistWithTgt::enter_(ksys::act::ai::InlineParamPack* params) {
     MultiVacuumRotScaleTimeByDistWithTgtBase::enter_(params);
+    sub_710073FA90(&_1d8, mActor);
+    _1fc = mActor->getAngVelocity().length();
 }
 
 void MultiVacuumRotScaleTimeByDistWithTgt::leave_() {

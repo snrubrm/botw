@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionMultiVacuumRotScaleTimeByDistWithTgtBase.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -26,6 +27,8 @@ protected:
     const float* mPosReduceRatio_s{};
     // dynamic_param at offset 0x1d0
     sead::Vector3f* mTargetPos_d{};
+    sead::Matrix33f _1d8;
+    float _1fc = 0;
 };
 
 }  // namespace uking::action

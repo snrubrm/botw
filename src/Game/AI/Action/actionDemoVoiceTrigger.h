@@ -2,6 +2,10 @@
 
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace aal {
+class Emitter;
+}
+
 namespace uking::action {
 
 class DemoVoiceTrigger : public ksys::act::ai::Action {
@@ -24,6 +28,8 @@ protected:
     sead::SafeString mLabel_d{};
     // dynamic_param at offset 0x38
     sead::SafeString mActorInstance_d{};
+    aal::Emitter* mEmitter = nullptr;
+    bool _50 = false;
 };
 
 }  // namespace uking::action

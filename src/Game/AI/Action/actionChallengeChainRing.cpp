@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionChallengeChainRing.h"
 #include <math/seadMatrix.h>
+#include "Game/AI/aiUnk_71024f15c0.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
@@ -10,7 +12,13 @@ ChallengeChainRing::ChallengeChainRing(const InitArg& arg) : FollowChallenge(arg
 ChallengeChainRing::~ChallengeChainRing() = default;
 
 bool ChallengeChainRing::init_(sead::Heap* heap) {
-    return FollowChallenge::init_(heap);
+    if (!FollowChallenge::init_(heap))
+        return false;
+
+    _b70 = *mIsFirstNode_m;
+    _b78 = new (heap) Unk_71024f15c0;
+    ksys::gdt::resetFlag_BalladOfHeroes_ChainRing_Running(false);
+    return true;
 }
 
 void ChallengeChainRing::enter_(ksys::act::ai::InlineParamPack* params) {

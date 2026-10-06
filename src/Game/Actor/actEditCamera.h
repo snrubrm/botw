@@ -21,9 +21,19 @@ protected:
 public:
     int getCalcTiming() override;
 
+    // The camera names copied from the CameraEdit action (7 consecutive strings).
+    struct CameraNames {
+        const char* names[7];
+    };
+
+    // 0x71007917bc: returns &_840._40.
+    CameraNames* sub_71007917BC();
+
     // 8-aligned: a plain byte array would be placed in Actor's tail padding (0x83c).
     struct alignas(8) Unk840 {
-        u8 _0[0x78];
+        void* _0 = nullptr;
+        u8 _8[0x38]{};
+        CameraNames _40{};
     };
     /* 0x840 */ Unk840 _840{};
 };

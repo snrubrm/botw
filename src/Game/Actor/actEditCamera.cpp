@@ -19,6 +19,10 @@ void EditCamera::onJobPush2_(ksys::act::JobType type) {
         m107();
 }
 
+EditCamera::CameraNames* EditCamera::sub_71007917BC() {
+    return &_840._40;
+}
+
 int EditCamera::getCalcTiming() {
     return 1;
 }

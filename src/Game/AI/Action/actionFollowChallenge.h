@@ -22,6 +22,7 @@ protected:
     const float* mGimmickTimeLimit_m{};
     // map_unit_param at offset 0x28
     const bool* mIsBillboard_m{};
+    u8 _30[0xab0 - 0x30];
 };
 
 }  // namespace uking::action

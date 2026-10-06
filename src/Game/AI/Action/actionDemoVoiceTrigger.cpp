@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionDemoVoiceTrigger.h"
+#include <aal/aalArbiter.h>
+#include <aal/aalSystemAccessor.h>
 
 namespace uking::action {
 
@@ -7,7 +9,9 @@ DemoVoiceTrigger::DemoVoiceTrigger(const InitArg& arg) : ksys::act::ai::Action(a
 DemoVoiceTrigger::~DemoVoiceTrigger() = default;
 
 bool DemoVoiceTrigger::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    mEmitter = aal::SystemAccessor::getArbiter()->allocEmitter(heap, "demoVoiceTrigger");
+    _50 = false;
+    return true;
 }
 
 void DemoVoiceTrigger::enter_(ksys::act::ai::InlineParamPack* params) {
