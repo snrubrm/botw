@@ -40,6 +40,7 @@ public:
 // small non-virtual methods; names after the offsets).
 class Unk_7102474be8 {
 public:
+    Unk_7102474be8();
     virtual ~Unk_7102474be8();
 
     void set940(s32 value);
@@ -58,18 +59,30 @@ public:
     void stopAnimator910(f32 frame);
 
 private:
-    u8 _8[0x8e0 - 0x8];
-    /* 0x8e0 */ eui::Animator* _8e0;
-    u8 _8e8[0x910 - 0x8e8];
-    /* 0x910 */ eui::Animator* _910;
-    /* 0x918 */ eui::Animator* _918;
-    u8 _920[0x940 - 0x920];
-    /* 0x940 */ s32 _940;
-    /* 0x944 */ f32 _944;
-    /* 0x948 */ f32 _948;
-    u8 _94c[0x958 - 0x94c];
-    /* 0x958 */ f32 _958;
-    u8 _95c[0x968 - 0x95c];
+    /* 0x8 */ u64 _8{};
+    u8 _10[0x8e0 - 0x10];
+    /* 0x8e0 */ eui::Animator* _8e0{};
+    u8 _8e8[0x910 - 0x8e8]{};
+    /* 0x910 */ eui::Animator* _910{};
+    /* 0x918 */ eui::Animator* _918{};
+    u8 _920[0x928 - 0x920]{};
+    /* 0x928 */ s32 _928 = 30;
+    /* 0x92c */ f32 _92c = 30.0f;
+    /* 0x930 */ s32 _930 = 0;
+    /* 0x934 */ f32 _934 = 30.0f;
+    /* 0x938 */ s32 _938 = 30;
+    /* 0x93c */ f32 _93c = 30.0f;
+    /* 0x940 */ s32 _940 = 0;
+    /* 0x944 */ f32 _944 = 30.0f;
+    /* 0x948 */ f32 _948 = 30.0f;
+    /* 0x94c */ f32 _94c = 0.1f;
+    /* 0x950 */ f32 _950 = 0.2f;
+    /* 0x954 */ s32 _954 = 0;
+    /* 0x958 */ f32 _958 = 15.0f;
+    /* 0x95c */ u8 _95c = 1;
+    /* 0x95d */ u8 _95d = 0;
+    /* 0x95e */ u16 _95e = 0;
+    /* 0x960 */ u64 _960 = 30;
 };
 
 class Unk_7102474c08 {
@@ -381,6 +394,27 @@ struct Unk_Elem2 {
     ~Unk_Elem2() {}
 };
 
+// A string record of the UI helper classes (0x128 bytes; placeholder name). Its constructor (0x7100934a6c) is called
+// from 55 places, e.g. the first 0x128 bytes of Unk_7102474bc8.
+struct UiStringEntry {
+    UiStringEntry();
+
+    /* 0x0 */ s32 _0 = -1;
+    /* 0x8 */ sead::FixedSafeString<256> _8;
+    /* 0x120 */ s32 _120 = 30;
+    /* 0x124 */ s32 _124 = -1;
+};
+
+// A slot of Unk_7102474bc8 (placeholder names): a pointer to an object with an s32 at 0x104 and one more word.
+struct UiSlotTarget {
+    u8 _0[0x104];
+    s32 _104;
+};
+struct UiSlot {
+    UiSlotTarget* target;
+    u64 _8;
+};
+
 // Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
 class Unk_7102474bc8 {
 public:
@@ -388,8 +422,13 @@ public:
     Unk_7102474bc8();
     virtual ~Unk_7102474bc8();
 
-    u8 _8[0x128];
-    sead::Buffer<u8> _130;
+    // 0x7100933e50 / 0x7100933fb8 (placeholder names): `_130` holds `_8` slots (16 bytes each).
+    bool sub_7100933E50() const;
+    void sub_7100933FB8(u32 index, UiSlotTarget* target);
+
+    /* 0x8 */ s32 _8;
+    u8 _c[0x130 - 0xc];
+    /* 0x130 */ sead::Buffer<UiSlot> _130;
     sead::Buffer<Unk_Elem2> _140;
     u8 _150[8];
 };

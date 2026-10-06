@@ -5,6 +5,9 @@
 // commit 96101229; the original D1 is `str vptr; ret`).
 namespace uking::ui {
 
+// 0x7100934a6c
+UiStringEntry::UiStringEntry() {}
+
 // 0x7100932f6c
 Unk_7102474b38::~Unk_7102474b38() = default;
 
@@ -18,6 +21,9 @@ Unk_7102474b78::~Unk_7102474b78() = default;
 Unk_7102474ba8::~Unk_7102474ba8() = default;
 
 // 0x7100934b8c
+// 0x7100934aec
+Unk_7102474be8::Unk_7102474be8() {}
+
 Unk_7102474be8::~Unk_7102474be8() = default;
 
 // 0x7100935f90
@@ -166,6 +172,22 @@ Unk_7102474df8::~Unk_7102474df8() {
 }
 
 // 0x7100933938
+// 0x7100933e50
+bool Unk_7102474bc8::sub_7100933E50() const {
+    for (s32 i = 0; i < _8; i++) {
+        UiSlotTarget* target = _130[i].target;
+        if (!target || target->_104 != 0)
+            return false;
+    }
+    return true;
+}
+
+// 0x7100933fb8
+void Unk_7102474bc8::sub_7100933FB8(u32 index, UiSlotTarget* target) {
+    if (index < _8)
+        _130[index].target = target;
+}
+
 Unk_7102474bc8::~Unk_7102474bc8() {
     _130.freeBuffer();
     _140.freeBuffer();
