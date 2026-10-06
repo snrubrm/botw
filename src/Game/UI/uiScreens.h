@@ -181,6 +181,24 @@ public:
 };
 
 
+// A child class of the PauseMenu screen (id 46, child group 1) derived from ScreenChildEx (placeholder name: its typeinfo
+// static is at 0x71025d9b08, guard 0x71025d9b10; the facade helpers of the 0x7100a94000 TU DynamicCast to it). Only the
+// member the facade writes is declared.
+class ScreenChildUnk_71025d9b08 : public ScreenChildEx {
+public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
+    // 0x71009b62cc (`_1a8 = a1`)
+    void sub_71009B62CC(void* a1);
+
+    u8 _28[0x80 - 0x28];
+    /* 0x80 */ ksys::StateMachine mStateMachine;
+    u8 _a8[0x1a8 - 0xa8];
+    /* 0x1a8 */ void* _1a8;
+};
+
+// A state of ScreenChildUnk_71025d9b08's state machine (a plain StateBase object).
+extern const ksys::StateBase sUnk_71025d9960;
+
 // 0x71009de2b8 (uiPaneCasts.cpp)
 ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control);
 
@@ -1641,6 +1659,12 @@ public:
 
     // 0x7100a0488c: the number of the Hero Seal item (Goron / Zora / Rito / Gerudo) selected by `_3688`.
     s32 sub_7100A0488C();
+    // 0x7100a0483c / 0x7100a04978 / 0x7100a04a0c / 0x7100a04a6c / 0x7100a04aac (placeholder names; `kind` is stored in _3688)
+    void sub_7100A0483C(s32 mode, s32 kind);
+    bool sub_7100A04978();
+    bool sub_7100A04A0C();
+    void sub_7100A04A6C(s32 add, s32 kind);
+    void sub_7100A04AAC(s32 kind);
 
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};

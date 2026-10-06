@@ -817,6 +817,105 @@ void sub_7100A95B44(const sead::SafeString& name) {
     Manager::instance()->sub_7100A7A6E4(0);
 }
 
+// 0x7100a976c4 (placeholder name)
+bool sub_7100A976C4(s32 kind, bool a2) {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    if (auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum))) {
+        if (a2)
+            screen->sub_7100A0483C(1, kind);
+        else
+            screen->sub_7100A0483C(0, kind);
+        return true;
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::DLCSinJuAkashiNum, nullptr);
+    auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum));
+    if (a2)
+        screen->sub_7100A0483C(1, kind);
+    else
+        screen->sub_7100A0483C(0, kind);
+    return true;
+}
+
+// 0x7100a97860 (placeholder name)
+void sub_7100A97860(s32 kind) {
+    if (!eui::ScreenMgr::instance())
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum))) {
+        screen->sub_7100A04AAC(kind);
+        return;
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::DLCSinJuAkashiNum, nullptr);
+    auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum));
+    screen->sub_7100A04AAC(kind);
+}
+
+// 0x7100a979bc (placeholder name)
+bool sub_7100A979BC() {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    if (auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum))) {
+        return screen->sub_7100A04A0C();
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::DLCSinJuAkashiNum, nullptr);
+    auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum));
+    return screen->sub_7100A04A0C();
+}
+
+// 0x7100a97b14 (placeholder name)
+bool sub_7100A97B14() {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    if (auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum))) {
+        return screen->sub_7100A04978();
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::DLCSinJuAkashiNum, nullptr);
+    auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum));
+    return screen->sub_7100A04978();
+}
+
+// 0x7100a97c6c (placeholder name)
+void sub_7100A97C6C(s32 add_num, s32 type) {
+    if (!eui::ScreenMgr::instance())
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum))) {
+        screen->sub_7100A04A6C(add_num, type);
+        return;
+    }
+    createAndLoadScreenIfNeededImpl(ScreenId::DLCSinJuAkashiNum, nullptr);
+    auto* screen = sead::DynamicCast<ScreenDLCSinJuAkashiNum>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::DLCSinJuAkashiNum));
+    screen->sub_7100A04A6C(add_num, type);
+}
+
+// NON_MATCHING: the original calls ScreenChildEx::GetRuntimeTypeInfoStatic out of line (its callers in the original TU are
+// many) while ours inlines it into this function's inline copy of the derived getter
+// 0x7100a95808 (placeholder name)
+bool sub_7100A95808() {
+    auto* child = nn::font::DynamicCast<ScreenChildUnk_71025d9b08>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1));
+    if (!child)
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    return child->mStateMachine.getState()->getId() == (&sUnk_71025d9960)->getId();
+}
+
+// NON_MATCHING: the original calls ScreenChildEx::GetRuntimeTypeInfoStatic out of line (its callers in the original TU are
+// many) while ours inlines it into this function's inline copy of the derived getter
+// 0x7100a9ac84 (placeholder name)
+void sub_7100A9AC84(void* a1) {
+    if (auto* child = nn::font::DynamicCast<ScreenChildUnk_71025d9b08>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
+        child->sub_71009B62CC(a1);
+}
+
 // 0x7100a95924
 void showInfoOverlayWithString(s32 type, const sead::SafeString& text) {
     if (sub_7100AA8F10())

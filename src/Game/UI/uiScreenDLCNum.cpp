@@ -337,4 +337,66 @@ void ScreenRupee::m163() {
     }
 }
 
+// 0x7100a0483c
+void ScreenDLCSinJuAkashiNum::sub_7100A0483C(s32 mode, s32 kind) {
+    _3688 = kind;
+    if (_3614 == 0) {
+        const s32 count = sub_7100A0488C();
+        _3614 = count;
+        _3618 = count;
+    }
+    _3638 = mode;
+    open(1);
+}
+
+// 0x7100a04978
+bool ScreenDLCSinJuAkashiNum::sub_7100A04978() {
+    if (_3638 != 0)
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    if (_3610 || mStateMachine.getState()->getId() == (&sUnk_71025ecc00)->getId()) {
+        _3638 = 1;
+        return false;
+    }
+    close(-1);
+    return true;
+}
+
+// 0x7100a04a0c
+bool ScreenDLCSinJuAkashiNum::sub_7100A04A0C() {
+    if (_3610)
+        return true;
+    // called through a pointer in the original (not devirtualised)
+    return mStateMachine.getState()->getId() == (&sUnk_71025ecc00)->getId();
+}
+
+// 0x7100a04a6c
+void ScreenDLCSinJuAkashiNum::sub_7100A04A6C(s32 add, s32 kind) {
+    _3638 = 2;
+    _3688 = kind;
+    const s32 count = sub_7100A0488C();
+    _3614 = count;
+    _3618 = count;
+    _361c = count + add;
+}
+
+// 0x7100a04aac
+void ScreenDLCSinJuAkashiNum::sub_7100A04AAC(s32 kind) {
+    if (_3638 == 2) {
+        _3688 = kind;
+    } else {
+        _3610 = true;
+        if (mState != 3 && mState != 0)
+            return;
+        _3688 = kind;
+        if (_3614 == 0) {
+            const s32 count = sub_7100A0488C();
+            _3614 = count;
+            _3618 = count;
+        }
+        _3638 = 0;
+    }
+    open(1);
+}
+
 }  // namespace uking::ui

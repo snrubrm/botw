@@ -31,4 +31,9 @@ ScreenChildEx* sub_71009DE2B8(eui::ControlBase* control) {
     return nn::font::DynamicCast<ScreenChildEx>(control);
 }
 
+// 0x71009b62cc
+void ScreenChildUnk_71025d9b08::sub_71009B62CC(void* a1) {
+    _1a8 = a1;
+}
+
 }  // namespace uking::ui
