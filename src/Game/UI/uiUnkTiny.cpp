@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkTiny.h"
+#include "Game/UI/euiAnimator.h"
 
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
@@ -271,6 +272,79 @@ s32 Unk_7102475368::get48() const {
 // 0x71009502f0
 u8* Unk_7102475368::get60() {
     return _60;
+}
+
+// Unk_7102474be8 methods (placeholder names after the offsets)
+// 0x7100935930
+void Unk_7102474be8::set940(s32 value) {
+    _940 = value;
+}
+
+// 0x71009358c4
+void Unk_7102474be8::set944(f32 value) {
+    _944 = value;
+}
+
+// 0x7100935894
+void Unk_7102474be8::set948(f32 value) {
+    if (value >= 0.0f && value <= 100.0f)
+        _948 = value;
+}
+
+// 0x71009358b4
+void Unk_7102474be8::set958(f32 value) {
+    if (value >= 0.0f)
+        _958 = value;
+}
+
+// 0x7100935938
+void Unk_7102474be8::playAnimator918() {
+    _918->PlayAuto(1.0f);
+}
+
+// 0x710093594c
+void Unk_7102474be8::stopAnimator918() {
+    _918->StopAtMax();
+}
+
+// 0x710093595c
+void Unk_7102474be8::playAnimator8e0() {
+    _8e0->PlayAuto(1.0f);
+}
+
+// 0x7100935970
+void Unk_7102474be8::stopAnimator8e0() {
+    _8e0->StopAtMax();
+}
+
+// 0x7100935980
+bool Unk_7102474be8::isAnimator8e0Playing() const {
+    return _8e0->mRate != 0;
+}
+
+// 0x7100935994
+f32 Unk_7102474be8::getAnimator8e0Frame() const {
+    return _8e0->mFrame;
+}
+
+// 0x71009359a0
+void Unk_7102474be8::playAnimator8e0FromFrame(f32 frame) {
+    _8e0->PlayFromFrame(eui::Animator::PlayType(0), frame, 1.0f);
+}
+
+// 0x71009359b0
+void Unk_7102474be8::playAnimator910() {
+    _910->PlayAuto(1.0f);
+}
+
+// 0x71009359c4
+bool Unk_7102474be8::isAnimator910Playing() const {
+    return _910->mRate != 0;
+}
+
+// 0x71009359d8
+void Unk_7102474be8::stopAnimator910(f32 frame) {
+    _910->Stop(frame);
 }
 
 }  // namespace uking::ui

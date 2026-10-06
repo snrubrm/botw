@@ -8,6 +8,10 @@
 // Placeholder classes whose only member is a virtual destructor (vtable = [D1, D0], D1 empty): the
 // original keeps them as members / locals of the screens. Named after their vtable (symbol start).
 
+namespace eui {
+class Animator;
+}
+
 namespace uking::ui {
 
 class Unk_7102474b38 {
@@ -32,9 +36,40 @@ public:
     u8 _8[0x10];  // sizeof is 0x18 (array element of ScreenMessageGet::_37d8)
 };
 
+// A UI element helper that drives three animators (placeholder layout; the CSV rows 0x7100935894 - 0x71009359d8 are
+// small non-virtual methods; names after the offsets).
 class Unk_7102474be8 {
 public:
     virtual ~Unk_7102474be8();
+
+    void set940(s32 value);
+    void set944(f32 value);
+    void set948(f32 value);
+    void set958(f32 value);
+    void playAnimator918();
+    void stopAnimator918();
+    void playAnimator8e0();
+    void stopAnimator8e0();
+    bool isAnimator8e0Playing() const;
+    f32 getAnimator8e0Frame() const;
+    void playAnimator8e0FromFrame(f32 frame);
+    void playAnimator910();
+    bool isAnimator910Playing() const;
+    void stopAnimator910(f32 frame);
+
+private:
+    u8 _8[0x8e0 - 0x8];
+    /* 0x8e0 */ eui::Animator* _8e0;
+    u8 _8e8[0x910 - 0x8e8];
+    /* 0x910 */ eui::Animator* _910;
+    /* 0x918 */ eui::Animator* _918;
+    u8 _920[0x940 - 0x920];
+    /* 0x940 */ s32 _940;
+    /* 0x944 */ f32 _944;
+    /* 0x948 */ f32 _948;
+    u8 _94c[0x958 - 0x94c];
+    /* 0x958 */ f32 _958;
+    u8 _95c[0x968 - 0x95c];
 };
 
 class Unk_7102474c08 {
