@@ -151,6 +151,13 @@ bool closeFadeStatus();
 // 0x7100a9e2d4 (CSV openFadeStatus): opens the fade status screen if it is closed; returns whether it did.
 bool openFadeStatus();
 
+// 0x7100aa85b4 / 0x7100aa85f8 (CSV ui::loadHorseLayoutResImpl) / 0x7100aa862c / 0x7100aa865c (placeholder names): the
+// uking side of the horse layout loading (the ksys UIGlue handlers); each one cooperates with the HorseColorInfoMgr.
+void sub_7100AA85B4(sead::Heap* heap);
+bool loadHorseLayoutResImpl();
+bool sub_7100AA862C();
+void sub_7100AA865C();
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

@@ -10,7 +10,9 @@
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Utils/MathUtil.h"
+#include "Game/gameHorseColorInfoMgr.h"
 #include "Game/gameRuneMgr.h"
+#include "KingSystem/System/UI/LayoutResourceMgr.h"
 
 namespace uking::ui {
 
@@ -222,6 +224,38 @@ bool sub_7100A9F888() {
     if (mgr && (mgr->_90 & 0x10))
         return mgr->isSelectedRune(5);
     return false;
+}
+
+// 0x7100aa85b4
+void sub_7100AA85B4(sead::Heap* heap) {
+    if (ksys::ui::LayoutResourceMgr::instance()->loadHorseLayout(heap)) {
+        if (auto* mgr = HorseColorInfoMgr::instance())
+            mgr->sub_710094D018();
+    }
+}
+
+// 0x7100aa85f8
+bool loadHorseLayoutResImpl() {
+    auto* mgr = HorseColorInfoMgr::instance();
+    if (!mgr || mgr->_2c == 2)
+        return ksys::ui::LayoutResourceMgr::instance()->loadHorseLayoutResource();
+    return false;
+}
+
+// 0x7100aa862c
+bool sub_7100AA862C() {
+    auto* mgr = HorseColorInfoMgr::instance();
+    if (mgr && (mgr->_28 & 2))
+        return true;
+    return ksys::ui::LayoutResourceMgr::instance()->hasHorseLayoutLoadFailure();
+}
+
+// 0x7100aa865c
+void sub_7100AA865C() {
+    if (ksys::ui::LayoutResourceMgr::instance()->unloadHorseLayout()) {
+        if (auto* mgr = HorseColorInfoMgr::instance())
+            mgr->sub_710094D0F8();
+    }
 }
 
 }  // namespace uking::ui

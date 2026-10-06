@@ -11,4 +11,11 @@ public:
 
     // 0x710094d018: declaration-only model creation request.
     void sub_710094D018();
+    // 0x710094d0f8 (declared only; called after the horse layout is unloaded)
+    void sub_710094D0F8();
+
+    u8 _0[0x28];
+    /* 0x28 */ u8 _28;  // bit 1: the horse layout is already available
+    u8 _29[3];
+    /* 0x2c */ s32 _2c;  // 2: the layout resource is loaded on request
 };

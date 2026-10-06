@@ -338,6 +338,12 @@ void ScreenShopHorse::m99() {
     _36bc = 0;
 }
 
+// 0x7100a5061c
+void ScreenShopHorse::m106(eui::AnimButton* button) {
+    ksys::gdt::setFlag_Horse_SelectedIndex(button->mTag - 83, false);
+    ksys::gdt::setFlag_Horse_IsSelected(true, false);
+}
+
 // 0x7100a2c28c
 void ScreenPauseMenuEiketsu::m101() {
     _292 |= 0x20;
