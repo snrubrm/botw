@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadObjList.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
@@ -308,6 +309,8 @@ bool sub_71005D7270(ksys::act::ai::InlineParamPack* params, const char* key);
 void sub_71005E2C58(ksys::act::Actor* actor);
 // 0x71005da304: the linked actor has the ObjectNightGlow tag and the environment exposure is ~0.
 bool sub_71005DA304(ksys::act::BaseProcLink* link);
+// 0x71005da164 (declaration only): collects a point list for the actor into `points`.
+bool sub_71005DA164(ksys::act::Actor* actor, sead::ObjList<sead::Vector3f>* points);
 // 0x71005e2bcc: the enemy's Enemy::_12d0 object (nullptr for non-enemies).
 uking::act::Enemy::Unk_12d0* sub_71005E2BCC(ksys::act::Actor* actor);
 /// Normalised horizontal direction perpendicular to `dir` (ey x dir with y = 0).

@@ -1,17 +1,43 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadObjList.h>
 #include <container/seadSafeArray.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::act {
+class Actor;
 class ActorConstDataAccess;
+class BaseProc;
 class Unk_71006e45c4;
+}  // namespace ksys::act
+
+namespace ksys::phys {
+class NavMeshCharacter;
 }
 
 // Placeholder declarations: only the small out-of-line members that are decompiled so far (the real classes are
 // polymorphic singletons; names from the CSV, no namespace; layouts incomplete).
+
+// GameSceneSubsys4: the path request manager (CSV createInstance 0x710066a204, ctor 0x710066a598). Only the members
+// the AI code calls are declared (declaration only; the name follows the CSV).
+class GameSceneSubsys4 {
+public:
+    // The instance pointer (0x71025c5d48, GOT 0x2586ab0; the singleton machinery is not declared yet).
+    static GameSceneSubsys4* instance() { return sInstance; }
+    static GameSceneSubsys4* sInstance;
+
+    // 0x710066b8c0 (declaration only): drops the path requests of `actor` (called by EnemyHide's destructor and
+    // before a new request).
+    void sub_710066B8C0(ksys::act::BaseProc* actor);
+    // 0x710066b73c (declaration only): path request towards `target` (returns 1 when a path was found).
+    s32 sub_710066B73C(ksys::act::Actor* actor, sead::Vector3f* target);
+    // 0x710066b1bc (declaration only): path request using the points in `points`; the result is written to `out`.
+    s32 sub_710066B1BC(f32 time, ksys::act::Actor* actor, ksys::phys::NavMeshCharacter* nav,
+                       sead::ObjList<sead::Vector3f>* points, sead::ObjList<sead::Vector3f>* out);
+};
 
 // GameSceneSubsys5: CSV createInstance 0x71009052fc, init 0x7100905468, postCalc 0x71009054bc.
 class GameSceneSubsys5 {
