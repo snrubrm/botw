@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aal/aalShape.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -30,12 +31,9 @@ protected:
     aal::ShapeCylinder* _40{};
     aal::ShapeCylinder* _48{};
     aal::ShapeSphere* _50{};
-    void* _58{};
-    u32 _60{};
-    void* _68{};
-    u32 _70{};
-    void* _78{};
-    u32 _80{};
+    xlink2::HandleSLink _58;
+    xlink2::HandleSLink _68;
+    xlink2::HandleSLink _78;
 };
 
 }  // namespace uking::ai

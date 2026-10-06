@@ -1,0 +1,41 @@
+#pragma once
+
+#include <basis/seadTypes.h>
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
+
+namespace aal {
+
+class Shape;
+
+/// How a sound source is positioned in space. The matrix and velocity are stored here, and the
+/// 0x38-byte block at 0x48 is the aal::SpatialCalculator::Setting that is handed to the spatial
+/// calculator: it points back at the matrix and the velocity.
+class SpatialSetting {
+public:
+    virtual ~SpatialSetting();
+
+    /// Makes the sound follow the shape (the sound position is the point of the shape closest to
+    /// the listener).
+    void setShape(Shape* shape);
+
+private:
+    sead::Matrix34f mActorMatrix;
+    sead::Vector3f mVelocity;
+    bool mPositioned;
+    bool mPositionFollow;
+    u8 _46;
+    // aal::SpatialCalculator::Setting (0x48..0x80):
+    const sead::Matrix34f* _48;
+    const sead::Vector3f* _50;
+    void* _58;
+    f32 mDopplerFactor;
+    f32 mSoundSourceSize;
+    Shape* mShape;
+    u16 mFlags;
+    u16 _72;
+    u64 mUserParam;
+};
+static_assert(sizeof(SpatialSetting) == 0x80, "aal::SpatialSetting size mismatch");
+
+}  // namespace aal

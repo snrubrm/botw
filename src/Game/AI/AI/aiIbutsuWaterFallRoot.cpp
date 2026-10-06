@@ -1,6 +1,11 @@
 #include "Game/AI/AI/aiIbutsuWaterFallRoot.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
 
 namespace uking::ai {
 
@@ -80,5 +85,50 @@ void IbutsuWaterFallRoot::calc_() {
 }
 
 void IbutsuWaterFallRoot::loadParams_() {}
+
+// inline-only in the original; name is a guess. The same sequence (check the handle, find the
+// sound source of the event's first alive asset and, before playback starts, give it the shape) is
+// inlined three times in sub_710044584C, each time with the shape loaded before the event is queried.
+static void setShape(xlink2::HandleSLink& handle, aal::Shape* shape) {
+    if (handle.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(handle.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (source->mState < 3)
+                    source->mSpatialSetting.setShape(shape);
+    }
+}
+
+void IbutsuWaterFallRoot::sub_710044584C() {
+    if (!_38) {
+        sub_7100445AA0();
+        return;
+    }
+
+    if (!_58.isActive()) {
+        _58 = ksys::eft::searchAndEmitSLink(mActor, "Waterfall", false);
+        if (_58.isActive())
+            _58.getEvent()->resetFlagBit(1);
+    }
+    if (!_68.isActive()) {
+        _68 = ksys::eft::searchAndEmitSLink(mActor, "Waterfall", false);
+        if (_68.isActive())
+            _68.getEvent()->resetFlagBit(1);
+    }
+    if (!_78.isActive()) {
+        _78 = ksys::eft::searchAndEmitSLink(mActor, "Basin", false);
+        if (_78.isActive())
+            _78.getEvent()->resetFlagBit(1);
+    }
+
+    setShape(_58, _40);
+    setShape(_68, _48);
+    setShape(_78, _50);
+}
+
+void IbutsuWaterFallRoot::sub_7100445AA0() {
+    _58.fade();
+    _68.fade();
+    _78.fade();
+}
 
 }  // namespace uking::ai
