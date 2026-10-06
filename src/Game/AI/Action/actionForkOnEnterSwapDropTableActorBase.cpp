@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actUnk_7102459df8.h"
 
 namespace uking::action {
@@ -49,6 +50,21 @@ void ForkOnEnterSwapDropTableActorBase::loadParams_() {
 
 void ForkOnEnterSwapDropTableActorBase::calc_() {
     Fork::calc_();
+    if (_38.hasProc()) {
+        auto* actor = mActor;
+        auto* chemical = actor->getName().include("HangedLamp") ? actor->getChemicalStuff() : nullptr;
+        if (chemical && chemical->_c0 != 2) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&_38, &accessor);
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        } else {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&_38, &accessor);
+            accessor.setProperties(_48, nullptr, nullptr, nullptr, false, 0, -1);
+            _38.reset();
+        }
+    }
+    setEndState();
 }
 
 bool ForkOnEnterSwapDropTableActorBase::m32(sead::BufferedSafeString* name) {
