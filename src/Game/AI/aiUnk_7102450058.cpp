@@ -1,9 +1,13 @@
 #include "Game/AI/aiUnk_7102450058.h"
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 // NON_MATCHING: scheduling only (the original materialises 10.0f / -1.0f after the stores to
 // +0x20 / +0x2c)
@@ -21,6 +25,36 @@ void Unk_7102450298::finalize() {
     }
 }
 
+
+void CarriedData::x_3(f32 a, f32 b) {
+    auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    if (isPlayerProfile(parent) && b > 0.0f)
+        _14 = sead::Mathf::clampMin(a / b, sead::Mathf::deg2rad(0.5f));
+}
+
+void CarriedData::x_19() {
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F62CA8(true);
+        controller->sub_7100F62C14(_1c);
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
+        controller->sub_7100F5F6FC(sead::Vector3f::zero);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    } else if (auto* body = mActor->getMainBody()) {
+        body->clearEntityMotionFlag4(true);
+        body->setMaxImpulse(_1c);
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+        if (_2c & 0x80)
+            body->disableContactLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    }
+}
+
+void CarriedData::x_16() {
+    if (auto* data = mActor->m100()) {
+        if (data->sub_7100E4F1D0(_14, _18))
+            _2c |= 0x10;
+    }
+}
 
 void CarriedData::x_6() {
     if (auto* data = mActor->m100()) {

@@ -56,7 +56,7 @@ public:
     void sub_7100EFCF10(bool on);
     // 0x7100efbfb8 (CSV ActorStruct3::resetWeaponBaseProcLink; declared only): resets the BaseProcLink of the weapon in
     // slot `idx`.
-    void resetWeaponBaseProcLink(s32 idx);
+    bool resetWeaponBaseProcLink(s32 idx);
     // 0x7100efc3d4 (unnamed in the CSV; name is a guess): WeaponBase::m175 (the drop request) on every weapon that
     // is in the calc state, forgetting the weapon; always true.
     bool dropAllWeapons(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);

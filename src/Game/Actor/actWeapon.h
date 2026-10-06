@@ -408,8 +408,9 @@ public:
     /* 0xd4c */ s32 mLife;
     /* 0xd50 */ u8 _d50[0xd54 - 0xd50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
-    /* 0xd58 */ u8 _d58[0xd68 - 0xd58];  // TODO
-    /* 0xd68 */ void* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
+    /* 0xd58 */ u8 _d58[0xd64 - 0xd58];  // TODO
+    /* 0xd64 */ f32 _d64;  // scale of the attack range (sub_71002ED434)
+    /* 0xd68 */ ksys::phys::RigidBody* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
     /* 0xd70 */ void* _d70 = nullptr;
     /* 0xd78 */ u8 _d78[0xd90 - 0xd78];  // TODO
     /* 0xd90 */ ksys::act::Unk_71006e45c4* _d90;

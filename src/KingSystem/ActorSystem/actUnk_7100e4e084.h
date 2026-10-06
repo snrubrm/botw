@@ -40,6 +40,8 @@ public:
     // Declared only (CarriedData::x_6 / x_8 / x_12, lane1 s43): 0x7100e504c0 (when `_1d0` has a bit set, stores
     // `&_1c8` into the contact point info's `+0x58` and sets bit 2 of `_1d8`) and its undo 0x7100e5052c.
     void sub_7100E504C0();
+    // 0x7100e4f1d0 (lane4 s49; declared only, 1.4 KB): CarriedData::x_16 passes its `_14` / `_18`.
+    bool sub_7100E4F1D0(f32 a, f32 b);
     void sub_7100E5052C();
 
     /* 0x000 */ Actor* mActor;

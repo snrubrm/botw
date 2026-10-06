@@ -50,7 +50,6 @@ public:
     void x_9();
     void x_16();
     void x_19();
-    void x_20();
     void x_21();
     void x_23(ksys::act::Actor* actor);
     void x_12();
@@ -92,6 +91,8 @@ public:
     bool x_15();
     // 0x71006f8cb0 (declared only).
     void x_17();
+    // 0x71006f8f90: hands the controller's velocity direction / horizontal speed back to its character controller.
+    void x_20();
     // 0x71006f8e60: links the bodies of `mActor` and `actor` with the constraint.
     void x_18(ksys::act::Actor* actor);
     // 0x71006f8f40: moves the constraint to the actor's matrix and `body`'s transform.

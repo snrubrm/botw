@@ -102,6 +102,21 @@ bool Chemical::sub_7100D91898() const {
     return !_18 || _18->m36();
 }
 
+// NON_MATCHING: the original selects with `pl` (not `mi`) and reads _1b4 after both selects; ours picks the
+// operands the other way round with a different register allocation
+f32 Chemical::sub_7100D945BC(f32 rate, f32 value, f32 delta_frame) {
+    if (rate <= 0.0f || value <= 0.0f)
+        return 0.0f;
+    const f32 step = delta_frame / 30.0f * rate;
+    const f32 current = _1b8;
+    const f32 ratio = current / value;
+    const f32 decrease = current < value ? step * ratio : step;
+    const f32 result = current < value ? ratio : 1.0f;
+    _1b4 = sead::Mathf::clampMin(_1b4 - decrease, 0.0f);
+    _1b8 = _1b4 != 0.0f ? _1b4 / _58 : 0.0f;
+    return result;
+}
+
 void Chemical::sub_7100D90C2C(bool on) {
     notifyWatch_();
     if (on) {

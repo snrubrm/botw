@@ -1,5 +1,7 @@
 #include "Game/AI/aiUnk_7102450058.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -39,4 +41,19 @@ void Unk_7102450298::x_22(ksys::phys::RigidBody* body) {
         return;
     const sead::Matrix34f& mtx = mActor->getMtx();
     _30->sub_7100F6D420(mtx, body->getTransform(), mtx);
+}
+
+// NON_MATCHING: the original loads all three components into registers and copies the vector onto itself before
+// normalising (the vector is a copy of the out parameter); ours normalises in place from memory
+void Unk_7102450298::x_20() {
+    auto* controller = mActor->getCharacterController();
+    if (!controller)
+        return;
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    const sead::Vector2f horizontal(velocity.x, velocity.z);
+    velocity.normalize();
+    sub_710072C1B4(controller, velocity);
+    controller->sub_7100F5E7F0(horizontal.length());
+    controller->sub_7100F5FC8C(mActor->getMtx());
 }

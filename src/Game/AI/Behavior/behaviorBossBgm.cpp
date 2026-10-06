@@ -31,6 +31,8 @@ static s32 getBossBgmValue(s32 boss_type) {
     }
 }
 
+// NON_MATCHING: the original passes an 8-byte-aligned one-member struct (sp+8) to DamageInfoMgr::Unk450::sub_710065D428;
+// ours a scalar `const s32&` (x29-4) and loads in another order
 void BossBgm::m8() {
     const s32 value = getBossBgmValue(*mBossType_s);
     dmg::DamageInfoMgr::instance()->get450().sub_710065D428(mActor, value);

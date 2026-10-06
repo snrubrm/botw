@@ -6,6 +6,8 @@
 #include <mc/seadJobQueue.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2HandleELink.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/Event/evtResidentEvent.h"
@@ -225,14 +227,10 @@ public:
     /* 0x2318 */ sead::Vector3f _2318;  // home position (m63)
     /* 0x2324 */ u8 _2324[0x2328 - 0x2324];
     /* 0x2328 */ sead::SafeString _2328;
-    /* 0x2338 */ u64 _2338 = 0;
-    /* 0x2340 */ u32 _2340 = 0;
-    /* 0x2348 */ u64 _2348 = 0;
-    /* 0x2350 */ u32 _2350 = 0;
-    /* 0x2358 */ u64 _2358 = 0;
-    /* 0x2360 */ u32 _2360 = 0;
-    /* 0x2368 */ u64 _2368 = 0;
-    /* 0x2370 */ u32 _2370 = 0;
+    /* 0x2338 */ xlink2::HandleELink _2338;  // "Elec_Sword" (sub_71002D223C)
+    /* 0x2348 */ xlink2::HandleELink _2348;  // "Elec_Shield"
+    /* 0x2358 */ xlink2::HandleELink _2358;  // "LightShield" (sub_71002D2390)
+    /* 0x2368 */ xlink2::HandleSLink _2368;
     /* 0x2374 */ u32 _2374;  // not initialised by the ctor
     /* 0x2378 */ u8 _2378 = 0;
     /* 0x2379 */ u8 _2379 = 0;

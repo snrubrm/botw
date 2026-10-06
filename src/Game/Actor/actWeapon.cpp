@@ -58,6 +58,15 @@ void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
 namespace uking::act {
 
+f32 Weapon::sub_71002ED434() {
+    if (hasCanPullGiantObjectTag() && _d68) {
+        sead::BoundBox3f aabb;
+        _d68->getAabbInLocal(&aabb);
+        return aabb.getMax().y - aabb.getMin().y;
+    }
+    return getParam()->getRes().mGParamList->getAttack()->mRange.ref() * _d64;
+}
+
 void Weapon::m181() {
     weaponBroken(this);
     _fc8 = true;

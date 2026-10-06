@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::act {
 
@@ -19,6 +20,33 @@ void forwardX17ToParts(ksys::act::Actor* actor, ksys::act::Unk117* arg) {
     }
 }
 }  // namespace
+
+void SiteBoss::sub_71002D223C() {
+    if (_1558.isOnBit(4))
+        _2338 = ksys::eft::searchAndEmitELink(this, "Elec_Sword");
+    if (_1558.isOnBit(5))
+        _2348 = ksys::eft::searchAndEmitELink(this, "Elec_Shield");
+}
+
+void SiteBoss::sub_71002D1FD4() {
+    if (_1558.isOnBit(5))
+        _2348.fade();
+}
+
+void SiteBoss::sub_71002D22B8() {
+    _2358.fade();
+}
+
+void SiteBoss::sub_71002D2420() {
+    _2368.fade();
+}
+
+// NON_MATCHING: the original does not shrink-wrap the prologue and keeps `this` in x19 from the entry
+void SiteBoss::sub_71002D2390() {
+    if (_2358.isActive())
+        return;
+    _2358 = ksys::eft::searchAndEmitELink(this, "LightShield");
+}
 
 void SiteBoss::sub_71002D2A5C(s32 bit, bool on) {
     if (mASList)
