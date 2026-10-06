@@ -1,6 +1,8 @@
 #pragma once
 
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/ActorSystem/actModelBindInfo.h"
 
 namespace uking::action {
 
@@ -48,6 +50,11 @@ protected:
     const int* mCreateLimit_m{};
     // map_unit_param at offset 0x98
     const float* mScaleTime_m{};
+    u8 _a0[0xf8 - 0xa0];
+    ksys::act::ModelBindInfo _f8;
+    ksys::act::BaseProcLink _198;
+    s32 _1a8 = 0;
+    void* _1b0 = nullptr;
 };
 
 }  // namespace uking::action

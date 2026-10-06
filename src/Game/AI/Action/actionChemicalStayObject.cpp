@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionChemicalStayObject.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -15,7 +16,11 @@ void ChemicalStayObject::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void ChemicalStayObject::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (*mIsBindToGeneratedActor_s)
+        mActor->sub_71011DA834(&_f8);
+
+    if (sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent()))
+        mActor->resetConnectedCalcParent(false);
 }
 
 void ChemicalStayObject::loadParams_() {
