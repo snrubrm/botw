@@ -727,6 +727,7 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
     bool isOpenEnd_() override;
     void m74(f32 progress) override;
+    void m93(sead::Heap* heap) override;
 
     void sub_71010A0EE8(f32 progress);
     // 0x71010a0bbc: starts the colour animator forwards / backwards

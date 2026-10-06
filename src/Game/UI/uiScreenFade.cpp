@@ -1,9 +1,30 @@
+#include <devenv/seadEnvUtil.h>
+#include <prim/seadSafeString.h>
 #include "Game/UI/euiLayoutEx.h"
-#include "Game/UI/uiScreens.h"
+#include "Game/UI/euiMessageMgr.h"
+#include "Game/UI/euiMessageSet.h"
+#include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiTagProcessor.h"
+#include "Game/UI/euiTextBoxEx.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTagProcessor.h"
+#include "Game/UI/uiUI.h"
 #include "KingSystem/System/UIGlue.h"
 
 namespace uking::ui {
+
+namespace {
+// Placeholder name (vtable 0x2507f38; internal to this translation unit, the original refers to the vtable directly):
+// the tag processor of the Fade screen. Its constructor is inlined into Fade::m93; it re-declares m29, whose code is
+// the same as TagProcessor::m29.
+class Unk_7102507f38 : public TagProcessor {
+public:
+    Unk_7102507f38(eui::MessageMgr* message_mgr, eui::FontMgr* font_mgr)
+        : TagProcessor(message_mgr, font_mgr) {}
+    ~Unk_7102507f38() override = default;
+    f32 m29() const override;
+};
+}  // namespace
 
 // 0x71010a0a90
 Fade::Fade() : Screen() {}
@@ -101,6 +122,83 @@ void ScreenFadeDemo::m74(f32 progress) {
     }
     open(1);
     sub_7100BE9DD4(frame);
+}
+
+// 0x71010a1f58
+f32 Unk_7102507f38::m29() const {
+    return UI::instance()->sub_71010A71A8();
+}
+
+// 0x71010a0ef0 (CSV Fade::m93InitMaybe)
+// NON_MATCHING: only the registers of the ruby test differ (the original keeps the tag processor in x9 and the flag in w8)
+void Fade::m93(sead::Heap* heap) {
+    _390 = new (heap, 8) Unk_7102507f38(mMgr->getMessageMgr(), mMgr->getFontMgr());
+    const sead::RegionLanguageID language = sead::EnvUtil::getRegionLanguage();
+    _390->setRubyEnabled(language != sead::RegionLanguageID::KRko &&
+                         language != sead::RegionLanguageID::CNzh &&
+                         language != sead::RegionLanguageID::TWzh);
+    eui::sub_7100933580(findPane_("T_Tips_00"))->SetTagProcessor(_390);
+
+    _300 = mLayout->createAnimatorAuto("Color", true);
+
+    _308.allocBuffer(4, heap);
+    _308.setAnimator(2, mLayout->createAnimatorAuto("InShort", false));
+    eui::Animator* open_animator = mLayout->mOpenAnimator;
+    open_animator->nn::ui2d::AnimTransform::SetEnabled(false);
+    open_animator->mRate = 0;
+    _308.setAnimator(1, mLayout->mOpenAnimator);
+    _308.setAnimator(0, mLayout->createAnimatorAuto("InLong", false));
+    const char* const in_demo = "InDemo";
+    _308.setAnimator(3, mLayout->createAnimatorAuto(in_demo, false));
+
+    _328.allocBuffer(4, heap);
+    _328.setAnimator(2, mLayout->createAnimatorAuto("OutShort", false));
+    eui::Animator* close_animator = mLayout->mCloseAnimator;
+    close_animator->nn::ui2d::AnimTransform::SetEnabled(false);
+    close_animator->mRate = 0;
+    _328.setAnimator(1, mLayout->mCloseAnimator);
+    _328.setAnimator(0, mLayout->createAnimatorAuto("OutLong", false));
+    _328.setAnimator(3, mLayout->createAnimatorAuto(in_demo, false));
+
+    _358 = mLayout->createAnimatorAuto("LogoIn", false);
+    _360 = mLayout->createAnimatorAuto("LogoOut", false);
+    _368 = mLayout->createAnimatorAuto("TipsIn", false);
+    _370 = mLayout->createAnimatorAuto("TitleLogoIn", true);
+    _378 = mLayout->createAnimatorAuto("TipsOut", false);
+    _380 = mLayout->createAnimatorAuto("TitleLogoOut", false);
+    _388 = sub_7100BEAFB0("Pa_LoadBar_00")->createAnimatorAuto("Gauge", true);
+    x_2();
+
+    {
+        const char* guide_names[] = {"GuideIn", "GuideOut"};
+        _348 = mLayout->createAnimatorSet(guide_names, 2, true);
+        _348->select(0)->Stop(0.0f);
+    }
+    {
+        const char* tips_names[] = {"NowTipsOut", "NewTipsIn"};
+        _350 = mLayout->createAnimatorSet(tips_names, 2, true);
+        _350->select(0)->Stop(0.0f);
+    }
+
+    _398 = mLayout->tryCreateAnimatorAuto("HardMode", true);
+    if (_398)
+        _398->Stop(0.0f);
+    _3a0 = sub_7100BEAFB0("Pa_LoadBar_00")->tryCreateAnimatorAuto("HardMode", true);
+    if (_3a0)
+        _3a0->Stop(0.0f);
+
+    if (auto* message_set = eui::MessageMgr::instance()->getMessageSet("LayoutMsg/SystemWindow_01")) {
+        const eui::MessageString message = message_set->tryFindMessage("T_DummyText_00");
+        if (message.getString())
+            mLayout->setMessageStringForEachId("T_DummyText_00", message, true, nullptr);
+    }
+
+    mLayout->setMessageStringForEachId(
+        "T_TipsTitle_00", eui::MessageString(0, sead::WSafeString::cEmptyString.cstr()), true,
+        nullptr);
+    mLayout->setMessageStringForEachId(
+        "T_Tips_00", eui::MessageString(0, sead::WSafeString::cEmptyString.cstr()), true, nullptr);
+    sub_7100BEAFB0("Pa_GuideA_00")->sub_7100BDDE7C(false, 1, true);
 }
 
 // 0x71010a0ee8
