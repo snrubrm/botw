@@ -6,6 +6,7 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "aal/aalFadeCurveType.h"
+#include "aal/aalHandle.h"
 #include "aal/aalSoundParam.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
@@ -13,6 +14,7 @@
 namespace aal {
 
 class AssetInfo;
+class ISpeakerBalanceSupplier;
 class MarkerController;
 class SoundGroup;
 enum class VirtualizeMode;
@@ -47,7 +49,10 @@ public:
     SoundParam mParam;
     u8 _b8[0xe8 - 0xb8];
     SoundGroup* mSoundGroup;
-    u8 _f0[0x120 - 0xf0];
+    u8 _f0[0xf8 - 0xf0];
+    /// The speaker balance supplier of the sound (SoundSource::setSpeakerBalanceSupplier).
+    ISpeakerBalanceSupplier* mSpeakerBalanceSupplier;
+    u8 _100[0x120 - 0x100];
     SpatialSetting mSpatialSetting;
     /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
     SpatialCalculator* mSpatialCalculator;
@@ -58,6 +63,10 @@ public:
     bool setFadeInTime(f32 fade_in_time);
     bool setStartDelayTime(f32 delay_time);
     bool setReleaseCurveType(FadeCurveType type);
+    /// 0x7100b77f94 (declared only)
+    bool setReleaseTime(f32 release_time);
+    /// 0x7100b781fc (declared only): the handle of the sound this one is unified into (an empty handle if none).
+    Handle getUnifiedSoundHandle() const;
     bool setVirtualizeMode(VirtualizeMode mode);
     void stop(f32 fade_time, f32 release_time);
     void pause(bool pause, f32 fade_time);
@@ -78,6 +87,7 @@ static_assert(offsetof(SoundSource, mFadeCurveType) == 0x30, "aal::SoundSource l
 static_assert(offsetof(SoundSource, mDefaultParam) == 0x38, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mParam) == 0x78, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSoundGroup) == 0xe8, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mSpeakerBalanceSupplier) == 0xf8, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mMarkerController) == 0x1b8, "aal::SoundSource layout mismatch");
 
 }  // namespace aal
