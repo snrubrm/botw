@@ -133,7 +133,7 @@ bool UiSubsys1::is848EqualTo1() const {
 }
 
 // 0x7100962d8c (CSV uiSubsys1::__auto9)
-u8 UiSubsys1::get38b8() const {
+bool UiSubsys1::get38b8() const {
     return _38b8;
 }
 

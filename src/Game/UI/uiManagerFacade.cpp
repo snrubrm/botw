@@ -3,7 +3,10 @@
 #include "Game/Actor/actPlayerCreateMgr.h"
 #include "Game/Damage/dmgInfoManager.h"
 #include "Game/UI/uiManager.h"
+#include "Game/DLC/aocManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
@@ -16,6 +19,8 @@ namespace uking::ui {
 ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 
 void sub_7100945320(f32, f32);
+// 0x7100a9c374 (declared only)
+void sub_7100A9C374(s32 rune);
 void sub_7100945344(f32, f32);
 
 // 0x7100a9c0dc (placeholder name): table lookup, -1 when out of range.
@@ -341,6 +346,69 @@ f32 sub_7100A9B89C() {
 const sead::Vector2f& sub_7100A9B928() {
     auto* manager = Manager::instance();
     return manager ? manager->_98 : sead::Vector2f::zero;
+}
+
+// 0x7100a9c728 (placeholder name): the UI rune of the RuneMgr item `item` (false for a bad item); the callee 0x7100a9c374
+// is declared only
+bool sub_7100A9C728(s32 item) {
+    s32 rune;
+    switch (item) {
+    case 0:
+        rune = 10;
+        break;
+    case 1:
+        rune = 11;
+        break;
+    case 2:
+        rune = 0;
+        break;
+    case 3:
+        rune = 1;
+        break;
+    case 4:
+        rune = 2;
+        break;
+    case 5:
+        rune = 3;
+        break;
+    case 6:
+        rune = 12;
+        break;
+    case 7:
+        rune = 13;
+        break;
+    default:
+        return false;
+    }
+    sub_7100A9C374(rune);
+    return true;
+}
+
+// NON_MATCHING: the original does not tail-call the flag getters: it re-normalises their result (`tbz w8, #0; orr w0, wzr, #1`)
+// 0x7100a9cdb4 (placeholder name)
+bool sub_7100A9CDB4(s32 rune) {
+    bool owned = false;
+    if (rune == 0 || rune == 1)
+        owned = ksys::gdt::getFlag_IsGet_Obj_RemoteBombLv2(false);
+    else if (rune == 3)
+        owned = ksys::gdt::getFlag_IsGet_Obj_StopTimerLv2(false);
+    else
+        return false;
+    return owned ? true : false;
+}
+
+// 0x7100a9d244 (placeholder name)
+void sub_7100A9D244(f32 value) {
+    auto* obj = Unk_71025d6550::instance();
+    auto* manager = Manager::instance();
+    if (!obj || !manager)
+        return;
+    obj->_b68 = value;
+    obj->_b70 = value;
+    if (manager->_64c38 == 2)
+        obj->sub_7100948F48(-value);
+    else
+        obj->sub_7100948F48(value);
 }
 
 // 0x7100a9b94c

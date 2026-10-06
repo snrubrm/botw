@@ -246,7 +246,7 @@ public:
     bool is848Zero() const;
     bool returnTrue() const;
     bool is848EqualTo1() const;
-    u8 get38b8() const;
+    bool get38b8() const;
     bool is128EqualTo6() const;
     void set848(s32 value);
     void set38c8();
@@ -397,7 +397,7 @@ private:
     /* 0x38ac */ u8 _38ac;
     /* 0x38ad */ u8 _38ad;
     u8 _38ae[0x38b8 - 0x38ae];
-    /* 0x38b8 */ u8 _38b8;
+    /* 0x38b8 */ bool _38b8;
     /* 0x38b9 */ u8 _38b9;
     u8 _38ba[0x38c8 - 0x38ba];
     /* 0x38c8 */ u8 _38c8;
