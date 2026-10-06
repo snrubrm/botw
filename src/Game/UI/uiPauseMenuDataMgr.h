@@ -378,6 +378,8 @@ public:
     bool hasZoraSoulPlus() const;
 
     int countItemsWithCategoryByType(PouchCategory category) const;
+    // inline-only in the original (UI facade sub_7100A82D20); name is a guess
+    s32 getNumTabs() const { return mNumTabs; }
     const PouchItem* getItemByIndex(PouchCategory category, int index) const;
 
     bool hasItemDye() const;

@@ -958,4 +958,52 @@ bool setShowRaceResult(s32 result_type) {
     return true;
 }
 
+// The ids of six screens (26, 73, 24, 25, 27, 10) in the read-only data (0x7101e7f100; defined elsewhere).
+extern const s32 sUnk_7101E7F100[6];
+
+// NON_MATCHING: the original keeps the loop over the six ids (pointer-increment form); ours unrolls it
+// 0x7100a98038 (placeholder name): any of the six screens (ids 26, 73, 24, 25, 27, 10), other than `excluded_id`,
+// is opening / opened and has its byte at 0x100 set
+bool sub_7100A98038(s32 excluded_id) {
+    bool result = false;
+    for (s32 id : sUnk_7101E7F100) {
+        bool value = false;
+        if (id != excluded_id) {
+            auto* screen = eui::ScreenMgr::instance()->getScreen(id);
+            if (screen && (screen->isOpening() || screen->isOpened()))
+                value = screen->_100 != 0;
+        }
+        result |= value;
+    }
+    return result;
+}
+
+// 0x7100a9b0b4 (placeholder name)
+bool sub_7100A9B0B4() {
+    auto* screen = sead::DynamicCast<ScreenChallengeWin>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::ChallengeWin));
+    if (screen) {
+        if (screen->isOpening())
+            return true;
+        if (screen->isOpened())
+            return true;
+    }
+    return false;
+}
+
+// 0x7100a9f960 (placeholder name)
+void sub_7100A9F960(bool open) {
+    auto* screen = sead::DynamicCast<ScreenMainHardMode>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::MainHardMode));
+    if (!screen)
+        return;
+    if (open) {
+        if (screen->isOpening() || screen->isOpened())
+            return;
+        screen->open(1);
+    } else if (screen->isOpened() || screen->isOpening()) {
+        screen->close(-1);
+    }
+}
+
 }  // namespace uking::ui

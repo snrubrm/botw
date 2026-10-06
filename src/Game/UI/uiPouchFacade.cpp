@@ -1,5 +1,6 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiUtils.h"
 
 // UI wrapper functions around uking::ui::PauseMenuDataMgr (the 0x7100a94000 TU).
@@ -140,6 +141,41 @@ void recoverMasterSword(bool only_if_broken, bool show_message) {
         mgr->restoreMasterSword(only_if_broken);
     if (show_message)
         showInfoOverlayWithString(11, sead::SafeString::cEmptyString);
+}
+
+// 0x7100a82cf0 (placeholder name)
+PouchCategory sub_7100A82CF0(PouchItemType type) {
+    return PauseMenuDataMgr::instance()->getCategoryForType(type);
+}
+
+// 0x7100a82d08 (placeholder name)
+PouchCategory sub_7100A82D08(s32 tab) {
+    return PauseMenuDataMgr::instance()->getCategoryOfTabMaybe(tab);
+}
+
+// 0x7100a82de8 (placeholder name)
+int sub_7100A82DE8(PouchCategory category) {
+    return PauseMenuDataMgr::instance()->countItemsWithCategoryByType(category);
+}
+
+// 0x7100a82d20 (placeholder name)
+s32 sub_7100A82D20() {
+    return PauseMenuDataMgr::instance()->getNumTabs();
+}
+
+// 0x7100a82e00 (placeholder name)
+const PouchItem* sub_7100A82E00(PouchCategory category, s32 index) {
+    return PauseMenuDataMgr::instance()->getItemByIndex(category, index);
+}
+
+// 0x7100a82e20 (placeholder name)
+bool sub_7100A82E20(s32 category) {
+    return ksys::gdt::getFlag_IsOpenItemCategory(category, false);
+}
+
+// 0x7100a82e28 (placeholder name)
+bool sub_7100A82E28(s32 value) {
+    return u32(value - 4) < 3;
 }
 
 }  // namespace uking::ui
