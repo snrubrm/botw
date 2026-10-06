@@ -571,4 +571,16 @@ void ScreenMainShortCut::m166() {
     m80(false);
 }
 
+// 0x7100a43734
+void ScreenSaveTransferWindow::m159() {
+    switch (_366c) {
+    case 0x8d:
+        mStateMachine.changeState(&sUnk_71025f2000);
+        break;
+    case 0x8c:
+        mStateMachine.changeState(&sUnk_71025f2d80);
+        break;
+    }
+}
+
 }  // namespace uking::ui
