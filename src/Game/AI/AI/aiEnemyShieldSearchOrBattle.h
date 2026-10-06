@@ -15,6 +15,8 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    // 0x71003bbf0c (placeholder name): picks up the shield (the target weapon `_70`).
+    void changeToPickUpShield();
 
 protected:
     struct Params {

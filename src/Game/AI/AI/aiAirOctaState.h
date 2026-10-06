@@ -27,6 +27,11 @@ public:
 
     void changeToWait(bool a1);
     void sub_71002FDF9C();
+    // 0x71002fedd0 (placeholder name): the player got on the board: sets the flags 0x320 and, while waiting, moves to the
+    // player's position.
+    void sub_71002FEDD0();
+    // 0x71002fec08 (placeholder name): forces the notice reaction towards the player while waiting.
+    void sub_71002FEC08();
 
 protected:
     // static_param at offset 0x1d8

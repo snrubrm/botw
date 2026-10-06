@@ -1,5 +1,7 @@
 #include "Game/AI/AI/aiDogNormal.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 
@@ -46,6 +48,29 @@ void DogNormal::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void DogNormal::leave_() {
     DomesticNormal::leave_();
+}
+
+void DogNormal::changeToFriendly() {
+    sub_7100500B50(false, false, false);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addActor(ksys::act::PlayerInfo::getSomeProcLink(), "TargetActor", -1);
+    pack.addFloat(0.0f, "DistanceKept", -1);
+    changeChild("なつき", &pack);
+    _464.setBit(Flag(Flag::_4));
+}
+
+bool DogNormal::sub_7100364170() {
+    return !(isCurrentChild("宝まで誘導") || isCurrentChild("興味対象発見") || isCurrentChild("帰還") ||
+             isCurrentChild("ふり向き") || isCurrentChild("逃走") || isCurrentChild("ダメージ逃走"));
+}
+
+void DogNormal::changeToTurn(const sead::Vector3f* pos, const sead::Vector3f* dir) {
+    sub_7100500B50(false, false, false);
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f target = *pos;
+    target.setScaleAdd(20.0f, *dir, target);
+    pack.addVec3(target, "TargetPos", -1);
+    changeChild("ふり向き", &pack);
 }
 
 bool DogNormal::m40() {

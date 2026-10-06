@@ -27,6 +27,11 @@ public:
     bool m44() override;
     // 0x7100364460 (CSV: AI_AI_DogNormal::x): friend / follow update (per-frame helper of m41).
     void sub_7100364460();
+    // 0x7100364050 / 0x7100364170 / 0x7100364280 (placeholder names): becomes friendly (flag 4); the current child is
+    // none of the lead / flee states; turns to `pos + dir * 20`.
+    void changeToFriendly();
+    bool sub_7100364170();
+    void changeToTurn(const sead::Vector3f* pos, const sead::Vector3f* dir);
 
 protected:
     // static_param at offset 0x3a0

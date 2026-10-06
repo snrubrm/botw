@@ -52,6 +52,21 @@ void FlyingEnemyKeepMove::m36(sead::Vector3f* out) {
     out->y += *mParams.mBaseHeight_s;
 }
 
+// NON_MATCHING: the original keeps the direction and the result in one stack vector and multiplies base * dir; the load
+// order of the positions and the pack slot also differ.
+void FlyingEnemyKeepMove::changeToAdjustPosition() {
+    sead::Vector3f target;
+    m36(&target);
+    const sead::Vector3f position = mActor->getMtx().getTranslation();
+    sead::Vector3f dir(position.x - target.x, 0.0f, position.z - target.z);
+    dir.normalize();
+    const sead::Vector3f pos = position + dir * *mParams.mBaseDist_s;
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("位置調整", &pack);
+}
+
 bool FlyingEnemyKeepMove::sub_71003D2500() {
     sead::Vector3f target;
     m36(&target);
