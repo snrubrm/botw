@@ -37,8 +37,10 @@ protected:
     sead::SafeString mDamageRigidName_s{};
     gsys::BoneAccessKeyEx _80;
     gsys::BoneAccessKeyEx _b8;
-    u64 _f0 = 0;
-    u64 _f8 = 0;
+    s32 _f0 = 0;
+    f32 _f4 = 0;
+    f32 _f8 = 0;
+    f32 _fc = 0;
     s32 _100 = 0;
     bool _104 = true;
     u8 _105[0x3];
