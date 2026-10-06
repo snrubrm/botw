@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionArrowShootMove.h"
+#include "Game/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -124,6 +125,33 @@ void ArrowShootMove::sub_71000A5604() {
     getActorAttackSensor(mActor)->activateAttackSensor(8, _a0 | 0x80, s32(_a4), s32(_ac), 0.0f,
                                                        s32(_b0), 1, -1, false, min_damage, -1);
     _a8 = *mAtRange_d;
+}
+
+// NON_MATCHING: scheduling only (the original loads *mRelativeVel_d z before the adds and adds the squares of the
+// normalisation in the other operand order)
+void ArrowShootMove::m37() {
+    auto* body = mActor->getMainBody();
+    if (!body)
+        return;
+
+    _b4 += _fc;
+    if (_fc < 0.0f)
+        _b4.setToMax(_100);
+    else if (_fc > 0.0f)
+        _b4.setToMin(_100);
+    _b4.updateStats();
+
+    sead::Vector3f dir;
+    m39(&dir);
+    sead::Vector3f velocity = dir * _b4.value;
+    if (dmg::DamageInfoMgr::sub_7100674764())
+        velocity += *mRelativeVel_d;
+    if (_140 == -1) {
+        velocity.normalize();
+        velocity *= 0.01f;
+    }
+    _110 = velocity;
+    body->setLinearVelocity(velocity * 30.0f);
 }
 
 }  // namespace uking::action

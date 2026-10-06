@@ -1,4 +1,8 @@
 #include "Game/AI/Action/actionEnemyRigidBodyDie.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007377D4.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -35,6 +39,26 @@ void EnemyRigidBodyDie::calc_() {
     EnemyRigidBodyDieBase::calc_();
     if (isFinishedAS(0, 0))
         setFinished();
+}
+
+// NON_MATCHING: scheduling (the original loads mActor again after sub_710072BA90 and computes the first vector with
+// the loads / stores in a different order)
+void EnemyRigidBodyDie::m32(sead::Vector3f* velocity, sead::Vector3f* angular_velocity) {
+    auto* actor = mActor;
+    if (!actor->getDamageMgr()) {
+        EnemyRigidBodyDieBase::m32(velocity, angular_velocity);
+        return;
+    }
+
+    sead::Vector3f gravity;
+    sub_710072DC50(&gravity, actor);
+    sead::Vector3f up = gravity * (1.0f / 900.0f);
+    up.normalize();
+
+    sead::Vector3f dir{0.0f, 0.0f, 1.0f};
+    sub_71005E2318(&dir, mActor, sub_710072BA90(mActor));
+    *velocity = (dir * *mSpeed_s - up * *mRiseSpeed_s) * 30.0f;
+    *angular_velocity = actor->getAngVelocity() * 30.0f;
 }
 
 }  // namespace uking::action

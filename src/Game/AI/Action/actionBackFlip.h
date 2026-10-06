@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32() override;
 
     // aitree_variable at offset 0x78
     void* mRefPosVibrateChecker_a{};
