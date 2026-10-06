@@ -319,6 +319,8 @@ public:
     // 0x71008697e4: clears _20bc / _20c0 and the character controller velocity.
     void sub_71008697E4();
     f32 getStatusEffectSpeed();                                         // 0x869a8c
+    // 0x7100894384 (declared only, lane5 s6; PlayerHorseJump): sets up a jump of `height` towards `target`.
+    void sub_7100894384(f32 height, const sead::Vector3f& target, f32 a3, f32 a4);
     f32 getStatusEffectMovingSpeed(s32 level);
     f32 getStatusEffectSwimingSpeed(s32 level);
     f32 getStatusEffectClimbingSpeed(s32 level);
@@ -405,6 +407,8 @@ public:
     // Declared only (placeholder member functions of the player; all take the player as `this`):
     void sub_710086800C(f32 a1);       // 0x710086800c
     void sub_71008824AC(bool a1);      // 0x71008824ac
+    // 0x71008901d0 (declared only, lane5 s6; 216 B): a float derived from controller / mode checks (PlayerAtnMove::enter_).
+    f32 sub_71008901D0();
     // 0x7100881418 (declared only, lane5 s6; 356 B): character-controller / ASList (x_1 name) check run first by
     // PlayerTwiceJump::calc_.
     void sub_7100881418();
@@ -642,7 +646,10 @@ public:
     /* 0x1e1c */ f32 _1e1c;
     /* 0x1e20 */ f32 _1e20;
     /* 0x1e24 */ f32 _1e24;  // Master Sword recover time
-    /* 0x1e28 */ u8 _1e28[0x1e90 - 0x1e28];
+    /* 0x1e28 */ u8 _1e28[0x1e6c - 0x1e28];
+    /* 0x1e6c */ f32 _1e6c;  // set to 15 by PlayerAtnMove::enter_
+    /* 0x1e70 */ f32 _1e70;
+    /* 0x1e74 */ u8 _1e74[0x1e90 - 0x1e74];
     /* 0x1e90 */ f32 _1e90;
     /* 0x1e94 */ f32 _1e94;
     /* 0x1e98 */ f32 _1e98;

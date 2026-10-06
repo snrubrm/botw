@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x7100f5e1c (declared only name: 0x71007f5e1c): sets the jump up (flags, speed by gear, jump height).
+    void sub_71007F5E1C();
+
     // static_param at offset 0x20
     const float* mJumpHeight_s;
     // static_param at offset 0x28
