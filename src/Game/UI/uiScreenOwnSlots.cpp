@@ -412,4 +412,14 @@ void ScreenDLCSinJuAkashiNum::m100() {
     mStateMachine.changeState(&sUnk_71025ecb40);
 }
 
+// 0x71010af810
+bool ScreenMessage3D::isEnableControl() const {
+    return true;
+}
+
+// 0x710109ff50
+bool ScreenErrorViewer::isEnableControl() const {
+    return true;
+}
+
 }  // namespace uking::ui

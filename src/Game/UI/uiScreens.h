@@ -664,6 +664,7 @@ class ScreenMessage3D : public Screen {
 public:
     ~ScreenMessage3D() override;
     SEAD_RTTI_OVERRIDE(ScreenMessage3D, Screen)
+    bool isEnableControl() const override;
     // 0x71010af818
     const char* getLayoutName_() const override;
     void sub_71010AE7C0(bool flag);
@@ -740,6 +741,7 @@ class ScreenErrorViewer : public Screen {
 public:
     ~ScreenErrorViewer() override;
     SEAD_RTTI_OVERRIDE(ScreenErrorViewer, Screen)
+    bool isEnableControl() const override;
     // 0x710109ff58
     const char* getLayoutName_() const override;
 };
