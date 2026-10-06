@@ -1,11 +1,19 @@
 #include "Game/AI/Action/actionSystemHide.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "Game/AI/aiUnk_71006F5B14.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+
+// 0x7100ee54e8 (declared only; lane5 s5): placeholder name.
+void sub_7100EE54E8(ksys::act::Actor* actor);
 
 namespace uking::action {
 
@@ -22,7 +30,23 @@ void SystemHide::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void SystemHide::leave_() {
-    ksys::act::ai::Action::leave_();
+    sub_71002907BC();
+    sub_71007A3540(mActor);
+    if (auto* chemical = mActor->getChemicalStuff()) {
+        chemical->sub_7100D90F60(false);
+        chemical->sub_7100D91098(_3d);
+        sub_71006F5A80(chemical);
+    }
+    sub_7100EE54E8(mActor);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1);
+    if (*mIsOnAttention_s) {
+        ksys::act::enableAttClient(mActor, "LockOn");
+        ksys::act::enableAttClient(mActor, "AutoAim");
+    }
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor))
+        enemy->_e90 = _38;
+    if (auto* awareness = mActor->get548())
+        awareness->_18._50 = false;
 }
 
 void SystemHide::sub_71002906CC() {
