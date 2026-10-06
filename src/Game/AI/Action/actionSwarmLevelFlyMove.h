@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Game/AI/Action/actionLevelFlyMoveBase.h"
+#include "Game/AI/aiRandomTimer.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -31,6 +33,10 @@ protected:
     const float* mMaterialAnimFrame_s{};
     // static_param at offset 0x158
     sead::SafeString mMaterialAnimName_s{};
+    ksys::Timer _168{0, 0, 0};
+    bool _174 = true;
+    sead::Vector3f _178{0, 0, 0};
+    ai::RandomTimer _184;
 };
 
 }  // namespace uking::action

@@ -24,6 +24,8 @@ protected:
 
     // static_param at offset 0x20
     const float* mWindSpeed_s{};
+    // 0x28: a 0x30-byte member (out-of-line ctor at 0x710f122c) followed by 0x58..0x80 pointer/int pairs
+    u8 _28[0x58];
 };
 
 }  // namespace uking::action

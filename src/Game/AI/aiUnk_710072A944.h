@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadSafeString.h>
 #include "Game/Actor/actSwarm.h"
 
 namespace ksys::act {
@@ -40,3 +41,5 @@ bool sub_7100729D5C(f32 speed, uking::act::Swarm* swarm, void* a, const sead::Ve
 void sub_7100729FAC(uking::act::Swarm* swarm, const sead::Vector3f& dir);
 // 0x710072a108 (declared only; 348 B): SwarmDamagedBase::m32.
 void sub_710072A108(uking::act::Swarm* swarm, const sead::Vector3f& dir);
+// 0x710072a778 (declared only; 148 B): SwarmLevelFlyMove::enter_ (swarm, material animation name, frame).
+void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 frame);
