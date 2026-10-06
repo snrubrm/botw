@@ -69,6 +69,18 @@ public:
     Unk_710235aba0_Payload _18;
 };
 
+// vtable 0x71023b73c8 (SendTargetActorRequestShareAwn::_30): sends a BaseProcLink (message 0x80000bf;
+// same payload layout as Unk_710235aba0). Its out-of-line copies sit in actionSendMessageToTargetActor's TU.
+class Unk_71023b73c8 : public Unk_7102357d20 {
+public:
+    Unk_71023b73c8(ksys::act::Actor* actor, u32 type) : Unk_7102357d20(actor, type) {
+        _18.y(actor);
+    }
+    void* m2() override { return &_18; }
+
+    Unk_710235aba0_Payload _18;
+};
+
 // vtable 0x71023724e8 (Unk_7100711020 _28): sends message 0x8000010 (payload in
 // aiUnkMessagePayloads.h). Its functions are next to Unk_7102372510's (0x71000e3430..).
 class Unk_71023724e8 : public Unk_7102357d20 {

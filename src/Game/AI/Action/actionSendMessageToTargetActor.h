@@ -3,6 +3,8 @@
 #include "Game/AI/Action/actionSendMessage.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+class Unk_7102357d20;
+
 namespace uking::action {
 
 class SendMessageToTargetActor : public SendMessage {
@@ -18,9 +20,10 @@ public:
 
 protected:
     void calc_() override;
+    void doSendMessage() override;
     virtual void m33();
     // inline in the original (emitted out of line in this TU); signature is a guess
-    virtual void* m34() { return nullptr; }
+    virtual Unk_7102357d20* m34() { return nullptr; }
 
     // dynamic_param at offset 0x28
     ksys::act::BaseProcLink* mTargetActor_d{};

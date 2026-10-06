@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionSendMessageToTargetActor.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 
 namespace uking::action {
 
@@ -25,6 +26,13 @@ void SendMessageToTargetActor::loadParams_() {
 
 void SendMessageToTargetActor::calc_() {
     SendMessage::calc_();
+}
+
+void SendMessageToTargetActor::doSendMessage() {
+    if (auto* sender = m34()) {
+        m33();
+        sender->sub_710070DCC0(mTargetActor_d, true);
+    }
 }
 
 void SendMessageToTargetActor::m33() {}

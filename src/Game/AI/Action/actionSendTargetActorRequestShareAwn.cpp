@@ -27,4 +27,12 @@ void SendTargetActorRequestShareAwn::calc_() {
     SendMessageToTargetActor::calc_();
 }
 
+void SendTargetActorRequestShareAwn::m33() {
+    _30._18.y(mActor);
+}
+
+Unk_7102357d20* SendTargetActorRequestShareAwn::m34() {
+    return &_30;
+}
+
 }  // namespace uking::action

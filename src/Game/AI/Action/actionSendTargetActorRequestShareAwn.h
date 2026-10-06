@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionSendMessageToTargetActor.h"
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,6 +19,10 @@ public:
 
 protected:
     void calc_() override;
+    void m33() override;
+    Unk_7102357d20* m34() override;
+
+    Unk_71023b73c8 _30{mActor, 0x80000bf};
 };
 
 }  // namespace uking::action
