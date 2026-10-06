@@ -45,6 +45,12 @@ public:
     void sub_7100E2677C();
     // 0x7100e26784 (lane4 s46, placeholder name): calls the member function `_878` with `mask` (if set).
     void sub_7100E26784(phys::MaterialMask* mask);
+    // lane4 s46 (placeholder names): the possible targets of `_878`: set the material mask of the body `_840` if it is a
+    // sphere (0x7100e267c8) / capsule (0x7100e26860) / cylinder (0x7100e268f8) / polytope (0x7100e26990) rigid body.
+    void sub_7100E267C8(phys::MaterialMask* mask);
+    void sub_7100E26860(phys::MaterialMask* mask);
+    void sub_7100E268F8(phys::MaterialMask* mask);
+    void sub_7100E26990(phys::MaterialMask* mask);
     bool sub_7100E26A80();
     void sub_7100E26A28(bool enable);
 

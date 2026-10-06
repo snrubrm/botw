@@ -1,5 +1,9 @@
 #include "KingSystem/ActorSystem/Profiles/actAreaActor.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Physics/RigidBody/Shape/Capsule/physCapsuleRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Cylinder/physCylinderRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Polytope/physPolytopeRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Sphere/physSphereRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
@@ -48,6 +52,26 @@ phys::ContactLayer AreaActor::m152() {
 void AreaActor::sub_7100E26784(phys::MaterialMask* mask) {
     if (!(_878 == nullptr))
         (this->*_878)(mask);
+}
+
+void AreaActor::sub_7100E267C8(phys::MaterialMask* mask) {
+    if (auto* body = sead::DynamicCast<phys::SphereRigidBody>(_840))
+        body->setMaterialMask(*mask);
+}
+
+void AreaActor::sub_7100E26860(phys::MaterialMask* mask) {
+    if (auto* body = sead::DynamicCast<phys::CapsuleRigidBody>(_840))
+        body->setMaterialMask(*mask);
+}
+
+void AreaActor::sub_7100E268F8(phys::MaterialMask* mask) {
+    if (auto* body = sead::DynamicCast<phys::CylinderRigidBody>(_840))
+        body->setMaterialMask(*mask);
+}
+
+void AreaActor::sub_7100E26990(phys::MaterialMask* mask) {
+    if (auto* body = sead::DynamicCast<phys::PolytopeRigidBody>(_840))
+        body->setMaterialMask(*mask);
 }
 
 void AreaActor::sub_7100E2677C() {
