@@ -43,7 +43,7 @@ void Emitter::setDebugMute(bool mute) {
     if (mDebugFlags & 1)
         mDebugFlags &= ~2;
     else
-        mDebugFlags = mute ? mDebugFlags | 2 : mDebugFlags & ~2;
+        mDebugFlags = !mute ? mDebugFlags & ~2 : mDebugFlags | 2;
 }
 
 // 0x7100b9f3e8
