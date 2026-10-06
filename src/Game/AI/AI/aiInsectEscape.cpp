@@ -30,21 +30,23 @@ void InsectEscape::changeToMove() {
     changeChild("移動", &params);
 }
 
-// NON_MATCHING: the rotation's multiply/add scheduling differs (dir is loaded before the random calls in the original)
-bool InsectEscape::sub_710044A218(const sead::Vector3f& dir, f32 distance) {
+// NON_MATCHING: the original computes `_7c.y - _70.y` before loading the water depth (we schedule it after)
+bool InsectEscape::sub_710044A218(const sead::Vector3f& dir_, f32 distance) {
+    const sead::Vector3f dir = dir_;
     const f32 range_v = *mAllowRandAngleVertical_s;
     const f32 range_h = *mAllowRandAngleHorizontal_s;
     const f32 angle_v = sead::GlobalRandom::instance()->getF32Range(-range_v, range_v);
     const f32 angle_h = sead::GlobalRandom::instance()->getF32Range(-range_h, range_h);
-    sead::Matrix33f rot;
+    sead::Matrix34f rot;
     rot.makeR({angle_v, angle_h, 0});
     sead::Vector3f v;
-    v.setMul(rot, dir);
+    v.setRotated(rot, dir);
     _7c = _70 + v * distance;
     _7c.y += *mRunAwayHeightOffset_s;
     if (*mInWater_s) {
         if (mActor->get68f().load()) {
-            const f32 depth = mActor->get6f0() - mActor->getMtx().m[1][3];
+            const f32 y = mActor->getMtx().m[1][3];
+            const f32 depth = mActor->get6f0() - y;
             if (_7c.y - _70.y >= depth)
                 _7c.y -= depth + 1.0f;
         } else {

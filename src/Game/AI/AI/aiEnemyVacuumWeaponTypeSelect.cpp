@@ -1,4 +1,11 @@
 #include "Game/AI/AI/aiEnemyVacuumWeaponTypeSelect.h"
+#include "Game/Actor/actWeapon.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 
 namespace uking::ai {
 
@@ -16,7 +23,37 @@ bool EnemyVacuumWeaponTypeSelect::init_(sead::Heap* heap) {
 }
 
 void EnemyVacuumWeaponTypeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* parts = mActor->m101()) {
+        auto& weapon = parts->getActorPartsActor(mPartsKey_s);
+        if (weapon.hasProc() && ksys::act::isWeaponProfile(&weapon)) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&weapon, &accessor);
+            if (auto* list = accessor.getGParamList()) {
+                if (list->getWeaponCommon()->mIsBoomerang.ref()) {
+                    changeChild("ブーメラン", params);
+                    return;
+                }
+            }
+            switch (sub_71002F0258(accessor)) {
+            case 0:
+                changeChild("小剣", params);
+                return;
+            case 1:
+                changeChild("大剣", params);
+                return;
+            case 2:
+                changeChild("槍", params);
+                return;
+            case 3:
+                changeChild("弓", params);
+                return;
+            case 4:
+                changeChild("盾", params);
+                return;
+            }
+        }
+    }
+    changeChild("その他", params);
 }
 
 void EnemyVacuumWeaponTypeSelect::calc_() {}

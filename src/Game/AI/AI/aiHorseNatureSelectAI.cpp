@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiHorseNatureSelectAI.h"
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
 
@@ -11,7 +13,12 @@ bool HorseNatureSelectAI::init_(sead::Heap* heap) {
 }
 
 void HorseNatureSelectAI::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    auto* horse = sead::DynamicCast<act::HorseBase>(mActor);
+    if (!horse) {
+        setFailed();
+        return;
+    }
+    changeChild(horse->sub_7100E68298().text(), params);
 }
 
 void HorseNatureSelectAI::leave_() {

@@ -127,8 +127,9 @@ public:
     void sub_7100E6E7DC(const sead::SafeString& name, sead::Heap* heap);
     void sub_7100E682C0(const sead::SafeString& name, sead::Heap* heap, ksys::act::BaseProcHandle* handle);
     bool sub_7100E68270() const;
-    // The horse's Nature GParam as a placeholder SEAD_ENUM (RideableHorse converts it through the stack).
-    SEAD_ENUM(Nature, _0, _1, _2)
+    // The horse's Nature GParam as a SEAD_ENUM (RideableHorse converts it through the stack). The enumerators are
+    // the original's text list "おとなしい,臆病,気性が荒い" (= the child AI names HorseNatureSelectAI changes to).
+    SEAD_ENUM(Nature, おとなしい,臆病,気性が荒い)
     Nature sub_7100E68298() const;
     void sub_7100E693B8();
     bool sub_7100E696D4() const;
