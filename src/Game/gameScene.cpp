@@ -19,6 +19,8 @@ namespace uking {
 static bool sSceneStartEventReady;
 static bool sIsTransitionFromFarActorDone;
 static bool sIsStageUnloaded;
+static sead::FixedSafeString<0xff> sSceneChangeEventFlow;
+static sead::FixedSafeString<0xff> sSceneChangeEventFlowEntryPoint;
 
 // 0x71025cb0eb (not a TU-local: the original addresses it through the GOT)
 bool sForceEnableGlidingSurfingRupee;
@@ -183,6 +185,25 @@ bool GameScene::m3(const sead::SafeString& name, const sead::SafeString& name2) 
     if (_130.isEmpty())
         _121 = false;
     return true;
+}
+
+bool GameScene::m5(const sead::SafeString& name, const sead::SafeString& name2) {
+    sSceneChangeEventFlow.copy(name);
+    sSceneChangeEventFlowEntryPoint.copy(name2);
+    return true;
+}
+
+const sead::SafeString& getSceneChangeEventFlow() {
+    return sSceneChangeEventFlow;
+}
+
+const sead::SafeString& getSceneChangeEventFlowEntryPoint() {
+    return sSceneChangeEventFlowEntryPoint;
+}
+
+void setSceneChangeEventFlow(const sead::SafeString& flow, const sead::SafeString& entry_point) {
+    sSceneChangeEventFlow.copy(flow);
+    sSceneChangeEventFlowEntryPoint.copy(entry_point);
 }
 
 bool GameScene::getIsInitialisingStage() {

@@ -32,7 +32,7 @@ public:
     virtual bool m2(const sead::SafeString& name, const sead::Vector3f& pos);
     virtual bool m3(const sead::SafeString& name, const sead::SafeString& name2);
     virtual void m4();
-    virtual void m5();
+    virtual bool m5(const sead::SafeString& name, const sead::SafeString& name2);
 
     SEAD_RTTI_BASE(GameScene)
 
@@ -209,6 +209,11 @@ void setForceEnableGlidingSurfingRupee(bool value);
 
 // 0x71007b7da4 (CSV name; global namespace: E3Mgr declares it that way): `sInstance2->sub_71007B0D3C()`.
 bool isStageSelectState();
+
+// 0x7b4cb4 / 0x7b5334: the scene change event flow and its entry point (set by GameScene::m5).
+const sead::SafeString& getSceneChangeEventFlow();
+const sead::SafeString& getSceneChangeEventFlowEntryPoint();
+void setSceneChangeEventFlow(const sead::SafeString& flow, const sead::SafeString& entry_point);
 
 // 0x7100f3d304 (CSV getSceneStatus; declared only): the scene status of the scene status manager.
 s32 getSceneStatus();
