@@ -20,6 +20,7 @@ public:
 
 protected:
     void calc_() override;
+    sead::Matrix34f m33() override;
 
     // dynamic_param at offset 0x60
     sead::SafeString mActorName_d{};

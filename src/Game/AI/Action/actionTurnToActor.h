@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionTurnToActorBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -20,7 +21,7 @@ protected:
     void calc_() override;
     // slots 32-38 (0x7100d34850 / d34cfc / d34e30 / ec184 / ec190 / ec19c / d34c84); signatures are guesses.
     void m32() override;
-    virtual void m33();
+    virtual sead::Matrix34f m33();
     virtual f32 m34();
     virtual int m35() { return *mASSlot_d; }
     virtual int m36() { return *mSequenceBank_d; }

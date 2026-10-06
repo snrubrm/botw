@@ -28,4 +28,10 @@ void DemoTurnToActor::calc_() {
     TurnToActor::calc_();
 }
 
+sead::Matrix34f DemoTurnToActor::m33() {
+    sead::Matrix34f mtx = _90;
+    mtx.setTranslation(TurnToActor::m33().getTranslation());
+    return mtx;
+}
+
 }  // namespace uking::action
