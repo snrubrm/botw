@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiStalEnemyRoot.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_7100724C64.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/Profiles/actBullet.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 
 namespace uking::ai {
@@ -80,6 +84,58 @@ bool StalEnemyRoot::m36() {
     if (child->isFinished() || child->isFailed())
         return true;
     return getCurrentChild()->isChangeable();
+}
+
+// 0x71005a2544
+void Unk_7102424170::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, dmg::DamageCallbackInfo* a6) {
+    if (*a5 == -1)
+        return;
+
+    if (!_24 && *a1 >= 1) {
+        const s32* life = mDamageManager->mActor->getLife();
+        if (!life || *life <= 1) {
+            switch (*a4) {
+            case 0:
+            case 1:
+            case 2: {
+                if (*a4 == 0) {
+                    auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+                    ksys::act::ActorConstDataAccess accessor;
+                    if (manager && ksys::act::acquireActor(manager->m37(), &accessor) &&
+                        accessor.getProfile() == "WeaponShield") {
+                        return;
+                    }
+                }
+                switch (*a5) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 15:
+                case 17:
+                    *a5 = 22;
+                    break;
+                }
+                break;
+            }
+            default: {
+                auto* manager = sead::DynamicCast<dmg::DamageManager>(mDamageManager);
+                ksys::act::acc::Bullet accessor;
+                if (manager && ksys::act::acquireActor(manager->m37(), &accessor) &&
+                    accessor.isReflectThrownBullet()) {
+                    *a5 = 22;
+                }
+                break;
+            }
+            }
+        }
+    }
+
+    if (auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(a6)) {
+        if ((info->mFlags & 1) && *a1 <= 0)
+            *a1 = 1;
+    }
 }
 
 }  // namespace uking::ai
