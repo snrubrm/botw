@@ -542,6 +542,16 @@ void ScreenPauseMenu::m184() {
         _3b90->sub_71009B9F94(false);
 }
 
+// 0x7100a3d73c
+void ScreenPauseMenu::m163() {
+    auto* recipe = sead::DynamicCast<ScreenPauseMenuRecipe>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuRecipe));
+    if (!recipe || recipe->isClosedOrClosing()) {
+        mStateMachine.changeState(&sUnk_71025f0cf0);
+        sub_7100A392D8();
+    }
+}
+
 // 0x7100a3d80c
 void ScreenPauseMenu::m164() {
     mButtonGroup->_38 |= 2;
