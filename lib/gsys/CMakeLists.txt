@@ -10,6 +10,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelAnimation.h
   include/gsys/gsysModelNW.h
+  include/gsys/gsysModelScene.h
+  include/gsys/gsysModelSceneComponent.h
   include/gsys/gsysModelSceneEnv.h
   include/gsys/gsysModelSceneConfig.h
   include/gsys/gsysModelUnit.h
