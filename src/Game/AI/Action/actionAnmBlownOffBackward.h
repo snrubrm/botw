@@ -19,6 +19,7 @@ public:
 
 protected:
     void calc_() override;
+    void m32(ksys::phys::CharacterController* controller) override;
 
     sead::Matrix33f _a4;
 };
