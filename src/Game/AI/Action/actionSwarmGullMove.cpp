@@ -4,10 +4,12 @@ namespace uking::action {
 
 SwarmGullMove::SwarmGullMove(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-SwarmGullMove::~SwarmGullMove() = default;
+SwarmGullMove::~SwarmGullMove() {
+    _1b0.freeBuffer();
+}
 
 bool SwarmGullMove::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    return _1b0.tryAllocBuffer(3, heap);
 }
 
 void SwarmGullMove::enter_(ksys::act::ai::InlineParamPack* params) {

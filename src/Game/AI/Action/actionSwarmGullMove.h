@@ -1,6 +1,9 @@
 #pragma once
 
+#include <container/seadObjList.h>
+#include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 
 namespace uking::action {
 
@@ -36,6 +39,14 @@ protected:
     const float* mCrySoundIntervalMin_m{};
     // map_unit_param at offset 0x68
     const float* mCrySoundIntervalMax_m{};
+    struct Gull {
+        ksys::act::BaseProcHandle _0;
+        void* _10 = nullptr;
+        s32 _18 = -1;
+    };
+    Gull _70[10];
+    sead::ObjList<sead::Vector3f> _1b0;
+    s32 _1e0 = 0;
 };
 
 }  // namespace uking::action
