@@ -246,6 +246,8 @@ void IndoorStage::initForStageGen() {
     ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
 }
 
+IndoorStage::IndoorStage() = default;
+
 IndoorStage::~IndoorStage() {
     mHeap->destroy();
 }
@@ -274,6 +276,8 @@ void IndoorStage::getMapType(sead::BufferedSafeString* out) {
 int IndoorStage::m0() {
     return 1;
 }
+
+MainFieldDungeonStage::MainFieldDungeonStage() = default;
 
 MainFieldDungeonStage::~MainFieldDungeonStage() {
     mHeap->destroy();

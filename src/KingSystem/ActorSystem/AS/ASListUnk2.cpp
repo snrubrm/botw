@@ -61,6 +61,47 @@ void ASList::Unk2::sub_7101161FDC() {
     }
 }
 
+void ASList::Unk2::sub_7101162C58(void* bones, BoneBlendState* state) {
+    if (!_18)
+        return;
+    for (auto& range : mBoneWeightRanges)
+        range.params = nullptr;
+    state->_8 = bones;
+    state->_10 = this;
+    _0->sub_7101258C1C();
+    mFlags &= 0xfdcf;
+    if (_44[1]) {
+        _44[1] = 0;
+        _20 = nullptr;
+        _28 = nullptr;
+    }
+    if (Element* element = _18) {
+        state->_18 = 0;
+        state->weight = _10 * _30;
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        element->m15(context, state, resource);
+        _0->sub_7101258C48();
+        if (Element* element2 = _20) {
+            state->_18 = 1;
+            state->weight = _10 * ((1.0f - _30) * _34);
+            context = _0;
+            const res::ASResource* resource2 = context->sub_7101258CC0();
+            element2->m15(context, state, resource2);
+            _0->sub_7101258C48();
+            if (Element* element3 = _28) {
+                state->_18 = 2;
+                state->weight = _10 * ((1.0f - _30) * (1.0f - _34));
+                context = _0;
+                const res::ASResource* resource3 = context->sub_7101258CC0();
+                element3->m15(context, state, resource3);
+                _0->sub_7101258C48();
+            }
+        }
+    }
+    _0->sub_7101258C1C();
+}
+
 // NON_MATCHING: equivalent nonpositive clamp and swapped element/context registers.
 void ASList::Unk2::sub_71011627C4(State* state) {
     _28 = _20;

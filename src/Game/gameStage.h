@@ -1,6 +1,7 @@
 #pragma once
 
 #include <heap/seadHeap.h>
+#include "Game/gameDebugStatus.h"
 #include "Game/gameStageBinder.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtBaseProcLinkForEvent.h"
@@ -104,13 +105,17 @@ public:
     int m0() override;
 
 private:
-    /* 0x18 */ sead::Heap* mHeap;
-    /* 0x20 */ void* _20;
-    /* 0x28 */ bool _28;
-    /* 0x30 */ void* _30;
-    /* 0x38 */ void* _38;
+    /* 0x18 */ sead::Heap* mHeap = nullptr;
+    /* 0x20 */ void* _20 = nullptr;
+    /* 0x28 */ bool _28 = false;
+    /* 0x30 */ void* _30 = nullptr;
+    /* 0x38 */ void* _38 = nullptr;
     /* 0x40 */ sead::FixedSafeString<0xff> mMapName;
-    /* 0x158 */ u8 _158[0x278 - 0x158];
+    /* 0x158 */ bool _158 = false;
+    /* 0x159 */ bool _159 = false;
+    /* 0x15a */ bool _15a = false;
+    /* 0x160 */ void* _160 = nullptr;
+    /* 0x168 */ DebugStatus mDebugStatus{"IndoorStage初期化", 2};
 };
 static_assert(sizeof(IndoorStage) == 0x278);
 
@@ -140,14 +145,17 @@ public:
     int m0() override;
 
 private:
-    /* 0x18 */ sead::Heap* mHeap;
-    /* 0x20 */ void* _20;
-    /* 0x28 */ void* _28;
-    /* 0x30 */ bool _30;
+    /* 0x18 */ sead::Heap* mHeap = nullptr;
+    /* 0x20 */ void* _20 = nullptr;
+    /* 0x28 */ void* _28 = nullptr;
+    /* 0x30 */ bool _30 = false;
     /* 0x38 */ sead::FixedSafeString<0xff> mMapName;
-    /* 0x150 */ u8 _150[0x160 - 0x150];
+    /* 0x150 */ void* _150 = nullptr;
+    /* 0x158 */ void* _158 = nullptr;
     /* 0x160 */ ksys::act::BaseProcLink mLink;
-    /* 0x170 */ u8 _170[0x290 - 0x170];
+    /* 0x170 */ void* _170 = nullptr;
+    /* 0x178 */ DebugStatus mDebugStatus{"MainFieldDungeonStage初期化", 2};
+    /* 0x288 */ s32 _288 = 5;
 };
 static_assert(sizeof(MainFieldDungeonStage) == 0x290);
 

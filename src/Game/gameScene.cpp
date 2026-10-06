@@ -1,4 +1,6 @@
 #include "Game/gameScene.h"
+#include <prim/seadDelegate.h>
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include "Game/gameSceneStateMachine.h"
 #include "Game/gamePlayerResetPosMgr.h"
 #include "Game/gameStageInfo.h"
@@ -13,6 +15,8 @@
 #include "KingSystem/Resource/resResource.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/System/UI/LayoutResourceMgr.h"
 
 namespace uking {
 
@@ -132,7 +136,10 @@ void StateMachineWrapper::exec6(void* arg) {
 // from going through the GOT, as the original addresses it directly)
 struct SceneStatics {
     bool isFirstLaunch;
-    u8 _1[0x2b];
+    u8 _1[6];
+    u8 _7;
+    bool _8;
+    u8 _9[0x2c - 9];
     s32 newSaveState_2c;
     u8 _30[0x2c];
     s32 newSaveState_5c;
@@ -439,6 +446,48 @@ bool GameScene::NewSaveReenter() {
     return false;
 }
 
+// 0x71025cb8a0 (a position that GameScene::initialize sets; placeholder name)
+sead::Vector3f sUnk_71025cb8a0;
+
+// 0x71007b1110 (CSV name)
+// NON_MATCHING: the original branches on the first flag (`b.ne`) instead of selecting with `cset`
+bool gameSceneStartedBgProcessingAndNotFinished() {
+    if (sSceneStatics._7 == 1)
+        return !sSceneStatics._8;
+    return false;
+}
+
+// 0x71007b7e7c (CSV name)
+void pauseMenuDataMgrInitForNewSave() {
+    ui::PauseMenuDataMgr::instance()->initForNewSave();
+}
+
+// The stage change hooks of the scene (0x71007b8054-0x71007b80a8): the first argument is the object at
+// GameScene + 0x2b8, the stage type 3 is the title stage.
+// 0x71007b8054 (CSV name)
+void loadLayoutArchiveForTitle(void* a1, sead::Heap* heap, s32 type) {
+    if (type == 3)
+        ksys::ui::LayoutResourceMgr::instance()->loadTitleLayout(heap);
+}
+
+// 0x71007b8070 (CSV name)
+void postStageUnloadResetLayoutResMgr(void* a1, s32 type) {
+    if (type == 3)
+        ksys::ui::LayoutResourceMgr::instance()->unloadTitleLayout();
+}
+
+// 0x71007b808c (CSV name)
+bool stageSpecificResourceLoaded(void* a1, s32 type) {
+    if (type == 3)
+        return ksys::ui::LayoutResourceMgr::instance()->loadTitleLayoutResource();
+    return true;
+}
+
+// 0x71007bea48 (CSV name)
+void setSomePosition(const sead::Vector3f* position) {
+    sUnk_71025cb8a0 = *position;
+}
+
 void GameScene::setStageBinder(StageBinder* binder) {
     if (_2a8)
         return;
@@ -447,3 +496,7 @@ void GameScene::setStageBinder(StageBinder* binder) {
 }
 
 }  // namespace uking
+
+// A function-pointer delegate on a BaseProc (CSV BaseProcInvoker; vtable 0x710245a5d8: invoke 0x7b66ac, clone 0x7b66c0,
+// the shared isNoDummy 0xec4c0): its out-of-line copies are emitted in this TU.
+template class sead::Delegate1Func<ksys::act::BaseProc*>;

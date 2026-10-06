@@ -459,6 +459,38 @@ void ASList::sub_710115C92C() {
     _10 = 0;
 }
 
+void ASList::sub_710115C634(bool a1) {
+    bool restore = false;
+    for (auto& slot : mSlots) {
+        if (slot._4c) {
+            restore = a1;
+            slot._4c = 0;
+        }
+    }
+    if (restore)
+        _b0->sub_7100D68104(_8, nullptr, &_80, &_14);
+}
+
+// NON_MATCHING: the original reads both halves of the bone key through one base register (`ldrsh w3, [x19, #2]`); ours
+// addresses the second half from `this`.
+void ASList::sub_710115C934() {
+    const gsys::BoneAccessKey& key = _14;
+    if (key.isValid()) {
+        sead::Vector3f scale;
+        _8->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneLocalMatrix(&_80, &scale, key.bone_index);
+        _8->setBoneLocalRTMatrix(key, sead::Matrix34f::ident);
+    }
+}
+
+void ASList::sub_710115E1D4(s32* out_a, s32* out_b) {
+    *out_a = 0;
+    *out_b = 0;
+    for (Unk6* node = _148; node; node = node->_30) {
+        *out_a = sead::Mathi::max(*out_a, node->_11);
+        *out_b = sead::Mathi::max(*out_b, node->_12);
+    }
+}
+
 void ASList::sub_710115C9AC(int slot) {
     mSlots[slot].sub_7101164900(_d8->getParam()->getRes().mModelList, slot, _d8);
 }

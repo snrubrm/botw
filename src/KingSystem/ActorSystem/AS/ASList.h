@@ -29,6 +29,9 @@ public:
     struct Unk1;
     // Placeholder: the object at ASList::_b0 (0x21: a flag byte cleared by PauseMenuPlayerRoot::handleMessage_).
     struct Unk5 {
+        // 0x7100d68104 (declaration only; placeholder name): called with (_8, nullptr, &_80, &_14) by
+        // ASList::sub_710115C634.
+        void sub_7100D68104(gsys::Model* model, void* a2, const sead::Matrix34f* matrix, const gsys::BoneAccessKey* key);
         u8 _0[0x21];
         bool _21;
     };
@@ -68,6 +71,11 @@ public:
         // 0x71011623dc: copies frame state when both slots use the same resource.
         void sub_71011623DC(Unk2* other);
         void sub_71011627C4(State* state);
+        // 0x7101162c58: runs the entry's (up to three) elements through m15 with their blend weights; `bones` is
+        // the slot's partial-bone object.
+        void sub_7101162C58(void* bones, BoneBlendState* state);
+        // 0x7101162454 (declaration only): the per-entry update (880 B).
+        void sub_7101162454(const gsys::BoneAccessKey* key, void* a2, void* a3);
         void sub_7101161FDC();
         void sub_7101162318();
         void sub_7101161D74();
@@ -173,6 +181,11 @@ public:
         // 0x7101164900: per-slot update from the model list (partial count of slot `idx`).
         void sub_7101164900(const res::ModelList* model_list, int idx, act::Actor* actor);
         void sub_7101164B24();
+        // 0x7101164b5c (placeholder name): Unk2::sub_7101162454 on every entry, with the bone `key` if it is
+        // valid and selected by the partial-bone mask (an invalid key otherwise).
+        void sub_7101164B5C(const gsys::BoneAccessKey* key, void* a2, void* a3);
+        // 0x7101164e64 (placeholder name): clears `_48`, then Unk2::sub_7101162C58 on every entry.
+        void sub_7101164E64(BoneBlendState* state);
         void sub_7101164EB8();
 
         // 0x7101165008 (declaration only; lane4 s23): partial bone `key` of the slot, `mode` 3 (the root) or 0,
@@ -213,6 +226,15 @@ public:
         u8 _4c;
         bool _4d;
         u8 _4e[0x50 - 0x4e];
+    };
+
+    // Placeholder: node of the chain at ASList::_148 (the next node is at 0x30).
+    struct Unk6 {
+        u8 _0[0x11];
+        u8 _11;
+        u8 _12;
+        u8 _13[0x30 - 0x13];
+        Unk6* _30;
     };
 
     // Placeholder: 8-byte parameter value; depending on the parameter kind it holds a value or a
@@ -329,6 +351,14 @@ public:
     void sub_710115C1D0(int slot, int other_slot, int bank, int other_bank);
     // 0x710115c92c (placeholder name): `_10 = 0`.
     void sub_710115C92C();
+    // 0x710115c934 (placeholder name): if the bone `_14` is valid, saves its local matrix in `_80` and resets its
+    // local rotation / translation to the identity.
+    void sub_710115C934();
+    // 0x710115c634 (placeholder name): clears the flag byte `_4c` of every slot; if one was set and `a1` is true, the
+    // object at `_b0` is told to restore the bone `_14` (saved matrix `_80`).
+    void sub_710115C634(bool a1);
+    // 0x710115e1d4 (placeholder name): the maximum of the two byte values (0x11 / 0x12) over the chain at `_148`.
+    void sub_710115E1D4(s32* out_a, s32* out_b);
     // 0x710115c8d8 (lane1 s41, placeholder name; `a1` is unused): applies the animation to the model, with the
     // flags 2 (`a2`) or 3 (and sets bit 2 of `_163`).
     void sub_710115C8D8(bool a1, bool a2);
@@ -413,7 +443,9 @@ public:
     /* 0x0d8 */ act::Actor* _d8;  // owner
     /* 0x0e0 */ sead::Buffer<Unk3> _e0;
     /* 0x0f0 */ sead::SafeArray<s8, 0x43> _f0;
-    /* 0x133 */ u8 _133[0x163 - 0x133];
+    /* 0x133 */ u8 _133[0x148 - 0x133];
+    /* 0x148 */ Unk6* _148;
+    u8 _150[0x163 - 0x150];
     /* 0x163 */ u8 _163;
 };
 

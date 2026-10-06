@@ -23,6 +23,50 @@ void HorseRideShootingEnemyBattle::enter_(ksys::act::ai::InlineParamPack* params
     _100 = sead::GlobalRandom::instance()->getU32(*mSlowTimeRand_s);
 }
 
+// NON_MATCHING: load scheduling of the time limit sum (the original loads both parameter pointers first and the timer
+// value after the int to float conversion)
+void HorseRideShootingEnemyBattle::calc_() {
+    auto* child = getCurrentChild();
+
+    if (!sub_71005D90E0(mActor) && *mSlowTime_s > 0) {
+        _e8.update();
+        const s32 time = _fc + *mTrackTime_s + *mSlowTime_s + _100;
+        if (_e8.value > time) {
+            _e8.rate = 1.0f;
+            _e8.value = _e8.previous_value = _e8.value - time;
+        }
+    }
+
+    if (child->isFinished() || child->isFailed()) {
+        if (isCurrentChild("追跡指令") || isCurrentChild("減速指令")) {
+            sub_7100443A58();
+            return;
+        }
+    } else if (child->isChangeable()) {
+        if (sub_71005D90E0(mActor)) {
+            if (_f4 != 0) {
+                _e8.value = 0.0f;
+                _e8.previous_value = 0.0f;
+                _e8.rate = 1.0f;
+                changeToChaseCommand();
+                return;
+            }
+        } else if (*mSlowTime_s > 0) {
+            if (_e8.value >= f32(_fc + *mTrackTime_s)) {
+                if (_f4 != 1) {
+                    changeToDecelerateCommand();
+                    return;
+                }
+            } else if (_f4 != 0) {
+                changeToChaseCommand();
+                return;
+            }
+        }
+    }
+
+    ShootingEnemyBattle::calc_();
+}
+
 void HorseRideShootingEnemyBattle::leave_() {
     ShootingEnemyBattle::leave_();
 }

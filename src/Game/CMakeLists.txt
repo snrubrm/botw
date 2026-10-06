@@ -90,6 +90,8 @@ target_sources(uking PRIVATE
   gameStageBinderBase.cpp
   gameStageInfo.cpp
   gameStageInfo.h
+  gameStageSelect.cpp
+  gameStageSelect.h
   gameWildHorseMgr.cpp
   gameWildHorseMgr.h
   E3Mgr.cpp
