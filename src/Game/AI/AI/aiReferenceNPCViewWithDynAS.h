@@ -21,6 +21,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710053bb30: changes to the "回転" child with the dynamic AS key
+    void sub_710053BB30(const sead::Vector3f& pos);
     struct Params {
         // static_param at offset 0x38
         const float* mTurnStartAngle_s{};

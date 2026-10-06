@@ -1,4 +1,6 @@
 #include "Game/AI/AI/aiReferenceNPCViewWithDynAS.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -27,6 +29,15 @@ void ReferenceNPCViewWithDynAS::loadParams_() {
 
 bool ReferenceNPCViewWithDynAS::isFinished() const {
     return isCurrentChild("待機") && getCurrentChild()->isFinished();
+}
+
+// NON_MATCHING: the original builds the "DynASKey" SafeString temporary before the virtual call inside cstr()
+// 0x710053bb30
+void ReferenceNPCViewWithDynAS::sub_710053BB30(const sead::Vector3f& pos) {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addPointer(const_cast<char*>(mParams.mDynASKey_d.cstr()), "DynASKey", ksys::AIDefParamType::String, -1);
+    pack.addVec3(pos, "TargetPos", -1);
+    changeChild("回転", &pack);
 }
 
 }  // namespace uking::ai

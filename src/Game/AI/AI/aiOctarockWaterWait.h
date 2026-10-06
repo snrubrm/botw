@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004f0fc8: changes to the "音気づき" child with the base height
+    void sub_71004F0FC8(const sead::Vector3f& pos);
     // 0x71004f10ec: changes to the "浮遊" child with the base height
     void sub_71004F10EC();
     // static_param at offset 0x38
