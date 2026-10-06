@@ -1,8 +1,23 @@
 #include "Game/AI/AI/aiPriestBossNormalReaction.h"
 #include "Game/Damage/dmgDamageManagerBase.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
+
+// 0x7100528494
+void Unk_7102414f60::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 == -1)
+        return;
+    auto* enemy = sead::DynamicCast<act::Enemy>(mDamageManager->mActor);
+    if (enemy && enemy->_868 && enemy->_868->sub_71006ED9EC()) {
+        auto* info = sead::DynamicCast<dmg::DamageCallbackInfo>(
+            reinterpret_cast<dmg::DamageCallbackInfo*>(a6));
+        if (info)
+            info->mFlags |= 0x200000;
+    }
+}
 
 PriestBossNormalReaction::PriestBossNormalReaction(const InitArg& arg)
     : EnemyDefaultReaction(arg), _a8() {}

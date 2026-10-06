@@ -8,6 +8,20 @@ namespace uking::dmg {
 
 class DamageManagerBase;
 
+// The object the damage manager builds on the stack and passes to the damage callbacks as their last
+// argument (vtable 0x710244e090, RTTI static 0x71025af120; DamageMgr::m22 / m22_x_0 / m55 construct it
+// with `mFlags` = the manager's field 0x8c and store `mFlags` back after the callbacks ran). Placeholder
+// name (its RTTI parent, typeinfo static 0x71025af130, has no other user). The callbacks still declare the argument as `u64 a6`: they cast it back to this type.
+class DamageCallbackInfoBase {
+    SEAD_RTTI_BASE(DamageCallbackInfoBase)
+};
+
+class DamageCallbackInfo : public DamageCallbackInfoBase {
+    SEAD_RTTI_OVERRIDE(DamageCallbackInfo, DamageCallbackInfoBase)
+public:
+    u32 mFlags;
+};
+
 // FIXME: incomplete
 class DamageCallback {
     SEAD_RTTI_BASE(DamageCallback)

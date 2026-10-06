@@ -13,6 +13,55 @@
 
 namespace uking::ai {
 
+// NON_MATCHING: register allocation (the original keeps the cast result in two registers, one of them null when the cast fails)
+// 0x710031a6fc
+void Unk_71023d7bd0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a1 <= 0)
+        return;
+    auto* manager = sead::DynamicCast<dmg::DamageManagerBase>(mDamageManager);
+    bool has_manager = false;
+    if (manager) {
+        if (sub_71007368A4(manager->getAttacker()))
+            return;
+        has_manager = true;
+        if (manager->checkDamageFlags(1)) {
+            *a1 = static_cast<s32>(static_cast<f32>(manager->mActor->getMaxLife()) / 6.0f + 1.0f);
+            return;
+        }
+    }
+    if (!_27)
+        return;
+    *a5 = -1;
+    s32 attack_type = -1;
+    if (has_manager) {
+        manager->m40(&attack_type);
+        auto* actor = manager->mActor;
+        if (actor->getASList()->x(0xe, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                  true)) {
+            sead::Vector3f attack_pos;
+            manager->getAttackPos(&attack_pos);
+            attack_pos = -attack_pos;
+            if (*a4 == 3 ||
+                actor->getMtx().getBase(2).dot(attack_pos) >= -4.371139e-08f) {
+                *a1 = 0;
+                *a5 = 0xc;
+                _24 = false;
+                _26 = false;
+                return;
+            }
+        }
+    }
+    *a1 = 0;
+    if (*a4 == 3) {
+        _24 = true;
+        _26 = true;
+    } else if (u32(attack_type) < 5 && ((1 << attack_type) & 0x13)) {
+        _24 = true;
+    } else {
+        _25 = true;
+    }
+}
+
 AssassinBossRoot::AssassinBossRoot(const InitArg& arg) : AssassinBossRootBase(arg) {}
 
 AssassinBossRoot::~AssassinBossRoot() {
