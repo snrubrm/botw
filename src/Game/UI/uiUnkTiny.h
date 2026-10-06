@@ -308,6 +308,8 @@ struct Unk_Elem2 {
 // Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
 class Unk_7102474bc8 {
 public:
+    // 0x71009338a0 (declared only)
+    Unk_7102474bc8();
     virtual ~Unk_7102474bc8();
 
     u8 _8[0x128];
@@ -330,6 +332,16 @@ public:
 struct Unk_OptionWindowEntry {
     u8 _0[0x70];
     Unk_7102474dd0 _70;
+};
+
+// Member of ScreenMessageTips (0x318, 0x90 bytes). Vtable 0x7102509148; the constructor (0x71010a7bcc) clears the 0x88
+// bytes after the vtable pointer. Declared only.
+class Unk_7102509148 {
+public:
+    Unk_7102509148();
+    virtual ~Unk_7102509148();
+
+    u8 _8[0x88];
 };
 
 }  // namespace uking::ui

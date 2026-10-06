@@ -622,12 +622,21 @@ public:
     bool sub_7100A1E1E0();
 };
 
-// Only the MessageTips screen's nominal type is recovered here. Its owned
-// members and construction remain undeclared.
+// The MessageTips screen (members from 0x300 recovered from the constructor).
 class ScreenMessageTips : public Screen {
 public:
+    ScreenMessageTips();
     ~ScreenMessageTips() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTips, Screen)
+
+    /* 0x300 */ void* _300{};
+    /* 0x308 */ void* _308{};
+    /* 0x310 */ bool _310 = false;
+    /* 0x318 */ Unk_7102509148 _318;
+    /* 0x3a8 */ s32 _3a8 = 29;
+    /* 0x3ac */ s32 _3ac = 29;
+    /* 0x3b0 */ s32 _3b0 = 3;
+    /* 0x3b4 */ s32 _3b4 = 0;
 };
 
 // Only the nominal types are recovered; owned members and construction remain undeclared.
@@ -2002,10 +2011,12 @@ public:
 
 class ScreenSousaGuide : public ScreenEx {
 public:
+    ScreenSousaGuide();
     ~ScreenSousaGuide() override;
     SEAD_RTTI_OVERRIDE(ScreenSousaGuide, ScreenEx)
 
-    u8 _pad_3610[0x3618 - 0x3610];
+    /* 0x3610 */ s32 _3610 = -1;
+    u8 _pad_3614[0x3618 - 0x3614];
     Unk_7102474bc8 _3618;
 };
 
