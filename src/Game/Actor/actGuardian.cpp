@@ -82,6 +82,14 @@ bool Guardian::m33() {
     return getParam()->getRes().mGParamList->getGuardian()->mGuardianControllerType.ref() == 2;
 }
 
+f32 Guardian::sub_710003B2C4() const {
+    return getParam()->getRes().mGParamList->getGuardian()->mMaxSpeed.ref();
+}
+
+const sead::SafeString& Guardian::sub_710003B2EC() const {
+    return getParam()->getRes().mGParamList->getGuardian()->mCannonBoneName.ref();
+}
+
 void Guardian::sub_7100034514(bool on) {
     _14c8.change(4, on);
 }

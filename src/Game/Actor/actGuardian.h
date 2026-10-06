@@ -95,6 +95,9 @@ public:
     void sub_7100035A90(s32 state);
     // 0x71000370b4 (placeholder name): `_15cc < 30`.
     bool sub_71000370B4() const;
+    // 0x710003b2c4 / 0x710003b2ec: the Guardian param's MaxSpeed / CannonBoneName.
+    f32 sub_710003B2C4() const;
+    const sead::SafeString& sub_710003B2EC() const;
     // 0x710003b090: writes _14d4.
     void sub_710003B090(u32 value);
     // 0x710003b43c / 0x710003b4c8: the target (link at Enemy::_c48._8, position _c48._18) is closer /

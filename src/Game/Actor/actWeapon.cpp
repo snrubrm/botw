@@ -382,6 +382,35 @@ f32 Weapon::sub_71002ED8DC() {
     return dist * (_f98.flags.isOn(WeaponModifier::AddThrow) ? _f98.value / 1000.0f : 1.0f);
 }
 
+bool Weapon::sub_71002EE484() {
+    const auto* param = getParam()->getRes().mGParamList->getBow();
+    return param && param->mIsGuardPierce.ref();
+}
+
+f32 Weapon::sub_71002EE4C0() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowFirstSpeed.ref();
+}
+
+f32 Weapon::sub_71002EE4E8() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowAcceleration.ref();
+}
+
+f32 Weapon::sub_71002EE510() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowStabilitySpeed.ref();
+}
+
+f32 Weapon::sub_71002EE538() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowGravity.ref() / 900.0f;
+}
+
+f32 Weapon::sub_71002EE56C() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowFallAcceleration.ref();
+}
+
+f32 Weapon::sub_71002EE594() {
+    return getParam()->getRes().mGParamList->getBow()->mArrowFallStabilitySpeed.ref();
+}
+
 bool Weapon::hasCanPullGiantObjectTag() {
     return getParam()->getRes().mActorLink->hasTag(0x2b533845);
 }

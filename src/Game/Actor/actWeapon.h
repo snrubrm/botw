@@ -239,6 +239,15 @@ public:
     // 0x71002ea21c / 0x71002ea244: the bow param's ExtraDamageRatio / BaseAttackPowerRatio.
     f32 sub_71002EA21C();
     f32 sub_71002EA244();
+    // 0x71002ee484 .. 0x71002ee594: the bow param's IsGuardPierce, ArrowFirstSpeed, ArrowAcceleration,
+    // ArrowStabilitySpeed, ArrowGravity / 900, ArrowFallAcceleration, ArrowFallStabilitySpeed.
+    bool sub_71002EE484();
+    f32 sub_71002EE4C0();
+    f32 sub_71002EE4E8();
+    f32 sub_71002EE510();
+    f32 sub_71002EE538();
+    f32 sub_71002EE56C();
+    f32 sub_71002EE594();
     // 0x71002ed8a0: WeaponCommon's IsThrowingWeapon (false without the param).
     bool sub_71002ED8A0();
     // 0x71002ed8dc: WeaponThrow's ThrowDist, scaled by the AddThrow modifier.
