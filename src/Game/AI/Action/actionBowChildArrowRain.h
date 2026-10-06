@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isChangeable() const override;
 
 protected:
     void calc_() override;
@@ -56,6 +57,30 @@ protected:
     sead::Vector3f* mMoveTargetPos_d{};
     // dynamic_param at offset 0xb0
     ksys::act::BaseProcLink* mParentActor_d{};
+
+    s32 _b8 = 0;
+    s32 _bc = 0;
+    f32 _c0 = 0;
+    f32 _c4 = 0;
+    f32 _c8 = 0;
+    f32 _cc = 0;
+    bool _d0 = false;
+    bool _d1 = false;
+    bool _d2 = false;
+    s32 _d4 = 0;
+    s32 _d8 = 0;
+    u8 _dc[0x24];
+    u64 _100 = 0;
+    u64 _108 = 0;
+    s32 _110 = 0;
+    u8 _114[0x18];
+    // Placeholder layout of the block at 0x12c (0x408 bytes, zero-initialised as a whole).
+    struct Unk12c {
+        u8 _0[0x3cc];
+        sead::Vector3f _3cc{0, 0, 0};
+        sead::Vector2f _3d8[6]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+    };
+    Unk12c _12c{};
 };
 
 }  // namespace uking::action
