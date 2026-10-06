@@ -13,6 +13,7 @@ add_library(aal OBJECT
   include/aal/aalGroupLimiter.h
   include/aal/aalGroupMgr.h
   include/aal/aalHandle.h
+  include/aal/aalInterior.h
   include/aal/aalISpeakerBalanceSupplier.h
   include/aal/aalIUnifiable.h
   include/aal/aalMeter.h
@@ -27,6 +28,7 @@ add_library(aal OBJECT
   include/aal/aalSoundSource.h
   include/aal/aalSoundSourceUnifier.h
   include/aal/aalSpatialCalculator.h
+  include/aal/aalSpeakerBalanceUnifierMgr.h
   include/aal/aalSpatialSetting.h
   include/aal/aalStopWatch.h
   include/aal/aalSystem.h
@@ -43,6 +45,7 @@ add_library(aal OBJECT
   src/aalGroupMgr.cpp
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
+  src/aalInterior.cpp
   src/aalISpeakerBalanceSupplier.cpp
   src/aalMeter.cpp
   src/aalNamedObj.cpp
