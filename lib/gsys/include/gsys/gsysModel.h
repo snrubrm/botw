@@ -7,6 +7,7 @@
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
@@ -65,6 +66,10 @@ public:
     void forceUpdateAutoAnimation();
     void sub_7100BF8738();
 
+    /// Writes the bounding sphere of the model (center xyz, radius w): the override if one is set, otherwise the
+    /// union of the bounding spheres of the model units, gathered on demand. 0x7100bf97cc
+    void getBounding(sead::Vector4f* bounding) const;
+
     // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
     // mMatrix. Callers set the matrix with setMatrix() (which flags it as changed) first.
     void updateWorldMatrix();
@@ -105,6 +110,8 @@ public:
     sead::CriticalSection& getCS() const { return mCS; }
 
 private:
+    void gatherBounding_() const;
+
     sead::Buffer<ModelInfo> mUnitPool;
     /// Indices into this array are called "model unit access indices".
     sead::PtrArray<ModelInfo> mUnitAccess;
@@ -122,7 +129,12 @@ private:
     /// Total bone count (the sum over the model units unless overridden; see 0x7100bf7b2c).
     s32 _ac;
     f32 mAutoAnimationFrameRate;
-    u8 _b4[0xd0 - 0xb4];
+    /// Result of gatherBounding_ (0x7100bf9600, CSV name; declared only): the union of the bounding spheres of
+    /// the model units.
+    mutable sead::Vector4f mBounding;
+    u8 _c4[0xc8 - 0xc4];
+    /// If set, getBounding returns this instead of gathering the unit bounds. The name is a guess.
+    const sead::Vector4f* mBoundingOverrideMaybe;
     ModelAnimation* mAnimation;
     u8 _d8[0x140 - 0xd8];
     mutable sead::CriticalSection mCS;

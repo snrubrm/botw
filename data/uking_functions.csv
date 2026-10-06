@@ -68805,7 +68805,7 @@ Address,Quality,Size,Name
 0x0000007100bf932c,U,000656,_ZN4gsys5Model27updateAnimationWorldMatrix_Ej
 0x0000007100bf95bc,U,000068,_ZN4gsys5Model14updateBoundingEv
 0x0000007100bf9600,U,000460,_ZNK4gsys5Model15gatherBounding_Ev
-0x0000007100bf97cc,U,000084,
+0x0000007100bf97cc,O,000084,_ZNK4gsys5Model11getBoundingEPN4sead7Vector4IfEE
 0x0000007100bf9820,U,000400,_ZNK4gsys5Model13calcBoundAABBEPN4sead9BoundBox3IfEEb
 0x0000007100bf99b0,U,000020,_ZN4gsys5Model13requestUpdateEj
 0x0000007100bf99c4,U,000112,

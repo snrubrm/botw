@@ -5,6 +5,15 @@
 
 namespace gsys {
 
+void Model::getBounding(sead::Vector4f* bounding) const {
+    const sead::Vector4f* source = mBoundingOverrideMaybe;
+    if (!source) {
+        gatherBounding_();
+        source = &mBounding;
+    }
+    *bounding = *source;
+}
+
 void Model::setAutoAnimationFrameRate(f32 frame_rate) {
     mAutoAnimationFrameRate = frame_rate;
     for (auto& info : mUnitAccess) {
