@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
@@ -406,6 +407,68 @@ void ScreenShopBtnList15::m100() {
         if (layout->_91 == 1 || layout->_91 == 2)
             layout->startAnimCloseImpl_(false, false);
     }
+}
+
+// 0x7100a4df4c
+void ScreenShopBtnList5::m100() {
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (layout->_91 == 1 || layout->_91 == 2)
+            layout->startAnimCloseImpl_(false, false);
+    }
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (layout->_91 == 1 || layout->_91 == 2)
+            layout->startAnimCloseImpl_(false, false);
+    }
+    if (_3628)
+        invokeSoundLink2Event_("mc_Close");
+}
+
+// 0x7100a4de04
+void ScreenShopBtnList5::m98() {
+    _3628 = 0;
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+    UiShopMgr::instance()->sub_710098411C(_3610->_30c);
+    UiShopMgr::instance()->_b4 = true;
+}
+
+namespace {
+// inline-only in the original; name is a guess (the m107 slots of ShopBtnList15 / ShopBtnList20 / PauseMenu repeat it)
+inline void clearDecideWindowAlpha(eui::AnimButton* button) {
+    if (!button)
+        return;
+    nn::ui2d::Pane* pane = button->mLayout->mPane->FindPaneByName("W_Decide_00", true);
+    if (!pane)
+        return;
+    const s32 count = pane->GetMaterialCount();
+    for (s32 i = 0; i < count; ++i)
+        sub_7100AA1CB8(pane->GetMaterial(i), 0);
+}
+}  // namespace
+
+// 0x7100a4b47c
+void ScreenShopBtnList15::m107(eui::AnimButton* button) {
+    clearDecideWindowAlpha(button);
+}
+
+// 0x7100a4ca6c
+void ScreenShopBtnList20::m107(eui::AnimButton* button) {
+    if (UiShopMgr::instance()->_cd)
+        clearDecideWindowAlpha(button);
+    else
+        _3868 = button;
+}
+
+// 0x7100a388ec
+void ScreenPauseMenu::m107(eui::AnimButton* button) {
+    if (u32(button->mTag - 9) <= 0x3b && _3618 == 15)
+        clearDecideWindowAlpha(button);
 }
 
 }  // namespace uking::ui

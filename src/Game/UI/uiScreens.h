@@ -1370,7 +1370,10 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
-    u8 _pad_3610[0x3bb4 - 0x3610];
+    void m107(eui::AnimButton* button) override;
+    u8 _pad_3610[0x3618 - 0x3610];
+    /* 0x3618 */ s32 _3618;
+    u8 _pad_361c[0x3bb4 - 0x361c];
     /* 0x3bb4 */ s32 _3bb4;
 
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
@@ -1771,13 +1774,20 @@ public:
     bool isEnableControl() const override;
     ScreenShopBtnList5();
     ~ScreenShopBtnList5() override;
-    /* 0x3610 */ void* _3610{};
+    // Placeholder: the object `_3610` points to (only the s32 at 0x30c is used).
+    struct Unk3610 {
+        u8 _0[0x30c];
+        s32 _30c;
+    };
+    /* 0x3610 */ Unk3610* _3610{};
     void m93(sead::Heap* heap) override;
     /* 0x3618 */ eui::Animator* _3618{};
     /* 0x3620 */ eui::Animator* _3620{};
     /* 0x3628 */ u8 _3628{};
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList5, ScreenEx)
     void m94() override;
+    void m98() override;
+    void m100() override;
 };
 
 class ScreenPauseMenuBG : public ScreenEx {
@@ -2134,8 +2144,9 @@ public:
     ~ScreenShopBtnList20() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
     void m102(eui::AnimButton*) override;
+    void m107(eui::AnimButton* button) override;
     u8 _pad_3610[0x3868 - 0x3610];
-    u64 _3868;
+    eui::AnimButton* _3868;
 };
 
 class ScreenTime : public ScreenEx {
@@ -2303,6 +2314,7 @@ public:
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
     void m100() override;
+    void m107(eui::AnimButton* button) override;
 
     UiTexSlots _3610;
 };
@@ -2703,5 +2715,8 @@ void* sub_7100AA1260(eui::LayoutEx* layout, const sead::SafeString& path, void* 
 
 // 0x7100a64304 (declared only): takes the pending result of a system window (and resets it to 13)
 s32 sub_7100A64304();
+
+// 0x7100aa1cb8 (declared only): sets the alpha byte of a material's color
+void sub_7100AA1CB8(nn::ui2d::Material* material, u8 alpha);
 
 }  // namespace uking::ui
