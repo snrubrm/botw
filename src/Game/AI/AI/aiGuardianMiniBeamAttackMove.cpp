@@ -10,8 +10,43 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelAccessKey.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace uking::ai {
+
+// NON_MATCHING: stack layout only (the original keeps `front` above the bone matrix and the target direction
+// at the bottom; ours has a smaller frame).
+void GuardianMiniBeamAttackMove::sub_7100418694() {
+    auto* actor = mActor;
+    if (actor) {
+        if (auto* model = actor->getModel()) {
+            sead::Vector3f direction = *mTargetPos_d;
+            direction -= actor->getMtx().getTranslation();
+            direction.y = 0.0f;
+            direction.normalize();
+            const auto key = model->searchBone("Neck");
+            if (key.isValid()) {
+                sead::Matrix34f mtx;
+                model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(
+                    &mtx, key.bone_index);
+                sead::Vector3f front{mtx(0, 2), 0.0f, mtx(2, 2)};
+                front.normalize();
+                sead::Vector3f axis;
+                f32 angle;
+                ksys::util::sub_71011EEB08(&axis, &angle, front, direction, sead::Vector3f::ey);
+                angle = axis.y * angle;
+                angle = ksys::util::sub_71011EF0CC(angle);
+                const f32 target = -angle;
+                ksys::VFR::lerp(&_98, target, 0.15f, 0.20943952f, 0.017453292f);
+                sub_71005DB44C(actor, _98, 0.0f);
+            }
+        }
+    }
+}
 
 GuardianMiniBeamAttackMove::GuardianMiniBeamAttackMove(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGuardianMiniGroggy.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -7,6 +10,22 @@
 void sub_7100428358(ksys::act::Actor* actor, bool enabled, s32 slot);
 
 namespace uking::ai {
+
+bool GuardianMiniGroggy::sub_710041C850(s32* slot) {
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy)
+        return false;
+    *slot = -1;
+    for (s32 idx = 0; idx < 3; ++idx) {
+        auto* weapon = enemy->getWeapons()->getEquippedWeapon(idx);
+        if (sead::IsDerivedFrom<act::Weapon>(weapon)) {
+            if (static_cast<act::Weapon*>(weapon)->_cf0 != 4)
+                return false;
+            *slot = idx;
+        }
+    }
+    return *slot != -1;
+}
 
 GuardianMiniGroggy::GuardianMiniGroggy(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

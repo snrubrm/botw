@@ -14,7 +14,17 @@ bool GiantArmorRoot::init_(sead::Heap* heap) {
 }
 
 void GiantArmorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor)) {
+        if (sead::DynamicCast<ksys::act::Actor>(armor->_be8.getProc(nullptr, nullptr))) {
+            sub_71003F5F6C();
+            return;
+        }
+    }
+    auto* body = mActor->getMainBody();
+    auto* physics = mActor->getPhysics();
+    if (body && physics)
+        physics->sub_7100FBAF18(body);
+    changeChild("非装備", nullptr);
 }
 
 void GiantArmorRoot::calc_() {

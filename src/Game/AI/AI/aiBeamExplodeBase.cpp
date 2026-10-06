@@ -3,6 +3,8 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -17,7 +19,25 @@ bool BeamExplodeBase::init_(sead::Heap* heap) {
 }
 
 void BeamExplodeBase::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Ai::enter_(params);
+    if (auto* chemical = mActor->getChemicalStuff())
+        chemical->sub_7100D90858(false, 3, false, true, false);
+    if (auto* physics = mActor->getPhysics())
+        physics->sub_7100FBB29C();
+    if (_48) {
+        _48->setTransform(mActor->getMtx(), ksys::phys::PropagateToLinkedMotions{true});
+        _48->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+        _48->addToWorld();
+    }
+    if (_50) {
+        _50->setTransform(mActor->getMtx(), ksys::phys::PropagateToLinkedMotions{true});
+        _50->enableContactLayer(ksys::phys::ContactLayer::SensorNPC);
+        _50->addToWorld();
+    }
+    sead::Vector3f home;
+    mActor->getHomePos(&home);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(home, "EyePos", -1);
+    changeChild("着弾前", &pack);
 }
 
 void BeamExplodeBase::leave_() {
