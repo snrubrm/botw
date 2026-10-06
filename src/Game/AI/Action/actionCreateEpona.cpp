@@ -1,10 +1,13 @@
 #include "Game/AI/Action/actionCreateEpona.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace uking::action {
 
 CreateEpona::CreateEpona(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-CreateEpona::~CreateEpona() = default;
+CreateEpona::~CreateEpona() {
+    leave_();
+}
 
 bool CreateEpona::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
@@ -15,7 +18,10 @@ void CreateEpona::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void CreateEpona::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (_198.isAllocatedOrFailed())
+        _198.deleteProc();
+    if (_1a8)
+        ksys::phys::HavokAI::instance()->destroyQuery(_1a8);
 }
 
 void CreateEpona::loadParams_() {

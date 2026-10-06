@@ -294,7 +294,7 @@ struct Unk_710235aba0_Payload {
 // Message 0x80000a9 (sender unknown; placeholder name = listener vtable)
 struct Unk_7102450a68_Payload {
     ksys::act::BaseProcLink _0;
-    sead::Vector3f _10;
+    sead::Vector3f _10 = sead::Vector3f::zero;
     sead::JobQueueLock mLock;
 };
 
