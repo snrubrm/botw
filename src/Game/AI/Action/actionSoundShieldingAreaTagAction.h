@@ -1,7 +1,9 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include "Game/AI/Action/actionAreaTagAction.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/Sound/sndMgr.h"
 
 namespace uking::action {
 
@@ -19,11 +21,17 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    sead::Buffer<Payload>* m6() override { return &_48; }
 
     // map_unit_param at offset 0x38
     const float* mMerginDistance_m{};
     // map_unit_param at offset 0x40
     const bool* mIsShieldChemicalWind_m{};
+    sead::Buffer<Payload> _48;
+    u8 _58[0x40]{};
+    f32 _98 = 0.0f;
+    u32 _9c = 0;
+    ksys::snd::Unk_SoundInstance* _a0 = nullptr;
 };
 
 }  // namespace uking::action

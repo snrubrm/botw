@@ -149,7 +149,9 @@ public:
     u8 _88[8];
     /* 0x90 */ Unk_710104e5b4* _90;
     /* 0x98 */ Unk_710103b704* _98;
-    u8 _a0[0x270 - 0xa0];
+    u8 _a0[0xa8 - 0xa0];
+    /* 0xa8 */ Unk_SoundMgra8* _a8;
+    u8 _b0[0x270 - 0xb0];
     AudioChannelType mAudioChannelType;
 };
 
