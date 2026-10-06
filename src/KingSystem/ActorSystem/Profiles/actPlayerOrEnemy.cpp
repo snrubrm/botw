@@ -135,9 +135,9 @@ bool PlayerOrEnemy::dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool
     return getWeapons()->dropWeapon(idx, pos, a2, a3, a4, a5);
 }
 
-void PlayerOrEnemy::sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4,
+bool PlayerOrEnemy::sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4,
                                    bool a5) {
-    getWeapons()->dropAllWeapons(velocity, a2, a3, a4, a5);
+    return getWeapons()->dropAllWeapons(velocity, a2, a3, a4, a5);
 }
 
 bool PlayerOrEnemy::releaseWeapon(int idx) {

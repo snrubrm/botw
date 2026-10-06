@@ -90,6 +90,10 @@ public:
     // Placeholder names (called by NPC AI code).
     bool sub_71000228F8();
     bool sub_7100022B54();
+    // 0x71000224f0 / 0x7100022554: forward to ActorWeapons::dropWeapon / dropAllWeapons (twins of
+    // PlayerOrEnemy::dropWeapon / sub_7100007A1C).
+    bool sub_71000224F0(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
+    bool sub_7100022554(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     bool sub_7100022D44(bool on, int mode, const sead::Vector3f& pos, ksys::act::BaseProcLink* link,
                         const sead::Vector3f& pos2);
     bool sub_7100022E3C(bool on);

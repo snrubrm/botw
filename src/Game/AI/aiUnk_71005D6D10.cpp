@@ -82,6 +82,32 @@ void sub_71005D8E9C(ksys::act::Actor* actor) {
     enemy->_c48._7c = 0;
 }
 
+bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, bool a3, bool a4,
+                    void* a5, bool a6) {
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return static_cast<ksys::act::PlayerOrEnemy*>(actor)->sub_7100007A1C(velocity, a3, a4, a5,
+                                                                              a6);
+    if (sead::IsDerivedFrom<NPC>(actor))
+        return static_cast<NPC*>(actor)->sub_7100022554(velocity, a3, a4, a5, a6);
+    return false;
+}
+
+bool playerOrEnemyDropWeapon(ksys::act::Actor* actor, const sead::Vector3f* velocity, int idx,
+                             bool a4, bool a5, void* a6, bool a7) {
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return static_cast<ksys::act::PlayerOrEnemy*>(actor)->dropWeapon(idx, *velocity, a4, a5,
+                                                                          a6, a7);
+    if (sead::IsDerivedFrom<NPC>(actor))
+        return static_cast<NPC*>(actor)->sub_71000224F0(idx, *velocity, a4, a5, a6, a7);
+    return false;
+}
+
+bool playerOrEnemyDropAllWeapons(ksys::act::Actor* actor, const sead::Vector3f& velocity) {
+    if (!sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return false;
+    return static_cast<ksys::act::PlayerOrEnemy*>(actor)->dropAllWeapons(velocity);
+}
+
 bool sub_71005D8F28(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<Enemy>(actor))
         return false;

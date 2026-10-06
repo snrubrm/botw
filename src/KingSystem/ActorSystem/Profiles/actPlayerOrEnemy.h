@@ -77,7 +77,7 @@ public:
     // 0x7100007a1c (declared only, lane1 s23; placeholder name): forwards to the actor's ActorWeapons
     // (0xefc3d4: drops the weapons with the given velocity). LandHumEnemyFindBait::leave_ passes
     // (Vector3f::zero, false, false, nullptr, false); `a4` is an object of unknown type.
-    void sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4, bool a5);
+    bool sub_7100007A1C(const sead::Vector3f& velocity, bool a2, bool a3, void* a4, bool a5);
     // 0x7100007870 (CSV PlayerOrEnemy::dropWeapon): forwards to ActorWeapons::dropWeapon.
     bool dropWeapon(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5);
     // 0x7100007b20 (CSV Player::releaseWeapon): forwards to ActorWeapons::dropWeaponM179.

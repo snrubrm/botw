@@ -57,6 +57,14 @@ void NPC::sub_7100022660(int idx, const Unk_71002edaec& arg) {
         weapon->sub_71002EDAEC(arg);
 }
 
+bool NPC::sub_71000224F0(int idx, const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    return getWeapons()->dropWeapon(idx, pos, a2, a3, a4, a5);
+}
+
+bool NPC::sub_7100022554(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) {
+    return getWeapons()->dropAllWeapons(pos, a2, a3, a4, a5);
+}
+
 bool NPC::sub_7100022B54() {
     if (!(_fe8 & 4))
         return false;

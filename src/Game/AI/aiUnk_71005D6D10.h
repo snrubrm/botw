@@ -68,7 +68,7 @@ void sub_71005D8DE8(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link
 /// PlayerOrEnemy (PlayerOrEnemy::dropAllWeapons, 0x78d4) with the given velocity; false for other actors.
 bool playerOrEnemyDropAllWeapons(ksys::act::Actor* actor, const sead::Vector3f& velocity);
 /// 0x71005d8748 (declared only, lane3 s15): dispatches on a PlayerOrEnemy / NPC cast to a weapon drop
-/// (0x7a1c / 0x22554); `a5` is an object of unknown type (RTTI vtable 0x7102376d50, see lane4 s16 log).
+/// (0x7a1c / 0x22554); `a5` is a uking::act::Unk_7102376d50 (actUnk_7102376d50.h) or nullptr.
 bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, bool a3, bool a4, void* a5,
                     bool a6);
 /// Enemy target position (Vector3f::zero if not an Enemy).
