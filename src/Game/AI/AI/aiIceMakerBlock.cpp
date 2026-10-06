@@ -1,6 +1,10 @@
 #include "Game/AI/AI/aiIceMakerBlock.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/gameSceneSubsys14.h"
+#include "KingSystem/Physics/System/physContactMgr.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
@@ -12,6 +16,7 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/Shape/Box/physBoxRigidBody.h"
 #include "KingSystem/Physics/System/physCollisionInfo.h"
 
 namespace uking::ai {
@@ -31,14 +36,58 @@ void IceMakerBlock::sub_7100447F20() {
         ksys::VFR::lerp(&_144, _148, 0.5f, 2.0f, 0.1f);
 }
 
+// NON_MATCHING: store/schedule order of the extents (the original stores extents.y first, between the multiplies)
+void IceMakerBlock::sub_7100446FD8(const sead::Vector3f& scale) {
+    auto* main_body = sead::DynamicCast<ksys::phys::BoxRigidBody>(mActor->getMainBody());
+    if (!main_body)
+        return;
+    const f32 height = _138.y * scale.y;
+    const sead::Vector3f extents(sead::Mathf::clampMin(_138.x * scale.x, 0.5f), height,
+                                 sead::Mathf::clampMin(_138.z * scale.z, 0.5f));
+    const sead::Vector3f translate(0, height * 0.5f, 0);
+    main_body->setTranslate(translate);
+    main_body->setExtents(extents);
+    auto* water = sead::DynamicCast<ksys::phys::BoxRigidBody>(
+        mActor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), "Water"));
+    if (water) {
+        water->setTranslate(translate);
+        water->setExtents(extents);
+    }
+}
+
+// NON_MATCHING: register allocation / join of the "no point other than Fall" exit; `goto next` out of the inner loop
+// (continue of the body loop) matches
+bool IceMakerBlock::sub_71004483E8() {
+    for (s32 i = 0; i < 3; ++i) {
+        auto* body = _88[i];
+        if (!body)
+            continue;
+        auto* info = body->getContactPointInfo();
+        if (!info)
+            continue;
+        if (info->getNumContactPoints() == 0 || info->begin().isEnd())
+            return false;
+        auto it = info->begin();
+        const auto end = info->end();
+        for (; it != end; ++it) {
+            const ksys::phys::FloorCode floor = (*it)->material_mask_b.getFloorCode();
+            if (int(floor) != ksys::phys::FloorCode::Fall)
+                break;
+        }
+        if (it == end)
+            return false;
+    }
+    return true;
+}
+
 IceMakerBlock::IceMakerBlock(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 IceMakerBlock::~IceMakerBlock() {
     _78[0] = nullptr;
     _78[1] = nullptr;
-    _88 = nullptr;
-    _90 = nullptr;
-    _98 = nullptr;
+    _88[0] = nullptr;
+    _88[1] = nullptr;
+    _88[2] = nullptr;
 }
 
 bool IceMakerBlock::init_(sead::Heap* heap) {

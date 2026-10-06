@@ -39,6 +39,11 @@ public:
     void sub_71004473A8();
     // 0x7100447f20 (placeholder name): reads `_148` from the AS event 0x2f and eases `_144` towards it.
     void sub_7100447F20();
+    // 0x71004483e8 (placeholder name): whether every one of the three bodies `_88` has a contact point whose floor
+    // code is not Fall.
+    bool sub_71004483E8();
+    // 0x7100446fd8 (placeholder name): resizes the main body and the "Water" body (both boxes) from `_138` scaled by `scale`.
+    void sub_7100446FD8(const sead::Vector3f& scale);
 
 protected:
     Unk_71023fd228 _38;
@@ -52,9 +57,7 @@ protected:
     };
     Params mParams;
     ksys::phys::RigidBody* _78[2];
-    ksys::phys::RigidBody* _88;
-    ksys::phys::RigidBody* _90;
-    ksys::phys::RigidBody* _98;
+    ksys::phys::RigidBody* _88[3];
     s32 _a0 = 0;
     bool _a4 = false;
     bool _a5 = true;

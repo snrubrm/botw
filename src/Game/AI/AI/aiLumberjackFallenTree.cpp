@@ -1,6 +1,28 @@
 #include "Game/AI/AI/aiLumberjackFallenTree.h"
+#include "Game/AI/aiUnk_710072BA90.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::ai {
+
+void Unk_7102403e48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 != -1)
+        *a1 = 0;
+}
+
+void Unk_7102403e80::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) {
+    if (*a5 == -1)
+        return;
+    auto* damage_mgr = sub_710072BA90(_28->getActor());
+    if (!damage_mgr)
+        return;
+    const bool flag = damage_mgr->checkDamageFlags(4);
+    sead::Vector3f position;
+    damage_mgr->getPosition(&position);
+    _28->sub_71004855DC(position);
+    if (flag)
+        *a1 = 0;
+}
 
 LumberjackFallenTree::LumberjackFallenTree(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 

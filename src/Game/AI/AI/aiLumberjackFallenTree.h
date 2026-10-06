@@ -1,8 +1,31 @@
 #pragma once
 
+#include <math/seadVector.h>
+#include "Game/Damage/dmgDamageCallback.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
+
+class LumberjackFallenTree;
+
+// Placeholder names (vtable addresses; they inherit DamageCallback's RTTI). `_38` / `_68` of LumberjackFallenTree.
+// vtable 0x7102403e48: call 0x7100485538, D0 0x7100487104.
+class Unk_7102403e48 : public dmg::DamageCallback {
+public:
+    explicit Unk_7102403e48(LumberjackFallenTree* owner) : _28(owner) {}
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    LumberjackFallenTree* _28;
+};
+
+// vtable 0x7102403e80: call 0x710048554c, D0 0x710048714c.
+class Unk_7102403e80 : public dmg::DamageCallback {
+public:
+    explicit Unk_7102403e80(LumberjackFallenTree* owner) : _28(owner) {}
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5, u64 a6) override;
+
+    LumberjackFallenTree* _28;
+};
 
 class LumberjackFallenTree : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(LumberjackFallenTree, ksys::act::ai::Ai)
@@ -17,9 +40,13 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    // 0x71004855dc (declared only; the CSV name agl::eft::Star::updateUBO is wrong): called by the damage callback
+    // `_68` with the damage manager's position.
+    void sub_71004855DC(const sead::Vector3f& position);
+
 protected:
-    // FIXME: remove this
-    u8 pad_0x38[0x60];
+    Unk_7102403e48 _38{this};
+    Unk_7102403e80 _68{this};
     // static_param at offset 0x98
     const float* mToLogAngVel_s{};
     // static_param at offset 0xa0
