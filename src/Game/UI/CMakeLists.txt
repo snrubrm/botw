@@ -162,6 +162,9 @@ target_sources(uking PRIVATE
   uiUI.cpp
   uiTagProcessor.h
   uiPaneCasts.cpp
+  uiPaneCastBDD310.cpp
+  uiPaneCastBDF594.cpp
+  uiPaneCastBDF6A8.cpp
   uiTexSlots.cpp
   uiTexSlots.h
   uiTimer.cpp
