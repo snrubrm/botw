@@ -126,6 +126,7 @@ add_library(aal OBJECT
   src/aalSpeakerBalanceUnifier.cpp
   src/aalSpeakerBalanceUnifierArea.cpp
   src/aalSpeakerBalanceUnifierMgr.cpp
+  src/aalUnifierSpeakerBalanceTable.cpp
   src/aalSpeakerBalanceUnifierAreaSegment.cpp
   src/dummy.cpp
 )

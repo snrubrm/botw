@@ -1,11 +1,15 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include "aal/aalDeviceType.h"
 
 namespace aal {
 
+class OutputDevice;
+
 /// The settings of the aal system. TODO: incomplete: the vtable (offset 0), the output mode (0x8), the SDK
-/// foundation (0x10) and the speaker balance modes (0x54) are not modeled.
+/// and the speaker balance modes (0x54) are not modeled.
 class Settings {
 public:
     /// Ignored if `fps` is not positive.
@@ -18,7 +22,12 @@ public:
     f32 getDopplerPitchMin() const;
     f32 getDopplerPitchMax() const;
 
-    u8 _0[0x1c];
+    /// The output device (the Switch only has the TV).
+    OutputDevice* getOutputDevice(DeviceType device) const { return mOutputDevices[device]; }
+
+    u8 _0[0x10];
+    sead::SafeArray<OutputDevice*, 1> mOutputDevices;
+    u8 _18[4];
     f32 mBaseFPS;
     f32 mFrameWaitIntervalStepRate;
     /// The time that passes in one calculation step (the faders move by step * this value each calc).

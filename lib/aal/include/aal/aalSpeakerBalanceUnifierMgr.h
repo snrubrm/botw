@@ -2,6 +2,7 @@
 
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 
@@ -13,8 +14,16 @@ namespace aal {
 
 class SpeakerBalanceUnifier;
 
-/// The table of the speaker balances of the unifiers. TODO: not modeled (0x18 bytes; the constructor, destructor,
-/// initialize and makeTable are 0x7100b946d4 / 0x7100b946dc / 0x7100b94738 / 0x7100b94830, declared only).
+/// The speaker balances of the sixty four directions around a listener for each interior (0x3c00 bytes each, not
+/// modeled).
+struct UnifierSpeakerBalanceData {
+    UnifierSpeakerBalanceData() : _0{} {}
+
+    u8 _0[0x3c00];
+};
+
+/// The table of the speaker balances of the unifiers: one UnifierSpeakerBalanceData for each interior of each device.
+/// TODO: incomplete (makeTable and the calcSpeakerBalance functions are not decompiled, 0x7100b94830 declared only).
 class UnifierSpeakerBalanceTable {
 public:
     UnifierSpeakerBalanceTable();
@@ -24,13 +33,16 @@ public:
     void makeTable();
 
 private:
-    u8 _0[0x18];
+    UnifierSpeakerBalanceData** mData;
+    f32* mInteriorMaxSpread;
+    s32 mInteriorNum;
+    s32 mCurrentInteriorNum;
 };
 
 /// Manages the speaker balance unifiers: they are created at initialization and handed out (allocSpeakerBalanceUnifier)
 /// and taken back (freeSpeakerBalanceUnifier) by the sound source unifiers.
 /// TODO: incomplete (the constructor, initialize, setupInteriorSize and the unknown members are not decompiled).
-class SpeakerBalanceUnifierMgr {
+class SpeakerBalanceUnifierMgr : public sead::hostio::Node {
 public:
     struct InitializeArg {
         /// The number of speaker balance unifiers.
@@ -39,6 +51,7 @@ public:
 
     SpeakerBalanceUnifierMgr();
     virtual ~SpeakerBalanceUnifierMgr();
+
 
     void finalize();
     void initialize(const InitializeArg& arg, sead::Heap* heap);
@@ -49,6 +62,14 @@ public:
     void setRegisterCullingDistance(f32 distance);
     SpeakerBalanceUnifier* allocSpeakerBalanceUnifier(const sead::SafeString& name, sead::Heap* heap);
     void freeSpeakerBalanceUnifier(SpeakerBalanceUnifier* unifier);
+
+    struct Pair {
+        f32 first;
+        f32 second;
+    };
+    struct Quad {
+        f32 values[4];
+    };
 
 private:
     bool mInitialized;
@@ -63,10 +84,14 @@ private:
     f32 mRegisterCullingDistance;
     u8 _50;
     sead::CriticalSection mCS;
-    u8 _98[0xf0 - 0x98];
+    bool _98;
+    Pair _9c;
+    Quad _a4;
+    u8 _b4;
+    sead::FixedSafeString<32> mName;
     u64 mCalcBeginTick;
     u64 mCalcTicks;
-    u8 _100[8];
+    u32 _100;
 };
 
 }  // namespace aal
