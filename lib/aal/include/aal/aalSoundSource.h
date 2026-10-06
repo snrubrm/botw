@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <cstddef>
 
+#include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
 
 namespace aal {
@@ -22,9 +23,12 @@ public:
     u32 mId;
     u8 _14[0x120 - 0x14];
     SpatialSetting mSpatialSetting;
+    /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
+    SpatialCalculator* mSpatialCalculator;
 };
 static_assert(offsetof(SoundSource, mState) == 0xc, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mId) == 0x10, "aal::SoundSource layout mismatch");
 static_assert(offsetof(SoundSource, mSpatialSetting) == 0x120, "aal::SoundSource layout mismatch");
+static_assert(offsetof(SoundSource, mSpatialCalculator) == 0x1a0, "aal::SoundSource layout mismatch");
 
 }  // namespace aal

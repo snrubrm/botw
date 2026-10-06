@@ -1,8 +1,15 @@
 #include "Game/AI/AI/aiWaterSurfaceBase.h"
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
 #include <math/seadBoundBox.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/Shape/BoxWater/physBoxWaterRigidBody.h"
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::ai {
 
@@ -62,7 +69,41 @@ void WaterSurfaceBase::calc_() {
 }
 
 void WaterSurfaceBase::leave_() {
-    ksys::act::ai::Ai::leave_();
+    if (_48.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_48.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+    }
+    _48.fade();
+}
+
+void WaterSurfaceBase::sub_71005ED41C() {
+    if (_48.isActive())
+        return;
+    auto* actor = mActor;
+    auto* xlink = actor->getXLink();
+    if (!xlink)
+        return;
+    auto* slink = xlink->_50;
+    if (!slink)
+        return;
+    slink->setPropertyValue(3, *mFlowSpeedFactor_m);
+    const bool is_dungeon = ksys::StageInfo::getCurrentMapType() == "CDungeon";
+    const bool is_large = actor->getScale().length() >= 2.0f;
+    if (!is_dungeon && is_large)
+        _48 = ksys::eft::searchAndEmitSLink(actor, "waitWide", false);
+    else
+        _48 = ksys::eft::searchAndEmitSLink(actor, "wait", false);
+    if (_48.isActive()) {
+        _48.getEvent()->resetFlagBit(1);
+        if (_40 && _48.isActive()) {
+            if (auto* executor =
+                    static_cast<xlink2::EventSLink*>(_48.getEvent())->getAliveAssetExecutor())
+                if (auto* source = executor->getHandle()->getSoundSource())
+                    source->mSpatialSetting.setShape(_40);
+        }
+    }
 }
 
 void WaterSurfaceBase::loadParams_() {
