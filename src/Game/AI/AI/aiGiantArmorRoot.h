@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71003f5f6c (declared only)
+    void sub_71003F5F6C();
 };
 
 }  // namespace uking::ai

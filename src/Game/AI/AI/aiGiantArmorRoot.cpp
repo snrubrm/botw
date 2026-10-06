@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiGiantArmorRoot.h"
+#include "Game/Actor/actGiantArmor.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 
 namespace uking::ai {
 
@@ -12,6 +15,39 @@ bool GiantArmorRoot::init_(sead::Heap* heap) {
 
 void GiantArmorRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Ai::enter_(params);
+}
+
+void GiantArmorRoot::calc_() {
+    auto* child = getCurrentChild();
+    if (child->isFinished() || child->isFailed()) {
+        auto* actor = mActor;
+        auto* body = actor->getMainBody();
+        auto* physics = actor->getPhysics();
+        if (body && physics)
+            physics->sub_7100FBAF18(body);
+        changeChild("非装備", nullptr);
+        return;
+    }
+    if (!child->isChangeable())
+        return;
+    bool missing_owner = true;
+    if (auto* armor = sead::DynamicCast<act::GiantArmor>(mActor))
+        missing_owner = !sead::DynamicCast<ksys::act::Actor>(armor->_be8.getProc(nullptr, nullptr));
+    if (isCurrentChild("装備")) {
+        if (missing_owner) {
+            mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            auto* actor = mActor;
+            auto* body = actor->getMainBody();
+            if (body) {
+                auto* physics = actor->getPhysics();
+                if (physics)
+                    physics->sub_7100FBAF18(body);
+            }
+            changeChild("非装備", nullptr);
+        }
+    } else if (!missing_owner) {
+        sub_71003F5F6C();
+    }
 }
 
 void GiantArmorRoot::leave_() {
