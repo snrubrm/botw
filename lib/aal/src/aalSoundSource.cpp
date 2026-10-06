@@ -155,10 +155,9 @@ void SoundSource::execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d) {
 
 // 0x7100b7900c
 void SoundSource::execOnFianlizeSoundSourceUnifierSource() {
-    if (mUnifierSource) {
+    if (mUnifierSource)
         finishNow_();
-        mUnifierSource = nullptr;
-    }
+    mUnifierSource = nullptr;
 }
 
 // 0x7100b77f94
