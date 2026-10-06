@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -562,6 +563,11 @@ void sub_71007390E8(ksys::act::AttackSensor* sensor) {
 void sub_71007390F8(ksys::act::AttackSensor* sensor) {
     if (sensor)
         sensor->_20 = 0x1;
+}
+
+void sub_7100739168(ksys::act::AttackSensor2* sensor) {
+    if (sensor)
+        sensor->_1c = 4;
 }
 
 void sub_7100739108(ksys::act::AttackSensor* sensor) {

@@ -1191,6 +1191,11 @@ void sub_7100EE5B84(sead::Vector3f* gravity, Actor* actor) {
     *gravity *= factor;
 }
 
+void sub_7100EE5C44(sead::Vector3f* gravity, Actor* actor) {
+    sub_7100EE5B84(gravity, actor);
+    *gravity *= 1.0f / 900.0f;
+}
+
 bool itemIsForSale(Actor* actor) {
     if (auto* obj = actor->getMapObject()) {
         auto* link_data = obj->getLinkData();

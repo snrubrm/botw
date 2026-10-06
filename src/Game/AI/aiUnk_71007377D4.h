@@ -74,6 +74,10 @@ bool sub_7100738E70(ksys::act::Actor* actor);
 /// Gravity acting on the actor (character controller gravity, or world gravity scaled by the main
 /// rigid body's gravity factor).
 void sub_710072DC50(sead::Vector3f* gravity, ksys::act::Actor* actor);
+/// 0x710072dc54: the same per frame squared (gravity / 900).
+void sub_710072DC54(sead::Vector3f* gravity, ksys::act::Actor* actor);
+/// 0x710072bb4c: the player (null without a PlayerInfo).
+ksys::act::Actor* sub_710072BB4C();
 
 /// inline-only in the original; name is a guess. Evidence: the same sequence (sub_710072DC50 into a
 /// stack vector, returned by value) repeats in SmallDamageBackwardBase::calc_, KnockBackShock::enter_,

@@ -260,6 +260,8 @@ void sub_7100EE5980(Actor* actor, const sead::Vector3f& vel);
 // 0x7100ee5b84 (declaration only): gravity acting on the actor (character controller gravity, or
 // world gravity scaled by the main rigid body's gravity factor). sub_710072DC50 forwards to it.
 void sub_7100EE5B84(sead::Vector3f* gravity, Actor* actor);
+// 0x7100ee5c44 (lane1 s43): the same gravity scaled by 1 / 900 (per frame squared); sub_710072DC54 forwards to it.
+void sub_7100EE5C44(sead::Vector3f* gravity, Actor* actor);
 // 0x7100ee5330 (declaration only; lane3 s17): takes a name (FireWoodBase::enter_ passes getStr_Chemical()).
 void sub_7100EE5330(Actor* actor, const sead::SafeString& name);
 // 0x7100ee5a14: sets the actor's angular velocity (per frame; scaled by 30 for the physics system).
