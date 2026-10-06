@@ -84,4 +84,14 @@ void SoundParam::setSpread(f32 spread) {
     mSpread = spread;
 }
 
+// 0x7100b76364
+void SoundParam::setDeviceVolume(DeviceType device, f32 volume) {
+    mDeviceVolume[device] = volume;
+}
+
+// 0x7100b76380
+void SoundParam::setBusVolume(BusType bus, f32 volume) {
+    mBusVolume[bus] = volume;
+}
+
 }  // namespace aal

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "aal/aalDeviceType.h"
 
 namespace aal {
 
 /// The set of mixing parameters of a sound (volume, pitch, filters, ...). 0x40 bytes: SoundSource holds two of
 /// them at +0x38 (the default parameters) and +0x78.
-/// TODO: the device / bus volume setters (they take enums) are not declared.
 class SoundParam {
 public:
     SoundParam();
@@ -25,6 +25,8 @@ public:
     void setBiquadValue(f32 value);
     void setAngleIdx(u32 index);
     void setSpread(f32 spread);
+    void setDeviceVolume(DeviceType device, f32 volume);
+    void setBusVolume(BusType bus, f32 volume);
 
 private:
     f32 mVolume;

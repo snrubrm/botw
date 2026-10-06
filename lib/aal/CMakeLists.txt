@@ -2,6 +2,7 @@ project(aal CXX ASM)
 
 add_library(aal OBJECT
   include/aal/aalAssetInfo.h
+  include/aal/aalDeviceType.h
   include/aal/aalEmitter.h
   include/aal/aalFadeCurveType.h
   include/aal/aalFxDelayParamSetter.h
@@ -10,6 +11,7 @@ add_library(aal OBJECT
   include/aal/aalGroupLimiter.h
   include/aal/aalGroupMgr.h
   include/aal/aalHandle.h
+  include/aal/aalISpeakerBalanceSupplier.h
   include/aal/aalIUnifiable.h
   include/aal/aalNamedObj.h
   include/aal/aalShape.h
@@ -28,6 +30,7 @@ add_library(aal OBJECT
   src/aalGroupLimiter.cpp
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
+  src/aalISpeakerBalanceSupplier.cpp
   src/aalNamedObj.cpp
   src/aalShape.cpp
   src/aalSoundController.cpp
