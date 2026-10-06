@@ -1,5 +1,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/euiLayoutEx.h"
+#include <nn/ui2d/Pane.h>
+#include <nn/ui2d/Parts.h>
 #include "Game/UI/euiMessageString.h"
 #include "Game/UI/euiMessageMgr.h"
 #include <devenv/seadEnvUtil.h>
@@ -349,6 +351,51 @@ int getWeaponInventoryLife(const sead::SafeString& name) {
         return 0;
     const int life = ksys::act::getGeneralLife(info, name.cstr());
     return act::WeaponModifierInfo::getLifeMultiplier() * life;
+}
+
+// NON_MATCHING: register allocation only (the original keeps the result in x3 and the current pane in x0)
+// 0x7100aa0cb4 (placeholder name): follows the names of `entries` down the pane tree of `layout`; the last pane found
+// (null if one is missing, or if the first name is empty)
+nn::ui2d::Pane* sub_7100AA0CB4(eui::LayoutEx* layout, const WidgetPathEntry* entries, s32 count) {
+    nn::ui2d::Pane* pane = layout->mPane;
+    nn::ui2d::Pane* found = nullptr;
+    for (s32 i = 0; i < count; ++i) {
+        const char* name = entries[i].name;
+        if (name[0] == sead::SafeString::cNullChar)
+            break;
+        pane = pane->FindPaneByName(name, true);
+        if (!pane)
+            return nullptr;
+        found = pane;
+    }
+    return found;
+}
+
+// 0x7100aa0d40 (placeholder name): the same through the parts layouts
+nn::ui2d::Parts* sub_7100AA0D40(nn::ui2d::Layout* layout, const WidgetPathEntry* entries, s32 count) {
+    nn::ui2d::Parts* parts = nullptr;
+    for (s32 i = 0; i < count; ++i) {
+        const char* name = entries[i].name;
+        if (name[0] == sead::SafeString::cNullChar)
+            break;
+        parts = layout->FindPartsPaneByName(name);
+        if (!parts)
+            return nullptr;
+        layout = parts->mPartsLayoutLink.layout;
+    }
+    return parts;
+}
+
+// 0x7100aa16e8 (placeholder name): whether `pane` and all of its ancestors are visible (false for null)
+bool sub_7100AA16E8(const nn::ui2d::Pane* pane) {
+    if (!pane)
+        return false;
+    do {
+        if (!pane->IsVisible())
+            return false;
+        pane = pane->GetParent();
+    } while (pane);
+    return true;
 }
 
 // 0x7100aa7a50
