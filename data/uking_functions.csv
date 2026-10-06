@@ -68778,8 +68778,8 @@ Address,Quality,Size,Name
 0x0000007100bf7f8c,U,000124,
 0x0000007100bf8008,U,000176,
 0x0000007100bf80b8,O,000192,_ZN4gsys5Model25setAutoAnimationFrameRateEf
-0x0000007100bf8178,U,000192,_ZN4gsys5Model23forceAutoAnimationFrameEf
-0x0000007100bf8238,U,000176,_ZN4gsys5Model24forceUpdateAutoAnimationEv
+0x0000007100bf8178,O,000192,_ZN4gsys5Model23forceAutoAnimationFrameEf
+0x0000007100bf8238,O,000176,_ZN4gsys5Model24forceUpdateAutoAnimationEv
 0x0000007100bf82e8,U,000124,_ZNK4gsys5Model14searchMaterialERKN4sead14SafeStringBaseIcEE
 0x0000007100bf8364,U,000076,_ZN4gsys5Model21setMaterialVisibleAllEb
 0x0000007100bf83b0,U,000084,

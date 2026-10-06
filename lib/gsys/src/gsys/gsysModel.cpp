@@ -14,4 +14,22 @@ void Model::setAutoAnimationFrameRate(f32 frame_rate) {
     }
 }
 
+void Model::forceAutoAnimationFrame(f32 frame) {
+    for (auto& info : mUnitAccess) {
+        if (auto* unit = sead::DynamicCast<ModelNW>(info.mModelUnit)) {
+            if (unit->mAutoAnimation)
+                unit->mAutoAnimation->forceFrame(frame);
+        }
+    }
+}
+
+void Model::forceUpdateAutoAnimation() {
+    for (auto& info : mUnitAccess) {
+        if (auto* unit = sead::DynamicCast<ModelNW>(info.mModelUnit)) {
+            if (unit->mAutoAnimation)
+                unit->mAutoAnimation->forceUpdate();
+        }
+    }
+}
+
 }  // namespace gsys

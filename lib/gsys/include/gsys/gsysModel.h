@@ -59,6 +59,10 @@ public:
     ModelAnimation* getAnimation() const { return mAnimation; }
 
     void setAutoAnimationFrameRate(f32 frame_rate);
+    /// Sets the current frame of the auto animation of each ModelNW unit that has one.
+    void forceAutoAnimationFrame(f32 frame);
+    /// Updates the auto animation of each ModelNW unit that has one right away.
+    void forceUpdateAutoAnimation();
     void sub_7100BF8738();
 
     // 0x7100bf8e9c (CSV name; declared only): recomputes the world matrices of the model units from
