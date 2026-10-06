@@ -7,6 +7,7 @@
 #include "aal/aalISpeakerBalanceSupplier.h"
 #include "aal/aalMarkerController.h"
 #include "aal/aalSoundSourceUnifier.h"
+#include "aal/aalSettings.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
@@ -52,6 +53,31 @@ void SoundSource::finalize() {
         mMarkerController = nullptr;
     }
     _8 = 0;
+}
+
+// NON_MATCHING: same code; the original keeps the state it loaded for the range test in a register and reuses it for the later test against 6 (registers w8/w9 differ).
+// 0x7100b76c28
+void SoundSource::calc() {
+    if (!_8)
+        return;
+
+    if (mPauseFlags.getDirect() == 0 && mState == 2)
+        beginToPlay_();
+
+    if (mState >= 4 && mState <= 6) {
+        if (mPlayingStateController->mState == 0)
+            finishNow_();
+    }
+
+    if (mPauseFlags.getDirect() == 0)
+        mPlayingStateController->preCalc();
+    if (mPauseFlags.getDirect() == 0 || mState == 6)
+        calcState_();
+
+    if (mState == 8)
+        mPlayingTime += SystemAccessor::getSettings()->mCalcTimeStep;
+
+    mPlayingStateController->calc();
 }
 
 // 0x7100b76a68
@@ -425,6 +451,40 @@ s32 SoundSource::getChannelNum(s32 track) const {
     if (track >= 0 && track < mTrackNum)
         return mChannelNum[track];
     return 0;
+}
+
+// 0x7100b77dec
+bool SoundSource::isInnerPaused() const {
+    if (mSpatialSetting.isUnified() && mUnifierSource) {
+        Handle handle = mUnifierSource->getTargetHandle();
+        if (const SoundSource* target = handle.getSoundSource())
+            return target->isInnerPaused();
+    }
+    if (mPlayingStateController) {
+        if (SoundController* controller = mPlayingStateController->mSoundController)
+            return controller->isInnerPaused();
+    }
+    return false;
+}
+
+// NON_MATCHING: the original tests the track and the channel for a negative value one after the other and keeps the
+// default value in a register.
+// 0x7100b78358
+SpeakerChannel SoundSource::getChannelSpeakerType(s32 track, s32 channel) const {
+    SpeakerChannel speaker(4);
+    if (track >= 0) {
+        if (channel >= 0) {
+            if (channel < getChannelNum(track))
+                speaker = SpeakerChannel(mChannelSpeakerType[track][channel]);
+        }
+    }
+    return speaker;
+}
+
+// 0x7100b77fe0
+void SoundSource::setChannelSpeakerType(s32 track, s32 channel, SpeakerChannel speaker) {
+    if (track < mTrackNum && channel < getChannelNum(track))
+        mChannelSpeakerType[track][channel] = speaker;
 }
 
 // 0x7100b780e8

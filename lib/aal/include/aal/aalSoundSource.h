@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <container/seadListImpl.h>
 
+#include <container/seadSafeArray.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "aal/aalFadeCurveType.h"
@@ -13,6 +14,7 @@
 #include "aal/aalSoundParam.h"
 #include "aal/aalSpatialCalculator.h"
 #include "aal/aalSpatialSetting.h"
+#include "aal/aalSpeakerChannel.h"
 #include "aal/aalTimedFader.h"
 
 namespace sead {
@@ -97,7 +99,7 @@ public:
     /// The fade in / out fader of the sound.
     SimpleTimedFader* mFader;
     /// The speaker each channel of each track is sent to (SpeakerChannel values).
-    u8 mChannelSpeakerType[8][2];
+    sead::SafeArray<sead::SafeArray<u8, 2>, 8> mChannelSpeakerType;
     SpatialSetting mSpatialSetting;
     /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
     SpatialCalculator* mSpatialCalculator;
@@ -116,6 +118,7 @@ public:
     void kill();
     /// 0x7100b76a68
     void reset();
+    void calc();
     void stopForce();
     void detachSoundGroup();
     bool prepare(bool prepare);
@@ -126,6 +129,9 @@ public:
     void finishNow_();
     /// 0x7100b776cc (declared only): starts the release of the sound.
     void beginToStop_();
+    /// 0x7100b76d1c / 0x7100b76e5c (declared only)
+    void beginToPlay_();
+    void calcState_();
     /// 0x7100b78478
     void execOnFinalizeEmitter();
     /// 0x7100b770e4: allocates the spatial calculator (and the unifier source); stops the sound if that fails.
@@ -133,6 +139,10 @@ public:
     void execOnDestroyWaveAsset(u64 a, u64 b, bool c, bool d);
     void execOnFianlizeSoundSourceUnifierSource();
     s32 getChannelNum(s32 track) const;
+    /// 0x7100b77dec: whether the sound (or the sound that it is unified into) is paused by the sound library.
+    bool isInnerPaused() const;
+    SpeakerChannel getChannelSpeakerType(s32 track, s32 channel) const;
+    void setChannelSpeakerType(s32 track, s32 channel, SpeakerChannel speaker);
     bool setSpeakerBalanceSupplier(ISpeakerBalanceSupplier* supplier);
     bool isAttachedSound() const;
     bool canVirtualize() const;
