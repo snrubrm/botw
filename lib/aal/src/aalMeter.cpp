@@ -20,7 +20,7 @@ sead::Vector3f Meter::toLength(const sead::Vector3f& meter) {
     const f32 y = meter.y;
     const f32 z = meter.z;
     const f32 scale = System::sInstance->mSettings->mLengthPerMeter;
-    return {x * scale, scale * y, z * scale};
+    return {x * scale, y * scale, z * scale};
 }
 
 }  // namespace aal
