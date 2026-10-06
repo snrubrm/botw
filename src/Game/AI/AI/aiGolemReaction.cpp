@@ -100,4 +100,21 @@ bool GolemReaction::sub_71003FEC7C() {
     return sub_71007090F4(controller);
 }
 
+void GolemReaction::sub_71003FE9C4() {
+    auto* damage = mActor->getDamageMgr();
+    if (damage && damage->getField50() == 4) {
+        bool right = false;
+        bool left = false;
+        sub_71003FF3F8(&right, &left);
+        if (left) {
+            sub_71003FF79C(mBodyArmLName1_s, mBodyArmLName2_s, "", mLeftArmTgtBodyName_s,
+                           mChmArmLName_s, mArmLMaterialName_s, mBreakArmLXLinkKey_s);
+        }
+        if (right) {
+            sub_71003FF79C(mBodyArmRName1_s, mBodyArmRName2_s, "", mRightArmTgtBodyName_s,
+                           mChmArmRName_s, mArmRMaterialName_s, mBreakArmRXLinkKey_s);
+        }
+    }
+}
+
 }  // namespace uking::ai
