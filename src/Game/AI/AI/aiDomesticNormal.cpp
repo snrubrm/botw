@@ -83,7 +83,8 @@ bool DomesticNormal::m44() {
            isCurrentChild("ターゲット通知") || isCurrentChild("最後の手段");
 }
 
-// NON_MATCHING: Timer store order and register scheduling differ.
+// NON_MATCHING: only the block layout differs (the original places the 'よろけ' test and the shared
+// sub_71004FCA60 tail after the '帰還' arm).
 void DomesticNormal::calc_() {
     if (!_399) {
         sub_7100364F7C();
@@ -96,8 +97,9 @@ void DomesticNormal::calc_() {
         if (m44()) {
             const f32 minimum = *mWaitFramesAfterRunMin_s;
             const s32 maximum = *mWaitFramesAfterRunMax_s;
-            _38c.value = _38c.previous_value =
-                minimum + f32(maximum) * sead::GlobalRandom::instance()->getF32();
+            const f32 wait = minimum + f32(maximum) * sead::GlobalRandom::instance()->getF32();
+            _38c.value = wait;
+            _38c.previous_value = wait;
         } else if (isCurrentChild("帰還")) {
             if (child->isFailed()) {
                 ++_398;
