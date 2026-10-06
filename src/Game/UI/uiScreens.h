@@ -16,6 +16,7 @@
 #include "Game/UI/uiArchiveHandle.h"
 #include "Game/UI/uiTexSlots.h"
 #include "Game/UI/uiUnkTiny.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Utils/StateMachine.h"
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
@@ -670,6 +671,9 @@ public:
     void sub_71010AE548(ksys::act::Actor* actor, bool flag);
     // 0x71010ae9e8 (CSV unnamed, declared only): called by UI::sub_71010A5B0C with the actor.
     bool sub_71010AE9E8(ksys::act::Actor* actor);
+
+    u8 _2fc[0x698 - 0x2fc];
+    /* 0x698 */ sead::CriticalSection _698;
 };
 
 // The class of the three message dialog screens (ids ScreenId::Unk17, MessageDialog and Unk76; constructor
@@ -678,17 +682,27 @@ class ScreenMessageDialog : public Screen {
 public:
     ~ScreenMessageDialog() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageDialog, Screen)
+    // 0x71010b34d0
+    const char* getLayoutName_() const override;
 
     u8 _2fc[0x350 - 0x2fc];
     /* 0x350 */ s32 _350;
     u8 _354[0x5ec - 0x354];
     /* 0x5ec */ s32 _5ec;
-    u8 _5f0[0x73c - 0x5f0];
+    u8 _5f0[0x720 - 0x5f0];
+    /* 0x720 */ u64 _720;
+    /* 0x728 */ ksys::act::BaseProcLink _728;
+    /* 0x738 */ s32 _738;
     /* 0x73c */ s32 _73c;
+    u8 _740[0x76a - 0x740];
+    /* 0x76a */ bool _76a;
+    u8 _76b[0x773 - 0x76b];
+    /* 0x773 */ u8 _773;
 
-    // 0x71010b343c / 0x71010b34b4 (CSV unnamed, declared only): called by UI::sub_71010A5C8C / setPlacedItemStockNum.
-    void sub_71010B343C();
+    // 0x71010b343c / 0x71010b34b4 / 0x71010b34a0: called by UI::sub_71010A5C8C / setPlacedItemStockNum / sub_71010A7994.
+    bool sub_71010B343C();
     void sub_71010B34B4(bool choice_mode, s32 stock);
+    void sub_71010B34A0(bool a1);
 };
 
 // Nominal types of two more screens (ScreenId::DemoMessage, ScreenId::ErrorViewer).
@@ -697,18 +711,29 @@ public:
     ScreenDemoMessage();
     ~ScreenDemoMessage() override;
     SEAD_RTTI_OVERRIDE(ScreenDemoMessage, Screen)
+    // 0x710109ebb4
+    const char* getLayoutName_() const override;
 
     /* 0x300 */ eui::MessageString _300;
     /* 0x310 */ void* _310{};
     /* 0x318 */ sead::FixedSafeString<256> _318;
     /* 0x430 */ sead::FixedSafeString<256> _430;
     /* 0x548 */ s32 _548 = -1;
-    /* 0x550 */ u64 _550 = 0;
-    /* 0x558 */ u16 _558 = 0;
+    /* 0x550 */ eui::Animator* _550 = nullptr;
+    /* 0x558 */ bool _558 = false;
+    /* 0x559 */ bool _559 = false;
 
-    // 0x710109e94c / 0x710109e96c (CSV unnamed, declared only): called by UI::sub_71010A7034 / sub_71010A6D84.
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
+    void m93(sead::Heap* heap) override;
+    void m94() override;
+    void m98() override;
+    void m101() override;
+
+    // 0x710109e94c / 0x710109e96c: called by UI::sub_71010A7034 / sub_71010A6D84.
     void sub_710109E94C();
     void sub_710109E96C();
+    // 0x710109e978: slot 0x558 is a bool
+    void sub_710109E978();
 };
 
 class ScreenErrorViewer : public Screen {

@@ -341,7 +341,7 @@ public:
     Unk_7102509148();
     virtual ~Unk_7102509148();
 
-    u8 _8[0x88];
+    u8 _8[0x88]{};
 };
 
 }  // namespace uking::ui

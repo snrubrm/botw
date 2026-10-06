@@ -173,4 +173,10 @@ Unk_7102474bc8::~Unk_7102474bc8() {
 // 0x7100937d9c
 Unk_7102474dd0::~Unk_7102474dd0() = default;
 
+// 0x71010a7bcc
+Unk_7102509148::Unk_7102509148() = default;
+
+// 0x71010a7bf8
+Unk_7102509148::~Unk_7102509148() = default;
+
 }  // namespace uking::ui

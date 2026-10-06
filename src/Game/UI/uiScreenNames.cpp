@@ -128,6 +128,11 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
     return "HomeMenuCapture_00";
 }
 
+// 0x710109ebb4
+const char* ScreenDemoMessage::getLayoutName_() const {
+    return "MessageDemo_00";
+}
+
 // 0x710109ff58
 const char* ScreenErrorViewer::getLayoutName_() const {
     return "ErrorViewer_00";
