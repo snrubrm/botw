@@ -755,4 +755,37 @@ void InstanceSet::sub_7100FBDFA4(SystemGroupHandler* handler) {
     _188[idx] = handler;
 }
 
+void InstanceSet::sub_7100FBD918(const void* key, s32 value) {
+    for (auto& entry : mLinkMatricesMaybe) {
+        if (entry._38 == key) {
+            entry._40 = value;
+            return;
+        }
+    }
+}
+
+void InstanceSet::sub_7100FBD94C(const void* key, bool value) {
+    for (auto& entry : mLinkMatricesMaybe) {
+        if (entry._38 == key) {
+            entry._44 = value;
+            return;
+        }
+    }
+}
+
+void InstanceSet::sub_7100FBD984(bool value) {
+    for (auto& entry : mLinkMatricesMaybe)
+        entry._44 = value;
+}
+
+gsys::BoneAccessKey InstanceSet::sub_7100FBDF54(const void* key) const {
+    if (key) {
+        for (auto& entry : mLinkMatricesMaybe) {
+            if (entry._38 == key)
+                return entry._30;
+        }
+    }
+    return {};
+}
+
 }  // namespace ksys::phys

@@ -5,6 +5,7 @@
 #include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
+#include <gsys/gsysModelAccessKey.h>
 #include <hostio/seadHostIONode.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -218,10 +219,23 @@ public:
     bool sub_7100FBB420() const;
     // 0x7100fc0600: unlinks `body` from that list and deletes it.
     void sub_7100FC0600(RigidBody* body);
+    // 0x7100fbd918 / 0x7100fbd94c / 0x7100fbd984 (lane4 s47; placeholder names): set field 0x40 / byte 0x44 of the
+    // entry of mLinkMatricesMaybe whose key (+0x38) is `key` / of every entry.
+    void sub_7100FBD918(const void* key, s32 value);
+    void sub_7100FBD94C(const void* key, bool value);
+    void sub_7100FBD984(bool value);
+    // 0x7100fbdf54: the bone key (+0x30) of the entry whose key is `key`, or the invalid key.
+    gsys::BoneAccessKey sub_7100FBDF54(const void* key) const;
 
 private:
     struct Unk1 {
-        u8 _0[0x48];
+        /* 0x00 */ u8 _0[0x30];
+        /* 0x30 */ gsys::BoneAccessKey _30;
+        /* 0x34 */ u8 _34[4];
+        /* 0x38 */ const void* _38;  // the key sub_7100FBD918 / sub_7100FBD94C look entries up by
+        /* 0x40 */ s32 _40;
+        /* 0x44 */ bool _44;
+        /* 0x45 */ u8 _45[3];
     };
 
     sead::SafeString mName;
