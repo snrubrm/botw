@@ -63,6 +63,8 @@ public:
     // 0x710000f70c (lane4 s46, unnamed in the CSV): `_1f70` has the bit `idx + 4`.
     bool sub_710000F70C(int idx);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
+    // 0x710000bc38 (CSV name; lane1 s45): sets the game data flag `name` of the dragon (`idx` -1: the dragon's own).
+    void setGameDataFlag(bool value, const sead::SafeString& name, int idx);
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
     // 0x710001014c: *_14c8.sub_71006FC514() (DragonMoveTo::enter_).

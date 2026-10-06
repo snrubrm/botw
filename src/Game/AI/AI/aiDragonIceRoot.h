@@ -2,6 +2,11 @@
 
 #include "Game/AI/AI/aiDragonRoot.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+
+namespace ksys::evt {
+class EventFlow;
+}
 
 namespace uking::ai {
 
@@ -20,12 +25,6 @@ public:
     void m41() override;
     void m44(const sead::Vector3f& pos) override;
     bool m46() override;
-
-    // 0x10-byte zero-initialised pair (only the constructor touches them). Placeholder.
-    struct Unk3 {
-        u64 _0 = 0;
-        u32 _8 = 0;
-    };
 
 protected:
     void sub_7100368FCC(bool enabled);
@@ -82,14 +81,13 @@ protected:
     s32 _388 = 6;
     u32 _38c = 0;
     f32 _390 = 0;
-    Unk3 _398;
-    Unk3 _3a8;
+    Unk_71012419b4 _398;
     f32 _3b8 = 0;
     f32 _3bc = 0;
     f32 _3c0 = 0;
     f32 _3c4 = 0;
     f32 _3c8 = -99999.0f;
-    void* _3d0 = nullptr;
+    ksys::evt::EventFlow* _3d0 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(DragonIceRoot, 0x3d8);
 

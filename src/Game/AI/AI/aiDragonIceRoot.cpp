@@ -3,6 +3,8 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Event/evtEventFlowMgr.h"
+#include "KingSystem/Event/evtManager.h"
 
 namespace uking::ai {
 
@@ -34,6 +36,22 @@ void DragonIceRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void DragonIceRoot::leave_() {
     DragonRoot::leave_();
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+    if (dragon->_1e0c == 3 && dragon->getGameDataFlag("DropItem", -1)) {
+        dragon->setGameDataFlag(true, "ReturnToSky", -1);
+        dragon->setGameDataFlag(false, "CreateRunelDragon", -1);
+    }
+    if (_3d0) {
+        if (auto* evt_mgr = ksys::evt::Manager::instance()) {
+            if (auto* flow_mgr = evt_mgr->getEventFlowMgr()) {
+                flow_mgr->unload(_3d0);
+                _3d0 = nullptr;
+            }
+        }
+    }
+    _398.fadeXLink();
 }
 
 void DragonIceRoot::loadParams_() {
