@@ -40,10 +40,10 @@ void Emitter::setDebugSolo(bool solo) {
 
 // 0x7100b9f3c0
 void Emitter::setDebugMute(bool mute) {
-    if (mDebugFlags & 1)
-        mDebugFlags &= ~2;
-    else
-        mDebugFlags = !mute ? mDebugFlags & ~2 : mDebugFlags | 2;
+    const u8 flags = mDebugFlags;
+    const u8 cleared = flags & ~2;
+    const u8 set = flags | 2;
+    mDebugFlags = (flags & 1) ? cleared : (!mute ? cleared : set);
 }
 
 // 0x7100b9f3e8
