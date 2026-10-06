@@ -2,6 +2,12 @@
 
 namespace ksys::act {
 
+// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
+// (commit 96101229).
+Unk_71024e6560::~Unk_71024e6560() {
+    ;
+}
+
 ActorChemicals::ActorChemicals() = default;
 
 Unk_71024e6428* ActorChemicals::sub_7100E3718C(int idx) {

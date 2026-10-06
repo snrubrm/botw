@@ -1,4 +1,8 @@
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 
 namespace ksys::act {
 
@@ -27,6 +31,179 @@ void Attention::sub_7100D744B8(const BaseProcLink& link) {
         return;
     mFlagsE21 |= 4;
     mRequestedTarget = link;
+}
+
+bool Attention::sub_7100D74148(BaseProcLink* out) {
+    if (mEnabled && mLists[1].mCount != 0) {
+        if (auto* client = *mLists[1].mEntries) {
+            if (auto* actor = client->getActor()) {
+                out->acquire(actor, false);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Attention::x(ActorLinkConstDataAccess* out) {
+    if (out && mEnabled && mLists[1].mCount != 0) {
+        if (auto* client = *mLists[1].mEntries) {
+            if (auto* actor = client->getActor()) {
+                out->acquire(actor);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Attention::sub_7100D74208(u32* out) const {
+    if (out && mEnabled && mLists[1].mCount != 0) {
+        if (auto* client = *mLists[1].mEntries) {
+            *out = client->sub_7100D724F4();
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Attention::sub_7100D74258(const AttClient* client) const {
+    s32 index = -1;
+    if (client) {
+        const auto& list = mLists[client->sub_7100D72534()];
+        for (s32 i = 0; i < list.mCount; ++i) {
+            if (list.mEntries[i] == client) {
+                index = i;
+                break;
+            }
+        }
+    }
+    return index != -1;
+}
+
+bool Attention::sub_7100D747D8(BaseProcLink* out) {
+    if (auto* client = sub_7100D7457C(false, u32(AttActionCode::None))) {
+        if (auto* actor = client->getActor()) {
+            out->acquire(actor, false);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Attention::sub_7100D7482C(ActorLinkConstDataAccess* out) {
+    if (out) {
+        if (auto* client = sub_7100D7457C(false, u32(AttActionCode::None))) {
+            if (auto* actor = client->getActor()) {
+                out->acquire(actor);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Attention::sub_7100D74550() const {
+    auto* client = sub_7100D7457C(false, u32(AttActionCode::None));
+    return client && client->getActor();
+}
+
+void Attention::sub_7100D74D78(AttClient* client) {
+    if (client) {
+        sub_7100D74DD4(client);
+        sub_7100D74FEC(client);
+        sub_7100D750E0(client);
+        sub_7100D751D4(client);
+    }
+}
+
+s32 Attention::getTargetCount(s32 list) const {
+    return mLists[list].mCount;
+}
+
+void Attention::sub_7100D74504(u32 value) {
+    if (value <= 1)
+        _c4c = value;
+}
+
+void Attention::setPlayerLink(PlayerLink* link) {
+    _c20 = link;
+}
+
+bool Attention::sub_7100D74488(ActorLinkConstDataAccess* out) {
+    if (_c20)
+        return _c20->getActorViaAccessor(out);
+    return out->acquire(nullptr);
+}
+
+void Attention::sub_7100D744A8() {
+    mFlagsE21 |= 1;
+}
+
+void Attention::sub_7100D74514(void* target) {
+    mFlagsE22.reset(0xc);
+    mFlagsE22.set(4);
+    _dc0 = target;
+}
+
+void Attention::sub_7100D74530(u32 type, void* target) {
+    mFlagsE22.reset(0xc);
+    mFlagsE22.set(8);
+    _db8 = type;
+    _dc0 = target;
+}
+
+bool Attention::sub_7100D753D8(const AttClient* client) const {
+    if (!client)
+        return false;
+    const AttClient* current = nullptr;
+    if (mEnabled && mLists[1].mCount != 0)
+        current = *mLists[1].mEntries;
+    return current == client;
+}
+
+f32 Attention::sub_7100D75410() const {
+    return _c30;
+}
+
+f32 Attention::sub_7100D75418() const {
+    return _c34;
+}
+
+f32 Attention::sub_7100D75420() const {
+    return _c38;
+}
+
+f32 Attention::sub_7100D75428() const {
+    return _c3c;
+}
+
+bool Attention::sub_7100D75430() const {
+    return _c20 ? _c20->isRidingHorse() : false;
+}
+
+bool Attention::sub_7100D75448() const {
+    return _c20 ? _c20->m188() : false;
+}
+
+bool Attention::sub_7100D75460() const {
+    return _c20 ? _c20->m203() : false;
+}
+
+bool Attention::sub_7100D75478() const {
+    return _c20 ? _c20->m376() : false;
+}
+
+bool Attention::sub_7100D75490() const {
+    return mFlagsE21 >> 1 & 1;
+}
+
+void Attention::setSomeFn(void* fn) {
+    _c28 = fn;
+}
+
+void Attention::setController(void* controller) {
+    _c18 = controller;
 }
 
 void Attention::setPauseState(bool paused) {

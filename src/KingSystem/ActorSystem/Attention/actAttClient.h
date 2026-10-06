@@ -35,6 +35,23 @@ public:
     s32 sub_7100D72534() const;
     // 0x7100d721c0: declaration-only attention update operation.
     void sub_7100D721C0();
+    // 0x7100d72320 (CSV AttClient::x_2): registers the client with the Attention singleton.
+    void sub_7100D72320();
+    // 0x7100d72144: whether the client has an actor and a resource client.
+    bool sub_7100D72144() const;
+    // 0x7100d7235c: `_30 = value`.
+    void sub_7100D7235C(void* value);
+    // 0x7100d72364: whether `_30` is set.
+    bool sub_7100D72364() const;
+    // 0x7100d723dc: `mMode = mode` for modes 0-2.
+    void sub_7100D723DC(s32 mode);
+    // 0x7100d724f4 / 0x7100d7251c: `_58` and `_58 & mask`.
+    u32 sub_7100D724F4() const;
+    bool sub_7100D7251C(u32 mask) const;
+    // 0x7100d7252c
+    Actor* getActor() const;
+    // 0x7100d72544: the action code of the resource client (see sub_7100D72534: the attention type).
+    u32 sub_7100D72544() const;
 
 private:
     Actor* mActor = nullptr;

@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include <gfx/seadCamera.h>
+#include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/Resource/Actor/resResourceAttCheck.h"
@@ -13,6 +14,46 @@ const sead::SafeString& AttClient::getName() const {
 
 s32 AttClient::sub_7100D72534() const {
     return int(mClient->client->getAttType());
+}
+
+void AttClient::sub_7100D72320() {
+    if (auto* attention = Attention::instance()) {
+        attention->sub_7100D74D78(this);
+        _61 = true;
+    }
+}
+
+bool AttClient::sub_7100D72144() const {
+    return mActor && mClient;
+}
+
+void AttClient::sub_7100D7235C(void* value) {
+    _30 = value;
+}
+
+bool AttClient::sub_7100D72364() const {
+    return _30 != nullptr;
+}
+
+void AttClient::sub_7100D723DC(s32 mode) {
+    if (u32(mode) <= 2)
+        mMode = mode;
+}
+
+u32 AttClient::sub_7100D724F4() const {
+    return _58;
+}
+
+bool AttClient::sub_7100D7251C(u32 mask) const {
+    return _58 & mask;
+}
+
+Actor* AttClient::getActor() const {
+    return mActor;
+}
+
+u32 AttClient::sub_7100D72544() const {
+    return int(mClient->client->getActionCode());
 }
 
 void AttClient::sub_7100D724FC(u32 flags) {
