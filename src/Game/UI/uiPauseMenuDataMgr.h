@@ -280,6 +280,10 @@ public:
     bool cannotGetItem(const sead::SafeString& name, int n) const;
     // 0x710097d79c: declaration only.
     void dyeGoodsStuff();
+    // 0x710097c1d4 / 0x710097c7b0 (CSV x_37 / x_38; declared only, lane2 s46; both switch on the argument (0..6) and return a value
+    // that the UI facade ignores)
+    void x_37(s32 a);
+    void x_38(s32 a);
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 

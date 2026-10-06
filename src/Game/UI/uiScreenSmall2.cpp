@@ -481,6 +481,37 @@ void ScreenPauseMenuMantan::m98() {
     setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
 }
 
+// 0x7100a1fa64
+void ScreenMainShortCut::sub_7100A1FA64(s32 value) {
+    _38c8 = value;
+    _38cc = 0;
+}
+
+// 0x7100a1fabc
+void ScreenMainShortCut::sub_7100A1FABC() {
+    _38c8 = -1;
+    _38cc = 1;
+}
+
+// 0x7100a1fa74
+bool ScreenMainShortCut::sub_7100A1FA74() {
+    if (_38c8 == -1)
+        return false;
+    return _37a0->mFrame == static_cast<f32>(_37a0->GetFrameSize());
+}
+
+// 0x7100a21908
+bool ScreenMainShortCut::sub_7100A21908() {
+    return _37a0 && _37a0->mFrame == 0;
+}
+
+// 0x7100a22074
+void ScreenMainShortCut::m160() {
+    _3720 = -1;
+    if (_3790)
+        _3790->sub_710093F594(false);
+}
+
 // 0x7100a2192c
 // NON_MATCHING: the original forms the address of the byte at 0x3700 (`add x8, x19, x8; ldrb w8, [x8]`) instead of
 // the register-offset load

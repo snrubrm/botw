@@ -200,6 +200,12 @@ bool sub_7100AA88A4(bool* out);
 void sub_7100A9F610();
 void sub_7100A9F74C();
 
+// 0x7100a79ec4 (placeholder name): Root38::hasAnyFlag of the singleton.
+bool sub_7100A79EC4();
+// 0x7100a82db8 / 0x7100a82dd0 (placeholder names): forward to PauseMenuDataMgr::x_37 / x_38.
+void sub_7100A82DB8(s32 a);
+void sub_7100A82DD0(s32 a);
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

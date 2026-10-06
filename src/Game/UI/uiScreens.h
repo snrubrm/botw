@@ -1261,6 +1261,8 @@ extern const ksys::StateBase sUnk_71025ef1d0;
 extern const ksys::StateBase sUnk_71025ef290;
 extern const ksys::StateBase sUnk_71025ec670;
 
+struct ScreenAppPictureBookUnk;
+
 class ScreenMainShortCut : public ScreenEx {
 public:
     void m96() override;
@@ -1274,12 +1276,16 @@ public:
     nn::ui2d::ArchiveHandle _3638;
     sead::PtrArray<Unk_Elem> _36f0;
     /* 0x3700 */ sead::BitFlag8 _3700;
-    u8 _pad_3701[0x3798 - 0x3701];
+    u8 _pad_3701[0x3720 - 0x3701];
+    /* 0x3720 */ s32 _3720;
+    u8 _pad_3724[0x3790 - 0x3724];
+    /* 0x3790 */ ScreenAppPictureBookUnk* _3790;
     /* 0x3798 */ eui::Animator* _3798;
     /* 0x37a0 */ eui::Animator* _37a0;
     u8 _pad_37a8[0x3850 - 0x37a8];
     sead::Buffer<u8> _3850;  // element type not known
-    u8 _pad_3860[0x38cc - 0x3860];
+    u8 _pad_3860[0x38c8 - 0x3860];
+    /* 0x38c8 */ s32 _38c8;
     /* 0x38cc */ u8 _38cc;
     u8 _pad_38cd[3];
     UiTexSlots _38d0;
@@ -1290,7 +1296,7 @@ public:
     virtual s32 m157();
     virtual void m158();
     virtual void m159();
-    virtual void m160();
+    virtual void m160();  // 0x7100a22074
     virtual s32 m161();
     virtual void m162();
     virtual void m163();
@@ -1302,6 +1308,12 @@ public:
     virtual s32 m169();
 
     bool sub_7100A20DD0();
+    // 0x7100a1fa64 / 0x7100a1fabc / 0x7100a1fa74 / 0x7100a21908 (placeholder names): set the 0x38c8 value (and clear / set
+    // the byte at 0x38cc); whether the animator at 0x37a0 is at its end / at its start
+    void sub_7100A1FA64(s32 value);
+    void sub_7100A1FABC();
+    bool sub_7100A1FA74();
+    bool sub_7100A21908();
     // 0x7100a2063c / 0x7100a209e4 / 0x7100a20ad4 / 0x7100a20cbc (CSV unnamed; declared only)
     void sub_7100A2063C();
     void sub_7100A209E4();

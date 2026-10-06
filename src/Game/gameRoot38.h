@@ -19,6 +19,8 @@ public:
 
     // 0x71090c504 (declared only): whether bit `flag` of the global flag word is set (the actors use flag 2).
     bool testFlag(int flag) const;
+    // 0x710090c300 (CSV Root38::hasAnyFlag; declared only): whether any bit of the global flag word is set.
+    bool hasAnyFlag() const;
 };
 
 }  // namespace uking

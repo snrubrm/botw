@@ -4,6 +4,7 @@
 #include "Game/E3Mgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiUI.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -16,6 +17,7 @@
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/gameHorseColorInfoMgr.h"
+#include "Game/gameRoot38.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
@@ -422,6 +424,20 @@ void sub_7100A9F74C() {
     if (auto* screen = sead::DynamicCast<ScreenSeekPadMenuBG>(
             eui::ScreenMgr::instance()->getScreen(ScreenId::SeekPadMenuBG)))
         screen->x_2();
+}
+
+// 0x7100a79ec4 (placeholder name)
+bool sub_7100A79EC4() {
+    return Root38::instance()->hasAnyFlag();
+}
+
+// 0x7100a82db8 / 0x7100a82dd0 (placeholder names)
+void sub_7100A82DB8(s32 a) {
+    PauseMenuDataMgr::instance()->x_37(a);
+}
+
+void sub_7100A82DD0(s32 a) {
+    PauseMenuDataMgr::instance()->x_38(a);
 }
 
 }  // namespace uking::ui
