@@ -3,7 +3,10 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71006F1DF0.h"
+#include "Game/AI/aiUnk_7100736460.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -143,16 +146,11 @@ bool PreyNormal::m40() {
     return isCurrentChild("徘徊");
 }
 
-// NON_MATCHING: only the stack slots of the temporaries (SafeString keys, position, param pack) are laid out differently
 // 0x71004fca60
 bool PreyNormal::sub_71004FCA60() {
-    if (isCurrentChild("徘徊")) {
-        if (!isCurrentChild("徘徊"))
-            return false;
-        auto* child = getCurrentChild();
-        if (!child->isFailed() && !child->isFinished())
-            return false;
-    }
+    if (isCurrentChild("徘徊") &&
+        (!isCurrentChild("徘徊") || !getCurrentChild()->isFinishedOrFailed()))
+        return false;
 
     if (auto* enemy = _d0) {
         enemy->_c48._8.reset();
@@ -181,7 +179,8 @@ bool PreyNormal::sub_71004FCA60() {
         if (mActor->getHorseOptionsMaybe())
             physics->sub_7100FBACE0(ksys::phys::ContactLayer(0x28));
     }
-    sead::Vector3f pos = mActor->getMtx().getTranslation();
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
     ksys::act::ai::InlineParamPack params;
     params.addVec3(pos, "CentralPos", -1);
     params.addVec3(pos, "TargetPos", -1);
@@ -271,4 +270,169 @@ bool PreyNormal::sub_7100500BA8() {
     return true;
 }
 
+// 0x71004fc890
+bool PreyNormal::sub_71004FC890() {
+    if (!*mIsUseEscapeState_s)
+        return sub_71004FCA60();
+    if (isCurrentChild("逃走") &&
+        (!isCurrentChild("逃走") || !getCurrentChild()->isFinishedOrFailed()))
+        return false;
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    _334 = ksys::Timer(900.0f, 900.0f);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_e0, "TargetPos", -1);
+    changeChild("逃走", &pack);
+    return true;
+}
+
+// 0x7100500cd8
+bool PreyNormal::sub_7100500CD8() {
+    if (!*mIsUseEscapeState_s)
+        return sub_71004FCA60();
+    if (isCurrentChild("ダメージ逃走") &&
+        (!isCurrentChild("ダメージ逃走") || !getCurrentChild()->isFinishedOrFailed()))
+        return false;
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    _334 = ksys::Timer(900.0f, 900.0f);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_8000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_e0, "TargetPos", -1);
+    changeChild("ダメージ逃走", &pack);
+    return true;
+}
+
+// 0x71004fe594
+bool PreyNormal::sub_71004FE594() {
+    const bool is_current = isCurrentChild("ふり向き");
+    if (!getCurrentChild()->isChangeable() && !getCurrentChild()->isFinishedOrFailed() && is_current)
+        return false;
+    _18d = is_current;
+    if (auto* enemy = _d0) {
+        enemy->_c48._8.reset();
+        enemy->_c48._7c = 0;
+        _fc = -1;
+        _100 = 0;
+        _104 = 0;
+        _108 = 0;
+    }
+    _110.value += *mAddCautionLevelVal_s;
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_e0, "TargetPos", -1);
+    changeChild("ふり向き", &pack);
+    return true;
+}
+
 }  // namespace uking::ai
+
+using ksys::act::Unk_71024dc858;
+using ksys::act::Unk_71024dc978;
+
+// 0x7100501344
+bool Unk_7102410710::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    return ksys::act::isPlayerProfile(&target->mLink);
+}
+
+// 0x71005013d8
+// NON_MATCHING: the original combines `m5(1)` and the `_40` test without a branch
+bool Unk_7102410738::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(&target->mLink, &accessor)) {
+        const auto& profile = accessor.getProfile();
+        return !(profile == "Prey") && !(profile == "CapturedActor");
+    }
+    return target->m5(1) || (target->_40 & 0x100070) == 0;
+}
+
+// 0x71005015b0
+bool Unk_7102410760::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    auto* link = &target->mLink;
+    ksys::act::ActorConstDataAccess accessor;
+    if (ksys::act::acquireActor(link, &accessor)) {
+        if (ksys::act::isPlayerProfile(accessor))
+            return true;
+        return ksys::act::hasTag(link, 0xf3a5f416);
+    }
+    return false;
+}
+
+// 0x7100501698
+// NON_MATCHING: the original evaluates all three predicates (the `||` chain is not short-circuited)
+bool Unk_7102410788::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    auto* link = &target->mLink;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return (target->_3c & 0x1c30) != 0;
+    return !(ksys::act::isNPCProfile(accessor) ||
+             (ksys::act::isPreyOrSwarm(accessor) && !ksys::act::isWolfOrBear(accessor)) ||
+             hasAnimalTypeWolfOrBearTags(_28, link));
+}
+
+// 0x71005017b8
+// NON_MATCHING: the original evaluates both predicates (the `||` is not short-circuited)
+bool Unk_71024107b0::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&target->mLink, &accessor))
+        return (target->_3c & 0x1c30) != 0;
+    return !(ksys::act::isNPCProfile(accessor) ||
+             (ksys::act::isPreyOrSwarm(accessor) && !ksys::act::isWolfOrBear(accessor)));
+}
+
+// 0x71005018b8
+bool Unk_71024107d8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&target->mLink, &accessor))
+        return (target->_3c & 0x1c30) != 0;
+    return !ksys::act::isPreyOrSwarm(accessor) || ksys::act::isWolfOrBear(accessor);
+}
+
+// 0x71005019a4
+bool Unk_7102410800::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&target->mLink, &accessor))
+        return false;
+    if (!accessor.sub_7100D10E6C(27) && !accessor.sub_7100D10E6C(26))
+        return false;
+    return ksys::act::isPreyOrSwarm(accessor);
+}
+
+// 0x7100501a94
+bool Unk_7102410828::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorConstDataAccess accessor;
+    if (!ksys::act::acquireActor(&target->mLink, &accessor))
+        return false;
+    if (ksys::act::isNPCProfile(accessor))
+        return true;
+    return ksys::act::isPreyOrSwarm(accessor) && !ksys::act::isWolfOrBear(accessor);
+}

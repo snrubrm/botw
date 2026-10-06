@@ -21,6 +21,8 @@ public:
     void sub_7100545B8C();
 
 protected:
+    // 0x71005464ec: resets the timers and flags, marks the battle info, then the "パオーン" child
+    void sub_71005464EC();
     // static_param at offset 0x38
     const float* mCallClearDemoTimer_s{};
     // static_param at offset 0x40

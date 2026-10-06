@@ -21,6 +21,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005d4ab0: "武器発見" with the target weapon
+    void sub_71005D4AB0();
     void sub_71005D4C28();
     // static_param at offset 0x68
     const int* mLostTime_s{};

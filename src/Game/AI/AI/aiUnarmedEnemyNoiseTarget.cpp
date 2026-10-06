@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiUnarmedEnemyNoiseTarget.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
@@ -47,6 +48,14 @@ void UnarmedEnemyNoiseTarget::loadParams_() {
     getStaticParam(&mRepathTime_s, "RepathTime");
     getStaticParam(&mSearchWeaponTargetDist_s, "SearchWeaponTargetDist");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+// 0x71005d4ab0
+void UnarmedEnemyNoiseTarget::sub_71005D4AB0() {
+    ksys::act::ai::InlineParamPack pack;
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(_d0.getProc(nullptr, nullptr));
+    pack.acquireActor(actor, "TargetWeapon", -1);
+    changeChild("武器発見", &pack);
 }
 
 }  // namespace uking::ai

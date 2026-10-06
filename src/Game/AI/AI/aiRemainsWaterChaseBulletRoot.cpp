@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWaterChaseBulletRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -123,6 +124,19 @@ void RemainsWaterChaseBulletRoot::sub_710054AAD8() {
                 body->removeFromWorld();
         }
     }
+}
+
+// 0x7100549e90
+void RemainsWaterChaseBulletRoot::sub_7100549E90() {
+    if (auto* as_list = mActor->getASList()) {
+        if (!mParams.mResetASName_s.isEmpty())
+            as_list->startAnimationMaybe(-1.0f, -1.0f, mParams.mResetASName_s.cstr(), 0, 0, true);
+    }
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_10000);
+    sub_710054AAD8();
+    _3c = true;
+    _40 = mActor->getMtx().getTranslation();
+    changeChild("爆発", nullptr);
 }
 
 }  // namespace uking::ai

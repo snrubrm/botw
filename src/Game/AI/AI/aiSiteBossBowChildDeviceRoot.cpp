@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiSiteBossBowChildDeviceRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "Game/Actor/actSiteBoss.h"
@@ -173,6 +174,27 @@ void SiteBossBowChildDeviceRoot::sub_7100574C2C() {
     if (auto* body = mActor->getMainBody())
         body->resetFlag1000000();
     changeChild("自然消滅", nullptr);
+}
+
+// 0x7100574a74
+// NON_MATCHING: stack slot order only (the original has the ActorConstDataAccess / SafeString temporaries at the
+// highest slot, then the pack, then `pos` at sp+0)
+void SiteBossBowChildDeviceRoot::sub_7100574A74() {
+    _64 = 7;
+    ksys::act::ai::InlineParamPack pack;
+    sead::Vector3f pos;
+    if (_80.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_80, &accessor);
+        accessor.getActorMtx().getTranslation(pos);
+    } else {
+        mActor->getMtx().getTranslation(pos);
+    }
+    pack.addVec3(pos, "TargetPos", -1);
+    pack.addInt(_50, "ID", -1);
+    pack.addActor(_70, "ParentActor", -1);
+    pack.addFloat(_9c, "XRotateAngle", -1);
+    changeChild("通常待機", &pack);
 }
 
 }  // namespace uking::ai

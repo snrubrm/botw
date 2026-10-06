@@ -10,9 +10,56 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
 
+// Awareness filters of PreyNormal's TU (m2 and D0 are emitted there). Placeholder names are the vtable
+// addresses.
+
+// vtable 0x7102410710 (m2 0x7100501344, D0 0x7100501f70): the target is a player.
+class Unk_7102410710 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
 // Awareness filter used by PreyNormal::m43 (vtable 0x7102410738; m2 0x71005013d8, D0 0x7100501f94 in
 // PreyNormal's TU). Placeholder name.
 class Unk_7102410738 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x7102410760 (m2 0x71005015b0, D0 0x7100501fb8): the target is a player or has a tag.
+class Unk_7102410760 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x7102410788 (m2 0x7100501698, D0 0x7100501fdc)
+class Unk_7102410788 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+
+    /* 0x28 */ ksys::act::Actor* _28 = nullptr;
+};
+
+// vtable 0x71024107b0 (m2 0x71005017b8, D0 0x7100502000)
+class Unk_71024107b0 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x71024107d8 (m2 0x71005018b8, D0 0x7100502024)
+class Unk_71024107d8 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x7102410800 (m2 0x71005019a4, D0 0x7100502048)
+class Unk_7102410800 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
+// vtable 0x7102410828 (m2 0x7100501a94, D0 0x710050206c)
+class Unk_7102410828 : public ksys::act::Unk_71024dccf8 {
 public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
@@ -53,6 +100,12 @@ public:
     void sub_7100500B50(bool, bool, bool);
 
 protected:
+    // 0x71004fe594: "ふり向き" (turn around) with the target position
+    bool sub_71004FE594();
+    // 0x7100500cd8: escape state "ダメージ逃走" (when the escape state is enabled; otherwise sub_71004FCA60)
+    bool sub_7100500CD8();
+    // 0x71004fc890: escape state "逃走" (when the escape state is enabled; otherwise sub_71004FCA60)
+    bool sub_71004FC890();
     // 0x7100500ba8: starts the "威嚇" child with the target position
     bool sub_7100500BA8();
     // 0x71004feac8: starts the "注目" child with the target position (timer _134 = TargetLostTime)
@@ -124,7 +177,8 @@ protected:
     /* 0x183 */ bool _183 = false;
     /* 0x184 */ bool _184 = true;
     /* 0x188 */ s32 _188 = -1;
-    /* 0x18c */ u16 _18c = 0;
+    /* 0x18c */ u8 _18c = 0;
+    /* 0x18d */ bool _18d = false;
     /* 0x18e */ u8 _18e = 0;
     /* 0x190 */ sead::Vector3f _190;
     /* 0x1a0 */ sead::FixedRingBuffer<f32, 5> _1a0;

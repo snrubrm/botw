@@ -1,4 +1,5 @@
 #include "Game/AI/AI/aiRemainsWaterBattleRoot.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/AI/aiUnk_7102419cb0.h"
 #include "Game/gameIceBlockMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -85,6 +86,23 @@ void RemainsWaterBattleRoot::loadParams_() {
     getStaticParam(&mAfterHellTimer_s, "AfterHellTimer");
     getStaticParam(&mFirstBulletTimer_s, "FirstBulletTimer");
     getAITreeVariable(&mRemainsWaterBattleInfo_a, "RemainsWaterBattleInfo");
+}
+
+// 0x71005464ec
+void RemainsWaterBattleRoot::sub_71005464EC() {
+    _b4 = false;
+    _b5 = false;
+    _68.mTimer = ksys::Timer(0, 0, 0);
+    _98.mTimer = ksys::Timer(*mAfterPaooonTimer_s, *mAfterPaooonTimer_s);
+    if (mRemainsWaterBattleInfo_a) {
+        auto* info = sead::DynamicCast<Unk_7102419cb0>(
+            *static_cast<Unk_71025afb58**>(mRemainsWaterBattleInfo_a));
+        if (info)
+            info->_34 = true;
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addBool(false, "IsTargetLost", -1);
+    changeChild("パオーン", &pack);
 }
 
 }  // namespace uking::ai

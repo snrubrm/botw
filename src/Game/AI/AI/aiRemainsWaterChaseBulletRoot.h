@@ -19,6 +19,8 @@ public:
     void sub_710054AC5C();
 
 protected:
+    // 0x7100549e90: plays the reset animation, then the "爆発" child
+    void sub_7100549E90();
     bool _38 = false;
     bool _39 = false;
     bool _3a = false;
