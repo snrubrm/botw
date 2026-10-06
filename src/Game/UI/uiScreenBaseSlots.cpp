@@ -324,4 +324,32 @@ ScreenChild* Screen::getChild(s32 group, s32 index) {
     return mChildren.at(offset + index);
 }
 
+// 0x71010aa868
+s32 Screen::sub_71010AA868(s32 group) const {
+    if (!mChildGroupSizes.isBufferReady() || !mChildGroupSizes.isIndexValid(group))
+        return 0;
+    return mChildGroupSizes(group);
+}
+
+// 0x71010aa8d0
+void Screen::sub_71010AA8D0() {
+    if (_292 & 0x100)
+        return;
+    _292 |= 0x100;
+    if (mButtonGroup->_38 & 2)
+        _292 |= 0x80;
+    else
+        _292 &= ~0x80;
+    mButtonGroup->_38 &= ~2;
+}
+
+// 0x71010aa910
+void Screen::sub_71010AA910() {
+    if (!(_292 & 0x100))
+        return;
+    const u32 flags = mButtonGroup->_38;
+    mButtonGroup->_38 = (_292 & 0x80) ? (flags | 2) : (flags & ~2);
+    _292 &= ~0x180;
+}
+
 }  // namespace uking::ui

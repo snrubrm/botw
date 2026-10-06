@@ -81,4 +81,14 @@ void ScreenKologNum::m156() {
     _3610 = false;
 }
 
+// 0x7100a0f23c
+void ScreenKologNum::m155() {
+    const s32 count = ksys::gdt::getFlag_KorokNutsNum(false);
+    _3618 = count;
+    if (_3634 != 0 || _3610) {
+        if (_3614 != count)
+            mStateMachine.changeState(&sUnk_71025eee10);
+    }
+}
+
 }  // namespace uking::ui

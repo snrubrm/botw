@@ -81,4 +81,14 @@ void ScreenAkashNum::m100() {
     mStateMachine.changeState(&sUnk_71025dbfd0);
 }
 
+// 0x71009cf1c0
+void ScreenAkashNum::m155() {
+    const s32 count = ksys::gdt::getFlag_DungeonClearSealNum(false);
+    _3618 = count;
+    if (_3634 != 0 || _3610) {
+        if (_3614 != count)
+            mStateMachine.changeState(&sUnk_71025dc090);
+    }
+}
+
 }  // namespace uking::ui

@@ -19,6 +19,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004e9ff8: advances the rail follower by the actor's speed; true when it turned around at a rail end
+    bool sub_71004E9FF8();
     // 0x71004ea4b0: changes to the "レール点に移動" child
     void sub_71004EA4B0();
     // 0x71004ea108: changes to the "振り向く" child

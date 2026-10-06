@@ -205,6 +205,11 @@ public:
     ScreenChild* getChild(s32 group, s32 index);
     // 0x71010ab66c (CSV Screen::doUpdate_WorldMgrStuff; not decompiled)
     void doUpdate_WorldMgrStuff();
+    // 0x71010aa868 / 0x71010aa8d0 / 0x71010aa910 (placeholder names): the size of the child group; suspend / resume the
+    // screen's button group (flag 2 of its word at 0x38 is saved in bit 7 of _292 and bit 8 of _292 marks the suspension)
+    s32 sub_71010AA868(s32 group) const;
+    void sub_71010AA8D0();
+    void sub_71010AA910();
 
     // Overrides of the eui::Screen callbacks (CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;

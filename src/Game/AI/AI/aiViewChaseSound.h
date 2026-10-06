@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005e3b00: changes to the "直線追跡" child when the target is reachable in a straight line, else to "追跡"
+    // (unless it is already the current child and `force` is false)
+    bool sub_71005E3B00(bool force);
     // 0x71005e4268: casts a ray down from the target position, then changes to the "直線追跡" child
     void sub_71005E4268();
     // 0x71005e4150: casts a ray down from the target position, then changes to the "追跡" child

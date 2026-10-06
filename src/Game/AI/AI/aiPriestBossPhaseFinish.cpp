@@ -4,6 +4,11 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
+// Declared only (placeholder names): the original calls two unnamed helpers (0x7100ffeb28 returns an object or null, 0x710100e0e0
+// takes it).
+void* sub_7100FFEB28();
+void sub_710100E0E0(void* object);
+
 namespace uking::ai {
 
 PriestBossPhaseFinish::PriestBossPhaseFinish(const InitArg& arg) : PriestBossPhase(arg) {}
@@ -16,6 +21,9 @@ bool PriestBossPhaseFinish::init_(sead::Heap* heap) {
 
 void PriestBossPhaseFinish::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossPhase::enter_(params);
+    _90.value = _90.previous_value = *mStartDemoDelayFrames_s;
+    if (auto* object = sub_7100FFEB28())
+        sub_710100E0E0(object);
 }
 
 void PriestBossPhaseFinish::calc_() {

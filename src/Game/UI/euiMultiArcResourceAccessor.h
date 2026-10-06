@@ -35,9 +35,12 @@ public:
     // A named texture (0x30 bytes, ctor 0x7100be0bb0): list node, an embedded
     // nn::ui2d::ResourceTextureInfo (0x10, vtable 0x24c7f88; not modelled) and a heap copy of the name.
     struct TextureLink {
+        // 0x7100be0bb0: copies `name` into a Layout-allocated buffer
+        explicit TextureLink(const char* name);
+
         nn::util::IntrusiveListNode node;
         nn::ui2d::ResourceTextureInfo texture;
-        char* name;
+        char* name = nullptr;
     };
     static_assert(sizeof(TextureLink) == 0x30);
 

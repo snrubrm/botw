@@ -6,6 +6,8 @@
 #include "KingSystem/Physics/Cloth/physClothSet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
+void sub_71002D36C8(uking::act::Enemy* boss, const sead::SafeString& part);
+
 namespace uking::ai {
 
 SiteBossReaction::SiteBossReaction(const InitArg& arg) : EnemyDefaultReaction(arg) {}
@@ -22,6 +24,21 @@ bool SiteBossReaction::init_(sead::Heap* heap) {
 
 void SiteBossReaction::enter_(ksys::act::ai::InlineParamPack* params) {
     EnemyDefaultReaction::enter_(params);
+}
+
+// 0x710057fb10 (starts the flame-reaction state when the boss wears / draws its flame)
+void SiteBossReaction::sub_710057FB10() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (act::SiteBoss::sub_71002D3804(boss, "WearFlame") ||
+            act::SiteBoss::sub_71002D3804(boss, "DrawingFlame")) {
+            _73 = true;
+            sub_71002D36C8(boss, "WearFlame");
+            act::SiteBoss::sub_71002D3498(boss, mActor);
+            if (boss->_1558.isOnBit(0))
+                boss->x_1(true, false, false);
+            boss->_1558.setBit(19);
+        }
+    }
 }
 
 // NON_MATCHING: the original addresses SiteBoss _2378-_237b through one base register (see

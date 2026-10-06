@@ -19,6 +19,9 @@ public:
     bool m36(int damage_type) override;
     bool m38(dmg::DamageManagerBase* damage_mgr) override { return false; }
 
+    // 0x710057fb10: when the boss wears or draws its flame: _73 = true, flame part state, x_1 and flag 0x80000
+    void sub_710057FB10();
+
 protected:
     // static_param at offset 0x68
     const bool* mIsChangeEffectiveDamage_s{};

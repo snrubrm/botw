@@ -114,6 +114,9 @@ protected:
     bool sub_7100500BA8();
     // 0x71004feac8: starts the "注目" child with the target position (timer _134 = TargetLostTime)
     bool sub_71004FEAC8();
+    // 0x71004ffed0: sandstorm / blown-around wait: true once the running timer _158 has ended; starts a new one (60-150) when
+    // the actor is blown or (with CheckSandStorm) the world is in a sandstorm
+    bool sub_71004FFED0();
     // 0x71004fe2b4: starts the "気づき" child unless it is current / flag 0x8000000 is set
     bool sub_71004FE2B4();
     // static_param at offset 0x38

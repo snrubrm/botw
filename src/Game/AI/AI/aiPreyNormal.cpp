@@ -17,6 +17,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/World/worldEnvMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
@@ -374,6 +376,35 @@ bool PreyNormal::sub_71004FF740() {
                 return true;
         }
     }
+    return false;
+}
+
+// 0x71004ffed0
+bool PreyNormal::sub_71004FFED0() {
+    if (_18e) {
+        _158.update();
+        if (_158.value <= sead::Mathf::epsilon()) {
+            _18e = 0;
+            return true;
+        }
+        return false;
+    }
+
+    bool start = false;
+    if (mActor->sub_7100EE1E94()) {
+        start = true;
+    } else if (*mIsCheckSandStorm_s) {
+        if (auto* manager = ksys::world::Manager::instance()) {
+            if (auto* env_mgr = manager->getEnvMgr())
+                start = env_mgr->isInSandstorm();
+        }
+    }
+    if (!start)
+        return false;
+
+    const f32 duration = sead::GlobalRandom::instance()->getF32Range(60.0f, 150.0f);
+    _158 = ksys::Timer(duration, duration);
+    _18e = 1;
     return false;
 }
 

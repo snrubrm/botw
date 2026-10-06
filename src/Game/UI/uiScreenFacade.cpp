@@ -1006,4 +1006,12 @@ void sub_7100A9F960(bool open) {
     }
 }
 
+// 0x7100a9bba8 (placeholder name): the flag of draw target 2 is clear
+bool sub_7100A9BBA8() {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return false;
+    return mgr->getTargetFlag(2) == 0;
+}
+
 }  // namespace uking::ui

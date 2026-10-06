@@ -1,6 +1,8 @@
 #include "Game/AI/AI/aiViewChaseSound.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::ai {
 
@@ -26,6 +28,22 @@ void ViewChaseSound::loadParams_() {
 }
 
 // 0x71005e39e8
+// 0x71005e3b00
+bool ViewChaseSound::sub_71005E3B00(bool force) {
+    auto* nav = mActor->m45();
+    const f32 radius = nav ? nav->getRadiusMaybe() : 0;
+    if (sub_710072F944(mActor, *mTargetPos_d, nullptr, radius, 10.0f)) {
+        if (!force && isCurrentChild("直線追跡"))
+            return false;
+        sub_71005E4268();
+    } else {
+        if (!force && isCurrentChild("追跡"))
+            return false;
+        sub_71005E4150();
+    }
+    return true;
+}
+
 void ViewChaseSound::sub_71005E39E8() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos = *mTargetPos_d;

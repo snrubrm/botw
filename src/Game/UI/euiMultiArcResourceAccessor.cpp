@@ -2,9 +2,11 @@
 #include <prim/seadStringBuilder.h>
 #include "Game/UI/euiFontMgr.h"
 #include <cstdio>
+#include <cstring>
 #include <nn/gfx/gfx_ResTexture.h>
 #include <nn/ui2d/Layout.h>
 #include <nn/ui2d/Util.h>
+#include <nn/util/util_StringUtil.h>
 #include <new>
 
 namespace eui {
@@ -122,6 +124,39 @@ void MultiArcResourceAccessor::Finalize(nn::gfx::Device* device) {
     }
     mShaders.Finalize(device);
     ResourceAccessor::Finalize(device);
+}
+
+// 0x7100be0bb0
+MultiArcResourceAccessor::TextureLink::TextureLink(const char* source) {
+    const sead::SafeString source_name(source);
+    const s32 length = source_name.calcLength();
+    name = static_cast<char*>(nn::ui2d::Layout::AllocateMemory(length + 1, 4));
+    sead::BufferedSafeString buffer(name, length + 1);
+    buffer.copy(source_name);
+}
+
+// NON_MATCHING: the compiler removes the allocation null check before the TextureLink constructor (as in attachArchive)
+// 0x7100be0540
+nn::ui2d::TextureInfo* MultiArcResourceAccessor::AcquireTexture(nn::gfx::Device* device,
+                                                                const char* name) {
+    for (auto& link : mTextures) {
+        bool equal = true;
+        for (s32 i = 0; i < 128; ++i) {
+            if (name[i] != link.name[i]) {
+                equal = false;
+                break;
+            }
+            if (name[i] == '\0')
+                break;
+        }
+        if (equal)
+            return &link.texture;
+    }
+    void* memory = nn::ui2d::Layout::AllocateMemory(sizeof(TextureLink), 4);
+    auto* link = memory ? new (memory) TextureLink(name) : nullptr;
+    mTextures.push_front(*link);
+    LoadTexture(&link->texture, device, name);
+    return &link->texture;
 }
 
 // 0x7100be050c

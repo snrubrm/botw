@@ -1,6 +1,9 @@
 #include "Game/AI/AI/aiNPCWander.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Map/mapRail.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ai {
 
@@ -46,6 +49,30 @@ void NPCWander::loadParams_() {
 }
 
 // 0x71004ea108
+// NON_MATCHING: only the registers of the two velocity components differ (s9 / s8 swapped)
+// 0x71004e9ff8
+bool NPCWander::sub_71004E9FF8() {
+    const sead::Vector3f& velocity = mActor->getASList()->sub_710115D2D4();
+    f32 x = velocity.x;
+    f32 z = velocity.z;
+    if (mActor->sub_71011C7A98()) {
+        x *= mActor->get830();
+        z *= mActor->get830();
+    }
+    f32 length = sead::Mathf::sqrt(x * x + z * z);
+    if (length < sead::Mathf::epsilon())
+        length = 0.05f;
+    _e8->x(length * *mRailUpdateDistRate_s);
+
+    if (_e8->_8.rail->isClosed())
+        return false;
+    const f32 progress = _e8->_30.progress;
+    if (progress != 0.0f && progress != f32(_e8->_8.rail->getNumPoints()) - 1.0f)
+        return false;
+    _e8->sub_7100EEBE9C(-_e8->_58);
+    return true;
+}
+
 void NPCWander::sub_71004EA108() {
     ksys::act::ai::InlineParamPack pack;
     sead::Vector3f pos = mActor->getMtx().getTranslation();
