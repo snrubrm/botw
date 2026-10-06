@@ -45,7 +45,7 @@ public:
 
     virtual void calcActiveSoundLimit();
     virtual void calcRequestSoundLimit();
-    virtual s32 calcNumSounds();
+    virtual void calcNumSounds();
     virtual bool isSoundGroup() const = 0;
     virtual bool isGroupFolder() const = 0;
     virtual s32 getStartWaitSoundNum() const = 0;
@@ -72,6 +72,8 @@ protected:
     virtual void removeChild_(Group* child) = 0;
     virtual void calcSilence_();
 
+    /// 0x7100b7fc6c: pushes the group and its descendants.
+    void pushDescendantGroupArrayChild_(sead::PtrArray<Group>* groups);
     void calcInit_();
     void calcDucker_();
     void aggregateDuckingVolumeFromDucker_(f32 volume);
@@ -90,10 +92,13 @@ protected:
     u32 mDuckingMode;
     u8 _13c[0x148 - 0x13c];
     GroupLimiter* mLimiter;
+    /// Sound counters of the group (calcNumSounds adds them to the parent's counters): the first one is also the
+    /// ducking count (isOnDucking), and mNumSounds is the sum of the first, third and fourth.
     s32 mDuckingCount;
     s32 _154;
-    void* _158;
-    u32 _160;
+    s32 _158;
+    s32 _15c;
+    s32 mNumSounds;
     u8 _164[0x178 - 0x164];
 };
 static_assert(sizeof(Group) == 0x178, "aal::Group size mismatch");

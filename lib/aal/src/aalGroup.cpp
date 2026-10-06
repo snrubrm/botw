@@ -44,10 +44,11 @@ void Group::setDuckingVolumeFloor(f32 floor) {
 // 0x7100b7fd28
 void Group::calcInit_() {
     mLimiter->calc();
-    _160 = 0;
+    mNumSounds = 0;
     mDuckingCount = 0;
     _154 = 0;
-    _158 = nullptr;
+    _158 = 0;
+    _15c = 0;
 }
 
 // 0x7100b7fe0c
@@ -132,6 +133,45 @@ bool SoundGroup::isSoundGroup() const {
 
 bool SoundGroup::isGroupFolder() const {
     return false;
+}
+
+// 0x7100b7fbc4
+void Group::calcNumSounds() {
+    if (Group* parent = getParent()) {
+        parent->mDuckingCount += mDuckingCount;
+        parent->_154 += _154;
+        parent->_158 += _158;
+        parent->_15c += _15c;
+    }
+}
+
+// 0x7100b7fc30
+void Group::pushDescendantGroupArray(sead::PtrArray<Group>* groups) {
+    if (groups) {
+        for (auto* node = mTreeNode.child(); node; node = node->next())
+            node->value()->pushDescendantGroupArrayChild_(groups);
+    }
+}
+
+// 0x7100b7fc6c
+void Group::pushDescendantGroupArrayChild_(sead::PtrArray<Group>* groups) {
+    groups->pushBack(this);
+    for (auto* node = mTreeNode.child(); node; node = node->next())
+        node->value()->pushDescendantGroupArrayChild_(groups);
+}
+
+// 0x7100b7fe4c
+void Group::calcDuckingVolume_() {
+    if (mNumSounds != 0) {
+        if (Group* parent = getParent()) {
+            if (mDuckingMode == 1)
+                mDuckingVolume = mDuckingVolume < parent->mDuckingVolume ? mDuckingVolume : parent->mDuckingVolume;
+            else if (mDuckingMode == 0)
+                mDuckingVolume = parent->mDuckingVolume * mDuckingVolume;
+        }
+        if (mDuckingVolume < mDuckingVolumeFloor)
+            mDuckingVolume = mDuckingVolumeFloor;
+    }
 }
 
 }  // namespace aal
