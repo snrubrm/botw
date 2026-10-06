@@ -14,6 +14,7 @@ class AttackSensor2Listener;
 }  // namespace ksys::act
 
 namespace ksys::phys {
+class RayCast;
 class RigidBody;
 class SystemGroupHandler;
 }  // namespace ksys::phys
@@ -138,6 +139,10 @@ bool isBgGroundHit(ksys::act::Actor* actor, bool ignore_creator);
 ksys::act::Unk_7102459df8::Unk_7102459e88::Unk1* sub_71007A4948(ksys::act::Actor* actor, int idx);
 // 0x71007a49f0
 s32 sub_71007A49F0(ksys::act::Actor* actor);
+// 0x71007a5230 / 0x71007a52a4 (placeholder names): contact layer presets for the magnesis ray casts; the former also
+// sets the ground hit type to Magnet.
+void sub_71007A5230(ksys::phys::RayCast* cast);
+void sub_71007A52A4(ksys::phys::RayCast* cast);
 
 // 0x71007a3f34: copies source actor attack info to destination, if both use ActorAtk.
 // Declaration only; namespace unknown, original helper returns void.

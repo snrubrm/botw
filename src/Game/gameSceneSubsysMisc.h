@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <math/seadVector.h>
+#include <xlink2/xlink2HandleELink.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -17,6 +18,7 @@ class Unk_71006e45c4;
 
 namespace ksys::phys {
 class NavMeshCharacter;
+class RigidBody;
 }
 
 // Placeholder declarations: only the small out-of-line members that are decompiled so far (the real classes are
@@ -104,11 +106,22 @@ public:
     void sub_7100905D3C(f32 value);
     sead::Vector3f sub_7100905D58() const;  // _100
     void sub_7100905D68(const sead::Vector3f& value);
+    // 0x7100906044 (placeholder name): fades the ELink effect `_48` out.
+    void sub_7100906044();
+    // 0x710090611c (placeholder name): ray cast (the link parameter is unused, like in the next function) against `_320` from `start` to `start + dir * length`; writes the hit
+    // position to `out` (if given).
+    bool sub_710090611C(f32 length, ksys::act::BaseProcLink* unused, const sead::Vector3f& start,
+                        const sead::Vector3f& dir, sead::Vector3f* out);
+    // 0x7100906218 (placeholder name): magnesis ray cast from `start` along `dir * length`; always fails while `link`
+    // has a proc, `out` receives the hit position (not null-checked).
+    bool sub_7100906218(f32 length, ksys::act::BaseProcLink* link, const sead::Vector3f& start,
+                        const sead::Vector3f& dir, sead::Vector3f* out);
     // 0x7100905d28 / 0x7100905de0: bool setters
     void sub_7100905D28(bool value);
     void sub_7100905DE0(bool value);
 
-    u8 _0[0x58];
+    u8 _0[0x48];
+    xlink2::HandleELink _48;
     bool _58;
     u8 _59[0x8c - 0x59];
     f32 _8c;
@@ -141,7 +154,7 @@ public:
     u8 _14c[0x150 - 0x14c];
     u8 _150[0x318 - 0x150];
     ksys::act::Unk_71006e45c4* _318;
-    u8 _320[0x328 - 0x320];
+    ksys::phys::RigidBody* _320;
     bool _328;
     bool _329;
     u8 _32a[0x32f - 0x32a];

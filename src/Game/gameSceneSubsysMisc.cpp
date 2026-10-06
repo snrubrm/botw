@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "Game/AI/aiXlinkHandle.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
 
@@ -192,3 +195,38 @@ void GameSceneSubsys5::sub_7100905DE0(bool value) {
     _32f = value;
 }
 
+
+bool GameSceneSubsys5::sub_710090611C(f32 length, ksys::act::BaseProcLink*, const sead::Vector3f& start,
+                                      const sead::Vector3f& dir, sead::Vector3f* out) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    query.setStartAndEnd(start, start + dir * length);
+    if (_320 && query.shapeRayCast(_320)) {
+        if (out)
+            query.getHitPosition(out);
+        return true;
+    }
+    return false;
+}
+
+// NON_MATCHING: the order of the argument copies into callee-saved registers (length before dir and start)
+bool GameSceneSubsys5::sub_7100906218(f32 length, ksys::act::BaseProcLink* link, const sead::Vector3f& start,
+                                      const sead::Vector3f& dir, sead::Vector3f* out) {
+    bool hit = false;
+    if (!link->hasProc()) {
+        ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+        sub_71007A5230(&query);
+        query.setStartAndDisplacement(start, dir * length);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+            query.getHitPosition(out);
+            hit = true;
+        }
+    }
+    return hit;
+}
+
+void GameSceneSubsys5::sub_7100906044() {
+    uking::xlink::fade(_48, -1);
+}

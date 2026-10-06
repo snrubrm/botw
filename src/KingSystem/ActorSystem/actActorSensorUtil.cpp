@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySetParam.h"
@@ -452,4 +453,26 @@ s32 sub_71007A49F0(Actor* actor) {
     if (!obj)
         return 0;
     return obj->sub_710079CED0();
+}
+
+void sub_71007A5230(ksys::phys::RayCast* cast) {
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGround);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityObject);
+    cast->enableLayer(ksys::phys::ContactLayer::EntitySmallObject);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityTree);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityAirWall);
+    cast->setGroundHit(ksys::phys::GroundHit::Magnet);
+}
+
+void sub_71007A52A4(ksys::phys::RayCast* cast) {
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGround);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityTree);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityObject);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityPlayer);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityNPC);
+    cast->enableLayer(ksys::phys::ContactLayer::EntityRagdoll);
 }
