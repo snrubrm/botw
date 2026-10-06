@@ -14,6 +14,7 @@ public:
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
     void loadParams_() override;
+    bool isChangeable() const override { return _154 > 1; }
 
 protected:
     void calc_() override;
@@ -67,7 +68,9 @@ protected:
     // static_param at offset 0x128
     const sead::Vector3f* mHeadRotateOffset_s{};
     // Not decompiled yet (see the ctor at 0x71002734c8): 0x130-0x154 are zeroed together with the static params.
-    u8 _130[0x160 - 0x130];
+    u8 _130[0x154 - 0x130];
+    s32 _154 = -1;
+    u8 _158[0x160 - 0x158];
     s32 _160 = -1;
     f32 _164 = 0.0f;
     u8 _168[0x16d - 0x168];
