@@ -39,6 +39,10 @@ bool sub_7100740200(sead::Matrix33f* mtx, const sead::Vector3f& v, f32 a, f32 b,
 bool sub_71007404F0(sead::Matrix33f* mtx, const sead::Matrix33f& target, f32 a);
 bool sub_71007407F0(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2, bool flag,
                     f32 a);
+// 0x7100740D50 (declaration only; lane3 s37): builds a basis from v1 / v2 (via sub_71011EFE58 if `b2`, else
+// sub_71011EFFA8) and rotates `mtx` towards it (0x7100740C10).
+bool sub_7100740D50(sead::Matrix33f* mtx, const sead::Vector3f& v1, const sead::Vector3f& v2,
+                    const sead::Vector3f& v3, bool b1, bool b2, f32 a);
 // Applies `mtx` (with a zero translation) to the character controller / rigid body / actor.
 void sub_7100740E04(const sead::Matrix33f& mtx, ksys::phys::CharacterController* controller);
 void sub_7100740E8C(const sead::Matrix33f& mtx, ksys::phys::RigidBody* body);

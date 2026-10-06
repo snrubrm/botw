@@ -18,7 +18,7 @@ public:
     void loadParams_() override;
 
 protected:
-    // 0x710014b0f0 (declared only): the body of leave_ is out of line in the original.
+    // Out-of-line bodies of leave_ and calc_.
     void sub_710014B0F0();
     void sub_710014AED0();
     void sub_710014B018();

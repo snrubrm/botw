@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math/seadMatrix.h>
+#include <math/seadVector.h>
 #include "Game/AI/Action/actionActionEx.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/System/Timer.h"
@@ -19,20 +21,22 @@ public:
     bool isChangeable() const override;
 
 protected:
-    // 0x7100113950 (declared only): out of line in the original.
     void sub_7100113950();
+    void sub_7100113D4C(const sead::Vector3f& up);
+    void sub_7100113EF8(s32 duration);
     void calc_() override;
 
     ksys::VFRValue _1c;
-    u8 _28[0x24];
+    sead::Matrix33f _28;
     ksys::Timer _4c{0.0f, 0.0f};
-    f32 _58 = 0.0f;
-    f32 _5c = 0.0f;
-    f32 _60 = 0.0f;
+    sead::Vector3f _58{0.0f, 0.0f, 0.0f};
     u32 _64;
-    u64 _68 = 0;
-    u64 _70 = 0;
-    u64 _78 = 0;
+    // dynamic_param at offset 0x68
+    sead::Vector3f* mTargetPos_d{};
+    // dynamic_param at offset 0x70
+    sead::Vector3f* mTurnDir_d{};
+    // static_param at offset 0x78
+    const f32* mMoveSpeed_s{};
     s32 _80 = -1;
     u32 _84;
 };

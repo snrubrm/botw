@@ -42,6 +42,30 @@ void ForkDisableContact::loadParams_() {
     }
 }
 
+void ForkDisableContact::sub_710014AED0() {
+    for (auto& entry : mBodies) {
+        if (auto* body = entry.mBody) {
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+            body->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+        }
+        entry.mIsEnabled = false;
+    }
+}
+
+void ForkDisableContact::sub_710014B0F0() {
+    for (auto& entry : mBodies) {
+        if (auto* body = entry.mBody; body && !entry.mIsEnabled) {
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityPlayer);
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityNPC);
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+            body->disableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
+            entry.mIsEnabled = true;
+        }
+    }
+}
+
 void ForkDisableContact::calc_() {
     if (m32()) {
         sub_710014AED0();
