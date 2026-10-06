@@ -139,6 +139,10 @@ public:
     void sub_71010E2468();
     void sub_71010E2908();
     // 0x71010e4ffc: updates cloud-shadow interpolation and palette timers.
+    // 0x71010e4ee0 (placeholder name): the sun / moon position: the camera position (the look-at camera, or the graphics camera in
+    // a main field dungeon) plus the sun direction (_3ed8, or the manager's directional light vector B while its timer
+    // runs) times SunMoonDispDist.
+    sead::Vector3f sub_71010E4EE0() const;
     void sub_71010E4FFC();
     // 0x71010e50bc: declaration-only cloud shadow motion update.
     // 0x71010e50b0: declared only; writes the existing cloud-shadow position vector.

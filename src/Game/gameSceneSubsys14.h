@@ -16,6 +16,8 @@ class GameSceneSubsys14 {
     virtual ~GameSceneSubsys14();
 
 public:
+    // 0x7100903fbc (CSV GameSceneSubsys14::postCalc; declared only).
+    void postCalc();
     // 0x7100904ed4-0x7100904f68: out-of-line flag getters (`__auto*` in the CSV; bit meanings unknown).
     bool sub_7100904ED4() const;
     bool sub_7100904EE0() const;

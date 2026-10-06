@@ -33,6 +33,11 @@ class GameSceneSubsys4 {
     virtual ~GameSceneSubsys4();
 
 public:
+    // User virtuals (vptr + 0x10 / 0x18 / 0x20; 0x66a958 / 0x66aaec are not decompiled, the third is an empty function that
+    // the stages' postCalc call).
+    virtual void m4();
+    virtual void m5();
+    virtual void m6() {}
 
     // 0x710066b8c0 (declaration only): drops the path requests of `actor` (called by EnemyHide's destructor and
     // before a new request).
@@ -57,6 +62,8 @@ public:
 
     // 0x7100905468
     void init();
+    // 0x71009054bc (CSV GameSceneSubsys5::postCalc; declared only).
+    void postCalc();
     // 0x71009059d4: _d8[_148]
     bool sub_71009059D4() const;
     // 0x7100905b34: _fc[_148]

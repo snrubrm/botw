@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <gfx/seadCamera.h>
 #include <gsys/gsysModelScene.h>
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
@@ -43,4 +44,9 @@ public:
 private:
     u8 _160[0xa98 - 0x160];
     Unk_a98* _a98;
+    u8 _aa0[0xe08 - 0xaa0];
+
+public:
+    // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).
+    sead::Camera* _e08;
 };

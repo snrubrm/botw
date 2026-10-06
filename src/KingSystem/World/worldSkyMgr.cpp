@@ -3,6 +3,8 @@
 #include <math/seadMathNumbers.h>
 #include <random/seadGlobalRandom.h>
 #include "Game/gameGraphics.h"
+#include "KingSystem/System/CameraMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
 #include "KingSystem/System/VFR.h"
@@ -483,6 +485,20 @@ void SkyMgr::calc_() {
 }
 
 void SkyMgr::calcType2_() {}
+
+// NON_MATCHING: the original selects the direction per component (three csel'd addresses, scalar loads) and zero-
+// initialises the camera position after the look-at camera query; ours selects one address (ldp) and zeroes it first.
+sead::Vector3f SkyMgr::sub_71010E4EE0() const {
+    auto* mgr = Manager::instance();
+    sead::Vector3f pos{0.0f, 0.0f, 0.0f};
+    if (auto* camera = CameraMgr::instance()->getLookAtCamera())
+        pos = camera->getPos();
+    if (mgr->mStageType == StageType::MainFieldDungeon && Graphics::instance()->_e08)
+        Graphics::instance()->_e08->getWorldPosByMatrix(&pos);
+    const sead::Vector3f& dir =
+        Manager::instance()->mDirectionalLightTimer ? Manager::instance()->mDirectionalLightVecB : _3ed8;
+    return dir * *mSunMoonDispDist + pos;
+}
 
 void SkyMgr::sub_71010E4FFC() {
     auto* mgr = Manager::instance();

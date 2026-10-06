@@ -18,6 +18,9 @@ class LastBossMgr {
 public:
     static LastBossMgr* instance() { return sInstance; }
 
+    // 0x7100678108 (CSV LastBossMgr::postCalc; declared only).
+    void postCalc();
+
     // 0x7100677ffc (CSV LastBossMgr::__auto1): stores `actor` in the link if it has none.
     void sub_7100677FFC(ksys::act::Actor* actor);
     // 0x7100677f24 (unnamed in the CSV; declared only): releases the entry that holds `actor` (under the

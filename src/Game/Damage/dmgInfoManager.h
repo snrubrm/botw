@@ -19,6 +19,9 @@ class DamageInfoMgr {
     virtual ~DamageInfoMgr();
 
 public:
+    // 0x710067428c (CSV DamageInfoMgr::postCalc; declared only).
+    void postCalc();
+
     // FIXME: incomplete
     class DamageItem {
     public:

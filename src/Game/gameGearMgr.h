@@ -28,6 +28,8 @@ class GearMgr {
     virtual ~GearMgr();
 
 public:
+    // 0x7100669ee0 (CSV GearMgr::postCalc; declared only).
+    void postCalc();
     // Register / unregister `proc` (0x71006692f0 / 0x71006694b4: the actor links at +0x30;
     // 0x710066956c / 0x71006695dc: a second set). Placeholder names.
     void sub_71006692F0(ksys::act::Actor* actor, bool join_system_group);

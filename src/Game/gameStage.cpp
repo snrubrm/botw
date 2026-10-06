@@ -1,6 +1,11 @@
 #include "Game/gameStage.h"
 #include "Game/gamePlayReport.h"
+#include "Game/Damage/dmgInfoManager.h"
+#include "Game/gameGearMgr.h"
+#include "Game/gameLastBossMgr.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gameSceneSubsys14.h"
+#include "Game/gameSceneSubsysMisc.h"
 #include "Game/gameScene.h"
 #include "Game/gameStageInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -186,6 +191,15 @@ StartupSaveCheckStage::StartupSaveCheckStage() : mHeap(nullptr), mState(nullptr)
 
 StartupSaveCheckStage::~StartupSaveCheckStage() {
     mHeap->destroy();
+}
+
+void IndoorStage::postCalc() {
+    dmg::DamageInfoMgr::instance()->postCalc();
+    GameSceneSubsys4::instance()->m6();
+    GameSceneSubsys5::instance()->postCalc();
+    LastBossMgr::instance()->postCalc();
+    GameSceneSubsys14::instance()->postCalc();
+    GearMgr::instance()->postCalc();
 }
 
 void IndoorStage::initForStageGen() {
