@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionFreeMoveToTarget.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
 
@@ -42,6 +43,19 @@ void FreeMoveToTarget::calc_() {
 bool FreeMoveToTarget::m34() {
     const sead::Vector3f diff = mActor->getMtx().getTranslation() - *mTargetPos_d;
     return diff.squaredLength() <= *mFinishRadius_s * *mFinishRadius_s;
+}
+
+bool FreeMoveToTarget::m32(ksys::phys::CharacterController* controller) {
+    if (!controller)
+        return false;
+
+    auto* actor = mActor;
+    _28 = *mTargetPos_d - actor->getMtx().getTranslation();
+    const f32 distance = _28.normalize();
+    if (distance <= *mFinishRadius_s)
+        _28 = controller->get64();
+    sub_710016B114(controller->sub_7100F5EF00());
+    return true;
 }
 
 }  // namespace uking::action

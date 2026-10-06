@@ -101,4 +101,9 @@ void FreeMove::m37(f32 speed, ksys::phys::CharacterController* controller) {
     controller->sub_7100F5E7F0(_34.value);
 }
 
+void FreeMove::sub_710016B114(f32 value) {
+    _34.value = value;
+    _34.prev_value = value;
+}
+
 }  // namespace uking::action

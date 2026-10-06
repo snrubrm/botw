@@ -26,6 +26,8 @@ protected:
     virtual bool m35();
     virtual f32 m36();
     virtual void m37(f32 speed, ksys::phys::CharacterController* controller);
+    // 0x710016b114: sets both values of _34 (out of line in the original, called from subclasses).
+    void sub_710016B114(f32 value);
 
     sead::Vector3f _1c;
     sead::Vector3f _28;
