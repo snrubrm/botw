@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiAnimalLineOfSightSelector.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/Actor/actWolfLink.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
@@ -25,6 +28,28 @@ void AnimalLineOfSightSelector::loadParams_() {
     getStaticParam(&mMaxGear_s, "MaxGear");
     getStaticParam(&mGearUpRestrictionFrames_s, "GearUpRestrictionFrames");
     getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
+void AnimalLineOfSightSelector::gearDown() {
+    const s32 gear = s32(sead::MathCalcCommon<f64>::clamp2(f64(*mMinGear_s), f64(_70 - 1), f64(*mMaxGear_s)));
+    if (gear == _70)
+        return;
+    if (auto* wolf = sead::DynamicCast<act::WolfLink>(mActor))
+        wolf->_1698 |= 0x100;
+    _70 = gear;
+    changeToGear(gear);
+}
+
+void AnimalLineOfSightSelector::gearUp() {
+    const s32 gear = s32(sead::MathCalcCommon<f64>::clamp2(f64(*mMinGear_s), f64(_70 + 1), f64(*mMaxGear_s)));
+    if (gear == _70)
+        return;
+    if (gear == *mMaxGear_s) {
+        if (auto* wolf = sead::DynamicCast<act::WolfLink>(mActor))
+            wolf->_1698 &= ~0x100;
+    }
+    _70 = gear;
+    changeToGear(gear);
 }
 
 void AnimalLineOfSightSelector::changeToGear(s32 gear) {

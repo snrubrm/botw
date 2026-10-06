@@ -18,6 +18,9 @@ public:
 
     // 0x7100307530 (placeholder name): starts the child of the given gear (1-4) and restarts the gear-up restriction timer.
     void changeToGear(s32 gear);
+    // 0x710030732c / 0x7100307430 (placeholder names): gear down / up within [MinGear, MaxGear].
+    void gearDown();
+    void gearUp();
 
 protected:
     // static_param at offset 0x38
