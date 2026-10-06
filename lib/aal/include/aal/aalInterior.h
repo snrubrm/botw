@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
 #include "aal/aalNamedObj.h"
+#include "aal/aalSpeakerChannel.h"
 
 namespace sead {
 class Heap;
@@ -30,6 +31,8 @@ public:
     f32 getRearSpeakerAngle() const;
     /// Ignores gains outside of [0, 1].
     void setRearSpeakerGain(f32 gain);
+    /// The angle (a sead angle index) of the speaker; the left speakers are the negated angles of the right ones.
+    s32 getSpeakerChannelAngleIdx(SpeakerChannel channel) const;
 
 private:
     f32 mInteriorSize;

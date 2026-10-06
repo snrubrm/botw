@@ -75,10 +75,14 @@ public:
 
 private:
     void destroyGroupAll_();
+    /// 0x7100b80d38 (declared only): sorts the groups by the depth in the tree.
+    void sortGroupsBreadthFirst_();
+    void createDefaultGroup_(sead::Heap* heap);
 
     bool mInitialized = false;
     bool _9 = false;
-    void* _10 = nullptr;
+    /// The root of the group tree.
+    Group* mRootGroup = nullptr;
     SoundGroup* mDefaultSoundGroup = nullptr;
     sead::OffsetList<Group> mGroups;
     IGroupFactory* mGroupFactory;

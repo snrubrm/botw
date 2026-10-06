@@ -78,6 +78,7 @@ public:
     void pushDescendantGroupArray(sead::PtrArray<Group>* groups);
     s32 calcTreeDepth() const;
     Group* getParent() const;
+    GroupLimiter* getLimiter() const { return mLimiter; }
     void setDuckingVolumeFloor(f32 floor);
     void setDefaultParam(const SoundParam& param);
 

@@ -5,6 +5,7 @@
 #include "aal/aalDeviceType.h"
 #include "aal/aalFinalOutputMeasure.h"
 #include "aal/aalOutputMode.h"
+#include "aal/aalSpeakerChannel.h"
 
 namespace sead {
 class DrawContext;
@@ -34,6 +35,7 @@ public:
                             const sead::Buffer<InteriorType>& surround_types, sead::Heap* heap);
     void changeInterior(OutputMode mode);
     Interior* getCurrentInterior(s32 index) const;
+    s32 getSpeakerChannelAngleIdx(SpeakerChannel channel, s32 index) const;
     void setInteriorSize(f32 size);
     s32 getNumOfInteriorMax() const;
     InteriorSet* getCurrentInteriorSet() const { return mCurrentInterior; }

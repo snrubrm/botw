@@ -6,6 +6,22 @@
 
 namespace aal {
 
+// 0x7100b85634
+s32 Interior::getSpeakerChannelAngleIdx(SpeakerChannel channel) const {
+    switch (channel) {
+    case 0:
+        return -mFrontSpeakerAngle;
+    case 1:
+        return mFrontSpeakerAngle;
+    case 2:
+        return -mRearSpeakerAngle;
+    case 3:
+        return mRearSpeakerAngle;
+    default:
+        return 0;
+    }
+}
+
 // 0x7100b85604
 void Interior::setInteriorSize(f32 size) {
     if (size > 0.0f) {

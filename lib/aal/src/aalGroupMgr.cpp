@@ -11,6 +11,7 @@ namespace aal {
 
 namespace {
 const sead::SafeString sDummyGroupName = "@aalDummy";
+const sead::SafeString sDefaultGroupName = "Default";
 }  // namespace
 
 // 0x7100bb652c
@@ -58,7 +59,27 @@ void GroupMgr::destroyGroupAll_() {
         mGroupFactory->destroyGroup(&group);
     }
     mGroups.clear();
-    _10 = nullptr;
+    mRootGroup = nullptr;
+    mDefaultSoundGroup = nullptr;
+}
+
+// 0x7100b80910
+void GroupMgr::createDefaultGroup_(sead::Heap* heap) {
+    if (_9 || mDefaultSoundGroup)
+        return;
+
+    if (sDefaultGroupName.getStringTop()[0] != sead::SafeString::cNullChar) {
+        if (SoundGroup* group = mGroupFactory->createSoundGroup(sDefaultGroupName, heap)) {
+            group->initialize(sDefaultGroupName, heap);
+            mDefaultSoundGroup = group;
+            if (mRootGroup) {
+                mRootGroup->pushBackChild_(group);
+                mGroups.pushBack(mDefaultSoundGroup);
+                sortGroupsBreadthFirst_();
+            }
+            return;
+        }
+    }
     mDefaultSoundGroup = nullptr;
 }
 

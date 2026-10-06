@@ -1,4 +1,5 @@
 #include <basis/seadNew.h>
+#include <prim/seadScopedLock.h>
 #include "aal/aalGroup.h"
 #include "aal/aalGroupLimiter.h"
 #include "aal/aalSoundSource.h"
@@ -40,6 +41,54 @@ void SoundGroup::finalize() {
         mSilenceFader = nullptr;
     }
     Group::finalize();
+}
+
+// 0x7100b82274
+void SoundGroup::stopAllSound(f32 fade_time) {
+    for (SoundSource& source : mPlayingSoundSources)
+        source.stop(fade_time, 0.0f);
+
+    for (Group* group = this; group; group = group->getParent()) {
+        if (auto* list = group->getLimiter()->getRequestSoundLimitList()) {
+            sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+            for (SoundSource& source : list->robustRange()) {
+                if (source.mSoundGroup == this) {
+                    list->erase(&source);
+                    source.stop(fade_time, 0.0f);
+                }
+            }
+        }
+    }
+}
+
+// 0x7100b8239c
+void SoundGroup::pauseAllSound(bool pause, f32 fade_time) {
+    for (SoundSource& source : mPlayingSoundSources)
+        source.pause(pause, fade_time);
+
+    for (Group* group = this; group; group = group->getParent()) {
+        if (auto* list = group->getLimiter()->getRequestSoundLimitList()) {
+            for (SoundSource& source : list->robustRange()) {
+                if (source.mSoundGroup == this)
+                    source.pause(pause, fade_time);
+            }
+        }
+    }
+}
+
+// 0x7100b82488
+void SoundGroup::pauseAllSound(sead::BitFlag8 flags, bool pause, f32 fade_time) {
+    for (SoundSource& source : mPlayingSoundSources)
+        source.pause(flags, pause, fade_time);
+
+    for (Group* group = this; group; group = group->getParent()) {
+        if (auto* list = group->getLimiter()->getRequestSoundLimitList()) {
+            for (SoundSource& source : list->robustRange()) {
+                if (source.mSoundGroup == this)
+                    source.pause(flags, pause, fade_time);
+            }
+        }
+    }
 }
 
 // 0x7100b82590
@@ -153,6 +202,35 @@ void SoundGroup::calcNumSounds() {
         }
     }
     Group::calcNumSounds();
+}
+
+// 0x7100b826f8
+void SoundGroup::removeSound(SoundSource* sound_source) {
+    if (sound_source && mPlayingSoundSources.indexOf(sound_source) >= 0)
+        mPlayingSoundSources.erase(sound_source);
+
+    for (Group* group = this; group; group = group->getParent()) {
+        if (auto* list = group->getLimiter()->getRequestSoundLimitList()) {
+            for (SoundSource& source : list->robustRange()) {
+                if (&source == sound_source)
+                    list->erase(sound_source);
+            }
+        }
+    }
+}
+
+// 0x7100b827cc
+s32 SoundGroup::getStartWaitSoundNum() const {
+    s32 num = 0;
+    for (const Group* group = this; group; group = group->getParent()) {
+        if (auto* list = group->getLimiter()->getRequestSoundLimitList()) {
+            for (const SoundSource& source : *list) {
+                if (source.mSoundGroup == this)
+                    ++num;
+            }
+        }
+    }
+    return num;
 }
 
 }  // namespace aal

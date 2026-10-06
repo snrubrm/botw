@@ -143,4 +143,13 @@ void OutputDeviceMultiSpeaker::initializeFinalOutputMeasure(
     mFinalOutputMeasure->initialize(arg, heap);
 }
 
+// 0x7100b85f54
+s32 OutputDevice::getSpeakerChannelAngleIdx(SpeakerChannel channel, s32 index) const {
+    if (mCurrentInterior) {
+        if (Interior* interior = mCurrentInterior->getInterior(index))
+            return interior->getSpeakerChannelAngleIdx(channel);
+    }
+    return 0;
+}
+
 }  // namespace aal

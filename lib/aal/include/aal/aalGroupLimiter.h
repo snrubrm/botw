@@ -43,6 +43,7 @@ public:
     void setActiveSoundLimiter(ActiveSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
     void setRequestSoundLimiter(RequestSoundLimiter* limiter, sead::OffsetList<SoundSource>* sources);
     void setRequestIntervalLimiter(RequestIntervalLimiter* limiter);
+    sead::OffsetList<SoundSource>* getRequestSoundLimitList() const { return mRequestSoundLimitList; }
 
 private:
     bool mInitialized;
