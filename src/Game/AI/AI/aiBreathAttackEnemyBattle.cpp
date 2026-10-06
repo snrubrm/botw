@@ -197,6 +197,16 @@ bool BreathAttackEnemyBattle::m38() {
     return false;
 }
 
+void BreathAttackEnemyBattle::sub_710033F490(ksys::act::InstParamPack* pack) {
+    auto* actor = mActor;
+    (*pack)->add(s32(actor->getParam()->getRes().mGParamList->getAttack()->mPower.ref() *
+                     *mAttackRatio_s),
+                 "AttackPower");
+    (*pack)->add(f32(*mEnlargeTime_s), "ScaleTime");
+    (*pack)->add(actor->getParam()->getRes().mGParamList->getAttack()->mRange.ref(), "Range");
+    ksys::act::ActorCreator::addScale(*pack, *mBreathSize_s);
+}
+
 void BreathAttackEnemyBattle::m42() {
     auto* actor = mActor;
     ksys::act::InstParamPack pack;

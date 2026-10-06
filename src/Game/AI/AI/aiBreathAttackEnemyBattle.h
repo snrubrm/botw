@@ -32,6 +32,8 @@ public:
     virtual bool m44();
 
     void changeToPrepareBattle();
+    // 0x710033f490 (lane1 s39; placeholder name): adds AttackPower / ScaleTime / Range / scale of the breath.
+    void sub_710033F490(ksys::act::InstParamPack* pack);
     void sub_710033EA88();
     void sub_710033F27C(s32 time);
     // The position of the actor of m34().

@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiEnemySomeIgniteBattle.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking::ai {
 
@@ -38,6 +41,16 @@ bool EnemySomeIgniteBattle::m39() {
     if (!m40())
         return false;
     return m44();
+}
+
+void EnemySomeIgniteBattle::m42() {
+    ksys::act::InstParamPack pack;
+    sub_710033F490(&pack);
+    for (s32 i = 0; i < *mIgniteNum_s; ++i) {
+        ksys::act::ActorCreator::instance()->requestCreateActor(
+            m36().cstr(), ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), &_b8[i], &pack,
+            nullptr, 1);
+    }
 }
 
 void EnemySomeIgniteBattle::m43() {
