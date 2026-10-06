@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiFishGoToAndNibble.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -12,8 +13,23 @@ FishGoToAndNibble::FishGoToAndNibble(const InitArg& arg) : ksys::act::ai::Ai(arg
 
 FishGoToAndNibble::~FishGoToAndNibble() = default;
 
+// NON_MATCHING: scheduling of the min/max arithmetic (the original multiplies (scale * 0.5) first and stores the six
+// results as stp pairs after computing them all)
 bool FishGoToAndNibble::init_(sead::Heap* heap) {
-    return ksys::act::ai::Ai::init_(heap);
+    _c0 = mActor->findPhysicsBodyByName("Body", "FoodMover");
+    if (_c0) {
+        auto* actor = mActor;
+        _a0 = actor->getAabb();
+        const sead::Vector3f min = _a0.getMin();
+        const sead::Vector3f max = _a0.getMax();
+        const sead::Vector3f center((max.x + min.x) * 0.5f, (max.y + min.y) * 0.5f,
+                                    (max.z + min.z) * 0.5f);
+        const sead::Vector3f half(actor->getScale().x * 0.5f * (max.x - min.x),
+                                  actor->getScale().y * 0.5f * (max.y - min.y),
+                                  actor->getScale().z * 0.5f * (max.z - min.z));
+        _a0.set(center - half, center + half);
+    }
+    return _c0 != nullptr;
 }
 
 // NON_MATCHING: instruction scheduling of the AABB copy / half-size arithmetic (the original keeps

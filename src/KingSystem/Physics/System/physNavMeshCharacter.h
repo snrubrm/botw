@@ -167,6 +167,9 @@ public:
     /* 0x284 */ sead::Vector3f _284;
     /* 0x290 */ u32 _290 = 0;
     /* 0x294 */ u8 _294 = 0;
+    /* 0x295 */ u8 _295;
+    /* 0x296 */ u8 _296;  // read under _1e0 (AnimalRangeKeepMoveWithLOS)
+    /* 0x297 */ u8 _297;
     /* 0x298 */ u8 _298[0x2a4 - 0x298];
     /* 0x2a4 */ sead::Atomic<u32> _2a4;
     /* 0x2a8 */ f32 _2a8;

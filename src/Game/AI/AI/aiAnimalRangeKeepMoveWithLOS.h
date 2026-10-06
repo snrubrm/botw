@@ -31,6 +31,8 @@ protected:
     bool sub_7100309A88();
     void sub_7100309BAC();
     void sub_7100309D40();
+    // 0x710030a1e0
+    void sub_710030A1E0();
 
     // static_param at offset 0x38
     const int* mFindPathBeginTimer_s{};
