@@ -84,6 +84,10 @@ public:
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).
     Unk_7100f7e9f0 sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);
 
+    // 0x7100f87a80 (declaration only): navmesh query between `from` and `to` (PriestBossMove::m35 passes the
+    // point raised and lowered by 1), writing the hit point to `out`.
+    Unk_7100f7e9f0 sub_7100F87A80(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to);
+
     // 0x7100f88b1c (unnamed in the CSV; not decompiled): NavMeshCharacter::sub_7100F76078 forwards here.
     Unk_7100f7e9f0 sub_7100F88B1C(NavMeshCharacter* nav, sead::Vector3f* out, const sead::Vector3f& to,
                                   f32 a3);

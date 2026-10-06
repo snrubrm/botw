@@ -24,6 +24,8 @@ public:
     ~Unk_7100f7e9f0();
 
     bool sub_7100F7EB40() const;
+    // 0x7100f7eee4 (declared only): compared with 5 by PriestBossMove::m35.
+    s32 sub_7100F7EEE4() const;
 
     /* 0x00 */ void* _0;
     /* 0x08 */ s32 _8;

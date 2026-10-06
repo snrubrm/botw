@@ -1,6 +1,12 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
+
+namespace ksys::phys {
+class CharacterController;
+}
 
 namespace uking::action {
 
@@ -14,8 +20,19 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    virtual void m32(sead::Vector3f* forward);
+    virtual void m33();
+    virtual void m34(ksys::phys::CharacterController* controller, const sead::Vector3f& dir);
+    virtual s32 m35(f32 distance, const sead::Vector3f& dir, const sead::Vector3f& pos);
+    virtual bool m36(const sead::Vector3f& dir);
+    virtual bool m37();
+
 protected:
     void calc_() override;
+
+    // 0x71000679d0 (declared only): updates `speed` (the move speed) from the current `speed`, the remaining
+    // distance and angle to the target.
+    void sub_71000679D0(f32* speed, f32 cur, f32 threshold, f32 dist, f32 angle, bool a, bool b);
 
     // static_param at offset 0x20
     const int* mWeaponIdx_s{};
@@ -59,17 +76,17 @@ protected:
     sead::SafeString mASName_s{};
     // dynamic_param at offset 0xc8
     sead::Vector3f* mMoveTargetPos_d{};
-    float _d0 = 0.0f;
-    float _d4 = 0.0f;
-    float _d8 = 0.0f;
-    int _dc = 0;
-    float _e0 = 1.0f;
-    float _e4 = 0.0f;
-    int _e8 = 0;
-    float _ec = 1.0f;
-    u8 _f0[0x12c - 0xf0];
-    int _12c = 0;
-    u16 _130 = 0;
+    f32 _d0 = 0.0f;
+    f32 _d4 = 0.0f;
+    ksys::Timer _d8{0.0f, 0.0f, 1.0f};
+    ksys::Timer _e4{0.0f, 0.0f, 1.0f};
+    sead::Matrix33f _f0;
+    sead::Vector3f _114;
+    sead::Vector3f _120;
+    f32 _12c = 0.0f;
+    bool _130 = false;
+    bool _131 = false;
 };
+KSYS_CHECK_SIZE_NX150(PriestBossMove, 0x138);
 
 }  // namespace uking::action
