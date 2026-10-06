@@ -2,6 +2,8 @@
 
 namespace ksys::act {
 
+SEAD_SINGLETON_DISPOSER_IMPL(Attention)
+
 bool Attention::sub_7100D753B0() const {
     return (mFlagsE22.isOn(2) || (mFlagsE21 & 8)) && !mEnabled;
 }

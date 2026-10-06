@@ -5,6 +5,8 @@
 
 namespace uking {
 
+SEAD_SINGLETON_DISPOSER_IMPL(RuneMgr)
+
 static void setLockedFlag(RuneMgr::LockedFlag& flag) {
     const auto lock = sead::makeScopedLock(flag.mCS);
     flag.mFlag = true;

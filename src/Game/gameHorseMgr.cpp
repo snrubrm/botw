@@ -9,6 +9,8 @@
 
 namespace uking {
 
+SEAD_SINGLETON_DISPOSER_IMPL(HorseMgr)
+
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
 bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
     return actor && _30.hasProcById(actor);

@@ -25,6 +25,10 @@ public:
     void sub_710089813C(s64 pattern, s32 seconds);
     // 0x710089878c (CSV Rumble::__auto1, declaration only; placeholder name): stops the running rumble.
     void sub_710089878C();
+
+    // lane4 s46: the members are not modelled (size 0xa0: createInstance allocates it).
+    u8 _28[0xa0 - 0x28];
 };
+KSYS_CHECK_SIZE_NX150(Rumble, 0xa0);
 
 }  // namespace uking

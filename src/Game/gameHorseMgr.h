@@ -147,7 +147,10 @@ public:
     /* 0x228 */ sead::BitFlag16 _228;
     u8 _22a[0x230 - 0x22a];
     /* 0x230 */ sead::CriticalSection _230;
+    // lane4 s46: a sub-object (ctor 0x7100e8a080) is not modelled yet; the size (0x2c0) is the allocation size of createInstance.
+    u8 _270[0x2c0 - 0x270];
 };
+KSYS_CHECK_SIZE_NX150(HorseMgr, 0x2c0);
 
 }  // namespace uking
 

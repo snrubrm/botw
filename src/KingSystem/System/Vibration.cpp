@@ -4,6 +4,8 @@
 
 namespace ksys {
 
+SEAD_SINGLETON_DISPOSER_IMPL(Vibration)
+
 void Vibration::sub_71010BB36C() {
     for (auto& slot : _6c8)
         slot._4e = 8;
