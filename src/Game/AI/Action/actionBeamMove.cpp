@@ -26,6 +26,12 @@ void BeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
 }
 
+void BeamMove::sub_71000C1258() {
+    const sead::Vector3f velocity = _40 * _4c;
+    _50->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    _58->setLinearVelocity(velocity, sead::Mathf::epsilon());
+}
+
 void BeamMove::leave_() {
     ksys::act::ai::Action::leave_();
 }

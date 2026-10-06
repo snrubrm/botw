@@ -19,6 +19,9 @@ public:
 protected:
     void calc_() override;
     virtual void m32();
+    // 0x710013d91c: selects the next gear of the rideable (SelectNextGear / SelectNextGearType) and
+    // clears AS slots 1 and 2; called by AnimalTurn too (calc_ inlines it).
+    void sub_710013D91C();
 
     // static_param at offset 0x20
     const int* mAllowChangeableFrame_s{};

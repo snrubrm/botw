@@ -46,6 +46,9 @@ protected:
     const float* mForceExplodeFrame_s{};
     // aitree_variable at offset 0x38
     bool* mIsReflectThrownBullet_a{};
+    // 0x71000c1258: gives both bodies the velocity `_40 * _4c` (called by GuardianMiniBeamMove::calc_).
+    void sub_71000C1258();
+
     sead::Vector3f _40 = sead::Vector3f::ez;
     f32 _4c = 0;
     ksys::phys::RigidBody* _50 = nullptr;

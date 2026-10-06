@@ -67,6 +67,12 @@ void ForkAnimalASPlay::calc_() {
     if (!isFinishedAS(0, 0))
         return;
 
+    sub_710013D91C();
+    setFinished();
+}
+
+// NON_MATCHING: only the order of `mov v0` / `mov w2` before the tail call differs.
+void ForkAnimalASPlay::sub_710013D91C() {
     if (auto* list = mActor->getASList()) {
         const s32 gear = *mSelectNextGear_s;
         if (gear >= 0) {
@@ -78,7 +84,6 @@ void ForkAnimalASPlay::calc_() {
             }
         }
     }
-    setFinished();
 }
 
 void ForkAnimalASPlay::m32() {

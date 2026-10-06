@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionForkAITreeVariableMove.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
 
@@ -32,6 +33,23 @@ void ForkAITreeVariableMove::loadParams_() {
     getAITreeVariable(&mIsActive_a, "IsActive");
     getAITreeVariable(&mDestinationPos_a, "DestinationPos");
     getAITreeVariable(&mFacePos_a, "FacePos");
+}
+
+void ForkAITreeVariableMove::sub_710005BE70() {
+    if (!*mIsKeepDistFromGround_s)
+        return;
+    const f32 dist = *(*mKeepDistFromGround_a > 0.0f ? mKeepDistFromGround_a : mKeepDistFromGround_s);
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    sead::Vector3f start;
+    start.x = mDestinationPos_a->x + 0.0f;
+    start.y = dist + mDestinationPos_a->y;
+    start.z = mDestinationPos_a->z + 0.0f;
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.setStartAndDisplacementScaled(start, sead::Vector3f::ey, dist * -5.0f);
+    if (query.worldRayCast(ksys::phys::ContactLayerType::Entity)) {
+        query.getHitPosition(&start);
+        mDestinationPos_a->y = dist + start.y;
+    }
 }
 
 void ForkAITreeVariableMove::calc_() {

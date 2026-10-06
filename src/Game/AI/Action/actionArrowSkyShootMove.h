@@ -19,6 +19,7 @@ public:
 protected:
     void calc_() override;
 
+    void m33() override;
     bool m34(sead::Vector3f* pos, bool* a, bool* b, sead::Vector3f* vel) override;
     bool m40() override;
 
@@ -33,6 +34,10 @@ protected:
     s8 _170 = -1;
     ksys::Timer _174{0, 0};
     sead::Vector3f _180{0, 0, 0};
+
+    // 0x71000a6808: casts a ray from `start` up to `end` against terrain / trees; true (and the hit
+    // position in `out_hit`) if it hits. `end` arrives in registers as an HFA.
+    bool sub_71000A6808(sead::Vector3f end, sead::Vector3f* out_hit, const sead::Vector3f& start);
 };
 
 }  // namespace uking::action

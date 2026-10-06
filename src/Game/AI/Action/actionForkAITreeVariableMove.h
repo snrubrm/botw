@@ -18,6 +18,10 @@ public:
 protected:
     void calc_() override;
 
+    // 0x710005be70: with IsKeepDistFromGround, raises the destination's height by the keep distance
+    // above the ground found below it.
+    void sub_710005BE70();
+
     // static_param at offset 0x20
     const float* mArrivedRadius_s{};
     // static_param at offset 0x28
