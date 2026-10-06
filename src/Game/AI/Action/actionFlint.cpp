@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionFlint.h"
+#include "Game/Damage/dmgDamageManager.h"
+#include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
 
@@ -11,17 +13,30 @@ bool Flint::init_(sead::Heap* heap) {
 }
 
 void Flint::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (!*mParams.mSetDelete_s)
+        return;
+
+    auto* base = mActor->getDamageMgr();
+    if (!base)
+        return;
+
+    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(base))
+        manager->addDamageCallback(4, &_38);
 }
 
 void Flint::leave_() {
-    ksys::act::ai::Action::leave_();
+    auto* base = mActor->getDamageMgr();
+    if (!base)
+        return;
+
+    if (auto* manager = sead::DynamicCast<uking::dmg::DamageManager>(base))
+        manager->removeDamageCallback(&_38);
 }
 
 void Flint::loadParams_() {
-    getStaticParam(&mRadius_s, "Radius");
-    getStaticParam(&mLife_s, "Life");
-    getStaticParam(&mSetDelete_s, "SetDelete");
+    getStaticParam(&mParams.mRadius_s, "Radius");
+    getStaticParam(&mParams.mLife_s, "Life");
+    getStaticParam(&mParams.mSetDelete_s, "SetDelete");
 }
 
 void Flint::calc_() {
