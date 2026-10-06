@@ -13,6 +13,23 @@ namespace sead {
 class Heap;
 
 }
+namespace al {
+class ByamlIter;
+}
+
+namespace ksys::res {
+// CSV ResDerived (ctor 0x71011fc5c0: `res::Handle::Handle()` + its own vtable store; 71 callers): a res::Handle
+// subclass that holds a model resource. Placeholder name; declared only.
+class ResDerived : public Handle {
+    SEAD_RTTI_OVERRIDE(ResDerived, Handle)
+public:
+    ResDerived();
+    ~ResDerived() override;
+    // 0x71011fc618 (CSV ResDerived::getModelRes)
+    void* getModelRes();
+};
+}  // namespace ksys::res
+
 namespace ksys::evt {
 
 class EventFlowBase;
@@ -43,6 +60,18 @@ public:
     bool finishLoad();
 };
 
+// CSV EventBgmInfo (size 0x70; ctor 0x7100dc6e20, init 0x7100dc7180, finishLoad 0x7100dc7450; declared only).
+// EventResource::_1c0.
+class EventBgmInfo {
+public:
+    EventBgmInfo();
+    void init(const sead::SafeString& event_name, sead::Heap* heap, bool is_timeline, al::ByamlIter* info,
+              res::Handle* pack_handle);
+
+    u8 _0[0x70];
+};
+static_assert(sizeof(EventBgmInfo) == 0x70);
+
 // TODO
 class EventResource {
 public:
@@ -59,8 +88,13 @@ public:
     // 0x7100dc3698 (CSV unnamed): called by EventFlowBase::exitEventMaybe / x with the flow's resource.
     void sub_7100DC3698();
 
+    // 0x7100dc245c (CSV EventResource::invokedParseExtraModelRes)
+    bool invokedParseExtraModelRes();
     // 0x7100dc2d50 / 0x7100dc2eb4 (CSV EventResource::loadEventResources / finishLoad; not decompiled)
     void loadEventResources(bool a1);
+    // 0x7100dc25b8 (CSV EventResource::loadCommon_DemoAndModel; not decompiled)
+    void loadCommon_DemoAndModel(const sead::SafeString& event_name, al::ByamlIter* info,
+                                 res::Handle* pack_handle, bool a1);
     bool finishLoad(bool a1);
 
     // 0x7100dc3368 / 0x7100dc33d4 / 0x7100dc421c (CSV EventResource::areCameraAndModelAndXlinkReady /
@@ -80,11 +114,11 @@ public:
     u8 _pad_after_demo[0x148 - 0x20 - sizeof(DemoInfo)];
     /* 0x148 */ CameraSystem* _148;
     /* 0x150 */ sead::Heap* mHeap;
-    /* 0x158 */ res::Handle _158;
+    /* 0x158 */ res::ResDerived _158;
     u8 _1a8[8];
     /* 0x1b0 */ void* _1b0;
     /* 0x1b8 */ EventXlinkInfo* _1b8;
-    u8 _1c0[8];
+    /* 0x1c0 */ EventBgmInfo* _1c0;
     /* 0x1c8 */ res::TempResourceLoader* mTempResourceLoader;
     /* 0x1d0 */ u16 _1d0;
     u8 _1d2;

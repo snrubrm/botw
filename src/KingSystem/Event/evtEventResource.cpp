@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include <heap/seadHeap.h>
+#include "KingSystem/Event/evtInfoData.h"
 #include "KingSystem/Event/evtResourceFlowchart.h"
 #include "KingSystem/Event/evtResourceTimeline.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -7,6 +8,14 @@
 #include "KingSystem/Resource/resTempResourceLoader.h"
 
 namespace ksys::evt {
+
+bool EventResource::invokedParseExtraModelRes() {
+    _158.parseResource(nullptr);
+    if (_158.isSuccess())
+        _1b0 = _158.getModelRes();
+    _1d3 = true;
+    return true;
+}
 
 void EventResource::initFlowchart(const sead::SafeString& event_name,
                                   const sead::SafeString& entry_point) {
@@ -49,6 +58,27 @@ void EventResource::loadEventPack() {
     res::ResourceMgrTask::instance()->initTempResourceLoader(mTempResourceLoader, init_arg);
     mTempResourceLoader->requestLoad(arg);
     _1e0 |= 0x4000;
+}
+
+void EventResource::loadEventResources(bool a1) {
+    if (mTimeline) {
+        al::ByamlIter info;
+        InfoData::instance()->getEntry(&info, mTimeline->mName, mTimeline->mName);
+        mTimeline->loadEventFlow(mHeap, info, _1d8);
+        auto* bgm = new (mHeap, 8) EventBgmInfo;
+        _1c0 = bgm;
+        bgm->init(mTimeline->mName, mHeap, true, &info, _1d8);
+        loadCommon_DemoAndModel(mTimeline->mName, &info, _1d8, a1);
+    }
+    if (mFlowchart) {
+        al::ByamlIter info;
+        InfoData::instance()->getEntry(&info, mFlowchart->mName, mFlowchart->mEntryPoint);
+        mFlowchart->loadEventFlow(mHeap, _1d8);
+        auto* bgm = new (mHeap, 8) EventBgmInfo;
+        _1c0 = bgm;
+        bgm->init(mFlowchart->mName, mHeap, false, &info, _1d8);
+        loadCommon_DemoAndModel(mFlowchart->mName, &info, _1d8, a1);
+    }
 }
 
 bool EventResource::processResourceLoad(bool a1) {
