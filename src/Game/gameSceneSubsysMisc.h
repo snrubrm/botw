@@ -76,6 +76,23 @@ public:
     // Small accessors (placeholder names after the offsets they use; addresses in the comments).
     void sub_7100905B1C();  // _331 = true
     void sub_7100905B28();  // _331 = false, _58 = false
+    // 0x710090547c / 0x710090549c (the CSV __auto0 / __auto3; identical bodies): clears _331, _d8, _dc, _f4 and _fc / _fe.
+    void sub_710090547C();
+    void sub_710090549C();
+    // 0x7100905dec / 0x7100905df8 / 0x7100905e00 / 0x7100905e10: `_b8.acquire(proc, false)`, `_b8.reset()`, acquires the actor
+    // of `_b8` into `accessor` (if given), `_138 = value`.
+    void sub_7100905DEC(ksys::act::BaseProc* proc);
+    void sub_7100905DF8();
+    void sub_7100905E00(ksys::act::ActorConstDataAccess* accessor);
+    void sub_7100905E10(f32 value);
+    // 0x7100905f08 / 0x7100905f10 / 0x7100905f18 / 0x7100905f28: `_13c = value`, `_c8.hasProc()`, `_10c`, `_329`.
+    void sub_7100905F08(f32 value);
+    bool sub_7100905F10() const;
+    sead::Vector3f sub_7100905F18() const;
+    bool sub_7100905F28() const;
+    // 0x7100905e18 (placeholder name): the direction from the magnesis position of the player to the selected position
+    // `_dc[_148]`, normalised ((0, 0, 1) without a player).
+    sead::Vector3f sub_7100905E18() const;
     bool sub_7100905C30() const;  // _32f
     const sead::Vector3f& sub_7100905C38() const;  // _dc[_148]
     void sub_7100905C54();  // _d8[_144] = true
@@ -100,7 +117,7 @@ public:
     u32 _9c;
     u8 _a0[0xa8 - 0xa0];
     ksys::act::BaseProcLink _a8;
-    u8 _b8[0xc8 - 0xb8];
+    ksys::act::BaseProcLink _b8;
     ksys::act::BaseProcLink _c8;
     sead::SafeArray<bool, 2> _d8;
     u8 _da[0xdc - 0xda];
@@ -109,14 +126,15 @@ public:
     sead::SafeArray<bool, 2> _fc;
     sead::SafeArray<bool, 2> _fe;
     sead::Vector3f _100;
-    u8 _10c[0x124 - 0x10c];
+    sead::Vector3f _10c;
+    u8 _118[0x124 - 0x118];
     s32 _124;
     s32 _128;
     u8 _12c[0x130 - 0x12c];
     f32 _130;
     f32 _134;
     f32 _138;
-    u8 _13c[0x140 - 0x13c];
+    f32 _13c;
     s32 _140;
     s32 _144;
     s32 _148;
@@ -125,7 +143,8 @@ public:
     ksys::act::Unk_71006e45c4* _318;
     u8 _320[0x328 - 0x320];
     bool _328;
-    u8 _329[0x32f - 0x329];
+    bool _329;
+    u8 _32a[0x32f - 0x32a];
     bool _32f;
     u8 _330;
     bool _331;

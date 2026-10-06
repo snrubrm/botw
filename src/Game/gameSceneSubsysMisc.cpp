@@ -1,6 +1,7 @@
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(GameSceneSubsys4)
 
@@ -56,6 +57,78 @@ void GameSceneSubsys5::sub_7100905C70() {
 
 void GameSceneSubsys5::sub_7100905B1C() {
     _331 = true;
+}
+
+void GameSceneSubsys5::sub_710090547C() {
+    _331 = false;
+    _d8[0] = false;
+    _d8[1] = false;
+    _dc[0].set(0, 0, 0);
+    _dc[1].set(0, 0, 0);
+    _f4[0] = 0;
+    _f4[1] = 0;
+    _fc[0] = false;
+    _fc[1] = false;
+    _fe[0] = false;
+    _fe[1] = false;
+}
+
+void GameSceneSubsys5::sub_710090549C() {
+    _331 = false;
+    _d8[0] = false;
+    _d8[1] = false;
+    _dc[0].set(0, 0, 0);
+    _dc[1].set(0, 0, 0);
+    _f4[0] = 0;
+    _f4[1] = 0;
+    _fc[0] = false;
+    _fc[1] = false;
+    _fe[0] = false;
+    _fe[1] = false;
+}
+
+void GameSceneSubsys5::sub_7100905DEC(ksys::act::BaseProc* proc) {
+    _b8.acquire(proc, false);
+}
+
+void GameSceneSubsys5::sub_7100905DF8() {
+    _b8.reset();
+}
+
+void GameSceneSubsys5::sub_7100905E00(ksys::act::ActorConstDataAccess* accessor) {
+    if (accessor)
+        ksys::act::acquireActor(&_b8, accessor);
+}
+
+void GameSceneSubsys5::sub_7100905E10(f32 value) {
+    _138 = value;
+}
+
+void GameSceneSubsys5::sub_7100905F08(f32 value) {
+    _13c = value;
+}
+
+bool GameSceneSubsys5::sub_7100905F10() const {
+    return _c8.hasProc();
+}
+
+sead::Vector3f GameSceneSubsys5::sub_7100905F18() const {
+    return _10c;
+}
+
+bool GameSceneSubsys5::sub_7100905F28() const {
+    return _329;
+}
+
+sead::Vector3f GameSceneSubsys5::sub_7100905E18() const {
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    sead::Vector3f direction(0, 0, 1);
+    if (player.hasProc()) {
+        direction = _dc[_148] - player.getPosCopyMagnesis();
+        direction.normalize();
+    }
+    return direction;
 }
 
 void GameSceneSubsys5::sub_7100905B28() {
