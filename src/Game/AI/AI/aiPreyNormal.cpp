@@ -232,4 +232,43 @@ void PreyNormal::sub_7100500B50(bool a, bool b, bool c) {
     mActor->getActorFlags2().change(Flag::_1000000, c);
 }
 
+// 0x71004fe2b4
+bool PreyNormal::sub_71004FE2B4() {
+    if (isCurrentChild("気づき") || mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_8000000))
+        return false;
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    ksys::act::ai::InlineParamPack pack;
+    changeChild("気づき", &pack);
+    return true;
+}
+
+// 0x71004feac8
+bool PreyNormal::sub_71004FEAC8() {
+    if (isCurrentChild("注目"))
+        return false;
+    _134 = ksys::Timer(*mTargetLostTime_s, *mTargetLostTime_s);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_e0, "TargetPos", -1);
+    changeChild("注目", &pack);
+    return true;
+}
+
+// 0x7100500ba8
+bool PreyNormal::sub_7100500BA8() {
+    if (isCurrentChild("威嚇"))
+        return false;
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_1000000);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(_e0, "TargetPos", -1);
+    changeChild("威嚇", &pack);
+    return true;
+}
+
 }  // namespace uking::ai

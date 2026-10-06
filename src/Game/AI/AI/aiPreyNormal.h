@@ -53,6 +53,12 @@ public:
     void sub_7100500B50(bool, bool, bool);
 
 protected:
+    // 0x7100500ba8: starts the "威嚇" child with the target position
+    bool sub_7100500BA8();
+    // 0x71004feac8: starts the "注目" child with the target position (timer _134 = TargetLostTime)
+    bool sub_71004FEAC8();
+    // 0x71004fe2b4: starts the "気づき" child unless it is current / flag 0x8000000 is set
+    bool sub_71004FE2B4();
     // static_param at offset 0x38
     const float* mChangeBattleStateRadius_s{};
     // static_param at offset 0x40
