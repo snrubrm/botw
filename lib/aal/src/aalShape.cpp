@@ -61,6 +61,23 @@ void Shape::setActorMatrixFromSpatialCalculator_(const sead::Matrix34f& matrix) 
     }
 }
 
+// 0x7100b9a968
+void Shape::attachSpatialCalculator_(SpatialCalculator* calculator) {
+    if (!calculator || mSpatialCalculators.isNodeLinked(calculator))
+        return;
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mSpatialCalculators.pushBack(calculator);
+}
+
+// 0x7100b9a9e8
+void Shape::detachSpatialCalculator_(SpatialCalculator* calculator) {
+    if (!calculator)
+        return;
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    if (mSpatialCalculators.indexOf(calculator) >= 0)
+        mSpatialCalculators.erase(calculator);
+}
+
 // 0x7100b9aba0
 void Shape::setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
                           bool keep_position) {}
