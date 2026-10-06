@@ -33,6 +33,8 @@ namespace uking::ui {
 s32 getScreenIdxByName(const char* name);
 bool getRuntimeTipFlag(s32 index);
 void sub_7100A94AF0();
+// 0x7100a9b2ac: sets a flag of the UI manager (`_64c4d`).
+void sub_7100A9B2AC();
 bool sub_7100A96688();
 s32 sub_7100A968B4();
 // 0x7100a9a4bc (uiMiscFacade.cpp; declaration added by lane4 s44 for CanMarkMapPin).
