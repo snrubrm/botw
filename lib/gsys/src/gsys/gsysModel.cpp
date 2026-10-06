@@ -5,8 +5,8 @@
 
 namespace gsys {
 
-void Model::getBounding(sead::Vector4f* bounding) const {
-    const sead::Vector4f* source = mBoundingOverrideMaybe;
+void Model::getBounding(sead::BoundSphere3f* bounding) const {
+    const sead::BoundSphere3f* source = mBoundingOverrideMaybe;
     if (!source) {
         gatherBounding_();
         source = &mBounding;

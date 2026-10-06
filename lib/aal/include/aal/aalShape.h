@@ -153,6 +153,33 @@ protected:
 };
 static_assert(sizeof(ShapeCylinder) == 0x100, "aal::ShapeCylinder size mismatch");
 
+/// A capsule: a cylinder with hemispherical ends around the segment `getVector` (axis direction and length). It has
+/// the same members as ShapeCylinder.
+class ShapeCapsule : public Shape {
+    SEAD_RTTI_OVERRIDE(ShapeCapsule, Shape)
+public:
+    static ShapeCapsule* create(const sead::SafeString& name, sead::Heap* heap);
+
+    void setShapeParam(const sead::Vector3f& vector, const sead::Vector3f& rotation,
+                       bool keep_position) override;
+    void calcPosition(const sead::Vector3f& source, sead::Vector3f* out) const override;
+    void setRadius(f32 radius) override {
+        if (radius >= 0.0f)
+            mRadius = radius;
+    }
+    f32 getRadius() const override { return mRadius; }
+    void setVector(const sead::Vector3f& vector) override { mVector = vector; }
+    const sead::Vector3f& getVector() const override { return mVector; }
+
+protected:
+    void drawShape_(sead::PrimitiveDrawer& drawer, const sead::Color4f& color,
+                    f32 scale) const override;
+
+    sead::Vector3f mVector = sead::Vector3f::zero;
+    f32 mRadius = 1.0f;
+};
+static_assert(sizeof(ShapeCapsule) == 0x100, "aal::ShapeCapsule size mismatch");
+
 /// A sphere with a radius.
 class ShapeSphere : public Shape {
     SEAD_RTTI_OVERRIDE(ShapeSphere, Shape)

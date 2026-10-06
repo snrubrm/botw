@@ -1,6 +1,7 @@
 #pragma once
 
 #include <aal/aalShape.h>
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiAi.h"
 
 namespace uking::ai {
@@ -13,15 +14,17 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
     void sub_71005EC090();
     void sub_71005EBEC0();
 
 protected:
-    aal::Shape* _38 = nullptr;  // an aal::ShapeCapsule created in init_
-    void* _40 = nullptr;
-    u32 _48 = 0;
+    void updateShapeFromModel_();
+
+    aal::ShapeCapsule* _38 = nullptr;  // created in init_
+    xlink2::HandleSLink _40;
 };
 KSYS_CHECK_SIZE_NX150(WaterFallWithSound, 0x50);
 
