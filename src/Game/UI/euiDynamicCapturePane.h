@@ -25,7 +25,7 @@ public:
     /* 0xe0 */ nn::util::IntrusiveListNode mDynamicTextureNode;
     u8 _f0[0x100 - 0xf0];
     /* 0x100 */ agl::utl::MultiFilter* mMultiFilter;  // filter whose result texture the pane displays (may be null)
-    /* 0x108 */ nn::ui2d::TextureInfo mTextureInfo;
+    /* 0x108 */ nn::ui2d::ExternalTextureInfo mTextureInfo;
     /* 0x120 */ const agl::TextureData* mTexture;  // the capture's texture data (null until captured)
 };
 static_assert(offsetof(DynamicCapturePane, mDynamicTextureNode) == 0xe0);

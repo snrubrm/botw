@@ -40,7 +40,7 @@ public:
 
 private:
     /* 0x08 */ sead::Buffer<Entry> mEntries;
-    /* 0x18 */ nn::ui2d::TextureInfo mTexInfo;
+    /* 0x18 */ nn::ui2d::ExternalTextureInfo mTexInfo;
     /* 0x30 */ s32 mMode = 0;
     /* 0x34 */ u8 _34[4];
     /* 0x38 */ sead::FixedSafeString<128> mPath;
