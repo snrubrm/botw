@@ -1,4 +1,6 @@
 #include "Game/AI/Action/actionTurnAndLookAtToObjectNow.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -37,6 +39,25 @@ void TurnAndLookAtToObjectNow::calc_() {
     }
     if (controller)
         m41(controller);
+}
+
+void TurnAndLookAtToObjectNow::m40() {
+    auto* controller = mActor->getCharacterController();
+    if (_d0) {
+        setFinished();
+        return;
+    }
+
+    _38.y = 0;
+    _38.normalize();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    if (controller) {
+        controller->sub_7100F5E7F0(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
 }
 
 }  // namespace uking::action

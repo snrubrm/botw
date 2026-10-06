@@ -53,4 +53,23 @@ const sead::SafeString& PlayASForDemo::m34() {
     return mASName_d;
 }
 
+// NON_MATCHING: the original keeps the morphing frame / -1 choice as branches (`ldr s0; fcmp; b.ge; fmov s0, #-1`),
+// ours selects with a register move
+void PlayASForDemo::m36() {
+    if (*mTargetIndex_d == -1) {
+        auto* as_list = mActor->getASList();
+        if (!as_list)
+            return;
+        const sead::SafeString& name = m34();
+        _a4 = as_list->sub_710115BC28(name, (*mTargetIndex_d != -1 || *mMorphingFrame_d < 0.0f) ?
+                                                -1.0f : *mMorphingFrame_d);
+        return;
+    }
+
+    const sead::SafeString& name = m34();
+    playAS(name.cstr(), *mIsIgnoreSame_d, *mTargetIndex_d == -1 ? 0 : *mTargetIndex_d,
+           *mTargetIndex_d == -1 ? 0 : *mSeqBank_d, -1.0f);
+    _a4 = *mTargetIndex_d == -1 ? 0 : *mTargetIndex_d;
+}
+
 }  // namespace uking::action

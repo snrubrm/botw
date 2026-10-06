@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionPlayerTurnAndLookToObjectNow.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::action {
@@ -79,6 +80,25 @@ void PlayerTurnAndLookToObjectNow::calc_() {
             controller->sub_7100F5FB24(sead::Vector3f::zero);
     } else if (controller) {
         m41(controller);
+    }
+}
+
+void PlayerTurnAndLookToObjectNow::m40() {
+    auto* controller = mActor->getCharacterController();
+    if (_c8) {
+        setFinished();
+        return;
+    }
+
+    _38.y = 0;
+    _38.normalize();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    if (controller) {
+        controller->sub_7100F5EDD8(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
     }
 }
 

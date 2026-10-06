@@ -2,6 +2,9 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "Game/AI/aiUnk_71007368A4.h"
+#include "Game/AI/aiUnk_710073fa90.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
@@ -92,6 +95,64 @@ void TurnAndLookToObjNotAnimDriven::calc_() {
         return;
     }
     m41(controller);
+}
+
+// NON_MATCHING: store / load scheduling of `front` and the operand order of the second normalisation's sum
+void TurnAndLookToObjNotAnimDriven::m40() {
+    sub_710073FA90(&_100, mActor);
+    _f4.value = *mRotInitSpd_d;
+    _f4.prev_value = *mRotInitSpd_d;
+    _f0 = false;
+    auto* controller = mActor->getCharacterController();
+    if (_f1) {
+        setFinished();
+        return;
+    }
+
+    _38.y = 0;
+    _38.normalize();
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    mActor->getASList()->x_6(9, 0, sead::Mathf::rad2deg(angle) * axis.y);
+    playAS("Turn", false, 0, 0, -1.0f);
+    if (controller) {
+        controller->sub_7100F5E7F0(0.0f);
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+    }
+}
+
+// NON_MATCHING: same as m40 (front stores) and `_f4.mean` is loaded earlier in the original
+void TurnAndLookToObjNotAnimDriven::m41(ksys::phys::CharacterController* controller) {
+    if (_f0) {
+        controller->sub_7100F5FB24(sead::Vector3f::zero);
+        setFinished();
+        return;
+    }
+
+    _f4.chase(*mRotSpdMax_d, *mRotAccel_d);
+    sub_710073FA94(&_100, mActor);
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    front.y = 0;
+    front.normalize();
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EEB08(&axis, &angle, front, _38, sead::Vector3f::ey);
+    _f4.updateStats();
+    _38.normalize();
+    const f32 mean = _f4.mean;
+    sub_710074006C(&_100, _38, sead::Vector3f::ey, true, *mRotRate_d, mean, mean * 0.1f);
+    if (angle < sead::Mathf::abs(mean * 0.1f)) {
+        _f0 = true;
+        playAS("Wait", true, 0, 0, -1.0f);
+        setFinished();
+    }
+    sub_7100740E04(_100, controller);
 }
 
 }  // namespace uking::action

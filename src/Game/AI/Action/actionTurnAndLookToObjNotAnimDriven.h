@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionLookAtObjectBase.h"
 #include "KingSystem/System/VFRValue.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace ksys::phys {
@@ -40,7 +41,7 @@ protected:
     bool _f0 = false;
     bool _f1 = false;
     ksys::VFRValue _f4;
-    u8 _100[0x128 - 0x100];
+    sead::Matrix33f _100;
 };
 KSYS_CHECK_SIZE_NX150(TurnAndLookToObjNotAnimDriven, 0x128);
 
