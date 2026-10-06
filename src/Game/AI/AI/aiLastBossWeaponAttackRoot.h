@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
     // 0x710047efd4 (placeholder name)
     void changeToWait();
+    // 0x710047ea10 / 0x710047ed84 (declaration only, 884 / 592 B; placeholder names): the two states picked by enter_.
+    void sub_710047EA10();
+    void sub_710047ED84();
 
 protected:
     // static_param at offset 0x38
