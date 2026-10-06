@@ -1,7 +1,13 @@
 #include "Game/AI/Action/actionForkSwapPartsItemFromDropTable.h"
+#include "Game/AI/aiUnk_710073CDFC.h"
 #include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Resource/Actor/resResourceDrop.h"
 
 namespace uking::action {
 
@@ -15,6 +21,42 @@ bool ForkSwapPartsItemFromDropTable::init_(sead::Heap* heap) {
 
 void ForkSwapPartsItemFromDropTable::enter_(ksys::act::ai::InlineParamPack* params) {
     Fork::enter_(params);
+    auto* enemy = sead::DynamicCast<act::Enemy>(mActor);
+    if (!enemy) {
+        setFailed();
+        return;
+    }
+    auto* drop = mActor->getParam()->getRes().mDropTable;
+    if (!drop) {
+        setFailed();
+        return;
+    }
+    auto* creator = ksys::act::ActorCreator::instance();
+    if (!creator) {
+        setFailed();
+        return;
+    }
+
+    sead::Vector3f pos;
+    mActor->getMtx().getTranslation(pos);
+    for (s32 i = 0; i != 5; ++i) {
+        const sead::SafeString& key = mPartsKey_s[i];
+        if (key.isEmpty())
+            continue;
+
+        const s32 index = sub_710073CDFC(mActor, &enemy->getActorPartsActor(key));
+        if (index < 0)
+            continue;
+
+        sead::FixedSafeString<64> actor_name;
+        ksys::eco::getEcosystemActorName(&actor_name, drop->getRandomDropFromTable(index), pos);
+        ksys::act::InstParamPack pack;
+        pack->addPosition(pos);
+        pack->add(-1, "Life");
+        creator->requestCreateActor(actor_name.cstr(),
+                                    ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(),
+                                    &_80[i], &pack, nullptr, 1);
+    }
 }
 
 void ForkSwapPartsItemFromDropTable::leave_() {
