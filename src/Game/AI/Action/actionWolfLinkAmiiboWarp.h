@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -21,6 +22,7 @@ protected:
 
     // dynamic_param at offset 0x20
     sead::Vector3f* mTargetPos_d{};
+    Unk_71023cd530 _28{mActor, 0x80000a8};
 };
 
 }  // namespace uking::action

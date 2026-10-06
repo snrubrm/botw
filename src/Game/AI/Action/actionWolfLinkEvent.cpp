@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWolfLinkEvent.h"
+#include "Game/gameWolfLinkMgr.h"
 
 namespace uking::action {
 
@@ -11,7 +12,25 @@ bool WolfLinkEvent::init_(sead::Heap* heap) {
 }
 
 void WolfLinkEvent::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* manager = WolfLinkMgr::instance()) {
+        switch (*mAction_d) {
+        case 1:
+            if (!manager->sub_7100683088(true))
+                return;
+            setFinished();
+            return;
+        case 0:
+            setFinished();
+            return;
+        case 2:
+            setFinished();
+            return;
+        case 3:
+            setFinished();
+            return;
+        }
+    }
+    setFailed();
 }
 
 void WolfLinkEvent::leave_() {

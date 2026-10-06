@@ -81,6 +81,15 @@ public:
     Unk_710235aba0_Payload _18;
 };
 
+// vtable 0x71023cd530 (WolfLinkAmiiboWarp::_28): sends message 0x80000a8 (a u32; payload in aiUnkMessagePayloads.h).
+class Unk_71023cd530 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    Unk_7102450bb8_Payload _18;
+};
+
 // vtable 0x71023724e8 (Unk_7100711020 _28): sends message 0x8000010 (payload in
 // aiUnkMessagePayloads.h). Its functions are next to Unk_7102372510's (0x71000e3430..).
 class Unk_71023724e8 : public Unk_7102357d20 {

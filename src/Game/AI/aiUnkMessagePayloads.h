@@ -533,6 +533,12 @@ struct Unk_710244e760_Payload {
     sead::JobQueueLock mLock;
 };
 
+// Message 0x80000a8 (sender Unk_71023cd530: WolfLinkAmiiboWarp; listener Unk_7102450bb8)
+struct Unk_7102450bb8_Payload {
+    u32 _0 = 0;
+    sead::JobQueueLock mLock;
+};
+
 // Message 0x80000ac (sender unknown; placeholder name = listener vtable)
 struct Unk_71024056a8_Payload {
     u32 _0;

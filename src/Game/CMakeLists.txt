@@ -18,6 +18,7 @@ target_sources(uking PRIVATE
   gameFlagUtils.cpp
   gameFlagUtils.h
   gameHorseMgr.h
+  gameWolfLinkMgr.h
   gameItemUtils.cpp
   gameItemUtils.h
   gameLastBossMgr.cpp

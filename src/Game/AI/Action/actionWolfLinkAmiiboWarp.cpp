@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWolfLinkAmiiboWarp.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "KingSystem/Utils/Thread/MessageAck.h"
 
 namespace uking::action {
@@ -11,8 +12,15 @@ bool WolfLinkAmiiboWarp::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
+// NON_MATCHING: same code; the original computes `&manager->_68` before the spin lock and uses other registers
 void WolfLinkAmiiboWarp::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* manager = WolfLinkMgr::instance();
+    manager->_54.set(*mTargetPos_d);
+    {
+        sead::ScopedLock<sead::JobQueueLock> lock(&_28._18.mLock);
+        _28._18._0 = 3;
+    }
+    _28.sub_710070DBB0(manager->_68, true);
 }
 
 void WolfLinkAmiiboWarp::leave_() {
