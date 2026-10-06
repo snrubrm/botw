@@ -73,6 +73,9 @@ bool sub_71005D8748(ksys::act::Actor* actor, const sead::Vector3f& velocity, boo
                     bool a6);
 /// Enemy target position (Vector3f::zero if not an Enemy).
 const sead::Vector3f& sub_71005D9330(ksys::act::Actor* actor);
+// 0x71005d9a20 (declared only, 840 bytes): writes a direction of the actor (the SnowOctarockBattle::m41 view test dots it
+// with the direction to the target). Placeholder name.
+void sub_71005D9A20(sead::Vector3f* out, ksys::act::Actor* actor);
 /// Position of the target actor (getField44C_Vec3), zero if there is none.
 const sead::Vector3f& sub_71005D93CC(ksys::act::Actor* actor);
 /// Velocity of the target actor, zero if not an Enemy.
