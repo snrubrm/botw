@@ -1,5 +1,6 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include <heap/seadHeap.h>
+#include "KingSystem/Resource/resLoadRequest.h"
 
 namespace ksys::evt {
 
@@ -15,6 +16,17 @@ bool EventResource::areCameraAndModelAndXlinkReady() {
         _1e0 |= 0x100;
     }
     return true;
+}
+
+// 0x7100dc421c
+void EventResource::EventAddExtraModelRes_stuff(void* a1) {
+    auto* handle = static_cast<res::Handle*>(a1);
+    if (!handle->requestedLoad() && _1b0 && (_1e0 & 0x40) && _158.getUnit()) {
+        res::SimplePackedLoadRequest request;
+        request.mRequester = "EventAddExtraModelRes";
+        request.mPack = &_158;
+        handle->load(sead::SafeString::cEmptyString, &request);
+    }
 }
 
 // 0x7100dc3698

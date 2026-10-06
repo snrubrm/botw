@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Event/evtDemoInfo.h"
+#include "KingSystem/Resource/resHandle.h"
 
 namespace sead {
 class Heap;
@@ -57,7 +58,7 @@ public:
     // processResourceLoad / EventAddExtraModelRes_stuff; not decompiled)
     bool areCameraAndModelAndXlinkReady();
     bool processResourceLoad(bool a1);
-    bool EventAddExtraModelRes_stuff(void* a1);
+    void EventAddExtraModelRes_stuff(void* a1);
 
     // 0x71008b5ac4 (CSV EventResource::formatInitStatus; not decompiled)
     void formatInitStatus(sead::BufferedSafeString* out);
@@ -68,7 +69,10 @@ public:
     /* 0x20 */ DemoInfo mDemoInfo;
     u8 _pad_after_demo[0x148 - 0x20 - sizeof(DemoInfo)];
     /* 0x148 */ CameraSystem* _148;
-    u8 _150[0x1b8 - 0x150];
+    u8 _150[8];
+    /* 0x158 */ res::Handle _158;
+    u8 _1a8[8];
+    /* 0x1b0 */ void* _1b0;
     /* 0x1b8 */ EventXlinkInfo* _1b8;
     u8 _1c0[0x1d3 - 0x1c0];
     /* 0x1d3 */ bool _1d3;

@@ -1,5 +1,8 @@
 #include "KingSystem/Event/evtEventFlowMgr.h"
 #include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/Event/evtManager.h"
+
+s32 getSceneStatus();
 
 namespace ksys::evt {
 
@@ -53,6 +56,24 @@ void EventFlow::initAndAllocResource(sead::Heap* heap, const sead::SafeString& e
     mState = 1;
     _c = 0;
     sUnk_7102601530 = nullptr;
+}
+
+// 0x7100dc1078
+void EventFlow::unload(bool a1) {
+    if (!a1) {
+        mRefCount = 1;
+    } else if ((_120 && mRefCount == 1) ||
+               (mRefCount <= 0 && getSceneStatus() != 4 && !(Manager::instance()->_1d2f4 & 0x80000))) {
+        // The original formats the event name and entry point into a local buffer and discards it.
+        sead::FormatFixedSafeString<128> status("%s<%s>", mEventName.cstr(), mEntryPointName.cstr());
+        return;
+    }
+
+    if (--mRefCount == 0) {
+        _118 = 0;
+        if (mResource)
+            mResource->_1e0 |= 0x40000;
+    }
 }
 
 // 0x7100dc0eec
