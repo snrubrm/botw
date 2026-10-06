@@ -1,4 +1,5 @@
 target_sources(uking PRIVATE
+  sndBgmMgr.h
   sndInfoData.cpp
   sndInfoData.h
   sndMusicDefinition.cpp

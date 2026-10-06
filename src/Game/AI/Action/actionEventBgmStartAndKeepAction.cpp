@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionEventBgmStartAndKeepAction.h"
+#include "KingSystem/Sound/sndBgmMgr.h"
 
 namespace uking::action {
 
@@ -12,7 +13,8 @@ bool EventBgmStartAndKeepAction::init_(sead::Heap* heap) {
 }
 
 void EventBgmStartAndKeepAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    ksys::snd::sub_7100FFD784()->sub_71010078A0(mBgmName_d);
+    _30 = false;
 }
 
 void EventBgmStartAndKeepAction::leave_() {

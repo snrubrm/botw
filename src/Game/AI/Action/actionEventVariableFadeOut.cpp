@@ -14,6 +14,12 @@ bool EventVariableFadeOut::init_(sead::Heap* heap) {
 
 void EventVariableFadeOut::enter_(ksys::act::ai::InlineParamPack* params) {
     EventVariableFade::enter_(params);
+    if (!isFinished() && !isFailed()) {
+        if (auto* screen = sub_7100127B30()) {
+            screen->sub_71010A01F8(3);
+            screen->_354 = 1;
+        }
+    }
 }
 
 void EventVariableFadeOut::leave_() {
