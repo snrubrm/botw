@@ -13,6 +13,10 @@ namespace ksys::eco {
 enum class WeaponModifier;
 }
 
+namespace uking::act {
+class OptionalWeapon;
+}
+
 namespace uking::action {
 class EquipedAction;
 }
@@ -43,6 +47,8 @@ public:
     bool m142() override { return false; }
 
     bool areExtraActorsReady() const;
+    // 0x7100ef91b0 (lane4 s45, unnamed in the CSV): sets `_ab0` (and the OptionalWeapon's `_94c` when `propagate`).
+    void sub_7100EF91B0(bool ready, bool propagate);
 
     // FIXME: figure out return types, parameters and names
     virtual Actor* getParentActor();
@@ -64,8 +70,8 @@ public:
     virtual const sead::SafeString& m160() const;
     virtual bool m161() { return _958.hasProc(); }
     // The OptionalWeapon linked at +0x958 (two getProc variants: m162 passes the other-proc argument).
-    virtual Actor* m162();
-    virtual Actor* m163();
+    virtual uking::act::OptionalWeapon* m162();
+    virtual uking::act::OptionalWeapon* m163();
     virtual const sead::SafeString& m164();
     virtual void m165();
     virtual void m166();

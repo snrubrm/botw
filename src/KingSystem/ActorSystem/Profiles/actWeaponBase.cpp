@@ -379,6 +379,14 @@ bool WeaponBase::m176(const sead::Vector3f& target, const sead::Vector3f& pos, b
 }
 
 
+void WeaponBase::sub_7100EF91B0(bool ready, bool propagate) {
+    _ab0 = ready;
+    if (propagate) {
+        if (auto* optional_weapon = m162())
+            optional_weapon->_94c = ready;
+    }
+}
+
 bool WeaponBase::areExtraActorsReady() const {
     if (m159().isEmpty() && m160().isEmpty())
         return true;
@@ -497,11 +505,11 @@ void WeaponBase::requestCreateWeaponActor(const char* actor, const sead::Matrix3
                                                             task_lane_id);
 }
 
-Actor* WeaponBase::m162() {
+uking::act::OptionalWeapon* WeaponBase::m162() {
     return sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr, nullptr));
 }
 
-Actor* WeaponBase::m163() {
+uking::act::OptionalWeapon* WeaponBase::m163() {
     return sead::DynamicCast<uking::act::OptionalWeapon>(_958.getProc(nullptr));
 }
 
