@@ -19,7 +19,20 @@ bool HopFlyByTriggers::init_(sead::Heap* heap) {
 }
 
 void HopFlyByTriggers::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    if (auto* controller = mActor->getCharacterController()) {
+        _40.sub_710072AD1C(controller);
+        playAS(mASName_s.cstr(), false, 0, 0, -1.0f);
+        if (auto* as_list = mActor->getASList()) {
+            ksys::as::ASList::Unk4 query;
+            if (as_list->x(68, &query, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC, true)) {
+                f32 height = 0.0f;
+                sead::StringUtil::tryParseF32(&height, query.name);
+                sub_710019DF74(height);
+            }
+            return;
+        }
+    }
+    setFailed();
 }
 
 void HopFlyByTriggers::leave_() {
