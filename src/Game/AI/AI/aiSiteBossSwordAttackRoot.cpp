@@ -108,6 +108,19 @@ void SiteBossSwordAttackRoot::sub_71005955D4(const sead::Vector3f& pos) {
     changeChild("遠距離攻撃", &pack);
 }
 
+// 0x7100596400
+bool SiteBossSwordAttackRoot::sub_7100596400() {
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->_14c8._30.isOnAll(6) && (_108 & 4)) {
+            if (auto* boss2 = sead::DynamicCast<act::SiteBoss>(mActor)) {
+                if (boss2->_1548 <= sead::Mathf::epsilon())
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
 // 0x7100596268
 void SiteBossSwordAttackRoot::sub_7100596268(const sead::Vector3f& pos) {
     if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor))

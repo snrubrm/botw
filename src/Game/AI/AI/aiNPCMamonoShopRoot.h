@@ -18,6 +18,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004cd42c: the Mamono shop is within 30 (5 while the actor is not in the calc state) of the player (xz)
+    bool sub_71004CD42C();
     // map_unit_param at offset 0x238
     sead::SafeString mMamonoShopPlacement_m{};
     bool _248 = false;

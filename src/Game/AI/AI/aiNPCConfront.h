@@ -17,6 +17,8 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71004c4aec: for the damage field-54 values 15 / 12 / 11 stores whether the attacker equals the second attacker link
+    bool sub_71004C4AEC(bool* out);
     // static_param at offset 0x38
     const int* mCounterGuardCount_s{};
     // static_param at offset 0x40

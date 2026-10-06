@@ -1,4 +1,8 @@
 #include "Game/AI/AI/aiNPCMamonoShopRoot.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::ai {
 
@@ -25,6 +29,24 @@ void NPCMamonoShopRoot::leave_() {
 void NPCMamonoShopRoot::loadParams_() {
     NPCRoot::loadParams_();
     getMapUnitParam(&mMamonoShopPlacement_m, "MamonoShopPlacement");
+}
+
+// 0x71004cd42c
+bool NPCMamonoShopRoot::sub_71004CD42C() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::findLinkedActor(&accessor, mActor, "TwnObj_MamonoShop_A_01");
+    if (accessor.hasProc()) {
+        const sead::Vector3f shop_pos = accessor.getActorMtx().getTranslation();
+        f32 radius = 30.0f;
+        if (!mActor->isCalc())
+            radius = 5.0f;
+        const auto& player_pos = ksys::act::PlayerInfo::instance()->getPlayerPos();
+        const f32 dx = shop_pos.x - player_pos.x;
+        const f32 dz = shop_pos.z - player_pos.z;
+        if (std::sqrt(dx * dx + dz * dz) < radius)
+            return true;
+    }
+    return false;
 }
 
 }  // namespace uking::ai

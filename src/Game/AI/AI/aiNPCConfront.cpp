@@ -1,6 +1,7 @@
 #include "Game/AI/AI/aiNPCConfront.h"
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/Actor/actNPC.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -40,6 +41,17 @@ void NPCConfront::loadParams_() {
     getDynamicParam(&mIsNeedUnEquipWeapon_d, "IsNeedUnEquipWeapon");
     getDynamicParam(&mTargetPos_d, "TargetPos");
     getDynamicParam(&mTerrorEmitter_d, "TerrorEmitter");
+}
+
+// 0x71004c4aec
+bool NPCConfront::sub_71004C4AEC(bool* out) {
+    auto* mgr = sead::DynamicCast<dmg::DamageManagerBase>(mActor->getDamageMgr());
+    if (!mgr)
+        return false;
+    if (mgr->getField54() != 15 && mgr->getField54() != 12 && mgr->getField54() != 11)
+        return false;
+    *out = *mgr->getAttacker() == *mgr->m37();
+    return true;
 }
 
 }  // namespace uking::ai
