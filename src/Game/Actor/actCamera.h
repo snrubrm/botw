@@ -351,6 +351,32 @@ public:
     void sub_7100795E08(const Unk_71009214b8& src, Unk_71009214b8* dst);
     explicit Camera(const CreateArg& arg);
 
+    // The new virtual functions (slots 148-166; lane4 s44; signatures from the small ones, the rest are declarations
+    // only). m148 / m149 are empty (CSV m148_null / m149_null).
+    /* 148 */ virtual void m148();
+    /* 149 */ virtual void m149();
+    /* 150 */ virtual void m150();
+    /* 151 */ virtual void m151();
+    /* 152 */ virtual void m152();
+    /* 153 */ virtual void m153();
+    /* 154 */ virtual void m154(f32 value, bool a2);
+    // `m154(deg2rad(degrees), true)`.
+    /* 155 */ virtual void m155(f32 degrees);
+    // The (x, y, z) angles of the camera state _860._e0 (sub_7100921C04 / C50 / C98).
+    /* 156 */ virtual sead::Vector3f m156();
+    // Stores `_1088 = a1` and the matrix `_1090 = mtx`.
+    /* 157 */ virtual void m157(void* a1, const sead::Matrix34f& mtx);
+    /* 158 */ virtual void* m158();
+    /* 159 */ virtual sead::Matrix34f* m159();
+    /* 160 */ virtual void m160();
+    /* 161 */ virtual void m161();
+    // `_860._804.sub_710079AE20(1)`.
+    /* 162 */ virtual void m162();
+    /* 163 */ virtual void m163();
+    /* 164 */ virtual void m164();
+    /* 165 */ virtual void* m165();
+    /* 166 */ virtual void m166(ksys::act::BaseProc* proc);
+
     // 0x71007953c8: moves _860._0._28 towards 0 (unless sub_7100922078()).
     void sub_71007953C8();
     // 0x71007929e0: copies camera state _860._e0 into _860._0 / _38 / _70 / _a8 (and its look-at
@@ -367,6 +393,9 @@ public:
     void x_1(u8 idx);
     // 0x7100799920 (CSV nullsub_6133): empty.
     void sub_7100799920();
+    // 0x7100793924 (CSV x) / 0x7100793bd8 (CSV x_0): declared only (called by m160 / m161).
+    void sub_7100793924();
+    void sub_7100793BD8();
     // 0x7100795f40: `*out` = the current core's entry of the f32 array at 0x1230 (false if out is null).
     bool sub_7100795F40(f32** out);
 
@@ -374,7 +403,7 @@ public:
     /* 0x0860 */ Unk_710079a8e8 _860;
     /* 0x1080 */ void* _1080 = nullptr;
     /* 0x1088 */ void* _1088 = nullptr;
-    /* 0x1090 */ u8 _1090[0x10c0 - 0x1090];
+    /* 0x1090 */ sead::Matrix34f _1090;
     /* 0x10c0 */ Unk_71009214b8 _10c0;
     /* 0x10f8 */ u32 _10f8 = 0;
     /* 0x1100 */ ksys::act::BaseProcLink _1100{};

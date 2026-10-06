@@ -10,6 +10,7 @@
 
 namespace ksys::act {
 
+class Actor;
 struct Unk117;
 
 // Placeholder name (CSV: PlayerArmors::x_3 / x_4 / x_5 and unnamed methods in the TU
@@ -106,6 +107,9 @@ public:
     void wakeUpExtraParts();
     void sleepLastPart();
 
+    // 0x7100e2d7fc (CSV setActor).
+    void setActor(Actor* actor);
+
     // Inline in the original (uking::act::Armor::m148).
     bool get133() const { return _133; }
 
@@ -116,7 +120,9 @@ private:
     u8 _0[0x10];
     sead::SafeArray<BaseProcLink, 6> _10;
     sead::SafeArray<BaseProcHandle, 6> _70;
-    u8 _d0[0x133 - 0xd0];
+    u8 _d0[0x128 - 0xd0];
+    Actor* _128;  // the owner (setActor)
+    u8 _130[0x133 - 0x130];
     u8 _133;  // read by uking::act::Armor::m148 (the head armor then uses weight 0)
     sead::BitFlag16 _134;
     u8 _136;

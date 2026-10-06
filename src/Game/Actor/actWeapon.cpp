@@ -69,6 +69,10 @@ ksys::act::Actor::Unk3* Weapon::m135() {
     return &_1008;
 }
 
+ksys::act::Unk_71025ae640* Weapon::getAtk() {
+    return &_da0;
+}
+
 s32* Weapon::getLife() {
     return &mLife;
 }

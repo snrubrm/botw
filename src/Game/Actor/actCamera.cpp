@@ -1,4 +1,5 @@
 #include "Game/Actor/actCamera.h"
+#include "Game/Actor/actCameraUtil.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
@@ -55,6 +56,51 @@ void Camera::sub_71007929E0() {
 }
 
 void Camera::sub_7100799920() {}
+
+void Camera::m148() {}
+
+void Camera::m149() {}
+
+void Camera::m155(f32 degrees) {
+    m154(sead::Mathf::deg2rad(degrees), true);
+}
+
+sead::Vector3f Camera::m156() {
+    return {_860._e0.sub_7100921C04(), _860._e0.sub_7100921C50(), _860._e0.sub_7100921C98()};
+}
+
+void Camera::m157(void* a1, const sead::Matrix34f& mtx) {
+    _1088 = a1;
+    _1090 = mtx;
+}
+
+void* Camera::m158() {
+    return _1088;
+}
+
+sead::Matrix34f* Camera::m159() {
+    return &_1090;
+}
+
+void Camera::m160() {
+    if (sub_7100922428())
+        return;
+    sub_7100793924();
+}
+
+void Camera::m161() {
+    if (sub_7100922428())
+        return;
+    sub_7100793BD8();
+}
+
+void Camera::m162() {
+    _860._804.sub_710079AE20(1);
+}
+
+void* Camera::m165() {
+    return _1088;
+}
 
 bool Camera::sub_7100794FD0() const {
     return _860._800.sub_710079C0CC(0x8000);

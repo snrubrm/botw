@@ -452,4 +452,8 @@ bool PlayerArmors::sub_7100E30DA8() {
     return false;
 }
 
+void PlayerArmors::setActor(Actor* actor) {
+    _128 = actor;
+}
+
 }  // namespace ksys::act

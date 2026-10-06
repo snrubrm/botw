@@ -5,6 +5,7 @@
 #include <math/seadVector.h>
 #include <prim/seadTypedBitFlag.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/ActorSystem/actActorAtk.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem//ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
@@ -232,6 +233,7 @@ public:
     bool hasCanPullGiantObjectTag();
     s32 getMaxHp();
     s32* getLife() override;
+    ksys::act::Unk_71025ae640* getAtk() override;
     ksys::act::Unk_71025ae620* getDropData() override;
     ksys::act::Actor::Unk3* m135() override;
     ksys::act::Unk_71025b08f8* m126() override;
@@ -344,7 +346,8 @@ public:
     /* 0xd78 */ u8 _d78[0xd90 - 0xd78];  // TODO
     /* 0xd90 */ ksys::act::Unk_71006e45c4* _d90;
     /* 0xd98 */ ksys::act::Unk_71025b08f8* _d98;
-    /* 0xda0 */ u8 _da0[0xe28 - 0xda0];  // TODO: contains the original ActorAtk subobject.
+    /* 0xda0 */ ksys::act::ActorAtk _da0{this};  // getAtk
+    /* 0xe20 */ void* _e20 = nullptr;
     /* 0xe28 */ uking::dmg::DamageManagerBase* mDamageMgr;
     /* 0xe30 */ u8 _e30[0xe50 - 0xe30];  // TODO
     /* 0xe50 */ u16 _e50 = 0;  // flags (BowEquiped::leave_ uses 16-bit accesses)
