@@ -1,7 +1,10 @@
 #pragma once
 
+#include <container/seadBuffer.h>
+#include <math/seadVector.h>
 #include "Game/AI/Action/actionSiteBossLswordAtk.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -57,9 +60,24 @@ protected:
     sead::SafeString mCallSEKeyAtAtOn_s{};
     // static_param at offset 0x180
     const sead::Vector3f* mEmitActorSpeed_s{};
-    // The ctor zeroes 0x188..0x1e8; the dtor frees two sead::Buffers (sizes at 0x1a8 and 0x1b8,
-    // pointers at 0x1b0 and 0x1c0). Not decompiled yet.
-    u8 _188[0x1e8 - 0x188];
+    // Not decompiled yet (placeholder names): 0x710025b4b0, 0x710025b7cc, 0x710025b95c.
+    bool sub_710025B4B0(int index);
+    void sub_710025B7CC();
+    void sub_710025B95C(int index);
+
+    bool _188 = false;
+    bool _189 = false;
+    bool _18a = false;
+    ksys::Timer _18c;
+    s32 _198 = 0;
+    u64 _1a0 = 0;
+    sead::Buffer<bool> _1a8;
+    sead::Buffer<sead::Vector3f> _1b8;
+    u64 _1c8 = 0;
+    u64 _1d0 = 0;
+    u64 _1d8 = 0;
+    u64 _1e0 = 0;
 };
+KSYS_CHECK_SIZE_NX150(SiteBossLswordAtkWithChemical, 0x1e8);
 
 }  // namespace uking::action

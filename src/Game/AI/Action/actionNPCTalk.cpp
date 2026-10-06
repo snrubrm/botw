@@ -12,7 +12,8 @@ NPCTalk::NPCTalk(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 NPCTalk::~NPCTalk() = default;
 
 bool NPCTalk::init_(sead::Heap* heap) {
-    return ksys::act::ai::Action::init_(heap);
+    _d0._10 = sead::DynamicCast<act::NPC>(mActor);
+    return true;
 }
 
 void NPCTalk::enter_(ksys::act::ai::InlineParamPack* params) {

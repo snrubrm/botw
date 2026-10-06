@@ -1,12 +1,32 @@
 #include "Game/AI/Action/actionSiteBossLswordAtkWithChemical.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::action {
 
 SiteBossLswordAtkWithChemical::SiteBossLswordAtkWithChemical(const InitArg& arg)
     : SiteBossLswordAtk(arg) {}
 
-SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() = default;
+SiteBossLswordAtkWithChemical::~SiteBossLswordAtkWithChemical() {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (mEmitNum_s) {
+            for (s32 i = 0; i < *mEmitNum_s * 2; ++i) {
+                const sead::FormatFixedSafeString<32> name("%s%d", mEmitPartsName_s.cstr(), i);
+                if (enemy->getActorPartsActor(name).hasProc()) {
+                    ksys::act::ActorConstDataAccess accessor;
+                    ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+                    accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                }
+                enemy->sub_7100D3CFEC(name);
+            }
+        }
+    }
+    _1a0 = 0;
+    _1a8.freeBuffer();
+    _1b8.freeBuffer();
+}
 
 bool SiteBossLswordAtkWithChemical::init_(sead::Heap* heap) {
     return SiteBossLswordAtk::init_(heap);
@@ -14,10 +34,21 @@ bool SiteBossLswordAtkWithChemical::init_(sead::Heap* heap) {
 
 void SiteBossLswordAtkWithChemical::enter_(ksys::act::ai::InlineParamPack* params) {
     SiteBossLswordAtk::enter_(params);
+    _188 = false;
+    _189 = false;
+    _18a = false;
+    _198 = 0;
+    _18c = ksys::Timer(*mEmitStartFrame_s, *mEmitStartFrame_s, 0.0f);
+    for (s32 i = 0, n = _1a8.size(); i < n; ++i)
+        _1a8(i) = false;
+    for (s32 i = 0, n = _1b8.size(); i < n; ++i)
+        _1b8(i) = sead::Vector3f::zero;
 }
 
 void SiteBossLswordAtkWithChemical::leave_() {
     SiteBossLswordAtk::leave_();
+    if (sub_710072B7C4() || _189)
+        sub_710025B7CC();
 }
 
 void SiteBossLswordAtkWithChemical::loadParams_() {
