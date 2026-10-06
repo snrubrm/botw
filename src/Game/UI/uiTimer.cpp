@@ -42,8 +42,13 @@ f32 UiTimer::getProgress() const {
     return sead::Mathf::clamp(timer.value / duration, 0.0f, 1.0f);
 }
 
-// 0x7100a82bc8
+// 0x7100a82bc4
 void UiTimer::update() {
+    updateImpl();
+}
+
+// 0x7100a82bc8
+void UiTimer::updateImpl() {
     if (!timer.hasEnded(duration)) {
         if (direction > 0.0f) {
             if (duration <= timer.value)
@@ -80,7 +85,7 @@ bool UiTimer::updateAndCheckEnded() {
         flag = false;
         return true;
     }
-    update();
+    updateImpl();
     return timer.hasEnded(duration);
 }
 

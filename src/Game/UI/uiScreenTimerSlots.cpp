@@ -33,4 +33,19 @@ void ScreenMessageTipsPauseMenu::m98() {
     _362c = 0;
 }
 
+// 0x7100a0fec8
+void ScreenMainHardMode::open(s32 option) {
+    if (isOpening() || isOpened())
+        return;
+    if (!_3628) {
+        _3610.init(0.5f);
+        _3628 = 1;
+    }
+    _3610.update();
+    if (_3610.checkEnded()) {
+        _3628 = 0;
+        Screen::open(option);
+    }
+}
+
 }  // namespace uking::ui

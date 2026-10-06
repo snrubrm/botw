@@ -20,8 +20,10 @@ struct UiTimer {
     bool isDone() const;
     // 0x7100a82b84
     f32 getProgress() const;
-    // 0x7100a82bc8
+    // 0x7100a82bc4 (jumps to 0x7100a82bc8)
     void update();
+    // 0x7100a82bc8
+    void updateImpl();
     // 0x7100a82c68
     bool checkEnded();
     // 0x7100a82c94

@@ -1915,14 +1915,11 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenMainHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
+    void open(s32 option) override;
     void close(s32 option) override;
 
-    /* 0x3610 */ u64 _3610{};
-    u64 _3618{};
-    f32 _3620 = 1.0f;
-    u8 _3624{};
-    u8 _3625[3];
-    u8 _3628{};
+    /* 0x3610 */ UiTimer _3610;
+    /* 0x3628 */ u8 _3628{};
     u8 _3629[7];
 };
 
