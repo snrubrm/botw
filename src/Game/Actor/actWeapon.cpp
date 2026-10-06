@@ -377,6 +377,24 @@ bool Weapon::sub_71002ED8A0() {
     return param && param->mIsThrowingWeapon.ref();
 }
 
+bool Weapon::sub_71002ED934() {
+    if (!isMasterSword())
+        return false;
+    ksys::act::ActorConstDataAccess parent;
+    ksys::act::acquireActor(&getParentLink(), &parent);
+    return parent.getLife() >= parent.getMaxLife();
+}
+
+f32 Weapon::sub_71002ED9B0() {
+    f32 result = 0.0f;
+    if (isMasterSword()) {
+        ksys::act::ActorConstDataAccess parent;
+        ksys::act::acquireActor(&getParentLink(), &parent);
+        result = std::max(f32(parent.getLife()), 4.0f);
+    }
+    return result;
+}
+
 f32 Weapon::sub_71002ED8DC() {
     const f32 dist = getParam()->getRes().mGParamList->getWeaponThrow()->mThrowDist.ref();
     return dist * (_f98.flags.isOn(WeaponModifier::AddThrow) ? _f98.value / 1000.0f : 1.0f);

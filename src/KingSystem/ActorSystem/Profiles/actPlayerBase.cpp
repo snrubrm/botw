@@ -1360,3 +1360,11 @@ s32 sub_710084A5E0(const ksys::act::ActorConstDataAccess& accessor) {
         return 2;
     return type == 4;
 }
+
+// 0x710084a570: as sub_710084A5E0 for an actor (4 without one).
+s32 sub_710084A570(ksys::act::BaseProc* proc) {
+    if (!proc)
+        return 4;
+    ksys::act::ActorConstDataAccess accessor(proc);
+    return sub_710084A5E0(accessor);
+}

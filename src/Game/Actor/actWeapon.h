@@ -250,6 +250,10 @@ public:
     f32 sub_71002EE594();
     // 0x71002ed8a0: WeaponCommon's IsThrowingWeapon (false without the param).
     bool sub_71002ED8A0();
+    // 0x71002ed934 / 0x71002ed9b0 (placeholder names): for a master sword, whether the parent actor's life is at its
+    // maximum / the parent's life (at least 4), as float. 0 / false otherwise.
+    bool sub_71002ED934();
+    f32 sub_71002ED9B0();
     // 0x71002ed8dc: WeaponThrow's ThrowDist, scaled by the AddThrow modifier.
     f32 sub_71002ED8DC();
     bool hasCanPullGiantObjectTag();
