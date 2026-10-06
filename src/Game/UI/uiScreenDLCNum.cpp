@@ -231,6 +231,31 @@ void ScreenRupee::m159() {
     }
 }
 
+// 0x7100a41354
+bool ScreenRupee::sub_7100A41354(bool flag) {
+    if (flag) {
+        if (_3634 != 0)
+            return false;
+        close(-1);
+        return true;
+    }
+    if (_3634 == 0)
+        return false;
+    if (_3634 != 1 && _3634 != 2)
+        return false;
+    if (_3610 || isSameStateId(*mStateMachine.getState(), sUnk_71025f1cb0)) {
+        _3634 = 3;
+        return false;
+    }
+    if (_3634 == 1) {
+        close(-1);
+        return true;
+    }
+    mStateMachine.changeState(&sUnk_71025f1d10);
+    _3634 = 3;
+    return true;
+}
+
 // 0x7100a41440
 bool ScreenRupee::sub_7100A41440() {
     if (_3610)

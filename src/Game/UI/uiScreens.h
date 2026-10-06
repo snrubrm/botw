@@ -1048,7 +1048,7 @@ public:
     void sub_7100A410D8(s32);
     void sub_7100A41558();
     bool sub_7100A41440();
-    bool sub_7100A41354(s32);
+    bool sub_7100A41354(bool);
     void sub_7100A414A0();
     void sub_7100A41264(s32 mode);
 };
