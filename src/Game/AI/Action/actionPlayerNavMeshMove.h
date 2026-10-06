@@ -19,6 +19,7 @@ protected:
     // 0x71007e8c34 (declared only): out of line in the original.
     void sub_71007E8C34(ksys::act::ai::InlineParamPack* params);
     void calc_() override;
+    bool m33(sead::Vector3f* pos) override;
 };
 
 }  // namespace uking::action

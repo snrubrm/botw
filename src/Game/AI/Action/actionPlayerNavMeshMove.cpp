@@ -1,5 +1,7 @@
 #include "Game/AI/Action/actionPlayerNavMeshMove.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::action {
 
@@ -36,6 +38,26 @@ void PlayerNavMeshMove::calc_() {
 
 bool PlayerNavMeshMove::isChangeable() const {
     return false;
+}
+
+bool PlayerNavMeshMove::m33(sead::Vector3f* pos) {
+    auto* actor = mActor;
+    const sead::Vector3f actor_pos = actor->getMtx().getTranslation();
+    auto* nav = actor->m45();
+    if (!nav)
+        return false;
+    {
+        auto lock = sead::makeScopedLock(nav->_1e0);
+        pos->set(nav->_23c);
+    }
+    const f32 distance = (nav->_194 - actor_pos).length();
+    if (pos->length() > distance) {
+        const f32 length = pos->length();
+        if (length > 0.0f)
+            *pos *= distance / length;
+    }
+    *pos += actor->getMtx().getTranslation();
+    return true;
 }
 
 }  // namespace uking::action
