@@ -26,7 +26,6 @@ void AdvanceTime::loadParams_() {
     getDynamicParam(&mActReset_d, "ActReset");
 }
 
-// NON_MATCHING: Resetter::startReset's second parameter is a 4-byte enum struct in the original (`mov x2, xzr`), declared as s32 here
 void AdvanceTime::calc_() {
     if (isFinished() || isFailed())
         return;
@@ -37,7 +36,7 @@ void AdvanceTime::calc_() {
             if (!resetter->finishedReset())
                 return;
         } else {
-            if (resetter->startReset(1, 0, sead::SafeString::cEmptyString, false, false))
+            if (resetter->startReset(ResetType{1}, ResetOption{0}, sead::SafeString::cEmptyString, false, false))
                 _40 = true;
             return;
         }

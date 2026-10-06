@@ -15,14 +15,12 @@ bool WarpPLToPosAndResetGimmick::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original loads the option with `ldr w22` and passes it as a 64-bit value (`mov x2, x22`; the
-// callee moves its second parameter with `mov x20, x2`): the parameter looks like a u64 fed from a u32; ours sign-extends.
 void WarpPLToPosAndResetGimmick::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::acc::PlayerBase player;
     player.getPlayerFromPlayerInfo();
     const sead::Vector3f rotation(0.0f, *mRotationY_d, 0.0f);
     auto* resetter = Resetter::instance();
-    if (!resetter->sub_71007D25A4(nullptr, *mSystemResetOption_d, mDestination_d, &rotation,
+    if (!resetter->sub_71007D25A4(nullptr, ResetOption{*mSystemResetOption_d}, mDestination_d, &rotation,
                                   &player.getField418(), mAdditionalResetActor_d, false)) {
         sead::FixedSafeString<128> flow;
         sead::FixedSafeString<128> entry;

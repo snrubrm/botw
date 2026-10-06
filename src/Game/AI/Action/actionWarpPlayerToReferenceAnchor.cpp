@@ -36,7 +36,7 @@ void WarpPlayerToReferenceAnchor::enter_(ksys::act::ai::InlineParamPack* params)
     }
     const sead::Vector3f rotation(0.0f, object->getRotate().y * 57.295776f, 0.0f);
     const sead::Vector3f position = object->getTranslate();
-    if (Resetter::instance()->sub_71007D25A4(nullptr, 1, &position, &rotation, &_1c, "", false)) {
+    if (Resetter::instance()->sub_71007D25A4(nullptr, ResetOption{1}, &position, &rotation, &_1c, "", false)) {
         auto* mgr = ksys::map::PlacementMgr::instance();
         mgr->_27c = object->getTranslate();
         mgr->_288 = 1;

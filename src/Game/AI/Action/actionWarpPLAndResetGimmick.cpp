@@ -14,7 +14,7 @@ bool WarpPLAndResetGimmick::init_(sead::Heap* heap) {
 }
 
 void WarpPLAndResetGimmick::enter_(ksys::act::ai::InlineParamPack* params) {
-    if (!Resetter::instance()->sub_71007D2320(nullptr, *mSystemResetOption_d, mStartPosName_d,
+    if (!Resetter::instance()->sub_71007D2320(nullptr, ResetOption{*mSystemResetOption_d}, mStartPosName_d,
                                               mAdditionalResetActor_d, false)) {
         sead::FixedSafeString<128> flow;
         sead::FixedSafeString<128> entry;
