@@ -29,6 +29,10 @@ public:
 protected:
     float sub_710044C9E8() const;
     void changeToStartGuard();
+    // inline-only in the original (names are guesses): the pack-building child changes shared by enter_ / calc_
+    void changeToGuardWait();
+    void changeToEndGuard();
+    void changeToNormal();
 
     struct Params {
         // static_param at offset 0x38

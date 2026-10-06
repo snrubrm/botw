@@ -15,26 +15,17 @@ bool GuardNearTarget::init_(sead::Heap* heap) {
     return ksys::act::ai::Ai::init_(heap);
 }
 
-// NON_MATCHING: the original inlines the RootAi flag test (testRootAiFlag2 is out-of-line here)
 void GuardNearTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     const float distance = sub_710044C9E8();
-    if (testRootAiFlag2(ksys::act::ai::RootAiFlag2::_1)) {
-        m37(true);
-        _60._25 = true;
-        ksys::act::ai::InlineParamPack params_;
-        params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-        changeChild("ガード待機", &params_);
+    if (testRootAiFlag2Inline(ksys::act::ai::RootAiFlag2::_1)) {
+        changeToGuardWait();
     } else if (m34(distance)) {
         changeToStartGuard();
     } else {
-        ksys::act::ai::InlineParamPack params_;
-        params_.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-        changeChild("通常", &params_);
+        changeToNormal();
     }
 }
 
-// NON_MATCHING: only the stack slots differ (the original lets the SafeString temporaries share the InlineParamPack's
-// storage: pack at sp+0x18 and the strings below it; ours puts the pack lowest); instruction sequence and branches match
 // Child names: 通常 (normal), ガード開始 (start guard), ガード待機 (guard wait), ガード終了 (end guard).
 void GuardNearTarget::calc_() {
     const float distance = sub_710044C9E8();
@@ -47,10 +38,7 @@ void GuardNearTarget::calc_() {
                     return;
                 if (!m36(distance))
                     return;
-                m37(false);
-                ksys::act::ai::InlineParamPack pack;
-                pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-                changeChild("ガード終了", &pack);
+                changeToEndGuard();
                 return;
             }
             if (m35(distance)) {
@@ -61,16 +49,11 @@ void GuardNearTarget::calc_() {
         }
     } else if (!isCurrentChild("ガード開始") && !isCurrentChild("高速ガード開始")) {
         if (isCurrentChild("ガード待機")) {
-            m37(false);
-            ksys::act::ai::InlineParamPack pack;
-            pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-            changeChild("ガード終了", &pack);
+            changeToEndGuard();
             return;
         }
         if (isCurrentChild("ガード終了")) {
-            ksys::act::ai::InlineParamPack pack;
-            pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-            changeChild("通常", &pack);
+            changeToNormal();
             return;
         }
         if (child->isFinished())
@@ -78,12 +61,29 @@ void GuardNearTarget::calc_() {
         else
             setFailed();
     } else {
-        m37(true);
-        _60._25 = true;
-        ksys::act::ai::InlineParamPack pack;
-        pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
-        changeChild("ガード待機", &pack);
+        changeToGuardWait();
     }
+}
+
+void GuardNearTarget::changeToGuardWait() {
+    m37(true);
+    _60._25 = true;
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    changeChild("ガード待機", &pack);
+}
+
+void GuardNearTarget::changeToEndGuard() {
+    m37(false);
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    changeChild("ガード終了", &pack);
+}
+
+void GuardNearTarget::changeToNormal() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(*mParams.mTargetPos_d, "TargetPos", -1);
+    changeChild("通常", &pack);
 }
 
 float GuardNearTarget::sub_710044C9E8() const {
