@@ -67,4 +67,17 @@ void EnemyEscapeRoot::calc_() {
     }
 }
 
+// NON_MATCHING: the squared-length sum is z*z + (x*x + y*y) in the original (operand order of the last fadd).
+void EnemyEscapeRoot::sub_710038B1C4() {
+    const sead::Vector3f target = *mTargetPos_d;
+    sead::Vector3f direction = mActor->getMtx().getTranslation() - target;
+    direction.y = 0.0f;
+    direction.normalize();
+
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(target, "TargetPos", -1);
+    pack.addVec3(direction, "TurnDir", -1);
+    changeChild("逃走開始振り向き", &pack);
+}
+
 }  // namespace uking::ai

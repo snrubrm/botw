@@ -76,4 +76,17 @@ void AssassinBattle::loadParams_() {
     getMapUnitParam(&mTerritoryArea_m, "TerritoryArea");
 }
 
+// 0x71003118f0
+void AssassinBattle::sub_71003118F0() {
+    if (sub_710072F8E4(mActor, sub_71005D9330(mActor), nullptr, 3.0f)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("直進接近", &pack);
+    } else {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
+        changeChild("直進不能接近", &pack);
+    }
+}
+
 }  // namespace uking::ai

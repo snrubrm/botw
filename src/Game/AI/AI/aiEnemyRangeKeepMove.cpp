@@ -181,4 +181,22 @@ void EnemyRangeKeepMove::changeToMoveSideways(s8 dir) {
     changeChild("横移動", &pack);
 }
 
+// NON_MATCHING: the horizontal-distance arithmetic is scheduled differently (same as enter_).
+bool EnemyRangeKeepMove::sub_71003AB704() {
+    auto* actor = mActor;
+    sead::Vector3f diff = sub_71005D9330(actor) - actor->getMtx().getTranslation();
+    diff.y = 0.0f;
+    const f32 distance = diff.length();
+    const f32 limit = *mBaseDist_s + *mCloseDist_s + sub_71007320F0(actor, m35());
+    if (!(distance < limit))
+        return false;
+    if (!*mIsCheckBack_s)
+        return true;
+
+    sead::Vector3f direction = mActor->getMtx().getTranslation();
+    direction -= sub_71005D9330(mActor);
+    direction.normalize();
+    return !sub_710072FEC4(mActor, direction, 3.0f, nullptr, false, nullptr);
+}
+
 }  // namespace uking::ai
