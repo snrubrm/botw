@@ -50,4 +50,26 @@ void Lifted::loadParams_() {
     getStaticParam(&mIsGetItem_s, "IsGetItem");
 }
 
+// NON_MATCHING: same code; the original shares one `return true` block between both branches, ours tail-duplicates it.
+bool Lifted::handleMessage_(const ksys::Message* message) {
+    if (message->getType() == 0x8000002) {
+        auto* actor = mActor;
+        actor->resetConnectedCalcParent(false);
+        if (isCurrentChild("所持")) {
+            if (auto* physics = actor->getPhysics())
+                physics->getFlags().set(ksys::phys::InstanceSet::Flag::_800);
+            changeChild("待機");
+            setFinished();
+        }
+        return true;
+    }
+
+    if (isCurrentChild("投擲")) {
+        auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+        if (!parent && !_48._30)
+            return _48.m2(*message);
+    }
+    return false;
+}
+
 }  // namespace uking::ai
