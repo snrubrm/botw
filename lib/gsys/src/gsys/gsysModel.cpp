@@ -109,7 +109,7 @@ void Model::sub_7100BF8CB8(bool on, int bit) {
 // 0x7100bf8d18
 void Model::sub_7100BF8D18(bool on) {
     for (auto it = mUnitPool.begin(), end = mUnitPool.begin(getUsedUnitNum()); it != end; ++it)
-        it->mModelUnit->sub_7100C3E9B8(0x10, on);
+        it->mModelUnit->enableRenderOption(static_cast<ModelEnum::RenderOption>(0x10), on);
 }
 
 // 0x7100bf7ea4

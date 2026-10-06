@@ -94,7 +94,7 @@ public:
     void setVisibilityMask(u16 mask);
     // 0x7100bf8b54 (CSV name) / 0x7100bf8ba8 / 0x7100bf8c04 (CSV name) / 0x7100bf8d18: each forwards one value to
     // the used units (ModelUnit::resetRenderOption / resetRenderViewOption(option, -1) / 0x7100c3e79c /
-    // 0x7100c3e9b8(0x10, on)).
+    // ModelUnit::enableRenderOption(0x10, on)).
     void resetRenderToDepthShadow(int option);
     void sub_7100BF8BA8(int option);
     void resetRenderToDepthShadowOnly(int value);

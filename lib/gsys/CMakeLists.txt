@@ -25,6 +25,7 @@ add_library(gsys OBJECT
   src/gsys/gsysMemBuffer.cpp
   src/gsys/gsysModel.cpp
   src/gsys/gsysModelAccessKey.cpp
+  src/gsys/gsysModelUnit.cpp
   src/gsys/gsysModelSceneConfig.cpp
   src/gsys/gsysParticleConfig.cpp
 )

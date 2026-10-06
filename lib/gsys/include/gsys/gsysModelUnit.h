@@ -44,6 +44,8 @@ public:
     enum class BoolType;
 
     enum class Flag {
+        /// Set when the render option / material records are modified.
+        Changed = 1,
         DebugWorldCallback = 4,
         DebugDrawCallback = 8,
     };
@@ -190,12 +192,20 @@ public:
 
     // Non-virtual members (declared only): 0x7100c3ea8c / 0x7100c3eb54 / 0x7100c3ebd0 / 0x7100c3f7c0, and the
     // unnamed 0x7100c3e79c / 0x7100c3e9b8 (called by Model::resetRenderToDepthShadowOnly / Model::sub_7100BF8D18).
+    void setReferenceLod(const ModelUnit& other);
+
+    // Material record setters (names marked "guess" follow the visible effect only).
+    void sub_7100C3E79C(int value);
+    void sub_7100C3E898(int bit, bool enable);
+    void enableRenderOption(ModelEnum::RenderOption option, bool enable);
     void resetRenderOption(ModelEnum::RenderOption option);
+    /// `view` -1 applies to every view.
+    void enableRenderViewOption(int material_idx, ModelEnum::RenderViewOption option, bool enable,
+                                int view);
     void enableRenderViewOption(ModelEnum::RenderViewOption option, bool enable, int view);
     void resetRenderViewOption(ModelEnum::RenderViewOption option, int view);
-    void setReferenceLod(const ModelUnit& other);
-    void sub_7100C3E79C(int value);
-    void sub_7100C3E9B8(int value, bool enable);
+    void sub_7100C3ECF0(int bit, bool enable);
+    void sub_7100C3EE8C(u8 depth_shadow_cascade);
 
     // inline-only in the original; name is a guess: whether `option` is enabled for the shape `shape_idx` in the
     // view `view_idx`. The option records `mViewOptions` (one per shape and view, shape-major) are read like in
@@ -232,12 +242,21 @@ protected:
     /// The per-shape / per-view render option records (0xc bytes each; `flags` holds one bit per RenderViewOption).
     struct ViewOption {
         u16 _0;
-        u16 flags;
+        sead::BitFlag16 flags;
         u8 _4[8];
     };
     ViewOption* mViewOptions;
     void* _60;
-    void* mMaterialInfo;
+    /// One record per material (getMaterialNum()).
+    struct MaterialInfo {
+        u32 renderOptions;  // one bit per RenderOption
+        u16 _4;
+        sead::BitFlag16 flags;  // bit 1: changed
+        sead::BitFlag16 _8;
+        u8 _a;
+        u8 _b;
+    };
+    MaterialInfo* mMaterialInfo;
     void* _70;
     void* _78;
     void* _80;
