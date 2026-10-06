@@ -1,6 +1,9 @@
 #include "Game/AI/Action/actionKick.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include "Game/AI/aiUnk_71005D6D10.h"
+#include "Game/AI/aiUnk_71007368A4.h"
 #include "Game/AI/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -37,7 +40,42 @@ void Kick::loadParams_() {
 }
 
 void Kick::calc_() {
-    ActionEx::calc_();
+    if (auto* actor = mActor) {
+        const sead::Vector3f gravity = getGravity(actor) * (1.0f / 900.0f);
+        if (auto* controller = actor->getCharacterController())
+            sub_7100737C0C(controller, 0.1f, gravity);
+    }
+    switch (_54) {
+    case 0:
+        sub_71001C8818();
+        if (mActor->getASList()->x(0x47, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011637EC,
+                                   true)) {
+            if (!sub_71005DEC08(mTargetActor_d, mActor, *mCanKickArea_s, 999.0f,
+                                sead::Mathf::pi()) ||
+                sub_7100739030(mActor, *mTargetActor_d)) {
+                sub_71001C8A10();
+                _50 = true;
+            } else {
+                _50 = false;
+            }
+            _54 = 1;
+        }
+        break;
+    case 1:
+        if (auto* actor = mActor) {
+            // discarded: the call is in the original
+            getGravity(actor);
+            if (auto* controller = actor->getCharacterController())
+                sub_7100738660(controller, 0.1f);
+        }
+        break;
+    }
+    if (isFinishedAS(0, 0)) {
+        if (_50)
+            setFinished();
+        else
+            setFailed();
+    }
 }
 
 void Kick::sub_71001C8818() {
