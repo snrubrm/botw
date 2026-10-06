@@ -1,6 +1,7 @@
 #include <limits>
 #include <prim/seadBitFlag.h>
 #include "Game/UI/uiUnkSingletons.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -130,6 +131,32 @@ bool UiSubsys1::returnTrue() const {
 // 0x7100961cc4 (CSV uiSubsys1::is848EqualTo1)
 bool UiSubsys1::is848EqualTo1() const {
     return _848 == 1;
+}
+
+// 0x7100965e68
+bool UiSubsys1::is898Zero() const {
+    return _898 == 0;
+}
+
+// 0x7100965e78
+bool UiSubsys1::is898EqualTo3() const {
+    return _898 == 3;
+}
+
+// 0x7100965e88
+bool UiSubsys1::is898Below3() const {
+    return _898 < 3;
+}
+
+// 0x7100965e98
+bool UiSubsys1::is898Positive() const {
+    return _898 > 0;
+}
+
+// 0x7100965fec
+f32 UiSubsys1::sub_7100965FEC() const {
+    static const sead::SafeArray<f32, 4> sValues{{6.0f, 7.5f, 8.5f, 9.5f}};
+    return sValues[_898];
 }
 
 // 0x7100962d8c (CSV uiSubsys1::__auto9)
@@ -571,6 +598,41 @@ s32 UiSubsys1::get38fc() const {
 // 0x710096876c
 void UiSubsys1::set3820(s32 value) {
     _3820 = value;
+}
+
+// Small helpers of the UiSubsys1 TU (placeholder names; free functions in the original).
+// 0x7100965ec0
+bool sub_7100965EC0() {
+    return !ksys::gdt::getFlag_MiniMapDirection(false);
+}
+
+// 0x7100966168
+s32 sub_7100966168(s32 value) {
+    return 3 - value;
+}
+
+// 0x7100966174: value modulo 120
+s32 sub_7100966174(s32 value) {
+    return value % 120;
+}
+
+// 0x710096619c: value / 120
+s32 sub_710096619C(s32 value) {
+    return value / 120;
+}
+
+// 0x71009661bc
+s32 sub_71009661BC(s32 value) {
+    switch (value) {
+    case 0:
+        return 2;
+    case 1:
+        return 3;
+    case 2:
+        return 1;
+    default:
+        return -1;
+    }
 }
 
 }  // namespace uking::ui

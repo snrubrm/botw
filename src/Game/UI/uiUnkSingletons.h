@@ -302,6 +302,13 @@ public:
     void copy38d8To38d9();
     void update388c();
     bool sub_7100966E64() const;
+    // 0x7100965e68 / 0x7100965e78 / 0x7100965e88 / 0x7100965e98 (placeholder names)
+    bool is898Zero() const;
+    bool is898EqualTo3() const;
+    bool is898Below3() const;
+    bool is898Positive() const;
+    // 0x7100965fec (placeholder name): 6.0 / 7.5 / 8.5 / 9.5 for `_898` 0 .. 3 (6.0 otherwise)
+    f32 sub_7100965FEC() const;
     // 0x7100966de8 (placeholder name): the group of the s32 `value` (0-5 and 11-13: 5, 6-10: 4, else -1)
     s32 sub_7100966DE8(s32 value) const;
     bool sub_7100967498() const;
