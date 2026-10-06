@@ -35,6 +35,8 @@ public:
     explicit NPC(const CreateArg& arg);
     // CSV NPC::construct: the actor factory function.
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
+    // 0x7100712444 (CSV NPC::isZora; declared only, takes any Actor; tail-calls 0x7100ee89cc).
+    static bool isZora(ksys::act::Actor* actor);
     ~NPC() override;
 
 protected:
@@ -125,7 +127,8 @@ public:
     /* 0x1094 */ f32 _1094 = -1.0;
     /* 0x1098 */ sead::Vector3f _1098;
     /* 0x10a4 */ f32 _10a4 = 0;  // WarpToAnchor::oneShot_ stores the warp target height here (bit copy)
-    /* 0x10a8 */ u8 _10a8[0x10b0 - 0x10a8];
+    /* 0x10a8 */ f32 _10a8;  // read by NPCWait::calc_ (bit copy)
+    /* 0x10ac */ u8 _10ac[0x10b0 - 0x10ac];
     /* 0x10b0 */ u32 _10b0 = 0;
     /* 0x10b8 */ void* _10b8 = nullptr;
     /* 0x10c0 */ void* _10c0 = nullptr;

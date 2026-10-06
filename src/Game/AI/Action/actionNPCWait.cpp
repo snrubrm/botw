@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionNPCWait.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -39,8 +40,23 @@ const sead::SafeString& NPCWait::m32() {
     return mASName_s;
 }
 
+// NON_MATCHING: the original also copies x and z of the velocity through registers before storing y.
 void NPCWait::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (!mActor->getCharacterController()) {
+        setFailed();
+        return;
+    }
+    sub_7100738488(mActor, 0.0f, -sead::Vector3f::ey);
+    sub_7100738AA8(mActor, 0.0f);
+    if (act::NPC::isZora(mActor)) {
+        auto* controller = mActor->getCharacterController();
+        if (controller && _38 && (_38->_fe8 & 0x8000000)) {
+            sead::Vector3f velocity;
+            controller->sub_7100F5F598(&velocity);
+            velocity.y = _38->_10a8;
+            controller->sub_7100F5F6FC(velocity);
+        }
+    }
 }
 
 }  // namespace uking::action
