@@ -176,6 +176,43 @@ void PreyRoot::sub_71005047A8() {
     changeChild("通常行動", &pack);
 }
 
+// NON_MATCHING: the original's jump table starts at case 0 (entry 0 = default; ours starts at 1 with a subtract)
+// 0x7100503a78
+void PreyRoot::sub_7100503A78() {
+    if (!*mIsEnableEscapeForceEndCheck_s)
+        return;
+    if (isCurrentChild("リアクション"))
+        return;
+    if (!mActor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_8000000) ||
+        *mIsUseTerritory_a) {
+        _1f0 = ksys::Timer(*mEscapeForceEndTime_s, *mEscapeForceEndTime_s);
+        return;
+    }
+    _1f0.update();
+    if (_1f0.value <= sead::Mathf::epsilon()) {
+        _1f0 = ksys::Timer(*mEscapeForceEndTime_s, *mEscapeForceEndTime_s);
+        switch (*mAfterEscapeForceEndState_s) {
+        case 1:
+            if (mActor->getMapObject() &&
+                mActor->becomePreActor(ksys::act::Actor::DeleteType::_1,
+                                       ksys::act::BaseProc::DeleteReason::_0))
+                return;
+            break;
+        case 2:
+            sub_71005047A8();
+            return;
+        case 3:
+            mActor->deleteEx(ksys::act::Actor::DeleteType::_5,
+                             ksys::act::BaseProc::DeleteReason::_0);
+            return;
+        case 9:
+            m47();
+            return;
+        }
+        sub_7100504ED0();
+    }
+}
+
 void PreyRoot::sub_7100504A9C(u32 mask, bool on) {
     if (on)
         _188->_e84.set(mask);

@@ -4,6 +4,9 @@
 #include "Game/AI/aiUnk_7102450fa8.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
@@ -110,6 +113,21 @@ void PriestBossGiantEnemyRoot::sub_710051AD38(s32 x) {
         unit->_34c.increment();
     else
         unit->_34c = unit->_348;
+}
+
+// 0x710051b0f8
+void PriestBossGiantEnemyRoot::sub_710051B0F8() {
+    auto* controller = mActor->getCharacterController();
+    if (controller && controller->sub_7100F5F0E4() == ksys::act::MotionType::Hover) {
+        if (!_398.isActive()) {
+            if (auto* xlink = mActor->getXLink()) {
+                if (auto* slink = xlink->_50)
+                    _398 = slink->searchAndEmit("Levitation");
+            }
+        }
+    } else if (_398.isActive()) {
+        _398.fade();
+    }
 }
 
 void PriestBossGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {

@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -110,7 +111,7 @@ public:
 
             /* 0x50 */ s32 _50 = 0;
             /* 0x54 */ u32 _54 = 0;
-            /* 0x58 */ u8 _58[0x88 - 0x58];
+            /* 0x58 */ sead::Matrix34f _58;  // not initialised by the ctor (the position is read by SimpleWildlifeRoot::m34)
             /* 0x88 */ u32 _88 = 0;
             /* 0x8c */ u32 _8c = 0;
             /* 0x90 */ u32 _90 = 0;

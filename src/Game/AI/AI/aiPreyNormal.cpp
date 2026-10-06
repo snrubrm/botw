@@ -1,8 +1,15 @@
 #include "Game/AI/AI/aiPreyNormal.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71006F1DF0.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectPrey.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
@@ -134,6 +141,52 @@ bool PreyNormal::m38() {
 
 bool PreyNormal::m40() {
     return isCurrentChild("徘徊");
+}
+
+// NON_MATCHING: only the stack slots of the temporaries (SafeString keys, position, param pack) are laid out differently
+// 0x71004fca60
+bool PreyNormal::sub_71004FCA60() {
+    if (isCurrentChild("徘徊")) {
+        if (!isCurrentChild("徘徊"))
+            return false;
+        auto* child = getCurrentChild();
+        if (!child->isFailed() && !child->isFinished())
+            return false;
+    }
+
+    if (auto* enemy = _d0) {
+        enemy->_c48._8.reset();
+        enemy->_c48._7c = 0;
+        _fc = -1;
+        _100 = 0;
+        _104 = 0;
+        _108 = 0;
+    }
+    _170.reset();
+    const f32 wait = sead::GlobalRandom::instance()->getF32Range(630.0f, 1050.0f);
+    _11c = ksys::Timer(wait, wait);
+    const auto* prey = mActor->getParam()->getRes().mGParamList->getPrey();
+    if (prey) {
+        const f32 time = prey->mWaitTimeForStartEat.ref();
+        _140 = ksys::Timer(time, time);
+    } else {
+        _140 = ksys::Timer(1.0f, 1.0f, 0.0f);
+    }
+    _182 = *mIsReceivedForceEscapeSignal_s;
+    _270 = *mIsPositiveAttacker_s;
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_8000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_2000000);
+    mActor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_1000000);
+    if (auto* physics = mActor->getPhysics()) {
+        if (mActor->getHorseOptionsMaybe())
+            physics->sub_7100FBACE0(ksys::phys::ContactLayer(0x28));
+    }
+    sead::Vector3f pos = mActor->getMtx().getTranslation();
+    ksys::act::ai::InlineParamPack params;
+    params.addVec3(pos, "CentralPos", -1);
+    params.addVec3(pos, "TargetPos", -1);
+    changeChild("徘徊", &params);
+    return true;
 }
 
 bool PreyNormal::m41() {

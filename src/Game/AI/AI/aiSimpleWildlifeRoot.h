@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math/seadVector.h>
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/System/Timer.h"
 
@@ -17,6 +18,13 @@ public:
     Unk_71023dcc38* _18 = this;
     u64 _20 = 0;
     bool _28;
+};
+
+// vtable 0x71023dcc20: the awareness filter SimpleWildlifeRoot::m34 builds on the stack (m2 at 0x7100343738,
+// D0 at 0x7100343850; the D1 slot is the base class's). Not defined here yet.
+class Unk_71023dcc20 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
 };
 
 class SimpleWildlifeRoot : public ksys::act::ai::Ai {

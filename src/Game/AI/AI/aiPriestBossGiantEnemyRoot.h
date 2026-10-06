@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xlink2/xlink2HandleSLink.h>
 #include <prim/seadDelegate.h>
 #include "Game/AI/AI/aiPriestBossActorEnemyRoot.h"
 #include "Game/AI/aiUnk_7102357210.h"
@@ -81,8 +82,7 @@ protected:
     Unk_71024509d8 _2a8;
     Unk_71024137d0 _2e8;
     Unk_7102413808 _368;
-    u64 _398 = 0;
-    u32 _3a0 = 0;
+    xlink2::HandleSLink _398;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossGiantEnemyRoot, 0x3a8);
 

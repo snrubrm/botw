@@ -1,4 +1,7 @@
 #include "Game/AI/AI/aiPauseMenuPlayerRoot.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
 
@@ -19,5 +22,47 @@ void PauseMenuPlayerRoot::leave_() {
 }
 
 void PauseMenuPlayerRoot::loadParams_() {}
+
+// 0x71004f57f8
+bool PauseMenuPlayerRoot::handleMessage_(const ksys::Message* message) {
+    const auto type = message->getType();
+    if (type == 0x8000091) {
+        _38 = true;
+    } else if (type >= 0x8000092 && type <= 0x8000098) {
+        switch (type) {
+        case 0x8000093:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatCookingDish", 0);
+            break;
+        case 0x8000094:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatCookingSkewer", 0);
+            break;
+        case 0x8000095:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatBizarre", 0);
+            break;
+        case 0x8000096:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatTooHard", 0);
+            break;
+        case 0x8000097:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "Drink", 0);
+            break;
+        case 0x8000098:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "UseFairy", 0);
+            break;
+        default:
+            mActor->getASList()->goLimpFromHeadShotMaybe(0x3e, "EatFood", 0);
+            break;
+        }
+        _39 = true;
+    } else if (type == 0x8000099) {
+        if (auto* unk = mActor->getASList()->_b0)
+            unk->_21 = false;
+    } else if (type == 0x800009a) {
+        if (!isCurrentChild("通常待機"))
+            changeChild("通常待機", nullptr);
+    } else {
+        return false;
+    }
+    return true;
+}
 
 }  // namespace uking::ai

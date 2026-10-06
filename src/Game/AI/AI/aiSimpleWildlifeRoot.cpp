@@ -4,6 +4,7 @@
 #include "Game/AI/aiUnk_710072BA90.h"
 #include "Game/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLodState.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -91,6 +92,42 @@ void SimpleWildlifeRoot::loadParams_() {
     getMapUnitParam(&mIsLocatorCreate_m, "IsLocatorCreate");
     getMapUnitParam(&mIsCreateDead_m, "IsCreateDead");
     mActor->getRootAi()->getAITreeVariable2(&mIsDrop_a, "IsDrop");
+}
+
+// NON_MATCHING: the original keeps the sensor pointer in a register and takes &_8 afterwards (we pre-index the size load); register allocation of the result
+// 0x7100342ebc
+bool SimpleWildlifeRoot::m34() {
+    auto* actor = mActor;
+    if (sub_71007A2604(actor)) {
+        const s32 count = sub_71007A26AC(actor);
+        for (s32 i = 0; i < count; ++i) {
+            if (auto* info = sub_71007A255C(actor, i)) {
+                info->_58.getTranslation(_b8);
+                return true;
+            }
+        }
+    }
+    if (auto* awareness = actor->getAwareness()) {
+        ksys::act::Unk_7100d78e50* entry = nullptr;
+        auto* sensor1 = awareness->_260[1];
+        if ((sensor1 && sensor1->_8.size() > 0 &&
+             (entry = ksys::act::sub_7100D78E30(&sensor1->_8, 0)) && entry->_a0 == 2) ||
+            (awareness->_260[2] && awareness->_260[2]->_8.size() > 0 &&
+             (entry = ksys::act::sub_7100D78E30(&awareness->_260[2]->_8, 0)))) {
+            entry->_58.getTranslation(_b8);
+            return true;
+        }
+        if (auto* sensor3 = awareness->_260[3]) {
+            if (sensor3->_8.size() != 0) {
+                Unk_71023dcc20 filter;
+                if (auto* found = ksys::act::sub_7100D7EEE8(&sensor3->_8, &filter)) {
+                    found->_58.getTranslation(_b8);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 // NON_MATCHING: the original tests the damage type as a 30..34 range minus 32 (ccmp) instead of a

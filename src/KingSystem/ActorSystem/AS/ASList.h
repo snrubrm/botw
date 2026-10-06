@@ -26,6 +26,11 @@ namespace ksys::as {
 class ASList {
 public:
     struct Unk1;
+    // Placeholder: the object at ASList::_b0 (0x21: a flag byte cleared by PauseMenuPlayerRoot::handleMessage_).
+    struct Unk5 {
+        u8 _0[0x21];
+        bool _21;
+    };
     // Placeholder: event query filled by the handlers passed to x() (0x7101259c78 copies a 0x20-byte AS
     // event entry: the name, then two 32-bit values). Callers pass nullptr when they only test for the event.
     struct Unk4 {
@@ -370,7 +375,7 @@ public:
     /* 0x068 */ sead::Vector3f _68;
     /* 0x074 */ sead::Vector3f _74;
     /* 0x080 */ sead::Matrix34f _80;  // read with _14 (Remains::sub_71002CA3EC)
-    /* 0x0b0 */ u8 _b0[0xb8 - 0xb0];
+    /* 0x0b0 */ Unk5* _b0;
     /* 0x0b8 */ sead::Buffer<Unk1> mSlots;
     /* 0x0c8 */ sead::Buffer<Unk2*> _c8;
     /* 0x0d8 */ act::Actor* _d8;  // owner
