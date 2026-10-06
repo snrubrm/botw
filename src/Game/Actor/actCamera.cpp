@@ -94,6 +94,11 @@ void Camera::m161() {
     sub_7100793BD8();
 }
 
+void Camera::sub_7100793D88() {
+    sub_7100793DB4();
+    _860._804.sub_710079AE20(0x80000);
+}
+
 void Camera::m162() {
     _860._804.sub_710079AE20(1);
 }

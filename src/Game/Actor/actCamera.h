@@ -395,6 +395,9 @@ public:
     void sub_7100799920();
     // 0x7100793924 (CSV x) / 0x7100793bd8 (CSV x_0): declared only (called by m160 / m161).
     void sub_7100793924();
+    // 0x7100793d88 (CSV x_2): `sub_7100793DB4(); _860._804.sub_710079AE20(0x80000)`. 0x7100793db4: declared only.
+    void sub_7100793D88();
+    void sub_7100793DB4();
     void sub_7100793BD8();
     // 0x7100795f40: `*out` = the current core's entry of the f32 array at 0x1230 (false if out is null).
     bool sub_7100795F40(f32** out);
