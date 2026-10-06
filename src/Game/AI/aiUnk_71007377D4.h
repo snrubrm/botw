@@ -219,6 +219,9 @@ bool sub_710072E368(ksys::act::Actor* actor);
 /// 0x710072e304 (declared only; lane2 s21): whether `pos` is on a navmesh face found within `radius` (queries
 /// HavokAI::sub_7100F87ED0 and the Unk_7100f7e9f0 result; false without a HavokAI instance). Placeholder name.
 bool sub_710072E304(const sead::Vector3f& pos, f32 radius);
+/// 0x710072e40c (declared only; lane1 s41): like sub_710072E304, and additionally accepts the position only when the
+/// actor's navmesh character can stand on it (see sub_710072E368). Placeholder name.
+bool sub_710072E40C(ksys::act::Actor* actor, const sead::Vector3f& pos, f32 radius);
 /// 0x710072dcfc (lane1 s22): whether the XZ direction from `pos` to `target` is within `angle` (radians)
 /// of `dir` (dot product of the normalised XZ direction with `dir` >= cos(angle)). Placeholder name.
 bool sub_710072DCFC(const sead::Vector3f& target, const sead::Vector3f& pos,

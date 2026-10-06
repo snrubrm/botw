@@ -24,8 +24,19 @@ public:
     void changeToSixLegAttack(bool skip_prepare);
     void changeToBreath();
     void changeToRoarAttack();
+    // 0x710048eabc (placeholder name): picks the six leg attack or the charge attack with HornAttackRate, adjusted
+    // by the attack history `_e0`.
+    void changeToChargeOrSixLegAttack(bool skip_prepare);
+    virtual void m34(bool skip_prepare);
 
 protected:
+    // 0x710048d794 / 0x710048deec / 0x710048e778 / 0x710048e8bc / 0x710048e9ec (placeholder names)
+    bool sub_710048D794();
+    bool sub_710048DEEC();
+    bool sub_710048E778();
+    bool sub_710048E8BC();
+    bool sub_710048E9EC();
+
     // static_param at offset 0x38
     const int* mWeaponIdx_s{};
     // static_param at offset 0x40
