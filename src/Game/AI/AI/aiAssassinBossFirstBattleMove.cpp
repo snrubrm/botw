@@ -41,6 +41,20 @@ void AssassinBossFirstBattleMove::enter_(ksys::act::ai::InlineParamPack* params)
     changeChild("直線接近可能", &pack);
 }
 
+// The approach position: next to the target, perpendicular to the direction from the anchor `_6c`; moved to the other
+// side if it is too near / too far from the anchor.
+void AssassinBossFirstBattleMove::sub_7100317578(sead::Vector3f* out) {
+    const sead::Vector3f target = sub_71005D9330(mActor);
+    sead::Vector3f dir(target.x - _6c.x, 0.0f, target.z - _6c.z);
+    dir.normalize();
+    const sead::Vector3f side(-dir.z, 0.0f, dir.x);
+    sead::Vector3f position = target + side * *mCheckTargetDist_s;
+    const f32 distance = sead::Vector2f(position.x - _6c.x, position.z - _6c.z).length();
+    if (distance < *mDistXZ_s || *mTooFarXZ_s < distance)
+        position -= side * (*mCheckTargetDist_s + *mCheckTargetDist_s);
+    *out = position;
+}
+
 bool AssassinBossFirstBattleMove::isChangeable() const {
     if (!getCurrentChild()->isChangeable())
         return false;
