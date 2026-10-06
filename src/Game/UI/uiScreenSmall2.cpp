@@ -3,6 +3,7 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::ui {
 
@@ -366,6 +367,45 @@ void ScreenSystemWindowNoBtn::m94() {
     if ((_291 & 2) || isOpened() ||
         (_3610 && _3610->mFrame == static_cast<f32>(_3610->GetFrameSize())))
         _292 |= 0x20;
+}
+
+// 0x7100a0b63c
+void ScreenHardModeTextDLC::m98() {
+    eui::MessageString message;
+    getMessage("LayoutMsg/SystemWindow_01", "T_DummyText_00", &message);
+    setWidgetString(mLayout, "T_DummyText_00", message);
+}
+
+// 0x7100a322bc
+void ScreenPauseMenuMantan::m98() {
+    setReservedBoxCursorNode(findBoxCursorNodeByTag(137));
+}
+
+// 0x7100a22134
+void ScreenMainShortCut::m167() {
+    if (sub_7100AA948C())
+        mStateMachine.changeState(&sUnk_71025ef170);
+}
+
+// 0x710109db58
+void ScreenBoxCursorTV::m93(sead::Heap*) {
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_Cursor_00")) {
+        _300 = layout->tryCreateAnimatorAuto("Type", true);
+        if (_300)
+            _300->StopAtMin();
+    }
+}
+
+// 0x7100a4b344
+void ScreenShopBtnList15::m100() {
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (layout->_91 == 1 || layout->_91 == 2)
+            layout->startAnimCloseImpl_(false, false);
+    }
+    if (eui::LayoutEx* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (layout->_91 == 1 || layout->_91 == 2)
+            layout->startAnimCloseImpl_(false, false);
+    }
 }
 
 }  // namespace uking::ui

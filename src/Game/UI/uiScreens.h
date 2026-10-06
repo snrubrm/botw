@@ -920,8 +920,9 @@ public:
     ScreenBoxCursorTV();
     ~ScreenBoxCursorTV() override;
     SEAD_RTTI_OVERRIDE(ScreenBoxCursorTV, Screen)
+    void m93(sead::Heap* heap) override;
 
-    /* 0x300 */ void* _300{};
+    /* 0x300 */ eui::Animator* _300{};
 };
 
 class ScreenLoadSaveIcon : public Screen {
@@ -942,8 +943,9 @@ public:
     /* 0x324 */ u32 _324 = 0;
 };
 
-// State object of ScreenGameOver (CSV: unnamed data, 0x71025edda0).
+// State objects of ScreenGameOver (CSV: unnamed data, 0x71025edda0 / 0x71025ede00).
 extern const ksys::StateBase sUnk_71025edda0;
+extern const ksys::StateBase sUnk_71025ede00;
 
 class ScreenGameOver : public ScreenEx {
 public:
@@ -953,6 +955,7 @@ public:
     void m101() override;
     void m99() override;
     void m100() override;
+    void m106(eui::AnimButton* button) override;
     bool isEnableControl() const override;
     ~ScreenGameOver() override;
     SEAD_RTTI_OVERRIDE(ScreenGameOver, ScreenEx)
@@ -1933,6 +1936,7 @@ public:
     ~ScreenPauseMenuMantan() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuMantan, ScreenEx)
     void m93(sead::Heap* heap) override;
+    void m98() override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
 };
@@ -1987,6 +1991,7 @@ public:
     ScreenHardModeTextDLC();
     ~ScreenHardModeTextDLC() override;
     SEAD_RTTI_OVERRIDE(ScreenHardModeTextDLC, ScreenEx)
+    void m98() override;
 };
 
 class ScreenEnd : public ScreenEx {
@@ -2297,6 +2302,7 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
+    void m100() override;
 
     UiTexSlots _3610;
 };
@@ -2694,5 +2700,8 @@ bool sub_7100AA948C();
 // 0x7100aa0dc0 / 0x7100aa1260 (declared only): resolve a slash separated pane path inside a layout
 nn::ui2d::Pane* sub_7100AA0DC0(eui::LayoutEx* layout, const sead::SafeString& path, nn::ui2d::Pane** parent);
 void* sub_7100AA1260(eui::LayoutEx* layout, const sead::SafeString& path, void* out);
+
+// 0x7100a64304 (declared only): takes the pending result of a system window (and resets it to 13)
+s32 sub_7100A64304();
 
 }  // namespace uking::ui
