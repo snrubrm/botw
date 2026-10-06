@@ -278,6 +278,144 @@ bool DamageManagerBase::canTakeDamage() {
     return item.mCanTakeDamageFromType[damageTypeMaybe] & 0x1;
 }
 
+bool DamageManagerBase::sub_71006E0BD4(s32 type) const {
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x20;
+}
+
+bool DamageManagerBase::sub_71006E0CC0(s32 type) const {
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x1;
+}
+
+bool DamageManagerBase::sub_71006E0D24() {
+    if (!DamageInfoMgr::instance() || mDamageReactionTableStuff < 0 ||
+        !DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    return sub_71006E0DE8(m49(getField50()));
+}
+
+bool DamageManagerBase::sub_71006E0DE8(s32 type) const {
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return (item.mCanTakeDamageFromType[type] & 0x2) && !const_cast<DamageManagerBase*>(this)->m42();
+}
+
+// NON_MATCHING: block layout (the original places the m42() call block before the shared epilogue)
+bool DamageManagerBase::sub_71006E0E78() {
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    if (!(item.mCanTakeDamageFromType[m49(getField50())] & 0x8))
+        return false;
+    return !m42();
+}
+
+bool DamageManagerBase::sub_71006E0F24(s32 type) const {
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return (item.mCanTakeDamageFromType[type] & 0x8) && !const_cast<DamageManagerBase*>(this)->m42();
+}
+
+bool DamageManagerBase::sub_71006E0FB4() {
+    const s32 type = m49(getField50());
+    if (mField_64 & 0x1)
+        return true;
+    if (mField_64 & 0x2)
+        return false;
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x4;
+}
+
+bool DamageManagerBase::sub_71006E1050(s32 type) const {
+    if (mField_64 & 0x1)
+        return true;
+    if (mField_64 & 0x2)
+        return false;
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x4;
+}
+
+// NON_MATCHING: the original selects the entry byte (4 / 5 / 6) with a compare chain on the type and replicates the
+// mField_64 tests per case
+bool DamageManagerBase::sub_71006E10D0() {
+    const s32 type = m49(getField50());
+    if (mField_64 & 0x4)
+        return true;
+    if (mField_64 & 0x8)
+        return false;
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x10;
+}
+
+bool DamageManagerBase::sub_71006E11F4(s32 type) const {
+    if (mField_64 & 0x4)
+        return true;
+    if (mField_64 & 0x8)
+        return false;
+    if (!DamageInfoMgr::instance())
+        return false;
+    s32 idx = mDamageReactionTableStuff;
+    if (idx < 0)
+        return false;
+    if (!DamageInfoMgr::instance()->getDamagesArray().isBufferReady())
+        return false;
+    DamageInfoMgr::DamageItem& item = DamageInfoMgr::instance()->getDamagesArray()[idx];
+    return item.mCanTakeDamageFromType[type] & 0x10;
+}
+
 void DamageManagerBase::handleDamageForPlayer(u32* a2, u32* a3, u32* a4, u32* a5, u32* a6) {
     Struct20* currentStruct = sead::DynamicCast<Struct20>(mStruct20_b);
     if (!currentStruct) {

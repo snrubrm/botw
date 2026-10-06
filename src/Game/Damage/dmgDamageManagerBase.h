@@ -130,7 +130,7 @@ public:
     // and returns whether it found a value.
     virtual bool m40(s32* out) { return false; }
     virtual s32 m41() { return 0; }
-    virtual s32 m42() { return 0; }
+    virtual bool m42() { return false; }
     virtual void m43() {}
     virtual bool canTakeDamage();
     virtual void m45() {}
@@ -144,6 +144,23 @@ public:
     // 0x71006e1288 (CSV DamageMgr::getActorDamageParam; in the DamageManagerBase TU): the actor's
     // DamageParam resource (null without an ActorParam).
     ksys::res::DamageParam* getActorDamageParam();
+
+    // 0x71006e0bc... family (lane4 s47; placeholder names): predicates over the DamageInfoMgr entry of the manager's
+    // reaction table index (`mCanTakeDamageFromType[type]`), the `type` being the argument or m49(getField50()).
+    // Bit 5 / bit 0 of the entry.
+    bool sub_71006E0BD4(s32 type) const;
+    bool sub_71006E0CC0(s32 type) const;
+    // Bit 1 / bit 3 and not m42().
+    bool sub_71006E0D24();
+    bool sub_71006E0DE8(s32 type) const;
+    bool sub_71006E0E78();
+    bool sub_71006E0F24(s32 type) const;
+    // mField_64 bits 0 / 1 force true / false, else bit 2 of the entry (0x71006e0fb4 / 0x71006e1050).
+    bool sub_71006E0FB4();
+    bool sub_71006E1050(s32 type) const;
+    // mField_64 bits 2 / 3 force true / false, else bit 4 of the entry (0x71006e10d0 / 0x71006e11f4).
+    bool sub_71006E10D0();
+    bool sub_71006E11F4(s32 type) const;
 
     void clearCallbacks();
     void resetStuff();
