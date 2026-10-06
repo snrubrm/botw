@@ -20,7 +20,7 @@ int CheckDistanceForWarp::doQuery() {
 bool CheckDistanceForWarp::m13() {
     auto* mgr = SceneMgr::instance();
     sead::Vector3f destination;
-    if (!mgr || !mgr->getMapPosition(mWarpDestPosName, &destination, &mgr->_140, mWarpDestMapName))
+    if (!mgr || !mgr->getMapPosition(mWarpDestPosName, &destination, &mgr->mStageName, mWarpDestMapName))
         return true;
 
     ksys::act::acc::PlayerBase player;

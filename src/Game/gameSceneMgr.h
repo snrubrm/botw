@@ -20,8 +20,11 @@ public:
     void setStageName(const sead::SafeString& name);
     // 0x7100897644
     void setWarpDLCDestPosAndDegree(const sead::Vector3f& pos, const f32& degree);
+    // 0x710089646c (declaration only; callers pass `&mStageName` as `a3`): the position of the warp destination
+    // `pos_name` in the map `map_name`.
+    bool getMapPosition(const sead::SafeString& pos_name, sead::Vector3f* out, void* a3,
+                        const sead::SafeString& map_name);
 
-private:
     sead::FixedSafeString<0x100> _28;
     sead::FixedSafeString<0x40> mStageName;
 };
