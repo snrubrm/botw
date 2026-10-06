@@ -3,6 +3,7 @@
 #include <math/seadVector.h>
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
+#include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Physics/physDefines.h"
@@ -196,7 +197,11 @@ private:
     sead::Heap* mPhysicsTempLowHeap{};
     u8 _1c8[0x268 - 0x1c8];
     IsIndoorStage mIsIndoorStage;
-    u8 _26c[0x480 - 0x26c];
+    u8 _26c[0x2c0 - 0x26c];
+    // lane4 s46: system group handlers (sub_7101216894 / sub_71012168C8).
+    sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 4>, 2> _2c0;
+    sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 2>, 2> _300;
+    u8 _320[0x480 - 0x320];
 };
 KSYS_CHECK_SIZE_NX150(System, 0x480);
 

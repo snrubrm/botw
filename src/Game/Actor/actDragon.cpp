@@ -12,6 +12,33 @@ bool Dragon::sub_710000FF60(int idx) {
     return !_1f70.isOn(0x10 << idx) && _1f70.isOn(1 << idx);
 }
 
+bool Dragon::sub_710000F70C(int idx) {
+    return _1f70.isOn(0x10 << idx);
+}
+
+// NON_MATCHING: we merge the two adjacent -1.0f stores into one 64-bit store and schedule the copies' loads differently.
+void Dragon::Unk_710000b710::sub_71006FD830(f32 start_frame, f32 end_frame) {
+    if (start_frame < 0.0f) {
+        if (_930 & 0x100) {
+            _8a4 = -1.0f;
+            _8a8 = -1.0f;
+            _8ac = 0.0f;
+            _930 &= ~0x100;
+        }
+        return;
+    }
+    _8ac = 1.0f;
+    _5c0 = _400;
+    _5bc = _3f0;
+    _5cc = _b0;
+    _5c4 = _90;
+    _5b8 = _3e0;
+    _5c8 = _a0;
+    _8a4 = start_frame;
+    _8a8 = end_frame;
+    _930 |= 0x100;
+}
+
 ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
 }

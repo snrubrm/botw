@@ -60,6 +60,8 @@ public:
     bool getGameDataFlagGrudgeAlive(int idx);  // CSV name
     // 0x710000ff60 (lane4 s45, unnamed in the CSV): `_1f70` has the bit `idx` and not the bit `idx + 4`.
     bool sub_710000FF60(int idx);
+    // 0x710000f70c (lane4 s46, unnamed in the CSV): `_1f70` has the bit `idx + 4`.
+    bool sub_710000F70C(int idx);
     bool getGameDataFlag(const sead::SafeString& name, int idx);  // CSV name
     void x(const sead::Matrix34f& mtx);  // CSV name (0x710000ff8c)
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
@@ -74,7 +76,31 @@ public:
 
         u8 _0[0x20];
         /* 0x20 */ sead::Matrix34f _20;
-        u8 _50[0x8b8 - 0x50];
+        u8 _50[0x90 - 0x50];
+        /* 0x90 */ f32 _90;
+        u8 _94[0xa0 - 0x94];
+        /* 0xa0 */ f32 _a0;
+        u8 _a4[0xb0 - 0xa4];
+        /* 0xb0 */ f32 _b0;
+        u8 _b4[0x3e0 - 0xb4];
+        /* 0x3e0 */ f32 _3e0;
+        u8 _3e4[0x3f0 - 0x3e4];
+        /* 0x3f0 */ f32 _3f0;
+        u8 _3f4[0x400 - 0x3f4];
+        /* 0x400 */ f32 _400;
+        u8 _404[0x5b8 - 0x404];
+        // lane4 s46: snapshot of the values above taken by sub_71006FD830.
+        /* 0x5b8 */ f32 _5b8;
+        /* 0x5bc */ f32 _5bc;
+        /* 0x5c0 */ f32 _5c0;
+        /* 0x5c4 */ f32 _5c4;
+        /* 0x5c8 */ f32 _5c8;
+        /* 0x5cc */ f32 _5cc;
+        u8 _5d0[0x8a4 - 0x5d0];
+        /* 0x8a4 */ f32 _8a4;  // start frame (-1: none)
+        /* 0x8a8 */ f32 _8a8;  // end frame
+        /* 0x8ac */ f32 _8ac;
+        u8 _8b0[0x8b8 - 0x8b0];
         /* 0x8b8 */ f32 _8b8;  // Dragon + 0x1d80 (DragonPlayASForDemo: 0 on enter, 1 on leave)
         u8 _8bc[0x930 - 0x8bc];
         /* 0x930 */ u16 _930;  // flags (Dragon + 0x1df8)

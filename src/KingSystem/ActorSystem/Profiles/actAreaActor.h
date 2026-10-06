@@ -43,6 +43,8 @@ public:
 
     // 0x7100e2677c: `_88a = 0`.
     void sub_7100E2677C();
+    // 0x7100e26784 (lane4 s46, placeholder name): calls the member function `_878` with `mask` (if set).
+    void sub_7100E26784(phys::MaterialMask* mask);
     bool sub_7100E26A80();
     void sub_7100E26A28(bool enable);
 

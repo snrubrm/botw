@@ -185,6 +185,11 @@ bool MotorcycleMgr::sub_710067B6BC(sead::Matrix34f* mtx) {
     return true;
 }
 
+void MotorcycleMgr::sub_710067AF08(ksys::act::Unk117* arg) {
+    if (auto* actor = sead::DynamicCast<ksys::act::Actor>(mProcLink.getProc(nullptr, nullptr)))
+        actor->x_17(arg);
+}
+
 void MotorcycleMgr::sub_710067AFB0() {
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(mProcLink.getProc(nullptr)))
         actor->setFlag(ksys::act::Actor::ActorFlag::_1c, true);

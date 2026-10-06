@@ -129,6 +129,16 @@ SystemGroupHandler* System::addSystemGroupHandler(ContactLayerType layer_type, i
     return getGroupFilter(layer_type)->addSystemGroupHandler(free_list_idx);
 }
 
+// NON_MATCHING: the original round-trips the index through the stack (`str w2, [sp, #0xc]; ldrsw x9, [sp, #0xc]`).
+SystemGroupHandler* System::sub_7101216894(ContactLayerType layer_type, int index) {
+    return _2c0[static_cast<s32>(layer_type)][index];
+}
+
+// NON_MATCHING: as sub_7101216894 (the index round trip through the stack).
+SystemGroupHandler* System::sub_71012168C8(ContactLayerType layer_type, int free_list_idx) {
+    return _300[static_cast<s32>(layer_type)][free_list_idx];
+}
+
 LayerContactPointInfo* System::allocLayerContactPointInfo(sead::Heap* heap, int num, int num2,
                                                           const sead::SafeString& name, int a,
                                                           int b, int c) const {

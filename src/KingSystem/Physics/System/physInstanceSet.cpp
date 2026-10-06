@@ -20,6 +20,10 @@
 
 namespace ksys::phys {
 
+bool InstanceSet::sub_7100FBE184(RigidBody* body) const {
+    return body->hasFlag(RigidBody::Flag::_20);
+}
+
 void InstanceSet::setFlag2() {
     mFlags.set(Flag::_2);
     if (mClothSet != nullptr) {

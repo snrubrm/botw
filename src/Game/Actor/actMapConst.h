@@ -25,6 +25,9 @@ public:
     void m63() override;
     void initMaybe() override;
     void updatePositionMaybe() override;
+    // lane4 s46: CSV MapConst::m87 / m135 (0x71002dd638 / 0x71002dd650).
+    s32* getLife() override { return &_83c; }
+    Unk3* m135() override { return &_848; }
 
     /* 0x83c */ s32 _83c = 0;
     /* 0x840 */ f32 _840 = 0;  // traverse distance of the actor
@@ -32,8 +35,7 @@ public:
     /* 0x845 */ bool _845 = false;
     /* 0x846 */ bool _846 = false;
     /* 0x847 */ u8 _847;
-    /* 0x848 */ bool _848 = false;
-    /* 0x84c */ u32 _84c = 0;
+    /* 0x848 */ Unk3 _848;  // _0 / _4 (the u8 and the s32 of Actor::Unk3)
 };
 KSYS_CHECK_SIZE_NX150(MapConst, 0x850);
 

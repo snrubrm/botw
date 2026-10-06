@@ -45,6 +45,11 @@ phys::ContactLayer AreaActor::m152() {
     return phys::ContactLayer(phys::ContactLayer::size());
 }
 
+void AreaActor::sub_7100E26784(phys::MaterialMask* mask) {
+    if (!(_878 == nullptr))
+        (this->*_878)(mask);
+}
+
 void AreaActor::sub_7100E2677C() {
     _88a = 0;
 }
