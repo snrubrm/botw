@@ -36,6 +36,11 @@ public:
     void m46() override;
     // 0x7100457240 (placeholder name)
     void changeToAngry();
+    // 0x7100456de4 (placeholder name): the Kokko was hit by `link`: an Enemy actor records the link in its _d70;
+    // then sets the mask 0x40 and the "Kokko_Event_Running" flag and turns angry.
+    void sub_7100456DE4(const ksys::act::BaseProcLink& link);
+    // 0x7100456eec (placeholder name): starts the event "Demo013_0" and stops the character controller.
+    void sub_7100456EEC();
 
 protected:
     // static_param at offset 0x208

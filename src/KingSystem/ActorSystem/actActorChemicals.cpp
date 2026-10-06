@@ -31,4 +31,14 @@ Chemical* ActorChemicals::getStuff(int idx) {
     return &element->mChemical;
 }
 
+// NON_MATCHING: same as getStuff (the original's null path of the inlined element lookup unlocks once and shares the
+// outer unlock; the loop counters also use other registers)
+void ActorChemicals::sub_7100E39614(bool on) {
+    const auto lock = sead::makeScopedLock(mCS);
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        if (auto* chemical = getStuff(i))
+            chemical->sub_7100D91098(on);
+    }
+}
+
 }  // namespace ksys::act

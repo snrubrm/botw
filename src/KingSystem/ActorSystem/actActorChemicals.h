@@ -43,6 +43,8 @@ public:
     Chemical* getStuff(int idx);
     // 0x7100e3718c (lane1 s22, placeholder name): the element itself (not its Chemical), ~25 callers.
     Unk_71024e6428* sub_7100E3718C(int idx);
+    // 0x7100e39614 (lane1 s41, placeholder name): Chemical::sub_7100D91098(on) on every chemical.
+    void sub_7100E39614(bool on);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
     // 0x7100e381dc (declared only; placeholder name): looks a Chemical up by name; Actor::sub_71011D8A54.

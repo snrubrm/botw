@@ -1,5 +1,6 @@
 #include "Game/AI/AI/aiFishRoot.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
@@ -11,6 +12,21 @@ namespace uking::ai {
 FishRoot::FishRoot(const InitArg& arg) : SimpleWildlifeRoot(arg) {}
 
 FishRoot::~FishRoot() = default;
+
+// NON_MATCHING: the original moves `start` into x1 after negating the height (scheduling only).
+bool FishRoot::sub_71003CE608(const sead::Vector3f& start) {
+    _1c0 = ksys::phys::RayCastForRequest::allocRequest(mActor->getPhysics()->get188(0),
+                                                       ksys::phys::GroundHit::HitAll);
+    if (_1c0) {
+        _1c0->enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        _1c0->enableLayer(ksys::phys::ContactLayer::EntityGround);
+        _1c0->enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+        _1c0->enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+        _1c0->setStartAndDisplacementScaled(start, sead::Vector3f::ey, -mActor->getAabb().getSizeY());
+        _1c0->submitRequest(ksys::phys::ContactLayerType::Entity);
+    }
+    return true;
+}
 
 bool FishRoot::init_(sead::Heap* heap) {
     return SimpleWildlifeRoot::init_(heap);

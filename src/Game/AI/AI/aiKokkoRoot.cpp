@@ -6,6 +6,10 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 
 namespace uking::ai {
 
@@ -92,6 +96,29 @@ void KokkoRoot::m46() {
     pack.addVec3(mActor->getMtx().getBase(2), "TargetDir", -1);
     pack.addBool(false, "IsShootByPlayer", -1);
     changeChild("落下", &pack);
+}
+
+void KokkoRoot::sub_7100456DE4(const ksys::act::BaseProcLink& link) {
+    if (auto* enemy = sead::DynamicCast<act::Enemy>(mActor)) {
+        if (!enemy->_d70.sub_71002DCCBC(-1))
+            enemy->_d70.sub_71002DC32C();
+        enemy->_d70.sub_71002DC628(link, 1);
+    }
+    sub_7100504A9C(0x40, true);
+    ksys::gdt::setBoolByKey(true, "Kokko_Event_Running");
+    changeToAngry();
+}
+
+void KokkoRoot::sub_7100456EEC() {
+    if (auto* manager = ksys::evt::Manager::instance()) {
+        const ksys::evt::Metadata metadata("Demo013_0");
+        if (manager->callEvent(metadata, mActor)) {
+            if (auto* controller = mActor->getCharacterController()) {
+                controller->sub_7100F5E7F0(0.0f);
+                controller->sub_7100F5FB24(sead::Vector3f::zero);
+            }
+        }
+    }
 }
 
 void KokkoRoot::changeToAngry() {

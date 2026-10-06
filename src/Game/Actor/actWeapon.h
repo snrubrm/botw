@@ -221,6 +221,9 @@ class Weapon : public ksys::act::WeaponBase {
 public:
     // 0x71002e5f88 (CSV Weapon::m175): `x_4(pos, false, false, a4, false)`, then the base.
     bool m175(const sead::Vector3f& pos, bool a2, bool a3, void* a4, bool a5) override;
+    // 0x71002ee7e8 (lane1 s41, declaration only; placeholder name): writes the enemy actor link that is both the
+    // player's attention target and the weapon's `_b18` (or `_b18` itself) to `out`; false if there is none.
+    bool sub_71002EE7E8(ksys::act::BaseProcLink* out);
     // 0x71002edc64 (CSV Weapon::x_6): `return hasAttackInfo(this)` (a tail call).
     bool x_6();
     // 0x71002e4374: bit7 of _e50, or a type3 weapon with a connected calc child.
@@ -359,7 +362,9 @@ public:
     /* 0xcf4 */ u8 _cf4[0xd08 - 0xcf4];  // TODO
     /* 0xd08 */ u8 _d08;  // read by ChemicalWeaponRoot / DeadlyBlowWeaponRoot::m42 (lane1 request)
     /* 0xd09 */ bool _d09;
-    /* 0xd0a */ u8 _d0a[0xd38 - 0xd0a];  // TODO
+    /* 0xd0a */ u8 _d0a[2];  // TODO
+    /* 0xd0c */ s32 _d0c;  // read by Arrow::sub_710046ABA8 (lane1 s41)
+    /* 0xd10 */ u8 _d10[0xd38 - 0xd10];  // TODO
     /* 0xd38 */ Unk_71002ef75c* _d38 = nullptr;
     /* 0xd40 */ u8 _d40[0xd4c - 0xd40];  // TODO
     // The signed life value returned by getLife; the original constructor initializes it to zero.

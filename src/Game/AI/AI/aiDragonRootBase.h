@@ -38,6 +38,11 @@ public:
     void changeToMove();
     void sub_7100356F30();
     bool sub_7100357314(f32 progress);
+    // 0x7100357268 (placeholder name): the follower is within `offset` points of the end of the rail and the
+    // rail has no junction at its end.
+    bool sub_7100357268(f32 offset);
+    // 0x7100357398: like sub_7100357314, for the first point of the rail.
+    bool sub_7100357398(f32 progress);
     bool sub_7100357414(f32 progress);
     void sub_7100357440(f32 wait_frame);
     bool sub_710035797C(f32* out_progress, sead::Vector3f* out_pos, const sead::Vector3f& pos);

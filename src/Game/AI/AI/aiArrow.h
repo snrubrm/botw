@@ -34,6 +34,20 @@ public:
     void sub_7100463940();
     // 0x71004682cc: kills the ELink event of _170 (if it is still the one that was emitted).
     void sub_71004682CC();
+    // 0x71004692fc (placeholder name): the linked weapon's parent actor is the player.
+    bool sub_71004692FC();
+    // 0x7100467d20 / 0x7100467e24 / 0x7100467f28 (placeholder names): the Weapon the arrow is connected to as a
+    // calc parent has `_d54` 1 / `_d54` 2 / bit 12 of its flags.
+    bool sub_7100467D20();
+    bool sub_7100467E24();
+    bool sub_7100467F28();
+    // 0x710046757c (placeholder names): the connected Weapon has a pending request of type 6 or 7 /
+    // returns its `_d0c` (1 without a weapon) / forwards to Weapon::sub_71002EE7E8.
+    bool sub_710046757C();
+    s32 sub_710046ABA8();
+    bool sub_710046ACA4(ksys::act::BaseProcLink* out);
+    // 0x7100469850 (placeholder name): makes the arrow's body dynamic again and bounces ("跳ね返る").
+    void sub_7100469850();
     void spawnElectricWaterBall();  // CSV name (aiArrowSpawnElectricWaterBall)
 
 protected:

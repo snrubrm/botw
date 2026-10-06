@@ -151,6 +151,44 @@ bool DragonRootBase::sub_7100357314(f32 progress) {
     return true;
 }
 
+bool DragonRootBase::sub_7100357268(f32 offset) {
+    if (_38.sub_7100EEBE88())
+        return false;
+    if (!(_38._30.progress >= f32(_38._8.rail->getNumPoints()) - offset))
+        return false;
+    const ksys::map::Rail* rail = _38._8.rail;
+    auto* point =
+        static_cast<const ksys::map::RailConnectablePoint*>(rail->getPoint(rail->getNumPoints() - 1));
+    if (!point)
+        return false;
+    auto** junction_point = point->getJunctionPoint();
+    if (junction_point && *junction_point) {
+        auto* junction_rail = (*junction_point)->getJunctionRail();
+        const s32 num_points = junction_rail->getNumPoints();
+        if (junction_rail && num_points >= 0)
+            return false;
+    }
+    return true;
+}
+
+bool DragonRootBase::sub_7100357398(f32 progress) {
+    const ksys::map::Rail* rail = _38._8.rail;
+    if (!rail)
+        return false;
+    auto* point = static_cast<const ksys::map::RailConnectablePoint*>(rail->getPoint(0));
+    if (!point)
+        return false;
+    auto** junction_point = point->getJunctionPoint();
+    if (!junction_point || !*junction_point)
+        return false;
+    auto* junction_rail = (*junction_point)->getJunctionRail();
+    const s32 num_points = junction_rail->getNumPoints();
+    if (!junction_rail || num_points < 0)
+        return false;
+    _38.sub_7100EEBAE0(junction_rail, progress);
+    return true;
+}
+
 bool DragonRootBase::sub_7100357414(f32 progress) {
     if (!_38._8.rail)
         return false;
