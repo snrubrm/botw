@@ -462,6 +462,19 @@ bool sub_7100A9F91C() {
     return screen->isOpened();
 }
 
+// 0x7100a9e2d4
+bool openFadeStatus() {
+    if (eui::ScreenMgr::instance()) {
+        createAndLoadScreenIfNeededImpl(ScreenId::FadeStatus, nullptr);
+        auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::FadeStatus);
+        if (screen && screen->isClosed()) {
+            screen->open(1);
+            return true;
+        }
+    }
+    return false;
+}
+
 // 0x7100a9e358
 bool closeFadeStatus() {
     auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::FadeStatus);
