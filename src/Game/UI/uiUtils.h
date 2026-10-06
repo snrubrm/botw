@@ -277,7 +277,7 @@ bool sub_7100A98304();
 bool sub_7100A983B0();
 void sub_7100A984F0(NpcShopData* shop_data);
 void sub_7100A985B8(NpcShopData* shop_data);
-void sub_7100A982BC(NpcShopData* shop_data, bool selected);
+bool sub_7100A982BC(NpcShopData* shop_data, bool selected);
 bool openMinigameScreenForTimer(bool count_down);
 bool minigameScreenHideTimer();
 void minigameScreenUpdateTimer(s64 time_ms);

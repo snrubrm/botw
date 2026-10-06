@@ -1,5 +1,6 @@
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/euiScreen.h"
 
 // UI wrapper functions around uking::ui::UiShopMgr (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -35,6 +36,20 @@ bool sub_7100A98304() {
     default:
         return false;
     }
+}
+
+// 0x7100a982bc
+bool sub_7100A982BC(NpcShopData* shop_data, bool selected) {
+    if (!eui::ScreenMgr::instance())
+        return false;
+    auto* mgr = UiShopMgr::instance();
+    if (selected) {
+        if (mgr)
+            return mgr->sub_7100982A44(1, shop_data);
+    } else if (mgr) {
+        return mgr->sub_71009821F0(2);
+    }
+    return false;
 }
 
 // 0x7100a98340

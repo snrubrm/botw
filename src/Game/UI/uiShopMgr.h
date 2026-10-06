@@ -38,7 +38,7 @@ public:
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
     bool sub_71009816B0(s32 state, s32 a2);
-    void sub_71009821F0(s32 state);
+    bool sub_71009821F0(s32 state);  // returns true (its last block)
     // 0x710098411c (320 bytes, declared only)
     void sub_710098411C(s32 value);
     bool sub_7100982A44(s32 state, NpcShopData* shop_data);
