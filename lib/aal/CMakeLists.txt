@@ -12,10 +12,13 @@ add_library(aal OBJECT
   include/aal/aalSoundSource.h
   include/aal/aalSpatialCalculator.h
   include/aal/aalSpatialSetting.h
+  include/aal/aalSystem.h
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
   src/aalHandle.cpp
+  src/aalNamedObj.cpp
   src/aalSoundParam.cpp
+  src/aalSystem.cpp
   src/aalSoundSource.cpp
   src/aalSpatialSetting.cpp
   src/dummy.cpp
