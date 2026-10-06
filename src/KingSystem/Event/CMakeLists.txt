@@ -31,6 +31,8 @@ target_sources(uking PRIVATE
   evtEventMgrStruct1.h
   evtEventResource.cpp
   evtEventResource.h
+  evtEventSystem.cpp
+  evtEventSystem.h
   evtEventXlinkInfo.cpp
   evtCameraSystem.cpp
   evtSubmitLowPriorityRequest.cpp
