@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/AI/Action/actionWaterUpDownAnmDrivenMove.h"
+#include <math/seadMatrix.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::action {
@@ -18,12 +19,13 @@ public:
 
 protected:
     void calc_() override;
+    void m32(ksys::phys::CharacterController* controller) override;
 
     // static_param at offset 0x68
     const float* mTurnSpeed_s{};
     // dynamic_param at offset 0x70
     sead::Vector3f* mTargetPos_d{};
-    u8 _78[0x28];
+    sead::Matrix33f _78;
 };
 KSYS_CHECK_SIZE_NX150(WaterUpDownDrivenPreAttack, 0xa0);
 

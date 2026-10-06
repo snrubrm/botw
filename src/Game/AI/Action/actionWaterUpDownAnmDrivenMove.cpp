@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionWaterUpDownAnmDrivenMove.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -30,6 +31,10 @@ void WaterUpDownAnmDrivenMove::loadParams_() {
 
 void WaterUpDownAnmDrivenMove::calc_() {
     ksys::act::ai::Action::calc_();
+}
+
+void WaterUpDownAnmDrivenMove::m32(ksys::phys::CharacterController* controller) {
+    sub_7100738AA8(mActor, *mRotReduceRatio_s);
 }
 
 }  // namespace uking::action

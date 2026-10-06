@@ -19,6 +19,7 @@ protected:
     // 0x710020a5e4 (declared only): the body of leave_ is out of line in the original.
     void sub_710020A5E4();
     void calc_() override;
+    virtual const char* m32() { return "TalkTurn"; }
 
     // dynamic_param at offset 0x20
     int* mObjectId_d{};

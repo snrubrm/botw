@@ -4,6 +4,10 @@
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 
+namespace ksys::phys {
+class CharacterController;
+}
+
 namespace uking::action {
 
 class WaterUpDownAnmDrivenMove : public ksys::act::ai::Action {
@@ -19,6 +23,7 @@ public:
 
 protected:
     void calc_() override;
+    virtual void m32(ksys::phys::CharacterController* controller);
 
     // static_param at offset 0x20
     const float* mInWaterDepth_s{};
