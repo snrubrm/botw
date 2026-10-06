@@ -1179,6 +1179,7 @@ target_sources(uking PRIVATE
   actionFlyingCharacterBlownOff.h
   actionFlyingCharacterDamageBase.cpp
   actionFlyingCharacterDamageBase.h
+  actionFlyingCharacterDamageBaseSub7100130868.cpp
   actionFlyingCharacterDamage.cpp
   actionFlyingCharacterDamage.h
   actionFlyingCharacterDie.cpp

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include "Game/AI/Action/actionRotateTurnToTarget.h"
 #include "Game/AI/aiUnk_71025b0578.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
@@ -21,6 +22,8 @@ public:
 protected:
     void calc_() override;
     void m32() override;
+    void m33(ksys::act::Actor* actor, float x) override;
+    void m34() override;
 
     // aitree_variable at offset 0x78
     void* mRefPosVibrateChecker_a{};
@@ -33,7 +36,7 @@ protected:
     // static_param at offset 0x98
     const float* mNearGrHeight_s{};
     Unk_71000b0800<Unk_71025b0578> _a0;
-    u8 _a8[0xcc - 0xa8];
+    sead::Matrix33f _a8;
     bool _cc = false;
     bool _cd = false;
 };

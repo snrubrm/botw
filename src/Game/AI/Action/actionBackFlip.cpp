@@ -4,7 +4,10 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/AI/aiUnk_710073fa90.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -65,6 +68,50 @@ void BackFlip::calc_() {
             setFinished();
     }
     RotateTurnToTarget::calc_();
+}
+
+void BackFlip::m33(ksys::act::Actor* actor, float x) {
+
+    const sead::Vector3f up = getUpDir(actor);
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    sead::Vector3f dir = *mTargetPos_d;
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, dir, up, pos, false);
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EF51C(&axis, &angle, mActor->getMtx(), mtx, sead::Vector3f::ey);
+    sub_710073FA90(&_a8, mActor);
+    sub_710073FF90(&_a8, mtx, 0.16f, *mAngSpd_s, *mAngSpd_s * 0.25f);
+    if (auto* controller = mActor->getCharacterController()) {
+        controller->sub_7100F62B70(*mJumpHeight_s);
+        controller->sub_7100F5EF08(true);
+    }
+    _cc = false;
+    _cd = true;
+}
+
+void BackFlip::m34() {
+    auto* actor = mActor;
+    const sead::Vector3f up = getUpDir(actor);
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    sead::Vector3f dir = *mTargetPos_d;
+    dir -= pos;
+    ksys::util::sub_71011EFA00(&dir, dir, up);
+    dir.normalize();
+
+    sead::Matrix34f mtx;
+    ksys::util::sub_71011F00EC(&mtx, dir, up, pos, false);
+    sead::Vector3f axis;
+    f32 angle;
+    ksys::util::sub_71011EF51C(&axis, &angle, mActor->getMtx(), mtx, sead::Vector3f::ey);
+    sub_710073FA90(&_a8, mActor);
+    sub_710073FF90(&_a8, mtx, 0.16f, *mAngSpd_s, *mAngSpd_s * 0.25f);
 }
 
 void BackFlip::m32() {

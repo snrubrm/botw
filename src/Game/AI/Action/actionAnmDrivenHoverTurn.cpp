@@ -1,6 +1,10 @@
 #include "Game/AI/Action/actionAnmDrivenHoverTurn.h"
 #include "Game/AI/aiUnk_710073fa90.h"
+#include <math/seadMathCalcCommon.h>
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/Utils/MathUtil.h"
 
 namespace uking::action {
 
@@ -37,6 +41,27 @@ void AnmDrivenHoverTurn::loadParams_() {
 
 void AnmDrivenHoverTurn::calc_() {
     AnmDrivenHoverBase::calc_();
+
+    auto* actor = mActor;
+    const sead::Vector3f pos = actor->getMtx().getTranslation();
+    const sead::Vector3f up = getUpDir(actor);
+
+    sead::Vector3f to_target = *mParams.mTargetPos_d;
+    to_target -= pos;
+    ksys::util::sub_71011EFA00(&to_target, to_target, up);
+    to_target.normalize();
+
+    ksys::VFR::chase(&_9c, *mParams.mRotSpeed_s, *mParams.mRotSpeed_s * *mParams.mRotAccRatio_s);
+    sub_710073FA94(&_78, mActor);
+    sub_710074006C(&_78, to_target, up, true, *mParams.mBaseRotRatio_s, _9c, 0.0f);
+    sub_7100740F1C(_78, mActor);
+
+    sead::Vector3f front;
+    mActor->getMtx().getBase(front, 2);
+    ksys::util::sub_71011EFA00(&front, front, up);
+    front.normalize();
+    if (to_target.dot(front) >= sead::Mathf::cos(*mParams.mFinRotate_s))
+        setFinished();
 }
 
 }  // namespace uking::action
