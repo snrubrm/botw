@@ -25,6 +25,8 @@ public:
     virtual void m36();
 
     void sub_71003C3A2C(bool);
+    // 0x71003c3c68 (placeholder name): sub_71006DE3D8 of the target actor (also called from the EnemyFortress AIs).
+    bool sub_71003C3C68();
     // 0x71003c3cb8 (placeholder name)
     void changeToGather();
     // 0x71003c3dc4 (placeholder name)

@@ -194,4 +194,19 @@ bool EnemyRoot::sub_71003B5804(bool a1) {
     return false;
 }
 
+const sead::SafeString& EnemyRoot::sub_71003B5E54(int index) const {
+    switch (index) {
+    case 0:
+        return mEquipItem1_m;
+    case 1:
+        return mEquipItem2_m;
+    case 2:
+        return mEquipItem3_m;
+    case 3:
+        return mEquipItem4_m;
+    default:
+        return mEquipItem1_m;
+    }
+}
+
 }  // namespace uking::ai

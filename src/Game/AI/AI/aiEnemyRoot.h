@@ -74,6 +74,8 @@ public:
     void sub_71003B5644();
     // 0x71003b56a0 (placeholder name)
     void changeToRide();
+    // 0x71003b5e54 (placeholder name): the EquipItem map unit parameter `index` (0 .. 3; 0 for anything else).
+    const sead::SafeString& sub_71003B5E54(int index) const;
 
 protected:
     Unk_7100702370* _38{};

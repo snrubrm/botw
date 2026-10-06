@@ -82,6 +82,12 @@ void EnemyWaitViewItem::sub_71003C3A2C(bool force) {
     }
 }
 
+bool EnemyWaitViewItem::sub_71003C3C68() {
+    ksys::act::ActorConstDataAccess accessor;
+    ksys::act::acquireActor(mTargetActor_d, &accessor);
+    return sub_71006DE3D8(accessor);
+}
+
 void EnemyWaitViewItem::changeToGather() {
     ksys::act::ActorConstDataAccess accessor;
     ksys::act::acquireActor(mTargetActor_d, &accessor);
