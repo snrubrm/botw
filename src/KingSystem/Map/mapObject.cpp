@@ -13,7 +13,9 @@
 
 namespace ksys::map {
 
-// 0x7100d38170 (CSV map::isFlagSet; declared only; lane4 s45): reads the game data flag of the object (revival flag?).
+// 0x7100d38170 (CSV map::isFlagSet; declared only; lane4 s45): reads the revival game data flag of the object through the
+// permission-bypassing TriggerParamRef (`a2` selects its buffer 1; the bit 0x40000 of the manager flags is checked
+// first in that case); an IncrementSave object counts as set when the flag is >= 1.
 bool isFlagSet(bool* value, bool a2, const Object* obj);
 
 // NON_MATCHING

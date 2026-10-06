@@ -1,5 +1,7 @@
 #include "Game/Actor/actOptionalWeapon.h"
 #include <basis/seadNew.h>
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 
 namespace uking::act {
 
@@ -15,6 +17,19 @@ ksys::act::BaseProc* OptionalWeapon::construct(const CreateArg& arg, sead::Heap*
 
 ksys::act::Actor* OptionalWeapon::m31() {
     return sead::DynamicCast<Actor>(_840.getProc(nullptr, nullptr));
+}
+
+bool OptionalWeapon::sub_7100EF1B70() {
+    return !_850.hasProc();
+}
+
+bool OptionalWeapon::sub_7100EF1B90() {
+    bool result = false;
+    ksys::act::acc::WeaponBase accessor;
+    ksys::act::acquireActor(&_898._40[1], &accessor);
+    if (accessor.hasParentActor_())
+        result = _898._60 == 0;
+    return result;
 }
 
 void OptionalWeapon::updatePositionMaybe() {
