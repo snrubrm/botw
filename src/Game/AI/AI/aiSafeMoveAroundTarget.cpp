@@ -2,7 +2,6 @@
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
-#include "KingSystem/ActorSystem/actAiInlineParam.h"
 
 namespace uking::ai {
 
@@ -31,12 +30,6 @@ void SafeMoveAroundTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _c8.value = _c8.previous_value =
         sead::GlobalRandom::instance()->getF32Range(f32(base), f32(end));
     sub_71005553EC();
-}
-
-void SafeMoveAroundTarget::sub_71005553EC() {
-    ksys::act::ai::InlineParamPack pack;
-    pack.addVec3(sub_71005556F0(), "TargetPos", -1);
-    changeChild("移動", &pack);
 }
 
 void SafeMoveAroundTarget::leave_() {
