@@ -31,6 +31,8 @@ void PlayerCutTurn::leave_() {
     sub_71005D79AC(mActor, static_cast<ksys::act::Player*>(mActor)->playerWeapons_return0(), act::Unk_71002edaec(1));
 }
 
+// NON_MATCHING: register allocation only (the original keeps `this + 0x20` and the SafeString vtable in the
+// callee-saved registers x20 / x21 because the first getter is not the one with the lowest offset).
 void PlayerCutTurn::loadParams_() {
     getStaticParam(&mAttackRatioNSword_s, "AttackRatioNSword");
     getStaticParam(&mAttackRatioLSword_s, "AttackRatioLSword");

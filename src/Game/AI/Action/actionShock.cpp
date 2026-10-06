@@ -18,6 +18,8 @@ void Shock::leave_() {
     ksys::act::ai::Action::leave_();
 }
 
+// NON_MATCHING: register allocation only (the original keeps `this + 0x20` and the SafeString vtable in the
+// callee-saved registers x20 / x21 because the first getter is not the one with the lowest offset).
 void Shock::loadParams_() {
     getStaticParam(&mHitImpactForce_s, "HitImpactForce");
     getStaticParam(&mVelReduce_s, "VelReduce");
