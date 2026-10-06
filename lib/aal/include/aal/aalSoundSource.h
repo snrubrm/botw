@@ -19,6 +19,7 @@ class AssetInfo;
 class ISpeakerBalanceSupplier;
 class Emitter;
 class MarkerController;
+class SpatialPlayingParam;
 class SoundGroup;
 class SoundSourceUnifierSource;
 
@@ -60,7 +61,9 @@ public:
     u8 mChannelNum[8];
     /// Priority scale in [0, 1] (default 1; the constructor initialises 0xd4..0xe0 to 1).
     f32 mPriority;
-    u8 _d8[0xe0 - 0xd8];
+    f32 _d8;
+    /// Multiplied into the aggregated priority (the constructor and reset set it to 1).
+    f32 mPriorityScale;
     /// Per-track volumes in 1/255 steps (getTrackVolume).
     u8 mTrackVolume[8];
     SoundGroup* mSoundGroup;
@@ -76,7 +79,8 @@ public:
     SpatialSetting mSpatialSetting;
     /// Allocated from the spatial calculator pool when the sound is positioned in space; nullptr if none.
     SpatialCalculator* mSpatialCalculator;
-    u8 _1a8[0x1b0 - 0x1a8];
+    /// Allocated from the spatial playing param pool together with the calculator; nullptr if none.
+    SpatialPlayingParam* mSpatialPlayingParam;
     SoundSourceUnifierSource* mUnifierSource;
     MarkerController* mMarkerController;
     u8 _1c0[0x1e0 - 0x1c0];
@@ -104,6 +108,7 @@ public:
     bool canVirtualize() const;
     const SpatialCalculator::Result* getSpatialCalcResult(s32 index) const;
     f32 getCurrentFadeInOutVolume() const;
+    f32 getAggregatedPriority() const;
     bool setFadeInTime(f32 fade_in_time);
     bool setStartDelayTime(f32 delay_time);
     bool setReleaseCurveType(FadeCurveType type);

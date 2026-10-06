@@ -38,4 +38,13 @@ private:
     Result* mResults;
 };
 
+/// The spatial parameters of a sound that are shared with the playing state. TODO: only the priority factor is
+/// declared.
+class SpatialPlayingParam {
+public:
+    u8 _0[0x18];
+    /// Multiplied into the priority of the sound source.
+    f32 mPriorityFactor;
+};
+
 }  // namespace aal

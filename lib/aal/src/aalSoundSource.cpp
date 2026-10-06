@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalGroup.h"
+#include "aal/aalISpeakerBalanceSupplier.h"
 #include "aal/aalSoundSourceUnifier.h"
 #include "aal/aalSystemAccessor.h"
 
@@ -231,6 +232,16 @@ const SpatialCalculator::Result* SoundSource::getSpatialCalcResult(s32 index) co
 // 0x7100b782f4
 const sead::SafeString& SoundSource::getSoundGroupName() const {
     return mSoundGroup ? mSoundGroup->getObjName() : sead::SafeString::cEmptyString;
+}
+
+// 0x7100b78428
+f32 SoundSource::getAggregatedPriority() const {
+    f32 priority = mPriority * mPriorityScale;
+    if (mSpatialPlayingParam)
+        priority *= mSpatialPlayingParam->mPriorityFactor;
+    else if (mSpeakerBalanceSupplier)
+        priority *= mSpeakerBalanceSupplier->getPriorityReduction();
+    return priority;
 }
 
 // 0x7100b78a60
