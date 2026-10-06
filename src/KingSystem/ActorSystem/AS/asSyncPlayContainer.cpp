@@ -102,8 +102,6 @@ void SyncPlayContainer::m17(Context* ctx, u32 a2, u32 a3, const res::ASResource*
 }
 
 // NON_MATCHING: only the second literal-pool load of FLT_MAX (the checker cannot pair it with the original pool offset)
-// NON_MATCHING: code is identical; only the page offset of the FLT_MAX literal-pool load differs, because the
-// .rodata constant pool shifts when other TUs add string literals (checker compares the raw offset).
 f32 SyncPlayContainer::m18(Context* ctx, bool a2, f32 a3, f32 a4,
                            const res::ASResource* resource) {
     f32 result = sead::MathCalcCommon<f32>::maxNumber();
