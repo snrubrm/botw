@@ -35,8 +35,6 @@ void ShootingStartFlying::loadParams_() {
     getStaticParam(&mGravity_s, "Gravity");
 }
 
-// NON_MATCHING: only the local's destructor call differs: the original calls sead::Projection::~Projection (0xb1d898) directly,
-// i.e. ~PerspectiveProjection() is inline/defaulted in the original sead; lib/sead declares it out of line.
 bool ShootingStartFlying::sub_71002502E8() {
     auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
     if (!camera)
