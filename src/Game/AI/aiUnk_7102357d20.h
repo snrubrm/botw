@@ -438,6 +438,16 @@ public:
     sead::JobQueueLock _28;
 };
 
+// vtable 0x7102372d68 (DamageField::_60, Chemical::makeChmElementMaybe): sends message 0x8000084; the
+// payload is the field type (2 by default). Its functions are in the DamageField TU (0x71000e61a0).
+class Unk_7102372d68 : public Unk_7102357d20 {
+public:
+    using Unk_7102357d20::Unk_7102357d20;
+    void* m2() override { return &_18; }
+
+    s32 _18 = 2;
+};
+
 // vtable 0x71023d31f8 (AddBasicLinkOn, AddDemoCall, EnemyDemoSumonRecgTgt): sends a BaseProcLink
 // (lock-guarded). Functions in the AddBasicLinkOn TU.
 class Unk_71023d31f8 : public Unk_7102357d20 {

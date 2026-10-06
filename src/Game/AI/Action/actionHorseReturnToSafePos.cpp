@@ -1,5 +1,6 @@
 #include "Game/AI/Action/actionHorseReturnToSafePos.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "Game/Actor/actHorse.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
@@ -26,7 +27,13 @@ void HorseReturnToSafePos::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseReturnToSafePos::leave_() {
-    ksys::act::ai::Action::leave_();
+    if (auto* options = mActor->getHorseOptionsMaybe()) {
+        options->_18.sub_7100E770C4(false);
+        options->sub_7100E8BD80();
+        options->Unk_7100e8b2b8::_8 &= ~0x200u;
+    }
+    if (auto* horse = sead::DynamicCast<act::Horse>(mActor))
+        horse->_11a8.resetBit(act::Horse::Flag(act::Horse::Flag::_3));
 }
 
 void HorseReturnToSafePos::loadParams_() {

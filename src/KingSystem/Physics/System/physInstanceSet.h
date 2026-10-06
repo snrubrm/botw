@@ -127,6 +127,8 @@ public:
     // Inline in the original (StoneStickRoot::init_); null if `idx` is out of range.
     ContactPointInfo* getContactPointInfoAt(s32 idx) const { return mContactPointInfo[idx]; }
     s32 findCollisionInfo(const sead::SafeString& name) const;
+    // Inline in the original (DamageField::calc_); null if `idx` is out of range.
+    CollisionInfo* getCollisionInfoAt(s32 idx) const { return mCollisionInfo[idx]; }
     // 0x7100fbc838 (declaration only): selects ragdoll controller `idx` (clamped; resets the previous
     // one, stored in _112).
     void sub_7100FBC838(s32 idx);

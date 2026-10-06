@@ -60,7 +60,7 @@ public:
     /* 0x1198 */ u32 _1198 = 0;
     /* 0x11a0 */ void* _11a0 = nullptr;
     // Placeholder (bits of _11a8; callers convert through the stack like a SEAD_ENUM).
-    SEAD_ENUM(Flag, _0)
+    SEAD_ENUM(Flag, _0, _1, _2, _3)
     /* 0x11a8 */ sead::BitFlag8 _11a8;  // bit 0: _1170 is registered as a damage callback
     /* 0x11a9 */ s8 _11a9 = 0;  // escape count (NushiEscapeSelector)
 };
