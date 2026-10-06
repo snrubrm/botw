@@ -59,7 +59,7 @@ public:
         ArchiveLink, nn::util::IntrusiveListMemberNodeTraits<ArchiveLink, &ArchiveLink::node>>;
     /* 0x28 */ ArchiveList mArchives;
     // The list of the texture links (0x38; the element type, a ResourceTextureInfo holder, is not modelled).
-    u8 _38[0x10];
+    /* 0x38 */ nn::util::IntrusiveListNode _38;
 };
 static_assert(sizeof(MultiArcResourceAccessor) == 0x48);
 
