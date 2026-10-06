@@ -390,6 +390,9 @@ public:
     bool sub_7100EE1E94();
     // CSV name Actor::x_40 (0x7100ee1d48, 332 bytes; StrangeBeacon::calc_ tests its result before emitting an effect).
     bool x_40();
+    // 0x71011db364 (declared only; unnamed in the CSV): swaps `body` in as the main body (mMainBody, atomic exchange)
+    // if it belongs to this actor's physics; returns the previous main body, or null.
+    phys::RigidBody* sub_71011DB364(phys::RigidBody* body);
     // Placeholder-named pieces of Actor::onJobPush2_ that NoCalcActor::onJobPush2_ calls one by one (declarations
     // only; lane4 s28): CSV Actor::deleteIfPlacementStuff (0x71011ccc68), Actor::decrementSkipJobPushTimer
     // (0x71011cddb8), Actor::x_14 (0x71011c99dc), Actor::x_16 (0x71011ce034) and

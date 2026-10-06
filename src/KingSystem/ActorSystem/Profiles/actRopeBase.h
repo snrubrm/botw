@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physDefines.h"
 
 namespace ksys::phys {
 class RigidBody;

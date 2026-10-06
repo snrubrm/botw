@@ -25,7 +25,7 @@ protected:
     // dynamic_param at offset 0x88
     sead::Vector3f* mTargetPos_d{};
     ksys::VFRValue _90;
-    u8 _9c[0x24];
+    sead::Matrix33f _9c;
     ksys::VFRValue _c0;
     u8 _cc[0x4];
 };

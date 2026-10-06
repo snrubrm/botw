@@ -2,6 +2,7 @@
 
 #include "Game/AI/Action/actionBalloonBase.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/System/Timer.h"
 
 namespace uking::action {
 
@@ -22,6 +23,7 @@ protected:
     void calc_() override;
     float m33() override;
     f32 m34(f32 current, f32 target, f32 step) override;
+    void m35(ksys::phys::RigidBody* a, ksys::phys::RigidBody* b, ksys::act::RopeBase* rope) override;
 
     // static_param at offset 0xf0
     const float* mConnectReleaseTimer_s{};
@@ -35,8 +37,7 @@ protected:
     sead::Vector3f* mConnectRigidOffset_d{};
     // dynamic_param at offset 0x120
     ksys::act::BaseProcHandle** mRopeActorHandle_d{};
-    /* 0x128 */ void* _128 = nullptr;
-    /* 0x130 */ u32 _130 = 0;
+    /* 0x128 */ ksys::Timer _128;
 };
 KSYS_CHECK_SIZE_NX150(OctarockBalloonBase, 0x138);
 

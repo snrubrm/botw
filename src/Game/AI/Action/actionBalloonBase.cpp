@@ -80,7 +80,7 @@ void BalloonBase::leave_() {
         *mIsFlyingBalloon_a = false;
 }
 
-int BalloonBase::m32() {
+bool BalloonBase::m32() {
     const auto* life = mActor->getLife();
     if (life && *life < 1)
         return true;
@@ -90,6 +90,15 @@ int BalloonBase::m32() {
     if (limit > 0.0f && mActor->getMtx().m[1][3] >= limit)
         return true;
     return false;
+}
+
+// NON_MATCHING: the original builds the result from three separately computed member addresses (+4 / +8) in both
+// arms of the select and loads z, y, x in that order.
+sead::Vector3f BalloonBase::sub_71000B7980() {
+    const sead::Vector3f* vec = &sead::Vector3f::zero;
+    if (auto* chemical = mActor->getChemicalStuff())
+        vec = (chemical->_c & 0x1000000) ? &sead::Vector3f::zero : &chemical->_d8;
+    return *vec;
 }
 
 // NON_MATCHING: the original loads _b0 before the vector component (pre-indexed load)

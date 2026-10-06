@@ -4,6 +4,14 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
+namespace ksys::phys {
+class RigidBody;
+}
+
+namespace ksys::act {
+class RopeBase;
+}
+
 namespace uking::action {
 
 class BalloonBase : public ksys::act::ai::Action {
@@ -19,16 +27,18 @@ public:
 
 protected:
     void calc_() override;
-    virtual int m32();
+    virtual bool m32();
     virtual float m33();
     virtual f32 m34(f32 current, f32 target, f32 step);
     // inline in the original (emitted out of line in this TU); signature is a guess
-    virtual void m35() {}
+    virtual void m35(ksys::phys::RigidBody* a, ksys::phys::RigidBody* b, ksys::act::RopeBase* rope) {}
 
     // Placeholder names (out-of-line copies of helpers that leave_ / calc_ inline).
     // 0x71000b8054: cuts the rope hung from the balloon, tells the hung actor it is released and clears
     // the hung actor id.
     void sub_71000B8054();
+    // 0x71000b7980: the chemical (wind) vector of the actor, or zero (the vector part of m33, out of line).
+    sead::Vector3f sub_71000B7980();
     // 0x71000b7f94: messages 0x3000011 to the rope actor unless the actor is held or its LOD flag is set.
     void sub_71000B7F94();
     // 0x71000b89dc: whether the actor is at or above the (remains) height limit.

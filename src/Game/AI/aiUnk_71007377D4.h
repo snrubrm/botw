@@ -360,3 +360,11 @@ inline sead::Vector3f getReverseDirOrUp(const sead::Vector3f& velocity) {
         dir = sead::Vector3f::ey;
     return dir;
 }
+
+namespace ksys::phys {
+class RigidBody;
+}
+
+// 0x7100ee5fe4 (declaration only; unnamed in the CSV): the first rigid body of the first chemical entry of the actor
+// that has a body (OctarockBalloon::sub_710020ECB0 / enter_ link it with the swapped body).
+ksys::phys::RigidBody* sub_7100EE5FE4(ksys::act::Actor* actor);
