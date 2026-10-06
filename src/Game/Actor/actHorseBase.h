@@ -114,8 +114,16 @@ public:
 
     // Placeholder names (non-virtual functions called by AI code, the horse manager and Horse).
     void sub_7100E6C464(s32 id);
-    // 0x7100e6c12c (unnamed in the CSV; declaration only): called by sub_7100E6C360.
+    // 0x7100e6c12c (unnamed in the CSV): registers `id` in `_b68` (or in the parent horse); false if it is already
+    // registered or there is no free slot.
     bool sub_7100E6C12C(s32 id);
+    // 0x7100e6e254 / 0x7100e6e518 / 0x7100e6e7dc (unnamed in the CSV; lane4 s44): under the lock `_890`, set the name
+    // `_8d0._40` / `_f0` / `_148` (when it changes) and request the actor of that name into the handle `_8d0._0` / `_20` /
+    // `_30` (sub_7100E682C0, declared only).
+    void sub_7100E6E254(const sead::SafeString& name, sead::Heap* heap);
+    void sub_7100E6E518(const sead::SafeString& name, sead::Heap* heap);
+    void sub_7100E6E7DC(const sead::SafeString& name, sead::Heap* heap);
+    void sub_7100E682C0(const sead::SafeString& name, sead::Heap* heap, ksys::act::BaseProcHandle* handle);
     bool sub_7100E68270() const;
     // The horse's Nature GParam as a placeholder SEAD_ENUM (RideableHorse converts it through the stack).
     SEAD_ENUM(Nature, _0, _1, _2)
@@ -242,6 +250,10 @@ bool sub_7100E6F010(const ksys::act::ActorConstDataAccess& accessor);
 // 0x7100e6c360: HorseBase::sub_7100E6C12C(id) (false without a horse). 0x7100e6c5a4: HorseBase::sub_7100E6C464(id).
 bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id);
 void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id);
+// 0x7100e6e140 / 0x7100e6e404 / 0x7100e6e6c8: HorseBase::sub_7100E6E254 / E518 / E7DC.
+void sub_7100E6E140(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
+void sub_7100E6E404(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
+void sub_7100E6E6C8(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name, sead::Heap* heap);
 // 0x7100e6edfc: `_c00` (the empty string without a horse). 0x7100e6ef00: `_8d0._40` read under the lock `_890`.
 const sead::SafeString& sub_7100E6EDFC(const ksys::act::ActorConstDataAccess& accessor);
 const sead::SafeString& sub_7100E6EF00(const ksys::act::ActorConstDataAccess& accessor);

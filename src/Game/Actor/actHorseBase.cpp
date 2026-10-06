@@ -6,6 +6,8 @@
 #include "Game/Actor/actRideable.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -61,6 +63,41 @@ void HorseBase::sub_7100E6C464(s32 id) {
         ksys::act::ActorConstDataAccess accessor;
         if (ksys::act::acquireActor(&_b30, &accessor))
             sub_7100E6C5A4(accessor, id);
+    }
+}
+
+void HorseBase::sub_7100E682C0(const sead::SafeString& name, sead::Heap* heap,
+                               ksys::act::BaseProcHandle* handle) {
+    ksys::act::InstParamPack params;
+    params->addPosition(getMtx().getTranslation());
+    if (handle->isAllocatedOrFailed())
+        handle->deleteProc();
+    ksys::act::ActorCreator::instance()->requestCreateActor(name.cstr(), heap, handle, &params,
+                                                            nullptr, 1);
+    _b70.setBitOn(2);
+}
+
+void HorseBase::sub_7100E6E254(const sead::SafeString& name, sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(_890);
+    if (!(_8d0._40 == name)) {
+        _8d0._40.copy(name);
+        sub_7100E682C0(name, heap, &_8d0._0);
+    }
+}
+
+void HorseBase::sub_7100E6E518(const sead::SafeString& name, sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(_890);
+    if (!(_8d0._f0 == name)) {
+        _8d0._f0.copy(name);
+        sub_7100E682C0(name, heap, &_8d0._20);
+    }
+}
+
+void HorseBase::sub_7100E6E7DC(const sead::SafeString& name, sead::Heap* heap) {
+    auto lock = sead::makeScopedLock(_890);
+    if (!(_8d0._148 == name)) {
+        _8d0._148.copy(name);
+        sub_7100E682C0(name, heap, &_8d0._30);
     }
 }
 
@@ -462,6 +499,24 @@ bool sub_7100E6DC50(const ksys::act::ActorConstDataAccess& accessor) {
 bool sub_7100E6C360(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
     auto* horse = getHorseBase(accessor);
     return horse ? horse->sub_7100E6C12C(id) : false;
+}
+
+void sub_7100E6E140(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+                    sead::Heap* heap) {
+    if (auto* horse = getHorseBase(accessor))
+        horse->sub_7100E6E254(name, heap);
+}
+
+void sub_7100E6E404(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+                    sead::Heap* heap) {
+    if (auto* horse = getHorseBase(accessor))
+        horse->sub_7100E6E518(name, heap);
+}
+
+void sub_7100E6E6C8(const ksys::act::ActorConstDataAccess& accessor, const sead::SafeString& name,
+                    sead::Heap* heap) {
+    if (auto* horse = getHorseBase(accessor))
+        horse->sub_7100E6E7DC(name, heap);
 }
 
 void sub_7100E6C5A4(const ksys::act::ActorConstDataAccess& accessor, s32 id) {
