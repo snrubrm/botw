@@ -122,10 +122,9 @@ void SoundSource::kill() {
 
 inline void SoundSource::freeUnifierSource_() {
     if (mUnifierSource) {
-        if (auto* unifier = SystemAccessor::getSoundSourceUnifier()) {
+        if (auto* unifier = SystemAccessor::getSoundSourceUnifier())
             unifier->freeSource(mUnifierSource, -1.0f);
-            mUnifierSource = nullptr;
-        }
+        mUnifierSource = nullptr;
     }
 }
 
@@ -141,7 +140,7 @@ inline void SoundSource::finishNow_() {
     mState = 7;
 }
 
-// 0x7100b777dc: NON_MATCHING (the load of mUnifierSource is scheduled before the frame pointer setup)
+// 0x7100b777dc
 void SoundSource::stopForce() {
     freeUnifierSource_();
     finishNow_();
@@ -171,7 +170,7 @@ bool SoundSource::setReleaseTime(f32 release_time) {
     return false;
 }
 
-// 0x7100b778b8: NON_MATCHING (same scheduling difference as stopForce)
+// 0x7100b778b8
 void SoundSource::detachSoundGroup() {
     if (mSoundGroup)
         mSoundGroup->removeSound(this);
