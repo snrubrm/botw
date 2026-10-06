@@ -11,18 +11,18 @@ bool SetRequestAttention::init_(sead::Heap* heap) {
     return ksys::act::ai::Action::init_(heap);
 }
 
-// NON_MATCHING: the original loads mActor before the two bool params (scheduling)
 void SetRequestAttention::enter_(ksys::act::ai::InlineParamPack* params) {
+    auto* actor = mActor;
     if (*mIsOn_s) {
         if (*mIsAll_s)
-            ksys::act::enableAllAttClients(mActor);
+            ksys::act::enableAllAttClients(actor);
         else
-            ksys::act::enableAttClient(mActor, mAttName_s);
+            ksys::act::enableAttClient(actor, mAttName_s);
     } else {
         if (*mIsAll_s)
-            ksys::act::disableAllAttClients(mActor);
+            ksys::act::disableAllAttClients(actor);
         else
-            ksys::act::disableAttClient(mActor, mAttName_s);
+            ksys::act::disableAttClient(actor, mAttName_s);
     }
     setFinished();
 }

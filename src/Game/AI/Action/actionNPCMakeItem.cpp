@@ -23,8 +23,7 @@ void NPCMakeItem::enter_(ksys::act::ai::InlineParamPack* params) {
     if (ui::UI::instance() && ui::UI::instance()->sub_71010A5888())
         ui::UI::instance()->sub_71010A6B98(nullptr);
     if (auto* npc = sead::DynamicCast<act::NPC>(mActor)) {
-        const bool include_porch = *mIncludePorch_d;
-        if (include_porch)
+        if (*mIncludePorch_d)
             _30 = npc->_f88.sub_710091D6D8(mActor->getParam()->getRes().mShopData,
                                            sShopTypeNames[*mShopType_d], false, false);
         else

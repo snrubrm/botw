@@ -13,11 +13,14 @@ bool ReserveParashawlStart::init_(sead::Heap* heap) {
 
 void ReserveParashawlStart::loadParams_() {}
 
-// NON_MATCHING: the original negates the result after the accessor's destructor call
 bool ReserveParashawlStart::oneShot_() {
-    ksys::act::acc::PlayerBase player;
-    player.getPlayerFromPlayerInfo();
-    return !player.reserveParashawlStart();
+    bool reserved;
+    {
+        ksys::act::acc::PlayerBase player;
+        player.getPlayerFromPlayerInfo();
+        reserved = player.reserveParashawlStart();
+    }
+    return !reserved;
 }
 
 }  // namespace uking::action
