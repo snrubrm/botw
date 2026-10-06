@@ -1,5 +1,7 @@
 #pragma once
 
+#include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "Game/AI/AI/aiEnemyRoot.h"
 #include "Game/AI/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
@@ -35,6 +37,9 @@ public:
     Unk_7102450fa8* sub_7100506A40();
 
 protected:
+    // Bit indices of _228 (a SEAD_ENUM in the original: the index goes through a stack round trip).
+    SEAD_ENUM(Flag, _0, _1, _2, _3)
+
     void sub_7100506DB0();
 
     // static_param at offset 0x1d8
@@ -43,7 +48,7 @@ protected:
     void* mPriestBossMetaAIUnit_a{};
     u32 _1e8 = 4;
     Unk_7102411178 _1f0{mActor, 0x80000dc};
-    u32 _228 = 0;
+    sead::BitFlag32 _228;
     bool _22c = false;
 };
 KSYS_CHECK_SIZE_NX150(PriestBossActorEnemyRoot, 0x230);

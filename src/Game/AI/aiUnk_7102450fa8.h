@@ -5,6 +5,7 @@
 #include <container/seadSafeArray.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
+#include <thread/seadAtomic.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
@@ -130,7 +131,7 @@ public:
     /* 0x258 */ Unk_7102450918 _258;
     /* 0x2b0 */ sead::FixedSafeString<128> _2b0;
     /* 0x348 */ s32 _348;  // PriestBossPhaseThird::enter_: BreakIronBallCount
-    /* 0x34c */ u32 _34c;
+    /* 0x34c */ sead::Atomic<u32> _34c;
     /* 0x350 */ ksys::Timer _350;
     /* 0x35c */ ksys::Timer _35c;  // PriestBossIronBall::sub_710051EE40: ChangeEndAnime
     /* 0x368 */ Unk_71024508b8 _368;

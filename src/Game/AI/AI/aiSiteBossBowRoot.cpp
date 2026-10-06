@@ -1,11 +1,27 @@
 #include "Game/AI/AI/aiSiteBossBowRoot.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAiRoot.h"
 
 void sub_71002C65C8(ksys::act::Actor* actor, bool a1, bool a2);
 
 namespace uking::ai {
+
+static const char* const sUnitNames[] = {"Unit_A", "Unit_B", "Unit_C", "Unit_D"};
+
+void SiteBossBowRoot::sub_7100576744(s32 index) {
+    sead::SafeString name = u32(index) < 4 ? sUnitNames[index] : "";
+    if (auto* boss = sead::DynamicCast<act::SiteBoss>(mActor)) {
+        if (boss->getActorPartsActor(name).hasProc()) {
+            ksys::act::ActorConstDataAccess accessor;
+            ksys::act::acquireActor(&boss->getActorPartsActor(name), &accessor);
+            if (accessor.isStateSleep())
+                accessor.wakeUp(ksys::act::BaseProc::SleepWakeReason::_0);
+        }
+    }
+}
 
 SiteBossBowRoot::SiteBossBowRoot(const InitArg& arg) : SiteBossRoot(arg) {}
 

@@ -104,15 +104,25 @@ void PriestBossActorEnemyRoot::m49() {
     }
 }
 
-// NON_MATCHING: direct bit operations omit the original enum conversion and temporary storage.
+void PriestBossActorEnemyRoot::sub_7100506DB0() {
+    if (!sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a)))
+        return;
+    auto* unit =
+        sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    _1e8 = unit->_3c;
+    _228.resetBit(Flag(Flag::_1));
+}
+
+// NON_MATCHING: the three SEAD_ENUM bit-index round trips use separate stack slots here; the original shares one slot
+// (frame 0x30 instead of 0x40)
 void PriestBossActorEnemyRoot::m50() {
     auto* as_list = mActor->getASList();
     if (!as_list->x_1(0, 0).isEmpty() &&
         as_list->sub_710115AD68(as_list->x_1(0, 0))) {
-        _228 |= 0x8;
+        _228.setBit(Flag(Flag::_3));
         as_list->sub_710115F4A0(false, 1, 0, &ksys::as::ASList::Unk2::sub_7100507A64);
-    } else if (_228 & 0x8) {
-        _228 &= ~0x8u;
+    } else if (_228.isOnBit(Flag(Flag::_3))) {
+        _228.resetBit(Flag(Flag::_3));
         as_list->sub_710115F4A0(true, 1, 0, &ksys::as::ASList::Unk2::sub_7100507A64);
         as_list->startAnimationMaybe(-1.0f, -1.0f, "VeilMatAnime", 1, 0, true);
     }

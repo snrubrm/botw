@@ -99,6 +99,19 @@ bool PriestBossGiantEnemyRoot::init_(sead::Heap* heap) {
     return true;
 }
 
+void PriestBossGiantEnemyRoot::sub_710051AD38(s32 x) {
+    auto* unit = sead::DynamicCast<Unk_7102450fa8>(*static_cast<Unk_71025afb58**>(mPriestBossMetaAIUnit_a));
+    if (!unit)
+        return;
+    const s32* life = mActor->getLife();
+    const s32 current = life ? *life : 1;
+    const f32 ratio = f32(current - x) / f32(mActor->getMaxLife());
+    if (!(ratio <= 0.5f))
+        unit->_34c.increment();
+    else
+        unit->_34c = unit->_348;
+}
+
 void PriestBossGiantEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorEnemyRoot::enter_(params);
     if (!_2e8.mDamageManager)
