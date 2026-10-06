@@ -16,6 +16,9 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x71005e4698: the angle between the camera look direction and the direction from the camera to the actor
+    // (both flattened) is below AllwaysOnCamDir degrees
+    bool sub_71005E4698();
     // map_unit_param at offset 0x38
     const float* mAllwaysOnDisFromPlayer_m{};
     // map_unit_param at offset 0x40

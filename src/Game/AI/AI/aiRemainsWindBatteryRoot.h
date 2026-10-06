@@ -18,6 +18,11 @@ public:
     void loadParams_() override;
 
 protected:
+    // 0x710054ea4c: with `damage_state` > 0 starts the "MaterialDamage" animation, otherwise calls sub_710054EB78 once the
+    // animation has finished (or is not playing)
+    void sub_710054EA4C(s32 damage_state);
+    // 0x710054eb78 (declaration only, 308 bytes)
+    void sub_710054EB78();
     u32 _38 = 3;
     u32 _3c = 0;
     bool _40 = true;

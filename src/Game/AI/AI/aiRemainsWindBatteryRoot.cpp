@@ -40,4 +40,23 @@ void RemainsWindBatteryRoot::leave_() {
 
 void RemainsWindBatteryRoot::loadParams_() {}
 
+// NON_MATCHING: the original branches on `damage_state > 0` and then on the x_4 result; ours folds the two into
+// one cset + tbz
+// 0x710054ea4c
+void RemainsWindBatteryRoot::sub_710054EA4C(s32 damage_state) {
+    auto* as_list = mActor->getASList();
+    if (damage_state > 0)
+        as_list->startAnimationMaybe(-1.0f, -1.0f, "MaterialDamage", 0, 1, true);
+    if (as_list->x_1(0, 1) == "MaterialDamage") {
+        const bool finished = as_list->x_4(0, 1);
+        if (damage_state > 0)
+            return;
+        if (!finished)
+            return;
+    } else if (damage_state > 0) {
+        return;
+    }
+    sub_710054EB78();
+}
+
 }  // namespace uking::ai
