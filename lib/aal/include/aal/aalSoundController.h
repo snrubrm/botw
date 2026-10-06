@@ -52,7 +52,7 @@ public:
     void setLpf(f32 lpf);
     bool isInnerPaused() const;
 
-    /// 0x7100ba1d1c: static, the output line is a bit mask and bit 0 is the main (TV) output
+    /// 0x7100ba228c: static; the output line is a bit mask and bit 0 is the main (TV) output
     static bool checkDeviceEnabledOnOutputLine(DeviceType device, u32 output_line);
 
     u8 _0[8];
