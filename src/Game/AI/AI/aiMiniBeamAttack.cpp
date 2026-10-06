@@ -56,6 +56,7 @@ void MiniBeamAttack::sub_710042CFA4(const sead::Vector3f& target) {
     query.sub_710090D8A4();
     query.setStart(start);
     query.setEnd(end);
+    // called through a pointer in the original (not devirtualised)
     if ((&query)->worldRayCast()) {
         query.getHitPosition(&end);
         end -= sead::Vector3f::ey * *mTargetOffsetY_s;

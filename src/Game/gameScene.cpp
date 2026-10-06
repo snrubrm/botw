@@ -215,11 +215,13 @@ bool GameScene::m4() {
     sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade))->isClosed();
     if (!_6e7) {
         _1d0.getState()->getId();
+        // called through a pointer in the original (not devirtualised)
         (&sUnk_71025cb150)->getId();
     }
     someEventMgrCheck();
     if (!_2a8 && _8.isEmpty() && _6e0 == 0 && PlayerResetPosMgr::instance()->isNotResetting()) {
         if (sead::DynamicCast<ui::Fade>(eui::ScreenMgr::instance()->getScreen(ui::ScreenId::Fade))->isClosed()) {
+            // called through a pointer in the original (not devirtualised)
             if (!_6e7 && _1d0.getState()->getId() != (&sUnk_71025cb150)->getId())
                 return false;
             if (!someEventMgrCheck())
@@ -387,6 +389,7 @@ bool GameScene::sub_71007B4C00() const {
 }
 
 bool GameScene::sub_71007B0D3C() const {
+    // called through a pointer in the original (not devirtualised)
     return _1d0.getState()->getId() == (&sUnk_71025cb150)->getId();
 }
 

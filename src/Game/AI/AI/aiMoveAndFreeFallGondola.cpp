@@ -26,6 +26,7 @@ void MoveAndFreeFallGondola::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void MoveAndFreeFallGondola::calc_() {
     RailMove::calc_();
+    // called through a pointer in the original (not devirtualised)
     if (!isCurrentChild("停止") && (&_40)->m3()) {
         _c0.sub_710070DC38(sead::DynamicCast<ksys::act::Actor>(_b0.getProc(nullptr, nullptr)), false);
         changeChild("停止");
