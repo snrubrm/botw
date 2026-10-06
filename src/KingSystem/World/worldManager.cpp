@@ -5,6 +5,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <mc/seadWorkerMgr.h>
 #include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtManager.h"
@@ -945,6 +946,53 @@ bool Manager::auto7() const {
 
 void Manager::allowPaletteOverride() {
     getEnvMgr()->allowPaletteOverride();
+}
+
+// NON_MATCHING: the original tests the stage type 5, 4, then 2 (ours sorts the cases as 2, 5, 4)
+void Manager::updateGraphicsMap(StageType type) {
+    switch (type) {
+    case StageType::Viewer:
+        Graphics::instance()->sub_7100F2AF70(5);
+        break;
+    case StageType::MainFieldDungeon:
+        if (mInFinalTrialBossBattleArea)
+            Graphics::instance()->sub_7100F2AF70(6);
+        else if (mRemainsType == RemainsType::FinalTrial)
+            Graphics::instance()->sub_7100F2AF70(7);
+        else
+            Graphics::instance()->sub_7100F2AF70(3);
+        break;
+    case StageType::Indoor:
+        Graphics::instance()->sub_7100F2AF70(2);
+        break;
+    default:
+        if (mFieldType == FieldType::AocField)
+            Graphics::instance()->sub_7100F2AF70(1);
+        else
+            Graphics::instance()->sub_7100F2AF70(0);
+        break;
+    }
+}
+
+WeatherType Manager::sub_71010F3374() const {
+    return someWeatherStuff_0(mCurrentClimate);
+}
+
+u8 Manager::sub_71010F3308() const {
+    switch (_798) {
+    case 0:
+        return 7;
+    case 1:
+        return 0;
+    case 2:
+        return 5;
+    default:
+        return 0;
+    }
+}
+
+void* Manager::getChemicalMgrFieldAE8() const {
+    return static_cast<ChemicalMgr*>(mMgrs.unsafeAt(8))->_ae8;
 }
 
 void* Manager::getElementHolderMaybe() const {

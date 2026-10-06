@@ -26,6 +26,10 @@ public:
     // 0x7100f2ddf0: declaration only; selects a lens-flare preset, negative disables it.
     void sub_7100F2DDF0(s32 preset);
 
+    // 0x7100f2af70 (placeholder name; CSV Graphics::__auto0; declaration only): stores the map kind (byte at +0xf59) under
+    // the lock at +0xf18.
+    void sub_7100F2AF70(u8 map);
+
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     Unk_a98* getUnk_a98() const { return _a98; }
 

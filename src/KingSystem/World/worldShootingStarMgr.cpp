@@ -21,6 +21,10 @@ static struct {
 
 static sead::Vector3f sStarProperty{};
 
+const sead::Vector3f& ShootingStarMgr::getStarProperty() {
+    return sStarProperty;
+}
+
 ShootingStarMgr::ShootingStarMgr() = default;
 
 ShootingStarMgr::~ShootingStarMgr() = default;
@@ -171,6 +175,10 @@ void ShootingStarMgr::setStarPosition(f32 x, f32 y, f32 z) {
     if (gdt::Manager::instance()) {
         gdt::Manager::instance()->setVec3f(pos, "ShootingStarPosition");
     }
+}
+
+void ShootingStarMgr::resetStarProperty() {
+    sStarProperty.set(sead::Vector3f::zero);
 }
 
 void ShootingStarMgr::setScheduled(bool enable) {

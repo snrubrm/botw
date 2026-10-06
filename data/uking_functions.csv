@@ -82019,7 +82019,7 @@ Address,Quality,Size,Name
 0x0000007100f2a754,U,001332,Graphics::ctor
 0x0000007100f2ac88,U,000204,
 0x0000007100f2ad54,U,000540,
-0x0000007100f2af70,U,000060,Graphics::__auto0
+0x0000007100f2af70,U,000060,_ZN8Graphics14sub_7100F2AF70Eh
 0x0000007100f2afac,U,000060,Graphics::__auto9
 0x0000007100f2afe8,U,000060,Graphics::__auto14
 0x0000007100f2b024,U,000060,Graphics::x
@@ -89872,7 +89872,7 @@ Address,Quality,Size,Name
 0x00000071010dcb24,O,000500,_ZN4ksys5world6EnvMgr10EnvPalette5CloudC2Ev
 0x00000071010dcd18,O,000276,_ZN4ksys5world6EnvMgr7RemainsC2Ev
 0x00000071010dce2c,U,000012,
-0x00000071010dce38,U,000012,
+0x00000071010dce38,O,000012,_ZN4ksys5world15ShootingStarMgr15getStarPropertyEv
 0x00000071010dce44,O,000060,_ZN4ksys5world15ShootingStarMgrC1Ev
 0x00000071010dce80,O,000004,_ZN4ksys5world15ShootingStarMgrD1Ev
 0x00000071010dce84,O,000036,_ZN4ksys5world15ShootingStarMgrD0Ev
@@ -89887,7 +89887,7 @@ Address,Quality,Size,Name
 0x00000071010dd794,O,000160,_ZN4ksys5world15ShootingStarMgr19isStarPositionValidEv
 0x00000071010dd834,O,000108,_ZNK4ksys5world15ShootingStarMgr18tryGetStarPositionEPN4sead7Vector3IfEE
 0x00000071010dd8a0,O,000088,_ZN4ksys5world15ShootingStarMgr15setStarPositionEfff
-0x00000071010dd8f8,U,000036,
+0x00000071010dd8f8,O,000036,_ZN4ksys5world15ShootingStarMgr17resetStarPropertyEv
 0x00000071010dd91c,O,016892,_ZN4ksys5world6SkyMgrC1Ev
 0x00000071010e1b18,O,000196,_ZN4sead9SafeArrayIN4ksys5world6SkyMgr10SkyPaletteELi8EEC2Ev
 0x00000071010e1bdc,m,000676,_ZN4ksys5world6SkyMgr5resetEv
@@ -90132,10 +90132,10 @@ Address,Quality,Size,Name
 0x00000071010f2f2c,O,000008,_ZNK4ksys5world7Manager14getPrevClimateEv
 0x00000071010f2f34,O,000008,_ZNK4ksys5world7Manager28getClimateTransitionProgressEv
 0x00000071010f2f3c,U,000972,_ZNK4ksys5world7Manager18someWeatherStuff_0ENS0_7ClimateE
-0x00000071010f3308,U,000044,WorldMgr::x_14
+0x00000071010f3308,O,000044,_ZNK4ksys5world7Manager14sub_71010F3308Ev
 0x00000071010f3334,O,000032,_ZNK4ksys5world7Manager16isDayLockBlueSkyENS0_7ClimateE
 0x00000071010f3354,O,000032,_ZNK4ksys5world7Manager18isNightLockBlueSkyENS0_7ClimateE
-0x00000071010f3374,U,000008,WorldMgr::__auto13
+0x00000071010f3374,O,000008,_ZNK4ksys5world7Manager14sub_71010F3374Ev
 0x00000071010f337c,O,000040,_ZN4ksys5world7Manager14sub_71010F337CERKN4sead7Vector3IfEE
 0x00000071010f33a4,O,000084,_ZNK4ksys5world7Manager9isRainingERKN4sead7Vector3IfEE
 0x00000071010f33f8,O,000452,_ZNK4ksys5world7Manager11calcTempDayEf
@@ -90160,7 +90160,7 @@ Address,Quality,Size,Name
 0x00000071010f4454,O,000148,_ZN4ksys5world7Manager16loadWorldInfoResEv
 0x00000071010f44e8,O,008668,_ZN4ksys5world7Manager11onStageInitENS_9StageTypeEbb
 0x00000071010f66c4,O,000268,_ZN4ksys5world7Manager17updateRemainsTypeEv
-0x00000071010f67d0,U,000164,WorldMgr::updateGraphicsMap
+0x00000071010f67d0,m,000164,_ZN4ksys5world7Manager17updateGraphicsMapENS_9StageTypeE
 0x00000071010f6874,O,000680,_ZN4ksys5world7ManagerD1Ev
 0x00000071010f6b1c,O,000116,_ZN4ksys5world10DungeonEnvD2Ev
 0x00000071010f6b90,O,000076,_ZN4ksys5world9WorldInfoD2Ev
@@ -90186,7 +90186,7 @@ Address,Quality,Size,Name
 0x00000071010f7904,U,000044,WorldMgr::__auto0
 0x00000071010f7930,O,000016,_ZNK4ksys5world7Manager21getElementHolderMaybeEv
 0x00000071010f7940,U,000032,WorldMgr::__auto1
-0x00000071010f7960,U,000016,WorldMgr::getChemicalMgrFieldAE8
+0x00000071010f7960,O,000016,_ZNK4ksys5world7Manager22getChemicalMgrFieldAE8Ev
 0x00000071010f7970,U,000264,WorldMgr::calcEntryJob
 0x00000071010f7a78,U,000032,WorldMgr::x
 0x00000071010f7a98,O,000028,_ZN4ksys5world7Manager10changeWindEibf

@@ -231,6 +231,12 @@ public:
     void allowPaletteOverride();
     // 0x00000071010f2f3c
     WeatherType someWeatherStuff_0(Climate climate) const;
+    // 0x71010f3374 (placeholder name): someWeatherStuff_0(mCurrentClimate).
+    WeatherType sub_71010F3374() const;
+    // 0x71010f3308 (placeholder name): maps `_798` (0 / 1 / 2) to 7 / 0 / 5 (0 otherwise).
+    u8 sub_71010F3308() const;
+    // 0x71010f7960 (CSV WorldMgr::getChemicalMgrFieldAE8): same body as getElementHolderMaybe.
+    void* getChemicalMgrFieldAE8() const;
 
 private:
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).

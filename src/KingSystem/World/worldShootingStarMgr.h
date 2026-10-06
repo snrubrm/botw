@@ -19,6 +19,9 @@ public:
     virtual void spawnStar();
 
     static void setScheduled(bool enable);
+    // 0x71010dce38 (placeholder name; called by ShootingStartFlying::calc_): `sStarProperty`. (0x71010dce2c, the getter of
+    // the byte at 0x71026200e8 right before it, needs that file-local flag's writer.)
+    static const sead::Vector3f& getStarProperty();
     void initSchedule();
     static bool isScheduledTime();
 
