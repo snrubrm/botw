@@ -102,6 +102,13 @@ public:
     void sub_71010BFE64();
     void changeState(const StateBase* state);
 
+    // Inline-only in the original (name is a guess): the UI screens' m93 overrides enter their first state with
+    // the second half of changeState, without the pending / previous state handling.
+    void startState(const StateBase* state) {
+        mCurrent = _0->setState(state);
+        mCurrent->enter();
+    }
+
 private:
     friend class ::uking::StateMachineWrapper;
 

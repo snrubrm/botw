@@ -12,6 +12,12 @@ namespace eui {
 class Animator;
 }
 
+namespace eui {
+class Animator;
+class LayoutEx;
+class TextBoxEx;
+}  // namespace eui
+
 namespace uking::ui {
 
 class Unk_7102474b38 {
@@ -25,8 +31,22 @@ public:
     Unk_7102474b78();
     virtual ~Unk_7102474b78();
 
-    u8 _8[0x35 - 0x8]{};
-    u8 _35[8]{};
+    // 0x71009331c (declared only; sets up the 'T_RupeeGhost_00' / 'GhostIn' / 'PlusMinus' members from the counter's
+    // parts layout and its text box)
+    void sub_71009331C(eui::LayoutEx* layout, eui::TextBoxEx* text);
+
+    // 0x71009333a4 / 0x71009333c4 (placeholder names): store the 'Flash' animator / a counter value
+    void set30(eui::Animator* animator);
+    void set38(s32 value);
+
+    /* 0x08 */ eui::LayoutEx* _8{};
+    /* 0x10 */ eui::TextBoxEx* _10{};
+    /* 0x18 */ eui::TextBoxEx* _18{};
+    /* 0x20 */ eui::Animator* _20{};
+    /* 0x28 */ eui::Animator* _28{};
+    /* 0x30 */ eui::Animator* _30{};
+    /* 0x38 */ s32 _38{};
+    /* 0x3c */ u8 _3c{};
 };
 
 class Unk_7102474ba8 {

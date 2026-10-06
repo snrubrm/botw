@@ -21,9 +21,9 @@ inline bool IsNameEqual(const char* a, const char* b) {
 }  // namespace
 
 // 0x7100bd81d0
-ControlBase* ButtonGroup::FindControlByName(const char* name) {
+ButtonBase* ButtonGroup::FindControlByName(const char* name) {
     for (ListNode* node = mButtons.next; node != &mButtons; node = node->next) {
-        auto* control = ControlBase::fromNode(node);
+        auto* control = static_cast<ButtonBase*>(ControlBase::fromNode(node));
         if (IsNameEqual(name, control->mName))
             return control;
     }

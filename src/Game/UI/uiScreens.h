@@ -1033,6 +1033,8 @@ public:
 extern const ksys::StateBase sUnk_71025dc090;
 extern const ksys::StateBase sUnk_71025dc030;
 extern const ksys::StateBase sUnk_71025dbfd0;
+// State object of ScreenHardMode (CSV: unnamed data, 0x710261ee98).
+extern const ksys::StateBase sUnk_710261ee98;
 
 class ScreenAkashNum : public ScreenEx {
 public:
@@ -1572,7 +1574,11 @@ public:
     u8 _3628[0x3638 - 0x3628];
     /* 0x3638 */ eui::AnimButton* _3638;
     /* 0x3640 */ eui::AnimButton* _3640;
-    u8 _3648[0x3700 - 0x3648];
+    /* 0x3648 */ eui::LayoutEx* _3648;
+    u8 _3650[0x3658 - 0x3650];
+    /* 0x3658 */ eui::LayoutEx* _3658;
+    /* 0x3660 */ eui::LayoutEx* _3660;
+    /* 0x3668 */ sead::FixedSafeString<128> _3668;
     /* 0x3700 */ s32 _3700;
     /* 0x3704 */ s32 _3704;
     /* 0x3708 */ s32 _3708;

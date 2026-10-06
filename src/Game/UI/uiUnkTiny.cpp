@@ -14,6 +14,16 @@ Unk_7102474b38::~Unk_7102474b38() = default;
 // 0x71009332f0
 Unk_7102474b78::Unk_7102474b78() = default;
 
+// 0x71009333a4
+void Unk_7102474b78::set30(eui::Animator* animator) {
+    _30 = animator;
+}
+
+// 0x71009333c4
+void Unk_7102474b78::set38(s32 value) {
+    _38 = value;
+}
+
 // 0x7100933314
 Unk_7102474b78::~Unk_7102474b78() = default;
 
