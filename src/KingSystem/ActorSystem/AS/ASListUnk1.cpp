@@ -122,6 +122,39 @@ void ASList::Unk1::sub_7101164B5C(const gsys::BoneAccessKey* key, void* a2, void
         entry.sub_7101162454(&selected, a2, a3);
 }
 
+bool ASList::Unk1::sub_71011650FC(f32 value, sead::Matrix34f* out, bool full, gsys::BoneAccessKey* key) {
+    if (!key->isValid())
+        return false;
+    if (_30) {
+        if (!sub_71011650B8(key->model_unit_index, key->bone_index))
+            return false;
+        if (_4d)
+            return false;
+    }
+    out->makeIdentity();
+    bool result = false;
+    f32 total = 0.0f;
+    for (auto& entry : _20) {
+        if (entry._10 < 0.001f)
+            continue;
+        if (result) {
+            sead::Matrix34f other;
+            if (entry.sub_71011636CC(value, &other, full, key)) {
+                total += entry._10;
+                sub_71011658C0(entry._10 / total, out, out, &other);
+            }
+        } else {
+            if (!entry.sub_71011636CC(value, out, full, key)) {
+                result = false;
+                continue;
+            }
+            total += entry._10;
+        }
+        result = true;
+    }
+    return result;
+}
+
 void ASList::Unk1::sub_7101164E64(BoneBlendState* state) {
     _48 = 0.0f;
     for (auto& entry : _20)

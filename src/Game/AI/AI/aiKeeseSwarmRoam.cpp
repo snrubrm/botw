@@ -41,4 +41,10 @@ void KeeseSwarmRoam::m34(sead::Vector3f* out) {
         out->set(*mCentralPos_d);
 }
 
+void KeeseSwarmRoam::m38(sead::Vector3f* out, f32 angle, f32 radius) {
+    CircleMove::m38(out, angle, radius);
+    if (out)
+        out->y = sub_7100455054(angle) + out->y;
+}
+
 }  // namespace uking::ai

@@ -74,6 +74,9 @@ public:
         // 0x7101162c58: runs the entry's (up to three) elements through m15 with their blend weights; `bones` is
         // the slot's partial-bone object.
         void sub_7101162C58(void* bones, BoneBlendState* state);
+        // 0x71011636cc (placeholder name): the element's m32 (with the flag: with a temporary ElementParams and the
+        // 0x200 context flag) or m33 for the bone `key`; false without an element.
+        bool sub_71011636CC(f32 value, void* a2, bool full, gsys::BoneAccessKey* key);
         // 0x7101162454 (declaration only): the per-entry update (880 B).
         void sub_7101162454(const gsys::BoneAccessKey* key, void* a2, void* a3);
         void sub_7101161FDC();
@@ -184,6 +187,9 @@ public:
         // 0x7101164b5c (placeholder name): Unk2::sub_7101162454 on every entry, with the bone `key` if it is
         // valid and selected by the partial-bone mask (an invalid key otherwise).
         void sub_7101164B5C(const gsys::BoneAccessKey* key, void* a2, void* a3);
+        // 0x71011650fc (placeholder name): the weighted blend of the bone `key`'s matrices of all entries with a
+        // weight of at least 0.001 into `out` (identity first); false if the key is not selected / no entry applies.
+        bool sub_71011650FC(f32 value, sead::Matrix34f* out, bool full, gsys::BoneAccessKey* key);
         // 0x7101164e64 (placeholder name): clears `_48`, then Unk2::sub_7101162C58 on every entry.
         void sub_7101164E64(BoneBlendState* state);
         void sub_7101164EB8();

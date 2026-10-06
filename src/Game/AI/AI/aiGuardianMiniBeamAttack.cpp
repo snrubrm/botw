@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "Game/Actor/actBeamBase.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardianMini.h"
@@ -146,6 +147,14 @@ bool GuardianMiniBeamAttack::m38() {
     if (*mAttackInterval_s < 0)
         return BreathAttackEnemyBattle::m38();
     return _2c4.value <= sead::Mathf::epsilon();
+}
+
+void GuardianMiniBeamAttack::m41() {
+    if (auto* beam = sead::DynamicCast<act::BeamBase>(_90.getProc())) {
+        beam->sub_7100002DA8(mActor);
+        beam->_c38.acquire(mActor, false);
+    }
+    MiniBeamAttack::m41();
 }
 
 bool GuardianMiniBeamAttack::m46(sead::Vector3f* out) {

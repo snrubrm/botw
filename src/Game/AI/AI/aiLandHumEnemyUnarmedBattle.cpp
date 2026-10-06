@@ -117,4 +117,25 @@ void LandHumEnemyUnarmedBattle::loadParams_() {
     getStaticParam(&mParams.mOnCoHitAllowGrabAngle_s, "OnCoHitAllowGrabAngle");
 }
 
+void LandHumEnemyUnarmedBattle::m35(const sead::Vector3f& target) {
+    sub_710046FC10();
+    UnarmedEnemySearch::m35(target);
+}
+
+void LandHumEnemyUnarmedBattle::m42() {
+    _799 = false;
+    changeToBattle();
+}
+
+void LandHumEnemyUnarmedBattle::changeToBattle() {
+    if (_118.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_118, &accessor);
+        sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000c3), mActor);
+    }
+    ksys::act::ai::InlineParamPack pack;
+    pack.addVec3(sub_71005D98D8(mActor), "TargetPos", -1);
+    changeChild("戦闘", &pack);
+}
+
 }  // namespace uking::ai

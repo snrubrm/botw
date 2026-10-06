@@ -19,10 +19,13 @@ public:
     void leave_() override;
     void loadParams_() override;
     void m34(sead::Vector3f* out) override;
+    void m38(sead::Vector3f* out, f32 angle, f32 radius) override;
 
 protected:
     // Declaration only; the original method name and void return are inferred.
     void sub_7100454C9C(f32 angle);
+    // 0x7100455054 (declaration only; placeholder name): the height offset of the swarm at `angle` (called by m38).
+    f32 sub_7100455054(f32 angle);
 
     // dynamic_param at offset 0x60
     sead::Vector3f* mCentralPos_d{};

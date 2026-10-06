@@ -18,7 +18,9 @@ public:
     void leave_() override;
     void loadParams_() override;
 
+    void m35(const sead::Vector3f& target) override;
     void m36() override {}
+    void m42() override;
 
     // 0x71004703e8 (placeholder name): tells the actor of _118 that we let go (0x80000c3), unlinks it from the Enemy
     // and resets _118.
@@ -27,6 +29,11 @@ public:
     void changeToAvoidDanger();
     // 0x710046fa70 (placeholder name)
     void changeToFindItem();
+    // 0x710046fc10 (declaration only; placeholder name): called by m35.
+    void sub_710046FC10();
+    // 0x710046ec44 (placeholder name; CSV landHumEnemyStuff): tells the actor of _118 that we let go and starts the
+    // "戦闘" child.
+    void changeToBattle();
     // 0x7100470ed4 (placeholder name): true if `link` is already handled or its actor is within the reach distance.
     bool sub_7100470ED4(ksys::act::BaseProcLink& link) const;
 

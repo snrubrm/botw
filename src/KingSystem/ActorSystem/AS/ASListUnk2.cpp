@@ -61,6 +61,26 @@ void ASList::Unk2::sub_7101161FDC() {
     }
 }
 
+// NON_MATCHING: register allocation only (the original keeps `this` in x22 and the element in x21; ours swaps them)
+bool ASList::Unk2::sub_71011636CC(f32 value, void* a2, bool full, gsys::BoneAccessKey* key) {
+    Element* element = _18;
+    if (!element)
+        return false;
+    if (!full) {
+        Context* context = _0;
+        const res::ASResource* resource = context->sub_7101258CC0();
+        return element->m33(context, a2, key, resource, value);
+    }
+    ElementParams params;
+    s32 count = 0;
+    _0->mFlags |= 0x200;
+    Context* context = _0;
+    const res::ASResource* resource = context->sub_7101258CC0();
+    const bool result = element->m32(context, a2, &params, key, &count, resource, value);
+    _0->mFlags &= ~0x200;
+    return result;
+}
+
 void ASList::Unk2::sub_7101162C58(void* bones, BoneBlendState* state) {
     if (!_18)
         return;

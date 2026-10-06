@@ -23,6 +23,7 @@ public:
     const sead::SafeString& m36() override;
     void m37() override;
     bool m38() override;
+    void m41() override;
     virtual bool m46(sead::Vector3f* out);
 
 protected:

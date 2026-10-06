@@ -51,6 +51,9 @@ public:
     void sub_710000395C(ksys::act::Actor* shooter, const sead::SafeString& bone,
                         const sead::Vector3f* offset);
 
+    // 0x7100002da8 (declaration only; lane1 s45, placeholder name): registers the physics groups of `actor` (when both
+    // have a rigid body owner) and acquires it with `_c28`.
+    void sub_7100002DA8(ksys::act::Actor* actor);
     bool sub_7100003494(sead::Matrix34f* out);
     void reflectMaybe(const sead::Vector3f& start, const sead::Vector3f& target);
     void sub_71000029CC();
