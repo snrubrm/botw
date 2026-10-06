@@ -163,6 +163,10 @@ struct SoundMgr {
 
     virtual ~SoundMgr();
 
+    // 0x71011fc29c (lane2 request, s49; placeholder name): starts the ducker 0x23 of the DuckingMgr and sets bit 1 of
+    // `_238`.
+    void sub_71011FC29C();
+
 public:
     u8 _28[0x38 - 0x28];
     Unk_SoundMgr38* _38;
@@ -178,7 +182,9 @@ public:
     /* 0x98 */ Unk_710103b704* _98;
     u8 _a0[0xa8 - 0xa0];
     /* 0xa8 */ Unk_SoundMgra8* _a8;
-    u8 _b0[0x270 - 0xb0];
+    u8 _b0[0x238 - 0xb0];
+    u8 _238;
+    u8 _239[0x270 - 0x239];
     AudioChannelType mAudioChannelType;
 };
 

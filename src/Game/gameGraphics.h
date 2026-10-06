@@ -31,6 +31,10 @@ public:
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
 
+    // 0x7100f35fa4 (lane2 request, s49; placeholder name): sets bit 12 (`second`) or 11 (not `second`) of
+    // `_284` to `value`, then marks the settings dirty (`_280 |= 1`).
+    void sub_7100F35FA4(bool value, bool second);
+
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     Unk_a98* getUnk_a98() const { return _a98; }
 
@@ -42,7 +46,10 @@ public:
     sead::PtrArray<gsys::ModelScene> mModelScenes;
 
 private:
-    u8 _160[0xa98 - 0x160];
+    u8 _160[0x280 - 0x160];
+    u32 _280;
+    sead::BitFlag32 _284;
+    u8 _288[0xa98 - 0x288];
     Unk_a98* _a98;
     u8 _aa0[0xe08 - 0xaa0];
 

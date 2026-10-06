@@ -19,6 +19,11 @@ public:
     void setInstantTemperature();
     void x();
 
+    // Lane2 request (s49): the temperatures set by calc1() (`_3c`: `_20` after the clamp offset; `_40`: `_44`).
+    // Placeholder names (address-named like the members).
+    f32 get_3c() const { return _3c; }
+    f32 get_40() const { return _40; }
+
 protected:
     void init_(sead::Heap* heap) override;
     void calc_() override;

@@ -12,6 +12,8 @@ target_sources(uking PRIVATE
   gameDragonChallengeMgr.h
   gameGearMgr.cpp
   gameGearMgr.h
+  gameGraphics.cpp
+  gameGraphics.h
   gameHeroSoul.cpp
   gameHeroSoul.h
   gameHorseMgr.cpp
@@ -62,6 +64,8 @@ target_sources(uking PRIVATE
   gameSceneStatusMgr.cpp
   gameScene320.cpp
   gameSceneMgr.cpp
+  gameStageStateMaybe.cpp
+  gameStageStateMaybe.h
   gameSceneSubsys13.cpp
   gameSceneSubsys7.cpp
   gameSceneSubsys14.cpp

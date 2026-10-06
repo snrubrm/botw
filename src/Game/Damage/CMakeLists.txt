@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
     dmgDamageManagerBase.h
     dmgDamageManagerBase.cpp
     dmgDamageMgrNPC.h
+    dmgDamageMgrPlayer.h
     dmgClothStiffnessMgr.cpp
     dmgClothStiffnessMgr.h
     dmgActorAccessors.cpp

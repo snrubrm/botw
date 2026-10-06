@@ -1,5 +1,8 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/AI/aiUnk_7101E7C2B4.h"
+#include "Game/Damage/dmgDamageMgrPlayer.h"
 
 namespace ksys::act {
 
@@ -22,6 +25,11 @@ bool Player::stillAlive() {
     if (!life || *life > 0 || hasFairy())
         return true;
     return canUseMiphaGrace();
+}
+
+void Player::sub_7100884578() {
+    if (auto* mgr = sead::DynamicCast<uking::dmg::DamageMgrPlayer>(getDamageMgr()))
+        mgr->_22c = uking::sUnk_7101e7c2b0;
 }
 
 }  // namespace ksys::act

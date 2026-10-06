@@ -413,7 +413,10 @@ public:
 protected:
     /* 0xdf8 */ sead::FixedSafeString<64> _df8;
     /* 0xe50 */ u8 _e50[0xe54 - 0xe50];
+public:  // read by PlayerCutTurnLSword::enter_ (lane5 request, s49)
     /* 0xe54 */ f32 _e54;
+
+protected:
     /* 0xe58 */ f32 _e58;
     /* 0xe5c */ s32 _e5c;
     /* 0xe60 */ u8 _e60[0xe70 - 0xe60];

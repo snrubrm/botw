@@ -491,6 +491,9 @@ public:
                getASList()->x_1(0, 0) == "WallBowShootL" ||
                getASList()->x_1(0, 0) == "WallBowShootR";
     }
+    // 0x7100884578 (lane5 request; placeholder name): `DamageMgrPlayer::_22c = (f32)30` when the actor's damage manager
+    // is a DamageMgrPlayer (PlayerIce / PlayerElectric leave_).
+    void sub_7100884578();
     bool stillAlive();                                                  // 0x884510
     bool x_44();                                                        // 0x885090
     // 0x710086ca68 (placeholder name; static, no arguments): true while the E3 demo's RidDemo state

@@ -6,6 +6,8 @@
 // AI_AI_PlayerNormal::x): the range of fall heights that map to the land damage wait time. Placeholder names =
 // address; the defining TU is unknown.
 namespace uking {
+// 0x7101e7c2b0 (30): the s32 just before the two floats; read by Player::sub_7100884578 (converted to f32).
+extern const s32 sUnk_7101e7c2b0;
 extern const f32 sUnk_7101e7c2b4;
 extern const f32 sUnk_7101e7c2b8;
 }  // namespace uking

@@ -1,4 +1,5 @@
 #include "E3Mgr.h"
+#include "Game/gameStageStateMaybe.h"
 #include "KingSystem/Map/mapAutoPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -145,14 +146,6 @@ void E3Mgr::_auto2() {
     _6d = 0;
 }
 
-//! TODO : this should be a real struct
-struct Dummy {
-    char _0[0xA00];
-    u32 a00;
-};
-
-extern Dummy* test;
-
 void E3Mgr::_auto3() {
     bool isDemo;
 
@@ -173,8 +166,8 @@ void E3Mgr::_auto3() {
     _30 = -2;
     isDemo = E3Mgr::isDemoMode();
     if (isDemo) {
-        if (test)
-            test->a00 |= 0x40;
+        if (StageStateMaybe::sInstance)
+            StageStateMaybe::sInstance->_a00 |= 0x40;
     }
 }
 
