@@ -19,6 +19,8 @@ add_library(aal OBJECT
   include/aal/aalSystemAccessor.h
   include/aal/aalTimedFader.h
   src/aalGroup.cpp
+  src/aalGroupLimiter.cpp
+  src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
   src/aalNamedObj.cpp
   src/aalShape.cpp
