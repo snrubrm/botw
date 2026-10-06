@@ -45,8 +45,33 @@ void LynelRodeo::loadParams_() {
     getStaticParam(&mTurnCheckAngleStep_s, "TurnCheckAngleStep");
 }
 
+// NON_MATCHING: the original reads a separate byte field at 0x279 (`ldrsb`; Rideable::_278 is declared u16 here) and
+// tail-calls setFinished / setFailed from single blocks; ours emits `bl` + shared epilogue for them.
 void LynelRodeo::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    auto* rideable = actor->getHorseOptionsMaybe();
+    if (!rideable) {
+        setFailed();
+        return;
+    }
+    const act::Unk_7100e8b2b8::Unk8 state(rideable->act::Unk_7100e8b2b8::_8.load() & 0xff);
+    if (int(state) == 0) {
+        setFailed();
+        return;
+    }
+    auto* as_list = actor->getASList();
+    if (!as_list) {
+        setFailed();
+        return;
+    }
+    auto* controller = actor->getCharacterController();
+    if (!controller)
+        return;
+    act::sub_7100E7F698(rideable, as_list, controller);
+    if (s8(rideable->_278 >> 8) < 0)
+        setFinished();
+    if (isFinishedAS(0, 0))
+        setFinished();
 }
 
 }  // namespace uking::action
