@@ -6,6 +6,7 @@
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPCBase.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/gameNpcShopData.h"
 #include "Game/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
@@ -107,7 +108,7 @@ public:
     /* 0x0f28 */ Unk_71023cee88 _f28{this};  // getPlayerRideInfo
     /* 0x0f70 */ ksys::act::BaseProcLink _f70;
     /* 0x0f80 */ Unk_f80* _f80 = nullptr;
-    /* 0x0f88 */ u8 _f88[0xfa8 - 0xf88];  // object with vtable 0x7102358858
+    /* 0x0f88 */ NpcShopData _f88;  // vtable 0x7102358858
     /* 0x0fa8 */ Unk_7100d3cd74 _fa8{this};  // m101
     /* 0x0fc8 */ ksys::act::BaseProcLink _fc8;
     /* 0x0fd8 */ ksys::act::BaseProcLink _fd8;

@@ -266,6 +266,13 @@ bool sub_7100A98E18();
 void sub_7100A98474(s32 rank);
 bool sub_7100A9844C();
 void sub_7100A98428(NpcShopData* shop_data);
+// Shop facade (uiShopFacade.cpp) and one declared-only helper (0x7100a982bc: `sub_7100A982BC(shop_data, selected)`).
+void sub_7100A98370(NpcShopData* shop_data);
+bool sub_7100A98304();
+bool sub_7100A983B0();
+void sub_7100A984F0(NpcShopData* shop_data);
+void sub_7100A985B8(NpcShopData* shop_data);
+void sub_7100A982BC(NpcShopData* shop_data, bool selected);
 bool openMinigameScreenForTimer(bool count_down);
 bool minigameScreenHideTimer();
 void minigameScreenUpdateTimer(s64 time_ms);

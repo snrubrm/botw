@@ -2,6 +2,7 @@
 #include "Game/AI/aiUnk_71005D6D10.h"
 #include "Game/AI/aiUnk_71007377D4.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -68,8 +69,25 @@ void ShootArrow::loadParams_() {
     getStaticParam(&mASName_s, "ASName");
 }
 
+// NON_MATCHING: stack layout only: the original puts `target` in the slot of the Unk_71002eda38 temporary (sp+0x18) and
+// `pos` below it (sp+0x8); ours merges `pos` with the temporary and keeps `target` apart
 void ShootArrow::calc_() {
-    ActionEx::calc_();
+    if (sub_71005DD780(mActor, 71, nullptr, 0, 0)) {
+        sead::Vector3f pos;
+        sead::Vector3f target;
+        if (sub_710024EB30(&target, &pos))
+            m33(pos, &target);
+        else
+            m33(pos, nullptr);
+        _ac = true;
+    }
+    m34();
+    if (isFinishedAS(0, 0)) {
+        setFinished();
+        return;
+    }
+    if (!_ac)
+        sub_71005D787C(mActor, *mWeaponIdx_s, act::Unk_71002eda38(4));
 }
 
 bool ShootArrow::isChangeable() const {

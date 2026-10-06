@@ -27,6 +27,9 @@ protected:
     // 0x710024e90c / 0x710024e994 (placeholder names): slow the velocity / angular velocity down by the stop
     // ratios and apply them to the character controller.
     void sub_710024E90C();
+    // 0x710024eb30 (declared only; 884 B): picks the shoot position `out_pos` (always written) in front of the
+    // actor, offset sideways by a random amount; returns whether the arrow should be aimed at `out_target`.
+    bool sub_710024EB30(sead::Vector3f* out_target, sead::Vector3f* out_pos);
     void sub_710024E994();
 
     // static_param at offset 0x20

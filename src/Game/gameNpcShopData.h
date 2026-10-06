@@ -29,6 +29,15 @@ public:
     // 0x710091ce98: declared only; copies the selected resource table into owned shop strings.
     bool sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeString& table_name);
 
+    // 0x710091ba74 (CSV NpcShopData::giveItem; declared only, 5156 B; signature from the NPC actions): selects the
+    // shop table `table_name` of `shop` and gives the items of the actor `actor_name`.
+    bool giveItem(const ksys::res::Shop* shop, const sead::SafeString& actor_name, const sead::SafeString& table_name,
+                  bool flag);
+    // 0x710091d030 (declared only; placeholder name, 1176 B): called with the actor's name after the sale finished.
+    void sub_710091D030(const sead::SafeString& actor_name);
+    // 0x710091d6d8 (declared only; placeholder name): the same with two more flags (NPCMakeItem with IncludePorch).
+    bool sub_710091D6D8(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a, bool b);
+
     s32 _28 = 0;
     void* _30 = nullptr;
     s32 _38 = 0;
