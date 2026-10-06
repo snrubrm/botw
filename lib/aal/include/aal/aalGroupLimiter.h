@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadOffsetList.h>
 #include <hostio/seadHostIONode.h>
+#include "aal/aalTimedFader.h"
 
 namespace sead {
 class Heap;
@@ -57,23 +58,70 @@ private:
     sead::OffsetList<SoundSource>* mUpperActiveSoundLimitList;
     sead::OffsetList<SoundSource>* mUpperRequestSoundLimitList;
     RequestIntervalLimiter* mRequestIntervalLimiterForLimit;
-    u8 _58[0x88 - 0x58];
+    u8 _58[6];
+    s32 _60;
+    u16 _64;
+    s32 _68;
+    s32 _6c;
+    s32 _70;
+    f32 _74;
+    f32 _78;
+    u8 _7c;
+    s32 _80;
 };
 static_assert(sizeof(GroupLimiter) == 0x88, "aal::GroupLimiter size mismatch");
 
 class IDuckingSource;
 
-/// Ducks the volume of a group while other groups play. TODO: incomplete.
+/// Ducks the volume of a group while other groups play. TODO: incomplete (the targets are not modeled).
 class GroupDucker : public sead::hostio::Node {
 public:
+    struct Settings {
+        f32 _0;
+        f32 _4;
+        f32 _8;
+    };
+    struct TargetSettings {
+        f32 _0;
+        f32 _4;
+        f32 _8;
+    };
+
+    /// A group whose sounds duck the group of the ducker.
+    class Target {
+    public:
+        /// Whether the volume of the fader is changing.
+        bool isFaderMoving() const;
+        f32 getFaderVolume() const;
+
+    private:
+        Group* mGroup;
+        TargetSettings mSettings;
+        TimedFader mFader;
+        sead::ListNode mListNode;
+    };
+    static_assert(sizeof(Target) == 0x50, "aal::GroupDucker::Target size mismatch");
+
     explicit GroupDucker(IDuckingSource* source);
     virtual ~GroupDucker();
 
+    void initialize(sead::Heap* heap);
     void finalize();
+    void setup(const Settings& settings);
     void calc();
+    /// Stops the ducking (the state is not the idle one).
+    void suspend();
+    void resetState();
 
 private:
-    u8 _8[0x48 - 0x8];
+    bool mInitialized;
+    Settings mSettings;
+    s32 mState;
+    u8 _1c[4];
+    IDuckingSource* mSource;
+    sead::OffsetList<Target> mTargets;
+    s32 _40;
+    s32 _44;
 };
 static_assert(sizeof(GroupDucker) == 0x48, "aal::GroupDucker size mismatch");
 
