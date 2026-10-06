@@ -32,6 +32,10 @@ public:
 
     const nn::g3d::SkeletonObj* getSkeletonObj() const { return mModelObj.GetSkeleton(); }
 
+    // ModelUnit overrides (0x7100c06d30 / 0x7100c06dd8).
+    sead::SafeString getBoneName(int bone_idx) const override;
+    void clearBoneLocalMatrix() override;
+
 protected:
     virtual void drawDetail(agl::DrawContext* context) const;
     virtual void createRenderUnitNW(int, sead::Heap* heap);

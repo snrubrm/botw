@@ -256,7 +256,6 @@ void Model::sub_7100BF8738() {
         mUpdateHook->m3(this);
 }
 
-// NON_MATCHING: the stores of reference._1e and reference._8 come out in the other order (scheduling)
 // 0x7100bf8d70
 void Model::sub_7100BF8D70(int unit_idx) {
     ModelInfo& reference = mUnitPool[unit_idx];

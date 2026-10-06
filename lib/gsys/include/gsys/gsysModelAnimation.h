@@ -26,6 +26,17 @@ struct AnimationAccessKey {
 /// (0x7100bf729c) and stored in the model (Model::getAnimation).
 class ModelAnimation {
 public:
+    /// Argument of Model::createAnimation (0x7100bfa214: both counts default to 4).
+    struct CreateArg {
+        CreateArg();
+
+        s32 _0;
+        s32 _4;
+        void* _8;
+    };
+
+    virtual ~ModelAnimation();
+
     /// One material animation slot (0x30 bytes).
     struct MaterialAnm {
         /// The animation currently set on the slot (invalid if none).
@@ -37,7 +48,10 @@ public:
 
     /// 0x7100bfdc04 / 0x7100bfa52c (declared only): releases the animation set / frees the object.
     void finalize();
+    /// Frees the object through its virtual destructor (0x7100bfa52c); null is ignored.
     static void destroy(ModelAnimation* animation);
+    /// Number of material animations of `type` (the table at +0x80 holds the running end index per type).
+    s32 getMaterialAnmNum(MaterialAnmType type) const;
     /// 0x7100bfd768 (CSV name) / 0x7100bfddcc (unnamed): apply the skeletal / (probably) the material animations to a
     /// model.
     void applySkeletalAnm(Model* model);
@@ -60,8 +74,10 @@ public:
     const sead::Buffer<MaterialAnm>& getMaterialAnms() const { return mMaterialAnms; }
 
 private:
-    u8 _0[0x50];
+    u8 _8[0x50 - 8];
     sead::Buffer<MaterialAnm> mMaterialAnms;
+    u8 _60[0x80 - 0x60];
+    u16 mMaterialAnmEnd[8];
 };
 
 }  // namespace gsys
