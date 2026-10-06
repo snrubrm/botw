@@ -18,6 +18,7 @@ public:
 
 protected:
     void calc_() override;
+    bool m33(sead::Vector3f* pos) override;
 
     // dynamic_param at offset 0x58
     sead::SafeString mUniqueName_d{};
