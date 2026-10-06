@@ -37,6 +37,7 @@ add_library(aal OBJECT
   include/aal/aalSpatialCalculator.h
   include/aal/aalSpeakerBalanceUnifierArea.h
   include/aal/aalSpeakerBalanceUnifierMgr.h
+  include/aal/aalSpatialPlayingParamPool.h
   include/aal/aalSpatialSetting.h
   include/aal/aalStopWatch.h
   include/aal/aalSystem.h
@@ -79,6 +80,7 @@ add_library(aal OBJECT
   src/aalTimedFader.cpp
   src/aalSoundSource.cpp
   src/aalSpatialPlayingParam.cpp
+  src/aalSpatialPlayingParamPool.cpp
   src/aalSpatialSetting.cpp
   src/aalSpeakerBalanceUnifierArea.cpp
   src/aalSpeakerBalanceUnifierAreaSegment.cpp

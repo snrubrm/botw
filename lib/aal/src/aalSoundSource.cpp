@@ -1,4 +1,5 @@
 #include "aal/aalSoundSource.h"
+#include "aal/aalSpatialPlayingParamPool.h"
 #include <math/seadMathCalcCommon.h>
 #include "aal/aalEmitter.h"
 #include "aal/aalArbiter.h"

@@ -10,6 +10,7 @@ class Emitter;
 class SoundSource;
 class SpatialCalculator;
 class SpatialPlayingParam;
+class SpatialPlayingParamPool;
 
 /// The pools that the spatial calculators and the spatial playing parameters of the sound sources are allocated
 /// from. TODO: incomplete; only the release of an element is declared.
@@ -17,12 +18,6 @@ class SpatialCalculatorPool {
 public:
     /// 0x7100b90dec
     void free(SpatialCalculator* calculator);
-};
-
-class SpatialPlayingParamPool {
-public:
-    /// 0x7100b916fc
-    void free(SpatialPlayingParam* param);
 };
 
 /// Allocates and keeps track of the emitters and the sound sources.

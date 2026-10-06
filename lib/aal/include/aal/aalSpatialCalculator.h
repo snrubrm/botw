@@ -74,6 +74,8 @@ public:
     void finalize();
     void reset();
     void activate();
+    bool isActivated() const { return mActivated; }
+    void deactivate() { mActivated = false; }
     void aggregate(s32 listener_index, const SpatialCalcResult& result);
 
     s32 getListenerIndex(s32 index) const;
