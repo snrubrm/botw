@@ -2,6 +2,17 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorConstDataAccess.h"
+#include "KingSystem/Map/mapObject.h"
+
+namespace ksys::act {
+// 0x7100ee25f0 (declared only): findLinkReferenceObj for a link (acquires the actor first).
+map::Object* findLinkReferenceObj(BaseProcLink* link, const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& a3, int* idx);
+}  // namespace ksys::act
+
+// 0x7100ee7168 (declared only): writes the map object's transform (rotation and translation).
+void sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 
 namespace uking::action {
 
@@ -43,6 +54,18 @@ void PlayerDestinationTurnRefActor::calc_() {
     player->_20bc.value = 0;
     player->_20bc.prev_value = 0;
     static_cast<ksys::act::Player*>(mActor)->actionCommon();
+}
+
+void PlayerDestinationTurnRefActor::sub_71007E974C(sead::Matrix34f* out) {
+    if (_48.hasProc()) {
+        ksys::act::ActorConstDataAccess accessor;
+        ksys::act::acquireActor(&_48, &accessor);
+        *out = accessor.getActorMtx();
+    } else {
+        int idx = _58;
+        if (auto* obj = ksys::act::findLinkReferenceObj(&_38, "", mUniqName_d, &idx))
+            sub_7100EE7168(obj, out);
+    }
 }
 
 bool PlayerDestinationTurnRefActor::isChangeable() const {
