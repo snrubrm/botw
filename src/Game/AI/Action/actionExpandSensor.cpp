@@ -1,4 +1,5 @@
 #include "Game/AI/Action/actionExpandSensor.h"
+#include "Game/AI/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
@@ -94,8 +95,60 @@ void ExpandSensor::loadParams_() {
     getStaticParam(&mParams.mOnLength_s, "OnLength");
 }
 
+// NON_MATCHING: the structure and all callees match, but the Matrix34 / Vector3 transforms here are
+// scheduled differently (the original keeps the rotated points in a handful of registers and has a 0xf0 byte
+// frame; this one needs 0x140).
 void ExpandSensor::calc_() {
-    ksys::act::ai::Action::calc_();
+    auto* actor = mActor;
+    auto* main_body = actor->getMainBody();
+    sead::Matrix34f mtx;
+    if (main_body && main_body->getMotionType() == ksys::phys::MotionType::Dynamic)
+        main_body->getTransform(&mtx);
+    else
+        actor->getHomeMtx(&mtx);
+
+    sead::Matrix34f inverse;
+    inverse.setInverse(mtx);
+
+    sead::Vector3f center = mtx * sead::Vector3f(0, -0.5f, 0);
+    auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody");
+    auto* capsule = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(body);
+    if (!capsule)
+        return;
+
+    const f32 radius = capsule->getRadius();
+    sead::Vector3f from = _b0;
+    from.rotate(mtx);
+    from += center;
+    sead::Vector3f to = _bc + sead::Vector3f(0, radius, 0);
+    to.rotate(mtx);
+    to += center;
+
+    sead::Vector3f hit_pos;
+    if (sub_710072E830(from, to, 0, &hit_pos, nullptr, nullptr, 0.0f)) {
+        from.rotate(inverse);
+        hit_pos.rotate(inverse);
+        to.rotate(inverse);
+        f32 ratio = (hit_pos.y - from.y) / (to.y - from.y);
+        const sead::Vector3f vertex = _b0;
+        capsule->setVertices(vertex, _bc * ratio);
+        const f32 length = ratio * _d4;
+        _40.sub_71010C38F4(&mtx);
+        _40.sub_71010C3A1C(radius);
+        _40.sub_71010C3B18(length);
+        if (length > *mParams.mOffLength_s) {
+            if (length >= *mParams.mOnLength_s)
+                sub_710012A154();
+        } else {
+            sub_710012A680();
+        }
+    } else {
+        capsule->setVertices(_b0, _bc);
+        _40.sub_71010C38F4(&mtx);
+        _40.sub_71010C3A1C(radius);
+        _40.sub_71010C3B18(_d4);
+        sub_710012A154();
+    }
 }
 
 }  // namespace uking::action
