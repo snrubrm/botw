@@ -171,7 +171,9 @@ Unk_7102474df8::~Unk_7102474df8() {
     _10.freeBuffer();
 }
 
-// 0x7100933938
+// 0x71009338a0
+Unk_7102474bc8::Unk_7102474bc8() {}
+
 // 0x7100933e50
 bool Unk_7102474bc8::sub_7100933E50() const {
     for (s32 i = 0; i < _8; i++) {
@@ -188,6 +190,7 @@ void Unk_7102474bc8::sub_7100933FB8(u32 index, UiSlotTarget* target) {
         _130[index].target = target;
 }
 
+// 0x7100933938
 Unk_7102474bc8::~Unk_7102474bc8() {
     _130.freeBuffer();
     _140.freeBuffer();

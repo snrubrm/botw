@@ -395,7 +395,7 @@ struct Unk_Elem2 {
 };
 
 // A string record of the UI helper classes (0x128 bytes; placeholder name). Its constructor (0x7100934a6c) is called
-// from 55 places, e.g. the first 0x128 bytes of Unk_7102474bc8.
+// from 55 places.
 struct UiStringEntry {
     UiStringEntry();
 
@@ -418,7 +418,7 @@ struct UiSlot {
 // Member of ScreenSousaGuide (0x3618) and others: two sead::Buffers freed in the destructor (0x158 bytes).
 class Unk_7102474bc8 {
 public:
-    // 0x71009338a0 (declared only)
+    // 0x71009338a0
     Unk_7102474bc8();
     virtual ~Unk_7102474bc8();
 
@@ -426,11 +426,12 @@ public:
     bool sub_7100933E50() const;
     void sub_7100933FB8(u32 index, UiSlotTarget* target);
 
-    /* 0x8 */ s32 _8;
-    u8 _c[0x130 - 0xc];
+    /* 0x8 */ s32 _8 = 0;
+    /* 0x10 */ sead::FixedSafeString<256> _10;
+    /* 0x128 */ u8 _128 = 0;
     /* 0x130 */ sead::Buffer<UiSlot> _130;
     sead::Buffer<Unk_Elem2> _140;
-    u8 _150[8];
+    /* 0x150 */ u16 _150 = 0;
 };
 
 // Member of several screens (0x28 bytes, e.g. ScreenAppHome 0x38a0 ... 0x3918): virtual destructor and one more
