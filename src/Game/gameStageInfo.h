@@ -11,6 +11,12 @@ public:
     // 0x71007cc08c / 0x71007cc098: out-of-line (defined in gameScene.cpp, so `sInfo` is reached through the GOT).
     static const sead::Vector3f& getPSavePosAngleForStageGen();
     static const sead::Vector3f& getPSavePosForStageGen();
+    // 0x71007ccd64 / 0x71007ccd88 / 0x71007ccdf0 / 0x71007cce3c (CSV free functions setPSavePosAngleForStageGen,
+    // setPSavePosForStageGen, setCurrentMapNameFromPlayerPos, getIsStageDebug; defined in gameStageInfo.cpp).
+    static void setPSavePosAngleForStageGen(const sead::Vector3f& angle);
+    static void setPSavePosForStageGen(const sead::Vector3f& pos);
+    static void setCurrentMapNameFromPlayerPos();
+    static bool getIsStageDebug();
     static bool isDebugOrDevMap() { return sInfo.mIsDebugOrDevMap; }
     static bool isViewerMapType() { return sInfo.mIsViewerMapType; }
     static bool isDungeon() { return sInfo.mIsDungeon; }
