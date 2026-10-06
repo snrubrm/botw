@@ -18,6 +18,9 @@ public:
 protected:
     void calc_() override;
 
+    // 0x71002255f4 (placeholder name): ray cast against the ground, objects and characters.
+    bool sub_71002255F4(sead::Vector3f start, sead::Vector3f end, sead::Vector3f* hit_pos);
+
     // static_param at offset 0x20
     const int* mTimer_s{};
     // static_param at offset 0x28

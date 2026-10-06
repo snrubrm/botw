@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actUnk_7100e4e084.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace uking::action {
 
@@ -14,6 +15,30 @@ PutFromParent::~PutFromParent() = default;
 
 void PutFromParent::enter_(ksys::act::ai::InlineParamPack* params) {
     ksys::act::ai::Action::enter_(params);
+}
+
+bool PutFromParent::sub_71002255F4(sead::Vector3f start, sead::Vector3f end,
+                                   sead::Vector3f* hit_pos) {
+    auto* actor = mActor;
+    if (!_e4 && actor->getConnectedCalcParent())
+        actor = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    ksys::phys::RayCastBodyQuery query(sub_710072E804(actor, 0), ksys::phys::GroundHit::HitAll);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityNPC);
+    query.enableLayer(ksys::phys::ContactLayer::EntityNPC_NoHitPlayer);
+    query.enableLayer(ksys::phys::ContactLayer::EntityPlayer);
+    query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(ksys::phys::RayCast::NormalCheckingMode::_0);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    return true;
 }
 
 void PutFromParent::leave_() {
