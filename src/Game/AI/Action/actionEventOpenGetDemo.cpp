@@ -42,7 +42,36 @@ void EventOpenGetDemo::loadParams_() {
 }
 
 void EventOpenGetDemo::calc_() {
-    ksys::act::ai::Action::calc_();
+    if (isFinished() || isFailed())
+        return;
+    auto* manager = ui::UI::instance();
+    if (!manager) {
+        setFailed();
+        mFlags.set(Flag::Changeable);
+        return;
+    }
+    if (_29) {
+        if (manager->sub_71010A5CAC())
+            return;
+        setFinished();
+        mFlags.set(Flag::Changeable);
+        return;
+    }
+    const bool is_open = _28;
+    const bool is_ready = manager->sub_71010A5CAC();
+    if (is_open) {
+        if (is_ready)
+            _29 = true;
+        return;
+    }
+    if (is_ready) {
+        manager->sub_71010A6F04();
+        return;
+    }
+    if (*mIsInvalidOpenPouch_d)
+        ui::sub_7100A9B2AC();
+    manager->x(mActor->getName());
+    _28 = true;
 }
 
 }  // namespace uking::action
