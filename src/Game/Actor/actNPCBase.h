@@ -41,7 +41,8 @@ public:
     /* 0xac8 */ sead::FixedSafeString<32> _ac8;
     /* 0xb00 */ sead::FixedSafeString<256> _b00;
     /* 0xc18 */ sead::FixedSafeString<64> _c18;
-    /* 0xc70 */ void* _c70 = nullptr;
+    /* 0xc70 */ u32 _c70 = 0;
+    /* 0xc74 */ u32 _c74 = 0;  // terror level (read by the CheckTerrorLevel query)
 };
 KSYS_CHECK_SIZE_NX150(NPCBase, 0xc78);
 
