@@ -4,7 +4,11 @@ namespace uking::action {
 
 TerrainHideCenter::TerrainHideCenter(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-TerrainHideCenter::~TerrainHideCenter() = default;
+// NON_MATCHING: same instructions; the original does not re-materialise `this` (`mov x0, x19`) for the call
+// to sub_7100E179A4
+TerrainHideCenter::~TerrainHideCenter() {
+    leave_();
+}
 
 bool TerrainHideCenter::init_(sead::Heap* heap) {
     _1c = false;

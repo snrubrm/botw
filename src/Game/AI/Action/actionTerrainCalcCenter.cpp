@@ -7,7 +7,9 @@ namespace uking::action {
 
 TerrainCalcCenter::TerrainCalcCenter(const InitArg& arg) : ksys::act::ai::Action(arg) {}
 
-TerrainCalcCenter::~TerrainCalcCenter() = default;
+TerrainCalcCenter::~TerrainCalcCenter() {
+    leave_();
+}
 
 bool TerrainCalcCenter::init_(sead::Heap* heap) {
     _40 &= ~2u;
