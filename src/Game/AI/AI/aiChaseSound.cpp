@@ -12,7 +12,6 @@ ChaseSound::ChaseSound(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
 ChaseSound::~ChaseSound() = default;
 
-// NON_MATCHING: the order of the position / target loads in the horizontal direction differs.
 void ChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_71005E21E8(mActor);
     if (_78) {
@@ -22,7 +21,8 @@ void ChaseSound::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
     _80 = actor->getMtx().getTranslation();
     _74 = 30.0f;
-    sead::Vector3f direction = *mParams.mTargetPos_d - actor->getMtx().getTranslation();
+    sead::Vector3f direction = *mParams.mTargetPos_d;
+    direction -= actor->getMtx().getTranslation();
     direction.y = 0.0f;
     direction.normalize();
     const sead::Vector3f front = mActor->getMtx().getBase(2);
