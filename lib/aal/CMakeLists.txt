@@ -16,6 +16,7 @@ add_library(aal OBJECT
   include/aal/aalFxParamSetter.h
   include/aal/aalGroup.h
   include/aal/aalGroupLimiter.h
+  include/aal/aalGroupReader.h
   include/aal/aalGroupMgr.h
   include/aal/aalHandle.h
   include/aal/aalInterior.h
@@ -59,6 +60,7 @@ add_library(aal OBJECT
   src/aalGroup.cpp
   src/aalGroupFolder.cpp
   src/aalGroupLimiter.cpp
+  src/aalGroupReader.cpp
   src/aalGroupMgr.cpp
   src/aalSpatialCalculator.cpp
   src/aalHandle.cpp
