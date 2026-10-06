@@ -32,6 +32,12 @@ void ScreenPauseMenuInfo::sub_7100A31BE0() {
         _391c = 2;
 }
 
+// 0x7100a1ab58
+void ScreenMainScreen::sub_7100A1AB58(s32 a1) {
+    if (_3658)
+        _3658->_150 = a1;
+}
+
 // 0x7100a1e1e0
 bool ScreenMainScreen::sub_7100A1E1E0() {
     if (!_3ca8)

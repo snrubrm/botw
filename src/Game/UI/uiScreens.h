@@ -602,6 +602,12 @@ public:
     bool sub_7100A11D34(s32);
 };
 
+// Placeholder for the object ScreenMainScreen keeps at 0x3658 (the int at 0x150 is written by sub_7100A1AB58).
+struct ScreenMainScreenUnk3658 {
+    u8 _0[0x150];
+    /* 0x150 */ s32 _150;
+};
+
 class ScreenMainScreen : public ScreenEx {
 public:
     void m85() override;
@@ -610,7 +616,9 @@ public:
     ~ScreenMainScreen() override;
     SEAD_RTTI_OVERRIDE(ScreenMainScreen, ScreenEx)
 
-    u8 _pad_3610[0x3704 - 0x3610];
+    u8 _pad_3610[0x3658 - 0x3610];
+    /* 0x3658 */ ScreenMainScreenUnk3658* _3658;
+    u8 _pad_3660[0x3704 - 0x3660];
     /* 0x3704 */ s32 _3704;
     u8 _pad_3708[0x3aa8 - 0x3708];
     /* 0x3aa8 */ u8 _3aa8;
