@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckCurrentMap.h"
 #include <evfl/Query.h>
+#include "KingSystem/System/StageInfo.h"
 
 namespace uking::query {
 
@@ -7,9 +8,8 @@ CheckCurrentMap::CheckCurrentMap(const InitArg& arg) : ksys::act::ai::Query(arg)
 
 CheckCurrentMap::~CheckCurrentMap() = default;
 
-// FIXME: implement
 int CheckCurrentMap::doQuery() {
-    return -1;
+    return ksys::StageInfo::getCurrentMapName() == mMapName;
 }
 
 void CheckCurrentMap::loadParams(const evfl::QueryArg& arg) {

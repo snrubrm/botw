@@ -7,9 +7,10 @@ CheckEatActor::CheckEatActor(const InitArg& arg) : ksys::act::ai::Query(arg) {}
 
 CheckEatActor::~CheckEatActor() = default;
 
-// FIXME: implement
 int CheckEatActor::doQuery() {
-    return -1;
+    if (mPrevEatActorName)
+        return mActorName == *mPrevEatActorName;
+    return 0;
 }
 
 void CheckEatActor::loadParams(const evfl::QueryArg& arg) {

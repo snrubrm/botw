@@ -1,5 +1,6 @@
 #include "Game/AI/Query/queryCheckElapsedTimeOfMiniGame.h"
 #include <evfl/Query.h>
+#include "Game/gameEventMgrMiniGame.h"
 
 namespace uking::query {
 
@@ -8,9 +9,13 @@ CheckElapsedTimeOfMiniGame::CheckElapsedTimeOfMiniGame(const InitArg& arg)
 
 CheckElapsedTimeOfMiniGame::~CheckElapsedTimeOfMiniGame() = default;
 
-// FIXME: implement
 int CheckElapsedTimeOfMiniGame::doQuery() {
-    return -1;
+    if (auto* mini_game = EventMgrMiniGame::instance()) {
+        const s32 minutes = mini_game->getTimerMs() / 60000;
+        const s32 seconds = mini_game->getTimerMs() / 1000 % 60;
+        return minutes * 60 + seconds >= *mThreshold;
+    }
+    return 0;
 }
 
 void CheckElapsedTimeOfMiniGame::loadParams(const evfl::QueryArg& arg) {
