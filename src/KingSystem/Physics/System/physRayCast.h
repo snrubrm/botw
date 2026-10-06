@@ -80,6 +80,8 @@ public:
     bool phantomRayCast(Phantom* phantom);
 
     bool hasHit() const { return mHasHit; }
+    // Inline in the original (lane2 s42: read by WeakPointRoot's damage callback).
+    bool hasHitSpecifiedRigidBody() const { return mHasHitSpecifiedRigidBody; }
     // 1 once a cast has completed (set by postCast, cleared by resetCastResult).
     u32 get70() const { return _70; }
     void setNormalCheckingMode(NormalCheckingMode mode) { mNormalCheckingMode = mode; }
