@@ -516,6 +516,7 @@ public:
     void m96() override;
     ~ScreenPauseMenuInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenuInfo, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     u8 _pad_3610[0x3904 - 0x3610];
     /* 0x3904 */ u8 _3904;
@@ -530,6 +531,7 @@ public:
     ScreenMessageTipsRunTime();
     ~ScreenMessageTipsRunTime() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsRunTime, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m101() override;
 
@@ -707,6 +709,7 @@ class ScreenMainDungeon : public Screen {
 public:
     ~ScreenMainDungeon() override;
     SEAD_RTTI_OVERRIDE(ScreenMainDungeon, Screen)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     /* 0x2fc */ s32 _2fc;
     /* 0x300 */ s32 _300;
@@ -1214,6 +1217,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     u8 _pad_3610[0x3bb4 - 0x3610];
     /* 0x3bb4 */ s32 _3bb4;
@@ -1672,6 +1676,7 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenMessageTipsPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageTipsPauseMenu, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     /* 0x3610 */ s32 _3610 = 2;
     s32 _3614{};
@@ -1845,6 +1850,7 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenMainHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHardMode, ScreenEx)
+    void close(s32 option) override;
 
     /* 0x3610 */ u64 _3610{};
     u64 _3618{};
@@ -2071,6 +2077,7 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenMessageGet() override;
     SEAD_RTTI_OVERRIDE(ScreenMessageGet, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     u8 _pad_3610[0x3658 - 0x3610];
     /* 0x3658 */ eui::ControlBase* _3658;
@@ -2108,6 +2115,7 @@ public:
     void m96() override;
     ~ScreenShopInfo() override;
     SEAD_RTTI_OVERRIDE(ScreenShopInfo, ScreenEx)
+    eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     u8 _pad_3610[0x3658 - 0x3610];
     sead::PtrArray<Unk_Elem> _3658;

@@ -83,6 +83,7 @@ target_sources(uking PRIVATE
   uiScreenDtors3.cpp
   uiScreenDtors4.cpp
   uiScreenFade.cpp
+  uiScreenForwarders.cpp
   uiScreenFacade.cpp
   uiScreenBase.cpp
   uiScreenChild.cpp
