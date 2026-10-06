@@ -23,6 +23,34 @@ void CircleMove::sub_710034E838() {
     changeChild("遠ざかり", &pack);
 }
 
+// NON_MATCHING: same code, but the x / z of the horizontal front vector live in swapped float registers (s8 / s10)
+// The point on the circle (radius m37()) around m34()'s center in the direction of the actor.
+void CircleMove::sub_710034EEB0(sead::Vector3f* out) {
+    if (!out)
+        return;
+    sead::Vector3f center;
+    m34(&center);
+    sead::Vector3f dir;
+    sead::Vector3f diff(mActor->getMtx().getTranslation().x - center.x, 0.0f,
+                        mActor->getMtx().getTranslation().z - center.z);
+    if (diff.length() > 0.0f) {
+        diff.normalize();
+        dir = diff;
+    } else {
+        sead::Vector3f front;
+        mActor->getMtx().getBase(front, 2);
+        front.normalize();
+        const sead::Vector2f xz(front.x, front.z);
+        if (xz.length() > 0.0f) {
+            dir.set(xz.x, 0.0f, xz.y);
+            dir.normalize();
+        } else {
+            dir.set(0.0f, 0.0f, 1.0f);
+        }
+    }
+    *out = center + dir * m37();
+}
+
 void CircleMove::enter_(ksys::act::ai::InlineParamPack* params) {
     _5c = 1.0f;
     sead::Vector3f offset;
