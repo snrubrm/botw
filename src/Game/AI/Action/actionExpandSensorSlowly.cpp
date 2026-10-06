@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
@@ -56,6 +57,34 @@ void ExpandSensorSlowly::enter_(ksys::act::ai::InlineParamPack* params) {
     _e4 = 1.0f;
     sub_71007A44E4(actor, true);
     mFlags.set(Flag::Changeable);
+}
+
+void ExpandSensorSlowly::sub_7100059988() {
+    if (_e8)
+        return;
+
+    auto* actor = mActor;
+    _e8 = true;
+    _48.sub_71010C3C44(2);
+    if (auto* chemical = actor->sub_71011D8A44(0)) {
+        if (chemical->_c0 != 2)
+            chemical->sub_7100D90858(false, 2, false, true, false);
+    }
+    if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody"))
+        sub_71007A2B64(body, nullptr);
+}
+
+void ExpandSensorSlowly::sub_710005A348() {
+    auto* actor = mActor;
+    if (auto* chemical = actor->sub_71011D8A44(0))
+        chemical->sub_7100D90B78();
+    if (_e8) {
+        _e8 = false;
+        _48.sub_71010C3B18(0.0f);
+        _48.sub_71010C3D70(0);
+        if (auto* body = actor->findPhysicsBodyByName(sub_71007A24BC()->cstr(), "AtkBody"))
+            sub_71007A2D34(body);
+    }
 }
 
 void ExpandSensorSlowly::leave_() {

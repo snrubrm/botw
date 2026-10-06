@@ -39,6 +39,10 @@ public:
     void sub_71010C3A1C(f32 radius);
     // 0x71010c3b18 (declared only; ExpandSensor::enter_ passes the capsule length `_d4`).
     void sub_71010C3B18(f32 length);
+    // 0x71010c3d70 (declared only; ExpandSensor::leave_ passes 0 after resetting the length to 0).
+    void sub_71010C3D70(int mode);
+    // 0x71010c3c44 (declared only; ExpandSensorSlowly passes 2 when it starts expanding).
+    void sub_71010C3C44(int mode);
 
     /* 0x08 */ void* _8 = nullptr;
     /* 0x10 */ ksys::phys::RigidBody* mBody = nullptr;
