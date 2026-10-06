@@ -1,11 +1,15 @@
 #include <heap/seadFrameHeap.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "Game/E3Mgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUI.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actPlayerInfo.h"
 #include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -13,6 +17,8 @@
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
+#include "KingSystem/System/VFR.h"
+#include <nn/ui2d/Pane.h>
 
 namespace uking::ui {
 
@@ -256,6 +262,56 @@ void sub_7100AA865C() {
         if (auto* mgr = HorseColorInfoMgr::instance())
             mgr->sub_710094D0F8();
     }
+}
+
+// 0x7100aa8fcc
+// NON_MATCHING: same selects, but the original combines the three comparisons into one `or` tree for the final select
+// (`mi | (pl & le) | le`) where we select on the `gt` flag directly; clamp / branchy / `ok ? : ` forms all differ more.
+bool sub_7100AA8FCC(f32* out, f32 value, f32 max) {
+    const f32 ratio = value / max;
+    const bool in_range = !(ratio < 0) && !(ratio > 1);
+    const f32 percent = ratio < 0 ? 0 : ratio * 100;
+    *out = ratio > 1 ? 100 : percent;
+    return in_range;
+}
+
+// 0x7100aa946c
+u32 sub_7100AA946C() {
+    auto* vfr = ksys::VFR::instance();
+    return vfr ? vfr->getFrameRate() : 30;
+}
+
+// 0x7100a9b1bc
+bool sub_7100A9B1BC() {
+    auto* ui = UI::instance();
+    auto* info = ksys::act::InfoData::instance();
+    if (info->hasTag(ui->_40.cstr(), 0xdcd7e698u))
+        return false;
+    auto* mgr = Manager::instance();
+    return !mgr || mgr->_64c4d == 0;
+}
+
+// 0x7100aa9808
+void sub_7100AA9808(nn::ui2d::Pane* pane) {
+    if (pane && pane->IsVisible()) {
+        pane->Hide();
+        Manager::instance()->sub_7100A7FD64(pane);
+    }
+}
+
+// 0x7100aa94c4
+bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible) {
+    if (!layout)
+        return false;
+    nn::ui2d::Pane* pane = layout->mPane;
+    if (!pane)
+        return false;
+    if (!layout->_91)
+        return false;
+    if (pane->IsVisible() == visible)
+        return false;
+    pane->SetVisible(visible);
+    return true;
 }
 
 }  // namespace uking::ui

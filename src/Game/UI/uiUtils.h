@@ -158,6 +158,20 @@ bool loadHorseLayoutResImpl();
 bool sub_7100AA862C();
 void sub_7100AA865C();
 
+// 0x7100aa8fcc (placeholder name): `*out = clamp(value / max, 0, 1) * 100`; returns whether the ratio was inside [0, 1].
+bool sub_7100AA8FCC(f32* out, f32 value, f32 max);
+// 0x7100aa946c (placeholder name): the frame rate of the VFR (30 while it does not exist).
+u32 sub_7100AA946C();
+
+// 0x7100a9b1bc (placeholder name): false while the UI's current actor name has an actor info tag (crc32 0xdcd7e698) or
+// the manager's byte at 0x64c4d is set.
+bool sub_7100A9B1BC();
+
+// 0x7100aa9808 (placeholder name): hides `pane` if it is visible and reports it to the manager.
+void sub_7100AA9808(nn::ui2d::Pane* pane);
+// 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
+bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
+
 // 0x7100aa9728 (placeholder name): sets the UI manager's byte at 0x652e8 (called by the ScreenBootUp ctor).
 void sub_7100AA9728();
 

@@ -89,7 +89,9 @@ public:
     /* 0x29 */ bool mChoiceMode;
     u8 _2a[0x30 - 0x2a];
     /* 0x30 */ ksys::act::Actor* _30;
-    u8 _38[0x98 - 0x38];
+    u8 _38[0x40 - 0x38];
+    // The name of the actor of the current message (the actor info tags are looked up with it).
+    /* 0x40 */ sead::FixedSafeString<64> _40;
     /* 0x98 */ s32 _98;
     /* 0x9c */ s32 _9c;
     /* 0xa0 */ s32 mStockNum;

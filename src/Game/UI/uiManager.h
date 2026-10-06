@@ -17,6 +17,10 @@ namespace eui {
 class UIController;
 }
 
+namespace nn::ui2d {
+class Pane;
+}
+
 namespace uking::ui {
 
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
@@ -46,6 +50,8 @@ public:
     void sub_7100A7A704(s32 a1);
     // 0x7100a7fe9c (declared only)
     void sub_7100A7FE9C();
+    // 0x7100a7fd64: remembers `pane` in the list of panes at 0x652f0 (ignored when it is null or the list is full)
+    void sub_7100A7FD64(nn::ui2d::Pane* pane);
     void sub_7100A7C904();
     void sub_7100A7DA38();
     void sub_7100A7C71C();
@@ -164,7 +170,11 @@ public:
     /* 0x65218 */ bool _65218;
     u8 _65219[0x652e8 - 0x65219];
     /* 0x652e8 */ u8 _652e8;
-    u8 _652e9[0x65387 - 0x652e9];
+    u8 _652e9[0x652f0 - 0x652e9];
+    /* 0x652f0 */ s32 _652f0;  // count of the panes
+    /* 0x652f4 */ s32 _652f4;  // capacity
+    /* 0x652f8 */ nn::ui2d::Pane** _652f8;
+    u8 _65300[0x65387 - 0x65300];
     /* 0x65387 */ u8 _65387;
     u8 _65388[0x653b0 - 0x65388];
 };

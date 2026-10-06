@@ -59,6 +59,14 @@ bool Manager::sub_7100A7F918() const {
     return _651f8 > 0;
 }
 
+// 0x7100a7fd64
+// NON_MATCHING: the original reloads the count after the pointer store (it assumes the store may alias the count: no
+// type-based aliasing between them), ours (also as sead::PtrArray::pushBack) increments it from the value already loaded.
+void Manager::sub_7100A7FD64(nn::ui2d::Pane* pane) {
+    if (pane && _652f0 < _652f4)
+        _652f8[_652f0++] = pane;
+}
+
 // 0x7100a7fdb4
 bool Manager::sub_7100A7FDB4() const {
     return _65387 != 0;
