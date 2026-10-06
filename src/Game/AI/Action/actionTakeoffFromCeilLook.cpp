@@ -64,9 +64,7 @@ void TakeoffFromCeilLook::calc_() {
             sead::Vector3f velocity;
             controller->sub_7100F5F598(&velocity);
             velocity = velocity * (1.0f / 30);
-            const f32 rate =
-                1.0f - std::pow(1.0f - *mAccRatio_s, ksys::VFR::instance()->getDeltaFrame());
-            velocity += (target_vel - velocity) * rate;
+            ksys::VFR::lerp(&velocity, target_vel, *mAccRatio_s);
             sub_7100737710(controller, velocity);
         } else {
             sub_71007377D4(controller, *mPosReduceRatio_s);
