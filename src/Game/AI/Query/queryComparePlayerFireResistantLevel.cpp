@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryComparePlayerFireResistantLevel.h"
 #include <evfl/Query.h>
+#include "KingSystem/ActorSystem/Profiles/actPlayerBase.h"
+#include "KingSystem/ActorSystem/actPlayerInfo.h"
 
 namespace uking::query {
 
@@ -8,9 +10,12 @@ ComparePlayerFireResistantLevel::ComparePlayerFireResistantLevel(const InitArg& 
 
 ComparePlayerFireResistantLevel::~ComparePlayerFireResistantLevel() = default;
 
-// FIXME: implement
 int ComparePlayerFireResistantLevel::doQuery() {
-    return -1;
+    if (ksys::act::PlayerInfo::instance() && ksys::act::PlayerInfo::instance()->getPlayer()) {
+        const s32 level = ksys::act::PlayerInfo::instance()->getPlayer()->getX();
+        return level < 4 ? level : 4;
+    }
+    return 0;
 }
 
 void ComparePlayerFireResistantLevel::loadParams(const evfl::QueryArg& arg) {}

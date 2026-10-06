@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 
 namespace ksys::act {
 
@@ -13,6 +14,24 @@ PlayerArmors::PlayerArmors(bool flag) : _130(flag) {}
 
 PlayerArmors::~PlayerArmors() {
     sub_7100E2D70C();
+}
+
+void PlayerArmors::sub_7100E317F0() {
+    for (s32 i = 0; i < 3; ++i) {
+        if (_10[i].hasProc()) {
+            ActorConstDataAccess accessor;
+            acquireActor(&_10[i], &accessor);
+            if (auto* dispatcher = MessageDispatcher::instance()) {
+                const bool processing = dispatcher->isProcessingOnCurrentThread();
+                const auto* id = accessor.getMessageTransceiverId();
+                if (processing)
+                    mTransceiver.sendMessageOnProcessingThread(*id, MessageType(0x4000001), nullptr,
+                                                               true);
+                else
+                    mTransceiver.sendMessage(*id, MessageType(0x4000001), nullptr, true);
+            }
+        }
+    }
 }
 
 void PlayerArmors::sub_7100E2D70C() {

@@ -3,6 +3,7 @@
 #include <gsys/gsysModel.h>
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
+#include "Game/Damage/dmgDamageManagerBase.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "Game/gameRuneMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -147,6 +148,14 @@ f32 PlayerBase::m317() {
     if (auto* chemical = getChemicalStuff())
         return chemical->_19c;
     return 0.0f;
+}
+
+// NON_MATCHING: the original calls the damage manager slot without a tail call and zero-extends the result to 64 bits
+// (`and x0, x0, #0xffffffff`; the return type is probably wider than u32).
+u32 PlayerBase::getDeathReason() {
+    if (auto* manager = getDamageMgr())
+        return manager->getFlags2();
+    return 0;
 }
 
 bool PlayerBase::sub_710084A6B8() {

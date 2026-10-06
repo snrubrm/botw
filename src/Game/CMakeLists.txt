@@ -63,6 +63,7 @@ target_sources(uking PRIVATE
   gameSceneSubsysMisc.cpp
   gameSceneSubsysMisc.h
   gameScene.h
+  gameSceneMgr.h
   gameSceneStateMachine.h
   gameSceneTaskMgr.cpp
   gameSceneTaskMgr.h

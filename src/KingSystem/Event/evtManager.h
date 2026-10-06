@@ -78,6 +78,8 @@ public:
     EventFlowBase* sub_7100DB222C();
     // 0x7100db2440 (CSV EventMgr::checkEventCancel): flag bit 0x2000 of the active flow
     bool checkEventCancel() const;
+    // 0x7100db2480 (name is a guess; lane4 s45): bit 7 of byte 5 of the active flow's flags (_340_bytes).
+    bool checkJustBeforeEventCancel() const;
     bool hasActiveEvent() const;
     // 0x7100db2b1c (CSV EventMgr::someWeirdHardcodedCheck_KorokOrGanonOrBowling; declared only; lane4 s31):
     // Actor::onJobPush1_ sets / clears ActorFlag 0x3f with the result.

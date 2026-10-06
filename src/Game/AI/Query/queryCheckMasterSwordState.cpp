@@ -1,5 +1,7 @@
 #include "Game/AI/Query/queryCheckMasterSwordState.h"
 #include <evfl/Query.h>
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking::query {
 
@@ -7,9 +9,10 @@ CheckMasterSwordState::CheckMasterSwordState(const InitArg& arg) : ksys::act::ai
 
 CheckMasterSwordState::~CheckMasterSwordState() = default;
 
-// FIXME: implement
 int CheckMasterSwordState::doQuery() {
-    return -1;
+    if (auto* item = ui::PauseMenuDataMgr::instance()->getMasterSword())
+        return ui::sub_7100AA6F90(*item);
+    return 3;
 }
 
 void CheckMasterSwordState::loadParams(const evfl::QueryArg& arg) {}

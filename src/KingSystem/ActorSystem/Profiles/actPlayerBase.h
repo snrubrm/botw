@@ -306,6 +306,9 @@ public:
     bool runeMgrCheckCanUseCamera();         // 0x84cd30
     bool runeMgrCheckIsCameraSelected();     // 0x84cd4c
     bool sub_710084A6B8();                   // 0x84a6b8 (RuneMgr flag bit 5; unnamed in the CSV)
+    // 0x736fd0 (CSV Player::getDeathReason; lane4 s45): the damage manager's death reason (0 without a manager;
+    // low 16 bits: the cause, high 16 bits: the kind; read by AI_Query_CheckPlayerDeadCause).
+    u32 getDeathReason();
 
 protected:
     friend class acc::PlayerBase;

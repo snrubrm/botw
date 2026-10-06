@@ -55,6 +55,9 @@ struct WeaponStats {
 };
 
 bool isMasterSwordItem(const PouchItem& item);
+// 0x7100aa6f90 (uiManagerFacade.cpp; declaration added by lane4 s45 for CheckMasterSwordState): 1 without a value; with
+// one, 2 for the true form Master Sword and 0 otherwise.
+s32 sub_7100AA6F90(const PouchItem& item);
 
 // 0x7100aa248c (CSV: ui::getMessage): looks up `label` in the message set `message_set`; returns 0
 // if found.

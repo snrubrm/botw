@@ -34,6 +34,10 @@ public:
     // 0x7100e2d66c (D1) / 0x7100e2d7b0 (D0) + the 0x7100e2d7a8 / 0x7100e2d7d4 thunks of the second base.
     ~PlayerArmors() override;
 
+    // 0x7100e317f0 (CSV x_36; name is a guess): sends the message 0x4000001 (AnmArmorBindAction handles it) to the
+    // first three worn parts through `mTransceiver`.
+    void sub_7100E317F0();
+
     // 0x7100e2d70c (called by the destructor; CSV unnamed): deletes the six worn part actors (the part
     // handles and the linked actors).
     void sub_7100E2D70C();
