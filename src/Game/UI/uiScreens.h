@@ -2074,6 +2074,7 @@ public:
     ~ScreenAppSystemWindow() override;
     SEAD_RTTI_OVERRIDE(ScreenAppSystemWindow, ScreenEx)
     void m99() override;
+    void m100() override;
     void m94() override;
     void m101() override;
     void m106(eui::AnimButton* button) override;
@@ -2529,6 +2530,13 @@ public:
     const char* getLayoutName_() const override;
     ~ScreenAppHome() override;
     SEAD_RTTI_OVERRIDE(ScreenAppHome, ScreenEx)
+
+    u8 _pad_3610[0x3808 - 0x3610];
+    /* 0x3808 */ s32 _3808;
+
+    // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
+    void sub_71009DE1C8();
+    void sub_71009DCF18(s32 a1);
 };
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).

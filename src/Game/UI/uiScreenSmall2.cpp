@@ -934,6 +934,12 @@ void ScreenPauseMenuEiketsu::m94() {
     }
 }
 
+// 0x71009fc930
+void ScreenAppSystemWindow::m100() {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        home->sub_71009DE1C8();
+}
+
 // 0x71009fc77c
 void ScreenAppSystemWindow::m94() {
     if ((mButtonGroup->_38 & 2) && isOpened() && (_292 & 0x40) && sub_71010AA9D0() && mUIController &&

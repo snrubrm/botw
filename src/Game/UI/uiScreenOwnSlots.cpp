@@ -535,3 +535,12 @@ void Unk_7102493bd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {
 }
 
 }  // namespace uking::ui
+
+namespace uking::ui {
+
+// 0x71009de1c8 (kept out of the TU of its caller ScreenAppSystemWindow::m100: the original does not inline it)
+void ScreenAppHome::sub_71009DE1C8() {
+    sub_71009DCF18(_3808);
+}
+
+}  // namespace uking::ui
