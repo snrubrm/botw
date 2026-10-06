@@ -1,4 +1,6 @@
 #include "aal/aalSoundController.h"
+#include "aal/aalSettings.h"
+#include "aal/aalSystemAccessor.h"
 
 namespace aal {
 
@@ -74,6 +76,59 @@ bool SoundController::checkDeviceEnabledOnOutputLine(DeviceType device, u32 outp
 // 0x7100b9fd24
 void PlayingStateController::setVirtualizeMode(VirtualizeMode mode) {
     mVirtualizeMode = mode;
+}
+
+// 0x7100ba1344
+SoundController::SoundController() = default;
+
+// 0x7100ba1370 / 0x7100ba1440
+SoundController::~SoundController() {
+    finalize();
+}
+
+// 0x7100ba13e0
+void SoundController::finalize() {
+    if (mAssetInfo) {
+        delete mAssetInfo;
+        mAssetInfo = nullptr;
+    }
+    if (mFader) {
+        delete mFader;
+        mFader = nullptr;
+    }
+    if (auto* handle = mSoundHandle) {
+        handle->DetachSound();
+        delete handle;
+        mSoundHandle = nullptr;
+    }
+}
+
+// 0x7100ba1d1c
+void SoundController::release(f32 fade_time) {
+    if (mSoundHandle && mFader && mSoundHandle->m_pSound) {
+        mFader->moveTo(0.0f, fade_time);
+        mState = 3;
+    }
+}
+
+// 0x7100ba1e88
+void SoundController::pause(bool pause, f32 fade_time) {
+    if (mSoundHandle) {
+        if (auto* settings = SystemAccessor::getSettings()) {
+            const s32 fade_frames = static_cast<s32>(fade_time / settings->mCalcTimeStep);
+            if (pause) {
+                if (mState == 1) {
+                    if (mSoundHandle->m_pSound)
+                        mSoundHandle->m_pSound->Pause(true, fade_frames);
+                    mState = 2;
+                }
+            } else if (mState == 2) {
+                if (mSoundHandle->m_pSound)
+                    mSoundHandle->m_pSound->Pause(false, fade_frames);
+                mState = 1;
+            }
+        }
+    }
 }
 
 }  // namespace aal
